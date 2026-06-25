@@ -55,7 +55,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>New</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Migrated AI engine from deprecated Gemini 1.5 Flash to Gemini 2.5 Flash for improved performance and continued API support. Published full source code on GitHub under CC BY 4.0 license with comprehensive documentation, architecture diagrams, and methodology.
+                      Migrated AI engine from deprecated Gemini 1.5 Flash to Gemini 2.5 Flash with automatic fallback to Gemini 2.0 Flash-Lite on 503/429 errors for high-availability resilience. Published full source code on GitHub under CC BY 4.0 license with comprehensive documentation, architecture diagrams, and methodology. Replaced all emoji with custom SVG icon set across the onboarding wizard.
                     </p>
                   </div>
 
