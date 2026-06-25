@@ -4,7 +4,7 @@
  * Onboarding / "How To Use" modal that walks first-time visitors through
  * the core features of PolicyWatcher via a multi-slide guided tour.
  *
- * Slides: Welcome → Core Features → Limitations & Caveats → AI Assistant.
+ * Slides: Welcome -> Core Features -> Limitations & Caveats -> AI Assistant.
  *
  * The modal tracks two persistence layers:
  *  - **sessionStorage**: prevents the modal from re-appearing within the
@@ -21,20 +21,26 @@ import {
   X, 
   ChevronRight, 
   ChevronLeft, 
-  Compass, 
-  Zap, 
-  AlertTriangle, 
-  HelpCircle, 
-  MessageSquare
+  HelpCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './HowToModal.module.css';
+import {
+  IconShieldScan,
+  IconDocumentDiff,
+  IconRiskGauge,
+  IconRegionGlobe,
+  IconAiGovernance,
+  IconTimeline,
+  IconBellAlert,
+  IconExport
+} from './icons/PolicyWatcherIcons';
 
 /** Props for the {@link HowToModal} component. */
 interface HowToModalProps {
   /** Callback invoked when the user dismisses the modal (close button, backdrop click, or Escape). */
   onClose: () => void;
-  /** Active UI language — controls all slide copy. */
+  /** Active UI language -- controls all slide copy. */
   lang: 'en' | 'it';
 }
 
@@ -81,8 +87,8 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
   const slides = [
     {
       id: 'welcome',
-      icon: <Compass size={32} className={styles.slideIconPrimary} />,
-      title: isIt ? 'Benvenuto su PolicyWatcher 👋' : 'Welcome to PolicyWatcher 👋',
+      icon: <IconShieldScan size={32} className={styles.slideIconPrimary} />,
+      title: isIt ? 'Benvenuto su PolicyWatcher' : 'Welcome to PolicyWatcher',
       subtitle: isIt 
         ? 'La tua piattaforma di monitoraggio normativo e AI Governance basata su Intelligenza Artificiale.' 
         : 'Your AI-powered monitor for privacy policies, terms of service, and AI governance.',
@@ -112,8 +118,8 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
     },
     {
       id: 'features',
-      icon: <Zap size={32} className={styles.slideIconSecondary} />,
-      title: isIt ? 'Funzionalità Principali' : 'Core Features',
+      icon: <IconAiGovernance size={32} className={styles.slideIconSecondary} />,
+      title: isIt ? 'Funzionalita Principali' : 'Core Features',
       subtitle: isIt 
         ? 'Tutto il necessario per analizzare e confrontare la compliance.' 
         : 'Everything you need to analyze, trace, and compare regulatory terms.',
@@ -121,20 +127,20 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
         <div className={styles.slideContent}>
           <div className={styles.gridFeatures}>
             <div className={styles.gridCard}>
-              <h4>🔍 Scansione & AI Analysis</h4>
+              <h4><IconDocumentDiff size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Scansione e Analisi AI' : 'Scanning & AI Analysis'}</h4>
               <p>{isIt ? 'Ottieni TL;DR immediati, punti chiave marcati per sentiment (buono/neutro/preoccupante) e azioni di rimedio concrete.' : 'Access clear TL;DR summaries, key points categorized by user sentiment, and concrete step-by-step remediation advice.'}</p>
             </div>
             <div className={styles.gridCard}>
-              <h4>📊 Confronto A/B</h4>
+              <h4><IconRiskGauge size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Confronto A/B' : 'A/B Comparison'}</h4>
               <p>{isIt ? 'Usa il Radar Chart per confrontare visivamente i KPI di privacy ed etica di due aziende affiancate.' : 'Compare two companies side-by-side. View radar charts mapping 15 distinct compliance metrics.'}</p>
             </div>
             <div className={styles.gridCard}>
-              <h4>📈 Trend Storici</h4>
+              <h4><IconTimeline size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Trend Storici' : 'Historical Trends'}</h4>
               <p>{isIt ? 'Esplora i grafici temporali interattivi per tracciare come il punteggio di rischio di un\'azienda sia evoluto nel tempo.' : 'Interact with timeline charts to monitor how a company\'s overall risk rating has shifted across versions.'}</p>
             </div>
             <div className={styles.gridCard}>
-              <h4>⌨️ Command Palette (⌘K)</h4>
-              <p>{isIt ? 'Premi ⌘K (o Ctrl+K) per navigare istantaneamente, cercare compagnie, cambiare prospettive o attivare filtri.' : 'Press ⌘K (or Ctrl+K) to launch the command menu. Search companies, filter regions, or trigger actions via keyboard.'}</p>
+              <h4><IconExport size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Command Palette' : 'Command Palette'} (Cmd+K)</h4>
+              <p>{isIt ? 'Premi Cmd+K (o Ctrl+K) per navigare istantaneamente, cercare compagnie, cambiare prospettive o attivare filtri.' : 'Press Cmd+K (or Ctrl+K) to launch the command menu. Search companies, filter regions, or trigger actions via keyboard.'}</p>
             </div>
           </div>
         </div>
@@ -142,28 +148,28 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
     },
     {
       id: 'limits',
-      icon: <AlertTriangle size={32} className={styles.slideIconWarning} />,
+      icon: <IconBellAlert size={32} className={styles.slideIconWarning} />,
       title: isIt ? 'Limiti e Limitazioni' : 'Limitations & Caveats',
       subtitle: isIt 
-        ? 'Ciò di cui devi tenere conto durante l\'utilizzo della piattaforma.' 
+        ? 'Cio di cui devi tenere conto durante l\'utilizzo della piattaforma.' 
         : 'Important considerations when evaluating automated analysis.',
       content: (
         <div className={styles.slideContent}>
           <div className={styles.limitList}>
             <div className={styles.limitItem}>
-              <h5>⚠️ {isIt ? 'Prototipo Alpha & No Parere Legale' : 'Alpha Prototype & No Legal Advice'}</h5>
+              <h5><IconShieldScan size={16} style={{ verticalAlign: 'middle', marginRight: 6 }} color="#f59e0b" /> {isIt ? 'Versione Beta e Nessun Parere Legale' : 'Beta Version & No Legal Advice'}</h5>
               <p>{isIt 
                 ? 'Le analisi sono generate tramite Intelligenza Artificiale Generativa e non costituiscono consulenza o parere legale. Verifica sempre i testi originali.' 
                 : 'All reviews are compiled dynamically by Generative AI and do not constitute legal advice. Always reference original texts.'}</p>
             </div>
             <div className={styles.limitItem}>
-              <h5>🚫 {isIt ? 'Limitazioni di Scraper e Bot Protection' : 'Scraper & Bot Protection Limitations'}</h5>
+              <h5><IconRegionGlobe size={16} style={{ verticalAlign: 'middle', marginRight: 6 }} color="#f59e0b" /> {isIt ? 'Limitazioni di Scraper e Bot Protection' : 'Scraper & Bot Protection Limitations'}</h5>
               <p>{isIt 
                 ? 'Alcune aziende implementano sistemi anti-bot (Cloudflare, captcha) o paywall. In questi casi, lo scraper segnala "Non disponibile" senza inventare dati.' 
                 : 'Aggressive bot blockers (Cloudflare, captchas) or paywalls might block text fetching. We report these as "Unavailable" to ensure data integrity.'}</p>
             </div>
             <div className={styles.limitItem}>
-              <h5>⏳ {isIt ? 'Rate Limiting protettivi' : 'Usage Rate Limiting'}</h5>
+              <h5><IconTimeline size={16} style={{ verticalAlign: 'middle', marginRight: 6 }} color="#f59e0b" /> {isIt ? 'Rate Limiting protettivi' : 'Usage Rate Limiting'}</h5>
               <p>{isIt 
                 ? 'Per contenere i costi delle API (Gemini e Sintesi Vocale TTS), sono attivi limiti di richieste basati su IP. Se li superi, attendi il timeout indicato.' 
                 : 'To manage Google Cloud and Gemini API costs, IP-based request limits are enforced. Please respect retry thresholds.'}</p>
@@ -174,7 +180,7 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
     },
     {
       id: 'chatbot',
-      icon: <MessageSquare size={32} className={styles.slideIconChat} />,
+      icon: <IconAiGovernance size={32} className={styles.slideIconChat} />,
       title: isIt ? 'Chiedi al tuo Assistente IA' : 'Ask your AI Assistant',
       subtitle: isIt 
         ? 'Puoi avere le stesse indicazioni e informazioni parlando in chat.' 
@@ -183,13 +189,13 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
         <div className={styles.slideContent}>
           <p>
             {isIt 
-              ? 'Hai dubbi su come funziona una feature? O vuoi sapere subito le novità sulle policy di Google o Anthropic?'
+              ? 'Hai dubbi su come funziona una feature? O vuoi sapere subito le novita sulle policy di Google o Anthropic?'
               : 'Confused about a feature? Or want to know the latest changes in Anthropic or Google policies?'}
           </p>
           <div className={styles.chatbotHighlightBox}>
             <p className={styles.chatbotHighlightText}>
               {isIt 
-                ? 'Usa il chatbot "Policy Live Assistant" in basso a destra. È addestrato con tutta la documentazione, la metodologia e lo storico della piattaforma.' 
+                ? 'Usa il chatbot "Policy Live Assistant" in basso a destra. E addestrato con tutta la documentazione, la metodologia e lo storico della piattaforma.' 
                 : 'Launch the "Policy Live Assistant" in the bottom-right. It is trained with all platform documentation, methodology, and historic datasets.'}
             </p>
           </div>
@@ -275,7 +281,7 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
               className={`${styles.tabBtn} ${currentSlide === idx ? styles.tabBtnActive : ''}`}
             >
               {slide.id === 'welcome' && (isIt ? 'Benvenuto' : 'Welcome')}
-              {slide.id === 'features' && (isIt ? 'Funzionalità' : 'Features')}
+              {slide.id === 'features' && (isIt ? 'Funzionalita' : 'Features')}
               {slide.id === 'limits' && (isIt ? 'Limiti' : 'Limits')}
               {slide.id === 'chatbot' && (isIt ? 'Assistente IA' : 'AI Assistant')}
             </button>
