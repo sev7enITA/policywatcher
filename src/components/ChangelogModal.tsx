@@ -51,8 +51,18 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                 <div className={styles.featureList}>
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>AI Engine Migration & Open Source (v2.4.0)</span>
+                      <span className={styles.featureName}>Admin Dashboard, Wayback Machine & Document Sources (v2.5.0)</span>
                       <span className={styles.badgeActive}>New</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      Secure admin dashboard at /admin with two roles: Admin (full CRUD, cron control, company management) and Auditor (read-only for regulatory review). Features include system metrics dashboard, cron manager with concurrency lock, database inspector, interactive KPI audit matrix (16x15), company and policy CRUD management, and full feature explainability documentation. Security: HMAC-SHA256 signed HTTP-only cookies, rate-limited login (5/min), constant-time comparison, and intentional delay on failed attempts. Also added a Sources tab showing all monitored documents per company with Wayback Machine archive links.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>AI Engine Migration & Open Source (v2.4.0)</span>
+                      <span className={styles.badgeDone}>Completed</span>
                     </div>
                     <p className={styles.featureDesc}>
                       Migrated AI engine from deprecated Gemini 1.5 Flash to Gemini 2.5 Flash with automatic fallback to Gemini 2.0 Flash-Lite on 503/429 errors for high-availability resilience. Published full source code on GitHub under CC BY 4.0 license with comprehensive documentation, architecture diagrams, and methodology. Replaced all emoji with custom SVG icon set across the onboarding wizard.

@@ -12,7 +12,7 @@
  *   - **auditor**: read-only access (metrics, KPI audit, explainability)
  */
 
-import { createHmac } from 'crypto';
+import { createHmac, timingSafeEqual } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 
 /** Role type for admin dashboard users. */
@@ -36,8 +36,24 @@ const SESSION_TTL_MS = 24 * 60 * 60 * 1000;
  * @returns Hex-encoded HMAC signature.
  */
 function sign(payload: string): string {
-  const secret = process.env.API_SECRET || 'fallback-secret';
+  const secret = process.env.API_SECRET;
+  if (!secret) {
+    console.error('[AdminAuth] API_SECRET is not set. Sessions will be invalid.');
+    return 'no-secret-configured';
+  }
   return createHmac('sha256', secret).update(payload).digest('hex');
+}
+
+/**
+ * Performs a constant-time string comparison to prevent timing attacks.
+ * Both strings are compared as UTF-8 buffers of equal length.
+ */
+function safeCompare(a: string, b: string): boolean {
+  if (typeof a !== 'string' || typeof b !== 'string') return false;
+  const bufA = Buffer.from(a, 'utf8');
+  const bufB = Buffer.from(b, 'utf8');
+  if (bufA.length !== bufB.length) return false;
+  return timingSafeEqual(bufA, bufB);
 }
 
 /**
@@ -71,7 +87,7 @@ export function verifySessionToken(token: string): SessionResult {
   // Verify signature
   const payload = `${role}:${timestamp}`;
   const expectedSig = sign(payload);
-  if (providedSig !== expectedSig) return { valid: false };
+  if (!safeCompare(providedSig, expectedSig)) return { valid: false };
 
   // Verify TTL
   const ts = parseInt(timestamp, 10);
@@ -93,8 +109,8 @@ export function validateCredentials(username: string, password: string): AdminRo
   const auditorUser = process.env.AUDITOR_USER || 'auditor';
   const auditorPass = process.env.AUDITOR_PASSWORD;
 
-  if (username === adminUser && password && password === adminPass) return 'admin';
-  if (username === auditorUser && password && password === auditorPass) return 'auditor';
+  if (username === adminUser && adminPass && safeCompare(password, adminPass)) return 'admin';
+  if (username === auditorUser && auditorPass && safeCompare(password, auditorPass)) return 'auditor';
   return null;
 }
 
