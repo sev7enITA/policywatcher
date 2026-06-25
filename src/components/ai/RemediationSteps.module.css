@@ -1,0 +1,109 @@
+/* RemediationSteps.module.css */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.step {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  transition: all 0.25s ease;
+}
+
+.step:hover {
+  border-color: var(--border-color-active);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.stepNumber {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+}
+
+.stepBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.stepTitle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.stepTitleIcon {
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.stepDesc {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-body);
+  margin: 0 0 10px 0;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  background: var(--primary-glow);
+  border: 1px solid var(--border-color-active);
+  color: var(--primary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.cta:hover {
+  background: rgba(99, 102, 241, 0.14);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(99, 102, 241, 0.2);
+}
+
+@media (max-width: 640px) {
+  .step {
+    padding: 12px;
+  }
+  .stepTitle {
+    font-size: 0.85rem;
+  }
+  .stepDesc {
+    font-size: 0.78rem;
+  }
+}

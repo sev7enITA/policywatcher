@@ -1,0 +1,153 @@
+/* Skeleton.module.css - shimmer loaders */
+
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.line {
+  background: linear-gradient(
+    90deg,
+    var(--bg-tertiary) 25%,
+    var(--border-subtle) 37%,
+    var(--bg-tertiary) 63%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 6px;
+  height: 10px;
+}
+
+.lineFull {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.lineShort {
+  width: 60%;
+}
+
+.lineTitle {
+  width: 45%;
+  height: 14px;
+}
+
+.lineTag {
+  width: 30%;
+  height: 9px;
+  margin-top: 6px;
+}
+
+.lineLabel {
+  width: 50%;
+  height: 9px;
+  margin-bottom: 10px;
+}
+
+.lineValue {
+  width: 35%;
+  height: 22px;
+}
+
+/* Stats grid skeleton */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.statCard {
+  padding: 22px;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+}
+
+/* Company grid skeleton */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.logoBlock {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: linear-gradient(
+    90deg,
+    var(--bg-tertiary) 25%,
+    var(--border-subtle) 37%,
+    var(--bg-tertiary) 63%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.4s ease infinite;
+  flex-shrink: 0;
+}
+
+.titleBlock {
+  flex: 1;
+}
+
+.riskBlock {
+  width: 70px;
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    var(--bg-tertiary) 25%,
+    var(--border-subtle) 37%,
+    var(--bg-tertiary) 63%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+.pillsRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.pill {
+  width: 70px;
+  height: 24px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    90deg,
+    var(--bg-tertiary) 25%,
+    var(--border-subtle) 37%,
+    var(--bg-tertiary) 63%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line,
+  .logoBlock,
+  .riskBlock,
+  .pill {
+    animation: none;
+  }
+}

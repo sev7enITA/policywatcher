@@ -1,0 +1,44 @@
+.banner {
+  background: linear-gradient(90deg, #f0f7ff, #e6f0ff);
+  border-bottom: 1px solid #cce0ff;
+  color: #004085;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  position: relative;
+  z-index: 100;
+}
+
+.content {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #0056b3;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: #004085;
+  cursor: pointer;
+  padding: 4px;
+  margin-left: 16px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeBtn:hover {
+  background-color: rgba(0, 64, 133, 0.1);
+}

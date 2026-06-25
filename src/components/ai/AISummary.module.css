@@ -1,0 +1,110 @@
+/* AISummary.module.css - user-friendly Gemini output rendering */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* TL;DR row */
+.tldrRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(6, 182, 212, 0.04));
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 12px;
+}
+
+.tldrIcon {
+  flex-shrink: 0;
+  color: var(--primary);
+  margin-top: 1px;
+}
+
+.tldr {
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--text-main);
+  margin: 0;
+}
+
+/* Key points list */
+.points {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.point {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  transition: all 0.2s ease;
+}
+
+.point:hover {
+  border-color: var(--border-color-active);
+  transform: translateX(2px);
+}
+
+.pointIcon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  display: flex;
+}
+
+.pointText {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--text-body);
+}
+
+/* Sentiment variants */
+.s_positive .pointIcon {
+  color: var(--risk-low);
+}
+.s_positive {
+  border-left: 3px solid var(--risk-low);
+}
+
+.s_negative .pointIcon {
+  color: var(--risk-high);
+}
+.s_negative {
+  border-left: 3px solid var(--risk-high);
+}
+
+.s_neutral .pointIcon {
+  color: var(--text-muted);
+}
+.s_neutral {
+  border-left: 3px solid var(--border-color);
+}
+
+/* Legacy fallback */
+.legacy {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-body);
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .tldr {
+    font-size: 0.92rem;
+  }
+  .pointText {
+    font-size: 0.84rem;
+  }
+}

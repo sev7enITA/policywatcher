@@ -1,0 +1,137 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x", "debian-openssl-3.0.x"]
+}
+
+model Company {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  slug      String   @unique
+  logo      String?  // Hex color for brand identity
+  industry  String   // "Tech Giant" or "FinTech"
+  website   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  policies  Policy[]
+}
+
+model Policy {
+  id           String           @id @default(uuid())
+  companyId    String
+  company      Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name         String           // e.g. "Privacy Policy", "Terms of Service"
+  type         String           // e.g. "privacy", "terms", "ai", "acceptable-use"
+  url          String
+  jurisdiction String           @default("Global") // "EU", "US", "UK", "Global", etc.
+  currentText  String
+  currentHash  String
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  snapshots    PolicySnapshot[]
+  changes      PolicyChange[]
+
+  @@unique([companyId, type, jurisdiction])
+  @@index([companyId])
+  @@index([jurisdiction])
+}
+
+model PolicySnapshot {
+  id        String   @id @default(uuid())
+  policyId  String
+  policy    Policy   @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  version   Int
+  text      String
+  hash      String
+  createdAt DateTime @default(now())
+
+  oldChanges PolicyChange[] @relation("OldSnapshot")
+  newChanges PolicyChange[] @relation("NewSnapshot")
+
+  @@index([policyId])
+}
+
+model PolicyChange {
+  id                        String         @id @default(uuid())
+  policyId                  String
+  policy                    Policy         @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  oldSnapshotId             String?
+  oldSnapshot               PolicySnapshot? @relation("OldSnapshot", fields: [oldSnapshotId], references: [id], onDelete: SetNull)
+  newSnapshotId             String
+  newSnapshot               PolicySnapshot  @relation("NewSnapshot", fields: [newSnapshotId], references: [id], onDelete: Cascade)
+  diff                      String         // JSON array of diff chunks
+  aiSummaryEn               String         // Gemini executive summary in English
+  aiSummaryIt               String         // Gemini executive summary in Italian
+  tldrEn                    String?        // ONE-sentence takeaway (EN)
+  tldrIt                    String?        // ONE-sentence takeaway (IT)
+  keyPointsJson             String?        // JSON array of {textEn,textIt,sentiment}
+  riskReasonsJson           String?        // JSON array of {icon,textEn,textIt,deltaScore}
+  overallRisk               String         // "Low", "Medium", "High"
+  overallScore              Int            // 1-10 scale
+  remediationsJson          String         // JSON array of remediations
+
+  // AI Governance Indicators (legacy, kept for compatibility)
+  aiTrainingOptOut          String         // "Allowed", "Not Allowed", "Opt-out available"
+  aiDataScrapingRestricted  String         // "Restricted", "Permitted", "Not specified"
+  aiIpLicensing             String         // "Claimed by company", "Protected", "Shared"
+  aiPromptRetention         String         // "30 days", "Indefinite", "System-deleted"
+
+  // Privacy & Data Protection KPIs (5)
+  kpiDataCollection        String  @default("Not assessed")
+  kpiThirdPartySharing     String  @default("Not assessed")
+  kpiDataRetention         String  @default("Not assessed")
+  kpiRightToDeletion       String  @default("Not assessed")
+  kpiCrossBorderTransfer   String  @default("Not assessed")
+
+  // AI Governance KPIs (5)
+  kpiAiTrainingOptOut      String  @default("Not assessed")
+  kpiAiOutputOwnership     String  @default("Not assessed")
+  kpiAlgoTransparency      String  @default("Not assessed")
+  kpiAutomatedDecision     String  @default("Not assessed")
+  kpiAiBiasFairness        String  @default("Not assessed")
+
+  // Ethics & Corporate Governance KPIs (5)
+  kpiConsentMechanism      String  @default("Not assessed")
+  kpiRegulatoryCompliance  String  @default("Not assessed")
+  kpiBreachNotification    String  @default("Not assessed")
+  kpiIndependentAudit      String  @default("Not assessed")
+  kpiContentModeration     String  @default("Not assessed")
+
+  createdAt                 DateTime       @default(now())
+  regionImpacts             RegionImpact[]
+
+  @@index([policyId])
+  @@index([createdAt])
+}
+
+model RegionImpact {
+  id               String       @id @default(uuid())
+  policyChangeId   String
+  policyChange     PolicyChange @relation(fields: [policyChangeId], references: [id], onDelete: Cascade)
+  region           String       // "EU", "US", "Global"
+  perspective      String       // "Individual", "Enterprise"
+  impactAnalysisEn String
+  impactAnalysisIt String
+  riskLevel        String       // "Low", "Medium", "High"
+  complianceNoteEn String?
+  complianceNoteIt String?
+
+  @@index([policyChangeId])
+}
+
+model Subscriber {
+  id               String   @id @default(uuid())
+  email            String   @unique
+  name             String?
+  regions          String   // Comma-separated: "EU,US,Global"
+  industries       String   // Comma-separated: "Tech Giant,FinTech"
+  frequency        String   @default("INSTANT") // "INSTANT" or "WEEKLY"
+  unsubscribeToken String   @unique @default(uuid())
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}

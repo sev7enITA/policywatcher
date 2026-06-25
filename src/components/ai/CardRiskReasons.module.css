@@ -1,0 +1,54 @@
+/* CardRiskReasons.module.css - compact inline reasons for dashboard cards */
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  line-height: 1.2;
+  max-width: 100%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.icon {
+  flex-shrink: 0;
+  display: flex;
+}
+
+.text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* icon color variants */
+.i_alert .icon {
+  color: var(--risk-high);
+}
+.i_alert {
+  border-color: rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.i_warning .icon {
+  color: var(--risk-medium);
+}
+.i_warning {
+  border-color: rgba(245, 158, 11, 0.2);
+  background: rgba(245, 158, 11, 0.05);
+}
+
+.i_info .icon {
+  color: var(--text-muted);
+}

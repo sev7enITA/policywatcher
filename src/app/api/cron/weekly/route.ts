@@ -1,0 +1,112 @@
+/**
+ * PolicyWatcher - Weekly Digest Cron Endpoint
+ *
+ * @route GET /api/cron/weekly
+ *
+ * Designed to be triggered by a cron scheduler once per week. Collects all
+ * policy changes from the last 7 days, filters them per subscriber's
+ * region/industry preferences, and sends personalised weekly digest emails.
+ *
+ * @auth    Bearer token via `Authorization` header (validated by `isAuthorized`).
+ * @rateLimit None (protected by auth).
+ *
+ * @returns {{ success: boolean, message: string }}
+ */
+import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/lib/db';
+import { sendWeeklyDigest, ChangedPolicySummary } from '@/lib/mailer';
+import { isAuthorized } from '@/lib/auth';
+
+/**
+ * Sends a personalised weekly digest to every active WEEKLY subscriber.
+ *
+ * Steps:
+ * 1. Fetch subscribers with `frequency = 'WEEKLY'`.
+ * 2. Query PolicyChanges created within the last 7 days.
+ * 3. For each subscriber, filter changes by matching regions & industries.
+ * 4. Send the digest email (failures are logged but do not abort the loop).
+ *
+ * @param request - The incoming request (must pass auth check).
+ * @returns JSON success message with the count of emails sent.
+ */
+// GET endpoint to be triggered by a weekly cron job
+export async function GET(request: NextRequest) {
+  if (!isAuthorized(request)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  try {
+    // 1. Get all active subscribers with WEEKLY frequency
+    const subscribers = await db.subscriber.findMany({
+      where: { 
+        isActive: true,
+        frequency: 'WEEKLY'
+      },
+    });
+
+    if (subscribers.length === 0) {
+      return NextResponse.json({ success: true, message: 'No active weekly subscribers.' });
+    }
+
+    // 2. Get recent policy changes (last 7 days)
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    const recentChanges = await db.policyChange.findMany({
+      where: {
+        createdAt: {
+          gte: sevenDaysAgo,
+        },
+      },
+      include: {
+        policy: {
+          include: {
+            company: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    // 3. Map to ChangedPolicySummary format
+    const mappedChanges: ChangedPolicySummary[] = recentChanges.map((change: any) => ({
+      companyName: change.policy.company.name,
+      policyName: change.policy.name,
+      overallRisk: change.overallRisk,
+      overallScore: change.overallScore,
+      summaryEn: change.aiSummaryEn.substring(0, 300),
+      url: change.policy.url,
+      region: change.policy.jurisdiction,
+      industry: change.policy.company.industry,
+    }));
+
+    // 4. Send personalized weekly digest to each subscriber
+    let sentCount = 0;
+    for (const sub of subscribers) {
+      const subscriberRegions = sub.regions.split(',').map((r: string) => r.trim().toLowerCase());
+      const subscriberIndustries = sub.industries.split(',').map((i: string) => i.trim().toLowerCase());
+
+      const filteredChanges = mappedChanges.filter(p => {
+        const hasRegion = subscriberRegions.includes(p.region.toLowerCase());
+        const hasIndustry = subscriberIndustries.includes(p.industry.toLowerCase());
+        return hasRegion && hasIndustry;
+      });
+
+      try {
+        await sendWeeklyDigest(
+          sub.email,
+          sub.name || undefined,
+          filteredChanges,
+          sub.unsubscribeToken
+        );
+        sentCount++;
+      } catch (err) {
+        console.error(`Failed to send weekly digest to ${sub.email}:`, err);
+      }
+    }
+
+    return NextResponse.json({ success: true, message: `Sent weekly updates to ${sentCount} subscribers.` });
+  } catch (error) {
+    console.error('Weekly cron error:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
