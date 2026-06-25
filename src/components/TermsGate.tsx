@@ -19,6 +19,8 @@ import styles from './TermsGate.module.css';
 import type { Lang } from '@/types';
 
 const STORAGE_KEY = 'policywatcher_terms_accepted_v1';
+/** Terms acceptance expires after 90 days (milliseconds). */
+const ACCEPTANCE_TTL_MS = 90 * 24 * 60 * 60 * 1000;
 
 /** Props for the {@link TermsGate} component. */
 interface TermsGateProps {
@@ -91,10 +93,20 @@ export default function TermsGate({ children, lang, onLangToggle }: TermsGatePro
   const [showError, setShowError] = useState(false);
 
   // Read acceptance from localStorage on mount (client-only).
+  // Checks both presence and TTL expiry (90 days).
   useEffect(() => {
     try {
       const v = localStorage.getItem(STORAGE_KEY);
-      setAccepted(v === 'true');
+      if (v) {
+        const timestamp = parseInt(v, 10);
+        if (!isNaN(timestamp) && Date.now() - timestamp < ACCEPTANCE_TTL_MS) {
+          setAccepted(true);
+          return;
+        }
+        // Expired or invalid: clear and re-prompt
+        localStorage.removeItem(STORAGE_KEY);
+      }
+      setAccepted(false);
     } catch {
       // localStorage unavailable (SSR / privacy mode): default to not accepted
       setAccepted(false);
@@ -111,7 +123,8 @@ export default function TermsGate({ children, lang, onLangToggle }: TermsGatePro
       return;
     }
     try {
-      localStorage.setItem(STORAGE_KEY, 'true');
+      // Store acceptance timestamp for TTL expiry (90 days)
+      localStorage.setItem(STORAGE_KEY, Date.now().toString());
     } catch {
       /* ignore write errors */
     }

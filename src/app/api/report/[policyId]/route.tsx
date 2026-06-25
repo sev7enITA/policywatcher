@@ -110,16 +110,13 @@ export async function GET(
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `inline; filename="${filename}"`,
-        'Cache-Control': 'no-store',
+        'Cache-Control': 'public, max-age=3600, s-maxage=3600',
       },
     });
   } catch (error) {
-    console.error('Error generating PDF report:', error);
+    console.error('[PDF Report] Error:', error);
     return NextResponse.json(
-      {
-        error: 'Errore durante la generazione del PDF.',
-        message: (error as Error).message,
-      },
+      { error: 'Errore durante la generazione del PDF.' },
       { status: 500 }
     );
   }
