@@ -381,8 +381,6 @@ export default function CommandPalette({
     [filtered.length, runActive, onClose]
   );
 
-  if (!isOpen) return null;
-
   // Group results for rendering
   const groups = useMemo(() => {
     const map = new Map<string, Command[]>();
@@ -397,6 +395,9 @@ export default function CommandPalette({
   const groupLabels: Record<string, string> = isIt
     ? { actions: 'Azioni', filters: 'Filtri', navigation: 'Navigazione' }
     : { actions: 'Actions', filters: 'Filters', navigation: 'Navigation' };
+
+  // All hooks must be called before this point (Rules of Hooks).
+  if (!isOpen) return null;
 
 
   return (
