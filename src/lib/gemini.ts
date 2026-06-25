@@ -46,6 +46,30 @@ function getApiKey(): string {
 }
 
 /**
+ * Ordered model fallback chain. If the primary model is overloaded (503)
+ * or rate-limited (429), we retry with the next model in the list.
+ * gemini-2.5-flash is the primary (best quality/cost ratio).
+ * gemini-2.0-flash-lite is the fallback (highest availability, lowest cost).
+ */
+const MODEL_CHAIN = ['gemini-2.5-flash', 'gemini-2.0-flash-lite'] as const;
+
+/**
+ * Returns true when the error indicates a transient capacity issue
+ * (503 overloaded, 429 rate-limited) where a fallback model might succeed.
+ */
+function isTransientError(error: unknown): boolean {
+  const msg = String((error as Error)?.message || error);
+  return (
+    msg.includes('503') ||
+    msg.includes('UNAVAILABLE') ||
+    msg.includes('429') ||
+    msg.includes('RESOURCE_EXHAUSTED') ||
+    msg.includes('overloaded') ||
+    msg.includes('high demand')
+  );
+}
+
+/**
  * A single actionable remediation suggestion returned by the AI analysis.
  * Contains bilingual title/description and an optional deep-link for the user.
  */
@@ -235,32 +259,44 @@ Ensure your response contains EXACTLY 6 regionImpacts:
 
 Do not include any markdown styling like \`\`\`json ... \`\`\` in your response. Output raw JSON string only.`;
 
-  try {
-    const client = getClient();
-    const response = await client.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: prompt,
-      config: {
-        systemInstruction,
-        responseMimeType: 'application/json',
-        temperature: 0.1,
-      },
-    });
+  // Try each model in the fallback chain until one succeeds.
+  const client = getClient();
+  let lastError: unknown = null;
 
-    const textResponse = response.text || '{}';
-    const cleanedText = textResponse
-      .replace(/^```json/, '')
-      .replace(/```$/, '')
-      .trim();
-    const parsed = JSON.parse(cleanedText) as Partial<PolicyAnalysisResult>;
+  for (const modelId of MODEL_CHAIN) {
+    try {
+      console.log(`[Gemini] Trying model: ${modelId} for ${companyName}/${policyName}`);
+      const response = await client.models.generateContent({
+        model: modelId,
+        contents: prompt,
+        config: {
+          systemInstruction,
+          responseMimeType: 'application/json',
+          temperature: 0.1,
+        },
+      });
 
-    // Defensive normalization: fill the new structured fields if the model
-    // omitted them, so the UI never crashes.
-    return normalizeAnalysis(parsed, companyName, policyName, isInitial);
-  } catch (error) {
-    console.error('Error invoking Gemini:', error);
-    return getMockAnalysis(companyName, policyName, isInitial);
+      const textResponse = response.text || '{}';
+      const cleanedText = textResponse
+        .replace(/^```json/, '')
+        .replace(/```$/, '')
+        .trim();
+      const parsed = JSON.parse(cleanedText) as Partial<PolicyAnalysisResult>;
+
+      // Defensive normalization: fill the new structured fields if the model
+      // omitted them, so the UI never crashes.
+      return normalizeAnalysis(parsed, companyName, policyName, isInitial);
+    } catch (error) {
+      lastError = error;
+      console.warn(`[Gemini] Model ${modelId} failed:`, (error as Error).message);
+      // Only try the next model if this was a transient capacity error.
+      if (!isTransientError(error)) break;
+      console.log(`[Gemini] Transient error detected, falling back to next model...`);
+    }
   }
+
+  console.error('[Gemini] All models failed, returning mock analysis:', lastError);
+  return getMockAnalysis(companyName, policyName, isInitial);
 }
 
 /**
@@ -384,21 +420,34 @@ ${contextStr}
 USER MESSAGE:
 ${question}`;
 
-  try {
-    const client = getClient();
-    const response = await client.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: prompt,
-      config: {
-        temperature: 0.5,
-      },
-    });
+  // Try each model in the fallback chain until one succeeds.
+  const client = getClient();
+  let lastError: unknown = null;
 
-    return response.text || 'No response generated.';
-  } catch (error) {
-    console.error('Error in answerPolicyQuestion:', error);
-    return `Error: ${(error as Error).message}`;
+  for (const modelId of MODEL_CHAIN) {
+    try {
+      console.log(`[Gemini Chat] Trying model: ${modelId}`);
+      const response = await client.models.generateContent({
+        model: modelId,
+        contents: prompt,
+        config: {
+          temperature: 0.5,
+        },
+      });
+
+      return response.text || 'No response generated.';
+    } catch (error) {
+      lastError = error;
+      console.warn(`[Gemini Chat] Model ${modelId} failed:`, (error as Error).message);
+      if (!isTransientError(error)) break;
+      console.log(`[Gemini Chat] Transient error, falling back to next model...`);
+    }
   }
+
+  console.error('[Gemini Chat] All models failed:', lastError);
+  return isEn
+    ? 'The AI service is temporarily experiencing high demand. Please try again in a few seconds.'
+    : 'Il servizio AI sta temporaneamente gestendo un alto volume di richieste. Riprova tra qualche secondo.';
 }
 
 /**
