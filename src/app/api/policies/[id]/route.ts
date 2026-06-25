@@ -66,7 +66,28 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(policy);
+    // Fetch all sibling policies (same company) so the UI can show
+    // the full inventory of monitored documents for this company.
+    const siblingPolicies = await db.policy.findMany({
+      where: { companyId: policy.companyId },
+      select: {
+        id: true,
+        name: true,
+        type: true,
+        url: true,
+        jurisdiction: true,
+        currentHash: true,
+        updatedAt: true,
+        snapshots: {
+          orderBy: { version: 'desc' },
+          take: 1,
+          select: { version: true, createdAt: true },
+        },
+      },
+      orderBy: { name: 'asc' },
+    });
+
+    return NextResponse.json({ ...policy, siblingPolicies });
   } catch (error) {
     console.error('Error fetching policy details:', error);
     return NextResponse.json(

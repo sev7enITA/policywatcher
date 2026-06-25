@@ -41,7 +41,9 @@ import {
   ChevronDown,
   ChevronUp,
   Share2,
-  FileDown
+  FileDown,
+  Globe,
+  Link2
 } from 'lucide-react';
 import styles from './PolicyDetails.module.css';
 import type { Policy, PolicyChange, Company, RegionImpact } from '@/types/index';
@@ -73,6 +75,8 @@ interface PolicyDetailsProps {
 interface FullPolicyDetails extends Policy {
   /** Parent company record. */
   company: Company;
+  /** All monitored documents for this company (including self). */
+  siblingPolicies?: SiblingPolicy[];
   /** Ordered list of scraped snapshots (newest first). */
   snapshots: {
     id: string;
@@ -103,7 +107,20 @@ interface Remediation {
 }
 
 /** Union of tab identifiers for the detail panel's navigation. */
-type TabType = 'changes' | 'aiGov' | 'trends' | 'remediations' | 'archive';
+/** A sibling policy belonging to the same company, used in the Sources tab. */
+interface SiblingPolicy {
+  id: string;
+  name: string;
+  type: string;
+  url: string;
+  jurisdiction: string;
+  currentHash: string;
+  updatedAt: string;
+  snapshots: { version: number; createdAt: string }[];
+}
+
+/** Union of tab identifiers for the detail panel's navigation. */
+type TabType = 'changes' | 'aiGov' | 'trends' | 'remediations' | 'archive' | 'sources';
 
 /**
  * Slide-over detail panel for a single monitored policy.
@@ -464,6 +481,7 @@ export default function PolicyDetails({
             { key: 'aiGov' as TabType, icon: <Shield size={16} />, labelEn: 'AI Governance', labelIt: 'Governance AI' },
             { key: 'trends' as TabType, icon: <Activity size={16} />, labelEn: 'Risk Trends', labelIt: 'Grafici Evolutivi' },
             { key: 'remediations' as TabType, icon: <Award size={16} />, labelEn: 'Remediations', labelIt: 'Piano d\'Azione' },
+            { key: 'sources' as TabType, icon: <Globe size={16} />, labelEn: `Sources (${policy.siblingPolicies?.length || 0})`, labelIt: `Fonti (${policy.siblingPolicies?.length || 0})` },
           ]).map((tab) => (
             <button 
               key={tab.key}
@@ -670,6 +688,65 @@ export default function PolicyDetails({
           </div>
         )}
 
+        {/* SOURCES TAB -- shows all monitored documents for this company */}
+        {activeTab === 'sources' && (
+          <div className={styles.tabContent}>
+            <h3 className={styles.sectionTitle}>
+              <Globe size={18} color="var(--primary)" /> {lang === 'it' ? 'Documenti Monitorati per ' : 'Monitored Documents for '}{policy.company.name}
+            </h3>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '16px', lineHeight: 1.5 }}>
+              {lang === 'it'
+                ? 'Tutti i documenti di policy ufficiali attualmente tracciati da PolicyWatcher per questa azienda, con il link alla fonte e alla versione archiviata su Wayback Machine.'
+                : 'All official policy documents currently tracked by PolicyWatcher for this company, with links to the source and the archived version on the Wayback Machine.'}
+            </p>
+
+            <div className={styles.archiveList}>
+              {(policy.siblingPolicies || []).map((sib) => {
+                const lastSnap = sib.snapshots[0];
+                const lastScanDate = lastSnap
+                  ? new Date(lastSnap.createdAt).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })
+                  : (lang === 'it' ? 'Mai scansionato' : 'Never scanned');
+                const version = lastSnap?.version || 0;
+                const isCurrent = sib.id === policy.id;
+                const waybackUrl = `https://web.archive.org/web/*/${sib.url}`;
+                const typeLabel = sib.type === 'privacy' ? 'Privacy' : sib.type === 'terms' ? 'Terms' : sib.type === 'ai' ? 'AI' : sib.type === 'aup' ? 'AUP' : sib.type;
+
+                return (
+                  <div key={sib.id} className={styles.archiveCard} style={isCurrent ? { borderLeft: '3px solid var(--primary)' } : {}}>
+                    <div className={styles.archiveCardHeader} style={{ cursor: 'default' }}>
+                      <div className={styles.archiveCardMeta}>
+                        <span className={styles.archiveVersion}>
+                          {sib.name}
+                          <span style={{ marginLeft: 8, fontSize: '0.7rem', padding: '2px 8px', borderRadius: 4, background: 'var(--bg-tertiary)', color: 'var(--text-muted)' }}>{typeLabel}</span>
+                          <span style={{ marginLeft: 6, fontSize: '0.7rem', padding: '2px 8px', borderRadius: 4, background: 'var(--bg-tertiary)', color: 'var(--text-muted)' }}>{sib.jurisdiction}</span>
+                          {isCurrent && (
+                            <span className={styles.currentBadge}>
+                              {lang === 'it' ? 'Stai guardando' : 'Viewing'}
+                            </span>
+                          )}
+                        </span>
+                        <span className={styles.archiveDate}>
+                          V{version} | {lang === 'it' ? 'Ultimo scan:' : 'Last scan:'} {lastScanDate}
+                        </span>
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', gap: 8, padding: '8px 16px 12px', flexWrap: 'wrap' }}>
+                      <a href={sib.url} target="_blank" rel="noreferrer" className={styles.archiveActionBtn}>
+                        <ExternalLink size={14} />
+                        {lang === 'it' ? 'Fonte ufficiale' : 'Official source'}
+                      </a>
+                      <a href={waybackUrl} target="_blank" rel="noreferrer" className={styles.archiveActionBtn}>
+                        <Globe size={14} />
+                        Wayback Machine
+                      </a>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* VERSION ARCHIVE TAB -- outside activeChange conditional */}
         {activeTab === 'archive' && (
           <div className={styles.tabContent}>
@@ -734,6 +811,15 @@ export default function PolicyDetails({
                           <a href={policy.url} target="_blank" rel="noreferrer" className={styles.archiveActionBtn}>
                             <ExternalLink size={14} />
                             {lang === 'it' ? 'Apri fonte ufficiale' : 'Open official source'}
+                          </a>
+                          <a
+                            href={`https://web.archive.org/web/${new Date(snapshot.createdAt).toISOString().replace(/[-:T]/g, '').substring(0, 14)}*/${policy.url}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={styles.archiveActionBtn}
+                          >
+                            <Globe size={14} />
+                            Wayback Machine
                           </a>
                         </div>
                         <div className={styles.archiveFullText}>
