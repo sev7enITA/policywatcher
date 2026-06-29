@@ -14,6 +14,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   LayoutDashboard,
   Play,
@@ -21,8 +22,8 @@ import {
   BarChart3,
   Building2,
   BookOpen,
+  ClipboardCheck,
   LogOut,
-  Shield,
 } from 'lucide-react';
 import styles from './admin.module.css';
 
@@ -58,6 +59,11 @@ const NAV_ITEMS: NavItem[] = [
     icon: <BarChart3 size={18} />,
   },
   {
+    label: 'Dataset QA',
+    href: '/admin/dataset-quality',
+    icon: <ClipboardCheck size={18} />,
+  },
+  {
     label: 'Companies',
     href: '/admin/companies',
     icon: <Building2 size={18} />,
@@ -83,6 +89,9 @@ export default function AdminLayout({
 
   // Verify session on mount
   useEffect(() => {
+    if (pathname === '/admin/login') {
+      return;
+    }
     let cancelled = false;
 
     async function verifySession() {
@@ -112,7 +121,7 @@ export default function AdminLayout({
     return () => {
       cancelled = true;
     };
-  }, [router]);
+  }, [router, pathname]);
 
   // Logout handler
   const handleLogout = useCallback(async () => {
@@ -135,12 +144,17 @@ export default function AdminLayout({
   }
 
   // Show a loading spinner until session is verified
-  if (!verified) {
+  if (pathname !== '/admin/login' && !verified) {
     return (
       <div className={styles.loadingScreen}>
         <div className={styles.loadingSpinner} />
       </div>
     );
+  }
+
+  // If we are on the login page, render children directly without layout wrapper
+  if (pathname === '/admin/login') {
+    return <>{children}</>;
   }
 
   // Filter nav items based on role
@@ -155,12 +169,19 @@ export default function AdminLayout({
         {/* Header / Logo */}
         <div className={styles.sidebarHeader}>
           <div className={styles.logoArea}>
-            <div className={styles.logoIcon}>
-              <Shield size={18} />
-            </div>
+            <Image
+              src="/logo.png"
+              alt="PolicyWatcher Logo"
+              width={30}
+              height={30}
+              priority
+              style={{ objectFit: 'contain' }}
+            />
             <div>
               <div className={styles.logoText}>PolicyWatcher</div>
-              <div className={styles.logoTextSub}>Admin Panel</div>
+              <div className={styles.logoTextSub}>
+                Admin Panel <span className={styles.logoVersion}>v3.0.0</span>
+              </div>
             </div>
           </div>
           <span

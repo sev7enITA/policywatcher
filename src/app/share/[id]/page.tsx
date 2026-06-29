@@ -12,6 +12,7 @@
  * for the core content (good for SEO + link previews).
  */
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import { db } from '@/lib/db';
 import { ShieldAlert, TrendingUp, Globe, FileDown, ExternalLink, AlertTriangle } from 'lucide-react';
 import styles from './share.module.css';
@@ -20,6 +21,19 @@ import type { Metadata } from 'next';
 interface SharePageProps {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ lang?: string }>;
+}
+
+interface KeyPoint {
+  textEn: string;
+  textIt: string;
+  sentiment: string;
+}
+
+interface RiskReason {
+  textEn: string;
+  textIt: string;
+  icon: string;
+  deltaScore: number;
 }
 
 export async function generateMetadata({
@@ -84,19 +98,20 @@ export default async function SharePage({ params, searchParams }: SharePageProps
 
   const tldr = isIt ? change.tldrIt || change.aiSummaryIt : change.tldrEn || change.aiSummaryEn;
 
-  let keyPoints: { textEn: string; textIt: string; sentiment: string }[] = [];
-  let reasons: { textEn: string; textIt: string; icon: string; deltaScore: number }[] = [];
+  let keyPoints: KeyPoint[] = [];
+  let reasons: RiskReason[] = [];
   try {
-    keyPoints = change.keyPointsJson ? JSON.parse(change.keyPointsJson) : [];
+    keyPoints = change.keyPointsJson ? JSON.parse(change.keyPointsJson) as KeyPoint[] : [];
   } catch {}
   try {
-    reasons = change.riskReasonsJson ? JSON.parse(change.riskReasonsJson) : [];
+    reasons = change.riskReasonsJson ? JSON.parse(change.riskReasonsJson) as RiskReason[] : [];
   } catch {}
 
+  type RegionImpact = (typeof change.regionImpacts)[number];
   const regions = ['EU', 'US', 'Global'].map((r: string) => ({
     region: r,
-    impact: change.regionImpacts.find((i: any) => i.region === r && i.perspective === 'Individual'),
-  }));
+    impact: change.regionImpacts.find((i) => i.region === r && i.perspective === 'Individual'),
+  })) satisfies Array<{ region: string; impact: RegionImpact | undefined }>;
 
   const scoreColor =
     score >= 7 ? 'var(--risk-high)' : score >= 4 ? 'var(--risk-medium)' : 'var(--risk-low)';
@@ -135,19 +150,19 @@ export default async function SharePage({ params, searchParams }: SharePageProps
             <span className={styles.brandTag}>{L.tag}</span>
           </div>
           <div className={styles.langLinks}>
-            <a
+            <Link
               href={`/share/${id}?lang=en`}
               className={lang === 'en' ? styles.langActive : styles.lang}
             >
               EN
-            </a>
+            </Link>
             <span className={styles.langSep}>·</span>
-            <a
+            <Link
               href={`/share/${id}?lang=it`}
               className={lang === 'it' ? styles.langActive : styles.lang}
             >
               IT
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -198,7 +213,7 @@ export default async function SharePage({ params, searchParams }: SharePageProps
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>{L.keyPointsTitle}</h2>
             <ul className={styles.points}>
-              {keyPoints.slice(0, 5).map((p: any, i: number) => (
+              {keyPoints.slice(0, 5).map((p, i) => (
                 <li
                   key={i}
                   className={`${styles.point} ${styles[`s_${p.sentiment}`]}`}
@@ -218,7 +233,7 @@ export default async function SharePage({ params, searchParams }: SharePageProps
               <ShieldAlert size={14} /> {L.reasonsTitle}
             </h2>
             <div className={styles.reasons}>
-              {reasons.slice(0, 3).map((r: any, i: number) => (
+              {reasons.slice(0, 3).map((r, i) => (
                 <div key={i} className={`${styles.reason} ${styles[`i_${r.icon}`]}`}>
                   <span className={styles.reasonDelta}>
                     {r.deltaScore > 0 ? `+${r.deltaScore}` : r.deltaScore}
@@ -238,7 +253,7 @@ export default async function SharePage({ params, searchParams }: SharePageProps
             </h2>
             <div className={styles.regionGrid}>
               {regions.map(
-                (r: any, i: number) =>
+                (r, i) =>
                   r.impact && (
                     <div key={i} className={styles.regionCard}>
                       <div className={styles.regionHead}>
@@ -283,9 +298,9 @@ export default async function SharePage({ params, searchParams }: SharePageProps
               {L.official}
             </a>
           )}
-          <a href="/" className={`${styles.btn} ${styles.btnGhost}`}>
+          <Link href="/" className={`${styles.btn} ${styles.btnGhost}`}>
             {L.backHome}
-          </a>
+          </Link>
         </div>
 
         {/* Disclaimer */}

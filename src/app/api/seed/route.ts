@@ -1,7 +1,7 @@
 /**
  * PolicyWatcher - Database Seed API
  *
- * @route GET /api/seed?secret=<API_SECRET>
+ * @route POST /api/seed
  *
  * Triggers `prisma db push` followed by `prisma db seed` in the background.
  * Designed for first-time deployment: initialises the SQLite database and
@@ -10,16 +10,17 @@
  * The work is spawned asynchronously so the HTTP response returns immediately,
  * avoiding reverse-proxy timeouts (e.g. on Hostinger).
  *
- * @auth    Query-parameter `secret` must match the `API_SECRET` env var.
- *          Completely blocked in production (`NODE_ENV=production` → 403).
+ * @auth    Bearer token via `Authorization` header and explicit
+ *          ALLOW_DATABASE_SEED_ENDPOINT=true. Completely blocked in production.
  * @rateLimit None (protected by secret + env gate).
  *
- * @returns {{ success: boolean, message: string, details: { dbPath, cwd } }}
+ * @returns {{ success: boolean, message: string }}
  */
 import { NextRequest, NextResponse } from 'next/server';
 import { execSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
+import { isAuthorized } from '@/lib/auth';
 
 /**
  * Initiates background database seeding.
@@ -28,24 +29,19 @@ import fs from 'fs';
  * On success, kicks off Prisma CLI commands via `execSync` inside a
  * microtask (`Promise.resolve().then(...)`) and returns a 200 immediately.
  *
- * @param request - The incoming request with `?secret=` query param.
+ * @param request - The incoming request with bearer token.
  * @returns JSON acknowledgement, or 401/403 on auth/env failure.
  */
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   // Block in production
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production' || process.env.ALLOW_DATABASE_SEED_ENDPOINT !== 'true') {
     return NextResponse.json(
       { error: 'Seed endpoint is disabled in production.' },
       { status: 403 }
     );
   }
 
-  // Authorization check (deny by default)
-  const secret = process.env.API_SECRET;
-  const url = new URL(request.url);
-  const paramSecret = url.searchParams.get('secret');
-
-  if (!secret || !paramSecret || paramSecret !== secret) {
+  if (!isAuthorized(request)) {
     return NextResponse.json(
       { error: 'Unauthorized.' },
       { status: 401 }
@@ -89,18 +85,16 @@ export async function GET(request: NextRequest) {
       });
       console.log('[Seed API] Seed Output:', seedOutput.toString());
       console.log('[Seed API] Database successfully initialized and seeded in background!');
-    } catch (bgError: any) {
+    } catch (bgError: unknown) {
       console.error('[Seed API] Background seeding failed:', bgError);
-      console.error('[Seed API] Command output was:', bgError.stdout?.toString() || bgError.message);
+      if (bgError instanceof Error) {
+        console.error('[Seed API] Command output was:', bgError.message);
+      }
     }
   });
 
   return NextResponse.json({
     success: true,
-    message: 'Procedura avviata in background con successo! Attendi circa 15-20 secondi e poi ricarica la homepage per vedere i dati delle aziende.',
-    details: {
-      dbPath,
-      cwd
-    }
+    message: 'Database seed procedure started in the background.'
   });
 }

@@ -8,6 +8,50 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
+import {
+  SUBSCRIBER_FREQUENCIES,
+  SUBSCRIBER_INDUSTRIES,
+  SUBSCRIBER_REGIONS,
+  normalizePreferenceValue,
+} from '@/lib/subscriberPreferences';
+
+const VALID_REGIONS = new Set<string>(SUBSCRIBER_REGIONS);
+const VALID_INDUSTRIES = new Set<string>(SUBSCRIBER_INDUSTRIES);
+const VALID_FREQUENCIES = new Set<string>(SUBSCRIBER_FREQUENCIES);
+const GENERIC_SUBSCRIBE_MESSAGE =
+  'If this email can receive PolicyWatcher alerts, a confirmation message has been sent.';
+
+function normalizeList(
+  value: unknown,
+  allowed: Set<string>,
+  fallback: string[]
+): string | null {
+  const raw = Array.isArray(value)
+    ? value
+    : typeof value === 'string'
+      ? value.split(',')
+      : fallback;
+
+  const normalized = raw
+    .map((item) => normalizePreferenceValue(String(item)))
+    .filter((item) => allowed.has(item));
+
+  if (normalized.length === 0) return null;
+  return Array.from(new Set(normalized)).join(',');
+}
+
+function normalizeFrequency(value: unknown): string | null {
+  if (value === undefined || value === null || value === '') return 'INSTANT';
+  if (typeof value !== 'string') return null;
+  const normalized = value.trim().toUpperCase();
+  return VALID_FREQUENCIES.has(normalized) ? normalized : null;
+}
+
+function normalizeName(value: unknown): string | null {
+  if (typeof value !== 'string') return null;
+  const trimmed = value.trim();
+  return trimmed ? trimmed.slice(0, 120) : null;
+}
 
 // -- POST: Subscribe --
 
@@ -18,7 +62,7 @@ import { rateLimit } from '@/lib/rateLimit';
  * of soft-deleted subscribers, and fires a confirmation email (non-blocking).
  *
  * @param request - The incoming request with `{ email, name?, regions?, industries?, frequency? }`.
- * @returns 201 on creation, 200 on reactivation, 400/409/500 on error.
+ * @returns Generic 202 response for create/reactivation/existing records.
  */
 export async function POST(request: NextRequest) {
   // Rate limit: prevent email bombing. 3/hour per IP.
@@ -42,16 +86,28 @@ export async function POST(request: NextRequest) {
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    const normalizedEmail = email.toLowerCase().trim();
+    if (!emailRegex.test(normalizedEmail)) {
       return NextResponse.json(
         { error: 'Invalid email format.' },
         { status: 400 }
       );
     }
 
+    const normalizedRegions = normalizeList(regions, VALID_REGIONS, ['EU', 'US', 'Global']);
+    const normalizedIndustries = normalizeList(industries, VALID_INDUSTRIES, ['Tech Giant', 'FinTech']);
+    const normalizedFrequency = normalizeFrequency(frequency);
+
+    if (!normalizedRegions || !normalizedIndustries || !normalizedFrequency) {
+      return NextResponse.json(
+        { error: 'Invalid subscription preferences.' },
+        { status: 400 }
+      );
+    }
+
     // Check for duplicate
     const existing = await db.subscriber.findUnique({
-      where: { email: email.toLowerCase().trim() },
+      where: { email: normalizedEmail },
     });
 
     if (existing) {
@@ -61,10 +117,10 @@ export async function POST(request: NextRequest) {
           where: { id: existing.id },
           data: {
             isActive: true,
-            name: name || existing.name,
-            regions: Array.isArray(regions) ? regions.join(',') : (regions || existing.regions),
-            industries: Array.isArray(industries) ? industries.join(',') : (industries || existing.industries),
-            frequency: frequency || existing.frequency,
+            name: normalizeName(name) || existing.name,
+            regions: normalizedRegions,
+            industries: normalizedIndustries,
+            frequency: normalizedFrequency,
           },
         });
         
@@ -83,28 +139,25 @@ export async function POST(request: NextRequest) {
         }
 
         return NextResponse.json(
-          { message: 'Subscription reactivated.', subscriber: reactivated },
-          { status: 200 }
+          { message: GENERIC_SUBSCRIBE_MESSAGE },
+          { status: 202 }
         );
       }
 
       return NextResponse.json(
-        { error: 'This email is already subscribed.' },
-        { status: 409 }
+        { message: GENERIC_SUBSCRIBE_MESSAGE },
+        { status: 202 }
       );
     }
 
     // Create new subscriber
-    const regionsStr = Array.isArray(regions) ? regions.join(',') : (regions || 'EU,US,Global');
-    const industriesStr = Array.isArray(industries) ? industries.join(',') : (industries || 'Tech Giant,FinTech');
-
     const subscriber = await db.subscriber.create({
       data: {
-        email: email.toLowerCase().trim(),
-        name: name || null,
-        regions: regionsStr,
-        industries: industriesStr,
-        frequency: frequency || 'INSTANT',
+        email: normalizedEmail,
+        name: normalizeName(name),
+        regions: normalizedRegions,
+        industries: normalizedIndustries,
+        frequency: normalizedFrequency,
         isActive: true,
       },
     });
@@ -125,8 +178,8 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { message: 'Subscription created.', subscriber },
-      { status: 201 }
+      { message: GENERIC_SUBSCRIBE_MESSAGE },
+      { status: 202 }
     );
   } catch (error) {
     console.error('[Subscribers API] POST error:', error);
@@ -150,6 +203,13 @@ export async function POST(request: NextRequest) {
  * @returns 200 on success, 400/403/500 on error.
  */
 export async function DELETE(request: NextRequest) {
+  const limited = rateLimit(request, {
+    intervalMs: 60 * 60 * 1000,
+    max: 10,
+    name: 'unsubscribe',
+  });
+  if (limited) return limited;
+
   try {
     const body = await request.json();
     const { email, token } = body;
@@ -168,8 +228,9 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
+    const normalizedEmail = email.toLowerCase().trim();
     const subscriber = await db.subscriber.findUnique({
-      where: { email: email.toLowerCase().trim() },
+      where: { email: normalizedEmail },
     });
 
     if (!subscriber || subscriber.unsubscribeToken !== token) {

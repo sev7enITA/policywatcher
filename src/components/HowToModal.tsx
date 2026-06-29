@@ -16,7 +16,7 @@
  */
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { 
   X, 
   ChevronRight, 
@@ -60,12 +60,14 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
 
   // Hydrate the "skip permanently" checkbox from localStorage on mount.
   useEffect(() => {
-    try {
-      const val = localStorage.getItem('policywatcher_onboarding_skip_permanently') === 'true';
-      setSkipPermanently(val);
-    } catch (e) {
-      // ignore
-    }
+    queueMicrotask(() => {
+      try {
+        const val = localStorage.getItem('policywatcher_onboarding_skip_permanently') === 'true';
+        setSkipPermanently(val);
+      } catch {
+        // ignore
+      }
+    });
   }, []);
 
   /** Persists the user's "don't show again" preference to localStorage. */
@@ -77,12 +79,28 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
       } else {
         localStorage.setItem('policywatcher_onboarding_skip_permanently', 'false');
       }
-    } catch (e) {
+    } catch {
       // ignore
     }
   };
 
   const isIt = lang === 'it';
+
+  /**
+   * Marks the modal as "seen this session" (sessionStorage) then triggers
+   * the 200 ms CSS exit animation before invoking the parent's onClose.
+   */
+  const handleClose = useCallback(() => {
+    try {
+      sessionStorage.setItem('policywatcher_onboarding_session_seen', 'true');
+    } catch {
+      // ignore
+    }
+    setClosing(true);
+    setTimeout(() => {
+      onClose();
+    }, 200);
+  }, [onClose]);
 
   const slides = [
     {
@@ -216,23 +234,7 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
     };
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
-  }, []);
-
-  /**
-   * Marks the modal as "seen this session" (sessionStorage) then triggers
-   * the 200 ms CSS exit animation before invoking the parent's onClose.
-   */
-  const handleClose = () => {
-    try {
-      sessionStorage.setItem('policywatcher_onboarding_session_seen', 'true');
-    } catch (e) {
-      // ignore
-    }
-    setClosing(true);
-    setTimeout(() => {
-      onClose();
-    }, 200);
-  };
+  }, [handleClose]);
 
   /** Advances to the next slide, or closes the modal on the last slide. */
   const handleNext = () => {

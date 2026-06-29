@@ -22,6 +22,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { 
   X, 
   Mic, 
@@ -124,29 +125,20 @@ interface SpeechRecognition extends EventTarget {
   onend: () => void;
 }
 
+type SpeechRecognitionWindow = Window & {
+  SpeechRecognition?: new () => SpeechRecognition;
+  webkitSpeechRecognition?: new () => SpeechRecognition;
+};
+
 /**
  * Full-screen AI chat assistant with voice I/O and animated waveform.
  *
  * @param props - {@link LiveAssistantProps}
  * @returns The assistant overlay with chat log, input bar, and wave canvas.
  */
-export default function LiveAssistant({ onClose, companies, lang }: LiveAssistantProps) {
+export default function LiveAssistant({ onClose, lang }: LiveAssistantProps) {
   const t = translations[lang];
 
-  /**
-   * Lightweight markdown-to-HTML converter for system messages.
-   * Supports **bold**, bullet lists (`- …`), and line breaks.
-   */
-  const renderMarkdown = (text: string): string => {
-    return text
-      // Bold: **text** -> <strong>text</strong>
-      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      // Bullet points: - text -> styled list item
-      .replace(/^- (.+)$/gm, '<div style="display:flex;gap:6px;margin:4px 0;align-items:baseline"><span style="color:#6366f1;font-weight:600">&#8226;</span><span>$1</span></div>')
-      // Line breaks
-      .replace(/\n/g, '<br />');
-  };
-  
   const [messages, setMessages] = useState<Message[]>([
     { sender: 'system', text: t.greeting },
   ]);
@@ -154,6 +146,7 @@ export default function LiveAssistant({ onClose, companies, lang }: LiveAssistan
   const [assistantState, setAssistantState] = useState<AssistantState>('idle');
   const [speechEnabled, setSpeechEnabled] = useState(true);
   const [closing, setClosing] = useState(false);
+  const [isRecognitionSupported, setIsRecognitionSupported] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const chatEndRef = useRef<HTMLDivElement | null>(null);
@@ -166,6 +159,25 @@ export default function LiveAssistant({ onClose, companies, lang }: LiveAssistan
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, assistantState]);
+
+  /**
+   * Browser-native TTS fallback used when Google Cloud TTS is
+   * unavailable (e.g. rate-limited or misconfigured).
+   */
+  const speakWithBrowserTTS = useCallback((text: string, language: string) => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const cleanText = text.replace(/[#*`_-]/g, ' ').replace(/\[.*?\]/g, '').trim();
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.lang = language === 'it' ? 'it-IT' : 'en-US';
+    const voices = window.speechSynthesis.getVoices();
+    const voice = voices.find((v) => v.lang.startsWith(language === 'it' ? 'it' : 'en'));
+    if (voice) utterance.voice = voice;
+    utterance.onstart = () => setAssistantState('speaking');
+    utterance.onend = () => setAssistantState('idle');
+    utterance.onerror = () => setAssistantState('idle');
+    window.speechSynthesis.speak(utterance);
+  }, []);
 
   // Main send message handler
   const handleSendMessage = useCallback(async (textToSend?: string) => {
@@ -240,30 +252,11 @@ export default function LiveAssistant({ onClose, companies, lang }: LiveAssistan
       } else {
         setAssistantState('idle');
       }
-    } catch (err) {
+    } catch {
       setMessages((prev) => [...prev, { sender: 'system', text: t.error }]);
       setAssistantState('idle');
     }
-  }, [input, lang, speechEnabled, t.error]);
-
-  /**
-   * Browser-native TTS fallback used when Google Cloud TTS is
-   * unavailable (e.g. rate-limited or misconfigured).
-   */
-  const speakWithBrowserTTS = (text: string, language: string) => {
-    if (typeof window === 'undefined' || !window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
-    const cleanText = text.replace(/[#*`_-]/g, ' ').replace(/\[.*?\]/g, '').trim();
-    const utterance = new SpeechSynthesisUtterance(cleanText);
-    utterance.lang = language === 'it' ? 'it-IT' : 'en-US';
-    const voices = window.speechSynthesis.getVoices();
-    const voice = voices.find((v) => v.lang.startsWith(language === 'it' ? 'it' : 'en'));
-    if (voice) utterance.voice = voice;
-    utterance.onstart = () => setAssistantState('speaking');
-    utterance.onend = () => setAssistantState('idle');
-    utterance.onerror = () => setAssistantState('idle');
-    window.speechSynthesis.speak(utterance);
-  };
+  }, [input, lang, speechEnabled, speakWithBrowserTTS, t.error]);
 
   // Keep ref in sync for speech recognition callback
   useEffect(() => {
@@ -274,8 +267,16 @@ export default function LiveAssistant({ onClose, companies, lang }: LiveAssistan
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
+    let cancelled = false;
+    const speechWindow = window as SpeechRecognitionWindow;
     const SpeechRecognitionConstructor =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      speechWindow.SpeechRecognition || speechWindow.webkitSpeechRecognition;
+
+    const setRecognitionSupported = (value: boolean) => {
+      queueMicrotask(() => {
+        if (!cancelled) setIsRecognitionSupported(value);
+      });
+    };
 
     if (SpeechRecognitionConstructor) {
       const rec = new SpeechRecognitionConstructor() as SpeechRecognition;
@@ -299,15 +300,26 @@ export default function LiveAssistant({ onClose, companies, lang }: LiveAssistan
       };
 
       recognitionRef.current = rec;
+      setRecognitionSupported(true);
+    } else {
+      setRecognitionSupported(false);
     }
 
     return () => {
+      cancelled = true;
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current = null;
       }
     };
   }, [lang]);
+
+  const handleClose = useCallback(() => {
+    setClosing(true);
+    setTimeout(() => {
+      onClose();
+    }, 200);
+  }, [onClose]);
 
   // Escape key to close
   useEffect(() => {
@@ -316,7 +328,7 @@ export default function LiveAssistant({ onClose, companies, lang }: LiveAssistan
     };
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
-  }, []);
+  }, [handleClose]);
 
   // Canvas wave visualizer
   useEffect(() => {
@@ -384,13 +396,6 @@ export default function LiveAssistant({ onClose, companies, lang }: LiveAssistan
     return () => cancelAnimationFrame(animationId);
   }, [assistantState]);
 
-  const handleClose = () => {
-    setClosing(true);
-    setTimeout(() => {
-      onClose();
-    }, 200);
-  };
-
   /** Starts or stops the Web Speech API recognition session. */
   const toggleRecording = () => {
     if (assistantState === 'listening') {
@@ -415,8 +420,6 @@ export default function LiveAssistant({ onClose, companies, lang }: LiveAssistan
       setAssistantState((prev) => (prev === 'speaking' ? 'idle' : prev));
     }
   };
-
-  const isRecognitionSupported = !!recognitionRef.current;
 
   return (
     <div 
@@ -464,7 +467,7 @@ export default function LiveAssistant({ onClose, companies, lang }: LiveAssistan
               {msg.sender === 'user' ? (
                 msg.text
               ) : (
-                <div dangerouslySetInnerHTML={{ __html: renderMarkdown(msg.text) }} />
+                <ReactMarkdown>{msg.text}</ReactMarkdown>
               )}
             </div>
           ))}

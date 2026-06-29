@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ShieldAlert, Mail, ArrowLeft, Send } from 'lucide-react';
+import { ShieldAlert, ArrowLeft, Send } from 'lucide-react';
 import Link from 'next/link';
 
 export default function SecurityPage() {

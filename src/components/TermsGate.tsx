@@ -95,22 +95,24 @@ export default function TermsGate({ children, lang, onLangToggle }: TermsGatePro
   // Read acceptance from localStorage on mount (client-only).
   // Checks both presence and TTL expiry (90 days).
   useEffect(() => {
-    try {
-      const v = localStorage.getItem(STORAGE_KEY);
-      if (v) {
-        const timestamp = parseInt(v, 10);
-        if (!isNaN(timestamp) && Date.now() - timestamp < ACCEPTANCE_TTL_MS) {
-          setAccepted(true);
-          return;
+    queueMicrotask(() => {
+      try {
+        const v = localStorage.getItem(STORAGE_KEY);
+        if (v) {
+          const timestamp = parseInt(v, 10);
+          if (!isNaN(timestamp) && Date.now() - timestamp < ACCEPTANCE_TTL_MS) {
+            setAccepted(true);
+            return;
+          }
+          // Expired or invalid: clear and re-prompt
+          localStorage.removeItem(STORAGE_KEY);
         }
-        // Expired or invalid: clear and re-prompt
-        localStorage.removeItem(STORAGE_KEY);
+        setAccepted(false);
+      } catch {
+        // localStorage unavailable (SSR / privacy mode): default to not accepted
+        setAccepted(false);
       }
-      setAccepted(false);
-    } catch {
-      // localStorage unavailable (SSR / privacy mode): default to not accepted
-      setAccepted(false);
-    }
+    });
   }, []);
 
   /**

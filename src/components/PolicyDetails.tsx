@@ -36,14 +36,12 @@ import {
   Award,
   Copy,
   Info,
-  Download,
   Archive,
   ChevronDown,
   ChevronUp,
   Share2,
   FileDown,
   Globe,
-  Link2
 } from 'lucide-react';
 import styles from './PolicyDetails.module.css';
 import type { Policy, PolicyChange, Company, RegionImpact } from '@/types/index';
@@ -51,6 +49,7 @@ import AISummary from '@/components/ai/AISummary';
 import RiskReasons from '@/components/ai/RiskReasons';
 import RemediationSteps from '@/components/ai/RemediationSteps';
 import RiskTrendPanel from '@/components/charts/RiskTrendPanel';
+import RegionHeatMap from '@/components/charts/RegionHeatMap';
 
 /** Props for the {@link PolicyDetails} slide-over panel. */
 interface PolicyDetailsProps {
@@ -136,19 +135,21 @@ export default function PolicyDetails({
   onClose, 
   selectedRegion, 
   selectedPerspective,
-  onDataRefresh,
   lang
 }: PolicyDetailsProps) {
   const [policy, setPolicy] = useState<FullPolicyDetails | null>(null);
   const [loading, setLoading] = useState(true);
-  const [scraping, setScraping] = useState(false);
-  const [scrapeMessage, setScrapeMessage] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [closing, setClosing] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('changes');
   const [activeChangeIndex, setActiveChangeIndex] = useState<number>(0);
   const [expandedSnapshot, setExpandedSnapshot] = useState<string | null>(null);
   const [copiedSnapshotId, setCopiedSnapshotId] = useState<string | null>(null);
+
+  const handleClose = useCallback(() => {
+    setClosing(true);
+    setTimeout(() => onClose(), 250);
+  }, [onClose]);
 
   const fetchPolicyDetails = useCallback(async () => {
     setLoading(true);
@@ -167,7 +168,9 @@ export default function PolicyDetails({
   }, [policyId]);
 
   useEffect(() => {
-    fetchPolicyDetails();
+    queueMicrotask(() => {
+      void fetchPolicyDetails();
+    });
   }, [fetchPolicyDetails]);
 
   // Escape key to close
@@ -177,41 +180,8 @@ export default function PolicyDetails({
     };
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
-  }, []);
+  }, [handleClose]);
 
-  const handleClose = () => {
-    setClosing(true);
-    setTimeout(() => onClose(), 250);
-  };
-
-  const handleScrape = async () => {
-    setScraping(true);
-    setScrapeMessage(null);
-    try {
-      const res = await fetch('/api/scrape', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ policyId }),
-      });
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Scraping failed.');
-      }
-
-      if (data.changed) {
-        setScrapeMessage(lang === 'it' ? 'Nuovo aggiornamento rilevato!' : 'New update detected and analyzed!');
-        await fetchPolicyDetails();
-        onDataRefresh();
-      } else {
-        setScrapeMessage(lang === 'it' ? 'Nessun cambiamento rilevato. Policy aggiornata.' : 'No changes detected. Policy is up-to-date.');
-      }
-    } catch (err) {
-      setScrapeMessage(`Error: ${(err as Error).message}`);
-    } finally {
-      setScraping(false);
-    }
-  };
 
   const copyToClipboard = () => {
     if (!policy) return;
@@ -284,17 +254,6 @@ export default function PolicyDetails({
       return [];
     }
   };
-
-  // Chart data from actual policy changes
-  const changesChronological = [...policy.changes].reverse();
-  
-  const riskTrendData = changesChronological.map((change) => ({
-    version: `V${change.newSnapshot?.version || 1}`,
-    score: change.overallScore,
-    date: new Date(change.createdAt).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { 
-      day: 'numeric', month: 'short' 
-    }),
-  }));
 
   /**
    * Maps a human-readable AI governance value to a numeric risk percentage.
@@ -416,29 +375,22 @@ export default function PolicyDetails({
           </button>
         </div>
 
-        {/* Scrape Trigger Bar */}
+        {/* Last Verified Indicator */}
         <div className={styles.actionsBar}>
-          <div className={styles.actionText}>
-            {lang === 'it' ? 'Vuoi controllare se ci sono modifiche recenti?' : 'Check if there are any recent updates?'}
-            {scrapeMessage && (
-              <div className={styles.scrapeStatus} style={{ color: scrapeMessage.includes('Error') ? 'var(--risk-high)' : 'var(--risk-low)' }}>
-                {scrapeMessage}
-              </div>
-            )}
+          <div className={styles.actionText} style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%' }}>
+            <Clock size={14} style={{ opacity: 0.7 }} />
+            <span>
+              {lang === 'it' ? 'Ultima verifica: ' : 'Last verified: '}
+              <strong>
+                {policy.updatedAt
+                  ? new Date(policy.updatedAt).toLocaleDateString(
+                      lang === 'it' ? 'it-IT' : 'en-US',
+                      { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }
+                    )
+                  : lang === 'it' ? 'In attesa di scansione' : 'Pending scan'}
+              </strong>
+            </span>
           </div>
-          <button onClick={handleScrape} disabled={scraping} className={styles.scrapeBtn}>
-            {scraping ? (
-              <>
-                <RefreshCw className="animate-spin" size={14} />
-                {lang === 'it' ? 'Analisi...' : 'Analyzing...'}
-              </>
-            ) : (
-              <>
-                <RefreshCw size={14} />
-                {lang === 'it' ? 'Controlla ed Aggiorna' : 'Scan & Update'}
-              </>
-            )}
-          </button>
         </div>
 
         {/* Timeline */}
@@ -458,7 +410,7 @@ export default function PolicyDetails({
                 return (
                   <div 
                     key={change.id}
-                    onClick={() => { setActiveChangeIndex(idx); setScrapeMessage(null); }}
+                    onClick={() => setActiveChangeIndex(idx)}
                     className={`${styles.timelineItem} ${isSelected ? styles.timelineItemActive : ''}`}
                   >
                     <span className={styles.versionTitle}>{vText}</span>
@@ -523,6 +475,12 @@ export default function PolicyDetails({
                 <h3 className={styles.sectionTitle}>
                   <Shield size={18} /> {lang === 'it' ? 'Valutazione d\'Impatto Normativo' : 'Regional Regulatory Assessment'}
                 </h3>
+                <div className={styles.heatMapWrap}>
+                  <RegionHeatMap
+                    regionImpacts={activeChange.regionImpacts}
+                    lang={lang}
+                  />
+                </div>
                 <div className={styles.impactsGrid}>
                   {activeChange.regionImpacts.map((impact) => {
                     const isSelectedContext = 

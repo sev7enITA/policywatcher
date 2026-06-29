@@ -75,7 +75,9 @@ export default function RiskTrendPanel({
 
   useEffect(() => {
     let active = true;
-    setLoading(true);
+    queueMicrotask(() => {
+      if (active) setLoading(true);
+    });
 
     const params = new URLSearchParams();
     if (companyId) params.set('companyId', companyId);

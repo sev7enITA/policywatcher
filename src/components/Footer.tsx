@@ -15,7 +15,7 @@
  */
 'use client';
 
-import { ShieldCheck, FileText, Lock, Mail, ExternalLink } from 'lucide-react';
+import { ShieldCheck, FileText, Lock, Mail, ExternalLink, Sparkles } from 'lucide-react';
 import styles from './Footer.module.css';
 
 /** Props for the {@link Footer} component. */
@@ -35,6 +35,7 @@ const content = {
     security: 'Security',
     securityTxt: 'security.txt',
     resources: 'Resources',
+    showcase: 'Showcase',
     paloFramework: 'PALO Framework',
     disclaimer: 'Beta Release. AI-generated assessments, not legal advice. Use at your own risk.',
     copy: `\u00A9 ${new Date().getFullYear()} PolicyWatcher by Fabrizio Degni. All rights reserved.`,
@@ -50,6 +51,7 @@ const content = {
     security: 'Sicurezza',
     securityTxt: 'security.txt',
     resources: 'Risorse',
+    showcase: 'Vetrina',
     paloFramework: 'PALO Framework',
     disclaimer: 'Versione Beta. Valutazioni generate da AI, non costituiscono parere legale. Uso a proprio rischio.',
     copy: `\u00A9 ${new Date().getFullYear()} PolicyWatcher di Fabrizio Degni. Tutti i diritti riservati.`,
@@ -128,6 +130,12 @@ export default function Footer({ lang }: FooterProps) {
             <h4 className={styles.columnTitle}>{t.resources}</h4>
             <ul className={styles.links}>
               <li>
+                <a href="/showcase">
+                  <Sparkles size={14} />
+                  {t.showcase}
+                </a>
+              </li>
+              <li>
                 <a href="https://www.paloframework.org" target="_blank" rel="noopener noreferrer">
                   <ExternalLink size={14} />
                   {t.paloFramework}
@@ -139,7 +147,7 @@ export default function Footer({ lang }: FooterProps) {
 
         <div className={styles.bottom}>
           <p className={styles.disclaimer}>{t.disclaimer}</p>
-          <p className={styles.copy}>{t.copy} &bull; Build v2.2.0</p>
+          <p className={styles.copy}>{t.copy} &bull; Build v3.0.0</p>
         </div>
       </div>
     </footer>

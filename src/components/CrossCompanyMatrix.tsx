@@ -358,15 +358,22 @@ export default function CrossCompanyMatrix({ isOpen, onClose, lang }: CrossCompa
     }
   }, [lang]);
 
+  const handleClose = useCallback(() => {
+    setClosing(true);
+    setTimeout(() => onClose(), 250);
+  }, [onClose]);
+
   useEffect(() => {
     if (isOpen) {
-      fetchMatrixData();
-      setClosing(false);
-      // Reset filters when opening
-      setIndustryFilter('all');
-      setSearchQuery('');
-      setSortKey(null);
-      setSortDir(null);
+      queueMicrotask(() => {
+        void fetchMatrixData();
+        setClosing(false);
+        // Reset filters when opening
+        setIndustryFilter('all');
+        setSearchQuery('');
+        setSortKey(null);
+        setSortDir(null);
+      });
     }
   }, [isOpen, fetchMatrixData]);
 
@@ -377,13 +384,7 @@ export default function CrossCompanyMatrix({ isOpen, onClose, lang }: CrossCompa
     };
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleClose = () => {
-    setClosing(true);
-    setTimeout(() => onClose(), 250);
-  };
+  }, [handleClose]);
 
   /* ---- Helpers ---- */
   const getCleanDomain = (website: string) => {

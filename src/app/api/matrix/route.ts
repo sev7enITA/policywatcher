@@ -103,9 +103,9 @@ export async function GET(request: NextRequest) {
       'kpiBreachNotification',
       'kpiIndependentAudit',
       'kpiContentModeration'
-    ];
+    ] as const;
 
-    const matrixData = companies.map((company: any) => {
+    const matrixData = companies.map((company) => {
       const aggregatedKpis: Record<string, string> = {};
       
       // Initialize with 'Not assessed'
@@ -114,11 +114,11 @@ export async function GET(request: NextRequest) {
       });
 
       // Aggregate from latest changes of all policies
-      company.policies.forEach((policy: any) => {
+      company.policies.forEach((policy) => {
         const latestChange = policy.changes[0];
         if (latestChange) {
           kpiKeys.forEach((key: string) => {
-            const val = (latestChange as any)[key] as string;
+            const val = (latestChange as unknown as Record<string, string | null>)[key];
             if (val) {
               aggregatedKpis[key] = getMostConcerningValue(aggregatedKpis[key], val);
             }

@@ -52,19 +52,30 @@ function pruneStale(now: number, ttlMs: number) {
   }
 }
 
+const TRUST_PROXY_HEADERS = process.env.TRUST_PROXY_HEADERS === 'true';
+const TRUSTED_CLIENT_IP_HEADER = process.env.TRUSTED_CLIENT_IP_HEADER?.toLowerCase();
+
 /**
- * Extracts the client IP address from the request headers.
- * Checks `x-forwarded-for` first (reverse-proxy), then `x-real-ip`,
- * and falls back to `'unknown'` if neither is present.
+ * Extracts the client IP address from trusted deployment headers only.
  *
- * @param request - The incoming HTTP request.
- * @returns The client's IP address string.
+ * By default, client-supplied forwarding headers are not trusted. In
+ * production, set `TRUSTED_CLIENT_IP_HEADER` to a provider-controlled header
+ * or set `TRUST_PROXY_HEADERS=true` only after the reverse proxy is confirmed
+ * to overwrite incoming `x-forwarded-for` values.
  */
 function getClientIp(request: Request): string {
-  const forwarded = request.headers.get('x-forwarded-for');
-  if (forwarded) return forwarded.split(',')[0].trim();
-  const real = request.headers.get('x-real-ip');
-  if (real) return real;
+  if (TRUSTED_CLIENT_IP_HEADER) {
+    const trusted = request.headers.get(TRUSTED_CLIENT_IP_HEADER);
+    if (trusted) return trusted.split(',')[0].trim();
+  }
+
+  if (TRUST_PROXY_HEADERS) {
+    const forwarded = request.headers.get('x-forwarded-for');
+    if (forwarded) return forwarded.split(',')[0].trim();
+    const real = request.headers.get('x-real-ip');
+    if (real) return real;
+  }
+
   return 'unknown';
 }
 

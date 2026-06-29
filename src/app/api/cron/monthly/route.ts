@@ -17,6 +17,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { sendMonthlyDigest, ChangedPolicySummary } from '@/lib/mailer';
 import { isAuthorized } from '@/lib/auth';
+import { normalizePreferenceKey, splitPreferenceKeys } from '@/lib/subscriberPreferences';
 
 /**
  * Sends a personalised monthly digest to every active subscriber.
@@ -66,7 +67,7 @@ export async function GET(request: NextRequest) {
     });
 
     // 3. Map to ChangedPolicySummary format
-    const mappedChanges: ChangedPolicySummary[] = recentChanges.map((change: any) => ({
+    const mappedChanges: ChangedPolicySummary[] = recentChanges.map((change) => ({
       companyName: change.policy.company.name,
       policyName: change.policy.name,
       overallRisk: change.overallRisk,
@@ -80,12 +81,12 @@ export async function GET(request: NextRequest) {
     // 4. Send personalized digest to each subscriber
     let sentCount = 0;
     for (const sub of subscribers) {
-      const subscriberRegions = sub.regions.split(',').map((r: string) => r.trim().toLowerCase());
-      const subscriberIndustries = sub.industries.split(',').map((i: string) => i.trim().toLowerCase());
+      const subscriberRegions = splitPreferenceKeys(sub.regions);
+      const subscriberIndustries = splitPreferenceKeys(sub.industries);
 
       const filteredChanges = mappedChanges.filter(p => {
-        const hasRegion = subscriberRegions.includes(p.region.toLowerCase());
-        const hasIndustry = subscriberIndustries.includes(p.industry.toLowerCase());
+        const hasRegion = subscriberRegions.includes(normalizePreferenceKey(p.region));
+        const hasIndustry = subscriberIndustries.includes(normalizePreferenceKey(p.industry));
         return hasRegion && hasIndustry;
       });
 

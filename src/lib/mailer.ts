@@ -77,6 +77,21 @@ function getRiskColor(risk: string): string {
   }
 }
 
+function escapeHtml(value: string | number | null | undefined): string {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function buildUnsubscribeLink(email?: string, token?: string): string {
+  const appUrl = process.env.APP_URL || 'http://localhost:3000';
+  if (!email || !token) return `${appUrl}/unsubscribe`;
+  return `${appUrl}/unsubscribe?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`;
+}
+
 // -- HTML Template Foundation --
 
 /**
@@ -89,12 +104,7 @@ function getRiskColor(risk: string): string {
  * @returns Complete HTML email string ready for sending.
  */
 function wrapInTemplate(bodyContent: string, email?: string, token?: string): string {
-  const appUrl = process.env.APP_URL || 'http://localhost:3000';
-  const unsubscribeLink = email && token
-    ? `${appUrl}/unsubscribe?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`
-    : email
-      ? `${appUrl}/unsubscribe?email=${encodeURIComponent(email)}`
-      : `${appUrl}/unsubscribe`;
+  const unsubscribeLink = escapeHtml(buildUnsubscribeLink(email, token));
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -160,7 +170,7 @@ export async function sendPolicyChangeAlert(
   changedPolicies: ChangedPolicySummary[],
   token?: string
 ): Promise<boolean> {
-  const greeting = subscriberName ? `Hello ${subscriberName}` : 'Hello';
+  const greeting = subscriberName ? `Hello ${escapeHtml(subscriberName)}` : 'Hello';
   const count = changedPolicies.length;
   const subject = `PolicyWatcher Alert: ${count} polic${count === 1 ? 'y' : 'ies'} updated`;
 
@@ -168,6 +178,11 @@ export async function sendPolicyChangeAlert(
   const cards = changedPolicies
     .map((p) => {
       const riskColor = getRiskColor(p.overallRisk);
+      const companyName = escapeHtml(p.companyName);
+      const policyName = escapeHtml(p.policyName);
+      const overallRisk = escapeHtml(p.overallRisk);
+      const overallScore = escapeHtml(p.overallScore);
+      const summaryEn = escapeHtml(p.summaryEn);
       return `
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 16px;">
           <tr>
@@ -175,11 +190,11 @@ export async function sendPolicyChangeAlert(
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td>
-                    <p style="margin: 0 0 4px; font-size: 15px; font-weight: 600; color: #f3f4f6;">${p.companyName} - ${p.policyName}</p>
+                    <p style="margin: 0 0 4px; font-size: 15px; font-weight: 600; color: #f3f4f6;">${companyName} - ${policyName}</p>
                     <p style="margin: 0 0 8px; font-size: 12px; color: ${riskColor}; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
-                      Risk: ${p.overallRisk} (${p.overallScore}/10)
+                      Risk: ${overallRisk} (${overallScore}/10)
                     </p>
-                    <p style="margin: 0; font-size: 13px; color: #9ca3af; line-height: 1.5;">${p.summaryEn}</p>
+                    <p style="margin: 0; font-size: 13px; color: #9ca3af; line-height: 1.5;">${summaryEn}</p>
                   </td>
                 </tr>
               </table>
@@ -217,10 +232,11 @@ export async function sendSubscriptionConfirmation(
   frequency: string,
   token?: string
 ): Promise<boolean> {
-  const greeting = name ? `Hello ${name}` : 'Hello';
+  const greeting = name ? `Hello ${escapeHtml(name)}` : 'Hello';
   const subject = 'Welcome to PolicyWatcher Alerts';
 
   const freqLabel = frequency === 'WEEKLY' ? 'Weekly Digest' : 'Real-time Alerts';
+  const unsubscribeLink = escapeHtml(buildUnsubscribeLink(email, token));
 
   const bodyContent = `
     <p style="margin: 0 0 20px; font-size: 15px; color: #f3f4f6; line-height: 1.6;">
@@ -236,15 +252,15 @@ export async function sendSubscriptionConfirmation(
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="font-size: 13px; color: #9ca3af; line-height: 1.6;">
             <tr>
               <td style="padding: 4px 0; font-weight: 600; color: #f3f4f6; width: 140px;">Regions:</td>
-              <td style="padding: 4px 0;">${regions}</td>
+              <td style="padding: 4px 0;">${escapeHtml(regions)}</td>
             </tr>
             <tr>
               <td style="padding: 4px 0; font-weight: 600; color: #f3f4f6;">Industries:</td>
-              <td style="padding: 4px 0;">${industries}</td>
+              <td style="padding: 4px 0;">${escapeHtml(industries)}</td>
             </tr>
             <tr>
               <td style="padding: 4px 0; font-weight: 600; color: #f3f4f6;">Frequency:</td>
-              <td style="padding: 4px 0;">${freqLabel}</td>
+              <td style="padding: 4px 0;">${escapeHtml(freqLabel)}</td>
             </tr>
           </table>
         </td>
@@ -265,7 +281,7 @@ export async function sendSubscriptionConfirmation(
     </table>
     
     <p style="margin: 0 0 20px; font-size: 13px; color: #9ca3af; line-height: 1.5;">
-      <strong>How to Unsubscribe:</strong> If you ever wish to stop receiving updates, simply click the <strong>Unsubscribe</strong> link at the bottom of any email we send you, or click here: <a href="${process.env.APP_URL || 'http://localhost:3000'}/unsubscribe?email=${encodeURIComponent(email)}${token ? `&token=${encodeURIComponent(token)}` : ''}" style="color: #6366f1; text-decoration: underline;">Cancel Subscription</a>.
+      <strong>How to Unsubscribe:</strong> If you ever wish to stop receiving updates, simply click the <strong>Unsubscribe</strong> link at the bottom of any email we send you, or click here: <a href="${unsubscribeLink}" style="color: #6366f1; text-decoration: underline;">Cancel Subscription</a>.
     </p>
 
     <p style="margin: 0; font-size: 13px; color: #6b7280;">
@@ -288,7 +304,7 @@ export async function sendMonthlyDigest(
   recentChanges: ChangedPolicySummary[],
   token?: string
 ): Promise<boolean> {
-  const greeting = subscriberName ? `Hello ${subscriberName}` : 'Hello';
+  const greeting = subscriberName ? `Hello ${escapeHtml(subscriberName)}` : 'Hello';
   const count = recentChanges.length;
   const subject = `PolicyWatcher Monthly Digest: ${count} updates in the last 30 days`;
 
@@ -302,6 +318,12 @@ export async function sendMonthlyDigest(
     cards = recentChanges
       .map((p) => {
         const riskColor = getRiskColor(p.overallRisk);
+        const companyName = escapeHtml(p.companyName);
+        const policyName = escapeHtml(p.policyName);
+        const overallRisk = escapeHtml(p.overallRisk);
+        const overallScore = escapeHtml(p.overallScore);
+        const region = escapeHtml(p.region);
+        const summaryEn = escapeHtml(p.summaryEn);
         return `
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 16px;">
             <tr>
@@ -309,11 +331,11 @@ export async function sendMonthlyDigest(
                 <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                   <tr>
                     <td>
-                      <p style="margin: 0 0 4px; font-size: 15px; font-weight: 600; color: #f3f4f6;">${p.companyName} - ${p.policyName}</p>
+                      <p style="margin: 0 0 4px; font-size: 15px; font-weight: 600; color: #f3f4f6;">${companyName} - ${policyName}</p>
                       <p style="margin: 0 0 8px; font-size: 12px; color: ${riskColor}; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
-                        Risk: ${p.overallRisk} (${p.overallScore}/10) | Region: ${p.region}
+                        Risk: ${overallRisk} (${overallScore}/10) | Region: ${region}
                       </p>
-                      <p style="margin: 0; font-size: 13px; color: #9ca3af; line-height: 1.5;">${p.summaryEn}</p>
+                      <p style="margin: 0; font-size: 13px; color: #9ca3af; line-height: 1.5;">${summaryEn}</p>
                     </td>
                   </tr>
                 </table>
@@ -349,7 +371,7 @@ export async function sendWeeklyDigest(
   recentChanges: ChangedPolicySummary[],
   token?: string
 ): Promise<boolean> {
-  const greeting = subscriberName ? `Hello ${subscriberName}` : 'Hello';
+  const greeting = subscriberName ? `Hello ${escapeHtml(subscriberName)}` : 'Hello';
   const count = recentChanges.length;
   const subject = `PolicyWatcher Weekly Digest: ${count} updates in the last 7 days`;
 
@@ -363,6 +385,12 @@ export async function sendWeeklyDigest(
     cards = recentChanges
       .map((p) => {
         const riskColor = getRiskColor(p.overallRisk);
+        const companyName = escapeHtml(p.companyName);
+        const policyName = escapeHtml(p.policyName);
+        const overallRisk = escapeHtml(p.overallRisk);
+        const overallScore = escapeHtml(p.overallScore);
+        const region = escapeHtml(p.region);
+        const summaryEn = escapeHtml(p.summaryEn);
         return `
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 16px;">
             <tr>
@@ -370,11 +398,11 @@ export async function sendWeeklyDigest(
                 <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                   <tr>
                     <td>
-                      <p style="margin: 0 0 4px; font-size: 15px; font-weight: 600; color: #f3f4f6;">${p.companyName} - ${p.policyName}</p>
+                      <p style="margin: 0 0 4px; font-size: 15px; font-weight: 600; color: #f3f4f6;">${companyName} - ${policyName}</p>
                       <p style="margin: 0 0 8px; font-size: 12px; color: ${riskColor}; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
-                        Risk: ${p.overallRisk} (${p.overallScore}/10) | Region: ${p.region}
+                        Risk: ${overallRisk} (${overallScore}/10) | Region: ${region}
                       </p>
-                      <p style="margin: 0; font-size: 13px; color: #9ca3af; line-height: 1.5;">${p.summaryEn}</p>
+                      <p style="margin: 0; font-size: 13px; color: #9ca3af; line-height: 1.5;">${summaryEn}</p>
                     </td>
                   </tr>
                 </table>
@@ -395,7 +423,7 @@ export async function sendWeeklyDigest(
       Visit the PolicyWatcher dashboard for full interactive timelines and detailed comparison diffs.
     </p>`;
 
-  const html = wrapInTemplate(bodyContent, subscriberEmail);
+  const html = wrapInTemplate(bodyContent, subscriberEmail, token);
   return sendEmail(subscriberEmail, subject, html);
 }
 

@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Shield, LogIn, AlertTriangle } from 'lucide-react';
+import Image from 'next/image';
+import { LogIn, AlertTriangle } from 'lucide-react';
 import styles from '../admin.module.css';
 
 export default function AdminLoginPage() {
@@ -51,9 +52,19 @@ export default function AdminLoginPage() {
   return (
     <div className={styles.loginContainer}>
       <div className={styles.loginCard}>
+        <div className={styles.loginLogoWrapper}>
+          <Image
+            src="/logo.png"
+            alt="PolicyWatcher Logo"
+            width={52}
+            height={52}
+            priority
+            style={{ objectFit: 'contain' }}
+          />
+        </div>
         <h1 className={styles.loginTitle}>
-          <Shield size={28} />
           PolicyWatcher Admin
+          <span className={styles.loginVersion}>v3.0.0</span>
         </h1>
 
         {error && (

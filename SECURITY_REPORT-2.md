@@ -297,7 +297,7 @@ Il PDF viene rigenerato da zero a ogni richiesta (costo CPU alto su `@react-pdf/
 
 ### LOW-01 — `API_SECRET` debole di default
 
-Il secret di default `policy@watcher@2026@fd` è nel codice di esempio ed è facilmente indovinabile. Assicurarsi che in produzione sia `openssl rand -hex 32`.
+Il secret di default hard-coded nel codice di esempio era facilmente indovinabile. Assicurarsi che in produzione sia generato con un valore ad alta entropia, ad esempio `openssl rand -hex 32`.
 
 ### LOW-02 — Errori 500 espongono stack trace
 

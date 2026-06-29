@@ -1,0 +1,75 @@
+/* DiffViewer.module.css */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.diffContainer {
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  overflow-x: auto;
+  overflow-y: auto;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--text-body);
+}
+
+.diffLine {
+  display: block;
+  padding: 2px 8px;
+  border-radius: 3px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.diffAdded {
+  background: #dcfce7;
+  color: #166534;
+  border-left: 3px solid var(--risk-low);
+}
+
+.diffRemoved {
+  background: #fee2e2;
+  color: #991b1b;
+  border-left: 3px solid var(--risk-high);
+}
+
+.diffUnchanged {
+  color: var(--text-muted);
+}
+
+/* Empty state */
+.empty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 24px;
+  background: var(--bg-secondary);
+  border: 1px dashed var(--border-color);
+  border-radius: 12px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 640px) {
+  .diffContainer {
+    font-size: 0.74rem;
+    padding: 12px;
+  }
+}

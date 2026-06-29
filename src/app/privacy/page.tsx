@@ -1,5 +1,6 @@
 import styles from './privacy.module.css';
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | PolicyWatcher',
@@ -37,7 +38,7 @@ export default function PrivacyPolicyPage() {
           <ul>
             <li><strong>Email address</strong> (required): to send you policy change notifications.</li>
             <li><strong>Name</strong> (optional): for personalization of communications.</li>
-            <li><strong>Region and industry preferences</strong>: to filter alerts relevant to you (e.g. "EU", "FinTech").</li>
+            <li><strong>Region and industry preferences</strong>: to filter alerts relevant to you (e.g. &quot;EU&quot;, &quot;FinTech&quot;).</li>
           </ul>
           <p>
             This data is stored in our database and used exclusively for sending the alerts you requested.
@@ -97,7 +98,7 @@ export default function PrivacyPolicyPage() {
           <ul>
             <li><strong>Access</strong> your personal data and request a copy.</li>
             <li><strong>Rectify</strong> inaccurate or incomplete data.</li>
-            <li><strong>Erase</strong> your data ("right to be forgotten"). We will delete your email and all associated data upon request.</li>
+            <li><strong>Erase</strong> your data (&quot;right to be forgotten&quot;). We will delete your email and all associated data upon request.</li>
             <li><strong>Withdraw consent</strong> at any time by unsubscribing from alerts or contacting us.</li>
             <li><strong>Port</strong> your data in a structured, machine-readable format.</li>
             <li><strong>Object</strong> to processing based on legitimate interest.</li>
@@ -151,7 +152,7 @@ export default function PrivacyPolicyPage() {
           <p>
             &copy; {new Date().getFullYear()} PolicyWatcher by Fabrizio Degni. All rights reserved.
           </p>
-          <a href="/" className={styles.backLink}>Back to Dashboard</a>
+          <Link href="/" className={styles.backLink}>Back to Dashboard</Link>
         </footer>
       </article>
     </main>

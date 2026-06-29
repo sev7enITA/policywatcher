@@ -15,6 +15,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
+  <img src="https://img.shields.io/badge/Release-3.2.0-10b981" alt="Release 3.2.0" />
 </p>
 
 ---
@@ -24,6 +25,22 @@
 PolicyWatcher monitors the privacy policies, terms of service, and AI governance practices of 16 major technology and financial companies. It scrapes their public policy pages, detects changes via SHA-256 hashing, and runs each change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.2 Highlights
+
+- **Adaptive Fallback Scraper Cascade (5 levels)**: Bypasses datacenter bot-blocking (WAF, Cloudflare, CAPTCHAs) by cascading from direct HTTP/1.1 and explicit HTTP/2 down to Wayback Machine, Google Cache, and Common Crawl indexes.
+- **Polite Crawling & Delays**: Random 1-3s delays between policy fetches to avoid rate limit bans.
+- **KPI Preservation**: Automatic inheritance of the 15-KPI governance metrics on new scans, preventing database records from resetting to "Not assessed".
+- **Data Integrity Repair Script**: `/scripts/repair-data.ts` to recompute SHA-256 hashes, backfill missing AI summaries (TL;DR, keyPointsJson), and restore broken KPI cells in the database.
+- Public policy-change timeline with stable `/change/[id]` permalinks.
+- Home-page Market Pulse timeline showing recent policy movements by sector.
+- Embeddable `/embed/change/[id]` widgets for third-party pages.
+- Dynamic Open Graph image generation and sitemap support for better sharing and indexing.
+- Rich diff rendering for policy additions, removals, and unchanged context.
+- Industry benchmark option in the A/B radar comparison.
+- Admin encrypted backup export and verification workflow.
+- Admin Dataset QA dashboard for source-fit, integrity, freshness, KPI coverage, regional-impact coverage, and subscriber hygiene checks.
+- Pre-release security hardening for secrets, rate limits, AI output rendering, email templates, subscriber tokens, scraper egress, deployment diagnostics, and backup passphrases.
 
 ### Key Value Propositions
 
@@ -43,7 +60,7 @@ The platform is designed as a **civic tech tool** that translates dense legal do
 | **FinTech** | Stripe, PayPal, Revolut, Wise, Klarna, Plaid |
 | **AI Providers** | OpenAI, Anthropic |
 | **Social Media** | TikTok |
-| **Cloud / SaaS** | Salesforce |
+| **Cloud/SaaS** | Salesforce |
 | **E-Commerce** | Shopify |
 
 Each company is tracked across multiple policy types: Privacy Policy, Terms of Service, AI Terms, and Acceptable Use Policy where applicable.
@@ -85,56 +102,42 @@ flowchart TB
         PDF["Executive PDF Report"]
         SHARE["Public Share Pages"]
         CHAT["AI Live Assistant"]
-        EMAIL["Email Notifications<br/>Instant + Weekly + Monthly"]
     end
 
-    CRON -->|"POST /api/cron/check-all"| SCRAPER
+    CRON --> SCRAPER
     SCRAPER --> HASH
-    HASH -->|"Hash changed"| DIFF
+    HASH -->|detected change| DIFF
     DIFF --> GEMINI
-    GEMINI --> STRUCT
-    GEMINI --> KPI
-    GEMINI --> REGION
-    STRUCT --> PRISMA
-    KPI --> PRISMA
-    REGION --> PRISMA
+    GEMINI --> STRUCT & KPI & REGION
+    STRUCT & KPI & REGION --> PRISMA
     PRISMA --> SQLITE
-    PRISMA --> EMAIL
-    SQLITE --> DASH
-    SQLITE --> MATRIX
-    SQLITE --> COMPARE
-    SQLITE --> PDF
-    SQLITE --> SHARE
-    SQLITE --> CHAT
+    SQLITE --> DASH & MATRIX & COMPARE & PDF & SHARE & CHAT
 ```
 
-### Data Pipeline Sequence
+### Ingestion Pipeline Sequence
 
 ```mermaid
 sequenceDiagram
-    participant Cron as Cron Job
-    participant API as /api/cron/check-all
-    participant Scraper as Scraper
-    participant Policy as Policy URL
-    participant DB as Database
-    participant Gemini as Gemini 2.5 Flash
-    participant Mailer as Email Service
+    autonumber
+    participant Cron as Cron Job / Web Hook
+    participant API as API Route (cron/check-all)
+    participant Scraper as Scraper v3
+    participant Policy as Remote Policy Server
+    participant Archive as Web Archives (Wayback / Common Crawl)
+    participant DB as SQLite Database
+    participant Gemini as Gemini API
 
-    Cron->>API: POST (Bearer token)
-    API->>DB: Fetch all policies
-    loop For each policy
+    Cron->>API: trigger full check
+    loop for each policy
         API->>Scraper: scrapePolicyText(url)
-        Scraper->>Policy: GET (with retry + UA rotation)
-        Policy-->>Scraper: HTML response
+        Scraper->>Policy: GET (Direct HTTP/1.1 / H2)
+        alt successful fetch (200 OK / 403 with body)
+            Policy-->>Scraper: HTML response
+        else blocked (WAF, captcha, short content)
+            Scraper->>Archive: Fetch cached snapshot
+            Archive-->>Scraper: HTML response
+        end
         Scraper->>Scraper: Content validation (Layer 2)
-        alt Content valid
-            Scraper-->>API: { ok: true, text, hash }
-            API->>API: Compare hash vs currentHash
-            alt Hash changed
-                API->>DB: Create PolicySnapshot
-                API->>Gemini: Analyze old vs new text
-                Gemini-->>API: Structured JSON (score, KPIs, impacts)
-                API->>DB: Create PolicyChange + RegionImpacts
                 API->>DB: Update Policy.currentHash
             end
         else Content blocked / unavailable
@@ -157,9 +160,9 @@ Each monitored policy receives a composite risk score from 1 (very safe) to 10 (
 
 | Range | Label | Criteria |
 |-------|-------|----------|
-| 🟢 1-3 | Low | Strong user protections, transparent AI practices, explicit consent, quick breach notification, published audit results |
-| 🟡 4-6 | Medium | Partial protections, some opaque AI practices, opt-out consent flows, moderate data retention |
-| 🔴 7-10 | High | Extensive data collection, opaque AI training, indefinite retention, broad third-party sharing, no independent audits |
+| 1-3 | Low | Strong user protections, transparent AI practices, explicit consent, quick breach notification, published audit results |
+| 4-6 | Medium | Partial protections, some opaque AI practices, opt-out consent flows, moderate data retention |
+| 7-10 | High | Extensive data collection, opaque AI training, indefinite retention, broad third-party sharing, no independent audits |
 
 Every score comes with exactly 3 **Risk Reasons** that explain *why* the score is what it is, each with a delta contribution (e.g. `+2`, `-1`).
 
@@ -198,6 +201,17 @@ Companies are evaluated across 15 Key Performance Indicators organized in three 
 | Content Moderation | Transparent | Partial | Opaque |
 
 Each KPI assessment is backed by **480 manually curated bilingual justification strings** (16 companies x 15 KPIs x 2 languages) with a documented screening date.
+
+### Source Selection and Dataset QA
+
+Dataset quality is treated as the platform's operational seal. PolicyWatcher follows this source hierarchy:
+
+- **Global first:** Global analysis should use the canonical English/global source when the company publishes one.
+- **Market-specific when available:** EU, US, UK, or other regional analysis should point to the official policy for that market.
+- **Localized pages are not primary evidence by default:** translated URLs such as `/it/` are flagged unless they are the only official market source and the jurisdiction label makes that clear.
+- **Traceability over convenience:** every monitored policy keeps its source URL, stored snapshot, hash, version history, and detected changes.
+
+The admin **Dataset QA** gate checks URL hygiene, source-fit, hash integrity, freshness, structured AI JSON, KPI coverage, regional-impact coverage, and subscriber hygiene. Critical findings are release blockers; warnings mark ambiguity or drift that should be resolved before public promotion.
 
 ### Scraper Integrity (Double-Check System)
 
@@ -405,19 +419,19 @@ erDiagram
 | `/api/companies` | GET | No | 60/min | List all companies with policies and latest changes |
 | `/api/policies/[id]` | GET | No | 60/min | Full policy detail with snapshots and change history |
 | `/api/chat` | POST | No | 10/min | AI Q&A with policy corpus context |
-| `/api/scrape` | POST | No | 3/10min | Manual re-scrape and re-analysis of a policy |
+| `/api/scrape` | POST | Bearer | 3/10min | Manual re-scrape and re-analysis of a policy |
 | `/api/compare` | GET | No | 60/min | A/B company KPI comparison with radar data |
 | `/api/matrix` | GET | No | 60/min | Cross-company KPI matrix data |
 | `/api/trends` | GET | No | 60/min | Historical risk score trend data |
 | `/api/report/[policyId]` | GET | No | 60/min | Server-side PDF report generation |
 | `/api/tts` | POST | No | 10/hr | Google Cloud Text-to-Speech |
 | `/api/subscribers` | POST | No | 3/hr | Subscribe to email alerts |
-| `/api/subscribers` | DELETE | No | 3/hr | Unsubscribe from email alerts |
+| `/api/subscribers` | DELETE | No | 10/hr | Unsubscribe from email alerts |
 | `/api/cron/check-all` | POST | Bearer | None | Full policy check and notification pipeline |
 | `/api/cron/weekly` | GET | Bearer | None | Weekly digest email dispatch |
 | `/api/cron/monthly` | GET | Bearer | None | Monthly digest email dispatch |
 | `/api/health` | GET | Bearer | None | System health check |
-| `/api/seed` | GET | Bearer | None | Database seeding (development only) |
+| `/api/seed` | POST | Bearer + env flag | None | Database seeding (development only) |
 
 ---
 
@@ -458,8 +472,8 @@ The application will be available at `http://localhost:3000`.
 To populate the database with the 16 monitored companies and their baseline analyses:
 
 ```bash
-# With the dev server running, visit:
-curl -H "Authorization: Bearer YOUR_API_SECRET" http://localhost:3000/api/seed
+# With the dev server running and ALLOW_DATABASE_SEED_ENDPOINT=true:
+curl -X POST -H "Authorization: Bearer YOUR_API_SECRET" http://localhost:3000/api/seed
 ```
 
 ### Production Build
@@ -474,7 +488,8 @@ npm start        # Starts the production server
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `GEMINI_API_KEY` | Yes | Google AI API key for Gemini 2.5 Flash |
-| `API_SECRET` | Yes | Bearer token for cron and admin endpoints |
+| `API_SECRET` | Yes | High-entropy bearer token for cron and protected operational endpoints |
+| `SESSION_HMAC_SECRET` | Recommended | Separate high-entropy key for admin session cookies |
 | `DATABASE_URL` | No | Prisma connection string (defaults to `file:./dev.db`) |
 | `SMTP_HOST` | No | SMTP server hostname |
 | `SMTP_PORT` | No | SMTP server port |
@@ -482,6 +497,9 @@ npm start        # Starts the production server
 | `SMTP_PASS` | No | SMTP password |
 | `SMTP_FROM` | No | Sender address for outgoing emails |
 | `APP_URL` | No | Public URL used in email links (defaults to `http://localhost:3000`) |
+| `ALLOW_DATABASE_SEED_ENDPOINT` | No | Development-only flag for `/api/seed`; never enable in production |
+| `TRUST_PROXY_HEADERS` | No | Set to `true` only after the reverse proxy is verified to overwrite forwarding headers |
+| `TRUSTED_CLIENT_IP_HEADER` | No | Provider-controlled client IP header to use for rate limiting |
 
 ---
 

@@ -55,6 +55,50 @@ function kpiToScore(value: string): number {
   return Math.round((weight / 3) * 100);
 }
 
+const labels: Record<string, { en: string; it: string }> = {
+  kpiDataCollection: { en: 'Data Collection', it: 'Raccolta Dati' },
+  kpiThirdPartySharing: { en: 'Third-Party Sharing', it: 'Condivisione Terzi' },
+  kpiDataRetention: { en: 'Data Retention', it: 'Conservazione' },
+  kpiRightToDeletion: { en: 'Right to Deletion', it: 'Diritto Cancellazione' },
+  kpiCrossBorderTransfer: { en: 'Cross-Border Transfer', it: 'Trasferimento Transfront.' },
+  kpiAiTrainingOptOut: { en: 'AI Training Opt-Out', it: 'Opt-Out Training AI' },
+  kpiAiOutputOwnership: { en: 'AI Output Ownership', it: 'Proprietà Output AI' },
+  kpiAlgoTransparency: { en: 'Algorithmic Transparency', it: 'Trasparenza Algoritmica' },
+  kpiAutomatedDecision: { en: 'Automated Decisions', it: 'Decisioni Automatiche' },
+  kpiAiBiasFairness: { en: 'AI Bias & Fairness', it: 'Bias e Equità AI' },
+  kpiConsentMechanism: { en: 'Consent Mechanism', it: 'Meccanismo Consenso' },
+  kpiRegulatoryCompliance: { en: 'Regulatory Compliance', it: 'Conformità Normativa' },
+  kpiBreachNotification: { en: 'Breach Notification', it: 'Notifica Violazione' },
+  kpiIndependentAudit: { en: 'Independent Audit', it: 'Audit Indipendente' },
+  kpiContentModeration: { en: 'Content Moderation', it: 'Moderazione Contenuti' },
+};
+
+function buildRisk(overallScore: number): string {
+  return overallScore >= 7 ? 'High' : overallScore >= 4 ? 'Medium' : 'Low';
+}
+
+function aggregateCompanyKpis(
+  policies: Array<{ changes: Array<Record<string, unknown>> }>
+): Record<string, string> {
+  const aggregated: Record<string, string> = {};
+  KPI_KEYS.forEach((k: string) => (aggregated[k] = 'Not assessed'));
+
+  policies.forEach((policy) => {
+    const latestChange = policy.changes[0];
+    if (!latestChange) return;
+    KPI_KEYS.forEach((k: string) => {
+      const val = latestChange[k];
+      if (typeof val === 'string' && val) {
+        const currentWeight = kpiWeights[aggregated[k]] ?? 0;
+        const newWeight = kpiWeights[val] ?? 0;
+        if (newWeight >= currentWeight) aggregated[k] = val;
+      }
+    });
+  });
+
+  return aggregated;
+}
+
 /**
  * Builds a normalised company profile for the comparison view.
  *
@@ -82,28 +126,13 @@ async function getCompanyProfile(companyId: string) {
 
   if (!company) return null;
 
-  // Aggregate KPIs from the latest change of each policy (most concerning wins)
-  const aggregated: Record<string, string> = {};
-  KPI_KEYS.forEach((k: string) => (aggregated[k] = 'Not assessed'));
-
-  company.policies.forEach((policy: any) => {
-    const latestChange = policy.changes[0];
-    if (!latestChange) return;
-    KPI_KEYS.forEach((k: string) => {
-      const val = (latestChange as unknown as Record<string, string>)[k];
-      if (val) {
-        const currentWeight = kpiWeights[aggregated[k]] ?? 0;
-        const newWeight = kpiWeights[val] ?? 0;
-        if (newWeight >= currentWeight) aggregated[k] = val;
-      }
-    });
-  });
+  const aggregated = aggregateCompanyKpis(company.policies as unknown as Array<{ changes: Array<Record<string, unknown>> }>);
 
   // Latest overall risk + score (from any policy's latest change)
   let overallScore = 0;
   let overallRisk = 'Not assessed';
   let scoreCount = 0;
-  company.policies.forEach((p: any) => {
+  company.policies.forEach((p) => {
     const c = p.changes[0];
     if (c) {
       overallScore += c.overallScore;
@@ -112,27 +141,8 @@ async function getCompanyProfile(companyId: string) {
   });
   if (scoreCount > 0) {
     overallScore = Math.round((overallScore / scoreCount) * 10) / 10;
-    overallRisk = overallScore >= 7 ? 'High' : overallScore >= 4 ? 'Medium' : 'Low';
+    overallRisk = buildRisk(overallScore);
   }
-
-  // Build the radar data (label + score for both langs)
-  const labels: Record<string, { en: string; it: string }> = {
-    kpiDataCollection: { en: 'Data Collection', it: 'Raccolta Dati' },
-    kpiThirdPartySharing: { en: 'Third-Party Sharing', it: 'Condivisione Terzi' },
-    kpiDataRetention: { en: 'Data Retention', it: 'Conservazione' },
-    kpiRightToDeletion: { en: 'Right to Deletion', it: 'Diritto Cancellazione' },
-    kpiCrossBorderTransfer: { en: 'Cross-Border Transfer', it: 'Trasferimento Transfront.' },
-    kpiAiTrainingOptOut: { en: 'AI Training Opt-Out', it: 'Opt-Out Training AI' },
-    kpiAiOutputOwnership: { en: 'AI Output Ownership', it: 'Proprietà Output AI' },
-    kpiAlgoTransparency: { en: 'Algorithmic Transparency', it: 'Trasparenza Algoritmica' },
-    kpiAutomatedDecision: { en: 'Automated Decisions', it: 'Decisioni Automatiche' },
-    kpiAiBiasFairness: { en: 'AI Bias & Fairness', it: 'Bias e Equità AI' },
-    kpiConsentMechanism: { en: 'Consent Mechanism', it: 'Meccanismo Consenso' },
-    kpiRegulatoryCompliance: { en: 'Regulatory Compliance', it: 'Conformità Normativa' },
-    kpiBreachNotification: { en: 'Breach Notification', it: 'Notifica Violazione' },
-    kpiIndependentAudit: { en: 'Independent Audit', it: 'Audit Indipendente' },
-    kpiContentModeration: { en: 'Content Moderation', it: 'Moderazione Contenuti' },
-  };
 
   const radar = KPI_KEYS.map((k: string) => ({
     key: k,
@@ -152,6 +162,71 @@ async function getCompanyProfile(companyId: string) {
     overallRisk,
     radar,
     policiesCount: company.policies.length,
+  };
+}
+
+async function getIndustryBenchmarkProfile(industry: string, excludeCompanyId?: string) {
+  const companies = await db.company.findMany({
+    where: { industry },
+    include: {
+      policies: {
+        include: {
+          changes: {
+            orderBy: { createdAt: 'desc' },
+            take: 1,
+          },
+        },
+      },
+    },
+  });
+
+  const comparableCompanies = companies.filter((company) => company.id !== excludeCompanyId);
+  const cohort = comparableCompanies.length > 0 ? comparableCompanies : companies;
+  const kpiScores: Record<string, number[]> = Object.fromEntries(KPI_KEYS.map((key) => [key, []]));
+  let overallTotal = 0;
+  let overallCount = 0;
+  let policiesCount = 0;
+
+  cohort.forEach((company) => {
+    policiesCount += company.policies.length;
+    const aggregated = aggregateCompanyKpis(company.policies as unknown as Array<{ changes: Array<Record<string, unknown>> }>);
+    KPI_KEYS.forEach((key) => {
+      const score = kpiToScore(aggregated[key]);
+      if (aggregated[key] !== 'Not assessed') kpiScores[key].push(score);
+    });
+    company.policies.forEach((policy) => {
+      const latest = policy.changes[0];
+      if (!latest) return;
+      overallTotal += latest.overallScore;
+      overallCount++;
+    });
+  });
+
+  const overallScore = overallCount > 0 ? Math.round((overallTotal / overallCount) * 10) / 10 : 0;
+  const radar = KPI_KEYS.map((key) => {
+    const scores = kpiScores[key];
+    const avg = scores.length
+      ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length)
+      : 0;
+    return {
+      key,
+      labelEn: labels[key].en,
+      labelIt: labels[key].it,
+      value: avg,
+      rawValue: scores.length ? `Avg ${avg}/100` : 'Not assessed',
+    };
+  });
+
+  return {
+    id: `industry:${industry}`,
+    name: `${industry} Average`,
+    industry,
+    website: '',
+    logo: '',
+    overallScore,
+    overallRisk: buildRisk(overallScore),
+    radar,
+    policiesCount,
   };
 }
 
@@ -179,10 +254,10 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const [profileA, profileB] = await Promise.all([
-      getCompanyProfile(companyA),
-      getCompanyProfile(companyB),
-    ]);
+    const profileA = await getCompanyProfile(companyA);
+    const profileB = companyB === 'industry-average' && profileA
+      ? await getIndustryBenchmarkProfile(profileA.industry, profileA.id)
+      : await getCompanyProfile(companyB);
 
     if (!profileA || !profileB) {
       return NextResponse.json(

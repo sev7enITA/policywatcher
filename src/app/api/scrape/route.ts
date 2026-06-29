@@ -21,6 +21,7 @@ import { db } from '@/lib/db';
 import { scrapePolicyText } from '@/lib/scraper';
 import { analyzePolicyChange } from '@/lib/gemini';
 import { rateLimit } from '@/lib/rateLimit';
+import { isAuthorized } from '@/lib/auth';
 import * as Diff from 'diff';
 
 /**
@@ -30,6 +31,14 @@ import * as Diff from 'diff';
  * @returns JSON with `changed` flag, the updated policy, and the AI-generated change analysis.
  */
 export async function POST(request: NextRequest) {
+  // Auth check
+  if (!isAuthorized(request)) {
+    return NextResponse.json(
+      { error: 'Unauthorized. Provide valid Bearer token in Authorization header.' },
+      { status: 401 }
+    );
+  }
+
   // Rate limit: scrape+AI is the most expensive operation.
   // 3/10min per IP (enough for genuine exploration, blocks abuse).
   const limited = rateLimit(request, {
@@ -103,10 +112,16 @@ export async function POST(request: NextRequest) {
 
     // If text hasn't changed, return status
     if (newHash === policy.currentHash) {
+      const updatedPolicy = await db.policy.update({
+        where: { id: policy.id },
+        data: {
+          updatedAt: new Date(),
+        },
+      });
       return NextResponse.json({
         changed: false,
         message: 'Nessun cambiamento rilevato rispetto alla versione memorizzata.',
-        policy,
+        policy: updatedPolicy,
       });
     }
 
@@ -137,6 +152,12 @@ export async function POST(request: NextRequest) {
       newText
     );
 
+    // Get the latest change for copying KPIs
+    const previousChange = await db.policyChange.findFirst({
+      where: { policyId: policy.id },
+      orderBy: { createdAt: 'desc' },
+    });
+
     // Create policy change
     const policyChange = await db.policyChange.create({
       data: {
@@ -157,6 +178,22 @@ export async function POST(request: NextRequest) {
         aiDataScrapingRestricted: aiAnalysis.aiDataScrapingRestricted,
         aiIpLicensing: aiAnalysis.aiIpLicensing,
         aiPromptRetention: aiAnalysis.aiPromptRetention,
+        // Inherited KPI fields
+        kpiDataCollection: previousChange?.kpiDataCollection || 'Not assessed',
+        kpiThirdPartySharing: previousChange?.kpiThirdPartySharing || 'Not assessed',
+        kpiDataRetention: previousChange?.kpiDataRetention || 'Not assessed',
+        kpiRightToDeletion: previousChange?.kpiRightToDeletion || 'Not assessed',
+        kpiCrossBorderTransfer: previousChange?.kpiCrossBorderTransfer || 'Not assessed',
+        kpiAiTrainingOptOut: previousChange?.kpiAiTrainingOptOut || 'Not assessed',
+        kpiAiOutputOwnership: previousChange?.kpiAiOutputOwnership || 'Not assessed',
+        kpiAlgoTransparency: previousChange?.kpiAlgoTransparency || 'Not assessed',
+        kpiAutomatedDecision: previousChange?.kpiAutomatedDecision || 'Not assessed',
+        kpiAiBiasFairness: previousChange?.kpiAiBiasFairness || 'Not assessed',
+        kpiConsentMechanism: previousChange?.kpiConsentMechanism || 'Not assessed',
+        kpiRegulatoryCompliance: previousChange?.kpiRegulatoryCompliance || 'Not assessed',
+        kpiBreachNotification: previousChange?.kpiBreachNotification || 'Not assessed',
+        kpiIndependentAudit: previousChange?.kpiIndependentAudit || 'Not assessed',
+        kpiContentModeration: previousChange?.kpiContentModeration || 'Not assessed',
       },
     });
 

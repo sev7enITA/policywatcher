@@ -7,7 +7,8 @@
  * including all 15 KPI values, risk scores, and AI governance indicators.
  */
 
-const { PrismaClient } = require('@prisma/client');
+import { PrismaClient } from '@prisma/client';
+
 const prisma = new PrismaClient();
 
 const KPI_FIELDS = [
@@ -29,7 +30,9 @@ const KPI_FIELDS = [
   'kpiBreachNotification',
   'kpiIndependentAudit',
   'kpiContentModeration',
-];
+] as const;
+
+type KpiField = (typeof KPI_FIELDS)[number];
 
 const KPI_LABELS: Record<string, string> = {
   kpiDataCollection: 'Data Collection Scope',
@@ -70,10 +73,10 @@ async function main() {
   });
 
   console.log(`\nTotal companies: ${companies.length}`);
-  console.log(`Total policies: ${companies.reduce((sum: number, c: any) => sum + c.policies.length, 0)}`);
+  console.log(`Total policies: ${companies.reduce((sum, c) => sum + c.policies.length, 0)}`);
 
   const totalChanges = companies.reduce(
-    (sum: number, c: any) => sum + c.policies.reduce((s2: number, p: any) => s2 + p.changes.length, 0),
+    (sum, c) => sum + c.policies.reduce((s2, p) => s2 + p.changes.length, 0),
     0
   );
   console.log(`Total policy changes (latest per policy): ${totalChanges}`);
@@ -116,7 +119,7 @@ async function main() {
       let notAssessedCount = 0;
 
       for (const field of KPI_FIELDS) {
-        const value = (change as any)[field] || 'Not assessed';
+        const value = (change as unknown as Record<KpiField, string | null>)[field] || 'Not assessed';
         const label = KPI_LABELS[field] || field;
         const isDefault = value === 'Not assessed';
         
@@ -132,7 +135,10 @@ async function main() {
       // Risk reasons
       if (change.riskReasonsJson) {
         try {
-          const reasons = JSON.parse(change.riskReasonsJson);
+          const reasons = JSON.parse(change.riskReasonsJson) as Array<{
+            deltaScore: number;
+            textEn: string;
+          }>;
           console.log(`\n  Risk Reasons (${reasons.length}):`);
           for (const r of reasons) {
             console.log(`    [${r.deltaScore > 0 ? '+' : ''}${r.deltaScore}] ${r.textEn}`);
@@ -162,7 +168,7 @@ async function main() {
     const label = KPI_LABELS[field] || field;
     const values: Record<string, number> = {};
     for (const change of allChanges) {
-      const val = (change as any)[field] || 'Not assessed';
+      const val = (change as unknown as Record<KpiField, string | null>)[field] || 'Not assessed';
       values[val] = (values[val] || 0) + 1;
     }
 

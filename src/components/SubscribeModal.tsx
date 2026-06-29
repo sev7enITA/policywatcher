@@ -10,9 +10,8 @@
  *  - Industry sectors
  *  - Notification frequency (real-time or weekly digest)
  *
- * On submit, POSTs to `/api/subscribers`. Handles 409 (duplicate email)
- * and generic errors gracefully. After success, shows a confirmation
- * banner with unsubscribe instructions.
+ * On submit, POSTs to `/api/subscribers`. The API returns a generic
+ * anti-enumeration response for new, existing, and reactivated addresses.
  *
  * Supports EN/IT localisation.
  */
@@ -22,6 +21,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { X, Send, Loader2 } from 'lucide-react';
 import { IconSubscribe } from '@/components/icons/PolicyWatcherIcons';
 import type { Lang } from '@/types';
+import { SUBSCRIBER_INDUSTRIES, SUBSCRIBER_REGIONS } from '@/lib/subscriberPreferences';
 import styles from './SubscribeModal.module.css';
 
 /** Props for the {@link SubscribeModal} component. */
@@ -50,10 +50,9 @@ const translations = {
     freqWeekly: 'Weekly Digest',
     submitText: 'Subscribe',
     submitting: 'Subscribing...',
-    successTitle: 'Subscription confirmed',
+    successTitle: 'Check your inbox',
     successMessage:
-      'You will receive alerts when policy changes are detected in your selected regions. A confirmation email has been sent with your subscription details and instructions on how to unsubscribe at any time.',
-    errorDuplicate: 'This email is already subscribed.',
+      'If this address can receive PolicyWatcher alerts, a confirmation email has been sent with your subscription details and instructions on how to unsubscribe at any time.',
     errorGeneric: 'An error occurred. Please try again.',
     emailRequired: 'Please enter a valid email address.',
   },
@@ -72,17 +71,16 @@ const translations = {
     freqWeekly: 'Riepilogo settimanale',
     submitText: 'Iscriviti',
     submitting: 'Iscrizione in corso...',
-    successTitle: 'Iscrizione confermata',
+    successTitle: 'Controlla la tua email',
     successMessage:
-      'Riceverai notifiche quando verranno rilevati cambiamenti nelle policy delle regioni selezionate. Ti abbiamo inviato un\'email di conferma con i dettagli dell\'iscrizione e le istruzioni per disiscriverti in qualsiasi momento.',
-    errorDuplicate: 'Questa email risulta già iscritta.',
+      'Se questo indirizzo può ricevere gli avvisi PolicyWatcher, abbiamo inviato un\'email di conferma con i dettagli dell\'iscrizione e le istruzioni per disiscriverti in qualsiasi momento.',
     errorGeneric: 'Si è verificato un errore. Riprova.',
     emailRequired: 'Inserisci un indirizzo email valido.',
   },
 };
 
-const REGIONS = ['EU', 'US', 'Global'] as const;
-const INDUSTRIES = ['Tech Giant', 'FinTech'] as const;
+const REGIONS = SUBSCRIBER_REGIONS;
+const INDUSTRIES = SUBSCRIBER_INDUSTRIES;
 
 /**
  * Email alert subscription form rendered as a modal overlay.
@@ -180,11 +178,7 @@ export default function SubscribeModal({
         setStatus('success');
       } else {
         const data = await res.json().catch(() => ({}));
-        if (res.status === 409) {
-          setErrorMessage(t.errorDuplicate);
-        } else {
-          setErrorMessage(data.error || t.errorGeneric);
-        }
+        setErrorMessage(data.error || t.errorGeneric);
         setStatus('error');
       }
     } catch {

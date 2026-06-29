@@ -128,9 +128,11 @@ export default function CommandPalette({
   // Reset on open
   useEffect(() => {
     if (isOpen) {
-      setQuery('');
-      setActiveIndex(0);
-      requestAnimationFrame(() => inputRef.current?.focus());
+      requestAnimationFrame(() => {
+        setQuery('');
+        setActiveIndex(0);
+        inputRef.current?.focus();
+      });
     }
   }, [isOpen]);
 
@@ -345,7 +347,9 @@ export default function CommandPalette({
 
   // Clamp active index
   useEffect(() => {
-    if (activeIndex >= filtered.length) setActiveIndex(0);
+    if (activeIndex >= filtered.length) {
+      queueMicrotask(() => setActiveIndex(0));
+    }
   }, [filtered, activeIndex]);
 
   // Scroll active item into view

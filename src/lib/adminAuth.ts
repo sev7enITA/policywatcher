@@ -4,12 +4,13 @@
  * Session-based authentication for the admin dashboard.
  *
  * Uses HMAC-SHA256 signed cookies to store the session. The cookie payload
- * includes the role (admin or auditor) and a timestamp. The signature uses
- * API_SECRET as the key, so tampering with the cookie invalidates it.
+ * includes the role (admin or auditor) and a timestamp. Prefer
+ * SESSION_HMAC_SECRET as the signing key; API_SECRET remains a compatibility
+ * fallback for existing deployments.
  *
  * Two roles are supported:
  *   - **admin**: full read/write access (cron, company management, etc.)
- *   - **auditor**: read-only access (metrics, KPI audit, explainability)
+ *   - **auditor**: read-only access (metrics, KPI audit, dataset QA, explainability)
  */
 
 import { createHmac, timingSafeEqual } from 'crypto';
@@ -36,9 +37,9 @@ const SESSION_TTL_MS = 24 * 60 * 60 * 1000;
  * @returns Hex-encoded HMAC signature.
  */
 function sign(payload: string): string {
-  const secret = process.env.API_SECRET;
+  const secret = process.env.SESSION_HMAC_SECRET || process.env.API_SECRET;
   if (!secret) {
-    console.error('[AdminAuth] API_SECRET is not set. Sessions will be invalid.');
+    console.error('[AdminAuth] SESSION_HMAC_SECRET/API_SECRET is not set. Sessions will be invalid.');
     return 'no-secret-configured';
   }
   return createHmac('sha256', secret).update(payload).digest('hex');

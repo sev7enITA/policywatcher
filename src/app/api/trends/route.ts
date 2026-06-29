@@ -11,6 +11,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
+import type { Prisma } from '@prisma/client';
 
 /** A single data point on the risk-score timeline chart. */
 interface TrendPoint {
@@ -43,7 +44,7 @@ export async function GET(request: NextRequest) {
     const companyId = searchParams.get('companyId');
     const industry = searchParams.get('industry');
 
-    const whereClause: Record<string, unknown> = {};
+    const whereClause: Prisma.PolicyChangeWhereInput = {};
     if (companyId) {
       whereClause.policy = { companyId };
     } else if (industry) {
@@ -53,7 +54,7 @@ export async function GET(request: NextRequest) {
     }
 
     const changes = await db.policyChange.findMany({
-      where: whereClause as never,
+      where: whereClause,
       include: {
         policy: {
           include: {
@@ -64,7 +65,7 @@ export async function GET(request: NextRequest) {
       orderBy: { createdAt: 'asc' },
     });
 
-    const points: TrendPoint[] = changes.map((c: any) => ({
+    const points: TrendPoint[] = changes.map((c) => ({
       date: c.createdAt.toISOString(),
       score: c.overallScore,
       companyName: c.policy.company.name,
@@ -74,7 +75,7 @@ export async function GET(request: NextRequest) {
     }));
 
     // Summary stats
-    const scores = points.map((p: any) => p.score);
+    const scores = points.map((p) => p.score);
     const summary = {
       count: points.length,
       avgScore: scores.length

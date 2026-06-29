@@ -52,7 +52,7 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
                 PolicyWatcher was created to bring transparency to the rapidly evolving landscape of corporate AI, privacy, and governance policies.
               </p>
               <p>
-                As tech giants continuously update their terms, often affecting how our data is used for AI training, it's crucial to have a centralized way to track and analyze these changes.
+                As tech giants continuously update their terms, often affecting how our data is used for AI training, it&apos;s crucial to have a centralized way to track and analyze these changes.
               </p>
             </div>
 

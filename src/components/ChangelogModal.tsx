@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CheckCircle2, Calendar, Clock, Sparkles } from 'lucide-react';
+import { X, CheckCircle2, Clock, Sparkles } from 'lucide-react';
 import styles from './ChangelogModal.module.css';
 
 interface ChangelogModalProps {
@@ -51,6 +51,16 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                 <div className={styles.featureList}>
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Public Timeline, Dataset Quality Seal & Security Hardening (v3.0.0)</span>
+                      <span className={styles.badgeActive}>Current</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      Major public-release upgrade with a policy-change timeline, home-page Market Pulse, SEO-ready change permalinks, embeddable change widgets, dynamic OG social cards, sitemap generation, improved diff rendering, industry-average benchmarking, regional heatmaps, encrypted backup verification, and the Dataset Quality Seal. Dataset QA now checks source-fit, hash integrity, freshness, structured AI JSON, KPI coverage, regional impacts, and subscriber hygiene. Security updates include safer cron secret handling, sanitized AI assistant rendering, protected subscriber tokens, escaped email templates, SSRF-aware scraper egress checks, stronger backup passphrases, and tighter deployment diagnostics.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
                       <span className={styles.featureName}>Admin Dashboard, Wayback Machine & Document Sources (v2.5.0)</span>
                       <span className={styles.badgeActive}>New</span>
                     </div>
@@ -75,7 +85,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeDone}>Completed</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Interactive user onboarding wizard displaying platform features, limits, disclaimers, and AI live assistant routing. Includes a custom opt-out skip checkbox, session-scoped pop management, and a permanent "How To" header button.
+                      Interactive user onboarding wizard displaying platform features, limits, disclaimers, and AI live assistant routing. Includes a custom opt-out skip checkbox, session-scoped pop management, and a permanent How To header button.
                     </p>
                   </div>
 

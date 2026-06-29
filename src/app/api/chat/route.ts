@@ -17,6 +17,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { answerPolicyQuestion } from '@/lib/gemini';
 import { rateLimit } from '@/lib/rateLimit';
+import type { Prisma } from '@prisma/client';
+
+type PolicyWithCompany = Prisma.PolicyGetPayload<{ include: { company: true } }>;
 
 /**
  * Handles a POST request to answer a user question about tracked policies.
@@ -30,7 +33,11 @@ export async function POST(request: NextRequest) {
   if (limited) return limited;
 
   try {
-    const { question, policyIds } = await request.json();
+    const body = await request.json();
+    const question = typeof body?.question === 'string' ? body.question : '';
+    const policyIds = Array.isArray(body?.policyIds)
+      ? body.policyIds.filter((id: unknown): id is string => typeof id === 'string')
+      : [];
 
     if (!question) {
       return NextResponse.json(
@@ -40,7 +47,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Fetch relevant policies context
-    let policiesToQuery: any[] = [];
+    let policiesToQuery: PolicyWithCompany[] = [];
 
     if (policyIds && policyIds.length > 0) {
       policiesToQuery = await db.policy.findMany({
@@ -60,7 +67,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const contextPolicies = policiesToQuery.map((p: any) => ({
+    const contextPolicies = policiesToQuery.map((p) => ({
       company: p.company.name,
       policyName: p.name,
       text: p.currentText,

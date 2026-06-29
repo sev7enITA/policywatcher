@@ -1,7 +1,11 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo, type KeyboardEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import { geoNaturalEarth1, geoPath, type GeoPermissibleObjects } from 'd3-geo';
+import { feature } from 'topojson-client';
+import type { GeometryCollection, Topology } from 'topojson-specification';
+import countries110m from 'world-atlas/countries-110m.json';
 import {
   Building2,
   Plus,
@@ -10,8 +14,38 @@ import {
   ChevronDown,
   ChevronUp,
   AlertTriangle,
+  Globe,
 } from 'lucide-react';
 import styles from '../admin.module.css';
+
+const MAP_WIDTH = 980;
+const MAP_HEIGHT = 360;
+
+type WorldAtlasTopology = Topology<{ countries: GeometryCollection }>;
+
+const worldAtlas = countries110m as unknown as WorldAtlasTopology;
+const worldFeatures = feature(worldAtlas, worldAtlas.objects.countries).features as GeoPermissibleObjects[];
+const mapProjection = geoNaturalEarth1()
+  .scale(175)
+  .center([5, 5])
+  .translate([MAP_WIDTH / 2, MAP_HEIGHT / 2]);
+const mapPath = geoPath(mapProjection);
+
+type RegionMarker = {
+  key: 'US' | 'EU' | 'UK' | 'Global';
+  label: string;
+  shortLabel: string;
+  coordinates: [number, number];
+  labelDx: number;
+  labelDy: number;
+};
+
+const REGION_MARKERS: RegionMarker[] = [
+  { key: 'US', label: 'United States', shortLabel: 'US', coordinates: [-98, 39], labelDx: 18, labelDy: 5 },
+  { key: 'EU', label: 'European Union', shortLabel: 'EU', coordinates: [12, 50], labelDx: 18, labelDy: -8 },
+  { key: 'UK', label: 'United Kingdom', shortLabel: 'UK', coordinates: [-3, 55], labelDx: -42, labelDy: -10 },
+  { key: 'Global', label: 'Global Coverage', shortLabel: 'Global', coordinates: [0, 0], labelDx: 18, labelDy: 5 },
+];
 
 /* ---------- Types ---------- */
 interface Policy {
@@ -75,6 +109,44 @@ export default function CompanyManagerPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  // Map Filter states
+  const [selectedRegionFilter, setSelectedRegionFilter] = useState<string | null>(null);
+  const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
+
+  // Region Stats memo
+  const regionStats = useMemo(() => {
+    const stats: Record<string, { companies: number; policies: number }> = {
+      US: { companies: 0, policies: 0 },
+      EU: { companies: 0, policies: 0 },
+      UK: { companies: 0, policies: 0 },
+      Global: { companies: 0, policies: 0 },
+    };
+
+    companies.forEach((c) => {
+      const companyRegions = new Set<string>();
+      c.policies.forEach((p) => {
+        const j = p.jurisdiction || 'Global';
+        if (stats[j]) {
+          stats[j].policies++;
+          companyRegions.add(j);
+        }
+      });
+      companyRegions.forEach((r) => {
+        stats[r].companies++;
+      });
+    });
+
+    return stats;
+  }, [companies]);
+
+  // Filtered companies based on Map selection
+  const filteredCompanies = useMemo(() => {
+    if (!selectedRegionFilter) return companies;
+    return companies.filter((company) =>
+      company.policies.some((policy) => policy.jurisdiction === selectedRegionFilter)
+    );
+  }, [companies, selectedRegionFilter]);
+
   // Add Company form
   const [showAddCompany, setShowAddCompany] = useState(false);
   const [companyForm, setCompanyForm] = useState({
@@ -135,7 +207,9 @@ export default function CompanyManagerPage() {
   }, [router]);
 
   useEffect(() => {
-    fetchCompanies();
+    queueMicrotask(() => {
+      void fetchCompanies();
+    });
   }, [fetchCompanies]);
 
   /* ---------- Slug Auto-generation ---------- */
@@ -474,12 +548,136 @@ export default function CompanyManagerPage() {
         </div>
       )}
 
+      {/* Interactive Global Coverage Map */}
+      {companies.length > 0 && (
+        <div className={styles.mapCard}>
+          <div className={styles.mapTitleArea}>
+            <div>
+              <h3 className={styles.mapTitle}>
+                <Globe size={18} style={{ color: 'var(--primary)', marginRight: 6 }} />
+                Global Regulatory Jurisdiction Map
+              </h3>
+              <p className={styles.mapInstructions}>
+                Hover over pulsing regions to see audit statistics. Click a pin to filter companies below.
+              </p>
+            </div>
+            {selectedRegionFilter && (
+              <button 
+                onClick={() => setSelectedRegionFilter(null)}
+                className={styles.kpiTab}
+                style={{ fontSize: '0.72rem', padding: '4px 10px', background: 'var(--primary)', color: '#fff' }}
+              >
+                Clear Filter ({selectedRegionFilter})
+              </button>
+            )}
+          </div>
+
+          <div className={styles.mapWrapper}>
+            <svg
+              viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`}
+              className={styles.mapSvg}
+              role="img"
+              aria-label="Global regulatory jurisdiction coverage map"
+            >
+              {worldFeatures.map((geo, index) => {
+                const d = mapPath(geo);
+                if (!d) return null;
+
+                return (
+                  <path
+                    key={index}
+                    d={d}
+                    className={styles.mapRegion}
+                  />
+                );
+              })}
+
+              {REGION_MARKERS.map((marker) => {
+                const projected = mapProjection(marker.coordinates);
+                if (!projected) return null;
+                const [x, y] = projected;
+
+                const toggleRegion = () => {
+                  setSelectedRegionFilter(selectedRegionFilter === marker.key ? null : marker.key);
+                };
+
+                const handleKeyDown = (event: KeyboardEvent<SVGGElement>) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    toggleRegion();
+                  }
+                };
+
+                return (
+                  <g
+                    key={marker.key}
+                    transform={`translate(${x}, ${y})`}
+                    className={styles.mapPinGroup}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Filter by ${marker.label}`}
+                    onMouseEnter={() => setHoveredRegion(marker.key)}
+                    onMouseLeave={() => setHoveredRegion(null)}
+                    onFocus={() => setHoveredRegion(marker.key)}
+                    onBlur={() => setHoveredRegion(null)}
+                    onClick={toggleRegion}
+                    onKeyDown={handleKeyDown}
+                  >
+                    <circle cx="0" cy="0" r="15" className={`${styles.mapPinPulse} ${selectedRegionFilter === marker.key ? styles.mapPinPulseActive : ''}`} />
+                    <circle cx="0" cy="0" r="6" className={`${styles.mapPin} ${selectedRegionFilter === marker.key ? styles.mapPinActive : ''}`} />
+                    <text
+                      x={marker.labelDx}
+                      y={marker.labelDy}
+                      className={styles.mapPinLabelHalo}
+                    >
+                      {marker.shortLabel}
+                    </text>
+                    <text
+                      x={marker.labelDx}
+                      y={marker.labelDy}
+                      className={styles.mapPinLabel}
+                    >
+                      {marker.shortLabel}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+
+            {/* Hover Tooltip inside map wrapper */}
+            {hoveredRegion && regionStats[hoveredRegion] && (
+              <div className={styles.mapTooltip}>
+                <h4 className={styles.mapTooltipTitle}>
+                  <Globe size={14} style={{ color: 'var(--primary)' }} />
+                  {REGION_MARKERS.find((marker) => marker.key === hoveredRegion)?.label}
+                </h4>
+                <p className={styles.mapTooltipStat}>
+                  <span>Monitored Companies:</span>
+                  <span className={styles.mapTooltipValue}>{regionStats[hoveredRegion].companies}</span>
+                </p>
+                <p className={styles.mapTooltipStat}>
+                  <span>Monitored Policies:</span>
+                  <span className={styles.mapTooltipValue}>{regionStats[hoveredRegion].policies}</span>
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Companies Table */}
       {companies.length === 0 ? (
         <div className={styles.card}>
           <div className={styles.emptyState}>
             <Building2 size={48} />
             <p>No companies found. Add your first company to get started.</p>
+          </div>
+        </div>
+      ) : filteredCompanies.length === 0 ? (
+        <div className={styles.card}>
+          <div className={styles.emptyState}>
+            <Building2 size={48} />
+            <p>No companies match the selected region filter ({selectedRegionFilter}).</p>
           </div>
         </div>
       ) : (
@@ -498,7 +696,7 @@ export default function CompanyManagerPage() {
               </tr>
             </thead>
             <tbody>
-              {companies.map((company) => {
+              {filteredCompanies.map((company) => {
                 const isExpanded = expandedRows.has(company.id);
                 const logoColor = company.logo || '#6366f1';
                 const initials = company.name

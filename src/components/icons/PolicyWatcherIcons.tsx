@@ -144,6 +144,91 @@ export function IconAiGovernance({ size = 24, color = '#6366f1', className }: Ic
 }
 
 /**
+ * Privacy KPI mark - shield, data nodes and controlled transfer line
+ */
+export function IconKpiPrivacy({ size = 24, color = '#0f766e', className }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M12 3l7 3.8v4.7c0 4.55-2.8 8.25-7 9.5-4.2-1.25-7-4.95-7-9.5V6.8L12 3z" />
+      <circle cx="9" cy="10" r="1.2" fill={color} stroke="none" />
+      <circle cx="15" cy="10" r="1.2" fill="#06b6d4" stroke="none" />
+      <circle cx="12" cy="15" r="1.2" fill="#10b981" stroke="none" />
+      <path d="M10.1 10.6l1.2 3" strokeOpacity={0.75} />
+      <path d="M13.9 10.6l-1.2 3" strokeOpacity={0.75} />
+    </svg>
+  );
+}
+
+/**
+ * AI KPI mark - model core with circuit branches
+ */
+export function IconKpiAi({ size = 24, color = '#6366f1', className }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <rect x="7" y="7" width="10" height="10" rx="3" />
+      <circle cx="12" cy="12" r="2.2" fill={color} stroke="none" />
+      <path d="M12 7V4" />
+      <path d="M12 20v-3" />
+      <path d="M7 12H4" />
+      <path d="M20 12h-3" />
+      <path d="M16 8l2.2-2.2" stroke="#06b6d4" />
+      <path d="M5.8 18.2L8 16" stroke="#06b6d4" />
+      <circle cx="12" cy="4" r="1" fill="#06b6d4" stroke="none" />
+      <circle cx="20" cy="12" r="1" fill="#06b6d4" stroke="none" />
+    </svg>
+  );
+}
+
+/**
+ * Legal KPI mark - balanced scale with verification base
+ */
+export function IconKpiLegal({ size = 24, color = '#92400e', className }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M12 4v16" />
+      <path d="M7 20h10" />
+      <path d="M8 7h8" />
+      <path d="M6 7l-3 6h6L6 7z" />
+      <path d="M18 7l-3 6h6l-3-6z" />
+      <path d="M9.5 16.5l1.5 1.5 3.5-4" stroke="#10b981" strokeWidth={2} />
+    </svg>
+  );
+}
+
+/**
  * Clock with nodes - represents version timeline
  */
 export function IconTimeline({ size = 24, color = '#6366f1', className }: IconProps) {

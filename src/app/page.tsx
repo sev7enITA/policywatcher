@@ -15,12 +15,12 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { useState, useEffect, useCallback } from 'react';
 import { 
   Search, 
   ShieldAlert, 
-  RefreshCw, 
   MessageSquare,
   ArrowRight,
   FileText,
@@ -33,13 +33,14 @@ import {
   ArrowUpDown,
   X,
   Calendar,
-  Filter,
   ChevronDown,
   Grid3X3,
   BookOpen,
   GitCompare,
   History,
-  HelpCircle
+  HelpCircle,
+  Clock,
+  Sparkles
 } from 'lucide-react';
 import styles from './Dashboard.module.css';
 import PolicyDetails from '@/components/PolicyDetails';
@@ -98,6 +99,12 @@ const translations = {
     about: 'Info',
     methodology: 'Metodologia',
     howTo: 'Come Usarlo',
+    timeline: 'Timeline',
+    showcase: 'Vetrina',
+    marketPulseTitle: 'Market Pulse',
+    marketPulseSubtitle: 'Ultime modifiche ordinate nel tempo, filtrate per settore.',
+    openFullTimeline: 'Apri timeline completa',
+    noMarketPulse: 'Nessuna modifica disponibile per questo filtro.',
     sortByRisk: 'Rischio',
     sortByDate: 'Data',
     sortByName: 'Nome',
@@ -146,6 +153,12 @@ const translations = {
     about: 'About',
     methodology: 'Methodology',
     howTo: 'How To',
+    timeline: 'Timeline',
+    showcase: 'Showcase',
+    marketPulseTitle: 'Market Pulse',
+    marketPulseSubtitle: 'Recent policy movements ordered over time and filtered by sector.',
+    openFullTimeline: 'Open full timeline',
+    noMarketPulse: 'No changes available for this filter.',
     sortByRisk: 'Risk',
     sortByDate: 'Date',
     sortByName: 'Name',
@@ -170,6 +183,26 @@ type RiskFilter = 'all' | 'High' | 'Medium' | 'Low';
 /** Quick-filter values for the change recency date range. */
 type DateRange = 'all' | '7d' | '30d' | '90d';
 
+interface MarketPulseChange {
+  id: string;
+  overallRisk: 'Low' | 'Medium' | 'High';
+  overallScore: number;
+  tldrEn: string | null;
+  tldrIt: string | null;
+  aiSummaryEn: string | null;
+  aiSummaryIt: string | null;
+  createdAt: string;
+  policy: {
+    name: string;
+    type: string;
+    jurisdiction: string;
+    company: {
+      name: string;
+      industry: string;
+    };
+  };
+}
+
 /**
  * Root dashboard component.
  *
@@ -179,6 +212,8 @@ type DateRange = 'all' | '7d' | '30d' | '90d';
 export default function Dashboard() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
+  const [marketPulseChanges, setMarketPulseChanges] = useState<MarketPulseChange[]>([]);
+  const [marketPulseLoading, setMarketPulseLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [industryFilter, setIndustryFilter] = useState('all');
   
@@ -232,8 +267,37 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
-    fetchCompanies();
+    queueMicrotask(() => {
+      void fetchCompanies();
+    });
   }, [fetchCompanies]);
+
+  useEffect(() => {
+    let active = true;
+    const params = new URLSearchParams({ page: '1', pageSize: '50' });
+    if (industryFilter !== 'all') params.set('industry', industryFilter);
+
+    queueMicrotask(() => {
+      if (!active) return;
+      setMarketPulseLoading(true);
+      fetch(`/api/changes?${params.toString()}`)
+        .then((res) => (res.ok ? res.json() : Promise.reject(new Error('Market pulse fetch failed'))))
+        .then((data: { changes?: MarketPulseChange[] }) => {
+          if (active) setMarketPulseChanges(data.changes || []);
+        })
+        .catch((error) => {
+          console.error('Error loading market pulse:', error);
+          if (active) setMarketPulseChanges([]);
+        })
+        .finally(() => {
+          if (active) setMarketPulseLoading(false);
+        });
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [industryFilter]);
 
   // Automatically open onboarding for new sessions (unless skipped permanently)
   useEffect(() => {
@@ -246,7 +310,7 @@ export default function Dashboard() {
         }, 400);
         return () => clearTimeout(timer);
       }
-    } catch (e) {
+    } catch {
       // ignore
     }
   }, []);
@@ -417,6 +481,8 @@ export default function Dashboard() {
     }
   };
 
+  const visibleMarketPulse = marketPulseChanges.slice(0, 12);
+
   /** Triggers a CSV export of the currently filtered company list. */
   const handleExportCSV = async () => {
     try {
@@ -528,6 +594,18 @@ export default function Dashboard() {
               <HelpCircle size={16} />
               <span className={styles.headerBtnLabel}>{t.howTo}</span>
             </button>
+
+            {/* Timeline */}
+            <Link href="/timeline" className={styles.headerBtn}>
+              <Clock size={16} />
+              <span className={styles.headerBtnLabel}>{t.timeline}</span>
+            </Link>
+
+            {/* Showcase */}
+            <Link href="/showcase" className={styles.headerBtn}>
+              <Sparkles size={16} />
+              <span className={styles.headerBtnLabel}>{t.showcase}</span>
+            </Link>
 
             {/* KPI Matrix */}
             <button onClick={() => setMatrixOpen(true)} className={styles.headerBtn}>
@@ -758,6 +836,71 @@ export default function Dashboard() {
           </motion.section>
         )}
         </AnimatePresence>
+
+        {/* Market Pulse Timeline */}
+        <motion.section
+          className={styles.marketPulseSection}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
+        >
+          <div className={styles.marketPulseHeader}>
+            <div>
+              <h2 className={styles.marketPulseTitle}>
+                <Clock size={18} />
+                {t.marketPulseTitle}
+              </h2>
+              <p className={styles.marketPulseSubtitle}>{t.marketPulseSubtitle}</p>
+            </div>
+            <Link href="/timeline" className={styles.marketPulseLink}>
+              {t.openFullTimeline}
+              <ArrowRight size={14} />
+            </Link>
+          </div>
+
+          {marketPulseLoading ? (
+            <div className={styles.marketPulseLoading}>
+              {lang === 'it' ? 'Caricamento timeline...' : 'Loading timeline...'}
+            </div>
+          ) : visibleMarketPulse.length === 0 ? (
+            <div className={styles.marketPulseLoading}>{t.noMarketPulse}</div>
+          ) : (
+            <div className={styles.marketPulseScroller} aria-label={t.marketPulseTitle}>
+              <div className={styles.marketPulseTrack}>
+                {visibleMarketPulse.map((change) => {
+                  const date = new Date(change.createdAt).toLocaleDateString(
+                    lang === 'it' ? 'it-IT' : 'en-US',
+                    { day: 'numeric', month: 'short', year: 'numeric' }
+                  );
+                  const summary =
+                    (lang === 'it'
+                      ? change.tldrIt || change.aiSummaryIt
+                      : change.tldrEn || change.aiSummaryEn) || '';
+
+                  return (
+                    <Link
+                      key={change.id}
+                      href={`/change/${change.id}`}
+                      className={styles.marketPulseItem}
+                      style={{ '--pulse-color': getRiskColor(change.overallRisk) } as React.CSSProperties}
+                    >
+                      <span className={styles.marketPulseDot} />
+                      <span className={styles.marketPulseDate}>{date}</span>
+                      <strong className={styles.marketPulseCompany}>{change.policy.company.name}</strong>
+                      <span className={styles.marketPulsePolicy}>
+                        {change.policy.name} · {change.policy.jurisdiction}
+                      </span>
+                      <span className={styles.marketPulseSummary}>{summary}</span>
+                      <span className={styles.marketPulseMeta}>
+                        {change.policy.company.industry} · {change.overallRisk} {change.overallScore}/10
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </motion.section>
 
         {/* Results Count */}
         {!loading && (

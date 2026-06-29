@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Mail, CheckCircle, AlertTriangle, ArrowRight, Loader2 } from 'lucide-react';
 import Link from 'next/link';
@@ -10,15 +10,9 @@ function UnsubscribeContent() {
   const emailParam = searchParams.get('email') || '';
   const tokenParam = searchParams.get('token') || '';
   
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(emailParam);
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    if (emailParam) {
-      setEmail(emailParam);
-    }
-  }, [emailParam]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,7 +58,7 @@ function UnsubscribeContent() {
           </div>
           <h1 style={titleStyle}>Cancel Email Subscription</h1>
           <p style={subtitleStyle}>
-            We're sorry to see you go. Confirm your email below to stop receiving policy alerts and updates.
+            We&apos;re sorry to see you go. Confirm your email below to stop receiving policy alerts and updates.
           </p>
         </div>
 

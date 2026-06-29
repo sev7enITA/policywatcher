@@ -6,10 +6,10 @@
  */
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   BookOpen, Database, Brain, BarChart3, Shield, Globe,
-  Bell, Lock, Zap, FileText, GitCompare, RefreshCw,
+  Bell, Lock, RefreshCw,
   ChevronDown, ChevronUp, AlertTriangle, CheckCircle
 } from 'lucide-react';
 import styles from '../admin.module.css';

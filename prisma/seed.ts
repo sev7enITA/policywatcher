@@ -234,7 +234,8 @@ async function main() {
     { name: 'X (Twitter)', slug: 'x-twitter', logo: '#000000', industry: 'Social Media', website: 'https://x.com' },
   ];
 
-  const co: Record<string, any> = {};
+  type SeedCompany = Awaited<ReturnType<typeof prisma.company.create>>;
+  const co: Record<string, SeedCompany> = {};
   for (const c of companiesData) {
     co[c.slug] = await prisma.company.create({ data: c });
   }
@@ -773,7 +774,7 @@ async function main() {
   // Meta Privacy Policy - EU
   await seedPolicy(co['meta'].id, {
     name: 'Privacy Policy', type: 'privacy', jurisdiction: 'EU',
-    url: 'https://www.facebook.com/privacy/explanation',
+    url: 'https://mbasic.facebook.com/privacy/policy',
     currentText: 'Meta Privacy Policy V2 (EU) - Legitimate interest basis for AI training paused following DPC intervention. Cross-platform data consolidation under scrutiny.',
     currentHash: 'meta-privacy-eu-v2',
     snapshots: [
@@ -823,7 +824,7 @@ async function main() {
   // Meta Privacy Policy - US
   await seedPolicy(co['meta'].id, {
     name: 'Privacy Policy', type: 'privacy', jurisdiction: 'US',
-    url: 'https://www.facebook.com/privacy/policy',
+    url: 'https://mbasic.facebook.com/privacy/policy',
     currentText: 'Meta Privacy Policy V2 (US) - User-generated content trains Meta AI models. CCPA opt-out available for California residents.',
     currentHash: 'meta-privacy-us-v2',
     snapshots: [
@@ -870,7 +871,7 @@ async function main() {
   // Meta Terms of Service - Global
   await seedPolicy(co['meta'].id, {
     name: 'Terms of Service', type: 'terms', jurisdiction: 'Global',
-    url: 'https://www.facebook.com/legal/terms',
+    url: 'https://mbasic.facebook.com/legal/terms',
     currentText: 'Meta Terms of Service V2 - Users grant a non-exclusive license for AI training on public content. Content moderation appeals process updated.',
     currentHash: 'meta-terms-v2',
     snapshots: [
@@ -1239,7 +1240,7 @@ async function main() {
   // PayPal Privacy Statement - EU
   await seedPolicy(co['paypal'].id, {
     name: 'Privacy Statement', type: 'privacy', jurisdiction: 'EU',
-    url: 'https://www.paypal.com/it/webapps/mpp/ua/privacy-full',
+    url: 'https://www.paypal.com/lu/webapps/mpp/ua/privacy-full',
     currentText: 'PayPal Privacy Statement V2 (EU) - Enhanced data sharing with credit bureaus and AI risk modeling under GDPR-compliant terms.',
     currentHash: 'paypal-privacy-eu-v2',
     snapshots: [
@@ -1333,7 +1334,7 @@ async function main() {
   // PayPal User Agreement - EU
   await seedPolicy(co['paypal'].id, {
     name: 'User Agreement', type: 'terms', jurisdiction: 'EU',
-    url: 'https://www.paypal.com/it/webapps/mpp/ua/useragreement-full',
+    url: 'https://www.paypal.com/lu/legalhub/paypal/useragreement-full?locale.x=en_LU',
     currentText: 'PayPal User Agreement V2 (EU) - Updated fee structure and dispute resolution for European users.',
     currentHash: 'paypal-ua-eu-v2',
     snapshots: [
@@ -1380,7 +1381,7 @@ async function main() {
   // PayPal User Agreement - US
   await seedPolicy(co['paypal'].id, {
     name: 'User Agreement', type: 'terms', jurisdiction: 'US',
-    url: 'https://www.paypal.com/us/webapps/mpp/ua/useragreement-full',
+    url: 'https://www.paypal.com/us/legalhub/paypal/useragreement-full',
     currentText: 'PayPal User Agreement V2 (US) - Binding arbitration and updated fee disclosures.',
     currentHash: 'paypal-ua-us-v2',
     snapshots: [
@@ -1625,7 +1626,7 @@ async function main() {
   // Wise Privacy Policy - EU
   await seedPolicy(co['wise'].id, {
     name: 'Privacy Policy', type: 'privacy', jurisdiction: 'EU',
-    url: 'https://wise.com/gb/legal/privacy-policy',
+    url: 'https://wise.com/us/legal/privacy-policy',
     currentText: 'Wise Privacy Policy V2 (EU) - Enhanced AML data processing and AI transaction monitoring under GDPR terms.',
     currentHash: 'wise-privacy-eu-v2',
     snapshots: [
@@ -1719,7 +1720,7 @@ async function main() {
   // Wise Privacy Policy - Global
   await seedPolicy(co['wise'].id, {
     name: 'Privacy Policy', type: 'privacy', jurisdiction: 'Global',
-    url: 'https://wise.com/gb/legal/privacy-policy',
+    url: 'https://wise.com/us/legal/privacy-policy',
     currentText: 'Wise Privacy Policy V2 (Global) - Baseline AML and transfer data processing terms.',
     currentHash: 'wise-privacy-global-v2',
     snapshots: [
@@ -1766,7 +1767,7 @@ async function main() {
   // Wise Terms of Use - Global
   await seedPolicy(co['wise'].id, {
     name: 'Terms of Use', type: 'terms', jurisdiction: 'Global',
-    url: 'https://wise.com/gb/legal/terms-of-use',
+    url: 'https://wise.com/us/legal/terms-of-use',
     currentText: 'Wise Terms of Use V2 - Updated transfer limits and liability terms for multi-currency accounts.',
     currentHash: 'wise-terms-v2',
     snapshots: [
@@ -1818,7 +1819,7 @@ async function main() {
   // Klarna Privacy Notice - EU
   await seedPolicy(co['klarna'].id, {
     name: 'Privacy Notice', type: 'privacy', jurisdiction: 'EU',
-    url: 'https://www.klarna.com/it/privacy',
+    url: 'https://www.klarna.com/international/privacy-policy/',
     currentText: 'Klarna Privacy Notice V2 (EU) - AI-powered purchase financing decisions and consumer data profiling under GDPR.',
     currentHash: 'klarna-privacy-eu-v2',
     snapshots: [
@@ -1868,7 +1869,7 @@ async function main() {
   // Klarna Privacy Notice - US
   await seedPolicy(co['klarna'].id, {
     name: 'Privacy Notice', type: 'privacy', jurisdiction: 'US',
-    url: 'https://www.klarna.com/us/privacy',
+    url: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy',
     currentText: 'Klarna Privacy Notice V2 (US) - AI credit decisions and CCPA/CPRA-compliant data practices.',
     currentHash: 'klarna-privacy-us-v2',
     snapshots: [
@@ -1915,7 +1916,7 @@ async function main() {
   // Klarna Terms of Service - EU
   await seedPolicy(co['klarna'].id, {
     name: 'Terms of Service', type: 'terms', jurisdiction: 'EU',
-    url: 'https://www.klarna.com/it/terms',
+    url: 'https://www.klarna.com/international/terms-and-conditions/',
     currentText: 'Klarna Terms of Service V2 (EU) - Updated Pay Later terms and consumer credit directive compliance.',
     currentHash: 'klarna-terms-eu-v2',
     snapshots: [
@@ -1962,7 +1963,7 @@ async function main() {
   // Klarna Terms of Service - US
   await seedPolicy(co['klarna'].id, {
     name: 'Terms of Service', type: 'terms', jurisdiction: 'US',
-    url: 'https://www.klarna.com/us/terms',
+    url: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/terms',
     currentText: 'Klarna Terms of Service V2 (US) - CFPB-regulated BNPL terms with binding arbitration.',
     currentHash: 'klarna-terms-us-v2',
     snapshots: [
@@ -2014,7 +2015,7 @@ async function main() {
   // Plaid Privacy Policy - US
   await seedPolicy(co['plaid'].id, {
     name: 'Privacy Policy', type: 'privacy', jurisdiction: 'US',
-    url: 'https://plaid.com/legal/#privacy',
+    url: 'https://plaid.com/legal',
     currentText: 'Plaid Privacy Policy V2 (US) - Enhanced consent framework and reduced data retention following FTC settlement.',
     currentHash: 'plaid-privacy-us-v2',
     snapshots: [
@@ -2064,7 +2065,7 @@ async function main() {
   // Plaid Privacy Policy - EU
   await seedPolicy(co['plaid'].id, {
     name: 'Privacy Policy', type: 'privacy', jurisdiction: 'EU',
-    url: 'https://plaid.com/legal/#privacy',
+    url: 'https://plaid.com/legal',
     currentText: 'Plaid Privacy Policy V2 (EU) - PSD2-compliant open banking data processing with GDPR consent requirements.',
     currentHash: 'plaid-privacy-eu-v2',
     snapshots: [
@@ -2111,7 +2112,7 @@ async function main() {
   // Plaid End User Services Agreement - US
   await seedPolicy(co['plaid'].id, {
     name: 'End User Services Agreement', type: 'terms', jurisdiction: 'US',
-    url: 'https://plaid.com/legal/#end-user-services',
+    url: 'https://plaid.com/legal',
     currentText: 'Plaid End User Services Agreement V2 (US) - Updated liability terms and data accuracy disclaimers.',
     currentHash: 'plaid-eusa-us-v2',
     snapshots: [
@@ -2158,7 +2159,7 @@ async function main() {
   // Plaid End User Services Agreement - EU
   await seedPolicy(co['plaid'].id, {
     name: 'End User Services Agreement', type: 'terms', jurisdiction: 'EU',
-    url: 'https://plaid.com/legal/#end-user-services',
+    url: 'https://plaid.com/legal',
     currentText: 'Plaid End User Services Agreement V2 (EU) - PSD2-governed account access terms with GDPR data rights.',
     currentHash: 'plaid-eusa-eu-v2',
     snapshots: [
@@ -2364,7 +2365,7 @@ async function main() {
   // AWS Data Processing Addendum - Global
   await seedPolicy(co['amazon'].id, {
     name: 'AWS Data Processing Addendum', type: 'developer', jurisdiction: 'Global',
-    url: 'https://aws.amazon.com/compliance/data-processing-addendum/',
+    url: 'https://aws.amazon.com/service-terms/',
     currentText: '# AWS Data Processing Addendum V2\nBedrock model customization data fully isolated. SCC clauses updated for Schrems II compliance. AI governance controls added for automated decision-making transparency.',
     currentHash: 'aws-dpa-v2',
     snapshots: [
@@ -2378,7 +2379,7 @@ async function main() {
       aiSummaryIt: 'AWS ha rafforzato il DPA con isolamento completo dei dati per la personalizzazione dei modelli Bedrock, aggiornato le SCC con misure supplementari Schrems II e introdotto controlli di governance IA che consentono ai clienti di verificare il processo decisionale automatizzato e configurare report di trasparenza.',
       overallRisk: 'Low', overallScore: 2,
       remediations: [
-        { titleEn: 'Review Updated DPA', titleIt: 'Rivedi DPA Aggiornato', descriptionEn: 'Review the updated AWS DPA and verify that your data processing agreements reference the latest SCC clauses and Schrems II supplementary measures.', descriptionIt: 'Rivedi il DPA AWS aggiornato e verifica che i tuoi accordi di trattamento dati facciano riferimento alle clausole SCC piu recenti e alle misure supplementari Schrems II.', actionUrl: 'https://aws.amazon.com/compliance/data-processing-addendum/', actionTextEn: 'AWS DPA', actionTextIt: 'DPA AWS' }
+        { titleEn: 'Review Updated DPA', titleIt: 'Rivedi DPA Aggiornato', descriptionEn: 'Review the updated AWS DPA and verify that your data processing agreements reference the latest SCC clauses and Schrems II supplementary measures.', descriptionIt: 'Rivedi il DPA AWS aggiornato e verifica che i tuoi accordi di trattamento dati facciano riferimento alle clausole SCC piu recenti e alle misure supplementari Schrems II.', actionUrl: 'https://aws.amazon.com/service-terms/', actionTextEn: 'AWS DPA', actionTextIt: 'DPA AWS' }
       ],
       aiTrainingOptOut: 'Full isolation', aiDataScrapingRestricted: 'Restricted', aiIpLicensing: 'Customer retains all rights', aiPromptRetention: 'Customer-controlled',
       date: '2026-05-15T12:00:00Z',
@@ -2567,7 +2568,7 @@ async function main() {
   // TikTok Community Guidelines - Global
   await seedPolicy(co['tiktok'].id, {
     name: 'Community Guidelines', type: 'terms', jurisdiction: 'Global',
-    url: 'https://www.tiktok.com/community-guidelines',
+    url: 'https://www.tiktok.com/legal/page/global/community-guidelines',
     currentText: '# TikTok Community Guidelines V2\nExpanded AI labeling requirements for synthetic media. Automated content removal for policy violations. Limited appeal mechanism for removed content. Government takedown request disclosures published quarterly.',
     currentHash: 'tiktok-guidelines-v2',
     snapshots: [

@@ -3,9 +3,14 @@
 # This script triggers the database policy update scan and weekly digest emails.
 # Configure this in your Hostinger Panel or as a system Cron job.
 
-# Read environment variables or use default arguments
-APP_URL="${1:-https://www.policywatcher.online}"
-API_SECRET="${2:-policy@watcher@2026@fd}" # Replace with your actual API_SECRET in production
+# Read environment variables or arguments. Never ship a fallback API secret.
+APP_URL="${1:-${APP_URL:-https://www.policywatcher.online}}"
+API_SECRET="${2:-${API_SECRET:-}}"
+
+if [ -z "$API_SECRET" ]; then
+  echo "Error: API_SECRET must be provided as the second argument or API_SECRET environment variable."
+  exit 1
+fi
 
 echo "============================================="
 echo "PolicyWatcher Cron Trigger starting..."

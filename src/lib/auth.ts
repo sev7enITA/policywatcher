@@ -9,6 +9,14 @@
  */
 
 import { NextRequest } from 'next/server';
+import { timingSafeEqual } from 'crypto';
+
+function safeCompare(a: string, b: string): boolean {
+  const bufA = Buffer.from(a, 'utf8');
+  const bufB = Buffer.from(b, 'utf8');
+  if (bufA.length !== bufB.length) return false;
+  return timingSafeEqual(bufA, bufB);
+}
 
 /**
  * Validates the Authorization header Bearer token against API_SECRET.
@@ -20,11 +28,7 @@ export function isAuthorized(request: Request | NextRequest): boolean {
     return false;
   }
 
-  // Support both standard Headers (NextRequest) and plain Request objects
-  // to allow this guard to work in middleware, route handlers, and tests.
-  const authHeader = request.headers instanceof Headers 
-    ? request.headers.get('Authorization') 
-    : (request as any).headers?.get?.('Authorization');
+  const authHeader = request.headers.get('Authorization');
 
   if (!authHeader) return false;
 
@@ -33,7 +37,5 @@ export function isAuthorized(request: Request | NextRequest): boolean {
   if (parts.length !== 2) return false;
   
   const [scheme, token] = parts;
-  // Constant-time comparison is not strictly needed here since API_SECRET
-  // is a server-only value, but the check is intentionally simple.
-  return scheme === 'Bearer' && token === secret;
+  return scheme === 'Bearer' && safeCompare(token, secret);
 }

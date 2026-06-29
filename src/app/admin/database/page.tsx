@@ -8,9 +8,10 @@ import {
   FileText,
   ExternalLink,
   Globe,
-  ChevronDown,
-  ChevronUp,
   Search,
+  Archive,
+  AlertTriangle,
+  GitCompare,
 } from 'lucide-react';
 import styles from '../admin.module.css';
 
@@ -46,21 +47,21 @@ interface CompanyData {
 /* ---------- Helpers ---------- */
 
 const TYPE_BADGE_MAP: Record<string, string> = {
-  privacy: 'badgePrivacy',
-  terms: 'badgeTerms',
-  ai: 'badgeAi',
-  aup: 'badgeAup',
+  privacy: 'badgePrimary',
+  terms: 'badgeWarning',
+  ai: 'badgeDanger',
+  aup: 'badgeSecondary',
+  developer: 'badgeNeutral',
 };
 
 function typeBadgeClass(type: string): string {
-  return TYPE_BADGE_MAP[type.toLowerCase()] || 'badgeDefault';
+  return TYPE_BADGE_MAP[type.toLowerCase()] || 'badgeNeutral';
 }
 
-function truncateUrl(url: string, maxLen = 40): string {
+function truncateUrl(url: string, maxLen = 30): string {
   try {
     const u = new URL(url);
-    const path = u.pathname + u.search;
-    const display = u.hostname + path;
+    const display = u.hostname;
     return display.length > maxLen ? display.slice(0, maxLen) + '...' : display;
   } catch {
     return url.length > maxLen ? url.slice(0, maxLen) + '...' : url;
@@ -69,10 +70,10 @@ function truncateUrl(url: string, maxLen = 40): string {
 
 function formatDate(iso: string): string {
   const d = new Date(iso);
-  return d.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
+  return d.toLocaleDateString(undefined, {
     day: 'numeric',
+    month: 'short',
+    year: 'numeric',
   });
 }
 
@@ -84,7 +85,7 @@ export default function DatabaseInspectorPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+  const [industryFilter, setIndustryFilter] = useState('All');
 
   /* Fetch companies on mount */
   useEffect(() => {
@@ -122,11 +123,13 @@ export default function DatabaseInspectorPage() {
   /* Derived stats */
   const stats = useMemo(() => {
     let totalPolicies = 0;
+    let totalSnapshots = 0;
     let totalChanges = 0;
 
     for (const c of companies) {
       totalPolicies += c._count.policies;
       for (const p of c.policies) {
+        totalSnapshots += p._count.snapshots;
         totalChanges += p._count.changes;
       }
     }
@@ -134,29 +137,29 @@ export default function DatabaseInspectorPage() {
     return {
       companies: companies.length,
       policies: totalPolicies,
+      snapshots: totalSnapshots,
       changes: totalChanges,
     };
   }, [companies]);
 
-  /* Filtered companies */
-  const filtered = useMemo(() => {
-    if (!searchQuery.trim()) return companies;
-    const q = searchQuery.toLowerCase();
-    return companies.filter((c) => c.name.toLowerCase().includes(q));
-  }, [companies, searchQuery]);
-
-  /* Toggle expand */
-  function toggleExpand(id: string) {
-    setExpandedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
-      return next;
+  /* Get list of unique industries */
+  const industriesList = useMemo(() => {
+    const list = new Set<string>();
+    companies.forEach((c) => {
+      if (c.industry) list.add(c.industry);
     });
-  }
+    return ['All', ...Array.from(list)];
+  }, [companies]);
+
+  /* Filtered companies */
+  const filteredCompanies = useMemo(() => {
+    return companies.filter((c) => {
+      const matchesSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        c.industry.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesIndustry = industryFilter === 'All' || c.industry === industryFilter;
+      return matchesSearch && matchesIndustry;
+    });
+  }, [companies, searchQuery, industryFilter]);
 
   /* Loading state */
   if (loading) {
@@ -170,273 +173,197 @@ export default function DatabaseInspectorPage() {
   return (
     <div>
       {/* Page Header */}
-      <div className={styles.pageHeader}>
-        <h1 className={styles.pageTitle}>
-          <span className={styles.pageTitleIcon}>
-            <Database size={20} />
-          </span>
-          Database Inspector
-        </h1>
-        <p className={styles.pageSubtitle}>
-          Browse all monitored companies and policies
-        </p>
+      <div className={styles.pageHeader} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div>
+          <h1 className={styles.pageTitle} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <Database size={24} style={{ color: 'var(--primary)' }} />
+            Database Inspector
+          </h1>
+          <p className={styles.pageSubtitle}>
+            Browse, search and audit all database entities and snapshot history
+          </p>
+        </div>
+        <span className={styles.logoVersion} style={{ fontSize: '0.78rem', padding: '4px 10px', borderRadius: '8px' }}>
+          Prisma DB Connected
+        </span>
       </div>
 
       {/* Error banner */}
       {error && (
-        <div className={styles.errorBanner}>
-          <Database size={16} />
+        <div className={`${styles.alert} ${styles.alertWarning}`}>
+          <AlertTriangle size={16} />
           {error}
         </div>
       )}
 
-      {/* Stats Row */}
-      <div className={styles.statsRow}>
-        <div className={styles.statCard}>
-          <div className={`${styles.statIconWrap} ${styles.statIconPrimary}`}>
+      {/* Stats Summary Row */}
+      <div className={styles.grid4} style={{ marginBottom: 24 }}>
+        <div className={styles.card} style={{ marginBottom: 0 }}>
+          <div className={`${styles.cardIcon} ${styles.cardIconPurple}`}>
             <Building2 size={20} />
           </div>
-          <div>
-            <div className={styles.statValue}>{stats.companies}</div>
-            <div className={styles.statLabel}>Companies</div>
-          </div>
+          <div className={styles.cardLabel}>Companies</div>
+          <div className={styles.cardValue}>{stats.companies}</div>
         </div>
 
-        <div className={styles.statCard}>
-          <div className={`${styles.statIconWrap} ${styles.statIconSecondary}`}>
+        <div className={styles.card} style={{ marginBottom: 0 }}>
+          <div className={`${styles.cardIcon} ${styles.cardIconCyan}`}>
             <FileText size={20} />
           </div>
-          <div>
-            <div className={styles.statValue}>{stats.policies}</div>
-            <div className={styles.statLabel}>Policies</div>
-          </div>
+          <div className={styles.cardLabel}>Policies</div>
+          <div className={styles.cardValue}>{stats.policies}</div>
         </div>
 
-        <div className={styles.statCard}>
-          <div className={`${styles.statIconWrap} ${styles.statIconWarning}`}>
-            <Globe size={20} />
+        <div className={styles.card} style={{ marginBottom: 0 }}>
+          <div className={`${styles.cardIcon} ${styles.cardIconGreen}`}>
+            <Archive size={20} />
           </div>
-          <div>
-            <div className={styles.statValue}>{stats.changes}</div>
-            <div className={styles.statLabel}>Total Changes</div>
+          <div className={styles.cardLabel}>Snapshots</div>
+          <div className={styles.cardValue}>{stats.snapshots}</div>
+        </div>
+
+        <div className={styles.card} style={{ marginBottom: 0 }}>
+          <div className={`${styles.cardIcon} ${styles.cardIconAmber}`}>
+            <GitCompare size={20} />
           </div>
+          <div className={styles.cardLabel}>Policy Changes</div>
+          <div className={styles.cardValue}>{stats.changes}</div>
         </div>
       </div>
 
-      {/* Search */}
-      <div className={styles.searchBar}>
-        <Search size={16} className={styles.searchIcon} />
-        <input
-          type="text"
-          className={styles.searchInput}
-          placeholder="Search companies by name..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+      {/* Filter and Search Bar */}
+      <div className={styles.kpiFilters} style={{ background: 'var(--bg-card)', padding: '16px', borderRadius: '12px', border: '1px solid var(--border-color)', marginBottom: 24 }}>
+        <div className={styles.searchBar} style={{ flex: 1, margin: 0, background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', borderRadius: '8px' }}>
+          <Search size={16} className={styles.searchIcon} />
+          <input
+            type="text"
+            className={styles.searchInput}
+            placeholder="Search companies by name or industry..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+
+        <div className={styles.kpiCategoryTabs} style={{ gap: 6 }}>
+          {industriesList.map((ind) => (
+            <button
+              key={ind}
+              onClick={() => setIndustryFilter(ind)}
+              className={`${styles.kpiTab} ${industryFilter === ind ? styles.kpiTabActive : ''}`}
+              style={{ fontSize: '0.78rem', padding: '5px 12px' }}
+            >
+              {ind}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Companies Table */}
-      <div className={styles.tableWrap}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Industry</th>
-              <th>Policies</th>
-              <th>Website</th>
-              <th style={{ width: 40 }} />
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.length === 0 ? (
-              <tr>
-                <td colSpan={5}>
-                  <div className={styles.emptyState}>
-                    <div className={styles.emptyStateIcon}>
-                      <Building2 size={40} />
-                    </div>
-                    <div className={styles.emptyStateText}>
-                      {searchQuery
-                        ? 'No companies match your search.'
-                        : 'No companies found in the database.'}
+      {/* Company Cards Grid */}
+      <div className={styles.dbGrid}>
+        {filteredCompanies.length === 0 ? (
+          <div className={styles.card} style={{ gridColumn: '1 / -1', padding: '40px 20px', textAlign: 'center' }}>
+            <Building2 size={40} style={{ margin: '0 auto 12px', color: 'var(--text-muted)' }} />
+            <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+              No companies match your filters.
+            </p>
+          </div>
+        ) : (
+          filteredCompanies.map((company) => {
+            const letter = company.name.charAt(0).toUpperCase();
+            return (
+              <div key={company.id} className={styles.dbCompanyCard}>
+                {/* Header */}
+                <div className={styles.dbCompanyHeader}>
+                  <div className={styles.dbLogoWrap} style={{ background: company.logo ? company.logo : 'var(--primary-glow)', color: company.logo ? '#fff' : 'var(--primary)' }}>
+                    {letter}
+                  </div>
+                  <div className={styles.dbCompanyInfo}>
+                    <h3 className={styles.dbCompanyName}>{company.name}</h3>
+                    <div className={styles.dbCompanyMeta}>
+                      <span className={styles.dbIndustryTag}>{company.industry}</span>
+                      <a
+                        href={company.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.metaText}
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: 2, textDecoration: 'none' }}
+                      >
+                        {truncateUrl(company.website)}
+                        <ExternalLink size={10} />
+                      </a>
                     </div>
                   </div>
-                </td>
-              </tr>
-            ) : (
-              filtered.map((company) => {
-                const isExpanded = expandedIds.has(company.id);
-                return (
-                  <CompanyRow
-                    key={company.id}
-                    company={company}
-                    isExpanded={isExpanded}
-                    onToggle={() => toggleExpand(company.id)}
-                  />
-                );
-              })
-            )}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
+                </div>
 
-/* ---------- Company Row ---------- */
-
-function CompanyRow({
-  company,
-  isExpanded,
-  onToggle,
-}: {
-  company: CompanyData;
-  isExpanded: boolean;
-  onToggle: () => void;
-}) {
-  return (
-    <>
-      <tr
-        className={`${styles.companyRow} ${isExpanded ? styles.companyRowExpanded : ''}`}
-        onClick={onToggle}
-      >
-        <td>
-          <div className={styles.companyName}>
-            <Building2 size={16} />
-            {company.name}
-          </div>
-        </td>
-        <td>
-          <span className={`${styles.badge} ${styles.badgeIndustry}`}>
-            {company.industry}
-          </span>
-        </td>
-        <td>{company._count.policies}</td>
-        <td>
-          <a
-            href={company.website}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.externalLink}
-            onClick={(e) => e.stopPropagation()}
-          >
-            {truncateUrl(company.website, 30)}
-            <ExternalLink size={13} />
-          </a>
-        </td>
-        <td>
-          <span className={styles.expandIcon}>
-            {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-          </span>
-        </td>
-      </tr>
-
-      {isExpanded && (
-        <tr className={styles.policySection}>
-          <td colSpan={5} style={{ padding: 0 }}>
-            <PolicySubTable policies={company.policies} />
-          </td>
-        </tr>
-      )}
-    </>
-  );
-}
-
-/* ---------- Policy Sub-Table ---------- */
-
-function PolicySubTable({ policies }: { policies: PolicyData[] }) {
-  if (policies.length === 0) {
-    return (
-      <div className={styles.noPolicies}>
-        <FileText size={16} style={{ marginRight: 6, opacity: 0.5 }} />
-        No policies tracked for this company.
-      </div>
-    );
-  }
-
-  return (
-    <div className={styles.policySectionInner}>
-      <div className={styles.policySectionTitle}>
-        <FileText size={14} />
-        Tracked Policies ({policies.length})
-      </div>
-      <div className={styles.policyTableWrap}>
-        <table className={styles.policyTable}>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th>URL</th>
-              <th>Jurisdiction</th>
-              <th>Changes</th>
-              <th>Snapshots</th>
-              <th>Last Updated</th>
-              <th>Wayback</th>
-            </tr>
-          </thead>
-          <tbody>
-            {policies.map((policy) => {
-              const badgeClass = typeBadgeClass(policy.type);
-              const waybackUrl = `https://web.archive.org/web/*/${encodeURIComponent(policy.url)}`;
-
-              return (
-                <tr key={policy.id}>
-                  <td style={{ fontWeight: 500, color: 'var(--text-main)' }}>
-                    {policy.name}
-                  </td>
-                  <td>
-                    <span className={`${styles.badge} ${styles[badgeClass]}`}>
-                      {policy.type}
+                {/* DB Stats */}
+                <div className={styles.dbStatsBadge}>
+                  <div className={styles.dbStatsItem}>
+                    <span>Policies:</span>
+                    <span className={styles.dbStatsValue}>{company._count.policies}</span>
+                  </div>
+                  <div className={styles.dbStatsItem}>
+                    <span>Snapshots:</span>
+                    <span className={styles.dbStatsValue}>
+                      {company.policies.reduce((acc, p) => acc + p._count.snapshots, 0)}
                     </span>
-                  </td>
-                  <td>
-                    <a
-                      href={policy.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.externalLink}
-                      title={policy.url}
-                    >
-                      <span className={styles.truncatedUrl}>
-                        {truncateUrl(policy.url)}
-                      </span>
-                      <ExternalLink size={12} />
-                    </a>
-                  </td>
-                  <td>
-                    {policy.jurisdiction ? (
-                      <span className={`${styles.badge} ${styles.badgeDefault}`}>
-                        {policy.jurisdiction}
-                      </span>
-                    ) : (
-                      <span style={{ color: 'var(--text-dark)', fontSize: '0.82rem' }}>
-                        N/A
-                      </span>
-                    )}
-                  </td>
-                  <td className={styles.monoText}>
-                    {policy._count.changes}
-                  </td>
-                  <td className={styles.monoText}>
-                    {policy._count.snapshots}
-                  </td>
-                  <td>{formatDate(policy.updatedAt)}</td>
-                  <td>
-                    <a
-                      href={waybackUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.externalLink}
-                      title="View on Wayback Machine"
-                    >
-                      <Globe size={14} />
-                    </a>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                  </div>
+                  <div className={styles.dbStatsItem}>
+                    <span>Changes:</span>
+                    <span className={styles.dbStatsValue}>
+                      {company.policies.reduce((acc, p) => acc + p._count.changes, 0)}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Policies List */}
+                <div className={styles.dbPolicyList}>
+                  {company.policies.length === 0 ? (
+                    <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
+                      No policies tracked.
+                    </p>
+                  ) : (
+                    company.policies.map((policy) => {
+                      const badge = typeBadgeClass(policy.type);
+                      const waybackUrl = `https://web.archive.org/web/*/${encodeURIComponent(policy.url)}`;
+
+                      return (
+                        <div key={policy.id} className={styles.dbPolicyMiniCard}>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                            <span className={styles.dbPolicyTitle}>{policy.name}</span>
+                            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                              Checked: {formatDate(policy.updatedAt)}
+                            </span>
+                          </div>
+
+                          <div className={styles.dbPolicyTags}>
+                            <span className={`${styles.badge} ${styles[badge]}`} style={{ fontSize: '0.62rem', padding: '1px 6px' }}>
+                              {policy.type}
+                            </span>
+                            {policy.jurisdiction && (
+                              <span className={`${styles.badge} ${styles.badgeNeutral}`} style={{ fontSize: '0.62rem', padding: '1px 6px' }}>
+                                {policy.jurisdiction}
+                              </span>
+                            )}
+                            <a
+                              href={waybackUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={styles.metaText}
+                              title="Wayback History"
+                              style={{ display: 'inline-flex', padding: 4, borderRadius: 4, background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}
+                            >
+                              <Globe size={11} />
+                            </a>
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );

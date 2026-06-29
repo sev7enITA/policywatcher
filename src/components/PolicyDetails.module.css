@@ -188,6 +188,10 @@
   border-bottom: 1px solid #e2e8f0;
 }
 
+.heatMapWrap {
+  margin-bottom: 16px;
+}
+
 .timelineItem {
   padding: 10px 16px;
   border-radius: 10px;
@@ -780,4 +784,3 @@
 .archiveFullText p {
   margin-bottom: 10px;
 }
-

@@ -420,3 +420,160 @@
   from { transform: translateY(0); opacity: 1; }
   to { transform: translateY(20px); opacity: 0; }
 }
+
+/* Light theme alignment with the public dashboard */
+.overlay {
+  background-color: rgba(15, 23, 42, 0.28);
+  backdrop-filter: blur(10px) saturate(140%);
+}
+
+.modal {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: var(--shadow-xl);
+  color: var(--text-body);
+}
+
+.header,
+.footer,
+.skipSessionRow {
+  border-color: var(--border-color);
+}
+
+.header {
+  background: linear-gradient(180deg, #ffffff 0%, var(--bg-secondary) 100%);
+}
+
+.headerIcon {
+  color: var(--primary);
+  filter: none;
+}
+
+.titleGroup h3 {
+  color: var(--text-main);
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  -webkit-background-clip: initial;
+}
+
+.closeBtn {
+  color: var(--text-muted);
+}
+
+.closeBtn:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--text-main);
+}
+
+.tabNav,
+.skipSessionRow {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+
+.tabBtn {
+  color: var(--text-muted);
+}
+
+.tabBtn:hover {
+  color: var(--primary);
+  background: var(--primary-glow);
+}
+
+.tabBtnActive {
+  color: #ffffff;
+  background: var(--primary);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+}
+
+.slideTitle,
+.gridCard h4 {
+  color: var(--text-main);
+}
+
+.slideSubtitle,
+.slideMainContent,
+.introFeatureItem,
+.gridCard p,
+.limitItem p,
+.skipCheckboxLabel {
+  color: var(--text-muted);
+}
+
+.introFeatureList,
+.gridCard {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+  border-radius: 12px;
+}
+
+.gridCard:hover {
+  background: #ffffff;
+  border-color: var(--border-color-active);
+  box-shadow: var(--shadow-sm);
+}
+
+.limitItem {
+  background: #fff7ed;
+  border-color: #fed7aa;
+}
+
+.chatbotHighlightBox {
+  background: var(--secondary-glow);
+  border-left-color: var(--secondary);
+}
+
+.chatbotHighlightText {
+  color: var(--text-body);
+}
+
+.chatSuggestedQueriesTitle {
+  color: var(--text-main);
+}
+
+.chatSuggestedQueriesList {
+  color: var(--secondary);
+}
+
+.footer {
+  background: #ffffff;
+}
+
+.dot {
+  background: #cbd5e1;
+}
+
+.dot:hover {
+  background: #94a3b8;
+}
+
+.dotActive {
+  background: var(--primary);
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.34);
+}
+
+.navBtnPrev {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+  color: var(--text-muted);
+}
+
+.navBtnPrev:hover {
+  background: var(--primary-glow);
+  color: var(--primary);
+}
+
+.navBtnNext {
+  background: var(--primary);
+  color: #ffffff;
+  border-radius: 10px;
+}
+
+.navBtnNext:hover {
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.22);
+}
+
+.skipCheckboxLabel:hover {
+  color: var(--text-main);
+}

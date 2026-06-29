@@ -6,8 +6,8 @@
  * @file src/app/admin/cron/page.tsx
  *
  * Displays the current cron status (running / idle), allows admins to
- * trigger a full policy scan, and shows the last scan result with a
- * per-policy detail table.
+ * trigger a full policy scan, and shows LIVE PROGRESS with a scrolling
+ * log of each policy as it's processed.
  */
 
 import { useEffect, useState, useRef, useCallback } from 'react';
@@ -18,6 +18,8 @@ import {
   CheckCircle,
   AlertTriangle,
   Clock,
+  Terminal,
+  Loader,
 } from 'lucide-react';
 import styles from '../admin.module.css';
 
@@ -44,6 +46,11 @@ interface CronStatus {
   startedAt: string | null;
   lastCompletedAt: string | null;
   lastResult: LastResult | null;
+  lastError: string | null;
+  progressTotal: number;
+  progressCurrent: number;
+  progressLog: string[];
+  progressActivity: string;
 }
 
 /* ---------- Helpers ---------- */
@@ -65,6 +72,23 @@ function badgeClass(status: string): string {
   return styles.badgeNeutral;
 }
 
+/* ---------- Log Line Styling ---------- */
+function getLogLineStyle(line: string): React.CSSProperties {
+  if (line.includes('CHANGED') || line.includes('⚠'))
+    return { color: '#f59e0b', fontWeight: 600 };
+  if (line.includes('ERROR') || line.includes('✗') || line.includes('❌'))
+    return { color: '#ef4444', fontWeight: 600 };
+  if (line.includes('unchanged') || line.includes('✓'))
+    return { color: '#64748b' };
+  if (line.includes('unavailable'))
+    return { color: '#f97316' };
+  if (line.includes('✅'))
+    return { color: '#10b981', fontWeight: 700 };
+  if (line.includes('Starting'))
+    return { color: '#6366f1', fontWeight: 600 };
+  return { color: '#94a3b8' };
+}
+
 /* ---------- Component ---------- */
 
 export default function CronManagerPage() {
@@ -73,6 +97,7 @@ export default function CronManagerPage() {
   const [triggering, setTriggering] = useState(false);
   const [alertMsg, setAlertMsg] = useState('');
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const logEndRef = useRef<HTMLDivElement | null>(null);
 
   /* Fetch status from the API */
   const fetchStatus = useCallback(async () => {
@@ -113,10 +138,17 @@ export default function CronManagerPage() {
     };
   }, [fetchStatus]);
 
-  /* Start polling every 5 seconds */
+  /* Auto-scroll log to bottom */
+  useEffect(() => {
+    if (logEndRef.current && status?.isRunning) {
+      logEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [status?.progressLog?.length, status?.isRunning]);
+
+  /* Start polling every 2 seconds (faster for live progress) */
   function startPolling() {
     if (pollingRef.current) return;
-    pollingRef.current = setInterval(fetchStatus, 5000);
+    pollingRef.current = setInterval(fetchStatus, 2000);
   }
 
   /* Trigger a full scan */
@@ -165,6 +197,11 @@ export default function CronManagerPage() {
   const isRunning = status?.isRunning ?? false;
   const lastResult = status?.lastResult ?? null;
   const details = lastResult?.details ?? [];
+  const progressTotal = status?.progressTotal ?? 0;
+  const progressCurrent = status?.progressCurrent ?? 0;
+  const progressLog = status?.progressLog ?? [];
+  const progressActivity = status?.progressActivity ?? '';
+  const progressPercent = progressTotal > 0 ? Math.round((progressCurrent / progressTotal) * 100) : 0;
 
   return (
     <div>
@@ -226,8 +263,40 @@ export default function CronManagerPage() {
           </div>
         </div>
 
-        {/* Progress indicator while running */}
-        {isRunning && (
+        {/* Progress bar with percentage (while running) */}
+        {isRunning && progressTotal > 0 && (
+          <div style={{ marginTop: 16 }}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              fontSize: '0.78rem',
+              color: '#94a3b8',
+              marginBottom: 6,
+            }}>
+              <span>Scanning policies...</span>
+              <span style={{ fontWeight: 700, color: '#6366f1' }}>
+                {progressCurrent}/{progressTotal} ({progressPercent}%)
+              </span>
+            </div>
+            <div style={{
+              background: '#1e293b',
+              borderRadius: 8,
+              height: 8,
+              overflow: 'hidden',
+            }}>
+              <div style={{
+                width: `${progressPercent}%`,
+                height: '100%',
+                background: 'linear-gradient(90deg, #6366f1, #8b5cf6)',
+                borderRadius: 8,
+                transition: 'width 0.5s ease',
+              }} />
+            </div>
+          </div>
+        )}
+
+        {/* Indeterminate progress (before total is known) */}
+        {isRunning && progressTotal === 0 && (
           <div className={styles.progressBar}>
             <div className={styles.progressIndeterminate} />
           </div>
@@ -260,7 +329,68 @@ export default function CronManagerPage() {
         </button>
       </div>
 
-      {/* Last Result */}
+      {/* ============ LIVE LOG (while running or just finished) ============ */}
+      {(isRunning || progressLog.length > 0) && (
+        <div className={styles.card} style={{ marginBottom: 24 }}>
+          <h2 className={styles.cardTitle}>
+            <Terminal size={16} />
+            Live Scan Log
+            {isRunning && (
+              <span style={{
+                marginLeft: 8,
+                fontSize: '0.7rem',
+                color: '#6366f1',
+                fontWeight: 400,
+              }}>
+                polling every 2s
+              </span>
+            )}
+          </h2>
+
+          {/* Log console */}
+          <div style={{
+            background: '#0a0e1a',
+            borderRadius: 10,
+            padding: '14px 16px',
+            maxHeight: 400,
+            overflowY: 'auto',
+            fontFamily: "'SF Mono', 'Fira Code', 'Cascadia Code', monospace",
+            fontSize: '0.72rem',
+            lineHeight: 1.8,
+            border: '1px solid rgba(99, 102, 241, 0.15)',
+          }}>
+            {progressLog.map((line, i) => (
+              <div key={i} style={getLogLineStyle(line)}>
+                <span style={{ color: '#475569', marginRight: 8, userSelect: 'none' }}>
+                  {String(i + 1).padStart(3, ' ')}
+                </span>
+                {line}
+              </div>
+            ))}
+
+            {/* Current activity (blinking) */}
+            {isRunning && progressActivity && (
+              <div style={{
+                color: '#6366f1',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+                marginTop: 2,
+              }}>
+                <span style={{ color: '#475569', marginRight: 8, userSelect: 'none' }}>
+                  {String(progressLog.length + 1).padStart(3, ' ')}
+                </span>
+                <Loader size={11} style={{ animation: 'spin 1s linear infinite' }} />
+                {progressActivity}
+              </div>
+            )}
+
+            <div ref={logEndRef} />
+          </div>
+        </div>
+      )}
+
+      {/* ============ LAST RESULT SUMMARY ============ */}
       {lastResult && !lastResult.error && (
         <div className={styles.card}>
           <h2 className={styles.cardTitle}>
@@ -356,6 +486,14 @@ export default function CronManagerPage() {
           </p>
         </div>
       )}
+
+      {/* Spin keyframe (inline for the Loader icon) */}
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 }

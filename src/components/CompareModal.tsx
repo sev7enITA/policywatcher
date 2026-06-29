@@ -90,6 +90,7 @@ const translations = {
     winner: 'Safer',
     tie: 'Tie',
     pickBoth: 'Pick two companies to compare',
+    industryAverage: 'Industry average',
   },
   it: {
     title: 'Confronta Aziende',
@@ -105,6 +106,7 @@ const translations = {
     winner: 'Più Sicuro',
     tie: 'Parità',
     pickBoth: 'Scegli due aziende da confrontare',
+    industryAverage: 'Media settore',
   },
 };
 
@@ -138,31 +140,38 @@ export default function CompareModal({
   useEffect(() => {
     if (isOpen) {
       // Auto-pick two distinct companies if none selected
-      if (!companyAId && companies[0]) setCompanyAId(companies[0].id);
-      if (!companyBId && companies[1]) setCompanyBId(companies[1].id);
+      queueMicrotask(() => {
+        if (!companyAId && companies[0]) setCompanyAId(companies[0].id);
+        if (!companyBId && companies[1]) setCompanyBId(companies[1].id);
+      });
     }
   }, [isOpen, companies, companyAId, companyBId]);
 
   useEffect(() => {
     if (!isOpen) return;
     if (!companyAId || !companyBId || companyAId === companyBId) {
-      setProfileA(null);
-      setProfileB(null);
+      queueMicrotask(() => {
+        setProfileA(null);
+        setProfileB(null);
+      });
       return;
     }
 
     let active = true;
-    setLoading(true);
-    fetch(`/api/compare?companyA=${companyAId}&companyB=${companyBId}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (!active) return;
-        setProfileA(data.companyA || null);
-        setProfileB(data.companyB || null);
-      })
-      .catch((err) => console.error('Compare fetch failed:', err))
-      .finally(() => {
-        if (active) setLoading(false);
+    queueMicrotask(() => {
+      if (!active) return;
+      setLoading(true);
+      fetch(`/api/compare?companyA=${companyAId}&companyB=${companyBId}`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (!active) return;
+          setProfileA(data.companyA || null);
+          setProfileB(data.companyB || null);
+        })
+        .catch((err) => console.error('Compare fetch failed:', err))
+        .finally(() => {
+          if (active) setLoading(false);
+        });
       });
 
     return () => {
@@ -240,6 +249,7 @@ export default function CompareModal({
               onChange={(e) => setCompanyBId(e.target.value)}
               className={`${styles.select} ${styles.selectB}`}
             >
+              <option value="industry-average">{t.industryAverage}</option>
               {companies.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.name}

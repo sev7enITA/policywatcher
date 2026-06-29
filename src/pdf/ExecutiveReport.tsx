@@ -21,7 +21,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Font,
 } from '@react-pdf/renderer';
 import type { PolicyChange, Lang, RegionImpact } from '@/types';
 
@@ -97,16 +96,6 @@ function scoreColor(score: number): string {
   if (score >= 7) return COLORS.red;
   if (score >= 4) return COLORS.amber;
   return COLORS.green;
-}
-
-/**
- * Returns a pale background colour matching the risk level string.
- * Used for region badge backgrounds in the PDF.
- */
-function riskBg(risk: string): string {
-  if (risk === 'High') return '#fee2e2';
-  if (risk === 'Medium') return '#fef3c7';
-  return '#dcfce7';
 }
 
 // --- Styles ---------------------------------------------------------------
