@@ -88,7 +88,15 @@ Evidence used by the attestation:
 Public wording:
 
 - Acceptable: "OpenSSF Best Practices: passing."
+- Acceptable: "OpenSSF Best Practices project 13465 is passing."
 - Avoid: "OpenSSF certified secure."
+
+Placement:
+
+- README hero badge row.
+- README highlighted public-evidence note.
+- `/trust` obtained badge section.
+- `/trust` public badge strip and evidence card.
 
 ## 5. SonarQube Cloud
 

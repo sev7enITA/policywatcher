@@ -229,6 +229,7 @@
 }
 
 .badgeBand,
+.obtainedPanel,
 .boundaryPanel,
 .workflowSection {
   border: 1px solid var(--border-color);
@@ -237,6 +238,105 @@
   padding: 28px;
   margin-bottom: 24px;
   box-shadow: var(--shadow-md);
+}
+
+.obtainedPanel {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.38fr) 1fr;
+  gap: 26px;
+  align-items: stretch;
+  background:
+    linear-gradient(135deg, #ffffff 0%, #f8fafc 46%, rgba(236, 253, 245, 0.8) 100%);
+  border-color: rgba(5, 150, 105, 0.18);
+}
+
+.obtainedIntro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.obtainedIntro h2 {
+  margin: 10px 0 14px;
+  color: var(--text-main);
+  font-size: clamp(1.8rem, 4vw, 3.1rem);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.obtainedIntro p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.72;
+}
+
+.obtainedGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.obtainedCard {
+  min-height: 250px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 18px;
+  color: var(--text-main);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  box-shadow: 0 20px 42px rgba(15, 23, 42, 0.08);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.obtainedCard:hover {
+  transform: translateY(-3px);
+  border-color: rgba(5, 150, 105, 0.35);
+  box-shadow: 0 24px 54px rgba(15, 23, 42, 0.12);
+}
+
+.obtainedState {
+  border: 1px solid rgba(5, 150, 105, 0.22);
+  border-radius: 999px;
+  padding: 6px 9px;
+  color: #047857;
+  background: rgba(16, 185, 129, 0.08);
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.obtainedCard img {
+  display: block;
+  height: 22px;
+  max-width: 100%;
+}
+
+.obtainedCard strong {
+  color: var(--text-main);
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.obtainedCard p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.obtainedLink {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #047857;
+  font-size: 0.82rem;
+  font-weight: 800;
 }
 
 .badgeBand {
@@ -451,6 +551,7 @@
 @media (max-width: 1020px) {
   .hero,
   .badgeBand,
+  .obtainedPanel,
   .boundaryPanel {
     grid-template-columns: 1fr;
   }
@@ -461,6 +562,10 @@
 
   .workflowRail {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .obtainedGrid {
+    grid-template-columns: 1fr;
   }
 
   .badgeStrip {
@@ -489,6 +594,7 @@
   .heroCopy,
   .assurancePanel,
   .badgeBand,
+  .obtainedPanel,
   .workflowSection,
   .boundaryPanel {
     padding: 22px;

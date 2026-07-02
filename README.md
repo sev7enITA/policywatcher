@@ -23,6 +23,13 @@
   <img src="https://img.shields.io/badge/Track-3.5%20Confidence-10b981" alt="3.5 Confidence Track" />
 </p>
 
+<p align="center">
+  <strong>Highlighted public evidence:</strong>
+  OpenSSF Best Practices project <a href="https://www.bestpractices.dev/projects/13465">13465</a> is passing.
+  GitHub Quality Gate, CodeQL, OpenSSF Scorecard, and Core Coverage badges expose public workflow/repository evidence.
+  These are operational quality signals, not legal, regulatory, or security certifications.
+</p>
+
 ---
 
 ## What Is PolicyWatcher?

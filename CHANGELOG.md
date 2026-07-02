@@ -11,6 +11,7 @@
 - Vitest core tests and coverage for `policyConfidence`, `subscriberPreferences`, and `diffParse`.
 - Open-source governance files: `SECURITY.md`, `CODE_OF_CONDUCT.md`, and third-party validation setup guide.
 - OpenSSF Best Practices project `13465` badge integration for README and `/trust`.
+- Highlighted badge section on `/trust` and README to make obtained/public quality evidence easier to inspect.
 - Public State of the Art reports in `docs/platform-state-of-art-2026-07-02.md` and `docs/platform-state-of-art-2026-07-02.it.md`.
 
 ### Changed
