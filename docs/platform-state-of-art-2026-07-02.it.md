@@ -180,7 +180,7 @@ Asset di validazione repo:
 - CodeQL;
 - OpenSSF Scorecard;
 - badge OpenSSF Best Practices project `13465` in stato passing;
-- core coverage workflow;
+- targeted reliability coverage workflow;
 - SonarQube Cloud workflow pronto per `SONAR_TOKEN`;
 - Codecov upload pronto per `CODECOV_TOKEN`;
 - `SECURITY.md`;
@@ -206,8 +206,8 @@ git diff --check
 Risultati:
 
 - ESLint: clean.
-- Unit test: 3 file, 10 test passati.
-- Coverage core: 91.22% statements, 96% lines, 100% functions.
+- Unit test: 7 file, 28 test passati.
+- Targeted reliability coverage: 93.26% statements, 95.58% lines, 100% functions.
 - Dataset QA: 0 blocker, 1 warning Plaid.
 - Build Next production: riuscita.
 - `git diff --check`: clean.
@@ -271,7 +271,7 @@ Pronto:
 - CodeQL;
 - OpenSSF Scorecard;
 - OpenSSF Best Practices project `13465` in stato passing;
-- Core coverage workflow.
+- Targeted reliability coverage workflow.
 
 Richiede setup esterno:
 

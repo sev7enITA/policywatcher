@@ -55,7 +55,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Current</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Confidence-focused consolidation with policy data statuses, ingestion metadata, check logs, Dataset QA assurance script, Trust & Quality public page, GitHub Quality Gate, CodeQL, OpenSSF Scorecard, core Vitest coverage, Sonar/Codecov readiness, security-header hardening, OpenSSF-ready governance files, and refreshed methodology/how-to wording. These checks are operational evidence, not legal or compliance certification.
+                      Confidence-focused consolidation with policy data statuses, ingestion metadata, check logs, Dataset QA assurance script, Trust & Quality public page, GitHub Quality Gate, CodeQL, OpenSSF Scorecard, targeted Vitest reliability coverage, Sonar/Codecov readiness, security-header hardening, OpenSSF-ready governance files, and refreshed methodology/how-to wording. These checks are operational evidence, not legal or compliance certification.
                     </p>
                   </div>
 

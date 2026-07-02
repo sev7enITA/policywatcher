@@ -36,12 +36,18 @@ const SESSION_TTL_MS = 24 * 60 * 60 * 1000;
  * @param payload - The string to sign.
  * @returns Hex-encoded HMAC signature.
  */
-function sign(payload: string): string {
+function getSigningSecret(): string | null {
   const secret = process.env.SESSION_HMAC_SECRET || process.env.API_SECRET;
   if (!secret) {
     console.error('[AdminAuth] SESSION_HMAC_SECRET/API_SECRET is not set. Sessions will be invalid.');
-    return 'no-secret-configured';
+    return null;
   }
+  return secret;
+}
+
+function sign(payload: string): string | null {
+  const secret = getSigningSecret();
+  if (!secret) return null;
   return createHmac('sha256', secret).update(payload).digest('hex');
 }
 
@@ -67,7 +73,7 @@ function safeCompare(a: string, b: string): boolean {
 export function createSessionToken(role: AdminRole): string {
   const timestamp = Date.now().toString();
   const payload = `${role}:${timestamp}`;
-  const signature = sign(payload);
+  const signature = sign(payload) || 'missing-session-secret';
   return `${payload}:${signature}`;
 }
 
@@ -88,6 +94,7 @@ export function verifySessionToken(token: string): SessionResult {
   // Verify signature
   const payload = `${role}:${timestamp}`;
   const expectedSig = sign(payload);
+  if (!expectedSig) return { valid: false };
   if (!safeCompare(providedSig, expectedSig)) return { valid: false };
 
   // Verify TTL

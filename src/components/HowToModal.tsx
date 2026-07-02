@@ -184,7 +184,7 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
             </div>
             <div className={styles.gridCard}>
               <h4><IconDocumentDiff size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Trust page' : 'Trust page'}</h4>
-              <p>{isIt ? 'La pagina Trust & Quality raccoglie CI, CodeQL, OpenSSF Scorecard, core coverage, Sonar/Codecov readiness e report header live.' : 'The Trust & Quality page collects CI, CodeQL, OpenSSF Scorecard, core coverage, Sonar/Codecov readiness, and live header reports.'}</p>
+              <p>{isIt ? 'La pagina Trust & Quality raccoglie CI, CodeQL, OpenSSF Scorecard, targeted reliability coverage, Sonar/Codecov readiness e report header live.' : 'The Trust & Quality page collects CI, CodeQL, OpenSSF Scorecard, targeted reliability coverage, Sonar/Codecov readiness, and live header reports.'}</p>
             </div>
             <div className={styles.gridCard}>
               <h4><IconBellAlert size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Confine dichiarato' : 'Declared boundary'}</h4>

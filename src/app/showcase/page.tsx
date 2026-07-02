@@ -65,7 +65,7 @@ const signalTiles = [
 
 const heroTelemetry = [
   ['Dataset QA', 'Checks URL hygiene, hash consistency, check logs, timestamps and analysis completeness.'],
-  ['Trust evidence', 'Shows CI, CodeQL, OpenSSF Scorecard, core coverage and live-header report links.'],
+  ['Trust evidence', 'Shows CI, CodeQL, OpenSSF Scorecard, targeted reliability coverage and live-header report links.'],
   ['Public views', 'Dashboard, timeline, change pages, share/embed pages, Trust page and PDF reports.'],
 ] as const;
 
@@ -87,7 +87,7 @@ const adminCells = [
   ['Encrypted Backup', 'Encrypted export and decrypt-preview utility for database content'],
   ['Auditor Role', 'Read-only review access for selected admin views'],
   ['Security Settings', 'Session HMAC, rate limits, protected APIs and token hygiene'],
-  ['Trust Evidence', 'Public quality page for CI, CodeQL, OpenSSF, core coverage and live header reports'],
+  ['Trust Evidence', 'Public quality page for CI, CodeQL, OpenSSF, targeted reliability coverage and live header reports'],
 ] as const;
 
 const flow = [
@@ -550,7 +550,7 @@ export default function ShowcasePage() {
           <h2>Public evidence is separated from certification claims.</h2>
           <p>
             The Trust page presents workflow status, CodeQL, OpenSSF Scorecard,
-            core coverage, Sonar readiness, Codecov readiness and live HTTP
+            targeted reliability coverage, Sonar readiness, Codecov readiness and live HTTP
             header report links. These checks are operational evidence, not
             compliance certification.
           </p>
@@ -560,7 +560,7 @@ export default function ShowcasePage() {
             ['Quality Gate', 'GitHub Actions', 'CI'],
             ['CodeQL', 'Code scanning', 'Scan'],
             ['OpenSSF', 'Scorecard workflow', 'Supply chain'],
-            ['Coverage', 'Vitest core coverage', 'Test'],
+            ['Coverage', 'Vitest targeted reliability coverage', 'Test'],
             ['Sonar', 'Ready for token setup', 'Pending'],
             ['Headers', 'Live report links', 'External'],
           ].map(([label, value, badge], index) => (

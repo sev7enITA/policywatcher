@@ -1,4 +1,4 @@
-name: Core Coverage
+name: Targeted Reliability Coverage
 
 on:
   push:
@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   coverage:
-    name: Vitest core coverage
+    name: Vitest reliability coverage
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
@@ -33,13 +33,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run core coverage
+      - name: Run targeted reliability coverage
         run: npm run test:coverage
 
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
         with:
-          name: core-coverage
+          name: targeted-reliability-coverage
           path: coverage/
           if-no-files-found: error
 
@@ -49,10 +49,10 @@ jobs:
         with:
           files: ./coverage/lcov.info
           flags: core
-          name: policywatcher-core
+          name: policywatcher-targeted-reliability
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Codecov not configured
         if: env.CODECOV_TOKEN == ''
-        run: echo "CODECOV_TOKEN is not configured; core coverage artifact was still generated."
+        run: echo "CODECOV_TOKEN is not configured; targeted reliability coverage artifact was still generated."

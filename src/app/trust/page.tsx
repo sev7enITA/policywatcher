@@ -113,12 +113,12 @@ const evidenceCards: EvidenceCard[] = [
     linkLabel: 'Open workflow',
   },
   {
-    title: 'Codecov Core Coverage',
-    status: 'Core tests enabled',
+    title: 'Codecov Targeted Reliability Coverage',
+    status: 'Targeted tests enabled',
     tone: 'violet',
     icon: Activity,
     body:
-      'Vitest tracks coverage for selected core utilities first. Codecov upload activates when CODECOV_TOKEN is configured; coverage is scoped until broader tests exist.',
+      'Vitest tracks auth/session handling, rate limiting, confidence metadata, diff parsing, subscriber preferences, and export/report utilities. This is targeted operational coverage, not full UI coverage.',
     href: `${repoBase}/actions/workflows/coverage.yml`,
     linkLabel: 'Open workflow',
   },
@@ -185,10 +185,10 @@ const badges = [
     alt: 'CodeQL workflow status badge',
   },
   {
-    label: 'Core Coverage',
+    label: 'Targeted Coverage',
     href: `${repoBase}/actions/workflows/coverage.yml`,
     badge: `${repoBase}/actions/workflows/coverage.yml/badge.svg`,
-    alt: 'Core coverage workflow status badge',
+    alt: 'Targeted reliability coverage workflow status badge',
   },
   {
     label: 'OpenSSF Scorecard',

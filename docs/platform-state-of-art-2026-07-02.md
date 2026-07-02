@@ -217,7 +217,7 @@ Repository-level validation assets:
 - CodeQL workflow;
 - OpenSSF Scorecard workflow;
 - OpenSSF Best Practices project `13465` passing badge;
-- core coverage workflow;
+- targeted reliability coverage workflow;
 - SonarQube Cloud workflow prepared for `SONAR_TOKEN`;
 - Codecov upload prepared for `CODECOV_TOKEN`;
 - `SECURITY.md`;
@@ -241,8 +241,8 @@ npm audit --omit=dev
 
 Results:
 
-- Unit tests: 3 files, 10 tests passed.
-- Core coverage: 91.22% statements, 96% lines, 100% functions.
+- Unit tests: 7 files, 28 tests passed.
+- Targeted reliability coverage: 93.26% statements, 95.58% lines, 100% functions.
 - Dataset QA: no blockers, 1 Plaid duplicate URL warning.
 - ESLint: clean.
 - Next production build: successful.
@@ -312,7 +312,7 @@ Ready now:
 - CodeQL.
 - OpenSSF Scorecard.
 - OpenSSF Best Practices project `13465` passing badge.
-- Core coverage workflow.
+- Targeted reliability coverage workflow.
 
 Requires external setup:
 

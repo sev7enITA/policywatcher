@@ -123,9 +123,9 @@ Public wording:
   passing.
 - Avoid before setup: "Sonar passed."
 
-## 6. Codecov Core Coverage
+## 6. Codecov Targeted Reliability Coverage
 
-Status: workflow and Vitest core coverage prepared; Codecov token required.
+Status: workflow and Vitest targeted reliability coverage prepared; Codecov token required.
 
 Files:
 
@@ -137,18 +137,22 @@ Setup:
 
 1. Register or import the repository on Codecov.
 2. Add GitHub secret `CODECOV_TOKEN`.
-3. Run the `Core Coverage` workflow.
+3. Run the `Targeted Reliability Coverage` workflow.
 4. Add the Codecov badge only after the first successful upload.
 
-Initial scope:
+Current targeted scope:
 
+- `src/lib/adminAuth.ts`
+- `src/lib/auth.ts`
 - `src/lib/policyConfidence.ts`
+- `src/lib/rateLimit.ts`
 - `src/lib/subscriberPreferences.ts`
 - `src/lib/diffParse.ts`
+- `src/lib/exporters.ts`
 
 Public wording:
 
-- Acceptable: "Core utility coverage tracked with Codecov."
+- Acceptable: "Targeted reliability coverage tracked with Codecov for critical utility modules."
 - Avoid: "PolicyWatcher is fully covered."
 
 ## 7. MDN HTTP Observatory

@@ -1,13 +1,17 @@
 coverage:
   status:
     project:
+      default: off
       core:
         flags:
           - core
         target: auto
         threshold: 5%
     patch:
-      default:
+      default: off
+      core:
+        flags:
+          - core
         target: 50%
         threshold: 10%
 
@@ -19,6 +23,10 @@ comment:
 flags:
   core:
     paths:
+      - src/lib/adminAuth.ts
+      - src/lib/auth.ts
       - src/lib/policyConfidence.ts
+      - src/lib/rateLimit.ts
       - src/lib/subscriberPreferences.ts
       - src/lib/diffParse.ts
+      - src/lib/exporters.ts

@@ -13,7 +13,7 @@
   <a href="https://www.policywatcher.online"><img src="https://img.shields.io/badge/Live%20Demo-policywatcher.online-6366f1" alt="Live Demo" /></a>
   <a href="https://github.com/sev7enITA/policywatcher/actions/workflows/quality.yml"><img src="https://github.com/sev7enITA/policywatcher/actions/workflows/quality.yml/badge.svg?branch=main" alt="Quality Gate" /></a>
   <a href="https://github.com/sev7enITA/policywatcher/actions/workflows/codeql.yml"><img src="https://github.com/sev7enITA/policywatcher/actions/workflows/codeql.yml/badge.svg?branch=main" alt="CodeQL" /></a>
-  <a href="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml"><img src="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml/badge.svg?branch=main" alt="Core Coverage" /></a>
+  <a href="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml"><img src="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml/badge.svg?branch=main" alt="Targeted Reliability Coverage" /></a>
   <a href="https://scorecard.dev/viewer/?uri=github.com/sev7enITA/policywatcher"><img src="https://api.scorecard.dev/projects/github.com/sev7enITA/policywatcher/badge" alt="OpenSSF Scorecard" /></a>
   <a href="https://www.bestpractices.dev/projects/13465"><img src="https://www.bestpractices.dev/projects/13465/badge" alt="OpenSSF Best Practices" /></a>
   <img src="https://img.shields.io/badge/Next.js-16.2.9-black" alt="Next.js 16" />
@@ -26,7 +26,7 @@
 <p align="center">
   <strong>Highlighted public evidence:</strong>
   OpenSSF Best Practices project <a href="https://www.bestpractices.dev/projects/13465">13465</a> is passing.
-  GitHub Quality Gate, CodeQL, OpenSSF Scorecard, and Core Coverage badges expose public workflow/repository evidence.
+  GitHub Quality Gate, CodeQL, OpenSSF Scorecard, and Targeted Reliability Coverage badges expose public workflow/repository evidence.
   These are operational quality signals, not legal, regulatory, or security certifications.
 </p>
 
@@ -52,7 +52,7 @@ The platform is designed as a **civic tech tool** that translates dense legal do
 - Industry benchmark option in the A/B radar comparison.
 - Admin encrypted backup export and verification workflow.
 - Admin Dataset QA dashboard for source-fit, integrity, freshness, KPI coverage, regional-impact coverage, and subscriber hygiene checks.
-- Public Trust & Quality Evidence page (`/trust`) with CI, CodeQL, OpenSSF Scorecard, core coverage, live-header report links, and dataset assurance boundaries.
+- Public Trust & Quality Evidence page (`/trust`) with CI, CodeQL, OpenSSF Scorecard, targeted reliability coverage, live-header report links, and dataset assurance boundaries.
 - Pre-release security hardening for secrets, rate limits, AI output rendering, email templates, subscriber tokens, scraper egress, deployment diagnostics, and backup passphrases.
 
 ### Key Value Propositions
@@ -246,7 +246,7 @@ PolicyWatcher exposes quality evidence in the application and in the public repo
 - `.github/workflows/codeql.yml` runs GitHub CodeQL security-and-quality analysis for JavaScript and TypeScript.
 - `.github/workflows/scorecard.yml` runs OpenSSF Scorecard and publishes public supply-chain posture results.
 - OpenSSF Best Practices project `13465` is passing and exposed as public open-source process evidence.
-- `.github/workflows/coverage.yml` runs Vitest core utility coverage and uploads to Codecov when `CODECOV_TOKEN` is configured.
+- `.github/workflows/coverage.yml` runs targeted Vitest reliability coverage for auth/session, rate limiting, confidence metadata, diff parsing, subscriber preferences, and export/report utilities, then uploads to Codecov when `CODECOV_TOKEN` is configured.
 - `.github/workflows/sonar.yml` is ready for SonarQube Cloud and activates when `SONAR_TOKEN` is configured.
 - `SECURITY.md`, `CONTRIBUTING.md`, and `CODE_OF_CONDUCT.md` support the OpenSSF Best Practices self-attestation.
 - `docs/platform-state-of-art-2026-07-02.md` and `docs/platform-state-of-art-2026-07-02.it.md` record the current platform state, dataset profile, assurance controls, known warnings, deployment notes, and priorities.
