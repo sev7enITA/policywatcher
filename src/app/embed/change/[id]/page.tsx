@@ -13,8 +13,8 @@
  *  - robots: noindex (set in layout.tsx — canonical is /change/[id]).
  *  - The "View full analysis" link uses target="_top" to navigate the parent frame.
  *
- * The CSP headers in next.config.ts already allow /embed/* to be framed
- * (X-Frame-Options: ALLOWALL, frame-ancestors *).
+ * The CSP headers in next.config.ts allow /embed/* to be framed through
+ * frame-ancestors. X-Frame-Options is not used on embed responses.
  */
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';

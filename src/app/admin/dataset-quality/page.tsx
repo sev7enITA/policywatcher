@@ -58,6 +58,8 @@ interface DatasetQualityData {
     changes: number;
     subscribers: number;
     activeSubscribers: number;
+    checkLogs: number;
+    policiesWithCheckLogs: number;
     criticalIssues: number;
     warningIssues: number;
     infoIssues: number;
@@ -262,7 +264,7 @@ export default function DatasetQualityPage() {
               Dataset QA Status
             </h2>
             <p className={styles.metaText}>
-              The dataset is audited regularly for sources, snapshots, hashes, AI analysis, KPI coverage, and regional impact rows.
+              The dataset is audited regularly for sources, version records, hashes, AI analysis, KPI coverage, and regional impact rows.
             </p>
           </div>
           <span className={statusBadgeClass(summary.status)} style={{ marginLeft: 'auto' }}>
@@ -275,14 +277,14 @@ export default function DatasetQualityPage() {
             <FileSearch size={16} />
             <div>
               <strong>Source Fit</strong>
-              <span>Global analysis uses canonical English/global policies; EU/US analysis uses official market-specific sources.</span>
+              <span>Global analysis should use canonical English/global policies; EU/US analysis should use provider market-specific sources where available.</span>
             </div>
           </div>
           <div className={styles.sealItem}>
             <Database size={16} />
             <div>
               <strong>Traceability</strong>
-              <span>Every policy should have source URL, current hash, stored snapshots, and versioned changes.</span>
+              <span>Every policy should have source URL, current hash, version records, and versioned changes.</span>
             </div>
           </div>
           <div className={styles.sealItem}>
@@ -321,6 +323,10 @@ export default function DatasetQualityPage() {
           <div className={styles.statusItem}>
             <span className={styles.statusLabel}>Changes</span>
             <span className={styles.statusText}>{summary.changes}</span>
+          </div>
+          <div className={styles.statusItem}>
+            <span className={styles.statusLabel}>Check Logs</span>
+            <span className={styles.statusText}>{summary.policiesWithCheckLogs}/{summary.policies}</span>
           </div>
           <div className={styles.statusItem}>
             <span className={styles.statusLabel}>Subscribers</span>

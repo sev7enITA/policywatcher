@@ -826,7 +826,7 @@ function visibleText(html: string): string {
  * Validates HTML content through Layer 2 checks.
  * Returns { ok: true, text, hash } or { ok: false, reason }.
  */
-async function validateContent(html: string, _finalUrl: string): Promise<
+async function validateContent(html: string): Promise<
   | { ok: true; text: string; hash: string }
   | { ok: false; reason: string }
 > {
@@ -918,7 +918,7 @@ export async function scrapePolicyText(url: string): Promise<ScrapeResult> {
       directReason = `http_${httpStatus}`;
       console.log(`[Scraper] [1/5] HTTP ${httpStatus}`);
     } else {
-      const validation = await validateContent(transport.html, transport.finalUrl);
+      const validation = await validateContent(transport.html);
       if (validation.ok) {
         console.log(`[Scraper] ✅ Direct fetch OK (${validation.text.length} chars)`);
         return {
@@ -945,7 +945,7 @@ export async function scrapePolicyText(url: string): Promise<ScrapeResult> {
     try {
       const h2Result = await fetchWithHttp2(destination.url);
       if (h2Result.ok) {
-        const validation = await validateContent(h2Result.html, h2Result.finalUrl);
+        const validation = await validateContent(h2Result.html);
         if (validation.ok) {
           console.log(`[Scraper] ✅ HTTP/2 fetch OK (${validation.text.length} chars)`);
           return {
@@ -975,7 +975,7 @@ export async function scrapePolicyText(url: string): Promise<ScrapeResult> {
   console.log(`[Scraper] [3/5] Wayback Machine: ${url}`);
   const wayback = await fetchFromWayback(url);
   if (wayback.ok) {
-    const validation = await validateContent(wayback.html, wayback.finalUrl);
+    const validation = await validateContent(wayback.html);
     if (validation.ok) {
       console.log(`[Scraper] ✅ Wayback Machine OK (${validation.text.length} chars from ${wayback.finalUrl})`);
       return {
@@ -999,7 +999,7 @@ export async function scrapePolicyText(url: string): Promise<ScrapeResult> {
   console.log(`[Scraper] [4/5] Google Cache: ${url}`);
   const gcache = await fetchFromGoogleCache(url);
   if (gcache.ok) {
-    const validation = await validateContent(gcache.html, gcache.finalUrl);
+    const validation = await validateContent(gcache.html);
     if (validation.ok) {
       console.log(`[Scraper] ✅ Google Cache OK (${validation.text.length} chars)`);
       return {
@@ -1023,7 +1023,7 @@ export async function scrapePolicyText(url: string): Promise<ScrapeResult> {
   console.log(`[Scraper] [5/5] Common Crawl: ${url}`);
   const cc = await fetchFromCommonCrawl(url);
   if (cc.ok) {
-    const validation = await validateContent(cc.html, cc.finalUrl);
+    const validation = await validateContent(cc.html);
     if (validation.ok) {
       console.log(`[Scraper] ✅ Common Crawl OK (${validation.text.length} chars)`);
       return {

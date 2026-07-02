@@ -32,7 +32,8 @@ import {
   ArrowUp,
   ArrowDown,
   HelpCircle,
-  Cpu
+  Cpu,
+  ShieldCheck
 } from 'lucide-react';
 import styles from './CommandPalette.module.css';
 import type { Company, Lang } from '@/types';
@@ -212,6 +213,17 @@ export default function CommandPalette({
         keywords: 'roadmap tick tock next releases evolution program cadence 3.5 confidence',
         run: () => {
           window.location.href = '/roadmap';
+        },
+      },
+      {
+        id: 'act-trust',
+        label: 'View Trust & Quality Evidence',
+        labelIt: 'Vedi evidenze qualità e fiducia',
+        icon: <ShieldCheck size={16} />,
+        group: 'actions',
+        keywords: 'trust quality evidence qa dataset assurance confidence ci codeql scorecard badges security',
+        run: () => {
+          window.location.href = '/trust';
         },
       },
       {

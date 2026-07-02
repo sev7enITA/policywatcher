@@ -19,6 +19,7 @@ import { analyzePolicyChange } from '@/lib/gemini';
 import { sendPolicyChangeAlert, ChangedPolicySummary } from '@/lib/mailer';
 import { isAuthorized } from '@/lib/auth';
 import { normalizePreferenceKey, splitPreferenceKeys } from '@/lib/subscriberPreferences';
+import { dataStatusFromScrapeFailure, normalizeIngestionMethod } from '@/lib/policyConfidence';
 
 // -- Types --
 
@@ -129,14 +130,28 @@ export async function runFullScan(onProgress?: ProgressCallback): Promise<ScanRe
       if (scrapeResult.status !== 'ok') {
         // Page unreachable or unusable. Record it honestly: do NOT
         // create a snapshot or run AI analysis on missing data.
-        const isInvalid = scrapeResult.status === 'invalid';
-        await db.policy.update({
-          where: { id: policy.id },
-          data: {
-            lastCheckDate: new Date(),
-            dataStatus: isInvalid ? 'Needs Review' : 'Unavailable',
-          },
-        });
+        const checkedAt = new Date();
+        const dataStatus = dataStatusFromScrapeFailure(scrapeResult.status);
+        await db.$transaction([
+          db.policy.update({
+            where: { id: policy.id },
+            data: {
+              lastCheckDate: checkedAt,
+              dataStatus,
+            },
+          }),
+          db.policyCheckLog.create({
+            data: {
+              policyId: policy.id,
+              status: dataStatus,
+              checkedAt,
+              source: scrapeResult.source || 'none',
+              httpStatus: scrapeResult.httpStatus || null,
+              reason: scrapeResult.reason || null,
+              finalUrl: scrapeResult.finalUrl || policy.url,
+            },
+          }),
+        ]);
         detail.status = scrapeResult.status; // 'unavailable' | 'invalid'
         detail.error = `scrape:${scrapeResult.reason}`;
         detail.httpStatus = scrapeResult.httpStatus;
@@ -173,16 +188,31 @@ export async function runFullScan(onProgress?: ProgressCallback): Promise<ScanRe
           message: `${policy.company.name} — ${policy.name}: unchanged ✓ [${scrapeResult.source}]`,
         });
 
-        await db.policy.update({
-          where: { id: policy.id },
-          data: {
-            updatedAt: new Date(),
-            lastCheckDate: new Date(),
-            lastSuccessfulCheckDate: new Date(),
-            dataStatus: 'Available',
-            ingestionMethod: scrapeResult.source || 'Direct Scrape',
-          },
-        });
+        const checkedAt = new Date();
+        await db.$transaction([
+          db.policy.update({
+            where: { id: policy.id },
+            data: {
+              updatedAt: checkedAt,
+              lastCheckDate: checkedAt,
+              lastSuccessfulCheckDate: checkedAt,
+              dataStatus: 'Available',
+              ingestionMethod: normalizeIngestionMethod(scrapeResult.source || 'direct'),
+            },
+          }),
+          db.policyCheckLog.create({
+            data: {
+              policyId: policy.id,
+              status: 'Available',
+              checkedAt,
+              source: scrapeResult.source || 'direct',
+              httpStatus: scrapeResult.httpStatus || null,
+              finalUrl: scrapeResult.finalUrl || policy.url,
+              textHash: newHash,
+              textLength: newText.length,
+            },
+          }),
+        ]);
         continue;
       }
 
@@ -194,16 +224,6 @@ export async function runFullScan(onProgress?: ProgressCallback): Promise<ScanRe
       const latestSnapshot = policy.snapshots[0];
       const newVersion = latestSnapshot ? latestSnapshot.version + 1 : 1;
       const oldText = latestSnapshot ? latestSnapshot.text : '';
-
-      // Create new snapshot
-      const newSnapshot = await db.policySnapshot.create({
-        data: {
-          policyId: policy.id,
-          version: newVersion,
-          text: newText,
-          hash: newHash,
-        },
-      });
 
       // Run Gemini analysis
       const analysis = await analyzePolicyChange(
@@ -229,67 +249,90 @@ export async function runFullScan(onProgress?: ProgressCallback): Promise<ScanRe
         orderBy: { createdAt: 'desc' },
       });
 
-      // Store the policy change
-      await db.policyChange.create({
-        data: {
-          policyId: policy.id,
-          oldSnapshotId: latestSnapshot?.id || null,
-          newSnapshotId: newSnapshot.id,
-          diff: diffResult.substring(0, 50000),
-          aiSummaryEn: analysis.executiveSummaryEn,
-          aiSummaryIt: analysis.executiveSummaryIt,
-          tldrEn: analysis.tldrEn,
-          tldrIt: analysis.tldrIt,
-          keyPointsJson: JSON.stringify(analysis.keyPoints),
-          riskReasonsJson: JSON.stringify(analysis.riskReasons),
-          overallRisk: analysis.overallRisk,
-          overallScore: analysis.overallScore,
-          remediationsJson: JSON.stringify(analysis.remediations),
-          aiTrainingOptOut: analysis.aiTrainingOptOut,
-          aiDataScrapingRestricted: analysis.aiDataScrapingRestricted,
-          aiIpLicensing: analysis.aiIpLicensing,
-          aiPromptRetention: analysis.aiPromptRetention,
-          // Inherited KPI fields
-          kpiDataCollection: previousChange?.kpiDataCollection || 'Not assessed',
-          kpiThirdPartySharing: previousChange?.kpiThirdPartySharing || 'Not assessed',
-          kpiDataRetention: previousChange?.kpiDataRetention || 'Not assessed',
-          kpiRightToDeletion: previousChange?.kpiRightToDeletion || 'Not assessed',
-          kpiCrossBorderTransfer: previousChange?.kpiCrossBorderTransfer || 'Not assessed',
-          kpiAiTrainingOptOut: previousChange?.kpiAiTrainingOptOut || 'Not assessed',
-          kpiAiOutputOwnership: previousChange?.kpiAiOutputOwnership || 'Not assessed',
-          kpiAlgoTransparency: previousChange?.kpiAlgoTransparency || 'Not assessed',
-          kpiAutomatedDecision: previousChange?.kpiAutomatedDecision || 'Not assessed',
-          kpiAiBiasFairness: previousChange?.kpiAiBiasFairness || 'Not assessed',
-          kpiConsentMechanism: previousChange?.kpiConsentMechanism || 'Not assessed',
-          kpiRegulatoryCompliance: previousChange?.kpiRegulatoryCompliance || 'Not assessed',
-          kpiBreachNotification: previousChange?.kpiBreachNotification || 'Not assessed',
-          kpiIndependentAudit: previousChange?.kpiIndependentAudit || 'Not assessed',
-          kpiContentModeration: previousChange?.kpiContentModeration || 'Not assessed',
-          regionImpacts: {
-            create: analysis.regionImpacts.map((ri) => ({
-              region: ri.region,
-              perspective: ri.perspective,
-              impactAnalysisEn: ri.impactAnalysisEn,
-              impactAnalysisIt: ri.impactAnalysisIt,
-              riskLevel: ri.riskLevel,
-              complianceNoteEn: ri.complianceNoteEn || null,
-              complianceNoteIt: ri.complianceNoteIt || null,
-            })),
+      const checkedAt = new Date();
+      await db.$transaction(async (tx) => {
+        const newSnapshot = await tx.policySnapshot.create({
+          data: {
+            policyId: policy.id,
+            version: newVersion,
+            text: newText,
+            hash: newHash,
           },
-        },
-      });
+        });
 
-      // Update the policy record with new hash and text
-      await db.policy.update({
-        where: { id: policy.id },
-        data: {
-          currentText: newText,
-          currentHash: newHash,
-          lastCheckDate: new Date(),
-          lastSuccessfulCheckDate: new Date(),
-          dataStatus: 'Available',
-          ingestionMethod: scrapeResult.source || 'Direct Scrape',
-        },
+        await tx.policyChange.create({
+          data: {
+            policyId: policy.id,
+            oldSnapshotId: latestSnapshot?.id || null,
+            newSnapshotId: newSnapshot.id,
+            diff: diffResult.substring(0, 50000),
+            aiSummaryEn: analysis.executiveSummaryEn,
+            aiSummaryIt: analysis.executiveSummaryIt,
+            tldrEn: analysis.tldrEn,
+            tldrIt: analysis.tldrIt,
+            keyPointsJson: JSON.stringify(analysis.keyPoints),
+            riskReasonsJson: JSON.stringify(analysis.riskReasons),
+            overallRisk: analysis.overallRisk,
+            overallScore: analysis.overallScore,
+            remediationsJson: JSON.stringify(analysis.remediations),
+            aiTrainingOptOut: analysis.aiTrainingOptOut,
+            aiDataScrapingRestricted: analysis.aiDataScrapingRestricted,
+            aiIpLicensing: analysis.aiIpLicensing,
+            aiPromptRetention: analysis.aiPromptRetention,
+            // Inherited KPI fields
+            kpiDataCollection: previousChange?.kpiDataCollection || 'Not assessed',
+            kpiThirdPartySharing: previousChange?.kpiThirdPartySharing || 'Not assessed',
+            kpiDataRetention: previousChange?.kpiDataRetention || 'Not assessed',
+            kpiRightToDeletion: previousChange?.kpiRightToDeletion || 'Not assessed',
+            kpiCrossBorderTransfer: previousChange?.kpiCrossBorderTransfer || 'Not assessed',
+            kpiAiTrainingOptOut: previousChange?.kpiAiTrainingOptOut || 'Not assessed',
+            kpiAiOutputOwnership: previousChange?.kpiAiOutputOwnership || 'Not assessed',
+            kpiAlgoTransparency: previousChange?.kpiAlgoTransparency || 'Not assessed',
+            kpiAutomatedDecision: previousChange?.kpiAutomatedDecision || 'Not assessed',
+            kpiAiBiasFairness: previousChange?.kpiAiBiasFairness || 'Not assessed',
+            kpiConsentMechanism: previousChange?.kpiConsentMechanism || 'Not assessed',
+            kpiRegulatoryCompliance: previousChange?.kpiRegulatoryCompliance || 'Not assessed',
+            kpiBreachNotification: previousChange?.kpiBreachNotification || 'Not assessed',
+            kpiIndependentAudit: previousChange?.kpiIndependentAudit || 'Not assessed',
+            kpiContentModeration: previousChange?.kpiContentModeration || 'Not assessed',
+            regionImpacts: {
+              create: analysis.regionImpacts.map((ri) => ({
+                region: ri.region,
+                perspective: ri.perspective,
+                impactAnalysisEn: ri.impactAnalysisEn,
+                impactAnalysisIt: ri.impactAnalysisIt,
+                riskLevel: ri.riskLevel,
+                complianceNoteEn: ri.complianceNoteEn || null,
+                complianceNoteIt: ri.complianceNoteIt || null,
+              })),
+            },
+          },
+        });
+
+        await tx.policy.update({
+          where: { id: policy.id },
+          data: {
+            currentText: newText,
+            currentHash: newHash,
+            lastCheckDate: checkedAt,
+            lastSuccessfulCheckDate: checkedAt,
+            dataStatus: 'Available',
+            ingestionMethod: normalizeIngestionMethod(scrapeResult.source || 'direct'),
+          },
+        });
+
+        await tx.policyCheckLog.create({
+          data: {
+            policyId: policy.id,
+            status: 'Available',
+            checkedAt,
+            source: scrapeResult.source || 'direct',
+            httpStatus: scrapeResult.httpStatus || null,
+            finalUrl: scrapeResult.finalUrl || policy.url,
+            textHash: newHash,
+            textLength: newText.length,
+          },
+        });
       });
 
       // Track for subscriber notifications

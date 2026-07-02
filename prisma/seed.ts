@@ -1,6 +1,11 @@
+import { createHash } from 'crypto';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
+
+function hashText(text: string): string {
+  return createHash('sha256').update(text).digest('hex');
+}
 
 // ---------------------------------------------------------------------------
 // Helper types and factory functions
@@ -127,6 +132,19 @@ function makeUKImpacts(
 }
 
 async function seedPolicy(companyId: string, input: PolicySeedInput) {
+  const latestInputSnapshot = [...input.snapshots].sort((a, b) => b.version - a.version)[0];
+  const currentText = latestInputSnapshot?.text || input.currentText;
+  const currentHash = hashText(currentText);
+  const latestSnapshotDate = input.snapshots.reduce<Date | null>((latest, snapshot) => {
+    const snapshotDate = new Date(snapshot.date);
+    return !latest || snapshotDate > latest ? snapshotDate : latest;
+  }, null);
+  const latestChangeDate = input.changes.reduce<Date | null>((latest, change) => {
+    const changeDate = new Date(change.date);
+    return !latest || changeDate > latest ? changeDate : latest;
+  }, null);
+  const seededAt = latestChangeDate || latestSnapshotDate || new Date();
+
   const policy = await prisma.policy.create({
     data: {
       companyId,
@@ -134,15 +152,20 @@ async function seedPolicy(companyId: string, input: PolicySeedInput) {
       type: input.type,
       jurisdiction: input.jurisdiction,
       url: input.url,
-      currentText: input.currentText,
-      currentHash: input.currentHash,
+      currentText,
+      currentHash,
+      dataStatus: 'Available',
+      lastCheckDate: seededAt,
+      lastSuccessfulCheckDate: seededAt,
+      ingestionMethod: 'Seeded',
     },
   });
 
   const snapshots = [];
   for (const s of input.snapshots) {
+    const snapshotHash = hashText(s.text);
     const snap = await prisma.policySnapshot.create({
-      data: { policyId: policy.id, version: s.version, text: s.text, hash: s.hash, createdAt: new Date(s.date) },
+      data: { policyId: policy.id, version: s.version, text: s.text, hash: snapshotHash, createdAt: new Date(s.date) },
     });
     snapshots.push(snap);
   }
@@ -199,6 +222,19 @@ async function seedPolicy(companyId: string, input: PolicySeedInput) {
     }
   }
 
+  await prisma.policyCheckLog.create({
+    data: {
+      policyId: policy.id,
+      status: 'Available',
+      checkedAt: seededAt,
+      source: 'seeded',
+      reason: 'Initial seeded dataset record',
+      finalUrl: input.url,
+      textHash: currentHash,
+      textLength: currentText.length,
+    },
+  });
+
   return policy;
 }
 
@@ -211,6 +247,7 @@ async function main() {
   await prisma.regionImpact.deleteMany({});
   await prisma.policyChange.deleteMany({});
   await prisma.policySnapshot.deleteMany({});
+  await prisma.policyCheckLog.deleteMany({});
   await prisma.policy.deleteMany({});
   await prisma.company.deleteMany({});
 

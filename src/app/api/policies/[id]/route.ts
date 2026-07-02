@@ -56,6 +56,12 @@ export async function GET(
             regionImpacts: true,
           },
         },
+        checkLogs: {
+          orderBy: {
+            checkedAt: 'desc',
+          },
+          take: 10,
+        },
       },
     });
 
@@ -77,6 +83,10 @@ export async function GET(
         url: true,
         jurisdiction: true,
         currentHash: true,
+        dataStatus: true,
+        ingestionMethod: true,
+        lastCheckDate: true,
+        lastSuccessfulCheckDate: true,
         updatedAt: true,
         snapshots: {
           orderBy: { version: 'desc' },

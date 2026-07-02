@@ -51,6 +51,7 @@ import RiskReasons from '@/components/ai/RiskReasons';
 import RemediationSteps from '@/components/ai/RemediationSteps';
 import RiskTrendPanel from '@/components/charts/RiskTrendPanel';
 import RegionHeatMap from '@/components/charts/RegionHeatMap';
+import { dataStatusClassKey, normalizeDataStatus, normalizeIngestionMethod } from '@/lib/policyConfidence';
 
 /** Props for the {@link PolicyDetails} slide-over panel. */
 interface PolicyDetailsProps {
@@ -115,6 +116,10 @@ interface SiblingPolicy {
   url: string;
   jurisdiction: string;
   currentHash: string;
+  dataStatus: string;
+  ingestionMethod?: string | null;
+  lastCheckDate?: string | null;
+  lastSuccessfulCheckDate?: string | null;
   updatedAt: string;
   snapshots: { version: number; createdAt: string }[];
 }
@@ -146,6 +151,13 @@ export default function PolicyDetails({
   const [activeChangeIndex, setActiveChangeIndex] = useState<number>(0);
   const [expandedSnapshot, setExpandedSnapshot] = useState<string | null>(null);
   const [copiedSnapshotId, setCopiedSnapshotId] = useState<string | null>(null);
+  const auditDateFormatter = useCallback((value?: string | null) => {
+    if (!value) return 'N/A';
+    return new Date(value).toLocaleDateString(
+      lang === 'it' ? 'it-IT' : 'en-US',
+      { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }
+    );
+  }, [lang]);
 
   const handleClose = useCallback(() => {
     setClosing(true);
@@ -385,31 +397,37 @@ export default function PolicyDetails({
           <div className={styles.auditingGrid}>
             <div>
               <strong>{lang === 'it' ? 'Stato QA Dataset:' : 'Dataset QA Status:'}</strong>
-              <span className={`${styles.confidenceBadge} ${styles[`badge_${(policy as any).dataStatus?.replace(/\s+/g, '').toLowerCase() || 'available'}`]}`}>
-                {(policy as any).dataStatus || 'Available'}
+              <span className={`${styles.confidenceBadge} ${styles[`badge_${dataStatusClassKey(policy.dataStatus)}`]}`}>
+                {normalizeDataStatus(policy.dataStatus, 'Available')}
               </span>
             </div>
             <div>
               <strong>{lang === 'it' ? 'Metodo Ingestione:' : 'Ingestion Method:'}</strong>
-              <span>{(policy as any).ingestionMethod || 'Seeded'}</span>
+              <span>{normalizeIngestionMethod(policy.ingestionMethod)}</span>
             </div>
             <div>
               <strong>{lang === 'it' ? 'Ultimo Controllo:' : 'Last Checked:'}</strong>
-              <span>
-                {(policy as any).lastCheckDate 
-                  ? new Date((policy as any).lastCheckDate).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
-                  : 'N/A'}
-              </span>
+              <span>{auditDateFormatter(policy.lastCheckDate)}</span>
             </div>
             <div>
               <strong>{lang === 'it' ? 'Ultimo Check Riuscito:' : 'Last Successful Fetch:'}</strong>
-              <span>
-                {(policy as any).lastSuccessfulCheckDate 
-                  ? new Date((policy as any).lastSuccessfulCheckDate).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
-                  : 'N/A'}
-              </span>
+              <span>{auditDateFormatter(policy.lastSuccessfulCheckDate)}</span>
             </div>
           </div>
+          {policy.checkLogs && policy.checkLogs.length > 0 && (
+            <div className={styles.checkLogList}>
+              {policy.checkLogs.slice(0, 3).map((log) => (
+                <div key={log.id} className={styles.checkLogItem}>
+                  <span className={`${styles.confidenceBadge} ${styles[`badge_${dataStatusClassKey(log.status)}`]}`}>
+                    {normalizeDataStatus(log.status, 'Needs Review')}
+                  </span>
+                  <span>{auditDateFormatter(log.checkedAt)}</span>
+                  <span>{normalizeIngestionMethod(log.source)}</span>
+                  {log.httpStatus ? <span>HTTP {log.httpStatus}</span> : null}
+                </div>
+              ))}
+            </div>
+          )}
           <div className={styles.methodologyLinkRow}>
             <a href="/methodology/confidence" target="_blank" rel="noreferrer">
               {lang === 'it' ? 'Leggi la metodologia di tracciabilità e i limiti dell\'AI' : 'Read traceability methodology & AI limits'}
@@ -679,7 +697,7 @@ export default function PolicyDetails({
             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '16px', lineHeight: 1.5 }}>
               {lang === 'it'
                 ? 'Tutti i documenti di policy ufficiali attualmente tracciati da PolicyWatcher per questa azienda, con il link alla fonte e alla versione archiviata su Wayback Machine.'
-                : 'All official policy documents currently tracked by PolicyWatcher for this company, with links to the source and the archived version on the Wayback Machine.'}
+                : 'All policy sources currently tracked by PolicyWatcher for this company, with links to the configured source and the archived version on the Wayback Machine.'}
             </p>
 
             <div className={styles.archiveList}>
@@ -792,7 +810,7 @@ export default function PolicyDetails({
                           </button>
                           <a href={policy.url} target="_blank" rel="noreferrer" className={styles.archiveActionBtn}>
                             <ExternalLink size={14} />
-                            {lang === 'it' ? 'Apri fonte ufficiale' : 'Open official source'}
+                            {lang === 'it' ? 'Apri fonte configurata' : 'Open configured source'}
                           </a>
                           <a
                             href={`https://web.archive.org/web/${new Date(snapshot.createdAt).toISOString().replace(/[-:T]/g, '').substring(0, 14)}*/${policy.url}`}

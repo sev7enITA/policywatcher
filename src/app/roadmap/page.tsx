@@ -15,7 +15,6 @@ import {
   Cpu,
   Layers,
   Activity,
-  FileCode,
   History,
   ShieldAlert,
   GitFork,
@@ -55,7 +54,7 @@ const translationContent = {
     p0Title: 'P0 — Truth & Confidence Layer',
     p0Desc: 'Every public and admin view should make the state of the underlying data easier to understand.',
     p0Needs: [
-      'Rename "Dataset Quality Seal" to "Dataset QA Status"',
+      'Complete legacy Dataset QA wording cleanup',
       'Add explicit data confidence labels: Configured, Available, Partial, Needs Review, Unavailable, Reviewed',
       'Show visible data context: policy URL, jurisdiction, policy type, check dates, ingestion method, and QA findings',
       'Create a public methodology page explaining what the platform does and does not certify'
@@ -181,7 +180,7 @@ const translationContent = {
     p0Title: 'P0 — Livello Verità & Trasparenza',
     p0Desc: 'Ogni visualizzazione pubblica e amministrativa deve rendere trasparente lo stato del dato sottostante.',
     p0Needs: [
-      'Rinominare "Dataset Quality Seal" in "Dataset QA Status"',
+      'Completare la pulizia del wording legacy sulla Dataset QA',
       'Aggiungere etichette di confidence: Configured, Available, Partial, Needs Review, Unavailable, Reviewed',
       'Mostrare il contesto del dato: URL configurato, giurisdizione, tipo di policy, date di controllo e risultati QA',
       'Creare una pagina pubblica sulla metodologia spiegando limiti e criteri di funzionamento dell\'AI'
@@ -328,7 +327,7 @@ export default function RoadmapPage() {
           <span className={styles.heroTag}>{t.tag}</span>
           <h1 className={styles.heroTitle}>{t.title}</h1>
           <p className={styles.heroSubtitle}>{t.subtitle}</p>
-          <p className={styles.heroClaim}>"{t.claim}"</p>
+          <p className={styles.heroClaim}>&ldquo;{t.claim}&rdquo;</p>
         </div>
 
         {/* Release rhythm section */}

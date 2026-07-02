@@ -180,7 +180,7 @@ export default function AdminLayout({
             <div>
               <div className={styles.logoText}>PolicyWatcher</div>
               <div className={styles.logoTextSub}>
-                Admin Panel <span className={styles.logoVersion}>v3.0.0</span>
+                Admin Panel <span className={styles.logoVersion}>v3.5.0</span>
               </div>
             </div>
           </div>

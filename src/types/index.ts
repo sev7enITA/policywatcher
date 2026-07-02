@@ -81,6 +81,20 @@ export interface PolicyChange {
   regionImpacts: RegionImpact[];
 }
 
+export interface PolicyCheckLog {
+  id: string;
+  policyId: string;
+  status: string;
+  checkedAt: string;
+  source?: string | null;
+  httpStatus?: number | null;
+  reason?: string | null;
+  finalUrl?: string | null;
+  textHash?: string | null;
+  textLength?: number | null;
+  createdAt: string;
+}
+
 /**
  * A monitored policy document belonging to a company.
  *
@@ -102,6 +116,7 @@ export interface Policy {
   ingestionMethod?: string;
   updatedAt: string;
   changes: PolicyChange[];
+  checkLogs?: PolicyCheckLog[];
 }
 
 /**

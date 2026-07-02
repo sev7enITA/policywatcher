@@ -8,16 +8,19 @@
  * Only loads the minimum CSS (no globals.css) and sets viewport meta.
  */
 import type { Metadata } from 'next';
+import { connection } from 'next/server';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function EmbedLayout({
+export default async function EmbedLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  await connection();
+
   return (
     <html lang="en">
       <head>

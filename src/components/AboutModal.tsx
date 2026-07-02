@@ -1,7 +1,7 @@
 'use client';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './AboutModal.module.css';
-import { X, Mail, Link } from 'lucide-react';
+import { X, Mail, Link, ShieldCheck, FileSearch, GitBranch } from 'lucide-react';
 import Image from 'next/image';
 
 interface AboutModalProps {
@@ -49,10 +49,27 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
 
             <div className={styles.body}>
               <p>
-                PolicyWatcher was created to bring transparency to the rapidly evolving landscape of corporate AI, privacy, and governance policies.
+                PolicyWatcher was created to make corporate AI, privacy, and governance-policy changes easier to inspect.
               </p>
               <p>
-                As tech giants continuously update their terms, often affecting how our data is used for AI training, it&apos;s crucial to have a centralized way to track and analyze these changes.
+                The platform monitors configured public source URLs, detects version changes, maps risk indicators, and exposes Dataset QA status so users can see both the analysis and the evidence limits behind it.
+              </p>
+              <div className={styles.links}>
+                <a href="/trust" className={styles.link}>
+                  <ShieldCheck size={18} />
+                  Trust & Quality Evidence
+                </a>
+                <a href="/methodology/confidence" className={styles.link}>
+                  <FileSearch size={18} />
+                  Confidence Methodology
+                </a>
+                <a href="/roadmap" className={styles.link}>
+                  <GitBranch size={18} />
+                  3.5 Roadmap
+                </a>
+              </div>
+              <p>
+                PolicyWatcher is not a legal-certification service and does not validate internal company behavior. It is a civic-tech mapping and review tool for public policy texts and related evidence.
               </p>
             </div>
 

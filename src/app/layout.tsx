@@ -11,6 +11,7 @@
  */
 import type { Metadata } from 'next';
 import { Titillium_Web } from 'next/font/google';
+import { connection } from 'next/server';
 import './globals.css';
 
 /** Primary body font — Titillium Web in regular weights. */
@@ -31,9 +32,9 @@ const titilliumDisplay = Titillium_Web({
 
 /** Site-wide metadata: title, description, keywords, author, and icons. */
 export const metadata: Metadata = {
-  title: 'PolicyWatcher - AI Regulatory Compliance Monitor',
-  description: 'Monitor, compare, and analyze the impact of Tech and FinTech company policies and terms of service over time with Google Gemini AI. Multi-region, multi-jurisdiction compliance tracking.',
-  keywords: ['policy monitoring', 'compliance', 'GDPR', 'AI governance', 'FinTech', 'privacy policy', 'terms of service'],
+  title: 'PolicyWatcher - AI Policy Change Monitor',
+  description: 'Monitor, compare, and analyze public Tech and FinTech policy changes over time with AI-assisted evidence mapping, multi-region impact views, and dataset QA indicators.',
+  keywords: ['policy monitoring', 'policy change', 'GDPR', 'AI governance', 'FinTech', 'privacy policy', 'terms of service'],
   authors: [{ name: 'Fabrizio Degni' }],
   icons: {
     icon: '/logo.png',
@@ -49,11 +50,13 @@ export const metadata: Metadata = {
  *
  * @param props.children - The page content rendered by Next.js routing.
  */
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  await connection();
+
   return (
     <html lang="en" className={`${titilliumSans.variable} ${titilliumDisplay.variable}`}>
       <body>

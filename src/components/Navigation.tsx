@@ -21,14 +21,12 @@ import {
   Download,
   Grid3X3,
   BookOpen,
-  ShieldAlert,
   HelpCircle,
   Clock,
   Sparkles,
   Cpu,
   User,
   History,
-  Settings,
   Layout,
   Menu,
   X,
@@ -37,6 +35,14 @@ import {
 import styles from './Navigation.module.css';
 
 export type NavLayout = 'hud' | 'spotlight' | 'sidebar';
+
+const NAV_LAYOUTS: NavLayout[] = ['hud', 'spotlight', 'sidebar'];
+
+function getInitialNavLayout(): NavLayout {
+  if (typeof window === 'undefined') return 'hud';
+  const stored = localStorage.getItem('policywatcher_nav_layout') as NavLayout | null;
+  return stored && NAV_LAYOUTS.includes(stored) ? stored : 'hud';
+}
 
 interface NavigationProps {
   /** Active UI language. */
@@ -70,7 +76,7 @@ export default function Navigation({
   onOpenSearch,
   onChangeLayout,
 }: NavigationProps) {
-  const [navLayout, setNavLayout] = useState<NavLayout>('hud');
+  const [navLayout, setNavLayout] = useState<NavLayout>(() => getInitialNavLayout());
   const [selectorOpen, setSelectorOpen] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   
@@ -81,18 +87,10 @@ export default function Navigation({
   const selectorRef = useRef<HTMLDivElement>(null);
   const isIt = lang === 'it';
 
-  // Load preferred layout on mount
+  // Keep the parent layout offsets synchronized with the active navigation mode.
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('policywatcher_nav_layout') as NavLayout | null;
-      if (stored && ['hud', 'spotlight', 'sidebar'].includes(stored)) {
-        setNavLayout(stored);
-        onChangeLayout(stored);
-      } else {
-        onChangeLayout('hud');
-      }
-    }
-  }, [onChangeLayout]);
+    onChangeLayout(navLayout);
+  }, [navLayout, onChangeLayout]);
 
   // Click outside to close layout selector menu
   useEffect(() => {
@@ -123,7 +121,6 @@ export default function Navigation({
   const selectLayout = (layout: NavLayout) => {
     setNavLayout(layout);
     localStorage.setItem('policywatcher_nav_layout', layout);
-    onChangeLayout(layout);
     setSelectorOpen(false);
   };
 
@@ -136,6 +133,7 @@ export default function Navigation({
       timeline: 'Policy timeline',
       showcase: 'App Showcase',
       roadmap: '3.5 Roadmap',
+      trust: 'Trust evidence',
       matrix: 'KPI Matrix',
       compare: 'Compare A/B',
       subscribe: 'Subscribe',
@@ -155,6 +153,7 @@ export default function Navigation({
       timeline: 'Timeline modifiche',
       showcase: 'Vetrina app',
       roadmap: 'Roadmap 3.5',
+      trust: 'Evidenze qualità',
       matrix: 'Matrice KPI',
       compare: 'Confronta A/B',
       subscribe: 'Iscriviti',
@@ -233,6 +232,9 @@ export default function Navigation({
           </Link>
           <Link href="/roadmap" className={styles.hudBtn} data-tooltip={t.roadmap}>
             <Cpu size={18} />
+          </Link>
+          <Link href="/trust" className={styles.hudBtn} data-tooltip={t.trust}>
+            <ShieldCheck size={18} />
           </Link>
 
           <div className={styles.hudDivider} />
@@ -360,6 +362,15 @@ export default function Navigation({
                 >
                   <span className={styles.sidebarBtnIcon}><Cpu size={18} /></span>
                   <span className={styles.sidebarBtnLabel}>{t.roadmap}</span>
+                </Link>
+                <Link
+                  href="/trust"
+                  className={styles.sidebarBtn}
+                  data-tooltip={t.trust}
+                  onClick={() => setMobileSidebarOpen(false)}
+                >
+                  <span className={styles.sidebarBtnIcon}><ShieldCheck size={18} /></span>
+                  <span className={styles.sidebarBtnLabel}>{t.trust}</span>
                 </Link>
 
                 {/* Modals */}

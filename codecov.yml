@@ -1,0 +1,24 @@
+coverage:
+  status:
+    project:
+      core:
+        flags:
+          - core
+        target: auto
+        threshold: 5%
+    patch:
+      default:
+        target: 50%
+        threshold: 10%
+
+comment:
+  layout: "reach,diff,flags,tree"
+  behavior: default
+  require_changes: false
+
+flags:
+  core:
+    paths:
+      - src/lib/policyConfidence.ts
+      - src/lib/subscriberPreferences.ts
+      - src/lib/diffParse.ts

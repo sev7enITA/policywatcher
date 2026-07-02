@@ -5,9 +5,9 @@ import Link from 'next/link';
 import styles from './showcase.module.css';
 
 export const metadata: Metadata = {
-  title: 'PolicyWatcher 3.0 Showcase',
+  title: 'PolicyWatcher 3.5 Confidence Showcase',
   description:
-    'PolicyWatcher 3.0: overview of the public interface, analysis views, dataset QA checks, admin tools and reporting features available in the platform.',
+    'PolicyWatcher 3.5 Confidence: overview of the public interface, analysis views, Dataset QA, Trust & Quality evidence, admin tools and reporting features available in the platform.',
 };
 
 const topNav = [
@@ -15,15 +15,16 @@ const topNav = [
   ['02', 'Graphs', '#signals'],
   ['03', 'Dataset QA', '#quality'],
   ['04', 'Admin tools', '#admin'],
-  ['05', 'Pipeline', '#flow'],
+  ['05', 'Trust', '#trust'],
+  ['06', 'Pipeline', '#flow'],
 ] as const;
 
 const atlasPanels = [
   {
     code: 'DATASET',
     title: 'Company and policy records',
-    body: 'The platform displays configured companies, policy URLs, jurisdiction labels and policy categories.',
-    details: ['Company', 'Industry', 'Policy URL', 'Jurisdiction', 'Policy type', 'Dataset status'],
+    body: 'The platform displays configured companies, source URLs, jurisdiction labels, policy categories and Dataset QA status.',
+    details: ['Company', 'Industry', 'Configured URL', 'Jurisdiction', 'Policy type', 'Dataset QA status'],
     metric: 'Configured records',
     accent: '#5eead4',
   },
@@ -63,18 +64,18 @@ const signalTiles = [
 ];
 
 const heroTelemetry = [
-  ['Dataset QA', 'Checks coverage, URL hygiene, hash consistency and analysis completeness.'],
-  ['Admin review', 'Shows companies, policies, cron status, database data and audit views.'],
-  ['Public views', 'Dashboard, timeline, change pages, share/embed pages and PDF reports.'],
+  ['Dataset QA', 'Checks URL hygiene, hash consistency, check logs, timestamps and analysis completeness.'],
+  ['Trust evidence', 'Shows CI, CodeQL, OpenSSF Scorecard, core coverage and live-header report links.'],
+  ['Public views', 'Dashboard, timeline, change pages, share/embed pages, Trust page and PDF reports.'],
 ] as const;
 
 const qualityGates = [
-  ['Policy URL', 'Configured URL present', 'Field', '96%'],
-  ['Jurisdiction', 'Region label present', 'Field', '91%'],
-  ['URL hygiene', 'Localized URL warning check', 'Check', '88%'],
+  ['Policy URL', 'Configured URL present', 'Field', '92%'],
+  ['Jurisdiction', 'Region label present', 'Field', '86%'],
+  ['URL hygiene', 'Localized URL and duplicate checks', 'Check', '78%'],
   ['Hash check', 'Text/hash consistency check', 'Check', '94%'],
-  ['AI fields', 'Summary and KPI field coverage', 'Coverage', '90%'],
-  ['Issue list', 'QA findings visible', 'Review', '100%'],
+  ['AI fields', 'Structured analysis fields reviewed', 'Review', '82%'],
+  ['Check logs', 'Status, date, source and text hash evidence', 'Evidence', '88%'],
 ] as const;
 
 const adminCells = [
@@ -86,14 +87,17 @@ const adminCells = [
   ['Encrypted Backup', 'Encrypted export and decrypt-preview utility for database content'],
   ['Auditor Role', 'Read-only review access for selected admin views'],
   ['Security Settings', 'Session HMAC, rate limits, protected APIs and token hygiene'],
+  ['Trust Evidence', 'Public quality page for CI, CodeQL, OpenSSF, core coverage and live header reports'],
 ] as const;
 
 const flow = [
   ['Dataset row', 'Company, policy URL, type and jurisdiction'],
   ['Scrape route', 'Endpoint for fetching a configured URL when invoked'],
+  ['Check log', 'Status, date, source, hash and retrieval outcome evidence'],
   ['Diff row', 'Change data displayed when present in the database'],
   ['Analysis row', 'Risk, KPI, summary and region fields used by views'],
   ['QA view', 'Admin checks and issue list for dataset review'],
+  ['Trust view', 'Public evidence page for automated checks and external report links'],
   ['Public view', 'Dashboard, timeline, share, embed and report routes'],
   ['Digest tools', 'Subscriber preference and digest endpoints'],
 ] as const;
@@ -124,7 +128,7 @@ function HeroInstrument() {
       <div className={styles.instrumentFrame}>
         <div className={styles.instrumentHeader}>
           <span>Feature visual</span>
-          <b>v3.0</b>
+          <b>v3.5</b>
         </div>
         <div className={styles.instrumentStage}>
           <svg viewBox="0 0 720 460" className={styles.fieldSvg}>
@@ -282,8 +286,8 @@ function AdminConsoleArt() {
       </div>
       <div className={styles.consoleMain}>
         <div className={styles.consoleTop}>
-          <strong>Dataset QA View</strong>
-          <b>Admin only</b>
+            <strong>Dataset QA View</strong>
+            <b>Admin only</b>
         </div>
         <div className={styles.consoleGrid}>
           <div className={styles.consoleScore}><strong>QA</strong><span>Issue list</span></div>
@@ -326,7 +330,7 @@ export default function ShowcasePage() {
           <Image src="/logo.png" alt="" width={42} height={42} className={styles.logo} priority />
           <span>
             <strong>PolicyWatcher</strong>
-            <small>Release 3.0 overview</small>
+            <small>Release 3.5 Confidence overview</small>
           </span>
         </Link>
 
@@ -346,17 +350,17 @@ export default function ShowcasePage() {
         <div className={styles.heroCopy}>
           <span className={styles.eyebrow}>
             <SignalMark />
-            PolicyWatcher 3.0
+            PolicyWatcher 3.5 Confidence
           </span>
           <h1>
             <span>PolicyWatcher</span>
-            <span>3.0 feature</span>
+            <span>confidence</span>
             <span>map.</span>
           </h1>
           <p>
             This page describes what the current platform exposes: public
             dashboard views, change views, analysis fields, dataset QA checks,
-            admin tools and report outputs.
+            Trust & Quality evidence, admin tools and report outputs.
           </p>
           <div className={styles.heroActions}>
             <Link href="/" className={styles.primaryAction}>
@@ -392,10 +396,10 @@ export default function ShowcasePage() {
       <section id="atlas" className={`${styles.section} ${styles.atlasSection}`}>
         <div className={styles.sectionHeader}>
           <span className={styles.sectionKicker}>Data model</span>
-          <h2>What the interface reads from the dataset.</h2>
+          <h2>What the interface reads from the configured records.</h2>
           <p>
             The public and admin pages are built around companies, policies,
-            policy changes, region impacts, subscribers and QA results. The
+            policy changes, check logs, region impacts, subscribers and QA results. The
             panels below map those records to the visible features.
           </p>
         </div>
@@ -464,8 +468,8 @@ export default function ShowcasePage() {
           <h2>Dataset QA lists checks and issues for review.</h2>
           <p>
             The admin QA page calculates coverage, URL hygiene, hash consistency,
-            KPI coverage, regional impact coverage and subscriber hygiene from
-            the current database.
+            check-log consistency, KPI coverage, regional impact coverage and
+            subscriber hygiene from the current database.
           </p>
         </div>
         <div className={styles.qualityReactor} aria-label="Dataset quality gates">
@@ -487,11 +491,11 @@ export default function ShowcasePage() {
         <div className={styles.adminIntro}>
           <div>
             <span className={styles.sectionKicker}>Administrative tools</span>
-            <h2>Admin functions available in release 3.0.</h2>
+            <h2>Admin functions available in the 3.5 Confidence track.</h2>
             <p>
               The admin area includes login, metrics, company and policy
               management, dataset QA, KPI audit, explainability, cron status,
-              database inspection and encrypted backup utilities.
+              database inspection, encrypted backup utilities and evidence telemetry.
             </p>
           </div>
           <AdminConsoleArt />
@@ -502,6 +506,7 @@ export default function ShowcasePage() {
           <span>Policy records</span>
           <span>Change records</span>
           <span>QA issue list</span>
+          <span>Trust evidence</span>
           <span>Encrypted export</span>
         </div>
 
@@ -539,14 +544,47 @@ export default function ShowcasePage() {
         </div>
       </section>
 
+      <section id="trust" className={`${styles.section} ${styles.qualitySection}`}>
+        <div className={styles.qualityNarrative}>
+          <span className={styles.sectionKicker}>Trust & Quality</span>
+          <h2>Public evidence is separated from certification claims.</h2>
+          <p>
+            The Trust page presents workflow status, CodeQL, OpenSSF Scorecard,
+            core coverage, Sonar readiness, Codecov readiness and live HTTP
+            header report links. These checks are operational evidence, not
+            compliance certification.
+          </p>
+        </div>
+        <div className={styles.qualityReactor} aria-label="Trust and quality evidence">
+          {[
+            ['Quality Gate', 'GitHub Actions', 'CI'],
+            ['CodeQL', 'Code scanning', 'Scan'],
+            ['OpenSSF', 'Scorecard workflow', 'Supply chain'],
+            ['Coverage', 'Vitest core coverage', 'Test'],
+            ['Sonar', 'Ready for token setup', 'Pending'],
+            ['Headers', 'Live report links', 'External'],
+          ].map(([label, value, badge], index) => (
+            <div key={label} className={styles.qualityOrbit} style={{ '--i': index } as CSSProperties}>
+              <span>{label}</span>
+              <b>{value}</b>
+              <i>{badge}</i>
+            </div>
+          ))}
+          <div className={styles.reactorCore}>
+            <strong>Trust</strong>
+            <span>Evidence</span>
+          </div>
+        </div>
+      </section>
+
       <section className={styles.finalCta}>
         <div>
           <span className={styles.sectionKicker}>Public interface</span>
           <h2>A platform with visible methodology and admin review tools.</h2>
           <p>
-            The public interface explains its methodology and exposes the
-            available analysis outputs. The admin interface adds tools to inspect
-            and improve the dataset behind those outputs.
+            The public interface explains its methodology and exposes available
+            analysis outputs with confidence boundaries. The admin interface adds
+            tools to inspect and improve the dataset behind those outputs.
           </p>
         </div>
         <div className={styles.founder}>
@@ -559,7 +597,7 @@ export default function ShowcasePage() {
       </section>
 
       <footer className={styles.footer}>
-        <span>PolicyWatcher 3.0</span>
+        <span>PolicyWatcher 3.5 Confidence</span>
         <div>
           <Link href="/privacy">Privacy</Link>
           <Link href="/security">Security</Link>

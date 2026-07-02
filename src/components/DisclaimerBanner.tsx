@@ -13,7 +13,7 @@ export default function DisclaimerBanner() {
       <div className={styles.content}>
         <AlertCircle size={18} className={styles.icon} />
         <p>
-          <strong>Beta Release:</strong> This platform is in active development (beta) and is not a final product. All information is generated through automated AI analysis and may contain inaccuracies or interpretive errors. It does not constitute legal advice or compliance certification. The author disclaims all liability. Interpretation and use of this data are solely at the user&apos;s own risk. Always verify with official sources.
+          <strong>Confidence Release v3.5:</strong> This platform is in active development. Information is generated through automated AI-assisted text analysis and may contain inaccuracies or interpretive errors. It does not constitute legal advice, compliance certification, or a definitive assessment of corporate conduct. The author disclaims all liability. Interpretation and use of this data is solely at the user&apos;s own risk. Always verify with provider sources.
           {' '}<a href="/privacy" style={{ color: '#6366f1', fontWeight: 500, textDecoration: 'underline' }}>Privacy Policy</a>
         </p>
       </div>

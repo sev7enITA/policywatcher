@@ -12,15 +12,11 @@ import Link from 'next/link';
 import {
   ArrowLeft,
   ShieldCheck,
-  Activity,
-  History,
   FileWarning,
   Eye,
-  BookOpen,
   Scale,
   Cpu,
   RefreshCw,
-  Database
 } from 'lucide-react';
 import styles from './confidence.module.css';
 import Footer from '@/components/Footer';
@@ -30,8 +26,8 @@ const translationContent = {
     backHome: 'Back to Dashboard',
     tag: 'Auditing Framework',
     title: 'Truth & Confidence Methodology',
-    subtitle: 'PolicyWatcher’s operational framework for data provenance, AI constraints, and forensic review accountability.',
-    intro: 'GRC and AI Governance require evidence-first verification. This page outlines exactly how PolicyWatcher ingests data, maps changes, controls AI processing, and exposes limitations.',
+    subtitle: 'PolicyWatcher’s operational framework for data provenance, AI constraints, check history, and review accountability.',
+    intro: 'GRC and AI Governance work requires evidence-first verification. This page explains how PolicyWatcher records configured sources, maps changes, constrains AI processing, and exposes limitations.',
     
     // Toggles
     langLabel: 'Interfaccia in Italiano',
@@ -52,12 +48,12 @@ const translationContent = {
       {
         icon: RefreshCw,
         title: '2. Double-Checking Ingestion Cascade',
-        desc: 'To prevent data fabrication and ensure maximum freshness, the ingestion pipeline utilizes a prioritized cascade:',
+        desc: 'To avoid fabricated data and expose source failures clearly, the ingestion pipeline uses a prioritized retrieval cascade:',
         bullets: [
-          'Primary Source: Direct HTTP scraping of the configured official policy URL.',
-          'Secondary Fallback: If direct scraping is blocked (e.g., bot protection or cloudflare challenges), the pipeline attempts to pull from the Wayback Machine API or cached mirrors.',
-          'Honest Failure Recording: If a page remains unreachable, the system does NOT reuse stale data blindly. It updates the database with a status of "Unavailable" or "Needs Review" and logs the check date.',
-          'Immutability: Stored texts are fingerprinted via SHA-256 hash checks to guarantee they have not been altered after ingestion.'
+          'Primary source: direct HTTP retrieval of the configured policy URL.',
+          'Fallback sources: when direct retrieval is blocked or unusable, the pipeline may try archival/cache sources such as Wayback, web cache, or Common Crawl where available.',
+          'Honest failure recording: if a page remains unreachable, the system does not create a successful version record from missing data. It updates the policy status to "Unavailable" or "Needs Review" and writes a check-log row.',
+          'Hash fingerprinting: retrieved text records are fingerprinted with SHA-256 so later integrity checks can detect mismatches between text and hash.'
         ]
       },
       {
@@ -65,10 +61,10 @@ const translationContent = {
         title: '3. AI Analysis & LLM Constraints',
         desc: 'Automated reviews are processed using Google Gemini models. To prevent hallucination and ensure auditability, the AI is subject to strict engineering constraints:',
         bullets: [
-          'Direct Grounding: Summaries and bullet points are generated only from the ingested text snapshot.',
-          'No Fabrication: The models are strictly instructed to return "Not Specified" or "Unavailable" for fields or KPIs not present in the document.',
-          'Structured Mapping: Categorizations are verified against a schema to ensure that risk classifications align strictly with the 15 comparative KPIs.',
-          'Audit trail: Every AI analysis is linked directly to the specific policy snapshots (old vs. new) from which it was generated.'
+          'Direct grounding: summaries and bullet points are generated from the retrieved/versioned text record being analysed.',
+          'No unsupported filling: prompts instruct the model to return "Not Specified" or "Unavailable" when the document does not support a field or KPI.',
+          'Structured mapping: categorisations are normalized against the expected analysis fields used by PolicyWatcher.',
+          'Audit trail: Every AI analysis is linked directly to the specific policy version records (old vs. new) from which it was generated.'
         ]
       },
       {
@@ -77,9 +73,10 @@ const translationContent = {
         desc: 'Confidence is built on evidence, not trust. PolicyWatcher exposes the following forensic elements in the UI:',
         bullets: [
           'Configured URL: Direct link to the source document monitored.',
-          'Ingestion Method: Verification of whether the file was Seeded, Direct Scraped, or Cached.',
-          'Scans Timestamps: Both the Last Checked and Last Successful Fetch times are visible for every policy.',
-          'Prisma History Logs: Check histories and version changes are kept as an append-only snapshot timeline.'
+          'Ingestion method: indication of whether the current record was seeded, directly retrieved, or recovered through a cache/archive source.',
+          'Scan timestamps: both the Last Checked and Last Successful Fetch times are visible for every policy.',
+          'Check logs: each scan result can be recorded with status, source, HTTP status, reason, final URL, hash, and text length.',
+          'Version timeline: versioned policy records remain available for reproducible comparison.'
         ]
       },
       {
@@ -87,23 +84,24 @@ const translationContent = {
         title: '5. Known Limitations & Risks',
         desc: 'Users and legal teams must be aware of the following platform boundaries:',
         bullets: [
-          'Scraping Latency: Policies are monitored on a recurring schedule. Real-time updates may lag slightly behind live company releases.',
-          'LLM Context Limitations: Large documents containing hundreds of pages are analyzed block-by-block, which could miss highly specific clauses in unrelated sections.',
-          'Legal Interpretation: Legal terms can be ambiguous. The risk score represents an automated assessment based on best-practice AI governance matrices, not a court-validated analysis.'
+          'Scraping latency: policies are monitored on a recurring or manual schedule. Updates may lag behind live provider releases.',
+          'Extraction limits: blocked pages, consent walls, script-rendered content, or cache gaps can reduce retrieval coverage.',
+          'LLM context limits: large documents may be analysed in reduced or structured contexts, which can miss highly specific clauses.',
+          'Legal interpretation: legal terms can be ambiguous. Risk scores are analytical indicators, not court-validated conclusions or compliance determinations.'
         ]
       }
     ],
 
     // Footer notice
     disclaimerTitle: 'Verification Required',
-    disclaimerText: 'Always verify policy states against official source documents. Corporate counsel and GRC directors must conduct independent human reviews before drawing legal compliance conclusions.'
+    disclaimerText: 'Always verify policy states against the provider source pages. Corporate counsel and GRC teams should conduct independent human reviews before drawing legal compliance conclusions.'
   },
   it: {
     backHome: 'Torna alla Dashboard',
     tag: 'Framework di Controllo',
     title: 'Metodologia della Veridicità e Fiducia',
-    subtitle: 'Il framework operativo di PolicyWatcher per la provenienza dei dati, i vincoli dell\'IA e la tracciabilità delle revisioni.',
-    intro: 'La governance GRC e dell\'IA richiede una verifica basata sulle evidenze. Questa pagina descrive come PolicyWatcher raccoglie i dati, mappa le modifiche, controlla l\'elaborazione dell\'IA ed espone le limitazioni.',
+    subtitle: 'Il framework operativo di PolicyWatcher per provenienza dei dati, vincoli dell\'IA, storico dei controlli e responsabilità di revisione.',
+    intro: 'La governance GRC e dell\'IA richiede verifiche basate su evidenze. Questa pagina descrive come PolicyWatcher registra fonti configurate, mappa le modifiche, vincola l\'elaborazione IA ed espone le limitazioni.',
     
     // Toggles
     langLabel: 'English Interface',
@@ -124,12 +122,12 @@ const translationContent = {
       {
         icon: RefreshCw,
         title: '2. Ingestione a Cascata con Doppio Controllo',
-        desc: 'Per prevenire la fabbricazione di dati e garantire la massima freschezza, il sistema utilizza una cascata di recupero:',
+        desc: 'Per evitare dati inventati ed esporre chiaramente i fallimenti di recupero, il sistema utilizza una cascata di acquisizione:',
         bullets: [
-          'Fonte Primaria: Scraping HTTP diretto dell\'URL della policy ufficiale configurata.',
-          'Fallback Secondario: Se lo scraping diretto è bloccato (es. bot protection), il sistema tenta di estrarre i dati dalle API della Wayback Machine o mirror di cache.',
-          'Registrazione degli Errori: Se una pagina risulta irraggiungibile, il sistema NON riutilizza dati obsoleti alla cieca. Aggiorna il database impostando lo stato su "Unavailable" o "Needs Review" e registra la data del controllo.',
-          'Immutabilità: I testi memorizzati sono firmati tramite hash SHA-256 per garantire che non vengano alterati dopo l\'ingestione.'
+          'Fonte primaria: recupero HTTP diretto dell\'URL della policy configurata.',
+          'Fonti fallback: quando il recupero diretto è bloccato o inutilizzabile, la pipeline può tentare fonti archivio/cache come Wayback, web cache o Common Crawl se disponibili.',
+          'Registrazione trasparente degli errori: se una pagina resta irraggiungibile, il sistema non crea un record di versione riuscito partendo da dati mancanti. Aggiorna lo stato a "Unavailable" o "Needs Review" e scrive una riga di check-log.',
+          'Fingerprint hash: i record testuali recuperati sono improntati con SHA-256 per consentire controlli successivi di coerenza tra testo e hash.'
         ]
       },
       {
@@ -137,10 +135,10 @@ const translationContent = {
         title: '3. Analisi IA e Limiti dei Modelli (LLM)',
         desc: 'Le analisi automatiche sono elaborate con modelli Google Gemini. Per evitare allucinazioni e garantire la verificabilità, l\'IA è soggetta a rigidi vincoli:',
         bullets: [
-          'Ancoraggio Diretto: I riassunti e i punti chiave sono generati esclusivamente a partire dal testo della policy acquisito.',
-          'Nessuna Invenzione: I modelli sono programmati per restituire "Non specificato" o "Non disponibile" per i campi non presenti nei documenti.',
-          'Mappatura Strutturata: Le categorizzazioni sono verificate rispetto a uno schema per garantire che i rischi si allineino esattamente ai 15 KPI comparativi.',
-          'Audit trail: Ogni analisi dell\'IA è collegata direttamente allo snapshot specifico della policy (vecchia vs nuova) da cui è stata prodotta.'
+          'Ancoraggio diretto: riassunti e punti chiave sono generati dal record testuale recuperato/versionato.',
+          'Nessun riempimento non supportato: i prompt chiedono al modello di restituire "Non specificato" o "Non disponibile" quando il documento non supporta un campo o KPI.',
+          'Mappatura strutturata: le categorizzazioni sono normalizzate rispetto ai campi di analisi previsti da PolicyWatcher.',
+          'Audit trail: ogni analisi IA è collegata agli specifici record di versione della policy (vecchia vs nuova) da cui è stata prodotta.'
         ]
       },
       {
@@ -149,26 +147,28 @@ const translationContent = {
         desc: 'La fiducia si basa sulle prove. PolicyWatcher espone i seguenti elementi forensi direttamente nell\'interfaccia:',
         bullets: [
           'URL Configurato: Link diretto al documento sorgente monitorato.',
-          'Metodo di Ingestione: Indicazione se il file proviene da Seeded, Direct Scraped o Wayback Cache.',
-          'Timestamp Scansioni: Visibilità delle date di Ultimo Controllo e Ultimo Check Riuscito per ogni policy.',
-          'Storici Prisma: I log dei controlli e delle variazioni di versione sono salvati in una timeline di snapshot di sola aggiunta.'
+          'Metodo di ingestione: indicazione se il record corrente deriva da seed, recupero diretto o fonte cache/archivio.',
+          'Timestamp scansioni: visibilità di Ultimo Controllo e Ultimo Check Riuscito per ogni policy.',
+          'Check log: ogni scansione può registrare stato, fonte, HTTP status, motivo, final URL, hash e lunghezza del testo.',
+          'Timeline versioni: i record versionati della policy restano disponibili per confronti riproducibili.'
         ]
       },
       {
         icon: FileWarning,
-        title: '5. Limitazioni Noto e Rischi',
+        title: '5. Limitazioni Note e Rischi',
         desc: 'Gli utenti e i team legali devono essere consapevoli dei seguenti limiti dello strumento:',
         bullets: [
-          'Latenza dello Scraping: Le policy sono monitorate a intervalli periodici. Gli aggiornamenti in tempo reale potrebbero subire lievi ritardi rispetto ai rilasci live.',
-          'Limiti di Contesto LLM: I documenti molto ampi di centinaia di pagine vengono analizzati a blocchi, il che potrebbe tralasciare clausole molto specifiche in sezioni isolate.',
-          'Interpretazione Giuridica: I termini legali possono essere ambigui. Il punteggio di rischio rappresenta una valutazione automatizzata basata su matrici di governance IA, non un\'analisi con valore legale.'
+          'Latenza dello scraping: le policy sono monitorate su base ricorrente o manuale. Gli aggiornamenti possono arrivare dopo la pubblicazione live del provider.',
+          'Limiti di estrazione: pagine bloccate, consent wall, contenuti renderizzati via script o lacune cache possono ridurre la copertura.',
+          'Limiti di contesto LLM: documenti molto ampi possono essere analizzati in contesti ridotti o strutturati, con rischio di perdere clausole molto specifiche.',
+          'Interpretazione giuridica: i termini legali possono essere ambigui. I risk score sono indicatori analitici, non conclusioni giudiziali o determinazioni di conformità.'
         ]
       }
     ],
 
     // Footer notice
     disclaimerTitle: 'Verifica Necessaria',
-    disclaimerText: 'Verificare sempre lo stato delle policy con i documenti originali ufficiali. I responsabili legali e i direttori GRC devono effettuare controlli manuali indipendenti prima di trarre conclusioni di conformità.'
+    disclaimerText: 'Verificare sempre lo stato delle policy sulle pagine sorgente del provider. Team legali e GRC dovrebbero effettuare revisioni umane indipendenti prima di trarre conclusioni di conformità.'
   }
 };
 

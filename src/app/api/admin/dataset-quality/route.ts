@@ -19,6 +19,7 @@ import {
   SUBSCRIBER_REGIONS,
   normalizePreferenceValue,
 } from '@/lib/subscriberPreferences';
+import { DATA_STATUSES, isDataStatus, normalizeDataStatus } from '@/lib/policyConfidence';
 
 const KPI_FIELDS = [
   'kpiDataCollection',
@@ -48,6 +49,7 @@ const EXPECTED_REGION_IMPACTS = [
 ] as const;
 
 const VALID_RISKS = new Set(['Low', 'Medium', 'High']);
+const VALID_DATA_STATUSES = new Set<string>(DATA_STATUSES);
 const VALID_SUBSCRIBER_REGIONS = new Set<string>(SUBSCRIBER_REGIONS);
 const VALID_SUBSCRIBER_INDUSTRIES = new Set<string>(SUBSCRIBER_INDUSTRIES);
 const VALID_FREQUENCIES = new Set<string>(SUBSCRIBER_FREQUENCIES);
@@ -165,7 +167,7 @@ function sourceFitWarning(rawUrl: string, jurisdiction: string): { label: string
     if (jurisdiction === 'Global' && hasRegionalPath) {
       return {
         label: 'Global source uses a regional URL',
-        detail: 'A Global policy should point to the provider\'s canonical English/global source, not a localized market page.',
+        detail: 'A Global policy should point to the provider\'s canonical English/global source where available, not a localized market page.',
         action: 'Replace with the canonical global English policy URL or reclassify the policy jurisdiction.',
       };
     }
@@ -175,8 +177,8 @@ function sourceFitWarning(rawUrl: string, jurisdiction: string): { label: string
         label: 'Localized source for market-level policy',
         detail: `The ${jurisdiction} source URL appears to be Italian-localized. Localized pages can diverge from the primary legal source used for analysis.`,
         action: jurisdiction === 'EU'
-          ? 'Prefer the official English EU/EEA policy source, then use localized URLs only as secondary references.'
-          : 'Prefer the official US or global English policy source for US analysis.',
+          ? 'Prefer the provider English EU/EEA policy source, then use localized URLs only as secondary references.'
+          : 'Prefer the provider US or global English policy source for US analysis.',
       };
     }
   } catch {
@@ -218,6 +220,21 @@ export async function GET(request: NextRequest) {
                 orderBy: { createdAt: 'desc' },
                 include: {
                   regionImpacts: true,
+                },
+              },
+              checkLogs: {
+                orderBy: { checkedAt: 'desc' },
+                take: 3,
+                select: {
+                  id: true,
+                  status: true,
+                  checkedAt: true,
+                  source: true,
+                  httpStatus: true,
+                  reason: true,
+                  finalUrl: true,
+                  textHash: true,
+                  textLength: true,
                 },
               },
             },
@@ -301,6 +318,8 @@ export async function GET(request: NextRequest) {
     const stalePolicyIds = new Set<string>();
     let policiesWithSnapshots = 0;
     let policiesWithChanges = 0;
+    let policiesWithCheckLogs = 0;
+    let policiesWithSuccessfulCheck = 0;
 
     for (const company of companies) {
       const slug = company.slug.toLowerCase();
@@ -375,6 +394,113 @@ export async function GET(request: NextRequest) {
           label: 'Policy text is missing or very short',
           detail: `Current text length is ${policy.currentText?.length || 0} characters.`,
           action: 'Re-scan the policy source and confirm scraper extraction quality.',
+        });
+      }
+
+      if (!isDataStatus(policy.dataStatus)) {
+        addIssue('critical', {
+          area: 'Confidence Status',
+          entityType: 'policy',
+          entityId: policy.id,
+          companyName: policy.companyName,
+          policyName: policy.name,
+          label: 'Invalid Dataset QA status',
+          detail: `"${policy.dataStatus}" is not one of: ${DATA_STATUSES.join(', ')}.`,
+          action: 'Normalize the policy dataStatus before publishing confidence indicators.',
+        });
+      }
+
+      const normalizedStatus = normalizeDataStatus(policy.dataStatus, 'Needs Review');
+      if (normalizedStatus === 'Needs Review' || normalizedStatus === 'Unavailable' || normalizedStatus === 'Partial') {
+        addIssue(normalizedStatus === 'Unavailable' ? 'critical' : 'warning', {
+          area: 'Confidence Status',
+          entityType: 'policy',
+          entityId: policy.id,
+          companyName: policy.companyName,
+          policyName: policy.name,
+          label: `Policy status is ${normalizedStatus}`,
+          detail: 'This policy should be reviewed before it is treated as a high-confidence source in public analysis.',
+          action: 'Run a fresh scan, inspect the configured source, and record the review outcome.',
+        });
+      }
+
+      if (!policy.lastCheckDate) {
+        addIssue('warning', {
+          area: 'Confidence Status',
+          entityType: 'policy',
+          entityId: policy.id,
+          companyName: policy.companyName,
+          policyName: policy.name,
+          label: 'Missing last check timestamp',
+          detail: 'The policy does not expose a lastCheckDate value.',
+          action: 'Run a scan or backfill confidence metadata for this policy.',
+        });
+      }
+
+      if (policy.lastSuccessfulCheckDate) {
+        policiesWithSuccessfulCheck++;
+        if (policy.lastCheckDate && policy.lastSuccessfulCheckDate > policy.lastCheckDate) {
+          addIssue('warning', {
+            area: 'Confidence Status',
+            entityType: 'policy',
+            entityId: policy.id,
+            companyName: policy.companyName,
+            policyName: policy.name,
+            label: 'Successful check timestamp is after last check',
+            detail: 'lastSuccessfulCheckDate should not be newer than lastCheckDate.',
+            action: 'Normalize confidence timestamps for this policy.',
+          });
+        }
+      } else if (normalizedStatus === 'Available' || normalizedStatus === 'Reviewed') {
+        addIssue('warning', {
+          area: 'Confidence Status',
+          entityType: 'policy',
+          entityId: policy.id,
+          companyName: policy.companyName,
+          policyName: policy.name,
+          label: 'Available policy without successful check timestamp',
+          detail: `Policy status is ${normalizedStatus}, but lastSuccessfulCheckDate is empty.`,
+          action: 'Backfill successful-check metadata or downgrade the policy status.',
+        });
+      }
+
+      if (policy.checkLogs.length > 0) {
+        policiesWithCheckLogs++;
+        const latestLog = policy.checkLogs[0];
+        if (!VALID_DATA_STATUSES.has(latestLog.status)) {
+          addIssue('critical', {
+            area: 'Confidence Log',
+            entityType: 'policy',
+            entityId: policy.id,
+            companyName: policy.companyName,
+            policyName: policy.name,
+            label: 'Invalid check-log status',
+            detail: `Latest check log stores unsupported status "${latestLog.status}".`,
+            action: 'Normalize PolicyCheckLog.status values to the confidence status allowlist.',
+          });
+        }
+        if (isDataStatus(policy.dataStatus) && latestLog.status !== policy.dataStatus) {
+          addIssue('warning', {
+            area: 'Confidence Log',
+            entityType: 'policy',
+            entityId: policy.id,
+            companyName: policy.companyName,
+            policyName: policy.name,
+            label: 'Latest check log does not match policy status',
+            detail: `Policy=${policy.dataStatus}; latest log=${latestLog.status}.`,
+            action: 'Run a fresh scan or reconcile the policy summary fields with the latest check log.',
+          });
+        }
+      } else {
+        addIssue('warning', {
+          area: 'Confidence Log',
+          entityType: 'policy',
+          entityId: policy.id,
+          companyName: policy.companyName,
+          policyName: policy.name,
+          label: 'Missing check log',
+          detail: 'The policy has summary confidence fields but no persistent check-log row.',
+          action: 'Run npm run db:backfill-check-logs once after applying the schema update.',
         });
       }
 
@@ -726,7 +852,7 @@ export async function GET(request: NextRequest) {
         status: gateStatus(policies.length - sourceFitIssueIds.size, policies.length),
         passed: Math.max(policies.length - sourceFitIssueIds.size, 0),
         total: policies.length,
-        detail: 'Policy source URLs should match the declared jurisdiction and use canonical English/global sources where applicable.',
+        detail: 'Policy source URLs should match the declared jurisdiction and use canonical English/global sources where available.',
       },
       {
         id: 'snapshot-coverage',
@@ -734,7 +860,7 @@ export async function GET(request: NextRequest) {
         status: gateStatus(policiesWithSnapshots, policies.length),
         passed: policiesWithSnapshots,
         total: policies.length,
-        detail: 'Each monitored policy should have at least one stored snapshot.',
+        detail: 'Each monitored policy should have at least one version snapshot record.',
       },
       {
         id: 'hash-integrity',
@@ -751,6 +877,33 @@ export async function GET(request: NextRequest) {
         passed: Math.max(policies.length - stalePolicyIds.size, 0),
         total: policies.length,
         detail: `Policies updated within the last ${STALE_POLICY_DAYS} days.`,
+      },
+      {
+        id: 'confidence-status',
+        label: 'Confidence Status',
+        status: gateStatus(
+          policies.filter((policy) => isDataStatus(policy.dataStatus)).length,
+          policies.length
+        ),
+        passed: policies.filter((policy) => isDataStatus(policy.dataStatus)).length,
+        total: policies.length,
+        detail: 'Policy dataStatus values must use the shared confidence status allowlist.',
+      },
+      {
+        id: 'check-log',
+        label: 'Check Log',
+        status: gateStatus(policiesWithCheckLogs, policies.length),
+        passed: policiesWithCheckLogs,
+        total: policies.length,
+        detail: 'Each monitored policy should have at least one persistent check-log row.',
+      },
+      {
+        id: 'successful-checks',
+        label: 'Successful Checks',
+        status: gateStatus(policiesWithSuccessfulCheck, policies.length),
+        passed: policiesWithSuccessfulCheck,
+        total: policies.length,
+        detail: 'Available or reviewed policy records should expose a last successful fetch timestamp.',
       },
       {
         id: 'ai-json',
@@ -818,6 +971,8 @@ export async function GET(request: NextRequest) {
         changes: changes.length,
         subscribers: subscribers.length,
         activeSubscribers: subscribers.filter((subscriber) => subscriber.isActive).length,
+        checkLogs: policies.reduce((total, policy) => total + policy.checkLogs.length, 0),
+        policiesWithCheckLogs,
         criticalIssues: counts.critical,
         warningIssues: counts.warning,
         infoIssues: counts.info,

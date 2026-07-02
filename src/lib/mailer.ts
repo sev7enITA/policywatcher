@@ -125,7 +125,7 @@ function wrapInTemplate(bodyContent: string, email?: string, token?: string): st
                 <tr>
                   <td>
                     <h1 style="margin: 0; font-size: 22px; font-weight: 800; color: #ffffff; letter-spacing: -0.02em;">PolicyWatcher</h1>
-                    <p style="margin: 4px 0 0; font-size: 13px; color: rgba(255, 255, 255, 0.8);">AI Regulatory Compliance Monitor</p>
+                    <p style="margin: 4px 0 0; font-size: 13px; color: rgba(255, 255, 255, 0.8);">AI Policy Change Monitor</p>
                   </td>
                 </tr>
               </table>

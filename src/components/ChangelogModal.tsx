@@ -51,8 +51,18 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                 <div className={styles.featureList}>
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>Public Timeline, Dataset QA Status & Security Hardening (v3.0.0)</span>
+                      <span className={styles.featureName}>Truth & Confidence Layer (v3.5.0)</span>
                       <span className={styles.badgeActive}>Current</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      Confidence-focused consolidation with policy data statuses, ingestion metadata, check logs, Dataset QA assurance script, Trust & Quality public page, GitHub Quality Gate, CodeQL, OpenSSF Scorecard, core Vitest coverage, Sonar/Codecov readiness, security-header hardening, OpenSSF-ready governance files, and refreshed methodology/how-to wording. These checks are operational evidence, not legal or compliance certification.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Public Timeline, Dataset QA Status & Security Hardening (v3.0.0)</span>
+                      <span className={styles.badgeDone}>Completed</span>
                     </div>
                     <p className={styles.featureDesc}>
                       Major public-release upgrade with a policy-change timeline, home-page Market Pulse, SEO-ready change permalinks, embeddable change widgets, dynamic OG social cards, sitemap generation, improved diff rendering, industry-average benchmarking, regional heatmaps, encrypted backup verification, and the Dataset QA Status. Dataset QA now checks source-fit, hash integrity, freshness, structured AI JSON, KPI coverage, regional impacts, and subscriber hygiene. Security updates include safer cron secret handling, sanitized AI assistant rendering, protected subscriber tokens, escaped email templates, SSRF-aware scraper egress checks, stronger backup passphrases, and tighter deployment diagnostics.
@@ -95,7 +105,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeDone}>Completed</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Personalized real-time alerts or weekly/monthly digests filtered by chosen regions and industry preferences, complete with self-service unsubscribe management.
+                      Personalized instant alerts or weekly/monthly digests filtered by chosen regions and industry preferences, complete with self-service unsubscribe management.
                     </p>
                   </div>
 

@@ -5,11 +5,12 @@
  *
  * Fixes ALL issues identified by the Dataset Quality audit:
  *
- * 1. HASH INTEGRITY: Recomputes SHA-256 hashes for all snapshots and currentHash
- * 2. AI JSON: Generates keyPointsJson and riskReasonsJson from existing AI summaries
- * 3. TL;DR: Generates tldrEn/tldrIt from existing AI summaries
- * 4. RISK LABELS: Normalizes overallRisk to match overallScore bands
- * 5. DUPLICATE URLs: Reports (but does not auto-fix) duplicate policy URLs
+ * 1. HASH INTEGRITY: Recomputes SHA-256 hashes for all snapshots.
+ * 2. CURRENT STATE: Aligns Policy.currentText/currentHash to the latest snapshot.
+ * 3. AI JSON: Generates keyPointsJson and riskReasonsJson from existing AI summaries.
+ * 4. TL;DR: Generates tldrEn/tldrIt from existing AI summaries.
+ * 5. RISK LABELS: Normalizes overallRisk to match overallScore bands.
+ * 6. DUPLICATE URLs: Reports (but does not auto-fix) duplicate policy URLs.
  *
  * Usage:
  *   npx tsx scripts/repair-data.ts
@@ -74,16 +75,16 @@ function generateRiskReasons(summaryEn: string, summaryIt: string, score: number
 
   // Extract meaningful phrases that hint at risk factors
   const riskIndicators = [
-    { patterns: /data collection|data gathering|collect/i, icon: '📊', en: 'Data collection scope changes', it: 'Modifiche all\'ambito di raccolta dati' },
-    { patterns: /third.?party|sharing|share/i, icon: '🔗', en: 'Third-party data sharing updated', it: 'Aggiornamento condivisione dati con terze parti' },
-    { patterns: /retention|store|storage/i, icon: '⏱️', en: 'Data retention policy changes', it: 'Modifiche alla policy di conservazione dati' },
-    { patterns: /consent|opt.?out|opt.?in/i, icon: '✋', en: 'Consent mechanism modifications', it: 'Modifiche al meccanismo di consenso' },
-    { patterns: /AI|artificial intelligence|machine learning|model|training/i, icon: '🤖', en: 'AI/ML data usage changes', it: 'Modifiche all\'uso dei dati per AI/ML' },
-    { patterns: /GDPR|regulation|compliance|legal/i, icon: '⚖️', en: 'Regulatory compliance updates', it: 'Aggiornamenti conformità normativa' },
-    { patterns: /transfer|cross.?border|international/i, icon: '🌐', en: 'Cross-border data transfer changes', it: 'Modifiche al trasferimento transfrontaliero dati' },
-    { patterns: /encryption|security|breach|protect/i, icon: '🔒', en: 'Security posture changes', it: 'Modifiche alla postura di sicurezza' },
-    { patterns: /delete|erasure|right to/i, icon: '🗑️', en: 'Data deletion rights modified', it: 'Diritti di cancellazione modificati' },
-    { patterns: /transparency|disclose|audit/i, icon: '👁️', en: 'Transparency measures updated', it: 'Misure di trasparenza aggiornate' },
+    { patterns: /data collection|data gathering|collect/i, icon: 'warning', en: 'Data collection scope changes', it: 'Modifiche all\'ambito di raccolta dati' },
+    { patterns: /third.?party|sharing|share/i, icon: 'warning', en: 'Third-party data sharing updated', it: 'Aggiornamento condivisione dati con terze parti' },
+    { patterns: /retention|store|storage/i, icon: 'info', en: 'Data retention policy changes', it: 'Modifiche alla policy di conservazione dati' },
+    { patterns: /consent|opt.?out|opt.?in/i, icon: 'info', en: 'Consent mechanism modifications', it: 'Modifiche al meccanismo di consenso' },
+    { patterns: /AI|artificial intelligence|machine learning|model|training/i, icon: 'alert', en: 'AI/ML data usage changes', it: 'Modifiche all\'uso dei dati per AI/ML' },
+    { patterns: /GDPR|regulation|compliance|legal/i, icon: 'info', en: 'Regulatory compliance updates', it: 'Aggiornamenti conformità normativa' },
+    { patterns: /transfer|cross.?border|international/i, icon: 'warning', en: 'Cross-border data transfer changes', it: 'Modifiche al trasferimento transfrontaliero dati' },
+    { patterns: /encryption|security|breach|protect/i, icon: 'alert', en: 'Security posture changes', it: 'Modifiche alla postura di sicurezza' },
+    { patterns: /delete|erasure|right to/i, icon: 'info', en: 'Data deletion rights modified', it: 'Diritti di cancellazione modificati' },
+    { patterns: /transparency|disclose|audit/i, icon: 'info', en: 'Transparency measures updated', it: 'Misure di trasparenza aggiornate' },
   ];
 
   const reasons = riskIndicators
@@ -99,7 +100,7 @@ function generateRiskReasons(summaryEn: string, summaryIt: string, score: number
   // Ensure at least one reason
   if (reasons.length === 0) {
     reasons.push({
-      icon: '📋',
+      icon: 'info',
       textEn: 'Policy terms updated',
       textIt: 'Termini della policy aggiornati',
       deltaScore: Math.ceil(score / 2),
@@ -107,6 +108,33 @@ function generateRiskReasons(summaryEn: string, summaryIt: string, score: number
   }
 
   return JSON.stringify(reasons);
+}
+
+function normalizeRiskReasonIcons(json: string | null): string | null {
+  if (!json) return null;
+  try {
+    const parsed = JSON.parse(json);
+    if (!Array.isArray(parsed)) return null;
+
+    let changed = false;
+    const normalized = parsed.map((reason) => {
+      if (!reason || typeof reason !== 'object') return reason;
+      if (reason.icon === 'alert' || reason.icon === 'warning' || reason.icon === 'info') {
+        return reason;
+      }
+
+      changed = true;
+      const delta = Number(reason.deltaScore ?? 0);
+      return {
+        ...reason,
+        icon: delta >= 3 ? 'alert' : delta >= 2 ? 'warning' : 'info',
+      };
+    });
+
+    return changed ? JSON.stringify(normalized) : null;
+  } catch {
+    return null;
+  }
 }
 
 async function main() {
@@ -128,21 +156,84 @@ async function main() {
   }
   console.log(`  ✅ ${hashFixed}/${snapshots.length} snapshot hashes fixed\n`);
 
-  // ── 2. Fix policy currentHash ──
-  console.log('━━━ Phase 2: Policy currentHash Integrity ━━━');
-  const policies = await prisma.policy.findMany();
-  let policyHashFixed = 0;
+  // ── 2. Align current policy state to latest snapshot ──
+  console.log('━━━ Phase 2: Current Policy State Alignment ━━━');
+  const policies = await prisma.policy.findMany({
+    include: {
+      company: true,
+      snapshots: {
+        orderBy: { version: 'desc' },
+        take: 1,
+      },
+      checkLogs: {
+        orderBy: { checkedAt: 'desc' },
+        take: 1,
+      },
+    },
+  });
+  let currentStateFixed = 0;
+  let checkLogsFixed = 0;
+  let policiesWithoutSnapshots = 0;
+
   for (const pol of policies) {
-    const correctHash = sha256(pol.currentText);
-    if (pol.currentHash !== correctHash) {
+    const latestSnapshot = pol.snapshots[0];
+
+    if (!latestSnapshot) {
+      policiesWithoutSnapshots++;
+      console.log(`  ⚠️  ${pol.company.name} / ${pol.name}: no snapshot available for alignment`);
+      continue;
+    }
+
+    const latestHash = sha256(latestSnapshot.text);
+    const needsPolicyUpdate = pol.currentText !== latestSnapshot.text || pol.currentHash !== latestHash;
+
+    if (needsPolicyUpdate) {
       await prisma.policy.update({
         where: { id: pol.id },
-        data: { currentHash: correctHash },
+        data: {
+          currentText: latestSnapshot.text,
+          currentHash: latestHash,
+          lastSuccessfulCheckDate: pol.lastSuccessfulCheckDate ?? latestSnapshot.createdAt,
+        },
       });
-      policyHashFixed++;
+      currentStateFixed++;
+    }
+
+    const latestLog = pol.checkLogs[0];
+    if (latestLog) {
+      if (latestLog.textHash !== latestHash || latestLog.textLength !== latestSnapshot.text.length) {
+        await prisma.policyCheckLog.update({
+          where: { id: latestLog.id },
+          data: {
+            textHash: latestHash,
+            textLength: latestSnapshot.text.length,
+          },
+        });
+        checkLogsFixed++;
+      }
+    } else {
+      await prisma.policyCheckLog.create({
+        data: {
+          policyId: pol.id,
+          status: pol.dataStatus,
+          checkedAt: pol.lastCheckDate ?? latestSnapshot.createdAt,
+          source: pol.ingestionMethod,
+          reason: 'Created by data repair alignment',
+          finalUrl: pol.url,
+          textHash: latestHash,
+          textLength: latestSnapshot.text.length,
+        },
+      });
+      checkLogsFixed++;
     }
   }
-  console.log(`  ✅ ${policyHashFixed}/${policies.length} policy hashes fixed\n`);
+  console.log(`  ✅ ${currentStateFixed}/${policies.length} policies aligned to latest snapshot`);
+  console.log(`  ✅ ${checkLogsFixed}/${policies.length} latest check logs aligned`);
+  if (policiesWithoutSnapshots > 0) {
+    console.log(`  ⚠️  ${policiesWithoutSnapshots} policies still have no snapshots\n`);
+  } else {
+    console.log('');
+  }
 
   // ── 3. Fix risk labels ──
   console.log('━━━ Phase 3: Risk Label Normalization ━━━');
@@ -183,6 +274,11 @@ async function main() {
     }
 
     // riskReasonsJson
+    const normalizedRiskReasons = normalizeRiskReasonIcons(c.riskReasonsJson);
+    if (normalizedRiskReasons) {
+      updates.riskReasonsJson = normalizedRiskReasons;
+    }
+
     if (!c.riskReasonsJson || c.riskReasonsJson === '[]' || c.riskReasonsJson === 'null') {
       let isValid = false;
       try {
@@ -211,7 +307,7 @@ async function main() {
       aiFixed++;
     }
   }
-  console.log(`  ✅ ${aiFixed}/${changes.length} changes with AI fields backfilled\n`);
+  console.log(`  ✅ ${aiFixed}/${changes.length} changes with AI fields backfilled or normalized\n`);
 
   // ── 5. Restore KPI Assessments ──
   console.log('━━━ Phase 5: KPI Assessment Restore ━━━');
@@ -237,9 +333,9 @@ async function main() {
       });
 
       if (baseChange) {
-        const kpiUpdates: Record<string, string> = {};
+        const kpiUpdates: Partial<Record<(typeof KPI_FIELDS)[number], string>> = {};
         for (const field of KPI_FIELDS) {
-          kpiUpdates[field] = (baseChange as Record<string, any>)[field];
+          kpiUpdates[field] = baseChange[field];
         }
 
         await prisma.policyChange.update({
@@ -260,7 +356,7 @@ async function main() {
   });
   const urlMap = new Map<string, { company: string; name: string; id: string }[]>();
   for (const p of allPolicies) {
-    const norm = p.url.replace(/\/$/, '').replace(/#.*$/, '');
+    const norm = p.url.trim().replace(/#.*$/, '').replace(/\/+$/, '');
     if (!urlMap.has(norm)) urlMap.set(norm, []);
     urlMap.get(norm)!.push({ company: p.company.name, name: p.name, id: p.id });
   }
@@ -279,9 +375,10 @@ async function main() {
   console.log('━'.repeat(50));
   console.log('REPAIR SUMMARY');
   console.log(`  Snapshot hashes fixed:  ${hashFixed}`);
-  console.log(`  Policy hashes fixed:   ${policyHashFixed}`);
+  console.log(`  Current states fixed:  ${currentStateFixed}`);
+  console.log(`  Check logs fixed:      ${checkLogsFixed}`);
   console.log(`  Risk labels fixed:     ${riskFixed}`);
-  console.log(`  AI fields backfilled:  ${aiFixed}`);
+  console.log(`  AI fields repaired:    ${aiFixed}`);
   console.log(`  KPIs restored:         ${kpisRestored}`);
   console.log(`  Duplicate URL groups:  ${dupes}`);
   console.log('━'.repeat(50));

@@ -131,7 +131,7 @@ export default async function SharePage({ params, searchParams }: SharePageProps
     screening: isIt ? 'Screening' : 'Screening',
     disclaimerTitle: isIt ? 'Disclaimer' : 'Disclaimer',
     disclaimer:
-      'BETA RELEASE: Automated AI assessment of publicly available policy texts. Not legal advice. Not a compliance certification. Always consult official sources and qualified legal counsel.',
+      'CONFIDENCE RELEASE v3.5: AI-assisted assessment of publicly available policy texts. Not legal advice. Not a compliance certification. Always consult provider sources and qualified legal counsel.',
     backHome: isIt ? 'Esplora altre aziende →' : 'Explore more companies →',
     high: isIt ? 'Alto' : 'High',
     medium: isIt ? 'Medio' : 'Medium',

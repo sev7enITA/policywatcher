@@ -37,8 +37,9 @@ const content = {
     resources: 'Resources',
     showcase: 'Showcase',
     roadmap: '3.5 Roadmap',
+    trust: 'Trust & Quality',
     paloFramework: 'PALO Framework',
-    disclaimer: 'Beta Release. AI-generated assessments, not legal advice. Use at your own risk.',
+    disclaimer: 'Confidence Release v3.5. AI-assisted assessments, not legal advice. Verify with provider sources.',
     copy: `\u00A9 ${new Date().getFullYear()} PolicyWatcher by Fabrizio Degni. All rights reserved.`,
     madeIn: 'Made in the EU',
   },
@@ -54,8 +55,9 @@ const content = {
     resources: 'Risorse',
     showcase: 'Vetrina',
     roadmap: 'Roadmap 3.5',
+    trust: 'Qualità e fiducia',
     paloFramework: 'PALO Framework',
-    disclaimer: 'Versione Beta. Valutazioni generate da AI, non costituiscono parere legale. Uso a proprio rischio.',
+    disclaimer: 'Confidence Release v3.5. Valutazioni assistite da AI, non parere legale. Verificare con le fonti provider.',
     copy: `\u00A9 ${new Date().getFullYear()} PolicyWatcher di Fabrizio Degni. Tutti i diritti riservati.`,
     madeIn: 'Fatto in UE',
   },
@@ -144,6 +146,12 @@ export default function Footer({ lang }: FooterProps) {
                 </a>
               </li>
               <li>
+                <a href="/trust">
+                  <ShieldCheck size={14} />
+                  {t.trust}
+                </a>
+              </li>
+              <li>
                 <a href="https://www.paloframework.org" target="_blank" rel="noopener noreferrer">
                   <ExternalLink size={14} />
                   {t.paloFramework}
@@ -155,7 +163,7 @@ export default function Footer({ lang }: FooterProps) {
 
         <div className={styles.bottom}>
           <p className={styles.disclaimer}>{t.disclaimer}</p>
-          <p className={styles.copy}>{t.copy} &bull; Build v3.0.1</p>
+          <p className={styles.copy}>{t.copy} &bull; Build v3.5.0 Confidence</p>
         </div>
       </div>
     </footer>

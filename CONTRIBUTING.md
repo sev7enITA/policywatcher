@@ -15,8 +15,10 @@ Thank you for your interest in contributing to PolicyWatcher. This document expl
 1. Fork the repository and create a feature branch from `main`.
 2. Follow the existing code style (TypeScript strict mode, CSS Modules).
 3. Add JSDoc comments to all new exported functions and interfaces.
-4. Test your changes locally with `npm run build` (must pass with zero errors).
-5. Write a clear PR description explaining what changed and why.
+4. Add or update focused tests when changing shared logic, parsing, security,
+   data-quality, or API behavior.
+5. Test your changes locally with the quality commands below.
+6. Write a clear PR description explaining what changed and why.
 
 ### Development Setup
 
@@ -26,7 +28,7 @@ git clone https://github.com/<your-username>/policywatcher.git
 cd policywatcher
 
 # Install dependencies
-npm install
+npm ci
 
 # Set up environment
 cp .env.example .env
@@ -36,13 +38,30 @@ cp .env.example .env
 npx prisma generate
 npx prisma db push
 
-# Seed the database (optional, for demo data)
-npm run dev
-# Then visit http://localhost:3000/api/seed
+# Seed the database locally when needed
+npx prisma db seed
+
+# Repair and validate dataset evidence
+npm run db:repair
+npm run db:backfill-check-logs
+npm run qa:dataset
 
 # Start the dev server
 npm run dev
 ```
+
+### Local Quality Gate
+
+Run these before opening a pull request:
+
+```bash
+npm run test
+npm run qa:dataset
+npm run lint
+npm run build
+```
+
+Use `npm run test:coverage` when changing core library logic.
 
 ### Code Style
 
@@ -63,7 +82,12 @@ npm run dev
 
 ## Code of Conduct
 
-Be respectful, constructive, and inclusive. Discrimination or harassment of any kind will not be tolerated.
+See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+
+## Security Reports
+
+Do not open public issues for vulnerabilities or leaked secrets. See
+[SECURITY.md](SECURITY.md) and report privately to security@policywatcher.online.
 
 ## License
 

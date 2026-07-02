@@ -4,7 +4,7 @@
  * Onboarding / "How To Use" modal that walks first-time visitors through
  * the core features of PolicyWatcher via a multi-slide guided tour.
  *
- * Slides: Welcome -> Core Features -> Limitations & Caveats -> AI Assistant.
+ * Slides: Welcome -> Core Features -> Trust & QA -> Limitations -> AI Assistant.
  *
  * The modal tracks two persistence layers:
  *  - **sessionStorage**: prevents the modal from re-appearing within the
@@ -108,14 +108,14 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
       icon: <IconShieldScan size={32} className={styles.slideIconPrimary} />,
       title: isIt ? 'Benvenuto su PolicyWatcher' : 'Welcome to PolicyWatcher',
       subtitle: isIt 
-        ? 'La tua piattaforma di monitoraggio normativo e AI Governance basata su Intelligenza Artificiale.' 
-        : 'Your AI-powered monitor for privacy policies, terms of service, and AI governance.',
+        ? 'Una piattaforma per monitorare fonti policy configurate, modifiche, segnali di rischio e stato QA del dataset.'
+        : 'A platform for monitoring configured policy sources, changes, risk signals, and dataset QA status.',
       content: (
         <div className={styles.slideContent}>
           <p>
             {isIt 
-              ? 'PolicyWatcher ti aiuta a tracciare in tempo reale come le grandi aziende tecnologiche gestiscono i tuoi dati, i modelli di addestramento AI e i tuoi diritti di privacy.'
-              : 'PolicyWatcher helps you track in real-time how tech giants handle your private data, AI model training inputs, and regulatory compliance standards.'}
+              ? 'PolicyWatcher ti aiuta a seguire come le grandi piattaforme aggiornano policy privacy, termini di servizio e testi legati alla governance AI, esponendo sempre limiti e stato del dato.'
+              : 'PolicyWatcher helps you follow how major platforms update privacy policies, terms of service, and AI-governance texts while exposing data status and known limits.'}
           </p>
           <div className={styles.introFeatureList}>
             <div className={styles.introFeatureItem}>
@@ -128,7 +128,7 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
             </div>
             <div className={styles.introFeatureItem}>
               <span className={styles.bulletDot}></span>
-              <span>{isIt ? 'Valutazione del rischio per individui ed imprese (EU/US/Global)' : 'Regional compliance risk scoring (EU/US/Global perspective)'}</span>
+              <span>{isIt ? 'Indicatori di rischio per individui e imprese (EU/US/Global)' : 'Risk indicators for individual and enterprise perspectives (EU/US/Global)'}</span>
             </div>
           </div>
         </div>
@@ -165,6 +165,36 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
       )
     },
     {
+      id: 'trust',
+      icon: <IconShieldScan size={32} className={styles.slideIconSecondary} />,
+      title: isIt ? 'Dataset QA e Trust Evidence' : 'Dataset QA & Trust Evidence',
+      subtitle: isIt
+        ? 'La qualità del dataset è mostrata come stato operativo, non come certificazione.'
+        : 'Dataset quality is shown as operational evidence, not certification.',
+      content: (
+        <div className={styles.slideContent}>
+          <div className={styles.gridFeatures}>
+            <div className={styles.gridCard}>
+              <h4><IconShieldScan size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> Dataset QA</h4>
+              <p>{isIt ? 'Controlla source-fit, hash, version records, check log, timestamp, KPI, impatti regionali e anomalie da rivedere.' : 'Checks source-fit, hashes, version records, check logs, timestamps, KPIs, regional impacts, and review issues.'}</p>
+            </div>
+            <div className={styles.gridCard}>
+              <h4><IconTimeline size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Stati del dato' : 'Data statuses'}</h4>
+              <p>{isIt ? 'Ogni policy può essere Available, Partial, Needs Review, Unavailable, Configured o Reviewed.' : 'Each policy can expose Available, Partial, Needs Review, Unavailable, Configured, or Reviewed states.'}</p>
+            </div>
+            <div className={styles.gridCard}>
+              <h4><IconDocumentDiff size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Trust page' : 'Trust page'}</h4>
+              <p>{isIt ? 'La pagina Trust & Quality raccoglie CI, CodeQL, OpenSSF Scorecard, core coverage, Sonar/Codecov readiness e report header live.' : 'The Trust & Quality page collects CI, CodeQL, OpenSSF Scorecard, core coverage, Sonar/Codecov readiness, and live header reports.'}</p>
+            </div>
+            <div className={styles.gridCard}>
+              <h4><IconBellAlert size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Confine dichiarato' : 'Declared boundary'}</h4>
+              <p>{isIt ? 'PolicyWatcher non certifica conformità legale e non valida pratiche interne: mappa testi pubblici configurati e segnala evidenze.' : 'PolicyWatcher does not certify legal compliance or validate internal practices: it maps configured public texts and exposes evidence.'}</p>
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
       id: 'limits',
       icon: <IconBellAlert size={32} className={styles.slideIconWarning} />,
       title: isIt ? 'Limiti e Limitazioni' : 'Limitations & Caveats',
@@ -177,20 +207,20 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
             <div className={styles.limitItem}>
               <h5><IconShieldScan size={16} style={{ verticalAlign: 'middle', marginRight: 6 }} color="#f59e0b" /> {isIt ? 'Versione Beta e Nessun Parere Legale' : 'Beta Version & No Legal Advice'}</h5>
               <p>{isIt 
-                ? 'Le analisi sono generate tramite Intelligenza Artificiale Generativa e non costituiscono consulenza o parere legale. Verifica sempre i testi originali.' 
-                : 'All reviews are compiled dynamically by Generative AI and do not constitute legal advice. Always reference original texts.'}</p>
+                ? 'Le analisi sono generate tramite modelli AI e non costituiscono consulenza o parere legale. Verifica sempre i testi presso la fonte provider.'
+                : 'Reviews are generated through AI models and do not constitute legal advice. Always verify text states against provider sources.'}</p>
             </div>
             <div className={styles.limitItem}>
               <h5><IconRegionGlobe size={16} style={{ verticalAlign: 'middle', marginRight: 6 }} color="#f59e0b" /> {isIt ? 'Limitazioni di Scraper e Bot Protection' : 'Scraper & Bot Protection Limitations'}</h5>
               <p>{isIt 
-                ? 'Alcune aziende implementano sistemi anti-bot (Cloudflare, captcha) o paywall. In questi casi, lo scraper segnala "Non disponibile" senza inventare dati.' 
-                : 'Aggressive bot blockers (Cloudflare, captchas) or paywalls might block text fetching. We report these as "Unavailable" to ensure data integrity.'}</p>
+                ? 'Alcune aziende implementano sistemi anti-bot, consent wall o contenuti script-rendered. In questi casi il sistema segnala "Unavailable" o "Needs Review" senza inventare dati.'
+                : 'Bot blockers, consent walls, or script-rendered content can block retrieval. The system reports "Unavailable" or "Needs Review" without inventing data.'}</p>
             </div>
             <div className={styles.limitItem}>
               <h5><IconTimeline size={16} style={{ verticalAlign: 'middle', marginRight: 6 }} color="#f59e0b" /> {isIt ? 'Rate Limiting protettivi' : 'Usage Rate Limiting'}</h5>
               <p>{isIt 
-                ? 'Per contenere i costi delle API (Gemini e Sintesi Vocale TTS), sono attivi limiti di richieste basati su IP. Se li superi, attendi il timeout indicato.' 
-                : 'To manage Google Cloud and Gemini API costs, IP-based request limits are enforced. Please respect retry thresholds.'}</p>
+                ? 'Alcune funzioni API sono protette da rate limit, ruoli amministrativi o segreti. Se una richiesta fallisce, controlla lo stato, il ruolo e la configurazione.'
+                : 'Some API functions are protected by rate limits, admin roles, or secrets. If a request fails, check status, role, and configuration.'}</p>
             </div>
           </div>
         </div>
@@ -202,7 +232,7 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
       title: isIt ? 'Chiedi al tuo Assistente IA' : 'Ask your AI Assistant',
       subtitle: isIt 
         ? 'Puoi avere le stesse indicazioni e informazioni parlando in chat.' 
-        : 'Access the same details and guide instructions in real-time.',
+        : 'Access guidance on features, methodology, and platform limits.',
       content: (
         <div className={styles.slideContent}>
           <p>
@@ -213,8 +243,8 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
           <div className={styles.chatbotHighlightBox}>
             <p className={styles.chatbotHighlightText}>
               {isIt 
-                ? 'Usa il chatbot "Policy Live Assistant" in basso a destra. E addestrato con tutta la documentazione, la metodologia e lo storico della piattaforma.' 
-                : 'Launch the "Policy Live Assistant" in the bottom-right. It is trained with all platform documentation, methodology, and historic datasets.'}
+                ? 'Usa il chatbot "Policy Live Assistant" in basso a destra per orientarti tra funzionalità, metodologia e limiti. Verifica sempre le fonti provider per conclusioni legali.'
+                : 'Launch the "Policy Live Assistant" in the bottom-right for guidance on features, methodology, and limits. Always verify provider sources for legal conclusions.'}
             </p>
           </div>
           <p className={styles.chatSuggestedQueriesTitle}>{isIt ? 'Domande suggerite da fare alla chat:' : 'Suggested queries to ask the chatbot:'}</p>
@@ -284,6 +314,7 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
             >
               {slide.id === 'welcome' && (isIt ? 'Benvenuto' : 'Welcome')}
               {slide.id === 'features' && (isIt ? 'Funzionalita' : 'Features')}
+              {slide.id === 'trust' && (isIt ? 'Trust QA' : 'Trust QA')}
               {slide.id === 'limits' && (isIt ? 'Limiti' : 'Limits')}
               {slide.id === 'chatbot' && (isIt ? 'Assistente IA' : 'AI Assistant')}
             </button>

@@ -1,5 +1,28 @@
 # Changelog
 
+## 3.5.0 - 2026-07-02
+
+### Added
+- Truth & Confidence Layer for policy data status, ingestion metadata, last-check timestamps, and check-log evidence.
+- `PolicyCheckLog` model and backfill/repair scripts for existing datasets.
+- Dataset assurance command (`npm run qa:dataset`) covering hashes, version records, check logs, data statuses, timestamps, URL duplicates, and AI JSON icon hygiene.
+- Trust & Quality public page (`/trust`) with GitHub Quality Gate, CodeQL, OpenSSF Scorecard, OpenSSF Best Practices passing badge, core coverage workflow status, Sonar/Codecov readiness, live-header report links, and explicit non-certification boundary.
+- GitHub Actions workflows for quality gate, CodeQL, OpenSSF Scorecard, core Vitest coverage, and SonarQube Cloud readiness.
+- Vitest core tests and coverage for `policyConfidence`, `subscriberPreferences`, and `diffParse`.
+- Open-source governance files: `SECURITY.md`, `CODE_OF_CONDUCT.md`, and third-party validation setup guide.
+- OpenSSF Best Practices project `13465` badge integration for README and `/trust`.
+- Public State of the Art reports in `docs/platform-state-of-art-2026-07-02.md` and `docs/platform-state-of-art-2026-07-02.it.md`.
+
+### Changed
+- Package and visible build strings updated to `3.5.0` / `3.5.0 Confidence`.
+- How To, About/Overview, Methodology, Showcase, Trust, Terms Gate, share/change pages, PDF disclaimer, footer, SEO metadata, and admin copy updated to use evidence-first, non-certification wording.
+- Showcase page repositioned from a 3.0 feature map to a 3.5 Confidence overview.
+- Security headers refined, including nonce-based CSP, `default-src 'none'`, strict `object-src`/`base-uri`/`form-action`/`frame-ancestors`, `strict-origin-when-cross-origin`, and removal of obsolete `X-Frame-Options: ALLOWALL` from embed responses.
+- Encrypted backup payload version updated to `3.5.0`.
+
+### Known QA Notes
+- Dataset QA currently reports one non-blocking warning: Plaid maps several US/EU policy records to the same normalized legal hub URL (`https://plaid.com/legal`). Confirm whether this is intentional or refine source URLs if Plaid exposes more specific anchors/pages.
+
 ## 3.0.1 - 2026-07-02
 
 ### Added
@@ -26,7 +49,7 @@
 - Admin encrypted backup export and verification tools.
 - Admin decrypt-backup and export-encrypted API routes.
 - Admin Dataset QA dashboard and API for source-fit, dataset integrity, freshness, KPI coverage, regional-impact coverage, and subscriber hygiene checks.
-- Admin Dataset Quality Seal panels in the admin dashboard and Dataset QA page.
+- Admin Dataset QA Status panels in the admin dashboard and Dataset QA page.
 
 ### Security
 - Removed the default API secret fallback from the cron trigger script.

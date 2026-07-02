@@ -198,7 +198,7 @@ export default async function ChangePage({
     dashboard: isIt ? 'Apri in dashboard' : 'Open in dashboard',
     disclaimerTitle: isIt ? 'Disclaimer' : 'Disclaimer',
     disclaimer:
-      'ALPHA RELEASE — Automated AI assessment of publicly available policy texts. Not legal advice. Not a compliance certification. Always consult official sources and qualified legal counsel.',
+      'CONFIDENCE RELEASE v3.5: AI-assisted assessment of publicly available policy texts. Not legal advice. Not a compliance certification. Always consult provider sources and qualified legal counsel.',
     high: isIt ? 'Alto' : 'High',
     medium: isIt ? 'Medio' : 'Medium',
     low: isIt ? 'Basso' : 'Low',

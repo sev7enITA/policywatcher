@@ -5,17 +5,22 @@
 <h1 align="center">PolicyWatcher</h1>
 
 <p align="center">
-  <strong>AI-powered regulatory intelligence platform for Big Tech and FinTech corporate policies.</strong>
+  <strong>AI-powered policy change intelligence platform for Big Tech and FinTech corporate policies.</strong>
 </p>
 
 <p align="center">
   <a href="https://creativecommons.org/licenses/by/4.0/"><img src="https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg" alt="License: CC BY 4.0" /></a>
   <a href="https://www.policywatcher.online"><img src="https://img.shields.io/badge/Live%20Demo-policywatcher.online-6366f1" alt="Live Demo" /></a>
+  <a href="https://github.com/sev7enITA/policywatcher/actions/workflows/quality.yml"><img src="https://github.com/sev7enITA/policywatcher/actions/workflows/quality.yml/badge.svg?branch=main" alt="Quality Gate" /></a>
+  <a href="https://github.com/sev7enITA/policywatcher/actions/workflows/codeql.yml"><img src="https://github.com/sev7enITA/policywatcher/actions/workflows/codeql.yml/badge.svg?branch=main" alt="CodeQL" /></a>
+  <a href="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml"><img src="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml/badge.svg?branch=main" alt="Core Coverage" /></a>
+  <a href="https://scorecard.dev/viewer/?uri=github.com/sev7enITA/policywatcher"><img src="https://api.scorecard.dev/projects/github.com/sev7enITA/policywatcher/badge" alt="OpenSSF Scorecard" /></a>
+  <a href="https://www.bestpractices.dev/projects/13465"><img src="https://www.bestpractices.dev/projects/13465/badge" alt="OpenSSF Best Practices" /></a>
   <img src="https://img.shields.io/badge/Next.js-16.2.9-black" alt="Next.js 16" />
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.2.0-10b981" alt="Release 3.2.0" />
+  <img src="https://img.shields.io/badge/Track-3.5%20Confidence-10b981" alt="3.5 Confidence Track" />
 </p>
 
 ---
@@ -26,7 +31,7 @@ PolicyWatcher monitors the privacy policies, terms of service, and AI governance
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
 
-### Release 3.2 Highlights
+### Release 3.5 Confidence Track Highlights
 
 - **Adaptive Fallback Scraper Cascade (5 levels)**: Bypasses datacenter bot-blocking (WAF, Cloudflare, CAPTCHAs) by cascading from direct HTTP/1.1 and explicit HTTP/2 down to Wayback Machine, Google Cache, and Common Crawl indexes.
 - **Polite Crawling & Delays**: Random 1-3s delays between policy fetches to avoid rate limit bans.
@@ -40,6 +45,7 @@ The platform is designed as a **civic tech tool** that translates dense legal do
 - Industry benchmark option in the A/B radar comparison.
 - Admin encrypted backup export and verification workflow.
 - Admin Dataset QA dashboard for source-fit, integrity, freshness, KPI coverage, regional-impact coverage, and subscriber hygiene checks.
+- Public Trust & Quality Evidence page (`/trust`) with CI, CodeQL, OpenSSF Scorecard, core coverage, live-header report links, and dataset assurance boundaries.
 - Pre-release security hardening for secrets, rate limits, AI output rendering, email templates, subscriber tokens, scraper egress, deployment diagnostics, and backup passphrases.
 
 ### Key Value Propositions
@@ -204,14 +210,30 @@ Each KPI assessment is backed by **480 manually curated bilingual justification 
 
 ### Source Selection and Dataset QA
 
-Dataset quality is treated as the platform's operational seal. PolicyWatcher follows this source hierarchy:
+Dataset quality is treated as a release-control discipline. PolicyWatcher follows this source hierarchy:
 
 - **Global first:** Global analysis should use the canonical English/global source when the company publishes one.
-- **Market-specific when available:** EU, US, UK, or other regional analysis should point to the official policy for that market.
+- **Market-specific when available:** EU, US, UK, or other regional analysis should point to the provider source for that market.
 - **Localized pages are not primary evidence by default:** translated URLs such as `/it/` are flagged unless they are the only official market source and the jurisdiction label makes that clear.
-- **Traceability over convenience:** every monitored policy keeps its source URL, stored snapshot, hash, version history, and detected changes.
+- **Traceability over convenience:** every monitored policy keeps its configured source URL, hash, check history, version metadata, and detected changes.
 
 The admin **Dataset QA** gate checks URL hygiene, source-fit, hash integrity, freshness, structured AI JSON, KPI coverage, regional-impact coverage, and subscriber hygiene. Critical findings are release blockers; warnings mark ambiguity or drift that should be resolved before public promotion.
+
+### Trust and Quality Evidence
+
+PolicyWatcher exposes quality evidence in the application and in the public repository. These checks are operational controls, not legal, regulatory, or compliance certifications.
+
+- `npm run qa:dataset` validates the local dataset at policy-record grain: accepted status values, SHA-256 consistency, version-record coverage, check-log presence, latest status alignment, and scan timestamps.
+- `.github/workflows/quality.yml` runs Prisma validation, CI database seeding, dataset assurance, lint, production build, and high-severity dependency audit.
+- `.github/workflows/codeql.yml` runs GitHub CodeQL security-and-quality analysis for JavaScript and TypeScript.
+- `.github/workflows/scorecard.yml` runs OpenSSF Scorecard and publishes public supply-chain posture results.
+- OpenSSF Best Practices project `13465` is passing and exposed as public open-source process evidence.
+- `.github/workflows/coverage.yml` runs Vitest core utility coverage and uploads to Codecov when `CODECOV_TOKEN` is configured.
+- `.github/workflows/sonar.yml` is ready for SonarQube Cloud and activates when `SONAR_TOKEN` is configured.
+- `SECURITY.md`, `CONTRIBUTING.md`, and `CODE_OF_CONDUCT.md` support the OpenSSF Best Practices self-attestation.
+- `docs/platform-state-of-art-2026-07-02.md` and `docs/platform-state-of-art-2026-07-02.it.md` record the current platform state, dataset profile, assurance controls, known warnings, deployment notes, and priorities.
+- `docs/third-party-validation.md` records the exact setup steps and public report URLs for GitHub, OpenSSF, Sonar, Codecov, MDN Observatory, and SecurityHeaders.com.
+- `/trust` explains what each badge/report means and states the non-certification boundary.
 
 ### Scraper Integrity (Double-Check System)
 
@@ -417,7 +439,7 @@ erDiagram
 | Route | Method | Auth | Rate Limit | Purpose |
 |-------|--------|------|------------|---------|
 | `/api/companies` | GET | No | 60/min | List all companies with policies and latest changes |
-| `/api/policies/[id]` | GET | No | 60/min | Full policy detail with snapshots and change history |
+| `/api/policies/[id]` | GET | No | 60/min | Full policy detail with version records and change history |
 | `/api/chat` | POST | No | 10/min | AI Q&A with policy corpus context |
 | `/api/scrape` | POST | Bearer | 3/10min | Manual re-scrape and re-analysis of a policy |
 | `/api/compare` | GET | No | 60/min | A/B company KPI comparison with radar data |
@@ -483,6 +505,33 @@ npm run build    # Runs: prisma generate && next build
 npm start        # Starts the production server
 ```
 
+### Schema Upgrade Notes
+
+Release 3.5 introduces the Truth & Confidence Layer fields and the
+`PolicyCheckLog` table. On an existing deployment, update the SQLite schema and
+backfill the initial check-log rows before relying on Dataset QA Status views:
+
+```bash
+# 1. Back up the existing production database first.
+cp prisma/dev.db "prisma/dev.db.backup-$(date +%Y%m%d%H%M%S)"
+
+# 2. Apply the Prisma schema changes.
+npx prisma db push
+
+# 3. Reconcile current policy records, version-record hashes, and latest check-log evidence.
+npm run db:repair
+
+# 4. Create one initial check-log row for existing policies that do not have one.
+npm run db:backfill-check-logs
+
+# 5. Build and start as usual.
+npm run build
+npm start
+```
+
+Do not run `/api/seed` in production. It is development-only and blocked unless
+`ALLOW_DATABASE_SEED_ENDPOINT=true` and `NODE_ENV` is not `production`.
+
 ### Environment Variables
 
 | Variable | Required | Description |
@@ -522,7 +571,7 @@ PolicyWatcher's analysis references the following regulatory frameworks:
 
 ## Limitations and Disclaimer
 
-**BETA RELEASE**: PolicyWatcher is in active development and does not represent a final product. The assessments are generated by AI models (Google Gemini) through automated text analysis. While we strive for accuracy, these evaluations:
+**CONFIDENCE RELEASE v3.5**: PolicyWatcher is in active development and presents evidence mapping, not legal or regulatory certification. The assessments are generated by AI models (Google Gemini) through automated text analysis. While we strive for accuracy, these evaluations:
 
 - May contain inaccuracies, interpretive errors, or omissions of legal language.
 - Reflect a point-in-time analysis and may become outdated after the screening date.

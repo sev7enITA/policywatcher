@@ -23,25 +23,12 @@ import {
   ShieldAlert, 
   MessageSquare,
   ArrowRight,
-  FileText,
   AlertTriangle,
-  Zap,
-  Download,
-  Bell,
-  User,
   SlidersHorizontal,
   ArrowUpDown,
   X,
   Calendar,
-  ChevronDown,
-  Grid3X3,
-  BookOpen,
-  GitCompare,
-  History,
-  HelpCircle,
-  Clock,
-  Sparkles,
-  Cpu
+  Clock
 } from 'lucide-react';
 import styles from './Dashboard.module.css';
 import PolicyDetails from '@/components/PolicyDetails';
@@ -61,6 +48,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/Footer';
 import HowToModal from '@/components/HowToModal';
 import Navigation, { NavLayout } from '@/components/Navigation';
+import { dataStatusClassKey, getWorstDataStatus, normalizeDataStatus } from '@/lib/policyConfidence';
 
 // Re-export types for backward compatibility
 export type { Company, Policy, PolicyChange, RegionImpact } from '@/types/index';
@@ -70,7 +58,7 @@ import type { Company } from '@/types/index';
 const translations = {
   it: {
     title: 'PolicyWatcher',
-    subtitle: 'AI Regulatory Compliance Monitor',
+    subtitle: 'AI Policy Change Monitor',
     liveAssistant: 'Policy Live Assistant',
     monitoredCompanies: 'Compagnie Monitorate',
     criticalAlerts: 'Allerte Critiche',
@@ -120,11 +108,11 @@ const translations = {
     allTime: 'Tutto',
     clearFilters: 'Pulisci Filtri',
     activeFilters: 'filtri attivi',
-    disclaimer: 'Beta Release: Questa piattaforma e in fase di sviluppo (beta) e non rappresenta un prodotto finale. Le informazioni sono generate tramite analisi automatizzata (AI) e possono contenere imprecisioni o errori interpretativi. Non costituiscono parere legale o certificazione di conformita. L\'autore declina ogni responsabilita. L\'interpretazione e l\'uso dei dati sono esclusivamente a rischio e responsabilita dell\'utente. Verificare sempre presso le fonti ufficiali.',
+    disclaimer: 'Confidence Release v3.5: questa piattaforma e in sviluppo attivo. Le informazioni sono generate tramite analisi automatizzata assistita da AI e possono contenere imprecisioni o errori interpretativi. Non costituiscono parere legale, certificazione di conformita o valutazione definitiva della condotta aziendale. L\'autore declina ogni responsabilita. L\'interpretazione e l\'uso dei dati sono esclusivamente a rischio e responsabilita dell\'utente. Verificare sempre presso le fonti provider.',
   },
   en: {
     title: 'PolicyWatcher',
-    subtitle: 'AI Regulatory Compliance Monitor',
+    subtitle: 'AI Policy Change Monitor',
     liveAssistant: 'Policy Live Assistant',
     monitoredCompanies: 'Monitored Companies',
     criticalAlerts: 'Critical Alerts',
@@ -174,7 +162,7 @@ const translations = {
     allTime: 'All',
     clearFilters: 'Clear Filters',
     activeFilters: 'active filters',
-    disclaimer: 'Beta Release: This platform is in active development (beta) and does not represent a final product. All information is generated through automated AI analysis and may contain inaccuracies or interpretive errors. It does not constitute legal advice or compliance certification. The author disclaims all liability. Interpretation and use of this data are solely at the user\'s own risk and responsibility. Always verify with official sources.',
+    disclaimer: 'Confidence Release v3.5: this platform is in active development. Information is generated through automated AI-assisted text analysis and may contain inaccuracies or interpretive errors. It does not constitute legal advice, compliance certification, or a definitive assessment of corporate conduct. The author disclaims all liability. Interpretation and use of this data is solely at the user\'s own risk and responsibility. Always verify with provider sources.',
   }
 };
 
@@ -240,7 +228,7 @@ export default function Dashboard() {
   const [subscribeOpen, setSubscribeOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [changelogOpen, setChangelogOpen] = useState(false);
-  const [exportMenuOpen, setExportMenuOpen] = useState(false);
+  const [, setExportMenuOpen] = useState(false);
   const [matrixOpen, setMatrixOpen] = useState(false);
   const [methodologyOpen, setMethodologyOpen] = useState(false);
   const [howToOpen, setHowToOpen] = useState(false);
@@ -472,6 +460,16 @@ export default function Dashboard() {
     if (risk === 'High') return 'var(--risk-high-glow)';
     if (risk === 'Medium') return 'var(--risk-medium-glow)';
     return 'var(--risk-low-glow)';
+  };
+
+  const getDataStatusColor = (status: string) => {
+    const normalized = normalizeDataStatus(status, 'Needs Review');
+    if (normalized === 'Unavailable') return '#ef4444';
+    if (normalized === 'Needs Review') return '#f97316';
+    if (normalized === 'Partial') return '#d97706';
+    if (normalized === 'Reviewed') return '#8b5cf6';
+    if (normalized === 'Configured') return '#64748b';
+    return '#10b981';
   };
 
   /** Derives a 128px Google favicon URL from a company's website domain. */
@@ -847,6 +845,7 @@ export default function Dashboard() {
           >
             {filteredCompanies.map((company) => {
               const firstPolicy = company.policies[0];
+              const companyDataStatus = getWorstDataStatus(company.policies);
               const latestChange = firstPolicy?.changes[0];
               
               const matchingImpact = latestChange?.regionImpacts.find(
@@ -920,9 +919,9 @@ export default function Dashboard() {
                         <h3 className={styles.companyName}>{company.name}</h3>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', marginTop: '4px' }}>
                           <span className={styles.industryTag}>{company.industry}</span>
-                          {firstPolicy && (
-                            <span className={`${styles.confidenceBadge} ${styles[`badge_${firstPolicy.dataStatus.replace(/\s+/g, '').toLowerCase()}`]}`}>
-                              {firstPolicy.dataStatus}
+                          {company.policies.length > 0 && (
+                            <span className={`${styles.confidenceBadge} ${styles[`badge_${dataStatusClassKey(companyDataStatus)}`]}`}>
+                              {companyDataStatus}
                             </span>
                           )}
                         </div>
@@ -960,12 +959,8 @@ export default function Dashboard() {
                         const polColor = getRiskColor(polRisk);
                         const jurisdictionMatch = pol.jurisdiction === selectedRegion || pol.jurisdiction === 'Global';
                         
-                        // Map status indicator dot colors
-                        const statusDotColor = 
-                          pol.dataStatus === 'Unavailable' ? '#ef4444' :
-                          pol.dataStatus === 'Needs Review' ? '#f97316' :
-                          pol.dataStatus === 'Partial' ? '#d97706' :
-                          pol.dataStatus === 'Reviewed' ? '#8b5cf6' : '#10b981';
+                        const dataStatus = normalizeDataStatus(pol.dataStatus, 'Needs Review');
+                        const statusDotColor = getDataStatusColor(dataStatus);
 
                         return (
                           <button
@@ -973,7 +968,7 @@ export default function Dashboard() {
                             onClick={() => setSelectedPolicyId(pol.id)}
                             className={`${styles.policyPill} ${jurisdictionMatch ? styles.policyPillHighlight : ''}`}
                             style={{ borderColor: polColor }}
-                            title={`${pol.name} - Ingestion: ${pol.ingestionMethod} (${pol.dataStatus})`}
+                            title={`${pol.name} - Ingestion: ${pol.ingestionMethod || 'Unknown'} (${dataStatus})`}
                           >
                             <span 
                               style={{ 

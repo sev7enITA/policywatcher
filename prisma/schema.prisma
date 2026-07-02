@@ -38,10 +38,30 @@ model Policy {
   updatedAt               DateTime         @updatedAt
   snapshots               PolicySnapshot[]
   changes                 PolicyChange[]
+  checkLogs               PolicyCheckLog[]
 
   @@unique([companyId, type, jurisdiction])
   @@index([companyId])
   @@index([jurisdiction])
+}
+
+model PolicyCheckLog {
+  id         String   @id @default(uuid())
+  policyId   String
+  policy     Policy   @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  status     String   // "Available", "Needs Review", "Unavailable", "Partial", "Configured", "Reviewed"
+  checkedAt  DateTime @default(now())
+  source     String?  // "direct", "http2", "wayback", "cache", "commoncrawl", "seeded", "none"
+  httpStatus Int?
+  reason     String?
+  finalUrl   String?
+  textHash   String?
+  textLength Int?
+  createdAt  DateTime @default(now())
+
+  @@index([policyId])
+  @@index([checkedAt])
+  @@index([status])
 }
 
 model PolicySnapshot {

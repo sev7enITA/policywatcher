@@ -311,7 +311,7 @@ export default function AdminDashboardPage() {
           <p className={styles.pageSubtitle}>System overview, analytics and secure backups</p>
         </div>
         <span className={styles.logoVersion} style={{ fontSize: '0.78rem', padding: '4px 10px', borderRadius: '8px' }}>
-          PolicyWatcher Admin v3.0.0
+          PolicyWatcher Admin v3.5.0 Confidence
         </span>
       </div>
 
@@ -424,7 +424,7 @@ export default function AdminDashboardPage() {
             <Lock size={16} />
             <div>
               <strong>Integrity</strong>
-              <span>Hashes, snapshots, and current policy text must reconcile before public claims.</span>
+              <span>Hashes, version records, and current policy text must reconcile before public claims.</span>
             </div>
           </div>
           <div className={styles.sealItem}>

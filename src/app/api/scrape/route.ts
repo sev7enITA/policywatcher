@@ -8,7 +8,7 @@
  * AI analysis via Gemini, and records a PolicyChange with region impacts.
  *
  * The scraper is hardened: it never fabricates content. If the page is
- * unreachable, an honest error is returned and nothing is written to the DB.
+ * unreachable, an honest error is returned and the failed check is logged.
  *
  * @auth    None (public endpoint).
  * @rateLimit 3 requests / 10 minutes per IP (scrape + AI is the most expensive op).
@@ -22,6 +22,7 @@ import { scrapePolicyText } from '@/lib/scraper';
 import { analyzePolicyChange } from '@/lib/gemini';
 import { rateLimit } from '@/lib/rateLimit';
 import { isAuthorized } from '@/lib/auth';
+import { dataStatusFromScrapeFailure, normalizeIngestionMethod } from '@/lib/policyConfidence';
 import * as Diff from 'diff';
 
 /**
@@ -81,16 +82,32 @@ export async function POST(request: NextRequest) {
 
     if (scrapeResult.status !== 'ok') {
       // The page is unreachable or unusable. We MUST NOT invent data:
-      // surface a clear, honest status and point to the official source.
+      // surface a clear, honest status and point to the configured source.
       // However, we record the check status honestly in the DB for trust:
       const isInvalid = scrapeResult.status === 'invalid';
-      await db.policy.update({
-        where: { id: policy.id },
-        data: {
-          lastCheckDate: new Date(),
-          dataStatus: isInvalid ? 'Needs Review' : 'Unavailable',
-        },
-      });
+      const checkedAt = new Date();
+      const dataStatus = dataStatusFromScrapeFailure(scrapeResult.status);
+
+      await db.$transaction([
+        db.policy.update({
+          where: { id: policy.id },
+          data: {
+            lastCheckDate: checkedAt,
+            dataStatus,
+          },
+        }),
+        db.policyCheckLog.create({
+          data: {
+            policyId: policy.id,
+            status: dataStatus,
+            checkedAt,
+            source: scrapeResult.source || 'none',
+            httpStatus: scrapeResult.httpStatus || null,
+            reason: scrapeResult.reason || null,
+            finalUrl: scrapeResult.finalUrl || policy.url,
+          },
+        }),
+      ]);
       const message = {
         en: isInvalid
           ? 'The policy link appears to be no longer valid or reachable.'
@@ -119,16 +136,32 @@ export async function POST(request: NextRequest) {
 
     // If text hasn't changed, return status
     if (newHash === policy.currentHash) {
-      const updatedPolicy = await db.policy.update({
-        where: { id: policy.id },
-        data: {
-          updatedAt: new Date(),
-          lastCheckDate: new Date(),
-          lastSuccessfulCheckDate: new Date(),
-          dataStatus: 'Available',
-          ingestionMethod: scrapeResult.source || 'Direct Scrape',
-        },
-      });
+      const checkedAt = new Date();
+      const ingestionMethod = normalizeIngestionMethod(scrapeResult.source || 'direct');
+      const [updatedPolicy] = await db.$transaction([
+        db.policy.update({
+          where: { id: policy.id },
+          data: {
+            updatedAt: checkedAt,
+            lastCheckDate: checkedAt,
+            lastSuccessfulCheckDate: checkedAt,
+            dataStatus: 'Available',
+            ingestionMethod,
+          },
+        }),
+        db.policyCheckLog.create({
+          data: {
+            policyId: policy.id,
+            status: 'Available',
+            checkedAt,
+            source: scrapeResult.source || 'direct',
+            httpStatus: scrapeResult.httpStatus || null,
+            finalUrl: scrapeResult.finalUrl || policy.url,
+            textHash: newHash,
+            textLength: newText.length,
+          },
+        }),
+      ]);
       return NextResponse.json({
         changed: false,
         message: 'Nessun cambiamento rilevato rispetto alla versione memorizzata.',
@@ -140,16 +173,6 @@ export async function POST(request: NextRequest) {
     const latestSnapshot = policy.snapshots[0];
     const oldText = latestSnapshot ? latestSnapshot.text : '';
     const newVersion = latestSnapshot ? latestSnapshot.version + 1 : 1;
-
-    // Create the new snapshot
-    const newSnapshot = await db.policySnapshot.create({
-      data: {
-        policyId: policy.id,
-        version: newVersion,
-        text: newText,
-        hash: newHash,
-      },
-    });
 
     // Compute diff
     const diffObjects = Diff.diffLines(oldText, newText);
@@ -169,72 +192,96 @@ export async function POST(request: NextRequest) {
       orderBy: { createdAt: 'desc' },
     });
 
-    // Create policy change
-    const policyChange = await db.policyChange.create({
-      data: {
-        policyId: policy.id,
-        oldSnapshotId: latestSnapshot ? latestSnapshot.id : null,
-        newSnapshotId: newSnapshot.id,
-        diff: serializedDiff,
-        aiSummaryEn: aiAnalysis.executiveSummaryEn,
-        aiSummaryIt: aiAnalysis.executiveSummaryIt,
-        tldrEn: aiAnalysis.tldrEn,
-        tldrIt: aiAnalysis.tldrIt,
-        keyPointsJson: JSON.stringify(aiAnalysis.keyPoints),
-        riskReasonsJson: JSON.stringify(aiAnalysis.riskReasons),
-        overallRisk: aiAnalysis.overallRisk,
-        overallScore: aiAnalysis.overallScore,
-        remediationsJson: JSON.stringify(aiAnalysis.remediations),
-        aiTrainingOptOut: aiAnalysis.aiTrainingOptOut,
-        aiDataScrapingRestricted: aiAnalysis.aiDataScrapingRestricted,
-        aiIpLicensing: aiAnalysis.aiIpLicensing,
-        aiPromptRetention: aiAnalysis.aiPromptRetention,
-        // Inherited KPI fields
-        kpiDataCollection: previousChange?.kpiDataCollection || 'Not assessed',
-        kpiThirdPartySharing: previousChange?.kpiThirdPartySharing || 'Not assessed',
-        kpiDataRetention: previousChange?.kpiDataRetention || 'Not assessed',
-        kpiRightToDeletion: previousChange?.kpiRightToDeletion || 'Not assessed',
-        kpiCrossBorderTransfer: previousChange?.kpiCrossBorderTransfer || 'Not assessed',
-        kpiAiTrainingOptOut: previousChange?.kpiAiTrainingOptOut || 'Not assessed',
-        kpiAiOutputOwnership: previousChange?.kpiAiOutputOwnership || 'Not assessed',
-        kpiAlgoTransparency: previousChange?.kpiAlgoTransparency || 'Not assessed',
-        kpiAutomatedDecision: previousChange?.kpiAutomatedDecision || 'Not assessed',
-        kpiAiBiasFairness: previousChange?.kpiAiBiasFairness || 'Not assessed',
-        kpiConsentMechanism: previousChange?.kpiConsentMechanism || 'Not assessed',
-        kpiRegulatoryCompliance: previousChange?.kpiRegulatoryCompliance || 'Not assessed',
-        kpiBreachNotification: previousChange?.kpiBreachNotification || 'Not assessed',
-        kpiIndependentAudit: previousChange?.kpiIndependentAudit || 'Not assessed',
-        kpiContentModeration: previousChange?.kpiContentModeration || 'Not assessed',
-      },
-    });
-
-    // Create region impacts
-    for (const impact of aiAnalysis.regionImpacts) {
-      await db.regionImpact.create({
+    const checkedAt = new Date();
+    const ingestionMethod = normalizeIngestionMethod(scrapeResult.source || 'direct');
+    const { policyChange, updatedPolicy } = await db.$transaction(async (tx) => {
+      const newSnapshot = await tx.policySnapshot.create({
         data: {
-          policyChangeId: policyChange.id,
-          region: impact.region,
-          perspective: impact.perspective,
-          impactAnalysisEn: impact.impactAnalysisEn,
-          impactAnalysisIt: impact.impactAnalysisIt,
-          riskLevel: impact.riskLevel,
-          complianceNoteEn: impact.complianceNoteEn,
-          complianceNoteIt: impact.complianceNoteIt,
+          policyId: policy.id,
+          version: newVersion,
+          text: newText,
+          hash: newHash,
         },
       });
-    }
 
-    // Update the policy itself with new text and hash
-    const updatedPolicy = await db.policy.update({
-      where: { id: policy.id },
-      data: {
-        currentText: newText,
-        currentHash: newHash,
-        lastCheckDate: new Date(),
-        lastSuccessfulCheckDate: new Date(),
-        dataStatus: 'Available',
-        ingestionMethod: scrapeResult.source || 'Direct Scrape',
-      },
+      const createdPolicyChange = await tx.policyChange.create({
+        data: {
+          policyId: policy.id,
+          oldSnapshotId: latestSnapshot ? latestSnapshot.id : null,
+          newSnapshotId: newSnapshot.id,
+          diff: serializedDiff,
+          aiSummaryEn: aiAnalysis.executiveSummaryEn,
+          aiSummaryIt: aiAnalysis.executiveSummaryIt,
+          tldrEn: aiAnalysis.tldrEn,
+          tldrIt: aiAnalysis.tldrIt,
+          keyPointsJson: JSON.stringify(aiAnalysis.keyPoints),
+          riskReasonsJson: JSON.stringify(aiAnalysis.riskReasons),
+          overallRisk: aiAnalysis.overallRisk,
+          overallScore: aiAnalysis.overallScore,
+          remediationsJson: JSON.stringify(aiAnalysis.remediations),
+          aiTrainingOptOut: aiAnalysis.aiTrainingOptOut,
+          aiDataScrapingRestricted: aiAnalysis.aiDataScrapingRestricted,
+          aiIpLicensing: aiAnalysis.aiIpLicensing,
+          aiPromptRetention: aiAnalysis.aiPromptRetention,
+          // Inherited KPI fields
+          kpiDataCollection: previousChange?.kpiDataCollection || 'Not assessed',
+          kpiThirdPartySharing: previousChange?.kpiThirdPartySharing || 'Not assessed',
+          kpiDataRetention: previousChange?.kpiDataRetention || 'Not assessed',
+          kpiRightToDeletion: previousChange?.kpiRightToDeletion || 'Not assessed',
+          kpiCrossBorderTransfer: previousChange?.kpiCrossBorderTransfer || 'Not assessed',
+          kpiAiTrainingOptOut: previousChange?.kpiAiTrainingOptOut || 'Not assessed',
+          kpiAiOutputOwnership: previousChange?.kpiAiOutputOwnership || 'Not assessed',
+          kpiAlgoTransparency: previousChange?.kpiAlgoTransparency || 'Not assessed',
+          kpiAutomatedDecision: previousChange?.kpiAutomatedDecision || 'Not assessed',
+          kpiAiBiasFairness: previousChange?.kpiAiBiasFairness || 'Not assessed',
+          kpiConsentMechanism: previousChange?.kpiConsentMechanism || 'Not assessed',
+          kpiRegulatoryCompliance: previousChange?.kpiRegulatoryCompliance || 'Not assessed',
+          kpiBreachNotification: previousChange?.kpiBreachNotification || 'Not assessed',
+          kpiIndependentAudit: previousChange?.kpiIndependentAudit || 'Not assessed',
+          kpiContentModeration: previousChange?.kpiContentModeration || 'Not assessed',
+          regionImpacts: {
+            create: aiAnalysis.regionImpacts.map((impact) => ({
+              region: impact.region,
+              perspective: impact.perspective,
+              impactAnalysisEn: impact.impactAnalysisEn,
+              impactAnalysisIt: impact.impactAnalysisIt,
+              riskLevel: impact.riskLevel,
+              complianceNoteEn: impact.complianceNoteEn || null,
+              complianceNoteIt: impact.complianceNoteIt || null,
+            })),
+          },
+        },
+      });
+
+      const savedPolicy = await tx.policy.update({
+        where: { id: policy.id },
+        data: {
+          currentText: newText,
+          currentHash: newHash,
+          lastCheckDate: checkedAt,
+          lastSuccessfulCheckDate: checkedAt,
+          dataStatus: 'Available',
+          ingestionMethod,
+        },
+      });
+
+      await tx.policyCheckLog.create({
+        data: {
+          policyId: policy.id,
+          status: 'Available',
+          checkedAt,
+          source: scrapeResult.source || 'direct',
+          httpStatus: scrapeResult.httpStatus || null,
+          finalUrl: scrapeResult.finalUrl || policy.url,
+          textHash: newHash,
+          textLength: newText.length,
+        },
+      });
+
+      return {
+        policyChange: createdPolicyChange,
+        updatedPolicy: savedPolicy,
+      };
     });
 
     return NextResponse.json({

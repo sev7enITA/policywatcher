@@ -823,6 +823,24 @@
   margin-right: 6px;
 }
 
+.checkLogList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.checkLogItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+}
+
 .methodologyLinkRow {
   margin-top: 12px;
   border-top: 1px solid var(--border-color);
