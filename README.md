@@ -246,7 +246,7 @@ PolicyWatcher exposes quality evidence in the application and in the public repo
 - `.github/workflows/codeql.yml` runs GitHub CodeQL security-and-quality analysis for JavaScript and TypeScript.
 - `.github/workflows/scorecard.yml` runs OpenSSF Scorecard and publishes public supply-chain posture results.
 - OpenSSF Best Practices project `13465` is passing and exposed as public open-source process evidence.
-- `.github/workflows/coverage.yml` runs targeted Vitest reliability coverage for auth/session, rate limiting, confidence metadata, diff parsing, subscriber preferences, and export/report utilities, then uploads to Codecov when `CODECOV_TOKEN` is configured.
+- `.github/workflows/coverage.yml` runs targeted Vitest reliability coverage for auth/session, rate limiting, confidence metadata, diff parsing, subscriber preferences, and export/report utilities, then uploads to Codecov through GitHub OIDC.
 - `.github/workflows/sonar.yml` is ready for SonarQube Cloud and activates when `SONAR_TOKEN` is configured.
 - `SECURITY.md`, `CONTRIBUTING.md`, and `CODE_OF_CONDUCT.md` support the OpenSSF Best Practices self-attestation.
 - `docs/platform-state-of-art-2026-07-02.md` and `docs/platform-state-of-art-2026-07-02.it.md` record the current platform state, dataset profile, assurance controls, known warnings, deployment notes, and priorities.
