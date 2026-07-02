@@ -9,7 +9,6 @@ on:
 
 permissions:
   contents: read
-  id-token: write
 
 jobs:
   coverage:
@@ -19,6 +18,7 @@ jobs:
     env:
       NEXT_TELEMETRY_DISABLED: '1'
       DATABASE_URL: file:./dev.db
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     steps:
       - name: Checkout
@@ -44,10 +44,15 @@ jobs:
           if-no-files-found: error
 
       - name: Upload coverage to Codecov
+        if: env.CODECOV_TOKEN != ''
         uses: codecov/codecov-action@v5
         with:
           files: ./coverage/lcov.info
           flags: core
           name: policywatcher-targeted-reliability
           fail_ci_if_error: true
-          use_oidc: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Codecov upload not configured
+        if: env.CODECOV_TOKEN == ''
+        run: echo "CODECOV_TOKEN is not configured; targeted reliability coverage artifact was generated but not uploaded."

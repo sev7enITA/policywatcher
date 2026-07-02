@@ -125,7 +125,7 @@ Public wording:
 
 ## 6. Codecov Targeted Reliability Coverage
 
-Status: workflow and Vitest targeted reliability coverage prepared; Codecov upload uses GitHub OIDC.
+Status: workflow and Vitest targeted reliability coverage prepared; Codecov upload requires the repository `CODECOV_TOKEN` secret.
 
 Files:
 
@@ -136,9 +136,10 @@ Files:
 Setup:
 
 1. Register or import the repository on Codecov.
-2. Confirm the repository is imported on Codecov.
-3. Run the `Targeted Reliability Coverage` workflow.
-4. Add the Codecov badge only after the first successful upload.
+2. Copy the repository upload token from Codecov.
+3. Add GitHub secret `CODECOV_TOKEN` under repository Actions secrets.
+4. Run the `Targeted Reliability Coverage` workflow.
+5. Add or promote the Codecov badge only after the first successful upload.
 
 Current targeted scope:
 
