@@ -10,6 +10,7 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "api:smoke": "tsx scripts/api-smoke-test.ts",
     "db:repair": "tsx scripts/repair-data.ts",
     "db:backfill-check-logs": "tsx scripts/backfill-policy-check-logs.ts",
     "qa:dataset": "tsx scripts/dataset-assurance.ts"

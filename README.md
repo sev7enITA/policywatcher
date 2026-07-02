@@ -139,6 +139,7 @@ sequenceDiagram
     participant Archive as Web Archives (Wayback / Common Crawl)
     participant DB as SQLite Database
     participant Gemini as Gemini API
+    participant Mailer as Mailer
 
     Cron->>API: trigger full check
     loop for each policy
@@ -151,10 +152,20 @@ sequenceDiagram
             Archive-->>Scraper: HTML response
         end
         Scraper->>Scraper: Content validation (Layer 2)
-                API->>DB: Update Policy.currentHash
+        alt usable policy text
+            Scraper-->>API: normalized text + fetch metadata
+            API->>DB: Record CheckLog and update Policy check timestamps
+            alt hash changed
+                API->>DB: Create PolicySnapshot and update currentHash
+                API->>Gemini: Analyze diff, KPI values, and regional impact
+                Gemini-->>API: Structured JSON assessment
+                API->>DB: Create PolicyChange and RegionImpact rows
+            else hash unchanged
+                API->>DB: Keep current hash and record successful check
             end
         else Content blocked / unavailable
             Scraper-->>API: { unavailable: true }
+            API->>DB: Record CheckLog with Needs Review / Unavailable status
             Note over API: Logged honestly, no fake data created
         end
     end
