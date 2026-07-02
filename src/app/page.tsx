@@ -40,7 +40,8 @@ import {
   History,
   HelpCircle,
   Clock,
-  Sparkles
+  Sparkles,
+  Cpu
 } from 'lucide-react';
 import styles from './Dashboard.module.css';
 import PolicyDetails from '@/components/PolicyDetails';
@@ -59,6 +60,7 @@ import { SkeletonGrid, SkeletonStatsGrid } from '@/components/Skeleton';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/Footer';
 import HowToModal from '@/components/HowToModal';
+import Navigation, { NavLayout } from '@/components/Navigation';
 
 // Re-export types for backward compatibility
 export type { Company, Policy, PolicyChange, RegionImpact } from '@/types/index';
@@ -248,6 +250,9 @@ export default function Dashboard() {
 
   // Compare modal
   const [compareOpen, setCompareOpen] = useState(false);
+
+  // Interchangeable Navigation Layout (hud | spotlight | sidebar)
+  const [navLayout, setNavLayout] = useState<NavLayout>('hud');
 
   const t = translations[lang];
 
@@ -520,134 +525,39 @@ export default function Dashboard() {
 
   return (
     <TermsGate lang={lang} onLangToggle={() => setLang((l) => (l === 'en' ? 'it' : 'en'))}>
-    <div className={styles.dashboard}>
+    <div className={styles.dashboard} data-nav-layout={navLayout}>
       <DisclaimerBanner />
 
-      <header className={styles.header}>
-        <div className={styles.headerContent}>
-          <div className={styles.logoArea}>
-            <Image src="/logo.png" alt="PolicyWatcher" width={40} height={40} className={styles.logoImage} priority />
-            <div>
-              <h1 className={styles.logoTitle}>PolicyWatcher</h1>
-              <span className={styles.logoSubtitle}>{t.subtitle}</span>
+      {/* Conditionally render clean logo header for HUD / Spotlight modes */}
+      {navLayout !== 'sidebar' && (
+        <header className={styles.header} style={{ borderBottom: navLayout === 'spotlight' ? 'none' : undefined }}>
+          <div className={styles.headerContent} style={{ justifyContent: 'center' }}>
+            <div className={styles.logoArea} style={{ pointerEvents: 'none' }}>
+              <Image src="/logo.png" alt="PolicyWatcher" width={40} height={40} className={styles.logoImage} priority />
+              <div>
+                <h1 className={styles.logoTitle}>PolicyWatcher</h1>
+                <span className={styles.logoSubtitle}>{t.subtitle}</span>
+              </div>
             </div>
           </div>
-          <div className={styles.headerActions}>
-            {/* Command Palette trigger */}
-            <button
-              onClick={() => setCommandPaletteOpen(true)}
-              className={styles.headerBtn}
-              title="Open command palette (⌘K)"
-              aria-label="Open command palette"
-            >
-              <Search size={16} />
-              <span className={styles.headerBtnLabel}>
-                <kbd style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', opacity: 0.7 }}>⌘K</kbd>
-              </span>
-            </button>
+        </header>
+      )}
 
-            {/* Language Switch */}
-            <div className={styles.toggleButtonGroup} style={{ padding: '2px' }}>
-              <button 
-                onClick={() => setLang('en')}
-                className={`${styles.toggleBtn} ${lang === 'en' ? styles.toggleBtnActive : ''}`}
-                style={{ padding: '4px 10px', fontSize: '0.75rem' }}
-              >
-                EN
-              </button>
-              <button 
-                onClick={() => setLang('it')}
-                className={`${styles.toggleBtn} ${lang === 'it' ? styles.toggleBtnActive : ''}`}
-                style={{ padding: '4px 10px', fontSize: '0.75rem' }}
-              >
-                IT
-              </button>
-            </div>
-
-            {/* Export Dropdown */}
-            <div className={styles.dropdownWrapper}>
-              <button 
-                onClick={() => setExportMenuOpen(!exportMenuOpen)}
-                className={styles.headerBtn}
-              >
-                <Download size={16} />
-                <span className={styles.headerBtnLabel}>Export</span>
-                <ChevronDown size={12} />
-              </button>
-              {exportMenuOpen && (
-                <div className={styles.dropdownMenu}>
-                  <button onClick={handleExportCSV} className={styles.dropdownItem}>
-                    <FileText size={14} /> {t.exportCSV}
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Methodology */}
-            <button onClick={() => setMethodologyOpen(true)} className={styles.headerBtn}>
-              <BookOpen size={16} />
-              <span className={styles.headerBtnLabel}>{t.methodology}</span>
-            </button>
-
-            {/* How To */}
-            <button onClick={() => setHowToOpen(true)} className={styles.headerBtn}>
-              <HelpCircle size={16} />
-              <span className={styles.headerBtnLabel}>{t.howTo}</span>
-            </button>
-
-            {/* Timeline */}
-            <Link href="/timeline" className={styles.headerBtn}>
-              <Clock size={16} />
-              <span className={styles.headerBtnLabel}>{t.timeline}</span>
-            </Link>
-
-            {/* Showcase */}
-            <Link href="/showcase" className={styles.headerBtn}>
-              <Sparkles size={16} />
-              <span className={styles.headerBtnLabel}>{t.showcase}</span>
-            </Link>
-
-            {/* KPI Matrix */}
-            <button onClick={() => setMatrixOpen(true)} className={styles.headerBtn}>
-              <Grid3X3 size={16} />
-              <span className={styles.headerBtnLabel}>{lang === 'it' ? 'Matrice KPI' : 'KPI Matrix'}</span>
-            </button>
-
-            {/* Compare A/B */}
-            <button onClick={() => setCompareOpen(true)} className={styles.headerBtn}>
-              <GitCompare size={16} />
-              <span className={styles.headerBtnLabel}>{lang === 'it' ? 'Confronta' : 'Compare'}</span>
-            </button>
-
-            {/* Subscribe */}
-            <button onClick={() => setSubscribeOpen(true)} className={styles.headerBtn}>
-              <Bell size={16} />
-              <span className={styles.headerBtnLabel}>{t.subscribe}</span>
-            </button>
-
-            {/* Changelog */}
-            <button onClick={() => setChangelogOpen(true)} className={styles.headerBtn}>
-              <History size={16} />
-              <span className={styles.headerBtnLabel}>Changelog</span>
-            </button>
-
-            {/* About */}
-            <button onClick={() => setAboutOpen(true)} className={styles.headerBtn}>
-              <User size={16} />
-              <span className={styles.headerBtnLabel}>{t.about}</span>
-            </button>
-
-            {/* Live Assistant */}
-            <button 
-              onClick={() => setChatOpen(true)}
-              className={styles.assistantBtn}
-            >
-              <Zap size={16} />
-              <span className={styles.headerBtnLabel}>{t.liveAssistant}</span>
-            </button>
-          </div>
-        </div>
-      </header>
+      {/* Unified Layout Navigation coordinator */}
+      <Navigation
+        lang={lang}
+        onToggleLanguage={() => setLang((l) => (l === 'en' ? 'it' : 'en'))}
+        onOpenAssistant={() => setChatOpen(true)}
+        onOpenSubscribe={() => setSubscribeOpen(true)}
+        onOpenExport={() => setExportMenuOpen(true)}
+        onOpenMatrix={() => setMatrixOpen(true)}
+        onOpenMethodology={() => setMethodologyOpen(true)}
+        onOpenHowTo={() => setHowToOpen(true)}
+        onOpenChangelog={() => setChangelogOpen(true)}
+        onOpenAbout={() => setAboutOpen(true)}
+        onOpenSearch={() => setCommandPaletteOpen(true)}
+        onChangeLayout={(layout) => setNavLayout(layout)}
+      />
 
       <main className={styles.mainContainer}>
         {/* Statistics Grid */}

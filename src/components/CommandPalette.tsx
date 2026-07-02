@@ -32,6 +32,7 @@ import {
   ArrowUp,
   ArrowDown,
   HelpCircle,
+  Cpu
 } from 'lucide-react';
 import styles from './CommandPalette.module.css';
 import type { Company, Lang } from '@/types';
@@ -200,6 +201,17 @@ export default function CommandPalette({
         run: () => {
           onOpenMethodology();
           onClose();
+        },
+      },
+      {
+        id: 'act-roadmap',
+        label: 'View 3.5 Roadmap',
+        labelIt: 'Vedi la Roadmap 3.5',
+        icon: <Cpu size={16} />,
+        group: 'actions',
+        keywords: 'roadmap tick tock next releases evolution program cadence 3.5 confidence',
+        run: () => {
+          window.location.href = '/roadmap';
         },
       },
       {

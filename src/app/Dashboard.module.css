@@ -3,6 +3,25 @@
   display: flex;
   flex-direction: column;
   background: var(--bg-main);
+  transition: padding-left 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              padding-bottom 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              padding-top 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dynamic space adjustments based on active navigation layout */
+.dashboard[data-nav-layout="hud"] {
+  padding-bottom: 80px;
+}
+
+@media (min-width: 1024px) {
+  .dashboard[data-nav-layout="sidebar"] {
+    padding-left: 72px;
+    padding-bottom: 0;
+  }
+}
+
+.dashboard[data-nav-layout="spotlight"] {
+  padding-top: 60px;
 }
 
 /* Disclaimer Banner */
@@ -141,6 +160,59 @@
 .assistantBtn:hover {
   background: rgba(99, 102, 241, 0.12);
   box-shadow: 0 4px 14px rgba(99, 102, 241, 0.15);
+}
+
+.headerBtn, .assistantBtn {
+  position: relative;
+}
+
+.headerBtn[data-tooltip]::after,
+.assistantBtn[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: -38px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-5px);
+  background-color: var(--text-main);
+  color: var(--bg-main);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.15s ease-out;
+  z-index: 120;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  pointer-events: none;
+}
+
+.headerBtn[data-tooltip]::before,
+.assistantBtn[data-tooltip]::before {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent var(--text-main) transparent;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.15s ease-out;
+  z-index: 120;
+  pointer-events: none;
+}
+
+.headerBtn[data-tooltip]:hover::after,
+.headerBtn[data-tooltip]:hover::before,
+.assistantBtn[data-tooltip]:hover::after,
+.assistantBtn[data-tooltip]:hover::before {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
 }
 
 /* Dropdown */

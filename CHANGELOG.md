@@ -1,5 +1,19 @@
 # Changelog
 
+## 3.0.1 - 2026-07-02
+
+### Added
+- Bilingual 3.5 Roadmap page (`/roadmap`) outlining the Intel-inspired development cadence (Feature Drop vs. Confidence Release) and milestones P0-P7.
+- Interchangeable Navigation Framework supporting three user-controlled layouts: Bottom HUD Dock, Spotlight Command Bar, and Forensic Left Sidebar.
+- Dynamic Layout Selector widget on the bottom-right of the dashboard (persisting user preferences to `localStorage`).
+- Custom CSS-only localized hover tooltips on all header actions.
+- Responsive mobile bottom tabs for Bottom HUD layout, and left drawer slide-out for Left Sidebar layout.
+
+### Changed
+- Refactored `src/app/page.tsx` to conditionally render logo headers and integrate the new `Navigation` component.
+- Updated Global Footer build string to `v3.0.1`.
+- Package version updated to `3.0.1`.
+
 ## 3.0.0 - 2026-06-26
 
 ### Added

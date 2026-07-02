@@ -1,0 +1,652 @@
+/* ==========================================
+   PolicyWatcher Interchangeable Navigation
+   ========================================== */
+
+/* Layout Switcher Floating Widget */
+.layoutSelectorWrapper {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 150;
+  font-family: var(--font-sans);
+}
+
+.selectorBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.selectorBtn:hover {
+  color: var(--primary);
+  border-color: var(--border-color-active);
+  background-color: var(--primary-glow);
+  transform: rotate(30deg);
+}
+
+.selectorMenu {
+  position: absolute;
+  bottom: 56px;
+  right: 0;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 8px;
+  width: 200px;
+  box-shadow: var(--shadow-xl);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: menuAppear 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menuHeader {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 4px;
+  letter-spacing: 0.05em;
+  font-family: var(--font-mono);
+}
+
+.menuOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background: none;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-body);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.menuOption:hover {
+  background-color: var(--bg-secondary);
+  color: var(--text-main);
+}
+
+.menuOptionActive {
+  background-color: var(--primary-glow);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+@keyframes menuAppear {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* ==========================================
+   STYLE 1: Glassmorphic HUD Dock (Bottom Center)
+   ========================================== */
+.hudDock {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 20px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 100;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08), 
+              0 8px 16px -6px rgba(0, 0, 0, 0.04),
+              inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hudHidden {
+  transform: translateX(-50%) translateY(100px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hudDivider {
+  width: 1px;
+  height: 24px;
+  background-color: var(--border-color);
+  margin: 0 4px;
+}
+
+.hudBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.hudBtn:hover {
+  color: var(--primary);
+  background-color: var(--primary-glow);
+  transform: translateY(-4px);
+  border-color: var(--border-color-active);
+}
+
+.hudBtnActive {
+  color: var(--primary);
+  background-color: var(--primary-glow);
+  border-color: var(--border-color-active);
+}
+
+.hudAssistantBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color-active);
+  background: var(--primary-glow);
+  color: var(--primary);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.hudAssistantBtn:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+}
+
+/* Tooltip Styles for Bottom HUD (Appears Above) */
+.hudBtn[data-tooltip]::after,
+.hudAssistantBtn[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 52px;
+  left: 50%;
+  transform: translateX(-50%) translateY(5px);
+  background-color: var(--text-main);
+  color: var(--bg-main);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.15s ease-out;
+  z-index: 120;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  pointer-events: none;
+}
+
+.hudBtn[data-tooltip]::before,
+.hudAssistantBtn[data-tooltip]::before {
+  content: "";
+  position: absolute;
+  bottom: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--text-main) transparent transparent transparent;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.15s ease-out;
+  z-index: 120;
+  pointer-events: none;
+}
+
+.hudBtn[data-tooltip]:hover::after,
+.hudBtn[data-tooltip]:hover::before,
+.hudAssistantBtn[data-tooltip]:hover::after,
+.hudAssistantBtn[data-tooltip]:hover::before {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+
+/* ==========================================
+   STYLE 2: Spotlight Command Bar (Top Center)
+   ========================================== */
+.spotlightBar {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 500px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.spotlightBar:hover {
+  border-color: var(--border-color-active);
+  box-shadow: var(--shadow-xl);
+}
+
+.spotlightLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-muted);
+}
+
+.spotlightPrompt {
+  font-size: 0.82rem;
+  color: var(--text-body);
+  font-weight: 500;
+}
+
+.spotlightRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spotlightKbd {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.spotlightSettingsBtn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.spotlightSettingsBtn:hover {
+  color: var(--text-main);
+  background-color: var(--bg-tertiary);
+}
+
+
+/* ==========================================
+   STYLE 3: Forensic Left Side-Wing (Sidebar)
+   ========================================== */
+.sidebarRail {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 72px;
+  background-color: var(--bg-card);
+  border-right: 1px solid var(--border-color);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-x: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.sidebarRail:hover {
+  width: 220px;
+  box-shadow: var(--shadow-xl);
+}
+
+.sidebarTop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+}
+
+.sidebarLogoRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 20px;
+  width: 100%;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.sidebarLogoIcon {
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.sidebarLogoTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-main);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.sidebarRail:hover .sidebarLogoTitle {
+  opacity: 1;
+}
+
+.sidebarMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding: 0 12px;
+}
+
+.sidebarBtn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  overflow: hidden;
+  position: relative;
+}
+
+.sidebarBtnIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 42px;
+  flex-shrink: 0;
+}
+
+.sidebarBtnLabel {
+  font-size: 0.82rem;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  margin-left: 4px;
+}
+
+.sidebarRail:hover .sidebarBtnLabel {
+  opacity: 1;
+}
+
+.sidebarBtn:hover {
+  color: var(--primary);
+  background-color: var(--primary-glow);
+  border-color: var(--border-color-active);
+}
+
+.sidebarBtnActive {
+  color: var(--primary);
+  background-color: var(--primary-glow);
+  border-color: var(--border-color-active);
+}
+
+/* Telemetry Light indicator dots */
+.telemetryDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  position: absolute;
+  right: 12px;
+  top: 19px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.telemetryGreen {
+  background-color: var(--risk-low);
+  box-shadow: 0 0 6px var(--risk-low);
+}
+
+.telemetryOrange {
+  background-color: var(--risk-medium);
+  box-shadow: 0 0 6px var(--risk-medium);
+  animation: pulseLight 1.5s infinite alternate;
+}
+
+.sidebarRail:hover .telemetryDot {
+  opacity: 1;
+}
+
+@keyframes pulseLight {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+
+.sidebarAssistantBtn {
+  composes: sidebarBtn;
+  border-color: var(--border-color-active);
+  background: var(--primary-glow);
+  color: var(--primary);
+}
+
+.sidebarAssistantBtn:hover {
+  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.12);
+}
+
+.sidebarBottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 16px;
+  padding: 0 12px;
+}
+
+/* Tooltips for Sidebar (Appears on the Right, only when NOT expanded) */
+@media (min-width: 769px) {
+  .sidebarRail:not(:hover) .sidebarBtn[data-tooltip]::after,
+  .sidebarRail:not(:hover) .sidebarAssistantBtn[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 78px;
+    top: 50%;
+    transform: translateY(-50%) translateX(5px);
+    background-color: var(--text-main);
+    color: var(--bg-main);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.15s ease-out;
+    z-index: 120;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    pointer-events: none;
+  }
+
+  .sidebarRail:not(:hover) .sidebarBtn[data-tooltip]::before,
+  .sidebarRail:not(:hover) .sidebarAssistantBtn[data-tooltip]::before {
+    content: "";
+    position: absolute;
+    left: 70px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent var(--text-main) transparent transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.15s ease-out;
+    z-index: 120;
+    pointer-events: none;
+  }
+
+  .sidebarRail:not(:hover) .sidebarBtn[data-tooltip]:hover::after,
+  .sidebarRail:not(:hover) .sidebarBtn[data-tooltip]:hover::before,
+  .sidebarRail:not(:hover) .sidebarAssistantBtn[data-tooltip]:hover::after,
+  .sidebarRail:not(:hover) .sidebarAssistantBtn[data-tooltip]:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+
+/* ==========================================
+   MOBILE ADAPTATIONS (Responsive overrides)
+   ========================================== */
+
+/* Floating Drawer Menu Trigger for Sidebar on mobile */
+.mobileMenuFAB {
+  display: none;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  align-items: center;
+  justify-content: center;
+  z-index: 140;
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+}
+
+/* Mobile bottom bar for HUD */
+.mobileBottomBar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background-color: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+  z-index: 100;
+  grid-template-columns: repeat(5, 1fr);
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.mobileBottomBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  font-size: 0.65rem;
+  font-weight: 500;
+  gap: 2px;
+}
+
+.mobileBottomBtnActive {
+  color: var(--primary);
+}
+
+/* Backdrop for Mobile Sidebar Drawer */
+.mobileSidebarBackdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+  backdrop-filter: blur(4px);
+}
+
+
+@media (max-width: 1024px) {
+  /* HUD Dock turns into a clean bottom bar */
+  .hudDock {
+    display: none;
+  }
+  
+  .mobileBottomBar {
+    display: grid;
+  }
+
+  /* Spotlight matches mobile margins */
+  .spotlightBar {
+    max-width: 90%;
+    top: 12px;
+  }
+  
+  /* Sidebar becomes a temporary left slide-in drawer */
+  .sidebarRail {
+    left: -74px;
+    top: 0;
+    bottom: 0;
+    width: 72px;
+    height: 100%;
+    border-radius: 0;
+    transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .sidebarActive {
+    left: 0 !important;
+  }
+  
+  .mobileMenuFAB {
+    display: flex;
+  }
+  
+  .mobileBackdropActive {
+    display: block;
+  }
+}

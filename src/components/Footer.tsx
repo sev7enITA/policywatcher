@@ -15,7 +15,7 @@
  */
 'use client';
 
-import { ShieldCheck, FileText, Lock, Mail, ExternalLink, Sparkles } from 'lucide-react';
+import { ShieldCheck, FileText, Lock, Mail, ExternalLink, Sparkles, Cpu } from 'lucide-react';
 import styles from './Footer.module.css';
 
 /** Props for the {@link Footer} component. */
@@ -36,6 +36,7 @@ const content = {
     securityTxt: 'security.txt',
     resources: 'Resources',
     showcase: 'Showcase',
+    roadmap: '3.5 Roadmap',
     paloFramework: 'PALO Framework',
     disclaimer: 'Beta Release. AI-generated assessments, not legal advice. Use at your own risk.',
     copy: `\u00A9 ${new Date().getFullYear()} PolicyWatcher by Fabrizio Degni. All rights reserved.`,
@@ -52,6 +53,7 @@ const content = {
     securityTxt: 'security.txt',
     resources: 'Risorse',
     showcase: 'Vetrina',
+    roadmap: 'Roadmap 3.5',
     paloFramework: 'PALO Framework',
     disclaimer: 'Versione Beta. Valutazioni generate da AI, non costituiscono parere legale. Uso a proprio rischio.',
     copy: `\u00A9 ${new Date().getFullYear()} PolicyWatcher di Fabrizio Degni. Tutti i diritti riservati.`,
@@ -130,6 +132,12 @@ export default function Footer({ lang }: FooterProps) {
             <h4 className={styles.columnTitle}>{t.resources}</h4>
             <ul className={styles.links}>
               <li>
+                <a href="/roadmap">
+                  <Cpu size={14} />
+                  {t.roadmap}
+                </a>
+              </li>
+              <li>
                 <a href="/showcase">
                   <Sparkles size={14} />
                   {t.showcase}
@@ -147,7 +155,7 @@ export default function Footer({ lang }: FooterProps) {
 
         <div className={styles.bottom}>
           <p className={styles.disclaimer}>{t.disclaimer}</p>
-          <p className={styles.copy}>{t.copy} &bull; Build v3.0.0</p>
+          <p className={styles.copy}>{t.copy} &bull; Build v3.0.1</p>
         </div>
       </div>
     </footer>

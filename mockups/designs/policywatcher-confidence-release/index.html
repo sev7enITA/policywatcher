@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PolicyWatcher 3.5 Confidence Release</title>
+    <style>
+      :root {
+        --bg: #05070d;
+        --panel: rgba(13, 25, 41, 0.78);
+        --panel-strong: rgba(17, 34, 55, 0.92);
+        --line: rgba(226, 232, 240, 0.16);
+        --line-strong: rgba(94, 234, 212, 0.52);
+        --text: #f8fbff;
+        --muted: #aebfd0;
+        --faint: #6f849d;
+        --teal: #5eead4;
+        --blue: #60a5fa;
+        --violet: #a78bfa;
+        --amber: #fb923c;
+        --red: #f87171;
+        --green: #34d399;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: var(--bg);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        color: var(--text);
+      }
+
+      body {
+        display: grid;
+        place-items: center;
+      }
+
+      .stage {
+        position: relative;
+        width: min(100vw, 1920px);
+        aspect-ratio: 16 / 9;
+        min-height: 720px;
+        overflow: hidden;
+        isolation: isolate;
+        background:
+          linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(148, 163, 184, 0.055) 1px, transparent 1px),
+          radial-gradient(circle at 18% 18%, rgba(94, 234, 212, 0.18), transparent 24%),
+          radial-gradient(circle at 84% 30%, rgba(96, 165, 250, 0.16), transparent 30%),
+          radial-gradient(circle at 74% 82%, rgba(251, 146, 60, 0.10), transparent 24%),
+          #05070d;
+        background-size: 54px 54px, 54px 54px, auto, auto, auto, auto;
+      }
+
+      .stage::before,
+      .stage::after {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .stage::before {
+        inset: 78px 90px auto auto;
+        width: 720px;
+        height: 720px;
+        border: 1px solid rgba(94, 234, 212, 0.12);
+        border-radius: 50%;
+      }
+
+      .stage::after {
+        inset: auto auto -210px -160px;
+        width: 620px;
+        height: 620px;
+        border: 1px solid rgba(96, 165, 250, 0.14);
+        border-radius: 50%;
+      }
+
+      .header {
+        position: absolute;
+        top: 42px;
+        left: 64px;
+        right: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 32px;
+        z-index: 5;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .brand img {
+        width: 64px;
+        height: 64px;
+        object-fit: contain;
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.32);
+      }
+
+      .brand strong,
+      .brand span {
+        display: block;
+      }
+
+      .brand strong {
+        font-size: 1.35rem;
+        line-height: 1;
+        font-weight: 900;
+      }
+
+      .brand span {
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      .meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .meta span {
+        padding: 11px 14px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.055);
+      }
+
+      .content {
+        position: absolute;
+        inset: 132px 64px 54px;
+        display: grid;
+        grid-template-columns: minmax(430px, 0.78fr) minmax(680px, 1.22fr);
+        gap: 46px;
+        align-items: stretch;
+      }
+
+      .copy {
+        display: grid;
+        align-content: space-between;
+        gap: 24px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+        gap: 11px;
+        color: var(--teal);
+        font-size: 0.82rem;
+        font-weight: 950;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow svg {
+        width: 24px;
+        height: 24px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin: 22px 0 0;
+        color: #ffffff;
+        font-size: clamp(4.2rem, 6.4vw, 7.65rem);
+        font-weight: 950;
+        line-height: 0.88;
+        letter-spacing: 0;
+      }
+
+      h1 span {
+        display: block;
+      }
+
+      .lead {
+        max-width: 690px;
+        margin: 26px 0 0;
+        color: #d7e4ef;
+        font-size: 1.23rem;
+        line-height: 1.55;
+        font-weight: 720;
+      }
+
+      .principle {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .principle article {
+        min-height: 128px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: linear-gradient(160deg, rgba(255, 255, 255, 0.095), rgba(255, 255, 255, 0.035));
+      }
+
+      .principle strong,
+      .principle span {
+        display: block;
+      }
+
+      .principle strong {
+        color: #ffffff;
+        font-size: 1.05rem;
+        line-height: 1.1;
+      }
+
+      .principle span {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.42;
+        font-weight: 680;
+      }
+
+      .visual {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(430px, 0.98fr) minmax(330px, 0.72fr);
+        gap: 18px;
+      }
+
+      .engine {
+        position: relative;
+        overflow: hidden;
+        min-height: 100%;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background:
+          linear-gradient(90deg, rgba(226, 232, 240, 0.04) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(226, 232, 240, 0.04) 1px, transparent 1px),
+          radial-gradient(circle at 50% 43%, rgba(94, 234, 212, 0.20), transparent 34%),
+          var(--panel);
+        background-size: 32px 32px, 32px 32px, auto, auto;
+        box-shadow: 0 36px 110px rgba(0, 0, 0, 0.34);
+      }
+
+      .engine-title {
+        position: absolute;
+        top: 24px;
+        left: 24px;
+        right: 24px;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 950;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .engine-title b {
+        color: var(--teal);
+      }
+
+      .cycle-svg {
+        position: absolute;
+        inset: 72px 22px 22px;
+        width: calc(100% - 44px);
+        height: calc(100% - 94px);
+      }
+
+      .orbit {
+        fill: none;
+        stroke: rgba(226, 232, 240, 0.16);
+        stroke-width: 1.6;
+      }
+
+      .orbit-strong {
+        fill: none;
+        stroke: rgba(94, 234, 212, 0.44);
+        stroke-width: 2;
+        stroke-dasharray: 18 18;
+      }
+
+      .flow-path {
+        fill: none;
+        stroke-width: 7;
+        stroke-linecap: round;
+        stroke-dasharray: 720;
+        animation: path-draw 6.2s ease-in-out infinite alternate;
+      }
+
+      .flow-a {
+        stroke: url(#flowA);
+      }
+
+      .flow-b {
+        stroke: url(#flowB);
+        animation-delay: 0.55s;
+      }
+
+      .node {
+        stroke: rgba(255, 255, 255, 0.82);
+        stroke-width: 4;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: node-pulse 2.7s ease-in-out infinite;
+      }
+
+      .node-a {
+        fill: var(--teal);
+      }
+
+      .node-b {
+        fill: var(--amber);
+        animation-delay: 0.3s;
+      }
+
+      .node-c {
+        fill: var(--blue);
+        animation-delay: 0.6s;
+      }
+
+      .packet {
+        fill: #ffffff;
+        stroke: #05070d;
+        stroke-width: 3;
+      }
+
+      .center-dial {
+        position: absolute;
+        left: 50%;
+        top: 51%;
+        width: 252px;
+        height: 252px;
+        display: grid;
+        place-items: center;
+        align-content: center;
+        border: 1px solid rgba(94, 234, 212, 0.38);
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 50% 50%, rgba(94, 234, 212, 0.26), rgba(94, 234, 212, 0.05) 56%, transparent 58%),
+          rgba(5, 7, 13, 0.72);
+        box-shadow:
+          0 0 0 28px rgba(94, 234, 212, 0.045),
+          0 28px 80px rgba(0, 0, 0, 0.32);
+        transform: translate(-50%, -50%);
+      }
+
+      .center-dial strong,
+      .center-dial span {
+        display: block;
+        text-align: center;
+      }
+
+      .center-dial strong {
+        font-size: 3.2rem;
+        line-height: 1;
+        font-weight: 950;
+      }
+
+      .center-dial span {
+        margin-top: 10px;
+        max-width: 180px;
+        color: var(--teal);
+        font-size: 0.82rem;
+        font-weight: 950;
+        letter-spacing: 0.12em;
+        line-height: 1.25;
+        text-transform: uppercase;
+      }
+
+      .release-chip {
+        position: absolute;
+        width: 228px;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: rgba(5, 7, 13, 0.84);
+        box-shadow: 0 24px 58px rgba(0, 0, 0, 0.30);
+      }
+
+      .release-chip small,
+      .release-chip strong,
+      .release-chip span {
+        display: block;
+      }
+
+      .release-chip small {
+        color: var(--faint);
+        font-size: 0.72rem;
+        font-weight: 950;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .release-chip strong {
+        margin-top: 9px;
+        color: #ffffff;
+        font-size: 1.25rem;
+        line-height: 1.05;
+        font-weight: 950;
+      }
+
+      .release-chip span {
+        margin-top: 9px;
+        color: var(--muted);
+        font-size: 0.82rem;
+        line-height: 1.36;
+        font-weight: 680;
+      }
+
+      .chip-feature {
+        left: 32px;
+        bottom: 38px;
+        border-color: rgba(251, 146, 60, 0.32);
+      }
+
+      .chip-confidence {
+        right: 32px;
+        top: 86px;
+        border-color: rgba(94, 234, 212, 0.42);
+      }
+
+      .roadmap {
+        display: grid;
+        gap: 12px;
+      }
+
+      .roadmap-head {
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--panel-strong);
+      }
+
+      .roadmap-head span,
+      .roadmap-head strong {
+        display: block;
+      }
+
+      .roadmap-head span {
+        color: var(--teal);
+        font-size: 0.76rem;
+        font-weight: 950;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .roadmap-head strong {
+        margin-top: 8px;
+        color: #ffffff;
+        font-size: 1.55rem;
+        line-height: 1.02;
+        font-weight: 950;
+      }
+
+      .roadmap-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .module {
+        position: relative;
+        overflow: hidden;
+        min-height: 142px;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.026)),
+          rgba(9, 18, 32, 0.86);
+      }
+
+      .module::after {
+        content: "";
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--teal), var(--blue), var(--violet), var(--amber));
+        transform: scaleX(0.2);
+        transform-origin: left center;
+        animation: module-meter 4.8s ease-in-out infinite;
+        animation-delay: var(--delay);
+      }
+
+      .module i,
+      .module strong,
+      .module span {
+        display: block;
+        font-style: normal;
+      }
+
+      .module i {
+        color: var(--teal);
+        font-size: 0.72rem;
+        font-weight: 950;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .module strong {
+        margin-top: 10px;
+        color: #ffffff;
+        font-size: 1.08rem;
+        line-height: 1.08;
+        font-weight: 950;
+      }
+
+      .module span {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 0.82rem;
+        line-height: 1.34;
+        font-weight: 680;
+      }
+
+      .footer {
+        position: absolute;
+        left: 64px;
+        right: 64px;
+        bottom: 30px;
+        display: flex;
+        justify-content: space-between;
+        gap: 28px;
+        color: var(--faint);
+        font-size: 0.78rem;
+        font-weight: 850;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .footer b {
+        color: var(--teal);
+      }
+
+      @keyframes path-draw {
+        from {
+          stroke-dashoffset: 420;
+          opacity: 0.55;
+        }
+        to {
+          stroke-dashoffset: 0;
+          opacity: 1;
+        }
+      }
+
+      @keyframes node-pulse {
+        0%,
+        100% {
+          opacity: 0.75;
+          transform: scale(0.92);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.16);
+        }
+      }
+
+      @keyframes module-meter {
+        0%,
+        100% {
+          opacity: 0.45;
+          transform: scaleX(0.18);
+        }
+        52%,
+        72% {
+          opacity: 1;
+          transform: scaleX(1);
+        }
+      }
+
+      @media (max-width: 1200px) {
+        .stage {
+          min-height: 1200px;
+          aspect-ratio: auto;
+        }
+
+        .content {
+          position: relative;
+          inset: auto;
+          padding: 140px 28px 80px;
+          grid-template-columns: 1fr;
+        }
+
+        .visual {
+          grid-template-columns: 1fr;
+        }
+
+        .engine {
+          min-height: 640px;
+        }
+
+        .header,
+        .footer {
+          left: 28px;
+          right: 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="stage" aria-label="PolicyWatcher 3.5 Confidence Release infographic">
+      <header class="header">
+        <div class="brand">
+          <img src="./policywatcher-mark.png" alt="PolicyWatcher logo" />
+          <div>
+            <strong>PolicyWatcher</strong>
+            <span>release governance cycle</span>
+          </div>
+        </div>
+        <div class="meta">
+          <span>X.0 Feature Drop</span>
+          <span>X.5 Confidence Release</span>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="copy">
+          <div>
+            <div class="eyebrow">
+              <svg viewBox="0 0 48 48" aria-hidden="true">
+                <path d="M24 4l16 7.7v10.6C40 32.2 33.3 40.6 24 44 14.7 40.6 8 32.2 8 22.3V11.7L24 4z" />
+                <path d="M15 27h18M15 21h18" />
+                <circle cx="24" cy="24" r="4" fill="currentColor" />
+              </svg>
+              Version 3.5 roadmap
+            </div>
+            <h1>
+              <span>Confidence</span>
+              <span>Release</span>
+              <span>system.</span>
+            </h1>
+            <p class="lead">
+              Every major feature drop is followed by a confidence release focused
+              on data status, QA findings, review history, security and clear
+              methodological limits.
+            </p>
+          </div>
+
+          <div class="principle">
+            <article>
+              <strong>X.0 expands capability.</strong>
+              <span>New views, public modules, admin tools, reports and integration blocks.</span>
+            </article>
+            <article>
+              <strong>X.5 increases confidence.</strong>
+              <span>Data context, review logs, issue queues, signed APIs and production hardening.</span>
+            </article>
+          </div>
+        </div>
+
+        <div class="visual">
+          <section class="engine" aria-label="Release cycle visual">
+            <div class="engine-title">
+              <span>Release cadence engine</span>
+              <b>3.5</b>
+            </div>
+
+            <svg class="cycle-svg" viewBox="0 0 760 720" aria-hidden="true">
+              <defs>
+                <linearGradient id="flowA" x1="0" x2="1">
+                  <stop stop-color="#fb923c" />
+                  <stop offset="1" stop-color="#5eead4" />
+                </linearGradient>
+                <linearGradient id="flowB" x1="0" x2="1">
+                  <stop stop-color="#60a5fa" />
+                  <stop offset="1" stop-color="#a78bfa" />
+                </linearGradient>
+              </defs>
+              <ellipse class="orbit" cx="380" cy="350" rx="292" ry="214" />
+              <ellipse class="orbit-strong" cx="380" cy="350" rx="206" ry="150" />
+              <path class="flow-path flow-a" d="M115 438c96 108 252 133 392 72 122-54 169-157 105-243" />
+              <path class="flow-path flow-b" d="M631 258c-94-110-254-132-392-72C116 240 70 346 134 431" />
+              <circle class="node node-a" cx="136" cy="430" r="13" />
+              <circle class="node node-b" cx="612" cy="267" r="13" />
+              <circle class="node node-c" cx="380" cy="565" r="12" />
+              <circle class="packet" cx="0" cy="0" r="7">
+                <animateMotion dur="7.6s" repeatCount="indefinite" path="M115 438c96 108 252 133 392 72 122-54 169-157 105-243" />
+              </circle>
+              <circle class="packet" cx="0" cy="0" r="7">
+                <animateMotion dur="7.6s" begin="1.2s" repeatCount="indefinite" path="M631 258c-94-110-254-132-392-72C116 240 70 346 134 431" />
+              </circle>
+            </svg>
+
+            <div class="center-dial">
+              <strong>3.5</strong>
+              <span>Confidence Release</span>
+            </div>
+
+            <article class="release-chip chip-feature">
+              <small>Feature Drop</small>
+              <strong>3.0 expands</strong>
+              <span>Timeline, diffs, sharing, reports, admin modules and data views.</span>
+            </article>
+
+            <article class="release-chip chip-confidence">
+              <small>Confidence</small>
+              <strong>3.5 hardens</strong>
+              <span>Reviewability, QA status, signed APIs, issue queues and production readiness.</span>
+            </article>
+          </section>
+
+          <aside class="roadmap" aria-label="PolicyWatcher 3.5 roadmap modules">
+            <div class="roadmap-head">
+              <span>Roadmap focus</span>
+              <strong>Make every result easier to check.</strong>
+            </div>
+            <div class="roadmap-grid">
+              <article class="module" style="--delay: 0ms">
+                <i>P0</i>
+                <strong>Truth layer</strong>
+                <span>Data status, source context, QA state and methodology limits.</span>
+              </article>
+              <article class="module" style="--delay: 180ms">
+                <i>P1</i>
+                <strong>Review log</strong>
+                <span>Append-only human review, overrides, notes and timestamps.</span>
+              </article>
+              <article class="module" style="--delay: 360ms">
+                <i>P2</i>
+                <strong>QA issue queue</strong>
+                <span>Open, reviewed, ignored and fixed findings by severity.</span>
+              </article>
+              <article class="module" style="--delay: 540ms">
+                <i>P3</i>
+                <strong>Advisory mapping</strong>
+                <span>Potentially relevant EU AI Act, ISO 42001 and NIST AI RMF controls.</span>
+              </article>
+              <article class="module" style="--delay: 720ms">
+                <i>P4</i>
+                <strong>API and webhooks</strong>
+                <span>Scoped API keys, OpenAPI docs and HMAC-signed outbound events.</span>
+              </article>
+              <article class="module" style="--delay: 900ms">
+                <i>P5</i>
+                <strong>Version diff</strong>
+                <span>Compare available historical versions with hashes and QA status.</span>
+              </article>
+              <article class="module" style="--delay: 1080ms">
+                <i>P6</i>
+                <strong>PostgreSQL ready</strong>
+                <span>Production database path, migrations, backup and health checks.</span>
+              </article>
+              <article class="module" style="--delay: 1260ms">
+                <i>P7</i>
+                <strong>Forensic UI</strong>
+                <span>Data-first visuals, no certification-like badges, no arbitrary scores.</span>
+              </article>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span><b>PolicyWatcher 3.5</b> Confidence Release</span>
+        <span>Data confidence - QA findings - reviewability - signed integrations</span>
+      </footer>
+    </main>
+  </body>
+</html>
