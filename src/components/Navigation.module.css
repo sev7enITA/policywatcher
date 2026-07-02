@@ -1,652 +1,507 @@
 /* ==========================================
-   PolicyWatcher Interchangeable Navigation
+   PolicyWatcher Control Ribbon
    ========================================== */
 
-/* Layout Switcher Floating Widget */
-.layoutSelectorWrapper {
+.controlRibbon {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 150;
+  left: 50%;
+  bottom: 18px;
+  z-index: 160;
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  width: min(1180px, calc(100vw - 32px));
+  min-height: 66px;
+  padding: 8px 10px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.94)),
+    var(--text-main);
+  box-shadow:
+    0 22px 60px rgba(15, 23, 42, 0.18),
+    0 6px 18px rgba(15, 23, 42, 0.12);
+  color: #f8fafc;
   font-family: var(--font-sans);
+  transform: translateX(-50%);
 }
 
-.selectorBtn {
+.controlRibbon::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 14px;
+  right: 14px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(129, 140, 248, 0.72), rgba(16, 185, 129, 0.42), transparent);
+  pointer-events: none;
+}
+
+.ribbonIdentity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 164px;
+  padding: 6px 12px 6px 6px;
+  border-right: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+.identityMark {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  color: var(--text-muted);
-  cursor: pointer;
-  box-shadow: var(--shadow-lg);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(129, 140, 248, 0.5);
+  border-radius: 10px;
+  background: rgba(99, 102, 241, 0.14);
 }
 
-.selectorBtn:hover {
-  color: var(--primary);
-  border-color: var(--border-color-active);
-  background-color: var(--primary-glow);
-  transform: rotate(30deg);
-}
-
-.selectorMenu {
+.identityMark::before,
+.identityMark::after,
+.identityMark span {
+  content: "";
   position: absolute;
-  bottom: 56px;
-  right: 0;
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 8px;
-  width: 200px;
-  box-shadow: var(--shadow-xl);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  animation: menuAppear 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 999px;
 }
 
-.menuHeader {
-  font-size: 0.65rem;
+.identityMark::before {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #a5b4fc;
+}
+
+.identityMark::after {
+  width: 8px;
+  height: 8px;
+  background: #34d399;
+  box-shadow: 0 0 16px rgba(52, 211, 153, 0.75);
+}
+
+.identityMark span {
+  right: 7px;
+  top: 7px;
+  width: 6px;
+  height: 6px;
+  background: #fbbf24;
+}
+
+.identityText {
+  display: grid;
+  gap: 1px;
+  line-height: 1.05;
+}
+
+.identityText strong {
+  color: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.identityText span {
+  color: #cbd5e1;
+  font-size: 0.69rem;
   font-weight: 700;
   text-transform: uppercase;
-  color: var(--text-muted);
-  padding: 6px 12px;
-  border-bottom: 1px solid var(--border-subtle);
-  margin-bottom: 4px;
-  letter-spacing: 0.05em;
-  font-family: var(--font-mono);
 }
 
-.menuOption {
+.ribbonGroups {
   display: flex;
   align-items: center;
+  min-width: 0;
   gap: 8px;
-  width: 100%;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: none;
-  background: none;
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: var(--text-body);
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.15s ease;
+  overflow: hidden;
 }
 
-.menuOption:hover {
-  background-color: var(--bg-secondary);
+.commandGroup {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 6px;
+  padding: 4px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.035);
+  flex: 0 0 auto;
+}
+
+.groupLabel {
+  padding: 0 5px;
+  color: #94a3b8;
+  font-size: 0.63rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.groupItems {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.groupItems .commandButton {
+  width: 42px;
+  padding: 0;
+}
+
+.groupItems .commandLabel {
+  display: none;
+}
+
+.commandButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  height: 42px;
+  padding: 0 10px;
+  gap: 7px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: #dbeafe;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.16s ease,
+    border-color 0.16s ease,
+    color 0.16s ease,
+    transform 0.16s ease;
+}
+
+.commandButton:hover,
+.commandButton:focus-visible {
+  border-color: rgba(129, 140, 248, 0.54);
+  background: rgba(99, 102, 241, 0.17);
+  color: #ffffff;
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.commandAccent {
+  border-color: rgba(99, 102, 241, 0.62);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.92), rgba(79, 70, 229, 0.86));
+  color: #ffffff;
+  box-shadow: 0 8px 22px rgba(79, 70, 229, 0.24);
+  width: auto;
+  min-width: 94px;
+  padding: 0 12px;
+}
+
+.commandAccent .commandLabel {
+  display: inline;
+}
+
+.commandAccent:hover,
+.commandAccent:focus-visible {
+  border-color: rgba(191, 219, 254, 0.7);
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.98), rgba(79, 70, 229, 0.94));
+}
+
+.commandQuiet {
+  color: #cbd5e1;
+}
+
+.searchButton {
+  min-width: 112px;
+  justify-content: space-between;
+  border-color: rgba(148, 163, 184, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.commandLabel {
+  color: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.commandKbd {
+  min-width: 26px;
+  padding: 2px 6px;
+  border: 1px solid rgba(203, 213, 225, 0.28);
+  border-radius: 5px;
+  background: rgba(15, 23, 42, 0.34);
+  color: #cbd5e1;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 800;
+}
+
+.mobileCommandBar {
+  display: none;
+}
+
+.mobileSheetLayer {
+  position: fixed;
+  inset: 0;
+  z-index: 220;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.34);
+  backdrop-filter: blur(8px);
+}
+
+.mobileSheet {
+  width: min(520px, 100%);
+  max-height: min(82vh, 720px);
+  padding: 8px 16px 18px;
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  border-radius: 18px 18px 0 0;
+  background: var(--bg-card);
+  color: var(--text-main);
+  box-shadow: 0 -24px 70px rgba(15, 23, 42, 0.22);
+  overflow-y: auto;
+  animation: sheetRise 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sheetGrip {
+  display: flex;
+  justify-content: center;
+  color: var(--text-muted);
+  height: 22px;
+}
+
+.sheetHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 2px 0 14px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sheetHeader h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  font-weight: 800;
   color: var(--text-main);
 }
 
-.menuOptionActive {
-  background-color: var(--primary-glow);
-  color: var(--primary);
-  font-weight: 600;
+.sheetHeader p {
+  max-width: 34rem;
+  margin: 4px 0 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
 }
 
-@keyframes menuAppear {
+.sheetCloseButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-card-hover);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.sheetCloseButton:hover,
+.sheetCloseButton:focus-visible {
+  border-color: var(--border-color-active);
+  color: var(--primary);
+  outline: none;
+}
+
+.sheetSearchRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 14px 0 10px;
+}
+
+.sheetGroups {
+  display: grid;
+  gap: 12px;
+}
+
+.sheetGroup {
+  display: grid;
+  gap: 8px;
+}
+
+.sheetGroupLabel {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.sheetGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.sheetCommand {
+  min-height: 48px;
+  justify-content: flex-start;
+  border-color: var(--border-color);
+  background: var(--bg-card-hover);
+  color: var(--text-main);
+}
+
+.sheetCommand:hover,
+.sheetCommand:focus-visible {
+  border-color: var(--border-color-active);
+  background: var(--primary-glow);
+  color: var(--primary);
+}
+
+.sheetFooter {
+  display: flex;
+  gap: 6px;
+  padding-top: 14px;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.sheetFooter span:first-child {
+  color: var(--primary);
+}
+
+@keyframes sheetRise {
   from {
     opacity: 0;
-    transform: translateY(8px) scale(0.95);
+    transform: translateY(32px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
-
-/* ==========================================
-   STYLE 1: Glassmorphic HUD Dock (Bottom Center)
-   ========================================== */
-.hudDock {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%) translateY(0);
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  border-radius: 20px;
-  padding: 6px 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  z-index: 100;
-  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08), 
-              0 8px 16px -6px rgba(0, 0, 0, 0.04),
-              inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.hudHidden {
-  transform: translateX(-50%) translateY(100px);
-  opacity: 0;
-  pointer-events: none;
-}
-
-.hudDivider {
-  width: 1px;
-  height: 24px;
-  background-color: var(--border-color);
-  margin: 0 4px;
-}
-
-.hudBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-}
-
-.hudBtn:hover {
-  color: var(--primary);
-  background-color: var(--primary-glow);
-  transform: translateY(-4px);
-  border-color: var(--border-color-active);
-}
-
-.hudBtnActive {
-  color: var(--primary);
-  background-color: var(--primary-glow);
-  border-color: var(--border-color-active);
-}
-
-.hudAssistantBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  border: 1px solid var(--border-color-active);
-  background: var(--primary-glow);
-  color: var(--primary);
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-}
-
-.hudAssistantBtn:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
-}
-
-/* Tooltip Styles for Bottom HUD (Appears Above) */
-.hudBtn[data-tooltip]::after,
-.hudAssistantBtn[data-tooltip]::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 52px;
-  left: 50%;
-  transform: translateX(-50%) translateY(5px);
-  background-color: var(--text-main);
-  color: var(--bg-main);
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 0.72rem;
-  font-weight: 500;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.15s ease-out;
-  z-index: 120;
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--border-color);
-  pointer-events: none;
-}
-
-.hudBtn[data-tooltip]::before,
-.hudAssistantBtn[data-tooltip]::before {
-  content: "";
-  position: absolute;
-  bottom: 44px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 5px;
-  border-style: solid;
-  border-color: var(--text-main) transparent transparent transparent;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.15s ease-out;
-  z-index: 120;
-  pointer-events: none;
-}
-
-.hudBtn[data-tooltip]:hover::after,
-.hudBtn[data-tooltip]:hover::before,
-.hudAssistantBtn[data-tooltip]:hover::after,
-.hudAssistantBtn[data-tooltip]:hover::before {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-}
-
-
-/* ==========================================
-   STYLE 2: Spotlight Command Bar (Top Center)
-   ========================================== */
-.spotlightBar {
-  position: fixed;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 500px;
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 14px;
-  padding: 8px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 100;
-  box-shadow: var(--shadow-lg);
-  cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.spotlightBar:hover {
-  border-color: var(--border-color-active);
-  box-shadow: var(--shadow-xl);
-}
-
-.spotlightLeft {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--text-muted);
-}
-
-.spotlightPrompt {
-  font-size: 0.82rem;
-  color: var(--text-body);
-  font-weight: 500;
-}
-
-.spotlightRight {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.spotlightKbd {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  background-color: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
-  padding: 2px 6px;
-  border-radius: 4px;
-  color: var(--text-muted);
-  font-weight: 700;
-}
-
-.spotlightSettingsBtn {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  border-radius: 6px;
-  transition: all 0.15s ease;
-}
-
-.spotlightSettingsBtn:hover {
-  color: var(--text-main);
-  background-color: var(--bg-tertiary);
-}
-
-
-/* ==========================================
-   STYLE 3: Forensic Left Side-Wing (Sidebar)
-   ========================================== */
-.sidebarRail {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 72px;
-  background-color: var(--bg-card);
-  border-right: 1px solid var(--border-color);
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 0;
-  transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow-x: hidden;
-  box-shadow: var(--shadow-sm);
-}
-
-.sidebarRail:hover {
-  width: 220px;
-  box-shadow: var(--shadow-xl);
-}
-
-.sidebarTop {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  gap: 20px;
-}
-
-.sidebarLogoRow {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0 20px;
-  width: 100%;
-  text-decoration: none;
-  overflow: hidden;
-}
-
-.sidebarLogoIcon {
-  color: var(--primary);
-  flex-shrink: 0;
-}
-
-.sidebarLogoTitle {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--text-main);
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.15s ease;
-}
-
-.sidebarRail:hover .sidebarLogoTitle {
-  opacity: 1;
-}
-
-.sidebarMenu {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-  padding: 0 12px;
-}
-
-.sidebarBtn {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 44px;
-  border-radius: 10px;
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  overflow: hidden;
-  position: relative;
-}
-
-.sidebarBtnIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 42px;
-  flex-shrink: 0;
-}
-
-.sidebarBtnLabel {
-  font-size: 0.82rem;
-  font-weight: 500;
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.15s ease;
-  margin-left: 4px;
-}
-
-.sidebarRail:hover .sidebarBtnLabel {
-  opacity: 1;
-}
-
-.sidebarBtn:hover {
-  color: var(--primary);
-  background-color: var(--primary-glow);
-  border-color: var(--border-color-active);
-}
-
-.sidebarBtnActive {
-  color: var(--primary);
-  background-color: var(--primary-glow);
-  border-color: var(--border-color-active);
-}
-
-/* Telemetry Light indicator dots */
-.telemetryDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  position: absolute;
-  right: 12px;
-  top: 19px;
-  opacity: 0;
-  transition: opacity 0.15s ease;
-}
-
-.telemetryGreen {
-  background-color: var(--risk-low);
-  box-shadow: 0 0 6px var(--risk-low);
-}
-
-.telemetryOrange {
-  background-color: var(--risk-medium);
-  box-shadow: 0 0 6px var(--risk-medium);
-  animation: pulseLight 1.5s infinite alternate;
-}
-
-.sidebarRail:hover .telemetryDot {
-  opacity: 1;
-}
-
-@keyframes pulseLight {
-  from { opacity: 0.4; }
-  to { opacity: 1; }
-}
-
-.sidebarAssistantBtn {
-  composes: sidebarBtn;
-  border-color: var(--border-color-active);
-  background: var(--primary-glow);
-  color: var(--primary);
-}
-
-.sidebarAssistantBtn:hover {
-  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.12);
-}
-
-.sidebarBottom {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  gap: 16px;
-  padding: 0 12px;
-}
-
-/* Tooltips for Sidebar (Appears on the Right, only when NOT expanded) */
-@media (min-width: 769px) {
-  .sidebarRail:not(:hover) .sidebarBtn[data-tooltip]::after,
-  .sidebarRail:not(:hover) .sidebarAssistantBtn[data-tooltip]::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    left: 78px;
-    top: 50%;
-    transform: translateY(-50%) translateX(5px);
-    background-color: var(--text-main);
-    color: var(--bg-main);
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 0.72rem;
-    font-weight: 500;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.15s ease-out;
-    z-index: 120;
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--border-color);
-    pointer-events: none;
+@media (max-width: 1220px) {
+  .controlRibbon {
+    grid-template-columns: auto auto 1fr auto;
+    width: calc(100vw - 24px);
   }
 
-  .sidebarRail:not(:hover) .sidebarBtn[data-tooltip]::before,
-  .sidebarRail:not(:hover) .sidebarAssistantBtn[data-tooltip]::before {
-    content: "";
-    position: absolute;
-    left: 70px;
-    top: 50%;
-    transform: translateY(-50%);
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent var(--text-main) transparent transparent;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.15s ease-out;
-    z-index: 120;
-    pointer-events: none;
+  .identityText strong {
+    font-size: 0.78rem;
   }
 
-  .sidebarRail:not(:hover) .sidebarBtn[data-tooltip]:hover::after,
-  .sidebarRail:not(:hover) .sidebarBtn[data-tooltip]:hover::before,
-  .sidebarRail:not(:hover) .sidebarAssistantBtn[data-tooltip]:hover::after,
-  .sidebarRail:not(:hover) .sidebarAssistantBtn[data-tooltip]:hover::before {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(-50%) translateX(0);
-  }
-}
-
-
-/* ==========================================
-   MOBILE ADAPTATIONS (Responsive overrides)
-   ========================================== */
-
-/* Floating Drawer Menu Trigger for Sidebar on mobile */
-.mobileMenuFAB {
-  display: none;
-  position: fixed;
-  top: 16px;
-  left: 16px;
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  color: var(--text-muted);
-  align-items: center;
-  justify-content: center;
-  z-index: 140;
-  box-shadow: var(--shadow-md);
-  cursor: pointer;
-}
-
-/* Mobile bottom bar for HUD */
-.mobileBottomBar {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 56px;
-  background-color: var(--bg-card);
-  border-top: 1px solid var(--border-color);
-  z-index: 100;
-  grid-template-columns: repeat(5, 1fr);
-  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
-}
-
-.mobileBottomBtn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-muted);
-  background: none;
-  border: none;
-  font-size: 0.65rem;
-  font-weight: 500;
-  gap: 2px;
-}
-
-.mobileBottomBtnActive {
-  color: var(--primary);
-}
-
-/* Backdrop for Mobile Sidebar Drawer */
-.mobileSidebarBackdrop {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 99;
-  backdrop-filter: blur(4px);
-}
-
-
-@media (max-width: 1024px) {
-  /* HUD Dock turns into a clean bottom bar */
-  .hudDock {
+  .groupLabel {
     display: none;
   }
-  
-  .mobileBottomBar {
-    display: grid;
+
+  .commandButton {
+    padding: 0 8px;
   }
 
-  /* Spotlight matches mobile margins */
-  .spotlightBar {
-    max-width: 90%;
-    top: 12px;
+  .groupItems .commandButton {
+    width: 40px;
+    padding: 0;
   }
-  
-  /* Sidebar becomes a temporary left slide-in drawer */
-  .sidebarRail {
-    left: -74px;
-    top: 0;
-    bottom: 0;
-    width: 72px;
-    height: 100%;
-    border-radius: 0;
-    transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 1080px) {
+  .commandLabel {
+    display: none;
   }
-  
-  .sidebarActive {
-    left: 0 !important;
+
+  .searchButton {
+    min-width: 48px;
   }
-  
-  .mobileMenuFAB {
+
+  .commandKbd {
+    display: none;
+  }
+
+  .ribbonIdentity {
+    min-width: 0;
+    padding-right: 8px;
+  }
+
+  .identityText {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .controlRibbon {
+    display: none;
+  }
+
+  .mobileCommandBar {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    z-index: 170;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    min-height: 64px;
+    padding: 6px;
+    gap: 4px;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    border-radius: 14px;
+    background: rgba(15, 23, 42, 0.96);
+    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.24);
+  }
+
+  .mobileCommandBar .commandButton {
+    display: flex;
+    flex-direction: column;
+    height: 52px;
+    min-width: 0;
+    padding: 5px 2px;
+    gap: 3px;
+    border-radius: 9px;
+    color: #e0f2fe;
+  }
+
+  .mobileCommandBar .commandLabel {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    color: inherit;
+    font-size: clamp(0.55rem, 2.3vw, 0.66rem);
+    text-overflow: ellipsis;
+  }
+
+  .mobileCommandBar .commandAccent {
+    background: rgba(99, 102, 241, 0.92);
+  }
+
+  .mobileMoreButton[aria-expanded="true"] {
+    border-color: rgba(129, 140, 248, 0.54);
+    background: rgba(99, 102, 241, 0.18);
+    color: #ffffff;
+  }
+
+  .mobileSheet .commandLabel {
+    display: inline;
+    overflow: visible;
+    color: inherit;
+    font-size: 0.82rem;
+    text-overflow: clip;
+  }
+
+  .mobileSheetLayer {
     display: flex;
   }
-  
-  .mobileBackdropActive {
-    display: block;
+}
+
+@media (max-width: 390px) {
+  .mobileCommandBar {
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+  }
+
+  .sheetGrid,
+  .sheetSearchRow {
+    grid-template-columns: 1fr;
   }
 }

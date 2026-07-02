@@ -10,7 +10,7 @@
 
 /* Dynamic space adjustments based on active navigation layout */
 .dashboard[data-nav-layout="hud"] {
-  padding-bottom: 80px;
+  padding-bottom: 104px;
 }
 
 @media (min-width: 1024px) {

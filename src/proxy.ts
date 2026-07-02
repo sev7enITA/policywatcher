@@ -7,6 +7,7 @@ const imageSources = [
   'https://logo.clearbit.com',
   'https://web.archive.org',
   'https://www.google.com',
+  'https://*.gstatic.com',
   'https://github.com',
   'https://api.scorecard.dev',
   'https://www.bestpractices.dev',
@@ -32,6 +33,9 @@ function createContentSecurityPolicy(nonce: string, pathname: string) {
     "'strict-dynamic'",
     isDev ? "'unsafe-eval'" : '',
   ].filter(Boolean).join(' ');
+  const styleElemSrc = isDev
+    ? "'self' https://fonts.googleapis.com 'unsafe-inline'"
+    : `'self' 'nonce-${nonce}' https://fonts.googleapis.com`;
 
   return compactCsp(`
     default-src 'none';
@@ -39,7 +43,7 @@ function createContentSecurityPolicy(nonce: string, pathname: string) {
     object-src 'none';
     script-src ${scriptSrc};
     style-src 'self' https://fonts.googleapis.com;
-    style-src-elem 'self' 'nonce-${nonce}' https://fonts.googleapis.com;
+    style-src-elem ${styleElemSrc};
     style-src-attr 'unsafe-inline';
     font-src 'self' https://fonts.gstatic.com;
     img-src ${imageSources};

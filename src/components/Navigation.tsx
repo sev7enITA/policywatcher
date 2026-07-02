@@ -3,46 +3,35 @@
 /**
  * @file Navigation.tsx
  *
- * Unified layout coordinator rendering one of three interchangeable styles:
- *  - **HUD Dock** (bottom center floating toolbar)
- *  - **Spotlight Bar** (minimalist search-bar prompt at top)
- *  - **Forensic Sidebar** (collapsible left vertical rail)
- *
- * Handles client-side local storage preference and mobile-friendly layouts.
+ * Deterministic command navigation for the public dashboard.
+ * The previous interchangeable layouts were browser-state dependent; this
+ * ribbon keeps the same controls visible and predictable on every profile.
  */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
-  Search,
-  SlidersHorizontal,
-  Languages,
-  Zap,
   Bell,
+  BookOpen,
+  ChevronUp,
+  Clock,
+  Cpu,
   Download,
   Grid3X3,
-  BookOpen,
   HelpCircle,
-  Clock,
-  Sparkles,
-  Cpu,
-  User,
   History,
-  Layout,
-  Menu,
+  Languages,
+  MoreHorizontal,
+  Search,
+  ShieldCheck,
+  Sparkles,
+  User,
   X,
-  ShieldCheck
+  Zap,
+  type LucideIcon,
 } from 'lucide-react';
 import styles from './Navigation.module.css';
 
 export type NavLayout = 'hud' | 'spotlight' | 'sidebar';
-
-const NAV_LAYOUTS: NavLayout[] = ['hud', 'spotlight', 'sidebar'];
-
-function getInitialNavLayout(): NavLayout {
-  if (typeof window === 'undefined') return 'hud';
-  const stored = localStorage.getItem('policywatcher_nav_layout') as NavLayout | null;
-  return stored && NAV_LAYOUTS.includes(stored) ? stored : 'hud';
-}
 
 interface NavigationProps {
   /** Active UI language. */
@@ -56,11 +45,27 @@ interface NavigationProps {
   onOpenHowTo: () => void;
   onOpenChangelog: () => void;
   onOpenAbout: () => void;
-  /** Execute global command palette (⌘K) search. */
+  /** Execute global command palette search. */
   onOpenSearch: () => void;
   /** Callback to parent to adjust padding/margins depending on active navigation width/height. */
   onChangeLayout: (layout: NavLayout) => void;
 }
+
+type CommandItem = {
+  id: string;
+  label: string;
+  shortLabel?: string;
+  icon: LucideIcon;
+  href?: string;
+  onClick?: () => void;
+  tone?: 'default' | 'accent' | 'quiet';
+};
+
+type CommandGroup = {
+  id: string;
+  label: string;
+  items: CommandItem[];
+};
 
 export default function Navigation({
   lang,
@@ -76,455 +81,315 @@ export default function Navigation({
   onOpenSearch,
   onChangeLayout,
 }: NavigationProps) {
-  const [navLayout, setNavLayout] = useState<NavLayout>(() => getInitialNavLayout());
-  const [selectorOpen, setSelectorOpen] = useState(false);
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  
-  // HUD scroll auto-hide states
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [hudHidden, setHudHidden] = useState(false);
-  
-  const selectorRef = useRef<HTMLDivElement>(null);
+  const [moreOpen, setMoreOpen] = useState(false);
   const isIt = lang === 'it';
 
-  // Keep the parent layout offsets synchronized with the active navigation mode.
   useEffect(() => {
-    onChangeLayout(navLayout);
-  }, [navLayout, onChangeLayout]);
+    onChangeLayout('hud');
 
-  // Click outside to close layout selector menu
+    try {
+      localStorage.removeItem('policywatcher_nav_layout');
+    } catch {
+      /* Browser storage can be unavailable in private contexts. */
+    }
+  }, [onChangeLayout]);
+
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (selectorRef.current && !selectorRef.current.contains(e.target as Node)) {
-        setSelectorOpen(false);
-      }
+    if (!moreOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMoreOpen(false);
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
-  // Scroll auto-hide for Bottom HUD
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 120) {
-        setHudHidden(true);
-      } else {
-        setHudHidden(false);
-      }
-      setLastScrollY(currentScrollY);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
-
-  const selectLayout = (layout: NavLayout) => {
-    setNavLayout(layout);
-    localStorage.setItem('policywatcher_nav_layout', layout);
-    setSelectorOpen(false);
-  };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [moreOpen]);
 
   const t = {
     en: {
-      search: 'Search actions (⌘K)',
-      export: 'Export CSV',
+      observe: 'Observe',
+      audit: 'Audit',
+      operate: 'Operate',
+      status: 'v3.5 QA',
+      search: 'Search',
+      searchTitle: 'Search actions',
+      export: 'Export',
       methodology: 'Methodology',
-      howTo: 'Tutorial guide',
-      timeline: 'Policy timeline',
-      showcase: 'App Showcase',
-      roadmap: '3.5 Roadmap',
-      trust: 'Trust evidence',
-      matrix: 'KPI Matrix',
-      compare: 'Compare A/B',
-      subscribe: 'Subscribe',
-      changelog: 'Changelog',
-      about: 'About platform',
-      assistant: 'Voice AI Chat',
-      layoutTitle: 'Navigation Layout',
-      layoutHud: 'Bottom HUD Dock',
-      layoutSpotlight: 'Top Spotlight Bar',
-      layoutSidebar: 'Forensic Sidebar',
+      howTo: 'How to',
+      timeline: 'Timeline',
+      showcase: 'Showcase',
+      roadmap: 'Roadmap',
+      trust: 'Trust QA',
+      matrix: 'Matrix',
+      subscribe: 'Alerts',
+      changelog: 'Changes',
+      about: 'About',
+      assistant: 'AI Chat',
+      more: 'More',
+      close: 'Close',
+      moreTitle: 'Workspace Controls',
+      moreSubtitle: 'Public dashboard actions, exports, docs, and QA references.',
+      language: 'Italiano',
     },
     it: {
-      search: 'Cerca azioni (⌘K)',
-      export: 'Esporta CSV',
-      methodology: 'Metodologia',
-      howTo: 'Guida onboarding',
-      timeline: 'Timeline modifiche',
-      showcase: 'Vetrina app',
-      roadmap: 'Roadmap 3.5',
-      trust: 'Evidenze qualità',
-      matrix: 'Matrice KPI',
-      compare: 'Confronta A/B',
-      subscribe: 'Iscriviti',
-      changelog: 'Aggiornamenti',
-      about: 'Info piattaforma',
-      assistant: 'Chat AI vocale',
-      layoutTitle: 'Layout Navigazione',
-      layoutHud: 'Bottom HUD Dock',
-      layoutSpotlight: 'Top Spotlight Bar',
-      layoutSidebar: 'Forensic Sidebar',
-    }
+      observe: 'Osserva',
+      audit: 'Audita',
+      operate: 'Opera',
+      status: 'v3.5 QA',
+      search: 'Cerca',
+      searchTitle: 'Cerca azioni',
+      export: 'Export',
+      methodology: 'Metodo',
+      howTo: 'Guida',
+      timeline: 'Timeline',
+      showcase: 'Vetrina',
+      roadmap: 'Roadmap',
+      trust: 'Trust QA',
+      matrix: 'Matrice',
+      subscribe: 'Avvisi',
+      changelog: 'Change',
+      about: 'Info',
+      assistant: 'AI Chat',
+      more: 'Altro',
+      close: 'Chiudi',
+      moreTitle: 'Controlli Workspace',
+      moreSubtitle: 'Azioni pubbliche, export, documentazione e riferimenti QA.',
+      language: 'English',
+    },
   }[lang];
 
-  /* ----------------------------------------------------
-     Render Layouts
-     ---------------------------------------------------- */
+  const groups = useMemo<CommandGroup[]>(() => [
+    {
+      id: 'observe',
+      label: t.observe,
+      items: [
+        { id: 'timeline', label: t.timeline, icon: Clock, href: '/timeline' },
+        { id: 'showcase', label: t.showcase, icon: Sparkles, href: '/showcase' },
+        { id: 'roadmap', label: t.roadmap, icon: Cpu, href: '/roadmap' },
+        { id: 'trust', label: t.trust, icon: ShieldCheck, href: '/trust' },
+      ],
+    },
+    {
+      id: 'audit',
+      label: t.audit,
+      items: [
+        { id: 'matrix', label: t.matrix, icon: Grid3X3, onClick: onOpenMatrix },
+        { id: 'export', label: t.export, icon: Download, onClick: onOpenExport },
+        { id: 'methodology', label: t.methodology, icon: BookOpen, onClick: onOpenMethodology },
+        { id: 'how-to', label: t.howTo, icon: HelpCircle, onClick: onOpenHowTo },
+      ],
+    },
+    {
+      id: 'operate',
+      label: t.operate,
+      items: [
+        { id: 'subscribe', label: t.subscribe, icon: Bell, onClick: onOpenSubscribe },
+        { id: 'changelog', label: t.changelog, icon: History, onClick: onOpenChangelog },
+        { id: 'language', label: t.language, icon: Languages, onClick: onToggleLanguage, tone: 'quiet' },
+        { id: 'about', label: t.about, icon: User, onClick: onOpenAbout, tone: 'quiet' },
+      ],
+    },
+  ], [
+    onOpenAbout,
+    onOpenChangelog,
+    onOpenExport,
+    onOpenHowTo,
+    onOpenMatrix,
+    onOpenMethodology,
+    onOpenSubscribe,
+    onToggleLanguage,
+    t.about,
+    t.audit,
+    t.changelog,
+    t.export,
+    t.howTo,
+    t.language,
+    t.matrix,
+    t.methodology,
+    t.observe,
+    t.operate,
+    t.roadmap,
+    t.showcase,
+    t.subscribe,
+    t.timeline,
+    t.trust,
+  ]);
+
+  const allCommands = useMemo(
+    () => groups.flatMap((group) => group.items),
+    [groups],
+  );
+
+  const assistantCommand: CommandItem = {
+    id: 'assistant',
+    label: t.assistant,
+    icon: Zap,
+    onClick: onOpenAssistant,
+    tone: 'accent',
+  };
+
+  const searchCommand: CommandItem = {
+    id: 'search',
+    label: t.search,
+    shortLabel: t.searchTitle,
+    icon: Search,
+    onClick: onOpenSearch,
+  };
+
+  const runCommand = (item: CommandItem) => {
+    setMoreOpen(false);
+    item.onClick?.();
+  };
+
+  const renderCommand = (item: CommandItem, mode: 'ribbon' | 'sheet' = 'ribbon') => {
+    const Icon = item.icon;
+    const className = [
+      styles.commandButton,
+      item.tone === 'accent' ? styles.commandAccent : '',
+      item.tone === 'quiet' ? styles.commandQuiet : '',
+      mode === 'sheet' ? styles.sheetCommand : '',
+    ].filter(Boolean).join(' ');
+
+    const content = (
+      <>
+        <Icon size={18} aria-hidden="true" />
+        <span className={styles.commandLabel}>{item.label}</span>
+      </>
+    );
+
+    if (item.href) {
+      return (
+        <Link
+          key={item.id}
+          href={item.href}
+          className={className}
+          title={item.shortLabel ?? item.label}
+          aria-label={item.shortLabel ?? item.label}
+          onClick={() => setMoreOpen(false)}
+        >
+          {content}
+        </Link>
+      );
+    }
+
+    return (
+      <button
+        key={item.id}
+        type="button"
+        className={className}
+        title={item.shortLabel ?? item.label}
+        aria-label={item.shortLabel ?? item.label}
+        onClick={() => runCommand(item)}
+      >
+        {content}
+      </button>
+    );
+  };
 
   return (
     <>
-      {/* 1. Global Floating Layout Selector Selector Button */}
-      <div className={styles.layoutSelectorWrapper} ref={selectorRef}>
-        <button 
-          onClick={() => setSelectorOpen(!selectorOpen)}
-          className={styles.selectorBtn}
-          title={t.layoutTitle}
-          aria-label={t.layoutTitle}
-        >
-          <Layout size={18} />
-        </button>
-        {selectorOpen && (
-          <div className={styles.selectorMenu}>
-            <div className={styles.menuHeader}>{t.layoutTitle}</div>
-            <button 
-              onClick={() => selectLayout('hud')}
-              className={`${styles.menuOption} ${navLayout === 'hud' ? styles.menuOptionActive : ''}`}
-            >
-              <Cpu size={14} />
-              {t.layoutHud}
-            </button>
-            <button 
-              onClick={() => selectLayout('spotlight')}
-              className={`${styles.menuOption} ${navLayout === 'spotlight' ? styles.menuOptionActive : ''}`}
-            >
-              <Search size={14} />
-              {t.layoutSpotlight}
-            </button>
-            <button 
-              onClick={() => selectLayout('sidebar')}
-              className={`${styles.menuOption} ${navLayout === 'sidebar' ? styles.menuOptionActive : ''}`}
-            >
-              <SlidersHorizontal size={14} />
-              {t.layoutSidebar}
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* ==========================================
-         STYLE 1: Bottom HUD Dock
-         ========================================== */}
-      {navLayout === 'hud' && (
-        <nav className={`${styles.hudDock} ${hudHidden ? styles.hudHidden : ''}`}>
-          {/* Quick Search */}
-          <button onClick={onOpenSearch} className={styles.hudBtn} data-tooltip={t.search}>
-            <Search size={18} />
-          </button>
-          
-          <div className={styles.hudDivider} />
-
-          {/* Core Navigation Links */}
-          <Link href="/timeline" className={styles.hudBtn} data-tooltip={t.timeline}>
-            <Clock size={18} />
-          </Link>
-          <Link href="/showcase" className={styles.hudBtn} data-tooltip={t.showcase}>
-            <Sparkles size={18} />
-          </Link>
-          <Link href="/roadmap" className={styles.hudBtn} data-tooltip={t.roadmap}>
-            <Cpu size={18} />
-          </Link>
-          <Link href="/trust" className={styles.hudBtn} data-tooltip={t.trust}>
-            <ShieldCheck size={18} />
-          </Link>
-
-          <div className={styles.hudDivider} />
-
-          {/* Dashboard Modal triggers */}
-          <button onClick={onOpenMatrix} className={styles.hudBtn} data-tooltip={t.matrix}>
-            <Grid3X3 size={18} />
-          </button>
-          <button onClick={onOpenExport} className={styles.hudBtn} data-tooltip={t.export}>
-            <Download size={18} />
-          </button>
-          <button onClick={onOpenMethodology} className={styles.hudBtn} data-tooltip={t.methodology}>
-            <BookOpen size={18} />
-          </button>
-          <button onClick={onOpenHowTo} className={styles.hudBtn} data-tooltip={t.howTo}>
-            <HelpCircle size={18} />
-          </button>
-          <button onClick={onOpenSubscribe} className={styles.hudBtn} data-tooltip={t.subscribe}>
-            <Bell size={18} />
-          </button>
-          <button onClick={onOpenChangelog} className={styles.hudBtn} data-tooltip={t.changelog}>
-            <History size={18} />
-          </button>
-          <button onClick={onOpenAbout} className={styles.hudBtn} data-tooltip={t.about}>
-            <User size={18} />
-          </button>
-          
-          <div className={styles.hudDivider} />
-
-          {/* Lang toggle */}
-          <button onClick={onToggleLanguage} className={styles.hudBtn} data-tooltip={isIt ? 'Switch to English' : "Passa all'italiano"}>
-            <Languages size={18} />
-          </button>
-
-          <div className={styles.hudDivider} />
-
-          {/* AI assistant */}
-          <button onClick={onOpenAssistant} className={styles.hudAssistantBtn} data-tooltip={t.assistant}>
-            <Zap size={18} />
-          </button>
-        </nav>
-      )}
-
-      {/* ==========================================
-         STYLE 2: Spotlight Command Bar
-         ========================================== */}
-      {navLayout === 'spotlight' && (
-        <div className={styles.spotlightBar} onClick={onOpenSearch}>
-          <div className={styles.spotlightLeft}>
-            <Search size={16} />
-            <span className={styles.spotlightPrompt}>{t.search}</span>
-          </div>
-          <div className={styles.spotlightRight}>
-            <span className={styles.spotlightKbd}>⌘K</span>
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                onToggleLanguage();
-              }}
-              className={styles.spotlightSettingsBtn}
-              title={isIt ? 'Switch to English' : "Passa all'italiano"}
-            >
-              <Languages size={14} />
-            </button>
-          </div>
+      <nav className={styles.controlRibbon} aria-label="PolicyWatcher command ribbon">
+        <div className={styles.ribbonIdentity} aria-label="PolicyWatcher release status">
+          <span className={styles.identityMark} aria-hidden="true">
+            <span />
+          </span>
+          <span className={styles.identityText}>
+            <strong>PolicyWatcher</strong>
+            <span>{t.status}</span>
+          </span>
         </div>
-      )}
 
-      {/* ==========================================
-         STYLE 3: Left Sidebar
-         ========================================== */}
-      {(navLayout === 'sidebar' || mobileSidebarOpen) && (
-        <>
-          {/* Mobile backdrop drawer blur */}
-          <div 
-            className={`${styles.mobileSidebarBackdrop} ${mobileSidebarOpen ? styles.mobileBackdropActive : ''}`}
-            onClick={() => setMobileSidebarOpen(false)}
-          />
-
-          <nav className={`${styles.sidebarRail} ${mobileSidebarOpen ? styles.sidebarActive : ''}`}>
-            <div className={styles.sidebarTop}>
-              <Link href="/" className={styles.sidebarLogoRow} onClick={() => setMobileSidebarOpen(false)}>
-                <ShieldCheck className={styles.sidebarLogoIcon} size={24} />
-                <span className={styles.sidebarLogoTitle}>PolicyWatcher</span>
-              </Link>
-
-              <div className={styles.sidebarMenu}>
-                {/* Search */}
-                <button 
-                  onClick={() => {
-                    onOpenSearch();
-                    setMobileSidebarOpen(false);
-                  }} 
-                  className={styles.sidebarBtn}
-                  data-tooltip={t.search}
-                >
-                  <span className={styles.sidebarBtnIcon}><Search size={18} /></span>
-                  <span className={styles.sidebarBtnLabel}>{t.search}</span>
-                </button>
-
-                {/* Core Routes */}
-                <Link 
-                  href="/timeline" 
-                  className={styles.sidebarBtn} 
-                  data-tooltip={t.timeline}
-                  onClick={() => setMobileSidebarOpen(false)}
-                >
-                  <span className={styles.sidebarBtnIcon}><Clock size={18} /></span>
-                  <span className={styles.sidebarBtnLabel}>{t.timeline}</span>
-                </Link>
-                <Link 
-                  href="/showcase" 
-                  className={styles.sidebarBtn} 
-                  data-tooltip={t.showcase}
-                  onClick={() => setMobileSidebarOpen(false)}
-                >
-                  <span className={styles.sidebarBtnIcon}><Sparkles size={18} /></span>
-                  <span className={styles.sidebarBtnLabel}>{t.showcase}</span>
-                </Link>
-                <Link 
-                  href="/roadmap" 
-                  className={styles.sidebarBtn} 
-                  data-tooltip={t.roadmap}
-                  onClick={() => setMobileSidebarOpen(false)}
-                >
-                  <span className={styles.sidebarBtnIcon}><Cpu size={18} /></span>
-                  <span className={styles.sidebarBtnLabel}>{t.roadmap}</span>
-                </Link>
-                <Link
-                  href="/trust"
-                  className={styles.sidebarBtn}
-                  data-tooltip={t.trust}
-                  onClick={() => setMobileSidebarOpen(false)}
-                >
-                  <span className={styles.sidebarBtnIcon}><ShieldCheck size={18} /></span>
-                  <span className={styles.sidebarBtnLabel}>{t.trust}</span>
-                </Link>
-
-                {/* Modals */}
-                <button 
-                  onClick={() => {
-                    onOpenMatrix();
-                    setMobileSidebarOpen(false);
-                  }} 
-                  className={styles.sidebarBtn}
-                  data-tooltip={t.matrix}
-                >
-                  <span className={styles.sidebarBtnIcon}><Grid3X3 size={18} /></span>
-                  <span className={styles.sidebarBtnLabel}>{t.matrix}</span>
-                  {/* Flashing GRC Telemetry light indicator */}
-                  <span className={`${styles.telemetryDot} ${styles.telemetryOrange}`} />
-                </button>
-
-                <button 
-                  onClick={() => {
-                    onOpenExport();
-                    setMobileSidebarOpen(false);
-                  }} 
-                  className={styles.sidebarBtn}
-                  data-tooltip={t.export}
-                >
-                  <span className={styles.sidebarBtnIcon}><Download size={18} /></span>
-                  <span className={styles.sidebarBtnLabel}>{t.export}</span>
-                </button>
-
-                <button 
-                  onClick={() => {
-                    onOpenMethodology();
-                    setMobileSidebarOpen(false);
-                  }} 
-                  className={styles.sidebarBtn}
-                  data-tooltip={t.methodology}
-                >
-                  <span className={styles.sidebarBtnIcon}><BookOpen size={18} /></span>
-                  <span className={styles.sidebarBtnLabel}>{t.methodology}</span>
-                </button>
-
-                <button 
-                  onClick={() => {
-                    onOpenHowTo();
-                    setMobileSidebarOpen(false);
-                  }} 
-                  className={styles.sidebarBtn}
-                  data-tooltip={t.howTo}
-                >
-                  <span className={styles.sidebarBtnIcon}><HelpCircle size={18} /></span>
-                  <span className={styles.sidebarBtnLabel}>{t.howTo}</span>
-                </button>
-
-                <button 
-                  onClick={() => {
-                    onOpenSubscribe();
-                    setMobileSidebarOpen(false);
-                  }} 
-                  className={styles.sidebarBtn}
-                  data-tooltip={t.subscribe}
-                >
-                  <span className={styles.sidebarBtnIcon}><Bell size={18} /></span>
-                  <span className={styles.sidebarBtnLabel}>{t.subscribe}</span>
-                </button>
-
-                <button 
-                  onClick={() => {
-                    onOpenChangelog();
-                    setMobileSidebarOpen(false);
-                  }} 
-                  className={styles.sidebarBtn}
-                  data-tooltip={t.changelog}
-                >
-                  <span className={styles.sidebarBtnIcon}><History size={18} /></span>
-                  <span className={styles.sidebarBtnLabel}>{t.changelog}</span>
-                </button>
-
-                <button 
-                  onClick={() => {
-                    onOpenAbout();
-                    setMobileSidebarOpen(false);
-                  }} 
-                  className={styles.sidebarBtn}
-                  data-tooltip={t.about}
-                >
-                  <span className={styles.sidebarBtnIcon}><User size={18} /></span>
-                  <span className={styles.sidebarBtnLabel}>{t.about}</span>
-                </button>
-              </div>
-            </div>
-
-            <div className={styles.sidebarBottom}>
-              <button 
-                onClick={() => {
-                  onToggleLanguage();
-                  setMobileSidebarOpen(false);
-                }} 
-                className={styles.sidebarBtn}
-                title={isIt ? 'Switch to English' : "Passa all'italiano"}
-              >
-                <span className={styles.sidebarBtnIcon}><Languages size={18} /></span>
-                <span className={styles.sidebarBtnLabel}>{isIt ? 'English' : 'Italiano'}</span>
-              </button>
-
-              <button 
-                onClick={() => {
-                  onOpenAssistant();
-                  setMobileSidebarOpen(false);
-                }} 
-                className={styles.sidebarAssistantBtn}
-                data-tooltip={t.assistant}
-              >
-                <span className={styles.sidebarBtnIcon}><Zap size={18} /></span>
-                <span className={styles.sidebarBtnLabel}>{t.assistant}</span>
-              </button>
-            </div>
-          </nav>
-        </>
-      )}
-
-      {/* Floating Hamburguer FAB for sidebar mobile drawer */}
-      {navLayout === 'sidebar' && (
-        <button 
-          onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
-          className={styles.mobileMenuFAB}
-          aria-label="Toggle Navigation Drawer"
+        <button
+          type="button"
+          className={`${styles.commandButton} ${styles.searchButton}`}
+          onClick={onOpenSearch}
+          title={t.searchTitle}
+          aria-label={t.searchTitle}
         >
-          {mobileSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+          <Search size={18} aria-hidden="true" />
+          <span className={styles.commandLabel}>{t.search}</span>
+          <kbd className={styles.commandKbd}>⌘K</kbd>
         </button>
-      )}
 
-      {/* Mobile HUD fallback Bottom Bar */}
-      {navLayout === 'hud' && (
-        <div className={styles.mobileBottomBar}>
-          <Link href="/timeline" className={`${styles.mobileBottomBtn}`}>
-            <Clock size={20} />
-            <span>Timeline</span>
-          </Link>
-          <button onClick={onOpenMatrix} className={styles.mobileBottomBtn}>
-            <Grid3X3 size={20} />
-            <span>Matrix</span>
-          </button>
-          <button onClick={onOpenAssistant} className={styles.mobileBottomBtn} style={{ color: 'var(--primary)' }}>
-            <Zap size={20} />
-            <span>AI Chat</span>
-          </button>
-          <button onClick={onOpenSearch} className={styles.mobileBottomBtn}>
-            <Search size={20} />
-            <span>Search</span>
-          </button>
-          <button onClick={onOpenAbout} className={styles.mobileBottomBtn}>
-            <User size={20} />
-            <span>About</span>
-          </button>
+        <div className={styles.ribbonGroups}>
+          {groups.map((group) => (
+            <section key={group.id} className={styles.commandGroup} aria-label={group.label}>
+              <span className={styles.groupLabel}>{group.label}</span>
+              <div className={styles.groupItems}>
+                {group.items.map((item) => renderCommand(item))}
+              </div>
+            </section>
+          ))}
+        </div>
+
+        {renderCommand(assistantCommand)}
+      </nav>
+
+      <nav className={styles.mobileCommandBar} aria-label="PolicyWatcher mobile commands">
+        {renderCommand(groups[0].items[0])}
+        {renderCommand(groups[1].items[0])}
+        {renderCommand(assistantCommand)}
+        {renderCommand(searchCommand)}
+        <button
+          type="button"
+          className={`${styles.commandButton} ${styles.mobileMoreButton}`}
+          onClick={() => setMoreOpen(true)}
+          aria-label={t.more}
+          aria-expanded={moreOpen}
+        >
+          <MoreHorizontal size={20} aria-hidden="true" />
+          <span className={styles.commandLabel}>{t.more}</span>
+        </button>
+      </nav>
+
+      {moreOpen && (
+        <div className={styles.mobileSheetLayer} role="presentation" onClick={() => setMoreOpen(false)}>
+          <aside
+            className={styles.mobileSheet}
+            role="dialog"
+            aria-modal="true"
+            aria-label={t.moreTitle}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className={styles.sheetGrip} aria-hidden="true">
+              <ChevronUp size={18} />
+            </div>
+            <header className={styles.sheetHeader}>
+              <div>
+                <h2>{t.moreTitle}</h2>
+                <p>{t.moreSubtitle}</p>
+              </div>
+              <button
+                type="button"
+                className={styles.sheetCloseButton}
+                onClick={() => setMoreOpen(false)}
+                aria-label={t.close}
+              >
+                <X size={18} aria-hidden="true" />
+              </button>
+            </header>
+
+            <div className={styles.sheetSearchRow}>
+              {renderCommand(searchCommand, 'sheet')}
+              {renderCommand(assistantCommand, 'sheet')}
+            </div>
+
+            <div className={styles.sheetGroups}>
+              {groups.map((group) => (
+                <section key={group.id} className={styles.sheetGroup} aria-label={group.label}>
+                  <span className={styles.sheetGroupLabel}>{group.label}</span>
+                  <div className={styles.sheetGrid}>
+                    {group.items.map((item) => renderCommand(item, 'sheet'))}
+                  </div>
+                </section>
+              ))}
+            </div>
+
+            <div className={styles.sheetFooter}>
+              <span>{allCommands.length + 2}</span>
+              <span>{isIt ? 'controlli disponibili' : 'available controls'}</span>
+            </div>
+          </aside>
         </div>
       )}
     </>
