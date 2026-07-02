@@ -58,9 +58,11 @@ const MAX_ISSUES_RETURNED = 250;
 
 type Severity = 'critical' | 'warning' | 'info';
 type GateStatus = 'pass' | 'warn' | 'fail';
+type IssueReviewStatus = 'open' | 'reviewed' | 'ignored';
 
 interface DatasetIssue {
   id: string;
+  issueKey: string;
   severity: Severity;
   area: string;
   entityType: 'company' | 'policy' | 'snapshot' | 'change' | 'subscriber' | 'system';
@@ -70,6 +72,10 @@ interface DatasetIssue {
   label: string;
   detail: string;
   action: string;
+  reviewStatus: IssueReviewStatus;
+  reviewReason?: string | null;
+  reviewedByRole?: string | null;
+  reviewedAt?: string | null;
 }
 
 interface GateCheck {
@@ -83,6 +89,33 @@ interface GateCheck {
 
 function hashText(text: string): string {
   return createHash('sha256').update(text).digest('hex');
+}
+
+function stableIssueKey(issue: Omit<DatasetIssue, 'id' | 'issueKey' | 'severity' | 'reviewStatus' | 'reviewReason' | 'reviewedByRole' | 'reviewedAt'>): string {
+  return createHash('sha256')
+    .update(JSON.stringify([
+      issue.area,
+      issue.entityType,
+      issue.entityId || '',
+      issue.companyName || '',
+      issue.policyName || '',
+      issue.label,
+      issue.detail,
+      issue.action,
+    ]))
+    .digest('hex')
+    .slice(0, 24);
+}
+
+function isIssueReviewStatus(value: unknown): value is IssueReviewStatus {
+  return value === 'open' || value === 'reviewed' || value === 'ignored';
+}
+
+function cleanText(value: unknown, maxLength: number): string | undefined {
+  if (typeof value !== 'string') return undefined;
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+  return trimmed.slice(0, maxLength);
 }
 
 function expectedRisk(score: number): string {
@@ -262,15 +295,21 @@ export async function GET(request: NextRequest) {
 
     const addIssue = (
       severity: Severity,
-      issue: Omit<DatasetIssue, 'id' | 'severity'>
+      issue: Omit<DatasetIssue, 'id' | 'issueKey' | 'severity' | 'reviewStatus' | 'reviewReason' | 'reviewedByRole' | 'reviewedAt'>
     ) => {
       counts[severity]++;
       areaCounts[issue.area] = (areaCounts[issue.area] || 0) + 1;
       if (issues.length >= MAX_ISSUES_RETURNED) return;
       issueSeq++;
+      const issueKey = stableIssueKey(issue);
       issues.push({
         id: `${issue.area.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${issueSeq}`,
+        issueKey,
         severity,
+        reviewStatus: 'open',
+        reviewReason: null,
+        reviewedByRole: null,
+        reviewedAt: null,
         ...issue,
       });
     };
@@ -959,6 +998,32 @@ export async function GET(request: NextRequest) {
       null
     );
 
+    const issueReviews = issues.length > 0
+      ? await db.datasetQaIssueReview.findMany({
+          where: {
+            issueKey: {
+              in: issues.map((issue) => issue.issueKey),
+            },
+          },
+        })
+      : [];
+    const reviewByKey = new Map(issueReviews.map((review) => [review.issueKey, review]));
+    const reviewedIssues = issues.map((issue) => {
+      const review = reviewByKey.get(issue.issueKey);
+      const reviewStatus = isIssueReviewStatus(review?.status) ? review.status : 'open';
+      return {
+        ...issue,
+        reviewStatus,
+        reviewReason: review?.reason || null,
+        reviewedByRole: review?.reviewedByRole || null,
+        reviewedAt: review?.updatedAt.toISOString() || null,
+      };
+    });
+
+    const openIssues = reviewedIssues.filter((issue) => issue.reviewStatus === 'open').length;
+    const reviewedIssueCount = reviewedIssues.filter((issue) => issue.reviewStatus === 'reviewed').length;
+    const ignoredIssueCount = reviewedIssues.filter((issue) => issue.reviewStatus === 'ignored').length;
+
     return NextResponse.json({
       role: session.role,
       generatedAt: new Date().toISOString(),
@@ -978,6 +1043,9 @@ export async function GET(request: NextRequest) {
         infoIssues: counts.info,
         returnedIssues: issues.length,
         maxIssuesReturned: MAX_ISSUES_RETURNED,
+        openIssues,
+        reviewedIssues: reviewedIssueCount,
+        ignoredIssues: ignoredIssueCount,
         stalePolicies: stalePolicyIds.size,
         hashFailures: hashFailureIds.size,
         kpiCoveragePct,
@@ -990,10 +1058,104 @@ export async function GET(request: NextRequest) {
       areaSummary: Object.entries(areaCounts)
         .map(([area, count]) => ({ area, count }))
         .sort((a, b) => b.count - a.count),
-      issues,
+      issues: reviewedIssues,
     });
   } catch (error) {
     console.error('[Admin Dataset Quality] Error:', error);
+    return NextResponse.json({ error: 'Internal error' }, { status: 500 });
+  }
+}
+
+export async function PATCH(request: NextRequest) {
+  const session = getSession(request);
+  if (!session.valid || !session.role) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  try {
+    const body = await request.json() as {
+      issueKey?: unknown;
+      status?: unknown;
+      reason?: unknown;
+      issue?: Partial<DatasetIssue>;
+    };
+
+    const issueKey = cleanText(body.issueKey, 64);
+    const status = body.status;
+    if (!issueKey || !/^[a-f0-9]{16,64}$/i.test(issueKey) || !isIssueReviewStatus(status)) {
+      return NextResponse.json({ error: 'Invalid issue review payload.' }, { status: 400 });
+    }
+
+    const reason = cleanText(body.reason, 500);
+    if (status === 'ignored' && !reason) {
+      return NextResponse.json({ error: 'Ignoring an issue requires a reason.' }, { status: 400 });
+    }
+
+    const issue = body.issue || {};
+    const existing = await db.datasetQaIssueReview.findUnique({
+      where: { issueKey },
+    });
+
+    const issueSnapshot = {
+      severity: cleanText(issue.severity, 24) || 'info',
+      area: cleanText(issue.area, 120) || 'Dataset QA',
+      entityType: cleanText(issue.entityType, 40) || 'system',
+      entityId: cleanText(issue.entityId, 120),
+      companyName: cleanText(issue.companyName, 160),
+      policyName: cleanText(issue.policyName, 160),
+      label: cleanText(issue.label, 240) || 'Dataset QA issue',
+      detail: cleanText(issue.detail, 1000) || 'No detail provided.',
+      action: cleanText(issue.action, 1000) || 'Review the affected record.',
+    };
+
+    const reviewed = await db.datasetQaIssueReview.upsert({
+      where: { issueKey },
+      create: {
+        issueKey,
+        status,
+        reason: status === 'open' ? null : reason || null,
+        reviewedByRole: session.role,
+        ...issueSnapshot,
+      },
+      update: {
+        status,
+        reason: status === 'open' ? null : reason || existing?.reason || null,
+        reviewedByRole: session.role,
+        ...issueSnapshot,
+      },
+    });
+
+    await db.adminReviewLog.create({
+      data: {
+        actorRole: session.role,
+        action: `dataset_issue_${status}`,
+        targetType: 'dataset_issue',
+        targetId: issueKey,
+        targetLabel: issueSnapshot.label,
+        oldValue: existing?.status || 'open',
+        newValue: status,
+        note: status === 'open' ? 'Issue reopened for review.' : reason || undefined,
+        metadataJson: JSON.stringify({
+          issueKey,
+          severity: issueSnapshot.severity,
+          area: issueSnapshot.area,
+          entityType: issueSnapshot.entityType,
+          entityId: issueSnapshot.entityId,
+          companyName: issueSnapshot.companyName,
+          policyName: issueSnapshot.policyName,
+        }),
+      },
+    });
+
+    return NextResponse.json({
+      success: true,
+      issueKey,
+      status: reviewed.status,
+      reviewedByRole: reviewed.reviewedByRole,
+      reviewedAt: reviewed.updatedAt,
+    });
+  } catch (error) {
+    console.error('[Admin Dataset Quality] Review update error:', error);
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
   }
 }

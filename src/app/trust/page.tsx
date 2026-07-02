@@ -237,7 +237,7 @@ export default function TrustPage() {
             <ArrowLeft size={16} />
             Back to dashboard
           </Link>
-          <div className={styles.releaseMark}>3.5 Confidence track</div>
+          <div className={styles.releaseMark}>3.5.1 Audit Operations track</div>
         </div>
       </header>
 

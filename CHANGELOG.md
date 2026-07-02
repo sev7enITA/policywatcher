@@ -1,14 +1,32 @@
 # Changelog
 
+## 3.5.1 - 2026-07-02
+
+### Added
+- Audit Operations layer for the Confidence track.
+- `AdminReviewLog` append-only model for human review actions.
+- `DatasetQaIssueReview` model for persistent Dataset QA issue decisions.
+- Dataset QA issue actions: mark reviewed, ignore with reason, and reopen.
+- Review Log admin page with searchable append-only events and CSV export.
+- Dataset QA filtered CSV export for auditor handoff.
+
+### Changed
+- Roadmap now distinguishes delivered controls, active 3.5.1 work, and later planned capabilities.
+- Admin visible version strings updated to `3.5.1`.
+- Dataset QA page now defaults to open issues and shows open/reviewed/ignored counts.
+
+### Notes
+- Codecov external upload still requires repository secret `CODECOV_TOKEN`; the GitHub coverage workflow remains green and produces the coverage artifact without that secret.
+
 ## 3.5.0 - 2026-07-02
 
 ### Added
 - Truth & Confidence Layer for policy data status, ingestion metadata, last-check timestamps, and check-log evidence.
 - `PolicyCheckLog` model and backfill/repair scripts for existing datasets.
 - Dataset assurance command (`npm run qa:dataset`) covering hashes, version records, check logs, data statuses, timestamps, URL duplicates, and AI JSON icon hygiene.
-- Trust & Quality public page (`/trust`) with GitHub Quality Gate, CodeQL, OpenSSF Scorecard, OpenSSF Best Practices passing badge, core coverage workflow status, Sonar/Codecov readiness, live-header report links, and explicit non-certification boundary.
-- GitHub Actions workflows for quality gate, CodeQL, OpenSSF Scorecard, core Vitest coverage, and SonarQube Cloud readiness.
-- Vitest core tests and coverage for `policyConfidence`, `subscriberPreferences`, and `diffParse`.
+- Trust & Quality public page (`/trust`) with GitHub Quality Gate, CodeQL, OpenSSF Scorecard, OpenSSF Best Practices passing badge, targeted reliability coverage workflow status, Sonar/Codecov readiness, live-header report links, and explicit non-certification boundary.
+- GitHub Actions workflows for quality gate, CodeQL, OpenSSF Scorecard, targeted Vitest reliability coverage, and SonarQube Cloud readiness.
+- Vitest targeted reliability tests and coverage for auth/session, rate limiting, confidence metadata, diff parsing, subscriber preferences, and export/report utilities.
 - Open-source governance files: `SECURITY.md`, `CODE_OF_CONDUCT.md`, and third-party validation setup guide.
 - OpenSSF Best Practices project `13465` badge integration for README and `/trust`.
 - Highlighted badge section on `/trust` and README to make obtained/public quality evidence easier to inspect.

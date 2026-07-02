@@ -23,6 +23,7 @@ import {
   Building2,
   BookOpen,
   ClipboardCheck,
+  History,
   LogOut,
 } from 'lucide-react';
 import styles from './admin.module.css';
@@ -62,6 +63,11 @@ const NAV_ITEMS: NavItem[] = [
     label: 'Dataset QA',
     href: '/admin/dataset-quality',
     icon: <ClipboardCheck size={18} />,
+  },
+  {
+    label: 'Review Log',
+    href: '/admin/review-log',
+    icon: <History size={18} />,
   },
   {
     label: 'Companies',
@@ -180,7 +186,7 @@ export default function AdminLayout({
             <div>
               <div className={styles.logoText}>PolicyWatcher</div>
               <div className={styles.logoTextSub}>
-                Admin Panel <span className={styles.logoVersion}>v3.5.0</span>
+                Admin Panel <span className={styles.logoVersion}>v3.5.1</span>
               </div>
             </div>
           </div>

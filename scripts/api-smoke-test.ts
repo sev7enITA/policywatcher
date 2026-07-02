@@ -257,6 +257,7 @@ async function main() {
       '/api/admin/metrics',
       '/api/admin/companies',
       '/api/admin/dataset-quality',
+      '/api/admin/review-log',
       '/api/admin/kpi-audit',
       '/api/admin/cron-status',
     ]) {
@@ -284,6 +285,7 @@ async function main() {
       '/api/admin/metrics',
       '/api/admin/companies',
       '/api/admin/dataset-quality',
+      '/api/admin/review-log',
       '/api/admin/kpi-audit',
       '/api/admin/cron-status',
     ]) {

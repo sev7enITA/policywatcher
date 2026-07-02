@@ -12,8 +12,8 @@ model Company {
   id        String   @id @default(uuid())
   name      String   @unique
   slug      String   @unique
-  logo      String?  // Hex color for brand identity
-  industry  String   // "Tech Giant" or "FinTech"
+  logo      String? // Hex color for brand identity
+  industry  String // "Tech Giant" or "FinTech"
   website   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -21,13 +21,13 @@ model Company {
 }
 
 model Policy {
-  id           String           @id @default(uuid())
-  companyId    String
-  company      Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  name         String           // e.g. "Privacy Policy", "Terms of Service"
-  type         String           // e.g. "privacy", "terms", "ai", "acceptable-use"
-  url          String
-  jurisdiction String           @default("Global") // "EU", "US", "UK", "Global", etc.
+  id                      String           @id @default(uuid())
+  companyId               String
+  company                 Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name                    String // e.g. "Privacy Policy", "Terms of Service"
+  type                    String // e.g. "privacy", "terms", "ai", "acceptable-use"
+  url                     String
+  jurisdiction            String           @default("Global") // "EU", "US", "UK", "Global", etc.
   currentText             String
   currentHash             String
   dataStatus              String           @default("Available") // "Configured", "Available", "Partial", "Needs Review", "Unavailable", "Reviewed"
@@ -49,9 +49,9 @@ model PolicyCheckLog {
   id         String   @id @default(uuid())
   policyId   String
   policy     Policy   @relation(fields: [policyId], references: [id], onDelete: Cascade)
-  status     String   // "Available", "Needs Review", "Unavailable", "Partial", "Configured", "Reviewed"
+  status     String // "Available", "Needs Review", "Unavailable", "Partial", "Configured", "Reviewed"
   checkedAt  DateTime @default(now())
-  source     String?  // "direct", "http2", "wayback", "cache", "commoncrawl", "seeded", "none"
+  source     String? // "direct", "http2", "wayback", "cache", "commoncrawl", "seeded", "none"
   httpStatus Int?
   reason     String?
   finalUrl   String?
@@ -80,67 +80,113 @@ model PolicySnapshot {
 }
 
 model PolicyChange {
-  id                        String         @id @default(uuid())
-  policyId                  String
-  policy                    Policy         @relation(fields: [policyId], references: [id], onDelete: Cascade)
-  oldSnapshotId             String?
-  oldSnapshot               PolicySnapshot? @relation("OldSnapshot", fields: [oldSnapshotId], references: [id], onDelete: SetNull)
-  newSnapshotId             String
-  newSnapshot               PolicySnapshot  @relation("NewSnapshot", fields: [newSnapshotId], references: [id], onDelete: Cascade)
-  diff                      String         // JSON array of diff chunks
-  aiSummaryEn               String         // Gemini executive summary in English
-  aiSummaryIt               String         // Gemini executive summary in Italian
-  tldrEn                    String?        // ONE-sentence takeaway (EN)
-  tldrIt                    String?        // ONE-sentence takeaway (IT)
-  keyPointsJson             String?        // JSON array of {textEn,textIt,sentiment}
-  riskReasonsJson           String?        // JSON array of {icon,textEn,textIt,deltaScore}
-  overallRisk               String         // "Low", "Medium", "High"
-  overallScore              Int            // 1-10 scale
-  remediationsJson          String         // JSON array of remediations
+  id               String          @id @default(uuid())
+  policyId         String
+  policy           Policy          @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  oldSnapshotId    String?
+  oldSnapshot      PolicySnapshot? @relation("OldSnapshot", fields: [oldSnapshotId], references: [id], onDelete: SetNull)
+  newSnapshotId    String
+  newSnapshot      PolicySnapshot  @relation("NewSnapshot", fields: [newSnapshotId], references: [id], onDelete: Cascade)
+  diff             String // JSON array of diff chunks
+  aiSummaryEn      String // Gemini executive summary in English
+  aiSummaryIt      String // Gemini executive summary in Italian
+  tldrEn           String? // ONE-sentence takeaway (EN)
+  tldrIt           String? // ONE-sentence takeaway (IT)
+  keyPointsJson    String? // JSON array of {textEn,textIt,sentiment}
+  riskReasonsJson  String? // JSON array of {icon,textEn,textIt,deltaScore}
+  overallRisk      String // "Low", "Medium", "High"
+  overallScore     Int // 1-10 scale
+  remediationsJson String // JSON array of remediations
 
   // AI Governance Indicators (legacy, kept for compatibility)
-  aiTrainingOptOut          String         // "Allowed", "Not Allowed", "Opt-out available"
-  aiDataScrapingRestricted  String         // "Restricted", "Permitted", "Not specified"
-  aiIpLicensing             String         // "Claimed by company", "Protected", "Shared"
-  aiPromptRetention         String         // "30 days", "Indefinite", "System-deleted"
+  aiTrainingOptOut         String // "Allowed", "Not Allowed", "Opt-out available"
+  aiDataScrapingRestricted String // "Restricted", "Permitted", "Not specified"
+  aiIpLicensing            String // "Claimed by company", "Protected", "Shared"
+  aiPromptRetention        String // "30 days", "Indefinite", "System-deleted"
 
   // Privacy & Data Protection KPIs (5)
-  kpiDataCollection        String  @default("Not assessed")
-  kpiThirdPartySharing     String  @default("Not assessed")
-  kpiDataRetention         String  @default("Not assessed")
-  kpiRightToDeletion       String  @default("Not assessed")
-  kpiCrossBorderTransfer   String  @default("Not assessed")
+  kpiDataCollection      String @default("Not assessed")
+  kpiThirdPartySharing   String @default("Not assessed")
+  kpiDataRetention       String @default("Not assessed")
+  kpiRightToDeletion     String @default("Not assessed")
+  kpiCrossBorderTransfer String @default("Not assessed")
 
   // AI Governance KPIs (5)
-  kpiAiTrainingOptOut      String  @default("Not assessed")
-  kpiAiOutputOwnership     String  @default("Not assessed")
-  kpiAlgoTransparency      String  @default("Not assessed")
-  kpiAutomatedDecision     String  @default("Not assessed")
-  kpiAiBiasFairness        String  @default("Not assessed")
+  kpiAiTrainingOptOut  String @default("Not assessed")
+  kpiAiOutputOwnership String @default("Not assessed")
+  kpiAlgoTransparency  String @default("Not assessed")
+  kpiAutomatedDecision String @default("Not assessed")
+  kpiAiBiasFairness    String @default("Not assessed")
 
   // Ethics & Corporate Governance KPIs (5)
-  kpiConsentMechanism      String  @default("Not assessed")
-  kpiRegulatoryCompliance  String  @default("Not assessed")
-  kpiBreachNotification    String  @default("Not assessed")
-  kpiIndependentAudit      String  @default("Not assessed")
-  kpiContentModeration     String  @default("Not assessed")
+  kpiConsentMechanism     String @default("Not assessed")
+  kpiRegulatoryCompliance String @default("Not assessed")
+  kpiBreachNotification   String @default("Not assessed")
+  kpiIndependentAudit     String @default("Not assessed")
+  kpiContentModeration    String @default("Not assessed")
 
-  createdAt                 DateTime       @default(now())
-  regionImpacts             RegionImpact[]
+  createdAt     DateTime         @default(now())
+  regionImpacts RegionImpact[]
+  reviewLogs    AdminReviewLog[]
 
   @@index([policyId])
   @@index([createdAt])
+}
+
+model DatasetQaIssueReview {
+  id             String   @id @default(uuid())
+  issueKey       String   @unique
+  status         String   @default("open") // "open", "reviewed", "ignored"
+  severity       String
+  area           String
+  entityType     String
+  entityId       String?
+  companyName    String?
+  policyName     String?
+  label          String
+  detail         String
+  action         String
+  reason         String?
+  reviewedByRole String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([status])
+  @@index([severity])
+  @@index([area])
+  @@index([entityType, entityId])
+}
+
+model AdminReviewLog {
+  id             String        @id @default(uuid())
+  actorRole      String
+  action         String
+  targetType     String
+  targetId       String?
+  targetLabel    String?
+  oldValue       String?
+  newValue       String?
+  note           String?
+  metadataJson   String?
+  policyChangeId String?
+  policyChange   PolicyChange? @relation(fields: [policyChangeId], references: [id], onDelete: SetNull)
+  createdAt      DateTime      @default(now())
+
+  @@index([createdAt])
+  @@index([action])
+  @@index([targetType, targetId])
+  @@index([policyChangeId])
 }
 
 model RegionImpact {
   id               String       @id @default(uuid())
   policyChangeId   String
   policyChange     PolicyChange @relation(fields: [policyChangeId], references: [id], onDelete: Cascade)
-  region           String       // "EU", "US", "Global"
-  perspective      String       // "Individual", "Enterprise"
+  region           String // "EU", "US", "Global"
+  perspective      String // "Individual", "Enterprise"
   impactAnalysisEn String
   impactAnalysisIt String
-  riskLevel        String       // "Low", "Medium", "High"
+  riskLevel        String // "Low", "Medium", "High"
   complianceNoteEn String?
   complianceNoteIt String?
 
@@ -151,8 +197,8 @@ model Subscriber {
   id               String   @id @default(uuid())
   email            String   @unique
   name             String?
-  regions          String   // Comma-separated: "EU,US,Global"
-  industries       String   // Comma-separated: "Tech Giant,FinTech"
+  regions          String // Comma-separated: "EU,US,Global"
+  industries       String // Comma-separated: "Tech Giant,FinTech"
   frequency        String   @default("INSTANT") // "INSTANT" or "WEEKLY"
   unsubscribeToken String   @unique @default(uuid())
   isActive         Boolean  @default(true)

@@ -347,6 +347,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .priorityPill {
@@ -370,6 +371,35 @@
   background-color: rgba(245, 158, 11, 0.1);
   color: var(--risk-medium);
   border-color: rgba(245, 158, 11, 0.2);
+}
+
+.statusPill {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.statusDone {
+  background-color: var(--risk-low-glow);
+  color: var(--risk-low);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+.statusActive {
+  background-color: var(--primary-glow);
+  color: var(--primary);
+  border-color: rgba(99, 102, 241, 0.25);
+}
+
+.statusPlanned {
+  background-color: var(--bg-tertiary);
+  color: var(--text-muted);
 }
 
 .priorityTitle {

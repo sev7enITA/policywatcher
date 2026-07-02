@@ -180,6 +180,17 @@
   letter-spacing: 0.05em;
 }
 
+.badgeStable {
+  padding: 2px 8px;
+  background: rgba(99, 102, 241, 0.1);
+  color: #4f46e5;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 .badgeDone {
   padding: 2px 8px;
   background: rgba(226, 232, 240, 0.6);

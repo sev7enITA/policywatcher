@@ -7,6 +7,7 @@ import {
   CheckCircle,
   ClipboardCheck,
   Database,
+  Download,
   FileSearch,
   RefreshCw,
   Search,
@@ -17,10 +18,13 @@ import styles from '../admin.module.css';
 
 type Severity = 'critical' | 'warning' | 'info';
 type GateStatus = 'pass' | 'warn' | 'fail';
+type IssueReviewStatus = 'open' | 'reviewed' | 'ignored';
 type SeverityFilter = Severity | 'all';
+type ReviewStatusFilter = IssueReviewStatus | 'all';
 
 interface DatasetIssue {
   id: string;
+  issueKey: string;
   severity: Severity;
   area: string;
   entityType: 'company' | 'policy' | 'snapshot' | 'change' | 'subscriber' | 'system';
@@ -30,6 +34,10 @@ interface DatasetIssue {
   label: string;
   detail: string;
   action: string;
+  reviewStatus: IssueReviewStatus;
+  reviewReason?: string | null;
+  reviewedByRole?: string | null;
+  reviewedAt?: string | null;
 }
 
 interface GateCheck {
@@ -65,6 +73,9 @@ interface DatasetQualityData {
     infoIssues: number;
     returnedIssues: number;
     maxIssuesReturned: number;
+    openIssues: number;
+    reviewedIssues: number;
+    ignoredIssues: number;
     stalePolicies: number;
     hashFailures: number;
     kpiCoveragePct: number;
@@ -101,6 +112,49 @@ function severityBadgeClass(severity: Severity): string {
   return `${styles.badge} ${styles.badgeNeutral}`;
 }
 
+function reviewBadgeClass(status: IssueReviewStatus): string {
+  if (status === 'reviewed') return `${styles.badge} ${styles.badgeSuccess}`;
+  if (status === 'ignored') return `${styles.badge} ${styles.badgeNeutral}`;
+  return `${styles.badge} ${styles.badgePrimary}`;
+}
+
+function csvEscape(value: unknown): string {
+  const text = value === null || value === undefined ? '' : String(value);
+  return `"${text.replace(/"/g, '""')}"`;
+}
+
+function exportIssuesCsv(issues: DatasetIssue[]) {
+  const fields: Array<keyof DatasetIssue> = [
+    'issueKey',
+    'severity',
+    'reviewStatus',
+    'area',
+    'entityType',
+    'entityId',
+    'companyName',
+    'policyName',
+    'label',
+    'detail',
+    'action',
+    'reviewReason',
+    'reviewedByRole',
+    'reviewedAt',
+  ];
+  const csv = [
+    fields.join(','),
+    ...issues.map((issue) => fields.map((field) => csvEscape(issue[field])).join(',')),
+  ].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = `policywatcher-dataset-qa-issues-${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(anchor);
+  anchor.click();
+  document.body.removeChild(anchor);
+  URL.revokeObjectURL(url);
+}
+
 function StatusIcon({ status }: { status: GateStatus }) {
   if (status === 'pass') return <CheckCircle size={16} />;
   if (status === 'warn') return <AlertTriangle size={16} />;
@@ -114,8 +168,11 @@ export default function DatasetQualityPage() {
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState('');
   const [severityFilter, setSeverityFilter] = useState<SeverityFilter>('all');
+  const [reviewStatusFilter, setReviewStatusFilter] = useState<ReviewStatusFilter>('open');
   const [areaFilter, setAreaFilter] = useState('all');
   const [query, setQuery] = useState('');
+  const [pendingIssueKey, setPendingIssueKey] = useState<string | null>(null);
+  const [ignoreReasons, setIgnoreReasons] = useState<Record<string, string>>({});
 
   const load = useCallback(async (silent = false) => {
     if (silent) setRefreshing(true);
@@ -162,6 +219,7 @@ export default function DatasetQualityPage() {
     const needle = query.trim().toLowerCase();
     return data.issues.filter((issue) => {
       const matchesSeverity = severityFilter === 'all' || issue.severity === severityFilter;
+      const matchesReviewStatus = reviewStatusFilter === 'all' || issue.reviewStatus === reviewStatusFilter;
       const matchesArea = areaFilter === 'all' || issue.area === areaFilter;
       const haystack = [
         issue.area,
@@ -171,11 +229,51 @@ export default function DatasetQualityPage() {
         issue.label,
         issue.detail,
         issue.action,
+        issue.reviewStatus,
+        issue.reviewReason,
       ].filter(Boolean).join(' ').toLowerCase();
       const matchesQuery = !needle || haystack.includes(needle);
-      return matchesSeverity && matchesArea && matchesQuery;
+      return matchesSeverity && matchesReviewStatus && matchesArea && matchesQuery;
     });
-  }, [areaFilter, data, query, severityFilter]);
+  }, [areaFilter, data, query, reviewStatusFilter, severityFilter]);
+
+  const reviewIssue = useCallback(async (issue: DatasetIssue, status: IssueReviewStatus) => {
+    const reason = ignoreReasons[issue.issueKey]?.trim();
+    if (status === 'ignored' && !reason) {
+      setError('Ignoring an issue requires a reason.');
+      return;
+    }
+
+    setPendingIssueKey(issue.issueKey);
+    setError('');
+    try {
+      const res = await fetch('/api/admin/dataset-quality', {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          issueKey: issue.issueKey,
+          status,
+          reason: status === 'ignored' ? reason : undefined,
+          issue,
+        }),
+      });
+
+      if (res.status === 401 || res.status === 403) {
+        router.push('/admin/login');
+        return;
+      }
+      if (!res.ok) {
+        const json = await res.json().catch(() => null) as { error?: string } | null;
+        throw new Error(json?.error || `Server returned ${res.status}`);
+      }
+      await load(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update issue review');
+    } finally {
+      setPendingIssueKey(null);
+    }
+  }, [ignoreReasons, load, router]);
 
   if (loading) {
     return (
@@ -239,6 +337,18 @@ export default function DatasetQualityPage() {
         <div className={styles.statBox}>
           <div className={styles.statValue}>{summary.warningIssues}</div>
           <div className={styles.statLabel}>Warnings</div>
+        </div>
+        <div className={styles.statBox}>
+          <div className={styles.statValue}>{summary.openIssues}</div>
+          <div className={styles.statLabel}>Open Issues</div>
+        </div>
+        <div className={styles.statBox}>
+          <div className={styles.statValue}>{summary.reviewedIssues}</div>
+          <div className={styles.statLabel}>Reviewed</div>
+        </div>
+        <div className={styles.statBox}>
+          <div className={styles.statValue}>{summary.ignoredIssues}</div>
+          <div className={styles.statLabel}>Ignored</div>
         </div>
         <div className={styles.statBox}>
           <div className={styles.statValue}>{summary.kpiCoveragePct}%</div>
@@ -380,7 +490,7 @@ export default function DatasetQualityPage() {
       <div className={styles.card}>
         <h2 className={styles.cardTitle}>
           <AlertTriangle size={17} />
-          Issues
+          Issue Queue
         </h2>
 
         {issueLimitReached && (
@@ -414,6 +524,17 @@ export default function DatasetQualityPage() {
           </select>
           <select
             className={styles.input}
+            value={reviewStatusFilter}
+            onChange={(e) => setReviewStatusFilter(e.target.value as ReviewStatusFilter)}
+            style={{ maxWidth: 180 }}
+          >
+            <option value="open">Open</option>
+            <option value="reviewed">Reviewed</option>
+            <option value="ignored">Ignored</option>
+            <option value="all">All statuses</option>
+          </select>
+          <select
+            className={styles.input}
             value={areaFilter}
             onChange={(e) => setAreaFilter(e.target.value)}
             style={{ maxWidth: 220 }}
@@ -425,6 +546,15 @@ export default function DatasetQualityPage() {
               </option>
             ))}
           </select>
+          <button
+            type="button"
+            className={`${styles.btn} ${styles.btnSecondary}`}
+            onClick={() => exportIssuesCsv(filteredIssues)}
+            disabled={filteredIssues.length === 0}
+          >
+            <Download size={16} />
+            CSV
+          </button>
         </div>
 
         <div className={styles.tableWrap}>
@@ -432,16 +562,18 @@ export default function DatasetQualityPage() {
             <thead>
               <tr>
                 <th>Severity</th>
+                <th>Status</th>
                 <th>Area</th>
                 <th>Entity</th>
                 <th>Finding</th>
                 <th>Action</th>
+                <th>Review</th>
               </tr>
             </thead>
             <tbody>
               {filteredIssues.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className={styles.emptyState}>
+                  <td colSpan={7} className={styles.emptyState}>
                     No issues match the current filters.
                   </td>
                 </tr>
@@ -452,6 +584,16 @@ export default function DatasetQualityPage() {
                       <span className={severityBadgeClass(issue.severity)}>
                         {issue.severity}
                       </span>
+                    </td>
+                    <td>
+                      <span className={reviewBadgeClass(issue.reviewStatus)}>
+                        {issue.reviewStatus}
+                      </span>
+                      {issue.reviewReason && (
+                        <div className={styles.metaText} style={{ marginTop: 5 }}>
+                          {issue.reviewReason}
+                        </div>
+                      )}
                     </td>
                     <td>{issue.area}</td>
                     <td>
@@ -469,6 +611,45 @@ export default function DatasetQualityPage() {
                       <div className={styles.metaText}>{issue.detail}</div>
                     </td>
                     <td>{issue.action}</td>
+                    <td style={{ minWidth: 230 }}>
+                      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
+                        <button
+                          type="button"
+                          className={`${styles.btn} ${styles.btnSecondary}`}
+                          disabled={pendingIssueKey === issue.issueKey || issue.reviewStatus === 'reviewed'}
+                          onClick={() => void reviewIssue(issue, 'reviewed')}
+                        >
+                          Reviewed
+                        </button>
+                        <button
+                          type="button"
+                          className={`${styles.btn} ${styles.btnSecondary}`}
+                          disabled={pendingIssueKey === issue.issueKey || issue.reviewStatus === 'open'}
+                          onClick={() => void reviewIssue(issue, 'open')}
+                        >
+                          Reopen
+                        </button>
+                      </div>
+                      <textarea
+                        className={styles.input}
+                        value={ignoreReasons[issue.issueKey] || ''}
+                        onChange={(event) => setIgnoreReasons((current) => ({
+                          ...current,
+                          [issue.issueKey]: event.target.value,
+                        }))}
+                        placeholder="Reason for ignore..."
+                        rows={2}
+                        style={{ width: '100%', minHeight: 56, resize: 'vertical', marginBottom: 6 }}
+                      />
+                      <button
+                        type="button"
+                        className={`${styles.btn} ${styles.btnSecondary}`}
+                        disabled={pendingIssueKey === issue.issueKey || issue.reviewStatus === 'ignored'}
+                        onClick={() => void reviewIssue(issue, 'ignored')}
+                      >
+                        Ignore with reason
+                      </button>
+                    </td>
                   </tr>
                 ))
               )}

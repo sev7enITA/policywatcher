@@ -311,7 +311,7 @@ export default function AdminDashboardPage() {
           <p className={styles.pageSubtitle}>System overview, analytics and secure backups</p>
         </div>
         <span className={styles.logoVersion} style={{ fontSize: '0.78rem', padding: '4px 10px', borderRadius: '8px' }}>
-          PolicyWatcher Admin v3.5.0 Confidence
+          PolicyWatcher Admin v3.5.1 Audit Operations
         </span>
       </div>
 

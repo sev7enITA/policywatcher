@@ -64,7 +64,7 @@ export default function AdminLoginPage() {
         </div>
         <h1 className={styles.loginTitle}>
           PolicyWatcher Admin
-          <span className={styles.loginVersion}>v3.5.0</span>
+          <span className={styles.loginVersion}>v3.5.1</span>
         </h1>
 
         {error && (

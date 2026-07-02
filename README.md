@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Track-3.5%20Confidence-10b981" alt="3.5 Confidence Track" />
+  <img src="https://img.shields.io/badge/Track-3.5.1%20Audit%20Operations-10b981" alt="3.5.1 Audit Operations Track" />
 </p>
 
 <p align="center">
@@ -38,6 +38,14 @@ PolicyWatcher monitors the privacy policies, terms of service, and AI governance
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
 
+### Release 3.5.1 Audit Operations Highlights
+
+- **Append-only review log** for human admin/auditor decisions in the Dataset QA workflow.
+- **Persistent Dataset QA issue decisions** with `open`, `reviewed`, and `ignored` states.
+- **Ignore-with-reason workflow** so ambiguity is documented instead of silently hidden.
+- **CSV exports** for Dataset QA issue handoff and review-log evidence.
+- **Roadmap status labels** separating implemented controls, active 3.5.1 work, and planned future capabilities.
+
 ### Release 3.5 Confidence Track Highlights
 
 - **Adaptive Fallback Scraper Cascade (5 levels)**: Bypasses datacenter bot-blocking (WAF, Cloudflare, CAPTCHAs) by cascading from direct HTTP/1.1 and explicit HTTP/2 down to Wayback Machine, Google Cache, and Common Crawl indexes.
@@ -51,7 +59,7 @@ The platform is designed as a **civic tech tool** that translates dense legal do
 - Rich diff rendering for policy additions, removals, and unchanged context.
 - Industry benchmark option in the A/B radar comparison.
 - Admin encrypted backup export and verification workflow.
-- Admin Dataset QA dashboard for source-fit, integrity, freshness, KPI coverage, regional-impact coverage, and subscriber hygiene checks.
+- Admin Dataset QA dashboard and issue queue for source-fit, integrity, freshness, KPI coverage, regional-impact coverage, subscriber hygiene checks, reviewed decisions, ignored reasons, and reopen actions.
 - Public Trust & Quality Evidence page (`/trust`) with CI, CodeQL, OpenSSF Scorecard, targeted reliability coverage, live-header report links, and dataset assurance boundaries.
 - Pre-release security hardening for secrets, rate limits, AI output rendering, email templates, subscriber tokens, scraper egress, deployment diagnostics, and backup passphrases.
 
@@ -235,7 +243,7 @@ Dataset quality is treated as a release-control discipline. PolicyWatcher follow
 - **Localized pages are not primary evidence by default:** translated URLs such as `/it/` are flagged unless they are the only official market source and the jurisdiction label makes that clear.
 - **Traceability over convenience:** every monitored policy keeps its configured source URL, hash, check history, version metadata, and detected changes.
 
-The admin **Dataset QA** gate checks URL hygiene, source-fit, hash integrity, freshness, structured AI JSON, KPI coverage, regional-impact coverage, and subscriber hygiene. Critical findings are release blockers; warnings mark ambiguity or drift that should be resolved before public promotion.
+The admin **Dataset QA** gate checks URL hygiene, source-fit, hash integrity, freshness, structured AI JSON, KPI coverage, regional-impact coverage, and subscriber hygiene. Critical findings are release blockers; warnings mark ambiguity or drift that should be resolved before public promotion. In 3.5.1, issue decisions can be marked reviewed, ignored with reason, or reopened; every decision writes an append-only admin review-log event.
 
 ### Trust and Quality Evidence
 

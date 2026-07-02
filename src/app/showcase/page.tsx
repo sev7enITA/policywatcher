@@ -5,9 +5,9 @@ import Link from 'next/link';
 import styles from './showcase.module.css';
 
 export const metadata: Metadata = {
-  title: 'PolicyWatcher 3.5 Confidence Showcase',
+  title: 'PolicyWatcher 3.5.1 Audit Operations Showcase',
   description:
-    'PolicyWatcher 3.5 Confidence: overview of the public interface, analysis views, Dataset QA, Trust & Quality evidence, admin tools and reporting features available in the platform.',
+    'PolicyWatcher 3.5.1 Audit Operations: overview of public views, Dataset QA issue queue, review log, Trust & Quality evidence, admin tools and reporting features available in the platform.',
 };
 
 const topNav = [
@@ -47,8 +47,8 @@ const atlasPanels = [
   {
     code: 'CONTROL',
     title: 'Admin tools',
-    body: 'The admin area includes dataset QA, KPI audit, explainability, companies, cron status, database view and encrypted backup utilities.',
-    details: ['Dataset QA', 'KPI Audit', 'Explainability', 'Companies', 'Cron status', 'Encrypted backup'],
+    body: 'The admin area includes Dataset QA issue decisions, Review Log, KPI audit, explainability, companies, cron status, database view and encrypted backup utilities.',
+    details: ['Dataset QA', 'Review Log', 'KPI Audit', 'Explainability', 'Companies', 'Encrypted backup'],
     metric: 'Operational modules',
     accent: '#60a5fa',
   },
@@ -96,7 +96,7 @@ const flow = [
   ['Check log', 'Status, date, source, hash and retrieval outcome evidence'],
   ['Diff row', 'Change data displayed when present in the database'],
   ['Analysis row', 'Risk, KPI, summary and region fields used by views'],
-  ['QA view', 'Admin checks and issue list for dataset review'],
+  ['QA view', 'Admin checks, persisted issue decisions and review log'],
   ['Trust view', 'Public evidence page for automated checks and external report links'],
   ['Public view', 'Dashboard, timeline, share, embed and report routes'],
   ['Digest tools', 'Subscriber preference and digest endpoints'],
@@ -330,7 +330,7 @@ export default function ShowcasePage() {
           <Image src="/logo.png" alt="" width={42} height={42} className={styles.logo} priority />
           <span>
             <strong>PolicyWatcher</strong>
-            <small>Release 3.5 Confidence overview</small>
+            <small>Release 3.5.1 Audit Operations overview</small>
           </span>
         </Link>
 
@@ -350,7 +350,7 @@ export default function ShowcasePage() {
         <div className={styles.heroCopy}>
           <span className={styles.eyebrow}>
             <SignalMark />
-            PolicyWatcher 3.5 Confidence
+            PolicyWatcher 3.5.1 Audit Operations
           </span>
           <h1>
             <span>PolicyWatcher</span>
@@ -469,7 +469,8 @@ export default function ShowcasePage() {
           <p>
             The admin QA page calculates coverage, URL hygiene, hash consistency,
             check-log consistency, KPI coverage, regional impact coverage and
-            subscriber hygiene from the current database.
+            subscriber hygiene from the current database. Review decisions are
+            persisted and written to an append-only log.
           </p>
         </div>
         <div className={styles.qualityReactor} aria-label="Dataset quality gates">
@@ -491,7 +492,7 @@ export default function ShowcasePage() {
         <div className={styles.adminIntro}>
           <div>
             <span className={styles.sectionKicker}>Administrative tools</span>
-            <h2>Admin functions available in the 3.5 Confidence track.</h2>
+            <h2>Admin functions available in the 3.5.1 Audit Operations track.</h2>
             <p>
               The admin area includes login, metrics, company and policy
               management, dataset QA, KPI audit, explainability, cron status,
@@ -597,7 +598,7 @@ export default function ShowcasePage() {
       </section>
 
       <footer className={styles.footer}>
-        <span>PolicyWatcher 3.5 Confidence</span>
+        <span>PolicyWatcher 3.5.1 Audit Operations</span>
         <div>
           <Link href="/privacy">Privacy</Link>
           <Link href="/security">Security</Link>

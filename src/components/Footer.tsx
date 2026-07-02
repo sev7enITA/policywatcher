@@ -163,7 +163,7 @@ export default function Footer({ lang }: FooterProps) {
 
         <div className={styles.bottom}>
           <p className={styles.disclaimer}>{t.disclaimer}</p>
-          <p className={styles.copy}>{t.copy} &bull; Build v3.5.0 Confidence</p>
+          <p className={styles.copy}>{t.copy} &bull; Build v3.5.1 Audit Operations</p>
         </div>
       </div>
     </footer>

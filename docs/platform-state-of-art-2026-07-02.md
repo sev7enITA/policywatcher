@@ -1,7 +1,7 @@
 # PolicyWatcher State of the Art
 
 Date: 2026-07-02  
-Track: 3.5.0 Confidence  
+Track: 3.5.1 Audit Operations
 Scope: local source tree and local SQLite dataset before public commit/deploy
 
 ## Executive Summary
@@ -12,8 +12,9 @@ source URLs, records version metadata, maps detected changes, produces
 AI-assisted risk and governance indicators, and exposes dataset QA status in
 both public and administrative views.
 
-The 3.5 Confidence work shifts the product away from feature expansion alone
-and toward inspection, assurance, and reviewability. The strongest current
+The 3.5.1 Audit Operations work builds on the 3.5 Confidence baseline and
+shifts the product away from feature expansion alone and toward inspection,
+assurance, and reviewability. The strongest current
 assets are:
 
 - public dashboard and policy detail views;
@@ -91,7 +92,8 @@ The admin console currently supports:
 - login rate limiting and constant-time credential comparison;
 - system metrics;
 - company and policy management;
-- Dataset QA status page and API;
+- Dataset QA status page, issue queue, persistent issue decisions, and API;
+- append-only Review Log page and API;
 - KPI audit matrix;
 - explainability documentation;
 - cron status and scan controls;
@@ -257,7 +259,7 @@ Known dependency note:
 
 ## Public Assets Updated
 
-The following public/user-facing assets have been aligned to 3.5 Confidence:
+The following public/user-facing assets have been aligned to 3.5.1 Audit Operations:
 
 - README;
 - CHANGELOG;
@@ -334,10 +336,10 @@ Requires external setup:
 
 ### P2
 
-- Add admin issue queue actions: reviewed, ignored with reason, linked record.
-- Add append-only human review log for policy changes and overrides.
-- Expand tests from core utilities to auth, dataset assurance rules, scraper
-  URL validation, and selected API route logic.
+- Extend the review log from Dataset QA decisions to selected policy-change/risk override workflows.
+- Add direct links from Dataset QA issues to affected admin records where the entity can be safely opened.
+- Expand tests beyond targeted reliability utilities to dataset assurance rules,
+  scraper URL validation, and selected API route logic.
 - Add a public status note when external services such as Sonar/Codecov are
   configured.
 
@@ -353,6 +355,6 @@ Requires external setup:
 
 PolicyWatcher is no longer just a public policy dashboard. It is becoming an
 inspectable evidence platform for monitoring configured policy sources and
-reviewing how automated analysis is produced. The 3.5 Confidence track gives
+reviewing how automated analysis is produced. The 3.5.1 Audit Operations track gives
 the project a stronger public position: credibility through visible controls,
 not through louder claims.

@@ -3,7 +3,7 @@
 /**
  * @file page.tsx (Roadmap)
  *
- * Roadmap page displaying the PolicyWatcher 3.5 Confidence Release objectives,
+ * Roadmap page displaying the PolicyWatcher 3.5.1 Audit Operations objectives,
  * detailing the Intel-inspired development cadence (Feature Drop vs. Confidence Release).
  * Supports EN/IT localisations.
  */
@@ -31,7 +31,7 @@ const translationContent = {
   en: {
     backHome: 'Back to Dashboard',
     tag: 'Operational Roadmap',
-    title: 'PolicyWatcher 3.5 Roadmap',
+    title: 'PolicyWatcher 3.5.1 Roadmap',
     subtitle: 'Transitioning to the Confidence Release framework: proving provenance, ensuring transparency, and operationalizing GRC controls.',
     claim: 'PolicyWatcher 3.5 focuses on confidence: every visible analysis must expose its data status, source context, QA findings, review history and limits.',
     
@@ -49,7 +49,10 @@ const translationContent = {
 
     // Priorities
     roadmapTitle: 'Roadmap & Milestones',
-    roadmapIntro: 'The following technical milestones govern the 3.5 release, moving from data provenance down to database security.',
+    roadmapIntro: 'The roadmap distinguishes delivered Confidence controls, 3.5.1 audit-operations additions, and later planned capabilities.',
+    statusImplemented35: 'Implemented in 3.5',
+    statusActive351: 'Implemented in 3.5.1',
+    statusPlanned: 'Planned later',
     
     p0Title: 'P0 — Truth & Confidence Layer',
     p0Desc: 'Every public and admin view should make the state of the underlying data easier to understand.',
@@ -64,21 +67,21 @@ const translationContent = {
     p0Avoid: 'Avoid:',
 
     p1Title: 'P1 — Admin Review Log',
-    p1Desc: 'Introducing a human-in-the-loop review layer to audit automatic AI assessments.',
+    p1Desc: 'Human review actions are recorded as append-only audit events for Dataset QA operations and future assessment review flows.',
     p1Needs: [
-      'Add an append-only review log for policy changes and dataset records',
-      'Allow auditor users to approve, mark as needing review, override risk scores, and write notes',
-      'Preserve the actor, role, action, old/new values, and timestamps',
-      'Rule: Review logs are strictly append-only and cannot be overwritten'
+      'Add an append-only review log for dataset issue decisions',
+      'Allow admin and auditor users to mark issues reviewed, ignored, or reopened',
+      'Preserve role, action, old/new state, reason, target key, and timestamps',
+      'Rule: Review log rows are new evidence rows and are not overwritten'
     ],
 
     p2Title: 'P2 — Dataset QA Issue Queue',
-    p2Desc: 'Evolving the QA dashboard into an actionable issue tracking and diagnostics list.',
+    p2Desc: 'Evolving the QA dashboard into an actionable issue queue with persisted decisions.',
     p2Needs: [
       'List dataset issues (localized URL, hash mismatch, missing region impact, stale records, etc.)',
       'Grade findings by severity: Critical, Warning, Info',
-      'Support actions to mark as reviewed, ignore with reason, or link directly to the affected record',
-      'Provide CSV exports for compliance auditors'
+      'Support actions to mark as reviewed, ignore with reason, or reopen',
+      'Provide CSV exports for auditors'
     ],
 
     p3Title: 'P3 — Advisory Framework Mapping',
@@ -151,13 +154,13 @@ const translationContent = {
     ],
 
     // Statement
-    positionTitle: '3.5 Confidence Release Objective',
-    positionText: 'PolicyWatcher 3.5 does not aim to make louder claims. It aims to make every visible result easier to inspect, verify, and audit.'
+    positionTitle: '3.5.1 Audit Operations Objective',
+    positionText: 'PolicyWatcher 3.5.1 does not aim to make louder claims. It makes Dataset QA decisions and review evidence easier to inspect, export, and audit.'
   },
   it: {
     backHome: 'Torna alla Dashboard',
     tag: 'Roadmap Operativa',
-    title: 'Roadmap PolicyWatcher 3.5',
+    title: 'Roadmap PolicyWatcher 3.5.1',
     subtitle: 'Transizione al framework "Confidence Release": provare la provenienza, garantire trasparenza e integrare i controlli GRC.',
     claim: 'PolicyWatcher 3.5 si concentra sulla fiducia: ogni analisi visibile deve esporre lo stato dei dati, il contesto della fonte, i risultati del controllo QA, la cronologia delle revisioni e i limiti.',
     
@@ -175,7 +178,10 @@ const translationContent = {
 
     // Priorities
     roadmapTitle: 'Punti Chiave & Milestones',
-    roadmapIntro: 'Le seguenti tappe tecniche regolano la versione 3.5, partendo dalla tracciabilità del dato fino alla blindatura del database.',
+    roadmapIntro: 'La roadmap distingue i controlli Confidence gia consegnati, le aggiunte audit-operations della 3.5.1 e le capacita pianificate per release successive.',
+    statusImplemented35: 'Implementato in 3.5',
+    statusActive351: 'Implementato in 3.5.1',
+    statusPlanned: 'Pianificato dopo',
     
     p0Title: 'P0 — Livello Verità & Trasparenza',
     p0Desc: 'Ogni visualizzazione pubblica e amministrativa deve rendere trasparente lo stato del dato sottostante.',
@@ -190,21 +196,21 @@ const translationContent = {
     p0Avoid: 'Evita:',
 
     p1Title: 'P1 — Registro Revisioni Admin',
-    p1Desc: 'Introduzione di un livello di revisione umana (Human-in-the-loop) per validare le analisi AI.',
+    p1Desc: 'Le azioni di revisione umana sono registrate come eventi append-only per la Dataset QA e per i futuri flussi di revisione delle valutazioni.',
     p1Needs: [
-      'Aggiungere un registro append-only (PolicyReviewLog) per modifiche e record',
-      'Consentire agli admin di approvare, segnalare revisioni, sovrascrivere punteggi e aggiungere note',
-      'Salvare autore, ruolo, azione, valore precedente/nuovo e timestamp',
-      'Regola: Il log delle revisioni è append-only e non può essere sovrascritto'
+      'Aggiungere un registro append-only per le decisioni sulle issue dataset',
+      'Consentire ad admin e auditor di segnare issue come reviewed, ignored o reopened',
+      'Salvare ruolo, azione, stato precedente/nuovo, motivo, chiave target e timestamp',
+      'Regola: le righe del review log sono nuove evidenze e non vengono sovrascritte'
     ],
 
     p2Title: 'P2 — Coda Problemi Dataset QA',
-    p2Desc: 'Evoluzione del pannello QA in una coda di segnalazione e risoluzione delle anomalie.',
+    p2Desc: 'Evoluzione del pannello QA in una coda operativa con decisioni persistenti.',
     p2Needs: [
       'Elencare i problemi (URL localizzati, hash non corrispondenti, record obsoleti, KPI non valutati)',
       'Classificare le anomalie per gravità: Critico, Warning, Info',
-      'Azioni per segnare come esaminato, ignorare con motivazione e linkare direttamente al record coinvolto',
-      'Esportazione CSV per audit di conformità'
+      'Azioni per segnare come esaminato, ignorare con motivazione o riaprire',
+      'Esportazione CSV per auditor'
     ],
 
     p3Title: 'P3 — Mappatura Framework Advisory',
@@ -277,8 +283,8 @@ const translationContent = {
     ],
 
     // Statement
-    positionTitle: 'Obiettivo del Rilascio 3.5',
-    positionText: 'PolicyWatcher 3.5 non mira ad avanzare pretese altisonanti. Vuole rendere ogni risultato ispezionabile, trasparente e verificabile.'
+    positionTitle: 'Obiettivo del Rilascio 3.5.1',
+    positionText: 'PolicyWatcher 3.5.1 non mira ad avanzare pretese altisonanti. Rende le decisioni Dataset QA e le evidenze di revisione piu ispezionabili, esportabili e auditabili.'
   }
 };
 
@@ -390,6 +396,7 @@ export default function RoadmapPage() {
                 <div className={styles.priorityLeft}>
                   <span className={`${styles.priorityPill} ${styles.p0Pill}`}>P0</span>
                   <h3 className={styles.priorityTitle}>{t.p0Title}</h3>
+                  <span className={`${styles.statusPill} ${styles.statusDone}`}>{t.statusImplemented35}</span>
                 </div>
                 <Layers className={styles.priorityIcon} size={18} />
               </div>
@@ -435,6 +442,7 @@ export default function RoadmapPage() {
                 <div className={styles.priorityLeft}>
                   <span className={`${styles.priorityPill} ${styles.p1Pill}`}>P1</span>
                   <h3 className={styles.priorityTitle}>{t.p1Title}</h3>
+                  <span className={`${styles.statusPill} ${styles.statusActive}`}>{t.statusActive351}</span>
                 </div>
                 <History className={styles.priorityIcon} size={18} />
               </div>
@@ -443,19 +451,18 @@ export default function RoadmapPage() {
                   <p className={styles.priorityDesc}>{t.p1Desc}</p>
                   <div className={styles.codeBlock}>
                     <div className={styles.codeBlockHeader}>
-                      <span>Prisma Model: PolicyReviewLog</span>
-                      <span>v3.5 schema</span>
+                      <span>Prisma Model: AdminReviewLog</span>
+                      <span>v3.5.1 schema</span>
                     </div>
-                    {`model PolicyReviewLog {
+                    {`model AdminReviewLog {
   id             String   @id @default(uuid())
-  policyId       String?
-  policyChangeId String?
-  actorName      String
   actorRole      String
-  action         String   // e.g. "OVERRIDE"
-  oldValueJson   String?
-  newValueJson   String?
-  notes          String?
+  action         String
+  targetType     String
+  targetId       String?
+  oldValue       String?
+  newValue       String?
+  note           String?
   createdAt      DateTime @default(now())
 }`}
                   </div>
@@ -472,6 +479,7 @@ export default function RoadmapPage() {
                 <div className={styles.priorityLeft}>
                   <span className={styles.priorityPill}>P2</span>
                   <h3 className={styles.priorityTitle}>{t.p2Title}</h3>
+                  <span className={`${styles.statusPill} ${styles.statusActive}`}>{t.statusActive351}</span>
                 </div>
                 <ShieldAlert className={styles.priorityIcon} size={18} />
               </div>
@@ -489,6 +497,7 @@ export default function RoadmapPage() {
                 <div className={styles.priorityLeft}>
                   <span className={styles.priorityPill}>P3</span>
                   <h3 className={styles.priorityTitle}>{t.p3Title}</h3>
+                  <span className={`${styles.statusPill} ${styles.statusPlanned}`}>{t.statusPlanned}</span>
                 </div>
                 <ListFilter className={styles.priorityIcon} size={18} />
               </div>
@@ -506,6 +515,7 @@ export default function RoadmapPage() {
                 <div className={styles.priorityLeft}>
                   <span className={styles.priorityPill}>P4</span>
                   <h3 className={styles.priorityTitle}>{t.p4Title}</h3>
+                  <span className={`${styles.statusPill} ${styles.statusPlanned}`}>{t.statusPlanned}</span>
                 </div>
                 <Radio className={styles.priorityIcon} size={18} />
               </div>
@@ -531,6 +541,7 @@ export default function RoadmapPage() {
                 <div className={styles.priorityLeft}>
                   <span className={styles.priorityPill}>P5</span>
                   <h3 className={styles.priorityTitle}>{t.p5Title}</h3>
+                  <span className={`${styles.statusPill} ${styles.statusPlanned}`}>{t.statusPlanned}</span>
                 </div>
                 <Eye className={styles.priorityIcon} size={18} />
               </div>
@@ -548,6 +559,7 @@ export default function RoadmapPage() {
                 <div className={styles.priorityLeft}>
                   <span className={styles.priorityPill}>P6</span>
                   <h3 className={styles.priorityTitle}>{t.p6Title}</h3>
+                  <span className={`${styles.statusPill} ${styles.statusPlanned}`}>{t.statusPlanned}</span>
                 </div>
                 <Database className={styles.priorityIcon} size={18} />
               </div>
@@ -565,6 +577,7 @@ export default function RoadmapPage() {
                 <div className={styles.priorityLeft}>
                   <span className={styles.priorityPill}>P7</span>
                   <h3 className={styles.priorityTitle}>{t.p7Title}</h3>
+                  <span className={`${styles.statusPill} ${styles.statusPlanned}`}>{t.statusPlanned}</span>
                 </div>
                 <Activity className={styles.priorityIcon} size={18} />
               </div>

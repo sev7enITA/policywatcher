@@ -1,7 +1,7 @@
 # PolicyWatcher - Stato dell'Arte
 
 Data: 2026-07-02  
-Traccia: 3.5.0 Confidence  
+Traccia: 3.5.1 Audit Operations
 Scope: sorgente locale e dataset SQLite locale prima del commit/deploy pubblico
 
 ## Sintesi
@@ -10,8 +10,9 @@ PolicyWatcher e oggi una piattaforma civic-tech per monitorare fonti policy
 configurate, rilevare modifiche, produrre letture assistite da AI e mostrare
 in modo ispezionabile lo stato qualitativo del dataset usato.
 
-La release 3.5 sposta il baricentro dalla sola crescita funzionale alla
-fiducia verificabile: stato del dato, log dei controlli, limiti metodologici,
+La release 3.5.1 Audit Operations estende la baseline 3.5 Confidence e sposta
+il baricentro dalla sola crescita funzionale alla fiducia verificabile: stato
+del dato, log dei controlli, decisioni QA persistenti, limiti metodologici,
 controlli CI, scansioni di sicurezza e documentazione pubblica dei confini.
 
 La formulazione pubblica piu solida e:
@@ -74,7 +75,8 @@ L'area admin oggi espone:
 - rate limit login e confronto credenziali constant-time;
 - metriche sistema;
 - gestione aziende e policy;
-- pagina e API Dataset QA;
+- pagina Dataset QA, issue queue, decisioni persistenti e API;
+- pagina e API Review Log append-only;
 - KPI audit matrix;
 - documentazione explainability;
 - stato cron e controlli scan;
@@ -217,7 +219,7 @@ Risultati:
 
 ## Asset Pubblici Aggiornati
 
-Sono stati allineati alla 3.5 Confidence:
+Sono stati allineati alla 3.5.1 Audit Operations:
 
 - README;
 - CHANGELOG;
@@ -291,9 +293,9 @@ P0/P1:
 
 P2:
 
-- aggiungere issue queue admin con reviewed/ignored/reason/link record;
-- aggiungere log append-only delle revisioni umane;
-- espandere test su auth, regole Dataset QA, validazione URL scraper e route API;
+- estendere il review log dalle decisioni Dataset QA ai futuri flussi di override/riesame delle policy;
+- aggiungere link diretti dalle issue Dataset QA ai record admin coinvolti quando apribili in sicurezza;
+- espandere i test oltre le utility reliability verso regole Dataset QA, validazione URL scraper e route API;
 - mostrare nota pubblica quando Sonar/Codecov sono effettivamente configurati.
 
 P3:
