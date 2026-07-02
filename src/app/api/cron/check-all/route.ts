@@ -129,6 +129,14 @@ export async function runFullScan(onProgress?: ProgressCallback): Promise<ScanRe
       if (scrapeResult.status !== 'ok') {
         // Page unreachable or unusable. Record it honestly: do NOT
         // create a snapshot or run AI analysis on missing data.
+        const isInvalid = scrapeResult.status === 'invalid';
+        await db.policy.update({
+          where: { id: policy.id },
+          data: {
+            lastCheckDate: new Date(),
+            dataStatus: isInvalid ? 'Needs Review' : 'Unavailable',
+          },
+        });
         detail.status = scrapeResult.status; // 'unavailable' | 'invalid'
         detail.error = `scrape:${scrapeResult.reason}`;
         detail.httpStatus = scrapeResult.httpStatus;
@@ -169,6 +177,10 @@ export async function runFullScan(onProgress?: ProgressCallback): Promise<ScanRe
           where: { id: policy.id },
           data: {
             updatedAt: new Date(),
+            lastCheckDate: new Date(),
+            lastSuccessfulCheckDate: new Date(),
+            dataStatus: 'Available',
+            ingestionMethod: scrapeResult.source || 'Direct Scrape',
           },
         });
         continue;
@@ -273,6 +285,10 @@ export async function runFullScan(onProgress?: ProgressCallback): Promise<ScanRe
         data: {
           currentText: newText,
           currentHash: newHash,
+          lastCheckDate: new Date(),
+          lastSuccessfulCheckDate: new Date(),
+          dataStatus: 'Available',
+          ingestionMethod: scrapeResult.source || 'Direct Scrape',
         },
       });
 

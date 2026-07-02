@@ -784,3 +784,119 @@
 .archiveFullText p {
   margin-bottom: 10px;
 }
+
+/* Auditing Context Panel */
+.auditingPanel {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+.auditingPanel h4 {
+  margin: 0 0 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-main);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.auditingPanel h4 svg {
+  color: var(--primary);
+}
+
+.auditingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px 24px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.auditingGrid strong {
+  color: var(--text-main);
+  margin-right: 6px;
+}
+
+.methodologyLinkRow {
+  margin-top: 12px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 8px;
+  font-size: 0.76rem;
+}
+
+.methodologyLinkRow a {
+  color: var(--primary);
+  text-decoration: underline;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.methodologyLinkRow a:hover {
+  opacity: 0.85;
+}
+
+/* Confidence Data Status Badges inside Modal */
+.confidenceBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.62rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  vertical-align: middle;
+}
+
+.badge_configured {
+  background: rgba(59, 130, 246, 0.08);
+  color: #3b82f6;
+  border-color: rgba(59, 130, 246, 0.15);
+}
+
+.badge_available {
+  background: rgba(16, 185, 129, 0.08);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.15);
+}
+
+.badge_partial {
+  background: rgba(217, 119, 6, 0.08);
+  color: #d97706;
+  border-color: rgba(217, 119, 6, 0.15);
+}
+
+.badge_needsreview {
+  background: rgba(249, 115, 22, 0.08);
+  color: #f97316;
+  border-color: rgba(249, 115, 22, 0.2);
+  animation: modalPulseAmber 2.5s infinite ease-in-out;
+}
+
+.badge_unavailable {
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.badge_reviewed {
+  background: rgba(139, 92, 246, 0.08);
+  color: #8b5cf6;
+  border-color: rgba(139, 92, 246, 0.15);
+}
+
+@keyframes modalPulseAmber {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.65;
+  }
+}

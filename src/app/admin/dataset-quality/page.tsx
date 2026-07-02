@@ -259,10 +259,10 @@ export default function DatasetQualityPage() {
           </div>
           <div>
             <h2 className={styles.cardTitle} style={{ marginBottom: 2 }}>
-              Dataset Quality Seal
+              Dataset QA Status
             </h2>
             <p className={styles.metaText}>
-              The dataset is publishable only when sources, snapshots, hashes, AI analysis, KPI coverage, and regional impact rows are coherent.
+              The dataset is audited regularly for sources, snapshots, hashes, AI analysis, KPI coverage, and regional impact rows.
             </p>
           </div>
           <span className={statusBadgeClass(summary.status)} style={{ marginLeft: 'auto' }}>

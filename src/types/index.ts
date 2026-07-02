@@ -96,6 +96,10 @@ export interface Policy {
   jurisdiction: string;
   currentText: string;
   currentHash: string;
+  dataStatus: string;
+  lastCheckDate?: string;
+  lastSuccessfulCheckDate?: string;
+  ingestionMethod?: string;
   updatedAt: string;
   changes: PolicyChange[];
 }

@@ -400,10 +400,10 @@ export default function AdminDashboardPage() {
           </div>
           <div>
             <h2 className={styles.cardTitle} style={{ marginBottom: 4 }}>
-              Dataset Quality Seal
+              Dataset QA Status
             </h2>
             <p className={styles.metaText}>
-              Dataset QA is the release gate for source-fit, hash integrity, freshness, KPI coverage, regional impact completeness, and subscriber hygiene.
+              Dataset QA checks source-fit, hash integrity, freshness, KPI coverage, regional impact completeness, and subscriber hygiene.
             </p>
           </div>
           <Link href="/admin/dataset-quality" className={`${styles.btn} ${styles.btnPrimary}`} style={{ marginLeft: 'auto' }}>

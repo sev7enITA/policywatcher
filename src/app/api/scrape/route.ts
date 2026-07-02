@@ -82,8 +82,15 @@ export async function POST(request: NextRequest) {
     if (scrapeResult.status !== 'ok') {
       // The page is unreachable or unusable. We MUST NOT invent data:
       // surface a clear, honest status and point to the official source.
-      // Do not write anything to the DB in this case.
+      // However, we record the check status honestly in the DB for trust:
       const isInvalid = scrapeResult.status === 'invalid';
+      await db.policy.update({
+        where: { id: policy.id },
+        data: {
+          lastCheckDate: new Date(),
+          dataStatus: isInvalid ? 'Needs Review' : 'Unavailable',
+        },
+      });
       const message = {
         en: isInvalid
           ? 'The policy link appears to be no longer valid or reachable.'
@@ -116,6 +123,10 @@ export async function POST(request: NextRequest) {
         where: { id: policy.id },
         data: {
           updatedAt: new Date(),
+          lastCheckDate: new Date(),
+          lastSuccessfulCheckDate: new Date(),
+          dataStatus: 'Available',
+          ingestionMethod: scrapeResult.source || 'Direct Scrape',
         },
       });
       return NextResponse.json({
@@ -219,6 +230,10 @@ export async function POST(request: NextRequest) {
       data: {
         currentText: newText,
         currentHash: newHash,
+        lastCheckDate: new Date(),
+        lastSuccessfulCheckDate: new Date(),
+        dataStatus: 'Available',
+        ingestionMethod: scrapeResult.source || 'Direct Scrape',
       },
     });
 

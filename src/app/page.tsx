@@ -918,7 +918,14 @@ export default function Dashboard() {
                       )}
                       <div>
                         <h3 className={styles.companyName}>{company.name}</h3>
-                        <span className={styles.industryTag}>{company.industry}</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', marginTop: '4px' }}>
+                          <span className={styles.industryTag}>{company.industry}</span>
+                          {firstPolicy && (
+                            <span className={`${styles.confidenceBadge} ${styles[`badge_${firstPolicy.dataStatus.replace(/\s+/g, '').toLowerCase()}`]}`}>
+                              {firstPolicy.dataStatus}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                     
@@ -952,6 +959,13 @@ export default function Dashboard() {
                         const polRisk = pol.changes[0]?.overallRisk || 'Low';
                         const polColor = getRiskColor(polRisk);
                         const jurisdictionMatch = pol.jurisdiction === selectedRegion || pol.jurisdiction === 'Global';
+                        
+                        // Map status indicator dot colors
+                        const statusDotColor = 
+                          pol.dataStatus === 'Unavailable' ? '#ef4444' :
+                          pol.dataStatus === 'Needs Review' ? '#f97316' :
+                          pol.dataStatus === 'Partial' ? '#d97706' :
+                          pol.dataStatus === 'Reviewed' ? '#8b5cf6' : '#10b981';
 
                         return (
                           <button
@@ -959,8 +973,17 @@ export default function Dashboard() {
                             onClick={() => setSelectedPolicyId(pol.id)}
                             className={`${styles.policyPill} ${jurisdictionMatch ? styles.policyPillHighlight : ''}`}
                             style={{ borderColor: polColor }}
+                            title={`${pol.name} - Ingestion: ${pol.ingestionMethod} (${pol.dataStatus})`}
                           >
-                            <FileText size={10} />
+                            <span 
+                              style={{ 
+                                width: '6px', 
+                                height: '6px', 
+                                borderRadius: '50%', 
+                                backgroundColor: statusDotColor, 
+                                display: 'inline-block'
+                              }}
+                            />
                             {getPolTypeLabel(pol.type)}
                             <span className={styles.jurisdictionBadge}>{pol.jurisdiction}</span>
                           </button>

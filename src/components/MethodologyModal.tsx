@@ -272,7 +272,7 @@ const content = {
       '**Sector Diversity**: Coverage across multiple industries (Tech, FinTech, Social Media, E-Commerce, AI Providers, Cloud/SaaS) to provide a broad comparative picture.'
     ],
     selectionNote: 'The monitored list is periodically expanded. Each policy analysis references a specific **snapshot version** and **date** to ensure traceability.',
-    sourceTitle: 'Source Selection & Dataset Quality Seal',
+    sourceTitle: 'Source Selection & Dataset QA Status',
     sourceDesc: 'PolicyWatcher treats source quality as a first-class control, not a cosmetic detail. The source-selection hierarchy is:\n\n1. **Global first**: when a company publishes a global or international English policy, that canonical source is used for Global analysis.\n2. **Market-specific when available**: EU, US, UK, or other market-level analyses must point to the official policy for that market, not a generic page.\n3. **Localized pages are not primary evidence by default**: translated URLs (for example `/it/`) are flagged unless they are the only official market source and the jurisdiction label makes that clear.\n4. **Traceability over convenience**: every policy links to the monitored URL, the stored snapshot, hash, and detected changes.\n5. **Admin quality gates**: Dataset QA checks URL hygiene, source-fit, hash integrity, freshness, AI JSON completeness, KPI coverage, regional-impact coverage, and subscriber hygiene before release decisions.',
     sourceSeal: 'The Dataset QA score is the operational seal of the platform: a low score means the dataset should be repaired before public claims are treated as reliable.',
     limitsTitle: 'Limitations & Disclaimer',
@@ -325,7 +325,7 @@ const content = {
       '**Diversità settoriale**: Copertura di più industrie (Tech, FinTech, Social Media, E-Commerce, Provider AI, Cloud/SaaS) per un quadro comparativo ampio.'
     ],
     selectionNote: 'La lista è periodicamente ampliata. Ogni analisi di policy fa riferimento a una **versione snapshot** e una **data** specifiche per garantire la tracciabilità.',
-    sourceTitle: 'Selezione Fonti e Sigillo Qualità Dataset',
+    sourceTitle: 'Selezione Fonti e Stato QA Dataset',
     sourceDesc: 'PolicyWatcher considera la qualità della fonte un controllo primario, non un dettaglio estetico. La gerarchia di selezione è:\n\n1. **Global prima di tutto**: quando l’azienda pubblica una policy globale o internazionale in inglese, quella fonte canonica viene usata per l’analisi Global.\n2. **Mercato specifico quando disponibile**: analisi EU, US, UK o di altri mercati devono puntare alla policy ufficiale di quel mercato, non a una pagina generica.\n3. **Le pagine localizzate non sono prova primaria di default**: URL tradotti, ad esempio `/it/`, vengono segnalati salvo siano l’unica fonte ufficiale di mercato e la giurisdizione lo renda chiaro.\n4. **Tracciabilità sopra la comodità**: ogni policy mantiene URL monitorato, snapshot salvato, hash e modifiche rilevate.\n5. **Quality gate amministrativi**: Dataset QA verifica igiene URL, source-fit, integrità hash, freschezza, completezza JSON AI, copertura KPI, copertura impatti regionali e igiene subscriber prima delle decisioni di rilascio.',
     sourceSeal: 'Il punteggio Dataset QA è il sigillo operativo della piattaforma: se è basso, il dataset va corretto prima che le valutazioni pubbliche siano considerate affidabili.',
     limitsTitle: 'Limitazioni e Disclaimer',

@@ -28,12 +28,16 @@ model Policy {
   type         String           // e.g. "privacy", "terms", "ai", "acceptable-use"
   url          String
   jurisdiction String           @default("Global") // "EU", "US", "UK", "Global", etc.
-  currentText  String
-  currentHash  String
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
-  snapshots    PolicySnapshot[]
-  changes      PolicyChange[]
+  currentText             String
+  currentHash             String
+  dataStatus              String           @default("Available") // "Configured", "Available", "Partial", "Needs Review", "Unavailable", "Reviewed"
+  lastCheckDate           DateTime         @default(now())
+  lastSuccessfulCheckDate DateTime         @default(now())
+  ingestionMethod         String           @default("Seeded") // "Seeded", "Direct Scrape", "Wayback Cache", etc.
+  createdAt               DateTime         @default(now())
+  updatedAt               DateTime         @updatedAt
+  snapshots               PolicySnapshot[]
+  changes                 PolicyChange[]
 
   @@unique([companyId, type, jurisdiction])
   @@index([companyId])

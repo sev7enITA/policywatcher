@@ -1013,3 +1013,62 @@
     font-size: 1.6rem;
   }
 }
+
+/* Confidence Data Status Badges */
+.confidenceBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.62rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+}
+
+.badge_configured {
+  background: rgba(59, 130, 246, 0.08);
+  color: #3b82f6;
+  border-color: rgba(59, 130, 246, 0.15);
+}
+
+.badge_available {
+  background: rgba(16, 185, 129, 0.08);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.15);
+}
+
+.badge_partial {
+  background: rgba(217, 119, 6, 0.08);
+  color: #d97706;
+  border-color: rgba(217, 119, 6, 0.15);
+}
+
+.badge_needsreview {
+  background: rgba(249, 115, 22, 0.08);
+  color: #f97316;
+  border-color: rgba(249, 115, 22, 0.2);
+  animation: pulseAmber 2.5s infinite ease-in-out;
+}
+
+.badge_unavailable {
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.badge_reviewed {
+  background: rgba(139, 92, 246, 0.08);
+  color: #8b5cf6;
+  border-color: rgba(139, 92, 246, 0.15);
+}
+
+@keyframes pulseAmber {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.65;
+  }
+}

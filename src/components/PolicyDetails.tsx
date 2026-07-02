@@ -42,6 +42,7 @@ import {
   Share2,
   FileDown,
   Globe,
+  ShieldCheck,
 } from 'lucide-react';
 import styles from './PolicyDetails.module.css';
 import type { Policy, PolicyChange, Company, RegionImpact } from '@/types/index';
@@ -375,21 +376,44 @@ export default function PolicyDetails({
           </button>
         </div>
 
-        {/* Last Verified Indicator */}
-        <div className={styles.actionsBar}>
-          <div className={styles.actionText} style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%' }}>
-            <Clock size={14} style={{ opacity: 0.7 }} />
-            <span>
-              {lang === 'it' ? 'Ultima verifica: ' : 'Last verified: '}
-              <strong>
-                {policy.updatedAt
-                  ? new Date(policy.updatedAt).toLocaleDateString(
-                      lang === 'it' ? 'it-IT' : 'en-US',
-                      { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }
-                    )
-                  : lang === 'it' ? 'In attesa di scansione' : 'Pending scan'}
-              </strong>
-            </span>
+        {/* Auditing Log & Context Panel */}
+        <div className={styles.auditingPanel}>
+          <h4>
+            <ShieldCheck size={14} />
+            {lang === 'it' ? 'Metadati di Controllo ed Evidenza' : 'Auditing Evidence & Telemetry'}
+          </h4>
+          <div className={styles.auditingGrid}>
+            <div>
+              <strong>{lang === 'it' ? 'Stato QA Dataset:' : 'Dataset QA Status:'}</strong>
+              <span className={`${styles.confidenceBadge} ${styles[`badge_${(policy as any).dataStatus?.replace(/\s+/g, '').toLowerCase() || 'available'}`]}`}>
+                {(policy as any).dataStatus || 'Available'}
+              </span>
+            </div>
+            <div>
+              <strong>{lang === 'it' ? 'Metodo Ingestione:' : 'Ingestion Method:'}</strong>
+              <span>{(policy as any).ingestionMethod || 'Seeded'}</span>
+            </div>
+            <div>
+              <strong>{lang === 'it' ? 'Ultimo Controllo:' : 'Last Checked:'}</strong>
+              <span>
+                {(policy as any).lastCheckDate 
+                  ? new Date((policy as any).lastCheckDate).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+                  : 'N/A'}
+              </span>
+            </div>
+            <div>
+              <strong>{lang === 'it' ? 'Ultimo Check Riuscito:' : 'Last Successful Fetch:'}</strong>
+              <span>
+                {(policy as any).lastSuccessfulCheckDate 
+                  ? new Date((policy as any).lastSuccessfulCheckDate).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+                  : 'N/A'}
+              </span>
+            </div>
+          </div>
+          <div className={styles.methodologyLinkRow}>
+            <a href="/methodology/confidence" target="_blank" rel="noreferrer">
+              {lang === 'it' ? 'Leggi la metodologia di tracciabilità e i limiti dell\'AI' : 'Read traceability methodology & AI limits'}
+            </a>
           </div>
         </div>
 
