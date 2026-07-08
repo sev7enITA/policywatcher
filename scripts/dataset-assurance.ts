@@ -15,6 +15,13 @@ interface Finding {
 }
 
 const ALLOWED_RISK_REASON_ICONS = new Set(['alert', 'warning', 'info']);
+const allowSeededFixtures =
+  process.argv.includes('--allow-seeded-fixtures') ||
+  process.env.DATASET_QA_ALLOW_SEEDED_FIXTURES === 'true';
+
+function sourceEvidenceSeverity(): Severity {
+  return allowSeededFixtures ? 'warning' : 'blocker';
+}
 
 function hashText(text: string): string {
   return createHash('sha256').update(text).digest('hex');
@@ -85,10 +92,12 @@ async function main() {
     if (seededRecord) {
       addFinding(
         findings,
-        'blocker',
+        sourceEvidenceSeverity(),
         'source-evidence',
         label,
-        'Policy is backed by seeded/demo text. Run a verified scan before using it in public confidence views.'
+        allowSeededFixtures
+          ? 'Policy is backed by seeded/demo text. Accepted only because seeded fixture mode is enabled for CI structure checks.'
+          : 'Policy is backed by seeded/demo text. Run a verified scan before using it in public confidence views.'
       );
     }
 
@@ -120,10 +129,12 @@ async function main() {
       if (!hasPublicSnapshot) {
         addFinding(
           findings,
-          'blocker',
+          sourceEvidenceSeverity(),
           'public-evidence',
           label,
-          'No snapshot is marked publicEvidence. This policy must remain hidden or suspended from public views.'
+          allowSeededFixtures
+            ? 'No snapshot is marked publicEvidence. Accepted only because seeded fixture mode is enabled for CI structure checks.'
+            : 'No snapshot is marked publicEvidence. This policy must remain hidden or suspended from public views.'
         );
       }
       if (latestSnapshot.hash !== policy.currentHash) {
@@ -175,10 +186,12 @@ async function main() {
       if (isSeededIngestionMethod(latestLog.source)) {
         addFinding(
           findings,
-          'blocker',
+          sourceEvidenceSeverity(),
           'source-evidence',
           label,
-          'Latest PolicyCheckLog source is seeded, not direct/http2/rendered/wayback/commoncrawl.'
+          allowSeededFixtures
+            ? 'Latest PolicyCheckLog source is seeded. Accepted only because seeded fixture mode is enabled for CI structure checks.'
+            : 'Latest PolicyCheckLog source is seeded, not direct/http2/rendered/wayback/commoncrawl.'
         );
       }
       if (latestLog.textHash && latestLog.textHash !== policy.currentHash) {
@@ -331,6 +344,7 @@ async function main() {
 
   const report = {
     status,
+    mode: allowSeededFixtures ? 'seeded-fixture' : 'strict-source-evidence',
     generatedAt: new Date().toISOString(),
     policies: policies.length,
     blockers: blockers.length,

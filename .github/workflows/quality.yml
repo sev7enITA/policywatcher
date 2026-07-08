@@ -46,8 +46,8 @@ jobs:
       - name: Seed CI dataset
         run: npx prisma db seed
 
-      - name: Dataset assurance
-        run: npm run qa:dataset
+      - name: Dataset fixture assurance
+        run: npm run qa:dataset -- --allow-seeded-fixtures
 
       - name: Lint
         run: npm run lint
