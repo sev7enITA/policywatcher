@@ -4,13 +4,13 @@
  * @route POST /api/scrape
  *
  * Scrapes the current policy text for a given policyId, compares it against
- * the stored hash, and — if changed — creates a new snapshot, generates an
+ * the stored hash, and if changed creates a new snapshot, generates an
  * AI analysis via Gemini, and records a PolicyChange with region impacts.
  *
  * The scraper is hardened: it never fabricates content. If the page is
  * unreachable, an honest error is returned and the failed check is logged.
  *
- * @auth    None (public endpoint).
+ * @auth    Bearer token required via API_SECRET.
  * @rateLimit 3 requests / 10 minutes per IP (scrape + AI is the most expensive op).
  *
  * @body {{ policyId: string }}
@@ -22,8 +22,26 @@ import { scrapePolicyText } from '@/lib/scraper';
 import { analyzePolicyChange } from '@/lib/gemini';
 import { rateLimit } from '@/lib/rateLimit';
 import { isAuthorized } from '@/lib/auth';
-import { dataStatusFromScrapeFailure, normalizeIngestionMethod } from '@/lib/policyConfidence';
+import {
+  dataStatusFromScrapeFailure,
+  normalizeIngestionMethod,
+  shouldRebaselineFromSeededRecord,
+} from '@/lib/policyConfidence';
+import { sendSourceSuspensionAdminAlert } from '@/lib/mailer';
+import { replaceSeededPolicyBaseline } from '@/lib/policyBaseline';
+import { createErrorReference, getErrorMessage } from '@/lib/safeErrors';
+import { normalizeKpiFields } from '@/lib/kpiDefaults';
 import * as Diff from 'diff';
+
+function archiveTimestampFromScrape(value: string | undefined): Date | null {
+  if (!value) return null;
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function isExpectedRebaselineAbort(error: unknown): boolean {
+  return getErrorMessage(error).startsWith('rebaseline_aborted_');
+}
 
 /**
  * Handles a POST request to scrape, diff, and analyze a single policy.
@@ -67,6 +85,18 @@ export async function POST(request: NextRequest) {
           orderBy: { version: 'desc' },
           take: 1,
         },
+        checkLogs: {
+          where: {
+            textHash: { not: null },
+            source: { in: ['direct', 'http2', 'rendered', 'wayback', 'commoncrawl'] },
+          },
+          orderBy: { checkedAt: 'desc' },
+          take: 1,
+          select: {
+            source: true,
+            textHash: true,
+          },
+        },
       },
     });
 
@@ -77,8 +107,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Scrape latest policy text (hardened: never fabricates content)
-    const scrapeResult = await scrapePolicyText(policy.url);
+    // Scrape latest policy text (hardened: never fabricates content).
+    // archiveNotBefore: archive fallbacks may only return snapshots newer
+    // than the last successful check (prevents stale-archive regressions).
+    // Exception: a Seeded inventory row has no real successful source check
+    // yet, so its bootstrap timestamp must not block initial archive baseline.
+    const seededRebaselineCandidate = shouldRebaselineFromSeededRecord(policy);
+    const hasPublicBaseline = policy.snapshots.some((snapshot) => snapshot.publicEvidence);
+    const scrapeResult = await scrapePolicyText(policy.url, {
+      archiveNotBefore:
+        seededRebaselineCandidate || !hasPublicBaseline ? undefined : policy.lastSuccessfulCheckDate,
+    });
+    const archiveTimestamp = archiveTimestampFromScrape(scrapeResult.archiveTimestamp);
 
     if (scrapeResult.status !== 'ok') {
       // The page is unreachable or unusable. We MUST NOT invent data:
@@ -105,9 +145,32 @@ export async function POST(request: NextRequest) {
             httpStatus: scrapeResult.httpStatus || null,
             reason: scrapeResult.reason || null,
             finalUrl: scrapeResult.finalUrl || policy.url,
+            archiveTimestamp,
           },
         }),
       ]);
+
+      try {
+        await sendSourceSuspensionAdminAlert(
+          [
+            {
+              companyName: policy.company.name,
+              policyName: policy.name,
+              jurisdiction: policy.jurisdiction,
+              status: dataStatus,
+              reason: scrapeResult.reason || null,
+              source: scrapeResult.source || 'none',
+              httpStatus: scrapeResult.httpStatus || null,
+              officialUrl: policy.url,
+              checkedAt,
+            },
+          ],
+          'manual'
+        );
+      } catch (mailError) {
+        console.error('[Scrape] Failed to send source suspension admin alert:', mailError);
+      }
+
       const message = {
         en: isInvalid
           ? 'The policy link appears to be no longer valid or reachable.'
@@ -133,11 +196,120 @@ export async function POST(request: NextRequest) {
 
     const newText = scrapeResult.text;
     const newHash = scrapeResult.hash; // SHA-256, computed inside the scraper
+    const checkedAt = new Date();
+    const ingestionMethod = normalizeIngestionMethod(scrapeResult.source || 'direct');
+
+    if (scrapeResult.partial) {
+      const partialReason = scrapeResult.partialReason || 'partial_retrieval';
+      await db.$transaction([
+        db.policy.update({
+          where: { id: policy.id },
+          data: {
+            lastCheckDate: checkedAt,
+            dataStatus: 'Partial',
+          },
+        }),
+        db.policyCheckLog.create({
+          data: {
+            policyId: policy.id,
+            status: 'Partial',
+            checkedAt,
+            source: scrapeResult.source || 'direct',
+            httpStatus: scrapeResult.httpStatus || null,
+            reason: partialReason,
+            finalUrl: scrapeResult.finalUrl || policy.url,
+            textHash: newHash,
+            textLength: newText.length,
+            archiveTimestamp,
+          },
+        }),
+      ]);
+
+      try {
+        await sendSourceSuspensionAdminAlert(
+          [
+            {
+              companyName: policy.company.name,
+              policyName: policy.name,
+              jurisdiction: policy.jurisdiction,
+              status: 'Partial',
+              reason: partialReason,
+              source: scrapeResult.source || 'direct',
+              httpStatus: scrapeResult.httpStatus || null,
+              officialUrl: policy.url,
+              checkedAt,
+            },
+          ],
+          'manual'
+        );
+      } catch (mailError) {
+        console.error('[Scrape] Failed to send partial-source admin alert:', mailError);
+      }
+
+      return NextResponse.json(
+        {
+          changed: false,
+          partial: true,
+          reason: partialReason,
+          originalTextLength: scrapeResult.originalTextLength || null,
+          storedTextLength: newText.length,
+          message: {
+            en: 'The latest fetch was incomplete, so this source is temporarily suspended from public evidence until reviewed.',
+            it: 'L’ultimo aggiornamento è incompleto: la sorgente è temporaneamente sospesa dall’evidenza pubblica fino a revisione.',
+          },
+          officialUrl: policy.url,
+        },
+        { status: 202 }
+      );
+    }
+
+    if (seededRebaselineCandidate) {
+      let rebaseline;
+      try {
+        rebaseline = await db.$transaction((tx) =>
+          replaceSeededPolicyBaseline(tx, {
+            policyId: policy.id,
+            text: newText,
+            hash: newHash,
+            checkedAt,
+            ingestionMethod,
+            source: scrapeResult.source || 'direct',
+            httpStatus: scrapeResult.httpStatus || null,
+            finalUrl: scrapeResult.finalUrl || policy.url,
+            archiveTimestamp,
+          })
+        );
+      } catch (rebaselineError) {
+        if (isExpectedRebaselineAbort(rebaselineError)) {
+          const refreshedPolicy = await db.policy.findUnique({
+            where: { id: policy.id },
+            select: { currentHash: true },
+          });
+          if (refreshedPolicy?.currentHash === newHash) {
+            return NextResponse.json({
+              changed: false,
+              rebaselined: false,
+              message:
+                'Baseline already established by another verified scan. No PolicyChange, AI score, or subscriber alert was generated.',
+            });
+          }
+        }
+        throw rebaselineError;
+      }
+
+      return NextResponse.json({
+        changed: false,
+        rebaselined: true,
+        message:
+          'Baseline reale aggiornata da evidenza seedata. Nessun PolicyChange, scoring AI o alert subscriber è stato generato.',
+        removedSeedChanges: rebaseline.removedChangeCount,
+        removedSeedSnapshots: rebaseline.removedSnapshotCount,
+        policy: rebaseline.policy,
+      });
+    }
 
     // If text hasn't changed, return status
     if (newHash === policy.currentHash) {
-      const checkedAt = new Date();
-      const ingestionMethod = normalizeIngestionMethod(scrapeResult.source || 'direct');
       const [updatedPolicy] = await db.$transaction([
         db.policy.update({
           where: { id: policy.id },
@@ -159,6 +331,7 @@ export async function POST(request: NextRequest) {
             finalUrl: scrapeResult.finalUrl || policy.url,
             textHash: newHash,
             textLength: newText.length,
+            archiveTimestamp,
           },
         }),
       ]);
@@ -171,6 +344,66 @@ export async function POST(request: NextRequest) {
 
     // It changed! Retrieve old text
     const latestSnapshot = policy.snapshots[0];
+    if (latestSnapshot && !latestSnapshot.publicEvidence) {
+      await db.$transaction([
+        db.policy.update({
+          where: { id: policy.id },
+          data: {
+            lastCheckDate: checkedAt,
+            dataStatus: 'Needs Review',
+          },
+        }),
+        db.policyCheckLog.create({
+          data: {
+            policyId: policy.id,
+            status: 'Needs Review',
+            checkedAt,
+            source: scrapeResult.source || 'direct',
+            httpStatus: scrapeResult.httpStatus || null,
+            reason: 'change_blocked_non_public_baseline',
+            finalUrl: scrapeResult.finalUrl || policy.url,
+            textHash: newHash,
+            textLength: newText.length,
+            archiveTimestamp,
+          },
+        }),
+      ]);
+
+      try {
+        await sendSourceSuspensionAdminAlert(
+          [
+            {
+              companyName: policy.company.name,
+              policyName: policy.name,
+              jurisdiction: policy.jurisdiction,
+              status: 'Needs Review',
+              reason: 'change_blocked_non_public_baseline',
+              source: scrapeResult.source || 'direct',
+              httpStatus: scrapeResult.httpStatus || null,
+              officialUrl: policy.url,
+              checkedAt,
+            },
+          ],
+          'manual'
+        );
+      } catch (mailError) {
+        console.error('[Scrape] Failed to send baseline guard admin alert:', mailError);
+      }
+
+      return NextResponse.json(
+        {
+          changed: false,
+          suspended: true,
+          reason: 'change_blocked_non_public_baseline',
+          message: {
+            en: 'A new source text was retrieved, but the previous baseline is not marked as public evidence. The policy is suspended pending review.',
+            it: 'Il nuovo testo sorgente è stato recuperato, ma la baseline precedente non è marcata come evidenza pubblicabile. La policy è sospesa in attesa di revisione.',
+          },
+          officialUrl: policy.url,
+        },
+        { status: 409 }
+      );
+    }
     const oldText = latestSnapshot ? latestSnapshot.text : '';
     const newVersion = latestSnapshot ? latestSnapshot.version + 1 : 1;
 
@@ -186,14 +419,6 @@ export async function POST(request: NextRequest) {
       newText
     );
 
-    // Get the latest change for copying KPIs
-    const previousChange = await db.policyChange.findFirst({
-      where: { policyId: policy.id },
-      orderBy: { createdAt: 'desc' },
-    });
-
-    const checkedAt = new Date();
-    const ingestionMethod = normalizeIngestionMethod(scrapeResult.source || 'direct');
     const { policyChange, updatedPolicy } = await db.$transaction(async (tx) => {
       const newSnapshot = await tx.policySnapshot.create({
         data: {
@@ -201,6 +426,7 @@ export async function POST(request: NextRequest) {
           version: newVersion,
           text: newText,
           hash: newHash,
+          publicEvidence: true,
         },
       });
 
@@ -219,26 +445,12 @@ export async function POST(request: NextRequest) {
           overallRisk: aiAnalysis.overallRisk,
           overallScore: aiAnalysis.overallScore,
           remediationsJson: JSON.stringify(aiAnalysis.remediations),
+          publicEvidence: true,
           aiTrainingOptOut: aiAnalysis.aiTrainingOptOut,
           aiDataScrapingRestricted: aiAnalysis.aiDataScrapingRestricted,
           aiIpLicensing: aiAnalysis.aiIpLicensing,
           aiPromptRetention: aiAnalysis.aiPromptRetention,
-          // Inherited KPI fields
-          kpiDataCollection: previousChange?.kpiDataCollection || 'Not assessed',
-          kpiThirdPartySharing: previousChange?.kpiThirdPartySharing || 'Not assessed',
-          kpiDataRetention: previousChange?.kpiDataRetention || 'Not assessed',
-          kpiRightToDeletion: previousChange?.kpiRightToDeletion || 'Not assessed',
-          kpiCrossBorderTransfer: previousChange?.kpiCrossBorderTransfer || 'Not assessed',
-          kpiAiTrainingOptOut: previousChange?.kpiAiTrainingOptOut || 'Not assessed',
-          kpiAiOutputOwnership: previousChange?.kpiAiOutputOwnership || 'Not assessed',
-          kpiAlgoTransparency: previousChange?.kpiAlgoTransparency || 'Not assessed',
-          kpiAutomatedDecision: previousChange?.kpiAutomatedDecision || 'Not assessed',
-          kpiAiBiasFairness: previousChange?.kpiAiBiasFairness || 'Not assessed',
-          kpiConsentMechanism: previousChange?.kpiConsentMechanism || 'Not assessed',
-          kpiRegulatoryCompliance: previousChange?.kpiRegulatoryCompliance || 'Not assessed',
-          kpiBreachNotification: previousChange?.kpiBreachNotification || 'Not assessed',
-          kpiIndependentAudit: previousChange?.kpiIndependentAudit || 'Not assessed',
-          kpiContentModeration: previousChange?.kpiContentModeration || 'Not assessed',
+          ...normalizeKpiFields(aiAnalysis),
           regionImpacts: {
             create: aiAnalysis.regionImpacts.map((impact) => ({
               region: impact.region,
@@ -275,6 +487,7 @@ export async function POST(request: NextRequest) {
           finalUrl: scrapeResult.finalUrl || policy.url,
           textHash: newHash,
           textLength: newText.length,
+          archiveTimestamp,
         },
       });
 
@@ -295,8 +508,13 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error in scrape API route:', error);
+    const errorReference = createErrorReference('scrape');
+    console.error(`[Scrape] Error reference ${errorReference}: ${getErrorMessage(error)}`);
     return NextResponse.json(
-      { error: `Errore interno durante il controllo: ${(error as Error).message}` },
+      {
+        error: 'Internal error during policy check.',
+        reference: errorReference,
+      },
       { status: 500 }
     );
   }

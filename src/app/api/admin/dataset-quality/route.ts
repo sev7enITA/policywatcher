@@ -20,6 +20,7 @@ import {
   normalizePreferenceValue,
 } from '@/lib/subscriberPreferences';
 import { DATA_STATUSES, isDataStatus, normalizeDataStatus } from '@/lib/policyConfidence';
+import { isSeededIngestionMethod } from '@/lib/publicDataGate';
 
 const KPI_FIELDS = [
   'kpiDataCollection',
@@ -246,6 +247,7 @@ export async function GET(request: NextRequest) {
                   version: true,
                   text: true,
                   hash: true,
+                  publicEvidence: true,
                   createdAt: true,
                 },
               },
@@ -268,6 +270,7 @@ export async function GET(request: NextRequest) {
                   finalUrl: true,
                   textHash: true,
                   textLength: true,
+                  archiveTimestamp: true,
                 },
               },
             },
@@ -359,6 +362,7 @@ export async function GET(request: NextRequest) {
     let policiesWithChanges = 0;
     let policiesWithCheckLogs = 0;
     let policiesWithSuccessfulCheck = 0;
+    let policiesWithSourceEvidence = 0;
 
     for (const company of companies) {
       const slug = company.slug.toLowerCase();
@@ -450,6 +454,20 @@ export async function GET(request: NextRequest) {
       }
 
       const normalizedStatus = normalizeDataStatus(policy.dataStatus, 'Needs Review');
+      const seededRecord = isSeededIngestionMethod(policy.ingestionMethod);
+      if (seededRecord) {
+        addIssue('critical', {
+          area: 'Source Evidence',
+          entityType: 'policy',
+          entityId: policy.id,
+          companyName: policy.companyName,
+          policyName: policy.name,
+          label: 'Seeded record is not source-verified',
+          detail: 'This policy is backed by seeded/demo text, not by a recorded direct, HTTP/2, VPS-rendered, Wayback, or Common Crawl retrieval.',
+          action: 'Run a fresh scan and keep the record out of public confidence views until ingestionMethod is replaced by a verified source path.',
+        });
+      }
+
       if (normalizedStatus === 'Needs Review' || normalizedStatus === 'Unavailable' || normalizedStatus === 'Partial') {
         addIssue(normalizedStatus === 'Unavailable' ? 'critical' : 'warning', {
           area: 'Confidence Status',
@@ -503,9 +521,43 @@ export async function GET(request: NextRequest) {
         });
       }
 
-      if (policy.checkLogs.length > 0) {
+      const latestLog = policy.checkLogs[0];
+      if (latestLog) {
         policiesWithCheckLogs++;
-        const latestLog = policy.checkLogs[0];
+        if (!seededRecord && latestLog.source && !isSeededIngestionMethod(latestLog.source)) {
+          policiesWithSourceEvidence++;
+        }
+        if (
+          (latestLog.source === 'wayback' || latestLog.source === 'commoncrawl') &&
+          latestLog.status === 'Available' &&
+          !latestLog.archiveTimestamp
+        ) {
+          addIssue('critical', {
+            area: 'Archive Evidence',
+            entityType: 'policy',
+            entityId: policy.id,
+            companyName: policy.companyName,
+            policyName: policy.name,
+            label: 'Archive retrieval without snapshot timestamp',
+            detail: `Latest source is ${latestLog.source}, but archiveTimestamp is missing.`,
+            action: 'Re-run the scan with archive timestamp persistence before treating this source as publishable evidence.',
+          });
+        }
+        if (
+          latestLog.status === 'Available' &&
+          (latestLog.textLength === 200_000 || latestLog.reason === 'text_truncated_at_max_length')
+        ) {
+          addIssue('critical', {
+            area: 'Extraction Completeness',
+            entityType: 'policy',
+            entityId: policy.id,
+            companyName: policy.companyName,
+            policyName: policy.name,
+            label: 'Available source appears truncated at storage cap',
+            detail: `Latest check length=${latestLog.textLength ?? 'unknown'}, reason=${latestLog.reason || 'none'}.`,
+            action: 'Downgrade this policy to Partial and re-run extraction before publishing scores or summaries.',
+          });
+        }
         if (!VALID_DATA_STATUSES.has(latestLog.status)) {
           addIssue('critical', {
             area: 'Confidence Log',
@@ -572,8 +624,40 @@ export async function GET(request: NextRequest) {
         });
       }
 
-      if (policy.changes.length > 0) {
+      const hasVerifiedRebaseline =
+        latestLog?.reason === 'rebaseline_from_seeded_record' &&
+        policy.snapshots.some((snapshot) => snapshot.publicEvidence) &&
+        !seededRecord &&
+        normalizedStatus === 'Available';
+
+      const publicChangeCount = policy.changes.filter((change) => change.publicEvidence).length;
+      if (publicChangeCount > 0) {
         policiesWithChanges++;
+        const hiddenChangeCount = policy.changes.filter((change) => !change.publicEvidence).length;
+        if (hiddenChangeCount > 0) {
+          addIssue('info', {
+            area: 'Public Evidence Gate',
+            entityType: 'policy',
+            entityId: policy.id,
+            companyName: policy.companyName,
+            policyName: policy.name,
+            label: 'Historical changes are hidden from public evidence',
+            detail: `${hiddenChangeCount} PolicyChange row(s) are retained for admin inspection but are not marked publicEvidence.`,
+            action: 'Keep hidden rows private unless a verified source retrieval explicitly promotes replacement evidence.',
+          });
+        }
+      } else if (hasVerifiedRebaseline) {
+        policiesWithChanges++;
+        addIssue('info', {
+          area: 'Coverage',
+          entityType: 'policy',
+          entityId: policy.id,
+          companyName: policy.companyName,
+          policyName: policy.name,
+          label: 'Policy has verified baseline and no post-baseline changes',
+          detail: 'The first verified fetch replaced Seeded ingestion evidence as the baseline. No PolicyChange is expected until a later source change is detected.',
+          action: 'No immediate action required. Continue scheduled monitoring.',
+        });
       } else {
         addIssue('warning', {
           area: 'Coverage',
@@ -588,6 +672,19 @@ export async function GET(request: NextRequest) {
       }
 
       const latestSnapshot = policy.snapshots[0];
+      const hiddenSnapshotCount = policy.snapshots.filter((snapshot) => !snapshot.publicEvidence).length;
+      if (hiddenSnapshotCount > 0) {
+        addIssue('info', {
+          area: 'Public Evidence Gate',
+          entityType: 'policy',
+          entityId: policy.id,
+          companyName: policy.companyName,
+          policyName: policy.name,
+          label: 'Historical snapshots are hidden from public evidence',
+          detail: `${hiddenSnapshotCount} PolicySnapshot row(s) are retained for admin inspection but are not marked publicEvidence.`,
+          action: 'Do not expose these snapshots publicly unless they are recreated from verified source retrieval.',
+        });
+      }
       if (latestSnapshot && latestSnapshot.hash !== policy.currentHash) {
         hashFailureIds.add(latestSnapshot.id);
         addIssue('critical', {
@@ -894,6 +991,14 @@ export async function GET(request: NextRequest) {
         detail: 'Policy source URLs should match the declared jurisdiction and use canonical English/global sources where available.',
       },
       {
+        id: 'source-evidence',
+        label: 'Source Evidence',
+        status: gateStatus(policiesWithSourceEvidence, policies.length),
+        passed: policiesWithSourceEvidence,
+        total: policies.length,
+        detail: 'Public confidence records must be backed by non-seeded retrieval evidence.',
+      },
+      {
         id: 'snapshot-coverage',
         label: 'Snapshot Coverage',
         status: gateStatus(policiesWithSnapshots, policies.length),
@@ -974,7 +1079,7 @@ export async function GET(request: NextRequest) {
         status: gateStatus(policiesWithChanges, policies.length),
         passed: policiesWithChanges,
         total: policies.length,
-        detail: 'Each monitored policy should have at least one PolicyChange analysis.',
+        detail: 'Each monitored policy should have at least one PolicyChange analysis or a verified baseline established after re-baseline.',
       },
     ];
 

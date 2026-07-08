@@ -445,11 +445,15 @@
 }
 
 .priorityList li::before {
-  content: "•";
+  content: "";
   position: absolute;
-  left: 0.25rem;
-  color: var(--primary);
-  font-weight: bold;
+  left: 0.35rem;
+  top: 0.58rem;
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 2px;
+  background: var(--primary);
+  transform: rotate(45deg);
 }
 
 .ruleBlock {

@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Timeline — /timeline
+ * Timeline - /timeline
  *
  * The public "git log of tech policy": a chronological, filterable view
  * of ALL policy changes across ALL monitored companies.
@@ -223,13 +223,13 @@ export default function TimelinePage() {
           </div>
           <div className={styles.heroStat}>
             <span className={styles.heroStatNum}>
-              {new Set(changes.map((c) => c.policy.company.id)).size || '—'}
+              {new Set(changes.map((c) => c.policy.company.id)).size || 'N/A'}
             </span>
             <span className={styles.heroStatLabel}>Companies</span>
           </div>
           <div className={styles.heroStat}>
             <span className={styles.heroStatNum}>
-              {new Set(changes.map((c) => c.policy.jurisdiction)).size || '—'}
+              {new Set(changes.map((c) => c.policy.jurisdiction)).size || 'N/A'}
             </span>
             <span className={styles.heroStatLabel}>Jurisdictions</span>
           </div>
@@ -352,11 +352,11 @@ export default function TimelinePage() {
           /* Empty state */
           <div className={styles.emptyState}>
             <Shield size={48} className={styles.emptyIcon} />
-            <h3 className={styles.emptyTitle}>No changes found</h3>
+            <h3 className={styles.emptyTitle}>No source-verified changes exposed</h3>
             <p className={styles.emptyText}>
               {hasFilters
                 ? 'Try adjusting your filters or search query.'
-                : 'No policy changes have been recorded yet.'}
+                : 'Anomalies were identified during the latest fetching or update cycle. Suspended sources do not expose timeline data until verified.'}
             </p>
           </div>
         ) : (
@@ -400,7 +400,7 @@ export default function TimelinePage() {
                       <div>
                         <div className={styles.cardCompany}>{company.name}</div>
                         <div className={styles.cardPolicy}>
-                          {change.policy.name} · {change.policy.type}
+                          {change.policy.name} / {change.policy.type}
                         </div>
                       </div>
                     </div>

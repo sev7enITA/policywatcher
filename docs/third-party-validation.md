@@ -39,7 +39,7 @@ Badge:
 Public wording:
 
 - Acceptable: "CodeQL analysis enabled."
-- Avoid: "CodeQL certified secure."
+- Avoid security or compliance guarantee wording.
 
 ## 3. OpenSSF Scorecard
 
@@ -89,7 +89,7 @@ Public wording:
 
 - Acceptable: "OpenSSF Best Practices: passing."
 - Acceptable: "OpenSSF Best Practices project 13465 is passing."
-- Avoid: "OpenSSF certified secure."
+- Avoid security or compliance guarantee wording.
 
 Placement:
 
@@ -193,3 +193,36 @@ https://securityheaders.com/?q=www.policywatcher.online&followRedirects=on&hide=
 ```
 
 Run after each material deployment or security-header change.
+
+## 9. Renderer and Scraper Hardening Evidence
+
+Status: implemented in 3.5.1.
+
+Runtime components:
+
+- Hostinger Next.js app.
+- Separate VPS renderer service under `renderer/`, exposed through HTTPS when
+  needed as `RENDERER_URL`.
+
+Evidence to keep:
+
+- VPS local health check: `curl http://127.0.0.1:8787/healthz`.
+- External health check: `curl -i https://render.policywatcher.online/healthz`.
+- Authorized render smoke test using the same `RENDERER_SECRET` configured in
+  the VPS systemd service and in Hostinger.
+- `npm test` coverage for renderer URL validation and scraper fallback logic.
+- `npm run qa:dataset` after source URL migrations.
+
+Public wording:
+
+- Acceptable: "Optional VPS renderer enabled for script-rendered retrieval paths."
+- Acceptable: "Renderer requests are bearer-protected and validated against SSRF rules."
+- Avoid: "PolicyWatcher can always bypass bot protection."
+- Avoid: "Renderer guarantees source availability."
+
+Deployment variables:
+
+```env
+RENDERER_URL=https://render.policywatcher.online
+RENDERER_SECRET=<same high-entropy value configured on the VPS>
+```

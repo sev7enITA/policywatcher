@@ -1,5 +1,5 @@
 /**
- * Public Changes API — paginated list of PolicyChange rows.
+ * Public Changes API - paginated list of PolicyChange rows.
  *
  * GET /api/changes?industry=&risk=&company=&kpi=&from=&to=&q=&page=&pageSize=
  *
@@ -17,7 +17,7 @@
  *  - q: free-text search (min 3 chars) across summaries, TL;DR, and diff
  *
  * Security:
- *  - Public (no auth) — these are public policy analyses.
+ *  - Public (no auth), these are public policy analyses.
  *  - Rate limited (60/min/IP) to prevent dataset scraping.
  *  - Prisma-parameterized queries (no injection).
  *  - All inputs validated + clamped against whitelists.
@@ -25,6 +25,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
+import { publicChangeWhere } from '@/lib/publicDataGate';
 
 const VALID_RISKS = new Set(['Low', 'Medium', 'High']);
 const VALID_INDUSTRIES = new Set([
@@ -132,11 +133,13 @@ export async function GET(request: NextRequest) {
       ];
     }
 
+    const gatedWhere = publicChangeWhere(where);
+
     // --- Query: count + paginated rows in parallel ---
     const [total, changes] = await Promise.all([
-      db.policyChange.count({ where: where as never }),
+      db.policyChange.count({ where: gatedWhere as never }),
       db.policyChange.findMany({
-        where: where as never,
+        where: gatedWhere as never,
         // NARROW select: metadata + AI summary, NOT diff/currentText
         select: {
           id: true,

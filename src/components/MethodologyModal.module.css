@@ -264,6 +264,12 @@
   gap: 4px;
 }
 
+.kpiValueIcon {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
 .kpiValueBadge.green {
   background: rgba(16, 185, 129, 0.12);
   color: #059669;
@@ -277,6 +283,13 @@
 .kpiValueBadge.red {
   background: rgba(239, 68, 68, 0.12);
   color: #dc2626;
+}
+
+.externalInlineIcon {
+  width: 12px;
+  height: 12px;
+  margin-left: 4px;
+  vertical-align: -2px;
 }
 
 /* Color Legend */

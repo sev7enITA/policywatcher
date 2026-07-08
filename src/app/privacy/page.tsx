@@ -150,7 +150,7 @@ export default function PrivacyPolicyPage() {
 
         <footer className={styles.footer}>
           <p>
-            &copy; {new Date().getFullYear()} PolicyWatcher by Fabrizio Degni. All rights reserved.
+            Copyright {new Date().getFullYear()} PolicyWatcher by Fabrizio Degni. All rights reserved.
           </p>
           <Link href="/" className={styles.backLink}>Back to Dashboard</Link>
         </footer>

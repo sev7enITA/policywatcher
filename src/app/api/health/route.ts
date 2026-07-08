@@ -12,9 +12,8 @@
  * @returns {{ status, timestamp, environment, database, process }}
  */
 import { NextRequest, NextResponse } from 'next/server';
-import path from 'path';
-import fs from 'fs';
 import { isAuthorized } from '@/lib/auth';
+import { getDatabaseDiagnostics } from '@/lib/databaseConfig';
 
 /**
  * Performs a lightweight health check of the running instance.
@@ -34,25 +33,31 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const cwd = process.cwd();
-  const dbPath = path.join(cwd, 'prisma', 'dev.db');
-  const dbExists = fs.existsSync(dbPath);
+  const database = await getDatabaseDiagnostics();
 
   let companyCount = 0;
-  if (dbExists) {
+  let queryOk = false;
+  if (database.fileExists) {
     try {
       const { db } = await import('@/lib/db');
       companyCount = await db.company.count();
+      queryOk = true;
     } catch {
       companyCount = -1; // error
     }
   }
 
   return NextResponse.json({
-    status: 'ok',
+    status: queryOk ? 'ok' : 'degraded',
     timestamp: new Date().toISOString(),
     database: {
-      exists: dbExists,
+      configured: database.configured,
+      filePath: database.filePath,
+      directoryPath: database.directoryPath,
+      directoryExists: database.directoryExists,
+      directoryWritable: database.directoryWritable,
+      exists: database.fileExists,
+      sizeBytes: database.fileSizeBytes,
       companyCount,
     },
     process: {

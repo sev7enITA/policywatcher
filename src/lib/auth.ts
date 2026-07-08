@@ -32,7 +32,7 @@ export function isAuthorized(request: Request | NextRequest): boolean {
 
   if (!authHeader) return false;
 
-  // Expect exactly "Bearer <token>" format — reject malformed headers.
+  // Expect exactly "Bearer <token>" format; reject malformed headers.
   const parts = authHeader.split(' ');
   if (parts.length !== 2) return false;
   

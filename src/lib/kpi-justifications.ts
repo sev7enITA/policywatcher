@@ -1,25 +1,29 @@
 /**
  * @module kpi-justifications
  *
- * Static, human-curated bilingual (EN/IT) justification strings for every
- * company × KPI combination displayed in the PolicyWatcher KPI scorecard.
+ * Static bilingual (EN/IT) methodology notes for company by KPI combinations.
  *
  * Screening Date: 2026-06-20
- * Coverage: 16 companies × 15 KPIs × 2 languages = 480 justification strings.
+ * Coverage: 16 companies by 15 KPIs by 2 languages = 480 justification strings.
  *
- * These justifications are NOT AI-generated at runtime; they are reviewed
- * and frozen at each screening date to ensure factual accuracy and
- * editorial consistency across the dataset.
+ * These notes are disabled in public UI by default because they are not a
+ * substitute for current provider-source evidence. Enable them only after a
+ * dedicated editorial review cycle with:
+ * NEXT_PUBLIC_ALLOW_STATIC_KPI_JUSTIFICATIONS=true
  */
 
 /** ISO date of the most recent manual KPI screening round. */
 export const SCREENING_DATE = '2026-06-20';
 
+export function staticKpiJustificationsEnabled(): boolean {
+  return process.env.NEXT_PUBLIC_ALLOW_STATIC_KPI_JUSTIFICATIONS === 'true';
+}
+
 /** A single bilingual justification string (English + Italian). */
 type JustificationEntry = { en: string; it: string };
 
 /**
- * Master lookup table: `justifications[companySlug][kpiKey]` → `{ en, it }`.
+ * Master lookup table: `justifications[companySlug][kpiKey]` to `{ en, it }`.
  * Each company section contains one entry per KPI ID.
  */
 const justifications: Record<string, Record<string, JustificationEntry>> = {
@@ -178,7 +182,7 @@ const justifications: Record<string, Record<string, JustificationEntry>> = {
     },
     kpiCrossBorderTransfer: {
       en: 'The EU Data Boundary program ensures EU customer data is processed and stored within EU data centers.',
-      it: 'Il programma EU Data Boundary garantisce che i dati dei clienti UE siano trattati e archiviati nei data center UE.',
+      it: 'Il programma EU Data Boundary indica trattamento e archiviazione dei dati clienti UE nei data center UE.',
     },
     kpiAiTrainingOptOut: {
       en: 'Copilot enterprise data is excluded from training, but consumer Bing data may be used for model improvement.',
@@ -508,7 +512,7 @@ const justifications: Record<string, Record<string, JustificationEntry>> = {
     },
     kpiCrossBorderTransfer: {
       en: 'Multi-jurisdictional licensing ensures data stays within regulatory boundaries of each operating country.',
-      it: 'Le licenze multi-giurisdizionali garantiscono che i dati restino entro i confini normativi di ciascun paese operativo.',
+      it: 'Le licenze multi-giurisdizionali supportano la gestione dei dati entro i confini normativi di ciascun paese operativo.',
     },
     kpiAiTrainingOptOut: {
       en: 'Fraud detection ML is core to the money transfer service, and no user opt-out mechanism is provided.',
@@ -536,7 +540,7 @@ const justifications: Record<string, Record<string, JustificationEntry>> = {
     },
     kpiRegulatoryCompliance: {
       en: 'Wise maintains FCA, FinCEN, and MAS licenses, ensuring multi-jurisdiction regulatory compliance.',
-      it: 'Wise mantiene licenze FCA, FinCEN e MAS, garantendo conformità normativa multi-giurisdizionale.',
+      it: 'Wise mantiene licenze FCA, FinCEN e MAS, a supporto della conformità normativa multi-giurisdizionale.',
     },
     kpiBreachNotification: {
       en: 'Breach notification aligns with GDPR and financial sector requirements, targeting 72-hour disclosure.',
@@ -664,7 +668,7 @@ const justifications: Record<string, Record<string, JustificationEntry>> = {
     },
     kpiConsentMechanism: {
       en: 'Users must individually authorize each app connection through Plaid Link, ensuring per-connection consent.',
-      it: 'Gli utenti devono autorizzare individualmente ogni connessione app tramite Plaid Link, garantendo il consenso per connessione.',
+      it: 'Gli utenti devono autorizzare individualmente ogni connessione app tramite Plaid Link, con consenso per singola connessione.',
     },
     kpiRegulatoryCompliance: {
       en: 'CFPB engagement is ongoing, GDPR compliance is evolving, and a 2022 FTC settlement addressed past practices.',
@@ -1094,6 +1098,12 @@ export function getJustification(
   kpiKey: string,
   lang: 'en' | 'it'
 ): string {
+  if (!staticKpiJustificationsEnabled()) {
+    return lang === 'en'
+      ? 'Static KPI notes are disabled in public mode. Review the current source evidence before relying on this cell.'
+      : 'Le note KPI statiche sono disattivate in modalita pubblica. Verifica l\'evidenza fonte corrente prima di usare questa cella.';
+  }
+
   const companyData = justifications[companySlug];
   if (!companyData) {
     return lang === 'en'

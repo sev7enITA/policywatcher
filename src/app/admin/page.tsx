@@ -53,6 +53,8 @@ interface MetricsData {
     nodeEnv: string;
     dbPath: string;
     dbExists: boolean;
+    dbDirectoryExists?: boolean;
+    dbDirectoryWritable?: boolean;
     dbSizeBytes: number;
     envVars: Record<string, string>;
   };
@@ -136,7 +138,20 @@ export default function AdminDashboardPage() {
         });
 
         if (!res.ok) {
-          throw new Error(`Failed to load metrics (HTTP ${res.status})`);
+          const payload = await res.json().catch(() => null) as {
+            error?: string;
+            database?: {
+              path?: string | null;
+              directoryPath?: string | null;
+              directoryExists?: boolean;
+              directoryWritable?: boolean;
+              fileExists?: boolean;
+            };
+          } | null;
+          const databaseHint = payload?.database
+            ? ` DB path: ${payload.database.path || 'not available'}; directory: ${payload.database.directoryPath || 'not available'}; directory exists: ${String(payload.database.directoryExists)}; writable: ${String(payload.database.directoryWritable)}; file exists: ${String(payload.database.fileExists)}.`
+            : '';
+          throw new Error(`${payload?.error || `Failed to load metrics (HTTP ${res.status})`}${databaseHint}`);
         }
 
         const data: MetricsData = await res.json();
@@ -432,6 +447,50 @@ export default function AdminDashboardPage() {
             <div>
               <strong>Coverage</strong>
               <span>Every change should carry structured AI JSON, 15 KPIs, and six regional impact rows.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={`${styles.card} ${styles.qualitySealCard}`}>
+        <div className={styles.qualitySealHeader}>
+          <div className={styles.qualitySealIcon}>
+            <Server size={22} />
+          </div>
+          <div>
+            <h2 className={styles.cardTitle} style={{ marginBottom: 4 }}>
+              VPS Service Monitoring
+            </h2>
+            <p className={styles.metaText}>
+              Checks the external renderer service used by the ingestion pipeline for script-rendered policy pages.
+            </p>
+          </div>
+          <Link href="/admin/vps-services" className={`${styles.btn} ${styles.btnPrimary}`} style={{ marginLeft: 'auto' }}>
+            <Activity size={16} />
+            Open VPS Services
+          </Link>
+        </div>
+
+        <div className={styles.sealGrid}>
+          <div className={styles.sealItem}>
+            <Activity size={16} />
+            <div>
+              <strong>Live Health</strong>
+              <span>Reads renderer reachability, latency, active renders, uptime, and public health payload.</span>
+            </div>
+          </div>
+          <div className={styles.sealItem}>
+            <ShieldCheck size={16} />
+            <div>
+              <strong>Configuration Gate</strong>
+              <span>Verifies that Hostinger has the renderer URL and bearer secret configured server-side.</span>
+            </div>
+          </div>
+          <div className={styles.sealItem}>
+            <FileCheck size={16} />
+            <div>
+              <strong>Smoke Test</strong>
+              <span>Runs an admin-only render check to validate bearer auth and actual DOM retrieval.</span>
             </div>
           </div>
         </div>

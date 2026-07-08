@@ -1,5 +1,5 @@
 /**
- * Dynamic sitemap — /sitemap.xml
+ * Dynamic sitemap - /sitemap.xml
  *
  * Enumerates every public policy-change permalink so search engines index
  * the "git log of tech policy" archive. Also includes the static landing pages.
@@ -9,6 +9,7 @@
  */
 import type { MetadataRoute } from 'next';
 import { db } from '@/lib/db';
+import { publicChangeWhere } from '@/lib/publicDataGate';
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || 'https://www.policywatcher.online';
 
@@ -21,6 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/`, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
     { url: `${BASE_URL}/showcase`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.95 },
     { url: `${BASE_URL}/timeline`, lastModified: new Date(), changeFrequency: 'hourly', priority: 0.9 },
+    { url: `${BASE_URL}/leaderboard`, lastModified: new Date(), changeFrequency: 'hourly', priority: 0.9 },
     { url: `${BASE_URL}/trust`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/roadmap`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.85 },
     { url: `${BASE_URL}/methodology/confidence`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
@@ -30,6 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // All change permalinks (EN canonical)
   const changes = await db.policyChange.findMany({
+    where: publicChangeWhere(),
     select: { id: true, createdAt: true },
     orderBy: { createdAt: 'desc' },
   });

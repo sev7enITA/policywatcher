@@ -6,6 +6,7 @@ import {
   X, Shield, Brain, Scale, Eye, AlertTriangle, 
   BookOpen, Activity, ExternalLink, Layers, Gauge, Target, CheckCircle
 } from 'lucide-react';
+import { IconKpiSignal } from './icons/PolicyWatcherIcons';
 
 interface MethodologyModalProps {
   isOpen: boolean;
@@ -13,7 +14,7 @@ interface MethodologyModalProps {
   lang: 'en' | 'it';
 }
 
-// ─── KPI definitions with bilingual descriptions and possible values ───────────
+// KPI definitions with bilingual descriptions and possible values.
 
 interface KPIDef {
   key: string;
@@ -26,7 +27,7 @@ interface KPIDef {
 }
 
 const kpiDefinitions: KPIDef[] = [
-  // ── Privacy & Data Protection ──
+  // Privacy and Data Protection.
   {
     key: 'kpiDataCollection',
     nameEn: 'Data Collection Scope',
@@ -92,7 +93,7 @@ const kpiDefinitions: KPIDef[] = [
       { label: 'Unrestricted', color: 'red' }
     ]
   },
-  // ── AI Governance ──
+  // AI Governance.
   {
     key: 'kpiAiTrainingOptOut',
     nameEn: 'AI Training Opt-Out',
@@ -153,12 +154,12 @@ const kpiDefinitions: KPIDef[] = [
     descIt: 'Valuta se l\'azienda riconosce i rischi di bias nei propri sistemi IA e ha strategie attive di mitigazione (es. audit di equità, dataset diversificati).',
     group: 'aiGov',
     values: [
-      { label: 'Committed / Certified', color: 'green' },
+      { label: 'Committed / Published', color: 'green' },
       { label: 'Mentioned', color: 'yellow' },
       { label: 'Absent', color: 'red' }
     ]
   },
-  // ── Ethics & Corporate Governance ──
+  // Ethics and Corporate Governance.
   {
     key: 'kpiConsentMechanism',
     nameEn: 'Consent Mechanism',
@@ -206,7 +207,7 @@ const kpiDefinitions: KPIDef[] = [
     descIt: 'Verifica se l\'azienda si sottopone ad audit indipendenti da parte di terzi sulle proprie pratiche dati e sistemi IA.',
     group: 'ethics',
     values: [
-      { label: 'Certified / Published', color: 'green' },
+      { label: 'External audit / Published', color: 'green' },
       { label: 'Mentioned', color: 'yellow' },
       { label: 'Absent / Undisclosed', color: 'red' }
     ]
@@ -226,14 +227,14 @@ const kpiDefinitions: KPIDef[] = [
   }
 ];
 
-// ─── Bilingual text content ───────────────────────────────────────────────────
+// Bilingual text content.
 
 const content = {
   en: {
     title: 'Methodology & Transparency',
     subtitle: 'How PolicyWatcher evaluates and classifies corporate policies',
     systemTitle: 'System Overview',
-    systemDesc: 'PolicyWatcher uses a multi-stage automated pipeline to monitor, analyze, and classify corporate policy documents. The process is:\n\n1. **Scraping & Hashing**: Policy documents are periodically fetched from configured company URLs. Each retrieved version is hashed (SHA-256) to detect changes.\n2. **Diff Detection**: When a new hash is detected, the system writes a version record and identifies the delta between versions.\n3. **AI Analysis (Gemini)**: The text delta is sent to Google Gemini for natural language analysis, generating risk scores, KPI assessments, executive summaries, and remediation suggestions.\n4. **Region & Perspective Filtering**: Each analysis is contextualized across 3 regions (EU, US, Global) and 2 perspectives (Individual, Enterprise).\n5. **Notifications**: Subscribers are alerted via email when material changes are detected.',
+    systemDesc: 'PolicyWatcher uses a multi-stage automated pipeline to monitor, analyze, and classify corporate policy documents. The process is:\n\n1. **Retrieval & Hashing**: configured URLs are checked through direct fetch, explicit HTTP/2, optional VPS-rendered fetch for script-rendered pages, and freshness-guarded Wayback/Common Crawl archive recovery. Each strategy records outcome, HTTP status where available, failure/rejection reason and escalation path. Each valid retrieved text is hashed (SHA-256).\n2. **Failure Logging**: blocked, partial, anomalous or unusable pages are not replaced with invented content. The policy status is marked Partial, Unavailable or Needs Review and the check outcome is written to the check log.\n3. **Public Evidence Gate**: seeded, partial, unavailable or review-needed records are withheld from public routes until a source-verified baseline exists.\n4. **Diff Detection**: when a new hash is detected against a valid baseline, the system writes a version record and identifies the delta between versions.\n5. **AI Analysis (Gemini)**: the text delta is sent to Google Gemini for structured analysis, generating risk scores, KPI assessments, executive summaries, and remediation suggestions.\n6. **Region & Perspective Filtering**: each analysis is contextualized across 3 regions (EU, US, Global) and 2 perspectives (Individual, Enterprise).\n7. **Notifications**: subscribers are alerted via email only when material changes are detected from publishable source evidence.',
     riskTitle: 'Overall Risk Score (1-10)',
     riskDesc: 'Each monitored policy receives a composite risk score from 1 (very safe) to 10 (critical concerns). The score reflects data collection practices, AI governance posture, consent quality, regulatory alignment, and breach notification protocols.',
     riskLow: 'Low (1-3)',
@@ -273,11 +274,11 @@ const content = {
     ],
     selectionNote: 'The monitored list is periodically expanded. Each policy analysis references a specific **version record** and **date** to ensure traceability.',
     sourceTitle: 'Source Selection & Dataset QA Status',
-    sourceDesc: 'PolicyWatcher treats source quality as a first-class control, not a cosmetic detail. The source-selection hierarchy is:\n\n1. **Global first**: when a company publishes a global or international English policy, that canonical source is used for Global analysis.\n2. **Market-specific when available**: EU, US, UK, or other market-level analyses should point to the provider source for that market, not a generic page.\n3. **Localized pages are not primary evidence by default**: translated URLs (for example `/it/`) are flagged unless they are the best available market source and the jurisdiction label makes that clear.\n4. **Traceability over convenience**: every policy links to the configured monitored URL, version metadata, hash, check history, and detected changes.\n5. **Admin quality gates**: Dataset QA checks URL hygiene, source-fit, hash integrity, freshness, AI JSON completeness, KPI coverage, regional-impact coverage, check logs, and subscriber hygiene before release decisions.',
-    sourceSeal: 'The Dataset QA score is an operational release-control signal: a low score means the dataset should be repaired before public claims are treated as reliable.',
+    sourceDesc: 'PolicyWatcher treats source quality as a first-class control, not a cosmetic detail. The source-selection hierarchy is:\n\n1. **Global first**: when a company publishes a global or international English policy, that canonical source is used for Global analysis.\n2. **Market-specific when available**: EU, US, UK, or other market-level analyses should point to the provider source for that market, not a generic page.\n3. **Localized pages are not primary evidence by default**: translated URLs (for example `/it/`) are flagged unless they are the best available market source and the jurisdiction label makes that clear.\n4. **Traceability over convenience**: every policy links to the configured monitored URL, version metadata, hash, check history, ingestion method, final URL, archive timestamp when applicable, and detected changes.\n5. **Public evidence gate**: snapshots and changes must be marked `publicEvidence` before public APIs, sitemap, digests, share pages, reports, timeline or benchmarks can expose them.\n6. **Re-baseline guard**: seed-only records can establish a first real baseline without creating a public change. If source-evidence logs or a public baseline already exist, the system uses normal comparison instead of destructive re-baseline.\n7. **Partial retrieval handling**: over-cap, incomplete or anomalous retrieval is marked Partial and suspended from public evidence instead of being promoted to a complete baseline.\n8. **Migration with auditability**: source URL migrations are scoped by company, policy name and jurisdiction, and can run in dry-run mode before touching production data.\n9. **Admin quality gates**: Dataset QA checks URL hygiene, source-fit, retrieval diagnostics, public-evidence state, seeded boundaries, hash integrity, freshness, AI JSON completeness, KPI coverage, regional-impact coverage, archive timestamp evidence, check logs, access logs and subscriber hygiene before release decisions.',
+    sourceSeal: 'Dataset QA status is an operational release-control signal: open issues mean the dataset should be repaired or reviewed before the affected evidence is treated as publishable.',
     limitsTitle: 'Limitations & Disclaimer',
     limitsDesc1: 'CONFIDENCE RELEASE v3.5: PolicyWatcher is in active development and presents evidence mapping, not certification. The assessments are generated by AI models (Google Gemini) through automated text analysis. While we strive for accuracy, these evaluations:',
-    limitsDesc2: '\u2022 May contain inaccuracies, interpretive errors, or omissions of legal language\n\u2022 Reflect a point-in-time analysis and may become outdated after the screening date\n\u2022 Do not constitute legal advice, compliance certification, or definitive assessment of corporate conduct\n\u2022 Are based solely on publicly available policy text and may not capture internal practices or confidential agreements\n\u2022 Should not be the basis for any legal, commercial, or compliance decision without independent verification',
+    limitsDesc2: '- May contain inaccuracies, interpretive errors, or omissions of legal language\n- Reflect a point-in-time analysis and may become outdated after the screening date\n- Do not constitute legal advice, compliance certification, or definitive assessment of corporate conduct\n- Are based solely on publicly available policy text and may not capture internal practices or confidential agreements\n- Should not be the basis for any legal, commercial, or compliance decision without independent verification',
     limitsDesc3: 'The author and the platform disclaim all liability for any decisions, actions, or omissions based on this information. The interpretation and use of the data presented are solely at the user\'s own risk and responsibility. Always verify with the original company documents and consult qualified legal professionals for compliance decisions.',
     legalTitle: 'Regulatory References',
     legalDesc: 'The following regulatory frameworks are referenced in PolicyWatcher\'s analysis. Each entry specifies the version and date of reference used:',
@@ -286,7 +287,7 @@ const content = {
     title: 'Metodologia e Trasparenza',
     subtitle: 'Come PolicyWatcher valuta e classifica le policy aziendali',
     systemTitle: 'Panoramica del Sistema',
-    systemDesc: 'PolicyWatcher utilizza una pipeline automatizzata multi-fase per monitorare, analizzare e classificare i documenti di policy aziendali. Il processo comprende:\n\n1. **Scraping & Hashing**: I documenti delle policy vengono periodicamente recuperati dagli URL aziendali configurati. Ogni versione recuperata viene hashata (SHA-256) per rilevare le modifiche.\n2. **Rilevamento Differenze**: Quando viene rilevato un nuovo hash, il sistema scrive un record di versione e identifica il delta tra le versioni.\n3. **Analisi AI (Gemini)**: Il delta testuale viene inviato a Google Gemini per l\'analisi in linguaggio naturale, generando punteggi di rischio, valutazioni KPI, sintesi esecutive e suggerimenti di remediation.\n4. **Filtro Regione e Prospettiva**: Ogni analisi è contestualizzata su 3 regioni (UE, USA, Globale) e 2 prospettive (Privato, Azienda).\n5. **Notifiche**: Gli iscritti vengono avvisati via email quando vengono rilevate modifiche significative.',
+    systemDesc: 'PolicyWatcher utilizza una pipeline automatizzata multi-fase per monitorare, analizzare e classificare i documenti di policy aziendali. Il processo comprende:\n\n1. **Recupero & Hashing**: gli URL configurati sono controllati tramite fetch diretto, HTTP/2 esplicito, renderer VPS opzionale per pagine script-rendered e recupero Wayback/Common Crawl con freshness guard. Ogni strategia registra esito, HTTP status quando disponibile, motivo di fallimento/rifiuto e passaggio al fallback successivo. Ogni testo valido viene hashato (SHA-256).\n2. **Log dei fallimenti**: pagine bloccate, parziali, anomale o inutilizzabili non vengono sostituite con contenuto inventato. Lo stato diventa Partial, Unavailable o Needs Review e l\'esito viene scritto nel check log.\n3. **Gate public evidence**: record seed, partial, unavailable o needs-review non sono esposti sulle route pubbliche finché non esiste una baseline verificata da sorgente.\n4. **Rilevamento Differenze**: quando viene rilevato un nuovo hash rispetto a una baseline valida, il sistema scrive un record di versione e identifica il delta tra le versioni.\n5. **Analisi AI (Gemini)**: il delta testuale viene inviato a Google Gemini per analisi strutturata, generando punteggi di rischio, valutazioni KPI, sintesi esecutive e suggerimenti di remediation.\n6. **Filtro Regione e Prospettiva**: ogni analisi è contestualizzata su 3 regioni (UE, USA, Globale) e 2 prospettive (Privato, Azienda).\n7. **Notifiche**: gli iscritti vengono avvisati via email solo quando vengono rilevate modifiche significative da evidenza sorgente pubblicabile.',
     riskTitle: 'Punteggio di Rischio Complessivo (1-10)',
     riskDesc: 'Ogni policy monitorata riceve un punteggio composito da 1 (molto sicura) a 10 (criticità rilevanti). Il punteggio riflette le pratiche di raccolta dati, la governance dell\'IA, la qualità del consenso, l\'allineamento normativo e i protocolli di notifica delle violazioni.',
     riskLow: 'Basso (1-3)',
@@ -324,13 +325,13 @@ const content = {
       '**Rilevanza normativa**: Soggetti direttamente impattati da GDPR, EU AI Act, CCPA/CPRA, DORA o altri importanti framework di protezione dati.',
       '**Diversità settoriale**: Copertura di più industrie (Tech, FinTech, Social Media, E-Commerce, Provider AI, Cloud/SaaS) per un quadro comparativo ampio.'
     ],
-    selectionNote: 'La lista è periodicamente ampliata. Ogni analisi di policy fa riferimento a uno specifico **record di versione** e a una **data** per garantire la tracciabilità.',
+    selectionNote: 'La lista è periodicamente ampliata. Ogni analisi di policy fa riferimento a uno specifico **record di versione** e a una **data** per mantenere la tracciabilità.',
     sourceTitle: 'Selezione Fonti e Stato QA Dataset',
-    sourceDesc: 'PolicyWatcher considera la qualità della fonte un controllo primario, non un dettaglio estetico. La gerarchia di selezione è:\n\n1. **Global prima di tutto**: quando l’azienda pubblica una policy globale o internazionale in inglese, quella fonte canonica viene usata per l’analisi Global.\n2. **Mercato specifico quando disponibile**: analisi EU, US, UK o di altri mercati devono puntare alla fonte provider per quel mercato, non a una pagina generica.\n3. **Le pagine localizzate non sono prova primaria di default**: URL tradotti, ad esempio `/it/`, vengono segnalati salvo siano la fonte di mercato più adatta e la giurisdizione lo renda chiaro.\n4. **Tracciabilità sopra la comodità**: ogni policy mantiene URL configurato, metadati di versione, hash, check history e modifiche rilevate.\n5. **Quality gate amministrativi**: Dataset QA verifica igiene URL, source-fit, integrità hash, freschezza, completezza JSON AI, copertura KPI, copertura impatti regionali, check log e igiene subscriber prima delle decisioni di rilascio.',
-    sourceSeal: 'Il punteggio Dataset QA è un segnale operativo di controllo release: se è basso, il dataset va corretto prima che le valutazioni pubbliche siano considerate affidabili.',
+    sourceDesc: 'PolicyWatcher considera la qualità della fonte un controllo primario, non un dettaglio estetico. La gerarchia di selezione è:\n\n1. **Global prima di tutto**: quando l’azienda pubblica una policy globale o internazionale in inglese, quella fonte canonica viene usata per l’analisi Global.\n2. **Mercato specifico quando disponibile**: analisi EU, US, UK o di altri mercati devono puntare alla fonte provider per quel mercato, non a una pagina generica.\n3. **Le pagine localizzate non sono prova primaria di default**: URL tradotti, ad esempio `/it/`, vengono segnalati salvo siano la fonte di mercato più adatta e la giurisdizione lo renda chiaro.\n4. **Tracciabilità sopra la comodità**: ogni policy mantiene URL configurato, metadati di versione, hash, check history, metodo di ingestione, final URL, timestamp archivio quando disponibile e modifiche rilevate.\n5. **Gate publicEvidence**: snapshot e change devono essere marcati `publicEvidence` prima che API pubbliche, sitemap, digest, share page, report, timeline o benchmark li espongano.\n6. **Guardia re-baseline**: i record seed-only possono stabilire una prima baseline reale senza creare change pubblici. Se esistono già log di evidenza sorgente o baseline pubblica, il sistema usa il confronto normale invece della re-baseline distruttiva.\n7. **Gestione Partial**: recuperi incompleti, anomali o oltre il limite vengono marcati Partial e sospesi dall’evidenza pubblica invece di diventare baseline complete.\n8. **Migrazioni auditabili**: le migrazioni degli URL sorgente sono limitate per company, nome policy e giurisdizione e possono essere lanciate in dry-run prima di modificare la produzione.\n9. **Quality gate amministrativi**: Dataset QA verifica igiene URL, source-fit, diagnostica retrieval, stato public-evidence, confini seed, integrità hash, freschezza, completezza JSON AI, copertura KPI, impatti regionali, timestamp archivio, check log, access log e igiene subscriber prima delle decisioni di rilascio.',
+    sourceSeal: 'Lo stato Dataset QA è un segnale operativo di controllo release: issue aperte indicano che il dataset va corretto o revisionato prima che l’evidenza coinvolta sia considerata pubblicabile.',
     limitsTitle: 'Limitazioni e Disclaimer',
     limitsDesc1: 'CONFIDENCE RELEASE v3.5: PolicyWatcher e in sviluppo attivo e presenta una mappatura di evidenze, non una certificazione. Le valutazioni sono generate da modelli IA (Google Gemini) tramite analisi testuale automatizzata. Pur impegnandoci per l\'accuratezza, queste valutazioni:',
-    limitsDesc2: '\u2022 Possono contenere imprecisioni, errori interpretativi o omissioni del linguaggio giuridico\n\u2022 Riflettono un\'analisi a un momento specifico e possono diventare obsolete dopo la data di screening\n\u2022 Non costituiscono consulenza legale, certificazione di conformita o valutazione definitiva della condotta aziendale\n\u2022 Si basano esclusivamente su testo di policy pubblicamente disponibile e potrebbero non catturare pratiche interne o accordi riservati\n\u2022 Non devono essere alla base di alcuna decisione legale, commerciale o di conformita senza verifica indipendente',
+    limitsDesc2: '- Possono contenere imprecisioni, errori interpretativi o omissioni del linguaggio giuridico\n- Riflettono un\'analisi a un momento specifico e possono diventare obsolete dopo la data di screening\n- Non costituiscono consulenza legale, certificazione di conformita o valutazione definitiva della condotta aziendale\n- Si basano esclusivamente su testo di policy pubblicamente disponibile e potrebbero non catturare pratiche interne o accordi riservati\n- Non devono essere alla base di alcuna decisione legale, commerciale o di conformita senza verifica indipendente',
     limitsDesc3: 'L\'autore e la piattaforma declinano qualsiasi responsabilita per decisioni, azioni o omissioni basate su queste informazioni. L\'interpretazione e l\'uso dei dati presentati sono esclusivamente a rischio e responsabilita dell\'utente. Verificare sempre direttamente con i documenti ufficiali e consultare professionisti legali qualificati per le decisioni di conformita.',
     legalTitle: 'Riferimenti Normativi',
     legalDesc: 'I seguenti framework normativi sono referenziati nell\'analisi di PolicyWatcher. Ogni voce specifica la versione e la data di riferimento utilizzata:',
@@ -350,7 +351,7 @@ const legalFrameworks = [
   },
   {
     name: 'CCPA / CPRA',
-    version: 'Cal. Civ. Code §§ 1798.100–1798.199.100 (as amended by CPRA, Prop. 24)',
+    version: 'Cal. Civ. Code sections 1798.100-1798.199.100 (as amended by CPRA, Prop. 24)',
     date: '2023-01-01',
     url: 'https://oag.ca.gov/privacy/ccpa',
     desc: {
@@ -420,7 +421,7 @@ const legalFrameworks = [
   },
 ];
 
-// ─── Render helpers ───────────────────────────────────────────────────────────
+// Render helpers.
 
 function renderMarkdown(text: string) {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
@@ -432,13 +433,18 @@ function renderMarkdown(text: string) {
   });
 }
 
-// ─── Component ────────────────────────────────────────────────────────────────
+// Component.
 
 export default function MethodologyModal({ isOpen, onClose, lang }: MethodologyModalProps) {
   const t = content[lang];
   const privacyKPIs = kpiDefinitions.filter(k => k.group === 'privacy');
   const aiGovKPIs = kpiDefinitions.filter(k => k.group === 'aiGov');
   const ethicsKPIs = kpiDefinitions.filter(k => k.group === 'ethics');
+  const kpiSignalColor: Record<KPIDef['values'][number]['color'], string> = {
+    green: '#10b981',
+    yellow: '#f59e0b',
+    red: '#ef4444',
+  };
 
   const renderKPIGroup = (kpis: KPIDef[], groupLabel: string, iconClass: string, icon: React.ReactNode) => (
     <div className={styles.kpiGroup}>
@@ -452,7 +458,8 @@ export default function MethodologyModal({ isOpen, onClose, lang }: MethodologyM
           <div className={styles.kpiValues}>
             {kpi.values.map((v, i) => (
               <span key={i} className={`${styles.kpiValueBadge} ${styles[v.color]}`}>
-                {v.color === 'green' ? '●' : v.color === 'yellow' ? '●' : '●'} {v.label}
+                <IconKpiSignal size={12} color={kpiSignalColor[v.color]} className={styles.kpiValueIcon} />
+                {v.label}
               </span>
             ))}
           </div>
@@ -524,17 +531,17 @@ export default function MethodologyModal({ isOpen, onClose, lang }: MethodologyM
                 </thead>
                 <tbody>
                   <tr>
-                    <td><span className={`${styles.kpiValueBadge} ${styles.green}`}>1 – 3</span></td>
+                    <td><span className={`${styles.kpiValueBadge} ${styles.green}`}>1-3</span></td>
                     <td>{t.riskLow}</td>
                     <td>{t.riskLowDesc}</td>
                   </tr>
                   <tr>
-                    <td><span className={`${styles.kpiValueBadge} ${styles.yellow}`}>4 – 6</span></td>
+                    <td><span className={`${styles.kpiValueBadge} ${styles.yellow}`}>4-6</span></td>
                     <td>{t.riskMedium}</td>
                     <td>{t.riskMediumDesc}</td>
                   </tr>
                   <tr>
-                    <td><span className={`${styles.kpiValueBadge} ${styles.red}`}>7 – 10</span></td>
+                    <td><span className={`${styles.kpiValueBadge} ${styles.red}`}>7-10</span></td>
                     <td>{t.riskHigh}</td>
                     <td>{t.riskHighDesc}</td>
                   </tr>
@@ -700,9 +707,10 @@ export default function MethodologyModal({ isOpen, onClose, lang }: MethodologyM
                       <div><strong>{fw.name}</strong>: {lang === 'en' ? fw.desc.en : fw.desc.it}</div>
                       <div style={{ fontSize: '0.78rem', color: '#888', marginTop: 3 }}>
                         {lang === 'en' ? 'Ref.' : 'Rif.'}: <em>{fw.version}</em>: {lang === 'en' ? 'Effective' : 'In vigore dal'}: {fw.date}
-                        {' · '}
+                        {' / '}
                         <a href={fw.url} target="_blank" rel="noopener noreferrer" style={{ color: '#6366f1', textDecoration: 'none' }}>
-                          {lang === 'en' ? 'Official text ↗' : 'Testo ufficiale ↗'}
+                          {lang === 'en' ? 'Official text' : 'Testo ufficiale'}
+                          <ExternalLink size={12} className={styles.externalInlineIcon} />
                         </a>
                       </div>
                     </div>

@@ -154,7 +154,7 @@ async function seedPolicy(companyId: string, input: PolicySeedInput) {
       url: input.url,
       currentText,
       currentHash,
-      dataStatus: 'Available',
+      dataStatus: 'Configured',
       lastCheckDate: seededAt,
       lastSuccessfulCheckDate: seededAt,
       ingestionMethod: 'Seeded',
@@ -225,7 +225,7 @@ async function seedPolicy(companyId: string, input: PolicySeedInput) {
   await prisma.policyCheckLog.create({
     data: {
       policyId: policy.id,
-      status: 'Available',
+      status: 'Configured',
       checkedAt: seededAt,
       source: 'seeded',
       reason: 'Initial seeded dataset record',
@@ -618,7 +618,7 @@ async function main() {
   // Microsoft Privacy Statement - EU
   await seedPolicy(co['microsoft'].id, {
     name: 'Privacy Statement', type: 'privacy', jurisdiction: 'EU',
-    url: 'https://privacy.microsoft.com/it-it/privacystatement',
+    url: 'https://www.microsoft.com/en-gb/privacy/privacystatement',
     currentText: 'Microsoft Privacy Statement V2 (EU) - Copilot interaction data governed by GDPR-specific processing terms. Enterprise data excluded from AI model training.',
     currentHash: 'ms-privacy-eu-v2',
     snapshots: [
@@ -665,7 +665,7 @@ async function main() {
   // Microsoft Privacy Statement - US
   await seedPolicy(co['microsoft'].id, {
     name: 'Privacy Statement', type: 'privacy', jurisdiction: 'US',
-    url: 'https://privacy.microsoft.com/en-us/privacystatement',
+    url: 'https://www.microsoft.com/en-us/privacy/privacystatement',
     currentText: 'Microsoft Privacy Statement V2 (US) - Copilot and Windows telemetry terms updated for CCPA/CPRA compliance.',
     currentHash: 'ms-privacy-us-v2',
     snapshots: [
@@ -712,7 +712,7 @@ async function main() {
   // Microsoft Privacy Statement - Global
   await seedPolicy(co['microsoft'].id, {
     name: 'Privacy Statement', type: 'privacy', jurisdiction: 'Global',
-    url: 'https://privacy.microsoft.com/en/privacystatement',
+    url: 'https://www.microsoft.com/en-us/privacy/privacystatement',
     currentText: 'Microsoft Privacy Statement V2 (Global) - Baseline telemetry and Copilot data collection terms.',
     currentHash: 'ms-privacy-global-v2',
     snapshots: [
@@ -811,7 +811,7 @@ async function main() {
   // Meta Privacy Policy - EU
   await seedPolicy(co['meta'].id, {
     name: 'Privacy Policy', type: 'privacy', jurisdiction: 'EU',
-    url: 'https://mbasic.facebook.com/privacy/policy',
+    url: 'https://www.facebook.com/privacy/policy/',
     currentText: 'Meta Privacy Policy V2 (EU) - Legitimate interest basis for AI training paused following DPC intervention. Cross-platform data consolidation under scrutiny.',
     currentHash: 'meta-privacy-eu-v2',
     snapshots: [
@@ -861,7 +861,7 @@ async function main() {
   // Meta Privacy Policy - US
   await seedPolicy(co['meta'].id, {
     name: 'Privacy Policy', type: 'privacy', jurisdiction: 'US',
-    url: 'https://mbasic.facebook.com/privacy/policy',
+    url: 'https://www.facebook.com/privacy/policy/',
     currentText: 'Meta Privacy Policy V2 (US) - User-generated content trains Meta AI models. CCPA opt-out available for California residents.',
     currentHash: 'meta-privacy-us-v2',
     snapshots: [
@@ -908,7 +908,7 @@ async function main() {
   // Meta Terms of Service - Global
   await seedPolicy(co['meta'].id, {
     name: 'Terms of Service', type: 'terms', jurisdiction: 'Global',
-    url: 'https://mbasic.facebook.com/legal/terms',
+    url: 'https://www.facebook.com/legal/terms',
     currentText: 'Meta Terms of Service V2 - Users grant a non-exclusive license for AI training on public content. Content moderation appeals process updated.',
     currentHash: 'meta-terms-v2',
     snapshots: [
@@ -1663,7 +1663,7 @@ async function main() {
   // Wise Privacy Policy - EU
   await seedPolicy(co['wise'].id, {
     name: 'Privacy Policy', type: 'privacy', jurisdiction: 'EU',
-    url: 'https://wise.com/us/legal/privacy-policy',
+    url: 'https://wise.com/gb/legal/privacy-notice-personal-en',
     currentText: 'Wise Privacy Policy V2 (EU) - Enhanced AML data processing and AI transaction monitoring under GDPR terms.',
     currentHash: 'wise-privacy-eu-v2',
     snapshots: [
@@ -1757,7 +1757,7 @@ async function main() {
   // Wise Privacy Policy - Global
   await seedPolicy(co['wise'].id, {
     name: 'Privacy Policy', type: 'privacy', jurisdiction: 'Global',
-    url: 'https://wise.com/us/legal/privacy-policy',
+    url: 'https://wise.com/gb/legal/privacy-notice-personal-en',
     currentText: 'Wise Privacy Policy V2 (Global) - Baseline AML and transfer data processing terms.',
     currentHash: 'wise-privacy-global-v2',
     snapshots: [
@@ -1856,7 +1856,7 @@ async function main() {
   // Klarna Privacy Notice - EU
   await seedPolicy(co['klarna'].id, {
     name: 'Privacy Notice', type: 'privacy', jurisdiction: 'EU',
-    url: 'https://www.klarna.com/international/privacy-policy/',
+    url: 'https://www.klarna.com/ie/privacy/',
     currentText: 'Klarna Privacy Notice V2 (EU) - AI-powered purchase financing decisions and consumer data profiling under GDPR.',
     currentHash: 'klarna-privacy-eu-v2',
     snapshots: [
@@ -1906,7 +1906,7 @@ async function main() {
   // Klarna Privacy Notice - US
   await seedPolicy(co['klarna'].id, {
     name: 'Privacy Notice', type: 'privacy', jurisdiction: 'US',
-    url: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy',
+    url: 'https://www.klarna.com/us/privacy/',
     currentText: 'Klarna Privacy Notice V2 (US) - AI credit decisions and CCPA/CPRA-compliant data practices.',
     currentHash: 'klarna-privacy-us-v2',
     snapshots: [
@@ -1953,7 +1953,7 @@ async function main() {
   // Klarna Terms of Service - EU
   await seedPolicy(co['klarna'].id, {
     name: 'Terms of Service', type: 'terms', jurisdiction: 'EU',
-    url: 'https://www.klarna.com/international/terms-and-conditions/',
+    url: 'https://www.klarna.com/ie/terms-and-conditions/',
     currentText: 'Klarna Terms of Service V2 (EU) - Updated Pay Later terms and consumer credit directive compliance.',
     currentHash: 'klarna-terms-eu-v2',
     snapshots: [
@@ -2000,7 +2000,7 @@ async function main() {
   // Klarna Terms of Service - US
   await seedPolicy(co['klarna'].id, {
     name: 'Terms of Service', type: 'terms', jurisdiction: 'US',
-    url: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/terms',
+    url: 'https://www.klarna.com/us/terms-of-use/',
     currentText: 'Klarna Terms of Service V2 (US) - CFPB-regulated BNPL terms with binding arbitration.',
     currentHash: 'klarna-terms-us-v2',
     snapshots: [
@@ -2052,7 +2052,7 @@ async function main() {
   // Plaid Privacy Policy - US
   await seedPolicy(co['plaid'].id, {
     name: 'Privacy Policy', type: 'privacy', jurisdiction: 'US',
-    url: 'https://plaid.com/legal',
+    url: 'https://plaid.com/legal#end-user-privacy-policy',
     currentText: 'Plaid Privacy Policy V2 (US) - Enhanced consent framework and reduced data retention following FTC settlement.',
     currentHash: 'plaid-privacy-us-v2',
     snapshots: [
@@ -2102,7 +2102,7 @@ async function main() {
   // Plaid Privacy Policy - EU
   await seedPolicy(co['plaid'].id, {
     name: 'Privacy Policy', type: 'privacy', jurisdiction: 'EU',
-    url: 'https://plaid.com/legal',
+    url: 'https://plaid.com/legal#end-user-privacy-policy',
     currentText: 'Plaid Privacy Policy V2 (EU) - PSD2-compliant open banking data processing with GDPR consent requirements.',
     currentHash: 'plaid-privacy-eu-v2',
     snapshots: [
@@ -2149,7 +2149,7 @@ async function main() {
   // Plaid End User Services Agreement - US
   await seedPolicy(co['plaid'].id, {
     name: 'End User Services Agreement', type: 'terms', jurisdiction: 'US',
-    url: 'https://plaid.com/legal',
+    url: 'https://plaid.com/legal#end-user-services-agreement-us',
     currentText: 'Plaid End User Services Agreement V2 (US) - Updated liability terms and data accuracy disclaimers.',
     currentHash: 'plaid-eusa-us-v2',
     snapshots: [
@@ -2196,7 +2196,7 @@ async function main() {
   // Plaid End User Services Agreement - EU
   await seedPolicy(co['plaid'].id, {
     name: 'End User Services Agreement', type: 'terms', jurisdiction: 'EU',
-    url: 'https://plaid.com/legal',
+    url: 'https://plaid.com/legal#end-user-services-agreement-eea',
     currentText: 'Plaid End User Services Agreement V2 (EU) - PSD2-governed account access terms with GDPR data rights.',
     currentHash: 'plaid-eusa-eu-v2',
     snapshots: [
@@ -2402,7 +2402,7 @@ async function main() {
   // AWS Data Processing Addendum - Global
   await seedPolicy(co['amazon'].id, {
     name: 'AWS Data Processing Addendum', type: 'developer', jurisdiction: 'Global',
-    url: 'https://aws.amazon.com/service-terms/',
+    url: 'https://docs.aws.amazon.com/whitepapers/latest/navigating-gdpr-compliance/aws-data-processing-addendum-dpa.html',
     currentText: '# AWS Data Processing Addendum V2\nBedrock model customization data fully isolated. SCC clauses updated for Schrems II compliance. AI governance controls added for automated decision-making transparency.',
     currentHash: 'aws-dpa-v2',
     snapshots: [
@@ -2416,7 +2416,7 @@ async function main() {
       aiSummaryIt: 'AWS ha rafforzato il DPA con isolamento completo dei dati per la personalizzazione dei modelli Bedrock, aggiornato le SCC con misure supplementari Schrems II e introdotto controlli di governance IA che consentono ai clienti di verificare il processo decisionale automatizzato e configurare report di trasparenza.',
       overallRisk: 'Low', overallScore: 2,
       remediations: [
-        { titleEn: 'Review Updated DPA', titleIt: 'Rivedi DPA Aggiornato', descriptionEn: 'Review the updated AWS DPA and verify that your data processing agreements reference the latest SCC clauses and Schrems II supplementary measures.', descriptionIt: 'Rivedi il DPA AWS aggiornato e verifica che i tuoi accordi di trattamento dati facciano riferimento alle clausole SCC piu recenti e alle misure supplementari Schrems II.', actionUrl: 'https://aws.amazon.com/service-terms/', actionTextEn: 'AWS DPA', actionTextIt: 'DPA AWS' }
+        { titleEn: 'Review Updated DPA', titleIt: 'Rivedi DPA Aggiornato', descriptionEn: 'Review the updated AWS DPA and verify that your data processing agreements reference the latest SCC clauses and Schrems II supplementary measures.', descriptionIt: 'Rivedi il DPA AWS aggiornato e verifica che i tuoi accordi di trattamento dati facciano riferimento alle clausole SCC piu recenti e alle misure supplementari Schrems II.', actionUrl: 'https://docs.aws.amazon.com/whitepapers/latest/navigating-gdpr-compliance/aws-data-processing-addendum-dpa.html', actionTextEn: 'AWS DPA', actionTextIt: 'DPA AWS' }
       ],
       aiTrainingOptOut: 'Full isolation', aiDataScrapingRestricted: 'Restricted', aiIpLicensing: 'Customer retains all rights', aiPromptRetention: 'Customer-controlled',
       date: '2026-05-15T12:00:00Z',
@@ -2660,7 +2660,7 @@ async function main() {
   // Zoom Privacy Statement - Global
   await seedPolicy(co['zoom'].id, {
     name: 'Privacy Statement', type: 'privacy', jurisdiction: 'Global',
-    url: 'https://explore.zoom.us/en/privacy/',
+    url: 'https://www.zoom.com/en/trust/privacy/privacy-statement/',
     currentText: '# Zoom Privacy Statement V2\nAI Companion features collect meeting transcripts for real-time summarization.\nOpt-out available per meeting via host controls.\nData shared with third-party AI providers only with explicit admin consent.\nAttention tracking feature permanently removed.',
     currentHash: 'zoom-privacy-v2',
     snapshots: [
@@ -2710,7 +2710,7 @@ async function main() {
   // Zoom Terms of Service - Global
   await seedPolicy(co['zoom'].id, {
     name: 'Terms of Service', type: 'terms', jurisdiction: 'Global',
-    url: 'https://explore.zoom.us/en/terms/',
+    url: 'https://www.zoom.com/en/trust/terms/',
     currentText: '# Zoom Terms of Service V2\nCustomer content explicitly excluded from model training.\nAI Companion features require admin opt-in for Enterprise plans.\nFree-tier data may contribute to model improvement with user consent.',
     currentHash: 'zoom-tos-v2',
     snapshots: [
@@ -2724,7 +2724,7 @@ async function main() {
       aiSummaryIt: 'A seguito delle critiche del 2023, Zoom ha aggiornato i termini per escludere esplicitamente il contenuto dei clienti dall\'addestramento dei modelli AI. I piani Enterprise ora richiedono l\'opt-in dell\'amministratore per le funzionalita AI. Gli utenti del piano gratuito ricevono notifiche di consenso prima che i dati contribuiscano al miglioramento dei modelli.',
       overallRisk: 'Low', overallScore: 3,
       remediations: [
-        { titleEn: 'Verify AI Opt-In Status', titleIt: 'Verifica Stato Opt-In AI', descriptionEn: 'Enterprise administrators should verify AI Companion opt-in status in the admin console under Account Settings > AI Features.', descriptionIt: 'Gli amministratori Enterprise dovrebbero verificare lo stato di opt-in di AI Companion nella console admin in Impostazioni Account > Funzionalita AI.', actionUrl: 'https://explore.zoom.us/en/terms/', actionTextEn: 'View Terms', actionTextIt: 'Vedi Termini' },
+        { titleEn: 'Verify AI Opt-In Status', titleIt: 'Verifica Stato Opt-In AI', descriptionEn: 'Enterprise administrators should verify AI Companion opt-in status in the admin console under Account Settings > AI Features.', descriptionIt: 'Gli amministratori Enterprise dovrebbero verificare lo stato di opt-in di AI Companion nella console admin in Impostazioni Account > Funzionalita AI.', actionUrl: 'https://www.zoom.com/en/trust/terms/', actionTextEn: 'View Terms', actionTextIt: 'Vedi Termini' },
       ],
       aiTrainingOptOut: 'Explicit exclusion for paid tiers', aiDataScrapingRestricted: 'Restricted', aiIpLicensing: 'Customer owned', aiPromptRetention: 'Session duration',
       date: '2026-03-10T12:00:00Z',

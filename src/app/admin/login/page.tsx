@@ -21,12 +21,16 @@ export default function AdminLoginPage() {
 
     setError('');
     setLoading(true);
+    let timeout: number | undefined;
 
     try {
+      const controller = new AbortController();
+      timeout = window.setTimeout(() => controller.abort(), 15_000);
       const res = await fetch('/api/admin/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
+        signal: controller.signal,
       });
 
       const data = await res.json();
@@ -36,9 +40,14 @@ export default function AdminLoginPage() {
       } else {
         setError(data.error || 'Invalid credentials. Please try again.');
       }
-    } catch {
-      setError('Unable to reach the server. Please try again later.');
+    } catch (err) {
+      setError(
+        err instanceof DOMException && err.name === 'AbortError'
+          ? 'Login request timed out. Check Hostinger runtime logs and DATABASE_URL.'
+          : 'Unable to reach the server. Please try again later.'
+      );
     } finally {
+      if (timeout) window.clearTimeout(timeout);
       setLoading(false);
     }
   };

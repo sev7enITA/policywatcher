@@ -3,9 +3,12 @@ import {
   dataStatusClassKey,
   dataStatusFromScrapeFailure,
   getWorstDataStatus,
+  isSeededIngestionEvidence,
   isDataStatus,
   normalizeDataStatus,
   normalizeIngestionMethod,
+  hasVerifiedSourceEvidence,
+  shouldRebaselineFromSeededRecord,
 } from '../policyConfidence';
 
 describe('policyConfidence', () => {
@@ -34,5 +37,32 @@ describe('policyConfidence', () => {
     expect(normalizeIngestionMethod('wayback')).toBe('Wayback cache');
     expect(normalizeIngestionMethod('')).toBe('Seeded');
     expect(normalizeIngestionMethod('custom proxy')).toBe('custom proxy');
+  });
+
+  it('detects seeded records that need a real-source rebaseline', () => {
+    expect(isSeededIngestionEvidence('Seeded')).toBe(true);
+    expect(isSeededIngestionEvidence(' Direct scrape ')).toBe(false);
+    expect(shouldRebaselineFromSeededRecord({ ingestionMethod: 'Seeded', dataStatus: 'Configured' })).toBe(true);
+    expect(shouldRebaselineFromSeededRecord({ ingestionMethod: 'Direct scrape', dataStatus: 'Configured' })).toBe(false);
+    expect(shouldRebaselineFromSeededRecord({ ingestionMethod: 'Direct scrape', dataStatus: 'Available' })).toBe(false);
+  });
+
+  it('does not rebaseline seeded-looking records that already have source evidence', () => {
+    const checkLogs = [{ source: 'direct', textHash: 'verified-hash' }];
+
+    expect(hasVerifiedSourceEvidence(checkLogs)).toBe(true);
+    expect(shouldRebaselineFromSeededRecord({
+      ingestionMethod: 'Seeded',
+      dataStatus: 'Configured',
+      checkLogs,
+    })).toBe(false);
+  });
+
+  it('does not rebaseline records with an existing public baseline', () => {
+    expect(shouldRebaselineFromSeededRecord({
+      ingestionMethod: 'Seeded',
+      dataStatus: 'Configured',
+      snapshots: [{ publicEvidence: true }],
+    })).toBe(false);
   });
 });

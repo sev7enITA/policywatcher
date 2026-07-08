@@ -1,16 +1,16 @@
 /**
- * Embed Widget — /embed/change/[id]
+ * Embed Widget - /embed/change/[id]
  *
  * A compact, dark-themed card that journalists and bloggers can embed
  * via an iframe in their articles. Shows company name, risk score,
  * TL;DR, and a "View full analysis" link that breaks out of the iframe.
  *
- * Server component — no client JS for core content (fast, lightweight).
+ * Server component with no client JS for core content.
  *
  * Security:
  *  - All text rendered via React interpolation {value}, never dangerouslySetInnerHTML.
  *  - UUID validated before DB query.
- *  - robots: noindex (set in layout.tsx — canonical is /change/[id]).
+ *  - robots: noindex (set in layout.tsx; canonical is /change/[id]).
  *  - The "View full analysis" link uses target="_top" to navigate the parent frame.
  *
  * The CSP headers in next.config.ts allow /embed/* to be framed through
@@ -21,6 +21,7 @@ import { db } from '@/lib/db';
 import { ArrowUpRight } from 'lucide-react';
 import styles from './embed.module.css';
 import type { Metadata } from 'next';
+import { publicChangeWhere } from '@/lib/publicDataGate';
 
 const UUID_RE = /^[a-f0-9-]{36}$/i;
 
@@ -28,13 +29,13 @@ interface EmbedPageProps {
   params: Promise<{ id: string }>;
 }
 
-/* Metadata — noindex (canonical is /change/[id]) */
+/* Metadata: noindex, canonical is /change/[id]. */
 export async function generateMetadata({ params }: EmbedPageProps): Promise<Metadata> {
   const { id } = await params;
   if (!UUID_RE.test(id)) return { title: 'PolicyWatcher Embed' };
 
-  const change = await db.policyChange.findUnique({
-    where: { id },
+  const change = await db.policyChange.findFirst({
+    where: publicChangeWhere({ id }),
     select: {
       policy: { select: { name: true, company: { select: { name: true } } } },
     },
@@ -43,7 +44,7 @@ export async function generateMetadata({ params }: EmbedPageProps): Promise<Meta
   if (!change) return { title: 'PolicyWatcher Embed' };
 
   return {
-    title: `${change.policy.company.name} — ${change.policy.name} | PolicyWatcher`,
+    title: `${change.policy.company.name} - ${change.policy.name} | PolicyWatcher`,
     robots: { index: false, follow: false },
   };
 }
@@ -57,8 +58,8 @@ export default async function EmbedPage({ params }: EmbedPageProps) {
     notFound();
   }
 
-  const change = await db.policyChange.findUnique({
-    where: { id },
+  const change = await db.policyChange.findFirst({
+    where: publicChangeWhere({ id }),
     select: {
       overallRisk: true,
       overallScore: true,
@@ -129,7 +130,7 @@ export default async function EmbedPage({ params }: EmbedPageProps) {
             <div>
               <div className={styles.companyName}>{company.name}</div>
               <div className={styles.policyName}>
-                {change.policy.name} · {change.policy.type}
+                {change.policy.name} / {change.policy.type}
               </div>
             </div>
           </div>

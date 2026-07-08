@@ -87,9 +87,9 @@ async function main() {
   console.log('='.repeat(80));
 
   for (const company of companies) {
-    console.log(`\n${'─'.repeat(60)}`);
+    console.log(`\n${'-'.repeat(60)}`);
     console.log(`COMPANY: ${company.name} (${company.industry})`);
-    console.log(`${'─'.repeat(60)}`);
+    console.log(`${'-'.repeat(60)}`);
 
     if (company.policies.length === 0) {
       console.log('  [NO POLICIES]');

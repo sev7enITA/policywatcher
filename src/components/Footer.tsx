@@ -4,23 +4,23 @@
  * Site-wide footer rendered at the bottom of every page.
  *
  * Sections:
- *  - **Brand** — logo, tagline, and "Made in the EU" badge.
- *  - **Legal** — links to the Privacy Policy and Terms of Use (the Terms
+ *  - **Brand** logo, tagline, and "Made in the EU" badge.
+ *  - **Legal** links to the Privacy Policy and Terms of Use (the Terms
  *    link clears localStorage acceptance so the TermsGate re-appears).
- *  - **Contact & Security** — mailto link and security policy page.
- *  - **Resources** — external links (e.g. PALO Framework).
- *  - **Bottom bar** — beta disclaimer and copyright notice.
+ *  - **Contact & Security** mailto link and security policy page.
+ *  - **Resources** external links (e.g. PALO Framework).
+ *  - **Bottom bar** beta disclaimer and copyright notice.
  *
  * Supports EN/IT localisation.
  */
 'use client';
 
-import { ShieldCheck, FileText, Lock, Mail, ExternalLink, Sparkles, Cpu } from 'lucide-react';
+import { BarChart3, ShieldCheck, FileText, Lock, Mail, ExternalLink, Sparkles, Cpu } from 'lucide-react';
 import styles from './Footer.module.css';
 
 /** Props for the {@link Footer} component. */
 interface FooterProps {
-  /** Active UI language — controls all footer copy. */
+  /** Active UI language controls all footer copy. */
   lang: 'en' | 'it';
 }
 
@@ -36,11 +36,12 @@ const content = {
     securityTxt: 'security.txt',
     resources: 'Resources',
     showcase: 'Showcase',
+    leaderboard: 'Policy Signals',
     roadmap: '3.5 Roadmap',
     trust: 'Trust & Quality',
     paloFramework: 'PALO Framework',
     disclaimer: 'Confidence Release v3.5. AI-assisted assessments, not legal advice. Verify with provider sources.',
-    copy: `\u00A9 ${new Date().getFullYear()} PolicyWatcher by Fabrizio Degni. All rights reserved.`,
+    copy: `Copyright ${new Date().getFullYear()} PolicyWatcher by Fabrizio Degni. All rights reserved.`,
     madeIn: 'Made in the EU',
   },
   it: {
@@ -54,11 +55,12 @@ const content = {
     securityTxt: 'security.txt',
     resources: 'Risorse',
     showcase: 'Vetrina',
+    leaderboard: 'Segnali policy',
     roadmap: 'Roadmap 3.5',
     trust: 'Qualità e fiducia',
     paloFramework: 'PALO Framework',
     disclaimer: 'Confidence Release v3.5. Valutazioni assistite da AI, non parere legale. Verificare con le fonti provider.',
-    copy: `\u00A9 ${new Date().getFullYear()} PolicyWatcher di Fabrizio Degni. Tutti i diritti riservati.`,
+    copy: `Copyright ${new Date().getFullYear()} PolicyWatcher di Fabrizio Degni. Tutti i diritti riservati.`,
     madeIn: 'Fatto in UE',
   },
 };
@@ -140,6 +142,12 @@ export default function Footer({ lang }: FooterProps) {
                 </a>
               </li>
               <li>
+                <a href="/leaderboard">
+                  <BarChart3 size={14} />
+                  {t.leaderboard}
+                </a>
+              </li>
+              <li>
                 <a href="/showcase">
                   <Sparkles size={14} />
                   {t.showcase}
@@ -163,7 +171,7 @@ export default function Footer({ lang }: FooterProps) {
 
         <div className={styles.bottom}>
           <p className={styles.disclaimer}>{t.disclaimer}</p>
-          <p className={styles.copy}>{t.copy} &bull; Build v3.5.1 Audit Operations</p>
+          <p className={styles.copy}>{t.copy} / Build v3.5.1 Audit Operations</p>
         </div>
       </div>
     </footer>

@@ -55,6 +55,10 @@ interface Policy {
   url: string;
   jurisdiction: string;
   currentHash: string | null;
+  dataStatus: string;
+  ingestionMethod: string;
+  lastCheckDate: string;
+  lastSuccessfulCheckDate: string;
   updatedAt: string;
   _count: { changes: number; snapshots: number };
 }
@@ -278,6 +282,11 @@ export default function CompanyManagerPage() {
       const res = await fetch(`/api/admin/companies?id=${deleteTarget.id}`, {
         method: 'DELETE',
         credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          confirmName: deleteConfirmName,
+          confirmToken: 'DELETE_COMPANY',
+        }),
       });
 
       const data = await res.json();
@@ -340,15 +349,20 @@ export default function CompanyManagerPage() {
 
   /* ---------- Delete Policy ---------- */
   const handleDeletePolicy = async (policyId: string, policyName: string) => {
-    const confirmed = window.confirm(
-      `Are you sure you want to delete the policy "${policyName}"? This will remove all associated snapshots and change records.`
+    const confirmName = window.prompt(
+      `Type the policy name to delete it and all associated snapshots/change records:\n\n${policyName}`
     );
-    if (!confirmed) return;
+    if (confirmName !== policyName) return;
 
     try {
       const res = await fetch(`/api/admin/policies?id=${policyId}`, {
         method: 'DELETE',
         credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          confirmName,
+          confirmToken: 'DELETE_POLICY',
+        }),
       });
 
       const data = await res.json();

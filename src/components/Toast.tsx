@@ -4,11 +4,11 @@
  * Application-wide toast notification system built on React Context.
  *
  * Architecture:
- *  - **ToastProvider** — wraps the app root, maintains the toast queue,
+ *  - **ToastProvider** wraps the app root, maintains the toast queue,
  *    and renders the fixed-position container.
- *  - **useToast()** — hook that exposes `addToast` and `removeToast`
+ *  - **useToast()** hook that exposes `addToast` and `removeToast`
  *    to any descendant component.
- *  - **ToastItem** — individual notification card with auto-dismiss timer,
+ *  - **ToastItem** individual notification card with auto-dismiss timer,
  *    animated progress bar, and manual close button.
  *
  * Supports four severity levels: success, error, warning, info.

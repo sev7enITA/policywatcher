@@ -27,6 +27,10 @@ export async function GET(request: NextRequest) {
             url: true,
             jurisdiction: true,
             currentHash: true,
+            dataStatus: true,
+            ingestionMethod: true,
+            lastCheckDate: true,
+            lastSuccessfulCheckDate: true,
             updatedAt: true,
             _count: { select: { changes: true, snapshots: true } },
           },
@@ -98,6 +102,26 @@ export async function DELETE(request: NextRequest) {
     const company = await db.company.findUnique({ where: { id } });
     if (!company) {
       return NextResponse.json({ error: 'Company not found' }, { status: 404 });
+    }
+
+    let confirmation: { confirmName?: unknown; confirmToken?: unknown } = {};
+    try {
+      confirmation = await request.json();
+    } catch {
+      confirmation = {};
+    }
+
+    if (
+      confirmation.confirmName !== company.name ||
+      confirmation.confirmToken !== 'DELETE_COMPANY'
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            'Destructive confirmation required. Provide confirmName equal to the company name and confirmToken=DELETE_COMPANY.',
+        },
+        { status: 409 }
+      );
     }
 
     // Cascade delete is handled by Prisma schema (onDelete: Cascade)

@@ -15,6 +15,7 @@ export default defineConfig({
         'src/lib/subscriberPreferences.ts',
         'src/lib/diffParse.ts',
         'src/lib/exporters.ts',
+        'src/lib/scraper.ts',
       ],
     },
   },

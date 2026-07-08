@@ -40,7 +40,7 @@ let lastPrune = Date.now();
  * memory growth.  Runs at most once every `PRUNE_INTERVAL_MS`.
  *
  * @param now - Current timestamp in milliseconds.
- * @param ttlMs - The interval window; buckets older than 2× this are pruned.
+ * @param ttlMs - The interval window; buckets older than 2 times this are pruned.
  */
 function pruneStale(now: number, ttlMs: number) {
   if (now - lastPrune < PRUNE_INTERVAL_MS) return;
@@ -63,7 +63,7 @@ const TRUSTED_CLIENT_IP_HEADER = process.env.TRUSTED_CLIENT_IP_HEADER?.toLowerCa
  * or set `TRUST_PROXY_HEADERS=true` only after the reverse proxy is confirmed
  * to overwrite incoming `x-forwarded-for` values.
  */
-function getClientIp(request: Request): string {
+export function getClientIp(request: Request): string {
   if (TRUSTED_CLIENT_IP_HEADER) {
     const trusted = request.headers.get(TRUSTED_CLIENT_IP_HEADER);
     if (trusted) return trusted.split(',')[0].trim();

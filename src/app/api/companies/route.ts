@@ -15,6 +15,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
+import { allowSeededPublicData, publicPolicyWhere } from '@/lib/publicDataGate';
 
 /**
  * Retrieves all companies with their policies and the latest change per policy.
@@ -30,11 +31,15 @@ export async function GET(request: NextRequest) {
   if (limited) return limited;
 
   try {
+    const policyWhere = publicPolicyWhere();
     const companies = await db.company.findMany({
+      where: allowSeededPublicData() ? {} : { policies: { some: policyWhere } },
       include: {
         policies: {
+          where: policyWhere,
           include: {
             changes: {
+              where: { publicEvidence: true },
               orderBy: {
                 createdAt: 'desc',
               },

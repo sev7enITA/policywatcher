@@ -14,6 +14,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { db } from '@/lib/db';
+import { publicPolicyWhere } from '@/lib/publicDataGate';
 import { ShieldAlert, TrendingUp, Globe, FileDown, ExternalLink, AlertTriangle } from 'lucide-react';
 import styles from './share.module.css';
 import type { Metadata } from 'next';
@@ -40,9 +41,16 @@ export async function generateMetadata({
   params,
 }: SharePageProps): Promise<Metadata> {
   const { id } = await params;
-  const policy = await db.policy.findUnique({
-    where: { id },
-    include: { company: true, changes: { orderBy: { createdAt: 'desc' }, take: 1 } },
+  const policy = await db.policy.findFirst({
+    where: publicPolicyWhere({ id }),
+    include: {
+      company: true,
+      changes: {
+        where: { publicEvidence: true },
+        orderBy: { createdAt: 'desc' },
+        take: 1,
+      },
+    },
   });
 
   if (!policy) return { title: 'PolicyWatcher: Not found' };
@@ -75,11 +83,12 @@ export default async function SharePage({ params, searchParams }: SharePageProps
   const lang = sp.lang === 'it' ? 'it' : 'en';
   const isIt = lang === 'it';
 
-  const policy = await db.policy.findUnique({
-    where: { id },
+  const policy = await db.policy.findFirst({
+    where: publicPolicyWhere({ id }),
     include: {
       company: true,
       changes: {
+        where: { publicEvidence: true },
         orderBy: { createdAt: 'desc' },
         take: 1,
         include: { regionImpacts: true },
@@ -132,7 +141,7 @@ export default async function SharePage({ params, searchParams }: SharePageProps
     disclaimerTitle: isIt ? 'Disclaimer' : 'Disclaimer',
     disclaimer:
       'CONFIDENCE RELEASE v3.5: AI-assisted assessment of publicly available policy texts. Not legal advice. Not a compliance certification. Always consult provider sources and qualified legal counsel.',
-    backHome: isIt ? 'Esplora altre aziende →' : 'Explore more companies →',
+    backHome: isIt ? 'Esplora altre aziende' : 'Explore more companies',
     high: isIt ? 'Alto' : 'High',
     medium: isIt ? 'Medio' : 'Medium',
     low: isIt ? 'Basso' : 'Low',
@@ -156,7 +165,7 @@ export default async function SharePage({ params, searchParams }: SharePageProps
             >
               EN
             </Link>
-            <span className={styles.langSep}>·</span>
+            <span className={styles.langSep}>/</span>
             <Link
               href={`/share/${id}?lang=it`}
               className={lang === 'it' ? styles.langActive : styles.lang}
@@ -311,7 +320,7 @@ export default async function SharePage({ params, searchParams }: SharePageProps
           </div>
           <p>{L.disclaimer}</p>
           <p className={styles.copyright}>
-            © {new Date().getFullYear()} PolicyWatcher | {L.brand}
+            Copyright {new Date().getFullYear()} PolicyWatcher | {L.brand}
           </p>
         </footer>
       </div>

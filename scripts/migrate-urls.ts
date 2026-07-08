@@ -1,6 +1,6 @@
 #!/usr/bin/env npx tsx
 /**
- * URL Migration Script — Fix failing policy URLs
+ * URL Migration Script - Fix failing policy URLs
  *
  * Usage:
  *   npx tsx scripts/migrate-urls.ts
@@ -16,36 +16,89 @@ const prisma = new PrismaClient();
 interface UrlUpdate {
   company: string;
   policyName: string;
+  jurisdictions?: string[];
   oldUrlPart: string;     // partial match against current URL
   newUrl: string;
   reason: string;
 }
 
+interface MigrationResult {
+  updated: number;
+  skipped: number;
+  notFound: number;
+}
+
 const URL_UPDATES: UrlUpdate[] = [
-  // ── Meta (http_400 → mbasic.facebook.com serves static HTML) ──
+  // Microsoft: privacy.microsoft.com redirects to www.microsoft.com and was
+  // rejected by host-drift protection; use the official final hosts.
+  {
+    company: 'Microsoft',
+    policyName: 'Privacy Statement',
+    jurisdictions: ['EU'],
+    oldUrlPart: 'privacy.microsoft.com/it-it/privacystatement',
+    newUrl: 'https://www.microsoft.com/en-gb/privacy/privacystatement',
+    reason: 'Official final Microsoft Privacy Statement URL; avoids host-drift rejection',
+  },
+  {
+    company: 'Microsoft',
+    policyName: 'Privacy Statement',
+    jurisdictions: ['US'],
+    oldUrlPart: 'privacy.microsoft.com/en-us/privacystatement',
+    newUrl: 'https://www.microsoft.com/en-us/privacy/privacystatement',
+    reason: 'Official final Microsoft Privacy Statement URL; avoids host-drift rejection',
+  },
+  {
+    company: 'Microsoft',
+    policyName: 'Privacy Statement',
+    jurisdictions: ['Global'],
+    oldUrlPart: 'privacy.microsoft.com/en/privacystatement',
+    newUrl: 'https://www.microsoft.com/en-us/privacy/privacystatement',
+    reason: 'Official Microsoft Privacy Statement baseline; legacy /en path is not a fetchable final URL',
+  },
+
+  // Zoom: explore.zoom.us redirects to zoom.com and was rejected by
+  // host-drift protection; use current official trust-center URLs.
+  {
+    company: 'Zoom',
+    policyName: 'Privacy Statement',
+    oldUrlPart: 'explore.zoom.us/en/privacy',
+    newUrl: 'https://www.zoom.com/en/trust/privacy/privacy-statement/',
+    reason: 'Current official Zoom Trust Center privacy URL',
+  },
+  {
+    company: 'Zoom',
+    policyName: 'Terms of Service',
+    oldUrlPart: 'explore.zoom.us/en/terms',
+    newUrl: 'https://www.zoom.com/en/trust/terms/',
+    reason: 'Current official Zoom Trust Center terms URL',
+  },
+
+  // Meta: mbasic.facebook.com was DISCONTINUED by Meta in 2024: it now
+  // returns HTTP 400 even over HTTP/2. The www pages are SPAs and are
+  // recovered by the rendered-fetch strategy via the VPS renderer.
   {
     company: 'Meta',
     policyName: 'Privacy Policy',
     oldUrlPart: 'facebook.com/privacy/explanation',
-    newUrl: 'https://mbasic.facebook.com/privacy/policy',
-    reason: 'mbasic.facebook.com serves static HTML without JS/bot-blocking',
+    newUrl: 'https://www.facebook.com/privacy/policy/',
+    reason: 'mbasic discontinued (HTTP 400); www SPA handled by renderer strategy',
   },
   {
     company: 'Meta',
     policyName: 'Privacy Policy',
-    oldUrlPart: 'facebook.com/privacy/policy',
-    newUrl: 'https://mbasic.facebook.com/privacy/policy',
-    reason: 'mbasic.facebook.com serves static HTML without JS/bot-blocking',
+    oldUrlPart: 'mbasic.facebook.com/privacy/policy',
+    newUrl: 'https://www.facebook.com/privacy/policy/',
+    reason: 'mbasic discontinued (HTTP 400); www SPA handled by renderer strategy',
   },
   {
     company: 'Meta',
     policyName: 'Terms of Service',
-    oldUrlPart: 'facebook.com/legal/terms',
-    newUrl: 'https://mbasic.facebook.com/legal/terms',
-    reason: 'mbasic.facebook.com serves static HTML without JS/bot-blocking',
+    oldUrlPart: 'mbasic.facebook.com/legal/terms',
+    newUrl: 'https://www.facebook.com/legal/terms',
+    reason: 'mbasic discontinued (HTTP 400); www SPA handled by renderer strategy',
   },
 
-  // ── PayPal (captcha → legacy /webapps/mpp/ua/ path) ──
+  // PayPal: captcha to legacy /webapps/mpp/ua/ path.
   {
     company: 'PayPal',
     policyName: 'Privacy Statement',
@@ -61,13 +114,22 @@ const URL_UPDATES: UrlUpdate[] = [
     reason: 'Legacy path bypasses CAPTCHA on datacenter IPs',
   },
 
-  // ── Wise (content_too_short → US locale serves SSR HTML) ──
+  // Wise: content_too_short to US locale serves SSR HTML.
   {
     company: 'Wise',
     policyName: 'Privacy Policy',
+    jurisdictions: ['EU', 'Global'],
+    oldUrlPart: 'wise.com/gb/legal/privacy-policy',
+    newUrl: 'https://wise.com/gb/legal/privacy-notice-personal-en',
+    reason: 'Official Wise personal privacy notice applies globally and includes country-specific provisions',
+  },
+  {
+    company: 'Wise',
+    policyName: 'Privacy Policy',
+    jurisdictions: ['US'],
     oldUrlPart: 'wise.com/gb/legal/privacy-policy',
     newUrl: 'https://wise.com/us/legal/privacy-policy',
-    reason: 'US locale serves SSR content (506KB text)',
+    reason: 'US policy record should use the US-specific Wise privacy source',
   },
   {
     company: 'Wise',
@@ -77,53 +139,84 @@ const URL_UPDATES: UrlUpdate[] = [
     reason: 'GB terms returned 404; US path works',
   },
 
-  // ── Klarna (content_too_short → CDN serves static HTML) ──
+  // Klarna: replace broad/international or stale CDN paths with current
+  // market sources; EU terms remains suspended if the source body is too
+  // short for evidence-grade publication.
   {
     company: 'Klarna',
     policyName: 'Privacy Notice',
     oldUrlPart: 'klarna.com/us/privacy',
-    newUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy',
-    reason: 'CDN serves plain static HTML without Cloudflare (57KB text)',
+    newUrl: 'https://www.klarna.com/us/privacy/',
+    reason: 'Official US privacy page is directly fetchable',
   },
   {
     company: 'Klarna',
     policyName: 'Privacy Notice',
-    oldUrlPart: 'klarna.com/it/privacy',
-    newUrl: 'https://www.klarna.com/international/privacy-policy/',
-    reason: 'International path serves SSR HTML (111KB text)',
+    jurisdictions: ['US'],
+    oldUrlPart: 'cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy',
+    newUrl: 'https://www.klarna.com/us/privacy/',
+    reason: 'Replace previous CDN workaround with official US privacy page',
+  },
+  {
+    company: 'Klarna',
+    policyName: 'Privacy Notice',
+    jurisdictions: ['EU'],
+    oldUrlPart: 'klarna.com/international/privacy-policy',
+    newUrl: 'https://www.klarna.com/ie/privacy/',
+    reason: 'Official English EU/Ireland privacy page is directly fetchable',
   },
   {
     company: 'Klarna',
     policyName: 'Terms of Service',
     oldUrlPart: 'klarna.com/us/terms',
-    newUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/terms',
-    reason: 'CDN serves plain static HTML without Cloudflare',
+    newUrl: 'https://www.klarna.com/us/terms-of-use/',
+    reason: 'Official US terms page replaces stale CDN URL',
   },
   {
     company: 'Klarna',
     policyName: 'Terms of Service',
-    oldUrlPart: 'klarna.com/it/terms',
-    newUrl: 'https://www.klarna.com/international/terms-and-conditions/',
-    reason: 'International path serves SSR HTML',
+    jurisdictions: ['US'],
+    oldUrlPart: 'cdn.klarna.com/1.0/shared/content/legal/terms/en-us/terms',
+    newUrl: 'https://www.klarna.com/us/terms-of-use/',
+    reason: 'Replace previous CDN workaround with official US terms page',
+  },
+  {
+    company: 'Klarna',
+    policyName: 'Terms of Service',
+    jurisdictions: ['EU'],
+    oldUrlPart: 'klarna.com/international/terms-and-conditions',
+    newUrl: 'https://www.klarna.com/ie/terms-and-conditions/',
+    reason: 'Official English EU/Ireland terms page; QA will suspend if the returned body is too short',
   },
 
-  // ── Plaid (captcha → /legal single page works) ──
+  // Plaid: the /legal hub is too broad; anchor-scoped extraction keeps the
+  // monitored evidence to the intended legal section.
   {
     company: 'Plaid',
     policyName: 'Privacy Policy',
-    oldUrlPart: 'plaid.com/legal/#privacy',
-    newUrl: 'https://plaid.com/legal',
-    reason: 'Anchor-less /legal page returns 200 with 1MB text (no CAPTCHA)',
+    jurisdictions: ['US', 'EU'],
+    oldUrlPart: 'plaid.com/legal',
+    newUrl: 'https://plaid.com/legal#end-user-privacy-policy',
+    reason: 'Anchor-scoped End User Privacy Policy prevents full legal-hub partial captures',
   },
   {
     company: 'Plaid',
     policyName: 'End User Services Agreement',
-    oldUrlPart: 'plaid.com/legal/#end-user-services',
-    newUrl: 'https://plaid.com/legal',
-    reason: 'Anchor-less /legal page returns 200 with 1MB text (no CAPTCHA)',
+    jurisdictions: ['US'],
+    oldUrlPart: 'plaid.com/legal',
+    newUrl: 'https://plaid.com/legal#end-user-services-agreement-us',
+    reason: 'Anchor-scoped US EUSA prevents full legal-hub partial captures',
+  },
+  {
+    company: 'Plaid',
+    policyName: 'End User Services Agreement',
+    jurisdictions: ['EU'],
+    oldUrlPart: 'plaid.com/legal',
+    newUrl: 'https://plaid.com/legal#end-user-services-agreement-eea',
+    reason: 'Anchor-scoped EEA EUSA prevents full legal-hub partial captures',
   },
 
-  // ── TikTok Community Guidelines (content_too_short → /legal/page/) ──
+  // TikTok Community Guidelines: content_too_short to /legal/page/.
   {
     company: 'TikTok',
     policyName: 'Community Guidelines',
@@ -132,65 +225,137 @@ const URL_UPDATES: UrlUpdate[] = [
     reason: '/legal/page/ path serves SSR HTML (23KB text)',
   },
 
-  // ── Amazon AWS DPA (404 → integrated into service-terms) ──
+  // Amazon AWS DPA: service-terms is too broad; use focused AWS DPA source.
   {
     company: 'Amazon',
     policyName: 'AWS Data Processing Addendum',
     oldUrlPart: 'aws.amazon.com/compliance/data-processing-addendum',
-    newUrl: 'https://aws.amazon.com/service-terms/',
-    reason: 'DPA page was removed; now part of service-terms (908KB)',
+    newUrl: 'https://docs.aws.amazon.com/whitepapers/latest/navigating-gdpr-compliance/aws-data-processing-addendum-dpa.html',
+    reason: 'Focused AWS DPA documentation avoids broad service-terms partial capture',
+  },
+  {
+    company: 'Amazon',
+    policyName: 'AWS Data Processing Addendum',
+    oldUrlPart: 'aws.amazon.com/service-terms',
+    newUrl: 'https://docs.aws.amazon.com/whitepapers/latest/navigating-gdpr-compliance/aws-data-processing-addendum-dpa.html',
+    reason: 'Focused AWS DPA documentation avoids broad service-terms partial capture',
   },
 ];
 
 async function main() {
-  console.log('\n🔧 PolicyWatcher — URL Migration\n');
+  const dryRun = process.argv.includes('--dry-run');
+
+  console.log('\nPolicyWatcher URL Migration\n');
   console.log(`${URL_UPDATES.length} URL updates to apply.\n`);
+  if (dryRun) {
+    console.log('DRY RUN: no database rows will be changed.\n');
+  }
 
   let updated = 0;
   let skipped = 0;
   let notFound = 0;
 
   for (const upd of URL_UPDATES) {
-    // Find matching policy by URL substring
-    const policy = await prisma.policy.findFirst({
-      where: {
-        url: { contains: upd.oldUrlPart },
-      },
-      include: { company: { select: { name: true } } },
-    });
-
-    if (!policy) {
-      console.log(`⚠️  NOT FOUND: ${upd.company} / ${upd.policyName} (url contains "${upd.oldUrlPart}")`);
-      notFound++;
-      continue;
-    }
-
-    if (policy.url === upd.newUrl) {
-      console.log(`⏭  SKIP: ${policy.company.name} / ${policy.name} — already updated`);
-      skipped++;
-      continue;
-    }
-
-    await prisma.policy.update({
-      where: { id: policy.id },
-      data: { url: upd.newUrl },
-    });
-
-    console.log(`✅ ${policy.company.name} / ${policy.name}`);
-    console.log(`   ${policy.url}`);
-    console.log(`   → ${upd.newUrl}`);
-    console.log(`   (${upd.reason})\n`);
-    updated++;
+    const result = await applyUrlUpdate(upd, dryRun);
+    updated += result.updated;
+    skipped += result.skipped;
+    notFound += result.notFound;
   }
 
-  console.log('─'.repeat(50));
+  console.log('-'.repeat(50));
   console.log(`Done. Updated: ${updated}, Skipped: ${skipped}, Not found: ${notFound}`);
   console.log('');
 
   await prisma.$disconnect();
 }
 
-main().catch((err) => {
+async function applyUrlUpdate(upd: UrlUpdate, dryRun: boolean): Promise<MigrationResult> {
+  // Scope by company and policy name first, then match either the old URL
+  // fragment or the already-migrated URL. This keeps the migration idempotent
+  // and prevents a shared URL fragment from updating the wrong company/policy.
+  const policies = await prisma.policy.findMany({
+    where: {
+      company: { name: upd.company },
+      name: upd.policyName,
+      ...(upd.jurisdictions ? { jurisdiction: { in: upd.jurisdictions } } : {}),
+      OR: [
+        { url: { contains: upd.oldUrlPart } },
+        { url: upd.newUrl },
+      ],
+    },
+    include: {
+      company: { select: { name: true } },
+      snapshots: {
+        where: { publicEvidence: true },
+        select: { id: true },
+        take: 1,
+      },
+    },
+    orderBy: [
+      { jurisdiction: 'asc' },
+      { createdAt: 'asc' },
+    ],
+  });
+
+  if (policies.length === 0) {
+    console.log(`[NOT FOUND] ${upd.company} / ${upd.policyName} (url contains "${upd.oldUrlPart}")`);
+    return { updated: 0, skipped: 0, notFound: 1 };
+  }
+
+  let updated = 0;
+  let skipped = 0;
+
+  for (const policy of policies) {
+    const label = `${policy.company.name} / ${policy.name} / ${policy.jurisdiction}`;
+
+    if (policy.url === upd.newUrl) {
+      console.log(`[SKIP] ${label} - already updated`);
+      skipped++;
+      continue;
+    }
+
+    if (!policy.url.includes(upd.oldUrlPart)) {
+      // Defensive guard in case the query is expanded in the future.
+      console.log(`[SKIP] ${label} - URL does not match expected source fragment`);
+      console.log(`   current: ${policy.url}`);
+      skipped++;
+      continue;
+    }
+
+    if (!dryRun) {
+      const nextStatus = policy.snapshots.length > 0 ? 'Needs Review' : 'Configured';
+      await prisma.$transaction([
+        prisma.policy.update({
+          where: { id: policy.id },
+          data: {
+            url: upd.newUrl,
+            dataStatus: nextStatus,
+          },
+        }),
+        prisma.policyCheckLog.create({
+          data: {
+            policyId: policy.id,
+            status: nextStatus,
+            source: 'source_remediation',
+            reason: 'source_url_remediation',
+            finalUrl: upd.newUrl,
+          },
+        }),
+      ]);
+    }
+
+    console.log(`[${dryRun ? 'DRY' : 'UPDATE'}] ${label}`);
+    console.log(`   ${policy.url}`);
+    console.log(`   -> ${upd.newUrl}`);
+    console.log(`   (${upd.reason})\n`);
+    updated++;
+  }
+
+  return { updated, skipped, notFound: 0 };
+}
+
+main().catch(async (err) => {
   console.error('Migration failed:', err);
+  await prisma.$disconnect();
   process.exit(1);
 });

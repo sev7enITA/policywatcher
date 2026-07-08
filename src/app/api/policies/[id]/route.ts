@@ -15,6 +15,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
+import { publicPolicyWhere, publicSnapshotWhere } from '@/lib/publicDataGate';
 
 /**
  * Fetches a single policy by its dynamic `[id]` route parameter.
@@ -37,16 +38,18 @@ export async function GET(
   try {
     const { id } = await params;
 
-    const policy = await db.policy.findUnique({
-      where: { id },
+    const policy = await db.policy.findFirst({
+      where: publicPolicyWhere({ id }),
       include: {
         company: true,
         snapshots: {
+          where: publicSnapshotWhere(),
           orderBy: {
             version: 'desc',
           },
         },
         changes: {
+          where: { publicEvidence: true },
           orderBy: {
             createdAt: 'desc',
           },
@@ -75,7 +78,7 @@ export async function GET(
     // Fetch all sibling policies (same company) so the UI can show
     // the full inventory of monitored documents for this company.
     const siblingPolicies = await db.policy.findMany({
-      where: { companyId: policy.companyId },
+      where: publicPolicyWhere({ companyId: policy.companyId }),
       select: {
         id: true,
         name: true,
@@ -89,6 +92,7 @@ export async function GET(
         lastSuccessfulCheckDate: true,
         updatedAt: true,
         snapshots: {
+          where: publicSnapshotWhere(),
           orderBy: { version: 'desc' },
           take: 1,
           select: { version: true, createdAt: true },

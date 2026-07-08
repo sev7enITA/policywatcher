@@ -353,3 +353,135 @@ export function IconAbout({ size = 24, color = '#06b6d4', className }: IconProps
     </svg>
   );
 }
+
+/**
+ * Evidence accepted mark - source document, gate line and verified node
+ */
+export function IconEvidenceAccepted({ size = 24, color = '#10b981', className }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M5 4.5A2.5 2.5 0 017.5 2h6L19 7.5v12A2.5 2.5 0 0116.5 22h-9A2.5 2.5 0 015 19.5v-15z" />
+      <path d="M13.5 2.5V8H19" strokeOpacity={0.72} />
+      <path d="M8.5 13.2l2.2 2.3 4.9-5.2" stroke="#10b981" strokeWidth={2.2} />
+      <path d="M7.8 18h8.4" strokeOpacity={0.42} />
+    </svg>
+  );
+}
+
+/**
+ * Source attention mark - policy source with evidence warning diamond
+ */
+export function IconSourceAttention({ size = 24, color = '#f59e0b', className }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M4.5 5.5A2.5 2.5 0 017 3h7.2L19.5 8.3V18A2.5 2.5 0 0117 20.5H7A2.5 2.5 0 014.5 18V5.5z" />
+      <path d="M14 3.5V8h4.5" strokeOpacity={0.72} />
+      <path d="M12 10.2l4.8 4.8L12 19.8 7.2 15 12 10.2z" fill="rgba(245,158,11,0.14)" />
+      <path d="M12 13v2.2" strokeWidth={2} />
+      <path d="M12 17.2h.01" strokeWidth={2.4} />
+    </svg>
+  );
+}
+
+/**
+ * Source failed mark - source chain ending in a blocked evidence gate
+ */
+export function IconSourceFailed({ size = 24, color = '#ef4444', className }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M5 12a4 4 0 014-4h2" />
+      <path d="M13 8h2a4 4 0 010 8h-2" />
+      <path d="M9 16H7.5A3.5 3.5 0 014 12.5" strokeOpacity={0.55} />
+      <path d="M8 5l11 14" strokeWidth={2.2} />
+      <path d="M19 5L8 19" strokeWidth={2.2} />
+    </svg>
+  );
+}
+
+/**
+ * Scan pulse mark - moving scan frame around the policy evidence stream
+ */
+export function IconScanPulse({ size = 24, color = '#6366f1', className }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M4 8V5.5A1.5 1.5 0 015.5 4H8" />
+      <path d="M16 4h2.5A1.5 1.5 0 0120 5.5V8" />
+      <path d="M20 16v2.5a1.5 1.5 0 01-1.5 1.5H16" />
+      <path d="M8 20H5.5A1.5 1.5 0 014 18.5V16" />
+      <path d="M7 12h10" stroke="#06b6d4" strokeWidth={2.1} />
+      <path d="M8 9.5h8" strokeOpacity={0.45} />
+      <path d="M8 14.5h5.5" strokeOpacity={0.45} />
+      <circle cx="17" cy="14.5" r="1.4" fill="#10b981" stroke="none" />
+    </svg>
+  );
+}
+
+/**
+ * KPI signal mark - compact evidence state used inside KPI badges
+ */
+export function IconKpiSignal({ size = 12, color = '#10b981', className }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 12 12"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+    >
+      <path
+        d="M6 1.25l4.75 2.55v4.4L6 10.75 1.25 8.2V3.8L6 1.25z"
+        fill={color}
+        fillOpacity={0.18}
+        stroke={color}
+        strokeWidth={1.1}
+        strokeLinejoin="round"
+      />
+      <circle cx="6" cy="6" r="1.45" fill={color} />
+    </svg>
+  );
+}

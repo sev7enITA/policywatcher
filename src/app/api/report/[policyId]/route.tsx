@@ -12,6 +12,7 @@
  */
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { publicPolicyWhere } from '@/lib/publicDataGate';
 
 import { rateLimit } from '@/lib/rateLimit';
 
@@ -43,11 +44,12 @@ export async function GET(
     const { searchParams } = new URL(request.url);
     const lang = (searchParams.get('lang') as 'en' | 'it') || 'en';
 
-    const policy = await db.policy.findUnique({
-      where: { id: policyId },
+    const policy = await db.policy.findFirst({
+      where: publicPolicyWhere({ id: policyId }),
       include: {
         company: true,
         changes: {
+          where: { publicEvidence: true },
           orderBy: { createdAt: 'desc' },
           take: 1,
           include: { regionImpacts: true },

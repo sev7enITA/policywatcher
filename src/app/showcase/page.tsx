@@ -7,7 +7,7 @@ import styles from './showcase.module.css';
 export const metadata: Metadata = {
   title: 'PolicyWatcher 3.5.1 Audit Operations Showcase',
   description:
-    'PolicyWatcher 3.5.1 Audit Operations: overview of public views, Dataset QA issue queue, review log, Trust & Quality evidence, admin tools and reporting features available in the platform.',
+    'PolicyWatcher 3.5.1 Audit Operations: overview of public views, Policy Signals Board, retrieval evidence, Dataset QA gates, source suspension logic, review logs, Trust & Quality evidence and admin tools.',
 };
 
 const topNav = [
@@ -47,8 +47,8 @@ const atlasPanels = [
   {
     code: 'CONTROL',
     title: 'Admin tools',
-    body: 'The admin area includes Dataset QA issue decisions, Review Log, KPI audit, explainability, companies, cron status, database view and encrypted backup utilities.',
-    details: ['Dataset QA', 'Review Log', 'KPI Audit', 'Explainability', 'Companies', 'Encrypted backup'],
+    body: 'The admin area includes Dataset QA issue decisions, Review Log, KPI audit, explainability, companies, cron status, VPS services, database view and encrypted backup utilities.',
+    details: ['Dataset QA', 'Review Log', 'KPI Audit', 'Explainability', 'Cron', 'VPS services'],
     metric: 'Operational modules',
     accent: '#60a5fa',
   },
@@ -64,26 +64,31 @@ const signalTiles = [
 ];
 
 const heroTelemetry = [
-  ['Dataset QA', 'Checks URL hygiene, hash consistency, check logs, timestamps and analysis completeness.'],
+  ['Dataset QA', 'Checks URL hygiene, source evidence, hash consistency, timestamps, KPI fields, regional impact coverage and subscriber hygiene.'],
+  ['Retrieval evidence', 'Documents direct fetch, HTTP/2, VPS-rendered fetch, archive fallback, source failures and strategy escalation without inventing data.'],
+  ['Public evidence gate', 'Seeded, partial, unavailable or review-needed sources are withheld from public views until a valid source baseline exists.'],
+  ['Policy Signals Board', 'Ranks source coverage, retrieval traceability and publicEvidence movement without certifying companies or compliance.'],
   ['Trust evidence', 'Shows CI, CodeQL, OpenSSF Scorecard, targeted reliability coverage and live-header report links.'],
-  ['Public views', 'Dashboard, timeline, change pages, share/embed pages, Trust page and PDF reports.'],
 ] as const;
 
 const qualityGates = [
-  ['Policy URL', 'Configured URL present', 'Field', '92%'],
-  ['Jurisdiction', 'Region label present', 'Field', '86%'],
-  ['URL hygiene', 'Localized URL and duplicate checks', 'Check', '78%'],
-  ['Hash check', 'Text/hash consistency check', 'Check', '94%'],
-  ['AI fields', 'Structured analysis fields reviewed', 'Review', '82%'],
-  ['Check logs', 'Status, date, source and text hash evidence', 'Evidence', '88%'],
+  ['Source fit', 'Official URL, jurisdiction, duplicate and localization checks', 'Dataset QA'],
+  ['Retrieval chain', 'Direct, HTTP/2, VPS renderer, Wayback and Common Crawl diagnostics', 'Evidence'],
+  ['Public gate', 'Seeded, partial, unavailable and review-needed records stay non-public', 'Gate'],
+  ['Re-baseline guard', 'Seed-only baseline replacement with source-evidence and public-baseline protections', 'Guard'],
+  ['Drift control', 'Host drift, homepage redirect and oversized extraction checks', 'Validation'],
+  ['Evidence log', 'Status, source, timestamp, hash, length and archive timestamp records', 'Audit trail'],
+  ['Review trail', 'Dataset QA decisions, admin review log, access log and suspension alerts', 'Review'],
 ] as const;
 
 const adminCells = [
-  ['Dataset Quality', 'Coverage, URL hygiene, hash consistency and analysis field checks'],
+  ['Dataset Quality', 'Source fit, public evidence gates, check logs, hash consistency and analysis field checks'],
   ['KPI Audit', 'KPI value distribution and explanation coverage by company'],
   ['Company Registry', 'Companies, industries, policy URLs, policy types and jurisdictions'],
-  ['Cron Status', 'Cron endpoint status and scheduled digest utilities'],
+  ['Cron Manager', 'Batch scans, company targeting, live strategy evidence and source suspension results'],
+  ['VPS Services', 'Renderer health checks, bearer-auth smoke test and redirect/SSRF boundary checks'],
   ['Database Console', 'Database inspection for records used by public views'],
+  ['Access Log', 'Admin login and access events with IP, user-agent, path and outcome'],
   ['Encrypted Backup', 'Encrypted export and decrypt-preview utility for database content'],
   ['Auditor Role', 'Read-only review access for selected admin views'],
   ['Security Settings', 'Session HMAC, rate limits, protected APIs and token hygiene'],
@@ -91,15 +96,16 @@ const adminCells = [
 ] as const;
 
 const flow = [
-  ['Dataset row', 'Company, policy URL, type and jurisdiction'],
-  ['Scrape route', 'Endpoint for fetching a configured URL when invoked'],
-  ['Check log', 'Status, date, source, hash and retrieval outcome evidence'],
-  ['Diff row', 'Change data displayed when present in the database'],
-  ['Analysis row', 'Risk, KPI, summary and region fields used by views'],
-  ['QA view', 'Admin checks, persisted issue decisions and review log'],
-  ['Trust view', 'Public evidence page for automated checks and external report links'],
-  ['Public view', 'Dashboard, timeline, share, embed and report routes'],
-  ['Digest tools', 'Subscriber preference and digest endpoints'],
+  ['Inventory row', 'Company, policy URL, type, jurisdiction and configured status'],
+  ['Retrieval cascade', 'Direct fetch, HTTP/2, VPS renderer, Wayback and Common Crawl are tried with recorded outcomes'],
+  ['Source validation', 'Minimum text, host drift, path drift, extraction cap and content-shape checks'],
+  ['Evidence log', 'Status, source, HTTP status, final URL, hash, text length and archive timestamp are recorded'],
+  ['Public gate', 'Only source-verified evidence is available to public routes and reports'],
+  ['Re-baseline guard', 'Seeded inventory is replaced only when no source evidence or public baseline already exists'],
+  ['Change analysis', 'Diff, AI summary, KPI fields and regional impacts are generated only after a valid baseline comparison'],
+  ['Review workflow', 'Dataset QA decisions, admin review log and suspension alerts document human and system actions'],
+  ['Trust view', 'Public evidence page links repository checks, security scans and external report surfaces'],
+  ['Public view', 'Dashboard, timeline, signals board, share, embed, report and digest routes read only gated data'],
 ] as const;
 
 function ArrowGlyph() {
@@ -295,7 +301,7 @@ function AdminConsoleArt() {
             {qualityGates.slice(0, 4).map((gate) => (
               <div key={gate[0]}>
                 <span>{gate[0]}</span>
-                <i style={{ '--w': gate[3] } as CSSProperties} />
+                <i />
               </div>
             ))}
           </div>
@@ -303,9 +309,9 @@ function AdminConsoleArt() {
             <i /><i /><i /><i /><i />
           </div>
           <div className={styles.consoleTags}>
-            <span>URL Hygiene</span>
-            <span>KPI Audit</span>
-            <span>Encrypted Backup</span>
+            <span>Public Gate</span>
+            <span>Re-baseline Guard</span>
+            <span>Suspension Alerts</span>
           </div>
         </div>
       </div>
@@ -360,7 +366,8 @@ export default function ShowcasePage() {
           <p>
             This page describes what the current platform exposes: public
             dashboard views, change views, analysis fields, dataset QA checks,
-            Trust & Quality evidence, admin tools and report outputs.
+            retrieval evidence, source suspension logic, Trust & Quality
+            evidence, admin tools and report outputs.
           </p>
           <div className={styles.heroActions}>
             <Link href="/" className={styles.primaryAction}>
@@ -369,6 +376,10 @@ export default function ShowcasePage() {
             </Link>
             <Link href="/timeline" className={styles.secondaryAction}>
               Open timeline
+              <ArrowGlyph />
+            </Link>
+            <Link href="/leaderboard" className={styles.secondaryAction}>
+              Open signals board
               <ArrowGlyph />
             </Link>
           </div>
@@ -467,10 +478,11 @@ export default function ShowcasePage() {
           <span className={styles.sectionKicker}>Dataset QA</span>
           <h2>Dataset QA lists checks and issues for review.</h2>
           <p>
-            The admin QA page calculates coverage, URL hygiene, hash consistency,
-            check-log consistency, KPI coverage, regional impact coverage and
-            subscriber hygiene from the current database. Review decisions are
-            persisted and written to an append-only log.
+            The admin QA layer checks source fit, retrieval evidence, public
+            evidence gates, seeded-record boundaries, hash consistency,
+            check-log completeness, timestamp integrity, archive timestamps,
+            KPI coverage, regional impact coverage and subscriber hygiene.
+            Review decisions are persisted and written to an append-only log.
           </p>
         </div>
         <div className={styles.qualityReactor} aria-label="Dataset quality gates">
@@ -494,9 +506,9 @@ export default function ShowcasePage() {
             <span className={styles.sectionKicker}>Administrative tools</span>
             <h2>Admin functions available in the 3.5.1 Audit Operations track.</h2>
             <p>
-              The admin area includes login, metrics, company and policy
+            The admin area includes login, metrics, company and policy
               management, dataset QA, KPI audit, explainability, cron status,
-              database inspection, encrypted backup utilities and evidence telemetry.
+              database inspection, encrypted backup utilities, renderer-aware retrieval evidence and policy telemetry.
             </p>
           </div>
           <AdminConsoleArt />
@@ -505,6 +517,7 @@ export default function ShowcasePage() {
         <div className={styles.adminTrace} aria-label="Administrative operating layers">
           <span>Company records</span>
           <span>Policy records</span>
+          <span>Retrieval path</span>
           <span>Change records</span>
           <span>QA issue list</span>
           <span>Trust evidence</span>
@@ -552,8 +565,9 @@ export default function ShowcasePage() {
           <p>
             The Trust page presents workflow status, CodeQL, OpenSSF Scorecard,
             targeted reliability coverage, Sonar readiness, Codecov readiness and live HTTP
-            header report links. These checks are operational evidence, not
-            compliance certification.
+            header report links. The Policy Signals Board turns source evidence into an
+            inspectable operational ranking. These checks are operational evidence,
+            not compliance certification.
           </p>
         </div>
         <div className={styles.qualityReactor} aria-label="Trust and quality evidence">
@@ -602,6 +616,7 @@ export default function ShowcasePage() {
         <div>
           <Link href="/privacy">Privacy</Link>
           <Link href="/security">Security</Link>
+          <Link href="/leaderboard">Signals</Link>
           <Link href="/">Platform</Link>
         </div>
       </footer>

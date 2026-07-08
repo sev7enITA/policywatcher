@@ -10,13 +10,11 @@
  */
 
 import { PrismaClient } from '@prisma/client';
-import path from 'path';
+import { getDatabaseUrl } from './databaseUrl';
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
-// Dynamically resolve the absolute path to the SQLite database
-const dbPath = path.join(process.cwd(), 'prisma', 'dev.db');
-const dbUrl = `file:${dbPath}`;
+const dbUrl = getDatabaseUrl();
 
 /**
  * Shared PrismaClient instance.
@@ -37,4 +35,3 @@ export const db =
 // Cache the client on the global object in non-production environments
 // so that hot-reloads do not create additional connections.
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = db;
-

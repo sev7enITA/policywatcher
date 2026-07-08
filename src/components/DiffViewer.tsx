@@ -1,12 +1,12 @@
 /**
- * DiffViewer — reusable, XSS-safe renderer for policy text changes.
+ * DiffViewer - reusable, XSS-safe renderer for policy text changes.
  *
  * Handles BOTH diff formats stored in PolicyChange.diff:
  *   1. JSON array of chunks  { value, added?, removed? }  (written by /api/scrape)
  *   2. Unified-diff STRING   (written by /api/cron/check-all via createPatch)
  *
  * SECURITY: all content is rendered via React text interpolation ({value}).
- * NEVER use dangerouslySetInnerHTML here — diff content originates from
+ * NEVER use dangerouslySetInnerHTML here. Diff content originates from
  * scraped upstream policy text and must be treated as untrusted.
  *
  * Stateless: safe to render in a Server Component.

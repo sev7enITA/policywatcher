@@ -12,6 +12,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
 import type { Prisma } from '@prisma/client';
+import { publicChangeWhere } from '@/lib/publicDataGate';
 
 /** A single data point on the risk-score timeline chart. */
 interface TrendPoint {
@@ -54,7 +55,7 @@ export async function GET(request: NextRequest) {
     }
 
     const changes = await db.policyChange.findMany({
-      where: whereClause,
+      where: publicChangeWhere(whereClause),
       include: {
         policy: {
           include: {

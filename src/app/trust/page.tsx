@@ -5,6 +5,7 @@ import Link from 'next/link';
 import {
   Activity,
   ArrowLeft,
+  BarChart3,
   CheckCircle2,
   Database,
   ExternalLink,
@@ -53,13 +54,33 @@ const evidenceCards: EvidenceCard[] = [
     linkLabel: 'Methodology boundary',
   },
   {
+    title: 'Policy Signals Board',
+    status: 'Evidence-only ranking',
+    tone: 'blue',
+    icon: BarChart3,
+    body:
+      'Ranks source coverage, retrieval traceability, public baselines, and publicEvidence-gated movement. It does not rank legal compliance or provider trustworthiness.',
+    href: '/leaderboard',
+    linkLabel: 'Open signals board',
+  },
+  {
+    title: 'Renderer-Backed Retrieval',
+    status: '3.5.1 hardening',
+    tone: 'blue',
+    icon: Server,
+    body:
+      'The scraper can call a separate bearer-protected VPS renderer for script-rendered pages. Initial URLs, browser redirects, and subresource requests are validated against SSRF rules.',
+    href: `${repoBase}/tree/main/renderer`,
+    linkLabel: 'Open renderer source',
+  },
+  {
     title: 'State of the Art Report',
     status: 'Repository report',
     tone: 'slate',
     icon: FileSearch,
     body:
-      'The repository contains a current platform report covering dataset counts, assurance controls, public assets, deployment notes, known warnings, and next priorities.',
-    href: `${repoBase}/blob/main/docs/platform-state-of-art-2026-07-02.md`,
+      'The repository contains a current platform report covering configured inventory, assurance controls, public assets, deployment notes, known warnings, and next priorities.',
+    href: `${repoBase}/blob/main/docs/platform-state-of-art-2026-07-05.md`,
     linkLabel: 'Open report',
   },
   {
@@ -68,7 +89,7 @@ const evidenceCards: EvidenceCard[] = [
     tone: 'blue',
     icon: GitBranch,
     body:
-      'Runs Prisma validation, seeded dataset assurance, lint, production build, and high-severity dependency audit before public release changes are merged.',
+      'Runs Prisma validation, source-evidence dataset assurance, lint, production build, and high-severity dependency audit before public release changes are merged.',
     href: `${repoBase}/actions/workflows/quality.yml`,
     linkLabel: 'Open workflow',
   },
@@ -159,7 +180,7 @@ const workflowSteps = [
   },
   {
     title: 'Retrieval and failure logging',
-    detail: 'Successful checks update evidence metadata. Blocked or unavailable pages are recorded without inventing replacement content.',
+    detail: 'Direct fetch, HTTP/2, optional VPS rendering, and freshness-guarded archives update evidence metadata. Blocked or unavailable pages are recorded without inventing replacement content.',
   },
   {
     title: 'Integrity checks',
@@ -167,7 +188,7 @@ const workflowSteps = [
   },
   {
     title: 'Release gate',
-    detail: 'A release can be promoted only after the seeded QA dataset, lint, build, and security scan workflow have passed.',
+    detail: 'A release can be promoted only after source-evidence dataset assurance, lint, build, and security scan workflow have passed.',
   },
 ];
 
@@ -259,6 +280,9 @@ export default function TrustPage() {
               <Link href="/methodology/confidence" className={styles.primaryAction}>
                 Read methodology
               </Link>
+              <Link href="/leaderboard" className={styles.secondaryAction}>
+                Open signals board
+              </Link>
               <a href={repoBase} className={styles.secondaryAction} target="_blank" rel="noreferrer">
                 Open repository
                 <ExternalLink size={14} />
@@ -272,7 +296,7 @@ export default function TrustPage() {
               <span>Release gate</span>
             </div>
             <div className={styles.signalStack}>
-              {['Prisma schema', 'Seeded dataset', 'Dataset QA', 'Lint', 'Build', 'High-severity audit'].map((item) => (
+              {['Prisma schema', 'Source-evidence gate', 'Dataset QA', 'Scraper tests', 'Renderer checks', 'Lint', 'Build', 'High-severity audit'].map((item) => (
                 <div key={item} className={styles.signalRow}>
                   <CheckCircle2 size={15} />
                   <span>{item}</span>

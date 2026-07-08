@@ -1,6 +1,7 @@
 import { createHash } from 'crypto';
 import { PrismaClient } from '@prisma/client';
 import { DATA_STATUSES, isDataStatus } from '../src/lib/policyConfidence';
+import { isSeededIngestionMethod } from '../src/lib/publicDataGate';
 
 const prisma = new PrismaClient();
 
@@ -43,6 +44,7 @@ async function main() {
           version: true,
           text: true,
           hash: true,
+          publicEvidence: true,
           createdAt: true,
         },
       },
@@ -53,8 +55,11 @@ async function main() {
           id: true,
           status: true,
           checkedAt: true,
+          source: true,
+          reason: true,
           textHash: true,
           textLength: true,
+          archiveTimestamp: true,
         },
       },
       company: {
@@ -75,6 +80,17 @@ async function main() {
   for (const policy of policies) {
     const label = `${policy.company.name} / ${policy.name} / ${policy.jurisdiction}`;
     const currentHash = hashText(policy.currentText);
+    const seededRecord = isSeededIngestionMethod(policy.ingestionMethod);
+
+    if (seededRecord) {
+      addFinding(
+        findings,
+        'blocker',
+        'source-evidence',
+        label,
+        'Policy is backed by seeded/demo text. Run a verified scan before using it in public confidence views.'
+      );
+    }
 
     if (!isDataStatus(policy.dataStatus)) {
       addFinding(
@@ -100,6 +116,16 @@ async function main() {
       addFinding(findings, 'blocker', 'snapshot-coverage', label, 'No snapshots found.');
     } else {
       const latestSnapshot = policy.snapshots[0];
+      const hasPublicSnapshot = policy.snapshots.some((snapshot) => snapshot.publicEvidence);
+      if (!hasPublicSnapshot) {
+        addFinding(
+          findings,
+          'blocker',
+          'public-evidence',
+          label,
+          'No snapshot is marked publicEvidence. This policy must remain hidden or suspended from public views.'
+        );
+      }
       if (latestSnapshot.hash !== policy.currentHash) {
         addFinding(
           findings,
@@ -146,6 +172,15 @@ async function main() {
           `Latest check log status (${latestLog.status}) differs from policy dataStatus (${policy.dataStatus}).`
         );
       }
+      if (isSeededIngestionMethod(latestLog.source)) {
+        addFinding(
+          findings,
+          'blocker',
+          'source-evidence',
+          label,
+          'Latest PolicyCheckLog source is seeded, not direct/http2/rendered/wayback/commoncrawl.'
+        );
+      }
       if (latestLog.textHash && latestLog.textHash !== policy.currentHash) {
         addFinding(
           findings,
@@ -162,6 +197,31 @@ async function main() {
           'check-log',
           label,
           'Latest check log textLength differs from currentText length.'
+        );
+      }
+      if (
+        latestLog.status === 'Available' &&
+        (latestLog.source === 'wayback' || latestLog.source === 'commoncrawl') &&
+        !latestLog.archiveTimestamp
+      ) {
+        addFinding(
+          findings,
+          'blocker',
+          'archive-evidence',
+          label,
+          `Latest ${latestLog.source} check is Available but archiveTimestamp is missing.`
+        );
+      }
+      if (
+        latestLog.status === 'Available' &&
+        (latestLog.textLength === 200_000 || latestLog.reason === 'text_truncated_at_max_length')
+      ) {
+        addFinding(
+          findings,
+          'blocker',
+          'extraction-completeness',
+          label,
+          'Latest Available check appears truncated at the 200k storage cap.'
         );
       }
     }
@@ -204,6 +264,7 @@ async function main() {
   const changes = await prisma.policyChange.findMany({
     select: {
       id: true,
+      publicEvidence: true,
       riskReasonsJson: true,
       policy: {
         select: {
@@ -221,6 +282,15 @@ async function main() {
 
   for (const change of changes) {
     const label = `${change.policy.company.name} / ${change.policy.name} / ${change.policy.jurisdiction} / ${change.id}`;
+    if (!change.publicEvidence) {
+      addFinding(
+        findings,
+        'warning',
+        'public-evidence',
+        label,
+        'PolicyChange is retained for admin review but hidden from public evidence.'
+      );
+    }
     if (!change.riskReasonsJson) {
       addFinding(findings, 'warning', 'ai-json', label, 'Missing riskReasonsJson.');
       continue;

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ShieldAlert, ArrowLeft, Send } from 'lucide-react';
+import { ShieldAlert, ArrowLeft, Send, FileSearch, Lock, Server, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 
 export default function SecurityPage() {
@@ -20,6 +20,38 @@ export default function SecurityPage() {
         </div>
 
         <div style={contentStyle}>
+          <section style={sectionStyle}>
+            <h2 style={sectionTitleStyle}>Security Controls in the 3.5 Confidence Track</h2>
+            <p style={paragraphStyle}>
+              PolicyWatcher documents security and confidence work as operational evidence, not as a certification claim. The current release includes:
+            </p>
+            <div style={controlGridStyle}>
+              <div style={controlCardStyle}>
+                <Lock size={18} style={controlIconStyle} />
+                <strong style={controlTitleStyle}>Session and API Boundaries</strong>
+                <span style={controlTextStyle}>HMAC-signed admin sessions, rate-limited login, bearer-protected internal routes and production seed endpoint lockout.</span>
+              </div>
+              <div style={controlCardStyle}>
+                <Server size={18} style={controlIconStyle} />
+                <strong style={controlTitleStyle}>Renderer Isolation</strong>
+                <span style={controlTextStyle}>Optional VPS renderer for script-rendered pages, protected by shared secret and SSRF validation for URLs, redirects and subresources.</span>
+              </div>
+              <div style={controlCardStyle}>
+                <FileSearch size={18} style={controlIconStyle} />
+                <strong style={controlTitleStyle}>Dataset QA Evidence</strong>
+                <span style={controlTextStyle}>Source-fit checks, SHA-256 consistency, check logs, ingestion-method visibility and append-only QA review decisions.</span>
+              </div>
+              <div style={controlCardStyle}>
+                <ShieldCheck size={18} style={controlIconStyle} />
+                <strong style={controlTitleStyle}>Public Validation Signals</strong>
+                <span style={controlTextStyle}>GitHub Quality Gate, CodeQL, OpenSSF Scorecard, OpenSSF Best Practices passing badge and live header scan links.</span>
+              </div>
+            </div>
+            <p style={paragraphStyle}>
+              See <Link href="/trust" style={linkStyle}>Trust & Quality Evidence</Link> and <Link href="/methodology/confidence" style={linkStyle}>Confidence Methodology</Link> for the public boundary of these checks.
+            </p>
+          </section>
+
           <section style={sectionStyle}>
             <h2 style={sectionTitleStyle}>How to Report</h2>
             <p style={paragraphStyle}>
@@ -82,7 +114,7 @@ const containerStyle: React.CSSProperties = {
 
 const cardStyle: React.CSSProperties = {
   width: '100%',
-  maxWidth: '680px',
+  maxWidth: '860px',
   background: '#ffffff',
   border: '1px solid #e2e8f0',
   borderRadius: '24px',
@@ -91,6 +123,38 @@ const cardStyle: React.CSSProperties = {
   boxSizing: 'border-box',
   display: 'flex',
   flexDirection: 'column',
+};
+
+const controlGridStyle: React.CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+  gap: '12px',
+};
+
+const controlCardStyle: React.CSSProperties = {
+  border: '1px solid #e2e8f0',
+  borderRadius: '8px',
+  padding: '14px',
+  background: '#f8fafc',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '8px',
+};
+
+const controlIconStyle: React.CSSProperties = {
+  color: '#6366f1',
+};
+
+const controlTitleStyle: React.CSSProperties = {
+  color: '#0f172a',
+  fontSize: '0.92rem',
+  lineHeight: '1.35',
+};
+
+const controlTextStyle: React.CSSProperties = {
+  color: '#64748b',
+  fontSize: '0.84rem',
+  lineHeight: '1.55',
 };
 
 const headerStyle: React.CSSProperties = {

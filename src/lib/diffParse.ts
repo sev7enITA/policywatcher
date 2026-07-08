@@ -9,7 +9,7 @@
  *   1. JSON array  [{ value, added?, removed? }]   (written by /api/scrape)
  *   2. Unified git patch  (--- / +++ / @@ headers)  (written by cron createPatch)
  *   3. "Simple +/-"  (lines starting with + or -, no headers)
- *      (produced by the seed/mock generator — the current majority in the DB)
+ *      (produced by the seed/mock generator, the current majority in the DB)
  *
  * Exported so both the DiffViewer component AND tests/scripts can use them.
  */

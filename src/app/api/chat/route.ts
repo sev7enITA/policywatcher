@@ -18,6 +18,7 @@ import { db } from '@/lib/db';
 import { answerPolicyQuestion } from '@/lib/gemini';
 import { rateLimit } from '@/lib/rateLimit';
 import type { Prisma } from '@prisma/client';
+import { publicPolicyWhere } from '@/lib/publicDataGate';
 
 type PolicyWithCompany = Prisma.PolicyGetPayload<{ include: { company: true } }>;
 
@@ -51,9 +52,9 @@ export async function POST(request: NextRequest) {
 
     if (policyIds && policyIds.length > 0) {
       policiesToQuery = await db.policy.findMany({
-        where: {
+        where: publicPolicyWhere({
           id: { in: policyIds },
-        },
+        }),
         include: {
           company: true,
         },
@@ -61,6 +62,7 @@ export async function POST(request: NextRequest) {
     } else {
       // Fetch latest policies for all companies
       policiesToQuery = await db.policy.findMany({
+        where: publicPolicyWhere(),
         include: {
           company: true,
         },

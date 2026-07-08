@@ -14,7 +14,7 @@ import { Titillium_Web } from 'next/font/google';
 import { connection } from 'next/server';
 import './globals.css';
 
-/** Primary body font — Titillium Web in regular weights. */
+/** Primary body font: Titillium Web in regular weights. */
 const titilliumSans = Titillium_Web({
   subsets: ['latin'],
   variable: '--font-sans',
@@ -22,7 +22,7 @@ const titilliumSans = Titillium_Web({
   weight: ['300', '400', '600', '700'],
 });
 
-/** Display / heading font — Titillium Web in heavier weights. */
+/** Display / heading font: Titillium Web in heavier weights. */
 const titilliumDisplay = Titillium_Web({
   subsets: ['latin'],
   variable: '--font-display',

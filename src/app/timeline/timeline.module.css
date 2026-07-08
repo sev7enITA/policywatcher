@@ -1,4 +1,4 @@
-/* timeline.module.css — "Git log of tech policy" */
+/* timeline.module.css - "Git log of tech policy" */
 
 /* Hero Header */
 .hero {
@@ -315,7 +315,7 @@
 .timelineItem:hover .timelineDot[data-risk="Medium"] { background: var(--risk-medium); }
 .timelineItem:hover .timelineDot[data-risk="Low"] { background: var(--risk-low); }
 
-/* Card container — takes 45% width on each side */
+/* Card container takes 45% width on each side */
 .timelineCard {
   width: calc(50% - 36px);
   background: var(--bg-card);

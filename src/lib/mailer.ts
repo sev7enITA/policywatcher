@@ -22,6 +22,18 @@ export interface ChangedPolicySummary {
   industry: string;
 }
 
+export interface SourceSuspensionAlert {
+  companyName: string;
+  policyName: string;
+  jurisdiction: string;
+  status: string;
+  reason?: string | null;
+  source?: string | null;
+  httpStatus?: number | null;
+  officialUrl: string;
+  checkedAt: Date | string;
+}
+
 // -- Transport Setup --
 
 /**
@@ -55,6 +67,15 @@ function createTransport() {
  */
 function getFromAddress(): string {
   return process.env.SMTP_FROM || 'PolicyWatcher <noreply@policywatcher.dev>';
+}
+
+function getAdminAlertAddress(): string | null {
+  return (
+    process.env.ADMIN_ALERT_EMAIL ||
+    process.env.ADMIN_EMAIL ||
+    process.env.SMTP_USER ||
+    null
+  );
 }
 
 // -- Risk color helper --
@@ -156,6 +177,119 @@ function wrapInTemplate(bodyContent: string, email?: string, token?: string): st
   </table>
 </body>
 </html>`;
+}
+
+function wrapOperationalTemplate(bodyContent: string): string {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PolicyWatcher Operational Alert</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #060913; font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #060913;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width: 600px; width: 100%;">
+          <tr>
+            <td style="padding: 24px 32px; background: linear-gradient(135deg, #92400e, #f59e0b); border-radius: 16px 16px 0 0;">
+              <h1 style="margin: 0; font-size: 22px; font-weight: 800; color: #ffffff;">PolicyWatcher</h1>
+              <p style="margin: 4px 0 0; font-size: 13px; color: rgba(255, 255, 255, 0.84);">Operational QA Alert</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 32px; background-color: #111827; border-left: 1px solid rgba(255,255,255,0.08); border-right: 1px solid rgba(255,255,255,0.08);">
+              ${bodyContent}
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 20px 32px; background-color: #0a0e1a; border-radius: 0 0 16px 16px; border: 1px solid rgba(255,255,255,0.05); border-top: none; text-align: center;">
+              <p style="margin: 0; font-size: 12px; color: #6b7280;">
+                Internal operational alert. No user-facing policy data is included in this email.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+
+export async function sendSourceSuspensionAdminAlert(
+  alerts: SourceSuspensionAlert[],
+  context: 'cron' | 'manual' | 'api' = 'api'
+): Promise<boolean> {
+  const to = getAdminAlertAddress();
+  if (!to) {
+    console.log('[PolicyWatcher Mailer] Admin alert recipient not configured. Set ADMIN_ALERT_EMAIL.');
+    return false;
+  }
+
+  if (alerts.length === 0) return true;
+
+  const appUrl = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const subject =
+    alerts.length === 1
+      ? `PolicyWatcher QA: source temporarily suspended (${alerts[0].companyName})`
+      : `PolicyWatcher QA: ${alerts.length} sources temporarily suspended`;
+
+  const rows = alerts
+    .slice(0, 25)
+    .map((alert) => {
+      const checkedAt = alert.checkedAt instanceof Date ? alert.checkedAt.toISOString() : alert.checkedAt;
+      return `
+        <tr>
+          <td style="padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.08); color: #f3f4f6; font-size: 13px;">
+            <strong>${escapeHtml(alert.companyName)}</strong><br>
+            <span style="color: #9ca3af;">${escapeHtml(alert.policyName)} / ${escapeHtml(alert.jurisdiction)}</span><br>
+            <span style="color: #6b7280; word-break: break-all;">${escapeHtml(alert.officialUrl)}</span>
+          </td>
+          <td style="padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.08); color: #fbbf24; font-size: 13px;">
+            ${escapeHtml(alert.status)}
+          </td>
+          <td style="padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.08); color: #9ca3af; font-size: 13px;">
+            ${escapeHtml(alert.reason || 'not specified')}<br>
+            <span style="color: #6b7280;">${escapeHtml(alert.source || 'none')} / HTTP ${escapeHtml(alert.httpStatus ?? 'n/a')}</span>
+          </td>
+          <td style="padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.08); color: #9ca3af; font-size: 12px;">
+            ${escapeHtml(checkedAt)}
+          </td>
+        </tr>`;
+    })
+    .join('');
+
+  const hiddenCount = Math.max(0, alerts.length - 25);
+  const dashboardUrl = `${appUrl.replace(/\/+$/, '')}/admin/dataset-quality`;
+
+  const bodyContent = `
+    <p style="margin: 0 0 18px; font-size: 15px; color: #f3f4f6; line-height: 1.6;">
+      PolicyWatcher detected source-quality anomalies during a <strong>${escapeHtml(context)}</strong> scan.
+      The affected sources have been treated as temporarily suspended: public views should expose only the suspension notice and minimal metadata until the source is reviewed or successfully fetched again.
+    </p>
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; margin-bottom: 18px;">
+      <thead>
+        <tr>
+          <th align="left" style="padding: 8px; color: #f3f4f6; font-size: 12px; text-transform: uppercase;">Source</th>
+          <th align="left" style="padding: 8px; color: #f3f4f6; font-size: 12px; text-transform: uppercase;">Status</th>
+          <th align="left" style="padding: 8px; color: #f3f4f6; font-size: 12px; text-transform: uppercase;">Reason</th>
+          <th align="left" style="padding: 8px; color: #f3f4f6; font-size: 12px; text-transform: uppercase;">Checked</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+    ${
+      hiddenCount > 0
+        ? `<p style="margin: 0 0 16px; font-size: 13px; color: #fbbf24;">${hiddenCount} additional suspended sources are not shown in this email summary.</p>`
+        : ''
+    }
+    <p style="margin: 0; font-size: 13px; color: #9ca3af; line-height: 1.6;">
+      Review the Dataset QA console: <a href="${escapeHtml(dashboardUrl)}" style="color: #818cf8; text-decoration: underline;">${escapeHtml(dashboardUrl)}</a>
+    </p>`;
+
+  return sendEmail(to, subject, wrapOperationalTemplate(bodyContent));
 }
 
 // -- Policy Change Alert --

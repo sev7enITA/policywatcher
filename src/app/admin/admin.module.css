@@ -305,6 +305,18 @@
   transform: none;
 }
 
+.btnSecondary {
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+.btnSecondary:hover:not(:disabled) {
+  color: var(--primary);
+  border-color: var(--primary);
+  background: var(--primary-soft);
+}
+
 .btnDanger {
   background: linear-gradient(135deg, var(--risk-high), #dc2626);
   color: #ffffff;
@@ -435,6 +447,287 @@
 
 .statusTextIdle {
   color: var(--text-muted);
+}
+
+/* ---------- VPS Services ---------- */
+.serviceHero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 16px;
+  padding: 24px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(6, 182, 212, 0.05)),
+    var(--bg-card);
+  box-shadow: var(--shadow-sm);
+}
+
+.serviceHeroMain {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  min-width: 0;
+}
+
+.serviceHeroIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--primary);
+  background: var(--primary-glow);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.serviceEyebrow {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: var(--primary);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.serviceHero h2 {
+  margin: 0 0 6px;
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.serviceHero p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--text-body);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.serviceStatusPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 34px;
+  border-radius: 999px;
+  padding: 0 12px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.serviceStatusOnline {
+  color: #047857;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.24);
+}
+
+.serviceStatusDegraded,
+.serviceStatusMisconfigured {
+  color: #92400e;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.28);
+}
+
+.serviceStatusOffline {
+  color: #b91c1c;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.24);
+}
+
+.serviceToolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.serviceGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.75fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.serviceMetricGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.serviceMetric {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+}
+
+.serviceMetric span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.serviceMetric strong {
+  display: block;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.serviceInlineAlert {
+  margin: 14px 0 0;
+}
+
+.serviceChecklist {
+  display: grid;
+  gap: 10px;
+}
+
+.serviceChecklistItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  color: var(--text-body);
+  font-size: 0.86rem;
+  font-weight: 650;
+}
+
+.serviceChecklistItem svg:first-child {
+  flex-shrink: 0;
+}
+
+.serviceActionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.serviceForm {
+  display: grid;
+  gap: 12px;
+}
+
+.serviceForm label {
+  display: grid;
+  gap: 6px;
+}
+
+.serviceForm label span {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.serviceForm input {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  color: var(--text-main);
+  font: inherit;
+}
+
+.serviceLogBox {
+  max-height: 340px;
+  overflow: auto;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 12px;
+  background: #0b1020;
+  color: #dbeafe;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.serviceChecklistOk svg:first-child {
+  color: var(--risk-low);
+}
+
+.serviceChecklistFail svg:first-child {
+  color: var(--risk-high);
+}
+
+.serviceSmokePanel {
+  display: grid;
+  gap: 14px;
+}
+
+.serviceEmptyText {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.serviceNoteList {
+  display: grid;
+  gap: 12px;
+}
+
+.serviceNoteList p {
+  margin: 0;
+  color: var(--text-body);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.serviceNoteList code {
+  padding: 2px 5px;
+  border-radius: 5px;
+  background: var(--bg-secondary);
+  color: var(--text-main);
+  font-size: 0.82rem;
+}
+
+.serviceExternalLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: fit-content;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--primary);
+  background: var(--bg-secondary);
+  font-size: 0.84rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.spinIcon {
+  animation: spin 0.8s linear infinite;
 }
 
 /* ---------- Stat Grid ---------- */
@@ -644,6 +937,338 @@
   animation: indeterminate 1.4s ease-in-out infinite;
 }
 
+.cronTransportLegend {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0 14px;
+}
+
+.cronTransportCard {
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+}
+
+.cronTransportCard p {
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+
+.cronRuntimeGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: -4px 0 20px;
+}
+
+.logLine {
+  display: grid;
+  grid-template-columns: 3ch 16px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  min-height: 20px;
+}
+
+.logLine span:last-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.logLineIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.logLineIconSpin {
+  animation: spin 1.2s linear infinite;
+}
+
+.logLineSuccess {
+  color: #10b981;
+  font-weight: 700;
+}
+
+.logLineWarning {
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+.logLineError {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.logLineProgress {
+  color: #6366f1;
+  font-weight: 600;
+}
+
+.logLineNeutral {
+  color: #94a3b8;
+}
+
+.targetRegistryPanel {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-secondary);
+}
+
+.targetRegistryHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.targetRegistryTitle {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: min(100%, 520px);
+}
+
+.targetRegistryTitle svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--primary);
+}
+
+.targetRegistryTitle p {
+  margin: 4px 0 0;
+  line-height: 1.55;
+}
+
+.targetRegistryAction {
+  min-height: 36px;
+  padding: 0 12px;
+  font-size: 0.78rem;
+  text-decoration: none;
+  box-shadow: none;
+}
+
+.targetRegistryEmpty {
+  margin: 0;
+  padding: 18px;
+  border: 1px dashed var(--border-color);
+  border-radius: 10px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.companyTargetGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 10px;
+}
+
+.companyTargetCard {
+  min-height: 88px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 4px 10px;
+  align-items: start;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-card);
+  color: var(--text-main);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.companyTargetCard:hover:not(:disabled) {
+  border-color: rgba(99, 102, 241, 0.45);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  transform: translateY(-1px);
+}
+
+.companyTargetCard:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.companyTargetSelected {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+.companyTargetDiamond {
+  grid-row: 1 / span 2;
+  width: 12px;
+  height: 12px;
+  margin-top: 4px;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  background: var(--text-muted);
+}
+
+.companyTargetDiamondSelected,
+.companyTargetDiamond_selected {
+  background: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+.companyTargetDiamond_verified {
+  background: var(--risk-low);
+  box-shadow: 0 0 0 4px var(--risk-low-glow);
+}
+
+.companyTargetDiamond_attention {
+  background: var(--risk-medium);
+  box-shadow: 0 0 0 4px var(--risk-medium-glow);
+}
+
+.companyTargetDiamond_pending {
+  background: var(--text-muted);
+  box-shadow: 0 0 0 4px var(--bg-tertiary);
+}
+
+.companyTargetDiamond_empty {
+  background: transparent;
+  border: 2px solid var(--border-color);
+}
+
+.companyTargetName {
+  min-width: 0;
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 800;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.companyTargetMeta {
+  min-width: 0;
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.companyTargetCard .badge {
+  grid-column: 2;
+  width: fit-content;
+  margin-top: 4px;
+}
+
+.targetRegistryFootnote {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+.strategyStack {
+  display: grid;
+  gap: 8px;
+  min-width: 260px;
+}
+
+.strategyItem {
+  padding: 8px 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+}
+
+.strategyHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.strategyName {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.strategyOutcome {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 0.64rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.strategyOk {
+  color: var(--risk-low);
+  background: var(--risk-low-glow);
+}
+
+.strategyPartial {
+  color: var(--risk-medium);
+  background: var(--risk-medium-glow);
+}
+
+.strategySkipped {
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+}
+
+.strategyRejected {
+  color: var(--risk-medium);
+  background: var(--risk-medium-glow);
+}
+
+.strategyFailed {
+  color: var(--risk-high);
+  background: var(--risk-high-glow);
+}
+
+.strategyReason {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  line-height: 1.35;
+}
+
+.strategyEscalation {
+  margin-top: 3px;
+  color: var(--primary);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+@media (max-width: 1100px) {
+  .cronTransportLegend,
+  .cronRuntimeGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .cronTransportLegend,
+  .cronRuntimeGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .companyTargetGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @keyframes indeterminate {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(350%); }
@@ -810,6 +1435,11 @@ thead .kpiMatrixStickyCol {
 .kpiCellDanger {
   background: rgba(239, 68, 68, 0.07);
   color: #dc2626;
+}
+
+.kpiCellMuted {
+  background: rgba(100, 116, 139, 0.08);
+  color: var(--text-muted);
 }
 
 .kpiCoverageSummary {

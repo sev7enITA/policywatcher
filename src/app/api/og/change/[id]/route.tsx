@@ -1,7 +1,7 @@
 /**
- * Dynamic OG image for a PolicyChange — /api/og/change/[id]
+ * Dynamic OG image for a PolicyChange - /api/og/change/[id]
  *
- * Generates a branded 1200×630 PNG showing: company name, policy name,
+ * Generates a branded 1200x630 PNG showing: company name, policy name,
  * risk gauge (colored score + bar), TL;DR snippet, PolicyWatcher branding.
  *
  * This is the single highest-leverage addition for social sharing: LinkedIn
@@ -13,9 +13,10 @@
 import { NextRequest } from 'next/server';
 import { ImageResponse } from 'next/og';
 import { db } from '@/lib/db';
+import { publicChangeWhere } from '@/lib/publicDataGate';
 
 export const runtime = 'nodejs';
-// OG images for the same change are stable — cache aggressively.
+// OG images for the same change are stable, so cache aggressively.
 export const revalidate = 3600;
 
 const UUID_RE = /^[a-f0-9-]{36}$/i;
@@ -37,8 +38,8 @@ export async function GET(
     return new Response('Not found', { status: 404 });
   }
 
-  const change = await db.policyChange.findUnique({
-    where: { id },
+  const change = await db.policyChange.findFirst({
+    where: publicChangeWhere({ id }),
     select: {
       overallRisk: true,
       overallScore: true,
@@ -137,10 +138,10 @@ export async function GET(
               {companyName}
             </div>
             <div style={{ display: 'flex', fontSize: 22, color: '#94a3b8', marginBottom: 28 }}>
-              {`${policyName} · ${industry}`}
+              {`${policyName} / ${industry}`}
             </div>
             <div style={{ display: 'flex', fontSize: 24, lineHeight: 1.4, color: '#e2e8f0' }}>
-              {`${tldr.substring(0, 170)}${tldr.length > 170 ? '…' : ''}`}
+              {`${tldr.substring(0, 170)}${tldr.length > 170 ? '...' : ''}`}
             </div>
           </div>
         </div>
@@ -160,7 +161,7 @@ export async function GET(
           <div style={{ display: 'flex' }}>
             {`policywatcher.online/change/${id.substring(0, 8)}`}
           </div>
-          <div style={{ display: 'flex' }}>{`Alpha · AI-assisted · Not legal advice`}</div>
+          <div style={{ display: 'flex' }}>{`Alpha / AI-assisted / Not legal advice`}</div>
         </div>
       </div>
     ),

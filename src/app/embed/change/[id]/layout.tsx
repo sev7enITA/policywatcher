@@ -1,5 +1,5 @@
 /**
- * Embed layout — /embed/change/[id]
+ * Embed layout - /embed/change/[id]
  *
  * Minimal layout that does NOT include the main app's navigation, sidebar,
  * or footer. This is critical: the embed renders inside an iframe on external

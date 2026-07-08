@@ -6,7 +6,7 @@
  * Designed to be triggered by a cron scheduler once per month. Collects all
  * policy changes from the last 30 days, filters them per subscriber's
  * region/industry preferences, and sends personalised monthly digest emails
- * to ALL active subscribers (regardless of frequency preference).
+ * to active digest subscribers.
  *
  * @auth    Bearer token via `Authorization` header (validated by `isAuthorized`).
  * @rateLimit None (protected by auth).
@@ -18,12 +18,14 @@ import { db } from '@/lib/db';
 import { sendMonthlyDigest, ChangedPolicySummary } from '@/lib/mailer';
 import { isAuthorized } from '@/lib/auth';
 import { normalizePreferenceKey, splitPreferenceKeys } from '@/lib/subscriberPreferences';
+import { publicChangeWhere } from '@/lib/publicDataGate';
+import { cleanupOldAdminAccessLogs } from '@/lib/adminAccessLog';
 
 /**
  * Sends a personalised monthly digest to every active subscriber.
  *
  * Steps:
- * 1. Fetch all active subscribers (no frequency filter — monthly is a catch-all).
+ * 1. Fetch active subscribers who opted into digest delivery.
  * 2. Query PolicyChanges created within the last 30 days.
  * 3. For each subscriber, filter changes by matching regions & industries.
  * 4. Send the digest email (failures are logged but do not abort the loop).
@@ -37,9 +39,13 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
   try {
-    // 1. Get all active subscribers
+    // 1. Get active digest subscribers. Monthly is retained as an operator
+    // route, but must not broaden delivery beyond explicit digest opt-in.
     const subscribers = await db.subscriber.findMany({
-      where: { isActive: true },
+      where: {
+        isActive: true,
+        frequency: 'WEEKLY',
+      },
     });
 
     if (subscribers.length === 0) {
@@ -51,11 +57,11 @@ export async function GET(request: NextRequest) {
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
     const recentChanges = await db.policyChange.findMany({
-      where: {
+      where: publicChangeWhere({
         createdAt: {
           gte: thirtyDaysAgo,
         },
-      },
+      }),
       include: {
         policy: {
           include: {
@@ -101,6 +107,12 @@ export async function GET(request: NextRequest) {
       } catch (err) {
         console.error(`Failed to send monthly digest to ${sub.email}:`, err);
       }
+    }
+
+    try {
+      await cleanupOldAdminAccessLogs();
+    } catch (cleanupError) {
+      console.warn('[Monthly Cron] Admin access log retention cleanup failed:', cleanupError);
     }
 
     return NextResponse.json({ success: true, message: `Sent updates to ${sentCount} subscribers.` });

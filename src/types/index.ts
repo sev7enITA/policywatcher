@@ -70,6 +70,7 @@ export interface PolicyChange {
   overallRisk: 'Low' | 'Medium' | 'High';
   overallScore: number;
   remediationsJson: string;
+  publicEvidence?: boolean;
 
   // AI Governance Indicators
   aiTrainingOptOut: string;
@@ -92,6 +93,7 @@ export interface PolicyCheckLog {
   finalUrl?: string | null;
   textHash?: string | null;
   textLength?: number | null;
+  archiveTimestamp?: string | null;
   createdAt: string;
 }
 

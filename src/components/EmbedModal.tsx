@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * EmbedModal — shows the embeddable iframe snippet for a change permalink.
+ * EmbedModal - shows the embeddable iframe snippet for a change permalink.
  * Renders as a button that opens a modal with copy-to-clipboard functionality.
  */
 import { useState } from 'react';
@@ -20,7 +20,7 @@ export default function EmbedModal({ changeId, companyName }: EmbedModalProps) {
     ? window.location.origin
     : 'https://policywatcher.online';
 
-  const snippet = `<iframe\n  src="${baseUrl}/embed/change/${changeId}"\n  width="100%"\n  height="300"\n  frameborder="0"\n  style="border-radius: 12px; border: 1px solid #e2e8f0; max-width: 600px;"\n  title="PolicyWatcher — ${companyName} policy change"\n></iframe>`;
+  const snippet = `<iframe\n  src="${baseUrl}/embed/change/${changeId}"\n  width="100%"\n  height="300"\n  frameborder="0"\n  style="border-radius: 12px; border: 1px solid #e2e8f0; max-width: 600px;"\n  title="PolicyWatcher - ${companyName} policy change"\n></iframe>`;
 
   const handleCopy = async () => {
     try {

@@ -3,7 +3,7 @@
  *
  * @route GET /api/matrix
  *
- * Builds a company × KPI matrix where each cell contains the "most
+ * Builds a company by KPI matrix where each cell contains the "most
  * concerning" value across all of a company's policies (latest change).
  * Used by the CrossCompanyMatrix component to render the heatmap.
  *
@@ -15,6 +15,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
+import { allowSeededPublicData, publicPolicyWhere } from '@/lib/publicDataGate';
 
 // Weights to determine the "most concerning" value
 const kpiWeights: Record<string, number> = {
@@ -69,11 +70,15 @@ export async function GET(request: NextRequest) {
   if (limited) return limited;
 
   try {
+    const policyWhere = publicPolicyWhere();
     const companies = await db.company.findMany({
+      where: allowSeededPublicData() ? {} : { policies: { some: policyWhere } },
       include: {
         policies: {
+          where: policyWhere,
           include: {
             changes: {
+              where: { publicEvidence: true },
               orderBy: {
                 createdAt: 'desc',
               },
@@ -134,7 +139,9 @@ export async function GET(request: NextRequest) {
         industry: company.industry,
         kpis: aggregatedKpis,
       };
-    });
+    }).filter((company) =>
+      Object.values(company.kpis).some((value) => value && value !== 'Not assessed')
+    );
 
     return NextResponse.json({ companies: matrixData });
   } catch (error) {

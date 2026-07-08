@@ -14,7 +14,7 @@
 # ============================================================================
 
 set -e  # Exit on error
-trap 'echo "❌ Errore alla riga $LINENO"; exit 1' ERR
+trap 'echo "[ERROR] Errore alla riga $LINENO"; exit 1' ERR
 
 # Colori per output
 RED='\033[0;31m'
@@ -37,15 +37,15 @@ log() {
 }
 
 success() {
-    echo -e "${GREEN}✓${NC} $1" | tee -a "$LOG_FILE"
+    echo -e "${GREEN}[OK]${NC} $1" | tee -a "$LOG_FILE"
 }
 
 warning() {
-    echo -e "${YELLOW}⚠${NC} $1" | tee -a "$LOG_FILE"
+    echo -e "${YELLOW}[ATTENTION]${NC} $1" | tee -a "$LOG_FILE"
 }
 
 error() {
-    echo -e "${RED}✗${NC} $1" | tee -a "$LOG_FILE"
+    echo -e "${RED}[ERROR]${NC} $1" | tee -a "$LOG_FILE"
 }
 
 check_root() {
@@ -486,8 +486,8 @@ EOF
 ============================================================================
 POLICY WATCHER - ADVANCED FETCHER (Ultimate 6-Level Fallback)
 ============================================================================
-Implementa: TLS fingerprinting → Playwright stealth → Container Docker
-→ Multi-source archival → Cloudflare JS bypass → Fallback aggiuntivi
+Implementa: TLS fingerprinting -> Playwright stealth -> Container Docker
+-> Multi-source archival -> Cloudflare JS bypass -> Fallback aggiuntivi
 ============================================================================
 """
 
@@ -530,7 +530,7 @@ class UltimateFetcher:
             )
 
             if response.status_code == 200 and len(response.text) > 1000:
-                logger.info("✓ Livello 1 successo - TLS fingerprinting funzionante")
+                logger.info("[OK] Livello 1 successo - TLS fingerprinting funzionante")
                 return {'success': True, 'content': response.text, 'level': 1}
         except Exception as e:
             logger.warning(f"Livello 1 fallito: {e}")
@@ -580,7 +580,7 @@ class UltimateFetcher:
                 if response and response.status == 200:
                     content = await page.content()
                     if len(content) > 1000:
-                        logger.info("✓ Livello 2 successo - Playwright stealth funzionante")
+                        logger.info("[OK] Livello 2 successo - Playwright stealth funzionante")
                         return {'success': True, 'content': content, 'level': 2}
 
                 await browser.close()
@@ -610,7 +610,7 @@ class UltimateFetcher:
                 )
 
                 if exec_result.exit_code == 0:
-                    logger.info("✓ Livello 3 successo - Container isolato funzionante")
+                    logger.info("[OK] Livello 3 successo - Container isolato funzionante")
                     return {'success': True, 'content': exec_result.output[1].decode(), 'level': 3}
 
         except Exception as e:
@@ -642,7 +642,7 @@ class UltimateFetcher:
                             # Fetch da Wayback
                             final_response = await client.get(archive_url, timeout=45)
                             if final_response.status_code == 200 and len(final_response.text) > 1000:
-                                logger.info("✓ Livello 4-6 successo - Archive multi-source funzionante")
+                                logger.info("[OK] Livello 4-6 successo - Archive multi-source funzionante")
                                 return {'success': True, 'content': final_response.text, 'level': 4}
 
         except Exception as e:
@@ -689,12 +689,12 @@ class UltimateFetcher:
         content_lower = content.lower()
 
         if any(keyword in content_lower for keyword in keywords):
-            logger.info("✓ Contenuto validato - Parole chiave policy rilevate")
+            logger.info("[OK] Contenuto validato - Parole chiave policy rilevate")
             return True
 
         # Controllo struttura HTML
         if '<html' in content_lower and '</html>' in content_lower:
-            logger.info("✓ Contenuto validato - Struttura HTML completa")
+            logger.info("[OK] Contenuto validato - Struttura HTML completa")
             return True
 
         logger.warning("Contenuto non valido (nessuna parola chiave policy)")
@@ -718,7 +718,7 @@ class UltimateFetcher:
                     f.write(result['content'])
 
                 elapsed = (datetime.now() - start_time).total_seconds()
-                logger.info(f"✓ Scraping completato in {elapsed:.2f}s - Livello {result['level']}")
+                logger.info(f"[OK] Scraping completato in {elapsed:.2f}s - Livello {result['level']}")
 
                 return {
                     'success': True,
@@ -863,7 +863,7 @@ class ResourceMonitor:
 
                 # Controllo alert (CPU > 90%)
                 if report['cpu_percent'] > 90:
-                    logger.warning("⚠ ALERT: CPU sopra 90%!")
+                    logger.warning("[ATTENTION] ALERT: CPU sopra 90%!")
 
                 time.sleep(300)  # 5 minuti
 
@@ -909,14 +909,14 @@ log "Avvio backup..."
 tar -czf "$BACKUP_FILE" "${DIRECTORIES[@]}" 2>/dev/null
 
 if [ $? -eq 0 ]; then
-    log "✓ Backup creato: $BACKUP_FILE"
+    log "[OK] Backup creato: $BACKUP_FILE"
     log "Dimensione: $(du -h $BACKUP_FILE | cut -f1)"
 
     # Cleanup backup vecchi (> 30 giorni)
     find "$BACKUP_DIR" -name "policy_watcher_*.tar.gz" -mtime +30 -delete
     log "Cleanup backup vecchi completata"
 else
-    log "✗ Errore creazione backup"
+    log "[ERROR] Errore creazione backup"
     exit 1
 fi
 
@@ -1052,16 +1052,16 @@ setup_cron_and_validate() {
     log "=========================================="
 
     if [[ $errors -eq 0 ]]; then
-        success "✓ Deployment completato con successo!"
+        success "[OK] Deployment completato con successo!"
     else
-        warning "⚠ Deployment completato con $errors errore(i)"
+        warning "[ATTENTION] Deployment completato con $errors errore(i)"
     fi
 
     echo ""
     log "Dettagli deployment:"
-    echo "  📁 Directory: $DEPLOY_DIR"
-    echo "  🔧 Servizi systemd: policy-scraper, policy-monitor"
-    echo "  🐳 Container Docker: $(docker-compose ps --format table | tail -n +2 | wc -l)"
+    echo "  Directory: $DEPLOY_DIR"
+    echo "  Servizi systemd: policy-scraper, policy-monitor"
+    echo "  Container Docker: $(docker-compose ps --format table | tail -n +2 | wc -l)"
     echo "  ⏰ Cron jobs: monitoraggio (*/5 min), backup (domenica 3AM)"
 
     echo ""
@@ -1103,7 +1103,7 @@ main() {
     setup_cron_and_validate
 
     echo ""
-    log "🎉 Deployment completato!"
+    log "[DONE] Deployment completato!"
     echo ""
 }
 

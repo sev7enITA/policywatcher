@@ -32,7 +32,7 @@ interface RadarPoint {
   labelEn: string;
   /** Italian display label. */
   labelIt: string;
-  /** Normalised numeric score (0–100). */
+  /** Normalised numeric score (0-100). */
   value: number;
   /** Human-readable raw assessment text (e.g. "Restricted"). */
   rawValue: string;
@@ -49,7 +49,7 @@ interface CompanyProfile {
   industry: string;
   website: string;
   logo: string;
-  /** Aggregate compliance score on a 0–10 scale. */
+  /** Aggregate compliance score on a 0-10 scale. */
   overallScore: number;
   /** Risk tier: "High" | "Medium" | "Low". */
   overallRisk: string;

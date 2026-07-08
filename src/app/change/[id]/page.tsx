@@ -1,19 +1,19 @@
 /**
- * Public Change Permalink — /change/[id]
+ * Public Change Permalink - /change/[id]
  *
  * The citable, SEO-friendly permalink for a single PolicyChange.
  * This is the "moat" asset: every policy change gets a stable URL that can
  * be cited in articles, judgments, academic papers.
  *
  * Design (mirrors /share/[id] conventions):
- *   - Server component (no client JS for core content) → fast + SEO.
+ *   - Server component with no client JS for core content, fast and SEO-friendly.
  *   - `generateMetadata` returns OG/Twitter tags for social cards.
  *   - `lang` is a query-string param (?lang=en|it), default 'en'.
  *   - `id` validated as UUID before the DB query (rejects junk fast).
  *   - ISR via `revalidate = 60` (M2c) protects against cache-busting.
  *
  * SECURITY: every piece of change content (diff, summaries, region impacts)
- * is rendered via React text interpolation {value} — NEVER via
+ * is rendered via React text interpolation {value}. NEVER via
  * dangerouslySetInnerHTML. The diff text originates from scraped upstream
  * policy pages and is treated as untrusted.
  */
@@ -36,6 +36,7 @@ import RiskReasons from '@/components/ai/RiskReasons';
 import EmbedModal from '@/components/EmbedModal';
 import styles from './change.module.css';
 import type { Metadata } from 'next';
+import { publicChangeWhere } from '@/lib/publicDataGate';
 
 const UUID_RE = /^[a-f0-9-]{36}$/i;
 
@@ -58,10 +59,10 @@ export async function generateMetadata({
   const { id } = await params;
 
   // UUID guard: don't even hit the DB on junk
-  if (!UUID_RE.test(id)) return { title: 'PolicyWatcher — Not found' };
+  if (!UUID_RE.test(id)) return { title: 'PolicyWatcher - Not found' };
 
-  const change = await db.policyChange.findUnique({
-    where: { id },
+  const change = await db.policyChange.findFirst({
+    where: publicChangeWhere({ id }),
     select: {
       overallRisk: true,
       overallScore: true,
@@ -73,16 +74,16 @@ export async function generateMetadata({
     },
   });
 
-  if (!change) return { title: 'PolicyWatcher — Not found' };
+  if (!change) return { title: 'PolicyWatcher - Not found' };
 
-  const title = `${change.policy.company.name} — Policy Change`;
+  const title = `${change.policy.company.name} - Policy Change`;
   const description =
     change.tldrEn ||
     change.aiSummaryEn?.split('.')[0] + '.' ||
     `Policy risk assessment for ${change.policy.company.name} ${change.policy.name}`;
   // Canonical + alternates (EN default, IT alternate). hreflang signals to
   // search engines that this is a bilingual permalink (avoids duplicate-
-  // content penalty). Next maps alternates.languages → <link hreflang>.
+  // content penalty). Next maps alternates.languages to <link hreflang>.
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || 'https://www.policywatcher.online';
 
   return {
@@ -107,7 +108,7 @@ export async function generateMetadata({
           url: `${baseUrl}/api/og/change/${id}`,
           width: 1200,
           height: 630,
-          alt: `${change.policy.company.name} — Risk ${change.overallScore}/10`,
+          alt: `${change.policy.company.name} - Risk ${change.overallScore}/10`,
         },
       ],
     },
@@ -138,13 +139,13 @@ export default async function ChangePage({
   const lang = sp.lang === 'it' ? 'it' : 'en';
   const isIt = lang === 'it';
 
-  // UUID guard — fast 404 on junk (no DB hit, no log noise)
+  // UUID guard: fast 404 on junk with no DB hit or log noise.
   if (!UUID_RE.test(id)) {
     notFound();
   }
 
-  const change = await db.policyChange.findUnique({
-    where: { id },
+  const change = await db.policyChange.findFirst({
+    where: publicChangeWhere({ id }),
     include: {
       policy: {
         select: {
@@ -219,7 +220,7 @@ export default async function ChangePage({
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    headline: `${change.policy.company.name} — ${change.policy.name} Policy Change`,
+    headline: `${change.policy.company.name} - ${change.policy.name} Policy Change`,
     datePublished: change.createdAt.toISOString(),
     author: { '@type': 'Organization', name: 'PolicyWatcher', url: baseUrl },
     publisher: { '@type': 'Organization', name: 'PolicyWatcher', url: baseUrl },
@@ -260,7 +261,7 @@ export default async function ChangePage({
             >
               EN
             </a>
-            <span className={styles.langSep}>·</span>
+            <span className={styles.langSep}>/</span>
             <a
               href={`/change/${id}?lang=it`}
               className={lang === 'it' ? styles.langActive : styles.lang}
@@ -402,7 +403,7 @@ export default async function ChangePage({
           </div>
           <p>{t.disclaimer}</p>
           <p className={styles.copyright}>
-            © {new Date().getFullYear()} PolicyWatcher —{' '}
+            Copyright {new Date().getFullYear()} PolicyWatcher -{' '}
             {isIt ? 'Civic Tech per la trasparenza' : 'Civic Tech for transparency'}
           </p>
         </footer>
@@ -412,7 +413,7 @@ export default async function ChangePage({
 }
 
 /* ------------------------------------------------------------------ */
-/* ISR — protect against cache-busting with random valid UUIDs (M2c)   */
+/* ISR: protect against cache-busting with random valid UUIDs (M2c)   */
 /* The route is statically rendered at build for known ids and revalid-*/
 /* at most every 60s. Unknown ids hit notFound() in O(1).              */
 /* ------------------------------------------------------------------ */

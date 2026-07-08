@@ -8,8 +8,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { db } from '@/lib/db';
-import path from 'path';
-import fs from 'fs';
+import { getDatabaseDiagnostics } from '@/lib/databaseConfig';
 
 export async function GET(request: NextRequest) {
   const session = getSession(request);
@@ -17,11 +16,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  try {
-    const cwd = process.cwd();
-    const dbPath = path.join(cwd, 'prisma', 'dev.db');
-    const dbExists = fs.existsSync(dbPath);
+  const database = await getDatabaseDiagnostics();
 
+  try {
     const [companyCount, policyCount, snapshotCount, changeCount, subscriberCount] =
       await Promise.all([
         db.company.count(),
@@ -50,12 +47,16 @@ export async function GET(request: NextRequest) {
       system: {
         nodeVersion: process.version,
         nodeEnv: process.env.NODE_ENV || 'development',
-        dbPath,
-        dbExists,
-        dbSizeBytes: dbExists ? fs.statSync(dbPath).size : 0,
+        dbPath: database.filePath || 'non-sqlite-database-url',
+        dbExists: database.fileExists,
+        dbDirectoryExists: database.directoryExists,
+        dbDirectoryWritable: database.directoryWritable,
+        dbSizeBytes: database.fileSizeBytes,
         envVars: {
           GEMINI_API_KEY: process.env.GEMINI_API_KEY ? 'SET' : 'NOT SET',
           API_SECRET: process.env.API_SECRET ? 'SET' : 'NOT SET',
+          SESSION_HMAC_SECRET: process.env.SESSION_HMAC_SECRET ? 'SET' : 'NOT SET',
+          DATABASE_URL: process.env.DATABASE_URL ? 'SET' : 'NOT SET',
           SMTP_HOST: process.env.SMTP_HOST ? 'SET' : 'NOT SET',
           ADMIN_USER: process.env.ADMIN_USER ? 'SET' : 'NOT SET',
         },
@@ -74,6 +75,20 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('[Admin Metrics] Error:', error);
-    return NextResponse.json({ error: 'Internal error' }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: 'Database unavailable. Check DATABASE_URL, database directory permissions, and run scripts/hostinger-init-db.sh on the configured SQLite file.',
+        database: {
+          path: database.filePath,
+          directoryPath: database.directoryPath,
+          directoryExists: database.directoryExists,
+          directoryWritable: database.directoryWritable,
+          fileExists: database.fileExists,
+          fileSizeBytes: database.fileSizeBytes,
+          configured: database.configured,
+        },
+      },
+      { status: 503 }
+    );
   }
 }

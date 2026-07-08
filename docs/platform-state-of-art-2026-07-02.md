@@ -31,15 +31,16 @@ assets are:
 - repository-level governance files and third-party validation setup.
 
 PolicyWatcher should continue to avoid claims such as certification,
-guaranteed compliance, legal validity, complete coverage, or real-time
+assured compliance, legal validity, exhaustive coverage, or real-time
 monitoring. Its strongest public claim is narrower and more defensible:
 
 > PolicyWatcher maps configured public policy texts and exposes analysis,
 > change evidence, dataset QA state, and methodological limits.
 
-## Current Dataset Profile
+## Configured Local Inventory
 
-Local dataset counts at the time of this report:
+Local configured inventory counts at the time of this report. These counts are
+not public-confidence evidence until each record has non-seeded retrieval logs:
 
 | Area | Count |
 | --- | ---: |
@@ -182,11 +183,11 @@ Recommended wording remains:
 Avoid:
 
 - "certified";
-- "guaranteed";
+- "legally assured";
 - "compliant/non-compliant verdict";
 - "official policy stored";
 - "real-time monitoring";
-- "complete coverage".
+- "exhaustive coverage".
 
 ## Security and Trust Posture
 
@@ -244,8 +245,10 @@ npm audit --omit=dev
 Results:
 
 - Unit tests: 7 files, 28 tests passed.
-- Targeted reliability coverage: 93.26% statements, 95.58% lines, 100% functions.
-- Dataset QA: no blockers, 1 Plaid duplicate URL warning.
+- Targeted reliability coverage: high line/statement coverage on the reviewed utility layer, with function coverage reported as complete for that run.
+- Dataset QA: this earlier snapshot is superseded by the 2026-07-05
+  source-evidence gate, which treats seeded/demo records as blockers until
+  fresh retrieval logs exist.
 - ESLint: clean.
 - Next production build: successful.
 - npm audit: 2 moderate PostCSS findings through Next.js; no high/critical

@@ -92,7 +92,7 @@ const DANGER_CONTEXTUAL: Record<string, Set<string>> = {
 };
 
 function getCellClass(field: string, value: string): string {
-  if (!value || value === 'Not assessed') return styles.kpiCellDanger;
+  if (!value || value === 'Not assessed') return styles.kpiCellMuted;
 
   if (GOOD_VALUES.has(value)) return styles.kpiCellGood;
   if (GOOD_CONTEXTUAL[field]?.has(value)) return styles.kpiCellGood;
@@ -285,6 +285,7 @@ function KpiDashboardInner({
     let good = 0;
     let warning = 0;
     let danger = 0;
+    let pending = 0;
 
     filteredMatrix.forEach((row) => {
       activeFields.forEach((field) => {
@@ -292,14 +293,16 @@ function KpiDashboardInner({
         const cellClass = getCellClass(field, val);
         if (cellClass === styles.kpiCellGood) good++;
         else if (cellClass === styles.kpiCellWarning) warning++;
-        else danger++;
+        else if (cellClass === styles.kpiCellDanger) danger++;
+        else pending++;
       });
     });
 
     return [
-      { name: 'Compliant / Good', value: good, color: '#10b981' },
-      { name: 'Moderate Risk', value: warning, color: '#f59e0b' },
-      { name: 'Non-Compliant / Opaque', value: danger, color: '#f43f5e' },
+      { name: 'Lower concern', value: good, color: '#10b981' },
+      { name: 'Moderate concern', value: warning, color: '#f59e0b' },
+      { name: 'Higher concern', value: danger, color: '#f43f5e' },
+      { name: 'Assessment pending', value: pending, color: '#94a3b8' },
     ].filter(item => item.value > 0);
   }, [filteredMatrix, activeFields]);
 
@@ -313,7 +316,7 @@ function KpiDashboardInner({
             KPI Audit Dashboard
           </h1>
           <p className={styles.pageSubtitle}>
-            Cross-company KPI matrix audit with compliance distribution and risk ranking
+            Cross-company KPI matrix audit. Pending means no source-backed AI assessment has been produced yet.
           </p>
         </div>
         <span className={styles.logoVersion} style={{ fontSize: '0.78rem', padding: '4px 10px', borderRadius: '8px' }}>
@@ -490,7 +493,7 @@ function KpiDashboardInner({
         <CheckCircle size={18} />
         <span>
           <strong>{fullCoverageCount}</strong> of{' '}
-          <strong>{matrix.length}</strong> companies have full coverage
+          <strong>{matrix.length}</strong> companies have all configured KPI fields populated
           ({fields.length}/{fields.length} KPIs assessed)
         </span>
       </div>

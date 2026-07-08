@@ -56,12 +56,46 @@ export function normalizeIngestionMethod(source: unknown): string {
   const labels: Record<string, string> = {
     direct: 'Direct scrape',
     http2: 'HTTP/2 scrape',
+    rendered: 'Rendered scrape',
     wayback: 'Wayback cache',
-    cache: 'Web cache',
+    cache: 'Web cache', // legacy rows (Google Cache strategy, retired)
     commoncrawl: 'Common Crawl',
     seeded: 'Seeded',
     none: 'None',
   };
 
   return labels[normalized] || source.trim();
+}
+
+export function isSeededIngestionEvidence(value: unknown): boolean {
+  return typeof value === 'string' && value.trim().toLowerCase() === 'seeded';
+}
+
+const verifiedSourceEvidenceSources = new Set([
+  'direct',
+  'http2',
+  'rendered',
+  'wayback',
+  'commoncrawl',
+]);
+
+export function hasVerifiedSourceEvidence(
+  checkLogs: Array<{ source?: string | null; textHash?: string | null }> = []
+): boolean {
+  return checkLogs.some((log) => {
+    const source = (log.source || '').trim().toLowerCase();
+    return Boolean(log.textHash) && verifiedSourceEvidenceSources.has(source);
+  });
+}
+
+export function shouldRebaselineFromSeededRecord(policy: {
+  dataStatus?: string | null;
+  ingestionMethod?: string | null;
+  checkLogs?: Array<{ source?: string | null; textHash?: string | null }> | null;
+  snapshots?: Array<{ publicEvidence?: boolean | null }> | null;
+}): boolean {
+  if (!isSeededIngestionEvidence(policy.ingestionMethod)) return false;
+  if (hasVerifiedSourceEvidence(policy.checkLogs || [])) return false;
+  if ((policy.snapshots || []).some((snapshot) => snapshot.publicEvidence)) return false;
+  return true;
 }

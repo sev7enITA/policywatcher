@@ -21,8 +21,8 @@ La formulazione pubblica piu solida e:
 > configurate ed espone analisi, evidenza di cambiamento, stato QA del dataset
 > e limiti metodologici.
 
-Sono da evitare claim come certificazione, conformita garantita, copertura
-completa, valutazione legale definitiva o monitoraggio real-time.
+Sono da evitare claim come certificazione, conformita assicurata, copertura
+esaustiva, valutazione legale definitiva o monitoraggio real-time.
 
 ## Profilo Dataset
 
@@ -209,8 +209,10 @@ Risultati:
 
 - ESLint: clean.
 - Unit test: 7 file, 28 test passati.
-- Targeted reliability coverage: 93.26% statements, 95.58% lines, 100% functions.
-- Dataset QA: 0 blocker, 1 warning Plaid.
+- Targeted reliability coverage: copertura alta su linee/statement del layer utility revisionato, con copertura funzioni indicata come completa in quella specifica esecuzione.
+- Dataset QA: questa fotografia precedente e superata dal gate source-evidence
+  del 2026-07-05, che tratta i record seed/demo come blocker finche non
+  esistono log di retrieval reali.
 - Build Next production: riuscita.
 - `git diff --check`: clean.
 - `npm audit`: 2 vulnerabilita moderate PostCSS tramite Next.js; nessun

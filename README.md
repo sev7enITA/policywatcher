@@ -34,7 +34,7 @@
 
 ## What Is PolicyWatcher?
 
-PolicyWatcher monitors the privacy policies, terms of service, and AI governance practices of 16 major technology and financial companies. It scrapes their public policy pages, detects changes via SHA-256 hashing, and runs each change through Google Gemini for structured bilingual (EN/IT) risk analysis.
+PolicyWatcher monitors the privacy policies, terms of service, and AI governance practices of 16 major technology and financial companies. It tracks configured public policy sources, records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
 
@@ -45,15 +45,22 @@ The platform is designed as a **civic tech tool** that translates dense legal do
 - **Ignore-with-reason workflow** so ambiguity is documented instead of silently hidden.
 - **CSV exports** for Dataset QA issue handoff and review-log evidence.
 - **Roadmap status labels** separating implemented controls, active 3.5.1 work, and planned future capabilities.
+- **Admin VPS Services monitor** for renderer reachability, configuration gates, public health telemetry, and controlled render smoke tests.
+- **VPS Operations Agent** for optional admin-controlled renderer health, fixed smoke checks, backups, checksum-verified local package updates, rollback and capped operation logs.
+- **Renderer-backed scraper hardening** via an optional VPS Playwright service for script-rendered policy pages, protected by bearer auth and SSRF validation.
+- **Archive freshness guard** so Wayback/Common Crawl snapshots older than the last successful check cannot be mistaken for a current policy change.
+- **Source-fit URL migration** with `--dry-run`, company/policy/jurisdiction scoping, and corrected Wise/Meta source handling.
+- **Dashboard confidence UX calibration** with the use-boundary acknowledgement moved out of the first impression and local dashboard density/view/accent controls.
 
 ### Release 3.5 Confidence Track Highlights
 
-- **Adaptive Fallback Scraper Cascade (5 levels)**: Bypasses datacenter bot-blocking (WAF, Cloudflare, CAPTCHAs) by cascading from direct HTTP/1.1 and explicit HTTP/2 down to Wayback Machine, Google Cache, and Common Crawl indexes.
+- **Adaptive Fallback Scraper Cascade (5 levels)**: attempts direct HTTP/1.1, explicit HTTP/2, optional rendered fetch through the hardened VPS renderer, then freshness-guarded Wayback Machine and Common Crawl recovery.
 - **Polite Crawling & Delays**: Random 1-3s delays between policy fetches to avoid rate limit bans.
 - **KPI Preservation**: Automatic inheritance of the 15-KPI governance metrics on new scans, preventing database records from resetting to "Not assessed".
 - **Data Integrity Repair Script**: `/scripts/repair-data.ts` to recompute SHA-256 hashes, backfill missing AI summaries (TL;DR, keyPointsJson), and restore broken KPI cells in the database.
 - Public policy-change timeline with stable `/change/[id]` permalinks.
 - Home-page Market Pulse timeline showing recent policy movements by sector.
+- Public Policy Signals Board (`/leaderboard`) ranking evidence availability, retrieval traceability, source coverage, and publicEvidence-gated movement without certifying companies or compliance.
 - Embeddable `/embed/change/[id]` widgets for third-party pages.
 - Dynamic Open Graph image generation and sitemap support for better sharing and indexing.
 - Rich diff rendering for policy additions, removals, and unchanged context.
@@ -62,12 +69,13 @@ The platform is designed as a **civic tech tool** that translates dense legal do
 - Admin Dataset QA dashboard and issue queue for source-fit, integrity, freshness, KPI coverage, regional-impact coverage, subscriber hygiene checks, reviewed decisions, ignored reasons, and reopen actions.
 - Public Trust & Quality Evidence page (`/trust`) with CI, CodeQL, OpenSSF Scorecard, targeted reliability coverage, live-header report links, and dataset assurance boundaries.
 - Pre-release security hardening for secrets, rate limits, AI output rendering, email templates, subscriber tokens, scraper egress, deployment diagnostics, and backup passphrases.
+- Dedicated deployment guidance for the Hostinger app package and the separate VPS renderer service.
 
 ### Key Value Propositions
 
-- **Automated monitoring** of 16 companies across 6 industry sectors, with email alerts on policy changes.
-- **Transparent AI scoring** where every risk score (1-10) is explained with concrete reasons and delta contributions.
-- **15-KPI governance matrix** covering Privacy, AI Governance, and Ethics with 480 manually curated bilingual justifications.
+- **Automated monitoring workflow** for a configured inventory of 16 companies across 6 industry sectors, with public records gated until source evidence is available.
+- **Transparent AI scoring** where generated risk scores are retained only when backed by retrieved policy text and structured model output.
+- **15-KPI governance matrix** covering Privacy, AI Governance, and Ethics. Static bilingual KPI notes are disabled in public mode unless explicitly enabled after editorial review.
 - **Regional impact analysis** across EU, US, and Global jurisdictions from both Individual and Enterprise perspectives.
 - **Bilingual by design** with full native EN/IT support throughout the platform, including all AI outputs.
 
@@ -100,6 +108,7 @@ flowchart TB
 
     subgraph Ingestion["Data Ingestion Pipeline"]
         SCRAPER["Hardened Scraper<br/>Double-Check System"]
+        RENDERER["Optional VPS Renderer<br/>Playwright / Chromium"]
         HASH["SHA-256<br/>Change Detection"]
         DIFF["Text Diff Engine"]
     end
@@ -126,6 +135,8 @@ flowchart TB
     end
 
     CRON --> SCRAPER
+    SCRAPER -.-> RENDERER
+    RENDERER -.-> SCRAPER
     SCRAPER --> HASH
     HASH -->|detected change| DIFF
     DIFF --> GEMINI
@@ -143,6 +154,7 @@ sequenceDiagram
     participant Cron as Cron Job / Web Hook
     participant API as API Route (cron/check-all)
     participant Scraper as Scraper v3
+    participant Renderer as VPS Renderer
     participant Policy as Remote Policy Server
     participant Archive as Web Archives (Wayback / Common Crawl)
     participant DB as SQLite Database
@@ -155,8 +167,13 @@ sequenceDiagram
         Scraper->>Policy: GET (Direct HTTP/1.1 / H2)
         alt successful fetch (200 OK / 403 with body)
             Policy-->>Scraper: HTML response
-        else blocked (WAF, captcha, short content)
-            Scraper->>Archive: Fetch cached snapshot
+        else script-rendered or blocked but renderer configured
+            Scraper->>Renderer: POST /render with bearer secret
+            Renderer->>Policy: Browser render with SSRF checks
+            Policy-->>Renderer: DOM content
+            Renderer-->>Scraper: HTML + final URL + status
+        else blocked and live retrieval unavailable
+            Scraper->>Archive: Fetch freshness-guarded snapshot
             Archive-->>Scraper: HTML response
         end
         Scraper->>Scraper: Content validation (Layer 2)
@@ -232,7 +249,7 @@ Companies are evaluated across 15 Key Performance Indicators organized in three 
 | Independent Audit | Certified / Published | Mentioned | Absent / Undisclosed |
 | Content Moderation | Transparent | Partial | Opaque |
 
-Each KPI assessment is backed by **480 manually curated bilingual justification strings** (16 companies x 15 KPIs x 2 languages) with a documented screening date.
+The KPI matrix includes **480 bilingual methodology notes** (16 companies x 15 KPIs x 2 languages). They support review consistency, do not replace current provider-source evidence, and remain disabled in public UI unless `NEXT_PUBLIC_ALLOW_STATIC_KPI_JUSTIFICATIONS=true` is set explicitly.
 
 ### Source Selection and Dataset QA
 
@@ -242,8 +259,35 @@ Dataset quality is treated as a release-control discipline. PolicyWatcher follow
 - **Market-specific when available:** EU, US, UK, or other regional analysis should point to the provider source for that market.
 - **Localized pages are not primary evidence by default:** translated URLs such as `/it/` are flagged unless they are the only official market source and the jurisdiction label makes that clear.
 - **Traceability over convenience:** every monitored policy keeps its configured source URL, hash, check history, version metadata, and detected changes.
+- **Public evidence gate:** snapshots and changes must be marked `publicEvidence` before they can feed public APIs, sitemap, digests, share pages, reports, timelines, the Policy Signals Board, or benchmarks.
+- **Completeness over false availability:** incomplete, truncated, or anomalous retrievals are marked `Partial` and suspended from public evidence instead of becoming complete baselines.
+- **Segmented legal hubs:** when a provider publishes several policies in one official legal hub, PolicyWatcher can monitor an anchor-scoped section such as `#end-user-privacy-policy` instead of accepting the whole hub as one mixed evidence body.
 
-The admin **Dataset QA** gate checks URL hygiene, source-fit, hash integrity, freshness, structured AI JSON, KPI coverage, regional-impact coverage, and subscriber hygiene. Critical findings are release blockers; warnings mark ambiguity or drift that should be resolved before public promotion. In 3.5.1, issue decisions can be marked reviewed, ignored with reason, or reopened; every decision writes an append-only admin review-log event.
+The admin **Dataset QA** gate checks URL hygiene, source-fit, hash integrity, freshness, structured AI JSON, KPI coverage, regional-impact coverage, archive timestamp evidence, public-evidence state, and subscriber hygiene. Critical findings are release blockers; warnings mark ambiguity or drift that should be resolved before public promotion. In 3.5.1, issue decisions can be marked reviewed, ignored with reason, or reopened; every decision writes an append-only admin review-log event.
+
+Public QA rule: when the latest fetching/update cycle produces anomalies, seed-only evidence, partial retrieval, or a `Needs Review` / `Unavailable` status, PolicyWatcher suspends the source from public data views. The public UI may show a suspension notice and minimal metadata, but it does not expose the policy text, risk score, timeline event, KPI value, or AI interpretation until the source is verified again.
+
+Policy Signals Board rule: `/leaderboard` is an evidence-only ranking surface. It orders companies by source coverage, retrieval traceability, public baselines, recency, suspension pressure, and publicEvidence-gated movement. It does not rank legal compliance, internal conduct, safety, or provider trustworthiness. Suspended sources reduce the operational evidence index and are listed in a source-attention queue instead of feeding public analysis.
+
+Re-baseline rule: the first successful fetch after a record backed by `Seeded` ingestion evidence is treated as baseline establishment, not as a policy change. The system replaces the seeded history for that policy, stores one verified public-evidence baseline snapshot, updates hash/status/check-log evidence, and does not create a `PolicyChange`, run AI scoring, or notify subscribers. A `Configured` status alone is not enough to trigger destructive re-baseline; the operation also aborts if real source evidence, public snapshots, or reviewed history already exist.
+
+Initial archive baseline rule: during the first `Seeded` re-baseline, the database bootstrap timestamp is not treated as a real successful source check. This means Wayback/Common Crawl evidence can be used when live direct/HTTP2/renderer retrieval is blocked, while the accepted record still carries `source=wayback` or `source=commoncrawl` plus `archiveTimestamp` for Dataset QA review.
+
+Partial capture rule: if a strategy retrieves policy-like text but the extractor reaches the storage cap or otherwise marks the result incomplete, PolicyWatcher records the strategy as `partial` and suspends the source pending review. It is not counted as an accepted trusted baseline. Short placeholder legal pages are also rejected as insufficient evidence, even when they return HTTP 200.
+
+Operational alert rule: every source suspension created by a manual scrape or by the scheduled check-all pipeline can trigger an internal administrator email. The email contains only source metadata, status, reason, transport source, HTTP status, timestamp, and the Dataset QA console link; it does not include policy text, scores, diffs, KPIs, or AI interpretation.
+
+Initial regeneration rule: on shared hosting, run the first real-source scan in batches. The admin Cron Manager and `/api/cron/check-all` accept `limit` and `companySlug` controls so long renderer/archive cycles can be resumed safely without one oversized HTTP request. Limited batches are ordered by oldest `lastCheckDate`, so repeated `limit=5` runs process the next least-recently checked records instead of restarting from the same first five.
+
+Targeted update rule: to remediate a specific company, set `companySlug` in Cron Manager or call the cron endpoint with `companySlug=zoom`, `microsoft`, `plaid`, `amazon`, `klarna`, or any other company slug. This limits the scan to that company's configured policies while keeping the same source-evidence gates.
+
+Host/path-drift rule: live retrieval paths (`direct`, `http2`, `rendered`) reject cross-host redirects and same-host policy URLs that land on a homepage before baseline or change creation. A configured URL that drifts away from the policy document is marked for review instead of being accepted as public evidence. Archive paths are identified separately and are not treated as live host continuity.
+
+Extractor stability rule: the policy text normalizer avoids generic container wrappers and overlapping `div`/`span` extraction so the stored hash is based on stable policy text rather than duplicated layout text.
+
+KPI freshness rule: newly detected policy changes do not inherit the 15 KPI fields from older changes. Until the KPI extraction schema is explicitly regenerated from the current source evidence, new change records store those KPI fields as `Not assessed`. This prevents stale KPI values from being presented as current evidence.
+
+Source remediation status: release 3.5.1 updates current official source mappings for Zoom Trust Center, Microsoft Privacy Statement final URLs, Plaid anchor-scoped legal sections, AWS DPA focused documentation, and Klarna US/EU sources. Klarna EU Terms currently remains a deliberate suspension candidate when the official English EU/Ireland terms page returns only a short placeholder body.
 
 ### Trust and Quality Evidence
 
@@ -257,9 +301,10 @@ PolicyWatcher exposes quality evidence in the application and in the public repo
 - `.github/workflows/coverage.yml` runs targeted Vitest reliability coverage for auth/session, rate limiting, confidence metadata, diff parsing, subscriber preferences, and export/report utilities, then uploads to Codecov when `CODECOV_TOKEN` is configured.
 - `.github/workflows/sonar.yml` is ready for SonarQube Cloud and activates when `SONAR_TOKEN` is configured.
 - `SECURITY.md`, `CONTRIBUTING.md`, and `CODE_OF_CONDUCT.md` support the OpenSSF Best Practices self-attestation.
-- `docs/platform-state-of-art-2026-07-02.md` and `docs/platform-state-of-art-2026-07-02.it.md` record the current platform state, dataset profile, assurance controls, known warnings, deployment notes, and priorities.
+- `docs/platform-state-of-art-2026-07-05.md` and `docs/platform-state-of-art-2026-07-05.it.md` record the current platform state, renderer hardening, dataset profile, assurance controls, known warnings, deployment notes, and priorities.
 - `docs/third-party-validation.md` records the exact setup steps and public report URLs for GitHub, OpenSSF, Sonar, Codecov, MDN Observatory, and SecurityHeaders.com.
 - `/trust` explains what each badge/report means and states the non-certification boundary.
+- Admin access logs minimize IP addresses before persistence and are cleaned up after 90 days by digest cron routes.
 
 ### Scraper Integrity (Double-Check System)
 
@@ -268,13 +313,24 @@ The scraper follows a strict "never fabricate" design:
 **Layer 1 (Transport):**
 - 20-second fetch timeout with 3 retry attempts and exponential backoff.
 - User-Agent rotation across 3 browser profiles.
-- Redirect following with final-URL validation.
+- DNS resolution before outbound fetches, private/internal IP rejection, and socket-pinned HTTP/1.1/HTTP/2 requests to reduce DNS rebinding risk.
+- Redirect following with Public Suffix List based host-coherence checks and final-URL validation.
+- Direct HTTP/1.1 first, explicit HTTP/2 fallback for providers that reject HTTP/1.1.
+- HTTP/2 timeout and error paths close the underlying session and return fixed diagnostic tokens instead of raw network exception messages.
 
 **Layer 2 (Content Validation):**
 - Detects Cloudflare challenges, CAPTCHAs, maintenance pages, paywalls, and consent walls.
 - Soft-404 detection for pages that return 200 but contain error content.
-- Minimum text length enforcement (400 characters).
-- Maximum text cap (200K characters).
+- Minimum text length enforcement (800 characters).
+- Maximum text cap (500K characters).
+
+**Live and archive fallback:**
+- Optional VPS renderer (`renderer/`) runs Playwright/Chromium outside Hostinger for script-rendered policy pages.
+- Renderer requires `RENDERER_SECRET`, validates initial URLs, final browser redirects, and subresource requests against SSRF rules, and refuses to start without a secret.
+- Renderer validation is a browser request-boundary control; app-side HTTP/1.1 and HTTP/2 retrievals use stronger socket pinning because Node controls those sockets directly.
+- Archive recovery uses Wayback Machine and Common Crawl only when snapshots are fresh enough relative to the policy's last successful check.
+- Common Crawl WARC records are decompressed before HTML extraction, avoiding binary/gzip artifacts in text comparisons.
+- Admin Cron Manager records the ordered retrieval strategy chain for each policy: direct, HTTP/2, renderer, Wayback, and Common Crawl each report accepted, rejected, failed, or skipped status plus the reason for escalating to the next fallback.
 
 **Result types:**
 - `ok` - valid policy text, stored with SHA-256 hash.
@@ -517,12 +573,14 @@ The application will be available at `http://localhost:3000`.
 
 ### Seeding the Database
 
-To populate the database with the 16 monitored companies and their baseline analyses:
+To populate a local development database with the configured company inventory and fixture records:
 
 ```bash
 # With the dev server running and ALLOW_DATABASE_SEED_ENDPOINT=true:
 curl -X POST -H "Authorization: Bearer YOUR_API_SECRET" http://localhost:3000/api/seed
 ```
+
+Seeded records are treated as configured/unverified. They are hidden from public confidence views; `ALLOW_SEEDED_PUBLIC_DATA=true` is honored only outside production for controlled development demos.
 
 ### Production Build
 
@@ -530,6 +588,64 @@ curl -X POST -H "Authorization: Bearer YOUR_API_SECRET" http://localhost:3000/ap
 npm run build    # Runs: prisma generate && next build
 npm start        # Starts the production server
 ```
+
+### Hostinger SQLite Setup
+
+Production packages intentionally do not include `prisma/dev.db`. The database
+must be created or upgraded on the server after the files are extracted. Use an
+absolute SQLite path outside the extracted app source directory so future ZIP
+deploys cannot overwrite evidence.
+
+Example Hostinger value:
+
+```env
+DATABASE_URL=file:/home/u847874844/domains/policywatcher.online/policywatcher-data/production.db
+```
+
+After setting the same `DATABASE_URL` in Hostinger environment variables, run
+from the deployed app directory:
+
+```bash
+export PATH="/opt/alt/alt-nodejs22/root/usr/bin:$PATH"
+export DATABASE_URL="file:/home/u847874844/domains/policywatcher.online/policywatcher-data/production.db"
+bash scripts/hostinger-init-db.sh
+```
+
+If the database is new or has `0` companies / `0` policies, initialize only the
+monitored source inventory:
+
+```bash
+node scripts/hostinger-seed-inventory.mjs
+```
+
+This inventory initializer is production-safe: it creates companies and policy
+source URLs as `Configured` + `Seeded` records, but it does not create snapshots,
+policy changes, AI summaries, timeline events, or public evidence. The first
+successful Cron Manager scan establishes a verified baseline in small batches
+without publishing placeholder data or notifying subscribers.
+
+For an existing production database, run URL remediation before targeted scans:
+
+```bash
+export PATH="/opt/alt/alt-nodejs22/root/usr/bin:$PATH"
+export DATABASE_URL="file:/home/u847874844/domains/policywatcher.online/policywatcher-data/production.db"
+node scripts/hostinger-remediate-sources.mjs --dry-run
+node scripts/hostinger-remediate-sources.mjs
+```
+
+Then use Cron Manager with a company slug for focused verification, for example
+`zoom`, `microsoft`, `plaid`, `amazon`, or `klarna`.
+
+If the admin login succeeds but the dashboard does not load, check Hostinger
+runtime logs for `Error code 14: Unable to open the database file`. That means
+the configured SQLite directory is missing, not writable, or the schema has not
+been pushed yet.
+
+Admin authentication events are recorded in `AdminAccessLog` and exposed to
+administrator users at `/admin/access-logs`. The log records successful logins,
+failed attempts, logout requests, and configuration errors with timestamp,
+username, role, request path, method, user-agent, and the IP resolved by the
+configured proxy-trust policy.
 
 ### Schema Upgrade Notes
 
@@ -539,10 +655,10 @@ backfill the initial check-log rows before relying on Dataset QA Status views:
 
 ```bash
 # 1. Back up the existing production database first.
-cp prisma/dev.db "prisma/dev.db.backup-$(date +%Y%m%d%H%M%S)"
+cp /path/to/production.db "/path/to/production.db.backup-$(date +%Y%m%d%H%M%S)"
 
-# 2. Apply the Prisma schema changes.
-npx prisma db push
+# 2. Apply Prisma migrations.
+npx prisma migrate deploy
 
 # 3. Reconcile current policy records, version-record hashes, and latest check-log evidence.
 npm run db:repair
@@ -557,6 +673,11 @@ npm start
 
 Do not run `/api/seed` in production. It is development-only and blocked unless
 `ALLOW_DATABASE_SEED_ENDPOINT=true` and `NODE_ENV` is not `production`.
+For existing SQLite databases originally created with `prisma db push`, mark the initial migration as applied once before switching to migration deploy:
+`npx prisma migrate resolve --applied 20260706213500_init`.
+The Hostinger init helper performs this baseline step automatically when it detects a non-empty SQLite file.
+
+Security incident note: an unauthenticated debug environment endpoint existed in commit `ec2f699` and was removed from `main` by commit `f453b4a`. If commit `ec2f699` was deployed, rotate `ADMIN_PASSWORD`, `SESSION_HMAC_SECRET`, and `API_SECRET`. The endpoint did not intentionally expose secret values, but public deployment of diagnostic environment routes is not acceptable for production operations.
 
 ### Environment Variables
 
@@ -564,17 +685,86 @@ Do not run `/api/seed` in production. It is development-only and blocked unless
 |----------|----------|-------------|
 | `GEMINI_API_KEY` | Yes | Google AI API key for Gemini 2.5 Flash |
 | `API_SECRET` | Yes | High-entropy bearer token for cron and protected operational endpoints |
-| `SESSION_HMAC_SECRET` | Recommended | Separate high-entropy key for admin session cookies |
-| `DATABASE_URL` | No | Prisma connection string (defaults to `file:./dev.db`) |
+| `SESSION_HMAC_SECRET` | Yes | Separate high-entropy key for admin session cookies; never reuse `API_SECRET` |
+| `DATABASE_URL` | Yes | SQLite connection string. Use an absolute production path outside the extracted app source, e.g. `file:/home/USER/domains/policywatcher.online/policywatcher-data/production.db` |
 | `SMTP_HOST` | No | SMTP server hostname |
 | `SMTP_PORT` | No | SMTP server port |
 | `SMTP_USER` | No | SMTP username |
 | `SMTP_PASS` | No | SMTP password |
 | `SMTP_FROM` | No | Sender address for outgoing emails |
+| `ADMIN_ALERT_EMAIL` | Recommended | Operational recipient for source suspension and Dataset QA anomaly alerts |
+| `ADMIN_EMAIL` | No | Fallback operational recipient when `ADMIN_ALERT_EMAIL` is unset |
 | `APP_URL` | No | Public URL used in email links (defaults to `http://localhost:3000`) |
+| `RENDERER_URL` | Optional | Public HTTPS URL of the VPS renderer service, for example `https://render.policywatcher.online` |
+| `RENDERER_SECRET` | Optional | Shared high-entropy bearer secret used by the Hostinger app to call the renderer |
+| `VPS_AGENT_URL` | Optional | Public HTTPS URL of the separate VPS Operations Agent, for example `https://ops.policywatcher.online` |
+| `VPS_AGENT_SECRET` | Optional | Dedicated high-entropy HMAC secret used by the Hostinger app to call the operations agent |
 | `ALLOW_DATABASE_SEED_ENDPOINT` | No | Development-only flag for `/api/seed`; never enable in production |
 | `TRUST_PROXY_HEADERS` | No | Set to `true` only after the reverse proxy is verified to overwrite forwarding headers |
 | `TRUSTED_CLIENT_IP_HEADER` | No | Provider-controlled client IP header to use for rate limiting |
+
+### Optional VPS Renderer Deployment
+
+Hostinger runs the Next.js application. The browser renderer is intentionally separate and should run on a VPS because Chromium is not suitable for shared hosting.
+
+```bash
+# On the VPS
+cd /opt/policywatcher-renderer
+npm ci
+npx playwright install-deps chromium
+sudo systemctl enable --now policywatcher-renderer
+curl http://127.0.0.1:8787/healthz
+```
+
+Expose it through HTTPS, for example `https://render.policywatcher.online`, and then set the same secret in Hostinger:
+
+```env
+RENDERER_URL=https://render.policywatcher.online
+RENDERER_SECRET=<same value configured in the VPS systemd service>
+```
+
+The application works without these variables, but script-rendered providers have lower retrieval coverage and will rely on direct fetches and archives.
+
+### Optional VPS Operations Agent
+
+The renderer and the operations agent are intentionally separate processes.
+The renderer executes Chromium. The operations agent performs only fixed,
+allowlisted operations: status, version, fixed smoke test, backup, checksum
+verified update, rollback and capped logs.
+
+Recommended layout:
+
+```text
+/opt/policywatcher-vps-agent/
+/opt/policywatcher-renderer/current -> versions/3.5.1/
+/opt/policywatcher-renderer/versions/
+/opt/policywatcher-renderer/packages/
+/opt/policywatcher-renderer/backups/
+```
+
+The admin panel never sends a shell command, arbitrary package URL or arbitrary
+smoke URL. For updates it sends only:
+
+```json
+{
+  "version": "3.5.2",
+  "sha256": "..."
+}
+```
+
+The agent searches its fixed local package directory, verifies the checksum,
+rejects archives containing `.env` entries or unsafe paths, creates a backup,
+switches the `current` symlink, restarts the renderer service and runs the
+fixed smoke test. Mutating operations are locked; concurrent attempts return
+`423 Locked`. If rollback fails, the agent moves to
+`manual_intervention_required` and `/healthz` reports `ok: false`.
+
+Configure Hostinger only after the agent is exposed through HTTPS:
+
+```env
+VPS_AGENT_URL=https://ops.policywatcher.online
+VPS_AGENT_SECRET=<same value configured in the agent systemd environment>
+```
 
 ---
 
@@ -641,7 +831,7 @@ policywatcher/
 │   │   ├── gemini.ts          # Gemini AI integration (analysis + Q&A)
 │   │   ├── scraper.ts         # Hardened web scraper
 │   │   ├── mailer.ts          # Email templates and dispatch
-│   │   ├── kpi-justifications.ts  # 480 curated bilingual justifications
+│   │   ├── kpi-justifications.ts  # Optional static bilingual KPI notes
 │   │   ├── exporters.ts       # CSV and PDF export utilities
 │   │   ├── db.ts              # Prisma client singleton
 │   │   ├── auth.ts            # Bearer token authentication

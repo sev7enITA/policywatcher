@@ -54,6 +54,9 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
               <p>
                 The platform monitors configured public source URLs, detects version changes, maps risk indicators, and exposes Dataset QA status so users can see both the analysis and the evidence limits behind it.
               </p>
+              <p>
+                The 3.5 Confidence work adds controlled retrieval evidence, ingestion-method visibility, source-fit checks, append-only QA review events, and public trust documentation for the release process.
+              </p>
               <div className={styles.links}>
                 <a href="/trust" className={styles.link}>
                   <ShieldCheck size={18} />

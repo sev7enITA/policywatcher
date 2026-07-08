@@ -33,18 +33,40 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Company not found' }, { status: 404 });
     }
 
-    // Create policy with empty initial text and hash
+    // New admin-added policies start as configured inventory, not public evidence.
     const initialHash = createHash('sha256').update('').digest('hex');
-    const policy = await db.policy.create({
-      data: {
-        companyId,
-        name,
-        type,
-        url,
-        jurisdiction: jurisdiction || 'Global',
-        currentText: '',
-        currentHash: initialHash,
-      },
+    const checkedAt = new Date();
+    const policy = await db.$transaction(async (tx) => {
+      const createdPolicy = await tx.policy.create({
+        data: {
+          companyId,
+          name,
+          type,
+          url,
+          jurisdiction: jurisdiction || 'Global',
+          currentText: '',
+          currentHash: initialHash,
+          dataStatus: 'Configured',
+          ingestionMethod: 'Seeded',
+          lastCheckDate: checkedAt,
+          lastSuccessfulCheckDate: checkedAt,
+        },
+      });
+
+      await tx.policyCheckLog.create({
+        data: {
+          policyId: createdPolicy.id,
+          status: 'Configured',
+          checkedAt,
+          source: 'seeded',
+          reason: 'admin_policy_created_pending_first_verified_scan',
+          finalUrl: url,
+          textHash: initialHash,
+          textLength: 0,
+        },
+      });
+
+      return createdPolicy;
     });
 
     return NextResponse.json({ success: true, policy }, { status: 201 });
@@ -73,6 +95,26 @@ export async function DELETE(request: NextRequest) {
     });
     if (!policy) {
       return NextResponse.json({ error: 'Policy not found' }, { status: 404 });
+    }
+
+    let confirmation: { confirmName?: unknown; confirmToken?: unknown } = {};
+    try {
+      confirmation = await request.json();
+    } catch {
+      confirmation = {};
+    }
+
+    if (
+      confirmation.confirmName !== policy.name ||
+      confirmation.confirmToken !== 'DELETE_POLICY'
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            'Destructive confirmation required. Provide confirmName equal to the policy name and confirmToken=DELETE_POLICY.',
+        },
+        { status: 409 }
+      );
     }
 
     await db.policy.delete({ where: { id } });

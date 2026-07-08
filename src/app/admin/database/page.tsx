@@ -14,6 +14,7 @@ import {
   GitCompare,
 } from 'lucide-react';
 import styles from '../admin.module.css';
+import { buildWaybackSearchUrl } from '@/lib/wayback';
 
 /* ---------- Types ---------- */
 
@@ -324,7 +325,7 @@ export default function DatabaseInspectorPage() {
                   ) : (
                     company.policies.map((policy) => {
                       const badge = typeBadgeClass(policy.type);
-                      const waybackUrl = `https://web.archive.org/web/*/${encodeURIComponent(policy.url)}`;
+                      const waybackUrl = buildWaybackSearchUrl(policy.url);
 
                       return (
                         <div key={policy.id} className={styles.dbPolicyMiniCard}>
@@ -349,7 +350,7 @@ export default function DatabaseInspectorPage() {
                               target="_blank"
                               rel="noopener noreferrer"
                               className={styles.metaText}
-                              title="Wayback History"
+                              title="Wayback search for this configured source"
                               style={{ display: 'inline-flex', padding: 4, borderRadius: 4, background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}
                             >
                               <Globe size={11} />

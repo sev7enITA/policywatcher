@@ -10,6 +10,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
+  BarChart3,
   Bell,
   BookOpen,
   ChevronUp,
@@ -117,6 +118,7 @@ export default function Navigation({
       methodology: 'Methodology',
       howTo: 'How to',
       timeline: 'Timeline',
+      leaderboard: 'Signals',
       showcase: 'Showcase',
       roadmap: 'Roadmap',
       trust: 'Trust QA',
@@ -142,6 +144,7 @@ export default function Navigation({
       methodology: 'Metodo',
       howTo: 'Guida',
       timeline: 'Timeline',
+      leaderboard: 'Segnali',
       showcase: 'Vetrina',
       roadmap: 'Roadmap',
       trust: 'Trust QA',
@@ -164,6 +167,7 @@ export default function Navigation({
       label: t.observe,
       items: [
         { id: 'timeline', label: t.timeline, icon: Clock, href: '/timeline' },
+        { id: 'leaderboard', label: t.leaderboard, icon: BarChart3, href: '/leaderboard' },
         { id: 'showcase', label: t.showcase, icon: Sparkles, href: '/showcase' },
         { id: 'roadmap', label: t.roadmap, icon: Cpu, href: '/roadmap' },
         { id: 'trust', label: t.trust, icon: ShieldCheck, href: '/trust' },
@@ -209,6 +213,7 @@ export default function Navigation({
     t.observe,
     t.operate,
     t.roadmap,
+    t.leaderboard,
     t.showcase,
     t.subscribe,
     t.timeline,
@@ -308,7 +313,7 @@ export default function Navigation({
         >
           <Search size={18} aria-hidden="true" />
           <span className={styles.commandLabel}>{t.search}</span>
-          <kbd className={styles.commandKbd}>⌘K</kbd>
+          <kbd className={styles.commandKbd}>Cmd K</kbd>
         </button>
 
         <div className={styles.ribbonGroups}>

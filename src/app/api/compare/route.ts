@@ -9,6 +9,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
+import { publicPolicyWhere } from '@/lib/publicDataGate';
 
 // KPI keys compared side by side (15 total across 3 families)
 const KPI_KEYS = [
@@ -44,10 +45,10 @@ const kpiWeights: Record<string, number> = {
 };
 
 /**
- * Converts a textual KPI value to a numeric 0–100 risk score.
+ * Converts a textual KPI value to a numeric 0-100 risk score.
  *
  * @param value - The human-readable KPI value (e.g. "Extensive", "Minimal").
- * @returns An integer 0–100 where 0 = safe and 100 = most concerning.
+ * @returns An integer 0-100 where 0 = safe and 100 = most concerning.
  */
 function kpiToScore(value: string): number {
   // 0-100 scale; 0 = safe, 100 = concerning
@@ -114,8 +115,10 @@ async function getCompanyProfile(companyId: string) {
     where: { id: companyId },
     include: {
       policies: {
+        where: publicPolicyWhere(),
         include: {
           changes: {
+            where: { publicEvidence: true },
             orderBy: { createdAt: 'desc' },
             take: 1,
           },
@@ -170,8 +173,10 @@ async function getIndustryBenchmarkProfile(industry: string, excludeCompanyId?: 
     where: { industry },
     include: {
       policies: {
+        where: publicPolicyWhere(),
         include: {
           changes: {
+            where: { publicEvidence: true },
             orderBy: { createdAt: 'desc' },
             take: 1,
           },

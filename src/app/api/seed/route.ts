@@ -3,9 +3,8 @@
  *
  * @route POST /api/seed
  *
- * Triggers `prisma db push` followed by `prisma db seed` in the background.
- * Designed for first-time deployment: initialises the SQLite database and
- * populates it with the default set of monitored companies and policies.
+ * Triggers `prisma db push` followed by `prisma db seed` in the background
+ * for controlled development/staging setup only.
  *
  * The work is spawned asynchronously so the HTTP response returns immediately,
  * avoiding reverse-proxy timeouts (e.g. on Hostinger).
@@ -50,9 +49,9 @@ export async function POST(request: NextRequest) {
 
   const cwd = process.cwd();
   const dbPath = path.join(cwd, 'prisma', 'dev.db');
-  const dbUrl = `file:${dbPath}`;
+  const dbUrl = process.env.DATABASE_URL || `file:${dbPath}`;
 
-  // Ensure the prisma directory exists
+  // Ensure the local development SQLite directory exists.
   const prismaDir = path.join(cwd, 'prisma');
   if (!fs.existsSync(prismaDir)) {
     fs.mkdirSync(prismaDir, { recursive: true });
@@ -65,7 +64,7 @@ export async function POST(request: NextRequest) {
       
       // Run db push
       console.log('[Seed API] Running prisma db push...');
-      const pushOutput = execSync('npx prisma db push --accept-data-loss 2>&1', {
+      const pushOutput = execSync('npx prisma db push 2>&1', {
         cwd,
         env: {
           ...process.env,

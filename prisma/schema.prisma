@@ -1,6 +1,6 @@
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -57,6 +57,7 @@ model PolicyCheckLog {
   finalUrl   String?
   textHash   String?
   textLength Int?
+  archiveTimestamp DateTime?
   createdAt  DateTime @default(now())
 
   @@index([policyId])
@@ -65,13 +66,14 @@ model PolicyCheckLog {
 }
 
 model PolicySnapshot {
-  id        String   @id @default(uuid())
-  policyId  String
-  policy    Policy   @relation(fields: [policyId], references: [id], onDelete: Cascade)
-  version   Int
-  text      String
-  hash      String
-  createdAt DateTime @default(now())
+  id             String   @id @default(uuid())
+  policyId       String
+  policy         Policy   @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  version        Int
+  text           String
+  hash           String
+  publicEvidence Boolean  @default(false)
+  createdAt      DateTime @default(now())
 
   oldChanges PolicyChange[] @relation("OldSnapshot")
   newChanges PolicyChange[] @relation("NewSnapshot")
@@ -97,6 +99,7 @@ model PolicyChange {
   overallRisk      String // "Low", "Medium", "High"
   overallScore     Int // 1-10 scale
   remediationsJson String // JSON array of remediations
+  publicEvidence   Boolean @default(false)
 
   // AI Governance Indicators (legacy, kept for compatibility)
   aiTrainingOptOut         String // "Allowed", "Not Allowed", "Opt-out available"
@@ -176,6 +179,24 @@ model AdminReviewLog {
   @@index([action])
   @@index([targetType, targetId])
   @@index([policyChangeId])
+}
+
+model AdminAccessLog {
+  id              String   @id @default(uuid())
+  event           String // "login_success", "login_failed", "logout", "session_invalid", "config_error"
+  username        String?
+  actorRole       String?
+  ipAddress       String?
+  userAgent       String?
+  path            String?
+  method          String?
+  detail          String?
+  createdAt       DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([event])
+  @@index([username])
+  @@index([ipAddress])
 }
 
 model RegionImpact {

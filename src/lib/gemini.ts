@@ -4,19 +4,21 @@
  * Gemini AI integration layer for PolicyWatcher.
  *
  * Provides two main capabilities:
- *   1. **Policy analysis** (`analyzePolicyChange`) — sends policy text to
+ *   1. **Policy analysis** (`analyzePolicyChange`) sends policy text to
  *      Gemini 2.5 Flash and receives a structured, bilingual (EN/IT) risk
  *      assessment with AI governance indicators, key points, remediation
  *      actions, and region-specific impact analysis.
- *   2. **Conversational Q&A** (`answerPolicyQuestion`) — answers free-form
+ *   2. **Conversational Q&A** (`answerPolicyQuestion`) answers free-form
  *      user questions about monitored policies using retrieved context.
  *
- * When the `GEMINI_API_KEY` environment variable is missing, both functions
- * gracefully degrade to deterministic mock/demo responses so the UI never
- * breaks.
+ * This module is evidence-first by default: when Gemini is not configured or
+ * returns an incomplete structured analysis, ingestion fails instead of
+ * inventing demo analysis. The legacy demo fallback can only be enabled
+ * explicitly with `ALLOW_DEMO_AI_FALLBACK=true` in non-production contexts.
  */
 
 import { GoogleGenAI } from '@google/genai';
+import { normalizeKpiFields, type KpiField } from '@/lib/kpiDefaults';
 
 // Lazy-initialized Gemini Client
 // We do NOT create the client at module-load time because process.env
@@ -45,11 +47,19 @@ function getApiKey(): string {
   return process.env.GEMINI_API_KEY || '';
 }
 
+function allowDemoAiFallback(): boolean {
+  return process.env.ALLOW_DEMO_AI_FALLBACK === 'true';
+}
+
+function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
 /**
  * Ordered model fallback chain. If the primary model is overloaded (503)
  * or rate-limited (429), we retry with the next model in the list.
- * gemini-2.5-flash is the primary (best quality/cost ratio).
- * gemini-2.0-flash-lite is the fallback (highest availability, lowest cost).
+ * gemini-2.5-flash is the primary analysis model.
+ * gemini-2.0-flash-lite is the availability fallback used for transient errors.
  */
 const MODEL_CHAIN = ['gemini-2.5-flash', 'gemini-2.0-flash-lite'] as const;
 
@@ -86,7 +96,7 @@ export interface RemediationResult {
 
 /**
  * Region- and perspective-specific impact assessment.
- * Each policy analysis produces 6 of these (EU/US/Global × Individual/Enterprise).
+ * Each policy analysis produces 6 of these (EU/US/Global by Individual/Enterprise).
  */
 export interface RegionImpactResult {
   region: 'EU' | 'US' | 'Global';
@@ -148,6 +158,23 @@ export interface PolicyAnalysisResult {
 
   remediations: RemediationResult[];
   regionImpacts: RegionImpactResult[];
+
+  // Cross-company KPI matrix fields. Values are normalized before persistence.
+  kpiDataCollection: string;
+  kpiThirdPartySharing: string;
+  kpiDataRetention: string;
+  kpiRightToDeletion: string;
+  kpiCrossBorderTransfer: string;
+  kpiAiTrainingOptOut: string;
+  kpiAiOutputOwnership: string;
+  kpiAlgoTransparency: string;
+  kpiAutomatedDecision: string;
+  kpiAiBiasFairness: string;
+  kpiConsentMechanism: string;
+  kpiRegulatoryCompliance: string;
+  kpiBreachNotification: string;
+  kpiIndependentAudit: string;
+  kpiContentModeration: string;
 }
 
 /**
@@ -162,7 +189,13 @@ export async function analyzePolicyChange(
 ): Promise<PolicyAnalysisResult> {
   const apiKey = getApiKey();
   if (!apiKey) {
-    console.warn('GEMINI_API_KEY is not defined. Returning bilingual mock analysis.');
+    if (!allowDemoAiFallback()) {
+      throw new Error(
+        'GEMINI_API_KEY is not configured. AI analysis is disabled because demo fallback is off.'
+      );
+    }
+
+    console.warn('GEMINI_API_KEY is not defined. Returning mock analysis because ALLOW_DEMO_AI_FALLBACK=true.');
     return getMockAnalysis(companyName, policyName, !oldText);
   }
 
@@ -228,6 +261,24 @@ interface PolicyAnalysisResult {
   aiIpLicensing: string; // Choose one: "Claimed by company", "Protected", "Shared", or "Not specified".
   aiPromptRetention: string; // Choose one: "Indefinite", "System-deleted", "30 days", "180 days", or "Not specified".
 
+  // Cross-company KPI Matrix. Use ONLY the allowed values shown here.
+  // If the provided policy text does not support a conclusion, use "Not assessed".
+  kpiDataCollection: "Minimal" | "Moderate" | "Extensive" | "Not assessed";
+  kpiThirdPartySharing: "Restricted" | "Limited" | "Broad" | "Not assessed";
+  kpiDataRetention: "Defined" | "Extended" | "Indefinite" | "Not assessed";
+  kpiRightToDeletion: "Full" | "Partial" | "Not Available" | "Not assessed";
+  kpiCrossBorderTransfer: "Restricted" | "Controlled" | "Unrestricted" | "Not assessed";
+  kpiAiTrainingOptOut: "Available" | "Opt-Out" | "Not Available" | "Not assessed";
+  kpiAiOutputOwnership: "User Retained" | "Shared" | "Company Claimed" | "Not assessed";
+  kpiAlgoTransparency: "Published" | "Mentioned" | "Opaque" | "Not assessed";
+  kpiAutomatedDecision: "Transparent" | "Partial" | "Opaque" | "Not assessed";
+  kpiAiBiasFairness: "Committed" | "Mentioned" | "Absent" | "Not assessed";
+  kpiConsentMechanism: "Explicit Opt-In" | "Opt-Out" | "Implicit" | "Not assessed";
+  kpiRegulatoryCompliance: "Comprehensive" | "Partial" | "Minimal" | "Not assessed";
+  kpiBreachNotification: "Within 24h" | "Within 72h" | "Unspecified" | "Not assessed";
+  kpiIndependentAudit: "Certified" | "Mentioned" | "Absent" | "Not assessed";
+  kpiContentModeration: "Transparent" | "Partial" | "Opaque" | "Not assessed";
+
   remediations: {
     titleEn: string; // Short action title in English (e.g. "Disable Chat History to Opt-Out")
     titleIt: string; // Short action title in Italian (e.g. "Disattiva la Cronologia per l'Opt-Out")
@@ -285,7 +336,7 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
 
       // Defensive normalization: fill the new structured fields if the model
       // omitted them, so the UI never crashes.
-      return normalizeAnalysis(parsed, companyName, policyName, isInitial);
+      return normalizeAnalysis(parsed, companyName, policyName);
     } catch (error) {
       lastError = error;
       console.warn(`[Gemini] Model ${modelId} failed:`, (error as Error).message);
@@ -295,8 +346,13 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
     }
   }
 
-  console.error('[Gemini] All models failed, returning mock analysis:', lastError);
-  return getMockAnalysis(companyName, policyName, isInitial);
+  if (allowDemoAiFallback()) {
+    console.error('[Gemini] All models failed. Returning mock analysis because ALLOW_DEMO_AI_FALLBACK=true:', lastError);
+    return getMockAnalysis(companyName, policyName, isInitial);
+  }
+
+  console.error('[Gemini] All models failed. Demo fallback is disabled:', lastError);
+  throw new Error(`Gemini analysis failed: ${getErrorMessage(lastError)}`);
 }
 
 /**
@@ -306,55 +362,50 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
 function normalizeAnalysis(
   parsed: Partial<PolicyAnalysisResult>,
   companyName: string,
-  policyName: string,
-  isInitial: boolean
+  policyName: string
 ): PolicyAnalysisResult {
+  if (!isRiskLevel(parsed.overallRisk)) {
+    throw new Error('Gemini returned an incomplete analysis: missing or invalid overallRisk.');
+  }
+
+  if (
+    typeof parsed.overallScore !== 'number' ||
+    !Number.isFinite(parsed.overallScore) ||
+    parsed.overallScore < 1 ||
+    parsed.overallScore > 10
+  ) {
+    throw new Error('Gemini returned an incomplete analysis: missing or invalid overallScore.');
+  }
+
   const summaryEn =
     parsed.executiveSummaryEn ||
-    `${companyName} ${policyName} has been analyzed.`;
+    `No model summary was returned for ${companyName} ${policyName}.`;
   const summaryIt =
     parsed.executiveSummaryIt ||
-    `${companyName} ${policyName} è stata analizzata.`;
+    `Nessuna sintesi del modello restituita per ${companyName} ${policyName}.`;
+  const kpiFields = normalizeKpiFields(parsed as Partial<Record<KpiField, string>>);
 
   return {
     executiveSummaryEn: summaryEn,
     executiveSummaryIt: summaryIt,
     tldrEn: parsed.tldrEn || summaryEn.split('.')[0] + '.',
     tldrIt: parsed.tldrIt || summaryIt.split('.')[0] + '.',
-    keyPoints: (parsed.keyPoints && parsed.keyPoints.length > 0
-      ? parsed.keyPoints
-      : [
-          {
-            textEn: `${companyName} policy reviewed for compliance signals.`,
-            textIt: `Policy di ${companyName} esaminata per segnali di compliance.`,
-            sentiment: 'neutral' as const,
-          },
-        ]),
-    riskReasons:
-      parsed.riskReasons && parsed.riskReasons.length > 0
-        ? parsed.riskReasons.slice(0, 3)
-        : [
-            {
-              icon: 'info' as const,
-              textEn: isInitial
-                ? 'Initial baseline assessment established.'
-                : 'Changes detected in the latest version.',
-              textIt: isInitial
-                ? 'Valutazione iniziale di base stabilita.'
-                : 'Modifiche rilevate nell\'ultima versione.',
-              deltaScore: 0,
-            },
-          ],
-    overallRisk: parsed.overallRisk || 'Medium',
-    overallScore:
-      typeof parsed.overallScore === 'number' ? parsed.overallScore : 6,
+    keyPoints: parsed.keyPoints || [],
+    riskReasons: parsed.riskReasons ? parsed.riskReasons.slice(0, 3) : [],
+    overallRisk: parsed.overallRisk,
+    overallScore: parsed.overallScore,
     aiTrainingOptOut: parsed.aiTrainingOptOut || 'Not specified',
     aiDataScrapingRestricted: parsed.aiDataScrapingRestricted || 'Not specified',
     aiIpLicensing: parsed.aiIpLicensing || 'Not specified',
     aiPromptRetention: parsed.aiPromptRetention || 'Not specified',
     remediations: parsed.remediations || [],
     regionImpacts: parsed.regionImpacts || [],
+    ...kpiFields,
   };
+}
+
+function isRiskLevel(value: unknown): value is PolicyAnalysisResult['overallRisk'] {
+  return value === 'Low' || value === 'Medium' || value === 'High';
 }
 
 /**
@@ -370,8 +421,8 @@ export async function answerPolicyQuestion(
   const apiKey = getApiKey();
   if (!apiKey) {
     return isEn
-      ? "Hello! No Gemini API key detected. In demo mode, I can tell you that tech policies generally show medium-to-high tracking levels. Set `GEMINI_API_KEY` in `.env` to unlock contextual answers."
-      : "Ciao! Nessuna chiave API Gemini trovata. In modalita demo posso dirti che le policy tech mostrano un livello di tracciamento dati medio-alto. Aggiungi `GEMINI_API_KEY` nel file `.env` per sbloccare le risposte reali basate sui testi caricati.";
+      ? 'AI assistant unavailable: GEMINI_API_KEY is not configured, so PolicyWatcher will not generate demo answers.'
+      : 'Assistente AI non disponibile: GEMINI_API_KEY non è configurata, quindi PolicyWatcher non genera risposte demo.';
   }
 
   const contextStr = contextPolicies
@@ -451,8 +502,8 @@ ${question}`;
 }
 
 /**
- * Generates high-quality mock analysis if Gemini is unavailable.
- * Includes the new structured fields so the UI looks great even in demo mode.
+ * Generates legacy mock analysis only when ALLOW_DEMO_AI_FALLBACK=true.
+ * Keep this disabled in production and public confidence workflows.
  */
 function getMockAnalysis(
   companyName: string,
@@ -561,6 +612,21 @@ function getMockAnalysis(
     aiDataScrapingRestricted: 'Restricted',
     aiIpLicensing: 'Protected',
     aiPromptRetention: '30 days',
+    kpiDataCollection: 'Moderate',
+    kpiThirdPartySharing: 'Limited',
+    kpiDataRetention: 'Defined',
+    kpiRightToDeletion: 'Partial',
+    kpiCrossBorderTransfer: 'Controlled',
+    kpiAiTrainingOptOut: 'Opt-Out',
+    kpiAiOutputOwnership: 'User Retained',
+    kpiAlgoTransparency: 'Mentioned',
+    kpiAutomatedDecision: 'Partial',
+    kpiAiBiasFairness: 'Mentioned',
+    kpiConsentMechanism: 'Opt-Out',
+    kpiRegulatoryCompliance: 'Partial',
+    kpiBreachNotification: 'Within 72h',
+    kpiIndependentAudit: 'Mentioned',
+    kpiContentModeration: 'Partial',
     remediations: [
       {
         titleEn: 'Opt-out of AI Model Training',

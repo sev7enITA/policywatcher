@@ -28,12 +28,19 @@ import {
   ArrowUpDown,
   X,
   Calendar,
-  Clock
+  Clock,
+  BarChart3,
+  Eye,
+  EyeOff,
+  LayoutGrid,
+  Maximize2,
+  Palette,
+  PauseCircle,
+  Settings2
 } from 'lucide-react';
 import styles from './Dashboard.module.css';
 import PolicyDetails from '@/components/PolicyDetails';
 import LiveAssistant from '@/components/LiveAssistant';
-import DisclaimerBanner from '@/components/DisclaimerBanner';
 import SubscribeModal from '@/components/SubscribeModal';
 import AboutModal from '@/components/AboutModal';
 import ChangelogModal from '@/components/ChangelogModal';
@@ -76,7 +83,7 @@ const translations = {
     enterprise: 'Azienda',
     updated: 'Aggiornato',
     viewAnalysis: 'Vedi Analisi',
-    noResults: 'Nessun risultato corrisponde ai criteri.',
+    noResults: 'Nessun record source-verified pubblico disponibile. I record seed restano nascosti finche non viene completata una scansione reale.',
     loading: 'Caricamento dati...',
     policiesList: 'Policies disponibili:',
     privacy: 'Privacy',
@@ -94,7 +101,16 @@ const translations = {
     marketPulseTitle: 'Market Pulse',
     marketPulseSubtitle: 'Ultime modifiche ordinate nel tempo, filtrate per settore.',
     openFullTimeline: 'Apri timeline completa',
-    noMarketPulse: 'Nessuna modifica disponibile per questo filtro.',
+    noMarketPulse: 'Nessuna modifica source-verified pubblicabile per questo filtro.',
+    suspendedSourcesTitle: 'Sorgenti temporaneamente sospese',
+    suspendedSourcesLead: 'Sono state identificate anomalie nell\'ultimo fetching o aggiornamento. Le sorgenti sotto riportate non espongono dati pubblici finche non vengono verificate.',
+    suspendedSourcesCount: 'sorgenti sospese',
+    suspendedSourceStatus: 'Stato',
+    suspendedSourceLastCheck: 'Ultimo check',
+    sourceBaseline: 'Baseline sorgente',
+    sourceVerified: 'Sorgente verificata',
+    baselineRegistered: 'Baseline sorgente verificata. Nessuna modifica pubblicabile rilevata da quando il monitoraggio reale e stato avviato.',
+    noPolicyEvidence: 'Nessuna evidenza sorgente pubblicabile ancora disponibile.',
     sortByRisk: 'Rischio',
     sortByDate: 'Data',
     sortByName: 'Nome',
@@ -108,6 +124,24 @@ const translations = {
     allTime: 'Tutto',
     clearFilters: 'Pulisci Filtri',
     activeFilters: 'filtri attivi',
+    workspaceLabel: 'Impostazioni dashboard',
+    workspaceTitle: 'Vista operativa personalizzabile',
+    workspaceSubtitle: 'Densità, sezioni e accento visuale restano salvati in questo browser.',
+    densityLabel: 'Densità',
+    comfortable: 'Comfort',
+    compact: 'Compatta',
+    viewLabel: 'Vista',
+    cardView: 'Cards',
+    focusView: 'Focus',
+    sectionsLabel: 'Sezioni',
+    showStats: 'Mostra KPI',
+    hideStats: 'Nascondi KPI',
+    showPulse: 'Mostra Pulse',
+    hidePulse: 'Nascondi Pulse',
+    accentLabel: 'Accento',
+    accentIndigo: 'Indigo',
+    accentTeal: 'Teal',
+    accentSlate: 'Slate',
     disclaimer: 'Confidence Release v3.5: questa piattaforma e in sviluppo attivo. Le informazioni sono generate tramite analisi automatizzata assistita da AI e possono contenere imprecisioni o errori interpretativi. Non costituiscono parere legale, certificazione di conformita o valutazione definitiva della condotta aziendale. L\'autore declina ogni responsabilita. L\'interpretazione e l\'uso dei dati sono esclusivamente a rischio e responsabilita dell\'utente. Verificare sempre presso le fonti provider.',
   },
   en: {
@@ -130,7 +164,7 @@ const translations = {
     enterprise: 'Enterprise',
     updated: 'Updated',
     viewAnalysis: 'View Analysis',
-    noResults: 'No companies match the criteria.',
+    noResults: 'No source-verified public records are available. Seed records remain hidden until a real scan completes.',
     loading: 'Loading dashboard data...',
     policiesList: 'Available policies:',
     privacy: 'Privacy',
@@ -148,7 +182,16 @@ const translations = {
     marketPulseTitle: 'Market Pulse',
     marketPulseSubtitle: 'Recent policy movements ordered over time and filtered by sector.',
     openFullTimeline: 'Open full timeline',
-    noMarketPulse: 'No changes available for this filter.',
+    noMarketPulse: 'No source-verified publishable changes are available for this filter.',
+    suspendedSourcesTitle: 'Temporarily Suspended Sources',
+    suspendedSourcesLead: 'Anomalies were identified during the latest fetching or update cycle. The sources below do not expose public data until verified.',
+    suspendedSourcesCount: 'suspended sources',
+    suspendedSourceStatus: 'Status',
+    suspendedSourceLastCheck: 'Last check',
+    sourceBaseline: 'Source baseline',
+    sourceVerified: 'Source verified',
+    baselineRegistered: 'Source baseline verified. No publishable change has been detected since real monitoring started.',
+    noPolicyEvidence: 'No publishable source evidence is available yet.',
     sortByRisk: 'Risk',
     sortByDate: 'Date',
     sortByName: 'Name',
@@ -162,6 +205,24 @@ const translations = {
     allTime: 'All',
     clearFilters: 'Clear Filters',
     activeFilters: 'active filters',
+    workspaceLabel: 'Dashboard setup',
+    workspaceTitle: 'Personalized operating view',
+    workspaceSubtitle: 'Density, sections and visual accent are saved on this browser.',
+    densityLabel: 'Density',
+    comfortable: 'Comfort',
+    compact: 'Compact',
+    viewLabel: 'View',
+    cardView: 'Cards',
+    focusView: 'Focus',
+    sectionsLabel: 'Sections',
+    showStats: 'Show KPI',
+    hideStats: 'Hide KPI',
+    showPulse: 'Show Pulse',
+    hidePulse: 'Hide Pulse',
+    accentLabel: 'Accent',
+    accentIndigo: 'Indigo',
+    accentTeal: 'Teal',
+    accentSlate: 'Slate',
     disclaimer: 'Confidence Release v3.5: this platform is in active development. Information is generated through automated AI-assisted text analysis and may contain inaccuracies or interpretive errors. It does not constitute legal advice, compliance certification, or a definitive assessment of corporate conduct. The author disclaims all liability. Interpretation and use of this data is solely at the user\'s own risk and responsibility. Always verify with provider sources.',
   }
 };
@@ -172,6 +233,19 @@ type SortBy = 'risk-desc' | 'risk-asc' | 'date-desc' | 'date-asc' | 'name-asc' |
 type RiskFilter = 'all' | 'High' | 'Medium' | 'Low';
 /** Quick-filter values for the change recency date range. */
 type DateRange = 'all' | '7d' | '30d' | '90d';
+type DashboardDensity = 'comfortable' | 'compact';
+type DashboardView = 'cards' | 'focus';
+type DashboardAccent = 'indigo' | 'teal' | 'slate';
+
+interface DashboardPreferences {
+  density: DashboardDensity;
+  view: DashboardView;
+  accent: DashboardAccent;
+  showStats: boolean;
+  showMarketPulse: boolean;
+}
+
+const DASHBOARD_PREFS_KEY = 'policywatcher_dashboard_preferences_v1';
 
 interface MarketPulseChange {
   id: string;
@@ -193,6 +267,23 @@ interface MarketPulseChange {
   };
 }
 
+interface SourceSuspension {
+  id: string;
+  company: {
+    name: string;
+    industry: string;
+  };
+  policyName: string;
+  jurisdiction: string;
+  sourceHost: string | null;
+  dataStatus: string;
+  ingestionMethod: string;
+  lastCheckDate: string;
+  suspensionReason: string;
+  publicMessageEn: string;
+  publicMessageIt: string;
+}
+
 /**
  * Root dashboard component.
  *
@@ -204,6 +295,8 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [marketPulseChanges, setMarketPulseChanges] = useState<MarketPulseChange[]>([]);
   const [marketPulseLoading, setMarketPulseLoading] = useState(true);
+  const [sourceSuspensions, setSourceSuspensions] = useState<SourceSuspension[]>([]);
+  const [sourceSuspensionsTotal, setSourceSuspensionsTotal] = useState(0);
   const [search, setSearch] = useState('');
   const [industryFilter, setIndustryFilter] = useState('all');
   
@@ -242,15 +335,30 @@ export default function Dashboard() {
   // Interchangeable Navigation Layout (hud | spotlight | sidebar)
   const [navLayout, setNavLayout] = useState<NavLayout>('hud');
 
+  const [prefsReady, setPrefsReady] = useState(false);
+  const [dashboardDensity, setDashboardDensity] = useState<DashboardDensity>('comfortable');
+  const [dashboardView, setDashboardView] = useState<DashboardView>('cards');
+  const [dashboardAccent, setDashboardAccent] = useState<DashboardAccent>('indigo');
+  const [showStats, setShowStats] = useState(true);
+  const [showMarketPulse, setShowMarketPulse] = useState(true);
+
   const t = translations[lang];
 
   const fetchCompanies = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/companies');
-      if (res.ok) {
-        const data = await res.json();
+      const [companiesRes, suspensionsRes] = await Promise.all([
+        fetch('/api/companies'),
+        fetch('/api/source-suspensions'),
+      ]);
+      if (companiesRes.ok) {
+        const data = await companiesRes.json();
         setCompanies(data);
+      }
+      if (suspensionsRes.ok) {
+        const data = await suspensionsRes.json();
+        setSourceSuspensions(data.sources || []);
+        setSourceSuspensionsTotal(data.total || 0);
       }
     } catch (error) {
       console.error('Error loading companies:', error);
@@ -292,6 +400,57 @@ export default function Dashboard() {
     };
   }, [industryFilter]);
 
+  useEffect(() => {
+    let active = true;
+    queueMicrotask(() => {
+      if (!active) return;
+      try {
+        const raw = localStorage.getItem(DASHBOARD_PREFS_KEY);
+        if (raw) {
+          const saved = JSON.parse(raw) as Partial<DashboardPreferences>;
+          if (saved.density === 'comfortable' || saved.density === 'compact') {
+            setDashboardDensity(saved.density);
+          }
+          if (saved.view === 'cards' || saved.view === 'focus') {
+            setDashboardView(saved.view);
+          }
+          if (saved.accent === 'indigo' || saved.accent === 'teal' || saved.accent === 'slate') {
+            setDashboardAccent(saved.accent);
+          }
+          if (typeof saved.showStats === 'boolean') {
+            setShowStats(saved.showStats);
+          }
+          if (typeof saved.showMarketPulse === 'boolean') {
+            setShowMarketPulse(saved.showMarketPulse);
+          }
+        }
+      } catch {
+        // Local preference storage is optional.
+      } finally {
+        setPrefsReady(true);
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!prefsReady) return;
+    try {
+      const nextPrefs: DashboardPreferences = {
+        density: dashboardDensity,
+        view: dashboardView,
+        accent: dashboardAccent,
+        showStats,
+        showMarketPulse,
+      };
+      localStorage.setItem(DASHBOARD_PREFS_KEY, JSON.stringify(nextPrefs));
+    } catch {
+      // Ignore storage errors in privacy modes.
+    }
+  }, [dashboardAccent, dashboardDensity, dashboardView, prefsReady, showMarketPulse, showStats]);
+
   // Automatically open onboarding for new sessions (unless skipped permanently)
   useEffect(() => {
     try {
@@ -311,7 +470,7 @@ export default function Dashboard() {
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // ⌘K / Ctrl+K toggles the command palette (works even from inputs)
+      // Cmd+K / Ctrl+K toggles the command palette (works even from inputs)
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         setCommandPaletteOpen((v) => !v);
@@ -523,8 +682,13 @@ export default function Dashboard() {
 
   return (
     <TermsGate lang={lang} onLangToggle={() => setLang((l) => (l === 'en' ? 'it' : 'en'))}>
-    <div className={styles.dashboard} data-nav-layout={navLayout}>
-      <DisclaimerBanner />
+    <div
+      className={styles.dashboard}
+      data-nav-layout={navLayout}
+      data-density={dashboardDensity}
+      data-view={dashboardView}
+      data-accent={dashboardAccent}
+    >
 
       {/* Conditionally render clean logo header for HUD / Spotlight modes */}
       {navLayout !== 'sidebar' && (
@@ -558,34 +722,146 @@ export default function Dashboard() {
       />
 
       <main className={styles.mainContainer}>
-        {/* Statistics Grid */}
-        <motion.section 
-          className={styles.statsGrid}
-          initial={{ opacity: 0, y: 20 }}
+        <motion.section
+          className={styles.workspacePanel}
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, staggerChildren: 0.1 }}
+          transition={{ duration: 0.45 }}
         >
-          <div className={`${styles.statCard} glass-panel`} style={{ '--stat-color': 'var(--primary)' } as React.CSSProperties}>
-            <span className={styles.statLabel}>{t.monitoredCompanies}</span>
-            <div className={styles.statValue}>{totalMonitored}</div>
+          <div className={styles.workspaceCopy}>
+            <span className={styles.workspaceKicker}>
+              <Settings2 size={14} />
+              {t.workspaceLabel}
+            </span>
+            <h2>{t.workspaceTitle}</h2>
+            <p>{t.workspaceSubtitle}</p>
           </div>
-          <div className={`${styles.statCard} glass-panel`} style={{ '--stat-color': 'var(--risk-high)' } as React.CSSProperties}>
-            <span className={styles.statLabel}>{t.criticalAlerts} ({selectedRegion})</span>
-            <div className={styles.statValue} style={{ color: activeWarnings > 0 ? 'var(--risk-high)' : 'var(--text-main)' }}>
-              {activeWarnings}
+
+          <div className={styles.workspaceControls} aria-label={t.workspaceLabel}>
+            <div className={styles.preferenceGroup}>
+              <span className={styles.preferenceLabel}>{t.densityLabel}</span>
+              <div className={styles.preferenceSegment}>
+                <button
+                  type="button"
+                  onClick={() => setDashboardDensity('comfortable')}
+                  className={dashboardDensity === 'comfortable' ? styles.preferenceActive : ''}
+                >
+                  <Maximize2 size={14} />
+                  {t.comfortable}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDashboardDensity('compact')}
+                  className={dashboardDensity === 'compact' ? styles.preferenceActive : ''}
+                >
+                  <LayoutGrid size={14} />
+                  {t.compact}
+                </button>
+              </div>
             </div>
-          </div>
-          <div className={`${styles.statCard} glass-panel`} style={{ '--stat-color': 'var(--secondary)' } as React.CSSProperties}>
-            <span className={styles.statLabel}>{t.avgRiskScore}</span>
-            <div className={styles.statValue}>{averageRiskScore.toFixed(1)}/10</div>
-          </div>
-          <div className={`${styles.statCard} glass-panel`} style={{ '--stat-color': 'var(--risk-low)' } as React.CSSProperties}>
-            <span className={styles.statLabel}>{t.activeContext}</span>
-            <div className={styles.statContextValue}>
-              {selectedRegion} / {selectedPerspective === 'Individual' ? t.individual : t.enterprise}
+
+            <div className={styles.preferenceGroup}>
+              <span className={styles.preferenceLabel}>{t.viewLabel}</span>
+              <div className={styles.preferenceSegment}>
+                <button
+                  type="button"
+                  onClick={() => setDashboardView('cards')}
+                  className={dashboardView === 'cards' ? styles.preferenceActive : ''}
+                >
+                  <LayoutGrid size={14} />
+                  {t.cardView}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDashboardView('focus')}
+                  className={dashboardView === 'focus' ? styles.preferenceActive : ''}
+                >
+                  <BarChart3 size={14} />
+                  {t.focusView}
+                </button>
+              </div>
+            </div>
+
+            <div className={styles.preferenceGroup}>
+              <span className={styles.preferenceLabel}>{t.sectionsLabel}</span>
+              <div className={styles.iconToggleGroup}>
+                <button
+                  type="button"
+                  onClick={() => setShowStats((value) => !value)}
+                  className={showStats ? styles.iconToggleActive : ''}
+                  title={showStats ? t.hideStats : t.showStats}
+                  aria-label={showStats ? t.hideStats : t.showStats}
+                >
+                  {showStats ? <Eye size={15} /> : <EyeOff size={15} />}
+                  KPI
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowMarketPulse((value) => !value)}
+                  className={showMarketPulse ? styles.iconToggleActive : ''}
+                  title={showMarketPulse ? t.hidePulse : t.showPulse}
+                  aria-label={showMarketPulse ? t.hidePulse : t.showPulse}
+                >
+                  {showMarketPulse ? <Eye size={15} /> : <EyeOff size={15} />}
+                  Pulse
+                </button>
+              </div>
+            </div>
+
+            <div className={styles.preferenceGroup}>
+              <span className={styles.preferenceLabel}>{t.accentLabel}</span>
+              <div className={styles.accentSwatches} aria-label={t.accentLabel}>
+                {([
+                  { value: 'indigo' as DashboardAccent, label: t.accentIndigo },
+                  { value: 'teal' as DashboardAccent, label: t.accentTeal },
+                  { value: 'slate' as DashboardAccent, label: t.accentSlate },
+                ]).map((accent) => (
+                  <button
+                    key={accent.value}
+                    type="button"
+                    onClick={() => setDashboardAccent(accent.value)}
+                    className={`${styles.accentSwatch} ${styles[`accent_${accent.value}`]} ${dashboardAccent === accent.value ? styles.accentSwatchActive : ''}`}
+                    title={accent.label}
+                    aria-label={accent.label}
+                  >
+                    <Palette size={13} />
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </motion.section>
+
+        {/* Statistics Grid */}
+        {showStats && (
+          <motion.section
+            className={styles.statsGrid}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, staggerChildren: 0.1 }}
+          >
+            <div className={`${styles.statCard} glass-panel`} style={{ '--stat-color': 'var(--dashboard-accent)' } as React.CSSProperties}>
+              <span className={styles.statLabel}>{t.monitoredCompanies}</span>
+              <div className={styles.statValue}>{totalMonitored}</div>
+            </div>
+            <div className={`${styles.statCard} glass-panel`} style={{ '--stat-color': 'var(--risk-high)' } as React.CSSProperties}>
+              <span className={styles.statLabel}>{t.criticalAlerts} ({selectedRegion})</span>
+              <div className={styles.statValue} style={{ color: activeWarnings > 0 ? 'var(--risk-high)' : 'var(--text-main)' }}>
+                {activeWarnings}
+              </div>
+            </div>
+            <div className={`${styles.statCard} glass-panel`} style={{ '--stat-color': 'var(--secondary)' } as React.CSSProperties}>
+              <span className={styles.statLabel}>{t.avgRiskScore}</span>
+              <div className={styles.statValue}>{averageRiskScore.toFixed(1)}/10</div>
+            </div>
+            <div className={`${styles.statCard} glass-panel`} style={{ '--stat-color': 'var(--risk-low)' } as React.CSSProperties}>
+              <span className={styles.statLabel}>{t.activeContext}</span>
+              <div className={styles.statContextValue}>
+                {selectedRegion} / {selectedPerspective === 'Individual' ? t.individual : t.enterprise}
+              </div>
+            </div>
+          </motion.section>
+        )}
 
         {/* Filter Bar */}
         <motion.section 
@@ -745,70 +1021,116 @@ export default function Dashboard() {
         )}
         </AnimatePresence>
 
-        {/* Market Pulse Timeline */}
-        <motion.section
-          className={styles.marketPulseSection}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.25 }}
-        >
-          <div className={styles.marketPulseHeader}>
-            <div>
-              <h2 className={styles.marketPulseTitle}>
-                <Clock size={18} />
-                {t.marketPulseTitle}
-              </h2>
-              <p className={styles.marketPulseSubtitle}>{t.marketPulseSubtitle}</p>
-            </div>
-            <Link href="/timeline" className={styles.marketPulseLink}>
-              {t.openFullTimeline}
-              <ArrowRight size={14} />
-            </Link>
-          </div>
-
-          {marketPulseLoading ? (
-            <div className={styles.marketPulseLoading}>
-              {lang === 'it' ? 'Caricamento timeline...' : 'Loading timeline...'}
-            </div>
-          ) : visibleMarketPulse.length === 0 ? (
-            <div className={styles.marketPulseLoading}>{t.noMarketPulse}</div>
-          ) : (
-            <div className={styles.marketPulseScroller} aria-label={t.marketPulseTitle}>
-              <div className={styles.marketPulseTrack}>
-                {visibleMarketPulse.map((change) => {
-                  const date = new Date(change.createdAt).toLocaleDateString(
-                    lang === 'it' ? 'it-IT' : 'en-US',
-                    { day: 'numeric', month: 'short', year: 'numeric' }
-                  );
-                  const summary =
-                    (lang === 'it'
-                      ? change.tldrIt || change.aiSummaryIt
-                      : change.tldrEn || change.aiSummaryEn) || '';
-
-                  return (
-                    <Link
-                      key={change.id}
-                      href={`/change/${change.id}`}
-                      className={styles.marketPulseItem}
-                      style={{ '--pulse-color': getRiskColor(change.overallRisk) } as React.CSSProperties}
-                    >
-                      <span className={styles.marketPulseDot} />
-                      <span className={styles.marketPulseDate}>{date}</span>
-                      <strong className={styles.marketPulseCompany}>{change.policy.company.name}</strong>
-                      <span className={styles.marketPulsePolicy}>
-                        {change.policy.name} · {change.policy.jurisdiction}
-                      </span>
-                      <span className={styles.marketPulseSummary}>{summary}</span>
-                      <span className={styles.marketPulseMeta}>
-                        {change.policy.company.industry} · {change.overallRisk} {change.overallScore}/10
-                      </span>
-                    </Link>
-                  );
-                })}
+        {!loading && sourceSuspensionsTotal > 0 && (
+          <motion.section
+            className={styles.sourceSuspensionPanel}
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45 }}
+            aria-label={t.suspendedSourcesTitle}
+          >
+            <div className={styles.sourceSuspensionHeader}>
+              <div>
+                <h2 className={styles.sourceSuspensionTitle}>
+                  <PauseCircle size={18} />
+                  {t.suspendedSourcesTitle}
+                </h2>
+                <p className={styles.sourceSuspensionLead}>{t.suspendedSourcesLead}</p>
+              </div>
+              <div className={styles.sourceSuspensionCount}>
+                <strong>{sourceSuspensionsTotal}</strong>
+                <span>{t.suspendedSourcesCount}</span>
               </div>
             </div>
-          )}
-        </motion.section>
+
+            <div className={styles.sourceSuspensionList}>
+              {sourceSuspensions.slice(0, 6).map((source) => (
+                <div key={source.id} className={styles.sourceSuspensionItem}>
+                  <div>
+                    <strong>{source.company.name}</strong>
+                    <span>
+                      {source.policyName} / {source.jurisdiction}
+                      {source.sourceHost ? ` / ${source.sourceHost}` : ''}
+                    </span>
+                  </div>
+                  <div className={styles.sourceSuspensionMeta}>
+                    <span>{t.suspendedSourceStatus}: {source.dataStatus}</span>
+                    <span>
+                      {t.suspendedSourceLastCheck}: {new Date(source.lastCheckDate).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US')}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.section>
+        )}
+
+        {/* Market Pulse Timeline */}
+        {showMarketPulse && (
+          <motion.section
+            className={styles.marketPulseSection}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+          >
+            <div className={styles.marketPulseHeader}>
+              <div>
+                <h2 className={styles.marketPulseTitle}>
+                  <Clock size={18} />
+                  {t.marketPulseTitle}
+                </h2>
+                <p className={styles.marketPulseSubtitle}>{t.marketPulseSubtitle}</p>
+              </div>
+              <Link href="/timeline" className={styles.marketPulseLink}>
+                {t.openFullTimeline}
+                <ArrowRight size={14} />
+              </Link>
+            </div>
+
+            {marketPulseLoading ? (
+              <div className={styles.marketPulseLoading}>
+                {lang === 'it' ? 'Caricamento timeline...' : 'Loading timeline...'}
+              </div>
+            ) : visibleMarketPulse.length === 0 ? (
+              <div className={styles.marketPulseLoading}>{t.noMarketPulse}</div>
+            ) : (
+              <div className={styles.marketPulseScroller} aria-label={t.marketPulseTitle}>
+                <div className={styles.marketPulseTrack}>
+                  {visibleMarketPulse.map((change) => {
+                    const date = new Date(change.createdAt).toLocaleDateString(
+                      lang === 'it' ? 'it-IT' : 'en-US',
+                      { day: 'numeric', month: 'short', year: 'numeric' }
+                    );
+                    const summary =
+                      (lang === 'it'
+                        ? change.tldrIt || change.aiSummaryIt
+                        : change.tldrEn || change.aiSummaryEn) || '';
+
+                    return (
+                      <Link
+                        key={change.id}
+                        href={`/change/${change.id}`}
+                        className={styles.marketPulseItem}
+                        style={{ '--pulse-color': getRiskColor(change.overallRisk) } as React.CSSProperties}
+                      >
+                        <span className={styles.marketPulseDot} />
+                        <span className={styles.marketPulseDate}>{date}</span>
+                        <strong className={styles.marketPulseCompany}>{change.policy.company.name}</strong>
+                        <span className={styles.marketPulsePolicy}>
+                          {change.policy.name} / {change.policy.jurisdiction}
+                        </span>
+                        <span className={styles.marketPulseSummary}>{summary}</span>
+                        <span className={styles.marketPulseMeta}>
+                          {change.policy.company.industry} / {change.overallRisk} {change.overallScore}/10
+                        </span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </motion.section>
+        )}
 
         {/* Results Count */}
         {!loading && (
@@ -847,26 +1169,30 @@ export default function Dashboard() {
               const firstPolicy = company.policies[0];
               const companyDataStatus = getWorstDataStatus(company.policies);
               const latestChange = firstPolicy?.changes[0];
+              const firstPolicyStatus = normalizeDataStatus(firstPolicy?.dataStatus, 'Needs Review');
+              const hasVerifiedBaseline = !latestChange && firstPolicyStatus === 'Available';
               
               const matchingImpact = latestChange?.regionImpacts.find(
                 (imp) => imp.region === selectedRegion && imp.perspective === selectedPerspective
               );
               
               const currentRisk = matchingImpact?.riskLevel || latestChange?.overallRisk || 'Low';
-              const currentScore = latestChange?.overallScore || 1;
+              const currentScore = latestChange?.overallScore || null;
               
               const summaryText = latestChange 
                 ? (lang === 'it'
                     ? latestChange.tldrIt || latestChange.aiSummaryIt
                     : latestChange.tldrEn || latestChange.aiSummaryEn)
-                : (lang === 'it' ? 'Nessuna policy registrata.' : 'No policy registered yet.');
+                : hasVerifiedBaseline
+                  ? t.baselineRegistered
+                  : t.noPolicyEvidence;
                 
               const formattedDate = latestChange 
                 ? new Date(latestChange.createdAt).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' })
                 : 'N/A';
 
-              const cardRiskColor = getRiskColor(currentRisk);
-              const cardRiskColorGlow = getRiskColorGlow(currentRisk);
+              const cardRiskColor = latestChange ? getRiskColor(currentRisk) : getDataStatusColor(firstPolicyStatus);
+              const cardRiskColorGlow = latestChange ? getRiskColorGlow(currentRisk) : 'rgba(16, 185, 129, 0.14)';
 
               const hasHighAlert = company.policies.some((p) => {
                 const change = p.changes[0];
@@ -929,9 +1255,11 @@ export default function Dashboard() {
                     </div>
                     
                     <div className={styles.riskIndicator}>
-                      <span className={styles.riskLabel}>Risk ({selectedRegion})</span>
+                      <span className={styles.riskLabel}>
+                        {latestChange ? `Risk (${selectedRegion})` : t.sourceBaseline}
+                      </span>
                       <div className={styles.riskScore} style={{ '--risk-color': cardRiskColor, '--risk-color-glow': cardRiskColorGlow } as React.CSSProperties}>
-                        {currentRisk} ({currentScore}/10)
+                        {latestChange ? `${currentRisk} (${currentScore}/10)` : t.sourceVerified}
                       </div>
                     </div>
                   </div>
@@ -1089,7 +1417,7 @@ export default function Dashboard() {
         lang={lang}
       />
 
-      {/* Command Palette (⌘K) */}
+      {/* Command Palette (Cmd K) */}
       <CommandPalette
         isOpen={commandPaletteOpen}
         onClose={() => setCommandPaletteOpen(false)}

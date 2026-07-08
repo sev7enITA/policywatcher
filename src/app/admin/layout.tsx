@@ -25,6 +25,9 @@ import {
   ClipboardCheck,
   History,
   LogOut,
+  Server,
+  AlertTriangle,
+  ShieldCheck,
 } from 'lucide-react';
 import styles from './admin.module.css';
 
@@ -50,6 +53,11 @@ const NAV_ITEMS: NavItem[] = [
     adminOnly: true,
   },
   {
+    label: 'VPS Services',
+    href: '/admin/vps-services',
+    icon: <Server size={18} />,
+  },
+  {
     label: 'Database',
     href: '/admin/database',
     icon: <Database size={18} />,
@@ -68,6 +76,12 @@ const NAV_ITEMS: NavItem[] = [
     label: 'Review Log',
     href: '/admin/review-log',
     icon: <History size={18} />,
+  },
+  {
+    label: 'Access Log',
+    href: '/admin/access-logs',
+    icon: <ShieldCheck size={18} />,
+    adminOnly: true,
   },
   {
     label: 'Companies',
@@ -92,6 +106,7 @@ export default function AdminLayout({
 
   const [role, setRole] = useState<Role | null>(null);
   const [verified, setVerified] = useState(false);
+  const [verificationError, setVerificationError] = useState('');
 
   // Verify session on mount
   useEffect(() => {
@@ -108,7 +123,25 @@ export default function AdminLayout({
           return;
         }
         if (!res.ok) {
-          router.replace('/admin/login');
+          const payload = await res.json().catch(() => null) as {
+            error?: string;
+            database?: {
+              path?: string | null;
+              directoryPath?: string | null;
+              directoryExists?: boolean;
+              directoryWritable?: boolean;
+              fileExists?: boolean;
+              fileSizeBytes?: number;
+              configured?: boolean;
+            };
+          } | null;
+          if (!cancelled) {
+            const database = payload?.database;
+            const databaseDetail = database
+              ? ` Path: ${database.path || 'n/a'}; directory: ${database.directoryPath || 'n/a'}; directory exists: ${String(database.directoryExists)}; writable: ${String(database.directoryWritable)}; file exists: ${String(database.fileExists)}; size: ${String(database.fileSizeBytes)} bytes; DATABASE_URL configured: ${String(database.configured)}.`
+              : '';
+            setVerificationError(`${payload?.error || `Admin session check failed (HTTP ${res.status}).`}${databaseDetail}`);
+          }
           return;
         }
         const data = await res.json();
@@ -118,7 +151,7 @@ export default function AdminLayout({
         }
       } catch {
         if (!cancelled) {
-          router.replace('/admin/login');
+          setVerificationError('Unable to verify the admin session. Check runtime logs and deployment environment variables.');
         }
       }
     }
@@ -147,6 +180,23 @@ export default function AdminLayout({
       return pathname === '/admin';
     }
     return pathname.startsWith(href);
+  }
+
+  // Show a loading spinner until session is verified
+  if (pathname !== '/admin/login' && verificationError) {
+    return (
+      <div className={styles.loadingScreen}>
+        <AlertTriangle size={32} color="var(--risk-high)" />
+        <p className={styles.loadingText}>{verificationError}</p>
+        <button
+          type="button"
+          className={`${styles.btn} ${styles.btnSecondary}`}
+          onClick={() => router.replace('/admin/login')}
+        >
+          Back to login
+        </button>
+      </div>
+    );
   }
 
   // Show a loading spinner until session is verified

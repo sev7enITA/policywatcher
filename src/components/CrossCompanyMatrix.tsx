@@ -9,7 +9,7 @@
  * Features:
  *  - Industry tab filter and free-text company search.
  *  - Toggleable KPI groups (show/hide Privacy, AI Gov, Ethics columns).
- *  - Click-to-sort on any KPI column (ascending green→red, descending, clear).
+ *  - Click-to-sort on any KPI column (ascending green to red, descending, clear).
  *  - Per-cell tooltip with justification text and screening date.
  *  - Bottom "Convergence" row showing cross-company alignment per KPI.
  *  - Collapsible BETA disclaimer.
@@ -27,7 +27,7 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import styles from './CrossCompanyMatrix.module.css';
-import { getJustification, SCREENING_DATE } from '@/lib/kpi-justifications';
+import { getJustification, SCREENING_DATE, staticKpiJustificationsEnabled } from '@/lib/kpi-justifications';
 
 /* =============================================
    Types
@@ -50,7 +50,7 @@ interface CompanyMatrixData {
   slug: string;
   website: string;
   industry: string;
-  /** Map of KPI key → assessed value string (e.g. `kpiDataCollection: "Extensive"`). */
+  /** Map of KPI key to assessed value string (e.g. `kpiDataCollection: "Extensive"`). */
   kpis: Record<string, string>;
 }
 
@@ -458,7 +458,7 @@ export default function CrossCompanyMatrix({ isOpen, onClose, lang }: CrossCompa
   /**
    * Calculates cross-company convergence for a single KPI column.
    *
-   * If ≥ 70% of the filtered companies share the same assessed value,
+   * If at least 70% of the filtered companies share the same assessed value,
    * the KPI is "Aligned"; otherwise it is "Divergent".
    *
    * @returns An object with status, dominant value, and percentage.
@@ -497,7 +497,7 @@ export default function CrossCompanyMatrix({ isOpen, onClose, lang }: CrossCompa
   };
 
   /**
-   * Three-state sort toggle: unsorted → ascending → descending → unsorted.
+   * Three-state sort toggle: unsorted, ascending, descending, unsorted.
    * Sorting ranks cells by their colour tier (green < yellow < red < muted).
    */
   const handleSort = (key: string) => {
@@ -706,8 +706,8 @@ export default function CrossCompanyMatrix({ isOpen, onClose, lang }: CrossCompa
             <Building2 size={40} className={styles.emptyIcon} />
             <span>
               {lang === 'it'
-                ? 'Nessuna azienda corrisponde ai filtri selezionati.'
-                : 'No companies match the selected filters.'}
+                ? 'Nessuna valutazione KPI source-backed disponibile per questa matrice.'
+                : 'No source-backed KPI assessments are available for this matrix yet.'}
             </span>
           </div>
         )}
@@ -943,8 +943,8 @@ export default function CrossCompanyMatrix({ isOpen, onClose, lang }: CrossCompa
                                     <div className={styles.tooltipDate}>
                                       <Calendar size={10} />
                                       {lang === 'it'
-                                        ? `Screening: ${SCREENING_DATE}`
-                                        : `Screening: ${SCREENING_DATE}`}
+                                        ? (staticKpiJustificationsEnabled() ? `Screening: ${SCREENING_DATE}` : 'Note statiche disattivate')
+                                        : (staticKpiJustificationsEnabled() ? `Screening: ${SCREENING_DATE}` : 'Static notes disabled')}
                                     </div>
                                   </div>
                                 )}

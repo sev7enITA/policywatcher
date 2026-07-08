@@ -120,7 +120,7 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
           <div className={styles.introFeatureList}>
             <div className={styles.introFeatureItem}>
               <span className={styles.bulletDot}></span>
-              <span>{isIt ? 'Scansione automatica e rilevamento differenze (SHA-256)' : 'Automated tracking & policy change detection (SHA-256)'}</span>
+              <span>{isIt ? 'Recupero controllato delle fonti, log di esito e rilevamento differenze (SHA-256)' : 'Controlled source retrieval, check logs, and policy change detection (SHA-256)'}</span>
             </div>
             <div className={styles.introFeatureItem}>
               <span className={styles.bulletDot}></span>
@@ -183,6 +183,18 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
               <p>{isIt ? 'Ogni policy può essere Available, Partial, Needs Review, Unavailable, Configured o Reviewed.' : 'Each policy can expose Available, Partial, Needs Review, Unavailable, Configured, or Reviewed states.'}</p>
             </div>
             <div className={styles.gridCard}>
+              <h4><IconRegionGlobe size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Ingestion method' : 'Ingestion method'}</h4>
+              <p>{isIt ? 'Il dettaglio policy indica il percorso di recupero. I record seed sono trattati come configurati/non verificati finché una scansione reale non produce evidenza.' : 'Policy detail shows the retrieval path. Seed records are treated as configured/unverified until a real scan produces evidence.'}</p>
+            </div>
+            <div className={styles.gridCard}>
+              <h4><IconDocumentDiff size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Gate pubblico' : 'Public evidence gate'}</h4>
+              <p>{isIt ? 'Snapshot e change devono essere marcati come publicEvidence prima che timeline, report, share page, digest o benchmark li mostrino.' : 'Snapshots and changes must be marked publicEvidence before timeline, reports, share pages, digests, or benchmarks can show them.'}</p>
+            </div>
+            <div className={styles.gridCard}>
+              <h4><IconBellAlert size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Sospensione Partial' : 'Partial suspension'}</h4>
+              <p>{isIt ? 'Recuperi incompleti, troncati o anomali sono sospesi: il pubblico vede un avviso operativo, non score o interpretazioni AI.' : 'Incomplete, truncated, or anomalous retrievals are suspended: public users see an operational notice, not scores or AI interpretation.'}</p>
+            </div>
+            <div className={styles.gridCard}>
               <h4><IconDocumentDiff size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Trust page' : 'Trust page'}</h4>
               <p>{isIt ? 'La pagina Trust & Quality raccoglie CI, CodeQL, OpenSSF Scorecard, targeted reliability coverage, Sonar/Codecov readiness e report header live.' : 'The Trust & Quality page collects CI, CodeQL, OpenSSF Scorecard, targeted reliability coverage, Sonar/Codecov readiness, and live header reports.'}</p>
             </div>
@@ -213,8 +225,8 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
             <div className={styles.limitItem}>
               <h5><IconRegionGlobe size={16} style={{ verticalAlign: 'middle', marginRight: 6 }} color="#f59e0b" /> {isIt ? 'Limitazioni di Scraper e Bot Protection' : 'Scraper & Bot Protection Limitations'}</h5>
               <p>{isIt 
-                ? 'Alcune aziende implementano sistemi anti-bot, consent wall o contenuti script-rendered. In questi casi il sistema segnala "Unavailable" o "Needs Review" senza inventare dati.'
-                : 'Bot blockers, consent walls, or script-rendered content can block retrieval. The system reports "Unavailable" or "Needs Review" without inventing data.'}</p>
+                ? 'Alcune aziende implementano sistemi anti-bot, consent wall o contenuti script-rendered. Il renderer VPS migliora la copertura, ma se il recupero fallisce il sistema segnala "Unavailable" o "Needs Review" senza inventare dati.'
+                : 'Bot blockers, consent walls, or script-rendered content can block retrieval. The VPS renderer improves coverage, but if retrieval fails the system reports "Unavailable" or "Needs Review" without inventing data.'}</p>
             </div>
             <div className={styles.limitItem}>
               <h5><IconTimeline size={16} style={{ verticalAlign: 'middle', marginRight: 6 }} color="#f59e0b" /> {isIt ? 'Rate Limiting protettivi' : 'Usage Rate Limiting'}</h5>

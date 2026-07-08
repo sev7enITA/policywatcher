@@ -1,5 +1,6 @@
 # dependencies
 /node_modules
+renderer/node_modules/
 /.pnp
 .pnp.*
 .yarn/*
@@ -52,3 +53,5 @@ next-env.d.ts
 
 # archives
 *.zip
+deployment-quarantine/
+PolicyWatcher-architecture-infographics-*/

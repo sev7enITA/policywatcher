@@ -17,6 +17,8 @@ import { db } from '@/lib/db';
 import { sendWeeklyDigest, ChangedPolicySummary } from '@/lib/mailer';
 import { isAuthorized } from '@/lib/auth';
 import { normalizePreferenceKey, splitPreferenceKeys } from '@/lib/subscriberPreferences';
+import { publicChangeWhere } from '@/lib/publicDataGate';
+import { cleanupOldAdminAccessLogs } from '@/lib/adminAccessLog';
 
 /**
  * Sends a personalised weekly digest to every active WEEKLY subscriber.
@@ -53,11 +55,11 @@ export async function GET(request: NextRequest) {
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
     const recentChanges = await db.policyChange.findMany({
-      where: {
+      where: publicChangeWhere({
         createdAt: {
           gte: sevenDaysAgo,
         },
-      },
+      }),
       include: {
         policy: {
           include: {
@@ -103,6 +105,12 @@ export async function GET(request: NextRequest) {
       } catch (err) {
         console.error(`Failed to send weekly digest to ${sub.email}:`, err);
       }
+    }
+
+    try {
+      await cleanupOldAdminAccessLogs();
+    } catch (cleanupError) {
+      console.warn('[Weekly Cron] Admin access log retention cleanup failed:', cleanupError);
     }
 
     return NextResponse.json({ success: true, message: `Sent weekly updates to ${sentCount} subscribers.` });

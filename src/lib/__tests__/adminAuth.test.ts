@@ -52,7 +52,16 @@ describe('adminAuth', () => {
     const token = createSessionToken('admin');
 
     expect(verifySessionToken(token)).toEqual({ valid: false });
-    expect(error).toHaveBeenCalledWith('[AdminAuth] SESSION_HMAC_SECRET/API_SECRET is not set. Sessions will be invalid.');
+    expect(error).toHaveBeenCalledWith('[AdminAuth] SESSION_HMAC_SECRET is not set. Sessions will be invalid.');
+  });
+
+  it('does not fall back to API_SECRET for admin session signing', () => {
+    vi.stubEnv('SESSION_HMAC_SECRET', '');
+    vi.stubEnv('API_SECRET', 'cron-secret');
+
+    const token = createSessionToken('admin');
+
+    expect(verifySessionToken(token)).toEqual({ valid: false });
   });
 
   it('validates admin and auditor credentials from environment variables', () => {
@@ -65,6 +74,17 @@ describe('adminAuth', () => {
     expect(validateCredentials('reviewer', 'review-pass')).toBe('auditor');
     expect(validateCredentials('root', 'wrong')).toBeNull();
     expect(validateCredentials('missing', 'root-pass')).toBeNull();
+  });
+
+  it('tolerates quoted or padded Hostinger environment values', () => {
+    vi.stubEnv('ADMIN_USER', ' adm ');
+    vi.stubEnv('ADMIN_PASSWORD', '"admin-pass" ');
+    vi.stubEnv('AUDITOR_USER', "'auditor'");
+    vi.stubEnv('AUDITOR_PASSWORD', ' auditor-pass\n');
+
+    expect(validateCredentials('adm ', 'admin-pass')).toBe('admin');
+    expect(validateCredentials('auditor', 'auditor-pass')).toBe('auditor');
+    expect(validateCredentials('adm', '"admin-pass"')).toBeNull();
   });
 
   it('reads, sets, and clears the signed admin session cookie', () => {

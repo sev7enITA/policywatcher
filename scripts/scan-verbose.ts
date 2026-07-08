@@ -1,6 +1,6 @@
 #!/usr/bin/env npx tsx
 /**
- * CLI — Verbose Policy Scanner
+ * CLI - Verbose Policy Scanner
  *
  * Usage:
  *   npx tsx scripts/scan-verbose.ts
@@ -36,7 +36,7 @@ function timestamp(): string {
   return new Date().toISOString().substring(11, 19);
 }
 
-console.log(`\n${c.bgBlue}${c.white}${c.bold} 🔍 PolicyWatcher — Full Scan ${c.reset}\n`);
+console.log(`\n${c.bgBlue}${c.white}${c.bold} PolicyWatcher - Full Scan ${c.reset}\n`);
 console.log(`${c.gray}Started at ${new Date().toISOString()}${c.reset}\n`);
 
 const startTime = Date.now();
@@ -46,13 +46,13 @@ runFullScan((progress) => {
 
   switch (progress.phase) {
     case 'start':
-      console.log(`${ts} ${c.cyan}${c.bold}▶ ${progress.message}${c.reset}`);
-      console.log(`${c.gray}${'─'.repeat(70)}${c.reset}`);
+      console.log(`${ts} ${c.cyan}${c.bold}[START] ${progress.message}${c.reset}`);
+      console.log(`${c.gray}${'-'.repeat(70)}${c.reset}`);
       break;
 
     case 'policy_start':
       process.stdout.write(
-        `${ts} ${c.dim}${String(progress.current).padStart(3)}/${progress.total}${c.reset}  ${c.blue}⟳${c.reset} ${progress.message}  `
+        `${ts} ${c.dim}${String(progress.current).padStart(3)}/${progress.total}${c.reset}  ${c.blue}[SCAN]${c.reset} ${progress.message}  `
       );
       break;
 
@@ -62,19 +62,19 @@ runFullScan((progress) => {
       const idx = `${c.dim}${String(progress.current).padStart(3)}/${progress.total}${c.reset}`;
 
       if (progress.status === 'unchanged') {
-        console.log(`${ts} ${idx}  ${c.green}✓${c.reset} ${c.gray}${progress.company} — ${progress.policy}: unchanged${c.reset}`);
+        console.log(`${ts} ${idx}  ${c.green}[OK]${c.reset} ${c.gray}${progress.company} - ${progress.policy}: unchanged${c.reset}`);
       } else if (progress.status === 'changed') {
-        console.log(`${ts} ${idx}  ${c.yellow}${c.bold}⚠ ${progress.company} — ${progress.policy}: CHANGED${c.reset}`);
+        console.log(`${ts} ${idx}  ${c.yellow}${c.bold}[ATTENTION] ${progress.company} - ${progress.policy}: CHANGED${c.reset}`);
       } else if (progress.status === 'error') {
-        console.log(`${ts} ${idx}  ${c.red}${c.bold}✗ ${progress.company} — ${progress.policy}: ERROR${c.reset}`);
+        console.log(`${ts} ${idx}  ${c.red}${c.bold}[ERROR] ${progress.company} - ${progress.policy}: ERROR${c.reset}`);
         if (progress.message.includes('(')) {
           const errorDetail = progress.message.substring(progress.message.indexOf('('));
           console.log(`${ts}       ${c.red}${c.dim}  ${errorDetail}${c.reset}`);
         }
       } else if (progress.status === 'unavailable') {
-        console.log(`${ts} ${idx}  ${c.magenta}⊘ ${progress.company} — ${progress.policy}: unavailable${c.reset}`);
+        console.log(`${ts} ${idx}  ${c.magenta}[UNAVAILABLE] ${progress.company} - ${progress.policy}: unavailable${c.reset}`);
       } else if (progress.status === 'invalid') {
-        console.log(`${ts} ${idx}  ${c.red}⊘ ${progress.company} — ${progress.policy}: invalid URL${c.reset}`);
+        console.log(`${ts} ${idx}  ${c.red}[INVALID] ${progress.company} - ${progress.policy}: invalid URL${c.reset}`);
       } else {
         console.log(`${ts} ${idx}  ${c.gray}  ${progress.message}${c.reset}`);
       }
@@ -82,17 +82,17 @@ runFullScan((progress) => {
     }
 
     case 'notify':
-      console.log(`${ts} ${c.cyan}📧 ${progress.message}${c.reset}`);
+      console.log(`${ts} ${c.cyan}[MAIL] ${progress.message}${c.reset}`);
       break;
 
     case 'complete':
-      console.log(`${ts} ${c.green}${c.bold}✅ ${progress.message}${c.reset}`);
+      console.log(`${ts} ${c.green}${c.bold}[OK] ${progress.message}${c.reset}`);
       break;
   }
 })
   .then((result) => {
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-    console.log(`\n${c.gray}${'─'.repeat(70)}${c.reset}`);
+    console.log(`\n${c.gray}${'-'.repeat(70)}${c.reset}`);
     console.log(`${c.bgGreen}${c.white}${c.bold} SCAN COMPLETE ${c.reset}  ${c.dim}(${elapsed}s)${c.reset}\n`);
 
     console.log(`  ${c.bold}Checked${c.reset}      ${result.checked}`);

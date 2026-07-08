@@ -4,9 +4,8 @@
  * Session-based authentication for the admin dashboard.
  *
  * Uses HMAC-SHA256 signed cookies to store the session. The cookie payload
- * includes the role (admin or auditor) and a timestamp. Prefer
- * SESSION_HMAC_SECRET as the signing key; API_SECRET remains a compatibility
- * fallback for existing deployments.
+ * includes the role (admin or auditor) and a timestamp. SESSION_HMAC_SECRET
+ * is mandatory and deliberately separate from API_SECRET.
  *
  * Two roles are supported:
  *   - **admin**: full read/write access (cron, company management, etc.)
@@ -32,17 +31,21 @@ const COOKIE_NAME = 'pw_admin_session';
 const SESSION_TTL_MS = 24 * 60 * 60 * 1000;
 
 /**
- * Signs a payload string with HMAC-SHA256 using API_SECRET.
+ * Signs a payload string with HMAC-SHA256 using SESSION_HMAC_SECRET.
  * @param payload - The string to sign.
  * @returns Hex-encoded HMAC signature.
  */
 function getSigningSecret(): string | null {
-  const secret = process.env.SESSION_HMAC_SECRET || process.env.API_SECRET;
+  const secret = normalizeConfiguredSecret(process.env.SESSION_HMAC_SECRET);
   if (!secret) {
-    console.error('[AdminAuth] SESSION_HMAC_SECRET/API_SECRET is not set. Sessions will be invalid.');
+    console.error('[AdminAuth] SESSION_HMAC_SECRET is not set. Sessions will be invalid.');
     return null;
   }
   return secret;
+}
+
+export function hasSessionSigningSecret(): boolean {
+  return Boolean(getSigningSecret());
 }
 
 function sign(payload: string): string | null {
@@ -64,16 +67,50 @@ function safeCompare(a: string, b: string): boolean {
 }
 
 /**
+ * Hostinger and similar panels sometimes preserve pasted wrapping quotes or
+ * trailing whitespace in environment variables. Normalize only configuration
+ * edges; never log the resulting values.
+ */
+function normalizeConfiguredSecret(value: string | undefined): string | null {
+  if (typeof value !== 'string') return null;
+
+  let normalized = value.trim();
+  if (
+    normalized.length >= 2 &&
+    ((normalized.startsWith('"') && normalized.endsWith('"')) ||
+      (normalized.startsWith("'") && normalized.endsWith("'")))
+  ) {
+    normalized = normalized.slice(1, -1).trim();
+  }
+
+  return normalized || null;
+}
+
+function normalizedCandidates(value: string | undefined): string[] {
+  if (typeof value !== 'string') return [];
+  const normalized = normalizeConfiguredSecret(value);
+  return [...new Set([value, normalized].filter((candidate): candidate is string => Boolean(candidate)))];
+}
+
+function matchesConfiguredValue(provided: string, configured: string | undefined): boolean {
+  const providedCandidates = [...new Set([provided, provided.trim()])];
+  return providedCandidates.some((input) =>
+    normalizedCandidates(configured).some((expected) => safeCompare(input, expected))
+  );
+}
+
+/**
  * Creates a signed session cookie value.
  * Format: `role:timestamp:signature`
  *
  * @param role - The admin role to encode.
  * @returns The cookie value string.
  */
-export function createSessionToken(role: AdminRole): string {
+export function createSessionToken(role: AdminRole): string | null {
   const timestamp = Date.now().toString();
   const payload = `${role}:${timestamp}`;
-  const signature = sign(payload) || 'missing-session-secret';
+  const signature = sign(payload);
+  if (!signature) return null;
   return `${payload}:${signature}`;
 }
 
@@ -84,7 +121,8 @@ export function createSessionToken(role: AdminRole): string {
  * @param token - The raw cookie value.
  * @returns Session result with validity and role.
  */
-export function verifySessionToken(token: string): SessionResult {
+export function verifySessionToken(token: string | null | undefined): SessionResult {
+  if (!token) return { valid: false };
   const parts = token.split(':');
   if (parts.length !== 3) return { valid: false };
 
@@ -112,13 +150,15 @@ export function verifySessionToken(token: string): SessionResult {
  * @returns The role if valid, or null.
  */
 export function validateCredentials(username: string, password: string): AdminRole | null {
-  const adminUser = process.env.ADMIN_USER || 'admin';
+  const adminUser = normalizeConfiguredSecret(process.env.ADMIN_USER) || 'admin';
   const adminPass = process.env.ADMIN_PASSWORD;
-  const auditorUser = process.env.AUDITOR_USER || 'auditor';
+  const auditorUser = normalizeConfiguredSecret(process.env.AUDITOR_USER) || 'auditor';
   const auditorPass = process.env.AUDITOR_PASSWORD;
+  const providedUser = username.trim();
 
-  if (username === adminUser && adminPass && safeCompare(password, adminPass)) return 'admin';
-  if (username === auditorUser && auditorPass && safeCompare(password, auditorPass)) return 'auditor';
+  if (providedUser === adminUser && matchesConfiguredValue(password, adminPass)) return 'admin';
+  if (providedUser === auditorUser && matchesConfiguredValue(password, auditorPass)) return 'auditor';
+
   return null;
 }
 
@@ -143,6 +183,9 @@ export function getSession(request: NextRequest): SessionResult {
  */
 export function setSessionCookie(response: NextResponse, role: AdminRole): NextResponse {
   const token = createSessionToken(role);
+  if (!token) {
+    throw new Error('SESSION_HMAC_SECRET is not configured.');
+  }
   response.cookies.set(COOKIE_NAME, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',

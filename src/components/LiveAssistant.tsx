@@ -4,16 +4,16 @@
  * AI-powered chat assistant overlay ("Policy Live Assistant").
  *
  * Architecture:
- *  1. **Text chat** — sends the user's question to `/api/chat` (Gemini),
+ *  1. **Text chat** sends the user's question to `/api/chat` (Gemini),
  *     receives a markdown-formatted answer, and renders it in a scrollable
  *     message log.
- *  2. **Text-to-Speech** — after each answer the component tries Google
+ *  2. **Text-to-Speech** after each answer the component tries Google
  *     Cloud TTS (`/api/tts`). If that endpoint is unavailable or rate-
  *     limited, it falls back to the browser's built-in SpeechSynthesis.
- *  3. **Speech-to-Text** — uses the Web Speech API (`webkitSpeechRecognition`)
+ *  3. **Speech-to-Text** uses the Web Speech API (`webkitSpeechRecognition`)
  *     for voice input. The recognised transcript is automatically sent as
  *     a chat message.
- *  4. **Canvas visualiser** — a real-time waveform animation whose shape,
+ *  4. **Canvas visualiser** a real-time waveform animation whose shape,
  *     amplitude, and colour change based on the current assistant state
  *     (idle / listening / processing / speaking).
  *
@@ -40,7 +40,7 @@ interface LiveAssistantProps {
   onClose: () => void;
   /** Full company list (available for context-aware prompts). */
   companies: Company[];
-  /** Active UI language — affects greeting, placeholders, and TTS voice. */
+  /** Active UI language affects greeting, placeholders, and TTS voice. */
   lang: 'en' | 'it';
 }
 

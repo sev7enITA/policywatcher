@@ -32,8 +32,8 @@ const translationContent = {
     backHome: 'Back to Dashboard',
     tag: 'Operational Roadmap',
     title: 'PolicyWatcher 3.5.1 Roadmap',
-    subtitle: 'Transitioning to the Confidence Release framework: proving provenance, ensuring transparency, and operationalizing GRC controls.',
-    claim: 'PolicyWatcher 3.5 focuses on confidence: every visible analysis must expose its data status, source context, QA findings, review history and limits.',
+    subtitle: 'Confidence Release framework: provenance, source retrieval evidence, dataset QA decisions, and operational GRC controls.',
+    claim: 'PolicyWatcher 3.5 focuses on confidence: every visible analysis must expose its data status, source context, ingestion method, QA findings, review history and limits.',
     
     // Cadence
     cadenceTitle: 'The Alternating Release Cadence',
@@ -54,19 +54,19 @@ const translationContent = {
     statusActive351: 'Implemented in 3.5.1',
     statusPlanned: 'Planned later',
     
-    p0Title: 'P0 — Truth & Confidence Layer',
+    p0Title: 'P0 - Truth & Confidence Layer',
     p0Desc: 'Every public and admin view should make the state of the underlying data easier to understand.',
     p0Needs: [
       'Complete legacy Dataset QA wording cleanup',
       'Add explicit data confidence labels: Configured, Available, Partial, Needs Review, Unavailable, Reviewed',
-      'Show visible data context: policy URL, jurisdiction, policy type, check dates, ingestion method, and QA findings',
+      'Show visible data context: policy URL, jurisdiction, policy type, check dates, ingestion method, source-fit status, and QA findings',
       'Create a public methodology page explaining what the platform does and does not certify'
     ],
     p0WordingTitle: 'Wording Guidelines',
     p0Prefer: 'Prefer:',
     p0Avoid: 'Avoid:',
 
-    p1Title: 'P1 — Admin Review Log',
+    p1Title: 'P1 - Admin Review Log',
     p1Desc: 'Human review actions are recorded as append-only audit events for Dataset QA operations and future assessment review flows.',
     p1Needs: [
       'Add an append-only review log for dataset issue decisions',
@@ -75,7 +75,7 @@ const translationContent = {
       'Rule: Review log rows are new evidence rows and are not overwritten'
     ],
 
-    p2Title: 'P2 — Dataset QA Issue Queue',
+    p2Title: 'P2 - Dataset QA Issue Queue',
     p2Desc: 'Evolving the QA dashboard into an actionable issue queue with persisted decisions.',
     p2Needs: [
       'List dataset issues (localized URL, hash mismatch, missing region impact, stale records, etc.)',
@@ -84,7 +84,7 @@ const translationContent = {
       'Provide CSV exports for auditors'
     ],
 
-    p3Title: 'P3 — Advisory Framework Mapping',
+    p3Title: 'P3 - Advisory Framework Mapping',
     p3Desc: 'Prudent mapping of policy text changes to legal and governance compliance frameworks.',
     p3Needs: [
       'Support advisory mapping to EU AI Act, ISO/IEC 42001, and NIST AI RMF',
@@ -92,7 +92,7 @@ const translationContent = {
       'Rule: Avoid terms like "Compliant" or "Violation". Use "Evidence Available" or "Requires Human Review"'
     ],
 
-    p4Title: 'P4 — API & Signed Webhooks',
+    p4Title: 'P4 - API & Signed Webhooks',
     p4Desc: 'Preparing the platform for secure and controlled enterprise GRC integrations.',
     p4Needs: [
       'Expose scoped API routes (/api/v1/companies, /api/v1/policies, /api/v1/changes, etc.)',
@@ -100,7 +100,7 @@ const translationContent = {
       'Implement signed outgoing webhooks via HMAC-SHA256 signatures with timestamp replay protection'
     ],
 
-    p5Title: 'P5 — Multi-Version Diff',
+    p5Title: 'P5 - Multi-Version Diff',
     p5Desc: 'Making policy comparison flexible by enabling arbitrary version selection.',
     p5Needs: [
       'Allow users to select and compare any two snapshots side-by-side',
@@ -108,7 +108,7 @@ const translationContent = {
       'Support comparison report exports'
     ],
 
-    p6Title: 'P6 — PostgreSQL Readiness',
+    p6Title: 'P6 - PostgreSQL Readiness',
     p6Desc: 'Upgrading the architecture to be production-ready for larger, cloud-based GRC deployments.',
     p6Needs: [
       'Maintain SQLite locally for simple local/dev setup',
@@ -116,7 +116,7 @@ const translationContent = {
       'Support separate demo and production seed profiles, and database health checks'
     ],
 
-    p7Title: 'P7 — Forensic Lab Visual Refresh',
+    p7Title: 'P7 - Forensic Lab Visual Refresh',
     p7Desc: 'Moving the interface design away from generic SaaS marketing toward an audit workstation.',
     p7Needs: [
       'Visual themes inspired by evidence boards and forensic labs',
@@ -149,20 +149,20 @@ const translationContent = {
     forensicCol2Items: [
       'Decorative seals, guarantees, and certified stamps',
       'Vibrant SaaS marketing templates',
-      'Absolute claims like "100% Compliant"',
+      'Absolute compliance or performance claims',
       'High-contrast decorative transitions'
     ],
 
     // Statement
     positionTitle: '3.5.1 Audit Operations Objective',
-    positionText: 'PolicyWatcher 3.5.1 does not aim to make louder claims. It makes Dataset QA decisions and review evidence easier to inspect, export, and audit.'
+    positionText: 'PolicyWatcher 3.5.1 does not aim to make louder claims. It makes Dataset QA decisions, source retrieval paths, renderer hardening, and review evidence easier to inspect, export, and audit.'
   },
   it: {
     backHome: 'Torna alla Dashboard',
     tag: 'Roadmap Operativa',
     title: 'Roadmap PolicyWatcher 3.5.1',
-    subtitle: 'Transizione al framework "Confidence Release": provare la provenienza, garantire trasparenza e integrare i controlli GRC.',
-    claim: 'PolicyWatcher 3.5 si concentra sulla fiducia: ogni analisi visibile deve esporre lo stato dei dati, il contesto della fonte, i risultati del controllo QA, la cronologia delle revisioni e i limiti.',
+    subtitle: 'Framework "Confidence Release": provenienza, evidenza di recupero fonte, decisioni Dataset QA e controlli GRC operativi.',
+    claim: 'PolicyWatcher 3.5 si concentra sulla fiducia: ogni analisi visibile deve esporre stato dei dati, contesto fonte, metodo di ingestione, risultati QA, cronologia revisioni e limiti.',
     
     // Cadence
     cadenceTitle: 'La Cadenza Alternata dei Rilasci',
@@ -183,19 +183,19 @@ const translationContent = {
     statusActive351: 'Implementato in 3.5.1',
     statusPlanned: 'Pianificato dopo',
     
-    p0Title: 'P0 — Livello Verità & Trasparenza',
+    p0Title: 'P0 - Livello Verità & Trasparenza',
     p0Desc: 'Ogni visualizzazione pubblica e amministrativa deve rendere trasparente lo stato del dato sottostante.',
     p0Needs: [
       'Completare la pulizia del wording legacy sulla Dataset QA',
       'Aggiungere etichette di confidence: Configured, Available, Partial, Needs Review, Unavailable, Reviewed',
-      'Mostrare il contesto del dato: URL configurato, giurisdizione, tipo di policy, date di controllo e risultati QA',
+      'Mostrare il contesto del dato: URL configurato, giurisdizione, tipo di policy, date di controllo, ingestion method, source-fit status e risultati QA',
       'Creare una pagina pubblica sulla metodologia spiegando limiti e criteri di funzionamento dell\'AI'
     ],
     p0WordingTitle: 'Linee Guida Wording',
     p0Prefer: 'Usa:',
     p0Avoid: 'Evita:',
 
-    p1Title: 'P1 — Registro Revisioni Admin',
+    p1Title: 'P1 - Registro Revisioni Admin',
     p1Desc: 'Le azioni di revisione umana sono registrate come eventi append-only per la Dataset QA e per i futuri flussi di revisione delle valutazioni.',
     p1Needs: [
       'Aggiungere un registro append-only per le decisioni sulle issue dataset',
@@ -204,7 +204,7 @@ const translationContent = {
       'Regola: le righe del review log sono nuove evidenze e non vengono sovrascritte'
     ],
 
-    p2Title: 'P2 — Coda Problemi Dataset QA',
+    p2Title: 'P2 - Coda Problemi Dataset QA',
     p2Desc: 'Evoluzione del pannello QA in una coda operativa con decisioni persistenti.',
     p2Needs: [
       'Elencare i problemi (URL localizzati, hash non corrispondenti, record obsoleti, KPI non valutati)',
@@ -213,7 +213,7 @@ const translationContent = {
       'Esportazione CSV per auditor'
     ],
 
-    p3Title: 'P3 — Mappatura Framework Advisory',
+    p3Title: 'P3 - Mappatura Framework Advisory',
     p3Desc: 'Associazione prudente delle variazioni di testo delle policy ai principali standard di governance.',
     p3Needs: [
       'Associare le policy a EU AI Act, ISO/IEC 42001 e NIST AI RMF',
@@ -221,7 +221,7 @@ const translationContent = {
       'Regola: Evitare "Conforme" o "Violazione". Utilizzare "Prove Disponibili" o "Richiede Revisione Umana"'
     ],
 
-    p4Title: 'P4 — API & Webhooks Firmati',
+    p4Title: 'P4 - API & Webhooks Firmati',
     p4Desc: 'Preparazione della piattaforma per integrazioni aziendali GRC sicure.',
     p4Needs: [
       'Esporre rotte API dedicate (/api/v1/companies, /api/v1/policies, /api/v1/changes, ecc.)',
@@ -229,7 +229,7 @@ const translationContent = {
       'Implementare webhook in uscita firmati via HMAC-SHA256 con timestamp contro i replay attacks'
     ],
 
-    p5Title: 'P5 — Diff Multi-Versione',
+    p5Title: 'P5 - Diff Multi-Versione',
     p5Desc: 'Miglioramento del confronto dei testi abilitando la selezione libera delle versioni.',
     p5Needs: [
       'Consentire il confronto affiancato di due snapshot storici a scelta',
@@ -237,7 +237,7 @@ const translationContent = {
       'Esportare i report di confronto'
     ],
 
-    p6Title: 'P6 — Supporto PostgreSQL',
+    p6Title: 'P6 - Supporto PostgreSQL',
     p6Desc: 'Aggiornamento dell\'architettura per consentire l\'uso in ambienti cloud aziendali.',
     p6Needs: [
       'Mantenere SQLite per lo sviluppo locale e dimostrativo',
@@ -245,7 +245,7 @@ const translationContent = {
       'Gestire seed di dati demo separati dai profili di produzione e controlli sanitari del DB'
     ],
 
-    p7Title: 'P7 — Interfaccia Stile Forensic Lab',
+    p7Title: 'P7 - Interfaccia Stile Forensic Lab',
     p7Desc: 'Evoluzione del design visivo da una logica di marketing a uno spazio di lavoro per audit.',
     p7Needs: [
       'Interfaccia ispirata a console di controllo e laboratori di analisi dati',
@@ -257,7 +257,7 @@ const translationContent = {
     excludedHeader: 'Esclusi Intenzionalmente dalla 3.5',
     excludedIntro: 'Le seguenti funzionalità sono rimandate per mantenere il focus su affidabilità e verifica.',
     questionnaireTitle: 'Generatore Questionari Vendor',
-    questionnaireReason: 'Le risposte generate da AI non garantiscono conformità legale. Rimandato per essere sviluppato solo come assistente bozza in futuro.',
+    questionnaireReason: 'Le risposte generate da AI non sono prova di conformità legale. Rimandato per essere sviluppato solo come assistente bozza in futuro.',
     jiraTitle: 'Integrazioni Jira e OneTrust',
     jiraReason: 'Rimandato per dare priorità a un sistema webhook HMAC firmato e generico.',
     scoreTitle: 'Punteggio di Conformità EU AI Act',
@@ -278,13 +278,13 @@ const translationContent = {
     forensicCol2Items: [
       'Sigilli grafici, certificati e bollini di conformità',
       'Colori accesi e template promozionali',
-      'Affermazioni assolute come "100% Conforme"',
+      'Claim non verificabili su conformità o prestazioni',
       'Animazioni ornamentali'
     ],
 
     // Statement
     positionTitle: 'Obiettivo del Rilascio 3.5.1',
-    positionText: 'PolicyWatcher 3.5.1 non mira ad avanzare pretese altisonanti. Rende le decisioni Dataset QA e le evidenze di revisione piu ispezionabili, esportabili e auditabili.'
+    positionText: 'PolicyWatcher 3.5.1 non mira ad avanzare pretese altisonanti. Rende decisioni Dataset QA, percorsi di recupero fonte, renderer hardening ed evidenze di revisione piu ispezionabili, esportabili e auditabili.'
   }
 };
 

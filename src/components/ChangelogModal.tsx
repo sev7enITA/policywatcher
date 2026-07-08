@@ -55,7 +55,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Current</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Maintenance release for audit operations: Dataset QA issues can now be marked reviewed, ignored with reason, or reopened; each decision writes an append-only Review Log event. The roadmap now separates implemented, active, and planned work so public claims stay aligned with the shipped product.
+                      Maintenance release for confidence and reliability: Dataset QA issues can now be marked reviewed, ignored with reason, or reopened; each decision writes an append-only Review Log event. The scraper adds HTTP/2 handling, optional VPS-rendered fetch, freshness-guarded Wayback/Common Crawl recovery, path/host drift checks, Partial suspension for incomplete retrievals, safer source URL migration with dry-run, and stricter renderer SSRF checks. Public APIs, sitemap, digests, share pages, reports, timeline and benchmarks now require publicEvidence-gated snapshots/changes before exposing analysis. Admin session signing requires a dedicated SESSION_HMAC_SECRET and destructive admin deletes require server-side confirmation.
                     </p>
                   </div>
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env npx tsx
 /**
- * PolicyWatcher — Data Integrity Repair Script
+ * PolicyWatcher - Data Integrity Repair Script
  * =============================================
  *
  * Fixes ALL issues identified by the Dataset Quality audit:
@@ -25,14 +25,14 @@ function sha256(text: string): string {
   return createHash('sha256').update(text, 'utf8').digest('hex');
 }
 
-/** Map score → risk label using consistent bands */
+/** Map score to risk label using consistent bands. */
 function scoreToRisk(score: number): string {
   if (score <= 3) return 'Low';
   if (score <= 6) return 'Medium';
   return 'High';
 }
 
-/** Extract a TL;DR from an AI summary — first sentence or first 150 chars */
+/** Extract a TL;DR from an AI summary: first sentence or first 150 chars. */
 function extractTldr(summary: string): string {
   if (!summary) return '';
   // Find first sentence ending
@@ -43,7 +43,7 @@ function extractTldr(summary: string): string {
   // Fallback: first 150 chars + ellipsis
   if (summary.length <= 150) return summary;
   const cut = summary.lastIndexOf(' ', 150);
-  return summary.substring(0, cut > 80 ? cut : 150) + '…';
+  return summary.substring(0, cut > 80 ? cut : 150) + '...';
 }
 
 /** Generate synthetic key points from an AI summary */
@@ -138,10 +138,10 @@ function normalizeRiskReasonIcons(json: string | null): string | null {
 }
 
 async function main() {
-  console.log('\n🔧 PolicyWatcher — Data Integrity Repair\n');
+  console.log('\nPolicyWatcher - Data Integrity Repair\n');
 
-  // ── 1. Fix snapshot hashes ──
-  console.log('━━━ Phase 1: Snapshot Hash Integrity ━━━');
+  // 1. Fix snapshot hashes.
+  console.log('--- Phase 1: Snapshot Hash Integrity ---');
   const snapshots = await prisma.policySnapshot.findMany();
   let hashFixed = 0;
   for (const snap of snapshots) {
@@ -154,10 +154,10 @@ async function main() {
       hashFixed++;
     }
   }
-  console.log(`  ✅ ${hashFixed}/${snapshots.length} snapshot hashes fixed\n`);
+  console.log(`  [OK] ${hashFixed}/${snapshots.length} snapshot hashes fixed\n`);
 
-  // ── 2. Align current policy state to latest snapshot ──
-  console.log('━━━ Phase 2: Current Policy State Alignment ━━━');
+  // 2. Align current policy state to latest snapshot.
+  console.log('--- Phase 2: Current Policy State Alignment ---');
   const policies = await prisma.policy.findMany({
     include: {
       company: true,
@@ -180,7 +180,7 @@ async function main() {
 
     if (!latestSnapshot) {
       policiesWithoutSnapshots++;
-      console.log(`  ⚠️  ${pol.company.name} / ${pol.name}: no snapshot available for alignment`);
+      console.log(`  [ATTENTION] ${pol.company.name} / ${pol.name}: no snapshot available for alignment`);
       continue;
     }
 
@@ -227,16 +227,16 @@ async function main() {
       checkLogsFixed++;
     }
   }
-  console.log(`  ✅ ${currentStateFixed}/${policies.length} policies aligned to latest snapshot`);
-  console.log(`  ✅ ${checkLogsFixed}/${policies.length} latest check logs aligned`);
+  console.log(`  [OK] ${currentStateFixed}/${policies.length} policies aligned to latest snapshot`);
+  console.log(`  [OK] ${checkLogsFixed}/${policies.length} latest check logs aligned`);
   if (policiesWithoutSnapshots > 0) {
-    console.log(`  ⚠️  ${policiesWithoutSnapshots} policies still have no snapshots\n`);
+    console.log(`  [ATTENTION] ${policiesWithoutSnapshots} policies still have no snapshots\n`);
   } else {
     console.log('');
   }
 
-  // ── 3. Fix risk labels ──
-  console.log('━━━ Phase 3: Risk Label Normalization ━━━');
+  // 3. Fix risk labels.
+  console.log('--- Phase 3: Risk Label Normalization ---');
   const changes = await prisma.policyChange.findMany({
     include: { policy: { include: { company: true } } },
   });
@@ -248,14 +248,14 @@ async function main() {
         where: { id: c.id },
         data: { overallRisk: correct },
       });
-      console.log(`  🔄 ${c.policy.company.name} / ${c.policy.name}: ${c.overallRisk} → ${correct} (score ${c.overallScore})`);
+      console.log(`  [UPDATE] ${c.policy.company.name} / ${c.policy.name}: ${c.overallRisk} -> ${correct} (score ${c.overallScore})`);
       riskFixed++;
     }
   }
-  console.log(`  ✅ ${riskFixed}/${changes.length} risk labels normalized\n`);
+  console.log(`  [OK] ${riskFixed}/${changes.length} risk labels normalized\n`);
 
-  // ── 4. Fix AI JSON fields ──
-  console.log('━━━ Phase 4: AI JSON Fields (keyPoints, riskReasons, tldr) ━━━');
+  // 4. Fix AI JSON fields.
+  console.log('--- Phase 4: AI JSON Fields (keyPoints, riskReasons, tldr) ---');
   let aiFixed = 0;
   for (const c of changes) {
     const updates: Record<string, string> = {};
@@ -307,10 +307,10 @@ async function main() {
       aiFixed++;
     }
   }
-  console.log(`  ✅ ${aiFixed}/${changes.length} changes with AI fields backfilled or normalized\n`);
+  console.log(`  [OK] ${aiFixed}/${changes.length} changes with AI fields backfilled or normalized\n`);
 
-  // ── 5. Restore KPI Assessments ──
-  console.log('━━━ Phase 5: KPI Assessment Restore ━━━');
+  // 5. Restore KPI Assessments.
+  console.log('--- Phase 5: KPI Assessment Restore ---');
   let kpisRestored = 0;
   const KPI_FIELDS = [
     'kpiDataCollection', 'kpiThirdPartySharing', 'kpiDataRetention',
@@ -342,15 +342,15 @@ async function main() {
           where: { id: c.id },
           data: kpiUpdates,
         });
-        console.log(`  🔄 Restored KPIs for ${c.policy.company.name} / ${c.policy.name} from version at ${baseChange.createdAt.toISOString()}`);
+        console.log(`  [UPDATE] Restored KPIs for ${c.policy.company.name} / ${c.policy.name} from version at ${baseChange.createdAt.toISOString()}`);
         kpisRestored++;
       }
     }
   }
-  console.log(`  ✅ ${kpisRestored} policy changes restored with proper KPI ratings\n`);
+  console.log(`  [OK] ${kpisRestored} policy changes restored with proper KPI ratings\n`);
 
-  // ── 6. Report duplicate URLs ──
-  console.log('━━━ Phase 6: Duplicate URL Report ━━━');
+  // 6. Report duplicate URLs.
+  console.log('--- Phase 6: Duplicate URL Report ---');
   const allPolicies = await prisma.policy.findMany({
     include: { company: true },
   });
@@ -364,15 +364,15 @@ async function main() {
   for (const [url, entries] of urlMap) {
     if (entries.length > 1) {
       dupes++;
-      console.log(`  ⚠️  Duplicate URL: ${url}`);
-      entries.forEach(e => console.log(`      → ${e.company} / ${e.name}`));
+      console.log(`  [ATTENTION] Duplicate URL: ${url}`);
+      entries.forEach(e => console.log(`      -> ${e.company} / ${e.name}`));
     }
   }
-  if (dupes === 0) console.log('  ✅ No duplicate URLs found');
+  if (dupes === 0) console.log('  [OK] No duplicate URLs found');
   console.log('');
 
-  // ── Summary ──
-  console.log('━'.repeat(50));
+  // Summary.
+  console.log('-'.repeat(50));
   console.log('REPAIR SUMMARY');
   console.log(`  Snapshot hashes fixed:  ${hashFixed}`);
   console.log(`  Current states fixed:  ${currentStateFixed}`);
@@ -381,7 +381,7 @@ async function main() {
   console.log(`  AI fields repaired:    ${aiFixed}`);
   console.log(`  KPIs restored:         ${kpisRestored}`);
   console.log(`  Duplicate URL groups:  ${dupes}`);
-  console.log('━'.repeat(50));
+  console.log('-'.repeat(50));
   console.log('');
 
   await prisma.$disconnect();

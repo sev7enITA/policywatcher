@@ -30,7 +30,7 @@ echo "Response Body: ${BODY_CHECK}"
 echo "HTTP Status: ${STATUS_CHECK}"
 
 if [ "$STATUS_CHECK" -ne 200 ]; then
-  echo "⚠️ Error: Database check failed with status ${STATUS_CHECK}!"
+  echo "[ATTENTION] Error: Database check failed with status ${STATUS_CHECK}!"
   exit 1
 fi
 
@@ -46,9 +46,9 @@ echo "Response Body: ${BODY_DIGEST}"
 echo "HTTP Status: ${STATUS_DIGEST}"
 
 if [ "$STATUS_DIGEST" -ne 200 ]; then
-  echo "⚠️ Error: Weekly digest trigger failed with status ${STATUS_DIGEST}!"
+  echo "[ATTENTION] Error: Weekly digest trigger failed with status ${STATUS_DIGEST}!"
   exit 1
 fi
 
-echo -e "\n✅ Cron trigger executed successfully!"
+echo -e "\n[OK] Cron trigger executed successfully!"
 exit 0

@@ -10,7 +10,7 @@ import { useState } from 'react';
 import {
   BookOpen, Database, Brain, BarChart3, Shield, Globe,
   Bell, Lock, RefreshCw,
-  ChevronDown, ChevronUp, AlertTriangle, CheckCircle
+  ChevronDown, ChevronUp, AlertTriangle, CheckCircle, ArrowRight
 } from 'lucide-react';
 import styles from '../admin.module.css';
 
@@ -95,7 +95,8 @@ export default function ExplainabilityPage() {
             <li>HTML is parsed to extract the main text content (removing navigation, scripts, and boilerplate).</li>
             <li>A SHA-256 hash is computed on the extracted text for change detection.</li>
             <li>If the hash matches the stored hash, no action is taken (policy unchanged).</li>
-            <li>If the hash differs, the full text is saved as a new PolicySnapshot.</li>
+            <li>If the previous record is backed by seeded evidence, the first verified fetch replaces it as the real baseline without creating a PolicyChange or subscriber notification.</li>
+            <li>If the hash differs after a verified baseline already exists, the full text is saved as a new PolicySnapshot and analyzed as a change.</li>
           </ul>
 
           <h4 style={{ margin: '20px 0 12px', color: 'var(--primary)' }}>Data Integrity Guarantees</h4>
@@ -111,6 +112,7 @@ export default function ExplainabilityPage() {
             <thead><tr><th className={styles.th}>Status</th><th className={styles.th}>Meaning</th><th className={styles.th}>Action</th></tr></thead>
             <tbody>
               <tr className={styles.trHover}><td className={styles.td}>unchanged</td><td className={styles.td}>Hash matches, no changes</td><td className={styles.td}>Skip</td></tr>
+              <tr className={styles.trHover}><td className={styles.td}>rebaselined</td><td className={styles.td}>First verified fetch replaced seeded evidence</td><td className={styles.td}>Baseline snapshot only; no AI scoring or subscriber email</td></tr>
               <tr className={styles.trHover}><td className={styles.td}>changed</td><td className={styles.td}>New hash detected</td><td className={styles.td}>Snapshot + AI analysis</td></tr>
               <tr className={styles.trHover}><td className={styles.td}>unavailable</td><td className={styles.td}>Timeout, bot block, maintenance</td><td className={styles.td}>Log and skip</td></tr>
               <tr className={styles.trHover}><td className={styles.td}>invalid</td><td className={styles.td}>404, 410, soft-404</td><td className={styles.td}>Log and skip</td></tr>
@@ -127,13 +129,16 @@ export default function ExplainabilityPage() {
       content: (
         <div>
           <h4 style={{ marginBottom: 12, color: 'var(--primary)' }}>Model Fallback Chain</h4>
-          <div className={styles.card} style={{ padding: 16, fontFamily: 'monospace', fontSize: '0.85rem' }}>
-            gemini-2.5-flash (primary, best quality) → gemini-2.0-flash-lite (fallback, highest availability)
+          <div className={styles.card} style={{ padding: 16, fontFamily: 'monospace', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+            <span>gemini-2.5-flash (primary analysis model)</span>
+            <ArrowRight size={14} aria-hidden="true" />
+            <span>gemini-2.0-flash-lite (availability fallback)</span>
           </div>
           <p style={{ marginTop: 12, lineHeight: 1.7 }}>
             If the primary model returns 503 (overloaded) or 429 (rate limited), the system automatically
-            retries with the fallback model. If both fail, mock analysis data is used for the cron pipeline,
-            and a user-friendly bilingual error message is shown for the chat.
+            retries with the fallback model. If both fail, ingestion is blocked and logged instead of
+            creating mock analysis data. The public chat returns an unavailable-state message when
+            Gemini is not configured.
           </p>
 
           <h4 style={{ margin: '20px 0 12px', color: 'var(--primary)' }}>Analysis Output Structure</h4>
@@ -192,12 +197,12 @@ export default function ExplainabilityPage() {
             </tbody>
           </table>
 
-          <h4 style={{ margin: '20px 0 12px', color: 'var(--primary)' }}>Manual Justifications</h4>
+          <h4 style={{ margin: '20px 0 12px', color: 'var(--primary)' }}>Static KPI Notes</h4>
           <p style={{ lineHeight: 1.7 }}>
-            In addition to AI-generated KPI values, PolicyWatcher includes 480 manually curated
-            justifications (16 companies x 15 KPIs x 2 languages). These are stored in
-            kpi-justifications.ts and provide human-verified context for each rating, including
-            a screening date. They serve as a fallback and validation layer for the AI output.
+            PolicyWatcher can maintain 480 static KPI notes (16 companies x 15 KPIs x 2 languages)
+            as an optional editorial layer. They are disabled in the public UI by default and must
+            not be treated as source evidence unless separately reviewed against current provider
+            policies.
           </p>
         </div>
       ),

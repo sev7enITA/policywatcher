@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * PolicyWatcher - Command Palette (⌘K / Ctrl+K)
+ * PolicyWatcher - Command Palette (Cmd+K / Ctrl+K)
  *
  * A Raycast/Linear-style command palette for fast navigation:
  *  - Jump to a company
@@ -10,7 +10,7 @@
  *  - Open actions (export, subscribe, methodology, matrix, assistant)
  *
  * Keyboard:
- *  - ⌘K / Ctrl+K  open/close
+ *  - Cmd+K / Ctrl+K  open/close
  *  - ↑ / ↓        navigate
  *  - Enter        run
  *  - Esc          close
@@ -18,6 +18,7 @@
 
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import {
+  BarChart3,
   Search,
   Building2,
   SlidersHorizontal,
@@ -53,7 +54,7 @@ interface Command {
   hint?: string;
   /** Icon rendered before the label. */
   icon: React.ReactNode;
-  /** Grouping category — controls the section header in the results list. */
+  /** Grouping category controls the section header in the results list. */
   group: 'navigation' | 'filters' | 'actions';
   /** Space-separated tokens used for fuzzy-ish search matching. */
   keywords?: string;
@@ -72,7 +73,7 @@ interface CommandPaletteProps {
   isOpen: boolean;
   /** Dismiss the palette (Escape, backdrop click, or after running a command). */
   onClose: () => void;
-  /** Full company list — used to build navigation commands dynamically. */
+  /** Full company list used to build navigation commands dynamically. */
   companies: Company[];
   /** Current UI language. */
   lang: Lang;
@@ -224,6 +225,17 @@ export default function CommandPalette({
         keywords: 'trust quality evidence qa dataset assurance confidence ci codeql scorecard badges security',
         run: () => {
           window.location.href = '/trust';
+        },
+      },
+      {
+        id: 'act-leaderboard',
+        label: 'Open Policy Signals Board',
+        labelIt: 'Apri Policy Signals Board',
+        icon: <BarChart3 size={16} />,
+        group: 'actions',
+        keywords: 'leaderboard signals evidence source coverage public evidence confidence board',
+        run: () => {
+          window.location.href = '/leaderboard';
         },
       },
       {

@@ -10,7 +10,7 @@
  * log of each policy as it's processed.
  */
 
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import {
   Play,
   Square,
@@ -19,9 +19,16 @@ import {
   AlertTriangle,
   Clock,
   Terminal,
-  Loader,
+  Building2,
+  Plus,
 } from 'lucide-react';
 import styles from '../admin.module.css';
+import {
+  IconEvidenceAccepted,
+  IconScanPulse,
+  IconSourceAttention,
+  IconSourceFailed,
+} from '@/components/icons/PolicyWatcherIcons';
 
 /* ---------- Types ---------- */
 
@@ -29,11 +36,26 @@ interface DetailEntry {
   company: string;
   policy: string;
   status: string;
+  source?: string;
+  runtime?: 'app' | 'vps' | 'archive' | 'none';
+  transportLabel?: string;
+  diagnostics?: StrategyDiagnostic[];
+}
+
+interface StrategyDiagnostic {
+  source: string;
+  status: 'ok' | 'partial' | 'failed' | 'skipped' | 'rejected';
+  reason?: string;
+  httpStatus?: number;
+  finalUrl?: string;
 }
 
 interface LastResult {
   checked?: number;
+  selected?: number;
   changed?: number;
+  rebaselined?: number;
+  partial?: number;
   errors?: number;
   unavailable?: number;
   invalid?: number;
@@ -53,6 +75,45 @@ interface CronStatus {
   progressActivity: string;
 }
 
+interface CompanyBaselinePolicy {
+  id: string;
+  dataStatus?: string | null;
+  lastCheckDate?: string | null;
+  lastSuccessfulCheckDate?: string | null;
+}
+
+interface CompanyBaseline {
+  id: string;
+  name: string;
+  slug: string;
+  industry: string;
+  policies: CompanyBaselinePolicy[];
+}
+
+type CompanyScanState = 'selected' | 'verified' | 'attention' | 'pending' | 'empty';
+type LogLineTone = 'success' | 'warning' | 'error' | 'progress' | 'neutral';
+
+const legacyDashRe = new RegExp(
+  `[${String.fromCodePoint(0x2013)}${String.fromCodePoint(0x2014)}${String.fromCodePoint(0x2212)}]`,
+  'g'
+);
+const legacyMiddleDotRe = new RegExp(String.fromCodePoint(0x00b7), 'g');
+const legacyOkRe = new RegExp(
+  `[${String.fromCodePoint(0x2713)}${String.fromCodePoint(0x2705)}]`,
+  'g'
+);
+const legacyWarningRe = new RegExp(
+  `${String.fromCodePoint(0x26a0)}${String.fromCodePoint(0xfe0f)}?`,
+  'g'
+);
+const legacyErrorRe = new RegExp(
+  `[${String.fromCodePoint(0x2717)}${String.fromCodePoint(0x274c)}]`,
+  'g'
+);
+const legacyBlockedRe = new RegExp(String.fromCodePoint(0x2298), 'g');
+const legacyExternalRe = new RegExp(String.fromCodePoint(0x2197), 'g');
+const legacyCommandRe = new RegExp(String.fromCodePoint(0x2318), 'g');
+
 /* ---------- Helpers ---------- */
 
 function formatTimestamp(iso: string | null | undefined): string {
@@ -67,26 +128,210 @@ function formatTimestamp(iso: string | null | undefined): string {
 function badgeClass(status: string): string {
   const s = status.toLowerCase();
   if (s === 'changed' || s === 'error' || s === 'invalid') return styles.badgeError;
-  if (s === 'unavailable') return styles.badgeWarning;
-  if (s === 'unchanged' || s === 'ok') return styles.badgeSuccess;
+  if (s === 'unavailable' || s === 'partial') return styles.badgeWarning;
+  if (s === 'unchanged' || s === 'ok' || s === 'rebaselined') return styles.badgeSuccess;
   return styles.badgeNeutral;
 }
 
-/* ---------- Log Line Styling ---------- */
-function getLogLineStyle(line: string): React.CSSProperties {
-  if (line.includes('CHANGED') || line.includes('⚠'))
-    return { color: '#f59e0b', fontWeight: 600 };
-  if (line.includes('ERROR') || line.includes('✗') || line.includes('❌'))
-    return { color: '#ef4444', fontWeight: 600 };
-  if (line.includes('unchanged') || line.includes('✓'))
-    return { color: '#64748b' };
-  if (line.includes('unavailable'))
-    return { color: '#f97316' };
-  if (line.includes('✅'))
-    return { color: '#10b981', fontWeight: 700 };
-  if (line.includes('Starting'))
-    return { color: '#6366f1', fontWeight: 600 };
-  return { color: '#94a3b8' };
+function normalizeRuntime(detail: DetailEntry): 'app' | 'vps' | 'archive' | 'none' {
+  if (detail.runtime) return detail.runtime;
+  const source = (detail.source || '').toLowerCase();
+  if (source === 'rendered') return 'vps';
+  if (source === 'wayback' || source === 'commoncrawl' || source === 'cache') return 'archive';
+  if (source === 'direct' || source === 'http2') return 'app';
+  return 'none';
+}
+
+function runtimeLabel(runtime: 'app' | 'vps' | 'archive' | 'none'): string {
+  const labels = {
+    app: 'Hostinger app',
+    vps: 'VPS renderer',
+    archive: 'Archive fallback',
+    none: 'No valid source',
+  };
+  return labels[runtime];
+}
+
+function runtimeClass(runtime: 'app' | 'vps' | 'archive' | 'none'): string {
+  if (runtime === 'vps') return styles.badgePrimary;
+  if (runtime === 'archive') return styles.badgeWarning;
+  if (runtime === 'app') return styles.badgeSuccess;
+  return styles.badgeNeutral;
+}
+
+function defaultTransportLabel(detail: DetailEntry): string {
+  if (detail.transportLabel) return detail.transportLabel;
+  const source = (detail.source || '').toLowerCase();
+  const labels: Record<string, string> = {
+    direct: 'Hostinger direct fetch',
+    http2: 'Hostinger HTTP/2 fetch',
+    rendered: 'VPS renderer',
+    wayback: 'Wayback archive fallback',
+    commoncrawl: 'Common Crawl archive fallback',
+    cache: 'Web cache fallback',
+    none: 'No retrieval source',
+  };
+  return labels[source] || 'Not recorded';
+}
+
+function strategyLabel(source: string): string {
+  const labels: Record<string, string> = {
+    direct: 'Direct',
+    http2: 'HTTP/2',
+    rendered: 'Renderer',
+    wayback: 'Wayback',
+    commoncrawl: 'Common Crawl',
+  };
+  return labels[source] || source || 'Unknown';
+}
+
+function strategyOutcomeClass(status: StrategyDiagnostic['status']): string {
+  if (status === 'ok') return styles.strategyOk;
+  if (status === 'partial') return styles.strategyPartial;
+  if (status === 'skipped') return styles.strategySkipped;
+  if (status === 'rejected') return styles.strategyRejected;
+  return styles.strategyFailed;
+}
+
+function formatStrategyReason(reason?: string): string {
+  if (!reason) return 'No reason recorded';
+  return reason.length > 80 ? `${reason.slice(0, 77)}...` : reason;
+}
+
+function formatEscalation(
+  diagnostic: StrategyDiagnostic,
+  index: number,
+  diagnostics: StrategyDiagnostic[]
+): string {
+  if (diagnostic.status === 'ok') return 'Accepted evidence';
+  if (diagnostic.status === 'partial') return 'Incomplete capture; suspended pending review';
+  const next = diagnostics[index + 1]?.source;
+  if (!next) return 'No further fallback';
+  return `Escalated to ${strategyLabel(next)}`;
+}
+
+const TRANSPORT_LEGEND = [
+  {
+    runtime: 'app' as const,
+    title: 'Hostinger app',
+    body: '[direct] and [http2] run inside the Next.js app process.',
+  },
+  {
+    runtime: 'vps' as const,
+    title: 'VPS renderer',
+    body: '[rendered] calls the external Playwright renderer service.',
+  },
+  {
+    runtime: 'archive' as const,
+    title: 'Archive fallback',
+    body: '[wayback] and [commoncrawl] are archive recovery paths.',
+  },
+  {
+    runtime: 'none' as const,
+    title: 'No valid source',
+    body: 'The configured source could not produce usable policy text.',
+  },
+];
+
+function normalizeCompanyStatus(value?: string | null): string {
+  return (value || 'Configured').toLowerCase();
+}
+
+function companyScanState(company: CompanyBaseline, selectedSlug: string): CompanyScanState {
+  if (selectedSlug && company.slug === selectedSlug) return 'selected';
+  if (company.policies.length === 0) return 'empty';
+
+  const statuses = company.policies.map((policy) => normalizeCompanyStatus(policy.dataStatus));
+  const hasAttention = statuses.some((status) =>
+    ['partial', 'needs review', 'unavailable'].includes(status)
+  );
+  if (hasAttention) return 'attention';
+
+  const hasPending = statuses.some((status) => status === 'configured');
+  if (hasPending) return 'pending';
+
+  return 'verified';
+}
+
+function companyStateLabel(state: CompanyScanState): string {
+  const labels: Record<CompanyScanState, string> = {
+    selected: 'Selected',
+    verified: 'Verified',
+    attention: 'Review',
+    pending: 'Pending',
+    empty: 'No policies',
+  };
+  return labels[state];
+}
+
+/* ---------- Log Line Rendering ---------- */
+function sanitizeLogLine(line: string): string {
+  return line
+    .replace(legacyDashRe, '-')
+    .replace(legacyMiddleDotRe, '/')
+    .replace(legacyOkRe, '[OK]')
+    .replace(legacyWarningRe, '[ATTENTION]')
+    .replace(legacyErrorRe, '[ERROR]')
+    .replace(legacyBlockedRe, '[BLOCKED]')
+    .replace(legacyExternalRe, 'external link')
+    .replace(legacyCommandRe, 'Cmd')
+    .replace(/\s{2,}/g, ' ');
+}
+
+function getLogLineTone(line: string): LogLineTone {
+  const normalized = sanitizeLogLine(line).toLowerCase();
+  if (normalized.includes('error') || normalized.includes('failed')) return 'error';
+  if (
+    normalized.includes('changed') ||
+    normalized.includes('attention') ||
+    normalized.includes('partial') ||
+    normalized.includes('unavailable') ||
+    normalized.includes('temporarily suspended') ||
+    normalized.includes('needs review')
+  ) {
+    return 'warning';
+  }
+  if (
+    normalized.includes('re-baselined') ||
+    normalized.includes('scan complete') ||
+    normalized.includes('[ok]') ||
+    normalized.includes('accepted evidence')
+  ) {
+    return 'success';
+  }
+  if (
+    normalized.includes('starting') ||
+    normalized.includes('scraping') ||
+    normalized.includes('polite delay') ||
+    normalized.includes('initializing')
+  ) {
+    return 'progress';
+  }
+  return 'neutral';
+}
+
+function logToneClass(tone: LogLineTone): string {
+  const classes: Record<LogLineTone, string> = {
+    success: styles.logLineSuccess,
+    warning: styles.logLineWarning,
+    error: styles.logLineError,
+    progress: styles.logLineProgress,
+    neutral: styles.logLineNeutral,
+  };
+  return classes[tone];
+}
+
+function LogLineIcon({ tone }: { tone: LogLineTone }) {
+  if (tone === 'success') {
+    return <IconEvidenceAccepted size={14} color="#10b981" className={styles.logLineIcon} />;
+  }
+  if (tone === 'warning') {
+    return <IconSourceAttention size={14} color="#f59e0b" className={styles.logLineIcon} />;
+  }
+  if (tone === 'error') {
+    return <IconSourceFailed size={14} color="#ef4444" className={styles.logLineIcon} />;
+  }
+  return <IconScanPulse size={14} color="#6366f1" className={styles.logLineIcon} />;
 }
 
 /* ---------- Component ---------- */
@@ -94,8 +339,12 @@ function getLogLineStyle(line: string): React.CSSProperties {
 export default function CronManagerPage() {
   const [status, setStatus] = useState<CronStatus | null>(null);
   const [loading, setLoading] = useState(true);
+  const [companyBaseline, setCompanyBaseline] = useState<CompanyBaseline[]>([]);
+  const [baselineLoading, setBaselineLoading] = useState(true);
   const [triggering, setTriggering] = useState(false);
   const [alertMsg, setAlertMsg] = useState('');
+  const [batchLimit, setBatchLimit] = useState('5');
+  const [companySlug, setCompanySlug] = useState('');
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const logEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -119,12 +368,28 @@ export default function CronManagerPage() {
     }
   }, []);
 
+  const fetchCompanyBaseline = useCallback(async () => {
+    setBaselineLoading(true);
+    try {
+      const res = await fetch('/api/admin/companies', {
+        credentials: 'include',
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      setCompanyBaseline(data.companies || []);
+    } catch {
+      // Keep scan controls usable even if the registry preview cannot load.
+    } finally {
+      setBaselineLoading(false);
+    }
+  }, []);
+
   /* Initial fetch on mount */
   useEffect(() => {
     let cancelled = false;
 
     async function init() {
-      await fetchStatus();
+      await Promise.all([fetchStatus(), fetchCompanyBaseline()]);
       if (!cancelled) setLoading(false);
     }
 
@@ -136,7 +401,7 @@ export default function CronManagerPage() {
         pollingRef.current = null;
       }
     };
-  }, [fetchStatus]);
+  }, [fetchStatus, fetchCompanyBaseline]);
 
   /* Auto-scroll log to bottom */
   useEffect(() => {
@@ -160,6 +425,13 @@ export default function CronManagerPage() {
       const res = await fetch('/api/admin/cron-status', {
         method: 'POST',
         credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          limit: batchLimit.trim() ? Number(batchLimit) : undefined,
+          companySlug: companySlug.trim() || undefined,
+        }),
       });
 
       if (res.status === 409) {
@@ -186,6 +458,11 @@ export default function CronManagerPage() {
 
   /* ---------- Render ---------- */
 
+  const sortedCompanyBaseline = useMemo(
+    () => [...companyBaseline].sort((a, b) => a.name.localeCompare(b.name)),
+    [companyBaseline]
+  );
+
   if (loading) {
     return (
       <div className={styles.loadingScreen}>
@@ -202,6 +479,13 @@ export default function CronManagerPage() {
   const progressLog = status?.progressLog ?? [];
   const progressActivity = status?.progressActivity ?? '';
   const progressPercent = progressTotal > 0 ? Math.round((progressCurrent / progressTotal) * 100) : 0;
+  const runtimeCounts = details.reduce<Record<'app' | 'vps' | 'archive' | 'none', number>>(
+    (acc, detail) => {
+      acc[normalizeRuntime(detail)] += 1;
+      return acc;
+    },
+    { app: 0, vps: 0, archive: 0, none: 0 }
+  );
 
   return (
     <div>
@@ -209,7 +493,7 @@ export default function CronManagerPage() {
       <div className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>Cron Manager</h1>
         <p className={styles.pageSubtitle}>
-          Monitor and trigger policy scans
+          Monitor and trigger policy scans. Limited batches process the least-recently checked sources first.
         </p>
       </div>
 
@@ -303,8 +587,131 @@ export default function CronManagerPage() {
         )}
       </div>
 
-      {/* Run Full Scan Button */}
-      <div style={{ marginBottom: 24, maxWidth: 280 }}>
+      {/* Run Scan Controls */}
+      <div className={styles.card}>
+        <h2 className={styles.cardTitle}>
+          <Play size={16} />
+          Scan Batch Controls
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12, marginBottom: 16 }}>
+          <label style={{ display: 'grid', gap: 6 }}>
+            <span className={styles.statusLabel}>Batch limit</span>
+            <input
+              className={styles.input}
+              type="number"
+              min="1"
+              max="50"
+              value={batchLimit}
+              onChange={(event) => setBatchLimit(event.target.value)}
+              placeholder="5"
+            />
+          </label>
+          <label style={{ display: 'grid', gap: 6 }}>
+            <span className={styles.statusLabel}>Company slug</span>
+            <input
+              className={styles.input}
+              value={companySlug}
+              onChange={(event) => setCompanySlug(event.target.value)}
+              placeholder="optional, e.g. stripe"
+            />
+          </label>
+        </div>
+
+        <div className={styles.targetRegistryPanel}>
+          <div className={styles.targetRegistryHeader}>
+            <div className={styles.targetRegistryTitle}>
+              <Building2 size={16} />
+              <div>
+                <span className={styles.statusLabel}>Company baseline</span>
+                <p className={styles.metaText}>
+                  Batch logic: with limit 5, each run picks the 5 least-recently checked matching policies.
+                  Select a company for a targeted scan, or leave the target empty to advance across the whole inventory.
+                </p>
+              </div>
+            </div>
+            <a
+              className={`${styles.btn} ${styles.btnSecondary} ${styles.btnInline} ${styles.targetRegistryAction}`}
+              href="/admin/companies"
+            >
+              <Plus size={14} />
+              Add company or policy
+            </a>
+          </div>
+
+          {baselineLoading ? (
+            <p className={styles.targetRegistryEmpty}>Loading company baseline...</p>
+          ) : (
+            <div className={styles.companyTargetGrid}>
+              <button
+                type="button"
+                className={`${styles.companyTargetCard} ${
+                  !companySlug ? styles.companyTargetSelected : ''
+                }`}
+                onClick={() => setCompanySlug('')}
+                disabled={triggering || isRunning}
+              >
+                <span
+                  className={`${styles.companyTargetDiamond} ${styles.companyTargetDiamondSelected}`}
+                />
+                <span className={styles.companyTargetName}>All companies</span>
+                <span className={styles.companyTargetMeta}>
+                  {sortedCompanyBaseline.length} companies in inventory
+                </span>
+              </button>
+
+              {sortedCompanyBaseline.map((company) => {
+                const state = companyScanState(company, companySlug);
+                const verifiedCount = company.policies.filter((policy) =>
+                  ['available', 'reviewed'].includes(normalizeCompanyStatus(policy.dataStatus))
+                ).length;
+                const attentionCount = company.policies.filter((policy) =>
+                  ['partial', 'needs review', 'unavailable'].includes(
+                    normalizeCompanyStatus(policy.dataStatus)
+                  )
+                ).length;
+
+                return (
+                  <button
+                    key={company.id}
+                    type="button"
+                    className={`${styles.companyTargetCard} ${
+                      state === 'selected' ? styles.companyTargetSelected : ''
+                    }`}
+                    onClick={() => setCompanySlug(company.slug)}
+                    disabled={triggering || isRunning}
+                    title={`${company.name}: ${company.policies.length} monitored policies`}
+                  >
+                    <span
+                      className={`${styles.companyTargetDiamond} ${
+                        styles[`companyTargetDiamond_${state}`]
+                      }`}
+                    />
+                    <span className={styles.companyTargetName}>{company.name}</span>
+                    <span className={styles.companyTargetMeta}>
+                      {company.slug} / {company.policies.length} policies / {companyStateLabel(state)}
+                    </span>
+                    {attentionCount > 0 && (
+                      <span className={`${styles.badge} ${styles.badgeWarning}`}>
+                        {attentionCount} review
+                      </span>
+                    )}
+                    {attentionCount === 0 && verifiedCount > 0 && state !== 'pending' && (
+                      <span className={`${styles.badge} ${styles.badgeSuccess}`}>
+                        {verifiedCount} verified
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          <p className={styles.targetRegistryFootnote}>
+            New companies are added in Company Registry with official policy URLs first. Cron scans then
+            establish the first verified baseline; records without verified evidence remain non-public.
+          </p>
+        </div>
+
         <button
           className={`${styles.btn} ${styles.btnPrimary}`}
           onClick={handleRunScan}
@@ -323,7 +730,7 @@ export default function CronManagerPage() {
           ) : (
             <>
               <Play size={16} />
-              Run Full Scan
+              Run Scan Batch
             </>
           )}
         </button>
@@ -347,6 +754,17 @@ export default function CronManagerPage() {
             )}
           </h2>
 
+          <div className={styles.cronTransportLegend}>
+            {TRANSPORT_LEGEND.map((item) => (
+              <div key={item.runtime} className={styles.cronTransportCard}>
+                <span className={`${styles.badge} ${runtimeClass(item.runtime)}`}>
+                  {item.title}
+                </span>
+                <p>{item.body}</p>
+              </div>
+            ))}
+          </div>
+
           {/* Log console */}
           <div style={{
             background: '#0a0e1a',
@@ -359,29 +777,28 @@ export default function CronManagerPage() {
             lineHeight: 1.8,
             border: '1px solid rgba(99, 102, 241, 0.15)',
           }}>
-            {progressLog.map((line, i) => (
-              <div key={i} style={getLogLineStyle(line)}>
-                <span style={{ color: '#475569', marginRight: 8, userSelect: 'none' }}>
+            {progressLog.map((line, i) => {
+              const sanitizedLine = sanitizeLogLine(line);
+              const tone = getLogLineTone(sanitizedLine);
+              return (
+              <div key={i} className={`${styles.logLine} ${logToneClass(tone)}`}>
+                <span style={{ color: '#475569', userSelect: 'none' }}>
                   {String(i + 1).padStart(3, ' ')}
                 </span>
-                {line}
+                <LogLineIcon tone={tone} />
+                <span>{sanitizedLine}</span>
               </div>
-            ))}
+              );
+            })}
 
             {/* Current activity (blinking) */}
             {isRunning && progressActivity && (
-              <div style={{
-                color: '#6366f1',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-                marginTop: 2,
-              }}>
-                <span style={{ color: '#475569', marginRight: 8, userSelect: 'none' }}>
+              <div className={`${styles.logLine} ${styles.logLineProgress}`}>
+                <span style={{ color: '#475569', userSelect: 'none' }}>
                   {String(progressLog.length + 1).padStart(3, ' ')}
                 </span>
-                <Loader size={11} style={{ animation: 'spin 1s linear infinite' }} />
-                {progressActivity}
+                <IconScanPulse size={14} color="#6366f1" className={`${styles.logLineIcon} ${styles.logLineIconSpin}`} />
+                <span>{sanitizeLogLine(progressActivity)}</span>
               </div>
             )}
 
@@ -414,6 +831,18 @@ export default function CronManagerPage() {
             </div>
             <div className={styles.statBox}>
               <div className={styles.statValue}>
+                {lastResult.rebaselined ?? 0}
+              </div>
+              <div className={styles.statLabel}>Re-baselined</div>
+            </div>
+            <div className={styles.statBox}>
+              <div className={styles.statValue}>
+                {lastResult.partial ?? 0}
+              </div>
+              <div className={styles.statLabel}>Partial</div>
+            </div>
+            <div className={styles.statBox}>
+              <div className={styles.statValue}>
                 {lastResult.errors ?? 0}
               </div>
               <div className={styles.statLabel}>Errors</div>
@@ -432,6 +861,15 @@ export default function CronManagerPage() {
             </div>
           </div>
 
+          <div className={styles.cronRuntimeGrid}>
+            {TRANSPORT_LEGEND.map((item) => (
+              <div key={item.runtime} className={styles.serviceMetric}>
+                <span>{item.title}</span>
+                <strong>{runtimeCounts[item.runtime]}</strong>
+              </div>
+            ))}
+          </div>
+
           {/* Details Table */}
           {details.length > 0 && (
             <div className={styles.tableWrap}>
@@ -441,22 +879,66 @@ export default function CronManagerPage() {
                     <th>Company</th>
                     <th>Policy</th>
                     <th>Status</th>
+                    <th>Runtime</th>
+                    <th>Retrieval path</th>
+                    <th>Strategy evidence</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {details.map((d, i) => (
-                    <tr key={`${d.company}-${d.policy}-${i}`}>
-                      <td>{d.company}</td>
-                      <td>{d.policy}</td>
-                      <td>
-                        <span
-                          className={`${styles.badge} ${badgeClass(d.status)}`}
-                        >
-                          {d.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                  {details.map((d, i) => {
+                    const runtime = normalizeRuntime(d);
+                    return (
+                      <tr key={`${d.company}-${d.policy}-${i}`}>
+                        <td>{d.company}</td>
+                        <td>{d.policy}</td>
+                        <td>
+                          <span
+                            className={`${styles.badge} ${badgeClass(d.status)}`}
+                          >
+                            {d.status}
+                          </span>
+                        </td>
+                        <td>
+                          <span className={`${styles.badge} ${runtimeClass(runtime)}`}>
+                            {runtimeLabel(runtime)}
+                          </span>
+                        </td>
+                        <td>{defaultTransportLabel(d)}</td>
+                        <td>
+                          {d.diagnostics?.length ? (
+                            <div className={styles.strategyStack}>
+                              {d.diagnostics.map((diagnostic, diagnosticIndex) => (
+                                <div
+                                  key={`${d.company}-${d.policy}-${diagnostic.source}-${diagnosticIndex}`}
+                                  className={styles.strategyItem}
+                                >
+                                  <div className={styles.strategyHead}>
+                                    <span className={styles.strategyName}>
+                                      {diagnosticIndex + 1}/5 {strategyLabel(diagnostic.source)}
+                                    </span>
+                                    <span className={`${styles.strategyOutcome} ${strategyOutcomeClass(diagnostic.status)}`}>
+                                      {diagnostic.status}
+                                    </span>
+                                  </div>
+                                  <div className={styles.strategyReason}>
+                                    {typeof diagnostic.httpStatus === 'number' && diagnostic.httpStatus > 0
+                                      ? `HTTP ${diagnostic.httpStatus} / `
+                                      : ''}
+                                    {formatStrategyReason(diagnostic.reason)}
+                                  </div>
+                                  <div className={styles.strategyEscalation}>
+                                    {formatEscalation(diagnostic, diagnosticIndex, d.diagnostics || [])}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <span className={styles.metaText}>No strategy diagnostics recorded.</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -482,7 +964,7 @@ export default function CronManagerPage() {
       {!lastResult && !isRunning && (
         <div className={styles.card}>
           <p className={styles.emptyState}>
-            No scan results yet. Click &quot;Run Full Scan&quot; to start.
+            No scan results yet. Click &quot;Run Scan Batch&quot; to start.
           </p>
         </div>
       )}

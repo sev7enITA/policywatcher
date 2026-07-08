@@ -12,8 +12,24 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { validateCredentials, setSessionCookie, clearSessionCookie } from '@/lib/adminAuth';
+import {
+  hasSessionSigningSecret,
+  validateCredentials,
+  setSessionCookie,
+  clearSessionCookie,
+} from '@/lib/adminAuth';
 import { rateLimit } from '@/lib/rateLimit';
+import { AdminAccessEvent, recordAdminAccess } from '@/lib/adminAccessLog';
+
+function trackAccess(input: {
+  event: AdminAccessEvent;
+  request: NextRequest;
+  username?: string;
+  actorRole?: string;
+  detail?: string;
+}) {
+  void recordAdminAccess(input);
+}
 
 /**
  * Authenticates admin/auditor credentials and sets a signed session cookie.
@@ -29,6 +45,12 @@ export async function POST(request: NextRequest) {
     const { username, password } = body;
 
     if (!username || !password) {
+      trackAccess({
+        event: 'login_failed',
+        request,
+        username: typeof username === 'string' ? username : undefined,
+        detail: 'missing_username_or_password',
+      });
       return NextResponse.json(
         { error: 'Username and password are required.' },
         { status: 400 }
@@ -40,13 +62,39 @@ export async function POST(request: NextRequest) {
       // Intentional delay on failed login to slow down brute force attempts
       await new Promise(resolve => setTimeout(resolve, 1000));
       console.warn(`[Admin Auth] Failed login attempt for username: "${username}"`);
+      trackAccess({
+        event: 'login_failed',
+        request,
+        username,
+        detail: 'invalid_credentials',
+      });
       return NextResponse.json(
         { error: 'Invalid credentials.' },
         { status: 401 }
       );
     }
 
+    if (!hasSessionSigningSecret()) {
+      trackAccess({
+        event: 'config_error',
+        request,
+        username,
+        actorRole: role,
+        detail: 'SESSION_HMAC_SECRET_missing',
+      });
+      return NextResponse.json(
+        { error: 'Admin session signing is not configured. Set SESSION_HMAC_SECRET and redeploy.' },
+        { status: 503 }
+      );
+    }
+
     console.log(`[Admin Auth] Successful login: ${username} (role: ${role})`);
+    trackAccess({
+      event: 'login_success',
+      request,
+      username,
+      actorRole: role,
+    });
     const response = NextResponse.json({ success: true, role });
     return setSessionCookie(response, role);
   } catch {
@@ -60,7 +108,12 @@ export async function POST(request: NextRequest) {
 /**
  * Clears the admin session cookie (logout).
  */
-export async function DELETE() {
+export async function DELETE(request: NextRequest) {
+  trackAccess({
+    event: 'logout',
+    request,
+    detail: 'logout_requested',
+  });
   const response = NextResponse.json({ success: true });
   return clearSessionCookie(response);
 }
