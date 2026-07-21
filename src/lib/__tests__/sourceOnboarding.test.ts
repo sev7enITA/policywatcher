@@ -110,6 +110,22 @@ describe('source onboarding state machine', () => {
       terminal: false,
     });
   });
+
+  it('keeps an empty batch active instead of reporting a false all-items failure', () => {
+    expect(summarizeSourceOnboardingBatch([])).toEqual({
+      totalItems: 0,
+      successfulItems: 0,
+      failedItems: 0,
+      status: 'Active',
+      terminal: false,
+    });
+  });
+
+  it('distinguishes all-failed, partial, and completed terminal batches', () => {
+    expect(summarizeSourceOnboardingBatch(['Failed', 'Failed']).status).toBe('Failed');
+    expect(summarizeSourceOnboardingBatch(['Failed', 'Proposed']).status).toBe('Partial');
+    expect(summarizeSourceOnboardingBatch(['Published', 'Held', 'Rejected']).status).toBe('Completed');
+  });
 });
 
 describe('source onboarding QA and publication', () => {

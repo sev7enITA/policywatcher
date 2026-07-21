@@ -1,5 +1,21 @@
 # Changelog
 
+## 3.6.5 - 2026-07-21
+
+### Fixed
+- Centralized source-onboarding batch summaries so empty, partial, completed, and all-failed batches use one tested status invariant across import and workflow refresh paths.
+- Included `Held` in the shared active-workflow stages as defense in depth, while retaining the existing approved-candidate and configured-policy duplicate guards.
+- Deferred orientation viewport evaluation until mobile browsers publish their new dimensions, coalesced repeated events, and cancelled pending work during component cleanup.
+- Contained animated ticker tracks at the root viewport so the dashboard no longer creates document-level horizontal scrolling on narrow mobile screens.
+
+### Changed
+- Centralized current release metadata for the dashboard, footer, Trust Center, admin surfaces, methodology disclaimer, and encrypted export payload.
+- Added a current 3.6.5 stability lane to the public roadmap and retained 3.6.3/3.6.4 as delivered release history.
+
+### Verification
+- Added regression coverage for held-stage queries, empty and mixed batch summaries, deferred viewport evaluation, cleanup cancellation, and package-to-UI version consistency.
+- No database migration is required; release 3.6.5 changes application logic, presentation containment, and tests only.
+
 ## 3.6.4 - 2026-07-21
 
 ### Fixed

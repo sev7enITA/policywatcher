@@ -1,14 +1,7 @@
 import type { Prisma } from '@prisma/client';
+import { ACTIVE_SOURCE_ONBOARDING_STAGES } from './sourceOnboarding';
 
 type CandidateClient = Pick<Prisma.TransactionClient, 'policyDiscoveryCandidate' | 'adminReviewLog'>;
-
-const ACTIVE_ONBOARDING_STAGES = [
-  'Proposed',
-  'OfficialReview',
-  'BaselinePending',
-  'QaReview',
-  'Ready',
-] as const;
 
 export interface BulkCandidateInput {
   companyId: string;
@@ -46,7 +39,7 @@ export async function resolveBulkOnboardingCandidate(client: CandidateClient, in
     where,
     include: {
       sourceOnboardingItems: {
-        where: { stage: { in: [...ACTIVE_ONBOARDING_STAGES] } },
+        where: { stage: { in: [...ACTIVE_SOURCE_ONBOARDING_STAGES] } },
         select: { id: true },
         take: 1,
       },

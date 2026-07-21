@@ -16,6 +16,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import Footer from '@/components/Footer';
+import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';
 import styles from './trust.module.css';
 
 export const metadata: Metadata = {
@@ -258,7 +259,7 @@ export default function TrustPage() {
             <ArrowLeft size={16} />
             Back to dashboard
           </Link>
-          <div className={styles.releaseMark}>3.6.4 Audit Fixes</div>
+          <div className={styles.releaseMark}>{POLICYWATCHER_BUILD_LABEL}</div>
         </div>
       </header>
 

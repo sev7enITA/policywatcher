@@ -51,8 +51,18 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                 <div className={styles.featureList}>
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>Audit Reliability Fixes (v3.6.4)</span>
+                      <span className={styles.featureName}>Stability Release (v3.6.5)</span>
                       <span className={styles.badgeActive}>Current</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      Onboarding batch status now comes from one tested invariant, empty batches remain active, and held workflows are included in duplicate-prevention queries. Orientation changes use a deferred, cancellable viewport evaluation, animated dashboard tracks cannot enlarge the mobile root scroll area, and visible build metadata comes from one release source.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Audit Reliability Fixes (v3.6.4)</span>
+                      <span className={styles.badgeStable}>Stable</span>
                     </div>
                     <p className={styles.featureDesc}>
                       Discovery jobs now persist in the database with atomic run claims, malformed admin requests return controlled validation errors, and onboarding batches reopen correctly when publication evidence fails revalidation. Bulk intake safely reuses proposed candidates and audit-logs rejected-candidate reopening. The landing page no longer listens continuously to motion sensors, and Observatory countdowns compare UTC calendar dates.

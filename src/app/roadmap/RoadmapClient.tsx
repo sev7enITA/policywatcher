@@ -246,6 +246,13 @@ const releaseLanes = [
     title: 'Audit Reliability Fixes',
     body:
       'Persistent discovery jobs, atomic run claims, safe request parsing, audited candidate reopening, synchronized QA rollback, sensor-free mobile context, and UTC countdown correctness.',
+    state: 'delivered',
+  },
+  {
+    label: '3.6.5',
+    title: 'Stability Release',
+    body:
+      'Centralized onboarding batch invariants, held-workflow defense in depth, deferred orientation evaluation with cleanup, root mobile overflow containment, and single-source release metadata.',
     state: 'current',
   },
   {

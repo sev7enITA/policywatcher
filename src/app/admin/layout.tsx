@@ -35,6 +35,7 @@ import {
 import styles from './admin.module.css';
 import { AdminPageGuide } from '@/components/admin/AdminPageGuide';
 import { getAdminGuide } from '@/lib/adminGuides';
+import { POLICYWATCHER_VERSION } from '@/lib/release';
 
 type Role = 'admin' | 'auditor';
 
@@ -139,7 +140,7 @@ function AdminNavigationContents({
           <div>
             <div className={styles.logoText}>PolicyWatcher</div>
             <div className={styles.logoTextSub}>
-              Admin Panel <span className={styles.logoVersion}>v3.6.4</span>
+              Admin Panel <span className={styles.logoVersion}>v{POLICYWATCHER_VERSION}</span>
             </div>
           </div>
         </div>

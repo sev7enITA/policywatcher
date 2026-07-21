@@ -78,6 +78,9 @@
 
 html {
   scroll-behavior: smooth;
+  /* Animated dashboard tracks must not enlarge the root scroll area. */
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {

@@ -4,6 +4,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { BarChart3, CheckCircle, AlertTriangle, Search } from 'lucide-react';
 import styles from '../admin.module.css';
+import { POLICYWATCHER_VERSION } from '@/lib/release';
 
 interface KpiMatrixRow {
   companyName: string;
@@ -320,7 +321,7 @@ function KpiDashboardInner({
           </p>
         </div>
         <span className={styles.logoVersion} style={{ fontSize: '0.78rem', padding: '4px 10px', borderRadius: '8px' }}>
-          Confidence v3.6.4
+          Confidence v{POLICYWATCHER_VERSION}
         </span>
       </div>
 
