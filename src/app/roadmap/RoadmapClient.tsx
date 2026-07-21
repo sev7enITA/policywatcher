@@ -239,6 +239,13 @@ const releaseLanes = [
     title: 'Guided Evidence Workflows',
     body:
       'First-use objective composer built from registered evidence modules, plus durable five-stage bulk source onboarding with private baselines, QA review, and explicit publication decisions.',
+    state: 'delivered',
+  },
+  {
+    label: '3.6.4',
+    title: 'Audit Reliability Fixes',
+    body:
+      'Persistent discovery jobs, atomic run claims, safe request parsing, audited candidate reopening, synchronized QA rollback, sensor-free mobile context, and UTC countdown correctness.',
     state: 'current',
   },
   {

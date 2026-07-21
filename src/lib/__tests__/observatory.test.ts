@@ -1,5 +1,16 @@
 import { describe, expect, it } from 'vitest';
-import { buildObservatoryIcs, type ObservatoryEvent } from '../observatory';
+import { buildObservatoryIcs, getObservatoryCountdown, type ObservatoryEvent } from '../observatory';
+
+describe('getObservatoryCountdown', () => {
+  it('compares UTC calendar days instead of elapsed 24-hour periods', () => {
+    const now = new Date('2026-07-21T23:55:00Z');
+
+    expect(getObservatoryCountdown(new Date('2026-07-21T23:59:00Z'), now)).toBe('Today');
+    expect(getObservatoryCountdown(new Date('2026-07-22T00:01:00Z'), now)).toBe('Tomorrow');
+    expect(getObservatoryCountdown(new Date('2026-07-23T12:00:00Z'), now)).toBe('D-2');
+    expect(getObservatoryCountdown(new Date('2026-07-20T23:59:00Z'), now)).toBe('Review due');
+  });
+});
 
 describe('buildObservatoryIcs', () => {
   it('escapes calendar text fields so event content cannot inject ICS properties', () => {

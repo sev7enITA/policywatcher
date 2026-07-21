@@ -320,7 +320,7 @@ function KpiDashboardInner({
           </p>
         </div>
         <span className={styles.logoVersion} style={{ fontSize: '0.78rem', padding: '4px 10px', borderRadius: '8px' }}>
-          Confidence v3.6.3
+          Confidence v3.6.4
         </span>
       </div>
 

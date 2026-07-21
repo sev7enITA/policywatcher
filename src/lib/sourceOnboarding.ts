@@ -398,6 +398,27 @@ export function canPublishSourceOnboardingItem(input: { stage: string; qaStatus:
   return (input.stage === 'Ready' || input.stage === 'Held') && input.qaStatus === 'Pass';
 }
 
+export function summarizeSourceOnboardingBatch(stages: string[]) {
+  const terminalStages = new Set(['Published', 'Held', 'Rejected', 'Failed']);
+  const failedItems = stages.filter((stage) => stage === 'Failed').length;
+  const terminal = stages.length > 0 && stages.every((stage) => terminalStages.has(stage));
+  const status = failedItems === stages.length
+    ? 'Failed'
+    : terminal && failedItems === 0
+      ? 'Completed'
+      : failedItems > 0
+        ? 'Partial'
+        : 'Active';
+
+  return {
+    totalItems: stages.length,
+    successfulItems: stages.length - failedItems,
+    failedItems,
+    status,
+    terminal,
+  };
+}
+
 export function summarizeSourceOnboardingPipeline(
   items: Array<{ stage: string; policyId?: string | null }>
 ): SourceOnboardingPipelineSummary {

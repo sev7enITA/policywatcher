@@ -1,5 +1,20 @@
 # Changelog
 
+## 3.6.4 - 2026-07-21
+
+### Fixed
+- Persisted policy-discovery job state in SQLite with atomic run claims, stale-job recovery, and run-token guarded completion so polling remains correct across process restarts and future multi-instance deployments.
+- Returned controlled `400` responses for malformed or non-object discovery mutation bodies instead of leaking parser failures as `500` errors.
+- Reconciled source-onboarding batch status and `completedAt` inside the QA revalidation failure transaction when evidence returns from `Ready` or `Held` to `QaReview`.
+- Reused existing proposed discovery candidates during bulk onboarding and reopened rejected candidates only with an explicit append-only review-log event; approved or already-active candidates remain protected from duplication.
+- Removed the continuous landing-page device-motion listener and retained responsive on-the-go suggestions through viewport, pointer, and orientation context.
+- Calculated Observatory countdowns from UTC calendar dates so same-day, tomorrow, and multi-day labels do not drift with time-of-day.
+
+### Verification
+- Added regression coverage for job persistence and concurrency, request parsing, batch reopening, candidate reconciliation, mobile sensor removal, and UTC countdown boundaries.
+- Prisma migration `20260721120000_policy_discovery_job` adds durable discovery job storage without modifying policy evidence or public visibility.
+- Dependency audit remains clean at `npm audit --audit-level=high`.
+
 ## 3.6.3 - 2026-07-10
 
 ### Added

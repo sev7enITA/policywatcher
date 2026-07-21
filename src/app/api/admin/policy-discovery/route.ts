@@ -3,27 +3,18 @@ import { getSession } from '@/lib/adminAuth';
 import { createConfiguredPolicy } from '@/lib/configuredPolicy';
 import { db } from '@/lib/db';
 import { discoverPolicySources } from '@/lib/policyDiscovery';
+import {
+  claimDiscoveryJob,
+  completeDiscoveryJob,
+  failDiscoveryJob,
+  readDiscoveryJob,
+} from '@/lib/policyDiscoveryJobs';
+import { readJsonObject } from '@/lib/requestBody';
 import { getErrorMessage } from '@/lib/safeErrors';
 
 // Discovery can legitimately take a few minutes when the fallback retrieval
 // layers are needed. Hosts that enforce route limits can use this hint.
 export const maxDuration = 300;
-
-interface DiscoveryJobState {
-  status: 'running' | 'completed' | 'failed';
-  startedAt: string;
-  completedAt: string | null;
-  candidateCount: number;
-  error: string | null;
-}
-
-const globalDiscovery = globalThis as typeof globalThis & {
-  policyDiscoveryJobs?: Map<string, DiscoveryJobState>;
-};
-
-const discoveryJobs =
-  globalDiscovery.policyDiscoveryJobs || new Map<string, DiscoveryJobState>();
-globalDiscovery.policyDiscoveryJobs = discoveryJobs;
 
 function validateCompanyWebsite(rawUrl: string): boolean {
   try {
@@ -33,7 +24,10 @@ function validateCompanyWebsite(rawUrl: string): boolean {
   }
 }
 
-async function runDiscoveryJob(company: { id: string; name: string; website: string }) {
+async function runDiscoveryJob(
+  company: { id: string; name: string; website: string },
+  runToken: string
+) {
   try {
     const results = await discoverPolicySources(company);
     const existingPolicies = await db.policy.findMany({
@@ -83,22 +77,10 @@ async function runDiscoveryJob(company: { id: string; name: string; website: str
       candidateCount++;
     }
 
-    discoveryJobs.set(company.id, {
-      status: 'completed',
-      startedAt: discoveryJobs.get(company.id)?.startedAt || new Date().toISOString(),
-      completedAt: new Date().toISOString(),
-      candidateCount,
-      error: null,
-    });
+    await completeDiscoveryJob(db, company.id, runToken, candidateCount);
   } catch (error) {
     console.error(`[Policy Discovery] ${company.name}:`, error);
-    discoveryJobs.set(company.id, {
-      status: 'failed',
-      startedAt: discoveryJobs.get(company.id)?.startedAt || new Date().toISOString(),
-      completedAt: new Date().toISOString(),
-      candidateCount: 0,
-      error: getErrorMessage(error),
-    });
+    await failDiscoveryJob(db, company.id, runToken, getErrorMessage(error));
   }
 }
 
@@ -114,11 +96,15 @@ export async function GET(request: NextRequest) {
   }
 
   let candidates;
+  let job;
   try {
-    candidates = await db.policyDiscoveryCandidate.findMany({
-      where: { companyId },
-      orderBy: [{ status: 'asc' }, { confidence: 'desc' }, { createdAt: 'desc' }],
-    });
+    [candidates, job] = await Promise.all([
+      db.policyDiscoveryCandidate.findMany({
+        where: { companyId },
+        orderBy: [{ status: 'asc' }, { confidence: 'desc' }, { createdAt: 'desc' }],
+      }),
+      readDiscoveryJob(db, companyId),
+    ]);
   } catch (error) {
     console.error('[Policy Discovery] Unable to read discovery storage:', error);
     return NextResponse.json(
@@ -131,7 +117,7 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json({
     candidates,
-    job: discoveryJobs.get(companyId) || null,
+    job,
     role: session.role,
   });
 }
@@ -142,15 +128,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
   }
 
-  const body = await request.json();
-  const companyId = typeof body.companyId === 'string' ? body.companyId.trim() : '';
+  const body = await readJsonObject(request);
+  const companyId = typeof body?.companyId === 'string' ? body.companyId.trim() : '';
   if (!companyId) {
     return NextResponse.json({ error: 'companyId is required.' }, { status: 400 });
-  }
-
-  const currentJob = discoveryJobs.get(companyId);
-  if (currentJob?.status === 'running') {
-    return NextResponse.json({ error: 'Discovery is already running.', job: currentJob }, { status: 409 });
   }
 
   const company = await db.company.findUnique({
@@ -165,7 +146,10 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    await db.policyDiscoveryCandidate.count({ where: { companyId: company.id } });
+    await Promise.all([
+      db.policyDiscoveryCandidate.count({ where: { companyId: company.id } }),
+      db.policyDiscoveryJob.count({ where: { companyId: company.id } }),
+    ]);
   } catch (error) {
     console.error('[Policy Discovery] Storage readiness check failed:', error);
     return NextResponse.json(
@@ -176,23 +160,22 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const state: DiscoveryJobState = {
-    status: 'running',
-    startedAt: new Date().toISOString(),
-    completedAt: null,
-    candidateCount: 0,
-    error: null,
-  };
-  discoveryJobs.set(company.id, state);
+  const claimed = await claimDiscoveryJob(db, company.id);
+  if (!claimed.claimed) {
+    return NextResponse.json(
+      { error: 'Discovery is already running.', job: claimed.job },
+      { status: 409 }
+    );
+  }
 
   // Keep the discovery work attached to the request lifecycle. A detached
   // promise can be discarded by managed Node hosting as soon as the 202
   // response is sent, which left new companies permanently without results.
   after(async () => {
-    await runDiscoveryJob(company);
+    await runDiscoveryJob(company, claimed.runToken);
   });
 
-  return NextResponse.json({ success: true, job: state }, { status: 202 });
+  return NextResponse.json({ success: true, job: claimed.job }, { status: 202 });
 }
 
 export async function PATCH(request: NextRequest) {
@@ -202,9 +185,9 @@ export async function PATCH(request: NextRequest) {
   }
   const actorRole = session.role || 'admin';
 
-  const body = await request.json();
-  const candidateId = typeof body.candidateId === 'string' ? body.candidateId.trim() : '';
-  const decision = body.decision === 'approve' || body.decision === 'reject'
+  const body = await readJsonObject(request);
+  const candidateId = typeof body?.candidateId === 'string' ? body.candidateId.trim() : '';
+  const decision = body?.decision === 'approve' || body?.decision === 'reject'
     ? body.decision
     : null;
   if (!candidateId || !decision) {

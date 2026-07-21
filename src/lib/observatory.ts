@@ -49,6 +49,21 @@ export interface ObservatoryEvent {
   };
 }
 
+export function getObservatoryCountdown(targetDate: Date, now: Date) {
+  const targetUtc = Date.UTC(
+    targetDate.getUTCFullYear(),
+    targetDate.getUTCMonth(),
+    targetDate.getUTCDate()
+  );
+  const nowUtc = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  const days = Math.round((targetUtc - nowUtc) / 86_400_000);
+
+  if (days > 1) return `D-${days}`;
+  if (days === 1) return 'Tomorrow';
+  if (days === 0) return 'Today';
+  return 'Review due';
+}
+
 export interface DashboardNotice {
   id: string;
   label: LocalizedText;

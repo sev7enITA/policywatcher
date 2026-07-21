@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import {
   buildObservatoryIcs,
+  getObservatoryCountdown,
   getObservatorySource,
   type ObservatoryContentType,
   type ObservatoryEvent,
@@ -154,16 +155,6 @@ function formatBoardDate(date: Date) {
   }).format(date);
 }
 
-function countdownForDate(targetDate: Date, now: Date) {
-  const target = targetDate.getTime();
-  const days = Math.ceil((target - now.getTime()) / 86_400_000);
-
-  if (days > 1) return `D-${days}`;
-  if (days === 1) return 'Tomorrow';
-  if (days === 0) return 'Today';
-  return 'Review due';
-}
-
 function buildWatchItems(now: Date): WatchItem[] {
   const signalItems = observatorySignals.map((signal): WatchItem => {
     const source = getObservatorySource(signal.sourceId);
@@ -181,7 +172,7 @@ function buildWatchItems(now: Date): WatchItem[] {
       cadence: source?.reviewCadence[locale] ?? 'Manual review',
       dateLabel: formatBoardDate(reviewDate),
       timeLabel: reviewWindow?.timeLabel ?? signal.dateLabel[locale],
-      countdown: countdownForDate(reviewDate, now),
+      countdown: getObservatoryCountdown(reviewDate, now),
       urgency: signal.priority,
       deadlineAt: reviewDate.getTime(),
     };
@@ -202,7 +193,7 @@ function buildWatchItems(now: Date): WatchItem[] {
       cadence: source?.reviewCadence[locale] ?? 'Calendar review',
       dateLabel: event.dateLabel[locale],
       timeLabel: event.timeLabel[locale],
-      countdown: countdownForDate(eventDate, now),
+      countdown: getObservatoryCountdown(eventDate, now),
       urgency: 'scheduled',
       deadlineAt: eventDate.getTime(),
       event,

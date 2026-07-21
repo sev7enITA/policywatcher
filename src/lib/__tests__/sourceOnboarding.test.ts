@@ -4,6 +4,7 @@ import {
   evaluateSourceOnboardingQa,
   normalizeSourceSlug,
   prepareSourceOnboardingRows,
+  summarizeSourceOnboardingBatch,
   summarizeSourceOnboardingPipeline,
   transitionSourceOnboardingStage,
 } from '../sourceOnboarding';
@@ -96,6 +97,17 @@ describe('source onboarding state machine', () => {
       rejectedAtPublication: 1,
       failed: 1,
       accounted: 7,
+    });
+  });
+
+  it('reopens a previously completed batch when held evidence returns to QA review', () => {
+    expect(summarizeSourceOnboardingBatch(['Held', 'Published'])).toMatchObject({
+      status: 'Completed',
+      terminal: true,
+    });
+    expect(summarizeSourceOnboardingBatch(['QaReview', 'Published'])).toMatchObject({
+      status: 'Active',
+      terminal: false,
     });
   });
 });
