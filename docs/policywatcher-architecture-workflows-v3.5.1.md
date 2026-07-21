@@ -3,7 +3,7 @@
 Status: Confidence maintenance release
 Purpose: reusable diagrams for documentation, presentations, audits, and third-party technical review.
 
-These diagrams describe what PolicyWatcher does today. They avoid certification claims: the platform maps source-backed policy evidence, retrieval quality, changes, risk signals, and governance metadata.
+These diagrams describe what PolicyWatcher does today. They use a certification boundary: the platform maps source-backed policy evidence, retrieval quality, changes, risk signals, and governance metadata.
 
 ## Diagram Inventory
 

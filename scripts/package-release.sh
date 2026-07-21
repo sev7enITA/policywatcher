@@ -16,7 +16,7 @@ DATE_STAMP="$(date +%Y-%m-%d)"
 ARCHIVE="PolicyWatcher-${VERSION}-hostinger-${DATE_STAMP}.zip"
 
 echo -e "${BLUE}[1/4] Preparing Hostinger source package ${ARCHIVE}...${NC}"
-rm -f "${ARCHIVE}"
+find . -maxdepth 1 -type f -name "${ARCHIVE}" -delete
 
 echo -e "${BLUE}[2/4] Zipping application source with deployment-safe exclusions...${NC}"
 zip -q -r "${ARCHIVE}" \
@@ -51,7 +51,7 @@ zip -q -r "${ARCHIVE}" \
 echo -e "${BLUE}[3/4] Verifying package does not contain database files...${NC}"
 if zipinfo -1 "${ARCHIVE}" | grep -E '(^|/)(dev\.db|.*\.(db|sqlite|sqlite3))$' >/dev/null; then
   echo -e "${RED}Package contains a database file. Aborting.${NC}"
-  rm -f "${ARCHIVE}"
+  find . -maxdepth 1 -type f -name "${ARCHIVE}" -delete
   exit 1
 fi
 

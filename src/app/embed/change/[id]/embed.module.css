@@ -74,7 +74,7 @@
   align-items: center;
   justify-content: center;
   font-size: 0.7rem;
-  font-weight: 800;
+  font-weight: 700;
   color: #fff;
   flex-shrink: 0;
 }
@@ -103,7 +103,7 @@
 
 .scoreNum {
   font-size: 2rem;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
 }
 

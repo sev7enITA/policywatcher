@@ -65,6 +65,6 @@ export function suspendedPolicyWhere<T extends WhereObject>(base?: T): T {
 
 export function publicSuspensionMessage(lang: 'en' | 'it' = 'en'): string {
   return lang === 'it'
-    ? 'Sono state identificate anomalie nell\'ultimo fetching o aggiornamento. Questa sorgente e temporaneamente sospesa e i dati non vengono esposti al pubblico finche non sono verificati.'
-    : 'Anomalies were identified during the latest fetching or update cycle. This source is temporarily suspended and its data is not exposed publicly until verified.';
+    ? 'Sono state identificate anomalie nell\'ultimo fetching o aggiornamento. La sorgente resta temporaneamente sospesa: i dati non vengono esposti al pubblico finche una baseline verificata, un PDF ufficiale o una revisione amministrativa tracciata non confermano la fonte.'
+    : 'Anomalies were identified during the latest fetching or update cycle. This source remains temporarily suspended: its data is not exposed publicly until a verified baseline, official PDF, or traced admin review confirms the source.';
 }

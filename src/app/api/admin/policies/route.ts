@@ -8,7 +8,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { db } from '@/lib/db';
-import { createHash } from 'crypto';
+import {
+  createConfiguredPolicy,
+  normalizeConfiguredPolicyInput,
+} from '@/lib/configuredPolicy';
 
 export async function POST(request: NextRequest) {
   const session = getSession(request);
@@ -18,13 +21,18 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { companyId, name, type, url, jurisdiction } = body;
+    const { companyId } = body;
 
-    if (!companyId || !name || !type || !url) {
+    if (!companyId) {
       return NextResponse.json(
-        { error: 'companyId, name, type, and url are required.' },
+        { error: 'companyId is required.' },
         { status: 400 }
       );
+    }
+
+    const normalizedPolicy = normalizeConfiguredPolicyInput(body);
+    if (!normalizedPolicy.ok) {
+      return NextResponse.json({ error: normalizedPolicy.error }, { status: 400 });
     }
 
     // Verify company exists
@@ -34,39 +42,11 @@ export async function POST(request: NextRequest) {
     }
 
     // New admin-added policies start as configured inventory, not public evidence.
-    const initialHash = createHash('sha256').update('').digest('hex');
-    const checkedAt = new Date();
     const policy = await db.$transaction(async (tx) => {
-      const createdPolicy = await tx.policy.create({
-        data: {
-          companyId,
-          name,
-          type,
-          url,
-          jurisdiction: jurisdiction || 'Global',
-          currentText: '',
-          currentHash: initialHash,
-          dataStatus: 'Configured',
-          ingestionMethod: 'Seeded',
-          lastCheckDate: checkedAt,
-          lastSuccessfulCheckDate: checkedAt,
-        },
+      return createConfiguredPolicy(tx, {
+        companyId,
+        ...normalizedPolicy.value,
       });
-
-      await tx.policyCheckLog.create({
-        data: {
-          policyId: createdPolicy.id,
-          status: 'Configured',
-          checkedAt,
-          source: 'seeded',
-          reason: 'admin_policy_created_pending_first_verified_scan',
-          finalUrl: url,
-          textHash: initialHash,
-          textLength: 0,
-        },
-      });
-
-      return createdPolicy;
     });
 
     return NextResponse.json({ success: true, policy }, { status: 201 });

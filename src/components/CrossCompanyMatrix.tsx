@@ -269,7 +269,7 @@ const getBadgeClass = (kpiKey: string, value: string): string => {
   ];
 
   const redValues = [
-    'broad', 'indefinite', 'not available', 'company claimed',
+    'broad', 'indefinite', 'not available', 'company retained',
     'opaque', 'undisclosed', 'absent', 'implicit', 'unspecified',
   ];
 

@@ -240,6 +240,43 @@ const URL_UPDATES: UrlUpdate[] = [
     newUrl: 'https://docs.aws.amazon.com/whitepapers/latest/navigating-gdpr-compliance/aws-data-processing-addendum-dpa.html',
     reason: 'Focused AWS DPA documentation avoids broad service-terms partial capture',
   },
+
+  // Revolut: the previous EU and UK records pointed at the same generic
+  // UK/default paths. Split the configured sources by market. Revolut may
+  // still challenge automated retrieval; these URL updates are remediation
+  // candidates, not proof that the source is publishable.
+  {
+    company: 'Revolut',
+    policyName: 'Privacy Policy',
+    jurisdictions: ['EU'],
+    oldUrlPart: 'revolut.com/legal/privacy',
+    newUrl: 'https://www.revolut.com/en-LT/legal/privacy/',
+    reason: 'Region-specific EEA Customer Privacy Notice; provider protection may require official PDF or traced admin review',
+  },
+  {
+    company: 'Revolut',
+    policyName: 'Privacy Policy',
+    jurisdictions: ['UK'],
+    oldUrlPart: 'revolut.com/legal/privacy',
+    newUrl: 'https://www.revolut.com/legal/privacy/',
+    reason: 'Official UK Customer Privacy Notice; provider protection may require official PDF or traced admin review',
+  },
+  {
+    company: 'Revolut',
+    policyName: 'Terms of Use',
+    jurisdictions: ['EU'],
+    oldUrlPart: 'revolut.com/legal/terms',
+    newUrl: 'https://www.revolut.com/en-LT/legal/terms/',
+    reason: 'Region-specific EEA Personal Terms; provider protection may require official PDF or traced admin review',
+  },
+  {
+    company: 'Revolut',
+    policyName: 'Terms of Use',
+    jurisdictions: ['UK'],
+    oldUrlPart: 'revolut.com/legal/terms',
+    newUrl: 'https://www.revolut.com/legal/terms/',
+    reason: 'Official UK Personal Terms; provider protection may require official PDF or traced admin review',
+  },
 ];
 
 async function main() {

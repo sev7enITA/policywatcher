@@ -53,6 +53,7 @@ const translationContent = {
           'Primary source: direct HTTP retrieval of the configured policy URL with browser-like headers, redirect validation, retries, and timeout limits.',
           'Protocol fallback: explicit HTTP/2 retrieval is attempted for providers that reject HTTP/1.1 or return short SPA shells.',
           'Rendered fallback: when configured, a separate VPS renderer executes a headless browser fetch for script-rendered pages. It is protected by bearer auth and validates initial URLs, redirects, and subresource requests against SSRF rules.',
+          'Provider-challenge handling: if an official page is protected by anti-bot or WAF controls, the renderer result is still treated as insufficient evidence unless usable policy text is retrieved. The source stays suspended until a verified baseline, official PDF, or traced admin review confirms it.',
           'Archive fallback: if live retrieval fails, the pipeline may try Wayback Machine and Common Crawl snapshots where available.',
           'Freshness guard: archived snapshots older than the last successful check are rejected so an old cached copy cannot be registered as a new policy change.',
           'Strategy diagnostics: each retrieval attempt records the strategy used, outcome, HTTP status where available, rejection/failure reason, and whether the system escalated to the next fallback.',
@@ -88,6 +89,7 @@ const translationContent = {
           'Policy Signals Board: the public leaderboard ranks only source coverage, retrieval traceability, public baselines, and publicEvidence-gated movement. It does not certify companies, compliance, safety, internal conduct, or provider trustworthiness.',
           'Re-baseline protection: the first successful fetch after Seeded ingestion evidence establishes the real baseline only. It replaces seeded history for that policy and does not create a PolicyChange, AI score, or subscriber notification. A record is eligible only when it is still seed-only: Configured status alone is not enough, and existing source-evidence logs or public baselines route the scan into normal comparison instead of destructive re-baseline.',
           'Public suspension: when the latest fetch/update produces anomalies or insufficient evidence, the source is temporarily suspended and public views expose only the suspension notice, not the underlying analysis.',
+          'Source remediation: official-but-blocked sources are repaired through market-specific URL mapping, official PDF/CDN evidence where available, or traced administrative review. PolicyWatcher does not promote anti-bot challenge pages, placeholders, or stale archive copies into public evidence.',
           'Administrator alerting: source suspensions can generate an internal operational email with metadata and a Dataset QA link, without including policy text, scores, diffs, KPIs, or AI interpretation.',
           'Dataset QA control groups: source fit, retrieval evidence, public evidence gates, seeded-record boundaries, hash consistency, check-log completeness, timestamp integrity, archive timestamp coverage, KPI coverage, regional impact coverage, access logs, and subscriber hygiene are inspected before release decisions.',
           'Review decisions: Dataset QA issues can be marked reviewed, ignored with reason, or reopened, with append-only review-log evidence.',
@@ -95,12 +97,25 @@ const translationContent = {
         ]
       },
       {
+        icon: ShieldCheck,
+        title: '5. Adaptive Workspace & Public Surfaces',
+        desc: 'Release 3.6.3 introduces a goal-oriented workspace layer without changing evidence rules.',
+        bullets: [
+          'Adaptive Workspace: users can select a session intent (Citizen, GRC / Legal, Research, Builder) and evidence depth (Snapshot, Operational, Forensic).',
+          'Presentation-only adaptation: density, module priority, dashboard emphasis, and URL parameters may change, but publicEvidence gates, source suspensions, and Dataset QA warnings remain active.',
+          'Public exploration surfaces: Timeline, Policy Signals Board, Site Atlas, Roadmap, Press Wall, Showcase, Trust, and Infographics expose different views of the same evidence boundary.',
+          'Site Atlas: maps public pages, trust surfaces, methodology pages, community pages, and protected admin boundaries as an entity relationship graph.',
+          'Press and Roadmap: public references and community priorities are tracked for transparency; they are not treated as endorsements, certifications, or external validation of company compliance.',
+          'Admin boundary: operational tools such as Cron Manager, Dataset QA, Review Log, Access Log, Company Registry, Database diagnostics, KPI Audit, and VPS Services remain protected by admin/auditor roles.'
+        ]
+      },
+      {
         icon: FileWarning,
-        title: '5. Known Limitations & Risks',
+        title: '6. Known Limitations & Risks',
         desc: 'Users and legal teams must be aware of the following platform boundaries:',
         bullets: [
           'Scraping latency: policies are monitored on a recurring or manual schedule. Updates may lag behind live provider releases.',
-          'Extraction limits: blocked pages, consent walls, script-rendered content, renderer outages, or archive gaps can reduce retrieval coverage. The VPS renderer improves coverage for script-rendered pages, but it does not guarantee source availability.',
+          'Extraction limits: blocked pages, consent walls, provider anti-bot challenges, script-rendered content, renderer outages, or archive gaps can reduce retrieval coverage. The VPS renderer improves coverage for script-rendered pages, but it does not guarantee source availability.',
           'LLM context limits: large documents may be analysed in reduced or structured contexts, which can miss highly specific clauses.',
           'Legal interpretation: legal terms can be ambiguous. Risk scores are analytical indicators, not court-validated conclusions or compliance determinations.'
         ]
@@ -142,6 +157,7 @@ const translationContent = {
           'Fonte primaria: recupero HTTP diretto dell\'URL configurato con header simili a browser, validazione redirect, retry e timeout.',
           'Fallback protocollo: viene tentato HTTP/2 esplicito per provider che rifiutano HTTP/1.1 o restituiscono shell SPA troppo corte.',
           'Fallback renderizzato: quando configurato, un renderer VPS separato esegue il fetch con browser headless per pagine script-rendered. È protetto da bearer secret e valida URL iniziali, redirect e subresource contro regole SSRF.',
+          'Gestione challenge provider: se una pagina ufficiale è protetta da controlli anti-bot o WAF, il risultato del renderer resta evidenza insufficiente se non produce testo policy utilizzabile. La sorgente resta sospesa finché una baseline verificata, un PDF ufficiale o una revisione amministrativa tracciata non la confermano.',
           'Fallback archivio: se il recupero live fallisce, la pipeline può tentare snapshot Wayback Machine e Common Crawl disponibili.',
           'Freshness guard: gli snapshot archivio più vecchi dell\'ultimo controllo riuscito vengono rifiutati, così una cache vecchia non può apparire come nuova modifica.',
           'Diagnostica strategie: ogni tentativo di retrieval registra strategia usata, esito, HTTP status quando disponibile, motivo di rifiuto/fallimento e passaggio al fallback successivo.',
@@ -177,6 +193,7 @@ const translationContent = {
           'Policy Signals Board: la leaderboard pubblica ordina soltanto copertura fonte, tracciabilità del retrieval, baseline pubbliche e movimenti marcati publicEvidence. Non certifica aziende, conformità, sicurezza, condotta interna o affidabilità del provider.',
           'Protezione re-baseline: il primo fetch riuscito dopo evidenza di ingestion Seeded stabilisce soltanto la baseline reale. Sostituisce la history seedata per quella policy e non crea PolicyChange, score AI o notifica subscriber. Un record è eleggibile solo se è ancora seed-only: il solo stato Configured non basta, e log di evidenza sorgente o baseline pubbliche instradano la scansione nel confronto normale invece che nella re-baseline distruttiva.',
           'Sospensione pubblica: quando l\'ultimo fetching o aggiornamento produce anomalie o evidenza insufficiente, la sorgente viene temporaneamente sospesa e le viste pubbliche espongono solo l\'avviso di sospensione, non l\'analisi sottostante.',
+          'Remediation sorgenti: fonti ufficiali ma bloccate vengono corrette tramite URL market-specific, evidenza PDF/CDN ufficiale dove disponibile o revisione amministrativa tracciata. PolicyWatcher non promuove challenge anti-bot, placeholder o copie archivio stale a evidenza pubblica.',
           'Alert amministrativo: le sospensioni delle sorgenti possono generare una mail operativa interna con metadati e link alla console Dataset QA, senza includere testo policy, score, diff, KPI o interpretazione AI.',
           'Gruppi di controllo Dataset QA: source fit, evidenza retrieval, gate public evidence, confini seed, coerenza hash, completezza check-log, integrità timestamp, copertura timestamp archivio, KPI, impatti regionali, access log e igiene subscriber sono verificati prima delle decisioni di rilascio.',
           'Decisioni di revisione: le issue Dataset QA possono essere marcate reviewed, ignored con motivazione o reopened, con evidenza append-only nel review log.',
@@ -184,12 +201,25 @@ const translationContent = {
         ]
       },
       {
+        icon: ShieldCheck,
+        title: '5. Workspace adattivo e superfici pubbliche',
+        desc: 'La release 3.6.3 introduce un layer di workspace orientato all\'obiettivo senza cambiare le regole di evidenza.',
+        bullets: [
+          'Workspace adattivo: l\'utente puo selezionare intento di sessione (Cittadino, GRC / Legal, Ricerca, Builder) e profondita evidenza (Snapshot, Operativa, Forensic).',
+          'Adattamento solo di presentazione: densita, priorita dei moduli, enfasi della dashboard e parametri URL possono cambiare, ma gate publicEvidence, sospensioni sorgenti e avvisi Dataset QA restano attivi.',
+          'Superfici pubbliche: Timeline, Policy Signals Board, Site Atlas, Roadmap, Press Wall, Showcase, Trust e Infographics mostrano prospettive diverse dello stesso perimetro di evidenza.',
+          'Site Atlas: mappa pagine pubbliche, superfici trust, pagine metodologia, pagine community e confini admin protetti come grafo entita-relazioni.',
+          'Press e Roadmap: riferimenti pubblici e priorita community sono tracciati per trasparenza; non sono endorsement, certificazioni o validazioni esterne della compliance aziendale.',
+          'Confine admin: strumenti operativi come Cron Manager, Dataset QA, Review Log, Access Log, Company Registry, diagnostica database, KPI Audit e VPS Services restano protetti da ruoli admin/auditor.'
+        ]
+      },
+      {
         icon: FileWarning,
-        title: '5. Limitazioni Note e Rischi',
+        title: '6. Limitazioni Note e Rischi',
         desc: 'Gli utenti e i team legali devono essere consapevoli dei seguenti limiti dello strumento:',
         bullets: [
           'Latenza dello scraping: le policy sono monitorate su base ricorrente o manuale. Gli aggiornamenti possono arrivare dopo la pubblicazione live del provider.',
-          'Limiti di estrazione: pagine bloccate, consent wall, contenuti renderizzati via script, indisponibilità del renderer o lacune negli archivi possono ridurre la copertura. Il renderer VPS migliora la copertura delle pagine renderizzate via script, ma non garantisce la disponibilità della fonte.',
+          'Limiti di estrazione: pagine bloccate, consent wall, challenge anti-bot del provider, contenuti renderizzati via script, indisponibilità del renderer o lacune negli archivi possono ridurre la copertura. Il renderer VPS migliora la copertura delle pagine renderizzate via script, ma non garantisce la disponibilità della fonte.',
           'Limiti di contesto LLM: documenti molto ampi possono essere analizzati in contesti ridotti o strutturati, con rischio di perdere clausole molto specifiche.',
           'Interpretazione giuridica: i termini legali possono essere ambigui. I risk score sono indicatori analitici, non conclusioni giudiziali o determinazioni di conformità.'
         ]

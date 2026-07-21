@@ -10,7 +10,7 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--text-main);

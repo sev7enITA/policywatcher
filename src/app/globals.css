@@ -35,9 +35,10 @@
   --risk-low: #10b981;
   --risk-low-glow: rgba(16, 185, 129, 0.08);
 
-  /* Typography */
-  --font-sans: var(--font-sans, 'Inter'), system-ui, -apple-system, sans-serif;
-  --font-display: var(--font-display, 'Space Grotesk'), system-ui, -apple-system, sans-serif;
+  /* Typography
+     The --font-sans and --font-display variables are injected by next/font
+     on the html element. Do not redefine them here or the variables become
+     self-referential and can fall back to browser defaults. */
   --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
 
   /* Shadows */

@@ -56,7 +56,7 @@
 }
 
 .title {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 1.35rem;
   font-weight: 700;
   color: #0f172a;
@@ -156,7 +156,7 @@
   border-radius: 12px;
   background: linear-gradient(135deg, var(--primary), #818cf8);
   color: white;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 0.9rem;
   font-weight: 600;
   border: none;

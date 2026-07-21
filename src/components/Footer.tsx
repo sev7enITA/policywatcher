@@ -9,13 +9,13 @@
  *    link clears localStorage acceptance so the TermsGate re-appears).
  *  - **Contact & Security** mailto link and security policy page.
  *  - **Resources** external links (e.g. PALO Framework).
- *  - **Bottom bar** beta disclaimer and copyright notice.
+ *  - **Bottom bar** beta notice and copyright notice.
  *
  * Supports EN/IT localisation.
  */
 'use client';
 
-import { BarChart3, ShieldCheck, FileText, Lock, Mail, ExternalLink, Sparkles, Cpu } from 'lucide-react';
+import { BarChart3, ShieldCheck, FileText, Lock, Mail, ExternalLink, Sparkles, Cpu, Newspaper, GitFork, Search, UserRound } from 'lucide-react';
 import styles from './Footer.module.css';
 
 /** Props for the {@link Footer} component. */
@@ -35,12 +35,17 @@ const content = {
     security: 'Security',
     securityTxt: 'security.txt',
     resources: 'Resources',
+    about: 'About the Project',
     showcase: 'Showcase',
+    observatory: 'Observatory',
+    atlas: 'Site Atlas',
     leaderboard: 'Policy Signals',
-    roadmap: '3.5 Roadmap',
+    roadmap: 'Community Roadmap',
+    press: 'Press Wall',
     trust: 'Trust & Quality',
+    infographics: 'Infographics',
     paloFramework: 'PALO Framework',
-    disclaimer: 'Confidence Release v3.5. AI-assisted assessments, not legal advice. Verify with provider sources.',
+    releaseNotice: 'Release v3.6.3. AI-assisted assessments, not legal advice. Verify with provider sources.',
     copy: `Copyright ${new Date().getFullYear()} PolicyWatcher by Fabrizio Degni. All rights reserved.`,
     madeIn: 'Made in the EU',
   },
@@ -54,19 +59,24 @@ const content = {
     security: 'Sicurezza',
     securityTxt: 'security.txt',
     resources: 'Risorse',
+    about: 'Il progetto e l’autore',
     showcase: 'Vetrina',
+    observatory: 'Observatory',
+    atlas: 'Atlante del sito',
     leaderboard: 'Segnali policy',
-    roadmap: 'Roadmap 3.5',
+    roadmap: 'Roadmap community',
+    press: 'Press wall',
     trust: 'Qualità e fiducia',
+    infographics: 'Infografiche',
     paloFramework: 'PALO Framework',
-    disclaimer: 'Confidence Release v3.5. Valutazioni assistite da AI, non parere legale. Verificare con le fonti provider.',
+    releaseNotice: 'Release v3.6.3. Valutazioni assistite da AI, non parere legale. Verificare con le fonti provider.',
     copy: `Copyright ${new Date().getFullYear()} PolicyWatcher di Fabrizio Degni. Tutti i diritti riservati.`,
     madeIn: 'Fatto in UE',
   },
 };
 
 /**
- * Global footer with legal links, contact info, resources, and beta disclaimer.
+ * Global footer with legal links, contact info, resources, and beta notice.
  *
  * @param props - {@link FooterProps}
  * @returns The rendered `<footer>` element.
@@ -101,7 +111,7 @@ export default function Footer({ lang }: FooterProps) {
               <li>
                 <a href="#terms-gate" onClick={() => {
                   if (typeof window !== 'undefined') {
-                    localStorage.removeItem('policywatcher_terms_accepted_v1');
+                    localStorage.removeItem('policywatcher_terms_accepted_v2');
                     window.location.reload();
                   }
                 }}>
@@ -136,9 +146,27 @@ export default function Footer({ lang }: FooterProps) {
             <h4 className={styles.columnTitle}>{t.resources}</h4>
             <ul className={styles.links}>
               <li>
+                <a href="/about">
+                  <UserRound size={14} />
+                  {t.about}
+                </a>
+              </li>
+              <li>
                 <a href="/roadmap">
                   <Cpu size={14} />
                   {t.roadmap}
+                </a>
+              </li>
+              <li>
+                <a href="/atlas">
+                  <GitFork size={14} />
+                  {t.atlas}
+                </a>
+              </li>
+              <li>
+                <a href="/observatory">
+                  <Search size={14} />
+                  {t.observatory}
                 </a>
               </li>
               <li>
@@ -154,9 +182,21 @@ export default function Footer({ lang }: FooterProps) {
                 </a>
               </li>
               <li>
+                <a href="/press">
+                  <Newspaper size={14} />
+                  {t.press}
+                </a>
+              </li>
+              <li>
                 <a href="/trust">
                   <ShieldCheck size={14} />
                   {t.trust}
+                </a>
+              </li>
+              <li>
+                <a href="/infographics">
+                  <Sparkles size={14} />
+                  {t.infographics}
                 </a>
               </li>
               <li>
@@ -170,8 +210,8 @@ export default function Footer({ lang }: FooterProps) {
         </div>
 
         <div className={styles.bottom}>
-          <p className={styles.disclaimer}>{t.disclaimer}</p>
-          <p className={styles.copy}>{t.copy} / Build v3.5.1 Audit Operations</p>
+          <p className={styles.releaseNotice}>{t.releaseNotice}</p>
+          <p className={styles.copy}>{t.copy} / Build v3.6.3 Adaptive Workspace</p>
         </div>
       </div>
     </footer>

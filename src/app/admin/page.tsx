@@ -315,7 +315,7 @@ export default function AdminDashboardPage() {
         <div>
           <h1 className={styles.pageTitle} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <Image
-              src="/logo.png"
+              src="/logo-mark.png"
               alt="PolicyWatcher Logo"
               width={32}
               height={32}
@@ -326,7 +326,7 @@ export default function AdminDashboardPage() {
           <p className={styles.pageSubtitle}>System overview, analytics and secure backups</p>
         </div>
         <span className={styles.logoVersion} style={{ fontSize: '0.78rem', padding: '4px 10px', borderRadius: '8px' }}>
-          PolicyWatcher Admin v3.5.1 Audit Operations
+          PolicyWatcher Admin v3.6.3 Adaptive Workspace
         </span>
       </div>
 
@@ -439,7 +439,7 @@ export default function AdminDashboardPage() {
             <Lock size={16} />
             <div>
               <strong>Integrity</strong>
-              <span>Hashes, version records, and current policy text must reconcile before public claims.</span>
+              <span>Hashes, version records, and current policy text must reconcile before public evidence statements.</span>
             </div>
           </div>
           <div className={styles.sealItem}>

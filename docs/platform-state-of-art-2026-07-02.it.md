@@ -21,7 +21,7 @@ La formulazione pubblica piu solida e:
 > configurate ed espone analisi, evidenza di cambiamento, stato QA del dataset
 > e limiti metodologici.
 
-Sono da evitare claim come certificazione, conformita assicurata, copertura
+Sono da evitare formule come certificazione, conformita assicurata, copertura
 esaustiva, valutazione legale definitiva o monitoraggio real-time.
 
 ## Profilo Dataset
@@ -314,5 +314,5 @@ PolicyWatcher non e piu solo una dashboard pubblica sulle policy. Con la 3.5
 Confidence diventa una piattaforma di evidenze ispezionabili: mostra cosa ha
 recuperato, cosa ha analizzato, quali controlli ha passato, quali limiti
 dichiara e dove serve revisione umana. Questa e la base corretta per costruire
-credibilita, non attraverso claim piu forti, ma attraverso controlli visibili e
+credibilita, non attraverso formule piu forti, ma attraverso controlli visibili e
 verificabili.

@@ -5,9 +5,9 @@ import Link from 'next/link';
 import styles from './showcase.module.css';
 
 export const metadata: Metadata = {
-  title: 'PolicyWatcher 3.5.1 Audit Operations Showcase',
+  title: 'PolicyWatcher 3.6.3 Guided Evidence Workflows Showcase',
   description:
-    'PolicyWatcher 3.5.1 Audit Operations: overview of public views, Policy Signals Board, retrieval evidence, Dataset QA gates, source suspension logic, review logs, Trust & Quality evidence and admin tools.',
+    'PolicyWatcher 3.6.3: objective-based evidence-module composition, five-stage bulk source onboarding, public evidence gates, Dataset QA and admin controls.',
 };
 
 const topNav = [
@@ -47,8 +47,8 @@ const atlasPanels = [
   {
     code: 'CONTROL',
     title: 'Admin tools',
-    body: 'The admin area includes Dataset QA issue decisions, Review Log, KPI audit, explainability, companies, cron status, VPS services, database view and encrypted backup utilities.',
-    details: ['Dataset QA', 'Review Log', 'KPI Audit', 'Explainability', 'Cron', 'VPS services'],
+    body: 'The admin area includes five-stage Bulk Source Onboarding, Dataset QA decisions, Review Log, KPI audit, companies, cron status, VPS services and database controls.',
+    details: ['Bulk intake', 'Private baseline', 'Dataset QA', 'Publication decision', 'Review Log', 'Cron'],
     metric: 'Operational modules',
     accent: '#60a5fa',
   },
@@ -64,6 +64,8 @@ const signalTiles = [
 ];
 
 const heroTelemetry = [
+  ['Objective composer', 'Guides first use and previews a stack assembled from registered dashboard evidence modules, with Source QA pinned.'],
+  ['Bulk source onboarding', 'Moves validated candidates through official review, private baseline, QA, and an explicit publication decision.'],
   ['Dataset QA', 'Checks URL hygiene, source evidence, hash consistency, timestamps, KPI fields, regional impact coverage and subscriber hygiene.'],
   ['Retrieval evidence', 'Documents direct fetch, HTTP/2, VPS-rendered fetch, archive fallback, source failures and strategy escalation without inventing data.'],
   ['Public evidence gate', 'Seeded, partial, unavailable or review-needed sources are withheld from public views until a valid source baseline exists.'],
@@ -72,6 +74,7 @@ const heroTelemetry = [
 ] as const;
 
 const qualityGates = [
+  ['Onboarding gate', 'Imports and first baselines remain private until QA passes and an admin explicitly publishes', 'Publication'],
   ['Source fit', 'Official URL, jurisdiction, duplicate and localization checks', 'Dataset QA'],
   ['Retrieval chain', 'Direct, HTTP/2, VPS renderer, Wayback and Common Crawl diagnostics', 'Evidence'],
   ['Public gate', 'Seeded, partial, unavailable and review-needed records stay non-public', 'Gate'],
@@ -82,6 +85,7 @@ const qualityGates = [
 ] as const;
 
 const adminCells = [
+  ['Bulk Source Onboarding', 'CSV/TSV intake, official-source review, private baseline, QA gate and publish/hold/reject decision'],
   ['Dataset Quality', 'Source fit, public evidence gates, check logs, hash consistency and analysis field checks'],
   ['KPI Audit', 'KPI value distribution and explanation coverage by company'],
   ['Company Registry', 'Companies, industries, policy URLs, policy types and jurisdictions'],
@@ -96,6 +100,8 @@ const adminCells = [
 ] as const;
 
 const flow = [
+  ['Proposed source', 'Validated CSV/TSV candidate enters protected admin review and remains private'],
+  ['Official review to publication', 'Official-source decision, private first baseline, QA gate and explicit publish/hold/reject are persisted'],
   ['Inventory row', 'Company, policy URL, type, jurisdiction and configured status'],
   ['Retrieval cascade', 'Direct fetch, HTTP/2, VPS renderer, Wayback and Common Crawl are tried with recorded outcomes'],
   ['Source validation', 'Minimum text, host drift, path drift, extraction cap and content-shape checks'],
@@ -134,7 +140,7 @@ function HeroInstrument() {
       <div className={styles.instrumentFrame}>
         <div className={styles.instrumentHeader}>
           <span>Feature visual</span>
-          <b>v3.5</b>
+          <b>v3.6</b>
         </div>
         <div className={styles.instrumentStage}>
           <svg viewBox="0 0 720 460" className={styles.fieldSvg}>
@@ -333,11 +339,11 @@ export default function ShowcasePage() {
 
       <header className={styles.header}>
         <Link href="/" className={styles.brand} aria-label="PolicyWatcher dashboard">
-          <Image src="/logo.png" alt="" width={42} height={42} className={styles.logo} priority />
-          <span>
-            <strong>PolicyWatcher</strong>
-            <small>Release 3.5.1 Audit Operations overview</small>
-          </span>
+            <Image src="/logo-mark.png" alt="" width={42} height={42} className={styles.logo} priority />
+            <span>
+              <strong>PolicyWatcher</strong>
+              <small>Release 3.6.3 Adaptive Workspace overview</small>
+            </span>
         </Link>
 
         <nav className={styles.nav} aria-label="Showcase horizontal navigation">
@@ -356,7 +362,7 @@ export default function ShowcasePage() {
         <div className={styles.heroCopy}>
           <span className={styles.eyebrow}>
             <SignalMark />
-            PolicyWatcher 3.5.1 Audit Operations
+            PolicyWatcher 3.6.3 Adaptive Workspace
           </span>
           <h1>
             <span>PolicyWatcher</span>
@@ -504,7 +510,7 @@ export default function ShowcasePage() {
         <div className={styles.adminIntro}>
           <div>
             <span className={styles.sectionKicker}>Administrative tools</span>
-            <h2>Admin functions available in the 3.5.1 Audit Operations track.</h2>
+            <h2>Admin functions available across the 3.6.3 Adaptive Workspace and Confidence track.</h2>
             <p>
             The admin area includes login, metrics, company and policy
               management, dataset QA, KPI audit, explainability, cron status,
@@ -561,13 +567,13 @@ export default function ShowcasePage() {
       <section id="trust" className={`${styles.section} ${styles.qualitySection}`}>
         <div className={styles.qualityNarrative}>
           <span className={styles.sectionKicker}>Trust & Quality</span>
-          <h2>Public evidence is separated from certification claims.</h2>
+          <h2>Public evidence follows explicit QA gates.</h2>
           <p>
             The Trust page presents workflow status, CodeQL, OpenSSF Scorecard,
             targeted reliability coverage, Sonar readiness, Codecov readiness and live HTTP
             header report links. The Policy Signals Board turns source evidence into an
-            inspectable operational ranking. These checks are operational evidence,
-            not compliance certification.
+            inspectable operational ranking. These checks describe build health,
+            retrieval quality, source status, and public evidence readiness.
           </p>
         </div>
         <div className={styles.qualityReactor} aria-label="Trust and quality evidence">
@@ -612,11 +618,12 @@ export default function ShowcasePage() {
       </section>
 
       <footer className={styles.footer}>
-        <span>PolicyWatcher 3.5.1 Audit Operations</span>
+        <span>PolicyWatcher 3.6.3 Adaptive Workspace</span>
         <div>
           <Link href="/privacy">Privacy</Link>
           <Link href="/security">Security</Link>
           <Link href="/leaderboard">Signals</Link>
+          <Link href="/press">Press</Link>
           <Link href="/">Platform</Link>
         </div>
       </footer>

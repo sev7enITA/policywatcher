@@ -276,7 +276,7 @@ export default function PolicyDetails({
    */
   const getIndicatorScore = (value: string): number => {
     const riskMap: Record<string, number> = {
-      'Not Allowed': 90, 'Claimed by company': 85, 'Indefinite': 80,
+      'Not Allowed': 90, 'Company retained': 85, 'Indefinite': 80,
       'Permitted': 75, 'Not specified': 60,
       'Opt-out available': 45, 'Shared': 40, '30 days': 35,
       'Restricted': 20, 'Protected': 15, 'Allowed': 10, 'System-deleted': 10,
@@ -581,7 +581,7 @@ export default function PolicyDetails({
                     { labelEn: 'Scraping / Crawling Restrictions', labelIt: 'Restrizione Scraper / Crawling', value: activeChange.aiDataScrapingRestricted, 
                       colorHigh: '', colorMed: '' },
                     { labelEn: 'IP Ownership Inputs/Outputs', labelIt: 'Proprieta Intellettuale Inputs/Outputs', value: activeChange.aiIpLicensing, 
-                      colorHigh: 'Claimed by company', colorMed: '' },
+                      colorHigh: 'Company retained', colorMed: '' },
                     { labelEn: 'Prompt Data Retention', labelIt: 'Conservazione Dati Prompt', value: activeChange.aiPromptRetention, 
                       colorHigh: '', colorMed: '' },
                   ]).map((item, idx) => (

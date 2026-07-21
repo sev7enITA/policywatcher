@@ -300,6 +300,10 @@ describe('hasLiveHostDrift', () => {
     expect(hasLiveHostDrift('https://example.com/privacy', 'https://www.example.com/privacy', 'direct')).toBe(false);
   });
 
+  it('allows redirects between subdomains of the same registrable domain', () => {
+    expect(hasLiveHostDrift('https://www.google.com/accounts/TOS', 'https://policies.google.com/terms', 'direct')).toBe(false);
+  });
+
   it('rejects live redirects to another host', () => {
     expect(hasLiveHostDrift('https://example.com/privacy', 'https://example.net/', 'direct')).toBe(true);
   });

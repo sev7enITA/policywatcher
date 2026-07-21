@@ -73,7 +73,7 @@
 }
 
 .header h2 {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 1.6rem;
   margin: 0 0 4px;
   font-weight: 700;
@@ -118,7 +118,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 1.05rem;
   font-weight: 700;
   color: #0f172a;

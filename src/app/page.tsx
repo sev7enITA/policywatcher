@@ -17,7 +17,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { 
   Search, 
   ShieldAlert, 
@@ -29,14 +29,21 @@ import {
   X,
   Calendar,
   Clock,
-  BarChart3,
-  Eye,
-  EyeOff,
-  LayoutGrid,
-  Maximize2,
-  Palette,
   PauseCircle,
-  Settings2
+  UserRound,
+  Scale,
+  FlaskConical,
+  PlugZap,
+  RotateCcw,
+  Layers3,
+  GitFork,
+  ShieldCheck,
+  BarChart3,
+  Route,
+  Newspaper,
+  Sparkles,
+  BookOpen,
+  Check,
 } from 'lucide-react';
 import styles from './Dashboard.module.css';
 import PolicyDetails from '@/components/PolicyDetails';
@@ -55,7 +62,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/Footer';
 import HowToModal from '@/components/HowToModal';
 import Navigation, { NavLayout } from '@/components/Navigation';
+import { dashboardUpdateNotices, getObservatorySource, observatorySignals } from '@/lib/observatory';
 import { dataStatusClassKey, getWorstDataStatus, normalizeDataStatus } from '@/lib/policyConfidence';
+import {
+  composeDashboard,
+  getDashboardModuleOrder,
+  isDashboardModuleVisible,
+  normalizeEvidenceDepth,
+  normalizeWorkspaceIntent,
+  type DashboardAccent,
+  type DashboardDensity,
+  type DashboardModuleId,
+  type DashboardView,
+  type EvidenceDepth,
+  type WorkspaceIntent,
+} from '@/lib/dashboardComposer';
 
 // Re-export types for backward compatibility
 export type { Company, Policy, PolicyChange, RegionImpact } from '@/types/index';
@@ -106,6 +127,7 @@ const translations = {
     suspendedSourcesLead: 'Sono state identificate anomalie nell\'ultimo fetching o aggiornamento. Le sorgenti sotto riportate non espongono dati pubblici finche non vengono verificate.',
     suspendedSourcesCount: 'sorgenti sospese',
     suspendedSourceStatus: 'Stato',
+    suspendedSourceReason: 'Motivo',
     suspendedSourceLastCheck: 'Ultimo check',
     sourceBaseline: 'Baseline sorgente',
     sourceVerified: 'Sorgente verificata',
@@ -127,6 +149,13 @@ const translations = {
     workspaceLabel: 'Impostazioni dashboard',
     workspaceTitle: 'Vista operativa personalizzabile',
     workspaceSubtitle: 'Densità, sezioni e accento visuale restano salvati in questo browser.',
+    tickerLabel: 'Ticker Observatory',
+    tickerPause: 'Pausa su hover o focus',
+    onTheGoTitle: 'Profilo di lettura mobile opzionale',
+    onTheGoBody: 'Su desktop il workspace completo resta disponibile. Su mobile puoi scegliere Cittadino / Snapshot come profilo di lettura opzionale.',
+    onTheGoAction: 'Usa lettura mobile',
+    onTheGoActive: 'Lettura mobile attiva',
+    onTheGoDismiss: 'Mantieni vista',
     densityLabel: 'Densità',
     comfortable: 'Comfort',
     compact: 'Compatta',
@@ -142,7 +171,68 @@ const translations = {
     accentIndigo: 'Indigo',
     accentTeal: 'Teal',
     accentSlate: 'Slate',
-    disclaimer: 'Confidence Release v3.5: questa piattaforma e in sviluppo attivo. Le informazioni sono generate tramite analisi automatizzata assistita da AI e possono contenere imprecisioni o errori interpretativi. Non costituiscono parere legale, certificazione di conformita o valutazione definitiva della condotta aziendale. L\'autore declina ogni responsabilita. L\'interpretazione e l\'uso dei dati sono esclusivamente a rischio e responsabilita dell\'utente. Verificare sempre presso le fonti provider.',
+    exploreKicker: 'Mappa release v3.6.3',
+    exploreTitle: 'Tutte le nuove superfici, in un unico punto.',
+    exploreLead: 'Adaptive Workspace, Observatory, sitemap interattiva, press wall, segnali policy, trust center e roadmap sono ora organizzati come percorsi di esplorazione.',
+    exploreAtlas: 'Apri sitemap completa',
+    exploreFeature: 'Nuovo in 3.6.3',
+    exploreOpen: 'Apri',
+    exploreCards: [
+      {
+        title: 'Atlante del sito',
+        href: '/atlas',
+        category: 'Navigazione',
+        body: 'Grafo interattivo e lista completa delle pagine pubbliche, con collegamenti diretti.',
+      },
+      {
+        title: 'Observatory',
+        href: '/observatory',
+        category: 'Fonti',
+        body: 'Registro curato di fonti AI governance, privacy enforcement, standard ed eventi.',
+      },
+      {
+        title: 'Vetrina progetto',
+        href: '/showcase',
+        category: 'Overview',
+        body: 'Presentazione estesa di piattaforma, workflow, controlli admin e valore informativo.',
+      },
+      {
+        title: 'Visual Guide',
+        href: '/infographics',
+        category: 'Esperienza',
+        body: 'Infografiche interattive su workspace adattivo, categorie e logica delle sezioni.',
+      },
+      {
+        title: 'Segnali Policy',
+        href: '/leaderboard',
+        category: 'Evidenza',
+        body: 'Confronto tra aziende basato su copertura, freschezza e tracciabilita delle fonti.',
+      },
+      {
+        title: 'Trust & Quality',
+        href: '/trust',
+        category: 'Assurance',
+        body: 'Stato dei controlli di qualita, sicurezza, build e dataset QA.',
+      },
+      {
+        title: 'Metodologia',
+        href: '/methodology/confidence',
+        category: 'Metodo',
+        body: 'Provenienza, limiti dell’analisi AI, gate pubblico e processo di verifica.',
+      },
+      {
+        title: 'Press Wall',
+        href: '/press',
+        category: 'Community',
+        body: 'Raccolta ordinata dei contributi pubblici e delle citazioni sul progetto.',
+      },
+      {
+        title: 'Roadmap Community',
+        href: '/roadmap',
+        category: 'Evolutive',
+        body: 'Funzioni in pista, idee future e direzioni UX su cui raccogliere feedback.',
+      },
+    ],
   },
   en: {
     title: 'PolicyWatcher',
@@ -187,6 +277,7 @@ const translations = {
     suspendedSourcesLead: 'Anomalies were identified during the latest fetching or update cycle. The sources below do not expose public data until verified.',
     suspendedSourcesCount: 'suspended sources',
     suspendedSourceStatus: 'Status',
+    suspendedSourceReason: 'Reason',
     suspendedSourceLastCheck: 'Last check',
     sourceBaseline: 'Source baseline',
     sourceVerified: 'Source verified',
@@ -208,6 +299,13 @@ const translations = {
     workspaceLabel: 'Dashboard setup',
     workspaceTitle: 'Personalized operating view',
     workspaceSubtitle: 'Density, sections and visual accent are saved on this browser.',
+    tickerLabel: 'Observatory ticker',
+    tickerPause: 'Pauses on hover or focus',
+    onTheGoTitle: 'Optional mobile reading profile',
+    onTheGoBody: 'Desktop keeps the full workspace. On mobile, you can choose Citizen / Snapshot as an optional reading profile.',
+    onTheGoAction: 'Use reading mode',
+    onTheGoActive: 'Reading mode active',
+    onTheGoDismiss: 'Keep current view',
     densityLabel: 'Density',
     comfortable: 'Comfort',
     compact: 'Compact',
@@ -223,7 +321,68 @@ const translations = {
     accentIndigo: 'Indigo',
     accentTeal: 'Teal',
     accentSlate: 'Slate',
-    disclaimer: 'Confidence Release v3.5: this platform is in active development. Information is generated through automated AI-assisted text analysis and may contain inaccuracies or interpretive errors. It does not constitute legal advice, compliance certification, or a definitive assessment of corporate conduct. The author disclaims all liability. Interpretation and use of this data is solely at the user\'s own risk and responsibility. Always verify with provider sources.',
+    exploreKicker: 'v3.6.3 release map',
+    exploreTitle: 'Every new surface, one clear entry point.',
+    exploreLead: 'Adaptive Workspace, Observatory, interactive sitemap, press wall, policy signals, trust center and roadmap are now organized as guided exploration paths.',
+    exploreAtlas: 'Open full sitemap',
+    exploreFeature: 'New in 3.6.3',
+    exploreOpen: 'Open',
+    exploreCards: [
+      {
+        title: 'Site Atlas',
+        href: '/atlas',
+        category: 'Navigation',
+        body: 'Interactive graph and complete public-page list with direct links.',
+      },
+      {
+        title: 'Observatory',
+        href: '/observatory',
+        category: 'Sources',
+        body: 'Curated source registry for AI governance, privacy enforcement, standards and event review.',
+      },
+      {
+        title: 'Project Showcase',
+        href: '/showcase',
+        category: 'Overview',
+        body: 'Extended presentation of the platform, workflows, admin controls and information value.',
+      },
+      {
+        title: 'Visual Guide',
+        href: '/infographics',
+        category: 'Experience',
+        body: 'Interactive infographics for adaptive workspace logic, categories and section behavior.',
+      },
+      {
+        title: 'Policy Signals',
+        href: '/leaderboard',
+        category: 'Evidence',
+        body: 'Company comparison based on coverage, freshness and source traceability.',
+      },
+      {
+        title: 'Trust & Quality',
+        href: '/trust',
+        category: 'Assurance',
+        body: 'Quality, security, build and Dataset QA status in one public trust surface.',
+      },
+      {
+        title: 'Methodology',
+        href: '/methodology/confidence',
+        category: 'Method',
+        body: 'Provenance, AI-analysis limits, public gate and verification process.',
+      },
+      {
+        title: 'Press Wall',
+        href: '/press',
+        category: 'Community',
+        body: 'Curated public references and professional-community discussion around the project.',
+      },
+      {
+        title: 'Community Roadmap',
+        href: '/roadmap',
+        category: 'Evolution',
+        body: 'Planned features, future ideas and UX directions open to community feedback.',
+      },
+    ],
   }
 };
 
@@ -233,9 +392,13 @@ type SortBy = 'risk-desc' | 'risk-asc' | 'date-desc' | 'date-asc' | 'name-asc' |
 type RiskFilter = 'all' | 'High' | 'Medium' | 'Low';
 /** Quick-filter values for the change recency date range. */
 type DateRange = 'all' | '7d' | '30d' | '90d';
-type DashboardDensity = 'comfortable' | 'compact';
-type DashboardView = 'cards' | 'focus';
-type DashboardAccent = 'indigo' | 'teal' | 'slate';
+type TickerItem = {
+  id: string;
+  label: string;
+  message: string;
+  href: string;
+  tone: 'teal' | 'indigo' | 'amber';
+};
 
 interface DashboardPreferences {
   density: DashboardDensity;
@@ -246,6 +409,194 @@ interface DashboardPreferences {
 }
 
 const DASHBOARD_PREFS_KEY = 'policywatcher_dashboard_preferences_v1';
+const WORKSPACE_PROFILE_KEY = 'pw_workspace_profile';
+
+const WORKSPACE_INTENTS: Record<'en' | 'it', Array<{
+  id: WorkspaceIntent;
+  label: string;
+  title: string;
+  detail: string;
+  accent: DashboardAccent;
+  icon: typeof UserRound;
+}>> = {
+  en: [
+    {
+      id: 'citizen',
+      label: 'Citizen',
+      title: 'Understand what changed and why it matters',
+      detail: 'Plain-language briefing, source status, affected rights, and region impact.',
+      accent: 'teal',
+      icon: UserRound,
+    },
+    {
+      id: 'grc',
+      label: 'GRC / Legal',
+      title: 'Inspect evidence before using a signal',
+      detail: 'QA state, retrieval evidence, review notes, KPI matrix, and source limitations.',
+      accent: 'indigo',
+      icon: Scale,
+    },
+    {
+      id: 'research',
+      label: 'Research',
+      title: 'Compare market movement over time',
+      detail: 'Timeline, market pulse, filters, sector comparison, and export paths.',
+      accent: 'teal',
+      icon: FlaskConical,
+    },
+    {
+      id: 'builder',
+      label: 'Builder',
+      title: 'Connect PolicyWatcher to other systems',
+      detail: 'Exports, public methodology, release artifacts, and integration-oriented views.',
+      accent: 'slate',
+      icon: PlugZap,
+    },
+  ],
+  it: [
+    {
+      id: 'citizen',
+      label: 'Cittadino',
+      title: 'Capire cosa e cambiato e perche conta',
+      detail: 'Briefing semplice, stato fonte, diritti impattati e lettura per regione.',
+      accent: 'teal',
+      icon: UserRound,
+    },
+    {
+      id: 'grc',
+      label: 'GRC / Legal',
+      title: 'Ispezionare evidenze prima di usare un segnale',
+      detail: 'Stato QA, recupero fonte, review notes, matrice KPI e limiti della sorgente.',
+      accent: 'indigo',
+      icon: Scale,
+    },
+    {
+      id: 'research',
+      label: 'Ricerca',
+      title: 'Confrontare movimenti di mercato nel tempo',
+      detail: 'Timeline, market pulse, filtri, confronto settori e percorsi di export.',
+      accent: 'teal',
+      icon: FlaskConical,
+    },
+    {
+      id: 'builder',
+      label: 'Builder',
+      title: 'Collegare PolicyWatcher ad altri sistemi',
+      detail: 'Export, metodologia pubblica, artefatti release e viste orientate alle integrazioni.',
+      accent: 'slate',
+      icon: PlugZap,
+    },
+  ],
+};
+
+const EVIDENCE_DEPTHS: Record<'en' | 'it', Array<{
+  id: EvidenceDepth;
+  label: string;
+  detail: string;
+}>> = {
+  en: [
+    {
+      id: 'snapshot',
+      label: 'Snapshot',
+      detail: 'Low-noise orientation. Diagnostics stay visible only when they affect interpretation.',
+    },
+    {
+      id: 'operational',
+      label: 'Operational',
+      detail: 'Repeat-use mode with filters, metadata, review context, and export-ready controls.',
+    },
+    {
+      id: 'forensic',
+      label: 'Forensic',
+      detail: 'Audit-oriented mode exposing retrieval path, QA state, hashes, timestamps, and limitations.',
+    },
+  ],
+  it: [
+    {
+      id: 'snapshot',
+      label: 'Snapshot',
+      detail: 'Orientamento rapido. I diagnostici restano visibili quando cambiano l\'interpretazione.',
+    },
+    {
+      id: 'operational',
+      label: 'Operativa',
+      detail: 'Uso ricorrente con filtri, metadata, contesto review e controlli di export.',
+    },
+    {
+      id: 'forensic',
+      label: 'Forensic',
+      detail: 'Vista audit con percorso recupero, stato QA, hash, timestamp e limitazioni.',
+    },
+  ],
+};
+
+const WORKSPACE_MODULE_LABELS: Record<'en' | 'it', Record<DashboardModuleId, string>> = {
+  en: {
+    sourceQuality: 'Source QA warnings',
+    observatory: 'Observatory source watch',
+    stats: 'Risk and coverage cards',
+    filters: 'Search and context filters',
+    marketPulse: 'Market pulse timeline',
+    companyCards: 'Company evidence cards',
+  },
+  it: {
+    sourceQuality: 'Avvisi QA sorgenti',
+    observatory: 'Observatory fonti',
+    stats: 'Card rischio e copertura',
+    filters: 'Ricerca e filtri contesto',
+    marketPulse: 'Timeline market pulse',
+    companyCards: 'Card evidenze aziende',
+  },
+};
+
+const WORKSPACE_COPY = {
+  en: {
+    label: 'Adaptive workspace',
+    title: 'Start from the question, not from the dashboard',
+    lead: 'Choose the purpose of the session and the depth of evidence you need. PolicyWatcher reorganizes density, priority, and context while source-quality warnings remain visible.',
+    chooseIntent: '1. Choose the job',
+    chooseDepth: '2. Choose evidence depth',
+    generatedLogic: '3. Generated evidence stack',
+    activeProfile: 'Active workspace',
+    primaryModules: 'Primary evidence',
+    supportingModules: 'Supporting evidence',
+    noSupportingModules: 'None at this evidence depth.',
+    sourcePinned: 'Source QA stays pinned and cannot be hidden.',
+    firstUseLabel: 'Guided start',
+    firstUseClose: 'Skip for now',
+    defaultAction: 'Reset default',
+    presetPrefix: 'Intent',
+    depthPrefix: 'Depth',
+    summaryTitle: 'Workspace active',
+    changeAction: 'Change view',
+    applyAction: 'Apply workspace',
+    closeAction: 'Close',
+    compactLead: 'Dashboard modules are arranged for this goal. Reopen the workspace setup when your session changes.',
+  },
+  it: {
+    label: 'Workspace adattivo',
+    title: 'Parti dalla domanda, non dalla dashboard',
+    lead: 'Scegli lo scopo della sessione e la profondita delle evidenze. PolicyWatcher riorganizza densita, priorita e contesto mantenendo visibili gli avvisi sulla qualita delle fonti.',
+    chooseIntent: '1. Scegli il lavoro',
+    chooseDepth: '2. Scegli profondita evidenza',
+    generatedLogic: '3. Stack evidenze generato',
+    activeProfile: 'Workspace attivo',
+    primaryModules: 'Evidenze primarie',
+    supportingModules: 'Evidenze di supporto',
+    noSupportingModules: 'Nessuna a questa profondita di evidenza.',
+    sourcePinned: 'Il QA sorgenti resta fissato e non puo essere nascosto.',
+    firstUseLabel: 'Avvio guidato',
+    firstUseClose: 'Salta per ora',
+    defaultAction: 'Reset default',
+    presetPrefix: 'Intento',
+    depthPrefix: 'Profondita',
+    summaryTitle: 'Workspace attivo',
+    changeAction: 'Cambia vista',
+    applyAction: 'Usa workspace',
+    closeAction: 'Chiudi',
+    compactLead: 'I moduli della dashboard sono ordinati per questo obiettivo. Riapri la configurazione quando cambia la sessione.',
+  },
+};
 
 interface MarketPulseChange {
   id: string;
@@ -279,6 +630,12 @@ interface SourceSuspension {
   dataStatus: string;
   ingestionMethod: string;
   lastCheckDate: string;
+  latestCheck?: {
+    status?: string | null;
+    source?: string | null;
+    reason?: string | null;
+    httpStatus?: number | null;
+  } | null;
   suspensionReason: string;
   publicMessageEn: string;
   publicMessageIt: string;
@@ -341,8 +698,102 @@ export default function Dashboard() {
   const [dashboardAccent, setDashboardAccent] = useState<DashboardAccent>('indigo');
   const [showStats, setShowStats] = useState(true);
   const [showMarketPulse, setShowMarketPulse] = useState(true);
+  const [workspaceIntent, setWorkspaceIntent] = useState<WorkspaceIntent>('citizen');
+  const [evidenceDepth, setEvidenceDepth] = useState<EvidenceDepth>('snapshot');
+  const [draftWorkspaceIntent, setDraftWorkspaceIntent] = useState<WorkspaceIntent>('citizen');
+  const [draftEvidenceDepth, setDraftEvidenceDepth] = useState<EvidenceDepth>('snapshot');
+  const [workspaceConfiguratorOpen, setWorkspaceConfiguratorOpen] = useState(false);
+  const [workspaceFirstUseMode, setWorkspaceFirstUseMode] = useState(false);
+  const [workspaceReady, setWorkspaceReady] = useState(false);
+  const [onTheGoSuggested, setOnTheGoSuggested] = useState(false);
+  const [onTheGoMotionSuggested, setOnTheGoMotionSuggested] = useState(false);
+  const [onTheGoDismissed, setOnTheGoDismissed] = useState(false);
+  const [onTheGoModeActive, setOnTheGoModeActive] = useState(false);
+  const composerDialogRef = useRef<HTMLDivElement>(null);
+  const composerHeadingRef = useRef<HTMLHeadingElement>(null);
+  const composerPreviousFocusRef = useRef<HTMLElement | null>(null);
 
   const t = translations[lang];
+  const workspaceText = WORKSPACE_COPY[lang];
+  const intentOptions = WORKSPACE_INTENTS[lang];
+  const depthOptions = EVIDENCE_DEPTHS[lang];
+  const moduleLabels = WORKSPACE_MODULE_LABELS[lang];
+  const explorationIcons = [GitFork, Search, Sparkles, Layers3, BarChart3, ShieldCheck, BookOpen, Newspaper, Route];
+  const activeIntent = useMemo(
+    () => intentOptions.find((option) => option.id === workspaceIntent) ?? intentOptions[0],
+    [intentOptions, workspaceIntent]
+  );
+  const activeDepth = useMemo(
+    () => depthOptions.find((option) => option.id === evidenceDepth) ?? depthOptions[0],
+    [depthOptions, evidenceDepth]
+  );
+  const draftIntent = useMemo(
+    () => intentOptions.find((option) => option.id === draftWorkspaceIntent) ?? intentOptions[0],
+    [draftWorkspaceIntent, intentOptions]
+  );
+  const draftDepth = useMemo(
+    () => depthOptions.find((option) => option.id === draftEvidenceDepth) ?? depthOptions[0],
+    [depthOptions, draftEvidenceDepth]
+  );
+  const workspaceSettings = useMemo(
+    () => composeDashboard(workspaceIntent, evidenceDepth),
+    [evidenceDepth, workspaceIntent]
+  );
+  const draftWorkspaceSettings = useMemo(
+    () => composeDashboard(draftWorkspaceIntent, draftEvidenceDepth),
+    [draftEvidenceDepth, draftWorkspaceIntent]
+  );
+  const workspaceHasDraftChanges = draftWorkspaceIntent !== workspaceIntent || draftEvidenceDepth !== evidenceDepth;
+  const tickerItems = useMemo<TickerItem[]>(() => {
+    const signalItems = observatorySignals.slice(0, 4).map((signal): TickerItem => {
+      const source = getObservatorySource(signal.sourceId);
+      const tone = signal.priority === 'high' ? 'teal' : signal.priority === 'medium' ? 'indigo' : 'amber';
+
+      return {
+        id: signal.id,
+        label: `${source?.shortName ?? 'Observatory'} / ${signal.contentType}`,
+        message: signal.title[lang],
+        href: signal.localHref,
+        tone,
+      };
+    });
+
+    const noticeItems = dashboardUpdateNotices.map((notice): TickerItem => ({
+      id: notice.id,
+      label: notice.label[lang],
+      message: notice.message[lang],
+      href: notice.href,
+      tone: notice.tone,
+    }));
+
+    return [...signalItems, ...noticeItems];
+  }, [lang]);
+  const tickerLoopItems = useMemo(() => [...tickerItems, ...tickerItems], [tickerItems]);
+  const onTheGoProfileActive = onTheGoModeActive && workspaceIntent === 'citizen' && evidenceDepth === 'snapshot';
+  const showOnTheGoPrompt = !onTheGoDismissed && (onTheGoSuggested || onTheGoMotionSuggested || onTheGoProfileActive);
+  const getModuleOrder = useCallback(
+    (moduleId: DashboardModuleId) => getDashboardModuleOrder(workspaceSettings, moduleId),
+    [workspaceSettings]
+  );
+  const isModuleVisible = useCallback(
+    (moduleId: DashboardModuleId) => isDashboardModuleVisible(workspaceSettings, moduleId),
+    [workspaceSettings]
+  );
+  const closeWorkspaceComposer = useCallback(() => {
+    setDraftWorkspaceIntent(workspaceIntent);
+    setDraftEvidenceDepth(evidenceDepth);
+    setWorkspaceConfiguratorOpen(false);
+    setWorkspaceFirstUseMode(false);
+  }, [evidenceDepth, workspaceIntent]);
+  const applyWorkspaceComposer = useCallback(() => {
+    setWorkspaceIntent(draftWorkspaceIntent);
+    setEvidenceDepth(draftEvidenceDepth);
+    if (draftWorkspaceIntent !== 'citizen' || draftEvidenceDepth !== 'snapshot') {
+      setOnTheGoModeActive(false);
+    }
+    setWorkspaceConfiguratorOpen(false);
+    setWorkspaceFirstUseMode(false);
+  }, [draftEvidenceDepth, draftWorkspaceIntent]);
 
   const fetchCompanies = useCallback(async () => {
     setLoading(true);
@@ -436,6 +887,155 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
+    let active = true;
+    queueMicrotask(() => {
+      if (!active) return;
+      let nextIntent: WorkspaceIntent = 'citizen';
+      let nextDepth: EvidenceDepth = 'snapshot';
+      let nextOnTheGoModeActive = false;
+      let shouldOpenFirstUse = true;
+
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const intentFromUrl = normalizeWorkspaceIntent(params.get('intent') || params.get('workspace'));
+        const depthFromUrl = normalizeEvidenceDepth(params.get('depth'));
+        const hasWorkspaceParams = params.has('intent') || params.has('workspace') || params.has('depth');
+        const raw = localStorage.getItem(WORKSPACE_PROFILE_KEY);
+        let saved: Partial<{ intent: string; depth: string; onTheGo: boolean }> | null = null;
+        if (raw) {
+          try {
+            saved = JSON.parse(raw) as Partial<{ intent: string; depth: string; onTheGo: boolean }>;
+          } catch {
+            saved = null;
+          }
+        }
+
+        if (hasWorkspaceParams) {
+          shouldOpenFirstUse = false;
+          nextIntent = intentFromUrl ?? nextIntent;
+          nextDepth = depthFromUrl ?? nextDepth;
+          nextOnTheGoModeActive = Boolean(saved?.onTheGo && nextIntent === 'citizen' && nextDepth === 'snapshot');
+        } else {
+          const savedIntent = normalizeWorkspaceIntent(saved?.intent ?? null);
+          const savedDepth = normalizeEvidenceDepth(saved?.depth ?? null);
+          if (savedIntent && savedDepth) {
+            shouldOpenFirstUse = false;
+            nextIntent = savedIntent;
+            nextDepth = savedDepth;
+            nextOnTheGoModeActive = Boolean(saved?.onTheGo && nextIntent === 'citizen' && nextDepth === 'snapshot');
+          }
+        }
+      } catch {
+        // Invalid URLs or storage contents fall back to the public default profile.
+      } finally {
+        setWorkspaceIntent(nextIntent);
+        setEvidenceDepth(nextDepth);
+        setDraftWorkspaceIntent(nextIntent);
+        setDraftEvidenceDepth(nextDepth);
+        setOnTheGoModeActive(nextOnTheGoModeActive);
+        setWorkspaceConfiguratorOpen(shouldOpenFirstUse);
+        setWorkspaceFirstUseMode(shouldOpenFirstUse);
+        setWorkspaceReady(true);
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!workspaceConfiguratorOpen || !workspaceFirstUseMode) return;
+
+    composerPreviousFocusRef.current = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const focusFrame = window.requestAnimationFrame(() => composerHeadingRef.current?.focus());
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeWorkspaceComposer();
+        return;
+      }
+      if (event.key !== 'Tab' || !composerDialogRef.current) return;
+
+      const focusable = Array.from(
+        composerDialogRef.current.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      if (composerPreviousFocusRef.current && document.contains(composerPreviousFocusRef.current)) {
+        composerPreviousFocusRef.current.focus();
+      }
+    };
+  }, [closeWorkspaceComposer, workspaceConfiguratorOpen, workspaceFirstUseMode]);
+
+  useEffect(() => {
+    if (!workspaceReady) return;
+
+    let active = true;
+
+    queueMicrotask(() => {
+      if (!active) return;
+
+      setDashboardDensity(workspaceSettings.density);
+      setDashboardView(workspaceSettings.view);
+      setDashboardAccent(workspaceSettings.accent);
+      setShowStats(workspaceSettings.showStats);
+      setShowMarketPulse(workspaceSettings.showMarketPulse);
+
+      try {
+        localStorage.setItem(WORKSPACE_PROFILE_KEY, JSON.stringify({
+          intent: workspaceIntent,
+          depth: evidenceDepth,
+          onTheGo: onTheGoModeActive && workspaceIntent === 'citizen' && evidenceDepth === 'snapshot',
+        }));
+
+        const url = new URL(window.location.href);
+        url.searchParams.set('intent', workspaceIntent);
+        url.searchParams.set('depth', evidenceDepth);
+        window.history.replaceState({}, '', `${url.pathname}?${url.searchParams.toString()}${url.hash}`);
+      } catch {
+        // URL/history and localStorage are optional in restricted browser modes.
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [
+    evidenceDepth,
+    onTheGoModeActive,
+    workspaceIntent,
+    workspaceReady,
+    workspaceSettings.accent,
+    workspaceSettings.density,
+    workspaceSettings.showMarketPulse,
+    workspaceSettings.showStats,
+    workspaceSettings.view,
+  ]);
+
+  useEffect(() => {
     if (!prefsReady) return;
     try {
       const nextPrefs: DashboardPreferences = {
@@ -451,20 +1051,69 @@ export default function Dashboard() {
     }
   }, [dashboardAccent, dashboardDensity, dashboardView, prefsReady, showMarketPulse, showStats]);
 
-  // Automatically open onboarding for new sessions (unless skipped permanently)
   useEffect(() => {
-    try {
-      const skipPermanently = localStorage.getItem('policywatcher_onboarding_skip_permanently') === 'true';
-      const sessionSeen = sessionStorage.getItem('policywatcher_onboarding_session_seen') === 'true';
-      if (!skipPermanently && !sessionSeen) {
-        const timer = setTimeout(() => {
-          setHowToOpen(true);
-        }, 400);
-        return () => clearTimeout(timer);
+    let active = true;
+    const smallScreenQuery = window.matchMedia('(max-width: 720px)');
+    const coarsePointerQuery = window.matchMedia('(pointer: coarse)');
+
+    const updateContext = () => {
+      if (!active) return;
+      setOnTheGoSuggested(smallScreenQuery.matches || (coarsePointerQuery.matches && window.innerWidth < 920));
+    };
+
+    const listenToQuery = (query: MediaQueryList) => {
+      if (typeof query.addEventListener === 'function') {
+        query.addEventListener('change', updateContext);
+        return () => query.removeEventListener('change', updateContext);
       }
-    } catch {
-      // ignore
+      query.addListener(updateContext);
+      return () => query.removeListener(updateContext);
+    };
+
+    updateContext();
+    const removeSmallScreenListener = listenToQuery(smallScreenQuery);
+    const removeCoarsePointerListener = listenToQuery(coarsePointerQuery);
+
+    const motionEventCtor = window.DeviceMotionEvent as unknown as { requestPermission?: unknown } | undefined;
+    const motionPermissionRequired = Boolean(motionEventCtor?.requestPermission);
+    let lastMotionSignal = 0;
+
+    const handleMotion = (event: DeviceMotionEvent) => {
+      const acceleration = event.accelerationIncludingGravity ?? event.acceleration;
+      if (!acceleration) return;
+
+      const magnitude = Math.sqrt(
+        (acceleration.x ?? 0) ** 2 +
+        (acceleration.y ?? 0) ** 2 +
+        (acceleration.z ?? 0) ** 2
+      );
+
+      if (magnitude > 18 && Date.now() - lastMotionSignal > 1200) {
+        lastMotionSignal = Date.now();
+        setOnTheGoMotionSuggested(true);
+      }
+    };
+
+    const handleOrientation = () => {
+      if (coarsePointerQuery.matches && window.innerWidth < 920) {
+        setOnTheGoMotionSuggested(true);
+      }
+    };
+
+    if (!motionPermissionRequired) {
+      window.addEventListener('devicemotion', handleMotion, { passive: true });
     }
+    window.addEventListener('orientationchange', handleOrientation);
+
+    return () => {
+      active = false;
+      removeSmallScreenListener();
+      removeCoarsePointerListener();
+      if (!motionPermissionRequired) {
+        window.removeEventListener('devicemotion', handleMotion);
+      }
+      window.removeEventListener('orientationchange', handleOrientation);
+    };
   }, []);
 
   // Keyboard shortcuts
@@ -492,7 +1141,6 @@ export default function Dashboard() {
         setMethodologyOpen(false);
         setCommandPaletteOpen(false);
         setCompareOpen(false);
-        setHowToOpen(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -676,9 +1324,220 @@ export default function Dashboard() {
     }
   };
 
+  const getSuspensionReasonLabel = (source: SourceSuspension) => {
+    const reason = `${source.latestCheck?.reason || source.suspensionReason || ''}`.toLowerCase();
+    const httpStatus = source.latestCheck?.httpStatus;
+
+    if (
+      httpStatus === 403 ||
+      reason.includes('h2_status_403') ||
+      reason.includes('cloudflare') ||
+      reason.includes('bot') ||
+      reason.includes('challenge')
+    ) {
+      return lang === 'it'
+        ? 'La fonte ufficiale risponde con protezione provider/anti-bot alle strategie automatiche.'
+        : 'The official source returned provider or anti-bot protection to automated retrieval strategies.';
+    }
+
+    if (reason.includes('content_too_short')) {
+      return lang === 'it'
+        ? 'Il contenuto recuperato non contiene testo policy sufficiente per una baseline pubblicabile.'
+        : 'The retrieved body did not contain enough policy text for a publishable baseline.';
+    }
+
+    if (reason.includes('wayback_only_stale_snapshots') || reason.includes('stale')) {
+      return lang === 'it'
+        ? 'Gli archivi disponibili sono troppo datati per essere usati come evidenza corrente.'
+        : 'Available archive snapshots are too stale to be used as current evidence.';
+    }
+
+    if (source.suspensionReason === 'source_evidence_missing') {
+      return lang === 'it'
+        ? 'Inventario configurato, ma non esiste ancora una baseline verificata da sorgente.'
+        : 'Configured inventory exists, but no source-verified baseline is available yet.';
+    }
+
+    if (source.suspensionReason === 'partial_retrieval') {
+      return lang === 'it'
+        ? 'Recupero incompleto: la sorgente resta sospesa fino a revisione.'
+        : 'Incomplete retrieval: the source remains suspended pending review.';
+    }
+
+    return lang === 'it'
+      ? 'Quality gate in attesa di verifica o remediation della sorgente.'
+      : 'Quality gate pending source verification or remediation.';
+  };
+
   // Modals are statically imported (require() broke the matrix body rendering
   // and is not safe with Turbopack/Next 16). They are code-split via the
   // isOpen guard inside each component (early return when closed).
+  const ActiveIntentIcon = activeIntent.icon;
+  const visibleSupportingModules = draftWorkspaceSettings.supportingModules.filter((moduleId) =>
+    draftWorkspaceSettings.visibleModules.includes(moduleId)
+  );
+  const workspaceConfigurator = (
+    <motion.div
+      ref={workspaceFirstUseMode ? composerDialogRef : undefined}
+      id="adaptive-workspace-configurator"
+      className={`${styles.workspaceConfigurator} ${workspaceFirstUseMode ? styles.workspaceConfiguratorDialog : ''}`}
+      initial={{ opacity: 0, height: workspaceFirstUseMode ? 'auto' : 0, y: -8 }}
+      animate={{ opacity: 1, height: 'auto', y: 0 }}
+      exit={{ opacity: 0, height: workspaceFirstUseMode ? 'auto' : 0, y: -8 }}
+      transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+      role={workspaceFirstUseMode ? 'dialog' : undefined}
+      aria-modal={workspaceFirstUseMode ? 'true' : undefined}
+      aria-labelledby="workspace-composer-title"
+      aria-describedby="workspace-composer-description"
+    >
+      <div className={styles.workspaceCopy}>
+        <span className={styles.workspaceKicker}>
+          <Layers3 size={14} />
+          {workspaceFirstUseMode ? workspaceText.firstUseLabel : workspaceText.label}
+        </span>
+        <h2
+          id="workspace-composer-title"
+          ref={workspaceFirstUseMode ? composerHeadingRef : undefined}
+          tabIndex={workspaceFirstUseMode ? -1 : undefined}
+        >
+          {workspaceText.title}
+        </h2>
+        <p id="workspace-composer-description">{workspaceText.lead}</p>
+      </div>
+
+      <div className={styles.workspaceControls} aria-label={t.workspaceLabel}>
+        <div className={`${styles.preferenceGroup} ${styles.intentGroup}`}>
+          <span className={styles.preferenceLabel}>{workspaceText.chooseIntent}</span>
+          <div className={styles.workspaceIntentGrid}>
+            {intentOptions.map((intent) => {
+              const IntentIcon = intent.icon;
+              const selected = draftWorkspaceIntent === intent.id;
+              return (
+                <button
+                  key={intent.id}
+                  type="button"
+                  onClick={() => setDraftWorkspaceIntent(intent.id)}
+                  className={selected ? styles.workspaceIntentActive : ''}
+                  data-intent={intent.id}
+                  aria-pressed={selected}
+                >
+                  <IntentIcon size={16} />
+                  <span>{intent.label}</span>
+                  <strong>{intent.title}</strong>
+                  {selected && <Check className={styles.workspaceSelectionCheck} size={16} aria-hidden="true" />}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className={`${styles.preferenceGroup} ${styles.depthGroup}`}>
+          <span className={styles.preferenceLabel}>{workspaceText.chooseDepth}</span>
+          <div className={styles.workspaceDepthStack}>
+            {depthOptions.map((depth) => {
+              const selected = draftEvidenceDepth === depth.id;
+              return (
+                <button
+                  key={depth.id}
+                  type="button"
+                  onClick={() => setDraftEvidenceDepth(depth.id)}
+                  className={selected ? styles.workspaceDepthActive : ''}
+                  aria-pressed={selected}
+                >
+                  <span>{depth.label}</span>
+                  {selected && <Check size={14} aria-hidden="true" />}
+                </button>
+              );
+            })}
+          </div>
+          <p className={styles.workspaceDepthNote}>{draftDepth.detail}</p>
+        </div>
+
+        <div className={`${styles.preferenceGroup} ${styles.generatedGroup}`}>
+          <span className={styles.preferenceLabel}>{workspaceText.generatedLogic}</span>
+          <div className={styles.workspaceGeneratedCard} aria-live="polite">
+            <div className={styles.generatedHeader}>
+              <span>{workspaceText.activeProfile}</span>
+              <strong>{draftIntent.label} / {draftDepth.label}</strong>
+            </div>
+            <p>{draftIntent.detail}</p>
+            <div className={styles.generatedSafety}>
+              <ShieldCheck size={17} aria-hidden="true" />
+              <div>
+                <strong>{moduleLabels.sourceQuality}</strong>
+                <span>{workspaceText.sourcePinned}</span>
+              </div>
+            </div>
+            <div className={styles.generatedEvidenceGroups}>
+              <div>
+                <span className={styles.generatedGroupLabel}>{workspaceText.primaryModules}</span>
+                <motion.ol layout className={styles.generatedEvidenceStack}>
+                  <AnimatePresence initial={false} mode="popLayout">
+                    {draftWorkspaceSettings.primaryModules.map((moduleId, index) => (
+                      <motion.li
+                        layout
+                        key={moduleId}
+                        initial={{ opacity: 0, x: 12 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -12 }}
+                      >
+                        <span>{String(index + 1).padStart(2, '0')}</span>
+                        <strong>{moduleLabels[moduleId]}</strong>
+                      </motion.li>
+                    ))}
+                  </AnimatePresence>
+                </motion.ol>
+              </div>
+              <div>
+                <span className={styles.generatedGroupLabel}>{workspaceText.supportingModules}</span>
+                {visibleSupportingModules.length > 0 ? (
+                  <div className={styles.generatedModules}>
+                    {visibleSupportingModules.map((moduleId) => (
+                      <span key={moduleId}>{moduleLabels[moduleId]}</span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className={styles.generatedEmptySupport}>{workspaceText.noSupportingModules}</p>
+                )}
+              </div>
+            </div>
+            <div className={styles.generatedMeta}>
+              <span>{draftWorkspaceSettings.density}</span>
+              <span>{draftWorkspaceSettings.view}</span>
+              <span>{draftWorkspaceSettings.accent}</span>
+            </div>
+            <button
+              type="button"
+              className={styles.workspaceReset}
+              onClick={() => {
+                setDraftWorkspaceIntent('citizen');
+                setDraftEvidenceDepth('snapshot');
+              }}
+            >
+              <RotateCcw size={14} />
+              {workspaceText.defaultAction}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.workspaceActions}>
+        <button type="button" className={styles.workspaceCloseButton} onClick={closeWorkspaceComposer}>
+          <X size={16} />
+          {workspaceFirstUseMode ? workspaceText.firstUseClose : workspaceText.closeAction}
+        </button>
+        <button
+          type="button"
+          className={styles.workspaceApplyButton}
+          onClick={applyWorkspaceComposer}
+          disabled={!workspaceHasDraftChanges && !workspaceFirstUseMode}
+        >
+          {workspaceText.applyAction}
+          <ArrowRight size={16} />
+        </button>
+      </div>
+    </motion.div>
+  );
 
   return (
     <TermsGate lang={lang} onLangToggle={() => setLang((l) => (l === 'en' ? 'it' : 'en'))}>
@@ -688,6 +1547,9 @@ export default function Dashboard() {
       data-density={dashboardDensity}
       data-view={dashboardView}
       data-accent={dashboardAccent}
+      data-workspace-intent={workspaceIntent}
+      data-evidence-depth={evidenceDepth}
+      data-on-the-go={onTheGoProfileActive ? 'true' : 'false'}
     >
 
       {/* Conditionally render clean logo header for HUD / Spotlight modes */}
@@ -695,7 +1557,7 @@ export default function Dashboard() {
         <header className={styles.header} style={{ borderBottom: navLayout === 'spotlight' ? 'none' : undefined }}>
           <div className={styles.headerContent} style={{ justifyContent: 'center' }}>
             <div className={styles.logoArea} style={{ pointerEvents: 'none' }}>
-              <Image src="/logo.png" alt="PolicyWatcher" width={40} height={40} className={styles.logoImage} priority />
+              <Image src="/logo-mark.png" alt="PolicyWatcher" width={56} height={56} className={styles.logoImage} priority />
               <div>
                 <h1 className={styles.logoTitle}>PolicyWatcher</h1>
                 <span className={styles.logoSubtitle}>{t.subtitle}</span>
@@ -721,6 +1583,22 @@ export default function Dashboard() {
         onChangeLayout={(layout) => setNavLayout(layout)}
       />
 
+      <AnimatePresence>
+        {workspaceConfiguratorOpen && workspaceFirstUseMode && (
+          <motion.div
+            className={styles.workspaceComposerOverlay}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget) closeWorkspaceComposer();
+            }}
+          >
+            {workspaceConfigurator}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <main className={styles.mainContainer}>
         <motion.section
           className={styles.workspacePanel}
@@ -728,114 +1606,185 @@ export default function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
         >
-          <div className={styles.workspaceCopy}>
-            <span className={styles.workspaceKicker}>
-              <Settings2 size={14} />
-              {t.workspaceLabel}
-            </span>
-            <h2>{t.workspaceTitle}</h2>
-            <p>{t.workspaceSubtitle}</p>
+          <div className={styles.workspaceSummaryCard}>
+            <div className={styles.workspaceSummaryMain}>
+              <span className={styles.workspaceKicker}>
+                <Layers3 size={14} />
+                {workspaceText.summaryTitle}
+              </span>
+              <h2>{activeIntent.label} / {activeDepth.label}</h2>
+              <p>{workspaceText.compactLead}</p>
+            </div>
+            <div className={styles.workspaceActiveSummary}>
+              <span>
+                <ActiveIntentIcon size={14} />
+                {workspaceText.presetPrefix}: <strong>{activeIntent.label}</strong>
+              </span>
+              <span>
+                <SlidersHorizontal size={14} />
+                {workspaceText.depthPrefix}: <strong>{activeDepth.label}</strong>
+              </span>
+            </div>
+            <button
+              type="button"
+              className={styles.workspaceChangeButton}
+              aria-expanded={workspaceConfiguratorOpen}
+              aria-controls="adaptive-workspace-configurator"
+              onClick={() => {
+                setDraftWorkspaceIntent(workspaceIntent);
+                setDraftEvidenceDepth(evidenceDepth);
+                setWorkspaceFirstUseMode(false);
+                setWorkspaceConfiguratorOpen((open) => !open);
+              }}
+            >
+              <SlidersHorizontal size={16} />
+              {workspaceText.changeAction}
+            </button>
           </div>
 
-          <div className={styles.workspaceControls} aria-label={t.workspaceLabel}>
-            <div className={styles.preferenceGroup}>
-              <span className={styles.preferenceLabel}>{t.densityLabel}</span>
-              <div className={styles.preferenceSegment}>
-                <button
-                  type="button"
-                  onClick={() => setDashboardDensity('comfortable')}
-                  className={dashboardDensity === 'comfortable' ? styles.preferenceActive : ''}
-                >
-                  <Maximize2 size={14} />
-                  {t.comfortable}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setDashboardDensity('compact')}
-                  className={dashboardDensity === 'compact' ? styles.preferenceActive : ''}
-                >
-                  <LayoutGrid size={14} />
-                  {t.compact}
-                </button>
-              </div>
-            </div>
+          <AnimatePresence initial={false}>
+            {workspaceConfiguratorOpen && !workspaceFirstUseMode && workspaceConfigurator}
+          </AnimatePresence>
 
-            <div className={styles.preferenceGroup}>
-              <span className={styles.preferenceLabel}>{t.viewLabel}</span>
-              <div className={styles.preferenceSegment}>
-                <button
-                  type="button"
-                  onClick={() => setDashboardView('cards')}
-                  className={dashboardView === 'cards' ? styles.preferenceActive : ''}
-                >
-                  <LayoutGrid size={14} />
-                  {t.cardView}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setDashboardView('focus')}
-                  className={dashboardView === 'focus' ? styles.preferenceActive : ''}
-                >
-                  <BarChart3 size={14} />
-                  {t.focusView}
-                </button>
+          {showOnTheGoPrompt && (
+            <motion.div
+              className={styles.onTheGoPrompt}
+              data-active={onTheGoProfileActive ? 'true' : 'false'}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.28 }}
+            >
+              <div>
+                <span className={styles.workspaceKicker}>
+                  <UserRound size={14} />
+                  {t.onTheGoTitle}
+                </span>
+                <p>{t.onTheGoBody}</p>
               </div>
-            </div>
-
-            <div className={styles.preferenceGroup}>
-              <span className={styles.preferenceLabel}>{t.sectionsLabel}</span>
-              <div className={styles.iconToggleGroup}>
-                <button
-                  type="button"
-                  onClick={() => setShowStats((value) => !value)}
-                  className={showStats ? styles.iconToggleActive : ''}
-                  title={showStats ? t.hideStats : t.showStats}
-                  aria-label={showStats ? t.hideStats : t.showStats}
-                >
-                  {showStats ? <Eye size={15} /> : <EyeOff size={15} />}
-                  KPI
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowMarketPulse((value) => !value)}
-                  className={showMarketPulse ? styles.iconToggleActive : ''}
-                  title={showMarketPulse ? t.hidePulse : t.showPulse}
-                  aria-label={showMarketPulse ? t.hidePulse : t.showPulse}
-                >
-                  {showMarketPulse ? <Eye size={15} /> : <EyeOff size={15} />}
-                  Pulse
-                </button>
-              </div>
-            </div>
-
-            <div className={styles.preferenceGroup}>
-              <span className={styles.preferenceLabel}>{t.accentLabel}</span>
-              <div className={styles.accentSwatches} aria-label={t.accentLabel}>
-                {([
-                  { value: 'indigo' as DashboardAccent, label: t.accentIndigo },
-                  { value: 'teal' as DashboardAccent, label: t.accentTeal },
-                  { value: 'slate' as DashboardAccent, label: t.accentSlate },
-                ]).map((accent) => (
+              {onTheGoProfileActive ? (
+                <span className={styles.onTheGoStatus}>{t.onTheGoActive}</span>
+              ) : (
+                <div className={styles.onTheGoActions}>
                   <button
-                    key={accent.value}
                     type="button"
-                    onClick={() => setDashboardAccent(accent.value)}
-                    className={`${styles.accentSwatch} ${styles[`accent_${accent.value}`]} ${dashboardAccent === accent.value ? styles.accentSwatchActive : ''}`}
-                    title={accent.label}
-                    aria-label={accent.label}
+                    className={styles.onTheGoPrimary}
+                    onClick={() => {
+                      setWorkspaceIntent('citizen');
+                      setEvidenceDepth('snapshot');
+                      setDraftWorkspaceIntent('citizen');
+                      setDraftEvidenceDepth('snapshot');
+                      setDashboardDensity('comfortable');
+                      setDashboardView('cards');
+                      setShowStats(false);
+                      setShowMarketPulse(true);
+                      setWorkspaceConfiguratorOpen(false);
+                      setOnTheGoModeActive(true);
+                    }}
                   >
-                    <Palette size={13} />
+                    {t.onTheGoAction}
                   </button>
+                  <button
+                    type="button"
+                    className={styles.onTheGoSecondary}
+                    onClick={() => setOnTheGoDismissed(true)}
+                  >
+                    {t.onTheGoDismiss}
+                  </button>
+                </div>
+              )}
+            </motion.div>
+          )}
+
+        </motion.section>
+
+        {isModuleVisible('observatory') && (
+          <motion.section
+            className={styles.observatoryTicker}
+            style={{ order: getModuleOrder('observatory') }}
+            aria-label={t.tickerLabel}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.38 }}
+          >
+            <div className={styles.tickerHeader}>
+              <span className={styles.workspaceKicker}>
+                <Search size={14} />
+                {t.tickerLabel}
+              </span>
+              <span>
+                <PauseCircle size={14} />
+                {t.tickerPause}
+              </span>
+            </div>
+            <div className={styles.tickerViewport}>
+              <div className={styles.tickerTrack}>
+                {tickerLoopItems.map((item, index) => (
+                  <Link
+                    key={`${item.id}-${index}`}
+                    href={item.href}
+                    className={styles.tickerItem}
+                    data-tone={item.tone}
+                    aria-hidden={index >= tickerItems.length}
+                    tabIndex={index >= tickerItems.length ? -1 : undefined}
+                  >
+                    <span>{item.label}</span>
+                    <strong>{item.message}</strong>
+                  </Link>
                 ))}
               </div>
             </div>
+          </motion.section>
+        )}
+
+        <motion.section
+          className={styles.releaseMapSection}
+          style={{ order: 90 }}
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.05 }}
+          aria-labelledby="release-map-title"
+        >
+          <div className={styles.releaseMapHeader}>
+            <div>
+              <span className={styles.releaseMapKicker}>
+                <Sparkles size={15} />
+                {t.exploreKicker}
+              </span>
+              <h2 id="release-map-title">{t.exploreTitle}</h2>
+              <p>{t.exploreLead}</p>
+            </div>
+            <Link href="/atlas" className={styles.releaseMapPrimaryLink}>
+              {t.exploreAtlas}
+              <ArrowRight size={15} />
+            </Link>
+          </div>
+
+          <div className={styles.releaseMapGrid}>
+            {t.exploreCards.map((card, index) => {
+              const Icon = explorationIcons[index] ?? Sparkles;
+              return (
+                <Link key={`${card.href}-${card.title}`} href={card.href} className={styles.releaseMapCard}>
+                  <span className={styles.releaseMapIcon}>
+                    <Icon size={18} />
+                  </span>
+                  <span className={styles.releaseMapMeta}>{card.category}</span>
+                  <h3>{card.title}</h3>
+                  <p>{card.body}</p>
+                  <span className={styles.releaseMapAction}>
+                    {t.exploreOpen}
+                    <ArrowRight size={14} />
+                  </span>
+                </Link>
+              );
+            })}
           </div>
         </motion.section>
 
         {/* Statistics Grid */}
-        {showStats && (
+        {showStats && isModuleVisible('stats') && (
           <motion.section
             className={styles.statsGrid}
+            style={{ order: getModuleOrder('stats') }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, staggerChildren: 0.1 }}
@@ -864,12 +1813,14 @@ export default function Dashboard() {
         )}
 
         {/* Filter Bar */}
-        <motion.section 
-          className={`${styles.controlsBar} glass-panel`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
+        {isModuleVisible('filters') && (
+          <motion.section
+            className={`${styles.controlsBar} glass-panel`}
+            style={{ order: getModuleOrder('filters') }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
           <div className={styles.searchFilterGroup}>
             <div className={styles.searchWrapper}>
               <Search className={styles.searchIcon} size={18} />
@@ -932,13 +1883,15 @@ export default function Dashboard() {
               ))}
             </div>
           </div>
-        </motion.section>
+          </motion.section>
+        )}
 
         {/* Advanced Filters Panel */}
         <AnimatePresence>
-        {showAdvancedFilters && (
+        {showAdvancedFilters && isModuleVisible('filters') && (
           <motion.section 
             className={`${styles.advancedFilters} glass-panel`}
+            style={{ order: getModuleOrder('filters') + 1 }}
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -1024,6 +1977,7 @@ export default function Dashboard() {
         {!loading && sourceSuspensionsTotal > 0 && (
           <motion.section
             className={styles.sourceSuspensionPanel}
+            style={{ order: getModuleOrder('sourceQuality') }}
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45 }}
@@ -1055,6 +2009,7 @@ export default function Dashboard() {
                   </div>
                   <div className={styles.sourceSuspensionMeta}>
                     <span>{t.suspendedSourceStatus}: {source.dataStatus}</span>
+                    <span>{t.suspendedSourceReason}: {getSuspensionReasonLabel(source)}</span>
                     <span>
                       {t.suspendedSourceLastCheck}: {new Date(source.lastCheckDate).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US')}
                     </span>
@@ -1066,9 +2021,10 @@ export default function Dashboard() {
         )}
 
         {/* Market Pulse Timeline */}
-        {showMarketPulse && (
+        {showMarketPulse && isModuleVisible('marketPulse') && (
           <motion.section
             className={styles.marketPulseSection}
+            style={{ order: getModuleOrder('marketPulse') }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
@@ -1134,7 +2090,7 @@ export default function Dashboard() {
 
         {/* Results Count */}
         {!loading && (
-          <div className={styles.resultsInfo}>
+          <div className={styles.resultsInfo} style={{ order: getModuleOrder('companyCards') - 1 }}>
             {filteredCompanies.length} / {companies.length} {lang === 'it' ? 'compagnie' : 'companies'}
           </div>
         )}
@@ -1146,7 +2102,7 @@ export default function Dashboard() {
             <SkeletonGrid count={6} />
           </>
         ) : filteredCompanies.length === 0 ? (
-          <div className={styles.emptyState}>
+          <div className={styles.emptyState} style={{ order: getModuleOrder('companyCards') }}>
             <ShieldAlert size={48} className={styles.emptyIcon} />
             <p>{t.noResults}</p>
             {activeFilterCount > 0 && (
@@ -1158,6 +2114,7 @@ export default function Dashboard() {
         ) : (
           <motion.section 
             className={styles.companyGrid}
+            style={{ order: getModuleOrder('companyCards') }}
             initial="hidden"
             animate="visible"
             variants={{

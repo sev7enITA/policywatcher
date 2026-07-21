@@ -153,7 +153,7 @@ export interface PolicyAnalysisResult {
   // AI Governance Indicators
   aiTrainingOptOut: string; // e.g. "Allowed", "Not Allowed", "Opt-out available"
   aiDataScrapingRestricted: string; // e.g. "Restricted", "Permitted", "Not specified"
-  aiIpLicensing: string; // e.g. "Claimed by company", "Protected", "Shared"
+  aiIpLicensing: string; // e.g. "Company retained", "Protected", "Shared"
   aiPromptRetention: string; // e.g. "30 days", "Indefinite", "System-deleted"
 
   remediations: RemediationResult[];
@@ -258,7 +258,7 @@ interface PolicyAnalysisResult {
   // AI Governance Safety Checklist
   aiTrainingOptOut: string; // Choose one: "Allowed", "Not Allowed", "Opt-out available", or "Not specified".
   aiDataScrapingRestricted: string; // Choose one: "Restricted", "Permitted", or "Not specified".
-  aiIpLicensing: string; // Choose one: "Claimed by company", "Protected", "Shared", or "Not specified".
+  aiIpLicensing: string; // Choose one: "Company retained", "Protected", "Shared", or "Not specified".
   aiPromptRetention: string; // Choose one: "Indefinite", "System-deleted", "30 days", "180 days", or "Not specified".
 
   // Cross-company KPI Matrix. Use ONLY the allowed values shown here.
@@ -269,7 +269,7 @@ interface PolicyAnalysisResult {
   kpiRightToDeletion: "Full" | "Partial" | "Not Available" | "Not assessed";
   kpiCrossBorderTransfer: "Restricted" | "Controlled" | "Unrestricted" | "Not assessed";
   kpiAiTrainingOptOut: "Available" | "Opt-Out" | "Not Available" | "Not assessed";
-  kpiAiOutputOwnership: "User Retained" | "Shared" | "Company Claimed" | "Not assessed";
+  kpiAiOutputOwnership: "User Retained" | "Shared" | "Company Retained" | "Not assessed";
   kpiAlgoTransparency: "Published" | "Mentioned" | "Opaque" | "Not assessed";
   kpiAutomatedDecision: "Transparent" | "Partial" | "Opaque" | "Not assessed";
   kpiAiBiasFairness: "Committed" | "Mentioned" | "Absent" | "Not assessed";

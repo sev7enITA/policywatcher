@@ -51,7 +51,7 @@
   padding: 7px 12px;
   color: var(--text-main);
   font-size: 0.78rem;
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   background: #ffffff;
@@ -107,7 +107,7 @@
   gap: 8px;
   color: var(--primary);
   font-size: 0.78rem;
-  font-weight: 900;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
@@ -176,7 +176,7 @@
   gap: 16px;
   color: #c4b5fd;
   font-size: 0.78rem;
-  font-weight: 900;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
@@ -196,7 +196,7 @@
   padding: 12px;
   background: rgba(255, 255, 255, 0.045);
   color: #f8fafc;
-  font-weight: 750;
+  font-weight: 650;
 }
 
 .signalRow svg {
@@ -216,7 +216,7 @@
   margin-bottom: 8px;
   color: #cbd5e1;
   font-size: 0.78rem;
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -305,7 +305,7 @@
   color: #047857;
   background: rgba(16, 185, 129, 0.08);
   font-size: 0.68rem;
-  font-weight: 900;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -336,7 +336,7 @@
   gap: 7px;
   color: #047857;
   font-size: 0.82rem;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .badgeBand {
@@ -373,7 +373,7 @@
   background: var(--bg-secondary);
   color: var(--text-main);
   font-size: 0.82rem;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .badgeLink img {
@@ -434,7 +434,7 @@
   padding: 6px 9px;
   color: var(--text-muted);
   font-size: 0.7rem;
-  font-weight: 900;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -522,7 +522,7 @@
   color: #ffffff;
   font-family: var(--font-mono);
   font-size: 0.82rem;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .workflowStep h3 {

@@ -65,7 +65,7 @@ const evidenceCards: EvidenceCard[] = [
   },
   {
     title: 'Renderer-Backed Retrieval',
-    status: '3.5.1 hardening',
+    status: 'Confidence hardening',
     tone: 'blue',
     icon: Server,
     body:
@@ -99,7 +99,7 @@ const evidenceCards: EvidenceCard[] = [
     tone: 'violet',
     icon: FileSearch,
     body:
-      'Scans JavaScript and TypeScript code paths with GitHub security-and-quality queries. Findings remain external to product claims until reviewed.',
+      'Scans JavaScript and TypeScript code paths with GitHub security-and-quality queries. Findings remain external to product statements until reviewed.',
     href: `${repoBase}/actions/workflows/codeql.yml`,
     linkLabel: 'Open scan',
   },
@@ -258,7 +258,7 @@ export default function TrustPage() {
             <ArrowLeft size={16} />
             Back to dashboard
           </Link>
-          <div className={styles.releaseMark}>3.5.1 Audit Operations track</div>
+          <div className={styles.releaseMark}>3.6.3 Adaptive Workspace</div>
         </div>
       </header>
 
@@ -411,15 +411,15 @@ export default function TrustPage() {
 
         <section className={styles.boundaryPanel}>
           <div>
-            <span className={styles.sectionEyebrow}>Declared boundary</span>
-            <h2>No certification claim is made here.</h2>
+            <span className={styles.sectionEyebrow}>Evidence scope</span>
+            <h2>Operational evidence with clear scope.</h2>
           </div>
           <p>
             PolicyWatcher monitors configured public source URLs, records check
             outcomes, maps policy changes, and produces analytical indicators.
-            The platform does not validate internal company behavior, does not
-            determine legal compliance, and does not replace independent human
-            legal or security review.
+            The platform focuses on observable public texts and QA state. Each
+            visible signal is designed to be traceable back to provider sources,
+            repository history, or the documented methodology.
           </p>
         </section>
       </main>

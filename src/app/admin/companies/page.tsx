@@ -17,6 +17,7 @@ import {
   Globe,
 } from 'lucide-react';
 import styles from '../admin.module.css';
+import { PolicyDiscoveryWorkspace } from '@/components/admin/PolicyDiscoveryWorkspace';
 
 const MAP_WIDTH = 980;
 const MAP_HEIGHT = 360;
@@ -105,6 +106,14 @@ const INDUSTRY_COLORS: Record<string, string> = {
   'Cloud/SaaS': 'badgePrimary',
 };
 
+const EMPTY_COMPANY_FORM = {
+  name: '',
+  slug: '',
+  industry: INDUSTRIES[0] as string,
+  website: '',
+  logo: '',
+};
+
 /* ---------- Component ---------- */
 export default function CompanyManagerPage() {
   const router = useRouter();
@@ -153,13 +162,7 @@ export default function CompanyManagerPage() {
 
   // Add Company form
   const [showAddCompany, setShowAddCompany] = useState(false);
-  const [companyForm, setCompanyForm] = useState({
-    name: '',
-    slug: '',
-    industry: INDUSTRIES[0] as string,
-    website: '',
-    logo: '',
-  });
+  const [companyForm, setCompanyForm] = useState(EMPTY_COMPANY_FORM);
   const [addCompanyLoading, setAddCompanyLoading] = useState(false);
   const [addCompanyError, setAddCompanyError] = useState('');
 
@@ -261,9 +264,23 @@ export default function CompanyManagerPage() {
         return;
       }
 
-      // Reset form and refresh
-      setCompanyForm({ name: '', slug: '', industry: INDUSTRIES[0], website: '', logo: '' });
+      const discoveryRes = await fetch('/api/admin/policy-discovery', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ companyId: data.company.id }),
+      });
+      if (!discoveryRes.ok) {
+        const discoveryData = await discoveryRes.json();
+        setError(
+          `Company created, but automatic policy discovery could not start: ${discoveryData.error || 'unknown error'}`
+        );
+      }
+
+      // Reset, open the company row, and refresh while discovery runs.
+      setCompanyForm(EMPTY_COMPANY_FORM);
       setShowAddCompany(false);
+      setExpandedRows(new Set([data.company.id]));
       await fetchCompanies();
     } catch {
       setAddCompanyError('Network error. Please try again.');
@@ -546,7 +563,7 @@ export default function CompanyManagerPage() {
               disabled={addCompanyLoading}
             >
               <Plus size={16} />
-              {addCompanyLoading ? 'Creating...' : 'Create Company'}
+              {addCompanyLoading ? 'Creating...' : 'Create Company + Discover Policies'}
             </button>
             <button
               className={`${styles.btn} ${styles.btnGhost}`}
@@ -739,6 +756,7 @@ export default function CompanyManagerPage() {
                     addPolicyError={addPolicyError}
                     setAddPolicyError={setAddPolicyError}
                     onAddPolicy={() => handleAddPolicy(company.id)}
+                    onRefresh={() => void fetchCompanies()}
                   />
                 );
               })}
@@ -822,6 +840,7 @@ interface CompanyTableRowProps {
   addPolicyError: string;
   setAddPolicyError: (err: string) => void;
   onAddPolicy: () => void;
+  onRefresh: () => void;
 }
 
 function CompanyTableRow({
@@ -841,6 +860,7 @@ function CompanyTableRow({
   addPolicyError,
   setAddPolicyError,
   onAddPolicy,
+  onRefresh,
 }: CompanyTableRowProps) {
   const industryBadge = INDUSTRY_COLORS[company.industry] || 'badgePrimary';
   const showPolicyForm = addPolicyFor === company.id;
@@ -1065,6 +1085,15 @@ function CompanyTableRow({
                   ))}
                 </ul>
               )}
+
+              <PolicyDiscoveryWorkspace
+                companyId={company.id}
+                companyName={company.name}
+                policyCount={company.policies.length}
+                isAdmin={isAdmin}
+                onPoliciesChanged={onRefresh}
+                compact
+              />
             </div>
           </td>
         </tr>

@@ -64,9 +64,9 @@
 
 .title {
   font-size: 1.75rem;
-  font-weight: 800;
+  font-weight: 700;
   color: #0f172a;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
 }
 
 .subtitle {
@@ -157,7 +157,7 @@
   font-weight: 700;
   margin-bottom: 12px;
   color: #0f172a;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -360,7 +360,7 @@
   font-size: 1.1rem;
   font-weight: 700;
   color: #0f172a;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
 }
 
 /* Charts and Trendlines */
@@ -577,7 +577,7 @@
   background: var(--primary-glow);
   border: 1px solid var(--border-color-active);
   color: var(--primary);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 0.8rem;
   font-weight: 600;
   text-decoration: none;
@@ -695,7 +695,7 @@
   font-weight: 700;
   font-size: 0.9rem;
   color: var(--text-main);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   display: flex;
   align-items: center;
   gap: 8px;

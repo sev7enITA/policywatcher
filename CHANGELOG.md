@@ -1,5 +1,71 @@
 # Changelog
 
+## 3.6.3 - 2026-07-10
+
+### Added
+- Objective-based Dashboard Composer as the first-use dashboard entry: it asks for intent and evidence depth, previews a typed stack of registered evidence modules, and persists or deep-links the selected workspace.
+- Durable Bulk Source Onboarding at `/admin/source-onboarding`, with controlled CSV/TSV intake and persisted stages for proposed source, official-source review, first baseline, QA gate, and publication decision.
+- Revolut source remediation rules for EU/EEA and UK records, splitting the previous duplicated generic URLs into market-specific official sources.
+- Public suspension explainability: suspended sources now show a readable reason when automated retrieval is blocked by provider protection, returns insufficient policy text, relies on stale archive evidence, or lacks a verified baseline.
+- Press Wall visual previews for tracked public references, including the Giovanna Panucci / Gladiatori Digitali article.
+- Public methodology guidance for official-but-blocked sources: VPS rendering improves coverage but does not turn provider anti-bot challenge pages into evidence.
+- User guide and methodology alignment for Adaptive Workspace, public exploration surfaces, admin assurance tools, and source-evidence publication behavior.
+- Observatory deadline-style watch board for policy/privacy review windows, source signals, standards references, public events, category/region lenses, and downloadable calendar reminders.
+
+### Changed
+- The Adaptive Workspace now composes actual dashboard modules instead of describing static profile logic; Source QA stays pinned in every generated stack.
+- Approved bulk candidates create controlled inventory and establish a private first baseline before QA, with explicit publish, hold, and reject outcomes recorded separately.
+- Visible build strings, package metadata, footer, roadmap, and showcase copy updated to `3.6.3`.
+- Source QA wording now points remediation toward market-specific official URLs, official PDF/CDN evidence where available, or traced admin review instead of forced bypass attempts.
+- Hostinger-safe source remediation and inventory bootstrap scripts now carry the corrected Revolut source mappings.
+- README feature guide now reflects the 6-slide onboarding flow, Site Atlas, Policy Signals Board, Press Wall, Roadmap, Trust/Infographics pages, and the admin assurance console.
+- Observatory redesigned from a source registry page into an operational review queue inspired by deadline-board interaction patterns: nearest review first, then source context, jurisdiction, cadence, and next action.
+
+### Safety
+- Bulk imports, official-source approval, and first-baseline capture never make evidence public. QA must pass and an administrator must explicitly publish before the public-evidence gate opens.
+- Intake rejects malformed/private-host URLs and duplicate policy candidates, while baseline and publication transitions remain auditable and stage constrained.
+- Challenge pages, placeholders, too-short bodies, stale archives, and unresolved provider blocks remain suspended from public analysis, KPI values, timeline events, reports, and AI interpretations.
+- Dependency lockfile refreshed to patched `brace-expansion`, `js-yaml`, and `protobufjs` releases; `npm audit --audit-level=high` reports zero vulnerabilities for the release candidate.
+
+## 3.6.1 - 2026-07-08
+
+### Added
+- Adaptive Workspace Foundation on the live dashboard: users can select a session intent (`Citizen`, `GRC / Legal`, `Research`, `Builder`) and evidence depth (`Snapshot`, `Operational`, `Forensic`) instead of starting from a fixed dashboard layout.
+- Query-parameter presets for the public dashboard (`/?intent=citizen&depth=forensic`) with sanitized enum parsing and localStorage persistence under `pw_workspace_profile`.
+- Workspace profile evaluator that changes dashboard density, view mode, accent, module priority, and public module prominence while preserving source-quality safeguards.
+- Roadmap preset links that open the dashboard directly with the selected workspace profile.
+
+### Changed
+- Package version and visible build strings updated to `3.6.1`.
+- Public roadmap copy now describes the Adaptive Workspace as an implemented 3.6.1 track rather than a future UX direction.
+- Dashboard setup panel replaced by the goal-oriented Workspace Composer.
+- Workspace Composer now follows a compact mobile-first disclosure pattern: the active profile remains visible as a small summary card, the full configurator opens only on demand, and profile changes are applied explicitly before the panel closes.
+- Roadmap control typography cleaned up so buttons and control labels use sober UI typography instead of display headline styling.
+
+### Safety
+- Source suspension notices, QA/source-quality states, and data limitation signals remain outside the adaptive hiding logic.
+- Invalid `intent` or `depth` query parameters are ignored safely and fall back to the public default workspace.
+
+## 3.6.0 - 2026-07-08
+
+### Added
+- Public Community Roadmap (`/roadmap`) redesigned as an interactive signal board for product evolution, with objective-based workspace modes, evidence-depth selection, candidate feature radar, release lanes, and GitHub issue links for structured community feedback.
+- Public Press Wall (`/press`) collecting external articles, LinkedIn discussions, and community references about PolicyWatcher, with explicit wording that mentions are public references rather than certifications, endorsements, or legal validation.
+- Dedicated logo-mark asset (`/logo-mark.png`) for compact public/admin headers, avoiding the previous duplicated wordmark-inside-wordmark presentation.
+- Press Wall entry in sitemap, footer resources, showcase footer, roadmap footer, and command palette.
+- Community roadmap entry in command palette and footer using current wording instead of the previous `3.5 Roadmap` label.
+
+### Changed
+- Package version and visible build strings updated to `3.6.0`.
+- Showcase repositioned from a 3.5.1-only Audit Operations overview to a 3.6 public platform showcase covering community roadmap, press wall, trust evidence, Dataset QA, admin tools, retrieval telemetry, and non-certification boundaries.
+- Public roadmap release lanes now mark 3.5.1 as delivered Audit Operations work and 3.6.0 as the active Adaptive Community Surface release.
+- Header/logo usage refreshed across dashboard, admin, login, showcase, and public pages to use the compact PolicyWatcher mark beside explicit text.
+- Public resource navigation expanded through footer/command palette instead of adding more items to the already dense dashboard toolbar.
+
+### Notes
+- This release does not introduce a database migration, renderer VPS update, or VPS Operations Agent update.
+- Hostinger deployment can use the source package directly; keep production `DATABASE_URL`, `SESSION_HMAC_SECRET`, `API_SECRET`, `RENDERER_URL`, `RENDERER_SECRET`, `VPS_AGENT_URL`, and `VPS_AGENT_SECRET` unchanged unless rotating secrets intentionally.
+
 ## 3.5.1 - 2026-07-05
 
 ### Added

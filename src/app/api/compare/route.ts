@@ -35,7 +35,7 @@ const kpiWeights: Record<string, number> = {
   Extensive: 3, Broad: 3, Indefinite: 3, None: 3, Unrestricted: 3,
   Moderate: 2, Limited: 2, Extended: 2, Partial: 2, Controlled: 2,
   Minimal: 1, Defined: 1, Restricted: 1, Full: 1,
-  'Not Available': 3, 'Company Claimed': 3, Opaque: 3, Undisclosed: 3, Absent: 3,
+  'Not Available': 3, 'Company Retained': 3, Opaque: 3, Undisclosed: 3, Absent: 3,
   Shared: 2, Mentioned: 2,
   Available: 1, 'User Retained': 1, Published: 1, Disclosed: 1, Committed: 1,
   Implicit: 3, Unspecified: 3,

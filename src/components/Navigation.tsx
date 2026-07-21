@@ -17,6 +17,7 @@ import {
   Clock,
   Cpu,
   Download,
+  GitFork,
   Grid3X3,
   HelpCircle,
   History,
@@ -56,6 +57,7 @@ type CommandItem = {
   id: string;
   label: string;
   shortLabel?: string;
+  tooltip?: string;
   icon: LucideIcon;
   href?: string;
   onClick?: () => void;
@@ -111,15 +113,17 @@ export default function Navigation({
       observe: 'Observe',
       audit: 'Audit',
       operate: 'Operate',
-      status: 'v3.5 QA',
+      status: 'v3.6',
       search: 'Search',
       searchTitle: 'Search actions',
       export: 'Export',
       methodology: 'Methodology',
       howTo: 'How to',
       timeline: 'Timeline',
+      observatory: 'Observatory',
       leaderboard: 'Signals',
       showcase: 'Showcase',
+      atlas: 'Atlas',
       roadmap: 'Roadmap',
       trust: 'Trust QA',
       matrix: 'Matrix',
@@ -132,20 +136,42 @@ export default function Navigation({
       moreTitle: 'Workspace Controls',
       moreSubtitle: 'Public dashboard actions, exports, docs, and QA references.',
       language: 'Italiano',
+      tooltips: {
+        search: 'Search companies, policies and dashboard actions',
+        timeline: 'Open the source-verified change timeline',
+        observatory: 'Open the curated policy source observatory',
+        leaderboard: 'Compare companies by operational evidence signals',
+        showcase: 'View the platform overview, workflows and visuals',
+        atlas: 'Explore the public platform as an entity-relation graph',
+        roadmap: 'Review planned features and community priorities',
+        trust: 'Open public trust, QA and security evidence',
+        matrix: 'Open the cross-company KPI matrix',
+        export: 'Export filtered dashboard data',
+        methodology: 'Read the methodology and confidence process',
+        howTo: 'Open the user guide',
+        subscribe: 'Subscribe to policy change alerts',
+        changelog: 'See release changes and maintenance notes',
+        language: 'Switch dashboard language',
+        about: 'Open project and author information',
+        assistant: 'Ask the PolicyWatcher assistant',
+        more: 'Open all controls',
+      },
     },
     it: {
       observe: 'Osserva',
       audit: 'Audita',
       operate: 'Opera',
-      status: 'v3.5 QA',
+      status: 'v3.6',
       search: 'Cerca',
       searchTitle: 'Cerca azioni',
       export: 'Export',
       methodology: 'Metodo',
       howTo: 'Guida',
       timeline: 'Timeline',
+      observatory: 'Observatory',
       leaderboard: 'Segnali',
       showcase: 'Vetrina',
+      atlas: 'Atlante',
       roadmap: 'Roadmap',
       trust: 'Trust QA',
       matrix: 'Matrice',
@@ -158,6 +184,26 @@ export default function Navigation({
       moreTitle: 'Controlli Workspace',
       moreSubtitle: 'Azioni pubbliche, export, documentazione e riferimenti QA.',
       language: 'English',
+      tooltips: {
+        search: 'Cerca aziende, policy e azioni della dashboard',
+        timeline: 'Apri la timeline delle modifiche verificate',
+        observatory: 'Apri l osservatorio curato delle fonti policy',
+        leaderboard: 'Confronta le aziende per segnali di evidenza operativa',
+        showcase: 'Guarda overview, workflow e visual della piattaforma',
+        atlas: 'Esplora la piattaforma come grafo entita-relazioni',
+        roadmap: 'Consulta funzioni pianificate e priorita community',
+        trust: 'Apri evidenze pubbliche di trust, QA e sicurezza',
+        matrix: 'Apri la matrice KPI cross-company',
+        export: 'Esporta i dati filtrati della dashboard',
+        methodology: 'Leggi metodologia e processo di confidence',
+        howTo: 'Apri la guida utente',
+        subscribe: 'Iscriviti agli alert sulle modifiche',
+        changelog: 'Vedi modifiche di release e note manutentive',
+        language: 'Cambia lingua della dashboard',
+        about: 'Apri informazioni sul progetto e autore',
+        assistant: 'Interroga l’assistente PolicyWatcher',
+        more: 'Apri tutti i controlli',
+      },
     },
   }[lang];
 
@@ -166,31 +212,33 @@ export default function Navigation({
       id: 'observe',
       label: t.observe,
       items: [
-        { id: 'timeline', label: t.timeline, icon: Clock, href: '/timeline' },
-        { id: 'leaderboard', label: t.leaderboard, icon: BarChart3, href: '/leaderboard' },
-        { id: 'showcase', label: t.showcase, icon: Sparkles, href: '/showcase' },
-        { id: 'roadmap', label: t.roadmap, icon: Cpu, href: '/roadmap' },
-        { id: 'trust', label: t.trust, icon: ShieldCheck, href: '/trust' },
+        { id: 'timeline', label: t.timeline, tooltip: t.tooltips.timeline, icon: Clock, href: '/timeline' },
+        { id: 'observatory', label: t.observatory, tooltip: t.tooltips.observatory, icon: Search, href: '/observatory' },
+        { id: 'leaderboard', label: t.leaderboard, tooltip: t.tooltips.leaderboard, icon: BarChart3, href: '/leaderboard' },
+        { id: 'showcase', label: t.showcase, tooltip: t.tooltips.showcase, icon: Sparkles, href: '/showcase' },
+        { id: 'atlas', label: t.atlas, tooltip: t.tooltips.atlas, icon: GitFork, href: '/atlas' },
+        { id: 'roadmap', label: t.roadmap, tooltip: t.tooltips.roadmap, icon: Cpu, href: '/roadmap' },
+        { id: 'trust', label: t.trust, tooltip: t.tooltips.trust, icon: ShieldCheck, href: '/trust' },
       ],
     },
     {
       id: 'audit',
       label: t.audit,
       items: [
-        { id: 'matrix', label: t.matrix, icon: Grid3X3, onClick: onOpenMatrix },
-        { id: 'export', label: t.export, icon: Download, onClick: onOpenExport },
-        { id: 'methodology', label: t.methodology, icon: BookOpen, onClick: onOpenMethodology },
-        { id: 'how-to', label: t.howTo, icon: HelpCircle, onClick: onOpenHowTo },
+        { id: 'matrix', label: t.matrix, tooltip: t.tooltips.matrix, icon: Grid3X3, onClick: onOpenMatrix },
+        { id: 'export', label: t.export, tooltip: t.tooltips.export, icon: Download, onClick: onOpenExport },
+        { id: 'methodology', label: t.methodology, tooltip: t.tooltips.methodology, icon: BookOpen, onClick: onOpenMethodology },
+        { id: 'how-to', label: t.howTo, tooltip: t.tooltips.howTo, icon: HelpCircle, onClick: onOpenHowTo },
       ],
     },
     {
       id: 'operate',
       label: t.operate,
       items: [
-        { id: 'subscribe', label: t.subscribe, icon: Bell, onClick: onOpenSubscribe },
-        { id: 'changelog', label: t.changelog, icon: History, onClick: onOpenChangelog },
-        { id: 'language', label: t.language, icon: Languages, onClick: onToggleLanguage, tone: 'quiet' },
-        { id: 'about', label: t.about, icon: User, onClick: onOpenAbout, tone: 'quiet' },
+        { id: 'subscribe', label: t.subscribe, tooltip: t.tooltips.subscribe, icon: Bell, onClick: onOpenSubscribe },
+        { id: 'changelog', label: t.changelog, tooltip: t.tooltips.changelog, icon: History, onClick: onOpenChangelog },
+        { id: 'language', label: t.language, tooltip: t.tooltips.language, icon: Languages, onClick: onToggleLanguage, tone: 'quiet' },
+        { id: 'about', label: t.about, tooltip: t.tooltips.about, icon: User, onClick: onOpenAbout, tone: 'quiet' },
       ],
     },
   ], [
@@ -203,6 +251,7 @@ export default function Navigation({
     onOpenSubscribe,
     onToggleLanguage,
     t.about,
+    t.atlas,
     t.audit,
     t.changelog,
     t.export,
@@ -211,6 +260,7 @@ export default function Navigation({
     t.matrix,
     t.methodology,
     t.observe,
+    t.observatory,
     t.operate,
     t.roadmap,
     t.leaderboard,
@@ -218,6 +268,21 @@ export default function Navigation({
     t.subscribe,
     t.timeline,
     t.trust,
+    t.tooltips.about,
+    t.tooltips.atlas,
+    t.tooltips.changelog,
+    t.tooltips.export,
+    t.tooltips.howTo,
+    t.tooltips.language,
+    t.tooltips.leaderboard,
+    t.tooltips.matrix,
+    t.tooltips.methodology,
+    t.tooltips.observatory,
+    t.tooltips.roadmap,
+    t.tooltips.showcase,
+    t.tooltips.subscribe,
+    t.tooltips.timeline,
+    t.tooltips.trust,
   ]);
 
   const allCommands = useMemo(
@@ -228,6 +293,7 @@ export default function Navigation({
   const assistantCommand: CommandItem = {
     id: 'assistant',
     label: t.assistant,
+    tooltip: t.tooltips.assistant,
     icon: Zap,
     onClick: onOpenAssistant,
     tone: 'accent',
@@ -237,6 +303,7 @@ export default function Navigation({
     id: 'search',
     label: t.search,
     shortLabel: t.searchTitle,
+    tooltip: t.tooltips.search,
     icon: Search,
     onClick: onOpenSearch,
   };
@@ -268,6 +335,7 @@ export default function Navigation({
           key={item.id}
           href={item.href}
           className={className}
+          data-tooltip={item.tooltip ?? item.shortLabel ?? item.label}
           title={item.shortLabel ?? item.label}
           aria-label={item.shortLabel ?? item.label}
           onClick={() => setMoreOpen(false)}
@@ -282,6 +350,7 @@ export default function Navigation({
         key={item.id}
         type="button"
         className={className}
+        data-tooltip={item.tooltip ?? item.shortLabel ?? item.label}
         title={item.shortLabel ?? item.label}
         aria-label={item.shortLabel ?? item.label}
         onClick={() => runCommand(item)}
@@ -308,6 +377,7 @@ export default function Navigation({
           type="button"
           className={`${styles.commandButton} ${styles.searchButton}`}
           onClick={onOpenSearch}
+          data-tooltip={t.tooltips.search}
           title={t.searchTitle}
           aria-label={t.searchTitle}
         >
@@ -339,6 +409,7 @@ export default function Navigation({
           type="button"
           className={`${styles.commandButton} ${styles.mobileMoreButton}`}
           onClick={() => setMoreOpen(true)}
+          data-tooltip={t.tooltips.more}
           aria-label={t.more}
           aria-expanded={moreOpen}
         >

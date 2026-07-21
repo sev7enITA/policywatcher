@@ -1,0 +1,638 @@
+'use client';
+
+import Image from 'next/image';
+import Link from 'next/link';
+import { useMemo, useState, type CSSProperties } from 'react';
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  Cpu,
+  Database,
+  Eye,
+  GitFork,
+  ListChecks,
+  Lock,
+  Radio,
+  Search,
+  Settings2,
+  ShieldCheck,
+  SlidersHorizontal,
+  Users,
+} from 'lucide-react';
+import styles from './roadmap.module.css';
+
+type GoalId = 'citizen' | 'governance' | 'research' | 'builder';
+type DetailLevel = 'snapshot' | 'operational' | 'forensic';
+
+const repoUrl = 'https://github.com/sev7enITA/policywatcher';
+
+const goals: Array<{
+  id: GoalId;
+  label: string;
+  title: string;
+  summary: string;
+  view: string;
+  output: string;
+  accent: string;
+}> = [
+  {
+    id: 'citizen',
+    label: 'Citizen',
+    title: 'Understand what changed and why it matters',
+    summary:
+      'A low-noise reading mode focused on policy changes, plain-language summaries, affected rights, and what should be verified at the source.',
+    view: 'Change cards, source status, short explanations, region impact.',
+    output: 'Readable briefing and shareable change page.',
+    accent: '#5eead4',
+  },
+  {
+    id: 'governance',
+    label: 'GRC / Legal',
+    title: 'Inspect evidence before using a signal',
+    summary:
+      'An audit-oriented workspace for source provenance, retrieval chain, publicEvidence state, review notes, and advisory framework mapping.',
+    view: 'Dataset QA, check logs, policy history, framework evidence mapping.',
+    output: 'Board/legal summary with explicit limitations.',
+    accent: '#a78bfa',
+  },
+  {
+    id: 'research',
+    label: 'Research',
+    title: 'Compare market movement over time',
+    summary:
+      'A comparative view for sectors, companies, jurisdictions, source coverage, timeline density, and risk movement without presenting legal determinations.',
+    view: 'Timeline, trend charts, heatmap, benchmark radar, evidence signals board.',
+    output: 'Research notes, CSV exports, and reproducible context.',
+    accent: '#60a5fa',
+  },
+  {
+    id: 'builder',
+    label: 'Builder',
+    title: 'Connect PolicyWatcher to other systems',
+    summary:
+      'A technical view for API consumers, webhooks, event schemas, rate limits, signed payloads, and integration health.',
+    view: 'API docs, webhook diagnostics, event log, request status.',
+    output: 'Machine-readable events and signed integration feed.',
+    accent: '#f59e0b',
+  },
+];
+
+const depthLabels: Record<DetailLevel, { label: string; note: string; includes: string[] }> = {
+  snapshot: {
+    label: 'Snapshot',
+    note: 'For quick orientation. The UI hides diagnostics unless they change the interpretation of the data.',
+    includes: ['Plain-language summary', 'Risk level', 'Region impact', 'Source availability'],
+  },
+  operational: {
+    label: 'Operational',
+    note: 'For repeat use. The UI adds the controls and metadata needed to compare, filter, export, and review.',
+    includes: ['Filters', 'Timeline', 'Dataset QA state', 'Review notes', 'Export paths'],
+  },
+  forensic: {
+    label: 'Forensic',
+    note: 'For audit or publication. The UI exposes retrieval path, hashes, timestamps, source drift, and known limitations.',
+    includes: ['Check logs', 'Hash chain', 'Public evidence gate', 'Fallback path', 'Review history'],
+  },
+};
+
+const nowItems = [
+  {
+    phase: 'Delivered · voted',
+    title: 'Objective-based Dashboard Composer',
+    body:
+      'On a first visit, a guided start asks for the user objective and evidence depth, previews a typed stack of real dashboard evidence modules, and saves the selected workspace.',
+    benefit: 'Users start from the question they have and receive an evidence stack assembled from existing product modules.',
+    validation: 'Accepted: generated stacks use registered evidence modules only, remain reversible, and always keep Source QA visible.',
+    icon: SlidersHorizontal,
+  },
+  {
+    phase: 'Delivered · voted',
+    title: 'Bulk Source Onboarding',
+    body:
+      'Operators can import company and policy candidates, review official-source fit, establish a first private baseline, run the QA gate, and record an explicit publication decision.',
+    benefit: 'Large source batches move through one durable, auditable workflow instead of ad hoc record creation.',
+    validation: 'Accepted: duplicate and URL checks run before approval; imports and first baselines remain private until QA passes and an operator publishes them.',
+    icon: ListChecks,
+  },
+  {
+    phase: 'In progress',
+    title: 'Source Remediation Workbench',
+    body:
+      'Turn failed retrievals into an actionable admin workflow: URL repair, jurisdiction fit, duplicate source decisions, and source suspension review.',
+    benefit: 'Dataset confidence becomes a daily operating loop rather than a hidden maintenance task.',
+    validation: 'Every repaired source must show before/after QA status and retrieval evidence.',
+    icon: Search,
+  },
+  {
+    phase: 'In progress',
+    title: 'Community Signal Board',
+    body:
+      'Let users signal which roadmap candidates matter most and describe their real workflow, evidence needs, and acceptable limits.',
+    benefit: 'Prioritization becomes traceable and grounded in actual use cases.',
+    validation: 'GitHub issues become structured roadmap signals with acceptance criteria.',
+    icon: Users,
+  },
+  {
+    phase: 'Planned',
+    title: 'Personal Evidence Workspace',
+    body:
+      'Save preferred detail level, visible panels, comparison lenses, and export defaults locally so repeated work feels intentional instead of crowded.',
+    benefit: 'Power users get density; casual readers get clarity.',
+    validation: 'Preferences must be local, reversible, and never hide source-quality warnings.',
+    icon: Settings2,
+  },
+];
+
+const candidateFeatures = [
+  {
+    track: 'API',
+    title: 'Public API v1 and signed webhooks',
+    body:
+      'Expose source-gated company, policy, change, and signal data with rate limits, object-level authorization, and HMAC-signed outbound events.',
+    status: 'Enterprise pull',
+    risk: 'Needs careful schema versioning and replay protection.',
+  },
+  {
+    track: 'Governance',
+    title: 'Advisory framework mapping',
+    body:
+      'Map policy changes to EU AI Act, ISO/IEC 42001, NIST AI RMF, OECD AI Principles, and PALO lifecycle evidence without issuing compliance verdicts.',
+    status: 'Research ready',
+    risk: 'Wording must remain evidence-oriented, not legal determination.',
+  },
+  {
+    track: 'Dataset QA',
+    title: 'Source confidence ledger',
+    body:
+      'A public ledger for monitored source health: successful fetches, suspended sources, URL remediation, review decisions, and current publication state.',
+    status: 'Trust builder',
+    risk: 'Should avoid exposing operational secrets or private admin notes.',
+  },
+  {
+    track: 'Research',
+    title: 'Market pulse atlas',
+    body:
+      'A visual atlas of policy movement by sector, jurisdiction, source status, and time period, designed for researchers and journalists.',
+    status: 'Narrative value',
+    risk: 'Requires enough verified public evidence to avoid empty theatrics.',
+  },
+  {
+    track: 'Reports',
+    title: 'Board-ready evidence packets',
+    body:
+      'Export a compact packet with source URL, snapshot hash, change summary, QA state, methodology limits, and recommended human-review questions.',
+    status: 'Near term',
+    risk: 'Must not imply certification or legal advice.',
+  },
+  {
+    track: 'Signals',
+    title: 'Custom watchlists',
+    body:
+      'Let users track a subset of companies, policies, jurisdictions, or governance topics and receive focused updates.',
+    status: 'Community ask',
+    risk: 'Subscription preferences need strong privacy defaults.',
+  },
+  {
+    track: 'Explainability',
+    title: 'Why this score changed',
+    body:
+      'Show which text passages, KPI fields, region impact rows, and review decisions influenced a change in score or category.',
+    status: 'Core trust',
+    risk: 'Needs explicit AI boundary and source quote handling.',
+  },
+  {
+    track: 'Integrations',
+    title: 'Evidence export to GRC tools',
+    body:
+      'Generate structured exports for Jira, Confluence, OneTrust-style workflows, and internal risk registers after the generic webhook layer is stable.',
+    status: 'Later',
+    risk: 'Direct vendor integration should follow a generic signed-events foundation.',
+  },
+  {
+    track: 'UX',
+    title: 'Forensic workbench redesign',
+    body:
+      'Move from crowded navigation to a command-driven, panel-based inspection surface with graph, table, timeline, and evidence modes.',
+    status: 'Design priority',
+    risk: 'Must improve orientation without losing expert controls.',
+  },
+  {
+    track: 'Quality',
+    title: 'Community benchmark pack',
+    body:
+      'A public set of known policy-source cases used to test retrieval, source-fit checks, source suspension, and dashboard behavior.',
+    status: 'Validation',
+    risk: 'Needs stable fixtures that do not become fake public evidence.',
+  },
+];
+
+const releaseLanes = [
+  {
+    label: '3.5.1',
+    title: 'Audit Operations',
+    body:
+      'Dataset QA, source suspension, review log, access log, renderer/VPS monitoring, public evidence gate, and quality badges.',
+    state: 'delivered',
+  },
+  {
+    label: '3.6.3',
+    title: 'Guided Evidence Workflows',
+    body:
+      'First-use objective composer built from registered evidence modules, plus durable five-stage bulk source onboarding with private baselines, QA review, and explicit publication decisions.',
+    state: 'current',
+  },
+  {
+    label: '4.0',
+    title: 'Feature Drop',
+    body:
+      'API v1, signed webhooks, richer reports, multi-version diff, and stronger integration surfaces.',
+    state: 'candidate',
+  },
+  {
+    label: '4.5',
+    title: 'Confidence Release',
+    body:
+      'Governance mapping validation, source-confidence ledger, benchmark pack, and production database hardening.',
+    state: 'candidate',
+  },
+];
+
+function buildIssueUrl(feature: string, track: string) {
+  const title = `Roadmap signal: ${feature}`;
+  const body = [
+    `Feature: ${feature}`,
+    `Track: ${track}`,
+    '',
+    'What I need to understand or accomplish:',
+    '',
+    'Current workflow or workaround:',
+    '',
+    'What evidence, export, alert, or view would make this useful:',
+    '',
+    'Preferred detail level: Snapshot / Operational / Forensic',
+    '',
+    'Risks, wording limits, or source-quality concerns:',
+  ].join('\n');
+
+  return `${repoUrl}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
+}
+
+function buildWorkspaceHref(goalId: GoalId, depth: DetailLevel) {
+  const intent = goalId === 'governance' ? 'grc' : goalId;
+  return `/?intent=${intent}&depth=${depth}`;
+}
+
+function HeroGraph() {
+  return (
+    <svg viewBox="0 0 760 520" className={styles.heroGraph} aria-hidden="true">
+      <defs>
+        <linearGradient id="roadmapRoute" x1="0" x2="1">
+          <stop stopColor="#5eead4" />
+          <stop offset="0.48" stopColor="#60a5fa" />
+          <stop offset="1" stopColor="#a78bfa" />
+        </linearGradient>
+      </defs>
+      <path className={styles.graphGrid} d="M72 78h616M72 170h616M72 262h616M72 354h616M72 446h616M124 46v430M254 46v430M384 46v430M514 46v430M644 46v430" />
+      <path className={styles.graphRoute} d="M94 384c76-120 142-150 231-104 78 40 112 8 158-72 45-79 101-113 183-52" />
+      <path className={styles.graphRouteSoft} d="M100 188c67 48 117 63 175 31 71-39 106-29 155 28 57 66 126 77 225 12" />
+      <circle className={styles.graphNodeA} cx="142" cy="318" r="13" />
+      <circle className={styles.graphNodeB} cx="324" cy="278" r="13" />
+      <circle className={styles.graphNodeC} cx="481" cy="208" r="13" />
+      <circle className={styles.graphNodeD} cx="642" cy="156" r="13" />
+      <circle className={styles.graphPacket} cx="0" cy="0" r="7">
+        <animateMotion dur="7s" repeatCount="indefinite" path="M94 384c76-120 142-150 231-104 78 40 112 8 158-72 45-79 101-113 183-52" />
+      </circle>
+    </svg>
+  );
+}
+
+function DepthDiagram({ level, goal }: { level: DetailLevel; goal: (typeof goals)[number] }) {
+  return (
+    <div className={styles.depthDiagram} style={{ '--goal-accent': goal.accent } as CSSProperties}>
+      <div className={styles.depthHeader}>
+        <span>{goal.label} workspace</span>
+        <strong>{depthLabels[level].label}</strong>
+      </div>
+      <div className={styles.depthFlow}>
+        <div className={styles.depthNode}>
+          <span>1</span>
+          <b>Question</b>
+          <small>{goal.title}</small>
+        </div>
+        <div className={styles.depthLine} />
+        <div className={styles.depthNode}>
+          <span>2</span>
+          <b>Evidence</b>
+          <small>{goal.view}</small>
+        </div>
+        <div className={styles.depthLine} />
+        <div className={styles.depthNode}>
+          <span>3</span>
+          <b>Output</b>
+          <small>{goal.output}</small>
+        </div>
+      </div>
+      <div className={styles.depthIncludes}>
+        {depthLabels[level].includes.map((item) => (
+          <span key={item}>{item}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function RoadmapClient() {
+  const [goalId, setGoalId] = useState<GoalId>('citizen');
+  const [detailLevel, setDetailLevel] = useState<DetailLevel>('forensic');
+  const selectedGoal = useMemo(() => goals.find((goal) => goal.id === goalId) ?? goals[0], [goalId]);
+
+  return (
+    <main className={styles.page}>
+      <nav className={styles.nav} aria-label="Roadmap navigation">
+        <Link href="/" className={styles.brand}>
+          <Image src="/logo-mark.png" alt="" width={34} height={34} className={styles.brandMark} priority />
+          <span>PolicyWatcher</span>
+        </Link>
+        <div className={styles.navLinks}>
+          <a href="#workspace">Workspace</a>
+          <a href="#now">Now</a>
+          <a href="#candidates">Candidates</a>
+          <a href="#method">Ranking</a>
+          <a href={repoUrl} target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+      </nav>
+
+      <header className={styles.hero}>
+        <section className={styles.heroCopy}>
+          <Link href="/" className={styles.backLink}>
+            <ArrowLeft size={16} />
+            Back to dashboard
+          </Link>
+          <span className={styles.eyebrow}>Community-shaped roadmap</span>
+          <h1>Help decide what PolicyWatcher should show next</h1>
+          <p>
+            PolicyWatcher is moving from static dashboards to goal-driven evidence workspaces. The next step is not more navigation. It is a clearer way to ask: what do you need to understand, how much evidence do you need, and what should the system hide until the source is trustworthy enough?
+          </p>
+          <div className={styles.heroActions}>
+            <a className={styles.primaryAction} href="#candidates">
+              Signal a roadmap priority
+              <ArrowUpRight size={17} />
+            </a>
+            <a className={styles.secondaryAction} href={buildIssueUrl('New roadmap proposal', 'Community proposal')} target="_blank" rel="noopener noreferrer">
+              Propose a new idea
+            </a>
+          </div>
+        </section>
+
+        <aside className={styles.heroBoard} aria-label="Roadmap signal preview">
+          <div className={styles.boardChrome}>
+            <span>roadmap.signal</span>
+            <b>live proposal surface</b>
+          </div>
+          <HeroGraph />
+          <div className={styles.boardStats}>
+            <div>
+              <strong>4</strong>
+              <span>user objectives</span>
+            </div>
+            <div>
+              <strong>3</strong>
+              <span>detail levels</span>
+            </div>
+            <div>
+              <strong>10</strong>
+              <span>candidate tracks</span>
+            </div>
+          </div>
+        </aside>
+      </header>
+
+      <section className={styles.principles} aria-label="Roadmap principles">
+        <article>
+          <ShieldCheck size={18} />
+          <strong>Evidence first</strong>
+          <span>Public views should expose only source-gated records, not seeded or uncertain data.</span>
+        </article>
+        <article>
+          <Eye size={18} />
+          <strong>Configurable clarity</strong>
+          <span>The interface should adapt to the user objective and chosen evidence depth.</span>
+        </article>
+        <article>
+          <GitFork size={18} />
+          <strong>Community signals</strong>
+          <span>Roadmap priority should come from concrete workflows, not generic feature voting.</span>
+        </article>
+        <article>
+          <Lock size={18} />
+          <strong>Measured language</strong>
+          <span>Future features keep the same discipline: mapping, review, evidence, and visible source-quality state.</span>
+        </article>
+      </section>
+
+      <section className={`${styles.section} ${styles.workspaceSection}`} id="workspace">
+        <div className={styles.sectionHead}>
+          <div>
+            <span className={styles.sectionLabel}>Adaptive workspace</span>
+            <h2>Start from the question, not from the dashboard</h2>
+          </div>
+          <p>
+            PolicyWatcher 3.6.3 now opens a guided start for first-time visitors. The selected purpose and evidence depth compose a preview from registered, real dashboard modules; the choice stays reversible and Source QA remains pinned in every generated stack.
+          </p>
+        </div>
+
+        <div className={styles.workspaceGrid}>
+          <div className={styles.goalPanel}>
+            <span className={styles.panelLabel}>1. Choose the job</span>
+            <div className={styles.goalButtons}>
+              {goals.map((goal) => (
+                <button
+                  key={goal.id}
+                  type="button"
+                  className={`${styles.goalButton} ${goal.id === goalId ? styles.goalButtonActive : ''}`}
+                  onClick={() => setGoalId(goal.id)}
+                  style={{ '--goal-accent': goal.accent } as CSSProperties}
+                >
+                  <span>{goal.label}</span>
+                  <b>{goal.title}</b>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.depthPanel}>
+            <span className={styles.panelLabel}>2. Choose evidence depth</span>
+            <div className={styles.depthButtons}>
+              {(Object.keys(depthLabels) as DetailLevel[]).map((level) => (
+                <button
+                  key={level}
+                  type="button"
+                  className={`${styles.depthButton} ${level === detailLevel ? styles.depthButtonActive : ''}`}
+                  onClick={() => setDetailLevel(level)}
+                >
+                  {depthLabels[level].label}
+                </button>
+              ))}
+            </div>
+            <p>{depthLabels[detailLevel].note}</p>
+          </div>
+
+          <div className={styles.selectedGoalCard}>
+            <span className={styles.panelLabel}>3. Generated evidence stack</span>
+            <h3>{selectedGoal.title}</h3>
+            <p>{selectedGoal.summary}</p>
+            <DepthDiagram level={detailLevel} goal={selectedGoal} />
+            <Link href={buildWorkspaceHref(selectedGoal.id, detailLevel)} className={styles.workspaceLaunch}>
+              Open this profile in the dashboard
+              <ArrowUpRight size={16} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.section} id="now">
+        <div className={styles.sectionHead}>
+          <div>
+            <span className={styles.sectionLabel}>Delivered outcomes and active work</span>
+            <h2>What the roadmap has already moved into the product</h2>
+          </div>
+          <p>
+            The voted outcomes are now shipped alongside the active Confidence work, with acceptance criteria and publication boundaries kept visible.
+          </p>
+        </div>
+
+        <div className={styles.nowGrid}>
+          {nowItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <article className={styles.nowCard} key={item.title}>
+                <div className={styles.cardTop}>
+                  <span>{item.phase}</span>
+                  <Icon size={20} />
+                </div>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+                <dl>
+                  <div>
+                    <dt>Benefit</dt>
+                    <dd>{item.benefit}</dd>
+                  </div>
+                  <div>
+                    <dt>Validation</dt>
+                    <dd>{item.validation}</dd>
+                  </div>
+                </dl>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className={styles.releaseStrip} aria-label="Release cadence">
+        {releaseLanes.map((lane) => (
+          <article key={lane.label} data-state={lane.state}>
+            <span>{lane.label}</span>
+            <strong>{lane.title}</strong>
+            <p>{lane.body}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className={styles.section} id="candidates">
+        <div className={styles.sectionHead}>
+          <div>
+            <span className={styles.sectionLabel}>Feature radar</span>
+            <h2>Potential evolutions the community can rank</h2>
+          </div>
+          <p>
+            Each candidate needs more than a vote. The best signal explains the workflow, the expected evidence, the acceptable limits, and the reason the current product does not solve it yet.
+          </p>
+        </div>
+
+        <div className={styles.candidateGrid}>
+          {candidateFeatures.map((feature, index) => (
+            <article
+              className={styles.candidateCard}
+              key={feature.title}
+              style={{ '--delay': `${index * 0.04}s` } as CSSProperties}
+            >
+              <div className={styles.candidateTop}>
+                <span>{feature.track}</span>
+                <b>{feature.status}</b>
+              </div>
+              <h3>{feature.title}</h3>
+              <p>{feature.body}</p>
+              <div className={styles.riskNote}>
+                <strong>Watch point</strong>
+                <span>{feature.risk}</span>
+              </div>
+              <a className={styles.signalLink} href={buildIssueUrl(feature.title, feature.track)} target="_blank" rel="noopener noreferrer">
+                Signal interest
+                <ArrowUpRight size={15} />
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.methodSection} id="method">
+        <div className={styles.sectionHead}>
+          <div>
+            <span className={styles.sectionLabel}>How ranking should work</span>
+            <h2>Signals should describe evidence needs</h2>
+          </div>
+          <p>
+            A popular request still needs feasibility, source-quality review, security review, and wording discipline. Roadmap ranking should guide prioritization, not replace product judgment.
+          </p>
+        </div>
+        <div className={styles.methodGrid}>
+          <article>
+            <ListChecks size={22} />
+            <h3>Use case clarity</h3>
+            <p>What question should PolicyWatcher help answer, and who is asking it?</p>
+          </article>
+          <article>
+            <Database size={22} />
+            <h3>Evidence requirement</h3>
+            <p>Which source, check log, snapshot, region, KPI, or export is needed?</p>
+          </article>
+          <article>
+            <Cpu size={22} />
+            <h3>Implementation path</h3>
+            <p>Can it be built without inventing data, hiding uncertainty, or overstating automation?</p>
+          </article>
+          <article>
+            <Radio size={22} />
+            <h3>Release lane</h3>
+            <p>Is it a feature drop, a confidence hardening release, or a research candidate?</p>
+          </article>
+        </div>
+      </section>
+
+      <section className={styles.callout}>
+        <div>
+          <span className={styles.sectionLabel}>Community input</span>
+          <h2>Tell us what you need PolicyWatcher to reveal</h2>
+          <p>
+            The most useful feedback is specific: the role you have, the decision you need to make, the evidence you trust, and the level of detail you expect.
+          </p>
+        </div>
+        <a className={styles.primaryAction} href={buildIssueUrl('New roadmap proposal', 'Community proposal')} target="_blank" rel="noopener noreferrer">
+          Open a roadmap proposal
+          <ArrowUpRight size={17} />
+        </a>
+      </section>
+
+      <footer className={styles.footer}>
+        <span>PolicyWatcher roadmap - community signal board</span>
+        <span>Planning surface only. Features may change after validation, testing, and review.</span>
+        <div>
+          <Link href="/showcase">Showcase</Link>
+          <Link href="/press">Press</Link>
+          <Link href="/trust">Trust</Link>
+          <Link href="/methodology/confidence">Methodology</Link>
+        </div>
+      </footer>
+    </main>
+  );
+}

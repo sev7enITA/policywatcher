@@ -185,7 +185,7 @@ export default function ExplainabilityPage() {
               <tr className={styles.trHover}><td className={styles.td}>Right to Deletion</td><td className={styles.td}>Full, Partial, None</td></tr>
               <tr className={styles.trHover}><td className={styles.td}>Cross-Border Transfer</td><td className={styles.td}>Restricted, Controlled, Unrestricted</td></tr>
               <tr className={styles.trHover}><td className={styles.td} rowSpan={5}>AI Governance</td><td className={styles.td}>AI Training Opt-Out</td><td className={styles.td}>Available, Partial, Not Available</td></tr>
-              <tr className={styles.trHover}><td className={styles.td}>AI Output Ownership</td><td className={styles.td}>User Retained, Shared, Company Claimed</td></tr>
+              <tr className={styles.trHover}><td className={styles.td}>AI Output Ownership</td><td className={styles.td}>User Retained, Shared, Company Retained</td></tr>
               <tr className={styles.trHover}><td className={styles.td}>Algorithmic Transparency</td><td className={styles.td}>Published, Partial, Opaque</td></tr>
               <tr className={styles.trHover}><td className={styles.td}>Automated Decisions</td><td className={styles.td}>Disclosed, Partial, Undisclosed</td></tr>
               <tr className={styles.trHover}><td className={styles.td}>AI Bias & Fairness</td><td className={styles.td}>Committed, Mentioned, Absent</td></tr>

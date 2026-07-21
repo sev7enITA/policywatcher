@@ -28,7 +28,7 @@
 }
 
 .chartTitle {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 0.85rem;
   font-weight: 600;
   color: #0f172a;
@@ -56,7 +56,7 @@
 }
 
 .tooltipLabel {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 0.78rem;
   font-weight: 600;
   color: #0f172a;
@@ -89,9 +89,9 @@
 }
 
 .gaugeScore {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 2rem;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
 }
 

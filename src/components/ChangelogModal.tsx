@@ -51,8 +51,28 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                 <div className={styles.featureList}>
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>Audit Operations Layer (v3.5.1)</span>
+                      <span className={styles.featureName}>Guided Evidence Workflows (v3.6.3)</span>
                       <span className={styles.badgeActive}>Current</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      The voted Objective-based Dashboard Composer now guides first-time visitors from intent and evidence depth to a preview assembled from registered dashboard modules, with Source QA pinned. The protected Bulk Source Onboarding console persists proposed source, official review, first private baseline, QA gate, and an explicit publish, hold, or reject decision. Imports, approval, and baseline capture never publish evidence by themselves. This release also retains the source-remediation and suspension explainability improvements for official-but-blocked providers.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Adaptive Workspace Foundation (v3.6.1)</span>
+                      <span className={styles.badgeStable}>Stable</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      This release established the Citizen, GRC / Legal, Research, and Builder intents, Snapshot, Operational, and Forensic evidence depths, local persistence, and roadmap deep links. Version 3.6.3 builds the true first-use module composer on this foundation while preserving the same source-quality safeguards.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Audit Operations Layer (v3.5.1)</span>
+                      <span className={styles.badgeStable}>Stable</span>
                     </div>
                     <p className={styles.featureDesc}>
                       Maintenance release for confidence and reliability: Dataset QA issues can now be marked reviewed, ignored with reason, or reopened; each decision writes an append-only Review Log event. The scraper adds HTTP/2 handling, optional VPS-rendered fetch, freshness-guarded Wayback/Common Crawl recovery, path/host drift checks, Partial suspension for incomplete retrievals, safer source URL migration with dry-run, and stricter renderer SSRF checks. Public APIs, sitemap, digests, share pages, reports, timeline and benchmarks now require publicEvidence-gated snapshots/changes before exposing analysis. Admin session signing requires a dedicated SESSION_HMAC_SECRET and destructive admin deletes require server-side confirmation.
