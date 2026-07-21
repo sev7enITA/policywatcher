@@ -2,15 +2,14 @@ import { after, NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { createConfiguredPolicy } from '@/lib/configuredPolicy';
 import { db } from '@/lib/db';
-import { discoverPolicySources } from '@/lib/policyDiscovery';
 import {
-  claimDiscoveryJob,
-  completeDiscoveryJob,
-  failDiscoveryJob,
   readDiscoveryJob,
 } from '@/lib/policyDiscoveryJobs';
+import {
+  runPolicyDiscoveryJob,
+  startPolicyDiscovery,
+} from '@/lib/policyDiscoveryWorkflow';
 import { readJsonObject } from '@/lib/requestBody';
-import { getErrorMessage } from '@/lib/safeErrors';
 
 // Discovery can legitimately take a few minutes when the fallback retrieval
 // layers are needed. Hosts that enforce route limits can use this hint.
@@ -21,66 +20,6 @@ function validateCompanyWebsite(rawUrl: string): boolean {
     return ['http:', 'https:'].includes(new URL(rawUrl).protocol);
   } catch {
     return false;
-  }
-}
-
-async function runDiscoveryJob(
-  company: { id: string; name: string; website: string },
-  runToken: string
-) {
-  try {
-    const results = await discoverPolicySources(company);
-    const existingPolicies = await db.policy.findMany({
-      where: { companyId: company.id },
-      select: { type: true, jurisdiction: true, url: true },
-    });
-    const existingKeys = new Set(
-      existingPolicies.map((policy) => `${policy.type}|${policy.jurisdiction}|${policy.url}`)
-    );
-    let candidateCount = 0;
-
-    for (const candidate of results) {
-      const policyKey = `${candidate.type}|${candidate.jurisdiction}|${candidate.url}`;
-      if (existingKeys.has(policyKey)) continue;
-
-      const unique = {
-        companyId_url_type_jurisdiction: {
-          companyId: company.id,
-          url: candidate.url,
-          type: candidate.type,
-          jurisdiction: candidate.jurisdiction,
-        },
-      };
-      await db.policyDiscoveryCandidate.upsert({
-        where: unique,
-        create: {
-          companyId: company.id,
-          name: candidate.name,
-          type: candidate.type,
-          url: candidate.url,
-          jurisdiction: candidate.jurisdiction,
-          confidence: candidate.confidence,
-          discoverySource: candidate.discoverySource,
-          retrievalSource: candidate.retrievalSource,
-          reason: candidate.reason,
-          diagnosticsJson: JSON.stringify(candidate.diagnostics),
-        },
-        update: {
-          name: candidate.name,
-          confidence: candidate.confidence,
-          discoverySource: candidate.discoverySource,
-          retrievalSource: candidate.retrievalSource,
-          reason: candidate.reason,
-          diagnosticsJson: JSON.stringify(candidate.diagnostics),
-        },
-      });
-      candidateCount++;
-    }
-
-    await completeDiscoveryJob(db, company.id, runToken, candidateCount);
-  } catch (error) {
-    console.error(`[Policy Discovery] ${company.name}:`, error);
-    await failDiscoveryJob(db, company.id, runToken, getErrorMessage(error));
   }
 }
 
@@ -160,7 +99,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const claimed = await claimDiscoveryJob(db, company.id);
+  const claimed = await startPolicyDiscovery(company);
   if (!claimed.claimed) {
     return NextResponse.json(
       { error: 'Discovery is already running.', job: claimed.job },
@@ -172,7 +111,7 @@ export async function POST(request: NextRequest) {
   // promise can be discarded by managed Node hosting as soon as the 202
   // response is sent, which left new companies permanently without results.
   after(async () => {
-    await runDiscoveryJob(company, claimed.runToken);
+    await runPolicyDiscoveryJob(company, claimed.runToken);
   });
 
   return NextResponse.json({ success: true, job: claimed.job }, { status: 202 });

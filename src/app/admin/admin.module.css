@@ -1386,8 +1386,16 @@ thead .kpiMatrixStickyCol {
 .kpiCompanyCell {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   padding: 6px 0;
+}
+
+.kpiCompanyCell small {
+  flex-basis: 100%;
+  color: var(--text-muted);
+  font-size: 0.66rem;
+  font-weight: 600;
 }
 
 .kpiCompanyName {
@@ -1534,6 +1542,7 @@ thead .kpiMatrixStickyCol {
 
 .chartContainer {
   width: 100%;
+  min-width: 0;
   height: 240px;
   min-height: 240px;
 }

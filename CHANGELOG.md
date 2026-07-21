@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+- Connected company creation and persistent policy discovery in one server-side workflow so a browser/network interruption cannot leave a newly created company without an onboarding job.
+- Added the targeted first-baseline action directly to Company Manager and keep onboarding active until every approved policy has a verified snapshot, hash, successful check, and publishable status.
+- Reworked KPI QA to aggregate source-backed values from each policy's latest public assessment, expose per-cell evidence provenance and coverage, and show unassessed companies as `Pending` instead of a misleading zero score.
+- Made scan completion logs use an attention outcome whenever policy errors, partial captures, unavailable sources, or invalid sources occurred.
+
+### Deployment
+- Run the idempotent Hostinger schema initializer before both `npm start` and direct `server.js` startup.
+- Restored schema parity in the Node and Python CLI-free initializers for policy-discovery jobs and source-onboarding batches/items.
+
+### Verification
+- Added regression coverage for baseline-completion invariants, cross-policy KPI aggregation, field-specific concern levels, scan completion outcomes, and Hostinger fallback schema parity.
+
 ## 3.6.5 - 2026-07-21
 
 ### Fixed

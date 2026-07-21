@@ -211,9 +211,15 @@ export function PolicyDiscoveryWorkspace({
   };
 
   const runFirstScan = async () => {
-    setFirstScanLaunched(true);
-    onWorkflowStateChange?.(false);
-    await onRunFirstScan?.();
+    setError('');
+    try {
+      await onRunFirstScan?.();
+      setFirstScanLaunched(true);
+      onWorkflowStateChange?.(false);
+    } catch (scanError) {
+      onWorkflowStateChange?.(true);
+      setError(scanError instanceof Error ? scanError.message : 'Unable to start the first monitoring scan.');
+    }
   };
 
   if (!loading && !uiState.showWorkspace) return null;

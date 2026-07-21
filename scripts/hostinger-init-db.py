@@ -35,6 +35,41 @@ else:
 
 db_path.parent.mkdir(parents=True, exist_ok=True)
 
+if "--detect-materialized-migrations" in sys.argv:
+    if not db_path.exists() or db_path.stat().st_size == 0:
+        sys.exit(0)
+    migration_tables = [
+        (
+            "20260706213500_init",
+            {
+                "Company",
+                "Policy",
+                "PolicyCheckLog",
+                "PolicySnapshot",
+                "PolicyChange",
+                "DatasetQaIssueReview",
+                "AdminReviewLog",
+                "AdminAccessLog",
+                "RegionImpact",
+                "Subscriber",
+            },
+        ),
+        ("20260719070000_policy_discovery", {"PolicyDiscoveryCandidate"}),
+        ("20260721090000_source_onboarding", {"SourceOnboardingBatch", "SourceOnboardingItem"}),
+        ("20260721120000_policy_discovery_job", {"PolicyDiscoveryJob"}),
+    ]
+    with sqlite3.connect(f"file:{db_path}?mode=ro", uri=True) as detection_connection:
+        existing_tables = {
+            row[0]
+            for row in detection_connection.execute(
+                "SELECT name FROM sqlite_master WHERE type = 'table'"
+            )
+        }
+    for migration, required_tables in migration_tables:
+        if required_tables.issubset(existing_tables):
+            print(migration)
+    sys.exit(0)
+
 print(f"Database file: {db_path}")
 print(f"Directory: {db_path.parent}")
 
@@ -83,6 +118,21 @@ TABLES = [
     )
     """,
     """
+    CREATE TABLE IF NOT EXISTS "PolicyDiscoveryJob" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "companyId" TEXT NOT NULL,
+      "runToken" TEXT NOT NULL,
+      "status" TEXT NOT NULL DEFAULT 'running',
+      "startedAt" DATETIME NOT NULL,
+      "completedAt" DATETIME,
+      "candidateCount" INTEGER NOT NULL DEFAULT 0,
+      "error" TEXT,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "updatedAt" DATETIME NOT NULL,
+      CONSTRAINT "PolicyDiscoveryJob_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    )
+    """,
+    """
     CREATE TABLE IF NOT EXISTS "Policy" (
       "id" TEXT NOT NULL PRIMARY KEY,
       "companyId" TEXT NOT NULL,
@@ -99,6 +149,54 @@ TABLES = [
       "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
       "updatedAt" DATETIME NOT NULL,
       CONSTRAINT "Policy_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS "SourceOnboardingBatch" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "label" TEXT NOT NULL,
+      "actorRole" TEXT NOT NULL,
+      "status" TEXT NOT NULL DEFAULT 'Active',
+      "totalItems" INTEGER NOT NULL DEFAULT 0,
+      "successfulItems" INTEGER NOT NULL DEFAULT 0,
+      "failedItems" INTEGER NOT NULL DEFAULT 0,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "updatedAt" DATETIME NOT NULL,
+      "completedAt" DATETIME
+    )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS "SourceOnboardingItem" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "batchId" TEXT NOT NULL,
+      "rowNumber" INTEGER NOT NULL,
+      "companyName" TEXT NOT NULL,
+      "companySlug" TEXT NOT NULL,
+      "industry" TEXT NOT NULL,
+      "website" TEXT NOT NULL,
+      "policyName" TEXT NOT NULL,
+      "policyType" TEXT NOT NULL,
+      "policyUrl" TEXT NOT NULL,
+      "jurisdiction" TEXT NOT NULL DEFAULT 'Global',
+      "companyId" TEXT,
+      "discoveryCandidateId" TEXT,
+      "policyId" TEXT,
+      "stage" TEXT NOT NULL DEFAULT 'Proposed',
+      "qaStatus" TEXT NOT NULL DEFAULT 'Pending',
+      "qaSummary" TEXT,
+      "qaChecksJson" TEXT,
+      "publicationDecision" TEXT NOT NULL DEFAULT 'Pending',
+      "reviewedByRole" TEXT,
+      "reviewedAt" DATETIME,
+      "decisionByRole" TEXT,
+      "decisionAt" DATETIME,
+      "error" TEXT,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "updatedAt" DATETIME NOT NULL,
+      CONSTRAINT "SourceOnboardingItem_batchId_fkey" FOREIGN KEY ("batchId") REFERENCES "SourceOnboardingBatch" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+      CONSTRAINT "SourceOnboardingItem_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+      CONSTRAINT "SourceOnboardingItem_discoveryCandidateId_fkey" FOREIGN KEY ("discoveryCandidateId") REFERENCES "PolicyDiscoveryCandidate" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+      CONSTRAINT "SourceOnboardingItem_policyId_fkey" FOREIGN KEY ("policyId") REFERENCES "Policy" ("id") ON DELETE SET NULL ON UPDATE CASCADE
     )
     """,
     """
@@ -259,6 +357,18 @@ INDEXES = [
     'CREATE UNIQUE INDEX IF NOT EXISTS "PolicyDiscoveryCandidate_companyId_url_type_jurisdiction_key" ON "PolicyDiscoveryCandidate"("companyId", "url", "type", "jurisdiction")',
     'CREATE INDEX IF NOT EXISTS "PolicyDiscoveryCandidate_companyId_status_idx" ON "PolicyDiscoveryCandidate"("companyId", "status")',
     'CREATE INDEX IF NOT EXISTS "PolicyDiscoveryCandidate_createdAt_idx" ON "PolicyDiscoveryCandidate"("createdAt")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "PolicyDiscoveryJob_companyId_key" ON "PolicyDiscoveryJob"("companyId")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "PolicyDiscoveryJob_runToken_key" ON "PolicyDiscoveryJob"("runToken")',
+    'CREATE INDEX IF NOT EXISTS "PolicyDiscoveryJob_status_startedAt_idx" ON "PolicyDiscoveryJob"("status", "startedAt")',
+    'CREATE INDEX IF NOT EXISTS "SourceOnboardingBatch_createdAt_idx" ON "SourceOnboardingBatch"("createdAt")',
+    'CREATE INDEX IF NOT EXISTS "SourceOnboardingBatch_status_idx" ON "SourceOnboardingBatch"("status")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "SourceOnboardingItem_batchId_rowNumber_key" ON "SourceOnboardingItem"("batchId", "rowNumber")',
+    'CREATE INDEX IF NOT EXISTS "SourceOnboardingItem_batchId_stage_idx" ON "SourceOnboardingItem"("batchId", "stage")',
+    'CREATE INDEX IF NOT EXISTS "SourceOnboardingItem_companyId_idx" ON "SourceOnboardingItem"("companyId")',
+    'CREATE INDEX IF NOT EXISTS "SourceOnboardingItem_discoveryCandidateId_idx" ON "SourceOnboardingItem"("discoveryCandidateId")',
+    'CREATE INDEX IF NOT EXISTS "SourceOnboardingItem_policyId_idx" ON "SourceOnboardingItem"("policyId")',
+    'CREATE INDEX IF NOT EXISTS "SourceOnboardingItem_qaStatus_idx" ON "SourceOnboardingItem"("qaStatus")',
+    'CREATE INDEX IF NOT EXISTS "SourceOnboardingItem_publicationDecision_idx" ON "SourceOnboardingItem"("publicationDecision")',
     'CREATE UNIQUE INDEX IF NOT EXISTS "Policy_companyId_type_jurisdiction_key" ON "Policy"("companyId", "type", "jurisdiction")',
     'CREATE INDEX IF NOT EXISTS "Policy_companyId_idx" ON "Policy"("companyId")',
     'CREATE INDEX IF NOT EXISTS "Policy_jurisdiction_idx" ON "Policy"("jurisdiction")',
@@ -348,6 +458,8 @@ with sqlite3.connect(str(db_path), timeout=30) as con:
     counts = {
         "companies": con.execute('SELECT COUNT(*) FROM "Company"').fetchone()[0],
         "discoveryCandidates": con.execute('SELECT COUNT(*) FROM "PolicyDiscoveryCandidate"').fetchone()[0],
+        "discoveryJobs": con.execute('SELECT COUNT(*) FROM "PolicyDiscoveryJob"').fetchone()[0],
+        "onboardingBatches": con.execute('SELECT COUNT(*) FROM "SourceOnboardingBatch"').fetchone()[0],
         "policies": con.execute('SELECT COUNT(*) FROM "Policy"').fetchone()[0],
         "snapshots": con.execute('SELECT COUNT(*) FROM "PolicySnapshot"').fetchone()[0],
         "changes": con.execute('SELECT COUNT(*) FROM "PolicyChange"').fetchone()[0],

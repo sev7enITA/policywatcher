@@ -256,6 +256,13 @@ const releaseLanes = [
     state: 'current',
   },
   {
+    label: '3.6.x',
+    title: 'Seamless Evidence Onboarding',
+    body:
+      'One-request company discovery, in-context first baselines, verified handoff to recurring monitoring, evidence-provenance KPI QA, and self-checking Hostinger schema startup.',
+    state: 'candidate',
+  },
+  {
     label: '4.0',
     title: 'Feature Drop',
     body:

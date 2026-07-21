@@ -46,6 +46,13 @@ The platform is designed as a **civic tech tool** that translates dense legal do
 - **Single-source release metadata** keeps package, footer, Trust Center, admin, methodology, and encrypted exports aligned.
 - **Regression coverage** protects lifecycle cleanup, edge-case batch state, held-stage queries, and version consistency.
 
+### Operational continuity work in progress
+
+- **One-request company onboarding** creates the company and claims its persistent discovery job server-side; the browser no longer has to coordinate two dependent writes.
+- **Baseline in context** lets an administrator approve discovered sources and run the targeted first baseline without leaving Company Manager. The handoff to normal monitoring occurs only after every approved policy has verified evidence.
+- **Evidence-aware KPI QA** combines assessed values from the latest public change of each company policy, shows the originating policy/date, reports coverage, and distinguishes `Pending` from a numerical risk score.
+- **Self-checking Hostinger startup** applies the idempotent runtime schema initializer for both npm and direct bridge startup, with Node/Python fallback parity protected by tests.
+
 ### Release 3.6.4 Audit Fixes Highlights
 
 - **Durable discovery jobs** persist run state in SQLite and use atomic claims so polling survives process boundaries and prevents overlapping work.
@@ -329,6 +336,8 @@ Host/path-drift rule: live retrieval paths (`direct`, `http2`, `rendered`) rejec
 Extractor stability rule: the policy text normalizer avoids generic container wrappers and overlapping `div`/`span` extraction so the stored hash is based on stable policy text rather than duplicated layout text.
 
 KPI freshness rule: newly detected policy changes do not inherit the 15 KPI fields from older changes. Until the KPI extraction schema is explicitly regenerated from the current source evidence, new change records store those KPI fields as `Not assessed`. This prevents stale KPI values from being presented as current evidence.
+
+Admin KPI QA aggregation rule: the audit matrix does not treat one policy document as the complete company assessment. Each KPI cell uses a supported value from the latest public change of each monitored policy and retains the contributing policy and assessment date as provenance. It never reaches back to an older change when the latest assessment is pending. The displayed risk score remains the latest analyzed change score; companies without an analyzed public change are shown as `Pending`, never `0`.
 
 Source remediation status: release 3.5.1 updated current official source mappings for Zoom Trust Center, Microsoft Privacy Statement final URLs, Plaid anchor-scoped legal sections, AWS DPA focused documentation, and Klarna US/EU sources. Release 3.6.3 adds market-specific Revolut EU/UK mappings and keeps Revolut sources suspended when provider anti-bot protection prevents evidence-grade retrieval. Klarna EU Terms remains a deliberate suspension candidate when the official English EU/Ireland terms page returns only a short placeholder body.
 

@@ -5,15 +5,22 @@ import { useRouter } from 'next/navigation';
 import { BarChart3, CheckCircle, AlertTriangle, Search } from 'lucide-react';
 import styles from '../admin.module.css';
 import { POLICYWATCHER_VERSION } from '@/lib/release';
+import { getKpiConcernLevel, type KpiEvidence } from '@/lib/kpiAudit';
+import type { KpiField } from '@/lib/kpiDefaults';
 
 interface KpiMatrixRow {
   companyName: string;
   industry: string;
-  overallScore: number;
-  overallRisk: string;
+  overallScore: number | null;
+  overallRisk: string | null;
+  latestPolicyName: string | null;
+  lastAnalysis: string | null;
   kpiValues: Record<string, string>;
+  kpiEvidence: Partial<Record<KpiField, KpiEvidence>>;
   assessedCount: number;
   totalKpis: number;
+  coveragePercent: number;
+  assessmentState: 'pending' | 'partial' | 'complete';
 }
 
 interface KpiAuditData {
@@ -40,73 +47,15 @@ const KPI_LABELS: Record<string, string> = {
   kpiContentModeration: 'Moderation',
 };
 
-const GOOD_VALUES = new Set([
-  'Full',
-  'Available',
-  'Comprehensive',
-  'Certified',
-  'Within 24h',
-  'Within 72h',
-  'Transparent',
-  'Explicit Opt-In',
-  'Committed',
-  'Disclosed',
-  'Published',
-  'Minimal',
-  'User Retained',
-]);
-
-const GOOD_CONTEXTUAL: Record<string, Set<string>> = {
-  kpiThirdPartySharing: new Set(['None']),
-  kpiCrossBorderTransfer: new Set(['Restricted']),
-};
-
-const WARNING_VALUES = new Set([
-  'Moderate',
-  'Limited',
-  'Defined',
-  'Partial',
-  'Opt-Out',
-  'Mentioned',
-  'Controlled',
-]);
-
-const DANGER_VALUES = new Set([
-  'Extensive',
-  'Broad',
-  'Extended',
-  'Indefinite',
-  'Unrestricted',
-  'Not Available',
-  'Company Retained',
-  'Opaque',
-  'Undisclosed',
-  'Absent',
-  'Implicit',
-  'Unspecified',
-  'Not assessed',
-]);
-
-const DANGER_CONTEXTUAL: Record<string, Set<string>> = {
-  kpiIndependentAudit: new Set(['None']),
-  kpiBreachNotification: new Set(['None']),
-};
-
 function getCellClass(field: string, value: string): string {
-  if (!value || value === 'Not assessed') return styles.kpiCellMuted;
-
-  if (GOOD_VALUES.has(value)) return styles.kpiCellGood;
-  if (GOOD_CONTEXTUAL[field]?.has(value)) return styles.kpiCellGood;
-
-  if (WARNING_VALUES.has(value)) return styles.kpiCellWarning;
-
-  if (DANGER_VALUES.has(value)) return styles.kpiCellDanger;
-  if (DANGER_CONTEXTUAL[field]?.has(value)) return styles.kpiCellDanger;
-
-  return '';
+  const level = getKpiConcernLevel(field as KpiField, value);
+  if (level === 'lower') return styles.kpiCellGood;
+  if (level === 'moderate') return styles.kpiCellWarning;
+  if (level === 'higher') return styles.kpiCellDanger;
+  return styles.kpiCellMuted;
 }
 
-function getRiskBadgeClass(risk: string): string {
+function getRiskBadgeClass(risk: string | null): string {
   switch (risk) {
     case 'High':
       return styles.riskBadgeHigh;
@@ -278,7 +227,8 @@ function KpiDashboardInner({
         score: row.overallScore,
         fill: color
       };
-    }).sort((a, b) => b.score - a.score);
+    }).filter((row): row is { name: string; score: number; fill: string } => row.score !== null)
+      .sort((a, b) => b.score - a.score);
   }, [filteredMatrix]);
 
   // 4. Chart Data: Total KPI Statuses across the matrix (Pie Chart)
@@ -330,14 +280,20 @@ function KpiDashboardInner({
         {/* Bar Chart: Compliance Scores */}
         <div className={styles.chartCard}>
           <div className={styles.chartHeader}>
-            <h3 className={styles.chartCardTitle}>Company Score Rankings</h3>
-            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Score scale: 1 - 10</span>
+            <h3 className={styles.chartCardTitle}>Latest analyzed change risk</h3>
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Source-backed scores only · 1–10</span>
           </div>
           <div className={styles.chartContainer}>
             {scoreChartData.length === 0 ? (
               <div className={styles.emptyState}>No data to chart.</div>
             ) : (
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer
+                width="100%"
+                height="100%"
+                minWidth={0}
+                minHeight={240}
+                initialDimension={{ width: 520, height: 240 }}
+              >
                 <BarChart data={scoreChartData} layout="vertical" margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="var(--border-subtle)" />
                   <XAxis type="number" domain={[0, 10]} stroke="var(--text-muted)" fontSize={10} tickLine={false} />
@@ -368,7 +324,13 @@ function KpiDashboardInner({
             {statusDistributionData.length === 0 ? (
               <div className={styles.emptyState}>No data to chart.</div>
             ) : (
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer
+                width="100%"
+                height="100%"
+                minWidth={0}
+                minHeight={240}
+                initialDimension={{ width: 520, height: 240 }}
+              >
                 <PieChart>
                   <Pie
                     data={statusDistributionData}
@@ -465,18 +427,26 @@ function KpiDashboardInner({
                         </span>
                         <span
                           className={`${styles.kpiRiskBadge} ${getRiskBadgeClass(row.overallRisk)}`}
+                          title={row.overallScore === null
+                            ? 'No source-backed policy change has been analyzed yet.'
+                            : `Latest analyzed change: ${row.latestPolicyName || 'policy'} · KPI coverage ${row.assessedCount}/${row.totalKpis}`}
                         >
-                          {row.overallScore}
+                          {row.overallScore ?? 'Pending'}
                         </span>
+                        <small>{row.assessedCount}/{row.totalKpis} KPIs · {row.coveragePercent}%</small>
                       </div>
                     </td>
                     {activeFields.map((field) => {
                       const value = row.kpiValues[field] || 'Not assessed';
                       const cellClass = getCellClass(field, value);
+                      const evidence = row.kpiEvidence[field as KpiField];
                       return (
                         <td
                           key={field}
                           className={`${styles.kpiCell} ${cellClass}`}
+                          title={evidence
+                            ? `Evidence: ${evidence.policyName} · ${new Date(evidence.assessedAt).toLocaleDateString()}`
+                            : 'No source-backed assessment available for this KPI.'}
                         >
                           {value}
                         </td>
@@ -494,8 +464,10 @@ function KpiDashboardInner({
         <CheckCircle size={18} />
         <span>
           <strong>{fullCoverageCount}</strong> of{' '}
-          <strong>{matrix.length}</strong> companies have all configured KPI fields populated
-          ({fields.length}/{fields.length} KPIs assessed)
+          <strong>{matrix.length}</strong> companies have complete KPI coverage.{' '}
+          <strong>{matrix.filter((row) => row.assessmentState === 'partial').length}</strong> partial and{' '}
+          <strong>{matrix.filter((row) => row.assessmentState === 'pending').length}</strong> pending.
+          Each cell uses its most recent source-backed policy assessment.
         </span>
       </div>
     </div>

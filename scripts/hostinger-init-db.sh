@@ -80,9 +80,11 @@ if [[ ! -w "${DB_DIR}" ]]; then
 fi
 
 if [[ -f "${DB_PATH}" ]]; then
-  BACKUP="${DB_PATH}.backup-$(date +%Y%m%d%H%M%S)"
-  cp "${DB_PATH}" "${BACKUP}"
-  echo "Backup created: ${BACKUP}"
+  if [[ "${POLICYWATCHER_SKIP_DB_BACKUP:-0}" != "1" ]]; then
+    BACKUP="${DB_PATH}.backup-$(date +%Y%m%d%H%M%S)"
+    cp "${DB_PATH}" "${BACKUP}"
+    echo "Backup created: ${BACKUP}"
+  fi
 else
   # Prisma's SQLite schema engine expects the target file to exist on some
   # hosts even when the containing directory is writable.
@@ -92,8 +94,16 @@ fi
 
 if [[ -d "${APP_DIR}/prisma/migrations" ]] && { [[ -x "${APP_DIR}/node_modules/.bin/prisma" ]] || command -v npx >/dev/null 2>&1 || command -v npm >/dev/null 2>&1; }; then
   run_prisma generate
-  if [[ -s "${DB_PATH}" && -d "${APP_DIR}/prisma/migrations/20260706213500_init" ]]; then
-    run_prisma migrate resolve --applied 20260706213500_init >/dev/null 2>&1 || true
+  if [[ -s "${DB_PATH}" && -f "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs" ]]; then
+    if command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
+      migration_detector=("${PYTHON_BIN}" "${APP_DIR}/scripts/hostinger-init-db.py" --detect-materialized-migrations)
+    else
+      migration_detector=(node "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs")
+    fi
+    while IFS= read -r materialized_migration; do
+      [[ -n "${materialized_migration}" ]] || continue
+      run_prisma migrate resolve --applied "${materialized_migration}" >/dev/null 2>&1 || true
+    done < <("${migration_detector[@]}")
   fi
   run_prisma migrate deploy
 elif [[ -f "${APP_DIR}/scripts/hostinger-init-db.py" ]] && command -v "${PYTHON_BIN}" >/dev/null 2>&1; then

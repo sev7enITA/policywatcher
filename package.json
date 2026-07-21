@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "postinstall": "prisma generate",
+    "prestart": "POLICYWATCHER_SKIP_DB_BACKUP=1 bash scripts/hostinger-init-db.sh",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
