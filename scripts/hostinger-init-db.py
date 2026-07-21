@@ -57,6 +57,7 @@ if "--detect-materialized-migrations" in sys.argv:
         ("20260719070000_policy_discovery", {"PolicyDiscoveryCandidate"}),
         ("20260721090000_source_onboarding", {"SourceOnboardingBatch", "SourceOnboardingItem"}),
         ("20260721120000_policy_discovery_job", {"PolicyDiscoveryJob"}),
+        ("20260721150000_policy_inquiry", {"PolicyInquiry"}),
     ]
     with sqlite3.connect(f"file:{db_path}?mode=ro", uri=True) as detection_connection:
         existing_tables = {
@@ -130,6 +131,31 @@ TABLES = [
       "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
       "updatedAt" DATETIME NOT NULL,
       CONSTRAINT "PolicyDiscoveryJob_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS "PolicyInquiry" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "publicToken" TEXT NOT NULL,
+      "fingerprint" TEXT NOT NULL,
+      "dedupeKey" TEXT NOT NULL,
+      "status" TEXT NOT NULL DEFAULT 'Proposed',
+      "kind" TEXT NOT NULL,
+      "companyHint" TEXT,
+      "normalizedDomain" TEXT,
+      "sourceUrl" TEXT,
+      "noticeSubject" TEXT,
+      "noticeDate" DATETIME,
+      "effectiveDate" DATETIME,
+      "policyTypesJson" TEXT,
+      "redactedExcerpt" TEXT,
+      "matchedCompanyId" TEXT,
+      "matchedPolicyId" TEXT,
+      "resolvedChangeId" TEXT,
+      "adminNote" TEXT,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "updatedAt" DATETIME NOT NULL,
+      "resolvedAt" DATETIME
     )
     """,
     """
@@ -360,6 +386,10 @@ INDEXES = [
     'CREATE UNIQUE INDEX IF NOT EXISTS "PolicyDiscoveryJob_companyId_key" ON "PolicyDiscoveryJob"("companyId")',
     'CREATE UNIQUE INDEX IF NOT EXISTS "PolicyDiscoveryJob_runToken_key" ON "PolicyDiscoveryJob"("runToken")',
     'CREATE INDEX IF NOT EXISTS "PolicyDiscoveryJob_status_startedAt_idx" ON "PolicyDiscoveryJob"("status", "startedAt")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "PolicyInquiry_publicToken_key" ON "PolicyInquiry"("publicToken")',
+    'CREATE INDEX IF NOT EXISTS "PolicyInquiry_status_createdAt_idx" ON "PolicyInquiry"("status", "createdAt")',
+    'CREATE INDEX IF NOT EXISTS "PolicyInquiry_dedupeKey_idx" ON "PolicyInquiry"("dedupeKey")',
+    'CREATE INDEX IF NOT EXISTS "PolicyInquiry_matchedCompanyId_idx" ON "PolicyInquiry"("matchedCompanyId")',
     'CREATE INDEX IF NOT EXISTS "SourceOnboardingBatch_createdAt_idx" ON "SourceOnboardingBatch"("createdAt")',
     'CREATE INDEX IF NOT EXISTS "SourceOnboardingBatch_status_idx" ON "SourceOnboardingBatch"("status")',
     'CREATE UNIQUE INDEX IF NOT EXISTS "SourceOnboardingItem_batchId_rowNumber_key" ON "SourceOnboardingItem"("batchId", "rowNumber")',
@@ -459,6 +489,7 @@ with sqlite3.connect(str(db_path), timeout=30) as con:
         "companies": con.execute('SELECT COUNT(*) FROM "Company"').fetchone()[0],
         "discoveryCandidates": con.execute('SELECT COUNT(*) FROM "PolicyDiscoveryCandidate"').fetchone()[0],
         "discoveryJobs": con.execute('SELECT COUNT(*) FROM "PolicyDiscoveryJob"').fetchone()[0],
+        "policyInquiries": con.execute('SELECT COUNT(*) FROM "PolicyInquiry"').fetchone()[0],
         "onboardingBatches": con.execute('SELECT COUNT(*) FROM "SourceOnboardingBatch"').fetchone()[0],
         "policies": con.execute('SELECT COUNT(*) FROM "Policy"').fetchone()[0],
         "snapshots": con.execute('SELECT COUNT(*) FROM "PolicySnapshot"').fetchone()[0],

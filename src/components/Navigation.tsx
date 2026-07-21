@@ -25,6 +25,7 @@ import {
   MoreHorizontal,
   Search,
   ShieldCheck,
+  ShieldQuestion,
   Sparkles,
   User,
   X,
@@ -121,6 +122,7 @@ export default function Navigation({
       methodology: 'Methodology',
       howTo: 'How to',
       timeline: 'Timeline',
+      whatChanged: 'What changed?',
       observatory: 'Observatory',
       leaderboard: 'Signals',
       showcase: 'Showcase',
@@ -140,6 +142,7 @@ export default function Navigation({
       tooltips: {
         search: 'Search companies, policies and dashboard actions',
         timeline: 'Open the source-verified change timeline',
+        whatChanged: 'Check a policy-update email against verified evidence',
         observatory: 'Open the curated policy source observatory',
         leaderboard: 'Compare companies by operational evidence signals',
         showcase: 'View the platform overview, workflows and visuals',
@@ -169,6 +172,7 @@ export default function Navigation({
       methodology: 'Metodo',
       howTo: 'Guida',
       timeline: 'Timeline',
+      whatChanged: 'Cosa è cambiato?',
       observatory: 'Observatory',
       leaderboard: 'Segnali',
       showcase: 'Vetrina',
@@ -188,6 +192,7 @@ export default function Navigation({
       tooltips: {
         search: 'Cerca aziende, policy e azioni della dashboard',
         timeline: 'Apri la timeline delle modifiche verificate',
+        whatChanged: 'Verifica una mail di aggiornamento rispetto alle evidenze',
         observatory: 'Apri l osservatorio curato delle fonti policy',
         leaderboard: 'Confronta le aziende per segnali di evidenza operativa',
         showcase: 'Guarda overview, workflow e visual della piattaforma',
@@ -213,6 +218,7 @@ export default function Navigation({
       id: 'observe',
       label: t.observe,
       items: [
+        { id: 'what-changed', label: t.whatChanged, tooltip: t.tooltips.whatChanged, icon: ShieldQuestion, href: '/what-changed', tone: 'accent' },
         { id: 'timeline', label: t.timeline, tooltip: t.tooltips.timeline, icon: Clock, href: '/timeline' },
         { id: 'observatory', label: t.observatory, tooltip: t.tooltips.observatory, icon: Search, href: '/observatory' },
         { id: 'leaderboard', label: t.leaderboard, tooltip: t.tooltips.leaderboard, icon: BarChart3, href: '/leaderboard' },
@@ -269,6 +275,7 @@ export default function Navigation({
     t.subscribe,
     t.timeline,
     t.trust,
+    t.whatChanged,
     t.tooltips.about,
     t.tooltips.atlas,
     t.tooltips.changelog,
@@ -284,6 +291,7 @@ export default function Navigation({
     t.tooltips.subscribe,
     t.tooltips.timeline,
     t.tooltips.trust,
+    t.tooltips.whatChanged,
   ]);
 
   const allCommands = useMemo(

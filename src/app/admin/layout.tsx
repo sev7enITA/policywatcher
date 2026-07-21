@@ -31,6 +31,7 @@ import {
   Menu,
   X,
   ListPlus,
+  MailQuestion,
 } from 'lucide-react';
 import styles from './admin.module.css';
 import { AdminPageGuide } from '@/components/admin/AdminPageGuide';
@@ -93,6 +94,12 @@ const NAV_ITEMS: NavItem[] = [
     label: 'Companies',
     href: '/admin/companies',
     icon: <Building2 size={18} />,
+    adminOnly: true,
+  },
+  {
+    label: 'Policy Inquiries',
+    href: '/admin/inquiries',
+    icon: <MailQuestion size={18} />,
     adminOnly: true,
   },
   {

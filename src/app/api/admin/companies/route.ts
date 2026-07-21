@@ -10,9 +10,8 @@ import { after, NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { db } from '@/lib/db';
 import {
-  runPolicyDiscoveryJob,
-  startPolicyDiscovery,
-} from '@/lib/policyDiscoveryWorkflow';
+  createCompanyAndStartDiscovery,
+} from '@/lib/companyOnboardingService';
 
 export async function GET(request: NextRequest) {
   const session = getSession(request);
@@ -73,70 +72,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    let companyWebsite: URL;
-    try {
-      companyWebsite = new URL(website);
-    } catch {
-      return NextResponse.json(
-        { error: 'website must be a valid absolute URL.' },
-        { status: 400 }
-      );
-    }
-
-    if (!['http:', 'https:'].includes(companyWebsite.protocol)) {
-      return NextResponse.json(
-        { error: 'website must use http or https.' },
-        { status: 400 }
-      );
-    }
-
-    // Check for duplicates
-    const existing = await db.company.findFirst({
-      where: { OR: [{ name }, { slug }] },
-    });
-    if (existing) {
-      return NextResponse.json(
-        { error: `Company with name "${name}" or slug "${slug}" already exists.` },
-        { status: 409 }
-      );
-    }
-
-    const company = await db.company.create({
-      data: {
-        name,
-        slug,
-        industry,
-        website: companyWebsite.toString(),
-        logo: logo || null,
-      },
-    });
-
-    try {
-      const discovery = await startPolicyDiscovery(company);
-      if (discovery.claimed) {
-        after(async () => {
-          await runPolicyDiscoveryJob(company, discovery.runToken);
-        });
-      }
-
-      return NextResponse.json(
-        { success: true, company, discovery: discovery.job },
-        { status: 201 }
-      );
-    } catch (discoveryError) {
-      console.error('[Admin Companies] Company created but discovery could not start:', discoveryError);
-      return NextResponse.json(
-        {
-          success: true,
-          company,
-          discovery: null,
-          discoveryError:
-            'Company created, but policy discovery storage is unavailable. Apply the database migrations, then retry discovery.',
-        },
-        { status: 201 }
-      );
-    }
+    const result = await createCompanyAndStartDiscovery(
+      { name, slug, industry, website, logo },
+      (task) => after(task)
+    );
+    return NextResponse.json({ success: true, ...result }, { status: 201 });
   } catch (error) {
+    if (error instanceof Error && error.message === 'INVALID_WEBSITE') {
+      return NextResponse.json({ error: 'website must be a valid http(s) URL.' }, { status: 400 });
+    }
+    if (error instanceof Error && error.message === 'COMPANY_EXISTS') {
+      return NextResponse.json({ error: 'A company with this name or slug already exists.' }, { status: 409 });
+    }
     console.error('[Admin Companies] POST error:', error);
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
   }

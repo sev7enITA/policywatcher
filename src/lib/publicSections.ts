@@ -97,6 +97,18 @@ export const publicSectionNodes: PublicSectionNode[] = [
     y: 55,
   },
   {
+    id: 'what-changed',
+    label: 'What changed?',
+    href: '/what-changed',
+    group: 'core',
+    summary: 'Turns a policy-update notification into verified public evidence or a tracked human-review request.',
+    role: 'Use it after receiving an email about new terms or privacy conditions.',
+    status: 'dynamic',
+    icon: 'file-search',
+    x: 34,
+    y: 42,
+  },
+  {
     id: 'observatory',
     label: 'Observatory',
     href: '/observatory',
@@ -231,6 +243,9 @@ export const publicSectionNodes: PublicSectionNode[] = [
 ];
 
 export const publicSectionEdges: PublicSectionEdge[] = [
+  { from: 'what-changed', to: 'timeline', label: 'resolves notifications against', strength: 'primary' },
+  { from: 'what-changed', to: 'methodology', label: 'applies evidence boundaries from', strength: 'primary' },
+  { from: 'admin', to: 'what-changed', label: 'reviews unresolved inquiries from', strength: 'primary' },
   { from: 'dashboard', to: 'timeline', label: 'publishes verified changes to', strength: 'primary' },
   { from: 'dashboard', to: 'observatory', label: 'uses curated source context from', strength: 'secondary' },
   { from: 'dashboard', to: 'leaderboard', label: 'feeds evidence signals into', strength: 'primary' },

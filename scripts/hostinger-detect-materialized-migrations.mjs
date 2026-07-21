@@ -33,6 +33,7 @@ const materialized = [
   ['20260719070000_policy_discovery', ['PolicyDiscoveryCandidate']],
   ['20260721090000_source_onboarding', ['SourceOnboardingBatch', 'SourceOnboardingItem']],
   ['20260721120000_policy_discovery_job', ['PolicyDiscoveryJob']],
+  ['20260721150000_policy_inquiry', ['PolicyInquiry']],
 ];
 
 for (const [migration, requiredTables] of materialized) {

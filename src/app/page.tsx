@@ -181,6 +181,12 @@ const translations = {
     exploreOpen: 'Apri',
     exploreCards: [
       {
+        title: 'Cosa è cambiato?',
+        href: '/what-changed',
+        category: 'Evidenza cittadino',
+        body: 'Verifica una mail sulle nuove condizioni o richiedi una revisione umana tracciata.',
+      },
+      {
         title: 'Atlante del sito',
         href: '/atlas',
         category: 'Navigazione',
@@ -330,6 +336,12 @@ const translations = {
     exploreFeature: `Stable in ${POLICYWATCHER_VERSION}`,
     exploreOpen: 'Open',
     exploreCards: [
+      {
+        title: 'What changed?',
+        href: '/what-changed',
+        category: 'Citizen evidence',
+        body: 'Check a policy-update email against verified public comparisons or request human review.',
+      },
       {
         title: 'Site Atlas',
         href: '/atlas',

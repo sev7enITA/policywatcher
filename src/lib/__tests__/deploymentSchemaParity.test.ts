@@ -34,14 +34,39 @@ describe('Hostinger runtime schema parity', () => {
     expect(initShell).toContain('migrate resolve --applied');
     expect(detector).toContain('20260721120000_policy_discovery_job');
     expect(detector).toContain("['PolicyDiscoveryJob']");
+    expect(detector).toContain('20260721150000_policy_inquiry');
+    expect(detector).toContain("['PolicyInquiry']");
+    expect(pythonFallback).toContain('20260721150000_policy_inquiry');
+    expect(pythonFallback).toContain('{"PolicyInquiry"}');
     for (const model of modelNames.filter((model) => ![
       'PolicyDiscoveryCandidate',
       'SourceOnboardingBatch',
       'SourceOnboardingItem',
       'PolicyDiscoveryJob',
+      'PolicyInquiry',
     ].includes(model))) {
       expect(detector, `Migration detector is missing base model ${model}`).toContain(`'${model}'`);
     }
     expect(pythonFallback).toContain('--detect-materialized-migrations');
+  });
+
+  it('keeps the policy inquiry migration and fallback indexes aligned', () => {
+    const migration = readFileSync(
+      'prisma/migrations/20260721150000_policy_inquiry/migration.sql',
+      'utf8',
+    );
+    const requiredIndexes = [
+      'PolicyInquiry_publicToken_key',
+      'PolicyInquiry_status_createdAt_idx',
+      'PolicyInquiry_dedupeKey_idx',
+      'PolicyInquiry_matchedCompanyId_idx',
+    ];
+
+    expect(migration).toContain('CREATE TABLE "PolicyInquiry"');
+    for (const index of requiredIndexes) {
+      expect(migration, `Migration is missing ${index}`).toContain(index);
+      expect(nodeFallback, `Node fallback is missing ${index}`).toContain(index);
+      expect(pythonFallback, `Python fallback is missing ${index}`).toContain(index);
+    }
   });
 });

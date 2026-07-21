@@ -12,7 +12,7 @@ export default function PrivacyPolicyPage() {
     <main className={styles.container}>
       <article className={styles.content}>
         <h1 className={styles.title}>Privacy Policy</h1>
-        <p className={styles.subtitle}>Last updated: June 23, 2026</p>
+        <p className={styles.subtitle}>Last updated: July 21, 2026</p>
 
         <section className={styles.section}>
           <h2>Who we are</h2>
@@ -62,6 +62,24 @@ export default function PrivacyPolicyPage() {
             whether you have accepted the Terms of Use disclaimer. This data never leaves your
             browser and is not transmitted to our servers. You can clear it at any time through
             your browser settings.
+          </p>
+        </section>
+
+        <section className={styles.section}>
+          <h2>Policy-update inquiries</h2>
+          <p>
+            When you use the “What changed?” workflow, the notification you paste is treated as an
+            unverified clue. PolicyWatcher removes email addresses and common tracking parameters,
+            stores only a bounded redacted excerpt and a cryptographic fingerprint for duplicate
+            detection, and discards the original text. Recipient addresses are never treated as
+            contact details.
+          </p>
+          <p>
+            The redacted metadata is retained to support human review, evidence verification,
+            onboarding decisions and an auditable administrative record. Pasted notification text
+            is not sent to Gemini, and user-submitted links are not fetched before an administrator
+            approves the source. You may quote the public inquiry reference when requesting access
+            or deletion at <a href="mailto:privacy@policywatcher.online">privacy@policywatcher.online</a>.
           </p>
         </section>
 
