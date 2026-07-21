@@ -849,7 +849,7 @@ const justifications: Record<string, Record<string, JustificationEntry>> = {
       it: 'Apple Intelligence elabora on-device per default, e Apple conferma che nessun dato utente è usato per l\'addestramento dei modelli.',
     },
     kpiAiOutputOwnership: {
-      en: 'Users fully own all Apple Intelligence outputs, with no company claims on generated content.',
+      en: 'Users fully own all Apple Intelligence outputs, with no company retention of generated content.',
       it: 'Gli utenti possiedono completamente tutti gli output di Apple Intelligence, senza rivendicazioni aziendali sui contenuti generati.',
     },
     kpiAlgoTransparency: {

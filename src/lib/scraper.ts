@@ -90,6 +90,16 @@ export interface ScrapeDiagnostic {
   finalUrl?: string;
 }
 
+export interface DiscoveryDocumentResult {
+  status: ScrapeStatus;
+  content: string;
+  finalUrl: string;
+  reason: string;
+  httpStatus: number;
+  source: string;
+  diagnostics: ScrapeDiagnostic[];
+}
+
 /* ---------------------------------------------------------------
    Configuration
    --------------------------------------------------------------- */
@@ -358,7 +368,7 @@ export function hasLiveHostDrift(originalUrl: string, finalUrl: string, source: 
   if (source === 'wayback' || source === 'commoncrawl') return false;
   const originalHost = comparableHost(originalUrl);
   const finalHost = comparableHost(finalUrl);
-  return Boolean(originalHost && finalHost && originalHost !== finalHost);
+  return Boolean(originalHost && finalHost && !isCoherentHost(originalHost, finalHost));
 }
 
 function normalizeComparablePath(rawUrl: string): string | null {
@@ -1368,6 +1378,133 @@ export function isPolicyContent(text: string): boolean {
   const lower = text.toLowerCase();
   const hits = POLICY_MARKERS.filter(m => lower.includes(m)).length;
   return hits >= MIN_MARKER_HITS;
+}
+
+function validateDiscoveryDocumentContent(content: string): string | null {
+  if (!content || content.trim().length < 120) return 'content_too_short';
+  const blockReason = detectBlockPage(content);
+  if (blockReason) return blockReason;
+  if (detectSoft404(content)) return 'soft_404';
+  return null;
+}
+
+/**
+ * Retrieves an HTML/XML/text discovery document through the same five-level
+ * transport cascade used by policy monitoring. It deliberately does not
+ * require policy markers: home pages, legal hubs, robots.txt and sitemaps are
+ * discovery inputs rather than policy evidence.
+ */
+export async function fetchDiscoveryDocument(url: string): Promise<DiscoveryDocumentResult> {
+  const diagnostics: ScrapeDiagnostic[] = [];
+  const destination = await validateOutboundUrl(url);
+  if (!destination.ok) {
+    diagnostics.push({
+      source: 'direct',
+      status: 'failed',
+      reason: destination.reason,
+      finalUrl: destination.finalUrl,
+    });
+    return {
+      status: 'unavailable',
+      content: '',
+      finalUrl: destination.finalUrl,
+      reason: destination.reason,
+      httpStatus: 0,
+      source: 'none',
+      diagnostics,
+    };
+  }
+
+  const accept = (source: string, result: TransportResult): DiscoveryDocumentResult | null => {
+    if (!result.ok) {
+      diagnostics.push({
+        source,
+        status: 'failed',
+        reason: result.error,
+        httpStatus: result.status,
+        finalUrl: result.finalUrl,
+      });
+      return null;
+    }
+
+    const rejection = validateDiscoveryDocumentContent(result.html);
+    if (rejection) {
+      diagnostics.push({
+        source,
+        status: 'rejected',
+        reason: rejection,
+        httpStatus: result.status,
+        finalUrl: result.finalUrl,
+      });
+      return null;
+    }
+
+    diagnostics.push({
+      source,
+      status: 'ok',
+      httpStatus: result.status,
+      finalUrl: result.finalUrl,
+    });
+    return {
+      status: 'ok',
+      content: result.html,
+      finalUrl: result.finalUrl,
+      reason: '',
+      httpStatus: result.status,
+      source,
+      diagnostics,
+    };
+  };
+
+  console.log(`[Discovery] [1/5] Direct fetch: ${url}`);
+  const direct = await fetchWithRetry(destination.url);
+  const directAccepted = accept('direct', direct);
+  if (directAccepted) return directAccepted;
+
+  await politeDelay();
+  console.log(`[Discovery] [2/5] HTTP/2 fetch: ${url}`);
+  try {
+    const http2Result = await fetchWithHttp2(destination.url);
+    const http2Accepted = accept('http2', http2Result);
+    if (http2Accepted) return http2Accepted;
+  } catch (error) {
+    diagnostics.push({ source: 'http2', status: 'failed', reason: (error as Error).message });
+  }
+
+  if (rendererConfigured()) {
+    await politeDelay();
+    console.log(`[Discovery] [3/5] Rendered fetch: ${url}`);
+    const rendered = await fetchWithRenderer(destination.url);
+    const renderedAccepted = accept('rendered', rendered);
+    if (renderedAccepted) return renderedAccepted;
+  } else {
+    diagnostics.push({ source: 'rendered', status: 'skipped', reason: 'renderer_not_configured' });
+  }
+
+  await politeDelay();
+  console.log(`[Discovery] [4/5] Wayback fetch: ${url}`);
+  const wayback = await fetchFromWayback(destination.url);
+  const waybackAccepted = accept('wayback', wayback);
+  if (waybackAccepted) return waybackAccepted;
+
+  await politeDelay();
+  console.log(`[Discovery] [5/5] Common Crawl fetch: ${url}`);
+  const commonCrawl = await fetchFromCommonCrawl(destination.url);
+  const commonCrawlAccepted = accept('commoncrawl', commonCrawl);
+  if (commonCrawlAccepted) return commonCrawlAccepted;
+
+  const reason = diagnostics
+    .map((item) => `${item.source}:${item.status}${item.reason ? `:${item.reason}` : ''}`)
+    .join(' | ') || 'all_sources_failed';
+  return {
+    status: reason.includes('soft_404') || reason.includes('gone') ? 'invalid' : 'unavailable',
+    content: '',
+    finalUrl: direct.finalUrl || destination.url,
+    reason,
+    httpStatus: direct.status,
+    source: 'none',
+    diagnostics,
+  };
 }
 
 /* ---------------------------------------------------------------

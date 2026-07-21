@@ -69,9 +69,9 @@
 
 .title {
   font-size: 1.6rem;
-  font-weight: 800;
+  font-weight: 700;
   color: #0f172a;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -116,7 +116,7 @@
   background: transparent;
   border: none;
   color: #92400e;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 0.72rem;
   font-weight: 700;
   text-align: left;
@@ -149,7 +149,7 @@
   border: 1px solid rgba(245, 158, 11, 0.3);
   border-radius: 6px;
   color: #92400e;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 0.7rem;
   font-weight: 600;
   cursor: pointer;
@@ -795,7 +795,7 @@
 
 .convergencePercent {
   font-size: 0.72rem;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 /* ---- LEGEND / FOOTER ---- */

@@ -27,6 +27,7 @@ import {
   Bell,
   Download,
   Grid3X3,
+  GitFork,
   BookOpen,
   ShieldAlert,
   CornerDownLeft,
@@ -34,7 +35,9 @@ import {
   ArrowDown,
   HelpCircle,
   Cpu,
-  ShieldCheck
+  ShieldCheck,
+  Newspaper,
+  UserRound,
 } from 'lucide-react';
 import styles from './CommandPalette.module.css';
 import type { Company, Lang } from '@/types';
@@ -206,14 +209,58 @@ export default function CommandPalette({
         },
       },
       {
+        id: 'act-about',
+        label: 'About PolicyWatcher',
+        labelIt: 'PolicyWatcher: progetto e autore',
+        icon: <UserRound size={16} />,
+        group: 'actions',
+        keywords: 'about author autore creator fabrizio degni project contact github open source',
+        run: () => {
+          window.location.href = '/about';
+        },
+      },
+      {
+        id: 'act-atlas',
+        label: 'Open Site Atlas',
+        labelIt: 'Apri Atlante del sito',
+        icon: <GitFork size={16} />,
+        group: 'actions',
+        keywords: 'atlas sitemap map graph entity relation navigation explore sections architecture',
+        run: () => {
+          window.location.href = '/atlas';
+        },
+      },
+      {
+        id: 'act-observatory',
+        label: 'Open Observatory',
+        labelIt: 'Apri Osservatorio',
+        icon: <Search size={16} />,
+        group: 'actions',
+        keywords: 'observatory osservatorio fonti sources registry news events regulatory privacy governance ieee oecd edpb nist ftc ico',
+        run: () => {
+          window.location.href = '/observatory';
+        },
+      },
+      {
         id: 'act-roadmap',
-        label: 'View 3.5 Roadmap',
-        labelIt: 'Vedi la Roadmap 3.5',
+        label: 'View Community Roadmap',
+        labelIt: 'Vedi la roadmap community',
         icon: <Cpu size={16} />,
         group: 'actions',
-        keywords: 'roadmap tick tock next releases evolution program cadence 3.5 confidence',
+        keywords: 'roadmap community signal next releases evolution program confidence adaptive dashboard',
         run: () => {
           window.location.href = '/roadmap';
+        },
+      },
+      {
+        id: 'act-press',
+        label: 'Open Press Wall',
+        labelIt: 'Apri Press Wall',
+        icon: <Newspaper size={16} />,
+        group: 'actions',
+        keywords: 'press media mentions coverage articles linkedin community talked about policywatcher',
+        run: () => {
+          window.location.href = '/press';
         },
       },
       {

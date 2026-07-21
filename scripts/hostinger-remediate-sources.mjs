@@ -28,6 +28,10 @@ const URL_UPDATES = [
   ['Plaid', 'End User Services Agreement', ['EU'], 'plaid.com/legal', 'https://plaid.com/legal#end-user-services-agreement-eea', 'Anchor-scoped EEA EUSA'],
   ['Amazon', 'AWS Data Processing Addendum', null, 'aws.amazon.com/compliance/data-processing-addendum', 'https://docs.aws.amazon.com/whitepapers/latest/navigating-gdpr-compliance/aws-data-processing-addendum-dpa.html', 'Focused AWS DPA documentation'],
   ['Amazon', 'AWS Data Processing Addendum', null, 'aws.amazon.com/service-terms', 'https://docs.aws.amazon.com/whitepapers/latest/navigating-gdpr-compliance/aws-data-processing-addendum-dpa.html', 'Focused AWS DPA documentation'],
+  ['Revolut', 'Privacy Policy', ['EU'], 'revolut.com/legal/privacy', 'https://www.revolut.com/en-LT/legal/privacy/', 'Region-specific EEA Customer Privacy Notice. Provider protection may still require official PDF or traced admin review.'],
+  ['Revolut', 'Privacy Policy', ['UK'], 'revolut.com/legal/privacy', 'https://www.revolut.com/legal/privacy/', 'Official UK Customer Privacy Notice. Provider protection may still require official PDF or traced admin review.'],
+  ['Revolut', 'Terms of Use', ['EU'], 'revolut.com/legal/terms', 'https://www.revolut.com/en-LT/legal/terms/', 'Region-specific EEA Personal Terms. Provider protection may still require official PDF or traced admin review.'],
+  ['Revolut', 'Terms of Use', ['UK'], 'revolut.com/legal/terms', 'https://www.revolut.com/legal/terms/', 'Official UK Personal Terms. Provider protection may still require official PDF or traced admin review.'],
 ];
 
 const dryRun = process.argv.includes('--dry-run');

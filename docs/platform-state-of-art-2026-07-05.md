@@ -7,7 +7,7 @@ Scope: local source tree, public documentation, Hostinger deployment package, an
 ## Executive Summary
 
 PolicyWatcher is now positioned as an inspectable civic-tech platform for
-monitoring configured public policy sources. The platform does not claim to
+monitoring configured public policy sources. The platform does not operate as
 certify legal compliance or internal company behavior. Its defensible position
 is narrower and stronger:
 
@@ -157,7 +157,7 @@ Known QA notes:
 
 - Seeded records are not public-confidence evidence. They must be replaced by
   direct, HTTP/2, VPS-rendered, Wayback, or Common Crawl retrieval logs before
-  timeline/dashboard claims are promoted.
+  timeline/dashboard statements are promoted.
 - Broad legal hubs should use section anchors where the provider exposes them.
   Plaid now maps privacy/EUSA records to anchor-scoped sections. If an official
   source returns only a short placeholder body, as currently observed for

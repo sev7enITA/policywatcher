@@ -142,10 +142,10 @@ const companies = [
     industry: 'FinTech',
     website: 'https://www.revolut.com',
     policies: [
-      { name: 'Privacy Policy', type: 'privacy', jurisdiction: 'EU', url: 'https://www.revolut.com/legal/privacy' },
-      { name: 'Privacy Policy', type: 'privacy', jurisdiction: 'UK', url: 'https://www.revolut.com/legal/privacy' },
-      { name: 'Terms of Use', type: 'terms', jurisdiction: 'EU', url: 'https://www.revolut.com/legal/terms' },
-      { name: 'Terms of Use', type: 'terms', jurisdiction: 'UK', url: 'https://www.revolut.com/legal/terms' },
+      { name: 'Privacy Policy', type: 'privacy', jurisdiction: 'EU', url: 'https://www.revolut.com/en-LT/legal/privacy/' },
+      { name: 'Privacy Policy', type: 'privacy', jurisdiction: 'UK', url: 'https://www.revolut.com/legal/privacy/' },
+      { name: 'Terms of Use', type: 'terms', jurisdiction: 'EU', url: 'https://www.revolut.com/en-LT/legal/terms/' },
+      { name: 'Terms of Use', type: 'terms', jurisdiction: 'UK', url: 'https://www.revolut.com/legal/terms/' },
     ],
   },
   {

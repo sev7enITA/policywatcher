@@ -23,6 +23,15 @@ export async function replaceSeededPolicyBaseline(
   tx: Prisma.TransactionClient,
   params: ReplaceSeededPolicyBaselineParams
 ): Promise<ReplaceSeededPolicyBaselineResult> {
+  const onboardingItem = await tx.sourceOnboardingItem.findFirst({
+    where: {
+      policyId: params.policyId,
+      stage: { in: ['BaselinePending', 'QaReview'] },
+    },
+    select: { id: true },
+  });
+  const publicEvidence = !onboardingItem;
+
   const existingSourceEvidence = await tx.policyCheckLog.findFirst({
     where: {
       policyId: params.policyId,
@@ -79,7 +88,7 @@ export async function replaceSeededPolicyBaseline(
       version: 1,
       text: params.text,
       hash: params.hash,
-      publicEvidence: true,
+      publicEvidence,
       createdAt: params.checkedAt,
     },
   });
@@ -111,19 +120,39 @@ export async function replaceSeededPolicyBaseline(
     },
   });
 
+  if (onboardingItem) {
+    await tx.sourceOnboardingItem.updateMany({
+      where: {
+        policyId: params.policyId,
+        stage: 'BaselinePending',
+      },
+      data: {
+        stage: 'QaReview',
+        qaStatus: 'Pending',
+        qaSummary: 'Verified first baseline captured privately. Source QA review is required before publication.',
+        qaChecksJson: null,
+        error: null,
+      },
+    });
+  }
+
   await tx.adminReviewLog.create({
     data: {
       actorRole: 'system',
       action: 'rebaseline_from_seeded_record',
       targetType: 'policy',
       targetId: params.policyId,
-      note: 'Seeded/demo baseline replaced with first verified source retrieval without creating public change evidence.',
+      note: onboardingItem
+        ? 'Bulk-onboarding baseline captured from verified source retrieval and held private pending QA and publication review.'
+        : 'Seeded/demo baseline replaced with first verified source retrieval without creating public change evidence.',
       metadataJson: JSON.stringify({
         removedChangeCount: changeIds.length,
         removedSnapshotCount: removedSnapshots.count,
         source: params.source,
         finalUrl: params.finalUrl,
         archiveTimestamp: params.archiveTimestamp?.toISOString() || null,
+        publicEvidence,
+        sourceOnboardingItemId: onboardingItem?.id || null,
       }),
     },
   });

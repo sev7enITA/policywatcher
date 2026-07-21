@@ -158,7 +158,7 @@ Note QA:
 
 - I record seed non sono evidenza pubblica di confidenza. Devono essere sostituiti
   da log di retrieval direct, HTTP/2, VPS-rendered, Wayback o Common Crawl prima
-  di promuovere claim su timeline e dashboard.
+  di promuovere statement pubblici su timeline e dashboard.
 - I legal hub ampi devono usare anchor di sezione quando il provider li espone.
   Plaid ora mappa privacy/EUSA su sezioni specifiche. Se una fonte ufficiale
   restituisce solo un placeholder breve, come osservato per Klarna EU Terms, il

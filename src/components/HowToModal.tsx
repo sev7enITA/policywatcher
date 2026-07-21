@@ -1,411 +1,567 @@
-/**
- * @file HowToModal.tsx
- *
- * Onboarding / "How To Use" modal that walks first-time visitors through
- * the core features of PolicyWatcher via a multi-slide guided tour.
- *
- * Slides: Welcome -> Core Features -> Trust & QA -> Limitations -> AI Assistant.
- *
- * The modal tracks two persistence layers:
- *  - **sessionStorage**: prevents the modal from re-appearing within the
- *    same browser session.
- *  - **localStorage** ("skip permanently" checkbox): lets the user opt out
- *    of seeing the modal across all future sessions.
- *
- * Supports EN/IT localisation via the `lang` prop.
- */
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { 
-  X, 
-  ChevronRight, 
-  ChevronLeft, 
-  HelpCircle
-} from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import styles from './HowToModal.module.css';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import type { LucideIcon } from 'lucide-react';
 import {
-  IconShieldScan,
-  IconDocumentDiff,
-  IconRiskGauge,
-  IconRegionGlobe,
-  IconAiGovernance,
-  IconTimeline,
-  IconBellAlert,
-  IconExport
-} from './icons/PolicyWatcherIcons';
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  PauseCircle,
+  Route,
+  Search,
+  ShieldCheck,
+  SlidersHorizontal,
+  UserRound,
+  X,
+} from 'lucide-react';
+import styles from './HowToModal.module.css';
 
-/** Props for the {@link HowToModal} component. */
+type TourStepId =
+  | 'workspace'
+  | 'ticker'
+  | 'sourceStatus'
+  | 'market'
+  | 'evidence'
+  | 'navigation'
+  | 'mobile';
+
+type TourStep = {
+  id: TourStepId;
+  title: string;
+  description: string;
+  focusLabel: string;
+  notes?: string[];
+};
+
+type TourCopy = {
+  title: string;
+  label: string;
+  close: string;
+  skip: string;
+  back: string;
+  next: string;
+  finish: string;
+  step: string;
+  of: string;
+  remember: string;
+  progressLabel: string;
+  previewLabel: string;
+  steps: TourStep[];
+};
+
 interface HowToModalProps {
-  /** Callback invoked when the user dismisses the modal (close button, backdrop click, or Escape). */
   onClose: () => void;
-  /** Active UI language -- controls all slide copy. */
   lang: 'en' | 'it';
 }
 
-/**
- * Multi-slide onboarding modal that introduces PolicyWatcher's features,
- * limitations, and AI assistant to new users.
- *
- * @param props - {@link HowToModalProps}
- * @returns The rendered modal overlay, or nothing after the close animation completes.
- */
+const STEP_ICONS: Record<TourStepId, LucideIcon> = {
+  workspace: SlidersHorizontal,
+  ticker: Search,
+  sourceStatus: PauseCircle,
+  market: Clock,
+  evidence: ShieldCheck,
+  navigation: Route,
+  mobile: UserRound,
+};
+
+const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
+  en: {
+    title: 'Home screen tour',
+    label: 'Guided home screen tour',
+    close: 'Close tour',
+    skip: 'Skip tour',
+    back: 'Back',
+    next: 'Next',
+    finish: 'Finish',
+    step: 'Step',
+    of: 'of',
+    remember: 'Do not open this tour automatically',
+    progressLabel: 'Tour progress',
+    previewLabel: 'Representative PolicyWatcher dashboard with the active area highlighted',
+    steps: [
+      {
+        id: 'workspace',
+        title: 'Choose the workspace',
+        description:
+          'Open Dashboard setup to select a session goal and evidence depth. It rearranges the view; it does not remove source or evidence gates.',
+        focusLabel: 'Dashboard setup',
+      },
+      {
+        id: 'ticker',
+        title: 'Read the Observatory ticker',
+        description:
+          'The ticker surfaces linked monitoring notes. Pause it on hover or focus, then open the source when you need context.',
+        focusLabel: 'Observatory ticker',
+      },
+      {
+        id: 'sourceStatus',
+        title: 'Check source status first',
+        description:
+          'Temporarily suspended sources are called out before interpretation. Treat the notice as a gate: public evidence is unavailable until verification.',
+        focusLabel: 'Source status notice',
+      },
+      {
+        id: 'market',
+        title: 'Follow the market, then open a company',
+        description:
+          'Market Pulse puts recent changes into sequence. Company cards narrow the view to a provider and its public policy record.',
+        focusLabel: 'Market Pulse',
+      },
+      {
+        id: 'evidence',
+        title: 'Open the evidence details',
+        description:
+          'Use View analysis for retrieval status, source baseline, changes, and limits before relying on a summary or score.',
+        focusLabel: 'Evidence details',
+      },
+      {
+        id: 'navigation',
+        title: 'Use navigation to widen the search',
+        description:
+          'Navigation and the sitemap link to Observatory, Atlas, timeline, methodology, and other public context.',
+        focusLabel: 'Navigation and sitemap',
+      },
+      {
+        id: 'mobile',
+        title: 'Choose mobile reading deliberately',
+        description:
+          'Desktop keeps the full workspace. On mobile, the optional On-the-Go reading profile is activated from the workspace prompt.',
+        focusLabel: 'Optional mobile profile',
+        notes: [
+          'It uses Citizen + Snapshot to condense the view and hide nonessential release-map material.',
+          'Source notices remain visible, with sticky controls and a single-column card layout.',
+          'The choice is stored locally and can be changed again through Change view.',
+        ],
+      },
+    ],
+  },
+  it: {
+    title: 'Tour della schermata home',
+    label: 'Tour guidato della schermata home',
+    close: 'Chiudi tour',
+    skip: 'Salta tour',
+    back: 'Indietro',
+    next: 'Avanti',
+    finish: 'Fine',
+    step: 'Passo',
+    of: 'di',
+    remember: 'Non aprire questo tour automaticamente',
+    progressLabel: 'Progresso del tour',
+    previewLabel: 'Dashboard PolicyWatcher rappresentativa con area attiva evidenziata',
+    steps: [
+      {
+        id: 'workspace',
+        title: 'Scegli il workspace',
+        description:
+          'Apri le impostazioni dashboard per scegliere obiettivo della sessione e profondita delle evidenze. La vista si riordina, ma i gate di fonte ed evidenza restano.',
+        focusLabel: 'Impostazioni dashboard',
+      },
+      {
+        id: 'ticker',
+        title: 'Leggi il ticker Observatory',
+        description:
+          'Il ticker mostra note di monitoraggio collegate. Fermalo con hover o focus, poi apri la fonte quando serve contesto.',
+        focusLabel: 'Ticker Observatory',
+      },
+      {
+        id: 'sourceStatus',
+        title: 'Controlla prima lo stato della fonte',
+        description:
+          'Le fonti temporaneamente sospese sono evidenziate prima dell interpretazione. Tratta l avviso come un gate: l evidenza pubblica non e disponibile fino alla verifica.',
+        focusLabel: 'Avviso stato fonte',
+      },
+      {
+        id: 'market',
+        title: 'Segui il mercato, poi apri un azienda',
+        description:
+          'Market Pulse mette in sequenza le modifiche recenti. Le card azienda restringono la lettura a un provider e al suo record policy pubblico.',
+        focusLabel: 'Market Pulse',
+      },
+      {
+        id: 'evidence',
+        title: 'Apri i dettagli delle evidenze',
+        description:
+          'Usa Vedi analisi per stato di recupero, baseline fonte, modifiche e limiti prima di usare una sintesi o uno score.',
+        focusLabel: 'Dettagli evidenze',
+      },
+      {
+        id: 'navigation',
+        title: 'Usa la navigazione per ampliare la ricerca',
+        description:
+          'Navigazione e sitemap collegano Observatory, Atlas, timeline, metodologia e altro contesto pubblico.',
+        focusLabel: 'Navigazione e sitemap',
+      },
+      {
+        id: 'mobile',
+        title: 'Scegli consapevolmente la lettura mobile',
+        description:
+          'Desktop mantiene il workspace completo. Su mobile, il profilo opzionale di lettura On-the-Go si attiva dal prompt del workspace.',
+        focusLabel: 'Profilo mobile opzionale',
+        notes: [
+          'Usa Cittadino + Snapshot per condensare la vista e nascondere il materiale non essenziale della release map.',
+          'Gli avvisi fonte restano visibili, con controlli sticky e layout a card su singola colonna.',
+          'La scelta viene salvata in locale e puo essere cambiata di nuovo con Cambia vista.',
+        ],
+      },
+    ],
+  },
+};
+
 export default function HowToModal({ onClose, lang }: HowToModalProps) {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  /** Controls the CSS exit animation before the component is unmounted. */
+  const [currentStep, setCurrentStep] = useState(0);
   const [closing, setClosing] = useState(false);
-  /** Mirrors the localStorage flag so the checkbox stays in sync. */
-  const [skipPermanently, setSkipPermanently] = useState(false);
-
-  // Hydrate the "skip permanently" checkbox from localStorage on mount.
-  useEffect(() => {
-    queueMicrotask(() => {
-      try {
-        const val = localStorage.getItem('policywatcher_onboarding_skip_permanently') === 'true';
-        setSkipPermanently(val);
-      } catch {
-        // ignore
-      }
-    });
-  }, []);
-
-  /** Persists the user's "don't show again" preference to localStorage. */
-  const handleToggleSkip = (checked: boolean) => {
-    setSkipPermanently(checked);
+  const [skipPermanently, setSkipPermanently] = useState(() => {
+    if (typeof window === 'undefined') return false;
     try {
-      if (checked) {
-        localStorage.setItem('policywatcher_onboarding_skip_permanently', 'true');
-      } else {
-        localStorage.setItem('policywatcher_onboarding_skip_permanently', 'false');
-      }
+      return localStorage.getItem('policywatcher_onboarding_skip_permanently') === 'true';
     } catch {
-      // ignore
+      return false;
     }
-  };
+  });
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLDivElement>(null);
+  const copyPanelRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const closeTimerRef = useRef<number | null>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+  const t = TOUR_COPY[lang];
+  const step = t.steps[currentStep];
+  const StepIcon = STEP_ICONS[step.id];
+  const previewText = lang === 'it'
+    ? {
+        publicHome: 'HOME PUBBLICA',
+        setup: 'IMPOSTAZIONI DASHBOARD',
+        profile: 'Cittadino / Snapshot',
+        changeView: 'Cambia vista',
+        optionalMobile: 'Mobile opzionale',
+        ticker: 'OBSERVATORY / nota enforcement aggiornata',
+        sourceStatus: 'STATO FONTE',
+        suspended: '2 sorgenti sospese',
+        review: 'Review prima della pubblicazione',
+        market: 'MARKET PULSE',
+        policyChange: 'Modifica termini registrata',
+        analysis: 'Vedi analisi',
+        firstCard: 'Termini AI / Fonte verificata',
+        secondCard: 'Privacy / Evidenza recente',
+        method: 'Metodo',
+      }
+    : {
+        publicHome: 'PUBLIC HOME',
+        setup: 'DASHBOARD SETUP',
+        profile: 'Citizen / Snapshot',
+        changeView: 'Change view',
+        optionalMobile: 'Optional mobile',
+        ticker: 'OBSERVATORY / enforcement note updated',
+        sourceStatus: 'SOURCE STATUS',
+        suspended: '2 temporarily suspended',
+        review: 'Review before publication',
+        market: 'MARKET PULSE',
+        policyChange: 'Terms change recorded',
+        analysis: 'View analysis',
+        firstCard: 'AI Terms / Source verified',
+        secondCard: 'Privacy / Latest evidence',
+        method: 'Method',
+      };
 
-  const isIt = lang === 'it';
-
-  /**
-   * Marks the modal as "seen this session" (sessionStorage) then triggers
-   * the 200 ms CSS exit animation before invoking the parent's onClose.
-   */
   const handleClose = useCallback(() => {
+    if (closeTimerRef.current) return;
+
     try {
       sessionStorage.setItem('policywatcher_onboarding_session_seen', 'true');
     } catch {
-      // ignore
+      // Storage can be unavailable in a restricted browser context.
     }
+
     setClosing(true);
-    setTimeout(() => {
-      onClose();
-    }, 200);
+    closeTimerRef.current = window.setTimeout(onClose, 150);
   }, [onClose]);
 
-  const slides = [
-    {
-      id: 'welcome',
-      icon: <IconShieldScan size={32} className={styles.slideIconPrimary} />,
-      title: isIt ? 'Benvenuto su PolicyWatcher' : 'Welcome to PolicyWatcher',
-      subtitle: isIt 
-        ? 'Una piattaforma per monitorare fonti policy configurate, modifiche, segnali di rischio e stato QA del dataset.'
-        : 'A platform for monitoring configured policy sources, changes, risk signals, and dataset QA status.',
-      content: (
-        <div className={styles.slideContent}>
-          <p>
-            {isIt 
-              ? 'PolicyWatcher ti aiuta a seguire come le grandi piattaforme aggiornano policy privacy, termini di servizio e testi legati alla governance AI, esponendo sempre limiti e stato del dato.'
-              : 'PolicyWatcher helps you follow how major platforms update privacy policies, terms of service, and AI-governance texts while exposing data status and known limits.'}
-          </p>
-          <div className={styles.introFeatureList}>
-            <div className={styles.introFeatureItem}>
-              <span className={styles.bulletDot}></span>
-              <span>{isIt ? 'Recupero controllato delle fonti, log di esito e rilevamento differenze (SHA-256)' : 'Controlled source retrieval, check logs, and policy change detection (SHA-256)'}</span>
-            </div>
-            <div className={styles.introFeatureItem}>
-              <span className={styles.bulletDot}></span>
-              <span>{isIt ? 'Analisi semantica e sintesi con modelli Google Gemini' : 'Semantic analysis and digests powered by Google Gemini'}</span>
-            </div>
-            <div className={styles.introFeatureItem}>
-              <span className={styles.bulletDot}></span>
-              <span>{isIt ? 'Indicatori di rischio per individui e imprese (EU/US/Global)' : 'Risk indicators for individual and enterprise perspectives (EU/US/Global)'}</span>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 'features',
-      icon: <IconAiGovernance size={32} className={styles.slideIconSecondary} />,
-      title: isIt ? 'Funzionalita Principali' : 'Core Features',
-      subtitle: isIt 
-        ? 'Tutto il necessario per analizzare e confrontare la compliance.' 
-        : 'Everything you need to analyze, trace, and compare regulatory terms.',
-      content: (
-        <div className={styles.slideContent}>
-          <div className={styles.gridFeatures}>
-            <div className={styles.gridCard}>
-              <h4><IconDocumentDiff size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Scansione e Analisi AI' : 'Scanning & AI Analysis'}</h4>
-              <p>{isIt ? 'Ottieni TL;DR immediati, punti chiave marcati per sentiment (buono/neutro/preoccupante) e azioni di rimedio concrete.' : 'Access clear TL;DR summaries, key points categorized by user sentiment, and concrete step-by-step remediation advice.'}</p>
-            </div>
-            <div className={styles.gridCard}>
-              <h4><IconRiskGauge size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Confronto A/B' : 'A/B Comparison'}</h4>
-              <p>{isIt ? 'Usa il Radar Chart per confrontare visivamente i KPI di privacy ed etica di due aziende affiancate.' : 'Compare two companies side-by-side. View radar charts mapping 15 distinct compliance metrics.'}</p>
-            </div>
-            <div className={styles.gridCard}>
-              <h4><IconTimeline size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Trend Storici' : 'Historical Trends'}</h4>
-              <p>{isIt ? 'Esplora i grafici temporali interattivi per tracciare come il punteggio di rischio di un\'azienda sia evoluto nel tempo.' : 'Interact with timeline charts to monitor how a company\'s overall risk rating has shifted across versions.'}</p>
-            </div>
-            <div className={styles.gridCard}>
-              <h4><IconExport size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Command Palette' : 'Command Palette'} (Cmd+K)</h4>
-              <p>{isIt ? 'Premi Cmd+K (o Ctrl+K) per navigare istantaneamente, cercare compagnie, cambiare prospettive o attivare filtri.' : 'Press Cmd+K (or Ctrl+K) to launch the command menu. Search companies, filter regions, or trigger actions via keyboard.'}</p>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 'trust',
-      icon: <IconShieldScan size={32} className={styles.slideIconSecondary} />,
-      title: isIt ? 'Dataset QA e Trust Evidence' : 'Dataset QA & Trust Evidence',
-      subtitle: isIt
-        ? 'La qualità del dataset è mostrata come stato operativo, non come certificazione.'
-        : 'Dataset quality is shown as operational evidence, not certification.',
-      content: (
-        <div className={styles.slideContent}>
-          <div className={styles.gridFeatures}>
-            <div className={styles.gridCard}>
-              <h4><IconShieldScan size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> Dataset QA</h4>
-              <p>{isIt ? 'Controlla source-fit, hash, version records, check log, timestamp, KPI, impatti regionali e anomalie da rivedere.' : 'Checks source-fit, hashes, version records, check logs, timestamps, KPIs, regional impacts, and review issues.'}</p>
-            </div>
-            <div className={styles.gridCard}>
-              <h4><IconTimeline size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Stati del dato' : 'Data statuses'}</h4>
-              <p>{isIt ? 'Ogni policy può essere Available, Partial, Needs Review, Unavailable, Configured o Reviewed.' : 'Each policy can expose Available, Partial, Needs Review, Unavailable, Configured, or Reviewed states.'}</p>
-            </div>
-            <div className={styles.gridCard}>
-              <h4><IconRegionGlobe size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Ingestion method' : 'Ingestion method'}</h4>
-              <p>{isIt ? 'Il dettaglio policy indica il percorso di recupero. I record seed sono trattati come configurati/non verificati finché una scansione reale non produce evidenza.' : 'Policy detail shows the retrieval path. Seed records are treated as configured/unverified until a real scan produces evidence.'}</p>
-            </div>
-            <div className={styles.gridCard}>
-              <h4><IconDocumentDiff size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Gate pubblico' : 'Public evidence gate'}</h4>
-              <p>{isIt ? 'Snapshot e change devono essere marcati come publicEvidence prima che timeline, report, share page, digest o benchmark li mostrino.' : 'Snapshots and changes must be marked publicEvidence before timeline, reports, share pages, digests, or benchmarks can show them.'}</p>
-            </div>
-            <div className={styles.gridCard}>
-              <h4><IconBellAlert size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Sospensione Partial' : 'Partial suspension'}</h4>
-              <p>{isIt ? 'Recuperi incompleti, troncati o anomali sono sospesi: il pubblico vede un avviso operativo, non score o interpretazioni AI.' : 'Incomplete, truncated, or anomalous retrievals are suspended: public users see an operational notice, not scores or AI interpretation.'}</p>
-            </div>
-            <div className={styles.gridCard}>
-              <h4><IconDocumentDiff size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Trust page' : 'Trust page'}</h4>
-              <p>{isIt ? 'La pagina Trust & Quality raccoglie CI, CodeQL, OpenSSF Scorecard, targeted reliability coverage, Sonar/Codecov readiness e report header live.' : 'The Trust & Quality page collects CI, CodeQL, OpenSSF Scorecard, targeted reliability coverage, Sonar/Codecov readiness, and live header reports.'}</p>
-            </div>
-            <div className={styles.gridCard}>
-              <h4><IconBellAlert size={18} style={{ verticalAlign: 'middle', marginRight: 6 }} /> {isIt ? 'Confine dichiarato' : 'Declared boundary'}</h4>
-              <p>{isIt ? 'PolicyWatcher non certifica conformità legale e non valida pratiche interne: mappa testi pubblici configurati e segnala evidenze.' : 'PolicyWatcher does not certify legal compliance or validate internal practices: it maps configured public texts and exposes evidence.'}</p>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 'limits',
-      icon: <IconBellAlert size={32} className={styles.slideIconWarning} />,
-      title: isIt ? 'Limiti e Limitazioni' : 'Limitations & Caveats',
-      subtitle: isIt 
-        ? 'Cio di cui devi tenere conto durante l\'utilizzo della piattaforma.' 
-        : 'Important considerations when evaluating automated analysis.',
-      content: (
-        <div className={styles.slideContent}>
-          <div className={styles.limitList}>
-            <div className={styles.limitItem}>
-              <h5><IconShieldScan size={16} style={{ verticalAlign: 'middle', marginRight: 6 }} color="#f59e0b" /> {isIt ? 'Versione Beta e Nessun Parere Legale' : 'Beta Version & No Legal Advice'}</h5>
-              <p>{isIt 
-                ? 'Le analisi sono generate tramite modelli AI e non costituiscono consulenza o parere legale. Verifica sempre i testi presso la fonte provider.'
-                : 'Reviews are generated through AI models and do not constitute legal advice. Always verify text states against provider sources.'}</p>
-            </div>
-            <div className={styles.limitItem}>
-              <h5><IconRegionGlobe size={16} style={{ verticalAlign: 'middle', marginRight: 6 }} color="#f59e0b" /> {isIt ? 'Limitazioni di Scraper e Bot Protection' : 'Scraper & Bot Protection Limitations'}</h5>
-              <p>{isIt 
-                ? 'Alcune aziende implementano sistemi anti-bot, consent wall o contenuti script-rendered. Il renderer VPS migliora la copertura, ma se il recupero fallisce il sistema segnala "Unavailable" o "Needs Review" senza inventare dati.'
-                : 'Bot blockers, consent walls, or script-rendered content can block retrieval. The VPS renderer improves coverage, but if retrieval fails the system reports "Unavailable" or "Needs Review" without inventing data.'}</p>
-            </div>
-            <div className={styles.limitItem}>
-              <h5><IconTimeline size={16} style={{ verticalAlign: 'middle', marginRight: 6 }} color="#f59e0b" /> {isIt ? 'Rate Limiting protettivi' : 'Usage Rate Limiting'}</h5>
-              <p>{isIt 
-                ? 'Alcune funzioni API sono protette da rate limit, ruoli amministrativi o segreti. Se una richiesta fallisce, controlla lo stato, il ruolo e la configurazione.'
-                : 'Some API functions are protected by rate limits, admin roles, or secrets. If a request fails, check status, role, and configuration.'}</p>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 'chatbot',
-      icon: <IconAiGovernance size={32} className={styles.slideIconChat} />,
-      title: isIt ? 'Chiedi al tuo Assistente IA' : 'Ask your AI Assistant',
-      subtitle: isIt 
-        ? 'Puoi avere le stesse indicazioni e informazioni parlando in chat.' 
-        : 'Access guidance on features, methodology, and platform limits.',
-      content: (
-        <div className={styles.slideContent}>
-          <p>
-            {isIt 
-              ? 'Hai dubbi su come funziona una feature? O vuoi sapere subito le novita sulle policy di Google o Anthropic?'
-              : 'Confused about a feature? Or want to know the latest changes in Anthropic or Google policies?'}
-          </p>
-          <div className={styles.chatbotHighlightBox}>
-            <p className={styles.chatbotHighlightText}>
-              {isIt 
-                ? 'Usa il chatbot "Policy Live Assistant" in basso a destra per orientarti tra funzionalità, metodologia e limiti. Verifica sempre le fonti provider per conclusioni legali.'
-                : 'Launch the "Policy Live Assistant" in the bottom-right for guidance on features, methodology, and limits. Always verify provider sources for legal conclusions.'}
-            </p>
-          </div>
-          <p className={styles.chatSuggestedQueriesTitle}>{isIt ? 'Domande suggerite da fare alla chat:' : 'Suggested queries to ask the chatbot:'}</p>
-          <ul className={styles.chatSuggestedQueriesList}>
-            <li>{isIt ? '"Come disiscrivermi dagli alert email?"' : '"How do I unsubscribe from email alerts?"'}</li>
-            <li>{isIt ? '"Quali modifiche biometriche ha inserito Stripe?"' : '"What biometric changes did Stripe introduce?"'}</li>
-            <li>{isIt ? '"Come funziona il calcolo del punteggio di rischio?"' : '"How is the overall risk score calculated?"'}</li>
-          </ul>
-        </div>
-      )
+  const handleToggleSkip = (checked: boolean) => {
+    setSkipPermanently(checked);
+    try {
+      localStorage.setItem('policywatcher_onboarding_skip_permanently', String(checked));
+    } catch {
+      // Storage can be unavailable in a restricted browser context.
     }
-  ];
+  };
+
+  const goToStep = useCallback((nextStep: number) => {
+    setCurrentStep(Math.max(0, Math.min(nextStep, t.steps.length - 1)));
+  }, [t.steps.length]);
+
+  const handleNext = useCallback(() => {
+    if (currentStep === t.steps.length - 1) {
+      handleClose();
+      return;
+    }
+    goToStep(currentStep + 1);
+  }, [currentStep, goToStep, handleClose, t.steps.length]);
+
+  const handlePrevious = useCallback(() => {
+    goToStep(currentStep - 1);
+  }, [currentStep, goToStep]);
 
   useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') handleClose();
+    previousFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const focusFrame = window.requestAnimationFrame(() => closeButtonRef.current?.focus());
+
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      document.body.style.overflow = previousOverflow;
+      if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+      if (previousFocusRef.current && document.contains(previousFocusRef.current)) {
+        previousFocusRef.current.focus();
+      }
     };
-    window.addEventListener('keydown', handleEsc);
-    return () => window.removeEventListener('keydown', handleEsc);
-  }, [handleClose]);
+  }, []);
 
-  /** Advances to the next slide, or closes the modal on the last slide. */
-  const handleNext = () => {
-    if (currentSlide < slides.length - 1) {
-      setCurrentSlide(currentSlide + 1);
-    } else {
-      handleClose();
-    }
-  };
+  useEffect(() => {
+    const scrollFrame = window.requestAnimationFrame(() => {
+      const main = mainRef.current;
+      if (!main) return;
 
-  const handlePrev = () => {
-    if (currentSlide > 0) {
-      setCurrentSlide(currentSlide - 1);
-    }
-  };
+      const mobileCopyOffset = copyPanelRef.current?.offsetTop ?? 0;
+      main.scrollTo({
+        top: step.id === 'mobile' ? Math.max(0, mobileCopyOffset - 8) : 0,
+        behavior: 'auto',
+      });
+    });
+
+    return () => window.cancelAnimationFrame(scrollFrame);
+  }, [step.id]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        handleClose();
+        return;
+      }
+
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        handleNext();
+        return;
+      }
+
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        handlePrevious();
+        return;
+      }
+
+      if (event.key !== 'Tab' || !dialogRef.current) return;
+
+      const focusable = Array.from(
+        dialogRef.current.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), input:not([disabled]), [href], [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((element) => !element.hasAttribute('hidden'));
+
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const activeElement = document.activeElement;
+
+      if (event.shiftKey && activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [handleClose, handleNext, handlePrevious]);
 
   return (
-    <div 
-      className={styles.overlay} 
-      onClick={handleClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label={isIt ? 'Guida all\'Onboarding' : 'User Onboarding Guide'}
+    <div
+      className={styles.overlay}
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) handleClose();
+      }}
     >
-      <div 
-        className={`${styles.modal} ${closing ? styles.modalClosing : ''}`} 
-        onClick={(e) => e.stopPropagation()}
+      <section
+        ref={dialogRef}
+        className={styles.modal}
+        data-closing={closing}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="how-to-title"
+        aria-describedby="how-to-description"
       >
-        {/* Header */}
-        <div className={styles.header}>
-          <div className={styles.titleGroup}>
-            <HelpCircle size={20} className={styles.headerIcon} />
-            <h3>{isIt ? 'Come Funziona' : 'How To Use'}</h3>
+        <header className={styles.header}>
+          <div>
+            <span className={styles.eyebrow}>{t.label}</span>
+            <h2 id="how-to-title">{t.title}</h2>
           </div>
-          <button onClick={handleClose} className={styles.closeBtn} aria-label="Close">
-            <X size={20} />
+          <button
+            ref={closeButtonRef}
+            type="button"
+            className={styles.iconButton}
+            onClick={handleClose}
+            aria-label={t.close}
+            title={t.close}
+          >
+            <X size={18} aria-hidden="true" />
           </button>
-        </div>
+        </header>
 
-        {/* Navigation Tabs (Online Guide view) */}
-        <div className={styles.tabNav}>
-          {slides.map((slide, idx) => (
-            <button 
-              key={slide.id}
-              onClick={() => setCurrentSlide(idx)}
-              className={`${styles.tabBtn} ${currentSlide === idx ? styles.tabBtnActive : ''}`}
-            >
-              {slide.id === 'welcome' && (isIt ? 'Benvenuto' : 'Welcome')}
-              {slide.id === 'features' && (isIt ? 'Funzionalita' : 'Features')}
-              {slide.id === 'trust' && (isIt ? 'Trust QA' : 'Trust QA')}
-              {slide.id === 'limits' && (isIt ? 'Limiti' : 'Limits')}
-              {slide.id === 'chatbot' && (isIt ? 'Assistente IA' : 'AI Assistant')}
-            </button>
-          ))}
-        </div>
+        <div ref={mainRef} className={styles.main} data-tour-main>
+          <figure className={styles.preview} aria-label={t.previewLabel}>
+            <div className={styles.previewCanvas} data-focus={step.id} aria-hidden="true">
+              <div className={styles.previewGrid}>
+                {Array.from({ length: 112 }, (_, index) => <span key={index} />)}
+              </div>
+              <div className={styles.previewTopbar}>
+                <span className={styles.previewBrand}>POLICYWATCHER</span>
+                <span className={styles.previewTopbarStatus}>{previewText.publicHome}</span>
+              </div>
 
-        {/* Slide Body */}
-        <div className={styles.body}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentSlide}
-              initial={{ opacity: 0, x: 15 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -15 }}
-              transition={{ duration: 0.2 }}
-              className={styles.slideWrapper}
-            >
-              <div className={styles.slideHeader}>
-                {slides[currentSlide].icon}
-                <div className={styles.slideHeaderText}>
-                  <h3 className={styles.slideTitle}>{slides[currentSlide].title}</h3>
-                  <p className={styles.slideSubtitle}>{slides[currentSlide].subtitle}</p>
+              <div className={styles.previewWorkspace}>
+                <span className={styles.previewKicker}>{previewText.setup}</span>
+                <strong>{previewText.profile}</strong>
+                <span className={styles.previewAction}>{previewText.changeView}</span>
+              </div>
+              <div className={styles.previewMobileProfile}>
+                <UserRound size={11} />
+                {previewText.optionalMobile}
+              </div>
+
+              <div className={styles.previewTicker}>
+                <Search size={11} />
+                <span>{previewText.ticker}</span>
+                <span className={styles.previewTickerDot} />
+              </div>
+
+              <article className={styles.previewSource}>
+                <span className={styles.previewPanelLabel}>{previewText.sourceStatus}</span>
+                <strong>{previewText.suspended}</strong>
+                <span>{previewText.review}</span>
+              </article>
+
+              <article className={styles.previewMarket}>
+                <span className={styles.previewPanelLabel}>{previewText.market}</span>
+                <div className={styles.previewTimeline}>
+                  <span />
+                  <span />
+                  <span />
                 </div>
+                <strong>{previewText.policyChange}</strong>
+              </article>
+
+              <div className={styles.previewCards}>
+                <article className={styles.previewCard}>
+                  <span className={styles.previewCompanyMark}>A</span>
+                  <div>
+                    <strong>Anthropic</strong>
+                    <span>{previewText.firstCard}</span>
+                  </div>
+                  <small>{previewText.analysis}</small>
+                </article>
+                <article className={styles.previewCard}>
+                  <span className={styles.previewCompanyMark}>S</span>
+                  <div>
+                    <strong>Stripe</strong>
+                    <span>{previewText.secondCard}</span>
+                  </div>
+                  <small>{previewText.analysis}</small>
+                </article>
               </div>
 
-              <div className={styles.slideMainContent}>
-                {slides[currentSlide].content}
+              <nav className={styles.previewNavigation}>
+                <span>Atlas</span>
+                <span>Observatory</span>
+                <span>Timeline</span>
+                <span>{previewText.method}</span>
+              </nav>
+
+              <div className={styles.focusRing} data-tour-focus-ring>
+                <span className={styles.focusLabel}>
+                  <StepIcon size={11} />
+                  {step.focusLabel}
+                </span>
+                <ArrowRight className={styles.focusArrow} size={17} />
               </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
+            </div>
+          </figure>
 
-        {/* Skip future sessions checkbox */}
-        <div className={styles.skipSessionRow}>
-          <label className={styles.skipCheckboxLabel}>
-            <input 
-              type="checkbox" 
-              checked={skipPermanently} 
-              onChange={(e) => handleToggleSkip(e.target.checked)}
-              className={styles.skipCheckbox}
-            />
-            <span>
-              {isIt 
-                ? 'Salta questo how to nelle prossime sessioni' 
-                : 'Skip this how to in future sessions'}
-            </span>
-          </label>
-        </div>
- 
-        {/* Footer controls */}
-        <div className={styles.footer}>
-          {/* Progress indicators */}
-          <div className={styles.progressDots}>
-            {slides.map((_, idx) => (
-              <span 
-                key={idx}
-                onClick={() => setCurrentSlide(idx)}
-                className={`${styles.dot} ${currentSlide === idx ? styles.dotActive : ''}`}
-              />
-            ))}
-          </div>
-
-          <div className={styles.navButtons}>
-            {currentSlide > 0 && (
-              <button onClick={handlePrev} className={styles.navBtnPrev}>
-                <ChevronLeft size={16} />
-                {isIt ? 'Indietro' : 'Back'}
-              </button>
+          <div ref={copyPanelRef} className={styles.copyPanel}>
+            <div className={styles.stepMeta}>
+              <StepIcon size={16} aria-hidden="true" />
+              <span>{t.step} {currentStep + 1} {t.of} {t.steps.length}</span>
+            </div>
+            <h3>{step.title}</h3>
+            <p id="how-to-description" className={styles.description} aria-live="polite">
+              {step.description}
+            </p>
+            {step.notes && (
+              <ul className={styles.noteList}>
+                {step.notes.map((note) => (
+                  <li key={note}>{note}</li>
+                ))}
+              </ul>
             )}
-
-            <button onClick={handleNext} className={styles.navBtnNext}>
-              {currentSlide === slides.length - 1 
-                ? (isIt ? 'Completa' : 'Got it!') 
-                : (isIt ? 'Avanti' : 'Next')}
-              {currentSlide < slides.length - 1 && <ChevronRight size={16} />}
-            </button>
           </div>
         </div>
-      </div>
+
+        <footer className={styles.footer}>
+          <div className={styles.progressGroup}>
+            <div className={styles.progressText}>
+              <span>{t.progressLabel}</span>
+              <strong>{currentStep + 1}/{t.steps.length}</strong>
+            </div>
+            <div className={styles.progressTrack} aria-label={t.progressLabel}>
+              {t.steps.map((tourStep, index) => (
+                <button
+                  key={tourStep.id}
+                  type="button"
+                  className={styles.progressStep}
+                  data-active={index === currentStep}
+                  onClick={() => goToStep(index)}
+                  aria-label={`${t.step} ${index + 1}: ${tourStep.title}`}
+                  aria-current={index === currentStep ? 'step' : undefined}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.footerControls}>
+            <label className={styles.rememberControl}>
+              <input
+                type="checkbox"
+                checked={skipPermanently}
+                onChange={(event) => handleToggleSkip(event.target.checked)}
+              />
+              <span>{t.remember}</span>
+            </label>
+            <div className={styles.buttonGroup}>
+              <button type="button" className={styles.skipButton} onClick={handleClose}>
+                {t.skip}
+              </button>
+              <button
+                type="button"
+                className={styles.secondaryButton}
+                onClick={handlePrevious}
+                disabled={currentStep === 0}
+              >
+                <ChevronLeft size={16} aria-hidden="true" />
+                {t.back}
+              </button>
+              <button type="button" className={styles.primaryButton} onClick={handleNext}>
+                {currentStep === t.steps.length - 1 ? t.finish : t.next}
+                {currentStep === t.steps.length - 1 ? <ShieldCheck size={16} aria-hidden="true" /> : <ChevronRight size={16} aria-hidden="true" />}
+              </button>
+            </div>
+          </div>
+        </footer>
+      </section>
     </div>
   );
 }

@@ -63,7 +63,7 @@ export default function AdminLoginPage() {
       <div className={styles.loginCard}>
         <div className={styles.loginLogoWrapper}>
           <Image
-            src="/logo.png"
+            src="/logo-mark.png"
             alt="PolicyWatcher Logo"
             width={52}
             height={52}
@@ -73,7 +73,7 @@ export default function AdminLoginPage() {
         </div>
         <h1 className={styles.loginTitle}>
           PolicyWatcher Admin
-          <span className={styles.loginVersion}>v3.5.1</span>
+          <span className={styles.loginVersion}>v3.6.3</span>
         </h1>
 
         {error && (

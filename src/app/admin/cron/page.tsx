@@ -23,6 +23,9 @@ import {
   Plus,
 } from 'lucide-react';
 import styles from '../admin.module.css';
+import { PolicyDiscoveryWorkspace } from '@/components/admin/PolicyDiscoveryWorkspace';
+import { getBatchLimitSummary } from '@/lib/adminBatchSummary';
+import { getCronTargetControlState } from '@/lib/adminDiscoveryState';
 import {
   IconEvidenceAccepted,
   IconScanPulse,
@@ -345,6 +348,7 @@ export default function CronManagerPage() {
   const [alertMsg, setAlertMsg] = useState('');
   const [batchLimit, setBatchLimit] = useState('5');
   const [companySlug, setCompanySlug] = useState('');
+  const [selectedOnboardingActive, setSelectedOnboardingActive] = useState<boolean | null>(null);
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const logEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -419,6 +423,7 @@ export default function CronManagerPage() {
   /* Trigger a full scan */
   async function handleRunScan() {
     setAlertMsg('');
+    if (selectedTargetCompany && selectedTargetCompany.policies.length === 0) return;
     setTriggering(true);
 
     try {
@@ -462,6 +467,21 @@ export default function CronManagerPage() {
     () => [...companyBaseline].sort((a, b) => a.name.localeCompare(b.name)),
     [companyBaseline]
   );
+  const selectedTargetCompany = companySlug.trim()
+    ? companyBaseline.find((company) => company.slug === companySlug.trim().toLowerCase()) || null
+    : null;
+  const parsedBatchLimit = Math.max(1, Math.min(50, Number.parseInt(batchLimit, 10) || 1));
+  const batchSummary = getBatchLimitSummary({
+    limit: parsedBatchLimit,
+    targetName: selectedTargetCompany?.name,
+    availablePolicyCount: selectedTargetCompany?.policies.length,
+  });
+  const selectedTargetControls = selectedTargetCompany
+    ? getCronTargetControlState(
+        selectedTargetCompany.policies.length,
+        selectedOnboardingActive === true
+      )
+    : null;
 
   if (loading) {
     return (
@@ -593,9 +613,9 @@ export default function CronManagerPage() {
           <Play size={16} />
           Scan Batch Controls
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12, marginBottom: 16 }}>
-          <label style={{ display: 'grid', gap: 6 }}>
-            <span className={styles.statusLabel}>Batch limit</span>
+        <div className={styles.scanControlGrid}>
+          <label className={styles.scanControlField}>
+            <span className={styles.statusLabel}>Maximum policies this run</span>
             <input
               className={styles.input}
               type="number"
@@ -604,17 +624,16 @@ export default function CronManagerPage() {
               value={batchLimit}
               onChange={(event) => setBatchLimit(event.target.value)}
               placeholder="5"
+              disabled={Boolean(selectedTargetCompany && selectedTargetCompany.policies.length === 0)}
+              aria-describedby="batch-limit-help"
             />
+            <span id="batch-limit-help" className={styles.scanControlHelp}>{batchSummary}</span>
           </label>
-          <label style={{ display: 'grid', gap: 6 }}>
-            <span className={styles.statusLabel}>Company slug</span>
-            <input
-              className={styles.input}
-              value={companySlug}
-              onChange={(event) => setCompanySlug(event.target.value)}
-              placeholder="optional, e.g. stripe"
-            />
-          </label>
+          <div className={styles.selectedTargetSummary}>
+            <span className={styles.statusLabel}>Selected target</span>
+            <strong>{selectedTargetCompany?.name || 'All companies'}</strong>
+            <span>{selectedTargetCompany ? `${selectedTargetCompany.policies.length} approved ${selectedTargetCompany.policies.length === 1 ? 'policy document' : 'policy documents'}` : `${companyBaseline.reduce((sum, company) => sum + company.policies.length, 0)} policy documents across the inventory`}</span>
+          </div>
         </div>
 
         <div className={styles.targetRegistryPanel}>
@@ -624,8 +643,8 @@ export default function CronManagerPage() {
               <div>
                 <span className={styles.statusLabel}>Company baseline</span>
                 <p className={styles.metaText}>
-                  Batch logic: with limit 5, each run picks the 5 least-recently checked matching policies.
-                  Select a company for a targeted scan, or leave the target empty to advance across the whole inventory.
+                  With a maximum of {parsedBatchLimit}, each run selects up to {parsedBatchLimit} least-recently checked matching policy {parsedBatchLimit === 1 ? 'document' : 'documents'}.
+                  Select one company for a targeted run, or All companies to advance across the whole inventory.
                 </p>
               </div>
             </div>
@@ -647,7 +666,10 @@ export default function CronManagerPage() {
                 className={`${styles.companyTargetCard} ${
                   !companySlug ? styles.companyTargetSelected : ''
                 }`}
-                onClick={() => setCompanySlug('')}
+                onClick={() => {
+                  setCompanySlug('');
+                  setSelectedOnboardingActive(null);
+                }}
                 disabled={triggering || isRunning}
               >
                 <span
@@ -677,7 +699,10 @@ export default function CronManagerPage() {
                     className={`${styles.companyTargetCard} ${
                       state === 'selected' ? styles.companyTargetSelected : ''
                     }`}
-                    onClick={() => setCompanySlug(company.slug)}
+                    onClick={() => {
+                      setCompanySlug(company.slug);
+                      setSelectedOnboardingActive(company.policies.length === 0);
+                    }}
                     disabled={triggering || isRunning}
                     title={`${company.name}: ${company.policies.length} monitored policies`}
                   >
@@ -707,33 +732,40 @@ export default function CronManagerPage() {
           )}
 
           <p className={styles.targetRegistryFootnote}>
-            New companies are added in Company Registry with official policy URLs first. Cron scans then
-            establish the first verified baseline; records without verified evidence remain non-public.
+            New companies enter automatic policy discovery first. Administrators review and approve the
+            verified sources; Cron then establishes the first monitored baseline. Unapproved evidence remains non-public.
           </p>
         </div>
 
-        <button
-          className={`${styles.btn} ${styles.btnPrimary}`}
-          onClick={handleRunScan}
-          disabled={triggering || isRunning}
-        >
-          {isRunning ? (
-            <>
-              <Square size={16} />
-              Scan in progress...
-            </>
-          ) : triggering ? (
-            <>
-              <RefreshCw size={16} className={styles.spinIcon} />
-              Starting scan...
-            </>
-          ) : (
-            <>
-              <Play size={16} />
-              Run Scan Batch
-            </>
-          )}
-        </button>
+        {selectedTargetCompany && selectedTargetControls?.mountDiscoveryWorkspace && (
+          <PolicyDiscoveryWorkspace
+            key={selectedTargetCompany.id}
+            companyId={selectedTargetCompany.id}
+            companyName={selectedTargetCompany.name}
+            policyCount={selectedTargetCompany.policies.length}
+            isAdmin
+            onPoliciesChanged={fetchCompanyBaseline}
+            onRunFirstScan={handleRunScan}
+            onWorkflowStateChange={setSelectedOnboardingActive}
+            scanRunning={triggering || isRunning}
+          />
+        )}
+
+        {(!selectedTargetCompany || selectedTargetControls?.showNormalScanAction) && (
+          <button
+            className={`${styles.btn} ${styles.btnPrimary}`}
+            onClick={handleRunScan}
+            disabled={triggering || isRunning}
+          >
+            {isRunning ? (
+              <><Square size={16} /> Scan in progress...</>
+            ) : triggering ? (
+              <><RefreshCw size={16} className={styles.spinIcon} /> Starting scan...</>
+            ) : (
+              <><Play size={16} /> Run monitoring scan</>
+            )}
+          </button>
+        )}
       </div>
 
       {/* ============ LIVE LOG (while running or just finished) ============ */}
@@ -964,7 +996,9 @@ export default function CronManagerPage() {
       {!lastResult && !isRunning && (
         <div className={styles.card}>
           <p className={styles.emptyState}>
-            No scan results yet. Click &quot;Run Scan Batch&quot; to start.
+            {selectedTargetCompany && selectedTargetControls?.mountDiscoveryWorkspace
+              ? `No monitoring scan exists for ${selectedTargetCompany.name} yet. Complete discovery and approve at least one source above before establishing the first baseline.`
+              : 'No scan results yet. Click "Run monitoring scan" to start.'}
           </p>
         </div>
       )}

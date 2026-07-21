@@ -1,0 +1,212 @@
+export const ADMIN_GUIDE_ROUTES = [
+  '/admin',
+  '/admin/cron',
+  '/admin/vps-services',
+  '/admin/database',
+  '/admin/kpi-audit',
+  '/admin/dataset-quality',
+  '/admin/review-log',
+  '/admin/access-logs',
+  '/admin/companies',
+  '/admin/source-onboarding',
+  '/admin/explainability',
+] as const;
+
+export type AdminGuideRoute = (typeof ADMIN_GUIDE_ROUTES)[number];
+
+export interface AdminGuide {
+  title: string;
+  purpose: string;
+  steps: readonly string[];
+  keyTerms: readonly { term: string; definition: string }[];
+  commonMistake: string;
+}
+
+export const ADMIN_GUIDES: Record<AdminGuideRoute, AdminGuide> = {
+  '/admin': {
+    title: 'Dashboard',
+    purpose: 'Use the operating overview to understand ingestion health, dataset readiness, coverage and recent activity. This page summarizes operations; it does not run scans.',
+    steps: [
+      'Check the ingestion, dataset and coverage signals at the top of the page.',
+      'Open any warning or incomplete signal to identify the affected evidence.',
+      'Review recent changes and operational activity for anomalies.',
+      'Export an encrypted backup before material maintenance when needed.',
+    ],
+    keyTerms: [
+      { term: 'Coverage', definition: 'How much of the configured company and policy inventory has usable evidence.' },
+      { term: 'Ingestion', definition: 'The process that retrieves, validates and stores policy text.' },
+      { term: 'Backup', definition: 'An encrypted export of the current operational dataset.' },
+    ],
+    commonMistake: 'Do not expect dashboard refreshes to retrieve policies. Use Cron Manager to discover or scan sources.',
+  },
+  '/admin/cron': {
+    title: 'Cron Manager',
+    purpose: 'Discover policy sources for new companies and run scheduled or manual monitoring scans for approved policy documents.',
+    steps: [
+      'Select All companies or one company card as the scan target.',
+      'Set the maximum number of policy documents to process in this run.',
+      'For a company with no policies, discover sources and review every candidate inline.',
+      'Approve at least one source, then run the first monitoring scan.',
+      'Follow scan status, live logs and retrieval evidence for the result.',
+    ],
+    keyTerms: [
+      { term: 'Maximum policies', definition: 'A document cap for one run. It never represents a number of companies.' },
+      { term: 'Discovery', definition: 'The five-level search for likely official policy sources.' },
+      { term: 'First scan', definition: 'The first approved capture that establishes a monitored baseline.' },
+    ],
+    commonMistake: 'Do not treat a discovered URL as monitored evidence until an administrator approves it and the first scan succeeds.',
+  },
+  '/admin/vps-services': {
+    title: 'VPS Services',
+    purpose: 'Check and configure the remote browser renderer and operations agent used when ordinary retrieval cannot capture a source.',
+    steps: [
+      'Review configuration readiness and current service health.',
+      'Confirm that direct retrieval remains the first path and VPS rendering is a fallback.',
+      'Run the smoke test after configuration or deployment changes.',
+      'Inspect diagnostics before trusting a renderer response.',
+    ],
+    keyTerms: [
+      { term: 'Direct fetch', definition: 'Retrieval performed by the main application without a remote browser.' },
+      { term: 'VPS renderer', definition: 'A remote browser service used for JavaScript-heavy or protected pages.' },
+      { term: 'Smoke test', definition: 'A small end-to-end check that confirms the service is reachable and usable.' },
+    ],
+    commonMistake: 'A successful connection is not verified policy evidence, and a failed renderer must never be recorded as verified evidence.',
+  },
+  '/admin/database': {
+    title: 'Database',
+    purpose: 'Inspect the read-only evidence inventory: companies, policies, snapshots and detected changes, including links to their sources.',
+    steps: [
+      'Locate a company and inspect its monitored policies.',
+      'Open source links to compare stored evidence with the official document.',
+      'Review snapshot and change counts for continuity.',
+      'Use Companies or a review workflow when a source needs correction.',
+    ],
+    keyTerms: [
+      { term: 'Snapshot', definition: 'A stored version of policy text captured at a point in time.' },
+      { term: 'Change', definition: 'A validated difference between successive policy snapshots.' },
+      { term: 'Source', definition: 'The official URL from which policy evidence is retrieved.' },
+    ],
+    commonMistake: 'Do not look for direct-edit controls here. Registry and evidence decisions belong in Companies and review flows.',
+  },
+  '/admin/kpi-audit': {
+    title: 'KPI Audit',
+    purpose: 'Inspect scored policy changes and the evidence-based justification behind each KPI assessment.',
+    steps: [
+      'Filter by company, policy, category or review state.',
+      'Open a scored change and read the cited policy evidence.',
+      'Compare the justification with the captured before-and-after text.',
+      'Record the appropriate human review decision.',
+    ],
+    keyTerms: [
+      { term: 'KPI', definition: 'A structured score derived from captured policy evidence.' },
+      { term: 'Justification', definition: 'The explanation connecting source text to a score.' },
+      { term: 'Captured text', definition: 'The validated content available to the scoring process.' },
+    ],
+    commonMistake: 'Do not assess a score without checking the captured text; incomplete evidence can limit or distort KPI results.',
+  },
+  '/admin/dataset-quality': {
+    title: 'Dataset QA',
+    purpose: 'Assess dataset completeness, freshness and quality gates before evidence is considered ready for use.',
+    steps: [
+      'Read the current quality seal and its scope.',
+      'Open failure buckets to identify missing, stale or invalid evidence.',
+      'Apply the suggested remediation in the relevant operational page.',
+      'Re-check the dataset after remediation and confirm the gate outcome.',
+    ],
+    keyTerms: [
+      { term: 'Quality seal', definition: 'A summary of whether defined dataset checks currently pass.' },
+      { term: 'Failure bucket', definition: 'A group of records failing the same quality condition.' },
+      { term: 'Freshness', definition: 'Whether evidence was checked recently enough for its monitoring policy.' },
+    ],
+    commonMistake: 'Do not treat the seal as permanent; it reflects the dataset and quality checks at the time of evaluation.',
+  },
+  '/admin/review-log': {
+    title: 'Review Log',
+    purpose: 'Consult the immutable ledger of human approvals, rejections and other accountable evidence decisions.',
+    steps: [
+      'Filter by action, target, reviewer or date.',
+      'Open an entry to inspect the recorded before-and-after decision state.',
+      'Trace the target back to the relevant company, policy or evidence.',
+      'Use the ledger during audit and accountability reviews.',
+    ],
+    keyTerms: [
+      { term: 'Review decision', definition: 'An explicit human approval or rejection recorded by the application.' },
+      { term: 'Actor', definition: 'The authenticated role responsible for the action.' },
+      { term: 'Immutable ledger', definition: 'An append-only history intended to preserve accountability.' },
+    ],
+    commonMistake: 'Do not use the log as an editing screen; correct evidence through the original review workflow so a new decision is recorded.',
+  },
+  '/admin/access-logs': {
+    title: 'Access Log',
+    purpose: 'Review authentication events and administrator activity for operational security and suspicious access patterns.',
+    steps: [
+      'Filter recent events by outcome, actor or action.',
+      'Investigate repeated failures, unusual timing or unexpected admin activity.',
+      'Correlate suspicious events with deployment and account changes.',
+      'Escalate confirmed concerns through the appropriate security process.',
+    ],
+    keyTerms: [
+      { term: 'Authentication event', definition: 'A recorded login, logout or session validation outcome.' },
+      { term: 'Admin activity', definition: 'A security-relevant action performed in the administration area.' },
+      { term: 'Suspicious pattern', definition: 'Activity whose frequency, origin or timing merits investigation.' },
+    ],
+    commonMistake: 'Do not use this log to investigate policy changes; policy evidence and review decisions are recorded elsewhere.',
+  },
+  '/admin/companies': {
+    title: 'Companies',
+    purpose: 'Manage the company registry, run automatic policy discovery, approve candidates and use manual policy entry only as a fallback.',
+    steps: [
+      'Create a company with its official website and registry details.',
+      'Let automatic discovery inspect official pages, legal hubs and sitemaps.',
+      'Review and approve or reject every candidate source.',
+      'Use manual policy entry only when an official source cannot be discovered.',
+      'Move to Cron Manager to establish and monitor the approved baseline.',
+    ],
+    keyTerms: [
+      { term: 'Registry', definition: 'The list of companies and approved policy sources managed by PolicyWatcher.' },
+      { term: 'Candidate', definition: 'A discovered source awaiting a human decision.' },
+      { term: 'Manual fallback', definition: 'Administrator entry of a verified official source when discovery cannot find it.' },
+    ],
+    commonMistake: 'Do not manually add every policy before allowing discovery to search; manual entry is the controlled fallback.',
+  },
+  '/admin/source-onboarding': {
+    title: 'Source Onboarding',
+    purpose: 'Import multiple operator-supplied companies and policy URLs while preserving a durable, accountable path from proposed source to public evidence.',
+    steps: [
+      'Paste CSV or TSV rows and preview every normalization, duplicate, and validation result before committing.',
+      'Commit the batch, then start and complete official-source review for each proposed candidate.',
+      'Approve valid sources and run a targeted first baseline; the capture remains private.',
+      'Run the scoped QA gate after the baseline reaches QA Review.',
+      'Publish, hold, or reject only after reviewing the QA result and source continuity.',
+    ],
+    keyTerms: [
+      { term: 'Proposed source', definition: 'An operator-supplied URL stored as a candidate, not as public evidence.' },
+      { term: 'Private baseline', definition: 'A verified first capture held behind publicEvidence until QA and an explicit decision.' },
+      { term: 'Publication decision', definition: 'The accountable admin action that publishes, holds, or rejects QA-reviewed evidence.' },
+    ],
+    commonMistake: 'Importing or approving a URL does not publish evidence; the private baseline must pass QA and receive an explicit publication decision.',
+  },
+  '/admin/explainability': {
+    title: 'Explainability',
+    purpose: 'Trace how captured policy evidence is transformed into changes, KPI assessments and published claims.',
+    steps: [
+      'Select a company, policy or evidence record to trace.',
+      'Follow the provenance from source retrieval through stored snapshots.',
+      'Read the reasoning that connects evidence to KPIs or claims.',
+      'Check limitations, confidence and unavailable context before relying on the result.',
+    ],
+    keyTerms: [
+      { term: 'Provenance', definition: 'The traceable origin and processing history of a piece of evidence.' },
+      { term: 'Claim', definition: 'A conclusion presented by the application and supported by captured evidence.' },
+      { term: 'Limitation', definition: 'A known boundary in source availability, capture quality or interpretation.' },
+    ],
+    commonMistake: 'Do not read a KPI or claim without its provenance and limitations; explainability provides the necessary context.',
+  },
+};
+
+export function getAdminGuide(pathname: string): AdminGuide | null {
+  const matchingRoute = [...ADMIN_GUIDE_ROUTES]
+    .sort((a, b) => b.length - a.length)
+    .find((route) => route === '/admin' ? pathname === route : pathname.startsWith(route));
+  return matchingRoute ? ADMIN_GUIDES[matchingRoute] : null;
+}

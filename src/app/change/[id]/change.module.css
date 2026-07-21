@@ -106,7 +106,7 @@
 }
 
 .companyName {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 1.9rem;
   font-weight: 700;
   color: var(--text-main);
@@ -147,9 +147,9 @@
 }
 
 .scoreNumber {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 3rem;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
 }
 
@@ -164,7 +164,7 @@
 }
 
 .scoreLabel {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-weight: 700;
   font-size: 1.05rem;
   margin-bottom: 8px;
@@ -191,7 +191,7 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 0.78rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -272,7 +272,7 @@
   gap: 7px;
   padding: 11px 18px;
   border-radius: 10px;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 0.85rem;
   font-weight: 600;
   text-decoration: none;

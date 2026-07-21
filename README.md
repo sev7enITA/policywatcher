@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Track-3.5.1%20Audit%20Operations-10b981" alt="3.5.1 Audit Operations Track" />
+  <img src="https://img.shields.io/badge/Release-3.6.3%20Guided%20Evidence%20Workflows-5067f6" alt="3.6.3 Guided Evidence Workflows" />
 </p>
 
 <p align="center">
@@ -37,6 +37,31 @@
 PolicyWatcher monitors the privacy policies, terms of service, and AI governance practices of 16 major technology and financial companies. It tracks configured public policy sources, records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.6.3 Guided Evidence Workflows Highlights
+
+- **Objective-based dashboard composer** now becomes the first-use start screen: it asks for the user objective and evidence depth, then previews and applies a stack assembled from registered, real dashboard evidence modules.
+- **Bulk source onboarding** at `/admin/source-onboarding` adds a durable five-stage intake: proposed source, official-source review, first private baseline, QA gate, and explicit publish/hold/reject decision.
+- **Publication safety** keeps imported candidates and their first baselines private. Passing QA is necessary but not sufficient: only an explicit admin publication decision can cross the public-evidence boundary.
+- **Source remediation hardening** for official-but-blocked providers: market-specific Revolut EU/UK source mappings, explicit provider-challenge suspension wording, and documented PDF/manual-review fallback paths.
+- **Public suspension explainability** now distinguishes anti-bot/provider challenge, insufficient policy text, stale archive evidence, missing source baseline, and partial retrieval.
+- **Press Wall expansion** with local visual previews for tracked public references, including Giovanna Panucci / Gladiatori Digitali.
+
+### Release 3.6.1 Adaptive Workspace Foundation Highlights
+
+- **Adaptive Workspace foundation** introduced the intent/depth profile, persistence, and deep-link model that the 3.6.3 first-use composer now uses to assemble real evidence modules.
+- **Intent profiles** for Citizen, GRC / Legal, Research, and Builder sessions adjust density, module priority, visual accent, and operational context.
+- **Evidence-depth profiles** for Snapshot, Operational, and Forensic views determine how much retrieval, QA, review, and methodology context is surfaced.
+- **Deep-link presets** such as `/?intent=citizen&depth=forensic` allow public pages and roadmap proposals to open the dashboard in a preconfigured workspace.
+- **Safety invariant**: source suspensions, source-quality states, and data limitation notices remain visible across profiles.
+
+### Release 3.6.0 Community Surface Highlights
+
+- **Community Roadmap** (`/roadmap`) redesigned as an interactive signal board where users can choose their objective, preferred evidence depth, and roadmap priorities.
+- **Press Wall** (`/press`) collecting articles, LinkedIn discussions, and public references about PolicyWatcher while keeping a clear non-certification boundary.
+- **Compact brand mark** adopted across public/admin headers to avoid duplicated wordmarks and improve visual balance.
+- **Public resource navigation** expanded through footer and command palette instead of adding more toolbar complexity.
+- **Showcase refresh** aligned with the current platform surface: public views, Dataset QA, Trust evidence, admin controls, community roadmap, and press coverage.
 
 ### Release 3.5.1 Audit Operations Highlights
 
@@ -234,7 +259,7 @@ Companies are evaluated across 15 Key Performance Indicators organized in three 
 | KPI | Green | Yellow | Red |
 |-----|-------|--------|-----|
 | AI Training Opt-Out | Available / Not used | Opt-out available | Not available |
-| AI Output Ownership | User retained | Shared | Company claimed |
+| AI Output Ownership | User retained | Shared | Company retained |
 | Algorithmic Transparency | Published / Disclosed | Mentioned / Partial | Opaque / Undisclosed |
 | Automated Decisions | Transparent / Human-in-loop | Partial disclosure | Opaque / No review |
 | AI Bias and Fairness | Committed / Certified | Mentioned | Absent |
@@ -262,6 +287,7 @@ Dataset quality is treated as a release-control discipline. PolicyWatcher follow
 - **Public evidence gate:** snapshots and changes must be marked `publicEvidence` before they can feed public APIs, sitemap, digests, share pages, reports, timelines, the Policy Signals Board, or benchmarks.
 - **Completeness over false availability:** incomplete, truncated, or anomalous retrievals are marked `Partial` and suspended from public evidence instead of becoming complete baselines.
 - **Segmented legal hubs:** when a provider publishes several policies in one official legal hub, PolicyWatcher can monitor an anchor-scoped section such as `#end-user-privacy-policy` instead of accepting the whole hub as one mixed evidence body.
+- **Provider-challenge remediation:** if an official source is protected by anti-bot or WAF controls, the VPS renderer is attempted but is not treated as a guarantee. Challenge pages, placeholders, stale archives, and too-short bodies stay suspended. Remediation must use a market-specific official URL, official PDF/CDN evidence where available, or a traced admin review before public exposure.
 
 The admin **Dataset QA** gate checks URL hygiene, source-fit, hash integrity, freshness, structured AI JSON, KPI coverage, regional-impact coverage, archive timestamp evidence, public-evidence state, and subscriber hygiene. Critical findings are release blockers; warnings mark ambiguity or drift that should be resolved before public promotion. In 3.5.1, issue decisions can be marked reviewed, ignored with reason, or reopened; every decision writes an append-only admin review-log event.
 
@@ -270,6 +296,8 @@ Public QA rule: when the latest fetching/update cycle produces anomalies, seed-o
 Policy Signals Board rule: `/leaderboard` is an evidence-only ranking surface. It orders companies by source coverage, retrieval traceability, public baselines, recency, suspension pressure, and publicEvidence-gated movement. It does not rank legal compliance, internal conduct, safety, or provider trustworthiness. Suspended sources reduce the operational evidence index and are listed in a source-attention queue instead of feeding public analysis.
 
 Re-baseline rule: the first successful fetch after a record backed by `Seeded` ingestion evidence is treated as baseline establishment, not as a policy change. The system replaces the seeded history for that policy, stores one verified public-evidence baseline snapshot, updates hash/status/check-log evidence, and does not create a `PolicyChange`, run AI scoring, or notify subscribers. A `Configured` status alone is not enough to trigger destructive re-baseline; the operation also aborts if real source evidence, public snapshots, or reviewed history already exist.
+
+Bulk-onboarding private-baseline rule: approving an official source creates controlled company/policy inventory and enables a targeted first-baseline scan, but neither import nor baseline capture publishes it. The item advances through persisted QA evidence and must reach `Ready`; an administrator must then explicitly choose publish, hold, or reject. Only publish promotes the baseline across the public-evidence gate.
 
 Initial archive baseline rule: during the first `Seeded` re-baseline, the database bootstrap timestamp is not treated as a real successful source check. This means Wayback/Common Crawl evidence can be used when live direct/HTTP2/renderer retrieval is blocked, while the accepted record still carries `source=wayback` or `source=commoncrawl` plus `archiveTimestamp` for Dataset QA review.
 
@@ -287,7 +315,7 @@ Extractor stability rule: the policy text normalizer avoids generic container wr
 
 KPI freshness rule: newly detected policy changes do not inherit the 15 KPI fields from older changes. Until the KPI extraction schema is explicitly regenerated from the current source evidence, new change records store those KPI fields as `Not assessed`. This prevents stale KPI values from being presented as current evidence.
 
-Source remediation status: release 3.5.1 updates current official source mappings for Zoom Trust Center, Microsoft Privacy Statement final URLs, Plaid anchor-scoped legal sections, AWS DPA focused documentation, and Klarna US/EU sources. Klarna EU Terms currently remains a deliberate suspension candidate when the official English EU/Ireland terms page returns only a short placeholder body.
+Source remediation status: release 3.5.1 updated current official source mappings for Zoom Trust Center, Microsoft Privacy Statement final URLs, Plaid anchor-scoped legal sections, AWS DPA focused documentation, and Klarna US/EU sources. Release 3.6.3 adds market-specific Revolut EU/UK mappings and keeps Revolut sources suspended when provider anti-bot protection prevents evidence-grade retrieval. Klarna EU Terms remains a deliberate suspension candidate when the official English EU/Ireland terms page returns only a short placeholder body.
 
 ### Trust and Quality Evidence
 
@@ -366,10 +394,23 @@ flowchart LR
 ## Features
 
 ### Dashboard
+- First-use Objective-based Dashboard Composer with goal profiles for Citizen, GRC / Legal, Research, and Builder sessions.
+- Evidence-depth selector for Snapshot, Operational, and Forensic views.
+- Generated previews contain only registered dashboard evidence modules; Source QA is pinned in every composition.
+- Workspace profiles persist in the browser and can be deep-linked through `?intent=...&depth=...`.
 - Interactive company card grid with filtering by industry, risk level, date range, and text search.
 - Region/perspective context toggle (EU/US/Global x Individual/Enterprise).
 - Real-time stats panel with monitored companies count, critical alerts, and average risk score.
+- Temporarily suspended sources stay visible across profiles with a readable reason and last-check metadata.
 - Skeleton loaders for perceived instant loading.
+
+### Public Exploration Surfaces
+- Timeline and Market Pulse expose only source-verified, publishable policy movements.
+- Policy Signals Board ranks evidence availability, retrieval traceability, public baselines, and publicEvidence-gated movement without certifying companies or compliance.
+- Site Atlas maps public pages, trust surfaces, methodology pages, community pages, and protected admin boundaries as an entity relationship graph.
+- Community Roadmap lets users inspect active tracks, proposed evolutions, and deep-link workspace presets.
+- Press Wall tracks public references and article previews as community signals, not endorsement or certification.
+- Showcase, Infographics, Trust, Security, and Methodology pages explain platform behavior, assurance boundaries, and quality signals.
 
 ### Policy Deep-Dive
 - 5-tab interface: Changes, AI Governance, Trends, Remediations, Archive.
@@ -410,9 +451,20 @@ flowchart LR
 - 3 command groups: Actions, Filters, Navigation.
 - Full keyboard navigation.
 
+### Admin Assurance Console
+- Bulk Source Onboarding at `/admin/source-onboarding` accepts controlled CSV/TSV batches and persists each item through proposed source, official-source review, first private baseline, QA gate, and publication decision.
+- The import contract requires these exact headers: `companyName`, `companySlug`, `industry`, `website`, `policyName`, `policyType`, `policyUrl`, `jurisdiction`. A batch is limited to 100 rows; a blank `companySlug` is derived from `companyName`.
+- Intake validates HTTP(S) URLs, rejects local/private hosts and in-batch duplicates, and restricts industry/jurisdiction values to the admin registry vocabulary.
+- Cron Manager supports batch limits and targeted company slug scans, with per-strategy diagnostics for direct, HTTP/2, VPS-rendered, Wayback, and Common Crawl attempts.
+- Company Registry supports adding companies and policy sources; new records start as configured inventory and remain non-public until verified by a scan.
+- Dataset QA tracks source fit, retrieval evidence, public-evidence state, seeded boundaries, hash consistency, archive timestamps, KPI coverage, regional impact, access logs, and subscriber hygiene.
+- Review Log records append-only Dataset QA and remediation decisions.
+- Access Log records admin authentication and operational events for debugging and auditing, with IP minimization and retention cleanup.
+- VPS Services monitors renderer health, smoke tests, and the optional VPS Operations Agent for backup, verified update, rollback, and capped logs.
+
 ### Onboarding
-- 4-slide interactive How To wizard for first-time visitors.
-- Session-scoped auto-trigger with permanent skip checkbox.
+- The first-use dashboard composer is the default guided entry when no valid workspace profile or deep-link preset exists.
+- The 6-slide How To guide remains available as an explicit reference for feature surfaces, Dataset QA, limitations, and the AI assistant.
 
 ---
 
@@ -424,7 +476,7 @@ flowchart LR
 | UI | React 19, Framer Motion, Lucide React, CSS Modules |
 | AI Engine | Google Gemini 2.5 Flash (`@google/genai`) |
 | Database | Prisma ORM + SQLite (migration-ready for PostgreSQL) |
-| Scraping | Cheerio (HTML parsing), native fetch with retry |
+| Scraping | Cheerio extraction, socket-pinned HTTP/1.1/HTTP/2, optional VPS renderer, Wayback/Common Crawl fallback |
 | Charts | Recharts 3.8 |
 | PDF | @react-pdf/renderer 4.5 |
 | Email | Nodemailer 9 |
@@ -677,6 +729,8 @@ For existing SQLite databases originally created with `prisma db push`, mark the
 `npx prisma migrate resolve --applied 20260706213500_init`.
 The Hostinger init helper performs this baseline step automatically when it detects a non-empty SQLite file.
 
+Release 3.6.3 also requires migration `20260721090000_source_onboarding`, which creates the durable onboarding batch/item tables and their staged review metadata. Apply it with the same `npx prisma migrate deploy` step before using `/admin/source-onboarding`.
+
 Security incident note: an unauthenticated debug environment endpoint existed in commit `ec2f699` and was removed from `main` by commit `f453b4a`. If commit `ec2f699` was deployed, rotate `ADMIN_PASSWORD`, `SESSION_HMAC_SECRET`, and `API_SECRET`. The endpoint did not intentionally expose secret values, but public deployment of diagnostic environment routes is not acceptable for production operations.
 
 ### Environment Variables
@@ -804,12 +858,15 @@ The author and the platform disclaim all liability for any decisions, actions, o
 ```
 policywatcher/
 ├── prisma/
-│   ├── schema.prisma          # Database schema (6 models)
+│   ├── schema.prisma          # Database schema, including onboarding batches/items
+│   ├── migrations/20260721090000_source_onboarding/
 │   └── seed.ts                # Seed data for 16 companies
 ├── public/                    # Static assets (logo, icons)
 ├── src/
 │   ├── app/
-│   │   ├── api/               # 14 API routes
+│   │   ├── admin/source-onboarding/ # Protected five-stage source intake
+│   │   ├── api/admin/source-onboarding/ # Batch and item transition APIs
+│   │   ├── api/               # Public and protected API routes
 │   │   ├── page.tsx           # Main dashboard (~1000 lines)
 │   │   ├── layout.tsx         # Root layout with fonts and metadata
 │   │   ├── share/[id]/        # Public share pages
@@ -828,6 +885,8 @@ policywatcher/
 │   │   ├── HowToModal.tsx     # Onboarding wizard
 │   │   └── ...                # 10+ more components
 │   ├── lib/
+│   │   ├── dashboardComposer.ts # Typed evidence-module composition
+│   │   ├── sourceOnboarding.ts # CSV/TSV validation and stage model
 │   │   ├── gemini.ts          # Gemini AI integration (analysis + Q&A)
 │   │   ├── scraper.ts         # Hardened web scraper
 │   │   ├── mailer.ts          # Email templates and dispatch

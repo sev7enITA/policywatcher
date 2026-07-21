@@ -56,7 +56,7 @@
   color: #061014;
   background: #5eead4;
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .verticalRail b {
@@ -64,7 +64,7 @@
   overflow: hidden;
   white-space: nowrap;
   font-size: 0.76rem;
-  font-weight: 800;
+  font-weight: 700;
   opacity: 0;
   transition: max-width 0.2s ease, opacity 0.2s ease;
 }
@@ -116,7 +116,7 @@
 .brand strong {
   color: #ffffff;
   font-size: 1rem;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1.05;
 }
 
@@ -138,7 +138,7 @@
   border-radius: 999px;
   color: #cbd5e1;
   font-size: 0.82rem;
-  font-weight: 800;
+  font-weight: 700;
   transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease;
 }
 
@@ -156,7 +156,7 @@
   justify-content: center;
   gap: 10px;
   border-radius: 8px;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1;
   transition: border-color 0.18s ease, background 0.18s ease;
 }
@@ -234,7 +234,7 @@
   gap: 10px;
   color: #5eead4;
   font-size: 0.76rem;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -260,7 +260,7 @@
   margin-top: 22px;
   color: #ffffff;
   font-size: clamp(3.8rem, 6.4vw, 6.7rem);
-  font-weight: 900;
+  font-weight: 700;
   line-height: 0.88;
 }
 
@@ -341,7 +341,7 @@
 .heroTelemetry strong {
   color: #ffffff;
   font-size: 0.88rem;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .heroTelemetry span {
@@ -379,7 +379,7 @@
   padding: 8px 8px 16px;
   color: #cbd5e1;
   font-size: 0.76rem;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -479,7 +479,7 @@
   display: block;
   color: #a8b8ca;
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -529,7 +529,7 @@
   color: #dbe6f1;
   background: rgba(255, 255, 255, 0.06);
   font-size: 0.75rem;
-  font-weight: 850;
+  font-weight: 700;
   text-align: center;
 }
 
@@ -558,7 +558,7 @@
   color: #e2e8f0;
   background: rgba(255, 255, 255, 0.05);
   font-size: 0.82rem;
-  font-weight: 850;
+  font-weight: 700;
 }
 
 .horizontalStrip span {
@@ -584,7 +584,7 @@
   margin-top: 14px;
   color: #f8fbff;
   font-size: clamp(2.2rem, 4.5vw, 4.7rem);
-  font-weight: 900;
+  font-weight: 700;
   line-height: 0.95;
 }
 
@@ -670,7 +670,7 @@
   top: 18px;
   color: rgba(255, 255, 255, 0.07);
   font-size: clamp(5rem, 13vw, 10rem);
-  font-weight: 900;
+  font-weight: 700;
   line-height: 0.82;
 }
 
@@ -685,7 +685,7 @@
   display: inline-flex;
   color: var(--accent);
   font-size: 0.75rem;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.12em;
 }
 
@@ -693,7 +693,7 @@
   margin-top: 16px;
   color: #ffffff;
   font-size: clamp(2rem, 3.7vw, 3.65rem);
-  font-weight: 900;
+  font-weight: 700;
   line-height: 0.95;
 }
 
@@ -746,7 +746,7 @@
   background: rgba(5, 7, 13, 0.84);
   font-size: 0.78rem;
   font-style: normal;
-  font-weight: 800;
+  font-weight: 700;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
 }
 
@@ -757,7 +757,7 @@
   z-index: 2;
   color: #f8fbff;
   font-size: 1.02rem;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .signalWall {
@@ -952,7 +952,7 @@
 .signalTile strong {
   display: block;
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -965,7 +965,7 @@
   margin-top: 10px;
   color: #ffffff;
   font-size: 1.55rem;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1;
 }
 
@@ -1042,7 +1042,7 @@
   display: block;
   color: #8da1b7;
   font-size: 0.7rem;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.09em;
   text-transform: uppercase;
 }
@@ -1060,7 +1060,7 @@
   margin-top: 9px;
   color: #5eead4;
   font-style: normal;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .reactorCore {
@@ -1087,7 +1087,7 @@
 
 .reactorCore span {
   font-size: 0.75rem;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -1173,7 +1173,7 @@
   justify-content: space-between;
   gap: 16px;
   color: #ffffff;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .consoleTop b {
@@ -1212,7 +1212,7 @@
 .consoleScore span {
   color: #5eead4;
   font-size: 0.76rem;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -1232,7 +1232,7 @@
 .consoleBars span {
   color: #cbd5e1;
   font-size: 0.76rem;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .consoleBars i {
@@ -1277,7 +1277,7 @@
   color: #5eead4;
   background: rgba(255, 255, 255, 0.07);
   font-size: 0.82rem;
-  font-weight: 850;
+  font-weight: 700;
 }
 
 .adminTrace {
@@ -1298,7 +1298,7 @@
   color: #e5eff8;
   background: rgba(255, 255, 255, 0.045);
   font-size: 0.84rem;
-  font-weight: 850;
+  font-weight: 700;
 }
 
 .adminTrace span:first-child {
@@ -1375,7 +1375,7 @@
 .adminCell span {
   color: #5eead4;
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.09em;
 }
 
@@ -1383,7 +1383,7 @@
   margin-top: 12px;
   color: #ffffff;
   font-size: 1.22rem;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1.05;
 }
 
@@ -1436,7 +1436,7 @@
   color: #031112;
   background: #5eead4;
   font-size: 0.82rem;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .flowStep i {
@@ -1444,7 +1444,7 @@
   color: #8da1b7;
   font-size: 0.7rem;
   font-style: normal;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -1454,7 +1454,7 @@
   margin-top: 48px;
   color: #ffffff;
   font-size: 1.36rem;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .flowStep p {
@@ -1502,7 +1502,7 @@
 .founder strong {
   display: block;
   color: #ffffff;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .founder span {
@@ -1527,7 +1527,7 @@
 
 .footer span {
   color: #ffffff;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .footer div {
@@ -1541,6 +1541,267 @@
 
 .footer a:hover {
   color: #5eead4;
+}
+
+/* Evidence-console alignment layer */
+.showcase {
+  color: #111827;
+  background:
+    linear-gradient(90deg, rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+    radial-gradient(circle at 18% 6%, rgba(20, 108, 106, 0.1), transparent 28rem),
+    radial-gradient(circle at 84% 16%, rgba(63, 85, 166, 0.09), transparent 26rem),
+    #f7f8f6;
+  background-size: 32px 32px, 32px 32px, auto, auto, auto;
+}
+
+.verticalRail a,
+.header,
+.horizontalStrip {
+  border-color: rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  color: #334155;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 14px 34px rgba(15, 23, 42, 0.08);
+}
+
+.verticalRail a {
+  border-radius: 8px;
+}
+
+.verticalRail a:hover,
+.nav a:hover {
+  border-color: rgba(20, 108, 106, 0.34);
+  background: #ffffff;
+}
+
+.header {
+  border-bottom-color: rgba(15, 23, 42, 0.12);
+}
+
+.brand,
+.brand strong,
+.footer span {
+  color: #0f172a;
+}
+
+.brand small,
+.nav a,
+.horizontalStrip a,
+.footer,
+.footer a {
+  color: #475569;
+}
+
+.headerCta,
+.primaryAction {
+  border-color: #146c6a;
+  background: #146c6a;
+  color: #ffffff;
+}
+
+.secondaryAction {
+  border-color: rgba(20, 108, 106, 0.22);
+  background: #ffffff;
+  color: #0f4f4d;
+}
+
+.hero {
+  background:
+    linear-gradient(90deg, rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+    radial-gradient(circle at 67% 54%, rgba(20, 108, 106, 0.1), transparent 28%),
+    rgba(255, 255, 255, 0.42);
+  background-size: 32px 32px, 32px 32px, auto, auto;
+}
+
+.hero::before {
+  border-color: rgba(20, 108, 106, 0.16);
+}
+
+.hero::after {
+  background: linear-gradient(180deg, transparent, rgba(247, 248, 246, 0.94));
+}
+
+.eyebrow,
+.sectionKicker,
+.horizontalStrip span,
+.instrumentHeader b,
+.instrumentCard span,
+.signalTile strong,
+.qualityOrbit i,
+.consoleTop b,
+.consoleScore span,
+.consoleTags span,
+.adminCell span {
+  color: #0f766e;
+}
+
+.hero h1,
+.sectionHeader h2,
+.qualityNarrative h2,
+.adminIntro h2,
+.finalCta h2,
+.panelCopy h3,
+.signalTile h3,
+.qualityOrbit b,
+.adminCell h3,
+.flowStep h3,
+.founder strong {
+  color: #0f172a;
+}
+
+.hero p,
+.sectionHeader p,
+.qualityNarrative p,
+.adminIntro p,
+.finalCta p,
+.panelCopy p,
+.signalTile p,
+.adminCell p,
+.flowStep p,
+.founder span {
+  color: #475569;
+}
+
+.heroTelemetry article,
+.atlasPanel,
+.signalTile,
+.qualityReactor,
+.qualityOrbit,
+.adminTrace span,
+.adminCell,
+.flowStep,
+.finalCta,
+.founder {
+  border-color: rgba(15, 23, 42, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.88));
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 14px 34px rgba(15, 23, 42, 0.07);
+}
+
+.heroTelemetry strong,
+.instrumentHeader,
+.instrumentCard strong,
+.instrumentCard small,
+.consoleTop,
+.consoleScore,
+.consoleBars span,
+.atlasPanel > strong {
+  color: #0f172a;
+}
+
+.heroTelemetry span,
+.signalTile span,
+.qualityOrbit span,
+.flowStep i {
+  color: #64748b;
+}
+
+.instrumentFrame,
+.instrumentStage,
+.consoleArt {
+  border-color: rgba(15, 23, 42, 0.12);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 18px 48px rgba(15, 23, 42, 0.1);
+}
+
+.instrumentFrame {
+  background: #ffffff;
+}
+
+.instrumentHeader {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.instrumentStage,
+.consoleArt {
+  background:
+    linear-gradient(90deg, rgba(226, 232, 240, 0.05) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(226, 232, 240, 0.05) 1px, transparent 1px),
+    #0f172a;
+  background-size: 30px 30px, 30px 30px, auto;
+}
+
+.instrumentCard {
+  border-color: rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+}
+
+.instrumentDock span,
+.consoleScore,
+.consoleBars,
+.consoleColumns,
+.consoleTags {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
+}
+
+.panelIndex {
+  color: rgba(15, 23, 42, 0.06);
+}
+
+.panelConstellation {
+  border-color: rgba(15, 23, 42, 0.1);
+  background:
+    radial-gradient(circle at center, color-mix(in srgb, var(--accent) 14%, transparent), transparent 56%),
+    #f8fafc;
+}
+
+.panelConstellation i {
+  color: #0f172a;
+  background: #ffffff;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.1);
+}
+
+.signalSvg {
+  stroke: #334155;
+  background:
+    linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+    radial-gradient(circle at 50% 42%, rgba(20, 108, 106, 0.08), transparent 48%);
+  background-size: 30px 30px, 30px 30px, auto;
+}
+
+.axisLine {
+  stroke: rgba(71, 85, 105, 0.48);
+}
+
+.timelineCursor {
+  stroke: #0f172a;
+}
+
+.signalDot,
+.trendCursor,
+.hotNode,
+.warnNode,
+.coldNode,
+.coreNode {
+  stroke: #ffffff;
+}
+
+.qualityReactor::before,
+.qualityReactor::after {
+  border-color: rgba(20, 108, 106, 0.2);
+}
+
+.reactorCore,
+.flowStep span,
+.verticalRail span {
+  background: #146c6a;
+  color: #ffffff;
+}
+
+.consoleArt::before {
+  opacity: 0.68;
+}
+
+.adminTrace span::after {
+  background: #ffffff;
+}
+
+.footer {
+  border-top: 1px solid rgba(15, 23, 42, 0.1);
 }
 
 @keyframes drawPath {

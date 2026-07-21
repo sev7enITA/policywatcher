@@ -412,7 +412,7 @@ export default async function LeaderboardPage() {
 
       <section className={styles.formulaSection}>
         <span className={styles.eyebrow}>How it is computed</span>
-        <h2>Signals, not claims.</h2>
+        <h2>Signals with source boundaries.</h2>
         <div className={styles.formulaGrid}>
           {snapshot.methodology.indexFormula.map((item, index) => (
             <article key={item}>

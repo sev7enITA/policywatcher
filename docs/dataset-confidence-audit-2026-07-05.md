@@ -115,7 +115,7 @@ therefore does not mean the VPS is missing.
 - Manual and scheduled suspensions can now trigger an internal administrator
   email with only source metadata, anomaly reason, transport source, timestamp,
   and a Dataset QA console link.
-- Public docs and draft media copy were updated to remove `0 blockers` claims.
+- Public docs and draft media copy were updated to remove `0 blockers` wording.
 
 ## Current Gate Result
 

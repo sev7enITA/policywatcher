@@ -61,6 +61,28 @@ TABLES = [
     )
     """,
     """
+    CREATE TABLE IF NOT EXISTS "PolicyDiscoveryCandidate" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "companyId" TEXT NOT NULL,
+      "name" TEXT NOT NULL,
+      "type" TEXT NOT NULL,
+      "url" TEXT NOT NULL,
+      "jurisdiction" TEXT NOT NULL DEFAULT 'Global',
+      "confidence" INTEGER NOT NULL,
+      "discoverySource" TEXT NOT NULL,
+      "retrievalSource" TEXT NOT NULL,
+      "reason" TEXT NOT NULL,
+      "diagnosticsJson" TEXT,
+      "status" TEXT NOT NULL DEFAULT 'Proposed',
+      "reviewedAt" DATETIME,
+      "reviewedByRole" TEXT,
+      "createdPolicyId" TEXT,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "updatedAt" DATETIME NOT NULL,
+      CONSTRAINT "PolicyDiscoveryCandidate_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    )
+    """,
+    """
     CREATE TABLE IF NOT EXISTS "Policy" (
       "id" TEXT NOT NULL PRIMARY KEY,
       "companyId" TEXT NOT NULL,
@@ -234,6 +256,9 @@ TABLES = [
 INDEXES = [
     'CREATE UNIQUE INDEX IF NOT EXISTS "Company_name_key" ON "Company"("name")',
     'CREATE UNIQUE INDEX IF NOT EXISTS "Company_slug_key" ON "Company"("slug")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "PolicyDiscoveryCandidate_companyId_url_type_jurisdiction_key" ON "PolicyDiscoveryCandidate"("companyId", "url", "type", "jurisdiction")',
+    'CREATE INDEX IF NOT EXISTS "PolicyDiscoveryCandidate_companyId_status_idx" ON "PolicyDiscoveryCandidate"("companyId", "status")',
+    'CREATE INDEX IF NOT EXISTS "PolicyDiscoveryCandidate_createdAt_idx" ON "PolicyDiscoveryCandidate"("createdAt")',
     'CREATE UNIQUE INDEX IF NOT EXISTS "Policy_companyId_type_jurisdiction_key" ON "Policy"("companyId", "type", "jurisdiction")',
     'CREATE INDEX IF NOT EXISTS "Policy_companyId_idx" ON "Policy"("companyId")',
     'CREATE INDEX IF NOT EXISTS "Policy_jurisdiction_idx" ON "Policy"("jurisdiction")',
@@ -322,6 +347,7 @@ with sqlite3.connect(str(db_path), timeout=30) as con:
 
     counts = {
         "companies": con.execute('SELECT COUNT(*) FROM "Company"').fetchone()[0],
+        "discoveryCandidates": con.execute('SELECT COUNT(*) FROM "PolicyDiscoveryCandidate"').fetchone()[0],
         "policies": con.execute('SELECT COUNT(*) FROM "Policy"').fetchone()[0],
         "snapshots": con.execute('SELECT COUNT(*) FROM "PolicySnapshot"').fetchone()[0],
         "changes": con.execute('SELECT COUNT(*) FROM "PolicyChange"').fetchone()[0],

@@ -77,7 +77,7 @@ const DANGER_VALUES = new Set([
   'Indefinite',
   'Unrestricted',
   'Not Available',
-  'Company Claimed',
+  'Company Retained',
   'Opaque',
   'Undisclosed',
   'Absent',
@@ -320,7 +320,7 @@ function KpiDashboardInner({
           </p>
         </div>
         <span className={styles.logoVersion} style={{ fontSize: '0.78rem', padding: '4px 10px', borderRadius: '8px' }}>
-          Confidence v3.5.1
+          Confidence v3.6.3
         </span>
       </div>
 

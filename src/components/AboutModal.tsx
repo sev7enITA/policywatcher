@@ -1,7 +1,7 @@
 'use client';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './AboutModal.module.css';
-import { X, Mail, Link, ShieldCheck, FileSearch, GitBranch } from 'lucide-react';
+import { X, Mail, Link, ShieldCheck, FileSearch, GitBranch, ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
 
 interface AboutModalProps {
@@ -49,15 +49,19 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
 
             <div className={styles.body}>
               <p>
-                PolicyWatcher was created to make corporate AI, privacy, and governance-policy changes easier to inspect.
+                PolicyWatcher is an open-source civic-tech project created to make corporate AI, privacy, and governance-policy changes easier to inspect.
               </p>
               <p>
-                The platform monitors configured public source URLs, detects version changes, maps risk indicators, and exposes Dataset QA status so users can see both the analysis and the evidence limits behind it.
+                The platform monitors configured public source URLs, detects version changes, maps risk indicators, and keeps Dataset QA status visible alongside the analysis.
               </p>
               <p>
-                The 3.5 Confidence work adds controlled retrieval evidence, ingestion-method visibility, source-fit checks, append-only QA review events, and public trust documentation for the release process.
+                Sources that do not meet the public-evidence gate are temporarily suspended from public policy analysis until they can be reviewed.
               </p>
               <div className={styles.links}>
+                <a href="/about" className={styles.link}>
+                  <ArrowUpRight size={18} />
+                  Open the full project page
+                </a>
                 <a href="/trust" className={styles.link}>
                   <ShieldCheck size={18} />
                   Trust & Quality Evidence
@@ -68,12 +72,10 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
                 </a>
                 <a href="/roadmap" className={styles.link}>
                   <GitBranch size={18} />
-                  3.5 Roadmap
+                  Community Roadmap
                 </a>
               </div>
-              <p>
-                PolicyWatcher is not a legal-certification service and does not validate internal company behavior. It is a civic-tech mapping and review tool for public policy texts and related evidence.
-              </p>
+              <p>PolicyWatcher maps public policy texts and the evidence available for their retrieval. It does not assess internal company conduct.</p>
             </div>
 
             <div className={styles.contact}>

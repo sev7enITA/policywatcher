@@ -25,7 +25,7 @@ const kpiWeights: Record<string, number> = {
   'Minimal': 1, 'Defined': 1, 'Restricted': 1, 'Full': 1,
 
   // AI Governance
-  'Not Available': 3, 'Company Claimed': 3, 'Opaque': 3, 'Undisclosed': 3, 'Absent': 3,
+  'Not Available': 3, 'Company Retained': 3, 'Opaque': 3, 'Undisclosed': 3, 'Absent': 3,
   'Shared': 2, 'Mentioned': 2,
   'Available': 1, 'User Retained': 1, 'Published': 1, 'Disclosed': 1, 'Committed': 1,
 

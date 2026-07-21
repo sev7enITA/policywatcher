@@ -30,9 +30,9 @@ assets are:
   live-header scan links, and non-certification boundary;
 - repository-level governance files and third-party validation setup.
 
-PolicyWatcher should continue to avoid claims such as certification,
+PolicyWatcher should continue to avoid wording such as certification,
 assured compliance, legal validity, exhaustive coverage, or real-time
-monitoring. Its strongest public claim is narrower and more defensible:
+monitoring. Its strongest public positioning is narrower and more defensible:
 
 > PolicyWatcher maps configured public policy texts and exposes analysis,
 > change evidence, dataset QA state, and methodological limits.
@@ -360,4 +360,4 @@ PolicyWatcher is no longer just a public policy dashboard. It is becoming an
 inspectable evidence platform for monitoring configured policy sources and
 reviewing how automated analysis is produced. The 3.5.1 Audit Operations track gives
 the project a stronger public position: credibility through visible controls,
-not through louder claims.
+not through stronger wording.

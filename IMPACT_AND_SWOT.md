@@ -147,7 +147,7 @@ PolicyWatcher è uno **strumento di civic tech** allineato agli obiettivi delle 
 | Strategia | Descrizione |
 |---|---|
 | **SO (Strengths + Opportunities)** | Capitalizzare il timing normativo UE presentandosi come "infrastructure civica di monitoraggio policy". Candidarsi a bandi Digital Europe. |
-| **WO (Weaknesses + Opportunities)** | Risolvere il limite del DB SQLite migrando a Postgres PRIMA di scalare. Espandere a 50+ aziende per giustificare il claim "piattaforma di riferimento". |
+| **WO (Weaknesses + Opportunities)** | Risolvere il limite del DB SQLite migrando a Postgres PRIMA di scalare. Espandere a 50+ aziende per sostenere il posizionamento come piattaforma di riferimento. |
 | **ST (Strengths + Threats)** | Usare la tutela legale (disclaimer, TermsGate) e l'integrità tecnica (scraper onesto, AI spiegata) come scudo contro contenziosi e criticism. |
 | **WT (Weaknesses + Threats)** | Diversificare provider AI per non dipendere solo da Google. Aggiungere un budget cap rigido per evitare shock di costo. |
 

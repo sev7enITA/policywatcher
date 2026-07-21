@@ -45,7 +45,7 @@ interface KpiInput {
   kpiRightToDeletion: 'Full' | 'Partial' | 'None';
   kpiCrossBorderTransfer: 'Restricted' | 'Controlled' | 'Unrestricted';
   kpiAiTrainingOptOut: 'Available' | 'Partial' | 'Not Available';
-  kpiAiOutputOwnership: 'User Retained' | 'Shared' | 'Company Claimed';
+  kpiAiOutputOwnership: 'User Retained' | 'Shared' | 'Company Retained';
   kpiAlgoTransparency: 'Published' | 'Partial' | 'Opaque';
   kpiAutomatedDecision: 'Disclosed' | 'Partial' | 'Undisclosed';
   kpiAiBiasFairness: 'Committed' | 'Mentioned' | 'Absent';
@@ -269,6 +269,9 @@ async function main() {
     { name: 'TikTok', slug: 'tiktok', logo: '#010101', industry: 'Social Media', website: 'https://www.tiktok.com' },
     { name: 'Zoom', slug: 'zoom', logo: '#2D8CFF', industry: 'Cloud/SaaS', website: 'https://zoom.us' },
     { name: 'X (Twitter)', slug: 'x-twitter', logo: '#000000', industry: 'Social Media', website: 'https://x.com' },
+    // Deliberately has no seeded policies: this is the deterministic admin
+    // onboarding fixture for discovery -> human review -> first scan.
+    { name: 'WAZE', slug: 'waze', logo: '#6366F1', industry: 'Tech Giant', website: 'https://support.google.com/waze' },
   ];
 
   type SeedCompany = Awaited<ReturnType<typeof prisma.company.create>>;
@@ -318,7 +321,7 @@ async function main() {
           kpiRightToDeletion: 'Partial',
           kpiCrossBorderTransfer: 'Unrestricted',
           kpiAiTrainingOptOut: 'Partial',
-          kpiAiOutputOwnership: 'Company Claimed',
+          kpiAiOutputOwnership: 'Company Retained',
           kpiAlgoTransparency: 'Published',
           kpiAutomatedDecision: 'Partial',
           kpiAiBiasFairness: 'Committed',
@@ -339,7 +342,7 @@ async function main() {
           { titleEn: 'Disable Gemini Chat History', titleIt: 'Disattiva Cronologia Gemini', descriptionEn: 'Prevent Google from storing and training on your prompt inputs via settings.', descriptionIt: 'Impedisci a Google di salvare e usare i tuoi prompt disattivando la cronologia.', actionUrl: 'https://myactivity.google.com', actionTextEn: 'Google MyActivity', actionTextIt: 'Attivita Google' },
           { titleEn: 'Enforce Workspace Policies', titleIt: 'Applica Politiche Workspace', descriptionEn: 'Ensure employees use managed Workspace accounts for corporate tasks.', descriptionIt: 'Assicurarsi che i dipendenti usino account Workspace gestiti per attivita aziendali.' },
         ],
-        aiTrainingOptOut: 'Opt-out available', aiDataScrapingRestricted: 'Restricted', aiIpLicensing: 'Claimed by company', aiPromptRetention: '180 days',
+        aiTrainingOptOut: 'Opt-out available', aiDataScrapingRestricted: 'Restricted', aiIpLicensing: 'Company retained', aiPromptRetention: '180 days',
         date: '2026-06-01T12:00:00Z',
         regionImpacts: makeStandardImpacts({
           euIndEn: 'Audio biometric training requires EDPB-compliant opt-in consent. Disabling web/app activity serves as opt-out.', euIndIt: 'L\'addestramento su audio biometrico richiede consenso opt-in conforme EDPB. Disattivare l\'attivita web/app funge da opt-out.', euIndRisk: 'Medium', euIndCompEn: 'GDPR Article 9 biometric consent.', euIndCompIt: 'GDPR Art. 9: consenso biometrico.',
@@ -356,7 +359,7 @@ async function main() {
           kpiRightToDeletion: 'Partial',
           kpiCrossBorderTransfer: 'Unrestricted',
           kpiAiTrainingOptOut: 'Partial',
-          kpiAiOutputOwnership: 'Company Claimed',
+          kpiAiOutputOwnership: 'Company Retained',
           kpiAlgoTransparency: 'Published',
           kpiAutomatedDecision: 'Partial',
           kpiAiBiasFairness: 'Committed',
@@ -387,7 +390,7 @@ async function main() {
       aiSummaryIt: 'Google ha aggiornato i termini privacy USA per dichiarare l\'addestramento IA su dati vocali consumer e ampliato i diritti CPRA per i residenti in California.',
       overallRisk: 'Medium', overallScore: 5,
       remediations: [{ titleEn: 'Exercise CPRA Rights', titleIt: 'Esercita i Diritti CPRA', descriptionEn: 'Use the Do Not Sell link to restrict AI training data usage.', descriptionIt: 'Usa il link Non Vendere per limitare l\'uso dei dati per l\'addestramento IA.' }],
-      aiTrainingOptOut: 'Opt-out available', aiDataScrapingRestricted: 'Not specified', aiIpLicensing: 'Claimed by company', aiPromptRetention: '180 days',
+      aiTrainingOptOut: 'Opt-out available', aiDataScrapingRestricted: 'Not specified', aiIpLicensing: 'Company retained', aiPromptRetention: '180 days',
       date: '2026-06-01T12:00:00Z',
       regionImpacts: makeStandardImpacts({
         euIndEn: 'US-specific policy. Limited direct impact on EU individuals.', euIndIt: 'Politica specifica USA. Impatto diretto limitato sugli individui UE.', euIndRisk: 'Low',
@@ -404,7 +407,7 @@ async function main() {
           kpiRightToDeletion: 'Partial',
           kpiCrossBorderTransfer: 'Unrestricted',
           kpiAiTrainingOptOut: 'Partial',
-          kpiAiOutputOwnership: 'Company Claimed',
+          kpiAiOutputOwnership: 'Company Retained',
           kpiAlgoTransparency: 'Published',
           kpiAutomatedDecision: 'Partial',
           kpiAiBiasFairness: 'Committed',
@@ -434,7 +437,7 @@ async function main() {
       aiSummaryIt: 'Google ha ampliato la politica globale di base per includere l\'addestramento IA sulle interazioni consumer con Gemini e la condivisione di telemetria anonimizzata con partner di ricerca.',
       overallRisk: 'Medium', overallScore: 5,
       remediations: [{ titleEn: 'Review Activity Controls', titleIt: 'Rivedi Controlli Attivita', descriptionEn: 'Manage AI training participation via Google Activity Controls.', descriptionIt: 'Gestisci la partecipazione all\'addestramento IA tramite i Controlli Attivita Google.', actionUrl: 'https://myactivity.google.com', actionTextEn: 'Activity Controls', actionTextIt: 'Controlli Attivita' }],
-      aiTrainingOptOut: 'Opt-out available', aiDataScrapingRestricted: 'Not specified', aiIpLicensing: 'Claimed by company', aiPromptRetention: '180 days',
+      aiTrainingOptOut: 'Opt-out available', aiDataScrapingRestricted: 'Not specified', aiIpLicensing: 'Company retained', aiPromptRetention: '180 days',
       date: '2026-06-01T12:00:00Z',
       regionImpacts: makeStandardImpacts({
         euIndEn: 'EU individuals should refer to the EU-specific policy for GDPR protections.', euIndIt: 'Gli individui UE devono fare riferimento alla politica specifica UE per le protezioni GDPR.', euIndRisk: 'Low',
@@ -451,7 +454,7 @@ async function main() {
           kpiRightToDeletion: 'Partial',
           kpiCrossBorderTransfer: 'Unrestricted',
           kpiAiTrainingOptOut: 'Partial',
-          kpiAiOutputOwnership: 'Company Claimed',
+          kpiAiOutputOwnership: 'Company Retained',
           kpiAlgoTransparency: 'Published',
           kpiAutomatedDecision: 'Partial',
           kpiAiBiasFairness: 'Committed',
@@ -477,11 +480,11 @@ async function main() {
     changes: [{
       oldSnapIdx: 0, newSnapIdx: 1,
       diff: '+ Users grant Google a perpetual license to verify safety on outputs.\n+ Aggregated outputs may train safety classifiers.',
-      aiSummaryEn: 'Google claims a perpetual license to scan and review AI outputs for safety audits and to train classification models on aggregated safety prompts.',
+      aiSummaryEn: 'Google states a perpetual license to scan and review AI outputs for safety audits and to train classification models on aggregated safety prompts.',
       aiSummaryIt: 'Google si riserva una licenza perpetua per scansionare e verificare i risultati delle IA per audit di sicurezza e per addestrare classificatori su prompt aggregati.',
       overallRisk: 'Medium', overallScore: 5,
       remediations: [{ titleEn: 'Review Output Licensing', titleIt: 'Verifica Licenze Output', descriptionEn: 'Review safety scanning settings when processing proprietary business information.', descriptionIt: 'Rivedi le impostazioni di scansione di sicurezza quando elabori informazioni aziendali riservate.' }],
-      aiTrainingOptOut: 'Opt-out available', aiDataScrapingRestricted: 'Not specified', aiIpLicensing: 'Claimed by company', aiPromptRetention: 'Indefinite',
+      aiTrainingOptOut: 'Opt-out available', aiDataScrapingRestricted: 'Not specified', aiIpLicensing: 'Company retained', aiPromptRetention: 'Indefinite',
       date: '2026-04-10T12:00:00Z',
       regionImpacts: makeStandardImpacts({
         euIndEn: 'Scanning user prompts raises GDPR concerns if chat contents are accessed by human reviewers.', euIndIt: 'La scansione dei prompt pone questioni GDPR se i contenuti vengono letti da revisori umani.', euIndRisk: 'Medium',
@@ -498,7 +501,7 @@ async function main() {
           kpiRightToDeletion: 'Partial',
           kpiCrossBorderTransfer: 'Unrestricted',
           kpiAiTrainingOptOut: 'Partial',
-          kpiAiOutputOwnership: 'Company Claimed',
+          kpiAiOutputOwnership: 'Company Retained',
           kpiAlgoTransparency: 'Published',
           kpiAutomatedDecision: 'Partial',
           kpiAiBiasFairness: 'Committed',
@@ -816,7 +819,7 @@ async function main() {
     currentHash: 'meta-privacy-eu-v2',
     snapshots: [
       { version: 1, text: '# Meta Privacy Policy V1 (EU)\nWe collect user interactions, content, and network connections across Facebook, Instagram, and WhatsApp.\nPersonalized ads served based on cross-platform behavioral analysis.', hash: 'meta-privacy-eu-v1', date: '2024-08-01T09:00:00Z' },
-      { version: 2, text: '# Meta Privacy Policy V2 (EU)\n[UPDATED] Cross-platform data consolidation for AI model training claimed under legitimate interest basis.\n[UPDATED] DPC intervention paused legitimate interest processing. Consent mechanism under review.\n[UPDATED] Meta AI features availability limited in EEA pending regulatory resolution.', hash: 'meta-privacy-eu-v2', date: '2026-05-01T10:00:00Z' },
+      { version: 2, text: '# Meta Privacy Policy V2 (EU)\n[UPDATED] Cross-platform data consolidation for AI model training presented under legitimate interest basis.\n[UPDATED] DPC intervention paused legitimate interest processing. Consent mechanism under review.\n[UPDATED] Meta AI features availability limited in EEA pending regulatory resolution.', hash: 'meta-privacy-eu-v2', date: '2026-05-01T10:00:00Z' },
     ],
     changes: [{
       oldSnapIdx: 0, newSnapIdx: 1,
@@ -828,7 +831,7 @@ async function main() {
         { titleEn: 'Submit Data Objection', titleIt: 'Invia Obiezione Dati', descriptionEn: 'Use the objection form to prevent your data from being used for AI training.', descriptionIt: 'Usa il modulo di obiezione per impedire l\'uso dei tuoi dati per l\'addestramento IA.', actionUrl: 'https://www.facebook.com/privacy/genai', actionTextEn: 'Objection Form', actionTextIt: 'Modulo Obiezione' },
         { titleEn: 'Audit Cross-Platform Data Sharing', titleIt: 'Verifica Condivisione Dati Cross-Platform', descriptionEn: 'Review data sharing settings across Facebook, Instagram, and WhatsApp.', descriptionIt: 'Rivedi le impostazioni di condivisione dati su Facebook, Instagram e WhatsApp.' },
       ],
-      aiTrainingOptOut: 'Opt-out available', aiDataScrapingRestricted: 'Restricted', aiIpLicensing: 'Claimed by company', aiPromptRetention: 'Indefinite',
+      aiTrainingOptOut: 'Opt-out available', aiDataScrapingRestricted: 'Restricted', aiIpLicensing: 'Company retained', aiPromptRetention: 'Indefinite',
       date: '2026-05-01T12:00:00Z',
       regionImpacts: makeStandardImpacts({
         euIndEn: 'DPC intervention protects EU users. Legitimate interest basis challenged. Users should submit objection forms.', euIndIt: 'L\'intervento del DPC protegge gli utenti UE. La base dell\'interesse legittimo e contestata. Gli utenti devono inviare moduli di obiezione.', euIndRisk: 'High', euIndCompEn: 'GDPR Article 21 objection right.', euIndCompIt: 'GDPR Articolo 21: diritto di opposizione.',
@@ -845,7 +848,7 @@ async function main() {
           kpiRightToDeletion: 'None',
           kpiCrossBorderTransfer: 'Unrestricted',
           kpiAiTrainingOptOut: 'Not Available',
-          kpiAiOutputOwnership: 'Company Claimed',
+          kpiAiOutputOwnership: 'Company Retained',
           kpiAlgoTransparency: 'Opaque',
           kpiAutomatedDecision: 'Undisclosed',
           kpiAiBiasFairness: 'Mentioned',
@@ -875,7 +878,7 @@ async function main() {
       aiSummaryIt: 'Meta ha iniziato a usare post pubblici e interazioni per addestrare i modelli Meta AI e Llama negli USA. I messaggi privati sono esplicitamente esclusi dai dati di addestramento.',
       overallRisk: 'Medium', overallScore: 6,
       remediations: [{ titleEn: 'Limit Public Data Sharing', titleIt: 'Limita Condivisione Dati Pubblici', descriptionEn: 'Review account privacy settings to control what content is publicly accessible.', descriptionIt: 'Rivedi le impostazioni privacy dell\'account per controllare quali contenuti sono pubblicamente accessibili.' }],
-      aiTrainingOptOut: 'Not Allowed', aiDataScrapingRestricted: 'Not specified', aiIpLicensing: 'Claimed by company', aiPromptRetention: 'Indefinite',
+      aiTrainingOptOut: 'Not Allowed', aiDataScrapingRestricted: 'Not specified', aiIpLicensing: 'Company retained', aiPromptRetention: 'Indefinite',
       date: '2026-05-01T12:00:00Z',
       regionImpacts: makeStandardImpacts({
         euIndEn: 'US-specific terms. EU users subject to separate EU privacy policy.', euIndIt: 'Termini specifici USA. Gli utenti UE sono soggetti alla politica privacy UE separata.', euIndRisk: 'Low',
@@ -892,7 +895,7 @@ async function main() {
           kpiRightToDeletion: 'None',
           kpiCrossBorderTransfer: 'Unrestricted',
           kpiAiTrainingOptOut: 'Not Available',
-          kpiAiOutputOwnership: 'Company Claimed',
+          kpiAiOutputOwnership: 'Company Retained',
           kpiAlgoTransparency: 'Opaque',
           kpiAutomatedDecision: 'Undisclosed',
           kpiAiBiasFairness: 'Mentioned',
@@ -922,7 +925,7 @@ async function main() {
       aiSummaryIt: 'Meta ha esteso la licenza sui contenuti per includere l\'addestramento IA sui post pubblici e ampliato il processo di appello sulla moderazione tramite il Comitato di Supervisione indipendente.',
       overallRisk: 'Medium', overallScore: 5,
       remediations: [{ titleEn: 'Review Content License Scope', titleIt: 'Verifica Ambito Licenza Contenuti', descriptionEn: 'Understand the expanded scope of the content license for AI training purposes.', descriptionIt: 'Comprendere l\'ambito ampliato della licenza contenuti per scopi di addestramento IA.' }],
-      aiTrainingOptOut: 'Not Allowed', aiDataScrapingRestricted: 'Not specified', aiIpLicensing: 'Claimed by company', aiPromptRetention: 'Indefinite',
+      aiTrainingOptOut: 'Not Allowed', aiDataScrapingRestricted: 'Not specified', aiIpLicensing: 'Company retained', aiPromptRetention: 'Indefinite',
       date: '2026-03-15T12:00:00Z',
       regionImpacts: makeStandardImpacts({
         euIndEn: 'EU consumers retain statutory rights that may limit license enforceability.', euIndIt: 'I consumatori UE mantengono diritti legali che possono limitare l\'applicabilita della licenza.', euIndRisk: 'Medium',
@@ -939,7 +942,7 @@ async function main() {
           kpiRightToDeletion: 'None',
           kpiCrossBorderTransfer: 'Unrestricted',
           kpiAiTrainingOptOut: 'Not Available',
-          kpiAiOutputOwnership: 'Company Claimed',
+          kpiAiOutputOwnership: 'Company Retained',
           kpiAlgoTransparency: 'Opaque',
           kpiAutomatedDecision: 'Undisclosed',
           kpiAiBiasFairness: 'Mentioned',
@@ -1470,7 +1473,7 @@ async function main() {
   // Revolut Privacy Policy - EU
   await seedPolicy(co['revolut'].id, {
     name: 'Privacy Policy', type: 'privacy', jurisdiction: 'EU',
-    url: 'https://www.revolut.com/legal/privacy',
+    url: 'https://www.revolut.com/en-LT/legal/privacy/',
     currentText: 'Revolut Privacy Policy V2 (EU) - Open banking data aggregation and AI spending categorization under GDPR terms.',
     currentHash: 'revolut-privacy-eu-v2',
     snapshots: [
@@ -1517,7 +1520,7 @@ async function main() {
   // Revolut Privacy Policy - UK
   await seedPolicy(co['revolut'].id, {
     name: 'Privacy Policy', type: 'privacy', jurisdiction: 'UK',
-    url: 'https://www.revolut.com/legal/privacy',
+    url: 'https://www.revolut.com/legal/privacy/',
     currentText: 'Revolut Privacy Policy V2 (UK) - FCA-regulated data processing with UK GDPR compliance for AI features.',
     currentHash: 'revolut-privacy-uk-v2',
     snapshots: [
@@ -1564,7 +1567,7 @@ async function main() {
   // Revolut Terms of Use - EU
   await seedPolicy(co['revolut'].id, {
     name: 'Terms of Use', type: 'terms', jurisdiction: 'EU',
-    url: 'https://www.revolut.com/legal/terms',
+    url: 'https://www.revolut.com/en-LT/legal/terms/',
     currentText: 'Revolut Terms of Use V2 (EU) - Updated cryptocurrency terms and account suspension policies.',
     currentHash: 'revolut-terms-eu-v2',
     snapshots: [
@@ -1611,7 +1614,7 @@ async function main() {
   // Revolut Terms of Use - UK
   await seedPolicy(co['revolut'].id, {
     name: 'Terms of Use', type: 'terms', jurisdiction: 'UK',
-    url: 'https://www.revolut.com/legal/terms',
+    url: 'https://www.revolut.com/legal/terms/',
     currentText: 'Revolut Terms of Use V2 (UK) - FCA-authorized banking terms and updated complaint resolution procedures.',
     currentHash: 'revolut-terms-uk-v2',
     snapshots: [
@@ -2386,7 +2389,7 @@ async function main() {
           kpiRightToDeletion: 'Partial',
           kpiCrossBorderTransfer: 'Unrestricted',
           kpiAiTrainingOptOut: 'Partial',
-          kpiAiOutputOwnership: 'Company Claimed',
+          kpiAiOutputOwnership: 'Company Retained',
           kpiAlgoTransparency: 'Opaque',
           kpiAutomatedDecision: 'Undisclosed',
           kpiAiBiasFairness: 'Mentioned',
@@ -2589,7 +2592,7 @@ async function main() {
           kpiRightToDeletion: 'Partial',
           kpiCrossBorderTransfer: 'Unrestricted',
           kpiAiTrainingOptOut: 'Not Available',
-          kpiAiOutputOwnership: 'Company Claimed',
+          kpiAiOutputOwnership: 'Company Retained',
           kpiAlgoTransparency: 'Opaque',
           kpiAutomatedDecision: 'Undisclosed',
           kpiAiBiasFairness: 'Absent',
@@ -2639,7 +2642,7 @@ async function main() {
           kpiRightToDeletion: 'Partial',
           kpiCrossBorderTransfer: 'Unrestricted',
           kpiAiTrainingOptOut: 'Not Available',
-          kpiAiOutputOwnership: 'Company Claimed',
+          kpiAiOutputOwnership: 'Company Retained',
           kpiAlgoTransparency: 'Opaque',
           kpiAutomatedDecision: 'Undisclosed',
           kpiAiBiasFairness: 'Absent',
@@ -2798,7 +2801,7 @@ async function main() {
           kpiRightToDeletion: 'None',
           kpiCrossBorderTransfer: 'Unrestricted',
           kpiAiTrainingOptOut: 'Not Available',
-          kpiAiOutputOwnership: 'Company Claimed',
+          kpiAiOutputOwnership: 'Company Retained',
           kpiAlgoTransparency: 'Opaque',
           kpiAutomatedDecision: 'Undisclosed',
           kpiAiBiasFairness: 'Absent',
@@ -2819,7 +2822,7 @@ async function main() {
     currentHash: 'x-tos-v2',
     snapshots: [
       { version: 1, text: '# X Terms of Service V1\nStandard social media terms of service.\nContent license grants X a worldwide, non-exclusive, royalty-free license to use, display, and distribute user content.\nUsers retain ownership of their content.\nX may remove content that violates platform rules.\nDispute resolution via arbitration.', hash: 'x-tos-v1', date: '2024-06-15T10:00:00Z' },
-      { version: 2, text: '# X Terms of Service V2\n[UPDATED] Content license expanded to include AI training, model development, and creation of derivative works by X and affiliated entities including xAI Corp.\n[UPDATED] User-generated content (text, images, video) can be used to train any current or future xAI model without additional notice or compensation.\n[UPDATED] Limited recourse for content misuse: disputes resolved exclusively via arbitration with class action waiver.\n[UPDATED] Indemnification clause expanded: users indemnify X and xAI for claims arising from AI-generated outputs derived from user content.\nUsers retain nominal ownership of their content.\nDispute resolution via binding arbitration with class action waiver.', hash: 'x-tos-v2', date: '2026-05-01T10:00:00Z' },
+      { version: 2, text: '# X Terms of Service V2\n[UPDATED] Content license expanded to include AI training, model development, and creation of derivative works by X and affiliated entities including xAI Corp.\n[UPDATED] User-generated content (text, images, video) can be used to train any current or future xAI model without additional notice or compensation.\n[UPDATED] Limited recourse for content misuse: disputes resolved exclusively via arbitration with class action waiver.\n[UPDATED] Indemnification clause expanded: users indemnify X and xAI for disputes arising from AI-generated outputs derived from user content.\nUsers retain nominal ownership of their content.\nDispute resolution via binding arbitration with class action waiver.', hash: 'x-tos-v2', date: '2026-05-01T10:00:00Z' },
     ],
     changes: [{
       oldSnapIdx: 0, newSnapIdx: 1,
@@ -2848,7 +2851,7 @@ async function main() {
           kpiRightToDeletion: 'None',
           kpiCrossBorderTransfer: 'Unrestricted',
           kpiAiTrainingOptOut: 'Not Available',
-          kpiAiOutputOwnership: 'Company Claimed',
+          kpiAiOutputOwnership: 'Company Retained',
           kpiAlgoTransparency: 'Opaque',
           kpiAutomatedDecision: 'Undisclosed',
           kpiAiBiasFairness: 'Absent',
@@ -2861,7 +2864,7 @@ async function main() {
     }],
   });
 
-  console.log('Seed completed successfully for all 16 companies.');
+  console.log('Seed completed successfully for 16 monitored companies plus the WAZE onboarding fixture.');
 }
 
 main()

@@ -44,7 +44,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-main);
@@ -103,7 +103,7 @@
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--text-main);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   cursor: pointer;
   transition: border-color 0.2s ease;
 }
@@ -124,8 +124,8 @@
   border-radius: 50%;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: #ffffff;
-  font-family: var(--font-display);
-  font-weight: 800;
+  font-family: var(--font-sans);
+  font-weight: 700;
   font-size: 0.85rem;
   display: flex;
   align-items: center;
@@ -158,7 +158,7 @@
 }
 
 .summaryName {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 1.15rem;
   font-weight: 700;
   color: var(--text-main);
@@ -192,7 +192,7 @@
 }
 
 .summaryStatValue {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--text-main);
@@ -204,7 +204,7 @@
 }
 
 .sectionTitle {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--text-main);
@@ -241,7 +241,7 @@
   text-align: left;
   padding: 12px 14px;
   background: var(--bg-tertiary);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-weight: 600;
   font-size: 0.75rem;
   text-transform: uppercase;

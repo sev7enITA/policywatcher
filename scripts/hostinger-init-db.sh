@@ -83,6 +83,11 @@ if [[ -f "${DB_PATH}" ]]; then
   BACKUP="${DB_PATH}.backup-$(date +%Y%m%d%H%M%S)"
   cp "${DB_PATH}" "${BACKUP}"
   echo "Backup created: ${BACKUP}"
+else
+  # Prisma's SQLite schema engine expects the target file to exist on some
+  # hosts even when the containing directory is writable.
+  touch "${DB_PATH}"
+  chmod 600 "${DB_PATH}"
 fi
 
 if [[ -d "${APP_DIR}/prisma/migrations" ]] && { [[ -x "${APP_DIR}/node_modules/.bin/prisma" ]] || command -v npx >/dev/null 2>&1 || command -v npm >/dev/null 2>&1; }; then

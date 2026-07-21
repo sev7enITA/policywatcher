@@ -18,6 +18,34 @@ model Company {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   policies  Policy[]
+  policyDiscoveryCandidates PolicyDiscoveryCandidate[]
+  sourceOnboardingItems SourceOnboardingItem[]
+}
+
+model PolicyDiscoveryCandidate {
+  id                String   @id @default(uuid())
+  companyId         String
+  company           Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name              String
+  type              String
+  url               String
+  jurisdiction      String   @default("Global")
+  confidence        Int
+  discoverySource   String
+  retrievalSource   String
+  reason            String
+  diagnosticsJson   String?
+  status            String   @default("Proposed") // Proposed, Approved, Rejected
+  reviewedAt        DateTime?
+  reviewedByRole    String?
+  createdPolicyId   String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  sourceOnboardingItems SourceOnboardingItem[]
+
+  @@unique([companyId, url, type, jurisdiction])
+  @@index([companyId, status])
+  @@index([createdAt])
 }
 
 model Policy {
@@ -39,6 +67,7 @@ model Policy {
   snapshots               PolicySnapshot[]
   changes                 PolicyChange[]
   checkLogs               PolicyCheckLog[]
+  sourceOnboardingItems   SourceOnboardingItem[]
 
   @@unique([companyId, type, jurisdiction])
   @@index([companyId])
@@ -104,7 +133,7 @@ model PolicyChange {
   // AI Governance Indicators (legacy, kept for compatibility)
   aiTrainingOptOut         String // "Allowed", "Not Allowed", "Opt-out available"
   aiDataScrapingRestricted String // "Restricted", "Permitted", "Not specified"
-  aiIpLicensing            String // "Claimed by company", "Protected", "Shared"
+  aiIpLicensing            String // "Company retained", "Protected", "Shared"
   aiPromptRetention        String // "30 days", "Indefinite", "System-deleted"
 
   // Privacy & Data Protection KPIs (5)
@@ -179,6 +208,64 @@ model AdminReviewLog {
   @@index([action])
   @@index([targetType, targetId])
   @@index([policyChangeId])
+}
+
+model SourceOnboardingBatch {
+  id              String   @id @default(uuid())
+  label           String
+  actorRole       String
+  status          String   @default("Active") // Active, Partial, Completed, Failed
+  totalItems      Int      @default(0)
+  successfulItems Int      @default(0)
+  failedItems     Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  completedAt     DateTime?
+  items           SourceOnboardingItem[]
+
+  @@index([createdAt])
+  @@index([status])
+}
+
+model SourceOnboardingItem {
+  id                   String                    @id @default(uuid())
+  batchId              String
+  batch                SourceOnboardingBatch     @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  rowNumber            Int
+  companyName          String
+  companySlug          String
+  industry             String
+  website              String
+  policyName           String
+  policyType           String
+  policyUrl            String
+  jurisdiction         String                    @default("Global")
+  companyId            String?
+  company              Company?                  @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  discoveryCandidateId String?
+  discoveryCandidate   PolicyDiscoveryCandidate? @relation(fields: [discoveryCandidateId], references: [id], onDelete: SetNull)
+  policyId             String?
+  policy               Policy?                   @relation(fields: [policyId], references: [id], onDelete: SetNull)
+  stage                 String                    @default("Proposed") // Proposed, OfficialReview, BaselinePending, QaReview, Ready, Published, Held, Rejected, Failed
+  qaStatus              String                    @default("Pending") // Pending, Pass, Fail
+  qaSummary             String?
+  qaChecksJson          String?
+  publicationDecision  String                    @default("Pending") // Pending, Published, Held, Rejected
+  reviewedByRole        String?
+  reviewedAt            DateTime?
+  decisionByRole        String?
+  decisionAt            DateTime?
+  error                 String?
+  createdAt             DateTime                  @default(now())
+  updatedAt             DateTime                  @updatedAt
+
+  @@unique([batchId, rowNumber])
+  @@index([batchId, stage])
+  @@index([companyId])
+  @@index([discoveryCandidateId])
+  @@index([policyId])
+  @@index([qaStatus])
+  @@index([publicationDecision])
 }
 
 model AdminAccessLog {

@@ -113,7 +113,7 @@
   background: rgba(255, 255, 255, 0.08);
   color: #dbeafe;
   font-size: 0.68rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -123,10 +123,10 @@
   z-index: 1;
   margin: 64px 0 14px;
   color: #ffffff;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 800;
-  line-height: 0.98;
+  font-weight: 700;
+  line-height: 1.06;
   letter-spacing: 0;
 }
 
@@ -157,7 +157,7 @@
   gap: 8px;
   color: rgba(226, 232, 240, 0.7);
   font-size: 0.78rem;
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
@@ -213,9 +213,9 @@
 .sectionHeader h2 {
   margin: 0 0 8px;
   color: var(--text-main);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 1.28rem;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .sectionHeader p {
@@ -251,7 +251,7 @@
   background: rgba(20, 184, 166, 0.1);
   color: #0f766e;
   font-size: 0.78rem;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .evidenceItem strong {
@@ -283,9 +283,9 @@
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(148, 163, 184, 0.2);
   color: var(--text-main);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 0.82rem;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .termsList {
@@ -366,9 +366,9 @@
   padding: 12px 18px;
   border: none;
   border-radius: 13px;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 0.92rem;
-  font-weight: 800;
+  font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
@@ -458,20 +458,79 @@
     right: 14px;
   }
 
+  .card {
+    border-radius: 18px;
+  }
+
   .contextPanel,
   .contentPanel {
     padding: 22px;
   }
 
+  .badge {
+    font-size: 0.64rem;
+    letter-spacing: 0.06em;
+  }
+
   .title {
-    font-size: 1.85rem;
+    font-size: 1.65rem;
+    line-height: 1.12;
+  }
+
+  .subtitle,
+  .sectionHeader p {
+    font-size: 0.9rem;
+  }
+
+  .sectionHeader {
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.1rem;
+    line-height: 1.2;
+  }
+
+  .evidenceItem {
+    padding: 14px;
+  }
+
+  .evidenceItem p {
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  .termsBox {
+    max-height: min(44vh, 280px);
+    padding: 14px;
+  }
+
+  .termsItem {
+    font-size: 0.86rem;
+    line-height: 1.55;
+  }
+
+  .checkboxLabel {
+    font-size: 0.88rem;
   }
 
   .actions {
     flex-direction: column;
   }
 
+  .btn {
+    width: 100%;
+    min-height: 48px;
+    font-size: 0.9rem;
+  }
+
   .btnSecondary {
     flex: 1;
+  }
+
+  .footer {
+    padding: 12px 14px;
+    font-size: 0.73rem;
   }
 }

@@ -377,7 +377,7 @@ export function buildLeaderboard(
       ],
       boundaries: [
         'This board does not certify companies, legal compliance, internal conduct, safety, or trustworthiness.',
-        'Suspended sources do not feed public policy text, AI summaries, timeline events, reports, or benchmark claims.',
+        'Suspended sources do not feed public policy text, AI summaries, timeline events, reports, or benchmark statements.',
         'Archive-backed entries require timestamp context and are shown as retrieval evidence, not as live-source confirmation.',
       ],
     },

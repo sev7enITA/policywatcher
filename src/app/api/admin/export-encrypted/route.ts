@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     ]);
 
     const backupPayload = {
-      version: '3.5.1',
+      version: '3.6.3',
       exportedAt: new Date().toISOString(),
       summary: {
         companies: companies.length,

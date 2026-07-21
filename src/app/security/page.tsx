@@ -23,7 +23,7 @@ export default function SecurityPage() {
           <section style={sectionStyle}>
             <h2 style={sectionTitleStyle}>Security Controls in the 3.5 Confidence Track</h2>
             <p style={paragraphStyle}>
-              PolicyWatcher documents security and confidence work as operational evidence, not as a certification claim. The current release includes:
+              PolicyWatcher documents security and confidence work as operational evidence within a defined certification boundary. The current release includes:
             </p>
             <div style={controlGridStyle}>
               <div style={controlCardStyle}>

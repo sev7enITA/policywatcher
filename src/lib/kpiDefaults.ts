@@ -43,7 +43,7 @@ export const KPI_ALLOWED_VALUES: Record<KpiField, readonly string[]> = {
   kpiRightToDeletion: ['Full', 'Partial', 'Not Available'],
   kpiCrossBorderTransfer: ['Restricted', 'Controlled', 'Unrestricted'],
   kpiAiTrainingOptOut: ['Available', 'Opt-Out', 'Not Available'],
-  kpiAiOutputOwnership: ['User Retained', 'Shared', 'Company Claimed'],
+  kpiAiOutputOwnership: ['User Retained', 'Shared', 'Company Retained'],
   kpiAlgoTransparency: ['Published', 'Mentioned', 'Opaque'],
   kpiAutomatedDecision: ['Transparent', 'Partial', 'Opaque'],
   kpiAiBiasFairness: ['Committed', 'Mentioned', 'Absent'],

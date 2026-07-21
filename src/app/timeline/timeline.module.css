@@ -19,9 +19,9 @@
 }
 
 .heroTitle {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 2.4rem;
-  font-weight: 800;
+  font-weight: 700;
   color: #ffffff;
   margin: 0 0 8px 0;
   position: relative;
@@ -53,9 +53,9 @@
 }
 
 .heroStatNum {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 2rem;
-  font-weight: 800;
+  font-weight: 700;
   color: #ffffff;
   line-height: 1;
 }
@@ -183,7 +183,7 @@
   background: var(--bg-main);
   font-size: 0.72rem;
   font-weight: 600;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   cursor: pointer;
   transition: all 0.2s ease;
   color: var(--text-muted);
@@ -351,15 +351,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 0.72rem;
-  font-weight: 800;
+  font-weight: 700;
   color: #fff;
   flex-shrink: 0;
 }
 
 .cardCompany {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--text-main);
@@ -404,9 +404,9 @@
 .cardRiskPill[data-risk="Low"] { background: var(--risk-low); }
 
 .cardScore {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 0.78rem;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .cardScore[data-risk="High"] { color: var(--risk-high); }
@@ -456,7 +456,7 @@
   border-radius: 12px;
   border: 1px solid var(--border-color);
   background: var(--bg-card);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-body);
@@ -504,7 +504,7 @@
 }
 
 .emptyTitle {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--text-main);
