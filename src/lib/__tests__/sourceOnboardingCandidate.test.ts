@@ -82,6 +82,13 @@ describe('bulk onboarding candidate reconciliation', () => {
     });
     await expect(resolveBulkOnboardingCandidate(active as never, input))
       .rejects.toThrow('active onboarding workflow');
+    expect(active.policyDiscoveryCandidate.findUnique).toHaveBeenCalledWith(expect.objectContaining({
+      include: {
+        sourceOnboardingItems: expect.objectContaining({
+          where: { stage: { in: expect.arrayContaining(['Ready', 'Held']) } },
+        }),
+      },
+    }));
 
     const approved = clientFor({
       id: 'candidate-1',

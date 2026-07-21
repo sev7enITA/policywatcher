@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { LogIn, AlertTriangle } from 'lucide-react';
+import { POLICYWATCHER_VERSION } from '@/lib/release';
 import styles from '../admin.module.css';
 
 export default function AdminLoginPage() {
@@ -73,7 +74,7 @@ export default function AdminLoginPage() {
         </div>
         <h1 className={styles.loginTitle}>
           PolicyWatcher Admin
-          <span className={styles.loginVersion}>v3.6.4</span>
+          <span className={styles.loginVersion}>v{POLICYWATCHER_VERSION}</span>
         </h1>
 
         {error && (

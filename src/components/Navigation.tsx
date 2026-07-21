@@ -31,6 +31,7 @@ import {
   Zap,
   type LucideIcon,
 } from 'lucide-react';
+import { POLICYWATCHER_VERSION } from '@/lib/release';
 import styles from './Navigation.module.css';
 
 export type NavLayout = 'hud' | 'spotlight' | 'sidebar';
@@ -113,7 +114,7 @@ export default function Navigation({
       observe: 'Observe',
       audit: 'Audit',
       operate: 'Operate',
-      status: 'v3.6',
+      status: `v${POLICYWATCHER_VERSION}`,
       search: 'Search',
       searchTitle: 'Search actions',
       export: 'Export',
@@ -161,7 +162,7 @@ export default function Navigation({
       observe: 'Osserva',
       audit: 'Audita',
       operate: 'Opera',
-      status: 'v3.6',
+      status: `v${POLICYWATCHER_VERSION}`,
       search: 'Cerca',
       searchTitle: 'Cerca azioni',
       export: 'Export',

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { db } from '@/lib/db';
 import { getErrorMessage } from '@/lib/safeErrors';
-import { prepareSourceOnboardingRows } from '@/lib/sourceOnboarding';
+import { prepareSourceOnboardingRows, summarizeSourceOnboardingBatch } from '@/lib/sourceOnboarding';
 import { resolveBulkOnboardingCandidate } from '@/lib/sourceOnboardingCandidate';
 
 const batchInclude = {
@@ -44,15 +44,14 @@ async function updateBatchCounts(batchId: string) {
     where: { batchId },
     select: { stage: true },
   });
-  const failedItems = items.filter((item) => item.stage === 'Failed').length;
-  const successfulItems = items.length - failedItems;
+  const summary = summarizeSourceOnboardingBatch(items.map((item) => item.stage));
   await db.sourceOnboardingBatch.update({
     where: { id: batchId },
     data: {
-      totalItems: items.length,
-      successfulItems,
-      failedItems,
-      status: failedItems === items.length ? 'Failed' : failedItems > 0 ? 'Partial' : 'Active',
+      totalItems: summary.totalItems,
+      successfulItems: summary.successfulItems,
+      failedItems: summary.failedItems,
+      status: summary.status,
     },
   });
 }

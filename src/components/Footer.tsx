@@ -16,6 +16,7 @@
 'use client';
 
 import { BarChart3, ShieldCheck, FileText, Lock, Mail, ExternalLink, Sparkles, Cpu, Newspaper, GitFork, Search, UserRound } from 'lucide-react';
+import { POLICYWATCHER_BUILD_LABEL, POLICYWATCHER_VERSION } from '@/lib/release';
 import styles from './Footer.module.css';
 
 /** Props for the {@link Footer} component. */
@@ -45,7 +46,7 @@ const content = {
     trust: 'Trust & Quality',
     infographics: 'Infographics',
     paloFramework: 'PALO Framework',
-    releaseNotice: 'Release v3.6.4. AI-assisted assessments, not legal advice. Verify with provider sources.',
+    releaseNotice: `Release v${POLICYWATCHER_VERSION}. AI-assisted assessments, not legal advice. Verify with provider sources.`,
     copy: `Copyright ${new Date().getFullYear()} PolicyWatcher by Fabrizio Degni. All rights reserved.`,
     madeIn: 'Made in the EU',
   },
@@ -69,7 +70,7 @@ const content = {
     trust: 'Qualità e fiducia',
     infographics: 'Infografiche',
     paloFramework: 'PALO Framework',
-    releaseNotice: 'Release v3.6.4. Valutazioni assistite da AI, non parere legale. Verificare con le fonti provider.',
+    releaseNotice: `Release v${POLICYWATCHER_VERSION}. Valutazioni assistite da AI, non parere legale. Verificare con le fonti provider.`,
     copy: `Copyright ${new Date().getFullYear()} PolicyWatcher di Fabrizio Degni. Tutti i diritti riservati.`,
     madeIn: 'Fatto in UE',
   },
@@ -211,7 +212,7 @@ export default function Footer({ lang }: FooterProps) {
 
         <div className={styles.bottom}>
           <p className={styles.releaseNotice}>{t.releaseNotice}</p>
-          <p className={styles.copy}>{t.copy} / Build v3.6.4 Audit Fixes</p>
+          <p className={styles.copy}>{t.copy} / Build {POLICYWATCHER_BUILD_LABEL}</p>
         </div>
       </div>
     </footer>

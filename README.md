@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.6.4%20Audit%20Fixes-5067f6" alt="3.6.4 Audit Fixes" />
+  <img src="https://img.shields.io/badge/Release-3.6.5%20Stability-146c6a" alt="3.6.5 Stability Release" />
 </p>
 
 <p align="center">
@@ -37,6 +37,14 @@
 PolicyWatcher monitors the privacy policies, terms of service, and AI governance practices of 16 major technology and financial companies. It tracks configured public policy sources, records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.6.5 Stability Highlights
+
+- **One onboarding invariant** now calculates empty, partial, completed, and failed batch states across import and workflow refresh paths.
+- **Defense-in-depth duplicate protection** includes held workflows while preserving approved-candidate and configured-policy guards.
+- **Mobile lifecycle stability** defers orientation reads, coalesces repeated events, cancels pending callbacks, and contains animated tracks inside the root viewport.
+- **Single-source release metadata** keeps package, footer, Trust Center, admin, methodology, and encrypted exports aligned.
+- **Regression coverage** protects lifecycle cleanup, edge-case batch state, held-stage queries, and version consistency.
 
 ### Release 3.6.4 Audit Fixes Highlights
 

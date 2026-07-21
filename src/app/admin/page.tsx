@@ -42,6 +42,7 @@ import {
   Legend,
 } from 'recharts';
 import styles from './admin.module.css';
+import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';
 
 /* ------------------------------------------------------------------ */
 /* Types                                                               */
@@ -326,7 +327,7 @@ export default function AdminDashboardPage() {
           <p className={styles.pageSubtitle}>System overview, analytics and secure backups</p>
         </div>
         <span className={styles.logoVersion} style={{ fontSize: '0.78rem', padding: '4px 10px', borderRadius: '8px' }}>
-          PolicyWatcher Admin v3.6.4 Audit Fixes
+          PolicyWatcher Admin {POLICYWATCHER_BUILD_LABEL}
         </span>
       </div>
 

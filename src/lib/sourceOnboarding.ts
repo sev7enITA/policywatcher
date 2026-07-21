@@ -42,6 +42,15 @@ export type SourceOnboardingAction =
   | 'hold'
   | 'reject-publication';
 
+export const ACTIVE_SOURCE_ONBOARDING_STAGES = [
+  'Proposed',
+  'OfficialReview',
+  'BaselinePending',
+  'QaReview',
+  'Ready',
+  'Held',
+] as const satisfies readonly SourceOnboardingStage[];
+
 export interface SourceOnboardingInput {
   companyName: string;
   companySlug: string;
@@ -402,13 +411,14 @@ export function summarizeSourceOnboardingBatch(stages: string[]) {
   const terminalStages = new Set(['Published', 'Held', 'Rejected', 'Failed']);
   const failedItems = stages.filter((stage) => stage === 'Failed').length;
   const terminal = stages.length > 0 && stages.every((stage) => terminalStages.has(stage));
-  const status = failedItems === stages.length
-    ? 'Failed'
-    : terminal && failedItems === 0
-      ? 'Completed'
-      : failedItems > 0
-        ? 'Partial'
-        : 'Active';
+  let status: 'Active' | 'Partial' | 'Completed' | 'Failed' = 'Active';
+  if (stages.length > 0 && failedItems === stages.length) {
+    status = 'Failed';
+  } else if (terminal && failedItems === 0) {
+    status = 'Completed';
+  } else if (failedItems > 0) {
+    status = 'Partial';
+  }
 
   return {
     totalItems: stages.length,

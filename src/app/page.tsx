@@ -62,8 +62,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/Footer';
 import HowToModal from '@/components/HowToModal';
 import Navigation, { NavLayout } from '@/components/Navigation';
-import { shouldSuggestOnTheGo } from '@/lib/mobileContext';
+import { createDeferredViewportEvaluator, shouldSuggestOnTheGo } from '@/lib/mobileContext';
 import { dashboardUpdateNotices, getObservatorySource, observatorySignals } from '@/lib/observatory';
+import { POLICYWATCHER_VERSION } from '@/lib/release';
 import { dataStatusClassKey, getWorstDataStatus, normalizeDataStatus } from '@/lib/policyConfidence';
 import {
   composeDashboard,
@@ -172,11 +173,11 @@ const translations = {
     accentIndigo: 'Indigo',
     accentTeal: 'Teal',
     accentSlate: 'Slate',
-    exploreKicker: 'Mappa release v3.6.3',
+    exploreKicker: `Mappa release v${POLICYWATCHER_VERSION}`,
     exploreTitle: 'Tutte le nuove superfici, in un unico punto.',
     exploreLead: 'Adaptive Workspace, Observatory, sitemap interattiva, press wall, segnali policy, trust center e roadmap sono ora organizzati come percorsi di esplorazione.',
     exploreAtlas: 'Apri sitemap completa',
-    exploreFeature: 'Nuovo in 3.6.3',
+    exploreFeature: `Stabile in ${POLICYWATCHER_VERSION}`,
     exploreOpen: 'Apri',
     exploreCards: [
       {
@@ -322,11 +323,11 @@ const translations = {
     accentIndigo: 'Indigo',
     accentTeal: 'Teal',
     accentSlate: 'Slate',
-    exploreKicker: 'v3.6.3 release map',
+    exploreKicker: `v${POLICYWATCHER_VERSION} release map`,
     exploreTitle: 'Every new surface, one clear entry point.',
     exploreLead: 'Adaptive Workspace, Observatory, interactive sitemap, press wall, policy signals, trust center and roadmap are now organized as guided exploration paths.',
     exploreAtlas: 'Open full sitemap',
-    exploreFeature: 'New in 3.6.3',
+    exploreFeature: `Stable in ${POLICYWATCHER_VERSION}`,
     exploreOpen: 'Open',
     exploreCards: [
       {
@@ -1079,19 +1080,29 @@ export default function Dashboard() {
     const removeSmallScreenListener = listenToQuery(smallScreenQuery);
     const removeCoarsePointerListener = listenToQuery(coarsePointerQuery);
 
-    const handleOrientation = () => {
-      if (coarsePointerQuery.matches && window.innerWidth < 920) {
-        setOnTheGoMotionSuggested(true);
-      }
-    };
-
-    window.addEventListener('orientationchange', handleOrientation);
+    const orientationEvaluator = createDeferredViewportEvaluator(() => {
+      if (!active) return;
+      updateContext();
+      setOnTheGoMotionSuggested(coarsePointerQuery.matches && window.innerWidth < 920);
+    });
+    const handleOrientation = () => orientationEvaluator.schedule();
+    const orientation = window.screen.orientation;
+    if (orientation && typeof orientation.addEventListener === 'function') {
+      orientation.addEventListener('change', handleOrientation);
+    } else {
+      window.addEventListener('orientationchange', handleOrientation);
+    }
 
     return () => {
       active = false;
+      orientationEvaluator.cancel();
       removeSmallScreenListener();
       removeCoarsePointerListener();
-      window.removeEventListener('orientationchange', handleOrientation);
+      if (orientation && typeof orientation.removeEventListener === 'function') {
+        orientation.removeEventListener('change', handleOrientation);
+      } else {
+        window.removeEventListener('orientationchange', handleOrientation);
+      }
     };
   }, []);
 

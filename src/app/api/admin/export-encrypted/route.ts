@@ -12,6 +12,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { db } from '@/lib/db';
 import { randomBytes, createCipheriv, scryptSync } from 'crypto';
+import { POLICYWATCHER_VERSION } from '@/lib/release';
 
 const MIN_BACKUP_PASSWORD_LENGTH = 12;
 
@@ -41,7 +42,7 @@ export async function POST(request: NextRequest) {
     ]);
 
     const backupPayload = {
-      version: '3.6.4',
+      version: POLICYWATCHER_VERSION,
       exportedAt: new Date().toISOString(),
       summary: {
         companies: companies.length,
