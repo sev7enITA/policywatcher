@@ -17,6 +17,9 @@ describe('mobile context', () => {
     const page = readFileSync('src/app/page.tsx', 'utf8');
     expect(page).not.toContain('devicemotion');
     expect(page).not.toContain('DeviceMotionEvent');
+    expect(page).toContain('window.screen.orientation');
+    expect(page).toContain("orientation.addEventListener('change', handleOrientation)");
+    expect(page).toContain("window.addEventListener('orientationchange', handleOrientation)");
   });
 
   it('defers and coalesces orientation viewport reads', () => {

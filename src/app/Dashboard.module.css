@@ -1102,7 +1102,10 @@
 }
 
 .marketPulseScroller {
+  min-width: 0;
+  max-width: 100%;
   overflow-x: auto;
+  contain: inline-size;
   padding: 6px 0 2px;
 }
 
@@ -2108,7 +2111,10 @@
 
 .observatoryTicker {
   display: grid;
+  min-width: 0;
+  max-width: 100%;
   gap: 9px;
+  overflow: hidden;
   padding: 12px 12px 12px 26px;
   border: 1px solid rgba(15, 23, 42, 0.1);
   border-radius: 8px;
@@ -2134,7 +2140,10 @@
 }
 
 .tickerViewport {
+  min-width: 0;
+  max-width: 100%;
   overflow: hidden;
+  contain: layout paint;
   mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
 

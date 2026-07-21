@@ -1086,15 +1086,23 @@ export default function Dashboard() {
       setOnTheGoMotionSuggested(coarsePointerQuery.matches && window.innerWidth < 920);
     });
     const handleOrientation = () => orientationEvaluator.schedule();
-
-    window.addEventListener('orientationchange', handleOrientation);
+    const orientation = window.screen.orientation;
+    if (orientation && typeof orientation.addEventListener === 'function') {
+      orientation.addEventListener('change', handleOrientation);
+    } else {
+      window.addEventListener('orientationchange', handleOrientation);
+    }
 
     return () => {
       active = false;
       orientationEvaluator.cancel();
       removeSmallScreenListener();
       removeCoarsePointerListener();
-      window.removeEventListener('orientationchange', handleOrientation);
+      if (orientation && typeof orientation.removeEventListener === 'function') {
+        orientation.removeEventListener('change', handleOrientation);
+      } else {
+        window.removeEventListener('orientationchange', handleOrientation);
+      }
     };
   }, []);
 

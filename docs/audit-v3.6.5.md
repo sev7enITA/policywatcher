@@ -12,7 +12,7 @@ Release 3.6.5 converts the post-release review findings into guarded invariants 
 - Active onboarding stages are exported once and include `Held`; configured-policy and approved-candidate checks remain independent duplicate guards.
 - Batch status is summarized once for both import and workflow refresh. Empty batches are `Active`, all-failed batches are `Failed`, mixed failures are `Partial`, and non-failed terminal batches are `Completed`.
 - Orientation events schedule one deferred viewport evaluation, replace pending evaluations, and cancel outstanding work during unmount.
-- The root viewport clips animated-track overflow while preserving the dashboard's intentional nested horizontal scrollers.
+- Ticker and market-pulse containers isolate animated-track overflow locally while preserving the dashboard's intentional nested horizontal scrollers, sticky positioning, and root scrolling behavior.
 - Package and current UI/export release labels consume `src/lib/release.ts` instead of repeating version strings.
 
 ## Regression evidence

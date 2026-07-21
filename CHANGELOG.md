@@ -6,7 +6,7 @@
 - Centralized source-onboarding batch summaries so empty, partial, completed, and all-failed batches use one tested status invariant across import and workflow refresh paths.
 - Included `Held` in the shared active-workflow stages as defense in depth, while retaining the existing approved-candidate and configured-policy duplicate guards.
 - Deferred orientation viewport evaluation until mobile browsers publish their new dimensions, coalesced repeated events, and cancelled pending work during component cleanup.
-- Contained animated ticker tracks at the root viewport so the dashboard no longer creates document-level horizontal scrolling on narrow mobile screens.
+- Contained animated ticker tracks and horizontal scrollers at their component boundaries so the dashboard no longer creates document-level horizontal scrolling on narrow mobile screens.
 
 ### Changed
 - Centralized current release metadata for the dashboard, footer, Trust Center, admin surfaces, methodology disclaimer, and encrypted export payload.
