@@ -49,4 +49,33 @@ describe('policy inquiry security and admin wiring', () => {
     expect(adminStyles).toContain('@media (max-width: 720px)');
     expect(adminStyles).toContain('grid-template-columns: minmax(0, 1fr)');
   });
+
+  it('makes the browser boundary, excluded data and every result explanation explicit', () => {
+    const client = readFileSync('src/app/what-changed/WhatChangedClient.tsx', 'utf8');
+    const explainabilityStyles = readFileSync('src/app/what-changed/explainability.module.css', 'utf8');
+
+    expect(client).toContain('Il testo della mail non lascia questo browser');
+    expect(client).toContain('Your email text never leaves this browser');
+    expect(client).toContain('Solo questi indizi attraversano il confine');
+    expect(client).toContain('Only these clues cross the boundary');
+    expect(client).toContain('Non vengono mai inviati o conservati');
+    expect(client).toContain('Indirizzo email e destinatario');
+    expect(client).toContain('Inviati solo quando disponibili');
+    expect(client).toContain('l’API rifiuta i campi contenenti il testo grezzo della mail');
+    expect(client).toContain('the API rejects fields containing raw email text');
+    for (const state of ['matched', 'monitored_no_verified_change', 'queued', 'ambiguous']) {
+      expect(client).toContain(`data-result-explanation="${state}"`);
+    }
+    expect(client).toContain('Pubblica solo dopo il QA');
+    expect(client).toContain('Publish only after QA');
+    expect(client).toContain('href="/privacy"');
+    expect(client).toContain('href="/methodology/confidence"');
+    expect(client).not.toContain('className={styles.rail}');
+    expect(client).toContain('explainability.narrowActions');
+    expect(explainabilityStyles).toContain('.privacyBoundary');
+    expect(explainabilityStyles).toContain('@media (max-width: 700px)');
+    expect(explainabilityStyles).toContain('font-size: 0.8rem');
+    expect(explainabilityStyles).toContain('flex-direction: column');
+    expect(explainabilityStyles).not.toContain('overflow-x');
+  });
 });
