@@ -5,7 +5,7 @@
 ### Added
 - Added the bilingual public `/what-changed` evidence desk for people arriving from a terms/privacy notification, with verified-change, monitored-without-evidence, queued-review, and ambiguous-company states.
 - Added persistent `PolicyInquiry` records and `/admin/inquiries` for human linking, approval, rejection, duplicate handling, public-change resolution, discovery handoff, and append-only review logs.
-- Added deterministic notification parsing, bounded redacted excerpts, raw-input fingerprints, URL tracking-parameter removal, conservative company matching, and dedicated low-volume rate limiting.
+- Added deterministic browser-local notification parsing, query-free URL minimization, conservative company matching, and dedicated low-volume rate limiting; email addresses, subjects, message bodies, redacted excerpts and raw-content fingerprints never reach persistent storage.
 
 ### Safety
 - Notification emails remain untrusted clues: only public-evidence-gated policies and changes can produce a verified answer.

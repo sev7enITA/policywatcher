@@ -6,12 +6,19 @@ import {
   buildInquiryDedupeKey,
   createInquiryPublicToken,
   matchInquiryCompany,
-  parsePolicyInquiry,
-  POLICY_INQUIRY_MAX_INPUT_BYTES,
+  normalizePolicyInquiryClues,
 } from '@/lib/policyInquiry';
+import type { InquiryPolicyType } from '@/lib/policyInquiryClient';
 
-const MAX_BODY_BYTES = POLICY_INQUIRY_MAX_INPUT_BYTES + 4096;
+const MAX_BODY_BYTES = 8 * 1024;
 const ACTIVE_INQUIRY_STATUSES = ['Proposed', 'Approved', 'Onboarding'] as const;
+const ALLOWED_POLICY_TYPES = new Set<InquiryPolicyType>([
+  'privacy', 'terms', 'ai', 'cookies', 'acceptable-use',
+]);
+const ALLOWED_BODY_KEYS = new Set([
+  'companyName', 'senderDomain', 'sourceUrl', 'noticeDate', 'effectiveDate',
+  'policyTypes', 'lang', 'honeypot',
+]);
 
 function safeString(value: unknown, max: number): string {
   return typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -20,13 +27,13 @@ function safeString(value: unknown, max: number): string {
 function inquiryError(lang: 'it' | 'en', key: 'invalid' | 'large' | 'generic') {
   const messages = {
     it: {
-      invalid: 'Inserisci il testo della notifica, il nome dell’azienda o un URL ufficiale valido.',
-      large: 'Il messaggio supera il limite di 20 KB. Incolla solo intestazione e contenuto essenziale.',
+      invalid: 'Indica il nome dell’organizzazione o un URL ufficiale valido.',
+      large: 'La richiesta strutturata supera il limite consentito.',
       generic: 'Non è stato possibile completare la verifica. Riprova più tardi.',
     },
     en: {
-      invalid: 'Enter the notification text, a company name, or a valid official URL.',
-      large: 'The message exceeds the 20 KB limit. Paste only the headers and essential content.',
+      invalid: 'Enter the organization name or a valid official URL.',
+      large: 'The structured request exceeds the allowed limit.',
       generic: 'The verification could not be completed. Please try again later.',
     },
   } as const;
@@ -58,20 +65,33 @@ export async function POST(request: NextRequest) {
     if (!body) return NextResponse.json({ error: inquiryError(lang, 'invalid') }, { status: 400 });
     lang = body.lang === 'en' ? 'en' : 'it';
 
+    // The public API intentionally has no raw-content field. Reject unknown
+    // keys so stale or custom clients cannot accidentally submit an email.
+    if (Object.keys(body).some((key) => !ALLOWED_BODY_KEYS.has(key))) {
+      return NextResponse.json({ error: inquiryError(lang, 'invalid') }, { status: 400 });
+    }
+
     // Honeypot submissions receive an intentionally bland success without storage.
     if (safeString(body.honeypot, 200)) {
       return NextResponse.json({ state: 'queued', reference: 'received' });
     }
 
-    const input = typeof body.input === 'string' ? body.input : '';
     const companyName = safeString(body.companyName, 160);
-    const websiteUrl = safeString(body.websiteUrl, 2000);
-    const combinedInput = input || companyName || websiteUrl;
-    if (!combinedInput) {
-      return NextResponse.json({ error: inquiryError(lang, 'invalid') }, { status: 400 });
-    }
-
-    const parsed = parsePolicyInquiry(combinedInput, companyName || undefined, websiteUrl || undefined);
+    const sourceUrl = safeString(body.sourceUrl, 2000);
+    const senderDomain = safeString(body.senderDomain, 253);
+    const policyTypes = Array.isArray(body.policyTypes)
+      ? body.policyTypes.filter((value): value is InquiryPolicyType =>
+        typeof value === 'string' && ALLOWED_POLICY_TYPES.has(value as InquiryPolicyType)
+      )
+      : [];
+    const parsed = normalizePolicyInquiryClues({
+      companyHint: companyName || null,
+      senderDomain: senderDomain || null,
+      sourceUrl: sourceUrl || null,
+      noticeDate: safeString(body.noticeDate, 40) || null,
+      effectiveDate: safeString(body.effectiveDate, 40) || null,
+      policyTypes,
+    });
     const companies = await db.company.findMany({
       select: {
         id: true,
@@ -133,8 +153,7 @@ export async function POST(request: NextRequest) {
           state: 'matched',
           relationship: match.reason === 'exact_policy_url' ? 'direct_policy_source' : 'related_policy_type',
           company: { id: match.company.id, name: match.company.name, slug: match.company.slug },
-          emailClaim: {
-            subject: parsed.noticeSubject,
+          notificationClues: {
             noticeDate: parsed.noticeDate,
             effectiveDate: parsed.effectiveDate,
             policyTypes: parsed.policyTypes,
@@ -153,18 +172,15 @@ export async function POST(request: NextRequest) {
     const inquiry = existing || await db.policyInquiry.create({
       data: {
         publicToken: createInquiryPublicToken(),
-        fingerprint: parsed.fingerprint,
         dedupeKey,
         status: 'Proposed',
         kind,
         companyHint: parsed.companyHint,
         normalizedDomain: parsed.normalizedDomain,
         sourceUrl: parsed.sourceUrl,
-        noticeSubject: parsed.noticeSubject,
         noticeDate: parsed.noticeDate,
         effectiveDate: parsed.effectiveDate,
         policyTypesJson: JSON.stringify(parsed.policyTypes),
-        redactedExcerpt: parsed.redactedExcerpt,
         matchedCompanyId,
         matchedPolicyId,
       },
@@ -192,10 +208,10 @@ export async function POST(request: NextRequest) {
         : 'If the source is approved, the first scan creates a baseline; it does not by itself prove what changed in the past.',
     }, { status: existing ? 200 : 202 });
   } catch (error) {
-    if (error instanceof Error && ['BODY_TOO_LARGE', 'INPUT_TOO_LARGE'].includes(error.message)) {
+    if (error instanceof Error && error.message === 'BODY_TOO_LARGE') {
       return NextResponse.json({ error: inquiryError(lang, 'large') }, { status: 413 });
     }
-    if (error instanceof Error && ['EMPTY_INPUT', 'INVALID_URL'].includes(error.message)) {
+    if (error instanceof Error && ['EMPTY_CLUES', 'INVALID_URL'].includes(error.message)) {
       return NextResponse.json({ error: inquiryError(lang, 'invalid') }, { status: 400 });
     }
     console.error('[Policy inquiries] Safe public failure:', error);

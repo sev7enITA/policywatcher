@@ -42,18 +42,15 @@ model PolicyDiscoveryJob {
 model PolicyInquiry {
   id               String    @id @default(uuid())
   publicToken      String    @unique
-  fingerprint      String
   dedupeKey        String
   status           String    @default("Proposed") // Proposed, Approved, Rejected, Duplicate, Onboarding, Resolved
   kind             String // unknown_company, verify_existing
   companyHint      String?
   normalizedDomain String?
   sourceUrl        String?
-  noticeSubject    String?
   noticeDate       DateTime?
   effectiveDate    DateTime?
   policyTypesJson  String?
-  redactedExcerpt  String? // Application-enforced bounded excerpt; never the raw email body
   matchedCompanyId String?
   matchedPolicyId  String?
   resolvedChangeId String?

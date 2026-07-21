@@ -52,13 +52,13 @@ The platform is designed as a **civic tech tool** that translates dense legal do
 - **Baseline in context** lets an administrator approve discovered sources and run the targeted first baseline without leaving Company Manager. The handoff to normal monitoring occurs only after every approved policy has verified evidence.
 - **Evidence-aware KPI QA** combines assessed values from the latest public change of each company policy, shows the originating policy/date, reports coverage, and distinguishes `Pending` from a numerical risk score.
 - **Self-checking Hostinger startup** applies the idempotent runtime schema initializer for both npm and direct bridge startup, with Node/Python fallback parity protected by tests.
-- **Notification-to-evidence inquiry** at `/what-changed` accepts a company, official URL, or pasted update notification and returns only source-gated verified comparisons. Missing evidence creates a reusable, privacy-minimized admin inquiry instead of an invented answer.
+- **Notification-to-evidence inquiry** at `/what-changed` accepts a company, official URL, or pasted update notification and returns only source-gated verified comparisons. The pasted text is interpreted only in the browser; missing evidence creates a reusable, zero-content admin inquiry instead of an invented answer.
 - **Human inquiry gate** at `/admin/inquiries` lets administrators link a known company, approve a new canonical company into persistent discovery, reject/mark duplicates, or resolve the request to an existing public change. Every transition is written to the review log.
 
 #### Policy inquiry privacy and evidence contract
 
-- Maximum input is 20 KB; raw pasted content is fingerprinted and discarded.
-- Stored excerpts are bounded, with email addresses and common tracking parameters removed. Recipient addresses are never used as contact data.
+- Maximum local input is 20 KB. Notification parsing happens in the browser; the raw text is never included in the API request.
+- The server receives only an organization/domain clue, a query-free official URL when present, policy categories and notification/effective dates. It stores no email address, subject, message body, redacted excerpt or content fingerprint.
 - User-submitted URLs are clues only and are not fetched until an administrator approves onboarding.
 - Pasted notifications are never sent to Gemini. Verified answers come only from `publicPolicyWhere` / `publicChangeWhere` records.
 - A first scan establishes a baseline and cannot, by itself, prove what changed before monitoring began.

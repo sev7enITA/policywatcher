@@ -4,6 +4,7 @@ import { FormEvent, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, ClipboardCheck, FileSearch, Languages, LockKeyhole, Search, ShieldQuestion } from 'lucide-react';
+import { parsePolicyInquiryLocally } from '@/lib/policyInquiryClient';
 import styles from './whatChanged.module.css';
 import refinements from './refinements.module.css';
 
@@ -15,7 +16,7 @@ type Change = {
   policy: { id: string; name: string; type: string; url: string };
 };
 type Result =
-  | { state: 'matched'; relationship: 'direct_policy_source' | 'related_policy_type'; company: { name: string }; emailClaim: { subject: string | null; noticeDate: string | null; effectiveDate: string | null; policyTypes: string[] }; changes: Change[] }
+  | { state: 'matched'; relationship: 'direct_policy_source' | 'related_policy_type'; company: { name: string }; notificationClues: { noticeDate: string | null; effectiveDate: string | null; policyTypes: string[] }; changes: Change[] }
   | { state: 'monitored_no_verified_change'; reference: string; company: { name: string }; monitoredSources: Array<{ id: string; url: string; type: string }>; baselineNotice: string }
   | { state: 'queued'; reference: string; companyHint?: string | null; baselineNotice?: string }
   | { state: 'ambiguous'; candidates: Array<{ id: string; name: string; slug: string }> };
@@ -24,12 +25,12 @@ const copy = {
   it: {
     kicker: 'Dalla notifica all’evidenza', title: 'Hai ricevuto una mail sulle nuove condizioni?',
     lead: 'Incolla il messaggio o il link ufficiale. PolicyWatcher cerca confronti pubblici verificati: il riassunto del mittente resta un indizio, non una prova.',
-    company: 'Azienda (facoltativa)', companyPh: 'es. Waze o BlaBlaCar', url: 'Link ufficiale (facoltativo)',
+    company: 'Organizzazione (facoltativa)', companyPh: 'es. Waze o BlaBlaCar — non inserire nomi di persone', url: 'Link ufficiale (facoltativo)',
     message: 'Testo della mail o notifica', messagePh: 'Incolla qui intestazione e contenuto essenziale…',
-    privacy: 'Gli indirizzi email vengono rimossi. Non conserviamo il testo originale, non lo inviamo a Gemini e non apriamo il link prima della revisione umana.',
+    privacy: 'Il testo resta nel browser: al server inviamo solo organizzazione o dominio, categorie policy e date. Nessun indirizzo, oggetto, contenuto o fingerprint della mail viene raccolto o conservato.',
     submit: 'Verifica cosa è cambiato', loading: 'Verifica delle evidenze…',
     clue: '1 · Indizio ricevuto', evidence: '2 · Evidenza PolicyWatcher', review: '3 · Revisione umana',
-    verified: 'Evidenze pubbliche disponibili', related: 'Confronti verificati correlati', direct: 'La fonte ufficiale coincide con quella monitorata, ma la notifica non prova quale versione o confronto descriva.', relatedNote: 'Abbiamo trovato confronti pubblici compatibili con azienda e tipo di policy. La notifica non identifica quale di questi descriva.', open: 'Apri il confronto completo', source: 'Fonte ufficiale',
+    verified: 'Evidenze pubbliche disponibili', clueSummary: 'Indizi non personali elaborati nel browser', related: 'Confronti verificati correlati', direct: 'La fonte ufficiale coincide con quella monitorata, ma la notifica non prova quale versione o confronto descriva.', relatedNote: 'Abbiamo trovato confronti pubblici compatibili con azienda e tipo di policy. La notifica non identifica quale di questi descriva.', open: 'Apri il confronto completo', source: 'Fonte ufficiale',
     noEvidence: 'Azienda monitorata, confronto non ancora verificato', queued: 'Richiesta presa in carico',
     reference: 'Riferimento', ambiguous: 'Quale azienda intendevi?', choose: 'Verifica questa azienda',
     back: 'Dashboard', methodology: 'Metodo e limiti', note: 'Non è consulenza legale. Ogni risultato mostra solo evidenze passate attraverso il gate di pubblicazione.',
@@ -37,12 +38,12 @@ const copy = {
   en: {
     kicker: 'From notification to evidence', title: 'Did you receive an email about new terms?',
     lead: 'Paste the message or official link. PolicyWatcher checks verified public comparisons; the sender’s summary remains a clue, not evidence.',
-    company: 'Company (optional)', companyPh: 'e.g. Waze or BlaBlaCar', url: 'Official link (optional)',
+    company: 'Organization (optional)', companyPh: 'e.g. Waze or BlaBlaCar — do not enter a person’s name', url: 'Official link (optional)',
     message: 'Email or notification text', messagePh: 'Paste the essential headers and content here…',
-    privacy: 'Email addresses are removed. We do not retain the original text, send it to Gemini, or open the link before human review.',
+    privacy: 'The text stays in your browser. Only organization/domain, policy categories and dates reach the server. No address, subject, message content or email fingerprint is collected or retained.',
     submit: 'Check what changed', loading: 'Checking evidence…',
     clue: '1 · Notification clue', evidence: '2 · PolicyWatcher evidence', review: '3 · Human review',
-    verified: 'Public evidence available', related: 'Related verified comparisons', direct: 'The official source matches a monitored source, but the notification does not prove which version or comparison it describes.', relatedNote: 'We found public comparisons compatible with the company and policy type. The notification does not identify which one it describes.', open: 'Open full comparison', source: 'Official source',
+    verified: 'Public evidence available', clueSummary: 'Non-personal clues processed in your browser', related: 'Related verified comparisons', direct: 'The official source matches a monitored source, but the notification does not prove which version or comparison it describes.', relatedNote: 'We found public comparisons compatible with the company and policy type. The notification does not identify which one it describes.', open: 'Open full comparison', source: 'Official source',
     noEvidence: 'Company monitored, comparison not yet verified', queued: 'Request accepted for review',
     reference: 'Reference', ambiguous: 'Which company did you mean?', choose: 'Check this company',
     back: 'Dashboard', methodology: 'Method and limitations', note: 'Not legal advice. Results contain only evidence that passed the publication gate.',
@@ -71,15 +72,30 @@ export default function WhatChangedClient() {
     event?.preventDefault();
     setLoading(true); setError(''); setResult(null);
     try {
+      const clues = parsePolicyInquiryLocally(input, companyOverride || companyName, websiteUrl);
       const response = await fetch('/api/policy-inquiries', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ input, companyName: companyOverride || companyName, websiteUrl, lang, honeypot }),
+        body: JSON.stringify({
+          companyName: clues.companyHint,
+          senderDomain: clues.senderDomain,
+          sourceUrl: clues.sourceUrl,
+          noticeDate: clues.noticeDate,
+          effectiveDate: clues.effectiveDate,
+          policyTypes: clues.policyTypes,
+          lang,
+          honeypot,
+        }),
       });
       const payload = await response.json();
       if (!response.ok) throw new Error(payload.error || 'Request failed');
       setResult(payload);
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'Request failed');
+      const code = cause instanceof Error ? cause.message : '';
+      setError(code === 'INPUT_TOO_LARGE'
+        ? (lang === 'it' ? 'Il testo supera 20 KB.' : 'The text exceeds 20 KB.')
+        : code === 'INVALID_URL'
+          ? (lang === 'it' ? 'Il link ufficiale non è valido.' : 'The official link is invalid.')
+          : cause instanceof Error ? cause.message : 'Request failed');
     } finally { setLoading(false); }
   }
 
@@ -120,7 +136,7 @@ export default function WhatChangedClient() {
 
         {result?.state === 'matched' && <section className={`${styles.receipt} ${styles.matched}`} aria-live="polite">
           <div className={styles.receiptHeading}><CheckCircle2 /><div><p>{t.verified}</p><h2>{result.company.name}</h2></div></div>
-          {result.emailClaim.subject && <div className={styles.claim}><span>{t.clue}</span><p>{result.emailClaim.subject}</p></div>}
+          <div className={styles.claim}><span>{t.clue}</span><p>{t.clueSummary}: {result.notificationClues.policyTypes.join(', ') || 'policy'}{result.notificationClues.effectiveDate ? ` · ${new Date(result.notificationClues.effectiveDate).toLocaleDateString(lang)}` : ''}</p></div>
           <div className={refinements.provenance}><strong>{t.related}</strong><p>{result.relationship === 'direct_policy_source' ? t.direct : t.relatedNote}</p></div>
           {result.changes.map((change) => <article className={styles.change} key={change.id}>
             <div className={styles.changeMeta}><strong>{change.policy.name}</strong><span data-risk={change.overallRisk}>{change.overallRisk} · {change.overallScore}/10</span><time>{new Date(change.createdAt).toLocaleDateString(lang)}</time></div>

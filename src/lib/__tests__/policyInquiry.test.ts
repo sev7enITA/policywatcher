@@ -2,10 +2,10 @@ import { describe, expect, it } from 'vitest';
 import {
   buildInquiryDedupeKey,
   matchInquiryCompany,
+  normalizePolicyInquiryClues,
   normalizePolicyUrl,
-  parsePolicyInquiry,
-  redactInquiryExcerpt,
 } from '../policyInquiry';
+import { parsePolicyInquiryLocally } from '../policyInquiryClient';
 
 const WAZE_EMAIL = `---------- Forwarded message ---------
 From: Waze <noreply@waze.com>
@@ -27,45 +27,47 @@ const companies = [
   { id: 'blabla', name: 'BlaBlaCar', slug: 'blablacar', website: 'https://www.blablacar.com', policies: [] },
 ];
 
-describe('policy inquiry parsing and minimization', () => {
-  it('parses the supplied Waze forwarded email without matching its Gmail recipient', () => {
-    const parsed = parsePolicyInquiry(WAZE_EMAIL);
-    expect(parsed.companyHint).toBe('Waze');
-    expect(parsed.normalizedDomain).toBe('waze.com');
-    expect(parsed.noticeSubject).toContain('Termini');
-    expect(parsed.noticeDate?.getUTCFullYear()).toBe(2026);
-    expect(parsed.effectiveDate?.getUTCMonth()).toBe(7);
-    expect(parsed.policyTypes).toEqual(expect.arrayContaining(['terms', 'privacy']));
-    expect(parsed.policyTypes).not.toContain('ai');
-    expect(parsed.redactedExcerpt).not.toContain('alessandro.simonetta@gmail.com');
-    expect(parsed.redactedExcerpt).not.toContain('mc_eid');
+describe('policy inquiry local-only parsing and minimization', () => {
+  it('extracts Waze clues in the browser without returning recipient data or raw content', () => {
+    const local = parsePolicyInquiryLocally(WAZE_EMAIL);
+    expect(local.senderDomain).toBe('waze.com');
+    expect(local.sourceUrl).toBe('https://www.waze.com/legal/terms');
+    expect(local.noticeDate).toContain('2026-07-10');
+    expect(local.effectiveDate).toContain('2026-08-01');
+    expect(local.policyTypes).toEqual(expect.arrayContaining(['terms', 'privacy']));
+    expect(local.policyTypes).not.toContain('ai');
+    expect(JSON.stringify(local)).not.toContain('alessandro.simonetta@gmail.com');
+    expect(JSON.stringify(local)).not.toContain('Aggiornamenti ai nostri Termini');
+
+    const parsed = normalizePolicyInquiryClues(local);
     expect(matchInquiryCompany(parsed, companies)).toMatchObject({ state: 'matched', company: { id: 'waze' } });
   });
 
+  it('recognizes the brand in the supplied Italian BlaBlaCar body without retaining the body', () => {
+    const local = parsePolicyInquiryLocally(BLABLACAR_NOTICE);
+    expect(local.companyHint).toBe('BlaBlaCar');
+    expect(local.policyTypes).toEqual(expect.arrayContaining(['terms', 'privacy']));
+    expect(Object.keys(local)).not.toContain('input');
+    expect(Object.keys(local)).not.toContain('redactedExcerpt');
+    expect(matchInquiryCompany(normalizePolicyInquiryClues(local), companies))
+      .toMatchObject({ state: 'matched', company: { id: 'blabla' } });
+  });
+
   it('recognizes explicit AI policy language without treating Italian "ai" as AI', () => {
-    const parsed = parsePolicyInquiry('OpenAI\nWe updated our AI training policy and artificial intelligence terms.');
-    expect(parsed.policyTypes).toContain('ai');
+    const local = parsePolicyInquiryLocally('OpenAI\nWe updated our AI training policy and artificial intelligence terms.');
+    expect(local.policyTypes).toContain('ai');
   });
 
-  it('recognizes the brand in the supplied Italian BlaBlaCar body without a From header', () => {
-    const parsed = parsePolicyInquiry(BLABLACAR_NOTICE);
-    expect(parsed.companyHint).toBe('BlaBlaCar');
-    expect(parsed.policyTypes).toEqual(expect.arrayContaining(['terms', 'privacy']));
-    expect(matchInquiryCompany(parsed, companies)).toMatchObject({ state: 'matched', company: { id: 'blabla' } });
+  it('strips every query parameter and fragment before a URL leaves the browser', () => {
+    expect(normalizePolicyUrl('https://EXAMPLE.com/privacy/?utm_campaign=x&token=personal#top'))
+      .toBe('https://example.com/privacy');
   });
 
-  it('strips email addresses and common tracking parameters from the stored excerpt', () => {
-    const result = redactInquiryExcerpt('From: Jane <jane@example.com>\nTo: me@gmail.com\nhttps://example.com/privacy?utm_source=x&gclid=abc&lang=it');
-    expect(result).not.toContain('jane@example.com');
-    expect(result).not.toContain('me@gmail.com');
-    expect(result).not.toContain('utm_source');
-    expect(result).not.toContain('gclid');
-    expect(result).toContain('lang=it');
-  });
-
-  it('normalizes policy URLs, detects ambiguity and produces stable dedupe keys', () => {
-    expect(normalizePolicyUrl('https://EXAMPLE.com/privacy/?utm_campaign=x#top')).toBe('https://example.com/privacy');
-    const parsed = parsePolicyInquiry('Acme', 'Acme');
+  it('detects ambiguity and produces stable dedupe keys from structured clues only', () => {
+    const parsed = normalizePolicyInquiryClues({
+      companyHint: 'Acme', senderDomain: null, sourceUrl: null,
+      noticeDate: null, effectiveDate: null, policyTypes: ['terms'],
+    });
     const ambiguous = matchInquiryCompany(parsed, [
       { id: '1', name: 'Acme Ltd', slug: 'acme', website: 'https://one.test' },
       { id: '2', name: 'Acme Inc', slug: 'acme-eu', website: 'https://two.test' },
@@ -74,8 +76,14 @@ describe('policy inquiry parsing and minimization', () => {
     expect(buildInquiryDedupeKey(parsed)).toBe(buildInquiryDedupeKey(parsed));
   });
 
-  it('rejects empty and oversized input', () => {
-    expect(() => parsePolicyInquiry('')).toThrow('EMPTY_INPUT');
-    expect(() => parsePolicyInquiry('x'.repeat(21 * 1024))).toThrow('INPUT_TOO_LARGE');
+  it('rejects empty structured clues and invalid URLs', () => {
+    expect(() => normalizePolicyInquiryClues({
+      companyHint: null, senderDomain: null, sourceUrl: null,
+      noticeDate: null, effectiveDate: null, policyTypes: [],
+    })).toThrow('EMPTY_CLUES');
+    expect(() => normalizePolicyInquiryClues({
+      companyHint: null, senderDomain: null, sourceUrl: 'javascript:alert(1)',
+      noticeDate: null, effectiveDate: null, policyTypes: [],
+    })).toThrow('INVALID_URL');
   });
 });

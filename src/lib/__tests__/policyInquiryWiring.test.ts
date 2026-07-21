@@ -4,12 +4,22 @@ import { describe, expect, it } from 'vitest';
 describe('policy inquiry security and admin wiring', () => {
   it('gates public evidence, limits bodies and never sends user input to AI or fetches submitted URLs', () => {
     const route = readFileSync('src/app/api/policy-inquiries/route.ts', 'utf8');
+    const client = readFileSync('src/app/what-changed/WhatChangedClient.tsx', 'utf8');
+    const schema = readFileSync('prisma/schema.prisma', 'utf8');
     expect(route).toContain('publicPolicyWhere');
     expect(route).toContain('publicChangeWhere');
-    expect(route).toContain('POLICY_INQUIRY_MAX_INPUT_BYTES');
     expect(route).toContain("max: 5");
+    expect(route).toContain('ALLOWED_BODY_KEYS');
+    expect(route).toContain('!ALLOWED_BODY_KEYS.has(key)');
+    expect(route).not.toContain('body.input');
+    expect(client).toContain('parsePolicyInquiryLocally(input');
+    expect(client).not.toContain('JSON.stringify({ input');
     expect(route).not.toContain('@google/genai');
     expect(route).not.toMatch(/fetch\s*\(/);
+    const inquiryModel = schema.match(/model PolicyInquiry \{[\s\S]*?\n\}/)?.[0] || '';
+    expect(inquiryModel).not.toContain('fingerprint');
+    expect(inquiryModel).not.toContain('noticeSubject');
+    expect(inquiryModel).not.toContain('redactedExcerpt');
   });
 
   it('requires admin access and writes review logs for every supported transition', () => {

@@ -9,9 +9,9 @@ import inquiryStyles from './inquiries.module.css';
 type CompanyOption = { id: string; name: string; slug: string; website: string };
 type Inquiry = {
   id: string; publicToken: string; status: string; kind: string; companyHint: string | null;
-  normalizedDomain: string | null; sourceUrl: string | null; noticeSubject: string | null;
+  normalizedDomain: string | null; sourceUrl: string | null;
   noticeDate: string | null; effectiveDate: string | null; policyTypesJson: string | null;
-  redactedExcerpt: string | null; matchedCompanyId: string | null; adminNote: string | null;
+  matchedCompanyId: string | null; adminNote: string | null;
   createdAt: string; company?: { id: string; name: string; slug: string } | null;
 };
 
@@ -59,7 +59,7 @@ export default function InquiriesPage() {
 
   return <div className={styles.pageContainer}>
     <div className={`${styles.pageHeader} ${inquiryStyles.pageHeader}`}>
-      <div className={styles.pageHeaderText}><h1 className={styles.pageTitle}><Inbox size={24} /> Policy inquiries</h1><p className={styles.pageSubtitle}>Human gate for public “what changed?” requests. Pasted content is redacted; email claims are never treated as evidence.</p></div>
+      <div className={styles.pageHeaderText}><h1 className={styles.pageTitle}><Inbox size={24} /> Policy inquiries</h1><p className={styles.pageSubtitle}>Human gate for public “what changed?” requests. Email content stays in the user’s browser and is never retained.</p></div>
       <button type="button" className={`${styles.btn} ${styles.btnSecondary} ${inquiryStyles.refreshButton}`} onClick={() => void load()}><RefreshCw size={16} />Refresh</button>
     </div>
     <div className={inquiryStyles.filters} aria-label="Filter inquiries by status">
@@ -76,7 +76,7 @@ export default function InquiriesPage() {
             <span style={{ fontWeight: 750, color: inquiry.status === 'Proposed' ? '#9a5b12' : '#33499f' }}>{inquiry.status} · {inquiry.kind}</span>
           </header>
           <div className={inquiryStyles.cardGrid}>
-            <section className={inquiryStyles.evidence}><p><strong>Subject:</strong> {inquiry.noticeSubject || '—'}</p><p><strong>Dates:</strong> notice {inquiry.noticeDate ? new Date(inquiry.noticeDate).toLocaleDateString() : '—'} · effective {inquiry.effectiveDate ? new Date(inquiry.effectiveDate).toLocaleDateString() : '—'}</p><p><strong>Types:</strong> {inquiry.policyTypesJson || '[]'}</p>{inquiry.sourceUrl && <p><a href={inquiry.sourceUrl} target="_blank" rel="noopener noreferrer">Submitted URL <ExternalLink size={13}/></a> <small>(manual review only; never fetched automatically)</small></p>}<pre className={inquiryStyles.excerpt}>{inquiry.redactedExcerpt || 'No excerpt'}</pre></section>
+            <section className={inquiryStyles.evidence}><p><strong>Organization clue:</strong> {inquiry.companyHint || inquiry.normalizedDomain || '—'}</p><p><strong>Dates:</strong> notice {inquiry.noticeDate ? new Date(inquiry.noticeDate).toLocaleDateString() : '—'} · effective {inquiry.effectiveDate ? new Date(inquiry.effectiveDate).toLocaleDateString() : '—'}</p><p><strong>Types:</strong> {inquiry.policyTypesJson || '[]'}</p>{inquiry.sourceUrl && <p><a href={inquiry.sourceUrl} target="_blank" rel="noopener noreferrer">Submitted URL <ExternalLink size={13}/></a> <small>(manual review only; never fetched automatically)</small></p>}<p className={inquiryStyles.noContentStored}>No email address, subject, message body or content fingerprint is stored.</p></section>
             {!terminal && <section className={inquiryStyles.actions}>
               <label>Link existing company<select value={draft.companyId || inquiry.matchedCompanyId || ''} onChange={(event) => setDraft(inquiry.id,'companyId',event.target.value)}><option value="">Select…</option>{companies.map((company) => <option value={company.id} key={company.id}>{company.name}</option>)}</select></label>
               <button disabled={busy === inquiry.id || !(draft.companyId || inquiry.matchedCompanyId)} className={`${styles.btn} ${styles.btnSecondary}`} onClick={() => void transition(inquiry,'link_company')}>Link company</button>

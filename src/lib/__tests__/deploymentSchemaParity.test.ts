@@ -69,4 +69,20 @@ describe('Hostinger runtime schema parity', () => {
       expect(pythonFallback, `Python fallback is missing ${index}`).toContain(index);
     }
   });
+
+  it('never materializes notification content or content-derived fingerprints', () => {
+    const migration = readFileSync(
+      'prisma/migrations/20260721150000_policy_inquiry/migration.sql',
+      'utf8',
+    );
+    const inquiryModel = prismaSchema.match(/model PolicyInquiry \{[\s\S]*?\n\}/)?.[0] || '';
+    const forbiddenColumns = ['fingerprint', 'noticeSubject', 'redactedExcerpt'];
+
+    for (const column of forbiddenColumns) {
+      expect(inquiryModel).not.toContain(column);
+      expect(migration).not.toContain(`"${column}"`);
+      expect(nodeFallback).not.toContain(`"${column}"`);
+      expect(pythonFallback).not.toContain(`"${column}"`);
+    }
+  });
 });

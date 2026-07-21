@@ -69,17 +69,16 @@ export default function PrivacyPolicyPage() {
           <h2>Policy-update inquiries</h2>
           <p>
             When you use the “What changed?” workflow, the notification you paste is treated as an
-            unverified clue. PolicyWatcher removes email addresses and common tracking parameters,
-            stores only a bounded redacted excerpt and a cryptographic fingerprint for duplicate
-            detection, and discards the original text. Recipient addresses are never treated as
-            contact details.
+            unverified clue and is parsed locally in your browser. The original text, sender and
+            recipient addresses, subject, message body and any content fingerprint are not included
+            in the API request and are not stored by PolicyWatcher.
           </p>
           <p>
-            The redacted metadata is retained to support human review, evidence verification,
-            onboarding decisions and an auditable administrative record. Pasted notification text
-            is not sent to Gemini, and user-submitted links are not fetched before an administrator
-            approves the source. You may quote the public inquiry reference when requesting access
-            or deletion at <a href="mailto:privacy@policywatcher.online">privacy@policywatcher.online</a>.
+            Only operational, non-personal clues needed for human review are sent: an organization or
+            registrable domain, a query-free official URL when supplied, policy categories and dates.
+            These clues are not sent to Gemini, and submitted links are not fetched before an
+            administrator approves the source. The random public inquiry reference contains no user
+            identifier.
           </p>
         </section>
 

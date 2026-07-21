@@ -100,7 +100,7 @@ const nowItems = [
     phase: 'Implementation · unreleased',
     title: 'Notification-to-evidence inquiry',
     body:
-      'A citizen can paste a terms/privacy update notification, receive an existing verified comparison, or create a privacy-minimized human-review inquiry that feeds controlled company discovery.',
+      'A citizen can paste a terms/privacy update notification for browser-local analysis, receive an existing verified comparison, or create a zero-content human-review inquiry that feeds controlled company discovery.',
     benefit: 'The path from a real notification email to trustworthy evidence becomes direct without treating marketing copy as proof.',
     validation: 'Only publicEvidence records answer immediately; unknown or unverified cases remain queued behind the human source-approval gate.',
     icon: Search,
@@ -275,7 +275,7 @@ const releaseLanes = [
     label: 'Next',
     title: 'Notification-to-Evidence Desk',
     body:
-      'Bilingual public inquiry, deterministic redaction and matching, persistent human-review queue, audited company-discovery handoff, and explicit baseline limitations.',
+      'Bilingual public inquiry, browser-local clue extraction, zero-content persistent review queue, audited company-discovery handoff, and explicit baseline limitations.',
     state: 'candidate',
   },
   {
