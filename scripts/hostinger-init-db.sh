@@ -7,7 +7,8 @@
 
 set -euo pipefail
 
-APP_DIR="$(pwd)"
+APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+LOCAL_PRISMA="${APP_DIR}/node_modules/.bin/prisma"
 
 if ! command -v python3 >/dev/null 2>&1 && command -v python >/dev/null 2>&1; then
   PYTHON_BIN="python"
@@ -32,23 +33,12 @@ if ! command -v "${PYTHON_BIN}" >/dev/null 2>&1 && ! command -v node >/dev/null 
 fi
 
 run_prisma() {
-  if [[ -x "${APP_DIR}/node_modules/.bin/prisma" ]]; then
-    "${APP_DIR}/node_modules/.bin/prisma" "$@"
-    return
+  if [[ ! -x "${LOCAL_PRISMA}" ]]; then
+    echo "The lockfile-installed Prisma CLI was not found. Run npm ci/redeploy first."
+    echo "Refusing to download or execute an unpinned CLI during production startup."
+    exit 1
   fi
-
-  if command -v npx >/dev/null 2>&1; then
-    npx prisma "$@"
-    return
-  fi
-
-  if command -v npm >/dev/null 2>&1; then
-    npm exec -- prisma "$@"
-    return
-  fi
-
-  echo "Prisma CLI was not found. Run npm install/redeploy first, then rerun this script."
-  exit 1
+  "${LOCAL_PRISMA}" "$@"
 }
 
 if [[ -z "${DATABASE_URL:-}" ]]; then
@@ -92,18 +82,13 @@ else
   chmod 600 "${DB_PATH}"
 fi
 
-if [[ -d "${APP_DIR}/prisma/migrations" ]] && { [[ -x "${APP_DIR}/node_modules/.bin/prisma" ]] || command -v npx >/dev/null 2>&1 || command -v npm >/dev/null 2>&1; }; then
+if [[ -d "${APP_DIR}/prisma/migrations" ]] && [[ -x "${LOCAL_PRISMA}" ]]; then
   run_prisma generate
   if [[ -s "${DB_PATH}" && -f "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs" ]]; then
-    if command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
-      migration_detector=("${PYTHON_BIN}" "${APP_DIR}/scripts/hostinger-init-db.py" --detect-materialized-migrations)
-    else
-      migration_detector=(node "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs")
-    fi
     while IFS= read -r materialized_migration; do
       [[ -n "${materialized_migration}" ]] || continue
       run_prisma migrate resolve --applied "${materialized_migration}" >/dev/null 2>&1 || true
-    done < <("${migration_detector[@]}")
+    done < <(node "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs")
   fi
   run_prisma migrate deploy
 elif [[ -f "${APP_DIR}/scripts/hostinger-init-db.py" ]] && command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
@@ -111,8 +96,8 @@ elif [[ -f "${APP_DIR}/scripts/hostinger-init-db.py" ]] && command -v "${PYTHON_
 elif [[ -f "${APP_DIR}/scripts/hostinger-init-db.mjs" ]]; then
   node "${APP_DIR}/scripts/hostinger-init-db.mjs"
 else
-  run_prisma generate
-  run_prisma migrate deploy
+  echo "No lockfile-installed Prisma CLI or supported local fallback initializer was found."
+  exit 1
 fi
 
 echo "Database schema is ready."

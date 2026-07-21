@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.7.0 - 2026-07-21
 
 ### Added
 - Added the bilingual public `/what-changed` evidence desk for people arriving from a terms/privacy notification, with verified-change, monitored-without-evidence, queued-review, and ambiguous-company states.
@@ -25,6 +25,9 @@
 
 ### Verification
 - Added regression coverage for baseline-completion invariants, cross-policy KPI aggregation, field-specific concern levels, scan completion outcomes, and Hostinger fallback schema parity.
+- Closed concurrent public-inquiry duplication with a database-enforced active dedupe key while preserving new inquiries after terminal resolution.
+- Production startup now uses only the lockfile-installed Prisma CLI; no mutable registry CLI can be downloaded or executed during startup.
+- Materialized-migration reconciliation validates columns, defaults, foreign keys and indexes before marking a fallback-created migration as applied.
 
 ## 3.6.5 - 2026-07-21
 

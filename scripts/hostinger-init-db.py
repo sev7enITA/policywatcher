@@ -11,6 +11,7 @@ from __future__ import annotations
 import os
 import shutil
 import sqlite3
+import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -36,39 +37,13 @@ else:
 db_path.parent.mkdir(parents=True, exist_ok=True)
 
 if "--detect-materialized-migrations" in sys.argv:
-    if not db_path.exists() or db_path.stat().st_size == 0:
-        sys.exit(0)
-    migration_tables = [
-        (
-            "20260706213500_init",
-            {
-                "Company",
-                "Policy",
-                "PolicyCheckLog",
-                "PolicySnapshot",
-                "PolicyChange",
-                "DatasetQaIssueReview",
-                "AdminReviewLog",
-                "AdminAccessLog",
-                "RegionImpact",
-                "Subscriber",
-            },
-        ),
-        ("20260719070000_policy_discovery", {"PolicyDiscoveryCandidate"}),
-        ("20260721090000_source_onboarding", {"SourceOnboardingBatch", "SourceOnboardingItem"}),
-        ("20260721120000_policy_discovery_job", {"PolicyDiscoveryJob"}),
-        ("20260721150000_policy_inquiry", {"PolicyInquiry"}),
-    ]
-    with sqlite3.connect(f"file:{db_path}?mode=ro", uri=True) as detection_connection:
-        existing_tables = {
-            row[0]
-            for row in detection_connection.execute(
-                "SELECT name FROM sqlite_master WHERE type = 'table'"
-            )
-        }
-    for migration, required_tables in migration_tables:
-        if required_tables.issubset(existing_tables):
-            print(migration)
+    node_binary = shutil.which("node")
+    detector = Path(__file__).with_name("hostinger-detect-materialized-migrations.mjs")
+    if node_binary and detector.exists():
+        completed = subprocess.run([node_binary, str(detector)], check=False)
+        sys.exit(completed.returncode)
+    # Detection must fail closed: without the full DDL validator no migration is
+    # declared materialized and Prisma will surface any partial schema instead.
     sys.exit(0)
 
 print(f"Database file: {db_path}")
@@ -138,6 +113,7 @@ TABLES = [
       "id" TEXT NOT NULL PRIMARY KEY,
       "publicToken" TEXT NOT NULL,
       "dedupeKey" TEXT NOT NULL,
+      "activeDedupeKey" TEXT,
       "status" TEXT NOT NULL DEFAULT 'Proposed',
       "kind" TEXT NOT NULL,
       "companyHint" TEXT,
@@ -165,7 +141,7 @@ TABLES = [
       "jurisdiction" TEXT NOT NULL DEFAULT 'Global',
       "currentText" TEXT NOT NULL,
       "currentHash" TEXT NOT NULL,
-      "dataStatus" TEXT NOT NULL DEFAULT 'Configured',
+      "dataStatus" TEXT NOT NULL DEFAULT 'Available',
       "lastCheckDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
       "lastSuccessfulCheckDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
       "ingestionMethod" TEXT NOT NULL DEFAULT 'Seeded',
@@ -384,6 +360,7 @@ INDEXES = [
     'CREATE UNIQUE INDEX IF NOT EXISTS "PolicyDiscoveryJob_runToken_key" ON "PolicyDiscoveryJob"("runToken")',
     'CREATE INDEX IF NOT EXISTS "PolicyDiscoveryJob_status_startedAt_idx" ON "PolicyDiscoveryJob"("status", "startedAt")',
     'CREATE UNIQUE INDEX IF NOT EXISTS "PolicyInquiry_publicToken_key" ON "PolicyInquiry"("publicToken")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "PolicyInquiry_activeDedupeKey_key" ON "PolicyInquiry"("activeDedupeKey")',
     'CREATE INDEX IF NOT EXISTS "PolicyInquiry_status_createdAt_idx" ON "PolicyInquiry"("status", "createdAt")',
     'CREATE INDEX IF NOT EXISTS "PolicyInquiry_dedupeKey_idx" ON "PolicyInquiry"("dedupeKey")',
     'CREATE INDEX IF NOT EXISTS "PolicyInquiry_matchedCompanyId_idx" ON "PolicyInquiry"("matchedCompanyId")',
@@ -424,8 +401,11 @@ INDEXES = [
 ]
 
 UPGRADE_COLUMNS = {
+    "PolicyInquiry": [
+        ("activeDedupeKey", 'ALTER TABLE "PolicyInquiry" ADD COLUMN "activeDedupeKey" TEXT'),
+    ],
     "Policy": [
-        ("dataStatus", 'ALTER TABLE "Policy" ADD COLUMN "dataStatus" TEXT NOT NULL DEFAULT "Configured"'),
+        ("dataStatus", 'ALTER TABLE "Policy" ADD COLUMN "dataStatus" TEXT NOT NULL DEFAULT "Available"'),
         ("lastCheckDate", 'ALTER TABLE "Policy" ADD COLUMN "lastCheckDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP'),
         ("lastSuccessfulCheckDate", 'ALTER TABLE "Policy" ADD COLUMN "lastSuccessfulCheckDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP'),
         ("ingestionMethod", 'ALTER TABLE "Policy" ADD COLUMN "ingestionMethod" TEXT NOT NULL DEFAULT "Seeded"'),

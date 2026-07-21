@@ -8,10 +8,10 @@ import {
   matchInquiryCompany,
   normalizePolicyInquiryClues,
 } from '@/lib/policyInquiry';
+import { createOrReuseActiveInquiry } from '@/lib/policyInquiryStore';
 import type { InquiryPolicyType } from '@/lib/policyInquiryClient';
 
 const MAX_BODY_BYTES = 8 * 1024;
-const ACTIVE_INQUIRY_STATUSES = ['Proposed', 'Approved', 'Onboarding'] as const;
 const ALLOWED_POLICY_TYPES = new Set<InquiryPolicyType>([
   'privacy', 'terms', 'ai', 'cookies', 'acceptable-use',
 ]);
@@ -165,14 +165,11 @@ export async function POST(request: NextRequest) {
 
     const kind = matchedCompanyId ? 'verify_existing' : 'unknown_company';
     const dedupeKey = buildInquiryDedupeKey(parsed, matchedCompanyId);
-    const existing = await db.policyInquiry.findFirst({
-      where: { dedupeKey, status: { in: [...ACTIVE_INQUIRY_STATUSES] } },
-      orderBy: { createdAt: 'desc' },
-    });
-    const inquiry = existing || await db.policyInquiry.create({
+    const { inquiry, created } = await createOrReuseActiveInquiry(db, {
       data: {
         publicToken: createInquiryPublicToken(),
         dedupeKey,
+        activeDedupeKey: dedupeKey,
         status: 'Proposed',
         kind,
         companyHint: parsed.companyHint,
@@ -206,7 +203,7 @@ export async function POST(request: NextRequest) {
       baselineNotice: lang === 'it'
         ? 'Se la fonte verrà approvata, la prima scansione creerà una baseline: non dimostrerà da sola cosa è cambiato in passato.'
         : 'If the source is approved, the first scan creates a baseline; it does not by itself prove what changed in the past.',
-    }, { status: existing ? 200 : 202 });
+    }, { status: created ? 202 : 200 });
   } catch (error) {
     if (error instanceof Error && error.message === 'BODY_TOO_LARGE') {
       return NextResponse.json({ error: inquiryError(lang, 'large') }, { status: 413 });

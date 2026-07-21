@@ -16,6 +16,8 @@ describe('policy inquiry security and admin wiring', () => {
     expect(client).not.toContain('JSON.stringify({ input');
     expect(route).not.toContain('@google/genai');
     expect(route).not.toMatch(/fetch\s*\(/);
+    expect(route).toContain('createOrReuseActiveInquiry');
+    expect(route).toContain('activeDedupeKey: dedupeKey');
     const inquiryModel = schema.match(/model PolicyInquiry \{[\s\S]*?\n\}/)?.[0] || '';
     expect(inquiryModel).not.toContain('fingerprint');
     expect(inquiryModel).not.toContain('noticeSubject');

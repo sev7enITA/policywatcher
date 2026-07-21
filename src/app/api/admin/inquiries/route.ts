@@ -128,7 +128,7 @@ export async function PATCH(request: NextRequest) {
         const next = await tx.policyInquiry.update({
           where: { id: inquiry.id },
           data: {
-            status: 'Resolved', resolvedAt: now, resolvedChangeId: change.id,
+            status: 'Resolved', activeDedupeKey: null, resolvedAt: now, resolvedChangeId: change.id,
             matchedCompanyId: change.policy.companyId, matchedPolicyId: change.policyId, adminNote: note || null,
           },
         });
@@ -146,7 +146,7 @@ export async function PATCH(request: NextRequest) {
     const updated = await db.$transaction(async (tx) => {
       const next = await tx.policyInquiry.update({
         where: { id: inquiry.id },
-        data: { status: nextStatus, adminNote: note || null, resolvedAt: new Date() },
+        data: { status: nextStatus, activeDedupeKey: null, adminNote: note || null, resolvedAt: new Date() },
       });
       await tx.adminReviewLog.create({ data: {
         actorRole: session.role!, action: `policy_inquiry_${action}`, targetType: 'PolicyInquiry',

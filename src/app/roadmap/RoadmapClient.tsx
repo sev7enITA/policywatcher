@@ -97,7 +97,7 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 
 const nowItems = [
   {
-    phase: 'Implementation · unreleased',
+    phase: 'Delivered · 3.7.0',
     title: 'Notification-to-evidence inquiry',
     body:
       'A citizen can paste a terms/privacy update notification for browser-local analysis, receive an existing verified comparison, or create a zero-content human-review inquiry that feeds controlled company discovery.',
@@ -262,21 +262,14 @@ const releaseLanes = [
     title: 'Stability Release',
     body:
       'Centralized onboarding batch invariants, held-workflow defense in depth, deferred orientation evaluation with cleanup, root mobile overflow containment, and single-source release metadata.',
+    state: 'delivered',
+  },
+  {
+    label: '3.7.0',
+    title: 'Evidence Experience Release',
+    body:
+      'Bilingual notification-to-evidence inquiry with browser-local clue extraction, one-request company discovery, in-context baselines, evidence-provenance KPI QA, audited human handoff, and self-checking Hostinger startup.',
     state: 'current',
-  },
-  {
-    label: '3.6.x',
-    title: 'Seamless Evidence Onboarding',
-    body:
-      'One-request company discovery, in-context first baselines, verified handoff to recurring monitoring, evidence-provenance KPI QA, and self-checking Hostinger schema startup.',
-    state: 'candidate',
-  },
-  {
-    label: 'Next',
-    title: 'Notification-to-Evidence Desk',
-    body:
-      'Bilingual public inquiry, browser-local clue extraction, zero-content persistent review queue, audited company-discovery handoff, and explicit baseline limitations.',
-    state: 'candidate',
   },
   {
     label: '4.0',

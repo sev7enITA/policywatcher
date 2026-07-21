@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.6.5%20Stability-146c6a" alt="3.6.5 Stability Release" />
+  <img src="https://img.shields.io/badge/Release-3.7.0%20Evidence%20Experience-146c6a" alt="3.7.0 Evidence Experience Release" />
 </p>
 
 <p align="center">
@@ -38,22 +38,15 @@ PolicyWatcher monitors the privacy policies, terms of service, and AI governance
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
 
-### Release 3.6.5 Stability Highlights
+### Release 3.7.0 Evidence Experience Highlights
 
-- **One onboarding invariant** now calculates empty, partial, completed, and failed batch states across import and workflow refresh paths.
-- **Defense-in-depth duplicate protection** includes held workflows while preserving approved-candidate and configured-policy guards.
-- **Mobile lifecycle stability** defers orientation reads, coalesces repeated events, cancels pending callbacks, and contains animated tracks inside the root viewport.
-- **Single-source release metadata** keeps package, footer, Trust Center, admin, methodology, and encrypted exports aligned.
-- **Regression coverage** protects lifecycle cleanup, edge-case batch state, held-stage queries, and version consistency.
-
-### Operational continuity work in progress
-
+- **Notification-to-evidence desk** at `/what-changed` interprets a pasted notice locally in the browser and returns only public, source-gated evidence or a privacy-minimized review reference.
 - **One-request company onboarding** creates the company and claims its persistent discovery job server-side; the browser no longer has to coordinate two dependent writes.
 - **Baseline in context** lets an administrator approve discovered sources and run the targeted first baseline without leaving Company Manager. The handoff to normal monitoring occurs only after every approved policy has verified evidence.
 - **Evidence-aware KPI QA** combines assessed values from the latest public change of each company policy, shows the originating policy/date, reports coverage, and distinguishes `Pending` from a numerical risk score.
 - **Self-checking Hostinger startup** applies the idempotent runtime schema initializer for both npm and direct bridge startup, with Node/Python fallback parity protected by tests.
-- **Notification-to-evidence inquiry** at `/what-changed` accepts a company, official URL, or pasted update notification and returns only source-gated verified comparisons. The pasted text is interpreted only in the browser; missing evidence creates a reusable, zero-content admin inquiry instead of an invented answer.
 - **Human inquiry gate** at `/admin/inquiries` lets administrators link a known company, approve a new canonical company into persistent discovery, reject/mark duplicates, or resolve the request to an existing public change. Every transition is written to the review log.
+- **Release hardening** enforces atomic active-ticket deduplication, validates complete fallback schemas before migration reconciliation, and refuses mutable CLI downloads during production startup.
 
 #### Policy inquiry privacy and evidence contract
 

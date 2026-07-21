@@ -51,11 +51,21 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                 <div className={styles.featureList}>
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>Stability Release (v3.6.5)</span>
+                      <span className={styles.featureName}>Evidence Experience Release (v3.7.0)</span>
                       <span className={styles.badgeActive}>Current</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Onboarding batch status now comes from one tested invariant, empty batches remain active, and held workflows are included in duplicate-prevention queries. Orientation changes use a deferred, cancellable viewport evaluation, animated dashboard tracks cannot enlarge the mobile root scroll area, and visible build metadata comes from one release source.
+                      The notification-to-evidence desk keeps pasted content inside the browser, correlates only public evidence, and routes unknown companies through a human-reviewed discovery queue. Company onboarding, first baselines and KPI QA now share evidence-aware handoffs, while Hostinger startup validates schema completeness and uses only lockfile-installed tooling.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Stability Release (v3.6.5)</span>
+                      <span className={styles.badgeStable}>Stable</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      Centralized onboarding batch invariants, held-workflow duplicate protection, cancellable orientation evaluation, component-level overflow containment, and single-source release metadata.
                     </p>
                   </div>
 

@@ -86,6 +86,7 @@ const ddl = [
     "id" TEXT NOT NULL PRIMARY KEY,
     "publicToken" TEXT NOT NULL,
     "dedupeKey" TEXT NOT NULL,
+    "activeDedupeKey" TEXT,
     "status" TEXT NOT NULL DEFAULT 'Proposed',
     "kind" TEXT NOT NULL,
     "companyHint" TEXT,
@@ -111,7 +112,7 @@ const ddl = [
     "jurisdiction" TEXT NOT NULL DEFAULT 'Global',
     "currentText" TEXT NOT NULL,
     "currentHash" TEXT NOT NULL,
-    "dataStatus" TEXT NOT NULL DEFAULT 'Configured',
+    "dataStatus" TEXT NOT NULL DEFAULT 'Available',
     "lastCheckDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "lastSuccessfulCheckDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "ingestionMethod" TEXT NOT NULL DEFAULT 'Seeded',
@@ -309,6 +310,7 @@ const indexes = [
   `CREATE UNIQUE INDEX IF NOT EXISTS "PolicyDiscoveryJob_runToken_key" ON "PolicyDiscoveryJob"("runToken")`,
   `CREATE INDEX IF NOT EXISTS "PolicyDiscoveryJob_status_startedAt_idx" ON "PolicyDiscoveryJob"("status", "startedAt")`,
   `CREATE UNIQUE INDEX IF NOT EXISTS "PolicyInquiry_publicToken_key" ON "PolicyInquiry"("publicToken")`,
+  `CREATE UNIQUE INDEX IF NOT EXISTS "PolicyInquiry_activeDedupeKey_key" ON "PolicyInquiry"("activeDedupeKey")`,
   `CREATE INDEX IF NOT EXISTS "PolicyInquiry_status_createdAt_idx" ON "PolicyInquiry"("status", "createdAt")`,
   `CREATE INDEX IF NOT EXISTS "PolicyInquiry_dedupeKey_idx" ON "PolicyInquiry"("dedupeKey")`,
   `CREATE INDEX IF NOT EXISTS "PolicyInquiry_matchedCompanyId_idx" ON "PolicyInquiry"("matchedCompanyId")`,
@@ -349,8 +351,11 @@ const indexes = [
 ];
 
 const upgradeColumns = {
+  PolicyInquiry: [
+    ['activeDedupeKey', `ALTER TABLE "PolicyInquiry" ADD COLUMN "activeDedupeKey" TEXT`],
+  ],
   Policy: [
-    ['dataStatus', `ALTER TABLE "Policy" ADD COLUMN "dataStatus" TEXT NOT NULL DEFAULT 'Configured'`],
+    ['dataStatus', `ALTER TABLE "Policy" ADD COLUMN "dataStatus" TEXT NOT NULL DEFAULT 'Available'`],
     ['lastCheckDate', `ALTER TABLE "Policy" ADD COLUMN "lastCheckDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP`],
     ['lastSuccessfulCheckDate', `ALTER TABLE "Policy" ADD COLUMN "lastSuccessfulCheckDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP`],
     ['ingestionMethod', `ALTER TABLE "Policy" ADD COLUMN "ingestionMethod" TEXT NOT NULL DEFAULT 'Seeded'`],
