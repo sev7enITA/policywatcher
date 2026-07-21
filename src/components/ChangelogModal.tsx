@@ -51,8 +51,18 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                 <div className={styles.featureList}>
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>Guided Evidence Workflows (v3.6.3)</span>
+                      <span className={styles.featureName}>Audit Reliability Fixes (v3.6.4)</span>
                       <span className={styles.badgeActive}>Current</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      Discovery jobs now persist in the database with atomic run claims, malformed admin requests return controlled validation errors, and onboarding batches reopen correctly when publication evidence fails revalidation. Bulk intake safely reuses proposed candidates and audit-logs rejected-candidate reopening. The landing page no longer listens continuously to motion sensors, and Observatory countdowns compare UTC calendar dates.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Guided Evidence Workflows (v3.6.3)</span>
+                      <span className={styles.badgeStable}>Stable</span>
                     </div>
                     <p className={styles.featureDesc}>
                       The voted Objective-based Dashboard Composer now guides first-time visitors from intent and evidence depth to a preview assembled from registered dashboard modules, with Source QA pinned. The protected Bulk Source Onboarding console persists proposed source, official review, first private baseline, QA gate, and an explicit publish, hold, or reject decision. Imports, approval, and baseline capture never publish evidence by themselves. This release also retains the source-remediation and suspension explainability improvements for official-but-blocked providers.

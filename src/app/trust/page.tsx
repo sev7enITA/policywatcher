@@ -258,7 +258,7 @@ export default function TrustPage() {
             <ArrowLeft size={16} />
             Back to dashboard
           </Link>
-          <div className={styles.releaseMark}>3.6.3 Adaptive Workspace</div>
+          <div className={styles.releaseMark}>3.6.4 Audit Fixes</div>
         </div>
       </header>
 

@@ -3,6 +3,7 @@ import { getSession } from '@/lib/adminAuth';
 import { db } from '@/lib/db';
 import { getErrorMessage } from '@/lib/safeErrors';
 import { prepareSourceOnboardingRows } from '@/lib/sourceOnboarding';
+import { resolveBulkOnboardingCandidate } from '@/lib/sourceOnboardingCandidate';
 
 const batchInclude = {
   items: {
@@ -90,6 +91,7 @@ export async function POST(request: NextRequest) {
   if (!session.valid || session.role !== 'admin') {
     return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
   }
+  const actorRole = session.role || 'admin';
 
   const body = await request.json().catch(() => null) as { label?: unknown; text?: unknown } | null;
   const label = typeof body?.label === 'string' ? body.label.trim().slice(0, 120) : '';
@@ -105,7 +107,7 @@ export async function POST(request: NextRequest) {
   const batch = await db.sourceOnboardingBatch.create({
     data: {
       label: label || `Source onboarding ${new Date().toISOString().slice(0, 10)}`,
-      actorRole: session.role,
+      actorRole,
       totalItems: preview.rows.length,
     },
   });
@@ -160,33 +162,16 @@ export async function POST(request: NextRequest) {
         });
         if (existingPolicy) throw new Error('A policy with this company, type, and jurisdiction already exists.');
 
-        const existingCandidate = await tx.policyDiscoveryCandidate.findUnique({
-          where: {
-            companyId_url_type_jurisdiction: {
-              companyId: company.id,
-              url: row.policyUrl,
-              type: row.policyType,
-              jurisdiction: row.jurisdiction,
-            },
-          },
-          select: { id: true },
-        });
-        if (existingCandidate) throw new Error('This policy discovery candidate already exists.');
-
-        const candidate = await tx.policyDiscoveryCandidate.create({
-          data: {
-            companyId: company.id,
-            name: row.policyName,
-            type: row.policyType,
-            url: row.policyUrl,
-            jurisdiction: row.jurisdiction,
-            confidence: 100,
-            discoverySource: 'Bulk source onboarding / operator supplied',
-            retrievalSource: 'operator-supplied',
-            reason: 'Operator supplied for explicit official-source review; not public evidence.',
-            diagnosticsJson: JSON.stringify({ batchId: batch.id, rowNumber: row.rowNumber }),
-            status: 'Proposed',
-          },
+        const candidate = await resolveBulkOnboardingCandidate(tx, {
+          companyId: company.id,
+          companyName: company.name,
+          name: row.policyName,
+          type: row.policyType,
+          url: row.policyUrl,
+          jurisdiction: row.jurisdiction,
+          batchId: batch.id,
+          rowNumber: row.rowNumber,
+          actorRole,
         });
 
         await tx.sourceOnboardingItem.create({

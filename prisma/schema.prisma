@@ -19,7 +19,24 @@ model Company {
   updatedAt DateTime @updatedAt
   policies  Policy[]
   policyDiscoveryCandidates PolicyDiscoveryCandidate[]
+  policyDiscoveryJob PolicyDiscoveryJob?
   sourceOnboardingItems SourceOnboardingItem[]
+}
+
+model PolicyDiscoveryJob {
+  id             String    @id @default(uuid())
+  companyId      String    @unique
+  company        Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  runToken       String    @unique
+  status         String    @default("running") // running, completed, failed
+  startedAt      DateTime
+  completedAt    DateTime?
+  candidateCount Int       @default(0)
+  error          String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([status, startedAt])
 }
 
 model PolicyDiscoveryCandidate {

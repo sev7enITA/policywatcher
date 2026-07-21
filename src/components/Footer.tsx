@@ -45,7 +45,7 @@ const content = {
     trust: 'Trust & Quality',
     infographics: 'Infographics',
     paloFramework: 'PALO Framework',
-    releaseNotice: 'Release v3.6.3. AI-assisted assessments, not legal advice. Verify with provider sources.',
+    releaseNotice: 'Release v3.6.4. AI-assisted assessments, not legal advice. Verify with provider sources.',
     copy: `Copyright ${new Date().getFullYear()} PolicyWatcher by Fabrizio Degni. All rights reserved.`,
     madeIn: 'Made in the EU',
   },
@@ -69,7 +69,7 @@ const content = {
     trust: 'Qualità e fiducia',
     infographics: 'Infografiche',
     paloFramework: 'PALO Framework',
-    releaseNotice: 'Release v3.6.3. Valutazioni assistite da AI, non parere legale. Verificare con le fonti provider.',
+    releaseNotice: 'Release v3.6.4. Valutazioni assistite da AI, non parere legale. Verificare con le fonti provider.',
     copy: `Copyright ${new Date().getFullYear()} PolicyWatcher di Fabrizio Degni. Tutti i diritti riservati.`,
     madeIn: 'Fatto in UE',
   },
@@ -211,7 +211,7 @@ export default function Footer({ lang }: FooterProps) {
 
         <div className={styles.bottom}>
           <p className={styles.releaseNotice}>{t.releaseNotice}</p>
-          <p className={styles.copy}>{t.copy} / Build v3.6.3 Adaptive Workspace</p>
+          <p className={styles.copy}>{t.copy} / Build v3.6.4 Audit Fixes</p>
         </div>
       </div>
     </footer>

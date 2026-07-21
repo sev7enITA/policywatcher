@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.6.3%20Guided%20Evidence%20Workflows-5067f6" alt="3.6.3 Guided Evidence Workflows" />
+  <img src="https://img.shields.io/badge/Release-3.6.4%20Audit%20Fixes-5067f6" alt="3.6.4 Audit Fixes" />
 </p>
 
 <p align="center">
@@ -37,6 +37,13 @@
 PolicyWatcher monitors the privacy policies, terms of service, and AI governance practices of 16 major technology and financial companies. It tracks configured public policy sources, records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.6.4 Audit Fixes Highlights
+
+- **Durable discovery jobs** persist run state in SQLite and use atomic claims so polling survives process boundaries and prevents overlapping work.
+- **Onboarding reconciliation** keeps batch status synchronized when publication QA fails and safely reuses or audit-reopens existing discovery candidates.
+- **Input and UI correctness** returns controlled errors for malformed discovery requests, removes continuous device-motion work, and uses UTC calendar days for Observatory countdowns.
+- **Regression coverage** protects all six GitHub audit findings before the Hostinger production rollout.
 
 ### Release 3.6.3 Guided Evidence Workflows Highlights
 
@@ -730,6 +737,8 @@ For existing SQLite databases originally created with `prisma db push`, mark the
 The Hostinger init helper performs this baseline step automatically when it detects a non-empty SQLite file.
 
 Release 3.6.3 also requires migration `20260721090000_source_onboarding`, which creates the durable onboarding batch/item tables and their staged review metadata. Apply it with the same `npx prisma migrate deploy` step before using `/admin/source-onboarding`.
+
+Release 3.6.4 additionally requires migration `20260721120000_policy_discovery_job`, which persists discovery run state and atomic run tokens. The same `npx prisma migrate deploy` or `bash scripts/hostinger-init-db.sh` step applies it without changing policy evidence.
 
 Security incident note: an unauthenticated debug environment endpoint existed in commit `ec2f699` and was removed from `main` by commit `f453b4a`. If commit `ec2f699` was deployed, rotate `ADMIN_PASSWORD`, `SESSION_HMAC_SECRET`, and `API_SECRET`. The endpoint did not intentionally expose secret values, but public deployment of diagnostic environment routes is not acceptable for production operations.
 

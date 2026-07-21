@@ -139,7 +139,7 @@ function AdminNavigationContents({
           <div>
             <div className={styles.logoText}>PolicyWatcher</div>
             <div className={styles.logoTextSub}>
-              Admin Panel <span className={styles.logoVersion}>v3.6.3</span>
+              Admin Panel <span className={styles.logoVersion}>v3.6.4</span>
             </div>
           </div>
         </div>

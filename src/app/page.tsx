@@ -62,6 +62,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/Footer';
 import HowToModal from '@/components/HowToModal';
 import Navigation, { NavLayout } from '@/components/Navigation';
+import { shouldSuggestOnTheGo } from '@/lib/mobileContext';
 import { dashboardUpdateNotices, getObservatorySource, observatorySignals } from '@/lib/observatory';
 import { dataStatusClassKey, getWorstDataStatus, normalizeDataStatus } from '@/lib/policyConfidence';
 import {
@@ -1058,7 +1059,11 @@ export default function Dashboard() {
 
     const updateContext = () => {
       if (!active) return;
-      setOnTheGoSuggested(smallScreenQuery.matches || (coarsePointerQuery.matches && window.innerWidth < 920));
+      setOnTheGoSuggested(shouldSuggestOnTheGo({
+        smallScreen: smallScreenQuery.matches,
+        coarsePointer: coarsePointerQuery.matches,
+        viewportWidth: window.innerWidth,
+      }));
     };
 
     const listenToQuery = (query: MediaQueryList) => {
@@ -1074,44 +1079,18 @@ export default function Dashboard() {
     const removeSmallScreenListener = listenToQuery(smallScreenQuery);
     const removeCoarsePointerListener = listenToQuery(coarsePointerQuery);
 
-    const motionEventCtor = window.DeviceMotionEvent as unknown as { requestPermission?: unknown } | undefined;
-    const motionPermissionRequired = Boolean(motionEventCtor?.requestPermission);
-    let lastMotionSignal = 0;
-
-    const handleMotion = (event: DeviceMotionEvent) => {
-      const acceleration = event.accelerationIncludingGravity ?? event.acceleration;
-      if (!acceleration) return;
-
-      const magnitude = Math.sqrt(
-        (acceleration.x ?? 0) ** 2 +
-        (acceleration.y ?? 0) ** 2 +
-        (acceleration.z ?? 0) ** 2
-      );
-
-      if (magnitude > 18 && Date.now() - lastMotionSignal > 1200) {
-        lastMotionSignal = Date.now();
-        setOnTheGoMotionSuggested(true);
-      }
-    };
-
     const handleOrientation = () => {
       if (coarsePointerQuery.matches && window.innerWidth < 920) {
         setOnTheGoMotionSuggested(true);
       }
     };
 
-    if (!motionPermissionRequired) {
-      window.addEventListener('devicemotion', handleMotion, { passive: true });
-    }
     window.addEventListener('orientationchange', handleOrientation);
 
     return () => {
       active = false;
       removeSmallScreenListener();
       removeCoarsePointerListener();
-      if (!motionPermissionRequired) {
-        window.removeEventListener('devicemotion', handleMotion);
-      }
       window.removeEventListener('orientationchange', handleOrientation);
     };
   }, []);

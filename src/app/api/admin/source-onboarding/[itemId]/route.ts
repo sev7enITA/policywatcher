@@ -5,13 +5,13 @@ import { db } from '@/lib/db';
 import {
   canPublishSourceOnboardingItem,
   evaluateSourceOnboardingQa,
+  summarizeSourceOnboardingBatch,
   transitionSourceOnboardingStage,
   type SourceOnboardingAction,
   type SourceOnboardingStage,
 } from '@/lib/sourceOnboarding';
 
 const SOURCE_GRADE = ['direct', 'http2', 'rendered', 'wayback', 'commoncrawl'];
-const TERMINAL_STAGES = ['Published', 'Held', 'Rejected', 'Failed'];
 
 async function readQaEvidence(itemId: string) {
   const item = await db.sourceOnboardingItem.findUnique({
@@ -44,28 +44,23 @@ async function readQaEvidence(itemId: string) {
   };
 }
 
-async function refreshBatch(batchId: string) {
-  const items = await db.sourceOnboardingItem.findMany({
+async function refreshBatch(
+  batchId: string,
+  client: Pick<typeof db, 'sourceOnboardingItem' | 'sourceOnboardingBatch'> = db
+) {
+  const items = await client.sourceOnboardingItem.findMany({
     where: { batchId },
     select: { stage: true },
   });
-  const failedItems = items.filter((item) => item.stage === 'Failed').length;
-  const terminal = items.length > 0 && items.every((item) => TERMINAL_STAGES.includes(item.stage));
-  const status = failedItems === items.length
-    ? 'Failed'
-    : terminal && failedItems === 0
-      ? 'Completed'
-      : failedItems > 0
-        ? 'Partial'
-        : 'Active';
-  await db.sourceOnboardingBatch.update({
+  const summary = summarizeSourceOnboardingBatch(items.map((item) => item.stage));
+  await client.sourceOnboardingBatch.update({
     where: { id: batchId },
     data: {
-      totalItems: items.length,
-      successfulItems: items.length - failedItems,
-      failedItems,
-      status,
-      completedAt: terminal ? new Date() : null,
+      totalItems: summary.totalItems,
+      successfulItems: summary.successfulItems,
+      failedItems: summary.failedItems,
+      status: summary.status,
+      completedAt: summary.terminal ? new Date() : null,
     },
   });
 }
@@ -159,15 +154,30 @@ export async function PATCH(
     const qa = await readQaEvidence(item.id);
     if (!qa || qa.result.status !== 'Pass' || !item.policyId) {
       if (qa) {
-        await db.sourceOnboardingItem.update({
-          where: { id: item.id },
-          data: {
-            stage: 'QaReview',
-            qaStatus: 'Fail',
-            qaSummary: qa.result.summary,
-            qaChecksJson: JSON.stringify(qa.result.checks),
-            error: 'Evidence changed after QA. Review is required again.',
-          },
+        await db.$transaction(async (tx) => {
+          await tx.sourceOnboardingItem.update({
+            where: { id: item.id },
+            data: {
+              stage: 'QaReview',
+              qaStatus: 'Fail',
+              qaSummary: qa.result.summary,
+              qaChecksJson: JSON.stringify(qa.result.checks),
+              error: 'Evidence changed after QA. Review is required again.',
+            },
+          });
+          await tx.adminReviewLog.create({
+            data: reviewLogData({
+              actorRole,
+              action: 'source_onboarding_publication_revalidation_failed',
+              itemId: item.id,
+              targetLabel: label,
+              oldValue: item.stage,
+              newValue: 'QaReview',
+              note: qa.result.summary,
+              metadata: { checks: qa.result.checks, policyId: item.policyId },
+            }),
+          });
+          await refreshBatch(item.batchId, tx);
         });
       }
       return NextResponse.json({ error: 'Evidence no longer passes QA; publication was blocked.' }, { status: 409 });
