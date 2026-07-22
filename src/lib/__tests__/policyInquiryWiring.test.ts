@@ -148,4 +148,12 @@ describe('policy inquiry security and admin wiring', () => {
     expect(client).toContain('onClick={() => void submit()}');
     expect(client).not.toContain('<p>{t.queued}</p><h2>{t.storageTitle}</h2>');
   });
+
+  it('labels the extension capture path as Beta in both languages', () => {
+    const client = readFileSync('src/app/what-changed/WhatChangedClient.tsx', 'utf8');
+    expect(client).toContain('Consigliato su computer · Beta');
+    expect(client).toContain('Recommended on a computer · Beta');
+    expect(client).toContain('In questa Beta, estrazione o evidenze possono essere incomplete.');
+    expect(client).toContain('In this Beta, extraction or evidence may be incomplete.');
+  });
 });

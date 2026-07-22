@@ -5,12 +5,12 @@ const POLICY_TYPES = ['privacy', 'terms', 'cookies', 'ai', 'acceptable-use'];
 
 const copy = {
   it: {
-    pageTitle: 'PolicyWatcher — Cosa è cambiato? BETA', versionLabel: 'Estensione beta', openWebsite: 'Apri policywatcher.online', language: 'Lingua', evidenceJourney: 'Notifica visibile, indizi locali, evidenze PolicyWatcher', privacyBoundary: 'Confine di privacy',
+    pageTitle: 'PolicyWatcher — Cosa è cambiato? BETA', versionLabel: 'Estensione beta', openWebsite: 'Apri policywatcher.online', language: 'Lingua', evidenceJourney: 'Notifica visibile, indizi locali, evidenze PolicyWatcher', privacyBoundary: 'Confine di privacy', betaInfoAction: 'Informazioni e limiti della versione Beta', betaInfoTitle: 'Versione di test', betaInfoBody: 'Può produrre risultati incompleti. Non usare comunicazioni riservate; il contenuto grezzo resta locale. Solo informativo, non è consulenza legale.',
     disclosureTitle: 'Prima di leggere la pagina', disclosureLead: 'PolicyWatcher chiederà accesso temporaneo alla scheda solo dopo la tua conferma.',
     railNotice: 'Notifica visibile', railNoticeBody: 'Seleziona il testo della notifica.', railLocal: 'Indizi locali', railLocalBody: 'Letto e scartato qui.',
     railEvidence: 'Evidenze PolicyWatcher', railEvidenceBody: 'Solo indizi confermati.', onDevice: 'Sul tuo dispositivo', onPolicyWatcher: 'In PolicyWatcher',
     factAccess: 'PolicyWatcher usa l’accesso temporaneo activeTab solo quando premi il pulsante.', localOnly: 'Resta locale', factDiscard: 'Testo letto nel browser e scartato subito.',
-    mayCross: 'Può essere inviato', factMayCross: 'Organizzazione/dominio confermati, URL pulito, categorie e date.', factNever: 'Mai inviati o conservati: indirizzo email, oggetto, corpo, allegati o fingerprint.', continue: 'Continua e analizza localmente',
+    mayCross: 'Può essere inviato', factMayCross: 'Organizzazione/dominio confermati, URL pulito, categorie e date.', factNever: 'Mai inviati o conservati: indirizzo email, oggetto, corpo, allegati o fingerprint.', betaWarningTitle: 'Stai usando una versione BETA', betaWarningSafety: 'Software pre-release: estrazione ed evidenze possono essere incomplete o non disponibili. Non usarlo con comunicazioni riservate, sanitarie, finanziarie, lavorative o di autenticazione.', betaWarningBoundary: 'Solo informativo, non è consulenza legale. Il contenuto grezzo resta locale e non viene trasmesso.', continue: 'Ho capito, continua e analizza',
     localInspection: 'Analisi locale', captureTitle: 'Controlla questa notifica', captureLead: 'Per maggiore precisione, seleziona prima il testo della notifica nella pagina.',
     selectTip: 'Seleziona la parte della mail che descrive l’aggiornamento.', scan: 'Analizza la scheda localmente', scanning: 'Analisi locale in corso…', or: 'oppure',
     manual: 'Inserisci solo gli indizi manualmente', unsupported: 'Usa l’inserimento manuale per PDF, pagine protette o schede non supportate.',
@@ -37,12 +37,12 @@ const copy = {
     evidence: 'Evidenza', openFull: 'Apri il controllo completo', retry: 'Riprova', choose: 'Verifica questa azienda', privacyLink: 'Privacy', methodologyLink: 'Metodo e limiti', legalNote: 'Non è consulenza legale'
   },
   en: {
-    pageTitle: 'PolicyWatcher — What changed? BETA', versionLabel: 'Beta extension', openWebsite: 'Open policywatcher.online', language: 'Language', evidenceJourney: 'Visible notice, local clues, PolicyWatcher evidence', privacyBoundary: 'Privacy boundary',
+    pageTitle: 'PolicyWatcher — What changed? BETA', versionLabel: 'Beta extension', openWebsite: 'Open policywatcher.online', language: 'Language', evidenceJourney: 'Visible notice, local clues, PolicyWatcher evidence', privacyBoundary: 'Privacy boundary', betaInfoAction: 'Beta version information and limitations', betaInfoTitle: 'Testing version', betaInfoBody: 'It may produce incomplete results. Do not use confidential communications; raw content stays local. Informational only, not legal advice.',
     disclosureTitle: 'Before reading this page', disclosureLead: 'PolicyWatcher requests temporary access to the tab only after you confirm.',
     railNotice: 'Visible notice', railNoticeBody: 'Select the notice text.', railLocal: 'Local clues', railLocalBody: 'Read and discarded here.',
     railEvidence: 'PolicyWatcher evidence', railEvidenceBody: 'Confirmed clues only.', onDevice: 'On your device', onPolicyWatcher: 'In PolicyWatcher',
     factAccess: 'PolicyWatcher uses temporary activeTab access only when you press the button.', localOnly: 'Stays local', factDiscard: 'Text is read in the browser and immediately discarded.',
-    mayCross: 'May be sent', factMayCross: 'Confirmed organization/domain, cleaned URL, categories and dates.', factNever: 'Never sent or stored: email address, subject, body, attachments or fingerprint.', continue: 'Continue and inspect locally',
+    mayCross: 'May be sent', factMayCross: 'Confirmed organization/domain, cleaned URL, categories and dates.', factNever: 'Never sent or stored: email address, subject, body, attachments or fingerprint.', betaWarningTitle: 'You are using a BETA version', betaWarningSafety: 'Pre-release software: extraction and evidence may be incomplete or unavailable. Do not use it with confidential, health, financial, employment or authentication communications.', betaWarningBoundary: 'Informational only, not legal advice. Raw content stays local and is not transmitted.', continue: 'I understand, continue and inspect',
     localInspection: 'Local inspection', captureTitle: 'Check this notice', captureLead: 'For best precision, select the notification text on the page first.',
     selectTip: 'Select the part of the email that describes the update.', scan: 'Inspect this tab locally', scanning: 'Inspecting locally…', or: 'or',
     manual: 'Enter structured clues manually', unsupported: 'Use manual entry for PDFs, protected pages or unsupported tabs.',
@@ -98,7 +98,15 @@ function translatePage() {
   if (!byId('result-view').hidden && lastResult) renderResult(lastResult);
 }
 
+function setBetaInfo(open) {
+  const button = byId('beta-info-button');
+  const panel = byId('beta-info-panel');
+  button.setAttribute('aria-expanded', String(open));
+  panel.hidden = !open;
+}
+
 function showView(name) {
+  setBetaInfo(false);
   views.forEach((view) => { byId(`${view}-view`).hidden = view !== name; });
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
@@ -474,6 +482,13 @@ function openManualReview() {
 
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-lang]').forEach((button) => button.addEventListener('click', () => { language = button.dataset.lang === 'en' ? 'en' : 'it'; translatePage(); }));
+  byId('beta-info-button').addEventListener('click', () => setBetaInfo(byId('beta-info-button').getAttribute('aria-expanded') !== 'true'));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && byId('beta-info-button').getAttribute('aria-expanded') === 'true') {
+      setBetaInfo(false);
+      byId('beta-info-button').focus();
+    }
+  });
   byId('continue-button').addEventListener('click', () => showView('capture'));
   byId('scan-button').addEventListener('click', inspectActiveTab);
   byId('manual-button').addEventListener('click', openManualReview);

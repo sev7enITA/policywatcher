@@ -39,6 +39,9 @@ describe('browser extension public store status', () => {
     expect(client).toContain('storeLinks[id]');
     expect(client).toContain('href={storeLinks[id]!}');
     expect(client).toContain('/what-changed#paste-notice');
+    expect(client).toContain('Versione Beta per test controllati');
+    expect(client).toContain('Beta version for controlled testing');
+    expect(client).toContain('className={styles.betaNotice}');
     expect(client).not.toContain('developer mode');
   });
 });

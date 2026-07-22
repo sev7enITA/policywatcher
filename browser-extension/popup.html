@@ -14,6 +14,9 @@
         <img src="icons/icon-48.png" width="34" height="34" alt="">
         <span><strong>PolicyWatcher</strong><small id="extension-version">Extension</small></span>
       </a>
+      <button id="beta-info-button" class="beta-info-button" type="button" aria-expanded="false" aria-controls="beta-info-panel" data-i18n-aria="betaInfoAction">
+        <span>BETA</span>
+      </button>
       <div class="top-actions">
         <div class="language-switch" role="group" data-i18n-aria="language">
           <button type="button" data-lang="it" aria-pressed="true">IT</button>
@@ -23,6 +26,10 @@
           <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 5h5v5M19 5l-8 8M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
         </a>
       </div>
+      <div id="beta-info-panel" class="beta-info-panel" role="note" hidden>
+        <strong data-i18n="betaInfoTitle">Versione di test</strong>
+        <p data-i18n="betaInfoBody">Può produrre risultati incompleti. Non usare comunicazioni riservate; il contenuto grezzo resta locale. Solo informativo, non è consulenza legale.</p>
+      </div>
     </header>
 
     <main>
@@ -30,6 +37,12 @@
         <p class="eyebrow" data-i18n="privacyBoundary">Confine di privacy</p>
         <h1 id="disclosure-title" data-i18n="disclosureTitle">Prima di leggere la pagina</h1>
         <p class="lead" data-i18n="disclosureLead">PolicyWatcher chiederà accesso temporaneo alla scheda solo dopo la tua conferma.</p>
+
+        <aside class="beta-warning" role="note" aria-labelledby="beta-warning-title">
+          <strong id="beta-warning-title" data-i18n="betaWarningTitle">Stai usando una versione BETA</strong>
+          <p data-i18n="betaWarningSafety">Software pre-release: estrazione ed evidenze possono essere incomplete o non disponibili. Non usarlo con comunicazioni riservate, sanitarie, finanziarie, lavorative o di autenticazione.</p>
+          <p data-i18n="betaWarningBoundary">Solo informativo, non è consulenza legale. Il contenuto grezzo resta locale e non viene trasmesso.</p>
+        </aside>
 
         <ol class="evidence-rail" data-i18n-aria="evidenceJourney">
           <li>

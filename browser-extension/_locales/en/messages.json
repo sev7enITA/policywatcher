@@ -3,9 +3,9 @@
     "message": "PolicyWatcher — What changed? BETA"
   },
   "extensionDescription": {
-    "message": "Inspect policy-change notices locally, then check verified PolicyWatcher evidence."
+    "message": "BETA: inspect policy-change notices locally, then check available PolicyWatcher evidence."
   },
   "actionTitle": {
-    "message": "Check what changed with PolicyWatcher"
+    "message": "PolicyWatcher BETA — check what changed"
   }
 }

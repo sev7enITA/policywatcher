@@ -57,11 +57,15 @@ for (const { file, source } of scripts) {
 }
 
 const popup = read('popup.js');
+const popupHtml = read('popup.html');
 const worker = read('service-worker.js');
 assert(!/\bfetch\s*\(/.test(popup), 'Popup must not perform network requests');
 assert(/chrome\.scripting\.executeScript/.test(popup), 'Popup must use temporary active-tab script injection');
 assert(/rawDiscarded:\s*true/.test(popup), 'Local scanner must explicitly report raw-content disposal');
 assert(!/chrome\.storage|indexedDB|localforage/.test(popup), 'Popup must not persist notice content or inquiry history');
+assert(/id="beta-info-button"/.test(popupHtml) && /class="beta-warning"/.test(popupHtml), 'Popup must expose persistent and first-use Beta notices');
+assert(/Stai usando una versione BETA/.test(popup) && /You are using a BETA version/.test(popup), 'Popup Beta warning must be localized in Italian and English');
+assert(/confidential, health, financial, employment or authentication communications/.test(popup), 'Popup Beta warning must include safe-testing boundaries');
 assert(/const API_URL = 'https:\/\/www\.policywatcher\.online\/api\/policy-inquiries'/.test(worker), 'Service worker API destination is not pinned');
 assert(/credentials:\s*'omit'/.test(worker), 'Service worker must omit credentials');
 assert(/redirect:\s*'error'/.test(worker), 'Service worker must reject redirects');
@@ -79,6 +83,8 @@ for (const locale of ['en', 'it']) {
   const messages = JSON.parse(read(join('_locales', locale, 'messages.json')));
   assert(messages.extensionName?.message && messages.extensionDescription?.message && messages.actionTitle?.message, `Locale ${locale} is incomplete`);
   assert(/BETA$/.test(messages.extensionName.message), `Locale ${locale} name must identify the beta`);
+  assert(/^BETA:/.test(messages.extensionDescription.message), `Locale ${locale} description must identify the beta`);
+  assert(/BETA/.test(messages.actionTitle.message), `Locale ${locale} action title must identify the beta`);
 }
 
 console.log(`Browser extension ${manifest.version} validation passed (${runtimeFiles.length} runtime files).`);

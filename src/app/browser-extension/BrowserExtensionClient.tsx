@@ -17,6 +17,7 @@ const copy = {
     back: 'Cosa è cambiato?', switchLanguage: 'English', kicker: 'Estensione browser · Beta',
     title: 'Dalla mail ai link reali, senza inviare la mail',
     lead: 'Con un gesto esplicito, PolicyWatcher legge localmente la notifica aperta e recupera i link presenti nella pagina. Tu confermi gli indizi minimi prima della verifica.',
+    betaTitle: 'Versione Beta per test controllati', betaBody: 'È software pre-release: estrazione ed evidenze possono essere incomplete o non disponibili. Non usarlo con comunicazioni riservate, sanitarie, finanziarie, lavorative o di autenticazione; non è consulenza legale.', betaBoundary: 'Il contenuto grezzo resta sul dispositivo e non viene trasmesso.',
     boundary: 'Il contenuto resta nel browser', boundaryBody: 'Testo, oggetto, indirizzi e allegati non vengono trasmessi né conservati.',
     local: 'Nella scheda aperta', localItems: ['Testo visibile della notifica', 'Link reali presenti nei pulsanti', 'Mittente e date visibili'],
     sent: 'Solo dopo la conferma', sentItems: ['Organizzazione o dominio', 'Un link di partenza ripulito', 'Categorie di policy e date'],
@@ -40,6 +41,7 @@ const copy = {
     back: 'What changed?', switchLanguage: 'Italiano', kicker: 'Browser extension · Beta',
     title: 'From the email to real links, without sending the email',
     lead: 'After an explicit action, PolicyWatcher reads the open notification locally and retrieves links present in the page. You confirm the minimal clues before verification.',
+    betaTitle: 'Beta version for controlled testing', betaBody: 'This is pre-release software: extraction and evidence may be incomplete or unavailable. Do not use it with confidential, health, financial, employment or authentication communications; it is not legal advice.', betaBoundary: 'Raw content stays on the device and is not transmitted.',
     boundary: 'Content stays in the browser', boundaryBody: 'Text, subject, addresses and attachments are never transmitted or stored.',
     local: 'In the open tab', localItems: ['Visible notification text', 'Real links behind buttons', 'Visible sender and dates'],
     sent: 'Only after confirmation', sentItems: ['Organization or domain', 'One cleaned starting link', 'Policy categories and dates'],
@@ -79,6 +81,12 @@ export default function BrowserExtensionClient({ storeLinks }: { storeLinks: Bro
     <section className={styles.hero}>
       <div><p className={styles.kicker}>{t.kicker}</p><h1>{t.title}</h1><p className={styles.lead}>{t.lead}</p></div>
       <aside><ShieldCheck aria-hidden="true" /><div><strong>{t.boundary}</strong><span>{t.boundaryBody}</span></div></aside>
+    </section>
+
+    <section className={styles.betaNotice} role="note" aria-labelledby="beta-status-title">
+      <span>BETA</span>
+      <div><h2 id="beta-status-title">{t.betaTitle}</h2><p>{t.betaBody}</p></div>
+      <p className={styles.betaBoundary}><LockKeyhole aria-hidden="true" />{t.betaBoundary}</p>
     </section>
 
     <section className={styles.boundary} aria-label={lang === 'it' ? 'Confine dei dati' : 'Data boundary'}>

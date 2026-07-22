@@ -49,7 +49,8 @@ a { -webkit-tap-highlight-color: transparent; }
 
 button:focus-visible,
 a:focus-visible,
-input:focus-visible {
+input:focus-visible,
+.beta-info-panel:focus-visible {
   outline: 3px solid rgba(99, 102, 241, .34);
   outline-offset: 2px;
 }
@@ -66,6 +67,49 @@ input:focus-visible {
   border-bottom: 1px solid var(--border);
   background: rgba(246, 248, 251, .97);
 }
+
+.beta-info-button {
+  display: grid;
+  min-width: 44px;
+  min-height: 44px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--warning);
+  cursor: pointer;
+}
+
+.beta-info-button span {
+  display: grid;
+  min-width: 37px;
+  min-height: 23px;
+  place-items: center;
+  border: 1px solid #c68a35;
+  background: var(--warning-bg);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .08em;
+}
+
+.beta-info-button[aria-expanded="true"] span { background: #f5e4c4; }
+
+.beta-info-panel {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% - 1px);
+  right: 14px;
+  left: 14px;
+  padding: 12px 13px;
+  border: 1px solid #dfbb79;
+  border-left: 4px solid #c38a32;
+  background: #fffaf0;
+  box-shadow: 0 13px 28px rgba(37, 48, 76, .16);
+  color: #694817;
+}
+
+.beta-info-panel strong { display: block; font-size: 12px; }
+.beta-info-panel p { margin: 4px 0 0; font-size: 11.5px; line-height: 1.45; }
 
 .brand {
   display: inline-flex;
@@ -166,6 +210,18 @@ h1 { margin: 0; font-size: 24px; line-height: 1.08; letter-spacing: -.035em; }
 .data-boundary span { color: var(--muted); }
 .data-boundary .sent-boundary strong { color: var(--teal); }
 .never-line { padding: 0 1px; }
+
+.beta-warning {
+  margin: 0 0 11px;
+  padding: 9px 10px;
+  border: 1px solid #ead3a8;
+  border-left: 4px solid #c38a32;
+  background: var(--warning-bg);
+  color: #624318;
+}
+
+.beta-warning strong { display: block; font-size: 12px; }
+.beta-warning p { margin: 3px 0 0; font-size: 11px; line-height: 1.38; }
 
 .primary-button,
 .secondary-button {
@@ -274,6 +330,13 @@ footer span { margin-left: auto; }
 @keyframes view-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
 @media (max-width: 350px) {
+  .site-link { display: none; }
+  .top-actions { gap: 2px; }
+  .topbar { padding-right: 10px; padding-left: 10px; }
+  .brand { gap: 7px; }
+  .brand strong { font-size: 14px; }
+  .brand small { font-size: 9px; }
+  .beta-info-panel { right: 10px; left: 10px; }
   .view { padding-right: 14px; padding-left: 14px; }
   h1 { font-size: 22px; }
   .date-grid { grid-template-columns: 1fr; }

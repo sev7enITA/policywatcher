@@ -6,10 +6,12 @@ import { describe, expect, it } from 'vitest';
 const manifest = JSON.parse(readFileSync('browser-extension/manifest.json', 'utf8')) as {
   manifest_version: number;
   version: string;
+  version_name: string;
   permissions: string[];
   host_permissions: string[];
 };
 const popupSource = readFileSync('browser-extension/popup.js', 'utf8');
+const popupHtml = readFileSync('browser-extension/popup.html', 'utf8');
 const workerSource = readFileSync('browser-extension/service-worker.js', 'utf8');
 
 function scannerFixture(options: {
@@ -84,6 +86,20 @@ describe('browser extension production boundary', () => {
     expect(manifest.version_name).toBe(`${manifest.version} Beta`);
     expect(manifest.permissions.sort()).toEqual(['activeTab', 'scripting']);
     expect(manifest.host_permissions).toEqual(['https://www.policywatcher.online/*']);
+  });
+
+  it('labels every installed and popup surface as Beta with localized first-use limits', () => {
+    const en = JSON.parse(readFileSync('browser-extension/_locales/en/messages.json', 'utf8'));
+    const it = JSON.parse(readFileSync('browser-extension/_locales/it/messages.json', 'utf8'));
+    expect(en.extensionName.message).toMatch(/BETA$/);
+    expect(it.extensionName.message).toMatch(/BETA$/);
+    expect(en.extensionDescription.message).toMatch(/^BETA:/);
+    expect(it.extensionDescription.message).toMatch(/^BETA:/);
+    expect(popupHtml).toContain('id="beta-info-button"');
+    expect(popupHtml).toContain('class="beta-warning"');
+    expect(popupSource).toContain('You are using a BETA version');
+    expect(popupSource).toContain('Stai usando una versione BETA');
+    expect(popupSource).toContain('confidential, health, financial, employment or authentication communications');
   });
 
   it('returns structured clues without returning the selected notification text', () => {

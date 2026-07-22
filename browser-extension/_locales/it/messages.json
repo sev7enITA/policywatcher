@@ -3,9 +3,9 @@
     "message": "PolicyWatcher — Cosa è cambiato? BETA"
   },
   "extensionDescription": {
-    "message": "Analizza localmente le notifiche di modifica delle policy e controlla le evidenze verificate da PolicyWatcher."
+    "message": "BETA: analizza localmente le notifiche di modifica delle policy e controlla le evidenze disponibili in PolicyWatcher."
   },
   "actionTitle": {
-    "message": "Controlla cosa è cambiato con PolicyWatcher"
+    "message": "PolicyWatcher BETA — controlla cosa è cambiato"
   }
 }
