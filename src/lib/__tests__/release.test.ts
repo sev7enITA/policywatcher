@@ -20,7 +20,7 @@ describe('release metadata', () => {
     const packageJson = JSON.parse(readFileSync('package.json', 'utf8')) as { version: string };
     expect(POLICYWATCHER_VERSION).toBe(packageJson.version);
     expect(POLICYWATCHER_RELEASE_NAME).toBe('Evidence Experience Release');
-    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.7.0 Evidence Experience Release');
+    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.7.1 Evidence Experience Release');
   });
 
   it('keeps current release surfaces connected to centralized metadata', () => {

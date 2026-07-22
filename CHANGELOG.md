@@ -1,5 +1,27 @@
 # Changelog
 
+## 3.7.1 - 2026-07-22
+
+### Fixed
+- Replaced link-dependent notification intake with a plain-text-first workflow: copied email text remains useful even when hidden `href` targets are lost.
+- Added browser-local confirmation of the organization, sender domain, policy categories and notice/effective dates, with the starting-policy URL shown as a separate optional clue.
+- Stopped organization/domain conflicts from silently resolving to the URL owner; users now receive an explicit correction state.
+- Replaced the generic failure shown for missing or unavailable inquiry storage with a controlled `503` response and an administrator action.
+
+### Changed
+- Treat notification categories as a ranking signal while keeping every public monitored policy for the matched company in the verification scope.
+- Split verified evidence into starting-policy and other-policy groups, with monitored-source and policy-type coverage shown in the response.
+- Added a guided bilingual workflow explaining the browser privacy boundary, the initial signal, the portfolio-wide search and the human-reviewed queue for unknown companies.
+
+### Safety
+- The raw email, message subject, sender/recipient address and copied body never cross the browser boundary; the API rejects unknown/raw-content fields.
+- Submitted URLs remain unfetched clues until an administrator approves a source, and immediate answers still require public-evidence-gated records.
+- A first baseline remains explicitly distinct from proof of a historical change.
+
+### Verification
+- Added regressions for link-free plain text, manual policy-category confirmation, company/URL conflicts, portfolio evidence ordering and storage-unavailable classification.
+- Completed external UI/UX evaluation, mobile/accessibility refinements, full tests, lint, TypeScript, production build, dependency audit and extracted Hostinger-artifact smoke verification.
+
 ## 3.7.0 - 2026-07-21
 
 ### Added

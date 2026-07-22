@@ -11,6 +11,12 @@ export interface LocalPolicyInquiryClues {
   policyTypes: InquiryPolicyType[];
 }
 
+export interface LocalPolicyInquiryOverrides {
+  policyTypes?: InquiryPolicyType[];
+  noticeDate?: string | null;
+  effectiveDate?: string | null;
+}
+
 const EMAIL_RE = /\b[A-Z0-9._%+-]+@([A-Z0-9.-]+\.[A-Z]{2,})\b/gi;
 const URL_RE = /https?:\/\/[^\s<>"']+/gi;
 
@@ -98,7 +104,8 @@ function explicitOrganizationHint(value: string | undefined): string | null {
 export function parsePolicyInquiryLocally(
   input: string,
   explicitCompany?: string,
-  explicitUrl?: string
+  explicitUrl?: string,
+  overrides: LocalPolicyInquiryOverrides = {},
 ): LocalPolicyInquiryClues {
   if (new TextEncoder().encode(input).byteLength > POLICY_INQUIRY_MAX_LOCAL_INPUT_BYTES) {
     throw new Error('INPUT_TOO_LARGE');
@@ -115,6 +122,11 @@ export function parsePolicyInquiryLocally(
   const dateHeader = headerValue(input, 'Date');
   const effectiveMatch = input.match(/(?:effective|in vigore|a partire dal|dal|on|\bil)\s+(?:il\s+)?([^\n,.]{4,50}\b20\d{2})/i);
 
+  const inferredTypes = inferPolicyTypes(`${headerValue(input, 'Subject') || ''}\n${input}`);
+  const selectedTypes = overrides.policyTypes
+    ? [...new Set(overrides.policyTypes)]
+    : inferredTypes;
+
   return {
     // An explicit organization label is allowed. Otherwise a body brand is
     // sent only when no sender domain can identify the organization.
@@ -122,8 +134,12 @@ export function parsePolicyInquiryLocally(
       || (!senderDomain ? explicitOrganizationHint(inferCompanyFromBody(input) || undefined) : null),
     senderDomain,
     sourceUrl,
-    noticeDate: parseDateHint(dateHeader || undefined),
-    effectiveDate: parseDateHint(effectiveMatch?.[1]),
-    policyTypes: inferPolicyTypes(`${headerValue(input, 'Subject') || ''}\n${input}`),
+    noticeDate: overrides.noticeDate === undefined
+      ? parseDateHint(dateHeader || undefined)
+      : parseDateHint(overrides.noticeDate || undefined),
+    effectiveDate: overrides.effectiveDate === undefined
+      ? parseDateHint(effectiveMatch?.[1])
+      : parseDateHint(overrides.effectiveDate || undefined),
+    policyTypes: selectedTypes,
   };
 }

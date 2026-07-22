@@ -4,9 +4,12 @@ import { rateLimit } from '@/lib/rateLimit';
 import { publicChangeWhere, publicPolicyWhere } from '@/lib/publicDataGate';
 import {
   buildInquiryDedupeKey,
+  collectLatestPortfolioEvidence,
   createInquiryPublicToken,
+  isPolicyInquiryStorageUnavailable,
   matchInquiryCompany,
   normalizePolicyInquiryClues,
+  prioritizePortfolioEvidence,
 } from '@/lib/policyInquiry';
 import { createOrReuseActiveInquiry } from '@/lib/policyInquiryStore';
 import type { InquiryPolicyType } from '@/lib/policyInquiryClient';
@@ -24,17 +27,19 @@ function safeString(value: unknown, max: number): string {
   return typeof value === 'string' ? value.trim().slice(0, max) : '';
 }
 
-function inquiryError(lang: 'it' | 'en', key: 'invalid' | 'large' | 'generic') {
+function inquiryError(lang: 'it' | 'en', key: 'invalid' | 'large' | 'generic' | 'storage') {
   const messages = {
     it: {
       invalid: 'Indica il nome dell’organizzazione o un URL ufficiale valido.',
       large: 'La richiesta strutturata supera il limite consentito.',
       generic: 'Non è stato possibile completare la verifica. Riprova più tardi.',
+      storage: 'Il servizio richieste è temporaneamente non disponibile: l’amministratore deve verificare il database e applicare le migrazioni mancanti, inclusa PolicyInquiry.',
     },
     en: {
       invalid: 'Enter the organization name or a valid official URL.',
       large: 'The structured request exceeds the allowed limit.',
       generic: 'The verification could not be completed. Please try again later.',
+      storage: 'The request service is temporarily unavailable: the administrator must check the database and apply missing migrations, including PolicyInquiry.',
     },
   } as const;
   return messages[lang][key];
@@ -114,41 +119,54 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    if (match.state === 'conflict') {
+      return NextResponse.json({
+        state: 'conflict',
+        companyCandidate: {
+          id: match.companyCandidate?.id || null,
+          name: match.companyCandidate?.name || match.companyHint,
+          slug: match.companyCandidate?.slug || null,
+        },
+        sourceCandidate: {
+          id: match.sourceCandidate.id,
+          name: match.sourceCandidate.name,
+          slug: match.sourceCandidate.slug,
+        },
+      }, { status: 409 });
+    }
+
     let matchedCompanyId: string | null = null;
     let matchedPolicyId: string | null = null;
     if (match.state === 'matched') {
       matchedCompanyId = match.company.id;
       matchedPolicyId = match.matchedPolicyId;
-      const dateFloor = parsed.noticeDate
-        ? new Date(parsed.noticeDate.getTime() - 365 * 24 * 60 * 60 * 1000)
-        : null;
-      const baseWhere: Record<string, unknown> = {
-        policy: {
-          companyId: matchedCompanyId,
-          ...(parsed.policyTypes.length ? { type: { in: parsed.policyTypes } } : {}),
-          ...(matchedPolicyId ? { id: matchedPolicyId } : {}),
-        },
-        ...(dateFloor ? { createdAt: { gte: dateFloor } } : {}),
-      };
-      const changes = await db.policyChange.findMany({
-        where: publicChangeWhere(baseWhere) as never,
-        select: {
-          id: true,
-          createdAt: true,
-          overallRisk: true,
-          overallScore: true,
-          tldrEn: true,
-          tldrIt: true,
-          aiSummaryEn: true,
-          aiSummaryIt: true,
-          keyPointsJson: true,
-          policy: { select: { id: true, name: true, type: true, url: true } },
-        },
-        orderBy: { createdAt: 'desc' },
-        take: 3,
-      });
+      // One bounded query per public portfolio source prevents a high-volume
+      // policy from monopolizing the receipt. Starting categories are applied
+      // only after every source had the opportunity to contribute its newest
+      // published comparison.
+      const changes = await collectLatestPortfolioEvidence(
+        match.company.policies || [],
+        (policy) => db.policyChange.findFirst({
+          where: publicChangeWhere({ policyId: policy.id }),
+          select: {
+            id: true,
+            createdAt: true,
+            overallRisk: true,
+            overallScore: true,
+            tldrEn: true,
+            tldrIt: true,
+            aiSummaryEn: true,
+            aiSummaryIt: true,
+            keyPointsJson: true,
+            policy: { select: { id: true, name: true, type: true, url: true } },
+          },
+          orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+        }),
+      );
 
       if (changes.length > 0) {
+        const prioritized = prioritizePortfolioEvidence(changes, parsed.policyTypes);
+        const policyTypesReviewed = [...new Set(match.company.policies?.map((policy) => policy.type) || [])].sort();
         return NextResponse.json({
           state: 'matched',
           relationship: match.reason === 'exact_policy_url' ? 'direct_policy_source' : 'related_policy_type',
@@ -158,7 +176,16 @@ export async function POST(request: NextRequest) {
             effectiveDate: parsed.effectiveDate,
             policyTypes: parsed.policyTypes,
           },
-          changes,
+          portfolio: {
+            totalMonitoredSources: match.company.policies?.length || 0,
+            policyTypesReviewed,
+            startingPolicyTypes: parsed.policyTypes,
+            startingEvidenceCount: prioritized.startingEvidence.length,
+            otherEvidenceCount: prioritized.otherEvidence.length,
+          },
+          startingEvidence: prioritized.startingEvidence,
+          otherEvidence: prioritized.otherEvidence,
+          changes: [...prioritized.startingEvidence, ...prioritized.otherEvidence],
         });
       }
     }
@@ -190,6 +217,13 @@ export async function POST(request: NextRequest) {
         reference: inquiry.publicToken,
         company: { id: company.id, name: company.name, slug: company.slug },
         monitoredSources: company.policies.map((policy) => ({ id: policy.id, url: policy.url, type: policy.type })),
+        portfolio: {
+          totalMonitoredSources: company.policies.length,
+          policyTypesReviewed: [...new Set(company.policies.map((policy) => policy.type))].sort(),
+          startingPolicyTypes: parsed.policyTypes,
+          startingEvidenceCount: 0,
+          otherEvidenceCount: 0,
+        },
         baselineNotice: lang === 'it'
           ? 'Una baseline iniziale non prova una modifica storica. La richiesta resterà in revisione finché non esiste un confronto pubblico verificato.'
           : 'An initial baseline does not prove a historical change. The request remains under review until a verified public comparison exists.',
@@ -210,6 +244,13 @@ export async function POST(request: NextRequest) {
     }
     if (error instanceof Error && ['EMPTY_CLUES', 'INVALID_URL'].includes(error.message)) {
       return NextResponse.json({ error: inquiryError(lang, 'invalid') }, { status: 400 });
+    }
+    if (isPolicyInquiryStorageUnavailable(error)) {
+      return NextResponse.json({
+        code: 'POLICY_INQUIRY_STORAGE_UNAVAILABLE',
+        error: inquiryError(lang, 'storage'),
+        action: 'CHECK_DATABASE_AND_APPLY_MIGRATIONS',
+      }, { status: 503 });
     }
     console.error('[Policy inquiries] Safe public failure:', error);
     return NextResponse.json({ error: inquiryError(lang, 'generic') }, { status: 500 });

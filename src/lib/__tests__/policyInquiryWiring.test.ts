@@ -46,10 +46,42 @@ describe('policy inquiry security and admin wiring', () => {
     const publicClient = readFileSync('src/app/what-changed/WhatChangedClient.tsx', 'utf8');
     const adminStyles = readFileSync('src/app/admin/inquiries/inquiries.module.css', 'utf8');
     expect(publicRoute).toContain("relationship: match.reason === 'exact_policy_url'");
-    expect(publicClient).toContain('Confronti verificati correlati');
-    expect(publicClient).toContain('La notifica non identifica quale');
+    expect(publicClient).toContain('Perimetro della verifica');
+    expect(publicClient).toContain('Le categorie iniziali ordinano i risultati senza escludere le altre policy');
     expect(adminStyles).toContain('@media (max-width: 720px)');
     expect(adminStyles).toContain('grid-template-columns: minmax(0, 1fr)');
+  });
+
+  it('implements guided clue confirmation, portfolio-wide evidence and controlled storage failure', () => {
+    const route = readFileSync('src/app/api/policy-inquiries/route.ts', 'utf8');
+    const client = readFileSync('src/app/what-changed/WhatChangedClient.tsx', 'utf8');
+    const styles = readFileSync('src/app/what-changed/whatChanged.module.css', 'utf8');
+
+    expect(client).toContain('È normale che il copia-incolla non conservi i link');
+    expect(client).toContain('Copying normally loses hidden link targets');
+    expect(client).toContain('Controlla gli indizi estratti nel browser');
+    expect(client).toContain('Review clues extracted in your browser');
+    expect(client).toContain('Controlla il portafoglio policy dell’azienda');
+    expect(client).toContain('Check the company policy portfolio');
+    expect(client).toContain('aria-pressed={selectedTypes.includes(type)}');
+    expect(client).toContain('parsePolicyInquiryLocally(input, companyOverride || companyName, websiteUrl, {');
+    expect(route).toContain("state: 'conflict'");
+    expect(route).toContain('startingEvidence: prioritized.startingEvidence');
+    expect(route).toContain('otherEvidence: prioritized.otherEvidence');
+    expect(route).toContain('collectLatestPortfolioEvidence');
+    expect(route).toContain('db.policyChange.findFirst');
+    expect(route).toContain('publicChangeWhere({ policyId: policy.id })');
+    expect(route).toContain("orderBy: [{ createdAt: 'desc' }, { id: 'desc' }]");
+    expect(route).not.toContain('db.policyChange.findMany');
+    expect(route).not.toContain('take: 12');
+    expect(route).not.toContain('type: { in: parsed.policyTypes }');
+    expect(route).toContain("code: 'POLICY_INQUIRY_STORAGE_UNAVAILABLE'");
+    expect(route).toContain("status: 503");
+    expect(styles).toContain('.portfolioFlow');
+    expect(styles).toContain('.header nav a:focus-visible,.header nav button:focus-visible');
+    expect(styles).toContain('.localBadge{font-size:.78rem');
+    expect(styles).toContain('@media(max-width:700px)');
+    expect(styles).not.toContain('overflow-x:hidden');
   });
 
   it('makes the browser boundary, excluded data and every result explanation explicit', () => {

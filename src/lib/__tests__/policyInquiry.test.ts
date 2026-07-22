@@ -1,9 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import {
   buildInquiryDedupeKey,
+  collectLatestPortfolioEvidence,
+  isPolicyInquiryStorageUnavailable,
   matchInquiryCompany,
   normalizePolicyInquiryClues,
   normalizePolicyUrl,
+  prioritizePortfolioEvidence,
 } from '../policyInquiry';
 import { parsePolicyInquiryLocally } from '../policyInquiryClient';
 
@@ -53,6 +56,22 @@ describe('policy inquiry local-only parsing and minimization', () => {
       .toMatchObject({ state: 'matched', company: { id: 'blabla' } });
   });
 
+  it('supports a plain-text notice without links and explicit company/category confirmation', () => {
+    const local = parsePolicyInquiryLocally(
+      'MioDottore\nAbbiamo aggiornato la nostra informativa e le regole sui cookie.',
+      'MioDottore',
+      '',
+      { policyTypes: ['privacy', 'cookies', 'ai'] },
+    );
+    expect(local).toMatchObject({
+      companyHint: 'MioDottore',
+      sourceUrl: null,
+      senderDomain: null,
+      policyTypes: ['privacy', 'cookies', 'ai'],
+    });
+    expect(Object.keys(local)).not.toContain('input');
+  });
+
   it('recognizes explicit AI policy language without treating Italian "ai" as AI', () => {
     const local = parsePolicyInquiryLocally('OpenAI\nWe updated our AI training policy and artificial intelligence terms.');
     expect(local.policyTypes).toContain('ai');
@@ -76,6 +95,80 @@ describe('policy inquiry local-only parsing and minimization', () => {
     expect(buildInquiryDedupeKey(parsed)).toBe(buildInquiryDedupeKey(parsed));
   });
 
+  it('returns a dedicated conflict when company and official URL identify different known companies', () => {
+    const parsed = normalizePolicyInquiryClues({
+      companyHint: 'WAZE', senderDomain: null, sourceUrl: 'https://google.com/privacy',
+      noticeDate: null, effectiveDate: null, policyTypes: ['privacy'],
+    });
+    expect(matchInquiryCompany(parsed, [
+      companies[0],
+      { ...companies[1], policies: [{ id: 'google-privacy', type: 'privacy', url: 'https://google.com/privacy' }] },
+    ])).toMatchObject({
+      state: 'conflict',
+      companyCandidate: { id: 'waze' },
+      sourceCandidate: { id: 'google' },
+    });
+  });
+
+  it('does not let a known URL silently override an explicit unmatched company confirmation', () => {
+    const parsed = normalizePolicyInquiryClues({
+      companyHint: 'MioDottore', senderDomain: null, sourceUrl: 'https://google.com/privacy',
+      noticeDate: null, effectiveDate: null, policyTypes: ['privacy'],
+    });
+    expect(matchInquiryCompany(parsed, [
+      { ...companies[1], policies: [{ id: 'google-privacy', type: 'privacy', url: 'https://google.com/privacy' }] },
+    ])).toMatchObject({
+      state: 'conflict',
+      companyHint: 'MioDottore',
+      companyCandidate: null,
+      sourceCandidate: { id: 'google' },
+    });
+  });
+
+  it('prioritizes starting categories without filtering other company evidence', () => {
+    const changes = [
+      { id: 'terms', policy: { type: 'terms' } },
+      { id: 'privacy', policy: { type: 'privacy' } },
+      { id: 'ai', policy: { type: 'ai' } },
+    ];
+    expect(prioritizePortfolioEvidence(changes, ['privacy', 'ai'])).toEqual({
+      startingEvidence: [changes[1], changes[2]],
+      otherEvidence: [changes[0]],
+    });
+  });
+
+  it('collects at most one latest evidence item from every portfolio policy before ranking', async () => {
+    const histories = new Map([
+      ['privacy', [
+        { id: 'privacy-old', createdAt: '2026-01-01', policy: { type: 'privacy' } },
+        { id: 'privacy-new', createdAt: '2026-07-01', policy: { type: 'privacy' } },
+      ]],
+      ['terms', [
+        { id: 'terms-new', createdAt: '2026-06-01', policy: { type: 'terms' } },
+      ]],
+      ['ai', [
+        { id: 'ai-new', createdAt: '2026-05-01', policy: { type: 'ai' } },
+      ]],
+    ]);
+    const calls: string[] = [];
+    const latest = await collectLatestPortfolioEvidence(
+      [...histories.keys()],
+      async (policyId) => {
+        calls.push(policyId);
+        return [...(histories.get(policyId) || [])]
+          .sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0] || null;
+      },
+    );
+
+    expect(calls).toEqual(['privacy', 'terms', 'ai']);
+    expect(latest.map((change) => change.id)).toEqual(['privacy-new', 'terms-new', 'ai-new']);
+    expect(new Set(latest.map((change) => change.policy.type)).size).toBe(3);
+    expect(prioritizePortfolioEvidence(latest, ['ai'])).toEqual({
+      startingEvidence: [latest[2]],
+      otherEvidence: [latest[0], latest[1]],
+    });
+  });
+
   it('rejects empty structured clues and invalid URLs', () => {
     expect(() => normalizePolicyInquiryClues({
       companyHint: null, senderDomain: null, sourceUrl: null,
@@ -85,5 +178,16 @@ describe('policy inquiry local-only parsing and minimization', () => {
       companyHint: null, senderDomain: null, sourceUrl: 'javascript:alert(1)',
       noticeDate: null, effectiveDate: null, policyTypes: [],
     })).toThrow('INVALID_URL');
+  });
+
+  it('recognizes missing/unavailable inquiry schema dependencies as controlled unavailability', () => {
+    expect(isPolicyInquiryStorageUnavailable({
+      code: 'P2021', message: 'The table main.PolicyInquiry does not exist',
+    })).toBe(true);
+    expect(isPolicyInquiryStorageUnavailable(new Error('no such table: PolicyInquiry'))).toBe(true);
+    expect(isPolicyInquiryStorageUnavailable({ code: 'P2021', message: 'The table main.Company does not exist' })).toBe(true);
+    expect(isPolicyInquiryStorageUnavailable({ code: 'P2022', message: 'The column activeDedupeKey does not exist' })).toBe(true);
+    expect(isPolicyInquiryStorageUnavailable({ code: 'P1003', message: 'Database does not exist' })).toBe(true);
+    expect(isPolicyInquiryStorageUnavailable(new Error('upstream request failed'))).toBe(false);
   });
 });

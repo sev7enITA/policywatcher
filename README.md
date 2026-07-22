@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.7.0%20Evidence%20Experience-146c6a" alt="3.7.0 Evidence Experience Release" />
+  <img src="https://img.shields.io/badge/Release-3.7.1%20Evidence%20Experience-146c6a" alt="3.7.1 Evidence Experience Release" />
 </p>
 
 <p align="center">
@@ -37,6 +37,14 @@
 PolicyWatcher monitors the privacy policies, terms of service, and AI governance practices of 16 major technology and financial companies. It tracks configured public policy sources, records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.7.1 Evidence Intake Reliability Highlights
+
+- **Plain-text-first intake** treats pasted notification text as a browser-local signal even when copy-and-paste drops every hidden link.
+- **Explicit clue confirmation** lets the person review the organization, policy categories, dates, sender domain and an optional starting-policy URL before submission.
+- **Portfolio-wide verification** prioritizes the policy categories named in the notice without excluding the company’s other public monitored policies.
+- **Conflict and runtime explainability** stops mismatched organization/domain clues and distinguishes missing or unavailable database storage from an ordinary verification failure.
+- **Privacy boundary retained** sends only confirmed structured clues; the raw email, subject, recipient and message body never cross the browser boundary.
 
 ### Release 3.7.0 Evidence Experience Highlights
 

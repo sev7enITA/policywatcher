@@ -97,10 +97,10 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 
 const nowItems = [
   {
-    phase: 'Delivered · 3.7.0',
+    phase: 'Delivered · 3.7.1',
     title: 'Notification-to-evidence inquiry',
     body:
-      'A citizen can paste a terms/privacy update notification for browser-local analysis, receive an existing verified comparison, or create a zero-content human-review inquiry that feeds controlled company discovery.',
+      'A citizen can paste a plain-text terms/privacy notice, confirm the locally extracted organization and starting policy clues, receive portfolio-wide public evidence, or create a zero-content human-review inquiry that feeds controlled company discovery.',
     benefit: 'The path from a real notification email to trustworthy evidence becomes direct without treating marketing copy as proof.',
     validation: 'Only publicEvidence records answer immediately; unknown or unverified cases remain queued behind the human source-approval gate.',
     icon: Search,
@@ -269,6 +269,13 @@ const releaseLanes = [
     title: 'Evidence Experience Release',
     body:
       'Bilingual notification-to-evidence inquiry with browser-local clue extraction, one-request company discovery, in-context baselines, evidence-provenance KPI QA, audited human handoff, and self-checking Hostinger startup.',
+    state: 'delivered',
+  },
+  {
+    label: '3.7.1',
+    title: 'Evidence Intake Reliability',
+    body:
+      'Plain-text-first notification intake, explicit clue confirmation, organization/domain conflict handling, portfolio-wide policy verification, and actionable database-unavailable states without transmitting raw message content.',
     state: 'current',
   },
   {

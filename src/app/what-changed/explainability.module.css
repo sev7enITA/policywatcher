@@ -533,6 +533,8 @@
 
   .zoneLabel {
     margin-bottom: 18px;
+    font-size: 0.78rem;
+    line-height: 1.45;
   }
 
   .workflowStep p {
@@ -551,6 +553,7 @@
   .dataBoundary li,
   .apiSafeguard {
     font-size: 0.8rem;
+    line-height: 1.5;
   }
 
   .serverZone ol {

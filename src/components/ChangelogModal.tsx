@@ -51,11 +51,11 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                 <div className={styles.featureList}>
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>Evidence Experience Release (v3.7.0)</span>
+                      <span className={styles.featureName}>Evidence Intake Reliability (v3.7.1)</span>
                       <span className={styles.badgeActive}>Current</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      The notification-to-evidence desk keeps pasted content inside the browser, correlates only public evidence, and routes unknown companies through a human-reviewed discovery queue. Company onboarding, first baselines and KPI QA now share evidence-aware handoffs, while Hostinger startup validates schema completeness and uses only lockfile-installed tooling.
+                      Plain-text notices work even when copy-and-paste loses hidden links. Users confirm the company, starting policy categories, dates and optional official URL locally; PolicyWatcher then prioritizes that signal while checking the company’s full public monitored portfolio. Conflicts and unavailable database storage now produce explicit, actionable states without transmitting the raw email.
                     </p>
                   </div>
 
