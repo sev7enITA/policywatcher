@@ -1,25 +1,29 @@
 # PolicyWatcher — New Features Visual Kit
 
-Visual-first launch material for `policywatcher.online`. These assets use the
-PolicyWatcher eye/shield mark, indigo–teal palette and evidence-oriented visual
-language. They are intentionally separate from the Hostinger runtime package.
+Visual-first bilingual launch material for `policywatcher.online`. These assets
+use the PolicyWatcher eye/shield mark, indigo–teal palette and evidence-oriented
+visual language. Italian and English are separate companion images so the
+workflow remains legible. They are intentionally separate from the Hostinger
+runtime package.
 
 ## Assets
 
-1. `01-mail-to-evidence.png` — browser-local email analysis, privacy boundary,
-   minimal clues and verified evidence.
-2. `02-seamless-onboarding.png` — official sources, human approval, first
-   baseline, recurring monitoring, QA and publication.
-3. `03-objective-dashboard.png` — user objective, evidence modules and composed
-   dashboard.
+1. `01-mail-to-evidence.it.png` / `.en.png` — browser-local email analysis,
+   privacy boundary, minimal clues and verified evidence.
+2. `02-seamless-onboarding.it.png` / `.en.png` — official sources, human
+   approval, first baseline, recurring monitoring, QA and publication.
+3. `03-objective-dashboard.it.png` / `.en.png` — user objective, evidence
+   modules and composed dashboard.
 
 ## Generation
 
 Generated with the built-in OpenAI image generation tool using
-`public/logo-mark.png` as the authoritative brand reference. Each prompt used
-the `infographic-diagram` taxonomy, portrait composition, minimal Italian copy,
-PolicyWatcher indigo/teal colors, explicit `policywatcher.online` branding and
-instructions to avoid personal data, third-party logos, QR codes and watermarks.
+`public/logo-mark.png` as the authoritative brand reference. The Italian masters
+use the `infographic-diagram` taxonomy; their English companions use the
+`text-localization` taxonomy and preserve the original visual composition.
+Every prompt specifies PolicyWatcher indigo/teal colors, exact
+`policywatcher.online` branding and the exclusion of personal data, third-party
+logos, QR codes and watermarks.
 
 ## Usage notes
 

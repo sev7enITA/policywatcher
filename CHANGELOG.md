@@ -28,6 +28,7 @@
 - Closed concurrent public-inquiry duplication with a database-enforced active dedupe key while preserving new inquiries after terminal resolution.
 - Production startup now uses only the lockfile-installed Prisma CLI; no mutable registry CLI can be downloaded or executed during startup.
 - Materialized-migration reconciliation validates columns, defaults, foreign keys and indexes before marking a fallback-created migration as applied.
+- Pinned transitive image processing to `sharp` 0.35.3 / libvips 8.18.3, closing GHSA-f88m-g3jw-g9cj and its inherited libvips vulnerabilities.
 
 ## 3.6.5 - 2026-07-21
 

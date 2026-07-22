@@ -17,6 +17,7 @@ Scope: changes from `origin/main` through the 3.7.0 release candidate, with emph
 1. **Concurrent inquiry duplication (low).** Replaced the read-then-create race with a nullable, unique `activeDedupeKey`. A unique-conflict path returns the already-active inquiry; terminal transitions clear the key so a legitimate later request can be created.
 2. **Mutable Prisma CLI execution (high).** Removed `npx prisma` and `npm exec -- prisma` from production startup. The bridge uses the local lockfile-installed binary or an in-repository Node/Python fallback and otherwise fails closed.
 3. **Partial migration false-positive (medium).** Replaced table-name-only detection with DDL-aware validation of columns, types, required/default/primary-key properties, foreign keys, index uniqueness and index columns.
+4. **Inherited libvips vulnerabilities through sharp (high).** Forced Next.js image processing from vulnerable `sharp` 0.34.5 to 0.35.3, which uses patched libvips 8.18.3. A lockfile regression test rejects any future `sharp` version below 0.35.0.
 
 ## Validation boundary
 
