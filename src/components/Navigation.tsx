@@ -22,10 +22,11 @@ import {
   HelpCircle,
   History,
   Languages,
+  Layers3,
+  MailSearch,
   MoreHorizontal,
   Search,
   ShieldCheck,
-  ShieldQuestion,
   Sparkles,
   User,
   X,
@@ -33,6 +34,8 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { POLICYWATCHER_VERSION } from '@/lib/release';
+import { getWorkspaceQuickActionIds } from '@/lib/workspaceNavigation';
+import type { EvidenceDepth, WorkspaceIntent } from '@/lib/dashboardComposer';
 import styles from './Navigation.module.css';
 
 export type NavLayout = 'hud' | 'spotlight' | 'sidebar';
@@ -49,10 +52,13 @@ interface NavigationProps {
   onOpenHowTo: () => void;
   onOpenChangelog: () => void;
   onOpenAbout: () => void;
+  onOpenWorkspace: () => void;
   /** Execute global command palette search. */
   onOpenSearch: () => void;
   /** Callback to parent to adjust padding/margins depending on active navigation width/height. */
   onChangeLayout: (layout: NavLayout) => void;
+  workspaceIntent: WorkspaceIntent;
+  evidenceDepth: EvidenceDepth;
 }
 
 type CommandItem = {
@@ -83,8 +89,11 @@ export default function Navigation({
   onOpenHowTo,
   onOpenChangelog,
   onOpenAbout,
+  onOpenWorkspace,
   onOpenSearch,
   onChangeLayout,
+  workspaceIntent,
+  evidenceDepth,
 }: NavigationProps) {
   const [moreOpen, setMoreOpen] = useState(false);
   const isIt = lang === 'it';
@@ -134,10 +143,26 @@ export default function Navigation({
       changelog: 'Changes',
       about: 'About',
       assistant: 'AI Chat',
+      workspace: 'Workspace',
+      workspaceTitle: 'Configure Workspace Active',
+      workspaceIntent: {
+        citizen: 'Citizen',
+        grc: 'GRC / Legal',
+        research: 'Research',
+        builder: 'Builder',
+      },
+      evidenceDepth: {
+        snapshot: 'Snapshot',
+        operational: 'Operational',
+        forensic: 'Forensic',
+      },
       more: 'More',
       close: 'Close',
       moreTitle: 'Workspace Controls',
       moreSubtitle: 'Public dashboard actions, exports, docs, and QA references.',
+      navigationLabel: 'PolicyWatcher command ribbon',
+      mobileLabel: 'PolicyWatcher mobile commands',
+      quickAccessLabel: 'Workspace quick access',
       language: 'Italiano',
       tooltips: {
         search: 'Search companies, policies and dashboard actions',
@@ -158,6 +183,7 @@ export default function Navigation({
         language: 'Switch dashboard language',
         about: 'Open project and author information',
         assistant: 'Ask the PolicyWatcher assistant',
+        workspace: 'Review what is prioritized and configure your workspace',
         more: 'Open all controls',
       },
     },
@@ -184,10 +210,26 @@ export default function Navigation({
       changelog: 'Change',
       about: 'Info',
       assistant: 'AI Chat',
+      workspace: 'Workspace',
+      workspaceTitle: 'Configura Workspace Active',
+      workspaceIntent: {
+        citizen: 'Cittadino',
+        grc: 'GRC / Legal',
+        research: 'Ricerca',
+        builder: 'Builder',
+      },
+      evidenceDepth: {
+        snapshot: 'Snapshot',
+        operational: 'Operativa',
+        forensic: 'Forensic',
+      },
       more: 'Altro',
       close: 'Chiudi',
       moreTitle: 'Controlli Workspace',
       moreSubtitle: 'Azioni pubbliche, export, documentazione e riferimenti QA.',
+      navigationLabel: 'Barra comandi PolicyWatcher',
+      mobileLabel: 'Comandi mobili PolicyWatcher',
+      quickAccessLabel: 'Accesso rapido del workspace',
       language: 'English',
       tooltips: {
         search: 'Cerca aziende, policy e azioni della dashboard',
@@ -208,6 +250,7 @@ export default function Navigation({
         language: 'Cambia lingua della dashboard',
         about: 'Apri informazioni sul progetto e autore',
         assistant: 'Interroga l’assistente PolicyWatcher',
+        workspace: 'Rivedi le priorita e configura il workspace',
         more: 'Apri tutti i controlli',
       },
     },
@@ -218,7 +261,6 @@ export default function Navigation({
       id: 'observe',
       label: t.observe,
       items: [
-        { id: 'what-changed', label: t.whatChanged, tooltip: t.tooltips.whatChanged, icon: ShieldQuestion, href: '/what-changed', tone: 'accent' },
         { id: 'timeline', label: t.timeline, tooltip: t.tooltips.timeline, icon: Clock, href: '/timeline' },
         { id: 'observatory', label: t.observatory, tooltip: t.tooltips.observatory, icon: Search, href: '/observatory' },
         { id: 'leaderboard', label: t.leaderboard, tooltip: t.tooltips.leaderboard, icon: BarChart3, href: '/leaderboard' },
@@ -275,7 +317,6 @@ export default function Navigation({
     t.subscribe,
     t.timeline,
     t.trust,
-    t.whatChanged,
     t.tooltips.about,
     t.tooltips.atlas,
     t.tooltips.changelog,
@@ -291,13 +332,41 @@ export default function Navigation({
     t.tooltips.subscribe,
     t.tooltips.timeline,
     t.tooltips.trust,
-    t.tooltips.whatChanged,
   ]);
 
   const allCommands = useMemo(
     () => groups.flatMap((group) => group.items),
     [groups],
   );
+
+  const quickActionIds = useMemo(
+    () => getWorkspaceQuickActionIds(workspaceIntent),
+    [workspaceIntent],
+  );
+  const quickActions = useMemo(
+    () => quickActionIds
+      .map((id) => allCommands.find((command) => command.id === id))
+      .filter((command): command is CommandItem => Boolean(command)),
+    [allCommands, quickActionIds],
+  );
+
+  const whatChangedCommand: CommandItem = {
+    id: 'what-changed',
+    label: t.whatChanged,
+    tooltip: t.tooltips.whatChanged,
+    icon: MailSearch,
+    href: '/what-changed',
+    tone: 'accent',
+  };
+
+  const workspaceCommand: CommandItem = {
+    id: 'workspace',
+    label: t.workspace,
+    shortLabel: t.workspaceTitle,
+    tooltip: t.tooltips.workspace,
+    icon: Layers3,
+    onClick: onOpenWorkspace,
+  };
 
   const assistantCommand: CommandItem = {
     id: 'assistant',
@@ -322,13 +391,14 @@ export default function Navigation({
     item.onClick?.();
   };
 
-  const renderCommand = (item: CommandItem, mode: 'ribbon' | 'sheet' = 'ribbon') => {
+  const renderCommand = (item: CommandItem, mode: 'ribbon' | 'sheet' | 'icon' = 'ribbon') => {
     const Icon = item.icon;
     const className = [
       styles.commandButton,
       item.tone === 'accent' ? styles.commandAccent : '',
       item.tone === 'quiet' ? styles.commandQuiet : '',
       mode === 'sheet' ? styles.sheetCommand : '',
+      mode === 'icon' ? styles.iconOnlyCommand : '',
     ].filter(Boolean).join(' ');
 
     const content = (
@@ -371,8 +441,14 @@ export default function Navigation({
 
   return (
     <>
-      <nav className={styles.controlRibbon} aria-label="PolicyWatcher command ribbon">
-        <div className={styles.ribbonIdentity} aria-label="PolicyWatcher release status">
+      <nav className={styles.controlRibbon} aria-label={t.navigationLabel}>
+        <button
+          type="button"
+          className={styles.ribbonIdentity}
+          aria-label={t.tooltips.changelog}
+          title={t.tooltips.changelog}
+          onClick={onOpenChangelog}
+        >
           <span className={styles.identityMark} aria-hidden="true">
             <span />
           </span>
@@ -380,7 +456,9 @@ export default function Navigation({
             <strong>PolicyWatcher</strong>
             <span>{t.status}</span>
           </span>
-        </div>
+        </button>
+
+        {renderCommand(whatChangedCommand, 'icon')}
 
         <button
           type="button"
@@ -395,23 +473,43 @@ export default function Navigation({
           <kbd className={styles.commandKbd}>Cmd K</kbd>
         </button>
 
-        <div className={styles.ribbonGroups}>
-          {groups.map((group) => (
-            <section key={group.id} className={styles.commandGroup} aria-label={group.label}>
-              <span className={styles.groupLabel}>{group.label}</span>
-              <div className={styles.groupItems}>
-                {group.items.map((item) => renderCommand(item))}
-              </div>
-            </section>
-          ))}
+        <div className={styles.quickActions} aria-label={t.quickAccessLabel}>
+          {quickActions.map((item) => renderCommand(item))}
         </div>
 
-        {renderCommand(assistantCommand)}
+        <button
+          type="button"
+          className={styles.workspaceButton}
+          onClick={onOpenWorkspace}
+          aria-label={t.workspaceTitle}
+          data-tooltip={t.tooltips.workspace}
+          title={t.workspaceTitle}
+        >
+          <Layers3 size={18} aria-hidden="true" />
+          <span>
+            <strong>{t.workspace}</strong>
+            <small>{t.workspaceIntent[workspaceIntent]} · {t.evidenceDepth[evidenceDepth]}</small>
+          </span>
+        </button>
+
+        <button
+          type="button"
+          className={`${styles.commandButton} ${styles.moreButton}`}
+          onClick={() => setMoreOpen(true)}
+          data-tooltip={t.tooltips.more}
+          aria-label={t.more}
+          aria-expanded={moreOpen}
+        >
+          <MoreHorizontal size={19} aria-hidden="true" />
+          <span className={styles.commandLabel}>{t.more}</span>
+        </button>
+
+        {renderCommand(assistantCommand, 'icon')}
       </nav>
 
-      <nav className={styles.mobileCommandBar} aria-label="PolicyWatcher mobile commands">
-        {renderCommand(groups[0].items[0])}
-        {renderCommand(groups[1].items[0])}
+      <nav className={styles.mobileCommandBar} aria-label={t.mobileLabel}>
+        {renderCommand(whatChangedCommand)}
+        {renderCommand(workspaceCommand)}
         {renderCommand(assistantCommand)}
         {renderCommand(searchCommand)}
         <button
@@ -459,6 +557,11 @@ export default function Navigation({
               {renderCommand(assistantCommand, 'sheet')}
             </div>
 
+            <div className={styles.sheetStartRow}>
+              {renderCommand(whatChangedCommand, 'sheet')}
+              {renderCommand(workspaceCommand, 'sheet')}
+            </div>
+
             <div className={styles.sheetGroups}>
               {groups.map((group) => (
                 <section key={group.id} className={styles.sheetGroup} aria-label={group.label}>
@@ -471,7 +574,7 @@ export default function Navigation({
             </div>
 
             <div className={styles.sheetFooter}>
-              <span>{allCommands.length + 2}</span>
+              <span>{allCommands.length + 4}</span>
               <span>{isIt ? 'controlli disponibili' : 'available controls'}</span>
             </div>
           </aside>

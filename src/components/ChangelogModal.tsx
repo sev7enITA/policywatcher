@@ -51,11 +51,21 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                 <div className={styles.featureList}>
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>Evidence Intake Reliability (v3.7.1)</span>
+                      <span className={styles.featureName}>Calm Workspace (v3.7.2)</span>
                       <span className={styles.badgeActive}>Current</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Plain-text notices work even when copy-and-paste loses hidden links. Users confirm the company, starting policy categories, dates and optional official URL locally; PolicyWatcher then prioritizes that signal while checking the company’s full public monitored portfolio. Conflicts and unavailable database storage now produce explicit, actionable states without transmitting the raw email.
+                      First-time visitors choose an objective and evidence depth, preview the resulting evidence modules and keep Source QA visible before applying the workspace. The toolbar then exposes at most three relevant shortcuts, keeps every command in More, and provides direct What Changed, Search, Workspace and changelog access. Preferences and completion stay local to the browser.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Evidence Intake Reliability (v3.7.1)</span>
+                      <span className={styles.badgeStable}>Stable</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      Plain-text notices work even when copy-and-paste loses hidden links. Users confirm the company, starting policy categories, dates and optional official URL locally; PolicyWatcher then prioritizes that signal while checking the company’s full public monitored portfolio. Conflicts and unavailable database storage produce explicit, actionable states without transmitting the raw email.
                     </p>
                   </div>
 

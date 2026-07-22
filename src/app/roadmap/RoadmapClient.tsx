@@ -97,6 +97,15 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 
 const nowItems = [
   {
+    phase: 'Delivered · 3.7.2',
+    title: 'Calm Workspace onboarding and navigation',
+    body:
+      'First-time visitors choose an objective and evidence depth, preview the evidence stack, and enter a workspace whose toolbar exposes only the most relevant actions while retaining every command in More.',
+    benefit: 'The product becomes understandable before the full dashboard density appears, without removing expert capabilities.',
+    validation: 'Source QA remains visible, preferences stay local, setup is reversible, and the mobile navigation remains focused and safe-area aware.',
+    icon: SlidersHorizontal,
+  },
+  {
     phase: 'Delivered · 3.7.1',
     title: 'Notification-to-evidence inquiry',
     body:
@@ -276,6 +285,13 @@ const releaseLanes = [
     title: 'Evidence Intake Reliability',
     body:
       'Plain-text-first notification intake, explicit clue confirmation, organization/domain conflict handling, portfolio-wide policy verification, and actionable database-unavailable states without transmitting raw message content.',
+    state: 'delivered',
+  },
+  {
+    label: '3.7.2',
+    title: 'Calm Workspace Release',
+    body:
+      'Progressive first-use onboarding, objective-aware quick actions, direct changelog identity, icon-only What Changed entry, focused mobile navigation, and browser-local personalization.',
     state: 'current',
   },
   {

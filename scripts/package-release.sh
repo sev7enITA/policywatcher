@@ -45,7 +45,7 @@ required_sources=(
   package.json package-lock.json next.config.ts tsconfig.json next-env.d.ts server.js
   README.md CHANGELOG.md SECURITY.md LICENSE .env.example public src prisma scripts
   docs/dataset-confidence-audit-2026-07-05.md docs/audit-v3.6.5.md
-  docs/audit-v3.7.0.md docs/audit-v3.7.1.md docs/platform-state-of-art-2026-07-05.md
+  docs/audit-v3.7.0.md docs/audit-v3.7.1.md docs/audit-v3.7.2.md docs/platform-state-of-art-2026-07-05.md
   docs/platform-state-of-art-2026-07-05.it.md docs/third-party-validation.md
 )
 for source in "${required_sources[@]}"; do

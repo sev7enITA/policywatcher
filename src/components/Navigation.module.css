@@ -579,3 +579,191 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Calm workspace-aware command ribbon */
+.controlRibbon {
+  grid-template-columns: auto auto auto minmax(126px, 1fr) auto auto auto;
+  width: min(1320px, calc(100vw - 28px));
+}
+
+.ribbonIdentity {
+  appearance: none;
+  border-top: 0;
+  border-bottom: 0;
+  border-left: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ribbonIdentity:hover,
+.ribbonIdentity:focus-visible {
+  border-radius: 9px;
+  background: rgba(99, 102, 241, 0.13);
+  outline: 2px solid rgba(165, 180, 252, 0.7);
+  outline-offset: 2px;
+}
+
+.iconOnlyCommand {
+  width: 42px;
+  min-width: 42px;
+  padding: 0;
+}
+
+.iconOnlyCommand .commandLabel,
+.iconOnlyCommand.commandAccent .commandLabel {
+  display: none;
+}
+
+.quickActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 0;
+  gap: 3px;
+  padding: 4px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.quickActions .commandButton {
+  flex: 0 1 auto;
+}
+
+.workspaceButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-width: 164px;
+  height: 48px;
+  gap: 9px;
+  padding: 7px 11px;
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  border-radius: 9px;
+  background: rgba(16, 185, 129, 0.08);
+  color: #ecfdf5;
+  cursor: pointer;
+}
+
+.workspaceButton > span {
+  display: grid;
+  min-width: 0;
+  gap: 1px;
+  text-align: left;
+}
+
+.workspaceButton strong {
+  font-size: 0.74rem;
+}
+
+.workspaceButton small {
+  max-width: 150px;
+  overflow: hidden;
+  color: #a7f3d0;
+  font-size: 0.64rem;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workspaceButton:hover,
+.workspaceButton:focus-visible,
+.moreButton:hover,
+.moreButton:focus-visible {
+  border-color: rgba(165, 180, 252, 0.62);
+  background: rgba(99, 102, 241, 0.17);
+  outline: none;
+}
+
+.moreButton {
+  gap: 5px;
+}
+
+.mobileSheetLayer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 0 max(16px, calc((100vw - 1320px) / 2 + 8px)) 96px 16px;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.mobileSheet {
+  width: min(470px, calc(100vw - 32px));
+  max-height: min(72vh, 690px);
+  border-radius: 12px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.28);
+}
+
+.sheetStartRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding-bottom: 14px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+@media (max-width: 1180px) {
+  .controlRibbon {
+    grid-template-columns: auto auto auto minmax(120px, 1fr) auto auto auto;
+  }
+
+  .quickActions .commandLabel {
+    display: none;
+  }
+
+  .quickActions .commandButton {
+    width: 40px;
+    min-width: 40px;
+    padding: 0;
+  }
+
+  .workspaceButton {
+    min-width: 136px;
+  }
+}
+
+@media (max-width: 960px) {
+  .workspaceButton {
+    min-width: 44px;
+    width: 44px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .workspaceButton > span,
+  .moreButton .commandLabel {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .mobileSheetLayer {
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0;
+    background: rgba(15, 23, 42, 0.34);
+    backdrop-filter: blur(8px);
+  }
+
+  .mobileSheet {
+    width: min(520px, 100%);
+    max-height: min(82vh, 720px);
+    border-radius: 18px 18px 0 0;
+  }
+
+  .mobileCommandBar .commandAccent .commandLabel,
+  .mobileCommandBar .iconOnlyCommand .commandLabel {
+    display: block;
+  }
+}
+
+@media (max-width: 390px) {
+  .sheetStartRow {
+    grid-template-columns: 1fr;
+  }
+}

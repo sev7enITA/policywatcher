@@ -3019,6 +3019,225 @@
   }
 }
 
+.workspacePreviewInvariant {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .workspaceConfiguratorDialog[data-onboarding-step="2"] {
+    padding-bottom: calc(116px + env(safe-area-inset-bottom));
+    scroll-padding-bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+
+  .workspacePreviewInvariant {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 7px;
+    align-items: start;
+    padding: 8px 9px;
+    border-left: 3px solid #0f766e;
+    background: #f0fdfa;
+    color: #115e59;
+  }
+
+  .workspacePreviewInvariant p {
+    margin: 0;
+    color: #315d5a;
+    font-size: 0.7rem;
+    line-height: 1.38;
+  }
+
+  .workspacePreviewInvariant strong {
+    color: #134e4a;
+  }
+
+  .workspacePrivacyNote[data-step="2"] {
+    display: none;
+  }
+}
+
+@keyframes workspaceDialogEnter {
+  from {
+    transform: translateY(6px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.workspaceConfiguratorDialog {
+  animation: workspaceDialogEnter 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 480px) {
+  .workspaceConfiguratorDialog {
+    animation-duration: 0.1s;
+  }
+
+  .workspacePrivacyNote[data-step="0"] .workspaceEvidenceInvariant,
+  .workspacePrivacyNote[data-step="1"] .workspaceEvidenceInvariant {
+    display: none;
+  }
+
+  .workspacePrivacyNote[data-step="0"],
+  .workspacePrivacyNote[data-step="1"] {
+    padding-block: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workspaceConfiguratorDialog,
+  .workspaceComposerOverlay {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Progressive Workspace Active onboarding */
+.workspaceStepIndicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  color: var(--dashboard-accent-strong);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.workspaceStepIndicator > div {
+  display: grid;
+  grid-template-columns: repeat(3, 34px);
+  gap: 5px;
+}
+
+.workspaceStepIndicator i {
+  display: block;
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(100, 116, 139, 0.2);
+}
+
+.workspaceStepIndicator i[data-active="true"] {
+  background: var(--dashboard-accent);
+}
+
+.workspaceConfiguratorDialog .workspaceControls {
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: 20px;
+}
+
+.workspaceConfiguratorDialog .workspaceIntentGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.workspaceIntentExplanation {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  text-transform: none !important;
+}
+
+.workspaceIntentExplanation strong {
+  display: block;
+}
+
+.workspaceIntentExplanation small {
+  color: #64748b;
+  font-size: 0.74rem;
+  font-weight: 550;
+  line-height: 1.35;
+  text-transform: none;
+}
+
+.workspaceDepthStack button {
+  justify-content: space-between;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.workspaceDepthStack button > span {
+  display: grid;
+  gap: 3px;
+}
+
+.workspaceDepthStack button strong {
+  color: currentColor;
+  font-size: 0.84rem;
+}
+
+.workspaceDepthStack button small {
+  color: #64748b;
+  font-size: 0.74rem;
+  font-weight: 550;
+  line-height: 1.35;
+}
+
+.workspaceDepthActive small {
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+.workspacePrivacyNote {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-left: 3px solid #0f766e;
+  background: #f0fdfa;
+  color: #115e59;
+}
+
+.workspacePrivacyNote p {
+  margin: 0;
+  color: #315d5a;
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.workspacePrivacyNote strong {
+  color: #134e4a;
+}
+
+.workspaceActions {
+  justify-content: space-between;
+}
+
+.workspaceActionsStart {
+  display: flex;
+}
+
+@media (max-width: 760px) {
+  .workspaceConfiguratorDialog .workspaceIntentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .workspaceConfiguratorDialog .workspaceIntentGrid button {
+    grid-template-columns: 18px minmax(62px, 0.25fr) minmax(0, 1fr) 18px;
+    min-height: 74px;
+  }
+
+  .workspaceConfiguratorDialog .workspaceDepthStack {
+    grid-template-columns: 1fr;
+  }
+
+  .workspaceDepthStack button {
+    min-height: 66px;
+  }
+
+  .workspaceStepIndicator {
+    justify-content: space-between;
+  }
+
+  .workspaceActionsStart {
+    flex: 1;
+  }
+
+  .workspaceActionsStart .workspaceCloseButton {
+    width: 100%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .tickerViewport {
     overflow: visible;
@@ -3575,5 +3794,53 @@
     left: 0;
     margin: 0;
     padding: 10px 14px max(10px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Final progressive-onboarding overrides (after composer compatibility rules). */
+.workspaceConfiguratorDialog .workspaceControls {
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: 20px;
+}
+
+.workspaceConfiguratorDialog .workspaceIntentGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.workspaceConfiguratorDialog .workspaceDepthStack button {
+  justify-content: space-between;
+}
+
+@media (max-width: 760px) {
+  .workspaceConfiguratorDialog .workspaceIntentGrid,
+  .workspaceConfiguratorDialog .workspaceDepthStack {
+    grid-template-columns: 1fr;
+  }
+
+  .workspaceConfiguratorDialog .workspaceIntentGrid button {
+    grid-template-columns: 18px minmax(62px, 0.25fr) minmax(0, 1fr) 18px;
+    min-height: 74px;
+  }
+}
+
+@media (max-width: 480px) {
+  .workspaceConfiguratorDialog[data-onboarding-step="2"] {
+    padding-bottom: calc(116px + env(safe-area-inset-bottom));
+    scroll-padding-bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+
+  .workspaceGeneratedCard .workspacePreviewInvariant {
+    display: grid;
+  }
+
+  .workspaceGeneratedCard .workspacePreviewInvariant p {
+    margin: 0;
+    color: #315d5a;
+    font-size: 0.7rem;
+    line-height: 1.38;
+  }
+
+  .workspacePrivacyNote[data-step="2"] {
+    display: none;
   }
 }

@@ -1,5 +1,24 @@
 # Changelog
 
+## 3.7.2 - 2026-07-22
+
+### Added
+- Added a three-step first-use workspace onboarding flow for objective, evidence depth and a final evidence-module preview with Source QA kept visible.
+- Added an explicit browser-local completion marker and a persistent workspace control so users can reopen and revise their configuration at any time.
+
+### Changed
+- Simplified the desktop toolbar to a maximum of three intent-aware quick actions while keeping the complete command set available from More.
+- Replaced the What Changed text button with an announcement icon immediately before Search, and made the PolicyWatcher version identity open the release changelog.
+- Reduced mobile navigation to five focused actions: What Changed, Workspace, AI Chat, Search and More.
+
+### Accessibility and privacy
+- Added keyboard and focus behavior for the interactive release identity, reduced-motion handling, responsive labels and mobile safe-area spacing.
+- Workspace choices and onboarding completion remain local to the browser; the onboarding does not collect an email address or other user identity.
+
+### Verification
+- Added regressions for workspace-action mapping, first-use completion, URL preset behavior and navigation wiring.
+- Completed full tests, lint, TypeScript, production build, dependency audit, UI/UX evaluation and extracted Hostinger-package smoke verification.
+
 ## 3.7.1 - 2026-07-22
 
 ### Fixed
