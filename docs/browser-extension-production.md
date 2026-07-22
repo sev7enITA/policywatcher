@@ -1,4 +1,4 @@
-# PolicyWatcher Browser Evidence Companion 3.8.1
+# PolicyWatcher Browser Evidence Companion 3.8.3 Beta
 
 Production, privacy and store guide — Guida produzione, privacy e store
 
@@ -63,6 +63,7 @@ Select the publisher’s Apple Developer Team in Xcode, validate macOS/iOS targe
 
 ### Store submission
 
+- Beta metadata must identify the build as `BETA`; the English long description must begin with `THIS EXTENSION IS FOR BETA TESTING`.
 - Chrome Web Store: upload the Chrome/Edge ZIP, complete the privacy disclosure and permission justifications, provide the public privacy URL, screenshots and listing text from `browser-extension/docs/STORE_LISTING.md`.
 - Microsoft Edge Add-ons: the same Chromium archive is supported; complete the dedicated Privacy page, declare no remote code, and use the same single-purpose/permission wording.
 - Apple App Store: package the Safari source with Xcode, assign the correct Team/bundle identifiers, complete App Privacy, validate and upload the signed archive.

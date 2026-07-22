@@ -5,7 +5,7 @@ const POLICY_TYPES = ['privacy', 'terms', 'cookies', 'ai', 'acceptable-use'];
 
 const copy = {
   it: {
-    pageTitle: 'PolicyWatcher — Cosa è cambiato?', versionLabel: 'Estensione', openWebsite: 'Apri policywatcher.online', language: 'Lingua', evidenceJourney: 'Notifica visibile, indizi locali, evidenze PolicyWatcher', privacyBoundary: 'Confine di privacy',
+    pageTitle: 'PolicyWatcher — Cosa è cambiato? BETA', versionLabel: 'Estensione beta', openWebsite: 'Apri policywatcher.online', language: 'Lingua', evidenceJourney: 'Notifica visibile, indizi locali, evidenze PolicyWatcher', privacyBoundary: 'Confine di privacy',
     disclosureTitle: 'Prima di leggere la pagina', disclosureLead: 'PolicyWatcher chiederà accesso temporaneo alla scheda solo dopo la tua conferma.',
     railNotice: 'Notifica visibile', railNoticeBody: 'Seleziona il testo della notifica.', railLocal: 'Indizi locali', railLocalBody: 'Letto e scartato qui.',
     railEvidence: 'Evidenze PolicyWatcher', railEvidenceBody: 'Solo indizi confermati.', onDevice: 'Sul tuo dispositivo', onPolicyWatcher: 'In PolicyWatcher',
@@ -37,7 +37,7 @@ const copy = {
     evidence: 'Evidenza', openFull: 'Apri il controllo completo', retry: 'Riprova', choose: 'Verifica questa azienda', privacyLink: 'Privacy', methodologyLink: 'Metodo e limiti', legalNote: 'Non è consulenza legale'
   },
   en: {
-    pageTitle: 'PolicyWatcher — What changed?', versionLabel: 'Extension', openWebsite: 'Open policywatcher.online', language: 'Language', evidenceJourney: 'Visible notice, local clues, PolicyWatcher evidence', privacyBoundary: 'Privacy boundary',
+    pageTitle: 'PolicyWatcher — What changed? BETA', versionLabel: 'Beta extension', openWebsite: 'Open policywatcher.online', language: 'Language', evidenceJourney: 'Visible notice, local clues, PolicyWatcher evidence', privacyBoundary: 'Privacy boundary',
     disclosureTitle: 'Before reading this page', disclosureLead: 'PolicyWatcher requests temporary access to the tab only after you confirm.',
     railNotice: 'Visible notice', railNoticeBody: 'Select the notice text.', railLocal: 'Local clues', railLocalBody: 'Read and discarded here.',
     railEvidence: 'PolicyWatcher evidence', railEvidenceBody: 'Confirmed clues only.', onDevice: 'On your device', onPolicyWatcher: 'In PolicyWatcher',

@@ -92,6 +92,10 @@ export default function PrivacyPolicyPage() {
         <section className={styles.section}>
           <h2>PolicyWatcher browser extension</h2>
           <p>
+            The browser extension is currently distributed as beta software. Beta status does not
+            reduce the privacy, permission-minimization or data-handling controls described here.
+          </p>
+          <p>
             The browser extension receives temporary access to the active tab only after you press
             its inspection button. It does not request persistent access to Gmail, Outlook, your
             mailbox, browsing history, cookies or the clipboard. The visible notice is processed
@@ -109,6 +113,12 @@ export default function PrivacyPolicyPage() {
             rate limiting. It is not used for profiling, advertising or extension analytics. The
             extension does not retain inquiry history, language or disclosure state after its popup
             closes.
+          </p>
+          <p>
+            PolicyWatcher&apos;s use of information accessed through the browser extension complies
+            with the Chrome Web Store User Data Policy, including its Limited Use requirements. The
+            information is used only to provide the user-facing notice-to-evidence feature and is not
+            used for advertising, profiling, credit decisions, resale or unrelated purposes.
           </p>
         </section>
 

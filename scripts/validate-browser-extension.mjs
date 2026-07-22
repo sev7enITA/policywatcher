@@ -42,6 +42,7 @@ for (const file of runtimeFiles) {
 
 assert(manifest.manifest_version === 3, 'The extension must use Manifest V3');
 assert(manifest.version === appPackage.version, 'Extension and PolicyWatcher release versions must match');
+assert(manifest.version_name === `${manifest.version} Beta`, 'Beta extension version_name must identify the beta');
 assert(sameMembers(manifest.permissions, ['activeTab', 'scripting']), 'Permissions must be exactly activeTab and scripting');
 assert(sameMembers(manifest.host_permissions, ['https://www.policywatcher.online/*']), 'Host permission must be limited to policywatcher.online');
 assert(manifest.background?.service_worker === 'service-worker.js', 'Manifest must register the packaged service worker');
@@ -77,6 +78,7 @@ for (const forbidden of ['rawText', 'messageBody', 'emailAddress', 'recipient', 
 for (const locale of ['en', 'it']) {
   const messages = JSON.parse(read(join('_locales', locale, 'messages.json')));
   assert(messages.extensionName?.message && messages.extensionDescription?.message && messages.actionTitle?.message, `Locale ${locale} is incomplete`);
+  assert(/BETA$/.test(messages.extensionName.message), `Locale ${locale} name must identify the beta`);
 }
 
 console.log(`Browser extension ${manifest.version} validation passed (${runtimeFiles.length} runtime files).`);

@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "PolicyWatcher — What changed?"
+    "message": "PolicyWatcher — What changed? BETA"
   },
   "extensionDescription": {
     "message": "Inspect policy-change notices locally, then check verified PolicyWatcher evidence."

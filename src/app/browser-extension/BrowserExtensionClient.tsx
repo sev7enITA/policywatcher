@@ -14,7 +14,7 @@ type Lang = 'it' | 'en';
 
 const copy = {
   it: {
-    back: 'Cosa è cambiato?', switchLanguage: 'English', kicker: 'Estensione browser',
+    back: 'Cosa è cambiato?', switchLanguage: 'English', kicker: 'Estensione browser · Beta',
     title: 'Dalla mail ai link reali, senza inviare la mail',
     lead: 'Con un gesto esplicito, PolicyWatcher legge localmente la notifica aperta e recupera i link presenti nella pagina. Tu confermi gli indizi minimi prima della verifica.',
     boundary: 'Il contenuto resta nel browser', boundaryBody: 'Testo, oggetto, indirizzi e allegati non vengono trasmessi né conservati.',
@@ -37,7 +37,7 @@ const copy = {
     privacy: 'Privacy', methodology: 'Metodo e limiti', legal: 'Non è consulenza legale.',
   },
   en: {
-    back: 'What changed?', switchLanguage: 'Italiano', kicker: 'Browser extension',
+    back: 'What changed?', switchLanguage: 'Italiano', kicker: 'Browser extension · Beta',
     title: 'From the email to real links, without sending the email',
     lead: 'After an explicit action, PolicyWatcher reads the open notification locally and retrieves links present in the page. You confirm the minimal clues before verification.',
     boundary: 'Content stays in the browser', boundaryBody: 'Text, subject, addresses and attachments are never transmitted or stored.',

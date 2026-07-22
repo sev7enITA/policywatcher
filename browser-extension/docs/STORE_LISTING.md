@@ -2,13 +2,15 @@
 
 ## English listing
 
-**Name:** PolicyWatcher — What Changed?
+**Name:** PolicyWatcher — What Changed? BETA
 
 **Short description:** Inspect a visible policy-update notice locally and check PolicyWatcher’s verified public evidence.
 
 **Single purpose:** Help a person turn an opened terms/privacy update notice into confirmed non-personal clues and check PolicyWatcher’s public, human-gated policy evidence portfolio.
 
 **Long description:**
+
+THIS EXTENSION IS FOR BETA TESTING.
 
 Received a message saying that terms, privacy, cookie, AI or acceptable-use rules changed? PolicyWatcher helps you understand the evidence without uploading the email.
 
@@ -19,17 +21,21 @@ Received a message saying that terms, privacy, cookie, AI or acceptable-use rule
 
 If the company is not available, the extension can create a privacy-minimized reference for human source review. No scan or publication begins without administrator approval and QA. A first baseline describes the current text and cannot prove a past change.
 
-The extension requests temporary active-tab access only after your gesture. Raw email text, addresses, subject, body, attachments and fingerprints are not transmitted or stored. No analytics, advertising, telemetry, remote code or mailbox API is included. Not legal advice.
+The extension requests temporary active-tab access only after your gesture. Raw email text, addresses, subject, body, attachments and fingerprints are not transmitted or stored. No analytics, advertising, telemetry, remote code or mailbox API is included.
+
+Beta limitations: extraction may be incomplete on protected pages, PDFs, non-standard webmail layouts or opaque tracking links. PolicyWatcher may have no historical comparison for a company or may return a first-baseline or human-review state. Results are informational, may be delayed or incomplete, and are not legal advice.
 
 ## Inserzione italiana
 
-**Nome:** PolicyWatcher — Cosa è cambiato?
+**Nome:** PolicyWatcher — Cosa è cambiato? BETA
 
 **Descrizione breve:** Analizza localmente una notifica di aggiornamento e verifica le evidenze pubbliche di PolicyWatcher.
 
 **Scopo unico:** Aiutare una persona a trasformare una notifica aperta su termini/privacy in indizi non personali confermati e verificare il portafoglio di evidenze pubbliche sottoposte a gate umano di PolicyWatcher.
 
 **Descrizione estesa:**
+
+QUESTA ESTENSIONE È DISTRIBUITA PER IL BETA TESTING.
 
 Hai ricevuto un messaggio che annuncia modifiche a termini, privacy, cookie, IA o uso accettabile? PolicyWatcher ti aiuta a capire le evidenze senza caricare la mail.
 

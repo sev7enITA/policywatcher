@@ -4,6 +4,7 @@
   "short_name": "PolicyWatcher",
   "description": "__MSG_extensionDescription__",
   "version": "3.8.3",
+  "version_name": "3.8.3 Beta",
   "default_locale": "en",
   "minimum_chrome_version": "102",
   "permissions": [

@@ -1,6 +1,6 @@
 # PolicyWatcher Browser Evidence Companion
 
-Manifest V3 browser extension for PolicyWatcher 3.8.3. Chrome and Microsoft Edge use this source directly. Safari uses the same web-extension source through Apple’s Safari Web Extension packager.
+Manifest V3 beta browser extension for PolicyWatcher 3.8.3. Chrome and Microsoft Edge use this source directly. Safari uses the same web-extension source through Apple’s Safari Web Extension packager.
 
 ## Development
 
@@ -29,4 +29,4 @@ npm run extension:package
 
 Packaging requires committed tracked source and creates Chrome, Edge and Safari-source ZIP archives plus SHA-256 checksums in `artifacts/extensions/`.
 
-See [STORE_LISTING.md](docs/STORE_LISTING.md), [PRIVACY.md](docs/PRIVACY.md), [SAFARI.md](docs/SAFARI.md), and [RELEASE_CHECKLIST.md](docs/RELEASE_CHECKLIST.md).
+See [STORE_SUBMISSION_EN_BETA.md](docs/STORE_SUBMISSION_EN_BETA.md), [STORE_LISTING.md](docs/STORE_LISTING.md), [PRIVACY.md](docs/PRIVACY.md), [SAFARI.md](docs/SAFARI.md), and [RELEASE_CHECKLIST.md](docs/RELEASE_CHECKLIST.md).

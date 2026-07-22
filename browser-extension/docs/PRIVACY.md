@@ -2,6 +2,8 @@
 
 Version 3.8.3 — 22 July 2026
 
+Distribution status: public beta. Beta status does not reduce the privacy controls or disclosures described below.
+
 The public policy at `https://www.policywatcher.online/privacy` is the publication source of truth. This file supplies the extension-specific bilingual disclosure for store review.
 
 ## English

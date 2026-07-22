@@ -27,6 +27,9 @@
 
 ## Store / Store
 
+- [ ] Beta name ends with `BETA` and the English long description starts with `THIS EXTENSION IS FOR BETA TESTING`.
+- [ ] Choose a beta-safe audience: Chrome Private or Unlisted initially; Edge controlled/hidden audience when available; Safari TestFlight for external beta.
+- [ ] Create and test the dedicated beta feedback mailbox before submission.
 - [ ] Listing, privacy fields and permission justifications match actual code.
 - [ ] Privacy URL is publicly reachable and contains the extension section.
 - [ ] Screenshots use synthetic notices without names, addresses or inbox data.

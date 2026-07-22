@@ -81,6 +81,7 @@ describe('browser extension production boundary', () => {
 
   it('uses minimum permissions and the production-only host', () => {
     expect(manifest.manifest_version).toBe(3);
+    expect(manifest.version_name).toBe(`${manifest.version} Beta`);
     expect(manifest.permissions.sort()).toEqual(['activeTab', 'scripting']);
     expect(manifest.host_permissions).toEqual(['https://www.policywatcher.online/*']);
   });

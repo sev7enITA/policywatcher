@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "PolicyWatcher — Cosa è cambiato?"
+    "message": "PolicyWatcher — Cosa è cambiato? BETA"
   },
   "extensionDescription": {
     "message": "Analizza localmente le notifiche di modifica delle policy e controlla le evidenze verificate da PolicyWatcher."

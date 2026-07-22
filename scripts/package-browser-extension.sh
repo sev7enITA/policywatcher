@@ -68,6 +68,7 @@ node -e '
   fs.writeFileSync(target, JSON.stringify({
     product: "PolicyWatcher Browser Evidence Companion",
     version,
+    channel: "beta",
     sourceRevision: revision,
     builtAt: new Date().toISOString(),
     packages: { chrome, edge, safariSource: safari },
