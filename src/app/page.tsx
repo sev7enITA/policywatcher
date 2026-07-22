@@ -36,7 +36,6 @@ import {
   PlugZap,
   RotateCcw,
   Layers3,
-  GitFork,
   ShieldCheck,
   BarChart3,
   Route,
@@ -66,7 +65,7 @@ import HowToModal from '@/components/HowToModal';
 import Navigation, { NavLayout } from '@/components/Navigation';
 import { createDeferredViewportEvaluator, shouldSuggestOnTheGo } from '@/lib/mobileContext';
 import { dashboardUpdateNotices, getObservatorySource, observatorySignals } from '@/lib/observatory';
-import { POLICYWATCHER_VERSION } from '@/lib/release';
+import { POLICYWATCHER_RELEASE_BADGE, POLICYWATCHER_VERSION } from '@/lib/release';
 import { dataStatusClassKey, getWorstDataStatus, normalizeDataStatus } from '@/lib/policyConfidence';
 import {
   composeDashboard,
@@ -184,15 +183,8 @@ const translations = {
     exploreTitle: 'Tutte le nuove superfici, in un unico punto.',
     exploreLead: 'Adaptive Workspace, Observatory, sitemap interattiva, press wall, segnali policy, trust center e roadmap sono ora organizzati come percorsi di esplorazione.',
     exploreAtlas: 'Apri sitemap completa',
-    exploreFeature: `Stabile in ${POLICYWATCHER_VERSION}`,
     exploreOpen: 'Apri',
     exploreCards: [
-      {
-        title: 'Cosa è cambiato?',
-        href: '/what-changed',
-        category: 'Evidenza cittadino',
-        body: 'Verifica una mail sulle nuove condizioni o richiedi una revisione umana tracciata.',
-      },
       {
         title: 'Atlante del sito',
         href: '/atlas',
@@ -340,15 +332,8 @@ const translations = {
     exploreTitle: 'Every new surface, one clear entry point.',
     exploreLead: 'Adaptive Workspace, Observatory, interactive sitemap, press wall, policy signals, trust center and roadmap are now organized as guided exploration paths.',
     exploreAtlas: 'Open full sitemap',
-    exploreFeature: `Stable in ${POLICYWATCHER_VERSION}`,
     exploreOpen: 'Open',
     exploreCards: [
-      {
-        title: 'What changed?',
-        href: '/what-changed',
-        category: 'Citizen evidence',
-        body: 'Check a policy-update email against verified public comparisons or request human review.',
-      },
       {
         title: 'Site Atlas',
         href: '/atlas',
@@ -660,6 +645,27 @@ const WORKSPACE_COPY = {
   },
 };
 
+const EXTENSION_BETA_COPY = {
+  en: {
+    eyebrow: 'Browser extension Beta',
+    title: 'Browser extension: from the email to real links',
+    body: 'After an explicit gesture, the extension reads visible text and page links locally; PolicyWatcher receives only the organization, categories, dates, and cleaned URLs.',
+    status: 'Chrome · Edge · Safari — store publication in progress',
+    primaryAction: 'Explore the browser extension',
+    fallbackAction: 'On mobile? Paste the notice',
+    disclaimer: 'Pre-release software: results may be incomplete. Not legal advice.',
+  },
+  it: {
+    eyebrow: 'Estensione browser Beta',
+    title: 'Estensione browser: dalla mail ai link reali',
+    body: 'Dopo un gesto esplicito, l’estensione legge localmente il testo visibile e i link presenti nella pagina; a PolicyWatcher arrivano solo azienda, categorie, date e URL ripuliti.',
+    status: 'Chrome · Edge · Safari — pubblicazione negli store in corso',
+    primaryAction: 'Scopri l’estensione browser',
+    fallbackAction: 'Sei su mobile? Incolla la notifica',
+    disclaimer: 'Software pre-release: i risultati possono essere incompleti. Non è consulenza legale.',
+  },
+} as const;
+
 interface MarketPulseChange {
   id: string;
   overallRisk: 'Low' | 'Medium' | 'High';
@@ -784,7 +790,8 @@ export default function Dashboard() {
   const depthOptions = EVIDENCE_DEPTHS[lang];
   const moduleLabels = WORKSPACE_MODULE_LABELS[lang];
   const commandLabels = WORKSPACE_COMMAND_LABELS[lang];
-  const explorationIcons = [GitFork, Search, Sparkles, Layers3, BarChart3, ShieldCheck, BookOpen, Newspaper, Route];
+  const explorationIcons = [Search, Sparkles, Layers3, BarChart3, ShieldCheck, BookOpen, Newspaper, Route];
+  const extensionBeta = EXTENSION_BETA_COPY[lang];
   const activeIntent = useMemo(
     () => intentOptions.find((option) => option.id === workspaceIntent) ?? intentOptions[0],
     [intentOptions, workspaceIntent]
@@ -1873,6 +1880,39 @@ export default function Dashboard() {
           )}
 
         </motion.section>
+
+        <section className={styles.extensionBetaStrip} aria-labelledby="extension-beta-title">
+          <div className={styles.extensionBetaRail} aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className={styles.extensionBetaIdentity}>
+            <span className={styles.extensionBetaBadge}>{POLICYWATCHER_RELEASE_BADGE}</span>
+            <span className={styles.extensionBetaEyebrow}>
+              <PlugZap size={14} aria-hidden="true" />
+              {extensionBeta.eyebrow}
+            </span>
+          </div>
+          <div className={styles.extensionBetaCopy}>
+            <h2 id="extension-beta-title">{extensionBeta.title}</h2>
+            <p>{extensionBeta.body}</p>
+            <span className={styles.extensionBetaStatus}>
+              <span className={styles.extensionBetaStatusDot} aria-hidden="true" />
+              {extensionBeta.status}
+            </span>
+          </div>
+          <div className={styles.extensionBetaActions}>
+            <Link href="/browser-extension" className={styles.extensionBetaPrimary}>
+              {extensionBeta.primaryAction}
+              <ArrowRight size={15} aria-hidden="true" />
+            </Link>
+            <Link href="/what-changed#paste-notice" className={styles.extensionBetaSecondary}>
+              {extensionBeta.fallbackAction}
+            </Link>
+            <small>{extensionBeta.disclaimer}</small>
+          </div>
+        </section>
 
         {isModuleVisible('observatory') && (
           <motion.section

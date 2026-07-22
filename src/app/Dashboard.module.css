@@ -2109,6 +2109,241 @@
   min-height: 0;
 }
 
+.extensionBetaStrip {
+  position: relative;
+  display: grid;
+  grid-template-columns: 6px minmax(150px, 0.38fr) minmax(320px, 1fr) minmax(250px, 0.64fr);
+  gap: 18px;
+  align-items: center;
+  min-width: 0;
+  margin-bottom: 16px;
+  padding: 15px 16px 15px 0;
+  overflow: hidden;
+  border: 1px solid rgba(63, 85, 166, 0.22);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: var(--console-shadow);
+}
+
+.extensionBetaRail {
+  align-self: stretch;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 3px;
+  min-height: 84px;
+}
+
+.extensionBetaRail span:nth-child(1) {
+  background: #3f55a6;
+}
+
+.extensionBetaRail span:nth-child(2) {
+  background: #146c6a;
+}
+
+.extensionBetaRail span:nth-child(3) {
+  background: #b45309;
+}
+
+.extensionBetaIdentity,
+.extensionBetaCopy,
+.extensionBetaActions {
+  min-width: 0;
+}
+
+.extensionBetaIdentity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+}
+
+.extensionBetaBadge {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  padding: 5px 8px;
+  border: 1px solid rgba(180, 83, 9, 0.38);
+  border-radius: 3px;
+  background: #fffbeb;
+  color: #92400e;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+}
+
+.extensionBetaEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #3f55a6;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.extensionBetaCopy h2 {
+  margin: 0;
+  color: var(--console-ink);
+  font-family: var(--workspace-ui-font);
+  font-size: clamp(1.05rem, 1.6vw, 1.32rem);
+  font-weight: 700;
+  line-height: 1.18;
+}
+
+.extensionBetaCopy p {
+  max-width: 780px;
+  margin: 6px 0 8px;
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.48;
+}
+
+.extensionBetaStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #475569;
+  font-size: 0.72rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.extensionBetaStatusDot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #b45309;
+  box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.12);
+}
+
+.extensionBetaActions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 7px;
+}
+
+.extensionBetaPrimary,
+.extensionBetaSecondary {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.extensionBetaPrimary {
+  border: 1px solid #3f55a6;
+  background: #3f55a6;
+  color: #ffffff;
+}
+
+.extensionBetaPrimary:hover {
+  background: #33458a;
+}
+
+.extensionBetaSecondary {
+  border: 1px solid rgba(20, 108, 106, 0.28);
+  background: #f8fbfb;
+  color: #0b5553;
+}
+
+.extensionBetaSecondary:hover {
+  border-color: rgba(20, 108, 106, 0.52);
+  background: #eef8f7;
+}
+
+.extensionBetaPrimary:focus-visible,
+.extensionBetaSecondary:focus-visible {
+  outline: 3px solid rgba(63, 85, 166, 0.28);
+  outline-offset: 2px;
+}
+
+.extensionBetaActions small {
+  color: #78350f;
+  font-size: 0.67rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+@media (max-width: 1080px) {
+  .extensionBetaStrip {
+    grid-template-columns: 6px minmax(145px, 0.34fr) minmax(280px, 1fr);
+  }
+
+  .extensionBetaActions {
+    grid-column: 2 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .extensionBetaActions small {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 680px) {
+  .extensionBetaStrip {
+    grid-template-columns: 5px minmax(0, 1fr);
+    gap: 12px;
+    padding: 14px 12px 14px 0;
+  }
+
+  .extensionBetaRail {
+    grid-row: 1 / 4;
+    min-height: 100%;
+  }
+
+  .extensionBetaIdentity,
+  .extensionBetaCopy,
+  .extensionBetaActions {
+    grid-column: 2;
+  }
+
+  .extensionBetaActions {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .extensionBetaActions small {
+    grid-column: auto;
+    font-size: 0.7rem;
+  }
+
+  .extensionBetaCopy h2 {
+    font-size: 1.08rem;
+  }
+
+  .extensionBetaCopy p {
+    font-size: 0.82rem;
+  }
+
+  .extensionBetaStatus {
+    align-items: flex-start;
+    font-size: 0.74rem;
+  }
+
+  .extensionBetaStatusDot {
+    margin-top: 4px;
+  }
+
+  .extensionBetaPrimary,
+  .extensionBetaSecondary {
+    width: 100%;
+    min-height: 48px;
+  }
+}
+
 .observatoryTicker {
   display: grid;
   min-width: 0;

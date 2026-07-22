@@ -3,6 +3,7 @@
 ## 3.8.3 - 2026-07-22
 
 ### Changed
+- Added a compact bilingual homepage Beta release strip with centralized release-channel metadata, truthful Chrome/Edge/Safari pending status and direct extension/paste paths.
 - Reframed `/what-changed` as a compact two-path intake: the extension is recommended on desktop, while plain-text paste is the primary mobile action.
 - Explained that copied text cannot preserve hidden anchor destinations and that users do not need to reconstruct missing URLs manually.
 - Removed brand-specific placeholders and kept organization inference based on general signature and context patterns.
