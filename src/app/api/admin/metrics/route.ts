@@ -19,13 +19,16 @@ export async function GET(request: NextRequest) {
   const database = await getDatabaseDiagnostics();
 
   try {
-    const [companyCount, policyCount, snapshotCount, changeCount, subscriberCount] =
+    const [companyCount, policyCount, snapshotCount, changeCount, subscriberCount, openPolicyInquiryCount] =
       await Promise.all([
         db.company.count(),
         db.policy.count(),
         db.policySnapshot.count(),
         db.policyChange.count(),
         db.subscriber.count(),
+        db.policyInquiry.count({
+          where: { status: { notIn: ['Rejected', 'Duplicate', 'Resolved'] } },
+        }),
       ]);
 
     // Get the most recent change date
@@ -67,6 +70,7 @@ export async function GET(request: NextRequest) {
         snapshots: snapshotCount,
         changes: changeCount,
         subscribers: subscriberCount,
+        openPolicyInquiries: openPolicyInquiryCount,
         lastChangeAt: latestChange?.createdAt || null,
         riskDistribution,
       },

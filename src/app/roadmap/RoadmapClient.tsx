@@ -97,6 +97,15 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 
 const nowItems = [
   {
+    phase: 'Delivered · 3.8.1',
+    title: 'Mobile inquiry reliability',
+    body:
+      'The notification workflow now moves from paste to a local company/policy summary and one verification action, while optional corrections and explainability stay progressively disclosed.',
+    benefit: 'A person on a phone can submit a useful request without reconstructing hidden links, dates or a multi-field form.',
+    validation: 'Only successful writes show a registered reference; the admin queue has a visible count and optional minimized email alert, while raw notification content remains browser-local.',
+    icon: Search,
+  },
+  {
     phase: 'Delivered · 3.8.0',
     title: 'Browser Evidence Companion',
     body:
@@ -308,6 +317,13 @@ const releaseLanes = [
     title: 'Browser Evidence Companion',
     body:
       'Production Chrome/Edge Manifest V3 extension and Safari-compatible source with temporary tab access, local clue extraction, structured confirmation and portfolio-wide public evidence results.',
+    state: 'delivered',
+  },
+  {
+    label: '3.8.1',
+    title: 'Mobile Inquiry Reliability',
+    body:
+      'One-action mobile notification intake, realistic company extraction, truthful persistence receipts, visible admin queue count and privacy-minimized operator alerts.',
     state: 'current',
   },
   {

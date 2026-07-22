@@ -80,6 +80,13 @@ export default function PrivacyPolicyPage() {
             administrator approves the source. The random public inquiry reference contains no user
             identifier.
           </p>
+          <p>
+            A reference is shown only after the inquiry has been saved in the protected administrator
+            queue. When operational SMTP is configured, PolicyWatcher may notify the administrator
+            using the same minimized clues and reference; the pasted notification, email addresses,
+            subject and fingerprint are never included. If storage is unavailable, no queue item or
+            administrator email is created and the interface says that the request was not registered.
+          </p>
         </section>
 
         <section className={styles.section}>

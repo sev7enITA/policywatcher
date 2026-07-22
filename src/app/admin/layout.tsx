@@ -123,6 +123,7 @@ function AdminNavigationContents({
   onLogout,
   mobile = false,
   closeRef,
+  openPolicyInquiries = 0,
 }: {
   role: Role | null;
   visibleItems: NavItem[];
@@ -131,6 +132,7 @@ function AdminNavigationContents({
   onLogout: () => void;
   mobile?: boolean;
   closeRef?: React.RefObject<HTMLButtonElement | null>;
+  openPolicyInquiries?: number;
 }) {
   return (
     <>
@@ -172,6 +174,11 @@ function AdminNavigationContents({
           >
             <span className={styles.navIcon}>{item.icon}</span>
             {item.label}
+            {item.href === '/admin/inquiries' && openPolicyInquiries > 0 && (
+              <span className={styles.navCount} aria-label={`${openPolicyInquiries} open inquiries`}>
+                {openPolicyInquiries > 99 ? '99+' : openPolicyInquiries}
+              </span>
+            )}
           </Link>
         ))}
       </nav>
@@ -197,6 +204,7 @@ export default function AdminLayout({
   const [role, setRole] = useState<Role | null>(null);
   const [verified, setVerified] = useState(false);
   const [verificationError, setVerificationError] = useState('');
+  const [openPolicyInquiries, setOpenPolicyInquiries] = useState(0);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const mobileDrawerRef = useRef<HTMLElement | null>(null);
   const mobileCloseRef = useRef<HTMLButtonElement | null>(null);
@@ -241,6 +249,7 @@ export default function AdminLayout({
         const data = await res.json();
         if (!cancelled) {
           setRole(data.role || 'auditor');
+          setOpenPolicyInquiries(Number(data.data?.openPolicyInquiries || 0));
           setVerified(true);
         }
       } catch {
@@ -358,7 +367,7 @@ export default function AdminLayout({
     <div className={styles.adminLayout}>
       {/* Sidebar */}
       <aside className={styles.sidebar}>
-        <AdminNavigationContents role={role} visibleItems={visibleItems} isActive={isActive} onLogout={handleLogout} />
+        <AdminNavigationContents role={role} visibleItems={visibleItems} isActive={isActive} onLogout={handleLogout} openPolicyInquiries={openPolicyInquiries} />
       </aside>
 
       <header className={styles.mobileAdminHeader}>
@@ -398,6 +407,7 @@ export default function AdminLayout({
               onLogout={handleLogout}
               mobile
               closeRef={mobileCloseRef}
+              openPolicyInquiries={openPolicyInquiries}
             />
           </aside>
         </div>

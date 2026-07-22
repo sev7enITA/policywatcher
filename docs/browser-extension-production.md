@@ -1,4 +1,4 @@
-# PolicyWatcher Browser Evidence Companion 3.8.0
+# PolicyWatcher Browser Evidence Companion 3.8.1
 
 Production, privacy and store guide — Guida produzione, privacy e store
 

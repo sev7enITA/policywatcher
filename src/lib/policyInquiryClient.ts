@@ -84,10 +84,21 @@ function inferPolicyTypes(input: string): InquiryPolicyType[] {
 }
 
 function inferCompanyFromBody(input: string): string | null {
-  const rejected = /^(?:from|to|cc|bcc|date|subject)\s*:|forwarded message|aggiornament|update|privacy|termin|condition|informativa|hello|ciao\b/i;
+  const candidatePatterns = [
+    /(?:^|\n)\s*(?:il\s+)?team\s+(?:di|of)\s+([\p{L}\p{N}][\p{L}\p{N}&.'’ -]{1,60})\s*$/imu,
+    /\b([\p{Lu}][\p{L}\p{N}&.'’\-]*(?:\s+[\p{Lu}][\p{L}\p{N}&.'’\-]*){0,3})\s+(?:si\s+evolve|ha\s+aggiornato|aggiorner[aà]|is\s+updating|has\s+updated|will\s+update)\b/u,
+  ];
+  for (const pattern of candidatePatterns) {
+    const candidate = input.match(pattern)?.[1]?.trim().replace(/[.!,:;]+$/, '');
+    const explicit = explicitOrganizationHint(candidate);
+    if (explicit) return explicit;
+  }
+
+  const rejected = /^(?:from|to|cc|bcc|date|subject)\s*:|forwarded message|aggiornament|update|privacy|termin|condition|informativa|hello|ciao\b|cosa\s+cambia|what\s+changes|dear\b|buon\s+viaggio/i;
   for (const rawLine of input.split(/\r?\n/).slice(0, 12)) {
     const line = rawLine.replace(/[-–—]{3,}/g, ' ').trim();
     if (!line || line.length < 2 || line.length > 80 || rejected.test(line)) continue;
+    if (/[:;]$/.test(line)) continue;
     if (/https?:\/\/|@/.test(line) || !/[A-Za-zÀ-ÿ]/.test(line)) continue;
     if (line.split(/\s+/).length > 5) continue;
     return line;

@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { after, NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
 import { publicChangeWhere, publicPolicyWhere } from '@/lib/publicDataGate';
@@ -13,6 +13,7 @@ import {
 } from '@/lib/policyInquiry';
 import { createOrReuseActiveInquiry } from '@/lib/policyInquiryStore';
 import type { InquiryPolicyType } from '@/lib/policyInquiryClient';
+import { sendPolicyInquiryAdminAlert } from '@/lib/mailer';
 
 const MAX_BODY_BYTES = 8 * 1024;
 const ALLOWED_POLICY_TYPES = new Set<InquiryPolicyType>([
@@ -33,13 +34,13 @@ function inquiryError(lang: 'it' | 'en', key: 'invalid' | 'large' | 'generic' | 
       invalid: 'Indica il nome dell’organizzazione o un URL ufficiale valido.',
       large: 'La richiesta strutturata supera il limite consentito.',
       generic: 'Non è stato possibile completare la verifica. Riprova più tardi.',
-      storage: 'Il servizio richieste è temporaneamente non disponibile: l’amministratore deve verificare il database e applicare le migrazioni mancanti, inclusa PolicyInquiry.',
+      storage: 'La richiesta non è stata registrata perché il servizio è temporaneamente non disponibile. Riprova più tardi.',
     },
     en: {
       invalid: 'Enter the organization name or a valid official URL.',
       large: 'The structured request exceeds the allowed limit.',
       generic: 'The verification could not be completed. Please try again later.',
-      storage: 'The request service is temporarily unavailable: the administrator must check the database and apply missing migrations, including PolicyInquiry.',
+      storage: 'The request was not registered because the service is temporarily unavailable. Please try again later.',
     },
   } as const;
   return messages[lang][key];
@@ -210,6 +211,24 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    if (created) {
+      after(async () => {
+        try {
+          await sendPolicyInquiryAdminAlert({
+            reference: inquiry.publicToken,
+            companyHint: inquiry.companyHint,
+            normalizedDomain: inquiry.normalizedDomain,
+            policyTypes: parsed.policyTypes,
+            noticeDate: inquiry.noticeDate,
+            effectiveDate: inquiry.effectiveDate,
+            kind,
+          });
+        } catch (mailError) {
+          console.error('[Policy inquiries] Admin notification failed:', mailError);
+        }
+      });
+    }
+
     if (matchedCompanyId) {
       const company = companies.find((item) => item.id === matchedCompanyId)!;
       return NextResponse.json({
@@ -250,6 +269,7 @@ export async function POST(request: NextRequest) {
         code: 'POLICY_INQUIRY_STORAGE_UNAVAILABLE',
         error: inquiryError(lang, 'storage'),
         action: 'CHECK_DATABASE_AND_APPLY_MIGRATIONS',
+        retryable: true,
       }, { status: 503 });
     }
     console.error('[Policy inquiries] Safe public failure:', error);

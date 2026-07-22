@@ -24,6 +24,18 @@ Ci miglioriamo per ottimizzare la tua esperienza di viaggio.
 Abbiamo aggiornato i nostri Termini e condizioni e la nostra Informativa sulla privacy.
 Le prenotazioni transfrontaliere diventano più semplici e le informazioni sui dati più trasparenti.`;
 
+const BLABLACAR_PLAIN_TEXT_COPY = `Ci miglioriamo per ottimizzare la tua esperienza di viaggio.
+Ciao!
+
+Fabrizio, BlaBlaCar si evolve per offrirti un'esperienza di viaggio sempre più globale. Per garantire chiarezza e trasparenza durante questo processo, abbiamo aggiornato i nostri Termini e condizioni e la nostra Informativa sulla privacy.
+
+Cosa cambia per te:
+- Le prenotazioni transfrontaliere diventano più semplici.
+- Le informazioni su come gestiamo i tuoi dati saranno più trasparenti.
+
+Buon viaggio,
+Il team di BlaBlaCar`;
+
 const companies = [
   { id: 'waze', name: 'WAZE', slug: 'waze', website: 'https://www.waze.com', policies: [{ id: 'terms', type: 'terms', url: 'https://www.waze.com/legal/terms' }] },
   { id: 'google', name: 'Google', slug: 'google', website: 'https://google.com', policies: [] },
@@ -54,6 +66,19 @@ describe('policy inquiry local-only parsing and minimization', () => {
     expect(Object.keys(local)).not.toContain('redactedExcerpt');
     expect(matchInquiryCompany(normalizePolicyInquiryClues(local), companies))
       .toMatchObject({ state: 'matched', company: { id: 'blabla' } });
+  });
+
+  it('recognizes BlaBlaCar in a realistic plain-text copy without a leading brand or links', () => {
+    const local = parsePolicyInquiryLocally(BLABLACAR_PLAIN_TEXT_COPY);
+    expect(local.companyHint).toBe('BlaBlaCar');
+    expect(local.policyTypes).toEqual(expect.arrayContaining(['terms', 'privacy']));
+    expect(local.sourceUrl).toBeNull();
+    expect(Object.keys(local)).not.toContain('input');
+  });
+
+  it('does not mistake a section heading for the company name', () => {
+    const local = parsePolicyInquiryLocally('Cosa cambia per te:\nAbbiamo aggiornato i Termini e la Privacy.');
+    expect(local.companyHint).toBeNull();
   });
 
   it('supports a plain-text notice without links and explicit company/category confirmation', () => {

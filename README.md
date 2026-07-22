@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.8.0%20Browser%20Evidence%20Companion-146c6a" alt="3.8.0 Browser Evidence Companion Release" />
+  <img src="https://img.shields.io/badge/Release-3.8.1%20Mobile%20Inquiry%20Reliability-146c6a" alt="3.8.1 Mobile Inquiry Reliability Release" />
 </p>
 
 <p align="center">
@@ -37,6 +37,14 @@
 PolicyWatcher monitors the privacy policies, terms of service, and AI governance practices of 16 major technology and financial companies. It tracks configured public policy sources, records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.8.1 Mobile Inquiry Reliability Highlights
+
+- **One-action mobile intake** turns a pasted notice into a local company/category summary and a single `Check what changed` action; correction fields stay collapsed unless needed.
+- **Truthful receipts** separate persisted success from failed storage: only a successful database write receives a reference and appears in `Admin → Policy inquiries`.
+- **Operator visibility** adds an open-inquiry counter to the admin navigation and an optional privacy-minimized SMTP alert through `ADMIN_ALERT_EMAIL`.
+- **Realistic company extraction** recognizes body/signature patterns such as BlaBlaCar without treating section headings as organization names.
+- **Progressive explainability** keeps the privacy boundary, portfolio-wide scope and human QA gate available without forcing a long scroll before verification.
 
 ### Release 3.8.0 Browser Evidence Companion Highlights
 
@@ -714,6 +722,14 @@ export PATH="/opt/alt/alt-nodejs22/root/usr/bin:$PATH"
 export DATABASE_URL="file:/home/u847874844/domains/policywatcher.online/policywatcher-data/production.db"
 bash scripts/hostinger-init-db.sh
 ```
+
+Release 3.8.1 requires the `PolicyInquiry` table. Both `npm start` and direct
+`server.js` startup run this initializer automatically, but production rollout
+should still verify the startup log before accepting public requests. A saved
+request appears at `/admin/inquiries`; optional operator email uses
+`ADMIN_ALERT_EMAIL` and falls back to `ADMIN_EMAIL` or `SMTP_USER` when SMTP is
+configured. If storage is unavailable, the public receipt explicitly says that
+the request was not registered.
 
 If the database is new or has `0` companies / `0` policies, initialize only the
 monitored source inventory:

@@ -52,17 +52,20 @@ describe('policy inquiry security and admin wiring', () => {
     expect(adminStyles).toContain('grid-template-columns: minmax(0, 1fr)');
   });
 
-  it('implements guided clue confirmation, portfolio-wide evidence and controlled storage failure', () => {
+  it('implements a progressive mobile intake, portfolio-wide evidence and controlled storage failure', () => {
     const route = readFileSync('src/app/api/policy-inquiries/route.ts', 'utf8');
     const client = readFileSync('src/app/what-changed/WhatChangedClient.tsx', 'utf8');
     const styles = readFileSync('src/app/what-changed/whatChanged.module.css', 'utf8');
 
-    expect(client).toContain('È normale che il copia-incolla non conservi i link');
-    expect(client).toContain('Copying normally loses hidden link targets');
-    expect(client).toContain('Controlla gli indizi estratti nel browser');
-    expect(client).toContain('Review clues extracted in your browser');
-    expect(client).toContain('Controlla il portafoglio policy dell’azienda');
-    expect(client).toContain('Check the company policy portfolio');
+    expect(client).toContain('Non servono link, date o altre informazioni');
+    expect(client).toContain('No links, dates or other details are required');
+    expect(client).toContain('Correggi o aggiungi dettagli');
+    expect(client).toContain('Correct or add details');
+    expect(client).toContain('Verifica cosa è cambiato');
+    expect(client).toContain('Check what changed');
+    expect(client).toContain('role="status" aria-live="polite"');
+    expect(client).toContain('<details className={styles.disclosure}>');
+    expect(client).not.toContain('<section className={styles.explainer}');
     expect(client).toContain('aria-pressed={selectedTypes.includes(type)}');
     expect(client).toContain('parsePolicyInquiryLocally(input, companyOverride || companyName, websiteUrl, {');
     expect(route).toContain("state: 'conflict'");
@@ -77,26 +80,26 @@ describe('policy inquiry security and admin wiring', () => {
     expect(route).not.toContain('type: { in: parsed.policyTypes }');
     expect(route).toContain("code: 'POLICY_INQUIRY_STORAGE_UNAVAILABLE'");
     expect(route).toContain("status: 503");
-    expect(styles).toContain('.portfolioFlow');
+    expect(styles).toContain('.localSummary');
+    expect(styles).toContain('.afterPaste>.submit');
+    expect(styles).toContain('min-height:54px');
     expect(styles).toContain('.header nav a:focus-visible,.header nav button:focus-visible');
-    expect(styles).toContain('.localBadge{font-size:.78rem');
     expect(styles).toContain('@media(max-width:700px)');
     expect(styles).not.toContain('overflow-x:hidden');
   });
 
-  it('makes the browser boundary, excluded data and every result explanation explicit', () => {
+  it('keeps explainability accessible without putting it in the primary task flow', () => {
     const client = readFileSync('src/app/what-changed/WhatChangedClient.tsx', 'utf8');
     const explainabilityStyles = readFileSync('src/app/what-changed/explainability.module.css', 'utf8');
 
-    expect(client).toContain('Il testo della mail non lascia questo browser');
-    expect(client).toContain('Your email text never leaves this browser');
-    expect(client).toContain('Solo questi indizi attraversano il confine');
-    expect(client).toContain('Only these clues cross the boundary');
-    expect(client).toContain('Non vengono mai inviati o conservati');
-    expect(client).toContain('Indirizzo email e destinatario');
-    expect(client).toContain('Inviati solo quando disponibili');
-    expect(client).toContain('l’API rifiuta i campi contenenti il testo grezzo della mail');
-    expect(client).toContain('the API rejects fields containing raw email text');
+    expect(client).toContain('Privacy e come funziona');
+    expect(client).toContain('Privacy and how it works');
+    expect(client).toContain('Il testo grezzo, l’oggetto, il destinatario e qualsiasi fingerprint restano nel browser');
+    expect(client).toContain('Raw text, subject, recipient and any fingerprint stay in the browser');
+    expect(client).toContain('Controlleremo tutte le policy pubbliche monitorate');
+    expect(client).toContain('We check every monitored public policy');
+    expect(client).toContain('Una nuova azienda o fonte viene pubblicata soltanto dopo approvazione e QA umano');
+    expect(client).toContain('A new company or source is published only after human approval and QA');
     for (const state of ['matched', 'monitored_no_verified_change', 'queued', 'ambiguous']) {
       expect(client).toContain(`data-result-explanation="${state}"`);
     }
@@ -111,5 +114,25 @@ describe('policy inquiry security and admin wiring', () => {
     expect(explainabilityStyles).toContain('font-size: 0.8rem');
     expect(explainabilityStyles).toContain('flex-direction: column');
     expect(explainabilityStyles).not.toContain('overflow-x');
+  });
+
+  it('never presents failed storage as an accepted request and names the successful admin destination', () => {
+    const client = readFileSync('src/app/what-changed/WhatChangedClient.tsx', 'utf8');
+    const styles = readFileSync('src/app/what-changed/whatChanged.module.css', 'utf8');
+    expect(client).toContain("storageTitle: 'Richiesta non registrata'");
+    expect(client).toContain("storageTitle: 'Request not registered'");
+    expect(client).toContain("queued: 'Richiesta registrata'");
+    expect(client).toContain("queued: 'Request registered'");
+    expect(client).toContain('Admin → Policy inquiries');
+    expect(client).toContain("whatNext: 'Cosa succede ora?'");
+    expect(client).toContain("whatNext: 'What happens next?'");
+    expect(client).toContain('className={`${styles.receipt} ${styles.queuedReceipt}`}');
+    expect(client).toContain('className={`${styles.disclosure} ${styles.receiptDisclosure}`}');
+    expect(client).toContain('L’amministratore riceve solo gli indizi operativi');
+    expect(client).toContain('The administrator receives only operational clues');
+    expect(styles).toContain('.queuedReceipt{border-left-color:#0f766e}');
+    expect(client).toContain('aria-live="assertive" data-result-explanation="storage_unavailable"');
+    expect(client).toContain('onClick={() => void submit()}');
+    expect(client).not.toContain('<p>{t.queued}</p><h2>{t.storageTitle}</h2>');
   });
 });

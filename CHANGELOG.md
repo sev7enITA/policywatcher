@@ -1,5 +1,22 @@
 # Changelog
 
+## 3.8.1 - 2026-07-22
+
+### Fixed
+- Reduced the public notification workflow to paste, local summary and one verification action; company correction appears only when local extraction cannot identify it.
+- Corrected realistic BlaBlaCar plain-text parsing so headings such as “Cosa cambia per te” are never mistaken for the organization.
+- Removed the contradictory accepted-request label from storage failures. A failed write now says that no request was registered and offers a retry.
+
+### Operations
+- Added a visible open-inquiry counter to the administrator navigation and kept `/admin/inquiries` as the canonical queue.
+- Added a best-effort administrator email after a new minimized inquiry is successfully persisted. It uses `ADMIN_ALERT_EMAIL` (falling back to `ADMIN_EMAIL` or `SMTP_USER`) and never contains raw notification content or personal email fields.
+- Kept dates, policy categories and the optional source URL behind a collapsed correction panel; privacy and explainability remain available in a separate collapsed disclosure.
+
+### Deployment and verification
+- Hostinger startup continues to apply the idempotent `PolicyInquiry` migration before the application serves traffic; the release package contains no database or environment secrets.
+- Added regression coverage for realistic link-free notices, false company headings, admin notification wiring, queue visibility and mutually exclusive success/failure receipts.
+- Completed focused security tests, external mobile UI evaluation, full tests, lint, TypeScript, dependency audit and production build.
+
 ## 3.8.0 - 2026-07-22
 
 ### Added
