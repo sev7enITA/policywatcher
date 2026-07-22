@@ -109,6 +109,26 @@ describe('policy inquiry local-only parsing and minimization', () => {
     }
   });
 
+  it('recognizes arbitrary organization signatures without a brand allowlist', () => {
+    const fixtures = [
+      ['We updated our Privacy Policy.\nTeam Acme', 'Acme'],
+      ['Abbiamo aggiornato i nostri Termini.\nIl team di Northwind', 'Northwind'],
+      ['We updated our Terms of Service.\nThe Contoso Team', 'Contoso'],
+    ] as const;
+    for (const [notice, organization] of fixtures) {
+      expect(parsePolicyInquiryLocally(notice).companyHint).toBe(organization);
+    }
+  });
+
+  it('does not invent a source URL when plain text only contains here or qui', () => {
+    for (const notice of [
+      'Team Acme\nLeggi la Privacy aggiornata qui.',
+      'The Contoso Team\nRead the updated Terms here.',
+    ]) {
+      expect(parsePolicyInquiryLocally(notice).sourceUrl).toBeNull();
+    }
+  });
+
   it('does not mistake a section heading for the company name', () => {
     const local = parsePolicyInquiryLocally('Cosa cambia per te:\nAbbiamo aggiornato i Termini e la Privacy.');
     expect(local.companyHint).toBeNull();

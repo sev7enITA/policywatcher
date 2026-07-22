@@ -19,8 +19,8 @@ describe('release metadata', () => {
   it('matches the package version and composes one build label', () => {
     const packageJson = JSON.parse(readFileSync('package.json', 'utf8')) as { version: string };
     expect(POLICYWATCHER_VERSION).toBe(packageJson.version);
-    expect(POLICYWATCHER_RELEASE_NAME).toBe('Inquiry Handoff Reliability Release');
-    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.8.2 Inquiry Handoff Reliability Release');
+    expect(POLICYWATCHER_RELEASE_NAME).toBe('Extension-First Evidence Release');
+    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.8.3 Extension-First Evidence Release');
   });
 
   it('keeps current release surfaces connected to centralized metadata', () => {

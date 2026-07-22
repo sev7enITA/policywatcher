@@ -1,5 +1,23 @@
 # Changelog
 
+## 3.8.3 - 2026-07-22
+
+### Changed
+- Reframed `/what-changed` as a compact two-path intake: the extension is recommended on desktop, while plain-text paste is the primary mobile action.
+- Explained that copied text cannot preserve hidden anchor destinations and that users do not need to reconstruct missing URLs manually.
+- Removed brand-specific placeholders and kept organization inference based on general signature and context patterns.
+- Added a bilingual `/browser-extension` availability page with real install actions only for configured HTTPS store URLs and truthful pending states otherwise.
+
+### Privacy and reliability
+- Bound extension link selection to the selected or opened notification context when available, avoiding unrelated webmail navigation and footer links.
+- Continued to send only one cleaned starting URL and structured clues; opaque redirectors and tokenized destinations now fail closed.
+- Preserved temporary `activeTab` access, the service-worker payload allowlist and the prohibition on mailbox APIs, persistent content scripts, telemetry and raw-message transmission.
+
+### Verification
+- Added arbitrary-brand, hidden-link, contextual-anchor, redirect-rejection and store-configuration regressions.
+- Passed independent desktop/mobile design evaluation after focus, touch-target and mobile hierarchy corrections.
+- Completed full tests, extension validation, lint, TypeScript, dependency audit and production build before packaging.
+
 ## 3.8.2 - 2026-07-22
 
 - Fixed real-world MioDottore plain-text parsing so `Il Team MioDottore` wins over generic greetings such as `Gentile utente`.

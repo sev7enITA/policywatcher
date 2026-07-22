@@ -116,6 +116,7 @@ function setBusy(busy, context) {
 function inspectPageLocally() {
   const POLICY_WORDS = /privacy|informativa|personal data|dati personali|terms|termini|condizioni|conditions|cookie|artificial intelligence|intelligenza artificiale|acceptable use|uso accettabile|policy/i;
   const MAIL_HOSTS = /(^|\.)(mail\.google|outlook|office|live|yahoo|proton|icloud)\./i;
+  const REDIRECT_KEYS = /^(?:url|u|target|dest|destination|redirect|redirect_url|continue)$/i;
   const clean = (value, max) => String(value || '').replace(/\s+/g, ' ').trim().slice(0, max);
   const cleanVisibleText = (value, max) => String(value || '')
     .replace(/\r/g, '')
@@ -128,6 +129,12 @@ function inspectPageLocally() {
     try {
       const parsed = new URL(value, location.href);
       if (!['http:', 'https:'].includes(parsed.protocol)) return null;
+      // Opaque click-through URLs can contain a user token or an encoded
+      // destination. Fail closed instead of forwarding or guessing it.
+      const hasRedirectTarget = Array.from(parsed.searchParams.keys()).some((key) => REDIRECT_KEYS.test(key));
+      const looksLikeRedirector = /(?:^|[.-])(?:click|track|tracking|redirect|links?)(?:[.-]|$)/i.test(parsed.hostname)
+        || /\/(?:click|track|redirect|out)(?:\/|$)/i.test(parsed.pathname);
+      if (hasRedirectTarget || (looksLikeRedirector && parsed.search)) return null;
       parsed.username = '';
       parsed.password = '';
       parsed.search = '';
@@ -159,27 +166,44 @@ function inspectPageLocally() {
     return parsed.toISOString().slice(0, 10);
   };
 
-  const selection = cleanVisibleText(window.getSelection ? window.getSelection().toString() : '', 50000);
+  const selectionState = window.getSelection ? window.getSelection() : null;
+  const selection = cleanVisibleText(selectionState ? selectionState.toString() : '', 50000);
   const sourceKind = selection.length >= 20 ? 'selection' : 'page';
-  const visible = selection || cleanVisibleText(document.body ? document.body.innerText : '', 50000);
+  const pageVisible = cleanVisibleText(document.body ? document.body.innerText : '', 50000);
+  const visible = selection || pageVisible;
   const title = clean(document.title, 300);
   const working = `${title}\n${visible}`;
+  const metadataWorking = `${title}\n${pageVisible}`;
 
-  const senderMatch = working.match(/(?:^|\n)\s*(?:from|da|mittente)\s*:\s*([^\n]{1,180})/i);
+  const senderMatch = metadataWorking.match(/(?:^|\n)\s*(?:from|da|mittente)\s*:\s*([^\n]{1,180})/i);
   const senderEmail = senderMatch?.[1]?.match(/[A-Z0-9._%+-]+@([A-Z0-9.-]+\.[A-Z]{2,})/i);
   let senderDomain = senderEmail ? cleanDomain(senderEmail[1]) : null;
   let companyName = senderMatch ? clean(senderMatch[1].replace(/<[^>]+>|\([^)]*\)|[A-Z0-9._%+-]+@[A-Z0-9.-]+/gi, ''), 160) : null;
   companyName = companyName && companyName.length > 1 ? companyName.replace(/^["']|["']$/g, '').trim() : null;
   if (!companyName) {
     const signature = working.match(/(?:^|\n)[ \t]*(?:il[ \t]+)?team(?:[ \t]+(?:di|of))?[ \t]+([\p{L}\p{N}][\p{L}\p{N}&.'’ -]{1,60})[ \t]*$/imu)
-      || working.match(/(?:^|\n)[ \t]*(?:the[ \t]+)?([\p{L}\p{N}][\p{L}\p{N}&.'’ -]{1,60})[ \t]+team[ \t]*$/imu);
+      || working.match(/(?:^|\n)[ \t]*(?:the[ \t]+)?([\p{L}\p{N}][\p{L}\p{N}&.'’ -]{1,60})[ \t]+team[ \t]*$/imu)
+      || metadataWorking.match(/(?:^|\n)[ \t]*(?:il[ \t]+)?team(?:[ \t]+(?:di|of))?[ \t]+([\p{L}\p{N}][\p{L}\p{N}&.'’ -]{1,60})[ \t]*$/imu)
+      || metadataWorking.match(/(?:^|\n)[ \t]*(?:the[ \t]+)?([\p{L}\p{N}][\p{L}\p{N}&.'’ -]{1,60})[ \t]+team[ \t]*$/imu);
     const candidate = clean(signature?.[1], 160).replace(/[.!,:;]+$/, '');
     companyName = candidate && !/^(?:utente|cliente|customer|support|assistenza|staff|team)$/i.test(candidate)
       ? candidate
       : null;
   }
 
-  const anchors = Array.from(document.querySelectorAll('a[href]')).slice(0, 1000);
+  let notificationContext = null;
+  if (sourceKind === 'selection' && selectionState && selectionState.rangeCount > 0) {
+    const common = selectionState.getRangeAt(0).commonAncestorContainer;
+    const commonElement = common?.nodeType === 1 ? common : common?.parentElement;
+    notificationContext = commonElement?.closest?.('article, [role="article"], [data-message-id], [data-message-id] [role="main"], main') || commonElement || null;
+  }
+  if (!notificationContext) {
+    notificationContext = document.querySelector?.('article[role="article"], [data-message-id], main article, [role="main"] article') || null;
+  }
+  // When a message context is available, never fall back to global webmail
+  // navigation/footer anchors: no link is safer than the wrong link.
+  const anchorRoot = notificationContext?.querySelectorAll ? notificationContext : document;
+  const anchors = Array.from(anchorRoot.querySelectorAll('a[href]')).slice(0, 1000);
   let sourceUrl = null;
   for (const anchor of anchors) {
     const label = `${clean(anchor.textContent, 180)} ${clean(anchor.getAttribute('aria-label'), 100)} ${clean(anchor.href, 500)}`;
@@ -194,7 +218,7 @@ function inspectPageLocally() {
     companyName = label ? label.charAt(0).toUpperCase() + label.slice(1) : null;
   }
 
-  const dateHeader = working.match(/(?:^|\n)\s*(?:date|data)\s*:\s*([^\n]{4,120})/i);
+  const dateHeader = metadataWorking.match(/(?:^|\n)\s*(?:date|data)\s*:\s*([^\n]{4,120})/i);
   const effective = working.match(/(?:effective|in vigore|a partire dal|with effect from)\s+(?:il\s+|on\s+)?([^\n,.]{4,60}\b20\d{2})/i)
     || working.match(/(?:^|\n|[.!?]\s+)(?:il|on)\s+([^\n,.]{4,45}\b20\d{2})(?=\s+(?:aggiorneremo|we (?:will|are going to) update|entreranno|will take effect))/i);
   const types = policyTypes(working);

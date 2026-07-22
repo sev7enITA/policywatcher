@@ -57,8 +57,19 @@ describe('policy inquiry security and admin wiring', () => {
     const client = readFileSync('src/app/what-changed/WhatChangedClient.tsx', 'utf8');
     const styles = readFileSync('src/app/what-changed/whatChanged.module.css', 'utf8');
 
-    expect(client).toContain('Non servono link, date o altre informazioni');
-    expect(client).toContain('No links, dates or other details are required');
+    expect(client).toContain('Il copia-incolla non conserva i link nascosti');
+    expect(client).toContain('Copy and paste cannot preserve links hidden');
+    expect(client).toContain('Usa l’estensione browser');
+    expect(client).toContain('Use the browser extension');
+    expect(client).toContain('Nome dell’organizzazione');
+    expect(client).toContain('Organization name');
+    expect(client).not.toContain('es. MioDottore');
+    expect(client).not.toContain('e.g. DocPlanner');
+    expect(client).toContain('ref={messageInputRef}');
+    expect(client).toContain('onClick={focusPasteInput}');
+    expect(client).toContain("window.history.replaceState(null, '', '#paste-notice')");
+    expect(client).toContain("textarea.focus({ preventScroll: true })");
+    expect(client).toContain("textarea.scrollIntoView({");
     expect(client).toContain('Correggi o aggiungi dettagli');
     expect(client).toContain('Correct or add details');
     expect(client).toContain('Verifica cosa è cambiato');
@@ -81,6 +92,8 @@ describe('policy inquiry security and admin wiring', () => {
     expect(route).toContain("code: 'POLICY_INQUIRY_STORAGE_UNAVAILABLE'");
     expect(route).toContain("status: 503");
     expect(styles).toContain('.localSummary');
+    expect(styles).toContain('.mobileExtensionNote');
+    expect(styles).toContain('.extensionPath{display:none}');
     expect(styles).toContain('.afterPaste>.submit');
     expect(styles).toContain('min-height:54px');
     expect(styles).toContain('.header nav a:focus-visible,.header nav button:focus-visible');

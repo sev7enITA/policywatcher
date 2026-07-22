@@ -101,8 +101,8 @@ function inferredOrganizationHint(value: string | undefined): string | null {
 
 function inferCompanyFromBody(input: string): string | null {
   const candidatePatterns = [
-    // Italian and common international signatures: "Il Team MioDottore",
-    // "Il team di BlaBlaCar", "Team Waze" and "The Acme Team".
+    // General Italian and international signatures: "Il Team Acme",
+    // "Il team di Northwind", "Team Contoso" and "The Acme Team".
     /(?:^|\n)[ \t]*(?:il[ \t]+)?team(?:[ \t]+(?:di|of))?[ \t]+([\p{L}\p{N}][\p{L}\p{N}&.'’ -]{1,60})[ \t]*$/imu,
     /(?:^|\n)[ \t]*(?:the[ \t]+)?([\p{L}\p{N}][\p{L}\p{N}&.'’ -]{1,60})[ \t]+team[ \t]*$/imu,
     /\b([\p{Lu}][\p{L}\p{N}&.'’\-]*(?:\s+[\p{Lu}][\p{L}\p{N}&.'’\-]*){0,3})\s+(?:si\s+evolve|ha\s+aggiornato|aggiorner[aà]|is\s+updating|has\s+updated|will\s+update)\b/u,

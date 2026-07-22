@@ -15,16 +15,23 @@ const workerSource = readFileSync('browser-extension/service-worker.js', 'utf8')
 function scannerFixture(options: {
   pageText: string;
   selectionText?: string;
-  anchors?: Array<{ textContent: string; href: string; ariaLabel?: string }>;
+  anchors?: Array<{ textContent: string; href: string; ariaLabel?: string; context?: 'message' | 'global' }>;
 }) {
   const anchors = (options.anchors || []).map((anchor) => ({
     ...anchor,
     getAttribute: (name: string) => name === 'aria-label' ? anchor.ariaLabel || '' : '',
   }));
+  const messageContext = {
+    nodeType: 1,
+    closest: () => messageContext,
+    querySelectorAll: (selector: string) => selector === 'a[href]' ? anchors.filter((anchor) => anchor.context === 'message') : [],
+  };
+  const hasMessageContext = anchors.some((anchor) => anchor.context === 'message');
   const document = {
     title: 'Policy update notice',
     body: { innerText: options.pageText },
     querySelectorAll: (selector: string) => selector === 'a[href]' ? anchors : [],
+    querySelector: () => hasMessageContext ? messageContext : null,
     addEventListener: () => undefined,
     getElementById: () => null,
     documentElement: { lang: 'en', scrollTop: 0 },
@@ -38,7 +45,11 @@ function scannerFixture(options: {
     location: { href: 'https://mail.google.com/mail/u/0/#inbox/message', hostname: 'mail.google.com', pathname: '/mail/u/0/' },
     setTimeout,
     clearTimeout,
-    window: { getSelection: () => ({ toString: () => options.selectionText || '' }) },
+    window: { getSelection: () => ({
+      toString: () => options.selectionText || '',
+      rangeCount: options.selectionText && hasMessageContext ? 1 : 0,
+      getRangeAt: () => ({ commonAncestorContainer: messageContext }),
+    }) },
   });
   vm.runInContext(popupSource, context);
   return vm.runInContext('inspectPageLocally()', context) as Record<string, unknown>;
@@ -111,6 +122,36 @@ describe('browser extension production boundary', () => {
     expect(result.policyTypes).not.toContain('ai');
     expect(JSON.stringify(result)).not.toContain('private@example.com');
     expect(JSON.stringify(result)).not.toContain('utm_source');
+  });
+
+  it('prefers policy anchors inside the selected notification and ignores unrelated webmail navigation', () => {
+    const notice = `From: Acme Mobility <updates@acme.example>\nWe updated our Terms and Privacy Policy.`;
+    const result = scannerFixture({
+      pageText: notice,
+      selectionText: notice,
+      anchors: [
+        { textContent: 'Privacy settings', href: 'https://mail.example/settings/privacy?account=user@example.com', context: 'global' },
+        { textContent: 'Read the Privacy Policy', href: 'https://acme.example/legal/privacy?utm_source=email&token=secret#changes', context: 'message' },
+      ],
+    });
+    expect(result.sourceUrl).toBe('https://acme.example/legal/privacy');
+    expect(JSON.stringify(result)).not.toContain('user@example.com');
+    expect(JSON.stringify(result)).not.toContain('token');
+  });
+
+  it('fails closed for opaque redirect links instead of forwarding tokens or guessing destinations', () => {
+    const notice = `The Contoso Team\nWe updated our Terms.`;
+    const result = scannerFixture({
+      pageText: notice,
+      selectionText: notice,
+      anchors: [{
+        textContent: 'Read the Terms',
+        href: 'https://click.contoso.example/redirect?token=secret&url=https%3A%2F%2Fcontoso.example%2Fterms',
+        context: 'message',
+      }],
+    });
+    expect(result.sourceUrl).toBeNull();
+    expect(JSON.stringify(result)).not.toContain('secret');
   });
 
   it('recognizes a no-link MioDottore notice from its signature and contextual Italian IA language', () => {

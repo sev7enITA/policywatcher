@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.8.2%20Inquiry%20Handoff%20Reliability-146c6a" alt="3.8.2 Inquiry Handoff Reliability Release" />
+  <img src="https://img.shields.io/badge/Release-3.8.3%20Extension--First%20Evidence-146c6a" alt="3.8.3 Extension-First Evidence Release" />
 </p>
 
 <p align="center">
@@ -37,6 +37,14 @@
 PolicyWatcher monitors the privacy policies, terms of service, and AI governance practices of 16 major technology and financial companies. It tracks configured public policy sources, records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.8.3 Extension-First Evidence Highlights
+
+- **Truthful two-path intake** recommends the browser extension on desktop for local DOM-link capture and keeps plain-text paste as the primary mobile fallback.
+- **No invented hidden links** states explicitly that copied text cannot reconstruct URLs behind buttons or words such as `here`; missing links fall back to monitored sources or minimized discovery and QA.
+- **General-purpose extraction** uses neutral organization patterns and fixtures rather than product-specific UI examples or brand allowlists.
+- **Context-bound extension scanning** prefers policy anchors inside the opened notification and fails closed for opaque or tokenized redirect links.
+- **Verified store status** exposes a bilingual extension page whose install actions appear only for configured HTTPS store destinations; Safari signing and mobile availability remain explicit external prerequisites.
 
 ### Release 3.8.2 Inquiry Handoff Reliability Highlights
 

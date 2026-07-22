@@ -1,11 +1,11 @@
 'use client';
 
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, MouseEvent, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
   ArrowRight, CheckCircle2, ClipboardCheck, ChevronDown, FileSearch, Languages,
-  Laptop, LockKeyhole, RotateCcw, Search,
+  Laptop, Link2Off, LockKeyhole, Puzzle, RotateCcw, Search,
   ShieldCheck, ShieldQuestion, UserCheck,
 } from 'lucide-react';
 import {
@@ -49,9 +49,13 @@ const policyLabels: Record<Lang, Record<InquiryPolicyType, string>> = {
 const copy = {
   it: {
     kicker: 'Dalla notifica all’evidenza', title: 'Hai ricevuto una mail sulle nuove condizioni?',
-    lead: 'Incolla il testo della mail: azienda e policy vengono riconosciute sul tuo dispositivo, anche senza link.',
-    trustTitle: 'La mail resta sul tuo telefono', trustBody: 'Il testo viene letto solo in questo browser e non viene inviato né conservato.',
-    pasteTitle: 'Incolla la notifica', pasteHelp: 'Non servono link, date o altre informazioni.',
+    lead: 'Scegli il percorso più semplice. L’estensione legge localmente anche i link reali; il copia-incolla contiene solo il testo visibile.',
+    trustTitle: 'Privacy per impostazione', trustBody: 'Il contenuto della notifica resta nel browser. A PolicyWatcher arrivano solo gli indizi minimi che confermi.',
+    extensionChoiceLabel: 'Consigliato su computer', extensionChoiceTitle: 'Usa l’estensione browser', extensionChoiceBody: 'Apri la mail e avvia PolicyWatcher: legge localmente testo e link reali dietro pulsanti o parole come “qui”.', extensionChoiceAction: 'Scopri e installa l’estensione',
+    pasteChoiceLabel: 'Rapido sul telefono', pasteChoiceTitle: 'Incolla il testo visibile', pasteChoiceBody: 'Il testo semplice non include i link nascosti. Va bene: useremo le fonti già monitorate o avvieremo una richiesta minima di discovery e QA.', pasteChoiceAction: 'Vai al copia-incolla',
+    pasteTitle: 'Incolla la notifica', pasteHelp: 'Una sola azione: incolla il testo che vedi nella mail.',
+    plainTextLimit: 'Il copia-incolla non conserva i link nascosti dietro “qui” o un pulsante. È normale: non devi ricostruirli manualmente.',
+    desktopExtensionHint: 'Su un computer? L’estensione può acquisire il link di partenza dalla pagina aperta.', extensionShortLink: 'Usa l’estensione',
     message: 'Testo della mail o notifica', messagePh: 'Incolla qui il testo ricevuto, anche senza link…',
     localReady: 'Pronto per la verifica', localFallback: 'Policy da identificare',
     editDetails: 'Correggi o aggiungi dettagli', privacyHow: 'Privacy e come funziona',
@@ -60,7 +64,7 @@ const copy = {
     privacyPortfolio: 'Controlleremo tutte le policy pubbliche monitorate, non solo quelle citate nella mail.',
     privacyQa: 'Una nuova azienda o fonte viene pubblicata soltanto dopo approvazione e QA umano.',
     reviewTitle: '2. Controlla gli indizi estratti nel browser', reviewHelp: 'Correggi l’azienda e seleziona le policy indicate nella mail. Queste informazioni, non il messaggio, saranno inviate.',
-    company: 'Azienda da verificare', companyPh: 'es. MioDottore', companyRequired: 'Conferma il nome dell’azienda perché nel testo non è presente un dominio mittente affidabile.',
+    company: 'Azienda da verificare', companyPh: 'Nome dell’organizzazione', companyRequired: 'Non abbiamo trovato un nome affidabile nel testo. Inserisci soltanto l’organizzazione che ha inviato la notifica.',
     senderDomain: 'Dominio mittente rilevato', startingPolicies: 'Policy indicate nella notifica',
     url: 'Link della policy di partenza (facoltativo)', urlHelp: 'Incollalo separatamente solo se puoi copiarlo facilmente dalla mail o dal sito ufficiale.',
     noticeDate: 'Data della notifica (facoltativa)', effectiveDate: 'Entrata in vigore (facoltativa)',
@@ -99,9 +103,13 @@ const copy = {
   },
   en: {
     kicker: 'From notification to evidence', title: 'Did you receive an email about new terms?',
-    lead: 'Paste the email text: the company and policies are recognised on your device, even without links.',
-    trustTitle: 'The email stays on your phone', trustBody: 'The text is read only in this browser and is never sent or stored.',
-    pasteTitle: 'Paste the notification', pasteHelp: 'No links, dates or other details are required.',
+    lead: 'Choose the easiest path. The extension can read real links locally; copy and paste contains visible text only.',
+    trustTitle: 'Private by default', trustBody: 'The notification content stays in your browser. Only the minimal clues you confirm reach PolicyWatcher.',
+    extensionChoiceLabel: 'Recommended on a computer', extensionChoiceTitle: 'Use the browser extension', extensionChoiceBody: 'Open the email and run PolicyWatcher: it reads text and the real links behind buttons or words such as “here”, locally.', extensionChoiceAction: 'Learn about and install the extension',
+    pasteChoiceLabel: 'Quick on a phone', pasteChoiceTitle: 'Paste visible text', pasteChoiceBody: 'Plain text does not include hidden links. That is fine: we use monitored sources or open a minimized discovery and QA request.', pasteChoiceAction: 'Go to paste',
+    pasteTitle: 'Paste the notification', pasteHelp: 'One action: paste the text you can see in the email.',
+    plainTextLimit: 'Copy and paste cannot preserve links hidden behind “here” or a button. This is expected; you do not need to reconstruct them.',
+    desktopExtensionHint: 'On a computer? The extension can capture the starting link from the open page.', extensionShortLink: 'Use the extension',
     message: 'Email or notification text', messagePh: 'Paste the message here, even without links…',
     localReady: 'Ready to verify', localFallback: 'Policy to identify',
     editDetails: 'Correct or add details', privacyHow: 'Privacy and how it works',
@@ -110,7 +118,7 @@ const copy = {
     privacyPortfolio: 'We check every monitored public policy, not only the ones mentioned in the email.',
     privacyQa: 'A new company or source is published only after human approval and QA.',
     reviewTitle: '2. Review clues extracted in your browser', reviewHelp: 'Correct the company and select the policies mentioned in the email. These clues—not the message—will be sent.',
-    company: 'Company to verify', companyPh: 'e.g. DocPlanner', companyRequired: 'Confirm the company name because the text contains no reliable sender domain.',
+    company: 'Company to verify', companyPh: 'Organization name', companyRequired: 'We could not find a reliable name in the text. Enter only the organization that sent the notification.',
     senderDomain: 'Detected sender domain', startingPolicies: 'Policies mentioned in the notification',
     url: 'Starting policy link (optional)', urlHelp: 'Paste it separately only if you can easily copy it from the email or official site.',
     noticeDate: 'Notification date (optional)', effectiveDate: 'Effective date (optional)',
@@ -175,6 +183,7 @@ export default function WhatChangedClient() {
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const messageInputRef = useRef<HTMLTextAreaElement>(null);
   const t = copy[lang];
 
   const localClues = useMemo(() => {
@@ -199,6 +208,18 @@ export default function WhatChangedClient() {
   function togglePolicyType(type: InquiryPolicyType) {
     setCategoriesTouched(true);
     setSelectedTypes((current) => current.includes(type) ? current.filter((item) => item !== type) : [...current, type]);
+  }
+
+  function focusPasteInput(event: MouseEvent<HTMLAnchorElement>) {
+    const textarea = messageInputRef.current;
+    if (!textarea) return;
+    event.preventDefault();
+    window.history.replaceState(null, '', '#paste-notice');
+    textarea.focus({ preventScroll: true });
+    textarea.scrollIntoView({
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      block: 'center',
+    });
   }
 
   async function submit(event?: FormEvent, companyOverride?: string) {
@@ -272,10 +293,25 @@ export default function WhatChangedClient() {
       </section>
 
       <div className={styles.workspace}>
+        <section className={styles.captureChoice} aria-label={lang === 'it' ? 'Scegli come acquisire la notifica' : 'Choose how to capture the notification'}>
+          <article className={`${styles.capturePath} ${styles.extensionPath}`}>
+            <div className={styles.pathIcon}><Puzzle aria-hidden="true" /></div>
+            <div className={styles.pathCopy}><p>{t.extensionChoiceLabel}</p><h2>{t.extensionChoiceTitle}</h2><span>{t.extensionChoiceBody}</span></div>
+            <Link className={styles.pathAction} href="/browser-extension">{t.extensionChoiceAction}<ArrowRight aria-hidden="true" /></Link>
+          </article>
+          <article className={`${styles.capturePath} ${styles.pastePath}`}>
+            <div className={styles.pathIcon}><ClipboardCheck aria-hidden="true" /></div>
+            <div className={styles.pathCopy}><p>{t.pasteChoiceLabel}</p><h2>{t.pasteChoiceTitle}</h2><span>{t.pasteChoiceBody}</span></div>
+            <a className={styles.pathAction} href="#paste-notice" onClick={focusPasteInput}>{t.pasteChoiceAction}<ArrowRight aria-hidden="true" /></a>
+          </article>
+          <p className={styles.mobileExtensionNote}>{t.desktopExtensionHint} <Link href="/browser-extension">{t.extensionShortLink}<ArrowRight aria-hidden="true" /></Link></p>
+        </section>
+
         <form className={`${styles.form} ${styles.guidedForm}`} onSubmit={submit}>
-          <section className={styles.intakeSection} aria-labelledby="paste-title">
+          <section id="paste-notice" className={styles.intakeSection} aria-labelledby="paste-title">
             <div className={styles.compactHeading}><div><h2 id="paste-title">{t.pasteTitle}</h2><p>{t.pasteHelp}</p></div><span><Laptop size={15} />{lang === 'it' ? 'Analisi locale' : 'Local analysis'}</span></div>
-            <label className={styles.messageField}>{t.message}<textarea required value={input} onChange={(event) => updateInput(event.target.value)} placeholder={t.messagePh} maxLength={20480} rows={8} /></label>
+            <label className={styles.messageField}>{t.message}<textarea ref={messageInputRef} id="notification-text" required value={input} onChange={(event) => updateInput(event.target.value)} placeholder={t.messagePh} maxLength={20480} rows={8} /></label>
+            <div className={styles.plainTextNotice} role="note"><Link2Off aria-hidden="true" /><div><p>{t.plainTextLimit}</p><span>{t.desktopExtensionHint} <Link href="/browser-extension">{t.extensionShortLink}<ArrowRight aria-hidden="true" /></Link></span></div></div>
           </section>
 
           {input.trim() && <div className={styles.afterPaste}>
