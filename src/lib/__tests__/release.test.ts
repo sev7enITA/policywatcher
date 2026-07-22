@@ -19,8 +19,8 @@ describe('release metadata', () => {
   it('matches the package version and composes one build label', () => {
     const packageJson = JSON.parse(readFileSync('package.json', 'utf8')) as { version: string };
     expect(POLICYWATCHER_VERSION).toBe(packageJson.version);
-    expect(POLICYWATCHER_RELEASE_NAME).toBe('Calm Workspace Release');
-    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.7.2 Calm Workspace Release');
+    expect(POLICYWATCHER_RELEASE_NAME).toBe('Browser Evidence Companion Release');
+    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.8.0 Browser Evidence Companion Release');
   });
 
   it('keeps current release surfaces connected to centralized metadata', () => {

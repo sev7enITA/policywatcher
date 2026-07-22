@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "PolicyWatcher — What changed?"
+  },
+  "extensionDescription": {
+    "message": "Inspect policy-change notices locally, then check verified PolicyWatcher evidence."
+  },
+  "actionTitle": {
+    "message": "Check what changed with PolicyWatcher"
+  }
+}

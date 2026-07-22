@@ -1,5 +1,21 @@
 # Changelog
 
+## 3.8.0 - 2026-07-22
+
+### Added
+- Added the production PolicyWatcher Browser Evidence Companion for Chrome, Edge and Safari Web Extensions with a bilingual compact evidence workflow.
+- Added explicit local-inspection consent, structured clue confirmation, portfolio-scope explainability and complete rendering for matched, monitored, queued, ambiguous, conflict, rate-limit, storage and offline outcomes.
+- Added store-ready bilingual privacy, listing, permission-justification, Safari packaging, QA and release documentation.
+
+### Privacy and security
+- Limited page access to temporary `activeTab` permission after a user gesture; no persistent Gmail, Outlook, inbox, clipboard, cookie or all-sites permission is requested.
+- Kept raw notification text inside the injected page scanner and out of extension messages, storage, logs and network payloads.
+- Routed the allowlisted structured POST through the Manifest V3 service worker over HTTPS; no remote code, telemetry, advertising, analytics, `eval` or HTML injection is used.
+
+### Verification
+- Added automated manifest, payload allowlist, page-scanner, permission-minimization and package-content checks alongside browser fixtures for common email-notice structures.
+- Completed external UI evaluation, red-team review, full application tests, lint, TypeScript, dependency audit, production build and clean package extraction checks.
+
 ## 3.7.2 - 2026-07-22
 
 ### Added

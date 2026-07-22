@@ -1,6 +1,6 @@
 {
   "name": "policywatcher",
-  "version": "3.7.2",
+  "version": "3.8.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,6 +11,8 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "extension:validate": "node scripts/validate-browser-extension.mjs",
+    "extension:package": "bash scripts/package-browser-extension.sh",
     "api:smoke": "tsx scripts/api-smoke-test.ts",
     "db:repair": "tsx scripts/repair-data.ts",
     "db:backfill-check-logs": "tsx scripts/backfill-policy-check-logs.ts",

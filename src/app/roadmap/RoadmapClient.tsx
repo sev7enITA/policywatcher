@@ -97,6 +97,15 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 
 const nowItems = [
   {
+    phase: 'Delivered · 3.8.0',
+    title: 'Browser Evidence Companion',
+    body:
+      'A minimum-permission Chrome, Edge and Safari companion reads an opened notice only after an explicit gesture, extracts non-personal clues locally, and connects the confirmed signal to PolicyWatcher’s published portfolio evidence.',
+    benefit: 'People can move from a real notification to a verifiable answer without copying raw personal communications into the platform.',
+    validation: 'No persistent mailbox access, raw-content transmission, remote code or automated publication; unknown sources still enter the human approval and QA workflow.',
+    icon: Search,
+  },
+  {
     phase: 'Delivered · 3.7.2',
     title: 'Calm Workspace onboarding and navigation',
     body:
@@ -292,6 +301,13 @@ const releaseLanes = [
     title: 'Calm Workspace Release',
     body:
       'Progressive first-use onboarding, objective-aware quick actions, direct changelog identity, icon-only What Changed entry, focused mobile navigation, and browser-local personalization.',
+    state: 'delivered',
+  },
+  {
+    label: '3.8.0',
+    title: 'Browser Evidence Companion',
+    body:
+      'Production Chrome/Edge Manifest V3 extension and Safari-compatible source with temporary tab access, local clue extraction, structured confirmation and portfolio-wide public evidence results.',
     state: 'current',
   },
   {

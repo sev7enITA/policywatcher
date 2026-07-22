@@ -51,11 +51,21 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                 <div className={styles.featureList}>
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>Calm Workspace (v3.7.2)</span>
+                      <span className={styles.featureName}>Browser Evidence Companion (v3.8.0)</span>
                       <span className={styles.badgeActive}>Current</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      First-time visitors choose an objective and evidence depth, preview the resulting evidence modules and keep Source QA visible before applying the workspace. The toolbar then exposes at most three relevant shortcuts, keeps every command in More, and provides direct What Changed, Search, Workspace and changelog access. Preferences and completion stay local to the browser.
+                      A production Manifest V3 companion lets people inspect an opened policy-update notice only after an explicit gesture. Raw notice text is parsed and discarded inside the active page; users confirm the minimal clues before the service worker asks PolicyWatcher for portfolio-wide public evidence. Chrome and Edge share one store package, with compatible source and packaging guidance for Safari.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Calm Workspace (v3.7.2)</span>
+                      <span className={styles.badgeStable}>Stable</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      First-time visitors choose an objective and evidence depth, preview the resulting evidence modules and keep Source QA visible before applying the workspace. The toolbar exposes at most three relevant shortcuts, keeps every command in More, and provides direct What Changed, Search, Workspace and changelog access. Preferences and completion stay local to the browser.
                     </p>
                   </div>
 

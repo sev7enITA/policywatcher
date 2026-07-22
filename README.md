@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.7.2%20Calm%20Workspace-146c6a" alt="3.7.2 Calm Workspace Release" />
+  <img src="https://img.shields.io/badge/Release-3.8.0%20Browser%20Evidence%20Companion-146c6a" alt="3.8.0 Browser Evidence Companion Release" />
 </p>
 
 <p align="center">
@@ -37,6 +37,14 @@
 PolicyWatcher monitors the privacy policies, terms of service, and AI governance practices of 16 major technology and financial companies. It tracks configured public policy sources, records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.8.0 Browser Evidence Companion Highlights
+
+- **One-click local inspection** lets a person invoke PolicyWatcher on an opened policy-update notice without granting persistent access to Gmail, Outlook or browsing history.
+- **Minimum-permission architecture** uses Manifest V3 `activeTab` and `scripting` only after an explicit gesture, plus a host permission limited to `https://www.policywatcher.online/*`.
+- **Raw-content boundary** extracts structured clues inside the active page and immediately discards the visible notice text; the service worker can transmit only the API allowlist fields.
+- **Portfolio-wide evidence** confirms the organization, starting policy categories and dates before checking the company’s complete published evidence portfolio.
+- **Cross-browser release** shares one dependency-free codebase across Chrome and Edge and includes the source and instructions required for Apple’s Safari Web Extension packager.
 
 ### Release 3.7.2 Calm Workspace Highlights
 
