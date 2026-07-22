@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { PrismaClient } from '@prisma/client';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createOrReuseActiveInquiry } from '../policyInquiryStore';
 
 describe('active policy inquiry deduplication', () => {
@@ -74,5 +74,30 @@ describe('active policy inquiry deduplication', () => {
     expect(later.created).toBe(true);
     expect(later.inquiry.id).not.toBe(first.inquiry.id);
     expect(await client.policyInquiry.count()).toBe(2);
+  });
+
+  it('retries bounded transient SQLite contention before persisting the inquiry', async () => {
+    const inquiry = { id: 'inquiry-1', publicToken: 'inq_retry' };
+    const create = vi.fn()
+      .mockRejectedValueOnce(Object.assign(new Error('database is locked'), { code: 'P1008' }))
+      .mockRejectedValueOnce(new Error('SQLITE_BUSY: database is locked'))
+      .mockResolvedValueOnce(inquiry);
+    const findUnique = vi.fn();
+
+    const result = await createOrReuseActiveInquiry({
+      policyInquiry: { create, findUnique },
+    } as never, {
+      data: {
+        publicToken: 'inq_retry',
+        dedupeKey: 'retry-key',
+        activeDedupeKey: 'retry-key',
+        status: 'Proposed',
+        kind: 'unknown_company',
+      },
+    });
+
+    expect(result).toEqual({ inquiry, created: true });
+    expect(create).toHaveBeenCalledTimes(3);
+    expect(findUnique).not.toHaveBeenCalled();
   });
 });

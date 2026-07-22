@@ -143,7 +143,10 @@ function inspectPageLocally() {
     if (/privacy|informativa|personal data|dati personali/.test(text)) found.push('privacy');
     if (/terms|termini|condizioni|conditions|terms of service/.test(text)) found.push('terms');
     if (/cookie/.test(text)) found.push('cookies');
-    if (/artificial intelligence|intelligenza artificiale|generative ai|ai policy|ai training/.test(text)) found.push('ai');
+    if (
+      /artificial intelligence|intelligenza artificiale|generative ai|ai policy|ai training/.test(text)
+      || /funzionalita\s+(?:supportat[aei]\s+dall['’]?\s*)?ia\b|\bia\s+(?:generativa|facoltativa|policy|governance|training|model|system|feature)/.test(text)
+    ) found.push('ai');
     if (/acceptable use|uso accettabile/.test(text)) found.push('acceptable-use');
     return found;
   };
@@ -167,6 +170,14 @@ function inspectPageLocally() {
   let senderDomain = senderEmail ? cleanDomain(senderEmail[1]) : null;
   let companyName = senderMatch ? clean(senderMatch[1].replace(/<[^>]+>|\([^)]*\)|[A-Z0-9._%+-]+@[A-Z0-9.-]+/gi, ''), 160) : null;
   companyName = companyName && companyName.length > 1 ? companyName.replace(/^["']|["']$/g, '').trim() : null;
+  if (!companyName) {
+    const signature = working.match(/(?:^|\n)[ \t]*(?:il[ \t]+)?team(?:[ \t]+(?:di|of))?[ \t]+([\p{L}\p{N}][\p{L}\p{N}&.'’ -]{1,60})[ \t]*$/imu)
+      || working.match(/(?:^|\n)[ \t]*(?:the[ \t]+)?([\p{L}\p{N}][\p{L}\p{N}&.'’ -]{1,60})[ \t]+team[ \t]*$/imu);
+    const candidate = clean(signature?.[1], 160).replace(/[.!,:;]+$/, '');
+    companyName = candidate && !/^(?:utente|cliente|customer|support|assistenza|staff|team)$/i.test(candidate)
+      ? candidate
+      : null;
+  }
 
   const anchors = Array.from(document.querySelectorAll('a[href]')).slice(0, 1000);
   let sourceUrl = null;

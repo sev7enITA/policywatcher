@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.8.2 - 2026-07-22
+
+- Fixed real-world MioDottore plain-text parsing so `Il Team MioDottore` wins over generic greetings such as `Gentile utente`.
+- Added contextual Italian `IA` recognition for AI-supported functionality notices while preserving the preposition false-positive guard.
+- Routed `npm start` through the Hostinger `server.js` bridge so the database readiness initializer cannot be skipped by the standard production command.
+- Added bounded retry for transient SQLite write contention before an inquiry is reported as unavailable.
+- Added regression coverage for generic greetings, no-link signatures, policy-category extraction and Hostinger startup invariants.
+
 ## 3.8.1 - 2026-07-22
 
 ### Fixed

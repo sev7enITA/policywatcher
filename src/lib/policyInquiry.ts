@@ -232,7 +232,7 @@ export function isPolicyInquiryStorageUnavailable(error: unknown): boolean {
   // This route cannot operate when any schema dependency is missing. Prisma
   // may report Company first and PolicyInquiry only on the subsequent create,
   // so classify the whole missing/unmigrated schema family consistently.
-  const unavailablePrismaStorage = ['P1001', 'P1003', 'P2021', 'P2022'].includes(code);
+  const unavailablePrismaStorage = ['P1001', 'P1003', 'P1008', 'P2021', 'P2022', 'P2034'].includes(code);
   const unavailableSqliteStorage = /no such (?:table|column)|does not exist|unable to open database file|database is locked|readonly database|database disk image is malformed/i.test(detail);
   return unavailablePrismaStorage || unavailableSqliteStorage;
 }

@@ -1,6 +1,6 @@
 # Browser Extension Privacy Notice / Informativa privacy dell’estensione
 
-Version 3.8.1 — 22 July 2026
+Version 3.8.2 — 22 July 2026
 
 The public policy at `https://www.policywatcher.online/privacy` is the publication source of truth. This file supplies the extension-specific bilingual disclosure for store review.
 

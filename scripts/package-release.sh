@@ -43,9 +43,9 @@ fi
 
 required_sources=(
   package.json package-lock.json next.config.ts tsconfig.json next-env.d.ts server.js
-  README.md CHANGELOG.md SECURITY.md LICENSE .env.example public src prisma scripts
+  README.md HOSTINGER-DEPLOY.md CHANGELOG.md SECURITY.md LICENSE .env.example public src prisma scripts
   docs/dataset-confidence-audit-2026-07-05.md docs/audit-v3.6.5.md
-  docs/audit-v3.7.0.md docs/audit-v3.7.1.md docs/audit-v3.7.2.md docs/audit-v3.8.0.md docs/audit-v3.8.1.md docs/platform-state-of-art-2026-07-05.md
+  docs/audit-v3.7.0.md docs/audit-v3.7.1.md docs/audit-v3.7.2.md docs/audit-v3.8.0.md docs/audit-v3.8.1.md docs/audit-v3.8.2.md docs/platform-state-of-art-2026-07-05.md
   docs/platform-state-of-art-2026-07-05.it.md docs/third-party-validation.md
 )
 for source in "${required_sources[@]}"; do
@@ -71,6 +71,8 @@ node -e '
     sourceRevision: revision,
     builtAt: new Date().toISOString(),
     target: "Hostinger Next.js source deployment",
+    startupCommand: "npm start",
+    startupFile: "server.js",
     databaseIncluded: false
   }, null, 2) + "\n");
 ' "${STAGING_DIR}/release-manifest.json" "${VERSION}" "${RELEASE_NAME}" "${SOURCE_REVISION}"
@@ -97,7 +99,7 @@ while IFS= read -r entry; do
 done <<< "${archive_entries}"
 
 required_entries=(
-  package.json package-lock.json release-manifest.json src/lib/release.ts
+  package.json package-lock.json release-manifest.json HOSTINGER-DEPLOY.md server.js src/lib/release.ts
   prisma/schema.prisma prisma/migrations/20260721150000_policy_inquiry/migration.sql
   scripts/hostinger-init-db.sh scripts/hostinger-init-db.mjs
   scripts/hostinger-init-db.py scripts/hostinger-detect-materialized-migrations.mjs

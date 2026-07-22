@@ -36,6 +36,24 @@ Cosa cambia per te:
 Buon viaggio,
 Il team di BlaBlaCar`;
 
+const MIODOTTORE_PLAIN_TEXT_COPY = `Gentile utente,
+
+Siamo sempre al lavoro per migliorare MioDottore — anche quando si tratta di gestione dei dati. Per questo abbiamo aggiornato la nostra Informativa e pubblicato una nuova cookie policy. Ecco le principali novità:
+
+1. Abbiamo reso alcune sezioni dell'Informativa più comprensibili, per chiarire quali dati raccogliamo, perché, per quanto tempo e quali sono i tuoi diritti.
+
+2. Più trasparenza su quali informazioni puoi conservare e gestire col tuo account e come puoi eliminarle.
+
+3. Funzionalità supportate dall'IA e sicurezza: abbiamo aggiunto maggiori dettagli su come potrai usare le funzionalità IA per organizzare e riepilogare i documenti relativi alla salute e migliorare la tua esperienza sulla piattaforma. Le funzionalità supportate dall'IA sono facoltative.
+
+4. Informativa sui cookie: una guida chiara su quali cookie utilizziamo, come migliorano la tua esperienza e come puoi gestire le tue preferenze.
+
+Puoi leggere l'Informativa sulla privacy aggiornata qui e l'Informativa sui cookie aggiornata qui.
+
+Domande? Puoi scriverci a contatto@miodottore.it.
+
+Il Team MioDottore`;
+
 const companies = [
   { id: 'waze', name: 'WAZE', slug: 'waze', website: 'https://www.waze.com', policies: [{ id: 'terms', type: 'terms', url: 'https://www.waze.com/legal/terms' }] },
   { id: 'google', name: 'Google', slug: 'google', website: 'https://google.com', policies: [] },
@@ -74,6 +92,21 @@ describe('policy inquiry local-only parsing and minimization', () => {
     expect(local.policyTypes).toEqual(expect.arrayContaining(['terms', 'privacy']));
     expect(local.sourceUrl).toBeNull();
     expect(Object.keys(local)).not.toContain('input');
+  });
+
+  it('recognizes MioDottore from a signature instead of treating the greeting as a company', () => {
+    const local = parsePolicyInquiryLocally(MIODOTTORE_PLAIN_TEXT_COPY);
+    expect(local.companyHint).toBe('MioDottore');
+    expect(local.policyTypes).toEqual(expect.arrayContaining(['privacy', 'cookies', 'ai']));
+    expect(local.sourceUrl).toBeNull();
+    expect(local.senderDomain).toBeNull();
+    expect(Object.keys(local)).not.toContain('input');
+  });
+
+  it('fails closed on generic greetings when no organization can be inferred', () => {
+    for (const greeting of ['Gentile utente,', 'Spettabile cliente,', 'Buongiorno', 'Dear customer,']) {
+      expect(parsePolicyInquiryLocally(`${greeting}\nAbbiamo aggiornato la privacy policy.`).companyHint).toBeNull();
+    }
   });
 
   it('does not mistake a section heading for the company name', () => {
@@ -213,6 +246,8 @@ describe('policy inquiry local-only parsing and minimization', () => {
     expect(isPolicyInquiryStorageUnavailable({ code: 'P2021', message: 'The table main.Company does not exist' })).toBe(true);
     expect(isPolicyInquiryStorageUnavailable({ code: 'P2022', message: 'The column activeDedupeKey does not exist' })).toBe(true);
     expect(isPolicyInquiryStorageUnavailable({ code: 'P1003', message: 'Database does not exist' })).toBe(true);
+    expect(isPolicyInquiryStorageUnavailable({ code: 'P1008', message: 'Operations timed out' })).toBe(true);
+    expect(isPolicyInquiryStorageUnavailable({ code: 'P2034', message: 'Write conflict' })).toBe(true);
     expect(isPolicyInquiryStorageUnavailable(new Error('upstream request failed'))).toBe(false);
   });
 });

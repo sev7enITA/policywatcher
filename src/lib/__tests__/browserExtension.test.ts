@@ -113,6 +113,26 @@ describe('browser extension production boundary', () => {
     expect(JSON.stringify(result)).not.toContain('utm_source');
   });
 
+  it('recognizes a no-link MioDottore notice from its signature and contextual Italian IA language', () => {
+    const result = scannerFixture({
+      pageText: `Gentile utente,
+Siamo sempre al lavoro per migliorare MioDottore. Abbiamo aggiornato la nostra Informativa e pubblicato una nuova cookie policy.
+Le funzionalità supportate dall'IA sono facoltative.
+Il Team MioDottore`,
+      selectionText: `Gentile utente,
+Abbiamo aggiornato la nostra Informativa e pubblicato una nuova cookie policy.
+Le funzionalità supportate dall'IA sono facoltative.
+Il Team MioDottore`,
+    });
+    expect(result).toMatchObject({
+      companyName: 'MioDottore',
+      policyTypes: ['privacy', 'cookies', 'ai'],
+      sourceKind: 'selection',
+      rawDiscarded: true,
+    });
+    expect(JSON.stringify(result)).not.toContain('Gentile utente');
+  });
+
   it('rejects unknown and raw-content fields before the network layer', () => {
     const context = workerContext();
     expect(() => vm.runInContext(`sanitizePayload({companyName: 'Waze', rawText: 'private'})`, context)).toThrow(/INVALID_PAYLOAD/);

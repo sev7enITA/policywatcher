@@ -78,30 +78,50 @@ function inferPolicyTypes(input: string): InquiryPolicyType[] {
   if (/privacy|informativa|norme sulla privacy|personal data|dati personali/.test(text)) found.add('privacy');
   if (/termini|condizioni|terms|conditions|condizioni d uso|terms of service/.test(text)) found.add('terms');
   if (/cookie/.test(text)) found.add('cookies');
-  if (/intelligenza artificiale|artificial intelligence|generative ai|ai (?:policy|governance|training|model|system)/.test(text)) found.add('ai');
+  if (
+    /intelligenza artificiale|artificial intelligence|generative ai|ai (?:policy|governance|training|model|system)/.test(text)
+    || /funzionalita\s+(?:supportat[aei]\s+dall['’]?\s*)?ia\b|\bia\s+(?:generativa|facoltativa|policy|governance|training|model|system|feature)/.test(text)
+  ) found.add('ai');
   if (/acceptable use|uso accettabile/.test(text)) found.add('acceptable-use');
   return [...found];
 }
 
+function inferredOrganizationHint(value: string | undefined): string | null {
+  const hint = explicitOrganizationHint(value)?.replace(/[.!,:;]+$/, '').trim() || null;
+  if (!hint) return null;
+
+  // Greetings, recipients and generic signatures are not organization names.
+  // Keep this stricter than explicitOrganizationHint: a user may deliberately
+  // confirm an unusual brand, while automatic extraction must fail closed.
+  if (/^(?:gentil[ei](?:\s+(?:utente|cliente|customer|signor[ae]?))?|spettabile(?:\s+cliente)?|buongiorno|buonasera|salve|hello|hi|dear(?:\s+(?:user|customer))?|utente|cliente|customer|support|assistenza|staff|team)$/i.test(hint)) {
+    return null;
+  }
+  return hint;
+}
+
 function inferCompanyFromBody(input: string): string | null {
   const candidatePatterns = [
-    /(?:^|\n)\s*(?:il\s+)?team\s+(?:di|of)\s+([\p{L}\p{N}][\p{L}\p{N}&.'’ -]{1,60})\s*$/imu,
+    // Italian and common international signatures: "Il Team MioDottore",
+    // "Il team di BlaBlaCar", "Team Waze" and "The Acme Team".
+    /(?:^|\n)[ \t]*(?:il[ \t]+)?team(?:[ \t]+(?:di|of))?[ \t]+([\p{L}\p{N}][\p{L}\p{N}&.'’ -]{1,60})[ \t]*$/imu,
+    /(?:^|\n)[ \t]*(?:the[ \t]+)?([\p{L}\p{N}][\p{L}\p{N}&.'’ -]{1,60})[ \t]+team[ \t]*$/imu,
     /\b([\p{Lu}][\p{L}\p{N}&.'’\-]*(?:\s+[\p{Lu}][\p{L}\p{N}&.'’\-]*){0,3})\s+(?:si\s+evolve|ha\s+aggiornato|aggiorner[aà]|is\s+updating|has\s+updated|will\s+update)\b/u,
   ];
   for (const pattern of candidatePatterns) {
     const candidate = input.match(pattern)?.[1]?.trim().replace(/[.!,:;]+$/, '');
-    const explicit = explicitOrganizationHint(candidate);
+    const explicit = inferredOrganizationHint(candidate);
     if (explicit) return explicit;
   }
 
-  const rejected = /^(?:from|to|cc|bcc|date|subject)\s*:|forwarded message|aggiornament|update|privacy|termin|condition|informativa|hello|ciao\b|cosa\s+cambia|what\s+changes|dear\b|buon\s+viaggio/i;
+  const rejected = /^(?:from|to|cc|bcc|date|subject)\s*:|forwarded message|aggiornament|update|privacy|termin|condition|informativa|hello\b|hi\b|ciao\b|salve\b|buongiorno\b|buonasera\b|gentil[ei]\b|spettabile\b|utente\b|cliente\b|customer\b|cosa\s+cambia|what\s+changes|dear\b|buon\s+viaggio/i;
   for (const rawLine of input.split(/\r?\n/).slice(0, 12)) {
     const line = rawLine.replace(/[-–—]{3,}/g, ' ').trim();
     if (!line || line.length < 2 || line.length > 80 || rejected.test(line)) continue;
     if (/[:;]$/.test(line)) continue;
     if (/https?:\/\/|@/.test(line) || !/[A-Za-zÀ-ÿ]/.test(line)) continue;
     if (line.split(/\s+/).length > 5) continue;
-    return line;
+    const candidate = inferredOrganizationHint(line);
+    if (candidate) return candidate;
   }
   return null;
 }

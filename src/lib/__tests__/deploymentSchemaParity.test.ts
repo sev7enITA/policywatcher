@@ -26,8 +26,9 @@ describe('Hostinger runtime schema parity', () => {
     }
   });
 
-  it('runs the idempotent schema initializer for npm and direct Hostinger starts', () => {
-    expect(packageJson.scripts?.prestart).toContain('bash scripts/hostinger-init-db.sh');
+  it('routes npm and direct Hostinger starts through the schema-checking bridge', () => {
+    expect(packageJson.scripts?.start).toBe('node server.js');
+    expect(packageJson.scripts?.prestart).toBeUndefined();
     expect(hostingerBridge).toContain("['scripts/hostinger-init-db.sh']");
     expect(hostingerBridge).toContain('schemaCheck.status !== 0');
     expect(migrationLock).toContain('provider = "sqlite"');
