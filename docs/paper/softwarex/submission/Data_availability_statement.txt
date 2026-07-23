@@ -1,0 +1,5 @@
+The operational snapshot supporting Table 2, together with the read-only
+collection script and interpretation notes, is supplied as Supplementary Data
+and in the LaTeX source archive. Live public endpoints are available at
+https://www.policywatcher.online. No private check logs, subscriber information,
+credentials, administrative data, or raw provider text are included.

@@ -1,0 +1,591 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-07-11T21:33:25.966Z",
+  "collectionMethod": "Unauthenticated public PolicyWatcher JSON APIs",
+  "scope": {
+    "included": [
+      "public evidence availability",
+      "retrieval-path inventory",
+      "public suspension notices",
+      "publicly exposed change-record inventory"
+    ],
+    "excluded": [
+      "semantic accuracy of change detection",
+      "legal interpretation accuracy",
+      "latency distribution",
+      "private check logs and raw policy text"
+    ]
+  },
+  "production": {
+    "endpoint": "https://policywatcher.online",
+    "endpointResponses": {
+      "leaderboard": {
+        "status": 200,
+        "cacheControl": null
+      },
+      "sourceSuspensions": {
+        "status": 200,
+        "cacheControl": "public, max-age=60, s-maxage=300"
+      },
+      "changes": {
+        "status": 200,
+        "cacheControl": "public, max-age=60, s-maxage=300"
+      },
+      "companies": {
+        "status": 200,
+        "cacheControl": null
+      }
+    },
+    "metrics": {
+      "configuredCompanies": 16,
+      "configuredPolicies": 50,
+      "publicEvidencePolicies": 46,
+      "suspendedPolicies": 4,
+      "publicChangeRecords": 21,
+      "rendererBackedPolicies": 5,
+      "archiveBackedPolicies": 2,
+      "publiclyListedCompanies": 15,
+      "publicApiChangeRecords": 21,
+      "publicSuspensionNotices": 4,
+      "retrievalTotals": {
+        "direct": 40,
+        "http2": 0,
+        "rendered": 5,
+        "archive": 2,
+        "seeded": 0,
+        "none": 3
+      }
+    },
+    "suspendedSources": [
+      {
+        "company": "Revolut",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "EU",
+        "dataStatus": "Unavailable",
+        "sourceHost": "www.revolut.com",
+        "suspensionReason": "fetch_unavailable",
+        "lastCheckDate": "2026-07-10T01:52:26.611Z"
+      },
+      {
+        "company": "Revolut",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "UK",
+        "dataStatus": "Unavailable",
+        "sourceHost": "www.revolut.com",
+        "suspensionReason": "fetch_unavailable",
+        "lastCheckDate": "2026-07-10T01:52:46.982Z"
+      },
+      {
+        "company": "Revolut",
+        "policyName": "Terms of Use",
+        "jurisdiction": "EU",
+        "dataStatus": "Unavailable",
+        "sourceHost": "www.revolut.com",
+        "suspensionReason": "fetch_unavailable",
+        "lastCheckDate": "2026-07-10T01:53:11.024Z"
+      },
+      {
+        "company": "Revolut",
+        "policyName": "Terms of Use",
+        "jurisdiction": "UK",
+        "dataStatus": "Unavailable",
+        "sourceHost": "www.revolut.com",
+        "suspensionReason": "fetch_unavailable",
+        "lastCheckDate": "2026-07-10T01:53:40.507Z"
+      }
+    ]
+  },
+  "localFixture": {
+    "endpoint": "http://127.0.0.1:3000",
+    "endpointResponses": {
+      "leaderboard": {
+        "status": 200,
+        "cacheControl": null
+      },
+      "sourceSuspensions": {
+        "status": 200,
+        "cacheControl": "public, max-age=60, s-maxage=300"
+      },
+      "changes": {
+        "status": 200,
+        "cacheControl": "public, max-age=60, s-maxage=300"
+      },
+      "companies": {
+        "status": 200,
+        "cacheControl": null
+      }
+    },
+    "metrics": {
+      "configuredCompanies": 16,
+      "configuredPolicies": 50,
+      "publicEvidencePolicies": 0,
+      "suspendedPolicies": 50,
+      "publicChangeRecords": 0,
+      "rendererBackedPolicies": 0,
+      "archiveBackedPolicies": 0,
+      "publiclyListedCompanies": 0,
+      "publicApiChangeRecords": 0,
+      "publicSuspensionNotices": 50,
+      "retrievalTotals": {
+        "direct": 0,
+        "http2": 0,
+        "rendered": 0,
+        "archive": 0,
+        "seeded": 50,
+        "none": 0
+      }
+    },
+    "suspendedSources": [
+      {
+        "company": "Amazon",
+        "policyName": "AWS Data Processing Addendum",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "aws.amazon.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Amazon",
+        "policyName": "Privacy Notice",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "www.amazon.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Anthropic",
+        "policyName": "Acceptable Use Policy",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "www.anthropic.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Anthropic",
+        "policyName": "Terms of Service",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "www.anthropic.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Apple",
+        "policyName": "Apple Intelligence & Privacy",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "www.apple.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Apple",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "www.apple.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Google",
+        "policyName": "AI Terms of Service",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "policies.google.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Google",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "policies.google.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Google",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "policies.google.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Google",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "US",
+        "dataStatus": "Configured",
+        "sourceHost": "policies.google.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Klarna",
+        "policyName": "Privacy Notice",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "www.klarna.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Klarna",
+        "policyName": "Privacy Notice",
+        "jurisdiction": "US",
+        "dataStatus": "Configured",
+        "sourceHost": "cdn.klarna.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Klarna",
+        "policyName": "Terms of Service",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "www.klarna.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Klarna",
+        "policyName": "Terms of Service",
+        "jurisdiction": "US",
+        "dataStatus": "Configured",
+        "sourceHost": "cdn.klarna.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Meta",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "mbasic.facebook.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Meta",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "US",
+        "dataStatus": "Configured",
+        "sourceHost": "www.facebook.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Meta",
+        "policyName": "Terms of Service",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "mbasic.facebook.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Microsoft",
+        "policyName": "Privacy Statement",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "privacy.microsoft.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Microsoft",
+        "policyName": "Privacy Statement",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "privacy.microsoft.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Microsoft",
+        "policyName": "Privacy Statement",
+        "jurisdiction": "US",
+        "dataStatus": "Configured",
+        "sourceHost": "privacy.microsoft.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Microsoft",
+        "policyName": "Services Agreement",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "www.microsoft.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "OpenAI",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "openai.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "OpenAI",
+        "policyName": "Terms of Use",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "openai.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "PayPal",
+        "policyName": "Privacy Statement",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "www.paypal.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "PayPal",
+        "policyName": "Privacy Statement",
+        "jurisdiction": "US",
+        "dataStatus": "Configured",
+        "sourceHost": "www.paypal.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "PayPal",
+        "policyName": "User Agreement",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "www.paypal.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "PayPal",
+        "policyName": "User Agreement",
+        "jurisdiction": "US",
+        "dataStatus": "Configured",
+        "sourceHost": "www.paypal.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Plaid",
+        "policyName": "End User Services Agreement",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "plaid.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Plaid",
+        "policyName": "End User Services Agreement",
+        "jurisdiction": "US",
+        "dataStatus": "Configured",
+        "sourceHost": "plaid.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Plaid",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "plaid.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Plaid",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "US",
+        "dataStatus": "Configured",
+        "sourceHost": "plaid.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Revolut",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "www.revolut.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Revolut",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "UK",
+        "dataStatus": "Configured",
+        "sourceHost": "www.revolut.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Revolut",
+        "policyName": "Terms of Use",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "www.revolut.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Revolut",
+        "policyName": "Terms of Use",
+        "jurisdiction": "UK",
+        "dataStatus": "Configured",
+        "sourceHost": "www.revolut.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Stripe",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "stripe.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Stripe",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "stripe.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Stripe",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "US",
+        "dataStatus": "Configured",
+        "sourceHost": "stripe.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Stripe",
+        "policyName": "Services Agreement",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "stripe.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Stripe",
+        "policyName": "Services Agreement",
+        "jurisdiction": "US",
+        "dataStatus": "Configured",
+        "sourceHost": "stripe.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "TikTok",
+        "policyName": "Community Guidelines",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "www.tiktok.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "TikTok",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "www.tiktok.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Wise",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "EU",
+        "dataStatus": "Configured",
+        "sourceHost": "wise.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Wise",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "wise.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Wise",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "US",
+        "dataStatus": "Configured",
+        "sourceHost": "wise.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Wise",
+        "policyName": "Terms of Use",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "wise.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "X (Twitter)",
+        "policyName": "Privacy Policy",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "x.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "X (Twitter)",
+        "policyName": "Terms of Service",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "x.com",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Zoom",
+        "policyName": "Privacy Statement",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "explore.zoom.us",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      },
+      {
+        "company": "Zoom",
+        "policyName": "Terms of Service",
+        "jurisdiction": "Global",
+        "dataStatus": "Configured",
+        "sourceHost": "explore.zoom.us",
+        "suspensionReason": "source_evidence_missing",
+        "lastCheckDate": "2026-07-02T02:16:15.000Z"
+      }
+    ]
+  }
+}

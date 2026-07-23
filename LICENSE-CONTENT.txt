@@ -1,0 +1,11 @@
+Creative Commons Attribution 4.0 International License
+
+Copyright (c) 2026 Fabrizio Degni
+
+Except for software source code and other files explicitly covered by the MIT
+License in LICENSE.txt, the original documentation, manuscript source,
+research data, and original figures in this repository are licensed under the
+Creative Commons Attribution 4.0 International License.
+
+The full legal code is available at:
+https://creativecommons.org/licenses/by/4.0/legalcode

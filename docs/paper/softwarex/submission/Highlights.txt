@@ -1,0 +1,4 @@
+Evidence provenance is preserved from retrieval to every public output.
+Five retrieval paths handle live pages, rendering, and fresh archives.
+A shared gate withholds fixtures, partial fetches, and uncertain records.
+A public deployment monitors 50 documents across 16 providers.

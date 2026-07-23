@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://creativecommons.org/licenses/by/4.0/"><img src="https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg" alt="License: CC BY 4.0" /></a>
+  <a href="https://opensource.org/license/mit"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT" /></a>
   <a href="https://www.policywatcher.online"><img src="https://img.shields.io/badge/Live%20Demo-policywatcher.online-6366f1" alt="Live Demo" /></a>
   <a href="https://github.com/sev7enITA/policywatcher/actions/workflows/quality.yml"><img src="https://github.com/sev7enITA/policywatcher/actions/workflows/quality.yml/badge.svg?branch=main" alt="Quality Gate" /></a>
   <a href="https://github.com/sev7enITA/policywatcher/actions/workflows/codeql.yml"><img src="https://github.com/sev7enITA/policywatcher/actions/workflows/codeql.yml/badge.svg?branch=main" alt="CodeQL" /></a>
@@ -931,6 +931,7 @@ policywatcher/
 
 ## License
 
-This project is licensed under the [Creative Commons Attribution 4.0 International License](LICENSE).
-
-You are free to share and adapt this work for any purpose, including commercial use, as long as you give appropriate credit.
+Software source code is licensed under the [MIT License](LICENSE.txt). Original
+documentation, manuscript source, research data, and figures are licensed under
+[Creative Commons Attribution 4.0](LICENSE-CONTENT.txt), unless a file states
+otherwise.
