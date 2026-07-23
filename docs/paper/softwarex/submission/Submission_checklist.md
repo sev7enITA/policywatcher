@@ -34,9 +34,9 @@ Publication template consulted on 23 July 2026.
 - [x] Root `README.md` contains installation and use documentation.
 - [x] Root `LICENSE.txt` provides the OSI-approved MIT License.
 - [x] Documentation and research content retain a separate CC BY 4.0 license.
-- [ ] Before journal upload, commit and push the MIT license, updated README,
-  SoftwareX manuscript source, and supplementary snapshot to the public GitHub
-  repository. Verify the C2/C7 links after the push.
+- [x] The MIT license, updated README, SoftwareX manuscript source, and
+  supplementary snapshot are committed in the immutable code snapshot cited in
+  C2/C7 and published in the public GitHub repository.
 
 ## Editorial-system checks
 
