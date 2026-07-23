@@ -2,7 +2,8 @@
 
 ## Status
 
-- Channel: `v3.8.3-beta.3`
+- Application channel: `v3.8.3-beta.4`
+- Browser extension: `3.8.3 Beta 3` (unchanged)
 - Cycle: `01`
 - Started: 2026-07-23
 - State: **technical evidence started; limited-store activation pending publisher access/review**

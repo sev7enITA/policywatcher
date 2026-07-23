@@ -31,6 +31,9 @@ describe('Hostinger runtime schema parity', () => {
     expect(packageJson.scripts?.prestart).toBeUndefined();
     expect(hostingerBridge).toContain("['scripts/hostinger-init-db.sh']");
     expect(hostingerBridge).toContain('schemaCheck.status !== 0');
+    expect(hostingerBridge).toContain('await cli.nextStart({ port })');
+    expect(hostingerBridge).not.toContain("cli.nextStart(['-p'");
+    expect(hostingerBridge).toContain('port > 65535');
     expect(migrationLock).toContain('provider = "sqlite"');
   });
 

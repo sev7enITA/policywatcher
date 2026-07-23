@@ -1,5 +1,5 @@
-export const POLICYWATCHER_VERSION = '3.8.3-beta.3' as const;
-export const POLICYWATCHER_RELEASE_NAME = 'Extension-First Evidence Release' as const;
+export const POLICYWATCHER_VERSION = '3.8.3-beta.4' as const;
+export const POLICYWATCHER_RELEASE_NAME = 'Regional Retrieval Hardening' as const;
 export type PolicyWatcherReleaseChannel = 'stable' | 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL: PolicyWatcherReleaseChannel = 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL_LABEL = 'BETA' as const;

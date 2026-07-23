@@ -8,6 +8,7 @@ const extensionDir = join(root, 'browser-extension');
 const manifest = JSON.parse(readFileSync(join(extensionDir, 'manifest.json'), 'utf8'));
 const appPackage = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
 const prerelease = appPackage.version.match(/^(\d+\.\d+\.\d+)-beta\.(\d+)$/);
+const extensionPrerelease = manifest.version_name?.match(/^(\d+\.\d+\.\d+) Beta (\d+)$/);
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -43,9 +44,18 @@ for (const file of runtimeFiles) {
 
 assert(manifest.manifest_version === 3, 'The extension must use Manifest V3');
 assert(prerelease, 'PolicyWatcher extension packages require a numbered beta prerelease');
-const [, baseVersion, betaNumber] = prerelease;
-assert(manifest.version === `${baseVersion}.${betaNumber}`, 'Extension numeric version must match the PolicyWatcher beta');
-assert(manifest.version_name === `${baseVersion} Beta ${betaNumber}`, 'Beta extension version_name must identify the numbered beta');
+assert(extensionPrerelease, 'Beta extension version_name must identify its numbered beta');
+const [, baseVersion, appBetaNumber] = prerelease;
+const [, extensionBaseVersion, extensionBetaNumber] = extensionPrerelease;
+assert(extensionBaseVersion === baseVersion, 'Extension and application base versions must match');
+assert(
+  manifest.version === `${extensionBaseVersion}.${extensionBetaNumber}`,
+  'Extension numeric version must match its displayed beta version'
+);
+assert(
+  Number(extensionBetaNumber) <= Number(appBetaNumber),
+  'Extension beta cannot be newer than the application beta'
+);
 assert(sameMembers(manifest.permissions, ['activeTab', 'scripting']), 'Permissions must be exactly activeTab and scripting');
 assert(sameMembers(manifest.host_permissions, ['https://www.policywatcher.online/*']), 'Host permission must be limited to policywatcher.online');
 assert(manifest.background?.service_worker === 'service-worker.js', 'Manifest must register the packaged service worker');

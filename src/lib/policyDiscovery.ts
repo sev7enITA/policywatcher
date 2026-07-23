@@ -32,6 +32,7 @@ interface LinkCandidate extends ClassifiedPolicyCandidate {
   label: string;
   discoverySource: string;
   confidence: number;
+  localeHint?: string;
 }
 
 const POLICY_NAMES: Record<DiscoveredPolicyType, string> = {
@@ -100,6 +101,12 @@ const COMMON_POLICY_PATHS = [
   '/legal/developer-terms',
 ];
 
+// Bounded locale-prefixed probing for regional variants. Kept small on purpose:
+// the ranked cap and per-jurisdiction cap downstream limit how many of these
+// reach the network-bound verification step.
+const LOCALE_PROBE_PREFIXES = ['us', 'uk', 'de', 'fr', 'it', 'es'];
+const LOCALE_PROBE_PATHS = ['/privacy', '/legal/privacy', '/terms', '/legal/terms'];
+
 function normalizeSearchText(value: string): string {
   try {
     return decodeURIComponent(value).replace(/[+._/#?=&%-]+/g, ' ');
@@ -108,17 +115,96 @@ function normalizeSearchText(value: string): string {
   }
 }
 
-function classifyJurisdiction(value: string): DiscoveredJurisdiction {
-  const normalized = ` ${normalizeSearchText(value).toLowerCase()} `;
-  if (/\b(eu|europe|european|gdpr)\b/.test(normalized)) return 'EU';
-  if (/\b(uk|united kingdom|great britain|gb)\b/.test(normalized)) return 'UK';
-  if (/\b(us|usa|united states)\b/.test(normalized)) return 'US';
+const UK_REGIONS = new Set(['gb', 'uk']);
+const US_REGIONS = new Set(['us']);
+// EU and EEA country codes seen in locale path segments, ccTLDs, and query hints.
+const EU_REGIONS = new Set([
+  'eu', 'at', 'be', 'bg', 'hr', 'cy', 'cz', 'dk', 'ee', 'fi', 'fr', 'de', 'gr', 'el',
+  'hu', 'ie', 'it', 'lv', 'lt', 'lu', 'mt', 'nl', 'pl', 'pt', 'ro', 'sk', 'si', 'es',
+  'se', 'is', 'li', 'no',
+]);
+// Languages that, used as a bare locale (for example /de/ or ?hl=fr), indicate
+// an EU/EEA market. English is deliberately excluded because it is ambiguous.
+const EU_LANGUAGES = new Set([
+  'de', 'fr', 'it', 'es', 'nl', 'pt', 'pl', 'sv', 'da', 'fi', 'el', 'cs', 'hu', 'ro',
+  'sk', 'sl', 'hr', 'lt', 'lv', 'et', 'bg', 'ga', 'mt',
+]);
+const LOCALE_QUERY_KEYS = ['hl', 'locale', 'lang', 'language', 'cc', 'country', 'region', 'market'];
+const WORLDWIDE_TOKENS = new Set(['ww', 'world', 'global', 'int', 'intl', 'international']);
+
+function regionBucket(region: string): DiscoveredJurisdiction | null {
+  const value = region.toLowerCase();
+  if (UK_REGIONS.has(value)) return 'UK';
+  if (US_REGIONS.has(value)) return 'US';
+  if (EU_REGIONS.has(value)) return 'EU';
+  if (WORLDWIDE_TOKENS.has(value)) return 'Global';
+  return null;
+}
+
+// Maps a BCP-47-ish locale token (de, en-gb, fr_FR, pt-br) to a jurisdiction
+// bucket, or null when it does not denote one of the tracked regions. A bare
+// two-letter token is tried as a region first (uk, us, de) then as a language.
+function localeBucket(token: string): DiscoveredJurisdiction | null {
+  const normalized = token.trim();
+  if (/^x-default$/i.test(normalized)) return 'Global';
+  const match = /^([a-z]{2})(?:[-_]([a-z]{2}))?$/i.exec(normalized);
+  if (!match) return null;
+  const language = match[1].toLowerCase();
+  const region = match[2]?.toLowerCase();
+  // A supplied region is authoritative. Falling back to the language would
+  // incorrectly map fr-CA, es-MX, or pt-BR to the EU.
+  if (region) return regionBucket(region);
+  return regionBucket(language) ?? (EU_LANGUAGES.has(language) ? 'EU' : null);
+}
+
+/**
+ * Resolves the jurisdiction from the URL structure first (ccTLD, locale path
+ * segment, locale query parameter, or an explicit hreflang hint), and only then
+ * from strong words in the link label. Reading structure rather than free text
+ * avoids false positives such as the English word "us" in a sentence, and it
+ * recovers the regional variants (/de/, /fr/, ?hl=it) that previously all
+ * collapsed to Global.
+ */
+export function resolveJurisdiction(url: string, label = '', localeHint?: string): DiscoveredJurisdiction {
+  if (localeHint) {
+    const hinted = localeBucket(localeHint) ?? regionBucket(localeHint);
+    if (hinted) return hinted;
+  }
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.toLowerCase();
+    if (host.endsWith('.uk')) return 'UK';
+    const tld = host.split('.').pop() || '';
+    if (EU_REGIONS.has(tld)) return 'EU';
+    for (const segment of parsed.pathname.toLowerCase().split('/').filter(Boolean)) {
+      const bucket = localeBucket(segment);
+      if (bucket) return bucket;
+    }
+    for (const key of LOCALE_QUERY_KEYS) {
+      const value = parsed.searchParams.get(key);
+      const bucket = value ? (localeBucket(value) ?? regionBucket(value)) : null;
+      if (bucket) return bucket;
+    }
+  } catch {
+    // Not a parseable URL: fall through to explicit label words.
+  }
+  const labelText = normalizeSearchText(label);
+  // Uppercase market abbreviations are strong label evidence, while the
+  // lowercase English pronoun in phrases such as "contact us" is not.
+  if (/\bEU\b/.test(labelText)) return 'EU';
+  if (/\bUK\b/.test(labelText)) return 'UK';
+  if (/\bUS\b/.test(labelText)) return 'US';
+  const normalized = ` ${labelText.toLowerCase()} `;
+  if (/\b(gdpr|eea|european union|europe|european)\b/.test(normalized)) return 'EU';
+  if (/\b(united kingdom|great britain)\b/.test(normalized)) return 'UK';
+  if (/\b(united states)\b/.test(normalized)) return 'US';
   return 'Global';
 }
 
 export function classifyPolicyCandidate(
   url: string,
-  label = ''
+  label = '',
+  localeHint?: string
 ): ClassifiedPolicyCandidate | null {
   const searchable = normalizeSearchText(`${url} ${label}`);
   const match = TYPE_PATTERNS.find(([, patterns]) =>
@@ -127,7 +213,7 @@ export function classifyPolicyCandidate(
   if (!match) return null;
 
   const type = match[0];
-  const jurisdiction = classifyJurisdiction(searchable);
+  const jurisdiction = resolveJurisdiction(url, label, localeHint);
   return {
     name: `${POLICY_NAMES[type]}${jurisdiction === 'Global' ? '' : ` (${jurisdiction})`}`,
     type,
@@ -149,16 +235,23 @@ export function normalizeDiscoveredUrl(href: string, baseUrl: string): string | 
   }
 }
 
+export interface DiscoveryLink {
+  url: string;
+  label: string;
+  discoverySource: string;
+  localeHint?: string;
+}
+
 export function extractDiscoveryLinks(
   content: string,
   baseUrl: string,
   discoverySource: string
-): Array<{ url: string; label: string; discoverySource: string }> {
-  const results = new Map<string, { url: string; label: string; discoverySource: string }>();
-  const add = (href: string, label: string) => {
+): DiscoveryLink[] {
+  const results = new Map<string, DiscoveryLink>();
+  const add = (href: string, label: string, localeHint?: string) => {
     const url = normalizeDiscoveredUrl(href, baseUrl);
     if (!url || results.has(url)) return;
-    results.set(url, { url, label: label.trim(), discoverySource });
+    results.set(url, { url, label: label.trim(), discoverySource, localeHint });
   };
 
   const sitemapMatches = content.matchAll(/<loc[^>]*>([\s\S]*?)<\/loc>/gi);
@@ -168,6 +261,16 @@ export function extractDiscoveryLinks(
   for (const match of robotsMatches) add(match[1].trim(), 'Sitemap');
 
   const $ = cheerio.load(content);
+
+  // hreflang alternates are the standard way sites expose localized and
+  // regional variants; they are frequently absent from the visible footer.
+  // Read them first so the locale is attached even when the URL is opaque.
+  $('link[rel="alternate"][hreflang], a[hreflang]').slice(0, 2_000).each((_, element) => {
+    const href = $(element).attr('href');
+    const hreflang = $(element).attr('hreflang');
+    if (href) add(href, ($(element).attr('title') || $(element).text() || '').trim(), hreflang || undefined);
+  });
+
   $('a[href]').slice(0, 5_000).each((_, element) => {
     const href = $(element).attr('href');
     if (href) add(href, $(element).text());
@@ -266,11 +369,11 @@ export function policyEvidenceScore(text: string, type: DiscoveredPolicyType): n
 
 function addClassifiedLinks(
   target: Map<string, LinkCandidate>,
-  links: Array<{ url: string; label: string; discoverySource: string }>,
+  links: DiscoveryLink[],
   companyWebsite: string
 ) {
   for (const link of links) {
-    const classification = classifyPolicyCandidate(link.url, link.label);
+    const classification = classifyPolicyCandidate(link.url, link.label, link.localeHint);
     if (!classification) continue;
     const key = `${link.url}|${classification.type}|${classification.jurisdiction}`;
     const confidence = candidateConfidence(
@@ -455,12 +558,26 @@ export async function discoverPolicySources(
   }
 
   for (const origin of probeOrigins) {
-    const commonLinks = COMMON_POLICY_PATHS.map((path) => ({
+    const commonLinks: DiscoveryLink[] = COMMON_POLICY_PATHS.map((path) => ({
       url: new URL(path, origin).toString(),
       label: path,
       discoverySource: 'common-path-probe',
     }));
-    addClassifiedLinks(candidates, commonLinks, company.website);
+    // Locale-prefixed probes recover regional variants (for example
+    // /de/privacy or /uk/legal/terms) that are not linked from the default
+    // homepage footer. Bounded to a small set of markets and core paths.
+    const localeLinks: DiscoveryLink[] = [];
+    for (const locale of LOCALE_PROBE_PREFIXES) {
+      for (const path of LOCALE_PROBE_PATHS) {
+        localeLinks.push({
+          url: new URL(`/${locale}${path}`, origin).toString(),
+          label: `/${locale}${path}`,
+          discoverySource: 'common-path-probe-locale',
+          localeHint: locale,
+        });
+      }
+    }
+    addClassifiedLinks(candidates, [...commonLinks, ...localeLinks], company.website);
   }
 
   const rankedCounts = new Map<string, number>();
@@ -470,11 +587,14 @@ export async function discoverPolicySources(
     .filter((candidate) => {
       const key = `${candidate.type}|${candidate.jurisdiction}`;
       const count = rankedCounts.get(key) || 0;
-      if (count >= 3) return false;
+      // Allow more variants per type and jurisdiction to reach verification so
+      // genuine regional pages are not discarded as near-duplicates before the
+      // retrieval chain can confirm them.
+      if (count >= 5) return false;
       rankedCounts.set(key, count + 1);
       return true;
     })
-    .slice(0, 30);
+    .slice(0, 40);
   // Candidate verification is network-bound. Keeping a small worker pool makes
   // the five-level fallback practical on managed hosting without overwhelming
   // either the origin site or the configured renderer/VPS.
@@ -519,7 +639,9 @@ export async function discoverPolicySources(
     .filter((candidate) => {
       const key = `${candidate.type}|${candidate.jurisdiction}`;
       const count = counts.get(key) || 0;
-      if (count >= 2) return false;
+      // Regional variants within a bucket (several EU markets, for example)
+      // should survive for human review, not be dropped as duplicates.
+      if (count >= 4) return false;
       counts.set(key, count + 1);
       return true;
     });

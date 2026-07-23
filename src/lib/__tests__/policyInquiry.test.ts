@@ -99,8 +99,41 @@ describe('policy inquiry local-only parsing and minimization', () => {
     expect(local.companyHint).toBe('MioDottore');
     expect(local.policyTypes).toEqual(expect.arrayContaining(['privacy', 'cookies', 'ai']));
     expect(local.sourceUrl).toBeNull();
-    expect(local.senderDomain).toBeNull();
+    // The brand address in the visible body must now identify the sender,
+    // instead of forcing the reader to type the domain by hand.
+    expect(local.senderDomain).toBe('miodottore.it');
     expect(Object.keys(local)).not.toContain('input');
+  });
+
+  it('reads the sender domain from a brand address in visible text and ignores freemail', () => {
+    const notice = `Ciao Fabrizio,
+Abbiamo aggiornato la nostra Informativa sulla privacy.
+Per domande scrivi a privacy@acme-corp.com.
+Questo messaggio e stato inviato a fabrizio.degni@gmail.com.
+Il team di Acme Corp`;
+    const local = parsePolicyInquiryLocally(notice);
+    expect(local.senderDomain).toBe('acme-corp.com');
+    expect(JSON.stringify(local)).not.toContain('gmail.com');
+    expect(local.policyTypes).toContain('privacy');
+  });
+
+  it('parses an effective date written in numeric European format', () => {
+    const notice = `The Contoso Team\nOur updated Terms take effect on 22/07/2026.`;
+    const local = parsePolicyInquiryLocally(notice);
+    expect(local.effectiveDate).toContain('2026-07-22');
+    expect(local.companyHint).toBe('Contoso');
+  });
+
+  it('parses an ISO effective date from visible text and rejects impossible dates', () => {
+    expect(parsePolicyInquiryLocally(
+      'The Contoso Team\nOur updated Terms take effect on 2026-07-22.'
+    ).effectiveDate).toContain('2026-07-22');
+    expect(parsePolicyInquiryLocally(
+      'The Contoso Team\nOur updated Terms take effect on 31/02/2026.'
+    ).effectiveDate).toBeNull();
+    expect(parsePolicyInquiryLocally(
+      'The Contoso Team\nOur updated Terms take effect on 2026-02-31.'
+    ).effectiveDate).toBeNull();
   });
 
   it('fails closed on generic greetings when no organization can be inferred', () => {

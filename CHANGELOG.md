@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.8.3-beta.4 - 2026-07-23
+
+### Regional retrieval hardening
+- Extracted brand sender domains from visible pasted notification text while excluding common personal-email providers and preserving From-header priority.
+- Added strict European numeric and ISO effective-date parsing without normalizing impossible calendar dates.
+- Classified regional policy variants from ccTLDs, URL locale segments, locale query parameters and hreflang metadata.
+- Preserved explicit EU, UK and US link-label evidence without reintroducing the lowercase "contact us" false positive.
+- Added bounded locale-aware policy probes and widened per-market review caps while keeping human approval mandatory.
+- Updated the Hostinger bridge for the Next.js 16 options API so the application binds to the assigned `PORT` instead of an unreachable random port.
+- Left the browser extension, inquiry-to-discovery automation and renderer configuration unchanged.
+
 ## 3.8.3-beta.3 - 2026-07-23
 
 ### Store typography correction

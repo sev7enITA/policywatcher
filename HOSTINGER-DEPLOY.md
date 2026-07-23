@@ -1,4 +1,4 @@
-# PolicyWatcher 3.8.2 - Hostinger deployment
+# PolicyWatcher 3.8.3 Beta 4 - Hostinger deployment
 
 This is a source deployment package. It intentionally excludes `.next`,
 `node_modules`, environment files and SQLite databases.
@@ -34,8 +34,9 @@ Then set the Hostinger startup file to `server.js` and restart the application.
 
 ## Acceptance check
 
-Paste a controlled, non-personal notice ending in `Il Team MioDottore` at
-`/what-changed`. The local summary must show `MioDottore` with Privacy, Cookie
-and IA. Submission must return an `inq_` reference, create a row in
+Paste a controlled, non-personal notice ending in `Il Team MioDottore` and
+containing `contatto@miodottore.it` at `/what-changed`. The local summary must
+show `MioDottore`, the sender domain `miodottore.it`, and Privacy, Cookie and IA.
+Submission must return an `inq_` reference, create a row in
 `/admin/inquiries`, increment the open-inquiry counter and, when SMTP is
 configured, send the privacy-minimized administrator alert.

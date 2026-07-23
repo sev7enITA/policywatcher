@@ -39,6 +39,15 @@ PolicyWatcher monitors the privacy policies, terms of service, and AI governance
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
 
+### Release 3.8.3 Beta 4 Regional Retrieval Hardening Highlights
+
+- **Visible-text sender recovery** identifies a brand domain from pasted notification text, filters common personal-email providers and still gives an explicit `From:` header priority.
+- **Strict date recovery** accepts European numeric and ISO effective dates while rejecting impossible calendar dates instead of silently rolling them forward.
+- **Regional source discovery** reads ccTLDs, locale URL segments, query parameters and hreflang alternates so valid EU, UK and US policy variants reach review.
+- **Geographic fail-closed rules** avoid mapping `fr-CA`, `es-MX` or `pt-BR` to EU and preserve explicit uppercase EU, UK and US labels without treating “contact us” as a market.
+- **Bounded verification** adds locale-aware probes and wider review caps without bypassing evidence checks or human approval.
+- **Extension boundary preserved** keeps the browser extension at 3.8.3 Beta 3 and makes no change to its privacy model, permissions or store package.
+
 ### Release 3.8.3 Beta 3 Extension-First Evidence Highlights
 
 - **Store-safe typography** removes every literal em dash from product, extension, test, documentation and tracked marketing surfaces and uses colon-separated extension titles.
