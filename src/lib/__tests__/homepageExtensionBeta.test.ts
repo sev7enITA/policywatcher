@@ -28,7 +28,7 @@ describe('homepage browser extension Beta launch strip', () => {
 
   it('shows all store statuses as pending without install claims', () => {
     expect(page).toContain('Chrome · Edge · Safari — pubblicazione negli store in corso');
-    expect(page).toContain('Chrome · Edge · Safari — store publication in progress');
+    expect(page).toContain('Chrome · Edge · Safari — Beta packages ready, store submission planned');
     expect(page).not.toContain('Stabile in ${POLICYWATCHER_VERSION}');
     expect(page).not.toContain('Stable in ${POLICYWATCHER_VERSION}');
   });

@@ -1,7 +1,7 @@
 # PolicyWatcher Browser Extension — English Beta Store Submission Pack
 
-Version: 3.8.3 Beta
-Prepared: 22 July 2026
+Version: 3.8.3 Beta 2
+Prepared: 23 July 2026
 Product: PolicyWatcher Browser Evidence Companion
 
 This document contains the English text and declarations needed to submit the
@@ -31,7 +31,7 @@ until each URL resolves to the reviewed official store item.
 `PolicyWatcher — What Changed? BETA`
 
 **Version name**
-`3.8.3 Beta`
+`3.8.3 Beta 2`
 
 **Primary language**
 English
@@ -323,9 +323,9 @@ PolicyWatcher is a user-initiated, single-purpose beta extension. To review it, 
       publisher/site verification.
 - [ ] Create and test the beta feedback mailbox.
 - [ ] Confirm privacy and methodology URLs are publicly reachable.
-- [ ] Upload the correct 3.8.3 Beta ZIP and verify its SHA-256 checksum.
+- [ ] Upload the correct 3.8.3 Beta 2 ZIP and verify its SHA-256 checksum.
 - [ ] Confirm the installed extension name ends in `BETA` and `version_name` says
-      `3.8.3 Beta`.
+      `3.8.3 Beta 2`.
 - [ ] Paste the English detailed description without removing the first beta
       sentence.
 - [ ] Complete local-processing disclosures; do not answer “no data” merely

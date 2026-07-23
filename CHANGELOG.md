@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.8.3-beta.2 - 2026-07-23
+
+### Security and reliability
+- Closed the four CodeQL findings from Beta 1 by replacing incomplete sender-label sanitization, grouping the header-rejection regex explicitly and removing misleading template syntax from wiring assertions.
+- Updated Next.js from 16.2.9 to 16.2.11 after new high-severity advisories were published on 23 July 2026.
+- Added a real API integration test that applies the repository migrations to temporary SQLite, invokes `POST /api/policy-inquiries`, verifies minimized persistence and proves raw-content keys are rejected.
+- Added a real Chromium extension smoke test that loads the unpacked Manifest V3 package, verifies its service worker and walks the bilingual disclosure/capture/review UI.
+
+### Beta operations
+- Replaced premature “store publication in progress” copy with “Beta package ready · store submission planned”.
+- Added a limited-Beta evidence-cycle protocol and stable-promotion gate; automated smoke evidence is not treated as user-pilot evidence.
+- Versioned the application as `3.8.3-beta.2` and the browser package as numeric `3.8.3.2` / display `3.8.3 Beta 2` without moving the published Beta 1 tag.
+
 ## 3.8.3 - 2026-07-22
 
 ### Changed

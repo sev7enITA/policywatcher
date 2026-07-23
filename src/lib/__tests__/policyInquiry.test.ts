@@ -134,6 +134,12 @@ describe('policy inquiry local-only parsing and minimization', () => {
     expect(local.companyHint).toBeNull();
   });
 
+  it('does not infer an organization from forwarded-message headers', () => {
+    for (const header of ['Subject: Acme', 'From: Acme', 'Date: Acme', 'Forwarded message']) {
+      expect(parsePolicyInquiryLocally(`${header}\nWe updated our Privacy Policy.`).companyHint).toBeNull();
+    }
+  });
+
   it('supports a plain-text notice without links and explicit company/category confirmation', () => {
     const local = parsePolicyInquiryLocally(
       'MioDottore\nAbbiamo aggiornato la nostra informativa e le regole sui cookie.',

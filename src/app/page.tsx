@@ -650,7 +650,7 @@ const EXTENSION_BETA_COPY = {
     eyebrow: 'Browser extension Beta',
     title: 'Browser extension: from the email to real links',
     body: 'After an explicit gesture, the extension reads visible text and page links locally; PolicyWatcher receives only the organization, categories, dates, and cleaned URLs.',
-    status: 'Chrome · Edge · Safari — store publication in progress',
+    status: 'Chrome · Edge · Safari — Beta packages ready, store submission planned',
     primaryAction: 'Explore the browser extension',
     fallbackAction: 'On mobile? Paste the notice',
     disclaimer: 'Pre-release software: results may be incomplete. Not legal advice.',

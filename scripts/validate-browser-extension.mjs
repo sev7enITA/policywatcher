@@ -7,6 +7,7 @@ const root = process.cwd();
 const extensionDir = join(root, 'browser-extension');
 const manifest = JSON.parse(readFileSync(join(extensionDir, 'manifest.json'), 'utf8'));
 const appPackage = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
+const prerelease = appPackage.version.match(/^(\d+\.\d+\.\d+)-beta\.(\d+)$/);
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -41,8 +42,10 @@ for (const file of runtimeFiles) {
 }
 
 assert(manifest.manifest_version === 3, 'The extension must use Manifest V3');
-assert(manifest.version === appPackage.version, 'Extension and PolicyWatcher release versions must match');
-assert(manifest.version_name === `${manifest.version} Beta`, 'Beta extension version_name must identify the beta');
+assert(prerelease, 'PolicyWatcher extension packages require a numbered beta prerelease');
+const [, baseVersion, betaNumber] = prerelease;
+assert(manifest.version === `${baseVersion}.${betaNumber}`, 'Extension numeric version must match the PolicyWatcher beta');
+assert(manifest.version_name === `${baseVersion} Beta ${betaNumber}`, 'Beta extension version_name must identify the numbered beta');
 assert(sameMembers(manifest.permissions, ['activeTab', 'scripting']), 'Permissions must be exactly activeTab and scripting');
 assert(sameMembers(manifest.host_permissions, ['https://www.policywatcher.online/*']), 'Host permission must be limited to policywatcher.online');
 assert(manifest.background?.service_worker === 'service-worker.js', 'Manifest must register the packaged service worker');

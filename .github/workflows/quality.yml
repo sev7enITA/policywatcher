@@ -37,6 +37,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install Chromium for extension smoke test
+        run: npx playwright install --with-deps chromium
+
+      - name: Validate browser extension package
+        run: npm run extension:validate
+
+      - name: Smoke test browser extension in Chromium
+        run: npm run extension:smoke
+
       - name: Validate Prisma schema
         run: npx prisma validate
 

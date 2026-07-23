@@ -1,4 +1,4 @@
-# PolicyWatcher Browser Evidence Companion 3.8.3 Beta
+# PolicyWatcher Browser Evidence Companion 3.8.3 Beta 2
 
 Production, privacy and store guide — Guida produzione, privacy e store
 
@@ -42,6 +42,7 @@ The extension does not request `<all_urls>`, Gmail or Outlook APIs, inbox access
 ```bash
 npm ci
 npm run extension:validate
+npm run extension:smoke
 npm run extension:package
 ```
 

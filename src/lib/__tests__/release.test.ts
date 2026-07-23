@@ -28,10 +28,10 @@ describe('release metadata', () => {
     const packageJson = JSON.parse(readFileSync('package.json', 'utf8')) as { version: string };
     expect(POLICYWATCHER_VERSION).toBe(packageJson.version);
     expect(POLICYWATCHER_RELEASE_NAME).toBe('Extension-First Evidence Release');
-    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.8.3 Extension-First Evidence Release');
+    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.8.3-beta.2 Extension-First Evidence Release');
     expect(POLICYWATCHER_RELEASE_CHANNEL).toBe('beta');
     expect(POLICYWATCHER_RELEASE_CHANNEL_LABEL).toBe('BETA');
-    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v3.8.3 · BETA');
+    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v3.8.3-beta.2 · BETA');
 
     const typedChannel: PolicyWatcherReleaseChannel = POLICYWATCHER_RELEASE_CHANNEL;
     expect(typedChannel).toBe('beta');

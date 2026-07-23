@@ -83,7 +83,8 @@ describe('browser extension production boundary', () => {
 
   it('uses minimum permissions and the production-only host', () => {
     expect(manifest.manifest_version).toBe(3);
-    expect(manifest.version_name).toBe(`${manifest.version} Beta`);
+    expect(manifest.version).toBe('3.8.3.2');
+    expect(manifest.version_name).toBe('3.8.3 Beta 2');
     expect(manifest.permissions.sort()).toEqual(['activeTab', 'scripting']);
     expect(manifest.host_permissions).toEqual(['https://www.policywatcher.online/*']);
   });
@@ -118,6 +119,14 @@ describe('browser extension production boundary', () => {
     ].sort());
     expect(JSON.stringify(result)).not.toContain('We are updating');
     expect(JSON.stringify(result)).not.toContain('noreply@waze.com');
+  });
+
+  it('treats sender markup as text and never returns HTML delimiters', () => {
+    const notice = `From: Ac<scr<script>ipt>me <security@acme.example>\nWe updated our Privacy Policy.`;
+    const result = scannerFixture({ pageText: notice, selectionText: notice });
+    expect(result.senderDomain).toBe('acme.example');
+    expect(String(result.companyName)).not.toMatch(/[<>]/);
+    expect(JSON.stringify(result)).not.toContain('security@acme.example');
   });
 
   it('supports a visible Outlook-style message and removes tracking data from policy links', () => {

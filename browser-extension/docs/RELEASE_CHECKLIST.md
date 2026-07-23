@@ -4,6 +4,7 @@
 
 - [ ] `npm ci`
 - [ ] `npm run extension:validate`
+- [ ] `npm run extension:smoke`
 - [ ] `npm test`
 - [ ] `npm run lint`
 - [ ] `npx tsc --noEmit`

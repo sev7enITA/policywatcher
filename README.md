@@ -16,12 +16,12 @@
   <a href="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml"><img src="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml/badge.svg?branch=main" alt="Targeted Reliability Coverage" /></a>
   <a href="https://scorecard.dev/viewer/?uri=github.com/sev7enITA/policywatcher"><img src="https://api.scorecard.dev/projects/github.com/sev7enITA/policywatcher/badge" alt="OpenSSF Scorecard" /></a>
   <a href="https://www.bestpractices.dev/projects/13465"><img src="https://www.bestpractices.dev/projects/13465/badge" alt="OpenSSF Best Practices" /></a>
-  <img src="https://img.shields.io/badge/Next.js-16.2.9-black" alt="Next.js 16" />
+  <img src="https://img.shields.io/badge/Next.js-16.2.11-black" alt="Next.js 16" />
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
   <img src="https://img.shields.io/badge/Release-3.8.3%20Extension--First%20Evidence-146c6a" alt="3.8.3 Extension-First Evidence Release" />
-  <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%201-b45309" alt="Browser Extension 3.8.3 Beta 1" />
+  <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%202-b45309" alt="Browser Extension 3.8.3 Beta 2" />
 </p>
 
 <p align="center">
@@ -39,9 +39,12 @@ PolicyWatcher monitors the privacy policies, terms of service, and AI governance
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
 
-### Release 3.8.3 Extension-First Evidence Highlights
+### Release 3.8.3 Beta 2 Extension-First Evidence Highlights
 
-- **Homepage Beta release channel** adds one compact, bilingual `v3.8.3 · BETA` strip after Workspace Active with truthful Chrome/Edge/Safari pending status, extension details and the mobile paste fallback.
+- **Homepage Beta release channel** adds one compact, bilingual `v3.8.3-beta.2 · BETA` strip after Workspace Active with truthful Chrome/Edge/Safari submission-planned status, extension details and the mobile paste fallback.
+- **Security closure** removes the two CodeQL failure triggers and the two template-syntax warnings with behavioral regressions.
+- **Real integration evidence** runs the public inquiry handler against a temporary SQLite schema and rejects raw-content fields before persistence.
+- **Real browser evidence** loads the packaged extension in Chromium, verifies the Manifest V3 service worker and walks disclosure, capture and review states.
 - **Truthful two-path intake** recommends the browser extension on desktop for local DOM-link capture and keeps plain-text paste as the primary mobile fallback.
 - **No invented hidden links** states explicitly that copied text cannot reconstruct URLs behind buttons or words such as `here`; missing links fall back to monitored sources or minimized discovery and QA.
 - **General-purpose extraction** uses neutral organization patterns and fixtures rather than product-specific UI examples or brand allowlists.

@@ -186,7 +186,13 @@ function inspectPageLocally() {
   const senderMatch = metadataWorking.match(/(?:^|\n)\s*(?:from|da|mittente)\s*:\s*([^\n]{1,180})/i);
   const senderEmail = senderMatch?.[1]?.match(/[A-Z0-9._%+-]+@([A-Z0-9.-]+\.[A-Z]{2,})/i);
   let senderDomain = senderEmail ? cleanDomain(senderEmail[1]) : null;
-  let companyName = senderMatch ? clean(senderMatch[1].replace(/<[^>]+>|\([^)]*\)|[A-Z0-9._%+-]+@[A-Z0-9.-]+/gi, ''), 160) : null;
+  // The value comes from innerText, not HTML. Remove address syntax one token
+  // class at a time instead of attempting incomplete multi-character tag
+  // stripping, then keep rendering through form values/textContent only.
+  let companyName = senderMatch ? clean(senderMatch[1]
+    .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+/gi, '')
+    .replace(/\([^)]*\)/g, '')
+    .replace(/[<>]/g, ' '), 160) : null;
   companyName = companyName && companyName.length > 1 ? companyName.replace(/^["']|["']$/g, '').trim() : null;
   if (!companyName) {
     const signature = working.match(/(?:^|\n)[ \t]*(?:il[ \t]+)?team(?:[ \t]+(?:di|of))?[ \t]+([\p{L}\p{N}][\p{L}\p{N}&.'’ -]{1,60})[ \t]*$/imu)

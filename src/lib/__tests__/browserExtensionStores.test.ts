@@ -34,8 +34,8 @@ describe('browser extension public store status', () => {
   it('wires the route to truthful configured and pending states', async () => {
     const { readFile } = await import('node:fs/promises');
     const client = await readFile('src/app/browser-extension/BrowserExtensionClient.tsx', 'utf8');
-    expect(client).toContain('Pubblicazione nello store in corso');
-    expect(client).toContain('Store publication in progress');
+    expect(client).toContain('Pacchetto Beta pronto · invio allo store pianificato');
+    expect(client).toContain('Beta package ready · store submission planned');
     expect(client).toContain('storeLinks[id]');
     expect(client).toContain('href={storeLinks[id]!}');
     expect(client).toContain('/what-changed#paste-notice');

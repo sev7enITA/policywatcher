@@ -1,6 +1,6 @@
 # Browser Extension Privacy Notice / Informativa privacy dell’estensione
 
-Version 3.8.3 — 22 July 2026
+Version 3.8.3 Beta 2 — 23 July 2026
 
 Distribution status: public beta. Beta status does not reduce the privacy controls or disclosures described below.
 

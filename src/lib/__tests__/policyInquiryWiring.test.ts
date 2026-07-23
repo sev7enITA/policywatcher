@@ -139,8 +139,8 @@ describe('policy inquiry security and admin wiring', () => {
     expect(client).toContain('Admin → Policy inquiries');
     expect(client).toContain("whatNext: 'Cosa succede ora?'");
     expect(client).toContain("whatNext: 'What happens next?'");
-    expect(client).toContain('className={`${styles.receipt} ${styles.queuedReceipt}`}');
-    expect(client).toContain('className={`${styles.disclosure} ${styles.receiptDisclosure}`}');
+    expect(client).toMatch(/className=\{`\$\{styles\.receipt\} \$\{styles\.queuedReceipt\}`\}/);
+    expect(client).toMatch(/className=\{`\$\{styles\.disclosure\} \$\{styles\.receiptDisclosure\}`\}/);
     expect(client).toContain('L’amministratore riceve solo gli indizi operativi');
     expect(client).toContain('The administrator receives only operational clues');
     expect(styles).toContain('.queuedReceipt{border-left-color:#0f766e}');
