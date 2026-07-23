@@ -1,8 +1,8 @@
-# PolicyWatcher 3.8.3 — Limited Beta Evidence Cycle
+# PolicyWatcher 3.8.3 - Limited Beta Evidence Cycle
 
 ## Status
 
-- Channel: `v3.8.3-beta.2`
+- Channel: `v3.8.3-beta.3`
 - Cycle: `01`
 - Started: 2026-07-23
 - State: **technical evidence started; limited-store activation pending publisher access/review**

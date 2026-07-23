@@ -5,7 +5,7 @@ const POLICY_TYPES = ['privacy', 'terms', 'cookies', 'ai', 'acceptable-use'];
 
 const copy = {
   it: {
-    pageTitle: 'PolicyWatcher — Cosa è cambiato? BETA', versionLabel: 'Estensione beta', openWebsite: 'Apri policywatcher.online', language: 'Lingua', evidenceJourney: 'Notifica visibile, indizi locali, evidenze PolicyWatcher', privacyBoundary: 'Confine di privacy', betaInfoAction: 'Informazioni e limiti della versione Beta', betaInfoTitle: 'Versione di test', betaInfoBody: 'Può produrre risultati incompleti. Non usare comunicazioni riservate; il contenuto grezzo resta locale. Solo informativo, non è consulenza legale.',
+    pageTitle: 'PolicyWatcher: Cosa è cambiato? BETA', versionLabel: 'Estensione beta', openWebsite: 'Apri policywatcher.online', language: 'Lingua', evidenceJourney: 'Notifica visibile, indizi locali, evidenze PolicyWatcher', privacyBoundary: 'Confine di privacy', betaInfoAction: 'Informazioni e limiti della versione Beta', betaInfoTitle: 'Versione di test', betaInfoBody: 'Può produrre risultati incompleti. Non usare comunicazioni riservate; il contenuto grezzo resta locale. Solo informativo, non è consulenza legale.',
     disclosureTitle: 'Prima di leggere la pagina', disclosureLead: 'PolicyWatcher chiederà accesso temporaneo alla scheda solo dopo la tua conferma.',
     railNotice: 'Notifica visibile', railNoticeBody: 'Seleziona il testo della notifica.', railLocal: 'Indizi locali', railLocalBody: 'Letto e scartato qui.',
     railEvidence: 'Evidenze PolicyWatcher', railEvidenceBody: 'Solo indizi confermati.', onDevice: 'Sul tuo dispositivo', onPolicyWatcher: 'In PolicyWatcher',
@@ -37,7 +37,7 @@ const copy = {
     evidence: 'Evidenza', openFull: 'Apri il controllo completo', retry: 'Riprova', choose: 'Verifica questa azienda', privacyLink: 'Privacy', methodologyLink: 'Metodo e limiti', legalNote: 'Non è consulenza legale'
   },
   en: {
-    pageTitle: 'PolicyWatcher — What changed? BETA', versionLabel: 'Beta extension', openWebsite: 'Open policywatcher.online', language: 'Language', evidenceJourney: 'Visible notice, local clues, PolicyWatcher evidence', privacyBoundary: 'Privacy boundary', betaInfoAction: 'Beta version information and limitations', betaInfoTitle: 'Testing version', betaInfoBody: 'It may produce incomplete results. Do not use confidential communications; raw content stays local. Informational only, not legal advice.',
+    pageTitle: 'PolicyWatcher: What changed? BETA', versionLabel: 'Beta extension', openWebsite: 'Open policywatcher.online', language: 'Language', evidenceJourney: 'Visible notice, local clues, PolicyWatcher evidence', privacyBoundary: 'Privacy boundary', betaInfoAction: 'Beta version information and limitations', betaInfoTitle: 'Testing version', betaInfoBody: 'It may produce incomplete results. Do not use confidential communications; raw content stays local. Informational only, not legal advice.',
     disclosureTitle: 'Before reading this page', disclosureLead: 'PolicyWatcher requests temporary access to the tab only after you confirm.',
     railNotice: 'Visible notice', railNoticeBody: 'Select the notice text.', railLocal: 'Local clues', railLocalBody: 'Read and discarded here.',
     railEvidence: 'PolicyWatcher evidence', railEvidenceBody: 'Confirmed clues only.', onDevice: 'On your device', onPolicyWatcher: 'In PolicyWatcher',
@@ -431,16 +431,16 @@ function renderResult(result) {
 
   if (state === 'matched') {
     const meta = element('dl', 'result-meta');
-    addMeta(meta, copy[language].organization, result.company?.name || '—');
-    addMeta(meta, copy[language].monitoredSources, result.portfolio?.totalMonitoredSources ?? '—');
-    addMeta(meta, copy[language].reviewedTypes, result.portfolio?.policyTypesReviewed?.length ?? '—');
+    addMeta(meta, copy[language].organization, result.company?.name || '-');
+    addMeta(meta, copy[language].monitoredSources, result.portfolio?.totalMonitoredSources ?? '-');
+    addMeta(meta, copy[language].reviewedTypes, result.portfolio?.policyTypesReviewed?.length ?? '-');
     addMeta(meta, copy[language].evidence, result.changes?.length ?? 0);
     section.append(meta);
     const list = element('div', 'evidence-list');
     (Array.isArray(result.changes) ? result.changes.slice(0, 3) : []).forEach((change) => {
       const item = element('article', 'evidence-item');
       const summary = language === 'it' ? change.tldrIt || change.aiSummaryIt : change.tldrEn || change.aiSummaryEn;
-      item.append(element('strong', '', change.policy?.name || change.policy?.type || copy[language].evidence), element('p', '', summary || '—'));
+      item.append(element('strong', '', change.policy?.name || change.policy?.type || copy[language].evidence), element('p', '', summary || '-'));
       list.append(item);
     });
     section.append(list);
@@ -448,8 +448,8 @@ function renderResult(result) {
     addActions(section, false);
   } else if (state === 'monitored_no_verified_change') {
     const meta = element('dl', 'result-meta');
-    addMeta(meta, copy[language].organization, result.company?.name || '—');
-    addMeta(meta, copy[language].monitoredSources, result.portfolio?.totalMonitoredSources ?? result.monitoredSources?.length ?? '—');
+    addMeta(meta, copy[language].organization, result.company?.name || '-');
+    addMeta(meta, copy[language].monitoredSources, result.portfolio?.totalMonitoredSources ?? result.monitoredSources?.length ?? '-');
     section.append(meta);
     addReference(section, result.reference);
     addExplanation(section, copy[language].monitoredWhy);

@@ -1,4 +1,4 @@
-# Release 3.7.0 — Focused Lateral Red-Team Review
+# Release 3.7.0 - Focused Lateral Red-Team Review
 
 Date: 2026-07-21
 Scope: changes from `origin/main` through the 3.7.0 release candidate, with emphasis on the public policy-inquiry boundary and Hostinger database startup.

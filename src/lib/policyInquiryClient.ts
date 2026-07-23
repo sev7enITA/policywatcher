@@ -115,7 +115,7 @@ function inferCompanyFromBody(input: string): string | null {
 
   const rejected = /(?:^(?:from|to|cc|bcc|date|subject)\s*:|forwarded message|aggiornament|update|privacy|termin|condition|informativa|hello\b|hi\b|ciao\b|salve\b|buongiorno\b|buonasera\b|gentil[ei]\b|spettabile\b|utente\b|cliente\b|customer\b|cosa\s+cambia|what\s+changes|dear\b|buon\s+viaggio)/i;
   for (const rawLine of input.split(/\r?\n/).slice(0, 12)) {
-    const line = rawLine.replace(/[-–—]{3,}/g, ' ').trim();
+    const line = rawLine.replace(/[-–\u2014]{3,}/g, ' ').trim();
     if (!line || line.length < 2 || line.length > 80 || rejected.test(line)) continue;
     if (/[:;]$/.test(line)) continue;
     if (/https?:\/\/|@/.test(line) || !/[A-Za-zÀ-ÿ]/.test(line)) continue;

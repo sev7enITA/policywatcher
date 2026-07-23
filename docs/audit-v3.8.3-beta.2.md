@@ -1,4 +1,4 @@
-# PolicyWatcher 3.8.3 Beta 2 — Security and Release Review
+# PolicyWatcher 3.8.3 Beta 2 - Security and Release Review
 
 Date: 2026-07-23
 

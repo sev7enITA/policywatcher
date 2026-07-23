@@ -1,6 +1,6 @@
 # PolicyWatcher Browser Evidence Companion
 
-Manifest V3 browser extension for PolicyWatcher 3.8.3 Beta 2. Chrome and Microsoft Edge use this source directly. Safari uses the same web-extension source through Apple’s Safari Web Extension packager.
+Manifest V3 browser extension for PolicyWatcher 3.8.3 Beta 3. Chrome and Microsoft Edge use this source directly. Safari uses the same web-extension source through Apple’s Safari Web Extension packager.
 
 ## Development
 

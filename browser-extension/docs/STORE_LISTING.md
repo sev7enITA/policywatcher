@@ -2,7 +2,7 @@
 
 ## English listing
 
-**Name:** PolicyWatcher — What Changed? BETA
+**Name:** PolicyWatcher: What Changed? BETA
 
 **Short description:** Inspect a visible policy-update notice locally and check PolicyWatcher’s verified public evidence.
 
@@ -27,7 +27,7 @@ Beta limitations: extraction may be incomplete on protected pages, PDFs, non-sta
 
 ## Inserzione italiana
 
-**Nome:** PolicyWatcher — Cosa è cambiato? BETA
+**Nome:** PolicyWatcher: Cosa è cambiato? BETA
 
 **Descrizione breve:** Analizza localmente una notifica di aggiornamento e verifica le evidenze pubbliche di PolicyWatcher.
 
@@ -78,5 +78,5 @@ L’accesso alla scheda è temporaneo e avviene solo dopo il tuo gesto. Testo gr
 - Reviewed UI captures are in `docs/screenshots/` at 390 × 600 and 320 × 600; use them as the source for store-safe promotional compositions.
 - At least one Chrome screenshot: 1280 × 800 or 640 × 400, showing the disclosure and review states without real personal communications.
 - Edge screenshots and small promotional tile according to the current Partner Center form.
-- Support URL: `https://www.policywatcher.online/what-changed`.
+- Support URL: `https://www.policywatcher.online/browser-extension`.
 - Privacy URL: `https://www.policywatcher.online/privacy`.

@@ -1,4 +1,4 @@
-# PolicyWatcher — Security Audit Report
+# PolicyWatcher - Security Audit Report
 **Per il team di sviluppo · 24 giugno 2026**
 **Auditor: ZCode (verifica statica su codice sorgente)**
 **Scope: codice in `/src`, API routes, configurazione deployment**
@@ -16,19 +16,19 @@ La piattaforma ha una **base di sicurezza discreta** ma presenta **3 vulnerabili
 | 🟡 Media | 5 | Best practice non applicate, rischio latente |
 | 🟢 Bassa | 3 | Hardening, non bloccanti |
 
-**Score complessivo:** **C+** — accettabile per beta privata, **non pronto per pubblico senza le 3 fix critiche**.
+**Score complessivo:** **C+** - accettabile per beta privata, **non pronto per pubblico senza le 3 fix critiche**.
 
 ---
 
-## 🔴 VULNERABILITÀ CRITICHE (P0 — bloccanti pre-go-live)
+## 🔴 VULNERABILITÀ CRITICHE (P0 - bloccanti pre-go-live)
 
-### CRIT-01 — Route cron `/weekly` e `/monthly` senza autorizzazione
+### CRIT-01 - Route cron `/weekly` e `/monthly` senza autorizzazione
 
 **File:** `src/app/api/cron/weekly/route.ts`, `src/app/api/cron/monthly/route.ts`
 
 **Evidenza:**
 ```typescript
-// weekly/route.ts — NESSUN controllo auth
+// weekly/route.ts - NESSUN controllo auth
 export async function GET(request: Request) {
   // ... fetcha tutti i subscriber e invia email
 }
@@ -48,7 +48,7 @@ function isAuthorized(request: NextRequest): boolean {
 2. **Consumare il budget SMTP** (Gmail/Hostinger) in pochi minuti
 3. **Forzare il rate limit** del servizio email bloccando i digest legittimi
 
-**CVSS stimato:** 7.5 (High) — CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+**CVSS stimato:** 7.5 (High) - CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
 
 **Fix richiesto:**
 ```typescript
@@ -76,7 +76,7 @@ export async function GET(request: NextRequest) {
 
 ---
 
-### CRIT-02 — IDOR su `/api/subscribers` DELETE (unsubscribe senza token)
+### CRIT-02 - IDOR su `/api/subscribers` DELETE (unsubscribe senza token)
 
 **File:** `src/app/api/subscribers/route.ts` (funzione `DELETE`)
 
@@ -94,11 +94,11 @@ export async function DELETE(request: NextRequest) {
 }
 ```
 
-**Impatto:** Un attaccante che conosca (o indovini) l'email di un iscritto può disiscriverlo silenziosamente. L'utente non riceve più notifiche senza averlo richiesto. Rientra nella categoria **IDOR (Insecure Direct Object Reference)** — violazione OWASP A01:2021.
+**Impatto:** Un attaccante che conosca (o indovini) l'email di un iscritto può disiscriverlo silenziosamente. L'utente non riceve più notifiche senza averlo richiesto. Rientra nella categoria **IDOR (Insecure Direct Object Reference)** - violazione OWASP A01:2021.
 
 Il problema è aggravato dal fatto che la rotta risponde con messaggi diversi a seconda dell'esistenza dell'email (`404 Subscriber not found` vs `200 unsubscribed`) → **enumerazione utenti** possibile.
 
-**CVSS stimato:** 6.5 (Medium) — CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N
+**CVSS stimato:** 6.5 (Medium) - CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N
 
 **Fix richiesto (due opzioni):**
 
@@ -125,7 +125,7 @@ Genera un JWT firmato con `API_SECRET` all'iscrizione, embeddalo nelle email.
 
 ---
 
-### CRIT-03 — Endpoint `/api/seed` esegue `execSync` con `--accept-data-loss`
+### CRIT-03 - Endpoint `/api/seed` esegue `execSync` con `--accept-data-loss`
 
 **File:** `src/app/api/seed/route.ts:44,55`
 
@@ -153,7 +153,7 @@ execSync('npx prisma db seed 2>&1', { ... });
 
 ## 🟠 VULNERABILITÀ ALTE (P1)
 
-### HIGH-01 — Nessun rate limiting sulle route GET esposte
+### HIGH-01 - Nessun rate limiting sulle route GET esposte
 
 **File:** `/api/companies`, `/api/compare`, `/api/matrix`, `/api/trends`, `/api/policies/[id]`, `/api/report/[policyId]`
 
@@ -168,7 +168,7 @@ const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-
 if (limited) return limited;
 ```
 
-### HIGH-02 — Nessuna validazione degli input (manca zod)
+### HIGH-02 - Nessuna validazione degli input (manca zod)
 
 **File:** tutte le route POST/DELETE
 
@@ -194,7 +194,7 @@ const parsed = Schema.safeParse(await request.json());
 if (!parsed.success) return NextResponse.json({ error: parsed.error }, { status: 400 });
 ```
 
-### HIGH-03 — Nessuna mitigazione prompt injection su `/api/chat`
+### HIGH-03 - Nessuna mitigazione prompt injection su `/api/chat`
 
 **File:** `src/app/api/chat/route.ts`, `src/lib/gemini.ts` (`answerPolicyQuestion`)
 
@@ -217,7 +217,7 @@ USER QUESTION:
 ${question}`;
 ```
 
-### HIGH-04 — Dipendenza `next` con CVE moderato nota (postcss XSS)
+### HIGH-04 - Dipendenza `next` con CVE moderato nota (postcss XSS)
 
 **Evidenza (`npm audit`):**
 ```
@@ -235,7 +235,7 @@ L'upgrade richiede `next >= 16.3.0-canary.6` (non ancora stabile al momento dell
 
 ## 🟡 VULNERABILITÀ MEDIE (P2)
 
-### MED-01 — Nessun security header HTTP configurato
+### MED-01 - Nessun security header HTTP configurato
 
 **File:** `next.config.ts`
 
@@ -259,7 +259,7 @@ const nextConfig = {
 };
 ```
 
-### MED-02 — Console logging di dati sensibili
+### MED-02 - Console logging di dati sensibili
 
 **File:** `src/app/api/cron/check-all/route.ts`, `src/app/api/subscribers/route.ts`
 
@@ -267,7 +267,7 @@ Trovati `console.log` con dati potenzialmente sensibili (email subscriber, hash 
 
 **Fix:** Sostituire con logging strutturato che maska i PII (es. `email: e***@gmail.com`).
 
-### MED-03 — Persistenza `localStorage` per TermsGate senza scadenza
+### MED-03 - Persistenza `localStorage` per TermsGate senza scadenza
 
 **File:** `src/components/TermsGate.tsx`
 
@@ -275,7 +275,7 @@ L'accettazione dei termini (`policywatcher_terms_accepted_v1`) non ha scadenza. 
 
 **Fix:** Salvare con timestamp e mostrare nuovamente il gate se >90 giorni o se la versione (`_v1`) cambia.
 
-### MED-04 — `currentText` Policy non cifrato a riposo
+### MED-04 - `currentText` Policy non cifrato a riposo
 
 **File:** `prisma/schema.prisma`
 
@@ -283,7 +283,7 @@ Il testo completo delle policy è memorizzato in chiaro nel DB SQLite. In caso d
 
 **Impatto:** basso (i testi sono pubblici), ma per allineamento GDPR sui dati di subscribers, valutare cifratura dei campi PII.
 
-### MED-05 — Route `/api/report/[policyId]` genera PDF senza caching
+### MED-05 - Route `/api/report/[policyId]` genera PDF senza caching
 
 **File:** `src/app/api/report/[policyId]/route.tsx`
 
@@ -293,25 +293,25 @@ Il PDF viene rigenerato da zero a ogni richiesta (costo CPU alto su `@react-pdf/
 
 ---
 
-## 🟢 VULNERABILITÀ BASSE (P3 — hardening)
+## 🟢 VULNERABILITÀ BASSE (P3 - hardening)
 
-### LOW-01 — `API_SECRET` debole di default
+### LOW-01 - `API_SECRET` debole di default
 
 Il secret di default hard-coded nel codice di esempio era facilmente indovinabile. Assicurarsi che in produzione sia generato con un valore ad alta entropia, ad esempio `openssl rand -hex 32`.
 
-### LOW-02 — Errori 500 espongono stack trace
+### LOW-02 - Errori 500 espongono stack trace
 
 **File:** Vari handler `catch (error) { ... }` ritornano `(error as Error).message` al client. In produzione questo può leakare struttura interna.
 
 **Fix:** In produzione ritornare solo `'Internal server error'`, loggare il dettaglio server-side.
 
-### LOW-03 — `csrf` non protetto su route POST
+### LOW-03 - `csrf` non protetto su route POST
 
 Le route POST accettano qualsiasi Content-Type senza verifica CSRF token. Per form classici sarebbero un problema; per API JSON fetch da same-origin il rischio è basso, ma se si aggiungono cookie di sessione va rivisto.
 
 ---
 
-## 📊 MATRICE ROUTE API — STATO SICUREZZA
+## 📊 MATRICE ROUTE API - STATO SICUREZZA
 
 | Route | Metodo | Auth | Rate Limit | Validation | Rischio |
 |-------|--------|------|------------|------------|---------|
@@ -338,19 +338,19 @@ Le route POST accettano qualsiasi Content-Type senza verifica CSRF token. Per fo
 
 ## 🛠️ ROADMAP DI REMEDIATION (priorità operative)
 
-### Sprint 1 — Blocker pre-go-live (1 giorno)
+### Sprint 1 - Blocker pre-go-live (1 giorno)
 - [ ] **CRIT-01**: Aggiungere `isAuthorized` a `weekly` + `monthly` (estrarre in `lib/auth.ts`)
 - [ ] **CRIT-02**: Aggiungere `unsubscribeToken` allo schema + validazione nella DELETE
 - [ ] **CRIT-03**: Disabilitare `/api/seed` in produzione con `NODE_ENV` check
 - [ ] Estrarre `isAuthorized` in `src/lib/auth.ts` come util condivisa
 
-### Sprint 2 — Hardening (3 giorni)
+### Sprint 2 - Hardening (3 giorni)
 - [ ] **HIGH-01**: Rate limiting anche sulle GET (60/min/IP)
 - [ ] **HIGH-02**: Integrare zod per validazione body su tutte le route POST/DELETE
 - [ ] **HIGH-03**: Aggiungere delimitatori `<CONTEXT>` + system prompt anti-injection
 - [ ] **MED-01**: Aggiungere security headers in `next.config.ts`
 
-### Sprint 3 — Finishing (1 settimana)
+### Sprint 3 - Finishing (1 settimana)
 - [ ] **MED-02**: Sostituire console.log PII con logger che maschera
 - [ ] **MED-03**: Aggiungere scadenza TermsGate (timestamp + TTL)
 - [ ] **MED-05**: Cache su `/api/report/[policyId]`
@@ -362,13 +362,13 @@ Le route POST accettano qualsiasi Content-Type senza verifica CSRF token. Per fo
 
 Per bilanciare l'audit, questi punti sono gestiti correttamente:
 
-1. ✅ **Nessuna chiave API hardcoded nel codice** — tutte via env var
-2. ✅ **`.env` correttamente in `.gitignore`** — non finisce nel repo
+1. ✅ **Nessuna chiave API hardcoded nel codice** - tutte via env var
+2. ✅ **`.env` correttamente in `.gitignore`** - non finisce nel repo
 3. ✅ **`/api/health` non leaked il prefisso della chiave** (mostra solo SET/NOT SET)
-4. ✅ **Prisma parametrico** — nessun raw SQL, nessun rischio SQL injection
+4. ✅ **Prisma parametrico** - nessun raw SQL, nessun rischio SQL injection
 5. ✅ **Rate limiting attivo sulle route POST più costose** (chat, scrape, tts, subscribe)
-6. ✅ **Scraper blindato** — doppio checking, non inventa mai dati se la pagina non c'è
-7. ✅ **TermsGate obbligatorio** — tutela legale prima dell'uso
+6. ✅ **Scraper blindato** - doppio checking, non inventa mai dati se la pagina non c'è
+7. ✅ **TermsGate obbligatorio** - tutela legale prima dell'uso
 8. ✅ **Pagine legali dedicate** (`/privacy`, `/security`, `/unsubscribe`)
 9. ✅ **`security.txt`** conforme RFC 9116
 10. ✅ **Soft-delete subscriber** (non elimina dati, conformità GDPR)

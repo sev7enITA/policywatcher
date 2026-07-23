@@ -118,7 +118,7 @@ export default function InfographicsPage() {
           <div className={styles.infoContent}>
             <span className={styles.eyebrow} style={{ color: '#28d0b0', justifyContent: 'flex-start' }}>
               <Radio size={14} />
-              Infographic 01 — Interactive
+              Infographic 01 - Interactive
             </span>
             <h2>Adaptive Workspace Matrix</h2>
             <p>
@@ -234,7 +234,7 @@ export default function InfographicsPage() {
           <div className={styles.infoContent}>
             <span className={styles.eyebrow} style={{ color: '#818cf8', justifyContent: 'flex-start' }}>
               <GitFork size={14} />
-              Infographic 02 — Interactive Sitemap
+              Infographic 02 - Interactive Sitemap
             </span>
             <h2>Sitemap & Section Atlas</h2>
             <p>
@@ -362,7 +362,7 @@ export default function InfographicsPage() {
           <div className={styles.infoContent}>
             <span className={styles.eyebrow} style={{ color: '#ef4444', justifyContent: 'flex-start' }}>
               <Lock size={14} />
-              Infographic 03 — Safety Invariant
+              Infographic 03 - Safety Invariant
             </span>
             <h2>Safety Invariant & Filter Pipeline</h2>
             <p>
@@ -431,7 +431,7 @@ export default function InfographicsPage() {
       </div>
 
       <footer className={styles.footer}>
-        <span>PolicyWatcher infographics — Adaptive Workspace layout</span>
+        <span>PolicyWatcher infographics - Adaptive Workspace layout</span>
         <span>Branding: PolicyWatcher v3.6.3</span>
       </footer>
     </main>

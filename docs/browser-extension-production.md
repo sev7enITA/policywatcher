@@ -1,6 +1,6 @@
-# PolicyWatcher Browser Evidence Companion 3.8.3 Beta 2
+# PolicyWatcher Browser Evidence Companion 3.8.3 Beta 3
 
-Production, privacy and store guide — Guida produzione, privacy e store
+Production, privacy and store guide - Guida produzione, privacy e store
 
 ## English
 

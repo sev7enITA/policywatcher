@@ -38,7 +38,7 @@ Il team di BlaBlaCar`;
 
 const MIODOTTORE_PLAIN_TEXT_COPY = `Gentile utente,
 
-Siamo sempre al lavoro per migliorare MioDottore — anche quando si tratta di gestione dei dati. Per questo abbiamo aggiornato la nostra Informativa e pubblicato una nuova cookie policy. Ecco le principali novità:
+Siamo sempre al lavoro per migliorare MioDottore - anche quando si tratta di gestione dei dati. Per questo abbiamo aggiornato la nostra Informativa e pubblicato una nuova cookie policy. Ecco le principali novità:
 
 1. Abbiamo reso alcune sezioni dell'Informativa più comprensibili, per chiarire quali dati raccogliamo, perché, per quanto tempo e quali sono i tuoi diritti.
 

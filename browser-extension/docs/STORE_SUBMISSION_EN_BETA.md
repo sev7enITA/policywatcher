@@ -1,6 +1,6 @@
-# PolicyWatcher Browser Extension — English Beta Store Submission Pack
+# PolicyWatcher Browser Extension - English Beta Store Submission Pack
 
-Version: 3.8.3 Beta 2
+Version: 3.8.3 Beta 3
 Prepared: 23 July 2026
 Product: PolicyWatcher Browser Evidence Companion
 
@@ -28,10 +28,10 @@ until each URL resolves to the reviewed official store item.
 ## 2. Store identity and classification
 
 **Product name**
-`PolicyWatcher — What Changed? BETA`
+`PolicyWatcher: What Changed? BETA`
 
 **Version name**
-`3.8.3 Beta 2`
+`3.8.3 Beta 3`
 
 **Primary language**
 English
@@ -111,7 +111,7 @@ Initial public beta. Adds user-initiated local inspection of visible policy-upda
 **Privacy/GDPR contact**
 `privacy@policywatcher.online`
 
-**Beta feedback email — mandatory operator action**
+**Beta feedback email - mandatory operator action**
 Create and test a dedicated mailbox before submission, recommended:
 `beta@policywatcher.online`. Do not enter this address in a store until incoming
 mail and replies have been verified.
@@ -323,9 +323,9 @@ PolicyWatcher is a user-initiated, single-purpose beta extension. To review it, 
       publisher/site verification.
 - [ ] Create and test the beta feedback mailbox.
 - [ ] Confirm privacy and methodology URLs are publicly reachable.
-- [ ] Upload the correct 3.8.3 Beta 2 ZIP and verify its SHA-256 checksum.
+- [ ] Upload the correct 3.8.3 Beta 3 ZIP and verify its SHA-256 checksum.
 - [ ] Confirm the installed extension name ends in `BETA` and `version_name` says
-      `3.8.3 Beta 2`.
+      `3.8.3 Beta 3`.
 - [ ] Paste the English detailed description without removing the first beta
       sentence.
 - [ ] Complete local-processing disclosures; do not answer “no data” merely

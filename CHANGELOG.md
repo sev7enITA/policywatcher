@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.8.3-beta.3 - 2026-07-23
+
+### Store typography correction
+- Removed every literal em dash character from the application, extension, tests, documentation and tracked marketing copy.
+- Replaced the extension title with `PolicyWatcher: What changed? BETA` and the Italian title with `PolicyWatcher: Cosa è cambiato? BETA` across the manifest locale, popup and store documentation.
+- Preserved em-dash normalization for pasted notifications through the escaped `\u2014` representation, so input parsing behavior is unchanged without retaining the prohibited character in source.
+- Incremented the application to `3.8.3-beta.3` and the browser package to numeric `3.8.3.3` / display `3.8.3 Beta 3`, because Chrome and Edge require a higher package version for a corrected store title.
+
 ## 3.8.3-beta.2 - 2026-07-23
 
 ### Security and reliability

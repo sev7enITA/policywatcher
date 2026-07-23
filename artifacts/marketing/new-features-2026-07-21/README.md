@@ -1,4 +1,4 @@
-# PolicyWatcher — New Features Visual Kit
+# PolicyWatcher - New Features Visual Kit
 
 Visual-first bilingual launch material for `policywatcher.online`. These assets
 use the PolicyWatcher eye/shield mark, indigo–teal palette and evidence-oriented
@@ -8,11 +8,11 @@ runtime package.
 
 ## Assets
 
-1. `01-mail-to-evidence.it.png` / `.en.png` — browser-local email analysis,
+1. `01-mail-to-evidence.it.png` / `.en.png` - browser-local email analysis,
    privacy boundary, minimal clues and verified evidence.
-2. `02-seamless-onboarding.it.png` / `.en.png` — official sources, human
+2. `02-seamless-onboarding.it.png` / `.en.png` - official sources, human
    approval, first baseline, recurring monitoring, QA and publication.
-3. `03-objective-dashboard.it.png` / `.en.png` — user objective, evidence
+3. `03-objective-dashboard.it.png` / `.en.png` - user objective, evidence
    modules and composed dashboard.
 
 ## Generation

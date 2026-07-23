@@ -1,4 +1,4 @@
-# Release 3.7.1 — Notification Intake Reliability Review
+# Release 3.7.1 - Notification Intake Reliability Review
 
 Date: 2026-07-22
 Scope: the public `/what-changed` browser workflow, structured inquiry API, company matching, public portfolio evidence selection and Hostinger runtime storage behavior.

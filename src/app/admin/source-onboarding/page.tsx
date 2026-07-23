@@ -373,7 +373,7 @@ export default function SourceOnboardingPage() {
                     <td>{row.rowNumber}</td>
                     <td><strong>{row.companyName || 'Missing'}</strong><span>{row.companySlug || 'no slug'} · {row.industry || 'no industry'}</span></td>
                     <td><strong>{row.policyName || 'Missing'}</strong><span>{row.policyUrl || 'no URL'}</span></td>
-                    <td><span>{row.policyType || '—'} · {row.jurisdiction || '—'}</span><span>{row.website || 'no website'}</span></td>
+                    <td><span>{row.policyType || '-'} · {row.jurisdiction || '-'}</span><span>{row.website || 'no website'}</span></td>
                     <td>{row.ready ? <span className={`${styles.badge} ${styles.badgeSuccess}`}><Check size={13} /> Ready</span> : <div className={styles.sourceRowErrors}>{row.errors.map((message) => <span key={message}><AlertTriangle size={12} /> {message}</span>)}</div>}</td>
                   </tr>
                 ))}
@@ -386,7 +386,7 @@ export default function SourceOnboardingPage() {
                 <div><small>Row</small><strong>#{row.rowNumber}</strong></div>
                 <div><small>Company</small><strong>{row.companyName || 'Missing'}</strong><span>{row.companySlug || 'no slug'} · {row.industry || 'no industry'}</span></div>
                 <div><small>Source</small><strong>{row.policyName || 'Missing'}</strong><span className={styles.sourcePreviewCardUrl}>{row.policyUrl || 'no URL'}</span></div>
-                <div><small>Normalized</small><strong>{row.policyType || '—'} · {row.jurisdiction || '—'}</strong><span>{row.website || 'no website'}</span></div>
+                <div><small>Normalized</small><strong>{row.policyType || '-'} · {row.jurisdiction || '-'}</strong><span>{row.website || 'no website'}</span></div>
                 <div>
                   <small>Result</small>
                   {row.ready ? (

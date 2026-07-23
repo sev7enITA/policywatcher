@@ -83,8 +83,8 @@ describe('browser extension production boundary', () => {
 
   it('uses minimum permissions and the production-only host', () => {
     expect(manifest.manifest_version).toBe(3);
-    expect(manifest.version).toBe('3.8.3.2');
-    expect(manifest.version_name).toBe('3.8.3 Beta 2');
+    expect(manifest.version).toBe('3.8.3.3');
+    expect(manifest.version_name).toBe('3.8.3 Beta 3');
     expect(manifest.permissions.sort()).toEqual(['activeTab', 'scripting']);
     expect(manifest.host_permissions).toEqual(['https://www.policywatcher.online/*']);
   });
@@ -92,8 +92,8 @@ describe('browser extension production boundary', () => {
   it('labels every installed and popup surface as Beta with localized first-use limits', () => {
     const en = JSON.parse(readFileSync('browser-extension/_locales/en/messages.json', 'utf8'));
     const it = JSON.parse(readFileSync('browser-extension/_locales/it/messages.json', 'utf8'));
-    expect(en.extensionName.message).toMatch(/BETA$/);
-    expect(it.extensionName.message).toMatch(/BETA$/);
+    expect(en.extensionName.message).toBe('PolicyWatcher: What changed? BETA');
+    expect(it.extensionName.message).toBe('PolicyWatcher: Cosa è cambiato? BETA');
     expect(en.extensionDescription.message).toMatch(/^BETA:/);
     expect(it.extensionDescription.message).toMatch(/^BETA:/);
     expect(popupHtml).toContain('id="beta-info-button"');

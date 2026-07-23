@@ -1,9 +1,9 @@
-# PolicyWatcher — Valutazione d'Impatto & Analisi SWOT
+# PolicyWatcher - Valutazione d'Impatto & Analisi SWOT
 **Per presentazione pubblica · Giugno 2026**
 
 ---
 
-## PARTE 1 — VALUTAZIONE D'IMPATTO
+## PARTE 1 - VALUTAZIONE D'IMPATTO
 
 ### 1.1 Impatto sociale e per i cittadini
 
@@ -11,7 +11,7 @@ PolicyWatcher traduce documenti legali opachi (Privacy Policy, Terms of Service,
 
 | Dimensione | Impatto |
 |---|---|
-| **Educazione digitale** | Chiunque può capire, in 30 secondi, cosa cambia nella privacy policy di Google, Stripe o OpenAI — senza dover leggere 40 pagine di legalese. |
+| **Educazione digitale** | Chiunque può capire, in 30 secondi, cosa cambia nella privacy policy di Google, Stripe o OpenAI - senza dover leggere 40 pagine di legalese. |
 | **Tutela del consumatore** | I "risk reasons" spiegano *perché* un cambiamento è problematico (es. "nuova clausola biometrica"), non solo *se* lo è. |
 | **Accessibilità linguistica** | Bilingue EN/IT nativo. Per l'audience EU (specialmente Italia) questo abbassa drasticamente la barriera all'informazione legale tech. |
 | **Trasparenza AI** | Il rischio non è una scatola nera: ogni punteggio è spiegato con 3 motivi concreti e l'impatto regionale (EU/US/Global × Individuo/Enterprise). |
@@ -29,16 +29,16 @@ PolicyWatcher traduce documenti legali opachi (Privacy Policy, Terms of Service,
 
 PolicyWatcher è uno **strumento di civic tech** allineato agli obiettivi delle recenti normative:
 
-- **EU AI Act** — supporta l'obbligo di trasparenza delle pratiche AI (Art. 52-53).
-- **GDPR** — favorisce l'esercizio dei diritti (Art. 13-14 informativa).
-- **DSA** — alimenta la rendicontazione pubblica sugli algoritmi (Art. 40).
-- **Data Act (imminente)** — prepara il terreno per la portabilità e trasparenza dei dati.
+- **EU AI Act** - supporta l'obbligo di trasparenza delle pratiche AI (Art. 52-53).
+- **GDPR** - favorisce l'esercizio dei diritti (Art. 13-14 informativa).
+- **DSA** - alimenta la rendicontazione pubblica sugli algoritmi (Art. 40).
+- **Data Act (imminente)** - prepara il terreno per la portabilità e trasparenza dei dati.
 
-**Posizionamento ideale:** "Infrastruttura civile di osservazione indipendente delle policy Big Tech" — complementare (non sostitutiva) al lavoro dei Data Protection Authority.
+**Posizionamento ideale:** "Infrastruttura civile di osservazione indipendente delle policy Big Tech" - complementare (non sostitutiva) al lavoro dei Data Protection Authority.
 
 ---
 
-## PARTE 2 — ANALISI SWOT
+## PARTE 2 - ANALISI SWOT
 
 ### 🟢 STRENGTHS (Punti di forza)
 
@@ -100,7 +100,7 @@ PolicyWatcher è uno **strumento di civic tech** allineato agli obiettivi delle 
 
 2. **Finanziamento UE disponibile**
    - Bandi Digital Europe, Horizon Europe (cluster "Culture, Creativity and Inclusive Society"), CEF Digital.
-   - PolicyWatcher si posiziona come "civic tech per trasparenza algoritmica" — perfettamente in scope.
+   - PolicyWatcher si posiziona come "civic tech per trasparenza algoritmica" - perfettamente in scope.
 
 3. **Partnership accademiche**
    - Università/data journalism (es. Linkiesta, Il Sole 24 Ore, OW2) potrebbero usare i dati.
@@ -134,7 +134,7 @@ PolicyWatcher è uno **strumento di civic tech** allineato agli obiettivi delle 
    - *Mitigazione:* rate limiting attivo, caching possibile, budget cap configurabile.
 
 5. **Competizione**
-   - TermsFeed, iubenda, OneTrust operano nello spazio compliance, ma non offrono monitoring attivo bilingue. Finora nessun diretto competitor EU con questo posizionamento — ma la finestra è temporale.
+   - TermsFeed, iubenda, OneTrust operano nello spazio compliance, ma non offrono monitoring attivo bilingue. Finora nessun diretto competitor EU con questo posizionamento - ma la finestra è temporale.
 
 6. **Changed terms in monitored companies**
    - Le aziende potrebbero smettere di pubblicare policy pubbliche (es. paywall, login-wall), riducendo la base dati.
@@ -142,7 +142,7 @@ PolicyWatcher è uno **strumento di civic tech** allineato agli obiettivi delle 
 
 ---
 
-## PARTE 3 — MATRICE STRATEGICA
+## PARTE 3 - MATRICE STRATEGICA
 
 | Strategia | Descrizione |
 |---|---|
@@ -153,9 +153,9 @@ PolicyWatcher è uno **strumento di civic tech** allineato agli obiettivi delle 
 
 ---
 
-## PARTE 4 — RACCOMANDAZIONI PER LA PRESENTAZIONE
+## PARTE 4 - RACCOMANDAZIONI PER LA PRESENTAZIONE
 
-1. **Posizionamento:** "PolicyWatcher Alpha — la prima piattaforma EU bilingue di regulatory intelligence su Big Tech e FinTech, basata su AI trasparente."
+1. **Posizionamento:** "PolicyWatcher Alpha - la prima piattaforma EU bilingue di regulatory intelligence su Big Tech e FinTech, basata su AI trasparente."
 
 2. **Demo flow consigliato:**
    1. Apertura homepage → TermsGate (mostra tutela legale)

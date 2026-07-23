@@ -1,4 +1,4 @@
-# Walkthrough — PolicyWatcher 3.6.1: Adaptive Workspace Foundation
+# Walkthrough - PolicyWatcher 3.6.1: Adaptive Workspace Foundation
 
 We have verified and completed the implementation of release **3.6.1**. The changes deliver a highly customized, clean, and goal-oriented experience, fixing the "cheap" generic design and addressing visual clutter.
 
@@ -24,9 +24,9 @@ We have verified and completed the implementation of release **3.6.1**. The chan
 - Candidates cards now feature deep-link presets (e.g. `/?intent=citizen&depth=forensic`) to allow immediate testing of specific profiles.
 
 ### 1.4 Interactive Infographics Page (`/infographics`)
-- **Infographic 01 — Adaptive Workspace Matrix:** Fully animated interactive panel illustrating how the dashboard dynamically hides, prioritizes, and configures layout modules for the active role (`Citizen`, `GRC / Legal`, `Research`, `Builder`).
-- **Infographic 02 — Sitemap & Section Atlas:** Visual node-edge graph detailing the sitemap structure and page flow boundaries of the platform.
-- **Infographic 03 — Safety Invariant:** Diagram showing how custom URL parser sanitation feeds the dashboard layout, while locking down the `Suspended Source Warning` warning banner so it can never be hidden.
+- **Infographic 01 - Adaptive Workspace Matrix:** Fully animated interactive panel illustrating how the dashboard dynamically hides, prioritizes, and configures layout modules for the active role (`Citizen`, `GRC / Legal`, `Research`, `Builder`).
+- **Infographic 02 - Sitemap & Section Atlas:** Visual node-edge graph detailing the sitemap structure and page flow boundaries of the platform.
+- **Infographic 03 - Safety Invariant:** Diagram showing how custom URL parser sanitation feeds the dashboard layout, while locking down the `Suspended Source Warning` warning banner so it can never be hidden.
 
 ---
 
@@ -43,7 +43,7 @@ We have verified and completed the implementation of release **3.6.1**. The chan
 
 ---
 
-## 3.6.3 follow-up — 2026-07-21
+## 3.6.3 follow-up - 2026-07-21
 
 The 3.6.1 profile foundation now powers a true first-use Objective-based Dashboard Composer. When no valid saved profile or deep-link preset exists, the dashboard asks for intent and evidence depth, previews a stack assembled from registered production evidence modules, and applies the selection explicitly. Source QA remains pinned in every composition.
 

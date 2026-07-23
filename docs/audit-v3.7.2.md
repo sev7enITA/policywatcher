@@ -1,4 +1,4 @@
-# Release 3.7.2 — Calm Workspace Review
+# Release 3.7.2 - Calm Workspace Review
 
 Date: 2026-07-22
 Scope: public dashboard first-use onboarding, adaptive workspace persistence, desktop command toolbar, mobile navigation, changelog access and responsive behavior.

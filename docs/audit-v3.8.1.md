@@ -1,4 +1,4 @@
-# Release 3.8.1 — Mobile Inquiry Reliability Review
+# Release 3.8.1 - Mobile Inquiry Reliability Review
 
 Date: 2026-07-22
 Scope: public `/what-changed` mobile flow, browser-local company extraction, persistence receipts, administrator queue visibility, operator email and Hostinger schema startup.

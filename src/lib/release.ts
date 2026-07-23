@@ -1,4 +1,4 @@
-export const POLICYWATCHER_VERSION = '3.8.3-beta.2' as const;
+export const POLICYWATCHER_VERSION = '3.8.3-beta.3' as const;
 export const POLICYWATCHER_RELEASE_NAME = 'Extension-First Evidence Release' as const;
 export type PolicyWatcherReleaseChannel = 'stable' | 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL: PolicyWatcherReleaseChannel = 'beta';

@@ -232,7 +232,7 @@ export function PolicyDiscoveryWorkspace({
           <div>
             <span className={styles.discoveryEyebrow}>Discovery workspace</span>
             <h3 id={`discovery-title-${companyId}`}>{companyName} policy onboarding</h3>
-            <p>Find official sources, make a human decision, then establish the first monitored baseline—all here.</p>
+            <p>Find official sources, make a human decision, then establish the first monitored baseline, all here.</p>
           </div>
         </div>
         {isAdmin && job?.status !== 'running' && policyCount === 0 && (

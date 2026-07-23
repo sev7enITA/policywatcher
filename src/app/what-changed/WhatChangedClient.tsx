@@ -117,7 +117,7 @@ const copy = {
     privacyMinimal: 'We send only the company or domain, cleaned link, categories and available dates.',
     privacyPortfolio: 'We check every monitored public policy, not only the ones mentioned in the email.',
     privacyQa: 'A new company or source is published only after human approval and QA.',
-    reviewTitle: '2. Review clues extracted in your browser', reviewHelp: 'Correct the company and select the policies mentioned in the email. These clues—not the message—will be sent.',
+    reviewTitle: '2. Review clues extracted in your browser', reviewHelp: 'Correct the company and select the policies mentioned in the email. These clues, not the message, will be sent.',
     company: 'Company to verify', companyPh: 'Organization name', companyRequired: 'We could not find a reliable name in the text. Enter only the organization that sent the notification.',
     senderDomain: 'Detected sender domain', startingPolicies: 'Policies mentioned in the notification',
     url: 'Starting policy link (optional)', urlHelp: 'Paste it separately only if you can easily copy it from the email or official site.',

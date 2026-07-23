@@ -70,7 +70,7 @@ node -e '
     product: "PolicyWatcher Browser Evidence Companion",
     version,
     extensionVersion,
-    channel: "beta.2",
+    channel: "beta.3",
     sourceRevision: revision,
     builtAt: new Date().toISOString(),
     packages: { chrome, edge, safariSource: safari },

@@ -21,7 +21,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       // ----------------------------------------------------------------
-      // /embed/* — embeddable widget route. It deliberately relies on
+      // /embed/* - embeddable widget route. It deliberately relies on
       // CSP frame-ancestors instead of the obsolete X-Frame-Options ALLOWALL.
       // ----------------------------------------------------------------
       {

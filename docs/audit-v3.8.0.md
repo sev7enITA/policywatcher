@@ -1,4 +1,4 @@
-# Release 3.8.0 — Browser Evidence Companion Review
+# Release 3.8.0 - Browser Evidence Companion Review
 
 Date: 2026-07-22
 Scope: Chrome, Microsoft Edge and Safari Web Extension source; active-page inspection; local clue extraction; structured PolicyWatcher API requests; store disclosure; package reproducibility.

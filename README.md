@@ -21,7 +21,7 @@
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
   <img src="https://img.shields.io/badge/Release-3.8.3%20Extension--First%20Evidence-146c6a" alt="3.8.3 Extension-First Evidence Release" />
-  <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%202-b45309" alt="Browser Extension 3.8.3 Beta 2" />
+  <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
 <p align="center">
@@ -39,9 +39,10 @@ PolicyWatcher monitors the privacy policies, terms of service, and AI governance
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
 
-### Release 3.8.3 Beta 2 Extension-First Evidence Highlights
+### Release 3.8.3 Beta 3 Extension-First Evidence Highlights
 
-- **Homepage Beta release channel** adds one compact, bilingual `v3.8.3-beta.2 · BETA` strip after Workspace Active with truthful Chrome/Edge/Safari submission-planned status, extension details and the mobile paste fallback.
+- **Store-safe typography** removes every literal em dash from product, extension, test, documentation and tracked marketing surfaces and uses colon-separated extension titles.
+- **Homepage Beta release channel** adds one compact, bilingual `v3.8.3-beta.3 · BETA` strip after Workspace Active with truthful Chrome/Edge/Safari submission-planned status, extension details and the mobile paste fallback.
 - **Security closure** removes the two CodeQL failure triggers and the two template-syntax warnings with behavioral regressions.
 - **Real integration evidence** runs the public inquiry handler against a temporary SQLite schema and rejects raw-content fields before persistence.
 - **Real browser evidence** loads the packaged extension in Chromium, verifies the Manifest V3 service worker and walks disclosure, capture and review states.
