@@ -25,7 +25,10 @@ import {
 import styles from '../admin.module.css';
 import { PolicyDiscoveryWorkspace } from '@/components/admin/PolicyDiscoveryWorkspace';
 import { getBatchLimitSummary } from '@/lib/adminBatchSummary';
-import { getCronTargetControlState } from '@/lib/adminDiscoveryState';
+import {
+  getCronTargetControlState,
+  hasEstablishedCompanyBaseline,
+} from '@/lib/adminDiscoveryState';
 import {
   IconEvidenceAccepted,
   IconScanPulse,
@@ -80,9 +83,12 @@ interface CronStatus {
 
 interface CompanyBaselinePolicy {
   id: string;
+  currentHash?: string | null;
   dataStatus?: string | null;
   lastCheckDate?: string | null;
   lastSuccessfulCheckDate?: string | null;
+  _count?: { snapshots?: number | null };
+  snapshots?: { id: string }[];
 }
 
 interface CompanyBaseline {
@@ -479,7 +485,7 @@ export default function CronManagerPage() {
   const selectedTargetControls = selectedTargetCompany
     ? getCronTargetControlState(
         selectedTargetCompany.policies.length,
-        selectedOnboardingActive === true
+        selectedOnboardingActive ?? !hasEstablishedCompanyBaseline(selectedTargetCompany.policies)
       )
     : null;
 
@@ -701,7 +707,7 @@ export default function CronManagerPage() {
                     }`}
                     onClick={() => {
                       setCompanySlug(company.slug);
-                      setSelectedOnboardingActive(company.policies.length === 0);
+                      setSelectedOnboardingActive(!hasEstablishedCompanyBaseline(company.policies));
                     }}
                     disabled={triggering || isRunning}
                     title={`${company.name}: ${company.policies.length} monitored policies`}
@@ -747,6 +753,7 @@ export default function CronManagerPage() {
             onPoliciesChanged={fetchCompanyBaseline}
             onRunFirstScan={handleRunScan}
             onWorkflowStateChange={setSelectedOnboardingActive}
+            hasEstablishedBaseline={hasEstablishedCompanyBaseline(selectedTargetCompany.policies)}
             scanRunning={triggering || isRunning}
           />
         )}

@@ -137,6 +137,22 @@
   opacity: 0.7;
 }
 
+.navCount {
+  min-width: 22px;
+  height: 22px;
+  margin-left: auto;
+  padding: 0 6px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--risk-high);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
 .navLinkActive .navIcon {
   opacity: 1;
 }
@@ -1386,8 +1402,16 @@ thead .kpiMatrixStickyCol {
 .kpiCompanyCell {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   padding: 6px 0;
+}
+
+.kpiCompanyCell small {
+  flex-basis: 100%;
+  color: var(--text-muted);
+  font-size: 0.66rem;
+  font-weight: 600;
 }
 
 .kpiCompanyName {
@@ -1534,6 +1558,7 @@ thead .kpiMatrixStickyCol {
 
 .chartContainer {
   width: 100%;
+  min-width: 0;
   height: 240px;
   min-height: 240px;
 }

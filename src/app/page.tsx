@@ -36,7 +36,6 @@ import {
   PlugZap,
   RotateCcw,
   Layers3,
-  GitFork,
   ShieldCheck,
   BarChart3,
   Route,
@@ -44,6 +43,8 @@ import {
   Sparkles,
   BookOpen,
   Check,
+  ChevronLeft,
+  LockKeyhole,
 } from 'lucide-react';
 import styles from './Dashboard.module.css';
 import PolicyDetails from '@/components/PolicyDetails';
@@ -58,13 +59,13 @@ import CompareModal from '@/components/CompareModal';
 import TermsGate from '@/components/TermsGate';
 import CardRiskReasons from '@/components/ai/CardRiskReasons';
 import { SkeletonGrid, SkeletonStatsGrid } from '@/components/Skeleton';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import Footer from '@/components/Footer';
 import HowToModal from '@/components/HowToModal';
 import Navigation, { NavLayout } from '@/components/Navigation';
 import { createDeferredViewportEvaluator, shouldSuggestOnTheGo } from '@/lib/mobileContext';
 import { dashboardUpdateNotices, getObservatorySource, observatorySignals } from '@/lib/observatory';
-import { POLICYWATCHER_VERSION } from '@/lib/release';
+import { POLICYWATCHER_RELEASE_BADGE, POLICYWATCHER_VERSION } from '@/lib/release';
 import { dataStatusClassKey, getWorstDataStatus, normalizeDataStatus } from '@/lib/policyConfidence';
 import {
   composeDashboard,
@@ -79,6 +80,11 @@ import {
   type EvidenceDepth,
   type WorkspaceIntent,
 } from '@/lib/dashboardComposer';
+import {
+  getWorkspaceQuickActionIds,
+  hasCompletedWorkspaceOnboarding,
+  WORKSPACE_ONBOARDING_COMPLETED_KEY,
+} from '@/lib/workspaceNavigation';
 
 // Re-export types for backward compatibility
 export type { Company, Policy, PolicyChange, RegionImpact } from '@/types/index';
@@ -177,7 +183,6 @@ const translations = {
     exploreTitle: 'Tutte le nuove superfici, in un unico punto.',
     exploreLead: 'Adaptive Workspace, Observatory, sitemap interattiva, press wall, segnali policy, trust center e roadmap sono ora organizzati come percorsi di esplorazione.',
     exploreAtlas: 'Apri sitemap completa',
-    exploreFeature: `Stabile in ${POLICYWATCHER_VERSION}`,
     exploreOpen: 'Apri',
     exploreCards: [
       {
@@ -327,7 +332,6 @@ const translations = {
     exploreTitle: 'Every new surface, one clear entry point.',
     exploreLead: 'Adaptive Workspace, Observatory, interactive sitemap, press wall, policy signals, trust center and roadmap are now organized as guided exploration paths.',
     exploreAtlas: 'Open full sitemap',
-    exploreFeature: `Stable in ${POLICYWATCHER_VERSION}`,
     exploreOpen: 'Open',
     exploreCards: [
       {
@@ -551,14 +555,46 @@ const WORKSPACE_MODULE_LABELS: Record<'en' | 'it', Record<DashboardModuleId, str
   },
 };
 
+const WORKSPACE_COMMAND_LABELS: Record<'en' | 'it', Record<string, string>> = {
+  en: {
+    timeline: 'Timeline',
+    leaderboard: 'Signals',
+    subscribe: 'Alerts',
+    matrix: 'KPI matrix',
+    export: 'Export',
+    observatory: 'Observatory',
+    atlas: 'Atlas',
+    trust: 'Trust QA',
+  },
+  it: {
+    timeline: 'Timeline',
+    leaderboard: 'Segnali',
+    subscribe: 'Avvisi',
+    matrix: 'Matrice KPI',
+    export: 'Export',
+    observatory: 'Observatory',
+    atlas: 'Atlante',
+    trust: 'Trust QA',
+  },
+};
+
 const WORKSPACE_COPY = {
   en: {
     label: 'Adaptive workspace',
     title: 'Start from the question, not from the dashboard',
     lead: 'Choose the purpose of the session and the depth of evidence you need. PolicyWatcher reorganizes density, priority, and context while source-quality warnings remain visible.',
-    chooseIntent: '1. Choose the job',
-    chooseDepth: '2. Choose evidence depth',
-    generatedLogic: '3. Generated evidence stack',
+    chooseIntent: 'What do you want to understand?',
+    chooseDepth: 'How much evidence do you need?',
+    generatedLogic: 'Your Workspace Active',
+    step: 'Step',
+    of: 'of',
+    whatYouSee: 'What you’ll see',
+    quickAccess: 'Quick access',
+    continueAction: 'Continue',
+    backAction: 'Back',
+    essentialAction: 'Use essential workspace',
+    localPreferences: 'Preferences stay in this browser.',
+    evidenceInvariant: 'Your workspace changes priority and density, not the underlying public evidence or publication safeguards.',
     activeProfile: 'Active workspace',
     primaryModules: 'Primary evidence',
     supportingModules: 'Supporting evidence',
@@ -579,9 +615,18 @@ const WORKSPACE_COPY = {
     label: 'Workspace adattivo',
     title: 'Parti dalla domanda, non dalla dashboard',
     lead: 'Scegli lo scopo della sessione e la profondita delle evidenze. PolicyWatcher riorganizza densita, priorita e contesto mantenendo visibili gli avvisi sulla qualita delle fonti.',
-    chooseIntent: '1. Scegli il lavoro',
-    chooseDepth: '2. Scegli profondita evidenza',
-    generatedLogic: '3. Stack evidenze generato',
+    chooseIntent: 'Cosa vuoi comprendere?',
+    chooseDepth: 'Quante evidenze ti servono?',
+    generatedLogic: 'Il tuo Workspace Active',
+    step: 'Passaggio',
+    of: 'di',
+    whatYouSee: 'Cosa vedrai',
+    quickAccess: 'Accesso rapido',
+    continueAction: 'Continua',
+    backAction: 'Indietro',
+    essentialAction: 'Usa il workspace essenziale',
+    localPreferences: 'Le preferenze restano in questo browser.',
+    evidenceInvariant: 'Il workspace cambia priorita e densita, non le evidenze pubbliche sottostanti o le salvaguardie di pubblicazione.',
     activeProfile: 'Workspace attivo',
     primaryModules: 'Evidenze primarie',
     supportingModules: 'Evidenze di supporto',
@@ -599,6 +644,27 @@ const WORKSPACE_COPY = {
     compactLead: 'I moduli della dashboard sono ordinati per questo obiettivo. Riapri la configurazione quando cambia la sessione.',
   },
 };
+
+const EXTENSION_BETA_COPY = {
+  en: {
+    eyebrow: 'Browser extension Beta',
+    title: 'Browser extension: from the email to real links',
+    body: 'After an explicit gesture, the extension reads visible text and page links locally; PolicyWatcher receives only the organization, categories, dates, and cleaned URLs.',
+    status: 'Chrome · Edge · Safari: Beta packages ready, store submission planned',
+    primaryAction: 'Explore the browser extension',
+    fallbackAction: 'On mobile? Paste the notice',
+    disclaimer: 'Pre-release software: results may be incomplete. Not legal advice.',
+  },
+  it: {
+    eyebrow: 'Estensione browser Beta',
+    title: 'Estensione browser: dalla mail ai link reali',
+    body: 'Dopo un gesto esplicito, l’estensione legge localmente il testo visibile e i link presenti nella pagina; a PolicyWatcher arrivano solo azienda, categorie, date e URL ripuliti.',
+    status: 'Chrome · Edge · Safari: pubblicazione negli store in corso',
+    primaryAction: 'Scopri l’estensione browser',
+    fallbackAction: 'Sei su mobile? Incolla la notifica',
+    disclaimer: 'Software pre-release: i risultati possono essere incompleti. Non è consulenza legale.',
+  },
+} as const;
 
 interface MarketPulseChange {
   id: string;
@@ -650,6 +716,7 @@ interface SourceSuspension {
  * language, region, perspective) and renders the full single-page dashboard.
  */
 export default function Dashboard() {
+  const prefersReducedMotion = useReducedMotion();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
   const [marketPulseChanges, setMarketPulseChanges] = useState<MarketPulseChange[]>([]);
@@ -706,6 +773,8 @@ export default function Dashboard() {
   const [draftEvidenceDepth, setDraftEvidenceDepth] = useState<EvidenceDepth>('snapshot');
   const [workspaceConfiguratorOpen, setWorkspaceConfiguratorOpen] = useState(false);
   const [workspaceFirstUseMode, setWorkspaceFirstUseMode] = useState(false);
+  const [workspaceOnboardingStep, setWorkspaceOnboardingStep] = useState(0);
+  const [workspaceOnboardingCompleted, setWorkspaceOnboardingCompleted] = useState(false);
   const [workspaceReady, setWorkspaceReady] = useState(false);
   const [onTheGoSuggested, setOnTheGoSuggested] = useState(false);
   const [onTheGoMotionSuggested, setOnTheGoMotionSuggested] = useState(false);
@@ -720,7 +789,9 @@ export default function Dashboard() {
   const intentOptions = WORKSPACE_INTENTS[lang];
   const depthOptions = EVIDENCE_DEPTHS[lang];
   const moduleLabels = WORKSPACE_MODULE_LABELS[lang];
-  const explorationIcons = [GitFork, Search, Sparkles, Layers3, BarChart3, ShieldCheck, BookOpen, Newspaper, Route];
+  const commandLabels = WORKSPACE_COMMAND_LABELS[lang];
+  const explorationIcons = [Search, Sparkles, Layers3, BarChart3, ShieldCheck, BookOpen, Newspaper, Route];
+  const extensionBeta = EXTENSION_BETA_COPY[lang];
   const activeIntent = useMemo(
     () => intentOptions.find((option) => option.id === workspaceIntent) ?? intentOptions[0],
     [intentOptions, workspaceIntent]
@@ -746,6 +817,10 @@ export default function Dashboard() {
     [draftEvidenceDepth, draftWorkspaceIntent]
   );
   const workspaceHasDraftChanges = draftWorkspaceIntent !== workspaceIntent || draftEvidenceDepth !== evidenceDepth;
+  const draftQuickActions = useMemo(
+    () => getWorkspaceQuickActionIds(draftWorkspaceIntent),
+    [draftWorkspaceIntent],
+  );
   const tickerItems = useMemo<TickerItem[]>(() => {
     const signalItems = observatorySignals.slice(0, 4).map((signal): TickerItem => {
       const source = getObservatorySource(signal.sourceId);
@@ -786,6 +861,7 @@ export default function Dashboard() {
     setDraftEvidenceDepth(evidenceDepth);
     setWorkspaceConfiguratorOpen(false);
     setWorkspaceFirstUseMode(false);
+    setWorkspaceOnboardingStep(0);
   }, [evidenceDepth, workspaceIntent]);
   const applyWorkspaceComposer = useCallback(() => {
     setWorkspaceIntent(draftWorkspaceIntent);
@@ -795,7 +871,30 @@ export default function Dashboard() {
     }
     setWorkspaceConfiguratorOpen(false);
     setWorkspaceFirstUseMode(false);
+    setWorkspaceOnboardingStep(0);
+    setWorkspaceOnboardingCompleted(true);
+    try {
+      localStorage.setItem(WORKSPACE_ONBOARDING_COMPLETED_KEY, JSON.stringify({ completed: true }));
+    } catch {
+      // Explicit selection still applies when browser storage is unavailable.
+    }
   }, [draftEvidenceDepth, draftWorkspaceIntent]);
+  const acceptEssentialWorkspace = useCallback(() => {
+    setDraftWorkspaceIntent('citizen');
+    setDraftEvidenceDepth('snapshot');
+    setWorkspaceIntent('citizen');
+    setEvidenceDepth('snapshot');
+    setOnTheGoModeActive(false);
+    setWorkspaceConfiguratorOpen(false);
+    setWorkspaceFirstUseMode(false);
+    setWorkspaceOnboardingStep(0);
+    setWorkspaceOnboardingCompleted(true);
+    try {
+      localStorage.setItem(WORKSPACE_ONBOARDING_COMPLETED_KEY, JSON.stringify({ completed: true }));
+    } catch {
+      // The essential workspace remains usable without persistent storage.
+    }
+  }, []);
 
   const fetchCompanies = useCallback(async () => {
     setLoading(true);
@@ -903,6 +1002,9 @@ export default function Dashboard() {
         const depthFromUrl = normalizeEvidenceDepth(params.get('depth'));
         const hasWorkspaceParams = params.has('intent') || params.has('workspace') || params.has('depth');
         const raw = localStorage.getItem(WORKSPACE_PROFILE_KEY);
+        const onboardingCompleted = hasCompletedWorkspaceOnboarding(
+          localStorage.getItem(WORKSPACE_ONBOARDING_COMPLETED_KEY),
+        );
         let saved: Partial<{ intent: string; depth: string; onTheGo: boolean }> | null = null;
         if (raw) {
           try {
@@ -914,14 +1016,16 @@ export default function Dashboard() {
 
         if (hasWorkspaceParams) {
           shouldOpenFirstUse = false;
+          setWorkspaceOnboardingCompleted(true);
           nextIntent = intentFromUrl ?? nextIntent;
           nextDepth = depthFromUrl ?? nextDepth;
           nextOnTheGoModeActive = Boolean(saved?.onTheGo && nextIntent === 'citizen' && nextDepth === 'snapshot');
         } else {
           const savedIntent = normalizeWorkspaceIntent(saved?.intent ?? null);
           const savedDepth = normalizeEvidenceDepth(saved?.depth ?? null);
-          if (savedIntent && savedDepth) {
+          if (onboardingCompleted && savedIntent && savedDepth) {
             shouldOpenFirstUse = false;
+            setWorkspaceOnboardingCompleted(true);
             nextIntent = savedIntent;
             nextDepth = savedDepth;
             nextOnTheGoModeActive = Boolean(saved?.onTheGo && nextIntent === 'citizen' && nextDepth === 'snapshot');
@@ -937,6 +1041,7 @@ export default function Dashboard() {
         setOnTheGoModeActive(nextOnTheGoModeActive);
         setWorkspaceConfiguratorOpen(shouldOpenFirstUse);
         setWorkspaceFirstUseMode(shouldOpenFirstUse);
+        setWorkspaceOnboardingStep(0);
         setWorkspaceReady(true);
       }
     });
@@ -1013,10 +1118,12 @@ export default function Dashboard() {
           onTheGo: onTheGoModeActive && workspaceIntent === 'citizen' && evidenceDepth === 'snapshot',
         }));
 
-        const url = new URL(window.location.href);
-        url.searchParams.set('intent', workspaceIntent);
-        url.searchParams.set('depth', evidenceDepth);
-        window.history.replaceState({}, '', `${url.pathname}?${url.searchParams.toString()}${url.hash}`);
+        if (workspaceOnboardingCompleted) {
+          const url = new URL(window.location.href);
+          url.searchParams.set('intent', workspaceIntent);
+          url.searchParams.set('depth', evidenceDepth);
+          window.history.replaceState({}, '', `${url.pathname}?${url.searchParams.toString()}${url.hash}`);
+        }
       } catch {
         // URL/history and localStorage are optional in restricted browser modes.
       }
@@ -1029,6 +1136,7 @@ export default function Dashboard() {
     evidenceDepth,
     onTheGoModeActive,
     workspaceIntent,
+    workspaceOnboardingCompleted,
     workspaceReady,
     workspaceSettings.accent,
     workspaceSettings.density,
@@ -1371,10 +1479,11 @@ export default function Dashboard() {
       ref={workspaceFirstUseMode ? composerDialogRef : undefined}
       id="adaptive-workspace-configurator"
       className={`${styles.workspaceConfigurator} ${workspaceFirstUseMode ? styles.workspaceConfiguratorDialog : ''}`}
-      initial={{ opacity: 0, height: workspaceFirstUseMode ? 'auto' : 0, y: -8 }}
+      data-onboarding-step={workspaceFirstUseMode ? workspaceOnboardingStep : undefined}
+      initial={workspaceFirstUseMode ? false : { opacity: 0, height: 0, y: -8 }}
       animate={{ opacity: 1, height: 'auto', y: 0 }}
-      exit={{ opacity: 0, height: workspaceFirstUseMode ? 'auto' : 0, y: -8 }}
-      transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+      exit={workspaceFirstUseMode ? undefined : { opacity: 0, height: 0, y: -8 }}
+      transition={{ duration: prefersReducedMotion ? 0 : 0.2, ease: [0.16, 1, 0.3, 1] }}
       role={workspaceFirstUseMode ? 'dialog' : undefined}
       aria-modal={workspaceFirstUseMode ? 'true' : undefined}
       aria-labelledby="workspace-composer-title"
@@ -1393,10 +1502,20 @@ export default function Dashboard() {
           {workspaceText.title}
         </h2>
         <p id="workspace-composer-description">{workspaceText.lead}</p>
+        {workspaceFirstUseMode && (
+          <div className={styles.workspaceStepIndicator} aria-label={`${workspaceText.step} ${workspaceOnboardingStep + 1} ${workspaceText.of} 3`}>
+            <span>{workspaceText.step} {workspaceOnboardingStep + 1} {workspaceText.of} 3</span>
+            <div aria-hidden="true">
+              {[0, 1, 2].map((step) => (
+                <i key={step} data-active={step <= workspaceOnboardingStep ? 'true' : 'false'} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className={styles.workspaceControls} aria-label={t.workspaceLabel}>
-        <div className={`${styles.preferenceGroup} ${styles.intentGroup}`}>
+        {(!workspaceFirstUseMode || workspaceOnboardingStep === 0) && <div className={`${styles.preferenceGroup} ${styles.intentGroup}`}>
           <span className={styles.preferenceLabel}>{workspaceText.chooseIntent}</span>
           <div className={styles.workspaceIntentGrid}>
             {intentOptions.map((intent) => {
@@ -1413,15 +1532,18 @@ export default function Dashboard() {
                 >
                   <IntentIcon size={16} />
                   <span>{intent.label}</span>
-                  <strong>{intent.title}</strong>
+                  <span className={styles.workspaceIntentExplanation}>
+                    <strong>{intent.title}</strong>
+                    <small>{intent.detail}</small>
+                  </span>
                   {selected && <Check className={styles.workspaceSelectionCheck} size={16} aria-hidden="true" />}
                 </button>
               );
             })}
           </div>
-        </div>
+        </div>}
 
-        <div className={`${styles.preferenceGroup} ${styles.depthGroup}`}>
+        {(!workspaceFirstUseMode || workspaceOnboardingStep === 1) && <div className={`${styles.preferenceGroup} ${styles.depthGroup}`}>
           <span className={styles.preferenceLabel}>{workspaceText.chooseDepth}</span>
           <div className={styles.workspaceDepthStack}>
             {depthOptions.map((depth) => {
@@ -1434,16 +1556,18 @@ export default function Dashboard() {
                   className={selected ? styles.workspaceDepthActive : ''}
                   aria-pressed={selected}
                 >
-                  <span>{depth.label}</span>
+                  <span>
+                    <strong>{depth.label}</strong>
+                    <small>{depth.detail}</small>
+                  </span>
                   {selected && <Check size={14} aria-hidden="true" />}
                 </button>
               );
             })}
           </div>
-          <p className={styles.workspaceDepthNote}>{draftDepth.detail}</p>
-        </div>
+        </div>}
 
-        <div className={`${styles.preferenceGroup} ${styles.generatedGroup}`}>
+        {(!workspaceFirstUseMode || workspaceOnboardingStep === 2) && <div className={`${styles.preferenceGroup} ${styles.generatedGroup}`}>
           <span className={styles.preferenceLabel}>{workspaceText.generatedLogic}</span>
           <div className={styles.workspaceGeneratedCard} aria-live="polite">
             <div className={styles.generatedHeader}>
@@ -1451,6 +1575,12 @@ export default function Dashboard() {
               <strong>{draftIntent.label} / {draftDepth.label}</strong>
             </div>
             <p>{draftIntent.detail}</p>
+            {workspaceFirstUseMode && (
+              <div className={styles.workspacePreviewInvariant}>
+                <LockKeyhole size={15} aria-hidden="true" />
+                <p><strong>{workspaceText.localPreferences}</strong> {workspaceText.evidenceInvariant}</p>
+              </div>
+            )}
             <div className={styles.generatedSafety}>
               <ShieldCheck size={17} aria-hidden="true" />
               <div>
@@ -1460,7 +1590,7 @@ export default function Dashboard() {
             </div>
             <div className={styles.generatedEvidenceGroups}>
               <div>
-                <span className={styles.generatedGroupLabel}>{workspaceText.primaryModules}</span>
+                <span className={styles.generatedGroupLabel}>{workspaceText.whatYouSee}</span>
                 <motion.ol layout className={styles.generatedEvidenceStack}>
                   <AnimatePresence initial={false} mode="popLayout">
                     {draftWorkspaceSettings.primaryModules.map((moduleId, index) => (
@@ -1490,6 +1620,14 @@ export default function Dashboard() {
                   <p className={styles.generatedEmptySupport}>{workspaceText.noSupportingModules}</p>
                 )}
               </div>
+              <div>
+                <span className={styles.generatedGroupLabel}>{workspaceText.quickAccess}</span>
+                <div className={styles.generatedModules}>
+                  {draftQuickActions.map((commandId) => (
+                    <span key={commandId}>{commandLabels[commandId]}</span>
+                  ))}
+                </div>
+              </div>
             </div>
             <div className={styles.generatedMeta}>
               <span>{draftWorkspaceSettings.density}</span>
@@ -1508,23 +1646,70 @@ export default function Dashboard() {
               {workspaceText.defaultAction}
             </button>
           </div>
-        </div>
+        </div>}
+      </div>
+
+      <div className={styles.workspacePrivacyNote} data-step={workspaceFirstUseMode ? workspaceOnboardingStep : 'all'}>
+        <LockKeyhole size={16} aria-hidden="true" />
+        <p>
+          <strong>{workspaceText.localPreferences}</strong>{' '}
+          <span className={styles.workspaceEvidenceInvariant}>{workspaceText.evidenceInvariant}</span>
+        </p>
       </div>
 
       <div className={styles.workspaceActions}>
-        <button type="button" className={styles.workspaceCloseButton} onClick={closeWorkspaceComposer}>
-          <X size={16} />
-          {workspaceFirstUseMode ? workspaceText.firstUseClose : workspaceText.closeAction}
-        </button>
-        <button
-          type="button"
-          className={styles.workspaceApplyButton}
-          onClick={applyWorkspaceComposer}
-          disabled={!workspaceHasDraftChanges && !workspaceFirstUseMode}
-        >
-          {workspaceText.applyAction}
-          <ArrowRight size={16} />
-        </button>
+        {workspaceFirstUseMode ? (
+          <>
+            <div className={styles.workspaceActionsStart}>
+              {workspaceOnboardingStep === 0 ? (
+                <button type="button" className={styles.workspaceCloseButton} onClick={acceptEssentialWorkspace}>
+                  <ShieldCheck size={16} />
+                  {workspaceText.essentialAction}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className={styles.workspaceCloseButton}
+                  onClick={() => setWorkspaceOnboardingStep((step) => Math.max(0, step - 1))}
+                >
+                  <ChevronLeft size={16} />
+                  {workspaceText.backAction}
+                </button>
+              )}
+            </div>
+            {workspaceOnboardingStep < 2 ? (
+              <button
+                type="button"
+                className={styles.workspaceApplyButton}
+                onClick={() => setWorkspaceOnboardingStep((step) => Math.min(2, step + 1))}
+              >
+                {workspaceText.continueAction}
+                <ArrowRight size={16} />
+              </button>
+            ) : (
+              <button type="button" className={styles.workspaceApplyButton} onClick={applyWorkspaceComposer}>
+                {workspaceText.applyAction}
+                <ArrowRight size={16} />
+              </button>
+            )}
+          </>
+        ) : (
+          <>
+            <button type="button" className={styles.workspaceCloseButton} onClick={closeWorkspaceComposer}>
+              <X size={16} />
+              {workspaceText.closeAction}
+            </button>
+            <button
+              type="button"
+              className={styles.workspaceApplyButton}
+              onClick={applyWorkspaceComposer}
+              disabled={!workspaceHasDraftChanges}
+            >
+              {workspaceText.applyAction}
+              <ArrowRight size={16} />
+            </button>
+          </>
+        )}
       </div>
     </motion.div>
   );
@@ -1569,17 +1754,26 @@ export default function Dashboard() {
         onOpenHowTo={() => setHowToOpen(true)}
         onOpenChangelog={() => setChangelogOpen(true)}
         onOpenAbout={() => setAboutOpen(true)}
+        onOpenWorkspace={() => {
+          setDraftWorkspaceIntent(workspaceIntent);
+          setDraftEvidenceDepth(evidenceDepth);
+          setWorkspaceOnboardingStep(0);
+          setWorkspaceFirstUseMode(true);
+          setWorkspaceConfiguratorOpen(true);
+        }}
         onOpenSearch={() => setCommandPaletteOpen(true)}
         onChangeLayout={(layout) => setNavLayout(layout)}
+        workspaceIntent={workspaceIntent}
+        evidenceDepth={evidenceDepth}
       />
 
       <AnimatePresence>
         {workspaceConfiguratorOpen && workspaceFirstUseMode && (
           <motion.div
             className={styles.workspaceComposerOverlay}
-            initial={{ opacity: 0 }}
+            initial={false}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            transition={{ duration: 0 }}
             onMouseDown={(event) => {
               if (event.target === event.currentTarget) closeWorkspaceComposer();
             }}
@@ -1686,6 +1880,39 @@ export default function Dashboard() {
           )}
 
         </motion.section>
+
+        <section className={styles.extensionBetaStrip} aria-labelledby="extension-beta-title">
+          <div className={styles.extensionBetaRail} aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className={styles.extensionBetaIdentity}>
+            <span className={styles.extensionBetaBadge}>{POLICYWATCHER_RELEASE_BADGE}</span>
+            <span className={styles.extensionBetaEyebrow}>
+              <PlugZap size={14} aria-hidden="true" />
+              {extensionBeta.eyebrow}
+            </span>
+          </div>
+          <div className={styles.extensionBetaCopy}>
+            <h2 id="extension-beta-title">{extensionBeta.title}</h2>
+            <p>{extensionBeta.body}</p>
+            <span className={styles.extensionBetaStatus}>
+              <span className={styles.extensionBetaStatusDot} aria-hidden="true" />
+              {extensionBeta.status}
+            </span>
+          </div>
+          <div className={styles.extensionBetaActions}>
+            <Link href="/browser-extension" className={styles.extensionBetaPrimary}>
+              {extensionBeta.primaryAction}
+              <ArrowRight size={15} aria-hidden="true" />
+            </Link>
+            <Link href="/what-changed#paste-notice" className={styles.extensionBetaSecondary}>
+              {extensionBeta.fallbackAction}
+            </Link>
+            <small>{extensionBeta.disclaimer}</small>
+          </div>
+        </section>
 
         {isModuleVisible('observatory') && (
           <motion.section

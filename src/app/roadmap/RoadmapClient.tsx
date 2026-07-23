@@ -97,6 +97,42 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 
 const nowItems = [
   {
+    phase: 'Delivered · 3.8.1',
+    title: 'Mobile inquiry reliability',
+    body:
+      'The notification workflow now moves from paste to a local company/policy summary and one verification action, while optional corrections and explainability stay progressively disclosed.',
+    benefit: 'A person on a phone can submit a useful request without reconstructing hidden links, dates or a multi-field form.',
+    validation: 'Only successful writes show a registered reference; the admin queue has a visible count and optional minimized email alert, while raw notification content remains browser-local.',
+    icon: Search,
+  },
+  {
+    phase: 'Delivered · 3.8.0',
+    title: 'Browser Evidence Companion',
+    body:
+      'A minimum-permission Chrome, Edge and Safari companion reads an opened notice only after an explicit gesture, extracts non-personal clues locally, and connects the confirmed signal to PolicyWatcher’s published portfolio evidence.',
+    benefit: 'People can move from a real notification to a verifiable answer without copying raw personal communications into the platform.',
+    validation: 'No persistent mailbox access, raw-content transmission, remote code or automated publication; unknown sources still enter the human approval and QA workflow.',
+    icon: Search,
+  },
+  {
+    phase: 'Delivered · 3.7.2',
+    title: 'Calm Workspace onboarding and navigation',
+    body:
+      'First-time visitors choose an objective and evidence depth, preview the evidence stack, and enter a workspace whose toolbar exposes only the most relevant actions while retaining every command in More.',
+    benefit: 'The product becomes understandable before the full dashboard density appears, without removing expert capabilities.',
+    validation: 'Source QA remains visible, preferences stay local, setup is reversible, and the mobile navigation remains focused and safe-area aware.',
+    icon: SlidersHorizontal,
+  },
+  {
+    phase: 'Delivered · 3.7.1',
+    title: 'Notification-to-evidence inquiry',
+    body:
+      'A citizen can paste a plain-text terms/privacy notice, confirm the locally extracted organization and starting policy clues, receive portfolio-wide public evidence, or create a zero-content human-review inquiry that feeds controlled company discovery.',
+    benefit: 'The path from a real notification email to trustworthy evidence becomes direct without treating marketing copy as proof.',
+    validation: 'Only publicEvidence records answer immediately; unknown or unverified cases remain queued behind the human source-approval gate.',
+    icon: Search,
+  },
+  {
     phase: 'Delivered · voted',
     title: 'Objective-based Dashboard Composer',
     body:
@@ -253,6 +289,41 @@ const releaseLanes = [
     title: 'Stability Release',
     body:
       'Centralized onboarding batch invariants, held-workflow defense in depth, deferred orientation evaluation with cleanup, root mobile overflow containment, and single-source release metadata.',
+    state: 'delivered',
+  },
+  {
+    label: '3.7.0',
+    title: 'Evidence Experience Release',
+    body:
+      'Bilingual notification-to-evidence inquiry with browser-local clue extraction, one-request company discovery, in-context baselines, evidence-provenance KPI QA, audited human handoff, and self-checking Hostinger startup.',
+    state: 'delivered',
+  },
+  {
+    label: '3.7.1',
+    title: 'Evidence Intake Reliability',
+    body:
+      'Plain-text-first notification intake, explicit clue confirmation, organization/domain conflict handling, portfolio-wide policy verification, and actionable database-unavailable states without transmitting raw message content.',
+    state: 'delivered',
+  },
+  {
+    label: '3.7.2',
+    title: 'Calm Workspace Release',
+    body:
+      'Progressive first-use onboarding, objective-aware quick actions, direct changelog identity, icon-only What Changed entry, focused mobile navigation, and browser-local personalization.',
+    state: 'delivered',
+  },
+  {
+    label: '3.8.0',
+    title: 'Browser Evidence Companion',
+    body:
+      'Production Chrome/Edge Manifest V3 extension and Safari-compatible source with temporary tab access, local clue extraction, structured confirmation and portfolio-wide public evidence results.',
+    state: 'delivered',
+  },
+  {
+    label: '3.8.1',
+    title: 'Mobile Inquiry Reliability',
+    body:
+      'One-action mobile notification intake, realistic company extraction, truthful persistence receipts, visible admin queue count and privacy-minimized operator alerts.',
     state: 'current',
   },
   {

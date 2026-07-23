@@ -6,9 +6,12 @@
  * DELETE /api/admin/companies?id=<uuid> - Delete a company (admin only, cascade)
  */
 
-import { NextRequest, NextResponse } from 'next/server';
+import { after, NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { db } from '@/lib/db';
+import {
+  createCompanyAndStartDiscovery,
+} from '@/lib/companyOnboardingService';
 
 export async function GET(request: NextRequest) {
   const session = getSession(request);
@@ -32,6 +35,11 @@ export async function GET(request: NextRequest) {
             lastCheckDate: true,
             lastSuccessfulCheckDate: true,
             updatedAt: true,
+            snapshots: {
+              where: { publicEvidence: true },
+              take: 1,
+              select: { id: true },
+            },
             _count: { select: { changes: true, snapshots: true } },
           },
         },
@@ -64,23 +72,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check for duplicates
-    const existing = await db.company.findFirst({
-      where: { OR: [{ name }, { slug }] },
-    });
-    if (existing) {
-      return NextResponse.json(
-        { error: `Company with name "${name}" or slug "${slug}" already exists.` },
-        { status: 409 }
-      );
-    }
-
-    const company = await db.company.create({
-      data: { name, slug, industry, website, logo: logo || null },
-    });
-
-    return NextResponse.json({ success: true, company }, { status: 201 });
+    const result = await createCompanyAndStartDiscovery(
+      { name, slug, industry, website, logo },
+      (task) => after(task)
+    );
+    return NextResponse.json({ success: true, ...result }, { status: 201 });
   } catch (error) {
+    if (error instanceof Error && error.message === 'INVALID_WEBSITE') {
+      return NextResponse.json({ error: 'website must be a valid http(s) URL.' }, { status: 400 });
+    }
+    if (error instanceof Error && error.message === 'COMPANY_EXISTS') {
+      return NextResponse.json({ error: 'A company with this name or slug already exists.' }, { status: 409 });
+    }
     console.error('[Admin Companies] POST error:', error);
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
   }

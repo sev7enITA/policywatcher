@@ -1,5 +1,5 @@
 /**
- * PolicyWatcher Renderer — headless-browser fetch service
+ * PolicyWatcher Renderer - headless-browser fetch service
  * ========================================================
  *
  * Companion service for src/lib/scraper.ts (strategy 3: rendered fetch).

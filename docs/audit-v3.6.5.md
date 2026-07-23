@@ -1,4 +1,4 @@
-# Stability Audit — Release 3.6.5
+# Stability Audit - Release 3.6.5
 
 **Date:** 2026-07-21
 **Base:** `v3.6.4` / merge `0aea020e7a0182c55dad9a2650ddc976ab2995e1`

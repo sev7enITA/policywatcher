@@ -39,6 +39,32 @@ model PolicyDiscoveryJob {
   @@index([status, startedAt])
 }
 
+model PolicyInquiry {
+  id               String    @id @default(uuid())
+  publicToken      String    @unique
+  dedupeKey        String
+  activeDedupeKey  String?   @unique // Present only while the inquiry is active; closes concurrent-create races
+  status           String    @default("Proposed") // Proposed, Approved, Rejected, Duplicate, Onboarding, Resolved
+  kind             String // unknown_company, verify_existing
+  companyHint      String?
+  normalizedDomain String?
+  sourceUrl        String?
+  noticeDate       DateTime?
+  effectiveDate    DateTime?
+  policyTypesJson  String?
+  matchedCompanyId String?
+  matchedPolicyId  String?
+  resolvedChangeId String?
+  adminNote        String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  resolvedAt       DateTime?
+
+  @@index([status, createdAt])
+  @@index([dedupeKey])
+  @@index([matchedCompanyId])
+}
+
 model PolicyDiscoveryCandidate {
   id                String   @id @default(uuid())
   companyId         String

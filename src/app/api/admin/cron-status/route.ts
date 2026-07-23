@@ -13,6 +13,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { readScanOptions, runFullScan, ScanProgress } from '@/app/api/cron/check-all/route';
 import type { ScrapeDiagnostic } from '@/lib/scraper';
+import { formatScanCompletionLog } from '@/lib/adminScanSummary';
 
 // Shared cron state, in-memory per process.
 export const cronState = {
@@ -138,7 +139,7 @@ export async function POST(request: NextRequest) {
       cronState.lastCompletedAt = new Date().toISOString();
       cronState.lastError = null;
       cronState.progressActivity = `Scan complete: ${result.checked} checked, ${result.changed} changed, ${result.rebaselined} re-baselined, ${result.partial} partial, ${result.errors} errors.`;
-      cronState.progressLog.push(`Scan complete [OK] at ${new Date().toLocaleTimeString()}`);
+      cronState.progressLog.push(formatScanCompletionLog(result));
     })
     .catch((err) => {
       const errorMessage = err instanceof Error ? err.message : String(err);

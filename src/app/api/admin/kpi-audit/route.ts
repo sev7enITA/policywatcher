@@ -8,14 +8,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { db } from '@/lib/db';
-
-const KPI_FIELDS = [
-  'kpiDataCollection', 'kpiThirdPartySharing', 'kpiDataRetention',
-  'kpiRightToDeletion', 'kpiCrossBorderTransfer', 'kpiAiTrainingOptOut',
-  'kpiAiOutputOwnership', 'kpiAlgoTransparency', 'kpiAutomatedDecision',
-  'kpiAiBiasFairness', 'kpiConsentMechanism', 'kpiRegulatoryCompliance',
-  'kpiBreachNotification', 'kpiIndependentAudit', 'kpiContentModeration',
-] as const;
+import { buildCompanyKpiAuditRow } from '@/lib/kpiAudit';
+import { KPI_FIELD_KEYS } from '@/lib/kpiDefaults';
 
 export async function GET(request: NextRequest) {
   const session = getSession(request);
@@ -27,8 +21,10 @@ export async function GET(request: NextRequest) {
     const companies = await db.company.findMany({
       include: {
         policies: {
-          include: {
+          select: {
+            name: true,
             changes: {
+              where: { publicEvidence: true },
               orderBy: { createdAt: 'desc' },
               take: 1,
               select: {
@@ -36,7 +32,7 @@ export async function GET(request: NextRequest) {
                 overallScore: true,
                 overallRisk: true,
                 createdAt: true,
-                ...Object.fromEntries(KPI_FIELDS.map(f => [f, true])),
+                ...Object.fromEntries(KPI_FIELD_KEYS.map(f => [f, true])),
               },
             },
           },
@@ -45,41 +41,19 @@ export async function GET(request: NextRequest) {
       orderBy: { name: 'asc' },
     });
 
-    // Build the matrix
-    const matrix = companies.map(company => {
-      // Get the latest change across all policies for this company
-      const allChanges = company.policies
-        .flatMap(p => p.changes)
-        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
-      const latestChange = allChanges[0] || null;
-      const kpiValues: Record<string, string> = {};
-      let assessedCount = 0;
-
-      if (latestChange) {
-        for (const field of KPI_FIELDS) {
-          const val = (latestChange as Record<string, unknown>)[field] as string || 'Not assessed';
-          kpiValues[field] = val;
-          if (val !== 'Not assessed') assessedCount++;
-        }
-      }
-
-      return {
-        companyId: company.id,
-        companyName: company.name,
-        industry: company.industry,
-        overallScore: latestChange?.overallScore || 0,
-        overallRisk: latestChange?.overallRisk || 'N/A',
-        lastAnalysis: latestChange?.createdAt || null,
-        kpiValues,
-        assessedCount,
-        totalKpis: KPI_FIELDS.length,
-      };
-    });
+    const matrix = companies.map((company) => buildCompanyKpiAuditRow({
+      companyId: company.id,
+      companyName: company.name,
+      industry: company.industry,
+      changes: company.policies.flatMap((policy) => policy.changes.map((change) => ({
+        ...change,
+        policyName: policy.name,
+      }))),
+    }));
 
     // KPI value distribution across all companies
     const distribution: Record<string, Record<string, number>> = {};
-    for (const field of KPI_FIELDS) {
+    for (const field of KPI_FIELD_KEYS) {
       distribution[field] = {};
       for (const row of matrix) {
         const val = row.kpiValues[field] || 'Not assessed';
@@ -90,7 +64,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       matrix,
       distribution,
-      kpiFields: KPI_FIELDS,
+      kpiFields: KPI_FIELD_KEYS,
       role: session.role,
     });
   } catch (error) {

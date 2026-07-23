@@ -105,7 +105,7 @@ fortemente consigliato per la copertura dei siti SPA.
 | Variabile | Default | Note |
 |---|---|---|
 | `PORT` | `8787` | Porta di ascolto |
-| `RENDERER_SECRET` | — | **Obbligatoria** |
+| `RENDERER_SECRET` | - | **Obbligatoria** |
 | `NAV_TIMEOUT_MS` | `45000` | Timeout navigazione per pagina |
 | `MAX_CONCURRENCY` | `3` | Render simultanei massimi |
 | `RENDER_USER_AGENT` | Chrome 126 macOS | UA del browser |

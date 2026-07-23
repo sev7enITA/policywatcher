@@ -12,7 +12,7 @@ export default function PrivacyPolicyPage() {
     <main className={styles.container}>
       <article className={styles.content}>
         <h1 className={styles.title}>Privacy Policy</h1>
-        <p className={styles.subtitle}>Last updated: June 23, 2026</p>
+        <p className={styles.subtitle}>Last updated: July 22, 2026</p>
 
         <section className={styles.section}>
           <h2>Who we are</h2>
@@ -58,10 +58,67 @@ export default function PrivacyPolicyPage() {
         <section className={styles.section}>
           <h2>Local storage</h2>
           <p>
-            We use your browser&apos;s <code>localStorage</code> for a single purpose: remembering
-            whether you have accepted the Terms of Use disclaimer. This data never leaves your
-            browser and is not transmitted to our servers. You can clear it at any time through
-            your browser settings.
+            We use your browser&apos;s <code>localStorage</code> to remember the Terms of Use disclaimer,
+            language and display preferences, and your optional Adaptive Workspace configuration and
+            onboarding completion. These settings contain no email address or account identifier, do
+            not leave your browser, and can be cleared at any time through your browser settings.
+          </p>
+        </section>
+
+        <section className={styles.section}>
+          <h2>Policy-update inquiries</h2>
+          <p>
+            When you use the “What changed?” workflow, the notification you paste is treated as an
+            unverified clue and is parsed locally in your browser. The original text, sender and
+            recipient addresses, subject, message body and any content fingerprint are not included
+            in the API request and are not stored by PolicyWatcher.
+          </p>
+          <p>
+            Only operational, non-personal clues needed for human review are sent: an organization or
+            registrable domain, a query-free official URL when supplied, policy categories and dates.
+            These clues are not sent to Gemini, and submitted links are not fetched before an
+            administrator approves the source. The random public inquiry reference contains no user
+            identifier.
+          </p>
+          <p>
+            A reference is shown only after the inquiry has been saved in the protected administrator
+            queue. When operational SMTP is configured, PolicyWatcher may notify the administrator
+            using the same minimized clues and reference; the pasted notification, email addresses,
+            subject and fingerprint are never included. If storage is unavailable, no queue item or
+            administrator email is created and the interface says that the request was not registered.
+          </p>
+        </section>
+
+        <section className={styles.section}>
+          <h2>PolicyWatcher browser extension</h2>
+          <p>
+            The browser extension is currently distributed as beta software. Beta status does not
+            reduce the privacy, permission-minimization or data-handling controls described here.
+          </p>
+          <p>
+            The browser extension receives temporary access to the active tab only after you press
+            its inspection button. It does not request persistent access to Gmail, Outlook, your
+            mailbox, browsing history, cookies or the clipboard. The visible notice is processed
+            inside that tab to identify minimal operational clues and is immediately discarded.
+          </p>
+          <p>
+            Before any request is sent, you can review and correct the organization, sender domain,
+            query-free official URL, policy categories and relevant dates. Only those confirmed fields
+            can be transmitted over HTTPS to PolicyWatcher. The extension does not transmit or store
+            the email address, recipient, subject, message body, attachments or a content fingerprint,
+            and it contains no analytics, advertising, telemetry or remotely hosted executable code.
+          </p>
+          <p>
+            The deployment infrastructure may process an IP address transiently for security logs and
+            rate limiting. It is not used for profiling, advertising or extension analytics. The
+            extension does not retain inquiry history, language or disclosure state after its popup
+            closes.
+          </p>
+          <p>
+            PolicyWatcher&apos;s use of information accessed through the browser extension complies
+            with the Chrome Web Store User Data Policy, including its Limited Use requirements. The
+            information is used only to provide the user-facing notice-to-evidence feature and is not
+            used for advertising, profiling, credit decisions, resale or unrelated purposes.
           </p>
         </section>
 

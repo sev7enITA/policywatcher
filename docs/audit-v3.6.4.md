@@ -1,4 +1,4 @@
-# GitHub Auditor Remediation — Release 3.6.4
+# GitHub Auditor Remediation - Release 3.6.4
 
 Date: 2026-07-21
 

@@ -16,11 +16,12 @@
   <a href="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml"><img src="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml/badge.svg?branch=main" alt="Targeted Reliability Coverage" /></a>
   <a href="https://scorecard.dev/viewer/?uri=github.com/sev7enITA/policywatcher"><img src="https://api.scorecard.dev/projects/github.com/sev7enITA/policywatcher/badge" alt="OpenSSF Scorecard" /></a>
   <a href="https://www.bestpractices.dev/projects/13465"><img src="https://www.bestpractices.dev/projects/13465/badge" alt="OpenSSF Best Practices" /></a>
-  <img src="https://img.shields.io/badge/Next.js-16.2.9-black" alt="Next.js 16" />
+  <img src="https://img.shields.io/badge/Next.js-16.2.11-black" alt="Next.js 16" />
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.6.5%20Stability-146c6a" alt="3.6.5 Stability Release" />
+  <img src="https://img.shields.io/badge/Release-3.8.3%20Extension--First%20Evidence-146c6a" alt="3.8.3 Extension-First Evidence Release" />
+  <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
 <p align="center">
@@ -38,13 +39,76 @@ PolicyWatcher monitors the privacy policies, terms of service, and AI governance
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
 
-### Release 3.6.5 Stability Highlights
+### Release 3.8.3 Beta 3 Extension-First Evidence Highlights
 
-- **One onboarding invariant** now calculates empty, partial, completed, and failed batch states across import and workflow refresh paths.
-- **Defense-in-depth duplicate protection** includes held workflows while preserving approved-candidate and configured-policy guards.
-- **Mobile lifecycle stability** defers orientation reads, coalesces repeated events, cancels pending callbacks, and contains animated tracks inside the root viewport.
-- **Single-source release metadata** keeps package, footer, Trust Center, admin, methodology, and encrypted exports aligned.
-- **Regression coverage** protects lifecycle cleanup, edge-case batch state, held-stage queries, and version consistency.
+- **Store-safe typography** removes every literal em dash from product, extension, test, documentation and tracked marketing surfaces and uses colon-separated extension titles.
+- **Homepage Beta release channel** adds one compact, bilingual `v3.8.3-beta.3 · BETA` strip after Workspace Active with truthful Chrome/Edge/Safari submission-planned status, extension details and the mobile paste fallback.
+- **Security closure** removes the two CodeQL failure triggers and the two template-syntax warnings with behavioral regressions.
+- **Real integration evidence** runs the public inquiry handler against a temporary SQLite schema and rejects raw-content fields before persistence.
+- **Real browser evidence** loads the packaged extension in Chromium, verifies the Manifest V3 service worker and walks disclosure, capture and review states.
+- **Truthful two-path intake** recommends the browser extension on desktop for local DOM-link capture and keeps plain-text paste as the primary mobile fallback.
+- **No invented hidden links** states explicitly that copied text cannot reconstruct URLs behind buttons or words such as `here`; missing links fall back to monitored sources or minimized discovery and QA.
+- **General-purpose extraction** uses neutral organization patterns and fixtures rather than product-specific UI examples or brand allowlists.
+- **Context-bound extension scanning** prefers policy anchors inside the opened notification and fails closed for opaque or tokenized redirect links.
+- **Verified store status** exposes a bilingual extension page whose install actions appear only for configured HTTPS store destinations; Safari signing and mobile availability remain explicit external prerequisites.
+
+### Release 3.8.2 Inquiry Handoff Reliability Highlights
+
+- **Real-world signature recognition** extracts brands from signatures such as `Il Team MioDottore` and rejects greetings such as `Gentile utente` as company names.
+- **Italian AI-category recognition** identifies contextual `IA` language without reintroducing false positives from the Italian preposition `ai`.
+- **Unbypassable npm startup gate** routes `npm start` through `server.js`, which verifies and upgrades the configured SQLite schema before Next.js accepts traffic.
+- **Transient-write recovery** retries bounded SQLite lock/time-out contention before returning a truthful unavailable receipt.
+
+### Release 3.8.1 Mobile Inquiry Reliability Highlights
+
+- **One-action mobile intake** turns a pasted notice into a local company/category summary and a single `Check what changed` action; correction fields stay collapsed unless needed.
+- **Truthful receipts** separate persisted success from failed storage: only a successful database write receives a reference and appears in `Admin → Policy inquiries`.
+- **Operator visibility** adds an open-inquiry counter to the admin navigation and an optional privacy-minimized SMTP alert through `ADMIN_ALERT_EMAIL`.
+- **Realistic company extraction** recognizes body/signature patterns such as BlaBlaCar without treating section headings as organization names.
+- **Progressive explainability** keeps the privacy boundary, portfolio-wide scope and human QA gate available without forcing a long scroll before verification.
+
+### Release 3.8.0 Browser Evidence Companion Highlights
+
+- **One-click local inspection** lets a person invoke PolicyWatcher on an opened policy-update notice without granting persistent access to Gmail, Outlook or browsing history.
+- **Minimum-permission architecture** uses Manifest V3 `activeTab` and `scripting` only after an explicit gesture, plus a host permission limited to `https://www.policywatcher.online/*`.
+- **Raw-content boundary** extracts structured clues inside the active page and immediately discards the visible notice text; the service worker can transmit only the API allowlist fields.
+- **Portfolio-wide evidence** confirms the organization, starting policy categories and dates before checking the company’s complete published evidence portfolio.
+- **Cross-browser release** shares one dependency-free codebase across Chrome and Edge and includes the source and instructions required for Apple’s Safari Web Extension packager.
+
+### Release 3.7.2 Calm Workspace Highlights
+
+- **Progressive first-use onboarding** asks for objective and evidence depth, previews the resulting evidence modules, and keeps Source QA visible before the workspace is applied.
+- **Workspace-aware toolbar** limits the primary surface to three relevant quick actions while retaining the complete command set inside More.
+- **Direct release transparency** turns the PolicyWatcher identity and version into an accessible changelog control and places the icon-only What Changed entry immediately before Search.
+- **Focused mobile navigation** exposes What Changed, Workspace, AI Chat, Search and More with safe-area spacing and no document-level horizontal overflow.
+- **Local personalization boundary** stores workspace preferences and onboarding completion in the browser; URL presets remain reversible and can bypass first-use setup without collecting user identity.
+
+### Release 3.7.1 Evidence Intake Reliability Highlights
+
+- **Plain-text-first intake** treats pasted notification text as a browser-local signal even when copy-and-paste drops every hidden link.
+- **Explicit clue confirmation** lets the person review the organization, policy categories, dates, sender domain and an optional starting-policy URL before submission.
+- **Portfolio-wide verification** prioritizes the policy categories named in the notice without excluding the company’s other public monitored policies.
+- **Conflict and runtime explainability** stops mismatched organization/domain clues and distinguishes missing or unavailable database storage from an ordinary verification failure.
+- **Privacy boundary retained** sends only confirmed structured clues; the raw email, subject, recipient and message body never cross the browser boundary.
+
+### Release 3.7.0 Evidence Experience Highlights
+
+- **Notification-to-evidence desk** at `/what-changed` interprets a pasted notice locally in the browser and returns only public, source-gated evidence or a privacy-minimized review reference.
+- **One-request company onboarding** creates the company and claims its persistent discovery job server-side; the browser no longer has to coordinate two dependent writes.
+- **Baseline in context** lets an administrator approve discovered sources and run the targeted first baseline without leaving Company Manager. The handoff to normal monitoring occurs only after every approved policy has verified evidence.
+- **Evidence-aware KPI QA** combines assessed values from the latest public change of each company policy, shows the originating policy/date, reports coverage, and distinguishes `Pending` from a numerical risk score.
+- **Self-checking Hostinger startup** applies the idempotent runtime schema initializer for both npm and direct bridge startup, with Node/Python fallback parity protected by tests.
+- **Human inquiry gate** at `/admin/inquiries` lets administrators link a known company, approve a new canonical company into persistent discovery, reject/mark duplicates, or resolve the request to an existing public change. Every transition is written to the review log.
+- **Release hardening** enforces atomic active-ticket deduplication, validates complete fallback schemas before migration reconciliation, and refuses mutable CLI downloads during production startup.
+
+#### Policy inquiry privacy and evidence contract
+
+- Maximum local input is 20 KB. Notification parsing happens in the browser; the raw text is never included in the API request.
+- The server receives only an organization/domain clue, a query-free official URL when present, policy categories and notification/effective dates. It stores no email address, subject, message body, redacted excerpt or content fingerprint.
+- User-submitted URLs are clues only and are not fetched until an administrator approves onboarding.
+- Pasted notifications are never sent to Gemini. Verified answers come only from `publicPolicyWhere` / `publicChangeWhere` records.
+- A first scan establishes a baseline and cannot, by itself, prove what changed before monitoring began.
+- Production must set `TRUSTED_CLIENT_IP_HEADER` to a provider-controlled client-IP header, or enable `TRUST_PROXY_HEADERS=true` only after confirming that the Hostinger proxy overwrites forwarded headers. Otherwise the low-volume inquiry limiter falls back to one shared `unknown` bucket.
 
 ### Release 3.6.4 Audit Fixes Highlights
 
@@ -329,6 +393,8 @@ Host/path-drift rule: live retrieval paths (`direct`, `http2`, `rendered`) rejec
 Extractor stability rule: the policy text normalizer avoids generic container wrappers and overlapping `div`/`span` extraction so the stored hash is based on stable policy text rather than duplicated layout text.
 
 KPI freshness rule: newly detected policy changes do not inherit the 15 KPI fields from older changes. Until the KPI extraction schema is explicitly regenerated from the current source evidence, new change records store those KPI fields as `Not assessed`. This prevents stale KPI values from being presented as current evidence.
+
+Admin KPI QA aggregation rule: the audit matrix does not treat one policy document as the complete company assessment. Each KPI cell uses a supported value from the latest public change of each monitored policy and retains the contributing policy and assessment date as provenance. It never reaches back to an older change when the latest assessment is pending. The displayed risk score remains the latest analyzed change score; companies without an analyzed public change are shown as `Pending`, never `0`.
 
 Source remediation status: release 3.5.1 updated current official source mappings for Zoom Trust Center, Microsoft Privacy Statement final URLs, Plaid anchor-scoped legal sections, AWS DPA focused documentation, and Klarna US/EU sources. Release 3.6.3 adds market-specific Revolut EU/UK mappings and keeps Revolut sources suspended when provider anti-bot protection prevents evidence-grade retrieval. Klarna EU Terms remains a deliberate suspension candidate when the official English EU/Ireland terms page returns only a short placeholder body.
 
@@ -653,7 +719,7 @@ Seeded records are treated as configured/unverified. They are hidden from public
 
 ```bash
 npm run build    # Runs: prisma generate && next build
-npm start        # Starts the production server
+npm start        # Starts server.js, verifies/upgrades SQLite, then starts Next.js
 ```
 
 ### Hostinger SQLite Setup
@@ -677,6 +743,17 @@ export PATH="/opt/alt/alt-nodejs22/root/usr/bin:$PATH"
 export DATABASE_URL="file:/home/u847874844/domains/policywatcher.online/policywatcher-data/production.db"
 bash scripts/hostinger-init-db.sh
 ```
+
+Release 3.8.1 and later require the `PolicyInquiry` table. `npm start` is pinned
+to the `server.js` Hostinger bridge, so npm and direct bridge startup run the
+same initializer automatically. Do not configure `next start` as a custom
+Hostinger command because it bypasses the release's database readiness gate.
+Production rollout
+should still verify the startup log before accepting public requests. A saved
+request appears at `/admin/inquiries`; optional operator email uses
+`ADMIN_ALERT_EMAIL` and falls back to `ADMIN_EMAIL` or `SMTP_USER` when SMTP is
+configured. If storage is unavailable, the public receipt explicitly says that
+the request was not registered.
 
 If the database is new or has `0` companies / `0` policies, initialize only the
 monitored source inventory:

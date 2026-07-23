@@ -34,6 +34,16 @@ export interface SourceSuspensionAlert {
   checkedAt: Date | string;
 }
 
+export interface PolicyInquiryAdminAlert {
+  reference: string;
+  companyHint?: string | null;
+  normalizedDomain?: string | null;
+  policyTypes: string[];
+  noticeDate?: Date | string | null;
+  effectiveDate?: Date | string | null;
+  kind: 'verify_existing' | 'unknown_company';
+}
+
 // -- Transport Setup --
 
 /**
@@ -287,6 +297,50 @@ export async function sendSourceSuspensionAdminAlert(
     }
     <p style="margin: 0; font-size: 13px; color: #9ca3af; line-height: 1.6;">
       Review the Dataset QA console: <a href="${escapeHtml(dashboardUrl)}" style="color: #818cf8; text-decoration: underline;">${escapeHtml(dashboardUrl)}</a>
+    </p>`;
+
+  return sendEmail(to, subject, wrapOperationalTemplate(bodyContent));
+}
+
+/**
+ * Notifies the operator after a new privacy-minimized inquiry was persisted.
+ * The raw notification, its subject, addresses and content fingerprints are
+ * never accepted by this function and therefore cannot enter the email.
+ */
+export async function sendPolicyInquiryAdminAlert(
+  inquiry: PolicyInquiryAdminAlert,
+): Promise<boolean> {
+  const to = getAdminAlertAddress();
+  if (!to) {
+    console.log('[PolicyWatcher Mailer] Admin alert recipient not configured. The inquiry remains available in /admin/inquiries.');
+    return false;
+  }
+
+  const appUrl = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const dashboardUrl = `${appUrl.replace(/\/+$/, '')}/admin/inquiries`;
+  const company = (inquiry.companyHint || inquiry.normalizedDomain || 'Company not identified')
+    .replace(/[\r\n]+/g, ' ')
+    .slice(0, 160);
+  const policyTypes = inquiry.policyTypes.length > 0 ? inquiry.policyTypes.join(', ') : 'not specified';
+  const dateValue = (value?: Date | string | null) => value instanceof Date ? value.toISOString() : value || 'not specified';
+  const subject = `PolicyWatcher inquiry ${inquiry.reference}: ${company}`;
+  const bodyContent = `
+    <p style="margin: 0 0 18px; font-size: 15px; color: #f3f4f6; line-height: 1.6;">
+      A new privacy-minimized policy inquiry was saved and is ready for human review.
+    </p>
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; margin-bottom: 18px; color: #d1d5db; font-size: 13px; line-height: 1.6;">
+      <tr><td style="padding: 7px 0; color: #9ca3af; width: 150px;">Reference</td><td><strong>${escapeHtml(inquiry.reference)}</strong></td></tr>
+      <tr><td style="padding: 7px 0; color: #9ca3af;">Company/domain</td><td>${escapeHtml(company)}</td></tr>
+      <tr><td style="padding: 7px 0; color: #9ca3af;">Request type</td><td>${escapeHtml(inquiry.kind)}</td></tr>
+      <tr><td style="padding: 7px 0; color: #9ca3af;">Policy categories</td><td>${escapeHtml(policyTypes)}</td></tr>
+      <tr><td style="padding: 7px 0; color: #9ca3af;">Notice date</td><td>${escapeHtml(dateValue(inquiry.noticeDate))}</td></tr>
+      <tr><td style="padding: 7px 0; color: #9ca3af;">Effective date</td><td>${escapeHtml(dateValue(inquiry.effectiveDate))}</td></tr>
+    </table>
+    <p style="margin: 0 0 12px; font-size: 13px; color: #9ca3af; line-height: 1.6;">
+      The notification text, subject, sender, recipient and content fingerprint were not collected.
+    </p>
+    <p style="margin: 0; font-size: 13px; color: #9ca3af; line-height: 1.6;">
+      Review the admin queue: <a href="${escapeHtml(dashboardUrl)}" style="color: #818cf8; text-decoration: underline;">${escapeHtml(dashboardUrl)}</a>
     </p>`;
 
   return sendEmail(to, subject, wrapOperationalTemplate(bodyContent));

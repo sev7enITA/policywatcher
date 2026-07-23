@@ -1,5 +1,157 @@
 # Changelog
 
+## 3.8.3-beta.3 - 2026-07-23
+
+### Store typography correction
+- Removed every literal em dash character from the application, extension, tests, documentation and tracked marketing copy.
+- Replaced the extension title with `PolicyWatcher: What changed? BETA` and the Italian title with `PolicyWatcher: Cosa è cambiato? BETA` across the manifest locale, popup and store documentation.
+- Preserved em-dash normalization for pasted notifications through the escaped `\u2014` representation, so input parsing behavior is unchanged without retaining the prohibited character in source.
+- Incremented the application to `3.8.3-beta.3` and the browser package to numeric `3.8.3.3` / display `3.8.3 Beta 3`, because Chrome and Edge require a higher package version for a corrected store title.
+
+## 3.8.3-beta.2 - 2026-07-23
+
+### Security and reliability
+- Closed the four CodeQL findings from Beta 1 by replacing incomplete sender-label sanitization, grouping the header-rejection regex explicitly and removing misleading template syntax from wiring assertions.
+- Updated Next.js from 16.2.9 to 16.2.11 after new high-severity advisories were published on 23 July 2026.
+- Added a real API integration test that applies the repository migrations to temporary SQLite, invokes `POST /api/policy-inquiries`, verifies minimized persistence and proves raw-content keys are rejected.
+- Added a real Chromium extension smoke test that loads the unpacked Manifest V3 package, verifies its service worker and walks the bilingual disclosure/capture/review UI.
+
+### Beta operations
+- Replaced premature “store publication in progress” copy with “Beta package ready · store submission planned”.
+- Added a limited-Beta evidence-cycle protocol and stable-promotion gate; automated smoke evidence is not treated as user-pilot evidence.
+- Versioned the application as `3.8.3-beta.2` and the browser package as numeric `3.8.3.2` / display `3.8.3 Beta 2` without moving the published Beta 1 tag.
+
+## 3.8.3 - 2026-07-22
+
+### Changed
+- Added a compact bilingual homepage Beta release strip with centralized release-channel metadata, truthful Chrome/Edge/Safari pending status and direct extension/paste paths.
+- Reframed `/what-changed` as a compact two-path intake: the extension is recommended on desktop, while plain-text paste is the primary mobile action.
+- Explained that copied text cannot preserve hidden anchor destinations and that users do not need to reconstruct missing URLs manually.
+- Removed brand-specific placeholders and kept organization inference based on general signature and context patterns.
+- Added a bilingual `/browser-extension` availability page with real install actions only for configured HTTPS store URLs and truthful pending states otherwise.
+
+### Privacy and reliability
+- Bound extension link selection to the selected or opened notification context when available, avoiding unrelated webmail navigation and footer links.
+- Continued to send only one cleaned starting URL and structured clues; opaque redirectors and tokenized destinations now fail closed.
+- Preserved temporary `activeTab` access, the service-worker payload allowlist and the prohibition on mailbox APIs, persistent content scripts, telemetry and raw-message transmission.
+
+### Verification
+- Added arbitrary-brand, hidden-link, contextual-anchor, redirect-rejection and store-configuration regressions.
+- Passed independent desktop/mobile design evaluation after focus, touch-target and mobile hierarchy corrections.
+- Completed full tests, extension validation, lint, TypeScript, dependency audit and production build before packaging.
+
+## 3.8.2 - 2026-07-22
+
+- Fixed real-world MioDottore plain-text parsing so `Il Team MioDottore` wins over generic greetings such as `Gentile utente`.
+- Added contextual Italian `IA` recognition for AI-supported functionality notices while preserving the preposition false-positive guard.
+- Routed `npm start` through the Hostinger `server.js` bridge so the database readiness initializer cannot be skipped by the standard production command.
+- Added bounded retry for transient SQLite write contention before an inquiry is reported as unavailable.
+- Added regression coverage for generic greetings, no-link signatures, policy-category extraction and Hostinger startup invariants.
+
+## 3.8.1 - 2026-07-22
+
+### Fixed
+- Reduced the public notification workflow to paste, local summary and one verification action; company correction appears only when local extraction cannot identify it.
+- Corrected realistic BlaBlaCar plain-text parsing so headings such as “Cosa cambia per te” are never mistaken for the organization.
+- Removed the contradictory accepted-request label from storage failures. A failed write now says that no request was registered and offers a retry.
+
+### Operations
+- Added a visible open-inquiry counter to the administrator navigation and kept `/admin/inquiries` as the canonical queue.
+- Added a best-effort administrator email after a new minimized inquiry is successfully persisted. It uses `ADMIN_ALERT_EMAIL` (falling back to `ADMIN_EMAIL` or `SMTP_USER`) and never contains raw notification content or personal email fields.
+- Kept dates, policy categories and the optional source URL behind a collapsed correction panel; privacy and explainability remain available in a separate collapsed disclosure.
+
+### Deployment and verification
+- Hostinger startup continues to apply the idempotent `PolicyInquiry` migration before the application serves traffic; the release package contains no database or environment secrets.
+- Added regression coverage for realistic link-free notices, false company headings, admin notification wiring, queue visibility and mutually exclusive success/failure receipts.
+- Completed focused security tests, external mobile UI evaluation, full tests, lint, TypeScript, dependency audit and production build.
+
+## 3.8.0 - 2026-07-22
+
+### Added
+- Added the production PolicyWatcher Browser Evidence Companion for Chrome, Edge and Safari Web Extensions with a bilingual compact evidence workflow.
+- Added explicit local-inspection consent, structured clue confirmation, portfolio-scope explainability and complete rendering for matched, monitored, queued, ambiguous, conflict, rate-limit, storage and offline outcomes.
+- Added store-ready bilingual privacy, listing, permission-justification, Safari packaging, QA and release documentation.
+
+### Privacy and security
+- Limited page access to temporary `activeTab` permission after a user gesture; no persistent Gmail, Outlook, inbox, clipboard, cookie or all-sites permission is requested.
+- Kept raw notification text inside the injected page scanner and out of extension messages, storage, logs and network payloads.
+- Routed the allowlisted structured POST through the Manifest V3 service worker over HTTPS; no remote code, telemetry, advertising, analytics, `eval` or HTML injection is used.
+
+### Verification
+- Added automated manifest, payload allowlist, page-scanner, permission-minimization and package-content checks alongside browser fixtures for common email-notice structures.
+- Completed external UI evaluation, red-team review, full application tests, lint, TypeScript, dependency audit, production build and clean package extraction checks.
+
+## 3.7.2 - 2026-07-22
+
+### Added
+- Added a three-step first-use workspace onboarding flow for objective, evidence depth and a final evidence-module preview with Source QA kept visible.
+- Added an explicit browser-local completion marker and a persistent workspace control so users can reopen and revise their configuration at any time.
+
+### Changed
+- Simplified the desktop toolbar to a maximum of three intent-aware quick actions while keeping the complete command set available from More.
+- Replaced the What Changed text button with an announcement icon immediately before Search, and made the PolicyWatcher version identity open the release changelog.
+- Reduced mobile navigation to five focused actions: What Changed, Workspace, AI Chat, Search and More.
+
+### Accessibility and privacy
+- Added keyboard and focus behavior for the interactive release identity, reduced-motion handling, responsive labels and mobile safe-area spacing.
+- Workspace choices and onboarding completion remain local to the browser; the onboarding does not collect an email address or other user identity.
+
+### Verification
+- Added regressions for workspace-action mapping, first-use completion, URL preset behavior and navigation wiring.
+- Completed full tests, lint, TypeScript, production build, dependency audit, UI/UX evaluation and extracted Hostinger-package smoke verification.
+
+## 3.7.1 - 2026-07-22
+
+### Fixed
+- Replaced link-dependent notification intake with a plain-text-first workflow: copied email text remains useful even when hidden `href` targets are lost.
+- Added browser-local confirmation of the organization, sender domain, policy categories and notice/effective dates, with the starting-policy URL shown as a separate optional clue.
+- Stopped organization/domain conflicts from silently resolving to the URL owner; users now receive an explicit correction state.
+- Replaced the generic failure shown for missing or unavailable inquiry storage with a controlled `503` response and an administrator action.
+
+### Changed
+- Treat notification categories as a ranking signal while keeping every public monitored policy for the matched company in the verification scope.
+- Split verified evidence into starting-policy and other-policy groups, with monitored-source and policy-type coverage shown in the response.
+- Added a guided bilingual workflow explaining the browser privacy boundary, the initial signal, the portfolio-wide search and the human-reviewed queue for unknown companies.
+
+### Safety
+- The raw email, message subject, sender/recipient address and copied body never cross the browser boundary; the API rejects unknown/raw-content fields.
+- Submitted URLs remain unfetched clues until an administrator approves a source, and immediate answers still require public-evidence-gated records.
+- A first baseline remains explicitly distinct from proof of a historical change.
+
+### Verification
+- Added regressions for link-free plain text, manual policy-category confirmation, company/URL conflicts, portfolio evidence ordering and storage-unavailable classification.
+- Completed external UI/UX evaluation, mobile/accessibility refinements, full tests, lint, TypeScript, production build, dependency audit and extracted Hostinger-artifact smoke verification.
+
+## 3.7.0 - 2026-07-21
+
+### Added
+- Added the bilingual public `/what-changed` evidence desk for people arriving from a terms/privacy notification, with verified-change, monitored-without-evidence, queued-review, and ambiguous-company states.
+- Added persistent `PolicyInquiry` records and `/admin/inquiries` for human linking, approval, rejection, duplicate handling, public-change resolution, discovery handoff, and append-only review logs.
+- Added deterministic browser-local notification parsing, query-free URL minimization, conservative company matching, and dedicated low-volume rate limiting; email addresses, subjects, message bodies, redacted excerpts and raw-content fingerprints never reach persistent storage.
+
+### Safety
+- Notification emails remain untrusted clues: only public-evidence-gated policies and changes can produce a verified answer.
+- Raw pasted text is discarded, recipient addresses are never inferred as contacts, submitted URLs are not fetched before admin approval, and pasted notification content is never sent to Gemini.
+- A first baseline is explicitly described as a starting point, not proof of a historical change.
+
+### Changed
+- Connected company creation and persistent policy discovery in one server-side workflow so a browser/network interruption cannot leave a newly created company without an onboarding job.
+- Added the targeted first-baseline action directly to Company Manager and keep onboarding active until every approved policy has a verified snapshot, hash, successful check, and publishable status.
+- Reworked KPI QA to aggregate source-backed values from each policy's latest public assessment, expose per-cell evidence provenance and coverage, and show unassessed companies as `Pending` instead of a misleading zero score.
+- Made scan completion logs use an attention outcome whenever policy errors, partial captures, unavailable sources, or invalid sources occurred.
+
+### Deployment
+- Run the idempotent Hostinger schema initializer before both `npm start` and direct `server.js` startup.
+- Restored schema parity in the Node and Python CLI-free initializers for policy-discovery jobs and source-onboarding batches/items.
+- Added the `PolicyInquiry` migration and matching Node/Python fallback schema plus materialized-migration detection.
+
+### Verification
+- Added regression coverage for baseline-completion invariants, cross-policy KPI aggregation, field-specific concern levels, scan completion outcomes, and Hostinger fallback schema parity.
+- Closed concurrent public-inquiry duplication with a database-enforced active dedupe key while preserving new inquiries after terminal resolution.
+- Production startup now uses only the lockfile-installed Prisma CLI; no mutable registry CLI can be downloaded or executed during startup.
+- Materialized-migration reconciliation validates columns, defaults, foreign keys and indexes before marking a fallback-created migration as applied.
+- Pinned transitive image processing to `sharp` 0.35.3 / libvips 8.18.3, closing GHSA-f88m-g3jw-g9cj and its inherited libvips vulnerabilities.
+
 ## 3.6.5 - 2026-07-21
 
 ### Fixed

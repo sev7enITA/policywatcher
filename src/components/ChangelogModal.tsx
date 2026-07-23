@@ -51,11 +51,41 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                 <div className={styles.featureList}>
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>Stability Release (v3.6.5)</span>
+                      <span className={styles.featureName}>Browser Evidence Companion (v3.8.0)</span>
                       <span className={styles.badgeActive}>Current</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Onboarding batch status now comes from one tested invariant, empty batches remain active, and held workflows are included in duplicate-prevention queries. Orientation changes use a deferred, cancellable viewport evaluation, animated dashboard tracks cannot enlarge the mobile root scroll area, and visible build metadata comes from one release source.
+                      A production Manifest V3 companion lets people inspect an opened policy-update notice only after an explicit gesture. Raw notice text is parsed and discarded inside the active page; users confirm the minimal clues before the service worker asks PolicyWatcher for portfolio-wide public evidence. Chrome and Edge share one store package, with compatible source and packaging guidance for Safari.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Calm Workspace (v3.7.2)</span>
+                      <span className={styles.badgeStable}>Stable</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      First-time visitors choose an objective and evidence depth, preview the resulting evidence modules and keep Source QA visible before applying the workspace. The toolbar exposes at most three relevant shortcuts, keeps every command in More, and provides direct What Changed, Search, Workspace and changelog access. Preferences and completion stay local to the browser.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Evidence Intake Reliability (v3.7.1)</span>
+                      <span className={styles.badgeStable}>Stable</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      Plain-text notices work even when copy-and-paste loses hidden links. Users confirm the company, starting policy categories, dates and optional official URL locally; PolicyWatcher then prioritizes that signal while checking the company’s full public monitored portfolio. Conflicts and unavailable database storage produce explicit, actionable states without transmitting the raw email.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Stability Release (v3.6.5)</span>
+                      <span className={styles.badgeStable}>Stable</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      Centralized onboarding batch invariants, held-workflow duplicate protection, cancellable orientation evaluation, component-level overflow containment, and single-source release metadata.
                     </p>
                   </div>
 

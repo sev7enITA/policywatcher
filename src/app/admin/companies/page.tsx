@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo, type KeyboardEvent } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef, type KeyboardEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { geoNaturalEarth1, geoPath, type GeoPermissibleObjects } from 'd3-geo';
 import { feature } from 'topojson-client';
@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import styles from '../admin.module.css';
 import { PolicyDiscoveryWorkspace } from '@/components/admin/PolicyDiscoveryWorkspace';
+import { hasEstablishedCompanyBaseline } from '@/lib/adminDiscoveryState';
 
 const MAP_WIDTH = 980;
 const MAP_HEIGHT = 360;
@@ -61,6 +62,7 @@ interface Policy {
   lastCheckDate: string;
   lastSuccessfulCheckDate: string;
   updatedAt: string;
+  snapshots: { id: string }[];
   _count: { changes: number; snapshots: number };
 }
 
@@ -184,6 +186,8 @@ export default function CompanyManagerPage() {
   const [deleteTarget, setDeleteTarget] = useState<Company | null>(null);
   const [deleteConfirmName, setDeleteConfirmName] = useState('');
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [baselineScanCompanyId, setBaselineScanCompanyId] = useState<string | null>(null);
+  const baselinePollTimerRef = useRef<number | null>(null);
 
   /* ---------- Data Fetching ---------- */
   const fetchCompanies = useCallback(async () => {
@@ -204,8 +208,10 @@ export default function CompanyManagerPage() {
         return;
       }
 
-      setCompanies(data.companies || []);
+      const nextCompanies = data.companies || [];
+      setCompanies(nextCompanies);
       setRole(data.role || null);
+      return nextCompanies as Company[];
     } catch {
       setError('Failed to load companies. Please try again.');
     } finally {
@@ -217,6 +223,69 @@ export default function CompanyManagerPage() {
     queueMicrotask(() => {
       void fetchCompanies();
     });
+  }, [fetchCompanies]);
+
+  useEffect(() => () => {
+    if (baselinePollTimerRef.current) window.clearTimeout(baselinePollTimerRef.current);
+  }, []);
+
+  const handleRunFirstScan = useCallback(async (company: Company) => {
+    const response = await fetch('/api/admin/cron-status', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        companySlug: company.slug,
+        limit: Math.min(company.policies.length, 50),
+      }),
+    });
+    const data = await response.json().catch(() => null);
+    if (!response.ok) {
+      throw new Error(
+        response.status === 409
+          ? 'Another monitoring scan is already running. Retry when it has completed.'
+          : data?.error || 'Unable to start the first monitoring scan.'
+      );
+    }
+
+    setBaselineScanCompanyId(company.id);
+    try {
+      await new Promise<void>((resolve, reject) => {
+        async function poll() {
+          try {
+            const statusResponse = await fetch('/api/admin/cron-status', { credentials: 'include' });
+            if (!statusResponse.ok) throw new Error('Unable to read the monitoring scan status.');
+            const status = await statusResponse.json();
+            if (status.isRunning) {
+              baselinePollTimerRef.current = window.setTimeout(() => void poll(), 2_000);
+              return;
+            }
+
+            baselinePollTimerRef.current = null;
+            const refreshedCompanies = await fetchCompanies();
+            const errors = Number(status.lastResult?.errors || 0);
+            const partial = Number(status.lastResult?.partial || 0);
+            const unavailable = Number(status.lastResult?.unavailable || 0);
+            const invalid = Number(status.lastResult?.invalid || 0);
+            const refreshedCompany = refreshedCompanies?.find((item) => item.id === company.id);
+            const baselineReady = Boolean(
+              refreshedCompany && hasEstablishedCompanyBaseline(refreshedCompany.policies)
+            );
+            if (!baselineReady) {
+              reject(new Error(`First monitoring scan needs attention: ${errors} errors, ${partial} partial, ${unavailable} unavailable and ${invalid} invalid sources. Review the affected policies, then retry the baseline.`));
+              return;
+            }
+            resolve();
+          } catch (scanError) {
+            reject(scanError);
+          }
+        }
+
+        baselinePollTimerRef.current = window.setTimeout(() => void poll(), 2_000);
+      });
+    } finally {
+      setBaselineScanCompanyId(null);
+    }
   }, [fetchCompanies]);
 
   /* ---------- Slug Auto-generation ---------- */
@@ -264,18 +333,7 @@ export default function CompanyManagerPage() {
         return;
       }
 
-      const discoveryRes = await fetch('/api/admin/policy-discovery', {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ companyId: data.company.id }),
-      });
-      if (!discoveryRes.ok) {
-        const discoveryData = await discoveryRes.json();
-        setError(
-          `Company created, but automatic policy discovery could not start: ${discoveryData.error || 'unknown error'}`
-        );
-      }
+      if (data.discoveryError) setError(data.discoveryError);
 
       // Reset, open the company row, and refresh while discovery runs.
       setCompanyForm(EMPTY_COMPANY_FORM);
@@ -757,6 +815,8 @@ export default function CompanyManagerPage() {
                     setAddPolicyError={setAddPolicyError}
                     onAddPolicy={() => handleAddPolicy(company.id)}
                     onRefresh={() => void fetchCompanies()}
+                    onRunFirstScan={() => handleRunFirstScan(company)}
+                    scanRunning={baselineScanCompanyId === company.id}
                   />
                 );
               })}
@@ -841,6 +901,8 @@ interface CompanyTableRowProps {
   setAddPolicyError: (err: string) => void;
   onAddPolicy: () => void;
   onRefresh: () => void;
+  onRunFirstScan: () => Promise<void>;
+  scanRunning: boolean;
 }
 
 function CompanyTableRow({
@@ -861,6 +923,8 @@ function CompanyTableRow({
   setAddPolicyError,
   onAddPolicy,
   onRefresh,
+  onRunFirstScan,
+  scanRunning,
 }: CompanyTableRowProps) {
   const industryBadge = INDUSTRY_COLORS[company.industry] || 'badgePrimary';
   const showPolicyForm = addPolicyFor === company.id;
@@ -1092,6 +1156,9 @@ function CompanyTableRow({
                 policyCount={company.policies.length}
                 isAdmin={isAdmin}
                 onPoliciesChanged={onRefresh}
+                onRunFirstScan={onRunFirstScan}
+                hasEstablishedBaseline={hasEstablishedCompanyBaseline(company.policies)}
+                scanRunning={scanRunning}
                 compact
               />
             </div>
