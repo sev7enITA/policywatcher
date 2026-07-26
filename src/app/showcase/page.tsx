@@ -8,7 +8,7 @@ import styles from './showcase.module.css';
 export const metadata: Metadata = {
   title: `PolicyWatcher ${POLICYWATCHER_VERSION} ${POLICYWATCHER_RELEASE_NAME} Showcase`,
   description:
-    'PolicyWatcher native dashboard intelligence: validated composition, canonical KPIs, truthful trends, evidence-first data sources, provenance-aware export and accessible charts.',
+    'PolicyWatcher native dashboard intelligence: validated composition, canonical KPIs, evidence-first data sources and five accessible, provenance-aware visualizations.',
 };
 
 const topNav = [
@@ -41,7 +41,7 @@ const atlasPanels = [
     code: 'ANALYSIS',
     title: 'Risk and KPI analysis',
     body: 'Canonical KPI semantics, real snapshot-version trends and evidence provenance keep analysis fields consistent across APIs, charts and exports.',
-    details: ['Truthful trend', 'Chart summary', 'KPI catalog', 'KPI matrix', 'Region impact', 'View export'],
+    details: ['Truthful trend', 'Risk profile', 'Current score', 'Region matrix', 'KPI benchmark', 'View export'],
     metric: 'Validated analysis contracts',
     accent: '#fb923c',
   },
@@ -58,15 +58,15 @@ const atlasPanels = [
 const signalTiles = [
   { name: 'Timeline', tag: 'Change rows', visual: 'pulse', metric: 'Filters', copy: 'Uses the changes API to list available change records with filters by company, sector, risk and date.' },
   { name: 'Risk trend', tag: 'Public score rows', visual: 'trend', metric: 'Snapshot provenance', copy: 'Plots evidence-gated score records, distinguishes observation sequence from the real snapshot version, and includes an accessible table.' },
-  { name: 'Region heatmap', tag: 'Region impact', visual: 'map', metric: 'Region fields', copy: 'Shows regional impact data when RegionImpact rows are present.' },
-  { name: 'Benchmark radar', tag: 'Sector comparison', visual: 'radar', metric: 'Current dataset', copy: 'Compares a company view against values calculated from companies in the same dataset.' },
+  { name: 'Region heatmap', tag: 'Public change evidence', visual: 'map', metric: 'Explicit coverage', copy: 'Shows region and perspective risk with bilingual summary, exact-value table and missing cells kept as Not assessed.' },
+  { name: 'Benchmark radar', tag: 'Evidence-gated comparison', visual: 'radar', metric: 'Keyed KPI dimensions', copy: 'Compares companies or a current sector cohort by canonical KPI key, excludes unassessed values from wins and exposes exact assessments.' },
   { name: 'KPI matrix', tag: 'Canonical KPI fields', visual: 'matrix', metric: 'Shared catalog', copy: 'Uses one field-specific vocabulary and concern order across normalization, audit and the public matrix.' },
   { name: 'Executive PDF', tag: 'Report route', visual: 'report', metric: 'PDF output', copy: 'Generates a report from the selected policy and its available analysis fields.' },
 ];
 
 const heroTelemetry = [
   ['Validated dashboard grammar', 'Composes goal-specific workspaces from immutable allowlisted modules with deterministic IDs and Source QA pinned.'],
-  ['Evidence-first data registry', 'Declares endpoint, query scope, freshness, visibility, public-evidence gate and limitations before a dashboard source can load.'],
+  ['Evidence-first data registry', 'Declares endpoint, path/query scope, freshness, visibility, public-evidence gate and limitations before a dashboard source can load.'],
   ['View/export parity', 'Uses the same filtered view model for the visible company list and CSV export, including a provenance manifest.'],
   ['Bulk source onboarding', 'Moves validated candidates through official review, private baseline, QA, and an explicit publication decision.'],
   ['Dataset QA', 'Checks URL hygiene, source evidence, hash consistency, timestamps, KPI fields, regional impact coverage and subscriber hygiene.'],

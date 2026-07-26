@@ -83,7 +83,8 @@ make serialized configuration executable.
 
 Use an allowlisted `ChartSpec` and renderer registry. A spec may name fields,
 series, domains, formatters, and approved transforms; it may not contain a
-closure, module path, or executable source. Recharts remains the renderer.
+closure, module path, or executable source. The registry points only to compiled
+Recharts, native SVG or native CSS primitives already owned by PolicyWatcher.
 
 ## 3. Filters, parameters, and URL state
 
@@ -243,6 +244,9 @@ The independent PolicyWatcher implementation must prove that:
    representation.
 9. URL state contains no sensitive values and round-trips deterministically.
 10. The same filtered view model drives screen and export.
+11. Comparative dimensions join by stable semantic key, never array position.
+12. Missing benchmark or matrix values remain unassessed and cannot win by
+    being normalized to zero.
 
 ## Adoption order
 

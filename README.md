@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.8.3%20Extension--First%20Evidence-146c6a" alt="3.8.3 Extension-First Evidence Release" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%202%20Native%20Dashboard-146c6a" alt="3.9.0 Beta 2 Native Dashboard Intelligence Release" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -39,15 +39,16 @@ PolicyWatcher monitors the privacy policies, terms of service, and AI governance
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
 
-### Release 3.9.0 Beta 1 Native Dashboard Intelligence Highlights
+### Release 3.9.0 Beta 2 Native Dashboard Intelligence Highlights
 
 - **Validated dashboard grammar** composes Citizen, GRC / Legal, Research and Builder workspaces from an immutable allowlisted registry with deterministic IDs and Source QA pinned.
 - **One guarded interaction model** routes direct controls and the Command Palette through typed actions, an acyclic authorization graph and one canonical workspace URL/local-storage codec.
-- **Evidence-first data loading** registers public dashboard sources with explicit endpoint, query, freshness, visibility, evidence-gate and limitation metadata.
+- **Evidence-first data loading** registers public dashboard sources with explicit endpoint, path/query allowlists, freshness, visibility, evidence-gate and limitation metadata; policy detail and company comparison no longer bypass the registry.
 - **UI/export parity** builds one filtered dashboard view model for both rendering and CSV export; every export carries a machine-readable provenance manifest, even for an empty result.
 - **Canonical KPI semantics** give all 15 KPI fields one bilingual vocabulary, normalization rule, field-specific concern order and explicit `Not assessed` state.
 - **Truthful trends** distinguish chronological observation sequence from the real originating snapshot version and expose provenance and limitations alongside the chart.
-- **Accessible charts and deterministic layout** add centralized chart tokens, an allowlisted chart specification, summary/table fallbacks, reduced-motion behavior and a complete one-column mobile layout.
+- **Five governed visualizations** route risk trend, risk profile, current risk score, regional assessment and KPI benchmark through static renderer/spec contracts with bilingual summaries, exact-value tables, provenance, limitations and reduced-motion behavior.
+- **Truthful regional and benchmark semantics** keep missing heatmap cells and unassessed KPIs distinct from low risk, join benchmark dimensions by stable KPI key and use the canonical field-specific concern catalog.
 - **Production dependency security gate** updates PostCSS to 8.5.23 and keeps the deployable dependency audit at zero high-severity findings. The remaining brace-expansion advisory is limited to upstream lint plugins and is documented as a development-only exception pending a compatible update.
 - **No Vizro runtime** retains the native Next.js, React, Recharts and Prisma stack; Vizro 0.1.59 was used only as a pinned architectural knowledge source.
 

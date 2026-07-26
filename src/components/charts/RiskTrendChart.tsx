@@ -38,15 +38,16 @@ function formatDate(date: string, lang: Lang): string {
 
 function buildAccessibleTable(data: readonly RiskTrendPoint[], lang: Lang): AccessibleChartTable {
   const copy = RISK_TREND_CHART_SPEC.copy;
+  const columns = copy.columns;
   return {
     caption: localizedChartText(copy.title, lang),
     columns: [
-      { key: 'observation', label: localizedChartText(copy.observation, lang) },
-      { key: 'policy', label: localizedChartText(copy.policy, lang) },
-      { key: 'snapshot', label: localizedChartText(copy.snapshot, lang) },
-      { key: 'date', label: localizedChartText(copy.date, lang) },
-      { key: 'score', label: localizedChartText(copy.score, lang) },
-      { key: 'risk', label: localizedChartText(copy.risk, lang) },
+      { key: 'observation', label: localizedChartText(columns.observation, lang) },
+      { key: 'policy', label: localizedChartText(columns.policy, lang) },
+      { key: 'snapshot', label: localizedChartText(columns.snapshot, lang) },
+      { key: 'date', label: localizedChartText(columns.date, lang) },
+      { key: 'score', label: localizedChartText(columns.score, lang) },
+      { key: 'risk', label: localizedChartText(columns.risk, lang) },
     ],
     rows: data.map((point) => ({
       observation: `#${point.sequence}`,
@@ -70,6 +71,7 @@ function CustomTooltip({
 }) {
   if (!active || !payload || payload.length === 0) return null;
   const copy = RISK_TREND_CHART_SPEC.copy;
+  const columns = copy.columns;
   const point = payload[0];
   const data = point.payload;
 
@@ -83,14 +85,14 @@ function CustomTooltip({
           className={styles.tooltipDot}
           style={{ backgroundColor: CHART_TOKENS.primary }}
         />
-        {localizedChartText(copy.score, lang)}: {point.value}/10
+        {localizedChartText(columns.score, lang)}: {point.value}/10
       </div>
       <div className={styles.tooltipValue} style={{ fontSize: '0.72rem', marginTop: '2px' }}>
-        {localizedChartText(copy.observation, lang)} #{data.sequence} ·{' '}
-        {localizedChartText(copy.snapshot, lang)} v{data.snapshotVersion}
+        {localizedChartText(columns.observation, lang)} #{data.sequence} ·{' '}
+        {localizedChartText(columns.snapshot, lang)} v{data.snapshotVersion}
       </div>
       <div className={styles.tooltipValue} style={{ fontSize: '0.72rem', marginTop: '2px' }}>
-        {localizedChartText(copy.date, lang)}: {formatDate(data.date, lang)}
+        {localizedChartText(columns.date, lang)}: {formatDate(data.date, lang)}
       </div>
     </div>
   );

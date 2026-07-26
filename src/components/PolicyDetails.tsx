@@ -51,6 +51,9 @@ import RiskReasons from '@/components/ai/RiskReasons';
 import RemediationSteps from '@/components/ai/RemediationSteps';
 import RiskTrendPanel from '@/components/charts/RiskTrendPanel';
 import RegionHeatMap from '@/components/charts/RegionHeatMap';
+import RiskProfileChart from '@/components/charts/RiskProfileChart';
+import ComplianceGauge from '@/components/charts/ComplianceGauge';
+import { loadPublicDataSource } from '@/lib/dataSourceRegistry';
 import { dataStatusClassKey, normalizeDataStatus, normalizeIngestionMethod } from '@/lib/policyConfidence';
 import { buildWaybackSearchUrl, buildWaybackSnapshotSearchUrl } from '@/lib/wayback';
 
@@ -168,12 +171,9 @@ export default function PolicyDetails({
   const fetchPolicyDetails = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/policies/${policyId}`);
-      if (res.ok) {
-        const data = await res.json();
-        setPolicy(data);
-        setActiveChangeIndex(0);
-      }
+      const result = await loadPublicDataSource<FullPolicyDetails>('policyDetails', { policyId });
+      setPolicy(result.data);
+      setActiveChangeIndex(0);
     } catch (error) {
       console.error('Error fetching policy details:', error);
     } finally {
@@ -302,12 +302,6 @@ export default function PolicyDetails({
       value: getIndicatorScore(activeChange.aiPromptRetention) 
     },
   ] : [];
-
-  const getBarColor = (value: number) => {
-    if (value > 70) return 'var(--risk-high)';
-    if (value > 40) return 'var(--risk-medium)';
-    return 'var(--risk-low)';
-  };
 
   // TL;DR text used for the native share sheet
   const tldrShare =
@@ -515,9 +509,6 @@ export default function PolicyDetails({
                   </div>
                 </div>
 
-                <h3 className={styles.sectionTitle}>
-                  <Shield size={18} /> {lang === 'it' ? 'Valutazione d\'Impatto Normativo' : 'Regional Regulatory Assessment'}
-                </h3>
                 <div className={styles.heatMapWrap}>
                   <RegionHeatMap
                     regionImpacts={activeChange.regionImpacts}
@@ -621,34 +612,13 @@ export default function PolicyDetails({
                   {/* Real historical trend (aggregated via /api/trends) */}
                   <RiskTrendPanel companyId={policy.companyId} lang={lang} />
 
-                  {/* Bar Chart: Risk Profile Vectors (data-driven) */}
-                  <div className={styles.chartCard}>
-                    <span className={styles.chartTitle}>
-                      <Shield size={16} color="var(--secondary)" />
-                      {lang === 'it' ? 'Vettori Rischio Attivi (%)' : 'Active Risk Profile Vectors (%)'}
-                    </span>
-                    <div className={styles.chartWrapper}>
-                      <div className={styles.histogram}>
-                        {riskProfileData.map((bar, idx) => (
-                          <div key={idx} className={styles.barContainer}>
-                            <span className={styles.barValue}>{bar.value}%</span>
-                            <div className={styles.barTrack}>
-                              <div 
-                                className={styles.barFill} 
-                                style={{ 
-                                  height: `${bar.value}%`,
-                                  background: `linear-gradient(to top, ${getBarColor(bar.value)}, ${getBarColor(bar.value)}88)`
-                                }} 
-                              />
-                            </div>
-                            <span className={styles.barLabel}>
-                              {lang === 'it' ? bar.labelIt : bar.labelEn}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+                  <RiskProfileChart data={riskProfileData} lang={lang} />
+
+                  <ComplianceGauge
+                    score={activeChange.overallScore}
+                    riskLevel={activeChange.overallRisk}
+                    lang={lang}
+                  />
                 </div>
               </div>
             )}

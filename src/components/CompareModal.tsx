@@ -7,40 +7,15 @@
  *  - Two dropdown selectors to pick the companies
  *  - Radar (spider) chart comparing 15 KPIs
  *  - Summary header: overall score + risk for each
- *  - Per-KPI diff table with winner highlight
+ *  - Accessible exact-value table and provenance through the chart frame
  */
-import { useState, useEffect, useMemo } from 'react';
-import {
-  Radar,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  ResponsiveContainer,
-  Legend,
-  Tooltip,
-} from 'recharts';
-import { X, GitCompare, Trophy, Minus } from 'lucide-react';
+import { useState, useEffect, useId } from 'react';
+import { X, GitCompare } from 'lucide-react';
 import styles from './CompareModal.module.css';
 import type { Company, Lang } from '@/types';
-
-/** A single data point on the radar/spider chart for one KPI dimension. */
-interface RadarPoint {
-  /** KPI machine key, e.g. `kpiDataCollection`. */
-  key: string;
-  /** English display label. */
-  labelEn: string;
-  /** Italian display label. */
-  labelIt: string;
-  /** Normalised numeric score (0-100). */
-  value: number;
-  /** Human-readable raw assessment text (e.g. "Restricted"). */
-  rawValue: string;
-  /** Score for company A (populated when merging two profiles). */
-  a?: number;
-  /** Score for company B (populated when merging two profiles). */
-  b?: number;
-}
+import type { BenchmarkRadarSourcePoint } from '@/lib/chartSpec';
+import { loadPublicDataSource } from '@/lib/dataSourceRegistry';
+import BenchmarkRadarChart from './charts/BenchmarkRadarChart';
 
 /** Comparison profile returned by the `/api/compare` endpoint for one company. */
 interface CompanyProfile {
@@ -49,14 +24,19 @@ interface CompanyProfile {
   industry: string;
   website: string;
   logo: string;
-  /** Aggregate compliance score on a 0-10 scale. */
-  overallScore: number;
+  /** Aggregate public risk score on a 0-10 scale, or null when unassessed. */
+  overallScore: number | null;
   /** Risk tier: "High" | "Medium" | "Low". */
   overallRisk: string;
   /** Per-KPI radar data points. */
-  radar: RadarPoint[];
+  radar: BenchmarkRadarSourcePoint[];
   /** Number of distinct policies tracked for this company. */
   policiesCount: number;
+}
+
+interface CompareResponse {
+  companyA?: CompanyProfile;
+  companyB?: CompanyProfile;
 }
 
 /** Props for the {@link CompareModal} component. */
@@ -78,35 +58,27 @@ interface CompareModalProps {
 const translations = {
   en: {
     title: 'Compare Companies',
-    subtitle: 'Side-by-side compliance & risk comparison',
+    subtitle: 'Side-by-side public policy risk comparison',
     selectA: 'Select company A',
     selectB: 'Select company B',
     overall: 'Overall Score',
     risk: 'Risk Level',
     policies: 'Policies',
-    radarTitle: 'KPI Radar (lower = safer)',
-    tableTitle: 'Detailed Breakdown',
-    kpi: 'KPI',
-    winner: 'Safer',
-    tie: 'Tie',
     pickBoth: 'Pick two companies to compare',
     industryAverage: 'Industry average',
+    unavailable: 'The public comparison is temporarily unavailable.',
   },
   it: {
     title: 'Confronta Aziende',
-    subtitle: 'Confronto compliance e rischio affiancato',
+    subtitle: 'Confronto affiancato del rischio nelle policy pubbliche',
     selectA: 'Seleziona azienda A',
     selectB: 'Seleziona azienda B',
     overall: 'Punteggio Globale',
     risk: 'Livello Rischio',
     policies: 'Policy',
-    radarTitle: 'Radar KPI (più basso = più sicuro)',
-    tableTitle: 'Dettaglio Comparato',
-    kpi: 'KPI',
-    winner: 'Più Sicuro',
-    tie: 'Parità',
     pickBoth: 'Scegli due aziende da confrontare',
     industryAverage: 'Media settore',
+    unavailable: 'Il confronto pubblico è temporaneamente non disponibile.',
   },
 };
 
@@ -114,7 +86,7 @@ const translations = {
  * Side-by-side A/B comparison modal for two companies.
  *
  * Displays summary cards, a radar chart overlaying 15 KPI dimensions,
- * and a detailed breakdown table highlighting the "safer" company per KPI.
+ * and an exact-value table that keeps missing assessments distinct from low risk.
  *
  * @param props - {@link CompareModalProps}
  * @returns The comparison modal overlay, or `null` when closed.
@@ -132,7 +104,12 @@ export default function CompareModal({
   const [profileA, setProfileA] = useState<CompanyProfile | null>(null);
   const [profileB, setProfileB] = useState<CompanyProfile | null>(null);
   const [loading, setLoading] = useState(false);
+  const [loadError, setLoadError] = useState(false);
   const [closing, setClosing] = useState(false);
+  const reactId = useId().replace(/:/g, '');
+  const titleId = `compare-title-${reactId}`;
+  const firstSelectId = `compare-first-${reactId}`;
+  const secondSelectId = `compare-second-${reactId}`;
 
   const t = translations[lang];
   const isIt = lang === 'it';
@@ -153,6 +130,8 @@ export default function CompareModal({
       queueMicrotask(() => {
         setProfileA(null);
         setProfileB(null);
+        setLoadError(false);
+        setLoading(false);
       });
       return;
     }
@@ -161,14 +140,26 @@ export default function CompareModal({
     queueMicrotask(() => {
       if (!active) return;
       setLoading(true);
-      fetch(`/api/compare?companyA=${companyAId}&companyB=${companyBId}`)
-        .then((r) => r.json())
-        .then((data) => {
+      setLoadError(false);
+      loadPublicDataSource<CompareResponse>('companyComparison', {
+        companyA: companyAId,
+        companyB: companyBId,
+      })
+        .then(({ data }) => {
           if (!active) return;
-          setProfileA(data.companyA || null);
-          setProfileB(data.companyB || null);
+          if (!data.companyA || !data.companyB) {
+            throw new Error('Comparison response is incomplete.');
+          }
+          setProfileA(data.companyA);
+          setProfileB(data.companyB);
         })
-        .catch((err) => console.error('Compare fetch failed:', err))
+        .catch((err) => {
+          console.error('Compare load failed:', err);
+          if (!active) return;
+          setProfileA(null);
+          setProfileB(null);
+          setLoadError(true);
+        })
         .finally(() => {
           if (active) setLoading(false);
         });
@@ -187,16 +178,6 @@ export default function CompareModal({
     }, 250);
   };
 
-  // Build merged radar data for the chart
-  const radarData = useMemo<RadarPoint[]>(() => {
-    if (!profileA || !profileB) return [];
-    return profileA.radar.map((point, idx) => ({
-      ...point,
-      a: profileA.radar[idx].value,
-      b: profileB.radar[idx].value,
-    }));
-  }, [profileA, profileB]);
-
   if (!isOpen) return null;
 
   const getRiskColor = (risk: string) =>
@@ -204,23 +185,41 @@ export default function CompareModal({
       ? 'var(--risk-high)'
       : risk === 'Medium'
       ? 'var(--risk-medium)'
-      : 'var(--risk-low)';
+      : risk === 'Low'
+      ? 'var(--risk-low)'
+      : 'var(--text-muted)';
+  const getRiskLabel = (risk: string) => {
+    if (!isIt) return risk;
+    return ({ High: 'Alto', Medium: 'Medio', Low: 'Basso' } as Record<string, string>)[risk]
+      || 'Non valutato';
+  };
 
   return (
-    <div className={styles.overlay} onClick={handleClose} role="dialog" aria-modal="true">
+    <div
+      className={styles.overlay}
+      onClick={handleClose}
+    >
       <div
         className={`${styles.modal} ${closing ? styles.modalClosing : ''}`}
         onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
       >
         {/* Header */}
         <div className={styles.header}>
           <div>
-            <h2 className={styles.title}>
+            <h2 id={titleId} className={styles.title}>
               <GitCompare size={20} /> {t.title}
             </h2>
             <span className={styles.subtitle}>{t.subtitle}</span>
           </div>
-          <button onClick={handleClose} className={styles.closeBtn} aria-label="Close">
+          <button
+            type="button"
+            onClick={handleClose}
+            className={styles.closeBtn}
+            aria-label={isIt ? 'Chiudi confronto' : 'Close comparison'}
+          >
             <X size={20} />
           </button>
         </div>
@@ -228,8 +227,9 @@ export default function CompareModal({
         {/* Selectors */}
         <div className={styles.selectors}>
           <div className={styles.selectorGroup}>
-            <label className={styles.selectorLabel}>{t.selectA}</label>
+            <label htmlFor={firstSelectId} className={styles.selectorLabel}>{t.selectA}</label>
             <select
+              id={firstSelectId}
               value={companyAId}
               onChange={(e) => setCompanyAId(e.target.value)}
               className={`${styles.select} ${styles.selectA}`}
@@ -243,8 +243,9 @@ export default function CompareModal({
           </div>
           <div className={styles.vsBadge}>VS</div>
           <div className={styles.selectorGroup}>
-            <label className={styles.selectorLabel}>{t.selectB}</label>
+            <label htmlFor={secondSelectId} className={styles.selectorLabel}>{t.selectB}</label>
             <select
+              id={secondSelectId}
               value={companyBId}
               onChange={(e) => setCompanyBId(e.target.value)}
               className={`${styles.select} ${styles.selectB}`}
@@ -260,17 +261,21 @@ export default function CompareModal({
         </div>
 
         {/* Body */}
-        {!profileA || !profileB ? (
+        {loading ? (
+          <div className={styles.placeholder}>
+            <p>{isIt ? 'Confronto in corso...' : 'Comparing...'}</p>
+          </div>
+        ) : loadError ? (
+          <div className={styles.placeholder}>
+            <p>{t.unavailable}</p>
+          </div>
+        ) : !profileA || !profileB ? (
           <div className={styles.placeholder}>
             {companyAId === companyBId && companyAId ? (
               <p>{isIt ? 'Seleziona due aziende diverse' : 'Pick two different companies'}</p>
             ) : (
               <p>{t.pickBoth}</p>
             )}
-          </div>
-        ) : loading ? (
-          <div className={styles.placeholder}>
-            <p>{isIt ? 'Confronto in corso...' : 'Comparing...'}</p>
           </div>
         ) : (
           <>
@@ -287,7 +292,9 @@ export default function CompareModal({
                   <div className={styles.summaryStats}>
                     <div className={styles.summaryStat}>
                       <span className={styles.summaryStatLabel}>{t.overall}</span>
-                      <span className={styles.summaryStatValue}>{p.overallScore}/10</span>
+                      <span className={styles.summaryStatValue}>
+                        {p.overallScore === null ? (isIt ? 'Non valutato' : 'Not assessed') : `${p.overallScore}/10`}
+                      </span>
                     </div>
                     <div className={styles.summaryStat}>
                       <span className={styles.summaryStatLabel}>{t.risk}</span>
@@ -295,7 +302,7 @@ export default function CompareModal({
                         className={styles.summaryStatValue}
                         style={{ color: getRiskColor(p.overallRisk) }}
                       >
-                        {p.overallRisk}
+                        {getRiskLabel(p.overallRisk)}
                       </span>
                     </div>
                     <div className={styles.summaryStat}>
@@ -307,105 +314,9 @@ export default function CompareModal({
               ))}
             </div>
 
-            {/* Radar chart */}
+            {/* Evidence-gated benchmark radar and exact-value table */}
             <div className={styles.chartSection}>
-              <h3 className={styles.sectionTitle}>{t.radarTitle}</h3>
-              <div className={styles.chartWrapper}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <RadarChart data={radarData} outerRadius="75%">
-                    <PolarGrid stroke="rgba(148, 163, 184, 0.3)" />
-                    <PolarAngleAxis
-                      dataKey={isIt ? 'labelIt' : 'labelEn'}
-                      tick={{ fill: '#64748b', fontSize: 10 }}
-                    />
-                    <PolarRadiusAxis
-                      domain={[0, 100]}
-                      tick={{ fill: '#94a3b8', fontSize: 9 }}
-                      angle={90}
-                    />
-                    <Radar
-                      name={profileA.name}
-                      dataKey="a"
-                      stroke="#6366f1"
-                      fill="#6366f1"
-                      fillOpacity={0.3}
-                    />
-                    <Radar
-                      name={profileB.name}
-                      dataKey="b"
-                      stroke="#06b6d4"
-                      fill="#06b6d4"
-                      fillOpacity={0.3}
-                    />
-                    <Legend />
-                    <Tooltip
-                      contentStyle={{
-                        background: '#ffffff',
-                        border: '1px solid #e2e8f0',
-                        borderRadius: '10px',
-                        fontSize: '0.8rem',
-                      }}
-                    />
-                  </RadarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            {/* Detailed breakdown table */}
-            <div className={styles.tableSection}>
-              <h3 className={styles.sectionTitle}>{t.tableTitle}</h3>
-              <div className={styles.tableWrap}>
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th className={styles.th}>{t.kpi}</th>
-                      <th className={styles.th}>{profileA.name}</th>
-                      <th className={styles.th}>{profileB.name}</th>
-                      <th className={styles.th}>{t.winner}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {profileA.radar.map((row, idx) => {
-                      const aScore = row.value;
-                      const bScore = profileB.radar[idx].value;
-                      const winner =
-                        aScore === bScore
-                          ? 'tie'
-                          : aScore < bScore
-                          ? 'a'
-                          : 'b';
-                      return (
-                        <tr key={row.key} className={styles.tr}>
-                          <td className={styles.tdLabel}>
-                            {isIt ? row.labelIt : row.labelEn}
-                          </td>
-                          <td className={`${styles.td} ${winner === 'a' ? styles.tdWinner : ''}`}>
-                            {row.rawValue}
-                          </td>
-                          <td className={`${styles.td} ${winner === 'b' ? styles.tdWinner : ''}`}>
-                            {profileB.radar[idx].rawValue}
-                          </td>
-                          <td className={styles.tdWinnerCol}>
-                            {winner === 'tie' ? (
-                              <span className={styles.tieBadge}>
-                                <Minus size={12} /> {t.tie}
-                              </span>
-                            ) : (
-                              <span
-                                className={`${styles.winnerBadge} ${
-                                  winner === 'a' ? styles.winnerA : styles.winnerB
-                                }`}
-                              >
-                                <Trophy size={11} /> {winner === 'a' ? profileA.name : profileB.name}
-                              </span>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
+              <BenchmarkRadarChart first={profileA} second={profileB} lang={lang} />
             </div>
           </>
         )}

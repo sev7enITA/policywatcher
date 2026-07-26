@@ -30,7 +30,8 @@ The native design will use:
 - explicit filter/parameter scope and typed actions;
 - view models gated before aggregation;
 - provenance and Source QA as required output metadata;
-- Recharts and existing React components as renderers;
+- a static built-in renderer registry over Recharts, native SVG and native CSS
+  components;
 - the same filtered view model for UI and export.
 
 ## Consequences
@@ -56,6 +57,8 @@ The native design will use:
   deployment artifacts, or production processes.
 - No arbitrary function/module resolution from a serialized dashboard spec.
 - No generic cache may bypass role, publication, or `publicEvidence` context.
+- Missing assessments may not be normalized into low risk or participate in
+  benchmark winner counts.
 - `sourceQuality` remains pinned and cannot be hidden by a composition.
 - Native primitives are introduced first behind existing behavior; a generic
   renderer is not a prerequisite.

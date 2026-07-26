@@ -20,6 +20,7 @@ interface AccessibleChartFrameProps {
   summary: string;
   table: AccessibleChartTable;
   embedded?: boolean;
+  visualAriaHidden?: boolean;
   children?: ReactNode;
 }
 
@@ -29,6 +30,7 @@ export default function AccessibleChartFrame({
   summary,
   table,
   embedded = false,
+  visualAriaHidden = true,
   children,
 }: AccessibleChartFrameProps) {
   const reactId = useId().replace(/:/g, '');
@@ -60,7 +62,7 @@ export default function AccessibleChartFrame({
       </p>
 
       {children && (
-        <div className={styles.chartVisual} aria-hidden="true">
+        <div className={styles.chartVisual} aria-hidden={visualAriaHidden || undefined}>
           {children}
         </div>
       )}

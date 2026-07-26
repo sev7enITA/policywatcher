@@ -13,7 +13,7 @@ Prisma. Le idee utili osservate in Vizro sono state trasformate in contratti
 PolicyWatcher-specifici con maggiore attenzione a evidenza, provenienza,
 determinismo e configurazione non eseguibile.
 
-Sono operative dieci capacità:
+Sono operative quattordici capacità:
 
 1. catalogo KPI canonico e field-specific;
 2. trend con versione snapshot reale e sequenza eventi distinta;
@@ -24,7 +24,13 @@ Sono operative dieci capacità:
 7. view model unico per rendering ed export con manifest di provenienza;
 8. grafo statico e aciclico delle azioni;
 9. contratto di layout multi-breakpoint con fallback mobile lineare;
-10. `ChartSpec` allowlisted con frame accessibile applicato al trend di rischio.
+10. `ChartSpec` allowlisted con frame accessibile applicato al trend di rischio;
+11. registry statico dei renderer built-in con spec native per profilo e gauge;
+12. sorgente dinamica registrata per i dettagli policy e integrazione dei nuovi
+    grafici nella superficie applicativa reale;
+13. matrice regionale governata con copertura e celle mancanti esplicite;
+14. benchmark radar evidence-gated, unito per chiave KPI e allineato al catalogo
+    canonico.
 
 ## Flusso funzionale
 
@@ -166,14 +172,16 @@ ritematizzati senza modificare i singoli componenti.
 
 ## 7. Data-source registry evidence-first
 
-`src/lib/dataSourceRegistry.ts` registra le cinque sorgenti pubbliche usate
+`src/lib/dataSourceRegistry.ts` registra le sette sorgenti pubbliche usate
 dalle superfici dashboard:
 
 - aziende e policy;
 - Market Pulse;
 - sospensioni sorgenti;
 - trend di rischio;
-- matrice KPI.
+- matrice KPI;
+- dettagli di una singola policy;
+- confronto KPI tra aziende o con la coorte di settore.
 
 Ogni sorgente dichiara endpoint locale, metodo, contesto di visibilità, gate di
 evidenza, freshness e parametri query consentiti. URL e query key vengono
@@ -182,8 +190,10 @@ richieste semanticamente diverse condividano identità.
 
 Il loader accetta soltanto endpoint e parametri registrati. Richieste identiche
 contemporanee vengono accorpate finché sono in-flight; i risultati non vengono
-conservati in una cache applicativa. Home, Market Pulse, Source QA, trend e
-matrice usano ora questo loader.
+conservati in una cache applicativa. Home, Market Pulse, Source QA, trend,
+matrice e confronto usano ora questo loader. Anche il dettaglio policy passa dal registry:
+il template `/api/policies/{policyId}` accetta soltanto il parametro path
+allowlisted `policyId`, con lunghezza e caratteri validati prima della richiesta.
 
 ## 8. View model ed export coerente
 
@@ -279,6 +289,73 @@ l'utente richiede reduced motion. Nel pannello esistente il frame opera in
 modalità embedded, evitando una seconda card visuale senza perdere struttura
 semantica, riepilogo, tabella o provenienza.
 
+## 12. Renderer registry, dettaglio policy e nuovi grafici accessibili
+
+Il contratto `ChartSpec` copre ora cinque famiglie native tramite un registry
+statico di metadata:
+
+- `recharts-area` per il trend;
+- `recharts-bar` per il profilo di rischio;
+- `native-svg-gauge` per il punteggio di rischio corrente;
+- `native-css-heatmap` per la matrice regionale;
+- `recharts-radar` per il benchmark KPI.
+
+Il registry identifica esclusivamente renderer compilati nell'applicazione. Non
+risolve nomi di moduli, funzioni o codice proveniente dagli spec e conserva
+quindi il confine non eseguibile introdotto nella tranche precedente. La
+validazione built-in viene applicata a tutti e cinque gli spec all'import e
+verifica anche la compatibilità tra renderer e strategia di riepilogo.
+
+`PolicyDetails` non effettua più una `fetch` diretta: carica il record tramite la
+sorgente `policyDetails`, con gate `public-change` e risoluzione controllata del
+parametro dinamico. Parametri mancanti, non dichiarati o contenenti sequenze non
+ammesse vengono rifiutati prima di costruire l'URL.
+
+L'istogramma legacy del dettaglio è stato sostituito da `RiskProfileChart` e il
+punteggio complessivo è affiancato dal nuovo `ComplianceGauge`, semanticamente
+presentato come **Current Risk Score** per non suggerire una certificazione di
+compliance. Entrambi passano da `AccessibleChartFrame` e forniscono:
+
+- titolo, descrizione e riepilogo testuale in italiano e inglese;
+- valori numerici espliciti, non affidati al solo colore;
+- tabella dati accessibile;
+- source ID, evidence gate e limitazioni;
+- comportamento coerente con `prefers-reduced-motion`.
+
+Il gauge usa inoltre ID SVG unici per istanza, evitando collisioni tra gradienti
+e filtri quando più componenti sono presenti nella stessa pagina.
+
+## 13. Matrice regionale governata
+
+`RegionHeatMap` usa ora `REGION_HEAT_MAP_CHART_SPEC` e
+`AccessibleChartFrame`. Le sei combinazioni canoniche EU/US/Global per
+Individual/Enterprise sono rappresentate da posizione, label testuale e livello
+di rischio, non dal solo colore. Le celle prive di evidenza mostrano
+esplicitamente `Not assessed` e non adottano lo stile di rischio basso.
+
+Il riepilogo indica copertura e numero di celle ad alto rischio; duplicati della
+stessa combinazione regione-prospettiva vengono normalizzati prima di riepilogo,
+tabella e rendering. La matrice resta interattiva, mentre la tabella bilingue
+espone anche il testo integrale dell'analisi di impatto. Le transizioni hover
+sono disattivate con `prefers-reduced-motion`.
+
+## 14. Radar e benchmark evidence-gated
+
+`/api/compare` è registrata come sorgente `companyComparison` con gate
+`public-change` e parametri query allowlisted. `CompareModal` usa il loader
+condiviso e delega il rendering a `BenchmarkRadarChart`.
+
+Il confronto non accoppia più le dimensioni per indice: i punti sono uniti per
+chiave KPI stabile. I valori `Not assessed` rimangono null, non entrano nella
+geometria radar né nel conteggio della criticità inferiore. Anche l'assenza di
+cambi pubblici produce score e livello `Not assessed`, mai `0` o `Low`.
+
+La normalizzazione server-side non mantiene più una tabella di pesi parallela:
+riusa `metricsCatalog.ts`, comprese semantica field-specific, label bilingui e
+aggregazione del valore più critico. Il radar aggiunge tratto continuo/tratteggio,
+marker pieni/vuoti, riepilogo comparativo, tabella delle valutazioni originali e
+normalizzate, provenienza e limiti della coorte di settore corrente.
+
 ## Compatibilità
 
 - Nessuna route pubblica è stata rimossa.
@@ -288,14 +365,18 @@ semantica, riepilogo, tabella o provenienza.
   precedente.
 - Il parametro URL legacy `workspace` resta leggibile ed è normalizzato alla
   successiva scrittura.
-- Recharts resta l'unico renderer grafico applicativo.
+- Recharts resta il renderer dei grafici cartesiani e radar; gauge e matrice
+  usano primitive native compilate nell'applicazione, senza nuove dipendenze
+  runtime.
+- La route dinamica dei dettagli policy conserva lo stesso contratto HTTP, ora
+  costruito e tracciato attraverso il registry.
 
 ## Verifica eseguita
 
 | Controllo | Esito |
 | --- | --- |
-| Test completi Vitest | 53 file, 290 test superati |
-| Test nuovi/mirati | registry, composer, azioni, URL, KPI e trend superati |
+| Test completi Vitest | 53 file, 302 test superati |
+| Test nuovi/mirati | cinque spec, registry renderer/sorgenti, join KPI e wiring delle superfici superati |
 | TypeScript | superato |
 | ESLint | 0 errori; 1 warning preesistente sotto `tmp/` |
 | Build di produzione | completata, 62 pagine generate |
@@ -314,9 +395,11 @@ Non sono ancora presenti:
   arbitrarie; il renderer corrente resta intenzionalmente in compatibility mode.
 
 Queste esclusioni sono intenzionali: prima vengono stabilizzati contratti e
-invarianti sulle superfici esistenti. La prossima tranche consigliata è
-estendere il contratto ChartSpec a profilo di rischio e gauge, introducendo un
-registry dei renderer built-in senza consentire risoluzione dinamica.
+invarianti sulle superfici esistenti. La prossima tranche consigliata è collegare
+le selezioni di matrice e benchmark al grafo tipizzato delle azioni, aggiungere
+drill-down evidence-aware e visual regression browser a larghezze desktop/mobile.
+L'evoluzione dovrà preservare tabella e riepilogo come fallback senza introdurre
+un renderer JSON generico o risoluzione dinamica di codice.
 
 ## File principali
 
@@ -333,8 +416,15 @@ registry dei renderer built-in senza consentire risoluzione dinamica.
 - `src/lib/chartTokens.ts`
 - `src/lib/chartSpec.ts`
 - `src/components/charts/AccessibleChartFrame.tsx`
+- `src/components/charts/RiskProfileChart.tsx`
+- `src/components/charts/ComplianceGauge.tsx`
+- `src/components/charts/RegionHeatMap.tsx`
+- `src/components/charts/BenchmarkRadarChart.tsx`
+- `src/components/CompareModal.tsx`
+- `src/components/PolicyDetails.tsx`
 - `src/app/page.tsx`
 - `src/app/api/matrix/route.ts`
 - `src/app/api/trends/route.ts`
+- `src/app/api/compare/route.ts`
 - `docs/architecture/vizro-patterns-knowledge-base.md`
 - `docs/architecture/native-dashboard-engine.md`

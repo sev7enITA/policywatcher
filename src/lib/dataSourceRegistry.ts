@@ -1,6 +1,8 @@
 export type PublicDataSourceId =
   | 'dashboardCompanies'
+  | 'companyComparison'
   | 'marketPulse'
+  | 'policyDetails'
   | 'sourceSuspensions'
   | 'riskTrends'
   | 'kpiMatrix';
@@ -18,6 +20,7 @@ export interface PublicDataSourceSpec {
     readonly mode: FreshnessMode;
     readonly maxAgeSeconds: number;
   };
+  readonly allowedPathParams: readonly string[];
   readonly allowedQueryParams: readonly string[];
   readonly description: string;
 }
@@ -26,6 +29,8 @@ export interface DataSourceValidationIssue {
   code:
     | 'source.key_mismatch'
     | 'source.endpoint_invalid'
+    | 'source.path_param_invalid'
+    | 'source.path_param_mismatch'
     | 'source.freshness_invalid'
     | 'source.query_param_duplicate';
   path: string;
@@ -46,13 +51,16 @@ export interface DataSourceLoadResult<T> {
 export type DataSourceQuery = Readonly<Record<string, string | number | boolean | null | undefined>>;
 
 function sourceSpec(
-  spec: Omit<PublicDataSourceSpec, 'method' | 'visibilityContext'>
+  spec: Omit<PublicDataSourceSpec, 'method' | 'visibilityContext' | 'allowedPathParams'> & {
+    readonly allowedPathParams?: readonly string[];
+  }
 ): PublicDataSourceSpec {
   return Object.freeze({
     ...spec,
     method: 'GET',
     visibilityContext: 'public',
     freshness: Object.freeze({ ...spec.freshness }),
+    allowedPathParams: Object.freeze([...(spec.allowedPathParams || [])]),
     allowedQueryParams: Object.freeze([...spec.allowedQueryParams]),
   });
 }
@@ -67,6 +75,14 @@ export const PUBLIC_DATA_SOURCES: Readonly<Record<PublicDataSourceId, PublicData
       allowedQueryParams: [],
       description: 'Public companies with gated policies and their latest public change.',
     }),
+    companyComparison: sourceSpec({
+      id: 'companyComparison',
+      endpoint: '/api/compare',
+      evidenceGate: 'public-change',
+      freshness: { mode: 'request', maxAgeSeconds: 0 },
+      allowedQueryParams: ['companyA', 'companyB'],
+      description: 'Evidence-gated company and industry KPI benchmark profiles.',
+    }),
     marketPulse: sourceSpec({
       id: 'marketPulse',
       endpoint: '/api/changes',
@@ -74,6 +90,15 @@ export const PUBLIC_DATA_SOURCES: Readonly<Record<PublicDataSourceId, PublicData
       freshness: { mode: 'short-ttl', maxAgeSeconds: 60 },
       allowedQueryParams: ['company', 'from', 'industry', 'kpi', 'page', 'pageSize', 'q', 'risk', 'to'],
       description: 'Paginated public policy-change event stream.',
+    }),
+    policyDetails: sourceSpec({
+      id: 'policyDetails',
+      endpoint: '/api/policies/{policyId}',
+      evidenceGate: 'public-change',
+      freshness: { mode: 'request', maxAgeSeconds: 0 },
+      allowedPathParams: ['policyId'],
+      allowedQueryParams: [],
+      description: 'Public policy detail with gated snapshots and public change analysis.',
     }),
     sourceSuspensions: sourceSpec({
       id: 'sourceSuspensions',
@@ -121,6 +146,25 @@ export function validatePublicDataSourceRegistry(
         message: `Source ${key} must use a local /api/ endpoint.`,
       });
     }
+    const placeholders = [...spec.endpoint.matchAll(/\{([^}]+)\}/g)].map((match) => match[1]);
+    const uniquePathParams = new Set(spec.allowedPathParams);
+    if (uniquePathParams.size !== spec.allowedPathParams.length) {
+      issues.push({
+        code: 'source.path_param_invalid',
+        path: `${key}.allowedPathParams`,
+        message: `Source ${key} contains duplicate path parameter declarations.`,
+      });
+    }
+    if (
+      placeholders.length !== spec.allowedPathParams.length ||
+      placeholders.some((placeholder) => !uniquePathParams.has(placeholder))
+    ) {
+      issues.push({
+        code: 'source.path_param_mismatch',
+        path: `${key}.endpoint`,
+        message: `Source ${key} path placeholders do not match its allowlist.`,
+      });
+    }
     if (!Number.isInteger(spec.freshness.maxAgeSeconds) || spec.freshness.maxAgeSeconds < 0) {
       issues.push({
         code: 'source.freshness_invalid',
@@ -151,11 +195,29 @@ if (PUBLIC_DATA_SOURCE_ISSUES.length > 0) {
   );
 }
 
+function resolvePublicDataSourceEndpoint(
+  spec: PublicDataSourceSpec,
+  query: DataSourceQuery
+): string {
+  let endpoint: string = spec.endpoint;
+  for (const pathParam of spec.allowedPathParams) {
+    const rawValue = query[pathParam];
+    const value = rawValue === null || rawValue === undefined ? '' : String(rawValue);
+    if (!/^[A-Za-z0-9_-]{1,100}$/.test(value)) {
+      throw new Error(`Path parameter ${pathParam} is invalid for data source ${spec.id}.`);
+    }
+    endpoint = endpoint.replace(`{${pathParam}}`, encodeURIComponent(value));
+  }
+  return endpoint;
+}
+
 function canonicalDataSourceParams(spec: PublicDataSourceSpec, query: DataSourceQuery): URLSearchParams {
   const allowed = new Set(spec.allowedQueryParams);
+  const pathParams = new Set(spec.allowedPathParams);
   const params = new URLSearchParams();
 
   for (const [key, rawValue] of Object.entries(query)) {
+    if (pathParams.has(key)) continue;
     if (!allowed.has(key)) {
       throw new Error(`Query parameter ${key} is not allowed for data source ${spec.id}.`);
     }
@@ -176,8 +238,9 @@ export function buildPublicDataSourceUrl(
   query: DataSourceQuery = {}
 ): string {
   const spec = PUBLIC_DATA_SOURCES[sourceId];
+  const endpoint = resolvePublicDataSourceEndpoint(spec, query);
   const params = canonicalDataSourceParams(spec, query).toString();
-  return params ? `${spec.endpoint}?${params}` : spec.endpoint;
+  return params ? `${endpoint}?${params}` : endpoint;
 }
 
 export function getPublicDataSourceQueryKey(

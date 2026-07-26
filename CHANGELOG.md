@@ -1,5 +1,23 @@
 # Changelog
 
+## 3.9.0-beta.2 - 2026-07-26
+
+### Regional and benchmark visualization governance
+- Extended the static `ChartSpec` renderer registry from trend/profile/gauge to the regional risk matrix and company/industry KPI radar without adding a dynamic module resolver or a new runtime dependency.
+- Routed both visualizations through the shared accessible frame with bilingual summaries, exact-value tables, evidence source/gate metadata, explicit limitations, non-color encodings and reduced-motion behavior.
+- Registered `/api/compare` as an evidence-gated public data source and removed the comparison modal's direct fetch path.
+
+### Truthfulness and reliability
+- Joined benchmark dimensions by stable KPI key instead of array position and excluded `Not assessed` values from radar geometry and safer/winner counts.
+- Replaced the comparison API's duplicate generic weight table with the canonical field-specific KPI catalog.
+- Kept missing regional cells explicitly `Not assessed`, deduplicated region/perspective coverage and prevented absent company evidence from appearing as a zero score or low risk.
+- Added a localized comparison failure state and corrected loading-state precedence in the comparison modal.
+
+### Audit and release
+- Updated the application release metadata, README, in-app changelog, Showcase, architecture report and Hostinger package inventory for `3.9.0-beta.2`.
+- Passed 302 tests across 53 files, TypeScript validation, ESLint with zero application errors, production build and package-integrity checks.
+- Confirmed the deployable dependency tree has no reported vulnerabilities; the separately audited development toolchain retains the documented upstream `brace-expansion` advisory pending a compatible non-breaking ESLint update.
+
 ## 3.9.0-beta.1 - 2026-07-26
 
 ### Native dashboard intelligence

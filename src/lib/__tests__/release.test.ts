@@ -32,10 +32,10 @@ describe('release metadata', () => {
     const packageJson = JSON.parse(readFileSync('package.json', 'utf8')) as { version: string };
     expect(POLICYWATCHER_VERSION).toBe(packageJson.version);
     expect(POLICYWATCHER_RELEASE_NAME).toBe('Native Dashboard Intelligence');
-    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.9.0-beta.1 Native Dashboard Intelligence');
+    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.9.0-beta.2 Native Dashboard Intelligence');
     expect(POLICYWATCHER_RELEASE_CHANNEL).toBe('beta');
     expect(POLICYWATCHER_RELEASE_CHANNEL_LABEL).toBe('BETA');
-    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v3.9.0-beta.1 · BETA');
+    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v3.9.0-beta.2 · BETA');
     expect(POLICYWATCHER_BROWSER_EXTENSION_VERSION).toBe('3.8.3-beta.3');
     expect(POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION).toBe('3.8.3 Beta 3');
     expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE).toBe('v3.8.3 Beta 3 · EXTENSION BETA');

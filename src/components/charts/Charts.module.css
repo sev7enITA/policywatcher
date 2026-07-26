@@ -190,6 +190,13 @@
 }
 
 /* Gauge center text */
+.gaugeVisual {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin: 0 auto;
+}
+
 .gaugeCenter {
   position: absolute;
   top: 50%;
@@ -282,6 +289,28 @@
   color: #059669;
 }
 
+.heatMapCellMissing {
+  cursor: default;
+  background: var(--bg-secondary);
+  border-style: dashed;
+  color: var(--text-muted);
+}
+
+.benchmarkChartVisual {
+  width: 100%;
+  height: 380px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heatMapCell {
+    transition: none;
+  }
+
+  .heatMapCell:hover {
+    transform: none;
+  }
+}
+
 /* Responsive */
 .chartContainer {
   width: 100%;
@@ -299,5 +328,9 @@
 
   .heatMapGrid {
     gap: 4px;
+  }
+
+  .benchmarkChartVisual {
+    height: 320px;
   }
 }

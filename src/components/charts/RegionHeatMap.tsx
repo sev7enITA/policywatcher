@@ -1,7 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import type { RegionImpact, Lang, RiskLevel } from '@/types';
+import type { Lang, RegionImpact, RiskLevel } from '@/types';
+import {
+  REGION_HEAT_MAP_CHART_SPEC,
+  localizedChartText,
+  summarizeRegionHeatMap,
+} from '@/lib/chartSpec';
+import AccessibleChartFrame, { type AccessibleChartTable } from './AccessibleChartFrame';
 import styles from './Charts.module.css';
 
 interface RegionHeatMapProps {
@@ -13,30 +19,42 @@ interface RegionHeatMapProps {
 const REGIONS = ['EU', 'US', 'Global'] as const;
 const PERSPECTIVES = ['Individual', 'Enterprise'] as const;
 
-const translations = {
-  en: {
-    title: 'Region Risk Heat Map',
-    individual: 'Individual',
-    enterprise: 'Enterprise',
-    noData: '--',
-  },
-  it: {
-    title: 'Mappa di Rischio Regionale',
-    individual: 'Privato',
-    enterprise: 'Azienda',
-    noData: '--',
-  },
-};
+const perspectiveLabels = {
+  en: { Individual: 'Individual', Enterprise: 'Enterprise' },
+  it: { Individual: 'Privato', Enterprise: 'Azienda' },
+} as const;
 
-const riskLabelMap = {
-  en: { Low: 'Low', Medium: 'Med', High: 'High' },
+const riskLabels = {
+  en: { Low: 'Low', Medium: 'Medium', High: 'High' },
   it: { Low: 'Basso', Medium: 'Medio', High: 'Alto' },
-};
+} as const;
 
 function getCellStyle(riskLevel: RiskLevel): string {
   if (riskLevel === 'High') return styles.heatMapCellHigh;
   if (riskLevel === 'Medium') return styles.heatMapCellMedium;
   return styles.heatMapCellLow;
+}
+
+function buildAccessibleTable(
+  impacts: readonly RegionImpact[],
+  lang: Lang
+): AccessibleChartTable {
+  const copy = REGION_HEAT_MAP_CHART_SPEC.copy;
+  return {
+    caption: localizedChartText(copy.title, lang),
+    columns: [
+      { key: 'region', label: localizedChartText(copy.columns.region, lang) },
+      { key: 'perspective', label: localizedChartText(copy.columns.perspective, lang) },
+      { key: 'risk', label: localizedChartText(copy.columns.risk, lang) },
+      { key: 'analysis', label: localizedChartText(copy.columns.analysis, lang) },
+    ],
+    rows: impacts.map((impact) => ({
+      region: impact.region,
+      perspective: perspectiveLabels[lang][impact.perspective],
+      risk: riskLabels[lang][impact.riskLevel],
+      analysis: lang === 'it' ? impact.impactAnalysisIt : impact.impactAnalysisEn,
+    })),
+  };
 }
 
 export default function RegionHeatMap({
@@ -45,76 +63,74 @@ export default function RegionHeatMap({
   onCellSelect,
 }: RegionHeatMapProps) {
   const [selected, setSelected] = useState<string | null>(null);
-  const t = translations[lang];
-
-  const findImpact = (region: string, perspective: string) => {
-    return regionImpacts.find(
-      (ri) => ri.region === region && ri.perspective === perspective
-    );
-  };
+  const spec = REGION_HEAT_MAP_CHART_SPEC;
+  const noData = lang === 'it' ? 'Non valutato' : 'Not assessed';
+  const impactByCell = new Map(
+    regionImpacts.map((impact) => [`${impact.region}-${impact.perspective}`, impact])
+  );
+  const visibleImpacts = REGIONS.flatMap((region) =>
+    PERSPECTIVES.flatMap((perspective) => {
+      const impact = impactByCell.get(`${region}-${perspective}`);
+      return impact ? [impact] : [];
+    })
+  );
 
   const handleClick = (region: string, perspective: string) => {
     const key = `${region}-${perspective}`;
-    setSelected(selected === key ? null : key);
+    setSelected((current) => current === key ? null : key);
     onCellSelect?.(region, perspective);
   };
 
   return (
-    <div className={styles.chartCard}>
-      <h4 className={styles.chartTitle}>{t.title}</h4>
-
+    <AccessibleChartFrame
+      spec={spec}
+      lang={lang}
+      summary={summarizeRegionHeatMap(visibleImpacts, lang)}
+      table={buildAccessibleTable(visibleImpacts, lang)}
+      visualAriaHidden={false}
+    >
       <div className={styles.heatMapGrid}>
-        {/* Column headers */}
-        <div /> {/* Empty corner */}
-        <div className={styles.heatMapHeader}>{t.individual}</div>
-        <div className={styles.heatMapHeader}>{t.enterprise}</div>
+        <div aria-hidden="true" />
+        {PERSPECTIVES.map((perspective) => (
+          <div key={perspective} className={styles.heatMapHeader}>
+            {perspectiveLabels[lang][perspective]}
+          </div>
+        ))}
 
-        {/* Rows */}
         {REGIONS.map((region) => (
           <React.Fragment key={region}>
             <div className={styles.heatMapRowLabel}>{region}</div>
             {PERSPECTIVES.map((perspective) => {
-              const impact = findImpact(region, perspective);
               const key = `${region}-${perspective}`;
-              const isSelected = selected === key;
-
+              const impact = impactByCell.get(key);
               if (!impact) {
                 return (
-                  <div
-                    key={key}
-                    className={styles.heatMapCell}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.02)',
-                      color: 'var(--text-dark)',
-                    }}
-                  >
-                    {t.noData}
+                  <div key={key} className={`${styles.heatMapCell} ${styles.heatMapCellMissing}`}>
+                    {noData}
                   </div>
                 );
               }
 
+              const label = `${region}, ${perspectiveLabels[lang][perspective]}: ${riskLabels[lang][impact.riskLevel]}`;
               return (
                 <button
+                  type="button"
                   key={key}
-                  className={`${styles.heatMapCell} ${getCellStyle(impact.riskLevel as RiskLevel)} ${
-                    isSelected ? styles.heatMapCellSelected : ''
+                  className={`${styles.heatMapCell} ${getCellStyle(impact.riskLevel)} ${
+                    selected === key ? styles.heatMapCellSelected : ''
                   }`}
                   onClick={() => handleClick(region, perspective)}
-                  title={
-                    lang === 'it'
-                      ? impact.impactAnalysisIt
-                      : impact.impactAnalysisEn
-                  }
-                  aria-pressed={isSelected}
-                  aria-label={`${region} ${perspective}: ${impact.riskLevel}`}
+                  title={lang === 'it' ? impact.impactAnalysisIt : impact.impactAnalysisEn}
+                  aria-pressed={selected === key}
+                  aria-label={label}
                 >
-                  {riskLabelMap[lang][impact.riskLevel as RiskLevel]}
+                  {riskLabels[lang][impact.riskLevel]}
                 </button>
               );
             })}
           </React.Fragment>
         ))}
       </div>
-    </div>
+    </AccessibleChartFrame>
   );
 }

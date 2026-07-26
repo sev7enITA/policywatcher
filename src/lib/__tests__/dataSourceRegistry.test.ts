@@ -23,6 +23,16 @@ describe('public data-source registry', () => {
       evidenceGate: 'public-policy',
     });
     expect(PUBLIC_DATA_SOURCES.marketPulse.evidenceGate).toBe('public-change');
+    expect(PUBLIC_DATA_SOURCES.companyComparison).toMatchObject({
+      endpoint: '/api/compare',
+      evidenceGate: 'public-change',
+      allowedQueryParams: ['companyA', 'companyB'],
+    });
+    expect(PUBLIC_DATA_SOURCES.policyDetails).toMatchObject({
+      endpoint: '/api/policies/{policyId}',
+      evidenceGate: 'public-change',
+      allowedPathParams: ['policyId'],
+    });
     expect(PUBLIC_DATA_SOURCES.sourceSuspensions.evidenceGate).toBe('public-suspension');
   });
 
@@ -38,6 +48,13 @@ describe('public data-source registry', () => {
     expect(getPublicDataSourceQueryKey('riskTrends', { industry: 'FinTech' })).toBe(
       'public:public-change:/api/trends?industry=FinTech'
     );
+    expect(buildPublicDataSourceUrl('policyDetails', { policyId: 'policy_123-safe' })).toBe(
+      '/api/policies/policy_123-safe'
+    );
+    expect(buildPublicDataSourceUrl('companyComparison', {
+      companyB: 'industry-average',
+      companyA: 'company-1',
+    })).toBe('/api/compare?companyA=company-1&companyB=industry-average');
   });
 
   it('rejects query parameters outside the source allowlist', () => {
@@ -46,6 +63,10 @@ describe('public data-source registry', () => {
     );
     expect(() => buildPublicDataSourceUrl('marketPulse', { q: 'bad\nvalue' })).toThrow(
       'invalid'
+    );
+    expect(() => buildPublicDataSourceUrl('policyDetails')).toThrow('Path parameter policyId is invalid');
+    expect(() => buildPublicDataSourceUrl('policyDetails', { policyId: '../admin' })).toThrow(
+      'Path parameter policyId is invalid'
     );
   });
 

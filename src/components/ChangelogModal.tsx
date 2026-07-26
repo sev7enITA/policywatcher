@@ -56,7 +56,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Current Beta</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      PolicyWatcher now composes its native dashboard from validated, deterministic contracts for modules, workspace state, actions, data sources and responsive layout. KPI semantics are centralized, risk trends retain the real source snapshot version, and the same evidence-gated filtered view drives both the UI and CSV export with a provenance manifest. The risk trend also exposes an accessible summary, data table, provenance, limitations and reduced-motion behavior. Vizro was studied as a pinned knowledge source only; no Vizro, Dash, Flask or Python runtime was added.
+                      PolicyWatcher now composes its native dashboard from validated, deterministic contracts for modules, workspace state, actions, data sources, responsive layout and five governed visualizations. Risk trend, profile, current score, regional matrix and company/industry benchmark provide bilingual summaries, exact-value tables, provenance, limitations and reduced-motion behavior. Missing regional or KPI assessments remain explicitly unassessed instead of appearing safe. Vizro was studied as a pinned knowledge source only; no Vizro, Dash, Flask or Python runtime was added.
                     </p>
                   </div>
 
