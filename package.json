@@ -1,6 +1,6 @@
 {
   "name": "policywatcher",
-  "version": "3.8.3-beta.4",
+  "version": "3.9.0-beta.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -57,7 +57,7 @@
     "vitest": "^4.1.9"
   },
   "overrides": {
-    "postcss": "8.5.16",
+    "postcss": "8.5.23",
     "sharp": "0.35.3"
   },
   "prisma": {

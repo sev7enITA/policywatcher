@@ -1,4 +1,11 @@
-import { KPI_FIELD_KEYS, type KpiField } from './kpiDefaults';
+import {
+  KPI_FIELD_KEYS,
+  isAssessedKpiValue,
+  type KpiField,
+} from './metricsCatalog';
+
+export { getKpiConcernLevel } from './metricsCatalog';
+export type { KpiConcernLevel } from './metricsCatalog';
 
 export interface KpiAuditChange extends Partial<Record<KpiField, string | null>> {
   id: string;
@@ -41,10 +48,6 @@ function iso(value: Date | string): string {
   return Number.isFinite(parsed.getTime()) ? parsed.toISOString() : String(value);
 }
 
-function isAssessed(value: string | null | undefined): value is string {
-  return Boolean(value?.trim() && value.trim().toLowerCase() !== 'not assessed');
-}
-
 export function buildCompanyKpiAuditRow(input: {
   companyId: string;
   companyName: string;
@@ -62,7 +65,7 @@ export function buildCompanyKpiAuditRow(input: {
     for (const field of KPI_FIELD_KEYS) {
       if (kpiEvidence[field]) continue;
       const value = change[field];
-      if (!isAssessed(value)) continue;
+      if (!isAssessedKpiValue(value)) continue;
       kpiValues[field] = value.trim();
       kpiEvidence[field] = {
         changeId: change.id,
@@ -90,48 +93,4 @@ export function buildCompanyKpiAuditRow(input: {
     coveragePercent: Math.round((assessedCount / totalKpis) * 100),
     assessmentState: assessedCount === 0 ? 'pending' : assessedCount === totalKpis ? 'complete' : 'partial',
   };
-}
-
-export type KpiConcernLevel = 'lower' | 'moderate' | 'higher' | 'pending';
-
-const LOWER_CONCERN: Partial<Record<KpiField, readonly string[]>> = {
-  kpiDataCollection: ['Minimal'],
-  kpiThirdPartySharing: ['Restricted'],
-  kpiDataRetention: ['Defined'],
-  kpiRightToDeletion: ['Full'],
-  kpiCrossBorderTransfer: ['Restricted'],
-  kpiAiTrainingOptOut: ['Available'],
-  kpiAiOutputOwnership: ['User Retained'],
-  kpiAlgoTransparency: ['Published'],
-  kpiAutomatedDecision: ['Transparent'],
-  kpiAiBiasFairness: ['Committed'],
-  kpiConsentMechanism: ['Explicit Opt-In'],
-  kpiRegulatoryCompliance: ['Comprehensive'],
-  kpiBreachNotification: ['Within 24h', 'Within 72h'],
-  kpiIndependentAudit: ['Certified'],
-  kpiContentModeration: ['Transparent'],
-};
-
-const MODERATE_CONCERN: Partial<Record<KpiField, readonly string[]>> = {
-  kpiDataCollection: ['Moderate'],
-  kpiThirdPartySharing: ['Limited'],
-  kpiDataRetention: ['Extended'],
-  kpiRightToDeletion: ['Partial'],
-  kpiCrossBorderTransfer: ['Controlled'],
-  kpiAiTrainingOptOut: ['Opt-Out'],
-  kpiAiOutputOwnership: ['Shared'],
-  kpiAlgoTransparency: ['Mentioned'],
-  kpiAutomatedDecision: ['Partial'],
-  kpiAiBiasFairness: ['Mentioned'],
-  kpiConsentMechanism: ['Opt-Out'],
-  kpiRegulatoryCompliance: ['Partial'],
-  kpiIndependentAudit: ['Mentioned'],
-  kpiContentModeration: ['Partial'],
-};
-
-export function getKpiConcernLevel(field: KpiField, value: string): KpiConcernLevel {
-  if (!isAssessed(value)) return 'pending';
-  if (LOWER_CONCERN[field]?.includes(value)) return 'lower';
-  if (MODERATE_CONCERN[field]?.includes(value)) return 'moderate';
-  return 'higher';
 }

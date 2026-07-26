@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import type { Lang, RiskLevel } from '@/types';
+import { CHART_TOKENS, getRiskChartColor } from '@/lib/chartTokens';
 import styles from './Charts.module.css';
 
 interface ComplianceGaugeProps {
@@ -9,12 +10,6 @@ interface ComplianceGaugeProps {
   riskLevel: RiskLevel;
   lang: Lang;
 }
-
-const riskColorMap: Record<RiskLevel, string> = {
-  Low: '#10b981',
-  Medium: '#f59e0b',
-  High: '#f43f5e',
-};
 
 const riskLabelMap = {
   en: { Low: 'Low Risk', Medium: 'Medium Risk', High: 'High Risk' },
@@ -33,7 +28,7 @@ export default function ComplianceGauge({
 }: ComplianceGaugeProps) {
   const [animatedScore, setAnimatedScore] = useState(0);
   const t = translations[lang];
-  const color = riskColorMap[riskLevel];
+  const color = getRiskChartColor(riskLevel);
 
   // Animate score on mount
   useEffect(() => {
@@ -129,7 +124,7 @@ export default function ComplianceGauge({
           <path
             d={bgArc}
             fill="none"
-            stroke="rgba(255, 255, 255, 0.06)"
+            stroke={CHART_TOKENS.track}
             strokeWidth={strokeWidth}
             strokeLinecap="round"
           />

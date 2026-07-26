@@ -65,6 +65,16 @@ const evidenceCards: EvidenceCard[] = [
     linkLabel: 'Open signals board',
   },
   {
+    title: 'Native Dashboard Contracts',
+    status: 'Validated at startup + tests',
+    tone: 'violet',
+    icon: GitBranch,
+    body:
+      'Dashboard modules, actions, data sources, layouts, KPI semantics and chart specifications are allowlisted and validated. The visible filtered view and CSV export share one provenance-aware view model.',
+    href: '/showcase',
+    linkLabel: 'Open functional showcase',
+  },
+  {
     title: 'Renderer-Backed Retrieval',
     status: 'Confidence hardening',
     tone: 'blue',
@@ -90,7 +100,7 @@ const evidenceCards: EvidenceCard[] = [
     tone: 'blue',
     icon: GitBranch,
     body:
-      'Runs Prisma validation, source-evidence dataset assurance, lint, production build, and high-severity dependency audit before public release changes are merged.',
+      'Runs Prisma validation, source-evidence dataset assurance, lint, production build, and high-severity production-dependency audit before public release changes are merged.',
     href: `${repoBase}/actions/workflows/quality.yml`,
     linkLabel: 'Open workflow',
   },
@@ -186,6 +196,10 @@ const workflowSteps = [
   {
     title: 'Integrity checks',
     detail: 'The QA script compares hashes, version records, check logs, timestamps, and accepted status values at the policy-record grain.',
+  },
+  {
+    title: 'Presentation contract checks',
+    detail: 'Dashboard grammar, action graph, data sources, responsive layout, KPI catalog and chart specifications are validated before evidence is rendered or exported.',
   },
   {
     title: 'Release gate',

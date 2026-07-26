@@ -2,6 +2,9 @@ import { readFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { describe, expect, it } from 'vitest';
 import {
+  POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE,
+  POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION,
+  POLICYWATCHER_BROWSER_EXTENSION_VERSION,
   POLICYWATCHER_BUILD_LABEL,
   POLICYWATCHER_RELEASE_BADGE,
   POLICYWATCHER_RELEASE_CHANNEL,
@@ -28,11 +31,14 @@ describe('release metadata', () => {
   it('matches the package version and composes one build label', () => {
     const packageJson = JSON.parse(readFileSync('package.json', 'utf8')) as { version: string };
     expect(POLICYWATCHER_VERSION).toBe(packageJson.version);
-    expect(POLICYWATCHER_RELEASE_NAME).toBe('Regional Retrieval Hardening');
-    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.8.3-beta.4 Regional Retrieval Hardening');
+    expect(POLICYWATCHER_RELEASE_NAME).toBe('Native Dashboard Intelligence');
+    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.9.0-beta.1 Native Dashboard Intelligence');
     expect(POLICYWATCHER_RELEASE_CHANNEL).toBe('beta');
     expect(POLICYWATCHER_RELEASE_CHANNEL_LABEL).toBe('BETA');
-    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v3.8.3-beta.4 · BETA');
+    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v3.9.0-beta.1 · BETA');
+    expect(POLICYWATCHER_BROWSER_EXTENSION_VERSION).toBe('3.8.3-beta.3');
+    expect(POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION).toBe('3.8.3 Beta 3');
+    expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE).toBe('v3.8.3 Beta 3 · EXTENSION BETA');
 
     const typedChannel: PolicyWatcherReleaseChannel = POLICYWATCHER_RELEASE_CHANNEL;
     expect(typedChannel).toBe('beta');

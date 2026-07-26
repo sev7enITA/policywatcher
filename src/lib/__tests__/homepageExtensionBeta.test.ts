@@ -5,11 +5,12 @@ const page = readFileSync('src/app/page.tsx', 'utf8');
 const release = readFileSync('src/lib/release.ts', 'utf8');
 
 describe('homepage browser extension Beta launch strip', () => {
-  it('uses centralized Beta release metadata', () => {
+  it('uses centralized extension Beta release metadata', () => {
     expect(release).toContain("export type PolicyWatcherReleaseChannel = 'stable' | 'beta'");
     expect(release).toContain("POLICYWATCHER_RELEASE_CHANNEL_LABEL = 'BETA'");
-    expect(release).toContain('POLICYWATCHER_RELEASE_BADGE');
-    expect(page).toContain('POLICYWATCHER_RELEASE_BADGE');
+    expect(release).toContain("POLICYWATCHER_BROWSER_EXTENSION_VERSION = '3.8.3-beta.3'");
+    expect(release).toContain('POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE');
+    expect(page).toContain('POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE');
   });
 
   it('publishes bilingual, truthful extension-first copy', () => {

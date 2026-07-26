@@ -3,26 +3,17 @@
  *
  * GET /api/trends
  *   ?companyId=xxx   -> risk score history for a single company (all its policies)
- *   ?industry=xxx    -> aggregated risk score history for an industry sector
+ *   ?industry=xxx    -> risk-change event stream for an industry sector
  *
- * Returns chronologically-ordered data points suitable for line/area charts:
- *   { points: [{ date, score, companyName, policyName, version }], summary: {...} }
+ * Returns chronologically-ordered data points suitable for line/area charts.
+ * Event sequence and source snapshot version are deliberately separate.
  */
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
 import type { Prisma } from '@prisma/client';
 import { publicChangeWhere } from '@/lib/publicDataGate';
-
-/** A single data point on the risk-score timeline chart. */
-interface TrendPoint {
-  date: string; // ISO
-  score: number;
-  companyName: string;
-  policyName: string;
-  version: number;
-  risk: string;
-}
+import { buildRiskTrendResponse } from '@/lib/riskTrends';
 
 /**
  * Returns chronologically ordered risk-score data points.
@@ -62,37 +53,16 @@ export async function GET(request: NextRequest) {
             company: true,
           },
         },
+        newSnapshot: {
+          select: {
+            version: true,
+          },
+        },
       },
       orderBy: { createdAt: 'asc' },
     });
 
-    const points: TrendPoint[] = changes.map((c) => ({
-      date: c.createdAt.toISOString(),
-      score: c.overallScore,
-      companyName: c.policy.company.name,
-      policyName: c.policy.name,
-      version: c.newSnapshotId ? 0 : 0, // version not directly available here
-      risk: c.overallRisk,
-    }));
-
-    // Summary stats
-    const scores = points.map((p) => p.score);
-    const summary = {
-      count: points.length,
-      avgScore: scores.length
-        ? Math.round((scores.reduce((a, b) => a + b, 0) / scores.length) * 10) / 10
-        : 0,
-      minScore: scores.length ? Math.min(...scores) : 0,
-      maxScore: scores.length ? Math.max(...scores) : 0,
-      latestScore: scores.length ? scores[scores.length - 1] : 0,
-      firstScore: scores.length ? scores[0] : 0,
-      // delta: latest - first (positive = worsening)
-      delta: scores.length
-        ? Math.round((scores[scores.length - 1] - scores[0]) * 10) / 10
-        : 0,
-    };
-
-    return NextResponse.json({ points, summary });
+    return NextResponse.json(buildRiskTrendResponse(changes));
   } catch (error) {
     console.error('Error fetching trends:', error);
     return NextResponse.json(

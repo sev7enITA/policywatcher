@@ -137,7 +137,8 @@ export default function AboutPage() {
             <p>
               Change views, comparisons, and summaries are designed to retain source status,
               timestamps, provenance, and known limits rather than separating an interpretation
-              from the evidence that supports it.
+              from the evidence that supports it. Dashboard filters and CSV exports use the same
+              evidence-gated view model so the downloadable result describes the visible scope.
             </p>
           </article>
           <article>

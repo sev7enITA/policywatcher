@@ -65,14 +65,12 @@ import HowToModal from '@/components/HowToModal';
 import Navigation, { NavLayout } from '@/components/Navigation';
 import { createDeferredViewportEvaluator, shouldSuggestOnTheGo } from '@/lib/mobileContext';
 import { dashboardUpdateNotices, getObservatorySource, observatorySignals } from '@/lib/observatory';
-import { POLICYWATCHER_RELEASE_BADGE, POLICYWATCHER_VERSION } from '@/lib/release';
+import { POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE, POLICYWATCHER_VERSION } from '@/lib/release';
 import { dataStatusClassKey, getWorstDataStatus, normalizeDataStatus } from '@/lib/policyConfidence';
 import {
   composeDashboard,
   getDashboardModuleOrder,
   isDashboardModuleVisible,
-  normalizeEvidenceDepth,
-  normalizeWorkspaceIntent,
   type DashboardAccent,
   type DashboardDensity,
   type DashboardModuleId,
@@ -85,6 +83,26 @@ import {
   hasCompletedWorkspaceOnboarding,
   WORKSPACE_ONBOARDING_COMPLETED_KEY,
 } from '@/lib/workspaceNavigation';
+import {
+  decodeWorkspaceQuery,
+  encodeWorkspaceQuery,
+  parseWorkspaceProfile,
+  serializeWorkspaceProfile,
+} from '@/lib/workspaceProfile';
+import {
+  validateDashboardAction,
+  type DashboardAction,
+  type DateRangeFilter,
+  type RiskFilter,
+} from '@/lib/dashboardActions';
+import { loadPublicDataSource } from '@/lib/dataSourceRegistry';
+import {
+  buildDashboardViewModel,
+  type DashboardSortBy,
+} from '@/lib/dashboardViewModel';
+import {
+  getDashboardModuleDomProps,
+} from '@/lib/dashboardLayout';
 
 // Re-export types for backward compatibility
 export type { Company, Policy, PolicyChange, RegionImpact } from '@/types/index';
@@ -181,7 +199,7 @@ const translations = {
     accentSlate: 'Slate',
     exploreKicker: `Mappa release v${POLICYWATCHER_VERSION}`,
     exploreTitle: 'Tutte le nuove superfici, in un unico punto.',
-    exploreLead: 'Adaptive Workspace, Observatory, sitemap interattiva, press wall, segnali policy, trust center e roadmap sono ora organizzati come percorsi di esplorazione.',
+    exploreLead: 'La dashboard nativa ora unifica workspace, filtri, provenienza, KPI, trend ed export in contratti validati; Observatory, atlante, segnali policy, trust center e roadmap restano percorsi collegati.',
     exploreAtlas: 'Apri sitemap completa',
     exploreOpen: 'Apri',
     exploreCards: [
@@ -201,7 +219,7 @@ const translations = {
         title: 'Vetrina progetto',
         href: '/showcase',
         category: 'Overview',
-        body: 'Presentazione estesa di piattaforma, workflow, controlli admin e valore informativo.',
+        body: 'Presentazione della dashboard nativa, dei contratti di evidenza, dei workflow e dei controlli admin.',
       },
       {
         title: 'Visual Guide',
@@ -330,7 +348,7 @@ const translations = {
     accentSlate: 'Slate',
     exploreKicker: `v${POLICYWATCHER_VERSION} release map`,
     exploreTitle: 'Every new surface, one clear entry point.',
-    exploreLead: 'Adaptive Workspace, Observatory, interactive sitemap, press wall, policy signals, trust center and roadmap are now organized as guided exploration paths.',
+    exploreLead: 'The native dashboard now unifies workspace, filters, provenance, KPIs, trends and exports through validated contracts; Observatory, Atlas, Policy Signals, Trust and Roadmap remain connected paths.',
     exploreAtlas: 'Open full sitemap',
     exploreOpen: 'Open',
     exploreCards: [
@@ -350,7 +368,7 @@ const translations = {
         title: 'Project Showcase',
         href: '/showcase',
         category: 'Overview',
-        body: 'Extended presentation of the platform, workflows, admin controls and information value.',
+        body: 'Showcase of the native dashboard, evidence contracts, workflows and admin controls.',
       },
       {
         title: 'Visual Guide',
@@ -392,12 +410,6 @@ const translations = {
   }
 };
 
-/** Sort direction options for the company grid. */
-type SortBy = 'risk-desc' | 'risk-asc' | 'date-desc' | 'date-asc' | 'name-asc' | 'name-desc';
-/** Quick-filter values for risk level. */
-type RiskFilter = 'all' | 'High' | 'Medium' | 'Low';
-/** Quick-filter values for the change recency date range. */
-type DateRange = 'all' | '7d' | '30d' | '90d';
 type TickerItem = {
   id: string;
   label: string;
@@ -735,8 +747,8 @@ export default function Dashboard() {
 
   // Advanced filters
   const [riskFilter, setRiskFilter] = useState<RiskFilter>('all');
-  const [dateRange, setDateRange] = useState<DateRange>('all');
-  const [sortBy, setSortBy] = useState<SortBy>('risk-desc');
+  const [dateRange, setDateRange] = useState<DateRangeFilter>('all');
+  const [sortBy, setSortBy] = useState<DashboardSortBy>('risk-desc');
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
   // Selected policy modal
@@ -783,6 +795,46 @@ export default function Dashboard() {
   const composerDialogRef = useRef<HTMLDivElement>(null);
   const composerHeadingRef = useRef<HTMLHeadingElement>(null);
   const composerPreviousFocusRef = useRef<HTMLElement | null>(null);
+
+  const dispatchDashboardAction = useCallback((action: DashboardAction) => {
+    const validation = validateDashboardAction(action);
+    if (!validation.valid) {
+      console.error('Rejected dashboard action:', validation.reason);
+      return;
+    }
+
+    if (action.type === 'resetFilters') {
+      setSearch('');
+      setIndustryFilter('all');
+      setRiskFilter('all');
+      setDateRange('all');
+      setSelectedRegion('EU');
+      setSelectedPerspective('Individual');
+      setSortBy('risk-desc');
+      return;
+    }
+
+    switch (action.target) {
+      case 'industry':
+        setIndustryFilter(action.value.trim());
+        break;
+      case 'risk':
+        setRiskFilter(action.value);
+        break;
+      case 'region':
+        setSelectedRegion(action.value);
+        break;
+      case 'perspective':
+        setSelectedPerspective(action.value);
+        break;
+      case 'dateRange':
+        setDateRange(action.value);
+        break;
+      case 'search':
+        setSearch(action.value);
+        break;
+    }
+  }, []);
 
   const t = translations[lang];
   const workspaceText = WORKSPACE_COPY[lang];
@@ -899,19 +951,13 @@ export default function Dashboard() {
   const fetchCompanies = useCallback(async () => {
     setLoading(true);
     try {
-      const [companiesRes, suspensionsRes] = await Promise.all([
-        fetch('/api/companies'),
-        fetch('/api/source-suspensions'),
+      const [companiesResult, suspensionsResult] = await Promise.all([
+        loadPublicDataSource<Company[]>('dashboardCompanies'),
+        loadPublicDataSource<{ sources?: SourceSuspension[]; total?: number }>('sourceSuspensions'),
       ]);
-      if (companiesRes.ok) {
-        const data = await companiesRes.json();
-        setCompanies(data);
-      }
-      if (suspensionsRes.ok) {
-        const data = await suspensionsRes.json();
-        setSourceSuspensions(data.sources || []);
-        setSourceSuspensionsTotal(data.total || 0);
-      }
+      setCompanies(companiesResult.data);
+      setSourceSuspensions(suspensionsResult.data.sources || []);
+      setSourceSuspensionsTotal(suspensionsResult.data.total || 0);
     } catch (error) {
       console.error('Error loading companies:', error);
     } finally {
@@ -927,16 +973,18 @@ export default function Dashboard() {
 
   useEffect(() => {
     let active = true;
-    const params = new URLSearchParams({ page: '1', pageSize: '50' });
-    if (industryFilter !== 'all') params.set('industry', industryFilter);
+    const query = {
+      page: 1,
+      pageSize: 50,
+      industry: industryFilter !== 'all' ? industryFilter : undefined,
+    };
 
     queueMicrotask(() => {
       if (!active) return;
       setMarketPulseLoading(true);
-      fetch(`/api/changes?${params.toString()}`)
-        .then((res) => (res.ok ? res.json() : Promise.reject(new Error('Market pulse fetch failed'))))
-        .then((data: { changes?: MarketPulseChange[] }) => {
-          if (active) setMarketPulseChanges(data.changes || []);
+      loadPublicDataSource<{ changes?: MarketPulseChange[] }>('marketPulse', query)
+        .then((result) => {
+          if (active) setMarketPulseChanges(result.data.changes || []);
         })
         .catch((error) => {
           console.error('Error loading market pulse:', error);
@@ -997,37 +1045,24 @@ export default function Dashboard() {
       let shouldOpenFirstUse = true;
 
       try {
-        const params = new URLSearchParams(window.location.search);
-        const intentFromUrl = normalizeWorkspaceIntent(params.get('intent') || params.get('workspace'));
-        const depthFromUrl = normalizeEvidenceDepth(params.get('depth'));
-        const hasWorkspaceParams = params.has('intent') || params.has('workspace') || params.has('depth');
-        const raw = localStorage.getItem(WORKSPACE_PROFILE_KEY);
+        const queryProfile = decodeWorkspaceQuery(window.location.search);
         const onboardingCompleted = hasCompletedWorkspaceOnboarding(
           localStorage.getItem(WORKSPACE_ONBOARDING_COMPLETED_KEY),
         );
-        let saved: Partial<{ intent: string; depth: string; onTheGo: boolean }> | null = null;
-        if (raw) {
-          try {
-            saved = JSON.parse(raw) as Partial<{ intent: string; depth: string; onTheGo: boolean }>;
-          } catch {
-            saved = null;
-          }
-        }
+        const saved = parseWorkspaceProfile(localStorage.getItem(WORKSPACE_PROFILE_KEY));
 
-        if (hasWorkspaceParams) {
+        if (queryProfile.hasWorkspaceParams) {
           shouldOpenFirstUse = false;
           setWorkspaceOnboardingCompleted(true);
-          nextIntent = intentFromUrl ?? nextIntent;
-          nextDepth = depthFromUrl ?? nextDepth;
+          nextIntent = queryProfile.intent ?? nextIntent;
+          nextDepth = queryProfile.depth ?? nextDepth;
           nextOnTheGoModeActive = Boolean(saved?.onTheGo && nextIntent === 'citizen' && nextDepth === 'snapshot');
         } else {
-          const savedIntent = normalizeWorkspaceIntent(saved?.intent ?? null);
-          const savedDepth = normalizeEvidenceDepth(saved?.depth ?? null);
-          if (onboardingCompleted && savedIntent && savedDepth) {
+          if (onboardingCompleted && saved) {
             shouldOpenFirstUse = false;
             setWorkspaceOnboardingCompleted(true);
-            nextIntent = savedIntent;
-            nextDepth = savedDepth;
+            nextIntent = saved.intent;
+            nextDepth = saved.depth;
             nextOnTheGoModeActive = Boolean(saved?.onTheGo && nextIntent === 'citizen' && nextDepth === 'snapshot');
           }
         }
@@ -1112,7 +1147,7 @@ export default function Dashboard() {
       setShowMarketPulse(workspaceSettings.showMarketPulse);
 
       try {
-        localStorage.setItem(WORKSPACE_PROFILE_KEY, JSON.stringify({
+        localStorage.setItem(WORKSPACE_PROFILE_KEY, serializeWorkspaceProfile({
           intent: workspaceIntent,
           depth: evidenceDepth,
           onTheGo: onTheGoModeActive && workspaceIntent === 'citizen' && evidenceDepth === 'snapshot',
@@ -1120,9 +1155,11 @@ export default function Dashboard() {
 
         if (workspaceOnboardingCompleted) {
           const url = new URL(window.location.href);
-          url.searchParams.set('intent', workspaceIntent);
-          url.searchParams.set('depth', evidenceDepth);
-          window.history.replaceState({}, '', `${url.pathname}?${url.searchParams.toString()}${url.hash}`);
+          const query = encodeWorkspaceQuery(url.searchParams, {
+            intent: workspaceIntent,
+            depth: evidenceDepth,
+          });
+          window.history.replaceState({}, '', `${url.pathname}?${query}${url.hash}`);
         }
       } catch {
         // URL/history and localStorage are optional in restricted browser modes.
@@ -1252,72 +1289,28 @@ export default function Dashboard() {
       setSelectedPolicyId(company.policies[0].id);
     }
   }, [companies]);
-
-
-  // Date range cutoff
-  /** Returns the Date cutoff based on the selected date-range filter, or null for 'all'. */
-  const getDateCutoff = () => {
-    if (dateRange === 'all') return null;
-    const now = new Date();
-    const days = dateRange === '7d' ? 7 : dateRange === '30d' ? 30 : 90;
-    return new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
-  };
-
-  // Filter + sort companies
-  const filteredCompanies = companies
-    .filter((company) => {
-      const matchesSearch = company.name.toLowerCase().includes(search.toLowerCase()) ||
-        company.policies.some((p) => 
-          p.name.toLowerCase().includes(search.toLowerCase()) || 
-          p.type.toLowerCase().includes(search.toLowerCase()) ||
-          p.jurisdiction.toLowerCase().includes(search.toLowerCase())
-        );
-      const matchesIndustry = industryFilter === 'all' || company.industry === industryFilter;
-      
-      // Risk filter
-      if (riskFilter !== 'all') {
-        const hasMatchingRisk = company.policies.some((p) => {
-          const change = p.changes[0];
-          if (!change) return false;
-          return change.overallRisk === riskFilter;
-        });
-        if (!hasMatchingRisk) return false;
-      }
-
-      // Date range filter
-      const dateCutoff = getDateCutoff();
-      if (dateCutoff) {
-        const hasRecentChange = company.policies.some((p) => {
-          const change = p.changes[0];
-          if (!change) return false;
-          return new Date(change.createdAt) >= dateCutoff;
-        });
-        if (!hasRecentChange) return false;
-      }
-
-      return matchesSearch && matchesIndustry;
-    })
-    .sort((a, b) => {
-      const aChange = a.policies[0]?.changes[0];
-      const bChange = b.policies[0]?.changes[0];
-      
-      switch (sortBy) {
-        case 'risk-desc':
-          return (bChange?.overallScore || 0) - (aChange?.overallScore || 0);
-        case 'risk-asc':
-          return (aChange?.overallScore || 0) - (bChange?.overallScore || 0);
-        case 'date-desc':
-          return new Date(bChange?.createdAt || 0).getTime() - new Date(aChange?.createdAt || 0).getTime();
-        case 'date-asc':
-          return new Date(aChange?.createdAt || 0).getTime() - new Date(bChange?.createdAt || 0).getTime();
-        case 'name-asc':
-          return a.name.localeCompare(b.name);
-        case 'name-desc':
-          return b.name.localeCompare(a.name);
-        default:
-          return 0;
-      }
-    });
+  const dashboardDataView = useMemo(
+    () => buildDashboardViewModel(companies, {
+      search,
+      industry: industryFilter,
+      risk: riskFilter,
+      dateRange,
+      sortBy,
+      region: selectedRegion,
+      perspective: selectedPerspective,
+    }),
+    [
+      companies,
+      dateRange,
+      industryFilter,
+      riskFilter,
+      search,
+      selectedPerspective,
+      selectedRegion,
+      sortBy,
+    ]
+  );
+  const filteredCompanies = dashboardDataView.companies;
 
   // Calculate statistics
   const totalMonitored = companies.length;
@@ -1345,13 +1338,7 @@ export default function Dashboard() {
   });
   const averageRiskScore = policiesCount > 0 ? totalScore / policiesCount : 0;
 
-  // Count active filters
-  const activeFilterCount = [
-    riskFilter !== 'all',
-    dateRange !== 'all',
-    industryFilter !== 'all',
-    search.length > 0,
-  ].filter(Boolean).length;
+  const activeFilterCount = dashboardDataView.activeFilterCount;
 
   /** Maps a risk level string to its CSS colour variable. */
   const getRiskColor = (risk: string) => {
@@ -1394,8 +1381,12 @@ export default function Dashboard() {
   /** Triggers a CSV export of the currently filtered company list. */
   const handleExportCSV = async () => {
     try {
-      const { exportToCSV } = await import('@/lib/exporters');
-      exportToCSV(filteredCompanies, `policywatcher-export-${new Date().toISOString().slice(0, 10)}`);
+      const { exportDashboardViewToCSV } = await import('@/lib/exporters');
+      exportDashboardViewToCSV(
+        dashboardDataView,
+        { policyWatcherRelease: POLICYWATCHER_VERSION, language: lang },
+        'policywatcher-dashboard-export'
+      );
       setExportMenuOpen(false);
     } catch (err) {
       console.error('Export failed:', err);
@@ -1404,11 +1395,11 @@ export default function Dashboard() {
 
   /** Resets all filters and sort to their default values. */
   const clearAllFilters = () => {
-    setSearch('');
-    setIndustryFilter('all');
-    setRiskFilter('all');
-    setDateRange('all');
-    setSortBy('risk-desc');
+    dispatchDashboardAction({
+      type: 'resetFilters',
+      source: 'filters',
+      target: 'allFilters',
+    });
   };
 
   /** Returns the localised label for a policy type code. */
@@ -1724,6 +1715,13 @@ export default function Dashboard() {
       data-accent={dashboardAccent}
       data-workspace-intent={workspaceIntent}
       data-evidence-depth={evidenceDepth}
+      data-dashboard-spec={workspaceSettings.specId}
+      data-dashboard-schema={workspaceSettings.schemaVersion}
+      data-dashboard-layout={workspaceSettings.layoutId}
+      data-dashboard-action-graph={workspaceSettings.actionGraphId}
+      data-dashboard-view={dashboardDataView.manifest.viewId}
+      data-source-id={dashboardDataView.manifest.sourceId}
+      data-evidence-gate={dashboardDataView.manifest.evidenceGate}
       data-on-the-go={onTheGoProfileActive ? 'true' : 'false'}
     >
 
@@ -1888,7 +1886,7 @@ export default function Dashboard() {
             <span />
           </div>
           <div className={styles.extensionBetaIdentity}>
-            <span className={styles.extensionBetaBadge}>{POLICYWATCHER_RELEASE_BADGE}</span>
+            <span className={styles.extensionBetaBadge}>{POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE}</span>
             <span className={styles.extensionBetaEyebrow}>
               <PlugZap size={14} aria-hidden="true" />
               {extensionBeta.eyebrow}
@@ -1916,6 +1914,7 @@ export default function Dashboard() {
 
         {isModuleVisible('observatory') && (
           <motion.section
+            {...getDashboardModuleDomProps(workspaceIntent, 'observatory')}
             className={styles.observatoryTicker}
             style={{ order: getModuleOrder('observatory') }}
             aria-label={t.tickerLabel}
@@ -2000,6 +1999,7 @@ export default function Dashboard() {
         {/* Statistics Grid */}
         {showStats && isModuleVisible('stats') && (
           <motion.section
+            {...getDashboardModuleDomProps(workspaceIntent, 'stats')}
             className={styles.statsGrid}
             style={{ order: getModuleOrder('stats') }}
             initial={{ opacity: 0, y: 20 }}
@@ -2032,6 +2032,7 @@ export default function Dashboard() {
         {/* Filter Bar */}
         {isModuleVisible('filters') && (
           <motion.section
+            {...getDashboardModuleDomProps(workspaceIntent, 'filters')}
             className={`${styles.controlsBar} glass-panel`}
             style={{ order: getModuleOrder('filters') }}
             initial={{ opacity: 0, y: 20 }}
@@ -2045,13 +2046,24 @@ export default function Dashboard() {
                 type="text" 
                 placeholder={t.searchPlaceholder} 
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                maxLength={200}
+                onChange={(e) => dispatchDashboardAction({
+                  type: 'setFilter',
+                  source: 'filters',
+                  target: 'search',
+                  value: e.target.value,
+                })}
                 className={styles.searchInput}
               />
             </div>
             <select 
               value={industryFilter} 
-              onChange={(e) => setIndustryFilter(e.target.value)}
+              onChange={(e) => dispatchDashboardAction({
+                type: 'setFilter',
+                source: 'filters',
+                target: 'industry',
+                value: e.target.value,
+              })}
               className={styles.selectInput}
             >
               <option value="all">{t.allSectors}</option>
@@ -2079,7 +2091,12 @@ export default function Dashboard() {
               {(['EU', 'US', 'Global'] as const).map((region) => (
                 <button 
                   key={region}
-                  onClick={() => setSelectedRegion(region)}
+                  onClick={() => dispatchDashboardAction({
+                    type: 'setFilter',
+                    source: 'filters',
+                    target: 'region',
+                    value: region,
+                  })}
                   className={`${styles.toggleBtn} ${selectedRegion === region ? styles.toggleBtnActive : ''}`}
                 >
                   {region}
@@ -2092,7 +2109,12 @@ export default function Dashboard() {
               {(['Individual', 'Enterprise'] as const).map((perspective) => (
                 <button 
                   key={perspective}
-                  onClick={() => setSelectedPerspective(perspective)}
+                  onClick={() => dispatchDashboardAction({
+                    type: 'setFilter',
+                    source: 'filters',
+                    target: 'perspective',
+                    value: perspective,
+                  })}
                   className={`${styles.toggleBtn} ${selectedPerspective === perspective ? styles.toggleBtnActive : ''}`}
                 >
                   {perspective === 'Individual' ? t.individual : t.enterprise}
@@ -2129,7 +2151,12 @@ export default function Dashboard() {
                 ]).map((opt) => (
                   <button
                     key={opt.value}
-                    onClick={() => setRiskFilter(opt.value)}
+                    onClick={() => dispatchDashboardAction({
+                      type: 'setFilter',
+                      source: 'filters',
+                      target: 'risk',
+                      value: opt.value,
+                    })}
                     className={`${styles.toggleBtn} ${riskFilter === opt.value ? styles.toggleBtnActive : ''}`}
                   >
                     {opt.label}
@@ -2146,14 +2173,19 @@ export default function Dashboard() {
               </label>
               <div className={styles.toggleButtonGroup}>
                 {([
-                  { value: 'all' as DateRange, label: t.allTime },
-                  { value: '7d' as DateRange, label: t.last7d },
-                  { value: '30d' as DateRange, label: t.last30d },
-                  { value: '90d' as DateRange, label: t.last90d },
+                  { value: 'all' as DateRangeFilter, label: t.allTime },
+                  { value: '7d' as DateRangeFilter, label: t.last7d },
+                  { value: '30d' as DateRangeFilter, label: t.last30d },
+                  { value: '90d' as DateRangeFilter, label: t.last90d },
                 ]).map((opt) => (
                   <button
                     key={opt.value}
-                    onClick={() => setDateRange(opt.value)}
+                    onClick={() => dispatchDashboardAction({
+                      type: 'setFilter',
+                      source: 'filters',
+                      target: 'dateRange',
+                      value: opt.value,
+                    })}
                     className={`${styles.toggleBtn} ${dateRange === opt.value ? styles.toggleBtnActive : ''}`}
                   >
                     {opt.label}
@@ -2170,7 +2202,7 @@ export default function Dashboard() {
               </label>
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as SortBy)}
+                onChange={(e) => setSortBy(e.target.value as DashboardSortBy)}
                 className={styles.selectInput}
               >
                 <option value="risk-desc">{t.sortByRisk} (High to Low)</option>
@@ -2193,6 +2225,7 @@ export default function Dashboard() {
 
         {!loading && sourceSuspensionsTotal > 0 && (
           <motion.section
+            {...getDashboardModuleDomProps(workspaceIntent, 'sourceQuality')}
             className={styles.sourceSuspensionPanel}
             style={{ order: getModuleOrder('sourceQuality') }}
             initial={{ opacity: 0, y: 18 }}
@@ -2240,6 +2273,7 @@ export default function Dashboard() {
         {/* Market Pulse Timeline */}
         {showMarketPulse && isModuleVisible('marketPulse') && (
           <motion.section
+            {...getDashboardModuleDomProps(workspaceIntent, 'marketPulse')}
             className={styles.marketPulseSection}
             style={{ order: getModuleOrder('marketPulse') }}
             initial={{ opacity: 0, y: 20 }}
@@ -2319,7 +2353,11 @@ export default function Dashboard() {
             <SkeletonGrid count={6} />
           </>
         ) : filteredCompanies.length === 0 ? (
-          <div className={styles.emptyState} style={{ order: getModuleOrder('companyCards') }}>
+          <div
+            {...getDashboardModuleDomProps(workspaceIntent, 'companyCards')}
+            className={styles.emptyState}
+            style={{ order: getModuleOrder('companyCards') }}
+          >
             <ShieldAlert size={48} className={styles.emptyIcon} />
             <p>{t.noResults}</p>
             {activeFilterCount > 0 && (
@@ -2330,6 +2368,7 @@ export default function Dashboard() {
           </div>
         ) : (
           <motion.section 
+            {...getDashboardModuleDomProps(workspaceIntent, 'companyCards')}
             className={styles.companyGrid}
             style={{ order: getModuleOrder('companyCards') }}
             initial="hidden"
@@ -2605,10 +2644,18 @@ export default function Dashboard() {
         onOpenMethodology={() => setMethodologyOpen(true)}
         onOpenHowTo={() => setHowToOpen(true)}
         onSelectCompany={handleSelectCompany}
-        onSetIndustry={(ind) => setIndustryFilter(ind)}
-        onSetRisk={(r) => setRiskFilter(r as RiskFilter)}
-        onSetRegion={(r) => setSelectedRegion(r)}
-        onSetPerspective={(p) => setSelectedPerspective(p)}
+        onSetIndustry={(value) => dispatchDashboardAction({
+          type: 'setFilter', source: 'commandPalette', target: 'industry', value,
+        })}
+        onSetRisk={(value) => dispatchDashboardAction({
+          type: 'setFilter', source: 'commandPalette', target: 'risk', value: value as RiskFilter,
+        })}
+        onSetRegion={(value) => dispatchDashboardAction({
+          type: 'setFilter', source: 'commandPalette', target: 'region', value,
+        })}
+        onSetPerspective={(value) => dispatchDashboardAction({
+          type: 'setFilter', source: 'commandPalette', target: 'perspective', value,
+        })}
         onClearFilters={clearAllFilters}
       />
 

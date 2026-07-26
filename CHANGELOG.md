@@ -1,5 +1,27 @@
 # Changelog
 
+## 3.9.0-beta.1 - 2026-07-26
+
+### Native dashboard intelligence
+- Added a validated, immutable dashboard grammar with deterministic specification, module, action-graph and layout identities for Citizen, GRC / Legal, Research and Builder workspaces.
+- Centralized workspace URL/local-storage codecs and typed filter actions so direct controls and the Command Palette share the same guarded state transitions.
+- Introduced an evidence-first data-source registry and a single dashboard view model used by both rendering and export, including canonical query identity, coverage, public-evidence gate and limitation metadata.
+- Made CSV export represent the exact filtered UI view and prepend a machine-readable provenance manifest, including when the result contains no policy rows.
+
+### Metrics, trends and visualization
+- Consolidated all 15 KPI fields, bilingual labels, allowed values, field-specific concern ordering and `Not assessed` handling in one canonical catalog shared by normalization, audit and matrix APIs.
+- Replaced synthetic trend version numbering with the real source snapshot version while retaining a distinct chronological observation sequence.
+- Added centralized chart tokens and an allowlisted `ChartSpec` contract with accessible summary, data table, provenance, limitations and reduced-motion handling for the risk trend.
+- Added a deterministic multi-breakpoint layout contract with a complete, single-column mobile fallback and Source QA pinned as a required safety module.
+
+### Architecture and verification
+- Derived the implementation from a pinned study of Vizro 0.1.59 without installing, embedding or depending on Vizro, Dash, Flask, Plotly or a Python runtime.
+- Added architecture decisions, a pattern knowledge base and a functional implementation report for the native dashboard engine.
+- Kept the browser extension on its separately versioned 3.8.3 Beta 3 package and labeled the homepage extension strip independently from the application release.
+- Updated PostCSS to 8.5.23 to close the detected production path-traversal advisory and scoped the release-blocking audit to deployable dependencies. The remaining brace-expansion advisory is confined to upstream ESLint plugins, has no production path, and remains documented pending a compatible plugin update.
+- Added focused regression coverage for dashboard grammar, action graph, action dispatch, layout, workspace codec, data-source registry, view model, export manifest, KPI catalog, truthful trends and chart accessibility wiring.
+- Passed 290 tests across 53 files, TypeScript validation, ESLint with zero errors, production build and release diff checks before packaging.
+
 ## 3.8.3-beta.4 - 2026-07-23
 
 ### Regional retrieval hardening

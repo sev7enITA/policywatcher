@@ -1,6 +1,12 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { exportToCSV, generatePolicyReport, triggerDownload } from '../exporters';
+import {
+  buildDashboardCsvArtifact,
+  exportToCSV,
+  generatePolicyReport,
+  triggerDownload,
+} from '../exporters';
 import type { Company, Policy, PolicyChange } from '@/types';
+import { buildDashboardViewModel } from '../dashboardViewModel';
 
 function makeChange(overrides: Partial<PolicyChange> = {}): PolicyChange {
   return {
@@ -201,5 +207,42 @@ describe('exporters', () => {
 
     expect(dom.anchor.download).toBe('empty-export-2026-07-02.csv');
     expect(dom.createObjectURL).toHaveBeenCalledWith(expect.any(Blob));
+  });
+
+  it('builds a manifest row from the same filtered dashboard view as the UI', () => {
+    const view = buildDashboardViewModel(
+      [makeCompany()],
+      {
+        search: '',
+        industry: 'Tech Giant',
+        risk: 'High',
+        dateRange: 'all',
+        sortBy: 'risk-desc',
+        region: 'EU',
+        perspective: 'Individual',
+      },
+      new Date('2026-07-02T12:00:00.000Z')
+    );
+    const artifact = buildDashboardCsvArtifact(view, {
+      generatedAt: '2026-07-02T12:00:00.000Z',
+      policyWatcherRelease: '3.8.3-beta.4',
+      language: 'en',
+    });
+
+    expect(artifact.rows).toHaveLength(2);
+    expect(artifact.rows[0].RecordType).toBe('manifest');
+    expect(artifact.rows[1]).toMatchObject({
+      RecordType: 'policy',
+      Company: 'ExampleCo',
+      Policy: 'Privacy Policy',
+    });
+    expect(JSON.parse(artifact.rows[0].ManifestJSON)).toEqual(artifact.manifest);
+    expect(artifact.manifest).toMatchObject({
+      sourceId: 'dashboardCompanies',
+      evidenceGate: 'public-policy',
+      visibilityContext: 'public',
+      rowCount: 1,
+    });
+    expect(artifact.csv).toContain('RecordType,Company,Industry');
   });
 });

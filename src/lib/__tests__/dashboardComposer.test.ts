@@ -51,6 +51,10 @@ describe('composeDashboard', () => {
     const composition = composeDashboard('citizen', 'snapshot');
 
     expect(composition).toMatchObject({
+      specId: 'policywatcher.dashboard.intent.citizen.v1',
+      schemaVersion: 1,
+      actionGraphId: 'policywatcher.dashboard.actions.v1',
+      layoutId: 'policywatcher.dashboard.layout.evidence-flow.v1',
       density: 'comfortable',
       view: 'cards',
       accent: 'teal',

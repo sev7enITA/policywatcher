@@ -1794,6 +1794,22 @@
   flex-direction: column;
 }
 
+/* Native dashboard layout contract: modules remain full-width in compatibility
+   mode, while deterministic placement metadata enables validated migration. */
+.dashboard[data-dashboard-layout="policywatcher.dashboard.layout.evidence-flow.v1"]
+  [data-dashboard-module] {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 760px) {
+  .dashboard[data-dashboard-layout="policywatcher.dashboard.layout.evidence-flow.v1"]
+    [data-dashboard-module][data-mobile-span="1"] {
+    width: 100%;
+    grid-column: 1 / -1;
+  }
+}
+
 .workspacePanel,
 .controlsBar,
 .advancedFilters,

@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import styles from './confidence.module.css';
 import Footer from '@/components/Footer';
+import { POLICYWATCHER_VERSION } from '@/lib/release';
 
 const translationContent = {
   en: {
@@ -99,9 +100,14 @@ const translationContent = {
       {
         icon: ShieldCheck,
         title: '5. Adaptive Workspace & Public Surfaces',
-        desc: 'Release 3.6.3 introduces a goal-oriented workspace layer without changing evidence rules.',
+        desc: `Release ${POLICYWATCHER_VERSION} validates the native dashboard layer without changing evidence rules.`,
         bullets: [
           'Adaptive Workspace: users can select a session intent (Citizen, GRC / Legal, Research, Builder) and evidence depth (Snapshot, Operational, Forensic).',
+          'Validated composition: dashboard modules come from an immutable allowlist with deterministic identities; Source QA is required and remains first in every composition.',
+          'Guarded interaction: direct controls and the Command Palette dispatch typed actions through an acyclic authorization graph and one canonical workspace URL/local-storage codec.',
+          'Evidence-first sources: each registered dashboard source declares endpoint, query scope, freshness, visibility, public-evidence gate and known limitations before loading.',
+          'Rendering and export parity: the visible filtered company list and CSV export use one view model; the export includes query identity, coverage, filters, evidence gate, limitations and release provenance.',
+          'Accessible chart contract: supported charts define summary, table, provenance and limitations, while reduced-motion settings disable nonessential animation.',
           'Presentation-only adaptation: density, module priority, dashboard emphasis, and URL parameters may change, but publicEvidence gates, source suspensions, and Dataset QA warnings remain active.',
           'Public exploration surfaces: Timeline, Policy Signals Board, Site Atlas, Roadmap, Press Wall, Showcase, Trust, and Infographics expose different views of the same evidence boundary.',
           'Site Atlas: maps public pages, trust surfaces, methodology pages, community pages, and protected admin boundaries as an entity relationship graph.',
@@ -203,9 +209,14 @@ const translationContent = {
       {
         icon: ShieldCheck,
         title: '5. Workspace adattivo e superfici pubbliche',
-        desc: 'La release 3.6.3 introduce un layer di workspace orientato all\'obiettivo senza cambiare le regole di evidenza.',
+        desc: `La release ${POLICYWATCHER_VERSION} valida il layer dashboard nativo senza cambiare le regole di evidenza.`,
         bullets: [
           'Workspace adattivo: l\'utente puo selezionare intento di sessione (Cittadino, GRC / Legal, Ricerca, Builder) e profondita evidenza (Snapshot, Operativa, Forensic).',
+          'Composizione validata: i moduli dashboard provengono da una allowlist immutabile con identita deterministiche; Source QA e obbligatorio e resta in prima posizione.',
+          'Interazione controllata: controlli diretti e Command Palette inviano azioni tipizzate attraverso un grafo di autorizzazione aciclico e un codec canonico per URL e localStorage.',
+          'Sorgenti evidence-first: ogni sorgente dashboard registrata dichiara endpoint, query, freshness, visibilita, gate di evidenza pubblica e limitazioni note prima del caricamento.',
+          'Parita rendering ed export: elenco aziende filtrato e CSV usano lo stesso view model; l\'export include identita query, copertura, filtri, gate, limitazioni e provenienza release.',
+          'Contratto grafici accessibile: i grafici supportati dichiarano riepilogo, tabella, provenienza e limitazioni; la preferenza reduced motion disattiva le animazioni non essenziali.',
           'Adattamento solo di presentazione: densita, priorita dei moduli, enfasi della dashboard e parametri URL possono cambiare, ma gate publicEvidence, sospensioni sorgenti e avvisi Dataset QA restano attivi.',
           'Superfici pubbliche: Timeline, Policy Signals Board, Site Atlas, Roadmap, Press Wall, Showcase, Trust e Infographics mostrano prospettive diverse dello stesso perimetro di evidenza.',
           'Site Atlas: mappa pagine pubbliche, superfici trust, pagine metodologia, pagine community e confini admin protetti come grafo entita-relazioni.',

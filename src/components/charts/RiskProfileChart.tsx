@@ -12,6 +12,7 @@ import {
   Cell,
 } from 'recharts';
 import type { Lang } from '@/types';
+import { CHART_TOKENS, getRiskScoreChartColor } from '@/lib/chartTokens';
 import styles from './Charts.module.css';
 
 interface RiskProfileBar {
@@ -36,12 +37,6 @@ const translations = {
   },
 };
 
-function getBarColor(value: number): string {
-  if (value > 70) return '#f43f5e'; // risk-high
-  if (value >= 40) return '#f59e0b'; // risk-medium
-  return '#10b981'; // risk-low
-}
-
 function CustomTooltip({
   active,
   payload,
@@ -57,7 +52,7 @@ function CustomTooltip({
   const item = payload[0];
   const data = item.payload;
   const label = lang === 'it' ? data.labelIt : data.label;
-  const color = getBarColor(item.value);
+  const color = getRiskScoreChartColor(item.value);
 
   return (
     <div className={styles.chartTooltip}>
@@ -111,13 +106,13 @@ export default function RiskProfileChart({
           >
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="rgba(148, 163, 184, 0.25)"
+              stroke={CHART_TOKENS.grid}
               vertical={false}
             />
             <XAxis
               dataKey={lang === 'it' ? 'labelIt' : 'label'}
-              tick={{ fill: '#64748b', fontSize: 10 }}
-              axisLine={{ stroke: 'rgba(148, 163, 184, 0.3)' }}
+              tick={{ fill: CHART_TOKENS.axis, fontSize: 10 }}
+              axisLine={{ stroke: CHART_TOKENS.gridStrong }}
               tickLine={false}
               interval={0}
               angle={-20}
@@ -126,14 +121,14 @@ export default function RiskProfileChart({
             />
             <YAxis
               domain={[0, 100]}
-              tick={{ fill: '#64748b', fontSize: 11 }}
+              tick={{ fill: CHART_TOKENS.axis, fontSize: 11 }}
               axisLine={false}
               tickLine={false}
               width={30}
             />
             <Tooltip
               content={<CustomTooltip lang={lang} />}
-              cursor={{ fill: 'rgba(99, 102, 241, 0.06)' }}
+              cursor={{ fill: CHART_TOKENS.cursorFill }}
             />
             <Bar
               dataKey="value"
@@ -142,7 +137,7 @@ export default function RiskProfileChart({
               animationEasing="ease-out"
             >
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={getBarColor(entry.value)} />
+                <Cell key={`cell-${index}`} fill={getRiskScoreChartColor(entry.value)} />
               ))}
             </Bar>
           </BarChart>

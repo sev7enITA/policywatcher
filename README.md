@@ -39,6 +39,18 @@ PolicyWatcher monitors the privacy policies, terms of service, and AI governance
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
 
+### Release 3.9.0 Beta 1 Native Dashboard Intelligence Highlights
+
+- **Validated dashboard grammar** composes Citizen, GRC / Legal, Research and Builder workspaces from an immutable allowlisted registry with deterministic IDs and Source QA pinned.
+- **One guarded interaction model** routes direct controls and the Command Palette through typed actions, an acyclic authorization graph and one canonical workspace URL/local-storage codec.
+- **Evidence-first data loading** registers public dashboard sources with explicit endpoint, query, freshness, visibility, evidence-gate and limitation metadata.
+- **UI/export parity** builds one filtered dashboard view model for both rendering and CSV export; every export carries a machine-readable provenance manifest, even for an empty result.
+- **Canonical KPI semantics** give all 15 KPI fields one bilingual vocabulary, normalization rule, field-specific concern order and explicit `Not assessed` state.
+- **Truthful trends** distinguish chronological observation sequence from the real originating snapshot version and expose provenance and limitations alongside the chart.
+- **Accessible charts and deterministic layout** add centralized chart tokens, an allowlisted chart specification, summary/table fallbacks, reduced-motion behavior and a complete one-column mobile layout.
+- **Production dependency security gate** updates PostCSS to 8.5.23 and keeps the deployable dependency audit at zero high-severity findings. The remaining brace-expansion advisory is limited to upstream lint plugins and is documented as a development-only exception pending a compatible update.
+- **No Vizro runtime** retains the native Next.js, React, Recharts and Prisma stack; Vizro 0.1.59 was used only as a pinned architectural knowledge source.
+
 ### Release 3.8.3 Beta 4 Regional Retrieval Hardening Highlights
 
 - **Visible-text sender recovery** identifies a brand domain from pasted notification text, filters common personal-email providers and still gives an explicit `From:` header priority.
@@ -412,7 +424,7 @@ Source remediation status: release 3.5.1 updated current official source mapping
 PolicyWatcher exposes quality evidence in the application and in the public repository. These checks are operational controls, not legal, regulatory, or compliance certifications.
 
 - `npm run qa:dataset` validates the local dataset at policy-record grain: accepted status values, SHA-256 consistency, version-record coverage, check-log presence, latest status alignment, and scan timestamps.
-- `.github/workflows/quality.yml` runs Prisma validation, CI database seeding, dataset assurance, lint, production build, and high-severity dependency audit.
+- `.github/workflows/quality.yml` runs Prisma validation, CI database seeding, dataset assurance, lint, production build, and a high-severity production-dependency audit.
 - `.github/workflows/codeql.yml` runs GitHub CodeQL security-and-quality analysis for JavaScript and TypeScript.
 - `.github/workflows/scorecard.yml` runs OpenSSF Scorecard and publishes public supply-chain posture results.
 - OpenSSF Best Practices project `13465` is passing and exposed as public open-source process evidence.

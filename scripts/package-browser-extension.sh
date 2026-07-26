@@ -6,9 +6,10 @@ set -euo pipefail
 APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 EXTENSION_DIR="${APP_DIR}/browser-extension"
 OUTPUT_DIR="${1:-${APP_DIR}/artifacts/extensions}"
-VERSION="$(node -p "require('${APP_DIR}/package.json').version")"
+VERSION="$(sed -n "s/.*POLICYWATCHER_BROWSER_EXTENSION_VERSION = '\([^']*\)'.*/\1/p" "${APP_DIR}/src/lib/release.ts")"
 EXTENSION_VERSION="$(node -p "require('${EXTENSION_DIR}/manifest.json').version")"
-EXPECTED_EXTENSION_VERSION="$(node -e "const v=require('${APP_DIR}/package.json').version.match(/^(\\d+\\.\\d+\\.\\d+)-beta\\.(\\d+)$/); if(!v) process.exit(1); process.stdout.write(v[1]+'.'+v[2])")"
+EXTENSION_DISPLAY_VERSION="$(node -p "require('${EXTENSION_DIR}/manifest.json').version_name")"
+EXPECTED_DISPLAY_VERSION="$(sed -n "s/.*POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION = '\([^']*\)'.*/\1/p" "${APP_DIR}/src/lib/release.ts")"
 SOURCE_REVISION="$(git -C "${APP_DIR}" rev-parse HEAD)"
 DATE_STAMP="$(date +%Y-%m-%d)"
 STAGING_DIR="$(mktemp -d /tmp/policywatcher-extension-package.XXXXXX)"
@@ -22,8 +23,8 @@ if ! git -C "${APP_DIR}" diff --quiet || ! git -C "${APP_DIR}" diff --cached --q
   echo "Tracked source changes are not committed; refusing to package an untraceable extension." >&2
   exit 1
 fi
-if [[ "${EXPECTED_EXTENSION_VERSION}" != "${EXTENSION_VERSION}" ]]; then
-  echo "Release mismatch: app=${VERSION}, expected extension=${EXPECTED_EXTENSION_VERSION}, extension=${EXTENSION_VERSION}." >&2
+if [[ -z "${VERSION}" || -z "${EXPECTED_DISPLAY_VERSION}" || "${EXPECTED_DISPLAY_VERSION}" != "${EXTENSION_DISPLAY_VERSION}" ]]; then
+  echo "Extension release mismatch: release=${VERSION}, expected display=${EXPECTED_DISPLAY_VERSION}, manifest display=${EXTENSION_DISPLAY_VERSION}." >&2
   exit 1
 fi
 

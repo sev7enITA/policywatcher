@@ -2,12 +2,13 @@ import type { CSSProperties } from 'react';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { POLICYWATCHER_RELEASE_NAME, POLICYWATCHER_VERSION } from '@/lib/release';
 import styles from './showcase.module.css';
 
 export const metadata: Metadata = {
-  title: 'PolicyWatcher 3.6.3 Guided Evidence Workflows Showcase',
+  title: `PolicyWatcher ${POLICYWATCHER_VERSION} ${POLICYWATCHER_RELEASE_NAME} Showcase`,
   description:
-    'PolicyWatcher 3.6.3: objective-based evidence-module composition, five-stage bulk source onboarding, public evidence gates, Dataset QA and admin controls.',
+    'PolicyWatcher native dashboard intelligence: validated composition, canonical KPIs, truthful trends, evidence-first data sources, provenance-aware export and accessible charts.',
 };
 
 const topNav = [
@@ -39,9 +40,9 @@ const atlasPanels = [
   {
     code: 'ANALYSIS',
     title: 'Risk and KPI analysis',
-    body: 'Existing analysis fields are shown as score, risk level, KPI values, regional impact and explanation text.',
-    details: ['Risk trend', 'Heatmap', 'Radar benchmark', 'KPI matrix', 'Region impact', 'Executive PDF'],
-    metric: 'Displayed analysis fields',
+    body: 'Canonical KPI semantics, real snapshot-version trends and evidence provenance keep analysis fields consistent across APIs, charts and exports.',
+    details: ['Truthful trend', 'Chart summary', 'KPI catalog', 'KPI matrix', 'Region impact', 'View export'],
+    metric: 'Validated analysis contracts',
     accent: '#fb923c',
   },
   {
@@ -56,15 +57,17 @@ const atlasPanels = [
 
 const signalTiles = [
   { name: 'Timeline', tag: 'Change rows', visual: 'pulse', metric: 'Filters', copy: 'Uses the changes API to list available change records with filters by company, sector, risk and date.' },
-  { name: 'Risk trend', tag: 'Score rows', visual: 'trend', metric: 'Trend endpoint', copy: 'Plots available score records for a selected company or policy scope.' },
+  { name: 'Risk trend', tag: 'Public score rows', visual: 'trend', metric: 'Snapshot provenance', copy: 'Plots evidence-gated score records, distinguishes observation sequence from the real snapshot version, and includes an accessible table.' },
   { name: 'Region heatmap', tag: 'Region impact', visual: 'map', metric: 'Region fields', copy: 'Shows regional impact data when RegionImpact rows are present.' },
   { name: 'Benchmark radar', tag: 'Sector comparison', visual: 'radar', metric: 'Current dataset', copy: 'Compares a company view against values calculated from companies in the same dataset.' },
-  { name: 'KPI matrix', tag: 'KPI fields', visual: 'matrix', metric: 'Matrix endpoint', copy: 'Displays KPI values already available on policy change records.' },
+  { name: 'KPI matrix', tag: 'Canonical KPI fields', visual: 'matrix', metric: 'Shared catalog', copy: 'Uses one field-specific vocabulary and concern order across normalization, audit and the public matrix.' },
   { name: 'Executive PDF', tag: 'Report route', visual: 'report', metric: 'PDF output', copy: 'Generates a report from the selected policy and its available analysis fields.' },
 ];
 
 const heroTelemetry = [
-  ['Objective composer', 'Guides first use and previews a stack assembled from registered dashboard evidence modules, with Source QA pinned.'],
+  ['Validated dashboard grammar', 'Composes goal-specific workspaces from immutable allowlisted modules with deterministic IDs and Source QA pinned.'],
+  ['Evidence-first data registry', 'Declares endpoint, query scope, freshness, visibility, public-evidence gate and limitations before a dashboard source can load.'],
+  ['View/export parity', 'Uses the same filtered view model for the visible company list and CSV export, including a provenance manifest.'],
   ['Bulk source onboarding', 'Moves validated candidates through official review, private baseline, QA, and an explicit publication decision.'],
   ['Dataset QA', 'Checks URL hygiene, source evidence, hash consistency, timestamps, KPI fields, regional impact coverage and subscriber hygiene.'],
   ['Retrieval evidence', 'Documents direct fetch, HTTP/2, VPS-rendered fetch, archive fallback, source failures and strategy escalation without inventing data.'],
@@ -342,7 +345,7 @@ export default function ShowcasePage() {
             <Image src="/logo-mark.png" alt="" width={42} height={42} className={styles.logo} priority />
             <span>
               <strong>PolicyWatcher</strong>
-              <small>Release 3.6.3 Adaptive Workspace overview</small>
+              <small>Release {POLICYWATCHER_VERSION} {POLICYWATCHER_RELEASE_NAME}</small>
             </span>
         </Link>
 
@@ -362,7 +365,7 @@ export default function ShowcasePage() {
         <div className={styles.heroCopy}>
           <span className={styles.eyebrow}>
             <SignalMark />
-            PolicyWatcher 3.6.3 Adaptive Workspace
+            PolicyWatcher {POLICYWATCHER_VERSION} {POLICYWATCHER_RELEASE_NAME}
           </span>
           <h1>
             <span>PolicyWatcher</span>
@@ -371,9 +374,9 @@ export default function ShowcasePage() {
           </h1>
           <p>
             This page describes what the current platform exposes: public
-            dashboard views, change views, analysis fields, dataset QA checks,
-            retrieval evidence, source suspension logic, Trust & Quality
-            evidence, admin tools and report outputs.
+            dashboard contracts, change views, canonical analysis fields,
+            provenance-aware exports, dataset QA checks, retrieval evidence,
+            source suspension logic, Trust & Quality evidence and admin tools.
           </p>
           <div className={styles.heroActions}>
             <Link href="/" className={styles.primaryAction}>
@@ -510,7 +513,7 @@ export default function ShowcasePage() {
         <div className={styles.adminIntro}>
           <div>
             <span className={styles.sectionKicker}>Administrative tools</span>
-            <h2>Admin functions available across the 3.6.3 Adaptive Workspace and Confidence track.</h2>
+            <h2>Admin functions available across the {POLICYWATCHER_VERSION} dashboard intelligence and confidence track.</h2>
             <p>
             The admin area includes login, metrics, company and policy
               management, dataset QA, KPI audit, explainability, cron status,
@@ -618,7 +621,7 @@ export default function ShowcasePage() {
       </section>
 
       <footer className={styles.footer}>
-        <span>PolicyWatcher 3.6.3 Adaptive Workspace</span>
+        <span>PolicyWatcher {POLICYWATCHER_VERSION} {POLICYWATCHER_RELEASE_NAME}</span>
         <div>
           <Link href="/privacy">Privacy</Link>
           <Link href="/security">Security</Link>

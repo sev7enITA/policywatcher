@@ -6,6 +6,7 @@
 
 import Papa from 'papaparse';
 import type { Company, Policy, Lang } from '@/types';
+import type { DashboardViewManifest, DashboardViewModel } from './dashboardViewModel';
 
 // -- CSV Export --
 
@@ -14,7 +15,7 @@ import type { Company, Policy, Lang } from '@/types';
  * Each row represents the latest change for one policy of one company,
  * including AI governance indicators and per-region risk levels.
  */
-interface CSVRow {
+export interface CSVRow {
   Company: string;
   Industry: string;
   Policy: string;
@@ -34,10 +35,42 @@ interface CSVRow {
   RegionGlobal_Enterprise_Risk: string;
 }
 
-/**
- * Flattens company data into a CSV-ready table and triggers browser download.
- */
-export function exportToCSV(companies: Company[], filename: string = 'policywatcher-export'): void {
+export interface DashboardExportManifest extends DashboardViewManifest {
+  generatedAt: string;
+  policyWatcherRelease: string;
+  language: Lang;
+  rowCount: number;
+}
+
+export interface DashboardCSVRow {
+  RecordType: 'manifest' | 'policy';
+  Company: string;
+  Industry: string;
+  Policy: string;
+  Jurisdiction: string;
+  OverallRisk: string;
+  OverallScore: number | '';
+  Date: string;
+  AITrainingOptOut: string;
+  AIDataScraping: string;
+  AIIpLicensing: string;
+  AIPromptRetention: string;
+  RegionEU_Individual_Risk: string;
+  RegionEU_Enterprise_Risk: string;
+  RegionUS_Individual_Risk: string;
+  RegionUS_Enterprise_Risk: string;
+  RegionGlobal_Individual_Risk: string;
+  RegionGlobal_Enterprise_Risk: string;
+  ManifestJSON: string;
+}
+
+export interface DashboardCsvArtifact {
+  csv: string;
+  manifest: DashboardExportManifest;
+  rows: DashboardCSVRow[];
+}
+
+export function buildCompanyCsvRows(companies: readonly Company[]): CSVRow[] {
   const rows: CSVRow[] = [];
 
   for (const company of companies) {
@@ -74,9 +107,74 @@ export function exportToCSV(companies: Company[], filename: string = 'policywatc
     }
   }
 
-  const csv = Papa.unparse(rows);
+  return rows;
+}
+
+/**
+ * Flattens company data into a CSV-ready table and triggers browser download.
+ */
+export function exportToCSV(companies: Company[], filename: string = 'policywatcher-export'): void {
+  const csv = Papa.unparse(buildCompanyCsvRows(companies));
   const timestamped = `${filename}-${new Date().toISOString().slice(0, 10)}`;
   triggerDownload(csv, `${timestamped}.csv`, 'text/csv;charset=utf-8;');
+}
+
+/** Builds a provenance-rich CSV from the exact dashboard view shown on screen. */
+export function buildDashboardCsvArtifact(
+  view: DashboardViewModel,
+  options: { generatedAt: string; policyWatcherRelease: string; language: Lang }
+): DashboardCsvArtifact {
+  const policyRows = buildCompanyCsvRows(view.companies);
+  const manifest: DashboardExportManifest = {
+    ...view.manifest,
+    ...options,
+    rowCount: policyRows.length,
+  };
+  const emptyPolicyColumns = {
+    Company: '',
+    Industry: '',
+    Policy: '',
+    Jurisdiction: '',
+    OverallRisk: '',
+    OverallScore: '' as const,
+    Date: '',
+    AITrainingOptOut: '',
+    AIDataScraping: '',
+    AIIpLicensing: '',
+    AIPromptRetention: '',
+    RegionEU_Individual_Risk: '',
+    RegionEU_Enterprise_Risk: '',
+    RegionUS_Individual_Risk: '',
+    RegionUS_Enterprise_Risk: '',
+    RegionGlobal_Individual_Risk: '',
+    RegionGlobal_Enterprise_Risk: '',
+  };
+  const rows: DashboardCSVRow[] = [
+    {
+      RecordType: 'manifest',
+      ...emptyPolicyColumns,
+      ManifestJSON: JSON.stringify(manifest),
+    },
+    ...policyRows.map((row): DashboardCSVRow => ({
+      RecordType: 'policy',
+      ...row,
+      ManifestJSON: '',
+    })),
+  ];
+
+  return { csv: Papa.unparse(rows), manifest, rows };
+}
+
+export function exportDashboardViewToCSV(
+  view: DashboardViewModel,
+  options: { policyWatcherRelease: string; language: Lang },
+  filename: string = 'policywatcher-dashboard-export'
+): DashboardExportManifest {
+  const generatedAt = new Date().toISOString();
+  const artifact = buildDashboardCsvArtifact(view, { ...options, generatedAt });
+  const timestamped = `${filename}-${generatedAt.slice(0, 10)}`;
+  triggerDownload(artifact.csv, `${timestamped}.csv`, 'text/csv;charset=utf-8;');
+  return artifact.manifest;
 }
 
 // -- PDF Report Data --

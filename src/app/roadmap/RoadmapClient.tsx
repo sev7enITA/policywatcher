@@ -19,6 +19,7 @@ import {
   SlidersHorizontal,
   Users,
 } from 'lucide-react';
+import { POLICYWATCHER_RELEASE_NAME, POLICYWATCHER_VERSION } from '@/lib/release';
 import styles from './roadmap.module.css';
 
 type GoalId = 'citizen' | 'governance' | 'research' | 'builder';
@@ -324,6 +325,13 @@ const releaseLanes = [
     title: 'Mobile Inquiry Reliability',
     body:
       'One-action mobile notification intake, realistic company extraction, truthful persistence receipts, visible admin queue count and privacy-minimized operator alerts.',
+    state: 'delivered',
+  },
+  {
+    label: POLICYWATCHER_VERSION,
+    title: POLICYWATCHER_RELEASE_NAME,
+    body:
+      'Validated native dashboard grammar, canonical KPI semantics, truthful snapshot-version trends, typed cross-filter actions, evidence-first data registry, UI/export parity, deterministic responsive layout and accessible chart fallbacks without adding a second runtime stack.',
     state: 'current',
   },
   {

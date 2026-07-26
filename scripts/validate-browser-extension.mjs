@@ -6,8 +6,10 @@ import { join } from 'node:path';
 const root = process.cwd();
 const extensionDir = join(root, 'browser-extension');
 const manifest = JSON.parse(readFileSync(join(extensionDir, 'manifest.json'), 'utf8'));
-const appPackage = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
-const prerelease = appPackage.version.match(/^(\d+\.\d+\.\d+)-beta\.(\d+)$/);
+const releaseMetadata = readFileSync(join(root, 'src/lib/release.ts'), 'utf8');
+const configuredDisplayVersion = releaseMetadata.match(
+  /POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION\s*=\s*'([^']+)'/
+)?.[1];
 const extensionPrerelease = manifest.version_name?.match(/^(\d+\.\d+\.\d+) Beta (\d+)$/);
 
 function assert(condition, message) {
@@ -43,18 +45,13 @@ for (const file of runtimeFiles) {
 }
 
 assert(manifest.manifest_version === 3, 'The extension must use Manifest V3');
-assert(prerelease, 'PolicyWatcher extension packages require a numbered beta prerelease');
+assert(configuredDisplayVersion, 'Central browser-extension display version is missing');
 assert(extensionPrerelease, 'Beta extension version_name must identify its numbered beta');
-const [, baseVersion, appBetaNumber] = prerelease;
 const [, extensionBaseVersion, extensionBetaNumber] = extensionPrerelease;
-assert(extensionBaseVersion === baseVersion, 'Extension and application base versions must match');
+assert(manifest.version_name === configuredDisplayVersion, 'Manifest and central extension versions must match');
 assert(
   manifest.version === `${extensionBaseVersion}.${extensionBetaNumber}`,
   'Extension numeric version must match its displayed beta version'
-);
-assert(
-  Number(extensionBetaNumber) <= Number(appBetaNumber),
-  'Extension beta cannot be newer than the application beta'
 );
 assert(sameMembers(manifest.permissions, ['activeTab', 'scripting']), 'Permissions must be exactly activeTab and scripting');
 assert(sameMembers(manifest.host_permissions, ['https://www.policywatcher.online/*']), 'Host permission must be limited to policywatcher.online');

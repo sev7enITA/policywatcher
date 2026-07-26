@@ -28,6 +28,7 @@ import {
 import Image from 'next/image';
 import styles from './CrossCompanyMatrix.module.css';
 import { getJustification, SCREENING_DATE, staticKpiJustificationsEnabled } from '@/lib/kpi-justifications';
+import { loadPublicDataSource } from '@/lib/dataSourceRegistry';
 
 /* =============================================
    Types
@@ -335,17 +336,8 @@ export default function CrossCompanyMatrix({ isOpen, onClose, lang }: CrossCompa
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/matrix');
-      if (res.ok) {
-        const result: MatrixResponse = await res.json();
-        setData(result.companies);
-      } else {
-        setError(
-          lang === 'it'
-            ? 'Impossibile recuperare i dati della matrice.'
-            : 'Failed to fetch matrix data.'
-        );
-      }
+      const result = await loadPublicDataSource<MatrixResponse>('kpiMatrix');
+      setData(result.data.companies);
     } catch (err) {
       console.error('Error fetching matrix:', err);
       setError(

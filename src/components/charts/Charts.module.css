@@ -1,6 +1,7 @@
 /* Charts.module.css - Shared chart styles */
 
 .chartCard {
+  margin: 0;
   background: #ffffff;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -10,6 +11,115 @@
   position: relative;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.chartFrameEmbedded {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.chartFrameEmbedded::before {
+  display: none;
+}
+
+.chartFrameHeader .chartTitle {
+  margin-bottom: 6px;
+}
+
+.chartDescription,
+.chartTextSummary {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.chartDescription {
+  margin: 0 0 10px;
+}
+
+.chartTextSummary {
+  margin: 0 0 12px;
+  padding: 9px 11px;
+  border-left: 3px solid var(--chart-primary, #6366f1);
+  border-radius: 0 8px 8px 0;
+  background: var(--bg-secondary);
+}
+
+.chartVisual {
+  min-width: 0;
+}
+
+.chartDataDisclosure {
+  margin-top: 12px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 10px;
+}
+
+.chartDataDisclosure summary {
+  color: var(--text-body);
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.chartTableScroller {
+  margin-top: 10px;
+  overflow-x: auto;
+}
+
+.chartDataTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+  text-align: left;
+}
+
+.chartDataTable th,
+.chartDataTable td {
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--border-subtle);
+  white-space: nowrap;
+}
+
+.chartDataTable th {
+  color: var(--text-main);
+  background: var(--bg-secondary);
+  font-weight: 700;
+}
+
+.chartDataTable td {
+  color: var(--text-muted);
+}
+
+.chartProvenance {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+
+.chartProvenance ul {
+  margin: 3px 0 0 18px;
+}
+
+.visuallyHidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 .chartCard::before {

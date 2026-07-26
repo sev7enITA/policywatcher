@@ -43,14 +43,16 @@ describe('first-visit Workspace Active wiring', () => {
     expect(dashboard).toContain('WORKSPACE_ONBOARDING_COMPLETED_KEY');
     expect(dashboard).toContain("JSON.stringify({ completed: true })");
     expect(dashboard).toContain('hasCompletedWorkspaceOnboarding(');
-    expect(dashboard).toContain('if (onboardingCompleted && savedIntent && savedDepth)');
+    expect(dashboard).toContain('parseWorkspaceProfile(');
+    expect(dashboard).toContain('if (onboardingCompleted && saved)');
   });
 
   it('keeps URL presets authoritative without marking onboarding complete', () => {
-    expect(dashboard).toContain('if (hasWorkspaceParams)');
+    expect(dashboard).toContain('decodeWorkspaceQuery(window.location.search)');
+    expect(dashboard).toContain('if (queryProfile.hasWorkspaceParams)');
     expect(dashboard).toContain('shouldOpenFirstUse = false');
-    expect(dashboard).toContain('nextIntent = intentFromUrl ?? nextIntent');
-    expect(dashboard).not.toMatch(/if \(hasWorkspaceParams\)[\s\S]{0,500}localStorage\.setItem\(WORKSPACE_ONBOARDING_COMPLETED_KEY/);
+    expect(dashboard).toContain('nextIntent = queryProfile.intent ?? nextIntent');
+    expect(dashboard).not.toMatch(/if \(queryProfile\.hasWorkspaceParams\)[\s\S]{0,500}localStorage\.setItem\(WORKSPACE_ONBOARDING_COMPLETED_KEY/);
   });
 
   it('reveals one decision at a time and previews quick access before applying', () => {
