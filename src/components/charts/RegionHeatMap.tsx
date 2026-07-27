@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import type { Lang, RegionImpact, RiskLevel } from '@/types';
+import React, { useId, useState } from 'react';
+import type { Lang, Perspective, Region, RegionImpact, RiskLevel } from '@/types';
 import {
   REGION_HEAT_MAP_CHART_SPEC,
   localizedChartText,
@@ -13,7 +13,9 @@ import styles from './Charts.module.css';
 interface RegionHeatMapProps {
   regionImpacts: RegionImpact[];
   lang: Lang;
-  onCellSelect?: (region: string, perspective: string) => void;
+  selectedRegion?: Region;
+  selectedPerspective?: Perspective;
+  onCellSelect?: (region: Region, perspective: Perspective) => void;
 }
 
 const REGIONS = ['EU', 'US', 'Global'] as const;
@@ -60,9 +62,12 @@ function buildAccessibleTable(
 export default function RegionHeatMap({
   regionImpacts,
   lang,
+  selectedRegion,
+  selectedPerspective,
   onCellSelect,
 }: RegionHeatMapProps) {
-  const [selected, setSelected] = useState<string | null>(null);
+  const [localSelection, setLocalSelection] = useState<string | null>(null);
+  const selectionPanelId = `region-impact-selection-${useId().replace(/:/g, '')}`;
   const spec = REGION_HEAT_MAP_CHART_SPEC;
   const noData = lang === 'it' ? 'Non valutato' : 'Not assessed';
   const impactByCell = new Map(
@@ -75,9 +80,15 @@ export default function RegionHeatMap({
     })
   );
 
-  const handleClick = (region: string, perspective: string) => {
+  const controlledSelection = selectedRegion && selectedPerspective
+    ? `${selectedRegion}-${selectedPerspective}`
+    : null;
+  const selected = controlledSelection || localSelection;
+  const selectedImpact = selected ? impactByCell.get(selected) : undefined;
+
+  const handleClick = (region: Region, perspective: Perspective) => {
     const key = `${region}-${perspective}`;
-    setSelected((current) => current === key ? null : key);
+    setLocalSelection(key);
     onCellSelect?.(region, perspective);
   };
 
@@ -123,6 +134,7 @@ export default function RegionHeatMap({
                   title={lang === 'it' ? impact.impactAnalysisIt : impact.impactAnalysisEn}
                   aria-pressed={selected === key}
                   aria-label={label}
+                  aria-controls={selectionPanelId}
                 >
                   {riskLabels[lang][impact.riskLevel]}
                 </button>
@@ -130,6 +142,34 @@ export default function RegionHeatMap({
             })}
           </React.Fragment>
         ))}
+      </div>
+      <div
+        id={selectionPanelId}
+        className={styles.chartSelectionInspector}
+        role="region"
+        aria-live="polite"
+        aria-label={lang === 'it' ? 'Dettaglio contesto regionale selezionato' : 'Selected regional context detail'}
+      >
+        {selectedImpact ? (
+          <>
+            <div className={styles.chartSelectionHeading}>
+              <span>{selectedImpact.region} / {perspectiveLabels[lang][selectedImpact.perspective]}</span>
+              <strong>{riskLabels[lang][selectedImpact.riskLevel]}</strong>
+            </div>
+            <p>{lang === 'it' ? selectedImpact.impactAnalysisIt : selectedImpact.impactAnalysisEn}</p>
+            {(lang === 'it' ? selectedImpact.complianceNoteIt : selectedImpact.complianceNoteEn) && (
+              <small>
+                {lang === 'it' ? selectedImpact.complianceNoteIt : selectedImpact.complianceNoteEn}
+              </small>
+            )}
+          </>
+        ) : (
+          <p>
+            {lang === 'it'
+              ? 'Seleziona una cella valutata per ispezionare il contesto. Le celle mancanti restano Non valutato.'
+              : 'Select an assessed cell to inspect its context. Missing cells remain Not assessed.'}
+          </p>
+        )}
       </div>
     </AccessibleChartFrame>
   );

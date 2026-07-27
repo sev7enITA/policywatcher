@@ -15,7 +15,7 @@
  */
 'use client';
 
-import { BarChart3, ShieldCheck, FileText, Lock, Mail, ExternalLink, Sparkles, Cpu, Newspaper, GitFork, Search, UserRound } from 'lucide-react';
+import { BarChart3, ShieldCheck, FileText, Lock, Mail, ExternalLink, Sparkles, Cpu, Newspaper, GitFork, Search, UserRound, Network } from 'lucide-react';
 import { POLICYWATCHER_BUILD_LABEL, POLICYWATCHER_VERSION } from '@/lib/release';
 import styles from './Footer.module.css';
 
@@ -40,6 +40,7 @@ const content = {
     showcase: 'Showcase',
     observatory: 'Observatory',
     atlas: 'Site Atlas',
+    featureAtlas: 'Feature Intelligence Atlas',
     leaderboard: 'Policy Signals',
     roadmap: 'Community Roadmap',
     press: 'Press Wall',
@@ -64,6 +65,7 @@ const content = {
     showcase: 'Vetrina',
     observatory: 'Observatory',
     atlas: 'Atlante del sito',
+    featureAtlas: 'Atlante delle funzionalità',
     leaderboard: 'Segnali policy',
     roadmap: 'Roadmap community',
     press: 'Press wall',
@@ -110,12 +112,7 @@ export default function Footer({ lang }: FooterProps) {
                 </a>
               </li>
               <li>
-                <a href="#terms-gate" onClick={() => {
-                  if (typeof window !== 'undefined') {
-                    localStorage.removeItem('policywatcher_terms_accepted_v2');
-                    window.location.reload();
-                  }
-                }}>
+                <a href="/terms">
                   <FileText size={14} />
                   {t.terms}
                 </a>
@@ -162,6 +159,12 @@ export default function Footer({ lang }: FooterProps) {
                 <a href="/atlas">
                   <GitFork size={14} />
                   {t.atlas}
+                </a>
+              </li>
+              <li>
+                <a href="/feature-atlas">
+                  <Network size={14} />
+                  {t.featureAtlas}
                 </a>
               </li>
               <li>

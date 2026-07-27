@@ -55,6 +55,9 @@ describe('accessible ChartSpec wiring', () => {
     expect(heatMap).toContain('visualAriaHidden={false}');
     expect(heatMap).toContain('styles.heatMapCellMissing');
     expect(heatMap).toContain('buildAccessibleTable');
+    expect(heatMap).toContain('chartSelectionInspector');
+    expect(heatMap).toContain('aria-controls={selectionPanelId}');
+    expect(policyDetails).toContain('onCellSelect={onContextChange}');
   });
 
   it('routes company benchmarks through keyed radar data and the shared frame', () => {
@@ -65,5 +68,11 @@ describe('accessible ChartSpec wiring', () => {
     expect(benchmark).toContain('dataKey={spec.fields.series}');
     expect(compare).toContain('<BenchmarkRadarChart first={profileA} second={profileB} lang={lang} />');
     expect(compare).not.toContain('<RadarChart');
+    expect(benchmark).toContain('selectBenchmarkKpiDrilldown');
+    expect(benchmark).toContain('visualAriaHidden={false}');
+    expect(benchmark).toContain('minWidth={0} minHeight={0}');
+    expect(benchmark).toContain('benchmarkDrilldownControls');
+    expect(benchmark).toContain('aria-pressed={selectedKey === point.key}');
+    expect(benchmark).toContain('not compliance or performance measurements');
   });
 });

@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import styles from './confidence.module.css';
 import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
 import { POLICYWATCHER_VERSION } from '@/lib/release';
 
 const translationContent = {
@@ -249,6 +250,7 @@ export default function MethodologyConfidence() {
 
   return (
     <div className={styles.container}>
+      <PublicHeader current="methodology" lang={lang} />
       <header className={styles.header}>
         <div className={styles.headerContent}>
           <Link href="/" className={styles.backBtn}>

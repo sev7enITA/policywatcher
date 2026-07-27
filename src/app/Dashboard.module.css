@@ -811,11 +811,78 @@
   position: relative;
 }
 
+.shareViewBtn {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 650;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.shareViewBtn:hover,
+.shareViewBtn:focus-visible {
+  border-color: var(--border-color-active);
+  background: var(--primary-glow);
+  color: var(--primary);
+}
+
+.shareStatus {
+  position: fixed;
+  z-index: 1600;
+  top: 84px;
+  right: 18px;
+  max-width: min(360px, calc(100vw - 32px));
+  padding: 10px 13px;
+  border: 1px solid rgba(15, 118, 110, 0.3);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #115e59;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.14);
+  font-size: 0.78rem;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.shareStatus:empty {
+  display: none;
+}
+
 .filterToggleBtn:hover,
 .filterToggleBtnActive {
   border-color: var(--border-color-active);
   color: var(--primary);
   background: var(--primary-glow);
+}
+
+@media (max-width: 520px) {
+  .shareViewBtn {
+    width: 42px;
+    min-width: 42px;
+    min-height: 42px;
+    padding: 0;
+  }
+
+  .shareViewBtn span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .shareStatus {
+    top: 68px;
+    right: 12px;
+  }
 }
 
 .filterBadge {
@@ -2840,7 +2907,8 @@
   box-shadow: 0 0 0 3px var(--dashboard-accent-soft);
 }
 
-.filterToggleBtn {
+.filterToggleBtn,
+.shareViewBtn {
   border-radius: 7px;
   border-color: var(--console-line);
   background: rgba(248, 250, 252, 0.72);

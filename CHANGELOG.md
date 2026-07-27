@@ -1,5 +1,33 @@
 # Changelog
 
+## Unreleased
+
+### Cross-site public alignment
+- Removed the nonexistent `/review-request` route from public navigation and capability metadata, routing evidence inquiries through the existing `What changed?` workflow instead.
+- Centralized the bilingual public-analysis disclaimer and reused it across change, share, comparison and PDF report surfaces without a stale release label.
+- Centralized the separately versioned browser-extension Beta state, aligned public availability copy and kept it distinct from the web application release.
+- Applied the shared public header and footer across compatible editorial, reference and data-driven pages while preserving local navigation, legal dates, historical press dates and evidence-derived timestamps.
+- Marked the 5 July State of the Art report as a historical snapshot, updated Security to current build metadata, exposed leaderboard snapshot generation time and centralized Observatory verification metadata.
+
+### Public guidance and Observatory freshness
+- Aligned the Roadmap, Showcase, infographics, bilingual nine-step How To tour, README and native dashboard user guide with canonical share links and coordinated regional/KPI evidence drill-down.
+- Added the two delivered `3.9.0-beta.2` capabilities to the release-impact and Feature Atlas datasets with route, dependency, benefit, evidence, KPI, KRI and limitation metadata while keeping one current release marker.
+- Replaced generic Observatory placeholders with source-specific European Commission, EDPB, FTC and ICO signals, direct official links and a visible `verified 27 July 2026` freshness boundary.
+- Ordered upcoming Observatory review dates before overdue work while retaining `Review due` items and preserving safe ICS generation.
+
+### Coordinated evidence drill-down
+- Connected regional matrix selection to the typed dashboard action graph so region and audience context update atomically and produce one canonical browser-history entry.
+- Added committed, textual regional evidence inspection with exact risk, impact analysis and available compliance note while preserving the complete accessible table.
+- Added KPI-level radar inspection with original assessments, normalized values, explicit missing/tie outcomes and an unambiguous boundary that normalized ordinal values are not compliance or performance measurements.
+- Kept both interactions keyboard- and screen-reader-operable, exposed a mobile single-column inspector and verified desktop/mobile behavior without horizontal page overflow.
+
+### Shareable evidence views
+- Added a versioned, typed dashboard URL codec for industry, risk, region, audience, time range, search, sort and language while preserving workspace intent/depth and unrelated route parameters.
+- Added a visible `Copy view` action and Command Palette command so a configured evidence view can be shared without reconstructing filters.
+- Made committed filter changes create browser-history entries, search updates replace the current entry and back/forward restore the matching controls and evidence view.
+- Invalid or stale link values now fail closed to public defaults, preserve valid fields and surface a localized normalization notice.
+- Added keyboard/screen-reader state to filter disclosures and selector groups, deterministic codec tests and desktop/mobile browser verification.
+
 ## 3.9.0-beta.2 - 2026-07-26
 
 ### Regional and benchmark visualization governance

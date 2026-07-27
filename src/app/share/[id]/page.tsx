@@ -18,6 +18,7 @@ import { publicPolicyWhere } from '@/lib/publicDataGate';
 import { ShieldAlert, TrendingUp, Globe, FileDown, ExternalLink, AlertTriangle } from 'lucide-react';
 import styles from './share.module.css';
 import type { Metadata } from 'next';
+import { PUBLIC_ANALYSIS_DISCLAIMER_COMPACT } from '@/lib/publicAnalysisDisclaimer';
 
 interface SharePageProps {
   params: Promise<{ id: string }>;
@@ -139,8 +140,7 @@ export default async function SharePage({ params, searchParams }: SharePageProps
     official: isIt ? 'Visita il sito ufficiale' : 'Visit official site',
     screening: isIt ? 'Screening' : 'Screening',
     disclaimerTitle: isIt ? 'Disclaimer' : 'Disclaimer',
-    disclaimer:
-      'CONFIDENCE RELEASE v3.5: AI-assisted assessment of publicly available policy texts. Not legal advice. Not a compliance certification. Always consult provider sources and qualified legal counsel.',
+    disclaimer: PUBLIC_ANALYSIS_DISCLAIMER_COMPACT[isIt ? 'it' : 'en'],
     backHome: isIt ? 'Esplora altre aziende' : 'Explore more companies',
     high: isIt ? 'Alto' : 'High',
     medium: isIt ? 'Medio' : 'Medium',

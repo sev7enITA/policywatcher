@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { buildLeaderboard, type LeaderboardRow, type LeaderboardSnapshot } from '@/lib/leaderboard';
 import { getLeaderboardSnapshot } from '@/lib/leaderboardData';
+import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
 import styles from './leaderboard.module.css';
 
 export const dynamic = 'force-dynamic';
@@ -266,7 +268,9 @@ export default async function LeaderboardPage() {
   const topEvidence = snapshot.boards.evidence.slice(0, 3);
 
   return (
-    <main className={styles.page}>
+    <>
+      <PublicHeader current="signals" />
+      <main className={styles.page}>
       <section className={styles.hero}>
         <div className={styles.navLine}>
           <Link href="/" className={styles.brandLink}>
@@ -283,6 +287,9 @@ export default async function LeaderboardPage() {
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy}>
             <span className={styles.eyebrow}>Evidence-only public board</span>
+            <time dateTime={snapshot.generatedAt} className={styles.generatedAt}>
+              Snapshot generated {formatDate(snapshot.generatedAt)}
+            </time>
             <h1>Policy Signals Board</h1>
             <p>
               A leaderboard for observable source coverage, retrieval traceability,
@@ -422,6 +429,8 @@ export default async function LeaderboardPage() {
           ))}
         </div>
       </section>
-    </main>
+      </main>
+      <Footer lang="en" />
+    </>
   );
 }

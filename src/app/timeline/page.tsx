@@ -33,6 +33,8 @@ import {
   IconKpiPrivacy,
   IconShieldScan,
 } from '@/components/icons/PolicyWatcherIcons';
+import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
 
 /* ---------- Types ---------- */
 interface TimelineChange {
@@ -209,6 +211,7 @@ export default function TimelinePage() {
   /* ---------- Render ---------- */
   return (
     <>
+      <PublicHeader current="timeline" />
       {/* Hero */}
       <div className={styles.hero}>
         <h1 className={styles.heroTitle}>Policy Change Archive</h1>
@@ -447,6 +450,7 @@ export default function TimelinePage() {
           </>
         )}
       </div>
+      <Footer lang="en" />
     </>
   );
 }

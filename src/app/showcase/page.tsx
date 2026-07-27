@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { POLICYWATCHER_RELEASE_NAME, POLICYWATCHER_VERSION } from '@/lib/release';
+import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
 import styles from './showcase.module.css';
 
 export const metadata: Metadata = {
@@ -32,16 +34,16 @@ const atlasPanels = [
   {
     code: 'CHANGES',
     title: 'Change views',
-    body: 'When change rows exist in the dataset, the UI shows timelines, diffs, summaries and related metadata.',
-    details: ['Timeline', 'Diff view', 'Change page', 'Share view', 'Embed view', 'OG image'],
+    body: 'When change rows exist, canonical share links preserve the committed dashboard view and browser history restores valid filter state.',
+    details: ['Timeline', 'Diff view', 'Canonical share URL', 'History restore', 'Embed view', 'OG image'],
     metric: 'Dataset-driven views',
     accent: '#a78bfa',
   },
   {
     code: 'ANALYSIS',
     title: 'Risk and KPI analysis',
-    body: 'Canonical KPI semantics, real snapshot-version trends and evidence provenance keep analysis fields consistent across APIs, charts and exports.',
-    details: ['Truthful trend', 'Risk profile', 'Current score', 'Region matrix', 'KPI benchmark', 'View export'],
+    body: 'Canonical KPI semantics, atomic region and audience selection, and an exact-value inspector keep visual drill-downs consistent with the evidence table.',
+    details: ['Truthful trend', 'Risk profile', 'Region + audience', 'KPI inspector', 'Missing and tie states', 'Exact values'],
     metric: 'Validated analysis contracts',
     accent: '#fb923c',
   },
@@ -58,8 +60,8 @@ const atlasPanels = [
 const signalTiles = [
   { name: 'Timeline', tag: 'Change rows', visual: 'pulse', metric: 'Filters', copy: 'Uses the changes API to list available change records with filters by company, sector, risk and date.' },
   { name: 'Risk trend', tag: 'Public score rows', visual: 'trend', metric: 'Snapshot provenance', copy: 'Plots evidence-gated score records, distinguishes observation sequence from the real snapshot version, and includes an accessible table.' },
-  { name: 'Region heatmap', tag: 'Public change evidence', visual: 'map', metric: 'Explicit coverage', copy: 'Shows region and perspective risk with bilingual summary, exact-value table and missing cells kept as Not assessed.' },
-  { name: 'Benchmark radar', tag: 'Evidence-gated comparison', visual: 'radar', metric: 'Keyed KPI dimensions', copy: 'Compares companies or a current sector cohort by canonical KPI key, excludes unassessed values from wins and exposes exact assessments.' },
+  { name: 'Region heatmap', tag: 'Public change evidence', visual: 'map', metric: 'Atomic context action', copy: 'Selecting a cell commits region and audience together, while the bilingual summary and exact-value table keep missing cells as Not assessed.' },
+  { name: 'Benchmark radar', tag: 'Evidence-gated comparison', visual: 'radar', metric: 'KPI value inspector', copy: 'Opens original and normalized values by canonical KPI, makes missing and tie states explicit, and keeps the ordinal comparison separate from compliance or performance claims.' },
   { name: 'KPI matrix', tag: 'Canonical KPI fields', visual: 'matrix', metric: 'Shared catalog', copy: 'Uses one field-specific vocabulary and concern order across normalization, audit and the public matrix.' },
   { name: 'Executive PDF', tag: 'Report route', visual: 'report', metric: 'PDF output', copy: 'Generates a report from the selected policy and its available analysis fields.' },
 ];
@@ -68,6 +70,8 @@ const heroTelemetry = [
   ['Validated dashboard grammar', 'Composes goal-specific workspaces from immutable allowlisted modules with deterministic IDs and Source QA pinned.'],
   ['Evidence-first data registry', 'Declares endpoint, path/query scope, freshness, visibility, public-evidence gate and limitations before a dashboard source can load.'],
   ['View/export parity', 'Uses the same filtered view model for the visible company list and CSV export, including a provenance manifest.'],
+  ['Shareable evidence views', 'Copies a canonical URL for the committed workspace and public filters; private evidence and consent state are excluded.'],
+  ['Coordinated drill-down', 'Connects heatmap region and audience context with radar KPI inspection, explicit missing and tie states, and exact-value fallbacks.'],
   ['Bulk source onboarding', 'Moves validated candidates through official review, private baseline, QA, and an explicit publication decision.'],
   ['Dataset QA', 'Checks URL hygiene, source evidence, hash consistency, timestamps, KPI fields, regional impact coverage and subscriber hygiene.'],
   ['Retrieval evidence', 'Documents direct fetch, HTTP/2, VPS-rendered fetch, archive fallback, source failures and strategy escalation without inventing data.'],
@@ -143,7 +147,7 @@ function HeroInstrument() {
       <div className={styles.instrumentFrame}>
         <div className={styles.instrumentHeader}>
           <span>Feature visual</span>
-          <b>v3.6</b>
+          <b>v{POLICYWATCHER_VERSION}</b>
         </div>
         <div className={styles.instrumentStage}>
           <svg viewBox="0 0 720 460" className={styles.fieldSvg}>
@@ -187,10 +191,10 @@ function HeroInstrument() {
             <small>Admin dataset QA</small>
           </div>
           <div className={styles.instrumentDock}>
-            <span>Diff view</span>
-            <span>Summary field</span>
-            <span>Region view</span>
-            <span>Report route</span>
+            <span>Share view</span>
+            <span>Region drill-down</span>
+            <span>KPI inspector</span>
+            <span>Exact table</span>
           </div>
         </div>
       </div>
@@ -330,7 +334,9 @@ function AdminConsoleArt() {
 
 export default function ShowcasePage() {
   return (
-    <main className={styles.showcase}>
+    <>
+      <PublicHeader current="showcase" />
+      <main className={styles.showcase}>
       <aside className={styles.verticalRail} aria-label="Showcase vertical navigation">
         {topNav.map(([number, label, href]) => (
           <a key={href} href={href}>
@@ -620,7 +626,7 @@ export default function ShowcasePage() {
         </div>
       </section>
 
-      <footer className={styles.footer}>
+      <section className={styles.footer} aria-label="Showcase local links">
         <span>PolicyWatcher {POLICYWATCHER_VERSION} {POLICYWATCHER_RELEASE_NAME}</span>
         <div>
           <Link href="/privacy">Privacy</Link>
@@ -629,7 +635,9 @@ export default function ShowcasePage() {
           <Link href="/press">Press</Link>
           <Link href="/">Platform</Link>
         </div>
-      </footer>
-    </main>
+      </section>
+      <Footer lang="en" />
+      </main>
+    </>
   );
 }

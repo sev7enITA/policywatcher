@@ -3,6 +3,8 @@ import { spawnSync } from 'node:child_process';
 import { describe, expect, it } from 'vitest';
 import {
   POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE,
+  POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATE,
+  POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS,
   POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION,
   POLICYWATCHER_BROWSER_EXTENSION_VERSION,
   POLICYWATCHER_BUILD_LABEL,
@@ -39,6 +41,8 @@ describe('release metadata', () => {
     expect(POLICYWATCHER_BROWSER_EXTENSION_VERSION).toBe('3.8.3-beta.3');
     expect(POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION).toBe('3.8.3 Beta 3');
     expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE).toBe('v3.8.3 Beta 3 · EXTENSION BETA');
+    expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATE).toBe('beta-package-ready');
+    expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS.en).toBe('Beta package ready · store submission planned');
 
     const typedChannel: PolicyWatcherReleaseChannel = POLICYWATCHER_RELEASE_CHANNEL;
     expect(typedChannel).toBe('beta');

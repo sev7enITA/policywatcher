@@ -119,6 +119,10 @@ function UnsubscribeContent() {
             </Link>
           </form>
         )}
+        <nav style={legalLinksStyle} aria-label="Legal links">
+          <Link href="/privacy">Privacy</Link>
+          <Link href="/terms">Terms of Use</Link>
+        </nav>
       </div>
     </div>
   );
@@ -161,6 +165,16 @@ const cardStyle: React.CSSProperties = {
   boxSizing: 'border-box',
   display: 'flex',
   flexDirection: 'column',
+};
+
+const legalLinksStyle: React.CSSProperties = {
+  display: 'flex',
+  justifyContent: 'center',
+  gap: '18px',
+  marginTop: '24px',
+  paddingTop: '18px',
+  borderTop: '1px solid #e2e8f0',
+  fontSize: '0.82rem',
 };
 
 const headerStyle: React.CSSProperties = {

@@ -7,6 +7,10 @@ import {
   Link2, LockKeyhole, Monitor, Puzzle, ShieldCheck,
 } from 'lucide-react';
 import type { BrowserExtensionStoreLinks } from '@/lib/browserExtensionStores';
+import {
+  POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE,
+  POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS,
+} from '@/lib/release';
 import styles from './browserExtension.module.css';
 import { useState } from 'react';
 
@@ -33,7 +37,7 @@ const copy = {
     chromeBody: 'Estensione Manifest V3 per browser desktop basati su Chromium.',
     edgeBody: 'La stessa base verificata, distribuita tramite Microsoft Edge Add-ons.',
     safariBody: 'Richiede firma del publisher e pacchetto App Store tramite Safari Web Extension.',
-    install: 'Installa dallo store', pending: 'Pacchetto Beta pronto · invio allo store pianificato', safariNote: 'La sorgente Safari non equivale a un’app installabile. La disponibilità mobile verrà dichiarata solo dopo firma e revisione App Store.',
+    install: 'Installa dallo store', safariNote: 'La sorgente Safari non equivale a un’app installabile. La disponibilità mobile verrà dichiarata solo dopo firma e revisione App Store.',
     fallback: 'Stai usando il telefono o lo store non è ancora disponibile?', fallbackBody: 'Incolla il testo visibile: i link nascosti non saranno inclusi, ma PolicyWatcher può usare le fonti già monitorate o aprire una richiesta minima di discovery e QA.', fallbackAction: 'Continua con il copia-incolla',
     privacy: 'Privacy', methodology: 'Metodo e limiti', legal: 'Non è consulenza legale.',
   },
@@ -57,7 +61,7 @@ const copy = {
     chromeBody: 'Manifest V3 extension for Chromium-based desktop browsers.',
     edgeBody: 'The same reviewed codebase, distributed through Microsoft Edge Add-ons.',
     safariBody: 'Requires publisher signing and App Store packaging as a Safari Web Extension.',
-    install: 'Install from store', pending: 'Beta package ready · store submission planned', safariNote: 'Safari source is not an installable app. Mobile availability will be stated only after App Store signing and review.',
+    install: 'Install from store', safariNote: 'Safari source is not an installable app. Mobile availability will be stated only after App Store signing and review.',
     fallback: 'On a phone or is the store not available yet?', fallbackBody: 'Paste the visible text: hidden links will not be included, but PolicyWatcher can use monitored sources or open a minimized discovery and QA request.', fallbackAction: 'Continue with copy and paste',
     privacy: 'Privacy', methodology: 'Method and limits', legal: 'Not legal advice.',
   },
@@ -84,7 +88,7 @@ export default function BrowserExtensionClient({ storeLinks }: { storeLinks: Bro
     </section>
 
     <section className={styles.betaNotice} role="note" aria-labelledby="beta-status-title">
-      <span>BETA</span>
+      <span>{POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE}</span>
       <div><h2 id="beta-status-title">{t.betaTitle}</h2><p>{t.betaBody}</p></div>
       <p className={styles.betaBoundary}><LockKeyhole aria-hidden="true" />{t.betaBoundary}</p>
     </section>
@@ -105,7 +109,7 @@ export default function BrowserExtensionClient({ storeLinks }: { storeLinks: Bro
       <div className={styles.storeList}>{stores.map(({ id, name, body, icon: Icon }) => <article key={id}>
         <Icon aria-hidden="true" /><div><h3>{name}</h3><p>{body}</p>{storeLinks[id]
           ? <a href={storeLinks[id]!} target="_blank" rel="noopener noreferrer">{t.install}<ExternalLink aria-hidden="true" /></a>
-          : <strong><span aria-hidden="true" />{t.pending}</strong>}
+          : <strong><span aria-hidden="true" />{POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS[lang]}</strong>}
           {id === 'safari' && <small>{t.safariNote}</small>}
         </div>
       </article>)}</div>

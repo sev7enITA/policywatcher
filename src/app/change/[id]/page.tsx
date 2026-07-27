@@ -37,6 +37,7 @@ import EmbedModal from '@/components/EmbedModal';
 import styles from './change.module.css';
 import type { Metadata } from 'next';
 import { publicChangeWhere } from '@/lib/publicDataGate';
+import { PUBLIC_ANALYSIS_DISCLAIMER_COMPACT } from '@/lib/publicAnalysisDisclaimer';
 
 const UUID_RE = /^[a-f0-9-]{36}$/i;
 
@@ -198,8 +199,7 @@ export default async function ChangePage({
     embed: isIt ? 'Embed' : 'Embed',
     dashboard: isIt ? 'Apri in dashboard' : 'Open in dashboard',
     disclaimerTitle: isIt ? 'Disclaimer' : 'Disclaimer',
-    disclaimer:
-      'CONFIDENCE RELEASE v3.5: AI-assisted assessment of publicly available policy texts. Not legal advice. Not a compliance certification. Always consult provider sources and qualified legal counsel.',
+    disclaimer: PUBLIC_ANALYSIS_DISCLAIMER_COMPACT[isIt ? 'it' : 'en'],
     high: isIt ? 'Alto' : 'High',
     medium: isIt ? 'Medio' : 'Medium',
     low: isIt ? 'Basso' : 'Low',

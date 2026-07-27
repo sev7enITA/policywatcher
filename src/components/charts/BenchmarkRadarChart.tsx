@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useId, useMemo, useState } from 'react';
 import { useReducedMotion } from 'framer-motion';
 import {
   Legend,
@@ -21,6 +21,7 @@ import {
   type BenchmarkRadarSourcePoint,
 } from '@/lib/chartSpec';
 import { CHART_TOKENS } from '@/lib/chartTokens';
+import { selectBenchmarkKpiDrilldown } from '@/lib/visualDrilldown';
 import AccessibleChartFrame, { type AccessibleChartTable } from './AccessibleChartFrame';
 import styles from './Charts.module.css';
 
@@ -75,6 +76,8 @@ function buildAccessibleTable(
 
 export default function BenchmarkRadarChart({ first, second, lang }: BenchmarkRadarChartProps) {
   const prefersReducedMotion = useReducedMotion();
+  const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  const inspectorId = `benchmark-kpi-inspector-${useId().replace(/:/g, '')}`;
   const spec = BENCHMARK_RADAR_CHART_SPEC;
   const data = useMemo(
     () => mergeBenchmarkRadarData(first.radar, second.radar),
@@ -82,6 +85,24 @@ export default function BenchmarkRadarChart({ first, second, lang }: BenchmarkRa
   );
   const comparableData = data.filter((point) => point.valueA !== null && point.valueB !== null);
   const labels = new Map(data.map((point) => [point.key, lang === 'it' ? point.labelIt : point.labelEn]));
+  const drilldown = selectBenchmarkKpiDrilldown(data, selectedKey);
+  const notAssessed = lang === 'it' ? 'Non valutato' : 'Not assessed';
+
+  const outcomeText = drilldown
+    ? drilldown.outcome === 'first-lower'
+      ? lang === 'it'
+        ? `${first.name} mostra una criticità normalizzata inferiore di ${drilldown.absoluteDifference} punti.`
+        : `${first.name} shows ${drilldown.absoluteDifference} points lower normalized concern.`
+      : drilldown.outcome === 'second-lower'
+        ? lang === 'it'
+          ? `${second.name} mostra una criticità normalizzata inferiore di ${drilldown.absoluteDifference} punti.`
+          : `${second.name} shows ${drilldown.absoluteDifference} points lower normalized concern.`
+        : drilldown.outcome === 'tie'
+          ? lang === 'it' ? 'Le valutazioni normalizzate risultano in parità.' : 'The normalized assessments are tied.'
+          : lang === 'it'
+            ? 'Il confronto non è disponibile perché almeno una valutazione è assente.'
+            : 'The comparison is unavailable because at least one assessment is missing.'
+    : null;
 
   return (
     <AccessibleChartFrame
@@ -89,10 +110,11 @@ export default function BenchmarkRadarChart({ first, second, lang }: BenchmarkRa
       lang={lang}
       summary={summarizeBenchmarkRadarChart(data, first.name, second.name, lang)}
       table={buildAccessibleTable(first, second, lang)}
+      visualAriaHidden={false}
     >
       {comparableData.length >= 3 ? (
         <div className={styles.benchmarkChartVisual}>
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
             <RadarChart data={comparableData} outerRadius="72%">
               <PolarGrid stroke={CHART_TOKENS.gridStrong} />
               <PolarAngleAxis
@@ -133,6 +155,66 @@ export default function BenchmarkRadarChart({ first, second, lang }: BenchmarkRa
           </ResponsiveContainer>
         </div>
       ) : undefined}
+      <div
+        className={styles.benchmarkDrilldownControls}
+        role="group"
+        aria-label={lang === 'it' ? 'Seleziona KPI da ispezionare' : 'Select KPI to inspect'}
+      >
+        {data.map((point) => (
+          <button
+            type="button"
+            key={point.key}
+            className={styles.benchmarkDrilldownButton}
+            aria-pressed={selectedKey === point.key}
+            aria-controls={inspectorId}
+            onClick={() => setSelectedKey((current) => current === point.key ? null : point.key)}
+          >
+            {lang === 'it' ? point.labelIt : point.labelEn}
+          </button>
+        ))}
+      </div>
+      <div
+        id={inspectorId}
+        className={styles.chartSelectionInspector}
+        role="region"
+        aria-live="polite"
+        aria-label={lang === 'it' ? 'Dettaglio KPI selezionato' : 'Selected KPI detail'}
+      >
+        {drilldown ? (
+          <>
+            <div className={styles.chartSelectionHeading}>
+              <span>{lang === 'it' ? drilldown.point.labelIt : drilldown.point.labelEn}</span>
+              <button type="button" onClick={() => setSelectedKey(null)}>
+                {lang === 'it' ? 'Chiudi dettaglio' : 'Clear detail'}
+              </button>
+            </div>
+            <div className={styles.benchmarkSelectionGrid}>
+              <div>
+                <strong>{first.name}</strong>
+                <span>{drilldown.point.rawValueA}</span>
+                <small>{drilldown.point.valueA === null ? notAssessed : `${drilldown.point.valueA}%`}</small>
+              </div>
+              <div>
+                <strong>{second.name}</strong>
+                <span>{drilldown.point.rawValueB}</span>
+                <small>{drilldown.point.valueB === null ? notAssessed : `${drilldown.point.valueB}%`}</small>
+              </div>
+            </div>
+            <p>{outcomeText}</p>
+            <small>
+              {lang === 'it'
+                ? 'Valori ordinali normalizzati per ispezione: non sono misure di compliance o performance.'
+                : 'Ordinal values normalized for inspection: they are not compliance or performance measurements.'}
+            </small>
+          </>
+        ) : (
+          <p>
+            {lang === 'it'
+              ? 'Seleziona un KPI per confrontare valutazione originale, valore normalizzato e limite interpretativo.'
+              : 'Select a KPI to compare its original assessment, normalized value and interpretation boundary.'}
+          </p>
+        )}
+      </div>
     </AccessibleChartFrame>
   );
 }

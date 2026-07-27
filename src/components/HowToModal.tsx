@@ -7,8 +7,10 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock,
+  Link2,
   PauseCircle,
   Route,
+  ScanSearch,
   Search,
   ShieldCheck,
   SlidersHorizontal,
@@ -19,10 +21,12 @@ import styles from './HowToModal.module.css';
 
 type TourStepId =
   | 'workspace'
+  | 'share'
   | 'ticker'
   | 'sourceStatus'
   | 'market'
   | 'evidence'
+  | 'drilldown'
   | 'navigation'
   | 'mobile';
 
@@ -57,10 +61,12 @@ interface HowToModalProps {
 
 const STEP_ICONS: Record<TourStepId, LucideIcon> = {
   workspace: SlidersHorizontal,
+  share: Link2,
   ticker: Search,
   sourceStatus: PauseCircle,
   market: Clock,
   evidence: ShieldCheck,
+  drilldown: ScanSearch,
   navigation: Route,
   mobile: UserRound,
 };
@@ -86,6 +92,17 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
         description:
           'Open Dashboard setup to select a session goal and evidence depth. It rearranges the view; it does not remove source or evidence gates.',
         focusLabel: 'Dashboard setup',
+      },
+      {
+        id: 'share',
+        title: 'Copy a shareable evidence view',
+        description:
+          'Set the public filters, then use Copy view. The canonical URL can carry industry, risk, region, audience, time, search, sort, language, and workspace state.',
+        focusLabel: 'Copy view',
+        notes: [
+          'Personal or private evidence and consent state are never included in the link.',
+          'Back and forward restore committed valid views; stale or invalid values fail closed.',
+        ],
       },
       {
         id: 'ticker',
@@ -114,6 +131,17 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
         description:
           'Use View analysis for retrieval status, source baseline, changes, and limits before relying on a summary or score.',
         focusLabel: 'Evidence details',
+      },
+      {
+        id: 'drilldown',
+        title: 'Coordinate regional and KPI evidence',
+        description:
+          'Select a heatmap cell to commit region and audience together, then select a radar KPI to inspect original and normalized values.',
+        focusLabel: 'Evidence drill-down',
+        notes: [
+          'Missing and tie states remain explicit; use the exact-value table whenever the chart is not sufficient.',
+          'Normalized ordinal values support comparison only: they are not compliance or performance ratings.',
+        ],
       },
       {
         id: 'navigation',
@@ -158,6 +186,17 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
         focusLabel: 'Impostazioni dashboard',
       },
       {
+        id: 'share',
+        title: 'Copia una vista evidenze condivisibile',
+        description:
+          'Imposta i filtri pubblici, poi usa Copia vista. L URL canonico puo includere settore, rischio, regione, audience, periodo, ricerca, ordinamento, lingua e workspace.',
+        focusLabel: 'Copia vista',
+        notes: [
+          'Evidenze personali o private e stato del consenso non vengono mai inclusi nel link.',
+          'Indietro e avanti ripristinano viste valide confermate; valori obsoleti o non validi falliscono in modo chiuso.',
+        ],
+      },
+      {
         id: 'ticker',
         title: 'Leggi il ticker Observatory',
         description:
@@ -184,6 +223,17 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
         description:
           'Usa Vedi analisi per stato di recupero, baseline fonte, modifiche e limiti prima di usare una sintesi o uno score.',
         focusLabel: 'Dettagli evidenze',
+      },
+      {
+        id: 'drilldown',
+        title: 'Coordina evidenze regionali e KPI',
+        description:
+          'Seleziona una cella della heatmap per confermare insieme regione e audience, poi seleziona un KPI radar per ispezionare valori originali e normalizzati.',
+        focusLabel: 'Drill-down evidenze',
+        notes: [
+          'Stati mancanti e parita restano espliciti; usa la tabella dei valori esatti quando il grafico non basta.',
+          'I valori ordinali normalizzati servono solo al confronto: non sono giudizi di conformita o performance.',
+        ],
       },
       {
         id: 'navigation',

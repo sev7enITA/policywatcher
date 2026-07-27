@@ -16,6 +16,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
 import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';
 import styles from './trust.module.css';
 
@@ -86,13 +87,13 @@ const evidenceCards: EvidenceCard[] = [
   },
   {
     title: 'State of the Art Report',
-    status: 'Repository report',
+    status: 'Historical snapshot · 5 July 2026',
     tone: 'slate',
     icon: FileSearch,
     body:
-      'The repository contains a current platform report covering configured inventory, assurance controls, public assets, deployment notes, known warnings, and next priorities.',
+      'This dated repository snapshot documents the platform state on 5 July 2026. Use current release metadata and live workflow links elsewhere on this page for the present implementation.',
     href: `${repoBase}/blob/main/docs/platform-state-of-art-2026-07-05.md`,
-    linkLabel: 'Open report',
+    linkLabel: 'Open historical report',
   },
   {
     title: 'GitHub Quality Gate',
@@ -267,6 +268,7 @@ const badgeHighlights = [
 export default function TrustPage() {
   return (
     <div className={styles.page}>
+      <PublicHeader current="trust" />
       <header className={styles.topbar}>
         <div className={styles.topbarInner}>
           <Link href="/" className={styles.backLink}>

@@ -2,6 +2,8 @@ export type Locale = 'en' | 'it';
 
 export type LocalizedText = Record<Locale, string>;
 
+export const OBSERVATORY_VERIFIED_AT = '27 July 2026' as const;
+
 export type ObservatoryContentType =
   | 'regulatory updates'
   | 'AI governance'
@@ -29,6 +31,10 @@ export interface ObservatorySignal {
   contentType: ObservatoryContentType;
   region: string;
   dateLabel: LocalizedText;
+  sourceUrl: string;
+  publishedOn: string;
+  reviewUtc: string;
+  reviewTimeLabel: LocalizedText;
   localHref: string;
   priority: 'high' | 'medium' | 'watch';
 }
@@ -62,6 +68,22 @@ export function getObservatoryCountdown(targetDate: Date, now: Date) {
   if (days === 1) return 'Tomorrow';
   if (days === 0) return 'Today';
   return 'Review due';
+}
+
+export function compareObservatoryDeadlines(
+  a: { id: string; deadlineAt: number },
+  b: { id: string; deadlineAt: number },
+  now: Date
+) {
+  const todayUtc = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  const aOverdue = a.deadlineAt < todayUtc;
+  const bOverdue = b.deadlineAt < todayUtc;
+
+  if (aOverdue !== bOverdue) return aOverdue ? 1 : -1;
+  const dateOrder = aOverdue
+    ? b.deadlineAt - a.deadlineAt
+    : a.deadlineAt - b.deadlineAt;
+  return dateOrder || a.id.localeCompare(b.id);
 }
 
 export interface DashboardNotice {
@@ -128,7 +150,7 @@ export const observatorySources: ObservatorySource[] = [
     id: 'ftc-tech',
     name: 'FTC Technology Blog and News',
     shortName: 'FTC',
-    url: 'https://www.ftc.gov/news-events',
+    url: 'https://www.ftc.gov/news-events/topics/protecting-consumer-privacy-security/privacy-security-enforcement',
     region: 'United States',
     authority: 'US consumer protection agency',
     contentTypes: ['privacy enforcement', 'AI governance', 'regulatory updates'],
@@ -196,82 +218,98 @@ export const observatorySources: ObservatorySource[] = [
 
 export const observatorySignals: ObservatorySignal[] = [
   {
-    id: 'eu-ai-act-implementation-watch',
+    id: 'eu-ai-act-article-50-guidelines',
     sourceId: 'eu-ai-office',
     title: {
-      en: 'EU AI Act implementation watch added to the governance queue',
-      it: 'Monitoraggio EU AI Act aggiunto alla coda governance',
+      en: 'Commission publishes Article 50 AI transparency guidelines',
+      it: 'La Commissione pubblica le linee guida sulla trasparenza AI dell articolo 50',
     },
     summary: {
-      en: 'The registry now points researchers to the European AI Office page for AI Act implementation context and institutional updates.',
-      it: 'Il registro indirizza ricercatori alla pagina European AI Office per contesto AI Act e aggiornamenti istituzionali.',
+      en: 'Published 20 July and updated 24 July 2026; the guidance covers provider and deployer transparency obligations that apply from 2 August 2026.',
+      it: 'Pubblicate il 20 luglio e aggiornate il 24 luglio 2026; le linee guida riguardano gli obblighi di trasparenza per provider e deployer applicabili dal 2 agosto 2026.',
     },
     contentType: 'AI governance',
     region: 'European Union',
     dateLabel: {
-      en: 'Jul 2026 review',
-      it: 'Revisione lug 2026',
+      en: 'Published 20 Jul · updated 24 Jul 2026',
+      it: 'Pubblicate 20 lug · aggiornate 24 lug 2026',
     },
+    sourceUrl: 'https://digital-strategy.ec.europa.eu/en/news/commission-publishes-guidelines-transparency-obligations-providers-deployers-certain-ai-systems',
+    publishedOn: '2026-07-20',
+    reviewUtc: '20260802T090000Z',
+    reviewTimeLabel: { en: 'Obligations apply · 09:00 UTC review', it: 'Obblighi applicabili · revisione 09:00 UTC' },
     localHref: '/observatory',
     priority: 'high',
   },
   {
-    id: 'privacy-enforcement-watch',
+    id: 'edpb-anonymisation-web-scraping-guidelines',
     sourceId: 'edpb-news',
     title: {
-      en: 'Privacy enforcement sweep now includes EDPB and UK ICO news',
-      it: 'Il ciclo enforcement privacy include EDPB e UK ICO',
+      en: 'EDPB opens consultation on anonymisation and web scraping for generative AI',
+      it: 'EDPB apre la consultazione su anonimizzazione e web scraping per l AI generativa',
     },
     summary: {
-      en: 'European and UK privacy sources are grouped for manual review before dashboard interpretation.',
-      it: 'Fonti privacy UE e UK sono raggruppate per revisione manuale prima dell interpretazione in dashboard.',
+      en: 'The 8 July guidelines address purpose limitation, transparency, data minimisation and special-category data; consultation closes 30 October 2026. The EDPB also adopted final blockchain guidance.',
+      it: 'Le linee guida dell 8 luglio trattano limitazione della finalita, trasparenza, minimizzazione e dati particolari; la consultazione chiude il 30 ottobre 2026. EDPB ha anche adottato le linee guida finali sulla blockchain.',
     },
     contentType: 'privacy enforcement',
-    region: 'EU / UK',
+    region: 'European Union',
     dateLabel: {
-      en: 'Current watchlist',
-      it: 'Watchlist corrente',
+      en: 'Published 8 Jul 2026',
+      it: 'Pubblicate 8 lug 2026',
     },
+    sourceUrl: 'https://www.edpb.europa.eu/news/edpb-sheds-light-on-anonymisation-and-web-scraping-for-generative-ai-and-adopts-final-version_en',
+    publishedOn: '2026-07-08',
+    reviewUtc: '20261030T090000Z',
+    reviewTimeLabel: { en: 'Consultation closes · 09:00 UTC review', it: 'Chiusura consultazione · revisione 09:00 UTC' },
     localHref: '/observatory',
-    priority: 'medium',
+    priority: 'high',
   },
   {
-    id: 'standards-resource-watch',
-    sourceId: 'nist-airc',
-    title: {
-      en: 'Standards queue anchored on NIST AIRC and IEEE ISoPE',
-      it: 'Coda standard basata su NIST AIRC e IEEE ISoPE',
-    },
-    summary: {
-      en: 'Standards resources are separated from enforcement updates so readers can inspect method context clearly.',
-      it: 'Le risorse standard sono separate dagli aggiornamenti enforcement per rendere chiaro il contesto metodologico.',
-    },
-    contentType: 'standards',
-    region: 'Global / US',
-    dateLabel: {
-      en: 'Standards watch',
-      it: 'Monitoraggio standard',
-    },
-    localHref: '/observatory',
-    priority: 'watch',
-  },
-  {
-    id: 'us-technology-enforcement-watch',
+    id: 'ftc-ai-accuracy-comment-watch',
     sourceId: 'ftc-tech',
     title: {
-      en: 'US technology enforcement source added to public discovery',
-      it: 'Fonte enforcement tecnologia USA aggiunta alla scoperta pubblica',
+      en: 'FTC enforcement page lists AI accuracy request for comment',
+      it: 'La pagina enforcement FTC elenca la richiesta di commenti sull accuratezza AI',
     },
     summary: {
-      en: 'FTC news and technology updates are listed as context for consumer protection and AI governance monitoring.',
-      it: 'News FTC e aggiornamenti tecnologia sono elencati come contesto per protezione consumatori e governance AI.',
+      en: 'The current privacy and security enforcement page lists a 1 July request for comment on a proposed AI accuracy policy statement. PolicyWatcher treats it as US monitoring context, not a final rule.',
+      it: 'La pagina corrente su privacy e sicurezza elenca una richiesta di commenti del 1 luglio su una proposta di policy per l accuratezza AI. PolicyWatcher la tratta come contesto di monitoraggio USA, non come regola finale.',
     },
     contentType: 'regulatory updates',
     region: 'United States',
     dateLabel: {
-      en: 'Source registry',
-      it: 'Registro fonti',
+      en: 'Listed 1 Jul 2026 · monitoring context',
+      it: 'Elencata 1 lug 2026 · contesto di monitoraggio',
     },
+    sourceUrl: 'https://www.ftc.gov/news-events/topics/protecting-consumer-privacy-security/privacy-security-enforcement',
+    publishedOn: '2026-07-01',
+    reviewUtc: '20260814T150000Z',
+    reviewTimeLabel: { en: 'PolicyWatcher review · 15:00 UTC', it: 'Revisione PolicyWatcher · 15:00 UTC' },
+    localHref: '/observatory',
+    priority: 'medium',
+  },
+  {
+    id: 'ico-safe-ai-workplan',
+    sourceId: 'uk-ico',
+    title: {
+      en: 'ICO sets out its 2026/27 safe AI workplan',
+      it: 'ICO presenta il piano di lavoro 2026/27 per un AI sicura',
+    },
+    summary: {
+      en: 'The 29 May response identifies forward work on the AI code, agentic-AI guidance and consumer support. It is a workplan signal, not completed guidance.',
+      it: 'La risposta del 29 maggio indica lavori futuri su codice AI, guida per AI agentica e supporto ai consumatori. E un segnale di pianificazione, non una guida completata.',
+    },
+    contentType: 'AI governance',
+    region: 'United Kingdom',
+    dateLabel: {
+      en: 'Published 29 May 2026 · forward workplan',
+      it: 'Pubblicata 29 mag 2026 · piano futuro',
+    },
+    sourceUrl: 'https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2026/05/ico-response-to-government-on-safe-ai-powered-innovation/',
+    publishedOn: '2026-05-29',
+    reviewUtc: '20260901T090000Z',
+    reviewTimeLabel: { en: 'PolicyWatcher review · 09:00 UTC', it: 'Revisione PolicyWatcher · 09:00 UTC' },
     localHref: '/observatory',
     priority: 'medium',
   },

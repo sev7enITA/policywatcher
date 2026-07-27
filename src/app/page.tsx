@@ -45,6 +45,7 @@ import {
   Check,
   ChevronLeft,
   LockKeyhole,
+  Link2,
 } from 'lucide-react';
 import styles from './Dashboard.module.css';
 import PolicyDetails from '@/components/PolicyDetails';
@@ -65,7 +66,7 @@ import HowToModal from '@/components/HowToModal';
 import Navigation, { NavLayout } from '@/components/Navigation';
 import { createDeferredViewportEvaluator, shouldSuggestOnTheGo } from '@/lib/mobileContext';
 import { dashboardUpdateNotices, getObservatorySource, observatorySignals } from '@/lib/observatory';
-import { POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE, POLICYWATCHER_VERSION } from '@/lib/release';
+import { POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE, POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS, POLICYWATCHER_VERSION } from '@/lib/release';
 import { dataStatusClassKey, getWorstDataStatus, normalizeDataStatus } from '@/lib/policyConfidence';
 import {
   composeDashboard,
@@ -91,10 +92,16 @@ import {
 } from '@/lib/workspaceProfile';
 import {
   validateDashboardAction,
+  DEFAULT_DASHBOARD_FILTER_STATE,
   type DashboardAction,
   type DateRangeFilter,
   type RiskFilter,
 } from '@/lib/dashboardActions';
+import {
+  decodeDashboardShareQuery,
+  encodeDashboardShareQuery,
+  type DashboardShareState,
+} from '@/lib/dashboardShareState';
 import { loadPublicDataSource } from '@/lib/dataSourceRegistry';
 import {
   buildDashboardViewModel,
@@ -172,6 +179,10 @@ const translations = {
     allTime: 'Tutto',
     clearFilters: 'Pulisci Filtri',
     activeFilters: 'filtri attivi',
+    copyView: 'Copia vista',
+    copiedView: 'Link vista copiato',
+    copyViewError: 'Impossibile copiare il link',
+    normalizedView: 'Alcuni filtri del link non erano validi e sono stati ripristinati.',
     workspaceLabel: 'Impostazioni dashboard',
     workspaceTitle: 'Vista operativa personalizzabile',
     workspaceSubtitle: 'Densità, sezioni e accento visuale restano salvati in questo browser.',
@@ -321,6 +332,10 @@ const translations = {
     allTime: 'All',
     clearFilters: 'Clear Filters',
     activeFilters: 'active filters',
+    copyView: 'Copy view',
+    copiedView: 'View link copied',
+    copyViewError: 'Could not copy link',
+    normalizedView: 'Some link filters were invalid and were reset.',
     workspaceLabel: 'Dashboard setup',
     workspaceTitle: 'Personalized operating view',
     workspaceSubtitle: 'Density, sections and visual accent are saved on this browser.',
@@ -662,7 +677,6 @@ const EXTENSION_BETA_COPY = {
     eyebrow: 'Browser extension Beta',
     title: 'Browser extension: from the email to real links',
     body: 'After an explicit gesture, the extension reads visible text and page links locally; PolicyWatcher receives only the organization, categories, dates, and cleaned URLs.',
-    status: 'Chrome · Edge · Safari: Beta packages ready, store submission planned',
     primaryAction: 'Explore the browser extension',
     fallbackAction: 'On mobile? Paste the notice',
     disclaimer: 'Pre-release software: results may be incomplete. Not legal advice.',
@@ -671,7 +685,6 @@ const EXTENSION_BETA_COPY = {
     eyebrow: 'Estensione browser Beta',
     title: 'Estensione browser: dalla mail ai link reali',
     body: 'Dopo un gesto esplicito, l’estensione legge localmente il testo visibile e i link presenti nella pagina; a PolicyWatcher arrivano solo azienda, categorie, date e URL ripuliti.',
-    status: 'Chrome · Edge · Safari: pubblicazione negli store in corso',
     primaryAction: 'Scopri l’estensione browser',
     fallbackAction: 'Sei su mobile? Incolla la notifica',
     disclaimer: 'Software pre-release: i risultati possono essere incompleti. Non è consulenza legale.',
@@ -750,6 +763,8 @@ export default function Dashboard() {
   const [dateRange, setDateRange] = useState<DateRangeFilter>('all');
   const [sortBy, setSortBy] = useState<DashboardSortBy>('risk-desc');
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+  const [dashboardShareReady, setDashboardShareReady] = useState(false);
+  const [shareFeedback, setShareFeedback] = useState<'copied' | 'error' | 'normalized' | null>(null);
 
   // Selected policy modal
   const [selectedPolicyId, setSelectedPolicyId] = useState<string | null>(null);
@@ -795,6 +810,70 @@ export default function Dashboard() {
   const composerDialogRef = useRef<HTMLDivElement>(null);
   const composerHeadingRef = useRef<HTMLHeadingElement>(null);
   const composerPreviousFocusRef = useRef<HTMLElement | null>(null);
+  const shareFeedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const dashboardShareState = useMemo<DashboardShareState>(() => ({
+    industry: industryFilter,
+    risk: riskFilter,
+    region: selectedRegion,
+    perspective: selectedPerspective,
+    dateRange,
+    search,
+    sortBy,
+    lang,
+  }), [
+    dateRange,
+    industryFilter,
+    lang,
+    riskFilter,
+    search,
+    selectedPerspective,
+    selectedRegion,
+    sortBy,
+  ]);
+  const dashboardShareStateRef = useRef<DashboardShareState>(dashboardShareState);
+
+  useEffect(() => {
+    dashboardShareStateRef.current = dashboardShareState;
+  }, [dashboardShareState]);
+
+  useEffect(() => {
+    if (!shareFeedback) return;
+    if (shareFeedbackTimerRef.current) clearTimeout(shareFeedbackTimerRef.current);
+    shareFeedbackTimerRef.current = setTimeout(() => setShareFeedback(null), 3200);
+    return () => {
+      if (shareFeedbackTimerRef.current) clearTimeout(shareFeedbackTimerRef.current);
+    };
+  }, [shareFeedback]);
+
+  const applyDashboardShareState = useCallback((state: DashboardShareState) => {
+    dashboardShareStateRef.current = state;
+    setSearch(state.search);
+    setIndustryFilter(state.industry);
+    setRiskFilter(state.risk);
+    setDateRange(state.dateRange);
+    setSelectedRegion(state.region);
+    setSelectedPerspective(state.perspective);
+    setSortBy(state.sortBy);
+    setLang(state.lang);
+  }, []);
+
+  const syncDashboardShareUrl = useCallback((
+    state: DashboardShareState,
+    mode: 'push' | 'replace',
+  ) => {
+    try {
+      const url = new URL(window.location.href);
+      const query = encodeDashboardShareQuery(url.searchParams, state);
+      const nextUrl = `${url.pathname}${query ? `?${query}` : ''}${url.hash}`;
+      const currentUrl = `${url.pathname}${url.search}${url.hash}`;
+      if (nextUrl === currentUrl) return;
+      if (mode === 'push') window.history.pushState({}, '', nextUrl);
+      else window.history.replaceState({}, '', nextUrl);
+    } catch {
+      // Sharing remains optional in restricted or non-browser contexts.
+    }
+  }, []);
 
   const dispatchDashboardAction = useCallback((action: DashboardAction) => {
     const validation = validateDashboardAction(action);
@@ -803,38 +882,94 @@ export default function Dashboard() {
       return;
     }
 
+    const current = dashboardShareStateRef.current;
+    const next: DashboardShareState = action.type === 'resetFilters'
+      ? {
+          ...current,
+          ...DEFAULT_DASHBOARD_FILTER_STATE,
+          sortBy: 'risk-desc',
+        }
+      : { ...current };
+
     if (action.type === 'resetFilters') {
-      setSearch('');
-      setIndustryFilter('all');
-      setRiskFilter('all');
-      setDateRange('all');
-      setSelectedRegion('EU');
-      setSelectedPerspective('Individual');
-      setSortBy('risk-desc');
+      applyDashboardShareState(next);
+      syncDashboardShareUrl(next, 'push');
+      return;
+    }
+
+    if (action.type === 'setContext') {
+      next.region = action.value.region;
+      next.perspective = action.value.perspective;
+      applyDashboardShareState(next);
+      syncDashboardShareUrl(next, 'push');
       return;
     }
 
     switch (action.target) {
       case 'industry':
-        setIndustryFilter(action.value.trim());
+        next.industry = action.value.trim();
         break;
       case 'risk':
-        setRiskFilter(action.value);
+        next.risk = action.value;
         break;
       case 'region':
-        setSelectedRegion(action.value);
+        next.region = action.value;
         break;
       case 'perspective':
-        setSelectedPerspective(action.value);
+        next.perspective = action.value;
         break;
       case 'dateRange':
-        setDateRange(action.value);
+        next.dateRange = action.value;
         break;
       case 'search':
-        setSearch(action.value);
+        next.search = action.value;
         break;
     }
-  }, []);
+    applyDashboardShareState(next);
+    syncDashboardShareUrl(next, action.target === 'search' ? 'replace' : 'push');
+  }, [applyDashboardShareState, syncDashboardShareUrl]);
+
+  const handleDashboardLanguageToggle = useCallback(() => {
+    const current = dashboardShareStateRef.current;
+    const next = { ...current, lang: current.lang === 'en' ? 'it' as const : 'en' as const };
+    applyDashboardShareState(next);
+    syncDashboardShareUrl(next, 'push');
+  }, [applyDashboardShareState, syncDashboardShareUrl]);
+
+  const handleDashboardSortChange = useCallback((nextSort: DashboardSortBy) => {
+    const next = { ...dashboardShareStateRef.current, sortBy: nextSort };
+    applyDashboardShareState(next);
+    syncDashboardShareUrl(next, 'push');
+  }, [applyDashboardShareState, syncDashboardShareUrl]);
+
+  const handleCopyDashboardView = useCallback(async () => {
+    try {
+      const url = new URL(window.location.href);
+      const query = encodeDashboardShareQuery(url.searchParams, dashboardShareStateRef.current);
+      const shareUrl = `${url.origin}${url.pathname}${query ? `?${query}` : ''}${url.hash}`;
+      syncDashboardShareUrl(dashboardShareStateRef.current, 'replace');
+
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(shareUrl);
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = shareUrl;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        const copied = document.execCommand('copy');
+        textarea.remove();
+        if (!copied) throw new Error('Clipboard unavailable');
+      }
+
+      setShareFeedback('copied');
+    } catch {
+      setShareFeedback('error');
+    }
+
+  }, [syncDashboardShareUrl]);
 
   const t = translations[lang];
   const workspaceText = WORKSPACE_COPY[lang];
@@ -1046,6 +1181,7 @@ export default function Dashboard() {
 
       try {
         const queryProfile = decodeWorkspaceQuery(window.location.search);
+        const dashboardQuery = decodeDashboardShareQuery(window.location.search);
         const onboardingCompleted = hasCompletedWorkspaceOnboarding(
           localStorage.getItem(WORKSPACE_ONBOARDING_COMPLETED_KEY),
         );
@@ -1066,6 +1202,9 @@ export default function Dashboard() {
             nextOnTheGoModeActive = Boolean(saved?.onTheGo && nextIntent === 'citizen' && nextDepth === 'snapshot');
           }
         }
+
+        applyDashboardShareState(dashboardQuery.state);
+        if (dashboardQuery.issues.length > 0) setShareFeedback('normalized');
       } catch {
         // Invalid URLs or storage contents fall back to the public default profile.
       } finally {
@@ -1078,13 +1217,14 @@ export default function Dashboard() {
         setWorkspaceFirstUseMode(shouldOpenFirstUse);
         setWorkspaceOnboardingStep(0);
         setWorkspaceReady(true);
+        setDashboardShareReady(true);
       }
     });
 
     return () => {
       active = false;
     };
-  }, []);
+  }, [applyDashboardShareState]);
 
   useEffect(() => {
     if (!workspaceConfiguratorOpen || !workspaceFirstUseMode) return;
@@ -1181,6 +1321,34 @@ export default function Dashboard() {
     workspaceSettings.showStats,
     workspaceSettings.view,
   ]);
+
+  useEffect(() => {
+    if (!dashboardShareReady) return;
+    syncDashboardShareUrl(dashboardShareState, 'replace');
+  }, [dashboardShareReady, dashboardShareState, syncDashboardShareUrl]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const decodedDashboard = decodeDashboardShareQuery(window.location.search);
+      applyDashboardShareState(decodedDashboard.state);
+      if (decodedDashboard.issues.length > 0) setShareFeedback('normalized');
+
+      const decodedWorkspace = decodeWorkspaceQuery(window.location.search);
+      if (decodedWorkspace.hasWorkspaceParams) {
+        if (decodedWorkspace.intent) {
+          setWorkspaceIntent(decodedWorkspace.intent);
+          setDraftWorkspaceIntent(decodedWorkspace.intent);
+        }
+        if (decodedWorkspace.depth) {
+          setEvidenceDepth(decodedWorkspace.depth);
+          setDraftEvidenceDepth(decodedWorkspace.depth);
+        }
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [applyDashboardShareState]);
 
   useEffect(() => {
     if (!prefsReady) return;
@@ -1706,7 +1874,7 @@ export default function Dashboard() {
   );
 
   return (
-    <TermsGate lang={lang} onLangToggle={() => setLang((l) => (l === 'en' ? 'it' : 'en'))}>
+    <TermsGate lang={lang} onLangToggle={handleDashboardLanguageToggle}>
     <div
       className={styles.dashboard}
       data-nav-layout={navLayout}
@@ -1743,7 +1911,7 @@ export default function Dashboard() {
       {/* Unified Layout Navigation coordinator */}
       <Navigation
         lang={lang}
-        onToggleLanguage={() => setLang((l) => (l === 'en' ? 'it' : 'en'))}
+        onToggleLanguage={handleDashboardLanguageToggle}
         onOpenAssistant={() => setChatOpen(true)}
         onOpenSubscribe={() => setSubscribeOpen(true)}
         onOpenExport={() => setExportMenuOpen(true)}
@@ -1764,6 +1932,16 @@ export default function Dashboard() {
         workspaceIntent={workspaceIntent}
         evidenceDepth={evidenceDepth}
       />
+
+      <div className={styles.shareStatus} role="status" aria-live="polite" aria-atomic="true">
+        {shareFeedback === 'copied'
+          ? t.copiedView
+          : shareFeedback === 'error'
+            ? t.copyViewError
+            : shareFeedback === 'normalized'
+              ? t.normalizedView
+              : ''}
+      </div>
 
       <AnimatePresence>
         {workspaceConfiguratorOpen && workspaceFirstUseMode && (
@@ -1897,7 +2075,7 @@ export default function Dashboard() {
             <p>{extensionBeta.body}</p>
             <span className={styles.extensionBetaStatus}>
               <span className={styles.extensionBetaStatusDot} aria-hidden="true" />
-              {extensionBeta.status}
+              Chrome · Edge · Safari: {POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS[lang]}
             </span>
           </div>
           <div className={styles.extensionBetaActions}>
@@ -2075,13 +2253,27 @@ export default function Dashboard() {
               <option value="Cloud/SaaS">{t.cloudSaas}</option>
             </select>
             <button 
+              type="button"
               onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
               className={`${styles.filterToggleBtn} ${showAdvancedFilters ? styles.filterToggleBtnActive : ''}`}
+              aria-expanded={showAdvancedFilters}
+              aria-controls="dashboard-advanced-filters"
+              aria-label={lang === 'it' ? 'Mostra filtri avanzati' : 'Show advanced filters'}
             >
               <SlidersHorizontal size={16} />
               {activeFilterCount > 0 && (
                 <span className={styles.filterBadge}>{activeFilterCount}</span>
               )}
+            </button>
+            <button
+              type="button"
+              onClick={() => void handleCopyDashboardView()}
+              className={styles.shareViewBtn}
+              aria-label={t.copyView}
+              title={t.copyView}
+            >
+              <Link2 size={16} />
+              <span>{t.copyView}</span>
             </button>
           </div>
 
@@ -2090,6 +2282,7 @@ export default function Dashboard() {
             <div className={styles.toggleButtonGroup}>
               {(['EU', 'US', 'Global'] as const).map((region) => (
                 <button 
+                  type="button"
                   key={region}
                   onClick={() => dispatchDashboardAction({
                     type: 'setFilter',
@@ -2098,6 +2291,7 @@ export default function Dashboard() {
                     value: region,
                   })}
                   className={`${styles.toggleBtn} ${selectedRegion === region ? styles.toggleBtnActive : ''}`}
+                  aria-pressed={selectedRegion === region}
                 >
                   {region}
                 </button>
@@ -2108,6 +2302,7 @@ export default function Dashboard() {
             <div className={styles.toggleButtonGroup}>
               {(['Individual', 'Enterprise'] as const).map((perspective) => (
                 <button 
+                  type="button"
                   key={perspective}
                   onClick={() => dispatchDashboardAction({
                     type: 'setFilter',
@@ -2116,6 +2311,7 @@ export default function Dashboard() {
                     value: perspective,
                   })}
                   className={`${styles.toggleBtn} ${selectedPerspective === perspective ? styles.toggleBtnActive : ''}`}
+                  aria-pressed={selectedPerspective === perspective}
                 >
                   {perspective === 'Individual' ? t.individual : t.enterprise}
                 </button>
@@ -2129,6 +2325,7 @@ export default function Dashboard() {
         <AnimatePresence>
         {showAdvancedFilters && isModuleVisible('filters') && (
           <motion.section 
+            id="dashboard-advanced-filters"
             className={`${styles.advancedFilters} glass-panel`}
             style={{ order: getModuleOrder('filters') + 1 }}
             initial={{ opacity: 0, height: 0 }}
@@ -2150,6 +2347,7 @@ export default function Dashboard() {
                   { value: 'Low' as RiskFilter, label: t.lowRisk },
                 ]).map((opt) => (
                   <button
+                    type="button"
                     key={opt.value}
                     onClick={() => dispatchDashboardAction({
                       type: 'setFilter',
@@ -2158,6 +2356,7 @@ export default function Dashboard() {
                       value: opt.value,
                     })}
                     className={`${styles.toggleBtn} ${riskFilter === opt.value ? styles.toggleBtnActive : ''}`}
+                    aria-pressed={riskFilter === opt.value}
                   >
                     {opt.label}
                   </button>
@@ -2179,6 +2378,7 @@ export default function Dashboard() {
                   { value: '90d' as DateRangeFilter, label: t.last90d },
                 ]).map((opt) => (
                   <button
+                    type="button"
                     key={opt.value}
                     onClick={() => dispatchDashboardAction({
                       type: 'setFilter',
@@ -2187,6 +2387,7 @@ export default function Dashboard() {
                       value: opt.value,
                     })}
                     className={`${styles.toggleBtn} ${dateRange === opt.value ? styles.toggleBtnActive : ''}`}
+                    aria-pressed={dateRange === opt.value}
                   >
                     {opt.label}
                   </button>
@@ -2202,7 +2403,7 @@ export default function Dashboard() {
               </label>
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as DashboardSortBy)}
+                onChange={(e) => handleDashboardSortChange(e.target.value as DashboardSortBy)}
                 className={styles.selectInput}
               >
                 <option value="risk-desc">{t.sortByRisk} (High to Low)</option>
@@ -2565,6 +2766,12 @@ export default function Dashboard() {
           onClose={() => setSelectedPolicyId(null)}
           selectedRegion={selectedRegion}
           selectedPerspective={selectedPerspective}
+          onContextChange={(region, perspective) => dispatchDashboardAction({
+            type: 'setContext',
+            source: 'regionHeatMap',
+            target: 'regionalContext',
+            value: { region, perspective },
+          })}
           onDataRefresh={fetchCompanies}
           lang={lang}
         />
@@ -2636,13 +2843,14 @@ export default function Dashboard() {
         onClose={() => setCommandPaletteOpen(false)}
         companies={companies}
         lang={lang}
-        onToggleLanguage={() => setLang((l) => (l === 'en' ? 'it' : 'en'))}
+        onToggleLanguage={handleDashboardLanguageToggle}
         onOpenAssistant={() => setChatOpen(true)}
         onOpenSubscribe={() => setSubscribeOpen(true)}
         onOpenExport={() => handleExportCSV()}
         onOpenMatrix={() => setMatrixOpen(true)}
         onOpenMethodology={() => setMethodologyOpen(true)}
         onOpenHowTo={() => setHowToOpen(true)}
+        onCopyView={() => void handleCopyDashboardView()}
         onSelectCompany={handleSelectCompany}
         onSetIndustry={(value) => dispatchDashboardAction({
           type: 'setFilter', source: 'commandPalette', target: 'industry', value,

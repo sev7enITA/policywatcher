@@ -45,7 +45,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import styles from './PolicyDetails.module.css';
-import type { Policy, PolicyChange, Company, RegionImpact } from '@/types/index';
+import type { Policy, PolicyChange, Company, Perspective, Region, RegionImpact } from '@/types/index';
 import AISummary from '@/components/ai/AISummary';
 import RiskReasons from '@/components/ai/RiskReasons';
 import RemediationSteps from '@/components/ai/RemediationSteps';
@@ -67,6 +67,8 @@ interface PolicyDetailsProps {
   selectedRegion: 'EU' | 'US' | 'Global';
   /** Currently selected audience perspective. */
   selectedPerspective: 'Individual' | 'Enterprise';
+  /** Commits a heat-map selection to the dashboard's shareable regional context. */
+  onContextChange?: (region: Region, perspective: Perspective) => void;
   /** Called after a successful scrape to refresh the parent dashboard data. */
   onDataRefresh: () => void;
   /** Active UI language. */
@@ -145,6 +147,7 @@ export default function PolicyDetails({
   onClose, 
   selectedRegion, 
   selectedPerspective,
+  onContextChange,
   lang
 }: PolicyDetailsProps) {
   const [policy, setPolicy] = useState<FullPolicyDetails | null>(null);
@@ -513,6 +516,9 @@ export default function PolicyDetails({
                   <RegionHeatMap
                     regionImpacts={activeChange.regionImpacts}
                     lang={lang}
+                    selectedRegion={selectedRegion}
+                    selectedPerspective={selectedPerspective}
+                    onCellSelect={onContextChange}
                   />
                 </div>
                 <div className={styles.impactsGrid}>

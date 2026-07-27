@@ -1,6 +1,9 @@
 import styles from './privacy.module.css';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION, POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS } from '@/lib/release';
+import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | PolicyWatcher',
@@ -9,7 +12,9 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <main className={styles.container}>
+    <>
+      <PublicHeader current="privacy" />
+      <main className={styles.container}>
       <article className={styles.content}>
         <h1 className={styles.title}>Privacy Policy</h1>
         <p className={styles.subtitle}>Last updated: July 22, 2026</p>
@@ -92,7 +97,7 @@ export default function PrivacyPolicyPage() {
         <section className={styles.section}>
           <h2>PolicyWatcher browser extension</h2>
           <p>
-            The browser extension is currently distributed as beta software. Beta status does not
+            Browser extension {POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION}: {POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS.en}. Beta status does not
             reduce the privacy, permission-minimization or data-handling controls described here.
           </p>
           <p>
@@ -205,13 +210,15 @@ export default function PrivacyPolicyPage() {
           </p>
         </section>
 
-        <footer className={styles.footer}>
+        <div className={styles.footer}>
           <p>
             Copyright {new Date().getFullYear()} PolicyWatcher by Fabrizio Degni. All rights reserved.
           </p>
           <Link href="/" className={styles.backLink}>Back to Dashboard</Link>
-        </footer>
+        </div>
       </article>
-    </main>
+      </main>
+      <Footer lang="en" />
+    </>
   );
 }

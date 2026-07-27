@@ -1,7 +1,7 @@
 # Report di implementazione funzionale: dashboard nativa PolicyWatcher
 
 - **Stato:** implementato e verificato
-- **Data:** 2026-07-26
+- **Data:** 2026-07-27
 - **Baseline di studio:** Vizro `0.1.59`, commit `917d7663856534f14f8927ecebeb6c668f9444f6`
 - **Vincolo rispettato:** nessuna dipendenza o componente runtime Vizro, Dash, Flask o Python
 
@@ -13,7 +13,7 @@ Prisma. Le idee utili osservate in Vizro sono state trasformate in contratti
 PolicyWatcher-specifici con maggiore attenzione a evidenza, provenienza,
 determinismo e configurazione non eseguibile.
 
-Sono operative quattordici capacità:
+Sono operative sedici capacità:
 
 1. catalogo KPI canonico e field-specific;
 2. trend con versione snapshot reale e sequenza eventi distinta;
@@ -30,7 +30,11 @@ Sono operative quattordici capacità:
     grafici nella superficie applicativa reale;
 13. matrice regionale governata con copertura e celle mancanti esplicite;
 14. benchmark radar evidence-gated, unito per chiave KPI e allineato al catalogo
-    canonico.
+    canonico;
+15. viste evidenza condivisibili con codec URL versionato, cronologia browser e
+    ripristino fail-closed;
+16. drill-down coordinato tra matrice regionale, contesto dashboard e benchmark
+    KPI, con inspector testuale evidence-aware.
 
 ## Flusso funzionale
 
@@ -356,6 +360,46 @@ aggregazione del valore più critico. Il radar aggiunge tratto continuo/trattegg
 marker pieni/vuoti, riepilogo comparativo, tabella delle valutazioni originali e
 normalizzate, provenienza e limiti della coorte di settore corrente.
 
+## 15. Viste evidenza condivisibili
+
+`src/lib/dashboardShareState.ts` definisce il contratto
+`DashboardShareState` e uno schema URL pubblico versionato. La query canonica
+può rappresentare settore, rischio, regione, audience, periodo, ricerca,
+ordinamento e lingua, preservando `intent`, `depth` e parametri estranei.
+
+I default vengono omessi, i parametri sono ordinati deterministicamente e i
+testi hanno limiti espliciti. Valori sconosciuti, obsoleti o malformati non
+entrano nello stato React: i campi validi vengono mantenuti, gli altri tornano
+ai default pubblici e l'interfaccia mostra un avviso localizzato.
+
+La home applica la precedenza URL al primo caricamento, scrive una entry della
+cronologia per i filtri confermati, sostituisce l'entry corrente durante la
+digitazione della ricerca e ascolta `popstate` per ripristinare controlli e
+view model. L'azione **Copy view**, disponibile anche nella Command Palette,
+copia il link canonico della vista corrente. Nessuna nota privata, payload dati
+o credenziale viene serializzata.
+
+## 16. Drill-down visuale evidence-aware
+
+La selezione di una cella in `RegionHeatMap` è ora una transizione tipizzata
+`setContext` registrata nel grafo delle azioni. Regione e prospettiva cambiano
+insieme, la home aggiorna la vista condivisa e viene creata una sola entry URL
+canonica: back/forward non può quindi ripristinare una combinazione intermedia.
+L'inspector testuale espone contesto, rischio, analisi di impatto e nota di
+compliance disponibile; la tabella completa resta il fallback verificabile.
+
+`BenchmarkRadarChart` permette di selezionare ciascun KPI tramite controlli
+keyboard/touch e mostra valutazioni originali, valori normalizzati e differenza
+esatta. Parità e dato mancante sono esiti distinti. La UI dichiara esplicitamente
+che i valori ordinali normalizzati servono all'ispezione e non sono misure di
+compliance o performance. I controlli sono esclusi dall'`aria-hidden` riservato
+alle geometrie decorative e alimentano una regione live con nome accessibile.
+
+Le due superfici conservano riepilogo, provenienza, limitazioni e tabella dati
+di `AccessibleChartFrame`. Il layout dell'inspector passa a colonna singola su
+mobile e il browser smoke copre selezione atomica, drill-down, caveat e assenza
+di overflow a 390 px.
+
 ## Compatibilità
 
 - Nessuna route pubblica è stata rimossa.
@@ -365,6 +409,8 @@ normalizzate, provenienza e limiti della coorte di settore corrente.
   precedente.
 - Il parametro URL legacy `workspace` resta leggibile ed è normalizzato alla
   successiva scrittura.
+- Le query dashboard precedenti senza schema restano leggibili; i nuovi link
+  configurati dichiarano `dv=1` e omettono i valori di default.
 - Recharts resta il renderer dei grafici cartesiani e radar; gauge e matrice
   usano primitive native compilate nell'applicazione, senza nuove dipendenze
   runtime.
@@ -375,11 +421,11 @@ normalizzate, provenienza e limiti della coorte di settore corrente.
 
 | Controllo | Esito |
 | --- | --- |
-| Test completi Vitest | 53 file, 302 test superati |
-| Test nuovi/mirati | cinque spec, registry renderer/sorgenti, join KPI e wiring delle superfici superati |
+| Test completi Vitest | 56 file, 319 test superati |
+| Test nuovi/mirati | codec URL, cronologia browser, transizione regionale atomica, drill-down KPI, Observatory verificato, impatti release e wiring accessibile delle superfici superati |
 | TypeScript | superato |
 | ESLint | 0 errori; 1 warning preesistente sotto `tmp/` |
-| Build di produzione | completata, 62 pagine generate |
+| Build di produzione | completata, 64 pagine generate |
 | `git diff --check` | nessun errore di whitespace |
 
 La build segnala soltanto l'avviso già esistente sulla futura rimozione della
@@ -392,14 +438,15 @@ Non sono ancora presenti:
 - caricamento di dashboard da configurazioni esterne;
 - renderer generico basato su JSON;
 - renderer generico che trasformi automaticamente placement esterni in grid
-  arbitrarie; il renderer corrente resta intenzionalmente in compatibility mode.
+  arbitrarie; il renderer corrente resta intenzionalmente in compatibility mode;
+- viste nominate remote o condivisione cross-device autenticata: i link attuali
+  descrivono solo stato pubblico, compatto e non sensibile.
 
-Queste esclusioni sono intenzionali: prima vengono stabilizzati contratti e
-invarianti sulle superfici esistenti. La prossima tranche consigliata è collegare
-le selezioni di matrice e benchmark al grafo tipizzato delle azioni, aggiungere
-drill-down evidence-aware e visual regression browser a larghezze desktop/mobile.
-L'evoluzione dovrà preservare tabella e riepilogo come fallback senza introdurre
-un renderer JSON generico o risoluzione dinamica di codice.
+Queste esclusioni sono intenzionali: i drill-down sono stati collegati alle
+superfici reali senza introdurre un renderer JSON generico o risoluzione
+dinamica di codice. La prossima evoluzione, se necessaria, può aggiungere viste
+nominate remote e collaborazione autenticata mantenendo tabella, riepilogo e
+provenienza come fallback obbligatori.
 
 ## File principali
 
@@ -411,6 +458,8 @@ un renderer JSON generico o risoluzione dinamica di codice.
 - `src/lib/dataSourceRegistry.ts`
 - `src/lib/dashboardViewModel.ts`
 - `src/lib/workspaceProfile.ts`
+- `src/lib/dashboardShareState.ts`
+- `src/lib/visualDrilldown.ts`
 - `src/lib/metricsCatalog.ts`
 - `src/lib/riskTrends.ts`
 - `src/lib/chartTokens.ts`

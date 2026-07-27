@@ -19,6 +19,9 @@ import {
   SlidersHorizontal,
   Users,
 } from 'lucide-react';
+import { ReleaseImpactMap } from '@/components/ReleaseImpactMap';
+import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
 import { POLICYWATCHER_RELEASE_NAME, POLICYWATCHER_VERSION } from '@/lib/release';
 import styles from './roadmap.module.css';
 
@@ -97,6 +100,24 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 };
 
 const nowItems = [
+  {
+    phase: `Delivered · ${POLICYWATCHER_VERSION}`,
+    title: 'Shareable evidence views',
+    body:
+      'Copy view writes the public dashboard filters to a versioned canonical URL, while committed filter changes participate in browser history and stale values fail closed.',
+    benefit: 'Reviewers can share and revisit the same public evidence scope without manually reconstructing each visible filter.',
+    validation: 'Only public view state is encoded; identity, private evidence and consent state remain excluded, and a future link can still reflect changed source availability.',
+    icon: GitFork,
+  },
+  {
+    phase: `Delivered · ${POLICYWATCHER_VERSION}`,
+    title: 'Coordinated visual evidence drill-down',
+    body:
+      'Heatmap selection commits region and audience together, while radar KPI selection opens original and normalized values with explicit missing and tie outcomes.',
+    benefit: 'A visual signal now leads directly to its precise context, exact values and interpretation boundary.',
+    validation: 'Keyboard and mobile paths retain exact-value tables; normalized ordinal values are screening aids, not compliance or performance measurements.',
+    icon: Eye,
+  },
   {
     phase: 'Delivered · 3.8.1',
     title: 'Mobile inquiry reliability',
@@ -440,13 +461,17 @@ export default function RoadmapClient() {
   const selectedGoal = useMemo(() => goals.find((goal) => goal.id === goalId) ?? goals[0], [goalId]);
 
   return (
-    <main className={styles.page}>
+    <>
+      <PublicHeader current="roadmap" />
+      <main className={styles.page}>
       <nav className={styles.nav} aria-label="Roadmap navigation">
         <Link href="/" className={styles.brand}>
           <Image src="/logo-mark.png" alt="" width={34} height={34} className={styles.brandMark} priority />
           <span>PolicyWatcher</span>
         </Link>
         <div className={styles.navLinks}>
+          <a href="#impact-map">Release impact</a>
+          <Link href="/feature-atlas">Feature Atlas</Link>
           <a href="#workspace">Workspace</a>
           <a href="#now">Now</a>
           <a href="#candidates">Candidates</a>
@@ -474,6 +499,10 @@ export default function RoadmapClient() {
             <a className={styles.secondaryAction} href={buildIssueUrl('New roadmap proposal', 'Community proposal')} target="_blank" rel="noopener noreferrer">
               Propose a new idea
             </a>
+            <Link className={styles.secondaryAction} href="/feature-atlas">
+              Explore feature dependencies
+              <ArrowUpRight size={17} />
+            </Link>
           </div>
         </section>
 
@@ -530,7 +559,7 @@ export default function RoadmapClient() {
             <h2>Start from the question, not from the dashboard</h2>
           </div>
           <p>
-            PolicyWatcher 3.6.3 now opens a guided start for first-time visitors. The selected purpose and evidence depth compose a preview from registered, real dashboard modules; the choice stays reversible and Source QA remains pinned in every generated stack.
+            PolicyWatcher v{POLICYWATCHER_VERSION} opens a guided start for first-time visitors. The selected purpose and evidence depth compose a preview from registered, real dashboard modules; the choice stays reversible and Source QA remains pinned in every generated stack.
           </p>
         </div>
 
@@ -631,6 +660,10 @@ export default function RoadmapClient() {
         ))}
       </section>
 
+      <section className={styles.section} id="impact-map">
+        <ReleaseImpactMap />
+      </section>
+
       <section className={styles.section} id="candidates">
         <div className={styles.sectionHead}>
           <div>
@@ -716,7 +749,7 @@ export default function RoadmapClient() {
         </a>
       </section>
 
-      <footer className={styles.footer}>
+      <section className={styles.footer} aria-label="Roadmap boundary and local links">
         <span>PolicyWatcher roadmap - community signal board</span>
         <span>Planning surface only. Features may change after validation, testing, and review.</span>
         <div>
@@ -725,7 +758,9 @@ export default function RoadmapClient() {
           <Link href="/trust">Trust</Link>
           <Link href="/methodology/confidence">Methodology</Link>
         </div>
-      </footer>
-    </main>
+      </section>
+      <Footer lang="en" />
+      </main>
+    </>
   );
 }

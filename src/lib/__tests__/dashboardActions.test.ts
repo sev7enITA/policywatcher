@@ -37,6 +37,23 @@ describe('typed dashboard actions', () => {
     expect(next).toEqual(DEFAULT_DASHBOARD_FILTER_STATE);
   });
 
+  it('commits a heat-map region and perspective as one guarded context action', () => {
+    const initial = { ...DEFAULT_DASHBOARD_FILTER_STATE };
+    const action: DashboardAction = {
+      type: 'setContext',
+      source: 'regionHeatMap',
+      target: 'regionalContext',
+      value: { region: 'Global', perspective: 'Enterprise' },
+    };
+
+    expect(validateDashboardAction(action)).toEqual({ valid: true });
+    expect(reduceDashboardFilterState(initial, action)).toMatchObject({
+      region: 'Global',
+      perspective: 'Enterprise',
+    });
+    expect(initial).toEqual(DEFAULT_DASHBOARD_FILTER_STATE);
+  });
+
   it('fails closed for an unknown source or payload', () => {
     const invalidSource = {
       type: 'setFilter',

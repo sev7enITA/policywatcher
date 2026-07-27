@@ -16,8 +16,10 @@ import {
 } from 'lucide-react';
 import {
   buildObservatoryIcs,
+  compareObservatoryDeadlines,
   getObservatoryCountdown,
   getObservatorySource,
+  OBSERVATORY_VERIFIED_AT,
   type ObservatoryContentType,
   type ObservatoryEvent,
   observatoryEvents,
@@ -26,6 +28,8 @@ import {
   type Locale,
 } from '@/lib/observatory';
 import styles from './observatory.module.css';
+import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
 
 export const metadata: Metadata = {
   title: 'Observatory | PolicyWatcher',
@@ -75,25 +79,6 @@ const regionFilters = [
 const eventSourceIds: Record<string, string> = {
   'ieee-isope-2026-programme-review': 'ieee-isope',
   'eu-ai-office-monthly-review': 'eu-ai-office',
-};
-
-const signalReviewWindows: Record<string, { startUtc: string; timeLabel: string }> = {
-  'eu-ai-act-implementation-watch': {
-    startUtc: '20260715T100000Z',
-    timeLabel: '10:00 UTC review window',
-  },
-  'privacy-enforcement-watch': {
-    startUtc: '20260717T090000Z',
-    timeLabel: '09:00 UTC review window',
-  },
-  'standards-resource-watch': {
-    startUtc: '20260722T110000Z',
-    timeLabel: '11:00 UTC review window',
-  },
-  'us-technology-enforcement-watch': {
-    startUtc: '20260720T150000Z',
-    timeLabel: '15:00 UTC review window',
-  },
 };
 
 const urgencyCopy: Record<WatchUrgency, string> = {
@@ -158,20 +143,19 @@ function formatBoardDate(date: Date) {
 function buildWatchItems(now: Date): WatchItem[] {
   const signalItems = observatorySignals.map((signal): WatchItem => {
     const source = getObservatorySource(signal.sourceId);
-    const reviewWindow = signalReviewWindows[signal.id];
-    const reviewDate = parseIcsDate(reviewWindow?.startUtc ?? '20260731T090000Z');
+    const reviewDate = parseIcsDate(signal.reviewUtc);
 
     return {
       id: signal.id,
       title: signal.title[locale],
       summary: signal.summary[locale],
       sourceName: source?.shortName ?? 'Observatory',
-      sourceHref: source?.url ?? signal.localHref,
+      sourceHref: signal.sourceUrl,
       category: signal.contentType,
       region: signal.region,
       cadence: source?.reviewCadence[locale] ?? 'Manual review',
       dateLabel: formatBoardDate(reviewDate),
-      timeLabel: reviewWindow?.timeLabel ?? signal.dateLabel[locale],
+      timeLabel: signal.reviewTimeLabel[locale],
       countdown: getObservatoryCountdown(reviewDate, now),
       urgency: signal.priority,
       deadlineAt: reviewDate.getTime(),
@@ -200,17 +184,22 @@ function buildWatchItems(now: Date): WatchItem[] {
     };
   });
 
-  return [...signalItems, ...eventItems].sort((a, b) => a.deadlineAt - b.deadlineAt);
+  return [...signalItems, ...eventItems].sort((a, b) => compareObservatoryDeadlines(a, b, now));
 }
 
 export default function ObservatoryPage() {
-  const watchItems = buildWatchItems(new Date());
+  const now = new Date();
+  const watchItems = buildWatchItems(now);
   const nextItem = watchItems[0];
+  const todayUtc = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  const upcomingCount = watchItems.filter((item) => item.deadlineAt >= todayUtc).length;
   const highPriorityCount = watchItems.filter((item) => item.urgency === 'high').length;
   const activeCategories = new Set(watchItems.map((item) => item.category)).size;
 
   return (
-    <main className={styles.page}>
+    <>
+      <PublicHeader current="observatory" />
+      <main className={styles.page}>
       <section className={styles.hero}>
         <nav className={styles.topbar} aria-label="Observatory navigation">
           <Link href="/" className={styles.backLink}>
@@ -231,11 +220,12 @@ export default function ObservatoryPage() {
               Watch board
             </span>
           <h1>Policy & Privacy Observatory</h1>
-          <p>
+            <p>
               A deadline-style board for upcoming review windows, public-source
               signals, standards updates and policy events that deserve a human
               look before they influence PolicyWatcher analysis.
             </p>
+            <p className={styles.freshnessNote}>Source facts verified {OBSERVATORY_VERIFIED_AT} · manually reviewed, not automatically ingested news.</p>
             <div className={styles.heroActions}>
               <Link href="#watch-board" className={styles.primaryAction}>
                 Open board
@@ -261,8 +251,8 @@ export default function ObservatoryPage() {
           <div className={styles.summaryGrid} aria-label="Observatory summary">
             <article>
               <span>Upcoming items</span>
-              <strong>{watchItems.length}</strong>
-              <small>Signals and review windows</small>
+              <strong>{upcomingCount}</strong>
+              <small>Overdue reviews remain visible below</small>
             </article>
             <article>
               <span>Review windows</span>
@@ -313,10 +303,10 @@ export default function ObservatoryPage() {
             <Filter size={15} />
             Active watch
           </span>
-          <h2>Ordered by next review date, source context and action.</h2>
+          <h2>Upcoming review dates first, with overdue items retained.</h2>
           <p>
-            Read it from top to bottom: nearest review first, then source,
-            jurisdiction, cadence and the next action available to the reader.
+            Read it from top to bottom: upcoming reviews lead in deterministic date order;
+            overdue work remains marked Review due, followed by source context and action.
           </p>
         </div>
 
@@ -508,6 +498,8 @@ export default function ObservatoryPage() {
           <ArrowRight size={15} />
         </Link>
       </section>
-    </main>
+      </main>
+      <Footer lang="en" />
+    </>
   );
 }

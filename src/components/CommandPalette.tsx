@@ -28,6 +28,7 @@ import {
   Download,
   Grid3X3,
   GitFork,
+  Network,
   BookOpen,
   ShieldAlert,
   CornerDownLeft,
@@ -38,6 +39,7 @@ import {
   ShieldCheck,
   Newspaper,
   UserRound,
+  Link2,
 } from 'lucide-react';
 import styles from './CommandPalette.module.css';
 import type { Company, Lang } from '@/types';
@@ -87,6 +89,8 @@ interface CommandPaletteProps {
   onOpenMatrix: () => void;
   onOpenMethodology: () => void;
   onOpenHowTo: () => void;
+  /** Copy the canonical URL for the currently configured dashboard evidence view. */
+  onCopyView: () => void;
   /** Navigate the dashboard to a specific company card. */
   onSelectCompany: (companyId: string) => void;
   onSetIndustry: (industry: string) => void;
@@ -117,6 +121,7 @@ export default function CommandPalette({
   onOpenMatrix,
   onOpenMethodology,
   onOpenHowTo,
+  onCopyView,
   onSelectCompany,
   onSetIndustry,
   onSetRisk,
@@ -168,6 +173,19 @@ export default function CommandPalette({
         keywords: 'csv download file export',
         run: () => {
           onOpenExport();
+          onClose();
+        },
+      },
+      {
+        id: 'act-copy-view',
+        label: 'Copy configured dashboard view',
+        labelIt: 'Copia la vista dashboard configurata',
+        hint: 'URL',
+        icon: <Link2 size={16} />,
+        group: 'actions',
+        keywords: 'copy share link url deep link configured view dashboard filters',
+        run: () => {
+          onCopyView();
           onClose();
         },
       },
@@ -228,6 +246,17 @@ export default function CommandPalette({
         keywords: 'atlas sitemap map graph entity relation navigation explore sections architecture',
         run: () => {
           window.location.href = '/atlas';
+        },
+      },
+      {
+        id: 'act-feature-atlas',
+        label: 'Open Feature Intelligence Atlas',
+        labelIt: 'Apri Atlante delle funzionalità',
+        icon: <Network size={16} />,
+        group: 'actions',
+        keywords: 'feature atlas capability dependency operational constellation evidence chain kpi kri implementation proof',
+        run: () => {
+          window.location.href = '/feature-atlas';
         },
       },
       {
@@ -406,6 +435,7 @@ export default function CommandPalette({
     onOpenMethodology,
     onOpenSubscribe,
     onOpenHowTo,
+    onCopyView,
     onSelectCompany,
     onClearFilters,
     onSetIndustry,

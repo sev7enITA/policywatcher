@@ -23,6 +23,8 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
+import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';
 import {
   publicSectionEdges,
   publicSectionGroups,
@@ -98,7 +100,9 @@ export default function SiteAtlasClient() {
   );
 
   return (
-    <main className={styles.page}>
+    <>
+      <PublicHeader current="atlas" />
+      <main className={styles.page}>
       <section className={styles.hero}>
         <nav className={styles.topbar} aria-label="Atlas navigation">
           <Link href="/" className={styles.backLink}>
@@ -116,7 +120,7 @@ export default function SiteAtlasClient() {
           <div>
             <span className={styles.eyebrow}>
               <GitFork size={15} />
-              Interactive sitemap
+              Interactive sitemap · {POLICYWATCHER_BUILD_LABEL}
             </span>
             <h1>PolicyWatcher Site Atlas</h1>
             <p>
@@ -374,6 +378,7 @@ export default function SiteAtlasClient() {
       </section>
 
       <Footer lang="en" />
-    </main>
+      </main>
+    </>
   );
 }

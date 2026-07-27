@@ -12,6 +12,8 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
+import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';
 import styles from './about.module.css';
 
 export const metadata: Metadata = {
@@ -43,7 +45,9 @@ const resources = [
 
 export default function AboutPage() {
   return (
-    <main className={styles.page}>
+    <>
+      <PublicHeader current="about" />
+      <main className={styles.page}>
       <nav className={styles.nav} aria-label="About page navigation">
         <Link href="/" className={styles.brand}>
           <Image src="/logo-mark.png" alt="" width={34} height={34} className={styles.brandMark} priority />
@@ -63,7 +67,7 @@ export default function AboutPage() {
             <ArrowLeft size={16} />
             Back to the platform
           </Link>
-          <span className={styles.eyebrow}>Project authorship and public context</span>
+          <span className={styles.eyebrow}>Project authorship and public context · {POLICYWATCHER_BUILD_LABEL}</span>
           <h1>About PolicyWatcher</h1>
           <p className={styles.lead}>
             PolicyWatcher is an open-source civic-tech project created and maintained by Fabrizio Degni.
@@ -192,6 +196,7 @@ export default function AboutPage() {
       </section>
 
       <Footer lang="en" />
-    </main>
+      </main>
+    </>
   );
 }

@@ -22,6 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/`, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
     { url: `${BASE_URL}/showcase`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.95 },
     { url: `${BASE_URL}/atlas`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${BASE_URL}/feature-atlas`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.92 },
     { url: `${BASE_URL}/observatory`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/timeline`, lastModified: new Date(), changeFrequency: 'hourly', priority: 0.9 },
     { url: `${BASE_URL}/what-changed`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.95 },
@@ -35,6 +36,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/methodology/confidence`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${BASE_URL}/security`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/privacy`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/terms`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.65 },
   ];
 
   // All change permalinks (EN canonical)

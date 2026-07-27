@@ -1,4 +1,4 @@
-export type DashboardActionGraphSource = 'filters' | 'commandPalette';
+export type DashboardActionGraphSource = 'filters' | 'commandPalette' | 'regionHeatMap';
 export type DashboardControlId =
   | 'industry'
   | 'risk'
@@ -6,8 +6,9 @@ export type DashboardControlId =
   | 'perspective'
   | 'dateRange'
   | 'search'
+  | 'regionalContext'
   | 'allFilters';
-export type DashboardActionKind = 'setFilter' | 'resetFilters';
+export type DashboardActionKind = 'setFilter' | 'setContext' | 'resetFilters';
 
 export interface DashboardActionGraphNode {
   readonly id: string;
@@ -43,6 +44,7 @@ export interface DashboardActionGraphIssue {
 export function dashboardActionSourceNodeId(source: DashboardActionGraphSource): string {
   if (source === 'filters') return 'module.filters';
   if (source === 'commandPalette') return 'surface.commandPalette';
+  if (source === 'regionHeatMap') return 'visual.regionHeatMap';
   return `unknown.${String(source)}`;
 }
 
@@ -76,12 +78,14 @@ function edge(
 const nodes = [
   { id: 'module.filters', kind: 'module' },
   { id: 'surface.commandPalette', kind: 'surface' },
+  { id: 'visual.regionHeatMap', kind: 'surface' },
   { id: 'control.industry', kind: 'control' },
   { id: 'control.risk', kind: 'control' },
   { id: 'control.region', kind: 'control' },
   { id: 'control.perspective', kind: 'control' },
   { id: 'control.dateRange', kind: 'control' },
   { id: 'control.search', kind: 'control' },
+  { id: 'control.regionalContext', kind: 'control' },
   { id: 'control.allFilters', kind: 'control' },
 ] as const satisfies readonly DashboardActionGraphNode[];
 
@@ -103,6 +107,7 @@ export const DASHBOARD_ACTION_GRAPH: DashboardActionGraph = Object.freeze({
     edge('setFilter', 'commandPalette', 'region'),
     edge('setFilter', 'commandPalette', 'perspective'),
     edge('resetFilters', 'commandPalette', 'allFilters'),
+    edge('setContext', 'regionHeatMap', 'regionalContext'),
   ]),
 });
 

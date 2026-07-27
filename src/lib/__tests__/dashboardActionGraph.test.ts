@@ -15,6 +15,7 @@ describe('dashboard action graph', () => {
     expect(Object.isFrozen(DASHBOARD_ACTION_GRAPH.edges)).toBe(true);
     expect(isDashboardActionEdgeAllowed('setFilter', 'filters', 'search')).toBe(true);
     expect(isDashboardActionEdgeAllowed('setFilter', 'commandPalette', 'search')).toBe(false);
+    expect(isDashboardActionEdgeAllowed('setContext', 'regionHeatMap', 'regionalContext')).toBe(true);
   });
 
   it('detects cycles before an interaction graph can be used', () => {

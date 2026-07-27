@@ -10,6 +10,7 @@ describe('homepage browser extension Beta launch strip', () => {
     expect(release).toContain("POLICYWATCHER_RELEASE_CHANNEL_LABEL = 'BETA'");
     expect(release).toContain("POLICYWATCHER_BROWSER_EXTENSION_VERSION = '3.8.3-beta.3'");
     expect(release).toContain('POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE');
+    expect(release).toContain('POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS');
     expect(page).toContain('POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE');
   });
 
@@ -28,8 +29,7 @@ describe('homepage browser extension Beta launch strip', () => {
   });
 
   it('shows all store statuses as pending without install claims', () => {
-    expect(page).toContain('Chrome · Edge · Safari: pubblicazione negli store in corso');
-    expect(page).toContain('Chrome · Edge · Safari: Beta packages ready, store submission planned');
+    expect(page).toContain('Chrome · Edge · Safari: {POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS[lang]}');
     expect(page).not.toContain('Stabile in ${POLICYWATCHER_VERSION}');
     expect(page).not.toContain('Stable in ${POLICYWATCHER_VERSION}');
   });

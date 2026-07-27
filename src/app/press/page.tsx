@@ -15,6 +15,8 @@ import {
   Users,
 } from 'lucide-react';
 import styles from './press.module.css';
+import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
 
 export const metadata: Metadata = {
   title: 'Who Is Talking About PolicyWatcher',
@@ -156,7 +158,9 @@ export default function PressPage() {
   const communityMentions = mentions.filter((mention) => !mention.feature);
 
   return (
-    <main className={styles.page}>
+    <>
+      <PublicHeader current="press" />
+      <main className={styles.page}>
       <nav className={styles.nav} aria-label="Press page navigation">
         <Link href="/" className={styles.brand}>
           <Image src="/logo-mark.png" alt="" width={34} height={34} className={styles.brandMark} priority />
@@ -357,7 +361,7 @@ export default function PressPage() {
         </div>
       </section>
 
-      <footer className={styles.footer}>
+      <section className={styles.footer} aria-label="Press wall boundary and local links">
         <span>PolicyWatcher press wall</span>
         <span>External mentions are public references, not certifications or endorsements.</span>
         <div>
@@ -365,7 +369,9 @@ export default function PressPage() {
           <Link href="/showcase">Showcase</Link>
           <Link href="/trust">Trust</Link>
         </div>
-      </footer>
-    </main>
+      </section>
+      <Footer lang="en" />
+      </main>
+    </>
   );
 }

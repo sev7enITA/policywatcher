@@ -15,6 +15,8 @@ import {
 import baseStyles from './whatChanged.module.css';
 import explainability from './explainability.module.css';
 import refinements from './refinements.module.css';
+import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
 
 const styles = { ...baseStyles, ...explainability };
 
@@ -169,7 +171,7 @@ function dateInputValue(value: string | null): string {
 }
 
 export default function WhatChangedClient() {
-  const [lang, setLang] = useState<Lang>('it');
+  const [lang, setLang] = useState<Lang>('en');
   const [companyName, setCompanyName] = useState('');
   const [companyTouched, setCompanyTouched] = useState(false);
   const [websiteUrl, setWebsiteUrl] = useState('');
@@ -281,7 +283,9 @@ export default function WhatChangedClient() {
   const canSubmit = Boolean(input.trim()) && Boolean(companyName.trim() || localClues?.senderDomain) && !loading;
 
   return (
-    <main className={styles.shell}>
+    <>
+      <PublicHeader current="what-changed" lang={lang} />
+      <main className={styles.shell}>
       <header className={styles.header}>
         <Link href="/" className={styles.brand}><Image src="/logo-mark.png" width={32} height={32} alt="" /><span>PolicyWatcher</span></Link>
         <nav aria-label="Public navigation"><Link href="/what-changed" className={refinements.currentNav} aria-current="page">{lang === 'it' ? 'Cosa è cambiato?' : 'What changed?'}</Link><Link href="/timeline">Timeline</Link><Link href="/observatory">Observatory</Link><Link href="/atlas">Atlas</Link><Link href="/methodology/confidence">{t.methodology}</Link><button type="button" onClick={() => setLang(lang === 'it' ? 'en' : 'it')}><Languages size={16} /> {lang === 'it' ? 'English' : 'Italiano'}</button></nav>
@@ -389,7 +393,9 @@ export default function WhatChangedClient() {
         {result?.state === 'ambiguous' && <section className={styles.receipt} aria-live="polite"><h2>{t.ambiguous}</h2><div className={styles.whyBlock} data-result-explanation="ambiguous"><ShieldQuestion aria-hidden="true" /><div><strong>{t.why}</strong><p>{t.ambiguousWhy}</p></div></div><div className={styles.candidates}>{result.candidates.map((candidate) => <button type="button" key={candidate.id} onClick={() => chooseCompany(candidate.name)}><span>{candidate.name}</span><small>{t.choose}</small></button>)}</div></section>}
       </div>
 
-      <footer className={styles.footer}><p>{t.note}</p><div><Link href="/">{t.back}</Link><Link href="/privacy">Privacy</Link></div></footer>
-    </main>
+      <section className={styles.footer} aria-label={lang === 'it' ? 'Limiti e link locali' : 'Boundary and local links'}><p>{t.note}</p><div><Link href="/">{t.back}</Link><Link href="/privacy">Privacy</Link></div></section>
+      </main>
+      <Footer lang={lang} />
+    </>
   );
 }

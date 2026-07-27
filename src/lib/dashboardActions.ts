@@ -15,6 +15,12 @@ export type DashboardAction =
   | { type: 'setFilter'; source: DashboardActionSource; target: 'perspective'; value: Perspective }
   | { type: 'setFilter'; source: DashboardActionSource; target: 'dateRange'; value: DateRangeFilter }
   | { type: 'setFilter'; source: DashboardActionSource; target: 'search'; value: string }
+  | {
+      type: 'setContext';
+      source: DashboardActionSource;
+      target: 'regionalContext';
+      value: { region: Region; perspective: Perspective };
+    }
   | { type: 'resetFilters'; source: DashboardActionSource; target: 'allFilters' };
 
 export interface DashboardFilterState {
@@ -57,6 +63,11 @@ export function validateDashboardAction(action: DashboardAction): DashboardActio
     return action.target === 'allFilters'
       ? { valid: true }
       : { valid: false, reason: 'Reset actions can target only allFilters.' };
+  }
+  if (action.type === 'setContext') {
+    return REGION_VALUES.has(action.value.region) && PERSPECTIVE_VALUES.has(action.value.perspective)
+      ? { valid: true }
+      : { valid: false, reason: 'Unsupported regional context.' };
   }
 
   if (action.target === 'industry') {
@@ -101,5 +112,12 @@ export function reduceDashboardFilterState(
 ): DashboardFilterState {
   if (!validateDashboardAction(action).valid) return state;
   if (action.type === 'resetFilters') return { ...DEFAULT_DASHBOARD_FILTER_STATE };
+  if (action.type === 'setContext') {
+    return {
+      ...state,
+      region: action.value.region,
+      perspective: action.value.perspective,
+    };
+  }
   return { ...state, [action.target]: action.value };
 }
