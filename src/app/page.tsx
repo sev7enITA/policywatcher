@@ -21,7 +21,6 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { 
   Search, 
   ShieldAlert, 
-  MessageSquare,
   ArrowRight,
   AlertTriangle,
   SlidersHorizontal,
@@ -2748,16 +2747,6 @@ export default function Dashboard() {
       </main>
 
       <Footer lang={lang} />
-
-      {/* Floating Action Live Chat */}
-      <button 
-        onClick={() => setChatOpen(true)}
-        className={styles.chatTrigger}
-        title="Open Policy Live Assistant"
-        aria-label="Open Policy Live Assistant"
-      >
-        <MessageSquare className={styles.chatTriggerIcon} />
-      </button>
 
       {/* Slide-over Policy Details */}
       {selectedPolicyId && (

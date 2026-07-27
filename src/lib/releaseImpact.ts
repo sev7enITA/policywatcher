@@ -59,7 +59,8 @@ export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.9.0-beta.4', shortLabel: '3.9 B4', label: '3.9.0 Beta 4', state: 'delivered' },
   { id: '3.9.0-beta.5', shortLabel: '3.9 B5', label: '3.9.0 Beta 5', state: 'delivered' },
   { id: '3.9.0-beta.6', shortLabel: '3.9 B6', label: '3.9.0 Beta 6', state: 'delivered' },
-  { id: '3.9.0-beta.7', shortLabel: '3.9 B7', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
+  { id: '3.9.0-beta.7', shortLabel: '3.9 B7', label: '3.9.0 Beta 7', state: 'delivered' },
+  { id: '3.9.0-beta.8', shortLabel: '3.9 B8', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
   { id: 'next', shortLabel: 'Next', label: 'Next beta horizon', state: 'planned' },
   { id: 'later', shortLabel: 'Later', label: 'Later horizon', state: 'planned' },
 ];
@@ -78,11 +79,26 @@ export const RELEASE_IMPACT_DOMAINS: ReleaseImpactDomain[] = [
 
 export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
   {
+    id: 'assistant-entry-point-consolidation',
+    title: 'Assistant entry-point consolidation',
+    summary: 'Removes the legacy floating chat trigger while retaining assistant access in unified navigation, Workspace Controls and command search.',
+    domainId: 'experience',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '3.9.0-beta.8',
+    endRelease: '3.9.0-beta.8',
+    benefit: 'The dashboard presents one persistent assistant control instead of two competing fixed actions.',
+    kpi: 'Persistent assistant triggers on the dashboard: One unified navigation control',
+    kri: 'Discoverability dependency: Users must recognize the labelled navigation or Workspace Controls action',
+    evidence: 'Unified Navigation assistant command, labelled Workspace Controls action, Command Palette action and duplicate-trigger regression coverage.',
+    limitation: 'This release changes assistant discovery only; it does not change generated answers, model behavior or the chat API.',
+  },
+  {
     id: 'newsroom-measurement-and-release-assurance',
     title: 'Newsroom measurement and release assurance',
     summary: 'Improves mobile Press Kit access, adds privacy-minimized aggregate newsroom event counts and closes scoped release-security findings.',
     domainId: 'assurance',
-    status: 'current',
+    status: 'delivered',
     horizon: 'delivered',
     startRelease: '3.9.0-beta.7',
     endRelease: '3.9.0-beta.7',

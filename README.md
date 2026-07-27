@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%207%20Release%20Assurance-146c6a" alt="3.9.0 Beta 7 Release Assurance" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%208%20Assistant%20Consolidation-146c6a" alt="3.9.0 Beta 8 Assistant Consolidation" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,14 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 8 Assistant Consolidation Highlights
+
+- **One persistent assistant trigger** removes the legacy floating blue chat button from the public dashboard.
+- **Unified navigation retained** keeps the purple assistant action available on desktop and mobile.
+- **Labelled discovery retained** keeps `AI Chat` inside Workspace Controls and the assistant action in the Command Palette.
+- **Behavior unchanged** routes every retained entry point to the same Policy Live Assistant without changing generated answers or the chat API.
+- **Regression coverage** verifies that the legacy trigger and its dedicated styles are absent while the unified actions remain wired.
 
 ### Release 3.9.0 Beta 7 Release Assurance Highlights
 

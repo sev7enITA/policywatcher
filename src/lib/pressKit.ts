@@ -440,12 +440,35 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'release-assurance-newsroom-insights-3-9-0-beta-7',
+    slug: 'assistant-entry-point-consolidation-3-9-0-beta-8',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: PRESS_KIT_RELEASE_DATE,
     dateModified: PRESS_KIT_RELEASE_DATE,
     status: 'current',
+    category: 'product',
+    title: { en: 'Assistant entry-point consolidation', it: 'Consolidamento accesso assistente' },
+    summary: { en: 'Removes the legacy floating chat control and retains assistant access through unified navigation, Workspace Controls and command search.', it: 'Rimuove il controllo chat flottante precedente e mantiene l accesso all assistente tramite navigazione unificata, Workspace Controls e ricerca comandi.' },
+    changes: [
+      { en: 'One persistent assistant action remains in the unified dashboard navigation.', it: 'Rimane un unica azione persistente per l assistente nella navigazione unificata della dashboard.' },
+      { en: 'The labelled AI Chat action remains available inside Workspace Controls.', it: 'L azione AI Chat con etichetta resta disponibile in Workspace Controls.' },
+      { en: 'The Command Palette continues to open the same Policy Live Assistant.', it: 'La Command Palette continua ad aprire lo stesso Policy Live Assistant.' },
+    ],
+    boundaries: [
+      { en: 'This release changes assistant discovery only; it does not change generated answers or the chat API.', it: 'Questa release modifica solo l accesso all assistente; non cambia le risposte generate o l API chat.' },
+    ],
+    evidenceLinks: [
+      { href: '/', label: { en: 'Evidence Console', it: 'Console evidenze' } },
+      { href: '/roadmap', label: { en: 'Release impact', it: 'Impatto release' } },
+    ],
+  },
+  {
+    slug: 'release-assurance-newsroom-insights-3-9-0-beta-7',
+    version: '3.9.0-beta.7',
+    displayVersion: '3.9.0 Beta 7',
+    datePublished: PRESS_KIT_RELEASE_DATE,
+    dateModified: PRESS_KIT_RELEASE_DATE,
+    status: 'archived',
     category: 'methodology',
     title: { en: 'Release assurance and newsroom insights', it: 'Assurance della release e segnali newsroom' },
     summary: { en: 'Improves mobile newsroom access, records bounded aggregate engagement events and closes scoped release-security findings.', it: 'Migliora l accesso mobile alla newsroom, registra eventi aggregati circoscritti e chiude rilievi di sicurezza della release con perimetro definito.' },
@@ -556,6 +579,7 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+  { id: 'assistant-entry-point-consolidation-release', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'release', title: { en: 'Assistant entry point consolidated', it: 'Accesso all assistente consolidato' }, detail: { en: 'The legacy floating dashboard trigger was removed while unified navigation, Workspace Controls and command search retain access to the same assistant.', it: 'Il precedente trigger flottante della dashboard e stato rimosso, mentre navigazione unificata, Workspace Controls e ricerca comandi mantengono l accesso allo stesso assistente.' }, affectedHref: '/press-kit/releases/assistant-entry-point-consolidation-3-9-0-beta-8' },
   { id: 'newsroom-measurement-release', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'release', title: { en: 'Newsroom measurement and release assurance published', it: 'Pubblicati misurazione newsroom e assurance della release' }, detail: { en: 'The newsroom records allowlisted aggregate events without persistent visitor identifiers and states the interpretation boundary alongside the current release.', it: 'La newsroom registra eventi aggregati ammessi senza identificatori persistenti dei visitatori e indica il limite interpretativo insieme alla release corrente.' }, affectedHref: '/press-kit/releases/release-assurance-newsroom-insights-3-9-0-beta-7' },
   { id: 'inventory-scope-clarification', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'clarification', title: { en: 'Monitored inventory scope clarified', it: 'Perimetro inventario monitorato chiarito' }, detail: { en: 'The 16-company fact now states that the WAZE record is an admin-onboarding fixture and is excluded from the monitored inventory count.', it: 'Il dato di 16 aziende ora specifica che il record WAZE e una fixture di onboarding amministrativo ed e escluso dal conteggio dell inventario monitorato.' }, affectedHref: '/press-kit#fact-monitored-companies' },
   { id: 'asset-rights-and-metadata', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'methodology', title: { en: 'Asset rights and metadata separated', it: 'Diritti e metadati asset separati' }, detail: { en: 'Owned editorial asset terms, IPTC/XMP metadata and the Content Credentials boundary are now recorded separately from repository licensing.', it: 'Condizioni per asset editoriali proprietari, metadati IPTC/XMP e limite delle Content Credentials sono ora registrati separatamente dalla licenza del repository.' }, affectedHref: '/press-kit#media-assets' },

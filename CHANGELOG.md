@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+## 3.9.0-beta.8 - 2026-07-27
+
+### Assistant entry-point consolidation
+- Removed the legacy floating blue chat trigger from the public dashboard.
+- Retained one persistent assistant action in the unified desktop and mobile navigation.
+- Retained the labelled `AI Chat` action inside Workspace Controls and the assistant action in the Command Palette.
+- Kept all retained entry points connected to the existing Policy Live Assistant without changing model behavior or the chat API.
+- Added regression coverage for the absence of the legacy trigger and the presence of the unified assistant actions.
+
 ## 3.9.0-beta.7 - 2026-07-27
 
 ### Evidence Newsroom usability and measurement
