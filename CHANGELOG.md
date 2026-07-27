@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+## 3.9.0-beta.5 - 2026-07-27
+
+### Press Kit navigation
+- Added a direct `/press-kit` item to the dashboard Workspace Controls menu, positioned after Showcase in the Observe group.
+- Added Press Kit to the shared public header on desktop and mobile navigation.
+- Added a searchable Press Kit action to the Command Palette.
+- Added regression coverage confirming the dashboard menu, command search, public header and footer all expose the route.
+- Kept the direct URL at `https://policywatcher.online/press-kit` and the browser extension track at 3.8.3 Beta 3.
+- Passed 347 tests across 58 files, TypeScript validation and the production build.
+
 ## 3.9.0-beta.4 - 2026-07-27
 
 ### Public claim language governance

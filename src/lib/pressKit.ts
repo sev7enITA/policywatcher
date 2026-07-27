@@ -220,7 +220,7 @@ export const pressKitAssets: PressKitAsset[] = [
     mediaType: 'text/markdown',
     dimensions: null,
     bytes: 2495,
-    sha256: 'a2b1aada190354702ac39521f3a8656cd8a5c8b67874317d293aaac244e129c0',
+    sha256: '0e985d29aefe302bfe019fd9b61a90f4f62207a38457f500884a5c3cce7f3b31',
     contentCredentials: 'not-attached',
     title: { en: 'Press fact sheet', it: 'Scheda stampa' },
     caption: { en: 'Bilingual plain-text facts, context and editorial boundaries.', it: 'Fatti bilingui, contesto e limiti editoriali in testo semplice.' },

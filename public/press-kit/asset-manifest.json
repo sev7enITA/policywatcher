@@ -2,7 +2,7 @@
   "$schema": "https://policywatcher.online/schemas/press-kit-asset-manifest/v1",
   "schemaVersion": "1.0.0",
   "generatedAt": "2026-07-27",
-  "release": "3.9.0-beta.4",
+  "release": "3.9.0-beta.5",
   "contentCredentials": "not-attached",
   "integrityBoundary": "SHA-256 checksums establish downloaded-file integrity only. They do not establish semantic truth, authorship provenance or endorsement.",
   "assets": [
@@ -12,6 +12,6 @@
     { "filename": "policywatcher-two-week-progress-2026-07-26.png", "mediaType": "image/png", "dimensions": "866 x 1817 px", "bytes": 1714205, "sha256": "62a3bdf85d8e263e72e42212be76cf7341a6785be9d435bcb43b16056ba01a07" },
     { "filename": "policywatcher-feature-atlas-2026-07-27.png", "mediaType": "image/png", "dimensions": "1440 x 1000 px", "bytes": 195953, "sha256": "c229635c7bfe119fb5ae6114eeaf29ba36dca1df63abc83b393032e41156eff5" },
     { "filename": "policywatcher-release-impact-2026-07-27.png", "mediaType": "image/png", "dimensions": "1440 x 1000 px", "bytes": 125597, "sha256": "f63c3c911f718c2e35f5de0448e10aa987d7f417168f72df1ed13b99683e1234" },
-    { "filename": "policywatcher-fact-sheet-2026-07-27.md", "mediaType": "text/markdown", "dimensions": null, "bytes": 2495, "sha256": "a2b1aada190354702ac39521f3a8656cd8a5c8b67874317d293aaac244e129c0" }
+    { "filename": "policywatcher-fact-sheet-2026-07-27.md", "mediaType": "text/markdown", "dimensions": null, "bytes": 2495, "sha256": "0e985d29aefe302bfe019fd9b61a90f4f62207a38457f500884a5c3cce7f3b31" }
   ]
 }

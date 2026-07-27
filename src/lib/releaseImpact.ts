@@ -56,7 +56,8 @@ export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.9.0-beta.1', shortLabel: '3.9 B1', label: '3.9.0 Beta 1', state: 'delivered' },
   { id: '3.9.0-beta.2', shortLabel: '3.9 B2', label: '3.9.0 Beta 2', state: 'delivered' },
   { id: '3.9.0-beta.3', shortLabel: '3.9 B3', label: '3.9.0 Beta 3', state: 'delivered' },
-  { id: '3.9.0-beta.4', shortLabel: '3.9 B4', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
+  { id: '3.9.0-beta.4', shortLabel: '3.9 B4', label: '3.9.0 Beta 4', state: 'delivered' },
+  { id: '3.9.0-beta.5', shortLabel: '3.9 B5', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
   { id: 'next', shortLabel: 'Next', label: 'Next beta horizon', state: 'planned' },
   { id: 'later', shortLabel: 'Later', label: 'Later horizon', state: 'planned' },
 ];
@@ -75,11 +76,26 @@ export const RELEASE_IMPACT_DOMAINS: ReleaseImpactDomain[] = [
 
 export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
   {
+    id: 'press-kit-navigation-discovery',
+    title: 'Press Kit navigation discovery',
+    summary: 'Adds a direct Press Kit link to dashboard controls, the public header and command search.',
+    domainId: 'distribution',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '3.9.0-beta.5',
+    endRelease: '3.9.0-beta.5',
+    benefit: 'Press information is reachable from the dashboard and shared public navigation.',
+    kpi: 'Press Kit navigation entry points: Three',
+    kri: 'Production visibility: Requires deployment of Beta 5',
+    evidence: 'Workspace Controls item, shared public-header item, Command Palette action and navigation regression test.',
+    limitation: 'The new navigation entries become available only after the Beta 5 package is deployed.',
+  },
+  {
     id: 'public-claim-language-governance',
     title: 'Public claim language governance',
     summary: 'Uses scoped descriptions of implemented behavior, evidence boundaries, dates and known limitations across public and press-facing copy.',
     domainId: 'legal',
-    status: 'current',
+    status: 'delivered',
     horizon: 'delivered',
     startRelease: '3.9.0-beta.4',
     endRelease: '3.9.0-beta.4',

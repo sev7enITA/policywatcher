@@ -29,6 +29,20 @@ describe('public UI regression fixes', () => {
     expect(source).not.toContain('v3.6.3');
   });
 
+  it('makes the press kit reachable from primary public navigation', () => {
+    const navigation = read('src/components/Navigation.tsx');
+    const palette = read('src/components/CommandPalette.tsx');
+    const header = read('src/components/PublicHeader.tsx');
+    const footer = read('src/components/Footer.tsx');
+
+    expect(navigation).toContain("{ id: 'press-kit'");
+    expect(navigation).toContain("href: '/press-kit'");
+    expect(palette).toContain("id: 'act-press-kit'");
+    expect(palette).toContain("window.location.href = '/press-kit'");
+    expect(header).toContain("{ id: 'press-kit', href: '/press-kit'");
+    expect(footer).toContain('href="/press-kit"');
+  });
+
   it('restores release impact and feature KPI/KRI discovery surfaces', () => {
     const discoveryFiles = [
       'src/components/Navigation.tsx',

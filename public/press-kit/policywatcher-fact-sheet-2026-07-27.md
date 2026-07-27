@@ -1,6 +1,6 @@
 # PolicyWatcher press fact sheet
 
-Release: 3.9.0-beta.4 Native Dashboard Intelligence
+Release: 3.9.0-beta.5 Native Dashboard Intelligence
 Release date: 27 July 2026
 Canonical site: https://policywatcher.online
 Repository: https://github.com/sev7enITA/policywatcher
@@ -17,7 +17,7 @@ PolicyWatcher is a public-interest policy evidence project that monitors a confi
 - Analytical framework: 15 canonical KPIs spanning privacy, AI governance and ethics.
 - Languages: the press kit and selected explanatory surfaces support English and Italian.
 - Evidence boundary: public data routes apply the configured evidence gate; unavailable assessments display `Not assessed` without a numerical value.
-- Web release: 3.9.0-beta.4, dated 27 July 2026.
+- Web release: 3.9.0-beta.5, dated 27 July 2026.
 - Browser extension: separately versioned at 3.8.3 Beta 3; Beta package ready, store submission planned.
 - Repository: public and reusable under CC BY 4.0. No OSI certification is claimed.
 

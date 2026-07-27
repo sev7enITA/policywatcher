@@ -73,7 +73,7 @@ describe('public press kit', () => {
     expect(route).toContain('buildPressKitPayload()');
   });
 
-  it('connects the newsroom without crowding the primary navigation', () => {
+  it('connects the Press Kit through public navigation and supporting surfaces', () => {
     const footer = read('src/components/Footer.tsx');
     const header = read('src/components/PublicHeader.tsx');
     const sitemap = read('src/app/sitemap.ts');
@@ -82,14 +82,14 @@ describe('public press kit', () => {
     const sections = read('src/lib/publicSections.ts');
     expect(footer).toContain('href="/press-kit"');
     expect(header).toContain("| 'press-kit'");
-    expect(header).not.toContain("{ id: 'press-kit', href: '/press-kit'");
+    expect(header).toContain("{ id: 'press-kit', href: '/press-kit'");
     expect(sitemap).toContain('`${BASE_URL}/press-kit`');
     expect(press).toContain('Open the press kit');
     expect(about).toContain("href: '/press-kit'");
     expect(sections).toContain("id: 'press-kit'");
   });
 
-  it('places claim-language governance in the current release and keeps the briefing room in the feature atlas', () => {
+  it('places Press Kit navigation in the current release and keeps prior press capabilities in the feature atlas', () => {
     expect(RELEASE_COLUMNS.filter((release) => release.state === 'current').map((release) => release.id)).toEqual([POLICYWATCHER_VERSION]);
     const releaseItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'editorial-briefing-room');
     expect(releaseItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.3', endRelease: '3.9.0-beta.3' });
@@ -97,6 +97,8 @@ describe('public press kit', () => {
     expect(atlasItem?.route).toEqual({ href: '/press-kit', label: 'Press Kit', access: 'public' });
     expect(atlasItem?.dependencies).toHaveLength(2);
     const governanceItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'public-claim-language-governance');
-    expect(governanceItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(governanceItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.4', endRelease: '3.9.0-beta.4' });
+    const navigationItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'press-kit-navigation-discovery');
+    expect(navigationItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
   });
 });

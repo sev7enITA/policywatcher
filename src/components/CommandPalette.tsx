@@ -293,6 +293,17 @@ export default function CommandPalette({
         },
       },
       {
+        id: 'act-press-kit',
+        label: 'Open Press Kit',
+        labelIt: 'Apri Press Kit',
+        icon: <Newspaper size={16} />,
+        group: 'actions',
+        keywords: 'press kit media facts assets downloads contact newsroom stampa scheda',
+        run: () => {
+          window.location.href = '/press-kit';
+        },
+      },
+      {
         id: 'act-trust',
         label: 'View Trust & Quality Evidence',
         labelIt: 'Vedi evidenze qualità e fiducia',

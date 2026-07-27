@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%204%20Native%20Dashboard-146c6a" alt="3.9.0 Beta 4 Native Dashboard Intelligence Release" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%205%20Native%20Dashboard-146c6a" alt="3.9.0 Beta 5 Native Dashboard Intelligence Release" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -39,7 +39,10 @@ PolicyWatcher monitors the privacy policies, terms of service, and AI governance
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
 
-### Release 3.9.0 Beta 4 Native Dashboard Intelligence Highlights
+### Release 3.9.0 Beta 5 Native Dashboard Intelligence Highlights
+
+- **Press Kit navigation** adds `/press-kit` to Workspace Controls, the shared public header and Command Palette.
+- **Visible dashboard access** places Press Kit in the Observe group immediately after Showcase.
 
 - **Public claim language governance** replaces promotional absolutes and narrative comparisons with scoped descriptions of implemented behavior, dates, evidence boundaries and limitations.
 - **Editorial regression coverage** checks selected public and distribution surfaces for unsupported security, freshness, explainability and product-quality phrases.
