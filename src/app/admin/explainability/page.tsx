@@ -99,12 +99,11 @@ export default function ExplainabilityPage() {
             <li>If the hash differs after a verified baseline already exists, the full text is saved as a new PolicySnapshot and analyzed as a change.</li>
           </ul>
 
-          <h4 style={{ margin: '20px 0 12px', color: 'var(--primary)' }}>Data Integrity Guarantees</h4>
+          <h4 style={{ margin: '20px 0 12px', color: 'var(--primary)' }}>Data Integrity Controls</h4>
           <div className={styles.alert + ' ' + styles.alertInfo}>
-            <CheckCircle size={16} /> The scraper NEVER fabricates data. If a page is blocked by Cloudflare,
-            returns a captcha, or is temporarily unavailable, the system records the status honestly
-            as &quot;unavailable&quot; or &quot;invalid&quot; and skips analysis. No snapshot or AI analysis is created
-            for unreachable pages.
+            <CheckCircle size={16} /> When a page is blocked, returns a captcha, or is unavailable,
+            the scraper records an &quot;unavailable&quot; or &quot;invalid&quot; status and skips analysis.
+            Unreachable pages do not produce a snapshot or AI analysis.
           </div>
 
           <h4 style={{ margin: '20px 0 12px', color: 'var(--primary)' }}>Error Classification</h4>
@@ -149,7 +148,7 @@ export default function ExplainabilityPage() {
             <li><strong>Executive Summary</strong> (bilingual EN/IT)</li>
             <li><strong>TL;DR</strong> (one-sentence takeaway, bilingual)</li>
             <li><strong>Key Points</strong> (3-5 bullets with sentiment: positive/negative/neutral)</li>
-            <li><strong>Risk Reasons</strong> (exactly 3 reasons with delta scores, e.g. +2, -1)</li>
+            <li><strong>Risk Reasons</strong> (the prompt requests 3 reasons with delta scores, e.g. +2, -1)</li>
             <li><strong>Overall Risk</strong> (Low/Medium/High) and <strong>Score</strong> (1-10)</li>
             <li><strong>15 KPI Values</strong> across Privacy, AI Governance, Ethics</li>
             <li><strong>AI Governance Indicators</strong> (training opt-out, scraping, IP, retention)</li>
@@ -173,8 +172,8 @@ export default function ExplainabilityPage() {
       content: (
         <div>
           <p style={{ marginBottom: 16, lineHeight: 1.7 }}>
-            Each policy analysis produces values for 15 KPIs organized into 3 areas.
-            Values are assigned by Gemini based on the actual policy text.
+            The structured analysis schema contains 15 KPI fields organized into 3 areas.
+            Gemini assigns values from the retrieved policy text; unavailable fields remain subject to validation and review.
           </p>
           <table className={styles.table}>
             <thead><tr><th className={styles.th}>Area</th><th className={styles.th}>KPI</th><th className={styles.th}>Possible Values</th></tr></thead>
@@ -214,9 +213,9 @@ export default function ExplainabilityPage() {
       content: (
         <div>
           <p style={{ marginBottom: 16, lineHeight: 1.7 }}>
-            The overall risk score (1-10) is assigned by Gemini based on the full policy text analysis.
-            The score is accompanied by exactly 3 risk reasons, each with a delta contribution
-            (e.g., +2, -1) that explains how it affects the final score.
+            Gemini assigns the overall risk score (1-10) from the retrieved policy text submitted for analysis.
+            The prompt requests three risk reasons with delta contributions (for example, +2 or -1).
+            The application validates the structured response; the fields remain model output rather than legal findings.
           </p>
           <table className={styles.table}>
             <thead><tr><th className={styles.th}>Score Range</th><th className={styles.th}>Risk Level</th><th className={styles.th}>Interpretation</th></tr></thead>
@@ -229,9 +228,9 @@ export default function ExplainabilityPage() {
 
           <h4 style={{ margin: '20px 0 12px', color: 'var(--primary)' }}>Transparency</h4>
           <p style={{ lineHeight: 1.7 }}>
-            Every score is fully explainable: the 3 risk reasons provide the specific rationale
-            with numeric contributions. This is not a black box. Users can see exactly why a
-            company received its score and trace it back to the policy text.
+            The interface displays the three generated risk reasons and their numeric
+            contributions. These fields document the model output and link back to the policy
+            text; they do not prove that the interpretation is complete or correct.
           </p>
         </div>
       ),
@@ -243,7 +242,7 @@ export default function ExplainabilityPage() {
       content: (
         <div>
           <p style={{ marginBottom: 16, lineHeight: 1.7 }}>
-            Each policy change generates exactly 6 region impact assessments:
+            The structured schema defines six region and perspective combinations:
           </p>
           <table className={styles.table}>
             <thead><tr><th className={styles.th}>Region</th><th className={styles.th}>Perspective</th><th className={styles.th}>Frameworks Referenced</th></tr></thead>
@@ -305,7 +304,7 @@ export default function ExplainabilityPage() {
         <BookOpen size={24} /> Explainability
       </h1>
       <p className={styles.pageSubtitle}>
-        Complete technical documentation of every PolicyWatcher feature. Designed for audit transparency and regulatory review.
+        Technical documentation for the implemented PolicyWatcher components listed below, including their inputs, controls and limitations.
       </p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 24 }}>

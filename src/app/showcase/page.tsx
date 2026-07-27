@@ -43,7 +43,7 @@ const atlasPanels = [
     code: 'ANALYSIS',
     title: 'Risk and KPI analysis',
     body: 'Canonical KPI semantics, atomic region and audience selection, and an exact-value inspector keep visual drill-downs consistent with the evidence table.',
-    details: ['Truthful trend', 'Risk profile', 'Region + audience', 'KPI inspector', 'Missing and tie states', 'Exact values'],
+    details: ['Trend provenance', 'Risk profile', 'Region + audience', 'KPI inspector', 'Missing and tie states', 'Displayed values'],
     metric: 'Validated analysis contracts',
     accent: '#fb923c',
   },

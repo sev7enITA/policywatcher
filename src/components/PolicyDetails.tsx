@@ -600,8 +600,8 @@ export default function PolicyDetails({
                   <Info size={24} color="var(--secondary)" style={{ flexShrink: 0 }} />
                   <p className={styles.infoText}>
                     {lang === 'it' 
-                      ? 'Questo pannello evidenzia le clausole specifiche relative ai diritti sui dati per l\'addestramento di modelli di intelligenza artificiale. L\'analisi aiuta le aziende a mitigare il rischio di leak di segreti industriali e violazione del copyright (inclusa la conformita con l\'EU AI Act).'
-                      : 'This panel extracts terms relating to user-submitted data usage for training foundational AI models. This audit enables corporations to secure their IP and align with the European AI Act guidelines.'}
+                      ? 'Questo pannello estrae le clausole sull’uso dei dati inviati per addestrare modelli fondazionali. Il risultato supporta la revisione legale interna; non determina la protezione della proprietà intellettuale o la conformità ai requisiti dell’EU AI Act.'
+                      : 'This panel extracts terms about use of submitted data for training foundation models. The result supports internal legal review; it does not determine IP protection or conformity with EU AI Act requirements.'}
                   </p>
                 </div>
               </div>
@@ -728,12 +728,12 @@ export default function PolicyDetails({
         {activeTab === 'archive' && (
           <div className={styles.tabContent}>
             <h3 className={styles.sectionTitle}>
-              <Archive size={18} color="var(--primary)" /> {lang === 'it' ? 'Archivio Completo Versioni Policy' : 'Complete Policy Version Archive'}
+              <Archive size={18} color="var(--primary)" /> {lang === 'it' ? 'Archivio Versioni Policy' : 'Policy Version Archive'}
             </h3>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '16px', lineHeight: 1.5 }}>
               {lang === 'it'
                 ? 'Di seguito sono riportate tutte le versioni storiche del documento. Clicca su una versione per leggere il testo integrale.'
-                : 'Below are all historical versions of this policy document. Click on a version to read the full text.'}
+                : 'Below are the stored historical versions of this policy document. Select a version to read the stored text.'}
             </p>
 
             <div className={styles.archiveList}>

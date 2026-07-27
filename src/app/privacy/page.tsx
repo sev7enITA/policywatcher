@@ -177,7 +177,7 @@ export default function PrivacyPolicyPage() {
           <h2>Data storage and security</h2>
           <ul>
             <li>Subscriber data is stored in an encrypted SQLite database hosted on our server infrastructure.</li>
-            <li>All communications with the platform are encrypted via HTTPS/TLS.</li>
+            <li>Production traffic is configured to use HTTPS/TLS; transport security depends on the active hosting and proxy configuration.</li>
             <li>Access to the database is restricted and protected by API authentication.</li>
             <li>We do not store data longer than necessary. If you unsubscribe, your data is marked as inactive and can be permanently deleted upon request.</li>
           </ul>

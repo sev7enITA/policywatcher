@@ -49,7 +49,7 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
 
             <div className={styles.body}>
               <p>
-                PolicyWatcher is an open-source civic-tech project created to make corporate AI, privacy, and governance-policy changes easier to inspect.
+                PolicyWatcher is a civic-tech project that presents changes in configured corporate AI, privacy, and governance-policy sources. Its repository is public under CC BY 4.0.
               </p>
               <p>
                 The platform monitors configured public source URLs, detects version changes, maps risk indicators, and keeps Dataset QA status visible alongside the analysis.

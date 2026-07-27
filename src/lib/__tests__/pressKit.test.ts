@@ -51,7 +51,7 @@ describe('public press kit', () => {
     }
   });
 
-  it('defaults to English, emits person/software JSON-LD and exposes truthful copy controls', () => {
+  it('defaults to English, emits person/software JSON-LD and exposes bounded copy controls', () => {
     const client = read('src/app/press-kit/PressKitClient.tsx');
     const page = read('src/app/press-kit/page.tsx');
     const route = read('src/app/press-kit/press-kit.json/route.ts');
@@ -65,8 +65,8 @@ describe('public press kit', () => {
     expect(client).toContain('sizes="200px"');
     expect(client).toContain('unoptimized');
     expect(client).toContain('Content Credentials not attached');
-    expect(client).toContain('not a global real-time claim');
-    expect(client).toContain('Not assessed instead of manufacturing zero');
+    expect(client).toContain('update intervals depend on retrieval and review');
+    expect(client).toContain('Not assessed without assigning a numerical value');
     expect(page).toContain("'@type': 'SoftwareApplication'");
     expect(page).toContain("'@type': 'Person'");
     expect(page).not.toContain("'@type': 'Organization'");
@@ -89,12 +89,14 @@ describe('public press kit', () => {
     expect(sections).toContain("id: 'press-kit'");
   });
 
-  it('places the briefing room in the current release and feature atlas', () => {
+  it('places claim-language governance in the current release and keeps the briefing room in the feature atlas', () => {
     expect(RELEASE_COLUMNS.filter((release) => release.state === 'current').map((release) => release.id)).toEqual([POLICYWATCHER_VERSION]);
     const releaseItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'editorial-briefing-room');
-    expect(releaseItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(releaseItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.3', endRelease: '3.9.0-beta.3' });
     const atlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'editorial-briefing-room');
     expect(atlasItem?.route).toEqual({ href: '/press-kit', label: 'Press Kit', access: 'public' });
     expect(atlasItem?.dependencies).toHaveLength(2);
+    const governanceItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'public-claim-language-governance');
+    expect(governanceItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
   });
 });

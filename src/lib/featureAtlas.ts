@@ -83,7 +83,7 @@ export const FEATURE_ATLAS_STAGES: FeatureAtlasStage[] = [
   { id: 'retrieval', index: 3, shortLabel: 'Capture', title: 'Retrieval & immutable snapshot', summary: 'Layered retrieval produces timestamped content and hash evidence.' },
   { id: 'assurance', index: 4, shortLabel: 'Qualify', title: 'Qualified analysis & assurance', summary: 'Text changes, attention signals and QA remain evidence-qualified.' },
   { id: 'publication', index: 5, shortLabel: 'Publish', title: 'Public evidence & distribution', summary: 'Only gated records reach public views, exports and companions.' },
-  { id: 'remediation', index: 6, shortLabel: 'Correct', title: 'Verified correction & remediation', summary: 'Verified cases and scoped operations can review or withhold evidence.' },
+  { id: 'remediation', index: 6, shortLabel: 'Correct', title: 'Correction review & remediation', summary: 'Accepted cases and scoped operations can review or withhold evidence.' },
 ];
 
 const featureAtlasDomainExtensions: FeatureAtlasDomain[] = [
@@ -113,7 +113,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: 'beta.11', shortLabel: 'B11', label: '3.8.3 Beta 11' },
   { id: '3.9.0-beta.1', shortLabel: '3.9 B1', label: '3.9.0 Beta 1' },
   { id: '3.9.0-beta.2', shortLabel: '3.9 B2', label: '3.9.0 Beta 2' },
-  { id: '3.9.0-beta.3', shortLabel: '3.9 B3', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '3.9.0-beta.3', shortLabel: '3.9 B3', label: '3.9.0 Beta 3' },
+  { id: '3.9.0-beta.4', shortLabel: '3.9 B4', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -145,6 +146,7 @@ const primaryUserByDomain: Record<string, string> = {
 };
 
 const routeByFeature: Record<string, FeatureAtlasRoute> = {
+  'public-claim-language-governance': { href: '/press-kit', label: 'Press Kit', access: 'public' },
   'editorial-briefing-room': { href: '/press-kit', label: 'Press Kit', access: 'public' },
   'notification-evidence': { href: '/what-changed', label: 'What changed?', access: 'public' },
   'calm-workspace': { href: '/', label: 'Evidence Console', access: 'public' },
@@ -175,6 +177,7 @@ const routeByFeature: Record<string, FeatureAtlasRoute> = {
 };
 
 const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
+  'public-claim-language-governance': [{ featureId: 'qualified-language', relationship: 'governed-by' }, { featureId: 'editorial-briefing-room', relationship: 'distributed-through' }],
   'editorial-briefing-room': [{ featureId: 'public-surface-consistency', relationship: 'depends-on' }, { featureId: 'explainability-methodology', relationship: 'governed-by' }],
   'notification-evidence': [{ featureId: 'source-portfolio-monitoring', relationship: 'feeds' }],
   'calm-workspace': [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }],
@@ -474,7 +477,7 @@ const platformSurfaceFeatures: FeatureAtlasFeature[] = [
     benefit: 'Operators can find unsupported or incomplete indicator definitions before public use.', kpi: 'Inventory KPI · indicator audit workflow available', kri: 'Residual KRI · audited definitions still require domain review', evidence: 'KPI audit helpers, defaults, justifications, protected route and focused tests.', limitation: 'Definition coverage does not validate a provider outcome or legal conclusion.', primaryUser: 'Dataset QA reviewer', route: { href: '/admin/kpi-audit', label: 'KPI audit', access: 'protected' }, dependencies: [{ featureId: 'dataset-qa', relationship: 'depends-on' }],
   }),
   surfaceFeature({
-    id: 'verified-review-status-model', title: 'Verified review status model', shortLabel: 'Review status',
+    id: 'verified-review-status-model', title: 'Correction review status model', shortLabel: 'Review status',
     summary: 'Keeps correction verification, triage, acceptance and resolution states explicit.', kind: 'technical', domainId: 'corrections', stageId: 'remediation', releaseId: 'beta.9', release: '3.8.3 Beta 9',
     benefit: 'Reviewers and requesters can distinguish submission from accepted evidence review.', kpi: 'Inventory KPI · explicit correction states available', kri: 'Residual KRI · human triage time remains open', evidence: 'Correction case model, status helpers, verification control and wiring tests.', limitation: 'A submitted or verified request does not automatically change public evidence.', primaryUser: 'Requester and correction reviewer', route: { href: '/what-changed', label: 'Evidence inquiry', access: 'public' }, dependencies: [{ featureId: 'verified-corrections', relationship: 'depends-on' }],
   }),

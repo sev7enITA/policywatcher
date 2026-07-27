@@ -2,10 +2,26 @@
 
 ## Unreleased
 
+## 3.9.0-beta.4 - 2026-07-27
+
+### Public claim language governance
+- Audited public pages, in-app explanatory copy, the press kit, the fact sheet, README and press-outreach guidance for promotional absolutes, unscoped security statements, comparisons and narrative phrasing.
+- Replaced security and dependency claims with point-in-time audit descriptions and an explicit statement that audit output is not a security certification.
+- Replaced generic freshness, explainability and completeness wording with descriptions of configured update intervals, displayed supporting fields, evidence gates and known limitations.
+- Described the project as civic tech with a public repository under CC BY 4.0, without implying an OSI license classification.
+- Added a regression test for selected prohibited claim phrases on public and distribution surfaces.
+- Passed 346 tests across 58 files, TypeScript validation and the production build; lint reported no product errors and one warning in an unrelated untracked temporary file.
+
+### Public copy alignment
+- Revised Press Kit, What Changed, Browser Extension, Security, Privacy, Trust, About, Observatory, Timeline, Leaderboard, Showcase, Feature Atlas and homepage language.
+- Updated the press fact sheet and outreach guide to distinguish configured inventory from coverage, source review from verification, and unavailable assessments from numerical values.
+- Kept technical privacy and publication controls as scoped implementation statements rather than promotional guarantees.
+- Kept the browser extension separately versioned at 3.8.3 Beta 3.
+
 ## 3.9.0-beta.3 - 2026-07-27
 
 ### Editorial briefing room
-- Added a bilingual `/press-kit` newsroom with publication-ready facts, story angles, boilerplates, founder/contact information and a claim ledger that maps every public statement to proof and limitations.
+- Added a bilingual `/press-kit` page with scoped product facts, reporting topics, boilerplates, founder/contact information and a claim ledger that maps listed statements to supporting links and limitations.
 - Added a stable `/press-kit/press-kit.json` endpoint, valid JSON-LD, a checksum-backed owned-asset manifest and individual downloads without claiming Content Credentials.
 - Integrated the Press Kit into public navigation metadata, Footer, Site Atlas, sitemap, Press Wall, About, release impact and Feature Intelligence Atlas.
 - Kept the browser extension separately versioned at 3.8.3 Beta 3 with its package-ready and store-submission-planned boundary unchanged.
@@ -15,7 +31,7 @@
 - Centralized the bilingual public-analysis disclaimer and reused it across change, share, comparison and PDF report surfaces without a stale release label.
 - Centralized the separately versioned browser-extension Beta state, aligned public availability copy and kept it distinct from the web application release.
 - Applied the shared public header and footer across compatible editorial, reference and data-driven pages while preserving local navigation, legal dates, historical press dates and evidence-derived timestamps.
-- Marked the 5 July State of the Art report as a historical snapshot, updated Security to current build metadata, exposed leaderboard snapshot generation time and centralized Observatory verification metadata.
+- Marked the 5 July platform status report as a historical snapshot, updated Security to current build metadata, exposed leaderboard snapshot generation time and centralized Observatory verification metadata.
 
 ### Public guidance and Observatory freshness
 - Aligned the Roadmap, Showcase, infographics, bilingual nine-step How To tour, README and native dashboard user guide with canonical share links and coordinated regional/KPI evidence drill-down.
@@ -43,7 +59,7 @@
 - Routed both visualizations through the shared accessible frame with bilingual summaries, exact-value tables, evidence source/gate metadata, explicit limitations, non-color encodings and reduced-motion behavior.
 - Registered `/api/compare` as an evidence-gated public data source and removed the comparison modal's direct fetch path.
 
-### Truthfulness and reliability
+### Data semantics and reliability
 - Joined benchmark dimensions by stable KPI key instead of array position and excluded `Not assessed` values from radar geometry and safer/winner counts.
 - Replaced the comparison API's duplicate generic weight table with the canonical field-specific KPI catalog.
 - Kept missing regional cells explicitly `Not assessed`, deduplicated region/perspective coverage and prevented absent company evidence from appearing as a zero score or low risk.
@@ -52,7 +68,7 @@
 ### Audit and release
 - Updated the application release metadata, README, in-app changelog, Showcase, architecture report and Hostinger package inventory for `3.9.0-beta.2`.
 - Passed 302 tests across 53 files, TypeScript validation, ESLint with zero application errors, production build and package-integrity checks.
-- Confirmed the deployable dependency tree has no reported vulnerabilities; the separately audited development toolchain retains the documented upstream `brace-expansion` advisory pending a compatible non-breaking ESLint update.
+- Recorded the point-in-time deployable dependency audit; the separately audited development toolchain retained the documented upstream `brace-expansion` advisory pending a compatible non-breaking ESLint update. Audit output was treated as operational evidence, not a security certification.
 
 ## 3.9.0-beta.1 - 2026-07-26
 
@@ -73,7 +89,7 @@
 - Added architecture decisions, a pattern knowledge base and a functional implementation report for the native dashboard engine.
 - Kept the browser extension on its separately versioned 3.8.3 Beta 3 package and labeled the homepage extension strip independently from the application release.
 - Updated PostCSS to 8.5.23 to close the detected production path-traversal advisory and scoped the release-blocking audit to deployable dependencies. The remaining brace-expansion advisory is confined to upstream ESLint plugins, has no production path, and remains documented pending a compatible plugin update.
-- Added focused regression coverage for dashboard grammar, action graph, action dispatch, layout, workspace codec, data-source registry, view model, export manifest, KPI catalog, truthful trends and chart accessibility wiring.
+- Added focused regression coverage for dashboard grammar, action graph, action dispatch, layout, workspace codec, data-source registry, view model, export manifest, KPI catalog, trend provenance and chart accessibility wiring.
 - Passed 290 tests across 53 files, TypeScript validation, ESLint with zero errors, production build and release diff checks before packaging.
 
 ## 3.8.3-beta.4 - 2026-07-23
@@ -111,11 +127,11 @@
 ## 3.8.3 - 2026-07-22
 
 ### Changed
-- Added a compact bilingual homepage Beta release strip with centralized release-channel metadata, truthful Chrome/Edge/Safari pending status and direct extension/paste paths.
+- Added a compact bilingual homepage Beta release strip with centralized release-channel metadata, Chrome/Edge/Safari pending status and direct extension/paste paths.
 - Reframed `/what-changed` as a compact two-path intake: the extension is recommended on desktop, while plain-text paste is the primary mobile action.
 - Explained that copied text cannot preserve hidden anchor destinations and that users do not need to reconstruct missing URLs manually.
 - Removed brand-specific placeholders and kept organization inference based on general signature and context patterns.
-- Added a bilingual `/browser-extension` availability page with real install actions only for configured HTTPS store URLs and truthful pending states otherwise.
+- Added a bilingual `/browser-extension` availability page with install actions for configured HTTPS store URLs and explicit pending states otherwise.
 
 ### Privacy and reliability
 - Bound extension link selection to the selected or opened notification context when available, avoiding unrelated webmail navigation and footer links.
@@ -295,7 +311,7 @@
 - Bulk imports, official-source approval, and first-baseline capture never make evidence public. QA must pass and an administrator must explicitly publish before the public-evidence gate opens.
 - Intake rejects malformed/private-host URLs and duplicate policy candidates, while baseline and publication transitions remain auditable and stage constrained.
 - Challenge pages, placeholders, too-short bodies, stale archives, and unresolved provider blocks remain suspended from public analysis, KPI values, timeline events, reports, and AI interpretations.
-- Dependency lockfile refreshed to patched `brace-expansion`, `js-yaml`, and `protobufjs` releases; `npm audit --audit-level=high` reports zero vulnerabilities for the release candidate.
+- Dependency lockfile refreshed to patched `brace-expansion`, `js-yaml`, and `protobufjs` releases; the point-in-time `npm audit --audit-level=high` output was recorded for the release candidate without presenting it as a vulnerability-free claim.
 
 ## 3.6.1 - 2026-07-08
 
@@ -433,7 +449,7 @@
 ## 3.5.0 - 2026-07-02
 
 ### Added
-- Truth & Confidence Layer for policy data status, ingestion metadata, last-check timestamps, and check-log evidence.
+- Evidence & Confidence Layer for policy data status, ingestion metadata, last-check timestamps, and check-log evidence.
 - `PolicyCheckLog` model and backfill/repair scripts for existing datasets.
 - Dataset assurance command (`npm run qa:dataset`) covering hashes, version records, check logs, data statuses, timestamps, URL duplicates, and AI JSON icon hygiene.
 - Trust & Quality public page (`/trust`) with GitHub Quality Gate, CodeQL, OpenSSF Scorecard, OpenSSF Best Practices passing badge, targeted reliability coverage workflow status, Sonar/Codecov readiness, live-header report links, and explicit non-certification boundary.
@@ -442,7 +458,7 @@
 - Open-source governance files: `SECURITY.md`, `CODE_OF_CONDUCT.md`, and third-party validation setup guide.
 - OpenSSF Best Practices project `13465` badge integration for README and `/trust`.
 - Highlighted badge section on `/trust` and README to make obtained/public quality evidence easier to inspect.
-- Public State of the Art reports in `docs/platform-state-of-art-2026-07-02.md` and `docs/platform-state-of-art-2026-07-02.it.md`.
+- Public platform status reports in `docs/platform-state-of-art-2026-07-02.md` and `docs/platform-state-of-art-2026-07-02.it.md`.
 
 ### Changed
 - Package and visible build strings updated to `3.5.0` / `3.5.0 Confidence`.

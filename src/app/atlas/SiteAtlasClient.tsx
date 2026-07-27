@@ -61,7 +61,7 @@ const recommendedRoutes = [
     nodes: ['timeline', 'leaderboard', 'dashboard'],
   },
   {
-    title: 'Public narrative',
+    title: 'Public product information',
     body: 'Use the project page, showcase, press wall and roadmap to understand who maintains PolicyWatcher, how it is discussed, and where it may evolve.',
     nodes: ['about', 'showcase', 'press', 'roadmap'],
   },
@@ -288,9 +288,9 @@ export default function SiteAtlasClient() {
         <div className={styles.sectionHeading}>
           <span>
             <Route size={15} />
-            Complete linked sitemap
+            Linked sitemap
           </span>
-          <h2>Every public and protected-boundary surface, grouped by purpose.</h2>
+          <h2>Registered public and protected-boundary routes, grouped by purpose.</h2>
         </div>
 
         <div className={styles.sitemapFamilies}>

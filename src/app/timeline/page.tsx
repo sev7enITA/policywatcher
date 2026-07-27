@@ -216,7 +216,7 @@ export default function TimelinePage() {
       <div className={styles.hero}>
         <h1 className={styles.heroTitle}>Policy Change Archive</h1>
         <p className={styles.heroSub}>
-          Every policy change, every company, on a single timeline.
+          Recorded policy changes across the configured company inventory.
           The public record of how tech companies rewrite the rules.
         </p>
         <div className={styles.heroStats}>
@@ -355,11 +355,11 @@ export default function TimelinePage() {
           /* Empty state */
           <div className={styles.emptyState}>
             <Shield size={48} className={styles.emptyIcon} />
-            <h3 className={styles.emptyTitle}>No source-verified changes exposed</h3>
+            <h3 className={styles.emptyTitle}>No evidence-gated changes available</h3>
             <p className={styles.emptyText}>
               {hasFilters
                 ? 'Try adjusting your filters or search query.'
-                : 'Anomalies were identified during the latest fetching or update cycle. Suspended sources do not expose timeline data until verified.'}
+                : 'Anomalies were identified during the latest fetching or update cycle. Suspended sources do not expose timeline data until a reviewed baseline passes the publication gate.'}
             </p>
           </div>
         ) : (

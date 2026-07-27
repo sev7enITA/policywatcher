@@ -137,7 +137,7 @@ const translations = {
     enterprise: 'Azienda',
     updated: 'Aggiornato',
     viewAnalysis: 'Vedi Analisi',
-    noResults: 'Nessun record source-verified pubblico disponibile. I record seed restano nascosti finche non viene completata una scansione reale.',
+    noResults: 'Nessun record pubblico conforme al gate di evidenza. I record seed restano nascosti finché non viene completata una scansione della fonte.',
     loading: 'Caricamento dati...',
     policiesList: 'Policies disponibili:',
     privacy: 'Privacy',
@@ -155,7 +155,7 @@ const translations = {
     marketPulseTitle: 'Market Pulse',
     marketPulseSubtitle: 'Ultime modifiche ordinate nel tempo, filtrate per settore.',
     openFullTimeline: 'Apri timeline completa',
-    noMarketPulse: 'Nessuna modifica source-verified pubblicabile per questo filtro.',
+    noMarketPulse: 'Nessuna modifica conforme al gate di evidenza per questo filtro.',
     suspendedSourcesTitle: 'Sorgenti temporaneamente sospese',
     suspendedSourcesLead: 'Sono state identificate anomalie nell\'ultimo fetching o aggiornamento. Le sorgenti sotto riportate non espongono dati pubblici finche non vengono verificate.',
     suspendedSourcesCount: 'sorgenti sospese',
@@ -163,7 +163,7 @@ const translations = {
     suspendedSourceReason: 'Motivo',
     suspendedSourceLastCheck: 'Ultimo check',
     sourceBaseline: 'Baseline sorgente',
-    sourceVerified: 'Sorgente verificata',
+    sourceVerified: 'Baseline della fonte pubblicata',
     baselineRegistered: 'Baseline sorgente verificata. Nessuna modifica pubblicabile rilevata da quando il monitoraggio reale e stato avviato.',
     noPolicyEvidence: 'Nessuna evidenza sorgente pubblicabile ancora disponibile.',
     sortByRisk: 'Rischio',
@@ -290,7 +290,7 @@ const translations = {
     enterprise: 'Enterprise',
     updated: 'Updated',
     viewAnalysis: 'View Analysis',
-    noResults: 'No source-verified public records are available. Seed records remain hidden until a real scan completes.',
+    noResults: 'No public records pass the evidence gate. Seed records remain hidden until a source scan completes.',
     loading: 'Loading dashboard data...',
     policiesList: 'Available policies:',
     privacy: 'Privacy',
@@ -308,7 +308,7 @@ const translations = {
     marketPulseTitle: 'Market Pulse',
     marketPulseSubtitle: 'Recent policy movements ordered over time and filtered by sector.',
     openFullTimeline: 'Open full timeline',
-    noMarketPulse: 'No source-verified publishable changes are available for this filter.',
+    noMarketPulse: 'No changes pass the evidence gate for this filter.',
     suspendedSourcesTitle: 'Temporarily Suspended Sources',
     suspendedSourcesLead: 'Anomalies were identified during the latest fetching or update cycle. The sources below do not expose public data until verified.',
     suspendedSourcesCount: 'suspended sources',
@@ -316,8 +316,8 @@ const translations = {
     suspendedSourceReason: 'Reason',
     suspendedSourceLastCheck: 'Last check',
     sourceBaseline: 'Source baseline',
-    sourceVerified: 'Source verified',
-    baselineRegistered: 'Source baseline verified. No publishable change has been detected since real monitoring started.',
+    sourceVerified: 'Source baseline published',
+    baselineRegistered: 'Source baseline published. No publishable change has been detected since monitoring started.',
     noPolicyEvidence: 'No publishable source evidence is available yet.',
     sortByRisk: 'Risk',
     sortByDate: 'Date',
@@ -362,7 +362,7 @@ const translations = {
     accentTeal: 'Teal',
     accentSlate: 'Slate',
     exploreKicker: `v${POLICYWATCHER_VERSION} release map`,
-    exploreTitle: 'Every new surface, one clear entry point.',
+    exploreTitle: 'Public routes and direct links.',
     exploreLead: 'The native dashboard now unifies workspace, filters, provenance, KPIs, trends and exports through validated contracts; Observatory, Atlas, Policy Signals, Trust and Roadmap remain connected paths.',
     exploreAtlas: 'Open full sitemap',
     exploreOpen: 'Open',
@@ -371,7 +371,7 @@ const translations = {
         title: 'Site Atlas',
         href: '/atlas',
         category: 'Navigation',
-        body: 'Interactive graph and complete public-page list with direct links.',
+        body: 'Interactive graph and registered public-page list with direct links.',
       },
       {
         title: 'Observatory',
@@ -1612,7 +1612,7 @@ export default function Dashboard() {
     if (source.suspensionReason === 'source_evidence_missing') {
       return lang === 'it'
         ? 'Inventario configurato, ma non esiste ancora una baseline verificata da sorgente.'
-        : 'Configured inventory exists, but no source-verified baseline is available yet.';
+        : 'Configured inventory exists, but no published source baseline is available yet.';
     }
 
     if (source.suspensionReason === 'partial_retrieval') {

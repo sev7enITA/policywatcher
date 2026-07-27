@@ -24,7 +24,7 @@ const mixLabels: Array<[keyof LeaderboardRow['retrievalMix'], string]> = [
 ];
 
 function formatDate(value: string | null): string {
-  if (!value) return 'No verified timestamp';
+  if (!value) return 'No recorded timestamp';
   return new Intl.DateTimeFormat('en', {
     month: 'short',
     day: 'numeric',
@@ -103,7 +103,7 @@ function PodiumCard({ row }: { row: LeaderboardRow }) {
       </div>
       <dl className={styles.compactStats}>
         <div>
-          <dt>Verified policies</dt>
+          <dt>Evidence-gated policies</dt>
           <dd>
             {row.verifiedPolicyCount}/{row.policyCount}
           </dd>
@@ -126,7 +126,7 @@ function LeaderboardTable({ rows }: { rows: LeaderboardRow[] }) {
   if (rows.length === 0) {
     return (
       <div className={styles.emptyState}>
-        No source-verified leaderboard rows are available yet.
+        No evidence-gated leaderboard rows are available yet.
       </div>
     );
   }
@@ -139,7 +139,7 @@ function LeaderboardTable({ rows }: { rows: LeaderboardRow[] }) {
             <th>Rank</th>
             <th>Company</th>
             <th>Evidence index</th>
-            <th>Verified policies</th>
+            <th>Evidence-gated policies</th>
             <th>Retrieval mix</th>
             <th>Public movement</th>
             <th>Latest source evidence</th>
@@ -293,7 +293,7 @@ export default async function LeaderboardPage() {
             <h1>Policy Signals Board</h1>
             <p>
               A leaderboard for observable source coverage, retrieval traceability,
-              public baselines, and source-verified policy movement. It does not
+              public baselines, and evidence-gated policy movement. It does not
               certify companies, legal compliance, internal conduct, safety, or
               provider trustworthiness.
             </p>
@@ -346,7 +346,7 @@ export default async function LeaderboardPage() {
           detail="configured public-source records"
         />
         <MetricTile
-          label="Verified policies"
+          label="Evidence-gated policies"
           value={snapshot.summary.verifiedPolicyCount}
           detail="non-seeded public baselines"
         />

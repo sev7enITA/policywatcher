@@ -222,7 +222,7 @@ export async function analyzePolicyChange(
 
        Analyze what changed and how it impacts users and businesses in different regions.`;
 
-  const systemInstruction = `You are a world-class legal tech compliance assistant writing for a non-legal audience (product managers, founders, privacy-aware users).
+  const systemInstruction = `You are a legal-tech assistant writing for a non-legal audience (product managers, founders, privacy-aware users).
 Your task is to analyze the policy content provided and return a JSON object that adheres STRICTLY to the following TypeScript interface.
 
 CRITICAL WRITING RULES (the output must be scannable, NOT a wall of text):

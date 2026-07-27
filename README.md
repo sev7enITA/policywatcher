@@ -5,7 +5,7 @@
 <h1 align="center">PolicyWatcher</h1>
 
 <p align="center">
-  <strong>AI-powered policy change intelligence platform for Big Tech and FinTech corporate policies.</strong>
+  <strong>AI-assisted monitoring of configured public policy sources.</strong>
 </p>
 
 <p align="center">
@@ -20,13 +20,13 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%203%20Native%20Dashboard-146c6a" alt="3.9.0 Beta 3 Native Dashboard Intelligence Release" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%204%20Native%20Dashboard-146c6a" alt="3.9.0 Beta 4 Native Dashboard Intelligence Release" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
 <p align="center">
   <strong>Highlighted public evidence:</strong>
-  OpenSSF Best Practices project <a href="https://www.bestpractices.dev/projects/13465">13465</a> is passing.
+  OpenSSF Best Practices project <a href="https://www.bestpractices.dev/projects/13465">13465</a> provides a repository-process self-attestation status.
   GitHub Quality Gate, CodeQL, OpenSSF Scorecard, and Targeted Reliability Coverage badges expose public workflow/repository evidence.
   These are operational quality signals, not legal, regulatory, or security certifications.
 </p>
@@ -37,24 +37,28 @@
 
 PolicyWatcher monitors the privacy policies, terms of service, and AI governance practices of 16 major technology and financial companies. It tracks configured public policy sources, records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
-The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
+The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
 
-### Release 3.9.0 Beta 3 Native Dashboard Intelligence Highlights
+### Release 3.9.0 Beta 4 Native Dashboard Intelligence Highlights
 
-- **Editorial briefing room** adds a bilingual `/press-kit` with an auditable Claim Ledger, publication-ready facts and boilerplates, owned media downloads, checksum metadata, JSON-LD and a stable machine-readable JSON endpoint.
-- **Truthful media boundary** distinguishes configured inventory from complete coverage, source timestamps from release metadata, public mentions from endorsements, and checksum integrity from unattached Content Credentials.
+- **Public claim language governance** replaces promotional absolutes and narrative comparisons with scoped descriptions of implemented behavior, dates, evidence boundaries and limitations.
+- **Editorial regression coverage** checks selected public and distribution surfaces for unsupported security, freshness, explainability and product-quality phrases.
+- **License terminology** describes PolicyWatcher as a civic-tech project with a public repository under CC BY 4.0, without implying an OSI license classification.
+
+- **Press information page** adds a bilingual `/press-kit` with a Claim Ledger, scoped product facts, boilerplates, owned media downloads, checksum metadata, JSON-LD and a stable machine-readable JSON endpoint.
+- **Media scope** distinguishes configured inventory from market coverage, source timestamps from release metadata, public mentions from endorsements, and checksum integrity from unattached Content Credentials.
 
 - **Validated dashboard grammar** composes Citizen, GRC / Legal, Research and Builder workspaces from an immutable allowlisted registry with deterministic IDs and Source QA pinned.
 - **One guarded interaction model** routes direct controls and the Command Palette through typed actions, an acyclic authorization graph and one canonical workspace URL/local-storage codec.
 - **Evidence-first data loading** registers public dashboard sources with explicit endpoint, path/query allowlists, freshness, visibility, evidence-gate and limitation metadata; policy detail and company comparison no longer bypass the registry.
-- **UI/export parity** builds one filtered dashboard view model for both rendering and CSV export; every export carries a machine-readable provenance manifest, even for an empty result.
+- **UI/export parity** builds one filtered dashboard view model for both rendering and CSV export; CSV exports include a machine-readable provenance manifest, including empty results.
 - **Shareable evidence views** copy a canonical URL for committed public filters and workspace state, restore valid views through browser history, and exclude personal/private evidence and consent state.
 - **Canonical KPI semantics** give all 15 KPI fields one bilingual vocabulary, normalization rule, field-specific concern order and explicit `Not assessed` state.
-- **Truthful trends** distinguish chronological observation sequence from the real originating snapshot version and expose provenance and limitations alongside the chart.
+- **Trend provenance** distinguishes chronological observation sequence from the originating snapshot version and exposes provenance and limitations alongside the chart.
 - **Five governed visualizations** route risk trend, risk profile, current risk score, regional assessment and KPI benchmark through static renderer/spec contracts with bilingual summaries, exact-value tables, provenance, limitations and reduced-motion behavior.
-- **Truthful regional and benchmark semantics** keep missing heatmap cells and unassessed KPIs distinct from low risk, join benchmark dimensions by stable KPI key and use the canonical field-specific concern catalog.
+- **Regional and benchmark semantics** keep missing heatmap cells and unassessed KPIs distinct from low risk, join benchmark dimensions by stable KPI key and use the canonical field-specific concern catalog.
 - **Coordinated evidence drill-down** commits heatmap region and audience atomically, opens a radar KPI inspector with original and normalized values, preserves missing and tie states, and provides exact-value fallbacks.
-- **Production dependency security gate** updates PostCSS to 8.5.23 and keeps the deployable dependency audit at zero high-severity findings. The remaining brace-expansion advisory is limited to upstream lint plugins and is documented as a development-only exception pending a compatible update.
+- **Production dependency review** updates PostCSS to 8.5.23 and records the point-in-time deployable dependency audit. The documented `brace-expansion` advisory is limited to upstream lint plugins. Dependency-audit results are operational evidence, not a security certification.
 - **No Vizro runtime** retains the native Next.js, React, Recharts and Prisma stack; Vizro 0.1.59 was used only as a pinned architectural knowledge source.
 
 ### Release 3.8.3 Beta 4 Regional Retrieval Hardening Highlights
@@ -68,12 +72,12 @@ The platform is designed as a **civic tech tool** that translates dense legal do
 
 ### Release 3.8.3 Beta 3 Extension-First Evidence Highlights
 
-- **Store-safe typography** removes every literal em dash from product, extension, test, documentation and tracked marketing surfaces and uses colon-separated extension titles.
-- **Homepage Beta release channel** adds one compact, bilingual `v3.8.3-beta.3 · BETA` strip after Workspace Active with truthful Chrome/Edge/Safari submission-planned status, extension details and the mobile paste fallback.
+- **Store-safe typography** removes literal em dashes from product, extension, test, documentation and tracked marketing surfaces and uses colon-separated extension titles.
+- **Homepage Beta release channel** adds one compact, bilingual `v3.8.3-beta.3 · BETA` strip after Workspace Active with Chrome/Edge/Safari submission-planned status, extension details and the mobile paste fallback.
 - **Security closure** removes the two CodeQL failure triggers and the two template-syntax warnings with behavioral regressions.
 - **Real integration evidence** runs the public inquiry handler against a temporary SQLite schema and rejects raw-content fields before persistence.
 - **Real browser evidence** loads the packaged extension in Chromium, verifies the Manifest V3 service worker and walks disclosure, capture and review states.
-- **Truthful two-path intake** recommends the browser extension on desktop for local DOM-link capture and keeps plain-text paste as the primary mobile fallback.
+- **Two-path intake** recommends the browser extension on desktop for local DOM-link capture and keeps plain-text paste as the primary mobile fallback.
 - **No invented hidden links** states explicitly that copied text cannot reconstruct URLs behind buttons or words such as `here`; missing links fall back to monitored sources or minimized discovery and QA.
 - **General-purpose extraction** uses neutral organization patterns and fixtures rather than product-specific UI examples or brand allowlists.
 - **Context-bound extension scanning** prefers policy anchors inside the opened notification and fails closed for opaque or tokenized redirect links.
@@ -84,12 +88,12 @@ The platform is designed as a **civic tech tool** that translates dense legal do
 - **Real-world signature recognition** extracts brands from signatures such as `Il Team MioDottore` and rejects greetings such as `Gentile utente` as company names.
 - **Italian AI-category recognition** identifies contextual `IA` language without reintroducing false positives from the Italian preposition `ai`.
 - **Unbypassable npm startup gate** routes `npm start` through `server.js`, which verifies and upgrades the configured SQLite schema before Next.js accepts traffic.
-- **Transient-write recovery** retries bounded SQLite lock/time-out contention before returning a truthful unavailable receipt.
+- **Transient-write recovery** retries bounded SQLite lock/time-out contention before returning an unavailable receipt that does not claim persistence.
 
 ### Release 3.8.1 Mobile Inquiry Reliability Highlights
 
 - **One-action mobile intake** turns a pasted notice into a local company/category summary and a single `Check what changed` action; correction fields stay collapsed unless needed.
-- **Truthful receipts** separate persisted success from failed storage: only a successful database write receives a reference and appears in `Admin → Policy inquiries`.
+- **Persistence receipts** separate persisted success from failed storage: only a successful database write receives a reference and appears in `Admin → Policy inquiries`.
 - **Operator visibility** adds an open-inquiry counter to the admin navigation and an optional privacy-minimized SMTP alert through `ADMIN_ALERT_EMAIL`.
 - **Realistic company extraction** recognizes body/signature patterns such as BlaBlaCar without treating section headings as organization names.
 - **Progressive explainability** keeps the privacy boundary, portfolio-wide scope and human QA gate available without forcing a long scroll before verification.
@@ -99,20 +103,20 @@ The platform is designed as a **civic tech tool** that translates dense legal do
 - **One-click local inspection** lets a person invoke PolicyWatcher on an opened policy-update notice without granting persistent access to Gmail, Outlook or browsing history.
 - **Minimum-permission architecture** uses Manifest V3 `activeTab` and `scripting` only after an explicit gesture, plus a host permission limited to `https://www.policywatcher.online/*`.
 - **Raw-content boundary** extracts structured clues inside the active page and immediately discards the visible notice text; the service worker can transmit only the API allowlist fields.
-- **Portfolio-wide evidence** confirms the organization, starting policy categories and dates before checking the company’s complete published evidence portfolio.
+- **Portfolio-wide evidence** confirms the organization, starting policy categories and dates before checking the company’s configured published evidence portfolio.
 - **Cross-browser release** shares one dependency-free codebase across Chrome and Edge and includes the source and instructions required for Apple’s Safari Web Extension packager.
 
 ### Release 3.7.2 Calm Workspace Highlights
 
 - **Progressive first-use onboarding** asks for objective and evidence depth, previews the resulting evidence modules, and keeps Source QA visible before the workspace is applied.
-- **Workspace-aware toolbar** limits the primary surface to three relevant quick actions while retaining the complete command set inside More.
+- **Workspace-aware toolbar** limits the primary surface to three relevant quick actions while retaining additional commands inside More.
 - **Direct release transparency** turns the PolicyWatcher identity and version into an accessible changelog control and places the icon-only What Changed entry immediately before Search.
 - **Focused mobile navigation** exposes What Changed, Workspace, AI Chat, Search and More with safe-area spacing and no document-level horizontal overflow.
 - **Local personalization boundary** stores workspace preferences and onboarding completion in the browser; URL presets remain reversible and can bypass first-use setup without collecting user identity.
 
 ### Release 3.7.1 Evidence Intake Reliability Highlights
 
-- **Plain-text-first intake** treats pasted notification text as a browser-local signal even when copy-and-paste drops every hidden link.
+- **Plain-text-first intake** treats pasted notification text as a browser-local signal when copy-and-paste omits hidden links.
 - **Explicit clue confirmation** lets the person review the organization, policy categories, dates, sender domain and an optional starting-policy URL before submission.
 - **Portfolio-wide verification** prioritizes the policy categories named in the notice without excluding the company’s other public monitored policies.
 - **Conflict and runtime explainability** stops mismatched organization/domain clues and distinguishes missing or unavailable database storage from an ordinary verification failure.
@@ -142,7 +146,7 @@ The platform is designed as a **civic tech tool** that translates dense legal do
 - **Durable discovery jobs** persist run state in SQLite and use atomic claims so polling survives process boundaries and prevents overlapping work.
 - **Onboarding reconciliation** keeps batch status synchronized when publication QA fails and safely reuses or audit-reopens existing discovery candidates.
 - **Input and UI correctness** returns controlled errors for malformed discovery requests, removes continuous device-motion work, and uses UTC calendar days for Observatory countdowns.
-- **Regression coverage** protects all six GitHub audit findings before the Hostinger production rollout.
+- **Regression coverage** covers the six recorded GitHub audit findings before the Hostinger production rollout.
 
 ### Release 3.6.3 Guided Evidence Workflows Highlights
 
@@ -209,7 +213,7 @@ The platform is designed as a **civic tech tool** that translates dense legal do
 - **Transparent AI scoring** where generated risk scores are retained only when backed by retrieved policy text and structured model output.
 - **15-KPI governance matrix** covering Privacy, AI Governance, and Ethics. Static bilingual KPI notes are disabled in public mode unless explicitly enabled after editorial review.
 - **Regional impact analysis** across EU, US, and Global jurisdictions from both Individual and Enterprise perspectives.
-- **Bilingual by design** with full native EN/IT support throughout the platform, including all AI outputs.
+- **Bilingual support** for selected public workflows, guidance and structured AI-output fields in English and Italian.
 
 ---
 
@@ -337,7 +341,7 @@ sequenceDiagram
 
 ### Risk Score (1-10)
 
-Each monitored policy receives a composite risk score from 1 (very safe) to 10 (critical concerns). The score is generated by Gemini 2.5 Flash with temperature 0.1 for deterministic, factual output.
+Each analyzed policy can receive a composite screening score from 1 to 10. Gemini 2.5 Flash is configured with temperature 0.1 to reduce output variation. Model output can be incomplete or incorrect and is not a legal or compliance determination.
 
 | Range | Label | Criteria |
 |-------|-------|----------|
@@ -345,7 +349,7 @@ Each monitored policy receives a composite risk score from 1 (very safe) to 10 (
 | 4-6 | Medium | Partial protections, some opaque AI practices, opt-out consent flows, moderate data retention |
 | 7-10 | High | Extensive data collection, opaque AI training, indefinite retention, broad third-party sharing, no independent audits |
 
-Every score comes with exactly 3 **Risk Reasons** that explain *why* the score is what it is, each with a delta contribution (e.g. `+2`, `-1`).
+The model is prompted to return three **Risk Reasons** with delta contributions (for example `+2` or `-1`). The application validates the structured response, but the reasons remain AI-assisted interpretations of the retrieved text.
 
 ### The 15 KPIs
 
@@ -390,9 +394,9 @@ Dataset quality is treated as a release-control discipline. PolicyWatcher follow
 - **Global first:** Global analysis should use the canonical English/global source when the company publishes one.
 - **Market-specific when available:** EU, US, UK, or other regional analysis should point to the provider source for that market.
 - **Localized pages are not primary evidence by default:** translated URLs such as `/it/` are flagged unless they are the only official market source and the jurisdiction label makes that clear.
-- **Traceability over convenience:** every monitored policy keeps its configured source URL, hash, check history, version metadata, and detected changes.
+- **Source provenance:** monitored policy records include the configured source URL, hash, check history, version metadata, and detected changes.
 - **Public evidence gate:** snapshots and changes must be marked `publicEvidence` before they can feed public APIs, sitemap, digests, share pages, reports, timelines, the Policy Signals Board, or benchmarks.
-- **Completeness over false availability:** incomplete, truncated, or anomalous retrievals are marked `Partial` and suspended from public evidence instead of becoming complete baselines.
+- **Partial retrieval handling:** incomplete, truncated, or anomalous retrievals are marked `Partial` and suspended from public evidence instead of becoming accepted baselines.
 - **Segmented legal hubs:** when a provider publishes several policies in one official legal hub, PolicyWatcher can monitor an anchor-scoped section such as `#end-user-privacy-policy` instead of accepting the whole hub as one mixed evidence body.
 - **Provider-challenge remediation:** if an official source is protected by anti-bot or WAF controls, the VPS renderer is attempted but is not treated as a guarantee. Challenge pages, placeholders, stale archives, and too-short bodies stay suspended. Remediation must use a market-specific official URL, official PDF/CDN evidence where available, or a traced admin review before public exposure.
 
@@ -410,7 +414,7 @@ Initial archive baseline rule: during the first `Seeded` re-baseline, the databa
 
 Partial capture rule: if a strategy retrieves policy-like text but the extractor reaches the storage cap or otherwise marks the result incomplete, PolicyWatcher records the strategy as `partial` and suspends the source pending review. It is not counted as an accepted trusted baseline. Short placeholder legal pages are also rejected as insufficient evidence, even when they return HTTP 200.
 
-Operational alert rule: every source suspension created by a manual scrape or by the scheduled check-all pipeline can trigger an internal administrator email. The email contains only source metadata, status, reason, transport source, HTTP status, timestamp, and the Dataset QA console link; it does not include policy text, scores, diffs, KPIs, or AI interpretation.
+Operational alert rule: source suspensions created by a manual scrape or by the scheduled check-all pipeline can trigger an internal administrator email. The email contains source metadata, status, reason, transport source, HTTP status, timestamp, and the Dataset QA console link; it excludes policy text, scores, diffs, KPIs, and AI interpretation.
 
 Initial regeneration rule: on shared hosting, run the first real-source scan in batches. The admin Cron Manager and `/api/cron/check-all` accept `limit` and `companySlug` controls so long renderer/archive cycles can be resumed safely without one oversized HTTP request. Limited batches are ordered by oldest `lastCheckDate`, so repeated `limit=5` runs process the next least-recently checked records instead of restarting from the same first five.
 
@@ -509,7 +513,7 @@ flowchart LR
 - Workspace profiles persist in the browser and can be deep-linked through `?intent=...&depth=...`.
 - Interactive company card grid with filtering by industry, risk level, date range, and text search.
 - Region/perspective context toggle (EU/US/Global x Individual/Enterprise).
-- Real-time stats panel with monitored companies count, critical alerts, and average risk score.
+- Dashboard statistics for configured companies, published alerts and average displayed screening score.
 - Temporarily suspended sources stay visible across profiles with a readable reason and last-check metadata.
 - Skeleton loaders for perceived instant loading.
 
@@ -545,7 +549,7 @@ flowchart LR
 - Animated waveform visualizer showing assistant state (idle/listening/processing/speaking).
 
 ### Email Notifications
-- Real-time alerts on policy changes filtered by subscriber preferences.
+- Alerts sent after a scheduled scan publishes a policy change, filtered by subscriber preferences.
 - Weekly and monthly digest emails.
 - Self-service subscribe/unsubscribe with token-based security.
 - Branded HTML email templates.
@@ -822,7 +826,7 @@ configured proxy-trust policy.
 
 ### Schema Upgrade Notes
 
-Release 3.5 introduces the Truth & Confidence Layer fields and the
+Release 3.5 introduces the Evidence & Confidence Layer fields and the
 `PolicyCheckLog` table. On an existing deployment, update the SQLite schema and
 backfill the initial check-log rows before relying on Dataset QA Status views:
 

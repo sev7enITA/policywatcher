@@ -13,7 +13,7 @@ The Press Kit provides:
 
 - a bounded facts panel for the configured inventory, canonical KPI catalogue and current release;
 - a six-entry Claim Ledger mapping claims to evidence and limitations;
-- publication-ready story angles, short and long boilerplates, citation guidance, founder details and contact routes;
+- reporting topics, short and long boilerplates, citation guidance, founder details and contact routes;
 - individually downloadable owned assets with SHA-256 integrity values and an explicit `contentCredentials: "not-attached"` boundary;
 - valid JSON-LD and a stable `/press-kit/press-kit.json` endpoint;
 - direct links to methodology, Trust & Quality, the Feature Intelligence Atlas and the separate Press Wall.

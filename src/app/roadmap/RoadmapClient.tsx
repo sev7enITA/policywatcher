@@ -231,7 +231,7 @@ const candidateFeatures = [
     title: 'Market pulse atlas',
     body:
       'A visual atlas of policy movement by sector, jurisdiction, source status, and time period, designed for researchers and journalists.',
-    status: 'Narrative value',
+    status: 'Communication value',
     risk: 'Requires enough verified public evidence to avoid empty theatrics.',
   },
   {
@@ -345,14 +345,14 @@ const releaseLanes = [
     label: '3.8.1',
     title: 'Mobile Inquiry Reliability',
     body:
-      'One-action mobile notification intake, realistic company extraction, truthful persistence receipts, visible admin queue count and privacy-minimized operator alerts.',
+      'One-action mobile notification intake, company extraction, persistence-specific receipts, visible admin queue count and privacy-minimized operator alerts.',
     state: 'delivered',
   },
   {
     label: POLICYWATCHER_VERSION,
     title: POLICYWATCHER_RELEASE_NAME,
     body:
-      'Validated native dashboard grammar, canonical KPI semantics, truthful snapshot-version trends, typed cross-filter actions, evidence-first data registry, UI/export parity, deterministic responsive layout and accessible chart fallbacks without adding a second runtime stack.',
+      'Validated native dashboard grammar, canonical KPI semantics, snapshot-version provenance, typed cross-filter actions, evidence-first data registry, UI/export parity, deterministic responsive layout and accessible chart fallbacks without adding a second runtime stack.',
     state: 'current',
   },
   {
@@ -489,7 +489,7 @@ export default function RoadmapClient() {
           <span className={styles.eyebrow}>Community-shaped roadmap</span>
           <h1>Help decide what PolicyWatcher should show next</h1>
           <p>
-            PolicyWatcher is moving from static dashboards to goal-driven evidence workspaces. The next step is not more navigation. It is a clearer way to ask: what do you need to understand, how much evidence do you need, and what should the system hide until the source is trustworthy enough?
+            PolicyWatcher includes goal-driven evidence workspaces in addition to static dashboard views. Workspace configuration records the user objective, requested evidence depth and modules that remain unavailable until source requirements are met.
           </p>
           <div className={styles.heroActions}>
             <a className={styles.primaryAction} href="#candidates">
@@ -671,7 +671,7 @@ export default function RoadmapClient() {
             <h2>Potential evolutions the community can rank</h2>
           </div>
           <p>
-            Each candidate needs more than a vote. The best signal explains the workflow, the expected evidence, the acceptable limits, and the reason the current product does not solve it yet.
+            Candidate review records the workflow, expected evidence, acceptable limits and the current implementation gap in addition to the vote count.
           </p>
         </div>
 

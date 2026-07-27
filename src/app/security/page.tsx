@@ -18,7 +18,7 @@ export default function SecurityPage() {
             </div>
             <h1>Vulnerability Disclosure Policy</h1>
             <p>
-              We take security seriously. If you discover a security vulnerability in our platform, please report it to us responsibly.
+              This page describes the channel and information requested for reporting a potential security vulnerability.
             </p>
           </header>
 
@@ -48,7 +48,7 @@ export default function SecurityPage() {
                 <div className={styles.controlCard}>
                   <ShieldCheck size={18} aria-hidden="true" />
                   <strong>Public Validation Signals</strong>
-                  <span>GitHub Quality Gate, CodeQL, OpenSSF Scorecard, OpenSSF Best Practices passing badge and live header scan links.</span>
+                  <span>Links to GitHub Quality Gate, CodeQL, OpenSSF Scorecard, the OpenSSF Best Practices project and a public header scan.</span>
                 </div>
               </div>
               <p>

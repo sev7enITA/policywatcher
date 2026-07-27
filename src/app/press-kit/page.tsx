@@ -13,19 +13,19 @@ import {
 
 export const metadata: Metadata = {
   title: 'Press Kit | PolicyWatcher',
-  description: 'PolicyWatcher newsroom with verified facts, claim ledger, owned media assets, boilerplates and citation guidance.',
+  description: 'PolicyWatcher product facts, supporting links, limitations, media files, boilerplates and citation details.',
   alternates: { canonical: PRESS_KIT_CANONICAL_URL },
   openGraph: {
-    title: 'PolicyWatcher Press Kit: Evidence, not hype',
-    description: 'Verified product facts, proof links, limitations and owned newsroom assets.',
+    title: 'PolicyWatcher Press Kit',
+    description: 'Product facts, supporting links, limitations and owned media files.',
     url: PRESS_KIT_CANONICAL_URL,
     type: 'website',
     images: [{ url: 'https://policywatcher.online/press-kit/policywatcher-logo-square-1024.jpg', width: 1024, height: 1024, alt: 'PolicyWatcher brand artwork' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PolicyWatcher Press Kit: Evidence, not hype',
-    description: 'Verified product facts, proof links, limitations and owned newsroom assets.',
+    title: 'PolicyWatcher Press Kit',
+    description: 'Product facts, supporting links, limitations and owned media files.',
     images: ['https://policywatcher.online/press-kit/policywatcher-logo-square-1024.jpg'],
   },
 };

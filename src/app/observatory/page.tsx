@@ -225,7 +225,7 @@ export default function ObservatoryPage() {
               signals, standards updates and policy events that deserve a human
               look before they influence PolicyWatcher analysis.
             </p>
-            <p className={styles.freshnessNote}>Source facts verified {OBSERVATORY_VERIFIED_AT} · manually reviewed, not automatically ingested news.</p>
+            <p className={styles.freshnessNote}>Source list manually reviewed {OBSERVATORY_VERIFIED_AT} · not automatically ingested news.</p>
             <div className={styles.heroActions}>
               <Link href="#watch-board" className={styles.primaryAction}>
                 Open board
@@ -278,7 +278,7 @@ export default function ObservatoryPage() {
           <ShieldCheck size={18} />
           <div>
             <span>Source gate</span>
-            <strong>Official or standards-oriented links only</strong>
+            <strong>Official and standards-oriented links</strong>
           </div>
         </article>
         <article>
@@ -449,8 +449,8 @@ export default function ObservatoryPage() {
           </span>
           <h2>Official and standards-oriented sources grouped for review.</h2>
           <p>
-            The registry stays secondary to the board, but every watch item
-            points back to these public sources and their review cadence.
+            Watch items reference these public sources and their recorded
+            review cadence.
           </p>
         </div>
 

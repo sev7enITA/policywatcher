@@ -22,10 +22,10 @@ const copy = {
     title: 'Dalla mail ai link reali, senza inviare la mail',
     lead: 'Con un gesto esplicito, PolicyWatcher legge localmente la notifica aperta e recupera i link presenti nella pagina. Tu confermi gli indizi minimi prima della verifica.',
     betaTitle: 'Versione Beta per test controllati', betaBody: 'È software pre-release: estrazione ed evidenze possono essere incomplete o non disponibili. Non usarlo con comunicazioni riservate, sanitarie, finanziarie, lavorative o di autenticazione; non è consulenza legale.', betaBoundary: 'Il contenuto grezzo resta sul dispositivo e non viene trasmesso.',
-    boundary: 'Il contenuto resta nel browser', boundaryBody: 'Testo, oggetto, indirizzi e allegati non vengono trasmessi né conservati.',
+    boundary: 'Campi esclusi dalla trasmissione', boundaryBody: 'Il payload dell’estensione esclude testo, oggetto, indirizzi e allegati.',
     local: 'Nella scheda aperta', localItems: ['Testo visibile della notifica', 'Link reali presenti nei pulsanti', 'Mittente e date visibili'],
     sent: 'Solo dopo la conferma', sentItems: ['Organizzazione o dominio', 'Un link di partenza ripulito', 'Categorie di policy e date'],
-    howTitle: 'Un controllo breve, sempre sotto il tuo controllo',
+    howTitle: 'Controllo avviato dall’utente',
     steps: [
       ['Apri la notifica', 'Rimani sulla mail o sulla pagina che segnala l’aggiornamento.'],
       ['Avvia l’estensione', 'L’accesso temporaneo alla scheda parte soltanto quando premi Analizza.'],
@@ -46,10 +46,10 @@ const copy = {
     title: 'From the email to real links, without sending the email',
     lead: 'After an explicit action, PolicyWatcher reads the open notification locally and retrieves links present in the page. You confirm the minimal clues before verification.',
     betaTitle: 'Beta version for controlled testing', betaBody: 'This is pre-release software: extraction and evidence may be incomplete or unavailable. Do not use it with confidential, health, financial, employment or authentication communications; it is not legal advice.', betaBoundary: 'Raw content stays on the device and is not transmitted.',
-    boundary: 'Content stays in the browser', boundaryBody: 'Text, subject, addresses and attachments are never transmitted or stored.',
+    boundary: 'Fields excluded from transmission', boundaryBody: 'The extension payload excludes text, subject, addresses and attachments.',
     local: 'In the open tab', localItems: ['Visible notification text', 'Real links behind buttons', 'Visible sender and dates'],
     sent: 'Only after confirmation', sentItems: ['Organization or domain', 'One cleaned starting link', 'Policy categories and dates'],
-    howTitle: 'A short check, always under your control',
+    howTitle: 'A short, user-initiated check',
     steps: [
       ['Open the notification', 'Stay on the email or page that reports the update.'],
       ['Run the extension', 'Temporary tab access starts only when you press Inspect.'],
@@ -105,7 +105,7 @@ export default function BrowserExtensionClient({ storeLinks }: { storeLinks: Bro
     </section>
 
     <section className={styles.availability}>
-      <div className={styles.sectionHeading}><p>{lang === 'it' ? 'Installazione verificata' : 'Verified installation'}</p><h2>{t.installTitle}</h2><span>{t.installLead}</span></div>
+      <div className={styles.sectionHeading}><p>{lang === 'it' ? 'Disponibilità store' : 'Store availability'}</p><h2>{t.installTitle}</h2><span>{t.installLead}</span></div>
       <div className={styles.storeList}>{stores.map(({ id, name, body, icon: Icon }) => <article key={id}>
         <Icon aria-hidden="true" /><div><h3>{name}</h3><p>{body}</p>{storeLinks[id]
           ? <a href={storeLinks[id]!} target="_blank" rel="noopener noreferrer">{t.install}<ExternalLink aria-hidden="true" /></a>

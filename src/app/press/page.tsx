@@ -33,7 +33,7 @@ const mentions = [
     date: 'July 2026',
     title: 'PolicyWatcher: osservare le policy delle Big Tech come infrastruttura civica',
     summary:
-      'A long-form article presenting PolicyWatcher as a civic-tech infrastructure for observing how major technology platforms change public-facing policy texts.',
+      'A long-form article presenting PolicyWatcher as a civic-tech project for observing changes in configured public policy texts from digital platforms.',
     signal: 'Editorial coverage',
     href: 'https://www.tomshw.it/business/policywatcher-osservare-le-policy-delle-big-tech-come-infrastruttura-civica',
     image: '/press/toms-hardware-policywatcher.jpg',
@@ -47,7 +47,7 @@ const mentions = [
     date: 'July 2026',
     title: 'Public post sharing the PolicyWatcher GitHub repository',
     summary:
-      'A public LinkedIn contribution pointing to the open-source repository and bringing PolicyWatcher into an AI and digital-policy professional conversation.',
+      'A public LinkedIn contribution pointing to the public repository and discussing PolicyWatcher in an AI and digital-policy professional context.',
     signal: 'AI community attention',
     href: 'https://www.linkedin.com/posts/massimochiriatti_github-sev7enitapolicywatcher-ai-powered-activity-7480524272717914113-drNk?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAGsz9cBmSFfvtGARb5SXzJawRC63pNXQx0',
     image: '/press/massimo-chiriatti-linkedin.png',
@@ -60,7 +60,7 @@ const mentions = [
     date: 'July 2026',
     title: 'PolicyWatcher discussed in an AI governance and policy context',
     summary:
-      'A public LinkedIn contribution connecting PolicyWatcher to policy monitoring, governance, and the need to make platform changes easier to inspect.',
+      'A public LinkedIn contribution connecting PolicyWatcher to policy monitoring, governance, and inspection of platform-policy changes.',
     signal: 'Governance community attention',
     href: 'https://www.linkedin.com/posts/micheleiaselli_policywatcher-aigovernance-policy-activity-7476170330156273665-oz42?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAGsz9cBmSFfvtGARb5SXzJawRC63pNXQx0',
     image: '/press/michele-iaselli-linkedin.jpg',
@@ -73,7 +73,7 @@ const mentions = [
     date: 'July 2026',
     title: 'Come monitorare policy, privacy e AI Act dei principali tool di intelligenza artificiale',
     summary:
-      'A newsletter article testing PolicyWatcher as an open-source tool for monitoring policy, terms of service, privacy notices, and AI Act-relevant changes across major AI services.',
+      'A newsletter article testing PolicyWatcher as a tool with a public repository for monitoring policy, terms of service, privacy notices, and AI Act-relevant changes across configured AI services.',
     signal: 'Privacy and AI Act community attention',
     href: 'https://avvocatogiovannapanucci.substack.com/p/come-monitorare-policy-privacy-e',
     image: '/press/gladiatori-digitali-panucci.png',
@@ -110,7 +110,7 @@ const principles = [
   {
     title: 'Source-first context',
     body:
-      'Every mention links to the original public source so readers can inspect the context directly, including wording, author, platform, and publication surface.',
+      'Listed mentions include the original public source so readers can inspect wording, author, platform, and publication context.',
     icon: FileSearch,
   },
   {
@@ -185,8 +185,8 @@ export default function PressPage() {
           <h1>Who is talking about PolicyWatcher</h1>
           <p>
             A public wall of articles, professional posts, and community references
-            that are helping frame PolicyWatcher as an open-source civic-tech project
-            for inspecting policy changes from major digital platforms.
+            that discuss PolicyWatcher as a civic-tech project with a public repository
+            for inspecting policy changes from configured digital-platform sources.
           </p>
           <div className={styles.heroActions}>
             <Link className={styles.primaryAction} href="/press-kit">
@@ -336,9 +336,8 @@ export default function PressPage() {
           <span className={styles.sectionLabel}>For journalists and contributors</span>
           <h2>Useful starting points</h2>
           <p>
-            If you are writing about PolicyWatcher, these pages provide a safer
-            foundation than screenshots alone: platform overview, methodology,
-            trust evidence, roadmap, and source repository.
+            These pages provide product information beyond screenshots: platform
+            overview, methodology, trust evidence, roadmap, and source repository.
           </p>
         </div>
         <div className={styles.kitLinks}>

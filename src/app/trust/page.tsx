@@ -86,7 +86,7 @@ const evidenceCards: EvidenceCard[] = [
     linkLabel: 'Open renderer source',
   },
   {
-    title: 'State of the Art Report',
+    title: 'Platform Status Report',
     status: 'Historical snapshot · 5 July 2026',
     tone: 'slate',
     icon: FileSearch,
@@ -127,11 +127,11 @@ const evidenceCards: EvidenceCard[] = [
   },
   {
     title: 'OpenSSF Best Practices',
-    status: 'Passing self-attestation',
+    status: 'External self-attestation',
     tone: 'green',
     icon: CheckCircle2,
     body:
-      'OpenSSF Best Practices project 13465 is passing. This is public self-attestation evidence for open-source process hygiene, not a legal or security certification.',
+      'OpenSSF Best Practices project 13465 publishes an external repository-process self-attestation status. The linked record is not a legal or security certification.',
     href: bestPracticesProjectUrl,
     linkLabel: 'Open badge record',
   },
@@ -244,7 +244,7 @@ const badges = [
 const badgeHighlights = [
   {
     label: 'OpenSSF Best Practices',
-    state: 'Obtained: passing',
+    state: 'External status',
     href: bestPracticesProjectUrl,
     badge: 'https://www.bestpractices.dev/projects/13465/badge',
     note: 'External OpenSSF Best Practices self-attestation for project 13465.',
@@ -335,10 +335,10 @@ export default function TrustPage() {
             </span>
             <h2 id="obtained-badges">Public quality signals that can be inspected.</h2>
             <p>
-              The OpenSSF Best Practices badge is already passing. The other
-              badges expose public workflow or repository-review evidence and
-              should be read as operational signals, not as legal, regulatory,
-              or security certifications.
+              The OpenSSF Best Practices badge links to the external project
+              self-attestation status. The other badges expose public workflow
+              or repository-review evidence. These links are operational
+              signals, not legal, regulatory, or security certifications.
             </p>
           </div>
           <div className={styles.obtainedGrid}>

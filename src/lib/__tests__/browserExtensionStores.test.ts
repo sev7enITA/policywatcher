@@ -31,7 +31,7 @@ describe('browser extension public store status', () => {
     )).toBe('https://microsoftedge.microsoft.com/addons/detail/policywatcher/example');
   });
 
-  it('wires the route to truthful configured and pending states', async () => {
+  it('wires the route to configured and pending states', async () => {
     const { readFile } = await import('node:fs/promises');
     const client = await readFile('src/app/browser-extension/BrowserExtensionClient.tsx', 'utf8');
     const release = await readFile('src/lib/release.ts', 'utf8');

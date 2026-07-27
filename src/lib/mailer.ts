@@ -423,7 +423,7 @@ export async function sendSubscriptionConfirmation(
   const greeting = name ? `Hello ${escapeHtml(name)}` : 'Hello';
   const subject = 'Welcome to PolicyWatcher Alerts';
 
-  const freqLabel = frequency === 'WEEKLY' ? 'Weekly Digest' : 'Real-time Alerts';
+  const freqLabel = frequency === 'WEEKLY' ? 'Weekly Digest' : 'Published change alerts';
   const unsubscribeLink = escapeHtml(buildUnsubscribeLink(email, token));
 
   const bodyContent = `

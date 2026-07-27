@@ -44,7 +44,7 @@ const resources = [
   },
   {
     title: 'Press Kit',
-    body: 'Publication-ready facts, claim evidence, citation guidance and owned media downloads.',
+    body: 'Product facts, supporting links, limitations, citation guidance and owned media downloads.',
     href: '/press-kit',
     icon: Newspaper,
   },
@@ -77,7 +77,7 @@ export default function AboutPage() {
           <span className={styles.eyebrow}>Project authorship and public context · {POLICYWATCHER_BUILD_LABEL}</span>
           <h1>About PolicyWatcher</h1>
           <p className={styles.lead}>
-            PolicyWatcher is an open-source civic-tech project created and maintained by Fabrizio Degni.
+            PolicyWatcher is a civic-tech project created and maintained by Fabrizio Degni. Its repository is public under CC BY 4.0.
             It helps people inspect how configured public policy sources change over time, with the
             retrieval context and data-quality status kept visible alongside the analysis.
           </p>
@@ -112,8 +112,8 @@ export default function AboutPage() {
             <span className={styles.panelLabel}>Created and maintained by</span>
             <h2>Fabrizio Degni</h2>
             <p>
-              Independent builder working on public-interest tools for making digital-policy
-              change easier to inspect, discuss, and verify at the source.
+              Independent builder working on public-interest tools for inspecting and discussing
+              digital-policy changes with links to source material.
             </p>
           </div>
           <div className={styles.contactLinks}>
@@ -132,7 +132,7 @@ export default function AboutPage() {
       <section className={styles.contextSection} aria-labelledby="project-direction">
         <div className={styles.sectionHeading}>
           <span>Project direction</span>
-          <h2 id="project-direction">Make the path to a public policy text inspectable.</h2>
+          <h2 id="project-direction">Display each public policy text with its recorded retrieval context.</h2>
         </div>
         <div className={styles.contextGrid}>
           <article>
@@ -184,9 +184,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className={styles.openSourceBand} aria-label="Open-source resources">
+      <section className={styles.openSourceBand} aria-label="Public repository resources">
         <div>
-          <span>Open source</span>
+          <span>Public repository</span>
           <h2>Inspect the project where it is built.</h2>
         </div>
         <div className={styles.openSourceLinks}>

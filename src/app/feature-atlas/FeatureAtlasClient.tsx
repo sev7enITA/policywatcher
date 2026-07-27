@@ -281,7 +281,7 @@ export default function FeatureAtlasClient() {
           <h1>Feature Intelligence Atlas</h1>
           <p>
             Follow PolicyWatcher from a user signal to official evidence, qualified analysis,
-            public distribution and verified remediation. Every node names its outcome,
+            public distribution and recorded remediation. Nodes include outcome,
             implementation proof and remaining limit.
           </p>
         </div>
@@ -484,7 +484,7 @@ export default function FeatureAtlasClient() {
 
       <section className={styles.methodNote}>
         <div><span>Reading protocol</span><h2>Trace the claim. Keep the boundary.</h2></div>
-        <p>Feature evidence names a real implementation surface. Delivery state describes inventory, not service availability in every deployment. AI-assisted signals remain text-derived attention cues with deterministic fallback, and public evidence stays gated.</p>
+        <p>Feature evidence identifies an implementation surface. Delivery state describes repository inventory, not availability in a specific deployment. AI-assisted signals remain text-derived attention cues, and public data routes apply the configured evidence gate.</p>
         <Link href="/methodology/confidence">Read methodology <ArrowRight size={15} /></Link>
       </section>
 

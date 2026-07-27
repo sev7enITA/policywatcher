@@ -109,15 +109,15 @@ describe('policy inquiry security and admin wiring', () => {
     expect(client).toContain('Privacy and how it works');
     expect(client).toContain('Il testo grezzo, l’oggetto, il destinatario e qualsiasi fingerprint restano nel browser');
     expect(client).toContain('Raw text, subject, recipient and any fingerprint stay in the browser');
-    expect(client).toContain('Controlleremo tutte le policy pubbliche monitorate');
-    expect(client).toContain('We check every monitored public policy');
+    expect(client).toContain('Controlleremo il portafoglio di policy pubbliche configurato');
+    expect(client).toContain('We check the configured public policy portfolio');
     expect(client).toContain('Una nuova azienda o fonte viene pubblicata soltanto dopo approvazione e QA umano');
     expect(client).toContain('A new company or source is published only after human approval and QA');
     for (const state of ['matched', 'monitored_no_verified_change', 'queued', 'ambiguous']) {
       expect(client).toContain(`data-result-explanation="${state}"`);
     }
-    expect(client).toContain('Pubblica solo dopo il QA');
-    expect(client).toContain('Publish only after QA');
+    expect(client).toContain('Applica il gate QA prima della pubblicazione');
+    expect(client).toContain('Apply the QA gate before publication');
     expect(client).toContain('href="/privacy"');
     expect(client).toContain('href="/methodology/confidence"');
     expect(client).not.toContain('className={styles.rail}');
@@ -137,8 +137,8 @@ describe('policy inquiry security and admin wiring', () => {
     expect(client).toContain("queued: 'Richiesta registrata'");
     expect(client).toContain("queued: 'Request registered'");
     expect(client).toContain('Admin → Policy inquiries');
-    expect(client).toContain("whatNext: 'Cosa succede ora?'");
-    expect(client).toContain("whatNext: 'What happens next?'");
+    expect(client).toContain("whatNext: 'Passaggi successivi'");
+    expect(client).toContain("whatNext: 'Next steps'");
     expect(client).toMatch(/className=\{`\$\{styles\.receipt\} \$\{styles\.queuedReceipt\}`\}/);
     expect(client).toMatch(/className=\{`\$\{styles\.disclosure\} \$\{styles\.receiptDisclosure\}`\}/);
     expect(client).toContain('L’amministratore riceve solo gli indizi operativi');
@@ -151,8 +151,9 @@ describe('policy inquiry security and admin wiring', () => {
 
   it('labels the extension capture path as Beta in both languages', () => {
     const client = readFileSync('src/app/what-changed/WhatChangedClient.tsx', 'utf8');
-    expect(client).toContain('Consigliato su computer · Beta');
-    expect(client).toContain('Recommended on a computer · Beta');
+    expect(client).toContain('Computer · Beta');
+    expect(client).not.toContain('Consigliato su computer · Beta');
+    expect(client).not.toContain('Recommended on a computer · Beta');
     expect(client).toContain('In questa Beta, estrazione o evidenze possono essere incomplete.');
     expect(client).toContain('In this Beta, extraction or evidence may be incomplete.');
   });

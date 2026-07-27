@@ -3,7 +3,7 @@
 /**
  * @file page.tsx (Methodology & Confidence)
  *
- * Public bilingual page explaining PolicyWatcher's Truth & Confidence Framework,
+ * Public bilingual page explaining PolicyWatcher's Evidence & Confidence Framework,
  * double-checking ingestion cascade, AI constraints, and known limitations.
  * Exposes the GRC/auditing telemetry logic to ensure transparency and accountability.
  */
@@ -27,7 +27,7 @@ const translationContent = {
   en: {
     backHome: 'Back to Dashboard',
     tag: 'Auditing Framework',
-    title: 'Truth & Confidence Methodology',
+    title: 'Evidence & Confidence Methodology',
     subtitle: 'PolicyWatcher’s operational framework for data provenance, AI constraints, check history, and review accountability.',
     intro: 'GRC and AI Governance work requires evidence-first verification. This page explains how PolicyWatcher records configured sources, maps changes, constrains AI processing, and exposes limitations.',
     
@@ -75,7 +75,7 @@ const translationContent = {
           'Direct grounding: summaries and bullet points are generated from the retrieved/versioned text record being analysed.',
           'No unsupported filling: prompts instruct the model to return "Not Specified" or "Unavailable" when the document does not support a field or KPI.',
           'Structured mapping: categorisations are normalized against the expected analysis fields used by PolicyWatcher.',
-          'Audit trail: Every AI analysis is linked directly to the specific policy version records (old vs. new) from which it was generated.'
+          'Audit trail: persisted AI analyses reference the policy version records used for the comparison.'
         ]
       },
       {
@@ -85,7 +85,7 @@ const translationContent = {
         bullets: [
           'Configured URL: Direct link to the source document monitored.',
           'Ingestion method: indication of whether the current record was seeded, directly retrieved, fetched via HTTP/2, rendered through the VPS service, or recovered through an archive source.',
-          'Scan timestamps: both the Last Checked and Last Successful Fetch times are visible for every policy.',
+          'Scan timestamps: policy detail views expose Last Checked and Last Successful Fetch values when recorded.',
           'Check logs: each scan result can be recorded with status, source, HTTP status, reason, final URL, hash, text length, and archive snapshot timestamp when an archive source is used.',
           'Public-evidence gate: policy snapshots and change records must be explicitly marked as public evidence before public APIs, sitemap, digests, reports, share pages, timelines, or benchmark views can expose them.',
           'Policy Signals Board: the public leaderboard ranks only source coverage, retrieval traceability, public baselines, and publicEvidence-gated movement. It does not certify companies, compliance, safety, internal conduct, or provider trustworthiness.',
@@ -104,7 +104,7 @@ const translationContent = {
         desc: `Release ${POLICYWATCHER_VERSION} validates the native dashboard layer without changing evidence rules.`,
         bullets: [
           'Adaptive Workspace: users can select a session intent (Citizen, GRC / Legal, Research, Builder) and evidence depth (Snapshot, Operational, Forensic).',
-          'Validated composition: dashboard modules come from an immutable allowlist with deterministic identities; Source QA is required and remains first in every composition.',
+          'Validated composition: dashboard modules come from an immutable allowlist with deterministic identities; each valid composition requires Source QA as its first module.',
           'Guarded interaction: direct controls and the Command Palette dispatch typed actions through an acyclic authorization graph and one canonical workspace URL/local-storage codec.',
           'Evidence-first sources: each registered dashboard source declares endpoint, query scope, freshness, visibility, public-evidence gate and known limitations before loading.',
           'Rendering and export parity: the visible filtered company list and CSV export use one view model; the export includes query identity, coverage, filters, evidence gate, limitations and release provenance.',
@@ -184,7 +184,7 @@ const translationContent = {
           'Ancoraggio diretto: riassunti e punti chiave sono generati dal record testuale recuperato/versionato.',
           'Nessun riempimento non supportato: i prompt chiedono al modello di restituire "Non specificato" o "Non disponibile" quando il documento non supporta un campo o KPI.',
           'Mappatura strutturata: le categorizzazioni sono normalizzate rispetto ai campi di analisi previsti da PolicyWatcher.',
-          'Audit trail: ogni analisi IA è collegata agli specifici record di versione della policy (vecchia vs nuova) da cui è stata prodotta.'
+          'Audit trail: le analisi IA persistite fanno riferimento ai record di versione usati per il confronto.'
         ]
       },
       {
@@ -194,7 +194,7 @@ const translationContent = {
         bullets: [
           'URL Configurato: Link diretto al documento sorgente monitorato.',
           'Metodo di ingestione: indicazione se il record corrente deriva da seed, recupero diretto, HTTP/2, renderer VPS o fonte archivio.',
-          'Timestamp scansioni: visibilità di Ultimo Controllo e Ultimo Check Riuscito per ogni policy.',
+          'Timestamp scansioni: le viste di dettaglio mostrano Ultimo Controllo e Ultimo Check Riuscito quando registrati.',
           'Check log: ogni scansione può registrare stato, fonte, HTTP status, motivo, final URL, hash, lunghezza testo e timestamp dello snapshot quando viene usata una fonte archivio.',
           'Gate publicEvidence: snapshot e change devono essere marcati esplicitamente come evidenza pubblica prima che API pubbliche, sitemap, digest, report, share page, timeline o benchmark li espongano.',
           'Policy Signals Board: la leaderboard pubblica ordina soltanto copertura fonte, tracciabilità del retrieval, baseline pubbliche e movimenti marcati publicEvidence. Non certifica aziende, conformità, sicurezza, condotta interna o affidabilità del provider.',

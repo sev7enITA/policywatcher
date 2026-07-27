@@ -62,7 +62,7 @@ export default function InfographicsPage() {
       timeline: {
         title: 'Policy Timeline',
         category: 'Evidence Views',
-        desc: 'A chronological list of verified changes extracted directly from policy documents.',
+        desc: 'A chronological list of published changes derived from retrieved policy documents.',
         flow: 'Receives updates from the main scraper loop and formats historical diffs.',
       },
       leaderboard: {
@@ -87,7 +87,7 @@ export default function InfographicsPage() {
         title: 'Admin Operations',
         category: 'Controlled Boundary',
         desc: 'Protected dashboard for running scans, updating configurations, and checking VPS companions.',
-        flow: 'Maintains system integrity behind secure session validation.',
+        flow: 'Uses authenticated session validation for protected operations.',
       },
     };
     return nodes[selectedNode] ?? nodes.dashboard;
@@ -251,7 +251,7 @@ export default function InfographicsPage() {
           <div className={styles.mobileDiagramLegend} aria-label="Adaptive workspace diagram key">
             <strong>Mobile diagram key</strong>
             <dl>
-              <div><dt>Safety banner</dt><dd>Always visible for every workspace intent.</dd></div>
+              <div><dt>Safety banner</dt><dd>Required by each registered workspace intent.</dd></div>
               <div><dt>Solid module</dt><dd>Active in the selected {activeIntent.toUpperCase()} workspace.</dd></div>
               <div><dt>Faded module</dt><dd>Available elsewhere, deprioritized for this intent.</dd></div>
               <div><dt>Share and drill-down</dt><dd>Canonical view state, atomic regional context and exact KPI inspection remain evidence-bound.</dd></div>
@@ -433,7 +433,7 @@ export default function InfographicsPage() {
                 <div>2. <strong>Profile Mapper:</strong> Activates visible cards and widgets.</div>
                 <div>3. <strong>Bypass Rule:</strong> Forces suspended source warning to load.</div>
                 <div style={{ color: '#ef4444', fontWeight: 800, marginTop: 4 }}>
-                  → Safety lock active: source warnings can NEVER be hidden.
+                  → Safety rule active: workspace filtering cannot remove source warnings.
                 </div>
               </div>
             </div>
@@ -472,7 +472,7 @@ export default function InfographicsPage() {
               <g transform="translate(320 205)" className={styles.animateFloat}>
                 <rect x="0" y="0" width="120" height="60" rx="6" fill="#fff1f2" stroke="#dc2626" strokeWidth="2" className={styles.safetyHighlight} />
                 <text x="60" y="24" fill="#b91c1c" fontSize="10" fontWeight="900" textAnchor="middle">SAFETY BYPASS</text>
-                <text x="60" y="38" fill="#0f172a" fontSize="8" fontWeight="800" textAnchor="middle">Always Rendered</text>
+                <text x="60" y="38" fill="#0f172a" fontSize="8" fontWeight="800" textAnchor="middle">Required Module</text>
                 <text x="60" y="48" fill="#64748b" fontSize="7" textAnchor="middle">Warnings locked</text>
               </g>
 
@@ -490,7 +490,7 @@ export default function InfographicsPage() {
             <dl>
               <div><dt>1 · Parse</dt><dd>Allowlisted URL parameters enter the workspace mapper.</dd></div>
               <div><dt>2 · Compose</dt><dd>Ordinary dashboard modules follow the selected profile.</dd></div>
-              <div><dt>3 · Override</dt><dd>Source warnings bypass filtering and always render.</dd></div>
+              <div><dt>3 · Override</dt><dd>Source warnings bypass workspace filtering.</dd></div>
             </dl>
           </div>
         </section>

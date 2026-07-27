@@ -61,7 +61,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Current Beta</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      PolicyWatcher now composes its native dashboard from validated, deterministic contracts for modules, workspace state, actions, data sources, responsive layout and five governed visualizations. Versioned shareable evidence views encode public filter state in canonical URLs, provide a Copy view action and restore committed context through browser history while stale values fail closed. Selecting a regional heatmap cell commits region and audience together; selecting a radar KPI opens original and normalized values with explicit missing and tie states. Exact-value tables remain the accessible fallback, mobile inspectors use a single-column path, and normalized ordinal values are screening aids rather than compliance or performance measurements. The release also adds a bilingual, claim-led Press Kit with checksummed owned assets and stable JSON metadata. Vizro was studied as a pinned knowledge source only; no Vizro, Dash, Flask or Python runtime was added.
+                      PolicyWatcher composes its native dashboard from validated contracts for modules, workspace state, actions, data sources, responsive layout and five governed visualizations. Versioned shareable evidence views encode public filter state in canonical URLs, provide a Copy view action and restore committed context through browser history while stale values fail closed. Selecting a regional heatmap cell commits region and audience together; selecting a radar KPI opens original and normalized values with explicit missing and tie states. Data tables provide the accessible values, mobile inspectors use a single-column path, and normalized ordinal values are screening aids rather than compliance or performance measurements. The release includes a bilingual Press Kit with scoped claims, checksummed owned assets and JSON metadata. Public copy now describes configured scope, implementation behavior, dates and limitations without promotional absolutes. Vizro was studied as a pinned knowledge source; no Vizro, Dash, Flask or Python runtime was added.
                     </p>
                   </div>
 
@@ -81,7 +81,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeStable}>Stable</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      First-time visitors choose an objective and evidence depth, preview the resulting evidence modules and keep Source QA visible before applying the workspace. The toolbar exposes at most three relevant shortcuts, keeps every command in More, and provides direct What Changed, Search, Workspace and changelog access. Preferences and completion stay local to the browser.
+                      First-time visitors choose an objective and evidence depth, preview the resulting evidence modules and keep Source QA visible before applying the workspace. The toolbar exposes at most three relevant shortcuts, retains additional commands in More, and provides direct What Changed, Search, Workspace and changelog access. Preferences and completion stay local to the browser.
                     </p>
                   </div>
 
@@ -91,7 +91,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeStable}>Stable</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Plain-text notices work even when copy-and-paste loses hidden links. Users confirm the company, starting policy categories, dates and optional official URL locally; PolicyWatcher then prioritizes that signal while checking the company’s full public monitored portfolio. Conflicts and unavailable database storage produce explicit, actionable states without transmitting the raw email.
+                      Plain-text notices work when copy-and-paste omits hidden links. Users confirm the company, starting policy categories, dates and optional official URL locally; PolicyWatcher then prioritizes that signal while checking the company’s configured public policy portfolio. Conflicts and unavailable database storage produce explicit states without transmitting the raw email.
                     </p>
                   </div>
 
@@ -147,7 +147,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
 
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>Truth & Confidence Layer (v3.5.0)</span>
+                      <span className={styles.featureName}>Evidence &amp; Confidence Layer (v3.5.0)</span>
                       <span className={styles.badgeStable}>Stable</span>
                     </div>
                     <p className={styles.featureDesc}>
@@ -161,7 +161,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeDone}>Completed</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Major public-release upgrade with a policy-change timeline, home-page Market Pulse, SEO-ready change permalinks, embeddable change widgets, dynamic OG social cards, sitemap generation, improved diff rendering, industry-average benchmarking, regional heatmaps, encrypted backup verification, and the Dataset QA Status. Dataset QA now checks source-fit, hash integrity, freshness, structured AI JSON, KPI coverage, regional impacts, and subscriber hygiene. Security updates include safer cron secret handling, sanitized AI assistant rendering, protected subscriber tokens, escaped email templates, SSRF-aware scraper egress checks, stronger backup passphrases, and tighter deployment diagnostics.
+                      Public release with a policy-change timeline, home-page Market Pulse, change permalinks, embeddable change widgets, dynamic OG social cards, sitemap generation, diff rendering, industry-average benchmarking, regional heatmaps, encrypted backup verification, and Dataset QA status. Dataset QA checks source fit, hash integrity, freshness, structured AI JSON, KPI coverage, regional impacts, and subscriber hygiene. Security updates include cron secret handling, sanitized AI assistant rendering, protected subscriber tokens, escaped email templates, SSRF-aware scraper egress checks, backup passphrase requirements, and deployment diagnostics.
                     </p>
                   </div>
 
@@ -171,17 +171,17 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>New</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Secure admin dashboard at /admin with two roles: Admin (full CRUD, cron control, company management) and Auditor (read-only for regulatory review). Features include system metrics dashboard, cron manager with concurrency lock, database inspector, interactive KPI audit matrix (16x15), company and policy CRUD management, and full feature explainability documentation. Security: HMAC-SHA256 signed HTTP-only cookies, rate-limited login (5/min), constant-time comparison, and intentional delay on failed attempts. Also added a Sources tab showing all monitored documents per company with Wayback Machine archive links.
+                      Protected admin dashboard at /admin with two roles: Admin (company and policy operations, cron control) and Auditor (read-only access to selected review views). Features include system metrics, cron manager with concurrency lock, database inspector, KPI audit matrix (16x15), company and policy management, and feature documentation. Controls include HMAC-SHA256 signed HTTP-only cookies, rate-limited login (5/min), constant-time comparison, and intentional delay on failed attempts. A Sources tab lists configured documents per company with Wayback Machine availability links.
                     </p>
                   </div>
 
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>AI Engine Migration & Open Source (v2.4.0)</span>
+                      <span className={styles.featureName}>AI Engine Migration & Public Repository (v2.4.0)</span>
                       <span className={styles.badgeDone}>Completed</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Migrated AI engine from deprecated Gemini 1.5 Flash to Gemini 2.5 Flash with automatic fallback to Gemini 2.0 Flash-Lite on 503/429 errors for high-availability resilience. Published full source code on GitHub under CC BY 4.0 license with comprehensive documentation, architecture diagrams, and methodology. Replaced all emoji with custom SVG icon set across the onboarding wizard.
+                      Migrated the AI engine from deprecated Gemini 1.5 Flash to Gemini 2.5 Flash with a Gemini 2.0 Flash-Lite fallback for 503/429 responses. Published the repository on GitHub under CC BY 4.0 with documentation, architecture diagrams, and methodology. Replaced emoji in the onboarding wizard with SVG icons.
                     </p>
                   </div>
 
@@ -201,7 +201,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeDone}>Completed</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Personalized instant alerts or weekly/monthly digests filtered by chosen regions and industry preferences, complete with self-service unsubscribe management.
+                      Preference-filtered change alerts and weekly/monthly digests with self-service unsubscribe management.
                     </p>
                   </div>
 

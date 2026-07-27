@@ -14,7 +14,7 @@ describe('homepage browser extension Beta launch strip', () => {
     expect(page).toContain('POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE');
   });
 
-  it('publishes bilingual, truthful extension-first copy', () => {
+  it('publishes bilingual, scoped extension-first copy', () => {
     expect(page).toContain('Estensione browser: dalla mail ai link reali');
     expect(page).toContain('Browser extension: from the email to real links');
     expect(page).toContain('legge localmente il testo visibile e i link presenti nella pagina');

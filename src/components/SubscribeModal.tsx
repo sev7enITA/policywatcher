@@ -8,7 +8,7 @@
  *  - Name (optional)
  *  - Regions of interest (EU / US / Global)
  *  - Industry sectors
- *  - Notification frequency (real-time or weekly digest)
+ *  - Notification frequency (published-change alert or weekly digest)
  *
  * On submit, POSTs to `/api/subscribers`. The API returns a generic
  * anti-enumeration response for new, existing, and reactivated addresses.
@@ -46,7 +46,7 @@ const translations = {
     regionsLabel: 'Regions of Interest',
     industriesLabel: 'Industries',
     frequencyLabel: 'Notification Frequency',
-    freqInstant: 'Real-time Alerts',
+    freqInstant: 'Published change alerts',
     freqWeekly: 'Weekly Digest',
     submitText: 'Subscribe',
     submitting: 'Subscribing...',
@@ -67,7 +67,7 @@ const translations = {
     regionsLabel: 'Regioni di Interesse',
     industriesLabel: 'Settori',
     frequencyLabel: 'Frequenza Notifiche',
-    freqInstant: 'In tempo reale',
+    freqInstant: 'Avvisi sui cambi pubblicati',
     freqWeekly: 'Riepilogo settimanale',
     submitText: 'Iscriviti',
     submitting: 'Iscrizione in corso...',

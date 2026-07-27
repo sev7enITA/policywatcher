@@ -62,19 +62,19 @@ export const pressKitFacts: PressKitFact[] = [
   {
     value: '15',
     label: { en: 'canonical KPIs', it: 'KPI canonici' },
-    scope: { en: 'Privacy, AI governance and ethics; Not assessed is not zero.', it: 'Privacy, governance AI ed etica; Non valutato non equivale a zero.' },
+    scope: { en: 'Privacy, AI governance and ethics; unavailable assessments display Not assessed.', it: 'Privacy, governance AI ed etica; le valutazioni non disponibili mostrano Non valutato.' },
   },
   {
     value: 'EN / IT',
     label: { en: 'editorial languages', it: 'lingue editoriali' },
-    scope: { en: 'The newsroom and principal guidance are bilingual.', it: 'La newsroom e le principali guide sono bilingui.' },
+    scope: { en: 'The press kit and selected guidance pages support English and Italian.', it: 'Il press kit e alcune pagine guida supportano inglese e italiano.' },
   },
 ];
 
 export const pressKitClaims: PressKitClaim[] = [
   {
     id: 'public-evidence-gate',
-    claim: { en: 'Public analytical outputs are evidence-gated.', it: 'Gli output analitici pubblici sono soggetti a un gate di evidenza.' },
+    claim: { en: 'Published analytical records are filtered by the public evidence gate.', it: 'I record analitici pubblicati sono filtrati dal gate delle evidenze pubbliche.' },
     status: { en: 'Implemented control', it: 'Controllo implementato' },
     type: 'evidence',
     proofHref: '/methodology/confidence',
@@ -97,7 +97,7 @@ export const pressKitClaims: PressKitClaim[] = [
     type: 'method',
     proofHref: '/feature-atlas',
     proofLabel: { en: 'Feature Atlas', it: 'Atlante funzionalita' },
-    boundary: { en: 'Normalized values support comparison only; Not assessed is not zero or a compliance score.', it: 'I valori normalizzati servono solo al confronto; Non valutato non e zero ne un punteggio di conformita.' },
+    boundary: { en: 'Normalized values support comparison only; unavailable assessments have no numerical value and the result is not a compliance score.', it: 'I valori normalizzati servono solo al confronto; le valutazioni non disponibili non hanno valore numerico e il risultato non e un punteggio di conformita.' },
   },
   {
     id: 'public-code',
@@ -115,7 +115,7 @@ export const pressKitClaims: PressKitClaim[] = [
     type: 'freshness',
     proofHref: '/timeline',
     proofLabel: { en: 'Policy timeline', it: 'Timeline policy' },
-    boundary: { en: 'Release metadata is current to 27 July 2026; evidence freshness remains source-specific, not real-time.', it: 'I metadata di release sono correnti al 27 luglio 2026; la freschezza delle evidenze dipende dalla fonte, non e in tempo reale.' },
+    boundary: { en: 'Release metadata is dated 27 July 2026; update intervals depend on source retrieval and review.', it: 'I metadata di release sono datati 27 luglio 2026; gli intervalli di aggiornamento dipendono dal recupero e dalla revisione delle fonti.' },
   },
   {
     id: 'external-coverage',
@@ -195,7 +195,7 @@ export const pressKitAssets: PressKitAsset[] = [
     sha256: 'c229635c7bfe119fb5ae6114eeaf29ba36dca1df63abc83b393032e41156eff5',
     contentCredentials: 'not-attached',
     title: { en: 'Feature Intelligence Atlas product screenshot', it: 'Screenshot prodotto Feature Intelligence Atlas' },
-    caption: { en: 'Fresh product capture of the capability and dependency atlas in 3.9.0 Beta 3.', it: 'Cattura prodotto aggiornata dell atlante di funzionalita e dipendenze in 3.9.0 Beta 3.' },
+    caption: { en: 'Product screenshot of the capability and dependency atlas in 3.9.0 Beta 3, captured on 27 July 2026.', it: 'Screenshot dell atlante di funzionalita e dipendenze in 3.9.0 Beta 3, acquisito il 27 luglio 2026.' },
     alt: { en: 'PolicyWatcher Feature Intelligence Atlas interface', it: 'Interfaccia Feature Intelligence Atlas di PolicyWatcher' },
     usageBoundary: { en: 'UI state captured on 27 July 2026; figures are inventory and qualitative release labels.', it: 'Stato UI catturato il 27 luglio 2026; i dati sono inventario ed etichette qualitative di release.' },
   },
@@ -209,7 +209,7 @@ export const pressKitAssets: PressKitAsset[] = [
     sha256: 'f63c3c911f718c2e35f5de0448e10aa987d7f417168f72df1ed13b99683e1234',
     contentCredentials: 'not-attached',
     title: { en: 'Release Impact product screenshot', it: 'Screenshot prodotto Release Impact' },
-    caption: { en: 'Fresh product capture of the release-outcome and residual-risk map.', it: 'Cattura prodotto aggiornata della mappa di esiti release e rischi residui.' },
+    caption: { en: 'Product screenshot of the release-outcome and residual-risk map, captured on 27 July 2026.', it: 'Screenshot della mappa di esiti release e rischi residui, acquisito il 27 luglio 2026.' },
     alt: { en: 'PolicyWatcher release impact interface', it: 'Interfaccia Release Impact di PolicyWatcher' },
     usageBoundary: { en: 'Categorical KPI and KRI labels are not measured performance or compliance outcomes.', it: 'Le etichette KPI e KRI categoriche non sono risultati misurati di performance o conformita.' },
   },
@@ -219,8 +219,8 @@ export const pressKitAssets: PressKitAsset[] = [
     href: '/press-kit/policywatcher-fact-sheet-2026-07-27.md',
     mediaType: 'text/markdown',
     dimensions: null,
-    bytes: 2397,
-    sha256: 'c17cf3821ef4b726ec5e7c5c746533e650e44a893db80e160def2bb9ed9cb07b',
+    bytes: 2495,
+    sha256: 'a2b1aada190354702ac39521f3a8656cd8a5c8b67874317d293aaac244e129c0',
     contentCredentials: 'not-attached',
     title: { en: 'Press fact sheet', it: 'Scheda stampa' },
     caption: { en: 'Bilingual plain-text facts, context and editorial boundaries.', it: 'Fatti bilingui, contesto e limiti editoriali in testo semplice.' },
@@ -232,7 +232,7 @@ export const pressKitAssets: PressKitAsset[] = [
 export const pressKitCycleItems: PressKitLocalized[] = [
   { en: 'Adaptive, composable dashboard contracts with reversible workspace state.', it: 'Contratti dashboard adattivi e componibili con stato workspace reversibile.' },
   { en: 'Canonical deep links and coordinated evidence drill-down from region cells and benchmark KPIs.', it: 'Deep link canonici e drill-down coordinato da celle regionali e KPI benchmark.' },
-  { en: 'RegionHeatMap and radar views with exact-value fallbacks, missing states and limitations.', it: 'RegionHeatMap e viste radar con valori esatti, stati mancanti e limiti.' },
+  { en: 'RegionHeatMap and radar views with displayed-value fallbacks, missing states and limitations.', it: 'RegionHeatMap e viste radar con valori visualizzati, stati mancanti e limiti.' },
   { en: 'Public guidance, release impact and policy-change timeline separated by purpose and freshness semantics.', it: 'Guide pubbliche, impatto release e timeline dei cambi policy separati per scopo e freschezza.' },
   { en: `Browser extension ${POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION}: ${POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS.en}.`, it: `Estensione browser ${POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION}: ${POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS.it}.` },
 ];
@@ -243,8 +243,8 @@ export const pressKitBoilerplates = {
     it: 'PolicyWatcher e un progetto di interesse pubblico sulle evidenze policy che monitora un inventario configurato di fonti pubbliche e rende visibili stato delle fonti, cambiamenti osservati e limiti analitici.',
   },
   long: {
-    en: 'PolicyWatcher is an independent civic-tech project created by Fabrizio Degni. It monitors a configured inventory of public policy sources for 16 companies across 6 sectors and organizes analysis through 15 canonical KPIs spanning privacy, AI governance and ethics. Public outputs are evidence-gated, preserve source-specific timestamps and expose Not assessed states rather than converting missing evidence into zero. The public repository is reusable under CC BY 4.0. PolicyWatcher is not legal advice, a compliance certification, exhaustive coverage or real-time monitoring.',
-    it: 'PolicyWatcher e un progetto civic-tech indipendente creato da Fabrizio Degni. Monitora un inventario configurato di fonti policy pubbliche per 16 aziende in 6 settori e organizza l analisi attraverso 15 KPI canonici tra privacy, governance AI ed etica. Gli output pubblici sono soggetti a gate di evidenza, mantengono timestamp specifici delle fonti ed espongono stati Non valutato senza trasformare evidenze mancanti in zero. Il repository pubblico e riutilizzabile con licenza CC BY 4.0. PolicyWatcher non e consulenza legale, certificazione di conformita, copertura esaustiva o monitoraggio in tempo reale.',
+    en: 'PolicyWatcher is an independent civic-tech project created by Fabrizio Degni. It monitors a configured inventory of public policy sources for 16 companies across 6 sectors and organizes analysis through 15 canonical KPIs spanning privacy, AI governance and ethics. Public data routes apply the configured evidence gate, preserve source-specific timestamps and show Not assessed when an assessment is unavailable. The public repository is reusable under CC BY 4.0. PolicyWatcher is not legal advice, a compliance certification or exhaustive coverage; update intervals depend on source retrieval and review.',
+    it: 'PolicyWatcher e un progetto civic-tech indipendente creato da Fabrizio Degni. Monitora un inventario configurato di fonti policy pubbliche per 16 aziende in 6 settori e organizza l analisi attraverso 15 KPI canonici tra privacy, governance AI ed etica. Le route pubbliche applicano il gate configurato, mantengono timestamp specifici delle fonti e mostrano Non valutato quando una valutazione non e disponibile. Il repository pubblico e riutilizzabile con licenza CC BY 4.0. PolicyWatcher non e consulenza legale, certificazione di conformita, copertura esaustiva o monitoraggio in tempo reale.',
   },
 } as const;
 
@@ -287,7 +287,7 @@ export function buildPressKitPayload() {
     boundaries: [
       'Not legal advice or a compliance certification.',
       'Configured inventory is not exhaustive public or market coverage.',
-      'Evidence timestamps are source-specific; monitoring is not real-time.',
+      'Evidence timestamps and update intervals are source-specific.',
       'AI-assisted interpretation can be incomplete or incorrect.',
       'External coverage is not endorsement, certification or independent audit.',
     ],
