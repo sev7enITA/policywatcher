@@ -2,7 +2,21 @@
 
 Version: 3.8.3 Beta 3
 Prepared: 23 July 2026
+Availability reviewed: 27 July 2026
 Product: PolicyWatcher Browser Evidence Companion
+
+## Current verified availability
+
+- Chrome Web Store: public listing available at
+  `https://chromewebstore.google.com/detail/policywatcher-what-change/hchhgobigadmmanhflndlkkoooicbdih`.
+- Microsoft Edge Add-ons: no official listing has been verified as of
+  27 July 2026. Keep the public Edge action disabled until a listing resolves
+  on `microsoftedge.microsoft.com`.
+- Safari / App Store: not available. Conversion, signing and review remain
+  external prerequisites.
+
+This snapshot records distribution only. The extension remains 3.8.3 Beta 3
+and the declarations below must continue to match its submitted package.
 
 This document contains the English text and declarations needed to submit the
 current beta to Chrome Web Store, Microsoft Edge Add-ons and Apple TestFlight.
@@ -11,10 +25,9 @@ policy. Beta status does not relax privacy, permission or store-policy duties.
 
 ## 1. Recommended beta distribution
 
-- Chrome: start with **Private** trusted testers or **Unlisted** distribution.
-  Chrome applies the same review requirements to Private, Unlisted and Public
-  items. The beta name must end in `BETA`, and the long description must state
-  `THIS EXTENSION IS FOR BETA TESTING`.
+- Chrome: the public Chrome Web Store listing is live. Keep listing copy,
+  privacy answers, version information and the published package synchronized
+  for every later update.
 - Edge: submit the Edge ZIP through Partner Center and use the narrowest beta or
   hidden audience option offered to the account. Keep the same beta naming and
   privacy declarations used for Chrome.
@@ -22,8 +35,9 @@ policy. Beta status does not relax privacy, permission or store-policy duties.
   assigning the Apple Developer Team, signing the containing app and uploading
   it through App Store Connect. Do not describe the source ZIP as installable.
 
-Do not publish the three store URLs on `policywatcher.online/browser-extension`
-until each URL resolves to the reviewed official store item.
+Publish each store URL on `policywatcher.online/browser-extension` only after
+that specific URL resolves to the official store item. Chrome meets this
+condition; Edge and Safari do not currently have verified public destinations.
 
 ## 2. Store identity and classification
 

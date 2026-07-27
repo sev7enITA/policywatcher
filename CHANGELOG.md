@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+## 3.9.0-beta.9 - 2026-07-27
+
+### Verified browser distribution
+- Added the verified public Chrome Web Store destination to the browser-extension availability model and installation action.
+- Replaced the shared store-submission message with independent Chrome, Edge and Safari states.
+- Marked Chrome as published, Edge as having no verified official Add-ons listing yet and Safari as not yet available with external signing/review dependencies.
+- Updated the homepage, Browser Extension, Press Kit, privacy guidance, release impact and supporting documentation without changing extension permissions or behavior.
+- Kept store URLs fail-closed to HTTPS destinations on the expected official host and added regression coverage for defaults and overrides.
+
 ## 3.9.0-beta.8 - 2026-07-27
 
 ### Assistant entry-point consolidation

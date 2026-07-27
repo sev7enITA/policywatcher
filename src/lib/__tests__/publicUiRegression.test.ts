@@ -158,7 +158,7 @@ describe('public UI regression fixes', () => {
     const privacy = read('src/app/privacy/page.tsx');
 
     expect(release).toContain('POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATE');
-    expect(extension).toContain('POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS[lang]');
+    expect(extension).toContain('POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS[id]');
     expect(home).toContain('POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS[lang]');
     expect(trust).toContain('Historical snapshot · 5 July 2026');
     expect(leaderboard).toContain('snapshot.generatedAt');

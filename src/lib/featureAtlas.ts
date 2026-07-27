@@ -118,7 +118,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.5', shortLabel: '3.9 B5', label: '3.9.0 Beta 5' },
   { id: '3.9.0-beta.6', shortLabel: '3.9 B6', label: '3.9.0 Beta 6' },
   { id: '3.9.0-beta.7', shortLabel: '3.9 B7', label: '3.9.0 Beta 7' },
-  { id: '3.9.0-beta.8', shortLabel: '3.9 B8', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '3.9.0-beta.8', shortLabel: '3.9 B8', label: '3.9.0 Beta 8' },
+  { id: '3.9.0-beta.9', shortLabel: '3.9 B9', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -150,6 +151,7 @@ const primaryUserByDomain: Record<string, string> = {
 };
 
 const routeByFeature: Record<string, FeatureAtlasRoute> = {
+  'verified-browser-store-distribution': { href: '/browser-extension', label: 'Browser companion', access: 'public' },
   'evidence-newsroom': { href: '/press-kit', label: 'Evidence Newsroom', access: 'public' },
   'press-kit-navigation-discovery': { href: '/press-kit', label: 'Press Kit', access: 'public' },
   'public-claim-language-governance': { href: '/press-kit', label: 'Press Kit', access: 'public' },
@@ -183,6 +185,7 @@ const routeByFeature: Record<string, FeatureAtlasRoute> = {
 };
 
 const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
+  'verified-browser-store-distribution': [{ featureId: 'browser-companion', relationship: 'distributed-through' }],
   'evidence-newsroom': [{ featureId: 'editorial-briefing-room', relationship: 'depends-on' }, { featureId: 'public-claim-language-governance', relationship: 'governed-by' }, { featureId: 'press-kit-navigation-discovery', relationship: 'distributed-through' }],
   'press-kit-navigation-discovery': [{ featureId: 'editorial-briefing-room', relationship: 'distributed-through' }, { featureId: 'interactive-public-navigation', relationship: 'depends-on' }],
   'public-claim-language-governance': [{ featureId: 'qualified-language', relationship: 'governed-by' }, { featureId: 'editorial-briefing-room', relationship: 'distributed-through' }],

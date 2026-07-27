@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%208%20Assistant%20Consolidation-146c6a" alt="3.9.0 Beta 8 Assistant Consolidation" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%209%20Verified%20Browser%20Distribution-146c6a" alt="3.9.0 Beta 9 Verified Browser Distribution" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,14 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 9 Verified Browser Distribution Highlights
+
+- **Chrome availability verified** links the public Chrome Web Store listing directly from the browser-extension page.
+- **Independent store states** report Chrome as published, Edge as having no verified Add-ons listing yet and Safari as not yet available.
+- **No inherited status** removes the previous generic submission-planned label from the homepage, Browser Extension, Press Kit and supporting public copy.
+- **Fail-closed links** keep install actions limited to validated HTTPS destinations on the expected official store host.
+- **Distribution boundary** leaves the extension at 3.8.3 Beta 3 and changes only its documented availability and public installation route.
 
 ### Release 3.9.0 Beta 8 Assistant Consolidation Highlights
 
@@ -112,7 +120,7 @@ The platform is designed as a **civic tech tool** that produces structured summa
 ### Release 3.8.3 Beta 3 Extension-First Evidence Highlights
 
 - **Store-safe typography** removes literal em dashes from product, extension, test, documentation and tracked marketing surfaces and uses colon-separated extension titles.
-- **Homepage Beta release channel** adds one compact, bilingual `v3.8.3-beta.3 · BETA` strip after Workspace Active with Chrome/Edge/Safari submission-planned status, extension details and the mobile paste fallback.
+- **Homepage Beta release channel** adds one compact, bilingual `v3.8.3-beta.3 · BETA` strip after Workspace Active with browser-specific distribution status, extension details and the mobile paste fallback.
 - **Security closure** removes the two CodeQL failure triggers and the two template-syntax warnings with behavioral regressions.
 - **Real integration evidence** runs the public inquiry handler against a temporary SQLite schema and rejects raw-content fields before persistence.
 - **Real browser evidence** loads the packaged extension in Chromium, verifies the Manifest V3 service worker and walks disclosure, capture and review states.
@@ -120,7 +128,7 @@ The platform is designed as a **civic tech tool** that produces structured summa
 - **No invented hidden links** states explicitly that copied text cannot reconstruct URLs behind buttons or words such as `here`; missing links fall back to monitored sources or minimized discovery and QA.
 - **General-purpose extraction** uses neutral organization patterns and fixtures rather than product-specific UI examples or brand allowlists.
 - **Context-bound extension scanning** prefers policy anchors inside the opened notification and fails closed for opaque or tokenized redirect links.
-- **Verified store status** exposes a bilingual extension page whose install actions appear only for configured HTTPS store destinations; Safari signing and mobile availability remain explicit external prerequisites.
+- **Verified store status** exposes a bilingual extension page whose install actions appear only for validated HTTPS store destinations; Chrome is published, while Edge listing verification and Safari signing/review remain explicit external dependencies.
 
 ### Release 3.8.2 Inquiry Handoff Reliability Highlights
 

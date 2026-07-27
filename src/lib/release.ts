@@ -1,6 +1,6 @@
-export const POLICYWATCHER_VERSION = '3.9.0-beta.8' as const;
-export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 8' as const;
-export const POLICYWATCHER_RELEASE_NAME = 'Native Dashboard Intelligence' as const;
+export const POLICYWATCHER_VERSION = '3.9.0-beta.9' as const;
+export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 9' as const;
+export const POLICYWATCHER_RELEASE_NAME = 'Verified Browser Distribution' as const;
 export type PolicyWatcherReleaseChannel = 'stable' | 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL: PolicyWatcherReleaseChannel = 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL_LABEL = 'BETA' as const;
@@ -11,8 +11,8 @@ export const POLICYWATCHER_BROWSER_EXTENSION_VERSION = '3.8.3-beta.3' as const;
 export const POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION = '3.8.3 Beta 3' as const;
 export const POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE =
   `v${POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION} · EXTENSION BETA` as const;
-export const POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATE = 'beta-package-ready' as const;
+export const POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATE = 'chrome-store-published' as const;
 export const POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS = {
-  en: 'Beta package ready · store submission planned',
-  it: 'Pacchetto Beta pronto · invio allo store pianificato',
+  en: 'Chrome Web Store published · Edge listing not yet verified · Safari not yet available',
+  it: 'Pubblicata sul Chrome Web Store · scheda Edge non ancora verificata · Safari non ancora disponibile',
 } as const;

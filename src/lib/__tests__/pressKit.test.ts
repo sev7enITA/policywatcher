@@ -172,6 +172,8 @@ describe('public press kit', () => {
     const assuranceItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'newsroom-measurement-and-release-assurance');
     expect(assuranceItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.7', endRelease: '3.9.0-beta.7' });
     const assistantItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'assistant-entry-point-consolidation');
-    expect(assistantItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(assistantItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.8', endRelease: '3.9.0-beta.8' });
+    const distributionItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'verified-browser-store-distribution');
+    expect(distributionItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
   });
 });

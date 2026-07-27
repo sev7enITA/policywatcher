@@ -2074,7 +2074,7 @@ export default function Dashboard() {
             <p>{extensionBeta.body}</p>
             <span className={styles.extensionBetaStatus}>
               <span className={styles.extensionBetaStatusDot} aria-hidden="true" />
-              Chrome · Edge · Safari: {POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS[lang]}
+              {POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS[lang]}
             </span>
           </div>
           <div className={styles.extensionBetaActions}>

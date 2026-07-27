@@ -1,16 +1,21 @@
 import { describe, expect, it } from 'vitest';
 import {
+  POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS,
+  POLICYWATCHER_CHROME_WEB_STORE_URL,
   getBrowserExtensionStoreLinks,
   normalizeExtensionStoreUrl,
 } from '../browserExtensionStores';
 
 describe('browser extension public store status', () => {
-  it('shows no install destination when store URLs are not configured', () => {
+  it('ships the verified Chrome listing while unverified stores remain unlinked', () => {
     expect(getBrowserExtensionStoreLinks({})).toEqual({
-      chrome: null,
+      chrome: POLICYWATCHER_CHROME_WEB_STORE_URL,
       edge: null,
       safari: null,
     });
+    expect(POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS.chrome.state).toBe('published');
+    expect(POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS.edge.state).toBe('unverified');
+    expect(POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS.safari.state).toBe('unavailable');
   });
 
   it('accepts only credential-free HTTPS store destinations', () => {
@@ -31,13 +36,17 @@ describe('browser extension public store status', () => {
     )).toBe('https://microsoftedge.microsoft.com/addons/detail/policywatcher/example');
   });
 
-  it('wires the route to configured and pending states', async () => {
+  it('wires the route to independently verified store states', async () => {
     const { readFile } = await import('node:fs/promises');
     const client = await readFile('src/app/browser-extension/BrowserExtensionClient.tsx', 'utf8');
     const release = await readFile('src/lib/release.ts', 'utf8');
-    expect(client).toContain('POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS[lang]');
-    expect(release).toContain('Pacchetto Beta pronto · invio allo store pianificato');
-    expect(release).toContain('Beta package ready · store submission planned');
+    expect(client).toContain('POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS[id]');
+    expect(client).toContain("status.state === 'published'");
+    expect(client).toContain('styles.storePublished');
+    expect(release).toContain('Pubblicata sul Chrome Web Store');
+    expect(release).toContain('Chrome Web Store published');
+    expect(release).not.toContain('store submission planned');
+    expect(release).not.toContain('invio allo store pianificato');
     expect(client).toContain('storeLinks[id]');
     expect(client).toContain('href={storeLinks[id]!}');
     expect(client).toContain('/what-changed#paste-notice');

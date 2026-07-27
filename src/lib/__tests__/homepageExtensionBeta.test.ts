@@ -28,8 +28,9 @@ describe('homepage browser extension Beta launch strip', () => {
     expect(page).toContain('href="/what-changed#paste-notice"');
   });
 
-  it('shows all store statuses as pending without install claims', () => {
-    expect(page).toContain('Chrome · Edge · Safari: {POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS[lang]}');
+  it('shows the centralized verified per-browser distribution summary', () => {
+    expect(page).toContain('{POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS[lang]}');
+    expect(page).not.toContain('Chrome · Edge · Safari: {POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS[lang]}');
     expect(page).not.toContain('Stabile in ${POLICYWATCHER_VERSION}');
     expect(page).not.toContain('Stable in ${POLICYWATCHER_VERSION}');
   });

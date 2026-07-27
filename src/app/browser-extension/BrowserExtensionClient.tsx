@@ -6,10 +6,12 @@ import {
   ArrowLeft, ArrowRight, Check, ExternalLink, FileCheck2, Globe2, Languages,
   Link2, LockKeyhole, Monitor, Puzzle, ShieldCheck,
 } from 'lucide-react';
-import type { BrowserExtensionStoreLinks } from '@/lib/browserExtensionStores';
+import {
+  POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS,
+  type BrowserExtensionStoreLinks,
+} from '@/lib/browserExtensionStores';
 import {
   POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE,
-  POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS,
 } from '@/lib/release';
 import styles from './browserExtension.module.css';
 import { useState } from 'react';
@@ -32,12 +34,12 @@ const copy = {
       ['Conferma gli indizi', 'Controlla organizzazione, policy e presenza del link di partenza.'],
       ['Verifica le evidenze', 'Solo i campi strutturati confermati raggiungono PolicyWatcher.'],
     ],
-    installTitle: 'Disponibilità per browser', installLead: 'I pulsanti di installazione compaiono solo quando la pubblicazione ufficiale nello store è configurata.',
+    installTitle: 'Disponibilità per browser', installLead: 'Ogni browser mostra uno stato verificato in modo indipendente. Ultimo controllo: 27 luglio 2026.',
     chrome: 'Google Chrome', edge: 'Microsoft Edge', safari: 'Safari',
     chromeBody: 'Estensione Manifest V3 per browser desktop basati su Chromium.',
-    edgeBody: 'La stessa base verificata, distribuita tramite Microsoft Edge Add-ons.',
+    edgeBody: 'Compatibile con browser basati su Chromium; una scheda ufficiale su Microsoft Edge Add-ons non è ancora stata verificata.',
     safariBody: 'Richiede firma del publisher e pacchetto App Store tramite Safari Web Extension.',
-    install: 'Installa dallo store', safariNote: 'La sorgente Safari non equivale a un’app installabile. La disponibilità mobile verrà dichiarata solo dopo firma e revisione App Store.',
+    install: 'Apri e installa', safariNote: 'La sorgente Safari non equivale a un’app installabile. La disponibilità mobile verrà dichiarata solo dopo firma e revisione App Store.',
     fallback: 'Stai usando il telefono o lo store non è ancora disponibile?', fallbackBody: 'Incolla il testo visibile: i link nascosti non saranno inclusi, ma PolicyWatcher può usare le fonti già monitorate o aprire una richiesta minima di discovery e QA.', fallbackAction: 'Continua con il copia-incolla',
     privacy: 'Privacy', methodology: 'Metodo e limiti', legal: 'Non è consulenza legale.',
   },
@@ -56,12 +58,12 @@ const copy = {
       ['Confirm the clues', 'Review the organization, policies and whether a starting link was found.'],
       ['Verify the evidence', 'Only confirmed structured fields reach PolicyWatcher.'],
     ],
-    installTitle: 'Browser availability', installLead: 'Install buttons appear only when an official store publication is configured.',
+    installTitle: 'Browser availability', installLead: 'Each browser has an independently verified status. Last checked: 27 July 2026.',
     chrome: 'Google Chrome', edge: 'Microsoft Edge', safari: 'Safari',
     chromeBody: 'Manifest V3 extension for Chromium-based desktop browsers.',
-    edgeBody: 'The same reviewed codebase, distributed through Microsoft Edge Add-ons.',
+    edgeBody: 'Compatible with Chromium-based browsers; an official Microsoft Edge Add-ons listing has not yet been verified.',
     safariBody: 'Requires publisher signing and App Store packaging as a Safari Web Extension.',
-    install: 'Install from store', safariNote: 'Safari source is not an installable app. Mobile availability will be stated only after App Store signing and review.',
+    install: 'View and install', safariNote: 'Safari source is not an installable app. Mobile availability will be stated only after App Store signing and review.',
     fallback: 'On a phone or is the store not available yet?', fallbackBody: 'Paste the visible text: hidden links will not be included, but PolicyWatcher can use monitored sources or open a minimized discovery and QA request.', fallbackAction: 'Continue with copy and paste',
     privacy: 'Privacy', methodology: 'Method and limits', legal: 'Not legal advice.',
   },
@@ -106,13 +108,20 @@ export default function BrowserExtensionClient({ storeLinks }: { storeLinks: Bro
 
     <section className={styles.availability}>
       <div className={styles.sectionHeading}><p>{lang === 'it' ? 'Disponibilità store' : 'Store availability'}</p><h2>{t.installTitle}</h2><span>{t.installLead}</span></div>
-      <div className={styles.storeList}>{stores.map(({ id, name, body, icon: Icon }) => <article key={id}>
-        <Icon aria-hidden="true" /><div><h3>{name}</h3><p>{body}</p>{storeLinks[id]
+      <div className={styles.storeList}>{stores.map(({ id, name, body, icon: Icon }) => {
+        const status = POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS[id];
+        const isPublished = status.state === 'published' && Boolean(storeLinks[id]);
+        return <article key={id} data-store-state={isPublished ? 'published' : status.state}>
+        <Icon aria-hidden="true" /><div><h3>{name}</h3>
+          <strong className={isPublished ? styles.storePublished : styles.storePending}>
+            <span aria-hidden="true" />{status[lang]}
+          </strong>
+          <p>{body}</p>{isPublished
           ? <a href={storeLinks[id]!} target="_blank" rel="noopener noreferrer">{t.install}<ExternalLink aria-hidden="true" /></a>
-          : <strong><span aria-hidden="true" />{POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS[lang]}</strong>}
+          : null}
           {id === 'safari' && <small>{t.safariNote}</small>}
         </div>
-      </article>)}</div>
+      </article>})}</div>
     </section>
 
     <section className={styles.fallback}>

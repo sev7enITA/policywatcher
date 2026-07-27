@@ -17,7 +17,7 @@ The immediate news hook is the EU AI Act transparency timetable: the European Co
 - Source provenance, retrieval status, timestamps, limitations and data-quality context remain visible across public analysis and exports.
 - Regional EU, US and Global perspectives and Individual/Enterprise views are supported when evidence is available.
 - English and Italian support on selected public workflows, accessible chart summaries and tables of displayed values.
-- Browser companion remains a separately versioned Beta package with store submission planned; it is not presented as generally available in browser stores.
+- Browser companion remains separately versioned at 3.8.3 Beta 3. Its Chrome Web Store listing is public; no official Edge Add-ons listing is currently verified, and Safari distribution still requires signing and review.
 
 Do not claim legal advice, compliance certification, exhaustive monitoring, real-time coverage, vulnerability-free software, or verified correctness of every AI interpretation.
 

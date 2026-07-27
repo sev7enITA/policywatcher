@@ -11,6 +11,10 @@
 
 The automated Chromium receipt is the first technical artifact for this cycle. It does not by itself complete the real-user Beta cycle.
 
+### Distribution update - 27 July 2026
+
+The 3.8.3 Beta 3 package now has a public Chrome Web Store listing. No official Edge Add-ons listing is currently verified, and Safari signing and review remain outstanding. Chrome publication changes the distribution evidence for the cycle but does not by itself satisfy the multi-browser tester, duration, privacy-review or stable-promotion criteria below.
+
 ## Restricted audience
 
 - Chrome: private or unlisted trusted-tester distribution.

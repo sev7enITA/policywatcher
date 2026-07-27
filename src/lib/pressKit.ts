@@ -440,12 +440,35 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'assistant-entry-point-consolidation-3-9-0-beta-8',
+    slug: 'verified-browser-distribution-3-9-0-beta-9',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: PRESS_KIT_RELEASE_DATE,
     dateModified: PRESS_KIT_RELEASE_DATE,
     status: 'current',
+    category: 'distribution',
+    title: { en: 'Verified browser-store distribution', it: 'Distribuzione browser verificata' },
+    summary: { en: 'Links the public Chrome Web Store listing and reports Chrome, Edge and Safari as independent distribution states.', it: 'Collega la scheda pubblica Chrome Web Store e riporta Chrome, Edge e Safari come stati di distribuzione indipendenti.' },
+    changes: [
+      { en: 'The Browser Extension page now links directly to the verified Chrome Web Store listing.', it: 'La pagina Browser Extension ora collega direttamente la scheda verificata del Chrome Web Store.' },
+      { en: 'Chrome is marked as published; Edge is marked as having no verified official Add-ons listing yet.', it: 'Chrome e indicato come pubblicato; Edge e indicato come privo, al momento, di una scheda ufficiale Add-ons verificata.' },
+      { en: 'Safari remains unavailable with signing and review stated as external prerequisites.', it: 'Safari resta non disponibile, con firma e revisione indicate come prerequisiti esterni.' },
+    ],
+    boundaries: [
+      { en: 'Distribution status is verified per store and does not establish adoption, endorsement or extension behavior beyond the listed package.', it: 'Lo stato di distribuzione e verificato per singolo store e non stabilisce adozione, approvazione o comportamento dell estensione oltre il pacchetto indicato.' },
+    ],
+    evidenceLinks: [
+      { href: '/browser-extension', label: { en: 'Browser Extension availability', it: 'Disponibilita Browser Extension' } },
+      { href: '/roadmap', label: { en: 'Release impact', it: 'Impatto release' } },
+    ],
+  },
+  {
+    slug: 'assistant-entry-point-consolidation-3-9-0-beta-8',
+    version: '3.9.0-beta.8',
+    displayVersion: '3.9.0 Beta 8',
+    datePublished: PRESS_KIT_RELEASE_DATE,
+    dateModified: PRESS_KIT_RELEASE_DATE,
+    status: 'archived',
     category: 'product',
     title: { en: 'Assistant entry-point consolidation', it: 'Consolidamento accesso assistente' },
     summary: { en: 'Removes the legacy floating chat control and retains assistant access through unified navigation, Workspace Controls and command search.', it: 'Rimuove il controllo chat flottante precedente e mantiene l accesso all assistente tramite navigazione unificata, Workspace Controls e ricerca comandi.' },
@@ -579,6 +602,7 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+  { id: 'verified-browser-distribution-release', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'release', title: { en: 'Chrome distribution verified', it: 'Distribuzione Chrome verificata' }, detail: { en: 'The public Browser Extension page now links the verified Chrome Web Store listing and keeps Edge and Safari availability states separate.', it: 'La pagina pubblica Browser Extension ora collega la scheda verificata del Chrome Web Store e mantiene separati gli stati di disponibilita di Edge e Safari.' }, affectedHref: '/press-kit/releases/verified-browser-distribution-3-9-0-beta-9' },
   { id: 'assistant-entry-point-consolidation-release', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'release', title: { en: 'Assistant entry point consolidated', it: 'Accesso all assistente consolidato' }, detail: { en: 'The legacy floating dashboard trigger was removed while unified navigation, Workspace Controls and command search retain access to the same assistant.', it: 'Il precedente trigger flottante della dashboard e stato rimosso, mentre navigazione unificata, Workspace Controls e ricerca comandi mantengono l accesso allo stesso assistente.' }, affectedHref: '/press-kit/releases/assistant-entry-point-consolidation-3-9-0-beta-8' },
   { id: 'newsroom-measurement-release', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'release', title: { en: 'Newsroom measurement and release assurance published', it: 'Pubblicati misurazione newsroom e assurance della release' }, detail: { en: 'The newsroom records allowlisted aggregate events without persistent visitor identifiers and states the interpretation boundary alongside the current release.', it: 'La newsroom registra eventi aggregati ammessi senza identificatori persistenti dei visitatori e indica il limite interpretativo insieme alla release corrente.' }, affectedHref: '/press-kit/releases/release-assurance-newsroom-insights-3-9-0-beta-7' },
   { id: 'inventory-scope-clarification', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'clarification', title: { en: 'Monitored inventory scope clarified', it: 'Perimetro inventario monitorato chiarito' }, detail: { en: 'The 16-company fact now states that the WAZE record is an admin-onboarding fixture and is excluded from the monitored inventory count.', it: 'Il dato di 16 aziende ora specifica che il record WAZE e una fixture di onboarding amministrativo ed e escluso dal conteggio dell inventario monitorato.' }, affectedHref: '/press-kit#fact-monitored-companies' },

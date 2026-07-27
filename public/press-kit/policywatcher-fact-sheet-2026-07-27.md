@@ -19,7 +19,7 @@ PolicyWatcher is a public-interest policy evidence project that monitors a confi
 - Evidence boundary: public data routes apply the configured evidence gate; unavailable assessments display `Not assessed` without a numerical value.
 - Web release: 3.9.0-beta.6, dated 27 July 2026.
 - Evidence Newsroom: localized press packages, dated fact and claim records, release feeds, data snapshot formats and a public correction/clarification register.
-- Browser extension: separately versioned at 3.8.3 Beta 3; Beta package ready, store submission planned.
+- Browser extension: separately versioned at 3.8.3 Beta 3; published on the Chrome Web Store, with no verified official Edge Add-ons listing yet and Safari not yet available.
 - Repository: public and reusable under CC BY 4.0. No OSI certification is claimed.
 
 ## Current editorial context
