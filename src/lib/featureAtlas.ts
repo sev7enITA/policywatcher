@@ -115,7 +115,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.2', shortLabel: '3.9 B2', label: '3.9.0 Beta 2' },
   { id: '3.9.0-beta.3', shortLabel: '3.9 B3', label: '3.9.0 Beta 3' },
   { id: '3.9.0-beta.4', shortLabel: '3.9 B4', label: '3.9.0 Beta 4' },
-  { id: '3.9.0-beta.5', shortLabel: '3.9 B5', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '3.9.0-beta.5', shortLabel: '3.9 B5', label: '3.9.0 Beta 5' },
+  { id: '3.9.0-beta.6', shortLabel: '3.9 B6', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -147,6 +148,7 @@ const primaryUserByDomain: Record<string, string> = {
 };
 
 const routeByFeature: Record<string, FeatureAtlasRoute> = {
+  'evidence-newsroom': { href: '/press-kit', label: 'Evidence Newsroom', access: 'public' },
   'press-kit-navigation-discovery': { href: '/press-kit', label: 'Press Kit', access: 'public' },
   'public-claim-language-governance': { href: '/press-kit', label: 'Press Kit', access: 'public' },
   'editorial-briefing-room': { href: '/press-kit', label: 'Press Kit', access: 'public' },
@@ -179,6 +181,7 @@ const routeByFeature: Record<string, FeatureAtlasRoute> = {
 };
 
 const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
+  'evidence-newsroom': [{ featureId: 'editorial-briefing-room', relationship: 'depends-on' }, { featureId: 'public-claim-language-governance', relationship: 'governed-by' }, { featureId: 'press-kit-navigation-discovery', relationship: 'distributed-through' }],
   'press-kit-navigation-discovery': [{ featureId: 'editorial-briefing-room', relationship: 'distributed-through' }, { featureId: 'interactive-public-navigation', relationship: 'depends-on' }],
   'public-claim-language-governance': [{ featureId: 'qualified-language', relationship: 'governed-by' }, { featureId: 'editorial-briefing-room', relationship: 'distributed-through' }],
   'editorial-briefing-room': [{ featureId: 'public-surface-consistency', relationship: 'depends-on' }, { featureId: 'explainability-methodology', relationship: 'governed-by' }],

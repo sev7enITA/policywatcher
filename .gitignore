@@ -53,5 +53,6 @@ next-env.d.ts
 
 # archives
 *.zip
+!public/press-kit/policywatcher-press-package-*.zip
 deployment-quarantine/
 PolicyWatcher-architecture-infographics-*/

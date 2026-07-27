@@ -1,0 +1,191 @@
+{
+  "schema": "https://policywatcher.online/schemas/press-kit-media-metadata/v1",
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-07-27",
+  "standard": "IPTC Photo Metadata 2025.1",
+  "contentCredentials": "not-attached",
+  "vectorMasterAvailable": false,
+  "vectorBoundary": "No native vector master is currently supplied. Raster wordmarks must not be represented as vector artwork.",
+  "assets": {
+    "policywatcher-logo-mark-512.png": {
+      "title": {
+        "en": "PolicyWatcher logo mark",
+        "it": "Marchio PolicyWatcher"
+      },
+      "description": {
+        "en": "Owned square PolicyWatcher logo mark on a transparent background.",
+        "it": "Marchio quadrato PolicyWatcher proprietario su sfondo trasparente."
+      },
+      "alt": {
+        "en": "PolicyWatcher shield and eye logo mark",
+        "it": "Marchio PolicyWatcher con scudo e occhio"
+      },
+      "usage": {
+        "en": "Use without changing proportions or implying endorsement.",
+        "it": "Usare senza cambiare le proporzioni o implicare endorsement."
+      },
+      "creator": "Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    },
+    "policywatcher-logo-square-1024.jpg": {
+      "title": {
+        "en": "PolicyWatcher square artwork",
+        "it": "Artwork quadrato PolicyWatcher"
+      },
+      "description": {
+        "en": "Owned high-resolution square PolicyWatcher artwork.",
+        "it": "Artwork quadrato PolicyWatcher proprietario ad alta risoluzione."
+      },
+      "alt": {
+        "en": "Square PolicyWatcher brand artwork",
+        "it": "Artwork quadrato del brand PolicyWatcher"
+      },
+      "usage": {
+        "en": "Crop only with clear space around the central mark.",
+        "it": "Ritagliare mantenendo spazio libero intorno al marchio centrale."
+      },
+      "creator": "Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    },
+    "fabrizio-degni-portrait-200.png": {
+      "title": {
+        "en": "Fabrizio Degni portrait",
+        "it": "Ritratto di Fabrizio Degni"
+      },
+      "description": {
+        "en": "Owned 200 by 200 pixel founder portrait, suitable only for small digital placements.",
+        "it": "Ritratto proprietario del fondatore da 200 per 200 pixel, adatto solo a piccoli usi digitali."
+      },
+      "alt": {
+        "en": "Portrait of Fabrizio Degni",
+        "it": "Ritratto di Fabrizio Degni"
+      },
+      "usage": {
+        "en": "Do not upscale for print.",
+        "it": "Non ingrandire per la stampa."
+      },
+      "creator": "Fabrizio Degni",
+      "credit": "Fabrizio Degni"
+    },
+    "policywatcher-two-week-progress-2026-07-26.png": {
+      "title": {
+        "en": "Two-week product progress infographic",
+        "it": "Infografica progressi di due settimane"
+      },
+      "description": {
+        "en": "English infographic summarizing the product development cycle through 26 July 2026.",
+        "it": "Infografica in inglese che sintetizza il ciclo di sviluppo fino al 26 luglio 2026."
+      },
+      "alt": {
+        "en": "PolicyWatcher two-week product progress infographic",
+        "it": "Infografica PolicyWatcher sui progressi di due settimane"
+      },
+      "usage": {
+        "en": "Historical summary; pair with current release metadata.",
+        "it": "Sintesi storica; accompagnare con i metadata della release corrente."
+      },
+      "creator": "Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    },
+    "policywatcher-feature-atlas-2026-07-27.png": {
+      "title": {
+        "en": "Feature Intelligence Atlas screenshot",
+        "it": "Screenshot Feature Intelligence Atlas"
+      },
+      "description": {
+        "en": "Product screenshot of the capability and dependency atlas captured on 27 July 2026.",
+        "it": "Screenshot dell atlante di funzionalita e dipendenze acquisito il 27 luglio 2026."
+      },
+      "alt": {
+        "en": "PolicyWatcher Feature Intelligence Atlas interface",
+        "it": "Interfaccia Feature Intelligence Atlas di PolicyWatcher"
+      },
+      "usage": {
+        "en": "Figures are inventory and qualitative release labels.",
+        "it": "I dati sono inventario ed etichette qualitative di release."
+      },
+      "creator": "Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    },
+    "policywatcher-release-impact-2026-07-27.png": {
+      "title": {
+        "en": "Release Impact screenshot",
+        "it": "Screenshot Release Impact"
+      },
+      "description": {
+        "en": "Product screenshot of the release-outcome and residual-risk map captured on 27 July 2026.",
+        "it": "Screenshot della mappa di esiti release e rischi residui acquisito il 27 luglio 2026."
+      },
+      "alt": {
+        "en": "PolicyWatcher Release Impact interface",
+        "it": "Interfaccia Release Impact di PolicyWatcher"
+      },
+      "usage": {
+        "en": "Categorical KPI and KRI labels are not measured outcomes.",
+        "it": "Le etichette KPI e KRI categoriche non sono risultati misurati."
+      },
+      "creator": "Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    },
+    "policywatcher-wordmark-dark-2400x600.png": {
+      "title": {
+        "en": "PolicyWatcher dark wordmark",
+        "it": "Wordmark scuro PolicyWatcher"
+      },
+      "description": {
+        "en": "PolicyWatcher raster wordmark for light editorial backgrounds.",
+        "it": "Wordmark raster PolicyWatcher per sfondi editoriali chiari."
+      },
+      "alt": {
+        "en": "PolicyWatcher logo and dark wordmark",
+        "it": "Logo PolicyWatcher e wordmark scuro"
+      },
+      "usage": {
+        "en": "Use on light backgrounds without altering proportions.",
+        "it": "Usare su sfondi chiari senza alterare le proporzioni."
+      },
+      "creator": "Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    },
+    "policywatcher-wordmark-light-on-navy-2400x600.png": {
+      "title": {
+        "en": "PolicyWatcher light wordmark on navy",
+        "it": "Wordmark chiaro PolicyWatcher su blu navy"
+      },
+      "description": {
+        "en": "PolicyWatcher raster wordmark supplied on a navy editorial background.",
+        "it": "Wordmark raster PolicyWatcher fornito su sfondo editoriale blu navy."
+      },
+      "alt": {
+        "en": "PolicyWatcher logo and light wordmark on navy",
+        "it": "Logo PolicyWatcher e wordmark chiaro su blu navy"
+      },
+      "usage": {
+        "en": "Use without changing the supplied background or proportions.",
+        "it": "Usare senza cambiare lo sfondo fornito o le proporzioni."
+      },
+      "creator": "Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    },
+    "policywatcher-configured-scope-2026-07-27.png": {
+      "title": {
+        "en": "Configured scope data card",
+        "it": "Scheda dati del perimetro configurato"
+      },
+      "description": {
+        "en": "Press-ready snapshot of configured monitored companies, sectors, canonical KPIs and editorial languages.",
+        "it": "Snapshot per la stampa di aziende monitorate, settori, KPI canonici e lingue editoriali configurati."
+      },
+      "alt": {
+        "en": "Four PolicyWatcher configured-scope facts with their limitations",
+        "it": "Quattro dati sul perimetro configurato di PolicyWatcher con i relativi limiti"
+      },
+      "usage": {
+        "en": "Publish with the snapshot date and stated boundary.",
+        "it": "Pubblicare con la data dello snapshot e il limite dichiarato."
+      },
+      "creator": "Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    }
+  }
+}

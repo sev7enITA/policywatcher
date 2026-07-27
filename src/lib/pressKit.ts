@@ -6,14 +6,24 @@ import {
   POLICYWATCHER_VERSION,
   POLICYWATCHER_VERSION_DISPLAY,
 } from './release';
+import pressAssetManifest from '../../public/press-kit/asset-manifest.json';
+import pressPackageManifest from '../../public/press-kit/package-manifest.json';
 
 export type PressKitLocale = 'en' | 'it';
 export type PressKitLocalized = Record<PressKitLocale, string>;
 
 export interface PressKitFact {
+  id: string;
   value: string;
   label: PressKitLocalized;
   scope: PressKitLocalized;
+  sourceHref: string;
+  sourceLabel: PressKitLocalized;
+  asOf: string;
+  verifiedAt: string;
+  reviewCadence: PressKitLocalized;
+  recordStatus: 'current' | 'superseded' | 'corrected' | 'withdrawn';
+  permalink: string;
 }
 
 export interface PressKitClaim {
@@ -24,6 +34,11 @@ export interface PressKitClaim {
   proofHref: string;
   proofLabel: PressKitLocalized;
   boundary: PressKitLocalized;
+  asOf: string;
+  verifiedAt: string;
+  reviewCadence: PressKitLocalized;
+  recordStatus: 'current' | 'superseded' | 'corrected' | 'withdrawn';
+  permalink: string;
 }
 
 export interface PressKitAsset {
@@ -39,10 +54,79 @@ export interface PressKitAsset {
   caption: PressKitLocalized;
   alt: PressKitLocalized;
   usageBoundary: PressKitLocalized;
+  creditLine: string;
+  rightsUrl: string;
+  metadataStandard: 'IPTC Photo Metadata 2025.1' | 'document-manifest';
+}
+
+export interface PressKitPackage {
+  id: string;
+  locale: PressKitLocale;
+  filename: string;
+  href: string;
+  bytes: number;
+  sha256: string;
+  generatedAt: string;
+  version: string;
+  title: PressKitLocalized;
+  contents: PressKitLocalized[];
+  boundary: PressKitLocalized;
+}
+
+export interface PressKitRelease {
+  slug: string;
+  version: string;
+  displayVersion: string;
+  datePublished: string;
+  dateModified: string;
+  status: 'current' | 'archived';
+  category: 'product' | 'methodology' | 'distribution';
+  title: PressKitLocalized;
+  summary: PressKitLocalized;
+  changes: PressKitLocalized[];
+  boundaries: PressKitLocalized[];
+  evidenceLinks: Array<{ href: string; label: PressKitLocalized }>;
+}
+
+export interface PressKitDataSnapshot {
+  id: string;
+  title: PressKitLocalized;
+  description: PressKitLocalized;
+  asOf: string;
+  generatedAt: string;
+  methodologyHref: string;
+  citation: PressKitLocalized;
+  boundary: PressKitLocalized;
+  files: Array<{ format: 'PNG' | 'SVG' | 'CSV' | 'JSON'; href: string; mediaType: string }>;
+}
+
+export interface PressKitContactRoute {
+  id: 'press' | 'fact-checking' | 'interview' | 'speaking';
+  title: PressKitLocalized;
+  description: PressKitLocalized;
+  href: PressKitLocalized;
+  requestedContext: PressKitLocalized;
+}
+
+export interface PressKitGlossaryEntry {
+  id: string;
+  term: string;
+  definition: PressKitLocalized;
+  boundary?: PressKitLocalized;
+}
+
+export interface PressKitRegistryEvent {
+  id: string;
+  occurredAt: string;
+  type: 'clarification' | 'correction' | 'release' | 'methodology';
+  title: PressKitLocalized;
+  detail: PressKitLocalized;
+  affectedHref: string;
 }
 
 export const PRESS_KIT_RELEASE_DATE = '2026-07-27' as const;
 export const PRESS_KIT_CANONICAL_URL = 'https://policywatcher.online/press-kit' as const;
+export const POLICYWATCHER_CANONICAL_ORIGIN = 'https://policywatcher.online' as const;
 export const PRESS_KIT_JSON_URL = `${PRESS_KIT_CANONICAL_URL}/press-kit.json` as const;
 export const PRESS_KIT_REPOSITORY_URL = 'https://github.com/sev7enITA/policywatcher' as const;
 export const PRESS_KIT_LICENSE_URL = 'https://creativecommons.org/licenses/by/4.0/' as const;
@@ -50,24 +134,41 @@ export const PRESS_KIT_ARTICLE_50_URL = 'https://digital-strategy.ec.europa.eu/e
 
 export const pressKitFacts: PressKitFact[] = [
   {
+    id: 'monitored-companies',
     value: '16',
-    label: { en: 'configured companies', it: 'aziende configurate' },
-    scope: { en: 'Configured inventory, not exhaustive market coverage.', it: 'Inventario configurato, non copertura esaustiva del mercato.' },
+    label: { en: 'configured monitored companies', it: 'aziende monitorate configurate' },
+    scope: { en: 'Configured monitored inventory. It excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage.', it: 'Inventario monitorato configurato. Esclude la fixture WAZE per l onboarding amministrativo e non e copertura esaustiva del mercato.' },
+    sourceHref: '/',
+    sourceLabel: { en: 'Evidence Console', it: 'Console evidenze' },
+    asOf: PRESS_KIT_RELEASE_DATE,
+    verifiedAt: PRESS_KIT_RELEASE_DATE,
+    reviewCadence: { en: 'Each web release', it: 'Ogni release web' },
+    recordStatus: 'current',
+    permalink: '/press-kit#fact-monitored-companies',
   },
   {
+    id: 'configured-sectors',
     value: '6',
     label: { en: 'configured sectors', it: 'settori configurati' },
     scope: { en: 'Sector labels organize the monitored inventory.', it: 'Le etichette di settore organizzano l inventario monitorato.' },
+    sourceHref: '/', sourceLabel: { en: 'Evidence Console', it: 'Console evidenze' }, asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    reviewCadence: { en: 'Each web release', it: 'Ogni release web' }, recordStatus: 'current', permalink: '/press-kit#fact-configured-sectors',
   },
   {
+    id: 'canonical-kpis',
     value: '15',
     label: { en: 'canonical KPIs', it: 'KPI canonici' },
     scope: { en: 'Privacy, AI governance and ethics; unavailable assessments display Not assessed.', it: 'Privacy, governance AI ed etica; le valutazioni non disponibili mostrano Non valutato.' },
+    sourceHref: '/feature-atlas', sourceLabel: { en: 'Feature Atlas', it: 'Atlante funzionalita' }, asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    reviewCadence: { en: 'When the KPI framework changes', it: 'Quando cambia il framework KPI' }, recordStatus: 'current', permalink: '/press-kit#fact-canonical-kpis',
   },
   {
+    id: 'editorial-languages',
     value: 'EN / IT',
     label: { en: 'editorial languages', it: 'lingue editoriali' },
     scope: { en: 'The press kit and selected guidance pages support English and Italian.', it: 'Il press kit e alcune pagine guida supportano inglese e italiano.' },
+    sourceHref: '/press-kit', sourceLabel: { en: 'Press Kit', it: 'Press Kit' }, asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    reviewCadence: { en: 'Each public-language release', it: 'Ogni release linguistica pubblica' }, recordStatus: 'current', permalink: '/press-kit#fact-editorial-languages',
   },
 ];
 
@@ -80,15 +181,19 @@ export const pressKitClaims: PressKitClaim[] = [
     proofHref: '/methodology/confidence',
     proofLabel: { en: 'Methodology', it: 'Metodologia' },
     boundary: { en: 'A gate reduces unsupported publication; it does not prove source completeness or legal authority.', it: 'Il gate riduce pubblicazioni non supportate; non prova completezza o autorita legale della fonte.' },
+    asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    reviewCadence: { en: 'Each evidence-gate release', it: 'Ogni release del gate evidenze' }, recordStatus: 'current', permalink: '/press-kit#claim-public-evidence-gate',
   },
   {
     id: 'configured-inventory',
-    claim: { en: 'The configured inventory covers 16 companies across 6 sectors.', it: 'L inventario configurato comprende 16 aziende in 6 settori.' },
+    claim: { en: 'The configured monitored inventory covers 16 companies across 6 sectors and excludes the WAZE admin-onboarding fixture.', it: 'L inventario monitorato configurato comprende 16 aziende in 6 settori ed esclude la fixture WAZE per l onboarding amministrativo.' },
     status: { en: 'Configured inventory', it: 'Inventario configurato' },
     type: 'inventory',
     proofHref: '/',
     proofLabel: { en: 'Evidence Console', it: 'Console evidenze' },
     boundary: { en: 'This is not exhaustive public or market coverage, and source availability can change.', it: 'Non e copertura pubblica o di mercato esaustiva e la disponibilita delle fonti puo cambiare.' },
+    asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    reviewCadence: { en: 'Each web release', it: 'Ogni release web' }, recordStatus: 'current', permalink: '/press-kit#claim-configured-inventory',
   },
   {
     id: 'canonical-kpis',
@@ -98,6 +203,8 @@ export const pressKitClaims: PressKitClaim[] = [
     proofHref: '/feature-atlas',
     proofLabel: { en: 'Feature Atlas', it: 'Atlante funzionalita' },
     boundary: { en: 'Normalized values support comparison only; unavailable assessments have no numerical value and the result is not a compliance score.', it: 'I valori normalizzati servono solo al confronto; le valutazioni non disponibili non hanno valore numerico e il risultato non e un punteggio di conformita.' },
+    asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    reviewCadence: { en: 'When the KPI framework changes', it: 'Quando cambia il framework KPI' }, recordStatus: 'current', permalink: '/press-kit#claim-canonical-kpis',
   },
   {
     id: 'public-code',
@@ -107,6 +214,8 @@ export const pressKitClaims: PressKitClaim[] = [
     proofHref: PRESS_KIT_REPOSITORY_URL,
     proofLabel: { en: 'GitHub repository', it: 'Repository GitHub' },
     boundary: { en: 'This describes repository access and license terms; no OSI certification is claimed.', it: 'Descrive accesso e licenza del repository; non viene dichiarata alcuna certificazione OSI.' },
+    asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    reviewCadence: { en: 'Each licensing change', it: 'A ogni modifica di licenza' }, recordStatus: 'current', permalink: '/press-kit#claim-public-code',
   },
   {
     id: 'source-timestamps',
@@ -116,6 +225,8 @@ export const pressKitClaims: PressKitClaim[] = [
     proofHref: '/timeline',
     proofLabel: { en: 'Policy timeline', it: 'Timeline policy' },
     boundary: { en: 'Release metadata is dated 27 July 2026; update intervals depend on source retrieval and review.', it: 'I metadata di release sono datati 27 luglio 2026; gli intervalli di aggiornamento dipendono dal recupero e dalla revisione delle fonti.' },
+    asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    reviewCadence: { en: 'Each source-screening release', it: 'Ogni release di screening fonti' }, recordStatus: 'current', permalink: '/press-kit#claim-source-timestamps',
   },
   {
     id: 'external-coverage',
@@ -125,10 +236,12 @@ export const pressKitClaims: PressKitClaim[] = [
     proofHref: '/press',
     proofLabel: { en: 'Coverage wall', it: 'Rassegna pubblica' },
     boundary: { en: 'Mentions are references, not endorsements, certifications or independent audits.', it: 'Le menzioni sono riferimenti, non endorsement, certificazioni o audit indipendenti.' },
+    asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    reviewCadence: { en: 'When the coverage registry changes', it: 'Quando cambia il registro copertura' }, recordStatus: 'current', permalink: '/press-kit#claim-external-coverage',
   },
 ];
 
-export const pressKitAssets: PressKitAsset[] = [
+const pressKitAssetDefinitions: PressKitAsset[] = [
   {
     id: 'logo-mark',
     filename: 'policywatcher-logo-mark-512.png',
@@ -142,6 +255,37 @@ export const pressKitAssets: PressKitAsset[] = [
     caption: { en: 'Owned square logo mark with transparent background.', it: 'Marchio quadrato proprietario con sfondo trasparente.' },
     alt: { en: 'PolicyWatcher shield logo mark', it: 'Marchio a scudo PolicyWatcher' },
     usageBoundary: { en: 'Use without altering proportions or implying endorsement.', it: 'Usare senza alterare le proporzioni o implicare endorsement.' },
+    creditLine: 'PolicyWatcher / Fabrizio Degni', rightsUrl: '/press-kit/LICENSE-ASSETS.md', metadataStandard: 'IPTC Photo Metadata 2025.1',
+  },
+  {
+    id: 'wordmark-dark',
+    filename: 'policywatcher-wordmark-dark-2400x600.png',
+    href: '/press-kit/policywatcher-wordmark-dark-2400x600.png',
+    mediaType: 'image/png',
+    dimensions: '2400 x 600 px',
+    bytes: 0,
+    sha256: '',
+    contentCredentials: 'not-attached',
+    title: { en: 'PolicyWatcher dark wordmark', it: 'Wordmark scuro PolicyWatcher' },
+    caption: { en: 'Raster wordmark for light editorial backgrounds. No native vector master is supplied.', it: 'Wordmark raster per sfondi editoriali chiari. Non viene fornito un master vettoriale nativo.' },
+    alt: { en: 'PolicyWatcher logo and dark wordmark', it: 'Logo PolicyWatcher e wordmark scuro' },
+    usageBoundary: { en: 'Use on light backgrounds without altering proportions.', it: 'Usare su sfondi chiari senza alterare le proporzioni.' },
+    creditLine: 'PolicyWatcher / Fabrizio Degni', rightsUrl: '/press-kit/LICENSE-ASSETS.md', metadataStandard: 'IPTC Photo Metadata 2025.1',
+  },
+  {
+    id: 'wordmark-light',
+    filename: 'policywatcher-wordmark-light-on-navy-2400x600.png',
+    href: '/press-kit/policywatcher-wordmark-light-on-navy-2400x600.png',
+    mediaType: 'image/png',
+    dimensions: '2400 x 600 px',
+    bytes: 0,
+    sha256: '',
+    contentCredentials: 'not-attached',
+    title: { en: 'PolicyWatcher light wordmark on navy', it: 'Wordmark chiaro PolicyWatcher su blu navy' },
+    caption: { en: 'Raster wordmark supplied on a navy editorial background. No native vector master is supplied.', it: 'Wordmark raster fornito su sfondo editoriale blu navy. Non viene fornito un master vettoriale nativo.' },
+    alt: { en: 'PolicyWatcher logo and light wordmark on navy', it: 'Logo PolicyWatcher e wordmark chiaro su blu navy' },
+    usageBoundary: { en: 'Use without changing the supplied background or proportions.', it: 'Usare senza cambiare lo sfondo fornito o le proporzioni.' },
+    creditLine: 'PolicyWatcher / Fabrizio Degni', rightsUrl: '/press-kit/LICENSE-ASSETS.md', metadataStandard: 'IPTC Photo Metadata 2025.1',
   },
   {
     id: 'logo-square',
@@ -156,6 +300,7 @@ export const pressKitAssets: PressKitAsset[] = [
     caption: { en: 'Owned high-resolution square artwork. No separate transparent wordmark is available.', it: 'Artwork quadrato proprietario ad alta risoluzione. Non e disponibile un wordmark trasparente separato.' },
     alt: { en: 'PolicyWatcher square brand artwork', it: 'Artwork quadrato del brand PolicyWatcher' },
     usageBoundary: { en: 'Crop only with adequate clear space around the central mark.', it: 'Ritagliare solo mantenendo spazio adeguato intorno al marchio centrale.' },
+    creditLine: 'PolicyWatcher / Fabrizio Degni', rightsUrl: '/press-kit/LICENSE-ASSETS.md', metadataStandard: 'IPTC Photo Metadata 2025.1',
   },
   {
     id: 'founder-portrait',
@@ -170,6 +315,7 @@ export const pressKitAssets: PressKitAsset[] = [
     caption: { en: 'Owned founder portrait. Resolution is limited to 200 x 200 pixels.', it: 'Ritratto proprietario del fondatore. Risoluzione limitata a 200 x 200 pixel.' },
     alt: { en: 'Portrait of Fabrizio Degni', it: 'Ritratto di Fabrizio Degni' },
     usageBoundary: { en: 'Suitable for small digital placements; do not upscale for print.', it: 'Adatto a piccoli usi digitali; non ingrandire per la stampa.' },
+    creditLine: 'Fabrizio Degni', rightsUrl: '/press-kit/LICENSE-ASSETS.md', metadataStandard: 'IPTC Photo Metadata 2025.1',
   },
   {
     id: 'two-week-progress',
@@ -184,6 +330,7 @@ export const pressKitAssets: PressKitAsset[] = [
     caption: { en: 'Owned English infographic summarizing the product development cycle through 26 July 2026.', it: 'Infografica proprietaria in inglese che riassume il ciclo di sviluppo fino al 26 luglio 2026.' },
     alt: { en: 'PolicyWatcher two-week product progress infographic', it: 'Infografica PolicyWatcher sui progressi delle ultime due settimane' },
     usageBoundary: { en: 'Historical product summary; pair with current release metadata.', it: 'Sintesi storica del prodotto; accompagnare con i metadata della release corrente.' },
+    creditLine: 'PolicyWatcher / Fabrizio Degni', rightsUrl: '/press-kit/LICENSE-ASSETS.md', metadataStandard: 'IPTC Photo Metadata 2025.1',
   },
   {
     id: 'feature-atlas-screenshot',
@@ -198,6 +345,7 @@ export const pressKitAssets: PressKitAsset[] = [
     caption: { en: 'Product screenshot of the capability and dependency atlas in 3.9.0 Beta 3, captured on 27 July 2026.', it: 'Screenshot dell atlante di funzionalita e dipendenze in 3.9.0 Beta 3, acquisito il 27 luglio 2026.' },
     alt: { en: 'PolicyWatcher Feature Intelligence Atlas interface', it: 'Interfaccia Feature Intelligence Atlas di PolicyWatcher' },
     usageBoundary: { en: 'UI state captured on 27 July 2026; figures are inventory and qualitative release labels.', it: 'Stato UI catturato il 27 luglio 2026; i dati sono inventario ed etichette qualitative di release.' },
+    creditLine: 'PolicyWatcher / Fabrizio Degni', rightsUrl: '/press-kit/LICENSE-ASSETS.md', metadataStandard: 'IPTC Photo Metadata 2025.1',
   },
   {
     id: 'release-impact-screenshot',
@@ -212,6 +360,7 @@ export const pressKitAssets: PressKitAsset[] = [
     caption: { en: 'Product screenshot of the release-outcome and residual-risk map, captured on 27 July 2026.', it: 'Screenshot della mappa di esiti release e rischi residui, acquisito il 27 luglio 2026.' },
     alt: { en: 'PolicyWatcher release impact interface', it: 'Interfaccia Release Impact di PolicyWatcher' },
     usageBoundary: { en: 'Categorical KPI and KRI labels are not measured performance or compliance outcomes.', it: 'Le etichette KPI e KRI categoriche non sono risultati misurati di performance o conformita.' },
+    creditLine: 'PolicyWatcher / Fabrizio Degni', rightsUrl: '/press-kit/LICENSE-ASSETS.md', metadataStandard: 'IPTC Photo Metadata 2025.1',
   },
   {
     id: 'fact-sheet',
@@ -226,8 +375,19 @@ export const pressKitAssets: PressKitAsset[] = [
     caption: { en: 'Bilingual plain-text facts, context and editorial boundaries.', it: 'Fatti bilingui, contesto e limiti editoriali in testo semplice.' },
     alt: { en: 'Markdown press fact sheet download', it: 'Download della scheda stampa Markdown' },
     usageBoundary: { en: 'Verify links and release metadata when quoting after 27 July 2026.', it: 'Verificare link e metadata di release per citazioni successive al 27 luglio 2026.' },
+    creditLine: 'PolicyWatcher / Fabrizio Degni', rightsUrl: '/press-kit/LICENSE-ASSETS.md', metadataStandard: 'document-manifest',
   },
 ];
+
+const pressAssetManifestByFilename = new Map(
+  pressAssetManifest.assets.map((asset) => [asset.filename, asset]),
+);
+
+export const pressKitAssets: PressKitAsset[] = pressKitAssetDefinitions.map((asset) => {
+  const generated = pressAssetManifestByFilename.get(asset.filename);
+  if (!generated) throw new Error(`Press asset is missing from the generated manifest: ${asset.filename}`);
+  return { ...asset, bytes: generated.bytes, sha256: generated.sha256 };
+});
 
 export const pressKitCycleItems: PressKitLocalized[] = [
   { en: 'Adaptive, composable dashboard contracts with reversible workspace state.', it: 'Contratti dashboard adattivi e componibili con stato workspace reversibile.' },
@@ -248,10 +408,137 @@ export const pressKitBoilerplates = {
   },
 } as const;
 
+const packageCopy: Record<PressKitLocale, Pick<PressKitPackage, 'id' | 'title' | 'contents' | 'boundary'>> = {
+  en: {
+    id: 'press-package-en',
+    title: { en: 'English editorial package', it: 'Pacchetto editoriale inglese' },
+    contents: [
+      { en: 'English PDF and plain-text fact sheet', it: 'Scheda dati inglese in PDF e testo semplice' },
+      { en: 'Owned logos, screenshots and infographic', it: 'Loghi, screenshot e infografica proprietari' },
+      { en: 'PNG, SVG, CSV and JSON configured-scope snapshot', it: 'Snapshot del perimetro in PNG, SVG, CSV e JSON' },
+      { en: 'Asset manifest, IPTC metadata, credits and usage terms', it: 'Manifest asset, metadati IPTC, crediti e condizioni d uso' },
+    ],
+    boundary: { en: 'Verify the live Press Kit before later publication. Content Credentials are not attached.', it: 'Verificare il Press Kit live prima di pubblicazioni successive. Le Content Credentials non sono allegate.' },
+  },
+  it: {
+    id: 'press-package-it',
+    title: { en: 'Italian editorial package', it: 'Pacchetto editoriale italiano' },
+    contents: [
+      { en: 'Italian PDF and plain-text fact sheet', it: 'Scheda dati italiana in PDF e testo semplice' },
+      { en: 'Owned logos, screenshots and infographic', it: 'Loghi, screenshot e infografica proprietari' },
+      { en: 'PNG, SVG, CSV and JSON configured-scope snapshot', it: 'Snapshot del perimetro in PNG, SVG, CSV e JSON' },
+      { en: 'Asset manifest, IPTC metadata, credits and usage terms', it: 'Manifest asset, metadati IPTC, crediti e condizioni d uso' },
+    ],
+    boundary: { en: 'Verify the live Press Kit before later publication. Content Credentials are not attached.', it: 'Verificare il Press Kit live prima di pubblicazioni successive. Le Content Credentials non sono allegate.' },
+  },
+};
+
+export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages.map((item) => {
+  const locale = item.locale as PressKitLocale;
+  return { ...item, locale, ...packageCopy[locale] };
+});
+
+export const pressKitReleases: PressKitRelease[] = [
+  {
+    slug: 'evidence-newsroom-3-9-0-beta-6',
+    version: POLICYWATCHER_VERSION,
+    displayVersion: POLICYWATCHER_VERSION_DISPLAY,
+    datePublished: PRESS_KIT_RELEASE_DATE,
+    dateModified: PRESS_KIT_RELEASE_DATE,
+    status: 'current',
+    category: 'distribution',
+    title: { en: 'Evidence Newsroom and reusable press data', it: 'Evidence Newsroom e dati stampa riutilizzabili' },
+    summary: { en: 'Adds versioned press packages, reusable data formats, claim freshness, release feeds and specialized contact routes.', it: 'Aggiunge pacchetti stampa versionati, formati dati riutilizzabili, freschezza dei claim, feed release e contatti specializzati.' },
+    changes: [
+      { en: 'English and Italian press packages with manifests, rights and checksums.', it: 'Pacchetti stampa inglese e italiano con manifest, diritti e checksum.' },
+      { en: 'Stable fact and claim records with dates, review cadence and status.', it: 'Record stabili per fatti e claim con date, cadenza di revisione e stato.' },
+      { en: 'NewsArticle release pages, RSS and JSON Feed distribution.', it: 'Pagine release NewsArticle e distribuzione RSS e JSON Feed.' },
+      { en: 'Configured-scope snapshot in PNG, SVG, CSV and JSON.', it: 'Snapshot del perimetro configurato in PNG, SVG, CSV e JSON.' },
+    ],
+    boundaries: [
+      { en: 'Press packages are dated snapshots and require live-source verification before later use.', it: 'I pacchetti stampa sono snapshot datati e richiedono verifica sulla fonte live prima di usi successivi.' },
+      { en: 'IPTC metadata records supplied provenance fields; Content Credentials are not attached.', it: 'I metadati IPTC registrano i campi di provenienza forniti; le Content Credentials non sono allegate.' },
+    ],
+    evidenceLinks: [
+      { href: '/press-kit', label: { en: 'Evidence Newsroom', it: 'Evidence Newsroom' } },
+      { href: '/press-kit/data', label: { en: 'Data room', it: 'Data room' } },
+      { href: '/press-kit/corrections', label: { en: 'Registry changes', it: 'Modifiche registro' } },
+    ],
+  },
+  {
+    slug: 'press-kit-navigation-3-9-0-beta-5', version: '3.9.0-beta.5', displayVersion: '3.9.0 Beta 5', datePublished: PRESS_KIT_RELEASE_DATE, dateModified: PRESS_KIT_RELEASE_DATE, status: 'archived', category: 'distribution',
+    title: { en: 'Press Kit navigation discovery', it: 'Accesso al Press Kit dalla navigazione' },
+    summary: { en: 'Made the existing Press Kit visible in Workspace Controls, the shared public header and Command Palette.', it: 'Ha reso visibile il Press Kit in Workspace Controls, header pubblico condiviso e Command Palette.' },
+    changes: [{ en: 'Added visible links without changing the factual scope of the Press Kit.', it: 'Aggiunti link visibili senza cambiare il perimetro fattuale del Press Kit.' }],
+    boundaries: [{ en: 'Navigation availability depends on deployment of the matching web release.', it: 'La disponibilita della navigazione dipende dal deployment della release web corrispondente.' }],
+    evidenceLinks: [{ href: '/roadmap', label: { en: 'Release impact', it: 'Impatto release' } }],
+  },
+  {
+    slug: 'qualified-public-language-3-9-0-beta-4', version: '3.9.0-beta.4', displayVersion: '3.9.0 Beta 4', datePublished: PRESS_KIT_RELEASE_DATE, dateModified: PRESS_KIT_RELEASE_DATE, status: 'archived', category: 'methodology',
+    title: { en: 'Qualified public claim language', it: 'Linguaggio pubblico qualificato' },
+    summary: { en: 'Revised public statements to remove unsupported absolutes and distinguish controls from measured outcomes.', it: 'Ha rivisto le dichiarazioni pubbliche per rimuovere assoluti non supportati e distinguere controlli da risultati misurati.' },
+    changes: [{ en: 'Applied stated scope and limitation language across public product surfaces.', it: 'Applicato linguaggio di perimetro e limitazione alle superfici pubbliche del prodotto.' }],
+    boundaries: [{ en: 'Qualified wording does not substitute independent verification.', it: 'Il linguaggio qualificato non sostituisce la verifica indipendente.' }],
+    evidenceLinks: [{ href: '/methodology/confidence', label: { en: 'Methodology', it: 'Metodologia' } }],
+  },
+  {
+    slug: 'verifiable-press-kit-3-9-0-beta-3', version: '3.9.0-beta.3', displayVersion: '3.9.0 Beta 3', datePublished: PRESS_KIT_RELEASE_DATE, dateModified: PRESS_KIT_RELEASE_DATE, status: 'archived', category: 'product',
+    title: { en: 'Verifiable bilingual Press Kit', it: 'Press Kit bilingue verificabile' },
+    summary: { en: 'Introduced product facts, a claim ledger, owned media, checksums, boilerplates and a machine-readable endpoint.', it: 'Ha introdotto dati prodotto, registro claim, media proprietari, checksum, boilerplate ed endpoint machine-readable.' },
+    changes: [{ en: 'Published the initial evidence-oriented Press Kit in English and Italian.', it: 'Pubblicato il primo Press Kit orientato alle evidenze in inglese e italiano.' }],
+    boundaries: [{ en: 'Checksums establish file integrity only; external coverage remains separate.', it: 'I checksum stabiliscono solo l integrita dei file; la copertura esterna resta separata.' }],
+    evidenceLinks: [{ href: '/press-kit/press-kit.json', label: { en: 'Press Kit JSON', it: 'JSON Press Kit' } }],
+  },
+];
+
+export const pressKitDataSnapshots: PressKitDataSnapshot[] = [
+  {
+    id: `configured-scope-${PRESS_KIT_RELEASE_DATE}`,
+    title: { en: 'Configured scope snapshot', it: 'Snapshot del perimetro configurato' },
+    description: { en: 'Press-ready representation of monitored-company inventory, sectors, canonical KPIs and supported editorial languages.', it: 'Rappresentazione per la stampa di inventario aziende monitorate, settori, KPI canonici e lingue editoriali supportate.' },
+    asOf: PRESS_KIT_RELEASE_DATE,
+    generatedAt: PRESS_KIT_RELEASE_DATE,
+    methodologyHref: '/methodology/confidence',
+    citation: { en: `PolicyWatcher configured scope snapshot, ${PRESS_KIT_RELEASE_DATE}, ${PRESS_KIT_CANONICAL_URL}/data (accessed [date]).`, it: `Snapshot del perimetro configurato PolicyWatcher, ${PRESS_KIT_RELEASE_DATE}, ${PRESS_KIT_CANONICAL_URL}/data (consultato il [data]).` },
+    boundary: { en: 'Configured product inventory and method; not exhaustive market coverage, legal advice or measured compliance.', it: 'Inventario e metodo configurati; non copertura esaustiva, consulenza legale o conformita misurata.' },
+    files: [
+      { format: 'PNG', href: `/press-kit/policywatcher-configured-scope-${PRESS_KIT_RELEASE_DATE}.png`, mediaType: 'image/png' },
+      { format: 'SVG', href: `/press-kit/policywatcher-configured-scope-${PRESS_KIT_RELEASE_DATE}.svg`, mediaType: 'image/svg+xml' },
+      { format: 'CSV', href: `/press-kit/policywatcher-configured-scope-${PRESS_KIT_RELEASE_DATE}.csv`, mediaType: 'text/csv' },
+      { format: 'JSON', href: `/press-kit/policywatcher-configured-scope-${PRESS_KIT_RELEASE_DATE}.json`, mediaType: 'application/json' },
+    ],
+  },
+];
+
+function contactHref(subject: string, body: string) {
+  return `mailto:info@policywatcher.online?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+export const pressKitContactRoutes: PressKitContactRoute[] = [
+  { id: 'press', title: { en: 'Press inquiry', it: 'Richiesta stampa' }, description: { en: 'Questions about the project, a release or an editorial asset.', it: 'Domande sul progetto, una release o un asset editoriale.' }, href: { en: contactHref('PolicyWatcher press inquiry', 'Outlet:\nTopic:\nDeadline and time zone:\nQuestion:\n'), it: contactHref('Richiesta stampa PolicyWatcher', 'Testata:\nArgomento:\nScadenza e fuso orario:\nDomanda:\n') }, requestedContext: { en: 'Include outlet, topic, deadline and time zone.', it: 'Includere testata, argomento, scadenza e fuso orario.' } },
+  { id: 'fact-checking', title: { en: 'Fact check or correction', it: 'Fact-checking o correzione' }, description: { en: 'Request review of a specific statement, source, date or asset.', it: 'Richiedere la revisione di una dichiarazione, fonte, data o asset specifico.' }, href: { en: contactHref('PolicyWatcher fact-checking request', 'Cited URL:\nStatement or asset:\nRequested verification:\nDeadline and time zone:\n'), it: contactHref('Richiesta fact-checking PolicyWatcher', 'URL citato:\nDichiarazione o asset:\nVerifica richiesta:\nScadenza e fuso orario:\n') }, requestedContext: { en: 'Include the cited URL and exact statement requiring review.', it: 'Includere URL citato e dichiarazione esatta da verificare.' } },
+  { id: 'interview', title: { en: 'Interview request', it: 'Richiesta intervista' }, description: { en: 'Request an interview about PolicyWatcher, evidence quality or policy-monitoring methods.', it: 'Richiedere un intervista su PolicyWatcher, qualita delle evidenze o metodi di monitoraggio policy.' }, href: { en: contactHref('PolicyWatcher interview request', 'Outlet or programme:\nTopic:\nFormat:\nProposed date, deadline and time zone:\nLanguage:\n'), it: contactHref('Richiesta intervista PolicyWatcher', 'Testata o programma:\nArgomento:\nFormato:\nData proposta, scadenza e fuso orario:\nLingua:\n') }, requestedContext: { en: 'Include format, language, proposed date and deadline.', it: 'Includere formato, lingua, data proposta e scadenza.' } },
+  { id: 'speaking', title: { en: 'Speaking request', it: 'Richiesta intervento' }, description: { en: 'Request participation in a conference, briefing, podcast or panel.', it: 'Richiedere partecipazione a conferenza, briefing, podcast o panel.' }, href: { en: contactHref('PolicyWatcher speaking request', 'Organization and event:\nTopic:\nFormat and duration:\nDate, location or time zone:\nLanguage:\n'), it: contactHref('Richiesta intervento PolicyWatcher', 'Organizzazione ed evento:\nArgomento:\nFormato e durata:\nData, luogo o fuso orario:\nLingua:\n') }, requestedContext: { en: 'Include organization, format, duration, date and language.', it: 'Includere organizzazione, formato, durata, data e lingua.' } },
+];
+
+export const pressKitGlossary: PressKitGlossaryEntry[] = [
+  { id: 'public-evidence', term: 'publicEvidence', definition: { en: 'A publication flag used by public data routes to withhold records that have not passed the configured evidence gate.', it: 'Flag di pubblicazione usato dalle route pubbliche per trattenere record che non hanno superato il gate evidenze configurato.' }, boundary: { en: 'The flag does not prove source completeness or legal authority.', it: 'Il flag non prova completezza della fonte o autorita legale.' } },
+  { id: 'not-assessed', term: 'Not assessed', definition: { en: 'A missing analytical assessment. It has no numerical value and is not converted to zero.', it: 'Una valutazione analitica mancante. Non ha valore numerico e non viene convertita in zero.' } },
+  { id: 'source-suspension', term: 'Source suspension', definition: { en: 'A publication state used when the configured source cannot support a current public analytical record.', it: 'Stato di pubblicazione usato quando la fonte configurata non puo supportare un record analitico pubblico corrente.' }, boundary: { en: 'Suspension is not a finding about the provider policy.', it: 'La sospensione non e un giudizio sulla policy del provider.' } },
+  { id: 'snapshot', term: 'Snapshot', definition: { en: 'A dated copy or representation of information available at a recorded point in time.', it: 'Copia o rappresentazione datata delle informazioni disponibili in un momento registrato.' }, boundary: { en: 'A snapshot does not remain current after later source changes.', it: 'Uno snapshot non resta corrente dopo modifiche successive della fonte.' } },
+  { id: 'evidence-gate', term: 'Evidence gate', definition: { en: 'Configured checks that determine whether a record is eligible for a public data route.', it: 'Controlli configurati che determinano se un record e idoneo a una route dati pubblica.' }, boundary: { en: 'Eligibility is not legal validation or compliance certification.', it: 'L idoneita non e validazione legale o certificazione di conformita.' } },
+];
+
+export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+  { id: 'inventory-scope-clarification', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'clarification', title: { en: 'Monitored inventory scope clarified', it: 'Perimetro inventario monitorato chiarito' }, detail: { en: 'The 16-company fact now states that the WAZE record is an admin-onboarding fixture and is excluded from the monitored inventory count.', it: 'Il dato di 16 aziende ora specifica che il record WAZE e una fixture di onboarding amministrativo ed e escluso dal conteggio dell inventario monitorato.' }, affectedHref: '/press-kit#fact-monitored-companies' },
+  { id: 'asset-rights-and-metadata', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'methodology', title: { en: 'Asset rights and metadata separated', it: 'Diritti e metadati asset separati' }, detail: { en: 'Owned editorial asset terms, IPTC/XMP metadata and the Content Credentials boundary are now recorded separately from repository licensing.', it: 'Condizioni per asset editoriali proprietari, metadati IPTC/XMP e limite delle Content Credentials sono ora registrati separatamente dalla licenza del repository.' }, affectedHref: '/press-kit#media-assets' },
+  { id: 'evidence-newsroom-release', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'release', title: { en: 'Evidence Newsroom registry created', it: 'Creato il registro Evidence Newsroom' }, detail: { en: 'The public registry begins with dated release, claim, package, data and correction records. It does not assert exhaustive history before this date.', it: 'Il registro pubblico inizia con record datati per release, claim, pacchetti, dati e correzioni. Non dichiara una cronologia esaustiva precedente a questa data.' }, affectedHref: '/press-kit/releases/evidence-newsroom-3-9-0-beta-6' },
+];
+
 export function buildPressKitPayload() {
   return {
     schema: 'https://policywatcher.online/schemas/press-kit/v1',
-    schemaVersion: '1.0.0',
+    schemaVersion: '2.0.0',
     generatedAt: PRESS_KIT_RELEASE_DATE,
     releaseDate: PRESS_KIT_RELEASE_DATE,
     canonicalUrl: PRESS_KIT_CANONICAL_URL,
@@ -276,10 +563,29 @@ export function buildPressKitPayload() {
       email: 'info@policywatcher.online',
       linkedin: 'https://linkedin.com/in/fabriziodegni',
       github: PRESS_KIT_REPOSITORY_URL,
+      routes: pressKitContactRoutes,
     },
     facts: pressKitFacts,
     claims: pressKitClaims,
     assets: pressKitAssets,
+    packages: pressKitPackages,
+    releases: pressKitReleases,
+    dataSnapshots: pressKitDataSnapshots,
+    glossary: pressKitGlossary,
+    registryEvents: pressKitRegistryEvents,
+    distribution: {
+      releases: `${PRESS_KIT_CANONICAL_URL}/releases`,
+      rss: `${PRESS_KIT_CANONICAL_URL}/feed.xml`,
+      jsonFeed: `${PRESS_KIT_CANONICAL_URL}/feed.json`,
+      corrections: `${PRESS_KIT_CANONICAL_URL}/corrections`,
+      dataRoom: `${PRESS_KIT_CANONICAL_URL}/data`,
+    },
+    assetRights: {
+      href: `${PRESS_KIT_CANONICAL_URL}/LICENSE-ASSETS.md`,
+      repositoryLicenseIsSeparate: true,
+      metadataStandard: 'IPTC Photo Metadata 2025.1',
+      nativeVectorMasterAvailable: false,
+    },
     integrityBoundary: {
       contentCredentials: 'not-attached',
       statement: 'SHA-256 checksums establish downloaded-file integrity only; they do not establish semantic truth, authorship provenance or editorial endorsement.',

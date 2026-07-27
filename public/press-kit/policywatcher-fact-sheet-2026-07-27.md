@@ -1,6 +1,6 @@
 # PolicyWatcher press fact sheet
 
-Release: 3.9.0-beta.5 Native Dashboard Intelligence
+Release: 3.9.0-beta.6 Native Dashboard Intelligence
 Release date: 27 July 2026
 Canonical site: https://policywatcher.online
 Repository: https://github.com/sev7enITA/policywatcher
@@ -13,11 +13,12 @@ PolicyWatcher is a public-interest policy evidence project that monitors a confi
 
 ## Product facts and scope
 
-- Configured inventory: 16 companies across 6 sectors. This is not exhaustive market coverage.
+- Configured monitored inventory: 16 companies across 6 sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage.
 - Analytical framework: 15 canonical KPIs spanning privacy, AI governance and ethics.
 - Languages: the press kit and selected explanatory surfaces support English and Italian.
 - Evidence boundary: public data routes apply the configured evidence gate; unavailable assessments display `Not assessed` without a numerical value.
-- Web release: 3.9.0-beta.5, dated 27 July 2026.
+- Web release: 3.9.0-beta.6, dated 27 July 2026.
+- Evidence Newsroom: localized press packages, dated fact and claim records, release feeds, data snapshot formats and a public correction/clarification register.
 - Browser extension: separately versioned at 3.8.3 Beta 3; Beta package ready, store submission planned.
 - Repository: public and reusable under CC BY 4.0. No OSI certification is claimed.
 
@@ -29,8 +30,8 @@ Primary source: https://digital-strategy.ec.europa.eu/en/news/commission-publish
 
 ## Boundaries
 
-PolicyWatcher is not legal advice, a compliance certification, exhaustive coverage, or proof of AI correctness. Update intervals depend on source retrieval and review. External mentions are public discussion signals, not endorsements. Asset SHA-256 checksums establish file integrity only; C2PA Content Credentials are not attached.
+PolicyWatcher is not legal advice, a compliance certification, exhaustive coverage, or proof of AI correctness. Update intervals depend on source retrieval and review. External mentions are public discussion signals, not endorsements. Asset SHA-256 checksums establish file integrity only. IPTC/XMP metadata records supplied captions, credits and usage terms; C2PA Content Credentials are not attached.
 
 ## Italian summary
 
-PolicyWatcher e un progetto di interesse pubblico che monitora un inventario configurato di fonti policy pubbliche e rende visibili stato delle fonti, cambiamenti osservati, limiti analitici e confini di revisione. L inventario configurato comprende 16 aziende in 6 settori e il framework analitico usa 15 KPI canonici su privacy, governance AI ed etica. Non e consulenza legale, certificazione di conformita, copertura esaustiva o monitoraggio in tempo reale.
+PolicyWatcher e un progetto di interesse pubblico che monitora un inventario configurato di fonti policy pubbliche e rende visibili stato delle fonti, cambiamenti osservati, limiti analitici e confini di revisione. L inventario monitorato comprende 16 aziende in 6 settori ed esclude la fixture WAZE per l onboarding amministrativo. Il framework analitico usa 15 KPI canonici su privacy, governance AI ed etica. Non e consulenza legale, certificazione di conformita, copertura esaustiva o monitoraggio in tempo reale.

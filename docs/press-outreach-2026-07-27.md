@@ -11,7 +11,7 @@ The immediate news hook is the EU AI Act transparency timetable: the European Co
 ## Claims that are safe to make
 
 - Public-interest project created and maintained by Fabrizio Degni; the repository is available under CC BY 4.0.
-- Configured inventory of 16 companies across six sectors; configured inventory is not the same as complete public evidence coverage.
+- Configured monitored inventory of 16 companies across six sectors; the count excludes the WAZE admin-onboarding fixture and is not the same as complete public evidence coverage.
 - Fifteen canonical governance indicators spanning privacy, AI governance and ethics.
 - Public data routes apply the configured evidence gate; a missing assessment is displayed as `Not assessed` rather than as a numerical value.
 - Source provenance, retrieval status, timestamps, limitations and data-quality context remain visible across public analysis and exports.
@@ -54,6 +54,9 @@ Nelle ultime due settimane PolicyWatcher ha introdotto:
 La piattaforma espone **fonti, spiegazioni, stato dei dati e limiti** insieme ai risultati analitici.
 
 Demo pubblica: https://policywatcher.online
+Evidence Newsroom: https://policywatcher.online/press-kit
+Release e feed: https://policywatcher.online/press-kit/releases
+Data room: https://policywatcher.online/press-kit/data
 Metodologia: https://policywatcher.online/methodology/confidence
 Trust & Quality: https://policywatcher.online/trust
 Infografiche: https://policywatcher.online/infographics
@@ -101,6 +104,9 @@ Over the last two weeks, PolicyWatcher has added:
 The project does not provide legal advice or compliance certification. Public results are presented with **source evidence, explanation, data status and stated limitations**.
 
 Live demo: https://policywatcher.online
+Evidence Newsroom: https://policywatcher.online/press-kit
+Releases and feeds: https://policywatcher.online/press-kit/releases
+Editorial data room: https://policywatcher.online/press-kit/data
 Methodology: https://policywatcher.online/methodology/confidence
 Trust & Quality: https://policywatcher.online/trust
 Infographics: https://policywatcher.online/infographics
@@ -174,7 +180,7 @@ Suggested Product Hunt tagline:
 ## Correct outreach sequence
 
 1. **Production gate**: deploy the 27 July package first. Test homepage, What Changed, Timeline, Leaderboard, Trust, Methodology, Infographics, Feature Atlas and mobile navigation on the public domain.
-2. **Press-kit gate**: publish one stable page containing a 60-word description, fact sheet, founder bio/headshot, logo files, four screenshots, 45–60 second demo, release notes, methodology, Trust links and contact address.
+2. **Press-kit gate**: publish one stable page containing a concise description, localized fact sheets, founder bio/headshot, owned logo files, screenshots, release records, data snapshot formats, methodology, Trust links and specialized contact routes. A short video remains optional until a dated, captioned recording is available.
 3. **One exclusive, if desired**: give one top-tier Italian publication 48 hours to accept a specific exclusive case study. Do not offer the same exclusive simultaneously elsewhere.
 4. **Italian wave**: send six individually personalized A-priority messages between 08:00 and 10:00 Europe/Rome on Tuesday, Wednesday or Thursday. Send B-priority messages the following day.
 5. **International wave**: use the English pitch, but rewrite the first paragraph for each beat. Contributor outlets receive proposals or exclusive drafts according to their rules, never the generic release.
@@ -201,11 +207,14 @@ Do not attach the Hostinger ZIP or a large PDF to the first email. Link to a sta
 
 - `PolicyWatcher in one sentence` and a 60-word boilerplate;
 - current release, release date and repository link;
-- creator biography and the available 200 x 200 pixel portrait, labelled with its resolution;
-- available PNG and JPEG logo files;
+- creator biography and the available 200 x 200 pixel portrait, labelled unsuitable for print;
+- available PNG and JPEG logo files plus raster wordmarks for light and navy backgrounds; no native vector master is claimed;
 - Feature Atlas and Release Impact screenshots;
 - the English two-week infographic;
-- product facts, explicit limitations and the CC BY 4.0 repository license;
+- separate English and Italian ZIP packages with PDF/plain-text fact sheets, manifests and SHA-256 values;
+- a configured-scope data card in PNG, SVG, CSV and JSON;
+- product facts, stable claim IDs, dates, explicit limitations, separate editorial asset terms and the CC BY 4.0 repository license;
+- RSS and JSON Feed URLs, a release archive, correction/clarification register and glossary;
 - links to live demo, methodology, Trust, changelog, roadmap and GitHub;
 - `info@policywatcher.online` as the press contact.
 

@@ -1,6 +1,6 @@
 {
   "name": "policywatcher",
-  "version": "3.9.0-beta.5",
+  "version": "3.9.0-beta.6",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -16,7 +16,8 @@
     "api:smoke": "tsx scripts/api-smoke-test.ts",
     "db:repair": "tsx scripts/repair-data.ts",
     "db:backfill-check-logs": "tsx scripts/backfill-policy-check-logs.ts",
-    "qa:dataset": "tsx scripts/dataset-assurance.ts"
+    "qa:dataset": "tsx scripts/dataset-assurance.ts",
+    "press-kit:package": "node scripts/generate-press-kit-assets.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.9.0",

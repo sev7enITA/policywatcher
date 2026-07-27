@@ -2,6 +2,25 @@
 
 ## Unreleased
 
+## 3.9.0-beta.6 - 2026-07-27
+
+### Evidence Newsroom
+- Added separate English and Italian press ZIP packages containing dated fact sheets, owned media, data files, rights terms, metadata and checksum manifests.
+- Added stable fact and claim identifiers with permalinks, current/superseded/corrected/withdrawn state, `as of` date, verification date and review cadence.
+- Clarified that the 16-company monitored inventory excludes the WAZE admin-onboarding fixture present in the database.
+- Added a dated release archive, release detail pages, `NewsArticle` JSON-LD, RSS and JSON Feed distribution.
+- Added an editorial data room with a configured-scope snapshot in PNG, SVG, CSV and JSON plus citation, method and reuse boundaries.
+- Added press, fact-checking, interview and speaking request routes using one public contact without a response-time claim.
+- Added provenance, clarification/correction and glossary registers; the registry does not claim exhaustive history before 27 July 2026.
+
+### Editorial assets and provenance
+- Added raster wordmarks for light and navy backgrounds and explicitly recorded that no native vector master is supplied.
+- Embedded IPTC/XMP titles, descriptions, creators, credits, rights, usage terms, alt text and extended accessibility descriptions in supplied PNG/JPEG assets.
+- Separated editorial asset terms from the repository licence and retained the explicit statement that Content Credentials are not attached.
+- Added public JSON Schemas for the press kit, asset manifest, package manifest, media metadata and data snapshot contracts.
+- Added a reproducible `npm run press-kit:package` generator for metadata, localized fact sheets, data formats, manifests and press packages.
+- Verified byte-identical press assets across consecutive generations, 349 automated tests, TypeScript, lint with no application errors, an independent UI evaluation and the production build.
+
 ## 3.9.0-beta.5 - 2026-07-27
 
 ### Press Kit navigation

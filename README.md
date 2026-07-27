@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%205%20Native%20Dashboard-146c6a" alt="3.9.0 Beta 5 Native Dashboard Intelligence Release" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%206%20Evidence%20Newsroom-146c6a" alt="3.9.0 Beta 6 Evidence Newsroom Release" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -35,11 +35,22 @@
 
 ## What Is PolicyWatcher?
 
-PolicyWatcher monitors the privacy policies, terms of service, and AI governance practices of 16 major technology and financial companies. It tracks configured public policy sources, records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
+PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
 
-### Release 3.9.0 Beta 5 Native Dashboard Intelligence Highlights
+### Release 3.9.0 Beta 6 Evidence Newsroom Highlights
+
+- **Localized press packages** provide separate English and Italian ZIP downloads with dated fact sheets, owned media, data files, rights, manifests and SHA-256 checksums.
+- **Versioned fact and claim records** add stable IDs, permalinks, `as of` dates, verification dates, review cadence, state and interpretation boundaries.
+- **Newsroom archive and feeds** publish dated release records with `NewsArticle` metadata, RSS and JSON Feed endpoints.
+- **Editorial data room** supplies a configured-scope snapshot in PNG, SVG, CSV and JSON with citation, date, method link and reuse boundary.
+- **Asset metadata** embeds IPTC/XMP title, caption, creator, credit, rights, alt text and extended accessibility description in supplied PNG/JPEG files.
+- **Provenance boundary** keeps Content Credentials explicitly unattached and records that no native vector master is currently supplied.
+- **Specialized contact routes** prepare press, fact-checking, interview and speaking email requests without promising a response time.
+- **Public reference registry** records corrections, clarifications, provenance status and a glossary without claiming exhaustive history before 27 July 2026.
+
+### Release 3.9.0 Beta 5 Navigation Highlights
 
 - **Press Kit navigation** adds `/press-kit` to Workspace Controls, the shared public header and Command Palette.
 - **Visible dashboard access** places Press Kit in the Observe group immediately after Showcase.
@@ -212,7 +223,7 @@ The platform is designed as a **civic tech tool** that produces structured summa
 
 ### Key Value Propositions
 
-- **Automated monitoring workflow** for a configured inventory of 16 companies across 6 industry sectors, with public records gated until source evidence is available.
+- **Automated monitoring workflow** for 16 configured monitored companies across 6 industry sectors, excluding the WAZE admin-onboarding fixture, with public records gated until source evidence is available.
 - **Transparent AI scoring** where generated risk scores are retained only when backed by retrieved policy text and structured model output.
 - **15-KPI governance matrix** covering Privacy, AI Governance, and Ethics. Static bilingual KPI notes are disabled in public mode unless explicitly enabled after editorial review.
 - **Regional impact analysis** across EU, US, and Global jurisdictions from both Individual and Enterprise perspectives.
