@@ -27,6 +27,8 @@ interface RateLimitConfig {
   max?: number;
   /** Optional human-readable label for the rate-limit group (logs). */
   name?: string;
+  /** Set false for endpoints whose privacy contract excludes persistent IP logs. */
+  logClientIp?: boolean;
 }
 
 const buckets = new Map<string, Bucket>();
@@ -93,6 +95,7 @@ export function rateLimit(
   const intervalMs = config.intervalMs ?? 60_000;
   const max = config.max ?? 10;
   const name = config.name ?? 'default';
+  const logClientIp = config.logClientIp ?? true;
   const ip = getClientIp(request);
   const key = `${name}:${ip}`;
 
@@ -113,9 +116,9 @@ export function rateLimit(
 
   if (bucket.tokens < 1) {
     const retryAfter = Math.ceil((1 - bucket.tokens) * (intervalMs / max) / 1000);
-    console.warn(
-      `[RateLimit] ${name} - IP ${ip} rate-limited. Retry in ${retryAfter}s.`
-    );
+    console.warn(logClientIp
+      ? `[RateLimit] ${name} - IP ${ip} rate-limited. Retry in ${retryAfter}s.`
+      : `[RateLimit] ${name} rate-limited. Retry in ${retryAfter}s.`);
     return NextResponse.json(
       {
         error: 'Too many requests. Please slow down.',

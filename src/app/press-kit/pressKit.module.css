@@ -51,6 +51,10 @@
   color: #fff;
 }
 
+.fastFacts {
+  display: none;
+}
+
 .actionRail > header {
   padding: 20px;
   border-right: 1px solid rgba(255, 255, 255, 0.16);
@@ -107,6 +111,10 @@
   color: #9fb1c0;
   font-size: 0.66rem;
   line-height: 1.4;
+}
+
+.actionRailCue {
+  display: none;
 }
 
 .packages,
@@ -675,11 +683,13 @@
   margin-top: 6px;
   color: #718096;
   font-family: var(--font-mono, monospace);
-  font-size: 0.61rem;
+  font-size: 0.7rem;
+  line-height: 1.35;
   text-decoration: none;
 }
 
 .registryRecord {
+  display: grid;
   gap: 6px;
 }
 
@@ -702,7 +712,7 @@
   border-left: 3px solid var(--teal);
   background: #edf6f5;
   color: #174f4b;
-  font-size: 0.67rem;
+  font-size: 0.74rem;
   font-weight: 750;
   text-transform: capitalize;
 }
@@ -721,8 +731,8 @@
 }
 
 .ledgerRow strong {
-  font-size: 0.84rem;
-  line-height: 1.42;
+  font-size: 0.9rem;
+  line-height: 1.48;
 }
 
 .ledgerRow > div:nth-child(2) span {
@@ -735,18 +745,44 @@
   font-weight: 750;
 }
 
-.ledgerRow > div:nth-child(2) small {
-  display: block;
-  margin-top: 6px;
-  color: #78879a;
+.statusRecord {
+  display: grid;
+  gap: 7px;
+  margin: 10px 0 0;
+}
+
+.statusRecord div {
+  min-width: 0;
+}
+
+.statusRecord dt,
+.registryRecord dt {
+  color: #64758a;
+  font-size: 0.68rem;
+  font-weight: 780;
+  letter-spacing: 0.045em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.statusRecord dd,
+.registryRecord dd {
+  margin: 3px 0 0;
+  color: #26384e;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.statusRecord dd:last-child {
   font-family: var(--font-mono, monospace);
-  font-size: 0.62rem;
 }
 
 .ledgerRow a {
   gap: 5px;
   color: var(--blue);
-  font-size: 0.76rem;
+  font-size: 0.78rem;
+  line-height: 1.4;
   font-weight: 750;
 }
 
@@ -1581,6 +1617,18 @@
     border-bottom: 1px solid var(--line);
   }
 
+  .ledgerRow > [data-label]::before {
+    display: block;
+    margin-bottom: 8px;
+    color: #64758a;
+    content: attr(data-label);
+    font-size: 0.68rem;
+    font-weight: 780;
+    letter-spacing: 0.06em;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
   .ledgerRow > p {
     grid-column: 1 / -1;
     border-bottom: 0;
@@ -1619,7 +1667,6 @@
     padding: 24px 20px;
   }
 
-  .actionRail nav,
   .packageGrid,
   .dataGrid,
   .contactGrid,
@@ -1628,11 +1675,113 @@
     grid-template-columns: 1fr;
   }
 
+  .fastFacts {
+    display: block;
+    margin-top: 12px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--teal);
+    background: #fff;
+  }
+
+  .fastFacts h2 {
+    margin: 0 0 11px;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: -0.015em;
+  }
+
+  .fastFacts > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+
+  .fastFacts article {
+    display: grid;
+    gap: 3px;
+    min-width: 0;
+    padding: 10px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fastFacts article strong {
+    color: var(--teal);
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    line-height: 1;
+  }
+
+  .fastFacts article span {
+    color: #46566a;
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .fastFacts > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 11px;
+    color: var(--blue);
+    font-size: 0.72rem;
+    font-weight: 750;
+  }
+
+  .actionRail {
+    overflow: hidden;
+  }
+
+  .actionRail > header {
+    padding: 14px 16px;
+  }
+
+  .actionRail > header p {
+    margin-top: 5px;
+  }
+
+  .actionRail nav {
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline proximity;
+    scrollbar-width: thin;
+  }
+
   .actionRail nav a,
   .actionRail nav a:nth-child(3) {
-    min-height: 90px;
-    border-right: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    flex: 0 0 208px;
+    min-height: 76px;
+    padding: 12px 14px;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    border-bottom: 0;
+    scroll-snap-align: start;
+  }
+
+  .actionRailCue {
+    display: flex;
+    grid-column: 1 / -1;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
+    margin: 0;
+    padding: 8px 14px 9px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    color: #c5eee9;
+    background: linear-gradient(90deg, rgba(16, 32, 51, 0.94), rgba(18, 109, 104, 0.3));
+    font-size: 0.72rem;
+    font-weight: 720;
+    line-height: 1.35;
+  }
+
+  .actionRailCue svg {
+    flex: 0 0 auto;
+    color: #75d7cc;
+    animation: actionRailCue 1.6s ease-in-out 2;
   }
 
   .packageCard {
@@ -1691,6 +1840,50 @@
 
   .ledgerRow {
     grid-template-columns: 1fr;
+  }
+
+  .ledgerRow > div:first-child {
+    padding-bottom: 18px;
+  }
+
+  .ledgerRow > div:nth-child(2) {
+    display: grid;
+    grid-template-columns: minmax(112px, 0.7fr) minmax(0, 1.3fr);
+    align-items: start;
+    gap: 12px;
+    background: #f6f9f9;
+  }
+
+  .ledgerRow > div:nth-child(2)::before {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+  }
+
+  .statusRecord {
+    grid-template-columns: 1fr;
+    margin-top: 0;
+  }
+
+  .registryRecord {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    background: #f6f9f9;
+  }
+
+  .registryRecord > div {
+    padding: 9px 10px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .registryRecord > div:nth-child(2) {
+    border-right: 0;
+  }
+
+  .registryRecord > div:last-child {
+    grid-column: 1 / -1;
+    border-right: 0;
+    border-bottom: 0;
   }
 
   .ledgerRow > p,
@@ -1773,7 +1966,22 @@
   }
 }
 
+@keyframes actionRailCue {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(4px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .actionRailCue svg {
+    animation: none;
+  }
+
   .page *,
   .page *::before,
   .page *::after {

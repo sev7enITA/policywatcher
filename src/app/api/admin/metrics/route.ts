@@ -9,6 +9,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { db } from '@/lib/db';
 import { getDatabaseDiagnostics } from '@/lib/databaseConfig';
+import { buildPressMetricCounts } from '@/lib/pressMetrics';
 
 export async function GET(request: NextRequest) {
   const session = getSession(request);
@@ -19,7 +20,8 @@ export async function GET(request: NextRequest) {
   const database = await getDatabaseDiagnostics();
 
   try {
-    const [companyCount, policyCount, snapshotCount, changeCount, subscriberCount, openPolicyInquiryCount] =
+    const trailingWindowStartedAt = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    const [companyCount, policyCount, snapshotCount, changeCount, subscriberCount, openPolicyInquiryCount, allTimePressGroups, trailingPressGroups] =
       await Promise.all([
         db.company.count(),
         db.policy.count(),
@@ -28,6 +30,15 @@ export async function GET(request: NextRequest) {
         db.subscriber.count(),
         db.policyInquiry.count({
           where: { status: { notIn: ['Rejected', 'Duplicate', 'Resolved'] } },
+        }),
+        db.pressMetricEvent.groupBy({
+          by: ['eventType', 'target'],
+          _count: { _all: true },
+        }),
+        db.pressMetricEvent.groupBy({
+          by: ['eventType', 'target'],
+          where: { createdAt: { gte: trailingWindowStartedAt } },
+          _count: { _all: true },
         }),
       ]);
 
@@ -73,6 +84,12 @@ export async function GET(request: NextRequest) {
         openPolicyInquiries: openPolicyInquiryCount,
         lastChangeAt: latestChange?.createdAt || null,
         riskDistribution,
+        pressNewsroom: {
+          allTime: buildPressMetricCounts(allTimePressGroups),
+          trailing30Days: buildPressMetricCounts(trailingPressGroups),
+          trailingWindowStartedAt: trailingWindowStartedAt.toISOString(),
+          boundary: 'Aggregate event counts, not unique visitors. Package and contact events record intent only; automated traffic can affect counts.',
+        },
       },
       timestamp: new Date().toISOString(),
       role: session.role,

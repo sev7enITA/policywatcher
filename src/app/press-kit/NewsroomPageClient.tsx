@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   ArrowLeft,
   ArrowRight,
@@ -22,6 +22,7 @@ import {
   pressKitReleases,
   type PressKitLocale,
 } from '@/lib/pressKit';
+import { recordPressMetric } from '@/lib/pressMetrics';
 import styles from './pressKit.module.css';
 
 type NewsroomView = 'releases' | 'release-detail' | 'data' | 'reference' | 'corrections' | 'glossary';
@@ -112,8 +113,15 @@ const pageCopy = {
 
 export default function NewsroomPageClient({ view, releaseSlug }: NewsroomPageClientProps) {
   const [lang, setLang] = useState<PressKitLocale>('en');
+  const dataRoomViewRecorded = useRef(false);
   const t = pageCopy[lang];
   const selectedRelease = releaseSlug ? pressKitReleases.find((release) => release.slug === releaseSlug) : null;
+
+  useEffect(() => {
+    if (view !== 'data' || dataRoomViewRecorded.current) return;
+    dataRoomViewRecorded.current = true;
+    recordPressMetric('data_room_view', 'data-room', lang);
+  }, [lang, view]);
 
   const pageHeader = view === 'data'
     ? [t.dataLabel, t.dataTitle, t.dataLead]
@@ -223,7 +231,7 @@ export default function NewsroomPageClient({ view, releaseSlug }: NewsroomPageCl
               ) : (
                 <ol className={styles.registryEvents}>{pressKitRegistryEvents.filter((event) => event.type === 'correction' || event.type === 'clarification').map((event) => <li key={event.id}><strong>{event.occurredAt}<br />{event.type}</strong><span>{event.title[lang]}: {event.detail[lang]} <Link href={event.affectedHref}>{t.affected}</Link></span></li>)}</ol>
               )}
-              <a className={styles.subpageAction} href="mailto:info@policywatcher.online?subject=PolicyWatcher%20factual%20review%20request"><Mail size={14} />info@policywatcher.online</a>
+              <a className={styles.subpageAction} href="mailto:info@policywatcher.online?subject=PolicyWatcher%20factual%20review%20request" onClick={() => recordPressMetric('press_contact_intent', 'fact-checking', lang)}><Mail size={14} />info@policywatcher.online</a>
             </section>
             <section id="glossary" className={styles.referenceBlock}>
               <h2>{t.glossaryTitle}</h2>
@@ -240,7 +248,7 @@ export default function NewsroomPageClient({ view, releaseSlug }: NewsroomPageCl
             ) : (
               <ol className={styles.registryEvents}>{pressKitRegistryEvents.filter((event) => event.type === 'correction' || event.type === 'clarification').map((event) => <li key={event.id}><strong>{event.occurredAt}<br />{event.type}</strong><span>{event.title[lang]}: {event.detail[lang]} <Link href={event.affectedHref}>{t.affected}</Link></span></li>)}</ol>
             )}
-            <a className={styles.subpageAction} href="mailto:info@policywatcher.online?subject=PolicyWatcher%20factual%20review%20request"><Mail size={14} />info@policywatcher.online</a>
+            <a className={styles.subpageAction} href="mailto:info@policywatcher.online?subject=PolicyWatcher%20factual%20review%20request" onClick={() => recordPressMetric('press_contact_intent', 'fact-checking', lang)}><Mail size={14} />info@policywatcher.online</a>
           </section>
         )}
 
@@ -251,7 +259,7 @@ export default function NewsroomPageClient({ view, releaseSlug }: NewsroomPageCl
           </section>
         )}
       </main>
-      <Footer lang={lang} />
+      <Footer lang={lang} variant="compact" />
     </div>
   );
 }

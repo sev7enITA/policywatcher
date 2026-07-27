@@ -298,6 +298,12 @@ const ddl = [
     "detail" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
   )`,
+  `CREATE TABLE IF NOT EXISTS "PressMetricEvent" (
+    "eventType" TEXT NOT NULL,
+    "target" TEXT NOT NULL,
+    "locale" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL PRIMARY KEY
+  )`,
 ];
 
 const indexes = [
@@ -348,6 +354,8 @@ const indexes = [
   `CREATE INDEX IF NOT EXISTS "AdminAccessLog_event_idx" ON "AdminAccessLog"("event")`,
   `CREATE INDEX IF NOT EXISTS "AdminAccessLog_username_idx" ON "AdminAccessLog"("username")`,
   `CREATE INDEX IF NOT EXISTS "AdminAccessLog_ipAddress_idx" ON "AdminAccessLog"("ipAddress")`,
+  `CREATE INDEX IF NOT EXISTS "PressMetricEvent_eventType_createdAt_idx" ON "PressMetricEvent"("eventType", "createdAt")`,
+  `CREATE INDEX IF NOT EXISTS "PressMetricEvent_eventType_target_createdAt_idx" ON "PressMetricEvent"("eventType", "target", "createdAt")`,
 ];
 
 const upgradeColumns = {
@@ -427,6 +435,7 @@ try {
     snapshots: db.prepare('SELECT COUNT(*) AS count FROM "PolicySnapshot"').get().count,
     changes: db.prepare('SELECT COUNT(*) AS count FROM "PolicyChange"').get().count,
     accessLogs: db.prepare('SELECT COUNT(*) AS count FROM "AdminAccessLog"').get().count,
+    pressMetricEvents: db.prepare('SELECT COUNT(*) AS count FROM "PressMetricEvent"').get().count,
   };
 
   console.log('Database schema is ready.');

@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage() {
       <main className={styles.container}>
       <article className={styles.content}>
         <h1 className={styles.title}>Privacy Policy</h1>
-        <p className={styles.subtitle}>Last updated: July 22, 2026</p>
+        <p className={styles.subtitle}>Last updated: July 27, 2026</p>
 
         <section className={styles.section}>
           <h2>Who we are</h2>
@@ -58,6 +58,34 @@ export default function PrivacyPolicyPage() {
             <li>We do not fingerprint your browser or device.</li>
             <li>We do not serve advertising of any kind.</li>
           </ul>
+        </section>
+
+        <section className={styles.section}>
+          <h2>Cookie-free newsroom event counting</h2>
+          <p>
+            The Press Kit uses a first-party endpoint to count three aggregate newsroom event types:
+            press-package download intentions, Data Room page views and press-contact intentions.
+            This counting uses no analytics cookie and no third-party analytics service.
+          </p>
+          <p>Each accepted event record retains exactly:</p>
+          <ul>
+            <li><strong>Event type:</strong> package intention, Data Room view or contact intention.</li>
+            <li><strong>Allowlisted target:</strong> EN/IT package, Data Room, press, fact-checking, interview or speaking.</li>
+            <li><strong>Locale:</strong> English or Italian.</li>
+            <li><strong>Server timestamp:</strong> when the event request was accepted.</li>
+          </ul>
+          <p>
+            The event record does not retain an IP address, user agent, referrer, URL query,
+            cookie or session identifier, fingerprint, email address, outlet name, free text or
+            message recipient. An IP address can be used transiently in server memory for rate
+            limiting, but is not written to the newsroom event record or its rate-limit log.
+          </p>
+          <p>
+            Package and contact events measure click intentions only. They do not confirm a completed
+            download, a delivered message or a unique person. Data Room events are requested once per
+            page-component load. Automated traffic can affect all counts. A failed event write does not
+            prevent navigation, file download or opening an email link.
+          </p>
         </section>
 
         <section className={styles.section}>

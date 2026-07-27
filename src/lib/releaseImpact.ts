@@ -58,7 +58,8 @@ export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.9.0-beta.3', shortLabel: '3.9 B3', label: '3.9.0 Beta 3', state: 'delivered' },
   { id: '3.9.0-beta.4', shortLabel: '3.9 B4', label: '3.9.0 Beta 4', state: 'delivered' },
   { id: '3.9.0-beta.5', shortLabel: '3.9 B5', label: '3.9.0 Beta 5', state: 'delivered' },
-  { id: '3.9.0-beta.6', shortLabel: '3.9 B6', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
+  { id: '3.9.0-beta.6', shortLabel: '3.9 B6', label: '3.9.0 Beta 6', state: 'delivered' },
+  { id: '3.9.0-beta.7', shortLabel: '3.9 B7', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
   { id: 'next', shortLabel: 'Next', label: 'Next beta horizon', state: 'planned' },
   { id: 'later', shortLabel: 'Later', label: 'Later horizon', state: 'planned' },
 ];
@@ -77,11 +78,26 @@ export const RELEASE_IMPACT_DOMAINS: ReleaseImpactDomain[] = [
 
 export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
   {
+    id: 'newsroom-measurement-and-release-assurance',
+    title: 'Newsroom measurement and release assurance',
+    summary: 'Improves mobile Press Kit access, adds privacy-minimized aggregate newsroom event counts and closes scoped release-security findings.',
+    domainId: 'assurance',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '3.9.0-beta.7',
+    endRelease: '3.9.0-beta.7',
+    benefit: 'Editors reach core facts and actions sooner on mobile while authorized operators can inspect bounded distribution signals.',
+    kpi: 'Measured newsroom signals: Package-download intentions, Data Room views and press-contact intentions',
+    kri: 'Interpretation risk: Aggregate events can include automation and do not identify unique people or confirmed outcomes',
+    evidence: 'Mobile Fast Facts, horizontal action rail with visible cue, readable Claim Registry metadata, compact utility footer, allowlisted first-party event endpoint, protected 30-day and all-time aggregates, migration and regression tests.',
+    limitation: 'No target or conversion rate is stated before baseline data exists; telemetry writes are non-blocking and can be lost.',
+  },
+  {
     id: 'evidence-newsroom',
     title: 'Evidence Newsroom',
     summary: 'Extends the Press Kit with versioned packages, dated claim records, release feeds, reusable data and public reference registers.',
     domainId: 'distribution',
-    status: 'current',
+    status: 'delivered',
     horizon: 'delivered',
     startRelease: '3.9.0-beta.6',
     endRelease: '3.9.0-beta.6',

@@ -440,12 +440,38 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'evidence-newsroom-3-9-0-beta-6',
+    slug: 'release-assurance-newsroom-insights-3-9-0-beta-7',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: PRESS_KIT_RELEASE_DATE,
     dateModified: PRESS_KIT_RELEASE_DATE,
     status: 'current',
+    category: 'methodology',
+    title: { en: 'Release assurance and newsroom insights', it: 'Assurance della release e segnali newsroom' },
+    summary: { en: 'Improves mobile newsroom access, records bounded aggregate engagement events and closes scoped release-security findings.', it: 'Migliora l accesso mobile alla newsroom, registra eventi aggregati circoscritti e chiude rilievi di sicurezza della release con perimetro definito.' },
+    changes: [
+      { en: 'Mobile Fast Facts, a horizontally scrollable action rail with a visible cue, and more readable Claim Registry metadata.', it: 'Fast Facts mobile, barra azioni a scorrimento orizzontale con indicazione visibile e metadata del Claim Registry piu leggibili.' },
+      { en: 'Cookie-free aggregate counts for package-download intentions, Data Room views and press-contact intentions.', it: 'Conteggi aggregati senza cookie per intenzioni di download, visite alla Data Room e intenzioni di contatto stampa.' },
+      { en: 'Protected all-time and trailing-30-day newsroom counts for admin and auditor roles.', it: 'Conteggi newsroom protetti complessivi e degli ultimi 30 giorni per ruoli admin e auditor.' },
+      { en: 'Generic public chat errors, path-free health responses and explicit production operator identities.', it: 'Errori chat pubblici generici, risposte health senza percorsi fisici e identita operative esplicite in produzione.' },
+    ],
+    boundaries: [
+      { en: 'Counts are events, not unique people, verified readership, media coverage or confirmed contact outcomes.', it: 'I conteggi sono eventi, non persone uniche, letture verificate, copertura stampa o contatti confermati.' },
+      { en: 'No performance target or conversion rate is stated before sufficient baseline evidence exists.', it: 'Non viene indicato alcun target di performance o tasso di conversione prima di disporre di una base dati sufficiente.' },
+    ],
+    evidenceLinks: [
+      { href: '/press-kit', label: { en: 'Evidence Newsroom', it: 'Evidence Newsroom' } },
+      { href: '/privacy', label: { en: 'Measurement fields and privacy boundary', it: 'Campi misurati e limite privacy' } },
+      { href: '/roadmap', label: { en: 'Release impact', it: 'Impatto release' } },
+    ],
+  },
+  {
+    slug: 'evidence-newsroom-3-9-0-beta-6',
+    version: '3.9.0-beta.6',
+    displayVersion: '3.9.0 Beta 6',
+    datePublished: PRESS_KIT_RELEASE_DATE,
+    dateModified: PRESS_KIT_RELEASE_DATE,
+    status: 'archived',
     category: 'distribution',
     title: { en: 'Evidence Newsroom and reusable press data', it: 'Evidence Newsroom e dati stampa riutilizzabili' },
     summary: { en: 'Adds versioned press packages, reusable data formats, claim freshness, release feeds and specialized contact routes.', it: 'Aggiunge pacchetti stampa versionati, formati dati riutilizzabili, freschezza dei claim, feed release e contatti specializzati.' },
@@ -530,6 +556,7 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+  { id: 'newsroom-measurement-release', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'release', title: { en: 'Newsroom measurement and release assurance published', it: 'Pubblicati misurazione newsroom e assurance della release' }, detail: { en: 'The newsroom records allowlisted aggregate events without persistent visitor identifiers and states the interpretation boundary alongside the current release.', it: 'La newsroom registra eventi aggregati ammessi senza identificatori persistenti dei visitatori e indica il limite interpretativo insieme alla release corrente.' }, affectedHref: '/press-kit/releases/release-assurance-newsroom-insights-3-9-0-beta-7' },
   { id: 'inventory-scope-clarification', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'clarification', title: { en: 'Monitored inventory scope clarified', it: 'Perimetro inventario monitorato chiarito' }, detail: { en: 'The 16-company fact now states that the WAZE record is an admin-onboarding fixture and is excluded from the monitored inventory count.', it: 'Il dato di 16 aziende ora specifica che il record WAZE e una fixture di onboarding amministrativo ed e escluso dal conteggio dell inventario monitorato.' }, affectedHref: '/press-kit#fact-monitored-companies' },
   { id: 'asset-rights-and-metadata', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'methodology', title: { en: 'Asset rights and metadata separated', it: 'Diritti e metadati asset separati' }, detail: { en: 'Owned editorial asset terms, IPTC/XMP metadata and the Content Credentials boundary are now recorded separately from repository licensing.', it: 'Condizioni per asset editoriali proprietari, metadati IPTC/XMP e limite delle Content Credentials sono ora registrati separatamente dalla licenza del repository.' }, affectedHref: '/press-kit#media-assets' },
   { id: 'evidence-newsroom-release', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'release', title: { en: 'Evidence Newsroom registry created', it: 'Creato il registro Evidence Newsroom' }, detail: { en: 'The public registry begins with dated release, claim, package, data and correction records. It does not assert exhaustive history before this date.', it: 'Il registro pubblico inizia con record datati per release, claim, pacchetti, dati e correzioni. Non dichiara una cronologia esaustiva precedente a questa data.' }, affectedHref: '/press-kit/releases/evidence-newsroom-3-9-0-beta-6' },

@@ -168,6 +168,8 @@ describe('public press kit', () => {
     const navigationItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'press-kit-navigation-discovery');
     expect(navigationItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.5', endRelease: '3.9.0-beta.5' });
     const newsroomItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'evidence-newsroom');
-    expect(newsroomItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(newsroomItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.6', endRelease: '3.9.0-beta.6' });
+    const assuranceItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'newsroom-measurement-and-release-assurance');
+    expect(assuranceItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
   });
 });

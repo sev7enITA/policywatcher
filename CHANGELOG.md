@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+## 3.9.0-beta.7 - 2026-07-27
+
+### Evidence Newsroom usability and measurement
+- Added mobile Fast Facts before long newsroom content and changed the five-item mobile action desk to a keyboard-scrollable horizontal rail.
+- Increased Claim Registry metadata readability while preserving statement, record status, claim type, dates, review cadence, proof, boundary and stable permalink.
+- Added a compact shared Footer variant for Press Kit utility pages without changing the full footer used elsewhere.
+- Added cookie-free first-party aggregate event counting for press-package download intentions, Data Room views and press-contact intentions.
+- Added protected all-time and trailing-30-day aggregate newsroom counts for admin and auditor roles, including zero states and automation/intent boundaries.
+- Added a strict event allowlist and persisted only event type, allowlisted target, locale and server timestamp; IP rate limiting remains transient and is omitted from persistent event logs.
+- Documented that event-write failures do not block user actions, counts are not unique people or confirmed outcomes, and no target is set without baseline data.
+
+### Release assurance
+- Replaced raw upstream chat error details with a generic public message and a non-sensitive diagnostic reference while retaining server-side error detail.
+- Removed physical database paths from the authenticated health response.
+- Required explicit admin and auditor usernames in production while preserving development-only defaults.
+- Added regression proof for Content Security Policy, per-request nonces and frame-ancestor restrictions in the Next.js proxy.
+- Applied and exercised the newsroom metrics migration against an isolated SQLite database, including an accepted event and persisted allowlisted fields.
+
 ## 3.9.0-beta.6 - 2026-07-27
 
 ### Evidence Newsroom

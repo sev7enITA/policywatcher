@@ -55,6 +55,7 @@ import {
   pressKitReleases,
   type PressKitLocale,
 } from '@/lib/pressKit';
+import { recordPressMetric } from '@/lib/pressMetrics';
 import styles from './pressKit.module.css';
 
 const copy = {
@@ -72,8 +73,10 @@ const copy = {
     manualCopy: 'Select the text and copy it manually.',
     browseAssets: 'Browse assets',
     contactPress: 'Contact press',
+    quickFacts: 'Fast facts',
     deskLabel: 'Journalist action desk',
     deskLead: 'Move directly to reusable files, dated facts, releases, data or the correct request route.',
+    deskOverflowCue: 'Swipe horizontally for more actions',
     deskActions: [
       ['Press packages', 'Language-specific files and integrity details.'],
       ['Current facts', 'Stable identifiers, dates and evidence links.'],
@@ -122,7 +125,7 @@ const copy = {
     ledgerTitle: 'Claims, supporting links and limitations.',
     ledgerLead: 'Each entry identifies a product statement, its supporting page and its stated limitation.',
     claim: 'Public statement', status: 'Status / type', proof: 'Proof', boundary: 'Boundary',
-    verified: 'Verification', asOf: 'As of', lastVerified: 'Last verified', reviewCadence: 'Review cadence', stableId: 'Stable ID',
+    verified: 'Verification', asOf: 'As of', lastVerified: 'Last verified', reviewCadence: 'Review cadence', stableId: 'Stable ID', statementStatus: 'Statement status', claimType: 'Claim type',
     storyLabel: 'Reporting topics', storyTitle: 'Topics supported by product and policy information.',
     storyAngles: [
       ['AI transparency', 'Article 50 turns transparency into an operational reporting question: what must be disclosed, to whom, and with what evidence?'],
@@ -160,8 +163,10 @@ const copy = {
     manualCopy: 'Seleziona il testo e copialo manualmente.',
     browseAssets: 'Sfoglia gli asset',
     contactPress: 'Contatto stampa',
+    quickFacts: 'Dati rapidi',
     deskLabel: 'Desk operativo per giornalisti',
     deskLead: 'Vai direttamente a file riutilizzabili, dati datati, release, data room o al percorso corretto per la richiesta.',
+    deskOverflowCue: 'Scorri orizzontalmente per altre azioni',
     deskActions: [
       ['Pacchetti stampa', 'File per lingua e dettagli di integrita.'],
       ['Dati correnti', 'Identificatori stabili, date e link alle evidenze.'],
@@ -210,7 +215,7 @@ const copy = {
     ledgerTitle: 'Affermazioni, link di supporto e limiti.',
     ledgerLead: 'Ogni voce identifica una dichiarazione sul prodotto, la pagina di supporto e il limite dichiarato.',
     claim: 'Affermazione pubblica', status: 'Stato / tipo', proof: 'Prova', boundary: 'Limite',
-    verified: 'Verifica', asOf: 'Valido al', lastVerified: 'Ultima verifica', reviewCadence: 'Cadenza revisione', stableId: 'ID stabile',
+    verified: 'Verifica', asOf: 'Valido al', lastVerified: 'Ultima verifica', reviewCadence: 'Cadenza revisione', stableId: 'ID stabile', statementStatus: 'Stato dichiarazione', claimType: 'Tipo claim',
     storyLabel: 'Temi editoriali', storyTitle: 'Temi supportati dalle informazioni sul prodotto e sulle policy.',
     storyAngles: [
       ['Trasparenza AI', 'L articolo 50 trasforma la trasparenza in una domanda operativa: cosa dichiarare, a chi e con quali evidenze?'],
@@ -312,7 +317,7 @@ export default function PressKitClient() {
                 {copied === 'hero-short' ? <Check size={16} /> : <Clipboard size={16} />}{copied === 'hero-short' ? t.copied : t.copyShort}
               </button>
               <a href="#media-assets"><FileText size={16} />{t.browseAssets}</a>
-              <a href="mailto:info@policywatcher.online?subject=PolicyWatcher%20press"><Mail size={16} />{t.contactPress}</a>
+              <a href="mailto:info@policywatcher.online?subject=PolicyWatcher%20press" onClick={() => recordPressMetric('press_contact_intent', 'press', lang)}><Mail size={16} />{t.contactPress}</a>
             </div>
           </div>
           <aside className={styles.statusPanel} aria-label={t.statusTitle}>
@@ -325,12 +330,25 @@ export default function PressKitClient() {
           </aside>
         </section>
 
+        <section className={styles.fastFacts} aria-labelledby="fast-facts-title">
+          <h2 id="fast-facts-title">{t.quickFacts}</h2>
+          <div>
+            {pressKitFacts.map((fact) => (
+              <article key={`fast-${fact.id}`}>
+                <strong>{fact.value}</strong>
+                <span>{fact.label[lang]}</span>
+              </article>
+            ))}
+          </div>
+          <a href="#claim-registry">{lang === 'en' ? 'Open dated claim registry' : 'Apri il registro claim datato'}<ArrowRight size={13} /></a>
+        </section>
+
         <section className={styles.actionRail} aria-label={t.deskLabel}>
           <header>
             <span>{t.deskLabel}</span>
             <p>{t.deskLead}</p>
           </header>
-          <nav aria-label={t.deskLabel}>
+          <nav aria-label={t.deskLabel} aria-describedby="action-rail-cue">
             {t.deskActions.map(([label, detail], index) => {
               const Icon = deskIcons[index];
               return (
@@ -341,6 +359,7 @@ export default function PressKitClient() {
               );
             })}
           </nav>
+          <p id="action-rail-cue" className={styles.actionRailCue}>{t.deskOverflowCue}<ArrowRight size={14} aria-hidden="true" /></p>
         </section>
 
         <section id="press-packages" className={styles.packages} aria-labelledby="packages-title">
@@ -359,7 +378,7 @@ export default function PressKitClient() {
                     <div><dt>{t.packageGenerated}</dt><dd>{pressPackage.generatedAt}</dd></div>
                     <div><dt>{t.packageChecksum}</dt><dd>{pressPackage.sha256}</dd></div>
                   </dl>
-                  <a className={styles.packageDownload} href={pressPackage.href} download><Download size={14} />{t.download}</a>
+                  <a className={styles.packageDownload} href={pressPackage.href} download onClick={() => recordPressMetric('press_package_download', pressPackage.locale, lang)}><Download size={14} />{t.download}</a>
                 </div>
               </article>
             ))}
@@ -407,10 +426,10 @@ export default function PressKitClient() {
             <div className={styles.ledgerHead} role="row"><span role="columnheader">{t.claim}</span><span role="columnheader">{t.status}</span><span role="columnheader">{t.verified}</span><span role="columnheader">{t.proof}</span><span role="columnheader">{t.boundary}</span></div>
             {pressKitClaims.map((claim, index) => <article id={`claim-${claim.id}`} key={claim.id} className={styles.ledgerRow} role="row">
               <div role="cell"><small>{String(index + 1).padStart(2, '0')}</small><strong>{claim.claim[lang]}</strong><a className={styles.claimId} href={claim.permalink}><Tags size={11} />{claim.id}</a></div>
-              <div role="cell"><span className={styles.recordStatus} data-status={claim.recordStatus}>{claim.recordStatus}</span><small>{claim.status[lang]} · {claim.type}</small></div>
+              <div role="cell" data-label={t.status}><span className={styles.recordStatus} data-status={claim.recordStatus}>{claim.recordStatus}</span><dl className={styles.statusRecord}><div><dt>{t.statementStatus}</dt><dd>{claim.status[lang]}</dd></div><div><dt>{t.claimType}</dt><dd>{claim.type}</dd></div></dl></div>
               <dl className={styles.registryRecord} role="cell"><div><dt>{t.asOf}</dt><dd>{claim.asOf}</dd></div><div><dt>{t.lastVerified}</dt><dd>{claim.verifiedAt}</dd></div><div><dt>{t.reviewCadence}</dt><dd>{claim.reviewCadence[lang]}</dd></div></dl>
-              <div role="cell">{claim.proofHref.startsWith('http') ? <a href={claim.proofHref} target="_blank" rel="noopener noreferrer">{claim.proofLabel[lang]}<ExternalLink size={13} /></a> : <Link href={claim.proofHref}>{claim.proofLabel[lang]}<ArrowRight size={13} /></Link>}</div>
-              <p role="cell">{claim.boundary[lang]}</p>
+              <div role="cell" data-label={t.proof}>{claim.proofHref.startsWith('http') ? <a href={claim.proofHref} target="_blank" rel="noopener noreferrer">{claim.proofLabel[lang]}<ExternalLink size={13} /></a> : <Link href={claim.proofHref}>{claim.proofLabel[lang]}<ArrowRight size={13} /></Link>}</div>
+              <p role="cell" data-label={t.boundary}>{claim.boundary[lang]}</p>
             </article>)}
           </div>
         </section>
@@ -462,7 +481,7 @@ export default function PressKitClient() {
                   <h3>{route.title[lang]}</h3>
                   <p>{route.description[lang]}</p>
                   <small><strong>{t.requestedContext}:</strong> {route.requestedContext[lang]}</small>
-                  <a href={route.href[lang]}><Mail size={14} />{t.sendRequest}</a>
+                  <a href={route.href[lang]} onClick={() => recordPressMetric('press_contact_intent', route.id, lang)}><Mail size={14} />{t.sendRequest}</a>
                 </article>
               );
             })}
@@ -487,7 +506,7 @@ export default function PressKitClient() {
           {copyFailure ? `${t.copyFailed} ${t.manualCopy}` : copied ? t.copied : ''}
         </div>
       </main>
-      <Footer lang={lang} />
+      <Footer lang={lang} variant="compact" />
     </div>
   );
 }

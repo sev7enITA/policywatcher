@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%206%20Evidence%20Newsroom-146c6a" alt="3.9.0 Beta 6 Evidence Newsroom Release" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%207%20Release%20Assurance-146c6a" alt="3.9.0 Beta 7 Release Assurance" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,23 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 7 Release Assurance Highlights
+
+- **Mobile newsroom access** places compact Fast Facts directly after the hero, keeps all five newsroom actions in a keyboard-scrollable horizontal rail and adds a visible swipe cue on small screens.
+- **Readable claim metadata** increases the visual separation and scanability of Claim Registry type, status, dates, cadence, proof, boundary and permalink fields.
+- **Compact service footer** reduces footer dominance on Press Kit utility pages while retaining the complete footer elsewhere.
+- **Privacy-minimized newsroom measurement** counts allowlisted package-download intentions, Data Room views and press-contact intentions through a cookie-free first-party endpoint.
+- **Protected reporting** exposes all-time and trailing-30-day aggregate counts to authenticated admin and auditor roles with explicit zero and interpretation states.
+- **Release hardening** keeps upstream chat errors and physical health-check paths out of public responses and requires explicit admin and auditor usernames in production.
+
+#### Evidence Newsroom measurement definitions
+
+- **Primary KPI:** press package download intentions, split by the EN or IT package target.
+- **Drivers:** Data Room page views and press-contact intentions for press, fact-checking, interview or speaking routes.
+- **Windows:** all-time and trailing 30-day aggregate event counts are visible to authenticated admin and auditor roles.
+- **Guardrails:** failed event writes do not block a download, navigation or email action; event rows contain no persistent visitor identifier; counts do not represent unique people and can include automated traffic.
+- **Baseline boundary:** no performance target or conversion rate is defined before sufficient baseline evidence exists.
 
 ### Release 3.9.0 Beta 6 Evidence Newsroom Highlights
 

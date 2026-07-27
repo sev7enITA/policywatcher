@@ -27,6 +27,9 @@ import {
   ShieldCheck,
   FileCheck,
   ClipboardCheck,
+  Database,
+  Mail,
+  MousePointerClick,
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -43,6 +46,7 @@ import {
 } from 'recharts';
 import styles from './admin.module.css';
 import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';
+import type { PressMetricCounts } from '@/lib/pressMetrics';
 
 /* ------------------------------------------------------------------ */
 /* Types                                                               */
@@ -67,6 +71,12 @@ interface MetricsData {
     subscribers: number;
     lastChangeAt: string | null;
     riskDistribution: Record<string, number>;
+    pressNewsroom: {
+      allTime: PressMetricCounts;
+      trailing30Days: PressMetricCounts;
+      trailingWindowStartedAt: string;
+      boundary: string;
+    };
   };
   timestamp: string;
   role: 'admin' | 'auditor';
@@ -293,6 +303,12 @@ export default function AdminDashboardPage() {
   const { system, data } = metrics;
   const envEntries = Object.entries(system.envVars);
   const riskDistribution = data.riskDistribution;
+  const pressNewsroom = data.pressNewsroom;
+  const hasPressEvents = (
+    pressNewsroom.allTime.pressPackageDownloadIntents.total
+    + pressNewsroom.allTime.dataRoomViews.total
+    + pressNewsroom.allTime.pressContactIntents.total
+  ) > 0;
 
   // Chart Data Preparation
   const barChartData = [
@@ -408,6 +424,43 @@ export default function AdminDashboardPage() {
           </div>
         </div>
       </div>
+
+      <h2 className={styles.sectionTitle}>
+        <MousePointerClick size={18} />
+        Press Newsroom Measurement
+      </h2>
+
+      <section className={styles.pressMeasurement} aria-labelledby="press-measurement-title">
+        <header className={styles.pressMeasurementHeader}>
+          <div>
+            <span>Aggregate event counts</span>
+            <h3 id="press-measurement-title">Editorial intent and access signals</h3>
+          </div>
+          <time dateTime={pressNewsroom.trailingWindowStartedAt}>Trailing window starts {formatDate(pressNewsroom.trailingWindowStartedAt)}</time>
+        </header>
+        <div className={styles.pressMetricGrid}>
+          <article className={styles.pressMetricCard}>
+            <Download size={18} />
+            <div><span>Primary KPI</span><h4>Press package download intents</h4></div>
+            <dl><div><dt>All time</dt><dd>{pressNewsroom.allTime.pressPackageDownloadIntents.total}</dd></div><div><dt>30 days</dt><dd>{pressNewsroom.trailing30Days.pressPackageDownloadIntents.total}</dd></div></dl>
+            <p>All time by target: EN {pressNewsroom.allTime.pressPackageDownloadIntents.en} · IT {pressNewsroom.allTime.pressPackageDownloadIntents.it}</p>
+          </article>
+          <article className={styles.pressMetricCard}>
+            <Database size={18} />
+            <div><span>Driver</span><h4>Data Room views</h4></div>
+            <dl><div><dt>All time</dt><dd>{pressNewsroom.allTime.dataRoomViews.total}</dd></div><div><dt>30 days</dt><dd>{pressNewsroom.trailing30Days.dataRoomViews.total}</dd></div></dl>
+            <p>One event is requested per Data Room component load.</p>
+          </article>
+          <article className={styles.pressMetricCard}>
+            <Mail size={18} />
+            <div><span>Driver</span><h4>Press contact intents</h4></div>
+            <dl><div><dt>All time</dt><dd>{pressNewsroom.allTime.pressContactIntents.total}</dd></div><div><dt>30 days</dt><dd>{pressNewsroom.trailing30Days.pressContactIntents.total}</dd></div></dl>
+            <p>All time: press {pressNewsroom.allTime.pressContactIntents.press} · fact-checking {pressNewsroom.allTime.pressContactIntents.factChecking} · interview {pressNewsroom.allTime.pressContactIntents.interview} · speaking {pressNewsroom.allTime.pressContactIntents.speaking}</p>
+          </article>
+        </div>
+        {!hasPressEvents && <p className={styles.pressMetricZero}>No newsroom events recorded yet. Zero is a valid initial state, not a performance conclusion.</p>}
+        <p className={styles.measurementBoundary}><ShieldCheck size={15} />{pressNewsroom.boundary} Event-write failures do not block downloads, navigation or email links.</p>
+      </section>
 
       <div className={`${styles.card} ${styles.qualitySealCard}`}>
         <div className={styles.qualitySealHeader}>

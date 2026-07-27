@@ -52,8 +52,6 @@ export async function GET(request: NextRequest) {
     timestamp: new Date().toISOString(),
     database: {
       configured: database.configured,
-      filePath: database.filePath,
-      directoryPath: database.directoryPath,
       directoryExists: database.directoryExists,
       directoryWritable: database.directoryWritable,
       exists: database.fileExists,

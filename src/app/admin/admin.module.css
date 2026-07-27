@@ -420,6 +420,141 @@
   gap: 8px;
 }
 
+.pressMeasurement {
+  margin-bottom: 24px;
+  padding: 22px;
+  border: 1px solid var(--border-color);
+  border-top: 3px solid var(--secondary);
+  border-radius: 14px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+}
+
+.pressMeasurementHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.pressMeasurementHeader span,
+.pressMetricCard > div > span {
+  color: var(--secondary);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.pressMeasurementHeader h3 {
+  margin: 4px 0 0;
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}
+
+.pressMeasurementHeader time {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
+
+.pressMetricGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.pressMetricCard {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-content: start;
+  gap: 10px;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+}
+
+.pressMetricCard > svg {
+  margin-top: 1px;
+  color: var(--secondary);
+}
+
+.pressMetricCard h4 {
+  margin: 3px 0 0;
+  color: var(--text-main);
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
+.pressMetricCard dl {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 4px 0 0;
+  border: 1px solid var(--border-color);
+}
+
+.pressMetricCard dl div {
+  padding: 9px 10px;
+}
+
+.pressMetricCard dl div + div {
+  border-left: 1px solid var(--border-color);
+}
+
+.pressMetricCard dt {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.pressMetricCard dd {
+  margin: 3px 0 0;
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 750;
+}
+
+.pressMetricCard p {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.pressMetricZero,
+.measurementBoundary {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  color: var(--text-body);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.pressMetricZero {
+  border-left: 3px solid var(--text-muted);
+  background: var(--bg-tertiary);
+}
+
+.measurementBoundary {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  border-left: 3px solid var(--risk-medium);
+  background: var(--risk-medium-glow);
+}
+
+.measurementBoundary svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
 /* ---------- Status Indicator ---------- */
 .statusRow {
   display: flex;
@@ -1672,6 +1807,23 @@ thead .kpiMatrixStickyCol {
 .decryptedValue {
   font-weight: 700;
   color: var(--text-main);
+}
+
+@media (max-width: 900px) {
+  .pressMetricGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .pressMeasurement {
+    padding: 16px;
+  }
+
+  .pressMeasurementHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 
 /* ---------- Bulk Source Onboarding ---------- */

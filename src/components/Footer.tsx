@@ -23,6 +23,8 @@ import styles from './Footer.module.css';
 interface FooterProps {
   /** Active UI language controls all footer copy. */
   lang: 'en' | 'it';
+  /** Compact keeps the utility-page boundary without the long resource directory. */
+  variant?: 'full' | 'compact';
 }
 
 const content = {
@@ -86,8 +88,31 @@ const content = {
  * @param props - {@link FooterProps}
  * @returns The rendered `<footer>` element.
  */
-export default function Footer({ lang }: FooterProps) {
+export default function Footer({ lang, variant = 'full' }: FooterProps) {
   const t = content[lang];
+
+  if (variant === 'compact') {
+    return (
+      <footer className={`${styles.footer} ${styles.compactFooter}`}>
+        <div className={`${styles.container} ${styles.compactContainer}`}>
+          <div className={styles.compactIdentity}>
+            <div className={styles.logoRow}>
+              <ShieldCheck size={18} className={styles.logoIcon} />
+              <span className={styles.logoText}>PolicyWatcher</span>
+            </div>
+            <p>{t.releaseNotice}</p>
+          </div>
+          <nav className={styles.compactLinks} aria-label={lang === 'it' ? 'Link essenziali' : 'Essential links'}>
+            <a href="/privacy"><Lock size={13} />{t.privacy}</a>
+            <a href="/terms"><FileText size={13} />{t.terms}</a>
+            <a href="/press-kit"><Newspaper size={13} />{t.pressKit}</a>
+            <a href="mailto:info@policywatcher.online"><Mail size={13} />{t.contact}</a>
+          </nav>
+          <p className={styles.compactCopy}>{t.copy} / Build {POLICYWATCHER_BUILD_LABEL}</p>
+        </div>
+      </footer>
+    );
+  }
 
   return (
     <footer className={styles.footer}>

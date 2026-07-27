@@ -348,6 +348,14 @@ TABLES = [
       "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
     )
     """,
+    """
+    CREATE TABLE IF NOT EXISTS "PressMetricEvent" (
+      "eventType" TEXT NOT NULL,
+      "target" TEXT NOT NULL,
+      "locale" TEXT NOT NULL,
+      "createdAt" DATETIME NOT NULL PRIMARY KEY
+    )
+    """,
 ]
 
 INDEXES = [
@@ -398,6 +406,8 @@ INDEXES = [
     'CREATE INDEX IF NOT EXISTS "AdminAccessLog_event_idx" ON "AdminAccessLog"("event")',
     'CREATE INDEX IF NOT EXISTS "AdminAccessLog_username_idx" ON "AdminAccessLog"("username")',
     'CREATE INDEX IF NOT EXISTS "AdminAccessLog_ipAddress_idx" ON "AdminAccessLog"("ipAddress")',
+    'CREATE INDEX IF NOT EXISTS "PressMetricEvent_eventType_createdAt_idx" ON "PressMetricEvent"("eventType", "createdAt")',
+    'CREATE INDEX IF NOT EXISTS "PressMetricEvent_eventType_target_createdAt_idx" ON "PressMetricEvent"("eventType", "target", "createdAt")',
 ]
 
 UPGRADE_COLUMNS = {
@@ -472,6 +482,7 @@ with sqlite3.connect(str(db_path), timeout=30) as con:
         "snapshots": con.execute('SELECT COUNT(*) FROM "PolicySnapshot"').fetchone()[0],
         "changes": con.execute('SELECT COUNT(*) FROM "PolicyChange"').fetchone()[0],
         "accessLogs": con.execute('SELECT COUNT(*) FROM "AdminAccessLog"').fetchone()[0],
+        "pressMetricEvents": con.execute('SELECT COUNT(*) FROM "PressMetricEvent"').fetchone()[0],
     }
 
 print("Database schema is ready.")

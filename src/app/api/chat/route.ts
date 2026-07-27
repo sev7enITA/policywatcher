@@ -19,6 +19,7 @@ import { answerPolicyQuestion } from '@/lib/gemini';
 import { rateLimit } from '@/lib/rateLimit';
 import type { Prisma } from '@prisma/client';
 import { publicPolicyWhere } from '@/lib/publicDataGate';
+import { createErrorReference, getErrorMessage } from '@/lib/safeErrors';
 
 type PolicyWithCompany = Prisma.PolicyGetPayload<{ include: { company: true } }>;
 
@@ -85,9 +86,13 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ answer });
   } catch (error) {
-    console.error('Error in chat API route:', error);
+    const errorReference = createErrorReference('chat');
+    console.error(`[Chat] Error reference ${errorReference}: ${getErrorMessage(error)}`);
     return NextResponse.json(
-      { error: `Errore durante l'elaborazione della domanda: ${(error as Error).message}` },
+      {
+        error: 'Unable to process the question at this time.',
+        reference: errorReference,
+      },
       { status: 500 }
     );
   }

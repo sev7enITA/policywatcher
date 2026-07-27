@@ -329,6 +329,16 @@ model AdminAccessLog {
   @@index([ipAddress])
 }
 
+model PressMetricEvent {
+  eventType String
+  target    String
+  locale    String
+  createdAt DateTime @id
+
+  @@index([eventType, createdAt])
+  @@index([eventType, target, createdAt])
+}
+
 model RegionImpact {
   id               String       @id @default(uuid())
   policyChangeId   String

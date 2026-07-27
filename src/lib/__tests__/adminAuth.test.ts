@@ -76,6 +76,17 @@ describe('adminAuth', () => {
     expect(validateCredentials('missing', 'root-pass')).toBeNull();
   });
 
+  it('does not accept default usernames in production when usernames are not configured', () => {
+    vi.stubEnv('NODE_ENV', 'production');
+    vi.stubEnv('ADMIN_USER', '');
+    vi.stubEnv('ADMIN_PASSWORD', 'root-pass');
+    vi.stubEnv('AUDITOR_USER', '');
+    vi.stubEnv('AUDITOR_PASSWORD', 'review-pass');
+
+    expect(validateCredentials('admin', 'root-pass')).toBeNull();
+    expect(validateCredentials('auditor', 'review-pass')).toBeNull();
+  });
+
   it('tolerates quoted or padded Hostinger environment values', () => {
     vi.stubEnv('ADMIN_USER', ' adm ');
     vi.stubEnv('ADMIN_PASSWORD', '"admin-pass" ');
