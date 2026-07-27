@@ -1,5 +1,5 @@
-export const POLICYWATCHER_VERSION = '3.9.0-beta.2' as const;
-export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 2' as const;
+export const POLICYWATCHER_VERSION = '3.9.0-beta.3' as const;
+export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 3' as const;
 export const POLICYWATCHER_RELEASE_NAME = 'Native Dashboard Intelligence' as const;
 export type PolicyWatcherReleaseChannel = 'stable' | 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL: PolicyWatcherReleaseChannel = 'beta';

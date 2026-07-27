@@ -8,6 +8,7 @@ import {
   ExternalLink,
   GitFork,
   Mail,
+  Newspaper,
   Route,
   ShieldCheck,
 } from 'lucide-react';
@@ -40,6 +41,12 @@ const resources = [
     body: 'The public view of active work, future directions, and community-priority signals.',
     href: '/roadmap',
     icon: Route,
+  },
+  {
+    title: 'Press Kit',
+    body: 'Publication-ready facts, claim evidence, citation guidance and owned media downloads.',
+    href: '/press-kit',
+    icon: Newspaper,
   },
 ];
 

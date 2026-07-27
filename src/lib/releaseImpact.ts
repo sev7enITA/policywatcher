@@ -54,7 +54,8 @@ export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: 'beta.10', shortLabel: 'B10', label: '3.8.3 Beta 10', state: 'delivered' },
   { id: 'beta.11', shortLabel: 'B11', label: '3.8.3 Beta 11', state: 'delivered' },
   { id: '3.9.0-beta.1', shortLabel: '3.9 B1', label: '3.9.0 Beta 1', state: 'delivered' },
-  { id: '3.9.0-beta.2', shortLabel: '3.9 B2', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
+  { id: '3.9.0-beta.2', shortLabel: '3.9 B2', label: '3.9.0 Beta 2', state: 'delivered' },
+  { id: '3.9.0-beta.3', shortLabel: '3.9 B3', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
   { id: 'next', shortLabel: 'Next', label: 'Next beta horizon', state: 'planned' },
   { id: 'later', shortLabel: 'Later', label: 'Later horizon', state: 'planned' },
 ];
@@ -72,6 +73,21 @@ export const RELEASE_IMPACT_DOMAINS: ReleaseImpactDomain[] = [
 ];
 
 export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
+  {
+    id: 'editorial-briefing-room',
+    title: 'Editorial briefing room',
+    summary: 'Publishes a bilingual, evidence-led press kit with a claim ledger, owned assets and stable machine-readable metadata.',
+    domainId: 'distribution',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '3.9.0-beta.3',
+    endRelease: '3.9.0-beta.3',
+    benefit: 'Journalists and analysts can verify bounded product claims before reusing them.',
+    kpi: 'Press evidence surface: Published',
+    kri: 'Independent coverage and reader comprehension: Not assessed',
+    evidence: 'Public press kit, six-entry claim ledger, checksummed asset manifest, JSON-LD and stable JSON endpoint.',
+    limitation: 'The newsroom contains owned materials; it does not prove independent adoption, compliance or exhaustive coverage.',
+  },
   {
     id: 'notification-evidence',
     title: 'Notification to evidence inquiry',

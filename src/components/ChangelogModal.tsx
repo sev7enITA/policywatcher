@@ -3,7 +3,12 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle2, Clock, Sparkles } from 'lucide-react';
-import { POLICYWATCHER_RELEASE_NAME, POLICYWATCHER_VERSION } from '@/lib/release';
+import {
+  POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION,
+  POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS,
+  POLICYWATCHER_RELEASE_NAME,
+  POLICYWATCHER_VERSION,
+} from '@/lib/release';
 import styles from './ChangelogModal.module.css';
 
 interface ChangelogModalProps {
@@ -56,17 +61,17 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Current Beta</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      PolicyWatcher now composes its native dashboard from validated, deterministic contracts for modules, workspace state, actions, data sources, responsive layout and five governed visualizations. Versioned shareable evidence views encode public filter state in canonical URLs, provide a Copy view action and restore committed context through browser history while stale values fail closed. Selecting a regional heatmap cell commits region and audience together; selecting a radar KPI opens original and normalized values with explicit missing and tie states. Exact-value tables remain the accessible fallback, mobile inspectors use a single-column path, and normalized ordinal values are screening aids rather than compliance or performance measurements. Vizro was studied as a pinned knowledge source only; no Vizro, Dash, Flask or Python runtime was added.
+                      PolicyWatcher now composes its native dashboard from validated, deterministic contracts for modules, workspace state, actions, data sources, responsive layout and five governed visualizations. Versioned shareable evidence views encode public filter state in canonical URLs, provide a Copy view action and restore committed context through browser history while stale values fail closed. Selecting a regional heatmap cell commits region and audience together; selecting a radar KPI opens original and normalized values with explicit missing and tie states. Exact-value tables remain the accessible fallback, mobile inspectors use a single-column path, and normalized ordinal values are screening aids rather than compliance or performance measurements. The release also adds a bilingual, claim-led Press Kit with checksummed owned assets and stable JSON metadata. Vizro was studied as a pinned knowledge source only; no Vizro, Dash, Flask or Python runtime was added.
                     </p>
                   </div>
 
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>Browser Evidence Companion (v3.8.0)</span>
-                      <span className={styles.badgeActive}>Current</span>
+                      <span className={styles.featureName}>Browser Evidence Companion (v{POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION})</span>
+                      <span className={styles.badgeActive}>Extension Beta</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      A production Manifest V3 companion lets people inspect an opened policy-update notice only after an explicit gesture. Raw notice text is parsed and discarded inside the active page; users confirm the minimal clues before the service worker asks PolicyWatcher for portfolio-wide public evidence. Chrome and Edge share one store package, with compatible source and packaging guidance for Safari.
+                      A Manifest V3 companion lets people inspect an opened policy-update notice only after an explicit gesture. Raw notice text is parsed and discarded inside the active page; users confirm the minimal clues before the service worker asks PolicyWatcher for portfolio-wide public evidence. {POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS.en}.
                     </p>
                   </div>
 

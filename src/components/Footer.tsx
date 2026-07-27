@@ -44,6 +44,7 @@ const content = {
     leaderboard: 'Policy Signals',
     roadmap: 'Community Roadmap',
     press: 'Press Wall',
+    pressKit: 'Press Kit',
     trust: 'Trust & Quality',
     infographics: 'Infographics',
     paloFramework: 'PALO Framework',
@@ -69,6 +70,7 @@ const content = {
     leaderboard: 'Segnali policy',
     roadmap: 'Roadmap community',
     press: 'Press wall',
+    pressKit: 'Press kit',
     trust: 'Qualità e fiducia',
     infographics: 'Infografiche',
     paloFramework: 'PALO Framework',
@@ -189,6 +191,12 @@ export default function Footer({ lang }: FooterProps) {
                 <a href="/press">
                   <Newspaper size={14} />
                   {t.press}
+                </a>
+              </li>
+              <li>
+                <a href="/press-kit">
+                  <FileText size={14} />
+                  {t.pressKit}
                 </a>
               </li>
               <li>

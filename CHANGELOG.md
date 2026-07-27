@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 3.9.0-beta.3 - 2026-07-27
+
+### Editorial briefing room
+- Added a bilingual `/press-kit` newsroom with publication-ready facts, story angles, boilerplates, founder/contact information and a claim ledger that maps every public statement to proof and limitations.
+- Added a stable `/press-kit/press-kit.json` endpoint, valid JSON-LD, a checksum-backed owned-asset manifest and individual downloads without claiming Content Credentials.
+- Integrated the Press Kit into public navigation metadata, Footer, Site Atlas, sitemap, Press Wall, About, release impact and Feature Intelligence Atlas.
+- Kept the browser extension separately versioned at 3.8.3 Beta 3 with its package-ready and store-submission-planned boundary unchanged.
+
 ### Cross-site public alignment
 - Removed the nonexistent `/review-request` route from public navigation and capability metadata, routing evidence inquiries through the existing `What changed?` workflow instead.
 - Centralized the bilingual public-analysis disclaimer and reused it across change, share, comparison and PDF report surfaces without a stale release label.

@@ -18,6 +18,7 @@ export type PublicSection =
   | 'methodology'
   | 'observatory'
   | 'press'
+  | 'press-kit'
   | 'privacy'
   | 'roadmap'
   | 'security'

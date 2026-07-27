@@ -112,7 +112,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: 'beta.10', shortLabel: 'B10', label: '3.8.3 Beta 10' },
   { id: 'beta.11', shortLabel: 'B11', label: '3.8.3 Beta 11' },
   { id: '3.9.0-beta.1', shortLabel: '3.9 B1', label: '3.9.0 Beta 1' },
-  { id: '3.9.0-beta.2', shortLabel: '3.9 B2', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '3.9.0-beta.2', shortLabel: '3.9 B2', label: '3.9.0 Beta 2' },
+  { id: '3.9.0-beta.3', shortLabel: '3.9 B3', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -144,6 +145,7 @@ const primaryUserByDomain: Record<string, string> = {
 };
 
 const routeByFeature: Record<string, FeatureAtlasRoute> = {
+  'editorial-briefing-room': { href: '/press-kit', label: 'Press Kit', access: 'public' },
   'notification-evidence': { href: '/what-changed', label: 'What changed?', access: 'public' },
   'calm-workspace': { href: '/', label: 'Evidence Console', access: 'public' },
   'browser-companion': { href: '/browser-extension', label: 'Browser companion', access: 'public' },
@@ -173,6 +175,7 @@ const routeByFeature: Record<string, FeatureAtlasRoute> = {
 };
 
 const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
+  'editorial-briefing-room': [{ featureId: 'public-surface-consistency', relationship: 'depends-on' }, { featureId: 'explainability-methodology', relationship: 'governed-by' }],
   'notification-evidence': [{ featureId: 'source-portfolio-monitoring', relationship: 'feeds' }],
   'calm-workspace': [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }],
   'browser-companion': [{ featureId: 'notification-evidence', relationship: 'feeds' }],

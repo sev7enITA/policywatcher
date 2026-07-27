@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%202%20Native%20Dashboard-146c6a" alt="3.9.0 Beta 2 Native Dashboard Intelligence Release" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%203%20Native%20Dashboard-146c6a" alt="3.9.0 Beta 3 Native Dashboard Intelligence Release" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -39,7 +39,10 @@ PolicyWatcher monitors the privacy policies, terms of service, and AI governance
 
 The platform is designed as a **civic tech tool** that translates dense legal documents into actionable intelligence for citizens, SMEs, DPOs, and compliance professionals.
 
-### Release 3.9.0 Beta 2 Native Dashboard Intelligence Highlights
+### Release 3.9.0 Beta 3 Native Dashboard Intelligence Highlights
+
+- **Editorial briefing room** adds a bilingual `/press-kit` with an auditable Claim Ledger, publication-ready facts and boilerplates, owned media downloads, checksum metadata, JSON-LD and a stable machine-readable JSON endpoint.
+- **Truthful media boundary** distinguishes configured inventory from complete coverage, source timestamps from release metadata, public mentions from endorsements, and checksum integrity from unattached Content Credentials.
 
 - **Validated dashboard grammar** composes Citizen, GRC / Legal, Research and Builder workspaces from an immutable allowlisted registry with deterministic IDs and Source QA pinned.
 - **One guarded interaction model** routes direct controls and the Command Palette through typed actions, an acyclic authorization graph and one canonical workspace URL/local-storage codec.
@@ -162,6 +165,7 @@ The platform is designed as a **civic tech tool** that translates dense legal do
 
 - **Community Roadmap** (`/roadmap`) redesigned as an interactive signal board where users can choose their objective, preferred evidence depth, and roadmap priorities.
 - **Press Wall** (`/press`) collecting articles, LinkedIn discussions, and public references about PolicyWatcher while keeping a clear non-certification boundary.
+- **Press Kit** (`/press-kit`) providing facts, claims, owned assets, citation guidance and machine-readable newsroom metadata while keeping external coverage on the separate Press Wall.
 - **Compact brand mark** adopted across public/admin headers to avoid duplicated wordmarks and improve visual balance.
 - **Public resource navigation** expanded through footer and command palette instead of adding more toolbar complexity.
 - **Showcase refresh** aligned with the current platform surface: public views, Dataset QA, Trust evidence, admin controls, community roadmap, and press coverage.

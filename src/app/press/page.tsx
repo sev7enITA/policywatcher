@@ -189,6 +189,10 @@ export default function PressPage() {
             for inspecting policy changes from major digital platforms.
           </p>
           <div className={styles.heroActions}>
+            <Link className={styles.primaryAction} href="/press-kit">
+              Open the press kit
+              <ArrowUpRight size={17} />
+            </Link>
             <a className={styles.primaryAction} href="#mentions">
               Read the coverage wall
               <ArrowUpRight size={17} />
