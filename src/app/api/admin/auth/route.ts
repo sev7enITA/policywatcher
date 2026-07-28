@@ -13,6 +13,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import {
+  getSession,
   hasSessionSigningSecret,
   validateCredentials,
   setSessionCookie,
@@ -29,6 +30,22 @@ function trackAccess(input: {
   detail?: string;
 }) {
   void recordAdminAccess(input);
+}
+
+/**
+ * Verifies an existing admin session without depending on database health.
+ *
+ * The admin shell must remain reachable when a database metric or an optional
+ * telemetry table is temporarily unavailable; individual pages can then show
+ * their own scoped diagnostics instead of trapping the operator at login.
+ */
+export async function GET(request: NextRequest) {
+  const session = getSession(request);
+  if (!session.valid) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  return NextResponse.json({ valid: true, role: session.role });
 }
 
 /**

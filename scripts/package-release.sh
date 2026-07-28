@@ -120,6 +120,7 @@ required_entries=(
   prisma/schema.prisma prisma/migrations/20260721150000_policy_inquiry/migration.sql
   scripts/hostinger-init-db.sh scripts/hostinger-init-db.mjs
   scripts/hostinger-init-db.py scripts/hostinger-detect-materialized-migrations.mjs
+  scripts/hostinger-postinstall-db.mjs
 )
 for entry in "${required_entries[@]}"; do
   if ! printf '%s\n' "${archive_entries}" | grep -Fx "${entry}" >/dev/null; then

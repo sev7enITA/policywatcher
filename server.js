@@ -12,11 +12,25 @@ async function start() {
   // requests so a newly deployed workflow never depends on a manual SSH step.
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { spawnSync } = require('node:child_process');
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const fs = require('node:fs');
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const path = require('node:path');
+  const schemaScriptCandidates = [
+    path.join(__dirname, 'scripts', 'hostinger-init-db.sh'),
+    // Hostinger's managed Next.js preset places build files in /nodejs while
+    // retaining the uploaded source in the sibling .builds/last-source tree.
+    path.resolve(__dirname, '..', '.builds', 'last-source', 'scripts', 'hostinger-init-db.sh'),
+  ];
+  const schemaScript = schemaScriptCandidates.find((candidate) => fs.existsSync(candidate));
+  if (!schemaScript) {
+    throw new Error(`Database schema initializer not found. Checked: ${schemaScriptCandidates.join(', ')}`);
+  }
   const schemaCheck = spawnSync(
     'bash',
-    ['scripts/hostinger-init-db.sh'],
+    [schemaScript],
     {
-      cwd: __dirname,
+      cwd: path.resolve(path.dirname(schemaScript), '..'),
       env: { ...process.env, POLICYWATCHER_SKIP_DB_BACKUP: '1' },
       stdio: 'inherit',
     }

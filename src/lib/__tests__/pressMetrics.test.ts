@@ -6,10 +6,13 @@ import {
   parsePressMetricPayload,
 } from '../pressMetrics';
 
-const mocks = vi.hoisted(() => ({ create: vi.fn() }));
+const mocks = vi.hoisted(() => ({ create: vi.fn(), executeRawUnsafe: vi.fn() }));
 
 vi.mock('@/lib/db', () => ({
-  db: { pressMetricEvent: { create: mocks.create } },
+  db: {
+    $executeRawUnsafe: mocks.executeRawUnsafe,
+    pressMetricEvent: { create: mocks.create },
+  },
 }));
 
 import { POST } from '@/app/api/press-metrics/route';
@@ -20,6 +23,8 @@ describe('privacy-minimized press metrics', () => {
   beforeEach(() => {
     mocks.create.mockReset();
     mocks.create.mockResolvedValue({});
+    mocks.executeRawUnsafe.mockReset();
+    mocks.executeRawUnsafe.mockResolvedValue(0);
   });
 
   it('accepts only the documented event and target combinations', () => {
@@ -60,6 +65,7 @@ describe('privacy-minimized press metrics', () => {
     expect(response.status).toBe(202);
     expect(response.headers.get('cache-control')).toContain('no-store');
     expect(mocks.create).toHaveBeenCalledTimes(1);
+    expect(mocks.executeRawUnsafe).toHaveBeenCalledTimes(3);
     const data = mocks.create.mock.calls[0][0].data as Record<string, unknown>;
     expect(Object.keys(data).sort()).toEqual(['createdAt', 'eventType', 'locale', 'target']);
     expect(data).not.toHaveProperty('userAgent');
@@ -109,7 +115,8 @@ describe('privacy-minimized press metrics', () => {
     expect(read('src/lib/pressMetrics.ts')).toContain("credentials: 'omit'");
     expect(endpoint).toContain('logClientIp: false');
     expect(adminMetrics).toContain('getSession(request)');
-    expect(adminMetrics).toContain('trailing30Days: buildPressMetricCounts');
+    expect(adminMetrics).toContain('trailing30Days: trailingPressCounts');
+    expect(adminMetrics).toContain('pressMetricsAvailable');
     expect(adminPage).toContain('Aggregate event counts');
     expect(adminMetrics).toContain('not unique visitors');
     expect(adminPage).toContain('{pressNewsroom.boundary}');

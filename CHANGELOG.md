@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Hostinger database readiness and admin availability
+- Separated signed-session verification from database metrics so an authenticated operator can reach the Admin shell while a database-dependent panel reports its own scoped failure.
+- Made Policy Inquiry and Press Newsroom counts non-blocking optional metrics instead of prerequisites for the complete Admin area.
+- Added an idempotent runtime guard for the privacy-minimized `PressMetricEvent` table and its indexes.
+- Added a database initialization hook to managed installs when `DATABASE_URL` is available, while retaining the startup readiness gate.
+- Updated the Hostinger startup bridge to locate the initializer in both a complete source deployment and the managed `nodejs` plus `.builds/last-source` layout.
+- Extended diagnostics to distinguish directory writability from SQLite file readability and writability.
+- Added release-package and regression checks for the managed-hosting layout and database-independent session verification.
+
 ### Enterprise integration surface
 - Added a public `/integrations` directory that separates available, pilot-ready, planned and later commercial integration paths.
 - Added a tenant-bound, read-only Enterprise API v2 with Microsoft Entra token validation, allowlisted tenant claims, delegated scope and application-role authorization, stable envelopes and problem responses.

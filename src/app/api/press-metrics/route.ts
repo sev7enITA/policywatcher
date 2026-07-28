@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { createPressMetricRecord, parsePressMetricPayload } from '@/lib/pressMetrics';
+import { ensurePressMetricStorage } from '@/lib/pressMetricStorage';
 import { rateLimit } from '@/lib/rateLimit';
 
 const MAX_BODY_BYTES = 256;
@@ -46,6 +47,7 @@ export async function POST(request: Request) {
   if (!payload) return noStoreJson({ error: 'Invalid event payload.' }, 400);
 
   try {
+    await ensurePressMetricStorage();
     await db.pressMetricEvent.create({ data: createPressMetricRecord(payload, nextEventDate()) });
   } catch {
     console.error('[PressMetrics] Event write failed.');

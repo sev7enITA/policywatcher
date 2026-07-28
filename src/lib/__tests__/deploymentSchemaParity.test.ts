@@ -29,12 +29,35 @@ describe('Hostinger runtime schema parity', () => {
   it('routes npm and direct Hostinger starts through the schema-checking bridge', () => {
     expect(packageJson.scripts?.start).toBe('node server.js');
     expect(packageJson.scripts?.prestart).toBeUndefined();
-    expect(hostingerBridge).toContain("['scripts/hostinger-init-db.sh']");
+    expect(packageJson.scripts?.postinstall).toContain('hostinger-postinstall-db.mjs');
+    expect(hostingerBridge).toContain("'.builds', 'last-source', 'scripts', 'hostinger-init-db.sh'");
+    expect(hostingerBridge).toContain('schemaScriptCandidates.find');
     expect(hostingerBridge).toContain('schemaCheck.status !== 0');
     expect(hostingerBridge).toContain('await cli.nextStart({ port })');
     expect(hostingerBridge).not.toContain("cli.nextStart(['-p'");
     expect(hostingerBridge).toContain('port > 65535');
     expect(migrationLock).toContain('provider = "sqlite"');
+  });
+
+  it('keeps admin authentication independent from database metrics', () => {
+    const authRoute = readFileSync('src/app/api/admin/auth/route.ts', 'utf8');
+    const adminLayout = readFileSync('src/app/admin/layout.tsx', 'utf8');
+    const metricsRoute = readFileSync('src/app/api/admin/metrics/route.ts', 'utf8');
+
+    expect(authRoute).toContain('export async function GET(request: NextRequest)');
+    expect(authRoute).toContain('getSession(request)');
+    expect(authRoute).not.toContain("from '@/lib/db'");
+    expect(adminLayout).toContain("fetch('/api/admin/auth'");
+    expect(metricsRoute).toContain('metricAvailability');
+    expect(metricsRoute).toContain('ensurePressMetricStorage');
+  });
+
+  it('runs the database initializer during managed installs when DATABASE_URL is configured', () => {
+    const postinstall = readFileSync('scripts/hostinger-postinstall-db.mjs', 'utf8');
+    expect(postinstall).toContain('DATABASE_URL is not available during install');
+    expect(postinstall).toContain('hostinger-init-db.sh');
+    expect(postinstall).toContain("POLICYWATCHER_SKIP_DB_BACKUP: '1'");
+    expect(postinstall).not.toMatch(/\bnpx\b/);
   });
 
   it('reconciles materialized fallback tables before Prisma deploy runs', () => {

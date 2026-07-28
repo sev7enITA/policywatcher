@@ -8,6 +8,8 @@ export interface DatabaseDiagnostics {
   directoryExists: boolean;
   directoryWritable: boolean;
   fileExists: boolean;
+  fileReadable: boolean;
+  fileWritable: boolean;
   fileSizeBytes: number;
 }
 
@@ -33,6 +35,22 @@ export async function getDatabaseDiagnostics(): Promise<DatabaseDiagnostics> {
   }
 
   const fileExists = filePath ? fs.existsSync(filePath) : false;
+  let fileReadable = false;
+  let fileWritable = false;
+  if (filePath && fileExists) {
+    try {
+      fs.accessSync(filePath, fs.constants.R_OK);
+      fileReadable = true;
+    } catch {
+      fileReadable = false;
+    }
+    try {
+      fs.accessSync(filePath, fs.constants.W_OK);
+      fileWritable = true;
+    } catch {
+      fileWritable = false;
+    }
+  }
   const fileSizeBytes = filePath && fileExists ? fs.statSync(filePath).size : 0;
 
   return {
@@ -43,6 +61,8 @@ export async function getDatabaseDiagnostics(): Promise<DatabaseDiagnostics> {
     directoryExists,
     directoryWritable,
     fileExists,
+    fileReadable,
+    fileWritable,
     fileSizeBytes,
   };
 }

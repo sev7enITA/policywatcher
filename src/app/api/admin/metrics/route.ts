@@ -9,7 +9,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { db } from '@/lib/db';
 import { getDatabaseDiagnostics } from '@/lib/databaseConfig';
-import { buildPressMetricCounts } from '@/lib/pressMetrics';
+import { buildPressMetricCounts, emptyPressMetricCounts } from '@/lib/pressMetrics';
+import { ensurePressMetricStorage } from '@/lib/pressMetricStorage';
 
 export async function GET(request: NextRequest) {
   const session = getSession(request);
@@ -21,16 +22,32 @@ export async function GET(request: NextRequest) {
 
   try {
     const trailingWindowStartedAt = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
-    const [companyCount, policyCount, snapshotCount, changeCount, subscriberCount, openPolicyInquiryCount, allTimePressGroups, trailingPressGroups] =
+    const [companyCount, policyCount, snapshotCount, changeCount, subscriberCount] =
       await Promise.all([
         db.company.count(),
         db.policy.count(),
         db.policySnapshot.count(),
         db.policyChange.count(),
         db.subscriber.count(),
-        db.policyInquiry.count({
-          where: { status: { notIn: ['Rejected', 'Duplicate', 'Resolved'] } },
-        }),
+      ]);
+
+    let openPolicyInquiryCount = 0;
+    let policyInquiryMetricsAvailable = true;
+    try {
+      openPolicyInquiryCount = await db.policyInquiry.count({
+        where: { status: { notIn: ['Rejected', 'Duplicate', 'Resolved'] } },
+      });
+    } catch (error) {
+      policyInquiryMetricsAvailable = false;
+      console.warn('[Admin Metrics] Policy inquiry metric unavailable:', error);
+    }
+
+    let allTimePressCounts = emptyPressMetricCounts();
+    let trailingPressCounts = emptyPressMetricCounts();
+    let pressMetricsAvailable = true;
+    try {
+      await ensurePressMetricStorage();
+      const [allTimePressGroups, trailingPressGroups] = await Promise.all([
         db.pressMetricEvent.groupBy({
           by: ['eventType', 'target'],
           _count: { _all: true },
@@ -41,6 +58,12 @@ export async function GET(request: NextRequest) {
           _count: { _all: true },
         }),
       ]);
+      allTimePressCounts = buildPressMetricCounts(allTimePressGroups);
+      trailingPressCounts = buildPressMetricCounts(trailingPressGroups);
+    } catch (error) {
+      pressMetricsAvailable = false;
+      console.warn('[Admin Metrics] Press metrics unavailable:', error);
+    }
 
     // Get the most recent change date
     const latestChange = await db.policyChange.findFirst({
@@ -65,6 +88,8 @@ export async function GET(request: NextRequest) {
         dbExists: database.fileExists,
         dbDirectoryExists: database.directoryExists,
         dbDirectoryWritable: database.directoryWritable,
+        dbFileReadable: database.fileReadable,
+        dbFileWritable: database.fileWritable,
         dbSizeBytes: database.fileSizeBytes,
         envVars: {
           GEMINI_API_KEY: process.env.GEMINI_API_KEY ? 'SET' : 'NOT SET',
@@ -82,11 +107,16 @@ export async function GET(request: NextRequest) {
         changes: changeCount,
         subscribers: subscriberCount,
         openPolicyInquiries: openPolicyInquiryCount,
+        metricAvailability: {
+          policyInquiries: policyInquiryMetricsAvailable,
+          pressNewsroom: pressMetricsAvailable,
+        },
         lastChangeAt: latestChange?.createdAt || null,
         riskDistribution,
         pressNewsroom: {
-          allTime: buildPressMetricCounts(allTimePressGroups),
-          trailing30Days: buildPressMetricCounts(trailingPressGroups),
+          available: pressMetricsAvailable,
+          allTime: allTimePressCounts,
+          trailing30Days: trailingPressCounts,
           trailingWindowStartedAt: trailingWindowStartedAt.toISOString(),
           boundary: 'Aggregate event counts, not unique visitors. Package and contact events record intent only; automated traffic can affect counts.',
         },
@@ -98,13 +128,15 @@ export async function GET(request: NextRequest) {
     console.error('[Admin Metrics] Error:', error);
     return NextResponse.json(
       {
-        error: 'Database unavailable. Check DATABASE_URL, database directory permissions, and run scripts/hostinger-init-db.sh on the configured SQLite file.',
+        error: 'Core database metrics are unavailable. Review the runtime error code and database diagnostics; the admin session remains accessible independently.',
         database: {
           path: database.filePath,
           directoryPath: database.directoryPath,
           directoryExists: database.directoryExists,
           directoryWritable: database.directoryWritable,
           fileExists: database.fileExists,
+          fileReadable: database.fileReadable,
+          fileWritable: database.fileWritable,
           fileSizeBytes: database.fileSizeBytes,
           configured: database.configured,
         },

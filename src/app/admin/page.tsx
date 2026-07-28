@@ -72,6 +72,7 @@ interface MetricsData {
     lastChangeAt: string | null;
     riskDistribution: Record<string, number>;
     pressNewsroom: {
+      available: boolean;
       allTime: PressMetricCounts;
       trailing30Days: PressMetricCounts;
       trailingWindowStartedAt: string;
@@ -157,10 +158,12 @@ export default function AdminDashboardPage() {
               directoryExists?: boolean;
               directoryWritable?: boolean;
               fileExists?: boolean;
+              fileReadable?: boolean;
+              fileWritable?: boolean;
             };
           } | null;
           const databaseHint = payload?.database
-            ? ` DB path: ${payload.database.path || 'not available'}; directory: ${payload.database.directoryPath || 'not available'}; directory exists: ${String(payload.database.directoryExists)}; writable: ${String(payload.database.directoryWritable)}; file exists: ${String(payload.database.fileExists)}.`
+            ? ` DB path: ${payload.database.path || 'not available'}; directory: ${payload.database.directoryPath || 'not available'}; directory exists: ${String(payload.database.directoryExists)}; directory writable: ${String(payload.database.directoryWritable)}; file exists: ${String(payload.database.fileExists)}; file readable: ${String(payload.database.fileReadable)}; file writable: ${String(payload.database.fileWritable)}.`
             : '';
           throw new Error(`${payload?.error || `Failed to load metrics (HTTP ${res.status})`}${databaseHint}`);
         }
@@ -304,6 +307,7 @@ export default function AdminDashboardPage() {
   const envEntries = Object.entries(system.envVars);
   const riskDistribution = data.riskDistribution;
   const pressNewsroom = data.pressNewsroom;
+  const pressMetricsAvailable = pressNewsroom.available !== false;
   const hasPressEvents = (
     pressNewsroom.allTime.pressPackageDownloadIntents.total
     + pressNewsroom.allTime.dataRoomViews.total
@@ -458,7 +462,8 @@ export default function AdminDashboardPage() {
             <p>All time: press {pressNewsroom.allTime.pressContactIntents.press} · fact-checking {pressNewsroom.allTime.pressContactIntents.factChecking} · interview {pressNewsroom.allTime.pressContactIntents.interview} · speaking {pressNewsroom.allTime.pressContactIntents.speaking}</p>
           </article>
         </div>
-        {!hasPressEvents && <p className={styles.pressMetricZero}>No newsroom events recorded yet. Zero is a valid initial state, not a performance conclusion.</p>}
+        {!pressMetricsAvailable && <p className={styles.pressMetricZero}>Newsroom measurement is temporarily unavailable. Displayed zeros are placeholders and must not be interpreted as observed activity.</p>}
+        {pressMetricsAvailable && !hasPressEvents && <p className={styles.pressMetricZero}>No newsroom events recorded yet. Zero is a valid initial state, not a performance conclusion.</p>}
         <p className={styles.measurementBoundary}><ShieldCheck size={15} />{pressNewsroom.boundary} Event-write failures do not block downloads, navigation or email links.</p>
       </section>
 

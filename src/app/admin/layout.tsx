@@ -6,7 +6,7 @@
  * @file src/app/admin/layout.tsx
  *
  * Wraps all /admin/* pages with a fixed sidebar and main content area.
- * On mount, verifies the session by calling GET /api/admin/metrics.
+ * On mount, verifies the session independently from database metrics.
  * If the session is invalid (401), redirects to /admin/login.
  * Role-based visibility hides admin-only links for auditor users.
  */
@@ -219,38 +219,33 @@ export default function AdminLayout({
 
     async function verifySession() {
       try {
-        const res = await fetch('/api/admin/metrics');
+        const res = await fetch('/api/admin/auth', { credentials: 'include' });
         if (res.status === 401) {
           router.replace('/admin/login');
           return;
         }
         if (!res.ok) {
-          const payload = await res.json().catch(() => null) as {
-            error?: string;
-            database?: {
-              path?: string | null;
-              directoryPath?: string | null;
-              directoryExists?: boolean;
-              directoryWritable?: boolean;
-              fileExists?: boolean;
-              fileSizeBytes?: number;
-              configured?: boolean;
-            };
-          } | null;
+          const payload = await res.json().catch(() => null) as { error?: string } | null;
           if (!cancelled) {
-            const database = payload?.database;
-            const databaseDetail = database
-              ? ` Path: ${database.path || 'n/a'}; directory: ${database.directoryPath || 'n/a'}; directory exists: ${String(database.directoryExists)}; writable: ${String(database.directoryWritable)}; file exists: ${String(database.fileExists)}; size: ${String(database.fileSizeBytes)} bytes; DATABASE_URL configured: ${String(database.configured)}.`
-              : '';
-            setVerificationError(`${payload?.error || `Admin session check failed (HTTP ${res.status}).`}${databaseDetail}`);
+            setVerificationError(payload?.error || `Admin session check failed (HTTP ${res.status}).`);
           }
           return;
         }
-        const data = await res.json();
+        const data = await res.json() as { role?: Role };
         if (!cancelled) {
           setRole(data.role || 'auditor');
-          setOpenPolicyInquiries(Number(data.data?.openPolicyInquiries || 0));
           setVerified(true);
+        }
+
+        // The navigation badge is useful but must never gate admin access.
+        const metricsResponse = await fetch('/api/admin/metrics', { credentials: 'include' }).catch(() => null);
+        if (metricsResponse?.ok) {
+          const metrics = await metricsResponse.json().catch(() => null) as {
+            data?: { openPolicyInquiries?: number };
+          } | null;
+          if (!cancelled) {
+            setOpenPolicyInquiries(Number(metrics?.data?.openPolicyInquiries || 0));
+          }
         }
       } catch {
         if (!cancelled) {

@@ -1,4 +1,4 @@
-# PolicyWatcher 3.8.3 Beta 4 - Hostinger deployment
+# PolicyWatcher - Hostinger deployment
 
 This is a source deployment package. It intentionally excludes `.next`,
 `node_modules`, environment files and SQLite databases.
@@ -21,12 +21,24 @@ This is a source deployment package. It intentionally excludes `.next`,
 The startup log must show the configured database path, `Database schema is
 ready` and a `policyInquiries` count before Next.js starts accepting traffic.
 
+When `DATABASE_URL` is available during `npm ci`, the post-install hook applies
+the idempotent database initializer before the managed build is published. This
+is the primary readiness gate for Hostinger's managed Next.js preset, which
+places runtime build files in `/home/USER/domains/DOMAIN/nodejs` and retains the
+uploaded source under the sibling `.builds/last-source` directory. The packaged
+`server.js` also searches both source layouts when it is used as the entry file.
+
+Admin authentication does not depend on the metrics endpoint. A missing
+optional metric table can therefore produce a scoped unavailable state, but it
+cannot block the complete `/admin` shell.
+
 ## Manual recovery if the startup command was previously wrong
 
-From the extracted application directory, with the same environment variables
-used by the Node.js application, run:
+From the retained Hostinger source directory, with the same environment
+variables used by the Node.js application, run:
 
 ```bash
+cd /home/USER/domains/DOMAIN/.builds/last-source
 bash scripts/hostinger-init-db.sh
 ```
 

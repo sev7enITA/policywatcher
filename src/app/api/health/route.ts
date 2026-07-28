@@ -55,6 +55,8 @@ export async function GET(request: NextRequest) {
       directoryExists: database.directoryExists,
       directoryWritable: database.directoryWritable,
       exists: database.fileExists,
+      readable: database.fileReadable,
+      writable: database.fileWritable,
       sizeBytes: database.fileSizeBytes,
       companyCount,
     },
