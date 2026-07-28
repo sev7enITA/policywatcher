@@ -2,6 +2,36 @@
 
 ## Unreleased
 
+### Enterprise integration surface
+- Added a public `/integrations` directory that separates available, pilot-ready, planned and later commercial integration paths.
+- Added a tenant-bound, read-only Enterprise API v2 with Microsoft Entra token validation, allowlisted tenant claims, delegated scope and application-role authorization, stable envelopes and problem responses.
+- Added a public OpenAPI contract for API v2 plus an Azure API Management policy for gateway validation, request correlation, origin shielding and coarse quotas.
+- Added a source-controlled Power Platform custom connector pilot package for Power Automate, Power Apps, Logic Apps and Copilot Studio.
+- Documented why APIs and purpose-built clients are the supported machine surfaces, while normal portal HTML, Teams framing, signed webhooks, Copilot plugins, MCP and Marketplace provisioning retain explicit implementation boundaries.
+- Added canonical integration documentation, portal discovery links and focused regression coverage for authentication, field minimization, connector generation and public discoverability.
+
+## 3.9.0-beta.12 - 2026-07-28
+
+### Local MIME Evidence Intake
+- Added dependency-free local `.eml` decoding to the What Changed workflow without mailbox permissions or server-side raw-message transport.
+- Added bounded MIME depth, part-count and file-size limits plus support for encoded headers, base64, quoted-printable, multipart alternatives and nested messages.
+- Preferred plain-text bodies, added a sanitized HTML text fallback and retained cleaned policy links when present in message markup.
+- Excluded recipient headers, file attachments, attachment-only messages and active HTML content before local clue review.
+- Added a responsive file-import control, explicit attachment-exclusion receipt and localized fail-closed states for unsupported or oversized messages.
+- Kept the existing structured inquiry API unchanged: only user-reviewed organization, domain, cleaned URL, categories and dates can cross the browser boundary.
+- Added focused regression coverage for MIME decoding, privacy minimization, attachments, HTML fallback and parser resource limits.
+
+## 3.9.0-beta.11 - 2026-07-28
+
+### Evidence Delivery & Integration
+- Added a read-only `/api/v1/manifest` integration directory that lists the public data sources, parameter allowlists, publication boundaries, cache policy and rate policy without exposing database access.
+- Added a localized `/api/v1/observatory?lang=en|it` endpoint for the curated Observatory registry, signals and events, including its manual-review timestamp and registry boundary.
+- Added CORS for the two new v1 read endpoints without credentials, shared 60 request-per-minute rate limiting, `GET`/`OPTIONS` handling and bounded shared caching.
+- Added the public `/developers` directory with endpoint examples, integration boundaries and an explicit distinction between the current read-only surface and future signed outbound events.
+- Connected the Builder workspace, command palette, navigation ribbon, footer, Site Atlas, sitemap, Feature Intelligence Atlas, roadmap, methodology and README to the developer directory.
+- Refined display-font loading to a restrained 400/600/700 scale so dense 800/900 page requests resolve to a more readable public typographic hierarchy.
+- Added focused regression coverage for the public source registration, localized Observatory payload and Builder quick access.
+
 ## 3.9.0-beta.10 - 2026-07-28
 
 ### Source Continuity Ledger

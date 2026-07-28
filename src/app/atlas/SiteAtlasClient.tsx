@@ -8,6 +8,7 @@ import {
   BarChart3,
   BookOpen,
   Clock,
+  Code2,
   ExternalLink,
   FileText,
   GitFork,
@@ -38,6 +39,7 @@ const iconMap: Record<string, LucideIcon> = {
   'bar-chart': BarChart3,
   book: BookOpen,
   clock: Clock,
+  code: Code2,
   'file-text': FileText,
   layout: LayoutDashboard,
   lock: Lock,
@@ -64,6 +66,11 @@ const recommendedRoutes = [
     title: 'Public product information',
     body: 'Use the project page, showcase, press wall and roadmap to understand who maintains PolicyWatcher, how it is discussed, and where it may evolve.',
     nodes: ['about', 'showcase', 'press', 'roadmap'],
+  },
+  {
+    title: 'System integration',
+    body: 'Read the public integration directory, inspect the curated Observatory registry, then use the methodology to understand data boundaries.',
+    nodes: ['developers', 'observatory', 'methodology'],
   },
 ];
 

@@ -20,4 +20,8 @@ describe('workspace-aware navigation', () => {
     expect(hasCompletedWorkspaceOnboarding('{"completed":true}')).toBe(true);
     expect(hasCompletedWorkspaceOnboarding('not-json')).toBe(false);
   });
+
+  it('gives Builder a direct path to the public integration directory', () => {
+    expect(getWorkspaceQuickActionIds('builder')).toContain('developers');
+  });
 });

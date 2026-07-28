@@ -57,11 +57,21 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                 <div className={styles.featureList}>
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Enterprise Integration Surface</span>
+                      <span className={styles.badgeActive}>Pilot ready</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      The Integration Options directory now distinguishes available, pilot-ready, planned and later commercial paths. The read-only Enterprise API v2 validates Microsoft Entra tokens and tenant claims at the origin, publishes an OpenAPI contract, includes an Azure API Management policy and provides a source-controlled Power Platform custom connector package. Teams, Copilot plugins, MCP, signed webhooks and Marketplace provisioning remain planned rather than implemented.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
                       <span className={styles.featureName}>{POLICYWATCHER_RELEASE_NAME} (v{POLICYWATCHER_VERSION})</span>
                       <span className={styles.badgeActive}>Current Beta</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      PolicyWatcher composes its native dashboard from validated contracts for modules, workspace state, actions, data sources, responsive layout and five governed visualizations. The Policy Evidence Timeline now separates provider policy changes from a sanitized Source Continuity Ledger derived from recorded retrieval-state transitions. The ledger excludes policy text, hashes, diffs, AI analysis, raw failure reasons and administrative records. Versioned shareable evidence views encode public filter state in canonical URLs and restore committed context through browser history while stale values fail closed. The Evidence Newsroom supplies bilingual packages, dated claim records, reusable data, release feeds and specialized contact routes. The dashboard uses one persistent assistant trigger in unified navigation, while labelled access remains available in Workspace Controls and command search. The Browser Extension page links the verified Chrome Web Store listing and reports Edge and Safari separately. These changes do not alter generated answers, the chat API or extension permissions. Event counts are not unique people, verified readership, media coverage or confirmed outcomes. Vizro was studied as a pinned knowledge source; no Vizro, Dash, Flask or Python runtime was added.
+                      The What Changed workflow can now decode bounded .eml files entirely in browser memory. It prefers plain text, uses a sanitized HTML fallback, ignores attachments and recipient headers, and keeps the structured inquiry API unchanged. PolicyWatcher does not connect to a mailbox, upload the raw email or open attachments. The public developer directory from Beta 11 remains available with its read-only manifest and localized Observatory registry contract.
                     </p>
                   </div>
 

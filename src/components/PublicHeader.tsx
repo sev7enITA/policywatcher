@@ -17,6 +17,8 @@ export type PublicSection =
   | 'feature-atlas'
   | 'methodology'
   | 'observatory'
+  | 'developers'
+  | 'integrations'
   | 'press'
   | 'press-kit'
   | 'privacy'

@@ -43,6 +43,43 @@ describe('public UI regression fixes', () => {
     expect(footer).toContain('href="/press-kit"');
   });
 
+  it('makes the public integration directory discoverable without placing it in the crowded header', () => {
+    const navigation = read('src/components/Navigation.tsx');
+    const palette = read('src/components/CommandPalette.tsx');
+    const footer = read('src/components/Footer.tsx');
+    const atlas = read('src/lib/publicSections.ts');
+    const sitemap = read('src/app/sitemap.ts');
+    const developers = read('src/app/developers/page.tsx');
+
+    expect(navigation).toContain("href: '/developers'");
+    expect(palette).toContain("id: 'act-developers'");
+    expect(footer).toContain('href="/developers"');
+    expect(atlas).toContain("id: 'developers'");
+    expect(sitemap).toContain('${BASE_URL}/developers');
+    expect(developers).toContain('<PublicHeader current="developers" />');
+    expect(developers).toContain('/api/v1/manifest');
+  });
+
+  it('makes the cross-platform integration map discoverable with honest readiness labels', () => {
+    const navigation = read('src/components/Navigation.tsx');
+    const palette = read('src/components/CommandPalette.tsx');
+    const footer = read('src/components/Footer.tsx');
+    const atlas = read('src/lib/publicSections.ts');
+    const sitemap = read('src/app/sitemap.ts');
+    const integrations = read('src/app/integrations/page.tsx');
+
+    expect(navigation).toContain("href: '/integrations'");
+    expect(palette).toContain("id: 'act-integrations'");
+    expect(footer).toContain('href="/integrations"');
+    expect(atlas).toContain("id: 'integrations'");
+    expect(sitemap).toContain('${BASE_URL}/integrations');
+    expect(integrations).toContain('<PublicHeader current="integrations" />');
+    expect(integrations).toContain('Pilot ready');
+    expect(integrations).toContain('Planned');
+    expect(integrations).toContain('Commercial later');
+    expect(integrations).toContain('/api/v2/openapi.json');
+  });
+
   it('restores release impact and feature KPI/KRI discovery surfaces', () => {
     const discoveryFiles = [
       'src/components/Navigation.tsx',
@@ -178,6 +215,7 @@ describe('public UI regression fixes', () => {
       'src/app/timeline/page.tsx',
       'src/app/leaderboard/page.tsx',
       'src/app/observatory/page.tsx',
+      'src/app/integrations/page.tsx',
       'src/app/trust/page.tsx',
       'src/app/what-changed/WhatChangedClient.tsx',
     ];

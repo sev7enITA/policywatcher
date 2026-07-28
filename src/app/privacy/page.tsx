@@ -107,6 +107,12 @@ export default function PrivacyPolicyPage() {
             in the API request and are not stored by PolicyWatcher.
           </p>
           <p>
+            If you select a saved <code>.eml</code> file, the bounded MIME parser also runs locally
+            in browser memory. PolicyWatcher does not connect to your mailbox or upload the file.
+            Recipient headers and attachments are excluded before clue review; attachments are not
+            opened. Unsupported, attachment-only and oversized messages are rejected locally.
+          </p>
+          <p>
             Only operational, non-personal clues needed for human review are sent: an organization or
             registrable domain, a query-free official URL when supplied, policy categories and dates.
             These clues are not sent to Gemini, and submitted links are not fetched before an

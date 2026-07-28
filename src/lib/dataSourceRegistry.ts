@@ -5,10 +5,11 @@ export type PublicDataSourceId =
   | 'policyDetails'
   | 'sourceSuspensions'
   | 'sourceContinuity'
+  | 'observatoryRegistry'
   | 'riskTrends'
   | 'kpiMatrix';
 
-export type EvidenceGate = 'public-policy' | 'public-change' | 'public-suspension';
+export type EvidenceGate = 'public-policy' | 'public-change' | 'public-suspension' | 'public-reference';
 export type FreshnessMode = 'request' | 'short-ttl';
 
 export interface PublicDataSourceSpec {
@@ -116,6 +117,14 @@ export const PUBLIC_DATA_SOURCES: Readonly<Record<PublicDataSourceId, PublicData
       freshness: { mode: 'short-ttl', maxAgeSeconds: 60 },
       allowedQueryParams: [],
       description: 'Sanitized history of source retrieval and publication-state transitions.',
+    }),
+    observatoryRegistry: sourceSpec({
+      id: 'observatoryRegistry',
+      endpoint: '/api/v1/observatory',
+      evidenceGate: 'public-reference',
+      freshness: { mode: 'short-ttl', maxAgeSeconds: 300 },
+      allowedQueryParams: ['lang'],
+      description: 'Curated public registry of governance, privacy, standards and event references.',
     }),
     riskTrends: sourceSpec({
       id: 'riskTrends',

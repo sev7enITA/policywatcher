@@ -36,10 +36,12 @@ import {
   ArrowDown,
   HelpCircle,
   Cpu,
+  Code2,
   ShieldCheck,
   Newspaper,
   UserRound,
   Link2,
+  Plug,
 } from 'lucide-react';
 import styles from './CommandPalette.module.css';
 import type { Company, Lang } from '@/types';
@@ -268,6 +270,28 @@ export default function CommandPalette({
         keywords: 'observatory osservatorio fonti sources registry news events regulatory privacy governance ieee oecd edpb nist ftc ico',
         run: () => {
           window.location.href = '/observatory';
+        },
+      },
+      {
+        id: 'act-developers',
+        label: 'Open Developer Directory',
+        labelIt: 'Apri Directory per sviluppatori',
+        icon: <Code2 size={16} />,
+        group: 'actions',
+        keywords: 'developer sviluppatori api integration integrations manifest json cors webhook observatory builder',
+        run: () => {
+          window.location.href = '/developers';
+        },
+      },
+      {
+        id: 'act-integrations',
+        label: 'Open Integration Options',
+        labelIt: 'Apri opzioni di integrazione',
+        icon: <Plug size={16} />,
+        group: 'actions',
+        keywords: 'integration integrations enterprise azure entra apim power platform connector teams copilot mcp marketplace api v1 v2',
+        run: () => {
+          window.location.href = '/integrations';
         },
       },
       {

@@ -22,12 +22,12 @@ const titilliumSans = Titillium_Web({
   weight: ['300', '400', '600', '700'],
 });
 
-/** Display / heading font: Titillium Web in heavier weights. */
+/** Display / heading font: restrained weights prevent dense public typography. */
 const titilliumDisplay = Titillium_Web({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
-  weight: ['600', '700', '900'],
+  weight: ['400', '600', '700'],
 });
 
 /** Site-wide metadata: title, description, keywords, author, and icons. */

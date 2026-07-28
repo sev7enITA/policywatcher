@@ -111,6 +111,9 @@ const translationContent = {
           'Accessible chart contract: supported charts define summary, table, provenance and limitations, while reduced-motion settings disable nonessential animation.',
           'Presentation-only adaptation: density, module priority, dashboard emphasis, and URL parameters may change, but publicEvidence gates, source suspensions, and Dataset QA warnings remain active.',
           'Public exploration surfaces: Timeline, Policy Signals Board, Site Atlas, Roadmap, Press Wall, Showcase, Trust, and Infographics expose different views of the same evidence boundary.',
+          'Local MIME intake: a selected .eml file is decoded in browser memory with bounded depth and size, recipient and attachment exclusion, plain-text preference and inactive HTML fallback; the raw file is not sent to PolicyWatcher.',
+          'Public integration directory: the read-only v1 manifest describes available public sources, parameter allowlists, evidence gates and cache limits; the localized Observatory endpoint exposes only curated registry metadata, review timestamps and scheduled events.',
+          'Integration boundary: no public v1 route exposes policy text, hashes, raw retrieval failures, administrative records, credentials, write operations or outbound webhooks.',
           'Site Atlas: maps public pages, trust surfaces, methodology pages, community pages, and protected admin boundaries as an entity relationship graph.',
           'Press and Roadmap: public references and community priorities are tracked for transparency; they are not treated as endorsements, certifications, or external validation of company compliance.',
           'Admin boundary: operational tools such as Cron Manager, Dataset QA, Review Log, Access Log, Company Registry, Database diagnostics, KPI Audit, and VPS Services remain protected by admin/auditor roles.'
@@ -220,6 +223,9 @@ const translationContent = {
           'Contratto grafici accessibile: i grafici supportati dichiarano riepilogo, tabella, provenienza e limitazioni; la preferenza reduced motion disattiva le animazioni non essenziali.',
           'Adattamento solo di presentazione: densita, priorita dei moduli, enfasi della dashboard e parametri URL possono cambiare, ma gate publicEvidence, sospensioni sorgenti e avvisi Dataset QA restano attivi.',
           'Superfici pubbliche: Timeline, Policy Signals Board, Site Atlas, Roadmap, Press Wall, Showcase, Trust e Infographics mostrano prospettive diverse dello stesso perimetro di evidenza.',
+          'Intake MIME locale: un file .eml selezionato viene decodificato nella memoria del browser con limiti di profondita e dimensione, esclusione di destinatari e allegati, preferenza per il testo semplice e fallback HTML inattivo; il file grezzo non viene inviato a PolicyWatcher.',
+          'Directory pubblica per integrazioni: il manifest v1 in sola lettura descrive le fonti pubbliche disponibili, gli allowlist dei parametri, gli evidence gate e i limiti cache; l endpoint Observatory localizzato espone solo metadati del registro curato, timestamp di revisione ed eventi pianificati.',
+          'Confine di integrazione: nessuna route pubblica v1 espone testo policy, hash, errori raw di retrieval, record amministrativi, credenziali, operazioni di scrittura o webhook in uscita.',
           'Site Atlas: mappa pagine pubbliche, superfici trust, pagine metodologia, pagine community e confini admin protetti come grafo entita-relazioni.',
           'Press e Roadmap: riferimenti pubblici e priorita community sono tracciati per trasparenza; non sono endorsement, certificazioni o validazioni esterne della compliance aziendale.',
           'Confine admin: strumenti operativi come Cron Manager, Dataset QA, Review Log, Access Log, Company Registry, diagnostica database, KPI Audit e VPS Services restano protetti da ruoli admin/auditor.'

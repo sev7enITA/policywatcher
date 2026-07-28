@@ -39,6 +39,11 @@ describe('public data-source registry', () => {
       evidenceGate: 'public-suspension',
       allowedQueryParams: [],
     });
+    expect(PUBLIC_DATA_SOURCES.observatoryRegistry).toMatchObject({
+      endpoint: '/api/v1/observatory',
+      evidenceGate: 'public-reference',
+      allowedQueryParams: ['lang'],
+    });
   });
 
   it('builds canonical URLs and visibility-scoped query keys', () => {
@@ -61,6 +66,9 @@ describe('public data-source registry', () => {
       companyA: 'company-1',
     })).toBe('/api/compare?companyA=company-1&companyB=industry-average');
     expect(buildPublicDataSourceUrl('sourceContinuity')).toBe('/api/source-continuity');
+    expect(buildPublicDataSourceUrl('observatoryRegistry', { lang: 'it' })).toBe(
+      '/api/v1/observatory?lang=it'
+    );
   });
 
   it('rejects query parameters outside the source allowlist', () => {

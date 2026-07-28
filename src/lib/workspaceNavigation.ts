@@ -4,6 +4,7 @@ export type WorkspaceCommandId =
   | 'timeline'
   | 'observatory'
   | 'leaderboard'
+  | 'developers'
   | 'atlas'
   | 'trust'
   | 'matrix'
@@ -14,7 +15,7 @@ const WORKSPACE_QUICK_ACTIONS: Record<WorkspaceIntent, readonly WorkspaceCommand
   citizen: ['timeline', 'leaderboard', 'subscribe'],
   grc: ['timeline', 'matrix', 'export'],
   research: ['timeline', 'observatory', 'atlas'],
-  builder: ['observatory', 'atlas', 'trust'],
+  builder: ['developers', 'observatory', 'trust'],
 };
 
 /** Keep the command ribbon calm and deterministic for every workspace. */

@@ -120,7 +120,9 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.7', shortLabel: '3.9 B7', label: '3.9.0 Beta 7' },
   { id: '3.9.0-beta.8', shortLabel: '3.9 B8', label: '3.9.0 Beta 8' },
   { id: '3.9.0-beta.9', shortLabel: '3.9 B9', label: '3.9.0 Beta 9' },
-  { id: '3.9.0-beta.10', shortLabel: '3.9 B10', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '3.9.0-beta.10', shortLabel: '3.9 B10', label: '3.9.0 Beta 10' },
+  { id: '3.9.0-beta.11', shortLabel: '3.9 B11', label: '3.9.0 Beta 11' },
+  { id: '3.9.0-beta.12', shortLabel: '3.9 B12', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -348,6 +350,16 @@ const platformFeatures: FeatureAtlasFeature[] = [
 ];
 
 const platformSurfaceFeatures: FeatureAtlasFeature[] = [
+  surfaceFeature({
+    id: 'public-integration-directory', title: 'Public integration directory', shortLabel: 'Integration directory',
+    summary: 'Publishes a small versioned API directory and localized Observatory registry for read-only public integrations.', kind: 'technical', domainId: 'distribution', stageId: 'publication', releaseId: '3.9.0-beta.11', release: '3.9.0 Beta 11',
+    benefit: 'A developer can discover compatible public sources together with evidence gates, cache policy and registry review context.', kpi: 'Inventory KPI · read-only public integration directory available', kri: 'Residual KRI · existing public source routes remain beta contracts and availability depends on deployment state', evidence: 'API v1 manifest and Observatory routes, source registry allowlists, CORS-without-credentials headers, rate limits, developer documentation and focused tests.', limitation: 'The directory does not expose raw policy content, administrative data, write operations or outbound webhooks.', primaryUser: 'Developer and integration reviewer', route: { href: '/integrations', label: 'Integration Options', access: 'public' }, dependencies: [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }, { featureId: 'interactive-public-navigation', relationship: 'distributed-through' }],
+  }),
+  surfaceFeature({
+    id: 'enterprise-api-v2-pilot', title: 'Enterprise API v2 pilot', shortLabel: 'Enterprise API v2',
+    summary: 'Adds tenant-bound Microsoft Entra access, an APIM facade and a Power Platform connector package for controlled enterprise pilots.', kind: 'technical', domainId: 'distribution', stageId: 'publication', state: 'current', releaseId: '3.9.0-beta.12', release: POLICYWATCHER_VERSION_DISPLAY,
+    benefit: 'A test tenant can consume bounded evidence through API and Microsoft workflow surfaces without scraping portal HTML.', kpi: 'Inventory KPI · Entra-authenticated read-only enterprise contract and connector package available', kri: 'Residual KRI · certification, entitlements, delivery telemetry and multi-tenant provisioning remain open', evidence: 'API v2 routes and OpenAPI, Entra origin validation, APIM policy, Power Platform connector templates, generator and focused regression tests.', limitation: 'Pilot-ready does not mean generally available or commercially provisioned; Teams, Copilot plugins, MCP, webhooks and Marketplace lifecycle controls remain planned.', primaryUser: 'Enterprise integration reviewer', route: { href: '/integrations', label: 'Integration Options', access: 'public' }, dependencies: [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }, { featureId: 'public-integration-directory', relationship: 'distributed-through' }],
+  }),
   surfaceFeature({
     id: 'evidence-console-dashboard', title: 'Public evidence console', shortLabel: 'Evidence Console',
     summary: 'Composes public companies, policy records, QA state and source availability into the main inspection workspace.', kind: 'business', domainId: 'intelligence', stageId: 'publication', releaseId: '3.7.0', release: '3.7.0',

@@ -43,10 +43,10 @@ fi
 
 required_sources=(
   package.json package-lock.json next.config.ts tsconfig.json next-env.d.ts server.js
-  README.md HOSTINGER-DEPLOY.md CHANGELOG.md SECURITY.md LICENSE .env.example public src prisma scripts
+  README.md HOSTINGER-DEPLOY.md CHANGELOG.md SECURITY.md LICENSE .env.example public src prisma scripts integrations
   docs/dataset-confidence-audit-2026-07-05.md docs/audit-v3.6.5.md
   docs/audit-v3.7.0.md docs/audit-v3.7.1.md docs/audit-v3.7.2.md docs/audit-v3.8.0.md docs/audit-v3.8.1.md docs/audit-v3.8.2.md docs/audit-v3.8.3.md docs/audit-v3.8.3-beta.2.md docs/audit-v3.8.3-beta.3.md docs/audit-v3.8.3-beta.4.md docs/beta-evidence-cycle-v3.8.3.md docs/platform-state-of-art-2026-07-05.md
-  docs/audit-v3.9.0-beta.1.md docs/audit-v3.9.0-beta.2.md docs/audit-v3.9.0-beta.3.md docs/audit-v3.9.0-beta.4.md docs/audit-v3.9.0-beta.5.md docs/audit-v3.9.0-beta.6.md docs/audit-v3.9.0-beta.7.md docs/audit-v3.9.0-beta.8.md docs/audit-v3.9.0-beta.9.md docs/audit-v3.9.0-beta.10.md docs/platform-state-of-art-2026-07-05.it.md docs/third-party-validation.md
+  docs/audit-v3.9.0-beta.1.md docs/audit-v3.9.0-beta.2.md docs/audit-v3.9.0-beta.3.md docs/audit-v3.9.0-beta.4.md docs/audit-v3.9.0-beta.5.md docs/audit-v3.9.0-beta.6.md docs/audit-v3.9.0-beta.7.md docs/audit-v3.9.0-beta.8.md docs/audit-v3.9.0-beta.9.md docs/audit-v3.9.0-beta.10.md docs/audit-v3.9.0-beta.11.md docs/audit-v3.9.0-beta.12.md docs/platform-state-of-art-2026-07-05.it.md docs/third-party-validation.md docs/public-api-v1.md docs/integrations.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
   docs/architecture/native-dashboard-engine.md docs/architecture/native-dashboard-functional-implementation-report.md docs/architecture/vizro-patterns-knowledge-base.md
   docs/native-dashboard-user-guide.md
   docs/press-outreach-2026-07-27.md
@@ -69,7 +69,7 @@ while IFS= read -r untracked; do
   if [[ -e "${STAGING_DIR}/${untracked}" ]]; then
     find "${STAGING_DIR}/${untracked}" -depth -delete
   fi
-done < <(git -C "${APP_DIR}" ls-files --others --exclude-standard -- public src prisma scripts)
+done < <(git -C "${APP_DIR}" ls-files --others --exclude-standard -- public src prisma scripts integrations)
 
 find "${STAGING_DIR}" -type f \( -path '*/__tests__/*' -o -path '*/__pycache__/*' \) -delete
 find "${STAGING_DIR}" -depth -type d \( -name __tests__ -o -name __pycache__ \) -delete
@@ -114,6 +114,9 @@ done <<< "${archive_entries}"
 
 required_entries=(
   package.json package-lock.json release-manifest.json HOSTINGER-DEPLOY.md server.js src/lib/release.ts
+  src/app/integrations/page.tsx src/app/api/v2/openapi.json/route.ts
+  docs/integrations.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
+  integrations/power-platform/policywatcher-v2/apiDefinition.swagger.template.json
   prisma/schema.prisma prisma/migrations/20260721150000_policy_inquiry/migration.sql
   scripts/hostinger-init-db.sh scripts/hostinger-init-db.mjs
   scripts/hostinger-init-db.py scripts/hostinger-detect-materialized-migrations.mjs

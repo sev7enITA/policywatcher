@@ -391,6 +391,8 @@ export const pressKitAssets: PressKitAsset[] = pressKitAssetDefinitions.map((ass
 });
 
 export const pressKitCycleItems: PressKitLocalized[] = [
+  { en: 'Local .eml decoding with bounded MIME parsing, attachment exclusion and browser-only clue extraction.', it: 'Decodifica locale .eml con parsing MIME limitato, esclusione allegati ed estrazione degli indizi solo nel browser.' },
+  { en: 'Read-only public integration directory for the curated Observatory registry, with versioned endpoint and source-boundary metadata.', it: 'Catalogo pubblico di integrazione in sola lettura per il registro curato dell Osservatorio, con endpoint versionato e metadati sui limiti delle fonti.' },
   { en: 'Source Continuity Ledger with sanitized suspension, recovery and verification transitions.', it: 'Source Continuity Ledger con transizioni sanificate di sospensione, recupero e verifica.' },
   { en: 'Adaptive, composable dashboard contracts with reversible workspace state.', it: 'Contratti dashboard adattivi e componibili con stato workspace reversibile.' },
   { en: 'Canonical deep links and coordinated evidence drill-down from region cells and benchmark KPIs.', it: 'Deep link canonici e drill-down coordinato da celle regionali e KPI benchmark.' },
@@ -442,12 +444,62 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'source-continuity-ledger-3-9-0-beta-10',
+    slug: 'local-mime-evidence-intake-3-9-0-beta-12',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'product',
+    title: { en: 'Local MIME Evidence Intake', it: 'Intake locale MIME delle evidenze' },
+    summary: { en: 'Adds bounded local .eml decoding to the notification-to-evidence workflow without mailbox access or raw-message transport.', it: 'Aggiunge la decodifica locale e circoscritta dei file .eml al flusso dalla notifica alle evidenze, senza accesso alla casella o trasporto del messaggio grezzo.' },
+    changes: [
+      { en: 'Saved .eml files can be decoded in browser memory with plain-text preference and a sanitized HTML fallback.', it: 'I file .eml salvati possono essere decodificati nella memoria del browser, preferendo il testo semplice e usando un fallback HTML ripulito.' },
+      { en: 'The parser handles bounded MIME nesting, encoded headers, base64 and quoted-printable bodies without adding a runtime dependency.', it: 'Il parser gestisce annidamento MIME limitato, header codificati e corpi base64 o quoted-printable senza aggiungere dipendenze runtime.' },
+      { en: 'Attachments and recipient headers are excluded before the existing local clue review begins.', it: 'Allegati e header dei destinatari vengono esclusi prima della revisione locale degli indizi gia esistente.' },
+    ],
+    boundaries: [
+      { en: 'PolicyWatcher does not connect to a mailbox, receive forwarded mail, upload the .eml file or open attachments.', it: 'PolicyWatcher non si collega a una casella, non riceve mail inoltrate, non carica il file .eml e non apre allegati.' },
+      { en: 'Unsupported, attachment-only, deeply nested and oversized files fail closed; extracted clues still require user review.', it: 'File non supportati, composti solo da allegati, troppo annidati o troppo grandi falliscono in modo chiuso; gli indizi estratti richiedono comunque revisione utente.' },
+    ],
+    evidenceLinks: [
+      { href: '/what-changed', label: { en: 'Notification evidence intake', it: 'Intake evidenze da notifica' } },
+      { href: '/privacy', label: { en: 'Privacy boundary', it: 'Confine privacy' } },
+      { href: '/methodology/confidence', label: { en: 'Evidence methodology', it: 'Metodologia evidenze' } },
+    ],
+  },
+  {
+    slug: 'evidence-delivery-integration-3-9-0-beta-11',
+    version: '3.9.0-beta.11',
+    displayVersion: '3.9.0 Beta 11',
+    datePublished: POLICYWATCHER_RELEASE_DATE,
+    dateModified: POLICYWATCHER_RELEASE_DATE,
+    status: 'archived',
+    category: 'product',
+    title: { en: 'Evidence Delivery & Integration', it: 'Distribuzione evidenze e integrazione' },
+    summary: { en: 'Introduces a small read-only public integration directory for the curated Observatory registry and its evidence boundaries.', it: 'Introduce un piccolo catalogo pubblico di integrazione in sola lettura per il registro curato dell Osservatorio e i suoi limiti di evidenza.' },
+    changes: [
+      { en: 'A versioned v1 manifest describes available public endpoints, source-gate semantics, cache policy and rate limits.', it: 'Un manifest v1 versionato descrive endpoint pubblici disponibili, semantica dei gate delle fonti, cache e limiti di richiesta.' },
+      { en: 'The localized Observatory endpoint returns curated source, signal and event registry metadata with its manual-review context.', it: 'L endpoint localizzato dell Osservatorio restituisce metadati del registro curato di fonti, segnali ed eventi con il relativo contesto di revisione manuale.' },
+      { en: 'Builder navigation, command search, the Site Atlas, roadmap and footer now lead to the developer directory.', it: 'La navigazione Builder, la ricerca comandi, il Site Atlas, la roadmap e il footer conducono ora al catalogo per sviluppatori.' },
+    ],
+    boundaries: [
+      { en: 'The public contract is read-only. It does not ingest external feeds, create records, send webhooks or grant administrative access.', it: 'Il contratto pubblico e in sola lettura. Non acquisisce feed esterni, non crea record, non invia webhook e non concede accesso amministrativo.' },
+      { en: 'It excludes policy text, hashes, raw failure reasons, private evidence, credentials and administrative logs.', it: 'Esclude testo delle policy, hash, motivazioni grezze di errore, evidenze private, credenziali e log amministrativi.' },
+    ],
+    evidenceLinks: [
+      { href: '/developers', label: { en: 'Developer directory', it: 'Catalogo sviluppatori' } },
+      { href: '/observatory', label: { en: 'Public Observatory', it: 'Osservatorio pubblico' } },
+      { href: '/methodology/confidence', label: { en: 'Methodology', it: 'Metodologia' } },
+    ],
+  },
+  {
+    slug: 'source-continuity-ledger-3-9-0-beta-10',
+    version: '3.9.0-beta.10',
+    displayVersion: '3.9.0 Beta 10',
+    datePublished: POLICYWATCHER_RELEASE_DATE,
+    dateModified: POLICYWATCHER_RELEASE_DATE,
+    status: 'archived',
     category: 'product',
     title: { en: 'Source Continuity Ledger', it: 'Registro di continuita delle fonti' },
     summary: { en: 'Separates provider policy changes from sanitized source-retrieval and publication-state transitions in the public Timeline.', it: 'Separa i cambiamenti delle policy provider dalle transizioni sanificate di retrieval e pubblicazione delle fonti nella Timeline pubblica.' },
@@ -628,6 +680,8 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+  { id: 'local-mime-evidence-intake-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Local MIME Evidence Intake published', it: 'Pubblicato Intake locale MIME delle evidenze' }, detail: { en: 'The What Changed workflow now decodes bounded .eml files locally while excluding recipients and attachments from extracted clues.', it: 'Il flusso Cosa e cambiato ora decodifica localmente file .eml limitati, escludendo destinatari e allegati dagli indizi estratti.' }, affectedHref: '/press-kit/releases/local-mime-evidence-intake-3-9-0-beta-12' },
+  { id: 'evidence-delivery-integration-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Evidence Delivery & Integration published', it: 'Pubblicata Distribuzione evidenze e integrazione' }, detail: { en: 'The public Developer directory now documents a read-only v1 manifest and localized Observatory registry endpoint with their stated source boundaries.', it: 'Il catalogo pubblico per sviluppatori ora documenta un manifest v1 in sola lettura e l endpoint localizzato del registro Osservatorio con i relativi limiti delle fonti.' }, affectedHref: '/press-kit/releases/evidence-delivery-integration-3-9-0-beta-11' },
   { id: 'source-continuity-ledger-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Source Continuity Ledger published', it: 'Pubblicato il Source Continuity Ledger' }, detail: { en: 'The public Timeline now separates provider policy changes from sanitized retrieval and publication-state transitions.', it: 'La Timeline pubblica ora separa i cambiamenti delle policy provider dalle transizioni sanificate di retrieval e stato di pubblicazione.' }, affectedHref: '/press-kit/releases/source-continuity-ledger-3-9-0-beta-10' },
   { id: 'verified-browser-distribution-release', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'release', title: { en: 'Chrome distribution verified', it: 'Distribuzione Chrome verificata' }, detail: { en: 'The public Browser Extension page now links the verified Chrome Web Store listing and keeps Edge and Safari availability states separate.', it: 'La pagina pubblica Browser Extension ora collega la scheda verificata del Chrome Web Store e mantiene separati gli stati di disponibilita di Edge e Safari.' }, affectedHref: '/press-kit/releases/verified-browser-distribution-3-9-0-beta-9' },
   { id: 'assistant-entry-point-consolidation-release', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'release', title: { en: 'Assistant entry point consolidated', it: 'Accesso all assistente consolidato' }, detail: { en: 'The legacy floating dashboard trigger was removed while unified navigation, Workspace Controls and command search retain access to the same assistant.', it: 'Il precedente trigger flottante della dashboard e stato rimosso, mentre navigazione unificata, Workspace Controls e ricerca comandi mantengono l accesso allo stesso assistente.' }, affectedHref: '/press-kit/releases/assistant-entry-point-consolidation-3-9-0-beta-8' },

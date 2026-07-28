@@ -1,10 +1,10 @@
 'use client';
 
-import { FormEvent, MouseEvent, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, MouseEvent, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
-  ArrowRight, CheckCircle2, ClipboardCheck, ChevronDown, FileSearch, Languages,
+  ArrowRight, CheckCircle2, ClipboardCheck, ChevronDown, FileSearch, FileUp, Languages,
   Laptop, Link2Off, LockKeyhole, Puzzle, RotateCcw, Search,
   ShieldCheck, ShieldQuestion, UserCheck,
 } from 'lucide-react';
@@ -12,6 +12,7 @@ import {
   parsePolicyInquiryLocally,
   type InquiryPolicyType,
 } from '@/lib/policyInquiryClient';
+import { parseEmailFileLocally } from '@/lib/emailIntakeClient';
 import baseStyles from './whatChanged.module.css';
 import explainability from './explainability.module.css';
 import refinements from './refinements.module.css';
@@ -59,6 +60,8 @@ const copy = {
     plainTextLimit: 'Il copia-incolla non conserva i link nascosti dietro “qui” o un pulsante. È normale: non devi ricostruirli manualmente.',
     desktopExtensionHint: 'Su un computer? L’estensione Beta può acquisire il link di partenza dalla pagina aperta, con possibili limiti di estrazione.', extensionShortLink: 'Estensione Beta',
     message: 'Testo della mail o notifica', messagePh: 'Incolla qui il testo ricevuto, anche senza link…',
+    emlTitle: 'Oppure importa una mail .eml', emlHelp: 'Il file viene decodificato solo in questo browser. Destinatari e allegati non entrano negli indizi.', emlAction: 'Scegli file .eml',
+    emlReady: 'Mail letta localmente', emlAttachment: 'allegato ignorato', emlAttachments: 'allegati ignorati',
     localReady: 'Pronto per la verifica', localFallback: 'Policy da identificare',
     editDetails: 'Correggi o aggiungi dettagli', privacyHow: 'Privacy e come funziona',
     privacyLocal: 'Il testo grezzo, l’oggetto, il destinatario e qualsiasi fingerprint restano nel browser.',
@@ -113,6 +116,8 @@ const copy = {
     plainTextLimit: 'Copy and paste cannot preserve links hidden behind “here” or a button. This is expected; you do not need to reconstruct them.',
     desktopExtensionHint: 'On a computer? The Beta extension can capture the starting link from the open page, with possible extraction limits.', extensionShortLink: 'Beta extension',
     message: 'Email or notification text', messagePh: 'Paste the message here, even without links…',
+    emlTitle: 'Or import an .eml email', emlHelp: 'The file is decoded only in this browser. Recipients and attachments do not enter the clues.', emlAction: 'Choose .eml file',
+    emlReady: 'Email read locally', emlAttachment: 'attachment ignored', emlAttachments: 'attachments ignored',
     localReady: 'Ready to verify', localFallback: 'Policy to identify',
     editDetails: 'Correct or add details', privacyHow: 'Privacy and how it works',
     privacyLocal: 'Raw text, subject, recipient and any fingerprint stay in the browser.',
@@ -185,6 +190,7 @@ export default function WhatChangedClient() {
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [emailImport, setEmailImport] = useState<{ name: string; ignoredAttachments: number } | null>(null);
   const messageInputRef = useRef<HTMLTextAreaElement>(null);
   const t = copy[lang];
 
@@ -205,6 +211,36 @@ export default function WhatChangedClient() {
         setEffectiveDate(dateInputValue(clues.effectiveDate));
       }
     } catch { /* The submit path renders the size/format error. */ }
+  }
+
+  async function importEmailFile(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+    setError('');
+    setResult(null);
+    try {
+      const parsed = parseEmailFileLocally(new Uint8Array(await file.arrayBuffer()));
+      setEmailImport({ name: file.name.slice(0, 120), ignoredAttachments: parsed.ignoredAttachments });
+      updateInput(parsed.visibleText);
+    } catch (cause) {
+      setEmailImport(null);
+      const code = cause instanceof Error ? cause.message : '';
+      const messages = lang === 'it'
+        ? {
+            EMAIL_FILE_TOO_LARGE: 'Il file .eml deve essere compreso tra 1 byte e 256 KB.',
+            EMAIL_TEXT_TOO_LARGE: 'Il testo utile estratto dalla mail supera 20 KB.',
+            EMAIL_TEXT_UNAVAILABLE: 'La mail non contiene testo leggibile senza aprire allegati.',
+            INVALID_EMAIL_FILE: 'Il file .eml non ha una struttura MIME supportata.',
+          }
+        : {
+            EMAIL_FILE_TOO_LARGE: 'The .eml file must be between 1 byte and 256 KB.',
+            EMAIL_TEXT_TOO_LARGE: 'The useful text extracted from the email exceeds 20 KB.',
+            EMAIL_TEXT_UNAVAILABLE: 'The email has no readable text outside attachments.',
+            INVALID_EMAIL_FILE: 'The .eml file does not have a supported MIME structure.',
+          };
+      setError(messages[code as keyof typeof messages] || messages.INVALID_EMAIL_FILE);
+    }
   }
 
   function togglePolicyType(type: InquiryPolicyType) {
@@ -314,7 +350,12 @@ export default function WhatChangedClient() {
         <form className={`${styles.form} ${styles.guidedForm}`} onSubmit={submit}>
           <section id="paste-notice" className={styles.intakeSection} aria-labelledby="paste-title">
             <div className={styles.compactHeading}><div><h2 id="paste-title">{t.pasteTitle}</h2><p>{t.pasteHelp}</p></div><span><Laptop size={15} />{lang === 'it' ? 'Analisi locale' : 'Local analysis'}</span></div>
-            <label className={styles.messageField}>{t.message}<textarea ref={messageInputRef} id="notification-text" required value={input} onChange={(event) => updateInput(event.target.value)} placeholder={t.messagePh} maxLength={20480} rows={8} /></label>
+            <label className={styles.messageField}>{t.message}<textarea ref={messageInputRef} id="notification-text" required value={input} onChange={(event) => { setEmailImport(null); updateInput(event.target.value); }} placeholder={t.messagePh} maxLength={20480} rows={8} /></label>
+            <div className={styles.emailFileIntake}>
+              <div><strong>{t.emlTitle}</strong><span id="email-file-help">{t.emlHelp}</span></div>
+              <label className={styles.emailFileAction}><FileUp aria-hidden="true" />{t.emlAction}<input type="file" accept=".eml,message/rfc822" aria-describedby="email-file-help" onChange={(event) => void importEmailFile(event)} /></label>
+            </div>
+            {emailImport && <p className={styles.emailFileStatus} role="status" aria-live="polite"><CheckCircle2 aria-hidden="true" /><span><strong>{t.emlReady}:</strong> {emailImport.name}{emailImport.ignoredAttachments > 0 ? ` · ${emailImport.ignoredAttachments} ${emailImport.ignoredAttachments === 1 ? t.emlAttachment : t.emlAttachments}` : ''}</span></p>}
             <div className={styles.plainTextNotice} role="note"><Link2Off aria-hidden="true" /><div><p>{t.plainTextLimit}</p><span>{t.desktopExtensionHint} <Link href="/browser-extension">{t.extensionShortLink}<ArrowRight aria-hidden="true" /></Link></span></div></div>
           </section>
 

@@ -176,6 +176,10 @@ describe('public press kit', () => {
     const distributionItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'verified-browser-store-distribution');
     expect(distributionItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.9', endRelease: '3.9.0-beta.9' });
     const continuityItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'historical-suspensions');
-    expect(continuityItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(continuityItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.10', endRelease: '3.9.0-beta.10' });
+    const integrationItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'public-integration-directory');
+    expect(integrationItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.11', endRelease: '3.9.0-beta.11' });
+    const emailIntakeItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'mobile-email-intake');
+    expect(emailIntakeItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
   });
 });

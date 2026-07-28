@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2010%20Source%20Continuity%20Ledger-146c6a" alt="3.9.0 Beta 10 Source Continuity Ledger" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2012%20Local%20MIME%20Evidence%20Intake-146c6a" alt="3.9.0 Beta 12 Local MIME Evidence Intake" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,22 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 12 Local MIME Evidence Intake Highlights
+
+- **Local `.eml` path:** the What Changed workflow can decode a saved email entirely in browser memory without mailbox access or raw-message upload.
+- **Bounded MIME parser:** file size, nesting depth and part count fail closed; encoded headers, base64, quoted-printable and multipart alternatives are supported without a new runtime package.
+- **Text-first extraction:** plain text is preferred, HTML is reduced to visible inactive text and cleaned HTTP(S) links, and active markup is discarded.
+- **Attachment exclusion:** recipient headers and attachments never enter the extracted text or structured clues; attachment-only and unsupported messages are rejected.
+- **Existing server boundary retained:** only confirmed organization/domain, cleaned URL, categories and dates can reach the inquiry API.
+
+### Release 3.9.0 Beta 11 Evidence Delivery & Integration Highlights
+
+- **Read-only integration directory:** `/api/v1/manifest` provides a machine-readable directory of public sources, allowed parameters, evidence gates, cache policy and rate policy.
+- **Curated Observatory API:** `/api/v1/observatory?lang=en|it` provides localized source-registry, signal and event metadata together with the manual-review boundary; it is not an automated external news feed.
+- **Public developer documentation:** `/developers` explains the available integration contract, browser-read CORS behavior, public-data limits and deferred webhook scope.
+- **Bounded discovery:** Builder workspace quick actions, command palette, navigation ribbon, footer, Site Atlas, roadmap and sitemap point to the same public integration entry point.
+- **Readable display hierarchy:** display font loading now uses a restrained 400/600/700 scale for less dense public headings and controls.
 
 ### Release 3.9.0 Beta 10 Source Continuity Ledger Highlights
 
@@ -738,6 +754,25 @@ erDiagram
 
 ---
 
+## Integration Surfaces
+
+PolicyWatcher uses APIs and purpose-built clients as its machine integration boundary. The portal remains the human review surface; integrations should not scrape or embed arbitrary portal HTML.
+
+| Surface | Authentication | Readiness | Best fit |
+| --- | --- | --- | --- |
+| Public API v1 | None; read-only CORS | Available | Public evidence discovery and curated Observatory data |
+| Change-card embed | None; published evidence only | Available | One bounded evidence card on a third-party page |
+| Chrome browser extension | Explicit local user review | Available on Chrome | Turning a policy-notice email or page into a reviewed inquiry |
+| Enterprise API v2 | Microsoft Entra scope or application role | Pilot ready | Tenant-bound enterprise evidence access |
+| Azure API Management facade | Entra plus gateway-only origin header | Pilot ready | Gateway policy, quota and request correlation |
+| Power Platform custom connector | Entra delegated OAuth | Pilot ready | Power Automate, Power Apps, Logic Apps and Copilot Studio |
+| Signed webhooks, Teams, Copilot plugins, MCP and Graph | Integration-specific | Planned | Event delivery and Microsoft 365 experiences after lifecycle controls |
+| Microsoft commercial marketplace | Entitlement and billing lifecycle | Commercial later | Discovery and eventual SaaS provisioning |
+
+See the public [`/integrations`](https://www.policywatcher.online/integrations) directory and the canonical [integration options](docs/integrations.md) document for the decision guide, readiness boundaries and pilot architecture. API v1 remains the anonymous public contract; API v2 adds tenant-bound Microsoft Entra access without replacing v1.
+
+---
+
 ## API Reference
 
 | Route | Method | Auth | Rate Limit | Purpose |
@@ -758,6 +793,15 @@ erDiagram
 | `/api/cron/monthly` | GET | Bearer | None | Monthly digest email dispatch |
 | `/api/health` | GET | Bearer | None | System health check |
 | `/api/seed` | POST | Bearer + env flag | None | Database seeding (development only) |
+| `/api/v1/manifest` | GET | No | 60/min shared v1 bucket | Read-only public integration directory |
+| `/api/v1/observatory?lang=en\|it` | GET | No | 60/min shared v1 bucket | Curated source, signal and event registry |
+| `/api/v2/openapi.json` | GET | No | Public contract | OpenAPI definition for the Enterprise API v2 |
+| `/api/v2/manifest` | GET | Entra | Gateway/origin policy | Authenticated integration directory and boundaries |
+| `/api/v2/companies` | GET | Entra | Gateway/origin policy | Paginated monitored companies and publishable sources |
+| `/api/v2/changes` | GET | Entra | Gateway/origin policy | Paginated, filtered and evidence-gated changes |
+| `/api/v2/changes/[changeId]` | GET | Entra | Gateway/origin policy | Structured change evidence without raw policy text |
+| `/api/v2/sources/[sourceId]/continuity` | GET | Entra | Gateway/origin policy | Sanitized source-state transitions |
+| `/api/v2/observatory/signals` | GET | Entra | Gateway/origin policy | Curated regulatory and governance signals |
 
 ---
 

@@ -15,7 +15,7 @@
  */
 'use client';
 
-import { BarChart3, ShieldCheck, FileText, Lock, Mail, ExternalLink, Sparkles, Cpu, Newspaper, GitFork, Search, UserRound, Network } from 'lucide-react';
+import { BarChart3, ShieldCheck, FileText, Lock, Mail, ExternalLink, Sparkles, Cpu, Newspaper, GitFork, Search, UserRound, Network, Code2, Plug } from 'lucide-react';
 import { POLICYWATCHER_BUILD_LABEL, POLICYWATCHER_VERSION } from '@/lib/release';
 import styles from './Footer.module.css';
 
@@ -41,6 +41,8 @@ const content = {
     about: 'About the Project',
     showcase: 'Showcase',
     observatory: 'Observatory',
+    developers: 'Developer Directory',
+    integrations: 'Integration Options',
     atlas: 'Site Atlas',
     featureAtlas: 'Feature Intelligence Atlas',
     leaderboard: 'Policy Signals',
@@ -67,6 +69,8 @@ const content = {
     about: 'Il progetto e l’autore',
     showcase: 'Vetrina',
     observatory: 'Observatory',
+    developers: 'Directory sviluppatori',
+    integrations: 'Opzioni di integrazione',
     atlas: 'Atlante del sito',
     featureAtlas: 'Atlante delle funzionalità',
     leaderboard: 'Segnali policy',
@@ -198,6 +202,18 @@ export default function Footer({ lang, variant = 'full' }: FooterProps) {
                 <a href="/observatory">
                   <Search size={14} />
                   {t.observatory}
+                </a>
+              </li>
+              <li>
+                <a href="/developers">
+                  <Code2 size={14} />
+                  {t.developers}
+                </a>
+              </li>
+              <li>
+                <a href="/integrations">
+                  <Plug size={14} />
+                  {t.integrations}
                 </a>
               </li>
               <li>

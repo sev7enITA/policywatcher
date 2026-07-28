@@ -25,6 +25,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/atlas`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/feature-atlas`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.92 },
     { url: `${BASE_URL}/observatory`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${BASE_URL}/developers`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.84 },
+    { url: `${BASE_URL}/integrations`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.88 },
     { url: `${BASE_URL}/timeline`, lastModified: new Date(), changeFrequency: 'hourly', priority: 0.9 },
     { url: `${BASE_URL}/what-changed`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.95 },
     { url: `${BASE_URL}/browser-extension`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.86 },

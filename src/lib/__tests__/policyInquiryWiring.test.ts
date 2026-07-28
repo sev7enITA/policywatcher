@@ -157,4 +157,22 @@ describe('policy inquiry security and admin wiring', () => {
     expect(client).toContain('In questa Beta, estrazione o evidenze possono essere incomplete.');
     expect(client).toContain('In this Beta, extraction or evidence may be incomplete.');
   });
+
+  it('adds a bounded local .eml path without expanding the structured inquiry API', () => {
+    const client = readFileSync('src/app/what-changed/WhatChangedClient.tsx', 'utf8');
+    const parser = readFileSync('src/lib/emailIntakeClient.ts', 'utf8');
+    const route = readFileSync('src/app/api/policy-inquiries/route.ts', 'utf8');
+
+    expect(client).toContain('parseEmailFileLocally');
+    expect(client).toContain('accept=".eml,message/rfc822"');
+    expect(client).toContain('The file is decoded only in this browser');
+    expect(parser).toContain('LOCAL_EMAIL_MAX_FILE_BYTES = 256 * 1024');
+    expect(parser).toContain('MAX_MIME_DEPTH = 6');
+    expect(parser).toContain('MAX_MIME_PARTS = 32');
+    expect(parser).toContain("disposition.value === 'attachment'");
+    expect(parser).not.toContain('fetch(');
+    expect(parser).not.toContain('localStorage');
+    expect(route).not.toContain('rawEmail');
+    expect(route).not.toContain('mime');
+  });
 });

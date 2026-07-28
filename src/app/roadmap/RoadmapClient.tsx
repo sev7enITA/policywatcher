@@ -9,6 +9,7 @@ import {
   Cpu,
   Database,
   Eye,
+  FileUp,
   GitFork,
   ListChecks,
   Lock,
@@ -74,9 +75,9 @@ const goals: Array<{
     label: 'Builder',
     title: 'Connect PolicyWatcher to other systems',
     summary:
-      'A technical view for API consumers, webhooks, event schemas, rate limits, signed payloads, and integration health.',
-    view: 'API docs, webhook diagnostics, event log, request status.',
-    output: 'Machine-readable events and signed integration feed.',
+      'A technical view for public API consumers and controlled enterprise pilots across Azure and Power Platform.',
+    view: 'Integration options, API v1 and v2 contracts, Observatory registry, tenant, rate and source boundaries.',
+    output: 'Read-only machine-readable evidence and a bounded Microsoft test-tenant path.',
     accent: '#f59e0b',
   },
 ];
@@ -102,6 +103,15 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 const nowItems = [
   {
     phase: `Delivered · ${POLICYWATCHER_VERSION}`,
+    title: 'Local MIME Evidence Intake',
+    body:
+      'A saved .eml message can be decoded in browser memory with bounded MIME parsing, plain-text preference, sanitized HTML fallback and attachment exclusion.',
+    benefit: 'People gain another path from a real notification to the existing evidence workflow without granting mailbox access or uploading the raw message.',
+    validation: 'Unsupported and oversized files fail closed; recipient headers and attachments are excluded, and only reviewed structured clues can reach the inquiry API.',
+    icon: FileUp,
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.2',
     title: 'Shareable evidence views',
     body:
       'Copy view writes the public dashboard filters to a versioned canonical URL, while committed filter changes participate in browser history and stale values fail closed.',
@@ -110,7 +120,7 @@ const nowItems = [
     icon: GitFork,
   },
   {
-    phase: `Delivered · ${POLICYWATCHER_VERSION}`,
+    phase: 'Delivered · 3.9.0-beta.2',
     title: 'Coordinated visual evidence drill-down',
     body:
       'Heatmap selection commits region and audience together, while radar KPI selection opens original and normalized values with explicit missing and tie outcomes.',
@@ -204,11 +214,27 @@ const nowItems = [
 const candidateFeatures = [
   {
     track: 'API',
-    title: 'Public API v1 and signed webhooks',
+    title: 'Read-only public integration directory',
     body:
-      'Expose source-gated company, policy, change, and signal data with rate limits, object-level authorization, and HMAC-signed outbound events.',
-    status: 'Enterprise pull',
-    risk: 'Needs careful schema versioning and replay protection.',
+      'Delivered in 3.9.0 Beta 11: a versioned manifest and localized Observatory registry make the public integration surface inspectable, rate-limited and source-bound.',
+    status: 'Delivered beta 11',
+    risk: 'The surface is deliberately read-only; it does not expose admin data, raw policy text or operational controls.',
+  },
+  {
+    track: 'Enterprise pilot',
+    title: 'Entra, Azure API Management and Power Platform',
+    body:
+      'Pilot ready: API v2 validates tenant-bound Entra tokens at the origin, publishes an OpenAPI contract, includes an APIM policy and provides a source-controlled custom connector package.',
+    status: 'Pilot ready',
+    risk: 'Certification, tenant entitlements, offboarding, delivery telemetry and commercial provisioning are not yet implemented.',
+  },
+  {
+    track: 'API',
+    title: 'Signed outbound events and webhooks',
+    body:
+      'Define opt-in event schemas, delivery logs, replay protection and HMAC signatures before any outbound notification channel is introduced.',
+    status: 'Later',
+    risk: 'Requires explicit retention, subscriber, schema-evolution and integration-health rules.',
   },
   {
     track: 'Governance',
@@ -265,6 +291,22 @@ const candidateFeatures = [
       'Generate structured exports for Jira, Confluence, OneTrust-style workflows, and internal risk registers after the generic webhook layer is stable.',
     status: 'Later',
     risk: 'Direct vendor integration should follow a generic signed-events foundation.',
+  },
+  {
+    track: 'Microsoft 365',
+    title: 'Teams, Copilot, MCP and Graph surfaces',
+    body:
+      'Design purpose-built clients over API v2: a dedicated Teams route, a declarative Copilot agent or API plugin, a federated MCP server and optional Graph indexing.',
+    status: 'Planned',
+    risk: 'Each surface needs tenant authorization, content and retention boundaries, operational ownership and isolation tests.',
+  },
+  {
+    track: 'Distribution',
+    title: 'Microsoft commercial marketplace offer',
+    body:
+      'Start with a discovery listing, then evaluate a transactable SaaS offer after tenant provisioning, entitlements, billing events, consent revocation and support operations exist.',
+    status: 'Commercial later',
+    risk: 'Marketplace packaging must not precede a tested customer lifecycle and tenant-isolation model.',
   },
   {
     track: 'UX',
@@ -359,7 +401,7 @@ const releaseLanes = [
     label: '4.0',
     title: 'Feature Drop',
     body:
-      'API v1, signed webhooks, richer reports, multi-version diff, and stronger integration surfaces.',
+      'Signed webhooks, tenant lifecycle controls, richer reports, multi-version diff, and production integration hardening after the API v2 pilot.',
     state: 'candidate',
   },
   {
