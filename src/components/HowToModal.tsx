@@ -115,7 +115,7 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
         id: 'sourceStatus',
         title: 'Check source status first',
         description:
-          'Temporarily suspended sources are called out before interpretation. Treat the notice as a gate: public evidence is unavailable until verification.',
+          'Temporarily suspended sources are called out before interpretation. Treat the notice as a gate, then use Timeline → Source continuity to inspect sanitized retrieval-state transitions separately from provider policy changes.',
         focusLabel: 'Source status notice',
       },
       {
@@ -207,7 +207,7 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
         id: 'sourceStatus',
         title: 'Controlla prima lo stato della fonte',
         description:
-          'Le fonti temporaneamente sospese sono evidenziate prima dell interpretazione. Tratta l avviso come un gate: l evidenza pubblica non e disponibile fino alla verifica.',
+          'Le fonti temporaneamente sospese sono evidenziate prima dell interpretazione. Tratta l avviso come un gate, poi usa Timeline → Source continuity per ispezionare transizioni di retrieval sanificate, separate dai cambiamenti delle policy provider.',
         focusLabel: 'Avviso stato fonte',
       },
       {

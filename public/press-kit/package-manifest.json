@@ -2,25 +2,25 @@
   "schema": "https://policywatcher.online/schemas/press-kit-package-manifest/v1",
   "schemaVersion": "1.0.0",
   "generatedAt": "2026-07-27",
-  "release": "3.9.0-beta.9",
+  "release": "3.9.0-beta.10",
   "packages": [
     {
       "locale": "en",
       "filename": "policywatcher-press-package-en-2026-07-27.zip",
       "href": "/press-kit/policywatcher-press-package-en-2026-07-27.zip",
-      "bytes": 3825909,
-      "sha256": "754578193e1bfa45a9f9eec76522e175d52783d82541d33f654052095ccb6689",
+      "bytes": 3825972,
+      "sha256": "bfe79259102f441d86dbb777e6c5add8428aba65ccb27b9d15d8734a13dfd3cc",
       "generatedAt": "2026-07-27",
-      "version": "3.9.0-beta.9"
+      "version": "3.9.0-beta.10"
     },
     {
       "locale": "it",
       "filename": "policywatcher-press-package-it-2026-07-27.zip",
       "href": "/press-kit/policywatcher-press-package-it-2026-07-27.zip",
-      "bytes": 3825959,
-      "sha256": "527d3a3d7ce3af770e28622efd1723e4f96cfa482fd56786825743b8adea7b41",
+      "bytes": 3826064,
+      "sha256": "17892547494f620b3763a7d2c7b325447b386dd2e01d8283da78a0f4f3b232d1",
       "generatedAt": "2026-07-27",
-      "version": "3.9.0-beta.9"
+      "version": "3.9.0-beta.10"
     }
   ]
 }

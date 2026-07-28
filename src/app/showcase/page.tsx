@@ -58,7 +58,7 @@ const atlasPanels = [
 ];
 
 const signalTiles = [
-  { name: 'Timeline', tag: 'Change rows', visual: 'pulse', metric: 'Filters', copy: 'Uses the changes API to list available change records with filters by company, sector, risk and date.' },
+  { name: 'Timeline', tag: 'Two evidence records', visual: 'pulse', metric: 'Changes + continuity', copy: 'Separates evidence-gated provider policy changes from sanitized source-retrieval and publication-state transitions.' },
   { name: 'Risk trend', tag: 'Public score rows', visual: 'trend', metric: 'Snapshot provenance', copy: 'Plots evidence-gated score records, distinguishes observation sequence from the real snapshot version, and includes an accessible table.' },
   { name: 'Region heatmap', tag: 'Public change evidence', visual: 'map', metric: 'Atomic context action', copy: 'Selecting a cell commits region and audience together, while the bilingual summary and exact-value table keep missing cells as Not assessed.' },
   { name: 'Benchmark radar', tag: 'Evidence-gated comparison', visual: 'radar', metric: 'KPI value inspector', copy: 'Opens original and normalized values by canonical KPI, makes missing and tie states explicit, and keeps the ordinal comparison separate from compliance or performance claims.' },

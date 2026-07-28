@@ -1,6 +1,7 @@
-export const POLICYWATCHER_VERSION = '3.9.0-beta.9' as const;
-export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 9' as const;
-export const POLICYWATCHER_RELEASE_NAME = 'Verified Browser Distribution' as const;
+export const POLICYWATCHER_VERSION = '3.9.0-beta.10' as const;
+export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 10' as const;
+export const POLICYWATCHER_RELEASE_NAME = 'Source Continuity Ledger' as const;
+export const POLICYWATCHER_RELEASE_DATE = '2026-07-28' as const;
 export type PolicyWatcherReleaseChannel = 'stable' | 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL: PolicyWatcherReleaseChannel = 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL_LABEL = 'BETA' as const;

@@ -11,6 +11,7 @@ import {
   POLICYWATCHER_RELEASE_BADGE,
   POLICYWATCHER_RELEASE_CHANNEL,
   POLICYWATCHER_RELEASE_CHANNEL_LABEL,
+  POLICYWATCHER_RELEASE_DATE,
   POLICYWATCHER_RELEASE_NAME,
   POLICYWATCHER_VERSION,
   type PolicyWatcherReleaseChannel,
@@ -33,11 +34,12 @@ describe('release metadata', () => {
   it('matches the package version and composes one build label', () => {
     const packageJson = JSON.parse(readFileSync('package.json', 'utf8')) as { version: string };
     expect(POLICYWATCHER_VERSION).toBe(packageJson.version);
-    expect(POLICYWATCHER_RELEASE_NAME).toBe('Verified Browser Distribution');
-    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.9.0-beta.9 Verified Browser Distribution');
+    expect(POLICYWATCHER_RELEASE_NAME).toBe('Source Continuity Ledger');
+    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.9.0-beta.10 Source Continuity Ledger');
+    expect(POLICYWATCHER_RELEASE_DATE).toBe('2026-07-28');
     expect(POLICYWATCHER_RELEASE_CHANNEL).toBe('beta');
     expect(POLICYWATCHER_RELEASE_CHANNEL_LABEL).toBe('BETA');
-    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v3.9.0-beta.9 · BETA');
+    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v3.9.0-beta.10 · BETA');
     expect(POLICYWATCHER_BROWSER_EXTENSION_VERSION).toBe('3.8.3-beta.3');
     expect(POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION).toBe('3.8.3 Beta 3');
     expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE).toBe('v3.8.3 Beta 3 · EXTENSION BETA');

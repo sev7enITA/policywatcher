@@ -2,6 +2,7 @@ import {
   POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION,
   POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS,
   POLICYWATCHER_RELEASE_CHANNEL_LABEL,
+  POLICYWATCHER_RELEASE_DATE,
   POLICYWATCHER_RELEASE_NAME,
   POLICYWATCHER_VERSION,
   POLICYWATCHER_VERSION_DISPLAY,
@@ -390,6 +391,7 @@ export const pressKitAssets: PressKitAsset[] = pressKitAssetDefinitions.map((ass
 });
 
 export const pressKitCycleItems: PressKitLocalized[] = [
+  { en: 'Source Continuity Ledger with sanitized suspension, recovery and verification transitions.', it: 'Source Continuity Ledger con transizioni sanificate di sospensione, recupero e verifica.' },
   { en: 'Adaptive, composable dashboard contracts with reversible workspace state.', it: 'Contratti dashboard adattivi e componibili con stato workspace reversibile.' },
   { en: 'Canonical deep links and coordinated evidence drill-down from region cells and benchmark KPIs.', it: 'Deep link canonici e drill-down coordinato da celle regionali e KPI benchmark.' },
   { en: 'RegionHeatMap and radar views with displayed-value fallbacks, missing states and limitations.', it: 'RegionHeatMap e viste radar con valori visualizzati, stati mancanti e limiti.' },
@@ -440,12 +442,36 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'verified-browser-distribution-3-9-0-beta-9',
+    slug: 'source-continuity-ledger-3-9-0-beta-10',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
+    datePublished: POLICYWATCHER_RELEASE_DATE,
+    dateModified: POLICYWATCHER_RELEASE_DATE,
+    status: 'current',
+    category: 'product',
+    title: { en: 'Source Continuity Ledger', it: 'Registro di continuita delle fonti' },
+    summary: { en: 'Separates provider policy changes from sanitized source-retrieval and publication-state transitions in the public Timeline.', it: 'Separa i cambiamenti delle policy provider dalle transizioni sanificate di retrieval e pubblicazione delle fonti nella Timeline pubblica.' },
+    changes: [
+      { en: 'A dedicated Source continuity view records standardized suspension, verification and recovery transitions.', it: 'Una vista dedicata Source continuity registra transizioni standardizzate di sospensione, verifica e recupero.' },
+      { en: 'The bounded public API collapses repeated equivalent checks and reports explicit coverage limits.', it: 'L API pubblica circoscritta comprime controlli equivalenti ripetuti e dichiara limiti di copertura espliciti.' },
+      { en: 'Search, state filters, current-transition markers and responsive evidence cards support public inspection.', it: 'Ricerca, filtri di stato, indicatori della transizione corrente e card responsive supportano l ispezione pubblica.' },
+    ],
+    boundaries: [
+      { en: 'Continuity events describe PolicyWatcher retrieval and publication state, not provider policy quality, legality, service performance or compliance.', it: 'Gli eventi di continuita descrivono lo stato di retrieval e pubblicazione di PolicyWatcher, non qualita della policy provider, legalita, prestazioni del servizio o conformita.' },
+      { en: 'Policy text, hashes, diffs, AI analysis, raw failure reasons, final URLs and administrative logs remain excluded.', it: 'Testo policy, hash, diff, analisi AI, motivazioni grezze, URL finali e log amministrativi restano esclusi.' },
+    ],
+    evidenceLinks: [
+      { href: '/timeline', label: { en: 'Policy Evidence Timeline', it: 'Timeline delle evidenze policy' } },
+      { href: '/roadmap', label: { en: 'Release impact', it: 'Impatto release' } },
+    ],
+  },
+  {
+    slug: 'verified-browser-distribution-3-9-0-beta-9',
+    version: '3.9.0-beta.9',
+    displayVersion: '3.9.0 Beta 9',
     datePublished: PRESS_KIT_RELEASE_DATE,
     dateModified: PRESS_KIT_RELEASE_DATE,
-    status: 'current',
+    status: 'archived',
     category: 'distribution',
     title: { en: 'Verified browser-store distribution', it: 'Distribuzione browser verificata' },
     summary: { en: 'Links the public Chrome Web Store listing and reports Chrome, Edge and Safari as independent distribution states.', it: 'Collega la scheda pubblica Chrome Web Store e riporta Chrome, Edge e Safari come stati di distribuzione indipendenti.' },
@@ -602,6 +628,7 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+  { id: 'source-continuity-ledger-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Source Continuity Ledger published', it: 'Pubblicato il Source Continuity Ledger' }, detail: { en: 'The public Timeline now separates provider policy changes from sanitized retrieval and publication-state transitions.', it: 'La Timeline pubblica ora separa i cambiamenti delle policy provider dalle transizioni sanificate di retrieval e stato di pubblicazione.' }, affectedHref: '/press-kit/releases/source-continuity-ledger-3-9-0-beta-10' },
   { id: 'verified-browser-distribution-release', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'release', title: { en: 'Chrome distribution verified', it: 'Distribuzione Chrome verificata' }, detail: { en: 'The public Browser Extension page now links the verified Chrome Web Store listing and keeps Edge and Safari availability states separate.', it: 'La pagina pubblica Browser Extension ora collega la scheda verificata del Chrome Web Store e mantiene separati gli stati di disponibilita di Edge e Safari.' }, affectedHref: '/press-kit/releases/verified-browser-distribution-3-9-0-beta-9' },
   { id: 'assistant-entry-point-consolidation-release', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'release', title: { en: 'Assistant entry point consolidated', it: 'Accesso all assistente consolidato' }, detail: { en: 'The legacy floating dashboard trigger was removed while unified navigation, Workspace Controls and command search retain access to the same assistant.', it: 'Il precedente trigger flottante della dashboard e stato rimosso, mentre navigazione unificata, Workspace Controls e ricerca comandi mantengono l accesso allo stesso assistente.' }, affectedHref: '/press-kit/releases/assistant-entry-point-consolidation-3-9-0-beta-8' },
   { id: 'newsroom-measurement-release', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'release', title: { en: 'Newsroom measurement and release assurance published', it: 'Pubblicati misurazione newsroom e assurance della release' }, detail: { en: 'The newsroom records allowlisted aggregate events without persistent visitor identifiers and states the interpretation boundary alongside the current release.', it: 'La newsroom registra eventi aggregati ammessi senza identificatori persistenti dei visitatori e indica il limite interpretativo insieme alla release corrente.' }, affectedHref: '/press-kit/releases/release-assurance-newsroom-insights-3-9-0-beta-7' },
@@ -615,7 +642,7 @@ export function buildPressKitPayload() {
     schema: 'https://policywatcher.online/schemas/press-kit/v1',
     schemaVersion: '2.0.0',
     generatedAt: PRESS_KIT_RELEASE_DATE,
-    releaseDate: PRESS_KIT_RELEASE_DATE,
+    releaseDate: POLICYWATCHER_RELEASE_DATE,
     canonicalUrl: PRESS_KIT_CANONICAL_URL,
     product: {
       name: 'PolicyWatcher',

@@ -174,6 +174,8 @@ describe('public press kit', () => {
     const assistantItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'assistant-entry-point-consolidation');
     expect(assistantItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.8', endRelease: '3.9.0-beta.8' });
     const distributionItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'verified-browser-store-distribution');
-    expect(distributionItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(distributionItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.9', endRelease: '3.9.0-beta.9' });
+    const continuityItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'historical-suspensions');
+    expect(continuityItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
   });
 });

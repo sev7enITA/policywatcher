@@ -34,7 +34,7 @@ export interface ReleaseImpactItem {
   externalDependency?: string;
 }
 
-export const RELEASE_IMPACT_UPDATED_AT = '27 July 2026' as const;
+export const RELEASE_IMPACT_UPDATED_AT = '28 July 2026' as const;
 
 export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.7.0', shortLabel: '3.7.0', label: '3.7.0', state: 'delivered' },
@@ -61,7 +61,8 @@ export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.9.0-beta.6', shortLabel: '3.9 B6', label: '3.9.0 Beta 6', state: 'delivered' },
   { id: '3.9.0-beta.7', shortLabel: '3.9 B7', label: '3.9.0 Beta 7', state: 'delivered' },
   { id: '3.9.0-beta.8', shortLabel: '3.9 B8', label: '3.9.0 Beta 8', state: 'delivered' },
-  { id: '3.9.0-beta.9', shortLabel: '3.9 B9', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
+  { id: '3.9.0-beta.9', shortLabel: '3.9 B9', label: '3.9.0 Beta 9', state: 'delivered' },
+  { id: '3.9.0-beta.10', shortLabel: '3.9 B10', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
   { id: 'next', shortLabel: 'Next', label: 'Next beta horizon', state: 'planned' },
   { id: 'later', shortLabel: 'Later', label: 'Later horizon', state: 'planned' },
 ];
@@ -84,7 +85,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
     title: 'Verified browser-store distribution',
     summary: 'Publishes a direct Chrome Web Store action and reports Chrome, Edge and Safari availability as independent verified states.',
     domainId: 'distribution',
-    status: 'current',
+    status: 'delivered',
     horizon: 'delivered',
     startRelease: '3.9.0-beta.9',
     endRelease: '3.9.0-beta.9',
@@ -553,15 +554,15 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
     title: 'Historical suspended snapshots',
     summary: 'Makes safely qualified historical suspension states visible without reopening unverified evidence.',
     domainId: 'assurance',
-    status: 'planned',
-    horizon: 'later',
-    startRelease: 'later',
-    endRelease: 'later',
-    benefit: 'Researchers can understand continuity and retrieval interruptions.',
-    kpi: 'Historical status visibility: Planned',
-    kri: 'Misinterpretation of stale evidence: Requires context',
-    evidence: 'Planned qualified state labels, provenance and verification timestamps.',
-    limitation: 'The current public gate hides suspended or unverified evidence.',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '3.9.0-beta.10',
+    endRelease: '3.9.0-beta.10',
+    benefit: 'Researchers can distinguish recorded policy changes from retrieval interruptions and verified recoveries.',
+    kpi: 'Historical source-state visibility: Sanitized transition ledger available',
+    kri: 'Continuity-state misinterpretation: Operational states require the displayed evidence boundary',
+    evidence: 'Bounded public continuity API, standardized transition builder, source-state filters, current-transition markers and focused regression tests.',
+    limitation: 'The ledger exposes operational retrieval states only; it withholds policy text, raw failure reasons, private evidence and administrative records.',
   },
   {
     id: 'database-hardening',

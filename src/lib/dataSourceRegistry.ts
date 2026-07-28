@@ -4,6 +4,7 @@ export type PublicDataSourceId =
   | 'marketPulse'
   | 'policyDetails'
   | 'sourceSuspensions'
+  | 'sourceContinuity'
   | 'riskTrends'
   | 'kpiMatrix';
 
@@ -107,6 +108,14 @@ export const PUBLIC_DATA_SOURCES: Readonly<Record<PublicDataSourceId, PublicData
       freshness: { mode: 'short-ttl', maxAgeSeconds: 60 },
       allowedQueryParams: [],
       description: 'Sanitized metadata for sources withheld by publication gates.',
+    }),
+    sourceContinuity: sourceSpec({
+      id: 'sourceContinuity',
+      endpoint: '/api/source-continuity',
+      evidenceGate: 'public-suspension',
+      freshness: { mode: 'short-ttl', maxAgeSeconds: 60 },
+      allowedQueryParams: [],
+      description: 'Sanitized history of source retrieval and publication-state transitions.',
     }),
     riskTrends: sourceSpec({
       id: 'riskTrends',

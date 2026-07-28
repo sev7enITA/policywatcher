@@ -32,7 +32,7 @@ Normalized values make differently worded assessments comparable. They do not me
 
 ## 7. Use the evidence routes
 
-Use the policy-change timeline for operational change records, the Feature Atlas for release KPI/KRI impact, Observatory for monitored external signals, and Methodology for definitions and boundaries.
+Use **Timeline → Policy changes** for evidence-gated provider change records. Use **Timeline → Source continuity** for sanitized retrieval and publication-state transitions such as suspension, verification and recovery. Continuity events describe PolicyWatcher operations; they do not assess the provider policy, service, legality or compliance. Use the Feature Atlas for release KPI/KRI impact, Observatory for monitored external signals, and Methodology for definitions and boundaries.
 
 ## 8. Read on mobile
 

@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+## 3.9.0-beta.10 - 2026-07-28
+
+### Source Continuity Ledger
+- Added a separate Source continuity view to the public Timeline so retrieval-state events are not presented as provider policy changes.
+- Added a bounded and rate-limited `/api/source-continuity` endpoint derived from persisted policy check logs.
+- Collapsed repeated equivalent checks into meaningful state transitions and derived a recovery label only when public snapshot evidence already exists.
+- Standardized public states, causes and retrieval channels while withholding policy text, hashes, diffs, AI analysis, raw failure reasons, final URLs and administrative logs.
+- Added Timeline search, state filters, current-transition markers, evidence boundaries, loading/error/empty states and explicit truncation coverage.
+- Added responsive and reduced-motion behavior plus focused regression coverage for transition semantics and public data-source registration.
+
 ## 3.9.0-beta.9 - 2026-07-27
 
 ### Verified browser distribution

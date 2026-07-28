@@ -36,13 +36,13 @@ import {
   POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION,
   POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS,
   POLICYWATCHER_RELEASE_BADGE,
+  POLICYWATCHER_RELEASE_DATE,
   POLICYWATCHER_RELEASE_NAME,
   POLICYWATCHER_VERSION_DISPLAY,
 } from '@/lib/release';
 import {
   PRESS_KIT_ARTICLE_50_URL,
   PRESS_KIT_JSON_URL,
-  PRESS_KIT_RELEASE_DATE,
   PRESS_KIT_REPOSITORY_URL,
   pressKitAssets,
   pressKitBoilerplates,
@@ -308,7 +308,7 @@ export default function PressKitClient() {
                 <Languages size={15} />{t.switchLanguage}
               </button>
             </div>
-            <p className={styles.releaseBadge}>{POLICYWATCHER_RELEASE_BADGE} · {PRESS_KIT_RELEASE_DATE}</p>
+            <p className={styles.releaseBadge}>{POLICYWATCHER_RELEASE_BADGE} · {POLICYWATCHER_RELEASE_DATE}</p>
             <h1 id="press-kit-title">{t.title}</h1>
             <p className={styles.heroLead}>{t.lead}</p>
             <div className={styles.heroActions}>

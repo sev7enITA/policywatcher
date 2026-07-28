@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%209%20Verified%20Browser%20Distribution-146c6a" alt="3.9.0 Beta 9 Verified Browser Distribution" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2010%20Source%20Continuity%20Ledger-146c6a" alt="3.9.0 Beta 10 Source Continuity Ledger" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,15 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 10 Source Continuity Ledger Highlights
+
+- **Separate evidence records** divide the Timeline into provider policy changes and PolicyWatcher source-continuity events.
+- **Sanitized transition ledger** derives meaningful suspension and recovery episodes from recorded check logs without exposing policy text, hashes, diffs, AI analysis, raw failure reasons or administrative records.
+- **Qualified recovery semantics** label recovery only when an available check follows a withheld state and public snapshot evidence already exists.
+- **Bounded public contract** limits policies and checks per response, reports truncation and applies the existing public rate limit and short cache policy.
+- **Operational context** exposes standardized state, cause, retrieval channel, timestamp, source host and current-transition status with an explicit interpretation boundary.
+- **Responsive inspection** adds keyboard-operable Timeline tabs, search, state filters, loading, error, empty and coverage states down to 375 px.
 
 ### Release 3.9.0 Beta 9 Verified Browser Distribution Highlights
 
