@@ -136,12 +136,12 @@ export const pulseStories: PulseStory[] = [
     asOf: PULSE_AS_OF,
     updatedAt: PULSE_AS_OF,
     headline: {
-      en: 'Eleven consecutive beta records document evidence intake, delivery, QA and collaboration changes',
-      it: 'Undici record beta consecutivi documentano cambi a intake, distribuzione, QA e collaborazione delle evidenze',
+      en: 'Twelve consecutive beta records document evidence intake, delivery, QA, collaboration and workflow changes',
+      it: 'Dodici record beta consecutivi documentano cambi a intake, distribuzione, QA, collaborazione e flussi delle evidenze',
     },
     deck: {
-      en: 'The release archive keeps Beta 7 through Beta 17 as dated, bounded product records with direct evidence links.',
-      it: 'L archivio release conserva dalla Beta 7 alla Beta 17 come record prodotto datati, circoscritti e collegati alle evidenze.',
+      en: 'The release archive keeps Beta 7 through Beta 18 as dated, bounded product records with direct evidence links.',
+      it: 'L archivio release conserva dalla Beta 7 alla Beta 18 come record prodotto datati, circoscritti e collegati alle evidenze.',
     },
     whyItMatters: {
       en: 'A versioned product history lets editors verify what changed in the public platform without treating release labels as measured outcomes.',
@@ -157,12 +157,12 @@ export const pulseStories: PulseStory[] = [
     },
     visualKind: 'release-timeline',
     facts: [
-      { id: 'records', value: '11', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 17 in the public archive.', it: 'Dalla Beta 7 alla Beta 17 nell archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
-      { id: 'current', value: 'Beta 17', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Shareable Evidence Collections.', it: 'Collezioni di evidenze condivisibili.' }, claimId: 'public-code', proofHref: '/press-kit/releases/shareable-evidence-collections-3-9-0-beta-17' },
+      { id: 'records', value: '12', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 18 in the public archive.', it: 'Dalla Beta 7 alla Beta 18 nell archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
+      { id: 'current', value: 'Beta 18', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Evidence Workflow Refinements.', it: 'Affinamenti del flusso evidenze.' }, claimId: 'public-code', proofHref: '/press-kit/releases/evidence-workflow-refinements-3-9-0-beta-18' },
     ],
     sourceLinks: [
       { href: '/press-kit/releases', label: { en: 'Versioned release archive', it: 'Archivio release versionato' }, claimId: 'public-code' },
-      { href: '/press-kit/releases/shareable-evidence-collections-3-9-0-beta-17', label: { en: 'Beta 17 release record', it: 'Record release Beta 17' }, releaseSlug: 'shareable-evidence-collections-3-9-0-beta-17' },
+      { href: '/press-kit/releases/evidence-workflow-refinements-3-9-0-beta-18', label: { en: 'Beta 18 release record', it: 'Record release Beta 18' }, releaseSlug: 'evidence-workflow-refinements-3-9-0-beta-18' },
       { href: '/press-kit/releases/release-assurance-newsroom-insights-3-9-0-beta-7', label: { en: 'Beta 7 release record', it: 'Record release Beta 7' }, releaseSlug: 'release-assurance-newsroom-insights-3-9-0-beta-7' },
     ],
   },

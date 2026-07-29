@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2017%20Shareable%20Evidence%20Collections-146c6a" alt="3.9.0 Beta 17 Shareable Evidence Collections" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2018%20Evidence%20Workflow%20Refinements-146c6a" alt="3.9.0 Beta 18 Evidence Workflow Refinements" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,15 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 18 Evidence Workflow Refinements Highlights
+
+- **Consistent Collections hierarchy:** the evidence register now precedes the local ledger in visual, DOM and keyboard order across desktop and mobile layouts.
+- **Faster mobile path:** a compact three-step ribbon and reciprocal register/ledger controls reduce repeated scrolling without changing the browser-local data boundary.
+- **Progressive disclosure:** search, digest, share and export controls appear only when the current dataset or selection makes them actionable.
+- **Evidence-first entry:** the Evidence Packet register appears before the provenance explainer and exposes direct actions for files and Collections.
+- **Clearer developer sequence:** public API v1 endpoints precede the Enterprise v2 pilot, with explicit standard and collection rate limits.
+- **Service-page consistency:** Developers and Integrations use the compact footer; programmatically focused collection regions retain a visible focus indicator.
 
 ### Release 3.9.0 Beta 17 Shareable Evidence Collections Highlights
 

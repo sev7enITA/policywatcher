@@ -483,7 +483,7 @@ export default function IntegrationsPage() {
           </div>
         </section>
       </main>
-      <Footer lang="en" />
+      <Footer lang="en" variant="compact" />
     </>
   );
 }

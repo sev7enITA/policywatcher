@@ -67,6 +67,10 @@
 .emptyState { display: grid; justify-items: start; gap: 8px; padding: 45px 15px; border-bottom: 1px solid var(--rule-dark); color: var(--rust); }
 .emptyState h3 { color: var(--ink); font: 650 1.2rem var(--font-display); }
 .emptyState p { max-width: 560px; color: var(--body); font-size: 0.85rem; line-height: 1.5; }
+.emptyState nav { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 4px; }
+.emptyState nav a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--indigo); font-size: 0.78rem; font-weight: 750; text-decoration: underline; text-underline-offset: 3px; }
+
+.mobileLedgerJump, .mobileRegisterJump { display: none; }
 
 .ledger { position: sticky; top: 96px; border: 1px solid var(--rule-dark); background: var(--paper-bright); box-shadow: 0 18px 44px rgba(16, 34, 62, 0.07); }
 .ledgerHead { padding: 19px; background: #f8f6ef; }
@@ -96,7 +100,6 @@
 .digestRail code { display: block; margin-top: 6px; overflow-wrap: anywhere; color: #34406c; font: 650 0.65rem/1.5 var(--font-mono); }
 .actions { display: grid; gap: 10px; padding: 19px; }
 .actions > button, .exportGrid a { display: flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; border: 1px solid var(--indigo); background: var(--indigo); color: white; font-size: 0.76rem; font-weight: 750; cursor: pointer; }
-.actions > button:disabled, .exportGrid a[aria-disabled='true'] { border-color: var(--rule); background: #ecece8; color: #788494; cursor: not-allowed; }
 .exportGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
 .exportGrid a { border-color: var(--rule-dark); background: white; color: var(--ink); text-decoration: none; }
 .actions > p { display: flex; align-items: flex-start; gap: 7px; color: var(--muted); font-size: 0.69rem; line-height: 1.45; }
@@ -104,6 +107,11 @@
 .cancelReset { border: 0 !important; background: transparent !important; color: var(--body) !important; text-decoration: underline; }
 .actions button:focus-visible, .exportGrid a:focus-visible, .selectedList button:focus-visible { outline: 3px solid rgba(51, 76, 186, 0.28); outline-offset: 3px; }
 .feedback { margin: 0 19px 19px; padding: 10px 11px; overflow-wrap: anywhere; border-left: 3px solid var(--teal); background: #eff8f5; color: #214b48; font-size: 0.72rem; line-height: 1.45; }
+.orphanActions { display: grid; gap: 10px; padding: 0 19px 19px; }
+.orphanActions p { color: var(--muted); font-size: 0.72rem; line-height: 1.45; }
+.orphanActions button { display: flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; border: 1px solid var(--rule-dark); background: white; color: var(--body); font-size: 0.76rem; font-weight: 750; cursor: pointer; }
+.orphanActions .resetButton { border-color: #c99180; background: #fff7ed; color: var(--rust); }
+.orphanActions .cancelReset { border: 0; background: transparent; text-decoration: underline; }
 
 .boundary { display: grid; grid-template-columns: minmax(240px, 0.6fr) minmax(0, 1.4fr); gap: clamp(28px, 5vw, 70px); padding: clamp(40px, 6vw, 70px) 0; border-top: 3px solid var(--ink); border-bottom: 1px solid var(--rule-dark); }
 .boundary dl { border-top: 1px solid var(--ink); }
@@ -117,15 +125,30 @@
   .heroGrid { grid-template-columns: 1fr; align-items: start; }
   .scopeNote { max-width: 650px; }
   .workbench { grid-template-columns: 1fr; }
-  .ledger { position: static; order: -1; }
+  .ledger { position: static; }
 }
 
 @media (max-width: 700px) {
-  .page { padding: 24px 14px 92px; }
-  .hero h1 { font-size: clamp(2.8rem, 15vw, 4.6rem); }
-  .contractStrip { grid-template-columns: 1fr; }
-  .contractStrip li { border-right: 0; border-bottom: 1px solid var(--rule-dark); }
-  .contractStrip li:last-child { border-bottom: 0; }
+  .page { padding: 18px 14px 72px; }
+  .hero { padding-bottom: 23px; }
+  .heroMeta { padding-bottom: 11px; }
+  .heroGrid { gap: 18px; padding-top: 17px; }
+  .hero h1 { margin: 8px 0 11px; font-size: clamp(2.65rem, 14vw, 4.6rem); }
+  .lead { font-size: 1rem; line-height: 1.48; }
+  .scopeNote { padding: 12px 0 0 14px; }
+  .scopeNote p { margin-top: 6px; font-size: 0.8rem; line-height: 1.45; }
+  .contractStrip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .contractStrip li { grid-template-columns: auto minmax(0, 1fr); align-content: center; gap: 5px 7px; min-width: 0; min-height: 62px; padding: 8px 9px; }
+  .contractStrip li svg { display: none; }
+  .contractStrip li span, .contractStrip li strong { align-self: center; }
+  .contractStrip li strong { min-width: 0; font-size: 0.7rem; line-height: 1.25; overflow-wrap: anywhere; }
+  .workbench { gap: 34px; padding: 34px 0 48px; }
+  .register, .ledger { scroll-margin-top: 82px; }
+  .register:focus-visible, .ledger:focus-visible { outline: 3px solid rgba(51, 76, 186, 0.28); outline-offset: 4px; }
+  .mobileLedgerJump, .mobileRegisterJump { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; min-height: 44px; border: 1px solid var(--indigo); background: var(--paper-bright); color: var(--indigo); font: 750 0.78rem var(--font-sans); cursor: pointer; }
+  .mobileLedgerJump { margin-top: 12px; padding: 9px 12px; }
+  .mobileRegisterJump { padding: 9px 18px; border-width: 0 0 1px; background: #f1f3ff; }
+  .mobileLedgerJump:focus-visible, .mobileRegisterJump:focus-visible { outline: 3px solid rgba(51, 76, 186, 0.28); outline-offset: 3px; }
   .registerList > li { grid-template-columns: 36px minmax(0, 1fr); gap: 10px; }
   .selectControl { grid-column: 2; grid-row: 1; justify-self: end; }
   .registerList article { grid-column: 1 / -1; }
@@ -137,11 +160,14 @@
   .page { padding-right: 10px; padding-left: 10px; }
   .heroMeta { display: grid; }
   .hero h1 { font-size: 2.72rem; }
+  .contractStrip li { grid-template-columns: minmax(0, 1fr); gap: 3px; padding: 8px 6px; }
+  .contractStrip li span, .contractStrip li strong { align-self: auto; }
+  .contractStrip li strong { font-size: 0.66rem; }
   .recordTopline { display: grid; }
   .exportGrid { grid-template-columns: 1fr; }
   .boundary dl div { grid-template-columns: 1fr; gap: 5px; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .registerList > li, .actions a, .actions button { transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease; }
+  .registerList > li, .actions a, .actions button, .mobileLedgerJump, .mobileRegisterJump { transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease; }
 }

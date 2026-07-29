@@ -37,6 +37,7 @@ export default function DevelopersPage() {
               Evidence Console
             </Link>
             <div className={styles.topbarLinks}>
+              <Link href="/collections">Collections</Link>
               <Link href="/integrations">Integration options</Link>
               <Link href="/observatory">Observatory</Link>
               <Link href="/atlas">Site Atlas</Link>
@@ -63,6 +64,10 @@ export default function DevelopersPage() {
                   Open JSON manifest
                   <ArrowRight size={16} />
                 </a>
+                <Link href="/collections" className={styles.secondaryAction}>
+                  Build a collection
+                  <FolderKanban size={16} aria-hidden="true" />
+                </Link>
               </div>
             </div>
             <aside className={styles.contractCard} aria-label="Public API contract summary">
@@ -70,41 +75,11 @@ export default function DevelopersPage() {
               <strong>{PUBLIC_API_VERSION} · read only</strong>
               <dl>
                 <div><dt>Access</dt><dd>No API key</dd></div>
-                <div><dt>Rate</dt><dd>{manifest.rateLimit.requests} requests / minute</dd></div>
+                <div><dt>Rate</dt><dd>{manifest.rateLimit.requests}/min standard · 30/min collections</dd></div>
                 <div><dt>Cache</dt><dd>{manifest.cache.maxAgeSeconds} seconds shared</dd></div>
-                <div><dt>Scope</dt><dd>Public evidence + curated registry</dd></div>
+                <div><dt>Scope</dt><dd>Public evidence, collections + curated registry</dd></div>
               </dl>
             </aside>
-          </div>
-        </section>
-
-        <section className={styles.section} aria-labelledby="enterprise-api-heading">
-          <header className={styles.sectionHeader}>
-            <span>Enterprise pilot</span>
-            <h2 id="enterprise-api-heading">Need a tenant boundary? Use API v2.</h2>
-            <p>API v2 adds Microsoft Entra authentication, an allowlisted tenant claim, an Azure API Management policy and a Power Platform connector package. It remains read-only and does not replace v1.</p>
-          </header>
-          <div className={styles.endpointGrid}>
-            <article className={styles.endpointCard}>
-              <div className={styles.endpointHeader}>
-                <span>OPENAPI</span>
-                <LockKeyhole size={19} />
-              </div>
-              <h3>Enterprise API v2 contract</h3>
-              <code>/api/v2/openapi.json</code>
-              <p>The contract is public; data routes require an Entra token with the expected tenant, audience and delegated scope or application role.</p>
-              <a href="/api/v2/openapi.json" target="_blank" rel="noreferrer">Open v2 contract <ArrowRight size={15} /></a>
-            </article>
-            <article className={styles.endpointCard}>
-              <div className={styles.endpointHeader}>
-                <span>DECIDE</span>
-                <Globe2 size={19} />
-              </div>
-              <h3>Integration options</h3>
-              <code>/integrations</code>
-              <p>Compare API v1, Enterprise API v2, Azure, Power Platform, embeds and the explicitly planned Teams, Copilot, MCP, webhook and Marketplace paths.</p>
-              <Link href="/integrations">Choose a surface <ArrowRight size={15} /></Link>
-            </article>
           </div>
         </section>
 
@@ -166,6 +141,36 @@ export default function DevelopersPage() {
           </div>
         </section>
 
+        <section className={styles.section} aria-labelledby="enterprise-api-heading">
+          <header className={styles.sectionHeader}>
+            <span>Enterprise pilot</span>
+            <h2 id="enterprise-api-heading">Need a tenant boundary? Use API v2.</h2>
+            <p>API v2 adds Microsoft Entra authentication, an allowlisted tenant claim, an Azure API Management policy and a Power Platform connector package. It remains read-only and does not replace v1.</p>
+          </header>
+          <div className={styles.endpointGrid}>
+            <article className={styles.endpointCard}>
+              <div className={styles.endpointHeader}>
+                <span>OPENAPI</span>
+                <LockKeyhole size={19} aria-hidden="true" />
+              </div>
+              <h3>Enterprise API v2 contract</h3>
+              <code>/api/v2/openapi.json</code>
+              <p>The contract is public; data routes require an Entra token with the expected tenant, audience and delegated scope or application role.</p>
+              <a href="/api/v2/openapi.json" target="_blank" rel="noreferrer">Open v2 contract <ArrowRight size={15} aria-hidden="true" /></a>
+            </article>
+            <article className={styles.endpointCard}>
+              <div className={styles.endpointHeader}>
+                <span>DECIDE</span>
+                <Globe2 size={19} aria-hidden="true" />
+              </div>
+              <h3>Integration options</h3>
+              <code>/integrations</code>
+              <p>Compare API v1, Enterprise API v2, Azure, Power Platform, embeds and the explicitly planned Teams, Copilot, MCP, webhook and Marketplace paths.</p>
+              <Link href="/integrations">Choose a surface <ArrowRight size={15} aria-hidden="true" /></Link>
+            </article>
+          </div>
+        </section>
+
         <section className={styles.section}>
           <header className={styles.sectionHeader}>
             <span>Directory</span>
@@ -199,7 +204,7 @@ export default function DevelopersPage() {
           <Link href="/integrations" className={styles.bandLink}>Compare integrations <ArrowRight size={16} /></Link>
         </section>
       </main>
-      <Footer lang="en" />
+      <Footer lang="en" variant="compact" />
     </>
   );
 }

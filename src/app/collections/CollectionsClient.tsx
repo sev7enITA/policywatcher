@@ -3,8 +3,10 @@
 import Link from 'next/link';
 import {
   AlertTriangle,
+  ArrowDown,
   ArrowDownToLine,
   ArrowRight,
+  ArrowUp,
   Braces,
   Check,
   ClipboardCopy,
@@ -89,6 +91,8 @@ export default function CollectionsClient({
   const [confirmReset, setConfirmReset] = useState(false);
   const [storageAvailable, setStorageAvailable] = useState(true);
   const hydrated = useRef(false);
+  const registerRef = useRef<HTMLElement>(null);
+  const ledgerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -221,6 +225,14 @@ export default function CollectionsClient({
     setMessage('Local collection cleared. No public evidence records were changed.');
   }
 
+  function moveTo(target: 'register' | 'ledger') {
+    const element = target === 'register' ? registerRef.current : ledgerRef.current;
+    if (!element) return;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    element.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    window.requestAnimationFrame(() => element.focus({ preventScroll: true }));
+  }
+
   return (
     <main className={styles.page}>
       <div className={styles.shell}>
@@ -228,7 +240,7 @@ export default function CollectionsClient({
           <div className={styles.heroMeta}><span>Public evidence utility</span><span>Browser-local review state</span></div>
           <div className={styles.heroGrid}>
             <div>
-              <p className={styles.kicker}>PolicyWatcher Beta 17</p>
+              <p className={styles.kicker}>PolicyWatcher Beta 18</p>
               <h1>Shareable Evidence Collections</h1>
               <p className={styles.lead}>Select up to 12 exact public changes, record a local review state, and export one deterministic evidence bundle.</p>
             </div>
@@ -257,21 +269,37 @@ export default function CollectionsClient({
         )}
 
         <div className={styles.workbench}>
-          <section className={styles.register} aria-labelledby="register-title">
+          <section ref={registerRef} className={styles.register} aria-labelledby="register-title" tabIndex={-1}>
             <div className={styles.sectionHead}>
               <div><p className={styles.kicker}>Evidence register</p><h2 id="register-title">Available public changes</h2></div>
               <span>{filteredRecords.length} shown</span>
             </div>
-            <label className={styles.searchBox}>
-              <Search size={18} aria-hidden="true" />
-              <span className={styles.srOnly}>Search public evidence records</span>
-              <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Company, policy, jurisdiction or summary" />
-            </label>
+            {selectedIds.length > 0 && (
+              <button type="button" className={styles.mobileLedgerJump} onClick={() => moveTo('ledger')} aria-controls="collection-ledger">
+                View collection · {selectedIds.length}/{EVIDENCE_COLLECTION_LIMIT}
+                <ArrowDown size={17} aria-hidden="true" />
+              </button>
+            )}
+            {!catalogUnavailable && records.length > 0 && (
+              <label className={styles.searchBox}>
+                <Search size={18} aria-hidden="true" />
+                <span className={styles.srOnly}>Search public evidence records</span>
+                <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Company, policy, jurisdiction or summary" />
+              </label>
+            )}
 
             {catalogUnavailable ? (
               <div className={styles.emptyState} role="status"><AlertTriangle size={22} /><h3>Evidence catalog temporarily unavailable</h3><p>The public register could not be loaded. Existing evidence has not been changed.</p></div>
             ) : records.length === 0 ? (
-              <div className={styles.emptyState} role="status"><FolderSearch2 size={22} /><h3>No public evidence records available</h3><p>Records appear only after the public-evidence gate is satisfied.</p></div>
+              <div className={styles.emptyState}>
+                <FolderSearch2 size={22} aria-hidden="true" />
+                <h3>No public evidence records available</h3>
+                <p role="status">Records appear only after the public-evidence gate is satisfied.</p>
+                <nav aria-label="Evidence register guidance">
+                  <Link href="/evidence">Open Evidence Packets <ArrowRight size={14} aria-hidden="true" /></Link>
+                  <Link href="/methodology/confidence">Read publication methodology <ArrowRight size={14} aria-hidden="true" /></Link>
+                </nav>
+              </div>
             ) : filteredRecords.length === 0 ? (
               <div className={styles.emptyState} role="status"><Search size={22} /><h3>No records match this search</h3><p>Change the company, policy, jurisdiction or summary terms.</p></div>
             ) : (
@@ -308,22 +336,28 @@ export default function CollectionsClient({
             )}
           </section>
 
-          <aside className={styles.ledger} aria-labelledby="ledger-title">
+          <aside ref={ledgerRef} id="collection-ledger" className={styles.ledger} aria-labelledby="ledger-title" tabIndex={-1}>
+            <button type="button" className={styles.mobileRegisterJump} onClick={() => moveTo('register')}>
+              <ArrowUp size={17} aria-hidden="true" />
+              Back to evidence register
+            </button>
             <div className={styles.ledgerHead}>
               <div><p className={styles.kicker}>Collection ledger</p><h2 id="ledger-title">{selectedIds.length} / {EVIDENCE_COLLECTION_LIMIT} records</h2></div>
               <span>{reviewedCount} reviewed</span>
             </div>
 
-            <label className={styles.titleField}>
-              <span>Local collection title</span>
-              <input value={title} maxLength={80} onChange={(event) => setTitle(event.target.value)} placeholder="Untitled local collection" />
-              <small>Stored only in this browser · {title.length}/80</small>
-            </label>
+            {(selectedRecords.length > 0 || title) && (
+              <label className={styles.titleField}>
+                <span>Local collection title</span>
+                <input value={title} maxLength={80} onChange={(event) => setTitle(event.target.value)} placeholder="Untitled local collection" />
+                <small>Stored only in this browser · {title.length}/80</small>
+              </label>
+            )}
 
             {atLimit && <p className={styles.limitNote}><AlertTriangle size={15} /> Maximum selection reached. Remove one record to add another.</p>}
 
             {selectedRecords.length === 0 ? (
-              <div className={styles.ledgerEmpty}><FolderSearch2 size={22} /><strong>No selected records</strong><p>Select a public change in the register. Export actions remain disabled until then.</p></div>
+              <div className={styles.ledgerEmpty}><FolderSearch2 size={22} aria-hidden="true" /><strong>No selected records</strong><p>Select a public change in the evidence register to create share and export controls.</p></div>
             ) : (
               <ol className={styles.selectedList}>
                 {selectedRecords.map((record, index) => (
@@ -352,25 +386,39 @@ export default function CollectionsClient({
               </ol>
             )}
 
-            <div className={styles.digestRail}>
-              <Braces size={18} aria-hidden="true" />
-              <div><span>Deterministic bundle digest</span><code>{selectedIds.length ? 'Generated by the export endpoint from exact packet content' : 'Waiting for a selection'}</code></div>
-            </div>
+            {selectedRecords.length > 0 && (
+              <>
+                <div className={styles.digestRail}>
+                  <Braces size={18} aria-hidden="true" />
+                  <div><span>Deterministic bundle digest</span><code>Generated by the export endpoint from exact packet content</code></div>
+                </div>
 
-            <div className={styles.actions}>
-              <button type="button" onClick={copyShareLink} disabled={selectedIds.length === 0}><ClipboardCopy size={16} /> Copy share link</button>
-              <div className={styles.exportGrid}>
-                <a href={`${exportBase}&format=json`} aria-disabled={selectedIds.length === 0} onClick={(event) => selectedIds.length === 0 && event.preventDefault()}><FileJson2 size={15} /> JSON</a>
-                <a href={`${exportBase}&format=markdown`} aria-disabled={selectedIds.length === 0} onClick={(event) => selectedIds.length === 0 && event.preventDefault()}><FileText size={15} /> Markdown</a>
-                <a href={`${exportBase}&format=csv`} aria-disabled={selectedIds.length === 0} onClick={(event) => selectedIds.length === 0 && event.preventDefault()}><ArrowDownToLine size={15} /> CSV</a>
+                <div className={styles.actions}>
+                  <button type="button" onClick={copyShareLink}><ClipboardCopy size={16} aria-hidden="true" /> Copy share link</button>
+                  <div className={styles.exportGrid}>
+                    <a href={`${exportBase}&format=json`}><FileJson2 size={15} aria-hidden="true" /> JSON</a>
+                    <a href={`${exportBase}&format=markdown`}><FileText size={15} aria-hidden="true" /> Markdown</a>
+                    <a href={`${exportBase}&format=csv`}><ArrowDownToLine size={15} aria-hidden="true" /> CSV</a>
+                  </div>
+                  <p><Link2 size={14} aria-hidden="true" /> Shared links contain sorted public change IDs only. Local title and statuses are excluded.</p>
+                  <button type="button" className={styles.resetButton} onClick={resetCollection}>
+                    {confirmReset ? <Check size={16} aria-hidden="true" /> : <Trash2 size={16} aria-hidden="true" />}
+                    {confirmReset ? 'Confirm local reset' : 'Reset local collection'}
+                  </button>
+                  {confirmReset && <button type="button" className={styles.cancelReset} onClick={() => setConfirmReset(false)}>Cancel reset</button>}
+                </div>
+              </>
+            )}
+            {selectedRecords.length === 0 && title && (
+              <div className={styles.orphanActions}>
+                <p>The local title remains in this browser. Reset it when it is no longer needed.</p>
+                <button type="button" className={styles.resetButton} onClick={resetCollection}>
+                  {confirmReset ? <Check size={16} aria-hidden="true" /> : <Trash2 size={16} aria-hidden="true" />}
+                  {confirmReset ? 'Confirm local reset' : 'Reset local collection'}
+                </button>
+                {confirmReset && <button type="button" className={styles.cancelReset} onClick={() => setConfirmReset(false)}>Cancel reset</button>}
               </div>
-              <p><Link2 size={14} /> Shared links contain sorted public change IDs only. Local title and statuses are excluded.</p>
-              <button type="button" className={styles.resetButton} onClick={resetCollection} disabled={selectedIds.length === 0 && !title}>
-                {confirmReset ? <Check size={16} /> : <Trash2 size={16} />}
-                {confirmReset ? 'Confirm local reset' : 'Reset local collection'}
-              </button>
-              {confirmReset && <button type="button" className={styles.cancelReset} onClick={() => setConfirmReset(false)}>Cancel reset</button>}
-            </div>
+            )}
             {message && <p className={styles.feedback} role="status" aria-live="polite">{message}</p>}
           </aside>
         </div>

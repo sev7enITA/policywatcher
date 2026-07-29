@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+## 3.9.0-beta.18 - 2026-07-29
+
+### Evidence Workflow Refinements
+- Reordered the Collections workspace so the public evidence register precedes the local collection ledger in both DOM and visual flow.
+- Replaced the stacked mobile workflow summary with a compact three-step ribbon and added reciprocal register-to-ledger navigation for selected records.
+- Hid search, digest, sharing and export controls when they have no actionable data, while adding direct guidance to Evidence Packets and publication methodology.
+- Moved the published Evidence Packet register ahead of the explanatory provenance stages and added direct entry actions for available files and Collections.
+- Reordered Developer documentation so the anonymous public API v1 contract precedes the Enterprise API v2 pilot, with separate standard and collection rate limits.
+- Applied the compact service footer to Developers and Integrations and increased relevant interactive targets to 44 pixels.
+- Added visible focus treatment for programmatically focused collection regions and regression coverage for ordering, progressive disclosure and service-page hierarchy.
+
+### Scope boundary
+- Collections remain browser-local review aids and the underlying public API contract is unchanged from Beta 17.
+- The populated Collections state could not be reproduced against the empty local development dataset; its conditional controls are covered by regression tests.
+
 ## 3.9.0-beta.17 - 2026-07-29
 
 ### Shareable Evidence Collections

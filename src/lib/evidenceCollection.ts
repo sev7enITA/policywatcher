@@ -173,7 +173,7 @@ export function evidenceCollectionToMarkdown(collection: EvidenceCollection): st
 
   for (const [index, record] of collection.records.entries()) {
     lines.push(
-      `### ${index + 1}. ${escapeMarkdownText(record.company.name)} — ${escapeMarkdownText(record.policy.name)}`,
+      `### ${index + 1}. ${escapeMarkdownText(record.company.name)} - ${escapeMarkdownText(record.policy.name)}`,
       '',
       `- Change ID: \`${record.changeId}\``,
       `- Screening date: ${escapeMarkdownText(record.screeningDate)}`,

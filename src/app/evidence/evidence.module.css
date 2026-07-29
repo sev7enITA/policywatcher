@@ -24,11 +24,17 @@
 .kicker { color: var(--teal); font: 750 .7rem var(--font-mono); letter-spacing: .075em; text-transform: uppercase; }
 .hero h1, .packetHeader h1 { margin: 11px 0 15px; color: var(--ink); font: 600 clamp(3.25rem, 7.5vw, 7rem)/.88 var(--font-display); letter-spacing: -.065em; }
 .lead { max-width: 750px; color: var(--body); font-size: clamp(1.08rem, 1.8vw, 1.34rem); line-height: 1.55; }
+.heroActions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 22px; }
+.heroActions a { display: inline-flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; padding: 9px 12px; border: 1px solid var(--indigo); color: var(--indigo); font-size: .8rem; font-weight: 750; }
+.heroActions a:first-child { background: var(--indigo); color: white; }
+.heroActions a:hover { background: rgba(51, 76, 186, .07); }
+.heroActions a:first-child:hover { background: #293fa1; }
 .gateNote { padding: 18px 0 2px 20px; border-left: 3px solid var(--rust); }
 .gateNote strong { color: var(--rust); font: 750 .72rem var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
 .gateNote p { margin-top: 9px; color: var(--body); font-size: .92rem; line-height: 1.55; }
 
 .spineSection, .register { padding: clamp(42px, 6vw, 78px) 0; border-bottom: 1px solid var(--rule-dark); }
+.register { scroll-margin-top: 88px; }
 .sectionIntro { display: grid; grid-template-columns: .46fr 1fr; align-items: end; gap: 30px; margin-bottom: 28px; }
 .sectionIntro h2, .registerHead h2, .packetSectionHead h2 { margin-top: 8px; color: var(--ink); font: 600 clamp(1.9rem, 3.2vw, 3rem)/1 var(--font-display); letter-spacing: -.045em; }
 .spine { display: grid; grid-template-columns: repeat(4, 1fr); list-style: none; border-top: 1px solid var(--ink); border-left: 1px solid var(--rule-dark); }
@@ -173,6 +179,7 @@
 @media (max-width: 700px) {
   .page { padding: 28px 15px 62px; }
   .heroGrid, .sectionIntro, .registerHead, .packetFoot { grid-template-columns: 1fr; }
+  .heroActions { display: grid; }
   .gateNote { margin-top: 5px; }
   .recordCount { justify-self: start; }
   .frameworkList { grid-template-columns: 1fr; margin-left: 0; }

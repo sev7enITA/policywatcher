@@ -5,6 +5,7 @@ import {
   BookOpenCheck,
   FileCheck2,
   Fingerprint,
+  FolderKanban,
   Scale,
 } from 'lucide-react';
 import Footer from '@/components/Footer';
@@ -92,6 +93,10 @@ export default async function EvidenceIndexPage() {
                   Inspect the evidence retained for a specific public policy change, from retrieval
                   status to the exact downloadable report.
                 </p>
+                <nav className={styles.heroActions} aria-label="Evidence entry points">
+                  <a href="#evidence-register">View available evidence files <ArrowRight size={15} aria-hidden="true" /></a>
+                  <Link href="/collections">Build an evidence collection <FolderKanban size={15} aria-hidden="true" /></Link>
+                </nav>
               </div>
               <aside className={styles.gateNote} aria-label="Public evidence gate">
                 <strong>Public-evidence gate</strong>
@@ -103,33 +108,7 @@ export default async function EvidenceIndexPage() {
             </div>
           </header>
 
-          <section className={styles.spineSection} aria-labelledby="spine-title">
-            <div className={styles.sectionIntro}>
-              <p className={styles.kicker}>One provenance chain</p>
-              <h2 id="spine-title">Four review stages for the same change ID</h2>
-            </div>
-            <ol className={styles.spine}>
-              {stages.map((stage) => {
-                const Icon = stage.icon;
-                return (
-                  <li key={stage.number}>
-                    <span className={styles.stageNumber}>{stage.number}</span>
-                    <Icon size={20} aria-hidden="true" />
-                    <div>
-                      <h3>{stage.title}</h3>
-                      <p>{stage.text}</p>
-                    </div>
-                  </li>
-                );
-              })}
-            </ol>
-            <p className={styles.spineBoundary}>
-              The chain records available evidence and derived screening outputs. It does not certify
-              a source, determine compliance or replace specialist review.
-            </p>
-          </section>
-
-          <section className={styles.register} aria-labelledby="register-title">
+          <section id="evidence-register" className={styles.register} aria-labelledby="register-title">
             <div className={styles.registerHead}>
               <div>
                 <p className={styles.kicker}>Published packet register</p>
@@ -190,6 +169,32 @@ export default async function EvidenceIndexPage() {
                 ))}
               </ol>
             )}
+          </section>
+
+          <section className={styles.spineSection} aria-labelledby="spine-title">
+            <div className={styles.sectionIntro}>
+              <p className={styles.kicker}>One provenance chain</p>
+              <h2 id="spine-title">Four review stages for the same change ID</h2>
+            </div>
+            <ol className={styles.spine}>
+              {stages.map((stage) => {
+                const Icon = stage.icon;
+                return (
+                  <li key={stage.number}>
+                    <span className={styles.stageNumber}>{stage.number}</span>
+                    <Icon size={20} aria-hidden="true" />
+                    <div>
+                      <h3>{stage.title}</h3>
+                      <p>{stage.text}</p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+            <p className={styles.spineBoundary}>
+              The chain records available evidence and derived screening outputs. It does not certify
+              a source, determine compliance or replace specialist review.
+            </p>
           </section>
         </div>
       </main>

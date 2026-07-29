@@ -444,12 +444,39 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'shareable-evidence-collections-3-9-0-beta-17',
+    slug: 'evidence-workflow-refinements-3-9-0-beta-18',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'product',
+    title: { en: 'Evidence Workflow Refinements', it: 'Affinamenti del flusso evidenze' },
+    summary: { en: 'Refines evidence-first hierarchy, mobile collection navigation, progressive disclosure and developer documentation order without changing public-data or browser-local storage boundaries.', it: 'Affina la gerarchia evidence-first, la navigazione mobile delle collezioni, la visualizzazione progressiva dei controlli e l ordine della documentazione sviluppatori senza modificare i limiti dei dati pubblici o dello storage locale al browser.' },
+    changes: [
+      { en: 'Collections now keeps the public evidence register before the local ledger in visual, DOM and keyboard order.', it: 'Collections ora mantiene il registro delle evidenze pubbliche prima del ledger locale nell ordine visivo, DOM e da tastiera.' },
+      { en: 'Mobile Collections uses a compact three-step ribbon and reciprocal register-to-ledger navigation.', it: 'Collections su mobile usa una ribbon compatta in tre passaggi e navigazione reciproca tra registro e ledger.' },
+      { en: 'Search, digest, share and export controls are shown only when the current dataset or selection makes them actionable.', it: 'Ricerca, digest, condivisione ed export sono mostrati solo quando dataset o selezione correnti li rendono utilizzabili.' },
+      { en: 'Evidence Packets presents available files before provenance guidance, while Developers presents public API v1 before the Enterprise v2 pilot.', it: 'Evidence Packets presenta i file disponibili prima della guida sulla provenienza, mentre Developers presenta l API pubblica v1 prima del pilot Enterprise v2.' },
+    ],
+    boundaries: [
+      { en: 'The release changes workflow presentation and navigation; it does not alter publication gates, evidence schemas or collection persistence.', it: 'La release modifica presentazione e navigazione del flusso; non altera gate di pubblicazione, schemi delle evidenze o persistenza delle collezioni.' },
+      { en: 'The empty local dataset did not support a populated visual fixture; selected-state behavior is covered by regression tests.', it: 'Il dataset locale vuoto non ha consentito una fixture visiva popolata; il comportamento dello stato selezionato e coperto da test di regressione.' },
+    ],
+    evidenceLinks: [
+      { href: '/collections', label: { en: 'Evidence Collections', it: 'Collezioni di evidenze' } },
+      { href: '/evidence', label: { en: 'Evidence Packets', it: 'Evidence Packets' } },
+      { href: '/developers', label: { en: 'Developer contract', it: 'Contratto sviluppatori' } },
+      { href: '/integrations', label: { en: 'Integration Hub', it: 'Integration Hub' } },
+    ],
+  },
+  {
+    slug: 'shareable-evidence-collections-3-9-0-beta-17',
+    version: '3.9.0-beta.17',
+    displayVersion: '3.9.0 Beta 17',
+    datePublished: POLICYWATCHER_RELEASE_DATE,
+    dateModified: POLICYWATCHER_RELEASE_DATE,
+    status: 'archived',
     category: 'product',
     title: { en: 'Shareable Evidence Collections', it: 'Collezioni di evidenze condivisibili' },
     summary: { en: 'Groups up to 12 published changes into a local review collection and exports a deterministic, citable evidence bundle without creating accounts or storing collaboration notes.', it: 'Raggruppa fino a 12 cambiamenti pubblicati in una collezione di revisione locale ed esporta un bundle di evidenze deterministico e citabile senza creare account o memorizzare note collaborative.' },
@@ -815,6 +842,7 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+  { id: 'evidence-workflow-refinements-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Evidence Workflow Refinements published', it: 'Pubblicati gli affinamenti del flusso evidenze' }, detail: { en: 'Collections, Evidence Packets, Developers and Integrations now use an evidence-first hierarchy, actionable-state controls, compact mobile navigation and consistent service-page footers.', it: 'Collections, Evidence Packets, Developers e Integrations ora usano una gerarchia evidence-first, controlli legati allo stato utilizzabile, navigazione mobile compatta e footer coerenti per le pagine di servizio.' }, affectedHref: '/press-kit/releases/evidence-workflow-refinements-3-9-0-beta-18' },
   { id: 'shareable-evidence-collections-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Shareable Evidence Collections published', it: 'Pubblicate le collezioni di evidenze condivisibili' }, detail: { en: 'Up to 12 exact public changes can now be selected locally, shared through an ID-only link and exported as deterministic JSON, Markdown or CSV with provenance and review boundaries.', it: 'Fino a 12 cambiamenti pubblici esatti possono ora essere selezionati localmente, condivisi tramite un link contenente solo ID ed esportati come JSON, Markdown o CSV deterministici con provenienza e limiti di revisione.' }, affectedHref: '/press-kit/releases/shareable-evidence-collections-3-9-0-beta-17' },
   { id: 'evidence-governance-packets-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Evidence Governance Packets published', it: 'Pubblicati i pacchetti di governance delle evidenze' }, detail: { en: 'Public changes can now expose sanitized source-confidence state, exact snapshot fingerprints, verified source passages, advisory framework relevance and change-bound PDF/JSON reports.', it: 'I cambiamenti pubblici possono ora esporre stato source-confidence sanificato, impronte snapshot esatte, passaggi fonte verificati, rilevanza framework consultiva e report PDF/JSON legati al change.' }, affectedHref: '/press-kit/releases/evidence-governance-packets-3-9-0-beta-16' },
   { id: 'citable-coverage-registry-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Citable Coverage Registry published', it: 'Pubblicato il registro citabile della copertura' }, detail: { en: 'External references now use stable IDs, derived totals, explicit relationship boundaries, reusable citations and JSON/CSV distributions.', it: 'I riferimenti esterni ora usano ID stabili, totali derivati, limiti espliciti della relazione, citazioni riutilizzabili e distribuzioni JSON/CSV.' }, affectedHref: '/press-kit/releases/citable-coverage-registry-3-9-0-beta-15' },
