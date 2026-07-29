@@ -19,6 +19,7 @@
 - Masked subscriber addresses in mailer and notification logs and removed raw delivery-error objects from those recipient-specific log entries.
 - Clarified that public pages use no tracking or analytics cookies while protected admin and auditor login uses an essential signed HTTP-only session cookie.
 - Removed the unsupported claim that application-level encryption protects the live SQLite file and made hosting-level storage and log controls explicit external verification points.
+- Replaced the database initializer process substitution with a Hostinger-compatible migration-list buffer so `postinstall` no longer depends on `/dev/fd`.
 
 ## 3.9.0-beta.13 - 2026-07-29
 

@@ -85,10 +85,14 @@ fi
 if [[ -d "${APP_DIR}/prisma/migrations" ]] && [[ -x "${LOCAL_PRISMA}" ]]; then
   run_prisma generate
   if [[ -s "${DB_PATH}" && -f "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs" ]]; then
+    # Hostinger's managed build shell does not expose /dev/fd, so Bash process
+    # substitution fails during npm postinstall. Capture the small,
+    # bounded migration-name list first and consume it through a here-string.
+    materialized_migrations="$(node "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs")"
     while IFS= read -r materialized_migration; do
       [[ -n "${materialized_migration}" ]] || continue
       run_prisma migrate resolve --applied "${materialized_migration}" >/dev/null 2>&1 || true
-    done < <(node "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs")
+    done <<< "${materialized_migrations}"
   fi
   run_prisma migrate deploy
 elif [[ -f "${APP_DIR}/scripts/hostinger-init-db.py" ]] && command -v "${PYTHON_BIN}" >/dev/null 2>&1; then

@@ -74,6 +74,13 @@ describe('Hostinger runtime schema parity', () => {
     expect(pythonFallback).toContain('--detect-materialized-migrations');
   });
 
+  it('does not require /dev/fd during Hostinger database initialization', () => {
+    const initShell = readFileSync('scripts/hostinger-init-db.sh', 'utf8');
+    expect(initShell).not.toContain('< <(');
+    expect(initShell).toContain('materialized_migrations="$(node');
+    expect(initShell).toContain('done <<< "${materialized_migrations}"');
+  });
+
   it('fails closed for a partial migration and recognizes a complete fallback schema', () => {
     const directory = mkdtempSync(join(tmpdir(), 'policywatcher-schema-detector-'));
     try {

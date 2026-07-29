@@ -42,3 +42,4 @@ Application logs now mask subscriber email references. The public privacy notice
 - Production dependency audit (`npm audit --omit=dev`): no advisory in the audited production tree.
 - Full dependency audit: 9 high-severity advisories in the development-only ESLint/minimatch/brace-expansion toolchain. The suggested automated remediation requires a major-version tooling change and is deferred from this release; these packages are not shipped in the production dependency set.
 - Hostinger package inspection and checksum: completed after the release commit; the exact artifact digest is recorded in the release handoff.
+- Hostinger deployment correction: the production initializer no longer uses Bash process substitution and therefore does not require `/dev/fd` during `postinstall`.
