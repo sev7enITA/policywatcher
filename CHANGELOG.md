@@ -20,6 +20,7 @@
 - Clarified that public pages use no tracking or analytics cookies while protected admin and auditor login uses an essential signed HTTP-only session cookie.
 - Removed the unsupported claim that application-level encryption protects the live SQLite file and made hosting-level storage and log controls explicit external verification points.
 - Replaced the database initializer process substitution with a Hostinger-compatible migration-list buffer so `postinstall` no longer depends on `/dev/fd`.
+- Added a bounded Hostinger fallback that repairs the packaged Prisma schema-engine execute bit when possible and uses the bundled Node or Python SQLite initializer when native engine execution is denied by the host.
 
 ## 3.9.0-beta.13 - 2026-07-29
 

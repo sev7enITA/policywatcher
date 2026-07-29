@@ -81,6 +81,16 @@ describe('Hostinger runtime schema parity', () => {
     expect(initShell).toContain('done <<< "${materialized_migrations}"');
   });
 
+  it('falls back when Hostinger cannot execute the native Prisma schema engine', () => {
+    const initShell = readFileSync('scripts/hostinger-init-db.sh', 'utf8');
+    expect(initShell).toContain('repair_prisma_schema_engine_mode');
+    expect(initShell).toContain('chmod u+x -- "${engine}"');
+    expect(initShell).toContain('if ! run_prisma migrate deploy; then');
+    expect(initShell).toContain('run_local_sqlite_initializer');
+    expect(initShell).toContain('POLICYWATCHER_FORCE_SQLITE_FALLBACK');
+    expect(initShell).not.toMatch(/curl|wget|\bnpx\s+prisma\b/);
+  });
+
   it('fails closed for a partial migration and recognizes a complete fallback schema', () => {
     const directory = mkdtempSync(join(tmpdir(), 'policywatcher-schema-detector-'));
     try {

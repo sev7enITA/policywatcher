@@ -35,7 +35,7 @@ Application logs now mask subscriber email references. The public privacy notice
 ## Verification record
 
 - Focused outreach and security tests: 23 passed across 5 files.
-- Full automated suite: 418 passed across 72 files.
+- Full automated suite: 420 passed across 72 files after Hostinger portability regression coverage.
 - TypeScript check: passed.
 - Scoped ESLint check: passed.
 - Production build: passed; 111 application pages generated.
@@ -43,3 +43,4 @@ Application logs now mask subscriber email references. The public privacy notice
 - Full dependency audit: 9 high-severity advisories in the development-only ESLint/minimatch/brace-expansion toolchain. The suggested automated remediation requires a major-version tooling change and is deferred from this release; these packages are not shipped in the production dependency set.
 - Hostinger package inspection and checksum: completed after the release commit; the exact artifact digest is recorded in the release handoff.
 - Hostinger deployment correction: the production initializer no longer uses Bash process substitution and therefore does not require `/dev/fd` during `postinstall`.
+- Hostinger native-engine correction: an `EACCES` from Prisma migration execution now falls back to the bundled idempotent SQLite initializer after a targeted execute-bit repair attempt; no mutable CLI is downloaded.

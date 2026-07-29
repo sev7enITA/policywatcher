@@ -41,6 +41,27 @@ run_prisma() {
   "${LOCAL_PRISMA}" "$@"
 }
 
+run_local_sqlite_initializer() {
+  if command -v node >/dev/null 2>&1 && [[ -f "${APP_DIR}/scripts/hostinger-init-db.mjs" ]]; then
+    node "${APP_DIR}/scripts/hostinger-init-db.mjs"
+  elif command -v "${PYTHON_BIN}" >/dev/null 2>&1 && [[ -f "${APP_DIR}/scripts/hostinger-init-db.py" ]]; then
+    "${PYTHON_BIN}" "${APP_DIR}/scripts/hostinger-init-db.py"
+  else
+    echo "No supported local SQLite initializer is available."
+    return 1
+  fi
+}
+
+repair_prisma_schema_engine_mode() {
+  local engine
+  for engine in "${APP_DIR}"/node_modules/@prisma/engines/schema-engine-*; do
+    [[ -f "${engine}" ]] || continue
+    if [[ ! -x "${engine}" ]]; then
+      chmod u+x -- "${engine}" 2>/dev/null || true
+    fi
+  done
+}
+
 if [[ -z "${DATABASE_URL:-}" ]]; then
   echo "DATABASE_URL is not set."
   echo "Example:"
@@ -82,26 +103,29 @@ else
   chmod 600 "${DB_PATH}"
 fi
 
-if [[ -d "${APP_DIR}/prisma/migrations" ]] && [[ -x "${LOCAL_PRISMA}" ]]; then
-  run_prisma generate
-  if [[ -s "${DB_PATH}" && -f "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs" ]]; then
-    # Hostinger's managed build shell does not expose /dev/fd, so Bash process
-    # substitution fails during npm postinstall. Capture the small,
-    # bounded migration-name list first and consume it through a here-string.
-    materialized_migrations="$(node "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs")"
-    while IFS= read -r materialized_migration; do
-      [[ -n "${materialized_migration}" ]] || continue
-      run_prisma migrate resolve --applied "${materialized_migration}" >/dev/null 2>&1 || true
-    done <<< "${materialized_migrations}"
+if [[ "${POLICYWATCHER_FORCE_SQLITE_FALLBACK:-0}" != "1" ]] && [[ -d "${APP_DIR}/prisma/migrations" ]] && [[ -x "${LOCAL_PRISMA}" ]]; then
+  repair_prisma_schema_engine_mode
+  if run_prisma generate; then
+    if [[ -s "${DB_PATH}" && -f "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs" ]]; then
+      # Hostinger's managed build shell does not expose /dev/fd, so Bash process
+      # substitution fails during npm postinstall. Capture the small,
+      # bounded migration-name list first and consume it through a here-string.
+      materialized_migrations="$(node "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs")"
+      while IFS= read -r materialized_migration; do
+        [[ -n "${materialized_migration}" ]] || continue
+        run_prisma migrate resolve --applied "${materialized_migration}" >/dev/null 2>&1 || true
+      done <<< "${materialized_migrations}"
+    fi
+    if ! run_prisma migrate deploy; then
+      echo "Prisma migration engine unavailable; using the bundled Node or Python SQLite initializer."
+      run_local_sqlite_initializer
+    fi
+  else
+    echo "Prisma generate unavailable during initialization; using the bundled Node or Python SQLite initializer."
+    run_local_sqlite_initializer
   fi
-  run_prisma migrate deploy
-elif [[ -f "${APP_DIR}/scripts/hostinger-init-db.py" ]] && command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
-  "${PYTHON_BIN}" "${APP_DIR}/scripts/hostinger-init-db.py"
-elif [[ -f "${APP_DIR}/scripts/hostinger-init-db.mjs" ]]; then
-  node "${APP_DIR}/scripts/hostinger-init-db.mjs"
 else
-  echo "No lockfile-installed Prisma CLI or supported local fallback initializer was found."
-  exit 1
+  run_local_sqlite_initializer
 fi
 
 echo "Database schema is ready."
