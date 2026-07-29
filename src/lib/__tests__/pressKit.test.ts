@@ -152,7 +152,7 @@ describe('public press kit', () => {
     expect(header).toContain("| 'press-kit'");
     expect(header).toContain("{ id: 'press-kit', href: '/press-kit'");
     expect(sitemap).toContain('`${BASE_URL}/press-kit`');
-    expect(press).toContain('Open the press kit');
+    expect(press).toContain('href="/press-kit"');
     expect(about).toContain("href: '/press-kit'");
     expect(sections).toContain("id: 'press-kit'");
   });
@@ -185,6 +185,8 @@ describe('public press kit', () => {
     const pulseItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'editorial-pulse-distribution');
     expect(pulseItem).toMatchObject({ status: 'current', startRelease: '3.9.0-beta.13', endRelease: '3.9.0-beta.13' });
     const outreachItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'protected-press-outreach-desk');
-    expect(outreachItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(outreachItem).toMatchObject({ status: 'current', startRelease: '3.9.0-beta.14', endRelease: '3.9.0-beta.14' });
+    const coverageItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'citable-coverage-registry');
+    expect(coverageItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
   });
 });

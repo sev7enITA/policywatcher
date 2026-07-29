@@ -444,12 +444,39 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'press-outreach-operations-3-9-0-beta-14',
+    slug: 'citable-coverage-registry-3-9-0-beta-15',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'distribution',
+    title: { en: 'Citable Coverage Registry', it: 'Registro citabile della copertura' },
+    summary: { en: 'Turns the existing external-reference wall into a typed public registry with stable IDs, derived counts, reusable citations and JSON/CSV distributions.', it: 'Trasforma la rassegna dei riferimenti esterni in un registro pubblico tipizzato con ID stabili, conteggi derivati, citazioni riutilizzabili e distribuzioni JSON/CSV.' },
+    changes: [
+      { en: 'Each recorded reference exposes its source, classification, language, month-level date precision, review date and relationship boundary.', it: 'Ogni riferimento registrato espone fonte, classificazione, lingua, data con precisione mensile, data di revisione e limite della relazione.' },
+      { en: 'Coverage totals are derived from one typed registry rather than maintained separately in the page.', it: 'I totali della copertura derivano da un unico registro tipizzato invece di essere mantenuti separatamente nella pagina.' },
+      { en: 'A bounded public endpoint distributes the registry as JSON or CSV with a published JSON Schema.', it: 'Un endpoint pubblico circoscritto distribuisce il registro in JSON o CSV con uno schema JSON pubblicato.' },
+      { en: 'Dataset and ItemList structured data describe the registry and link back to the original external sources.', it: 'I dati strutturati Dataset e ItemList descrivono il registro e rimandano alle fonti esterne originali.' },
+    ],
+    boundaries: [
+      { en: 'Registry inclusion records a public external reference; it does not establish endorsement, certification, independent audit, readership, reach or factual validation.', it: 'L inclusione nel registro documenta un riferimento pubblico esterno; non stabilisce endorsement, certificazione, audit indipendente, lettura, portata o validazione fattuale.' },
+      { en: 'Dates use month precision where the current registry does not hold a supported exact publication day.', it: 'Le date usano precisione mensile quando il registro corrente non dispone di un giorno di pubblicazione esatto supportato.' },
+    ],
+    evidenceLinks: [
+      { href: '/press', label: { en: 'Coverage Registry', it: 'Registro copertura' } },
+      { href: '/api/press/coverage', label: { en: 'Coverage Registry JSON', it: 'JSON registro copertura' } },
+      { href: '/schemas/press-coverage/v1', label: { en: 'Coverage Registry schema', it: 'Schema registro copertura' } },
+      { href: '/press-kit', label: { en: 'Evidence Newsroom', it: 'Evidence Newsroom' } },
+    ],
+  },
+  {
+    slug: 'press-outreach-operations-3-9-0-beta-14',
+    version: '3.9.0-beta.14',
+    displayVersion: '3.9.0 Beta 14',
+    datePublished: '2026-07-29',
+    dateModified: '2026-07-29',
+    status: 'archived',
     category: 'distribution',
     title: { en: 'Press Outreach Operations', it: 'Operazioni di contatto stampa' },
     summary: { en: 'Adds a protected, aggregate-only workflow for operating five reviewed editorial campaign cohorts and inspecting bounded outcome signals.', it: 'Aggiunge un flusso protetto e solo aggregato per gestire cinque coorti editoriali revisionate e ispezionare segnali di esito circoscritti.' },
@@ -734,6 +761,7 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+  { id: 'citable-coverage-registry-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Citable Coverage Registry published', it: 'Pubblicato il registro citabile della copertura' }, detail: { en: 'External references now use stable IDs, derived totals, explicit relationship boundaries, reusable citations and JSON/CSV distributions.', it: 'I riferimenti esterni ora usano ID stabili, totali derivati, limiti espliciti della relazione, citazioni riutilizzabili e distribuzioni JSON/CSV.' }, affectedHref: '/press-kit/releases/citable-coverage-registry-3-9-0-beta-15' },
   { id: 'press-outreach-operations-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Press Outreach Operations published', it: 'Pubblicate le operazioni di contatto stampa' }, detail: { en: 'The protected Outreach Desk operates five reviewed campaign cohorts and records bounded aggregate outcome events without recipient histories or conversion rates.', it: 'Il Press Outreach Desk protetto gestisce cinque coorti revisionate e registra eventi di esito aggregati e circoscritti senza cronologie dei destinatari o tassi di conversione.' }, affectedHref: '/press-kit/releases/press-outreach-operations-3-9-0-beta-14' },
   { id: 'editorial-pulse-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Editorial Pulse and Distribution published', it: 'Pubblicati Editorial Pulse e distribuzione' }, detail: { en: 'Verified story leads now include deterministic Story Packs, social-card formats, embeds, citations and aggregate reuse-event measurement.', it: 'I lead verificati ora includono Story Pack deterministici, formati social, embed, citazioni e misurazione aggregata degli eventi di riuso.' }, affectedHref: '/press-kit/releases/editorial-pulse-distribution-3-9-0-beta-13' },
   { id: 'local-mime-evidence-intake-release', occurredAt: '2026-07-28', type: 'release', title: { en: 'Local MIME Evidence Intake published', it: 'Pubblicato Intake locale MIME delle evidenze' }, detail: { en: 'The What Changed workflow now decodes bounded .eml files locally while excluding recipients and attachments from extracted clues.', it: 'Il flusso Cosa e cambiato ora decodifica localmente file .eml limitati, escludendo destinatari e allegati dagli indizi estratti.' }, affectedHref: '/press-kit/releases/local-mime-evidence-intake-3-9-0-beta-12' },
@@ -791,6 +819,7 @@ export function buildPressKitPayload() {
       jsonFeed: `${PRESS_KIT_CANONICAL_URL}/feed.json`,
       corrections: `${PRESS_KIT_CANONICAL_URL}/corrections`,
       dataRoom: `${PRESS_KIT_CANONICAL_URL}/data`,
+      coverageRegistry: 'https://policywatcher.online/api/press/coverage',
     },
     assetRights: {
       href: `${PRESS_KIT_CANONICAL_URL}/LICENSE-ASSETS.md`,

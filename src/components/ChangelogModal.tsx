@@ -89,7 +89,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Current Beta</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      The current release adds the protected Press Outreach Desk for five reviewed campaign cohorts, browser-local launch checks and bounded all-time or 30-day operating signals. Public and administrative event writes use separate strict allowlists and retain aggregate action type, target, locale and timestamp only. Subscriber references are masked in operational application logs, and the privacy notice distinguishes public cookie-free measurement from the essential admin session cookie. These surfaces do not establish publication, readership, delivery, adoption or legal compliance.
+                      The current release replaces manual coverage-wall data with a typed external-reference registry. Each record exposes a stable ID, original source, classification, language, month-level date precision, title status, citation and relationship boundary. Derived totals, JSON/CSV distributions, a public schema and structured metadata use the same registry. Inclusion records a public reference; it does not establish endorsement, certification, independent audit, readership, reach or factual validation.
                     </p>
                   </div>
 

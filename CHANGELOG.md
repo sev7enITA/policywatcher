@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+## 3.9.0-beta.15 - 2026-07-29
+
+### Citable Coverage Registry
+- Replaced the hardcoded coverage-wall collection with a typed four-record external-reference registry using stable IDs, source links, record status and month-level date precision.
+- Derived record, editorial and professional-post totals from the registry instead of maintaining display counts separately.
+- Removed tracking parameters from recorded LinkedIn source URLs.
+- Added reusable citations while distinguishing publisher-supplied titles from descriptive registry labels.
+- Added `/api/press/coverage` with strict JSON and CSV formats, cache controls, CORS, rate limiting and invalid-format rejection.
+- Published the `press-coverage` JSON Schema and added Dataset and ItemList structured data for the public registry.
+- Reworked `/press` into an evidence-led registry layout with filters, original-source actions, visible boundaries and direct JSON/CSV distribution links.
+- Updated Press Kit releases, release impact, Feature Atlas, Pulse release history, README and audit documentation for Beta 15.
+
+### Scope boundary
+- Registry inclusion records a public external reference. It does not establish endorsement, certification, independent audit, readership, reach or factual validation by PolicyWatcher.
+
 ## 3.9.0-beta.14 - 2026-07-29
 
 ### Press Outreach Desk

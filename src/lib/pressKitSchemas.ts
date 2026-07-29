@@ -74,4 +74,47 @@ export const pressKitSchemas = {
     },
     additionalProperties: false,
   },
+  'press-coverage': {
+    $schema: 'https://json-schema.org/draft/2020-12/schema',
+    $id: 'https://policywatcher.online/schemas/press-coverage/v1',
+    title: 'PolicyWatcher public press coverage registry',
+    type: 'object',
+    required: ['schema', 'schemaVersion', 'asOf', 'canonicalUrl', 'boundary', 'summary', 'records'],
+    properties: {
+      schema: { const: 'https://policywatcher.online/schemas/press-coverage/v1' },
+      schemaVersion: { type: 'string', pattern: '^\\d+\\.\\d+\\.\\d+$' },
+      asOf: { type: 'string', format: 'date' },
+      canonicalUrl: { type: 'string', format: 'uri' },
+      boundary: { type: 'string' },
+      summary: {
+        type: 'object',
+        required: ['total', 'sourceLinked', 'editorial', 'professionalPosts', 'byLanguage'],
+        properties: {
+          total: { type: 'integer', minimum: 0 },
+          sourceLinked: { type: 'integer', minimum: 0 },
+          editorial: { type: 'integer', minimum: 0 },
+          professionalPosts: { type: 'integer', minimum: 0 },
+          byLanguage: { type: 'object', required: ['en', 'it'], properties: { en: { type: 'integer', minimum: 0 }, it: { type: 'integer', minimum: 0 } }, additionalProperties: false },
+        },
+        additionalProperties: false,
+      },
+      records: {
+        type: 'array',
+        items: {
+          type: 'object',
+          required: ['id', 'sourceName', 'platform', 'kind', 'language', 'publishedDate', 'datePrecision', 'recordedAt', 'reviewedAt', 'title', 'titleStatus', 'summary', 'sourceUrl', 'relationship', 'recordStatus', 'dateLabel', 'citation'],
+          properties: {
+            id: { type: 'string' }, sourceName: { type: 'string' }, platform: { type: 'string' },
+            kind: { enum: ['editorial-article', 'newsletter-article', 'professional-post'] },
+            language: { enum: ['en', 'it'] }, publishedDate: { type: 'string', pattern: '^\\d{4}-\\d{2}$' },
+            datePrecision: { const: 'month' }, recordedAt: { type: 'string', format: 'date' }, reviewedAt: { type: 'string', format: 'date' },
+            title: { type: 'string' }, titleStatus: { enum: ['publisher-supplied', 'registry-description'] }, summary: { type: 'string' },
+            sourceUrl: { type: 'string', format: 'uri' }, relationship: { enum: ['external editorial reference', 'external professional reference'] },
+            recordStatus: { const: 'source-linked' }, dateLabel: { type: 'string' }, citation: { type: 'string' },
+          },
+        },
+      },
+    },
+    additionalProperties: false,
+  },
 } as const;

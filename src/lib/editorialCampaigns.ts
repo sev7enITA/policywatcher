@@ -44,7 +44,7 @@ export interface EditorialCampaign {
   };
 }
 
-const RELEASE_ROUTE = '/press-kit/releases/press-outreach-operations-3-9-0-beta-14';
+const RELEASE_ROUTE = '/press-kit/releases/citable-coverage-registry-3-9-0-beta-15';
 
 export const editorialCampaigns: readonly EditorialCampaign[] = [
   {
@@ -176,4 +176,4 @@ export const OUTREACH_READINESS_ITEMS = [
   { id: 'method-boundary', label: 'Methodology and stated boundaries visible', href: '/methodology/confidence' },
 ] as const;
 
-export const EDITORIAL_CAMPAIGN_REGISTRY_VERSION = `beta14-outreach-1.0.0-${POLICYWATCHER_RELEASE_DATE}` as const;
+export const EDITORIAL_CAMPAIGN_REGISTRY_VERSION = `beta15-outreach-1.0.0-${POLICYWATCHER_RELEASE_DATE}` as const;
