@@ -44,7 +44,7 @@ export interface EditorialCampaign {
   };
 }
 
-const RELEASE_ROUTE = '/press-kit/releases/citable-coverage-registry-3-9-0-beta-15';
+const RELEASE_ROUTE = '/press-kit/releases/evidence-governance-packets-3-9-0-beta-16';
 
 export const editorialCampaigns: readonly EditorialCampaign[] = [
   {
@@ -93,7 +93,7 @@ export const editorialCampaigns: readonly EditorialCampaign[] = [
     id: 'beta13-product-hunt', version: '1.0.0', release: POLICYWATCHER_VERSION, locale: 'en',
     audience: 'Product Hunt users evaluating public-interest, policy and data products',
     purpose: 'Present a directly usable public product with correctly sized owned assets.',
-    landingRoute: '/pulse#launch-kit',
+    landingRoute: '/pulse',
     availableCopySource: 'src/lib/editorialPulse.ts#pulseLaunchKit',
     disclosure: 'No request for votes and no implication of Product Hunt endorsement. Coverage and AI boundaries remain explicit.',
     readiness: 'ready-for-operator-review',
@@ -176,4 +176,4 @@ export const OUTREACH_READINESS_ITEMS = [
   { id: 'method-boundary', label: 'Methodology and stated boundaries visible', href: '/methodology/confidence' },
 ] as const;
 
-export const EDITORIAL_CAMPAIGN_REGISTRY_VERSION = `beta15-outreach-1.0.0-${POLICYWATCHER_RELEASE_DATE}` as const;
+export const EDITORIAL_CAMPAIGN_REGISTRY_VERSION = `beta16-outreach-1.0.0-${POLICYWATCHER_RELEASE_DATE}` as const;

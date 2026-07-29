@@ -187,6 +187,10 @@ describe('public press kit', () => {
     const outreachItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'protected-press-outreach-desk');
     expect(outreachItem).toMatchObject({ status: 'current', startRelease: '3.9.0-beta.14', endRelease: '3.9.0-beta.14' });
     const coverageItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'citable-coverage-registry');
-    expect(coverageItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(coverageItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.15', endRelease: '3.9.0-beta.15' });
+    const packetItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'evidence-governance-packets');
+    expect(packetItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    const packetAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'evidence-governance-packets');
+    expect(packetAtlasItem?.route).toEqual({ href: '/evidence', label: 'Evidence Packets', access: 'public' });
   });
 });

@@ -125,7 +125,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.12', shortLabel: '3.9 B12', label: '3.9.0 Beta 12' },
   { id: '3.9.0-beta.13', shortLabel: '3.9 B13', label: '3.9.0 Beta 13' },
   { id: '3.9.0-beta.14', shortLabel: '3.9 B14', label: '3.9.0 Beta 14' },
-  { id: '3.9.0-beta.15', shortLabel: '3.9 B15', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '3.9.0-beta.15', shortLabel: '3.9 B15', label: '3.9.0 Beta 15' },
+  { id: '3.9.0-beta.16', shortLabel: '3.9 B16', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -190,6 +191,7 @@ const routeByFeature: Record<string, FeatureAtlasRoute> = {
   'beta-evidence-cycle': { href: '/roadmap', label: 'Community roadmap', access: 'public' },
   'protected-press-outreach-desk': { href: '/admin/outreach', label: 'Press Outreach', access: 'protected' },
   'citable-coverage-registry': { href: '/press', label: 'Coverage Registry', access: 'public' },
+  'evidence-governance-packets': { href: '/evidence', label: 'Evidence Packets', access: 'public' },
 };
 
 const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
@@ -230,6 +232,7 @@ const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
   'beta-evidence-cycle': [{ featureId: 'dataset-qa', relationship: 'depends-on' }],
   'protected-press-outreach-desk': [{ featureId: 'editorial-pulse', relationship: 'depends-on' }, { featureId: 'security-privacy-boundaries', relationship: 'governed-by' }],
   'citable-coverage-registry': [{ featureId: 'editorial-briefing-room', relationship: 'distributed-through' }, { featureId: 'public-claim-language-governance', relationship: 'governed-by' }],
+  'evidence-governance-packets': [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }, { featureId: 'dataset-qa', relationship: 'governed-by' }, { featureId: 'explainability-methodology', relationship: 'governed-by' }, { featureId: 'evidence-distribution', relationship: 'distributed-through' }],
 };
 
 function getReleaseLabel(releaseId: string) {

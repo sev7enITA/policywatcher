@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2015%20Citable%20Coverage%20Registry-146c6a" alt="3.9.0 Beta 15 Citable Coverage Registry" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2016%20Evidence%20Governance%20Packets-146c6a" alt="3.9.0 Beta 16 Evidence Governance Packets" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,16 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 16 Evidence Governance Packets Highlights
+
+- **Change-bound evidence packets:** `/evidence` and `/evidence/[changeId]` connect one public change to its source-confidence state, public snapshot fingerprints, score trace, governance review mappings and exact report downloads.
+- **Correct historical reporting:** PDF and JSON packets are resolved by `changeId`; opening an older change no longer produces a report for a later policy analysis.
+- **Source-anchored explainability:** new risk reasons can retain an exact source passage, snapshot side and related KPI. The passage is exposed only when it exactly matches the declared public snapshot.
+- **Advisory governance mapping:** assessed KPI topics are mapped to review questions for the EU AI Act, ISO/IEC 42001, NIST AI RMF and OECD AI Principles without producing compliance verdicts.
+- **Sanitized Dataset QA evidence:** public packets reuse source-continuity and publication-gate state while excluding raw failure reasons, private review notes and snapshot text.
+- **Change-bound outputs:** each published packet provides deterministic JSON and a compact PDF with review questions, methodology boundaries and a content digest.
+- **Public Pulse correction:** Product Hunt and Show HN launch operations no longer appear in public editorial content; the related workflow remains protected under Admin Outreach.
 
 ### Release 3.9.0 Beta 15 Citable Coverage Registry Highlights
 
@@ -64,7 +74,7 @@ The platform is designed as a **civic tech tool** that produces structured summa
 - **Reusable distribution assets:** four social-card formats, specific Open Graph images and citation-bearing iframe visuals are available from each story page.
 - **Machine-readable Data Room:** Dataset and DataDownload structured data describe the current public snapshot and its distributions.
 - **Aggregate measurement:** allowlisted editorial events are counted without persistent visitor identifiers, referrers, query strings, IP addresses or raw user content.
-- **Launch material:** Product Hunt and Show HN copy and correctly sized owned assets are available without vote requests or implied endorsement.
+- **Historical launch material:** Product Hunt and Show HN copy remains in the protected Admin Outreach workflow and is no longer displayed by the public Pulse page.
 
 ### Release 3.9.0 Beta 12 Local MIME Evidence Intake Highlights
 
@@ -277,7 +287,7 @@ The platform is designed as a **civic tech tool** that produces structured summa
 - **Community Roadmap** (`/roadmap`) redesigned as an interactive signal board where users can choose their objective, preferred evidence depth, and roadmap priorities.
 - **Press Wall** (`/press`) collecting articles, LinkedIn discussions, and public references about PolicyWatcher while keeping a clear non-certification boundary.
 - **Press Kit** (`/press-kit`) providing facts, claims, owned assets, citation guidance and machine-readable newsroom metadata while keeping external coverage on the separate Press Wall.
-- **Editorial Pulse** (`/pulse`) providing human-approved, evidence-linked story leads, deterministic Story Packs, reusable citations, embeddable evidence visuals and versioned Product Hunt / Show HN launch assets.
+- **Editorial Pulse** (`/pulse`) providing human-approved, evidence-linked story leads, deterministic Story Packs, reusable citations and embeddable evidence visuals.
 - **Compact brand mark** adopted across public/admin headers to avoid duplicated wordmarks and improve visual balance.
 - **Public resource navigation** expanded through footer and command palette instead of adding more toolbar complexity.
 - **Showcase refresh** aligned with the current platform surface: public views, Dataset QA, Trust evidence, admin controls, community roadmap, and press coverage.

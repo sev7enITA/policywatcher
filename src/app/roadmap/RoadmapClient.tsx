@@ -6,14 +6,17 @@ import { useMemo, useState, type CSSProperties } from 'react';
 import {
   ArrowLeft,
   ArrowUpRight,
+  BookOpenCheck,
   Cpu,
   Database,
   Eye,
+  FileCheck2,
+  Fingerprint,
   GitFork,
   ListChecks,
   Lock,
-  Newspaper,
   Radio,
+  Scale,
   Search,
   Settings2,
   ShieldCheck,
@@ -103,12 +106,43 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 const nowItems = [
   {
     phase: `Delivered · ${POLICYWATCHER_VERSION}`,
-    title: 'Editorial Pulse and Distribution',
+    title: 'Source confidence and continuity ledger',
     body:
-      'Reviewed public facts can now be distributed through dated Pulse stories, deterministic Story Packs, social cards and citation-bearing embeds.',
-    benefit: 'Journalists and analysts can reuse one bounded evidence record without reconstructing its facts, sources and interpretation limits.',
-    validation: 'Public leads are selected from a fixed registry, unknown routes fail closed, generated files are deterministic and aggregate event counts do not represent unique people or conversions.',
-    icon: Newspaper,
+      'Public evidence files show publication state, sanitized retrieval status, last-check time and versioned public snapshot fingerprints for one change.',
+    benefit: 'Reviewers can inspect the recorded evidence chain without access to protected Dataset QA operations.',
+    validation: 'The public view excludes admin notes, raw retrieval failures, credentials and withheld records; retrieval state is not a source-authenticity rating.',
+    icon: Fingerprint,
+    href: '/evidence',
+  },
+  {
+    phase: `Delivered · ${POLICYWATCHER_VERSION}`,
+    title: 'Advisory governance mapping',
+    body:
+      'Assessed KPI evidence is mapped to review questions for the EU AI Act, ISO/IEC 42001, NIST AI RMF and OECD AI Principles.',
+    benefit: 'GRC and legal reviewers receive a structured starting point for specialist framework review.',
+    validation: 'Mappings state mapped or not assessed, name their source and version, and never issue compliance, conformity or legal verdicts.',
+    icon: Scale,
+    href: '/evidence',
+  },
+  {
+    phase: `Delivered · ${POLICYWATCHER_VERSION}`,
+    title: 'Source-anchored score explainability',
+    body:
+      'Stored score reasons can show an exact source passage, snapshot side and related KPI only when the passage matches the recorded snapshot.',
+    benefit: 'A reviewer can connect a screening reason to available source evidence instead of reading an unsupported explanation in isolation.',
+    validation: 'Nonmatching candidate quotes are rejected and hidden; historical records without an anchor state that the source passage was not recorded.',
+    icon: BookOpenCheck,
+    href: '/evidence',
+  },
+  {
+    phase: `Delivered · ${POLICYWATCHER_VERSION}`,
+    title: 'Change-bound evidence reports',
+    body:
+      'Each publishable change can produce a two-page PDF and JSON packet with identity, evidence fingerprints, score trace, advisory mappings, review questions and digest.',
+    benefit: 'Reviewers can download an exact-change dossier without receiving a report for a later change in the same policy.',
+    validation: 'The packet is a bounded evidence record, not a certification, audit result, legal opinion or compliance assessment.',
+    icon: FileCheck2,
+    href: '/evidence',
   },
   {
     phase: 'Delivered · 3.9.0-beta.2',
@@ -238,19 +272,19 @@ const candidateFeatures = [
   },
   {
     track: 'Governance',
-    title: 'Advisory framework mapping',
+    title: 'Reviewed framework mapping catalogue',
     body:
-      'Map policy changes to EU AI Act, ISO/IEC 42001, NIST AI RMF, OECD AI Principles, and PALO lifecycle evidence without issuing compliance verdicts.',
-    status: 'Research ready',
-    risk: 'Wording must remain evidence-oriented, not legal determination.',
+      'Add versioned reviewer commentary, change history and additional framework topics to the delivered advisory map.',
+    status: 'Later validation',
+    risk: 'Reviewer input must remain attributable and must not turn topic relevance into a compliance verdict.',
   },
   {
     track: 'Dataset QA',
-    title: 'Source confidence ledger',
+    title: 'Aggregate source continuity trends',
     body:
-      'A public ledger for monitored source health: successful fetches, suspended sources, URL remediation, review decisions, and current publication state.',
-    status: 'Trust builder',
-    risk: 'Should avoid exposing operational secrets or private admin notes.',
+      'Publish bounded portfolio-level continuity trends across time without exposing raw failures, admin decisions or private remediation details.',
+    status: 'Later aggregate',
+    risk: 'Small cohorts and detailed failure patterns could reveal protected operational information.',
   },
   {
     track: 'Research',
@@ -262,11 +296,11 @@ const candidateFeatures = [
   },
   {
     track: 'Reports',
-    title: 'Board-ready evidence packets',
+    title: 'Multi-change evidence briefing',
     body:
-      'Export a compact packet with source URL, snapshot hash, change summary, QA state, methodology limits, and recommended human-review questions.',
-    status: 'Near term',
-    risk: 'Must not imply certification or legal advice.',
+      'Compose selected exact-change evidence packets into a dated briefing with comparison scope and per-record digests.',
+    status: 'Later composition',
+    risk: 'Aggregation must preserve each packet boundary and must not imply a complete market or compliance assessment.',
   },
   {
     track: 'Signals',
@@ -278,11 +312,11 @@ const candidateFeatures = [
   },
   {
     track: 'Explainability',
-    title: 'Why this score changed',
+    title: 'Cross-version explanation trace',
     body:
-      'Show which text passages, KPI fields, region impact rows, and review decisions influenced a change in score or category.',
-    status: 'Core trust',
-    risk: 'Needs explicit AI boundary and source quote handling.',
+      'Compare source-anchored screening reasons across multiple public changes while retaining the original snapshot side and KPI linkage.',
+    status: 'Later lineage',
+    risk: 'Cross-version summaries must not infer causality where only stored screening outputs exist.',
   },
   {
     track: 'Integrations',
@@ -394,21 +428,21 @@ const releaseLanes = [
     label: POLICYWATCHER_VERSION,
     title: POLICYWATCHER_RELEASE_NAME,
     body:
-      'Validated native dashboard grammar, canonical KPI semantics, snapshot-version provenance, typed cross-filter actions, evidence-first data registry, UI/export parity, deterministic responsive layout and accessible chart fallbacks without adding a second runtime stack.',
+      'Sanitized source confidence, source-anchored explanations, advisory governance mappings and exact-change PDF/JSON evidence packets with explicit review boundaries.',
     state: 'current',
   },
   {
     label: '4.0',
     title: 'Feature Drop',
     body:
-      'Signed webhooks, tenant lifecycle controls, richer reports, multi-version diff, and production integration hardening after the API v2 pilot.',
+      'Signed webhooks, tenant lifecycle controls, custom watchlists, multi-version diff and production integration hardening after the API v2 pilot.',
     state: 'candidate',
   },
   {
     label: '4.5',
     title: 'Confidence Release',
     body:
-      'Governance mapping validation, source-confidence ledger, benchmark pack, and production database hardening.',
+      'Community benchmark pack, cross-version evidence lineage, external methodology review and production database hardening.',
     state: 'candidate',
   },
 ];
@@ -501,6 +535,10 @@ export default function RoadmapClient() {
   const [goalId, setGoalId] = useState<GoalId>('citizen');
   const [detailLevel, setDetailLevel] = useState<DetailLevel>('forensic');
   const selectedGoal = useMemo(() => goals.find((goal) => goal.id === goalId) ?? goals[0], [goalId]);
+  const candidateTrackCount = useMemo(
+    () => new Set(candidateFeatures.map((feature) => feature.track)).size,
+    [],
+  );
 
   return (
     <>
@@ -564,7 +602,7 @@ export default function RoadmapClient() {
               <span>detail levels</span>
             </div>
             <div>
-              <strong>10</strong>
+              <strong>{candidateTrackCount}</strong>
               <span>candidate tracks</span>
             </div>
           </div>
@@ -686,6 +724,12 @@ export default function RoadmapClient() {
                     <dd>{item.validation}</dd>
                   </div>
                 </dl>
+                {'href' in item && item.href ? (
+                  <Link href={item.href} className={styles.deliveredLink}>
+                    Open delivered surface
+                    <ArrowUpRight size={15} />
+                  </Link>
+                ) : null}
               </article>
             );
           })}

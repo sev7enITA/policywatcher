@@ -2,10 +2,10 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Check, Clipboard, Download, ExternalLink, Languages } from 'lucide-react';
+import { ArrowRight, Languages } from 'lucide-react';
 import PublicHeader from '@/components/PublicHeader';
 import Footer from '@/components/Footer';
-import { PULSE_AS_OF, pulseBeatLabels, pulseLaunchKit, pulseStories, type PulseBeat, type PulseLocale } from '@/lib/editorialPulse';
+import { PULSE_AS_OF, pulseBeatLabels, pulseStories, type PulseBeat, type PulseLocale } from '@/lib/editorialPulse';
 import { recordPressMetric } from '@/lib/pressMetrics';
 import { editorialCampaignById, parseCampaignLandingSearch } from '@/lib/editorialCampaigns';
 import styles from './pulse.module.css';
@@ -13,7 +13,6 @@ import styles from './pulse.module.css';
 export default function PulseIndexClient() {
   const [lang, setLang] = useState<PulseLocale>('en');
   const [beat, setBeat] = useState<PulseBeat | 'all'>('all');
-  const [copied, setCopied] = useState<string | null>(null);
   const landingRecorded = useRef(false);
   const filtered = beat === 'all' ? pulseStories : pulseStories.filter((story) => story.beat === beat);
 
@@ -23,9 +22,6 @@ export default function PulseIndexClient() {
     const campaign = parseCampaignLandingSearch(window.location.search);
     if (campaign) recordPressMetric('campaign_landing', campaign, editorialCampaignById[campaign].locale);
   }, []);
-  async function copy(id: string, value: string) {
-    await navigator.clipboard.writeText(value); setCopied(id); window.setTimeout(() => setCopied(null), 1500);
-  }
   return <div className={styles.page} lang={lang}>
     <PublicHeader current="pulse" lang={lang} />
     <main className={styles.main}>
@@ -45,11 +41,6 @@ export default function PulseIndexClient() {
           <Link className={styles.openStory} href={`/pulse/${story.slug}?lang=${lang}`}>{lang === 'en' ? 'Open story' : 'Apri storia'}<ArrowRight size={16} /></Link>
         </article>)}
       </section>
-      <section className={styles.launchKit} id="launch-kit"><header><p className={styles.kicker}>Distribution desk</p><h2>Product Hunt + Show HN launch kit</h2><p>{lang === 'en' ? 'Concrete copy and correctly sized owned assets. The package does not request votes or imply endorsement.' : 'Testi concreti e asset proprietari nei formati corretti. Il pacchetto non chiede voti e non implica endorsement.'}</p></header><div className={styles.launchGrid}>
-        <span className={styles.liveStatus} role="status" aria-live="polite" aria-atomic="true">{copied === 'ph' ? 'Product Hunt copy copied.' : copied === 'hn' ? 'Show HN submission copied.' : ''}</span>
-        <article><span>Product Hunt</span><h3>{pulseLaunchKit.productHunt.tagline}</h3><p>{pulseLaunchKit.productHunt.description}</p><div className={styles.launchActions}><button onClick={() => copy('ph', `${pulseLaunchKit.productHunt.tagline}\n\n${pulseLaunchKit.productHunt.description}\n\n${pulseLaunchKit.productHunt.firstComment}`)}>{copied === 'ph' ? <Check size={14} /> : <Clipboard size={14} />}{copied === 'ph' ? 'Copied' : 'Copy launch copy'}</button><a href="/api/og/launch/product-hunt-thumbnail" download><Download size={14} />240×240</a><a href="/api/og/launch/product-hunt-gallery" download><Download size={14} />1270×760</a><a href="https://help.producthunt.com/en/articles/479557-how-to-post-a-product" target="_blank" rel="noreferrer" onClick={() => recordPressMetric('launch_outbound', 'product-hunt', lang)}>Posting guide<ExternalLink size={14} /></a></div></article>
-        <article><span>Show HN</span><h3>{pulseLaunchKit.showHn.title}</h3><p>{pulseLaunchKit.showHn.submission}</p><div className={styles.launchActions}><button onClick={() => copy('hn', `${pulseLaunchKit.showHn.title}\n\n${pulseLaunchKit.showHn.submission}\n\nTechnical: ${pulseLaunchKit.showHn.technical}\n\nLimitations: ${pulseLaunchKit.showHn.limitations}`)}>{copied === 'hn' ? <Check size={14} /> : <Clipboard size={14} />}{copied === 'hn' ? 'Copied' : 'Copy submission'}</button><a href="https://news.ycombinator.com/showhn.html" target="_blank" rel="noreferrer" onClick={() => recordPressMetric('launch_outbound', 'show-hn', lang)}>Guidelines<ExternalLink size={14} /></a></div></article>
-      </div><a className={styles.jsonDownload} href="/api/pulse/launch-kit" download><Download size={15} />Download versioned launch-kit JSON</a></section>
     </main><Footer lang={lang} variant="compact" />
   </div>;
 }

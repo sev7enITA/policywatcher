@@ -19,6 +19,7 @@
 
 import { GoogleGenAI } from '@google/genai';
 import { normalizeKpiFields, type KpiField } from '@/lib/kpiDefaults';
+import { anchorRiskReasonEvidence } from '@/lib/riskReasonEvidence';
 
 // Lazy-initialized Gemini Client
 // We do NOT create the client at module-load time because process.env
@@ -118,6 +119,9 @@ export interface RiskReason {
   textEn: string; // max ~90 chars, one sentence
   textIt: string;
   deltaScore: number; // contribution to the score, e.g. +2 or -1
+  evidenceQuote?: string;
+  evidenceSide?: 'old' | 'new';
+  relatedKpi?: KpiField;
 }
 
 /**
@@ -231,6 +235,9 @@ CRITICAL WRITING RULES (the output must be scannable, NOT a wall of text):
 - tldrEn/tldrIt: exactly ONE sentence, max 160 characters. The single most important thing to know.
 - keyPoints: 3 to 5 bullets. Each bullet max 120 characters. One idea per bullet.
 - riskReasons: EXACTLY 3 reasons explaining why the score is what it is. Each reason max 90 characters. Be specific (e.g. "New biometric data collection clause" not "privacy concerns").
+- For each risk reason, add evidenceQuote only when it is an exact verbatim substring of the OLD VERSION or NEW VERSION supplied above; never paraphrase, normalize or reconstruct a quote.
+- When evidenceQuote is present, evidenceSide must name the matching old or new version. Omit both fields when no exact passage supports the reason.
+- relatedKpi, when directly supported, must be one of: kpiDataCollection, kpiThirdPartySharing, kpiDataRetention, kpiRightToDeletion, kpiCrossBorderTransfer, kpiAiTrainingOptOut, kpiAiOutputOwnership, kpiAlgoTransparency, kpiAutomatedDecision, kpiAiBiasFairness, kpiConsentMechanism, kpiRegulatoryCompliance, kpiBreachNotification, kpiIndependentAudit, kpiContentModeration.
 - impactAnalysis: max 2 sentences each.
 - Be concrete and quantitative where possible.
 
@@ -250,6 +257,9 @@ interface PolicyAnalysisResult {
     textEn: string; // Max 90 chars, specific reason for the score. English.
     textIt: string; // Max 90 chars, specific reason for the score. Italian.
     deltaScore: number; // Estimated contribution to the score, e.g. +2 or -1
+    evidenceQuote?: string; // Exact source substring, maximum 240 characters. Never paraphrase.
+    evidenceSide?: 'old' | 'new'; // Snapshot containing the exact evidenceQuote.
+    relatedKpi?: KpiField; // One allowed KPI field when directly relevant.
   }[]; // EXACTLY 3 reasons
 
   overallRisk: 'Low' | 'Medium' | 'High';
@@ -336,7 +346,7 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
 
       // Defensive normalization: fill the new structured fields if the model
       // omitted them, so the UI never crashes.
-      return normalizeAnalysis(parsed, companyName, policyName);
+      return normalizeAnalysis(parsed, companyName, policyName, oldText, newText);
     } catch (error) {
       lastError = error;
       console.warn(`[Gemini] Model ${modelId} failed:`, (error as Error).message);
@@ -362,7 +372,9 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
 function normalizeAnalysis(
   parsed: Partial<PolicyAnalysisResult>,
   companyName: string,
-  policyName: string
+  policyName: string,
+  oldText: string,
+  newText: string,
 ): PolicyAnalysisResult {
   if (!isRiskLevel(parsed.overallRisk)) {
     throw new Error('Gemini returned an incomplete analysis: missing or invalid overallRisk.');
@@ -391,7 +403,16 @@ function normalizeAnalysis(
     tldrEn: parsed.tldrEn || summaryEn.split('.')[0] + '.',
     tldrIt: parsed.tldrIt || summaryIt.split('.')[0] + '.',
     keyPoints: parsed.keyPoints || [],
-    riskReasons: parsed.riskReasons ? parsed.riskReasons.slice(0, 3) : [],
+    riskReasons: anchorRiskReasonEvidence(parsed.riskReasons, { oldText, newText }).map((reason) => ({
+      icon: reason.icon,
+      textEn: reason.textEn,
+      textIt: reason.textIt,
+      deltaScore: reason.deltaScore,
+      ...(reason.anchorStatus === 'verified' && reason.evidenceQuote && reason.evidenceSide
+        ? { evidenceQuote: reason.evidenceQuote, evidenceSide: reason.evidenceSide }
+        : {}),
+      ...(reason.relatedKpi ? { relatedKpi: reason.relatedKpi } : {}),
+    })),
     overallRisk: parsed.overallRisk,
     overallScore: parsed.overallScore,
     aiTrainingOptOut: parsed.aiTrainingOptOut || 'Not specified',

@@ -25,6 +25,7 @@ import {
   TrendingUp,
   Globe,
   FileDown,
+  FileSearch,
   ExternalLink,
   AlertTriangle,
   ArrowLeft,
@@ -39,7 +40,7 @@ import type { Metadata } from 'next';
 import { publicChangeWhere } from '@/lib/publicDataGate';
 import { PUBLIC_ANALYSIS_DISCLAIMER_COMPACT } from '@/lib/publicAnalysisDisclaimer';
 
-const UUID_RE = /^[a-f0-9-]{36}$/i;
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 function toSafeJsonLd(data: unknown): string {
   return JSON.stringify(data).replace(/</g, '\\u003c');
@@ -195,6 +196,7 @@ export default async function ChangePage({
     diffTitle: isIt ? 'Cosa è cambiato' : 'What changed',
     regionsTitle: isIt ? 'Impatto regionale' : 'Regional impact',
     download: isIt ? 'Scarica PDF' : 'Download PDF',
+    evidence: isIt ? 'Apri pacchetto evidenze' : 'Open Evidence Packet',
     official: isIt ? 'Sito ufficiale' : 'Official site',
     embed: isIt ? 'Embed' : 'Embed',
     dashboard: isIt ? 'Apri in dashboard' : 'Open in dashboard',
@@ -373,7 +375,7 @@ export default async function ChangePage({
         {/* Actions */}
         <div className={styles.actions}>
           <a
-            href={`/api/report/${change.policy.id}?lang=${lang}`}
+            href={`/api/evidence-packet/${id}?format=pdf`}
             target="_blank"
             rel="noreferrer"
             className={`${styles.btn} ${styles.btnPrimary}`}
@@ -381,6 +383,13 @@ export default async function ChangePage({
             <FileDown size={15} />
             {t.download}
           </a>
+          <Link
+            href={`/evidence/${id}`}
+            className={`${styles.btn} ${styles.btnEvidence}`}
+          >
+            <FileSearch size={15} />
+            {t.evidence}
+          </Link>
           <EmbedModal changeId={id} companyName={change.policy.company.name} />
           {change.policy.url && (
             <a

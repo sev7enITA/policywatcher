@@ -31,7 +31,7 @@ Status: implemented measurement definition for the current Evidence Newsroom. Th
 - `social_card_download`: social-card link action; target is `og`, `square`, `feed` or `story`.
 - `citation_copy`: citation copy action; target is an allowlisted surface category.
 - `embed_copy`: embed-code copy action; target is an allowlisted story slug.
-- `launch_outbound`: Product Hunt or Show HN destination action.
+- `launch_outbound`: historical Product Hunt or Show HN destination action retained for aggregate continuity; the public emitter was removed in Beta 16.
 - `campaign_landing`: a `/pulse` component load carrying exactly one allowlisted Beta 13 campaign ID.
 
 These are aggregate events, not unique readers, completed downloads, resulting publications or confirmed launch conversions.

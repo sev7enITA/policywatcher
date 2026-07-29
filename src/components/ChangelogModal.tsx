@@ -89,7 +89,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Current Beta</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      The current release replaces manual coverage-wall data with a typed external-reference registry. Each record exposes a stable ID, original source, classification, language, month-level date precision, title status, citation and relationship boundary. Derived totals, JSON/CSV distributions, a public schema and structured metadata use the same registry. Inclusion records a public reference; it does not establish endorsement, certification, independent audit, readership, reach or factual validation.
+                      The current release binds one public change ID to sanitized source-confidence state, public snapshot fingerprints, a score trace, exact source passages when verified, advisory governance relevance and matching JSON/PDF reports. Framework mappings guide human review and do not establish legal interpretation, conformity, certification or compliance.
                     </p>
                   </div>
 

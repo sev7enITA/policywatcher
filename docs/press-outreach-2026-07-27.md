@@ -8,7 +8,7 @@ Describe PolicyWatcher as a policy-source monitoring project. Do not describe it
 
 The immediate news hook is the EU AI Act transparency timetable: the European Commission says the Article 50 transparency obligations apply from 2 August 2026. PolicyWatcher does not certify compliance, but it offers a timely, inspectable example of how public-facing transparency, provenance and data-quality boundaries can be implemented in software. See the [European Commission guidance](https://digital-strategy.ec.europa.eu/en/news/commission-publishes-guidelines-transparency-obligations-providers-deployers-certain-ai-systems).
 
-Use the [Editorial Pulse](https://policywatcher.online/pulse) as the primary pitch desk. Select one beat-relevant lead, verify its proof links, attach or link the matching versioned Story Pack, and use the supplied citation and boundary together. Product Hunt and Show HN copy and owned image formats are available in the Pulse launch-kit section; do not ask for votes or imply endorsement.
+Use the [Editorial Pulse](https://policywatcher.online/pulse) to select one beat-relevant public lead, verify its proof links, attach or link the matching versioned Story Pack, and use the supplied citation and boundary together. Product Hunt and Show HN launch material is available only to authenticated operators in `/admin/outreach`; it is not public Pulse content.
 
 ## Claims that are safe to make
 

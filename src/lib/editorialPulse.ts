@@ -53,7 +53,7 @@ export const pulseCardDimensions: Record<PulseCardFormat, { width: number; heigh
 export const pulseStories: PulseStory[] = [
   {
     slug: 'configured-policy-evidence-scope',
-    version: '1.1.0',
+    version: '1.2.0',
     status: 'verified',
     beat: 'data-quality',
     asOf: PULSE_AS_OF,
@@ -75,8 +75,8 @@ export const pulseStories: PulseStory[] = [
       it: 'Inventario e metodo configurati; non copertura esaustiva, consulenza legale o conformita misurata.',
     },
     citation: {
-      en: `PolicyWatcher, “Configured policy evidence scope,” Pulse story pack v1.1.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/configured-policy-evidence-scope (accessed [date]).`,
-      it: `PolicyWatcher, “Perimetro configurato delle evidenze policy,” Pulse story pack v1.1.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/configured-policy-evidence-scope (consultato il [data]).`,
+      en: `PolicyWatcher, “Configured policy evidence scope,” Pulse story pack v1.2.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/configured-policy-evidence-scope (accessed [date]).`,
+      it: `PolicyWatcher, “Perimetro configurato delle evidenze policy,” Pulse story pack v1.2.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/configured-policy-evidence-scope (consultato il [data]).`,
     },
     visualKind: 'scope-strip',
     facts: [
@@ -130,18 +130,18 @@ export const pulseStories: PulseStory[] = [
   },
   {
     slug: 'versioned-beta-release-records',
-    version: '1.1.0',
+    version: '1.2.0',
     status: 'verified',
     beat: 'distribution',
     asOf: PULSE_AS_OF,
     updatedAt: PULSE_AS_OF,
     headline: {
-      en: 'Nine consecutive beta records document evidence intake, delivery and public QA changes',
-      it: 'Nove record beta consecutivi documentano cambi a intake, distribuzione e QA pubblico delle evidenze',
+      en: 'Ten consecutive beta records document evidence intake, delivery and public QA changes',
+      it: 'Dieci record beta consecutivi documentano cambi a intake, distribuzione e QA pubblico delle evidenze',
     },
     deck: {
-      en: 'The release archive keeps Beta 7 through Beta 15 as dated, bounded product records with direct evidence links.',
-      it: 'L archivio release conserva dalla Beta 7 alla Beta 15 come record prodotto datati, circoscritti e collegati alle evidenze.',
+      en: 'The release archive keeps Beta 7 through Beta 16 as dated, bounded product records with direct evidence links.',
+      it: 'L archivio release conserva dalla Beta 7 alla Beta 16 come record prodotto datati, circoscritti e collegati alle evidenze.',
     },
     whyItMatters: {
       en: 'A versioned product history lets editors verify what changed in the public platform without treating release labels as measured outcomes.',
@@ -152,17 +152,17 @@ export const pulseStories: PulseStory[] = [
       it: 'I record release descrivono modifiche prodotto e controlli dichiarati. Non stabiliscono adozione, prestazioni, conformita legale o validazione indipendente.',
     },
     citation: {
-      en: `PolicyWatcher, “Versioned beta release records,” Pulse story pack v1.1.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (accessed [date]).`,
-      it: `PolicyWatcher, “Record beta versionati,” Pulse story pack v1.1.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (consultato il [data]).`,
+      en: `PolicyWatcher, “Versioned beta release records,” Pulse story pack v1.2.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (accessed [date]).`,
+      it: `PolicyWatcher, “Record beta versionati,” Pulse story pack v1.2.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (consultato il [data]).`,
     },
     visualKind: 'release-timeline',
     facts: [
-      { id: 'records', value: '9', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 15 in the public archive.', it: 'Dalla Beta 7 alla Beta 15 nell archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
-      { id: 'current', value: 'Beta 15', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Citable Coverage Registry.', it: 'Registro citabile della copertura.' }, claimId: 'public-code', proofHref: '/press-kit/releases/citable-coverage-registry-3-9-0-beta-15' },
+      { id: 'records', value: '10', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 16 in the public archive.', it: 'Dalla Beta 7 alla Beta 16 nell archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
+      { id: 'current', value: 'Beta 16', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Evidence Governance Packets.', it: 'Pacchetti di governance delle evidenze.' }, claimId: 'public-code', proofHref: '/press-kit/releases/evidence-governance-packets-3-9-0-beta-16' },
     ],
     sourceLinks: [
       { href: '/press-kit/releases', label: { en: 'Versioned release archive', it: 'Archivio release versionato' }, claimId: 'public-code' },
-      { href: '/press-kit/releases/citable-coverage-registry-3-9-0-beta-15', label: { en: 'Beta 15 release record', it: 'Record release Beta 15' }, releaseSlug: 'citable-coverage-registry-3-9-0-beta-15' },
+      { href: '/press-kit/releases/evidence-governance-packets-3-9-0-beta-16', label: { en: 'Beta 16 release record', it: 'Record release Beta 16' }, releaseSlug: 'evidence-governance-packets-3-9-0-beta-16' },
       { href: '/press-kit/releases/release-assurance-newsroom-insights-3-9-0-beta-7', label: { en: 'Beta 7 release record', it: 'Record release Beta 7' }, releaseSlug: 'release-assurance-newsroom-insights-3-9-0-beta-7' },
     ],
   },
@@ -196,10 +196,6 @@ export const pulseLaunchKit = {
     description: 'PolicyWatcher monitors a configured set of public policy sources, shows detected changes and keeps source status, evidence links and analytical limits visible.',
     firstComment: 'I built PolicyWatcher to make policy-change evidence easier to inspect and reuse. The public product includes source-gated changes, a dated Data Room, a Claim Registry, versioned release notes and Story Packs. Current scope is configured rather than exhaustive; AI-assisted assessments are not legal advice. Feedback on evidence clarity and reuse formats is welcome.',
     url: POLICYWATCHER_CANONICAL_ORIGIN,
-    assets: {
-      thumbnail: `${POLICYWATCHER_CANONICAL_ORIGIN}/api/og/launch/product-hunt-thumbnail`,
-      gallery: `${POLICYWATCHER_CANONICAL_ORIGIN}/api/og/launch/product-hunt-gallery`,
-    },
   },
   showHn: {
     title: 'Show HN: PolicyWatcher – trace public policy changes back to evidence',

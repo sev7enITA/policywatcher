@@ -12,7 +12,7 @@
 .heroGrid aside span { display: block; color: #0f766e; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; font-size: .74rem; }
 .heroGrid aside p { margin: 14px 0 0; color: #52657d; font-size: .87rem; line-height: 1.55; }
 .evidenceLinks { display: flex; gap: 10px 24px; flex-wrap: wrap; margin-top: 30px; }
-.evidenceLinks a, .jsonDownload { display: inline-flex; align-items: center; gap: 7px; color: #334aa3; font-size: .84rem; font-weight: 750; text-decoration: none; }
+.evidenceLinks a { display: inline-flex; align-items: center; gap: 7px; color: #334aa3; font-size: .84rem; font-weight: 750; text-decoration: none; }
 .filterBar { position: sticky; top: 0; z-index: 5; display: flex; gap: 2px; padding: 14px 0; overflow-x: auto; background: rgba(247,249,252,.96); border-bottom: 1px solid #d7dfeb; }
 .filterBar button { flex: none; border: 0; border-bottom: 2px solid transparent; padding: 9px 14px; background: transparent; color: #52657d; font-weight: 700; cursor: pointer; }
 .filterBar button[data-active="true"] { color: #263d98; border-color: #4156b3; }
@@ -29,17 +29,6 @@
 .storyBody li span { color: #52657d; font-size: .77rem; }
 .storyBody .boundary { color: #8a561b; font-size: .76rem; }
 .openStory { align-self: center; display: inline-flex; align-items: center; gap: 8px; padding: 11px 0 7px; border-bottom: 2px solid #4156b3; color: #263d98; font-size: .84rem; font-weight: 800; text-decoration: none; white-space: nowrap; }
-.launchKit { margin: 72px 0; padding: 34px 0 0; border-top: 4px solid #0f766e; }
-.launchKit > header { max-width: 760px; }
-.launchKit h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.4rem); letter-spacing: -.05em; }
-.launchKit header > p:last-child { color: #52657d; line-height: 1.6; }
-.launchGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin: 28px 0 20px; background: #ccd6e3; border: 1px solid #ccd6e3; }
-.launchGrid article { background: #fff; padding: 28px; }
-.launchGrid article > span { color: #0f766e; font: 800 .72rem ui-monospace, monospace; text-transform: uppercase; letter-spacing: .1em; }
-.launchGrid h3 { margin: 12px 0; font-size: 1.35rem; line-height: 1.2; }
-.launchGrid p { color: #52657d; line-height: 1.6; }
-.launchActions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
-.launchActions button, .launchActions a { display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 8px 11px; border: 1px solid #b9c5d5; background: #f8fafc; color: #334aa3; font: 750 .76rem inherit; text-decoration: none; cursor: pointer; }
 .storyTopbar { padding: 5px 0 20px; border-bottom: 1px solid #cbd5e1; }
 .storyHero { padding: 54px 0 34px; border-bottom: 1px solid #cbd5e1; }
 .storyHero h1 { max-width: 1000px; font-size: clamp(2.7rem, 6.2vw, 5.4rem); }
@@ -126,7 +115,7 @@
   .heroGrid aside p { margin: 0; }
   .storyCard { grid-template-columns: 34px 1fr; gap: 13px; padding: 28px 0; }
   .openStory { grid-column: 2; justify-self: start; }
-  .launchGrid, .storyLayout { grid-template-columns: 1fr; }
+  .storyLayout { grid-template-columns: 1fr; }
   .storyTopbar span { display: none; }
   .storyHero { padding-top: 40px; }
   .storyHero dl { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 0; }

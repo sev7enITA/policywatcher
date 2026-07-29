@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+## 3.9.0-beta.16 - 2026-07-29
+
+### Evidence Governance Packets
+- Removed the Product Hunt and Show HN Distribution Desk from the public Pulse surface and retained launch operations in the protected outreach workflow.
+- Added a public Evidence Packet index and a stable detail route addressed by the exact public `changeId`.
+- Added a change-bound JSON/PDF endpoint so a historical change permalink no longer downloads the latest analysis for the policy.
+- Exposed sanitized source-confidence state, public snapshot versions and SHA-256 fingerprints without publishing raw retrieval failures, private QA notes or snapshot text.
+- Added a typed advisory mapping from assessed PolicyWatcher KPI topics to official EU AI Act, ISO/IEC 42001, NIST AI RMF and OECD AI Principles references.
+- Extended new risk-reason records with optional source passages, snapshot side and related KPI; passages are published only after exact substring validation against the declared public snapshot.
+- Added explicit historical states when a source passage was not recorded and rejection states for nonmatching stored quotes.
+- Added deterministic packet content digests, human-review questions, Dataset/DataDownload metadata and a two-page maximum A4 evidence report.
+- Updated the Community Roadmap to move Dataset QA/source continuity, governance mapping, source-anchored explainability and change-bound reports from candidates to delivered outcomes.
+
+### Scope boundary
+- Source confidence describes PolicyWatcher retrieval and publication state; it is not a quality rating, source-authenticity certification or finding about the provider policy.
+- Governance mappings identify review relevance. They are not legal interpretations, conformity assessments, certifications or compliance verdicts.
+- Risk reasons and score contributions remain stored AI-assisted screening outputs. An exact source anchor proves only that a passage occurs in the named snapshot.
+
 ## 3.9.0-beta.15 - 2026-07-29
 
 ### Citable Coverage Registry

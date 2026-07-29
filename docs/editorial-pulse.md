@@ -8,12 +8,11 @@ Each lead carries a stable slug, semantic Story Pack version, editorial beat, `a
 
 ## Public routes
 
-- `/pulse` - beat-filtered story lead registry and Product Hunt / Show HN launch kit.
+- `/pulse` - beat-filtered public story lead registry.
 - `/pulse/[slug]` - complete lead, sources, citation, card downloads and reuse actions.
 - `/api/pulse/story-pack/[slug]?lang=en&version=1.0.0` - deterministic ZIP with README, pitch, facts CSV, sources, citation and manifest.
 - `/embed/pulse/[slug]?lang=en&theme=light` - iframe-friendly evidence visual with visible citation and source link.
 - `/api/og/pulse/[slug]/[format]?lang=en` - branded PNG in `og`, `square`, `feed` or `story` format.
-- `/api/pulse/launch-kit` - versioned machine-readable Product Hunt and Show HN copy.
 
 The Data Room exposes `Dataset` and `DataDownload` JSON-LD. Release pages, Pulse pages and the Data Room use specific Open Graph images rather than one generic site preview.
 
@@ -32,7 +31,7 @@ The existing cookie-free newsroom endpoint accepts a strict allowlist for:
 - social-card download actions by format;
 - citation-copy actions;
 - embed-code copy actions;
-- Product Hunt and Show HN outbound actions.
+- historical Product Hunt and Show HN outbound actions recorded before the public launch desk was removed.
 - valid Beta 13 campaign landings received by `/pulse`.
 
 Persistent records contain only event type, allowlisted target, locale and server timestamp. They exclude visitor identifiers, IP addresses, user agents, referrers, query strings and raw user content. Admin totals are events, not unique people, verified readership, confirmed publication or conversion outcomes. Event-write failure never blocks the public action.
@@ -41,6 +40,6 @@ Campaign links use one query parameter, `?campaign=<allowlisted-campaign-id>`. `
 
 Beta 14 adds the protected `/admin/outreach` desk and a separate administrative parser for aggregate pitch, reply, interview, coverage and correction events. It operates five versioned Beta 13 distribution cohorts; the public endpoint cannot write these types. Each administrative row retains the same four-field event shape and accepts no recipient, outlet, email, message body, note or free text.
 
-## Launch boundary
+## Launch operations boundary
 
-The Product Hunt package provides a 240 × 240 thumbnail, 1270 × 760 gallery asset, product name, short description and first-maker comment. The Show HN package provides a directly usable public URL, concise technical description and limitations. Neither package asks for votes or implies third-party endorsement.
+Product Hunt and Show HN copy remains available only to authenticated operators through `/admin/outreach`. It is not part of the public Pulse content, and public launch-kit JSON and image endpoints are not published. Historical aggregate `launch_outbound` records remain readable so previously recorded totals are not rewritten.

@@ -840,6 +840,24 @@
   line-height: 1.45;
 }
 
+.deliveredLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 18px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid var(--road-blue);
+  color: #2737a8;
+  font-size: .82rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.deliveredLink:hover {
+  color: #101b67;
+  border-color: #101b67;
+}
+
 .releaseStrip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

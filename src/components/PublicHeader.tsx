@@ -35,7 +35,7 @@ interface PublicHeaderProps {
 }
 
 const links: Array<{ id: PublicSection; href: string; en: string; it: string }> = [
-  { id: 'evidence', href: '/', en: 'Evidence', it: 'Evidenze' },
+  { id: 'evidence', href: '/evidence', en: 'Evidence', it: 'Evidenze' },
   { id: 'signals', href: '/leaderboard', en: 'Signals', it: 'Segnali' },
   { id: 'infographics', href: '/infographics', en: 'Infographics', it: 'Infografiche' },
   { id: 'trust', href: '/trust', en: 'Trust QA', it: 'Trust QA' },

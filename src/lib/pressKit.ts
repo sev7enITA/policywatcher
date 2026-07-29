@@ -444,12 +444,39 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'citable-coverage-registry-3-9-0-beta-15',
+    slug: 'evidence-governance-packets-3-9-0-beta-16',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'product',
+    title: { en: 'Evidence Governance Packets', it: 'Pacchetti di governance delle evidenze' },
+    summary: { en: 'Connects Dataset QA state, snapshot fingerprints, score explanations, advisory governance mapping and exact-change report downloads in one public evidence record.', it: 'Collega stato Dataset QA, impronte snapshot, spiegazioni del punteggio, mapping governance consultivo e report riferiti al cambiamento esatto in un unico record pubblico.' },
+    changes: [
+      { en: 'A public Evidence Packet is addressed by change ID, preventing a historical permalink from downloading a later policy analysis.', it: 'Un Evidence Packet pubblico e indirizzato tramite change ID, evitando che un permalink storico scarichi un analisi successiva della policy.' },
+      { en: 'Stored source passages are displayed only when an exact substring match is verified against the declared public snapshot.', it: 'I passaggi fonte memorizzati sono mostrati solo quando viene verificata una corrispondenza esatta con lo snapshot pubblico dichiarato.' },
+      { en: 'Four typed framework references map assessed KPI topics to review questions without producing compliance verdicts.', it: 'Quattro riferimenti tipizzati collegano i temi KPI valutati a domande di revisione senza produrre verdetti di conformita.' },
+      { en: 'The exact packet is available as HTML, JSON and PDF with a deterministic content digest and human-review questions.', it: 'Il pacchetto esatto e disponibile in HTML, JSON e PDF con digest deterministico e domande per la revisione umana.' },
+    ],
+    boundaries: [
+      { en: 'Source confidence describes PolicyWatcher retrieval and publication state; it does not certify source authenticity or policy quality.', it: 'La source confidence descrive lo stato di retrieval e pubblicazione di PolicyWatcher; non certifica autenticita della fonte o qualita della policy.' },
+      { en: 'Framework mappings indicate review relevance only and are not legal interpretation, conformity assessment or certification.', it: 'I mapping framework indicano solo rilevanza per la revisione e non sono interpretazione legale, valutazione di conformita o certificazione.' },
+    ],
+    evidenceLinks: [
+      { href: '/evidence', label: { en: 'Evidence Packets', it: 'Evidence Packets' } },
+      { href: '/timeline', label: { en: 'Source continuity', it: 'Continuita delle fonti' } },
+      { href: '/methodology/confidence', label: { en: 'Confidence methodology', it: 'Metodologia di confidence' } },
+      { href: '/roadmap', label: { en: 'Updated roadmap', it: 'Roadmap aggiornata' } },
+    ],
+  },
+  {
+    slug: 'citable-coverage-registry-3-9-0-beta-15',
+    version: '3.9.0-beta.15',
+    displayVersion: '3.9.0 Beta 15',
+    datePublished: POLICYWATCHER_RELEASE_DATE,
+    dateModified: POLICYWATCHER_RELEASE_DATE,
+    status: 'archived',
     category: 'distribution',
     title: { en: 'Citable Coverage Registry', it: 'Registro citabile della copertura' },
     summary: { en: 'Turns the existing external-reference wall into a typed public registry with stable IDs, derived counts, reusable citations and JSON/CSV distributions.', it: 'Trasforma la rassegna dei riferimenti esterni in un registro pubblico tipizzato con ID stabili, conteggi derivati, citazioni riutilizzabili e distribuzioni JSON/CSV.' },
@@ -761,6 +788,7 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+  { id: 'evidence-governance-packets-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Evidence Governance Packets published', it: 'Pubblicati i pacchetti di governance delle evidenze' }, detail: { en: 'Public changes can now expose sanitized source-confidence state, exact snapshot fingerprints, verified source passages, advisory framework relevance and change-bound PDF/JSON reports.', it: 'I cambiamenti pubblici possono ora esporre stato source-confidence sanificato, impronte snapshot esatte, passaggi fonte verificati, rilevanza framework consultiva e report PDF/JSON legati al change.' }, affectedHref: '/press-kit/releases/evidence-governance-packets-3-9-0-beta-16' },
   { id: 'citable-coverage-registry-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Citable Coverage Registry published', it: 'Pubblicato il registro citabile della copertura' }, detail: { en: 'External references now use stable IDs, derived totals, explicit relationship boundaries, reusable citations and JSON/CSV distributions.', it: 'I riferimenti esterni ora usano ID stabili, totali derivati, limiti espliciti della relazione, citazioni riutilizzabili e distribuzioni JSON/CSV.' }, affectedHref: '/press-kit/releases/citable-coverage-registry-3-9-0-beta-15' },
   { id: 'press-outreach-operations-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Press Outreach Operations published', it: 'Pubblicate le operazioni di contatto stampa' }, detail: { en: 'The protected Outreach Desk operates five reviewed campaign cohorts and records bounded aggregate outcome events without recipient histories or conversion rates.', it: 'Il Press Outreach Desk protetto gestisce cinque coorti revisionate e registra eventi di esito aggregati e circoscritti senza cronologie dei destinatari o tassi di conversione.' }, affectedHref: '/press-kit/releases/press-outreach-operations-3-9-0-beta-14' },
   { id: 'editorial-pulse-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Editorial Pulse and Distribution published', it: 'Pubblicati Editorial Pulse e distribuzione' }, detail: { en: 'Verified story leads now include deterministic Story Packs, social-card formats, embeds, citations and aggregate reuse-event measurement.', it: 'I lead verificati ora includono Story Pack deterministici, formati social, embed, citazioni e misurazione aggregata degli eventi di riuso.' }, affectedHref: '/press-kit/releases/editorial-pulse-distribution-3-9-0-beta-13' },

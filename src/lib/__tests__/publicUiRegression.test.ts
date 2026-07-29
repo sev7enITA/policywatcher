@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { POLICYWATCHER_VERSION } from '../release';
 import { FEATURE_ATLAS_CURRENT_RELEASE_ID, FEATURE_ATLAS_FEATURES, FEATURE_ATLAS_RELEASES } from '../featureAtlas';
@@ -41,6 +41,32 @@ describe('public UI regression fixes', () => {
     expect(palette).toContain("window.location.href = '/press-kit'");
     expect(header).toContain("{ id: 'press-kit', href: '/press-kit'");
     expect(footer).toContain('href="/press-kit"');
+  });
+
+  it('publishes exact-change evidence packets without a public distribution desk', () => {
+    const pulse = read('src/components/pulse/PulseIndexClient.tsx');
+    const change = read('src/app/change/[id]/page.tsx');
+    const evidenceIndex = read('src/app/evidence/page.tsx');
+    const evidenceDetail = read('src/app/evidence/[changeId]/page.tsx');
+    const roadmap = read('src/app/roadmap/RoadmapClient.tsx');
+    const header = read('src/components/PublicHeader.tsx');
+    const sitemap = read('src/app/sitemap.ts');
+
+    expect(pulse).not.toContain('Distribution desk');
+    expect(pulse).not.toContain('/api/pulse/launch-kit');
+    expect(existsSync('src/app/api/pulse/launch-kit/route.ts')).toBe(false);
+    expect(existsSync('src/app/api/og/launch/[asset]/route.tsx')).toBe(false);
+    expect(change).toContain('/api/evidence-packet/${id}?format=pdf');
+    expect(change).not.toContain('/api/report/${change.policy.id}');
+    expect(evidenceIndex).toContain('listPublicEvidencePacketSummaries');
+    expect(evidenceDetail).toContain('getPublicEvidencePacket(changeId)');
+    expect(evidenceDetail).toContain("'@type': 'DataDownload'");
+    expect(header).toContain("{ id: 'evidence', href: '/evidence'");
+    expect(sitemap).toContain('${BASE_URL}/evidence');
+    expect(roadmap).toContain('Source confidence and continuity ledger');
+    expect(roadmap).toContain('Advisory governance mapping');
+    expect(roadmap).toContain('Source-anchored score explainability');
+    expect(roadmap).toContain('Change-bound evidence reports');
   });
 
   it('makes the public integration directory discoverable without placing it in the crowded header', () => {
