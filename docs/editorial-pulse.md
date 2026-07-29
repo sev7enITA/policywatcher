@@ -33,8 +33,13 @@ The existing cookie-free newsroom endpoint accepts a strict allowlist for:
 - citation-copy actions;
 - embed-code copy actions;
 - Product Hunt and Show HN outbound actions.
+- valid Beta 13 campaign landings received by `/pulse`.
 
 Persistent records contain only event type, allowlisted target, locale and server timestamp. They exclude visitor identifiers, IP addresses, user agents, referrers, query strings and raw user content. Admin totals are events, not unique people, verified readership, confirmed publication or conversion outcomes. Event-write failure never blocks the public action.
+
+Campaign links use one query parameter, `?campaign=<allowlisted-campaign-id>`. `/pulse` records only the five identifiers in `src/lib/editorialCampaigns.ts`. An unknown value, duplicate campaign parameter or any additional parameter is ignored by campaign measurement; the raw query is never persisted.
+
+Beta 14 adds the protected `/admin/outreach` desk and a separate administrative parser for aggregate pitch, reply, interview, coverage and correction events. It operates five versioned Beta 13 distribution cohorts; the public endpoint cannot write these types. Each administrative row retains the same four-field event shape and accepts no recipient, outlet, email, message body, note or free text.
 
 ## Launch boundary
 

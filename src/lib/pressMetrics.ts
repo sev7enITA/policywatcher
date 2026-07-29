@@ -1,3 +1,10 @@
+import {
+  EDITORIAL_CAMPAIGN_IDS,
+  OUTREACH_OPERATION_TYPES,
+  type EditorialCampaignId,
+  type OutreachOperationType,
+} from './editorialCampaigns';
+
 export const PRESS_METRIC_TARGETS = {
   press_package_download: ['en', 'it'],
   data_room_view: ['data-room'],
@@ -8,6 +15,7 @@ export const PRESS_METRIC_TARGETS = {
   citation_copy: ['pulse-story', 'data-room', 'release'],
   embed_copy: ['configured-policy-evidence-scope', 'public-evidence-publication-gate', 'versioned-beta-release-records'],
   launch_outbound: ['product-hunt', 'show-hn'],
+  campaign_landing: EDITORIAL_CAMPAIGN_IDS,
 } as const;
 
 export type PressMetricEventType = keyof typeof PRESS_METRIC_TARGETS;
@@ -44,6 +52,19 @@ export interface PressMetricCounts {
     embedCopies: number;
     launchOutboundActions: number;
   };
+  campaignLandings: {
+    total: number;
+    byCampaign: Record<EditorialCampaignId, number>;
+  };
+  outreachOperations: {
+    total: number;
+    pitchSent: number;
+    replyReceived: number;
+    interviewRequested: number;
+    coverageConfirmed: number;
+    correctionRequested: number;
+    byCampaign: Record<EditorialCampaignId, Record<OutreachOperationType, number>>;
+  };
 }
 
 const PAYLOAD_KEYS = ['eventType', 'target', 'locale'] as const;
@@ -79,6 +100,9 @@ export function createPressMetricRecord(payload: PressMetricPayload, createdAt: 
 }
 
 export function emptyPressMetricCounts(): PressMetricCounts {
+  const emptyOperations = () => Object.fromEntries(
+    OUTREACH_OPERATION_TYPES.map((eventType) => [eventType, 0])
+  ) as Record<OutreachOperationType, number>;
   return {
     pressPackageDownloadIntents: { total: 0, en: 0, it: 0 },
     dataRoomViews: { total: 0 },
@@ -90,6 +114,19 @@ export function emptyPressMetricCounts(): PressMetricCounts {
       citationCopies: 0,
       embedCopies: 0,
       launchOutboundActions: 0,
+    },
+    campaignLandings: {
+      total: 0,
+      byCampaign: Object.fromEntries(EDITORIAL_CAMPAIGN_IDS.map((id) => [id, 0])) as Record<EditorialCampaignId, number>,
+    },
+    outreachOperations: {
+      total: 0,
+      pitchSent: 0,
+      replyReceived: 0,
+      interviewRequested: 0,
+      coverageConfirmed: 0,
+      correctionRequested: 0,
+      byCampaign: Object.fromEntries(EDITORIAL_CAMPAIGN_IDS.map((id) => [id, emptyOperations()])) as Record<EditorialCampaignId, Record<OutreachOperationType, number>>,
     },
   };
 }
@@ -122,10 +159,51 @@ export function buildPressMetricCounts(groups: PressMetricGroup[]): PressMetricC
       counts.editorialFunnel.embedCopies += count;
     } else if (group.eventType === 'launch_outbound') {
       counts.editorialFunnel.launchOutboundActions += count;
+    } else if (group.eventType === 'campaign_landing' && (EDITORIAL_CAMPAIGN_IDS as readonly string[]).includes(group.target)) {
+      counts.campaignLandings.total += count;
+      counts.campaignLandings.byCampaign[group.target as EditorialCampaignId] += count;
+    } else if ((OUTREACH_OPERATION_TYPES as readonly string[]).includes(group.eventType) && (EDITORIAL_CAMPAIGN_IDS as readonly string[]).includes(group.target)) {
+      const eventType = group.eventType as OutreachOperationType;
+      const campaignId = group.target as EditorialCampaignId;
+      const field = {
+        pitch_sent: 'pitchSent',
+        reply_received: 'replyReceived',
+        interview_requested: 'interviewRequested',
+        coverage_confirmed: 'coverageConfirmed',
+        correction_requested: 'correctionRequested',
+      }[eventType] as 'pitchSent' | 'replyReceived' | 'interviewRequested' | 'coverageConfirmed' | 'correctionRequested';
+      counts.outreachOperations.total += count;
+      counts.outreachOperations[field] += count;
+      counts.outreachOperations.byCampaign[campaignId][eventType] += count;
     }
   }
 
   return counts;
+}
+
+export function buildEditorialOutreachKpis(counts: PressMetricCounts) {
+  return {
+    primary: {
+      qualifiedEditorialReuseEvents:
+        counts.editorialFunnel.storyPackDownloads
+        + counts.editorialFunnel.citationCopies
+        + counts.editorialFunnel.embedCopies,
+    },
+    drivers: {
+      pulseStoryViews: counts.editorialFunnel.storyViews,
+      socialCardDownloads: counts.editorialFunnel.socialCardDownloads,
+      campaignLandings: counts.campaignLandings.total,
+      pitchesSent: counts.outreachOperations.pitchSent,
+    },
+    outcomes: {
+      repliesReceived: counts.outreachOperations.replyReceived,
+      interviewRequests: counts.outreachOperations.interviewRequested,
+      confirmedCoverage: counts.outreachOperations.coverageConfirmed,
+    },
+    guardrails: {
+      correctionRequests: counts.outreachOperations.correctionRequested,
+    },
+  };
 }
 
 export function recordPressMetric(eventType: PressMetricEventType, target: PressMetricTarget, locale: PressMetricLocale): void {

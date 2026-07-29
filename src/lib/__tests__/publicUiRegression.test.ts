@@ -200,7 +200,7 @@ describe('public UI regression fixes', () => {
     expect(trust).toContain('Historical snapshot · 5 July 2026');
     expect(leaderboard).toContain('snapshot.generatedAt');
     expect(observatory).toContain('OBSERVATORY_VERIFIED_AT');
-    expect(privacy).toContain('Last updated: July 27, 2026');
+    expect(privacy).toContain('Last updated: July 29, 2026');
   });
 
   it('uses the shared public shell on conventional editorial and evidence pages', () => {

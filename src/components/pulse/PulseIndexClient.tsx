@@ -1,19 +1,28 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Check, Clipboard, Download, ExternalLink, Languages } from 'lucide-react';
 import PublicHeader from '@/components/PublicHeader';
 import Footer from '@/components/Footer';
 import { PULSE_AS_OF, pulseBeatLabels, pulseLaunchKit, pulseStories, type PulseBeat, type PulseLocale } from '@/lib/editorialPulse';
 import { recordPressMetric } from '@/lib/pressMetrics';
+import { editorialCampaignById, parseCampaignLandingSearch } from '@/lib/editorialCampaigns';
 import styles from './pulse.module.css';
 
 export default function PulseIndexClient() {
   const [lang, setLang] = useState<PulseLocale>('en');
   const [beat, setBeat] = useState<PulseBeat | 'all'>('all');
   const [copied, setCopied] = useState<string | null>(null);
+  const landingRecorded = useRef(false);
   const filtered = beat === 'all' ? pulseStories : pulseStories.filter((story) => story.beat === beat);
+
+  useEffect(() => {
+    if (landingRecorded.current) return;
+    landingRecorded.current = true;
+    const campaign = parseCampaignLandingSearch(window.location.search);
+    if (campaign) recordPressMetric('campaign_landing', campaign, editorialCampaignById[campaign].locale);
+  }, []);
   async function copy(id: string, value: string) {
     await navigator.clipboard.writeText(value); setCopied(id); window.setTimeout(() => setCopied(null), 1500);
   }

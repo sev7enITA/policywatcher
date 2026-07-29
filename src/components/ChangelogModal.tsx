@@ -57,6 +57,15 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                 <div className={styles.featureList}>
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Press Outreach Desk</span>
+                      <span className={styles.badgeActive}>Protected operations</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      Authenticated operators can verify the current release through a browser-local launch gate, use five versioned campaign cohorts and inspect all-time or 30-day aggregate outreach signals. Administrators can record allowlisted pitch, reply, interview, coverage and correction events; auditors remain read-only. The workflow stores no journalist, outlet, email, message, note, referrer or recipient history and does not calculate conversion rates.
+                    </p>
+                  </div>
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
                       <span className={styles.featureName}>Editorial Pulse</span>
                       <span className={styles.badgeActive}>Public beta</span>
                     </div>
@@ -80,7 +89,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Current Beta</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      The What Changed workflow can now decode bounded .eml files entirely in browser memory. It prefers plain text, uses a sanitized HTML fallback, ignores attachments and recipient headers, and keeps the structured inquiry API unchanged. PolicyWatcher does not connect to a mailbox, upload the raw email or open attachments. The public developer directory from Beta 11 remains available with its read-only manifest and localized Observatory registry contract.
+                      The current release adds the protected Press Outreach Desk for five reviewed campaign cohorts, browser-local launch checks and bounded all-time or 30-day operating signals. Public and administrative event writes use separate strict allowlists and retain aggregate action type, target, locale and timestamp only. Subscriber references are masked in operational application logs, and the privacy notice distinguishes public cookie-free measurement from the essential admin session cookie. These surfaces do not establish publication, readership, delivery, adoption or legal compliance.
                     </p>
                   </div>
 

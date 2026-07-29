@@ -118,7 +118,7 @@ export async function GET(request: NextRequest) {
           allTime: allTimePressCounts,
           trailing30Days: trailingPressCounts,
           trailingWindowStartedAt: trailingWindowStartedAt.toISOString(),
-          boundary: 'Aggregate event counts, not unique visitors or confirmed outcomes. Package, card, citation, embed, contact and launch events record actions or intent only; automated traffic can affect counts.',
+          boundary: 'Aggregate event counts, not unique visitors or people, delivery confirmations, editorial decisions or conversion outcomes. Package, campaign, pitch, reply, card, citation, embed, contact and launch records represent bounded actions or operator entries; automated traffic can affect public-event counts.',
         },
       },
       timestamp: new Date().toISOString(),

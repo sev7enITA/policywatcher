@@ -88,6 +88,18 @@ function getAdminAlertAddress(): string | null {
   );
 }
 
+/**
+ * Produces a non-deliverable recipient reference for operational logs.
+ * The complete address remains available only to the SMTP transport.
+ */
+export function maskEmailForLog(email: string): string {
+  const normalized = email.trim();
+  const separator = normalized.lastIndexOf('@');
+  if (separator <= 0 || separator === normalized.length - 1) return 'masked-recipient';
+  const local = normalized.slice(0, separator);
+  return `${local.slice(0, 1)}***@masked-domain`;
+}
+
 // -- Risk color helper --
 
 /**
@@ -635,7 +647,7 @@ async function sendEmail(
 
   if (!transport) {
     console.log('[PolicyWatcher Mailer] SMTP not configured. Email not sent.');
-    console.log(`  To: ${to}`);
+    console.log(`  Recipient: ${maskEmailForLog(to)}`);
     console.log(`  Subject: ${subject}`);
     console.log(`  Body length: ${html.length} chars`);
     return false;
@@ -648,10 +660,11 @@ async function sendEmail(
       subject,
       html,
     });
-    console.log(`[PolicyWatcher Mailer] Email sent to ${to}: "${subject}"`);
+    console.log(`[PolicyWatcher Mailer] Email sent to ${maskEmailForLog(to)}: "${subject}"`);
     return true;
   } catch (error) {
-    console.error('[PolicyWatcher Mailer] Failed to send email:', error);
+    const errorType = error instanceof Error ? error.name : 'UnknownError';
+    console.error(`[PolicyWatcher Mailer] Email delivery failed for ${maskEmailForLog(to)} (${errorType}).`);
     return false;
   }
 }

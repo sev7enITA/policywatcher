@@ -1,6 +1,13 @@
 import { db } from '@/lib/db';
 
 let readiness: Promise<void> | null = null;
+let lastEventTimestamp = 0;
+
+export function nextPressMetricEventDate(now = Date.now()): Date {
+  const timestamp = Math.max(now, lastEventTimestamp + 1);
+  lastEventTimestamp = timestamp;
+  return new Date(timestamp);
+}
 
 async function createPressMetricStorage(): Promise<void> {
   // This small idempotent guard keeps optional newsroom telemetry from making

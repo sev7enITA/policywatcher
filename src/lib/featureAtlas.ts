@@ -123,7 +123,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.10', shortLabel: '3.9 B10', label: '3.9.0 Beta 10' },
   { id: '3.9.0-beta.11', shortLabel: '3.9 B11', label: '3.9.0 Beta 11' },
   { id: '3.9.0-beta.12', shortLabel: '3.9 B12', label: '3.9.0 Beta 12' },
-  { id: '3.9.0-beta.13', shortLabel: '3.9 B13', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '3.9.0-beta.13', shortLabel: '3.9 B13', label: '3.9.0 Beta 13' },
+  { id: '3.9.0-beta.14', shortLabel: '3.9 B14', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -186,6 +187,7 @@ const routeByFeature: Record<string, FeatureAtlasRoute> = {
   'production-validation': { href: '/trust', label: 'Trust & Quality', access: 'public' },
   'renderer-hardening': { href: '/admin/vps-services', label: 'VPS services', access: 'protected' },
   'beta-evidence-cycle': { href: '/roadmap', label: 'Community roadmap', access: 'public' },
+  'protected-press-outreach-desk': { href: '/admin/outreach', label: 'Press Outreach', access: 'protected' },
 };
 
 const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
@@ -224,6 +226,7 @@ const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
   'production-validation': [{ featureId: 'security-privacy-boundaries', relationship: 'depends-on' }],
   'renderer-hardening': [{ featureId: 'retrieval-hierarchy', relationship: 'depends-on' }],
   'beta-evidence-cycle': [{ featureId: 'dataset-qa', relationship: 'depends-on' }],
+  'protected-press-outreach-desk': [{ featureId: 'editorial-pulse', relationship: 'depends-on' }, { featureId: 'security-privacy-boundaries', relationship: 'governed-by' }],
 };
 
 function getReleaseLabel(releaseId: string) {
@@ -358,12 +361,12 @@ const platformSurfaceFeatures: FeatureAtlasFeature[] = [
   }),
   surfaceFeature({
     id: 'enterprise-api-v2-pilot', title: 'Enterprise API v2 pilot', shortLabel: 'Enterprise API v2',
-    summary: 'Adds tenant-bound Microsoft Entra access, an APIM facade and a Power Platform connector package for controlled enterprise pilots.', kind: 'technical', domainId: 'distribution', stageId: 'publication', state: 'current', releaseId: '3.9.0-beta.13', release: POLICYWATCHER_VERSION_DISPLAY,
+    summary: 'Adds tenant-bound Microsoft Entra access, an APIM facade and a Power Platform connector package for controlled enterprise pilots.', kind: 'technical', domainId: 'distribution', stageId: 'publication', state: 'current', releaseId: '3.9.0-beta.13', release: '3.9.0 Beta 13',
     benefit: 'A test tenant can consume bounded evidence through API and Microsoft workflow surfaces without scraping portal HTML.', kpi: 'Inventory KPI · Entra-authenticated read-only enterprise contract and connector package available', kri: 'Residual KRI · certification, entitlements, delivery telemetry and multi-tenant provisioning remain open', evidence: 'API v2 routes and OpenAPI, Entra origin validation, APIM policy, Power Platform connector templates, generator and focused regression tests.', limitation: 'Pilot-ready does not mean generally available or commercially provisioned; Teams, Copilot plugins, MCP, webhooks and Marketplace lifecycle controls remain planned.', primaryUser: 'Enterprise integration reviewer', route: { href: '/integrations', label: 'Integration Options', access: 'public' }, dependencies: [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }, { featureId: 'public-integration-directory', relationship: 'distributed-through' }],
   }),
   surfaceFeature({
     id: 'editorial-pulse', title: 'Editorial Pulse', shortLabel: 'Pulse',
-    summary: 'Publishes a reviewed registry of evidence-linked story leads with deterministic reuse assets.', kind: 'business', domainId: 'distribution', stageId: 'publication', state: 'current', releaseId: '3.9.0-beta.13', release: POLICYWATCHER_VERSION_DISPLAY,
+    summary: 'Publishes a reviewed registry of evidence-linked story leads with deterministic reuse assets.', kind: 'business', domainId: 'distribution', stageId: 'publication', state: 'current', releaseId: '3.9.0-beta.13', release: '3.9.0 Beta 13',
     benefit: 'Editors can reach dated facts, proof links, citations, Story Packs, social cards and embeds from one public record.', kpi: 'Inventory KPI · reviewed editorial leads and reusable assets available', kri: 'Residual KRI · coverage is small and reviewed; later source changes can make dated artifacts stale', evidence: 'Pulse registry, story detail routes, deterministic ZIP builder, four social-card formats, embed routes, Dataset metadata and aggregate event counts.', limitation: 'Pulse is not an automated newsroom, exhaustive coverage, independent validation or legal advice.', primaryUser: 'Journalist, analyst and research reviewer', route: { href: '/pulse', label: 'Editorial Pulse', access: 'public' }, dependencies: [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }, { featureId: 'editorial-briefing-room', relationship: 'distributed-through' }],
   }),
   surfaceFeature({

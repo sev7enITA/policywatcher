@@ -32,6 +32,7 @@ import {
   X,
   ListPlus,
   MailQuestion,
+  Newspaper,
 } from 'lucide-react';
 import styles from './admin.module.css';
 import { AdminPageGuide } from '@/components/admin/AdminPageGuide';
@@ -78,6 +79,11 @@ const NAV_ITEMS: NavItem[] = [
     label: 'Dataset QA',
     href: '/admin/dataset-quality',
     icon: <ClipboardCheck size={18} />,
+  },
+  {
+    label: 'Press Outreach',
+    href: '/admin/outreach',
+    icon: <Newspaper size={18} />,
   },
   {
     label: 'Review Log',

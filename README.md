@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2013%20Editorial%20Pulse%20and%20Distribution-146c6a" alt="3.9.0 Beta 13 Editorial Pulse and Distribution" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2014%20Press%20Outreach%20Operations-146c6a" alt="3.9.0 Beta 14 Press Outreach Operations" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,15 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 14 Press Outreach Operations Highlights
+
+- **Protected outreach desk:** `/admin/outreach` combines release checks, fixed campaign copy, privacy-minimized operation logging and aggregate editorial signals.
+- **Role boundary:** administrators can record allowlisted operations; auditors can inspect definitions and aggregate counts without write access.
+- **Fixed distribution cohorts:** Italian press, international press, LinkedIn, Product Hunt and Show HN reuse the reviewed Beta 13 evidence package without recipient-level records.
+- **Bounded measurement:** reuse, drivers, outcomes and correction requests remain separate counts, without visitor joins, conversion rates or pre-baseline targets.
+- **Security hardening:** adversarial payload tests cover content type, malformed JSON, oversized bodies and storage failures; operational email logs use masked recipient references.
+- **Privacy clarification:** the public notice now describes the essential protected-session cookie and avoids an unsupported live-database encryption claim.
 
 ### Release 3.9.0 Beta 13 Editorial Pulse and Distribution Highlights
 
@@ -128,6 +137,14 @@ The platform is designed as a **civic tech tool** that produces structured summa
 
 - **Press information page** adds a bilingual `/press-kit` with a Claim Ledger, scoped product facts, boilerplates, owned media downloads, checksum metadata, JSON-LD and a stable machine-readable JSON endpoint.
 - **Media scope** distinguishes configured inventory from market coverage, source timestamps from release metadata, public mentions from endorsements, and checksum integrity from unattached Content Credentials.
+
+### Protected Press Outreach Desk
+
+- `/admin/outreach` turns the current public release assets into a fixed five-cohort operating registry for Italian press, international press, LinkedIn, Product Hunt and Show HN.
+- The launch gate is an operator checklist stored only in browser local storage and versioned to the current release; it is not an automated availability, security or publication certification.
+- Campaign links contain one allowlisted `campaign` value. Public landing records store only event type, campaign ID, locale and server timestamp.
+- Administrators can record allowlisted aggregate pitch, reply, interview, coverage and correction events. Auditors have read-only access; the endpoint accepts no person, outlet, email, message, note or arbitrary target.
+- The primary operating KPI is a count of Story Pack actions, citation copies and embed-code copies. Drivers and outcomes remain separate proxies, no percentages are produced and no performance target is assigned before a baseline exists.
 
 - **Validated dashboard grammar** composes Citizen, GRC / Legal, Research and Builder workspaces from an immutable allowlisted registry with deterministic IDs and Source QA pinned.
 - **One guarded interaction model** routes direct controls and the Command Palette through typed actions, an acyclic authorization graph and one canonical workspace URL/local-storage codec.

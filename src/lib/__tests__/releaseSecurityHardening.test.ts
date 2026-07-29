@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { NextRequest } from 'next/server';
+import { readFileSync } from 'node:fs';
 
 const mocks = vi.hoisted(() => ({
   answerPolicyQuestion: vi.fn(),
@@ -25,6 +26,7 @@ vi.mock('@/lib/databaseConfig', () => ({
 
 import { POST as chatPost } from '@/app/api/chat/route';
 import { GET as healthGet } from '@/app/api/health/route';
+import { maskEmailForLog } from '@/lib/mailer';
 import { proxy } from '../../proxy';
 
 describe('Beta 7 release security hardening', () => {
@@ -93,5 +95,17 @@ describe('Beta 7 release security hardening', () => {
     expect(pageCsp).toContain("frame-ancestors 'none'");
     expect(embedCsp).toContain('frame-ancestors *');
     expect(pageResponse.headers.get('referrer-policy')).toBe('strict-origin-when-cross-origin');
+  });
+
+  it('masks recipient addresses before operational email logging', () => {
+    expect(maskEmailForLog('alice@example.test')).toBe('a***@masked-domain');
+    expect(maskEmailForLog('invalid-address')).toBe('masked-recipient');
+
+    const mailer = readFileSync('src/lib/mailer.ts', 'utf8');
+    const cron = readFileSync('src/app/api/cron/check-all/route.ts', 'utf8');
+    expect(mailer).not.toContain('Email sent to ${to}');
+    expect(mailer).not.toContain('To: ${to}');
+    expect(cron).not.toContain('subscriber ${subscriber.email}');
+    expect(cron).not.toContain('notify ${subscriber.email}');
   });
 });

@@ -1,5 +1,5 @@
 Scheda stampa PolicyWatcher
-Version 3.9.0-beta.13 · 2026-07-29
+Version 3.9.0-beta.14 · 2026-07-29
 
 Dati configurati sul prodotto con perimetro e limiti di riuso espliciti.
 

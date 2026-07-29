@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+## 3.9.0-beta.14 - 2026-07-29
+
+### Press Outreach Desk
+- Added a protected `/admin/outreach` briefing-sheet workspace for release readiness, reviewed campaign copy, allowlisted landing links, aggregate operations and bounded editorial funnel reporting.
+- Added five versioned Beta 13 campaign cohorts for Italian press, international press, LinkedIn, Product Hunt and Show HN without contact lists or recipient-level fields.
+- Added a browser-local, release-versioned launch checklist with direct verification links and reset control; checklist completion is not stored on the server and is not an availability certification.
+- Added `?campaign=<allowlisted-id>` Pulse landing measurement while ignoring unknown or additional query parameters and retaining no raw URL, referrer or visitor identifier.
+- Added a separate protected parser and endpoint for aggregate pitch, reply, interview, coverage and correction events; auditor and unauthenticated writes are rejected.
+- Added qualified editorial reuse, driver, outcome and guardrail totals for all time and 30 days without percentages or pre-baseline targets.
+- Updated privacy, measurement, outreach, Editorial Pulse, admin guidance, Feature Atlas and in-app release documentation for version `3.9.0-beta.14`.
+
+### Security and privacy hardening
+- Completed a diff-scoped security review across 18 changed or new source files with no reportable vulnerability introduced by the wave.
+- Added adversarial endpoint tests for unsupported content types, malformed JSON, oversized payloads and unavailable event storage.
+- Masked subscriber addresses in mailer and notification logs and removed raw delivery-error objects from those recipient-specific log entries.
+- Clarified that public pages use no tracking or analytics cookies while protected admin and auditor login uses an essential signed HTTP-only session cookie.
+- Removed the unsupported claim that application-level encryption protects the live SQLite file and made hosting-level storage and log controls explicit external verification points.
+
 ## 3.9.0-beta.13 - 2026-07-29
 
 ### Editorial Pulse and distribution assets

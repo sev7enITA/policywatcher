@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage() {
       <main className={styles.container}>
       <article className={styles.content}>
         <h1 className={styles.title}>Privacy Policy</h1>
-        <p className={styles.subtitle}>Last updated: July 27, 2026</p>
+        <p className={styles.subtitle}>Last updated: July 29, 2026</p>
 
         <section className={styles.section}>
           <h2>Who we are</h2>
@@ -52,7 +52,7 @@ export default function PrivacyPolicyPage() {
 
           <h3>Data we do not collect</h3>
           <ul>
-            <li>We do not use cookies (no tracking cookies, no analytics cookies, no session cookies).</li>
+            <li>Public pages use no tracking or analytics cookies. A protected administrator or auditor login uses one essential HTTP-only signed session cookie with a 24-hour maximum age.</li>
             <li>We do not use Google Analytics, Meta Pixel, or any third-party tracking service.</li>
             <li>We do not collect IP addresses for profiling purposes.</li>
             <li>We do not fingerprint your browser or device.</li>
@@ -66,6 +66,7 @@ export default function PrivacyPolicyPage() {
             The Press Kit and Editorial Pulse use a first-party endpoint to count allowlisted aggregate newsroom events:
             press-package and Story Pack actions, Data Room and Pulse story views, social-card actions,
             citation and embed copies, press-contact intentions and launch-destination actions.
+            A valid Pulse campaign link can also record its fixed, allowlisted campaign cohort.
             This counting uses no analytics cookie and no third-party analytics service.
           </p>
           <p>Each accepted event record retains exactly:</p>
@@ -87,13 +88,25 @@ export default function PrivacyPolicyPage() {
             Data Room and Pulse story events are requested once per page-component load. Automated traffic can affect all counts.
             A failed event write does not prevent the requested public action.
           </p>
+          <p>
+            Campaign URLs may contain one public parameter, <code>campaign</code>, whose value must match
+            one of the five published Beta 13 cohort identifiers. Unknown, duplicate or additional values
+            are ignored for campaign measurement. PolicyWatcher does not retain the raw query string.
+          </p>
+          <p>
+            Authenticated administrators may record aggregate outreach operations for an allowlisted cohort:
+            pitch sent, reply received, interview requested, coverage confirmed or correction requested.
+            These records use the same event type, allowlisted target, locale and server timestamp fields.
+            The administrative endpoint rejects recipient, journalist, outlet, email, subject override,
+            message body, notes and arbitrary target values. Auditors can inspect aggregate totals but cannot create them.
+          </p>
         </section>
 
         <section className={styles.section}>
           <h2>Local storage</h2>
           <p>
             We use your browser&apos;s <code>localStorage</code> to remember the Terms of Use disclaimer,
-            language and display preferences, and your optional Adaptive Workspace configuration and
+            language and display preferences, the administrator&apos;s release-versioned outreach-readiness checklist, and your optional Adaptive Workspace configuration and
             onboarding completion. These settings contain no email address or account identifier, do
             not leave your browser, and can be cleared at any time through your browser settings.
           </p>
@@ -211,9 +224,10 @@ export default function PrivacyPolicyPage() {
         <section className={styles.section}>
           <h2>Data storage and security</h2>
           <ul>
-            <li>Subscriber data is stored in an encrypted SQLite database hosted on our server infrastructure.</li>
+            <li>Subscriber data is stored in the production SQLite database. PolicyWatcher does not claim application-level encryption of the live database file; filesystem, volume and backup protection depend on verified hosting controls.</li>
             <li>Production traffic is configured to use HTTPS/TLS; transport security depends on the active hosting and proxy configuration.</li>
             <li>Access to the database is restricted and protected by API authentication.</li>
+            <li>Application logs use masked recipient references for email operations. Hosting-level request logs and their retention remain subject to the active provider configuration.</li>
             <li>We do not store data longer than necessary. If you unsubscribe, your data is marked as inactive and can be permanently deleted upon request.</li>
           </ul>
         </section>

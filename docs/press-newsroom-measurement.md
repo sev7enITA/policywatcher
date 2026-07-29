@@ -32,8 +32,30 @@ Status: implemented measurement definition for the current Evidence Newsroom. Th
 - `citation_copy`: citation copy action; target is an allowlisted surface category.
 - `embed_copy`: embed-code copy action; target is an allowlisted story slug.
 - `launch_outbound`: Product Hunt or Show HN destination action.
+- `campaign_landing`: a `/pulse` component load carrying exactly one allowlisted Beta 13 campaign ID.
 
 These are aggregate events, not unique readers, completed downloads, resulting publications or confirmed launch conversions.
+
+### Protected outreach operations (Beta 14)
+
+The separate authenticated endpoint operates five versioned Beta 13 distribution cohorts and accepts the following administrator-entered aggregate operations with an allowlisted campaign ID and its fixed locale:
+
+- `pitch_sent`;
+- `reply_received`;
+- `interview_requested`;
+- `coverage_confirmed`;
+- `correction_requested`.
+
+Unauthenticated and auditor writes are rejected. The public newsroom endpoint cannot submit these types. The protected endpoint accepts exactly event type, campaign target and locale; it has no field for a person, outlet, recipient, email address, subject override, message, note, referrer or source.
+
+## Outreach KPI framework
+
+- Primary operating KPI: qualified editorial reuse events, calculated as Story Pack actions plus citation copies plus embed-code copies.
+- Drivers: Pulse story views, social-card actions, allowlisted campaign landings and manually recorded pitches sent.
+- Outcome signals: replies received, interview requests and confirmed coverage, reported separately.
+- Guardrails: correction requests and event-write availability.
+
+These counts are proxies. A landing can be automated, a click does not confirm a completed download, and an operator entry does not prove delivery or an editorial decision. No percentages are calculated because the event table contains no persistent visitor or session join. No target is assigned before a stable baseline exists.
 
 ## Windows and access
 
@@ -68,4 +90,4 @@ The admin metrics response exposes:
 - `data.pressNewsroom.trailingWindowStartedAt`;
 - `data.pressNewsroom.boundary`.
 
-Package and contact aggregates include their allowlisted target breakdown. The editorial funnel exposes bounded totals for views, packs, cards, citations, embeds and launch actions. A missing group is represented by zero rather than omitted.
+Package and contact aggregates include their allowlisted target breakdown. The editorial funnel exposes bounded totals for views, packs, cards, citations, embeds, launch actions, campaign landings and protected aggregate outreach operations. The Outreach Desk reports all-time and trailing-30-day counts by campaign and event type. A missing group is represented by zero rather than omitted.

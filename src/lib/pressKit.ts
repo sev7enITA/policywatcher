@@ -444,12 +444,39 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'editorial-pulse-distribution-3-9-0-beta-13',
+    slug: 'press-outreach-operations-3-9-0-beta-14',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'distribution',
+    title: { en: 'Press Outreach Operations', it: 'Operazioni di contatto stampa' },
+    summary: { en: 'Adds a protected, aggregate-only workflow for operating five reviewed editorial campaign cohorts and inspecting bounded outcome signals.', it: 'Aggiunge un flusso protetto e solo aggregato per gestire cinque coorti editoriali revisionate e ispezionare segnali di esito circoscritti.' },
+    changes: [
+      { en: 'Authenticated administrators can complete a browser-local launch checklist for five versioned Beta 13 distribution cohorts.', it: 'Gli amministratori autenticati possono completare una checklist di lancio locale al browser per cinque coorti di distribuzione Beta 13 versionate.' },
+      { en: 'The desk records only allowlisted campaign, pitch, reply, interview, coverage and correction event categories; auditors remain read-only.', it: 'Il desk registra solo categorie ammesse per campagna, pitch, risposta, intervista, copertura e correzione; gli auditor restano in sola lettura.' },
+      { en: 'All-time and trailing-30-day summaries report aggregate event counts without conversion rates or recipient histories.', it: 'I riepiloghi complessivi e degli ultimi 30 giorni riportano conteggi aggregati senza tassi di conversione o cronologie dei destinatari.' },
+      { en: 'Operational logs mask subscriber addresses, and privacy guidance now distinguishes public cookie-free measurement from the essential admin session cookie.', it: 'I log operativi mascherano gli indirizzi degli iscritti e la guida privacy distingue ora la misurazione pubblica senza cookie dal cookie di sessione essenziale dell area amministrativa.' },
+    ],
+    boundaries: [
+      { en: 'The workflow does not store journalist, outlet, recipient, email, message, note, referrer or delivery-history data.', it: 'Il flusso non memorizza dati su giornalisti, testate, destinatari, email, messaggi, note, referrer o cronologia di consegna.' },
+      { en: 'Event counts are operational proxies; they do not establish delivery, readership, publication, adoption, endorsement or conversion.', it: 'I conteggi degli eventi sono proxy operativi; non stabiliscono consegna, lettura, pubblicazione, adozione, approvazione o conversione.' },
+    ],
+    evidenceLinks: [
+      { href: '/press-kit', label: { en: 'Evidence Newsroom', it: 'Evidence Newsroom' } },
+      { href: '/pulse', label: { en: 'PolicyWatcher Pulse', it: 'PolicyWatcher Pulse' } },
+      { href: '/privacy', label: { en: 'Privacy and measurement boundary', it: 'Limite privacy e misurazione' } },
+      { href: '/roadmap', label: { en: 'Release impact', it: 'Impatto release' } },
+    ],
+  },
+  {
+    slug: 'editorial-pulse-distribution-3-9-0-beta-13',
+    version: '3.9.0-beta.13',
+    displayVersion: '3.9.0 Beta 13',
+    datePublished: '2026-07-29',
+    dateModified: '2026-07-29',
+    status: 'archived',
     category: 'distribution',
     title: { en: 'Editorial Pulse and Distribution', it: 'Editorial Pulse e distribuzione' },
     summary: { en: 'Adds a human-approved story registry, deterministic Story Packs, reusable social assets, citation-bearing embeds and aggregate editorial measurement.', it: 'Aggiunge un registro editoriale approvato da persone, Story Pack deterministici, asset social riutilizzabili, embed con citazione e misurazione editoriale aggregata.' },
@@ -707,6 +734,7 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+  { id: 'press-outreach-operations-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Press Outreach Operations published', it: 'Pubblicate le operazioni di contatto stampa' }, detail: { en: 'The protected Outreach Desk operates five reviewed campaign cohorts and records bounded aggregate outcome events without recipient histories or conversion rates.', it: 'Il Press Outreach Desk protetto gestisce cinque coorti revisionate e registra eventi di esito aggregati e circoscritti senza cronologie dei destinatari o tassi di conversione.' }, affectedHref: '/press-kit/releases/press-outreach-operations-3-9-0-beta-14' },
   { id: 'editorial-pulse-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Editorial Pulse and Distribution published', it: 'Pubblicati Editorial Pulse e distribuzione' }, detail: { en: 'Verified story leads now include deterministic Story Packs, social-card formats, embeds, citations and aggregate reuse-event measurement.', it: 'I lead verificati ora includono Story Pack deterministici, formati social, embed, citazioni e misurazione aggregata degli eventi di riuso.' }, affectedHref: '/press-kit/releases/editorial-pulse-distribution-3-9-0-beta-13' },
   { id: 'local-mime-evidence-intake-release', occurredAt: '2026-07-28', type: 'release', title: { en: 'Local MIME Evidence Intake published', it: 'Pubblicato Intake locale MIME delle evidenze' }, detail: { en: 'The What Changed workflow now decodes bounded .eml files locally while excluding recipients and attachments from extracted clues.', it: 'Il flusso Cosa e cambiato ora decodifica localmente file .eml limitati, escludendo destinatari e allegati dagli indizi estratti.' }, affectedHref: '/press-kit/releases/local-mime-evidence-intake-3-9-0-beta-12' },
   { id: 'evidence-delivery-integration-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Evidence Delivery & Integration published', it: 'Pubblicata Distribuzione evidenze e integrazione' }, detail: { en: 'The public Developer directory now documents a read-only v1 manifest and localized Observatory registry endpoint with their stated source boundaries.', it: 'Il catalogo pubblico per sviluppatori ora documenta un manifest v1 in sola lettura e l endpoint localizzato del registro Osservatorio con i relativi limiti delle fonti.' }, affectedHref: '/press-kit/releases/evidence-delivery-integration-3-9-0-beta-11' },

@@ -1,23 +1,16 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { createPressMetricRecord, parsePressMetricPayload } from '@/lib/pressMetrics';
-import { ensurePressMetricStorage } from '@/lib/pressMetricStorage';
+import { ensurePressMetricStorage, nextPressMetricEventDate } from '@/lib/pressMetricStorage';
 import { rateLimit } from '@/lib/rateLimit';
 
 const MAX_BODY_BYTES = 256;
-let lastEventTimestamp = 0;
 
 function noStoreJson(body: Record<string, string>, status: number) {
   return NextResponse.json(body, {
     status,
     headers: { 'Cache-Control': 'no-store, max-age=0' },
   });
-}
-
-function nextEventDate(): Date {
-  const timestamp = Math.max(Date.now(), lastEventTimestamp + 1);
-  lastEventTimestamp = timestamp;
-  return new Date(timestamp);
 }
 
 export async function POST(request: Request) {
@@ -48,7 +41,7 @@ export async function POST(request: Request) {
 
   try {
     await ensurePressMetricStorage();
-    await db.pressMetricEvent.create({ data: createPressMetricRecord(payload, nextEventDate()) });
+    await db.pressMetricEvent.create({ data: createPressMetricRecord(payload, nextPressMetricEventDate()) });
   } catch {
     console.error('[PressMetrics] Event write failed.');
     return noStoreJson({ error: 'Event storage unavailable.' }, 503);

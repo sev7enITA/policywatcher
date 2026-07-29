@@ -226,17 +226,25 @@ Boilerplate:
 
 > PolicyWatcher is a civic-tech project created by Fabrizio Degni. It monitors a configured inventory of public policy sources and displays retrieval status, timestamps, AI-assisted interpretation, governance indicators and stated limitations. The repository is public under CC BY 4.0. PolicyWatcher does not provide legal advice or certify compliance.
 
+## Protected campaign workflow
+
+The Beta 14 operations workflow is available to authenticated administrators at `/admin/outreach`. It manages five fixed, versioned Beta 13 distribution cohorts: Italian press, international press, LinkedIn, Product Hunt and Show HN. Each cohort has reviewed copy, a fixed locale, one allowlisted Pulse landing URL and a visible disclosure. The application does not expose or store a journalist contact directory.
+
+Complete the browser-local launch gate only after checking the deployed homepage, Pulse, release record, Press Kit, Data Room, press packages, Story Packs, four card formats, press contact and methodology boundary. The checklist is a local operator reminder, not an automated certification.
+
+Use one follow-up when appropriate. Record only the allowlisted aggregate operation after it occurs. Recipient selection, sending, delivery evidence and individual histories remain outside PolicyWatcher.
+
 ## Campaign measurement
 
-Audience reach cannot be guaranteed. Track the following observable campaign results:
+Audience reach cannot be guaranteed. PolicyWatcher now tracks the following aggregate event categories without recipient-level data:
 
-- personalized pitches sent and delivery failures;
+- pitches sent by fixed campaign cohort;
 - replies, demo requests and interviews;
 - earned articles and newsletter inclusions;
-- referral sessions by publication;
+- allowlisted campaign landings, without publication or recipient identifiers;
 - demo completion, methodology visits and GitHub stars/forks;
 - Product Hunt/Hacker News comments and qualitative objections;
 - citations from privacy, governance and public-repository communities;
 - corrections requested and time to resolve them.
 
-Use campaign parameters only on public campaign links and never include personal recipient information in URLs.
+Use only the generated `?campaign=<allowlisted-campaign-id>` links. Never include personal recipient information, an outlet name or free text in a URL. Counts are events rather than unique people, delivery confirmations or conversion outcomes.

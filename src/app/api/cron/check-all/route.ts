@@ -19,6 +19,7 @@ import { analyzePolicyChange } from '@/lib/gemini';
 import {
   sendPolicyChangeAlert,
   sendSourceSuspensionAdminAlert,
+  maskEmailForLog,
   ChangedPolicySummary,
   SourceSuspensionAlert,
 } from '@/lib/mailer';
@@ -867,7 +868,7 @@ export async function runFullScan(
         });
 
         if (filteredChanges.length === 0) {
-          console.log(`[Cron] Skipping subscriber ${subscriber.email}: no matching changes based on regions (${subscriber.regions}) or industries (${subscriber.industries})`);
+          console.log(`[Cron] Skipping subscriber ${maskEmailForLog(subscriber.email)}: no matching changes based on configured regions or industries.`);
           continue;
         }
 
@@ -879,10 +880,8 @@ export async function runFullScan(
             subscriber.unsubscribeToken
           );
         } catch (mailError) {
-          console.error(
-            `[Cron] Failed to notify ${subscriber.email}:`,
-            mailError
-          );
+          const errorType = mailError instanceof Error ? mailError.name : 'UnknownError';
+          console.error(`[Cron] Failed to notify ${maskEmailForLog(subscriber.email)} (${errorType}).`);
         }
       }
     } catch (subscriberError) {

@@ -5,6 +5,7 @@ export const ADMIN_GUIDE_ROUTES = [
   '/admin/database',
   '/admin/kpi-audit',
   '/admin/dataset-quality',
+  '/admin/outreach',
   '/admin/review-log',
   '/admin/access-logs',
   '/admin/companies',
@@ -121,6 +122,23 @@ export const ADMIN_GUIDES: Record<AdminGuideRoute, AdminGuide> = {
       { term: 'Freshness', definition: 'Whether evidence was checked recently enough for its monitoring policy.' },
     ],
     commonMistake: 'Do not treat the seal as permanent; it reflects the dataset and quality checks at the time of evaluation.',
+  },
+  '/admin/outreach': {
+    title: 'Press Outreach',
+    purpose: 'Run a release outreach workflow with reviewed campaign copy, browser-local readiness checks and privacy-minimized aggregate event counts.',
+    steps: [
+      'Verify every current public asset and complete the browser-local launch checklist.',
+      'Select the fixed campaign cohort and copy its reviewed title, pitch and allowlisted landing URL.',
+      'Record one aggregate operation only after it occurs; do not enter recipient or outlet details.',
+      'Read reuse, driver, outcome and correction signals separately for all time and the trailing 30 days.',
+      'Follow up at most once when appropriate and keep editorial decisions outside PolicyWatcher.',
+    ],
+    keyTerms: [
+      { term: 'Campaign cohort', definition: 'A fixed public-safe distribution category with reviewed copy, locale and landing route.' },
+      { term: 'Qualified reuse event', definition: 'A Story Pack action, citation copy or embed-code copy; it is a proxy rather than confirmed publication.' },
+      { term: 'Aggregate operation', definition: 'A timestamped event type, campaign ID and locale without recipient-level data.' },
+    ],
+    commonMistake: 'Do not interpret campaign landings, pitches or replies as unique people, delivery confirmations, editorial decisions or a conversion rate.',
   },
   '/admin/review-log': {
     title: 'Review Log',

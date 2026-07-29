@@ -136,12 +136,12 @@ export const pulseStories: PulseStory[] = [
     asOf: PULSE_AS_OF,
     updatedAt: PULSE_AS_OF,
     headline: {
-      en: 'Six consecutive beta records document evidence intake, delivery and public QA changes',
-      it: 'Sei record beta consecutivi documentano cambi a intake, distribuzione e QA pubblico delle evidenze',
+      en: 'Eight consecutive beta records document evidence intake, delivery and public QA changes',
+      it: 'Otto record beta consecutivi documentano cambi a intake, distribuzione e QA pubblico delle evidenze',
     },
     deck: {
-      en: 'The release archive keeps Beta 7 through Beta 13 as dated, bounded product records with direct evidence links.',
-      it: 'L archivio release conserva dalla Beta 7 alla Beta 13 come record prodotto datati, circoscritti e collegati alle evidenze.',
+      en: 'The release archive keeps Beta 7 through Beta 14 as dated, bounded product records with direct evidence links.',
+      it: 'L archivio release conserva dalla Beta 7 alla Beta 14 come record prodotto datati, circoscritti e collegati alle evidenze.',
     },
     whyItMatters: {
       en: 'A versioned product history lets editors verify what changed in the public platform without treating release labels as measured outcomes.',
@@ -157,12 +157,12 @@ export const pulseStories: PulseStory[] = [
     },
     visualKind: 'release-timeline',
     facts: [
-      { id: 'records', value: '7', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 13 in the public archive.', it: 'Dalla Beta 7 alla Beta 13 nell archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
-      { id: 'current', value: 'Beta 13', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Editorial Pulse and Distribution.', it: 'Editorial Pulse e distribuzione.' }, claimId: 'public-code', proofHref: '/press-kit/releases/editorial-pulse-distribution-3-9-0-beta-13' },
+      { id: 'records', value: '8', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 14 in the public archive.', it: 'Dalla Beta 7 alla Beta 14 nell archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
+      { id: 'current', value: 'Beta 14', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Press Outreach Operations.', it: 'Operazioni di contatto stampa.' }, claimId: 'public-code', proofHref: '/press-kit/releases/press-outreach-operations-3-9-0-beta-14' },
     ],
     sourceLinks: [
       { href: '/press-kit/releases', label: { en: 'Versioned release archive', it: 'Archivio release versionato' }, claimId: 'public-code' },
-      { href: '/press-kit/releases/editorial-pulse-distribution-3-9-0-beta-13', label: { en: 'Beta 13 release record', it: 'Record release Beta 13' }, releaseSlug: 'editorial-pulse-distribution-3-9-0-beta-13' },
+      { href: '/press-kit/releases/press-outreach-operations-3-9-0-beta-14', label: { en: 'Beta 14 release record', it: 'Record release Beta 14' }, releaseSlug: 'press-outreach-operations-3-9-0-beta-14' },
       { href: '/press-kit/releases/release-assurance-newsroom-insights-3-9-0-beta-7', label: { en: 'Beta 7 release record', it: 'Record release Beta 7' }, releaseSlug: 'release-assurance-newsroom-insights-3-9-0-beta-7' },
     ],
   },
