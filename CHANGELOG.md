@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+## 3.9.0-beta.20 - 2026-07-29
+
+### Webhook Readiness Kit
+- Added `/developers/webhook-readiness`, a browser-local HMAC-SHA256 verification workbench with no server submission or persistence.
+- Added `/api/v1/webhook-verification-kit` with a versioned candidate receiver contract, public test-only vector, header definitions, checklist and Node/Python examples.
+- Added strict `v1` signature parsing, timestamp-tolerance verification and constant-time server-side comparison helpers with focused tests.
+- Published the Webhook Verification Kit JSON Schema and registered the reference route in the public API manifest.
+- Updated Developers, Integration Hub, API guidance, sitemap and Community Roadmap.
+- Kept endpoint registration, subscriptions, production secrets, push delivery, retries, replay storage, key rotation and delivery receipts outside the delivered surface.
+
 ## 3.9.0-beta.19 - 2026-07-29
 
 ### Public Change Event Feed

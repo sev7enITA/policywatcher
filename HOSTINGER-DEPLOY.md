@@ -28,6 +28,10 @@ places runtime build files in `/home/USER/domains/DOMAIN/nodejs` and retains the
 uploaded source under the sibling `.builds/last-source` directory. The packaged
 `server.js` also searches both source layouts when it is used as the entry file.
 
+Beta 20 adds the Webhook Verification Readiness Kit and does not introduce a
+Prisma schema change. The existing database remains on the Beta 19 migration
+level.
+
 Beta 19 includes migration `20260729153000_public_change_publication_time`. It
 adds the publication timestamp used by the public change-event cursor and
 backfills existing public changes from their creation time. The post-install

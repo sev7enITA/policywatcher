@@ -40,6 +40,7 @@ const decisions = [
   { job: 'Portable multi-change evidence', path: 'Evidence Collections', state: 'Available' },
   { job: 'Review-system handoff', path: 'Vendor-neutral handoff manifest', state: 'Available' },
   { job: 'Change automation polling', path: 'Public change event feed', state: 'Available' },
+  { job: 'Receiver signature testing', path: 'Webhook Readiness Kit', state: 'Available' },
   { job: 'Tenant-authenticated system access', path: 'Enterprise API v2', state: 'Pilot ready' },
   { job: 'Workflow automation', path: 'Power Platform connector', state: 'Pilot ready' },
   { job: 'In-workflow collaboration', path: 'Teams cards and tab', state: 'Planned' },
@@ -101,6 +102,15 @@ const capabilityLanes = [
         external: true,
       },
       {
+        title: 'Webhook Readiness Kit',
+        audience: 'Integration developers and security reviewers',
+        role: 'Tests the candidate HMAC-SHA256 receiver contract locally with a deterministic public vector and implementation examples.',
+        boundary: 'No endpoint registration, subscriptions, production secrets, push delivery, retries or delivery confirmation.',
+        artifact: '/developers/webhook-readiness  |  /api/v1/webhook-verification-kit',
+        href: '/developers/webhook-readiness',
+        link: 'Open verification workbench',
+      },
+      {
         title: 'Browser extension',
         audience: 'Reviewers working from a provider policy page',
         role: 'Moves a page-level review into the existing PolicyWatcher evidence workflow.',
@@ -160,7 +170,7 @@ const capabilityLanes = [
         title: 'Signed event delivery',
         audience: 'Automation and security operations teams',
         role: 'Outbound change, suspension, and recovery events with retries and auditability.',
-        boundary: 'The public polling envelope is available; subscriptions, HMAC signing, replay protection, retries and delivery audit remain required.',
+        boundary: 'The polling envelope and receiver-verification kit are available; subscriptions, secret provisioning, replay storage, retries and delivery audit remain required.',
         artifact: 'Future push delivery for policy.change.published',
       },
       {

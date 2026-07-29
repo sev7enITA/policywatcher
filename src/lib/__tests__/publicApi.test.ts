@@ -36,6 +36,12 @@ describe('public integration directory', () => {
         allowedQueryParams: ['cursor', 'lang', 'limit'],
         evidenceGate: 'public-change',
       }),
+      expect.objectContaining({
+        id: 'webhookVerificationKit',
+        endpoint: '/api/v1/webhook-verification-kit',
+        allowedQueryParams: [],
+        evidenceGate: 'public-reference',
+      }),
     ]));
     expect(manifest.boundaries.join(' ')).toMatch(/does not expose policy text/i);
   });

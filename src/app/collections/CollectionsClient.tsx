@@ -241,7 +241,7 @@ export default function CollectionsClient({
           <div className={styles.heroMeta}><span>Public evidence utility</span><span>Browser-local review state</span></div>
           <div className={styles.heroGrid}>
             <div>
-              <p className={styles.kicker}>PolicyWatcher Beta 19</p>
+              <p className={styles.kicker}>PolicyWatcher Beta 20</p>
               <h1>Shareable Evidence Collections</h1>
               <p className={styles.lead}>Select up to 12 exact public changes, record a local review state, and export one deterministic evidence bundle.</p>
             </div>

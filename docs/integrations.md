@@ -18,6 +18,7 @@ Public entry points:
 | Shareable Evidence Collections | Select up to 12 exact public changes and export deterministic JSON, Markdown, CSV or vendor-neutral handoff records | None; browser-local selection plus read-only CORS | Available | `/collections` |
 | Collaboration Handoff Manifest | Prepare review work items with evidence links, digests and acceptance criteria for authorized import | None; read-only deterministic export | Available | `/api/v1/evidence-collections?format=handoff` |
 | Public Change Event Feed | Poll already-published change events with deterministic IDs and a forward cursor | None; read-only CORS | Available | `/api/v1/change-events` |
+| Webhook Readiness Kit | Verify the candidate HMAC-SHA256 receiver contract against a public deterministic vector | None; local browser verification plus read-only CORS | Available | `/developers/webhook-readiness` |
 | Change-card embed | Display one published change record on a third-party page | None; published evidence only | Available | `/embed/change/{id}` |
 | Chrome browser extension | Extract policy-notice clues locally and hand off a reviewed inquiry | No mailbox permission; explicit user review | Available on Chrome | `/browser-extension` |
 | Enterprise API v2 | Tenant-bound access to structured companies, changes, continuity and governance signals | Microsoft Entra ID scope or app role | Pilot ready | [`azure/enterprise-api-v2.md`](azure/enterprise-api-v2.md) |
@@ -55,6 +56,8 @@ For Power Automate, Power Apps, Logic Apps or Copilot Studio, start with the Pow
 Use `/api/v1/change-events` for bounded anonymous polling of already-published policy change events. Start without a cursor, store the returned `nextCursor`, and pass it unchanged on subsequent requests. Cursor order follows the evidence publication gate rather than source retrieval time, so a previously withheld change can appear when it is approved. The initial response is a recent window rather than a complete historical archive; consumers deduplicate by `eventId` and follow exact Change and Evidence Packet links before routing work.
 
 Signed outbound webhooks remain planned. The polling feed establishes a versioned public envelope, but a production push design still needs tenant-owned subscriptions, delivery retention, endpoint verification, replay protection, HMAC signing, signing-key rotation, retries and integration-health controls.
+
+Use `/developers/webhook-readiness` to exercise the candidate receiver contract without sending a secret or payload to PolicyWatcher. The workbench computes the test signature locally, while `/api/v1/webhook-verification-kit` distributes the versioned header names, signing-input format, public test-only vector, receiver checklist and Node/Python examples. Passing the static vector establishes signature compatibility with that fixture only; evaluate its freshness at the recorded vector time and keep current-time freshness enabled for production traffic. It is not endpoint registration or delivery readiness.
 
 Do not treat the absence of push delivery as permission to automate portal HTML. Use the public polling feed for public events or bounded API v2 reads for a controlled Entra tenant.
 

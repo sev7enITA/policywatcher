@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2019%20Collaboration%20Delivery%20Contracts-146c6a" alt="3.9.0 Beta 19 Collaboration Delivery Contracts" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2020%20Webhook%20Verification%20Readiness-146c6a" alt="3.9.0 Beta 20 Webhook Verification Readiness" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,15 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 20 Webhook Verification Readiness Highlights
+
+- **Local verification workbench:** `/developers/webhook-readiness` verifies the candidate HMAC-SHA256 contract in the browser without submitting or persisting field values.
+- **Versioned receiver kit:** `/api/v1/webhook-verification-kit` publishes exact header names, signing-input format, a deterministic public test vector and Node/Python examples.
+- **Strict verification helpers:** malformed headers, empty secrets, invalid timestamps, stale messages and signature mismatches fail closed; server-side digest comparison uses a constant-time primitive.
+- **Historical-vector boundary:** the static vector tests signature compatibility at its recorded timestamp and does not justify disabling freshness or replay protection in production.
+- **Public contract discovery:** Developers, Integration Hub, API documentation, JSON Schemas, sitemap, Feature Atlas and the Community Roadmap expose the available readiness surface.
+- **Delivery boundary:** endpoint registration, subscriptions, production secret provisioning, push delivery, retries, replay storage, key rotation and delivery receipts remain outside this release.
 
 ### Release 3.9.0 Beta 19 Collaboration Delivery Contracts Highlights
 
@@ -1026,6 +1035,8 @@ Do not run `/api/seed` in production. It is development-only and blocked unless
 For existing SQLite databases originally created with `prisma db push`, mark the initial migration as applied once before switching to migration deploy:
 `npx prisma migrate resolve --applied 20260706213500_init`.
 The Hostinger init helper performs this baseline step automatically when it detects a non-empty SQLite file.
+
+Release 3.9.0 Beta 20 does not introduce a Prisma schema change. Existing installations remain on the Beta 19 migration level.
 
 Release 3.9.0 Beta 19 requires migration `20260729153000_public_change_publication_time`. It adds the publication timestamp used by the public change-event cursor and backfills existing public changes from their creation time. The packaged post-install initializer applies it automatically; manual recovery uses the same `bash scripts/hostinger-init-db.sh` command.
 

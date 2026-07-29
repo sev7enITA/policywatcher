@@ -444,12 +444,39 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'collaboration-delivery-contracts-3-9-0-beta-19',
+    slug: 'webhook-verification-readiness-3-9-0-beta-20',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'product',
+    title: { en: 'Webhook Verification Readiness', it: 'Preparazione alla verifica webhook' },
+    summary: { en: 'Publishes a browser-local HMAC-SHA256 verification workbench and a versioned receiver kit while keeping outbound delivery outside the available contract.', it: 'Pubblica un workbench locale nel browser per la verifica HMAC-SHA256 e un kit receiver versionato, mantenendo la consegna outbound fuori dal contratto disponibile.' },
+    changes: [
+      { en: 'The public workbench verifies the exact timestamp and raw-body signing input locally without submitting or persisting entered values.', it: 'Il workbench pubblico verifica localmente l input esatto composto da timestamp e raw body senza inviare o persistere i valori inseriti.' },
+      { en: 'The read-only verification-kit endpoint publishes header names, signing format, a deterministic public test vector and Node/Python examples.', it: 'L endpoint read-only del verification kit pubblica nomi degli header, formato di firma, test vector pubblico deterministico ed esempi Node/Python.' },
+      { en: 'Strict helpers reject empty secrets, malformed headers, invalid timestamps, stale messages and signature mismatches.', it: 'Gli helper strict rifiutano secret vuoti, header malformati, timestamp non validi, messaggi obsoleti e firme non corrispondenti.' },
+      { en: 'The static vector is identified as a historical signature-compatibility fixture with a fixed freshness reference.', it: 'Il vector statico e identificato come fixture storica di compatibilita della firma con riferimento temporale fisso.' },
+    ],
+    boundaries: [
+      { en: 'Passing the static vector establishes compatibility with that fixture only; production receivers must enforce current-time freshness and replay protection.', it: 'Il superamento del vector statico stabilisce compatibilita solo con quella fixture; i receiver di produzione devono applicare freschezza temporale corrente e protezione replay.' },
+      { en: 'The release provides no endpoint registration, subscriptions, production secrets, push delivery, retries, key rotation or delivery receipts.', it: 'La release non fornisce registrazione endpoint, sottoscrizioni, secret di produzione, push, retry, rotazione chiavi o ricevute di consegna.' },
+    ],
+    evidenceLinks: [
+      { href: '/developers/webhook-readiness', label: { en: 'Local verification workbench', it: 'Workbench di verifica locale' } },
+      { href: '/api/v1/webhook-verification-kit', label: { en: 'Versioned receiver kit', it: 'Receiver kit versionato' } },
+      { href: '/schemas/webhook-verification-kit/v1', label: { en: 'Webhook Verification Kit schema', it: 'Schema Webhook Verification Kit' } },
+      { href: '/integrations', label: { en: 'Integration Hub', it: 'Integration Hub' } },
+    ],
+  },
+  {
+    slug: 'collaboration-delivery-contracts-3-9-0-beta-19',
+    version: '3.9.0-beta.19',
+    displayVersion: '3.9.0 Beta 19',
+    datePublished: POLICYWATCHER_RELEASE_DATE,
+    dateModified: POLICYWATCHER_RELEASE_DATE,
+    status: 'archived',
     category: 'product',
     title: { en: 'Collaboration Delivery Contracts', it: 'Contratti di collaborazione e distribuzione' },
     summary: { en: 'Adds a deterministic review handoff and a bounded public change-event polling feed while keeping third-party creation and outbound delivery outside the public contract.', it: 'Aggiunge un handoff deterministico per la revisione e un feed pubblico circoscritto per il polling degli eventi, mantenendo creazione su sistemi terzi e consegna outbound fuori dal contratto pubblico.' },
@@ -869,6 +896,7 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+  { id: 'webhook-verification-readiness-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Webhook Verification Readiness published', it: 'Pubblicata la preparazione alla verifica webhook' }, detail: { en: 'A browser-local workbench and versioned public kit now define and test the candidate HMAC-SHA256 receiver contract without enabling outbound delivery.', it: 'Un workbench locale nel browser e un kit pubblico versionato ora definiscono e verificano il contratto receiver HMAC-SHA256 candidato senza abilitare la consegna outbound.' }, affectedHref: '/press-kit/releases/webhook-verification-readiness-3-9-0-beta-20' },
   { id: 'collaboration-delivery-contracts-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Collaboration Delivery Contracts published', it: 'Pubblicati i contratti di collaborazione e distribuzione' }, detail: { en: 'Evidence Collections now provides a deterministic review handoff and the public API provides a bounded forward-polling change-event feed.', it: 'Evidence Collections ora fornisce un handoff deterministico per la revisione e l API pubblica offre un feed eventi circoscritto con polling forward.' }, affectedHref: '/press-kit/releases/collaboration-delivery-contracts-3-9-0-beta-19' },
   { id: 'evidence-workflow-refinements-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Evidence Workflow Refinements published', it: 'Pubblicati gli affinamenti del flusso evidenze' }, detail: { en: 'Collections, Evidence Packets, Developers and Integrations now use an evidence-first hierarchy, actionable-state controls, compact mobile navigation and consistent service-page footers.', it: 'Collections, Evidence Packets, Developers e Integrations ora usano una gerarchia evidence-first, controlli legati allo stato utilizzabile, navigazione mobile compatta e footer coerenti per le pagine di servizio.' }, affectedHref: '/press-kit/releases/evidence-workflow-refinements-3-9-0-beta-18' },
   { id: 'shareable-evidence-collections-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Shareable Evidence Collections published', it: 'Pubblicate le collezioni di evidenze condivisibili' }, detail: { en: 'Up to 12 exact public changes can now be selected locally, shared through an ID-only link and exported as deterministic JSON, Markdown or CSV with provenance and review boundaries.', it: 'Fino a 12 cambiamenti pubblici esatti possono ora essere selezionati localmente, condivisi tramite un link contenente solo ID ed esportati come JSON, Markdown o CSV deterministici con provenienza e limiti di revisione.' }, affectedHref: '/press-kit/releases/shareable-evidence-collections-3-9-0-beta-17' },

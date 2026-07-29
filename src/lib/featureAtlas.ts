@@ -129,7 +129,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.16', shortLabel: '3.9 B16', label: '3.9.0 Beta 16' },
   { id: '3.9.0-beta.17', shortLabel: '3.9 B17', label: '3.9.0 Beta 17' },
   { id: '3.9.0-beta.18', shortLabel: '3.9 B18', label: '3.9.0 Beta 18' },
-  { id: '3.9.0-beta.19', shortLabel: '3.9 B19', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '3.9.0-beta.19', shortLabel: '3.9 B19', label: '3.9.0 Beta 19' },
+  { id: '3.9.0-beta.20', shortLabel: '3.9 B20', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -198,6 +199,7 @@ const routeByFeature: Record<string, FeatureAtlasRoute> = {
   'shareable-evidence-collections': { href: '/collections', label: 'Evidence Collections', access: 'public' },
   'collaboration-handoff-manifest': { href: '/collections', label: 'Evidence Collections', access: 'public' },
   'public-change-event-feed': { href: '/developers', label: 'Developer contract', access: 'public' },
+  'webhook-verification-readiness': { href: '/developers/webhook-readiness', label: 'Webhook Readiness Kit', access: 'public' },
 };
 
 const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
@@ -242,6 +244,7 @@ const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
   'shareable-evidence-collections': [{ featureId: 'evidence-governance-packets', relationship: 'depends-on' }, { featureId: 'shareable-evidence-views', relationship: 'depends-on' }, { featureId: 'evidence-distribution', relationship: 'distributed-through' }],
   'collaboration-handoff-manifest': [{ featureId: 'shareable-evidence-collections', relationship: 'depends-on' }, { featureId: 'evidence-governance-packets', relationship: 'depends-on' }],
   'public-change-event-feed': [{ featureId: 'public-integration-directory', relationship: 'depends-on' }, { featureId: 'public-evidence-gate', relationship: 'governed-by' }],
+  'webhook-verification-readiness': [{ featureId: 'public-change-event-feed', relationship: 'depends-on' }, { featureId: 'public-integration-directory', relationship: 'distributed-through' }],
 };
 
 function getReleaseLabel(releaseId: string) {

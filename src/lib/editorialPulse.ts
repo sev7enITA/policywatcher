@@ -140,8 +140,8 @@ export const pulseStories: PulseStory[] = [
       it: 'Tredici record beta consecutivi documentano cambi a intake, distribuzione, QA, collaborazione e flussi delle evidenze',
     },
     deck: {
-      en: 'The release archive keeps Beta 7 through Beta 19 as dated, bounded product records with direct evidence links.',
-      it: 'L archivio release conserva dalla Beta 7 alla Beta 19 come record prodotto datati, circoscritti e collegati alle evidenze.',
+      en: 'The release archive keeps Beta 7 through Beta 20 as dated, bounded product records with direct evidence links.',
+      it: 'L archivio release conserva dalla Beta 7 alla Beta 20 come record prodotto datati, circoscritti e collegati alle evidenze.',
     },
     whyItMatters: {
       en: 'A versioned product history lets editors verify what changed in the public platform without treating release labels as measured outcomes.',
@@ -157,12 +157,12 @@ export const pulseStories: PulseStory[] = [
     },
     visualKind: 'release-timeline',
     facts: [
-      { id: 'records', value: '13', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 19 in the public archive.', it: 'Dalla Beta 7 alla Beta 19 nell archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
-      { id: 'current', value: 'Beta 19', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Collaboration Delivery Contracts.', it: 'Contratti di collaborazione e distribuzione.' }, claimId: 'public-code', proofHref: '/press-kit/releases/collaboration-delivery-contracts-3-9-0-beta-19' },
+      { id: 'records', value: '14', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 20 in the public archive.', it: 'Dalla Beta 7 alla Beta 20 nell archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
+      { id: 'current', value: 'Beta 20', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Webhook Verification Readiness.', it: 'Preparazione alla verifica webhook.' }, claimId: 'public-code', proofHref: '/press-kit/releases/webhook-verification-readiness-3-9-0-beta-20' },
     ],
     sourceLinks: [
       { href: '/press-kit/releases', label: { en: 'Versioned release archive', it: 'Archivio release versionato' }, claimId: 'public-code' },
-      { href: '/press-kit/releases/collaboration-delivery-contracts-3-9-0-beta-19', label: { en: 'Beta 19 release record', it: 'Record release Beta 19' }, releaseSlug: 'collaboration-delivery-contracts-3-9-0-beta-19' },
+      { href: '/press-kit/releases/webhook-verification-readiness-3-9-0-beta-20', label: { en: 'Beta 20 release record', it: 'Record release Beta 20' }, releaseSlug: 'webhook-verification-readiness-3-9-0-beta-20' },
       { href: '/press-kit/releases/release-assurance-newsroom-insights-3-9-0-beta-7', label: { en: 'Beta 7 release record', it: 'Record release Beta 7' }, releaseSlug: 'release-assurance-newsroom-insights-3-9-0-beta-7' },
     ],
   },

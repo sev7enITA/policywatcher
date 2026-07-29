@@ -8,6 +8,7 @@ export type PublicDataSourceId =
   | 'observatoryRegistry'
   | 'evidenceCollections'
   | 'publicChangeEvents'
+  | 'webhookVerificationKit'
   | 'riskTrends'
   | 'kpiMatrix';
 
@@ -143,6 +144,14 @@ export const PUBLIC_DATA_SOURCES: Readonly<Record<PublicDataSourceId, PublicData
       freshness: { mode: 'short-ttl', maxAgeSeconds: 60 },
       allowedQueryParams: ['cursor', 'lang', 'limit'],
       description: 'Forward-only polling feed for already-published policy change events.',
+    }),
+    webhookVerificationKit: sourceSpec({
+      id: 'webhookVerificationKit',
+      endpoint: '/api/v1/webhook-verification-kit',
+      evidenceGate: 'public-reference',
+      freshness: { mode: 'short-ttl', maxAgeSeconds: 86_400 },
+      allowedQueryParams: [],
+      description: 'Versioned receiver-verification contract, public test vector and implementation examples; no delivery service.',
     }),
     riskTrends: sourceSpec({
       id: 'riskTrends',

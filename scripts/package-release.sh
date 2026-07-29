@@ -52,7 +52,7 @@ required_sources=(
   README.md HOSTINGER-DEPLOY.md CHANGELOG.md SECURITY.md LICENSE .env.example public src prisma scripts integrations
   docs/dataset-confidence-audit-2026-07-05.md docs/audit-v3.6.5.md
   docs/audit-v3.7.0.md docs/audit-v3.7.1.md docs/audit-v3.7.2.md docs/audit-v3.8.0.md docs/audit-v3.8.1.md docs/audit-v3.8.2.md docs/audit-v3.8.3.md docs/audit-v3.8.3-beta.2.md docs/audit-v3.8.3-beta.3.md docs/audit-v3.8.3-beta.4.md docs/beta-evidence-cycle-v3.8.3.md docs/platform-state-of-art-2026-07-05.md
-  docs/audit-v3.9.0-beta.1.md docs/audit-v3.9.0-beta.2.md docs/audit-v3.9.0-beta.3.md docs/audit-v3.9.0-beta.4.md docs/audit-v3.9.0-beta.5.md docs/audit-v3.9.0-beta.6.md docs/audit-v3.9.0-beta.7.md docs/audit-v3.9.0-beta.8.md docs/audit-v3.9.0-beta.9.md docs/audit-v3.9.0-beta.10.md docs/audit-v3.9.0-beta.11.md docs/audit-v3.9.0-beta.12.md docs/audit-v3.9.0-beta.13.md docs/audit-v3.9.0-beta.14.md docs/audit-v3.9.0-beta.15.md docs/audit-v3.9.0-beta.16.md docs/audit-v3.9.0-beta.17.md docs/audit-v3.9.0-beta.18.md docs/audit-v3.9.0-beta.19.md docs/platform-state-of-art-2026-07-05.it.md docs/third-party-validation.md docs/public-api-v1.md docs/integrations.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
+  docs/audit-v3.9.0-beta.1.md docs/audit-v3.9.0-beta.2.md docs/audit-v3.9.0-beta.3.md docs/audit-v3.9.0-beta.4.md docs/audit-v3.9.0-beta.5.md docs/audit-v3.9.0-beta.6.md docs/audit-v3.9.0-beta.7.md docs/audit-v3.9.0-beta.8.md docs/audit-v3.9.0-beta.9.md docs/audit-v3.9.0-beta.10.md docs/audit-v3.9.0-beta.11.md docs/audit-v3.9.0-beta.12.md docs/audit-v3.9.0-beta.13.md docs/audit-v3.9.0-beta.14.md docs/audit-v3.9.0-beta.15.md docs/audit-v3.9.0-beta.16.md docs/audit-v3.9.0-beta.17.md docs/audit-v3.9.0-beta.18.md docs/audit-v3.9.0-beta.19.md docs/audit-v3.9.0-beta.20.md docs/platform-state-of-art-2026-07-05.it.md docs/third-party-validation.md docs/public-api-v1.md docs/integrations.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
   docs/architecture/native-dashboard-engine.md docs/architecture/native-dashboard-functional-implementation-report.md docs/architecture/vizro-patterns-knowledge-base.md
   docs/native-dashboard-user-guide.md
   docs/press-outreach-2026-07-27.md
@@ -128,9 +128,13 @@ required_entries=(
   src/app/integrations/page.tsx src/app/api/v2/openapi.json/route.ts
   src/app/collections/page.tsx src/app/api/v1/evidence-collections/route.ts src/lib/evidenceCollection.ts
   src/app/api/v1/change-events/route.ts src/lib/publicChangeEvents.ts src/lib/publicChangeEventData.ts
+  src/app/api/v1/webhook-verification-kit/route.ts src/lib/webhookVerification.ts
+  src/app/developers/webhook-readiness/page.tsx src/app/developers/webhook-readiness/WebhookReadinessClient.tsx
+  src/app/developers/webhook-readiness/webhook-readiness.module.css
   src/app/pulse/page.tsx src/app/pulse/[slug]/page.tsx
   src/app/api/pulse/story-pack/[slug]/route.ts src/app/embed/pulse/[slug]/page.tsx
   docs/integrations.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
+  docs/audit-v3.9.0-beta.20.md docs/public-api-v1.md
   integrations/power-platform/policywatcher-v2/apiDefinition.swagger.template.json
   prisma/schema.prisma prisma/migrations/20260721150000_policy_inquiry/migration.sql
   prisma/migrations/20260729153000_public_change_publication_time/migration.sql

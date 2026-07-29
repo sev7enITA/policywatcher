@@ -54,6 +54,11 @@ describe('public data-source registry', () => {
       allowedQueryParams: ['cursor', 'lang', 'limit'],
       evidenceGate: 'public-change',
     });
+    expect(PUBLIC_DATA_SOURCES.webhookVerificationKit).toMatchObject({
+      endpoint: '/api/v1/webhook-verification-kit',
+      allowedQueryParams: [],
+      evidenceGate: 'public-reference',
+    });
   });
 
   it('builds canonical URLs and visibility-scoped query keys', () => {

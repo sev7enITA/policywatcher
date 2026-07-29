@@ -21,7 +21,7 @@ export const PUBLIC_API_VERSION = 'v1' as const;
 export const PUBLIC_API_RATE_LIMIT = Object.freeze({
   requests: 60,
   intervalSeconds: 60,
-  scope: 'default per-IP bucket for the manifest and Observatory routes',
+  scope: 'default per-IP bucket for public v1 reference routes',
   overrides: Object.freeze([
     Object.freeze({ endpoint: '/api/v1/evidence-collections', requests: 30, intervalSeconds: 60 }),
     Object.freeze({ endpoint: '/api/v1/change-events', requests: 30, intervalSeconds: 60 }),

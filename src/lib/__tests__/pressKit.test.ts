@@ -143,6 +143,7 @@ describe('public press kit', () => {
     expect(schemaRoute).toContain('pressKitSchemas');
     expect(pressKitSchemas['evidence-handoff'].$id).toBe('https://policywatcher.online/schemas/evidence-handoff/v1');
     expect(pressKitSchemas['change-event-feed'].$id).toBe('https://policywatcher.online/schemas/change-event-feed/v1');
+    expect(pressKitSchemas['webhook-verification-kit'].$id).toBe('https://policywatcher.online/schemas/webhook-verification-kit/v1');
   });
 
   it('connects the Press Kit through public navigation and supporting surfaces', () => {
@@ -203,12 +204,16 @@ describe('public press kit', () => {
     const workflowItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'evidence-workflow-refinements');
     expect(workflowItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.18', endRelease: '3.9.0-beta.18' });
     const handoffItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'collaboration-handoff-manifest');
-    expect(handoffItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(handoffItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.19', endRelease: '3.9.0-beta.19' });
     const handoffAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'collaboration-handoff-manifest');
     expect(handoffAtlasItem?.route).toEqual({ href: '/collections', label: 'Evidence Collections', access: 'public' });
     const eventItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'public-change-event-feed');
-    expect(eventItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(eventItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.19', endRelease: '3.9.0-beta.19' });
     const eventAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'public-change-event-feed');
     expect(eventAtlasItem?.route).toEqual({ href: '/developers', label: 'Developer contract', access: 'public' });
+    const webhookItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'webhook-verification-readiness');
+    expect(webhookItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    const webhookAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'webhook-verification-readiness');
+    expect(webhookAtlasItem?.route).toEqual({ href: '/developers/webhook-readiness', label: 'Webhook Readiness Kit', access: 'public' });
   });
 });

@@ -304,9 +304,9 @@ const candidateFeatures = [
     track: 'API',
     title: 'Signed outbound events and webhooks',
     body:
-      'A versioned forward-polling feed now exposes already-public policy.change.published envelopes with stable IDs and opaque cursors. Push delivery remains a separate later phase.',
-    status: 'Polling feed available · push later',
-    risk: 'Subscriptions, HMAC signing, replay protection, retries, retention and delivery-health controls are still required before outbound webhooks.',
+      'A versioned polling feed and a public receiver-verification kit now expose the candidate event envelope, HMAC-SHA256 signing input, deterministic test vector and implementation examples. Push delivery remains a separate later phase.',
+    status: 'Receiver kit available · push later',
+    risk: 'Subscriptions, production secret provisioning, replay storage, retries, retention and delivery-health controls are still required before outbound webhooks.',
   },
   {
     track: 'Governance',

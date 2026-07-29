@@ -8,6 +8,7 @@ import {
   Database,
   Globe2,
   LockKeyhole,
+  KeyRound,
   Radio,
   ShieldCheck,
   FolderKanban,
@@ -68,6 +69,10 @@ export default function DevelopersPage() {
                   Build a collection
                   <FolderKanban size={16} aria-hidden="true" />
                 </Link>
+                <Link href="/developers/webhook-readiness" className={styles.secondaryAction}>
+                  Verify signatures
+                  <KeyRound size={16} aria-hidden="true" />
+                </Link>
               </div>
             </div>
             <aside className={styles.contractCard} aria-label="Public API contract summary">
@@ -101,7 +106,7 @@ export default function DevelopersPage() {
         <section id="endpoints" className={styles.section}>
           <header className={styles.sectionHeader}>
             <span>Endpoints</span>
-            <h2>Four stable entry points for this release.</h2>
+            <h2>Five stable entry points for this release.</h2>
             <p>All endpoints accept `GET`, permit cross-origin read access without credentials, and apply bounded public-data and rate policies. Collection exports also support Markdown, CSV and a vendor-neutral review handoff.</p>
           </header>
           <div className={styles.endpointGrid}>
@@ -148,6 +153,16 @@ export default function DevelopersPage() {
               <p>Returns already-public policy change events with stable event IDs and an opaque forward cursor. It does not send notifications or confirm delivery.</p>
               <pre><code>{`?limit=25&lang=en&cursor={opaque}`}</code></pre>
               <a href="/api/v1/change-events?limit=25&lang=en" target="_blank" rel="noreferrer">Open event feed <ArrowRight size={15} aria-hidden="true" /></a>
+            </article>
+            <article className={styles.endpointCard}>
+              <div className={styles.endpointHeader}>
+                <span>GET · READINESS CONTRACT</span>
+                <KeyRound size={19} aria-hidden="true" />
+              </div>
+              <h3>Webhook verification kit</h3>
+              <code>/api/v1/webhook-verification-kit</code>
+              <p>Publishes the candidate HMAC-SHA256 receiver contract, a public test-only vector and Node/Python examples. It does not register endpoints or deliver events.</p>
+              <Link href="/developers/webhook-readiness">Open local verifier <ArrowRight size={15} aria-hidden="true" /></Link>
             </article>
           </div>
         </section>
@@ -209,7 +224,7 @@ export default function DevelopersPage() {
             <span>Operating note</span>
             <h2>Connect to the evidence, not around it.</h2>
             <p>
-              Use API v1 for anonymous public reading and API v2 for a controlled Entra tenant pilot. When a source is suspended or not public, integrations receive bounded state information rather than inferred policy content. Signed outbound events and write operations remain future roadmap work.
+              Use API v1 for anonymous public reading and API v2 for a controlled Entra tenant pilot. The readiness kit lets receivers test the candidate signature contract locally. Subscriptions, signed outbound delivery and write operations remain future roadmap work.
             </p>
           </div>
           <Link href="/integrations" className={styles.bandLink}>Compare integrations <ArrowRight size={16} /></Link>
