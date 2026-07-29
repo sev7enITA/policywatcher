@@ -34,7 +34,7 @@ export interface ReleaseImpactItem {
   externalDependency?: string;
 }
 
-export const RELEASE_IMPACT_UPDATED_AT = '28 July 2026' as const;
+export const RELEASE_IMPACT_UPDATED_AT = '29 July 2026' as const;
 
 export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.7.0', shortLabel: '3.7.0', label: '3.7.0', state: 'delivered' },
@@ -313,17 +313,17 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
   {
     id: 'hostinger-recovery',
     title: 'Hostinger database recovery',
-    summary: 'Separates session access from metrics and identifies schema drift at startup.',
+    summary: 'Separates session access from metrics and exposes protected read-only database readiness alongside deployment-time schema reconciliation.',
     domainId: 'operations',
     status: 'delivered',
     horizon: 'delivered',
     startRelease: 'beta.6',
     endRelease: 'beta.6',
     benefit: 'Operators can recover an outdated schema without replacing the database.',
-    kpi: 'Operator recovery path: Unlocked',
-    kri: 'Post-deploy verification: Pending validation',
-    evidence: 'Database-independent admin session, typed schema error and startup initializer.',
-    limitation: 'The production result must be confirmed after upload and application restart.',
+    kpi: 'Operator recovery path and readiness inspection: Available',
+    kri: 'Restore execution and post-deploy production result: Require operator validation',
+    evidence: 'Database-independent admin session, non-blocking optional metrics, managed-install initializer, bounded schema diagnostics and protected readiness panel.',
+    limitation: 'The readiness panel is read-only and does not migrate, reset, repair or restore production data.',
   },
   {
     id: 'impact-clarity',

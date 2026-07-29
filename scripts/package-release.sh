@@ -11,7 +11,13 @@ RELEASE_NAME="$(sed -n "s/.*POLICYWATCHER_RELEASE_NAME = '\([^']*\)'.*/\1/p" "${
 RELEASE_VERSION="$(sed -n "s/.*POLICYWATCHER_VERSION = '\([^']*\)'.*/\1/p" "${APP_DIR}/src/lib/release.ts")"
 SOURCE_REVISION="$(git -C "${APP_DIR}" rev-parse HEAD)"
 DATE_STAMP="$(date +%Y-%m-%d)"
-ARCHIVE_NAME="PolicyWatcher-${VERSION}-hostinger-${DATE_STAMP}.zip"
+ARTIFACT_LABEL="${POLICYWATCHER_ARTIFACT_LABEL:-}"
+if [[ -n "${ARTIFACT_LABEL}" ]] && [[ ! "${ARTIFACT_LABEL}" =~ ^[a-z0-9][a-z0-9.-]*$ ]]; then
+  echo "POLICYWATCHER_ARTIFACT_LABEL must contain lowercase letters, numbers, dots or hyphens." >&2
+  exit 1
+fi
+ARTIFACT_SUFFIX="${ARTIFACT_LABEL:+-${ARTIFACT_LABEL}}"
+ARCHIVE_NAME="PolicyWatcher-${VERSION}-hostinger-${DATE_STAMP}${ARTIFACT_SUFFIX}.zip"
 ARCHIVE="${OUTPUT_DIR}/${ARCHIVE_NAME}"
 CHECKSUM="${ARCHIVE}.sha256"
 STAGING_DIR="$(mktemp -d /tmp/policywatcher-package.XXXXXX)"
@@ -77,7 +83,7 @@ find "${STAGING_DIR}" -type f \( -name '*.db' -o -name '*.sqlite' -o -name '*.sq
 
 node -e '
   const fs = require("fs");
-  const [target, version, releaseName, revision] = process.argv.slice(1);
+  const [target, version, releaseName, revision, artifactLabel] = process.argv.slice(1);
   fs.writeFileSync(target, JSON.stringify({
     product: "PolicyWatcher",
     version,
@@ -87,9 +93,10 @@ node -e '
     target: "Hostinger Next.js source deployment",
     startupCommand: "npm start",
     startupFile: "server.js",
-    databaseIncluded: false
+    databaseIncluded: false,
+    artifactLabel: artifactLabel || null
   }, null, 2) + "\n");
-' "${STAGING_DIR}/release-manifest.json" "${VERSION}" "${RELEASE_NAME}" "${SOURCE_REVISION}"
+' "${STAGING_DIR}/release-manifest.json" "${VERSION}" "${RELEASE_NAME}" "${SOURCE_REVISION}" "${ARTIFACT_LABEL}"
 
 (cd "${STAGING_DIR}" && zip -q -r "${ARCHIVE}" .)
 
@@ -114,6 +121,7 @@ done <<< "${archive_entries}"
 
 required_entries=(
   package.json package-lock.json release-manifest.json HOSTINGER-DEPLOY.md server.js src/lib/release.ts
+  src/app/api/admin/database-readiness/route.ts src/lib/databaseReadiness.ts
   src/app/integrations/page.tsx src/app/api/v2/openapi.json/route.ts
   docs/integrations.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
   integrations/power-platform/policywatcher-v2/apiDefinition.swagger.template.json

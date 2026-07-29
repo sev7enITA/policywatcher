@@ -3479,6 +3479,219 @@ thead .kpiMatrixStickyCol {
 }
 
 /* ---------- Premium Database Inspector Styles ---------- */
+.databasePageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.databaseHeaderActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.databaseReadinessBadge,
+.databaseRefreshButton {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 11px;
+  border-radius: 9px;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.databaseReadinessBadge {
+  border: 1px solid var(--border-color);
+}
+
+.databaseReadinessBadge_ready {
+  border-color: rgba(16, 185, 129, 0.34);
+  background: var(--risk-low-glow);
+  color: var(--risk-low);
+}
+
+.databaseReadinessBadge_degraded {
+  border-color: rgba(245, 158, 11, 0.38);
+  background: var(--risk-medium-glow);
+  color: var(--risk-medium);
+}
+
+.databaseReadinessBadge_unavailable {
+  border-color: rgba(239, 68, 68, 0.34);
+  background: var(--risk-high-glow);
+  color: var(--risk-high);
+}
+
+.databaseRefreshButton {
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-body);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+.databaseRefreshButton:hover {
+  border-color: var(--primary);
+  background: var(--bg-secondary);
+}
+
+.databaseReadinessPanel {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+}
+
+.databaseReadinessHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.databaseReadinessHeader span {
+  color: var(--primary);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.databaseReadinessHeader h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+}
+
+.databaseReadinessHeader h2 svg {
+  color: var(--primary);
+}
+
+.databaseReadinessHeader p,
+.databaseReadinessHeader time {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.databaseReadinessHeader time {
+  flex-shrink: 0;
+}
+
+.databaseReadinessGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.databaseReadinessGrid article {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 3px 8px;
+  align-items: center;
+  padding: 13px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 11px;
+  background: var(--bg-secondary);
+}
+
+.databaseReadinessGrid article > svg {
+  grid-row: 1 / span 3;
+  color: var(--primary);
+}
+
+.databaseReadinessGrid span,
+.databaseReadinessGrid small {
+  min-width: 0;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.databaseReadinessGrid strong {
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  overflow-wrap: anywhere;
+}
+
+.databaseReadinessFindings {
+  padding: 13px 14px;
+  border: 1px solid rgba(245, 158, 11, 0.32);
+  border-radius: 10px;
+  background: var(--risk-medium-glow);
+  color: var(--text-body);
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+.databaseReadinessFindings strong {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--risk-medium);
+}
+
+.databaseReadinessFindings p {
+  margin: 5px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.databaseReadinessFindings code {
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: var(--bg-card);
+  color: var(--text-main);
+  font-size: 0.72rem;
+}
+
+.databaseReadinessMeta {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.databaseReadinessMeta div {
+  min-width: 0;
+  padding-top: 9px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.databaseReadinessMeta dt {
+  color: var(--text-muted);
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.databaseReadinessMeta dd {
+  margin: 3px 0 0;
+  color: var(--text-body);
+  font-size: 0.73rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
 .dbGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -3605,6 +3818,41 @@ thead .kpiMatrixStickyCol {
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+@media (max-width: 1100px) {
+  .databaseReadinessGrid,
+  .databaseReadinessMeta {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .databasePageHeader {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .databaseHeaderActions,
+  .databaseReadinessHeader {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .databaseReadinessBadge,
+  .databaseRefreshButton {
+    width: 100%;
+  }
+
+  .databaseReadinessPanel {
+    padding: 15px;
+  }
+
+  .databaseReadinessGrid,
+  .databaseReadinessMeta {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---------- Premium KPI Audit Styles ---------- */

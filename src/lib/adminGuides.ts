@@ -74,19 +74,21 @@ export const ADMIN_GUIDES: Record<AdminGuideRoute, AdminGuide> = {
   },
   '/admin/database': {
     title: 'Database',
-    purpose: 'Inspect the read-only evidence inventory: companies, policies, snapshots and detected changes, including links to their sources.',
+    purpose: 'Inspect database readiness and the read-only evidence inventory: integrity, schema, migrations, companies, policies, snapshots and detected changes.',
     steps: [
+      'Review the readiness panel before interpreting inventory counts.',
+      'Confirm that integrity passed, all expected tables are present and the migration ledger is current.',
       'Locate a company and inspect its monitored policies.',
       'Open source links to compare stored evidence with the official document.',
-      'Review snapshot and change counts for continuity.',
-      'Use Companies or a review workflow when a source needs correction.',
+      'Review snapshot and change counts, then use Companies or a review workflow when a source needs correction.',
     ],
     keyTerms: [
       { term: 'Snapshot', definition: 'A stored version of policy text captured at a point in time.' },
       { term: 'Change', definition: 'A validated difference between successive policy snapshots.' },
       { term: 'Source', definition: 'The official URL from which policy evidence is retrieved.' },
+      { term: 'Readiness', definition: 'A read-only check of SQLite integrity, expected tables, migration records and file access.' },
     ],
-    commonMistake: 'Do not look for direct-edit controls here. Registry and evidence decisions belong in Companies and review flows.',
+    commonMistake: 'Do not interpret an unavailable check as an empty database or apply a reset. Use the deployment initializer and preserve the production file.',
   },
   '/admin/kpi-audit': {
     title: 'KPI Audit',

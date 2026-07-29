@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Database,
@@ -12,6 +12,12 @@ import {
   Archive,
   AlertTriangle,
   GitCompare,
+  CheckCircle2,
+  CircleAlert,
+  HardDrive,
+  Layers3,
+  RefreshCw,
+  ShieldCheck,
 } from 'lucide-react';
 import styles from '../admin.module.css';
 import { buildWaybackSearchUrl } from '@/lib/wayback';
@@ -43,6 +49,43 @@ interface CompanyData {
   _count: {
     policies: number;
   };
+}
+
+type ReadinessStatus = 'ready' | 'degraded' | 'unavailable';
+
+interface DatabaseReadiness {
+  status: ReadinessStatus;
+  checkedAt: string;
+  database: {
+    configured: boolean;
+    filePath: string | null;
+    directoryPath: string | null;
+    directoryExists: boolean;
+    directoryWritable: boolean;
+    fileExists: boolean;
+    fileReadable: boolean;
+    fileWritable: boolean;
+    fileSizeBytes: number;
+  };
+  integrity: {
+    quickCheck: string;
+    journalMode: string;
+    foreignKeysEnabled: boolean;
+    pageCount: number | null;
+    freePageCount: number | null;
+  };
+  schema: {
+    expectedTableCount: number;
+    presentTableCount: number;
+    missingTables: string[];
+    expectedMigrationCount: number;
+    appliedMigrationCount: number;
+    missingMigrations: string[];
+    migrationLedgerAvailable: boolean;
+    lastAppliedMigration: string | null;
+    lastAppliedAt: string | null;
+  };
+  diagnosticCode: string | null;
 }
 
 /* ---------- Helpers ---------- */
@@ -78,6 +121,14 @@ function formatDate(iso: string): string {
   });
 }
 
+function formatBytes(bytes: number): string {
+  if (!Number.isFinite(bytes) || bytes <= 0) return '0 B';
+  const units = ['B', 'KB', 'MB', 'GB'];
+  const unitIndex = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+  const value = bytes / (1024 ** unitIndex);
+  return `${value.toFixed(unitIndex === 0 ? 0 : 1)} ${units[unitIndex]}`;
+}
+
 /* ---------- Component ---------- */
 
 export default function DatabaseInspectorPage() {
@@ -85,41 +136,58 @@ export default function DatabaseInspectorPage() {
   const [companies, setCompanies] = useState<CompanyData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [readiness, setReadiness] = useState<DatabaseReadiness | null>(null);
+  const [readinessError, setReadinessError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [industryFilter, setIndustryFilter] = useState('All');
 
-  /* Fetch companies on mount */
-  useEffect(() => {
-    async function load() {
-      try {
-        const res = await fetch('/api/admin/companies', {
-          credentials: 'include',
-        });
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError('');
+    setReadinessError('');
 
-        if (res.status === 401) {
-          router.push('/admin/login');
-          return;
-        }
+    const [companiesResult, readinessResult] = await Promise.allSettled([
+      fetch('/api/admin/companies', { credentials: 'include', cache: 'no-store' }),
+      fetch('/api/admin/database-readiness', { credentials: 'include', cache: 'no-store' }),
+    ]);
 
-        if (!res.ok) {
-          throw new Error(`Server responded with ${res.status}`);
-        }
-
-        const data = await res.json();
-        setCompanies(data.companies ?? []);
-      } catch (err) {
-        setError(
-          err instanceof Error
-            ? err.message
-            : 'Failed to load companies. Please try again.'
-        );
-      } finally {
-        setLoading(false);
+    try {
+      if (companiesResult.status === 'rejected') throw companiesResult.reason;
+      if (companiesResult.value.status === 401) {
+        router.push('/admin/login');
+        return;
       }
+      if (!companiesResult.value.ok) {
+        throw new Error(`Inventory endpoint responded with ${companiesResult.value.status}`);
+      }
+      const data = await companiesResult.value.json();
+      setCompanies(data.companies ?? []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load the evidence inventory.');
     }
 
-    load();
+    try {
+      if (readinessResult.status === 'rejected') throw readinessResult.reason;
+      if (readinessResult.value.status === 401) {
+        router.push('/admin/login');
+        return;
+      }
+      const data = await readinessResult.value.json() as DatabaseReadiness | { error?: string };
+      if (!('status' in data)) {
+        throw new Error(data.error || `Readiness endpoint responded with ${readinessResult.value.status}`);
+      }
+      setReadiness(data);
+    } catch (err) {
+      setReadinessError(err instanceof Error ? err.message : 'Database readiness could not be evaluated.');
+    } finally {
+      setLoading(false);
+    }
   }, [router]);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => void load(), 0);
+    return () => window.clearTimeout(timer);
+  }, [load]);
 
   /* Derived stats */
   const stats = useMemo(() => {
@@ -171,10 +239,17 @@ export default function DatabaseInspectorPage() {
     );
   }
 
+  const readinessLabel = readiness?.status === 'ready'
+    ? 'Database ready'
+    : readiness?.status === 'degraded'
+      ? 'Database degraded'
+      : 'Database unavailable';
+  const ReadinessIcon = readiness?.status === 'ready' ? CheckCircle2 : CircleAlert;
+
   return (
     <div>
       {/* Page Header */}
-      <div className={styles.pageHeader} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div className={`${styles.pageHeader} ${styles.databasePageHeader}`}>
         <div>
           <h1 className={styles.pageTitle} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <Database size={24} style={{ color: 'var(--primary)' }} />
@@ -184,9 +259,16 @@ export default function DatabaseInspectorPage() {
             Browse, search and audit all database entities and snapshot history
           </p>
         </div>
-        <span className={styles.logoVersion} style={{ fontSize: '0.78rem', padding: '4px 10px', borderRadius: '8px' }}>
-          Prisma DB Connected
-        </span>
+        <div className={styles.databaseHeaderActions}>
+          <span className={`${styles.databaseReadinessBadge} ${styles[`databaseReadinessBadge_${readiness?.status || 'unavailable'}`]}`}>
+            <ReadinessIcon size={14} />
+            {readinessLabel}
+          </span>
+          <button type="button" className={styles.databaseRefreshButton} onClick={() => void load()}>
+            <RefreshCw size={14} />
+            Recheck
+          </button>
+        </div>
       </div>
 
       {/* Error banner */}
@@ -196,6 +278,72 @@ export default function DatabaseInspectorPage() {
           {error}
         </div>
       )}
+
+      <section className={styles.databaseReadinessPanel} aria-labelledby="database-readiness-title">
+        <header className={styles.databaseReadinessHeader}>
+          <div>
+            <span>Read-only production check</span>
+            <h2 id="database-readiness-title"><ShieldCheck size={19} /> Database readiness</h2>
+            <p>Integrity, schema contract and migration ledger are checked without changing stored evidence.</p>
+          </div>
+          {readiness && <time dateTime={readiness.checkedAt}>Checked {new Date(readiness.checkedAt).toLocaleString()}</time>}
+        </header>
+
+        {readinessError && (
+          <div className={`${styles.alert} ${styles.alertWarning}`}>
+            <AlertTriangle size={16} />
+            {readinessError}
+          </div>
+        )}
+
+        {readiness && (
+          <>
+            <div className={styles.databaseReadinessGrid}>
+              <article>
+                <ShieldCheck size={18} />
+                <span>SQLite integrity</span>
+                <strong>{readiness.integrity.quickCheck === 'ok' ? 'Passed' : readiness.integrity.quickCheck}</strong>
+                <small>PRAGMA quick_check(1)</small>
+              </article>
+              <article>
+                <Layers3 size={18} />
+                <span>Schema tables</span>
+                <strong>{readiness.schema.presentTableCount} / {readiness.schema.expectedTableCount}</strong>
+                <small>{readiness.schema.missingTables.length === 0 ? 'Current contract present' : `${readiness.schema.missingTables.length} missing`}</small>
+              </article>
+              <article>
+                <GitCompare size={18} />
+                <span>Applied migrations</span>
+                <strong>{readiness.schema.appliedMigrationCount} / {readiness.schema.expectedMigrationCount}</strong>
+                <small>{readiness.schema.migrationLedgerAvailable ? 'Prisma ledger available' : 'Ledger unavailable'}</small>
+              </article>
+              <article>
+                <HardDrive size={18} />
+                <span>SQLite file access</span>
+                <strong>{readiness.database.fileReadable ? 'R' : '-'}{readiness.database.fileWritable ? 'W' : '-'}</strong>
+                <small>{formatBytes(readiness.database.fileSizeBytes)} · {readiness.integrity.journalMode} journal</small>
+              </article>
+            </div>
+
+            {(readiness.schema.missingTables.length > 0 || readiness.schema.missingMigrations.length > 0 || readiness.diagnosticCode) && (
+              <div className={styles.databaseReadinessFindings}>
+                <strong><AlertTriangle size={15} /> Action required</strong>
+                {readiness.diagnosticCode && <p>Diagnostic code: <code>{readiness.diagnosticCode}</code></p>}
+                {readiness.schema.missingTables.length > 0 && <p>Missing tables: {readiness.schema.missingTables.join(', ')}</p>}
+                {readiness.schema.missingMigrations.length > 0 && <p>Missing migrations: {readiness.schema.missingMigrations.join(', ')}</p>}
+                <p>Redeploy the verified Hostinger package or run <code>bash scripts/hostinger-init-db.sh</code> from <code>.builds/last-source</code>. Do not reset or replace the production database.</p>
+              </div>
+            )}
+
+            <dl className={styles.databaseReadinessMeta}>
+              <div><dt>Foreign keys</dt><dd>{readiness.integrity.foreignKeysEnabled ? 'Enabled for this connection' : 'Not reported as enabled'}</dd></div>
+              <div><dt>Pages</dt><dd>{readiness.integrity.pageCount ?? 'n/a'} total · {readiness.integrity.freePageCount ?? 'n/a'} free</dd></div>
+              <div><dt>Last migration</dt><dd>{readiness.schema.lastAppliedMigration || 'Not available'}</dd></div>
+              <div><dt>Migration time</dt><dd>{readiness.schema.lastAppliedAt ? new Date(readiness.schema.lastAppliedAt).toLocaleString() : 'Not available'}</dd></div>
+            </dl>
+          </>
+        )}
+      </section>
 
       {/* Stats Summary Row */}
       <div className={styles.grid4} style={{ marginBottom: 24 }}>

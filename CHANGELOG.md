@@ -10,6 +10,8 @@
 - Updated the Hostinger startup bridge to locate the initializer in both a complete source deployment and the managed `nodejs` plus `.builds/last-source` layout.
 - Extended diagnostics to distinguish directory writability from SQLite file readability and writability.
 - Added release-package and regression checks for the managed-hosting layout and database-independent session verification.
+- Added a protected, read-only Database Readiness panel covering SQLite quick-check results, expected tables, applied migrations, migration-ledger availability, file access, journal mode and bounded diagnostic codes.
+- Replaced the unconditional database-connected label with measured ready, degraded or unavailable states and a manual recheck action.
 
 ### Enterprise integration surface
 - Added a public `/integrations` directory that separates available, pilot-ready, planned and later commercial integration paths.
