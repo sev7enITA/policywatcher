@@ -328,6 +328,17 @@ export default function CommandPalette({
         },
       },
       {
+        id: 'act-pulse',
+        label: 'Open Editorial Pulse',
+        labelIt: 'Apri Pulse editoriale',
+        icon: <Newspaper size={16} />,
+        group: 'actions',
+        keywords: 'pulse story leads journalists story pack social cards editorial newsroom',
+        run: () => {
+          window.location.href = '/pulse';
+        },
+      },
+      {
         id: 'act-trust',
         label: 'View Trust & Quality Evidence',
         labelIt: 'Vedi evidenze qualità e fiducia',

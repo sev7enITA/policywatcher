@@ -63,14 +63,15 @@ export default function PrivacyPolicyPage() {
         <section className={styles.section}>
           <h2>Cookie-free newsroom event counting</h2>
           <p>
-            The Press Kit uses a first-party endpoint to count three aggregate newsroom event types:
-            press-package download intentions, Data Room page views and press-contact intentions.
+            The Press Kit and Editorial Pulse use a first-party endpoint to count allowlisted aggregate newsroom events:
+            press-package and Story Pack actions, Data Room and Pulse story views, social-card actions,
+            citation and embed copies, press-contact intentions and launch-destination actions.
             This counting uses no analytics cookie and no third-party analytics service.
           </p>
           <p>Each accepted event record retains exactly:</p>
           <ul>
-            <li><strong>Event type:</strong> package intention, Data Room view or contact intention.</li>
-            <li><strong>Allowlisted target:</strong> EN/IT package, Data Room, press, fact-checking, interview or speaking.</li>
+            <li><strong>Event type:</strong> one of the documented newsroom or editorial-funnel actions.</li>
+            <li><strong>Allowlisted target:</strong> a published locale, story slug, card format, copy category, contact route or launch destination.</li>
             <li><strong>Locale:</strong> English or Italian.</li>
             <li><strong>Server timestamp:</strong> when the event request was accepted.</li>
           </ul>
@@ -81,10 +82,10 @@ export default function PrivacyPolicyPage() {
             limiting, but is not written to the newsroom event record or its rate-limit log.
           </p>
           <p>
-            Package and contact events measure click intentions only. They do not confirm a completed
-            download, a delivered message or a unique person. Data Room events are requested once per
-            page-component load. Automated traffic can affect all counts. A failed event write does not
-            prevent navigation, file download or opening an email link.
+            Download, copy, contact and launch events measure actions or click intentions only. They do not
+            confirm a completed transfer, publication, delivered message, conversion or unique person.
+            Data Room and Pulse story events are requested once per page-component load. Automated traffic can affect all counts.
+            A failed event write does not prevent the requested public action.
           </p>
         </section>
 

@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+## 3.9.0-beta.13 - 2026-07-29
+
+### Editorial Pulse and distribution assets
+- Added `/pulse` as a human-approved registry of verified story leads backed by current Press Kit claims, Data Room snapshots and release records.
+- Added versioned deterministic Story Pack ZIPs with stable manifests, source identifiers, facts CSV, citation and editorial pitch copy.
+- Added four branded social-card formats per lead plus specific Open Graph images for Pulse, release records and the Editorial Data Room.
+- Added accessible iframe-ready evidence-pipeline, configured-scope and release-timeline visuals with visible citations and interpretation boundaries.
+- Added `Dataset` and `DataDownload` JSON-LD to the Data Room and `NewsArticle` metadata to Pulse stories.
+- Extended privacy-minimized aggregate telemetry to story views, Story Pack and card downloads, citation and embed copies, and Product Hunt / Show HN outbound actions.
+- Added versioned Product Hunt and Show HN copy and correctly sized launch assets without vote requests or unsupported claims.
+- Connected Pulse to public navigation, command search, Site Atlas, sitemap and the compact service footer.
+- Documented the editorial contracts, reproducibility rules and measurement boundary in `docs/editorial-pulse.md`.
+
 ### Hostinger database readiness and admin availability
 - Separated signed-session verification from database metrics so an authenticated operator can reach the Admin shell while a database-dependent panel reports its own scoped failure.
 - Made Policy Inquiry and Press Newsroom counts non-blocking optional metrics instead of prerequisites for the complete Admin area.

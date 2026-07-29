@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2012%20Local%20MIME%20Evidence%20Intake-146c6a" alt="3.9.0 Beta 12 Local MIME Evidence Intake" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2013%20Editorial%20Pulse%20and%20Distribution-146c6a" alt="3.9.0 Beta 13 Editorial Pulse and Distribution" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,15 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 13 Editorial Pulse and Distribution Highlights
+
+- **Verified editorial leads:** `/pulse` publishes a small human-approved registry with dated facts, proof links, explicit boundaries and reusable citations.
+- **Versioned Story Packs:** each public lead provides a deterministic ZIP containing manifest, pitch, facts, sources and citation files.
+- **Reusable distribution assets:** four social-card formats, specific Open Graph images and citation-bearing iframe visuals are available from each story page.
+- **Machine-readable Data Room:** Dataset and DataDownload structured data describe the current public snapshot and its distributions.
+- **Aggregate measurement:** allowlisted editorial events are counted without persistent visitor identifiers, referrers, query strings, IP addresses or raw user content.
+- **Launch material:** Product Hunt and Show HN copy and correctly sized owned assets are available without vote requests or implied endorsement.
 
 ### Release 3.9.0 Beta 12 Local MIME Evidence Intake Highlights
 
@@ -242,6 +251,7 @@ The platform is designed as a **civic tech tool** that produces structured summa
 - **Community Roadmap** (`/roadmap`) redesigned as an interactive signal board where users can choose their objective, preferred evidence depth, and roadmap priorities.
 - **Press Wall** (`/press`) collecting articles, LinkedIn discussions, and public references about PolicyWatcher while keeping a clear non-certification boundary.
 - **Press Kit** (`/press-kit`) providing facts, claims, owned assets, citation guidance and machine-readable newsroom metadata while keeping external coverage on the separate Press Wall.
+- **Editorial Pulse** (`/pulse`) providing human-approved, evidence-linked story leads, deterministic Story Packs, reusable citations, embeddable evidence visuals and versioned Product Hunt / Show HN launch assets.
 - **Compact brand mark** adopted across public/admin headers to avoid duplicated wordmarks and improve visual balance.
 - **Public resource navigation** expanded through footer and command palette instead of adding more toolbar complexity.
 - **Showcase refresh** aligned with the current platform surface: public views, Dataset QA, Trust evidence, admin controls, community roadmap, and press coverage.

@@ -52,11 +52,14 @@ required_sources=(
   README.md HOSTINGER-DEPLOY.md CHANGELOG.md SECURITY.md LICENSE .env.example public src prisma scripts integrations
   docs/dataset-confidence-audit-2026-07-05.md docs/audit-v3.6.5.md
   docs/audit-v3.7.0.md docs/audit-v3.7.1.md docs/audit-v3.7.2.md docs/audit-v3.8.0.md docs/audit-v3.8.1.md docs/audit-v3.8.2.md docs/audit-v3.8.3.md docs/audit-v3.8.3-beta.2.md docs/audit-v3.8.3-beta.3.md docs/audit-v3.8.3-beta.4.md docs/beta-evidence-cycle-v3.8.3.md docs/platform-state-of-art-2026-07-05.md
-  docs/audit-v3.9.0-beta.1.md docs/audit-v3.9.0-beta.2.md docs/audit-v3.9.0-beta.3.md docs/audit-v3.9.0-beta.4.md docs/audit-v3.9.0-beta.5.md docs/audit-v3.9.0-beta.6.md docs/audit-v3.9.0-beta.7.md docs/audit-v3.9.0-beta.8.md docs/audit-v3.9.0-beta.9.md docs/audit-v3.9.0-beta.10.md docs/audit-v3.9.0-beta.11.md docs/audit-v3.9.0-beta.12.md docs/platform-state-of-art-2026-07-05.it.md docs/third-party-validation.md docs/public-api-v1.md docs/integrations.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
+  docs/audit-v3.9.0-beta.1.md docs/audit-v3.9.0-beta.2.md docs/audit-v3.9.0-beta.3.md docs/audit-v3.9.0-beta.4.md docs/audit-v3.9.0-beta.5.md docs/audit-v3.9.0-beta.6.md docs/audit-v3.9.0-beta.7.md docs/audit-v3.9.0-beta.8.md docs/audit-v3.9.0-beta.9.md docs/audit-v3.9.0-beta.10.md docs/audit-v3.9.0-beta.11.md docs/audit-v3.9.0-beta.12.md docs/audit-v3.9.0-beta.13.md docs/platform-state-of-art-2026-07-05.it.md docs/third-party-validation.md docs/public-api-v1.md docs/integrations.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
   docs/architecture/native-dashboard-engine.md docs/architecture/native-dashboard-functional-implementation-report.md docs/architecture/vizro-patterns-knowledge-base.md
   docs/native-dashboard-user-guide.md
   docs/press-outreach-2026-07-27.md
   docs/press-newsroom-measurement.md
+  docs/editorial-pulse.md
+  docs/press-release-3.9.0-beta.13-it.md
+  docs/press-release-3.9.0-beta.13-en.md
 )
 for source in "${required_sources[@]}"; do
   if [[ ! -e "${APP_DIR}/${source}" ]]; then
@@ -123,6 +126,8 @@ required_entries=(
   package.json package-lock.json release-manifest.json HOSTINGER-DEPLOY.md server.js src/lib/release.ts
   src/app/api/admin/database-readiness/route.ts src/lib/databaseReadiness.ts
   src/app/integrations/page.tsx src/app/api/v2/openapi.json/route.ts
+  src/app/pulse/page.tsx src/app/pulse/[slug]/page.tsx
+  src/app/api/pulse/story-pack/[slug]/route.ts src/app/embed/pulse/[slug]/page.tsx
   docs/integrations.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
   integrations/power-platform/policywatcher-v2/apiDefinition.swagger.template.json
   prisma/schema.prisma prisma/migrations/20260721150000_policy_inquiry/migration.sql

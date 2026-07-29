@@ -34,6 +34,13 @@ describe('privacy-minimized press metrics', () => {
     for (const target of ['press', 'fact-checking', 'interview', 'speaking']) {
       expect(parsePressMetricPayload({ eventType: 'press_contact_intent', target, locale: 'en' })).not.toBeNull();
     }
+    expect(parsePressMetricPayload({ eventType: 'pulse_story_view', target: 'configured-policy-evidence-scope', locale: 'en' })).not.toBeNull();
+    expect(parsePressMetricPayload({ eventType: 'story_pack_download', target: 'public-evidence-publication-gate', locale: 'it' })).not.toBeNull();
+    expect(parsePressMetricPayload({ eventType: 'social_card_download', target: 'feed', locale: 'en' })).not.toBeNull();
+    expect(parsePressMetricPayload({ eventType: 'citation_copy', target: 'pulse-story', locale: 'en' })).not.toBeNull();
+    expect(parsePressMetricPayload({ eventType: 'embed_copy', target: 'versioned-beta-release-records', locale: 'en' })).not.toBeNull();
+    expect(parsePressMetricPayload({ eventType: 'launch_outbound', target: 'show-hn', locale: 'en' })).not.toBeNull();
+    expect(parsePressMetricPayload({ eventType: 'social_card_download', target: 'linkedin', locale: 'en' })).toBeNull();
     expect(parsePressMetricPayload({ eventType: 'data_room_view', target: 'press', locale: 'en' })).toBeNull();
     expect(parsePressMetricPayload({ eventType: 'press_contact_intent', target: 'email', locale: 'en' })).toBeNull();
     expect(parsePressMetricPayload({ eventType: 'press_package_download', target: 'en', locale: 'fr' })).toBeNull();
@@ -93,10 +100,17 @@ describe('privacy-minimized press metrics', () => {
       { eventType: 'data_room_view', target: 'data-room', _count: { _all: 9 } },
       { eventType: 'press_contact_intent', target: 'fact-checking', _count: { _all: 3 } },
       { eventType: 'press_contact_intent', target: 'speaking', _count: { _all: 1 } },
+      { eventType: 'pulse_story_view', target: 'configured-policy-evidence-scope', _count: { _all: 8 } },
+      { eventType: 'story_pack_download', target: 'configured-policy-evidence-scope', _count: { _all: 3 } },
+      { eventType: 'social_card_download', target: 'og', _count: { _all: 2 } },
+      { eventType: 'citation_copy', target: 'pulse-story', _count: { _all: 4 } },
+      { eventType: 'embed_copy', target: 'configured-policy-evidence-scope', _count: { _all: 1 } },
+      { eventType: 'launch_outbound', target: 'show-hn', _count: { _all: 1 } },
     ]);
     expect(counts.pressPackageDownloadIntents).toEqual({ total: 6, en: 4, it: 2 });
     expect(counts.dataRoomViews.total).toBe(9);
     expect(counts.pressContactIntents).toMatchObject({ total: 4, factChecking: 3, speaking: 1, press: 0, interview: 0 });
+    expect(counts.editorialFunnel).toEqual({ storyViews: 8, storyPackDownloads: 3, socialCardDownloads: 2, citationCopies: 4, embedCopies: 1, launchOutboundActions: 1 });
     expect(buildPressMetricCounts([]).pressPackageDownloadIntents.total).toBe(0);
   });
 

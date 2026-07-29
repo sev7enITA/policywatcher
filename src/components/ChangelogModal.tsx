@@ -57,6 +57,15 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                 <div className={styles.featureList}>
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Editorial Pulse</span>
+                      <span className={styles.badgeActive}>Public beta</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      Pulse is a human-approved registry of evidence-linked story leads. Each record includes a dated, deterministic Story Pack, source and Claim Registry links, an explicit scope boundary, a reusable citation, four social-card formats and an embeddable evidence visual. The Data Room now publishes Dataset and DataDownload metadata, while aggregate editorial events remain allowlisted and exclude persistent visitor identifiers.
+                    </p>
+                  </div>
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
                       <span className={styles.featureName}>Enterprise Integration Surface</span>
                       <span className={styles.badgeActive}>Pilot ready</span>
                     </div>

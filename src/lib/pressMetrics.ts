@@ -2,6 +2,12 @@ export const PRESS_METRIC_TARGETS = {
   press_package_download: ['en', 'it'],
   data_room_view: ['data-room'],
   press_contact_intent: ['press', 'fact-checking', 'interview', 'speaking'],
+  pulse_story_view: ['configured-policy-evidence-scope', 'public-evidence-publication-gate', 'versioned-beta-release-records'],
+  story_pack_download: ['configured-policy-evidence-scope', 'public-evidence-publication-gate', 'versioned-beta-release-records'],
+  social_card_download: ['og', 'square', 'feed', 'story'],
+  citation_copy: ['pulse-story', 'data-room', 'release'],
+  embed_copy: ['configured-policy-evidence-scope', 'public-evidence-publication-gate', 'versioned-beta-release-records'],
+  launch_outbound: ['product-hunt', 'show-hn'],
 } as const;
 
 export type PressMetricEventType = keyof typeof PRESS_METRIC_TARGETS;
@@ -29,6 +35,14 @@ export interface PressMetricCounts {
     factChecking: number;
     interview: number;
     speaking: number;
+  };
+  editorialFunnel: {
+    storyViews: number;
+    storyPackDownloads: number;
+    socialCardDownloads: number;
+    citationCopies: number;
+    embedCopies: number;
+    launchOutboundActions: number;
   };
 }
 
@@ -69,6 +83,14 @@ export function emptyPressMetricCounts(): PressMetricCounts {
     pressPackageDownloadIntents: { total: 0, en: 0, it: 0 },
     dataRoomViews: { total: 0 },
     pressContactIntents: { total: 0, press: 0, factChecking: 0, interview: 0, speaking: 0 },
+    editorialFunnel: {
+      storyViews: 0,
+      storyPackDownloads: 0,
+      socialCardDownloads: 0,
+      citationCopies: 0,
+      embedCopies: 0,
+      launchOutboundActions: 0,
+    },
   };
 }
 
@@ -88,6 +110,18 @@ export function buildPressMetricCounts(groups: PressMetricGroup[]): PressMetricC
         counts.pressContactIntents[key] += count;
         counts.pressContactIntents.total += count;
       }
+    } else if (group.eventType === 'pulse_story_view') {
+      counts.editorialFunnel.storyViews += count;
+    } else if (group.eventType === 'story_pack_download') {
+      counts.editorialFunnel.storyPackDownloads += count;
+    } else if (group.eventType === 'social_card_download') {
+      counts.editorialFunnel.socialCardDownloads += count;
+    } else if (group.eventType === 'citation_copy') {
+      counts.editorialFunnel.citationCopies += count;
+    } else if (group.eventType === 'embed_copy') {
+      counts.editorialFunnel.embedCopies += count;
+    } else if (group.eventType === 'launch_outbound') {
+      counts.editorialFunnel.launchOutboundActions += count;
     }
   }
 

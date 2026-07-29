@@ -312,6 +312,7 @@ export default function AdminDashboardPage() {
     pressNewsroom.allTime.pressPackageDownloadIntents.total
     + pressNewsroom.allTime.dataRoomViews.total
     + pressNewsroom.allTime.pressContactIntents.total
+    + Object.values(pressNewsroom.allTime.editorialFunnel).reduce((sum, value) => sum + value, 0)
   ) > 0;
 
   // Chart Data Preparation
@@ -448,6 +449,12 @@ export default function AdminDashboardPage() {
             <div><span>Primary KPI</span><h4>Press package download intents</h4></div>
             <dl><div><dt>All time</dt><dd>{pressNewsroom.allTime.pressPackageDownloadIntents.total}</dd></div><div><dt>30 days</dt><dd>{pressNewsroom.trailing30Days.pressPackageDownloadIntents.total}</dd></div></dl>
             <p>All time by target: EN {pressNewsroom.allTime.pressPackageDownloadIntents.en} · IT {pressNewsroom.allTime.pressPackageDownloadIntents.it}</p>
+          </article>
+          <article className={styles.pressMetricCard}>
+            <BarChart3 size={18} />
+            <div><span>Editorial funnel</span><h4>Pulse story and reuse events</h4></div>
+            <dl><div><dt>All time</dt><dd>{Object.values(pressNewsroom.allTime.editorialFunnel).reduce((sum, value) => sum + value, 0)}</dd></div><div><dt>30 days</dt><dd>{Object.values(pressNewsroom.trailing30Days.editorialFunnel).reduce((sum, value) => sum + value, 0)}</dd></div></dl>
+            <p>All time: views {pressNewsroom.allTime.editorialFunnel.storyViews} · packs {pressNewsroom.allTime.editorialFunnel.storyPackDownloads} · cards {pressNewsroom.allTime.editorialFunnel.socialCardDownloads} · citations {pressNewsroom.allTime.editorialFunnel.citationCopies} · embeds {pressNewsroom.allTime.editorialFunnel.embedCopies} · launch actions {pressNewsroom.allTime.editorialFunnel.launchOutboundActions}</p>
           </article>
           <article className={styles.pressMetricCard}>
             <Database size={18} />

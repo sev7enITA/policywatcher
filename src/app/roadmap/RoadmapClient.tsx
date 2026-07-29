@@ -9,10 +9,10 @@ import {
   Cpu,
   Database,
   Eye,
-  FileUp,
   GitFork,
   ListChecks,
   Lock,
+  Newspaper,
   Radio,
   Search,
   Settings2,
@@ -103,12 +103,12 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 const nowItems = [
   {
     phase: `Delivered · ${POLICYWATCHER_VERSION}`,
-    title: 'Local MIME Evidence Intake',
+    title: 'Editorial Pulse and Distribution',
     body:
-      'A saved .eml message can be decoded in browser memory with bounded MIME parsing, plain-text preference, sanitized HTML fallback and attachment exclusion.',
-    benefit: 'People gain another path from a real notification to the existing evidence workflow without granting mailbox access or uploading the raw message.',
-    validation: 'Unsupported and oversized files fail closed; recipient headers and attachments are excluded, and only reviewed structured clues can reach the inquiry API.',
-    icon: FileUp,
+      'Reviewed public facts can now be distributed through dated Pulse stories, deterministic Story Packs, social cards and citation-bearing embeds.',
+    benefit: 'Journalists and analysts can reuse one bounded evidence record without reconstructing its facts, sources and interpretation limits.',
+    validation: 'Public leads are selected from a fixed registry, unknown routes fail closed, generated files are deterministic and aggregate event counts do not represent unique people or conversions.',
+    icon: Newspaper,
   },
   {
     phase: 'Delivered · 3.9.0-beta.2',

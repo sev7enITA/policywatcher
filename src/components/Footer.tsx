@@ -17,6 +17,7 @@
 
 import { BarChart3, ShieldCheck, FileText, Lock, Mail, ExternalLink, Sparkles, Cpu, Newspaper, GitFork, Search, UserRound, Network, Code2, Plug } from 'lucide-react';
 import { POLICYWATCHER_BUILD_LABEL, POLICYWATCHER_VERSION } from '@/lib/release';
+import Link from 'next/link';
 import styles from './Footer.module.css';
 
 /** Props for the {@link Footer} component. */
@@ -49,6 +50,7 @@ const content = {
     roadmap: 'Community Roadmap',
     press: 'Press Wall',
     pressKit: 'Press Kit',
+    pulse: 'Editorial Pulse',
     trust: 'Trust & Quality',
     infographics: 'Infographics',
     paloFramework: 'PALO Framework',
@@ -77,6 +79,7 @@ const content = {
     roadmap: 'Roadmap community',
     press: 'Press wall',
     pressKit: 'Press kit',
+    pulse: 'Pulse editoriale',
     trust: 'Qualità e fiducia',
     infographics: 'Infografiche',
     paloFramework: 'PALO Framework',
@@ -110,6 +113,7 @@ export default function Footer({ lang, variant = 'full' }: FooterProps) {
             <a href="/privacy"><Lock size={13} />{t.privacy}</a>
             <a href="/terms"><FileText size={13} />{t.terms}</a>
             <a href="/press-kit"><Newspaper size={13} />{t.pressKit}</a>
+            <Link href="/pulse"><Sparkles size={13} />{t.pulse}</Link>
             <a href="mailto:info@policywatcher.online"><Mail size={13} />{t.contact}</a>
           </nav>
           <p className={styles.compactCopy}>{t.copy} / Build {POLICYWATCHER_BUILD_LABEL}</p>
@@ -240,6 +244,7 @@ export default function Footer({ lang, variant = 'full' }: FooterProps) {
                   {t.pressKit}
                 </a>
               </li>
+              <li><Link href="/pulse"><Sparkles size={14} />{t.pulse}</Link></li>
               <li>
                 <a href="/trust">
                   <ShieldCheck size={14} />

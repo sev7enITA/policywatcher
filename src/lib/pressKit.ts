@@ -125,7 +125,7 @@ export interface PressKitRegistryEvent {
   affectedHref: string;
 }
 
-export const PRESS_KIT_RELEASE_DATE = '2026-07-27' as const;
+export const PRESS_KIT_RELEASE_DATE = POLICYWATCHER_RELEASE_DATE;
 export const PRESS_KIT_CANONICAL_URL = 'https://policywatcher.online/press-kit' as const;
 export const POLICYWATCHER_CANONICAL_ORIGIN = 'https://policywatcher.online' as const;
 export const PRESS_KIT_JSON_URL = `${PRESS_KIT_CANONICAL_URL}/press-kit.json` as const;
@@ -225,7 +225,7 @@ export const pressKitClaims: PressKitClaim[] = [
     type: 'freshness',
     proofHref: '/timeline',
     proofLabel: { en: 'Policy timeline', it: 'Timeline policy' },
-    boundary: { en: 'Release metadata is dated 27 July 2026; update intervals depend on source retrieval and review.', it: 'I metadata di release sono datati 27 luglio 2026; gli intervalli di aggiornamento dipendono dal recupero e dalla revisione delle fonti.' },
+    boundary: { en: 'Release metadata is dated 29 July 2026; update intervals depend on source retrieval and review.', it: 'I metadata di release sono datati 29 luglio 2026; gli intervalli di aggiornamento dipendono dal recupero e dalla revisione delle fonti.' },
     asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
     reviewCadence: { en: 'Each source-screening release', it: 'Ogni release di screening fonti' }, recordStatus: 'current', permalink: '/press-kit#claim-source-timestamps',
   },
@@ -444,12 +444,39 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'local-mime-evidence-intake-3-9-0-beta-12',
+    slug: 'editorial-pulse-distribution-3-9-0-beta-13',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'distribution',
+    title: { en: 'Editorial Pulse and Distribution', it: 'Editorial Pulse e distribuzione' },
+    summary: { en: 'Adds a human-approved story registry, deterministic Story Packs, reusable social assets, citation-bearing embeds and aggregate editorial measurement.', it: 'Aggiunge un registro editoriale approvato da persone, Story Pack deterministici, asset social riutilizzabili, embed con citazione e misurazione editoriale aggregata.' },
+    changes: [
+      { en: 'Pulse publishes dated verified leads with facts, proof links, boundaries and reusable citations.', it: 'Pulse pubblica lead verificati e datati con fatti, link di prova, limiti e citazioni riutilizzabili.' },
+      { en: 'Each lead provides a versioned deterministic ZIP, four social-card formats and an iframe-ready evidence visual.', it: 'Ogni lead fornisce uno ZIP deterministico versionato, quattro formati social e un visual delle evidenze incorporabile.' },
+      { en: 'The Data Room now exposes Dataset and DataDownload structured data, while release, Pulse and Data Room pages use specific Open Graph images.', it: 'La Data Room ora espone dati strutturati Dataset e DataDownload, mentre release, Pulse e Data Room usano immagini Open Graph specifiche.' },
+      { en: 'Admin reporting counts allowlisted editorial events without persistent visitor identifiers and labels them as events rather than people or conversions.', it: 'Il reporting amministrativo conta eventi editoriali consentiti senza identificatori persistenti e li definisce eventi, non persone o conversioni.' },
+    ],
+    boundaries: [
+      { en: 'Pulse contains a small reviewed registry; it is not an automated newsroom, exhaustive coverage or a claim of independent validation.', it: 'Pulse contiene un piccolo registro revisionato; non e una redazione automatica, una copertura esaustiva o una dichiarazione di validazione indipendente.' },
+      { en: 'Deterministic files establish artifact identity, not continued source availability or factual correctness after their as-of date.', it: 'I file deterministici stabiliscono l identita dell artefatto, non la disponibilita continua delle fonti o la correttezza fattuale dopo la data indicata.' },
+    ],
+    evidenceLinks: [
+      { href: '/pulse', label: { en: 'PolicyWatcher Pulse', it: 'PolicyWatcher Pulse' } },
+      { href: '/press-kit/data', label: { en: 'Editorial Data Room', it: 'Data Room editoriale' } },
+      { href: '/press-kit', label: { en: 'Evidence Newsroom', it: 'Evidence Newsroom' } },
+      { href: '/privacy', label: { en: 'Measurement boundary', it: 'Limite della misurazione' } },
+    ],
+  },
+  {
+    slug: 'local-mime-evidence-intake-3-9-0-beta-12',
+    version: '3.9.0-beta.12',
+    displayVersion: '3.9.0 Beta 12',
+    datePublished: '2026-07-28',
+    dateModified: '2026-07-28',
+    status: 'archived',
     category: 'product',
     title: { en: 'Local MIME Evidence Intake', it: 'Intake locale MIME delle evidenze' },
     summary: { en: 'Adds bounded local .eml decoding to the notification-to-evidence workflow without mailbox access or raw-message transport.', it: 'Aggiunge la decodifica locale e circoscritta dei file .eml al flusso dalla notifica alle evidenze, senza accesso alla casella o trasporto del messaggio grezzo.' },
@@ -680,7 +707,8 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
-  { id: 'local-mime-evidence-intake-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Local MIME Evidence Intake published', it: 'Pubblicato Intake locale MIME delle evidenze' }, detail: { en: 'The What Changed workflow now decodes bounded .eml files locally while excluding recipients and attachments from extracted clues.', it: 'Il flusso Cosa e cambiato ora decodifica localmente file .eml limitati, escludendo destinatari e allegati dagli indizi estratti.' }, affectedHref: '/press-kit/releases/local-mime-evidence-intake-3-9-0-beta-12' },
+  { id: 'editorial-pulse-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Editorial Pulse and Distribution published', it: 'Pubblicati Editorial Pulse e distribuzione' }, detail: { en: 'Verified story leads now include deterministic Story Packs, social-card formats, embeds, citations and aggregate reuse-event measurement.', it: 'I lead verificati ora includono Story Pack deterministici, formati social, embed, citazioni e misurazione aggregata degli eventi di riuso.' }, affectedHref: '/press-kit/releases/editorial-pulse-distribution-3-9-0-beta-13' },
+  { id: 'local-mime-evidence-intake-release', occurredAt: '2026-07-28', type: 'release', title: { en: 'Local MIME Evidence Intake published', it: 'Pubblicato Intake locale MIME delle evidenze' }, detail: { en: 'The What Changed workflow now decodes bounded .eml files locally while excluding recipients and attachments from extracted clues.', it: 'Il flusso Cosa e cambiato ora decodifica localmente file .eml limitati, escludendo destinatari e allegati dagli indizi estratti.' }, affectedHref: '/press-kit/releases/local-mime-evidence-intake-3-9-0-beta-12' },
   { id: 'evidence-delivery-integration-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Evidence Delivery & Integration published', it: 'Pubblicata Distribuzione evidenze e integrazione' }, detail: { en: 'The public Developer directory now documents a read-only v1 manifest and localized Observatory registry endpoint with their stated source boundaries.', it: 'Il catalogo pubblico per sviluppatori ora documenta un manifest v1 in sola lettura e l endpoint localizzato del registro Osservatorio con i relativi limiti delle fonti.' }, affectedHref: '/press-kit/releases/evidence-delivery-integration-3-9-0-beta-11' },
   { id: 'source-continuity-ledger-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Source Continuity Ledger published', it: 'Pubblicato il Source Continuity Ledger' }, detail: { en: 'The public Timeline now separates provider policy changes from sanitized retrieval and publication-state transitions.', it: 'La Timeline pubblica ora separa i cambiamenti delle policy provider dalle transizioni sanificate di retrieval e stato di pubblicazione.' }, affectedHref: '/press-kit/releases/source-continuity-ledger-3-9-0-beta-10' },
   { id: 'verified-browser-distribution-release', occurredAt: PRESS_KIT_RELEASE_DATE, type: 'release', title: { en: 'Chrome distribution verified', it: 'Distribuzione Chrome verificata' }, detail: { en: 'The public Browser Extension page now links the verified Chrome Web Store listing and keeps Edge and Safari availability states separate.', it: 'La pagina pubblica Browser Extension ora collega la scheda verificata del Chrome Web Store e mantiene separati gli stati di disponibilita di Edge e Safari.' }, affectedHref: '/press-kit/releases/verified-browser-distribution-3-9-0-beta-9' },

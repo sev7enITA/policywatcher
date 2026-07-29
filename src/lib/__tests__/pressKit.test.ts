@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { POLICYWATCHER_VERSION } from '../release';
 import {
   PRESS_KIT_ARTICLE_50_URL,
+  PRESS_KIT_RELEASE_DATE,
   PRESS_KIT_JSON_URL,
   buildPressKitPayload,
   pressKitAssets,
@@ -88,11 +89,11 @@ describe('public press kit', () => {
       expect(createHash('sha256').update(content).digest('hex')).toBe(pressPackage.sha256);
     }
 
-    const snapshot = JSON.parse(read('public/press-kit/policywatcher-configured-scope-2026-07-27.json')) as {
+    const snapshot = JSON.parse(read(`public/press-kit/policywatcher-configured-scope-${PRESS_KIT_RELEASE_DATE}.json`)) as {
       asOf: string;
       facts: Array<{ id: string; value: string; scope: string }>;
     };
-    expect(snapshot.asOf).toBe('2026-07-27');
+    expect(snapshot.asOf).toBe(PRESS_KIT_RELEASE_DATE);
     expect(snapshot.facts.map((fact) => fact.value)).toEqual(['16', '6', '15', 'EN / IT']);
     expect(snapshot.facts[0].scope).toContain('WAZE admin-onboarding fixture');
 
@@ -180,6 +181,8 @@ describe('public press kit', () => {
     const integrationItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'public-integration-directory');
     expect(integrationItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.11', endRelease: '3.9.0-beta.11' });
     const emailIntakeItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'mobile-email-intake');
-    expect(emailIntakeItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(emailIntakeItem).toMatchObject({ status: 'current', startRelease: '3.9.0-beta.12', endRelease: '3.9.0-beta.12' });
+    const pulseItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'editorial-pulse-distribution');
+    expect(pulseItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
   });
 });

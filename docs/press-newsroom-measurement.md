@@ -24,6 +24,17 @@ Status: implemented measurement definition for the current Evidence Newsroom. Th
 - Allowed targets: `press`, `fact-checking`, `interview`, `speaking`.
 - It does not confirm that an email client opened, a message was sent or a recipient received it.
 
+### Editorial Pulse funnel
+
+- `pulse_story_view`: one request per mounted story page; target is an allowlisted story slug.
+- `story_pack_download`: Story Pack link action; target is an allowlisted story slug.
+- `social_card_download`: social-card link action; target is `og`, `square`, `feed` or `story`.
+- `citation_copy`: citation copy action; target is an allowlisted surface category.
+- `embed_copy`: embed-code copy action; target is an allowlisted story slug.
+- `launch_outbound`: Product Hunt or Show HN destination action.
+
+These are aggregate events, not unique readers, completed downloads, resulting publications or confirmed launch conversions.
+
 ## Windows and access
 
 The protected admin metrics response reports all-time and trailing-30-day aggregates. Existing admin metrics authorization permits authenticated `admin` and `auditor` roles. The UI labels values as aggregate event counts.
@@ -57,4 +68,4 @@ The admin metrics response exposes:
 - `data.pressNewsroom.trailingWindowStartedAt`;
 - `data.pressNewsroom.boundary`.
 
-Package and contact aggregates include their allowlisted target breakdown. A missing group is represented by zero rather than omitted.
+Package and contact aggregates include their allowlisted target breakdown. The editorial funnel exposes bounded totals for views, packs, cards, citations, embeds and launch actions. A missing group is represented by zero rather than omitted.

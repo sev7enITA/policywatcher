@@ -11,6 +11,7 @@ import type { MetadataRoute } from 'next';
 import { db } from '@/lib/db';
 import { publicChangeWhere } from '@/lib/publicDataGate';
 import { POLICYWATCHER_CANONICAL_ORIGIN, pressKitReleases } from '@/lib/pressKit';
+import { pulseStories } from '@/lib/editorialPulse';
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || POLICYWATCHER_CANONICAL_ORIGIN;
 
@@ -36,6 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/roadmap`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.85 },
     { url: `${BASE_URL}/press`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.82 },
     { url: `${BASE_URL}/press-kit`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.84 },
+    { url: `${BASE_URL}/pulse`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/press-kit/releases`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.82 },
     { url: `${BASE_URL}/press-kit/data`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     { url: `${BASE_URL}/press-kit/reference`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.74 },
@@ -69,5 +71,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: release.status === 'current' ? 0.82 : 0.7,
   }));
 
-  return [...staticEntries, ...newsroomEntries, ...changeEntries];
+  const pulseEntries: MetadataRoute.Sitemap = pulseStories.map((story) => ({
+    url: `${BASE_URL}/pulse/${story.slug}`,
+    lastModified: new Date(`${story.updatedAt}T12:00:00+02:00`),
+    changeFrequency: 'monthly' as const,
+    priority: 0.84,
+  }));
+
+  return [...staticEntries, ...pulseEntries, ...newsroomEntries, ...changeEntries];
 }
