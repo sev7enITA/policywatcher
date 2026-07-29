@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
+  buildEvidenceHandoff,
   evidenceCollectionToCsv,
   evidenceCollectionToMarkdown,
   parseEvidenceCollectionQuery,
@@ -49,6 +50,16 @@ export async function GET(request: NextRequest) {
     }
 
     const filename = `PolicyWatcher_Evidence_Collection_${collection.collectionId}`;
+    if (parsed.format === 'handoff') {
+      const handoff = buildEvidenceHandoff(collection);
+      return NextResponse.json(handoff, {
+        headers: {
+          ...COMMON_HEADERS,
+          'Content-Type': 'application/vnd.policywatcher.evidence-handoff+json; charset=utf-8',
+          'Content-Disposition': `attachment; filename="PolicyWatcher_Review_Handoff_${handoff.handoffId}.json"`,
+        },
+      });
+    }
     if (parsed.format === 'markdown') {
       return new NextResponse(evidenceCollectionToMarkdown(collection), {
         headers: {

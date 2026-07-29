@@ -27,6 +27,7 @@ export const EXPECTED_DATABASE_MIGRATIONS = [
   '20260721120000_policy_discovery_job',
   '20260721150000_policy_inquiry',
   '20260727110000_press_metric_events',
+  '20260729153000_public_change_publication_time',
 ] as const;
 
 export type DatabaseReadinessStatus = 'ready' | 'degraded' | 'unavailable';

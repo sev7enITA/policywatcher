@@ -49,6 +49,11 @@ describe('public data-source registry', () => {
       allowedQueryParams: ['changes', 'format'],
       evidenceGate: 'public-change',
     });
+    expect(PUBLIC_DATA_SOURCES.publicChangeEvents).toMatchObject({
+      endpoint: '/api/v1/change-events',
+      allowedQueryParams: ['cursor', 'lang', 'limit'],
+      evidenceGate: 'public-change',
+    });
   });
 
   it('builds canonical URLs and visibility-scoped query keys', () => {

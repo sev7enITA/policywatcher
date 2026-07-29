@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { buildEvidencePacket, type EvidencePacketInput } from '@/lib/evidencePacket';
 import {
   EVIDENCE_COLLECTION_BOUNDARY,
+  EVIDENCE_HANDOFF_BOUNDARY,
   buildEvidenceCollection,
+  buildEvidenceHandoff,
   csvCell,
   escapeMarkdownText,
   evidenceCollectionToCsv,
@@ -63,6 +65,11 @@ describe('shareable evidence collections', () => {
     expect(parseEvidenceCollectionQuery(new URLSearchParams(`changes=${ID_A}&changes=${ID_B}`))).toMatchObject({ ok: false });
     expect(parseEvidenceCollectionQuery(new URLSearchParams('changes=not-a-uuid'))).toMatchObject({ ok: false });
     expect(parseEvidenceCollectionQuery(new URLSearchParams(`changes=${ID_A}&format=`))).toMatchObject({ ok: false });
+    expect(parseEvidenceCollectionQuery(new URLSearchParams(`changes=${ID_A}&format=handoff`))).toEqual({
+      ok: true,
+      changeIds: [ID_A],
+      format: 'handoff',
+    });
     expect(parseEvidenceCollectionQuery(new URLSearchParams(`changes=${Array(13).fill(ID_A).join(',')}`))).toMatchObject({ ok: false });
   });
 
@@ -95,6 +102,33 @@ describe('shareable evidence collections', () => {
     expect(csv).toContain('\r\n');
     expect(csvCell('+cmd')).toBe('"\'+cmd"');
     expect(escapeMarkdownText('a|b\n# c')).toBe('a\\|b \\# c');
+  });
+
+  it('builds a deterministic vendor-neutral collaboration handoff', () => {
+    const collection = buildEvidenceCollection([
+      makePacket(ID_B, 'Beta'),
+      makePacket(ID_A, 'Alpha'),
+    ]);
+    const first = buildEvidenceHandoff(collection);
+    const second = buildEvidenceHandoff(collection);
+
+    expect(first.schema).toBe(pressKitSchemas['evidence-handoff'].$id);
+    expect(first.handoffId).toBe(second.handoffId);
+    expect(first.contentDigest).toBe(second.contentDigest);
+    expect(first.collection).toEqual({
+      id: collection.collectionId,
+      contentDigest: collection.contentDigest,
+      selectedRecords: 2,
+    });
+    expect(first.workItems.map((item) => item.context.changeId)).toEqual([ID_A, ID_B]);
+    expect(first.workItems[0]).toMatchObject({
+      type: 'evidence-review',
+      state: 'ready-for-human-triage',
+      title: 'Alpha: Privacy Policy',
+    });
+    expect(first.workItems[0].acceptanceCriteria.join(' ')).toContain('Evidence Packet');
+    expect(first.boundary).toBe(EVIDENCE_HANDOFF_BOUNDARY);
+    expect(JSON.stringify(first)).not.toMatch(/assignee|dueDate|deliveryConfirmation|vendorRecordId/i);
   });
 
   it('refuses empty, oversized or withheld packet collections', () => {

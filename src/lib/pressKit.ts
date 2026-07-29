@@ -444,12 +444,39 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'evidence-workflow-refinements-3-9-0-beta-18',
+    slug: 'collaboration-delivery-contracts-3-9-0-beta-19',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'product',
+    title: { en: 'Collaboration Delivery Contracts', it: 'Contratti di collaborazione e distribuzione' },
+    summary: { en: 'Adds a deterministic review handoff and a bounded public change-event polling feed while keeping third-party creation and outbound delivery outside the public contract.', it: 'Aggiunge un handoff deterministico per la revisione e un feed pubblico circoscritto per il polling degli eventi, mantenendo creazione su sistemi terzi e consegna outbound fuori dal contratto pubblico.' },
+    changes: [
+      { en: 'Evidence Collections can export vendor-neutral work items with evidence links, digests, review questions and acceptance criteria.', it: 'Evidence Collections puo esportare work item vendor-neutral con link alle evidenze, digest, domande di revisione e criteri di accettazione.' },
+      { en: 'A public endpoint returns already-published policy change events with deterministic IDs, localized summaries and an opaque forward cursor.', it: 'Un endpoint pubblico restituisce eventi relativi a cambiamenti gia pubblicati con ID deterministici, sintesi localizzate e cursore forward opaco.' },
+      { en: 'Publication time is recorded separately from retrieval time so later approvals and republications remain visible to consumers.', it: 'Il momento di pubblicazione viene registrato separatamente dal retrieval, affinche approvazioni successive e ripubblicazioni restino visibili ai consumer.' },
+      { en: 'Both payloads have public JSON Schemas and are registered in the Developer and Integration directories.', it: 'Entrambi i payload dispongono di JSON Schema pubblici e sono registrati nei cataloghi Developers e Integrations.' },
+    ],
+    boundaries: [
+      { en: 'The handoff manifest creates no third-party record, assignment, deadline, access-control state or delivery confirmation.', it: 'Il manifest di handoff non crea record su sistemi terzi, assegnazioni, scadenze, stato di controllo accessi o conferme di consegna.' },
+      { en: 'The event feed is polling only and provides no subscriptions, recipients, push delivery, HMAC signatures, retries, replay protection or delivery receipts.', it: 'Il feed eventi funziona solo tramite polling e non fornisce sottoscrizioni, destinatari, push, firme HMAC, retry, protezione replay o ricevute di consegna.' },
+    ],
+    evidenceLinks: [
+      { href: '/collections', label: { en: 'Evidence Collections', it: 'Collezioni di evidenze' } },
+      { href: '/developers', label: { en: 'Developer contract', it: 'Contratto sviluppatori' } },
+      { href: '/integrations', label: { en: 'Integration Hub', it: 'Integration Hub' } },
+      { href: '/schemas/change-event-feed/v1', label: { en: 'Change Event Feed schema', it: 'Schema Change Event Feed' } },
+    ],
+  },
+  {
+    slug: 'evidence-workflow-refinements-3-9-0-beta-18',
+    version: '3.9.0-beta.18',
+    displayVersion: '3.9.0 Beta 18',
+    datePublished: POLICYWATCHER_RELEASE_DATE,
+    dateModified: POLICYWATCHER_RELEASE_DATE,
+    status: 'archived',
     category: 'product',
     title: { en: 'Evidence Workflow Refinements', it: 'Affinamenti del flusso evidenze' },
     summary: { en: 'Refines evidence-first hierarchy, mobile collection navigation, progressive disclosure and developer documentation order without changing public-data or browser-local storage boundaries.', it: 'Affina la gerarchia evidence-first, la navigazione mobile delle collezioni, la visualizzazione progressiva dei controlli e l ordine della documentazione sviluppatori senza modificare i limiti dei dati pubblici o dello storage locale al browser.' },
@@ -842,6 +869,7 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+  { id: 'collaboration-delivery-contracts-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Collaboration Delivery Contracts published', it: 'Pubblicati i contratti di collaborazione e distribuzione' }, detail: { en: 'Evidence Collections now provides a deterministic review handoff and the public API provides a bounded forward-polling change-event feed.', it: 'Evidence Collections ora fornisce un handoff deterministico per la revisione e l API pubblica offre un feed eventi circoscritto con polling forward.' }, affectedHref: '/press-kit/releases/collaboration-delivery-contracts-3-9-0-beta-19' },
   { id: 'evidence-workflow-refinements-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Evidence Workflow Refinements published', it: 'Pubblicati gli affinamenti del flusso evidenze' }, detail: { en: 'Collections, Evidence Packets, Developers and Integrations now use an evidence-first hierarchy, actionable-state controls, compact mobile navigation and consistent service-page footers.', it: 'Collections, Evidence Packets, Developers e Integrations ora usano una gerarchia evidence-first, controlli legati allo stato utilizzabile, navigazione mobile compatta e footer coerenti per le pagine di servizio.' }, affectedHref: '/press-kit/releases/evidence-workflow-refinements-3-9-0-beta-18' },
   { id: 'shareable-evidence-collections-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Shareable Evidence Collections published', it: 'Pubblicate le collezioni di evidenze condivisibili' }, detail: { en: 'Up to 12 exact public changes can now be selected locally, shared through an ID-only link and exported as deterministic JSON, Markdown or CSV with provenance and review boundaries.', it: 'Fino a 12 cambiamenti pubblici esatti possono ora essere selezionati localmente, condivisi tramite un link contenente solo ID ed esportati come JSON, Markdown o CSV deterministici con provenienza e limiti di revisione.' }, affectedHref: '/press-kit/releases/shareable-evidence-collections-3-9-0-beta-17' },
   { id: 'evidence-governance-packets-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Evidence Governance Packets published', it: 'Pubblicati i pacchetti di governance delle evidenze' }, detail: { en: 'Public changes can now expose sanitized source-confidence state, exact snapshot fingerprints, verified source passages, advisory framework relevance and change-bound PDF/JSON reports.', it: 'I cambiamenti pubblici possono ora esporre stato source-confidence sanificato, impronte snapshot esatte, passaggi fonte verificati, rilevanza framework consultiva e report PDF/JSON legati al change.' }, affectedHref: '/press-kit/releases/evidence-governance-packets-3-9-0-beta-16' },

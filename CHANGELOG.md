@@ -2,6 +2,23 @@
 
 ## Unreleased
 
+## 3.9.0-beta.19 - 2026-07-29
+
+### Public Change Event Feed
+- Added `/api/v1/change-events`, a forward-only polling feed for already-published policy change events.
+- Added a dedicated publication timestamp so cursor order follows the public evidence gate, including later approval or republication of an older change.
+- Added deterministic event IDs, strict opaque cursors, bounded page sizes, localized summaries and exact change/evidence links.
+- Added short public cache controls, a separate 30-request-per-minute rate bucket and strict query-parameter rejection.
+- Published the Change Event Feed JSON Schema and registered the endpoint in the public API manifest.
+- Kept subscriptions, recipients, push delivery, delivery receipts, HMAC signatures, retries and replay protection outside the polling contract.
+
+### Collaboration Handoff Manifest
+- Added `format=handoff` to Evidence Collections for deterministic, vendor-neutral human-review work items.
+- Added stable handoff and work-item identifiers, evidence links, packet and snapshot digests, review questions, acceptance criteria and receiving-system instructions.
+- Published an Evidence Handoff JSON Schema and the media type `application/vnd.policywatcher.evidence-handoff+json`.
+- Added the handoff action to Collections and documented it in Developers, Integration Hub, API guidance and the Community Roadmap.
+- Kept assignees, due dates, access control, vendor record identifiers, notification state and delivery confirmation outside the exported payload.
+
 ## 3.9.0-beta.18 - 2026-07-29
 
 ### Evidence Workflow Refinements

@@ -6,7 +6,7 @@ export const EVIDENCE_COLLECTION_MAX_CHANGES = 12 as const;
 export const EVIDENCE_COLLECTION_BOUNDARY =
   'This collection groups selected public PolicyWatcher evidence records. It is not exhaustive market coverage, persistent team collaboration, legal advice, a compliance assessment or proof that an external source remains unchanged.';
 
-export type EvidenceCollectionFormat = 'json' | 'markdown' | 'csv';
+export type EvidenceCollectionFormat = 'json' | 'markdown' | 'csv' | 'handoff';
 
 export type EvidenceCollectionQueryResult =
   | { ok: true; changeIds: string[]; format: EvidenceCollectionFormat }
@@ -46,8 +46,8 @@ export function parseEvidenceCollectionQuery(searchParams: URLSearchParams): Evi
   }
 
   const format = formatValues.length === 0 ? 'json' : formatValues[0];
-  if (format !== 'json' && format !== 'markdown' && format !== 'csv') {
-    return { ok: false, error: 'Only format=json, format=markdown or format=csv is supported.' };
+  if (format !== 'json' && format !== 'markdown' && format !== 'csv' && format !== 'handoff') {
+    return { ok: false, error: 'Only format=json, format=markdown, format=csv or format=handoff is supported.' };
   }
 
   return {
@@ -143,6 +143,76 @@ export function buildEvidenceCollection(packets: readonly EvidencePacket[]) {
 }
 
 export type EvidenceCollection = ReturnType<typeof buildEvidenceCollection>;
+
+export const EVIDENCE_HANDOFF_SCHEMA_VERSION = '1.0.0' as const;
+export const EVIDENCE_HANDOFF_BOUNDARY =
+  'This handoff is a vendor-neutral review aid derived from selected public evidence. It does not create assignments, due dates, access controls, third-party records, legal conclusions or delivery confirmation.';
+
+export function buildEvidenceHandoff(collection: EvidenceCollection) {
+  const workItems = collection.records.map((record, index) => ({
+    id: `pwi_${sha256(`${collection.collectionId}:${record.changeId}`).slice(0, 16)}`,
+    sequence: index + 1,
+    type: 'evidence-review',
+    state: 'ready-for-human-triage',
+    title: `${record.company.name}: ${record.policy.name}`,
+    summary: record.assessment.summary,
+    context: {
+      changeId: record.changeId,
+      company: record.company.name,
+      policy: record.policy.name,
+      jurisdiction: record.policy.jurisdiction,
+      screeningDate: record.screeningDate,
+    },
+    attentionSignal: {
+      overallRisk: record.assessment.overallRisk,
+      overallScore: record.assessment.overallScore,
+      direction: record.assessment.direction,
+      boundary: record.assessment.explanationBoundary,
+    },
+    acceptanceCriteria: [
+      'Open the exact Evidence Packet and provider source.',
+      ...record.reviewQuestions,
+      'Record the reviewer conclusion in the receiving system without changing the attached evidence digest.',
+    ],
+    evidence: {
+      sourceUrl: record.policy.sourceUrl,
+      changeUrl: record.links.change,
+      evidenceUrl: record.links.evidence,
+      evidencePacketDigest: record.evidencePacketDigest,
+      currentSnapshotSha256: record.currentSnapshot.sha256,
+    },
+    boundaries: [record.boundary, record.governance.boundary],
+  }));
+
+  const core = {
+    schema: 'https://policywatcher.online/schemas/evidence-handoff/v1',
+    schemaVersion: EVIDENCE_HANDOFF_SCHEMA_VERSION,
+    asOf: collection.asOf,
+    handoffType: 'vendor-neutral-human-review',
+    collection: {
+      id: collection.collectionId,
+      contentDigest: collection.contentDigest,
+      selectedRecords: collection.selection.count,
+    },
+    workItems,
+    receivingSystemInstructions: [
+      'Create records only after an authorized person reviews this manifest.',
+      'Preserve PolicyWatcher change IDs, evidence links and digests in the receiving record.',
+      'Keep ownership, access control, due dates, retention and workflow status in the receiving system.',
+      'Reopen the source and Evidence Packet before relying on a stored summary.',
+    ],
+    boundary: EVIDENCE_HANDOFF_BOUNDARY,
+  } as const;
+  const contentDigest = sha256(JSON.stringify(core));
+
+  return {
+    ...core,
+    handoffId: `pwh_${contentDigest.slice(0, 16)}`,
+    contentDigest,
+  } as const;
+}
+
+export type EvidenceHandoff = ReturnType<typeof buildEvidenceHandoff>;
 
 export function escapeMarkdownText(value: unknown): string {
   return String(value ?? '')

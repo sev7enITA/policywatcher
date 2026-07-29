@@ -694,6 +694,7 @@ export async function runFullScan(
             overallScore: analysis.overallScore,
             remediationsJson: JSON.stringify(analysis.remediations),
             publicEvidence: true,
+            publicPublishedAt: checkedAt,
             aiTrainingOptOut: analysis.aiTrainingOptOut,
             aiDataScrapingRestricted: analysis.aiDataScrapingRestricted,
             aiIpLicensing: analysis.aiIpLicensing,

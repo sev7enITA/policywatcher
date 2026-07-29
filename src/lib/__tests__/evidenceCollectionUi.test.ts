@@ -68,6 +68,8 @@ describe('evidence collection UI adjustments', () => {
     expect(source).toContain('!catalogUnavailable && records.length > 0');
     expect(source).toContain('selectedRecords.length > 0 &&');
     expect(source).not.toContain('aria-disabled');
+    expect(source).toContain('format=handoff');
+    expect(source).toContain('Review handoff');
     expect(source).toContain('Open Evidence Packets');
     expect(source).toContain('Read publication methodology');
   });

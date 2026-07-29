@@ -19,6 +19,7 @@ import {
 } from '../pressKit';
 import { FEATURE_ATLAS_FEATURES } from '../featureAtlas';
 import { RELEASE_COLUMNS, RELEASE_IMPACT_ITEMS } from '../releaseImpact';
+import { pressKitSchemas } from '../pressKitSchemas';
 
 const read = (path: string) => readFileSync(path, 'utf8');
 
@@ -140,6 +141,8 @@ describe('public press kit', () => {
     expect(releaseDetail).toContain("'@type': 'NewsArticle'");
     expect(releaseDetail).not.toContain("'@type': 'PressRelease'");
     expect(schemaRoute).toContain('pressKitSchemas');
+    expect(pressKitSchemas['evidence-handoff'].$id).toBe('https://policywatcher.online/schemas/evidence-handoff/v1');
+    expect(pressKitSchemas['change-event-feed'].$id).toBe('https://policywatcher.online/schemas/change-event-feed/v1');
   });
 
   it('connects the Press Kit through public navigation and supporting surfaces', () => {
@@ -198,6 +201,14 @@ describe('public press kit', () => {
     const collectionAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'shareable-evidence-collections');
     expect(collectionAtlasItem?.route).toEqual({ href: '/collections', label: 'Evidence Collections', access: 'public' });
     const workflowItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'evidence-workflow-refinements');
-    expect(workflowItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(workflowItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.18', endRelease: '3.9.0-beta.18' });
+    const handoffItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'collaboration-handoff-manifest');
+    expect(handoffItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    const handoffAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'collaboration-handoff-manifest');
+    expect(handoffAtlasItem?.route).toEqual({ href: '/collections', label: 'Evidence Collections', access: 'public' });
+    const eventItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'public-change-event-feed');
+    expect(eventItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    const eventAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'public-change-event-feed');
+    expect(eventAtlasItem?.route).toEqual({ href: '/developers', label: 'Developer contract', access: 'public' });
   });
 });

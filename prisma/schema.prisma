@@ -172,6 +172,7 @@ model PolicyChange {
   overallScore     Int // 1-10 scale
   remediationsJson String // JSON array of remediations
   publicEvidence   Boolean @default(false)
+  publicPublishedAt DateTime?
 
   // AI Governance Indicators (legacy, kept for compatibility)
   aiTrainingOptOut         String // "Allowed", "Not Allowed", "Opt-out available"
@@ -206,6 +207,7 @@ model PolicyChange {
 
   @@index([policyId])
   @@index([createdAt])
+  @@index([publicPublishedAt])
 }
 
 model DatasetQaIssueReview {

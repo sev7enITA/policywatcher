@@ -304,9 +304,9 @@ const candidateFeatures = [
     track: 'API',
     title: 'Signed outbound events and webhooks',
     body:
-      'Define opt-in event schemas, delivery logs, replay protection and HMAC signatures before any outbound notification channel is introduced.',
-    status: 'Later',
-    risk: 'Requires explicit retention, subscriber, schema-evolution and integration-health rules.',
+      'A versioned forward-polling feed now exposes already-public policy.change.published envelopes with stable IDs and opaque cursors. Push delivery remains a separate later phase.',
+    status: 'Polling feed available · push later',
+    risk: 'Subscriptions, HMAC signing, replay protection, retries, retention and delivery-health controls are still required before outbound webhooks.',
   },
   {
     track: 'Governance',
@@ -368,9 +368,9 @@ const candidateFeatures = [
     track: 'Integrations',
     title: 'Evidence export to GRC tools',
     body:
-      'Generate structured exports for Jira, Confluence, OneTrust-style workflows, and internal risk registers after the generic webhook layer is stable.',
-    status: 'Later',
-    risk: 'Direct vendor integration should follow a generic signed-events foundation.',
+      'Available in the current build as a vendor-neutral handoff manifest with deterministic work-item IDs, evidence links, digests, review questions and acceptance criteria.',
+    status: 'Available · generic handoff',
+    risk: 'The manifest does not create vendor records, assignments, deadlines or delivery confirmation. Direct publishing still requires identity, audit and delivery controls.',
   },
   {
     track: 'Microsoft 365',

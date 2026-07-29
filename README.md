@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2018%20Evidence%20Workflow%20Refinements-146c6a" alt="3.9.0 Beta 18 Evidence Workflow Refinements" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2019%20Collaboration%20Delivery%20Contracts-146c6a" alt="3.9.0 Beta 19 Collaboration Delivery Contracts" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,15 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 19 Collaboration Delivery Contracts Highlights
+
+- **Vendor-neutral review handoff:** Evidence Collections now exports deterministic review work items through `format=handoff`, with evidence links, digests, review questions and acceptance criteria.
+- **Public change-event polling:** `/api/v1/change-events` exposes already-published change events with bounded pages, localized summaries and an opaque forward cursor.
+- **Publication-time ordering:** a dedicated publication timestamp keeps late approvals and republications visible after a consumer has advanced its cursor.
+- **Versioned contracts:** public JSON Schemas describe both the Evidence Handoff and Change Event Feed payloads.
+- **Explicit delivery boundary:** the release does not create third-party records or provide subscribers, recipients, push delivery, HMAC signing, retries or delivery receipts.
+- **Deployment-ready migration:** existing public changes receive a publication-time backfill while private changes remain excluded.
 
 ### Release 3.9.0 Beta 18 Evidence Workflow Refinements Highlights
 
@@ -1017,6 +1026,8 @@ Do not run `/api/seed` in production. It is development-only and blocked unless
 For existing SQLite databases originally created with `prisma db push`, mark the initial migration as applied once before switching to migration deploy:
 `npx prisma migrate resolve --applied 20260706213500_init`.
 The Hostinger init helper performs this baseline step automatically when it detects a non-empty SQLite file.
+
+Release 3.9.0 Beta 19 requires migration `20260729153000_public_change_publication_time`. It adds the publication timestamp used by the public change-event cursor and backfills existing public changes from their creation time. The packaged post-install initializer applies it automatically; manual recovery uses the same `bash scripts/hostinger-init-db.sh` command.
 
 Release 3.6.3 also requires migration `20260721090000_source_onboarding`, which creates the durable onboarding batch/item tables and their staged review metadata. Apply it with the same `npx prisma migrate deploy` step before using `/admin/source-onboarding`.
 

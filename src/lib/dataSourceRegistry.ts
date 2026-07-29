@@ -7,6 +7,7 @@ export type PublicDataSourceId =
   | 'sourceContinuity'
   | 'observatoryRegistry'
   | 'evidenceCollections'
+  | 'publicChangeEvents'
   | 'riskTrends'
   | 'kpiMatrix';
 
@@ -133,7 +134,15 @@ export const PUBLIC_DATA_SOURCES: Readonly<Record<PublicDataSourceId, PublicData
       evidenceGate: 'public-change',
       freshness: { mode: 'short-ttl', maxAgeSeconds: 300 },
       allowedQueryParams: ['changes', 'format'],
-      description: 'Deterministic JSON, Markdown or CSV bundle for up to 12 exact public change records.',
+      description: 'Deterministic JSON, Markdown, CSV or vendor-neutral review handoff for up to 12 exact public change records.',
+    }),
+    publicChangeEvents: sourceSpec({
+      id: 'publicChangeEvents',
+      endpoint: '/api/v1/change-events',
+      evidenceGate: 'public-change',
+      freshness: { mode: 'short-ttl', maxAgeSeconds: 60 },
+      allowedQueryParams: ['cursor', 'lang', 'limit'],
+      description: 'Forward-only polling feed for already-published policy change events.',
     }),
     riskTrends: sourceSpec({
       id: 'riskTrends',

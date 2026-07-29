@@ -14,6 +14,10 @@ describe('public integration directory', () => {
     expect(manifest.readOnly).toBe(true);
     expect(manifest.authentication).toBe('none');
     expect(manifest.cors).toMatchObject({ enabled: true, credentials: false });
+    expect(manifest.rateLimit.overrides).toEqual(expect.arrayContaining([
+      expect.objectContaining({ endpoint: '/api/v1/evidence-collections', requests: 30 }),
+      expect.objectContaining({ endpoint: '/api/v1/change-events', requests: 30 }),
+    ]));
     expect(manifest.sources).toEqual(expect.arrayContaining([
       expect.objectContaining({
         id: 'observatoryRegistry',
@@ -24,6 +28,12 @@ describe('public integration directory', () => {
         id: 'evidenceCollections',
         endpoint: '/api/v1/evidence-collections',
         allowedQueryParams: ['changes', 'format'],
+        evidenceGate: 'public-change',
+      }),
+      expect.objectContaining({
+        id: 'publicChangeEvents',
+        endpoint: '/api/v1/change-events',
+        allowedQueryParams: ['cursor', 'lang', 'limit'],
         evidenceGate: 'public-change',
       }),
     ]));

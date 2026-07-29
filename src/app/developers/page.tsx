@@ -75,7 +75,7 @@ export default function DevelopersPage() {
               <strong>{PUBLIC_API_VERSION} · read only</strong>
               <dl>
                 <div><dt>Access</dt><dd>No API key</dd></div>
-                <div><dt>Rate</dt><dd>{manifest.rateLimit.requests}/min standard · 30/min collections</dd></div>
+                <div><dt>Rate</dt><dd>{manifest.rateLimit.requests}/min standard · 30/min collections and events</dd></div>
                 <div><dt>Cache</dt><dd>{manifest.cache.maxAgeSeconds} seconds shared</dd></div>
                 <div><dt>Scope</dt><dd>Public evidence, collections + curated registry</dd></div>
               </dl>
@@ -101,8 +101,8 @@ export default function DevelopersPage() {
         <section id="endpoints" className={styles.section}>
           <header className={styles.sectionHeader}>
             <span>Endpoints</span>
-            <h2>Three stable entry points for this release.</h2>
-            <p>All endpoints accept `GET`, permit cross-origin read access without credentials, and apply bounded public-data and rate policies. Collection exports also support Markdown and CSV.</p>
+            <h2>Four stable entry points for this release.</h2>
+            <p>All endpoints accept `GET`, permit cross-origin read access without credentials, and apply bounded public-data and rate policies. Collection exports also support Markdown, CSV and a vendor-neutral review handoff.</p>
           </header>
           <div className={styles.endpointGrid}>
             <article className={styles.endpointCard}>
@@ -134,9 +134,20 @@ export default function DevelopersPage() {
               </div>
               <h3>Evidence collection bundle</h3>
               <code>/api/v1/evidence-collections</code>
-              <p>Resolves 1–12 canonical public change IDs into one deterministic JSON, Markdown or CSV bundle. Personal titles and review states are never accepted.</p>
-              <pre><code>{`?changes={id},{id}&format=json`}</code></pre>
+              <p>Resolves 1–12 canonical public change IDs into deterministic evidence bundles or a vendor-neutral human-review handoff. Personal titles, review states, assignees and due dates are never accepted.</p>
+              <pre><code>{`?changes={id},{id}&format=handoff`}</code></pre>
               <Link href="/collections">Build a bounded request <ArrowRight size={15} /></Link>
+            </article>
+            <article className={styles.endpointCard}>
+              <div className={styles.endpointHeader}>
+                <span>GET · FORWARD POLLING</span>
+                <Radio size={19} aria-hidden="true" />
+              </div>
+              <h3>Published change events</h3>
+              <code>/api/v1/change-events</code>
+              <p>Returns already-public policy change events with stable event IDs and an opaque forward cursor. It does not send notifications or confirm delivery.</p>
+              <pre><code>{`?limit=25&lang=en&cursor={opaque}`}</code></pre>
+              <a href="/api/v1/change-events?limit=25&lang=en" target="_blank" rel="noreferrer">Open event feed <ArrowRight size={15} aria-hidden="true" /></a>
             </article>
           </div>
         </section>

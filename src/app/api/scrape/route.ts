@@ -446,6 +446,7 @@ export async function POST(request: NextRequest) {
           overallScore: aiAnalysis.overallScore,
           remediationsJson: JSON.stringify(aiAnalysis.remediations),
           publicEvidence: true,
+          publicPublishedAt: checkedAt,
           aiTrainingOptOut: aiAnalysis.aiTrainingOptOut,
           aiDataScrapingRestricted: aiAnalysis.aiDataScrapingRestricted,
           aiIpLicensing: aiAnalysis.aiIpLicensing,

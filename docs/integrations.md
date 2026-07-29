@@ -15,7 +15,9 @@ Public entry points:
 | --- | --- | --- | --- | --- |
 | Public API v1 | Public evidence discovery, Observatory sources and signals | None; read-only CORS | Available | [`public-api-v1.md`](public-api-v1.md) |
 | Existing public data routes | Public companies, policy evidence, comparisons, trends and continuity where listed by the v1 manifest | Current route policy | Available | `/api/v1/manifest` |
-| Shareable Evidence Collections | Select up to 12 exact public changes and export one deterministic JSON, Markdown or CSV review bundle | None; browser-local selection plus read-only CORS | Available | `/collections` |
+| Shareable Evidence Collections | Select up to 12 exact public changes and export deterministic JSON, Markdown, CSV or vendor-neutral handoff records | None; browser-local selection plus read-only CORS | Available | `/collections` |
+| Collaboration Handoff Manifest | Prepare review work items with evidence links, digests and acceptance criteria for authorized import | None; read-only deterministic export | Available | `/api/v1/evidence-collections?format=handoff` |
+| Public Change Event Feed | Poll already-published change events with deterministic IDs and a forward cursor | None; read-only CORS | Available | `/api/v1/change-events` |
 | Change-card embed | Display one published change record on a third-party page | None; published evidence only | Available | `/embed/change/{id}` |
 | Chrome browser extension | Extract policy-notice clues locally and hand off a reviewed inquiry | No mailbox permission; explicit user review | Available on Chrome | `/browser-extension` |
 | Enterprise API v2 | Tenant-bound access to structured companies, changes, continuity and governance signals | Microsoft Entra ID scope or app role | Pilot ready | [`azure/enterprise-api-v2.md`](azure/enterprise-api-v2.md) |
@@ -38,6 +40,8 @@ Use API v1 for anonymous, cacheable, read-only access to the public evidence dir
 
 Use `/collections` when a reviewer needs to group up to 12 exact public changes before handing a stable bundle to another person or tool. Selection, title and review status are stored locally. A share URL carries only sorted public UUIDs, and the JSON, Markdown and CSV exports contain provenance, digests, citations, review questions and explicit boundaries. This is a portable review artifact, not a persistent team workspace.
 
+Use `format=handoff` when a receiving workflow needs deterministic work-item titles, acceptance criteria, evidence links and digests. The manifest is vendor-neutral and creates no Jira, Confluence, Teams, GRC or other third-party record. It contains no assignee, due date, notification state or delivery confirmation; those controls remain the responsibility of the authorized receiving system.
+
 Use the change-card embed only when a page needs to display one published change. It is a narrow presentation surface, not a replacement for API access.
 
 ### Build a tenant-controlled Microsoft workflow
@@ -48,9 +52,11 @@ For Power Automate, Power Apps, Logic Apps or Copilot Studio, start with the Pow
 
 ### Notify another system
 
-Signed outbound webhooks are the intended event-driven surface, but they are not implemented in this wave. A production design still needs an event schema, tenant-owned subscriptions, delivery retention, endpoint verification, replay protection, signing-key rotation and integration-health controls.
+Use `/api/v1/change-events` for bounded anonymous polling of already-published policy change events. Start without a cursor, store the returned `nextCursor`, and pass it unchanged on subsequent requests. Cursor order follows the evidence publication gate rather than source retrieval time, so a previously withheld change can appear when it is approved. The initial response is a recent window rather than a complete historical archive; consumers deduplicate by `eventId` and follow exact Change and Evidence Packet links before routing work.
 
-Until that contract exists, use bounded polling against API v2. Do not treat the absence of a webhook as permission to automate portal HTML.
+Signed outbound webhooks remain planned. The polling feed establishes a versioned public envelope, but a production push design still needs tenant-owned subscriptions, delivery retention, endpoint verification, replay protection, HMAC signing, signing-key rotation, retries and integration-health controls.
+
+Do not treat the absence of push delivery as permission to automate portal HTML. Use the public polling feed for public events or bounded API v2 reads for a controlled Entra tenant.
 
 ### Put PolicyWatcher inside Teams or Copilot
 

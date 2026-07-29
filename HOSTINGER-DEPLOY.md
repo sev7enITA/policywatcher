@@ -28,6 +28,12 @@ places runtime build files in `/home/USER/domains/DOMAIN/nodejs` and retains the
 uploaded source under the sibling `.builds/last-source` directory. The packaged
 `server.js` also searches both source layouts when it is used as the entry file.
 
+Beta 19 includes migration `20260729153000_public_change_publication_time`. It
+adds the publication timestamp used by the public change-event cursor and
+backfills existing public changes from their creation time. The post-install
+initializer applies it automatically; manual recovery uses the same
+`bash scripts/hostinger-init-db.sh` command shown below.
+
 Admin authentication does not depend on the metrics endpoint. A missing
 optional metric table can therefore produce a scoped unavailable state, but it
 cannot block the complete `/admin` shell.

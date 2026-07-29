@@ -128,7 +128,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.15', shortLabel: '3.9 B15', label: '3.9.0 Beta 15' },
   { id: '3.9.0-beta.16', shortLabel: '3.9 B16', label: '3.9.0 Beta 16' },
   { id: '3.9.0-beta.17', shortLabel: '3.9 B17', label: '3.9.0 Beta 17' },
-  { id: '3.9.0-beta.18', shortLabel: '3.9 B18', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '3.9.0-beta.18', shortLabel: '3.9 B18', label: '3.9.0 Beta 18' },
+  { id: '3.9.0-beta.19', shortLabel: '3.9 B19', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -195,6 +196,8 @@ const routeByFeature: Record<string, FeatureAtlasRoute> = {
   'citable-coverage-registry': { href: '/press', label: 'Coverage Registry', access: 'public' },
   'evidence-governance-packets': { href: '/evidence', label: 'Evidence Packets', access: 'public' },
   'shareable-evidence-collections': { href: '/collections', label: 'Evidence Collections', access: 'public' },
+  'collaboration-handoff-manifest': { href: '/collections', label: 'Evidence Collections', access: 'public' },
+  'public-change-event-feed': { href: '/developers', label: 'Developer contract', access: 'public' },
 };
 
 const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
@@ -237,6 +240,8 @@ const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
   'citable-coverage-registry': [{ featureId: 'editorial-briefing-room', relationship: 'distributed-through' }, { featureId: 'public-claim-language-governance', relationship: 'governed-by' }],
   'evidence-governance-packets': [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }, { featureId: 'dataset-qa', relationship: 'governed-by' }, { featureId: 'explainability-methodology', relationship: 'governed-by' }, { featureId: 'evidence-distribution', relationship: 'distributed-through' }],
   'shareable-evidence-collections': [{ featureId: 'evidence-governance-packets', relationship: 'depends-on' }, { featureId: 'shareable-evidence-views', relationship: 'depends-on' }, { featureId: 'evidence-distribution', relationship: 'distributed-through' }],
+  'collaboration-handoff-manifest': [{ featureId: 'shareable-evidence-collections', relationship: 'depends-on' }, { featureId: 'evidence-governance-packets', relationship: 'depends-on' }],
+  'public-change-event-feed': [{ featureId: 'public-integration-directory', relationship: 'depends-on' }, { featureId: 'public-evidence-gate', relationship: 'governed-by' }],
 };
 
 function getReleaseLabel(releaseId: string) {

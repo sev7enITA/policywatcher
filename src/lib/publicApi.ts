@@ -21,7 +21,11 @@ export const PUBLIC_API_VERSION = 'v1' as const;
 export const PUBLIC_API_RATE_LIMIT = Object.freeze({
   requests: 60,
   intervalSeconds: 60,
-  scope: 'per IP across the v1 public integration routes',
+  scope: 'default per-IP bucket for the manifest and Observatory routes',
+  overrides: Object.freeze([
+    Object.freeze({ endpoint: '/api/v1/evidence-collections', requests: 30, intervalSeconds: 60 }),
+    Object.freeze({ endpoint: '/api/v1/change-events', requests: 30, intervalSeconds: 60 }),
+  ]),
 });
 export const PUBLIC_API_CACHE_SECONDS = 300;
 
@@ -83,6 +87,7 @@ export function getPublicApiManifest() {
       'The API does not expose policy text, raw failure reasons, admin logs, private records, or credentials. Evidence collections may repeat public snapshot and packet fingerprints already exposed by the selected Evidence Packets.',
       'Observatory entries are a curated local registry with review timestamps, not an automated external news feed.',
       'Published records remain subject to source availability and public-evidence gates.',
+      'The change-event feed is a forward-polling surface. It does not confirm notification delivery or replace future signed webhook controls.',
     ],
     sources: (Object.keys(PUBLIC_DATA_SOURCES) as PublicDataSourceId[]).map(serializeDataSource),
   };

@@ -9,6 +9,7 @@ import {
   ArrowUp,
   Braces,
   Check,
+  ClipboardCheck,
   ClipboardCopy,
   FileJson2,
   FileText,
@@ -240,7 +241,7 @@ export default function CollectionsClient({
           <div className={styles.heroMeta}><span>Public evidence utility</span><span>Browser-local review state</span></div>
           <div className={styles.heroGrid}>
             <div>
-              <p className={styles.kicker}>PolicyWatcher Beta 18</p>
+              <p className={styles.kicker}>PolicyWatcher Beta 19</p>
               <h1>Shareable Evidence Collections</h1>
               <p className={styles.lead}>Select up to 12 exact public changes, record a local review state, and export one deterministic evidence bundle.</p>
             </div>
@@ -399,8 +400,9 @@ export default function CollectionsClient({
                     <a href={`${exportBase}&format=json`}><FileJson2 size={15} aria-hidden="true" /> JSON</a>
                     <a href={`${exportBase}&format=markdown`}><FileText size={15} aria-hidden="true" /> Markdown</a>
                     <a href={`${exportBase}&format=csv`}><ArrowDownToLine size={15} aria-hidden="true" /> CSV</a>
+                    <a href={`${exportBase}&format=handoff`}><ClipboardCheck size={15} aria-hidden="true" /> Review handoff</a>
                   </div>
-                  <p><Link2 size={14} aria-hidden="true" /> Shared links contain sorted public change IDs only. Local title and statuses are excluded.</p>
+                  <p><Link2 size={14} aria-hidden="true" /> Shared links and handoff files contain public change IDs only. Local title, statuses, assignees and due dates are excluded.</p>
                   <button type="button" className={styles.resetButton} onClick={resetCollection}>
                     {confirmReset ? <Check size={16} aria-hidden="true" /> : <Trash2 size={16} aria-hidden="true" />}
                     {confirmReset ? 'Confirm local reset' : 'Reset local collection'}

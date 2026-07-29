@@ -100,7 +100,7 @@
 .digestRail code { display: block; margin-top: 6px; overflow-wrap: anywhere; color: #34406c; font: 650 0.65rem/1.5 var(--font-mono); }
 .actions { display: grid; gap: 10px; padding: 19px; }
 .actions > button, .exportGrid a { display: flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; border: 1px solid var(--indigo); background: var(--indigo); color: white; font-size: 0.76rem; font-weight: 750; cursor: pointer; }
-.exportGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+.exportGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; }
 .exportGrid a { border-color: var(--rule-dark); background: white; color: var(--ink); text-decoration: none; }
 .actions > p { display: flex; align-items: flex-start; gap: 7px; color: var(--muted); font-size: 0.69rem; line-height: 1.45; }
 .resetButton:not(:disabled) { border-color: #c99180 !important; background: #fff7ed !important; color: var(--rust) !important; }

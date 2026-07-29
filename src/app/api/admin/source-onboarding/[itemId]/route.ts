@@ -182,16 +182,20 @@ export async function PATCH(
       }
       return NextResponse.json({ error: 'Evidence no longer passes QA; publication was blocked.' }, { status: 409 });
     }
+    const publishedAt = new Date();
     await db.$transaction(async (tx) => {
       await tx.policySnapshot.updateMany({ where: { policyId: item.policyId! }, data: { publicEvidence: true } });
-      await tx.policyChange.updateMany({ where: { policyId: item.policyId! }, data: { publicEvidence: true } });
+      await tx.policyChange.updateMany({
+        where: { policyId: item.policyId!, publicEvidence: false },
+        data: { publicEvidence: true, publicPublishedAt: publishedAt },
+      });
       await tx.sourceOnboardingItem.update({
         where: { id: item.id },
         data: {
           stage: 'Published',
           publicationDecision: 'Published',
           decisionByRole: actorRole,
-          decisionAt: new Date(),
+          decisionAt: publishedAt,
           error: null,
         },
       });
