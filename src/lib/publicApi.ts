@@ -80,7 +80,7 @@ export function getPublicApiManifest() {
     },
     boundaries: [
       'Only public evidence or curated public-reference metadata is exposed.',
-      'The API does not expose policy text, hashes, raw failure reasons, admin logs, private records, or credentials.',
+      'The API does not expose policy text, raw failure reasons, admin logs, private records, or credentials. Evidence collections may repeat public snapshot and packet fingerprints already exposed by the selected Evidence Packets.',
       'Observatory entries are a curated local registry with review timestamps, not an automated external news feed.',
       'Published records remain subject to source availability and public-evidence gates.',
     ],

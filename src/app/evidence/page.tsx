@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
+import AddToCollectionButton from '@/components/AddToCollectionButton';
 import { listPublicEvidencePacketSummaries } from '@/lib/evidencePacketData';
 import styles from './evidence.module.css';
 
@@ -180,6 +181,7 @@ export default async function EvidenceIndexPage() {
                       <Link href={`/evidence/${record.id}`}>
                         Open packet <ArrowRight size={15} aria-hidden="true" />
                       </Link>
+                      <AddToCollectionButton changeId={record.id} compact />
                       <Link href={`/change/${record.id}`}>
                         Original change <ArrowRight size={15} aria-hidden="true" />
                       </Link>

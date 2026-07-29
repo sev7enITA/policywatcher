@@ -23,6 +23,7 @@ import {
   ShieldCheck,
   ShoppingBag,
   Workflow,
+  FolderKanban,
 } from 'lucide-react';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
@@ -36,6 +37,7 @@ export const metadata: Metadata = {
 
 const decisions = [
   { job: 'Public read and discovery', path: 'Public API v1', state: 'Available' },
+  { job: 'Portable multi-change evidence', path: 'Evidence Collections', state: 'Available' },
   { job: 'Tenant-authenticated system access', path: 'Enterprise API v2', state: 'Pilot ready' },
   { job: 'Workflow automation', path: 'Power Platform connector', state: 'Pilot ready' },
   { job: 'In-workflow collaboration', path: 'Teams cards and tab', state: 'Planned' },
@@ -53,9 +55,9 @@ const capabilityLanes = [
       {
         title: 'Public API v1',
         audience: 'Developers, researchers, public-interest tools',
-        role: 'Anonymous discovery of the integration manifest and curated Observatory registry.',
+        role: 'Anonymous discovery of the integration manifest, curated Observatory registry and portable evidence bundles.',
         boundary: 'Read-only public metadata, publication-aware gates, shared IP rate policy.',
-        artifact: '/api/v1/manifest  |  /api/v1/observatory',
+        artifact: '/api/v1/manifest  |  /api/v1/observatory  |  /api/v1/evidence-collections',
         href: '/developers',
         link: 'Developer directory',
       },
@@ -67,6 +69,15 @@ const capabilityLanes = [
         artifact: '/change/{id}  |  /press-kit/feed.json',
         href: '/press-kit/releases',
         link: 'Release feeds',
+      },
+      {
+        title: 'Shareable evidence collections',
+        audience: 'Researchers, editors, governance reviewers, developers',
+        role: 'Selects up to 12 exact public changes and exports deterministic JSON, Markdown or CSV bundles.',
+        boundary: 'Only canonical public change IDs leave the browser. Local title and review states are excluded.',
+        artifact: '/collections  |  /api/v1/evidence-collections',
+        href: '/collections',
+        link: 'Open collections',
       },
       {
         title: 'Browser extension',
@@ -112,7 +123,7 @@ const capabilityLanes = [
       {
         title: 'Power Platform connector',
         audience: 'Power Automate, Power Apps, Logic Apps, Copilot Studio',
-        role: 'Five read actions over the same v2 evidence contract, ready for a test tenant pilot.',
+        role: 'Six read actions over the same v2 evidence contract, ready for a test tenant pilot.',
         boundary: 'Two Entra applications and environment configuration are required before import.',
         artifact: 'integrations/power-platform/policywatcher-v2',
       },
@@ -280,7 +291,7 @@ export default function IntegrationsPage() {
                 <div className={styles.nodeHeading}><Workflow size={18} /><Status kind="pilot">Pilot ready</Status></div>
                 <h3>Power Platform</h3>
                 <p>Composable workflow automation.</p>
-                <code>5 read actions</code>
+                <code>6 read actions</code>
               </article>
             </div>
 
@@ -449,7 +460,7 @@ export default function IntegrationsPage() {
             <strong>Never returned to API consumers</strong>
             <ul>
               <li>Raw policy text</li>
-              <li>Snapshot hashes</li>
+              <li>Raw snapshot text or non-public fingerprints</li>
               <li>Private retrieval diagnostics</li>
               <li>Credentials</li>
               <li>Administrator logs</li>
@@ -465,6 +476,7 @@ export default function IntegrationsPage() {
           </div>
           <div className={styles.finalLinks}>
             <Link href="/developers"><Code2 size={17} /> Developer directory</Link>
+            <Link href="/collections"><FolderKanban size={17} /> Evidence collections</Link>
             <Link href="/api/v2/openapi.json" target="_blank" rel="noreferrer"><FileJson size={17} /> OpenAPI v2</Link>
             <Link href="/roadmap"><Puzzle size={17} /> Integration roadmap</Link>
             <Link href="/browser-extension"><LayoutPanelTop size={17} /> Browser extension</Link>

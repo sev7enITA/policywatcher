@@ -15,6 +15,7 @@ Public entry points:
 | --- | --- | --- | --- | --- |
 | Public API v1 | Public evidence discovery, Observatory sources and signals | None; read-only CORS | Available | [`public-api-v1.md`](public-api-v1.md) |
 | Existing public data routes | Public companies, policy evidence, comparisons, trends and continuity where listed by the v1 manifest | Current route policy | Available | `/api/v1/manifest` |
+| Shareable Evidence Collections | Select up to 12 exact public changes and export one deterministic JSON, Markdown or CSV review bundle | None; browser-local selection plus read-only CORS | Available | `/collections` |
 | Change-card embed | Display one published change record on a third-party page | None; published evidence only | Available | `/embed/change/{id}` |
 | Chrome browser extension | Extract policy-notice clues locally and hand off a reviewed inquiry | No mailbox permission; explicit user review | Available on Chrome | `/browser-extension` |
 | Enterprise API v2 | Tenant-bound access to structured companies, changes, continuity and governance signals | Microsoft Entra ID scope or app role | Pilot ready | [`azure/enterprise-api-v2.md`](azure/enterprise-api-v2.md) |
@@ -33,7 +34,9 @@ Public entry points:
 
 ### Publish or research public evidence
 
-Use API v1 for anonymous, cacheable, read-only access to the public evidence directory and the curated Observatory registry. Clients should discover current routes and boundaries through `/api/v1/manifest` rather than assume that every portal endpoint is a stable integration contract.
+Use API v1 for anonymous, cacheable, read-only access to the public evidence directory, curated Observatory registry and deterministic Evidence Collections. Clients should discover current routes and boundaries through `/api/v1/manifest` rather than assume that every portal endpoint is a stable integration contract.
+
+Use `/collections` when a reviewer needs to group up to 12 exact public changes before handing a stable bundle to another person or tool. Selection, title and review status are stored locally. A share URL carries only sorted public UUIDs, and the JSON, Markdown and CSV exports contain provenance, digests, citations, review questions and explicit boundaries. This is a portable review artifact, not a persistent team workspace.
 
 Use the change-card embed only when a page needs to display one published change. It is a narrow presentation surface, not a replacement for API access.
 
@@ -95,7 +98,7 @@ Only the secret value is a credential. Keep it out of the repository, generated 
 
 ## Evidence and privacy boundaries
 
-All integration surfaces remain read-only in the current release. They expose only public or tenant-authorized structured evidence through an explicit publication gate. They do not expose:
+All integration surfaces remain read-only in the current release. They expose only public or tenant-authorized structured evidence through an explicit publication gate. Evidence Collections may repeat public snapshot fingerprints and public analytical fields already present in exact-change Evidence Packets. They do not expose:
 
 - raw policy text or full snapshots;
 - content hashes or internal diffs;

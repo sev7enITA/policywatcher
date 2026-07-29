@@ -105,7 +105,37 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 
 const nowItems = [
   {
-    phase: `Delivered · ${POLICYWATCHER_VERSION}`,
+    phase: 'Delivered · 3.9.0-beta.17',
+    title: 'Local public-evidence watchlists and shareable collections',
+    body:
+      'Select up to 12 exact public change records, keep a bounded title and review state in localStorage, and share a canonical URL containing public change IDs only.',
+    benefit: 'Researchers and reviewers can assemble a reproducible scope without creating an account or sending personal workspace state to PolicyWatcher.',
+    validation: 'Shared links exclude the local title and review states; corrupt or oversized browser state is ignored and the selection remains bounded to public records.',
+    icon: GitFork,
+    href: '/collections',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.17',
+    title: 'Multi-change evidence briefing',
+    body:
+      'Selected exact-change Evidence Packets are composed into one deterministic collection with per-record identity, source state, screening trace, packet digest and review questions.',
+    benefit: 'A reviewer can carry a defined multi-record scope into editorial, research or governance work while retaining each original evidence boundary.',
+    validation: 'The collection is selection-based rather than exhaustive and does not infer a market, legal or compliance conclusion.',
+    icon: FileCheck2,
+    href: '/collections',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.17',
+    title: 'Portable generic evidence bundle',
+    body:
+      'One read-only endpoint returns deterministic JSON, Markdown or formula-safe CSV for 1–12 canonical public change IDs.',
+    benefit: 'Developers can move bounded public evidence into their own review workflow without a vendor-specific connector.',
+    validation: 'The endpoint accepts IDs and format only; direct Jira, Confluence, Teams or GRC delivery, signed webhooks and write operations remain unimplemented.',
+    icon: Database,
+    href: '/developers',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.16',
     title: 'Source confidence and continuity ledger',
     body:
       'Public evidence files show publication state, sanitized retrieval status, last-check time and versioned public snapshot fingerprints for one change.',
@@ -115,7 +145,7 @@ const nowItems = [
     href: '/evidence',
   },
   {
-    phase: `Delivered · ${POLICYWATCHER_VERSION}`,
+    phase: 'Delivered · 3.9.0-beta.16',
     title: 'Advisory governance mapping',
     body:
       'Assessed KPI evidence is mapped to review questions for the EU AI Act, ISO/IEC 42001, NIST AI RMF and OECD AI Principles.',
@@ -125,7 +155,7 @@ const nowItems = [
     href: '/evidence',
   },
   {
-    phase: `Delivered · ${POLICYWATCHER_VERSION}`,
+    phase: 'Delivered · 3.9.0-beta.16',
     title: 'Source-anchored score explainability',
     body:
       'Stored score reasons can show an exact source passage, snapshot side and related KPI only when the passage matches the recorded snapshot.',
@@ -135,7 +165,7 @@ const nowItems = [
     href: '/evidence',
   },
   {
-    phase: `Delivered · ${POLICYWATCHER_VERSION}`,
+    phase: 'Delivered · 3.9.0-beta.16',
     title: 'Change-bound evidence reports',
     body:
       'Each publishable change can produce a two-page PDF and JSON packet with identity, evidence fingerprints, score trace, advisory mappings, review questions and digest.',
@@ -263,6 +293,14 @@ const candidateFeatures = [
     risk: 'Certification, tenant entitlements, offboarding, delivery telemetry and commercial provisioning are not yet implemented.',
   },
   {
+    track: 'Collaboration',
+    title: 'Local public-evidence watchlists and shareable collections',
+    body:
+      'Delivered in 3.9.0 Beta 17: select up to 12 public change IDs, retain title and review states locally, and share an ID-only canonical URL.',
+    status: 'Delivered beta 17',
+    risk: 'This is not a persistent team workspace: accounts, ACLs, comments, presence and conflict resolution are not included.',
+  },
+  {
     track: 'API',
     title: 'Signed outbound events and webhooks',
     body:
@@ -298,17 +336,17 @@ const candidateFeatures = [
     track: 'Reports',
     title: 'Multi-change evidence briefing',
     body:
-      'Compose selected exact-change evidence packets into a dated briefing with comparison scope and per-record digests.',
-    status: 'Later composition',
+      'Delivered in 3.9.0 Beta 17: compose selected exact-change evidence packets into a dated bundle with selection scope and per-record digests.',
+    status: 'Delivered beta 17',
     risk: 'Aggregation must preserve each packet boundary and must not imply a complete market or compliance assessment.',
   },
   {
     track: 'Signals',
-    title: 'Custom watchlists',
+    title: 'Persistent alert watchlists',
     body:
-      'Let users track a subset of companies, policies, jurisdictions, or governance topics and receive focused updates.',
+      'Let authenticated users subscribe to future changes for selected companies, policies, jurisdictions, or governance topics and receive focused updates.',
     status: 'Community ask',
-    risk: 'Subscription preferences need strong privacy defaults.',
+    risk: 'Persistent subscription preferences, identity and delivery controls need strong privacy defaults and are not part of local Evidence Collections.',
   },
   {
     track: 'Explainability',
@@ -317,6 +355,14 @@ const candidateFeatures = [
       'Compare source-anchored screening reasons across multiple public changes while retaining the original snapshot side and KPI linkage.',
     status: 'Later lineage',
     risk: 'Cross-version summaries must not infer causality where only stored screening outputs exist.',
+  },
+  {
+    track: 'Integrations',
+    title: 'Portable generic evidence bundle',
+    body:
+      'Delivered in 3.9.0 Beta 17: deterministic JSON, Markdown and formula-safe CSV exports for 1–12 canonical public change IDs.',
+    status: 'Delivered beta 17',
+    risk: 'The bundle is portable data only; it does not deliver directly into third-party products or expose private review state.',
   },
   {
     track: 'Integrations',
@@ -428,14 +474,14 @@ const releaseLanes = [
     label: POLICYWATCHER_VERSION,
     title: POLICYWATCHER_RELEASE_NAME,
     body:
-      'Sanitized source confidence, source-anchored explanations, advisory governance mappings and exact-change PDF/JSON evidence packets with explicit review boundaries.',
+      'Browser-local public-evidence collections, ID-only share links, multi-change briefings and deterministic JSON, Markdown and CSV bundles with explicit collaboration boundaries.',
     state: 'current',
   },
   {
     label: '4.0',
     title: 'Feature Drop',
     body:
-      'Signed webhooks, tenant lifecycle controls, custom watchlists, multi-version diff and production integration hardening after the API v2 pilot.',
+      'Signed webhooks, tenant lifecycle controls, persistent alert watchlists, multi-version diff and production integration hardening after the API v2 pilot.',
     state: 'candidate',
   },
   {

@@ -44,7 +44,7 @@ export interface EditorialCampaign {
   };
 }
 
-const RELEASE_ROUTE = '/press-kit/releases/evidence-governance-packets-3-9-0-beta-16';
+const RELEASE_ROUTE = '/press-kit/releases/shareable-evidence-collections-3-9-0-beta-17';
 
 export const editorialCampaigns: readonly EditorialCampaign[] = [
   {

@@ -6,6 +6,10 @@
   padding: 24px 16px 60px;
 }
 
+.collectionAction > a {
+  border-radius: 8px;
+}
+
 .container {
   max-width: 760px;
   margin: 0 auto;

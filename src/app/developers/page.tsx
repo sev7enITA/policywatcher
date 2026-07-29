@@ -10,6 +10,7 @@ import {
   LockKeyhole,
   Radio,
   ShieldCheck,
+  FolderKanban,
 } from 'lucide-react';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
@@ -51,7 +52,7 @@ export default function DevelopersPage() {
               </span>
               <h1>Evidence-ready data, with its boundaries attached.</h1>
               <p>
-                PolicyWatcher exposes a small anonymous, read-only integration surface for public evidence metadata and the curated Observatory registry. The contract keeps publication gates, review cadence and source limits visible to the system consuming it.
+                PolicyWatcher exposes a small anonymous, read-only integration surface for public evidence metadata, portable evidence collections and the curated Observatory registry. The contract keeps publication gates, review cadence and source limits visible to the system consuming it.
               </p>
               <div className={styles.heroActions}>
                 <a href="#endpoints" className={styles.primaryAction}>
@@ -125,8 +126,8 @@ export default function DevelopersPage() {
         <section id="endpoints" className={styles.section}>
           <header className={styles.sectionHeader}>
             <span>Endpoints</span>
-            <h2>Two stable entry points for this release.</h2>
-            <p>Both endpoints accept `GET`, return JSON, permit cross-origin read access without credentials, and are limited together per IP.</p>
+            <h2>Three stable entry points for this release.</h2>
+            <p>All endpoints accept `GET`, permit cross-origin read access without credentials, and apply bounded public-data and rate policies. Collection exports also support Markdown and CSV.</p>
           </header>
           <div className={styles.endpointGrid}>
             <article className={styles.endpointCard}>
@@ -150,6 +151,17 @@ export default function DevelopersPage() {
               <p>Returns localized sources, curated signals, scheduled events and the registry review context. Use `lang=it` for Italian.</p>
               <pre><code>{`curl "https://policywatcher.online/api/v1/observatory?lang=en"`}</code></pre>
               <a href="/api/v1/observatory?lang=en" target="_blank" rel="noreferrer">Open endpoint <ArrowRight size={15} /></a>
+            </article>
+            <article className={styles.endpointCard}>
+              <div className={styles.endpointHeader}>
+                <span>GET · AVAILABLE · BETA 17</span>
+                <FolderKanban size={19} />
+              </div>
+              <h3>Evidence collection bundle</h3>
+              <code>/api/v1/evidence-collections</code>
+              <p>Resolves 1–12 canonical public change IDs into one deterministic JSON, Markdown or CSV bundle. Personal titles and review states are never accepted.</p>
+              <pre><code>{`?changes={id},{id}&format=json`}</code></pre>
+              <Link href="/collections">Build a bounded request <ArrowRight size={15} /></Link>
             </article>
           </div>
         </section>

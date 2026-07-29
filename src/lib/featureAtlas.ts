@@ -126,7 +126,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.13', shortLabel: '3.9 B13', label: '3.9.0 Beta 13' },
   { id: '3.9.0-beta.14', shortLabel: '3.9 B14', label: '3.9.0 Beta 14' },
   { id: '3.9.0-beta.15', shortLabel: '3.9 B15', label: '3.9.0 Beta 15' },
-  { id: '3.9.0-beta.16', shortLabel: '3.9 B16', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '3.9.0-beta.16', shortLabel: '3.9 B16', label: '3.9.0 Beta 16' },
+  { id: '3.9.0-beta.17', shortLabel: '3.9 B17', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -192,6 +193,7 @@ const routeByFeature: Record<string, FeatureAtlasRoute> = {
   'protected-press-outreach-desk': { href: '/admin/outreach', label: 'Press Outreach', access: 'protected' },
   'citable-coverage-registry': { href: '/press', label: 'Coverage Registry', access: 'public' },
   'evidence-governance-packets': { href: '/evidence', label: 'Evidence Packets', access: 'public' },
+  'shareable-evidence-collections': { href: '/collections', label: 'Evidence Collections', access: 'public' },
 };
 
 const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
@@ -233,6 +235,7 @@ const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
   'protected-press-outreach-desk': [{ featureId: 'editorial-pulse', relationship: 'depends-on' }, { featureId: 'security-privacy-boundaries', relationship: 'governed-by' }],
   'citable-coverage-registry': [{ featureId: 'editorial-briefing-room', relationship: 'distributed-through' }, { featureId: 'public-claim-language-governance', relationship: 'governed-by' }],
   'evidence-governance-packets': [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }, { featureId: 'dataset-qa', relationship: 'governed-by' }, { featureId: 'explainability-methodology', relationship: 'governed-by' }, { featureId: 'evidence-distribution', relationship: 'distributed-through' }],
+  'shareable-evidence-collections': [{ featureId: 'evidence-governance-packets', relationship: 'depends-on' }, { featureId: 'shareable-evidence-views', relationship: 'depends-on' }, { featureId: 'evidence-distribution', relationship: 'distributed-through' }],
 };
 
 function getReleaseLabel(releaseId: string) {

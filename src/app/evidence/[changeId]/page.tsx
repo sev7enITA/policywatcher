@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
+import AddToCollectionButton from '@/components/AddToCollectionButton';
 import { getPublicEvidencePacket } from '@/lib/evidencePacketData';
 import { KPI_METRICS, type KpiField } from '@/lib/metricsCatalog';
 import styles from '../evidence.module.css';
@@ -287,6 +288,7 @@ export default async function EvidenceDetailPage({ params }: EvidenceDetailPageP
           <footer className={styles.packetFoot}>
             <div><p className={styles.kicker}>Review boundary</p><p>{packet.boundary}</p></div>
             <nav aria-label="Related evidence links">
+              <AddToCollectionButton changeId={packet.changeId} compact />
               <Link href={`/change/${packet.changeId}`}>Open original change <ArrowRight size={14} /></Link>
               <Link href="/methodology/confidence">Read methodology <ArrowRight size={14} /></Link>
               {packet.policy.sourceUrl && (

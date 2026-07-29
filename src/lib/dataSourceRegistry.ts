@@ -6,6 +6,7 @@ export type PublicDataSourceId =
   | 'sourceSuspensions'
   | 'sourceContinuity'
   | 'observatoryRegistry'
+  | 'evidenceCollections'
   | 'riskTrends'
   | 'kpiMatrix';
 
@@ -126,6 +127,14 @@ export const PUBLIC_DATA_SOURCES: Readonly<Record<PublicDataSourceId, PublicData
       allowedQueryParams: ['lang'],
       description: 'Curated public registry of governance, privacy, standards and event references.',
     }),
+    evidenceCollections: sourceSpec({
+      id: 'evidenceCollections',
+      endpoint: '/api/v1/evidence-collections',
+      evidenceGate: 'public-change',
+      freshness: { mode: 'short-ttl', maxAgeSeconds: 300 },
+      allowedQueryParams: ['changes', 'format'],
+      description: 'Deterministic JSON, Markdown or CSV bundle for up to 12 exact public change records.',
+    }),
     riskTrends: sourceSpec({
       id: 'riskTrends',
       endpoint: '/api/trends',
@@ -241,7 +250,7 @@ function canonicalDataSourceParams(spec: PublicDataSourceSpec, query: DataSource
     }
     if (rawValue === null || rawValue === undefined || rawValue === '') continue;
     const value = String(rawValue);
-    if (value.length > 200 || /[\u0000-\u001f]/.test(value)) {
+    if (value.length > 500 || /[\u0000-\u001f]/.test(value)) {
       throw new Error(`Query parameter ${key} is invalid for data source ${spec.id}.`);
     }
     params.set(key, value);

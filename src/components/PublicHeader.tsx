@@ -7,6 +7,7 @@ import { Menu, X } from 'lucide-react';
 import styles from './PublicHeader.module.css';
 
 export type PublicSection =
+  | 'collections'
   | 'evidence'
   | 'signals'
   | 'infographics'
@@ -35,6 +36,7 @@ interface PublicHeaderProps {
 }
 
 const links: Array<{ id: PublicSection; href: string; en: string; it: string }> = [
+  { id: 'collections', href: '/collections', en: 'Collections', it: 'Raccolte' },
   { id: 'evidence', href: '/evidence', en: 'Evidence', it: 'Evidenze' },
   { id: 'signals', href: '/leaderboard', en: 'Signals', it: 'Segnali' },
   { id: 'infographics', href: '/infographics', en: 'Infographics', it: 'Infografiche' },

@@ -42,6 +42,7 @@ import {
   UserRound,
   Link2,
   Plug,
+  FolderKanban,
 } from 'lucide-react';
 import styles from './CommandPalette.module.css';
 import type { Company, Lang } from '@/types';
@@ -281,6 +282,17 @@ export default function CommandPalette({
         keywords: 'developer sviluppatori api integration integrations manifest json cors webhook observatory builder',
         run: () => {
           window.location.href = '/developers';
+        },
+      },
+      {
+        id: 'act-collections',
+        label: 'Open Evidence Collections',
+        labelIt: 'Apri Raccolte di evidenze',
+        icon: <FolderKanban size={16} />,
+        group: 'actions',
+        keywords: 'collections collection bundle briefing review local share ids markdown json csv evidence',
+        run: () => {
+          window.location.href = '/collections';
         },
       },
       {

@@ -44,6 +44,11 @@ describe('public data-source registry', () => {
       evidenceGate: 'public-reference',
       allowedQueryParams: ['lang'],
     });
+    expect(PUBLIC_DATA_SOURCES.evidenceCollections).toMatchObject({
+      endpoint: '/api/v1/evidence-collections',
+      allowedQueryParams: ['changes', 'format'],
+      evidenceGate: 'public-change',
+    });
   });
 
   it('builds canonical URLs and visibility-scoped query keys', () => {

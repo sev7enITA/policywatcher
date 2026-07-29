@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+## 3.9.0-beta.17 - 2026-07-29
+
+### Shareable Evidence Collections
+- Added `/collections`, a browser-local review workspace for selecting up to 12 exact published changes without accounts or server-stored collaboration data.
+- Added collection actions to public Evidence and Change pages, with duplicate prevention and an explicit capacity boundary.
+- Added canonical share links that contain only sorted public change UUIDs; local titles and review status are excluded from the URL.
+- Added `/api/v1/evidence-collections` with strict UUID and format validation, publication-gate enforcement, rate limiting and all-or-nothing record resolution.
+- Added deterministic JSON, Markdown and CSV collection bundles with a collection digest, per-record Evidence Packet digests, citations, human-review questions and interpretation boundaries.
+- Registered the new endpoint in the public API v1 manifest and published an Evidence Collection JSON Schema.
+- Updated Integration Hub, Developer reference, navigation, Feature Atlas, Community Roadmap, Press Kit and release history for the available read-only collaboration surface.
+
+### Scope boundary
+- Collections are local review aids, not persistent team workspaces. This release does not provide accounts, access controls, shared comments, assignments or a common audit history.
+- Signed webhooks and direct publishing to Jira, Confluence, Microsoft Teams, Slack or other vendor systems remain planned until identity, delivery, retry and audit controls exist.
+- A collection digest establishes deterministic artifact identity for the selected public records; it does not certify source completeness, legal compliance or continued source availability.
+
 ## 3.9.0-beta.16 - 2026-07-29
 
 ### Evidence Governance Packets

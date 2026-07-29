@@ -35,6 +35,7 @@ import DiffViewer from '@/components/DiffViewer';
 import AISummary from '@/components/ai/AISummary';
 import RiskReasons from '@/components/ai/RiskReasons';
 import EmbedModal from '@/components/EmbedModal';
+import AddToCollectionButton from '@/components/AddToCollectionButton';
 import styles from './change.module.css';
 import type { Metadata } from 'next';
 import { publicChangeWhere } from '@/lib/publicDataGate';
@@ -390,6 +391,7 @@ export default async function ChangePage({
             <FileSearch size={15} />
             {t.evidence}
           </Link>
+          <AddToCollectionButton changeId={id} className={styles.collectionAction} />
           <EmbedModal changeId={id} companyName={change.policy.company.name} />
           {change.policy.url && (
             <a

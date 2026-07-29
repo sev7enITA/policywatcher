@@ -444,12 +444,39 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'evidence-governance-packets-3-9-0-beta-16',
+    slug: 'shareable-evidence-collections-3-9-0-beta-17',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'product',
+    title: { en: 'Shareable Evidence Collections', it: 'Collezioni di evidenze condivisibili' },
+    summary: { en: 'Groups up to 12 published changes into a local review collection and exports a deterministic, citable evidence bundle without creating accounts or storing collaboration notes.', it: 'Raggruppa fino a 12 cambiamenti pubblicati in una collezione di revisione locale ed esporta un bundle di evidenze deterministico e citabile senza creare account o memorizzare note collaborative.' },
+    changes: [
+      { en: 'Evidence and change pages can add an exact public change ID to a browser-local collection with a 12-record limit.', it: 'Le pagine Evidence e Change possono aggiungere un change ID pubblico esatto a una collezione locale al browser con limite di 12 record.' },
+      { en: 'A canonical share link contains only sorted public change IDs; the local title and review status remain on the device.', it: 'Un link di condivisione canonico contiene solo change ID pubblici ordinati; titolo locale e stato di revisione restano sul dispositivo.' },
+      { en: 'The public v1 endpoint returns deterministic JSON, Markdown or CSV with collection and per-record digests, citations, review questions and interpretation boundaries.', it: 'L endpoint pubblico v1 restituisce JSON, Markdown o CSV deterministici con digest della collezione e dei singoli record, citazioni, domande di revisione e limiti interpretativi.' },
+      { en: 'The Integration Hub and developer documentation now identify the collection contract as an available read-only integration surface.', it: 'L Integration Hub e la documentazione sviluppatori ora identificano il contratto delle collezioni come superficie di integrazione disponibile in sola lettura.' },
+    ],
+    boundaries: [
+      { en: 'Collections are browser-local review aids, not persistent team workspaces: they do not provide accounts, access control, comments, assignments or a shared audit history.', it: 'Le collezioni sono strumenti di revisione locali al browser, non workspace persistenti per team: non forniscono account, controllo accessi, commenti, assegnazioni o cronologia di audit condivisa.' },
+      { en: 'The release does not deliver outbound webhooks or direct Jira, Confluence, Microsoft Teams or Slack publishing; those capabilities remain subject to identity, delivery and audit controls.', it: 'La release non distribuisce webhook outbound o pubblicazione diretta verso Jira, Confluence, Microsoft Teams o Slack; tali capacita restano subordinate a controlli di identita, consegna e audit.' },
+    ],
+    evidenceLinks: [
+      { href: '/collections', label: { en: 'Evidence Collections', it: 'Collezioni di evidenze' } },
+      { href: '/schemas/evidence-collection/v1', label: { en: 'Collection schema', it: 'Schema collezione' } },
+      { href: '/developers', label: { en: 'Developer contract', it: 'Contratto sviluppatori' } },
+      { href: '/integrations', label: { en: 'Integration Hub', it: 'Integration Hub' } },
+    ],
+  },
+  {
+    slug: 'evidence-governance-packets-3-9-0-beta-16',
+    version: '3.9.0-beta.16',
+    displayVersion: '3.9.0 Beta 16',
+    datePublished: POLICYWATCHER_RELEASE_DATE,
+    dateModified: POLICYWATCHER_RELEASE_DATE,
+    status: 'archived',
     category: 'product',
     title: { en: 'Evidence Governance Packets', it: 'Pacchetti di governance delle evidenze' },
     summary: { en: 'Connects Dataset QA state, snapshot fingerprints, score explanations, advisory governance mapping and exact-change report downloads in one public evidence record.', it: 'Collega stato Dataset QA, impronte snapshot, spiegazioni del punteggio, mapping governance consultivo e report riferiti al cambiamento esatto in un unico record pubblico.' },
@@ -788,6 +815,7 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+  { id: 'shareable-evidence-collections-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Shareable Evidence Collections published', it: 'Pubblicate le collezioni di evidenze condivisibili' }, detail: { en: 'Up to 12 exact public changes can now be selected locally, shared through an ID-only link and exported as deterministic JSON, Markdown or CSV with provenance and review boundaries.', it: 'Fino a 12 cambiamenti pubblici esatti possono ora essere selezionati localmente, condivisi tramite un link contenente solo ID ed esportati come JSON, Markdown o CSV deterministici con provenienza e limiti di revisione.' }, affectedHref: '/press-kit/releases/shareable-evidence-collections-3-9-0-beta-17' },
   { id: 'evidence-governance-packets-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Evidence Governance Packets published', it: 'Pubblicati i pacchetti di governance delle evidenze' }, detail: { en: 'Public changes can now expose sanitized source-confidence state, exact snapshot fingerprints, verified source passages, advisory framework relevance and change-bound PDF/JSON reports.', it: 'I cambiamenti pubblici possono ora esporre stato source-confidence sanificato, impronte snapshot esatte, passaggi fonte verificati, rilevanza framework consultiva e report PDF/JSON legati al change.' }, affectedHref: '/press-kit/releases/evidence-governance-packets-3-9-0-beta-16' },
   { id: 'citable-coverage-registry-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Citable Coverage Registry published', it: 'Pubblicato il registro citabile della copertura' }, detail: { en: 'External references now use stable IDs, derived totals, explicit relationship boundaries, reusable citations and JSON/CSV distributions.', it: 'I riferimenti esterni ora usano ID stabili, totali derivati, limiti espliciti della relazione, citazioni riutilizzabili e distribuzioni JSON/CSV.' }, affectedHref: '/press-kit/releases/citable-coverage-registry-3-9-0-beta-15' },
   { id: 'press-outreach-operations-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Press Outreach Operations published', it: 'Pubblicate le operazioni di contatto stampa' }, detail: { en: 'The protected Outreach Desk operates five reviewed campaign cohorts and records bounded aggregate outcome events without recipient histories or conversion rates.', it: 'Il Press Outreach Desk protetto gestisce cinque coorti revisionate e registra eventi di esito aggregati e circoscritti senza cronologie dei destinatari o tassi di conversione.' }, affectedHref: '/press-kit/releases/press-outreach-operations-3-9-0-beta-14' },

@@ -15,7 +15,7 @@
  */
 'use client';
 
-import { BarChart3, ShieldCheck, FileText, Lock, Mail, ExternalLink, Sparkles, Cpu, Newspaper, GitFork, Search, UserRound, Network, Code2, Plug } from 'lucide-react';
+import { BarChart3, ShieldCheck, FileText, Lock, Mail, ExternalLink, Sparkles, Cpu, Newspaper, GitFork, Search, UserRound, Network, Code2, Plug, FolderKanban } from 'lucide-react';
 import { POLICYWATCHER_BUILD_LABEL, POLICYWATCHER_VERSION } from '@/lib/release';
 import Link from 'next/link';
 import styles from './Footer.module.css';
@@ -44,6 +44,7 @@ const content = {
     observatory: 'Observatory',
     developers: 'Developer Directory',
     integrations: 'Integration Options',
+    collections: 'Evidence Collections',
     atlas: 'Site Atlas',
     featureAtlas: 'Feature Intelligence Atlas',
     leaderboard: 'Policy Signals',
@@ -73,6 +74,7 @@ const content = {
     observatory: 'Observatory',
     developers: 'Directory sviluppatori',
     integrations: 'Opzioni di integrazione',
+    collections: 'Raccolte di evidenze',
     atlas: 'Atlante del sito',
     featureAtlas: 'Atlante delle funzionalità',
     leaderboard: 'Segnali policy',
@@ -113,6 +115,7 @@ export default function Footer({ lang, variant = 'full' }: FooterProps) {
             <a href="/privacy"><Lock size={13} />{t.privacy}</a>
             <a href="/terms"><FileText size={13} />{t.terms}</a>
             <a href="/press-kit"><Newspaper size={13} />{t.pressKit}</a>
+            <Link href="/collections"><FolderKanban size={13} />{t.collections}</Link>
             <Link href="/pulse"><Sparkles size={13} />{t.pulse}</Link>
             <a href="mailto:info@policywatcher.online"><Mail size={13} />{t.contact}</a>
           </nav>
@@ -219,6 +222,12 @@ export default function Footer({ lang, variant = 'full' }: FooterProps) {
                   <Plug size={14} />
                   {t.integrations}
                 </a>
+              </li>
+              <li>
+                <Link href="/collections">
+                  <FolderKanban size={14} />
+                  {t.collections}
+                </Link>
               </li>
               <li>
                 <a href="/leaderboard">

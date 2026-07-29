@@ -89,7 +89,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Current Beta</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      The current release binds one public change ID to sanitized source-confidence state, public snapshot fingerprints, a score trace, exact source passages when verified, advisory governance relevance and matching JSON/PDF reports. Framework mappings guide human review and do not establish legal interpretation, conformity, certification or compliance.
+                      The current release lets reviewers collect up to 12 exact public changes locally, share an ID-only link and export deterministic JSON, Markdown or CSV bundles with collection and record digests, citations, review questions and explicit boundaries. Titles and review status stay on the device; accounts, team permissions, comments and outbound integrations are not included.
                     </p>
                   </div>
 

@@ -20,6 +20,12 @@ describe('public integration directory', () => {
         endpoint: '/api/v1/observatory',
         evidenceGate: 'public-reference',
       }),
+      expect.objectContaining({
+        id: 'evidenceCollections',
+        endpoint: '/api/v1/evidence-collections',
+        allowedQueryParams: ['changes', 'format'],
+        evidenceGate: 'public-change',
+      }),
     ]));
     expect(manifest.boundaries.join(' ')).toMatch(/does not expose policy text/i);
   });

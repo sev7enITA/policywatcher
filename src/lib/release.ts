@@ -1,6 +1,6 @@
-export const POLICYWATCHER_VERSION = '3.9.0-beta.16' as const;
-export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 16' as const;
-export const POLICYWATCHER_RELEASE_NAME = 'Evidence Governance Packets' as const;
+export const POLICYWATCHER_VERSION = '3.9.0-beta.17' as const;
+export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 17' as const;
+export const POLICYWATCHER_RELEASE_NAME = 'Shareable Evidence Collections' as const;
 export const POLICYWATCHER_RELEASE_DATE = '2026-07-29' as const;
 export type PolicyWatcherReleaseChannel = 'stable' | 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL: PolicyWatcherReleaseChannel = 'beta';

@@ -130,18 +130,18 @@ export const pulseStories: PulseStory[] = [
   },
   {
     slug: 'versioned-beta-release-records',
-    version: '1.2.0',
+    version: '1.3.0',
     status: 'verified',
     beat: 'distribution',
     asOf: PULSE_AS_OF,
     updatedAt: PULSE_AS_OF,
     headline: {
-      en: 'Ten consecutive beta records document evidence intake, delivery and public QA changes',
-      it: 'Dieci record beta consecutivi documentano cambi a intake, distribuzione e QA pubblico delle evidenze',
+      en: 'Eleven consecutive beta records document evidence intake, delivery, QA and collaboration changes',
+      it: 'Undici record beta consecutivi documentano cambi a intake, distribuzione, QA e collaborazione delle evidenze',
     },
     deck: {
-      en: 'The release archive keeps Beta 7 through Beta 16 as dated, bounded product records with direct evidence links.',
-      it: 'L archivio release conserva dalla Beta 7 alla Beta 16 come record prodotto datati, circoscritti e collegati alle evidenze.',
+      en: 'The release archive keeps Beta 7 through Beta 17 as dated, bounded product records with direct evidence links.',
+      it: 'L archivio release conserva dalla Beta 7 alla Beta 17 come record prodotto datati, circoscritti e collegati alle evidenze.',
     },
     whyItMatters: {
       en: 'A versioned product history lets editors verify what changed in the public platform without treating release labels as measured outcomes.',
@@ -152,17 +152,17 @@ export const pulseStories: PulseStory[] = [
       it: 'I record release descrivono modifiche prodotto e controlli dichiarati. Non stabiliscono adozione, prestazioni, conformita legale o validazione indipendente.',
     },
     citation: {
-      en: `PolicyWatcher, “Versioned beta release records,” Pulse story pack v1.2.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (accessed [date]).`,
-      it: `PolicyWatcher, “Record beta versionati,” Pulse story pack v1.2.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (consultato il [data]).`,
+      en: `PolicyWatcher, “Versioned beta release records,” Pulse story pack v1.3.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (accessed [date]).`,
+      it: `PolicyWatcher, “Record beta versionati,” Pulse story pack v1.3.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (consultato il [data]).`,
     },
     visualKind: 'release-timeline',
     facts: [
-      { id: 'records', value: '10', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 16 in the public archive.', it: 'Dalla Beta 7 alla Beta 16 nell archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
-      { id: 'current', value: 'Beta 16', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Evidence Governance Packets.', it: 'Pacchetti di governance delle evidenze.' }, claimId: 'public-code', proofHref: '/press-kit/releases/evidence-governance-packets-3-9-0-beta-16' },
+      { id: 'records', value: '11', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 17 in the public archive.', it: 'Dalla Beta 7 alla Beta 17 nell archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
+      { id: 'current', value: 'Beta 17', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Shareable Evidence Collections.', it: 'Collezioni di evidenze condivisibili.' }, claimId: 'public-code', proofHref: '/press-kit/releases/shareable-evidence-collections-3-9-0-beta-17' },
     ],
     sourceLinks: [
       { href: '/press-kit/releases', label: { en: 'Versioned release archive', it: 'Archivio release versionato' }, claimId: 'public-code' },
-      { href: '/press-kit/releases/evidence-governance-packets-3-9-0-beta-16', label: { en: 'Beta 16 release record', it: 'Record release Beta 16' }, releaseSlug: 'evidence-governance-packets-3-9-0-beta-16' },
+      { href: '/press-kit/releases/shareable-evidence-collections-3-9-0-beta-17', label: { en: 'Beta 17 release record', it: 'Record release Beta 17' }, releaseSlug: 'shareable-evidence-collections-3-9-0-beta-17' },
       { href: '/press-kit/releases/release-assurance-newsroom-insights-3-9-0-beta-7', label: { en: 'Beta 7 release record', it: 'Record release Beta 7' }, releaseSlug: 'release-assurance-newsroom-insights-3-9-0-beta-7' },
     ],
   },
