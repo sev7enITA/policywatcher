@@ -34,7 +34,7 @@ export interface ReleaseImpactItem {
   externalDependency?: string;
 }
 
-export const RELEASE_IMPACT_UPDATED_AT = '29 July 2026' as const;
+export const RELEASE_IMPACT_UPDATED_AT = '30 July 2026' as const;
 
 export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.7.0', shortLabel: '3.7.0', label: '3.7.0', state: 'delivered' },
@@ -72,7 +72,8 @@ export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.9.0-beta.17', shortLabel: '3.9 B17', label: '3.9.0 Beta 17', state: 'delivered' },
   { id: '3.9.0-beta.18', shortLabel: '3.9 B18', label: '3.9.0 Beta 18', state: 'delivered' },
   { id: '3.9.0-beta.19', shortLabel: '3.9 B19', label: '3.9.0 Beta 19', state: 'delivered' },
-  { id: '3.9.0-beta.20', shortLabel: '3.9 B20', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
+  { id: '3.9.0-beta.20', shortLabel: '3.9 B20', label: '3.9.0 Beta 20', state: 'delivered' },
+  { id: '3.9.0-beta.21', shortLabel: '3.9 B21', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
   { id: 'next', shortLabel: 'Next', label: 'Next beta horizon', state: 'planned' },
   { id: 'later', shortLabel: 'Later', label: 'Later horizon', state: 'planned' },
 ];
@@ -90,6 +91,51 @@ export const RELEASE_IMPACT_DOMAINS: ReleaseImpactDomain[] = [
 ];
 
 export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
+  {
+    id: 'source-reliability-control-plane',
+    title: 'Source Reliability control plane',
+    summary: 'Persists scan and retrieval outcomes, deduplicates shared acquisitions and exposes bounded remediation state to protected operators.',
+    domainId: 'retrieval',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '3.9.0-beta.21',
+    endRelease: '3.9.0-beta.21',
+    benefit: 'Operators can distinguish configured policy rows, unique retrievals, withheld records and repeated failures before interpreting an empty public surface.',
+    kpi: 'Operational traceability: persisted scan runs, retrieval keys and public-baseline coverage',
+    kri: 'Residual KRI: source access, content stability and exact-evidence eligibility remain external and record-specific',
+    evidence: 'Normalized acquisition keys, additive Prisma records, structured cause codes, protected admin metrics and focused regression coverage.',
+    limitation: 'Reliability telemetry describes PolicyWatcher retrieval and publication state; it does not certify source authenticity, completeness or availability.',
+  },
+  {
+    id: 'verified-public-baseline-repair',
+    title: 'Verified public baseline repair',
+    summary: 'Promotes exact source-supported snapshots to first public baselines without manufacturing a change event or analytical result.',
+    domainId: 'assurance',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '3.9.0-beta.21',
+    endRelease: '3.9.0-beta.21',
+    benefit: 'A successful first scan can make supported company and policy records visible while unsupported seed data stays withheld.',
+    kpi: 'Evidence-gate repair: dry-run plan and exact-hash promotion path available',
+    kri: 'Residual KRI: operators must review the plan, preserve a database backup and complete a fresh scan',
+    evidence: 'First-baseline gate correction, dry-run-first Hostinger repair, read-only inventory audit and no-change-event tests.',
+    limitation: 'The repair cannot infer missing evidence, bypass a source restriction or convert a stale archive reference into a current baseline.',
+  },
+  {
+    id: 'receiver-conformance-lab',
+    title: 'Receiver Conformance Lab',
+    summary: 'Runs a deterministic batch of positive and negative webhook receiver decisions against the documented candidate contract.',
+    domainId: 'distribution',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '3.9.0-beta.21',
+    endRelease: '3.9.0-beta.21',
+    benefit: 'Integration developers can compare expected and actual decisions across the complete published fixture set and export local results.',
+    kpi: 'Contract coverage: eight deterministic receiver fixtures and every documented decision code',
+    kri: 'Residual KRI: a passing local suite does not establish endpoint identity, production secret custody or network delivery reliability',
+    evidence: 'Public conformance endpoint, JSON Schema, browser-local runner, bounded export and contract/API/UI tests.',
+    limitation: 'The suite is a compatibility aid, not certification; it provides no registration, subscriptions, retries, replay storage or delivery receipts.',
+  },
   {
     id: 'verified-browser-store-distribution',
     title: 'Verified browser-store distribution',
@@ -623,7 +669,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
     title: 'Webhook Verification Readiness',
     summary: 'Publishes a versioned candidate HMAC-SHA256 receiver contract, deterministic compatibility vector and browser-local verification workbench.',
     domainId: 'distribution',
-    status: 'current',
+    status: 'delivered',
     horizon: 'delivered',
     startRelease: '3.9.0-beta.20',
     endRelease: '3.9.0-beta.20',

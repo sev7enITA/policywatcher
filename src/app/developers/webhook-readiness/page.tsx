@@ -25,6 +25,7 @@ import {
   WEBHOOK_TEST_VECTOR,
   WEBHOOK_TOLERANCE_SECONDS,
   WEBHOOK_VERIFICATION_BOUNDARY,
+  getWebhookConformanceSuite,
 } from '@/lib/webhookVerification';
 import WebhookReadinessClient from './WebhookReadinessClient';
 import styles from './webhook-readiness.module.css';
@@ -77,6 +78,8 @@ const unavailableCapabilities = [
 ];
 
 export default function WebhookReadinessPage() {
+  const conformanceSuite = getWebhookConformanceSuite();
+
   return (
     <>
       <PublicHeader current="developers" />
@@ -155,6 +158,7 @@ export default function WebhookReadinessPage() {
           </header>
           <WebhookReadinessClient
             canonicalVector={WEBHOOK_TEST_VECTOR}
+            conformanceSuite={conformanceSuite}
             signatureVersion={WEBHOOK_SIGNATURE_VERSION}
           />
         </section>

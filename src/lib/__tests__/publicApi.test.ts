@@ -42,6 +42,12 @@ describe('public integration directory', () => {
         allowedQueryParams: [],
         evidenceGate: 'public-reference',
       }),
+      expect.objectContaining({
+        id: 'webhookConformanceSuite',
+        endpoint: '/api/v1/webhook-conformance-suite',
+        allowedQueryParams: [],
+        evidenceGate: 'public-reference',
+      }),
     ]));
     expect(manifest.boundaries.join(' ')).toMatch(/does not expose policy text/i);
   });

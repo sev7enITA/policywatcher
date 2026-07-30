@@ -6,6 +6,13 @@ export interface ScanCompletionCounts {
   errors: number;
   unavailable: number;
   invalid: number;
+  retrievalMetrics?: {
+    uniqueSources: number;
+    networkRetrievals: number;
+    deduplicatedRetrievals: number;
+    uniqueUnavailableSources: number;
+    degradedDependencies: string[];
+  };
 }
 
 export function formatScanCompletionLog(
@@ -17,5 +24,8 @@ export function formatScanCompletionLog(
     || result.unavailable > 0
     || result.invalid > 0;
   const marker = needsAttention ? '[ATTENTION]' : '[OK]';
-  return `Scan complete ${marker}: ${result.checked} checked, ${result.changed} changed, ${result.rebaselined} re-baselined, ${result.partial} partial, ${result.unavailable} unavailable, ${result.invalid} invalid, ${result.errors} errors at ${completedAt.toLocaleTimeString()}`;
+  const retrieval = result.retrievalMetrics
+    ? `, ${result.retrievalMetrics.uniqueSources} unique sources, ${result.retrievalMetrics.networkRetrievals} network retrievals, ${result.retrievalMetrics.deduplicatedRetrievals} deduplicated, ${result.retrievalMetrics.uniqueUnavailableSources} unique sources unavailable${result.retrievalMetrics.degradedDependencies.length ? `, degraded: ${result.retrievalMetrics.degradedDependencies.join('/')}` : ''}`
+    : '';
+  return `Scan complete ${marker}: ${result.checked} checked${retrieval}, ${result.changed} changed, ${result.rebaselined} re-baselined, ${result.partial} partial, ${result.unavailable} unavailable, ${result.invalid} invalid, ${result.errors} errors at ${completedAt.toLocaleTimeString()}`;
 }

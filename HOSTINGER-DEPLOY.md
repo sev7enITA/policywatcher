@@ -28,9 +28,21 @@ places runtime build files in `/home/USER/domains/DOMAIN/nodejs` and retains the
 uploaded source under the sibling `.builds/last-source` directory. The packaged
 `server.js` also searches both source layouts when it is used as the entry file.
 
+Beta 21 includes migration `20260730043000_source_reliability`. It adds scan-run,
+retrieval, remediation and historical-reference records plus an optional
+retrieval URL. The migration is additive and the post-install initializer
+applies it automatically. Back up the production database before deployment.
+
+After deployment, inspect the safe repair plan with
+`npm run db:repair-public-baselines`. Apply only reviewed exact-evidence
+promotions with `npm run db:repair-public-baselines -- --apply`, then run a
+complete source scan. The repair does not create policy changes, scores or
+notifications and it does not promote records without matching successful
+retrieval evidence.
+
 Beta 20 adds the Webhook Verification Readiness Kit and does not introduce a
-Prisma schema change. The existing database remains on the Beta 19 migration
-level.
+Prisma schema change. Beta 20 installations remain on the Beta 19 migration
+level until Beta 21 is installed.
 
 Beta 19 includes migration `20260729153000_public_change_publication_time`. It
 adds the publication timestamp used by the public change-event cursor and

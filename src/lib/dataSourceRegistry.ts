@@ -9,6 +9,7 @@ export type PublicDataSourceId =
   | 'evidenceCollections'
   | 'publicChangeEvents'
   | 'webhookVerificationKit'
+  | 'webhookConformanceSuite'
   | 'riskTrends'
   | 'kpiMatrix';
 
@@ -152,6 +153,14 @@ export const PUBLIC_DATA_SOURCES: Readonly<Record<PublicDataSourceId, PublicData
       freshness: { mode: 'short-ttl', maxAgeSeconds: 86_400 },
       allowedQueryParams: [],
       description: 'Versioned receiver-verification contract, public test vector and implementation examples; no delivery service.',
+    }),
+    webhookConformanceSuite: sourceSpec({
+      id: 'webhookConformanceSuite',
+      endpoint: '/api/v1/webhook-conformance-suite',
+      evidenceGate: 'public-reference',
+      freshness: { mode: 'short-ttl', maxAgeSeconds: 86_400 },
+      allowedQueryParams: [],
+      description: 'Eight deterministic positive and negative receiver cases; no endpoint or delivery test.',
     }),
     riskTrends: sourceSpec({
       id: 'riskTrends',

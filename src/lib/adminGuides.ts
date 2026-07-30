@@ -1,6 +1,7 @@
 export const ADMIN_GUIDE_ROUTES = [
   '/admin',
   '/admin/cron',
+  '/admin/source-reliability',
   '/admin/vps-services',
   '/admin/database',
   '/admin/kpi-audit',
@@ -56,6 +57,23 @@ export const ADMIN_GUIDES: Record<AdminGuideRoute, AdminGuide> = {
       { term: 'First scan', definition: 'The first approved capture that establishes a monitored baseline.' },
     ],
     commonMistake: 'Do not treat a discovered URL as monitored evidence until an administrator approves it and the first scan succeeds.',
+  },
+  '/admin/source-reliability': {
+    title: 'Source Reliability',
+    purpose: 'Inspect unique retrievals, evidence-gate coverage, dependency health, historical-reference boundaries and recurring source remediation work.',
+    steps: [
+      'Compare policy-record and unique-retrieval counts to identify shared acquisition keys.',
+      'Review recent scan runs for unavailable unique sources and degraded dependencies.',
+      'Open remediation items only after repeated failures establish a stable source problem.',
+      'Verify a regional URL, official mirror or PDF before changing the configured retrieval source.',
+      'Resolve an item only after a subsequent verified retrieval or documented source decision.',
+    ],
+    keyTerms: [
+      { term: 'Acquisition key', definition: 'The normalized retrieval endpoint used to avoid duplicate network work while retaining separate policy records.' },
+      { term: 'Historical reference', definition: 'Dated archive metadata that remains ineligible for current change detection.' },
+      { term: 'Remediation issue', definition: 'A durable operational item created after recurring retrieval failures.' },
+    ],
+    commonMistake: 'Do not replace an official source with an unverified mirror or treat stale archive evidence as a current policy baseline.',
   },
   '/admin/vps-services': {
     title: 'VPS Services',

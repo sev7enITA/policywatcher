@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2020%20Webhook%20Verification%20Readiness-146c6a" alt="3.9.0 Beta 20 Webhook Verification Readiness" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2021%20Source%20Reliability%20and%20Receiver%20Conformance-146c6a" alt="3.9.0 Beta 21 Source Reliability and Receiver Conformance" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,15 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 21 Source Reliability and Receiver Conformance Highlights
+
+- **Reliable acquisition accounting:** one normalized retrieval can serve multiple policy comparisons while scan runs preserve selected-record, network-fetch and deduplication counts.
+- **Exact public baselines:** a successful first retrieval establishes or promotes an exact-hash baseline without creating a change event, score or notification.
+- **Structured remediation:** typed retrieval causes, repeated-failure state and historical source references remain separated from public evidence eligibility.
+- **Protected operations:** the admin dashboard and Source Reliability console expose publication coverage, withheld records, retrieval keys, scan runs and remediation boundaries.
+- **Receiver Conformance Lab:** eight deterministic positive and negative fixtures exercise every documented webhook verification decision code in the browser.
+- **Deployment repair path:** dry-run-first baseline repair and a read-only inventory audit support existing Hostinger SQLite databases without bypassing the evidence gate.
 
 ### Release 3.9.0 Beta 20 Webhook Verification Readiness Highlights
 
@@ -1036,7 +1045,9 @@ For existing SQLite databases originally created with `prisma db push`, mark the
 `npx prisma migrate resolve --applied 20260706213500_init`.
 The Hostinger init helper performs this baseline step automatically when it detects a non-empty SQLite file.
 
-Release 3.9.0 Beta 20 does not introduce a Prisma schema change. Existing installations remain on the Beta 19 migration level.
+Release 3.9.0 Beta 21 requires migration `20260730043000_source_reliability`. It adds persisted scan runs, retrieval metrics, remediation issues, historical references and separate canonical/retrieval URLs. The packaged post-install initializer applies the additive migration automatically. After backing up production, operators can run `npm run db:repair-public-baselines` for a dry run, repeat with `-- --apply` only after reviewing the eligible rows, and then run a complete source scan.
+
+Release 3.9.0 Beta 20 does not introduce a Prisma schema change. Existing Beta 20 installations remain on the Beta 19 migration level until Beta 21 is installed.
 
 Release 3.9.0 Beta 19 requires migration `20260729153000_public_change_publication_time`. It adds the publication timestamp used by the public change-event cursor and backfills existing public changes from their creation time. The packaged post-install initializer applies it automatically; manual recovery uses the same `bash scripts/hostinger-init-db.sh` command.
 

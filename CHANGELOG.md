@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+## 3.9.0-beta.21 - 2026-07-30
+
+### Receiver Conformance Lab
+- Added `/api/v1/webhook-conformance-suite` with eight deterministic positive and negative receiver fixtures covering every documented verification decision code.
+- Added a browser-local batch runner to the Webhook Readiness page with expected-versus-actual decisions, accessible run state and privacy-bounded JSON result export.
+- Added a public JSON Schema, API manifest registration and focused contract/API/UI tests.
+- Updated Developers, Integration Hub, public API guidance and Community Roadmap for the available conformance surface.
+- Kept endpoint identity, production secret custody, network delivery, retries, replay storage, service availability and implementation certification outside the suite result.
+
+### Source Reliability and verified baseline repair
+- Added scan-level acquisition deduplication by normalized retrieval key while retaining independent policy comparisons and the strictest shared archive-freshness floor.
+- Added persisted `ScanRun` and `SourceRetrieval` metrics, structured retrieval-cause codes, repeated-failure remediation state and a protected Source Reliability console.
+- Corrected the public-evidence gate path so a successful first source retrieval establishes or promotes an exact-hash baseline even when earlier source logs already exist, without creating a change event, AI score or notification.
+- Added a dry-run-first Hostinger repair utility for exact snapshots supported by successful source logs, plus a read-only source inventory audit.
+- Separated the public canonical policy URL from an optional official retrieval mirror/PDF URL.
+- Retained stale archive candidates only as dated historical references explicitly excluded from baseline creation and change detection.
+- Updated source-continuity output, Timeline context, methodology and operating guidance for the new evidence boundaries.
+
 ## 3.9.0-beta.20 - 2026-07-29
 
 ### Webhook Readiness Kit

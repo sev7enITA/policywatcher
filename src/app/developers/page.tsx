@@ -12,6 +12,7 @@ import {
   Radio,
   ShieldCheck,
   FolderKanban,
+  TestTube2,
 } from 'lucide-react';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
@@ -106,7 +107,7 @@ export default function DevelopersPage() {
         <section id="endpoints" className={styles.section}>
           <header className={styles.sectionHeader}>
             <span>Endpoints</span>
-            <h2>Five stable entry points for this release.</h2>
+            <h2>Six stable entry points for this release.</h2>
             <p>All endpoints accept `GET`, permit cross-origin read access without credentials, and apply bounded public-data and rate policies. Collection exports also support Markdown, CSV and a vendor-neutral review handoff.</p>
           </header>
           <div className={styles.endpointGrid}>
@@ -163,6 +164,16 @@ export default function DevelopersPage() {
               <code>/api/v1/webhook-verification-kit</code>
               <p>Publishes the candidate HMAC-SHA256 receiver contract, a public test-only vector and Node/Python examples. It does not register endpoints or deliver events.</p>
               <Link href="/developers/webhook-readiness">Open local verifier <ArrowRight size={15} aria-hidden="true" /></Link>
+            </article>
+            <article className={styles.endpointCard}>
+              <div className={styles.endpointHeader}>
+                <span>GET · 8 FIXTURES</span>
+                <TestTube2 size={19} aria-hidden="true" />
+              </div>
+              <h3>Receiver conformance suite</h3>
+              <code>/api/v1/webhook-conformance-suite</code>
+              <p>Publishes eight deterministic positive and negative receiver cases covering every documented decision code. It does not test a live endpoint or delivery path.</p>
+              <Link href="/developers/webhook-readiness#conformance-lab">Run locally <ArrowRight size={15} aria-hidden="true" /></Link>
             </article>
           </div>
         </section>
@@ -224,7 +235,7 @@ export default function DevelopersPage() {
             <span>Operating note</span>
             <h2>Connect to the evidence, not around it.</h2>
             <p>
-              Use API v1 for anonymous public reading and API v2 for a controlled Entra tenant pilot. The readiness kit lets receivers test the candidate signature contract locally. Subscriptions, signed outbound delivery and write operations remain future roadmap work.
+              Use API v1 for anonymous public reading and API v2 for a controlled Entra tenant pilot. The readiness kit and conformance suite let receivers test the candidate signature contract locally. Subscriptions, signed outbound delivery and write operations remain future roadmap work.
             </p>
           </div>
           <Link href="/integrations" className={styles.bandLink}>Compare integrations <ArrowRight size={16} /></Link>

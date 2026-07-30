@@ -28,6 +28,7 @@ export async function GET(request: NextRequest) {
             name: true,
             type: true,
             url: true,
+            retrievalUrl: true,
             jurisdiction: true,
             currentHash: true,
             dataStatus: true,

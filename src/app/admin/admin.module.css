@@ -101,6 +101,20 @@
   gap: 2px;
 }
 
+.navSection {
+  margin: 12px 12px 3px;
+  color: var(--text-muted);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.navSection:first-child {
+  margin-top: 4px;
+}
+
 .navLink {
   display: flex;
   align-items: center;
@@ -397,6 +411,95 @@
   font-size: 0.88rem;
   color: var(--text-muted);
   font-weight: 400;
+}
+
+.reliabilitySummary {
+  margin-bottom: 24px;
+  padding: 20px;
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  border-top: 3px solid var(--secondary);
+  border-radius: 14px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+}
+
+.reliabilitySummaryHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.reliabilitySummaryHeader > div:first-child > span {
+  color: var(--secondary);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.reliabilitySummaryHeader h2 {
+  margin: 3px 0 2px;
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.reliabilitySummaryHeader p,
+.reliabilitySummaryBoundary {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.reliabilitySummaryActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.reliabilitySummaryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.reliabilitySummaryGrid article {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  color: var(--secondary);
+}
+
+.reliabilitySummaryGrid article span {
+  min-width: 0;
+  color: var(--text-body);
+  font-size: 0.76rem;
+  font-weight: 650;
+}
+
+.reliabilitySummaryGrid article strong {
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+}
+
+.reliabilitySummaryGrid .reliabilitySummaryWarning {
+  border-color: rgba(245, 158, 11, 0.3);
+  background: var(--risk-medium-glow);
+  color: var(--risk-medium);
+}
+
+.reliabilitySummaryBoundary {
+  margin-top: 12px;
+  line-height: 1.5;
 }
 
 /* ---------- Cards ---------- */
@@ -3438,6 +3541,19 @@ thead .kpiMatrixStickyCol {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
+
+  .reliabilitySummaryHeader {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .reliabilitySummaryActions {
+    justify-content: flex-start;
+  }
+
+  .reliabilitySummaryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 480px) {
@@ -3460,6 +3576,18 @@ thead .kpiMatrixStickyCol {
 
   .pageTitle {
     font-size: 1.3rem;
+  }
+
+  .reliabilitySummary {
+    padding: 16px;
+  }
+
+  .reliabilitySummaryActions .btn {
+    width: 100%;
+  }
+
+  .reliabilitySummaryGrid {
+    grid-template-columns: 1fr;
   }
 
   .statusRow {

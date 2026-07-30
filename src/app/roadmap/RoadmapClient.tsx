@@ -304,9 +304,9 @@ const candidateFeatures = [
     track: 'API',
     title: 'Signed outbound events and webhooks',
     body:
-      'A versioned polling feed and a public receiver-verification kit now expose the candidate event envelope, HMAC-SHA256 signing input, deterministic test vector and implementation examples. Push delivery remains a separate later phase.',
-    status: 'Receiver kit available · push later',
-    risk: 'Subscriptions, production secret provisioning, replay storage, retries, retention and delivery-health controls are still required before outbound webhooks.',
+      'A versioned polling feed, public receiver kit and eight-case conformance suite now expose the candidate event envelope, HMAC-SHA256 signing input, expected failure decisions and implementation examples. Push delivery remains a separate later phase.',
+    status: 'Conformance lab available · push later',
+    risk: 'Fixture compatibility does not test endpoint identity, subscriptions, production secret provisioning, replay storage, retries, retention or delivery health.',
   },
   {
     track: 'Governance',

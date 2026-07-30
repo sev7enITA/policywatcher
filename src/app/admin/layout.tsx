@@ -11,7 +11,7 @@
  * Role-based visibility hides admin-only links for auditor users.
  */
 
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { Fragment, useEffect, useState, useCallback, useRef } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -33,6 +33,7 @@ import {
   ListPlus,
   MailQuestion,
   Newspaper,
+  Activity,
 } from 'lucide-react';
 import styles from './admin.module.css';
 import { AdminPageGuide } from '@/components/admin/AdminPageGuide';
@@ -45,6 +46,7 @@ interface NavItem {
   label: string;
   href: string;
   icon: React.ReactNode;
+  section: 'Overview' | 'Monitor' | 'Assure' | 'Govern' | 'Registry' | 'Outreach';
   adminOnly?: boolean;
 }
 
@@ -53,71 +55,90 @@ const NAV_ITEMS: NavItem[] = [
     label: 'Dashboard',
     href: '/admin',
     icon: <LayoutDashboard size={18} />,
+    section: 'Overview',
   },
   {
     label: 'Cron Manager',
     href: '/admin/cron',
     icon: <Play size={18} />,
+    section: 'Monitor',
     adminOnly: true,
+  },
+  {
+    label: 'Source Reliability',
+    href: '/admin/source-reliability',
+    icon: <Activity size={18} />,
+    section: 'Monitor',
   },
   {
     label: 'VPS Services',
     href: '/admin/vps-services',
     icon: <Server size={18} />,
+    section: 'Monitor',
   },
   {
     label: 'Database',
     href: '/admin/database',
     icon: <Database size={18} />,
+    section: 'Assure',
   },
   {
     label: 'KPI Audit',
     href: '/admin/kpi-audit',
     icon: <BarChart3 size={18} />,
+    section: 'Assure',
   },
   {
     label: 'Dataset QA',
     href: '/admin/dataset-quality',
     icon: <ClipboardCheck size={18} />,
+    section: 'Assure',
   },
   {
-    label: 'Press Outreach',
-    href: '/admin/outreach',
-    icon: <Newspaper size={18} />,
+    label: 'Explainability',
+    href: '/admin/explainability',
+    icon: <BookOpen size={18} />,
+    section: 'Assure',
   },
   {
     label: 'Review Log',
     href: '/admin/review-log',
     icon: <History size={18} />,
+    section: 'Govern',
   },
   {
     label: 'Access Log',
     href: '/admin/access-logs',
     icon: <ShieldCheck size={18} />,
+    section: 'Govern',
     adminOnly: true,
   },
   {
     label: 'Companies',
     href: '/admin/companies',
     icon: <Building2 size={18} />,
+    section: 'Registry',
     adminOnly: true,
   },
   {
     label: 'Policy Inquiries',
     href: '/admin/inquiries',
     icon: <MailQuestion size={18} />,
+    section: 'Registry',
     adminOnly: true,
   },
   {
     label: 'Source Onboarding',
     href: '/admin/source-onboarding',
     icon: <ListPlus size={18} />,
+    section: 'Registry',
     adminOnly: true,
   },
   {
-    label: 'Explainability',
-    href: '/admin/explainability',
-    icon: <BookOpen size={18} />,
+    label: 'Press Outreach',
+    href: '/admin/outreach',
+    icon: <Newspaper size={18} />,
+    section: 'Outreach',
   },
 ];
 
@@ -170,22 +191,26 @@ function AdminNavigationContents({
       </div>
 
       <nav className={styles.nav} aria-label="Admin navigation">
-        {visibleItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={`${styles.navLink} ${isActive(item.href) ? styles.navLinkActive : ''}`}
-            onClick={onNavigate}
-            aria-current={isActive(item.href) ? 'page' : undefined}
-          >
-            <span className={styles.navIcon}>{item.icon}</span>
-            {item.label}
-            {item.href === '/admin/inquiries' && openPolicyInquiries > 0 && (
-              <span className={styles.navCount} aria-label={`${openPolicyInquiries} open inquiries`}>
-                {openPolicyInquiries > 99 ? '99+' : openPolicyInquiries}
-              </span>
+        {visibleItems.map((item, index) => (
+          <Fragment key={item.href}>
+            {(index === 0 || visibleItems[index - 1]?.section !== item.section) && (
+              <span className={styles.navSection}>{item.section}</span>
             )}
-          </Link>
+            <Link
+              href={item.href}
+              className={`${styles.navLink} ${isActive(item.href) ? styles.navLinkActive : ''}`}
+              onClick={onNavigate}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+            >
+              <span className={styles.navIcon}>{item.icon}</span>
+              {item.label}
+              {item.href === '/admin/inquiries' && openPolicyInquiries > 0 && (
+                <span className={styles.navCount} aria-label={`${openPolicyInquiries} open inquiries`}>
+                  {openPolicyInquiries > 99 ? '99+' : openPolicyInquiries}
+                </span>
+              )}
+            </Link>
+          </Fragment>
         ))}
       </nav>
 

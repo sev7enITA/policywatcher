@@ -21,6 +21,7 @@ import {
   Trash2,
 } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { POLICYWATCHER_VERSION_DISPLAY } from '@/lib/release';
 import {
   EVIDENCE_COLLECTION_EVENT,
   EVIDENCE_COLLECTION_LIMIT,
@@ -241,7 +242,7 @@ export default function CollectionsClient({
           <div className={styles.heroMeta}><span>Public evidence utility</span><span>Browser-local review state</span></div>
           <div className={styles.heroGrid}>
             <div>
-              <p className={styles.kicker}>PolicyWatcher Beta 20</p>
+              <p className={styles.kicker}>PolicyWatcher {POLICYWATCHER_VERSION_DISPLAY}</p>
               <h1>Shareable Evidence Collections</h1>
               <p className={styles.lead}>Select up to 12 exact public changes, record a local review state, and export one deterministic evidence bundle.</p>
             </div>

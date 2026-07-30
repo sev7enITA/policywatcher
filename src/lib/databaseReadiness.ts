@@ -8,6 +8,10 @@ export const EXPECTED_DATABASE_TABLES = [
   'PolicyDiscoveryCandidate',
   'Policy',
   'PolicyCheckLog',
+  'ScanRun',
+  'SourceRetrieval',
+  'SourceRemediationIssue',
+  'HistoricalSourceReference',
   'PolicySnapshot',
   'PolicyChange',
   'DatasetQaIssueReview',
@@ -28,6 +32,7 @@ export const EXPECTED_DATABASE_MIGRATIONS = [
   '20260721150000_policy_inquiry',
   '20260727110000_press_metric_events',
   '20260729153000_public_change_publication_time',
+  '20260730043000_source_reliability',
 ] as const;
 
 export type DatabaseReadinessStatus = 'ready' | 'degraded' | 'unavailable';

@@ -11,6 +11,7 @@ import { db } from '@/lib/db';
 import { getDatabaseDiagnostics } from '@/lib/databaseConfig';
 import { buildPressMetricCounts, emptyPressMetricCounts } from '@/lib/pressMetrics';
 import { ensurePressMetricStorage } from '@/lib/pressMetricStorage';
+import { buildAcquisitionKey } from '@/lib/sourceReliability';
 
 export async function GET(request: NextRequest) {
   const session = getSession(request);
@@ -40,6 +41,36 @@ export async function GET(request: NextRequest) {
     } catch (error) {
       policyInquiryMetricsAvailable = false;
       console.warn('[Admin Metrics] Policy inquiry metric unavailable:', error);
+    }
+
+    let sourceReliability = {
+      available: true,
+      uniqueRetrievalKeys: 0,
+      publicEvidencePolicies: 0,
+      withheldPolicies: policyCount,
+      openRemediationIssues: 0,
+      lastScanStatus: null as string | null,
+      lastScanAt: null as Date | null,
+    };
+    try {
+      const [sourcePolicies, publicEvidencePolicies, openRemediationIssues, lastScan] = await Promise.all([
+        db.policy.findMany({ select: { url: true, retrievalUrl: true } }),
+        db.policy.count({ where: { snapshots: { some: { publicEvidence: true } } } }),
+        db.sourceRemediationIssue.count({ where: { status: { in: ['Watching', 'Open'] } } }),
+        db.scanRun.findFirst({ orderBy: { startedAt: 'desc' }, select: { status: true, startedAt: true } }),
+      ]);
+      sourceReliability = {
+        available: true,
+        uniqueRetrievalKeys: new Set(sourcePolicies.map((policy) => buildAcquisitionKey(policy.retrievalUrl || policy.url))).size,
+        publicEvidencePolicies,
+        withheldPolicies: Math.max(0, policyCount - publicEvidencePolicies),
+        openRemediationIssues,
+        lastScanStatus: lastScan?.status || null,
+        lastScanAt: lastScan?.startedAt || null,
+      };
+    } catch (error) {
+      sourceReliability.available = false;
+      console.warn('[Admin Metrics] Source reliability summary unavailable:', error);
     }
 
     let allTimePressCounts = emptyPressMetricCounts();
@@ -113,6 +144,7 @@ export async function GET(request: NextRequest) {
         },
         lastChangeAt: latestChange?.createdAt || null,
         riskDistribution,
+        sourceReliability,
         pressNewsroom: {
           available: pressMetricsAvailable,
           allTime: allTimePressCounts,

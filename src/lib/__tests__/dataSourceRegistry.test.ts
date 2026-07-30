@@ -59,6 +59,11 @@ describe('public data-source registry', () => {
       allowedQueryParams: [],
       evidenceGate: 'public-reference',
     });
+    expect(PUBLIC_DATA_SOURCES.webhookConformanceSuite).toMatchObject({
+      endpoint: '/api/v1/webhook-conformance-suite',
+      allowedQueryParams: [],
+      evidenceGate: 'public-reference',
+    });
   });
 
   it('builds canonical URLs and visibility-scoped query keys', () => {

@@ -62,6 +62,19 @@ function migrationIsMaterialized(sql) {
     }
   }
 
+  const alterColumnMatches = [...sql.matchAll(
+    /ALTER TABLE\s+"([^"]+)"\s+ADD COLUMN\s+"([^"]+)"\s+([A-Za-z]+)([^;]*);/gi,
+  )];
+  for (const [, table, name, type, suffix] of alterColumnMatches) {
+    const actual = tableInfo(table).find((column) => column.name === name);
+    if (!actual || String(actual.type).toUpperCase() !== type.toUpperCase()) return false;
+    if (/\bNOT NULL\b/i.test(suffix) && Number(actual.notnull) !== 1) return false;
+    const expectedDefault = suffix.match(/\bDEFAULT\s+(.+?)(?=\s+(?:REFERENCES|CHECK|COLLATE)\b|$)/i)?.[1];
+    if (expectedDefault !== undefined && normalizedDefault(actual.dflt_value) !== normalizedDefault(expectedDefault)) {
+      return false;
+    }
+  }
+
   const indexes = [...sql.matchAll(/CREATE\s+(UNIQUE\s+)?INDEX\s+"([^"]+)"\s+ON\s+"([^"]+)"\s*\(([^)]+)\)/gi)];
   for (const [, unique, index, table, columns] of indexes) {
     const actual = db.prepare("SELECT sql FROM sqlite_master WHERE type = 'index' AND name = ? AND tbl_name = ?").get(index, table);
@@ -75,7 +88,7 @@ function migrationIsMaterialized(sql) {
     }
   }
 
-  return tableMatches.length > 0;
+  return tableMatches.length > 0 || alterColumnMatches.length > 0;
 }
 
 for (const migration of fs.readdirSync(migrationsRoot).sort()) {

@@ -10,6 +10,10 @@ interface ReplaceSeededPolicyBaselineParams {
   httpStatus?: number | null;
   finalUrl: string;
   archiveTimestamp?: Date | null;
+  scanRunId?: string;
+  sourceRetrievalId?: string;
+  durationMs?: number;
+  reasonCode?: string;
 }
 
 interface ReplaceSeededPolicyBaselineResult {
@@ -17,6 +21,173 @@ interface ReplaceSeededPolicyBaselineResult {
   snapshot: PolicySnapshot;
   removedChangeCount: number;
   removedSnapshotCount: number;
+}
+
+interface EstablishVerifiedPolicyBaselineParams {
+  policyId: string;
+  text: string;
+  hash: string;
+  checkedAt: Date;
+  ingestionMethod: string;
+  source: string;
+  httpStatus?: number | null;
+  finalUrl: string;
+  archiveTimestamp?: Date | null;
+  scanRunId?: string;
+  sourceRetrievalId?: string;
+  durationMs?: number;
+  reasonCode?: string;
+}
+
+interface EstablishVerifiedPolicyBaselineResult {
+  policy: Policy;
+  snapshot: PolicySnapshot;
+  publicEvidence: boolean;
+  promotedExistingSnapshot: boolean;
+}
+
+/**
+ * Establishes the first source-verified baseline when a policy has already
+ * accumulated retrieval logs but still has no public snapshot. This closes a
+ * critical gate gap: a verified hash that matches `Policy.currentHash` must
+ * not remain forever in the ordinary "unchanged" branch.
+ *
+ * Bulk-onboarding records remain private until their explicit QA decision.
+ */
+export async function establishVerifiedPolicyBaseline(
+  tx: Prisma.TransactionClient,
+  params: EstablishVerifiedPolicyBaselineParams
+): Promise<EstablishVerifiedPolicyBaselineResult> {
+  const onboardingItem = await tx.sourceOnboardingItem.findFirst({
+    where: {
+      policyId: params.policyId,
+      stage: { in: ['BaselinePending', 'QaReview'] },
+    },
+    select: { id: true },
+  });
+  const publicEvidence = !onboardingItem;
+
+  const existingPublicSnapshot = await tx.policySnapshot.findFirst({
+    where: { policyId: params.policyId, publicEvidence: true },
+  });
+  if (existingPublicSnapshot) {
+    const policy = await tx.policy.update({
+      where: { id: params.policyId },
+      data: {
+        lastCheckDate: params.checkedAt,
+        lastSuccessfulCheckDate: params.checkedAt,
+        dataStatus: 'Available',
+        ingestionMethod: params.ingestionMethod,
+      },
+    });
+    return {
+      policy,
+      snapshot: existingPublicSnapshot,
+      publicEvidence: true,
+      promotedExistingSnapshot: false,
+    };
+  }
+
+  const matchingSnapshot = await tx.policySnapshot.findFirst({
+    where: { policyId: params.policyId, hash: params.hash },
+    orderBy: [{ version: 'desc' }, { createdAt: 'desc' }],
+  });
+
+  let snapshot: PolicySnapshot;
+  let promotedExistingSnapshot = false;
+  if (matchingSnapshot) {
+    snapshot = publicEvidence
+      ? await tx.policySnapshot.update({
+          where: { id: matchingSnapshot.id },
+          data: { publicEvidence: true },
+        })
+      : matchingSnapshot;
+    promotedExistingSnapshot = publicEvidence;
+  } else {
+    const latestSnapshot = await tx.policySnapshot.findFirst({
+      where: { policyId: params.policyId },
+      orderBy: { version: 'desc' },
+      select: { version: true },
+    });
+    snapshot = await tx.policySnapshot.create({
+      data: {
+        policyId: params.policyId,
+        version: (latestSnapshot?.version || 0) + 1,
+        text: params.text,
+        hash: params.hash,
+        publicEvidence,
+        createdAt: params.checkedAt,
+      },
+    });
+  }
+
+  const policy = await tx.policy.update({
+    where: { id: params.policyId },
+    data: {
+      currentText: params.text,
+      currentHash: params.hash,
+      lastCheckDate: params.checkedAt,
+      lastSuccessfulCheckDate: params.checkedAt,
+      dataStatus: publicEvidence ? 'Available' : 'Needs Review',
+      ingestionMethod: params.ingestionMethod,
+    },
+  });
+
+  await tx.policyCheckLog.create({
+    data: {
+      policyId: params.policyId,
+      status: publicEvidence ? 'Available' : 'Needs Review',
+      checkedAt: params.checkedAt,
+      source: params.source,
+      httpStatus: params.httpStatus || null,
+      reason: publicEvidence
+        ? 'verified_public_baseline_established'
+        : 'verified_private_baseline_pending_onboarding_qa',
+      finalUrl: params.finalUrl,
+      textHash: params.hash,
+      textLength: params.text.length,
+      archiveTimestamp: params.archiveTimestamp || null,
+      scanRunId: params.scanRunId || null,
+      sourceRetrievalId: params.sourceRetrievalId || null,
+      durationMs: params.durationMs ?? null,
+      reasonCode: params.reasonCode || 'verified',
+    },
+  });
+
+  if (onboardingItem) {
+    await tx.sourceOnboardingItem.updateMany({
+      where: { policyId: params.policyId, stage: 'BaselinePending' },
+      data: {
+        stage: 'QaReview',
+        qaStatus: 'Pending',
+        qaSummary: 'Verified first baseline captured privately. Source QA review is required before publication.',
+        qaChecksJson: null,
+        error: null,
+      },
+    });
+  }
+
+  await tx.adminReviewLog.create({
+    data: {
+      actorRole: 'system',
+      action: publicEvidence ? 'verified_public_baseline_established' : 'verified_private_baseline_established',
+      targetType: 'policy',
+      targetId: params.policyId,
+      note: publicEvidence
+        ? 'First source-verified public baseline established after a successful retrieval; no provider change event was created.'
+        : 'First source-verified baseline retained privately pending onboarding QA and publication review.',
+      metadataJson: JSON.stringify({
+        source: params.source,
+        finalUrl: params.finalUrl,
+        archiveTimestamp: params.archiveTimestamp?.toISOString() || null,
+        publicEvidence,
+        promotedExistingSnapshot,
+        sourceOnboardingItemId: onboardingItem?.id || null,
+      }),
+    },
+  });
+
+  return { policy, snapshot, publicEvidence, promotedExistingSnapshot };
 }
 
 export async function replaceSeededPolicyBaseline(
@@ -100,7 +271,7 @@ export async function replaceSeededPolicyBaseline(
       currentHash: params.hash,
       lastCheckDate: params.checkedAt,
       lastSuccessfulCheckDate: params.checkedAt,
-      dataStatus: 'Available',
+      dataStatus: publicEvidence ? 'Available' : 'Needs Review',
       ingestionMethod: params.ingestionMethod,
     },
   });
@@ -108,7 +279,7 @@ export async function replaceSeededPolicyBaseline(
   await tx.policyCheckLog.create({
     data: {
       policyId: params.policyId,
-      status: 'Available',
+      status: publicEvidence ? 'Available' : 'Needs Review',
       checkedAt: params.checkedAt,
       source: params.source,
       httpStatus: params.httpStatus || null,
@@ -117,6 +288,10 @@ export async function replaceSeededPolicyBaseline(
       textHash: params.hash,
       textLength: params.text.length,
       archiveTimestamp: params.archiveTimestamp || null,
+      scanRunId: params.scanRunId || null,
+      sourceRetrievalId: params.sourceRetrievalId || null,
+      durationMs: params.durationMs ?? null,
+      reasonCode: params.reasonCode || 'verified',
     },
   });
 

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The `v1` integration directory is a small, read-only surface for public evidence metadata, the curated Observatory registry and deterministic multi-change evidence collections. It is intentionally separate from protected operations, policy-ingestion workflows, raw snapshot text and administrative records.
+The `v1` integration directory is a small, read-only surface for public evidence metadata, the curated Observatory registry, deterministic multi-change evidence collections and public receiver fixtures. It is intentionally separate from protected operations, policy-ingestion workflows, raw snapshot text and administrative records.
 
 For the complete integration decision guide and readiness matrix, see [`integrations.md`](integrations.md). Enterprise tenant-bound use cases belong to the separate [API v2 pilot](azure/enterprise-api-v2.md).
 
@@ -15,8 +15,9 @@ For the complete integration decision guide and readiness matrix, see [`integrat
 | `/api/v1/evidence-collections?changes={uuid,...}&format=json` | `GET` | Deterministic bundle for 1 to 12 exact published changes. Accepts `json`, `markdown`, `csv` or `handoff`. |
 | `/api/v1/change-events?limit=25&lang=en` | `GET` | Forward-only polling feed for already-published policy change events. Accepts `cursor`, `limit` and `lang`. |
 | `/api/v1/webhook-verification-kit` | `GET` | Versioned candidate receiver contract, public test-only vector and Node/Python verification examples. |
+| `/api/v1/webhook-conformance-suite` | `GET` | Eight deterministic positive and negative receiver fixtures with expected decision codes. |
 
-All endpoints support read-only browser access with no credentials and send `Access-Control-Allow-Origin: *` without accepting cookies or credentials. The manifest, Observatory and Webhook Verification Kit use 60 request-per-minute reference-route buckets. Evidence Collections and Change Events each use a separate 30 request-per-minute bucket. Collections uses a 300-second browser cache and a 3,600-second shared-cache window; Change Events uses a 30-second browser cache and a 60-second shared-cache window; the versioned verification kit uses a 3,600-second browser cache and an 86,400-second shared-cache window.
+All endpoints support read-only browser access with no credentials and send `Access-Control-Allow-Origin: *` without accepting cookies or credentials. The manifest, Observatory, Webhook Verification Kit and Receiver Conformance Suite use 60 request-per-minute reference-route buckets. Evidence Collections and Change Events each use a separate 30 request-per-minute bucket. Collections uses a 300-second browser cache and a 3,600-second shared-cache window; Change Events uses a 30-second browser cache and a 60-second shared-cache window; the versioned receiver resources use a 3,600-second browser cache and an 86,400-second shared-cache window.
 
 The collection route accepts exactly one comma-separated `changes` parameter and, optionally, exactly one `format` parameter. UUIDs are normalized, deduplicated and sorted. If any selected change is missing, withheld or not public, the route returns one generic unavailable response and does not disclose a partial collection.
 
@@ -25,6 +26,8 @@ The collection route accepts exactly one comma-separated `changes` parameter and
 The change-event route returns the latest bounded public window when no cursor is supplied. Consumers store `nextCursor` and pass it unchanged on later requests to receive events published after that exact publication timestamp and change ID. The publication timestamp records the local evidence-gate transition; it is distinct from source retrieval time. Events are returned in chronological order, carry deterministic `pwe_` identifiers and link to the exact Change and Evidence Packet. A change that is withheld and later republished receives a new event identifier. Consumers must deduplicate by `eventId`, respect `hasMore`, and treat `initialWindowTruncated` as notice that the first response is not a complete historical archive.
 
 The Webhook Verification Kit defines a candidate `v1` signature as HMAC-SHA256 over `{unix_timestamp}.{raw_request_body}` and includes one public test-only secret. The static vector is a signature-compatibility fixture: evaluate its freshness with the clock fixed at the vector timestamp. Do not disable timestamp freshness in a production receiver. Production receivers must use tenant-owned secrets, constant-time comparison, timestamp tolerance, replay storage, controlled key rotation and bounded operational logging. The kit does not create subscriptions, accept endpoint URLs or deliver events.
+
+The Receiver Conformance Suite extends the canonical vector into eight fixtures: one expected acceptance and seven expected rejections covering empty secret, invalid timestamp, stale timestamp, unsupported signature version, noncanonical digest encoding, raw-body mutation and digest mutation. Consumers compare their receiver decision with each published `expectedCode`. A complete pass establishes compatibility with those exact fixtures only. It does not test network delivery, endpoint control, secret custody, retry behavior, replay storage, service availability or security outside the exercised paths.
 
 ## Data boundaries
 
@@ -35,6 +38,7 @@ The Webhook Verification Kit defines a candidate `v1` signature as HMAC-SHA256 o
 - A handoff manifest is a portable review aid. Its `ready-for-human-triage` state is not an assignment, approval, legal conclusion or confirmation that a receiving system created a record.
 - The event feed is a polling contract only. `nextCursor` records polling position; it is not a delivery receipt, acknowledgment, secret or authorization token.
 - The webhook test secret is intentionally public and must never be used outside the deterministic compatibility vector.
+- A conformance result contains fixture decisions only and must not be represented as production-readiness or security certification.
 
 ## Relationship to v2 and the roadmap
 

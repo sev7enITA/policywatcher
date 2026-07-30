@@ -78,6 +78,7 @@ TABLES = [
       "name" TEXT NOT NULL,
       "type" TEXT NOT NULL,
       "url" TEXT NOT NULL,
+      "retrievalUrl" TEXT,
       "jurisdiction" TEXT NOT NULL DEFAULT 'Global',
       "confidence" INTEGER NOT NULL,
       "discoverySource" TEXT NOT NULL,
@@ -263,6 +264,7 @@ TABLES = [
       "kpiBreachNotification" TEXT NOT NULL DEFAULT 'Not assessed',
       "kpiIndependentAudit" TEXT NOT NULL DEFAULT 'Not assessed',
       "kpiContentModeration" TEXT NOT NULL DEFAULT 'Not assessed',
+      "publicPublishedAt" DATETIME,
       "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
       CONSTRAINT "PolicyChange_policyId_fkey" FOREIGN KEY ("policyId") REFERENCES "Policy" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
       CONSTRAINT "PolicyChange_oldSnapshotId_fkey" FOREIGN KEY ("oldSnapshotId") REFERENCES "PolicySnapshot" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
@@ -356,6 +358,82 @@ TABLES = [
       "createdAt" DATETIME NOT NULL PRIMARY KEY
     )
     """,
+    """
+    CREATE TABLE IF NOT EXISTS "ScanRun" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "status" TEXT NOT NULL DEFAULT 'running',
+      "startedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "completedAt" DATETIME,
+      "selectedRecords" INTEGER NOT NULL DEFAULT 0,
+      "uniqueSources" INTEGER NOT NULL DEFAULT 0,
+      "networkRetrievals" INTEGER NOT NULL DEFAULT 0,
+      "deduplicatedRetrievals" INTEGER NOT NULL DEFAULT 0,
+      "uniqueAvailableSources" INTEGER NOT NULL DEFAULT 0,
+      "uniqueUnavailableSources" INTEGER NOT NULL DEFAULT 0,
+      "unavailableRecords" INTEGER NOT NULL DEFAULT 0,
+      "invalidRecords" INTEGER NOT NULL DEFAULT 0,
+      "partialRecords" INTEGER NOT NULL DEFAULT 0,
+      "errorRecords" INTEGER NOT NULL DEFAULT 0,
+      "metricsJson" TEXT,
+      "optionsJson" TEXT,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS "SourceRetrieval" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "scanRunId" TEXT NOT NULL,
+      "retrievalKey" TEXT NOT NULL,
+      "requestedUrl" TEXT NOT NULL,
+      "archiveNotBefore" DATETIME,
+      "status" TEXT NOT NULL,
+      "source" TEXT,
+      "httpStatus" INTEGER,
+      "durationMs" INTEGER NOT NULL DEFAULT 0,
+      "reasonCode" TEXT,
+      "reason" TEXT,
+      "finalUrl" TEXT,
+      "archiveTimestamp" DATETIME,
+      "attemptsJson" TEXT,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      CONSTRAINT "SourceRetrieval_scanRunId_fkey" FOREIGN KEY ("scanRunId") REFERENCES "ScanRun" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS "SourceRemediationIssue" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "retrievalKey" TEXT NOT NULL,
+      "sourceUrl" TEXT NOT NULL,
+      "status" TEXT NOT NULL DEFAULT 'Watching',
+      "reasonCode" TEXT,
+      "affectedPolicyIdsJson" TEXT NOT NULL DEFAULT '[]',
+      "totalFailures" INTEGER NOT NULL DEFAULT 0,
+      "consecutiveFailures" INTEGER NOT NULL DEFAULT 0,
+      "firstDetectedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "lastDetectedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "recoveredAt" DATETIME,
+      "resolvedAt" DATETIME,
+      "suggestedAction" TEXT,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "updatedAt" DATETIME NOT NULL
+    )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS "HistoricalSourceReference" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "policyId" TEXT NOT NULL,
+      "sourceRetrievalId" TEXT,
+      "source" TEXT NOT NULL,
+      "referenceUrl" TEXT,
+      "capturedAt" DATETIME NOT NULL,
+      "observedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "reasonCode" TEXT NOT NULL DEFAULT 'stale_archive',
+      "eligibleForChangeDetection" BOOLEAN NOT NULL DEFAULT false,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      CONSTRAINT "HistoricalSourceReference_policyId_fkey" FOREIGN KEY ("policyId") REFERENCES "Policy" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+      CONSTRAINT "HistoricalSourceReference_sourceRetrievalId_fkey" FOREIGN KEY ("sourceRetrievalId") REFERENCES "SourceRetrieval" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+    )
+    """,
 ]
 
 INDEXES = [
@@ -387,9 +465,23 @@ INDEXES = [
     'CREATE INDEX IF NOT EXISTS "PolicyCheckLog_policyId_idx" ON "PolicyCheckLog"("policyId")',
     'CREATE INDEX IF NOT EXISTS "PolicyCheckLog_checkedAt_idx" ON "PolicyCheckLog"("checkedAt")',
     'CREATE INDEX IF NOT EXISTS "PolicyCheckLog_status_idx" ON "PolicyCheckLog"("status")',
+    'CREATE INDEX IF NOT EXISTS "PolicyCheckLog_scanRunId_idx" ON "PolicyCheckLog"("scanRunId")',
+    'CREATE INDEX IF NOT EXISTS "PolicyCheckLog_sourceRetrievalId_idx" ON "PolicyCheckLog"("sourceRetrievalId")',
+    'CREATE INDEX IF NOT EXISTS "ScanRun_startedAt_idx" ON "ScanRun"("startedAt")',
+    'CREATE INDEX IF NOT EXISTS "ScanRun_status_idx" ON "ScanRun"("status")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "SourceRetrieval_scanRunId_retrievalKey_key" ON "SourceRetrieval"("scanRunId", "retrievalKey")',
+    'CREATE INDEX IF NOT EXISTS "SourceRetrieval_retrievalKey_createdAt_idx" ON "SourceRetrieval"("retrievalKey", "createdAt")',
+    'CREATE INDEX IF NOT EXISTS "SourceRetrieval_status_idx" ON "SourceRetrieval"("status")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "SourceRemediationIssue_retrievalKey_key" ON "SourceRemediationIssue"("retrievalKey")',
+    'CREATE INDEX IF NOT EXISTS "SourceRemediationIssue_status_lastDetectedAt_idx" ON "SourceRemediationIssue"("status", "lastDetectedAt")',
+    'CREATE INDEX IF NOT EXISTS "SourceRemediationIssue_reasonCode_idx" ON "SourceRemediationIssue"("reasonCode")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "HistoricalSourceReference_policyId_source_capturedAt_key" ON "HistoricalSourceReference"("policyId", "source", "capturedAt")',
+    'CREATE INDEX IF NOT EXISTS "HistoricalSourceReference_policyId_capturedAt_idx" ON "HistoricalSourceReference"("policyId", "capturedAt")',
+    'CREATE INDEX IF NOT EXISTS "HistoricalSourceReference_sourceRetrievalId_idx" ON "HistoricalSourceReference"("sourceRetrievalId")',
     'CREATE INDEX IF NOT EXISTS "PolicySnapshot_policyId_idx" ON "PolicySnapshot"("policyId")',
     'CREATE INDEX IF NOT EXISTS "PolicyChange_policyId_idx" ON "PolicyChange"("policyId")',
     'CREATE INDEX IF NOT EXISTS "PolicyChange_createdAt_idx" ON "PolicyChange"("createdAt")',
+    'CREATE INDEX IF NOT EXISTS "PolicyChange_publicPublishedAt_idx" ON "PolicyChange"("publicPublishedAt")',
     'CREATE INDEX IF NOT EXISTS "RegionImpact_policyChangeId_idx" ON "RegionImpact"("policyChangeId")',
     'CREATE UNIQUE INDEX IF NOT EXISTS "Subscriber_email_key" ON "Subscriber"("email")',
     'CREATE UNIQUE INDEX IF NOT EXISTS "Subscriber_unsubscribeToken_key" ON "Subscriber"("unsubscribeToken")',
@@ -418,10 +510,15 @@ UPGRADE_COLUMNS = {
         ("dataStatus", 'ALTER TABLE "Policy" ADD COLUMN "dataStatus" TEXT NOT NULL DEFAULT "Available"'),
         ("lastCheckDate", 'ALTER TABLE "Policy" ADD COLUMN "lastCheckDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP'),
         ("lastSuccessfulCheckDate", 'ALTER TABLE "Policy" ADD COLUMN "lastSuccessfulCheckDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP'),
-        ("ingestionMethod", 'ALTER TABLE "Policy" ADD COLUMN "ingestionMethod" TEXT NOT NULL DEFAULT "Seeded"'),
+         ("ingestionMethod", 'ALTER TABLE "Policy" ADD COLUMN "ingestionMethod" TEXT NOT NULL DEFAULT "Seeded"'),
+        ("retrievalUrl", 'ALTER TABLE "Policy" ADD COLUMN "retrievalUrl" TEXT'),
     ],
     "PolicyCheckLog": [
         ("archiveTimestamp", 'ALTER TABLE "PolicyCheckLog" ADD COLUMN "archiveTimestamp" DATETIME'),
+        ("reasonCode", 'ALTER TABLE "PolicyCheckLog" ADD COLUMN "reasonCode" TEXT'),
+        ("durationMs", 'ALTER TABLE "PolicyCheckLog" ADD COLUMN "durationMs" INTEGER'),
+        ("scanRunId", 'ALTER TABLE "PolicyCheckLog" ADD COLUMN "scanRunId" TEXT REFERENCES "ScanRun"("id") ON DELETE SET NULL ON UPDATE CASCADE'),
+        ("sourceRetrievalId", 'ALTER TABLE "PolicyCheckLog" ADD COLUMN "sourceRetrievalId" TEXT REFERENCES "SourceRetrieval"("id") ON DELETE SET NULL ON UPDATE CASCADE'),
     ],
     "PolicySnapshot": [
         ("publicEvidence", 'ALTER TABLE "PolicySnapshot" ADD COLUMN "publicEvidence" BOOLEAN NOT NULL DEFAULT false'),
@@ -432,6 +529,7 @@ UPGRADE_COLUMNS = {
         ("keyPointsJson", 'ALTER TABLE "PolicyChange" ADD COLUMN "keyPointsJson" TEXT'),
         ("riskReasonsJson", 'ALTER TABLE "PolicyChange" ADD COLUMN "riskReasonsJson" TEXT'),
         ("publicEvidence", 'ALTER TABLE "PolicyChange" ADD COLUMN "publicEvidence" BOOLEAN NOT NULL DEFAULT false'),
+        ("publicPublishedAt", 'ALTER TABLE "PolicyChange" ADD COLUMN "publicPublishedAt" DATETIME'),
         ("kpiDataCollection", 'ALTER TABLE "PolicyChange" ADD COLUMN "kpiDataCollection" TEXT NOT NULL DEFAULT "Not assessed"'),
         ("kpiThirdPartySharing", 'ALTER TABLE "PolicyChange" ADD COLUMN "kpiThirdPartySharing" TEXT NOT NULL DEFAULT "Not assessed"'),
         ("kpiDataRetention", 'ALTER TABLE "PolicyChange" ADD COLUMN "kpiDataRetention" TEXT NOT NULL DEFAULT "Not assessed"'),
@@ -466,6 +564,12 @@ with sqlite3.connect(str(db_path), timeout=30) as con:
             if column not in existing:
                 con.execute(statement)
                 print(f"Added {table}.{column}")
+
+    con.execute('''
+        UPDATE "PolicyChange"
+        SET "publicPublishedAt" = "createdAt"
+        WHERE "publicEvidence" = 1 AND "publicPublishedAt" IS NULL
+    ''')
 
     for statement in INDEXES:
         con.execute(statement)

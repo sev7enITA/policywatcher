@@ -62,7 +62,13 @@ export interface SourceContinuityPolicyInput {
     slug: string;
     industry: string;
   };
-  snapshots: Array<{ publicEvidence: boolean }>;
+  snapshots: Array<{ publicEvidence: boolean; createdAt?: Date | string }>;
+  historicalReferences?: Array<{
+    source: string;
+    capturedAt: Date | string;
+    observedAt: Date | string;
+    eligibleForChangeDetection: boolean;
+  }>;
   checkLogs: SourceContinuityLogInput[];
   _count?: { checkLogs: number };
 }
@@ -75,6 +81,14 @@ export interface SourceContinuityEvent {
   retrievalChannel: SourceContinuityChannel;
   isLatestTransition: boolean;
   hasPublicSnapshotEvidence: boolean;
+  currentness: 'verified' | 'not_verified';
+  lastVerifiedEvidenceAt: string | null;
+  historicalReference: {
+    retrievalChannel: SourceContinuityChannel;
+    capturedAt: string;
+    observedAt: string;
+    eligibleForChangeDetection: false;
+  } | null;
   company: SourceContinuityPolicyInput['company'];
   policy: {
     id: string;
@@ -159,6 +173,20 @@ function validCheckedAt(value: Date | string): Date | null {
 
 function eventsForPolicy(policy: SourceContinuityPolicyInput): SourceContinuityEvent[] {
   const hasPublicSnapshotEvidence = policy.snapshots.some((snapshot) => snapshot.publicEvidence);
+  const lastVerifiedEvidenceAt = policy.snapshots
+    .map((snapshot) => validCheckedAt(snapshot.createdAt || ''))
+    .filter((date): date is Date => Boolean(date))
+    .sort((left, right) => right.getTime() - left.getTime())[0]?.toISOString() || null;
+  const latestHistoricalReference = (policy.historicalReferences || [])
+    .map((reference) => ({
+      reference,
+      capturedAt: validCheckedAt(reference.capturedAt),
+      observedAt: validCheckedAt(reference.observedAt),
+    }))
+    .filter((entry): entry is typeof entry & { capturedAt: Date; observedAt: Date } =>
+      Boolean(entry.capturedAt && entry.observedAt)
+    )
+    .sort((left, right) => right.capturedAt.getTime() - left.capturedAt.getTime())[0];
   const recentLogs = policy.checkLogs
     .map((log) => ({ log, date: validCheckedAt(log.checkedAt) }))
     .filter((entry): entry is { log: SourceContinuityLogInput; date: Date } => Boolean(entry.date))
@@ -191,6 +219,16 @@ function eventsForPolicy(policy: SourceContinuityPolicyInput): SourceContinuityE
       retrievalChannel: normalizeSourceContinuityChannel(log.source),
       isLatestTransition: false,
       hasPublicSnapshotEvidence,
+      currentness: normalized.state === 'verified' ? 'verified' : 'not_verified',
+      lastVerifiedEvidenceAt,
+      historicalReference: latestHistoricalReference
+        ? {
+            retrievalChannel: normalizeSourceContinuityChannel(latestHistoricalReference.reference.source),
+            capturedAt: latestHistoricalReference.capturedAt.toISOString(),
+            observedAt: latestHistoricalReference.observedAt.toISOString(),
+            eligibleForChangeDetection: false,
+          }
+        : null,
       company: { ...policy.company },
       policy: {
         id: policy.id,

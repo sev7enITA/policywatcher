@@ -51,7 +51,18 @@ export async function GET(request: NextRequest) {
           snapshots: {
             where: { publicEvidence: true },
             take: 1,
-            select: { publicEvidence: true },
+            orderBy: { createdAt: 'desc' },
+            select: { publicEvidence: true, createdAt: true },
+          },
+          historicalReferences: {
+            take: 1,
+            orderBy: { capturedAt: 'desc' },
+            select: {
+              source: true,
+              capturedAt: true,
+              observedAt: true,
+              eligibleForChangeDetection: true,
+            },
           },
           checkLogs: {
             orderBy: { checkedAt: 'desc' },

@@ -139,6 +139,31 @@ describe('source continuity public contract', () => {
     expect(normalizeSourceContinuityChannel(null)).toBe('none');
   });
 
+  it('exposes dated historical-reference metadata without making it eligible for change detection', () => {
+    const result = buildSourceContinuityResponse([
+      policy({
+        snapshots: [{ publicEvidence: true, createdAt: '2026-07-20T00:00:00Z' }],
+        historicalReferences: [{
+          source: 'wayback',
+          capturedAt: '2026-07-10T00:00:00Z',
+          observedAt: '2026-07-30T00:00:00Z',
+          eligibleForChangeDetection: false,
+        }],
+        checkLogs: [{ id: 'unavailable', status: 'Unavailable', checkedAt: '2026-07-30T00:00:00Z', source: 'none' }],
+      }),
+    ], 1);
+
+    expect(result.events[0]).toMatchObject({
+      currentness: 'not_verified',
+      lastVerifiedEvidenceAt: '2026-07-20T00:00:00.000Z',
+      historicalReference: {
+        retrievalChannel: 'archive',
+        capturedAt: '2026-07-10T00:00:00.000Z',
+        eligibleForChangeDetection: false,
+      },
+    });
+  });
+
   it('marks bounded output as truncated without exceeding per-policy log limits', () => {
     const checkLogs = Array.from({ length: 30 }, (_, index) => ({
       id: `log-${index}`,

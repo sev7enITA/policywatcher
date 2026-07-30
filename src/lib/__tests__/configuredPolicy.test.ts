@@ -35,6 +35,34 @@ describe('normalizeConfiguredPolicyInput', () => {
     expect(result).toMatchObject({ ok: true, value: { jurisdiction: 'Global' } });
   });
 
+  it('accepts a separate official retrieval URL without changing the canonical URL', () => {
+    expect(normalizeConfiguredPolicyInput({
+      name: 'Privacy Policy',
+      type: 'privacy',
+      url: 'https://example.com/privacy',
+      retrievalUrl: ' https://cdn.example.com/privacy.pdf ',
+      jurisdiction: 'EU',
+    })).toEqual({
+      ok: true,
+      value: {
+        name: 'Privacy Policy',
+        type: 'privacy',
+        url: 'https://example.com/privacy',
+        retrievalUrl: 'https://cdn.example.com/privacy.pdf',
+        jurisdiction: 'EU',
+      },
+    });
+    expect(normalizeConfiguredPolicyInput({
+      name: 'Privacy Policy',
+      type: 'privacy',
+      url: 'https://example.com/privacy',
+      retrievalUrl: 'https://user:secret@example.com/privacy',
+    })).toEqual({
+      ok: false,
+      error: 'Retrieval URL must be a credential-free HTTP or HTTPS URL.',
+    });
+  });
+
   it('rejects missing and non-HTTP policy sources', () => {
     expect(normalizeConfiguredPolicyInput(undefined)).toEqual({
       ok: false,

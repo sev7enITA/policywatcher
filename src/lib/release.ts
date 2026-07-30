@@ -1,7 +1,7 @@
-export const POLICYWATCHER_VERSION = '3.9.0-beta.20' as const;
-export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 20' as const;
-export const POLICYWATCHER_RELEASE_NAME = 'Webhook Verification Readiness' as const;
-export const POLICYWATCHER_RELEASE_DATE = '2026-07-29' as const;
+export const POLICYWATCHER_VERSION = '3.9.0-beta.21' as const;
+export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 21' as const;
+export const POLICYWATCHER_RELEASE_NAME = 'Source Reliability and Receiver Conformance' as const;
+export const POLICYWATCHER_RELEASE_DATE = '2026-07-30' as const;
 export type PolicyWatcherReleaseChannel = 'stable' | 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL: PolicyWatcherReleaseChannel = 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL_LABEL = 'BETA' as const;

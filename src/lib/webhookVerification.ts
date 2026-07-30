@@ -2,6 +2,7 @@ import { createHmac, timingSafeEqual } from 'node:crypto';
 
 export const WEBHOOK_SIGNATURE_VERSION = 'v1' as const;
 export const WEBHOOK_VERIFICATION_KIT_VERSION = '1.0.0' as const;
+export const WEBHOOK_CONFORMANCE_SUITE_VERSION = '1.0.0' as const;
 export const WEBHOOK_TOLERANCE_SECONDS = 300;
 export const WEBHOOK_VERIFICATION_BOUNDARY =
   'This public kit defines a candidate receiver-verification contract and deterministic test vector. PolicyWatcher does not currently provide webhook subscriptions, endpoint registration, push delivery, retries, replay storage, key rotation, delivery receipts or delivery guarantees.';
@@ -40,14 +41,18 @@ export type WebhookVerificationResult =
         | 'signature_mismatch';
     };
 
-export function verifyWebhookSignature(input: {
+export type WebhookVerificationCode = WebhookVerificationResult['code'];
+
+export interface WebhookVerificationInput {
   secret: string;
   timestamp: number;
   rawBody: string;
   signatureHeader: string;
   nowSeconds?: number;
   toleranceSeconds?: number;
-}): WebhookVerificationResult {
+}
+
+export function verifyWebhookSignature(input: WebhookVerificationInput): WebhookVerificationResult {
   if (input.secret.length === 0) {
     return { valid: false, code: 'invalid_secret' };
   }
@@ -98,6 +103,140 @@ export const WEBHOOK_TEST_VECTOR_INSTRUCTIONS = Object.freeze([
   `For this static vector only, evaluate freshness with the verification clock fixed at ${TEST_TIMESTAMP}.`,
   'Do not disable timestamp freshness or replay protection for production deliveries.',
 ]);
+
+export interface WebhookConformanceCase {
+  id: string;
+  title: string;
+  purpose: string;
+  expectedCode: WebhookVerificationCode;
+  input: WebhookVerificationInput;
+}
+
+const canonicalConformanceInput = Object.freeze({
+  secret: WEBHOOK_TEST_VECTOR.secret,
+  timestamp: WEBHOOK_TEST_VECTOR.timestamp,
+  rawBody: WEBHOOK_TEST_VECTOR.payload,
+  signatureHeader: WEBHOOK_TEST_VECTOR.signatureHeader,
+  nowSeconds: WEBHOOK_TEST_VECTOR.freshnessReferenceSeconds,
+  toleranceSeconds: WEBHOOK_TOLERANCE_SECONDS,
+});
+
+export const WEBHOOK_CONFORMANCE_CASES: readonly WebhookConformanceCase[] = Object.freeze([
+  Object.freeze({
+    id: 'canonical-valid',
+    title: 'Accept the canonical vector',
+    purpose: 'Confirms exact HMAC-SHA256 construction over the recorded timestamp and raw body.',
+    expectedCode: 'valid',
+    input: canonicalConformanceInput,
+  }),
+  Object.freeze({
+    id: 'empty-secret',
+    title: 'Reject an empty secret',
+    purpose: 'Confirms fail-closed secret validation before digest construction.',
+    expectedCode: 'invalid_secret',
+    input: Object.freeze({ ...canonicalConformanceInput, secret: '' }),
+  }),
+  Object.freeze({
+    id: 'zero-timestamp',
+    title: 'Reject a zero timestamp',
+    purpose: 'Confirms that the receiver accepts only positive integer Unix timestamps.',
+    expectedCode: 'invalid_timestamp',
+    input: Object.freeze({ ...canonicalConformanceInput, timestamp: 0 }),
+  }),
+  Object.freeze({
+    id: 'stale-timestamp',
+    title: 'Reject a stale timestamp',
+    purpose: 'Confirms enforcement immediately outside the candidate 300-second tolerance.',
+    expectedCode: 'timestamp_outside_tolerance',
+    input: Object.freeze({
+      ...canonicalConformanceInput,
+      nowSeconds: WEBHOOK_TEST_VECTOR.timestamp + WEBHOOK_TOLERANCE_SECONDS + 1,
+    }),
+  }),
+  Object.freeze({
+    id: 'unsupported-version',
+    title: 'Reject an unsupported signature version',
+    purpose: 'Confirms strict parsing of the lowercase v1 signature prefix.',
+    expectedCode: 'invalid_signature_header',
+    input: Object.freeze({
+      ...canonicalConformanceInput,
+      signatureHeader: WEBHOOK_TEST_VECTOR.signatureHeader.replace(/^v1=/, 'v2='),
+    }),
+  }),
+  Object.freeze({
+    id: 'uppercase-digest',
+    title: 'Reject an uppercase digest',
+    purpose: 'Confirms the canonical lowercase hexadecimal encoding contract.',
+    expectedCode: 'invalid_signature_header',
+    input: Object.freeze({
+      ...canonicalConformanceInput,
+      signatureHeader: `${WEBHOOK_SIGNATURE_VERSION}=${WEBHOOK_TEST_VECTOR.signatureHeader.slice(3).toUpperCase()}`,
+    }),
+  }),
+  Object.freeze({
+    id: 'body-byte-mutation',
+    title: 'Reject a raw-body byte mutation',
+    purpose: 'Confirms that whitespace and exact raw-body bytes remain signature material.',
+    expectedCode: 'signature_mismatch',
+    input: Object.freeze({
+      ...canonicalConformanceInput,
+      rawBody: `${WEBHOOK_TEST_VECTOR.payload} `,
+    }),
+  }),
+  Object.freeze({
+    id: 'digest-mutation',
+    title: 'Reject a digest mutation',
+    purpose: 'Confirms rejection of a well-formed but nonmatching signature value.',
+    expectedCode: 'signature_mismatch',
+    input: Object.freeze({
+      ...canonicalConformanceInput,
+      signatureHeader: `${WEBHOOK_SIGNATURE_VERSION}=6${WEBHOOK_TEST_VECTOR.signatureHeader.slice(4)}`,
+    }),
+  }),
+]);
+
+export function runWebhookConformanceCase(testCase: WebhookConformanceCase) {
+  const result = verifyWebhookSignature(testCase.input);
+  return {
+    id: testCase.id,
+    expectedCode: testCase.expectedCode,
+    actualCode: result.code,
+    passed: result.code === testCase.expectedCode,
+  } as const;
+}
+
+export function getWebhookConformanceSuite() {
+  return {
+    schema: 'https://policywatcher.online/schemas/webhook-conformance-suite/v1',
+    suiteVersion: WEBHOOK_CONFORMANCE_SUITE_VERSION,
+    contractVersion: WEBHOOK_VERIFICATION_KIT_VERSION,
+    status: 'public-test-fixture' as const,
+    executionMode: 'local-receiver' as const,
+    deliveryAvailable: false,
+    caseCount: WEBHOOK_CONFORMANCE_CASES.length,
+    cases: WEBHOOK_CONFORMANCE_CASES.map((testCase) => ({
+      ...testCase,
+      input: { ...testCase.input },
+    })),
+    expectedSummary: {
+      passed: WEBHOOK_CONFORMANCE_CASES.length,
+      failed: 0,
+    },
+    boundary:
+      'This suite tests deterministic compatibility with the candidate receiver contract. It does not test endpoint identity, production secret custody, network delivery, retry behavior, replay storage, availability or implementation security outside these cases.',
+  } as const;
+}
+
+export function runWebhookConformanceSuite() {
+  const results = WEBHOOK_CONFORMANCE_CASES.map(runWebhookConformanceCase);
+  return {
+    suiteVersion: WEBHOOK_CONFORMANCE_SUITE_VERSION,
+    contractVersion: WEBHOOK_VERIFICATION_KIT_VERSION,
+    passed: results.filter((result) => result.passed).length,
+    failed: results.filter((result) => !result.passed).length,
+    results,
+  } as const;
+}
 
 export const WEBHOOK_PRODUCTION_CHECKLIST = Object.freeze([
   'Read the exact raw request bytes before JSON parsing or body transformation.',
@@ -180,6 +319,11 @@ export function getWebhookVerificationKit() {
     candidateTimestampToleranceSeconds: WEBHOOK_TOLERANCE_SECONDS,
     testVector: WEBHOOK_TEST_VECTOR,
     testVectorInstructions: [...WEBHOOK_TEST_VECTOR_INSTRUCTIONS],
+    conformanceSuite: {
+      href: '/api/v1/webhook-conformance-suite',
+      schema: 'https://policywatcher.online/schemas/webhook-conformance-suite/v1',
+      caseCount: WEBHOOK_CONFORMANCE_CASES.length,
+    },
     receiverRequirements: [...WEBHOOK_PRODUCTION_CHECKLIST],
     examples: {
       node: WEBHOOK_NODE_EXAMPLE,

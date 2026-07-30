@@ -104,9 +104,9 @@ const capabilityLanes = [
       {
         title: 'Webhook Readiness Kit',
         audience: 'Integration developers and security reviewers',
-        role: 'Tests the candidate HMAC-SHA256 receiver contract locally with a deterministic public vector and implementation examples.',
+        role: 'Tests the candidate HMAC-SHA256 receiver contract locally with one editable vector and eight deterministic positive and negative fixtures.',
         boundary: 'No endpoint registration, subscriptions, production secrets, push delivery, retries or delivery confirmation.',
-        artifact: '/developers/webhook-readiness  |  /api/v1/webhook-verification-kit',
+        artifact: '/developers/webhook-readiness  |  /api/v1/webhook-verification-kit  |  /api/v1/webhook-conformance-suite',
         href: '/developers/webhook-readiness',
         link: 'Open verification workbench',
       },
@@ -170,7 +170,7 @@ const capabilityLanes = [
         title: 'Signed event delivery',
         audience: 'Automation and security operations teams',
         role: 'Outbound change, suspension, and recovery events with retries and auditability.',
-        boundary: 'The polling envelope and receiver-verification kit are available; subscriptions, secret provisioning, replay storage, retries and delivery audit remain required.',
+        boundary: 'The polling envelope, receiver kit and local conformance fixtures are available; subscriptions, secret provisioning, replay storage, retries and delivery audit remain required.',
         artifact: 'Future push delivery for policy.change.published',
       },
       {

@@ -711,6 +711,24 @@ export default function TimelinePage() {
                       <span className={styles.metaLabel}>Public snapshot evidence</span>
                       <strong>{event.hasPublicSnapshotEvidence ? 'Available separately' : 'Not exposed'}</strong>
                     </div>
+                    <div>
+                      <span className={styles.metaLabel}>Evidence currentness</span>
+                      <strong>{event.currentness === 'verified' ? 'Verified at this transition' : 'Current source not verified'}</strong>
+                    </div>
+                    {event.lastVerifiedEvidenceAt && (
+                      <div>
+                        <span className={styles.metaLabel}>Last verified evidence</span>
+                        <strong>{formatEventDate(event.lastVerifiedEvidenceAt)}</strong>
+                      </div>
+                    )}
+                    {event.historicalReference && (
+                      <div>
+                        <span className={styles.metaLabel}>Historical reference only</span>
+                        <strong>
+                          {event.historicalReference.retrievalChannel} · {formatEventDate(event.historicalReference.capturedAt)} · excluded from change detection
+                        </strong>
+                      </div>
+                    )}
                     {event.isLatestTransition && (
                       <span className={styles.latestMarker}><History size={13} />Current recorded transition</span>
                     )}

@@ -55,6 +55,7 @@ interface Policy {
   name: string;
   type: string;
   url: string;
+  retrievalUrl: string | null;
   jurisdiction: string;
   currentHash: string | null;
   dataStatus: string;
@@ -177,6 +178,7 @@ export default function CompanyManagerPage() {
     name: '',
     type: 'privacy' as string,
     url: '',
+    retrievalUrl: '',
     jurisdiction: 'Global' as string,
   });
   const [addPolicyLoading, setAddPolicyLoading] = useState(false);
@@ -401,6 +403,7 @@ export default function CompanyManagerPage() {
           name: policyForm.name.trim(),
           type: policyForm.type,
           url: policyForm.url.trim(),
+          retrievalUrl: policyForm.retrievalUrl.trim() || null,
           jurisdiction: policyForm.jurisdiction,
         }),
       });
@@ -412,7 +415,7 @@ export default function CompanyManagerPage() {
         return;
       }
 
-      setPolicyForm({ name: '', type: 'privacy', url: '', jurisdiction: 'Global' });
+      setPolicyForm({ name: '', type: 'privacy', url: '', retrievalUrl: '', jurisdiction: 'Global' });
       setAddPolicyFor(null);
       await fetchCompanies();
     } catch {
@@ -892,9 +895,9 @@ interface CompanyTableRowProps {
   onDeletePolicy: (policyId: string, policyName: string) => void;
   addPolicyFor: string | null;
   setAddPolicyFor: (id: string | null) => void;
-  policyForm: { name: string; type: string; url: string; jurisdiction: string };
+  policyForm: { name: string; type: string; url: string; retrievalUrl: string; jurisdiction: string };
   setPolicyForm: React.Dispatch<
-    React.SetStateAction<{ name: string; type: string; url: string; jurisdiction: string }>
+    React.SetStateAction<{ name: string; type: string; url: string; retrievalUrl: string; jurisdiction: string }>
   >;
   addPolicyLoading: boolean;
   addPolicyError: string;
@@ -928,6 +931,26 @@ function CompanyTableRow({
 }: CompanyTableRowProps) {
   const industryBadge = INDUSTRY_COLORS[company.industry] || 'badgePrimary';
   const showPolicyForm = addPolicyFor === company.id;
+
+  async function configureRetrievalUrl(policy: Policy) {
+    const nextValue = window.prompt(
+      'Optional official retrieval URL. Leave empty to use the canonical public URL. A new scan is required after this change.',
+      policy.retrievalUrl || ''
+    );
+    if (nextValue === null) return;
+    const response = await fetch('/api/admin/policies', {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: policy.id, retrievalUrl: nextValue.trim() }),
+    });
+    const payload = await response.json();
+    if (!response.ok) {
+      window.alert(payload.error || 'Unable to update the retrieval URL.');
+      return;
+    }
+    onRefresh();
+  }
 
   return (
     <>
@@ -1003,7 +1026,7 @@ function CompanyTableRow({
                       if (showPolicyForm) {
                         setAddPolicyFor(null);
                       } else {
-                        setPolicyForm({ name: '', type: 'privacy', url: '', jurisdiction: 'Global' });
+                        setPolicyForm({ name: '', type: 'privacy', url: '', retrievalUrl: '', jurisdiction: 'Global' });
                         setAddPolicyError('');
                         setAddPolicyFor(company.id);
                       }
@@ -1055,6 +1078,22 @@ function CompanyTableRow({
                           </option>
                         ))}
                       </select>
+                    </div>
+                  </div>
+                  <div className={styles.formRow}>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Official Retrieval URL (optional)</label>
+                      <input
+                        className={styles.input}
+                        type="url"
+                        value={policyForm.retrievalUrl}
+                        onChange={(e) =>
+                          setPolicyForm((prev) => ({ ...prev, retrievalUrl: e.target.value }))
+                        }
+                        placeholder="Official machine-readable mirror or PDF"
+                        disabled={addPolicyLoading}
+                      />
+                      <span className={styles.metaText}>The canonical URL remains the public citation.</span>
                     </div>
                   </div>
                   <div className={styles.formRow}>
@@ -1130,11 +1169,25 @@ function CompanyTableRow({
                         <span className={styles.policyUrl} title={policy.url}>
                           {policy.url}
                         </span>
+                        {policy.retrievalUrl && (
+                          <span className={styles.policyUrl} title={policy.retrievalUrl}>
+                            Retrieval: {policy.retrievalUrl}
+                          </span>
+                        )}
                       </div>
                       <div className={styles.policyMeta}>
                         <span style={{ fontSize: '0.75rem', color: 'var(--text-dark)' }}>
                           {policy._count.changes} changes / {policy._count.snapshots} snapshots
                         </span>
+                        {isAdmin && (
+                          <button
+                            className={`${styles.btn} ${styles.btnSmall} ${styles.btnGhost}`}
+                            onClick={() => void configureRetrievalUrl(policy)}
+                            title="Configure optional official retrieval URL"
+                          >
+                            <Globe size={13} /> Retrieval
+                          </button>
+                        )}
                         {isAdmin && (
                           <button
                             className={`${styles.btn} ${styles.btnSmall} ${styles.btnDangerOutline}`}

@@ -76,6 +76,10 @@ describe('webhook verification readiness contract', () => {
         verificationMode: 'signature-compatibility-only',
         freshnessReferenceSeconds: WEBHOOK_TEST_VECTOR.timestamp,
       },
+      conformanceSuite: {
+        href: '/api/v1/webhook-conformance-suite',
+        caseCount: 8,
+      },
     });
     expect(kit.testVectorInstructions.join(' ')).toMatch(/static vector only.*clock fixed/i);
     expect(kit.testVectorInstructions.join(' ')).toMatch(/do not disable timestamp freshness/i);

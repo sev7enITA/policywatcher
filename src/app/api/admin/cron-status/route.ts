@@ -59,6 +59,8 @@ function formatDiagnosticLine(
   const orderedIndex = STRATEGY_ORDER.includes(source) ? STRATEGY_ORDER.indexOf(source) + 1 : index + 1;
   const status = diagnostic.status || 'failed';
   const reason = compactReason(diagnostic.reason);
+  const cause = diagnostic.cause ? ` cause=${diagnostic.cause}` : '';
+  const duration = typeof diagnostic.durationMs === 'number' ? ` ${diagnostic.durationMs}ms` : '';
   const http = typeof diagnostic.httpStatus === 'number' && diagnostic.httpStatus > 0
     ? ` HTTP ${diagnostic.httpStatus}`
     : '';
@@ -68,11 +70,13 @@ function formatDiagnosticLine(
       ? 'accepted as evidence'
       : status === 'partial'
         ? 'captured incomplete text; source suspended pending review'
+      : status === 'skipped'
+        ? 'skipped by routing policy'
       : next
         ? `escalated to ${sourceLabel(next)} because ${reason}`
         : `chain stopped: ${reason}`;
 
-  return `[${orderedIndex}/5 ${source}] ${status}${http}: ${reason} -> ${escalation}`;
+  return `[${orderedIndex}/5 ${source}] ${status}${http}${duration}${cause}: ${reason} -> ${escalation}`;
 }
 
 export async function GET(request: NextRequest) {

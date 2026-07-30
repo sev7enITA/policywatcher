@@ -2,6 +2,7 @@
  * Admin Policies Management API
  *
  * POST   /api/admin/policies - Add a policy to a company (admin only)
+ * PATCH  /api/admin/policies - Configure an optional official retrieval URL
  * DELETE /api/admin/policies?id=<uuid> - Delete a policy (admin only, cascade)
  */
 
@@ -53,6 +54,88 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('[Admin Policies] POST error:', error);
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
+  }
+}
+
+export async function PATCH(request: NextRequest) {
+  const session = getSession(request);
+  if (!session.valid || session.role !== 'admin') {
+    return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
+  }
+
+  try {
+    const body = await request.json() as { id?: unknown; retrievalUrl?: unknown };
+    const id = typeof body.id === 'string' ? body.id.trim() : '';
+    const retrievalUrl = typeof body.retrievalUrl === 'string' ? body.retrievalUrl.trim() : '';
+    if (!id) {
+      return NextResponse.json({ error: 'Policy id is required.' }, { status: 400 });
+    }
+
+    if (retrievalUrl) {
+      let parsed: URL;
+      try {
+        parsed = new URL(retrievalUrl);
+      } catch {
+        return NextResponse.json({ error: 'Retrieval URL must be a valid absolute URL.' }, { status: 400 });
+      }
+      const hostname = parsed.hostname.toLowerCase();
+      const privateHost = hostname === 'localhost' || hostname.endsWith('.localhost') || hostname.endsWith('.local')
+        || /^(127\.|10\.|192\.168\.|169\.254\.)/.test(hostname)
+        || /^172\.(1[6-9]|2\d|3[01])\./.test(hostname)
+        || hostname === '::1';
+      if (!['http:', 'https:'].includes(parsed.protocol) || parsed.username || parsed.password || privateHost) {
+        return NextResponse.json({ error: 'Retrieval URL must be a public credential-free HTTP(S) URL.' }, { status: 400 });
+      }
+    }
+
+    const existing = await db.policy.findUnique({
+      where: { id },
+      include: {
+        company: { select: { name: true } },
+        snapshots: { where: { publicEvidence: true }, take: 1, select: { id: true } },
+      },
+    });
+    if (!existing) {
+      return NextResponse.json({ error: 'Policy not found.' }, { status: 404 });
+    }
+
+    const checkedAt = new Date();
+    const nextStatus = existing.snapshots.length > 0 ? 'Needs Review' : 'Configured';
+    const policy = await db.$transaction(async (tx) => {
+      const updated = await tx.policy.update({
+        where: { id },
+        data: { retrievalUrl: retrievalUrl || null, dataStatus: nextStatus },
+      });
+      await tx.policyCheckLog.create({
+        data: {
+          policyId: id,
+          status: nextStatus,
+          checkedAt,
+          source: 'source_remediation',
+          reason: retrievalUrl ? 'official_retrieval_url_configured_pending_scan' : 'retrieval_url_cleared_pending_scan',
+          reasonCode: 'configuration',
+          finalUrl: retrievalUrl || existing.url,
+        },
+      });
+      await tx.adminReviewLog.create({
+        data: {
+          actorRole: session.role || 'admin',
+          action: retrievalUrl ? 'retrieval_url_configured' : 'retrieval_url_cleared',
+          targetType: 'policy',
+          targetId: id,
+          targetLabel: `${existing.company.name} / ${existing.name} / ${existing.jurisdiction}`,
+          oldValue: existing.retrievalUrl,
+          newValue: retrievalUrl || null,
+          note: 'Canonical public URL retained; source must pass a new scan before the retrieval configuration is accepted as current evidence.',
+        },
+      });
+      return updated;
+    });
+
+    return NextResponse.json({ success: true, policy });
+  } catch (error) {
+    console.error('[Admin Policies] PATCH error:', error);
+    return NextResponse.json({ error: 'Unable to update retrieval URL.' }, { status: 500 });
   }
 }
 

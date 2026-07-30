@@ -9,18 +9,18 @@ generator client {
 }
 
 model Company {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  slug      String   @unique
-  logo      String? // Hex color for brand identity
-  industry  String // "Tech Giant" or "FinTech"
-  website   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  policies  Policy[]
+  id                        String                     @id @default(uuid())
+  name                      String                     @unique
+  slug                      String                     @unique
+  logo                      String? // Hex color for brand identity
+  industry                  String // "Tech Giant" or "FinTech"
+  website                   String
+  createdAt                 DateTime                   @default(now())
+  updatedAt                 DateTime                   @updatedAt
+  policies                  Policy[]
   policyDiscoveryCandidates PolicyDiscoveryCandidate[]
-  policyDiscoveryJob PolicyDiscoveryJob?
-  sourceOnboardingItems SourceOnboardingItem[]
+  policyDiscoveryJob        PolicyDiscoveryJob?
+  sourceOnboardingItems     SourceOnboardingItem[]
 }
 
 model PolicyDiscoveryJob {
@@ -66,24 +66,24 @@ model PolicyInquiry {
 }
 
 model PolicyDiscoveryCandidate {
-  id                String   @id @default(uuid())
-  companyId         String
-  company           Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  name              String
-  type              String
-  url               String
-  jurisdiction      String   @default("Global")
-  confidence        Int
-  discoverySource   String
-  retrievalSource   String
-  reason            String
-  diagnosticsJson   String?
-  status            String   @default("Proposed") // Proposed, Approved, Rejected
-  reviewedAt        DateTime?
-  reviewedByRole    String?
-  createdPolicyId   String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id                    String                 @id @default(uuid())
+  companyId             String
+  company               Company                @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name                  String
+  type                  String
+  url                   String
+  jurisdiction          String                 @default("Global")
+  confidence            Int
+  discoverySource       String
+  retrievalSource       String
+  reason                String
+  diagnosticsJson       String?
+  status                String                 @default("Proposed") // Proposed, Approved, Rejected
+  reviewedAt            DateTime?
+  reviewedByRole        String?
+  createdPolicyId       String?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
   sourceOnboardingItems SourceOnboardingItem[]
 
   @@unique([companyId, url, type, jurisdiction])
@@ -92,24 +92,26 @@ model PolicyDiscoveryCandidate {
 }
 
 model Policy {
-  id                      String           @id @default(uuid())
+  id                      String                      @id @default(uuid())
   companyId               String
-  company                 Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company                 Company                     @relation(fields: [companyId], references: [id], onDelete: Cascade)
   name                    String // e.g. "Privacy Policy", "Terms of Service"
   type                    String // e.g. "privacy", "terms", "ai", "acceptable-use"
   url                     String
-  jurisdiction            String           @default("Global") // "EU", "US", "UK", "Global", etc.
+  retrievalUrl            String? // Optional official machine-readable mirror/PDF; url remains the public canonical link
+  jurisdiction            String                      @default("Global") // "EU", "US", "UK", "Global", etc.
   currentText             String
   currentHash             String
-  dataStatus              String           @default("Available") // "Configured", "Available", "Partial", "Needs Review", "Unavailable", "Reviewed"
-  lastCheckDate           DateTime         @default(now())
-  lastSuccessfulCheckDate DateTime         @default(now())
-  ingestionMethod         String           @default("Seeded") // "Seeded", "Direct Scrape", "Wayback Cache", etc.
-  createdAt               DateTime         @default(now())
-  updatedAt               DateTime         @updatedAt
+  dataStatus              String                      @default("Available") // "Configured", "Available", "Partial", "Needs Review", "Unavailable", "Reviewed"
+  lastCheckDate           DateTime                    @default(now())
+  lastSuccessfulCheckDate DateTime                    @default(now())
+  ingestionMethod         String                      @default("Seeded") // "Seeded", "Direct Scrape", "Wayback Cache", etc.
+  createdAt               DateTime                    @default(now())
+  updatedAt               DateTime                    @updatedAt
   snapshots               PolicySnapshot[]
   changes                 PolicyChange[]
   checkLogs               PolicyCheckLog[]
+  historicalReferences    HistoricalSourceReference[]
   sourceOnboardingItems   SourceOnboardingItem[]
 
   @@unique([companyId, type, jurisdiction])
@@ -118,23 +120,121 @@ model Policy {
 }
 
 model PolicyCheckLog {
-  id         String   @id @default(uuid())
-  policyId   String
-  policy     Policy   @relation(fields: [policyId], references: [id], onDelete: Cascade)
-  status     String // "Available", "Needs Review", "Unavailable", "Partial", "Configured", "Reviewed"
-  checkedAt  DateTime @default(now())
-  source     String? // "direct", "http2", "wayback", "cache", "commoncrawl", "seeded", "none"
-  httpStatus Int?
-  reason     String?
-  finalUrl   String?
-  textHash   String?
-  textLength Int?
-  archiveTimestamp DateTime?
-  createdAt  DateTime @default(now())
+  id                String           @id @default(uuid())
+  policyId          String
+  policy            Policy           @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  status            String // "Available", "Needs Review", "Unavailable", "Partial", "Configured", "Reviewed"
+  checkedAt         DateTime         @default(now())
+  source            String? // "direct", "http2", "wayback", "cache", "commoncrawl", "seeded", "none"
+  httpStatus        Int?
+  reason            String?
+  finalUrl          String?
+  textHash          String?
+  textLength        Int?
+  archiveTimestamp  DateTime?
+  reasonCode        String?
+  durationMs        Int?
+  scanRunId         String?
+  scanRun           ScanRun?         @relation(fields: [scanRunId], references: [id], onDelete: SetNull)
+  sourceRetrievalId String?
+  sourceRetrieval   SourceRetrieval? @relation(fields: [sourceRetrievalId], references: [id], onDelete: SetNull)
+  createdAt         DateTime         @default(now())
 
   @@index([policyId])
   @@index([checkedAt])
   @@index([status])
+  @@index([scanRunId])
+  @@index([sourceRetrievalId])
+}
+
+model ScanRun {
+  id                       String            @id @default(uuid())
+  status                   String            @default("running") // running, completed, failed
+  startedAt                DateTime          @default(now())
+  completedAt              DateTime?
+  selectedRecords          Int               @default(0)
+  uniqueSources            Int               @default(0)
+  networkRetrievals        Int               @default(0)
+  deduplicatedRetrievals   Int               @default(0)
+  uniqueAvailableSources   Int               @default(0)
+  uniqueUnavailableSources Int               @default(0)
+  unavailableRecords       Int               @default(0)
+  invalidRecords           Int               @default(0)
+  partialRecords           Int               @default(0)
+  errorRecords             Int               @default(0)
+  metricsJson              String?
+  optionsJson              String?
+  createdAt                DateTime          @default(now())
+  sourceRetrievals         SourceRetrieval[]
+  checkLogs                PolicyCheckLog[]
+
+  @@index([startedAt])
+  @@index([status])
+}
+
+model SourceRetrieval {
+  id                   String                      @id @default(uuid())
+  scanRunId            String
+  scanRun              ScanRun                     @relation(fields: [scanRunId], references: [id], onDelete: Cascade)
+  retrievalKey         String
+  requestedUrl         String
+  archiveNotBefore     DateTime?
+  status               String
+  source               String?
+  httpStatus           Int?
+  durationMs           Int                         @default(0)
+  reasonCode           String?
+  reason               String?
+  finalUrl             String?
+  archiveTimestamp     DateTime?
+  attemptsJson         String?
+  createdAt            DateTime                    @default(now())
+  checkLogs            PolicyCheckLog[]
+  historicalReferences HistoricalSourceReference[]
+
+  @@unique([scanRunId, retrievalKey])
+  @@index([retrievalKey, createdAt])
+  @@index([status])
+}
+
+model SourceRemediationIssue {
+  id                    String    @id @default(uuid())
+  retrievalKey          String    @unique
+  sourceUrl             String
+  status                String    @default("Watching") // Watching, Open, Recovered, Resolved
+  reasonCode            String?
+  affectedPolicyIdsJson String    @default("[]")
+  totalFailures         Int       @default(0)
+  consecutiveFailures   Int       @default(0)
+  firstDetectedAt       DateTime  @default(now())
+  lastDetectedAt        DateTime  @default(now())
+  recoveredAt           DateTime?
+  resolvedAt            DateTime?
+  suggestedAction       String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([status, lastDetectedAt])
+  @@index([reasonCode])
+}
+
+model HistoricalSourceReference {
+  id                         String           @id @default(uuid())
+  policyId                   String
+  policy                     Policy           @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  sourceRetrievalId          String?
+  sourceRetrieval            SourceRetrieval? @relation(fields: [sourceRetrievalId], references: [id], onDelete: SetNull)
+  source                     String
+  referenceUrl               String?
+  capturedAt                 DateTime
+  observedAt                 DateTime         @default(now())
+  reasonCode                 String           @default("stale_archive")
+  eligibleForChangeDetection Boolean          @default(false)
+  createdAt                  DateTime         @default(now())
+
+  @@unique([policyId, source, capturedAt])
+  @@index([policyId, capturedAt])
+  @@index([sourceRetrievalId])
 }
 
 model PolicySnapshot {
@@ -154,24 +254,24 @@ model PolicySnapshot {
 }
 
 model PolicyChange {
-  id               String          @id @default(uuid())
-  policyId         String
-  policy           Policy          @relation(fields: [policyId], references: [id], onDelete: Cascade)
-  oldSnapshotId    String?
-  oldSnapshot      PolicySnapshot? @relation("OldSnapshot", fields: [oldSnapshotId], references: [id], onDelete: SetNull)
-  newSnapshotId    String
-  newSnapshot      PolicySnapshot  @relation("NewSnapshot", fields: [newSnapshotId], references: [id], onDelete: Cascade)
-  diff             String // JSON array of diff chunks
-  aiSummaryEn      String // Gemini executive summary in English
-  aiSummaryIt      String // Gemini executive summary in Italian
-  tldrEn           String? // ONE-sentence takeaway (EN)
-  tldrIt           String? // ONE-sentence takeaway (IT)
-  keyPointsJson    String? // JSON array of {textEn,textIt,sentiment}
-  riskReasonsJson  String? // JSON array of {icon,textEn,textIt,deltaScore}
-  overallRisk      String // "Low", "Medium", "High"
-  overallScore     Int // 1-10 scale
-  remediationsJson String // JSON array of remediations
-  publicEvidence   Boolean @default(false)
+  id                String          @id @default(uuid())
+  policyId          String
+  policy            Policy          @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  oldSnapshotId     String?
+  oldSnapshot       PolicySnapshot? @relation("OldSnapshot", fields: [oldSnapshotId], references: [id], onDelete: SetNull)
+  newSnapshotId     String
+  newSnapshot       PolicySnapshot  @relation("NewSnapshot", fields: [newSnapshotId], references: [id], onDelete: Cascade)
+  diff              String // JSON array of diff chunks
+  aiSummaryEn       String // Gemini executive summary in English
+  aiSummaryIt       String // Gemini executive summary in Italian
+  tldrEn            String? // ONE-sentence takeaway (EN)
+  tldrIt            String? // ONE-sentence takeaway (IT)
+  keyPointsJson     String? // JSON array of {textEn,textIt,sentiment}
+  riskReasonsJson   String? // JSON array of {icon,textEn,textIt,deltaScore}
+  overallRisk       String // "Low", "Medium", "High"
+  overallScore      Int // 1-10 scale
+  remediationsJson  String // JSON array of remediations
+  publicEvidence    Boolean         @default(false)
   publicPublishedAt DateTime?
 
   // AI Governance Indicators (legacy, kept for compatibility)
@@ -256,15 +356,15 @@ model AdminReviewLog {
 }
 
 model SourceOnboardingBatch {
-  id              String   @id @default(uuid())
+  id              String                 @id @default(uuid())
   label           String
   actorRole       String
-  status          String   @default("Active") // Active, Partial, Completed, Failed
-  totalItems      Int      @default(0)
-  successfulItems Int      @default(0)
-  failedItems     Int      @default(0)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  status          String                 @default("Active") // Active, Partial, Completed, Failed
+  totalItems      Int                    @default(0)
+  successfulItems Int                    @default(0)
+  failedItems     Int                    @default(0)
+  createdAt       DateTime               @default(now())
+  updatedAt       DateTime               @updatedAt
   completedAt     DateTime?
   items           SourceOnboardingItem[]
 
@@ -291,18 +391,18 @@ model SourceOnboardingItem {
   discoveryCandidate   PolicyDiscoveryCandidate? @relation(fields: [discoveryCandidateId], references: [id], onDelete: SetNull)
   policyId             String?
   policy               Policy?                   @relation(fields: [policyId], references: [id], onDelete: SetNull)
-  stage                 String                    @default("Proposed") // Proposed, OfficialReview, BaselinePending, QaReview, Ready, Published, Held, Rejected, Failed
-  qaStatus              String                    @default("Pending") // Pending, Pass, Fail
-  qaSummary             String?
-  qaChecksJson          String?
+  stage                String                    @default("Proposed") // Proposed, OfficialReview, BaselinePending, QaReview, Ready, Published, Held, Rejected, Failed
+  qaStatus             String                    @default("Pending") // Pending, Pass, Fail
+  qaSummary            String?
+  qaChecksJson         String?
   publicationDecision  String                    @default("Pending") // Pending, Published, Held, Rejected
-  reviewedByRole        String?
-  reviewedAt            DateTime?
-  decisionByRole        String?
-  decisionAt            DateTime?
-  error                 String?
-  createdAt             DateTime                  @default(now())
-  updatedAt             DateTime                  @updatedAt
+  reviewedByRole       String?
+  reviewedAt           DateTime?
+  decisionByRole       String?
+  decisionAt           DateTime?
+  error                String?
+  createdAt            DateTime                  @default(now())
+  updatedAt            DateTime                  @updatedAt
 
   @@unique([batchId, rowNumber])
   @@index([batchId, stage])
@@ -314,16 +414,16 @@ model SourceOnboardingItem {
 }
 
 model AdminAccessLog {
-  id              String   @id @default(uuid())
-  event           String // "login_success", "login_failed", "logout", "session_invalid", "config_error"
-  username        String?
-  actorRole       String?
-  ipAddress       String?
-  userAgent       String?
-  path            String?
-  method          String?
-  detail          String?
-  createdAt       DateTime @default(now())
+  id        String   @id @default(uuid())
+  event     String // "login_success", "login_failed", "logout", "session_invalid", "config_error"
+  username  String?
+  actorRole String?
+  ipAddress String?
+  userAgent String?
+  path      String?
+  method    String?
+  detail    String?
+  createdAt DateTime @default(now())
 
   @@index([createdAt])
   @@index([event])

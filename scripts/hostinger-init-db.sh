@@ -62,6 +62,20 @@ repair_prisma_schema_engine_mode() {
   done
 }
 
+resolve_materialized_migrations() {
+  if [[ ! -s "${DB_PATH}" || ! -f "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs" ]]; then
+    return
+  fi
+  # Hostinger's managed build shell does not expose /dev/fd, so capture the
+  # bounded migration-name list and consume it through a here-string.
+  local materialized_migrations
+  materialized_migrations="$(node "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs")"
+  while IFS= read -r materialized_migration; do
+    [[ -n "${materialized_migration}" ]] || continue
+    run_prisma migrate resolve --applied "${materialized_migration}" >/dev/null 2>&1 || true
+  done <<< "${materialized_migrations}"
+}
+
 if [[ -z "${DATABASE_URL:-}" ]]; then
   echo "DATABASE_URL is not set."
   echo "Example:"
@@ -106,19 +120,14 @@ fi
 if [[ "${POLICYWATCHER_FORCE_SQLITE_FALLBACK:-0}" != "1" ]] && [[ -d "${APP_DIR}/prisma/migrations" ]] && [[ -x "${LOCAL_PRISMA}" ]]; then
   repair_prisma_schema_engine_mode
   if run_prisma generate; then
-    if [[ -s "${DB_PATH}" && -f "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs" ]]; then
-      # Hostinger's managed build shell does not expose /dev/fd, so Bash process
-      # substitution fails during npm postinstall. Capture the small,
-      # bounded migration-name list first and consume it through a here-string.
-      materialized_migrations="$(node "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs")"
-      while IFS= read -r materialized_migration; do
-        [[ -n "${materialized_migration}" ]] || continue
-        run_prisma migrate resolve --applied "${materialized_migration}" >/dev/null 2>&1 || true
-      done <<< "${materialized_migrations}"
-    fi
+    resolve_materialized_migrations
     if ! run_prisma migrate deploy; then
       echo "Prisma migration engine unavailable; using the bundled Node or Python SQLite initializer."
       run_local_sqlite_initializer
+      # The fallback creates the same additive tables and indexes. Register all
+      # now-materialized migrations immediately so readiness is not degraded
+      # until the next deployment.
+      resolve_materialized_migrations
     fi
   else
     echo "Prisma generate unavailable during initialization; using the bundled Node or Python SQLite initializer."
@@ -126,6 +135,9 @@ if [[ "${POLICYWATCHER_FORCE_SQLITE_FALLBACK:-0}" != "1" ]] && [[ -d "${APP_DIR}
   fi
 else
   run_local_sqlite_initializer
+  if command -v node >/dev/null 2>&1 && [[ -x "${LOCAL_PRISMA}" ]]; then
+    resolve_materialized_migrations
+  fi
 fi
 
 echo "Database schema is ready."

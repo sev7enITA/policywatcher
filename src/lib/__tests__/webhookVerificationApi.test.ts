@@ -22,6 +22,10 @@ describe('webhook verification kit API', () => {
         verificationMode: 'signature-compatibility-only',
         freshnessReferenceSeconds: 1_785_326_400,
       },
+      conformanceSuite: {
+        href: '/api/v1/webhook-conformance-suite',
+        caseCount: 8,
+      },
     });
     expect(body.testVectorInstructions).toHaveLength(3);
     expect(rateLimit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({

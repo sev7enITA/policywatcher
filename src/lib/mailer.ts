@@ -7,6 +7,7 @@
  */
 
 import nodemailer from 'nodemailer';
+import { buildAcquisitionKey } from '@/lib/sourceReliability';
 
 // -- Types --
 
@@ -253,20 +254,32 @@ export async function sendSourceSuspensionAdminAlert(
   if (alerts.length === 0) return true;
 
   const appUrl = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-  const subject =
-    alerts.length === 1
-      ? `PolicyWatcher QA: source temporarily suspended (${alerts[0].companyName})`
-      : `PolicyWatcher QA: ${alerts.length} sources temporarily suspended`;
+  const groupedAlerts = [...alerts.reduce((groups, alert) => {
+    const key = buildAcquisitionKey(alert.officialUrl);
+    const existing = groups.get(key);
+    if (existing) existing.push(alert);
+    else groups.set(key, [alert]);
+    return groups;
+  }, new Map<string, SourceSuspensionAlert[]>()).entries()];
 
-  const rows = alerts
+  const subject =
+    groupedAlerts.length === 1
+      ? `PolicyWatcher QA: source temporarily suspended (${groupedAlerts[0][1][0].companyName})`
+      : `PolicyWatcher QA: ${groupedAlerts.length} unique sources temporarily suspended`;
+
+  const rows = groupedAlerts
     .slice(0, 25)
-    .map((alert) => {
+    .map(([, grouped]) => {
+      const alert = grouped[0];
       const checkedAt = alert.checkedAt instanceof Date ? alert.checkedAt.toISOString() : alert.checkedAt;
+      const affectedRecords = grouped
+        .map((item) => `${item.policyName} / ${item.jurisdiction}`)
+        .join('; ');
       return `
         <tr>
           <td style="padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.08); color: #f3f4f6; font-size: 13px;">
             <strong>${escapeHtml(alert.companyName)}</strong><br>
-            <span style="color: #9ca3af;">${escapeHtml(alert.policyName)} / ${escapeHtml(alert.jurisdiction)}</span><br>
+            <span style="color: #9ca3af;">${escapeHtml(affectedRecords)}</span><br>
             <span style="color: #6b7280; word-break: break-all;">${escapeHtml(alert.officialUrl)}</span>
           </td>
           <td style="padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.08); color: #fbbf24; font-size: 13px;">
@@ -283,7 +296,7 @@ export async function sendSourceSuspensionAdminAlert(
     })
     .join('');
 
-  const hiddenCount = Math.max(0, alerts.length - 25);
+  const hiddenCount = Math.max(0, groupedAlerts.length - 25);
   const dashboardUrl = `${appUrl.replace(/\/+$/, '')}/admin/dataset-quality`;
 
   const bodyContent = `

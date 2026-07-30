@@ -30,6 +30,9 @@ import {
   Database,
   Mail,
   MousePointerClick,
+  Network,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -71,6 +74,15 @@ interface MetricsData {
     subscribers: number;
     lastChangeAt: string | null;
     riskDistribution: Record<string, number>;
+    sourceReliability: {
+      available: boolean;
+      uniqueRetrievalKeys: number;
+      publicEvidencePolicies: number;
+      withheldPolicies: number;
+      openRemediationIssues: number;
+      lastScanStatus: string | null;
+      lastScanAt: string | null;
+    };
     pressNewsroom: {
       available: boolean;
       allTime: PressMetricCounts;
@@ -329,6 +341,7 @@ export default function AdminDashboardPage() {
     { name: 'Medium Risk', value: riskDistribution['Medium'] || riskDistribution['medium'] || 0, color: '#f59e0b' },
     { name: 'Low Risk', value: riskDistribution['Low'] || riskDistribution['low'] || 0, color: '#10b981' },
   ].filter((item) => item.value > 0);
+  const sourceReliability = data.sourceReliability;
 
   return (
     <>
@@ -351,6 +364,36 @@ export default function AdminDashboardPage() {
           PolicyWatcher Admin {POLICYWATCHER_BUILD_LABEL}
         </span>
       </div>
+
+      <section className={styles.reliabilitySummary} aria-labelledby="source-readiness-title">
+        <header className={styles.reliabilitySummaryHeader}>
+          <div>
+            <span>Evidence publication readiness</span>
+            <h2 id="source-readiness-title">Source reliability</h2>
+            <p>Current public-baseline coverage, acquisition scope and remediation state.</p>
+          </div>
+          <div className={styles.reliabilitySummaryActions}>
+            <Link href="/admin/source-reliability" className={`${styles.btn} ${styles.btnPrimary}`}>Open reliability</Link>
+            {metrics.role === 'admin' && <Link href="/admin/cron" className={`${styles.btn} ${styles.btnSecondary}`}>Run source scan</Link>}
+          </div>
+        </header>
+        {sourceReliability.available ? (
+          <>
+            <div className={styles.reliabilitySummaryGrid}>
+              <article><Eye size={17} /><span>Public baselines</span><strong>{sourceReliability.publicEvidencePolicies}</strong></article>
+              <article className={sourceReliability.withheldPolicies > 0 ? styles.reliabilitySummaryWarning : undefined}><EyeOff size={17} /><span>Withheld policies</span><strong>{sourceReliability.withheldPolicies}</strong></article>
+              <article><Network size={17} /><span>Unique retrieval keys</span><strong>{sourceReliability.uniqueRetrievalKeys}</strong></article>
+              <article className={sourceReliability.openRemediationIssues > 0 ? styles.reliabilitySummaryWarning : undefined}><AlertTriangle size={17} /><span>Active source issues</span><strong>{sourceReliability.openRemediationIssues}</strong></article>
+            </div>
+            <p className={styles.reliabilitySummaryBoundary}>
+              Last scan: {sourceReliability.lastScanAt ? `${formatDate(sourceReliability.lastScanAt)} · ${sourceReliability.lastScanStatus}` : 'No persisted ScanRun yet'}.
+              {sourceReliability.publicEvidencePolicies === 0 && ' Public surfaces remain empty until exact source-verified baselines pass the evidence gate.'}
+            </p>
+          </>
+        ) : (
+          <p className={styles.reliabilitySummaryBoundary}>Source reliability metrics are temporarily unavailable. Core dashboard metrics remain independent.</p>
+        )}
+      </section>
 
       {/* ---- Charts Section ---- */}
       <div className={styles.chartsGrid}>

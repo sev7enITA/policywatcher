@@ -1,6 +1,6 @@
 {
   "name": "policywatcher",
-  "version": "3.9.0-beta.20",
+  "version": "3.9.0-beta.21",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -17,6 +17,8 @@
     "db:repair": "tsx scripts/repair-data.ts",
     "db:backfill-check-logs": "tsx scripts/backfill-policy-check-logs.ts",
     "qa:dataset": "tsx scripts/dataset-assurance.ts",
+    "qa:source-inventory": "node scripts/hostinger-audit-source-inventory.mjs",
+    "db:repair-public-baselines": "node scripts/hostinger-repair-public-baselines.mjs",
     "press-kit:package": "node scripts/generate-press-kit-assets.mjs",
     "pulse:verify": "vitest run src/lib/__tests__/editorialPulse.test.ts src/lib/__tests__/pressMetrics.test.ts"
   },

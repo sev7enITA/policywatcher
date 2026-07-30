@@ -130,7 +130,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.17', shortLabel: '3.9 B17', label: '3.9.0 Beta 17' },
   { id: '3.9.0-beta.18', shortLabel: '3.9 B18', label: '3.9.0 Beta 18' },
   { id: '3.9.0-beta.19', shortLabel: '3.9 B19', label: '3.9.0 Beta 19' },
-  { id: '3.9.0-beta.20', shortLabel: '3.9 B20', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '3.9.0-beta.20', shortLabel: '3.9 B20', label: '3.9.0 Beta 20' },
+  { id: '3.9.0-beta.21', shortLabel: '3.9 B21', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -162,6 +163,9 @@ const primaryUserByDomain: Record<string, string> = {
 };
 
 const routeByFeature: Record<string, FeatureAtlasRoute> = {
+  'source-reliability-control-plane': { href: '/admin/source-reliability', label: 'Source Reliability', access: 'protected' },
+  'verified-public-baseline-repair': { href: '/methodology/confidence', label: 'Evidence method', access: 'public' },
+  'receiver-conformance-lab': { href: '/developers/webhook-readiness', label: 'Receiver Conformance Lab', access: 'public' },
   'verified-browser-store-distribution': { href: '/browser-extension', label: 'Browser companion', access: 'public' },
   'evidence-newsroom': { href: '/press-kit', label: 'Evidence Newsroom', access: 'public' },
   'press-kit-navigation-discovery': { href: '/press-kit', label: 'Press Kit', access: 'public' },
