@@ -61,6 +61,18 @@ export const publicSectionGroups: Record<PublicSectionGroup, { label: string; de
 
 export const publicSectionNodes: PublicSectionNode[] = [
   {
+    id: 'knowledge',
+    label: 'Public Knowledge Base',
+    href: '/knowledge',
+    group: 'evidence',
+    summary: 'Server-rendered index of companies, policies, verified baselines and published changes that pass the public-evidence gate.',
+    role: 'Use it for direct textual, citable and crawler-accessible entry into public PolicyWatcher records.',
+    status: 'dynamic',
+    icon: 'book',
+    x: 42,
+    y: 65,
+  },
+  {
     id: 'dashboard',
     label: 'Evidence Console',
     href: '/',
@@ -125,8 +137,8 @@ export const publicSectionNodes: PublicSectionNode[] = [
     label: 'Developer Directory',
     href: '/developers',
     group: 'core',
-    summary: 'Read-only public integration directory for evidence metadata and the curated Observatory registry.',
-    role: 'Use it to connect a system without bypassing publication, rate or source-review boundaries.',
+    summary: 'Read-only public integration directory for evidence metadata, forward-polling continuity and the curated Observatory registry.',
+    role: 'Use it to connect a system and rehearse bounded polling without bypassing publication, rate or source-review boundaries.',
     status: 'reference',
     icon: 'code',
     x: 67,
@@ -305,7 +317,7 @@ export const publicSectionNodes: PublicSectionNode[] = [
     label: 'Admin Operations',
     href: '/admin',
     group: 'boundary',
-    summary: 'Protected console for Dataset QA, cron scans, VPS services, database inspection and review logs.',
+    summary: 'Protected console for Dataset QA, source scans, configured webhook delivery, VPS services, database inspection and review logs.',
     role: 'Shown as an architecture boundary; access remains protected.',
     status: 'protected',
     icon: 'server',
@@ -315,6 +327,9 @@ export const publicSectionNodes: PublicSectionNode[] = [
 ];
 
 export const publicSectionEdges: PublicSectionEdge[] = [
+  { from: 'dashboard', to: 'knowledge', label: 'links verified public records through', strength: 'primary' },
+  { from: 'knowledge', to: 'methodology', label: 'inherits publication boundaries from', strength: 'primary' },
+  { from: 'knowledge', to: 'developers', label: 'exposes machine access through', strength: 'secondary' },
   { from: 'what-changed', to: 'timeline', label: 'resolves notifications against', strength: 'primary' },
   { from: 'what-changed', to: 'methodology', label: 'applies evidence boundaries from', strength: 'primary' },
   { from: 'admin', to: 'what-changed', label: 'reviews unresolved inquiries from', strength: 'primary' },

@@ -1,7 +1,7 @@
-export const POLICYWATCHER_VERSION = '3.9.0-beta.21' as const;
-export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 21' as const;
-export const POLICYWATCHER_RELEASE_NAME = 'Source Reliability and Receiver Conformance' as const;
-export const POLICYWATCHER_RELEASE_DATE = '2026-07-30' as const;
+export const POLICYWATCHER_VERSION = '3.9.0-beta.26' as const;
+export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 26' as const;
+export const POLICYWATCHER_RELEASE_NAME = 'Crawlable Public Knowledge Layer' as const;
+export const POLICYWATCHER_RELEASE_DATE = '2026-07-31' as const;
 export type PolicyWatcherReleaseChannel = 'stable' | 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL: PolicyWatcherReleaseChannel = 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL_LABEL = 'BETA' as const;

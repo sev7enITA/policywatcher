@@ -18,14 +18,16 @@ Public entry points:
 | Shareable Evidence Collections | Select up to 12 exact public changes and export deterministic JSON, Markdown, CSV or vendor-neutral handoff records | None; browser-local selection plus read-only CORS | Available | `/collections` |
 | Collaboration Handoff Manifest | Prepare review work items with evidence links, digests and acceptance criteria for authorized import | None; read-only deterministic export | Available | `/api/v1/evidence-collections?format=handoff` |
 | Public Change Event Feed | Poll already-published change events with deterministic IDs and a forward cursor | None; read-only CORS | Available | `/api/v1/change-events` |
+| Event Feed Continuity Lab | Inspect bounded polling windows and maintain a strict browser-local checkpoint | None; local browser state plus read-only CORS | Available | `/developers/event-continuity` |
 | Webhook Readiness Kit | Verify the candidate HMAC-SHA256 receiver contract against a public deterministic vector | None; local browser verification plus read-only CORS | Available | `/developers/webhook-readiness` |
 | Receiver Conformance Suite | Run eight deterministic positive and negative receiver fixtures and compare expected decisions | None; local browser execution plus read-only CORS | Available | `/api/v1/webhook-conformance-suite` |
+| Configured Webhook Delivery Pilot | Deliver eligible public change events to deployment-configured HTTPS destinations with HMAC signatures and bounded retries | Deployment environment plus protected admin or cron authorization | Pilot ready | `/admin/webhook-delivery` |
 | Change-card embed | Display one published change record on a third-party page | None; published evidence only | Available | `/embed/change/{id}` |
 | Chrome browser extension | Extract policy-notice clues locally and hand off a reviewed inquiry | No mailbox permission; explicit user review | Available on Chrome | `/browser-extension` |
 | Enterprise API v2 | Tenant-bound access to structured companies, changes, continuity and governance signals | Microsoft Entra ID scope or app role | Pilot ready | [`azure/enterprise-api-v2.md`](azure/enterprise-api-v2.md) |
 | Azure API Management facade | Gateway validation, origin shielding, request correlation and tenant-aware quotas | Entra ID plus gateway-only origin header | Pilot ready | [`azure/apim-policy.xml`](azure/apim-policy.xml) |
 | Power Platform custom connector | Power Automate, Power Apps, Logic Apps and Copilot Studio actions over API v2 | Entra delegated OAuth | Pilot ready | [`../integrations/power-platform/policywatcher-v2/README.md`](../integrations/power-platform/policywatcher-v2/README.md) |
-| Signed webhooks | Event-driven delivery of verified change notifications | To be designed with signing and replay protection | Planned | Roadmap |
+| Self-service webhook subscriptions | Tenant-managed endpoint registration, verification, key rotation and lifecycle controls | Tenant identity and managed secret custody | Planned | Roadmap |
 | Microsoft Teams app | Dedicated tab and workflow actions without framing the normal portal | Entra delegated access | Planned | Roadmap |
 | Copilot declarative agent or API plugin | Governed evidence retrieval through API v2 | Entra delegated access | Planned | Roadmap |
 | Federated MCP server | Tool-based access to bounded evidence for approved agents | Tenant-aware authorization | Planned | Roadmap |
@@ -56,11 +58,13 @@ For Power Automate, Power Apps, Logic Apps or Copilot Studio, start with the Pow
 
 Use `/api/v1/change-events` for bounded anonymous polling of already-published policy change events. Start without a cursor, store the returned `nextCursor`, and pass it unchanged on subsequent requests. Cursor order follows the evidence publication gate rather than source retrieval time, so a previously withheld change can appear when it is approved. The initial response is a recent window rather than a complete historical archive; consumers deduplicate by `eventId` and follow exact Change and Evidence Packet links before routing work.
 
-Signed outbound webhooks remain planned. The polling feed establishes a versioned public envelope, but a production push design still needs tenant-owned subscriptions, delivery retention, endpoint verification, replay protection, HMAC signing, signing-key rotation, retries and integration-health controls.
+Use `/developers/event-continuity` to rehearse that consumer behavior in the browser. The lab keeps its checkpoint local, accepts only the strict versioned checkpoint shape, reports observable duplicates, ordering regressions, overlap and truncation, and resumes only after an explicit action. It is not a hosted consumer, replay service or delivery monitor, and a clean window is not evidence of exhaustive monitoring.
+
+Beta 23 provides a deployment-controlled outbound pilot for the same public event envelope. Operators configure a bounded list of exact HTTPS origins and receiver paths in the deployment environment, then invoke one bounded cycle through the protected admin console or authenticated cron route. Each request carries the documented HMAC-SHA256 v1 headers; a persistent outbox and per-attempt ledger record sanitized outcomes and a fixed retry schedule. The pilot does not provide public registration, tenant self-service, endpoint challenge verification, automatic key rotation, guaranteed delivery, an SLA or evidence that a receiver processed a returned 2xx request.
 
 Use `/developers/webhook-readiness` to exercise the candidate receiver contract without sending a secret or payload to PolicyWatcher. The workbench computes the editable test signature locally, while `/api/v1/webhook-verification-kit` distributes the versioned header names, signing-input format, public test-only vector, receiver checklist and Node/Python examples. The same page runs the eight fixtures from `/api/v1/webhook-conformance-suite` and can export only case IDs, expected and actual decision codes, totals and the interpretation boundary. It excludes secret, payload, signature and browser fingerprint data. Passing the static vector or all fixtures establishes compatibility with those exact cases only; evaluate freshness at the recorded vector time and keep current-time freshness enabled for production traffic. It is not endpoint registration, delivery readiness or security certification.
 
-Do not treat the absence of push delivery as permission to automate portal HTML. Use the public polling feed for public events or bounded API v2 reads for a controlled Entra tenant.
+Do not automate portal HTML. Use the public polling feed for anonymous consumers, the configured delivery pilot for an operator-controlled receiver, or bounded API v2 reads for a controlled Entra tenant.
 
 ### Put PolicyWatcher inside Teams or Copilot
 
@@ -108,7 +112,7 @@ Only the secret value is a credential. Keep it out of the repository, generated 
 
 ## Evidence and privacy boundaries
 
-All integration surfaces remain read-only in the current release. They expose only public or tenant-authorized structured evidence through an explicit publication gate. Evidence Collections may repeat public snapshot fingerprints and public analytical fields already present in exact-change Evidence Packets. They do not expose:
+Public APIs and evidence bundles remain read-only. The configured webhook pilot can send the same already-public event envelope to deployment-controlled receivers; it does not expose a write API or accept third-party content. Evidence Collections may repeat public snapshot fingerprints and public analytical fields already present in exact-change Evidence Packets. The integration surfaces do not expose:
 
 - raw policy text or full snapshots;
 - content hashes or internal diffs;
@@ -131,5 +135,5 @@ Before onboarding multiple customer tenants or publishing a commercial connector
 2. a tenant-isolated PostgreSQL data model for installation and delivery records;
 3. APIM quotas, monitoring, alerting and key rotation;
 4. connector certification packaging and support ownership;
-5. signed-event delivery only after replay and retention controls exist;
+5. tenant self-service delivery only after endpoint proof, replay, rotation and retention controls exist;
 6. end-to-end isolation tests across at least two tenants.

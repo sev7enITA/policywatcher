@@ -44,6 +44,7 @@ const content = {
     observatory: 'Observatory',
     developers: 'Developer Directory',
     integrations: 'Integration Options',
+    knowledge: 'Public Knowledge',
     collections: 'Evidence Collections',
     atlas: 'Site Atlas',
     featureAtlas: 'Feature Intelligence Atlas',
@@ -74,6 +75,7 @@ const content = {
     observatory: 'Observatory',
     developers: 'Directory sviluppatori',
     integrations: 'Opzioni di integrazione',
+    knowledge: 'Conoscenza pubblica',
     collections: 'Raccolte di evidenze',
     atlas: 'Atlante del sito',
     featureAtlas: 'Atlante delle funzionalità',
@@ -112,6 +114,7 @@ export default function Footer({ lang, variant = 'full' }: FooterProps) {
             <p>{t.releaseNotice}</p>
           </div>
           <nav className={styles.compactLinks} aria-label={lang === 'it' ? 'Link essenziali' : 'Essential links'}>
+            <Link href="/knowledge"><FileText size={13} />{t.knowledge}</Link>
             <a href="/privacy"><Lock size={13} />{t.privacy}</a>
             <a href="/terms"><FileText size={13} />{t.terms}</a>
             <a href="/press-kit"><Newspaper size={13} />{t.pressKit}</a>
@@ -181,6 +184,12 @@ export default function Footer({ lang, variant = 'full' }: FooterProps) {
           <div className={styles.column}>
             <h4 className={styles.columnTitle}>{t.resources}</h4>
             <ul className={styles.links}>
+              <li>
+                <Link href="/knowledge">
+                  <FileText size={14} />
+                  {t.knowledge}
+                </Link>
+              </li>
               <li>
                 <a href="/about">
                   <UserRound size={14} />

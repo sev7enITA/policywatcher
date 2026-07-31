@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   FolderKanban,
   TestTube2,
+  RotateCw,
 } from 'lucide-react';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
@@ -74,6 +75,10 @@ export default function DevelopersPage() {
                   Verify signatures
                   <KeyRound size={16} aria-hidden="true" />
                 </Link>
+                <Link href="/developers/event-continuity" className={styles.secondaryAction}>
+                  Inspect continuity
+                  <RotateCw size={16} aria-hidden="true" />
+                </Link>
               </div>
             </div>
             <aside className={styles.contractCard} aria-label="Public API contract summary">
@@ -107,8 +112,8 @@ export default function DevelopersPage() {
         <section id="endpoints" className={styles.section}>
           <header className={styles.sectionHeader}>
             <span>Endpoints</span>
-            <h2>Six stable entry points for this release.</h2>
-            <p>All endpoints accept `GET`, permit cross-origin read access without credentials, and apply bounded public-data and rate policies. Collection exports also support Markdown, CSV and a vendor-neutral review handoff.</p>
+            <h2>Six machine endpoints and one continuity workbench.</h2>
+            <p>The six API endpoints accept `GET`, permit cross-origin read access without credentials, and apply bounded public-data and rate policies. The browser-local continuity workbench calls only the published change-event feed after an explicit user action.</p>
           </header>
           <div className={styles.endpointGrid}>
             <article className={styles.endpointCard}>
@@ -154,6 +159,7 @@ export default function DevelopersPage() {
               <p>Returns already-public policy change events with stable event IDs and an opaque forward cursor. It does not send notifications or confirm delivery.</p>
               <pre><code>{`?limit=25&lang=en&cursor={opaque}`}</code></pre>
               <a href="/api/v1/change-events?limit=25&lang=en" target="_blank" rel="noreferrer">Open event feed <ArrowRight size={15} aria-hidden="true" /></a>
+              <Link href="/developers/event-continuity">Open continuity lab <RotateCw size={15} aria-hidden="true" /></Link>
             </article>
             <article className={styles.endpointCard}>
               <div className={styles.endpointHeader}>
@@ -162,7 +168,7 @@ export default function DevelopersPage() {
               </div>
               <h3>Webhook verification kit</h3>
               <code>/api/v1/webhook-verification-kit</code>
-              <p>Publishes the candidate HMAC-SHA256 receiver contract, a public test-only vector and Node/Python examples. It does not register endpoints or deliver events.</p>
+              <p>Publishes the HMAC-SHA256 receiver contract, a public test-only vector and Node/Python examples. The public route does not register endpoints; a separate deployment-configured pilot can deliver eligible public events.</p>
               <Link href="/developers/webhook-readiness">Open local verifier <ArrowRight size={15} aria-hidden="true" /></Link>
             </article>
             <article className={styles.endpointCard}>
@@ -202,7 +208,7 @@ export default function DevelopersPage() {
               </div>
               <h3>Integration options</h3>
               <code>/integrations</code>
-              <p>Compare API v1, Enterprise API v2, Azure, Power Platform, embeds and the explicitly planned Teams, Copilot, MCP, webhook and Marketplace paths.</p>
+              <p>Compare API v1, the configured webhook pilot, Enterprise API v2, Azure, Power Platform, embeds and the explicitly planned Teams, Copilot, MCP and Marketplace paths.</p>
               <Link href="/integrations">Choose a surface <ArrowRight size={15} aria-hidden="true" /></Link>
             </article>
           </div>

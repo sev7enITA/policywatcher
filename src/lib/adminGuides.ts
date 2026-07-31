@@ -2,6 +2,7 @@ export const ADMIN_GUIDE_ROUTES = [
   '/admin',
   '/admin/cron',
   '/admin/source-reliability',
+  '/admin/webhook-delivery',
   '/admin/vps-services',
   '/admin/database',
   '/admin/kpi-audit',
@@ -74,6 +75,23 @@ export const ADMIN_GUIDES: Record<AdminGuideRoute, AdminGuide> = {
       { term: 'Remediation issue', definition: 'A durable operational item created after recurring retrieval failures.' },
     ],
     commonMistake: 'Do not replace an official source with an unverified mirror or treat stale archive evidence as a current policy baseline.',
+  },
+  '/admin/webhook-delivery': {
+    title: 'Webhook Delivery',
+    purpose: 'Inspect deployment-configured destinations, persistent outbox state and bounded signed-delivery attempts. Administrators can run one cycle or reschedule an eligible terminal failure; auditors have read-only access.',
+    steps: [
+      'Confirm that the configured destination origin and activation time match the controlled receiver.',
+      'Run one bounded cycle only after receiver ownership, secret custody and expected event handling have been reviewed.',
+      'Inspect HTTP outcome, structured error code, attempt count and next-attempt time without inferring receiver processing from a 2xx response.',
+      'Correct the receiver or deployment configuration before rescheduling an eligible terminal failure.',
+      'Retain polling as an independent recovery path when the receiving workflow requires stronger continuity controls.',
+    ],
+    keyTerms: [
+      { term: 'Outbox', definition: 'A persistent record that tracks one public event for one configured destination.' },
+      { term: 'Attempt', definition: 'One signed HTTPS request and its sanitized local outcome.' },
+      { term: 'Bounded retry', definition: 'The fixed maximum of six attempts with capped delays; it is not a delivery guarantee.' },
+    ],
+    commonMistake: 'Do not treat Delivered as proof that the receiving system processed the event; it records only an accepted HTTP 2xx response.',
   },
   '/admin/vps-services': {
     title: 'VPS Services',

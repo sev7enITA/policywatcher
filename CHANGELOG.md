@@ -2,6 +2,66 @@
 
 ## Unreleased
 
+## 3.9.0-beta.26 - 2026-07-31
+
+### Crawlable Public Knowledge Layer
+- Added a server-rendered `/knowledge` index for public companies, policies, verified baselines and published changes.
+- Added canonical company and policy entity pages under `/knowledge/companies/...`; invalid, missing and publication-withheld records return HTTP 404.
+- Converted the home route boundary to a Server Component and added a visible Knowledge snapshot whose text and entity links are present in the initial HTML response.
+- Kept the interactive dashboard behind the existing Terms acknowledgement while scoping the gate below the public Knowledge snapshot; unaccepted workspace controls are not rendered.
+- Added public `robots.txt` and `llms.txt` responses, including explicit public-crawler guidance and protected/admin route exclusions.
+- Extended the sitemap with evidence-gated company and policy URLs and record-derived modification timestamps.
+- Added visible citation links and safely serialized `CollectionPage`, `Dataset`, `ItemList`, `Organization` and `DigitalDocument` structured data.
+- Added fail-closed empty and unavailable states that do not expose database, migration, storage or retrieval diagnostics.
+- Added regression coverage for shared publication gates, UUID validation, URL scheme filtering, JSON-LD escaping, raw semantic home markup, crawler rules and discovery links.
+
+### Scope boundary
+- The Knowledge Layer exposes public metadata and evidence links only. It does not publish raw policy text, internal logs, raw retrieval failures, admin notes, credentials or withheld records.
+- Structured metadata repeats claims visible on the related page and does not assert exhaustive market coverage, legal compliance, source authenticity or search ranking.
+- `llms.txt` and crawler-specific `robots.txt` rules provide discovery guidance; they do not guarantee indexing, citation, ranking or inclusion by a search or answer engine.
+
+## 3.9.0-beta.25 - 2026-07-30
+
+### Admin Shell Readability
+- Added explicit Admin and Auditor role labels and the current protected route to the shared desktop and mobile administrative shell.
+- Added a structural active-route marker so navigation state does not depend on colour alone.
+- Added a keyboard skip link to a stable focusable administrative main region.
+- Standardized shared navigation, menu, close and logout controls at a minimum 44px target with visible focus treatment.
+- Added accessible session-verification and session-error states and raised shared secondary shell typography to a 12px minimum.
+- Preserved authentication, authorization, route filtering, drawer focus handling, body scroll lock and protected-page behavior.
+- Kept measured usability outcomes and accessibility certification outside the implementation claims.
+
+## 3.9.0-beta.24 - 2026-07-30
+
+### Webhook Operations UX
+- Reordered the protected webhook console around one evidence-based operational focus derived from configuration, failure, scheduled, processing or clear returned state.
+- Added local ledger views for all, needs-action, scheduled and delivered records plus identifier search, result count and explicit reset.
+- Added distinct empty states for an empty outbox and a filtered result with no matches.
+- Limited visual attention emphasis to actionable counts while retaining all six inventory measures and their non-SLA boundary.
+- Preserved administrator-only cycle and retry actions and explicit auditor read-only behavior.
+- Raised visible page-level supporting typography to at least 12px on compact screens, retained 44px controls and removed page-level horizontal overflow in browser evaluation.
+- Kept delivery scheduling, receiver behavior, authorization, retry policy and API contracts unchanged.
+
+## 3.9.0-beta.23 - 2026-07-30
+
+### Configured Webhook Delivery Pilot
+- Added deployment-configured outbound delivery for eligible public `policy.change.published` events using the existing stable event envelope.
+- Added an exact HTTPS-origin allowlist, HMAC-SHA256 v1 request signatures, an eight-second timeout and redirect rejection.
+- Added a persistent outbox, per-attempt ledger, stale-claim recovery and a bounded six-attempt retry schedule.
+- Added protected admin and auditor operations at `/admin/webhook-delivery`, plus an authenticated cron endpoint for one bounded delivery cycle.
+- Added additive Prisma and Hostinger SQLite migration paths, database-readiness checks, strict configuration parsing and focused regression coverage.
+- Kept public endpoint registration, tenant self-service, endpoint challenge verification, automatic key rotation, guaranteed delivery and service-level commitments outside the pilot.
+
+## 3.9.0-beta.22 - 2026-07-30
+
+### Event Feed Continuity Lab
+- Added `/developers/event-continuity`, a browser-local workbench for inspecting the bounded public change-event feed and explicitly resuming from a saved opaque cursor.
+- Added a strict versioned checkpoint contract with bounded storage for up to 100 public event identifiers, local import/export and no server-side workspace persistence.
+- Added observable continuity findings for duplicates, chronological regressions, checkpoint overlap, empty windows and initial-window truncation.
+- Added explicit idle, loading, success and error states without automatic retries, plus progressive event-ledger disclosure and mobile keyboard operation.
+- Published the checkpoint JSON Schema and connected Developers, Integration Options, Feature Atlas, Press Kit, Community Roadmap and sitemap.
+- Kept endpoint registration, webhook subscriptions, push delivery, server-side replay storage, delivery receipts, external acknowledgments and service-level commitments outside the delivered surface.
+
 ## 3.9.0-beta.21 - 2026-07-30
 
 ### Receiver Conformance Lab

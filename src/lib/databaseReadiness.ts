@@ -14,6 +14,8 @@ export const EXPECTED_DATABASE_TABLES = [
   'HistoricalSourceReference',
   'PolicySnapshot',
   'PolicyChange',
+  'WebhookDelivery',
+  'WebhookDeliveryAttempt',
   'DatasetQaIssueReview',
   'AdminReviewLog',
   'SourceOnboardingBatch',
@@ -33,6 +35,7 @@ export const EXPECTED_DATABASE_MIGRATIONS = [
   '20260727110000_press_metric_events',
   '20260729153000_public_change_publication_time',
   '20260730043000_source_reliability',
+  '20260730162000_webhook_delivery_pilot',
 ] as const;
 
 export type DatabaseReadinessStatus = 'ready' | 'degraded' | 'unavailable';

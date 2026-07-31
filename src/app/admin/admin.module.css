@@ -10,6 +10,31 @@
   overflow-x: clip;
 }
 
+.skipLink {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 260;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 14px;
+  border: 2px solid var(--primary);
+  border-radius: 6px;
+  background: var(--bg-card);
+  color: var(--primary);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-decoration: none;
+  transform: translateY(calc(-100% - 14px));
+}
+
+.skipLink:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+  transform: translateY(0);
+}
+
 /* ---------- Sidebar ---------- */
 .sidebar {
   width: 240px;
@@ -60,7 +85,7 @@
 }
 
 .logoTextSub {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -73,7 +98,7 @@
   gap: 5px;
   padding: 4px 10px;
   border-radius: 9999px;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -104,9 +129,9 @@
 .navSection {
   margin: 12px 12px 3px;
   color: var(--text-muted);
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   font-weight: 800;
-  letter-spacing: 0.11em;
+  letter-spacing: 0.06em;
   line-height: 1;
   text-transform: uppercase;
 }
@@ -120,6 +145,8 @@
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
+  min-height: 44px;
+  border-left: 3px solid transparent;
   border-radius: 8px;
   font-size: 0.85rem;
   font-weight: 500;
@@ -137,6 +164,7 @@
   background: var(--primary-glow);
   color: var(--primary);
   font-weight: 600;
+  border-left-color: currentColor;
 }
 
 .navLinkActive:hover {
@@ -162,7 +190,7 @@
   justify-content: center;
   background: var(--risk-high);
   color: #fff;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 800;
   line-height: 1;
 }
@@ -182,6 +210,7 @@
   align-items: center;
   gap: 10px;
   width: 100%;
+  min-height: 44px;
   padding: 10px 12px;
   border-radius: 8px;
   font-size: 0.85rem;
@@ -198,6 +227,12 @@
   color: var(--risk-high);
 }
 
+.navLink:focus-visible,
+.logoutButton:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
 /* ---------- Main Content ---------- */
 .mainContent {
   flex: 1;
@@ -206,6 +241,11 @@
   min-height: 100vh;
   background: var(--bg-secondary);
   padding: 32px;
+}
+
+.mainContent:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: -3px;
 }
 
 .mobileAdminHeader,
@@ -220,6 +260,64 @@
   justify-content: center;
   min-height: 100vh;
   background: var(--bg-secondary);
+  padding: 24px;
+}
+
+.verificationLoading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--primary);
+  background: var(--bg-card);
+  color: var(--text-body);
+}
+
+.verificationPanel {
+  width: min(100%, 520px);
+  padding: 28px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-left: 4px solid var(--risk-high);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-md);
+  color: var(--risk-high);
+}
+
+.verificationPanel h1 {
+  margin: 8px 0 10px;
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  line-height: 1.25;
+}
+
+.verificationPanel .btn {
+  width: auto;
+  min-height: 44px;
+  margin-top: 18px;
+}
+
+.verificationPanel .btn:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.verificationEyebrow {
+  margin: 12px 0 0;
+  color: var(--risk-high);
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.loadingText {
+  margin: 0;
+  color: var(--text-body);
+  font-size: 0.88rem;
+  line-height: 1.55;
 }
 
 .loadingSpinner {
@@ -3403,11 +3501,25 @@ thead .kpiMatrixStickyCol {
   display: flex;
   align-items: center;
   gap: 9px;
+  flex: 1 1 auto;
   min-width: 0;
+}
+
+.mobileAdminBrand > img {
+  flex: 0 0 auto;
 }
 
 .mobileAdminBrand > div {
   display: grid;
+  gap: 1px;
+  width: 100%;
+  min-width: 0;
+}
+
+.mobileBrandLine {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
   min-width: 0;
 }
 
@@ -3418,10 +3530,27 @@ thead .kpiMatrixStickyCol {
   line-height: 1.2;
 }
 
-.mobileAdminBrand span {
-  color: var(--text-muted);
-  font-size: 0.68rem;
+.mobileHeaderRole {
+  font-size: 0.75rem;
+  font-weight: 750;
   line-height: 1.2;
+}
+
+.mobileHeaderRoleAdmin {
+  color: var(--primary);
+}
+
+.mobileHeaderRoleAuditor {
+  color: var(--secondary);
+}
+
+.mobileCurrentRoute {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 650;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .mobileNavTrigger,
@@ -3439,24 +3568,25 @@ thead .kpiMatrixStickyCol {
 
 .mobileNavTrigger {
   gap: 7px;
-  min-height: 38px;
+  min-height: 44px;
   padding: 0 11px;
   color: var(--primary);
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 750;
+  flex: 0 0 auto;
 }
 
 .mobileNavClose {
   position: absolute;
   top: 18px;
   right: 16px;
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
 }
 
 .mobileNavTrigger:focus-visible,
 .mobileNavClose:focus-visible {
-  outline: 3px solid var(--primary-glow);
+  outline: 3px solid var(--primary);
   outline-offset: 2px;
 }
 
@@ -3498,7 +3628,7 @@ thead .kpiMatrixStickyCol {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 14px;
+    gap: 10px;
     padding: 9px 18px;
     border-bottom: 1px solid var(--border-color);
     background: var(--bg-card);
@@ -3594,6 +3724,22 @@ thead .kpiMatrixStickyCol {
     align-items: flex-start;
     flex-direction: column;
     gap: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .mobileAdminHeader {
+    gap: 8px;
+    padding-inline: 10px;
+  }
+
+  .mobileAdminBrand {
+    gap: 7px;
+  }
+
+  .mobileNavTrigger {
+    gap: 5px;
+    padding-inline: 9px;
   }
 }
 

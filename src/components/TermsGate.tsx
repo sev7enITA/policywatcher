@@ -147,7 +147,11 @@ export default function TermsGate({ children, lang, onLangToggle }: TermsGatePro
   const t = content[lang];
 
   return (
-    <div className={styles.overlay}>
+    <section
+      className={styles.overlay}
+      data-scope="interactive-workspace"
+      aria-labelledby="workspace-access-title"
+    >
       <button onClick={onLangToggle} className={styles.langToggle}>
         <Languages size={14} />
         {t.langToggle}
@@ -160,7 +164,7 @@ export default function TermsGate({ children, lang, onLangToggle }: TermsGatePro
             {t.badge}
           </div>
 
-          <h1 className={styles.title}>{t.title}</h1>
+          <h1 id="workspace-access-title" className={styles.title}>{t.title}</h1>
           <p className={styles.subtitle}>{t.subtitle}</p>
 
           <div className={styles.stepper} aria-label={lang === 'it' ? 'Passaggi accesso' : 'Access steps'}>
@@ -266,6 +270,6 @@ export default function TermsGate({ children, lang, onLangToggle }: TermsGatePro
           {t.footer}
         </p>
       </div>
-    </div>
+    </section>
   );
 }

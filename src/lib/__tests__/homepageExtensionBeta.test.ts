@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
-const page = readFileSync('src/app/page.tsx', 'utf8');
+const page = readFileSync('src/app/DashboardClient.tsx', 'utf8');
 const release = readFileSync('src/lib/release.ts', 'utf8');
 
 describe('homepage browser extension Beta launch strip', () => {

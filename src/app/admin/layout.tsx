@@ -34,6 +34,7 @@ import {
   MailQuestion,
   Newspaper,
   Activity,
+  Webhook,
 } from 'lucide-react';
 import styles from './admin.module.css';
 import { AdminPageGuide } from '@/components/admin/AdminPageGuide';
@@ -68,6 +69,12 @@ const NAV_ITEMS: NavItem[] = [
     label: 'Source Reliability',
     href: '/admin/source-reliability',
     icon: <Activity size={18} />,
+    section: 'Monitor',
+  },
+  {
+    label: 'Webhook Delivery',
+    href: '/admin/webhook-delivery',
+    icon: <Webhook size={18} />,
     section: 'Monitor',
   },
   {
@@ -161,6 +168,8 @@ function AdminNavigationContents({
   closeRef?: React.RefObject<HTMLButtonElement | null>;
   openPolicyInquiries?: number;
 }) {
+  const roleLabel = role === 'admin' ? 'Admin role' : 'Auditor role';
+
   return (
     <>
       <div className={styles.sidebarHeader}>
@@ -181,7 +190,7 @@ function AdminNavigationContents({
           </div>
         </div>
         <span className={`${styles.roleBadge} ${role === 'admin' ? styles.roleBadgeAdmin : styles.roleBadgeAuditor}`}>
-          {role}
+          {roleLabel}
         </span>
         {mobile && (
           <button ref={closeRef} type="button" className={styles.mobileNavClose} onClick={onNavigate} aria-label="Close admin navigation">
@@ -357,15 +366,19 @@ export default function AdminLayout({
   if (pathname !== '/admin/login' && verificationError) {
     return (
       <div className={styles.loadingScreen}>
-        <AlertTriangle size={32} color="var(--risk-high)" />
-        <p className={styles.loadingText}>{verificationError}</p>
-        <button
-          type="button"
-          className={`${styles.btn} ${styles.btnSecondary}`}
-          onClick={() => router.replace('/admin/login')}
-        >
-          Back to login
-        </button>
+        <section className={styles.verificationPanel} role="alert" aria-live="assertive">
+          <AlertTriangle size={30} aria-hidden="true" />
+          <p className={styles.verificationEyebrow}>Protected administration</p>
+          <h1>Unable to verify session</h1>
+          <p className={styles.loadingText}>{verificationError}</p>
+          <button
+            type="button"
+            className={`${styles.btn} ${styles.btnSecondary}`}
+            onClick={() => router.replace('/admin/login')}
+          >
+            Back to login
+          </button>
+        </section>
       </div>
     );
   }
@@ -373,8 +386,11 @@ export default function AdminLayout({
   // Show a loading spinner until session is verified
   if (pathname !== '/admin/login' && !verified) {
     return (
-      <div className={styles.loadingScreen}>
-        <div className={styles.loadingSpinner} />
+      <div className={styles.loadingScreen} role="status" aria-live="polite" aria-label="Verifying admin session">
+        <div className={styles.verificationLoading}>
+          <div className={styles.loadingSpinner} aria-hidden="true" />
+          <p className={styles.loadingText}>Verifying admin session...</p>
+        </div>
       </div>
     );
   }
@@ -388,9 +404,16 @@ export default function AdminLayout({
   const visibleItems = NAV_ITEMS.filter(
     (item) => !item.adminOnly || role === 'admin'
   );
+  const currentRouteTitle = getAdminGuide(pathname)?.title
+    || visibleItems.find((item) => isActive(item.href))?.label
+    || 'Admin';
+  const currentRoleLabel = role === 'admin' ? 'Admin role' : 'Auditor role';
 
   return (
     <div className={styles.adminLayout}>
+      <a className={styles.skipLink} href="#admin-main-content">
+        Skip to protected content
+      </a>
       {/* Sidebar */}
       <aside className={styles.sidebar}>
         <AdminNavigationContents role={role} visibleItems={visibleItems} isActive={isActive} onLogout={handleLogout} openPolicyInquiries={openPolicyInquiries} />
@@ -399,7 +422,17 @@ export default function AdminLayout({
       <header className={styles.mobileAdminHeader}>
         <div className={styles.mobileAdminBrand}>
           <Image src="/logo-mark.png" alt="" width={28} height={28} aria-hidden="true" />
-          <div><strong>PolicyWatcher</strong><span>{getAdminGuide(pathname)?.title || 'Admin'}</span></div>
+          <div>
+            <div className={styles.mobileBrandLine}>
+              <strong>PolicyWatcher</strong>
+              <span className={`${styles.mobileHeaderRole} ${role === 'admin' ? styles.mobileHeaderRoleAdmin : styles.mobileHeaderRoleAuditor}`}>
+                {currentRoleLabel}
+              </span>
+            </div>
+            <span className={styles.mobileCurrentRoute} aria-label={`Current admin route: ${currentRouteTitle}`}>
+              {currentRouteTitle}
+            </span>
+          </div>
         </div>
         <button
           ref={mobileTriggerRef}
@@ -440,7 +473,7 @@ export default function AdminLayout({
       )}
 
       {/* Main Content */}
-      <main className={styles.mainContent}>
+      <main id="admin-main-content" className={styles.mainContent} tabIndex={-1}>
         <AdminPageGuide key={pathname} pathname={pathname} />
         {children}
       </main>

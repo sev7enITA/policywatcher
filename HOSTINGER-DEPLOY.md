@@ -28,6 +28,21 @@ places runtime build files in `/home/USER/domains/DOMAIN/nodejs` and retains the
 uploaded source under the sibling `.builds/last-source` directory. The packaged
 `server.js` also searches both source layouts when it is used as the entry file.
 
+Beta 23 includes migration `20260730162000_webhook_delivery_pilot`. It adds a
+persistent webhook outbox and a per-attempt delivery ledger. The initializer
+applies both tables and their indexes additively. Configure
+`POLICYWATCHER_WEBHOOK_ENDPOINTS_JSON` only through the Hostinger environment,
+store each secret outside the source package, and set
+`POLICYWATCHER_WEBHOOK_ALLOWED_ORIGINS` to the exact HTTPS origins permitted for
+outbound requests. With no valid active destination, the cycle is a no-op.
+
+The optional scheduled trigger sends `POST /api/cron/webhook-delivery` with
+`Authorization: Bearer $API_SECRET`. The route runs one bounded cycle; it is not
+a daemon or an availability commitment. The same cycle can be invoked manually
+from `/admin/webhook-delivery` by an administrator. Auditors receive read-only
+state. Back up the database before deployment and inspect the console after the
+first controlled receiver test.
+
 Beta 21 includes migration `20260730043000_source_reliability`. It adds scan-run,
 retrieval, remediation and historical-reference records plus an optional
 retrieval URL. The migration is additive and the post-install initializer

@@ -108,7 +108,7 @@ for (const candidate of skipped) {
   if (!candidate.currentHash) reasons.push('missing current hash');
   if (!candidate.verifiedLogId) reasons.push('no matching successful source check');
   if (!candidate.matchingSnapshotId) reasons.push('no exact matching snapshot');
-  console.log(`[KEEP PRIVATE] ${label(candidate)} — ${reasons.join('; ')}`);
+  console.log(`[KEEP PRIVATE] ${label(candidate)} - ${reasons.join('; ')}`);
 }
 
 if (!apply) {

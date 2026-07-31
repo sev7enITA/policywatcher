@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
-const dashboard = readFileSync('src/app/page.tsx', 'utf8');
+const dashboard = readFileSync('src/app/DashboardClient.tsx', 'utf8');
 const trends = readFileSync('src/components/charts/RiskTrendPanel.tsx', 'utf8');
 const matrix = readFileSync('src/components/CrossCompanyMatrix.tsx', 'utf8');
 const policyDetails = readFileSync('src/components/PolicyDetails.tsx', 'utf8');

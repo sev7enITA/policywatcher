@@ -1,0 +1,15 @@
+.publicKnowledgeMain {
+  padding: 18px 24px 0;
+  background: #ffffff;
+}
+
+.publicKnowledgeShell {
+  width: min(1400px, 100%);
+  margin: 0 auto;
+}
+
+@media (max-width: 640px) {
+  .publicKnowledgeMain {
+    padding: 12px 12px 0;
+  }
+}

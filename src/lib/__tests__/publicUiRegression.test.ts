@@ -121,7 +121,7 @@ describe('public UI regression fixes', () => {
     expect(FEATURE_ATLAS_FEATURES.some((feature) => feature.id === 'governed-regional-benchmark-visualizations')).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.some((item) => item.kpi && item.kri)).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.filter((item) => ['shareable-evidence-views', 'coordinated-evidence-drilldown'].includes(item.id))).toHaveLength(2);
-    expect(RELEASE_IMPACT_UPDATED_AT).toBe('30 July 2026');
+    expect(RELEASE_IMPACT_UPDATED_AT).toBe('31 July 2026');
     expect(FEATURE_ATLAS_CURRENT_RELEASE_ID).toBe(POLICYWATCHER_VERSION);
     expect(FEATURE_ATLAS_RELEASES.filter((release) => release.current)).toHaveLength(1);
     expect(RELEASE_COLUMNS.filter((release) => release.state === 'current').map((release) => release.id)).toEqual([POLICYWATCHER_VERSION]);
@@ -176,7 +176,7 @@ describe('public UI regression fixes', () => {
   });
 
   it('keeps configured dashboard evidence views shareable and history-aware', () => {
-    const dashboard = read('src/app/page.tsx');
+    const dashboard = read('src/app/DashboardClient.tsx');
     const palette = read('src/components/CommandPalette.tsx');
     expect(dashboard).toContain('decodeDashboardShareQuery(window.location.search)');
     expect(dashboard).toContain("window.history.pushState({}, '', nextUrl)");
@@ -214,7 +214,7 @@ describe('public UI regression fixes', () => {
   it('centralizes extension and evidence freshness states without advancing legal dates', () => {
     const release = read('src/lib/release.ts');
     const extension = read('src/app/browser-extension/BrowserExtensionClient.tsx');
-    const home = read('src/app/page.tsx');
+    const home = read('src/app/DashboardClient.tsx');
     const trust = read('src/app/trust/page.tsx');
     const leaderboard = read('src/app/leaderboard/page.tsx');
     const observatory = read('src/app/observatory/page.tsx');

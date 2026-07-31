@@ -107,7 +107,7 @@ const translationContent = {
       {
         icon: ShieldCheck,
         title: '5. Adaptive Workspace & Public Surfaces',
-        desc: `Release ${POLICYWATCHER_VERSION} validates the native dashboard layer without changing evidence rules.`,
+        desc: `Release ${POLICYWATCHER_VERSION} adds server-rendered public reference pages without changing evidence rules.`,
         bullets: [
           'Adaptive Workspace: users can select a session intent (Citizen, GRC / Legal, Research, Builder) and evidence depth (Snapshot, Operational, Forensic).',
           'Validated composition: dashboard modules come from an immutable allowlist with deterministic identities; each valid composition requires Source QA as its first module.',
@@ -116,7 +116,8 @@ const translationContent = {
           'Rendering and export parity: the visible filtered company list and CSV export use one view model; the export includes query identity, coverage, filters, evidence gate, limitations and release provenance.',
           'Accessible chart contract: supported charts define summary, table, provenance and limitations, while reduced-motion settings disable nonessential animation.',
           'Presentation-only adaptation: density, module priority, dashboard emphasis, and URL parameters may change, but publicEvidence gates, source suspensions, and Dataset QA warnings remain active.',
-          'Public exploration surfaces: Timeline, Policy Signals Board, Site Atlas, Roadmap, Press Wall, Showcase, Trust, and Infographics expose different views of the same evidence boundary.',
+          'Crawlable Public Knowledge: the server-rendered index, company pages, policy pages and home snapshot reuse the same publication gates and expose bounded metadata and evidence links without raw policy text.',
+          'Public exploration surfaces: Knowledge, Timeline, Policy Signals Board, Site Atlas, Roadmap, Press Wall, Showcase, Trust, and Infographics expose different views of the same evidence boundary.',
           'Local MIME intake: a selected .eml file is decoded in browser memory with bounded depth and size, recipient and attachment exclusion, plain-text preference and inactive HTML fallback; the raw file is not sent to PolicyWatcher.',
           'Public integration directory: the read-only v1 manifest describes available public sources, parameter allowlists, evidence gates and cache limits; the localized Observatory endpoint exposes only curated registry metadata, review timestamps and scheduled events.',
           'Integration boundary: no public v1 route exposes policy text, hashes, raw retrieval failures, administrative records, credentials, write operations or outbound webhooks.',

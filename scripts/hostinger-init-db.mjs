@@ -374,6 +374,35 @@ const ddl = [
     CONSTRAINT "HistoricalSourceReference_policyId_fkey" FOREIGN KEY ("policyId") REFERENCES "Policy" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT "HistoricalSourceReference_sourceRetrievalId_fkey" FOREIGN KEY ("sourceRetrievalId") REFERENCES "SourceRetrieval" ("id") ON DELETE SET NULL ON UPDATE CASCADE
   )`,
+  `CREATE TABLE IF NOT EXISTS "WebhookDelivery" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "endpointId" TEXT NOT NULL,
+    "eventId" TEXT NOT NULL,
+    "changeId" TEXT NOT NULL,
+    "occurredAt" DATETIME NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'pending',
+    "attemptCount" INTEGER NOT NULL DEFAULT 0,
+    "nextAttemptAt" DATETIME,
+    "lastAttemptAt" DATETIME,
+    "lastStatusCode" INTEGER,
+    "lastErrorCode" TEXT,
+    "deliveredAt" DATETIME,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "WebhookDelivery_changeId_fkey" FOREIGN KEY ("changeId") REFERENCES "PolicyChange" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+  )`,
+  `CREATE TABLE IF NOT EXISTS "WebhookDeliveryAttempt" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "deliveryId" TEXT NOT NULL,
+    "attemptNumber" INTEGER NOT NULL,
+    "outcome" TEXT NOT NULL,
+    "statusCode" INTEGER,
+    "errorCode" TEXT,
+    "durationMs" INTEGER,
+    "attemptedAt" DATETIME NOT NULL,
+    "completedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "WebhookDeliveryAttempt_deliveryId_fkey" FOREIGN KEY ("deliveryId") REFERENCES "WebhookDelivery" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+  )`,
 ];
 
 const indexes = [
@@ -418,6 +447,13 @@ const indexes = [
   `CREATE UNIQUE INDEX IF NOT EXISTS "HistoricalSourceReference_policyId_source_capturedAt_key" ON "HistoricalSourceReference"("policyId", "source", "capturedAt")`,
   `CREATE INDEX IF NOT EXISTS "HistoricalSourceReference_policyId_capturedAt_idx" ON "HistoricalSourceReference"("policyId", "capturedAt")`,
   `CREATE INDEX IF NOT EXISTS "HistoricalSourceReference_sourceRetrievalId_idx" ON "HistoricalSourceReference"("sourceRetrievalId")`,
+  `CREATE UNIQUE INDEX IF NOT EXISTS "WebhookDelivery_endpointId_eventId_key" ON "WebhookDelivery"("endpointId", "eventId")`,
+  `CREATE INDEX IF NOT EXISTS "WebhookDelivery_status_nextAttemptAt_idx" ON "WebhookDelivery"("status", "nextAttemptAt")`,
+  `CREATE INDEX IF NOT EXISTS "WebhookDelivery_endpointId_createdAt_idx" ON "WebhookDelivery"("endpointId", "createdAt")`,
+  `CREATE INDEX IF NOT EXISTS "WebhookDelivery_changeId_idx" ON "WebhookDelivery"("changeId")`,
+  `CREATE UNIQUE INDEX IF NOT EXISTS "WebhookDeliveryAttempt_deliveryId_attemptNumber_key" ON "WebhookDeliveryAttempt"("deliveryId", "attemptNumber")`,
+  `CREATE INDEX IF NOT EXISTS "WebhookDeliveryAttempt_deliveryId_attemptedAt_idx" ON "WebhookDeliveryAttempt"("deliveryId", "attemptedAt")`,
+  `CREATE INDEX IF NOT EXISTS "WebhookDeliveryAttempt_outcome_attemptedAt_idx" ON "WebhookDeliveryAttempt"("outcome", "attemptedAt")`,
   `CREATE INDEX IF NOT EXISTS "PolicySnapshot_policyId_idx" ON "PolicySnapshot"("policyId")`,
   `CREATE INDEX IF NOT EXISTS "PolicyChange_policyId_idx" ON "PolicyChange"("policyId")`,
   `CREATE INDEX IF NOT EXISTS "PolicyChange_createdAt_idx" ON "PolicyChange"("createdAt")`,

@@ -263,6 +263,17 @@ export default function CommandPalette({
         },
       },
       {
+        id: 'act-knowledge',
+        label: 'Open Public Knowledge',
+        labelIt: 'Apri Conoscenza pubblica',
+        icon: <BookOpen size={16} />,
+        group: 'actions',
+        keywords: 'knowledge company policy reference crawlable server rendered ssr evidence public',
+        run: () => {
+          window.location.href = '/knowledge';
+        },
+      },
+      {
         id: 'act-observatory',
         label: 'Open Observatory',
         labelIt: 'Apri Osservatorio',

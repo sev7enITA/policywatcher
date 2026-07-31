@@ -1,5 +1,5 @@
 PolicyWatcher press fact sheet
-Version 3.9.0-beta.21 · 2026-07-30
+Version 3.9.0-beta.25 · 2026-07-30
 
 Configured product facts with explicit scope and reuse boundaries.
 

@@ -301,13 +301,55 @@ model PolicyChange {
   kpiIndependentAudit     String @default("Not assessed")
   kpiContentModeration    String @default("Not assessed")
 
-  createdAt     DateTime         @default(now())
-  regionImpacts RegionImpact[]
-  reviewLogs    AdminReviewLog[]
+  createdAt         DateTime          @default(now())
+  regionImpacts     RegionImpact[]
+  reviewLogs        AdminReviewLog[]
+  webhookDeliveries WebhookDelivery[]
 
   @@index([policyId])
   @@index([createdAt])
   @@index([publicPublishedAt])
+}
+
+model WebhookDelivery {
+  id             String                   @id @default(uuid())
+  endpointId     String
+  eventId        String
+  changeId       String
+  policyChange   PolicyChange             @relation(fields: [changeId], references: [id], onDelete: Cascade)
+  occurredAt     DateTime
+  status         String                   @default("pending") // pending, processing, retry, delivered, failed
+  attemptCount   Int                      @default(0)
+  nextAttemptAt  DateTime?
+  lastAttemptAt  DateTime?
+  lastStatusCode Int?
+  lastErrorCode  String?
+  deliveredAt    DateTime?
+  createdAt      DateTime                 @default(now())
+  updatedAt      DateTime                 @updatedAt
+  attempts       WebhookDeliveryAttempt[]
+
+  @@unique([endpointId, eventId])
+  @@index([status, nextAttemptAt])
+  @@index([endpointId, createdAt])
+  @@index([changeId])
+}
+
+model WebhookDeliveryAttempt {
+  id            String          @id @default(uuid())
+  deliveryId    String
+  delivery      WebhookDelivery @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
+  attemptNumber Int
+  outcome       String // delivered, retry, failed
+  statusCode    Int?
+  errorCode     String?
+  durationMs    Int?
+  attemptedAt   DateTime
+  completedAt   DateTime        @default(now())
+
+  @@unique([deliveryId, attemptNumber])
+  @@index([deliveryId, attemptedAt])
+  @@index([outcome, attemptedAt])
 }
 
 model DatasetQaIssueReview {

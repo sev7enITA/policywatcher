@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
-const dashboard = readFileSync('src/app/page.tsx', 'utf8');
+const dashboard = readFileSync('src/app/DashboardClient.tsx', 'utf8');
 const styles = readFileSync('src/app/Dashboard.module.css', 'utf8');
 
 describe('dashboard action and layout wiring', () => {

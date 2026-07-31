@@ -34,12 +34,12 @@ describe('release metadata', () => {
   it('matches the package version and composes one build label', () => {
     const packageJson = JSON.parse(readFileSync('package.json', 'utf8')) as { version: string };
     expect(POLICYWATCHER_VERSION).toBe(packageJson.version);
-    expect(POLICYWATCHER_RELEASE_NAME).toBe('Source Reliability and Receiver Conformance');
-    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.9.0-beta.21 Source Reliability and Receiver Conformance');
-    expect(POLICYWATCHER_RELEASE_DATE).toBe('2026-07-30');
+    expect(POLICYWATCHER_RELEASE_NAME).toBe('Crawlable Public Knowledge Layer');
+    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.9.0-beta.26 Crawlable Public Knowledge Layer');
+    expect(POLICYWATCHER_RELEASE_DATE).toBe('2026-07-31');
     expect(POLICYWATCHER_RELEASE_CHANNEL).toBe('beta');
     expect(POLICYWATCHER_RELEASE_CHANNEL_LABEL).toBe('BETA');
-    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v3.9.0-beta.21 · BETA');
+    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v3.9.0-beta.26 · BETA');
     expect(POLICYWATCHER_BROWSER_EXTENSION_VERSION).toBe('3.8.3-beta.3');
     expect(POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION).toBe('3.8.3 Beta 3');
     expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE).toBe('v3.8.3 Beta 3 · EXTENSION BETA');

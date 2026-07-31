@@ -83,7 +83,7 @@ describe('webhook verification readiness contract', () => {
     });
     expect(kit.testVectorInstructions.join(' ')).toMatch(/static vector only.*clock fixed/i);
     expect(kit.testVectorInstructions.join(' ')).toMatch(/do not disable timestamp freshness/i);
-    expect(JSON.stringify(kit.boundary)).toMatch(/does not currently provide webhook subscriptions/i);
+    expect(JSON.stringify(kit.boundary)).toMatch(/does not provide public subscriptions/i);
     expect(JSON.stringify(kit)).not.toMatch(/deliveryAvailable":true|productionSecret/i);
   });
 });

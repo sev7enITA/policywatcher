@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2021%20Source%20Reliability%20and%20Receiver%20Conformance-146c6a" alt="3.9.0 Beta 21 Source Reliability and Receiver Conformance" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2026%20Crawlable%20Public%20Knowledge%20Layer-146c6a" alt="3.9.0 Beta 26 Crawlable Public Knowledge Layer" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,52 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 26 Crawlable Public Knowledge Layer Highlights
+
+- **Server-rendered reference index:** `/knowledge` lists only public companies, policies, baselines and changes admitted by the shared evidence gates.
+- **Canonical entity records:** company and policy pages expose source, jurisdiction, ingestion method, verification timestamps, published baseline metadata and linked evidence without reproducing raw policy text.
+- **Crawlable home snapshot:** the public Knowledge summary and its entity links are present in the initial HTML and remain available without JavaScript.
+- **Machine discovery:** `robots.txt`, `llms.txt` and the dynamic sitemap connect public pages and machine-readable endpoints while keeping protected and mutation routes outside crawler scope.
+- **Visible structured data:** JSON-LD claims and citations correspond to visible page content and use safely escaped serialization.
+- **Fail-closed publication state:** absent migrations, unavailable storage, empty scans and withheld records never become a positive or apparently healthy state.
+- **Interactive boundary retained:** the Terms acknowledgement applies to the dashboard workspace below the public snapshot and does not cover or remove the crawlable reference layer.
+- **Implementation guide:** [docs/crawlable-public-knowledge-layer.md](docs/crawlable-public-knowledge-layer.md) records routes, data boundaries, crawler behavior and validation requirements.
+
+### Release 3.9.0 Beta 25 Admin Shell Readability Highlights
+
+- **Explicit context:** the shared protected shell identifies the authenticated Admin or Auditor role and the current route.
+- **Structural orientation:** active navigation uses a persistent marker in addition to colour.
+- **Keyboard entry:** a skip link moves focus to a stable administrative main region.
+- **Consistent controls:** shared navigation, menu, close and logout actions retain at least 44px targets and visible focus states.
+- **Readable state:** verification and error panels use accessible semantics, while shared secondary text retains a 12px minimum.
+- **Scope boundary:** this release changes the shared administrative frame only; authentication, authorization, protected-page behavior and API contracts are unchanged.
+
+### Release 3.9.0 Beta 24 Webhook Operations UX Highlights
+
+- **Exception-first focus:** the protected console derives one next review action from the returned configuration and delivery state.
+- **Faster ledger inspection:** local views separate needs-action, scheduled and delivered records, with search across endpoint, event and change identifiers.
+- **Explicit context:** result counts, reset controls and separate empty-outbox and no-match states keep filtering visible.
+- **Role clarity:** administrators retain cycle and retry actions while auditors receive an explicit read-only presentation.
+- **Mobile legibility:** supporting page text remains at least 12px, controls retain 44px targets and the ledger avoids page-level horizontal overflow.
+- **Scope boundary:** this release changes UI hierarchy and local filtering only; delivery, authorization and retry behavior are unchanged.
+
+### Release 3.9.0 Beta 23 Configured Webhook Delivery Pilot Highlights
+
+- **Deployment-controlled destinations:** operators configure a bounded list of allowlisted HTTPS receivers and signing secrets outside the public application surface.
+- **Signed delivery:** each eligible public change event uses the documented HMAC-SHA256 v1 headers, exact raw JSON bytes and stable event ID.
+- **Persistent delivery evidence:** the outbox and attempt ledger record state, status code, bounded error code and timing without storing receiver response bodies.
+- **Bounded retries:** retryable network and HTTP outcomes use a fixed six-attempt schedule; permanent client responses become terminal failures.
+- **Protected operations:** administrators can run one bounded cycle and reschedule eligible failures; auditors have a sanitized read-only console.
+- **Scope boundary:** this pilot has no public subscriptions, endpoint self-service, challenge verification, automatic key rotation, delivery guarantee or SLA.
+
+### Release 3.9.0 Beta 22 Event Feed Continuity Highlights
+
+- **Continuity workbench:** inspect a bounded current event window or explicitly resume from a browser-local opaque checkpoint.
+- **Observable findings:** identify duplicates, ordering regressions, overlap, empty polls and initial-window truncation without treating the report as proof of exhaustive monitoring.
+- **Portable checkpoint:** import or export a strict versioned JSON file containing only public event identifiers, the feed cursor and a bounded watermark.
+- **Controlled requests:** explicit idle, loading, success and error states avoid automatic retry loops and preserve operator control.
+- **Public contract:** the checkpoint JSON Schema, developer documentation, release impact and Press Kit state the polling and delivery boundaries together.
 
 ### Release 3.9.0 Beta 21 Source Reliability and Receiver Conformance Highlights
 
@@ -82,7 +128,7 @@ The platform is designed as a **civic tech tool** that produces structured summa
 - **Deterministic bundles:** `/api/v1/evidence-collections` exports the complete selection as JSON, Markdown or CSV with a collection digest and each Evidence Packet digest.
 - **Review-ready context:** exports preserve citations, source and score provenance, advisory governance references, review questions and interpretation boundaries.
 - **Strict public contract:** invalid, missing or withheld records fail the entire request; the endpoint is allowlisted, rate-limited and registered in the public API v1 manifest.
-- **Integration boundary:** the bundle is an available generic read surface. Persistent team workspaces, vendor-specific publishing and signed outbound webhooks remain planned.
+- **Integration boundary:** the bundle is an available generic read surface. Persistent team workspaces and vendor-specific publishing remain planned; configured signed delivery is documented separately as a deployment-controlled Beta 23 pilot.
 
 ### Release 3.9.0 Beta 16 Evidence Governance Packets Highlights
 
@@ -425,6 +471,7 @@ flowchart TB
     end
 
     subgraph Delivery["User-Facing Layer"]
+        KNOWLEDGE["Crawlable Knowledge Layer<br/>SSR entity records"]
         DASH["Next.js Dashboard<br/>React 19 + Framer Motion"]
         MATRIX["KPI Governance Matrix"]
         COMPARE["A/B Company Compare"]
@@ -442,7 +489,7 @@ flowchart TB
     GEMINI --> STRUCT & KPI & REGION
     STRUCT & KPI & REGION --> PRISMA
     PRISMA --> SQLITE
-    SQLITE --> DASH & MATRIX & COMPARE & PDF & SHARE & CHAT
+    SQLITE --> KNOWLEDGE & DASH & MATRIX & COMPARE & PDF & SHARE & CHAT
 ```
 
 ### Ingestion Pipeline Sequence
@@ -857,7 +904,8 @@ PolicyWatcher uses APIs and purpose-built clients as its machine integration bou
 | Enterprise API v2 | Microsoft Entra scope or application role | Pilot ready | Tenant-bound enterprise evidence access |
 | Azure API Management facade | Entra plus gateway-only origin header | Pilot ready | Gateway policy, quota and request correlation |
 | Power Platform custom connector | Entra delegated OAuth | Pilot ready | Power Automate, Power Apps, Logic Apps and Copilot Studio |
-| Signed webhooks, Teams, Copilot plugins, MCP and Graph | Integration-specific | Planned | Event delivery and Microsoft 365 experiences after lifecycle controls |
+| Configured signed webhooks | Deployment environment plus protected operator authorization | Pilot ready | Bounded delivery of public change events to controlled HTTPS receivers |
+| Self-service webhooks, Teams, Copilot plugins, MCP and Graph | Integration-specific | Planned | Tenant lifecycle and Microsoft 365 experiences after identity controls |
 | Microsoft commercial marketplace | Entitlement and billing lifecycle | Commercial later | Discovery and eventual SaaS provisioning |
 
 See the public [`/integrations`](https://www.policywatcher.online/integrations) directory and the canonical [integration options](docs/integrations.md) document for the decision guide, readiness boundaries and pilot architecture. API v1 remains the anonymous public contract; API v2 adds tenant-bound Microsoft Entra access without replacing v1.

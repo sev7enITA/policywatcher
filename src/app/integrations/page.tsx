@@ -40,7 +40,9 @@ const decisions = [
   { job: 'Portable multi-change evidence', path: 'Evidence Collections', state: 'Available' },
   { job: 'Review-system handoff', path: 'Vendor-neutral handoff manifest', state: 'Available' },
   { job: 'Change automation polling', path: 'Public change event feed', state: 'Available' },
+  { job: 'Polling continuity rehearsal', path: 'Event Feed Continuity Lab', state: 'Available' },
   { job: 'Receiver signature testing', path: 'Webhook Readiness Kit', state: 'Available' },
+  { job: 'Operator-controlled push', path: 'Configured Webhook Delivery', state: 'Pilot ready' },
   { job: 'Tenant-authenticated system access', path: 'Enterprise API v2', state: 'Pilot ready' },
   { job: 'Workflow automation', path: 'Power Platform connector', state: 'Pilot ready' },
   { job: 'In-workflow collaboration', path: 'Teams cards and tab', state: 'Planned' },
@@ -102,6 +104,15 @@ const capabilityLanes = [
         external: true,
       },
       {
+        title: 'Event Feed Continuity Lab',
+        audience: 'Polling consumer developers and integration reviewers',
+        role: 'Inspects bounded event windows, stores a strict browser-local checkpoint and explicitly resumes from its opaque cursor.',
+        boundary: 'No hosted consumer, exhaustive-monitoring claim, server-side replay store, delivery receipt or push delivery.',
+        artifact: '/developers/event-continuity  |  /schemas/event-continuity-checkpoint/v1',
+        href: '/developers/event-continuity',
+        link: 'Open continuity workbench',
+      },
+      {
         title: 'Webhook Readiness Kit',
         audience: 'Integration developers and security reviewers',
         role: 'Tests the candidate HMAC-SHA256 receiver contract locally with one editable vector and eight deterministic positive and negative fixtures.',
@@ -158,6 +169,13 @@ const capabilityLanes = [
         boundary: 'Two Entra applications and environment configuration are required before import.',
         artifact: 'integrations/power-platform/policywatcher-v2',
       },
+      {
+        title: 'Configured webhook delivery',
+        audience: 'Integration and security operations teams',
+        role: 'Sends eligible public change events to deployment-configured HTTPS destinations through a signed persistent outbox.',
+        boundary: 'No public registration, tenant self-service, endpoint challenge, automatic key rotation, guaranteed delivery or SLA.',
+        artifact: '/admin/webhook-delivery  |  policy.change.published',
+      },
     ],
   },
   {
@@ -167,11 +185,11 @@ const capabilityLanes = [
     icon: Clock3,
     cards: [
       {
-        title: 'Signed event delivery',
-        audience: 'Automation and security operations teams',
-        role: 'Outbound change, suspension, and recovery events with retries and auditability.',
-        boundary: 'The polling envelope, receiver kit and local conformance fixtures are available; subscriptions, secret provisioning, replay storage, retries and delivery audit remain required.',
-        artifact: 'Future push delivery for policy.change.published',
+        title: 'Self-service webhook lifecycle',
+        audience: 'Tenant administrators and integration owners',
+        role: 'Tenant-managed endpoint registration, challenge verification, secret rotation and delivery-health controls.',
+        boundary: 'The configured pilot does not establish tenant identity, self-service provisioning or a delivery commitment.',
+        artifact: 'Future tenant delivery control plane',
       },
       {
         title: 'Teams and Microsoft 365',

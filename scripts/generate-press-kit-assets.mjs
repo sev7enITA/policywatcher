@@ -13,6 +13,8 @@ const PRESS_DIR = path.join(ROOT, 'public', 'press-kit');
 const releaseSource = readFileSync(path.join(ROOT, 'src', 'lib', 'release.ts'), 'utf8');
 const RELEASE_DATE = releaseSource.match(/POLICYWATCHER_RELEASE_DATE = '([^']+)'/)?.[1];
 if (!RELEASE_DATE) throw new Error('Unable to read POLICYWATCHER_RELEASE_DATE from src/lib/release.ts');
+const RELEASE_NAME = releaseSource.match(/POLICYWATCHER_RELEASE_NAME = '([^']+)'/)?.[1];
+if (!RELEASE_NAME) throw new Error('Unable to read POLICYWATCHER_RELEASE_NAME from src/lib/release.ts');
 const VERSION = JSON.parse(readFileSync(path.join(ROOT, 'package.json'), 'utf8')).version;
 const CANONICAL_URL = 'https://policywatcher.online/press-kit';
 const RIGHTS_URL = `${CANONICAL_URL}/LICENSE-ASSETS.md`;
@@ -207,12 +209,12 @@ const pdfStyles = StyleSheet.create({ page: { padding: 44, fontSize: 10, color: 
 
 async function writeFactSheets() {
   const localized = {
-    en: { title: 'PolicyWatcher press fact sheet', lead: 'Configured product facts with explicit scope and reuse boundaries.', labels: ['configured monitored companies', 'configured sectors', 'canonical KPIs', 'editorial languages'], scopes: facts.map((fact) => fact.scope), boundary: 'Not legal advice, compliance certification or exhaustive market coverage.' },
-    it: { title: 'Scheda stampa PolicyWatcher', lead: 'Dati configurati sul prodotto con perimetro e limiti di riuso espliciti.', labels: ['aziende monitorate configurate', 'settori configurati', 'KPI canonici', 'lingue editoriali'], scopes: ['Esclude la fixture WAZE per l onboarding amministrativo; non e copertura esaustiva.', 'Le etichette di settore organizzano l inventario monitorato.', 'Privacy, governance AI ed etica; le valutazioni non disponibili sono Non valutato.', 'Press kit e alcune pagine guida selezionate.'], boundary: 'Non e consulenza legale, certificazione di conformita o copertura esaustiva del mercato.' },
+    en: { title: 'PolicyWatcher press fact sheet', lead: 'Configured product facts with explicit scope and reuse boundaries.', releaseLabel: 'Current release', labels: ['configured monitored companies', 'configured sectors', 'canonical KPIs', 'editorial languages'], scopes: facts.map((fact) => fact.scope), boundary: 'Not legal advice, compliance certification or exhaustive market coverage.' },
+    it: { title: 'Scheda stampa PolicyWatcher', lead: 'Dati configurati sul prodotto con perimetro e limiti di riuso espliciti.', releaseLabel: 'Release corrente', labels: ['aziende monitorate configurate', 'settori configurati', 'KPI canonici', 'lingue editoriali'], scopes: ['Esclude la fixture WAZE per l onboarding amministrativo; non e copertura esaustiva.', 'Le etichette di settore organizzano l inventario monitorato.', 'Privacy, governance AI ed etica; le valutazioni non disponibili sono Non valutato.', 'Press kit e alcune pagine guida selezionate.'], boundary: 'Non e consulenza legale, certificazione di conformita o copertura esaustiva del mercato.' },
   };
   for (const locale of ['en', 'it']) {
     const copy = localized[locale];
-    const txt = [`${copy.title}`, `Version ${VERSION} · ${RELEASE_DATE}`, '', copy.lead, '', ...facts.flatMap((fact, index) => [`${fact.value}: ${copy.labels[index]}`, copy.scopes[index], '']), `Boundary: ${copy.boundary}`, `Current source: ${CANONICAL_URL}`].join('\n');
+    const txt = [`${copy.title}`, `Version ${VERSION} · ${RELEASE_DATE}`, `${copy.releaseLabel}: ${RELEASE_NAME}`, '', copy.lead, '', ...facts.flatMap((fact, index) => [`${fact.value}: ${copy.labels[index]}`, copy.scopes[index], '']), `Boundary: ${copy.boundary}`, `Current source: ${CANONICAL_URL}`].join('\n');
     writeFileSync(path.join(PRESS_DIR, `policywatcher-fact-sheet-${locale}-${RELEASE_DATE}.txt`), `${txt}\n`);
     const fixedDocumentDate = new Date(`${RELEASE_DATE}T12:00:00Z`);
     const document = React.createElement(Document, {
@@ -227,6 +229,7 @@ async function writeFactSheets() {
       React.createElement(Text, { style: pdfStyles.kicker }, `POLICYWATCHER · ${VERSION} · ${RELEASE_DATE}`),
       React.createElement(Text, { style: pdfStyles.title }, copy.title),
       React.createElement(Text, { style: pdfStyles.lead }, copy.lead),
+      React.createElement(View, { style: pdfStyles.card }, React.createElement(Text, { style: pdfStyles.label }, copy.releaseLabel), React.createElement(Text, { style: pdfStyles.value }, RELEASE_NAME)),
       ...facts.map((fact, index) => React.createElement(View, { key: fact.id, style: pdfStyles.card }, React.createElement(Text, { style: pdfStyles.value }, fact.value), React.createElement(Text, { style: pdfStyles.label }, copy.labels[index]), React.createElement(Text, { style: pdfStyles.boundary }, copy.scopes[index]))),
       React.createElement(Text, { style: pdfStyles.boundary }, copy.boundary),
       React.createElement(Text, { style: pdfStyles.footer }, `${CANONICAL_URL} · info@policywatcher.online`)

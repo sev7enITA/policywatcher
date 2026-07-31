@@ -79,7 +79,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Pilot ready</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      The Integration Options directory now distinguishes available, pilot-ready, planned and later commercial paths. The read-only Enterprise API v2 validates Microsoft Entra tokens and tenant claims at the origin, publishes an OpenAPI contract, includes an Azure API Management policy and provides a source-controlled Power Platform custom connector package. Teams, Copilot plugins, MCP, signed webhooks and Marketplace provisioning remain planned rather than implemented.
+                      The Integration Options directory distinguishes available, pilot-ready, planned and later commercial paths. The read-only Enterprise API v2 validates Microsoft Entra tokens and tenant claims at the origin, while the configured webhook pilot sends eligible public events through signed bounded delivery. Teams, Copilot plugins, MCP, self-service webhook lifecycle and Marketplace provisioning remain planned.
                     </p>
                   </div>
 
@@ -89,7 +89,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Current Beta</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      The current release lets reviewers collect up to 12 exact public changes locally, share an ID-only link and export deterministic JSON, Markdown or CSV bundles with collection and record digests, citations, review questions and explicit boundaries. Titles and review status stay on the device; accounts, team permissions, comments and outbound integrations are not included.
+                      The current release adds a server-rendered public Knowledge index, canonical company and policy pages, a visible crawlable home snapshot, crawler discovery files and safely serialized structured data. The existing evidence gates remain authoritative: missing, invalid and withheld records fail closed, and raw policy text, internal diagnostics and protected data remain unavailable.
                     </p>
                   </div>
 

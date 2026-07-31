@@ -364,6 +364,57 @@ export const pressKitSchemas = {
     },
     additionalProperties: false,
   },
+  'event-continuity-checkpoint': {
+    $schema: 'https://json-schema.org/draft/2020-12/schema',
+    $id: 'https://policywatcher.online/schemas/event-continuity-checkpoint/v1',
+    title: 'PolicyWatcher browser-local event continuity checkpoint',
+    type: 'object',
+    required: [
+      'schema',
+      'version',
+      'savedAt',
+      'feedSchemaVersion',
+      'locale',
+      'cursor',
+      'watermark',
+      'observedEventIds',
+      'observedEventCount',
+      'boundary',
+    ],
+    properties: {
+      schema: { const: 'https://policywatcher.online/schemas/event-continuity-checkpoint/v1' },
+      version: { const: 1 },
+      savedAt: { type: 'string', format: 'date-time' },
+      feedSchemaVersion: { const: '1.0.0' },
+      locale: { enum: ['en', 'it'] },
+      cursor: { type: ['string', 'null'], pattern: '^[A-Za-z0-9_-]{1,256}$' },
+      watermark: {
+        oneOf: [
+          { type: 'null' },
+          {
+            type: 'object',
+            required: ['eventId', 'occurredAt'],
+            properties: {
+              eventId: { type: 'string', pattern: '^pwe_[a-f0-9]{20}$' },
+              occurredAt: { type: 'string', format: 'date-time' },
+            },
+            additionalProperties: false,
+          },
+        ],
+      },
+      observedEventIds: {
+        type: 'array',
+        maxItems: 100,
+        uniqueItems: true,
+        items: { type: 'string', pattern: '^pwe_[a-f0-9]{20}$' },
+      },
+      observedEventCount: { type: 'integer', minimum: 0 },
+      boundary: {
+        const: 'This browser-local checkpoint helps inspect forward-polling continuity for already-public PolicyWatcher events. It cannot prove exhaustive source monitoring, external delivery, endpoint identity, legal status or the absence of events outside the returned feed window.',
+      },
+    },
+    additionalProperties: false,
+  },
   'webhook-conformance-suite': {
     $schema: 'https://json-schema.org/draft/2020-12/schema',
     $id: 'https://policywatcher.online/schemas/webhook-conformance-suite/v1',

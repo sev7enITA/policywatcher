@@ -105,6 +105,16 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 
 const nowItems = [
   {
+    phase: 'Delivered · 3.9.0-beta.22',
+    title: 'Browser-local event feed continuity',
+    body:
+      'Inspect the bounded public change-event window, save or import a strict local checkpoint and explicitly resume forward polling from its opaque cursor.',
+    benefit: 'Integration developers can rehearse checkpoint, deduplication and resume behavior without registering an endpoint or sending consumer state to PolicyWatcher.',
+    validation: 'The report detects observable duplicate, overlap, ordering and truncation conditions; it does not claim exhaustive monitoring, delivery confirmation or zero gaps.',
+    icon: Radio,
+    href: '/developers/event-continuity',
+  },
+  {
     phase: 'Delivered · 3.9.0-beta.17',
     title: 'Local public-evidence watchlists and shareable collections',
     body:
@@ -302,11 +312,11 @@ const candidateFeatures = [
   },
   {
     track: 'API',
-    title: 'Signed outbound events and webhooks',
+    title: 'Configured signed webhook delivery',
     body:
-      'A versioned polling feed, public receiver kit and eight-case conformance suite now expose the candidate event envelope, HMAC-SHA256 signing input, expected failure decisions and implementation examples. Push delivery remains a separate later phase.',
-    status: 'Conformance lab available · push later',
-    risk: 'Fixture compatibility does not test endpoint identity, subscriptions, production secret provisioning, replay storage, retries, retention or delivery health.',
+      'Delivered in 3.9.0 Beta 23: deployment-configured HTTPS destinations receive eligible public change events through HMAC-SHA256 signatures, a persistent outbox, per-attempt evidence and bounded retries.',
+    status: 'Delivered beta 23 · configured pilot',
+    risk: 'No public subscriptions, tenant self-service, endpoint challenge, automatic key rotation, guaranteed delivery or SLA.',
   },
   {
     track: 'Governance',
@@ -474,14 +484,14 @@ const releaseLanes = [
     label: POLICYWATCHER_VERSION,
     title: POLICYWATCHER_RELEASE_NAME,
     body:
-      'Browser-local public-evidence collections, ID-only share links, multi-change briefings and deterministic JSON, Markdown and CSV bundles with explicit collaboration boundaries.',
+      'Server-rendered public Knowledge index, canonical company and policy references, a crawlable home snapshot, machine discovery files and fail-closed publication boundaries.',
     state: 'current',
   },
   {
     label: '4.0',
     title: 'Feature Drop',
     body:
-      'Signed webhooks, tenant lifecycle controls, persistent alert watchlists, multi-version diff and production integration hardening after the API v2 pilot.',
+      'Self-service webhook lifecycle, endpoint proof and secret rotation, persistent alert watchlists, multi-version diff and production integration hardening after the configured pilot.',
     state: 'candidate',
   },
   {
@@ -685,7 +695,7 @@ export default function RoadmapClient() {
             <h2>Start from the question, not from the dashboard</h2>
           </div>
           <p>
-            PolicyWatcher v{POLICYWATCHER_VERSION} opens a guided start for first-time visitors. The selected purpose and evidence depth compose a preview from registered, real dashboard modules; the choice stays reversible and Source QA remains pinned in every generated stack.
+            PolicyWatcher retains a guided start for first-time visitors. The selected purpose and evidence depth compose a preview from registered dashboard modules; the choice stays reversible and Source QA remains pinned in every generated stack.
           </p>
         </div>
 

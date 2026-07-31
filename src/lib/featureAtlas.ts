@@ -131,7 +131,12 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.18', shortLabel: '3.9 B18', label: '3.9.0 Beta 18' },
   { id: '3.9.0-beta.19', shortLabel: '3.9 B19', label: '3.9.0 Beta 19' },
   { id: '3.9.0-beta.20', shortLabel: '3.9 B20', label: '3.9.0 Beta 20' },
-  { id: '3.9.0-beta.21', shortLabel: '3.9 B21', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '3.9.0-beta.21', shortLabel: '3.9 B21', label: '3.9.0 Beta 21' },
+  { id: '3.9.0-beta.22', shortLabel: '3.9 B22', label: '3.9.0 Beta 22' },
+  { id: '3.9.0-beta.23', shortLabel: '3.9 B23', label: '3.9.0 Beta 23' },
+  { id: '3.9.0-beta.24', shortLabel: '3.9 B24', label: '3.9.0 Beta 24' },
+  { id: '3.9.0-beta.25', shortLabel: '3.9 B25', label: '3.9.0 Beta 25' },
+  { id: '3.9.0-beta.26', shortLabel: '3.9 B26', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -163,7 +168,12 @@ const primaryUserByDomain: Record<string, string> = {
 };
 
 const routeByFeature: Record<string, FeatureAtlasRoute> = {
+  'crawlable-public-knowledge-layer': { href: '/knowledge', label: 'Public Knowledge', access: 'public' },
+  'admin-shell-readability': { href: '/admin', label: 'Admin Operations', access: 'protected' },
+  'webhook-operations-ux': { href: '/admin/webhook-delivery', label: 'Webhook Delivery', access: 'protected' },
+  'configured-webhook-delivery-pilot': { href: '/admin/webhook-delivery', label: 'Webhook Delivery', access: 'protected' },
   'source-reliability-control-plane': { href: '/admin/source-reliability', label: 'Source Reliability', access: 'protected' },
+  'event-feed-continuity-lab': { href: '/developers/event-continuity', label: 'Event Feed Continuity Lab', access: 'public' },
   'verified-public-baseline-repair': { href: '/methodology/confidence', label: 'Evidence method', access: 'public' },
   'receiver-conformance-lab': { href: '/developers/webhook-readiness', label: 'Receiver Conformance Lab', access: 'public' },
   'verified-browser-store-distribution': { href: '/browser-extension', label: 'Browser companion', access: 'public' },
@@ -207,6 +217,7 @@ const routeByFeature: Record<string, FeatureAtlasRoute> = {
 };
 
 const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
+  'crawlable-public-knowledge-layer': [{ featureId: 'public-evidence-gate', relationship: 'governed-by' }, { featureId: 'interactive-public-navigation', relationship: 'distributed-through' }],
   'verified-browser-store-distribution': [{ featureId: 'browser-companion', relationship: 'distributed-through' }],
   'evidence-newsroom': [{ featureId: 'editorial-briefing-room', relationship: 'depends-on' }, { featureId: 'public-claim-language-governance', relationship: 'governed-by' }, { featureId: 'press-kit-navigation-discovery', relationship: 'distributed-through' }],
   'press-kit-navigation-discovery': [{ featureId: 'editorial-briefing-room', relationship: 'distributed-through' }, { featureId: 'interactive-public-navigation', relationship: 'depends-on' }],
@@ -249,6 +260,10 @@ const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
   'collaboration-handoff-manifest': [{ featureId: 'shareable-evidence-collections', relationship: 'depends-on' }, { featureId: 'evidence-governance-packets', relationship: 'depends-on' }],
   'public-change-event-feed': [{ featureId: 'public-integration-directory', relationship: 'depends-on' }, { featureId: 'public-evidence-gate', relationship: 'governed-by' }],
   'webhook-verification-readiness': [{ featureId: 'public-change-event-feed', relationship: 'depends-on' }, { featureId: 'public-integration-directory', relationship: 'distributed-through' }],
+  'event-feed-continuity-lab': [{ featureId: 'public-change-event-feed', relationship: 'depends-on' }, { featureId: 'public-integration-directory', relationship: 'distributed-through' }],
+  'configured-webhook-delivery-pilot': [{ featureId: 'public-change-event-feed', relationship: 'depends-on' }, { featureId: 'webhook-verification-readiness', relationship: 'depends-on' }, { featureId: 'event-feed-continuity-lab', relationship: 'depends-on' }],
+  'webhook-operations-ux': [{ featureId: 'configured-webhook-delivery-pilot', relationship: 'depends-on' }, { featureId: 'admin-operations', relationship: 'distributed-through' }],
+  'admin-shell-readability': [{ featureId: 'admin-operations', relationship: 'depends-on' }, { featureId: 'interactive-public-navigation', relationship: 'governed-by' }],
 };
 
 function getReleaseLabel(releaseId: string) {
@@ -384,7 +399,7 @@ const platformSurfaceFeatures: FeatureAtlasFeature[] = [
   surfaceFeature({
     id: 'enterprise-api-v2-pilot', title: 'Enterprise API v2 pilot', shortLabel: 'Enterprise API v2',
     summary: 'Adds tenant-bound Microsoft Entra access, an APIM facade and a Power Platform connector package for controlled enterprise pilots.', kind: 'technical', domainId: 'distribution', stageId: 'publication', state: 'current', releaseId: '3.9.0-beta.13', release: '3.9.0 Beta 13',
-    benefit: 'A test tenant can consume bounded evidence through API and Microsoft workflow surfaces without scraping portal HTML.', kpi: 'Inventory KPI · Entra-authenticated read-only enterprise contract and connector package available', kri: 'Residual KRI · certification, entitlements, delivery telemetry and multi-tenant provisioning remain open', evidence: 'API v2 routes and OpenAPI, Entra origin validation, APIM policy, Power Platform connector templates, generator and focused regression tests.', limitation: 'Pilot-ready does not mean generally available or commercially provisioned; Teams, Copilot plugins, MCP, webhooks and Marketplace lifecycle controls remain planned.', primaryUser: 'Enterprise integration reviewer', route: { href: '/integrations', label: 'Integration Options', access: 'public' }, dependencies: [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }, { featureId: 'public-integration-directory', relationship: 'distributed-through' }],
+    benefit: 'A test tenant can consume bounded evidence through API and Microsoft workflow surfaces without scraping portal HTML.', kpi: 'Inventory KPI · Entra-authenticated read-only enterprise contract and connector package available', kri: 'Residual KRI · certification, entitlements, delivery telemetry and multi-tenant provisioning remain open', evidence: 'API v2 routes and OpenAPI, Entra origin validation, APIM policy, Power Platform connector templates, generator and focused regression tests.', limitation: 'Pilot-ready does not mean generally available or commercially provisioned; Teams, Copilot plugins, MCP, self-service webhook lifecycle and Marketplace controls remain planned.', primaryUser: 'Enterprise integration reviewer', route: { href: '/integrations', label: 'Integration Options', access: 'public' }, dependencies: [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }, { featureId: 'public-integration-directory', relationship: 'distributed-through' }],
   }),
   surfaceFeature({
     id: 'editorial-pulse', title: 'Editorial Pulse', shortLabel: 'Pulse',

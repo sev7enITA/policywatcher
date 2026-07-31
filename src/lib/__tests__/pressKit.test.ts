@@ -145,6 +145,7 @@ describe('public press kit', () => {
     expect(pressKitSchemas['change-event-feed'].$id).toBe('https://policywatcher.online/schemas/change-event-feed/v1');
     expect(pressKitSchemas['webhook-verification-kit'].$id).toBe('https://policywatcher.online/schemas/webhook-verification-kit/v1');
     expect(pressKitSchemas['webhook-conformance-suite'].$id).toBe('https://policywatcher.online/schemas/webhook-conformance-suite/v1');
+    expect(pressKitSchemas['event-continuity-checkpoint'].$id).toBe('https://policywatcher.online/schemas/event-continuity-checkpoint/v1');
   });
 
   it('connects the Press Kit through public navigation and supporting surfaces', () => {
@@ -217,12 +218,28 @@ describe('public press kit', () => {
     const webhookAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'webhook-verification-readiness');
     expect(webhookAtlasItem?.route).toEqual({ href: '/developers/webhook-readiness', label: 'Webhook Readiness Kit', access: 'public' });
     const reliabilityItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'source-reliability-control-plane');
-    expect(reliabilityItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(reliabilityItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.21', endRelease: '3.9.0-beta.21' });
     const reliabilityAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'source-reliability-control-plane');
     expect(reliabilityAtlasItem?.route).toEqual({ href: '/admin/source-reliability', label: 'Source Reliability', access: 'protected' });
     const conformanceItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'receiver-conformance-lab');
-    expect(conformanceItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(conformanceItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.21', endRelease: '3.9.0-beta.21' });
     const conformanceAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'receiver-conformance-lab');
     expect(conformanceAtlasItem?.route).toEqual({ href: '/developers/webhook-readiness', label: 'Receiver Conformance Lab', access: 'public' });
+    const eventContinuityItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'event-feed-continuity-lab');
+    expect(eventContinuityItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.22', endRelease: '3.9.0-beta.22' });
+    const continuityAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'event-feed-continuity-lab');
+    const deliveryItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'configured-webhook-delivery-pilot');
+    expect(deliveryItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.23', endRelease: '3.9.0-beta.23' });
+    const webhookUxItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'webhook-operations-ux');
+    expect(webhookUxItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.24', endRelease: '3.9.0-beta.24' });
+    const adminShellItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'admin-shell-readability');
+    expect(adminShellItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.25', endRelease: '3.9.0-beta.25' });
+    const adminShellAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'admin-shell-readability');
+    expect(adminShellAtlasItem?.route).toEqual({ href: '/admin', label: 'Admin Operations', access: 'protected' });
+    const knowledgeItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'crawlable-public-knowledge-layer');
+    expect(knowledgeItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    const knowledgeAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'crawlable-public-knowledge-layer');
+    expect(knowledgeAtlasItem?.route).toEqual({ href: '/knowledge', label: 'Public Knowledge', access: 'public' });
+    expect(continuityAtlasItem?.route).toEqual({ href: '/developers/event-continuity', label: 'Event Feed Continuity Lab', access: 'public' });
   });
 });

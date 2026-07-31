@@ -5,7 +5,7 @@ export const WEBHOOK_VERIFICATION_KIT_VERSION = '1.0.0' as const;
 export const WEBHOOK_CONFORMANCE_SUITE_VERSION = '1.0.0' as const;
 export const WEBHOOK_TOLERANCE_SECONDS = 300;
 export const WEBHOOK_VERIFICATION_BOUNDARY =
-  'This public kit defines a candidate receiver-verification contract and deterministic test vector. PolicyWatcher does not currently provide webhook subscriptions, endpoint registration, push delivery, retries, replay storage, key rotation, delivery receipts or delivery guarantees.';
+  'This public kit defines a candidate receiver-verification contract and deterministic test vector. A separate deployment-configured pilot can send signed public change events to allowlisted HTTPS destinations with a persistent outbox and bounded retries. PolicyWatcher does not provide public subscriptions, endpoint self-service, automatic key rotation, guaranteed delivery or an SLA.';
 
 const TEST_SECRET = 'whsec_test_policywatcher_public_vector_v1';
 const TEST_TIMESTAMP = 1_785_326_400;

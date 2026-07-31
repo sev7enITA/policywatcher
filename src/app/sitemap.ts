@@ -9,7 +9,7 @@
  */
 import type { MetadataRoute } from 'next';
 import { db } from '@/lib/db';
-import { publicChangeWhere } from '@/lib/publicDataGate';
+import { publicChangeWhere, publicPolicyWhere } from '@/lib/publicDataGate';
 import { POLICYWATCHER_CANONICAL_ORIGIN, pressKitReleases } from '@/lib/pressKit';
 import { pulseStories } from '@/lib/editorialPulse';
 
@@ -29,6 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/feature-atlas`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.92 },
     { url: `${BASE_URL}/observatory`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/developers`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.84 },
+    { url: `${BASE_URL}/developers/event-continuity`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.82 },
     { url: `${BASE_URL}/developers/webhook-readiness`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/integrations`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.88 },
     { url: `${BASE_URL}/timeline`, lastModified: new Date(), changeFrequency: 'hourly', priority: 0.9 },
@@ -53,12 +54,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/terms`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.65 },
   ];
 
-  // All change permalinks (EN canonical)
-  const changes = await db.policyChange.findMany({
-    where: publicChangeWhere(),
-    select: { id: true, createdAt: true },
-    orderBy: { createdAt: 'desc' },
-  });
+  // All change permalinks (EN canonical). A database failure must not leak
+  // diagnostics or remove the stable static sitemap entries.
+  let changes: Array<{ id: string; createdAt: Date }> = [];
+  let knowledgePolicies: Array<{
+    id: string;
+    updatedAt: Date;
+    lastSuccessfulCheckDate: Date;
+    company: { slug: string; updatedAt: Date };
+  }> = [];
+  try {
+    [changes, knowledgePolicies] = await Promise.all([
+      db.policyChange.findMany({
+        where: publicChangeWhere(),
+        select: { id: true, createdAt: true },
+        orderBy: { createdAt: 'desc' },
+      }),
+      db.policy.findMany({
+        where: publicPolicyWhere() as never,
+        select: {
+          id: true,
+          updatedAt: true,
+          lastSuccessfulCheckDate: true,
+          company: { select: { slug: true, updatedAt: true } },
+        },
+        orderBy: { updatedAt: 'desc' },
+      }),
+    ]);
+  } catch (error) {
+    console.error('[Sitemap] Dynamic public records temporarily unavailable:', error);
+  }
 
   const changeEntries: MetadataRoute.Sitemap = changes.map((c) => ({
     url: `${BASE_URL}/change/${c.id}?lang=en`,
@@ -66,6 +91,33 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: 'monthly' as const,
     priority: 0.7,
   }));
+
+  const knowledgePolicyEntries: MetadataRoute.Sitemap = knowledgePolicies.map((policy) => ({
+    url: `${BASE_URL}/knowledge/companies/${policy.company.slug}/policies/${policy.id}`,
+    lastModified: policy.updatedAt > policy.lastSuccessfulCheckDate ? policy.updatedAt : policy.lastSuccessfulCheckDate,
+    changeFrequency: 'weekly' as const,
+    priority: 0.76,
+  }));
+
+  const companyLastModified = new Map<string, Date>();
+  for (const policy of knowledgePolicies) {
+    const policyDate = policy.updatedAt > policy.lastSuccessfulCheckDate ? policy.updatedAt : policy.lastSuccessfulCheckDate;
+    const candidate = policyDate > policy.company.updatedAt ? policyDate : policy.company.updatedAt;
+    const existing = companyLastModified.get(policy.company.slug);
+    if (!existing || candidate > existing) companyLastModified.set(policy.company.slug, candidate);
+  }
+  const knowledgeCompanyEntries: MetadataRoute.Sitemap = [...companyLastModified.entries()].map(([slug, lastModified]) => ({
+    url: `${BASE_URL}/knowledge/companies/${slug}`,
+    lastModified,
+    changeFrequency: 'weekly' as const,
+    priority: 0.82,
+  }));
+  const knowledgeHubEntry: MetadataRoute.Sitemap = [{
+    url: `${BASE_URL}/knowledge`,
+    lastModified: knowledgePolicies[0]?.updatedAt,
+    changeFrequency: 'daily',
+    priority: 0.96,
+  }];
 
   const newsroomEntries: MetadataRoute.Sitemap = pressKitReleases.map((release) => ({
     url: `${BASE_URL}/press-kit/releases/${release.slug}`,
@@ -81,5 +133,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.84,
   }));
 
-  return [...staticEntries, ...pulseEntries, ...newsroomEntries, ...changeEntries];
+  return [
+    ...staticEntries,
+    ...knowledgeHubEntry,
+    ...knowledgeCompanyEntries,
+    ...knowledgePolicyEntries,
+    ...pulseEntries,
+    ...newsroomEntries,
+    ...changeEntries,
+  ];
 }
