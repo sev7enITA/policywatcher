@@ -237,9 +237,13 @@ describe('public press kit', () => {
     const adminShellAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'admin-shell-readability');
     expect(adminShellAtlasItem?.route).toEqual({ href: '/admin', label: 'Admin Operations', access: 'protected' });
     const knowledgeItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'crawlable-public-knowledge-layer');
-    expect(knowledgeItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(knowledgeItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.26', endRelease: '3.9.0-beta.26' });
     const knowledgeAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'crawlable-public-knowledge-layer');
     expect(knowledgeAtlasItem?.route).toEqual({ href: '/knowledge', label: 'Public Knowledge', access: 'public' });
+    const readinessItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'admin-operational-readiness');
+    expect(readinessItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    const readinessAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'admin-operational-readiness');
+    expect(readinessAtlasItem?.route).toEqual({ href: '/admin', label: 'Admin Operations', access: 'protected' });
     expect(continuityAtlasItem?.route).toEqual({ href: '/developers/event-continuity', label: 'Event Feed Continuity Lab', access: 'public' });
   });
 });

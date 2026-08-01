@@ -34,7 +34,7 @@ export interface ReleaseImpactItem {
   externalDependency?: string;
 }
 
-export const RELEASE_IMPACT_UPDATED_AT = '31 July 2026' as const;
+export const RELEASE_IMPACT_UPDATED_AT = '1 August 2026' as const;
 
 export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.7.0', shortLabel: '3.7.0', label: '3.7.0', state: 'delivered' },
@@ -78,7 +78,8 @@ export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.9.0-beta.23', shortLabel: '3.9 B23', label: '3.9.0 Beta 23', state: 'delivered' },
   { id: '3.9.0-beta.24', shortLabel: '3.9 B24', label: '3.9.0 Beta 24', state: 'delivered' },
   { id: '3.9.0-beta.25', shortLabel: '3.9 B25', label: '3.9.0 Beta 25', state: 'delivered' },
-  { id: '3.9.0-beta.26', shortLabel: '3.9 B26', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
+  { id: '3.9.0-beta.26', shortLabel: '3.9 B26', label: '3.9.0 Beta 26', state: 'delivered' },
+  { id: '3.9.0-beta.27', shortLabel: '3.9 B27', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
   { id: 'next', shortLabel: 'Next', label: 'Next beta horizon', state: 'planned' },
   { id: 'later', shortLabel: 'Later', label: 'Later horizon', state: 'planned' },
 ];
@@ -97,11 +98,26 @@ export const RELEASE_IMPACT_DOMAINS: ReleaseImpactDomain[] = [
 
 export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
   {
+    id: 'admin-operational-readiness',
+    title: 'Operational Readiness Dashboard',
+    summary: 'Connects deterministic protected priorities, publication readiness, independent live status, role-safe actions and bounded measurement in one administrative evidence sequence.',
+    domainId: 'operations',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '3.9.0-beta.27',
+    endRelease: '3.9.0-beta.27',
+    benefit: 'Administrators receive one responsible-console action per priority while Auditors receive read-only verification routes over the same bounded operational evidence.',
+    kpi: 'Implementation inventory: at most five priorities, five readiness stages, four independently loaded status cards and five bounded dashboard measurement definitions',
+    kri: 'Residual KRI: unavailable metrics, absent scans or missing modules can limit the view and must not be interpreted as zero or healthy',
+    evidence: 'Protected Action Center, Publication Readiness Funnel, live-status endpoints, role presentation mapping, privacy-minimized telemetry contract, text alternatives and focused regression tests.',
+    limitation: 'The dashboard does not certify operational health, task completion, usability, accessibility, service levels, security or compliance. Server-side authorization remains authoritative.',
+  },
+  {
     id: 'crawlable-public-knowledge-layer',
     title: 'Crawlable Public Knowledge Layer',
     summary: 'Publishes evidence-gated company and policy references as server-rendered HTML with canonical entity routes and bounded machine discovery.',
     domainId: 'distribution',
-    status: 'current',
+    status: 'delivered',
     horizon: 'delivered',
     startRelease: '3.9.0-beta.26',
     endRelease: '3.9.0-beta.26',

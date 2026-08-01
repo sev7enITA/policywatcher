@@ -14,6 +14,7 @@ vi.mock('@/lib/db', () => ({
 }));
 
 import {
+  buildEnvironmentReadiness,
   classifyDatabaseError,
   EXPECTED_DATABASE_MIGRATIONS,
   EXPECTED_DATABASE_TABLES,
@@ -107,6 +108,27 @@ describe('database readiness report', () => {
     expect(classifyDatabaseError(new Error('database is locked'))).toBe('SQLITE_BUSY');
     expect(classifyDatabaseError(new Error('database disk image is malformed'))).toBe('SQLITE_CORRUPT');
     expect(classifyDatabaseError(new Error('arbitrary internal statement'))).toBe('DATABASE_QUERY_FAILED');
+  });
+
+  it('returns a fixed six-variable presence contract without exposing values', () => {
+    const report = buildEnvironmentReadiness({
+      GEMINI_API_KEY: 'sensitive-key',
+      API_SECRET: '',
+      SESSION_HMAC_SECRET: 'sensitive-secret',
+      DATABASE_URL: 'file:/private/database.db',
+      SMTP_HOST: undefined,
+      ADMIN_USER: 'admin@example.test',
+    });
+
+    expect(report).toMatchObject({ configuredCount: 4, expectedCount: 6 });
+    expect(report.variables.map((variable) => variable.name)).toEqual([
+      'GEMINI_API_KEY', 'API_SECRET', 'SESSION_HMAC_SECRET', 'DATABASE_URL', 'SMTP_HOST', 'ADMIN_USER',
+    ]);
+    expect(report.variables.map((variable) => variable.status)).toEqual([
+      'SET', 'NOT SET', 'SET', 'SET', 'NOT SET', 'SET',
+    ]);
+    expect(JSON.stringify(report)).not.toContain('sensitive');
+    expect(JSON.stringify(report)).not.toContain('/private/database.db');
   });
 
   it('keeps the protected endpoint and interface read-only', () => {

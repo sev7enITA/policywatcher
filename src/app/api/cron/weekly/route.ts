@@ -19,6 +19,7 @@ import { isAuthorized } from '@/lib/auth';
 import { normalizePreferenceKey, splitPreferenceKeys } from '@/lib/subscriberPreferences';
 import { publicChangeWhere } from '@/lib/publicDataGate';
 import { cleanupOldAdminAccessLogs } from '@/lib/adminAccessLog';
+import { cleanupAdminDashboardTelemetry } from '@/lib/adminDashboardTelemetryStorage';
 
 /**
  * Sends a personalised weekly digest to every active WEEKLY subscriber.
@@ -38,6 +39,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
   try {
+    try {
+      await cleanupAdminDashboardTelemetry();
+    } catch (cleanupError) {
+      console.warn('[Weekly Cron] Dashboard telemetry retention cleanup failed:', cleanupError);
+    }
+
     // 1. Get all active subscribers with WEEKLY frequency
     const subscribers = await db.subscriber.findMany({
       where: { 

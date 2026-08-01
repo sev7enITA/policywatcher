@@ -22,6 +22,7 @@ export const EXPECTED_DATABASE_TABLES = [
   'SourceOnboardingItem',
   'AdminAccessLog',
   'PressMetricEvent',
+  'AdminDashboardMetricEvent',
   'RegionImpact',
   'Subscriber',
 ] as const;
@@ -36,9 +37,31 @@ export const EXPECTED_DATABASE_MIGRATIONS = [
   '20260729153000_public_change_publication_time',
   '20260730043000_source_reliability',
   '20260730162000_webhook_delivery_pilot',
+  '20260801090000_admin_dashboard_telemetry',
 ] as const;
 
 export type DatabaseReadinessStatus = 'ready' | 'degraded' | 'unavailable';
+
+export const ENVIRONMENT_READINESS_VARIABLES = [
+  'GEMINI_API_KEY',
+  'API_SECRET',
+  'SESSION_HMAC_SECRET',
+  'DATABASE_URL',
+  'SMTP_HOST',
+  'ADMIN_USER',
+] as const;
+
+export type EnvironmentReadinessVariable = (typeof ENVIRONMENT_READINESS_VARIABLES)[number];
+
+export interface EnvironmentReadinessReport {
+  configuredCount: number;
+  expectedCount: number;
+  variables: Array<{
+    name: EnvironmentReadinessVariable;
+    status: 'SET' | 'NOT SET';
+  }>;
+  boundary: string;
+}
 
 interface SqliteNameRow { name: string }
 interface SqliteValueRow { [key: string]: unknown }
@@ -70,7 +93,24 @@ export interface DatabaseReadinessReport {
     lastAppliedMigration: string | null;
     lastAppliedAt: string | null;
   };
+  environment: EnvironmentReadinessReport;
   diagnosticCode: string | null;
+}
+
+export function buildEnvironmentReadiness(
+  environment: NodeJS.ProcessEnv = process.env,
+): EnvironmentReadinessReport {
+  const variables = ENVIRONMENT_READINESS_VARIABLES.map((name) => ({
+    name,
+    status: environment[name] ? 'SET' as const : 'NOT SET' as const,
+  }));
+
+  return {
+    configuredCount: variables.filter((variable) => variable.status === 'SET').length,
+    expectedCount: ENVIRONMENT_READINESS_VARIABLES.length,
+    variables,
+    boundary: 'Configuration presence only. It does not verify secret validity, service reachability, production health or operational readiness.',
+  };
 }
 
 function firstValue(rows: SqliteValueRow[]): unknown {
@@ -131,6 +171,7 @@ function unavailableReport(
       lastAppliedMigration: null,
       lastAppliedAt: null,
     },
+    environment: buildEnvironmentReadiness(),
     diagnosticCode,
   };
 }
@@ -214,6 +255,7 @@ export async function getDatabaseReadinessReport(): Promise<DatabaseReadinessRep
         lastAppliedMigration: lastMigration?.migration_name || null,
         lastAppliedAt: toIso(lastMigration?.finished_at || null),
       },
+      environment: buildEnvironmentReadiness(),
       diagnosticCode: null,
     };
   } catch (error) {

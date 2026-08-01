@@ -33,7 +33,7 @@ export interface PulseStory {
 }
 
 export const PULSE_SCHEMA_VERSION = '1.0.0' as const;
-export const PULSE_AS_OF = '2026-07-31' as const;
+export const PULSE_AS_OF = '2026-08-01' as const;
 export const PULSE_CANONICAL_URL = `${POLICYWATCHER_CANONICAL_ORIGIN}/pulse` as const;
 
 export const pulseBeatLabels: Record<PulseBeat, PulseLocalized> = {
@@ -130,18 +130,18 @@ export const pulseStories: PulseStory[] = [
   },
   {
     slug: 'versioned-beta-release-records',
-    version: '1.5.0',
+    version: '1.6.0',
     status: 'verified',
     beat: 'distribution',
     asOf: PULSE_AS_OF,
     updatedAt: PULSE_AS_OF,
     headline: {
-      en: 'Twenty consecutive beta records document evidence intake, delivery, QA, collaboration and workflow changes',
-      it: 'Venti record beta consecutivi documentano cambi a intake, distribuzione, QA, collaborazione e flussi delle evidenze',
+      en: 'Twenty-one consecutive beta records document evidence intake, delivery, QA, collaboration and workflow changes',
+      it: 'Ventuno record beta consecutivi documentano cambi a intake, distribuzione, QA, collaborazione e flussi delle evidenze',
     },
     deck: {
-      en: 'The release archive keeps Beta 7 through Beta 26 as dated, bounded product records with direct evidence links.',
-      it: 'L archivio release conserva dalla Beta 7 alla Beta 26 come record prodotto datati, circoscritti e collegati alle evidenze.',
+      en: 'The release archive keeps Beta 7 through Beta 27 as dated, bounded product records with direct evidence links.',
+      it: 'L archivio release conserva dalla Beta 7 alla Beta 27 come record prodotto datati, circoscritti e collegati alle evidenze.',
     },
     whyItMatters: {
       en: 'A versioned product history lets editors verify what changed in the public platform without treating release labels as measured outcomes.',
@@ -152,16 +152,17 @@ export const pulseStories: PulseStory[] = [
       it: 'I record release descrivono modifiche prodotto e controlli dichiarati. Non stabiliscono adozione, prestazioni, conformita legale o validazione indipendente.',
     },
     citation: {
-      en: `PolicyWatcher, “Versioned beta release records,” Pulse story pack v1.5.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (accessed [date]).`,
-      it: `PolicyWatcher, “Record beta versionati,” Pulse story pack v1.5.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (consultato il [data]).`,
+      en: `PolicyWatcher, “Versioned beta release records,” Pulse story pack v1.6.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (accessed [date]).`,
+      it: `PolicyWatcher, “Record beta versionati,” Pulse story pack v1.6.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (consultato il [data]).`,
     },
     visualKind: 'release-timeline',
     facts: [
-      { id: 'records', value: '20', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 26 in the public archive.', it: 'Dalla Beta 7 alla Beta 26 nell archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
-      { id: 'current', value: 'Beta 26', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Crawlable Public Knowledge Layer.', it: 'Knowledge Layer pubblica indicizzabile.' }, claimId: 'public-code', proofHref: '/press-kit/releases/crawlable-public-knowledge-layer-3-9-0-beta-26' },
+      { id: 'records', value: '21', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 27 in the public archive.', it: 'Dalla Beta 7 alla Beta 27 nell archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
+      { id: 'current', value: 'Beta 27', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Admin Operational Readiness.', it: 'Readiness operativa amministrativa.' }, claimId: 'public-code', proofHref: '/press-kit/releases/admin-operational-readiness-3-9-0-beta-27' },
     ],
     sourceLinks: [
       { href: '/press-kit/releases', label: { en: 'Versioned release archive', it: 'Archivio release versionato' }, claimId: 'public-code' },
+      { href: '/press-kit/releases/admin-operational-readiness-3-9-0-beta-27', label: { en: 'Beta 27 release record', it: 'Record release Beta 27' }, releaseSlug: 'admin-operational-readiness-3-9-0-beta-27' },
       { href: '/press-kit/releases/crawlable-public-knowledge-layer-3-9-0-beta-26', label: { en: 'Beta 26 release record', it: 'Record release Beta 26' }, releaseSlug: 'crawlable-public-knowledge-layer-3-9-0-beta-26' },
       { href: '/press-kit/releases/admin-shell-readability-3-9-0-beta-25', label: { en: 'Beta 25 release record', it: 'Record release Beta 25' }, releaseSlug: 'admin-shell-readability-3-9-0-beta-25' },
       { href: '/press-kit/releases/webhook-operations-ux-3-9-0-beta-24', label: { en: 'Beta 24 release record', it: 'Record release Beta 24' }, releaseSlug: 'webhook-operations-ux-3-9-0-beta-24' },

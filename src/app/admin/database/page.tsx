@@ -18,9 +18,12 @@ import {
   Layers3,
   RefreshCw,
   ShieldCheck,
+  Settings,
 } from 'lucide-react';
 import styles from '../admin.module.css';
 import { buildWaybackSearchUrl } from '@/lib/wayback';
+import { DatabaseRecoveryTools } from './DatabaseRecoveryTools';
+import type { EnvironmentReadinessReport } from '@/lib/databaseReadiness';
 
 /* ---------- Types ---------- */
 
@@ -85,7 +88,9 @@ interface DatabaseReadiness {
     lastAppliedMigration: string | null;
     lastAppliedAt: string | null;
   };
+  environment: EnvironmentReadinessReport;
   diagnosticCode: string | null;
+  role: 'admin' | 'auditor';
 }
 
 /* ---------- Helpers ---------- */
@@ -138,6 +143,7 @@ export default function DatabaseInspectorPage() {
   const [error, setError] = useState('');
   const [readiness, setReadiness] = useState<DatabaseReadiness | null>(null);
   const [readinessError, setReadinessError] = useState('');
+  const [role, setRole] = useState<'admin' | 'auditor'>('auditor');
   const [searchQuery, setSearchQuery] = useState('');
   const [industryFilter, setIndustryFilter] = useState('All');
 
@@ -160,8 +166,9 @@ export default function DatabaseInspectorPage() {
       if (!companiesResult.value.ok) {
         throw new Error(`Inventory endpoint responded with ${companiesResult.value.status}`);
       }
-      const data = await companiesResult.value.json();
+      const data = await companiesResult.value.json() as { companies?: CompanyData[]; role?: 'admin' | 'auditor' };
       setCompanies(data.companies ?? []);
+      if (data.role) setRole(data.role);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load the evidence inventory.');
     }
@@ -177,6 +184,7 @@ export default function DatabaseInspectorPage() {
         throw new Error(data.error || `Readiness endpoint responded with ${readinessResult.value.status}`);
       }
       setReadiness(data);
+      setRole(data.role);
     } catch (err) {
       setReadinessError(err instanceof Error ? err.message : 'Database readiness could not be evaluated.');
     } finally {
@@ -344,6 +352,34 @@ export default function DatabaseInspectorPage() {
           </>
         )}
       </section>
+
+      <section id="environment-readiness" className={styles.environmentReadinessPanel} aria-labelledby="environment-readiness-title">
+        <header className={styles.environmentReadinessHeader}>
+          <div>
+            <span>Presence-only contract</span>
+            <h2 id="environment-readiness-title"><Settings size={19} /> Environment readiness</h2>
+            <p>Only the presence of the six deployment variables is reported. Secret values are never returned.</p>
+          </div>
+          {readiness?.environment && <strong>{readiness.environment.configuredCount} / {readiness.environment.expectedCount} configured</strong>}
+        </header>
+        {readiness?.environment ? (
+          <>
+            <dl className={styles.environmentReadinessList}>
+              {readiness.environment.variables.map((variable) => (
+                <div key={variable.name} data-state={variable.status === 'SET' ? 'set' : 'missing'}>
+                  <dt><code>{variable.name}</code></dt>
+                  <dd>{variable.status}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className={styles.environmentReadinessBoundary}><ShieldCheck size={15} />{readiness.environment.boundary}</p>
+          </>
+        ) : (
+          <p className={styles.environmentReadinessBoundary}><CircleAlert size={15} />Environment presence is unavailable with the current readiness response.</p>
+        )}
+      </section>
+
+      <DatabaseRecoveryTools role={role} />
 
       {/* Stats Summary Row */}
       <div className={styles.grid4} style={{ marginBottom: 24 }}>

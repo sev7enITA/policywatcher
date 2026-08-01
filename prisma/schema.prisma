@@ -483,6 +483,23 @@ model PressMetricEvent {
   @@index([eventType, target, createdAt])
 }
 
+model AdminDashboardMetricEvent {
+  id            String   @id @default(uuid())
+  visitId       String
+  eventType     String
+  eventKey      String
+  actorRole     String
+  priorityId    String?
+  destination   String?
+  numericValue  Int?
+  viewportClass String
+  createdAt     DateTime @default(now())
+
+  @@unique([visitId, eventKey])
+  @@index([eventType, createdAt])
+  @@index([createdAt])
+}
+
 model RegionImpact {
   id               String       @id @default(uuid())
   policyChangeId   String

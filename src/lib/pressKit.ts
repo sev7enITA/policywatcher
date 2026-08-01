@@ -225,7 +225,7 @@ export const pressKitClaims: PressKitClaim[] = [
     type: 'freshness',
     proofHref: '/timeline',
     proofLabel: { en: 'Policy timeline', it: 'Timeline policy' },
-    boundary: { en: 'Release metadata is dated 31 July 2026; update intervals depend on source retrieval and review.', it: 'I metadata di release sono datati 31 luglio 2026; gli intervalli di aggiornamento dipendono dal recupero e dalla revisione delle fonti.' },
+    boundary: { en: 'Release metadata is dated 1 August 2026; update intervals depend on source retrieval and review.', it: 'I metadata di release sono datati 1 agosto 2026; gli intervalli di aggiornamento dipendono dal recupero e dalla revisione delle fonti.' },
     asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
     reviewCadence: { en: 'Each source-screening release', it: 'Ogni release di screening fonti' }, recordStatus: 'current', permalink: '/press-kit#claim-source-timestamps',
   },
@@ -444,12 +444,39 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'crawlable-public-knowledge-layer-3-9-0-beta-26',
+    slug: 'admin-operational-readiness-3-9-0-beta-27',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'product',
+    title: { en: 'Admin Operational Readiness', it: 'Readiness operativa amministrativa' },
+    summary: { en: 'Connects protected operational priorities, publication readiness, independent live status, role-safe actions and bounded measurement without presenting missing evidence as healthy.', it: 'Collega priorita operative protette, readiness di pubblicazione, live status indipendenti, azioni role-safe e misurazione circoscritta senza presentare evidenze mancanti come healthy.' },
+    changes: [
+      { en: 'A deterministic Action Center returns at most five priorities with severity, cause, timestamp, impact and one responsible-console destination.', it: 'Un Action Center deterministico restituisce al massimo cinque priorita con severita, causa, timestamp, impatto e una destinazione verso la console responsabile.' },
+      { en: 'The publication-readiness funnel exposes Configured, Retrieved, Baseline verified, Public and Analysed counts with one denominator, exclusions and unavailable semantics.', it: 'Il funnel di readiness espone Configured, Retrieved, Baseline verified, Public e Analysed con un denominatore, esclusioni e semantica unavailable.' },
+      { en: 'Dataset QA, Database Readiness, Webhook Delivery and VPS status load independently so one unavailable module does not suppress the others.', it: 'Dataset QA, Database Readiness, Webhook Delivery e stato VPS vengono caricati indipendentemente affinche un modulo non disponibile non nasconda gli altri.' },
+      { en: 'Admin presentation points to operational consoles; Auditor presentation points to read-only verification routes over the same evidence.', it: 'La presentazione Admin indirizza alle console operative; quella Auditor a route di verifica in sola lettura sulla stessa evidenza.' },
+      { en: 'Allowlisted dashboard measurement uses server-derived role, per-visit deduplication, minimum samples and bounded 90-day retention.', it: 'La misurazione dashboard in allowlist usa ruolo derivato dal server, deduplicazione per visita, campioni minimi e conservazione circoscritta a 90 giorni.' },
+    ],
+    boundaries: [
+      { en: 'Missing scans, metrics, migrations and unavailable modules remain unknown rather than zero, clear or healthy.', it: 'Scansioni, metriche e migrazioni mancanti e moduli non disponibili restano ignoti anziche zero, clear o healthy.' },
+      { en: 'The release does not establish task completion, usability improvement, accessibility conformance, operational health, service levels, security or compliance.', it: 'La release non stabilisce completamento dei task, miglioramento di usabilita, conformita accessibile, salute operativa, livelli di servizio, sicurezza o compliance.' },
+    ],
+    evidenceLinks: [
+      { href: '/methodology/confidence', label: { en: 'Confidence methodology', it: 'Metodologia di confidence' } },
+      { href: '/roadmap', label: { en: 'Release impact', it: 'Impatto release' } },
+      { href: '/privacy', label: { en: 'Measurement privacy boundary', it: 'Confine privacy della misurazione' } },
+    ],
+  },
+  {
+    slug: 'crawlable-public-knowledge-layer-3-9-0-beta-26',
+    version: '3.9.0-beta.26',
+    displayVersion: '3.9.0 Beta 26',
+    datePublished: '2026-07-31',
+    dateModified: '2026-07-31',
+    status: 'archived',
     category: 'product',
     title: { en: 'Crawlable Public Knowledge Layer', it: 'Knowledge Layer pubblica indicizzabile' },
     summary: { en: 'Adds server-rendered public reference pages and machine discovery for records that pass the existing evidence gates.', it: 'Aggiunge pagine di riferimento pubbliche renderizzate sul server e discovery machine-readable per i record che superano i gate di evidenza esistenti.' },
@@ -1053,7 +1080,8 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
-  { id: 'crawlable-public-knowledge-layer-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Crawlable Public Knowledge Layer published', it: 'Pubblicata la Knowledge Layer pubblica indicizzabile' }, detail: { en: 'Evidence-gated company and policy references are now available in initial server-rendered HTML with canonical routes, citations and machine discovery files.', it: 'I riferimenti ad aziende e policy ammessi dai gate di evidenza sono ora disponibili nell HTML iniziale renderizzato sul server, con route canoniche, citazioni e file di discovery machine-readable.' }, affectedHref: '/press-kit/releases/crawlable-public-knowledge-layer-3-9-0-beta-26' },
+  { id: 'admin-operational-readiness-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Admin Operational Readiness published', it: 'Pubblicata la readiness operativa amministrativa' }, detail: { en: 'The protected dashboard now connects deterministic priorities, publication readiness, independent live status, role-safe actions and bounded measurement with explicit unavailable states.', it: 'La dashboard protetta ora collega priorita deterministiche, readiness di pubblicazione, live status indipendenti, azioni role-safe e misurazione circoscritta con stati unavailable espliciti.' }, affectedHref: '/press-kit/releases/admin-operational-readiness-3-9-0-beta-27' },
+  { id: 'crawlable-public-knowledge-layer-release', occurredAt: '2026-07-31', type: 'release', title: { en: 'Crawlable Public Knowledge Layer published', it: 'Pubblicata la Knowledge Layer pubblica indicizzabile' }, detail: { en: 'Evidence-gated company and policy references are now available in initial server-rendered HTML with canonical routes, citations and machine discovery files.', it: 'I riferimenti ad aziende e policy ammessi dai gate di evidenza sono ora disponibili nell HTML iniziale renderizzato sul server, con route canoniche, citazioni e file di discovery machine-readable.' }, affectedHref: '/press-kit/releases/crawlable-public-knowledge-layer-3-9-0-beta-26' },
   { id: 'admin-shell-readability-release', occurredAt: '2026-07-30', type: 'release', title: { en: 'Admin Shell Readability published', it: 'Pubblicata la leggibilita della shell amministrativa' }, detail: { en: 'The protected administrative shell now exposes role, current route, structural active state, keyboard entry and accessible verification states consistently.', it: 'La shell amministrativa protetta ora espone in modo coerente ruolo, percorso corrente, stato attivo strutturale, accesso da tastiera e stati di verifica accessibili.' }, affectedHref: '/press-kit/releases/admin-shell-readability-3-9-0-beta-25' },
   { id: 'webhook-operations-ux-release', occurredAt: '2026-07-30', type: 'release', title: { en: 'Webhook Operations UX published', it: 'Pubblicata la UX delle operazioni webhook' }, detail: { en: 'The protected webhook console now derives one bounded operational focus and provides local status and identifier filtering with explicit mobile and auditor states.', it: 'La console webhook protetta ora deriva una priorita operativa circoscritta e offre filtri locali per stato e identificatore con stati mobile e auditor espliciti.' }, affectedHref: '/press-kit/releases/webhook-operations-ux-3-9-0-beta-24' },
   { id: 'configured-webhook-delivery-release', occurredAt: '2026-07-30', type: 'release', title: { en: 'Configured Webhook Delivery Pilot published', it: 'Pubblicato il pilot di consegna webhook configurata' }, detail: { en: 'Deployment operators can configure signed delivery of eligible public change events through a persistent outbox, bounded retries and a protected operational ledger.', it: 'Gli operatori del deployment possono configurare la consegna firmata degli eventi pubblici idonei tramite outbox persistente, retry circoscritti e registro operativo protetto.' }, affectedHref: '/press-kit/releases/configured-webhook-delivery-pilot-3-9-0-beta-23' },

@@ -136,7 +136,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.23', shortLabel: '3.9 B23', label: '3.9.0 Beta 23' },
   { id: '3.9.0-beta.24', shortLabel: '3.9 B24', label: '3.9.0 Beta 24' },
   { id: '3.9.0-beta.25', shortLabel: '3.9 B25', label: '3.9.0 Beta 25' },
-  { id: '3.9.0-beta.26', shortLabel: '3.9 B26', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '3.9.0-beta.26', shortLabel: '3.9 B26', label: '3.9.0 Beta 26' },
+  { id: '3.9.0-beta.27', shortLabel: '3.9 B27', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -168,6 +169,7 @@ const primaryUserByDomain: Record<string, string> = {
 };
 
 const routeByFeature: Record<string, FeatureAtlasRoute> = {
+  'admin-operational-readiness': { href: '/admin', label: 'Admin Operations', access: 'protected' },
   'crawlable-public-knowledge-layer': { href: '/knowledge', label: 'Public Knowledge', access: 'public' },
   'admin-shell-readability': { href: '/admin', label: 'Admin Operations', access: 'protected' },
   'webhook-operations-ux': { href: '/admin/webhook-delivery', label: 'Webhook Delivery', access: 'protected' },
@@ -217,6 +219,7 @@ const routeByFeature: Record<string, FeatureAtlasRoute> = {
 };
 
 const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
+  'admin-operational-readiness': [{ featureId: 'admin-operations', relationship: 'depends-on' }, { featureId: 'dataset-qa', relationship: 'governed-by' }],
   'crawlable-public-knowledge-layer': [{ featureId: 'public-evidence-gate', relationship: 'governed-by' }, { featureId: 'interactive-public-navigation', relationship: 'distributed-through' }],
   'verified-browser-store-distribution': [{ featureId: 'browser-companion', relationship: 'distributed-through' }],
   'evidence-newsroom': [{ featureId: 'editorial-briefing-room', relationship: 'depends-on' }, { featureId: 'public-claim-language-governance', relationship: 'governed-by' }, { featureId: 'press-kit-navigation-discovery', relationship: 'distributed-through' }],

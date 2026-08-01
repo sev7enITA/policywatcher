@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   }
 
   const report = await getDatabaseReadinessReport();
-  return NextResponse.json(report, {
+  return NextResponse.json({ ...report, role: session.role }, {
     status: report.status === 'unavailable' ? 503 : 200,
     headers: { 'Cache-Control': 'no-store, max-age=0' },
   });

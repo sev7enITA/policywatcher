@@ -40,6 +40,7 @@ import styles from './admin.module.css';
 import { AdminPageGuide } from '@/components/admin/AdminPageGuide';
 import { getAdminGuide } from '@/lib/adminGuides';
 import { POLICYWATCHER_VERSION } from '@/lib/release';
+import { AdminDashboardTelemetryClient } from './AdminDashboardTelemetryClient';
 
 type Role = 'admin' | 'auditor';
 
@@ -477,6 +478,7 @@ export default function AdminLayout({
         <AdminPageGuide key={pathname} pathname={pathname} />
         {children}
       </main>
+      <AdminDashboardTelemetryClient />
     </div>
   );
 }

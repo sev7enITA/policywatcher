@@ -359,6 +359,20 @@ TABLES = [
     )
     """,
     """
+    CREATE TABLE IF NOT EXISTS "AdminDashboardMetricEvent" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "visitId" TEXT NOT NULL,
+      "eventType" TEXT NOT NULL,
+      "eventKey" TEXT NOT NULL,
+      "actorRole" TEXT NOT NULL,
+      "priorityId" TEXT,
+      "destination" TEXT,
+      "numericValue" INTEGER,
+      "viewportClass" TEXT NOT NULL,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )
+    """,
+    """
     CREATE TABLE IF NOT EXISTS "ScanRun" (
       "id" TEXT NOT NULL PRIMARY KEY,
       "status" TEXT NOT NULL DEFAULT 'running',
@@ -540,6 +554,9 @@ INDEXES = [
     'CREATE INDEX IF NOT EXISTS "AdminAccessLog_ipAddress_idx" ON "AdminAccessLog"("ipAddress")',
     'CREATE INDEX IF NOT EXISTS "PressMetricEvent_eventType_createdAt_idx" ON "PressMetricEvent"("eventType", "createdAt")',
     'CREATE INDEX IF NOT EXISTS "PressMetricEvent_eventType_target_createdAt_idx" ON "PressMetricEvent"("eventType", "target", "createdAt")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "AdminDashboardMetricEvent_visitId_eventKey_key" ON "AdminDashboardMetricEvent"("visitId", "eventKey")',
+    'CREATE INDEX IF NOT EXISTS "AdminDashboardMetricEvent_eventType_createdAt_idx" ON "AdminDashboardMetricEvent"("eventType", "createdAt")',
+    'CREATE INDEX IF NOT EXISTS "AdminDashboardMetricEvent_createdAt_idx" ON "AdminDashboardMetricEvent"("createdAt")',
 ]
 
 UPGRADE_COLUMNS = {

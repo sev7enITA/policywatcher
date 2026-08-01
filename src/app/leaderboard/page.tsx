@@ -297,6 +297,11 @@ export default async function LeaderboardPage() {
               certify companies, legal compliance, internal conduct, safety, or
               provider trustworthiness.
             </p>
+            <p>
+              This public evidence-orientation board is separate from the protected
+              five-stage publication-readiness funnel. An empty or unavailable board
+              is not evidence that protected operations are healthy.
+            </p>
             <div className={styles.heroActions}>
               <Link href="#evidence-board" className={styles.primaryAction}>
                 Inspect evidence board
@@ -346,7 +351,7 @@ export default async function LeaderboardPage() {
           detail="configured public-source records"
         />
         <MetricTile
-          label="Evidence-gated policies"
+          label="Verified public baselines"
           value={snapshot.summary.verifiedPolicyCount}
           detail="non-seeded public baselines"
         />

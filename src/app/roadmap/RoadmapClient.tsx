@@ -484,7 +484,7 @@ const releaseLanes = [
     label: POLICYWATCHER_VERSION,
     title: POLICYWATCHER_RELEASE_NAME,
     body:
-      'Server-rendered public Knowledge index, canonical company and policy references, a crawlable home snapshot, machine discovery files and fail-closed publication boundaries.',
+      'Protected five-priority Action Center, five-stage publication-readiness funnel, four independent live-status cards, role-specific Admin/Auditor presentation and bounded dashboard measurement with unavailable states preserved.',
     state: 'current',
   },
   {

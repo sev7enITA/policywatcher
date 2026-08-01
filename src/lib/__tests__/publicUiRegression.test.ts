@@ -121,7 +121,7 @@ describe('public UI regression fixes', () => {
     expect(FEATURE_ATLAS_FEATURES.some((feature) => feature.id === 'governed-regional-benchmark-visualizations')).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.some((item) => item.kpi && item.kri)).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.filter((item) => ['shareable-evidence-views', 'coordinated-evidence-drilldown'].includes(item.id))).toHaveLength(2);
-    expect(RELEASE_IMPACT_UPDATED_AT).toBe('31 July 2026');
+    expect(RELEASE_IMPACT_UPDATED_AT).toBe('1 August 2026');
     expect(FEATURE_ATLAS_CURRENT_RELEASE_ID).toBe(POLICYWATCHER_VERSION);
     expect(FEATURE_ATLAS_RELEASES.filter((release) => release.current)).toHaveLength(1);
     expect(RELEASE_COLUMNS.filter((release) => release.state === 'current').map((release) => release.id)).toEqual([POLICYWATCHER_VERSION]);
@@ -226,7 +226,7 @@ describe('public UI regression fixes', () => {
     expect(trust).toContain('Historical snapshot · 5 July 2026');
     expect(leaderboard).toContain('snapshot.generatedAt');
     expect(observatory).toContain('OBSERVATORY_VERIFIED_AT');
-    expect(privacy).toContain('Last updated: July 29, 2026');
+    expect(privacy).toContain('Last updated: August 1, 2026');
   });
 
   it('uses the shared public shell on conventional editorial and evidence pages', () => {

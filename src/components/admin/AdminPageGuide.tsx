@@ -60,7 +60,7 @@ export function AdminPageGuide({ pathname }: { pathname: string }) {
 
   return (
     <>
-      <div className={styles.guideToolbar}>
+      <div className={`${styles.guideToolbar} ${pathname === '/admin' ? styles.guideToolbarCompact : ''}`}>
         <div className={styles.guideToolbarContext}>
           <BookOpen size={16} aria-hidden="true" />
           <span>Need help with {guide.title}?</span>

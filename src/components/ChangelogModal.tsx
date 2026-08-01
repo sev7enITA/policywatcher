@@ -89,7 +89,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Current Beta</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      The current release adds a server-rendered public Knowledge index, canonical company and policy pages, a visible crawlable home snapshot, crawler discovery files and safely serialized structured data. The existing evidence gates remain authoritative: missing, invalid and withheld records fail closed, and raw policy text, internal diagnostics and protected data remain unavailable.
+                      The current release adds a protected five-priority Action Center, a five-stage publication-readiness funnel, four independently loaded live-status cards, role-specific Admin and Auditor presentation, and bounded operational measurement. Missing metrics and unavailable modules remain unknown rather than zero or healthy. Server-side authorization remains authoritative, and measured values do not establish usability, task completion, accessibility, service-level or operational-health claims.
                     </p>
                   </div>
 

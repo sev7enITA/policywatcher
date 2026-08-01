@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage() {
       <main className={styles.container}>
       <article className={styles.content}>
         <h1 className={styles.title}>Privacy Policy</h1>
-        <p className={styles.subtitle}>Last updated: July 29, 2026</p>
+        <p className={styles.subtitle}>Last updated: August 1, 2026</p>
 
         <section className={styles.section}>
           <h2>Who we are</h2>
@@ -29,6 +29,29 @@ export default function PrivacyPolicyPage() {
           <p>
             For any privacy-related questions, you can contact us at:{' '}
             <a href="mailto:privacy@policywatcher.online">privacy@policywatcher.online</a>
+          </p>
+        </section>
+
+        <section className={styles.section}>
+          <h2>Protected dashboard measurement</h2>
+          <p>
+            The authenticated administrative dashboard can record four allowlisted operational events:
+            time to the first tagged action, an Action Center destination attempt, confirmed arrival at
+            its canonical protected route, and mobile distance to the first priority. The authenticated
+            role is derived by the server and arbitrary destinations or metadata are rejected.
+          </p>
+          <p>
+            Each event retains a random per-visit identifier, event type and key, Admin or Auditor role,
+            an allowlisted priority and destination when applicable, a bounded numeric value, viewport
+            class and server timestamp. Records are retained for at most 90 days and per-visit event keys
+            are deduplicated.
+          </p>
+          <p>
+            Dashboard measurement does not store an IP address, user agent, referrer, email, username,
+            account identifier, query string, free text or arbitrary metadata. Event-derived values remain
+            hidden until their stated minimum sample is available. Missing or unavailable measurements are
+            not converted to zero and do not establish task completion, usability improvement, accessibility
+            conformance, service levels or operational health.
           </p>
         </section>
 
@@ -228,6 +251,7 @@ export default function PrivacyPolicyPage() {
             <li>Production traffic is configured to use HTTPS/TLS; transport security depends on the active hosting and proxy configuration.</li>
             <li>Access to the database is restricted and protected by API authentication.</li>
             <li>Application logs use masked recipient references for email operations. Hosting-level request logs and their retention remain subject to the active provider configuration.</li>
+            <li>The protected Admin dashboard can store allowlisted aggregate-use events with a random per-visit identifier, server-derived role, viewport class and bounded numeric values. It does not store an IP address, user agent, referrer, email, username, account identifier, query string, free text or arbitrary metadata in this telemetry table. Retention is 90 days.</li>
             <li>We do not store data longer than necessary. If you unsubscribe, your data is marked as inactive and can be permanently deleted upon request.</li>
           </ul>
         </section>

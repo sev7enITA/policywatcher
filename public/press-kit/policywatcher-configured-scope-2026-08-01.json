@@ -1,0 +1,34 @@
+{
+  "schema": "https://policywatcher.online/schemas/press-kit-data-snapshot/v1",
+  "snapshotId": "configured-scope-2026-08-01",
+  "asOf": "2026-08-01",
+  "generatedAt": "2026-08-01",
+  "canonicalUrl": "https://policywatcher.online/press-kit/data",
+  "facts": [
+    {
+      "id": "monitored-companies",
+      "value": "16",
+      "unit": "configured monitored companies",
+      "scope": "Excludes the WAZE admin-onboarding fixture; not exhaustive market coverage."
+    },
+    {
+      "id": "configured-sectors",
+      "value": "6",
+      "unit": "configured sectors",
+      "scope": "Sector labels organize the monitored inventory."
+    },
+    {
+      "id": "canonical-kpis",
+      "value": "15",
+      "unit": "canonical KPIs",
+      "scope": "Privacy, AI governance and ethics; unavailable assessments are Not assessed."
+    },
+    {
+      "id": "editorial-languages",
+      "value": "EN / IT",
+      "unit": "editorial languages",
+      "scope": "Press kit and selected guidance surfaces."
+    }
+  ],
+  "boundary": "Configured product inventory and method; not exhaustive market coverage or measured compliance."
+}

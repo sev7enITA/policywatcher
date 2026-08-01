@@ -107,7 +107,7 @@ const translationContent = {
       {
         icon: ShieldCheck,
         title: '5. Adaptive Workspace & Public Surfaces',
-        desc: `Release ${POLICYWATCHER_VERSION} adds server-rendered public reference pages without changing evidence rules.`,
+        desc: `Release ${POLICYWATCHER_VERSION} adds protected operational-readiness presentation and bounded measurement without changing public evidence rules or server-side authorization.`,
         bullets: [
           'Adaptive Workspace: users can select a session intent (Citizen, GRC / Legal, Research, Builder) and evidence depth (Snapshot, Operational, Forensic).',
           'Validated composition: dashboard modules come from an immutable allowlist with deterministic identities; each valid composition requires Source QA as its first module.',
@@ -123,7 +123,11 @@ const translationContent = {
           'Integration boundary: no public v1 route exposes policy text, hashes, raw retrieval failures, administrative records, credentials, write operations or outbound webhooks.',
           'Site Atlas: maps public pages, trust surfaces, methodology pages, community pages, and protected admin boundaries as an entity relationship graph.',
           'Press and Roadmap: public references and community priorities are tracked for transparency; they are not treated as endorsements, certifications, or external validation of company compliance.',
-          'Admin boundary: operational tools such as Cron Manager, Dataset QA, Review Log, Access Log, Company Registry, Database diagnostics, KPI Audit, and VPS Services remain protected by admin/auditor roles.'
+          'Admin boundary: operational tools such as Cron Manager, Dataset QA, Review Log, Access Log, Company Registry, Database diagnostics, KPI Audit, and VPS Services remain protected by admin/auditor roles.',
+          'Protected dashboard measurement: allowlisted events use a random per-visit identifier, server-derived role, bounded values and 90-day retention. Event-derived values remain hidden below the stated minimum sample and do not establish targets or improvement.',
+          'False-positive prevention: missing scans, absent migrations, unavailable modules and unknown metrics remain explicitly unavailable. They are not converted to zero, clear or healthy states.',
+          'Role-safe operations: the same protected evidence is presented as responsible-console actions for Admin and read-only verification routes for Auditor; endpoint authorization remains authoritative.',
+          'Operational sequence: the dashboard links at most five priorities to a five-stage Configured → Retrieved → Baseline verified → Public → Analysed funnel, four independently loaded live-status cards and bounded measurement.'
         ]
       },
       {
@@ -226,7 +230,7 @@ const translationContent = {
       {
         icon: ShieldCheck,
         title: '5. Workspace adattivo e superfici pubbliche',
-        desc: `La release ${POLICYWATCHER_VERSION} valida il layer dashboard nativo senza cambiare le regole di evidenza.`,
+        desc: `La release ${POLICYWATCHER_VERSION} aggiunge presentazione della readiness operativa protetta e misurazione circoscritta senza cambiare le regole di evidenza pubblica o l autorizzazione server-side.`,
         bullets: [
           'Workspace adattivo: l\'utente puo selezionare intento di sessione (Cittadino, GRC / Legal, Ricerca, Builder) e profondita evidenza (Snapshot, Operativa, Forensic).',
           'Composizione validata: i moduli dashboard provengono da una allowlist immutabile con identita deterministiche; Source QA e obbligatorio e resta in prima posizione.',
@@ -241,7 +245,11 @@ const translationContent = {
           'Confine di integrazione: nessuna route pubblica v1 espone testo policy, hash, errori raw di retrieval, record amministrativi, credenziali, operazioni di scrittura o webhook in uscita.',
           'Site Atlas: mappa pagine pubbliche, superfici trust, pagine metodologia, pagine community e confini admin protetti come grafo entita-relazioni.',
           'Press e Roadmap: riferimenti pubblici e priorita community sono tracciati per trasparenza; non sono endorsement, certificazioni o validazioni esterne della compliance aziendale.',
-          'Confine admin: strumenti operativi come Cron Manager, Dataset QA, Review Log, Access Log, Company Registry, diagnostica database, KPI Audit e VPS Services restano protetti da ruoli admin/auditor.'
+          'Confine admin: strumenti operativi come Cron Manager, Dataset QA, Review Log, Access Log, Company Registry, diagnostica database, KPI Audit e VPS Services restano protetti da ruoli admin/auditor.',
+          'Misurazione dashboard protetta: gli eventi in allowlist usano un identificativo casuale per visita, ruolo derivato dal server, valori limitati e conservazione di 90 giorni. I valori restano nascosti sotto il campione minimo e non stabiliscono target o miglioramenti.',
+          'Prevenzione dei falsi positivi: scansioni mancanti, migrazioni assenti, moduli non disponibili e metriche ignote restano esplicitamente non disponibili. Non vengono convertiti in stati zero, clear o healthy.',
+          'Operazioni role-safe: la stessa evidenza protetta e presentata come azione verso la console responsabile per Admin e route di verifica in sola lettura per Auditor; l autorizzazione degli endpoint resta autorevole.',
+          'Sequenza operativa: la dashboard collega al massimo cinque priorita a un funnel in cinque stadi Configured → Retrieved → Baseline verified → Public → Analysed, quattro live-status card indipendenti e misurazione circoscritta.'
         ]
       },
       {

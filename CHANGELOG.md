@@ -2,6 +2,75 @@
 
 ## Unreleased
 
+## 3.9.0-beta.27 - 2026-08-01
+
+### Admin Operational Readiness
+
+### Admin responsive completion and measurement baseline
+- Added a compact protected Dashboard Measurement ledger for time to first tagged action, confirmed Action Center routing, priorities without timestamps, priorities by severity and mobile distance to the first priority.
+- Added a dedicated `AdminDashboardMetricEvent` store, strict event and destination allowlists, server-derived role, per-visit deduplication, confirmed-arrival matching and bounded 90-day cleanup.
+- Kept event-derived values hidden until a ten-visit or ten-attempt baseline exists and display measurement-enabled, baseline-pending or unavailable states without targets or performance claims.
+- Added a synchronized HTML text-table equivalent for Policy Risk Profiles, explicit refresh announcements and focus handoff, reduced-motion handling and stable narrow-screen containment.
+- Reduced mobile dashboard guide spacing, retained a 44px navigation and action floor, and strengthened Auditor database-recovery wording without asserting backup availability or freshness.
+
+### Scope boundary
+- Dashboard telemetry stores no IP address, user agent, referrer, email, username, account identifier, query string, free text or arbitrary metadata. A random per-visit identifier is retained for at most 90 days.
+- Measurements describe a bounded protected-dashboard sample. They do not identify people, prove task completion, establish usability improvement or constitute a service, accessibility or operational-health certification.
+
+### Role-specific Admin and Auditor presentation
+- Added a pure presentation layer that preserves canonical operational data while adapting dashboard headings, verbs and destinations to the authenticated role.
+- Kept Admin actions routed to responsible operational consoles and mapped Auditor actions to visible read-only evidence routes for source scans, baselines, database readiness, webhook delivery, Dataset QA, KPI evidence and the review ledger.
+- Removed hidden Admin-only Cron Manager, Companies and Policy Inquiries destinations from the Auditor-rendered dashboard DOM.
+- Replaced inert Auditor mutation controls in VPS Services with explicit read-only verification context; server-side mutation authorization remains unchanged and authoritative.
+- Kept Database Recovery forms Admin-only while retaining bounded readiness, environment, integrity and recovery-boundary evidence for Auditors.
+
+### Scope boundary
+- Role-specific presentation changes labels and visible routes only. It does not grant access, duplicate protected queries or replace endpoint authorization.
+
+### Admin Dashboard Reduction
+- Replaced four detailed Press Newsroom cards with one compact measurement summary containing availability, all-time and trailing-30-day package intent, bounded editorial-event totals, the current window and a direct Press Outreach route.
+- Replaced four System Status cards with one evidence bar for runtime, environment, database size and the latest recorded analysis, with explicit unavailable semantics.
+- Replaced the dashboard environment-variable table with a sanitized configured-versus-six summary and moved the six presence-only checks to Database Readiness.
+- Moved encrypted export and local backup verification from the dashboard to Database Recovery, preserving the existing protected APIs and providing Auditors with a non-interactive read-only boundary.
+- Reduced duplicate dashboard state and copy while preserving the Operational Action Center, Live Status Cards and Publication Readiness Funnel.
+
+### Scope boundary
+- Configuration presence does not verify secret validity, service reachability, production health or operational readiness. Press counts remain aggregate bounded events rather than people, confirmed delivery or editorial outcomes.
+
+### Live Status Cards
+- Replaced the large static Dataset QA and VPS dashboard explanations with four compact live cards for Dataset QA, Database Readiness, Webhook Delivery and VPS services.
+- Added independent protected-endpoint retrieval so one unavailable module does not suppress the other returned statuses.
+- Added deterministic measured, attention, critical, not-enabled and unavailable states with explicit checked timestamps, metric availability, bounded counts and one responsible-console action.
+- Added null-versus-zero semantics so missing metrics, an unavailable database report and an intentionally disabled optional VPS agent cannot appear as healthy observations.
+- Added a shared accessible refresh control, stable loading containers, live-region feedback, post-refresh focus handoff and responsive four-, two- and one-column layouts.
+- Corrected Dataset QA review authorization so Auditor remains read-only in both the protected PATCH route and the console presentation.
+
+### Scope boundary
+- Live cards summarize the latest bounded response from four protected operational endpoints. They do not establish a service level, security posture, compliance certification or exhaustive incident inventory.
+
+### Publication Readiness Funnel
+- Replaced the generic Database Inventory chart with a five-stage policy-record funnel: Configured, Retrieved, Baseline verified, Public and Analysed.
+- Added independent evidence-backed stage queries using successful non-seeded persisted checks, public-evidence snapshots, the shared production publication predicate and public change evidence.
+- Added a single configured denominator, explicit excluded-record counts, checked timestamp, deterministic stage definitions and one responsible-console action per stage.
+- Added fail-closed stage availability so an unavailable query is displayed as unknown with null values rather than zero or measured.
+- Added a consistency-review state that preserves measured values when a later stage exceeds an earlier stage instead of silently clamping production data.
+- Added a semantic HTML table equivalent, mobile vertical hierarchy, textual states and a sanitized database-unavailable contract.
+
+### Scope boundary
+- Funnel counts measure policy records at the persisted evidence stage observed at check time. Excluded means not at that stage; it does not by itself identify an error, prove source completeness or certify publication quality.
+
+### Operational Action Center
+- Added an evidence-based triage queue at the top of the protected admin dashboard with at most five deterministically ranked priorities.
+- Added independent operational checks for database readiness, source-scan recency, verified public baselines, open source remediation, terminal webhook failures and non-terminal policy inquiries.
+- Added explicit severity, cause, evidence timestamp, affected-record count, metric availability, impact and one responsible-console action for every returned priority.
+- Added fail-closed unavailable states so missing tables, migrations, scans or optional metrics cannot be presented as zero or healthy.
+- Added a sanitized database-unavailable fallback that preserves access to the Database Readiness action without exposing paths, SQL, source URLs or protected record content.
+- Added responsive numbered priority rails, textual status labels, 44px actions, a 12px supporting-text floor and regression coverage for ranking, limits, timestamps, mobile layout and API wiring.
+
+### Scope boundary
+- The Action Center summarizes the latest persisted operational window. An empty priority queue is not a health certification, service-level statement or proof of exhaustive monitoring.
+- Priority actions route authenticated users to existing protected consoles; this wave does not add mutation controls or change Admin/Auditor authorization.
+
 ## 3.9.0-beta.26 - 2026-07-31
 
 ### Crawlable Public Knowledge Layer

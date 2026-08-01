@@ -1176,6 +1176,9 @@ export async function PATCH(request: NextRequest) {
   if (!session.valid || !session.role) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+  if (session.role !== 'admin') {
+    return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
+  }
 
   try {
     const body = await request.json() as {

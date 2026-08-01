@@ -294,7 +294,9 @@ export default function VpsServicesPage() {
       <div className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>VPS Services</h1>
         <p className={styles.pageSubtitle}>
-          Monitor and operate companion services that run outside Hostinger and support the policy ingestion pipeline.
+          {isAdmin
+            ? 'Monitor and operate companion services that run outside Hostinger and support the policy ingestion pipeline.'
+            : 'Read-only verification of companion-service status, configuration evidence and timestamps.'}
         </p>
       </div>
 
@@ -329,10 +331,14 @@ export default function VpsServicesPage() {
           {refreshing ? <Loader size={16} className={styles.spinIcon} /> : <RefreshCw size={16} />}
           Refresh status
         </button>
-        <button type="button" className={`${styles.btn} ${styles.btnInline} ${styles.btnPrimary}`} onClick={() => postAction('renderer', 'smoke-render')} disabled={Boolean(operationLoading) || !isAdmin} title={!isAdmin ? 'Admin role required' : undefined}>
-          {operationLoading === 'smoke-render' ? <Loader size={16} className={styles.spinIcon} /> : <Play size={16} />}
-          Run render smoke test
-        </button>
+        {isAdmin ? (
+          <button type="button" className={`${styles.btn} ${styles.btnInline} ${styles.btnPrimary}`} onClick={() => postAction('renderer', 'smoke-render')} disabled={Boolean(operationLoading)}>
+            {operationLoading === 'smoke-render' ? <Loader size={16} className={styles.spinIcon} /> : <Play size={16} />}
+            Run render smoke test
+          </button>
+        ) : (
+          <span className={styles.serviceEmptyText}>Auditor role · status refresh only</span>
+        )}
       </div>
 
       <div className={styles.serviceGrid}>
@@ -448,20 +454,24 @@ export default function VpsServicesPage() {
       <div className={styles.serviceGrid}>
         <section className={styles.card}>
           <h2 className={styles.cardTitle}><UploadCloud size={16} />Verified Update</h2>
-          <div className={styles.serviceForm}>
-            <label>
-              <span>Target version</span>
-              <input value={updateVersion} onChange={(event) => setUpdateVersion(event.target.value)} placeholder="e.g. 3.5.2" />
-            </label>
-            <label>
-              <span>Package SHA256</span>
-              <input value={updateSha256} onChange={(event) => setUpdateSha256(event.target.value)} placeholder="64-character checksum" />
-            </label>
-            <button type="button" className={`${styles.btn} ${styles.btnPrimary}`} onClick={runVerifiedUpdate} disabled={!isAdmin || Boolean(operationLoading)}>
-              {operationLoading === 'update' ? <Loader size={16} className={styles.spinIcon} /> : <UploadCloud size={16} />}
-              Verify and deploy local package
-            </button>
-          </div>
+          {isAdmin ? (
+            <div className={styles.serviceForm}>
+              <label>
+                <span>Target version</span>
+                <input value={updateVersion} onChange={(event) => setUpdateVersion(event.target.value)} placeholder="e.g. 3.5.2" />
+              </label>
+              <label>
+                <span>Package SHA256</span>
+                <input value={updateSha256} onChange={(event) => setUpdateSha256(event.target.value)} placeholder="64-character checksum" />
+              </label>
+              <button type="button" className={`${styles.btn} ${styles.btnPrimary}`} onClick={runVerifiedUpdate} disabled={Boolean(operationLoading)}>
+                {operationLoading === 'update' ? <Loader size={16} className={styles.spinIcon} /> : <UploadCloud size={16} />}
+                Verify and deploy local package
+              </button>
+            </div>
+          ) : (
+            <p className={styles.serviceEmptyText}>Auditor access exposes current version, service state and configuration evidence above. Package deployment controls are not rendered.</p>
+          )}
           <p className={styles.serviceEmptyText}>
             The admin panel sends only version and SHA256. The agent reads from its fixed packages directory; no package URL is accepted.
           </p>
@@ -469,24 +479,28 @@ export default function VpsServicesPage() {
 
         <section className={styles.card}>
           <h2 className={styles.cardTitle}><Archive size={16} />Recovery Actions</h2>
-          <div className={styles.serviceActionGrid}>
-            <button type="button" className={`${styles.btn} ${styles.btnInline}`} onClick={() => postAction('agent', 'agent-smoke')} disabled={!isAdmin || Boolean(operationLoading)}>
-              {operationLoading === 'agent-smoke' ? <Loader size={16} className={styles.spinIcon} /> : <Play size={16} />}
-              Agent smoke
-            </button>
-            <button type="button" className={`${styles.btn} ${styles.btnInline}`} onClick={() => postAction('agent', 'backup')} disabled={!isAdmin || Boolean(operationLoading)}>
-              {operationLoading === 'backup' ? <Loader size={16} className={styles.spinIcon} /> : <Archive size={16} />}
-              Create backup
-            </button>
-            <button type="button" className={`${styles.btn} ${styles.btnInline}`} onClick={() => postAction('agent', 'rollback')} disabled={!isAdmin || Boolean(operationLoading)}>
-              {operationLoading === 'rollback' ? <Loader size={16} className={styles.spinIcon} /> : <RotateCcw size={16} />}
-              Rollback previous
-            </button>
-            <button type="button" className={`${styles.btn} ${styles.btnInline}`} onClick={() => postAction('agent', 'logs')} disabled={!isAdmin || Boolean(operationLoading)}>
-              {operationLoading === 'logs' ? <Loader size={16} className={styles.spinIcon} /> : <FileText size={16} />}
-              Load logs
-            </button>
-          </div>
+          {isAdmin ? (
+            <div className={styles.serviceActionGrid}>
+              <button type="button" className={`${styles.btn} ${styles.btnInline}`} onClick={() => postAction('agent', 'agent-smoke')} disabled={Boolean(operationLoading)}>
+                {operationLoading === 'agent-smoke' ? <Loader size={16} className={styles.spinIcon} /> : <Play size={16} />}
+                Agent smoke
+              </button>
+              <button type="button" className={`${styles.btn} ${styles.btnInline}`} onClick={() => postAction('agent', 'backup')} disabled={Boolean(operationLoading)}>
+                {operationLoading === 'backup' ? <Loader size={16} className={styles.spinIcon} /> : <Archive size={16} />}
+                Create backup
+              </button>
+              <button type="button" className={`${styles.btn} ${styles.btnInline}`} onClick={() => postAction('agent', 'rollback')} disabled={Boolean(operationLoading)}>
+                {operationLoading === 'rollback' ? <Loader size={16} className={styles.spinIcon} /> : <RotateCcw size={16} />}
+                Rollback previous
+              </button>
+              <button type="button" className={`${styles.btn} ${styles.btnInline}`} onClick={() => postAction('agent', 'logs')} disabled={Boolean(operationLoading)}>
+                {operationLoading === 'logs' ? <Loader size={16} className={styles.spinIcon} /> : <FileText size={16} />}
+                Load logs
+              </button>
+            </div>
+          ) : (
+            <p className={styles.serviceEmptyText}>Auditor access is read-only. Smoke, backup, rollback and log-loading operations remain administrator-only.</p>
+          )}
           {agentOperation && (
             <div className={`${styles.alert} ${agentOperation.ok === false ? styles.alertWarning : styles.alertInfo} ${styles.serviceInlineAlert}`}>
               {agentOperation.ok === false ? <AlertTriangle size={16} /> : <CheckCircle2 size={16} />}
