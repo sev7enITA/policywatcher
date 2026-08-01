@@ -1,0 +1,39 @@
+{
+  "schema_version": "v2.4",
+  "name_for_human": "PolicyWatcher",
+  "namespace": "PolicyWatcherEvidence",
+  "description_for_human": "Retrieve cited public policy-change evidence and curated signals.",
+  "description_for_model": "Use this read-only plugin to retrieve deterministic public PolicyWatcher evidence briefs and curated Observatory signals. Always preserve returned citations, timestamps, filters, and boundaries. A zero-result response does not prove that no change exists. Never present output as legal advice, exhaustive coverage, a compliance decision, or contract approval.",
+  "logo_url": "https://policywatcher.online/press-kit/policywatcher-logo-mark-512.png",
+  "legal_info_url": "https://policywatcher.online/terms",
+  "privacy_policy_url": "https://policywatcher.online/privacy",
+  "runtimes": [
+    {
+      "type": "OpenApi",
+      "auth": {
+        "type": "None"
+      },
+      "run_for_functions": [
+        "getCapabilities",
+        "getChangeBrief",
+        "getObservatoryBrief"
+      ],
+      "spec": {
+        "url": "https://policywatcher.online/api/v1/agent/openapi.json",
+        "progress_style": "ShowUsageWithInput"
+      }
+    }
+  ],
+  "capabilities": {
+    "conversation_starters": [
+      {
+        "title": "Recent changes",
+        "text": "Find recent public policy-change evidence."
+      },
+      {
+        "title": "Curated signals",
+        "text": "Find curated Observatory signals."
+      }
+    ]
+  }
+}

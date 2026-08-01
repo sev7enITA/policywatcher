@@ -1,6 +1,6 @@
 # PolicyWatcher editorial asset terms
 
-Version: 2026-07-27
+Version: 2026-08-01
 
 The files identified as PolicyWatcher-owned media in the accompanying asset
 manifest may be reproduced in editorial coverage, research, presentations and
@@ -22,7 +22,11 @@ credit is provided, use: `PolicyWatcher / Fabrizio Degni`.
 - Use that implies endorsement, certification, partnership or affiliation.
 - Modification of product screenshots in a way that changes displayed facts,
   states, dates, limitations or interface meaning.
-- Upscaling the 200 x 200 pixel founder portrait for print use.
+- Upscaling the 200 x 200 pixel founder portrait independently. Use the supplied
+  2400-pixel source-faithful version when a larger file is required.
+- Presenting the AI-restored portrait variant as an unaltered source photograph.
+- Presenting the supplied SVG or EPS logo containers as native vector-path
+  masters; both carry the owned raster artwork and state that boundary.
 - Removal of a visible limitation, date, caption or credit when it forms part
   of the supplied editorial context.
 
@@ -40,5 +44,10 @@ the supplied caption, creator, credit and usage terms. Neither mechanism proves
 the truth of a claim or constitutes third-party endorsement. Content
 Credentials are not attached unless the asset manifest explicitly states
 otherwise.
+
+The synthetic English demo narration and AI-restored portrait are labelled in
+their metadata and captions. Their availability does not establish independent
+review, product validation or photographic authenticity beyond the disclosed
+source and transformation.
 
 Questions about editorial use: info@policywatcher.online

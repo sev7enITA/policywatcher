@@ -167,7 +167,7 @@ export function LiveStatusCards({ role }: { role: AdminConsoleRole }) {
               </div>
               <div>
                 <dt>{card.countLabel}</dt>
-                <dd className={styles.liveStatusCount}>{initialLoading ? '—' : card.count ?? '—'}</dd>
+                <dd className={styles.liveStatusCount}>{initialLoading ? 'Not available' : card.count ?? 'Not available'}</dd>
               </div>
             </dl>
 

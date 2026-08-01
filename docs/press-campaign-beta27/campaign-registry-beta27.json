@@ -1,0 +1,141 @@
+{
+  "$schema": "https://policywatcher.online/schemas/editorial-campaign-registry/v1",
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-08-01",
+  "release": "3.9.0-beta.27",
+  "privacyBoundary": "Campaign IDs identify only an allowlisted release, region and channel cohort. They contain no recipient, journalist, outlet, email, account, free text or message identifier.",
+  "campaigns": [
+    {
+      "id": "beta27-press-eu-en",
+      "release": "3.9.0-beta.27",
+      "region": "eu-uk",
+      "channel": "earned-press",
+      "locale": "en",
+      "readiness": "ready-for-operator-review",
+      "landingUrl": "https://policywatcher.online/pulse?campaign=beta27-press-eu-en",
+      "copySource": "docs/press-campaign-beta27/regional-one-page-eu-uk-en.md",
+      "disclosure": "Configured coverage and Beta status; Article 50 is context only; no legal or compliance determination."
+    },
+    {
+      "id": "beta27-press-it",
+      "release": "3.9.0-beta.27",
+      "region": "italy",
+      "channel": "earned-press",
+      "locale": "it",
+      "readiness": "ready-for-operator-review",
+      "landingUrl": "https://policywatcher.online/pulse?campaign=beta27-press-it",
+      "copySource": "docs/press-campaign-beta27/pitch-it.md",
+      "disclosure": "Software Beta; perimetro configurato; nessuna consulenza legale, certificazione o copertura esaustiva."
+    },
+    {
+      "id": "beta27-press-fr",
+      "release": "3.9.0-beta.27",
+      "region": "france",
+      "channel": "earned-press",
+      "locale": "fr",
+      "readiness": "human-language-review-required",
+      "landingUrl": "https://policywatcher.online/pulse?campaign=beta27-press-fr",
+      "copySource": "docs/press-campaign-beta27/pitch-fr.md",
+      "disclosure": "Brouillon localisé; validation humaine francophone requise; couverture configurée et aucune conformité revendiquée."
+    },
+    {
+      "id": "beta27-press-dach-de",
+      "release": "3.9.0-beta.27",
+      "region": "dach",
+      "channel": "earned-press",
+      "locale": "de",
+      "readiness": "human-language-review-required",
+      "landingUrl": "https://policywatcher.online/pulse?campaign=beta27-press-dach-de",
+      "copySource": "docs/press-campaign-beta27/pitch-de.md",
+      "disclosure": "Lokalisierter Entwurf; deutschsprachige Fachprüfung erforderlich; keine vollständige Abdeckung oder Compliance-Aussage."
+    },
+    {
+      "id": "beta27-press-iberia-es",
+      "release": "3.9.0-beta.27",
+      "region": "iberia-latam-spanish",
+      "channel": "earned-press",
+      "locale": "es",
+      "readiness": "human-language-review-required",
+      "landingUrl": "https://policywatcher.online/pulse?campaign=beta27-press-iberia-es",
+      "copySource": "docs/press-campaign-beta27/pitch-es.md",
+      "disclosure": "Borrador localizado; revisión humana y adaptación regional obligatorias; no se afirma cobertura exhaustiva ni cumplimiento."
+    },
+    {
+      "id": "beta27-press-brazil-ptbr",
+      "release": "3.9.0-beta.27",
+      "region": "brazil",
+      "channel": "earned-press",
+      "locale": "pt-BR",
+      "readiness": "human-language-review-required",
+      "landingUrl": "https://policywatcher.online/pulse?campaign=beta27-press-brazil-ptbr",
+      "copySource": "docs/press-campaign-beta27/pitch-pt-br.md",
+      "disclosure": "Rascunho localizado; revisão humana nativa obrigatória; não afirma cobertura exaustiva nem conformidade."
+    },
+    {
+      "id": "beta27-press-na-en",
+      "release": "3.9.0-beta.27",
+      "region": "north-america",
+      "channel": "earned-press",
+      "locale": "en",
+      "readiness": "ready-for-operator-review",
+      "landingUrl": "https://policywatcher.online/pulse?campaign=beta27-press-na-en",
+      "copySource": "docs/press-campaign-beta27/regional-one-page-north-america-en.md",
+      "disclosure": "Beta software; configured scope; no complete AI accuracy, security certification or compliance score."
+    },
+    {
+      "id": "beta27-press-apac-en",
+      "release": "3.9.0-beta.27",
+      "region": "apac",
+      "channel": "earned-press",
+      "locale": "en",
+      "readiness": "ready-for-operator-review",
+      "landingUrl": "https://policywatcher.online/pulse?campaign=beta27-press-apac-en",
+      "copySource": "docs/press-campaign-beta27/regional-one-page-apac-en.md",
+      "disclosure": "Do not distribute without a documented APAC hook; configured scope is not regional coverage."
+    },
+    {
+      "id": "beta27-press-africa-mena-en",
+      "release": "3.9.0-beta.27",
+      "region": "africa-mena",
+      "channel": "earned-press",
+      "locale": "en",
+      "readiness": "ready-for-operator-review",
+      "landingUrl": "https://policywatcher.online/pulse?campaign=beta27-press-africa-mena-en",
+      "copySource": "docs/press-campaign-beta27/regional-one-page-africa-mena-en.md",
+      "disclosure": "Do not distribute without a documented local hook; configured scope is not Africa or MENA coverage."
+    },
+    {
+      "id": "beta27-linkedin-global",
+      "release": "3.9.0-beta.27",
+      "region": "global",
+      "channel": "linkedin",
+      "locale": "en",
+      "readiness": "ready-for-operator-review",
+      "landingUrl": "https://policywatcher.online/pulse?campaign=beta27-linkedin-global",
+      "copySource": "docs/press-release-3.9.0-beta.27-en.md",
+      "disclosure": "Founder product update; Beta and evidence boundaries remain explicit."
+    },
+    {
+      "id": "beta27-product-hunt",
+      "release": "3.9.0-beta.27",
+      "region": "global",
+      "channel": "product-hunt",
+      "locale": "en",
+      "readiness": "ready-for-operator-review",
+      "landingUrl": "https://policywatcher.online/pulse?campaign=beta27-product-hunt",
+      "copySource": "src/lib/editorialPulse.ts#pulseLaunchKit",
+      "disclosure": "No request for votes; no Product Hunt endorsement; verify relaunch eligibility before use."
+    },
+    {
+      "id": "beta27-show-hn",
+      "release": "3.9.0-beta.27",
+      "region": "global",
+      "channel": "show-hn",
+      "locale": "en",
+      "readiness": "ready-for-operator-review",
+      "landingUrl": "https://policywatcher.online/pulse?campaign=beta27-show-hn",
+      "copySource": "src/lib/editorialPulse.ts#pulseLaunchKit",
+      "disclosure": "No signup required for public inspection; no vote request; outputs are not legal determinations."
+    }
+  ]
+}

@@ -3,13 +3,14 @@
   "schemaVersion": "1.0.0",
   "generatedAt": "2026-08-01",
   "release": "3.9.0-beta.27",
+  "currentProductRelease": "3.9.0-beta.30",
   "packages": [
     {
       "locale": "en",
       "filename": "policywatcher-press-package-en-2026-08-01.zip",
       "href": "/press-kit/policywatcher-press-package-en-2026-08-01.zip",
-      "bytes": 3826830,
-      "sha256": "fbb8b817fb5083f49e4b1c2d2498591313b9d42ee99a11997b64d6be3436a718",
+      "bytes": 17696811,
+      "sha256": "17b83fe44ee4c4fb4b4cc41b89f46f9ac022073ae8e3aacf3b64245ded157550",
       "generatedAt": "2026-08-01",
       "version": "3.9.0-beta.27"
     },
@@ -17,8 +18,8 @@
       "locale": "it",
       "filename": "policywatcher-press-package-it-2026-08-01.zip",
       "href": "/press-kit/policywatcher-press-package-it-2026-08-01.zip",
-      "bytes": 3826926,
-      "sha256": "1864e5ae26eadf8ba4ee4fc5e0d48e66479969522db22b4da42526b3c10555af",
+      "bytes": 17696891,
+      "sha256": "c5e3e6f37c95392112c50b2ef8a46c1b73e7189d3bbfd88e232cc8e630c20c0b",
       "generatedAt": "2026-08-01",
       "version": "3.9.0-beta.27"
     }

@@ -1,5 +1,7 @@
 import {
   EDITORIAL_CAMPAIGN_IDS,
+  EDITORIAL_CAMPAIGN_LOCALES,
+  isEditorialCampaignLocale,
   OUTREACH_OPERATION_TYPES,
   type EditorialCampaignId,
   type OutreachOperationType,
@@ -19,7 +21,7 @@ export const PRESS_METRIC_TARGETS = {
 } as const;
 
 export type PressMetricEventType = keyof typeof PRESS_METRIC_TARGETS;
-export type PressMetricLocale = 'en' | 'it';
+export type PressMetricLocale = (typeof EDITORIAL_CAMPAIGN_LOCALES)[number];
 export type PressMetricTarget = (typeof PRESS_METRIC_TARGETS)[PressMetricEventType][number];
 
 export interface PressMetricPayload {
@@ -82,7 +84,8 @@ export function parsePressMetricPayload(value: unknown): PressMetricPayload | nu
 
   const { eventType, target, locale } = value;
   if (typeof eventType !== 'string' || !(eventType in PRESS_METRIC_TARGETS)) return null;
-  if (locale !== 'en' && locale !== 'it') return null;
+  if (!isEditorialCampaignLocale(locale)) return null;
+  if (eventType !== 'campaign_landing' && locale !== 'en' && locale !== 'it') return null;
   if (typeof target !== 'string') return null;
   const allowedTargets = PRESS_METRIC_TARGETS[eventType as PressMetricEventType] as readonly string[];
   if (!allowedTargets.includes(target)) return null;

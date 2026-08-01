@@ -24,6 +24,8 @@ import {
   ShoppingBag,
   Workflow,
   FolderKanban,
+  Cloud,
+  FileSearch,
 } from 'lucide-react';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
@@ -32,7 +34,7 @@ import styles from './integrations.module.css';
 export const metadata: Metadata = {
   title: 'Enterprise Integrations | PolicyWatcher',
   description:
-    'PolicyWatcher integration architecture: public and Entra-authenticated APIs, Power Platform, Microsoft 365, Copilot, MCP, embeds, feeds, and future Marketplace distribution.',
+    'PolicyWatcher integration architecture: public and Entra-authenticated APIs, Microsoft 365 Copilot, Vertex AI Agent Builder, Amazon Quick, Word, Power Platform, embeds, and feeds.',
 };
 
 const decisions = [
@@ -45,8 +47,11 @@ const decisions = [
   { job: 'Operator-controlled push', path: 'Configured Webhook Delivery', state: 'Pilot ready' },
   { job: 'Tenant-authenticated system access', path: 'Enterprise API v2', state: 'Pilot ready' },
   { job: 'Workflow automation', path: 'Power Platform connector', state: 'Pilot ready' },
+  { job: 'Cross-cloud agent evidence', path: 'Agent Evidence Gateway', state: 'Available' },
+  { job: 'Tenant conversation', path: 'Copilot, Vertex AI and Amazon Quick packages', state: 'Source ready' },
+  { job: 'Clause evidence review', path: 'PolicyWatcher for Word', state: 'Source ready' },
   { job: 'In-workflow collaboration', path: 'Teams cards and tab', state: 'Planned' },
-  { job: 'Conversational evidence', path: 'Copilot agent and MCP', state: 'Planned' },
+  { job: 'Federated tool access', path: 'MCP', state: 'Planned' },
   { job: 'Procurement and billing', path: 'Microsoft Marketplace', state: 'Commercial later' },
 ];
 
@@ -57,6 +62,16 @@ const capabilityLanes = [
     note: 'Public, bounded surfaces in the current product.',
     icon: BadgeCheck,
     cards: [
+      {
+        title: 'Agent Evidence Gateway',
+        audience: 'Microsoft 365 Copilot, Vertex AI Agent Builder and Amazon Quick pilots',
+        role: 'Returns deterministic, source-linked public change and Observatory briefs through one OpenAPI 3.0 contract.',
+        boundary: 'Anonymous, read-only public evidence only. No confidential prompts, tenant data, raw policy text or model-generated verdicts.',
+        artifact: '/api/v1/agent/openapi.json',
+        href: '/api/v1/agent/openapi.json',
+        link: 'Inspect agent contract',
+        external: true,
+      },
       {
         title: 'Public API v1',
         audience: 'Developers, researchers, public-interest tools',
@@ -170,6 +185,36 @@ const capabilityLanes = [
         artifact: 'integrations/power-platform/policywatcher-v2',
       },
       {
+        title: 'Microsoft 365 Copilot evidence agent',
+        audience: 'Licensed Microsoft 365 Copilot users and tenant administrators',
+        role: 'Declarative agent 1.8 and API plugin 2.4 package for cited public evidence dialogue inside the customer tenant.',
+        boundary: 'Source package only: not AppSource-published, tenant-enabled or certified. Private access remains on Entra-authenticated API v2.',
+        artifact: 'integrations/microsoft-copilot/policywatcher-evidence-agent',
+      },
+      {
+        title: 'Vertex AI Agent Builder tool',
+        audience: 'Google Cloud agent builders and project administrators',
+        role: 'OpenAPI tool and tool-first playbook instructions for the same deterministic public evidence contract.',
+        boundary: 'Source package only: not deployed into a customer Google Cloud project and no PolicyWatcher dataset is copied by the package.',
+        artifact: 'integrations/google-agent-builder/policywatcher-evidence-tool',
+      },
+      {
+        title: 'Amazon Quick OpenAPI connector',
+        audience: 'AWS account owners and Amazon Quick authors',
+        role: 'Three-operation OpenAPI connector constrained to one JSON endpoint contract and flattened responses.',
+        boundary: 'Source package only: not deployed or shared in an AWS account. Amazon Q Business remains a legacy path for existing customers only.',
+        artifact: 'integrations/amazon-quick/policywatcher-evidence-connector',
+      },
+      {
+        title: 'PolicyWatcher Contract Evidence Review for Word',
+        audience: 'Legal, procurement and GRC reviewers working in Word',
+        role: 'Classifies an explicitly selected clause locally and searches public evidence with controlled topic labels only.',
+        boundary: 'Selected clause text is not sent or stored. The add-in maps evidence; it does not verify, approve or legally assess a contract.',
+        artifact: '/office-addin/contract-review  |  integrations/office-word',
+        href: '/office-addin/contract-review',
+        link: 'Preview task pane',
+      },
+      {
         title: 'Configured webhook delivery',
         audience: 'Integration and security operations teams',
         role: 'Sends eligible public change events to deployment-configured HTTPS destinations through a signed persistent outbox.',
@@ -197,13 +242,6 @@ const capabilityLanes = [
         role: 'Dedicated SSO tab, Adaptive Cards, and evidence deep links inside collaboration flows.',
         boundary: 'Requires a purpose-built route. The whole portal is not iframe-ready.',
         artifact: 'Dedicated M365 surface, not portal HTML fetching',
-      },
-      {
-        title: 'Copilot declarative agent',
-        audience: 'Licensed Microsoft 365 Copilot users',
-        role: 'Conversational access to cited evidence through an API plugin backed by v2.',
-        boundary: 'Read-only first, with evidence links and explicit non-legal-advice limits.',
-        artifact: 'Declarative agent  +  OpenAPI action',
       },
       {
         title: 'Federated MCP connector',
@@ -285,7 +323,7 @@ export default function IntegrationsPage() {
               </span>
               <h1>One evidence contract. Many enterprise entry points.</h1>
               <p>
-                PolicyWatcher is API-first. Connectors, Microsoft 365 experiences, agents, and commercial distribution sit on top of the same publication gate and data boundary. Integrations consume evidence records, never scraped portal HTML.
+                PolicyWatcher is API-first. Microsoft, Google and AWS agent packages, workflow connectors and Office experiences sit on the same publication gate and explicit data boundary. Integrations consume evidence records, never scraped portal HTML.
               </p>
               <div className={styles.heroActions}>
                 <a href="#topology" className={styles.primaryAction}>
@@ -302,8 +340,8 @@ export default function IntegrationsPage() {
             <aside className={styles.summaryPanel} aria-label="Integration contract summary">
               <div><span>01</span><strong>v1 public</strong><small>Anonymous, read-only</small></div>
               <div><span>02</span><strong>v2 Entra</strong><small>Tenant-bound, read-only</small></div>
-              <div><span>03</span><strong>Power Platform pilot</strong><small>Source package ready</small></div>
-              <div><span>04</span><strong>Zero raw policy text</strong><small>Across API responses</small></div>
+              <div><span>03</span><strong>3 cloud agent packages</strong><small>Controlled pilot source</small></div>
+              <div><span>04</span><strong>Word evidence review</strong><small>Selected text remains local</small></div>
             </aside>
           </div>
         </section>
@@ -342,6 +380,12 @@ export default function IntegrationsPage() {
                 <p>Composable workflow automation.</p>
                 <code>6 read actions</code>
               </article>
+              <article className={`${styles.topologyNode} ${styles.nodeAvailable}`}>
+                <div className={styles.nodeHeading}><Cloud size={18} /><Status kind="available">Available</Status></div>
+                <h3>Agent Evidence Gateway</h3>
+                <p>One flattened public contract.</p>
+                <code>3 read operations</code>
+              </article>
             </div>
 
             <div className={styles.spine}>
@@ -371,11 +415,17 @@ export default function IntegrationsPage() {
                 <p>Dedicated collaboration experience.</p>
                 <code>SSO tab + cards</code>
               </article>
-              <article className={`${styles.topologyNode} ${styles.nodePlanned}`}>
-                <div className={styles.nodeHeading}><Bot size={18} /><Status kind="planned">Planned</Status></div>
-                <h3>Copilot and MCP</h3>
-                <p>Conversational, source-linked evidence.</p>
-                <code>agent + federated tools</code>
+              <article className={`${styles.topologyNode} ${styles.nodePilot}`}>
+                <div className={styles.nodeHeading}><Bot size={18} /><Status kind="pilot">Source ready</Status></div>
+                <h3>Copilot · Vertex AI · Amazon Quick</h3>
+                <p>Tenant-hosted agent packages.</p>
+                <code>one OpenAPI contract</code>
+              </article>
+              <article className={`${styles.topologyNode} ${styles.nodePilot}`}>
+                <div className={styles.nodeHeading}><FileSearch size={18} /><Status kind="pilot">Source ready</Status></div>
+                <h3>Word task pane</h3>
+                <p>Local clause classification.</p>
+                <code>derived topics only</code>
               </article>
               <article className={`${styles.topologyNode} ${styles.nodeCommercial}`}>
                 <div className={styles.nodeHeading}><ShoppingBag size={18} /><Status kind="commercial">Commercial later</Status></div>
@@ -451,8 +501,8 @@ export default function IntegrationsPage() {
         <section className={styles.section} aria-labelledby="comparison-title">
           <header className={styles.sectionHeader}>
             <span>Contract choice</span>
-            <h2 id="comparison-title">Public v1 or tenant-bound v2?</h2>
-            <p>v1 remains the public directory. v2 is the foundation for enterprise systems and Microsoft integrations.</p>
+            <h2 id="comparison-title">Public agent gateway or tenant-bound v2?</h2>
+            <p>The agent gateway supports cited public dialogue across clouds. v2 remains the authenticated foundation for private enterprise workflows.</p>
           </header>
           <div className={styles.comparisonRegion} role="region" aria-label="Comparison of PolicyWatcher API v1 and v2" tabIndex={0}>
             <table className={styles.comparisonTable}>
@@ -472,8 +522,8 @@ export default function IntegrationsPage() {
 
         <section className={styles.pilotSection} aria-labelledby="pilot-title">
           <div className={styles.pilotIntro}>
-            <span>Microsoft tenant pilot</span>
-            <h2 id="pilot-title">Seven checks from registration to rejection testing.</h2>
+            <span>Private Microsoft tenant pilot</span>
+            <h2 id="pilot-title">Seven checks for authenticated API v2 workflows.</h2>
             <p>The pilot uses identifiers and controlled configuration. A client secret belongs in a protected secret store and must never be pasted into a document, issue, chat, or generated artifact.</p>
             <Link href="/api/v2/openapi.json" target="_blank" rel="noreferrer">
               Open machine-readable contract
@@ -521,12 +571,14 @@ export default function IntegrationsPage() {
           <div>
             <span>Next entry point</span>
             <h2 id="next-title">Use the contract that matches the work.</h2>
-            <p>Inspect the public developer surface, validate v2 against a test tenant, or review what becomes available in the next delivery wave.</p>
+            <p>Inspect the public agent contract, validate a source package in an isolated tenant or cloud project, or use v2 for authenticated enterprise workflows.</p>
           </div>
           <div className={styles.finalLinks}>
             <Link href="/developers"><Code2 size={17} /> Developer directory</Link>
             <Link href="/collections"><FolderKanban size={17} /> Evidence collections</Link>
             <Link href="/api/v2/openapi.json" target="_blank" rel="noreferrer"><FileJson size={17} /> OpenAPI v2</Link>
+            <Link href="/api/v1/agent/openapi.json" target="_blank" rel="noreferrer"><Bot size={17} /> Agent OpenAPI</Link>
+            <Link href="/office-addin/contract-review"><FileSearch size={17} /> Word task pane</Link>
             <Link href="/roadmap"><Puzzle size={17} /> Integration roadmap</Link>
             <Link href="/browser-extension"><LayoutPanelTop size={17} /> Browser extension</Link>
           </div>

@@ -1,0 +1,19 @@
+PolicyWatcher Beta twenty-seven connects public policy evidence with the operational checks required before publication.
+
+The workflow starts with deterministic priorities. Each item identifies severity, cause, evidence timestamp, affected records, stated impact, and one responsible destination.
+
+Publication readiness is divided into five stages: Configured, Retrieved, Baseline verified, Public, and Analysed. Numerators, the shared denominator, and excluded records remain visible.
+
+A missing scan or unavailable metric is never converted into zero or a healthy state.
+
+Independent status cards provide bounded evidence for Dataset Q A, database readiness, webhook delivery, and V P S services. Administrators reach operational controls; auditors receive read-only verification routes.
+
+The public platform keeps source links, timestamps, methodology, Claim Registry entries, release records, and correction routes available for inspection.
+
+Its configured inventory currently records sixteen companies across six sectors. The analytical framework defines fifteen canonical K P I's across privacy, A I governance, and ethics.
+
+These figures describe configured scope. They are not exhaustive market coverage, legal advice, compliance certification, or independent validation.
+
+Pulse adds reviewed leads, deterministic Story Packs, citations, social cards, and embeddable evidence visuals.
+
+Inspect the evidence, limitations, dated assets, and release audit at policywatcher dot online slash press kit.

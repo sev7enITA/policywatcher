@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+           xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+           xsi:type="TaskPaneApp">
+  <Id>0a1b33b0-bb28-4ed7-b99a-6f4f0b0693ae</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>PolicyWatcher</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="PolicyWatcher Contract Evidence Review" />
+  <Description DefaultValue="Classify selected contract text locally and find related public PolicyWatcher evidence." />
+  <IconUrl DefaultValue="https://policywatcher.online/press-kit/policywatcher-logo-mark-512.png" />
+  <SupportUrl DefaultValue="https://policywatcher.online/methodology/confidence" />
+  <AppDomains>
+    <AppDomain>https://policywatcher.online</AppDomain>
+  </AppDomains>
+  <Hosts>
+    <Host Name="Document" />
+  </Hosts>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://policywatcher.online/office-addin/contract-review" />
+  </DefaultSettings>
+  <Permissions>ReadDocument</Permissions>
+</OfficeApp>

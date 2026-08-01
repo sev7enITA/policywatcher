@@ -19,6 +19,33 @@ const VERSION = JSON.parse(readFileSync(path.join(ROOT, 'package.json'), 'utf8')
 const CANONICAL_URL = 'https://policywatcher.online/press-kit';
 const RIGHTS_URL = `${CANONICAL_URL}/LICENSE-ASSETS.md`;
 const CREDIT = 'PolicyWatcher / Fabrizio Degni';
+const CAMPAIGN_VERSION = '3.9.0-beta.27';
+const CAMPAIGN_RELEASE_NAME = 'Admin Operational Readiness';
+const CAMPAIGN_DATE = '2026-08-01';
+
+const CAMPAIGN_DOCUMENTS = [
+  ['docs/press-release-3.9.0-beta.27-en.md', 'policywatcher-beta27-press-release-en.md', 'text/markdown'],
+  ['docs/press-release-3.9.0-beta.27-it.md', 'policywatcher-beta27-press-release-it.md', 'text/markdown'],
+  ...['en', 'it', 'fr', 'de', 'es', 'pt-br'].map((locale) => [`docs/press-campaign-beta27/pitch-${locale}.md`, `policywatcher-beta27-pitch-${locale}.md`, 'text/markdown']),
+  ...[
+    'eu-uk-en', 'north-america-en', 'italy-it', 'france-fr', 'dach-de', 'iberia-latam-es',
+    'brazil-pt-br', 'apac-en', 'africa-mena-en',
+  ].map((region) => [`docs/press-campaign-beta27/regional-one-page-${region}.md`, `policywatcher-beta27-regional-brief-${region}.md`, 'text/markdown']),
+  ['docs/press-campaign-beta27/hard-questions-faq-en.md', 'policywatcher-beta27-hard-questions-faq-en.md', 'text/markdown'],
+  ['docs/press-campaign-beta27/hard-questions-faq-it.md', 'policywatcher-beta27-hard-questions-faq-it.md', 'text/markdown'],
+  ['docs/press-campaign-beta27/spokesperson-sheet-en.md', 'policywatcher-beta27-spokesperson-sheet-en.md', 'text/markdown'],
+  ['docs/press-campaign-beta27/spokesperson-sheet-it.md', 'policywatcher-beta27-spokesperson-sheet-it.md', 'text/markdown'],
+  ['docs/press-campaign-beta27/claims-freeze-beta27.json', 'policywatcher-beta27-claims-freeze.json', 'application/json'],
+  ['docs/press-campaign-beta27/claims-freeze-beta27.md', 'policywatcher-beta27-claims-freeze.md', 'text/markdown'],
+  ['docs/press-campaign-beta27/claims-freeze-beta27.sha256', 'policywatcher-beta27-claims-freeze.sha256', 'text/plain'],
+  ['docs/press-campaign-beta27/campaign-registry-beta27.json', 'policywatcher-beta27-campaign-registry.json', 'application/json'],
+  ['docs/press-campaign-beta27/demo-video-transcript-en.md', 'policywatcher-beta27-demo-transcript-en.md', 'text/markdown'],
+  ['docs/press-campaign-beta27/demo-video-narration-en.txt', 'policywatcher-beta27-demo-narration-en.txt', 'text/plain'],
+  ['docs/press-campaign-beta27/demo-video-en.srt', 'policywatcher-beta27-demo-en.srt', 'application/x-subrip'],
+  ['docs/press-campaign-beta27/demo-video-it.srt', 'policywatcher-beta27-demo-it.srt', 'application/x-subrip'],
+  ['docs/press-campaign-beta27/screenshot-register-beta27.md', 'policywatcher-beta27-screenshot-register.md', 'text/markdown'],
+  ['docs/press-campaign-beta27/translation-review-register.md', 'policywatcher-beta27-translation-review-register.md', 'text/markdown'],
+];
 
 mkdirSync(PRESS_DIR, { recursive: true });
 
@@ -197,6 +224,14 @@ const mediaMetadata = {
   'policywatcher-logo-mark-512.png': { title: { en: 'PolicyWatcher logo mark', it: 'Marchio PolicyWatcher' }, description: { en: 'Owned square PolicyWatcher logo mark on a transparent background.', it: 'Marchio quadrato PolicyWatcher proprietario su sfondo trasparente.' }, alt: { en: 'PolicyWatcher shield and eye logo mark', it: 'Marchio PolicyWatcher con scudo e occhio' }, usage: { en: 'Use without changing proportions or implying endorsement.', it: 'Usare senza cambiare le proporzioni o implicare endorsement.' }, creator: 'Fabrizio Degni', credit: CREDIT },
   'policywatcher-logo-square-1024.jpg': { title: { en: 'PolicyWatcher square artwork', it: 'Artwork quadrato PolicyWatcher' }, description: { en: 'Owned high-resolution square PolicyWatcher artwork.', it: 'Artwork quadrato PolicyWatcher proprietario ad alta risoluzione.' }, alt: { en: 'Square PolicyWatcher brand artwork', it: 'Artwork quadrato del brand PolicyWatcher' }, usage: { en: 'Crop only with clear space around the central mark.', it: 'Ritagliare mantenendo spazio libero intorno al marchio centrale.' }, creator: 'Fabrizio Degni', credit: CREDIT },
   'fabrizio-degni-portrait-200.png': { title: { en: 'Fabrizio Degni portrait', it: 'Ritratto di Fabrizio Degni' }, description: { en: 'Owned 200 by 200 pixel founder portrait, suitable only for small digital placements.', it: 'Ritratto proprietario del fondatore da 200 per 200 pixel, adatto solo a piccoli usi digitali.' }, alt: { en: 'Portrait of Fabrizio Degni', it: 'Ritratto di Fabrizio Degni' }, usage: { en: 'Do not upscale for print.', it: 'Non ingrandire per la stampa.' }, creator: 'Fabrizio Degni', credit: 'Fabrizio Degni' },
+  'fabrizio-degni-portrait-2400-source-upscale.png': { title: { en: 'Fabrizio Degni source-faithful press portrait', it: 'Ritratto stampa fedele alla fonte di Fabrizio Degni' }, description: { en: 'Owned 2400 by 2400 pixel Lanczos upscale of the 200-pixel source portrait. No facial detail was generated; source detail remains limited.', it: 'Upscale Lanczos proprietario 2400 per 2400 del ritratto sorgente da 200 pixel. Non sono stati generati dettagli del volto; il dettaglio sorgente resta limitato.' }, alt: { en: 'Black-and-white portrait of Fabrizio Degni', it: 'Ritratto in bianco e nero di Fabrizio Degni' }, usage: { en: 'Preferred source-faithful high-resolution placement; disclose that original detail is limited.', it: 'Versione ad alta risoluzione preferita e fedele alla fonte; dichiarare che il dettaglio originale e limitato.' }, creator: 'Fabrizio Degni', credit: 'Fabrizio Degni' },
+  'fabrizio-degni-portrait-2400-ai-restored.png': { title: { en: 'Fabrizio Degni AI-restored portrait variant', it: 'Variante restaurata con AI del ritratto di Fabrizio Degni' }, description: { en: 'AI-assisted restoration generated from the owned 200-pixel source portrait and supplied only as a disclosed editorial variant.', it: 'Restauro assistito da AI generato dal ritratto proprietario da 200 pixel e fornito esclusivamente come variante editoriale dichiarata.' }, alt: { en: 'AI-restored black-and-white portrait variant of Fabrizio Degni', it: 'Variante in bianco e nero restaurata con AI del ritratto di Fabrizio Degni' }, usage: { en: 'Do not present as the unaltered source photograph; label AI-assisted restoration when published.', it: 'Non presentare come fotografia sorgente inalterata; indicare il restauro assistito da AI in caso di pubblicazione.' }, creator: 'Fabrizio Degni', credit: 'Fabrizio Degni' },
+  'policywatcher-logo-mark-2400.png': { title: { en: 'PolicyWatcher high-resolution logo mark', it: 'Marchio PolicyWatcher ad alta risoluzione' }, description: { en: 'Owned 2400-pixel raster enlargement of the PolicyWatcher logo mark for editorial placement.', it: 'Ingrandimento raster proprietario da 2400 pixel del marchio PolicyWatcher per uso editoriale.' }, alt: { en: 'PolicyWatcher shield and eye logo mark', it: 'Marchio PolicyWatcher con scudo e occhio' }, usage: { en: 'Do not describe as a native vector master or imply endorsement.', it: 'Non descrivere come master vettoriale nativo o implicare endorsement.' }, creator: 'Fabrizio Degni', credit: CREDIT },
+  'policywatcher-beta27-evidence-console-2026-08-01.png': { date: '2026-08-01', title: { en: 'Beta 27 public Knowledge layer', it: 'Knowledge layer pubblico Beta 27' }, description: { en: 'Server-rendered public policy reference layer with publication boundary and explicit empty evidence state.', it: 'Layer di riferimento pubblico renderizzato lato server con limite di pubblicazione e stato vuoto esplicito.' }, alt: { en: 'PolicyWatcher public Knowledge layer', it: 'Knowledge layer pubblico PolicyWatcher' }, usage: { en: 'The captured empty state is not a healthy-data claim.', it: 'Lo stato vuoto acquisito non e una dichiarazione di dati healthy.' }, creator: 'Fabrizio Degni', credit: CREDIT },
+  'policywatcher-beta27-release-record-2026-08-01.png': { date: '2026-08-01', title: { en: 'Beta 27 release record', it: 'Record release Beta 27' }, description: { en: 'Dated Admin Operational Readiness release record with implemented changes and boundaries.', it: 'Record datato Admin Operational Readiness con modifiche implementate e limiti.' }, alt: { en: 'PolicyWatcher Beta 27 release record', it: 'Record release PolicyWatcher Beta 27' }, usage: { en: 'Release inventory is not measured outcome, certification or adoption.', it: 'L inventario release non e risultato misurato, certificazione o adozione.' }, creator: 'Fabrizio Degni', credit: CREDIT },
+  'policywatcher-beta27-press-kit-2026-08-01.png': { date: '2026-08-01', title: { en: 'Beta 27 Press Kit', it: 'Press Kit Beta 27' }, description: { en: 'Evidence-oriented Press Kit with dated product status, action routes and extension boundaries.', it: 'Press Kit orientato alle evidenze con stato datato, azioni e limiti dell estensione.' }, alt: { en: 'PolicyWatcher Beta 27 Press Kit interface', it: 'Interfaccia Press Kit PolicyWatcher Beta 27' }, usage: { en: 'Verify the live Press Kit before later publication.', it: 'Verificare il Press Kit live prima di pubblicazioni successive.' }, creator: 'Fabrizio Degni', credit: CREDIT },
+  'policywatcher-beta27-pulse-2026-08-01.png': { date: '2026-08-01', title: { en: 'Beta 27 Pulse', it: 'Pulse Beta 27' }, description: { en: 'Reviewed editorial leads with visible facts, source boundaries and reusable evidence formats.', it: 'Lead editoriali revisionati con dati, limiti delle fonti e formati di evidenza riutilizzabili.' }, alt: { en: 'PolicyWatcher Pulse verified leads interface', it: 'Interfaccia dei lead verificati PolicyWatcher Pulse' }, usage: { en: 'Verified means the configured editorial contract, not independent validation.', it: 'Verificato indica il contratto editoriale configurato, non validazione indipendente.' }, creator: 'Fabrizio Degni', credit: CREDIT },
+  'policywatcher-beta27-data-room-2026-08-01.png': { date: '2026-08-01', title: { en: 'Beta 27 Data Room', it: 'Data Room Beta 27' }, description: { en: 'Dated configured-scope snapshot with citation, formats and reuse boundary.', it: 'Snapshot datato del perimetro configurato con citazione, formati e limiti di riuso.' }, alt: { en: 'PolicyWatcher editorial Data Room interface', it: 'Interfaccia Data Room editoriale PolicyWatcher' }, usage: { en: 'Configured inventory and method; not exhaustive coverage or measured compliance.', it: 'Inventario e metodo configurati; non copertura esaustiva o conformita misurata.' }, creator: 'Fabrizio Degni', credit: CREDIT },
   'policywatcher-two-week-progress-2026-07-26.png': { date: '2026-07-26', title: { en: 'Two-week product progress infographic', it: 'Infografica progressi di due settimane' }, description: { en: 'English infographic summarizing the product development cycle through 26 July 2026.', it: 'Infografica in inglese che sintetizza il ciclo di sviluppo fino al 26 luglio 2026.' }, alt: { en: 'PolicyWatcher two-week product progress infographic', it: 'Infografica PolicyWatcher sui progressi di due settimane' }, usage: { en: 'Historical summary; pair with current release metadata.', it: 'Sintesi storica; accompagnare con i metadata della release corrente.' }, creator: 'Fabrizio Degni', credit: CREDIT },
   'policywatcher-feature-atlas-2026-07-27.png': { date: '2026-07-27', title: { en: 'Feature Intelligence Atlas screenshot', it: 'Screenshot Feature Intelligence Atlas' }, description: { en: 'Product screenshot of the capability and dependency atlas captured on 27 July 2026.', it: 'Screenshot dell atlante di funzionalita e dipendenze acquisito il 27 luglio 2026.' }, alt: { en: 'PolicyWatcher Feature Intelligence Atlas interface', it: 'Interfaccia Feature Intelligence Atlas di PolicyWatcher' }, usage: { en: 'Figures are inventory and qualitative release labels.', it: 'I dati sono inventario ed etichette qualitative di release.' }, creator: 'Fabrizio Degni', credit: CREDIT },
   'policywatcher-release-impact-2026-07-27.png': { date: '2026-07-27', title: { en: 'Release Impact screenshot', it: 'Screenshot Release Impact' }, description: { en: 'Product screenshot of the release-outcome and residual-risk map captured on 27 July 2026.', it: 'Screenshot della mappa di esiti release e rischi residui acquisito il 27 luglio 2026.' }, alt: { en: 'PolicyWatcher Release Impact interface', it: 'Interfaccia Release Impact di PolicyWatcher' }, usage: { en: 'Categorical KPI and KRI labels are not measured outcomes.', it: 'Le etichette KPI e KRI categoriche non sono risultati misurati.' }, creator: 'Fabrizio Degni', credit: CREDIT },
@@ -252,9 +287,9 @@ function manifestEntry(filename, mediaType, metadataStandard = 'document-manifes
 function writeReadme(locale, target) {
   const title = locale === 'en' ? 'PolicyWatcher press package' : 'Pacchetto stampa PolicyWatcher';
   const body = locale === 'en'
-    ? 'This package contains owned editorial assets, a dated fact sheet, data snapshot files, captions, credits, usage terms and integrity checks. Verify current product facts at the canonical Press Kit before publication. Content Credentials are not attached.'
-    : 'Questo pacchetto contiene asset editoriali proprietari, una scheda dati datata, file dello snapshot, didascalie, crediti, condizioni d uso e controlli di integrita. Verificare i dati correnti nel Press Kit canonico prima della pubblicazione. Le Content Credentials non sono allegate.';
-  writeFileSync(target, `# ${title}\n\nVersion: ${VERSION}\nGenerated: ${RELEASE_DATE}\nCanonical source: ${CANONICAL_URL}\n\n${body}\n`);
+    ? `This package is the immutable ${CAMPAIGN_VERSION} ${CAMPAIGN_RELEASE_NAME} campaign set dated ${CAMPAIGN_DATE}. It contains owned editorial assets, a dated fact sheet, press releases, multiregion pitch drafts, regional briefs, hard-questions FAQ, spokesperson sheets, the claims freeze, campaign cohort registry, an 87-second demo with English and Italian subtitles, captions, credits, usage terms and integrity checks. French, German, Spanish and Brazilian Portuguese copy requires native human review before distribution. The live product can be newer than this campaign package; verify current facts at the canonical Press Kit before publication. Content Credentials are not attached.`
+    : `Questo pacchetto e il set di campagna immutabile ${CAMPAIGN_VERSION} ${CAMPAIGN_RELEASE_NAME}, datato ${CAMPAIGN_DATE}. Contiene asset editoriali proprietari, scheda dati datata, comunicati, pitch multiregione, schede regionali, FAQ critica, schede portavoce, claims freeze, registro delle campagne, demo di 87 secondi con sottotitoli inglesi e italiani, didascalie, crediti, condizioni d uso e controlli di integrita. I testi francese, tedesco, spagnolo e portoghese brasiliano richiedono revisione umana madrelingua prima della distribuzione. Il prodotto live puo essere successivo a questo pacchetto; verificare i dati correnti nel Press Kit canonico prima della pubblicazione. Le Content Credentials non sono allegate.`;
+  writeFileSync(target, `# ${title}\n\nCampaign version: ${CAMPAIGN_VERSION}\nCampaign date: ${CAMPAIGN_DATE}\nCurrent product version at generation: ${VERSION}\nGenerated: ${RELEASE_DATE}\nCanonical source: ${CANONICAL_URL}\n\n${body}\n`);
 }
 
 function createPackages(assetManifest) {
@@ -275,15 +310,16 @@ function createPackages(assetManifest) {
       if (existsSync(packagePath)) rmSync(packagePath);
       const ordered = [...filenames, 'asset-manifest.json', 'media-metadata.json', 'LICENSE-ASSETS.md', 'README.md'].sort();
       run('zip', ['-q', '-X', packagePath, ...ordered], { cwd: stage });
-      packages.push({ locale, filename: packageFilename, href: `/press-kit/${packageFilename}`, bytes: statSync(packagePath).size, sha256: sha256(packagePath), generatedAt: RELEASE_DATE, version: VERSION });
+      packages.push({ locale, filename: packageFilename, href: `/press-kit/${packageFilename}`, bytes: statSync(packagePath).size, sha256: sha256(packagePath), generatedAt: RELEASE_DATE, version: CAMPAIGN_VERSION });
     } finally {
       rmSync(stage, { recursive: true, force: true });
     }
   }
-  writeFileSync(path.join(PRESS_DIR, 'package-manifest.json'), `${JSON.stringify({ schema: 'https://policywatcher.online/schemas/press-kit-package-manifest/v1', schemaVersion: '1.0.0', generatedAt: RELEASE_DATE, release: VERSION, packages }, null, 2)}\n`);
+  writeFileSync(path.join(PRESS_DIR, 'package-manifest.json'), `${JSON.stringify({ schema: 'https://policywatcher.online/schemas/press-kit-package-manifest/v1', schemaVersion: '1.0.0', generatedAt: RELEASE_DATE, release: CAMPAIGN_VERSION, currentProductRelease: VERSION, packages }, null, 2)}\n`);
 }
 
 async function main() {
+  for (const [source, filename] of CAMPAIGN_DOCUMENTS) copyFileSync(path.join(ROOT, source), path.join(PRESS_DIR, filename));
   generateWordmarks();
   writeDataSnapshot();
   await writeFactSheets();
@@ -301,6 +337,17 @@ async function main() {
     ['policywatcher-wordmark-dark-2400x600.png', 'image/png', 'IPTC Photo Metadata 2025.1'],
     ['policywatcher-wordmark-light-on-navy-2400x600.png', 'image/png', 'IPTC Photo Metadata 2025.1'],
     ['fabrizio-degni-portrait-200.png', 'image/png', 'IPTC Photo Metadata 2025.1'],
+    ['fabrizio-degni-portrait-2400-source-upscale.png', 'image/png', 'IPTC Photo Metadata 2025.1'],
+    ['fabrizio-degni-portrait-2400-ai-restored.png', 'image/png', 'IPTC Photo Metadata 2025.1'],
+    ['policywatcher-logo-mark-2400.png', 'image/png', 'IPTC Photo Metadata 2025.1'],
+    ['policywatcher-logo-editorial-container.svg', 'image/svg+xml', 'document-manifest'],
+    ['policywatcher-logo-editorial-container.eps', 'application/postscript', 'document-manifest'],
+    ['policywatcher-beta27-evidence-console-2026-08-01.png', 'image/png', 'IPTC Photo Metadata 2025.1'],
+    ['policywatcher-beta27-release-record-2026-08-01.png', 'image/png', 'IPTC Photo Metadata 2025.1'],
+    ['policywatcher-beta27-press-kit-2026-08-01.png', 'image/png', 'IPTC Photo Metadata 2025.1'],
+    ['policywatcher-beta27-pulse-2026-08-01.png', 'image/png', 'IPTC Photo Metadata 2025.1'],
+    ['policywatcher-beta27-data-room-2026-08-01.png', 'image/png', 'IPTC Photo Metadata 2025.1'],
+    ['policywatcher-beta27-demo-2026-08-01.mp4', 'video/mp4', 'document-manifest'],
     ['policywatcher-two-week-progress-2026-07-26.png', 'image/png', 'IPTC Photo Metadata 2025.1'],
     ['policywatcher-feature-atlas-2026-07-27.png', 'image/png', 'IPTC Photo Metadata 2025.1'],
     ['policywatcher-release-impact-2026-07-27.png', 'image/png', 'IPTC Photo Metadata 2025.1'],
@@ -314,6 +361,7 @@ async function main() {
     [`policywatcher-fact-sheet-en-${RELEASE_DATE}.pdf`, 'application/pdf', 'document-manifest'],
     [`policywatcher-fact-sheet-it-${RELEASE_DATE}.pdf`, 'application/pdf', 'document-manifest'],
     ['LICENSE-ASSETS.md', 'text/markdown', 'document-manifest'],
+    ...CAMPAIGN_DOCUMENTS.map(([, filename, mediaType]) => [filename, mediaType, 'document-manifest']),
   ];
   const manifest = { $schema: 'https://policywatcher.online/schemas/press-kit-asset-manifest/v1', schemaVersion: '2.0.0', generatedAt: RELEASE_DATE, release: VERSION, contentCredentials: 'not-attached', metadataStandard: 'IPTC Photo Metadata 2025.1', vectorMasterAvailable: false, integrityBoundary: 'SHA-256 checksums establish downloaded-file integrity only. They do not establish semantic truth, authorship provenance or endorsement.', assets: fileDefinitions.map(([filename, mediaType, standard]) => manifestEntry(filename, mediaType, standard)) };
   writeFileSync(path.join(PRESS_DIR, 'asset-manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);

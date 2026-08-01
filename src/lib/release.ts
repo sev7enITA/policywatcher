@@ -1,6 +1,6 @@
-export const POLICYWATCHER_VERSION = '3.9.0-beta.27' as const;
-export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 27' as const;
-export const POLICYWATCHER_RELEASE_NAME = 'Admin Operational Readiness' as const;
+export const POLICYWATCHER_VERSION = '3.9.0-beta.30' as const;
+export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 30' as const;
+export const POLICYWATCHER_RELEASE_NAME = 'Enterprise Agent & Contract Evidence Integration' as const;
 export const POLICYWATCHER_RELEASE_DATE = '2026-08-01' as const;
 export type PolicyWatcherReleaseChannel = 'stable' | 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL: PolicyWatcherReleaseChannel = 'beta';

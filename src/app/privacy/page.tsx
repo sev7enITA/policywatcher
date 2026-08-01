@@ -113,7 +113,7 @@ export default function PrivacyPolicyPage() {
           </p>
           <p>
             Campaign URLs may contain one public parameter, <code>campaign</code>, whose value must match
-            one of the five published Beta 13 cohort identifiers. Unknown, duplicate or additional values
+            a published allowlisted campaign cohort identifier. Unknown, duplicate or additional values
             are ignored for campaign measurement. PolicyWatcher does not retain the raw query string.
           </p>
           <p>
@@ -122,6 +122,28 @@ export default function PrivacyPolicyPage() {
             These records use the same event type, allowlisted target, locale and server timestamp fields.
             The administrative endpoint rejects recipient, journalist, outlet, email, subject override,
             message body, notes and arbitrary target values. Auditors can inspect aggregate totals but cannot create them.
+          </p>
+        </section>
+
+        <section className={styles.section}>
+          <h2>Enterprise agents and Word contract evidence review</h2>
+          <p>
+            The public Agent Evidence Gateway accepts only allowlisted topic, company, sector, region,
+            language and result-limit fields. It does not accept prompt transcripts, document text,
+            tenant identifiers, account identifiers, access tokens or arbitrary metadata. Requests are
+            rate limited without writing a client IP address to an application event record.
+          </p>
+          <p>
+            In the Word task pane, the selected clause is read only after an explicit action and is
+            classified locally against a fixed topic taxonomy. The selection, document name, document
+            identifier, user identity and Office access token are not sent to PolicyWatcher. After a
+            separate acknowledgement, the task pane sends only the displayed controlled topic labels,
+            language and bounded result limit to retrieve related public evidence.
+          </p>
+          <p>
+            Customer-side Microsoft 365, Google Cloud and AWS agent configurations remain subject to
+            the customer&apos;s own tenant, project or account controls. PolicyWatcher does not administer
+            those environments through the supplied source packages.
           </p>
         </section>
 

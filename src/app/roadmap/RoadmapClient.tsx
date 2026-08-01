@@ -78,9 +78,9 @@ const goals: Array<{
     label: 'Builder',
     title: 'Connect PolicyWatcher to other systems',
     summary:
-      'A technical view for public API consumers and controlled enterprise pilots across Azure and Power Platform.',
-    view: 'Integration options, API v1 and v2 contracts, Observatory registry, tenant, rate and source boundaries.',
-    output: 'Read-only machine-readable evidence and a bounded Microsoft test-tenant path.',
+      'A technical view for public API consumers and controlled enterprise pilots across Microsoft, Google Cloud and AWS.',
+    view: 'Integration options, public agent and API v1 contracts, tenant-bound API v2, provider packages, rate and source boundaries.',
+    output: 'Read-only machine-readable evidence, three agent source packages and bounded Microsoft workflow paths.',
     accent: '#f59e0b',
   },
 ];
@@ -104,6 +104,36 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 };
 
 const nowItems = [
+  {
+    phase: 'Current · 3.9.0-beta.30',
+    title: 'Word Contract Evidence Review',
+    body:
+      'Classify an explicitly selected Word clause locally against a fixed taxonomy, display the derived topics and search related public evidence only after a separate acknowledgement.',
+    benefit: 'Reviewers can reach cited public evidence from a Word clause without transmitting the selected clause to PolicyWatcher.',
+    validation: 'Network queries contain controlled topic labels only; the source package does not verify, approve or legally assess a contract.',
+    icon: FileCheck2,
+    href: '/office-addin/contract-review',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.29',
+    title: 'Microsoft, Google and AWS agent packages',
+    body:
+      'Validate a Microsoft 365 Copilot declarative agent, Vertex AI Agent Builder tool or Amazon Quick OpenAPI connector against the same public evidence contract.',
+    benefit: 'Enterprise users can query PolicyWatcher from an approved agent environment while public evidence remains at the source.',
+    validation: 'The repository provides source packages and runbooks; it does not deploy, approve, publish or certify them in customer environments.',
+    icon: GitFork,
+    href: '/integrations',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.28',
+    title: 'Cross-cloud Agent Evidence Gateway',
+    body:
+      'Retrieve deterministic capabilities, public change briefs and curated Observatory briefs through one flattened OpenAPI 3.0 contract.',
+    benefit: 'Agent tools receive timestamps, applied filters, answer context, citations and explicit evidence limits in a consistent form.',
+    validation: 'Only public evidence and curated references are returned; zero results do not establish absence and private workflows remain on API v2.',
+    icon: Radio,
+    href: '/api/v1/agent/openapi.json',
+  },
   {
     phase: 'Delivered · 3.9.0-beta.22',
     title: 'Browser-local event feed continuity',
@@ -303,6 +333,22 @@ const candidateFeatures = [
     risk: 'Certification, tenant entitlements, offboarding, delivery telemetry and commercial provisioning are not yet implemented.',
   },
   {
+    track: 'Enterprise agents',
+    title: 'Cross-cloud public evidence dialogue',
+    body:
+      'Delivered in Beta 28-29: one deterministic Agent Evidence Gateway plus source packages for Microsoft 365 Copilot, Vertex AI Agent Builder and Amazon Quick.',
+    status: 'Available gateway · source packages ready',
+    risk: 'Provider approval, tenant configuration, cloud logging, retention and product compatibility remain customer- and provider-controlled.',
+  },
+  {
+    track: 'Office',
+    title: 'Word Contract Evidence Review',
+    body:
+      'Delivered in Beta 30: locally classify selected clause text and send only displayed controlled topic labels to the public evidence gateway after explicit acknowledgement.',
+    status: 'Source package ready',
+    risk: 'Topic mapping can require professional review and must not be presented as contract verification, approval or legal advice.',
+  },
+  {
     track: 'Collaboration',
     title: 'Local public-evidence watchlists and shareable collections',
     body:
@@ -386,9 +432,9 @@ const candidateFeatures = [
     track: 'Microsoft 365',
     title: 'Teams, Copilot, MCP and Graph surfaces',
     body:
-      'Design purpose-built clients over API v2: a dedicated Teams route, a declarative Copilot agent or API plugin, a federated MCP server and optional Graph indexing.',
-    status: 'Planned',
-    risk: 'Each surface needs tenant authorization, content and retention boundaries, operational ownership and isolation tests.',
+      'Copilot public-evidence agent source is delivered. Continue with an authenticated Teams route, a federated MCP server and optional Graph indexing over tenant-bound controls.',
+    status: 'Copilot source ready · Teams, MCP and Graph planned',
+    risk: 'Private surfaces need tenant authorization, content and retention boundaries, operational ownership and multi-tenant isolation tests.',
   },
   {
     track: 'Distribution',

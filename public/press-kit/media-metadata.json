@@ -67,6 +67,171 @@
       "creator": "Fabrizio Degni",
       "credit": "Fabrizio Degni"
     },
+    "fabrizio-degni-portrait-2400-source-upscale.png": {
+      "title": {
+        "en": "Fabrizio Degni source-faithful press portrait",
+        "it": "Ritratto stampa fedele alla fonte di Fabrizio Degni"
+      },
+      "description": {
+        "en": "Owned 2400 by 2400 pixel Lanczos upscale of the 200-pixel source portrait. No facial detail was generated; source detail remains limited.",
+        "it": "Upscale Lanczos proprietario 2400 per 2400 del ritratto sorgente da 200 pixel. Non sono stati generati dettagli del volto; il dettaglio sorgente resta limitato."
+      },
+      "alt": {
+        "en": "Black-and-white portrait of Fabrizio Degni",
+        "it": "Ritratto in bianco e nero di Fabrizio Degni"
+      },
+      "usage": {
+        "en": "Preferred source-faithful high-resolution placement; disclose that original detail is limited.",
+        "it": "Versione ad alta risoluzione preferita e fedele alla fonte; dichiarare che il dettaglio originale e limitato."
+      },
+      "creator": "Fabrizio Degni",
+      "credit": "Fabrizio Degni"
+    },
+    "fabrizio-degni-portrait-2400-ai-restored.png": {
+      "title": {
+        "en": "Fabrizio Degni AI-restored portrait variant",
+        "it": "Variante restaurata con AI del ritratto di Fabrizio Degni"
+      },
+      "description": {
+        "en": "AI-assisted restoration generated from the owned 200-pixel source portrait and supplied only as a disclosed editorial variant.",
+        "it": "Restauro assistito da AI generato dal ritratto proprietario da 200 pixel e fornito esclusivamente come variante editoriale dichiarata."
+      },
+      "alt": {
+        "en": "AI-restored black-and-white portrait variant of Fabrizio Degni",
+        "it": "Variante in bianco e nero restaurata con AI del ritratto di Fabrizio Degni"
+      },
+      "usage": {
+        "en": "Do not present as the unaltered source photograph; label AI-assisted restoration when published.",
+        "it": "Non presentare come fotografia sorgente inalterata; indicare il restauro assistito da AI in caso di pubblicazione."
+      },
+      "creator": "Fabrizio Degni",
+      "credit": "Fabrizio Degni"
+    },
+    "policywatcher-logo-mark-2400.png": {
+      "title": {
+        "en": "PolicyWatcher high-resolution logo mark",
+        "it": "Marchio PolicyWatcher ad alta risoluzione"
+      },
+      "description": {
+        "en": "Owned 2400-pixel raster enlargement of the PolicyWatcher logo mark for editorial placement.",
+        "it": "Ingrandimento raster proprietario da 2400 pixel del marchio PolicyWatcher per uso editoriale."
+      },
+      "alt": {
+        "en": "PolicyWatcher shield and eye logo mark",
+        "it": "Marchio PolicyWatcher con scudo e occhio"
+      },
+      "usage": {
+        "en": "Do not describe as a native vector master or imply endorsement.",
+        "it": "Non descrivere come master vettoriale nativo o implicare endorsement."
+      },
+      "creator": "Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    },
+    "policywatcher-beta27-evidence-console-2026-08-01.png": {
+      "date": "2026-08-01",
+      "title": {
+        "en": "Beta 27 public Knowledge layer",
+        "it": "Knowledge layer pubblico Beta 27"
+      },
+      "description": {
+        "en": "Server-rendered public policy reference layer with publication boundary and explicit empty evidence state.",
+        "it": "Layer di riferimento pubblico renderizzato lato server con limite di pubblicazione e stato vuoto esplicito."
+      },
+      "alt": {
+        "en": "PolicyWatcher public Knowledge layer",
+        "it": "Knowledge layer pubblico PolicyWatcher"
+      },
+      "usage": {
+        "en": "The captured empty state is not a healthy-data claim.",
+        "it": "Lo stato vuoto acquisito non e una dichiarazione di dati healthy."
+      },
+      "creator": "Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    },
+    "policywatcher-beta27-release-record-2026-08-01.png": {
+      "date": "2026-08-01",
+      "title": {
+        "en": "Beta 27 release record",
+        "it": "Record release Beta 27"
+      },
+      "description": {
+        "en": "Dated Admin Operational Readiness release record with implemented changes and boundaries.",
+        "it": "Record datato Admin Operational Readiness con modifiche implementate e limiti."
+      },
+      "alt": {
+        "en": "PolicyWatcher Beta 27 release record",
+        "it": "Record release PolicyWatcher Beta 27"
+      },
+      "usage": {
+        "en": "Release inventory is not measured outcome, certification or adoption.",
+        "it": "L inventario release non e risultato misurato, certificazione o adozione."
+      },
+      "creator": "Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    },
+    "policywatcher-beta27-press-kit-2026-08-01.png": {
+      "date": "2026-08-01",
+      "title": {
+        "en": "Beta 27 Press Kit",
+        "it": "Press Kit Beta 27"
+      },
+      "description": {
+        "en": "Evidence-oriented Press Kit with dated product status, action routes and extension boundaries.",
+        "it": "Press Kit orientato alle evidenze con stato datato, azioni e limiti dell estensione."
+      },
+      "alt": {
+        "en": "PolicyWatcher Beta 27 Press Kit interface",
+        "it": "Interfaccia Press Kit PolicyWatcher Beta 27"
+      },
+      "usage": {
+        "en": "Verify the live Press Kit before later publication.",
+        "it": "Verificare il Press Kit live prima di pubblicazioni successive."
+      },
+      "creator": "Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    },
+    "policywatcher-beta27-pulse-2026-08-01.png": {
+      "date": "2026-08-01",
+      "title": {
+        "en": "Beta 27 Pulse",
+        "it": "Pulse Beta 27"
+      },
+      "description": {
+        "en": "Reviewed editorial leads with visible facts, source boundaries and reusable evidence formats.",
+        "it": "Lead editoriali revisionati con dati, limiti delle fonti e formati di evidenza riutilizzabili."
+      },
+      "alt": {
+        "en": "PolicyWatcher Pulse verified leads interface",
+        "it": "Interfaccia dei lead verificati PolicyWatcher Pulse"
+      },
+      "usage": {
+        "en": "Verified means the configured editorial contract, not independent validation.",
+        "it": "Verificato indica il contratto editoriale configurato, non validazione indipendente."
+      },
+      "creator": "Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    },
+    "policywatcher-beta27-data-room-2026-08-01.png": {
+      "date": "2026-08-01",
+      "title": {
+        "en": "Beta 27 Data Room",
+        "it": "Data Room Beta 27"
+      },
+      "description": {
+        "en": "Dated configured-scope snapshot with citation, formats and reuse boundary.",
+        "it": "Snapshot datato del perimetro configurato con citazione, formati e limiti di riuso."
+      },
+      "alt": {
+        "en": "PolicyWatcher editorial Data Room interface",
+        "it": "Interfaccia Data Room editoriale PolicyWatcher"
+      },
+      "usage": {
+        "en": "Configured inventory and method; not exhaustive coverage or measured compliance.",
+        "it": "Inventario e metodo configurati; non copertura esaustiva o conformita misurata."
+      },
+      "creator": "Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    },
     "policywatcher-two-week-progress-2026-07-26.png": {
       "date": "2026-07-26",
       "title": {

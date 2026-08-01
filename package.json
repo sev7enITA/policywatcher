@@ -1,6 +1,6 @@
 {
   "name": "policywatcher",
-  "version": "3.9.0-beta.27",
+  "version": "3.9.0-beta.30",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -20,6 +20,8 @@
     "qa:source-inventory": "node scripts/hostinger-audit-source-inventory.mjs",
     "db:repair-public-baselines": "node scripts/hostinger-repair-public-baselines.mjs",
     "press-kit:package": "node scripts/generate-press-kit-assets.mjs",
+    "press-campaign:generate": "tsx scripts/generate-beta27-campaign-assets.ts",
+    "agent-integrations:generate": "tsx scripts/generate-agent-integration-packages.ts",
     "pulse:verify": "vitest run src/lib/__tests__/editorialPulse.test.ts src/lib/__tests__/pressMetrics.test.ts"
   },
   "dependencies": {

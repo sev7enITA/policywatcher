@@ -137,7 +137,10 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.24', shortLabel: '3.9 B24', label: '3.9.0 Beta 24' },
   { id: '3.9.0-beta.25', shortLabel: '3.9 B25', label: '3.9.0 Beta 25' },
   { id: '3.9.0-beta.26', shortLabel: '3.9 B26', label: '3.9.0 Beta 26' },
-  { id: '3.9.0-beta.27', shortLabel: '3.9 B27', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '3.9.0-beta.27', shortLabel: '3.9 B27', label: '3.9.0 Beta 27' },
+  { id: '3.9.0-beta.28', shortLabel: '3.9 B28', label: '3.9.0 Beta 28' },
+  { id: '3.9.0-beta.29', shortLabel: '3.9 B29', label: '3.9.0 Beta 29' },
+  { id: '3.9.0-beta.30', shortLabel: '3.9 B30', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -169,6 +172,9 @@ const primaryUserByDomain: Record<string, string> = {
 };
 
 const routeByFeature: Record<string, FeatureAtlasRoute> = {
+  'word-contract-evidence-review': { href: '/office-addin/contract-review', label: 'Word task pane', access: 'public' },
+  'multicloud-agent-source-packages': { href: '/integrations', label: 'Integration Options', access: 'public' },
+  'agent-evidence-gateway': { href: '/api/v1/agent/openapi.json', label: 'Agent OpenAPI', access: 'public' },
   'admin-operational-readiness': { href: '/admin', label: 'Admin Operations', access: 'protected' },
   'crawlable-public-knowledge-layer': { href: '/knowledge', label: 'Public Knowledge', access: 'public' },
   'admin-shell-readability': { href: '/admin', label: 'Admin Operations', access: 'protected' },
@@ -219,6 +225,9 @@ const routeByFeature: Record<string, FeatureAtlasRoute> = {
 };
 
 const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
+  'word-contract-evidence-review': [{ featureId: 'agent-evidence-gateway', relationship: 'depends-on' }, { featureId: 'public-evidence-gate', relationship: 'governed-by' }],
+  'multicloud-agent-source-packages': [{ featureId: 'agent-evidence-gateway', relationship: 'depends-on' }, { featureId: 'public-integration-directory', relationship: 'distributed-through' }],
+  'agent-evidence-gateway': [{ featureId: 'public-integration-directory', relationship: 'depends-on' }, { featureId: 'public-evidence-gate', relationship: 'governed-by' }],
   'admin-operational-readiness': [{ featureId: 'admin-operations', relationship: 'depends-on' }, { featureId: 'dataset-qa', relationship: 'governed-by' }],
   'crawlable-public-knowledge-layer': [{ featureId: 'public-evidence-gate', relationship: 'governed-by' }, { featureId: 'interactive-public-navigation', relationship: 'distributed-through' }],
   'verified-browser-store-distribution': [{ featureId: 'browser-companion', relationship: 'distributed-through' }],

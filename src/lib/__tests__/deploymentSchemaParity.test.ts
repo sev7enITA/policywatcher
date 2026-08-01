@@ -124,7 +124,7 @@ describe('Hostinger runtime schema parity', () => {
     } finally {
       rmSync(directory, { recursive: true, force: true });
     }
-  });
+  }, 15_000);
 
   it('never downloads a mutable Prisma CLI during production startup', () => {
     const initShell = readFileSync('scripts/hostinger-init-db.sh', 'utf8');

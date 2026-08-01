@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2027%20Admin%20Operational%20Readiness-146c6a" alt="3.9.0 Beta 27 Admin Operational Readiness" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2030%20Enterprise%20Integration-146c6a" alt="3.9.0 Beta 30 Enterprise Agent and Contract Evidence Integration" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,17 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 30 Enterprise Agent and Contract Evidence Integration Highlights
+
+- **Cross-cloud agent contract:** three deterministic public `GET` operations return capabilities, source-linked policy-change briefs and curated Observatory briefs with timestamps, applied filters and explicit limits.
+- **Microsoft 365 Copilot source:** app manifest 1.24, declarative agent 1.8 and API plugin 2.4 provide a controlled-tenant pilot package.
+- **Google Cloud source:** Vertex AI Agent Builder receives an OpenAPI tool plus tool-first playbook instructions.
+- **AWS source:** Amazon Quick receives a three-operation OpenAPI connector with flattened JSON responses; Amazon Q Business is retained as legacy compatibility for existing customers only.
+- **Word contract evidence review:** an explicit document selection is classified locally against a fixed taxonomy; only displayed topic labels are sent after separate acknowledgement.
+- **Private-workflow separation:** public agent packages do not weaken the Entra-authenticated Enterprise API v2 boundary.
+
+Source-package readiness is not deployment, provider certification, marketplace publication or tenant approval. The Word task pane maps public research evidence and does not verify, approve or legally assess contracts.
 
 ### Release 3.9.0 Beta 27 Admin Operational Readiness Highlights
 
@@ -914,8 +925,11 @@ PolicyWatcher uses APIs and purpose-built clients as its machine integration bou
 | Enterprise API v2 | Microsoft Entra scope or application role | Pilot ready | Tenant-bound enterprise evidence access |
 | Azure API Management facade | Entra plus gateway-only origin header | Pilot ready | Gateway policy, quota and request correlation |
 | Power Platform custom connector | Entra delegated OAuth | Pilot ready | Power Automate, Power Apps, Logic Apps and Copilot Studio |
+| Agent Evidence Gateway | None; public read-only CORS | Available | Cited public briefs for enterprise agent tools |
+| Microsoft 365 Copilot, Vertex AI and Amazon Quick packages | Customer tenant, project or account approval | Source package ready | Public evidence dialogue from approved enterprise agents |
+| Word Contract Evidence Review | Office `ReadDocument`; derived public query | Source package ready | Local selected-clause classification and public evidence mapping |
 | Configured signed webhooks | Deployment environment plus protected operator authorization | Pilot ready | Bounded delivery of public change events to controlled HTTPS receivers |
-| Self-service webhooks, Teams, Copilot plugins, MCP and Graph | Integration-specific | Planned | Tenant lifecycle and Microsoft 365 experiences after identity controls |
+| Self-service webhooks, Teams, MCP and Graph | Integration-specific | Planned | Tenant lifecycle and private collaboration experiences after identity controls |
 | Microsoft commercial marketplace | Entitlement and billing lifecycle | Commercial later | Discovery and eventual SaaS provisioning |
 
 See the public [`/integrations`](https://www.policywatcher.online/integrations) directory and the canonical [integration options](docs/integrations.md) document for the decision guide, readiness boundaries and pilot architecture. API v1 remains the anonymous public contract; API v2 adds tenant-bound Microsoft Entra access without replacing v1.
@@ -944,6 +958,9 @@ See the public [`/integrations`](https://www.policywatcher.online/integrations) 
 | `/api/seed` | POST | Bearer + env flag | None | Database seeding (development only) |
 | `/api/v1/manifest` | GET | No | 60/min shared v1 bucket | Read-only public integration directory |
 | `/api/v1/observatory?lang=en\|it` | GET | No | 60/min shared v1 bucket | Curated source, signal and event registry |
+| `/api/v1/agent/openapi.json` | GET | No | 30/min agent bucket | Cross-cloud public Agent Evidence Gateway contract |
+| `/api/v1/agent/change-brief` | GET | No | 30/min agent bucket | Flattened source-linked public change brief |
+| `/api/v1/agent/observatory-brief` | GET | No | 30/min agent bucket | Flattened curated Observatory brief |
 | `/api/v2/openapi.json` | GET | No | Public contract | OpenAPI definition for the Enterprise API v2 |
 | `/api/v2/manifest` | GET | Entra | Gateway/origin policy | Authenticated integration directory and boundaries |
 | `/api/v2/companies` | GET | Entra | Gateway/origin policy | Paginated monitored companies and publishable sources |

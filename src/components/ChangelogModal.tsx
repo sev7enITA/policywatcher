@@ -79,7 +79,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Pilot ready</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      The Integration Options directory distinguishes available, pilot-ready, planned and later commercial paths. The read-only Enterprise API v2 validates Microsoft Entra tokens and tenant claims at the origin, while the configured webhook pilot sends eligible public events through signed bounded delivery. Teams, Copilot plugins, MCP, self-service webhook lifecycle and Marketplace provisioning remain planned.
+                      The Integration Options directory distinguishes available, source-ready, pilot-ready, planned and later commercial paths. A public Agent Evidence Gateway now supports source packages for Microsoft 365 Copilot, Vertex AI Agent Builder and Amazon Quick, while authenticated private workflows remain on Enterprise API v2. Teams, MCP, self-service webhook lifecycle and Marketplace provisioning remain planned.
                     </p>
                   </div>
 
@@ -89,7 +89,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Current Beta</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      The current release adds a protected five-priority Action Center, a five-stage publication-readiness funnel, four independently loaded live-status cards, role-specific Admin and Auditor presentation, and bounded operational measurement. Missing metrics and unavailable modules remain unknown rather than zero or healthy. Server-side authorization remains authoritative, and measured values do not establish usability, task completion, accessibility, service-level or operational-health claims.
+                      The current release adds a Word task pane that classifies an explicit selection locally and sends only displayed controlled topic labels to the public evidence gateway after a separate acknowledgement. The source package is ready for controlled sideload validation; it is not AppSource-published or tenant-deployed and does not verify, approve or legally assess contracts.
                     </p>
                   </div>
 

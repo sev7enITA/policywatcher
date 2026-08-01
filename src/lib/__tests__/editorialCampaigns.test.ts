@@ -15,14 +15,16 @@ import { POLICYWATCHER_VERSION } from '../release';
 const read = (path: string) => readFileSync(path, 'utf8');
 
 describe('versioned editorial campaign registry', () => {
-  it('contains exactly five public-safe cohorts and no contact-level fields', () => {
+  it('contains archived cohorts and active region/channel cohorts without contact-level fields', () => {
     expect(editorialCampaigns.map((campaign) => campaign.id)).toEqual(EDITORIAL_CAMPAIGN_IDS);
-    expect(new Set(EDITORIAL_CAMPAIGN_IDS).size).toBe(5);
+    expect(new Set(EDITORIAL_CAMPAIGN_IDS).size).toBe(EDITORIAL_CAMPAIGN_IDS.length);
     const serialized = JSON.stringify(editorialCampaigns).toLowerCase();
     for (const forbidden of ['recipient', 'journalistname', 'emailaddress', 'outletname', 'notes', 'messagebody']) {
       expect(serialized).not.toContain(`"${forbidden}"`);
     }
-    expect(editorialCampaigns.every((campaign) => campaign.release === POLICYWATCHER_VERSION)).toBe(true);
+    expect(editorialCampaigns.filter((campaign) => campaign.lifecycle === 'active').every((campaign) => campaign.release === '3.9.0-beta.27')).toBe(true);
+    expect(editorialCampaigns.filter((campaign) => campaign.lifecycle === 'active').every((campaign) => campaign.release !== POLICYWATCHER_VERSION)).toBe(true);
+    expect(editorialCampaigns.filter((campaign) => campaign.lifecycle === 'active').every((campaign) => campaign.region && campaign.channel)).toBe(true);
   });
 
   it('builds stable canonical landing URLs with one allowlisted campaign value', () => {
@@ -41,12 +43,12 @@ describe('versioned editorial campaign registry', () => {
   });
 
   it('keeps public and protected event parsers separate', () => {
-    expect(parsePressMetricPayload({ eventType: 'campaign_landing', target: 'beta13-press-it', locale: 'it' })).not.toBeNull();
+    expect(parsePressMetricPayload({ eventType: 'campaign_landing', target: 'beta27-press-fr', locale: 'fr' })).not.toBeNull();
     for (const eventType of OUTREACH_OPERATION_TYPES) {
-      expect(parsePressMetricPayload({ eventType, target: 'beta13-press-it', locale: 'it' })).toBeNull();
-      expect(parseOutreachOperationPayload({ eventType, target: 'beta13-press-it', locale: 'it' })).not.toBeNull();
+      expect(parsePressMetricPayload({ eventType, target: 'beta27-press-it', locale: 'it' })).toBeNull();
+      expect(parseOutreachOperationPayload({ eventType, target: 'beta27-press-it', locale: 'it' })).not.toBeNull();
     }
-    expect(parseOutreachOperationPayload({ eventType: 'pitch_sent', target: 'beta13-press-it', locale: 'en' })).toBeNull();
+    expect(parseOutreachOperationPayload({ eventType: 'pitch_sent', target: 'beta27-press-it', locale: 'en' })).toBeNull();
     expect(parseOutreachOperationPayload({ eventType: 'pitch_sent', target: 'free-text', locale: 'it' })).toBeNull();
     expect(parseOutreachOperationPayload({ eventType: 'pitch_sent', target: 'beta13-press-it', locale: 'it', notes: 'private' })).toBeNull();
   });
@@ -58,12 +60,12 @@ describe('versioned editorial campaign registry', () => {
       { eventType: 'embed_copy', target: 'configured-policy-evidence-scope', _count: { _all: 2 } },
       { eventType: 'pulse_story_view', target: 'configured-policy-evidence-scope', _count: { _all: 10 } },
       { eventType: 'social_card_download', target: 'og', _count: { _all: 5 } },
-      { eventType: 'campaign_landing', target: 'beta13-press-it', _count: { _all: 6 } },
-      { eventType: 'pitch_sent', target: 'beta13-press-it', _count: { _all: 2 } },
-      { eventType: 'reply_received', target: 'beta13-press-it', _count: { _all: 1 } },
-      { eventType: 'interview_requested', target: 'beta13-press-it', _count: { _all: 1 } },
-      { eventType: 'coverage_confirmed', target: 'beta13-press-it', _count: { _all: 1 } },
-      { eventType: 'correction_requested', target: 'beta13-press-it', _count: { _all: 1 } },
+      { eventType: 'campaign_landing', target: 'beta27-press-it', _count: { _all: 6 } },
+      { eventType: 'pitch_sent', target: 'beta27-press-it', _count: { _all: 2 } },
+      { eventType: 'reply_received', target: 'beta27-press-it', _count: { _all: 1 } },
+      { eventType: 'interview_requested', target: 'beta27-press-it', _count: { _all: 1 } },
+      { eventType: 'coverage_confirmed', target: 'beta27-press-it', _count: { _all: 1 } },
+      { eventType: 'correction_requested', target: 'beta27-press-it', _count: { _all: 1 } },
     ]);
     const kpis = buildEditorialOutreachKpis(counts);
     expect(kpis.primary.qualifiedEditorialReuseEvents).toBe(9);

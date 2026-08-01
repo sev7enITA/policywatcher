@@ -25,6 +25,7 @@ export const PUBLIC_API_RATE_LIMIT = Object.freeze({
   overrides: Object.freeze([
     Object.freeze({ endpoint: '/api/v1/evidence-collections', requests: 30, intervalSeconds: 60 }),
     Object.freeze({ endpoint: '/api/v1/change-events', requests: 30, intervalSeconds: 60 }),
+    Object.freeze({ endpoint: '/api/v1/agent/*', requests: 30, intervalSeconds: 60 }),
   ]),
 });
 export const PUBLIC_API_CACHE_SECONDS = 300;
@@ -89,6 +90,12 @@ export function getPublicApiManifest() {
       'Published records remain subject to source availability and public-evidence gates.',
       'The change-event feed is a forward-polling surface. It does not confirm notification delivery or replace future signed webhook controls.',
     ],
+    agentGateway: {
+      contract: '/api/v1/agent/openapi.json',
+      operations: ['/api/v1/agent/capabilities', '/api/v1/agent/change-brief', '/api/v1/agent/observatory-brief'],
+      responseShape: 'flattened deterministic public evidence brief',
+      inputBoundary: 'Bounded filters only; no prompt transcript, document body or selected contract text.',
+    },
     sources: (Object.keys(PUBLIC_DATA_SOURCES) as PublicDataSourceId[]).map(serializeDataSource),
   };
 }

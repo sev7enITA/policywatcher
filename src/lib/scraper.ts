@@ -1030,7 +1030,7 @@ async function loadCommonCrawlCollections(): Promise<CommonCrawlCollection[]> {
   try {
     const response = await fetch('https://index.commoncrawl.org/collinfo.json', {
       signal: controller.signal,
-      headers: { 'User-Agent': 'PolicyWatcher/3.9 (+https://policywatcher.online/methodology)' },
+      headers: { 'User-Agent': 'PolicyWatcher/3.9 (+https://policywatcher.online/methodology/confidence)' },
     });
     if (!response.ok) throw new Error(`cc_collections_${response.status}`);
     const collections = await response.json() as CommonCrawlCollection[];
@@ -1064,7 +1064,7 @@ async function fetchFromCommonCrawl(originalUrl: string, notBefore?: Date): Prom
         try {
           const response = await fetch(searchUrl, {
             signal: controller.signal,
-            headers: { 'User-Agent': 'PolicyWatcher/3.9 (+https://policywatcher.online/methodology)' },
+            headers: { 'User-Agent': 'PolicyWatcher/3.9 (+https://policywatcher.online/methodology/confidence)' },
           });
           if (!response.ok) {
             lastFailure = `cc_cdx_${response.status}`;
@@ -1124,7 +1124,7 @@ async function fetchFromCommonCrawl(originalUrl: string, notBefore?: Date): Prom
       warcRes = await fetch(warc_url, {
         signal: controller3.signal,
         headers: {
-          'User-Agent': 'PolicyWatcher/3.9 (+https://policywatcher.online/methodology)',
+          'User-Agent': 'PolicyWatcher/3.9 (+https://policywatcher.online/methodology/confidence)',
           Range: `bytes=${offset}-${offset + length - 1}`,
         },
       });

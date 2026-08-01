@@ -4,7 +4,12 @@
 set -euo pipefail
 
 APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-OUTPUT_DIR="${1:-${APP_DIR}/artifacts/hostinger}"
+OUTPUT_INPUT="${1:-${APP_DIR}/artifacts/hostinger}"
+if [[ "${OUTPUT_INPUT}" = /* ]]; then
+  OUTPUT_DIR="${OUTPUT_INPUT}"
+else
+  OUTPUT_DIR="${APP_DIR}/${OUTPUT_INPUT}"
+fi
 VERSION="$(node -p "require('${APP_DIR}/package.json').version")"
 LOCK_VERSION="$(node -p "require('${APP_DIR}/package-lock.json').version")"
 RELEASE_NAME="$(sed -n "s/.*POLICYWATCHER_RELEASE_NAME = '\([^']*\)'.*/\1/p" "${APP_DIR}/src/lib/release.ts")"
@@ -52,7 +57,7 @@ required_sources=(
   README.md HOSTINGER-DEPLOY.md CHANGELOG.md SECURITY.md LICENSE .env.example public src prisma scripts integrations
   docs/dataset-confidence-audit-2026-07-05.md docs/audit-v3.6.5.md
   docs/audit-v3.7.0.md docs/audit-v3.7.1.md docs/audit-v3.7.2.md docs/audit-v3.8.0.md docs/audit-v3.8.1.md docs/audit-v3.8.2.md docs/audit-v3.8.3.md docs/audit-v3.8.3-beta.2.md docs/audit-v3.8.3-beta.3.md docs/audit-v3.8.3-beta.4.md docs/beta-evidence-cycle-v3.8.3.md docs/platform-state-of-art-2026-07-05.md
-  docs/audit-v3.9.0-beta.1.md docs/audit-v3.9.0-beta.2.md docs/audit-v3.9.0-beta.3.md docs/audit-v3.9.0-beta.4.md docs/audit-v3.9.0-beta.5.md docs/audit-v3.9.0-beta.6.md docs/audit-v3.9.0-beta.7.md docs/audit-v3.9.0-beta.8.md docs/audit-v3.9.0-beta.9.md docs/audit-v3.9.0-beta.10.md docs/audit-v3.9.0-beta.11.md docs/audit-v3.9.0-beta.12.md docs/audit-v3.9.0-beta.13.md docs/audit-v3.9.0-beta.14.md docs/audit-v3.9.0-beta.15.md docs/audit-v3.9.0-beta.16.md docs/audit-v3.9.0-beta.17.md docs/audit-v3.9.0-beta.18.md docs/audit-v3.9.0-beta.19.md docs/audit-v3.9.0-beta.20.md docs/audit-v3.9.0-beta.21.md docs/audit-v3.9.0-beta.22.md docs/audit-v3.9.0-beta.23.md docs/audit-v3.9.0-beta.24.md docs/audit-v3.9.0-beta.25.md docs/audit-v3.9.0-beta.26.md docs/audit-v3.9.0-beta.27.md docs/crawlable-public-knowledge-layer.md docs/platform-state-of-art-2026-07-05.it.md docs/third-party-validation.md docs/public-api-v1.md docs/integrations.md docs/source-reliability.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
+  docs/audit-v3.9.0-beta.1.md docs/audit-v3.9.0-beta.2.md docs/audit-v3.9.0-beta.3.md docs/audit-v3.9.0-beta.4.md docs/audit-v3.9.0-beta.5.md docs/audit-v3.9.0-beta.6.md docs/audit-v3.9.0-beta.7.md docs/audit-v3.9.0-beta.8.md docs/audit-v3.9.0-beta.9.md docs/audit-v3.9.0-beta.10.md docs/audit-v3.9.0-beta.11.md docs/audit-v3.9.0-beta.12.md docs/audit-v3.9.0-beta.13.md docs/audit-v3.9.0-beta.14.md docs/audit-v3.9.0-beta.15.md docs/audit-v3.9.0-beta.16.md docs/audit-v3.9.0-beta.17.md docs/audit-v3.9.0-beta.18.md docs/audit-v3.9.0-beta.19.md docs/audit-v3.9.0-beta.20.md docs/audit-v3.9.0-beta.21.md docs/audit-v3.9.0-beta.22.md docs/audit-v3.9.0-beta.23.md docs/audit-v3.9.0-beta.24.md docs/audit-v3.9.0-beta.25.md docs/audit-v3.9.0-beta.26.md docs/audit-v3.9.0-beta.27.md docs/audit-v3.9.0-beta.28.md docs/audit-v3.9.0-beta.29.md docs/audit-v3.9.0-beta.30.md docs/crawlable-public-knowledge-layer.md docs/platform-state-of-art-2026-07-05.it.md docs/third-party-validation.md docs/public-api-v1.md docs/integrations.md docs/source-reliability.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
   docs/architecture/native-dashboard-engine.md docs/architecture/native-dashboard-functional-implementation-report.md docs/architecture/vizro-patterns-knowledge-base.md
   docs/native-dashboard-user-guide.md
   docs/press-outreach-2026-07-27.md
@@ -126,6 +131,15 @@ required_entries=(
   package.json package-lock.json release-manifest.json HOSTINGER-DEPLOY.md server.js src/lib/release.ts
   src/app/api/admin/database-readiness/route.ts src/lib/databaseReadiness.ts
   src/app/integrations/page.tsx src/app/api/v2/openapi.json/route.ts
+  src/app/api/v1/agent/openapi.json/route.ts src/app/api/v1/agent/change-brief/route.ts
+  src/app/api/v1/agent/observatory-brief/route.ts src/app/api/v1/agent/capabilities/route.ts
+  src/lib/agentGateway.ts src/lib/contractEvidence.ts
+  src/app/office-addin/contract-review/page.tsx src/app/office-addin/contract-review/ContractReviewClient.tsx
+  integrations/microsoft-copilot/policywatcher-evidence-agent/manifest.json
+  integrations/google-agent-builder/policywatcher-evidence-tool/openapi.json
+  integrations/amazon-quick/policywatcher-evidence-connector/openapi.json
+  integrations/amazon-q-business/policywatcher-evidence-plugin/openapi.json
+  integrations/office-word/policywatcher-contract-evidence-review/manifest.xml
   src/app/collections/page.tsx src/app/api/v1/evidence-collections/route.ts src/lib/evidenceCollection.ts
   src/app/api/v1/change-events/route.ts src/lib/publicChangeEvents.ts src/lib/publicChangeEventData.ts
   src/app/developers/event-continuity/page.tsx src/app/developers/event-continuity/EventContinuityClient.tsx
@@ -141,7 +155,7 @@ required_entries=(
   src/app/llms.txt/route.ts src/app/robots.ts src/app/sitemap.ts
   src/app/HomePage.module.css src/components/HomeKnowledgeSnapshot.tsx src/lib/publicKnowledge.ts
   docs/integrations.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
-  docs/audit-v3.9.0-beta.21.md docs/audit-v3.9.0-beta.22.md docs/audit-v3.9.0-beta.23.md docs/audit-v3.9.0-beta.24.md docs/audit-v3.9.0-beta.25.md docs/audit-v3.9.0-beta.26.md docs/audit-v3.9.0-beta.27.md docs/crawlable-public-knowledge-layer.md docs/source-reliability.md docs/public-api-v1.md
+  docs/audit-v3.9.0-beta.21.md docs/audit-v3.9.0-beta.22.md docs/audit-v3.9.0-beta.23.md docs/audit-v3.9.0-beta.24.md docs/audit-v3.9.0-beta.25.md docs/audit-v3.9.0-beta.26.md docs/audit-v3.9.0-beta.27.md docs/audit-v3.9.0-beta.28.md docs/audit-v3.9.0-beta.29.md docs/audit-v3.9.0-beta.30.md docs/crawlable-public-knowledge-layer.md docs/source-reliability.md docs/public-api-v1.md
   integrations/power-platform/policywatcher-v2/apiDefinition.swagger.template.json
   prisma/schema.prisma prisma/migrations/20260721150000_policy_inquiry/migration.sql
   prisma/migrations/20260729153000_public_change_publication_time/migration.sql

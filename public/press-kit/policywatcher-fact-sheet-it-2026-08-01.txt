@@ -1,6 +1,6 @@
 Scheda stampa PolicyWatcher
-Version 3.9.0-beta.27 · 2026-08-01
-Release corrente: Admin Operational Readiness
+Version 3.9.0-beta.30 · 2026-08-01
+Release corrente: Enterprise Agent & Contract Evidence Integration
 
 Dati configurati sul prodotto con perimetro e limiti di riuso espliciti.
 

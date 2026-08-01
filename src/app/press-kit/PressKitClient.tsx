@@ -251,6 +251,14 @@ const pressAssetImageSizes: Record<string, { width: number; height: number }> = 
   'wordmark-light': { width: 2400, height: 600 },
   'logo-square': { width: 1024, height: 1024 },
   'founder-portrait': { width: 200, height: 200 },
+  'founder-portrait-high-resolution': { width: 2400, height: 2400 },
+  'founder-portrait-ai-restored': { width: 2400, height: 2400 },
+  'logo-editorial-svg': { width: 2400, height: 2400 },
+  'beta27-knowledge-screenshot': { width: 1440, height: 1000 },
+  'beta27-release-screenshot': { width: 1440, height: 1000 },
+  'beta27-press-kit-screenshot': { width: 1440, height: 1000 },
+  'beta27-pulse-screenshot': { width: 1440, height: 1000 },
+  'beta27-data-room-screenshot': { width: 1440, height: 1000 },
   'two-week-progress': { width: 866, height: 1817 },
   'feature-atlas-screenshot': { width: 1440, height: 1000 },
   'release-impact-screenshot': { width: 1440, height: 1000 },
@@ -458,7 +466,7 @@ export default function PressKitClient() {
         <section id="media-assets" className={styles.assets} aria-labelledby="assets-title">
           <div className={styles.sectionIntro}><span>08 / {t.assetsLabel}</span><h2 id="assets-title">{t.assetsTitle}</h2><p>{t.assetsLead}</p></div>
           <div className={styles.assetGrid}>{pressKitAssets.map((asset) => <article key={asset.id}>
-            <div className={styles.assetPreview}>{asset.mediaType.startsWith('image/') ? <Image src={asset.href} alt={asset.alt[lang]} width={pressAssetImageSizes[asset.id].width} height={pressAssetImageSizes[asset.id].height} loading="eager" sizes="(max-width: 640px) calc(100vw - 24px), (max-width: 980px) 50vw, 66vw" unoptimized /> : <FileCheck2 size={44} aria-hidden="true" />}</div>
+            <div className={styles.assetPreview}>{asset.mediaType.startsWith('image/') ? <Image src={asset.href} alt={asset.alt[lang]} width={pressAssetImageSizes[asset.id].width} height={pressAssetImageSizes[asset.id].height} loading="lazy" sizes="(max-width: 640px) calc(100vw - 24px), (max-width: 980px) 50vw, 66vw" unoptimized /> : <FileCheck2 size={44} aria-hidden="true" />}</div>
             <div className={styles.assetBody}><span>{asset.mediaType} · {asset.dimensions ?? 'text'}</span><h3>{asset.title[lang]}</h3><p>{asset.caption[lang]}</p><small>{asset.usageBoundary[lang]}</small><code>sha256 {asset.sha256.slice(0, 18)}…</code><div><a href={asset.href} download><Download size={14} />{t.download}</a><span><ShieldCheck size={13} />{t.noCredentials}</span></div></div>
           </article>)}</div>
           <p className={styles.checksumNote}><ShieldCheck size={16} />{t.checksumNote} <a href="/press-kit/asset-manifest.json">{t.manifest}</a></p>
@@ -494,7 +502,7 @@ export default function PressKitClient() {
         </section>
 
         <section className={styles.founder} aria-labelledby="founder-title">
-          <Image src="/press-kit/fabrizio-degni-portrait-200.png" alt={lang === 'en' ? 'Portrait of Fabrizio Degni' : 'Ritratto di Fabrizio Degni'} width={200} height={200} loading="eager" sizes="200px" unoptimized />
+          <Image src="/press-kit/fabrizio-degni-portrait-2400-source-upscale.png" alt={lang === 'en' ? 'Portrait of Fabrizio Degni' : 'Ritratto di Fabrizio Degni'} width={200} height={200} loading="eager" sizes="200px" unoptimized />
           <div><span>{t.founderLabel}</span><h2 id="founder-title">{t.founderTitle}</h2><p>{t.founderBio}</p><small>{t.portraitNote}</small><nav aria-label={t.founderLabel}><a href="mailto:info@policywatcher.online"><Mail size={15} />info@policywatcher.online</a><a href="https://linkedin.com/in/fabriziodegni" target="_blank" rel="noopener noreferrer"><ExternalLink size={15} />LinkedIn</a><a href={PRESS_KIT_REPOSITORY_URL} target="_blank" rel="noopener noreferrer"><GitFork size={15} />GitHub</a></nav></div>
         </section>
 

@@ -50,6 +50,11 @@ export default function SecurityPage() {
                   <strong>Public Validation Signals</strong>
                   <span>Links to GitHub Quality Gate, CodeQL, OpenSSF Scorecard, the OpenSSF Best Practices project and a public header scan.</span>
                 </div>
+                <div className={styles.controlCard}>
+                  <Lock size={18} aria-hidden="true" />
+                  <strong>Enterprise Integration Boundary</strong>
+                  <span>Agent routes accept bounded public-evidence filters only. The Word task pane keeps selected clause text local and uses an Office-specific framing policy without weakening clickjacking protection elsewhere.</span>
+                </div>
               </div>
               <p>
                 See <Link href="/trust">Trust &amp; Quality Evidence</Link> and <Link href="/methodology/confidence">Confidence Methodology</Link> for the public boundary of these checks.

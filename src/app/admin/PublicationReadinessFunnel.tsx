@@ -29,7 +29,7 @@ function stageState(stage: PublicationReadinessStage): string {
 }
 
 function metricValue(value: number | null): string {
-  return value === null ? '—' : value.toLocaleString('en-US');
+  return value === null ? 'Not available' : value.toLocaleString('en-US');
 }
 
 function StageStateIcon({ availability }: Pick<PublicationReadinessStage, 'availability'>) {

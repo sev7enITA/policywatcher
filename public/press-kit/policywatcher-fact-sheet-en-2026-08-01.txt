@@ -1,6 +1,6 @@
 PolicyWatcher press fact sheet
-Version 3.9.0-beta.27 · 2026-08-01
-Current release: Admin Operational Readiness
+Version 3.9.0-beta.30 · 2026-08-01
+Current release: Enterprise Agent & Contract Evidence Integration
 
 Configured product facts with explicit scope and reuse boundaries.
 

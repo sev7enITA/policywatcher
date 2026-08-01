@@ -2,6 +2,51 @@
 
 ## Unreleased
 
+## 3.9.0-beta.30 - 2026-08-01
+
+### Word Contract Evidence Review
+- Added a dedicated Word task-pane route and sideload manifest for classifying the current document selection against a fixed contract-topic taxonomy.
+- Kept selected clause text inside the task pane; the network request sends only displayed controlled topic labels, language and a bounded result limit after a separate acknowledgement.
+- Added explicit unsupported-host, no-selection, unknown-topic, searching, zero-result and unavailable states plus source links and generated timestamps.
+- Added route-specific frame and Content Security Policy handling for supported Office hosts while retaining clickjacking protection on the rest of the portal.
+- Added deterministic topic-derivation tests proving that arbitrary clause text and confidential example terms do not enter the derived query.
+
+### Scope boundary
+- The add-in maps selected clauses to related public research evidence. It does not verify a contract, approve a clause, determine compliance or provide legal advice.
+- The supplied manifest is ready for controlled sideload validation; it is not AppSource-published, centrally deployed, tenant-approved or certified.
+
+### Release finalization and public-surface alignment
+- Decoupled the active Beta 27 editorial campaign registry and immutable claims freeze from the current application version so later builds cannot relabel or silently rebuild distributed campaign evidence.
+- Added separate campaign-release and current-product-release metadata to the press package manifest and regenerated the English and Italian packages with updated integrity checks.
+- Updated Pulse to report the complete Beta 7 through Beta 30 release sequence and linked the Beta 28, Beta 29 and Beta 30 records from the story pack and registry timeline.
+- Added the public agent and Word local-processing boundaries to Privacy, Security, Confidence Methodology and `llms.txt`.
+
+### Finalization boundary
+- The Beta 27 press campaign remains a dated campaign snapshot. Its presence in the Beta 30 portal does not make its screenshots or release copy current product evidence; the live Press Kit and release archive remain the current sources.
+
+## 3.9.0-beta.29 - 2026-08-01
+
+### Microsoft, Google and AWS agent source packages
+- Added a Microsoft 365 app package source with declarative agent 1.8 and API plugin 2.4 manifests for cited public evidence dialogue in an approved customer tenant.
+- Added a Vertex AI Agent Builder OpenAPI tool package with tool-first playbook instructions and explicit empty-result behavior.
+- Added an Amazon Quick OpenAPI connector package with three read-only operations, one server and flattened JSON response schemas without composition or array data types; retained Amazon Q Business as a documented legacy compatibility source for existing customers only.
+- Added provider-specific deployment, validation, removal, data-boundary and private-access guidance.
+
+### Scope boundary
+- Source-package readiness means that versioned manifests and instructions are present. It does not mean that PolicyWatcher changed a customer tenant, Google Cloud project or AWS account, or that a provider published or certified the integration.
+- Anonymous provider packages access public evidence only. Private enterprise workflows remain on the Entra-authenticated Enterprise API v2.
+
+## 3.9.0-beta.28 - 2026-08-01
+
+### Cross-cloud Agent Evidence Gateway
+- Added a public OpenAPI 3.0 contract with capabilities, change-brief and curated-Observatory-brief operations for Microsoft 365 Copilot, Vertex AI Agent Builder and Amazon Quick.
+- Added deterministic flattened responses containing generated time, applied filters, bounded answer context, newline-delimited source citations and explicit interpretation limits.
+- Added strict query allowlists, five-result maximum, public-evidence publication gates, read-only CORS, short public caching and a privacy-bounded rate limiter without client-IP logging.
+- Added cross-platform schema tests that reject unsupported parameters and prevent schema composition or array response types in the agent contract.
+
+### Scope boundary
+- The gateway accepts bounded filters rather than prompt transcripts or document text. It provides public research evidence and manually curated signals, not model-generated verdicts, exhaustive coverage or legal advice.
+
 ## 3.9.0-beta.27 - 2026-08-01
 
 ### Admin Operational Readiness

@@ -21,7 +21,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       // ----------------------------------------------------------------
-      // /embed/* - embeddable widget route. It deliberately relies on
+      // /embed/* and /office-addin/* - purpose-built frameable routes. They rely on
       // CSP frame-ancestors instead of the obsolete X-Frame-Options ALLOWALL.
       // ----------------------------------------------------------------
       {
@@ -41,12 +41,33 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        source: '/office-addin/:path*',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'no-referrer',
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains; preload',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=(), browsing-topics=()',
+          },
+        ],
+      },
       // ----------------------------------------------------------------
       // Catch-all /(.*): everything else, including /admin and the main
       // dashboard, stays NON-frameable (clickjacking protection).
       // ----------------------------------------------------------------
       {
-        source: '/((?!embed).*)',
+        source: '/((?!embed|office-addin).*)',
         headers: [
           {
             key: 'X-Frame-Options',

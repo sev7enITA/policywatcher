@@ -66,7 +66,7 @@ export default function PressOutreachPage() {
   const [metricsLoading, setMetricsLoading] = useState(true);
   const [readiness, setReadiness] = useState<Record<string, boolean>>({});
   const [readinessLoaded, setReadinessLoaded] = useState(false);
-  const [campaignId, setCampaignId] = useState<EditorialCampaignId>('beta13-press-it');
+  const [campaignId, setCampaignId] = useState<EditorialCampaignId>('beta27-press-it');
   const [operation, setOperation] = useState<OutreachOperationType>('pitch_sent');
   const [writeLoading, setWriteLoading] = useState(false);
   const [lastWriteState, setLastWriteState] = useState<'not-tested' | 'available' | 'unavailable'>('not-tested');

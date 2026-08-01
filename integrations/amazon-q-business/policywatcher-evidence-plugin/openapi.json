@@ -1,0 +1,319 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "PolicyWatcher Agent Evidence Gateway",
+    "version": "2026-08-01",
+    "description": "Read-only, deterministic access to already-public PolicyWatcher evidence. Responses include source links and explicit limitations."
+  },
+  "servers": [
+    {
+      "url": "https://policywatcher.online"
+    }
+  ],
+  "paths": {
+    "/api/v1/agent/capabilities": {
+      "get": {
+        "operationId": "getCapabilities",
+        "summary": "Describe the public agent evidence contract and its limits",
+        "description": "Returns supported operations, compatibility targets, citation behavior and public evidence boundaries.",
+        "x-amzn-operation-type": "read",
+        "responses": {
+          "200": {
+            "description": "Gateway capabilities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "schemaVersion",
+                    "release",
+                    "generatedAt",
+                    "access",
+                    "operations",
+                    "compatibleTargets",
+                    "privateAccess",
+                    "citations",
+                    "boundary"
+                  ],
+                  "properties": {
+                    "schemaVersion": {
+                      "type": "string"
+                    },
+                    "release": {
+                      "type": "string"
+                    },
+                    "generatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "access": {
+                      "type": "string"
+                    },
+                    "operations": {
+                      "type": "string"
+                    },
+                    "compatibleTargets": {
+                      "type": "string"
+                    },
+                    "privateAccess": {
+                      "type": "string"
+                    },
+                    "citations": {
+                      "type": "string"
+                    },
+                    "boundary": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/agent/change-brief": {
+      "get": {
+        "operationId": "getChangeBrief",
+        "summary": "Find source-linked public policy-change evidence",
+        "description": "Returns a deterministic flattened brief over already-published PolicyWatcher change evidence.",
+        "x-amzn-operation-type": "read",
+        "parameters": [
+          {
+            "name": "companySlug",
+            "in": "query",
+            "required": false,
+            "description": "Optional canonical PolicyWatcher company slug.",
+            "schema": {
+              "type": "string",
+              "maxLength": 80
+            }
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "required": false,
+            "description": "Optional public evidence region or jurisdiction filter.",
+            "schema": {
+              "type": "string",
+              "maxLength": 80
+            }
+          },
+          {
+            "name": "topic",
+            "in": "query",
+            "required": false,
+            "description": "Optional bounded policy or governance topic filter.",
+            "schema": {
+              "type": "string",
+              "maxLength": 160
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "description": "Language for returned public summaries.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "en",
+                "it"
+              ],
+              "default": "en"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Maximum number of public records to include, from one to five.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5,
+              "default": 3
+            }
+          },
+          {
+            "name": "risk",
+            "in": "query",
+            "required": false,
+            "description": "Optional public analytical risk label filter.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Low",
+                "Medium",
+                "High"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deterministic public evidence brief",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "schemaVersion",
+                    "release",
+                    "generatedAt",
+                    "resultCount",
+                    "answerContext",
+                    "citations",
+                    "filterSummary",
+                    "boundary"
+                  ],
+                  "properties": {
+                    "schemaVersion": {
+                      "type": "string"
+                    },
+                    "release": {
+                      "type": "string"
+                    },
+                    "generatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "resultCount": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "answerContext": {
+                      "type": "string"
+                    },
+                    "citations": {
+                      "type": "string"
+                    },
+                    "filterSummary": {
+                      "type": "string"
+                    },
+                    "boundary": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/agent/observatory-brief": {
+      "get": {
+        "operationId": "getObservatoryBrief",
+        "summary": "Find source-linked signals in the curated public Observatory registry",
+        "description": "Returns a deterministic flattened brief over manually curated public Observatory signals.",
+        "x-amzn-operation-type": "read",
+        "parameters": [
+          {
+            "name": "region",
+            "in": "query",
+            "required": false,
+            "description": "Optional public evidence region or jurisdiction filter.",
+            "schema": {
+              "type": "string",
+              "maxLength": 80
+            }
+          },
+          {
+            "name": "topic",
+            "in": "query",
+            "required": false,
+            "description": "Optional bounded policy or governance topic filter.",
+            "schema": {
+              "type": "string",
+              "maxLength": 160
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "description": "Language for returned public summaries.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "en",
+                "it"
+              ],
+              "default": "en"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Maximum number of public records to include, from one to five.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5,
+              "default": 3
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deterministic Observatory brief",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "schemaVersion",
+                    "release",
+                    "generatedAt",
+                    "resultCount",
+                    "answerContext",
+                    "citations",
+                    "filterSummary",
+                    "boundary",
+                    "registryVerifiedAt"
+                  ],
+                  "properties": {
+                    "schemaVersion": {
+                      "type": "string"
+                    },
+                    "release": {
+                      "type": "string"
+                    },
+                    "generatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "resultCount": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "answerContext": {
+                      "type": "string"
+                    },
+                    "citations": {
+                      "type": "string"
+                    },
+                    "filterSummary": {
+                      "type": "string"
+                    },
+                    "boundary": {
+                      "type": "string"
+                    },
+                    "registryVerifiedAt": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

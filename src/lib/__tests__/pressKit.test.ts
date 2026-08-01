@@ -44,6 +44,12 @@ describe('public press kit', () => {
     expect(pressKitContactRoutes.map((route) => route.id)).toEqual(['press', 'fact-checking', 'interview', 'speaking']);
     expect(pressKitGlossary.length).toBeGreaterThanOrEqual(5);
     expect(pressKitRegistryEvents.length).toBeGreaterThanOrEqual(3);
+    for (const event of pressKitRegistryEvents.filter((candidate) => candidate.type === 'release')) {
+      const slug = event.affectedHref.split('/').pop();
+      const release = pressKitReleases.find((candidate) => candidate.slug === slug);
+      expect(release, event.id).toBeDefined();
+      expect(event.occurredAt, event.id).toBe(release?.datePublished);
+    }
     expect(PRESS_KIT_ARTICLE_50_URL).toContain('digital-strategy.ec.europa.eu');
   });
 
@@ -79,9 +85,11 @@ describe('public press kit', () => {
   it('publishes localized packages, reusable data and embedded media metadata', () => {
     const packageManifest = JSON.parse(read('public/press-kit/package-manifest.json')) as {
       release: string;
+      currentProductRelease: string;
       packages: Array<{ locale: string; filename: string; bytes: number; sha256: string }>;
     };
-    expect(packageManifest.release).toBe(POLICYWATCHER_VERSION);
+    expect(packageManifest.release).toBe('3.9.0-beta.27');
+    expect(packageManifest.currentProductRelease).toBe(POLICYWATCHER_VERSION);
     expect(packageManifest.packages.map((pressPackage) => pressPackage.locale)).toEqual(['en', 'it']);
     for (const pressPackage of packageManifest.packages) {
       const path = `public/press-kit/${pressPackage.filename}`;
@@ -241,9 +249,15 @@ describe('public press kit', () => {
     const knowledgeAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'crawlable-public-knowledge-layer');
     expect(knowledgeAtlasItem?.route).toEqual({ href: '/knowledge', label: 'Public Knowledge', access: 'public' });
     const readinessItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'admin-operational-readiness');
-    expect(readinessItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(readinessItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.27', endRelease: '3.9.0-beta.27' });
     const readinessAtlasItem = FEATURE_ATLAS_FEATURES.find((feature) => feature.id === 'admin-operational-readiness');
     expect(readinessAtlasItem?.route).toEqual({ href: '/admin', label: 'Admin Operations', access: 'protected' });
+    const agentGatewayItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'agent-evidence-gateway');
+    expect(agentGatewayItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.28', endRelease: '3.9.0-beta.28' });
+    const agentPackagesItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'multicloud-agent-source-packages');
+    expect(agentPackagesItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.29', endRelease: '3.9.0-beta.29' });
+    const wordItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'word-contract-evidence-review');
+    expect(wordItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
     expect(continuityAtlasItem?.route).toEqual({ href: '/developers/event-continuity', label: 'Event Feed Continuity Lab', access: 'public' });
   });
 });

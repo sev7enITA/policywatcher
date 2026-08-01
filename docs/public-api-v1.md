@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The `v1` integration directory is a small, read-only surface for public evidence metadata, the curated Observatory registry, deterministic multi-change evidence collections and public receiver fixtures. It is intentionally separate from protected operations, policy-ingestion workflows, raw snapshot text and administrative records.
+The `v1` integration directory is a small, read-only surface for public evidence metadata, the curated Observatory registry, deterministic multi-change evidence collections, public receiver fixtures and flattened agent evidence briefs. It is intentionally separate from protected operations, policy-ingestion workflows, raw snapshot text and administrative records.
 
 For the complete integration decision guide and readiness matrix, see [`integrations.md`](integrations.md). Enterprise tenant-bound use cases belong to the separate [API v2 pilot](azure/enterprise-api-v2.md).
 
@@ -14,10 +14,16 @@ For the complete integration decision guide and readiness matrix, see [`integrat
 | `/api/v1/observatory?lang=en` | `GET` | Curated local registry of sources, signals and events. Accepts `en` or `it`. |
 | `/api/v1/evidence-collections?changes={uuid,...}&format=json` | `GET` | Deterministic bundle for 1 to 12 exact published changes. Accepts `json`, `markdown`, `csv` or `handoff`. |
 | `/api/v1/change-events?limit=25&lang=en` | `GET` | Forward-only polling feed for already-published policy change events. Accepts `cursor`, `limit` and `lang`. |
+| `/api/v1/agent/openapi.json` | `GET` | OpenAPI 3.0 contract for the three-operation Agent Evidence Gateway. |
+| `/api/v1/agent/capabilities` | `GET` | Current agent contract, compatibility targets and interpretation boundary. |
+| `/api/v1/agent/change-brief?topic=privacy&limit=3` | `GET` | Flattened source-linked brief over published policy-change evidence. |
+| `/api/v1/agent/observatory-brief?topic=AI&limit=3` | `GET` | Flattened source-linked brief over the manually curated Observatory registry. |
 | `/api/v1/webhook-verification-kit` | `GET` | Versioned candidate receiver contract, public test-only vector and Node/Python verification examples. |
 | `/api/v1/webhook-conformance-suite` | `GET` | Eight deterministic positive and negative receiver fixtures with expected decision codes. |
 
-All endpoints support read-only browser access with no credentials and send `Access-Control-Allow-Origin: *` without accepting cookies or credentials. The manifest, Observatory, Webhook Verification Kit and Receiver Conformance Suite use 60 request-per-minute reference-route buckets. Evidence Collections and Change Events each use a separate 30 request-per-minute bucket. Collections uses a 300-second browser cache and a 3,600-second shared-cache window; Change Events uses a 30-second browser cache and a 60-second shared-cache window; the versioned receiver resources use a 3,600-second browser cache and an 86,400-second shared-cache window.
+All endpoints support read-only browser access with no credentials and send `Access-Control-Allow-Origin: *` without accepting cookies or credentials. The manifest, Observatory, Webhook Verification Kit and Receiver Conformance Suite use 60 request-per-minute reference-route buckets. Evidence Collections, Change Events and the Agent Evidence Gateway each use a separate 30 request-per-minute bucket. Agent requests do not log the client IP. Collections uses a 300-second browser cache and a 3,600-second shared-cache window; Change Events and agent briefs use short public caching; the versioned receiver resources use a 3,600-second browser cache and an 86,400-second shared-cache window.
+
+The Agent Evidence Gateway accepts an allowlisted subset of `companySlug`, `region`, `risk`, `topic`, `lang` and `limit`, with a maximum of five returned records. It does not accept a prompt transcript, document body, contract clause or arbitrary metadata. `answerContext` and `citations` are strings rather than arrays so the same contract can be used by Microsoft 365 Copilot declarative-agent actions, Vertex AI Agent Builder OpenAPI tools and Amazon Quick connectors. A zero-result response explicitly means only that the bounded query found no matching public evidence.
 
 The collection route accepts exactly one comma-separated `changes` parameter and, optionally, exactly one `format` parameter. UUIDs are normalized, deduplicated and sorted. If any selected change is missing, withheld or not public, the route returns one generic unavailable response and does not disclose a partial collection.
 
@@ -42,6 +48,7 @@ The Receiver Conformance Suite extends the canonical vector into eight fixtures:
 - An Event Feed Continuity checkpoint is stored in the user browser or exported file only. PolicyWatcher does not persist it as a server-side workspace or replay ledger.
 - The webhook test secret is intentionally public and must never be used outside the deterministic compatibility vector.
 - A conformance result contains fixture decisions only and must not be represented as production-readiness or security certification.
+- Agent briefs are deterministic formatting over public evidence or curated registry records. They are not legal advice, model-generated conclusions, exhaustive coverage or contract approval.
 
 ## Relationship to v2 and the roadmap
 

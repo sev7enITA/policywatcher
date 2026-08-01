@@ -27,10 +27,12 @@ function compactCsp(value: string) {
 function createContentSecurityPolicy(nonce: string, pathname: string) {
   const isDev = process.env.NODE_ENV === 'development';
   const isEmbed = pathname.startsWith('/embed/');
+  const isOfficeAddin = pathname.startsWith('/office-addin/');
   const scriptSrc = [
     "'self'",
     `'nonce-${nonce}'`,
     "'strict-dynamic'",
+    isOfficeAddin ? 'https://appsforoffice.microsoft.com' : '',
     isDev ? "'unsafe-eval'" : '',
   ].filter(Boolean).join(' ');
   const styleElemSrc = isDev
@@ -47,13 +49,17 @@ function createContentSecurityPolicy(nonce: string, pathname: string) {
     style-src-attr 'unsafe-inline';
     font-src 'self' https://fonts.gstatic.com;
     img-src ${imageSources};
-    connect-src 'self' https://generativelanguage.googleapis.com;
+    connect-src ${isOfficeAddin ? "'self'" : "'self' https://generativelanguage.googleapis.com"};
     frame-src 'self';
     manifest-src 'self';
     media-src 'self';
     worker-src 'self' blob:;
     form-action 'self';
-    frame-ancestors ${isEmbed ? '*' : "'none'"};
+    frame-ancestors ${isEmbed
+      ? '*'
+      : isOfficeAddin
+        ? "https://*.office.com https://*.officeapps.live.com https://*.microsoft365.com https://*.microsoft.com"
+        : "'none'"};
     upgrade-insecure-requests;
   `);
 }
@@ -73,7 +79,10 @@ export function proxy(request: NextRequest) {
   });
 
   response.headers.set('Content-Security-Policy', csp);
-  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  response.headers.set(
+    'Referrer-Policy',
+    request.nextUrl.pathname.startsWith('/office-addin/') ? 'no-referrer' : 'strict-origin-when-cross-origin',
+  );
 
   return response;
 }

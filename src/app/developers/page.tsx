@@ -14,6 +14,7 @@ import {
   FolderKanban,
   TestTube2,
   RotateCw,
+  Bot,
 } from 'lucide-react';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
@@ -23,7 +24,7 @@ import styles from './developers.module.css';
 export const metadata: Metadata = {
   title: 'Developers | PolicyWatcher',
   description:
-    'Read-only public integration directory for PolicyWatcher evidence and Observatory registry data.',
+    'Read-only public integration directory for PolicyWatcher evidence, cross-cloud agent briefs and Observatory registry data.',
 };
 
 const manifest = getPublicApiManifest();
@@ -56,7 +57,7 @@ export default function DevelopersPage() {
               </span>
               <h1>Evidence-ready data, with its boundaries attached.</h1>
               <p>
-                PolicyWatcher exposes a small anonymous, read-only integration surface for public evidence metadata, portable evidence collections and the curated Observatory registry. The contract keeps publication gates, review cadence and source limits visible to the system consuming it.
+                PolicyWatcher exposes a small anonymous, read-only integration surface for public evidence metadata, portable evidence collections, cross-cloud agent briefs and the curated Observatory registry. The contract keeps publication gates, review cadence and source limits visible to the system consuming it.
               </p>
               <div className={styles.heroActions}>
                 <a href="#endpoints" className={styles.primaryAction}>
@@ -194,6 +195,16 @@ export default function DevelopersPage() {
             <article className={styles.endpointCard}>
               <div className={styles.endpointHeader}>
                 <span>OPENAPI</span>
+                <Bot size={19} aria-hidden="true" />
+              </div>
+              <h3>Agent Evidence Gateway</h3>
+              <code>/api/v1/agent/openapi.json</code>
+              <p>Three flattened public operations for Microsoft 365 Copilot, Vertex AI Agent Builder and Amazon Quick source packages.</p>
+              <a href="/api/v1/agent/openapi.json" target="_blank" rel="noreferrer">Open agent contract <ArrowRight size={15} aria-hidden="true" /></a>
+            </article>
+            <article className={styles.endpointCard}>
+              <div className={styles.endpointHeader}>
+                <span>OPENAPI</span>
                 <LockKeyhole size={19} aria-hidden="true" />
               </div>
               <h3>Enterprise API v2 contract</h3>
@@ -208,7 +219,7 @@ export default function DevelopersPage() {
               </div>
               <h3>Integration options</h3>
               <code>/integrations</code>
-              <p>Compare API v1, the configured webhook pilot, Enterprise API v2, Azure, Power Platform, embeds and the explicitly planned Teams, Copilot, MCP and Marketplace paths.</p>
+              <p>Compare API v1, the agent gateway, Enterprise API v2, Azure, Power Platform, Microsoft 365, Google Cloud, AWS, Word and planned private collaboration paths.</p>
               <Link href="/integrations">Choose a surface <ArrowRight size={15} aria-hidden="true" /></Link>
             </article>
           </div>

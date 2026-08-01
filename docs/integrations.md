@@ -7,6 +7,7 @@ Public entry points:
 - Integration directory: `/integrations`
 - Public developer reference: `/developers`
 - Public API v1 manifest: `/api/v1/manifest`
+- Agent Evidence Gateway OpenAPI: `/api/v1/agent/openapi.json`
 - Enterprise API v2 OpenAPI contract: `/api/v2/openapi.json`
 
 ## Readiness matrix
@@ -27,14 +28,19 @@ Public entry points:
 | Enterprise API v2 | Tenant-bound access to structured companies, changes, continuity and governance signals | Microsoft Entra ID scope or app role | Pilot ready | [`azure/enterprise-api-v2.md`](azure/enterprise-api-v2.md) |
 | Azure API Management facade | Gateway validation, origin shielding, request correlation and tenant-aware quotas | Entra ID plus gateway-only origin header | Pilot ready | [`azure/apim-policy.xml`](azure/apim-policy.xml) |
 | Power Platform custom connector | Power Automate, Power Apps, Logic Apps and Copilot Studio actions over API v2 | Entra delegated OAuth | Pilot ready | [`../integrations/power-platform/policywatcher-v2/README.md`](../integrations/power-platform/policywatcher-v2/README.md) |
+| Agent Evidence Gateway | Deterministic cited public briefs for enterprise agents | None; public read-only CORS | Available | `/api/v1/agent/openapi.json` |
+| Microsoft 365 Copilot evidence agent | Tenant-installed declarative agent and API plugin over the public gateway | None for public gateway; tenant app approval | Source package ready | [`../integrations/microsoft-copilot/policywatcher-evidence-agent/README.md`](../integrations/microsoft-copilot/policywatcher-evidence-agent/README.md) |
+| Vertex AI Agent Builder tool | OpenAPI tool and tool-first playbook instructions | None for public gateway; Google Cloud project controls | Source package ready | [`../integrations/google-agent-builder/policywatcher-evidence-tool/README.md`](../integrations/google-agent-builder/policywatcher-evidence-tool/README.md) |
+| Amazon Quick OpenAPI connector | Three-operation public evidence connector | None for public gateway; AWS account and sharing controls | Source package ready | [`../integrations/amazon-quick/policywatcher-evidence-connector/README.md`](../integrations/amazon-quick/policywatcher-evidence-connector/README.md) |
+| Amazon Q Business custom plugin | Legacy compatibility for existing Amazon Q Business customers | None for public gateway; existing AWS application controls | Legacy source only | [`../integrations/amazon-q-business/policywatcher-evidence-plugin/README.md`](../integrations/amazon-q-business/policywatcher-evidence-plugin/README.md) |
+| Word Contract Evidence Review | Local classification of selected contract clauses followed by a derived-topic evidence query | Office document read permission; public gateway query | Source package ready | [`../integrations/office-word/policywatcher-contract-evidence-review/README.md`](../integrations/office-word/policywatcher-contract-evidence-review/README.md) |
 | Self-service webhook subscriptions | Tenant-managed endpoint registration, verification, key rotation and lifecycle controls | Tenant identity and managed secret custody | Planned | Roadmap |
 | Microsoft Teams app | Dedicated tab and workflow actions without framing the normal portal | Entra delegated access | Planned | Roadmap |
-| Copilot declarative agent or API plugin | Governed evidence retrieval through API v2 | Entra delegated access | Planned | Roadmap |
 | Federated MCP server | Tool-based access to bounded evidence for approved agents | Tenant-aware authorization | Planned | Roadmap |
 | Microsoft Graph connector | Optional indexed copies for Microsoft 365 search and discovery | Tenant administration and schema controls | Planned | Roadmap |
 | Microsoft commercial marketplace offer | Discovery first, then optional transactable SaaS provisioning | Customer entitlement and billing lifecycle | Commercial later | Roadmap |
 
-`Pilot ready` means that the code and contracts required for a controlled test tenant are present. It does not mean that the integration is certified, generally available, or provisioned for external customer tenants.
+`Pilot ready` means that the protected service code and contracts required for a controlled test tenant are present. `Source package ready` means that importable source manifests, instructions and boundaries are present but no customer tenant, cloud project or account has been changed. Neither label means certified, generally available, marketplace-published or provisioned for external customers.
 
 ## Choose the integration by job
 
@@ -54,6 +60,20 @@ Use API v2 through Azure API Management. The API validates Microsoft Entra token
 
 For Power Automate, Power Apps, Logic Apps or Copilot Studio, start with the Power Platform custom connector package. It calls API v2 and does not scrape or frame the portal.
 
+### Reach public evidence from an enterprise agent
+
+Use `/api/v1/agent/openapi.json` when a Microsoft 365 Copilot declarative agent, Vertex AI Agent Builder playbook or Amazon Quick connector needs to retrieve public PolicyWatcher evidence. The contract contains three `GET` operations: capabilities, public change briefs and curated Observatory briefs. Responses are deterministic and flattened for cross-platform compatibility; citations are newline-delimited source URLs rather than inferred references. Amazon Q Business source remains available only for existing customers because AWS stopped opening that service to new customers on 31 July 2026.
+
+The provider packages remain inside the customer's Microsoft 365 tenant, Google Cloud project or AWS account. PolicyWatcher hosts the evidence API, but it does not deploy, configure or administer those customer environments. The public gateway accepts no prompt transcript, document body, selected clause, tenant identifier, access token or arbitrary metadata. Query parameters are allowlisted and bounded, the service applies a non-persistent-IP rate bucket, and a zero-result response explicitly does not establish absence of a relevant change.
+
+Use the Entra-authenticated Enterprise API v2 when the use case requires private or tenant-specific data. Do not convert the anonymous public gateway into a private-data path by changing agent instructions alone.
+
+### Review contract clauses from Word
+
+The Word source package provides a task pane at `/office-addin/contract-review`. After an explicit button press, it reads the current selection with Office.js and classifies up to 12,000 characters against a fixed contract-topic taxonomy inside the task pane. It displays the derived labels and requires a separate acknowledgement before sending only those labels, language and result limit to the public gateway.
+
+The network request contains no selected text, document name, document ID, user identifier, tenant identifier or Office access token. If no fixed topic matches, the reviewer selects one controlled topic manually; the add-in does not fall back to sending extracted words. This is evidence mapping for review. It does not verify a contract, approve a clause, determine compliance or provide legal advice.
+
 ### Notify another system
 
 Use `/api/v1/change-events` for bounded anonymous polling of already-published policy change events. Start without a cursor, store the returned `nextCursor`, and pass it unchanged on subsequent requests. Cursor order follows the evidence publication gate rather than source retrieval time, so a previously withheld change can appear when it is approved. The initial response is a recent window rather than a complete historical archive; consumers deduplicate by `eventId` and follow exact Change and Evidence Packet links before routing work.
@@ -68,7 +88,7 @@ Do not automate portal HTML. Use the public polling feed for anonymous consumers
 
 ### Put PolicyWatcher inside Teams or Copilot
 
-The normal portal is protected against third-party framing. A Teams experience therefore requires a dedicated, frame-eligible route and its own authentication, content-security and navigation review. A Copilot integration should use the bounded API contract through a declarative agent or API plugin, not page fetching.
+The normal portal is protected against third-party framing. A Teams experience therefore still requires a dedicated, frame-eligible route and its own authentication, content-security and navigation review. The delivered Copilot source package uses the bounded public agent contract through a declarative agent and API plugin, not page fetching. It does not replace a future authenticated Teams or MCP surface.
 
 ### Distribute through a marketplace
 
@@ -77,7 +97,7 @@ Marketplace distribution is a commercial packaging layer, not the data integrati
 ## Enterprise pilot architecture
 
 ```text
-Power Platform / future Teams / service client
+Power Platform / private service client
                     |
            Microsoft Entra ID token
                     |
@@ -125,7 +145,7 @@ An integration response supports investigation and workflow routing. It is not a
 
 ## Version choice
 
-Use v1 when anonymous public evidence and browser-readable CORS are sufficient. Use v2 for enterprise tenant boundaries, Microsoft Entra authentication, Azure API Management and Power Platform. The two versions coexist: v2 does not replace or weaken v1.
+Use v1 when anonymous public evidence and browser-readable CORS are sufficient. Use the bounded v1 Agent Evidence Gateway for public evidence dialogue across Microsoft, Google and AWS agents. Use v2 for private enterprise tenant boundaries, Microsoft Entra authentication, Azure API Management and Power Platform. The versions coexist: the cross-cloud public contract does not replace or weaken v2 authorization.
 
 ## Production gates after the pilot
 
