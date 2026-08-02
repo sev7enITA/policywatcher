@@ -54,6 +54,8 @@ RENDERER_HEALTH_URL=http://127.0.0.1:8787/healthz
 RENDERER_RENDER_URL=http://127.0.0.1:8787/render
 RENDERER_SECRET=<same-secret-used-by-renderer>
 AGENT_SMOKE_URL=https://example.com
+RENDERER_READY_ATTEMPTS=40
+RENDERER_READY_POLL_MS=500
 
 SYSTEMCTL_BIN=/usr/bin/systemctl
 NPM_BIN=/usr/bin/npm
@@ -120,6 +122,11 @@ authenticated status while the Agent finds the matching checksum, rejects
 unsafe entries, symlinks and special files before extraction, metadata/version mismatches and
 embedded environment files, extracts to a staging directory, runs `npm ci`,
 switches `current`, restarts systemd, and runs the fixed smoke test.
+
+Agent 0.2.1 waits for the Renderer health endpoint after every systemd restart
+before it runs either the post-update or rollback smoke test. The bounded retry
+window prevents a normal Node/Chromium startup delay from being misclassified
+as both a deployment failure and a failed rollback.
 
 On a fresh control plane, where `current` does not exist yet, the first package
 can also be deployed from Admin: the Agent records the backup as skipped, then

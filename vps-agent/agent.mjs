@@ -37,7 +37,7 @@ import path from 'path';
 import { spawn } from 'child_process';
 import { fileURLToPath, pathToFileURL } from 'url';
 
-const AGENT_VERSION = '0.2.0';
+const AGENT_VERSION = '0.2.1';
 const SERVICE_NAME = 'policywatcher-vps-agent';
 const DEFAULT_MAX_PACKAGE_BYTES = 5 * 1024 * 1024;
 const DEFAULT_MAX_UPLOAD_BODY_BYTES = 7 * 1024 * 1024;
@@ -74,6 +74,8 @@ const CONFIG = {
   maxPackageBytes: boundedInteger(process.env.MAX_PACKAGE_BYTES, DEFAULT_MAX_PACKAGE_BYTES, 1_024, DEFAULT_MAX_PACKAGE_BYTES),
   maxUploadBodyBytes: boundedInteger(process.env.MAX_UPLOAD_BODY_BYTES, DEFAULT_MAX_UPLOAD_BODY_BYTES, 65_536, DEFAULT_MAX_UPLOAD_BODY_BYTES),
   maxUncompressedBytes: boundedInteger(process.env.MAX_UNCOMPRESSED_BYTES, DEFAULT_MAX_UNCOMPRESSED_BYTES, 1_048_576, DEFAULT_MAX_UNCOMPRESSED_BYTES),
+  rendererReadyAttempts: boundedInteger(process.env.RENDERER_READY_ATTEMPTS, 40, 1, 120),
+  rendererReadyPollMs: boundedInteger(process.env.RENDERER_READY_POLL_MS, 500, 100, 5_000),
   authSkewMs: boundedInteger(process.env.AUTH_SKEW_MS, 300_000, 30_000, 300_000),
   backupRetention: boundedInteger(process.env.BACKUP_RETENTION, 10, 1, 100),
 };
@@ -691,6 +693,43 @@ async function switchCurrent(versionDir) {
 async function restartRenderer() {
   const result = await runCommand(CONFIG.systemctlBin, ['restart', CONFIG.rendererService]);
   if (!result.ok) throw new Error('renderer_restart_failed');
+  const readiness = await waitForRendererReady();
+  if (!readiness.ok) throw new Error('renderer_not_ready_after_restart');
+  return readiness;
+}
+
+function delay(milliseconds) {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+
+async function waitForRendererReady(options = {}) {
+  const probe = options.probe || getRendererHealth;
+  const sleep = options.sleep || delay;
+  const attempts = boundedInteger(options.attempts, CONFIG.rendererReadyAttempts, 1, 120);
+  const intervalMs = boundedInteger(options.intervalMs, CONFIG.rendererReadyPollMs, 0, 5_000);
+  let lastHealth = null;
+
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    lastHealth = await probe();
+    if (lastHealth?.ok) {
+      return { ok: true, attempt, health: lastHealth };
+    }
+    if (attempt < attempts) await sleep(intervalMs);
+  }
+
+  return { ok: false, attempts, health: lastHealth };
+}
+
+async function runRecordedSmokeTest(context) {
+  const smoke = await runSmokeTest();
+  await appendOperation({
+    type: 'smoke-test',
+    context,
+    status: smoke.ok ? 'ok' : 'failed',
+    error: smoke.error || null,
+    httpStatus: smoke.httpStatus ?? null,
+  });
+  return smoke;
 }
 
 function validateVersion(value) {
@@ -749,7 +788,7 @@ async function updateRenderer({ version, sha256, operationId = randomUUID() }) {
 
       await switchCurrent(versionDir);
       await restartRenderer();
-      const smoke = await runSmokeTest();
+      const smoke = await runRecordedSmokeTest('post-update');
       if (!smoke.ok) throw new Error('post_update_smoke_failed');
 
       const nextState = {
@@ -803,7 +842,7 @@ async function attemptRollback(previous) {
   try {
     await switchCurrent(previous.path);
     await restartRenderer();
-    const smoke = await runSmokeTest();
+    const smoke = await runRecordedSmokeTest('automatic-rollback');
     if (!smoke.ok) return { ok: false, error: 'rollback_smoke_failed' };
     await appendOperation({ type: 'rollback', status: 'ok', version: previous.version, automatic: true });
     return { ok: true, version: previous.version, smoke };
@@ -824,7 +863,7 @@ async function rollbackRenderer() {
     try {
       await switchCurrent(previousPath);
       await restartRenderer();
-      const smoke = await runSmokeTest();
+      const smoke = await runRecordedSmokeTest('manual-rollback');
       if (!smoke.ok) throw new Error('rollback_smoke_failed');
       await writeState({
         state: 'ready',
@@ -1029,6 +1068,7 @@ export {
   hmacSignature,
   isSafeArchiveEntry,
   stageRendererPackage,
+  waitForRendererReady,
   validatePackageFilename,
   validateSha256,
   validateVersion,

@@ -16,6 +16,10 @@
 - Agent 0.2 requires one initial VPS bootstrap; subsequent Renderer packages can be uploaded and deployed entirely through the Admin Center.
 - The workflow does not accept arbitrary URLs, paths or shell commands and does not self-update the Operations Agent.
 
+### VPS Agent 0.2.1 hotfix
+- Waits for bounded Renderer health readiness after systemd restart before running post-update and rollback smoke tests.
+- Records deployment and rollback smoke outcomes separately, preventing normal Node startup latency from being reported as a failed rollback.
+
 ## 3.9.0-beta.38 - 2026-08-02
 
 ### Git-hosted Press Distribution

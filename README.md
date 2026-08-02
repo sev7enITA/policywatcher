@@ -44,7 +44,7 @@ The platform is designed as a **civic tech tool** that produces structured summa
 - **End-to-end Admin deployment:** administrators select a Renderer archive and complete upload, verification, installation and observation without manually staging it on the VPS.
 - **Three-boundary integrity:** the browser computes SHA-256, Hostinger validates decoded bytes and the Agent verifies the same checksum before atomic staging.
 - **Fail-closed package gate:** bounded filenames, size, archive paths, secrets, symlinks, special files and Renderer metadata/version parity are checked before installation.
-- **Asynchronous operations:** Agent 0.2 returns an operation ID immediately while the Admin Center follows installation, restart and smoke state for up to eight minutes.
+- **Asynchronous operations:** Agent 0.2.1 returns an operation ID immediately while the Admin Center follows installation, bounded post-restart readiness, smoke state and rollback for up to eight minutes.
 - **Automatic recovery:** failed smoke verification restores the previous Renderer release when possible and exposes a manual-intervention state if rollback also fails.
 
 Agent 0.2 still requires a one-time VPS bootstrap. Managed releases do not expose shell commands, accept arbitrary package URLs or self-update the control-plane Agent.

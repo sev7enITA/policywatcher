@@ -3,6 +3,7 @@ import { test } from 'node:test';
 import {
   decodePackageBase64,
   isSafeArchiveEntry,
+  waitForRendererReady,
   validatePackageFilename,
   validateSha256,
   validateVersion,
@@ -31,4 +32,42 @@ test('rejects traversal, secrets and ambiguous archive paths', () => {
   assert.equal(isSafeArchiveEntry('../agent.mjs'), false);
   assert.equal(isSafeArchiveEntry('renderer/.env.production'), false);
   assert.equal(isSafeArchiveEntry('renderer\\..\\agent.mjs'), false);
+});
+
+test('waits for Renderer readiness after systemd reports the service started', async () => {
+  let probes = 0;
+  let sleeps = 0;
+  const result = await waitForRendererReady({
+    attempts: 4,
+    intervalMs: 0,
+    probe: async () => {
+      probes += 1;
+      return probes < 3 ? { ok: false, error: 'connection_refused' } : { ok: true, httpStatus: 200 };
+    },
+    sleep: async () => {
+      sleeps += 1;
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.attempt, 3);
+  assert.equal(probes, 3);
+  assert.equal(sleeps, 2);
+});
+
+test('reports readiness failure only after exhausting the bounded attempts', async () => {
+  let probes = 0;
+  const result = await waitForRendererReady({
+    attempts: 3,
+    intervalMs: 0,
+    probe: async () => {
+      probes += 1;
+      return { ok: false, error: 'connection_refused' };
+    },
+    sleep: async () => {},
+  });
+
+  assert.equal(result.ok, false);
+  assert.equal(result.attempts, 3);
+  assert.equal(probes, 3);
 });

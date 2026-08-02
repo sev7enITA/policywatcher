@@ -17,13 +17,14 @@ Date: 2 August 2026
 - Rejects unsafe filenames, traversal, embedded environment files, excessive archive entries, symlinks, special files and non-canonical Base64.
 - Requires exact version parity across the Admin request, Renderer `package.json`, lockfile and packaged release manifest before installation.
 - Uses `npm ci --omit=dev`, an atomic `current` symlink switch, fixed systemd restart, fixed smoke URL and automatic rollback to the previous recorded release.
+- Agent 0.2.1 adds a bounded post-restart readiness window before smoke verification, including the automatic and manual rollback paths.
 - Supports first-release activation from Admin when no `current` symlink exists yet; the Agent records the unavailable initial backup and treats any failed first install as requiring manual intervention.
 - Keeps backup, rollback and capped operation-ledger actions restricted to the Admin role; Auditor remains read-only.
 
 ## Verification
 
 - The complete application suite passes: 123 files and 664 tests, including package-contract, upload, checksum and administrative mutation-envelope coverage.
-- Operations Agent 0.2 passes 3 focused metadata, decoding and unsafe-path tests; Renderer 1.2 passes all 6 service tests.
+- Operations Agent 0.2.1 passes 5 focused metadata, decoding, unsafe-path and restart-readiness tests; Renderer 1.2 passes all 6 service tests.
 - ESLint and the optimized Next.js production build pass, including TypeScript and generation of all 157 static pages.
 - Independent UI evaluation passed at 1440, 768 and 390 px with no horizontal overflow and no blocking accessibility or workflow finding.
 
