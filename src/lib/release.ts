@@ -1,6 +1,6 @@
-export const POLICYWATCHER_VERSION = '3.9.0-beta.37' as const;
-export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 37' as const;
-export const POLICYWATCHER_RELEASE_NAME = 'Resource Navigation & Retrieval Diagnostics' as const;
+export const POLICYWATCHER_VERSION = '3.9.0-beta.38' as const;
+export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 38' as const;
+export const POLICYWATCHER_RELEASE_NAME = 'Git-hosted Press Distribution' as const;
 export const POLICYWATCHER_RELEASE_DATE = '2026-08-02' as const;
 export type PolicyWatcherReleaseChannel = 'stable' | 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL: PolicyWatcherReleaseChannel = 'beta';

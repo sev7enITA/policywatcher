@@ -130,18 +130,18 @@ export const pulseStories: PulseStory[] = [
   },
   {
     slug: 'versioned-beta-release-records',
-    version: '1.9.0',
+    version: '1.10.0',
     status: 'verified',
     beat: 'distribution',
     asOf: PULSE_AS_OF,
     updatedAt: PULSE_AS_OF,
     headline: {
-      en: 'Thirty-one consecutive beta records document evidence, delivery, UX, operations and security changes',
-      it: 'Trentuno record beta consecutivi documentano evidenze, distribuzione, UX, operazioni e sicurezza',
+      en: 'Thirty-two consecutive beta records document evidence, delivery, UX, operations and security changes',
+      it: 'Trentadue record beta consecutivi documentano evidenze, distribuzione, UX, operazioni e sicurezza',
     },
     deck: {
-      en: 'The release archive keeps Beta 7 through Beta 37 as dated, bounded product records with direct evidence links.',
-      it: 'L archivio release conserva dalla Beta 7 alla Beta 37 come record prodotto datati, circoscritti e collegati alle evidenze.',
+      en: 'The release archive keeps Beta 7 through Beta 38 as dated, bounded product records with direct evidence links.',
+      it: 'L archivio release conserva dalla Beta 7 alla Beta 38 come record prodotto datati, circoscritti e collegati alle evidenze.',
     },
     whyItMatters: {
       en: 'A versioned product history lets editors verify what changed in the public platform without treating release labels as measured outcomes.',
@@ -152,16 +152,17 @@ export const pulseStories: PulseStory[] = [
       it: 'I record release descrivono modifiche prodotto e controlli dichiarati. Non stabiliscono adozione, prestazioni, conformita legale o validazione indipendente.',
     },
     citation: {
-      en: `PolicyWatcher, “Versioned beta release records,” Pulse story pack v1.9.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (accessed [date]).`,
-      it: `PolicyWatcher, “Record beta versionati,” Pulse story pack v1.9.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (consultato il [data]).`,
+      en: `PolicyWatcher, “Versioned beta release records,” Pulse story pack v1.10.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (accessed [date]).`,
+      it: `PolicyWatcher, “Record beta versionati,” Pulse story pack v1.10.0, ${PULSE_AS_OF}, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (consultato il [data]).`,
     },
     visualKind: 'release-timeline',
     facts: [
-      { id: 'records', value: '31', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 37 in the public archive.', it: 'Dalla Beta 7 alla Beta 37 nell archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
-      { id: 'current', value: 'Beta 37', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Resource Navigation and Retrieval Diagnostics.', it: 'Navigazione risorse e diagnostica retrieval.' }, claimId: 'public-code', proofHref: '/press-kit/releases/resource-navigation-retrieval-diagnostics-3-9-0-beta-37' },
+      { id: 'records', value: '32', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 38 in the public archive.', it: 'Dalla Beta 7 alla Beta 38 nell archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
+      { id: 'current', value: 'Beta 38', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Git-hosted Press Distribution.', it: 'Distribuzione Press Kit tramite Git.' }, claimId: 'public-code', proofHref: '/press-kit/releases/git-hosted-press-distribution-3-9-0-beta-38' },
     ],
     sourceLinks: [
       { href: '/press-kit/releases', label: { en: 'Versioned release archive', it: 'Archivio release versionato' }, claimId: 'public-code' },
+      { href: '/press-kit/releases/git-hosted-press-distribution-3-9-0-beta-38', label: { en: 'Beta 38 release record', it: 'Record release Beta 38' }, releaseSlug: 'git-hosted-press-distribution-3-9-0-beta-38' },
       { href: '/press-kit/releases/resource-navigation-retrieval-diagnostics-3-9-0-beta-37', label: { en: 'Beta 37 release record', it: 'Record release Beta 37' }, releaseSlug: 'resource-navigation-retrieval-diagnostics-3-9-0-beta-37' },
       { href: '/press-kit/releases/remediation-community-mutation-hardening-3-9-0-beta-36', label: { en: 'Beta 36 release record', it: 'Record release Beta 36' }, releaseSlug: 'remediation-community-mutation-hardening-3-9-0-beta-36' },
       { href: '/press-kit/releases/community-signal-composer-3-9-0-beta-35', label: { en: 'Beta 35 release record', it: 'Record release Beta 35' }, releaseSlug: 'community-signal-composer-3-9-0-beta-35' },

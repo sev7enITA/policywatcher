@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2037%20Navigation%20and%20Diagnostics-146c6a" alt="3.9.0 Beta 37 Resource Navigation and Retrieval Diagnostics" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2038%20Git--hosted%20Press%20Distribution-146c6a" alt="3.9.0 Beta 38 Git-hosted Press Distribution" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,14 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 38 Git-hosted Press Distribution Highlights
+
+- **Slim Hostinger artifact:** full Press Kit ZIPs are excluded from the deployable application package instead of being nested inside it.
+- **GitHub downloads:** English and Italian editorial packages use explicit repository download URLs with their existing SHA-256 integrity values.
+- **Clear external handoff:** the Press Kit interface labels GitHub as the download provider and opens the repository-hosted package safely.
+- **Packaging guard:** release creation fails if a full Press Kit ZIP re-enters the Hostinger artifact.
+- **Preserved public surface:** package manifests, fact sheets, previews and individual reusable assets remain available from the web application.
 
 ### Release 3.9.0 Beta 37 Resource Navigation and Retrieval Diagnostics Highlights
 

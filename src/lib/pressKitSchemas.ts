@@ -33,8 +33,8 @@ export const pressKitSchemas = {
     $id: 'https://policywatcher.online/schemas/press-kit-package-manifest/v1',
     title: 'PolicyWatcher Press Kit package manifest',
     type: 'object',
-    required: ['schemaVersion', 'generatedAt', 'release', 'packages'],
-    properties: { schemaVersion: { type: 'string' }, generatedAt: { type: 'string', format: 'date' }, release: { type: 'string' }, packages: { type: 'array', items: { type: 'object', required: ['locale', 'filename', 'bytes', 'sha256'], properties: { locale: { enum: ['en', 'it'] }, filename: { type: 'string' }, bytes: { type: 'integer' }, sha256: { type: 'string', pattern: '^[a-f0-9]{64}$' } } } } },
+    required: ['schemaVersion', 'generatedAt', 'release', 'distribution', 'packages'],
+    properties: { schemaVersion: { type: 'string' }, generatedAt: { type: 'string', format: 'date' }, release: { type: 'string' }, distribution: { type: 'object', required: ['provider', 'repository', 'revision', 'boundary'], properties: { provider: { const: 'github-repository' }, repository: { type: 'string', pattern: '^https://github\\.com/' }, revision: { type: 'string' }, boundary: { type: 'string' } } }, packages: { type: 'array', items: { type: 'object', required: ['locale', 'filename', 'href', 'distribution', 'bytes', 'sha256'], properties: { locale: { enum: ['en', 'it'] }, filename: { type: 'string' }, href: { type: 'string', pattern: '^https://github\\.com/' }, distribution: { const: 'github-repository' }, bytes: { type: 'integer' }, sha256: { type: 'string', pattern: '^[a-f0-9]{64}$' } } } } },
   },
   'press-kit-media-metadata': {
     $schema: 'https://json-schema.org/draft/2020-12/schema',

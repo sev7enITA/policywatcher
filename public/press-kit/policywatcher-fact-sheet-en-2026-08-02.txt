@@ -1,6 +1,6 @@
 PolicyWatcher press fact sheet
-Version 3.9.0-beta.37 · 2026-08-02
-Current release: Resource Navigation & Retrieval Diagnostics
+Version 3.9.0-beta.38 · 2026-08-02
+Current release: Git-hosted Press Distribution
 
 Configured product facts with explicit scope and reuse boundaries.
 

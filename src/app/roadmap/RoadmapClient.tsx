@@ -109,7 +109,17 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 
 const nowItems = [
   {
-    phase: 'Current · 3.9.0-beta.37',
+    phase: 'Current · 3.9.0-beta.38',
+    title: 'Git-hosted Press Kit distribution',
+    body:
+      'Keep complete checksum-listed editorial packages in the public repository while serving download links from GitHub and excluding nested package archives from Hostinger deployments.',
+    benefit: 'Editors retain the complete EN and IT downloads while the application release is smaller, faster to transfer and easier to inspect.',
+    validation: 'The package manifest names GitHub as the provider, the UI labels the external handoff and the release builder rejects nested Press Kit ZIPs.',
+    icon: GitFork,
+    href: '/press-kit#press-packages',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.37',
     title: 'Resource navigation and retrieval diagnostics',
     body:
       'Group the full public resource directory by intent and make shared acquisitions explicit through safe fingerprints, cache modes and renderer/browser coherence.',

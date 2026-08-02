@@ -57,7 +57,7 @@ required_sources=(
   README.md HOSTINGER-DEPLOY.md CHANGELOG.md SECURITY.md LICENSE .env.example public src prisma scripts integrations
   docs/dataset-confidence-audit-2026-07-05.md docs/audit-v3.6.5.md
   docs/audit-v3.7.0.md docs/audit-v3.7.1.md docs/audit-v3.7.2.md docs/audit-v3.8.0.md docs/audit-v3.8.1.md docs/audit-v3.8.2.md docs/audit-v3.8.3.md docs/audit-v3.8.3-beta.2.md docs/audit-v3.8.3-beta.3.md docs/audit-v3.8.3-beta.4.md docs/beta-evidence-cycle-v3.8.3.md docs/platform-state-of-art-2026-07-05.md
-  docs/audit-v3.9.0-beta.1.md docs/audit-v3.9.0-beta.2.md docs/audit-v3.9.0-beta.3.md docs/audit-v3.9.0-beta.4.md docs/audit-v3.9.0-beta.5.md docs/audit-v3.9.0-beta.6.md docs/audit-v3.9.0-beta.7.md docs/audit-v3.9.0-beta.8.md docs/audit-v3.9.0-beta.9.md docs/audit-v3.9.0-beta.10.md docs/audit-v3.9.0-beta.11.md docs/audit-v3.9.0-beta.12.md docs/audit-v3.9.0-beta.13.md docs/audit-v3.9.0-beta.14.md docs/audit-v3.9.0-beta.15.md docs/audit-v3.9.0-beta.16.md docs/audit-v3.9.0-beta.17.md docs/audit-v3.9.0-beta.18.md docs/audit-v3.9.0-beta.19.md docs/audit-v3.9.0-beta.20.md docs/audit-v3.9.0-beta.21.md docs/audit-v3.9.0-beta.22.md docs/audit-v3.9.0-beta.23.md docs/audit-v3.9.0-beta.24.md docs/audit-v3.9.0-beta.25.md docs/audit-v3.9.0-beta.26.md docs/audit-v3.9.0-beta.27.md docs/audit-v3.9.0-beta.28.md docs/audit-v3.9.0-beta.29.md docs/audit-v3.9.0-beta.30.md docs/audit-v3.9.0-beta.31.md docs/audit-v3.9.0-beta.32.md docs/audit-v3.9.0-beta.33.md docs/audit-v3.9.0-beta.34.md docs/audit-v3.9.0-beta.35.md docs/audit-v3.9.0-beta.36.md docs/audit-v3.9.0-beta.37.md docs/crawlable-public-knowledge-layer.md docs/platform-state-of-art-2026-07-05.it.md docs/third-party-validation.md docs/public-api-v1.md docs/integrations.md docs/source-reliability.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
+  docs/audit-v3.9.0-beta.1.md docs/audit-v3.9.0-beta.2.md docs/audit-v3.9.0-beta.3.md docs/audit-v3.9.0-beta.4.md docs/audit-v3.9.0-beta.5.md docs/audit-v3.9.0-beta.6.md docs/audit-v3.9.0-beta.7.md docs/audit-v3.9.0-beta.8.md docs/audit-v3.9.0-beta.9.md docs/audit-v3.9.0-beta.10.md docs/audit-v3.9.0-beta.11.md docs/audit-v3.9.0-beta.12.md docs/audit-v3.9.0-beta.13.md docs/audit-v3.9.0-beta.14.md docs/audit-v3.9.0-beta.15.md docs/audit-v3.9.0-beta.16.md docs/audit-v3.9.0-beta.17.md docs/audit-v3.9.0-beta.18.md docs/audit-v3.9.0-beta.19.md docs/audit-v3.9.0-beta.20.md docs/audit-v3.9.0-beta.21.md docs/audit-v3.9.0-beta.22.md docs/audit-v3.9.0-beta.23.md docs/audit-v3.9.0-beta.24.md docs/audit-v3.9.0-beta.25.md docs/audit-v3.9.0-beta.26.md docs/audit-v3.9.0-beta.27.md docs/audit-v3.9.0-beta.28.md docs/audit-v3.9.0-beta.29.md docs/audit-v3.9.0-beta.30.md docs/audit-v3.9.0-beta.31.md docs/audit-v3.9.0-beta.32.md docs/audit-v3.9.0-beta.33.md docs/audit-v3.9.0-beta.34.md docs/audit-v3.9.0-beta.35.md docs/audit-v3.9.0-beta.36.md docs/audit-v3.9.0-beta.37.md docs/audit-v3.9.0-beta.38.md docs/crawlable-public-knowledge-layer.md docs/platform-state-of-art-2026-07-05.it.md docs/third-party-validation.md docs/public-api-v1.md docs/integrations.md docs/source-reliability.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
   docs/architecture/native-dashboard-engine.md docs/architecture/native-dashboard-functional-implementation-report.md docs/architecture/vizro-patterns-knowledge-base.md
   docs/native-dashboard-user-guide.md
   docs/press-outreach-2026-07-27.md
@@ -84,6 +84,11 @@ while IFS= read -r untracked; do
     find "${STAGING_DIR}/${untracked}" -depth -delete
   fi
 done < <(git -C "${APP_DIR}" ls-files --others --exclude-standard -- public src prisma scripts integrations)
+
+# Full editorial Press Kit ZIPs are committed and checksum-listed in Git, but
+# are downloaded from GitHub by the public site. Do not nest those already
+# compressed release assets inside the Hostinger application artifact.
+find "${STAGING_DIR}/public/press-kit" -maxdepth 1 -type f -name 'policywatcher-press-package-*.zip' -delete
 
 find "${STAGING_DIR}" -type f \( -path '*/__tests__/*' -o -path '*/__pycache__/*' \) -delete
 find "${STAGING_DIR}" -depth -type d \( -name __tests__ -o -name __pycache__ \) -delete
@@ -115,6 +120,10 @@ if printf '%s\n' "${archive_entries}" | grep -E '(^/|(^|/)\.\.(/|$))' >/dev/null
 fi
 if printf '%s\n' "${archive_entries}" | grep -E '(^|/)(node_modules|\.next|\.git|artifacts|__tests__|__pycache__)(/|$)|\.(db|sqlite|sqlite3|pyc|pem|p12|pfx|key)$|-(wal|shm|journal)$' >/dev/null; then
   echo "Archive contains a forbidden runtime, database, test, cache, or secret-key path." >&2
+  exit 1
+fi
+if printf '%s\n' "${archive_entries}" | grep -E '^public/press-kit/policywatcher-press-package-.*\.zip$' >/dev/null; then
+  echo "Archive contains a Press Kit package that must be served from GitHub." >&2
   exit 1
 fi
 while IFS= read -r entry; do
@@ -155,7 +164,7 @@ required_entries=(
   src/app/llms.txt/route.ts src/app/robots.ts src/app/sitemap.ts
   src/app/HomePage.module.css src/components/HomeKnowledgeSnapshot.tsx src/lib/publicKnowledge.ts
   docs/integrations.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
-  docs/audit-v3.9.0-beta.21.md docs/audit-v3.9.0-beta.22.md docs/audit-v3.9.0-beta.23.md docs/audit-v3.9.0-beta.24.md docs/audit-v3.9.0-beta.25.md docs/audit-v3.9.0-beta.26.md docs/audit-v3.9.0-beta.27.md docs/audit-v3.9.0-beta.28.md docs/audit-v3.9.0-beta.29.md docs/audit-v3.9.0-beta.30.md docs/audit-v3.9.0-beta.31.md docs/audit-v3.9.0-beta.32.md docs/audit-v3.9.0-beta.33.md docs/audit-v3.9.0-beta.34.md docs/audit-v3.9.0-beta.35.md docs/audit-v3.9.0-beta.36.md docs/audit-v3.9.0-beta.37.md docs/crawlable-public-knowledge-layer.md docs/source-reliability.md docs/public-api-v1.md
+  docs/audit-v3.9.0-beta.21.md docs/audit-v3.9.0-beta.22.md docs/audit-v3.9.0-beta.23.md docs/audit-v3.9.0-beta.24.md docs/audit-v3.9.0-beta.25.md docs/audit-v3.9.0-beta.26.md docs/audit-v3.9.0-beta.27.md docs/audit-v3.9.0-beta.28.md docs/audit-v3.9.0-beta.29.md docs/audit-v3.9.0-beta.30.md docs/audit-v3.9.0-beta.31.md docs/audit-v3.9.0-beta.32.md docs/audit-v3.9.0-beta.33.md docs/audit-v3.9.0-beta.34.md docs/audit-v3.9.0-beta.35.md docs/audit-v3.9.0-beta.36.md docs/audit-v3.9.0-beta.37.md docs/audit-v3.9.0-beta.38.md docs/crawlable-public-knowledge-layer.md docs/source-reliability.md docs/public-api-v1.md
   integrations/power-platform/policywatcher-v2/apiDefinition.swagger.template.json
   prisma/schema.prisma prisma/migrations/20260721150000_policy_inquiry/migration.sql
   prisma/migrations/20260729153000_public_change_publication_time/migration.sql

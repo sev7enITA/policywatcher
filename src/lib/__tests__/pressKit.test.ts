@@ -86,18 +86,30 @@ describe('public press kit', () => {
     const packageManifest = JSON.parse(read('public/press-kit/package-manifest.json')) as {
       release: string;
       currentProductRelease: string;
-      packages: Array<{ locale: string; filename: string; bytes: number; sha256: string }>;
+      distribution: { provider: string; repository: string; revision: string };
+      packages: Array<{ locale: string; filename: string; href: string; distribution: string; bytes: number; sha256: string }>;
     };
     expect(packageManifest.release).toBe('3.9.0-beta.27');
     expect(packageManifest.currentProductRelease).toBe(POLICYWATCHER_VERSION);
+    expect(packageManifest.distribution).toMatchObject({
+      provider: 'github-repository',
+      repository: 'https://github.com/sev7enITA/policywatcher',
+      revision: 'main',
+    });
     expect(packageManifest.packages.map((pressPackage) => pressPackage.locale)).toEqual(['en', 'it']);
     for (const pressPackage of packageManifest.packages) {
+      expect(pressPackage.distribution).toBe('github-repository');
+      expect(pressPackage.href).toBe(`https://github.com/sev7enITA/policywatcher/raw/main/public/press-kit/${pressPackage.filename}`);
       const path = `public/press-kit/${pressPackage.filename}`;
       const content = readFileSync(path);
       expect(content.subarray(0, 2).toString()).toBe('PK');
       expect(content.byteLength).toBe(pressPackage.bytes);
       expect(createHash('sha256').update(content).digest('hex')).toBe(pressPackage.sha256);
     }
+
+    const hostingerPackager = read('scripts/package-release.sh');
+    expect(hostingerPackager).toContain("-name 'policywatcher-press-package-*.zip' -delete");
+    expect(hostingerPackager).toContain('Archive contains a Press Kit package that must be served from GitHub.');
 
     const snapshot = JSON.parse(read(`public/press-kit/policywatcher-configured-scope-${PRESS_KIT_RELEASE_DATE}.json`)) as {
       asOf: string;
@@ -128,6 +140,8 @@ describe('public press kit', () => {
     expect(client).toContain('loading="eager"');
     expect(client).toContain('sizes="200px"');
     expect(client).toContain('unoptimized');
+    expect(client).toContain('downloadFromGitHub');
+    expect(client).not.toContain('href={pressPackage.href} download');
     expect(client).toContain('Content Credentials not attached');
     expect(client).toContain('update intervals depend on retrieval and review');
     expect(client).toContain('Not assessed without assigning a numerical value');
@@ -271,9 +285,11 @@ describe('public press kit', () => {
     const mutationHardeningItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'admin-mutation-hardening');
     expect(mutationHardeningItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.36', endRelease: '3.9.0-beta.36' });
     const resourceNavigationItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'categorized-resource-navigation');
-    expect(resourceNavigationItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(resourceNavigationItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.37', endRelease: '3.9.0-beta.37' });
     const retrievalDiagnosticsItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'retrieval-deduplication-diagnostics');
-    expect(retrievalDiagnosticsItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(retrievalDiagnosticsItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.37', endRelease: '3.9.0-beta.37' });
+    const githubDistributionItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'github-press-kit-distribution');
+    expect(githubDistributionItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
     expect(continuityAtlasItem?.route).toEqual({ href: '/developers/event-continuity', label: 'Event Feed Continuity Lab', access: 'public' });
   });
 });

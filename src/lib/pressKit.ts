@@ -65,6 +65,7 @@ export interface PressKitPackage {
   locale: PressKitLocale;
   filename: string;
   href: string;
+  distribution: 'github-repository';
   bytes: number;
   sha256: string;
   generatedAt: string;
@@ -526,18 +527,40 @@ const packageCopy: Record<PressKitLocale, Pick<PressKitPackage, 'id' | 'title' |
 
 export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages.map((item) => {
   const locale = item.locale as PressKitLocale;
-  return { ...item, locale, ...packageCopy[locale] };
+  if (item.distribution !== 'github-repository') {
+    throw new Error(`Unsupported Press Kit package distribution: ${item.distribution}`);
+  }
+  return { ...item, locale, distribution: item.distribution as 'github-repository', ...packageCopy[locale] };
 });
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'resource-navigation-retrieval-diagnostics-3-9-0-beta-37',
+    slug: 'git-hosted-press-distribution-3-9-0-beta-38',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
-    category: 'product',
+    category: 'distribution',
+    title: { en: 'Git-hosted Press Distribution', it: 'Distribuzione Press Kit tramite Git' },
+    summary: { en: 'Moves complete editorial-package delivery to the public GitHub repository and removes nested Press Kit ZIPs from Hostinger application artifacts.', it: 'Sposta la distribuzione dei pacchetti editoriali completi nel repository GitHub pubblico e rimuove gli ZIP Press Kit annidati dagli artifact applicativi Hostinger.' },
+    changes: [
+      { en: 'The English and Italian package records now expose explicit GitHub repository URLs, provider metadata and SHA-256 values.', it: 'I record dei pacchetti inglese e italiano ora espongono URL espliciti del repository GitHub, metadata del provider e valori SHA-256.' },
+      { en: 'The Press Kit interface labels the external GitHub handoff and opens it with safe cross-origin link attributes.', it: 'L interfaccia Press Kit identifica l handoff esterno verso GitHub e lo apre con attributi cross-origin sicuri.' },
+      { en: 'The Hostinger release builder excludes all complete Press Kit ZIPs and fails if a nested package is detected.', it: 'Il builder della release Hostinger esclude tutti gli ZIP Press Kit completi e fallisce se rileva un pacchetto annidato.' },
+    ],
+    boundaries: [
+      { en: 'GitHub availability and main-branch publication become external dependencies for full-package downloads.', it: 'La disponibilita di GitHub e la pubblicazione sul branch main diventano dipendenze esterne per i download dei pacchetti completi.' },
+      { en: 'Checksums establish byte integrity only and do not prove authorship, semantic accuracy or endorsement.', it: 'I checksum stabiliscono solo l integrita dei byte e non provano autorialita, accuratezza semantica o endorsement.' },
+    ],
+    evidenceLinks: [
+      { href: '/press-kit#press-packages', label: { en: 'Press packages', it: 'Pacchetti stampa' } },
+      { href: PRESS_KIT_REPOSITORY_URL, label: { en: 'Public repository', it: 'Repository pubblico' } },
+      { href: '/feature-atlas', label: { en: 'Feature Atlas', it: 'Atlante funzionalita' } },
+    ],
+  },
+  {
+    slug: 'resource-navigation-retrieval-diagnostics-3-9-0-beta-37', version: '3.9.0-beta.37', displayVersion: '3.9.0 Beta 37', datePublished: '2026-08-02', dateModified: '2026-08-02', status: 'archived', category: 'product',
     title: { en: 'Resource Navigation and Retrieval Diagnostics', it: 'Navigazione risorse e diagnostica retrieval' },
     summary: { en: 'Groups the public resource directory and makes shared retrieval behavior inspectable without adding WAF-evasion techniques.', it: 'Raggruppa il catalogo pubblico delle risorse e rende ispezionabile il comportamento dei retrieval condivisi senza aggiungere tecniche di elusione WAF.' },
     changes: [
@@ -551,7 +574,7 @@ export const pressKitReleases: PressKitRelease[] = [
     ],
     evidenceLinks: [
       { href: '/admin/source-reliability', label: { en: 'Remediation workbench', it: 'Workbench remediation' } },
-      { href: '/developer', label: { en: 'Developer directory', it: 'Catalogo sviluppatori' } },
+      { href: '/developers', label: { en: 'Developer directory', it: 'Catalogo sviluppatori' } },
       { href: '/feature-atlas', label: { en: 'Feature Atlas', it: 'Atlante funzionalita' } },
     ],
   },
@@ -1291,6 +1314,7 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+  { id: 'git-hosted-press-distribution-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Git-hosted Press Distribution published', it: 'Pubblicata la distribuzione Press Kit tramite Git' }, detail: { en: 'Complete EN and IT editorial packages now download from the public GitHub repository while Hostinger application artifacts exclude nested Press Kit ZIPs.', it: 'I pacchetti editoriali completi EN e IT ora vengono scaricati dal repository GitHub pubblico, mentre gli artifact applicativi Hostinger escludono gli ZIP Press Kit annidati.' }, affectedHref: '/press-kit/releases/git-hosted-press-distribution-3-9-0-beta-38' },
   { id: 'resource-navigation-retrieval-diagnostics-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Resource Navigation and Retrieval Diagnostics published', it: 'Pubblicate navigazione risorse e diagnostica retrieval' }, detail: { en: 'The public footer now groups its complete destination set while protected scans and renderer readiness expose bounded acquisition diagnostics.', it: 'Il footer pubblico ora raggruppa il set completo di destinazioni, mentre scansioni protette e readiness del renderer espongono diagnostica limitata delle acquisizioni.' }, affectedHref: '/press-kit/releases/resource-navigation-retrieval-diagnostics-3-9-0-beta-37' },
   { id: 'remediation-community-mutation-hardening-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Remediation UX, Community Signals and Mutation Hardening published', it: 'Pubblicati UX remediation, segnali community e hardening mutazioni' }, detail: { en: 'Three roadmap waves add an action-oriented remediation workbench, browser-local signal composer and centralized administrative mutation boundary.', it: 'Tre wave della roadmap aggiungono un workbench remediation orientato all azione, un composer locale nel browser e un confine centralizzato per le mutazioni amministrative.' }, affectedHref: '/press-kit/releases/remediation-community-mutation-hardening-3-9-0-beta-36' },
   { id: 'community-signal-composer-release', occurredAt: '2026-08-02', type: 'release', title: { en: 'Community Signal Composer UX published', it: 'Pubblicata la UX del Composer segnali community' }, detail: { en: 'Roadmap interest can now become a bounded local dossier before explicit GitHub handoff.', it: 'L interesse per la roadmap puo ora diventare un dossier locale limitato prima dell handoff GitHub esplicito.' }, affectedHref: '/press-kit/releases/community-signal-composer-3-9-0-beta-35' },

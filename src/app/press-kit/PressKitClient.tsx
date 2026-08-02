@@ -135,7 +135,7 @@ const copy = {
     ],
     assetsLabel: 'Owned media files', assetsTitle: 'Files available for media use.',
     assetsLead: 'Only PolicyWatcher-owned assets appear here. Third-party coverage screenshots remain references on the Press Wall.',
-    download: 'Download', noCredentials: 'Content Credentials not attached',
+    download: 'Download', downloadFromGitHub: 'Download from GitHub', noCredentials: 'Content Credentials not attached',
     checksumNote: 'SHA-256 confirms file integrity only. It does not prove semantic truth, authorship provenance or endorsement.',
     boilerLabel: 'Boilerplates and citation', boilerTitle: 'Descriptions and citation details.',
     short: 'Short boilerplate', long: 'Long boilerplate', copyAction: 'Copy text',
@@ -225,7 +225,7 @@ const copy = {
     ],
     assetsLabel: 'File media proprietari', assetsTitle: 'File disponibili per uso editoriale.',
     assetsLead: 'Qui compaiono solo asset PolicyWatcher. Gli screenshot della copertura di terzi restano riferimenti nella Press Wall.',
-    download: 'Scarica', noCredentials: 'Content Credentials non allegati',
+    download: 'Scarica', downloadFromGitHub: 'Scarica da GitHub', noCredentials: 'Content Credentials non allegati',
     checksumNote: 'SHA-256 conferma solo l integrita del file. Non prova verita semantica, provenienza autoriale o endorsement.',
     boilerLabel: 'Boilerplate e citazione', boilerTitle: 'Descrizioni e dettagli per la citazione.',
     short: 'Boilerplate breve', long: 'Boilerplate lungo', copyAction: 'Copia testo',
@@ -386,7 +386,7 @@ export default function PressKitClient() {
                     <div><dt>{t.packageGenerated}</dt><dd>{pressPackage.generatedAt}</dd></div>
                     <div><dt>{t.packageChecksum}</dt><dd>{pressPackage.sha256}</dd></div>
                   </dl>
-                  <a className={styles.packageDownload} href={pressPackage.href} download onClick={() => recordPressMetric('press_package_download', pressPackage.locale, lang)}><Download size={14} />{t.download}</a>
+                  <a className={styles.packageDownload} href={pressPackage.href} target="_blank" rel="noopener noreferrer" onClick={() => recordPressMetric('press_package_download', pressPackage.locale, lang)}><GitFork size={14} />{t.downloadFromGitHub}<ExternalLink size={12} /></a>
                 </div>
               </article>
             ))}

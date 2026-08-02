@@ -17,6 +17,8 @@ const RELEASE_NAME = releaseSource.match(/POLICYWATCHER_RELEASE_NAME = '([^']+)'
 if (!RELEASE_NAME) throw new Error('Unable to read POLICYWATCHER_RELEASE_NAME from src/lib/release.ts');
 const VERSION = JSON.parse(readFileSync(path.join(ROOT, 'package.json'), 'utf8')).version;
 const CANONICAL_URL = 'https://policywatcher.online/press-kit';
+const REPOSITORY_URL = 'https://github.com/sev7enITA/policywatcher';
+const GITHUB_PRESS_DOWNLOAD_BASE_URL = `${REPOSITORY_URL}/raw/main/public/press-kit`;
 const RIGHTS_URL = `${CANONICAL_URL}/LICENSE-ASSETS.md`;
 const CREDIT = 'PolicyWatcher / Fabrizio Degni';
 const CAMPAIGN_VERSION = '3.9.0-beta.27';
@@ -310,12 +312,12 @@ function createPackages(assetManifest) {
       if (existsSync(packagePath)) rmSync(packagePath);
       const ordered = [...filenames, 'asset-manifest.json', 'media-metadata.json', 'LICENSE-ASSETS.md', 'README.md'].sort();
       run('zip', ['-q', '-X', packagePath, ...ordered], { cwd: stage });
-      packages.push({ locale, filename: packageFilename, href: `/press-kit/${packageFilename}`, bytes: statSync(packagePath).size, sha256: sha256(packagePath), generatedAt: RELEASE_DATE, version: CAMPAIGN_VERSION });
+      packages.push({ locale, filename: packageFilename, href: `${GITHUB_PRESS_DOWNLOAD_BASE_URL}/${packageFilename}`, distribution: 'github-repository', bytes: statSync(packagePath).size, sha256: sha256(packagePath), generatedAt: RELEASE_DATE, version: CAMPAIGN_VERSION });
     } finally {
       rmSync(stage, { recursive: true, force: true });
     }
   }
-  writeFileSync(path.join(PRESS_DIR, 'package-manifest.json'), `${JSON.stringify({ schema: 'https://policywatcher.online/schemas/press-kit-package-manifest/v1', schemaVersion: '1.0.0', generatedAt: RELEASE_DATE, release: CAMPAIGN_VERSION, currentProductRelease: VERSION, packages }, null, 2)}\n`);
+  writeFileSync(path.join(PRESS_DIR, 'package-manifest.json'), `${JSON.stringify({ schema: 'https://policywatcher.online/schemas/press-kit-package-manifest/v1', schemaVersion: '1.1.0', generatedAt: RELEASE_DATE, release: CAMPAIGN_VERSION, currentProductRelease: VERSION, distribution: { provider: 'github-repository', repository: REPOSITORY_URL, revision: 'main', boundary: 'Downloads are served from the public GitHub repository. Verify the package SHA-256 before use.' }, packages }, null, 2)}\n`);
 }
 
 async function main() {

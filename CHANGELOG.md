@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+## 3.9.0-beta.38 - 2026-08-02
+
+### Git-hosted Press Distribution
+- Moved full English and Italian Press Kit package delivery from the Hostinger application archive to checksum-listed GitHub repository downloads.
+- Added explicit GitHub distribution metadata and absolute package URLs to the public package manifest and schema.
+- Updated the Press Kit interface to label external GitHub downloads and removed the ineffective cross-origin `download` attribute.
+- Excluded every full Press Kit ZIP, including historical packages, from future Hostinger artifacts while keeping manifests and public web assets available.
+- Added a packaging failure gate that rejects any Hostinger archive containing a nested Press Kit package.
+
+### Scope boundary
+- GitHub availability becomes an external dependency for full Press Kit package downloads; individual public web assets and manifests remain hosted with the application.
+- SHA-256 verifies downloaded bytes only and does not establish authorship, semantic accuracy or endorsement.
+
 ## 3.9.0-beta.37 - 2026-08-02
 
 ### Resource Navigation and Retrieval Diagnostics
