@@ -535,12 +535,37 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'git-hosted-press-distribution-3-9-0-beta-38',
+    slug: 'managed-vps-releases-3-9-0-beta-39',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'product',
+    title: { en: 'Managed VPS Releases', it: 'Release VPS gestite' },
+    summary: { en: 'Moves bounded Renderer package upload, verification, asynchronous deployment and recovery into the protected Admin Center.', it: 'Porta nel pannello Admin protetto upload, verifica, deployment asincrono e recovery dei pacchetti Renderer circoscritti.' },
+    changes: [
+      { en: 'Administrators select the package locally while the browser computes SHA-256 before any upload.', it: 'Gli amministratori selezionano il pacchetto localmente mentre il browser calcola SHA-256 prima dell upload.' },
+      { en: 'Hostinger validates and HMAC-signs a bounded upload that Operations Agent 0.2 stages only after independent checksum and archive checks.', it: 'Hostinger valida e firma HMAC un upload circoscritto che Operations Agent 0.2 prepara solo dopo controlli indipendenti su checksum e archivio.' },
+      { en: 'The update runs asynchronously while the Admin Center follows install, service restart, smoke test and rollback state.', it: 'L aggiornamento viene eseguito in modo asincrono mentre l Admin Center segue installazione, riavvio del servizio, smoke test e rollback.' },
+    ],
+    boundaries: [
+      { en: 'Operations Agent 0.2 requires one initial VPS bootstrap and does not update itself.', it: 'Operations Agent 0.2 richiede un bootstrap iniziale sulla VPS e non aggiorna se stesso.' },
+      { en: 'The workflow accepts no arbitrary URL, path or shell command and remains limited to Renderer release packages of at most 5 MiB.', it: 'Il workflow non accetta URL, percorsi o comandi shell arbitrari e resta limitato a pacchetti release Renderer fino a 5 MiB.' },
+    ],
+    evidenceLinks: [
+      { href: '/admin/vps-services', label: { en: 'Protected VPS Services', it: 'Servizi VPS protetti' } },
+      { href: '/feature-atlas', label: { en: 'Feature Atlas', it: 'Atlante funzionalita' } },
+      { href: '/roadmap', label: { en: 'Release roadmap', it: 'Roadmap release' } },
+    ],
+  },
+  {
+    slug: 'git-hosted-press-distribution-3-9-0-beta-38',
+    version: '3.9.0-beta.38',
+    displayVersion: '3.9.0 Beta 38',
+    datePublished: '2026-08-02',
+    dateModified: '2026-08-02',
+    status: 'archived',
     category: 'distribution',
     title: { en: 'Git-hosted Press Distribution', it: 'Distribuzione Press Kit tramite Git' },
     summary: { en: 'Moves complete editorial-package delivery to the public GitHub repository and removes nested Press Kit ZIPs from Hostinger application artifacts.', it: 'Sposta la distribuzione dei pacchetti editoriali completi nel repository GitHub pubblico e rimuove gli ZIP Press Kit annidati dagli artifact applicativi Hostinger.' },
@@ -1314,6 +1339,7 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+  { id: 'managed-vps-releases-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Managed VPS Releases published', it: 'Pubblicate le Release VPS gestite' }, detail: { en: 'The protected Admin Center now uploads bounded Renderer packages through Hostinger to Operations Agent 0.2 and follows asynchronous verification or rollback.', it: 'L Admin Center protetto ora carica pacchetti Renderer circoscritti attraverso Hostinger verso Operations Agent 0.2 e segue verifica asincrona o rollback.' }, affectedHref: '/press-kit/releases/managed-vps-releases-3-9-0-beta-39' },
   { id: 'git-hosted-press-distribution-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Git-hosted Press Distribution published', it: 'Pubblicata la distribuzione Press Kit tramite Git' }, detail: { en: 'Complete EN and IT editorial packages now download from the public GitHub repository while Hostinger application artifacts exclude nested Press Kit ZIPs.', it: 'I pacchetti editoriali completi EN e IT ora vengono scaricati dal repository GitHub pubblico, mentre gli artifact applicativi Hostinger escludono gli ZIP Press Kit annidati.' }, affectedHref: '/press-kit/releases/git-hosted-press-distribution-3-9-0-beta-38' },
   { id: 'resource-navigation-retrieval-diagnostics-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Resource Navigation and Retrieval Diagnostics published', it: 'Pubblicate navigazione risorse e diagnostica retrieval' }, detail: { en: 'The public footer now groups its complete destination set while protected scans and renderer readiness expose bounded acquisition diagnostics.', it: 'Il footer pubblico ora raggruppa il set completo di destinazioni, mentre scansioni protette e readiness del renderer espongono diagnostica limitata delle acquisizioni.' }, affectedHref: '/press-kit/releases/resource-navigation-retrieval-diagnostics-3-9-0-beta-37' },
   { id: 'remediation-community-mutation-hardening-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Remediation UX, Community Signals and Mutation Hardening published', it: 'Pubblicati UX remediation, segnali community e hardening mutazioni' }, detail: { en: 'Three roadmap waves add an action-oriented remediation workbench, browser-local signal composer and centralized administrative mutation boundary.', it: 'Tre wave della roadmap aggiungono un workbench remediation orientato all azione, un composer locale nel browser e un confine centralizzato per le mutazioni amministrative.' }, affectedHref: '/press-kit/releases/remediation-community-mutation-hardening-3-9-0-beta-36' },

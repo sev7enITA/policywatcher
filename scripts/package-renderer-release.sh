@@ -15,7 +15,13 @@ VERSION="$(node -p "require('${APP_DIR}/renderer/package.json').version")"
 LOCK_VERSION="$(node -p "require('${APP_DIR}/renderer/package-lock.json').version")"
 SOURCE_REVISION="$(git -C "${APP_DIR}" rev-parse HEAD)"
 DATE_STAMP="$(date +%Y-%m-%d)"
-ARCHIVE_NAME="PolicyWatcher-renderer-${VERSION}-vps-${DATE_STAMP}.zip"
+ARTIFACT_LABEL="${POLICYWATCHER_ARTIFACT_LABEL:-}"
+if [[ -n "${ARTIFACT_LABEL}" ]] && [[ ! "${ARTIFACT_LABEL}" =~ ^[a-z0-9][a-z0-9.-]*$ ]]; then
+  echo "POLICYWATCHER_ARTIFACT_LABEL must contain lowercase letters, numbers, dots or hyphens." >&2
+  exit 1
+fi
+ARTIFACT_SUFFIX="${ARTIFACT_LABEL:+-${ARTIFACT_LABEL}}"
+ARCHIVE_NAME="PolicyWatcher-renderer-${VERSION}-vps-${DATE_STAMP}${ARTIFACT_SUFFIX}.zip"
 ARCHIVE="${OUTPUT_DIR}/${ARCHIVE_NAME}"
 CHECKSUM="${ARCHIVE}.sha256"
 STAGING_DIR="$(mktemp -d /tmp/policywatcher-renderer-package.XXXXXX)"

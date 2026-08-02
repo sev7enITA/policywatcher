@@ -109,6 +109,15 @@ describe('administrative mutation boundary', () => {
     }))).toMatchObject({ allowed: true });
   });
 
+  it('reserves a bounded JSON envelope for end-to-end Renderer uploads', () => {
+    const upload = getAdminMutationRoutePolicy('/api/admin/vps-services', 'POST');
+    expect(upload.maxBodyBytes).toBe(7 * 1024 * 1024);
+    expect(evaluateAdminMutationBoundary(input({
+      pathname: '/api/admin/vps-services',
+      contentLengthHeader: String(upload.maxBodyBytes + 1),
+    }))).toMatchObject({ allowed: false, reason: 'payload_too_large', status: 413 });
+  });
+
   it('requires JSON for body mutations and permits the known no-body logout', () => {
     expect(evaluateAdminMutationBoundary(input({ contentTypeHeader: 'text/plain' }))).toMatchObject({
       allowed: false,

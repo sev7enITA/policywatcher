@@ -276,6 +276,29 @@ async function writeFactSheets() {
   }
 }
 
+async function refreshLiveReleaseAssets() {
+  await writeFactSheets();
+  const assetManifestPath = path.join(PRESS_DIR, 'asset-manifest.json');
+  const assetManifest = JSON.parse(readFileSync(assetManifestPath, 'utf8'));
+  const liveFactSheets = new Set([
+    `policywatcher-fact-sheet-en-${RELEASE_DATE}.txt`,
+    `policywatcher-fact-sheet-it-${RELEASE_DATE}.txt`,
+    `policywatcher-fact-sheet-en-${RELEASE_DATE}.pdf`,
+    `policywatcher-fact-sheet-it-${RELEASE_DATE}.pdf`,
+  ]);
+  assetManifest.release = VERSION;
+  assetManifest.assets = assetManifest.assets.map((entry) => liveFactSheets.has(entry.filename)
+    ? manifestEntry(entry.filename, entry.mediaType, entry.metadataStandard)
+    : entry);
+  writeFileSync(assetManifestPath, `${JSON.stringify(assetManifest, null, 2)}\n`);
+
+  const packageManifestPath = path.join(PRESS_DIR, 'package-manifest.json');
+  const packageManifest = JSON.parse(readFileSync(packageManifestPath, 'utf8'));
+  packageManifest.currentProductRelease = VERSION;
+  writeFileSync(packageManifestPath, `${JSON.stringify(packageManifest, null, 2)}\n`);
+  process.stdout.write(`Refreshed live fact sheets and manifests for ${VERSION}; immutable campaign ZIPs were not rebuilt.\n`);
+}
+
 function dimensions(filePath) {
   const result = spawnSync('identify', ['-format', '%w x %h px', filePath], { encoding: 'utf8' });
   return result.status === 0 && result.stdout ? result.stdout : null;
@@ -322,6 +345,10 @@ function createPackages(assetManifest) {
 }
 
 async function main() {
+  if (process.argv.includes('--refresh-live')) {
+    await refreshLiveReleaseAssets();
+    return;
+  }
   for (const [source, filename] of CAMPAIGN_DOCUMENTS) copyFileSync(path.join(ROOT, source), path.join(PRESS_DIR, filename));
   generateWordmarks();
   writeDataSnapshot();

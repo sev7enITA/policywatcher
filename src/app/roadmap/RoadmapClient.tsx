@@ -19,6 +19,7 @@ import {
   Radio,
   Scale,
   Search,
+  ServerCog,
   Settings2,
   ShieldCheck,
   SlidersHorizontal,
@@ -109,7 +110,17 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 
 const nowItems = [
   {
-    phase: 'Current · 3.9.0-beta.38',
+    phase: 'Current · 3.9.0-beta.39',
+    title: 'Managed VPS Renderer releases',
+    body:
+      'Upload a bounded Renderer package from the protected Admin Center, verify it across the browser, Hostinger and VPS Agent, then follow asynchronous install, smoke and rollback state.',
+    benefit: 'Routine Renderer deltas no longer require manual package staging, extraction or service commands on the VPS.',
+    validation: 'The Agent accepts only signed bounded uploads, rejects unsafe archives and version mismatches, and reports one observable operation through completion or rollback.',
+    icon: ServerCog,
+    href: '/admin/vps-services',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.38',
     title: 'Git-hosted Press Kit distribution',
     body:
       'Keep complete checksum-listed editorial packages in the public repository while serving download links from GitHub and excluding nested package archives from Hostinger deployments.',

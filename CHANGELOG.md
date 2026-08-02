@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+## 3.9.0-beta.39 - 2026-08-02
+
+### Managed VPS Releases
+- Added end-to-end Renderer package selection, local SHA-256 calculation, upload and deployment to the protected VPS Services console.
+- Added a 7 MiB administrative JSON boundary carrying Renderer packages capped at 5 MiB before forwarding.
+- Added HMAC-signed package staging to VPS Operations Agent 0.2 with strict Base64, checksum, filename, archive-entry and metadata/version validation.
+- Rejects traversal, environment files, symlinks, special files, excessive entries and packages whose application, lockfile or release-manifest versions differ from the requested release.
+- Changed Renderer updates to asynchronous operations so Hostinger can observe installation, service restart, smoke verification and rollback without a long blocking request.
+- Added live Admin polling through successful activation, automatic rollback or manual-intervention state.
+
+### Scope boundary
+- Agent 0.2 requires one initial VPS bootstrap; subsequent Renderer packages can be uploaded and deployed entirely through the Admin Center.
+- The workflow does not accept arbitrary URLs, paths or shell commands and does not self-update the Operations Agent.
+
 ## 3.9.0-beta.38 - 2026-08-02
 
 ### Git-hosted Press Distribution

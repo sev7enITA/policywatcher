@@ -3,6 +3,13 @@
 This is a source deployment package. It intentionally excludes `.next`,
 `node_modules`, environment files and SQLite databases.
 
+Beta 39 adds end-to-end Renderer release upload to `/admin/vps-services`.
+Deploy VPS Operations Agent 0.2 once before using the managed control; the
+Agent then accepts bounded HMAC-signed packages from Hostinger and performs
+asynchronous install, smoke verification and rollback without manual staging.
+Keep `VPS_AGENT_SECRET` identical between Hostinger and the Agent, and keep the
+Agent endpoint behind HTTPS. The Admin upload cap is 5 MiB decoded / 7 MiB JSON.
+
 ## Required Hostinger configuration
 
 1. Extract the ZIP into the Node.js application directory.

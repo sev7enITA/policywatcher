@@ -6,6 +6,8 @@
  * CSRF certification, a penetration test, or proof of reverse-proxy behavior.
  */
 
+import { MAX_RENDERER_PACKAGE_REQUEST_BYTES } from './vpsPackageContract';
+
 export const ADMIN_API_RESPONSE_HEADERS = {
   'Cache-Control': 'private, no-store',
   'X-Content-Type-Options': 'nosniff',
@@ -73,6 +75,8 @@ const EXACT_ROUTE_CAPS: Record<string, number> = {
   '/api/admin/dashboard-telemetry': 8 * KIB,
   '/api/admin/webhook-delivery': 8 * KIB,
   '/api/admin/export-encrypted': 8 * KIB,
+  // Base64-encoded Renderer packages are bounded to 5 MiB before forwarding.
+  '/api/admin/vps-services': MAX_RENDERER_PACKAGE_REQUEST_BYTES,
   // Up to 100 bounded onboarding rows, including long official source URLs.
   '/api/admin/source-onboarding': 512 * KIB,
   // An encrypted database export is intentionally much larger than onboarding.

@@ -1,6 +1,6 @@
 Scheda stampa PolicyWatcher
-Version 3.9.0-beta.38 · 2026-08-02
-Release corrente: Git-hosted Press Distribution
+Version 3.9.0-beta.39 · 2026-08-02
+Release corrente: Managed VPS Releases
 
 Dati configurati sul prodotto con perimetro e limiti di riuso espliciti.
 

@@ -1575,6 +1575,34 @@
 }
 
 /* ---------- VPS Services ---------- */
+.servicePage {
+  min-width: 0;
+}
+
+.serviceLoadingScreen {
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: var(--text-main);
+}
+
+.serviceLoadingScreen > div:last-child {
+  display: grid;
+  gap: 3px;
+}
+
+.serviceLoadingScreen strong {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+}
+
+.serviceLoadingScreen span {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
 .serviceHero {
   display: flex;
   align-items: flex-start;
@@ -1588,6 +1616,10 @@
     linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(6, 182, 212, 0.05)),
     var(--bg-card);
   box-shadow: var(--shadow-sm);
+}
+
+.serviceAgentHero {
+  margin-top: 24px;
 }
 
 .serviceHeroMain {
@@ -1678,11 +1710,31 @@
   margin-bottom: 20px;
 }
 
+.serviceToolbar .btn:not(.btnPrimary),
+.serviceRecoveryCard .btn,
+.serviceLedgerHeader .btn {
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-body);
+}
+
+.serviceToolbar .btn:not(.btnPrimary):hover:not(:disabled),
+.serviceRecoveryCard .btn:hover:not(:disabled),
+.serviceLedgerHeader .btn:hover:not(:disabled) {
+  border-color: var(--primary);
+  background: var(--primary-glow);
+  color: var(--primary);
+}
+
 .serviceGrid {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.75fr);
   gap: 20px;
   align-items: start;
+}
+
+.serviceReleaseGrid {
+  grid-template-columns: minmax(0, 1.55fr) minmax(290px, 0.65fr);
 }
 
 .serviceMetricGrid {
@@ -1752,7 +1804,7 @@
 
 .serviceForm {
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .serviceForm label {
@@ -1777,6 +1829,538 @@
   background: var(--bg-secondary);
   color: var(--text-main);
   font: inherit;
+}
+
+.serviceForm input:focus-visible,
+.serviceFilePicker:focus-within {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+.serviceForm input:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.serviceForm input[readonly] {
+  color: var(--text-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.76rem;
+}
+
+.servicePackageMeta,
+.serviceDeploymentProgress {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  color: var(--text-body);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.servicePackageMeta svg,
+.serviceDeploymentProgress svg {
+  flex-shrink: 0;
+}
+
+.servicePackageMeta span,
+.serviceDeploymentProgress span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.servicePackageMeta > strong {
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.servicePackageMeta > span {
+  display: grid;
+  gap: 2px;
+}
+
+.servicePackageMeta > span strong {
+  color: var(--text-main);
+  font-size: 0.81rem;
+  line-height: 1.35;
+}
+
+.servicePackageMeta > span small {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+}
+
+.serviceDeploymentComplete {
+  border-color: rgba(16, 185, 129, 0.32);
+  color: #047857;
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.serviceDeploymentFailed {
+  border-color: rgba(239, 68, 68, 0.28);
+  color: #b91c1c;
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.serviceReleaseCard {
+  overflow: hidden;
+  border-top: 3px solid var(--primary);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.serviceReleaseHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin: -2px 0 18px;
+}
+
+.serviceReleaseHeader h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 1.03rem;
+}
+
+.serviceReleaseHeader h2 svg {
+  color: var(--primary);
+}
+
+.serviceReleaseHeader p {
+  max-width: 600px;
+  margin: 6px 0 0;
+  color: var(--text-muted);
+  font-size: 0.79rem;
+  line-height: 1.55;
+}
+
+.serviceReleaseState {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  padding: 0 10px;
+  border: 1px solid rgba(99, 102, 241, 0.24);
+  border-radius: 8px;
+  background: var(--primary-glow);
+  color: var(--primary);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.serviceReleaseState.serviceDeploymentComplete {
+  border-color: rgba(16, 185, 129, 0.32);
+  background: rgba(16, 185, 129, 0.08);
+  color: #047857;
+}
+
+.serviceReleaseState.serviceDeploymentFailed {
+  border-color: rgba(239, 68, 68, 0.28);
+  background: rgba(239, 68, 68, 0.08);
+  color: #b91c1c;
+}
+
+.serviceReleaseRail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.serviceReleaseRail li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 8px;
+  min-width: 0;
+  align-items: center;
+  padding-right: 12px;
+  color: var(--text-muted);
+}
+
+.serviceReleaseRail li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  top: 13px;
+  left: 28px;
+  right: 0;
+  height: 1px;
+  background: var(--border-color);
+}
+
+.serviceReleaseStepMarker {
+  position: relative;
+  z-index: 1;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.serviceReleaseRail li > span:last-child {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  padding: 3px 4px;
+  background: var(--bg-card);
+}
+
+.serviceReleaseRail strong,
+.serviceReleaseRail small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.serviceReleaseRail strong {
+  color: inherit;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.serviceReleaseRail small {
+  font-size: 0.61rem;
+}
+
+.serviceReleaseRail li[data-state='current'] {
+  color: var(--primary);
+}
+
+.serviceReleaseRail li[data-state='current'] .serviceReleaseStepMarker {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+.serviceReleaseRail li[data-state='complete'] {
+  color: #047857;
+}
+
+.serviceReleaseRail li[data-state='complete']::after {
+  background: rgba(16, 185, 129, 0.42);
+}
+
+.serviceReleaseRail li[data-state='complete'] .serviceReleaseStepMarker {
+  border-color: rgba(16, 185, 129, 0.35);
+  background: rgba(16, 185, 129, 0.1);
+  color: #047857;
+}
+
+.serviceReleaseRail li[data-state='failed'] {
+  color: #b91c1c;
+}
+
+.serviceReleaseRail li[data-state='failed'] .serviceReleaseStepMarker {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.1);
+  color: #b91c1c;
+}
+
+.serviceForm .serviceFilePicker {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) minmax(170px, auto);
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px dashed rgba(99, 102, 241, 0.38);
+  border-radius: 12px;
+  background: linear-gradient(90deg, var(--primary-glow), var(--bg-secondary));
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.serviceForm .serviceFilePicker:hover {
+  border-color: var(--primary);
+  background: var(--primary-glow);
+}
+
+.serviceForm .serviceFilePickerIcon {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: var(--bg-card);
+  color: var(--primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.serviceForm .serviceFilePickerCopy {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  color: var(--text-main);
+  font-size: 0.78rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.serviceFilePickerCopy strong {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+}
+
+.serviceFilePickerCopy small {
+  color: var(--text-muted);
+  font-size: 0.69rem;
+  font-weight: 500;
+}
+
+.serviceForm .serviceFilePicker input[type='file'] {
+  min-height: 40px;
+  padding: 5px;
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  cursor: pointer;
+}
+
+.serviceFilePicker input[type='file']::file-selector-button {
+  min-height: 30px;
+  margin-right: 8px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--primary);
+  color: #fff;
+  font: 700 0.7rem var(--font-display);
+  cursor: pointer;
+}
+
+.serviceReleaseFields {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.55fr) minmax(0, 1.45fr);
+  gap: 12px;
+}
+
+.serviceReleaseEvidence {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--border-color);
+}
+
+.serviceReleaseEvidence > div {
+  min-width: 0;
+  padding: 10px 12px;
+  background: var(--bg-secondary);
+}
+
+.serviceReleaseEvidence dt {
+  margin-bottom: 4px;
+  color: var(--text-muted);
+  font-size: 0.63rem;
+  font-weight: 800;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+
+.serviceReleaseEvidence dd {
+  margin: 0;
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+.serviceReleaseAction {
+  min-height: 46px;
+}
+
+.serviceActionHint,
+.serviceBoundaryNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin: -4px 0 0;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.serviceActionHint svg,
+.serviceBoundaryNote svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+.serviceDeploymentProgress {
+  align-items: flex-start;
+  padding: 13px 14px;
+  border-left: 3px solid var(--primary);
+}
+
+.serviceDeploymentProgress.serviceDeploymentComplete {
+  border-left-color: var(--risk-low);
+}
+
+.serviceDeploymentProgress.serviceDeploymentFailed {
+  border-left-color: var(--risk-high);
+}
+
+.serviceDeploymentIcon {
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border-radius: 7px;
+  background: var(--bg-card);
+  color: var(--primary);
+}
+
+.serviceDeploymentProgress > span:last-child {
+  display: grid;
+  gap: 2px;
+}
+
+.serviceDeploymentProgress strong {
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+}
+
+.serviceDeploymentProgress small {
+  color: currentColor;
+  font-size: 0.72rem;
+}
+
+.serviceBoundaryNote {
+  margin: 16px 0 0;
+  padding-top: 13px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.serviceReadOnlyPanel {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 15px;
+  border: 1px solid rgba(6, 182, 212, 0.22);
+  border-radius: 10px;
+  background: var(--secondary-glow);
+  color: var(--secondary);
+}
+
+.serviceReadOnlyPanel > svg {
+  flex: 0 0 auto;
+}
+
+.serviceReadOnlyPanel strong {
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+}
+
+.serviceReadOnlyPanel p {
+  margin: 4px 0 0;
+  color: var(--text-body);
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+.serviceRecoveryCard {
+  border-top: 3px solid var(--border-color);
+}
+
+.serviceRecoveryCard .serviceActionGrid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.serviceRecoveryIntro {
+  margin: -8px 0 15px;
+  color: var(--text-muted);
+  font-size: 0.77rem;
+  line-height: 1.5;
+}
+
+.serviceLastOperation {
+  display: grid;
+  gap: 8px;
+  margin: 15px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-color);
+}
+
+.serviceLastOperation div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.serviceLastOperation dt,
+.serviceLastOperation dd {
+  margin: 0;
+  font-size: 0.71rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.serviceLastOperation dt {
+  color: var(--text-muted);
+}
+
+.serviceLastOperation dd {
+  color: var(--text-main);
+  font-weight: 750;
+  text-align: right;
+}
+
+.serviceLedgerCard {
+  border-top: 3px solid #182238;
+}
+
+.serviceLedgerHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.serviceLedgerHeader .cardTitle {
+  margin-bottom: 4px;
+}
+
+.serviceLedgerHeader p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.7rem;
 }
 
 .serviceLogBox {
@@ -1849,6 +2433,141 @@
   font-size: 0.84rem;
   font-weight: 800;
   text-decoration: none;
+}
+
+.serviceExternalLink:hover,
+.serviceExternalLink:focus-visible {
+  border-color: var(--primary);
+  background: var(--primary-glow);
+}
+
+.serviceExternalLink:focus-visible,
+.servicePage button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.servicePage .btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+@media (max-width: 1080px) {
+  .serviceGrid,
+  .serviceReleaseGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .serviceReleaseRail strong,
+  .serviceReleaseRail small {
+    white-space: normal;
+  }
+
+  .serviceRecoveryCard .serviceActionGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .serviceHero,
+  .serviceHeroMain,
+  .serviceReleaseHeader,
+  .serviceLedgerHeader {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .serviceHero {
+    padding: 18px;
+  }
+
+  .serviceHeroMain {
+    gap: 12px;
+  }
+
+  .serviceStatusPill,
+  .serviceReleaseState {
+    width: fit-content;
+  }
+
+  .serviceMetricGrid,
+  .serviceReleaseFields,
+  .serviceReleaseEvidence,
+  .serviceRecoveryCard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .serviceReleaseRail {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .serviceReleaseRail li {
+    min-height: 46px;
+    padding: 5px 0;
+  }
+
+  .serviceReleaseRail li:not(:last-child)::after {
+    top: 33px;
+    bottom: -13px;
+    left: 13px;
+    right: auto;
+    width: 1px;
+    height: auto;
+  }
+
+  .serviceReleaseRail strong,
+  .serviceReleaseRail small {
+    white-space: normal;
+  }
+
+  .serviceForm .serviceFilePicker {
+    grid-template-columns: 38px minmax(0, 1fr);
+  }
+
+  .serviceForm .serviceFilePicker input[type='file'] {
+    grid-column: 1 / -1;
+    min-height: 44px;
+  }
+
+  .serviceActionGrid,
+  .serviceRecoveryCard .serviceActionGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .serviceActionGrid .btn,
+  .serviceToolbar .btn,
+  .serviceLedgerHeader .btn {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .servicePackageMeta {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .servicePackageMeta > strong {
+    width: 100%;
+    margin-left: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .serviceHeroIcon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .serviceHero h2 {
+    font-size: 1.15rem;
+  }
+
+  .serviceReleaseCard,
+  .serviceRecoveryCard,
+  .serviceLedgerCard {
+    padding: 16px;
+  }
 }
 
 .spinIcon {

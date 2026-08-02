@@ -289,7 +289,9 @@ describe('public press kit', () => {
     const retrievalDiagnosticsItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'retrieval-deduplication-diagnostics');
     expect(retrievalDiagnosticsItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.37', endRelease: '3.9.0-beta.37' });
     const githubDistributionItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'github-press-kit-distribution');
-    expect(githubDistributionItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(githubDistributionItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.38', endRelease: '3.9.0-beta.38' });
+    const managedVpsItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'managed-vps-releases');
+    expect(managedVpsItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
     expect(continuityAtlasItem?.route).toEqual({ href: '/developers/event-continuity', label: 'Event Feed Continuity Lab', access: 'public' });
   });
 });

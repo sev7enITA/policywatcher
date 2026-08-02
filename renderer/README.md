@@ -58,12 +58,13 @@ After=network.target
 
 [Service]
 Type=simple
-User=www-data
-WorkingDirectory=/opt/policywatcher-renderer
+User=policywatcher
+WorkingDirectory=/opt/policywatcher-renderer/current
 Environment=PORT=8787
 Environment=RENDERER_SECRET=<secret-ad-alta-entropia>
 Environment=RENDERER_ALLOWED_DOMAINS=policywatcher.online,facebook.com
-ExecStart=/usr/bin/node server.mjs
+Environment=PLAYWRIGHT_BROWSERS_PATH=/opt/policywatcher-renderer/playwright-browsers
+ExecStart=/usr/bin/node /opt/policywatcher-renderer/current/server.mjs
 Restart=always
 RestartSec=5
 # Chromium ha bisogno di /dev/shm decente; su VPS piccole aiuta:
@@ -106,6 +107,24 @@ RENDERER_SECRET=<lo-stesso-secret>
 Se le variabili non sono impostate, lo scraper salta la strategia rendered e
 prosegue con gli archivi (Wayback / Common Crawl): il servizio è opzionale ma
 fortemente consigliato per la copertura dei siti SPA.
+
+## Aggiornamenti gestiti dall Admin Center
+
+Dopo il bootstrap una tantum di VPS Operations Agent 0.2, le release Renderer
+successive non richiedono staging SCP o comandi di deploy manuali. In
+`Admin → VPS Services`, un amministratore seleziona lo ZIP, verifica la
+versione inferita e avvia `Upload, verify and deploy`. Il browser calcola
+SHA-256, Hostinger inoltra il pacchetto con firma HMAC e l Agent applica limite
+di 5 MiB compressi e 64 MiB estratti, controlli archivio e parita dei metadata prima di `npm ci`, switch,
+restart, smoke test e rollback. Il pannello segue lo stato asincrono fino al
+risultato; Auditor resta in sola lettura.
+
+Il servizio systemd deve usare il percorso `current` mostrato sopra. L'Agent e
+il Renderer devono inoltre condividere utente e `PLAYWRIGHT_BROWSERS_PATH`,
+cosi il Chromium installato dal `postinstall` del pacchetto resta leggibile
+dopo l'attivazione. Anche la prima release puo essere caricata da Admin: in
+assenza di una versione corrente il backup iniziale viene registrato come
+saltato.
 
 ## Variabili d'ambiente del servizio
 

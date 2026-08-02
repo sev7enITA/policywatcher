@@ -140,8 +140,8 @@ export const pulseStories: PulseStory[] = [
       it: 'Trentadue record beta consecutivi documentano evidenze, distribuzione, UX, operazioni e sicurezza',
     },
     deck: {
-      en: 'The release archive keeps Beta 7 through Beta 38 as dated, bounded product records with direct evidence links.',
-      it: 'L archivio release conserva dalla Beta 7 alla Beta 38 come record prodotto datati, circoscritti e collegati alle evidenze.',
+      en: 'The release archive keeps Beta 7 through Beta 39 as dated, bounded product records with direct evidence links.',
+      it: 'L archivio release conserva dalla Beta 7 alla Beta 39 come record prodotto datati, circoscritti e collegati alle evidenze.',
     },
     whyItMatters: {
       en: 'A versioned product history lets editors verify what changed in the public platform without treating release labels as measured outcomes.',
@@ -157,12 +157,12 @@ export const pulseStories: PulseStory[] = [
     },
     visualKind: 'release-timeline',
     facts: [
-      { id: 'records', value: '32', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 38 in the public archive.', it: 'Dalla Beta 7 alla Beta 38 nell archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
-      { id: 'current', value: 'Beta 38', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Git-hosted Press Distribution.', it: 'Distribuzione Press Kit tramite Git.' }, claimId: 'public-code', proofHref: '/press-kit/releases/git-hosted-press-distribution-3-9-0-beta-38' },
+      { id: 'records', value: '33', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 39 in the public archive.', it: 'Dalla Beta 7 alla Beta 39 nell archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
+      { id: 'current', value: 'Beta 39', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Managed VPS Releases.', it: 'Release VPS gestite.' }, claimId: 'public-code', proofHref: '/press-kit/releases/managed-vps-releases-3-9-0-beta-39' },
     ],
     sourceLinks: [
       { href: '/press-kit/releases', label: { en: 'Versioned release archive', it: 'Archivio release versionato' }, claimId: 'public-code' },
-      { href: '/press-kit/releases/git-hosted-press-distribution-3-9-0-beta-38', label: { en: 'Beta 38 release record', it: 'Record release Beta 38' }, releaseSlug: 'git-hosted-press-distribution-3-9-0-beta-38' },
+      { href: '/press-kit/releases/managed-vps-releases-3-9-0-beta-39', label: { en: 'Beta 39 release record', it: 'Record release Beta 39' }, releaseSlug: 'managed-vps-releases-3-9-0-beta-39' },
       { href: '/press-kit/releases/resource-navigation-retrieval-diagnostics-3-9-0-beta-37', label: { en: 'Beta 37 release record', it: 'Record release Beta 37' }, releaseSlug: 'resource-navigation-retrieval-diagnostics-3-9-0-beta-37' },
       { href: '/press-kit/releases/remediation-community-mutation-hardening-3-9-0-beta-36', label: { en: 'Beta 36 release record', it: 'Record release Beta 36' }, releaseSlug: 'remediation-community-mutation-hardening-3-9-0-beta-36' },
       { href: '/press-kit/releases/community-signal-composer-3-9-0-beta-35', label: { en: 'Beta 35 release record', it: 'Record release Beta 35' }, releaseSlug: 'community-signal-composer-3-9-0-beta-35' },

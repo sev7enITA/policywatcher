@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2038%20Git--hosted%20Press%20Distribution-146c6a" alt="3.9.0 Beta 38 Git-hosted Press Distribution" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2039%20Managed%20VPS%20Releases-146c6a" alt="3.9.0 Beta 39 Managed VPS Releases" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,16 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 39 Managed VPS Releases Highlights
+
+- **End-to-end Admin deployment:** administrators select a Renderer archive and complete upload, verification, installation and observation without manually staging it on the VPS.
+- **Three-boundary integrity:** the browser computes SHA-256, Hostinger validates decoded bytes and the Agent verifies the same checksum before atomic staging.
+- **Fail-closed package gate:** bounded filenames, size, archive paths, secrets, symlinks, special files and Renderer metadata/version parity are checked before installation.
+- **Asynchronous operations:** Agent 0.2 returns an operation ID immediately while the Admin Center follows installation, restart and smoke state for up to eight minutes.
+- **Automatic recovery:** failed smoke verification restores the previous Renderer release when possible and exposes a manual-intervention state if rollback also fails.
+
+Agent 0.2 still requires a one-time VPS bootstrap. Managed releases do not expose shell commands, accept arbitrary package URLs or self-update the control-plane Agent.
 
 ### Release 3.9.0 Beta 38 Git-hosted Press Distribution Highlights
 
@@ -1218,9 +1228,10 @@ The application works without these variables, but script-rendered providers hav
 ### Optional VPS Operations Agent
 
 The renderer and the operations agent are intentionally separate processes.
-The renderer executes Chromium. The operations agent performs only fixed,
-allowlisted operations: status, version, fixed smoke test, backup, checksum
-verified update, rollback and capped logs.
+The renderer executes Chromium. Operations Agent 0.2 performs only fixed,
+allowlisted operations: status, version, fixed smoke test, bounded package
+staging, checksum-verified asynchronous update, backup, rollback and capped
+logs.
 
 Recommended layout:
 
@@ -1232,8 +1243,12 @@ Recommended layout:
 /opt/policywatcher-renderer/backups/
 ```
 
-The admin panel never sends a shell command, arbitrary package URL or arbitrary
-smoke URL. For updates it sends only:
+The Admin browser computes the selected package SHA-256 and uploads the package
+to the same-origin Hostinger API. Hostinger independently validates the decoded
+bytes, signs the request and forwards it to the Agent. Browser code never
+receives `VPS_AGENT_SECRET` or `RENDERER_SECRET`.
+
+After atomic staging, the update operation sends only:
 
 ```json
 {
@@ -1242,12 +1257,18 @@ smoke URL. For updates it sends only:
 }
 ```
 
-The agent searches its fixed local package directory, verifies the checksum,
-rejects archives containing `.env` entries or unsafe paths, creates a backup,
-switches the `current` symlink, restarts the renderer service and runs the
-fixed smoke test. Mutating operations are locked; concurrent attempts return
-`423 Locked`. If rollback fails, the agent moves to
+The Agent verifies the package filename, 5 MiB decoded-size cap, checksum,
+archive paths, entry count, file types and exact Renderer version metadata. It
+then creates a backup, runs `npm ci`, switches the `current` symlink, restarts
+the renderer service and runs the fixed smoke test. The update is asynchronous:
+Admin polls the signed status endpoint by operation ID until activation or
+rollback. Mutating operations are locked; concurrent attempts return `423
+Locked`. If rollback fails, the Agent moves to
 `manual_intervention_required` and `/healthz` reports `ok: false`.
+
+No upload or update endpoint accepts a package URL, arbitrary file path, smoke
+URL or shell command. Agent 0.2 needs one initial VPS bootstrap and does not
+self-update.
 
 Configure Hostinger only after the agent is exposed through HTTPS:
 
