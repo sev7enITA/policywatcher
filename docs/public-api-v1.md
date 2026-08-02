@@ -11,6 +11,7 @@ For the complete integration decision guide and readiness matrix, see [`integrat
 | Endpoint | Method | Purpose |
 | --- | --- | --- |
 | `/api/v1/manifest` | `GET` | Current integration directory: exposed public sources, parameter allowlists, evidence boundaries, cache and rate policy. |
+| `/api/v1/residency-evidence` | `GET` | Dated hosting, storage, processor and transfer evidence register with per-record status, open closure actions and SHA-256 digest. |
 | `/api/v1/observatory?lang=en` | `GET` | Curated local registry of sources, signals and events. Accepts `en` or `it`. |
 | `/api/v1/evidence-collections?changes={uuid,...}&format=json` | `GET` | Deterministic bundle for 1 to 12 exact published changes. Accepts `json`, `markdown`, `csv` or `handoff`. |
 | `/api/v1/change-events?limit=25&lang=en` | `GET` | Forward-only polling feed for already-published policy change events. Accepts `cursor`, `limit` and `lang`. |

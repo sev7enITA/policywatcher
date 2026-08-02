@@ -2,11 +2,12 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useMemo, useState, type CSSProperties } from 'react';
+import { useCallback, useMemo, useRef, useState, type CSSProperties } from 'react';
 import {
   ArrowLeft,
   ArrowUpRight,
   BookOpenCheck,
+  ChevronRight,
   Cpu,
   Database,
   Eye,
@@ -27,6 +28,9 @@ import { ReleaseImpactMap } from '@/components/ReleaseImpactMap';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
 import { POLICYWATCHER_RELEASE_NAME, POLICYWATCHER_VERSION } from '@/lib/release';
+import RoadmapSignalComposer, {
+  type RoadmapSignalComposerRequest,
+} from './RoadmapSignalComposer';
 import styles from './roadmap.module.css';
 
 type GoalId = 'citizen' | 'governance' | 'research' | 'builder';
@@ -105,7 +109,57 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 
 const nowItems = [
   {
-    phase: 'Current · 3.9.0-beta.30',
+    phase: 'Current · 3.9.0-beta.37',
+    title: 'Resource navigation and retrieval diagnostics',
+    body:
+      'Group the full public resource directory by intent and make shared acquisitions explicit through safe fingerprints, cache modes and renderer/browser coherence.',
+    benefit: 'Readers scan a shorter navigation structure while operators can distinguish legitimate regional fetches from reused acquisition results.',
+    validation: 'All footer destinations remain available; focused tests preserve semantic URL differences, redact log labels and verify renderer UA behavior without stealth or WAF bypass.',
+    icon: ListChecks,
+    href: '/feature-atlas',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.36',
+    title: 'Administrative mutation hardening',
+    body:
+      'Centralize same-origin provenance, route-specific declared-body limits, JSON enforcement, bounded rate state and safe response metadata for unsafe administrative API methods.',
+    benefit: 'Administrative mutation routes receive one consistent defense-in-depth boundary without changing public APIs or page CSP and framing behavior.',
+    validation: 'Focused tests cover accepted same-origin requests, denial paths, body caps, rate state, headers and page CSP; the control is not a pentest or distributed rate limit.',
+    icon: Lock,
+    href: '/security',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.35',
+    title: 'Community Signal Composer UX',
+    body:
+      'Turn candidate interest or a new proposal into a browser-local Need, Evidence, Limits and Review dossier before an explicit GitHub handoff.',
+    benefit: 'Researchers, citizens, GRC reviewers and builders can prepare a bounded proposal without sending draft contents to PolicyWatcher.',
+    validation: 'Strict local draft parsing and deterministic issue generation are covered; GitHub permissions, review, acceptance and adoption remain external.',
+    icon: Users,
+    href: '/roadmap#candidates',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.34',
+    title: 'Source Remediation Workbench UX',
+    body:
+      'Connect returned-window priority, safe filtering, bounded issue evidence, responsive layouts and the Detect to Close sequence in one protected workbench.',
+    benefit: 'Admins and Auditors can identify the next responsible remediation action while mutation controls remain admin-only.',
+    validation: 'Only Recovered issues can be closed and Resolved issues reopened; closure is not proof of continuous source availability or measured usability improvement.',
+    icon: Settings2,
+    href: '/admin/source-reliability',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.33',
+    title: 'Renderer production hardening',
+    body:
+      'Require explicit target-domain egress, HTTPS, bounded output and total runtime while separating public liveness from authenticated Chromium readiness and supporting a bounded two-secret rotation overlap.',
+    benefit: 'Operators can constrain rendered destinations and rotate credentials without exposing readiness detail publicly or accepting arbitrary public targets.',
+    validation: 'Focused tests cover allowlist parsing, subdomain boundaries, secret overlap, HTTPS enforcement and query-free operational logging; Chromium socket ownership remains an explicit limit.',
+    icon: Cpu,
+    href: '/admin/vps-services',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.30',
     title: 'Word Contract Evidence Review',
     body:
       'Classify an explicitly selected Word clause locally against a fixed taxonomy, display the derived topics and search related public evidence only after a separate acknowledgement.',
@@ -462,6 +516,20 @@ const candidateFeatures = [
   },
 ];
 
+type CandidateImplementationState = 'delivered' | 'pilot' | 'candidate';
+
+const candidateStateLabels: Record<CandidateImplementationState, string> = {
+  delivered: 'Delivered',
+  pilot: 'Pilot or partial',
+  candidate: 'Candidate',
+};
+
+function getCandidateImplementationState(status: string): CandidateImplementationState {
+  if (/delivered/i.test(status)) return 'delivered';
+  if (/ready|available/i.test(status)) return 'pilot';
+  return 'candidate';
+}
+
 const releaseLanes = [
   {
     label: '3.5.1',
@@ -530,7 +598,7 @@ const releaseLanes = [
     label: POLICYWATCHER_VERSION,
     title: POLICYWATCHER_RELEASE_NAME,
     body:
-      'Protected five-priority Action Center, five-stage publication-readiness funnel, four independent live-status cards, role-specific Admin/Auditor presentation and bounded dashboard measurement with unavailable states preserved.',
+      'Action-oriented source remediation, a browser-local community signal dossier and a centralized defense-in-depth boundary for unsafe administrative API mutations.',
     state: 'current',
   },
   {
@@ -549,26 +617,6 @@ const releaseLanes = [
   },
 ];
 
-function buildIssueUrl(feature: string, track: string) {
-  const title = `Roadmap signal: ${feature}`;
-  const body = [
-    `Feature: ${feature}`,
-    `Track: ${track}`,
-    '',
-    'What I need to understand or accomplish:',
-    '',
-    'Current workflow or workaround:',
-    '',
-    'What evidence, export, alert, or view would make this useful:',
-    '',
-    'Preferred detail level: Snapshot / Operational / Forensic',
-    '',
-    'Risks, wording limits, or source-quality concerns:',
-  ].join('\n');
-
-  return `${repoUrl}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
-}
-
 function buildWorkspaceHref(goalId: GoalId, depth: DetailLevel) {
   const intent = goalId === 'governance' ? 'grc' : goalId;
   return `/?intent=${intent}&depth=${depth}`;
@@ -577,13 +625,6 @@ function buildWorkspaceHref(goalId: GoalId, depth: DetailLevel) {
 function HeroGraph() {
   return (
     <svg viewBox="0 0 760 520" className={styles.heroGraph} aria-hidden="true">
-      <defs>
-        <linearGradient id="roadmapRoute" x1="0" x2="1">
-          <stop stopColor="#5eead4" />
-          <stop offset="0.48" stopColor="#60a5fa" />
-          <stop offset="1" stopColor="#a78bfa" />
-        </linearGradient>
-      </defs>
       <path className={styles.graphGrid} d="M72 78h616M72 170h616M72 262h616M72 354h616M72 446h616M124 46v430M254 46v430M384 46v430M514 46v430M644 46v430" />
       <path className={styles.graphRoute} d="M94 384c76-120 142-150 231-104 78 40 112 8 158-72 45-79 101-113 183-52" />
       <path className={styles.graphRouteSoft} d="M100 188c67 48 117 63 175 31 71-39 106-29 155 28 57 66 126 77 225 12" />
@@ -636,11 +677,57 @@ function DepthDiagram({ level, goal }: { level: DetailLevel; goal: (typeof goals
 export default function RoadmapClient() {
   const [goalId, setGoalId] = useState<GoalId>('citizen');
   const [detailLevel, setDetailLevel] = useState<DetailLevel>('forensic');
+  const [candidateSearch, setCandidateSearch] = useState('');
+  const [candidateTrack, setCandidateTrack] = useState('all');
+  const [candidateState, setCandidateState] = useState<'all' | CandidateImplementationState>('all');
+  const [composerRequest, setComposerRequest] = useState<RoadmapSignalComposerRequest | null>(null);
+  const [hasSavedSignalDraft, setHasSavedSignalDraft] = useState(false);
+  const composerRequestId = useRef(0);
   const selectedGoal = useMemo(() => goals.find((goal) => goal.id === goalId) ?? goals[0], [goalId]);
-  const candidateTrackCount = useMemo(
-    () => new Set(candidateFeatures.map((feature) => feature.track)).size,
+  const candidateTracks = useMemo(
+    () => Array.from(new Set(candidateFeatures.map((feature) => feature.track))).sort(),
     [],
   );
+  const candidateTrackCount = useMemo(
+    () => candidateTracks.length,
+    [candidateTracks],
+  );
+  const filteredCandidateFeatures = useMemo(() => {
+    const query = candidateSearch.trim().toLocaleLowerCase();
+    return candidateFeatures.filter((feature) => {
+      const state = getCandidateImplementationState(feature.status);
+      const matchesTrack = candidateTrack === 'all' || feature.track === candidateTrack;
+      const matchesState = candidateState === 'all' || state === candidateState;
+      const matchesSearch = !query || [feature.title, feature.track, feature.body, feature.status, feature.risk]
+        .some((value) => value.toLocaleLowerCase().includes(query));
+      return matchesTrack && matchesState && matchesSearch;
+    });
+  }, [candidateSearch, candidateState, candidateTrack]);
+  const filtersActive = Boolean(candidateSearch.trim()) || candidateTrack !== 'all' || candidateState !== 'all';
+
+  const openNewSignal = useCallback(() => {
+    composerRequestId.current += 1;
+    setComposerRequest({ id: composerRequestId.current, mode: 'new' });
+  }, []);
+
+  const resumeSignal = useCallback(() => {
+    composerRequestId.current += 1;
+    setComposerRequest({ id: composerRequestId.current, mode: 'resume' });
+  }, []);
+
+  const openCandidateSignal = useCallback((title: string, track: string) => {
+    composerRequestId.current += 1;
+    setComposerRequest({ id: composerRequestId.current, mode: 'candidate', title, track });
+  }, []);
+
+  const closeSignalComposer = useCallback(() => setComposerRequest(null), []);
+  const updateDraftAvailability = useCallback((available: boolean) => setHasSavedSignalDraft(available), []);
+
+  function clearCandidateFilters() {
+    setCandidateSearch('');
+    setCandidateTrack('all');
+    setCandidateState('all');
+  }
 
   return (
     <>
@@ -652,11 +739,10 @@ export default function RoadmapClient() {
           <span>PolicyWatcher</span>
         </Link>
         <div className={styles.navLinks}>
+          <a href="#candidates">Candidates</a>
           <a href="#impact-map">Release impact</a>
           <Link href="/feature-atlas">Feature Atlas</Link>
           <a href="#workspace">Workspace</a>
-          <a href="#now">Now</a>
-          <a href="#candidates">Candidates</a>
           <a href="#method">Ranking</a>
           <a href={repoUrl} target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
@@ -678,9 +764,9 @@ export default function RoadmapClient() {
               Signal a roadmap priority
               <ArrowUpRight size={17} />
             </a>
-            <a className={styles.secondaryAction} href={buildIssueUrl('New roadmap proposal', 'Community proposal')} target="_blank" rel="noopener noreferrer">
+            <button className={styles.secondaryAction} type="button" onClick={openNewSignal}>
               Propose a new idea
-            </a>
+            </button>
             <Link className={styles.secondaryAction} href="/feature-atlas">
               Explore feature dependencies
               <ArrowUpRight size={17} />
@@ -734,7 +820,9 @@ export default function RoadmapClient() {
         </article>
       </section>
 
-      <section className={`${styles.section} ${styles.workspaceSection}`} id="workspace">
+      <details className={styles.lowerPriorityDisclosure} id="workspace">
+        <summary><span>Explore the adaptive workspace</span><small>Optional product demonstrator, collapsed to keep community signals first.</small></summary>
+      <section className={`${styles.section} ${styles.workspaceSection}`}>
         <div className={styles.sectionHead}>
           <div>
             <span className={styles.sectionLabel}>Adaptive workspace</span>
@@ -793,7 +881,10 @@ export default function RoadmapClient() {
           </div>
         </div>
       </section>
+      </details>
 
+      <details className={styles.lowerPriorityDisclosure} id="impact-map">
+        <summary><span>Review delivered releases and impact evidence</span><small>Version history and the full release-impact map.</small></summary>
       <section className={styles.section} id="now">
         <div className={styles.sectionHead}>
           <div>
@@ -848,23 +939,79 @@ export default function RoadmapClient() {
         ))}
       </section>
 
-      <section className={styles.section} id="impact-map">
+      <section className={styles.section}>
         <ReleaseImpactMap />
       </section>
+      </details>
 
       <section className={styles.section} id="candidates">
         <div className={styles.sectionHead}>
           <div>
             <span className={styles.sectionLabel}>Feature radar</span>
-            <h2>Potential evolutions the community can rank</h2>
+            <h2>Potential evolutions ready for a structured signal</h2>
           </div>
           <p>
-            Candidate review records the workflow, expected evidence, acceptable limits and the current implementation gap in addition to the vote count.
+            Candidate review records the workflow, expected evidence, acceptable limits and the current implementation gap. No popularity or endorsement count is inferred.
           </p>
         </div>
 
-        <div className={styles.candidateGrid}>
-          {candidateFeatures.map((feature, index) => (
+        <div className={styles.candidateControls}>
+          <label className={styles.candidateSearch}>
+            <span>Search candidates</span>
+            <div>
+              <Search size={17} aria-hidden="true" />
+              <input
+                type="search"
+                value={candidateSearch}
+                onChange={(event) => setCandidateSearch(event.target.value)}
+                placeholder="Search title, evidence need or risk"
+              />
+            </div>
+          </label>
+          <label>
+            <span>Track</span>
+            <select value={candidateTrack} onChange={(event) => setCandidateTrack(event.target.value)}>
+              <option value="all">All tracks</option>
+              {candidateTracks.map((track) => <option value={track} key={track}>{track}</option>)}
+            </select>
+          </label>
+          <label>
+            <span>Implementation state</span>
+            <select
+              value={candidateState}
+              onChange={(event) => setCandidateState(event.target.value as 'all' | CandidateImplementationState)}
+            >
+              <option value="all">All states</option>
+              {(Object.keys(candidateStateLabels) as CandidateImplementationState[]).map((state) => (
+                <option value={state} key={state}>{candidateStateLabels[state]}</option>
+              ))}
+            </select>
+          </label>
+          <div className={styles.candidateControlActions}>
+            <span role="status" aria-live="polite">
+              {filteredCandidateFeatures.length} of {candidateFeatures.length} candidates
+            </span>
+            <button type="button" onClick={clearCandidateFilters} disabled={!filtersActive}>Clear filters</button>
+            {hasSavedSignalDraft ? (
+              <button type="button" className={styles.resumeDraftButton} onClick={resumeSignal}>Resume local draft</button>
+            ) : null}
+          </div>
+        </div>
+
+        {candidateFeatures.length === 0 ? (
+          <div className={styles.candidateEmptyState}>
+            <h3>No candidate data is available</h3>
+            <p>The roadmap catalogue could not provide candidate records.</p>
+          </div>
+        ) : filteredCandidateFeatures.length === 0 ? (
+          <div className={styles.candidateEmptyState}>
+            <h3>No candidates match these filters</h3>
+            <p>Clear the filters or search for a different evidence need.</p>
+            <button type="button" onClick={clearCandidateFilters}>Reset candidate view</button>
+          </div>
+        ) : (
+          <div className={styles.candidateGrid}>
+          {filteredCandidateFeatures.map((feature, index) => (
             <article
               className={styles.candidateCard}
               key={feature.title}
@@ -872,7 +1019,7 @@ export default function RoadmapClient() {
             >
               <div className={styles.candidateTop}>
                 <span>{feature.track}</span>
-                <b>{feature.status}</b>
+                <b>{candidateStateLabels[getCandidateImplementationState(feature.status)]} · {feature.status}</b>
               </div>
               <h3>{feature.title}</h3>
               <p>{feature.body}</p>
@@ -880,13 +1027,14 @@ export default function RoadmapClient() {
                 <strong>Watch point</strong>
                 <span>{feature.risk}</span>
               </div>
-              <a className={styles.signalLink} href={buildIssueUrl(feature.title, feature.track)} target="_blank" rel="noopener noreferrer">
+              <button className={styles.signalLink} type="button" onClick={() => openCandidateSignal(feature.title, feature.track)}>
                 Signal interest
-                <ArrowUpRight size={15} />
-              </a>
+                <ChevronRight size={15} />
+              </button>
             </article>
           ))}
-        </div>
+          </div>
+        )}
       </section>
 
       <section className={styles.methodSection} id="method">
@@ -931,10 +1079,10 @@ export default function RoadmapClient() {
             The most useful feedback is specific: the role you have, the decision you need to make, the evidence you trust, and the level of detail you expect.
           </p>
         </div>
-        <a className={styles.primaryAction} href={buildIssueUrl('New roadmap proposal', 'Community proposal')} target="_blank" rel="noopener noreferrer">
+        <button className={styles.primaryAction} type="button" onClick={openNewSignal}>
           Open a roadmap proposal
-          <ArrowUpRight size={17} />
-        </a>
+          <ChevronRight size={17} />
+        </button>
       </section>
 
       <section className={styles.footer} aria-label="Roadmap boundary and local links">
@@ -949,6 +1097,12 @@ export default function RoadmapClient() {
       </section>
       <Footer lang="en" />
       </main>
+      <RoadmapSignalComposer
+        request={composerRequest}
+        tracks={candidateTracks}
+        onClose={closeSignalComposer}
+        onDraftAvailabilityChange={updateDraftAvailability}
+      />
     </>
   );
 }

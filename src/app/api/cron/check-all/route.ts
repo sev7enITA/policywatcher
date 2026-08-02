@@ -13,6 +13,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { createHash } from 'node:crypto';
 import { db } from '@/lib/db';
 import { scrapePolicyText, type ScrapeDiagnostic, type ScrapeResult } from '@/lib/scraper';
 import { analyzePolicyChange } from '@/lib/gemini';
@@ -37,6 +38,7 @@ import {
   buildAcquisitionKey,
   emptyRetrievalMetrics,
   recordRetrievalDiagnostics,
+  sanitizeAcquisitionUrlForLog,
   suggestedSourceAction,
   terminalRetrievalCause,
   type RetrievalMetrics,
@@ -56,6 +58,7 @@ interface CheckDetail {
   policyId: string;
   company: string;
   policy: string;
+  jurisdiction?: string;
   status:
     | 'unchanged'
     | 'changed'
@@ -71,8 +74,10 @@ interface CheckDetail {
   transportLabel?: string;
   diagnostics?: ScrapeDiagnostic[];
   retrievalKey?: string;
+  retrievalKeyId?: string;
   sourceRetrievalId?: string;
   cacheHit?: boolean;
+  acquisitionMode?: 'network' | 'deduplicated';
 }
 
 /** Result shape returned by runFullScan(). */
@@ -99,16 +104,23 @@ export interface ScanProgress {
   current: number;
   company?: string;
   policy?: string;
+  jurisdiction?: string;
   status?: string;
   source?: string;
   runtime?: RetrievalRuntime;
   transportLabel?: string;
   diagnostics?: ScrapeDiagnostic[];
+  retrievalKeyId?: string;
+  acquisitionMode?: 'network' | 'deduplicated';
   message: string;
 }
 
 /** Callback for real-time progress tracking. */
 export type ProgressCallback = (progress: ScanProgress) => void;
+
+function retrievalKeyFingerprint(retrievalKey: string): string {
+  return createHash('sha256').update(retrievalKey).digest('hex').slice(0, 12);
+}
 
 function getRetrievalRuntime(source: string | null | undefined): RetrievalRuntime {
   const normalized = (source || '').toLowerCase();
@@ -454,6 +466,7 @@ export async function runFullScan(
       policyId: policy.id,
       company: policy.company.name,
       policy: policy.name,
+      jurisdiction: policy.jurisdiction,
       status: 'unchanged',
     };
 
@@ -464,7 +477,8 @@ export async function runFullScan(
         current: checked,
         company: policy.company.name,
         policy: policy.name,
-        message: `Scraping ${policy.company.name} - ${policy.name}...`,
+        jurisdiction: policy.jurisdiction,
+        message: `Preparing ${policy.company.name} - ${policy.name} (${policy.jurisdiction})...`,
       });
 
       // Scrape current policy text (hardened: never fabricates).
@@ -478,9 +492,33 @@ export async function runFullScan(
       const hasPublicBaseline = policy.snapshots.some((snapshot) => snapshot.publicEvidence);
       const requestedUrl = policy.retrievalUrl || policy.url;
       const retrievalKey = buildAcquisitionKey(requestedUrl);
+      const retrievalKeyId = retrievalKeyFingerprint(retrievalKey);
+      const safeSourceLabel = sanitizeAcquisitionUrlForLog(requestedUrl);
       const acquisitionGroup = acquisitionGroups.get(retrievalKey)!;
       let retrievalPromise = retrievalCache.get(retrievalKey);
       const cacheHit = Boolean(retrievalPromise);
+      const acquisitionMode = cacheHit ? 'deduplicated' : 'network';
+      const acquisitionMarker = `[${cacheHit ? 'cached/deduplicated' : 'network'}] [acq:${retrievalKeyId}]`;
+
+      onProgress?.({
+        phase: 'policy_start',
+        total: policies.length,
+        current: checked,
+        company: policy.company.name,
+        policy: policy.name,
+        jurisdiction: policy.jurisdiction,
+        retrievalKeyId,
+        acquisitionMode,
+        message: cacheHit
+          ? `Reusing ${safeSourceLabel} for ${policy.company.name} - ${policy.name} ${acquisitionMarker}`
+          : `Fetching ${safeSourceLabel} for ${policy.company.name} - ${policy.name} ${acquisitionMarker}`,
+      });
+
+      console.log(
+        `[Cron] Acquisition ${retrievalKeyId} ${acquisitionMode}: ` +
+        `${policy.company.name} / ${policy.name} / ${policy.jurisdiction} (${safeSourceLabel})`
+      );
+
       if (!retrievalPromise) {
         retrievalPromise = (async () => {
           const currentHost = hostnameOf(requestedUrl);
@@ -494,7 +532,10 @@ export async function runFullScan(
                 current: checked,
                 company: policy.company.name,
                 policy: policy.name,
-                message: `Per-host pacing before another ${currentHost} request...`,
+                jurisdiction: policy.jurisdiction,
+                retrievalKeyId,
+                acquisitionMode,
+                message: `Per-host pacing before another ${currentHost} request ${acquisitionMarker}`,
               });
               await sleep(remainingDelay);
             }
@@ -534,8 +575,10 @@ export async function runFullScan(
       const diagnostics = scrapeResult.diagnostics || [];
       detail.diagnostics = diagnostics;
       detail.retrievalKey = retrievalKey;
+      detail.retrievalKeyId = retrievalKeyId;
       detail.sourceRetrievalId = persistedRetrieval.sourceRetrievalId;
       detail.cacheHit = cacheHit;
+      detail.acquisitionMode = acquisitionMode;
 
       if (scrapeResult.status !== 'ok') {
         // Page unreachable or unusable. Record it honestly: do NOT

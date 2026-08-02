@@ -10,7 +10,7 @@ export function GET() {
       title: 'PolicyWatcher Evidence Newsroom releases',
       home_page_url: `${POLICYWATCHER_CANONICAL_ORIGIN}/press-kit/releases`,
       feed_url: `${POLICYWATCHER_CANONICAL_ORIGIN}/press-kit/feed.json`,
-      description: 'Dated PolicyWatcher product, methodology and distribution releases with stated boundaries.',
+      description: 'Dated PolicyWatcher product, methodology, confidence and distribution releases with stated boundaries.',
       language: 'en',
       authors: [{ name: 'PolicyWatcher', url: POLICYWATCHER_CANONICAL_ORIGIN }],
       items: pressKitReleases.map((release) => ({

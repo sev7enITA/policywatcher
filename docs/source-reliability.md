@@ -53,7 +53,15 @@ The script writes an administrative review-log entry when that table is availabl
 - `uniqueRetrievalKeys` counts normalized acquisitions required for the selected inventory.
 - `networkRetrievals` counts actual scraper cascade executions.
 - `deduplicatedRetrievals` counts policy acquisitions served from the scan-local shared result.
+- `retrievalKeyId` is a 12-character SHA-256 fingerprint for correlating progress and protected detail records without printing the raw key into logs.
+- `acquisitionMode` reports `network` for the first acquisition and `deduplicated` when a policy reuses that scan-local result.
 - `SourceRemediationIssue` groups repeated failures by retrieval key and moves to `Open` after the configured consecutive-failure threshold.
 - `HistoricalSourceReference` documents an older archive candidate separately from change evidence.
 
 Do not resolve a remediation issue merely because an alternate page is reachable. Confirm that it is an official policy source, configure it as an optional retrieval URL when appropriate, and run a new scan so the evidence gate can evaluate the content.
+
+Acquisition-key normalization removes recognized campaign parameters such as
+`utm_*`, `gclid` and `fbclid`, but preserves semantic query selectors,
+fragments and regional paths. Consequently, the Revolut EU path
+`/legal/privacy` and UK path `/en-GB/legal/privacy` intentionally remain two
+retrievals. URL labels in logs exclude credentials, query values and fragments.

@@ -35,6 +35,7 @@ import {
   Newspaper,
   Activity,
   Webhook,
+  ScanSearch,
 } from 'lucide-react';
 import styles from './admin.module.css';
 import { AdminPageGuide } from '@/components/admin/AdminPageGuide';
@@ -88,6 +89,12 @@ const NAV_ITEMS: NavItem[] = [
     label: 'Database',
     href: '/admin/database',
     icon: <Database size={18} />,
+    section: 'Assure',
+  },
+  {
+    label: 'Production Verification',
+    href: '/admin/production-verification',
+    icon: <ScanSearch size={18} />,
     section: 'Assure',
   },
   {

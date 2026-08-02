@@ -48,6 +48,24 @@ export interface RetrievalMetrics {
   strategies: Record<string, StrategyMetric>;
 }
 
+const NON_SEMANTIC_QUERY_PARAMETERS = new Set([
+  '_hsenc',
+  '_hsmi',
+  'dclid',
+  'fbclid',
+  'gclid',
+  'mc_cid',
+  'mc_eid',
+  'msclkid',
+  'vero_id',
+  'wickedid',
+]);
+
+function isNonSemanticQueryParameter(key: string): boolean {
+  const normalized = key.toLowerCase();
+  return normalized.startsWith('utm_') || NON_SEMANTIC_QUERY_PARAMETERS.has(normalized);
+}
+
 export function normalizeAcquisitionUrl(value: string): string {
   try {
     const url = new URL(value.trim());
@@ -58,9 +76,11 @@ export function normalizeAcquisitionUrl(value: string): string {
     }
     url.pathname = url.pathname.replace(/\/{2,}/g, '/');
     if (url.pathname !== '/') url.pathname = url.pathname.replace(/\/+$/, '');
-    const sorted = [...url.searchParams.entries()].sort(([aKey, aValue], [bKey, bValue]) =>
-      aKey.localeCompare(bKey) || aValue.localeCompare(bValue)
-    );
+    const sorted = [...url.searchParams.entries()]
+      .filter(([key]) => !isNonSemanticQueryParameter(key))
+      .sort(([aKey, aValue], [bKey, bValue]) =>
+        aKey.localeCompare(bKey) || aValue.localeCompare(bValue)
+      );
     url.search = '';
     for (const [key, item] of sorted) url.searchParams.append(key, item);
     return url.toString();
@@ -71,6 +91,23 @@ export function normalizeAcquisitionUrl(value: string): string {
 
 export function buildAcquisitionKey(value: string): string {
   return normalizeAcquisitionUrl(value);
+}
+
+/**
+ * Produces a query-free URL label that is safe to include in operator logs.
+ * Retrieval keys remain available in the authenticated scan response, while
+ * logs expose neither credentials nor potentially sensitive query values.
+ */
+export function sanitizeAcquisitionUrlForLog(value: string): string {
+  try {
+    const url = new URL(value.trim());
+    const pathname = url.pathname.length > 180
+      ? `${url.pathname.slice(0, 177)}...`
+      : url.pathname;
+    return `${url.protocol}//${url.hostname}${url.port ? `:${url.port}` : ''}${pathname}`;
+  } catch {
+    return '[invalid-url]';
+  }
 }
 
 export function classifyRetrievalCause(input: DiagnosticLike): RetrievalCause {

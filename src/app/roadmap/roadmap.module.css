@@ -17,11 +17,7 @@
   --road-ui-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   min-height: 100vh;
   padding: 24px;
-  background:
-    linear-gradient(90deg, rgba(16, 23, 41, 0.04) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(16, 23, 41, 0.04) 1px, transparent 1px),
-    var(--road-bg);
-  background-size: 46px 46px;
+  background: var(--road-bg);
   color: var(--road-text);
 }
 
@@ -125,7 +121,7 @@
   bottom: 34px;
   width: 38%;
   height: 7px;
-  background: linear-gradient(90deg, var(--road-teal), var(--road-blue), var(--road-violet), var(--road-amber));
+  background: var(--road-blue);
   border-radius: 8px 0 0 8px;
 }
 
@@ -199,6 +195,8 @@
   font-size: 0.95rem;
   font-weight: 700;
   text-decoration: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
 }
 
 .primaryAction {
@@ -225,10 +223,7 @@
   display: grid;
   grid-template-rows: auto 1fr auto;
   overflow: hidden;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 18px),
-    linear-gradient(45deg, rgba(94, 234, 212, 0.07), transparent 54%),
-    #101729;
+  background: #101729;
   color: #ffffff;
 }
 
@@ -278,7 +273,7 @@
 }
 
 .graphRoute {
-  stroke: url('#roadmapRoute');
+  stroke: #60a5fa;
   stroke-width: 8;
   filter: drop-shadow(0 0 14px rgba(96, 165, 250, 0.42));
 }
@@ -388,6 +383,57 @@
   padding: clamp(24px, 4vw, 42px);
 }
 
+.lowerPriorityDisclosure {
+  width: min(1320px, 100%);
+  margin: 0 auto 18px;
+  overflow: hidden;
+  border: 1px solid var(--road-line);
+  border-radius: 8px;
+  background: var(--road-panel);
+  box-shadow: 0 8px 20px rgba(18, 24, 38, 0.07);
+  scroll-margin-top: 112px;
+}
+
+.lowerPriorityDisclosure > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 68px;
+  padding: 12px 18px;
+  color: var(--road-text);
+  cursor: pointer;
+}
+
+.lowerPriorityDisclosure > summary span {
+  font-size: 0.92rem;
+  font-weight: 750;
+}
+
+.lowerPriorityDisclosure > summary small {
+  color: var(--road-muted);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  text-align: right;
+}
+
+.lowerPriorityDisclosure > summary:focus-visible {
+  outline: 3px solid rgba(80, 103, 246, 0.28);
+  outline-offset: -3px;
+}
+
+.lowerPriorityDisclosure[open] > summary {
+  border-bottom: 1px solid var(--road-line);
+}
+
+.lowerPriorityDisclosure > .section {
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 .sectionHead {
   display: grid;
   grid-template-columns: minmax(280px, 0.88fr) minmax(300px, 1fr);
@@ -419,22 +465,7 @@
   width: min(1780px, 100%);
   scroll-margin-top: 112px;
   overflow: hidden;
-  background:
-    linear-gradient(120deg, rgba(255, 253, 247, 0.98), rgba(247, 251, 255, 0.96)),
-    radial-gradient(circle at 8% 16%, rgba(94, 234, 212, 0.16), transparent 30%),
-    radial-gradient(circle at 92% 10%, rgba(80, 103, 246, 0.1), transparent 28%);
-}
-
-.workspaceSection::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(16, 23, 41, 0.035) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(16, 23, 41, 0.035) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.72), transparent 82%);
+  background: var(--road-panel);
 }
 
 .workspaceSection > * {
@@ -591,7 +622,7 @@
 
 .depthButtonActive {
   border-color: var(--road-blue);
-  background: linear-gradient(135deg, var(--road-blue), #6f7cff);
+  background: var(--road-blue);
   color: #ffffff;
   box-shadow: 0 12px 22px rgba(80, 103, 246, 0.24);
 }
@@ -619,9 +650,7 @@
   padding: clamp(16px, 2vw, 24px);
   border: 1px solid color-mix(in srgb, var(--goal-accent, var(--road-blue)) 44%, var(--road-line));
   border-radius: 8px;
-  background:
-    linear-gradient(180deg, #ffffff, color-mix(in srgb, var(--goal-accent, var(--road-blue)) 5%, #ffffff)),
-    #ffffff;
+  background: #ffffff;
   overflow: hidden;
 }
 
@@ -711,7 +740,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, var(--goal-accent, var(--road-blue)), transparent);
+  background: var(--goal-accent, var(--road-blue));
   animation: evidencePulse 2.8s ease-in-out infinite;
 }
 
@@ -914,6 +943,127 @@
   gap: 16px;
 }
 
+.candidateControls {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.6fr) minmax(170px, 0.7fr) minmax(190px, 0.8fr);
+  gap: 14px;
+  margin-bottom: 22px;
+  padding: 18px;
+  border: 1px solid var(--road-line);
+  border-radius: 8px;
+  background: var(--road-panel-2);
+}
+
+.candidateControls label {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  color: var(--road-text);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.candidateControls input,
+.candidateControls select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--road-line-strong);
+  border-radius: 7px;
+  background: #ffffff;
+  color: var(--road-text);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 550;
+}
+
+.candidateSearch div {
+  position: relative;
+}
+
+.candidateSearch svg {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  color: var(--road-muted);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.candidateSearch input {
+  padding-left: 38px;
+}
+
+.candidateControls input:focus-visible,
+.candidateControls select:focus-visible,
+.candidateControls button:focus-visible,
+.candidateEmptyState button:focus-visible,
+.composerDialog :is(button, a, input, textarea):focus-visible {
+  outline: 3px solid rgba(80, 103, 246, 0.28);
+  outline-offset: 2px;
+  border-color: var(--road-blue);
+}
+
+.candidateControlActions {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  min-width: 0;
+}
+
+.candidateControlActions > span {
+  margin-right: auto;
+  color: var(--road-muted);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.candidateControlActions button,
+.candidateEmptyState button {
+  min-height: 44px;
+  padding: 9px 13px;
+  border: 1px solid var(--road-line-strong);
+  border-radius: 7px;
+  background: #ffffff;
+  color: var(--road-text);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.candidateControlActions button:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.candidateControlActions .resumeDraftButton {
+  border-color: #2737a8;
+  background: var(--road-blue);
+  color: #ffffff;
+}
+
+.candidateEmptyState {
+  padding: 42px 24px;
+  border: 1px dashed var(--road-line-strong);
+  border-radius: 8px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.candidateEmptyState h3 {
+  margin: 0;
+  color: var(--road-text);
+  font-size: 1.25rem;
+}
+
+.candidateEmptyState p {
+  margin: 8px auto 18px;
+  color: var(--road-muted);
+}
+
 .candidateCard {
   display: flex;
   min-height: 350px;
@@ -964,9 +1114,13 @@
   padding: 9px 11px;
   border: 1px solid var(--road-line-strong);
   border-radius: 7px;
+  background: #ffffff;
   color: var(--road-text);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
   font-weight: 700;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .signalLink:hover {
@@ -1044,6 +1198,496 @@
   color: var(--road-blue);
 }
 
+.composerOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(10, 17, 32, 0.72);
+}
+
+.composerDialog {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  width: min(980px, 100%);
+  max-height: min(900px, calc(100dvh - 40px));
+  overflow: hidden;
+  border: 1px solid #b9c5d6;
+  border-radius: 12px;
+  background: #fffdf7;
+  color: #101729;
+  box-shadow: 0 28px 80px rgba(10, 17, 32, 0.34);
+  font-family: var(--font-sans);
+}
+
+.composerHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 24px 20px;
+  border-bottom: 1px solid #d9e0eb;
+  background: #101729;
+  color: #ffffff;
+}
+
+.composerHeader > div {
+  min-width: 0;
+}
+
+.composerKicker {
+  color: #9ee7d8;
+  font-size: 0.74rem;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.composerHeader h2 {
+  margin: 7px 0 8px;
+  color: #ffffff;
+  font-size: clamp(1.55rem, 3vw, 2.35rem);
+  line-height: 1.05;
+}
+
+.composerHeader p {
+  max-width: 720px;
+  margin: 0;
+  color: #ccd5e4;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.composerClose {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.composerSteps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 0 24px;
+  border-bottom: 1px solid #d9e0eb;
+  background: #f9fbff;
+}
+
+.composerSteps button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 54px;
+  padding: 8px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: #64708a;
+  font: inherit;
+  font-size: 0.83rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.composerSteps button > span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #b9c5d6;
+  border-radius: 50%;
+  background: #ffffff;
+  font-size: 0.72rem;
+}
+
+.composerSteps button:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.composerSteps .composerStepCurrent {
+  border-bottom-color: #5067f6;
+  color: #2737a8;
+}
+
+.composerSteps .composerStepCurrent > span {
+  border-color: #5067f6;
+  background: #5067f6;
+  color: #ffffff;
+}
+
+.composerBody {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 22px 24px 26px;
+  overscroll-behavior: contain;
+}
+
+.composerLocalNotice,
+.validationSummary {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-bottom: 18px;
+  padding: 11px 13px;
+  border: 1px solid #b9c5d6;
+  border-radius: 8px;
+  background: #f9fbff;
+  color: #4d5b74;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.composerLocalNotice svg {
+  flex: 0 0 auto;
+  color: #087f5b;
+}
+
+.validationSummary {
+  border-color: #e4af56;
+  background: #fff8e8;
+  color: #744400;
+  font-weight: 700;
+}
+
+.composerPanel,
+.composerReview {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.68fr) minmax(0, 1.32fr);
+  gap: 30px;
+}
+
+.composerReview {
+  grid-template-columns: 1fr;
+}
+
+.composerPanelHeading > span {
+  color: #5067f6;
+  font-size: 0.74rem;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.composerPanelHeading h3 {
+  margin: 8px 0 10px;
+  color: #101729;
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  line-height: 1.08;
+}
+
+.composerPanelHeading p {
+  margin: 0;
+  color: #64708a;
+  line-height: 1.55;
+}
+
+.composerFields {
+  display: grid;
+  gap: 17px;
+  min-width: 0;
+}
+
+.composerField {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  color: #26324a;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.composerField > span:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.fieldCounter {
+  color: #64708a;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.composerField input,
+.composerField textarea,
+.proposalPreview textarea {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #b9c5d6;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #101729;
+  font: inherit;
+  font-size: 0.94rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.composerField input {
+  min-height: 46px;
+  padding: 10px 12px;
+}
+
+.composerField textarea {
+  min-height: 116px;
+  padding: 11px 12px;
+  resize: vertical;
+}
+
+.composerField [aria-invalid='true'],
+.depthChoice[aria-invalid='true'] {
+  border-color: #b9342b;
+}
+
+.fieldError {
+  color: #a12821;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.depthChoice {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.depthChoice legend {
+  margin-bottom: 9px;
+  color: #26324a;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.depthChoice > div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+}
+
+.depthChoice label {
+  position: relative;
+  min-width: 0;
+}
+
+.depthChoice input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.depthChoice label span {
+  display: grid;
+  place-items: center;
+  min-height: 48px;
+  padding: 8px;
+  border: 1px solid #b9c5d6;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #4d5b74;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.depthChoice input:checked + span {
+  border-color: #5067f6;
+  background: #eef2ff;
+  color: #2737a8;
+}
+
+.depthChoice input:focus-visible + span {
+  outline: 3px solid rgba(80, 103, 246, 0.28);
+  outline-offset: 2px;
+}
+
+.dossierRail {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  overflow: hidden;
+  border: 1px solid #b9c5d6;
+  border-radius: 8px;
+  background: #f9fbff;
+}
+
+.dossierRail > div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 58px;
+  padding: 10px 20px;
+  color: #26324a;
+}
+
+.dossierRail > div > span {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #087f5b;
+  color: #ffffff;
+}
+
+.dossierRail > div > svg {
+  position: absolute;
+  right: -8px;
+  z-index: 1;
+  color: #8a97ab;
+}
+
+.reviewSummary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid #d9e0eb;
+  border-radius: 8px;
+  background: #d9e0eb;
+}
+
+.reviewSummary > div {
+  min-width: 0;
+  padding: 13px;
+  background: #ffffff;
+}
+
+.reviewSummary dt {
+  color: #64708a;
+  font-size: 0.72rem;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.reviewSummary dd {
+  margin: 5px 0 0;
+  color: #26324a;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.reviewSummary .reviewWide {
+  grid-column: 1 / -1;
+}
+
+.proposalPreview {
+  display: grid;
+  gap: 8px;
+  color: #26324a;
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
+.proposalPreview textarea {
+  min-height: 230px;
+  padding: 12px;
+  resize: vertical;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 500;
+}
+
+.githubBoundary {
+  margin: 0;
+  color: #64708a;
+  font-size: 0.82rem;
+}
+
+.composerFooter {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 76px;
+  padding: 14px 24px;
+  border-top: 1px solid #d9e0eb;
+  background: #fffdf7;
+}
+
+.deleteDraftArea {
+  min-width: 0;
+  margin-right: auto;
+}
+
+.deleteDraftButton,
+.composerBack,
+.composerCopy,
+.composerNext,
+.deleteConfirm button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 9px 13px;
+  border: 1px solid #b9c5d6;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #26324a;
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.deleteDraftButton {
+  border-color: transparent;
+  background: transparent;
+  color: #8b2e27;
+}
+
+.composerActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+}
+
+.composerNext {
+  border-color: #2737a8;
+  background: #5067f6;
+  color: #ffffff;
+}
+
+.deleteConfirm {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #8b2e27;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.deleteConfirm button:last-child {
+  border-color: #b9342b;
+  color: #a12821;
+}
+
+.composerLiveStatus {
+  position: absolute;
+  right: 24px;
+  bottom: 2px;
+  color: #087f5b;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
 @keyframes candidateRise {
   from {
     opacity: 0;
@@ -1094,6 +1738,14 @@
 
   .candidateGrid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .candidateControls {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .candidateSearch {
+    grid-column: 1 / -1;
   }
 }
 
@@ -1148,7 +1800,7 @@
   }
 
   .depthLine::after {
-    background: linear-gradient(180deg, transparent, var(--goal-accent, var(--road-blue)), transparent);
+    background: var(--goal-accent, var(--road-blue));
   }
 
   .selectedGoalCard h3 {
@@ -1163,6 +1815,129 @@
 
   .footer div {
     flex-wrap: wrap;
+  }
+
+  .candidateControls {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  .candidateSearch,
+  .candidateControlActions {
+    grid-column: auto;
+  }
+
+  .candidateControlActions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .candidateControlActions > span {
+    margin-right: 0;
+  }
+
+  .composerOverlay {
+    place-items: end center;
+    padding: 0;
+  }
+
+  .composerDialog {
+    width: 100%;
+    max-height: 96dvh;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .composerHeader {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .composerHeader p {
+    font-size: 0.82rem;
+  }
+
+  .composerSteps {
+    padding: 0 8px;
+  }
+
+  .composerSteps button {
+    min-width: 0;
+    min-height: 52px;
+    gap: 5px;
+    padding: 6px 3px;
+    font-size: 0.72rem;
+  }
+
+  .composerSteps button > span {
+    width: 21px;
+    height: 21px;
+  }
+
+  .composerBody {
+    padding: 16px 16px 22px;
+  }
+
+  .composerPanel {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .depthChoice > div,
+  .reviewSummary,
+  .dossierRail {
+    grid-template-columns: 1fr;
+  }
+
+  .dossierRail > div {
+    min-height: 48px;
+    padding: 8px 13px;
+  }
+
+  .dossierRail > div > svg {
+    right: auto;
+    bottom: -9px;
+    left: 18px;
+    transform: rotate(90deg);
+  }
+
+  .reviewSummary .reviewWide {
+    grid-column: auto;
+  }
+
+  .composerFooter {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 16px calc(12px + env(safe-area-inset-bottom));
+  }
+
+  .deleteDraftArea {
+    margin-right: 0;
+  }
+
+  .deleteDraftButton {
+    width: 100%;
+  }
+
+  .deleteConfirm {
+    flex-wrap: wrap;
+  }
+
+  .composerActions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .composerActions > * {
+    width: 100%;
+  }
+
+  .composerLiveStatus {
+    position: static;
+    min-height: 16px;
   }
 }
 

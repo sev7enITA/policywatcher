@@ -81,7 +81,7 @@ export interface PressKitRelease {
   datePublished: string;
   dateModified: string;
   status: 'current' | 'archived';
-  category: 'product' | 'methodology' | 'distribution';
+  category: 'product' | 'methodology' | 'distribution' | 'confidence';
   title: PressKitLocalized;
   summary: PressKitLocalized;
   changes: PressKitLocalized[];
@@ -225,7 +225,7 @@ export const pressKitClaims: PressKitClaim[] = [
     type: 'freshness',
     proofHref: '/timeline',
     proofLabel: { en: 'Policy timeline', it: 'Timeline policy' },
-    boundary: { en: 'Release metadata is dated 1 August 2026; update intervals depend on source retrieval and review.', it: 'I metadata di release sono datati 1 agosto 2026; gli intervalli di aggiornamento dipendono dal recupero e dalla revisione delle fonti.' },
+    boundary: { en: 'Release metadata is dated 2 August 2026; update intervals depend on source retrieval and review.', it: 'I metadata di release sono datati 2 agosto 2026; gli intervalli di aggiornamento dipendono dal recupero e dalla revisione delle fonti.' },
     asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
     reviewCadence: { en: 'Each source-screening release', it: 'Ogni release di screening fonti' }, recordStatus: 'current', permalink: '/press-kit#claim-source-timestamps',
   },
@@ -531,12 +531,112 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'enterprise-agent-contract-evidence-3-9-0-beta-30',
+    slug: 'resource-navigation-retrieval-diagnostics-3-9-0-beta-37',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'product',
+    title: { en: 'Resource Navigation and Retrieval Diagnostics', it: 'Navigazione risorse e diagnostica retrieval' },
+    summary: { en: 'Groups the public resource directory and makes shared retrieval behavior inspectable without adding WAF-evasion techniques.', it: 'Raggruppa il catalogo pubblico delle risorse e rende ispezionabile il comportamento dei retrieval condivisi senza aggiungere tecniche di elusione WAF.' },
+    changes: [
+      { en: 'The footer preserves all public destinations in four Explore, Product, Build and Media groups with responsive native disclosures.', it: 'Il footer preserva tutte le destinazioni pubbliche in quattro gruppi Explore, Product, Build e Media con disclosure native responsive.' },
+      { en: 'Protected scans expose safe acquisition fingerprints and explicit network or cached/deduplicated modes while log URLs omit credentials and query values.', it: 'Le scansioni protette espongono fingerprint sicuri delle acquisizioni e modalita network o cached/deduplicated esplicite, mentre gli URL nei log omettono credenziali e valori query.' },
+      { en: 'Renderer 1.2 uses its bundled Chromium User-Agent by default and reports authenticated browser-major and override-mode diagnostics.', it: 'Renderer 1.2 usa per default lo User-Agent del Chromium incluso e riporta diagnostica autenticata sulla versione major e sulla modalita override.' },
+    ],
+    boundaries: [
+      { en: 'Different regional policy paths remain separate acquisitions even when they belong to the same brand.', it: 'Percorsi policy regionali differenti restano acquisizioni separate anche quando appartengono allo stesso brand.' },
+      { en: 'No stealth plugin, CAPTCHA bypass or WAF-evasion behavior is included.', it: 'Non sono inclusi plugin stealth, bypass CAPTCHA o comportamenti di elusione WAF.' },
+    ],
+    evidenceLinks: [
+      { href: '/admin/source-reliability', label: { en: 'Remediation workbench', it: 'Workbench remediation' } },
+      { href: '/developer', label: { en: 'Developer directory', it: 'Catalogo sviluppatori' } },
+      { href: '/feature-atlas', label: { en: 'Feature Atlas', it: 'Atlante funzionalita' } },
+    ],
+  },
+  {
+    slug: 'remediation-community-mutation-hardening-3-9-0-beta-36', version: '3.9.0-beta.36', displayVersion: '3.9.0 Beta 36', datePublished: '2026-08-02', dateModified: '2026-08-02', status: 'archived', category: 'confidence',
+    title: { en: 'Remediation UX, Community Signals and Mutation Hardening', it: 'UX di remediation, segnali community e hardening delle mutazioni' },
+    summary: { en: 'Completes two evidence-oriented UX waves and one centralized administrative mutation hardening wave.', it: 'Completa due wave UX orientate alle evidenze e una wave centralizzata di hardening delle mutazioni amministrative.' },
+    changes: [
+      { en: 'The protected remediation workbench prioritizes the returned issue window and allows closure only after acquisition recovery.', it: 'Il workbench protetto di remediation prioritizza la finestra restituita e consente la chiusura solo dopo il recupero dell acquisizione.' },
+      { en: 'The Roadmap Signal Composer keeps a bounded four-stage proposal draft in the browser until an explicit GitHub or copy action.', it: 'Il Composer dei segnali Roadmap mantiene una bozza limitata in quattro fasi nel browser fino a un azione GitHub o copia esplicita.' },
+      { en: 'Unsafe admin API requests now pass one origin, media-type, declared-size, rate and response-metadata boundary.', it: 'Le richieste API admin non sicure ora attraversano un unico confine per origine, media type, dimensione dichiarata, rate e metadati di risposta.' },
+    ],
+    boundaries: [
+      { en: 'Workflow closure is not proof of continuous source recovery, and the composer does not establish popularity or adoption.', it: 'La chiusura del workflow non prova il recupero continuo della fonte e il composer non stabilisce popolarita o adozione.' },
+      { en: 'Mutation hardening is not a pentest, CSRF certification, distributed rate limit or proof of proxy behavior.', it: 'L hardening delle mutazioni non e un pentest, una certificazione CSRF, un rate limit distribuito o prova del comportamento del proxy.' },
+    ],
+    evidenceLinks: [
+      { href: '/admin/source-reliability', label: { en: 'Remediation workbench', it: 'Workbench remediation' } },
+      { href: '/roadmap', label: { en: 'Community roadmap', it: 'Roadmap community' } },
+      { href: '/feature-atlas', label: { en: 'Feature Atlas', it: 'Atlante funzionalita' } },
+    ],
+  },
+  {
+    slug: 'community-signal-composer-3-9-0-beta-35', version: '3.9.0-beta.35', displayVersion: '3.9.0 Beta 35', datePublished: '2026-08-02', dateModified: '2026-08-02', status: 'archived', category: 'product',
+    title: { en: 'Community Signal Composer UX', it: 'UX del Composer segnali community' },
+    summary: { en: 'Turns roadmap interest into a bounded browser-local proposal reviewed before an explicit GitHub handoff.', it: 'Trasforma l interesse per la roadmap in una proposta limitata e locale nel browser, revisionata prima di un handoff GitHub esplicito.' },
+    changes: [{ en: 'Candidate filters, four review stages, strict local drafts and deterministic proposal generation replace direct prefilled vote links.', it: 'Filtri candidati, quattro fasi di revisione, bozze locali rigorose e generazione deterministica sostituiscono i link di voto precompilati.' }],
+    boundaries: [{ en: 'Draft contents are not sent automatically; GitHub permissions, review, acceptance and adoption remain external.', it: 'I contenuti della bozza non vengono inviati automaticamente; permessi GitHub, revisione, accettazione e adozione restano esterni.' }],
+    evidenceLinks: [{ href: '/roadmap', label: { en: 'Community roadmap', it: 'Roadmap community' } }],
+  },
+  {
+    slug: 'source-remediation-workbench-3-9-0-beta-34', version: '3.9.0-beta.34', displayVersion: '3.9.0 Beta 34', datePublished: '2026-08-02', dateModified: '2026-08-02', status: 'archived', category: 'product',
+    title: { en: 'Source Remediation Workbench UX', it: 'UX del Workbench di remediation fonti' },
+    summary: { en: 'Adds a returned-window priority sequence, bounded evidence ledger and recovery-gated closure for protected source operations.', it: 'Aggiunge una sequenza di priorita sulla finestra restituita, un ledger di evidenze limitato e la chiusura vincolata al recupero per le operazioni protette sulle fonti.' },
+    changes: [{ en: 'Search, status and reason filters, desktop and mobile evidence layouts, safe HTTPS references and a Detect to Close rail support review.', it: 'Ricerca, filtri per stato e motivo, layout evidenze desktop e mobile, riferimenti HTTPS sicuri e una rail da Detect a Close supportano la revisione.' }],
+    boundaries: [{ en: 'Resolved records describe workflow state only and do not prove source availability or measured usability improvement.', it: 'I record risolti descrivono solo lo stato del workflow e non provano disponibilita della fonte o miglioramenti di usabilita misurati.' }],
+    evidenceLinks: [{ href: '/admin/source-reliability', label: { en: 'Protected workbench', it: 'Workbench protetto' } }],
+  },
+  {
+    slug: 'production-assurance-renderer-hardening-3-9-0-beta-33',
+    version: '3.9.0-beta.33',
+    displayVersion: '3.9.0 Beta 33',
+    datePublished: '2026-08-02',
+    dateModified: '2026-08-02',
+    status: 'archived',
+    category: 'confidence',
+    title: { en: 'Production Assurance and Renderer Hardening', it: 'Assurance di produzione e hardening del renderer' },
+    summary: { en: 'Completes three roadmap waves with a residency evidence pack, authenticated deployment verification and fail-closed renderer controls.', it: 'Completa tre wave della roadmap con un evidence pack sulla residenza, verifica autenticata del deployment e controlli fail-closed del renderer.' },
+    changes: [
+      { en: 'A public residency register distinguishes documented, declared, deployment-dependent and open evidence.', it: 'Un registro pubblico sulla residenza distingue evidenze documentate, dichiarate, dipendenti dal deployment e aperte.' },
+      { en: 'A protected verification snapshot checks database readiness, release identity, live headers and anonymous rejection paths.', it: 'Uno snapshot protetto verifica readiness del database, identita della release, header live e rifiuto dei percorsi anonimi.' },
+      { en: 'Renderer 1.1 requires HTTPS target allowlists and adds secret rotation, authenticated readiness, bounded output and redacted logs.', it: 'Renderer 1.1 richiede allowlist HTTPS dei target e aggiunge rotazione dei secret, readiness autenticata, output limitato e log sanificati.' },
+    ],
+    boundaries: [
+      { en: 'The residency register is not a DPA or proof of the live deployment region.', it: 'Il registro sulla residenza non e un DPA ne prova della regione del deployment live.' },
+      { en: 'Production Verification is not a pentest, and renderer readiness is not a source or security certification.', it: 'Production Verification non e un pentest e la readiness del renderer non e una certificazione della fonte o di sicurezza.' },
+    ],
+    evidenceLinks: [
+      { href: '/trust/residency', label: { en: 'Residency evidence', it: 'Evidenze di residenza' } },
+      { href: '/admin/production-verification', label: { en: 'Protected verification', it: 'Verifica protetta' } },
+    ],
+  },
+  {
+    slug: 'authenticated-production-verification-3-9-0-beta-32', version: '3.9.0-beta.32', displayVersion: '3.9.0 Beta 32', datePublished: '2026-08-02', dateModified: '2026-08-02', status: 'archived', category: 'confidence',
+    title: { en: 'Authenticated Production Verification', it: 'Verifica autenticata della produzione' },
+    summary: { en: 'Adds a protected, sanitized post-deploy snapshot with explicit unavailable and external-evidence states.', it: 'Aggiunge uno snapshot post-deploy protetto e sanificato con stati unavailable ed evidenza esterna espliciti.' },
+    changes: [{ en: 'Admin and Auditor can inspect runtime, database, header, release and negative authorization checks.', it: 'Admin e Auditor possono ispezionare controlli su runtime, database, header, release e autorizzazione negativa.' }],
+    boundaries: [{ en: 'The snapshot is not an independent penetration test or continuous posture result.', it: 'Lo snapshot non e un penetration test indipendente ne un risultato continuo di postura.' }],
+    evidenceLinks: [{ href: '/admin/production-verification', label: { en: 'Protected verification', it: 'Verifica protetta' } }],
+  },
+  {
+    slug: 'residency-processor-evidence-3-9-0-beta-31', version: '3.9.0-beta.31', displayVersion: '3.9.0 Beta 31', datePublished: '2026-08-02', dateModified: '2026-08-02', status: 'archived', category: 'confidence',
+    title: { en: 'Residency and Processor Evidence', it: 'Evidenze di residenza e processor' },
+    summary: { en: 'Publishes a dated human and machine-readable register with record-level evidence states and open closure actions.', it: 'Pubblica un registro datato leggibile da persone e macchine con stati di evidenza per record e azioni aperte di chiusura.' },
+    changes: [{ en: 'Six processing and storage records link to four dated public references and a deterministic digest.', it: 'Sei record di trattamento e storage collegano quattro riferimenti pubblici datati e un digest deterministico.' }],
+    boundaries: [{ en: 'The register is not a DPA, transfer impact assessment or proof of live hosting and backup regions.', it: 'Il registro non e un DPA, una valutazione di impatto sui trasferimenti o prova delle regioni live di hosting e backup.' }],
+    evidenceLinks: [{ href: '/trust/residency', label: { en: 'Residency evidence', it: 'Evidenze di residenza' } }],
+  },
+  {
+    slug: 'enterprise-agent-contract-evidence-3-9-0-beta-30',
+    version: '3.9.0-beta.30',
+    displayVersion: '3.9.0 Beta 30',
+    datePublished: '2026-08-01',
+    dateModified: '2026-08-01',
+    status: 'archived',
     category: 'product',
     title: { en: 'Enterprise Agent and Contract Evidence Integration', it: 'Integrazione agent enterprise ed evidenze contrattuali' },
     summary: { en: 'Adds a cross-cloud public evidence contract, provider agent source packages and a Word task pane that keeps selected clause text local.', it: 'Aggiunge un contratto pubblico di evidenze cross-cloud, pacchetti sorgente per agent e un task pane Word che mantiene locale il testo della clausola selezionata.' },
@@ -1191,7 +1291,14 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
-  { id: 'enterprise-agent-contract-evidence-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Enterprise Agent and Contract Evidence Integration published', it: 'Pubblicata l integrazione agent enterprise ed evidenze contrattuali' }, detail: { en: 'The public agent gateway, three provider source packages and the Word evidence-mapping task pane now share one bounded public-evidence contract.', it: 'Il gateway agent pubblico, tre pacchetti sorgente provider e il task pane Word per la mappatura delle evidenze ora condividono un unico contratto circoscritto di evidenze pubbliche.' }, affectedHref: '/press-kit/releases/enterprise-agent-contract-evidence-3-9-0-beta-30' },
+  { id: 'resource-navigation-retrieval-diagnostics-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Resource Navigation and Retrieval Diagnostics published', it: 'Pubblicate navigazione risorse e diagnostica retrieval' }, detail: { en: 'The public footer now groups its complete destination set while protected scans and renderer readiness expose bounded acquisition diagnostics.', it: 'Il footer pubblico ora raggruppa il set completo di destinazioni, mentre scansioni protette e readiness del renderer espongono diagnostica limitata delle acquisizioni.' }, affectedHref: '/press-kit/releases/resource-navigation-retrieval-diagnostics-3-9-0-beta-37' },
+  { id: 'remediation-community-mutation-hardening-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Remediation UX, Community Signals and Mutation Hardening published', it: 'Pubblicati UX remediation, segnali community e hardening mutazioni' }, detail: { en: 'Three roadmap waves add an action-oriented remediation workbench, browser-local signal composer and centralized administrative mutation boundary.', it: 'Tre wave della roadmap aggiungono un workbench remediation orientato all azione, un composer locale nel browser e un confine centralizzato per le mutazioni amministrative.' }, affectedHref: '/press-kit/releases/remediation-community-mutation-hardening-3-9-0-beta-36' },
+  { id: 'community-signal-composer-release', occurredAt: '2026-08-02', type: 'release', title: { en: 'Community Signal Composer UX published', it: 'Pubblicata la UX del Composer segnali community' }, detail: { en: 'Roadmap interest can now become a bounded local dossier before explicit GitHub handoff.', it: 'L interesse per la roadmap puo ora diventare un dossier locale limitato prima dell handoff GitHub esplicito.' }, affectedHref: '/press-kit/releases/community-signal-composer-3-9-0-beta-35' },
+  { id: 'source-remediation-workbench-release', occurredAt: '2026-08-02', type: 'release', title: { en: 'Source Remediation Workbench UX published', it: 'Pubblicata la UX del Workbench remediation fonti' }, detail: { en: 'Protected source operations now connect returned-window priority, bounded evidence and recovery-gated closure.', it: 'Le operazioni protette sulle fonti ora collegano priorita della finestra restituita, evidenze limitate e chiusura vincolata al recupero.' }, affectedHref: '/press-kit/releases/source-remediation-workbench-3-9-0-beta-34' },
+  { id: 'production-assurance-renderer-hardening-release', occurredAt: '2026-08-02', type: 'release', title: { en: 'Production Assurance and Renderer Hardening published', it: 'Pubblicati assurance di produzione e hardening del renderer' }, detail: { en: 'Three roadmap waves add residency evidence, authenticated deployment verification and fail-closed renderer controls.', it: 'Tre wave della roadmap aggiungono evidenze di residenza, verifica autenticata del deployment e controlli fail-closed del renderer.' }, affectedHref: '/press-kit/releases/production-assurance-renderer-hardening-3-9-0-beta-33' },
+  { id: 'authenticated-production-verification-release', occurredAt: '2026-08-02', type: 'release', title: { en: 'Authenticated Production Verification published', it: 'Pubblicata la verifica autenticata della produzione' }, detail: { en: 'Admin and Auditor can inspect one sanitized post-deploy report while independent testing remains external evidence.', it: 'Admin e Auditor possono ispezionare un report post-deploy sanificato mentre i test indipendenti restano evidenza esterna.' }, affectedHref: '/press-kit/releases/authenticated-production-verification-3-9-0-beta-32' },
+  { id: 'residency-processor-evidence-release', occurredAt: '2026-08-02', type: 'release', title: { en: 'Residency and Processor Evidence published', it: 'Pubblicate le evidenze di residenza e processor' }, detail: { en: 'A dated public register separates documentary evidence, operator declarations, deployment-dependent facts and open gaps.', it: 'Un registro pubblico datato separa evidenze documentali, dichiarazioni operatore, fatti dipendenti dal deployment e gap aperti.' }, affectedHref: '/press-kit/releases/residency-processor-evidence-3-9-0-beta-31' },
+  { id: 'enterprise-agent-contract-evidence-release', occurredAt: '2026-08-01', type: 'release', title: { en: 'Enterprise Agent and Contract Evidence Integration published', it: 'Pubblicata l integrazione agent enterprise ed evidenze contrattuali' }, detail: { en: 'The public agent gateway, three provider source packages and the Word evidence-mapping task pane now share one bounded public-evidence contract.', it: 'Il gateway agent pubblico, tre pacchetti sorgente provider e il task pane Word per la mappatura delle evidenze ora condividono un unico contratto circoscritto di evidenze pubbliche.' }, affectedHref: '/press-kit/releases/enterprise-agent-contract-evidence-3-9-0-beta-30' },
   { id: 'multicloud-agent-source-packages-release', occurredAt: '2026-08-01', type: 'release', title: { en: 'Multicloud agent source packages published', it: 'Pubblicati i pacchetti sorgente agent multicloud' }, detail: { en: 'Controlled-pilot source packages are available for Microsoft 365 Copilot, Vertex AI Agent Builder and Amazon Quick, with Amazon Q Business retained only for existing-customer compatibility.', it: 'Sono disponibili pacchetti sorgente per pilot controllati con Microsoft 365 Copilot, Vertex AI Agent Builder e Amazon Quick; Amazon Q Business resta solo per compatibilita con clienti esistenti.' }, affectedHref: '/press-kit/releases/multicloud-agent-source-packages-3-9-0-beta-29' },
   { id: 'agent-evidence-gateway-release', occurredAt: '2026-08-01', type: 'release', title: { en: 'Agent Evidence Gateway published', it: 'Pubblicato l Agent Evidence Gateway' }, detail: { en: 'Three deterministic read-only operations expose bounded change and Observatory briefs with citations and explicit empty-result semantics.', it: 'Tre operazioni deterministiche in sola lettura espongono brief circoscritti su cambiamenti e Observatory, con citazioni e semantica esplicita dei risultati vuoti.' }, affectedHref: '/press-kit/releases/agent-evidence-gateway-3-9-0-beta-28' },
   { id: 'admin-operational-readiness-release', occurredAt: '2026-08-01', type: 'release', title: { en: 'Admin Operational Readiness published', it: 'Pubblicata la readiness operativa amministrativa' }, detail: { en: 'The protected dashboard now connects deterministic priorities, publication readiness, independent live status, role-safe actions and bounded measurement with explicit unavailable states.', it: 'La dashboard protetta ora collega priorita deterministiche, readiness di pubblicazione, live status indipendenti, azioni role-safe e misurazione circoscritta con stati unavailable espliciti.' }, affectedHref: '/press-kit/releases/admin-operational-readiness-3-9-0-beta-27' },

@@ -1,7 +1,7 @@
 {
   "schema": "https://policywatcher.online/schemas/press-kit-media-metadata/v1",
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-08-01",
+  "generatedAt": "2026-08-02",
   "standard": "IPTC Photo Metadata 2025.1",
   "contentCredentials": "not-attached",
   "vectorMasterAvailable": false,
@@ -335,7 +335,7 @@
       "creator": "Fabrizio Degni",
       "credit": "PolicyWatcher / Fabrizio Degni"
     },
-    "policywatcher-configured-scope-2026-08-01.png": {
+    "policywatcher-configured-scope-2026-08-02.png": {
       "title": {
         "en": "Configured scope data card",
         "it": "Scheda dati del perimetro configurato"

@@ -35,10 +35,17 @@ interface RendererHealth {
   ok?: boolean;
   active?: number;
   uptimeSeconds?: number;
+  capacity?: number;
   maxConcurrency?: number;
   navTimeoutMs?: number;
   service?: string;
   version?: string;
+  state?: string;
+  secretRotation?: string;
+  targetAllowlistCount?: number;
+  subresourceAllowlistCount?: number;
+  browserVersionMajor?: string;
+  userAgentMode?: string;
 }
 
 interface AgentHealth {
@@ -348,8 +355,13 @@ export default function VpsServicesPage() {
             <div className={styles.serviceMetric}><span>Endpoint</span><strong>{renderer?.endpoint || 'Not configured'}</strong></div>
             <div className={styles.serviceMetric}><span>Latency</span><strong>{typeof renderer?.latencyMs === 'number' ? `${renderer.latencyMs} ms` : 'N/A'}</strong></div>
             <div className={styles.serviceMetric}><span>Active renders</span><strong>{(renderer?.health as RendererHealth | null)?.active ?? 'N/A'}</strong></div>
+            <div className={styles.serviceMetric}><span>Capacity</span><strong>{(renderer?.health as RendererHealth | null)?.capacity ?? (renderer?.health as RendererHealth | null)?.maxConcurrency ?? 'N/A'}</strong></div>
             <div className={styles.serviceMetric}><span>HTTP status</span><strong>{renderer?.httpStatus ?? 'N/A'}</strong></div>
             <div className={styles.serviceMetric}><span>Uptime</span><strong>{formatDuration((renderer?.health as RendererHealth | null)?.uptimeSeconds)}</strong></div>
+            <div className={styles.serviceMetric}><span>Secret rotation</span><strong>{(renderer?.health as RendererHealth | null)?.secretRotation ?? 'N/A'}</strong></div>
+            <div className={styles.serviceMetric}><span>Allowed targets</span><strong>{(renderer?.health as RendererHealth | null)?.targetAllowlistCount ?? 'N/A'}</strong></div>
+            <div className={styles.serviceMetric}><span>Chromium major</span><strong>{(renderer?.health as RendererHealth | null)?.browserVersionMajor ?? 'N/A'}</strong></div>
+            <div className={styles.serviceMetric}><span>User-Agent mode</span><strong>{(renderer?.health as RendererHealth | null)?.userAgentMode ?? 'N/A'}</strong></div>
             <div className={styles.serviceMetric}><span>Checked</span><strong>{formatDate(renderer?.checkedAt)}</strong></div>
           </div>
           {renderer?.error && <div className={`${styles.alert} ${styles.alertWarning} ${styles.serviceInlineAlert}`}><AlertTriangle size={16} />{renderer.error}</div>}

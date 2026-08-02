@@ -276,6 +276,11 @@ export default function PrivacyPolicyPage() {
             <li>The protected Admin dashboard can store allowlisted aggregate-use events with a random per-visit identifier, server-derived role, viewport class and bounded numeric values. It does not store an IP address, user agent, referrer, email, username, account identifier, query string, free text or arbitrary metadata in this telemetry table. Retention is 90 days.</li>
             <li>We do not store data longer than necessary. If you unsubscribe, your data is marked as inactive and can be permanently deleted upon request.</li>
           </ul>
+          <p>
+            The dated <Link href="/trust/residency">Residency and Processor Evidence</Link> register separates
+            reviewed public documents, operator declarations, deployment-dependent facts and evidence that
+            remains open. It does not infer the active server or backup region from a provider contract.
+          </p>
         </section>
 
         <section className={styles.section}>

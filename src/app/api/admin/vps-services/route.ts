@@ -19,10 +19,17 @@ interface RendererHealthPayload {
   ok?: boolean;
   active?: number;
   uptimeSeconds?: number;
+  capacity?: number;
   maxConcurrency?: number;
   navTimeoutMs?: number;
   service?: string;
   version?: string;
+  state?: string;
+  secretRotation?: string;
+  targetAllowlistCount?: number;
+  subresourceAllowlistCount?: number;
+  browserVersionMajor?: string;
+  userAgentMode?: string;
 }
 
 interface AgentStatusPayload {
@@ -243,8 +250,8 @@ async function checkRendererHealth() {
 
   try {
     const { response, latencyMs } = await timedFetch(
-      `${rendererUrl}/healthz`,
-      { method: 'GET' },
+      `${rendererUrl}/readyz`,
+      { method: 'GET', headers: { Authorization: `Bearer ${secret}` } },
       HEALTH_TIMEOUT_MS
     );
     const text = await response.text();
@@ -266,7 +273,7 @@ async function checkRendererHealth() {
       latencyMs,
       httpStatus: response.status,
       health,
-      error: ok ? null : `Unexpected health response: HTTP ${response.status}`,
+      error: ok ? null : `Unexpected readiness response: HTTP ${response.status}`,
       checkedAt: new Date().toISOString(),
     };
   } catch (error) {

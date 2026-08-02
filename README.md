@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2030%20Enterprise%20Integration-146c6a" alt="3.9.0 Beta 30 Enterprise Agent and Contract Evidence Integration" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2037%20Navigation%20and%20Diagnostics-146c6a" alt="3.9.0 Beta 37 Resource Navigation and Retrieval Diagnostics" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,29 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 37 Resource Navigation and Retrieval Diagnostics Highlights
+
+- **Categorized resource navigation:** the public footer replaces one long Resources list with Explore, Product, Build and Media groups while preserving every destination.
+- **Responsive disclosure:** compact mobile resource groups use native disclosures with keyboard focus, 44px targets and explicit English and Italian labels.
+- **Auditable deduplication:** each scan acquisition now exposes a safe 12-character fingerprint and an explicit `network` or `cached/deduplicated` mode in progress events and protected details.
+- **Semantic acquisition keys:** recognized campaign parameters are removed while regional paths, fragments and meaningful selectors remain distinct.
+- **Safer retrieval logs:** operational URL labels omit credentials, query strings and fragments while retaining enough source context for diagnosis.
+- **Renderer 1.2 coherence:** Playwright uses its bundled Chromium User-Agent by default, validates optional overrides and reports authenticated browser-major and UA-mode diagnostics.
+- **Anti-bot boundary:** no stealth or WAF-bypass plugin is installed; blocked sources should use permitted official endpoints, configured dependencies or archive fallbacks.
+
+### Release 3.9.0 Beta 36 Remediation UX, Community Signals and Mutation Hardening Highlights
+
+- **Source remediation workbench:** `/admin/source-reliability` now prioritizes the returned issue window, derives one responsible next action and exposes safe bounded evidence through a desktop ledger and mobile cards.
+- **Recovery-gated closure:** only a Recovered acquisition issue can be closed; a Resolved issue can be reopened, while Open and Watching closure attempts fail with a bounded conflict.
+- **Fast evidence navigation:** operators can search safe source, retrieval, company and policy fields, filter by status or reason and distinguish no recorded data from no filter matches.
+- **Community signal composer:** `/roadmap` turns candidate interest or a generic proposal into a four-stage Need, Evidence, Limits and Review dossier stored locally in the browser.
+- **Explicit GitHub handoff:** reviewed proposals generate a deterministic title and body only after validation, then require an explicit GitHub or copy action.
+- **Strict local drafts:** versioned parsing, field and total-size limits, reset controls and fail-closed corrupt-state handling keep proposal contents out of PolicyWatcher telemetry.
+- **Central mutation boundary:** unsafe `/api/admin/*` requests now receive same-origin provenance checks, route-specific declared-body limits, JSON enforcement and process-local rate limiting.
+- **Safe admin responses:** private no-store metadata, `nosniff`, bounded `Vary` and route/method/reason-only denial logs are applied without changing public API behavior or page CSP and framing.
+
+Closing a remediation issue does not prove continuous source recovery. The composer does not establish popularity or adoption and does not submit automatically. Administrative request hardening is defense in depth, not a pentest, CSRF certification or distributed rate limit.
 
 ### Release 3.9.0 Beta 30 Enterprise Agent and Contract Evidence Integration Highlights
 
@@ -957,6 +980,7 @@ See the public [`/integrations`](https://www.policywatcher.online/integrations) 
 | `/api/health` | GET | Bearer | None | System health check |
 | `/api/seed` | POST | Bearer + env flag | None | Database seeding (development only) |
 | `/api/v1/manifest` | GET | No | 60/min shared v1 bucket | Read-only public integration directory |
+| `/api/v1/residency-evidence` | GET | No | 60/min shared v1 bucket | Dated residency, processor and open-evidence register |
 | `/api/v1/observatory?lang=en\|it` | GET | No | 60/min shared v1 bucket | Curated source, signal and event registry |
 | `/api/v1/agent/openapi.json` | GET | No | 30/min agent bucket | Cross-cloud public Agent Evidence Gateway contract |
 | `/api/v1/agent/change-brief` | GET | No | 30/min agent bucket | Flattened source-linked public change brief |
@@ -1150,9 +1174,13 @@ Security incident note: an unauthenticated debug environment endpoint existed in
 | `APP_URL` | No | Public URL used in email links (defaults to `http://localhost:3000`) |
 | `RENDERER_URL` | Optional | Public HTTPS URL of the VPS renderer service, for example `https://render.policywatcher.online` |
 | `RENDERER_SECRET` | Optional | Shared high-entropy bearer secret used by the Hostinger app to call the renderer |
+| `RENDERER_SECRET_PREVIOUS` | Renderer rotation only | Previous renderer bearer secret accepted during a bounded rotation overlap |
+| `RENDERER_ALLOWED_DOMAINS` | Renderer 1.2 | Required comma-separated registrable-domain target allowlist |
+| `RENDERER_SUBRESOURCE_ALLOWED_DOMAINS` | No | Cross-site registrable domains required by allowlisted target scripts or XHR |
 | `VPS_AGENT_URL` | Optional | Public HTTPS URL of the separate VPS Operations Agent, for example `https://ops.policywatcher.online` |
 | `VPS_AGENT_SECRET` | Optional | Dedicated high-entropy HMAC secret used by the Hostinger app to call the operations agent |
 | `ALLOW_DATABASE_SEED_ENDPOINT` | No | Development-only flag for `/api/seed`; never enable in production |
+| `ADMIN_MUTATION_ALLOW_MISSING_PROVENANCE` | Test/non-production only | Explicitly permits controlled admin mutation tests without Origin or Fetch Metadata; ignored in production |
 | `TRUST_PROXY_HEADERS` | No | Set to `true` only after the reverse proxy is verified to overwrite forwarding headers |
 | `TRUSTED_CLIENT_IP_HEADER` | No | Provider-controlled client IP header to use for rate limiting |
 
@@ -1174,6 +1202,7 @@ Expose it through HTTPS, for example `https://render.policywatcher.online`, and 
 ```env
 RENDERER_URL=https://render.policywatcher.online
 RENDERER_SECRET=<same value configured in the VPS systemd service>
+RENDERER_ALLOWED_DOMAINS=policywatcher.online,example.com
 ```
 
 The application works without these variables, but script-rendered providers have lower retrieval coverage and will rely on direct fetches and archives.

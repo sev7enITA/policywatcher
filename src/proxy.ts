@@ -1,4 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import {
+  ADMIN_API_RESPONSE_HEADERS,
+  AdminMutationRateLimiter,
+  evaluateAdminMutationBoundary,
+} from '@/lib/adminMutationBoundary';
+import { getClientIp } from '@/lib/rateLimit';
+
+const adminMutationRateLimiter = new AdminMutationRateLimiter();
 
 const imageSources = [
   "'self'",
@@ -64,7 +72,72 @@ function createContentSecurityPolicy(nonce: string, pathname: string) {
   `);
 }
 
+function applyAdminApiResponseHeaders(response: NextResponse) {
+  for (const [name, value] of Object.entries(ADMIN_API_RESPONSE_HEADERS)) {
+    response.headers.set(name, value);
+  }
+  return response;
+}
+
+function adminMutationError(
+  reason: string,
+  status: number,
+  retryAfterSeconds?: number,
+) {
+  const response = NextResponse.json(
+    { error: 'Administrative mutation request rejected.', reason },
+    { status },
+  );
+  if (retryAfterSeconds) response.headers.set('Retry-After', String(retryAfterSeconds));
+  return applyAdminApiResponseHeaders(response);
+}
+
+function handleAdminApi(request: NextRequest): NextResponse {
+  const decision = evaluateAdminMutationBoundary({
+    pathname: request.nextUrl.pathname,
+    method: request.method,
+    requestOrigin: request.nextUrl.origin,
+    originHeader: request.headers.get('origin'),
+    fetchSiteHeader: request.headers.get('sec-fetch-site'),
+    contentTypeHeader: request.headers.get('content-type'),
+    contentLengthHeader: request.headers.get('content-length'),
+    environment: process.env.NODE_ENV,
+    allowMissingProvenance:
+      process.env.NODE_ENV !== 'production'
+      && process.env.ADMIN_MUTATION_ALLOW_MISSING_PROVENANCE === 'true',
+  });
+
+  if (decision.applies && !decision.allowed) {
+    console.warn('[Admin mutation boundary] request denied', {
+      route: decision.policy.routeKey,
+      method: request.method.toUpperCase(),
+      reason: decision.reason,
+    });
+    return adminMutationError(decision.reason, decision.status);
+  }
+
+  if (decision.applies) {
+    const rateLimit = adminMutationRateLimiter.check(
+      `${getClientIp(request)}:${request.method.toUpperCase()}:${decision.policy.routeKey}`,
+    );
+    if (!rateLimit.allowed) {
+      console.warn('[Admin mutation boundary] request denied', {
+        route: decision.policy.routeKey,
+        method: request.method.toUpperCase(),
+        reason: 'mutation_rate_limited',
+      });
+      return adminMutationError('mutation_rate_limited', 429, rateLimit.retryAfterSeconds);
+    }
+  }
+
+  return applyAdminApiResponseHeaders(NextResponse.next());
+}
+
 export function proxy(request: NextRequest) {
+  if (request.nextUrl.pathname.startsWith('/api/admin/')) {
+    return handleAdminApi(request);
+  }
+
   const nonce = createNonce();
   const csp = createContentSecurityPolicy(nonce, request.nextUrl.pathname);
   const requestHeaders = new Headers(request.headers);
@@ -89,6 +162,7 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    '/api/admin/:path*',
     {
       source: '/((?!api|_next/static|_next/image|favicon.ico|logo.png|robots.txt|sitemap.xml).*)',
       missing: [

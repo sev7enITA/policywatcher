@@ -4,6 +4,7 @@ import {
   classifyRetrievalCause,
   emptyRetrievalMetrics,
   recordRetrievalDiagnostics,
+  sanitizeAcquisitionUrlForLog,
   terminalRetrievalCause,
 } from '../sourceReliability';
 
@@ -17,6 +18,24 @@ describe('source reliability acquisition keys', () => {
   it('keeps distinct fragment-scoped policy sections separate', () => {
     expect(buildAcquisitionKey('https://example.com/legal#privacy')).not.toBe(
       buildAcquisitionKey('https://example.com/legal#terms')
+    );
+  });
+
+  it('drops non-semantic tracking parameters while preserving policy selectors', () => {
+    expect(buildAcquisitionKey('https://example.com/legal?nodeId=42&utm_source=newsletter&fbclid=secret')).toBe(
+      'https://example.com/legal?nodeId=42'
+    );
+  });
+
+  it('does not merge regional policy paths that represent different sources', () => {
+    expect(buildAcquisitionKey('https://www.revolut.com/legal/privacy')).not.toBe(
+      buildAcquisitionKey('https://www.revolut.com/en-GB/legal/privacy')
+    );
+  });
+
+  it('removes credentials, query values and fragments from log-safe labels', () => {
+    expect(sanitizeAcquisitionUrlForLog('https://user:password@example.com/legal/privacy?token=secret#section')).toBe(
+      'https://example.com/legal/privacy'
     );
   });
 });

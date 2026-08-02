@@ -21,6 +21,18 @@ This is a source deployment package. It intentionally excludes `.next`,
 The startup log must show the configured database path, `Database schema is
 ready` and a `policyInquiries` count before Next.js starts accepting traffic.
 
+Beta 37 introduces no database migration. Deploy the Hostinger application ZIP
+and the renderer 1.2 VPS ZIP as separate artifacts. Keep `RENDER_USER_AGENT`
+unset on the renderer unless an official source requires a documented override;
+the recommended mode uses the User-Agent native to Playwright Chromium. No
+stealth or WAF-bypass plugin is part of either package.
+
+After the Hostinger restart, verify `/api/v1/manifest`, `/trust`, the public
+footer on desktop and mobile, then run one controlled Cron Manager batch. Its
+progress should distinguish `[network]` from `[cached/deduplicated]` using the
+same `acq:` fingerprint for shared sources. Regional paths must retain different
+fingerprints.
+
 When `DATABASE_URL` is available during `npm ci`, the post-install hook applies
 the idempotent database initializer before the managed build is published. This
 is the primary readiness gate for Hostinger's managed Next.js preset, which

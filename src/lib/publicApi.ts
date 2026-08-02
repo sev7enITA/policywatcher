@@ -89,7 +89,13 @@ export function getPublicApiManifest() {
       'Observatory entries are a curated local registry with review timestamps, not an automated external news feed.',
       'Published records remain subject to source availability and public-evidence gates.',
       'The change-event feed is a forward-polling surface. It does not confirm notification delivery or replace future signed webhook controls.',
+      'The residency evidence pack distinguishes public documents, operator declarations, deployment-dependent facts and open evidence; it does not prove the live deployment region.',
     ],
+    residencyEvidence: {
+      endpoint: '/api/v1/residency-evidence',
+      contract: 'dated bounded evidence register with deterministic SHA-256 digest',
+      humanReview: '/trust/residency',
+    },
     agentGateway: {
       contract: '/api/v1/agent/openapi.json',
       operations: ['/api/v1/agent/capabilities', '/api/v1/agent/change-brief', '/api/v1/agent/observatory-brief'],

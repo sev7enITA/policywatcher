@@ -13,6 +13,11 @@ describe('source reliability admin experience', () => {
     expect(page).toContain('Evidence method');
     expect(page).toContain('role="region"');
     expect(page).toContain('tabIndex={0}');
+    expect(page).toContain('Source Remediation Workbench');
+    expect(page).toContain('Deterministic next action');
+    expect(page).toContain('Close recovered issue');
+    expect(page).toContain('No filter matches');
+    expect(page).toContain('mobileLedger');
   });
 
   it('keeps the dashboard summary derived from database state', () => {

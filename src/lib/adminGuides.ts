@@ -5,6 +5,7 @@ export const ADMIN_GUIDE_ROUTES = [
   '/admin/webhook-delivery',
   '/admin/vps-services',
   '/admin/database',
+  '/admin/production-verification',
   '/admin/kpi-audit',
   '/admin/dataset-quality',
   '/admin/outreach',
@@ -138,6 +139,23 @@ export const ADMIN_GUIDES: Record<AdminGuideRoute, AdminGuide> = {
       { term: 'Recovery', definition: 'Administrator-only encrypted export and local summary verification; verification does not restore records.' },
     ],
     commonMistake: 'Do not interpret an unavailable check as an empty database, treat configured variables as proof of health, or apply a reset. Preserve the production file.',
+  },
+  '/admin/production-verification': {
+    title: 'Production Verification',
+    purpose: 'Run a sanitized, authenticated deployment snapshot across runtime identity, database readiness, live HTTP controls and negative authorization boundaries.',
+    steps: [
+      'Run verification after each production deployment or material hosting change.',
+      'Review unavailable checks before attention checks; unavailable means the observation could not be made and must not be read as pass or fail.',
+      'Compare the deployed public manifest release with the source release and inspect the database table, migration and integrity summary.',
+      'Confirm that the live Trust response exposes the required security headers and that unauthenticated protected endpoints return 401.',
+      'Commission and track independent dynamic testing separately; the application report cannot self-attest independence or a pentest result.',
+    ],
+    keyTerms: [
+      { term: 'Post-deploy snapshot', definition: 'A point-in-time set of bounded checks against the configured and live deployment.' },
+      { term: 'Negative authorization check', definition: 'A request intentionally made without credentials that must be rejected without protected payload.' },
+      { term: 'External evidence', definition: 'A result that must be produced by a separately accountable reviewer or testing provider.' },
+    ],
+    commonMistake: 'Do not treat a green snapshot as continuous availability, a complete attack-path review, a service-level result or an independent security certification.',
   },
   '/admin/kpi-audit': {
     title: 'KPI Audit',

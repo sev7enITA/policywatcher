@@ -2,6 +2,97 @@
 
 ## Unreleased
 
+## 3.9.0-beta.37 - 2026-08-02
+
+### Resource Navigation and Retrieval Diagnostics
+- Replaced the long public-footer Resources column with four named Explore, Product, Build and Media groups while preserving the complete destination set and compact footer variant.
+- Added responsive mobile resource disclosures, bilingual labels, keyboard-visible focus and minimum touch targets.
+- Added acquisition fingerprints and explicit network versus cached/deduplicated progress metadata to protected full scans.
+- Removed recognized campaign parameters from acquisition keys without merging regional paths, meaningful query selectors or fragment-scoped policy sections.
+- Added credential, query and fragment-free acquisition labels for operational logging.
+- Advanced the VPS renderer to 1.2, using Playwright Chromium's native User-Agent by default and exposing authenticated browser-major and override-mode diagnostics.
+
+### Scope boundary
+- Regional sources such as Revolut EU and UK remain separate acquisitions because their policy paths and jurisdictions differ.
+- Renderer 1.2 does not install stealth plugins, bypass CAPTCHA or evade WAF controls; official endpoints, configured subresource domains and archive fallbacks remain the supported recovery paths.
+
+## 3.9.0-beta.36 - 2026-08-02
+
+### Administrative Mutation Hardening
+- Added one centralized request boundary for unsafe `/api/admin/*` methods while leaving public APIs and safe admin reads unchanged.
+- Added exact-origin and Fetch Metadata provenance checks with production fail-closed behavior and a controlled non-production test path.
+- Added route-specific declared-body caps, JSON media-type enforcement and explicit no-body action handling.
+- Added a bounded process-local mutation rate limit, private no-store response metadata and safe route/method/reason-only denial logging.
+- Preserved page nonce CSP and the existing embed and Office framing boundaries with focused regression coverage.
+
+### Scope boundary
+- This defense-in-depth layer is not a penetration test, CSRF certification, distributed rate limit or proof of reverse-proxy behavior.
+- Rate-limit state remains process-local for the existing single-instance deployment.
+
+## 3.9.0-beta.35 - 2026-08-02
+
+### Community Signal Composer UX
+- Replaced direct roadmap vote links with candidate search, track and implementation-state filters plus explicit result and reset states.
+- Added an accessible four-stage Need, Evidence, Limits and Review composer for candidate interest and generic proposals.
+- Added bounded fields, visible counters, strict versioned browser-local drafts and fail-closed corrupt or oversized state handling.
+- Added deterministic GitHub issue title and body generation after validation, with explicit open-on-GitHub and copy fallbacks.
+- Kept proposal drafts local until the user acts and added no popularity, adoption or endorsement counters.
+
+### Scope boundary
+- Draft contents are not submitted automatically or sent to PolicyWatcher telemetry.
+- GitHub availability, repository permissions, review, acceptance and adoption remain external.
+
+## 3.9.0-beta.34 - 2026-08-02
+
+### Source Remediation Workbench UX
+- Refined the protected Source Reliability page into an actionable remediation workbench with a returned-window status strip and deterministic next-action panel.
+- Added local search and status/reason filters across safe source, retrieval, company and policy fields with distinct no-data and no-match states.
+- Added a desktop evidence ledger and purpose-built mobile cards with sanitized HTTPS links, bounded evidence, affected records and a Detect to Close workflow rail.
+- Added progressively disclosed scan and shared-acquisition diagnostics plus explicit auditor read-only guidance.
+- Enforced `Recovered -> Resolved` and `Resolved -> Open` server-side transitions; Open and Watching issues cannot be closed.
+
+### Scope boundary
+- Closing an issue records workflow completion only after acquisition recovery; it does not prove continuous source availability.
+- The workbench does not claim measured usability improvement or source health beyond the returned evidence window.
+
+## 3.9.0-beta.33 - 2026-08-02
+
+### Renderer Production Hardening
+- Added a required registrable-domain target allowlist, HTTPS-only targets and a separate allowlist for cross-site browser subresources.
+- Added bounded primary/previous bearer-secret overlap for controlled rotation with constant-time comparison.
+- Split minimal public liveness from authenticated Chromium readiness, including capacity, allowlist counts and rotation state.
+- Added total render timeout, maximum HTML response size, bounded configuration parsing, request identifiers, query-free logs and graceful draining.
+- Updated the protected VPS console to use authenticated readiness and display capacity, target count and secret-rotation state.
+- Added focused renderer tests for allowlist parsing, host boundaries, HTTPS enforcement, secret overlap and log redaction.
+
+### Scope boundary
+- Playwright validates request boundaries but Chromium owns its network sockets; readiness does not prove strong DNS pinning, source authenticity, continuous availability or deployed egress configuration.
+- The new allowlist and secret requirements require explicit VPS deployment configuration before renderer 1.1 starts.
+
+## 3.9.0-beta.32 - 2026-08-02
+
+### Authenticated Production Verification
+- Added a protected Admin and Auditor console plus a no-store endpoint for one post-deploy verification snapshot.
+- Added checks for authenticated session, production HTTPS configuration, secret separation, database integrity and migrations, deployed release identity and live security headers.
+- Added negative unauthenticated checks for protected database readiness and operational health endpoints.
+- Added explicit passed, attention, unavailable and external-evidence states so network failures and independent testing are not converted into false pass results.
+
+### Scope boundary
+- The report is not a penetration-test result, service-level statement, security certification or guarantee of continuous availability.
+- Independent dynamic testing remains external, dated and separately attributable evidence.
+
+## 3.9.0-beta.31 - 2026-08-02
+
+### Residency and Processor Evidence Pack
+- Added `/trust/residency`, a public record-level register for application hosting, SQLite storage, backups, renderer retrieval, Gemini and configured SMTP processing.
+- Added documented, operator-declared, deployment-dependent and open evidence states with a limitation on every record.
+- Added a public `/api/v1/residency-evidence` contract with dated references, closure actions and a deterministic SHA-256 digest.
+- Connected Trust, Privacy, the public API manifest, sitemap, Feature Atlas and Roadmap to the evidence pack.
+
+### Scope boundary
+- The pack is not a DPA, transfer impact assessment, legal opinion or proof of the active application, database, backup, renderer or SMTP regions.
+- Current hosting control-plane, backup and deployment-selected provider evidence remains necessary before making stronger location claims.
+
 ## 3.9.0-beta.30 - 2026-08-01
 
 ### Word Contract Evidence Review

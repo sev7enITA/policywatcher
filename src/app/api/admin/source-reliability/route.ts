@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { db } from '@/lib/db';
 import { buildAcquisitionKey } from '@/lib/sourceReliability';
+import {
+  buildReturnedRemediationSummary,
+  deriveNextRemediationAction,
+  remediationReasonLabel,
+  REMEDIATION_RETURN_LIMIT,
+  safeSourceReference,
+  sortRemediationIssues,
+} from '@/lib/sourceRemediation';
 
 export async function GET(request: NextRequest) {
   const session = getSession(request);
@@ -10,7 +18,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const [policies, scanRuns, remediationIssues, publicPolicyCount, historicalReferenceCount] = await Promise.all([
+    const [policies, scanRuns, remediationIssues, remediationIssueCount, publicPolicyCount, historicalReferenceCount] = await Promise.all([
       db.policy.findMany({
         select: {
           id: true,
@@ -27,9 +35,10 @@ export async function GET(request: NextRequest) {
       }),
       db.scanRun.findMany({ orderBy: { startedAt: 'desc' }, take: 20 }),
       db.sourceRemediationIssue.findMany({
-        orderBy: [{ status: 'asc' }, { lastDetectedAt: 'desc' }],
-        take: 100,
+        orderBy: { lastDetectedAt: 'desc' },
+        take: REMEDIATION_RETURN_LIMIT,
       }),
+      db.sourceRemediationIssue.count(),
       db.policy.count({ where: { snapshots: { some: { publicEvidence: true } } } }),
       db.historicalSourceReference.count(),
     ]);
@@ -41,31 +50,54 @@ export async function GET(request: NextRequest) {
     }
     const duplicateGroups = [...groups.entries()]
       .filter(([, entries]) => entries.length > 1)
-      .map(([retrievalKey, entries]) => ({
-        retrievalKey,
-        records: entries.map((entry) => ({
-          policyId: entry.id,
-          company: entry.company.name,
-          policy: entry.name,
-          jurisdiction: entry.jurisdiction,
-          status: entry.dataStatus,
-        })),
-      }));
+      .map(([retrievalKey, entries]) => {
+        const source = safeSourceReference(retrievalKey);
+        return {
+          retrievalKey: `${source.host}${source.path}`,
+          records: entries.map((entry) => ({
+            policyId: entry.id,
+            company: entry.company.name,
+            policy: entry.name,
+            jurisdiction: entry.jurisdiction,
+            status: entry.dataStatus,
+          })),
+        };
+      });
 
     const policyById = new Map(policies.map((policy) => [policy.id, policy]));
-    const issues = remediationIssues.map((issue) => {
+    const issues = sortRemediationIssues(remediationIssues).map((issue) => {
       let affectedPolicyIds: string[] = [];
       try {
         affectedPolicyIds = JSON.parse(issue.affectedPolicyIdsJson) as string[];
       } catch {
         affectedPolicyIds = [];
       }
+      const affectedPolicies = affectedPolicyIds
+        .map((id) => policyById.get(id))
+        .filter(Boolean);
+      const source = safeSourceReference(issue.sourceUrl);
+      const mostRecent = (values: Array<Date | null>) => values
+        .filter((value): value is Date => Boolean(value))
+        .sort((left, right) => right.getTime() - left.getTime())[0]?.toISOString() || null;
       return {
-        ...issue,
-        affectedPolicies: affectedPolicyIds
-          .map((id) => policyById.get(id))
-          .filter(Boolean)
-          .map((policy) => ({
+        id: issue.id,
+        retrievalKey: `${source.host}${source.path}`,
+        status: issue.status,
+        reasonCode: issue.reasonCode,
+        totalFailures: issue.totalFailures,
+        consecutiveFailures: issue.consecutiveFailures,
+        firstDetectedAt: issue.firstDetectedAt,
+        lastDetectedAt: issue.lastDetectedAt,
+        recoveredAt: issue.recoveredAt,
+        resolvedAt: issue.resolvedAt,
+        suggestedAction: issue.suggestedAction,
+        sourceHost: source.host,
+        sourcePath: source.path,
+        sourceHref: source.href,
+        reasonLabel: remediationReasonLabel(issue.reasonCode),
+        lastCheckAt: mostRecent(affectedPolicies.map((policy) => policy!.lastCheckDate)),
+        lastSuccessfulCheckAt: mostRecent(affectedPolicies.map((policy) => policy!.lastSuccessfulCheckDate)),
+        affectedPolicies: affectedPolicies.map((policy) => ({
             id: policy!.id,
             company: policy!.company.name,
             policy: policy!.name,
@@ -97,6 +129,8 @@ export async function GET(request: NextRequest) {
         })(),
       })),
       remediationIssues: issues,
+      remediationSummary: buildReturnedRemediationSummary(issues, remediationIssueCount),
+      nextAction: deriveNextRemediationAction(issues),
       boundary:
         'Historical references remain ineligible for change detection. Remediation suggestions never authorize bypassing provider access controls.',
     });
@@ -112,13 +146,33 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
   }
   try {
-    const body = await request.json() as { retrievalKey?: string; status?: string };
-    const retrievalKey = body.retrievalKey?.trim();
-    if (!retrievalKey || !['Open', 'Resolved'].includes(body.status || '')) {
-      return NextResponse.json({ error: 'retrievalKey and status Open|Resolved are required' }, { status: 400 });
+    const body = await request.json() as { issueId?: string; status?: string };
+    const issueId = body.issueId?.trim();
+    if (!issueId || issueId.length > 100 || !['Open', 'Resolved'].includes(body.status || '')) {
+      return NextResponse.json({ error: 'issueId and status Open|Resolved are required' }, { status: 400 });
+    }
+    const existing = await db.sourceRemediationIssue.findUnique({ where: { id: issueId } });
+    if (!existing) {
+      return NextResponse.json({ error: 'Remediation issue not found.', code: 'issue_not_found' }, { status: 404 });
+    }
+    if (body.status === 'Resolved' && existing.status !== 'Recovered') {
+      return NextResponse.json({
+        error: 'Only a recovered issue can be closed.',
+        code: 'issue_not_recovered',
+        currentStatus: existing.status,
+        allowedTransition: 'Recovered -> Resolved',
+      }, { status: 409 });
+    }
+    if (body.status === 'Open' && existing.status !== 'Resolved') {
+      return NextResponse.json({
+        error: 'Only a resolved issue can be reopened.',
+        code: 'issue_not_resolved',
+        currentStatus: existing.status,
+        allowedTransition: 'Resolved -> Open',
+      }, { status: 409 });
     }
     const issue = await db.sourceRemediationIssue.update({
-      where: { retrievalKey },
+      where: { id: issueId },
       data: body.status === 'Resolved'
         ? { status: 'Resolved', resolvedAt: new Date() }
         : { status: 'Open', resolvedAt: null },

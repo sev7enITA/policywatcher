@@ -11,6 +11,7 @@ import {
   ExternalLink,
   FileSearch,
   GitBranch,
+  Globe2,
   Lock,
   Server,
   ShieldCheck,
@@ -46,6 +47,16 @@ const securityHeadersUrl = 'https://securityheaders.com/?q=www.policywatcher.onl
 
 const evidenceCards: EvidenceCard[] = [
   {
+    title: 'Residency & Processor Evidence',
+    status: 'Dated public register',
+    tone: 'green',
+    icon: Globe2,
+    body:
+      'Separates reviewed provider documents, operator declarations, deployment-dependent facts and open evidence for hosting, storage, backups, retrieval, AI and email processing.',
+    href: '/trust/residency',
+    linkLabel: 'Open evidence pack',
+  },
+  {
     title: 'Dataset QA Gate',
     status: 'Local + CI',
     tone: 'green',
@@ -77,11 +88,11 @@ const evidenceCards: EvidenceCard[] = [
   },
   {
     title: 'Renderer-Backed Retrieval',
-    status: 'Confidence hardening',
+    status: 'Renderer 1.2 hardened',
     tone: 'blue',
     icon: Server,
     body:
-      'The scraper can call a separate bearer-protected VPS renderer for script-rendered pages. Initial URLs, browser redirects, and subresource requests are validated against SSRF rules.',
+      'The scraper can call a separate bearer-protected VPS renderer for script-rendered pages. Renderer 1.2 requires HTTPS target allowlists, bounds runtime and output, supports secret rotation, uses Chromium-native User-Agent defaults and exposes authenticated readiness diagnostics without stealth plugins.',
     href: `${repoBase}/tree/main/renderer`,
     linkLabel: 'Open renderer source',
   },
