@@ -37,12 +37,23 @@ describe('administrative mutation boundary', () => {
     });
   });
 
-  it('rejects an Origin that does not exactly match the request origin', () => {
-    expect(evaluateAdminMutationBoundary(input({ originHeader: 'https://attacker.example' }))).toMatchObject({
+  it('rejects a mismatched Origin unless the browser asserts exact same-origin provenance', () => {
+    expect(evaluateAdminMutationBoundary(input({
+      originHeader: 'https://attacker.policywatcher.online',
+      fetchSiteHeader: 'same-site',
+    }))).toMatchObject({
       allowed: false,
       reason: 'origin_mismatch',
       status: 403,
     });
+  });
+
+  it('accepts browser-confirmed same-origin mutations behind a rewriting reverse proxy', () => {
+    expect(evaluateAdminMutationBoundary(input({
+      requestOrigin: 'http://127.0.0.1:3000',
+      originHeader: 'https://policywatcher.online',
+      fetchSiteHeader: 'same-origin',
+    }))).toMatchObject({ applies: true, allowed: true });
   });
 
   it('fails closed in production without trustworthy provenance', () => {

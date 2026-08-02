@@ -10,6 +10,8 @@
 - Updated the Press Kit interface to label external GitHub downloads and removed the ineffective cross-origin `download` attribute.
 - Excluded every full Press Kit ZIP, including historical packages, from future Hostinger artifacts while keeping manifests and public web assets available.
 - Added a packaging failure gate that rejects any Hostinger archive containing a nested Press Kit package.
+- Restored administrative login behind rewriting reverse proxies by accepting the browser's exact `same-origin` Fetch Metadata assertion when the public and internal Next.js origins differ.
+- Kept cross-site requests and mismatched same-site origins fail-closed at the centralized administrative mutation boundary.
 
 ### Scope boundary
 - GitHub availability becomes an external dependency for full Press Kit package downloads; individual public web assets and manifests remain hosted with the application.

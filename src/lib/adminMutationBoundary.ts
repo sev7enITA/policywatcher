@@ -145,16 +145,22 @@ export function evaluateAdminMutationBoundary(
   const policy = getAdminMutationRoutePolicy(input.pathname, method);
   const fetchSite = input.fetchSiteHeader?.trim().toLowerCase() || null;
   const origin = input.originHeader?.trim() || null;
+  // Sec-Fetch-Site is computed by the browser from the public-facing URL.
+  // Prefer its exact same-origin assertion when a reverse proxy rewrites the
+  // host or protocol seen by Next.js, making request.nextUrl.origin differ
+  // from the browser's otherwise valid Origin header.
+  const browserAssertsSameOrigin = fetchSite === 'same-origin';
 
   if (fetchSite === 'cross-site') {
     return deny(policy, 'cross_site_request', 403);
   }
-  if (origin && origin !== input.requestOrigin) {
+  if (origin && origin !== input.requestOrigin && !browserAssertsSameOrigin) {
     return deny(policy, 'origin_mismatch', 403);
   }
 
-  const trustedProvenance = origin === input.requestOrigin
-    || (!origin && (fetchSite === 'same-origin' || fetchSite === 'same-site'));
+  const trustedProvenance = browserAssertsSameOrigin
+    || origin === input.requestOrigin
+    || (!origin && fetchSite === 'same-site');
   const controlledNonProductionPath = input.environment !== 'production'
     && input.allowMissingProvenance;
   if (!trustedProvenance && !controlledNonProductionPath) {

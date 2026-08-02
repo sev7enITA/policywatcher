@@ -17,12 +17,18 @@ Date: 2 August 2026
 - Keeps package manifests, fact sheets, previews and individual web assets in the application artifact.
 - Retains the complete editorial packages in Git so they can be downloaded independently of an application deployment.
 
+## Administrative login reverse-proxy compatibility
+
+- Fixed the Beta 36 mutation boundary regression that could reject valid login requests when Hostinger rewrote the host or protocol before Next.js evaluated the request.
+- Uses the browser-generated exact `same-origin` Fetch Metadata assertion for this proxy case instead of trusting forwarding headers or weakening the production fail-closed path.
+- Continues to reject explicit cross-site requests, same-site Origin mismatches, absent production provenance and malformed mutation bodies.
+
 ## Verification
 
 - Package-manifest tests validate the GitHub provider, repository URL, revision, external package URLs, committed ZIP bytes and SHA-256 values.
 - UI regression checks verify the explicit GitHub download wording and absence of a cross-origin `download` attribute.
 - The Hostinger builder verifies version parity, required runtime entries, forbidden paths and absence of nested Press Kit packages.
-- TypeScript, lint, 121 application test files with 657 tests and the production build with 156 generated routes passed.
+- TypeScript, lint, 121 application test files with 658 tests and the production build with 156 generated routes passed.
 
 ## Residual boundary
 
