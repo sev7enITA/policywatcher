@@ -6,7 +6,7 @@
 
 ### Git-hosted Press Distribution
 - Moved full English and Italian Press Kit package delivery from the Hostinger application archive to checksum-listed GitHub repository downloads.
-- Added explicit GitHub distribution metadata and absolute package URLs to the public package manifest and schema.
+- Added explicit GitHub distribution metadata and commit-pinned package URLs to the public package manifest and schema.
 - Updated the Press Kit interface to label external GitHub downloads and removed the ineffective cross-origin `download` attribute.
 - Excluded every full Press Kit ZIP, including historical packages, from future Hostinger artifacts while keeping manifests and public web assets available.
 - Added a packaging failure gate that rejects any Hostinger archive containing a nested Press Kit package.

@@ -18,7 +18,8 @@ if (!RELEASE_NAME) throw new Error('Unable to read POLICYWATCHER_RELEASE_NAME fr
 const VERSION = JSON.parse(readFileSync(path.join(ROOT, 'package.json'), 'utf8')).version;
 const CANONICAL_URL = 'https://policywatcher.online/press-kit';
 const REPOSITORY_URL = 'https://github.com/sev7enITA/policywatcher';
-const GITHUB_PRESS_DOWNLOAD_BASE_URL = `${REPOSITORY_URL}/raw/main/public/press-kit`;
+const GITHUB_PRESS_DISTRIBUTION_REVISION = 'd02b90489dd58d7884dbf14dcb1d52ad12a5ed07';
+const GITHUB_PRESS_DOWNLOAD_BASE_URL = `${REPOSITORY_URL}/raw/${GITHUB_PRESS_DISTRIBUTION_REVISION}/public/press-kit`;
 const RIGHTS_URL = `${CANONICAL_URL}/LICENSE-ASSETS.md`;
 const CREDIT = 'PolicyWatcher / Fabrizio Degni';
 const CAMPAIGN_VERSION = '3.9.0-beta.27';
@@ -317,7 +318,7 @@ function createPackages(assetManifest) {
       rmSync(stage, { recursive: true, force: true });
     }
   }
-  writeFileSync(path.join(PRESS_DIR, 'package-manifest.json'), `${JSON.stringify({ schema: 'https://policywatcher.online/schemas/press-kit-package-manifest/v1', schemaVersion: '1.1.0', generatedAt: RELEASE_DATE, release: CAMPAIGN_VERSION, currentProductRelease: VERSION, distribution: { provider: 'github-repository', repository: REPOSITORY_URL, revision: 'main', boundary: 'Downloads are served from the public GitHub repository. Verify the package SHA-256 before use.' }, packages }, null, 2)}\n`);
+  writeFileSync(path.join(PRESS_DIR, 'package-manifest.json'), `${JSON.stringify({ schema: 'https://policywatcher.online/schemas/press-kit-package-manifest/v1', schemaVersion: '1.1.0', generatedAt: RELEASE_DATE, release: CAMPAIGN_VERSION, currentProductRelease: VERSION, distribution: { provider: 'github-repository', repository: REPOSITORY_URL, revision: GITHUB_PRESS_DISTRIBUTION_REVISION, boundary: 'Downloads are pinned to the Git commit containing these packages. Verify the package SHA-256 before use.' }, packages }, null, 2)}\n`);
 }
 
 async function main() {

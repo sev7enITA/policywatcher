@@ -26,7 +26,8 @@ public GitHub repository. The Hostinger ZIP intentionally excludes every full
 `policywatcher-press-package-*.zip`; do not copy those files back into the
 application directory. Package sizes and SHA-256 values remain published in
 `public/press-kit/package-manifest.json`. Confirm that the committed packages
-are available on the repository `main` branch before deploying the site.
+are available at the commit pinned in the package manifest before deploying the
+site.
 
 Beta 37 introduces no database migration. Deploy the Hostinger application ZIP
 and the renderer 1.2 VPS ZIP as separate artifacts. Keep `RENDER_USER_AGENT`

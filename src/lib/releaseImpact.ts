@@ -1076,7 +1076,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
     kri: 'Residual KRI: GitHub availability and the selected repository revision are external dependencies for full-package downloads',
     evidence: 'Versioned package manifest and schema, external-download UI, committed EN/IT packages, release packaging exclusion and archive verification.',
     limitation: 'The checksum establishes downloaded-byte integrity only; individual web assets remain in the application and full package availability is not guaranteed.',
-    externalDependency: 'GitHub repository availability and main-branch publication',
+    externalDependency: 'GitHub repository availability and publication of the pinned source revision',
   },
   {
     id: 'beta-evidence-cycle',

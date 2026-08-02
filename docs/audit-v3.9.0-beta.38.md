@@ -5,7 +5,7 @@ Date: 2 August 2026
 ## Delivered Git-hosted Press Kit distribution
 
 - Kept the complete English and Italian Press Kit ZIPs committed in the public repository with byte size and SHA-256 metadata.
-- Replaced application-local package links with explicit GitHub repository download URLs.
+- Replaced application-local package links with explicit GitHub repository download URLs pinned to the commit containing the packages.
 - Added provider, repository, revision and distribution-boundary fields to the public package manifest.
 - Updated the package-manifest schema and Press Kit interface for a visible, safe external GitHub handoff.
 - Removed the cross-origin `download` attribute, which browsers do not reliably honor for external origins.
@@ -26,4 +26,4 @@ Date: 2 August 2026
 
 ## Residual boundary
 
-Full Press Kit downloads depend on GitHub availability and publication of the committed files on `main`. SHA-256 values verify downloaded bytes only; they do not establish semantic truth, authorship provenance or endorsement. Individual web assets remain in Hostinger because the Press Kit pages render and expose them directly.
+Full Press Kit downloads depend on GitHub availability and publication of the pinned commit. SHA-256 values verify downloaded bytes only; they do not establish semantic truth, authorship provenance or endorsement. Individual web assets remain in Hostinger because the Press Kit pages render and expose them directly.

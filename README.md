@@ -42,7 +42,7 @@ The platform is designed as a **civic tech tool** that produces structured summa
 ### Release 3.9.0 Beta 38 Git-hosted Press Distribution Highlights
 
 - **Slim Hostinger artifact:** full Press Kit ZIPs are excluded from the deployable application package instead of being nested inside it.
-- **GitHub downloads:** English and Italian editorial packages use explicit repository download URLs with their existing SHA-256 integrity values.
+- **GitHub downloads:** English and Italian editorial packages use commit-pinned repository URLs with their SHA-256 integrity values.
 - **Clear external handoff:** the Press Kit interface labels GitHub as the download provider and opens the repository-hosted package safely.
 - **Packaging guard:** release creation fails if a full Press Kit ZIP re-enters the Hostinger artifact.
 - **Preserved public surface:** package manifests, fact sheets, previews and individual reusable assets remain available from the web application.

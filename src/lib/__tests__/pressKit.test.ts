@@ -94,12 +94,12 @@ describe('public press kit', () => {
     expect(packageManifest.distribution).toMatchObject({
       provider: 'github-repository',
       repository: 'https://github.com/sev7enITA/policywatcher',
-      revision: 'main',
+      revision: 'd02b90489dd58d7884dbf14dcb1d52ad12a5ed07',
     });
     expect(packageManifest.packages.map((pressPackage) => pressPackage.locale)).toEqual(['en', 'it']);
     for (const pressPackage of packageManifest.packages) {
       expect(pressPackage.distribution).toBe('github-repository');
-      expect(pressPackage.href).toBe(`https://github.com/sev7enITA/policywatcher/raw/main/public/press-kit/${pressPackage.filename}`);
+      expect(pressPackage.href).toBe(`https://github.com/sev7enITA/policywatcher/raw/d02b90489dd58d7884dbf14dcb1d52ad12a5ed07/public/press-kit/${pressPackage.filename}`);
       const path = `public/press-kit/${pressPackage.filename}`;
       const content = readFileSync(path);
       expect(content.subarray(0, 2).toString()).toBe('PK');
