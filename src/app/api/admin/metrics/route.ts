@@ -93,6 +93,10 @@ export async function GET(request: NextRequest) {
     let scanMetricAvailable = true;
     try {
       const lastScan = await db.scanRun.findFirst({
+        where: {
+          status: 'completed',
+          selectedRecords: { gte: policyCount },
+        },
         orderBy: { startedAt: 'desc' },
         select: { status: true, startedAt: true },
       });

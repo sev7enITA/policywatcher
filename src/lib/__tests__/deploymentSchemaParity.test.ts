@@ -1,4 +1,4 @@
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -69,6 +69,7 @@ describe('Hostinger runtime schema parity', () => {
     expect(detector).toContain('PRAGMA table_info');
     expect(detector).toContain('PRAGMA foreign_key_list');
     expect(detector).toContain('PRAGMA index_info');
+    expect(detector).toContain('appliedMigrations.has(migration)');
     expect(pythonFallback).toContain('hostinger-detect-materialized-migrations.mjs');
     expect(detector).toContain("fs.readdirSync(migrationsRoot).sort()");
     expect(pythonFallback).toContain('--detect-materialized-migrations');
@@ -121,6 +122,92 @@ describe('Hostinger runtime schema parity', () => {
       expect(completeResult.status).toBe(0);
       expect(completeResult.stdout).toContain('20260706213500_init');
       expect(completeResult.stdout).toContain('20260721150000_policy_inquiry');
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  }, 15_000);
+
+  it('returns only materialized migrations that are absent from the Prisma ledger', () => {
+    const directory = mkdtempSync(join(tmpdir(), 'policywatcher-schema-ledger-'));
+    try {
+      const databasePath = join(directory, 'complete.db');
+      const initialized = spawnSync('node', ['scripts/hostinger-init-db.mjs'], {
+        cwd: process.cwd(),
+        env: { ...process.env, DATABASE_URL: `file:${databasePath}`, NODE_NO_WARNINGS: '1' },
+        encoding: 'utf8',
+      });
+      expect(initialized.status, initialized.stderr).toBe(0);
+
+      const database = new DatabaseSync(databasePath);
+      database.exec(`CREATE TABLE "_prisma_migrations" (
+        "id" TEXT NOT NULL PRIMARY KEY,
+        "checksum" TEXT NOT NULL,
+        "finished_at" DATETIME,
+        "migration_name" TEXT NOT NULL,
+        "logs" TEXT,
+        "rolled_back_at" DATETIME,
+        "started_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "applied_steps_count" INTEGER UNSIGNED NOT NULL DEFAULT 0
+      )`);
+      database.prepare(`INSERT INTO "_prisma_migrations" (
+        id, checksum, finished_at, migration_name, applied_steps_count
+      ) VALUES (?, ?, ?, ?, ?)`)
+        .run('applied-init', 'test', Date.now(), '20260706213500_init', 1);
+      database.close();
+
+      const result = spawnSync('node', ['scripts/hostinger-detect-materialized-migrations.mjs'], {
+        cwd: process.cwd(),
+        env: { ...process.env, DATABASE_URL: `file:${databasePath}`, NODE_NO_WARNINGS: '1' },
+        encoding: 'utf8',
+      });
+      expect(result.status, result.stderr).toBe(0);
+      expect(result.stdout).not.toContain('20260706213500_init');
+      expect(result.stdout).toContain('20260721150000_policy_inquiry');
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  }, 15_000);
+
+  it('detects a missing baseline migration even when all later migrations are registered', () => {
+    const directory = mkdtempSync(join(tmpdir(), 'policywatcher-schema-baseline-ledger-'));
+    try {
+      const databasePath = join(directory, 'complete.db');
+      const initialized = spawnSync('node', ['scripts/hostinger-init-db.mjs'], {
+        cwd: process.cwd(),
+        env: { ...process.env, DATABASE_URL: `file:${databasePath}`, NODE_NO_WARNINGS: '1' },
+        encoding: 'utf8',
+      });
+      expect(initialized.status, initialized.stderr).toBe(0);
+
+      const database = new DatabaseSync(databasePath);
+      database.exec(`CREATE TABLE "_prisma_migrations" (
+        "id" TEXT NOT NULL PRIMARY KEY,
+        "checksum" TEXT NOT NULL,
+        "finished_at" DATETIME,
+        "migration_name" TEXT NOT NULL,
+        "logs" TEXT,
+        "rolled_back_at" DATETIME,
+        "started_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "applied_steps_count" INTEGER UNSIGNED NOT NULL DEFAULT 0
+      )`);
+      const insertMigration = database.prepare(`INSERT INTO "_prisma_migrations" (
+        id, checksum, finished_at, migration_name, applied_steps_count
+      ) VALUES (?, ?, ?, ?, ?)`);
+      for (const migration of readdirSync('prisma/migrations').sort()) {
+        if (migration === '20260706213500_init') continue;
+        const migrationFile = join('prisma/migrations', migration, 'migration.sql');
+        if (!existsSync(migrationFile)) continue;
+        insertMigration.run(`applied-${migration}`, 'test', Date.now(), migration, 1);
+      }
+      database.close();
+
+      const result = spawnSync('node', ['scripts/hostinger-detect-materialized-migrations.mjs'], {
+        cwd: process.cwd(),
+        env: { ...process.env, DATABASE_URL: `file:${databasePath}`, NODE_NO_WARNINGS: '1' },
+        encoding: 'utf8',
+      });
+      expect(result.status, result.stderr).toBe(0);
+      expect(result.stdout.trim()).toBe('20260706213500_init');
     } finally {
       rmSync(directory, { recursive: true, force: true });
     }

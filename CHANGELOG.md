@@ -20,6 +20,13 @@
 - Waits for bounded Renderer health readiness after systemd restart before running post-update and rollback smoke tests.
 - Records deployment and rollback smoke outcomes separately, preventing normal Node startup latency from being reported as a failed rollback.
 
+### Operational evidence hotfix
+- Selects the chronologically latest source check after normalizing parsed timestamps, avoiding false Dataset QA mismatches when legacy Hostinger rows and Prisma rows use different SQLite DateTime storage classes.
+- Treats a verified public baseline with no later source change as complete monitoring evidence instead of a missing AI change analysis.
+- Replaces the occurrence-multiplied Dataset QA score with a bounded evaluated-coverage score while preserving critical issues as a failing gate.
+- Derives inventory freshness only from a completed full-scope source scan, so a targeted administrative check cannot mark the complete dataset fresh.
+- Registers only materialized migrations absent from the Prisma ledger and fails deployment initialization explicitly if registration cannot be completed.
+
 ## 3.9.0-beta.38 - 2026-08-02
 
 ### Git-hosted Press Distribution

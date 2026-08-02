@@ -144,4 +144,17 @@ describe('admin metrics resilience', () => {
     expect(stages.public).toMatchObject({ availability: 'measured', count: 32, denominator: 32 });
     expect(stages.analysed).toMatchObject({ availability: 'measured', count: 32, denominator: 32 });
   });
+
+  it('derives inventory freshness only from a completed full-scope scan', async () => {
+    await GET(new Request('https://policywatcher.online/api/admin/metrics') as never);
+
+    expect(mocks.scanFindFirst).toHaveBeenCalledWith({
+      where: {
+        status: 'completed',
+        selectedRecords: { gte: 32 },
+      },
+      orderBy: { startedAt: 'desc' },
+      select: { status: true, startedAt: true },
+    });
+  });
 });

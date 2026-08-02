@@ -72,7 +72,10 @@ resolve_materialized_migrations() {
   materialized_migrations="$(node "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs")"
   while IFS= read -r materialized_migration; do
     [[ -n "${materialized_migration}" ]] || continue
-    run_prisma migrate resolve --applied "${materialized_migration}" >/dev/null 2>&1 || true
+    if ! run_prisma migrate resolve --applied "${materialized_migration}" >/dev/null; then
+      echo "Unable to register materialized migration: ${materialized_migration}"
+      return 1
+    fi
   done <<< "${materialized_migrations}"
 }
 

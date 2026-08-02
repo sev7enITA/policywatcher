@@ -21,6 +21,10 @@ import {
 } from '@/lib/subscriberPreferences';
 import { DATA_STATUSES, isDataStatus, normalizeDataStatus } from '@/lib/policyConfidence';
 import { isSeededIngestionMethod } from '@/lib/publicDataGate';
+import {
+  calculateDatasetQualityScore,
+  newestTimestampedRecord,
+} from '@/lib/datasetQuality';
 
 const KPI_FIELDS = [
   'kpiDataCollection',
@@ -258,8 +262,6 @@ export async function GET(request: NextRequest) {
                 },
               },
               checkLogs: {
-                orderBy: { checkedAt: 'desc' },
-                take: 3,
                 select: {
                   id: true,
                   status: true,
@@ -521,10 +523,16 @@ export async function GET(request: NextRequest) {
         });
       }
 
-      const latestLog = policy.checkLogs[0];
+      const latestLog = newestTimestampedRecord(policy.checkLogs);
+      const verifiedSourceLog = policy.checkLogs.find((log) => (
+        (log.status === 'Available' || log.status === 'Reviewed')
+        && Boolean(log.source)
+        && !isSeededIngestionMethod(log.source)
+        && (Boolean(log.textHash) || (log.textLength ?? 0) > 0)
+      ));
       if (latestLog) {
         policiesWithCheckLogs++;
-        if (!seededRecord && latestLog.source && !isSeededIngestionMethod(latestLog.source)) {
+        if (!seededRecord && verifiedSourceLog) {
           policiesWithSourceEvidence++;
         }
         if (
@@ -624,11 +632,10 @@ export async function GET(request: NextRequest) {
         });
       }
 
-      const hasVerifiedRebaseline =
-        latestLog?.reason === 'rebaseline_from_seeded_record' &&
+      const hasVerifiedBaseline =
         policy.snapshots.some((snapshot) => snapshot.publicEvidence) &&
         !seededRecord &&
-        normalizedStatus === 'Available';
+        Boolean(verifiedSourceLog);
 
       const publicChangeCount = policy.changes.filter((change) => change.publicEvidence).length;
       if (publicChangeCount > 0) {
@@ -646,18 +653,8 @@ export async function GET(request: NextRequest) {
             action: 'Keep hidden rows private unless a verified source retrieval explicitly promotes replacement evidence.',
           });
         }
-      } else if (hasVerifiedRebaseline) {
+      } else if (hasVerifiedBaseline) {
         policiesWithChanges++;
-        addIssue('info', {
-          area: 'Coverage',
-          entityType: 'policy',
-          entityId: policy.id,
-          companyName: policy.companyName,
-          policyName: policy.name,
-          label: 'Policy has verified baseline and no post-baseline changes',
-          detail: 'The first verified fetch replaced Seeded ingestion evidence as the baseline. No PolicyChange is expected until a later source change is detected.',
-          action: 'No immediate action required. Continue scheduled monitoring.',
-        });
       } else {
         addIssue('warning', {
           area: 'Coverage',
@@ -1083,10 +1080,7 @@ export async function GET(request: NextRequest) {
       },
     ];
 
-    const qualityScore = Math.max(
-      0,
-      Math.min(100, 100 - counts.critical * 8 - counts.warning * 3 - counts.info)
-    );
+    const qualityScore = calculateDatasetQualityScore(checks);
     const status: GateStatus =
       counts.critical > 0 || qualityScore < 75
         ? 'fail'

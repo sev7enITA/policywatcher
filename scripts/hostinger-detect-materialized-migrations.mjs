@@ -16,6 +16,19 @@ const migrationsRoot = path.resolve(process.cwd(), 'prisma', 'migrations');
 if (!fs.existsSync(migrationsRoot)) process.exit(0);
 
 const db = new DatabaseSync(dbPath, { readOnly: true });
+const appliedMigrations = new Set();
+const migrationLedger = db.prepare(
+  "SELECT name FROM sqlite_master WHERE type = 'table' AND name = '_prisma_migrations'",
+).get();
+if (migrationLedger) {
+  for (const row of db.prepare(
+    `SELECT migration_name
+     FROM "_prisma_migrations"
+     WHERE finished_at IS NOT NULL AND rolled_back_at IS NULL`,
+  ).all()) {
+    appliedMigrations.add(row.migration_name);
+  }
+}
 const normalizedDefault = (value) => String(value ?? '')
   .trim()
   .replace(/^\((.*)\)$/s, '$1')
@@ -92,6 +105,7 @@ function migrationIsMaterialized(sql) {
 }
 
 for (const migration of fs.readdirSync(migrationsRoot).sort()) {
+  if (appliedMigrations.has(migration)) continue;
   const migrationFile = path.join(migrationsRoot, migration, 'migration.sql');
   if (!fs.existsSync(migrationFile)) continue;
   const sql = fs.readFileSync(migrationFile, 'utf8');
