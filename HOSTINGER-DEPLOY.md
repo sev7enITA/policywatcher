@@ -3,6 +3,19 @@
 This is a source deployment package. It intentionally excludes `.next`,
 `node_modules`, environment files and SQLite databases.
 
+Beta 40 adds the public `/associazioni` PolicyWatcher Civico workspace. It does
+not add a database migration or a new environment variable. The pilot watchlist,
+review states and draft digest are stored only in the current browser; shared
+Evidence Collections continue to carry public change identifiers only.
+
+Deploy the Beta 40 Hostinger application ZIP through the normal Node.js release
+flow. The separate VPS Renderer and Operations Agent packages are unchanged by
+this release. After restart, verify `/associazioni` in both languages, confirm
+that eligible published records can be added to the local watchlist, and confirm
+that an empty or unavailable public catalog stays explicit instead of showing
+demo or private data. Also open one source link and one Evidence Collection
+handoff before accepting the deployment.
+
 Beta 39 adds end-to-end Renderer release upload to `/admin/vps-services`.
 Deploy VPS Operations Agent 0.2 once before using the managed control; the
 Agent then accepts bounded HMAC-signed packages from Hostinger and performs

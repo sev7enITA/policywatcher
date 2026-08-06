@@ -1,6 +1,6 @@
 {
   "name": "policywatcher",
-  "version": "3.9.0-beta.39",
+  "version": "3.9.0-beta.40",
   "private": true,
   "scripts": {
     "dev": "next dev",

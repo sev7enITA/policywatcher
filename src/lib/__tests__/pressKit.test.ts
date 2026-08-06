@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { POLICYWATCHER_VERSION } from '../release';
 import {
   PRESS_KIT_ARTICLE_50_URL,
-  PRESS_KIT_RELEASE_DATE,
+  PRESS_KIT_DATA_SNAPSHOT_DATE,
   PRESS_KIT_JSON_URL,
   buildPressKitPayload,
   pressKitAssets,
@@ -111,11 +111,11 @@ describe('public press kit', () => {
     expect(hostingerPackager).toContain("-name 'policywatcher-press-package-*.zip' -delete");
     expect(hostingerPackager).toContain('Archive contains a Press Kit package that must be served from GitHub.');
 
-    const snapshot = JSON.parse(read(`public/press-kit/policywatcher-configured-scope-${PRESS_KIT_RELEASE_DATE}.json`)) as {
+    const snapshot = JSON.parse(read(`public/press-kit/policywatcher-configured-scope-${PRESS_KIT_DATA_SNAPSHOT_DATE}.json`)) as {
       asOf: string;
       facts: Array<{ id: string; value: string; scope: string }>;
     };
-    expect(snapshot.asOf).toBe(PRESS_KIT_RELEASE_DATE);
+    expect(snapshot.asOf).toBe(PRESS_KIT_DATA_SNAPSHOT_DATE);
     expect(snapshot.facts.map((fact) => fact.value)).toEqual(['16', '6', '15', 'EN / IT']);
     expect(snapshot.facts[0].scope).toContain('WAZE admin-onboarding fixture');
 
@@ -291,7 +291,9 @@ describe('public press kit', () => {
     const githubDistributionItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'github-press-kit-distribution');
     expect(githubDistributionItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.38', endRelease: '3.9.0-beta.38' });
     const managedVpsItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'managed-vps-releases');
-    expect(managedVpsItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(managedVpsItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.39', endRelease: '3.9.0-beta.39' });
+    const civicItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'consumer-association-civic-workspace');
+    expect(civicItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
     expect(continuityAtlasItem?.route).toEqual({ href: '/developers/event-continuity', label: 'Event Feed Continuity Lab', access: 'public' });
   });
 });

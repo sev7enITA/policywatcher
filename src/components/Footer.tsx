@@ -57,6 +57,7 @@ const content = {
     about: 'About the Project',
     showcase: 'Showcase',
     observatory: 'Observatory',
+    associations: 'Civic Lab',
     developers: 'Developer Directory',
     integrations: 'Integration Options',
     knowledge: 'Public Knowledge',
@@ -92,6 +93,7 @@ const content = {
     about: 'Il progetto e l’autore',
     showcase: 'Vetrina',
     observatory: 'Observatory',
+    associations: 'Associazioni',
     developers: 'Directory sviluppatori',
     integrations: 'Opzioni di integrazione',
     knowledge: 'Conoscenza pubblica',
@@ -151,6 +153,7 @@ export default function Footer({ lang, variant = 'full' }: FooterProps) {
       id: 'explore',
       label: t.explore,
       links: [
+        { href: '/associazioni', label: t.associations, icon: UserRound },
         { href: '/knowledge', label: t.knowledge, icon: FileText },
         { href: '/observatory', label: t.observatory, icon: Search },
         { href: '/collections', label: t.collections, icon: FolderKanban },

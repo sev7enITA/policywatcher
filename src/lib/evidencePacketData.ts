@@ -75,7 +75,9 @@ export async function listPublicEvidencePacketSummaries(limit = 24) {
       overallRisk: true,
       overallScore: true,
       tldrEn: true,
+      tldrIt: true,
       aiSummaryEn: true,
+      aiSummaryIt: true,
       policy: {
         select: {
           id: true,
@@ -100,6 +102,7 @@ export async function listPublicEvidencePacketSummaries(limit = 24) {
     overallRisk: change.overallRisk,
     overallScore: change.overallScore,
     summary: change.tldrEn || change.aiSummaryEn,
+    summaryIt: change.tldrIt || change.aiSummaryIt || change.tldrEn || change.aiSummaryEn,
     policy: change.policy,
     sourceState: change.policy.checkLogs[0]
       ? change.policy.checkLogs[0].status === 'Available' || change.policy.checkLogs[0].status === 'Reviewed'

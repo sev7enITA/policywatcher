@@ -241,6 +241,17 @@ export default function CommandPalette({
         },
       },
       {
+        id: 'act-associations',
+        label: 'Open Civic Lab',
+        labelIt: 'Apri Associazioni',
+        icon: <UserRound size={16} />,
+        group: 'actions',
+        keywords: 'associations associazioni consumer consumers cittadini civic watchlist review digest evidence',
+        run: () => {
+          window.location.href = '/associazioni';
+        },
+      },
+      {
         id: 'act-atlas',
         label: 'Open Site Atlas',
         labelIt: 'Apri Atlante del sito',

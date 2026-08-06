@@ -53,6 +53,11 @@ const iconMap: Record<string, LucideIcon> = {
 
 const recommendedRoutes = [
   {
+    title: 'Consumer-association pilot',
+    body: 'Start in PolicyWatcher Civico, inspect the underlying change evidence, then check the methodology before preparing an association briefing.',
+    nodes: ['associations', 'timeline', 'methodology'],
+  },
+  {
     title: 'First inspection',
     body: 'Start with the dashboard, check public QA evidence, then read the methodology before using signals.',
     nodes: ['dashboard', 'trust', 'methodology'],

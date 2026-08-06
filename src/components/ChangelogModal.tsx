@@ -89,7 +89,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Current Beta</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      The current release adds a Word task pane that classifies an explicit selection locally and sends only displayed controlled topic labels to the public evidence gateway after a separate acknowledgement. The source package is ready for controlled sideload validation; it is not AppSource-published or tenant-deployed and does not verify, approve or legally assess contracts.
+                      The current release adds an Italian-language civic-review workspace for Italian consumer associations. It builds a bounded browser-local watchlist from eligible published changes, supports local review states and theme triage, creates a deterministic Markdown digest and hands public record identifiers to Evidence Collections. It does not create an association account, collect consumer cases, make legal findings or publish decisions.
                     </p>
                   </div>
 

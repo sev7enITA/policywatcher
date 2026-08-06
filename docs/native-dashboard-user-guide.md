@@ -34,10 +34,16 @@ Normalized values make differently worded assessments comparable. They do not me
 
 Use **Timeline → Policy changes** for evidence-gated provider change records. Use **Timeline → Source continuity** for sanitized retrieval and publication-state transitions such as suspension, verification and recovery. Continuity events describe PolicyWatcher operations; they do not assess the provider policy, service, legality or compliance. Use the Feature Atlas for release KPI/KRI impact, Observatory for monitored external signals, and Methodology for definitions and boundaries.
 
-## 8. Read on mobile
+## 8. Use PolicyWatcher Civico
+
+Open **Civic Lab / Associazioni** to create a browser-local pilot watchlist from eligible published change records. Select a theme, add records, assign local review states and create a deterministic Markdown digest. Use **Evidence Collections** when you need a shareable scope containing public change identifiers.
+
+The civic workspace does not create an association account, collect consumer or member identities, manage complaints, issue legal conclusions or publish decisions. Local watchlist titles and review states remain in the current browser. Unavailable, suspended, seeded, private and otherwise ineligible records remain outside the workspace.
+
+## 9. Read on mobile
 
 The optional On-the-Go workspace condenses the page while keeping source notices and essential evidence controls visible. The choice is local to the browser and can be changed through **Change view**.
 
-## 9. Treat outputs as decision support
+## 10. Treat outputs as decision support
 
 PolicyWatcher reports the public evidence it can verify and names the evidence it cannot assess. Confirm material decisions against the linked primary source and qualified legal or compliance advice.

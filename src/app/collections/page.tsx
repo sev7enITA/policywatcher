@@ -58,6 +58,7 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
       overallRisk: packet.assessment.overallRisk,
       overallScore: packet.assessment.overallScore,
       summary: packet.assessment.summary,
+      summaryIt: packet.assessment.summary,
       sourceState: packet.sourceConfidence.state,
       policy: {
         id: packet.policy.id,

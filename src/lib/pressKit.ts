@@ -127,6 +127,7 @@ export interface PressKitRegistryEvent {
 }
 
 export const PRESS_KIT_RELEASE_DATE = POLICYWATCHER_RELEASE_DATE;
+export const PRESS_KIT_DATA_SNAPSHOT_DATE = '2026-08-02' as const;
 export const PRESS_KIT_CANONICAL_URL = 'https://policywatcher.online/press-kit' as const;
 export const POLICYWATCHER_CANONICAL_ORIGIN = 'https://policywatcher.online' as const;
 export const PRESS_KIT_JSON_URL = `${PRESS_KIT_CANONICAL_URL}/press-kit.json` as const;
@@ -226,7 +227,7 @@ export const pressKitClaims: PressKitClaim[] = [
     type: 'freshness',
     proofHref: '/timeline',
     proofLabel: { en: 'Policy timeline', it: 'Timeline policy' },
-    boundary: { en: 'Release metadata is dated 2 August 2026; update intervals depend on source retrieval and review.', it: 'I metadata di release sono datati 2 agosto 2026; gli intervalli di aggiornamento dipendono dal recupero e dalla revisione delle fonti.' },
+    boundary: { en: 'Release metadata is dated 6 August 2026; update intervals depend on source retrieval and review.', it: 'I metadata di release sono datati 6 agosto 2026; gli intervalli di aggiornamento dipendono dal recupero e dalla revisione delle fonti.' },
     asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
     reviewCadence: { en: 'Each source-screening release', it: 'Ogni release di screening fonti' }, recordStatus: 'current', permalink: '/press-kit#claim-source-timestamps',
   },
@@ -535,12 +536,37 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'managed-vps-releases-3-9-0-beta-39',
+    slug: 'policywatcher-civico-3-9-0-beta-40',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'product',
+    title: { en: 'PolicyWatcher Civico', it: 'PolicyWatcher Civico' },
+    summary: { en: 'Adds a bounded public-evidence workspace for a controlled pilot with Italian consumer associations.', it: 'Aggiunge un workspace circoscritto di evidenze pubbliche per un pilota controllato con le associazioni italiane dei consumatori.' },
+    changes: [
+      { en: 'Reviewers can build a browser-local watchlist from eligible published change records and assign local review states.', it: 'I revisori possono creare una watchlist locale al browser da record di modifica pubblicati e ammissibili, assegnando stati di revisione locali.' },
+      { en: 'Theme triage, source-first inspection and a deterministic Markdown digest support repeatable internal briefing.', it: 'Triage per tema, ispezione source-first e digest Markdown deterministico supportano briefing interni ripetibili.' },
+      { en: 'Selected public records can be handed to Evidence Collections while local titles and review state stay out of shared URLs.', it: 'I record pubblici selezionati possono passare alle Raccolte di evidenze mentre titoli locali e stato di revisione restano fuori dagli URL condivisi.' },
+    ],
+    boundaries: [
+      { en: 'The workspace is not an association account, complaint system, legal opinion or automated publication desk.', it: 'Il workspace non e un account associativo, sistema reclami, parere legale o desk di pubblicazione automatica.' },
+      { en: 'Watchlist and review state remain in the current browser; unavailable or ineligible records do not become civic evidence.', it: 'Watchlist e stato di revisione restano nel browser corrente; record non disponibili o non ammissibili non diventano evidenze civiche.' },
+    ],
+    evidenceLinks: [
+      { href: '/associazioni', label: { en: 'Civic Lab', it: 'Associazioni' } },
+      { href: '/methodology/confidence', label: { en: 'Confidence methodology', it: 'Metodologia confidence' } },
+      { href: '/feature-atlas', label: { en: 'Feature Atlas', it: 'Atlante funzionalita' } },
+    ],
+  },
+  {
+    slug: 'managed-vps-releases-3-9-0-beta-39',
+    version: '3.9.0-beta.39',
+    displayVersion: '3.9.0 Beta 39',
+    datePublished: '2026-08-02',
+    dateModified: '2026-08-02',
+    status: 'archived',
     category: 'product',
     title: { en: 'Managed VPS Releases', it: 'Release VPS gestite' },
     summary: { en: 'Moves bounded Renderer package upload, verification, asynchronous deployment and recovery into the protected Admin Center.', it: 'Porta nel pannello Admin protetto upload, verifica, deployment asincrono e recovery dei pacchetti Renderer circoscritti.' },
@@ -1302,19 +1328,19 @@ export const pressKitReleases: PressKitRelease[] = [
 
 export const pressKitDataSnapshots: PressKitDataSnapshot[] = [
   {
-    id: `configured-scope-${PRESS_KIT_RELEASE_DATE}`,
+    id: `configured-scope-${PRESS_KIT_DATA_SNAPSHOT_DATE}`,
     title: { en: 'Configured scope snapshot', it: 'Snapshot del perimetro configurato' },
     description: { en: 'Press-ready representation of monitored-company inventory, sectors, canonical KPIs and supported editorial languages.', it: 'Rappresentazione per la stampa di inventario aziende monitorate, settori, KPI canonici e lingue editoriali supportate.' },
-    asOf: PRESS_KIT_RELEASE_DATE,
-    generatedAt: PRESS_KIT_RELEASE_DATE,
+    asOf: PRESS_KIT_DATA_SNAPSHOT_DATE,
+    generatedAt: PRESS_KIT_DATA_SNAPSHOT_DATE,
     methodologyHref: '/methodology/confidence',
-    citation: { en: `PolicyWatcher configured scope snapshot, ${PRESS_KIT_RELEASE_DATE}, ${PRESS_KIT_CANONICAL_URL}/data (accessed [date]).`, it: `Snapshot del perimetro configurato PolicyWatcher, ${PRESS_KIT_RELEASE_DATE}, ${PRESS_KIT_CANONICAL_URL}/data (consultato il [data]).` },
+    citation: { en: `PolicyWatcher configured scope snapshot, ${PRESS_KIT_DATA_SNAPSHOT_DATE}, ${PRESS_KIT_CANONICAL_URL}/data (accessed [date]).`, it: `Snapshot del perimetro configurato PolicyWatcher, ${PRESS_KIT_DATA_SNAPSHOT_DATE}, ${PRESS_KIT_CANONICAL_URL}/data (consultato il [data]).` },
     boundary: { en: 'Configured product inventory and method; not exhaustive market coverage, legal advice or measured compliance.', it: 'Inventario e metodo configurati; non copertura esaustiva, consulenza legale o conformita misurata.' },
     files: [
-      { format: 'PNG', href: `/press-kit/policywatcher-configured-scope-${PRESS_KIT_RELEASE_DATE}.png`, mediaType: 'image/png' },
-      { format: 'SVG', href: `/press-kit/policywatcher-configured-scope-${PRESS_KIT_RELEASE_DATE}.svg`, mediaType: 'image/svg+xml' },
-      { format: 'CSV', href: `/press-kit/policywatcher-configured-scope-${PRESS_KIT_RELEASE_DATE}.csv`, mediaType: 'text/csv' },
-      { format: 'JSON', href: `/press-kit/policywatcher-configured-scope-${PRESS_KIT_RELEASE_DATE}.json`, mediaType: 'application/json' },
+      { format: 'PNG', href: `/press-kit/policywatcher-configured-scope-${PRESS_KIT_DATA_SNAPSHOT_DATE}.png`, mediaType: 'image/png' },
+      { format: 'SVG', href: `/press-kit/policywatcher-configured-scope-${PRESS_KIT_DATA_SNAPSHOT_DATE}.svg`, mediaType: 'image/svg+xml' },
+      { format: 'CSV', href: `/press-kit/policywatcher-configured-scope-${PRESS_KIT_DATA_SNAPSHOT_DATE}.csv`, mediaType: 'text/csv' },
+      { format: 'JSON', href: `/press-kit/policywatcher-configured-scope-${PRESS_KIT_DATA_SNAPSHOT_DATE}.json`, mediaType: 'application/json' },
     ],
   },
 ];
@@ -1339,10 +1365,11 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
-  { id: 'managed-vps-releases-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Managed VPS Releases published', it: 'Pubblicate le Release VPS gestite' }, detail: { en: 'The protected Admin Center now uploads bounded Renderer packages through Hostinger to Operations Agent 0.2 and follows asynchronous verification or rollback.', it: 'L Admin Center protetto ora carica pacchetti Renderer circoscritti attraverso Hostinger verso Operations Agent 0.2 e segue verifica asincrona o rollback.' }, affectedHref: '/press-kit/releases/managed-vps-releases-3-9-0-beta-39' },
-  { id: 'git-hosted-press-distribution-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Git-hosted Press Distribution published', it: 'Pubblicata la distribuzione Press Kit tramite Git' }, detail: { en: 'Complete EN and IT editorial packages now download from the public GitHub repository while Hostinger application artifacts exclude nested Press Kit ZIPs.', it: 'I pacchetti editoriali completi EN e IT ora vengono scaricati dal repository GitHub pubblico, mentre gli artifact applicativi Hostinger escludono gli ZIP Press Kit annidati.' }, affectedHref: '/press-kit/releases/git-hosted-press-distribution-3-9-0-beta-38' },
-  { id: 'resource-navigation-retrieval-diagnostics-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Resource Navigation and Retrieval Diagnostics published', it: 'Pubblicate navigazione risorse e diagnostica retrieval' }, detail: { en: 'The public footer now groups its complete destination set while protected scans and renderer readiness expose bounded acquisition diagnostics.', it: 'Il footer pubblico ora raggruppa il set completo di destinazioni, mentre scansioni protette e readiness del renderer espongono diagnostica limitata delle acquisizioni.' }, affectedHref: '/press-kit/releases/resource-navigation-retrieval-diagnostics-3-9-0-beta-37' },
-  { id: 'remediation-community-mutation-hardening-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Remediation UX, Community Signals and Mutation Hardening published', it: 'Pubblicati UX remediation, segnali community e hardening mutazioni' }, detail: { en: 'Three roadmap waves add an action-oriented remediation workbench, browser-local signal composer and centralized administrative mutation boundary.', it: 'Tre wave della roadmap aggiungono un workbench remediation orientato all azione, un composer locale nel browser e un confine centralizzato per le mutazioni amministrative.' }, affectedHref: '/press-kit/releases/remediation-community-mutation-hardening-3-9-0-beta-36' },
+  { id: 'policywatcher-civico-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'PolicyWatcher Civico published', it: 'Pubblicato PolicyWatcher Civico' }, detail: { en: 'A source-first public-evidence workspace now supports a controlled browser-local pilot with Italian consumer associations.', it: 'Un workspace source-first di evidenze pubbliche ora supporta un pilota controllato e locale al browser con le associazioni italiane dei consumatori.' }, affectedHref: '/press-kit/releases/policywatcher-civico-3-9-0-beta-40' },
+  { id: 'managed-vps-releases-release', occurredAt: '2026-08-02', type: 'release', title: { en: 'Managed VPS Releases published', it: 'Pubblicate le Release VPS gestite' }, detail: { en: 'The protected Admin Center now uploads bounded Renderer packages through Hostinger to Operations Agent 0.2 and follows asynchronous verification or rollback.', it: 'L Admin Center protetto ora carica pacchetti Renderer circoscritti attraverso Hostinger verso Operations Agent 0.2 e segue verifica asincrona o rollback.' }, affectedHref: '/press-kit/releases/managed-vps-releases-3-9-0-beta-39' },
+  { id: 'git-hosted-press-distribution-release', occurredAt: '2026-08-02', type: 'release', title: { en: 'Git-hosted Press Distribution published', it: 'Pubblicata la distribuzione Press Kit tramite Git' }, detail: { en: 'Complete EN and IT editorial packages now download from the public GitHub repository while Hostinger application artifacts exclude nested Press Kit ZIPs.', it: 'I pacchetti editoriali completi EN e IT ora vengono scaricati dal repository GitHub pubblico, mentre gli artifact applicativi Hostinger escludono gli ZIP Press Kit annidati.' }, affectedHref: '/press-kit/releases/git-hosted-press-distribution-3-9-0-beta-38' },
+  { id: 'resource-navigation-retrieval-diagnostics-release', occurredAt: '2026-08-02', type: 'release', title: { en: 'Resource Navigation and Retrieval Diagnostics published', it: 'Pubblicate navigazione risorse e diagnostica retrieval' }, detail: { en: 'The public footer now groups its complete destination set while protected scans and renderer readiness expose bounded acquisition diagnostics.', it: 'Il footer pubblico ora raggruppa il set completo di destinazioni, mentre scansioni protette e readiness del renderer espongono diagnostica limitata delle acquisizioni.' }, affectedHref: '/press-kit/releases/resource-navigation-retrieval-diagnostics-3-9-0-beta-37' },
+  { id: 'remediation-community-mutation-hardening-release', occurredAt: '2026-08-02', type: 'release', title: { en: 'Remediation UX, Community Signals and Mutation Hardening published', it: 'Pubblicati UX remediation, segnali community e hardening mutazioni' }, detail: { en: 'Three roadmap waves add an action-oriented remediation workbench, browser-local signal composer and centralized administrative mutation boundary.', it: 'Tre wave della roadmap aggiungono un workbench remediation orientato all azione, un composer locale nel browser e un confine centralizzato per le mutazioni amministrative.' }, affectedHref: '/press-kit/releases/remediation-community-mutation-hardening-3-9-0-beta-36' },
   { id: 'community-signal-composer-release', occurredAt: '2026-08-02', type: 'release', title: { en: 'Community Signal Composer UX published', it: 'Pubblicata la UX del Composer segnali community' }, detail: { en: 'Roadmap interest can now become a bounded local dossier before explicit GitHub handoff.', it: 'L interesse per la roadmap puo ora diventare un dossier locale limitato prima dell handoff GitHub esplicito.' }, affectedHref: '/press-kit/releases/community-signal-composer-3-9-0-beta-35' },
   { id: 'source-remediation-workbench-release', occurredAt: '2026-08-02', type: 'release', title: { en: 'Source Remediation Workbench UX published', it: 'Pubblicata la UX del Workbench remediation fonti' }, detail: { en: 'Protected source operations now connect returned-window priority, bounded evidence and recovery-gated closure.', it: 'Le operazioni protette sulle fonti ora collegano priorita della finestra restituita, evidenze limitate e chiusura vincolata al recupero.' }, affectedHref: '/press-kit/releases/source-remediation-workbench-3-9-0-beta-34' },
   { id: 'production-assurance-renderer-hardening-release', occurredAt: '2026-08-02', type: 'release', title: { en: 'Production Assurance and Renderer Hardening published', it: 'Pubblicati assurance di produzione e hardening del renderer' }, detail: { en: 'Three roadmap waves add residency evidence, authenticated deployment verification and fail-closed renderer controls.', it: 'Tre wave della roadmap aggiungono evidenze di residenza, verifica autenticata del deployment e controlli fail-closed del renderer.' }, affectedHref: '/press-kit/releases/production-assurance-renderer-hardening-3-9-0-beta-33' },

@@ -280,16 +280,18 @@ async function refreshLiveReleaseAssets() {
   await writeFactSheets();
   const assetManifestPath = path.join(PRESS_DIR, 'asset-manifest.json');
   const assetManifest = JSON.parse(readFileSync(assetManifestPath, 'utf8'));
-  const liveFactSheets = new Set([
-    `policywatcher-fact-sheet-en-${RELEASE_DATE}.txt`,
-    `policywatcher-fact-sheet-it-${RELEASE_DATE}.txt`,
-    `policywatcher-fact-sheet-en-${RELEASE_DATE}.pdf`,
-    `policywatcher-fact-sheet-it-${RELEASE_DATE}.pdf`,
-  ]);
+  const liveFactSheets = [
+    [`policywatcher-fact-sheet-en-${RELEASE_DATE}.txt`, 'text/plain'],
+    [`policywatcher-fact-sheet-it-${RELEASE_DATE}.txt`, 'text/plain'],
+    [`policywatcher-fact-sheet-en-${RELEASE_DATE}.pdf`, 'application/pdf'],
+    [`policywatcher-fact-sheet-it-${RELEASE_DATE}.pdf`, 'application/pdf'],
+  ];
   assetManifest.release = VERSION;
-  assetManifest.assets = assetManifest.assets.map((entry) => liveFactSheets.has(entry.filename)
-    ? manifestEntry(entry.filename, entry.mediaType, entry.metadataStandard)
-    : entry);
+  assetManifest.generatedAt = RELEASE_DATE;
+  assetManifest.assets = [
+    ...assetManifest.assets.filter((entry) => !/^policywatcher-fact-sheet-(en|it)-\d{4}-\d{2}-\d{2}\.(txt|pdf)$/.test(entry.filename)),
+    ...liveFactSheets.map(([filename, mediaType]) => manifestEntry(filename, mediaType)),
+  ];
   writeFileSync(assetManifestPath, `${JSON.stringify(assetManifest, null, 2)}\n`);
 
   const packageManifestPath = path.join(PRESS_DIR, 'package-manifest.json');

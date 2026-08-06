@@ -1,7 +1,7 @@
-export const POLICYWATCHER_VERSION = '3.9.0-beta.39' as const;
-export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 39' as const;
-export const POLICYWATCHER_RELEASE_NAME = 'Managed VPS Releases' as const;
-export const POLICYWATCHER_RELEASE_DATE = '2026-08-02' as const;
+export const POLICYWATCHER_VERSION = '3.9.0-beta.40' as const;
+export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 40' as const;
+export const POLICYWATCHER_RELEASE_NAME = 'PolicyWatcher Civico' as const;
+export const POLICYWATCHER_RELEASE_DATE = '2026-08-06' as const;
 export type PolicyWatcherReleaseChannel = 'stable' | 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL: PolicyWatcherReleaseChannel = 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL_LABEL = 'BETA' as const;

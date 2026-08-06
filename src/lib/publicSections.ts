@@ -61,6 +61,18 @@ export const publicSectionGroups: Record<PublicSectionGroup, { label: string; de
 
 export const publicSectionNodes: PublicSectionNode[] = [
   {
+    id: 'associations',
+    label: 'PolicyWatcher Civico',
+    href: '/associazioni',
+    group: 'core',
+    summary: 'Italian civic-review workspace for consumer associations, built only from evidence admitted by the public publication gates.',
+    role: 'Use it to define a local pilot watchlist, triage published changes and assemble review-ready evidence without creating an account.',
+    status: 'dynamic',
+    icon: 'user',
+    x: 41,
+    y: 35,
+  },
+  {
     id: 'knowledge',
     label: 'Public Knowledge Base',
     href: '/knowledge',
@@ -327,6 +339,9 @@ export const publicSectionNodes: PublicSectionNode[] = [
 ];
 
 export const publicSectionEdges: PublicSectionEdge[] = [
+  { from: 'associations', to: 'knowledge', label: 'organizes published records from', strength: 'primary' },
+  { from: 'associations', to: 'what-changed', label: 'routes new source signals through', strength: 'primary' },
+  { from: 'associations', to: 'methodology', label: 'inherits evidence boundaries from', strength: 'primary' },
   { from: 'dashboard', to: 'knowledge', label: 'links verified public records through', strength: 'primary' },
   { from: 'knowledge', to: 'methodology', label: 'inherits publication boundaries from', strength: 'primary' },
   { from: 'knowledge', to: 'developers', label: 'exposes machine access through', strength: 'secondary' },

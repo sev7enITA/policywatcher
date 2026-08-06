@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2039%20Managed%20VPS%20Releases-146c6a" alt="3.9.0 Beta 39 Managed VPS Releases" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2040%20PolicyWatcher%20Civico-146c6a" alt="3.9.0 Beta 40 PolicyWatcher Civico" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -38,6 +38,17 @@
 PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
+
+### Release 3.9.0 Beta 40 PolicyWatcher Civico Highlights
+
+- **Association-focused workspace:** `/associazioni` turns eligible public policy changes into a bounded civic-review queue for Italian consumer associations.
+- **Local pilot watchlist:** reviewers can select themes and records, assign local review states and retain their working scope in the current browser without creating an account.
+- **Source-first triage:** each record keeps its source, publication status and evidence boundary visible before summaries, classifications or follow-up actions.
+- **Review handoff:** a deterministic Markdown digest and existing public Evidence Collections support internal briefing and reproducible review scopes.
+- **Public discovery:** Civic Lab is connected through navigation, sitemap, `llms.txt`, Site Atlas, Feature Atlas, Roadmap and bilingual product guidance.
+- **Fail-closed boundary:** unavailable, suspended, seeded, private and otherwise ineligible records do not become civic evidence or demo results.
+
+PolicyWatcher Civico is not a complaint desk, association account, legal opinion or automated publication workflow. Watchlist and review state remain local to the browser.
 
 ### Release 3.9.0 Beta 39 Managed VPS Releases Highlights
 
@@ -849,7 +860,7 @@ flowchart LR
 
 ### Onboarding
 - The first-use dashboard composer is the default guided entry when no valid workspace profile or deep-link preset exists.
-- The 9-step bilingual How To guide covers workspace setup, canonical share links, source gates, regional/KPI drill-down, exact-value fallbacks, navigation, and mobile reading.
+- The 10-step bilingual How To guide covers workspace setup, canonical share links, source gates, regional/KPI drill-down, exact-value fallbacks, civic review, navigation, and mobile reading.
 - The [native dashboard user guide](docs/native-dashboard-user-guide.md) documents the same evidence-first workflow and its limitations.
 
 ---

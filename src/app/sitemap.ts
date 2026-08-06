@@ -22,6 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static landing pages
   const staticEntries: MetadataRoute.Sitemap = [
     { url: `${BASE_URL}/`, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
+    { url: `${BASE_URL}/associazioni`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.96 },
     { url: `${BASE_URL}/evidence`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.94 },
     { url: `${BASE_URL}/collections`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/showcase`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.95 },

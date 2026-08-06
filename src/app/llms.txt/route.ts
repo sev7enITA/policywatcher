@@ -5,6 +5,7 @@ const content = `# PolicyWatcher
 PolicyWatcher is a public evidence laboratory that records verified policy baselines and published policy changes for monitored companies. AI-assisted screening outputs are not legal advice, compliance determinations, or provider statements.
 
 ## Canonical public sections
+- Consumer-association civic workspace: ${POLICYWATCHER_ORIGIN}/associazioni
 - Knowledge base: ${POLICYWATCHER_ORIGIN}/knowledge
 - Evidence packets: ${POLICYWATCHER_ORIGIN}/evidence
 - Confidence methodology: ${POLICYWATCHER_ORIGIN}/methodology/confidence
@@ -34,6 +35,8 @@ Public knowledge and machine endpoints exclude configured, seeded, withheld, unv
 The residency evidence pack is a dated source register. It does not prove the active deployment or backup region and is not a DPA, transfer impact assessment, legal opinion, or provider certification.
 
 The Roadmap Signal Composer stores a bounded proposal draft in the user browser. Draft contents are not sent to PolicyWatcher; opening a reviewed GitHub proposal or copying its text requires an explicit user action. The composer does not establish popularity, endorsement, acceptance, or adoption.
+
+PolicyWatcher Civico stores its pilot watchlist and review state in the current browser. It does not create an association account, publish a reviewer decision, manage consumer complaints or establish a partnership or endorsement. Civic relevance is a triage aid, not a legal conclusion.
 
 ## Citation guidance
 Cite the canonical PolicyWatcher entity, change, or evidence URL as a secondary record. Include the official provider source when available. State the observed or published timestamp and retain the methodology boundary. Do not attribute PolicyWatcher screening language to the monitored company.

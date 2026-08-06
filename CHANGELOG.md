@@ -2,6 +2,26 @@
 
 ## Unreleased
 
+## 3.9.0-beta.40 - 2026-08-06
+
+### PolicyWatcher Civico
+- Added `/associazioni`, an Italian-language public-evidence workspace designed for a controlled pilot with Italian consumer associations.
+- Added a browser-local watchlist, review states, theme triage, source-first record inspection and a deterministic Markdown digest without requiring an account.
+- Reused public Evidence Collections for review-ready handoff while keeping local watchlist titles and review state out of shared URLs.
+- Added explicit unavailable and empty states so demo, seeded, suspended, private or otherwise ineligible records are never presented as publishable civic evidence.
+
+### Discovery, guidance and release resources
+- Connected Civic Lab through the public header, footer, dashboard ribbon, command palette, sitemap, `llms.txt`, Site Atlas and Feature Intelligence Atlas.
+- Expanded the bilingual How To tour and native dashboard guide with a dedicated civic-review step.
+- Updated the Roadmap, release-impact map, Press Kit release registry, in-product changelog, deployment guide and release audit for Beta 40.
+- Added focused unit, UI-contract, discovery and public-claim-language coverage for the new vertical.
+- Removed the ignored, Next.js-generated `next-env.d.ts` file from the release source prerequisites so clean Git worktrees remain packageable and traceable.
+
+### Scope boundary
+- PolicyWatcher Civico is a public-evidence triage workspace, not an association account, complaint-management system, case file, legal opinion or publication desk.
+- Watchlist and review state remain in the current browser. The workspace does not collect member or consumer identities and does not send drafts automatically.
+- Theme labels and summaries support review; material conclusions still require the linked primary source and qualified professional assessment.
+
 ## 3.9.0-beta.39 - 2026-08-02
 
 ### Managed VPS Releases

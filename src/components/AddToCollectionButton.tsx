@@ -61,16 +61,40 @@ interface AddToCollectionButtonProps {
   changeId: string;
   className?: string;
   compact?: boolean;
+  lang?: 'en' | 'it';
 }
+
+const collectionCopy = {
+  en: {
+    already: 'This change is already in your local collection.',
+    limit: `Collection limit reached: ${EVIDENCE_COLLECTION_LIMIT} public changes.`,
+    added: 'Added to your browser-local evidence collection.',
+    addedLabel: 'Change already in local collection',
+    addLabel: 'Add this change to a local evidence collection',
+    inCollection: 'In collection',
+    add: 'Add to collection',
+  },
+  it: {
+    already: 'Questa evidenza è già nella raccolta locale.',
+    limit: `Limite raggiunto: la raccolta può contenere ${EVIDENCE_COLLECTION_LIMIT} evidenze pubbliche.`,
+    added: 'Evidenza aggiunta alla raccolta locale di questo browser.',
+    addedLabel: 'Evidenza già presente nella raccolta locale',
+    addLabel: 'Aggiungi questa evidenza a una raccolta locale',
+    inCollection: 'Nel dossier',
+    add: 'Aggiungi al dossier',
+  },
+} as const;
 
 export default function AddToCollectionButton({
   changeId,
   className,
   compact = false,
+  lang = 'en',
 }: AddToCollectionButtonProps) {
   const [isAdded, setIsAdded] = useState(false);
   const [message, setMessage] = useState('');
   const normalizedId = changeId.toLowerCase();
+  const copy = collectionCopy[lang];
 
   const syncState = useCallback(() => {
     try {
@@ -102,13 +126,13 @@ export default function AddToCollectionButton({
 
       if (collection.selectedIds.includes(normalizedId)) {
         event.preventDefault();
-        setMessage('This change is already in your local collection.');
+        setMessage(copy.already);
         return;
       }
 
       if (collection.selectedIds.length >= EVIDENCE_COLLECTION_LIMIT) {
         event.preventDefault();
-        setMessage(`Collection limit reached: ${EVIDENCE_COLLECTION_LIMIT} public changes.`);
+        setMessage(copy.limit);
         return;
       }
 
@@ -120,7 +144,7 @@ export default function AddToCollectionButton({
       localStorage.setItem(EVIDENCE_COLLECTION_STORAGE_KEY, JSON.stringify(next));
       event.preventDefault();
       setIsAdded(true);
-      setMessage('Added to your browser-local evidence collection.');
+      setMessage(copy.added);
       window.dispatchEvent(new Event(EVIDENCE_COLLECTION_EVENT));
     } catch {
       // Keep the anchor navigation: /collections?changes=<id> is the storage-free fallback.
@@ -133,10 +157,10 @@ export default function AddToCollectionButton({
         href={`/collections?changes=${encodeURIComponent(normalizedId)}`}
         className={styles.button}
         onClick={handleClick}
-        aria-label={isAdded ? 'Change already in local collection' : 'Add this change to a local evidence collection'}
+        aria-label={isAdded ? copy.addedLabel : copy.addLabel}
       >
         {isAdded ? <Check size={16} aria-hidden="true" /> : <FolderPlus size={16} aria-hidden="true" />}
-        {isAdded ? 'In collection' : 'Add to collection'}
+        {isAdded ? copy.inCollection : copy.add}
       </Link>
       <span className={styles.live} role="status" aria-live="polite">{message}</span>
     </span>

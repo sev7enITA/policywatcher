@@ -15,6 +15,7 @@ import {
   ShieldCheck,
   SlidersHorizontal,
   UserRound,
+  UsersRound,
   X,
 } from 'lucide-react';
 import styles from './HowToModal.module.css';
@@ -28,6 +29,7 @@ type TourStepId =
   | 'evidence'
   | 'drilldown'
   | 'navigation'
+  | 'associations'
   | 'mobile';
 
 type TourStep = {
@@ -68,6 +70,7 @@ const STEP_ICONS: Record<TourStepId, LucideIcon> = {
   evidence: ShieldCheck,
   drilldown: ScanSearch,
   navigation: Route,
+  associations: UsersRound,
   mobile: UserRound,
 };
 
@@ -149,6 +152,17 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
         description:
           'Navigation and the sitemap link to Observatory, Atlas, timeline, methodology, and other public context.',
         focusLabel: 'Navigation and sitemap',
+      },
+      {
+        id: 'associations',
+        title: 'Open the civic workspace',
+        description:
+          'Use Civic Lab to build a browser-local pilot watchlist from published evidence, triage eligible changes, create a Markdown digest and hand selected records to Evidence Collections.',
+        focusLabel: 'Civic Lab',
+        notes: [
+          'It does not create an association account, collect a consumer case or publish a decision.',
+          'Unavailable, suspended, seeded, private and otherwise ineligible records remain outside the workspace.',
+        ],
       },
       {
         id: 'mobile',
@@ -243,6 +257,17 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
         focusLabel: 'Navigazione e sitemap',
       },
       {
+        id: 'associations',
+        title: 'Apri il workspace civico',
+        description:
+          'Usa Associazioni per creare una watchlist pilota locale al browser da evidenze pubblicate, fare triage delle modifiche ammissibili, generare un digest Markdown e passare i record selezionati alle Raccolte di evidenze.',
+        focusLabel: 'Associazioni',
+        notes: [
+          'Non crea un account associativo, non raccoglie un caso consumatore e non pubblica una decisione.',
+          'Record non disponibili, sospesi, seeded, privati o non ammissibili restano fuori dal workspace.',
+        ],
+      },
+      {
         id: 'mobile',
         title: 'Scegli consapevolmente la lettura mobile',
         description:
@@ -295,6 +320,7 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
         firstCard: 'Termini AI / Fonte verificata',
         secondCard: 'Privacy / Evidenza recente',
         method: 'Metodo',
+        civic: 'Associazioni',
       }
     : {
         publicHome: 'PUBLIC HOME',
@@ -312,6 +338,7 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
         firstCard: 'AI Terms / Source verified',
         secondCard: 'Privacy / Latest evidence',
         method: 'Method',
+        civic: 'Civic Lab',
       };
 
   const handleClose = useCallback(() => {
@@ -529,6 +556,7 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
                 <span>Atlas</span>
                 <span>Observatory</span>
                 <span>Timeline</span>
+                <span>{previewText.civic}</span>
                 <span>{previewText.method}</span>
               </nav>
 

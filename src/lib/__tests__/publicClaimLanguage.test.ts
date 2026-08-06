@@ -7,6 +7,8 @@ const publicClaimSurfaces = [
   'docs/press-outreach-2026-07-27.md',
   'public/press-kit/policywatcher-fact-sheet-2026-07-27.md',
   'src/app/about/page.tsx',
+  'src/app/associazioni/page.tsx',
+  'src/app/associazioni/AssociationsClient.tsx',
   'src/app/browser-extension/BrowserExtensionClient.tsx',
   'src/app/press-kit/PressKitClient.tsx',
   'src/app/press-kit/page.tsx',

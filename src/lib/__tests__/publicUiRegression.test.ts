@@ -86,6 +86,22 @@ describe('public UI regression fixes', () => {
     expect(developers).toContain('/api/v1/manifest');
   });
 
+  it('makes PolicyWatcher Civico discoverable across public navigation and machine routes', () => {
+    const navigation = read('src/components/Navigation.tsx');
+    const palette = read('src/components/CommandPalette.tsx');
+    const header = read('src/components/PublicHeader.tsx');
+    const footer = read('src/components/Footer.tsx');
+    const atlas = read('src/lib/publicSections.ts');
+    const sitemap = read('src/app/sitemap.ts');
+    const llms = read('src/app/llms.txt/route.ts');
+
+    for (const source of [navigation, palette, header, footer, atlas, sitemap, llms]) {
+      expect(source).toContain('/associazioni');
+    }
+    expect(header).toContain("id: 'associations'");
+    expect(palette).toContain("id: 'act-associations'");
+  });
+
   it('makes the cross-platform integration map discoverable with honest readiness labels', () => {
     const navigation = read('src/components/Navigation.tsx');
     const palette = read('src/components/CommandPalette.tsx');
@@ -121,7 +137,7 @@ describe('public UI regression fixes', () => {
     expect(FEATURE_ATLAS_FEATURES.some((feature) => feature.id === 'governed-regional-benchmark-visualizations')).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.some((item) => item.kpi && item.kri)).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.filter((item) => ['shareable-evidence-views', 'coordinated-evidence-drilldown'].includes(item.id))).toHaveLength(2);
-    expect(RELEASE_IMPACT_UPDATED_AT).toBe('2 August 2026');
+    expect(RELEASE_IMPACT_UPDATED_AT).toBe('6 August 2026');
     expect(FEATURE_ATLAS_CURRENT_RELEASE_ID).toBe(POLICYWATCHER_VERSION);
     expect(FEATURE_ATLAS_RELEASES.filter((release) => release.current)).toHaveLength(1);
     expect(RELEASE_COLUMNS.filter((release) => release.state === 'current').map((release) => release.id)).toEqual([POLICYWATCHER_VERSION]);
@@ -146,11 +162,12 @@ describe('public UI regression fixes', () => {
     expect(showcase).not.toContain('<b>v3.6</b>');
     expect(showcase).toContain('Canonical share URL');
     expect(showcase).toContain('KPI value inspector');
-    expect(howTo.match(/id: '[a-zA-Z]+'/g)).toHaveLength(18);
+    expect(howTo.match(/id: '[a-zA-Z]+'/g)).toHaveLength(20);
     expect(howTo).toContain("id: 'share'");
     expect(howTo).toContain("id: 'drilldown'");
-    expect(howToStyles).toContain('repeat(9, minmax(0, 1fr))');
-    expect(readme).toContain('9-step bilingual How To guide');
+    expect(howTo).toContain("id: 'associations'");
+    expect(howToStyles).toContain('repeat(10, minmax(0, 1fr))');
+    expect(readme).toContain('10-step bilingual How To guide');
     expect(readme).toContain('docs/native-dashboard-user-guide.md');
     expect(guide).toContain('not legal advice, compliance certifications, or company-performance ratings');
   });

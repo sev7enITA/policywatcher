@@ -34,7 +34,7 @@ export interface ReleaseImpactItem {
   externalDependency?: string;
 }
 
-export const RELEASE_IMPACT_UPDATED_AT = '2 August 2026' as const;
+export const RELEASE_IMPACT_UPDATED_AT = '6 August 2026' as const;
 
 export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.7.0', shortLabel: '3.7.0', label: '3.7.0', state: 'delivered' },
@@ -91,7 +91,8 @@ export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.9.0-beta.36', shortLabel: '3.9 B36', label: '3.9.0 Beta 36', state: 'delivered' },
   { id: '3.9.0-beta.37', shortLabel: '3.9 B37', label: '3.9.0 Beta 37', state: 'delivered' },
   { id: '3.9.0-beta.38', shortLabel: '3.9 B38', label: '3.9.0 Beta 38', state: 'delivered' },
-  { id: '3.9.0-beta.39', shortLabel: '3.9 B39', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
+  { id: '3.9.0-beta.39', shortLabel: '3.9 B39', label: '3.9.0 Beta 39', state: 'delivered' },
+  { id: '3.9.0-beta.40', shortLabel: '3.9 B40', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
   { id: 'next', shortLabel: 'Next', label: 'Next beta horizon', state: 'planned' },
   { id: 'later', shortLabel: 'Later', label: 'Later horizon', state: 'planned' },
 ];
@@ -109,6 +110,21 @@ export const RELEASE_IMPACT_DOMAINS: ReleaseImpactDomain[] = [
 ];
 
 export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
+  {
+    id: 'consumer-association-civic-workspace',
+    title: 'PolicyWatcher Civico',
+    summary: 'Provides a source-first civic-review workspace for Italian consumer associations using only records admitted by the public-evidence gates.',
+    domainId: 'experience',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '3.9.0-beta.40',
+    endRelease: '3.9.0-beta.40',
+    benefit: 'Association reviewers can define a bounded pilot watchlist, triage published changes and assemble an evidence handoff without creating an account.',
+    kpi: 'Pilot controls available: theme filter, bounded local watchlist, local review state, deterministic Markdown digest and Evidence Collection handoff',
+    kri: 'Residual KRI: theme matching and summaries can be incomplete, while local browser state can be cleared or become stale after publication changes',
+    evidence: 'Bilingual `/associazioni` workspace, shared public-data gate, browser-local state codec, digest builder, public discovery links and focused unit and UI-contract tests.',
+    limitation: 'The workspace is not a complaint system, association account, legal opinion, compliance determination or automated publication workflow.',
+  },
   {
     id: 'word-contract-evidence-review',
     title: 'Word Contract Evidence Review',
@@ -1084,7 +1100,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
     title: 'Managed VPS Renderer Releases',
     summary: 'Uploads, verifies, deploys and observes bounded Renderer packages from the protected Admin Center without exposing Agent secrets or shell access.',
     domainId: 'operations',
-    status: 'current',
+    status: 'delivered',
     horizon: 'delivered',
     startRelease: '3.9.0-beta.39',
     endRelease: '3.9.0-beta.39',

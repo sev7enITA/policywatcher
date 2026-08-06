@@ -24,6 +24,7 @@ import {
   ShieldCheck,
   SlidersHorizontal,
   Users,
+  UsersRound,
 } from 'lucide-react';
 import { ReleaseImpactMap } from '@/components/ReleaseImpactMap';
 import Footer from '@/components/Footer';
@@ -110,7 +111,17 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 
 const nowItems = [
   {
-    phase: 'Current · 3.9.0-beta.39',
+    phase: 'Current · 3.9.0-beta.40',
+    title: 'PolicyWatcher Civico',
+    body:
+      'Turn eligible public policy changes into a bounded association pilot watchlist with theme triage, local review states, a Markdown digest and Evidence Collection handoff.',
+    benefit: 'Italian consumer associations can organize a source-first review scope without creating an account or sending member, consumer or draft data to PolicyWatcher.',
+    validation: 'The workspace reuses public-evidence gates, keeps working state in the browser and names unavailable or empty conditions; it does not manage complaints, make legal findings or publish decisions.',
+    icon: UsersRound,
+    href: '/associazioni',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.39',
     title: 'Managed VPS Renderer releases',
     body:
       'Upload a bounded Renderer package from the protected Admin Center, verify it across the browser, Hostinger and VPS Agent, then follow asynchronous install, smoke and rollback state.',
