@@ -43,8 +43,8 @@ though the API accepted the model identifier.
   availability failures.
 - Network resets are now transient fallback events, and invocation duration
   uses a monotonic clock.
-- Golden-set input is restricted to the repository evaluation directory before
-  any content can reach a loopback adapter.
+- The harness statically imports the reviewed frozen golden set and rejects
+  arbitrary `--golden-set` paths before any content can reach an adapter.
 - The Qwen harness now performs dense retrieval before reranking the top two
   candidates; it can no longer report a reranker-only run as a two-stage run.
 

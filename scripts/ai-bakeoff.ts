@@ -1,5 +1,6 @@
-import { mkdir, readFile, writeFile } from 'fs/promises';
+import { mkdir, writeFile } from 'fs/promises';
 import { dirname, resolve } from 'path';
+import frozenGoldenSet from '../evals/policy-analysis/golden-set.v1.json';
 import { analyzePolicyChange } from '../src/lib/gemini';
 import { classifyAiTelemetryError } from '../src/lib/aiTelemetry';
 import { runAdapterRetrieval } from '../src/lib/aiRetrievalAdapter';
@@ -14,11 +15,8 @@ import {
   type ExtractionCaseResult,
   type GoldenSet,
 } from '../src/lib/aiEvaluation';
-import { resolveEvaluationInput } from '../src/lib/aiEvaluationFile';
 
 const ROOT = resolve(import.meta.dirname, '..');
-const DEFAULT_GOLDEN_SET = resolve(ROOT, 'evals/policy-analysis/golden-set.v1.json');
-const GOLDEN_SET_ROOT = resolve(ROOT, 'evals/policy-analysis');
 const DEFAULT_OUTPUT = resolve(ROOT, 'artifacts/evals/ai-bakeoff-latest.json');
 const PROVIDERS = ['baseline', 'qwen3', 'bge-m3', 'gemini-3.5', 'gemini-3.7'] as const;
 type Provider = (typeof PROVIDERS)[number];
@@ -69,12 +67,11 @@ async function runGeminiExtraction(
 }
 
 async function main() {
-  const sourcePath = await resolveEvaluationInput(
-    GOLDEN_SET_ROOT,
-    argument('golden-set') || DEFAULT_GOLDEN_SET,
-  );
+  if (argument('golden-set')) {
+    throw new Error('Custom golden-set paths are disabled. Version and review the frozen repository fixture instead.');
+  }
   const outputPath = resolve(argument('output') || DEFAULT_OUTPUT);
-  const set = JSON.parse(await readFile(sourcePath, 'utf8')) as unknown;
+  const set: unknown = frozenGoldenSet;
   validateGoldenSet(set);
   const providers = selectedProviders();
 
