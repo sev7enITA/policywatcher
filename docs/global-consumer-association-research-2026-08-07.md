@@ -19,13 +19,13 @@ Each application record stores the source URL, verification kind and review date
 
 ## Principal sources
 
-- [MIMIT — national representative actions](https://www.mimit.gov.it/it/?id=2044830&view=article): current Italian list used for ten nationally qualified organizations; the page reports its own last update of 10 April 2026.
-- [DGCCRF — national consumer associations](https://www.economie.gouv.fr/dgccrf/les-demarches-et-les-services/demarches-et-services-en-tant-que-consommateur/liste-et-coordonnees-des-associations-nationales): French government directory used for the national consumer snapshot and official websites.
-- [Spanish Ministry — consumer and user associations](https://www.dsca.gob.es/es/consumo/asociaciones-personas-consumidoras/listado-asociaciones-consumidores-usuarios): institutional directory used for FUCI, HISPACOOP, ADICAE, UNAE, CECU, OCU, AUC, FACUA, ASUFIN, USFIN and CONSUMES.
-- [European Commission — national consumer bodies](https://commission.europa.eu/strategy-and-policy/policies/consumers/consumer-protection-policy/our-partners-consumer-issues/national-consumer-bodies_en): explains the role of national consumer organizations and links national systems in EU countries, Iceland, Norway and the UK.
-- [BEUC — member organizations](https://www.beuc.eu/about-beuc/members): as of January 2026, BEUC reports 42 member organizations across 31 countries. The application includes a selected European subset and links the live directory as the verification source.
-- [EDRi — network](https://edri.org/about-us/our-network/): EDRi describes a network of 50+ NGOs, experts and advocates defending digital rights across Europe and beyond. The application uses it for selected digital-rights records.
-- [Consumers International — members](https://www.consumersinternational.org/members/): global membership entry point. Consumers International separately states that it represents more than 200 consumer bodies worldwide; the application includes only a selected subset.
+- [MIMIT – national representative actions](https://www.mimit.gov.it/it/?id=2044830&view=article): current Italian list used for ten nationally qualified organizations; the page reports its own last update of 10 April 2026.
+- [DGCCRF – national consumer associations](https://www.economie.gouv.fr/dgccrf/les-demarches-et-les-services/demarches-et-services-en-tant-que-consommateur/liste-et-coordonnees-des-associations-nationales): French government directory used for the national consumer snapshot and official websites.
+- [Spanish Ministry – consumer and user associations](https://www.dsca.gob.es/es/consumo/asociaciones-personas-consumidoras/listado-asociaciones-consumidores-usuarios): institutional directory used for FUCI, HISPACOOP, ADICAE, UNAE, CECU, OCU, AUC, FACUA, ASUFIN, USFIN and CONSUMES.
+- [European Commission – national consumer bodies](https://commission.europa.eu/strategy-and-policy/policies/consumers/consumer-protection-policy/our-partners-consumer-issues/national-consumer-bodies_en): explains the role of national consumer organizations and links national systems in EU countries, Iceland, Norway and the UK.
+- [BEUC – member organizations](https://www.beuc.eu/about-beuc/members): as of January 2026, BEUC reports 42 member organizations across 31 countries. The application includes a selected European subset and links the live directory as the verification source.
+- [EDRi – network](https://edri.org/about-us/our-network/): EDRi describes a network of 50+ NGOs, experts and advocates defending digital rights across Europe and beyond. The application uses it for selected digital-rights records.
+- [Consumers International – members](https://www.consumersinternational.org/members/): global membership entry point. Consumers International separately states that it represents more than 200 consumer bodies worldwide; the application includes only a selected subset.
 
 ## Taxonomy
 

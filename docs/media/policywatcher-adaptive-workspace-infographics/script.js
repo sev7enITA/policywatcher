@@ -37,7 +37,7 @@ function setSlide(index) {
   });
 
   slideNumber.textContent = String(activeIndex + 1).padStart(2, '0');
-  document.title = `PolicyWatcher Objective Composer — ${slides[activeIndex].getAttribute('aria-label')}`;
+  document.title = `PolicyWatcher Objective Composer – ${slides[activeIndex].getAttribute('aria-label')}`;
   progressBar.style.transform = `translateX(${activeIndex * 100}%)`;
   resetTimer();
 }

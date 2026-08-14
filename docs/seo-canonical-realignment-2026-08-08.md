@@ -1,4 +1,4 @@
-# PolicyWatcher SEO canonical realignment — 8 August 2026
+# PolicyWatcher SEO canonical realignment – 8 August 2026
 
 ## Decision
 

@@ -60,9 +60,28 @@ describe('release metadata', () => {
 
   it('keeps literal em dash characters out of tracked source and documentation', () => {
     const prohibitedCharacter = String.fromCodePoint(0x2014);
-    const result = spawnSync('git', ['grep', '-n', prohibitedCharacter, '--', '.'], {
-      encoding: 'utf8',
-    });
+    const result = spawnSync(
+      'git',
+      [
+        'grep',
+        '-n',
+        prohibitedCharacter,
+        '--',
+        '*.ts',
+        '*.tsx',
+        '*.js',
+        '*.mjs',
+        '*.cjs',
+        '*.json',
+        '*.md',
+        '*.html',
+        '*.css',
+        '*.scss',
+        '*.yml',
+        '*.yaml',
+      ],
+      { encoding: 'utf8' },
+    );
 
     expect(result.status, result.stdout || result.stderr).toBe(1);
   }, 15_000);

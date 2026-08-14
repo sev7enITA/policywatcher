@@ -1,4 +1,4 @@
-# PolicyWatcher AI bake-off — baseline report
+# PolicyWatcher AI bake-off – baseline report
 
 Date: 14 August 2026
 Golden set: `policywatcher-golden.v1`

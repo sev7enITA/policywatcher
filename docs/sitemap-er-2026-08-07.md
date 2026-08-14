@@ -1,4 +1,4 @@
-# PolicyWatcher sitemap ER — agosto 2026
+# PolicyWatcher sitemap ER – agosto 2026
 
 Il modello separa l’esperienza globale dai sette domini informativi. Le **33 route statiche** provengono direttamente da `src/app/sitemap.ts`; le quattro famiglie dinamiche descrivono entità indicizzate solo quando superano i rispettivi gate pubblici.
 
