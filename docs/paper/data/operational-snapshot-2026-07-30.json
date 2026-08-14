@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "2.0.0",
+  "collectedAt": "2026-07-30T10:06:57Z",
+  "origin": "https://policywatcher.online",
+  "release": "3.9.0-beta.21",
+  "sourceRevision": "897646473b87716e5cf8bc97b9ca21efb29e4e8a",
+  "readOnly": true,
+  "endpoints": [
+    {
+      "path": "/api/leaderboard",
+      "sha256": "1926f1d0a0a2450cbff65a9d98dbd296c1e4bf51a585f0484722b05b0aa44e70"
+    },
+    {
+      "path": "/api/source-suspensions",
+      "sha256": "b18b90b50f9d9e0d899662ad992ce95ee28d476662be9b55a83f9e5e3dbba66c"
+    },
+    {
+      "path": "/api/changes?page=1&pageSize=50",
+      "sha256": "b6c9134b4c8b64ce75ef4dd6f6f1fa0e30c4ae4bf76fdd122fe500ca26661f9c"
+    },
+    {
+      "path": "/api/companies",
+      "sha256": "08b7af47ca0f3cf125b2c7a90c648b09c6e020582719d27f0978b29718d70ab1"
+    }
+  ],
+  "production": {
+    "policyRecords": 50,
+    "publicEvidenceRecords": 45,
+    "suspendedRecords": 5,
+    "publicCompaniesEndpointRecords": 15,
+    "leaderboardCompanyRows": 18,
+    "publicChangeRecords": 35,
+    "retrievalMix": {
+      "direct": 40,
+      "http2": 0,
+      "rendered": 5,
+      "archive": 5,
+      "seeded": 0,
+      "none": 0
+    },
+    "suspendedScope": [
+      "Amazon / Privacy Notice / EU",
+      "Revolut / Privacy Policy / EU",
+      "Revolut / Privacy Policy / UK",
+      "Revolut / Terms of Use / EU",
+      "Revolut / Terms of Use / UK"
+    ]
+  },
+  "localFixtureControl": {
+    "policyRecords": 50,
+    "uniqueRetrievalKeys": 49,
+    "publicEvidenceRecords": 0,
+    "withheldRecords": 50,
+    "eligibleDryRunRepairs": 0,
+    "databaseRowsChanged": 0
+  },
+  "interpretationBoundary": [
+    "The measures describe public and local operational state at one point in time.",
+    "The company counters use different endpoint inclusion rules and are not used to calculate a provider-level coverage percentage.",
+    "Retrieval labels are inventory fields, not repeated-trial success rates.",
+    "Public change records are not independently adjudicated legal amendments.",
+    "The snapshot does not measure semantic accuracy, legal compliance, adoption, reach or comparative performance."
+  ]
+}

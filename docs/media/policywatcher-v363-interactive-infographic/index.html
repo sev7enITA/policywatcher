@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PolicyWatcher v3.6.3 Interactive Infographic</title>
+  <link rel="icon" href="assets/logo-mark.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#features">Skip to feature constellation</a>
+  <div class="page-shell">
+    <header class="command-deck" aria-labelledby="hero-title">
+      <nav class="topbar" aria-label="Infographic controls">
+        <a class="brand" href="#top" aria-label="PolicyWatcher v3.6.3">
+          <img src="assets/logo-mark.png" alt="" width="42" height="42">
+          <span>
+            <strong>PolicyWatcher</strong>
+            <small>v3.6.3 release console</small>
+          </span>
+        </a>
+        <div class="deck-controls">
+          <button class="control-button" type="button" id="presentationToggle" aria-pressed="false">
+            Presentation Mode
+          </button>
+          <button class="control-button accent" type="button" id="cycleFeatures" aria-pressed="false">
+            Cycle features
+          </button>
+        </div>
+      </nav>
+
+      <div class="hero-grid" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow">Evidence-first civic-tech platform</p>
+          <h1 id="hero-title"><span class="title-main">PolicyWatcher</span><span class="title-version">v3.6.3</span></h1>
+          <p class="hero-subtitle">Objective-based composition, five-stage source onboarding, and transparent policy intelligence.</p>
+          <p class="hero-note microcopy">A live-demo ready interactive map of the release: source retrieval, quality boundaries, Gemini analysis, public views, and admin controls.</p>
+          <div class="pillar-strip" aria-label="Four hard feature pillars">
+            <a class="pillar" href="#workspace">
+              <span>01</span>
+              Adaptive Workspace
+            </a>
+            <a class="pillar" href="#features">
+              <span>02</span>
+              Evidence Gate
+            </a>
+            <a class="pillar" href="#pipeline">
+              <span>03</span>
+              Retrieval Cascade
+            </a>
+            <a class="pillar" href="#assurance">
+              <span>04</span>
+              Dataset QA
+            </a>
+          </div>
+        </div>
+
+        <div class="orbit-console" aria-label="Animated release architecture">
+          <div class="orbit-rings" aria-hidden="true">
+            <span class="ring ring-one"></span>
+            <span class="ring ring-two"></span>
+            <span class="ring ring-three"></span>
+          </div>
+          <div class="orbit-core">
+            <img src="assets/logo-mark.png" alt="" width="64" height="64">
+            <strong>Gemini structured analysis</strong>
+            <small>Evidence packets in, inspectable policy signals out</small>
+          </div>
+          <div class="orbit-node source-node">
+            <span></span>
+            Policy sources
+          </div>
+          <div class="orbit-node retrieve-node">
+            <span></span>
+            Retrieval paths
+          </div>
+          <div class="orbit-node gate-node">
+            <span></span>
+            Evidence gate
+          </div>
+          <div class="orbit-node public-node">
+            <span></span>
+            Public views
+          </div>
+          <div class="orbit-node admin-node">
+            <span></span>
+            Admin controls
+          </div>
+          <svg class="orbit-svg" viewBox="0 0 760 560" role="img" aria-label="PolicyWatcher release flow">
+            <defs>
+              <linearGradient id="flowStroke" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#08a6ba"></stop>
+                <stop offset="0.52" stop-color="#6556d9"></stop>
+                <stop offset="1" stop-color="#d58a16"></stop>
+              </linearGradient>
+            </defs>
+            <path class="flow-line path-one" d="M124 160 C230 72, 410 82, 506 172"></path>
+            <path class="flow-line path-two" d="M568 234 C640 326, 554 438, 430 432"></path>
+            <path class="flow-line path-three" d="M342 450 C198 452, 104 340, 162 232"></path>
+            <path class="flow-line path-four" d="M194 168 C302 220, 452 240, 564 194"></path>
+          </svg>
+          <div class="orbit-status" aria-label="Release posture">
+            <span class="status-light"></span>
+            Release demo mode
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section-band feature-band" id="features" aria-labelledby="features-title">
+        <div class="section-head">
+          <p class="eyebrow">Feature constellation</p>
+          <h2 id="features-title">Click a release node to inspect the operational boundary.</h2>
+          <p class="section-copy microcopy">Each node separates what the feature does, why it matters, what changed in v3.6.3, and the data-quality boundary that keeps the view accountable.</p>
+        </div>
+        <div class="feature-layout">
+          <div class="constellation" id="featureConstellation" aria-label="Interactive PolicyWatcher feature nodes"></div>
+          <aside class="detail-panel" aria-live="polite" aria-labelledby="featureDetailTitle">
+            <p class="detail-kicker" id="featureDetailTag">Purpose-first release layer</p>
+            <h3 id="featureDetailTitle">Adaptive Workspace</h3>
+            <dl class="detail-grid">
+              <div>
+                <dt>What it does</dt>
+                <dd id="featureWhat">Turns the first screen into a job and depth selector for policy intelligence work.</dd>
+              </div>
+              <div>
+                <dt>Why it matters</dt>
+                <dd id="featureWhy">Different audiences can begin with their task instead of decoding a static dashboard.</dd>
+              </div>
+              <div>
+                <dt>Changed in v3.6.3</dt>
+                <dd id="featureChanged">Adds job framing, depth controls, and generated logic cards for demo-ready workflows.</dd>
+              </div>
+              <div>
+                <dt>Data-quality boundary</dt>
+                <dd id="featureBoundary">The workspace changes the view logic; it does not rewrite source records or bypass review.</dd>
+              </div>
+            </dl>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section-band pipeline-band" id="pipeline" aria-labelledby="pipeline-title">
+        <div class="section-head compact">
+          <p class="eyebrow">Animated pipeline</p>
+          <h2 id="pipeline-title">Bulk source onboarding with an explicit publication decision.</h2>
+          <p class="section-copy microcopy">Each imported candidate is persisted through five stages. The first baseline remains private; QA approval still requires a separate publish, hold, or reject decision.</p>
+        </div>
+        <div class="pipeline-console">
+          <div class="pipeline-track" aria-hidden="true">
+            <span class="pipeline-pulse"></span>
+          </div>
+          <ol class="pipeline-steps" id="pipelineSteps">
+            <li class="pipeline-step is-current" data-state="review">
+              <span class="step-number">01</span>
+              <strong>Proposed source</strong>
+              <em>CSV/TSV candidate, validated and private</em>
+            </li>
+            <li class="pipeline-step" data-state="review">
+              <span class="step-number">02</span>
+              <strong>Official-source review</strong>
+              <em>Approve or reject source fit</em>
+            </li>
+            <li class="pipeline-step" data-state="private">
+              <span class="step-number">03</span>
+              <strong>First baseline</strong>
+              <em>Captured as private evidence</em>
+            </li>
+            <li class="pipeline-step" data-state="review">
+              <span class="step-number">04</span>
+              <strong>QA gate</strong>
+              <em>Evidence checks must pass</em>
+            </li>
+            <li class="pipeline-step" data-state="success">
+              <span class="step-number">05</span>
+              <strong>Publication decision</strong>
+              <em>Explicit publish, hold, or reject</em>
+            </li>
+          </ol>
+          <div class="pipeline-scroll-cue" aria-hidden="true">Scroll sequence -&gt;</div>
+        </div>
+        <div class="state-legend" aria-label="Pipeline outcome legend">
+          <span><i class="legend-dot success"></i>Success</span>
+          <span><i class="legend-dot fallback"></i>Fallback</span>
+          <span><i class="legend-dot review"></i>Review</span>
+          <span><i class="legend-dot private"></i>Private</span>
+          <span><i class="legend-dot suspended"></i>Suspended</span>
+        </div>
+      </section>
+
+      <section class="section-band workspace-band" id="workspace" aria-labelledby="workspace-title">
+        <div class="section-head">
+          <p class="eyebrow">Adaptive Workspace simulator</p>
+          <h2 id="workspace-title">Begin with purpose and evidence depth.</h2>
+          <p class="section-copy microcopy">Choose a job and depth to see how v3.6.3 composes a stack from registered dashboard evidence modules.</p>
+        </div>
+        <div class="workspace-console">
+          <div class="selector-column">
+            <h3>Job</h3>
+            <div class="button-grid" id="jobSelector" role="group" aria-label="Choose workspace job"></div>
+            <h3>Depth</h3>
+            <div class="depth-switch" id="depthSelector" role="group" aria-label="Choose evidence depth"></div>
+          </div>
+          <div class="logic-panel">
+            <div class="logic-header">
+              <span id="logicMode">Citizen / Snapshot</span>
+              <strong>Generated evidence stack</strong>
+            </div>
+            <div class="logic-cards" id="logicCards" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-band assurance-band" id="assurance" aria-labelledby="assurance-title">
+        <div class="section-head compact">
+          <p class="eyebrow">Assurance wall</p>
+          <h2 id="assurance-title">Operational checks make the data boundary visible.</h2>
+          <p class="section-copy microcopy">Tiles are framed as observable control signals, with warning states reserved for review, drift, or coverage gaps.</p>
+        </div>
+        <div class="assurance-grid" aria-label="PolicyWatcher assurance checks">
+          <div class="assurance-tile ok" style="--i:0"><span>Source status</span><strong>Observed</strong></div>
+          <div class="assurance-tile ok" style="--i:1"><span>Public evidence</span><strong>Linked</strong></div>
+          <div class="assurance-tile ok" style="--i:2"><span>Snapshot hash</span><strong>Recorded</strong></div>
+          <div class="assurance-tile warn" style="--i:3"><span>Host drift</span><strong>Watch</strong></div>
+          <div class="assurance-tile ok" style="--i:4"><span>KPI coverage</span><strong>Mapped</strong></div>
+          <div class="assurance-tile warn" style="--i:5"><span>Region impacts</span><strong>Review</strong></div>
+          <div class="assurance-tile ok" style="--i:6"><span>Admin review</span><strong>Queued</strong></div>
+          <div class="assurance-tile ok" style="--i:7"><span>Alert email</span><strong>Armed</strong></div>
+          <div class="assurance-tile ok" style="--i:8"><span>Access log</span><strong>Traceable</strong></div>
+          <div class="assurance-tile ok" style="--i:9"><span>Build/test badges</span><strong>Visible</strong></div>
+        </div>
+      </section>
+
+      <section class="section-band surface-band" id="surface-map" aria-labelledby="surface-title">
+        <div class="section-head">
+          <p class="eyebrow">Public surface map</p>
+          <h2 id="surface-title">Public views and private controls share one evidence boundary.</h2>
+          <p class="section-copy microcopy">The surface map separates audience-facing transparency from administrative review and operational remediation.</p>
+        </div>
+        <div class="surface-map" aria-label="Public and private surfaces">
+          <div class="surface-column public">
+            <h3>Public surfaces</h3>
+            <ul>
+              <li>Dashboard</li>
+              <li>Timeline</li>
+              <li>Matrix</li>
+              <li>Leaderboard / Policy Signals Board</li>
+              <li>Roadmap</li>
+              <li>Press</li>
+              <li>Trust</li>
+              <li>Security</li>
+              <li>Methodology</li>
+              <li>Showcase</li>
+              <li>Interactive Sitemap</li>
+            </ul>
+          </div>
+          <div class="boundary-column">
+            <span class="boundary-line"></span>
+            <strong>Evidence boundary</strong>
+            <small>Only reviewed, source-linked outputs cross into public views.</small>
+          </div>
+          <div class="surface-column private">
+            <h3>Admin controls</h3>
+            <ul>
+              <li>Admin Panel</li>
+              <li>Source remediation</li>
+              <li>Bulk source onboarding</li>
+              <li>VPS Operations Agent</li>
+              <li>Dataset QA</li>
+              <li>Audit trail</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="closing-scene" aria-labelledby="closing-title">
+        <div>
+          <p class="eyebrow">Closing scene</p>
+          <h2 id="closing-title">Built to make policy change inspectable</h2>
+          <p>PolicyWatcher v3.6.3 turns retrieval, evidence depth, quality review, and public presentation into one transparent operating model.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>PolicyWatcher v3.6.3, evidence-first civic-tech platform</span>
+      <a href="#top">Back to command deck</a>
+    </footer>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

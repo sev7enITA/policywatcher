@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>PolicyWatcher - July 2026 Release Atlas</title>
+    <meta
+      name="description"
+      content="An interactive, evidence-scoped atlas of PolicyWatcher releases and delivered capabilities documented during July 2026."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#atlas-content">Skip to the release atlas</a>
+
+    <header class="viewer-toolbar" aria-label="Atlas controls">
+      <div class="toolbar-brand">
+        <img src="../../../public/press-kit/policywatcher-logo-mark-512.png" alt="" />
+        <span><strong>July 2026 Release Atlas</strong><small>Pan, zoom and inspect</small></span>
+      </div>
+      <nav class="section-nav" aria-label="Atlas sections">
+        <button type="button" data-jump="timeline">Time axis</button>
+        <button type="button" data-jump="lifecycle">Evidence axis</button>
+        <button type="button" data-jump="capabilities">Capability axis</button>
+        <button type="button" data-jump="ledger">Build ledger</button>
+        <button type="button" data-jump="scope">Scope & limits</button>
+      </nav>
+      <div class="toolbar-search">
+        <label for="atlas-search">Find a build or feature</label>
+        <input id="atlas-search" type="search" placeholder="e.g. webhook, 3.9.0-beta.13" autocomplete="off" />
+      </div>
+      <div class="zoom-controls" aria-label="Zoom controls">
+        <button type="button" data-zoom="out" aria-label="Zoom out">−</button>
+        <output id="zoom-output" aria-live="polite">34%</output>
+        <button type="button" data-zoom="in" aria-label="Zoom in">+</button>
+        <button type="button" data-zoom="fit">Overview</button>
+        <button type="button" data-zoom="actual">100%</button>
+      </div>
+    </header>
+
+    <main id="atlas-content">
+      <section class="desktop-explorer" aria-label="Interactive release atlas">
+        <p class="interaction-hint">Drag to pan · Ctrl/⌘ + wheel to zoom · arrows to move · +/− to zoom · 0 for overview</p>
+        <div class="atlas-viewport" id="atlas-viewport" tabindex="0" aria-describedby="atlas-summary">
+          <div class="atlas-stage" id="atlas-stage">
+            <article class="atlas" id="atlas" aria-label="PolicyWatcher July 2026 release atlas"></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="mobile-atlas" id="mobile-atlas" aria-label="Mobile release atlas"></section>
+      <section class="linkedin-poster" id="linkedin-poster" aria-label="LinkedIn portrait release atlas"></section>
+
+      <aside class="inspector" id="inspector" aria-live="polite" aria-label="Selected atlas item" hidden>
+        <button class="inspector-close" type="button" aria-label="Close details">×</button>
+        <p class="eyebrow" id="inspector-kind"></p>
+        <h2 id="inspector-title"></h2>
+        <p id="inspector-copy"></p>
+        <dl id="inspector-meta"></dl>
+      </aside>
+
+      <p id="atlas-summary" class="sr-only">
+        PolicyWatcher documented 44 builds across 13 release days in July 2026. The Feature Atlas records 49 delivered
+        capabilities by July 31 across nine domains and six evidence-lifecycle stages. The graphic separates the August 1
+        Beta 27 consolidation and states that configured inventory and implementation records are not proof of exhaustive
+        coverage, adoption, compliance, performance, security assurance or independent validation.
+      </p>
+    </main>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

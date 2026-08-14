@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PolicyWatcher Architecture Deck</title>
+  <style>
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #101827; font-family: Inter, system-ui, sans-serif; }
+    .track { height: 100vh; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; }
+    section { flex: 0 0 100vw; height: 100vh; display: grid; place-items: center; scroll-snap-align: start; position: relative; }
+    img { width: 100vw; height: 100vh; object-fit: contain; background: #f7f9fc; }
+    .hud { position: fixed; left: 28px; right: 28px; bottom: 22px; display: flex; justify-content: space-between; align-items: center; color: white; pointer-events: none; }
+    .hud span { background: rgba(16,24,39,.72); border: 1px solid rgba(255,255,255,.2); padding: 10px 14px; border-radius: 8px; backdrop-filter: blur(12px); font-weight: 800; }
+  </style>
+</head>
+<body>
+  <div class="track">
+    <section><img src="slides/01-system-context.svg" alt="System Context"><div class="hud"><span>01 System Context</span><span>Scroll horizontally</span></div></section>
+    <section><img src="slides/02-deployment-topology.svg" alt="Runtime Deployment Topology"><div class="hud"><span>02 Runtime Deployment Topology</span><span>Scroll horizontally</span></div></section>
+    <section><img src="slides/03-ingestion-cascade.svg" alt="Policy Ingestion Cascade"><div class="hud"><span>03 Policy Ingestion Cascade</span><span>Scroll horizontally</span></div></section>
+    <section><img src="slides/04-evidence-gate.svg" alt="Evidence Gate"><div class="hud"><span>04 Evidence Gate</span><span>Scroll horizontally</span></div></section>
+    <section><img src="slides/05-rebaseline-workflow.svg" alt="Re-baseline Workflow"><div class="hud"><span>05 Re-baseline Workflow</span><span>Scroll horizontally</span></div></section>
+    <section><img src="slides/06-dataset-qa-loop.svg" alt="Dataset QA Loop"><div class="hud"><span>06 Dataset QA Loop</span><span>Scroll horizontally</span></div></section>
+    <section><img src="slides/07-admin-vps-ops.svg" alt="Admin and VPS Operations"><div class="hud"><span>07 Admin and VPS Operations</span><span>Scroll horizontally</span></div></section>
+    <section><img src="slides/08-data-model.svg" alt="Data Model"><div class="hud"><span>08 Data Model</span><span>Scroll horizontally</span></div></section>
+    <section><img src="slides/09-security-boundaries.svg" alt="Security Boundaries"><div class="hud"><span>09 Security Boundaries</span><span>Scroll horizontally</span></div></section>
+    <section><img src="slides/10-kpi-lifecycle.svg" alt="KPI Assessment Lifecycle"><div class="hud"><span>10 KPI Assessment Lifecycle</span><span>Scroll horizontally</span></div></section>
+    <section><img src="png/11-view-correlation-matrix.png" alt="View Correlation Matrix"><div class="hud"><span>11 View Correlation Matrix</span><span>Scroll horizontally</span></div></section>
+    <section><img src="png/12-unified-evidence-flow.png" alt="Unified Evidence Flow"><div class="hud"><span>12 Unified Evidence Flow</span><span>Scroll horizontally</span></div></section>
+    <section><img src="png/13-control-trust-map.png" alt="Control and Trust Map"><div class="hud"><span>13 Control and Trust Map</span><span>Scroll horizontally</span></div></section>
+  </div>
+</body>
+</html>

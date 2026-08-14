@@ -1,0 +1,15 @@
+Do not upload this directory directly.
+
+Generate the ready-to-upload package from the repository root with:
+
+  bash scripts/package-arxiv-source.sh
+
+The generated output/arxiv/policywatcher-arxiv-beta21-source.zip contains the
+top-level file policywatcher-arxiv.tex and the dated public operational snapshot
+under data/. The TeX source is self-contained, embeds its bibliography, and
+requires no figures, style files, scripts, PDFs, Word documents, or TeX build
+output. The JSON and README are ancillary evidence artifacts and are not needed
+for compilation.
+
+Processor: LaTeX in PDF mode (PDFLaTeX) or an equivalent current LaTeX
+processor offered by arXiv.

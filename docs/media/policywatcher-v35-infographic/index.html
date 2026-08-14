@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PolicyWatcher 3.5 Confidence Infographic Deck</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --ink: #0f172a;
+      --body: #334155;
+      --muted: #64748b;
+      --line: #dbe4f0;
+      --primary: #6366f1;
+      --secondary: #06b6d4;
+      --success: #10b981;
+      --shadow: 0 28px 80px rgba(15, 23, 42, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+      background:
+        radial-gradient(circle at 85% 8%, rgba(99, 102, 241, 0.10), transparent 30%),
+        radial-gradient(circle at 6% 92%, rgba(6, 182, 212, 0.12), transparent 32%),
+        var(--bg);
+      color: var(--body);
+      font-family: Inter, "Space Grotesk", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    .shell {
+      width: min(100vw, 1920px);
+      margin: 0 auto;
+      padding: 28px clamp(16px, 3vw, 44px) 36px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .brandMark {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 14px 30px rgba(99, 102, 241, 0.22);
+      color: white;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+    }
+
+    .brandText strong {
+      display: block;
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.1;
+    }
+
+    .brandText span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+      margin-top: 4px;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    button,
+    .linkButton {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.86);
+      color: var(--ink);
+      min-height: 40px;
+      border-radius: 999px;
+      padding: 0 16px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+    }
+
+    button:hover,
+    .linkButton:hover {
+      border-color: rgba(99, 102, 241, 0.35);
+      color: var(--primary);
+    }
+
+    .stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 22px;
+      background: var(--surface);
+      border: 1px solid rgba(219, 228, 240, 0.9);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(28px) scale(0.99);
+      transition: opacity 260ms ease, transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
+      background: white;
+    }
+
+    .slide.isActive {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0) scale(1);
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      background: white;
+    }
+
+    .rail {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .dot {
+      min-height: 54px;
+      border-radius: 14px;
+      justify-content: flex-start;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.74);
+    }
+
+    .dot.isActive {
+      color: var(--primary);
+      border-color: rgba(99, 102, 241, 0.35);
+      background: #eef2ff;
+    }
+
+    .dotIndex {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--ink);
+      color: white;
+      font-size: 12px;
+      flex: 0 0 auto;
+    }
+
+    .dot.isActive .dotIndex {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+
+    .hint {
+      margin: 16px 4px 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .hint code {
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: #e2e8f0;
+      color: var(--ink);
+      font-family: "SF Mono", "Cascadia Code", ui-monospace, Menlo, monospace;
+      font-size: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .controls {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .rail {
+        grid-template-columns: 1fr;
+      }
+
+      .dot {
+        min-height: 46px;
+      }
+    }
+
+    @media print {
+      @page {
+        size: 16in 9in;
+        margin: 0;
+      }
+
+      html,
+      body {
+        background: white;
+      }
+
+      .shell {
+        width: 100%;
+        max-width: none;
+        padding: 0;
+      }
+
+      .topbar,
+      .rail,
+      .hint {
+        display: none;
+      }
+
+      .stage {
+        width: 16in;
+        height: 9in;
+        aspect-ratio: auto;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .slide {
+        position: relative;
+        display: block;
+        width: 16in;
+        height: 9in;
+        opacity: 1;
+        transform: none;
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brandMark" aria-hidden="true">PW</div>
+        <div class="brandText">
+          <strong>PolicyWatcher 3.5 Confidence Deck</strong>
+          <span>Architecture, ingestion pipeline, entity model and Dataset QA engine</span>
+        </div>
+      </div>
+      <nav class="controls" aria-label="Slide controls">
+        <button type="button" data-action="prev">Previous</button>
+        <button type="button" data-action="next">Next</button>
+        <button type="button" data-action="fullscreen">Fullscreen</button>
+        <a class="linkButton" href="slide-05-ingestion-pipeline.svg" download>Download Pipeline SVG</a>
+      </nav>
+    </header>
+
+    <section class="stage" aria-live="polite">
+      <article class="slide isActive" data-title="Architecture">
+        <img src="slide-01-architecture.svg" alt="PolicyWatcher confidence architecture infographic">
+      </article>
+      <article class="slide" data-title="Operational Flow">
+        <img src="slide-02-operational-flow.svg" alt="Detailed PolicyWatcher operational flow diagram">
+      </article>
+      <article class="slide" data-title="Entity Relationship">
+        <img src="slide-03-entity-relationship.svg" alt="PolicyWatcher entity relationship schema">
+      </article>
+      <article class="slide" data-title="QA Engine">
+        <img src="slide-04-qa-engine.svg" alt="PolicyWatcher 3.5 Dataset QA engine infographic">
+      </article>
+      <article class="slide" data-title="Ingestion Pipeline">
+        <img src="slide-05-ingestion-pipeline.svg" alt="PolicyWatcher data ingestion pipeline sources and implemented checks">
+      </article>
+    </section>
+
+    <div class="rail" aria-label="Slide selector">
+      <button type="button" class="dot isActive" data-slide="0"><span class="dotIndex">1</span> Architecture</button>
+      <button type="button" class="dot" data-slide="1"><span class="dotIndex">2</span> Operational Flow</button>
+      <button type="button" class="dot" data-slide="2"><span class="dotIndex">3</span> Entity Relationship</button>
+      <button type="button" class="dot" data-slide="3"><span class="dotIndex">4</span> QA Engine</button>
+      <button type="button" class="dot" data-slide="4"><span class="dotIndex">5</span> Ingestion Pipeline</button>
+    </div>
+
+    <p class="hint">
+      Use arrow keys to navigate. Print from the browser to export a clean 16:9 PDF. Individual SVG and PNG files are in this folder.
+    </p>
+  </main>
+
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const dots = [...document.querySelectorAll('.dot')];
+    let current = 0;
+
+    function showSlide(index) {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => slide.classList.toggle('isActive', i === current));
+      dots.forEach((dot, i) => dot.classList.toggle('isActive', i === current));
+      document.title = `${slides[current].dataset.title} - PolicyWatcher 3.5 Confidence Deck`;
+    }
+
+    document.querySelector('[data-action="prev"]').addEventListener('click', () => showSlide(current - 1));
+    document.querySelector('[data-action="next"]').addEventListener('click', () => showSlide(current + 1));
+    document.querySelector('[data-action="fullscreen"]').addEventListener('click', () => {
+      const target = document.querySelector('.stage');
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        target.requestFullscreen?.();
+      }
+    });
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => showSlide(Number(dot.dataset.slide)));
+    });
+
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'PageDown') showSlide(current + 1);
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') showSlide(current - 1);
+      if (event.key === 'Home') showSlide(0);
+      if (event.key === 'End') showSlide(slides.length - 1);
+    });
+  </script>
+</body>
+</html>
