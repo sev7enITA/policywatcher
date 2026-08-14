@@ -108,4 +108,11 @@ describe('Beta 7 release security hardening', () => {
     expect(cron).not.toContain('subscriber ${subscriber.email}');
     expect(cron).not.toContain('notify ${subscriber.email}');
   });
+
+  it('keeps attacker-controlled login identifiers out of console logs', () => {
+    const authRoute = readFileSync('src/app/api/admin/auth/route.ts', 'utf8');
+    expect(authRoute).toContain("console.warn('[Admin Auth] Failed login attempt.')");
+    expect(authRoute).toContain("console.log('[Admin Auth] Successful login.')");
+    expect(authRoute).not.toMatch(/console\.(?:log|warn|error)\([^\n]*username/);
+  });
 });

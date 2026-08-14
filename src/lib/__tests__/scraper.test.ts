@@ -27,6 +27,8 @@ import {
   isFreshEnough,
   isPolicyContent,
   parseArchiveTimestamp,
+  sanitizeLogText,
+  stripArchiveScripts,
   validateOutboundUrl,
   resolveAndPinHostname,
   isCoherentHost,
@@ -65,6 +67,19 @@ const SOFT_404 = `
 const SOFT_404_IT = `
 <html><head><title>Errore</title></head>
 <body><h1>Errore 404</h1><p>Pagina non trovata.</p></body></html>`;
+
+describe('scraper security boundaries', () => {
+  it('removes executable archive nodes through the HTML parser', () => {
+    const cleaned = stripArchiveScripts('<main>Policy</main><script src="https://web.archive.org/wombat.js"></script><script>alert(1)</script>');
+    expect(cleaned).toContain('<main>Policy</main>');
+    expect(cleaned).not.toMatch(/<script/i);
+  });
+
+  it('keeps attacker-controlled text on one bounded log line', () => {
+    expect(sanitizeLogText('timeout\r\n[Admin] forged')).toBe('timeout [Admin] forged');
+    expect(sanitizeLogText('x'.repeat(400), 24)).toHaveLength(24);
+  });
+});
 
 /* ------------------------------------------------------------------
    extractPolicyText

@@ -3,6 +3,25 @@ import type { PolicyAnalysisResult } from '@/lib/gemini';
 export const BASELINE_RETRIEVAL_ID = 'bm25-word-v1';
 export const BASELINE_ABSTENTION_THRESHOLD = 0.75;
 
+const LOOPBACK_ADAPTER_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]']);
+
+export function requireLoopbackAdapterUrl(value: string, variableName: string): string {
+  let parsed: URL;
+  try {
+    parsed = new URL(value);
+  } catch {
+    throw new Error(`${variableName} must be a valid loopback HTTP URL.`);
+  }
+  if (!['http:', 'https:'].includes(parsed.protocol) || !LOOPBACK_ADAPTER_HOSTS.has(parsed.hostname)) {
+    throw new Error(`${variableName} must target localhost, 127.0.0.1 or [::1]. Use an SSH tunnel for a remote VPS adapter.`);
+  }
+  if (parsed.username || parsed.password) {
+    throw new Error(`${variableName} must not contain URL credentials.`);
+  }
+  parsed.hash = '';
+  return parsed.toString();
+}
+
 export interface GoldenPassage { id: string; text: string }
 export interface GoldenRetrievalCase {
   id: string;

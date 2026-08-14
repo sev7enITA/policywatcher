@@ -37,7 +37,9 @@ version; existing labels and gates must not be edited after results are known.
 ## Local adapter contract
 
 Qwen3 and BGE remain outside the Node.js runtime. The harness calls explicitly
-configured local/VPS HTTP adapters.
+configured loopback HTTP adapters only. A model hosted on a separate VPS must
+be exposed to the harness through an authenticated SSH tunnel bound to
+`127.0.0.1`; raw golden-set text is never sent to an arbitrary remote URL.
 
 Embedding request:
 

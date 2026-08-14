@@ -413,8 +413,15 @@ const server = createServer(async (req, res) => {
     }, requestId);
   }
 
+  // Health is intentionally public for process supervision. Every other
+  // renderer route crosses the service boundary and must authenticate before
+  // routing, so a caller-controlled path cannot select a weaker auth branch.
+  const auth = req.headers.authorization || '';
+  if (!isAuthorizedRequest(auth)) {
+    return send(res, 401, { error: 'unauthorized' }, requestId);
+  }
+
   if (req.method === 'GET' && req.url === '/readyz') {
-    if (!isAuthorizedRequest(req.headers.authorization || '')) return send(res, 401, { error: 'unauthorized' }, requestId);
     if (!accepting) return send(res, 503, { ok: false, state: 'draining' }, requestId);
     try {
       const browser = await getBrowser();
@@ -439,11 +446,6 @@ const server = createServer(async (req, res) => {
 
   if (req.method !== 'POST' || req.url !== '/render') {
     return send(res, 404, { error: 'not_found' }, requestId);
-  }
-
-  const auth = req.headers.authorization || '';
-  if (!isAuthorizedRequest(auth)) {
-    return send(res, 401, { error: 'unauthorized' }, requestId);
   }
 
   if (!accepting) {

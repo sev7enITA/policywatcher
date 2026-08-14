@@ -222,8 +222,11 @@ export function escapeMarkdownText(value: unknown): string {
     .trim();
 }
 
-function markdownLinkLabel(value: unknown): string {
-  return escapeMarkdownText(value).replace(/([()])/g, '\\$1');
+export function escapeMarkdownLinkLabel(value: unknown): string {
+  return String(value ?? '')
+    .replace(/([\\[\]_*`#<>|()])/g, '\\$1')
+    .replace(/\r?\n/g, ' ')
+    .trim();
 }
 
 export function evidenceCollectionToMarkdown(collection: EvidenceCollection): string {
@@ -264,7 +267,7 @@ export function evidenceCollectionToMarkdown(collection: EvidenceCollection): st
     );
   }
 
-  lines.push('## Collection review checklist', '', ...collection.reviewChecklist.map((item) => `- ${markdownLinkLabel(item)}`), '');
+  lines.push('## Collection review checklist', '', ...collection.reviewChecklist.map((item) => `- ${escapeMarkdownLinkLabel(item)}`), '');
   return `${lines.join('\n').trim()}\n`;
 }
 

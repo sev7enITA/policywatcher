@@ -301,7 +301,7 @@ export default function WebhookReadinessClient({
         requestAnimationFrame(() => resolve());
       });
 
-      let actualCode = 'execution_error';
+      let actualCode: string;
       try {
         actualCode = await evaluateConformanceCase(testCase.input, signatureVersion);
       } catch {

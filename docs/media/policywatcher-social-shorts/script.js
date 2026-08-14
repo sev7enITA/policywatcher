@@ -44,6 +44,7 @@
     });
     document.querySelector('[data-action="restart"]')?.addEventListener('click', restartShort);
     window.addEventListener('message', (event) => {
+      if (event.source !== window.parent || event.origin !== window.location.origin) return;
       if (!event.data || event.data.scope !== 'policywatcher-short') return;
       if (event.data.action === 'pause') setPaused(true);
       if (event.data.action === 'play') setPaused(false);
@@ -70,7 +71,8 @@
   let cycleTimer = null;
 
   function messageShort(action) {
-    shortFrame.contentWindow?.postMessage({ scope: 'policywatcher-short', action }, '*');
+    const targetOrigin = window.location.origin === 'null' ? '*' : window.location.origin;
+    shortFrame.contentWindow?.postMessage({ scope: 'policywatcher-short', action }, targetOrigin);
   }
 
   function renderActiveClip(index) {

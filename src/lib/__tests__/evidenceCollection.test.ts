@@ -6,6 +6,7 @@ import {
   buildEvidenceCollection,
   buildEvidenceHandoff,
   csvCell,
+  escapeMarkdownLinkLabel,
   escapeMarkdownText,
   evidenceCollectionToCsv,
   evidenceCollectionToMarkdown,
@@ -102,6 +103,8 @@ describe('shareable evidence collections', () => {
     expect(csv).toContain('\r\n');
     expect(csvCell('+cmd')).toBe('"\'+cmd"');
     expect(escapeMarkdownText('a|b\n# c')).toBe('a\\|b \\# c');
+    expect(escapeMarkdownLinkLabel(String.raw`\\(review)`)).toContain(String.raw`\\\(`);
+    expect(escapeMarkdownLinkLabel('safe)\nnext')).toBe('safe\\) next');
   });
 
   it('builds a deterministic vendor-neutral collaboration handoff', () => {

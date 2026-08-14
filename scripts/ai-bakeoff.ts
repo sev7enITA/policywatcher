@@ -7,6 +7,7 @@ import {
   evaluateExtraction,
   evaluateRetrieval,
   passesGates,
+  requireLoopbackAdapterUrl,
   runBaselineRetrieval,
   validateGoldenSet,
   type ExtractionCaseResult,
@@ -197,9 +198,11 @@ async function main() {
   }
 
   if (providers.includes('qwen3')) {
-    const embeddingUrl = process.env.QWEN3_EMBEDDING_URL;
-    const rerankerUrl = process.env.QWEN3_RERANKER_URL;
-    if (!embeddingUrl || !rerankerUrl) throw new Error('QWEN3_EMBEDDING_URL and QWEN3_RERANKER_URL are required for qwen3.');
+    const configuredEmbeddingUrl = process.env.QWEN3_EMBEDDING_URL;
+    const configuredRerankerUrl = process.env.QWEN3_RERANKER_URL;
+    if (!configuredEmbeddingUrl || !configuredRerankerUrl) throw new Error('QWEN3_EMBEDDING_URL and QWEN3_RERANKER_URL are required for qwen3.');
+    const embeddingUrl = requireLoopbackAdapterUrl(configuredEmbeddingUrl, 'QWEN3_EMBEDDING_URL');
+    const rerankerUrl = requireLoopbackAdapterUrl(configuredRerankerUrl, 'QWEN3_RERANKER_URL');
     const results = await runAdapterRetrieval(set.retrievalCases, {
       name: 'qwen3', model: process.env.QWEN3_RETRIEVAL_MODEL || 'Qwen3-Reranker-0.6B',
       embeddingUrl, rerankerUrl, threshold: numberFromEnvironment('QWEN3_ABSTENTION_THRESHOLD', 0.35),
@@ -209,11 +212,15 @@ async function main() {
   }
 
   if (providers.includes('bge-m3')) {
-    const embeddingUrl = process.env.BGE_M3_EMBEDDING_URL;
-    if (!embeddingUrl) throw new Error('BGE_M3_EMBEDDING_URL is required for bge-m3.');
+    const configuredEmbeddingUrl = process.env.BGE_M3_EMBEDDING_URL;
+    if (!configuredEmbeddingUrl) throw new Error('BGE_M3_EMBEDDING_URL is required for bge-m3.');
+    const embeddingUrl = requireLoopbackAdapterUrl(configuredEmbeddingUrl, 'BGE_M3_EMBEDDING_URL');
+    const configuredRerankerUrl = process.env.BGE_M3_RERANKER_URL;
     const results = await runAdapterRetrieval(set.retrievalCases, {
       name: 'bge-m3', model: process.env.BGE_M3_MODEL || 'BAAI/bge-m3', embeddingUrl,
-      rerankerUrl: process.env.BGE_M3_RERANKER_URL,
+      rerankerUrl: configuredRerankerUrl
+        ? requireLoopbackAdapterUrl(configuredRerankerUrl, 'BGE_M3_RERANKER_URL')
+        : undefined,
       threshold: numberFromEnvironment('BGE_M3_ABSTENTION_THRESHOLD', 0.35),
     });
     const metrics = evaluateRetrieval(set.retrievalCases, results);

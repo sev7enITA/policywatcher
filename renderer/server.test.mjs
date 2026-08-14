@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import {
   buildBrowserContextOptions,
   isAllowedEgressHost,
@@ -32,6 +33,18 @@ test('supports bounded primary and previous secret overlap', () => {
   assert.equal(isAuthorizedWithSecrets('Bearer previous-secret', ['current-secret', 'previous-secret']), true);
   assert.equal(isAuthorizedWithSecrets('Bearer wrong', ['current-secret', 'previous-secret']), false);
   assert.equal(isAuthorizedWithSecrets('', []), false);
+});
+
+test('authenticates every non-health route before route selection', () => {
+  const source = readFileSync(new URL('./server.mjs', import.meta.url), 'utf8');
+  const publicHealth = source.indexOf("req.url === '/healthz'");
+  const sharedAuth = source.indexOf("const auth = req.headers.authorization || ''", publicHealth);
+  const readiness = source.indexOf("req.url === '/readyz'", publicHealth);
+  const renderRoute = source.indexOf("req.url !== '/render'", publicHealth);
+  assert.ok(publicHealth >= 0);
+  assert.ok(sharedAuth > publicHealth);
+  assert.ok(sharedAuth < readiness);
+  assert.ok(sharedAuth < renderRoute);
 });
 
 test('requires HTTPS and an allowlisted public DNS target', async () => {

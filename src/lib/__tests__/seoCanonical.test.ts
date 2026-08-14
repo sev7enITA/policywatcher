@@ -91,11 +91,11 @@ describe('public canonical URL contract', () => {
     expect(sitemap).toContain("import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin'");
     expect(sitemap).not.toContain('process.env.NEXT_PUBLIC_APP_URL');
     expect(sitemap).not.toContain('lastModified: new Date()');
-    expect(sitemap).toContain('url: `${BASE_URL}/change/${c.id}`');
+    expect(sitemap).toMatch(/url: `\$\{BASE_URL\}\/change\/\$\{c\.id\}`/);
     expect(sitemap).not.toContain('/change/${c.id}?lang=en');
-    expect(sitemap).toContain('url: `${BASE_URL}/evidence/${c.id}`');
+    expect(sitemap).toMatch(/url: `\$\{BASE_URL\}\/evidence\/\$\{c\.id\}`/);
     expect(robots).toContain("import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin'");
-    expect(robots).toContain('sitemap: `${POLICYWATCHER_CANONICAL_ORIGIN}/sitemap.xml`');
+    expect(robots).toMatch(/sitemap: `\$\{POLICYWATCHER_CANONICAL_ORIGIN\}\/sitemap\.xml`/);
     expect(robots).toContain('host: POLICYWATCHER_CANONICAL_ORIGIN');
     expect(robots).not.toContain('NEXT_PUBLIC_APP_URL');
   });
