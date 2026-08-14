@@ -1713,7 +1713,7 @@ export async function scrapePolicyText(
         finalUrl: transport.finalUrl,
         durationMs: directDurationMs,
       });
-      console.log(`[Scraper] [1/5] Transport failure: ${sanitizeLogText(transport.error)}`);
+      console.log('[Scraper] [1/5] Transport failure recorded.');
     } else {
     const httpStatus = transport.status;
 
@@ -2093,7 +2093,7 @@ export async function scrapePolicyText(
     return rightDate - leftDate;
   });
 
-  console.log(`[Scraper] [ERROR] All 5 strategies exhausted for ${logUrl}: ${sanitizeLogText(finalReason, 640)}`);
+  console.log('[Scraper] [ERROR] All 5 strategies exhausted.');
   const failedResult = makeResult(
     reasonCode === 'source_gone' ? 'invalid' : 'unavailable',
     transport.finalUrl || url,

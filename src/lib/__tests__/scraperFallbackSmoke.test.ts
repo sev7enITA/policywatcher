@@ -42,6 +42,7 @@ function controlled(
 }
 
 afterEach(() => {
+  vi.restoreAllMocks();
   vi.unstubAllEnvs();
 });
 
@@ -84,5 +85,22 @@ describe('controlled fallback rescue smoke tests', () => {
     expect(result.source).toBe('commoncrawl');
     expect(result.archiveTimestamp).toBe('2026-08-05T09:00:00.000Z');
     expect(result.diagnostics?.at(-1)).toMatchObject({ source: 'commoncrawl', status: 'ok' });
+  });
+
+  it('keeps untrusted transport details out of console logs while retaining diagnostics', async () => {
+    vi.stubEnv('RENDERER_URL', '');
+    vi.stubEnv('RENDERER_SECRET', '');
+    const forgedError = 'timeout\r\n[Admin] forged';
+    const log = vi.spyOn(console, 'log').mockImplementation(() => undefined);
+
+    const result = await scrapePolicyText(URL, {
+      controlledFallbacks: controlled({ direct: async () => failed(forgedError, 0) }),
+    });
+
+    const consoleOutput = log.mock.calls.map(([message]) => String(message)).join('\n');
+    expect(result.diagnostics?.find((item) => item.source === 'direct')?.reason).toBe(forgedError);
+    expect(consoleOutput).toContain('[Scraper] [1/5] Transport failure recorded.');
+    expect(consoleOutput).toContain('[Scraper] [ERROR] All 5 strategies exhausted.');
+    expect(consoleOutput).not.toContain('[Admin] forged');
   });
 });

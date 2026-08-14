@@ -133,8 +133,8 @@ treated as proof of an application exploit.
 | PR7-006 / alert 60 | `js/file-access-to-http`, `scripts/ai-bakeoff.ts` | Not actionable, medium confidence: local developer evaluation CLI with trusted adapter configuration, not a hosted request surface | Adapter URLs are now restricted to loopback without credentials; remote VPS use requires an SSH tunnel | Resolved |
 | PR7-007 / alert 44 | `js/log-injection`, failed admin login | Confirmed, high confidence, confirmed queue rank 1: an unauthenticated username reached a console template and could alter log-line structure | Console message is constant; the bounded durable access record retains the operational event | Fixed |
 | PR7-008 / alert 45 | `js/log-injection`, successful admin login | Not actionable, high confidence: success required the request username to equal trusted operator configuration | Dynamic username was nevertheless removed from the console sink | Resolved |
-| PR7-009 / alert 47 | `js/log-injection`, scraper transport error | Needs review, medium confidence, needs-review queue rank 2: runtime error provenance was bounded but not completely established statically | External diagnostics pass through a one-line, length-bounded log sanitizer | Fixed defensively |
-| PR7-010 / alert 56 | `js/log-injection`, exhausted scraper cascade | Needs review, medium confidence, needs-review queue rank 1: the aggregate could include transport diagnostics and configured URLs | Target and aggregate reason are one-line sanitized and length bounded before logging | Fixed defensively |
+| PR7-009 / alert 47 | `js/log-injection`, scraper transport error | Needs review, medium confidence, needs-review queue rank 2: runtime error provenance was bounded but not completely established statically | Console message is constant; the original detail remains available in structured diagnostics | Fixed defensively |
+| PR7-010 / alert 56 | `js/log-injection`, exhausted scraper cascade | Needs review, medium confidence, needs-review queue rank 1: the aggregate could include transport diagnostics and configured URLs | Exhaustion message is constant; result status, reason code and structured diagnostics remain unchanged | Fixed defensively |
 | PR7-011 / alert 57 | `js/useless-assignment-to-local`, webhook readiness client | Not actionable: non-security maintainability warning | Removed the overwritten initializer while preserving the error fallback | Resolved |
 | PR7-012 / alert 55 | `js/template-syntax-in-string-literal`, public UI regression test | Not actionable: test fixture only | Literal source assertion now uses a regular expression | Resolved |
 | PR7-013 / alert 61 | `js/template-syntax-in-string-literal`, SEO canonical test | Not actionable: test fixture only | Literal source assertions now use regular expressions | Resolved |
@@ -143,9 +143,9 @@ treated as proof of an application exploit.
 
 | Check | Result |
 | --- | --- |
-| Focused application security regressions | Pass; 6 files and 85 tests |
+| Focused application security regressions | Pass; 7 files and 89 tests |
 | Renderer security tests | Pass; 7 tests |
-| Full Vitest coverage run | Pass; 136 files and 728 tests |
+| Full Vitest coverage run | Pass; 136 files and 729 tests |
 | ESLint and TypeScript | Pass |
 | Production build | Pass; 159 generated routes/pages |
 | `npm audit --omit=dev --audit-level=high` | Pass; 0 vulnerabilities |
