@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { rateLimit } from '@/lib/rateLimit';
+import { cleanTextForSpeech } from '@/lib/ttsText';
 
 /**
  * PolicyWatcher - Text-to-Speech API
@@ -40,16 +41,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Clean markdown artifacts for spoken output
-    const cleanText = text
-      .replace(/[#*`_~]/g, '')
-      .replace(/\[.*?\]/g, '')
-      .replace(/\(.*?\)/g, '')
-      .replace(/\n{2,}/g, '. ')
-      .replace(/\n/g, ' ')
-      .replace(/- /g, '. ')
-      .trim()
-      .substring(0, 5000); // TTS API limit
+    // Clean markdown artifacts using a bounded linear parser.
+    const cleanText = cleanTextForSpeech(text);
 
     // Select natural-sounding Neural2 voices
     const voiceConfig = lang === 'it'

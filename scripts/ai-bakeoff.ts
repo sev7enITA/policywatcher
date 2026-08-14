@@ -1,7 +1,9 @@
-import { mkdir, readFile, writeFile } from 'fs/promises';
+import { mkdir, writeFile } from 'fs/promises';
 import { dirname, resolve } from 'path';
+import frozenGoldenSet from '../evals/policy-analysis/golden-set.v1.json';
 import { analyzePolicyChange } from '../src/lib/gemini';
 import { classifyAiTelemetryError } from '../src/lib/aiTelemetry';
+import { runAdapterRetrieval } from '../src/lib/aiRetrievalAdapter';
 import {
   BASELINE_RETRIEVAL_ID,
   evaluateExtraction,
@@ -11,14 +13,10 @@ import {
   runBaselineRetrieval,
   validateGoldenSet,
   type ExtractionCaseResult,
-  type GoldenRetrievalCase,
   type GoldenSet,
-  type RankedPassage,
-  type RetrievalCaseResult,
 } from '../src/lib/aiEvaluation';
 
 const ROOT = resolve(import.meta.dirname, '..');
-const DEFAULT_GOLDEN_SET = resolve(ROOT, 'evals/policy-analysis/golden-set.v1.json');
 const DEFAULT_OUTPUT = resolve(ROOT, 'artifacts/evals/ai-bakeoff-latest.json');
 const PROVIDERS = ['baseline', 'qwen3', 'bge-m3', 'gemini-3.5', 'gemini-3.7'] as const;
 type Provider = (typeof PROVIDERS)[number];
@@ -38,103 +36,6 @@ function selectedProviders(): Provider[] {
 function numberFromEnvironment(name: string, fallback: number): number {
   const parsed = Number(process.env[name]);
   return Number.isFinite(parsed) ? parsed : fallback;
-}
-
-async function postJson(url: string, body: unknown): Promise<unknown> {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 120_000);
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-      signal: controller.signal,
-    });
-    if (!response.ok) throw new Error(`Adapter returned HTTP ${response.status}.`);
-    return await response.json();
-  } finally {
-    clearTimeout(timeout);
-  }
-}
-
-function parseEmbeddings(value: unknown): number[][] {
-  const record = value as { embeddings?: unknown; data?: Array<{ embedding?: unknown }> };
-  const embeddings = Array.isArray(record?.embeddings)
-    ? record.embeddings
-    : Array.isArray(record?.data)
-      ? record.data.map((item) => item.embedding)
-      : null;
-  if (!embeddings || embeddings.some((embedding) => !Array.isArray(embedding) || embedding.some((item) => typeof item !== 'number'))) {
-    throw new Error('Embedding adapter response does not match the documented contract.');
-  }
-  return embeddings as number[][];
-}
-
-function cosine(left: number[], right: number[]): number {
-  if (left.length !== right.length || left.length === 0) throw new Error('Embedding dimensions do not match.');
-  let dot = 0;
-  let leftNorm = 0;
-  let rightNorm = 0;
-  for (let index = 0; index < left.length; index += 1) {
-    dot += left[index] * right[index];
-    leftNorm += left[index] ** 2;
-    rightNorm += right[index] ** 2;
-  }
-  return dot / Math.max(Number.EPSILON, Math.sqrt(leftNorm) * Math.sqrt(rightNorm));
-}
-
-function parseRerank(value: unknown, passages: GoldenRetrievalCase['passages']): RankedPassage[] {
-  const record = value as { results?: unknown; data?: unknown };
-  const candidates = Array.isArray(record?.results) ? record.results : Array.isArray(record?.data) ? record.data : null;
-  if (!candidates) throw new Error('Reranker response does not match the documented contract.');
-  const ranked = candidates.map((candidate) => {
-    const item = candidate as { index?: unknown; score?: unknown; relevance_score?: unknown };
-    const score = typeof item.score === 'number' ? item.score : item.relevance_score;
-    if (!Number.isInteger(item.index) || (item.index as number) < 0 || (item.index as number) >= passages.length || typeof score !== 'number') {
-      throw new Error('Reranker result contains an invalid index or score.');
-    }
-    return { id: passages[item.index as number].id, score: Math.round(score * 10_000) / 10_000 };
-  });
-  return ranked.sort((left, right) => right.score - left.score || left.id.localeCompare(right.id));
-}
-
-async function runAdapterRetrieval(
-  cases: GoldenRetrievalCase[],
-  configuration: { name: string; model: string; embeddingUrl: string; rerankerUrl?: string; threshold: number },
-): Promise<RetrievalCaseResult[]> {
-  const results: RetrievalCaseResult[] = [];
-  for (const item of cases) {
-    let ranked: RankedPassage[];
-    if (configuration.rerankerUrl) {
-      const response = await postJson(configuration.rerankerUrl, {
-        model: configuration.model,
-        query: item.query,
-        documents: item.passages.map((passage) => passage.text),
-        topK: item.passages.length,
-      });
-      ranked = parseRerank(response, item.passages);
-    } else {
-      const response = await postJson(configuration.embeddingUrl, {
-        model: configuration.model,
-        task: 'retrieval',
-        texts: [item.query, ...item.passages.map((passage) => passage.text)],
-      });
-      const [queryEmbedding, ...documentEmbeddings] = parseEmbeddings(response);
-      if (!queryEmbedding || documentEmbeddings.length !== item.passages.length) {
-        throw new Error(`${configuration.name} adapter returned the wrong number of embeddings.`);
-      }
-      ranked = item.passages.map((passage, index) => ({
-        id: passage.id,
-        score: Math.round(cosine(queryEmbedding, documentEmbeddings[index]) * 10_000) / 10_000,
-      })).sort((left, right) => right.score - left.score || left.id.localeCompare(right.id));
-    }
-    results.push({
-      caseId: item.id,
-      ranked,
-      predictedAnswerable: (ranked[0]?.score || 0) >= configuration.threshold,
-    });
-  }
-  return results;
 }
 
 async function runGeminiExtraction(
@@ -166,9 +67,11 @@ async function runGeminiExtraction(
 }
 
 async function main() {
-  const sourcePath = resolve(argument('golden-set') || DEFAULT_GOLDEN_SET);
+  if (argument('golden-set')) {
+    throw new Error('Custom golden-set paths are disabled. Version and review the frozen repository fixture instead.');
+  }
   const outputPath = resolve(argument('output') || DEFAULT_OUTPUT);
-  const set = JSON.parse(await readFile(sourcePath, 'utf8')) as unknown;
+  const set: unknown = frozenGoldenSet;
   validateGoldenSet(set);
   const providers = selectedProviders();
 
@@ -187,56 +90,77 @@ async function main() {
   const resultRecord = report.results as Record<string, unknown>;
 
   if (providers.includes('baseline')) {
+    const startedAt = performance.now();
     const results = runBaselineRetrieval(set);
     const metrics = evaluateRetrieval(set.retrievalCases, results);
     resultRecord.baseline = {
       adapter: BASELINE_RETRIEVAL_ID,
       metrics,
       passesFrozenGates: passesGates(metrics as unknown as Record<string, number>, set.gates.retrieval),
+      durationMs: Math.round(performance.now() - startedAt),
       cases: results,
     };
   }
 
   if (providers.includes('qwen3')) {
+    const startedAt = performance.now();
     const configuredEmbeddingUrl = process.env.QWEN3_EMBEDDING_URL;
     const configuredRerankerUrl = process.env.QWEN3_RERANKER_URL;
     if (!configuredEmbeddingUrl || !configuredRerankerUrl) throw new Error('QWEN3_EMBEDDING_URL and QWEN3_RERANKER_URL are required for qwen3.');
     const embeddingUrl = requireLoopbackAdapterUrl(configuredEmbeddingUrl, 'QWEN3_EMBEDDING_URL');
     const rerankerUrl = requireLoopbackAdapterUrl(configuredRerankerUrl, 'QWEN3_RERANKER_URL');
     const results = await runAdapterRetrieval(set.retrievalCases, {
-      name: 'qwen3', model: process.env.QWEN3_RETRIEVAL_MODEL || 'Qwen3-Reranker-0.6B',
-      embeddingUrl, rerankerUrl, threshold: numberFromEnvironment('QWEN3_ABSTENTION_THRESHOLD', 0.35),
+      name: 'qwen3',
+      embeddingModel: process.env.QWEN3_EMBEDDING_MODEL || 'Qwen/Qwen3-Embedding-0.6B',
+      embeddingUrl,
+      rerankerModel: process.env.QWEN3_RERANKER_MODEL || process.env.QWEN3_RETRIEVAL_MODEL || 'Qwen/Qwen3-Reranker-0.6B',
+      rerankerUrl,
+      rerankCandidateCount: 2,
+      threshold: numberFromEnvironment('QWEN3_ABSTENTION_THRESHOLD', 0.35),
     });
     const metrics = evaluateRetrieval(set.retrievalCases, results);
-    resultRecord.qwen3 = { metrics, passesFrozenGates: passesGates(metrics as unknown as Record<string, number>, set.gates.retrieval), cases: results };
+    resultRecord.qwen3 = {
+      embeddingModel: process.env.QWEN3_EMBEDDING_MODEL || 'Qwen/Qwen3-Embedding-0.6B',
+      rerankerModel: process.env.QWEN3_RERANKER_MODEL || process.env.QWEN3_RETRIEVAL_MODEL || 'Qwen/Qwen3-Reranker-0.6B',
+      metrics,
+      passesFrozenGates: passesGates(metrics as unknown as Record<string, number>, set.gates.retrieval),
+      durationMs: Math.round(performance.now() - startedAt),
+      cases: results,
+    };
   }
 
   if (providers.includes('bge-m3')) {
+    const startedAt = performance.now();
     const configuredEmbeddingUrl = process.env.BGE_M3_EMBEDDING_URL;
     if (!configuredEmbeddingUrl) throw new Error('BGE_M3_EMBEDDING_URL is required for bge-m3.');
     const embeddingUrl = requireLoopbackAdapterUrl(configuredEmbeddingUrl, 'BGE_M3_EMBEDDING_URL');
     const configuredRerankerUrl = process.env.BGE_M3_RERANKER_URL;
     const results = await runAdapterRetrieval(set.retrievalCases, {
-      name: 'bge-m3', model: process.env.BGE_M3_MODEL || 'BAAI/bge-m3', embeddingUrl,
+      name: 'bge-m3', embeddingModel: process.env.BGE_M3_MODEL || 'BAAI/bge-m3', embeddingUrl,
       rerankerUrl: configuredRerankerUrl
         ? requireLoopbackAdapterUrl(configuredRerankerUrl, 'BGE_M3_RERANKER_URL')
+        : undefined,
+      rerankerModel: configuredRerankerUrl
+        ? process.env.BGE_M3_RERANKER_MODEL || 'BAAI/bge-reranker-v2-m3'
         : undefined,
       threshold: numberFromEnvironment('BGE_M3_ABSTENTION_THRESHOLD', 0.35),
     });
     const metrics = evaluateRetrieval(set.retrievalCases, results);
-    resultRecord['bge-m3'] = { metrics, passesFrozenGates: passesGates(metrics as unknown as Record<string, number>, set.gates.retrieval), cases: results };
+    resultRecord['bge-m3'] = { model: process.env.BGE_M3_MODEL || 'BAAI/bge-m3', metrics, passesFrozenGates: passesGates(metrics as unknown as Record<string, number>, set.gates.retrieval), durationMs: Math.round(performance.now() - startedAt), cases: results };
   }
 
   if (providers.includes('gemini-3.5')) {
+    const startedAt = performance.now();
     const run = await runGeminiExtraction(set, 'gemini-3.5-flash-lite', false);
     const metrics = evaluateExtraction(run.cases, run.results);
-    resultRecord['gemini-3.5'] = { model: 'gemini-3.5-flash-lite', scope: 'all-extraction-cases', metrics, passesFrozenGates: passesGates(metrics as unknown as Record<string, number>, set.gates.extraction), cases: run.results.map(({ caseId, errorCode }) => ({ caseId, errorCode })) };
+    resultRecord['gemini-3.5'] = { model: 'gemini-3.5-flash-lite', scope: 'all-extraction-cases', metrics, passesFrozenGates: passesGates(metrics as unknown as Record<string, number>, set.gates.extraction), durationMs: Math.round(performance.now() - startedAt), cases: run.results.map(({ caseId, errorCode }) => ({ caseId, errorCode })) };
   }
 
   if (providers.includes('gemini-3.7')) {
+    const startedAt = performance.now();
     const run = await runGeminiExtraction(set, 'gemini-3.7-flash', true);
     const metrics = evaluateExtraction(run.cases, run.results);
-    resultRecord['gemini-3.7'] = { model: 'gemini-3.7-flash', scope: 'escalation-eligible-cases-only', metrics, passesFrozenGates: passesGates(metrics as unknown as Record<string, number>, set.gates.extraction), cases: run.results.map(({ caseId, errorCode }) => ({ caseId, errorCode })) };
+    resultRecord['gemini-3.7'] = { model: 'gemini-3.7-flash', scope: 'escalation-eligible-cases-only', metrics, passesFrozenGates: passesGates(metrics as unknown as Record<string, number>, set.gates.extraction), durationMs: Math.round(performance.now() - startedAt), cases: run.results.map(({ caseId, errorCode }) => ({ caseId, errorCode })) };
   }
 
   await mkdir(dirname(outputPath), { recursive: true });

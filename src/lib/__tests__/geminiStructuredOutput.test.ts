@@ -120,6 +120,21 @@ describe('Gemini supported models and structured output', () => {
     ]);
   });
 
+  it('uses the supported fallback after a transient network reset', async () => {
+    mocks.generateContent
+      .mockRejectedValueOnce(new TypeError('fetch failed', {
+        cause: Object.assign(new Error('socket reset'), { code: 'ECONNRESET' }),
+      }))
+      .mockResolvedValueOnce({ text: JSON.stringify(validPolicyAnalysis()) });
+
+    await analyzePolicyChange('Example', 'Privacy', '', 'New policy text');
+
+    expect(mocks.generateContent.mock.calls.map(([request]) => request.model)).toEqual([
+      'gemini-2.5-flash',
+      'gemini-3.5-flash-lite',
+    ]);
+  });
+
   it('falls back when the primary returns semantically invalid structured output', async () => {
     const invalid = validPolicyAnalysis();
     invalid.regionImpacts[5] = { ...invalid.regionImpacts[0] };

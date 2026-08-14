@@ -77,12 +77,36 @@ function average(values: number[]): number {
   return values.length ? Math.round(values.reduce((sum, value) => sum + value, 0) / values.length) : 0;
 }
 
+function errorFingerprint(error: unknown): string {
+  const values: string[] = [];
+  const seen = new Set<unknown>();
+  let current: unknown = error;
+  for (let depth = 0; current != null && depth < 4 && !seen.has(current); depth += 1) {
+    seen.add(current);
+    if (current instanceof Error) {
+      values.push(current.name, current.message);
+      const details = current as Error & { cause?: unknown; code?: unknown };
+      if (typeof details.code === 'string') values.push(details.code);
+      current = details.cause;
+    } else {
+      values.push(String(current));
+      break;
+    }
+  }
+  return values.join(' ');
+}
+
+export function isTransientAiError(error: unknown): boolean {
+  return /429|RESOURCE_EXHAUSTED|rate.?limit|503|UNAVAILABLE|overloaded|high demand|timeout|timed out|ETIMEDOUT|fetch failed|ECONNRESET|ECONNREFUSED|EAI_AGAIN|ENETUNREACH|socket hang up/i
+    .test(errorFingerprint(error));
+}
+
 export function classifyAiTelemetryError(error: unknown): {
   outcome: Exclude<AiTelemetryOutcome, 'success'>;
   errorCode: string;
 } {
   const name = error instanceof Error ? error.name : '';
-  const message = error instanceof Error ? error.message : String(error);
+  const message = errorFingerprint(error);
   if (name === 'GeminiStructuredOutputError' || name === 'SyntaxError') {
     return { outcome: 'structured-output-error', errorCode: 'invalid_structured_output' };
   }
@@ -94,6 +118,9 @@ export function classifyAiTelemetryError(error: unknown): {
   }
   if (/timeout|timed out|ETIMEDOUT/i.test(message)) {
     return { outcome: 'transient-error', errorCode: 'timeout' };
+  }
+  if (/fetch failed|ECONNRESET|ECONNREFUSED|EAI_AGAIN|ENETUNREACH|socket hang up/i.test(message)) {
+    return { outcome: 'transient-error', errorCode: 'network_error' };
   }
   return { outcome: 'provider-error', errorCode: 'provider_error' };
 }

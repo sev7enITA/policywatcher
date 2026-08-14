@@ -31,6 +31,7 @@ import {
   AI_ANALYSIS_PROMPT_VERSION,
   AI_CHAT_PROMPT_VERSION,
   classifyAiTelemetryError,
+  isTransientAiError,
   recordAiTelemetry,
   type AiTelemetryOperation,
 } from '@/lib/aiTelemetry';
@@ -89,21 +90,9 @@ export interface PolicyAnalysisOptions {
  * Returns true when the error indicates a transient capacity issue
  * (503 overloaded, 429 rate-limited) where a fallback model might succeed.
  */
-function isTransientError(error: unknown): boolean {
-  const msg = String((error as Error)?.message || error);
-  return (
-    msg.includes('503') ||
-    msg.includes('UNAVAILABLE') ||
-    msg.includes('429') ||
-    msg.includes('RESOURCE_EXHAUSTED') ||
-    msg.includes('overloaded') ||
-    msg.includes('high demand')
-  );
-}
-
 function shouldTryNextModel(error: unknown): boolean {
   return (
-    isTransientError(error) ||
+    isTransientAiError(error) ||
     error instanceof GeminiStructuredOutputError ||
     error instanceof SyntaxError
   );
@@ -358,7 +347,7 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
   const telemetryOperation = options.telemetryOperation || 'policy-analysis';
 
   for (const [attempt, modelId] of modelChain.entries()) {
-    const startedAt = Date.now();
+    const startedAt = performance.now();
     try {
       console.log(`[Gemini] Trying model: ${modelId} for ${companyName}/${policyName}`);
       const response = await client.models.generateContent({
@@ -389,7 +378,7 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
         modelId,
         attempt,
         outcome: 'success',
-        durationMs: Date.now() - startedAt,
+        durationMs: performance.now() - startedAt,
         inputChars: prompt.length + systemInstruction.length,
         outputChars: textResponse.length,
         promptTokenCount: response.usageMetadata?.promptTokenCount,
@@ -409,7 +398,7 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
         attempt,
         outcome: classified.outcome,
         errorCode: classified.errorCode,
-        durationMs: Date.now() - startedAt,
+        durationMs: performance.now() - startedAt,
         inputChars: prompt.length + systemInstruction.length,
         schemaVersion: POLICY_ANALYSIS_SCHEMA_VERSION,
         promptVersion: AI_ANALYSIS_PROMPT_VERSION,
@@ -562,7 +551,7 @@ ${question}`;
   const traceId = randomUUID();
 
   for (const [attempt, modelId] of GEMINI_MODEL_CHAIN.entries()) {
-    const startedAt = Date.now();
+    const startedAt = performance.now();
     try {
       console.log(`[Gemini Chat] Trying model: ${modelId}`);
       const response = await client.models.generateContent({
@@ -580,7 +569,7 @@ ${question}`;
         modelId,
         attempt,
         outcome: 'success',
-        durationMs: Date.now() - startedAt,
+        durationMs: performance.now() - startedAt,
         inputChars: prompt.length,
         outputChars: answer.length,
         promptTokenCount: response.usageMetadata?.promptTokenCount,
@@ -599,12 +588,12 @@ ${question}`;
         attempt,
         outcome: classified.outcome,
         errorCode: classified.errorCode,
-        durationMs: Date.now() - startedAt,
+        durationMs: performance.now() - startedAt,
         inputChars: prompt.length,
         promptVersion: AI_CHAT_PROMPT_VERSION,
       });
       console.warn(`[Gemini Chat] Model ${modelId} failed:`, (error as Error).message);
-      if (!isTransientError(error)) break;
+      if (!isTransientAiError(error)) break;
       console.log(`[Gemini Chat] Transient error, falling back to next model...`);
     }
   }
