@@ -14,7 +14,7 @@ Review every compatibility warning printed by the packager. Then in Xcode:
 
 1. Select the publisher’s Apple Developer Team for the app and extension targets.
 2. Replace placeholder bundle identifiers if the App Store Connect record uses different identifiers.
-3. Confirm the host permission is limited to `https://www.policywatcher.online/*` and the only API permissions are temporary active-tab inspection and scripting.
+3. Confirm the host permission is limited to `https://policywatcher.online/*` and the only API permissions are temporary active-tab inspection and scripting.
 4. Test the disclosure, selected-text scan, manual fallback, structured submission and every error state in Safari on the supported macOS target. Add iOS only after validating popup sizing and page injection on iPhone/iPad.
 5. Complete App Privacy consistently with `PRIVACY.md`, archive, validate, notarize where applicable and upload through App Store Connect.
 

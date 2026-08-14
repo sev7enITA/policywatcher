@@ -35,7 +35,7 @@ describe('production verification contract', () => {
         'strict-transport-security': 'max-age=31536000', 'x-content-type-options': 'nosniff',
         'x-frame-options': 'DENY', 'content-security-policy': "frame-ancestors 'none'",
       });
-      if (target.endsWith('/api/v1/manifest')) return response(200, { release: '3.9.0-beta.40' });
+      if (target.endsWith('/api/v1/manifest')) return response(200, { release: '3.9.0-beta.41' });
       return response(401, { error: 'Unauthorized' });
     }) as unknown as typeof fetch;
 
@@ -46,5 +46,25 @@ describe('production verification contract', () => {
     expect(report.status).toBe('attention');
     expect(report.checks.find((check) => check.id === 'database-readiness')?.state).toBe('passed');
     expect(report.checks.find((check) => check.id === 'independent-dynamic-test')?.state).toBe('external');
+  });
+
+  it('flags a production www origin as divergent from the public canonical host', async () => {
+    vi.stubEnv('NODE_ENV', 'production');
+    vi.stubEnv('APP_URL', 'https://www.policywatcher.online');
+    vi.stubEnv('API_SECRET', 'a'.repeat(32));
+    vi.stubEnv('SESSION_HMAC_SECRET', 'b'.repeat(32));
+    mocks.readiness.mockResolvedValue({ status: 'ready', schema: {}, integrity: {} });
+    const fetcher = vi.fn(async () => response(401, { error: 'Unauthorized' })) as unknown as typeof fetch;
+
+    const report = await getProductionVerificationReport({
+      requestOrigin: 'https://policywatcher.online',
+      role: 'auditor',
+      fetcher,
+    });
+
+    expect(report.checks.find((check) => check.id === 'production-runtime')).toMatchObject({
+      state: 'attention',
+      expected: 'Production mode with APP_URL=https://policywatcher.online.',
+    });
   });
 });

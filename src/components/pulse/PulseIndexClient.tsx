@@ -38,7 +38,7 @@ export default function PulseIndexClient() {
         {filtered.map((story, index) => <article className={styles.storyCard} key={story.slug}>
           <div className={styles.storyNumber}>{String(index + 1).padStart(2, '0')}</div>
           <div className={styles.storyBody}><div className={styles.storyMeta}><span>{pulseBeatLabels[story.beat][lang]}</span><span className={styles.verified}>Verified lead</span><time dateTime={story.asOf}>{story.asOf}</time></div><h2>{story.headline[lang]}</h2><p>{story.deck[lang]}</p><ul>{story.facts.slice(0, 3).map((fact) => <li key={fact.id}><strong>{fact.value}</strong><span>{fact.label[lang]}</span></li>)}</ul><p className={styles.boundary}>{story.boundary[lang]}</p></div>
-          <Link className={styles.openStory} href={`/pulse/${story.slug}?lang=${lang}`}>{lang === 'en' ? 'Open story' : 'Apri storia'}<ArrowRight size={16} /></Link>
+          <Link className={styles.openStory} href={lang === 'it' ? `/pulse/${story.slug}?lang=it` : `/pulse/${story.slug}`}>{lang === 'en' ? 'Open story' : 'Apri storia'}<ArrowRight size={16} /></Link>
         </article>)}
       </section>
     </main><Footer lang={lang} variant="compact" />

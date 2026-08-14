@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { POLICYWATCHER_ORIGIN } from '@/lib/publicKnowledge';
+import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin';
 
 const disallowedRoutes = [
   '/admin',
@@ -29,7 +29,7 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: 'OAI-SearchBot', ...publicRules },
       { userAgent: 'PerplexityBot', ...publicRules },
     ],
-    sitemap: `${POLICYWATCHER_ORIGIN}/sitemap.xml`,
-    host: POLICYWATCHER_ORIGIN,
+    sitemap: `${POLICYWATCHER_CANONICAL_ORIGIN}/sitemap.xml`,
+    host: POLICYWATCHER_CANONICAL_ORIGIN,
   };
 }

@@ -2,16 +2,16 @@
 
 Version: 3.8.3 Beta 3
 Prepared: 23 July 2026
-Availability reviewed: 27 July 2026
+Availability reviewed: 6 August 2026
 Product: PolicyWatcher Browser Evidence Companion
 
 ## Current verified availability
 
 - Chrome Web Store: public listing available at
   `https://chromewebstore.google.com/detail/policywatcher-what-change/hchhgobigadmmanhflndlkkoooicbdih`.
-- Microsoft Edge Add-ons: no official listing has been verified as of
-  27 July 2026. Keep the public Edge action disabled until a listing resolves
-  on `microsoftedge.microsoft.com`.
+- Microsoft Edge Add-ons: publisher-reported public listing available as of
+  6 August 2026. Keep the direct public Edge action disabled until its official
+  `microsoftedge.microsoft.com` URL is configured in the deployment.
 - Safari / App Store: not available. Conversion, signing and review remain
   external prerequisites.
 
@@ -28,9 +28,8 @@ policy. Beta status does not relax privacy, permission or store-policy duties.
 - Chrome: the public Chrome Web Store listing is live. Keep listing copy,
   privacy answers, version information and the published package synchronized
   for every later update.
-- Edge: submit the Edge ZIP through Partner Center and use the narrowest beta or
-  hidden audience option offered to the account. Keep the same beta naming and
-  privacy declarations used for Chrome.
+- Edge: keep the published Partner Center listing, beta naming, package version
+  and privacy declarations synchronized with Chrome.
 - Safari: use **TestFlight** for the beta after converting the web extension,
   assigning the Apple Developer Team, signing the containing app and uploading
   it through App Store Connect. Do not describe the source ZIP as installable.
@@ -111,16 +110,16 @@ Initial public beta. Adds user-initiated local inspection of visible policy-upda
 ## 4. URLs and contacts
 
 **Homepage**
-`https://www.policywatcher.online/browser-extension`
+`https://policywatcher.online/browser-extension`
 
 **Support URL**
-`https://www.policywatcher.online/browser-extension`
+`https://policywatcher.online/browser-extension`
 
 **Privacy policy URL**
-`https://www.policywatcher.online/privacy`
+`https://policywatcher.online/privacy`
 
 **Methodology and limitations**
-`https://www.policywatcher.online/methodology/confidence`
+`https://policywatcher.online/methodology/confidence`
 
 **Privacy/GDPR contact**
 `privacy@policywatcher.online`
@@ -144,7 +143,7 @@ PolicyWatcher requires temporary access to the current tab only after the user i
 The scripting permission runs the scanner packaged inside the extension in the user-activated tab. The scanner extracts minimal structured clues locally and discards raw page text before returning. There is no persistent content script, dynamic code download, eval, remote executable code or background page scraping.
 ```
 
-### Host permission `https://www.policywatcher.online/*`
+### Host permission `https://policywatcher.online/*`
 
 ```text
 This host permission allows the Manifest V3 service worker to send only the user-confirmed, allowlisted structured inquiry to the PolicyWatcher production API over HTTPS and to link to PolicyWatcher result pages. No other network host is permitted by the extension manifest.
@@ -216,9 +215,9 @@ Chrome. Recommended answers:
 - **Browsing activity/current tab:** temporary active-tab access only; no
   history or profile.
 - **Data transfer:** only confirmed structured clues to
-  `https://www.policywatcher.online/api/policy-inquiries`.
+  `https://policywatcher.online/api/policy-inquiries`.
 - **Sale/advertising/profiling:** No.
-- **Privacy URL:** `https://www.policywatcher.online/privacy`.
+- **Privacy URL:** `https://policywatcher.online/privacy`.
 - **Permissions:** paste the three explanations from section 5.
 
 Microsoft requires disclosures to remain complete and consistent with the
@@ -268,7 +267,7 @@ definition of collection and disclose the production server’s transient IP
 processing and any TestFlight/Apple diagnostics separately as required.
 
 **Privacy Policy URL**
-`https://www.policywatcher.online/privacy`
+`https://policywatcher.online/privacy`
 
 **Export compliance**
 Complete Apple’s encryption questionnaire for the actual Xcode build. HTTPS/TLS
@@ -326,7 +325,7 @@ liability language in a commercial public launch.
 Paste this into an available reviewer-notes field:
 
 ```text
-PolicyWatcher is a user-initiated, single-purpose beta extension. To review it, open a synthetic webpage containing a terms/privacy update notice, invoke the extension, accept the disclosure, and inspect the active tab. The extension uses activeTab and scripting only after this gesture. Raw page text is processed in the injected function and discarded before the structured result returns to the popup. The service worker accepts only allowlisted structured fields and can contact only https://www.policywatcher.online/*. There is no login, payment, analytics, advertising, remote code, mailbox API, persistent content script or background browsing collection. If the production API is unavailable, the popup reports the failure without claiming that a request was recorded.
+PolicyWatcher is a user-initiated, single-purpose beta extension. To review it, open a synthetic webpage containing a terms/privacy update notice, invoke the extension, accept the disclosure, and inspect the active tab. The extension uses activeTab and scripting only after this gesture. Raw page text is processed in the injected function and discarded before the structured result returns to the popup. The service worker accepts only allowlisted structured fields and can contact only https://policywatcher.online/*. There is no login, payment, analytics, advertising, remote code, mailbox API, persistent content script or background browsing collection. If the production API is unavailable, the popup reports the failure without claiming that a request was recorded.
 ```
 
 ## 12. Final operator checklist

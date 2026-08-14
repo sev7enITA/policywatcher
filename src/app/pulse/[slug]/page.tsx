@@ -13,21 +13,42 @@ interface Props { params: Promise<{ slug: string }>; searchParams: Promise<{ lan
 
 export function generateStaticParams() { return pulseStories.map((story) => ({ slug: story.slug })); }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const story = getPulseStory((await params).slug);
-  if (!story) return { title: 'Story not found | PolicyWatcher Pulse' };
-  const url = getPulseStoryUrl(story);
-  const image = getPulseCardUrl(story, 'og', 'en');
-  return { title: `${story.headline.en} | PolicyWatcher Pulse`, description: story.deck.en, alternates: { canonical: url }, openGraph: { title: story.headline.en, description: story.deck.en, url, type: 'article', publishedTime: story.asOf, modifiedTime: story.updatedAt, images: [{ url: image, width: 1200, height: 630, alt: story.headline.en }] }, twitter: { card: 'summary_large_image', title: story.headline.en, description: story.deck.en, images: [image] } };
+  if (!story) return { title: 'Story not found | PolicyWatcher Pulse', robots: { index: false } };
+  const lang: PulseLocale = (await searchParams).lang === 'it' ? 'it' : 'en';
+  const englishUrl = getPulseStoryUrl(story);
+  const italianUrl = `${englishUrl}?lang=it`;
+  const canonical = lang === 'it' ? italianUrl : englishUrl;
+  const image = getPulseCardUrl(story, 'og', lang);
+  return {
+    title: `${story.headline[lang]} | PolicyWatcher Pulse`,
+    description: story.deck[lang],
+    alternates: {
+      canonical,
+      languages: { en: englishUrl, it: italianUrl, 'x-default': englishUrl },
+    },
+    openGraph: {
+      title: story.headline[lang],
+      description: story.deck[lang],
+      url: canonical,
+      type: 'article',
+      publishedTime: story.asOf,
+      modifiedTime: story.updatedAt,
+      images: [{ url: image, width: 1200, height: 630, alt: story.headline[lang] }],
+    },
+    twitter: { card: 'summary_large_image', title: story.headline[lang], description: story.deck[lang], images: [image] },
+  };
 }
 
 export default async function PulseStoryPage({ params, searchParams }: Props) {
   const story = getPulseStory((await params).slug); if (!story) notFound();
   const lang: PulseLocale = (await searchParams).lang === 'it' ? 'it' : 'en';
-  const url = getPulseStoryUrl(story);
-  const jsonLd = { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: story.headline.en, description: story.deck.en, datePublished: story.asOf, dateModified: story.updatedAt, articleSection: pulseBeatLabels[story.beat].en, mainEntityOfPage: url, isAccessibleForFree: true, image: [getPulseCardUrl(story, 'og', 'en')], author: { '@type': 'Person', name: 'Fabrizio Degni', url: 'https://policywatcher.online/about' }, publisher: { '@type': 'Organization', name: 'PolicyWatcher', url: 'https://policywatcher.online' }, citation: story.sourceLinks.map((source) => new URL(source.href, 'https://policywatcher.online').toString()), speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', '#story-deck', '#verified-facts'] } };
+  const englishUrl = getPulseStoryUrl(story);
+  const canonical = lang === 'it' ? `${englishUrl}?lang=it` : englishUrl;
+  const jsonLd = { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: story.headline[lang], description: story.deck[lang], inLanguage: lang, datePublished: story.asOf, dateModified: story.updatedAt, articleSection: pulseBeatLabels[story.beat][lang], mainEntityOfPage: canonical, isAccessibleForFree: true, image: [getPulseCardUrl(story, 'og', lang)], author: { '@type': 'Person', name: 'Fabrizio Degni', url: 'https://policywatcher.online/about' }, publisher: { '@type': 'Organization', name: 'PolicyWatcher', url: 'https://policywatcher.online' }, citation: story.sourceLinks.map((source) => new URL(source.href, 'https://policywatcher.online').toString()), speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', '#story-deck', '#verified-facts'] } };
   return <div className={styles.page} lang={lang}><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} /><PulseStoryViewTracker story={story} lang={lang} /><PublicHeader current="pulse" lang={lang} /><main className={styles.storyMain}>
-    <nav className={styles.storyTopbar}><Link href={`/pulse?lang=${lang}`}><ArrowLeft size={14} />Pulse desk</Link><span>{pulseBeatLabels[story.beat][lang]} · {story.status} · {story.asOf}</span><Link href={`/pulse/${story.slug}?lang=${lang === 'en' ? 'it' : 'en'}`}>{lang === 'en' ? 'Italiano' : 'English'}</Link></nav>
+    <nav className={styles.storyTopbar}><Link href={lang === 'it' ? '/pulse?lang=it' : '/pulse'}><ArrowLeft size={14} />Pulse desk</Link><span>{pulseBeatLabels[story.beat][lang]} · {story.status} · {story.asOf}</span><Link href={lang === 'en' ? `/pulse/${story.slug}?lang=it` : `/pulse/${story.slug}`}>{lang === 'en' ? 'Italiano' : 'English'}</Link></nav>
     <article><header className={styles.storyHero}><p className={styles.kicker}>VERIFIED STORY LEAD · PACK v{story.version}</p><h1>{story.headline[lang]}</h1><p id="story-deck">{story.deck[lang]}</p><dl><div><dt>Beat</dt><dd>{pulseBeatLabels[story.beat][lang]}</dd></div><div><dt>Status</dt><dd><CheckCircle2 size={14} />Verified</dd></div><div><dt>As of</dt><dd>{story.asOf}</dd></div><div><dt>Pack</dt><dd>v{story.version}</dd></div></dl></header>
       <div className={styles.storyLayout}><div className={styles.storyContent}>
         <section><h2>{lang === 'en' ? 'Why this is a story' : 'Perche e una storia'}</h2><p className={styles.largeText}>{story.whyItMatters[lang]}</p></section>

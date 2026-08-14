@@ -111,7 +111,17 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 
 const nowItems = [
   {
-    phase: 'Current · 3.9.0-beta.40',
+    phase: 'Current · 3.9.0-beta.41',
+    title: 'Adaptive Experience',
+    body:
+      'Let each visitor choose Focus, Balanced or Explore hierarchy, control motion explicitly and inspect the deterministic reason for the recommended next action.',
+    benefit: 'A global, feature-rich platform can stay task-oriented without removing expert routes or silently personalizing evidence.',
+    validation: 'Preferences are browser-local, invalid state fails closed and presets change presentation only; the release does not claim measured usability or accessibility conformance.',
+    icon: SlidersHorizontal,
+    href: '/',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.40',
     title: 'PolicyWatcher Civico',
     body:
       'Turn eligible public policy changes into a bounded association pilot watchlist with theme triage, local review states, a Markdown digest and Evidence Collection handoff.',

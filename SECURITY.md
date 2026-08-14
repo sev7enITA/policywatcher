@@ -62,6 +62,12 @@ evidence. These checks do not certify that the platform is free from
 vulnerabilities and do not constitute legal, regulatory, or compliance
 certification.
 
+## Security Warning Assessments
+
+Dependency warning triage, reachability decisions, remediation status, and
+verification evidence are recorded in
+[docs/security-warning-assessments.md](docs/security-warning-assessments.md).
+
 ## Secrets
 
 Do not open public issues or pull requests containing secrets, tokens, database

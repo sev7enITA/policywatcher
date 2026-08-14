@@ -360,7 +360,8 @@ export default function PolicyDetails({
           </a>
           <button
             onClick={async () => {
-              const shareUrl = `${window.location.origin}/share/${policy.id}?lang=${lang}`;
+              const languageQuery = lang === 'it' ? '?lang=it' : '';
+              const shareUrl = `${window.location.origin}/share/${policy.id}${languageQuery}`;
               try {
                 if (navigator.share) {
                   await navigator.share({

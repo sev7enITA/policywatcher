@@ -7,14 +7,14 @@ import {
 } from '../browserExtensionStores';
 
 describe('browser extension public store status', () => {
-  it('ships the verified Chrome listing while unverified stores remain unlinked', () => {
+  it('reports Chrome and Edge as published while keeping unconfigured links closed', () => {
     expect(getBrowserExtensionStoreLinks({})).toEqual({
       chrome: POLICYWATCHER_CHROME_WEB_STORE_URL,
       edge: null,
       safari: null,
     });
     expect(POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS.chrome.state).toBe('published');
-    expect(POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS.edge.state).toBe('unverified');
+    expect(POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS.edge.state).toBe('published');
     expect(POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS.safari.state).toBe('unavailable');
   });
 
@@ -42,9 +42,11 @@ describe('browser extension public store status', () => {
     const release = await readFile('src/lib/release.ts', 'utf8');
     expect(client).toContain('POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS[id]');
     expect(client).toContain("status.state === 'published'");
+    expect(client).toContain('hasInstallLink');
+    expect(client).toContain('directLinkPending');
     expect(client).toContain('styles.storePublished');
-    expect(release).toContain('Pubblicata sul Chrome Web Store');
-    expect(release).toContain('Chrome Web Store published');
+    expect(release).toContain('Pubblicata su Chrome Web Store');
+    expect(release).toContain('Microsoft Edge Add-ons');
     expect(release).not.toContain('store submission planned');
     expect(release).not.toContain('invio allo store pianificato');
     expect(client).toContain('storeLinks[id]');

@@ -24,6 +24,7 @@ import styles from './press.module.css';
 export const metadata: Metadata = {
   title: 'Coverage Registry | PolicyWatcher',
   description: 'A source-linked registry of public references to PolicyWatcher.',
+  alternates: { canonical: '/press' },
 };
 
 const submitReferenceHref = 'mailto:info@policywatcher.online?subject=PolicyWatcher%20public%20reference';

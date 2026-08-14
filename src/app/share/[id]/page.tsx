@@ -19,6 +19,7 @@ import { ShieldAlert, TrendingUp, Globe, FileDown, ExternalLink, AlertTriangle }
 import styles from './share.module.css';
 import type { Metadata } from 'next';
 import { PUBLIC_ANALYSIS_DISCLAIMER_COMPACT } from '@/lib/publicAnalysisDisclaimer';
+import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin';
 
 interface SharePageProps {
   params: Promise<{ id: string }>;
@@ -40,8 +41,11 @@ interface RiskReason {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: SharePageProps): Promise<Metadata> {
   const { id } = await params;
+  const query = await searchParams;
+  const lang = query.lang === 'it' ? 'it' : 'en';
   const policy = await db.policy.findFirst({
     where: publicPolicyWhere({ id }),
     include: {
@@ -54,17 +58,24 @@ export async function generateMetadata({
     },
   });
 
-  if (!policy) return { title: 'PolicyWatcher: Not found' };
+  if (!policy) return { title: 'PolicyWatcher: Not found', robots: { index: false } };
 
   const change = policy.changes[0];
   const title = `${policy.company.name}: Risk ${change ? `${change.overallScore}/10` : 'N/A'}`;
   const description =
-    change?.tldrEn ||
+    (lang === 'it' ? change?.tldrIt || change?.aiSummaryIt : change?.tldrEn || change?.aiSummaryEn) ||
     `Policy risk assessment for ${policy.company.name} ${policy.name}`;
+  const englishUrl = change ? `${POLICYWATCHER_CANONICAL_ORIGIN}/change/${change.id}` : null;
+  const italianUrl = englishUrl ? `${englishUrl}?lang=it` : null;
 
   return {
     title: `${title} | PolicyWatcher`,
     description: description.substring(0, 160),
+    robots: change ? undefined : { index: false },
+    alternates: change && englishUrl && italianUrl ? {
+      canonical: lang === 'it' ? italianUrl : englishUrl,
+      languages: { en: englishUrl, it: italianUrl, 'x-default': englishUrl },
+    } : undefined,
     openGraph: {
       title,
       description: description.substring(0, 160),
@@ -160,7 +171,7 @@ export default async function SharePage({ params, searchParams }: SharePageProps
           </div>
           <div className={styles.langLinks}>
             <Link
-              href={`/share/${id}?lang=en`}
+              href={`/share/${id}`}
               className={lang === 'en' ? styles.langActive : styles.lang}
             >
               EN

@@ -17,9 +17,23 @@
  * explicitly with `ALLOW_DEMO_AI_FALLBACK=true` in non-production contexts.
  */
 
+import { randomUUID } from 'crypto';
 import { GoogleGenAI } from '@google/genai';
 import { normalizeKpiFields, type KpiField } from '@/lib/kpiDefaults';
 import { anchorRiskReasonEvidence } from '@/lib/riskReasonEvidence';
+import {
+  GeminiStructuredOutputError,
+  POLICY_ANALYSIS_SCHEMA_VERSION,
+  POLICY_ANALYSIS_RESPONSE_SCHEMA,
+  assertPolicyAnalysisResponse,
+} from '@/lib/geminiPolicySchema';
+import {
+  AI_ANALYSIS_PROMPT_VERSION,
+  AI_CHAT_PROMPT_VERSION,
+  classifyAiTelemetryError,
+  recordAiTelemetry,
+  type AiTelemetryOperation,
+} from '@/lib/aiTelemetry';
 
 // Lazy-initialized Gemini Client
 // We do NOT create the client at module-load time because process.env
@@ -59,10 +73,17 @@ function getErrorMessage(error: unknown): string {
 /**
  * Ordered model fallback chain. If the primary model is overloaded (503)
  * or rate-limited (429), we retry with the next model in the list.
- * gemini-2.5-flash is the primary analysis model.
- * gemini-2.0-flash-lite is the availability fallback used for transient errors.
+ * gemini-2.5-flash remains the evaluated primary analysis model.
+ * gemini-3.5-flash-lite is the supported availability fallback used for
+ * transient transport errors or invalid structured model output.
  */
-const MODEL_CHAIN = ['gemini-2.5-flash', 'gemini-2.0-flash-lite'] as const;
+export const GEMINI_MODEL_CHAIN = ['gemini-2.5-flash', 'gemini-3.5-flash-lite'] as const;
+
+export interface PolicyAnalysisOptions {
+  /** Explicit chain for offline evaluation. Production callers should omit it. */
+  modelChain?: readonly string[];
+  telemetryOperation?: Extract<AiTelemetryOperation, 'policy-analysis' | 'golden-set-extraction' | 'golden-set-escalation'>;
+}
 
 /**
  * Returns true when the error indicates a transient capacity issue
@@ -77,6 +98,14 @@ function isTransientError(error: unknown): boolean {
     msg.includes('RESOURCE_EXHAUSTED') ||
     msg.includes('overloaded') ||
     msg.includes('high demand')
+  );
+}
+
+function shouldTryNextModel(error: unknown): boolean {
+  return (
+    isTransientError(error) ||
+    error instanceof GeminiStructuredOutputError ||
+    error instanceof SyntaxError
   );
 }
 
@@ -189,7 +218,8 @@ export async function analyzePolicyChange(
   companyName: string,
   policyName: string,
   oldText: string,
-  newText: string
+  newText: string,
+  options: PolicyAnalysisOptions = {},
 ): Promise<PolicyAnalysisResult> {
   const apiKey = getApiKey();
   if (!apiKey) {
@@ -323,8 +353,12 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
   // Try each model in the fallback chain until one succeeds.
   const client = getClient();
   let lastError: unknown = null;
+  const traceId = randomUUID();
+  const modelChain = options.modelChain?.length ? options.modelChain : GEMINI_MODEL_CHAIN;
+  const telemetryOperation = options.telemetryOperation || 'policy-analysis';
 
-  for (const modelId of MODEL_CHAIN) {
+  for (const [attempt, modelId] of modelChain.entries()) {
+    const startedAt = Date.now();
     try {
       console.log(`[Gemini] Trying model: ${modelId} for ${companyName}/${policyName}`);
       const response = await client.models.generateContent({
@@ -333,7 +367,8 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
         config: {
           systemInstruction,
           responseMimeType: 'application/json',
-          temperature: 0.1,
+          responseJsonSchema: POLICY_ANALYSIS_RESPONSE_SCHEMA,
+          ...(modelId.startsWith('gemini-3.7') ? {} : { temperature: 0.1 }),
         },
       });
 
@@ -342,17 +377,46 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
         .replace(/^```json/, '')
         .replace(/```$/, '')
         .trim();
-      const parsed = JSON.parse(cleanedText) as Partial<PolicyAnalysisResult>;
+      const parsed: unknown = JSON.parse(cleanedText);
+      assertPolicyAnalysisResponse(parsed);
 
-      // Defensive normalization: fill the new structured fields if the model
-      // omitted them, so the UI never crashes.
-      return normalizeAnalysis(parsed, companyName, policyName, oldText, newText);
+      // Normalization keeps vocabulary and evidence anchoring stable even
+      // after the provider and local schema gates have accepted the payload.
+      const normalized = normalizeAnalysis(parsed, companyName, policyName, oldText, newText);
+      await recordAiTelemetry({
+        traceId,
+        operation: telemetryOperation,
+        modelId,
+        attempt,
+        outcome: 'success',
+        durationMs: Date.now() - startedAt,
+        inputChars: prompt.length + systemInstruction.length,
+        outputChars: textResponse.length,
+        promptTokenCount: response.usageMetadata?.promptTokenCount,
+        outputTokenCount: response.usageMetadata?.candidatesTokenCount,
+        totalTokenCount: response.usageMetadata?.totalTokenCount,
+        schemaVersion: POLICY_ANALYSIS_SCHEMA_VERSION,
+        promptVersion: AI_ANALYSIS_PROMPT_VERSION,
+      });
+      return normalized;
     } catch (error) {
       lastError = error;
+      const classified = classifyAiTelemetryError(error);
+      await recordAiTelemetry({
+        traceId,
+        operation: telemetryOperation,
+        modelId,
+        attempt,
+        outcome: classified.outcome,
+        errorCode: classified.errorCode,
+        durationMs: Date.now() - startedAt,
+        inputChars: prompt.length + systemInstruction.length,
+        schemaVersion: POLICY_ANALYSIS_SCHEMA_VERSION,
+        promptVersion: AI_ANALYSIS_PROMPT_VERSION,
+      });
       console.warn(`[Gemini] Model ${modelId} failed:`, (error as Error).message);
-      // Only try the next model if this was a transient capacity error.
-      if (!isTransientError(error)) break;
-      console.log(`[Gemini] Transient error detected, falling back to next model...`);
+      if (!shouldTryNextModel(error)) break;
+      console.log(`[Gemini] Recoverable transport or structured-output error; trying fallback model...`);
     }
   }
 
@@ -495,8 +559,10 @@ ${question}`;
   // Try each model in the fallback chain until one succeeds.
   const client = getClient();
   let lastError: unknown = null;
+  const traceId = randomUUID();
 
-  for (const modelId of MODEL_CHAIN) {
+  for (const [attempt, modelId] of GEMINI_MODEL_CHAIN.entries()) {
+    const startedAt = Date.now();
     try {
       console.log(`[Gemini Chat] Trying model: ${modelId}`);
       const response = await client.models.generateContent({
@@ -507,9 +573,36 @@ ${question}`;
         },
       });
 
-      return response.text || 'No response generated.';
+      const answer = response.text || 'No response generated.';
+      await recordAiTelemetry({
+        traceId,
+        operation: 'policy-chat',
+        modelId,
+        attempt,
+        outcome: 'success',
+        durationMs: Date.now() - startedAt,
+        inputChars: prompt.length,
+        outputChars: answer.length,
+        promptTokenCount: response.usageMetadata?.promptTokenCount,
+        outputTokenCount: response.usageMetadata?.candidatesTokenCount,
+        totalTokenCount: response.usageMetadata?.totalTokenCount,
+        promptVersion: AI_CHAT_PROMPT_VERSION,
+      });
+      return answer;
     } catch (error) {
       lastError = error;
+      const classified = classifyAiTelemetryError(error);
+      await recordAiTelemetry({
+        traceId,
+        operation: 'policy-chat',
+        modelId,
+        attempt,
+        outcome: classified.outcome,
+        errorCode: classified.errorCode,
+        durationMs: Date.now() - startedAt,
+        inputChars: prompt.length,
+        promptVersion: AI_CHAT_PROMPT_VERSION,
+      });
       console.warn(`[Gemini Chat] Model ${modelId} failed:`, (error as Error).message);
       if (!isTransientError(error)) break;
       console.log(`[Gemini Chat] Transient error, falling back to next model...`);

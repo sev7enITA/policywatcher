@@ -8,6 +8,7 @@ import PublicHeader from '@/components/PublicHeader';
 export const metadata: Metadata = {
   title: 'Privacy Policy | PolicyWatcher',
   description: 'How PolicyWatcher handles your data, in full transparency.',
+  alternates: { canonical: '/privacy' },
 };
 
 export default function PrivacyPolicyPage() {
@@ -17,7 +18,7 @@ export default function PrivacyPolicyPage() {
       <main className={styles.container}>
       <article className={styles.content}>
         <h1 className={styles.title}>Privacy Policy</h1>
-        <p className={styles.subtitle}>Last updated: August 1, 2026</p>
+        <p className={styles.subtitle}>Last updated: August 7, 2026</p>
 
         <section className={styles.section}>
           <h2>Who we are</h2>
@@ -154,6 +155,13 @@ export default function PrivacyPolicyPage() {
             language and display preferences, the administrator&apos;s release-versioned outreach-readiness checklist, and your optional Adaptive Workspace configuration and
             onboarding completion. These settings contain no email address or account identifier, do
             not leave your browser, and can be cleared at any time through your browser settings.
+          </p>
+          <p>
+            The global context setting stores only a selected macro-region, country code and EN/IT
+            language preference. It does not request, derive or store an IP-based location, GPS
+            position, street address, citizenship or legal jurisdiction. PolicyWatcher Civico also
+            stores bounded watchlist identifiers and review states locally. Organization suggestions
+            are not submitted automatically: the form prepares a draft in your configured email client.
           </p>
         </section>
 

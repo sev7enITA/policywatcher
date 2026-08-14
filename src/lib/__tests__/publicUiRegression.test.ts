@@ -137,7 +137,7 @@ describe('public UI regression fixes', () => {
     expect(FEATURE_ATLAS_FEATURES.some((feature) => feature.id === 'governed-regional-benchmark-visualizations')).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.some((item) => item.kpi && item.kri)).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.filter((item) => ['shareable-evidence-views', 'coordinated-evidence-drilldown'].includes(item.id))).toHaveLength(2);
-    expect(RELEASE_IMPACT_UPDATED_AT).toBe('6 August 2026');
+    expect(RELEASE_IMPACT_UPDATED_AT).toBe('7 August 2026');
     expect(FEATURE_ATLAS_CURRENT_RELEASE_ID).toBe(POLICYWATCHER_VERSION);
     expect(FEATURE_ATLAS_RELEASES.filter((release) => release.current)).toHaveLength(1);
     expect(RELEASE_COLUMNS.filter((release) => release.state === 'current').map((release) => release.id)).toEqual([POLICYWATCHER_VERSION]);
@@ -162,12 +162,13 @@ describe('public UI regression fixes', () => {
     expect(showcase).not.toContain('<b>v3.6</b>');
     expect(showcase).toContain('Canonical share URL');
     expect(showcase).toContain('KPI value inspector');
-    expect(howTo.match(/id: '[a-zA-Z]+'/g)).toHaveLength(20);
+    expect(howTo.match(/id: '[a-zA-Z]+'/g)).toHaveLength(22);
     expect(howTo).toContain("id: 'share'");
     expect(howTo).toContain("id: 'drilldown'");
     expect(howTo).toContain("id: 'associations'");
-    expect(howToStyles).toContain('repeat(10, minmax(0, 1fr))');
-    expect(readme).toContain('10-step bilingual How To guide');
+    expect(howTo).toContain("id: 'experience'");
+    expect(howToStyles).toContain('repeat(11, minmax(0, 1fr))');
+    expect(readme).toContain('11-step bilingual How To guide');
     expect(readme).toContain('docs/native-dashboard-user-guide.md');
     expect(guide).toContain('not legal advice, compliance certifications, or company-performance ratings');
   });
@@ -228,7 +229,7 @@ describe('public UI regression fixes', () => {
     expect(read('src/components/CrossCompanyMatrix.tsx')).toContain('PUBLIC_ANALYSIS_DISCLAIMER[lang]');
   });
 
-  it('centralizes extension and evidence freshness states without advancing legal dates', () => {
+  it('centralizes extension and evidence freshness states while keeping the current legal date explicit', () => {
     const release = read('src/lib/release.ts');
     const extension = read('src/app/browser-extension/BrowserExtensionClient.tsx');
     const home = read('src/app/DashboardClient.tsx');
@@ -243,7 +244,7 @@ describe('public UI regression fixes', () => {
     expect(trust).toContain('Historical snapshot · 5 July 2026');
     expect(leaderboard).toContain('snapshot.generatedAt');
     expect(observatory).toContain('OBSERVATORY_VERIFIED_AT');
-    expect(privacy).toContain('Last updated: August 1, 2026');
+    expect(privacy).toContain('Last updated: August 7, 2026');
   });
 
   it('uses the shared public shell on conventional editorial and evidence pages', () => {

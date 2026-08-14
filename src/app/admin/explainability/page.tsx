@@ -13,6 +13,7 @@ import {
   ChevronDown, ChevronUp, AlertTriangle, CheckCircle, ArrowRight
 } from 'lucide-react';
 import styles from '../admin.module.css';
+import AiTelemetryPanel from './AiTelemetryPanel';
 
 interface Section {
   id: string;
@@ -74,7 +75,7 @@ export default function ExplainabilityPage() {
               <tr className={styles.trHover}><td className={styles.td}>Framework</td><td className={styles.td}>Next.js 16 (Turbopack)</td><td className={styles.td}>SSR, API routes, routing</td></tr>
               <tr className={styles.trHover}><td className={styles.td}>Database</td><td className={styles.td}>SQLite via Prisma ORM</td><td className={styles.td}>Data persistence</td></tr>
               <tr className={styles.trHover}><td className={styles.td}>AI</td><td className={styles.td}>Google Gemini 2.5 Flash</td><td className={styles.td}>Policy analysis, chat</td></tr>
-              <tr className={styles.trHover}><td className={styles.td}>Fallback AI</td><td className={styles.td}>Gemini 2.0 Flash-Lite</td><td className={styles.td}>503/429 resilience</td></tr>
+              <tr className={styles.trHover}><td className={styles.td}>Fallback AI</td><td className={styles.td}>Gemini 3.5 Flash-Lite</td><td className={styles.td}>503/429 and structured-output resilience</td></tr>
               <tr className={styles.trHover}><td className={styles.td}>Charts</td><td className={styles.td}>Recharts</td><td className={styles.td}>Risk trends, radar charts</td></tr>
               <tr className={styles.trHover}><td className={styles.td}>PDF</td><td className={styles.td}>@react-pdf/renderer</td><td className={styles.td}>Executive reports</td></tr>
               <tr className={styles.trHover}><td className={styles.td}>Email</td><td className={styles.td}>Nodemailer</td><td className={styles.td}>Subscriber alerts</td></tr>
@@ -131,7 +132,7 @@ export default function ExplainabilityPage() {
           <div className={styles.card} style={{ padding: 16, fontFamily: 'monospace', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
             <span>gemini-2.5-flash (primary analysis model)</span>
             <ArrowRight size={14} aria-hidden="true" />
-            <span>gemini-2.0-flash-lite (availability fallback)</span>
+            <span>gemini-3.5-flash-lite (supported availability fallback)</span>
           </div>
           <p style={{ marginTop: 12, lineHeight: 1.7 }}>
             If the primary model returns 503 (overloaded) or 429 (rate limited), the system automatically
@@ -148,13 +149,21 @@ export default function ExplainabilityPage() {
             <li><strong>Executive Summary</strong> (bilingual EN/IT)</li>
             <li><strong>TL;DR</strong> (one-sentence takeaway, bilingual)</li>
             <li><strong>Key Points</strong> (3-5 bullets with sentiment: positive/negative/neutral)</li>
-            <li><strong>Risk Reasons</strong> (the prompt requests 3 reasons with delta scores, e.g. +2, -1)</li>
+            <li><strong>Risk Reasons</strong> (JSON Schema requires 3 reasons with delta scores, e.g. +2, -1)</li>
             <li><strong>Overall Risk</strong> (Low/Medium/High) and <strong>Score</strong> (1-10)</li>
             <li><strong>15 KPI Values</strong> across Privacy, AI Governance, Ethics</li>
             <li><strong>AI Governance Indicators</strong> (training opt-out, scraping, IP, retention)</li>
             <li><strong>Remediations</strong> (2-4 actionable steps with optional URLs)</li>
             <li><strong>6 Region Impacts</strong> (EU/US/Global x Individual/Enterprise)</li>
           </ul>
+          <p style={{ marginTop: 12, lineHeight: 1.7 }}>
+            Gemini output is constrained by provider-side JSON Schema and validated again locally before
+            normalization or persistence. Invalid structured output can fall back to the supported model;
+            it is never published as a partial analysis.
+          </p>
+
+          <h4 style={{ margin: '20px 0 12px', color: 'var(--primary)' }}>AI Telemetry</h4>
+          <AiTelemetryPanel />
 
           <h4 style={{ margin: '20px 0 12px', color: 'var(--primary)' }}>Safety</h4>
           <div className={styles.alert + ' ' + styles.alertWarning}>

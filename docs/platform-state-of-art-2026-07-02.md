@@ -288,7 +288,7 @@ The following public/user-facing assets have been aligned to 3.5.1 Audit Operati
 Required production environment variables:
 
 - `NODE_ENV=production`
-- `APP_URL=https://www.policywatcher.online`
+- `APP_URL=https://policywatcher.online`
 - `API_SECRET`
 - `SESSION_HMAC_SECRET`
 - `ADMIN_USER`

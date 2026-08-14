@@ -16,7 +16,7 @@ The extension does not prove that the notice is accurate and does not treat the 
 2. Pressing the inspection button grants temporary access to the active tab through `activeTab`.
 3. The injected scanner reads the selected or currently visible notice inside the page, extracts minimal clues and discards the raw text before returning.
 4. The popup lets the person review organization, domain, cleaned official URL, categories and dates.
-5. The Manifest V3 service worker allowlists the structured payload and posts it over HTTPS to `https://www.policywatcher.online/api/policy-inquiries`.
+5. The Manifest V3 service worker allowlists the structured payload and posts it over HTTPS to `https://policywatcher.online/api/policy-inquiries`.
 6. The popup explains whether verified evidence exists, the company is monitored without a published comparison, the request entered human review, or the clues require correction.
 
 ### Permissions
@@ -25,7 +25,7 @@ The extension does not prove that the notice is accurate and does not treat the 
 | --- | --- | --- |
 | `activeTab` | Temporary access after the extension action is invoked | Revoked when the person leaves or closes the tab |
 | `scripting` | Runs the packaged local scanner in the active tab | No persistent content script and no remote code |
-| `https://www.policywatcher.online/*` | Sends the confirmed structured request to the PolicyWatcher API | No other network host is permitted |
+| `https://policywatcher.online/*` | Sends the confirmed structured request to the PolicyWatcher API | No other network host is permitted |
 
 The extension does not request `<all_urls>`, Gmail or Outlook APIs, inbox access, `clipboardRead`, cookies, browsing history, identity, geolocation, webRequest, downloads or notifications.
 
@@ -64,9 +64,10 @@ Select the publisher’s Apple Developer Team in Xcode, validate macOS/iOS targe
 
 ### Store submission
 
+- Distribution status updated 6 August 2026: Chrome Web Store and Microsoft Edge Add-ons are published; Safari remains unavailable pending signing and App Store review. The public Edge install button remains disabled until the official listing URL is configured through `NEXT_PUBLIC_EDGE_EXTENSION_URL`.
 - Beta metadata must identify the build as `BETA`; the English long description must begin with `THIS EXTENSION IS FOR BETA TESTING`.
 - Chrome Web Store: upload the Chrome/Edge ZIP, complete the privacy disclosure and permission justifications, provide the public privacy URL, screenshots and listing text from `browser-extension/docs/STORE_LISTING.md`.
-- Microsoft Edge Add-ons: the same Chromium archive is supported; complete the dedicated Privacy page, declare no remote code, and use the same single-purpose/permission wording.
+- Microsoft Edge Add-ons: keep the published listing, dedicated Privacy page, no-remote-code declaration and single-purpose/permission wording synchronized with the package.
 - Apple App Store: package the Safari source with Xcode, assign the correct Team/bundle identifiers, complete App Privacy, validate and upload the signed archive.
 
 ### Official platform references
@@ -93,12 +94,12 @@ L’estensione non dimostra che la notifica sia corretta e non la considera un�
 2. Premendo il pulsante di analisi concede accesso temporaneo alla sola scheda attiva tramite `activeTab`.
 3. Lo scanner incluso legge nella pagina il testo selezionato o la notifica visibile, estrae gli indizi minimi e scarta il testo grezzo prima di restituire il risultato.
 4. Il popup consente di verificare organizzazione, dominio, URL ufficiale ripulito, categorie e date.
-5. Il service worker Manifest V3 applica una allowlist al payload e lo invia via HTTPS a `https://www.policywatcher.online/api/policy-inquiries`.
+5. Il service worker Manifest V3 applica una allowlist al payload e lo invia via HTTPS a `https://policywatcher.online/api/policy-inquiries`.
 6. Il popup spiega se esistono evidenze verificate, se l’azienda è monitorata senza confronto pubblicato, se la richiesta passa alla revisione umana o se gli indizi devono essere corretti.
 
 ### Permessi e confini
 
-`activeTab` vale solo dopo il gesto esplicito ed è revocato cambiando o chiudendo la scheda. `scripting` esegue esclusivamente lo scanner incluso nel pacchetto. Il solo host di rete autorizzato è `https://www.policywatcher.online/*`.
+`activeTab` vale solo dopo il gesto esplicito ed è revocato cambiando o chiudendo la scheda. `scripting` esegue esclusivamente lo scanner incluso nel pacchetto. Il solo host di rete autorizzato è `https://policywatcher.online/*`.
 
 Non vengono richiesti accesso globale ai siti, API Gmail/Outlook, accesso alla casella, clipboard, cookie, cronologia, identità, geolocalizzazione, webRequest, download o notifiche.
 

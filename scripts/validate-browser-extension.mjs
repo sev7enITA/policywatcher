@@ -54,7 +54,7 @@ assert(
   'Extension numeric version must match its displayed beta version'
 );
 assert(sameMembers(manifest.permissions, ['activeTab', 'scripting']), 'Permissions must be exactly activeTab and scripting');
-assert(sameMembers(manifest.host_permissions, ['https://www.policywatcher.online/*']), 'Host permission must be limited to policywatcher.online');
+assert(sameMembers(manifest.host_permissions, ['https://policywatcher.online/*']), 'Host permission must be limited to policywatcher.online');
 assert(manifest.background?.service_worker === 'service-worker.js', 'Manifest must register the packaged service worker');
 assert(manifest.action?.default_popup === 'popup.html', 'Manifest must register the popup');
 assert(manifest.content_security_policy?.extension_pages === "script-src 'self'; object-src 'self'; base-uri 'none'", 'Extension CSP is not the reviewed policy');
@@ -63,7 +63,7 @@ const scripts = ['popup.js', 'service-worker.js'].map((file) => ({ file, source:
 for (const { file, source } of scripts) {
   assert(!/\b(?:eval|Function)\s*\(/.test(source), `${file} contains dynamic code execution`);
   assert(!/\.innerHTML\s*=|insertAdjacentHTML|document\.write\s*\(/.test(source), `${file} contains unsafe HTML rendering`);
-  assert(!/https?:\/\/(?!www\.policywatcher\.online)/.test(source), `${file} contains an unapproved network origin`);
+  assert(!/https?:\/\/(?!policywatcher\.online)/.test(source), `${file} contains an unapproved network origin`);
 }
 
 const popup = read('popup.js');
@@ -76,7 +76,7 @@ assert(!/chrome\.storage|indexedDB|localforage/.test(popup), 'Popup must not per
 assert(/id="beta-info-button"/.test(popupHtml) && /class="beta-warning"/.test(popupHtml), 'Popup must expose persistent and first-use Beta notices');
 assert(/Stai usando una versione BETA/.test(popup) && /You are using a BETA version/.test(popup), 'Popup Beta warning must be localized in Italian and English');
 assert(/confidential, health, financial, employment or authentication communications/.test(popup), 'Popup Beta warning must include safe-testing boundaries');
-assert(/const API_URL = 'https:\/\/www\.policywatcher\.online\/api\/policy-inquiries'/.test(worker), 'Service worker API destination is not pinned');
+assert(/const API_URL = 'https:\/\/policywatcher\.online\/api\/policy-inquiries'/.test(worker), 'Service worker API destination is not pinned');
 assert(/credentials:\s*'omit'/.test(worker), 'Service worker must omit credentials');
 assert(/redirect:\s*'error'/.test(worker), 'Service worker must reject redirects');
 

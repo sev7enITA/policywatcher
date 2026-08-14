@@ -35,6 +35,7 @@ export const metadata: Metadata = {
   title: 'Enterprise Integrations | PolicyWatcher',
   description:
     'PolicyWatcher integration architecture: public and Entra-authenticated APIs, Microsoft 365 Copilot, Vertex AI Agent Builder, Amazon Quick, Word, Power Platform, embeds, and feeds.',
+  alternates: { canonical: '/integrations' },
 };
 
 const decisions = [

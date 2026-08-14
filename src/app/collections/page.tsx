@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: 'Shareable Evidence Collections | PolicyWatcher',
   description:
     'Select up to 12 exact public PolicyWatcher changes, review them locally and export a deterministic evidence bundle.',
+  alternates: { canonical: '/collections' },
 };
 
 export const dynamic = 'force-dynamic';

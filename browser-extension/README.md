@@ -17,7 +17,7 @@ The extension intentionally requests only:
 
 - `activeTab`: temporary access after the person invokes the extension;
 - `scripting`: executes the packaged scanner in that active tab;
-- `https://www.policywatcher.online/*`: sends the confirmed structured inquiry to PolicyWatcher.
+- `https://policywatcher.online/*`: sends the confirmed structured inquiry to PolicyWatcher.
 
 It has no persistent content script, remote code, telemetry, advertising, analytics, inbox API, clipboard permission or raw-message storage.
 

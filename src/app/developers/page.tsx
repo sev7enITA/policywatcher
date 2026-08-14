@@ -25,6 +25,7 @@ export const metadata: Metadata = {
   title: 'Developers | PolicyWatcher',
   description:
     'Read-only public integration directory for PolicyWatcher evidence, cross-cloud agent briefs and Observatory registry data.',
+  alternates: { canonical: '/developers' },
 };
 
 const manifest = getPublicApiManifest();

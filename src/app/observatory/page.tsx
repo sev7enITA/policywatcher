@@ -35,6 +35,7 @@ export const metadata: Metadata = {
   title: 'Observatory | PolicyWatcher',
   description:
     'Operational watch board for AI governance, privacy enforcement, standards, events and regulatory updates used by PolicyWatcher.',
+  alternates: { canonical: '/observatory' },
 };
 
 export const dynamic = 'force-dynamic';

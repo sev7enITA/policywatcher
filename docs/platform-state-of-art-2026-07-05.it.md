@@ -200,7 +200,7 @@ Sono evidenze operative, non certificazioni legali, regolatorie o di sicurezza.
 Variabili Hostinger:
 
 - `NODE_ENV=production`
-- `APP_URL=https://www.policywatcher.online`
+- `APP_URL=https://policywatcher.online`
 - `API_SECRET`
 - `SESSION_HMAC_SECRET`
 - `ADMIN_USER`

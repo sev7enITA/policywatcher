@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://creativecommons.org/licenses/by/4.0/"><img src="https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg" alt="License: CC BY 4.0" /></a>
-  <a href="https://www.policywatcher.online"><img src="https://img.shields.io/badge/Live%20Demo-policywatcher.online-6366f1" alt="Live Demo" /></a>
+  <a href="https://policywatcher.online"><img src="https://img.shields.io/badge/Live%20Demo-policywatcher.online-6366f1" alt="Live Demo" /></a>
   <a href="https://github.com/sev7enITA/policywatcher/actions/workflows/quality.yml"><img src="https://github.com/sev7enITA/policywatcher/actions/workflows/quality.yml/badge.svg?branch=main" alt="Quality Gate" /></a>
   <a href="https://github.com/sev7enITA/policywatcher/actions/workflows/codeql.yml"><img src="https://github.com/sev7enITA/policywatcher/actions/workflows/codeql.yml/badge.svg?branch=main" alt="CodeQL" /></a>
   <a href="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml"><img src="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml/badge.svg?branch=main" alt="Targeted Reliability Coverage" /></a>
@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2040%20PolicyWatcher%20Civico-146c6a" alt="3.9.0 Beta 40 PolicyWatcher Civico" />
+  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2041%20Adaptive%20Experience-146c6a" alt="3.9.0 Beta 41 Adaptive Experience" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -39,16 +39,30 @@ PolicyWatcher monitors configured public policy sources for 16 technology and fi
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
 
+### Release 3.9.0 Beta 41 Adaptive Experience Highlights
+
+- **User-controlled complexity:** `Focus`, `Balanced` and `Explore` change dashboard hierarchy and density without changing evidence or publication gates.
+- **Explainable adaptation:** the dashboard shows one deterministic next step and a `Why this interface?` disclosure with its workspace, depth, region and browser-local boundary.
+- **Motion sovereignty:** a visible `System / Reduced` preference complements the operating-system setting and suppresses non-essential motion.
+- **Workflow first:** `Today · Continue · Explore` now precedes promotional content, with a keyboard skip link and stronger focus/target behavior.
+- **ER sitemap assets:** `npm run assets:sitemap-er` validates 33 literal static routes, seven domains and four dynamic route families, while `/infographics` presents the new PolicyWatcher Experience Map.
+- **Presentation run sheet:** `npm run present:ux` validates and prints the timed Beta 41 demo script.
+
 ### Release 3.9.0 Beta 40 PolicyWatcher Civico Highlights
 
-- **Association-focused workspace:** `/associazioni` turns eligible public policy changes into a bounded civic-review queue for Italian consumer associations.
-- **Local pilot watchlist:** reviewers can select themes and records, assign local review states and retain their working scope in the current browser without creating an account.
+- **Global association workspace:** `/associazioni` contextualizes eligible public policy changes by country, regulatory area, theme and type of association without inventing national coverage.
+- **Verified civic directory:** 79 organizations across 24 countries can be filtered by territory and eight consumer-protection specializations, with the official site, verification source and review date kept visible.
+- **Global platform context:** a shared region/country and EN/IT language preference now influences the public shell, dashboard defaults and Civic territory; it stays in the browser and does not use IP geolocation.
+- **Controlled suggestions:** visitors can propose another organization only with an HTTPS official site and independent registry/network source; the platform opens a reviewable email draft and sends nothing automatically.
+- **Operational dashboard home:** `Oggi · Continua · Esplora` limits the starting queue to three priorities, resumes active evidence work and moves the complete catalog behind Atlas.
+- **Local pilot watchlist:** reviewers can select territorial and thematic scope, assign local review states and retain their working context in the current browser without creating an account.
 - **Source-first triage:** each record keeps its source, publication status and evidence boundary visible before summaries, classifications or follow-up actions.
 - **Review handoff:** a deterministic Markdown digest and existing public Evidence Collections support internal briefing and reproducible review scopes.
 - **Public discovery:** Civic Lab is connected through navigation, sitemap, `llms.txt`, Site Atlas, Feature Atlas, Roadmap and bilingual product guidance.
 - **Fail-closed boundary:** unavailable, suspended, seeded, private and otherwise ineligible records do not become civic evidence or demo results.
+- **Browser distribution:** the 3.8.3 Beta 3 companion is published on Chrome Web Store and Microsoft Edge Add-ons; Safari remains unavailable pending signing and App Store review.
 
-PolicyWatcher Civico is not a complaint desk, association account, legal opinion or automated publication workflow. Watchlist and review state remain local to the browser.
+PolicyWatcher Civico is not a complaint desk, association account, legal opinion, affiliation register or automated publication workflow. Directory inclusion is not endorsement. Watchlist, review state and global context remain local to the browser.
 
 ### Release 3.9.0 Beta 39 Managed VPS Releases Highlights
 
@@ -268,7 +282,7 @@ Measurement describes a bounded protected-dashboard sample. It does not prove ta
 ### Release 3.9.0 Beta 9 Verified Browser Distribution Highlights
 
 - **Chrome availability verified** links the public Chrome Web Store listing directly from the browser-extension page.
-- **Independent store states** report Chrome as published, Edge as having no verified Add-ons listing yet and Safari as not yet available.
+- **Independent store states** report Chrome and Microsoft Edge Add-ons as published, while Safari remains unavailable pending signing and App Store review.
 - **No inherited status** removes the previous generic submission-planned label from the homepage, Browser Extension, Press Kit and supporting public copy.
 - **Fail-closed links** keep install actions limited to validated HTTPS destinations on the expected official store host.
 - **Distribution boundary** leaves the extension at 3.8.3 Beta 3 and changes only its documented availability and public installation route.
@@ -362,7 +376,7 @@ Measurement describes a bounded protected-dashboard sample. It does not prove ta
 - **No invented hidden links** states explicitly that copied text cannot reconstruct URLs behind buttons or words such as `here`; missing links fall back to monitored sources or minimized discovery and QA.
 - **General-purpose extraction** uses neutral organization patterns and fixtures rather than product-specific UI examples or brand allowlists.
 - **Context-bound extension scanning** prefers policy anchors inside the opened notification and fails closed for opaque or tokenized redirect links.
-- **Verified store status** exposes a bilingual extension page whose install actions appear only for validated HTTPS store destinations; Chrome is published, while Edge listing verification and Safari signing/review remain explicit external dependencies.
+- **Verified store status** exposes a bilingual extension page whose install actions appear only for validated HTTPS store destinations; Chrome and Edge are published, while Safari signing/review remains an explicit external dependency.
 
 ### Release 3.8.2 Inquiry Handoff Reliability Highlights
 
@@ -382,7 +396,7 @@ Measurement describes a bounded protected-dashboard sample. It does not prove ta
 ### Release 3.8.0 Browser Evidence Companion Highlights
 
 - **One-click local inspection** lets a person invoke PolicyWatcher on an opened policy-update notice without granting persistent access to Gmail, Outlook or browsing history.
-- **Minimum-permission architecture** uses Manifest V3 `activeTab` and `scripting` only after an explicit gesture, plus a host permission limited to `https://www.policywatcher.online/*`.
+- **Minimum-permission architecture** uses Manifest V3 `activeTab` and `scripting` only after an explicit gesture, plus a host permission limited to `https://policywatcher.online/*`.
 - **Raw-content boundary** extracts structured clues inside the active page and immediately discards the visible notice text; the service worker can transmit only the API allowlist fields.
 - **Portfolio-wide evidence** confirms the organization, starting policy categories and dates before checking the company’s configured published evidence portfolio.
 - **Cross-browser release** shares one dependency-free codebase across Chrome and Edge and includes the source and instructions required for Apple’s Safari Web Extension packager.
@@ -860,7 +874,7 @@ flowchart LR
 
 ### Onboarding
 - The first-use dashboard composer is the default guided entry when no valid workspace profile or deep-link preset exists.
-- The 10-step bilingual How To guide covers workspace setup, canonical share links, source gates, regional/KPI drill-down, exact-value fallbacks, civic review, navigation, and mobile reading.
+- The 11-step bilingual How To guide covers workspace setup, experience controls, canonical share links, source gates, regional/KPI drill-down, exact-value fallbacks, civic review, navigation, and mobile reading.
 - The [native dashboard user guide](docs/native-dashboard-user-guide.md) documents the same evidence-first workflow and its limitations.
 
 ---
@@ -984,7 +998,7 @@ PolicyWatcher uses APIs and purpose-built clients as its machine integration bou
 | Self-service webhooks, Teams, MCP and Graph | Integration-specific | Planned | Tenant lifecycle and private collaboration experiences after identity controls |
 | Microsoft commercial marketplace | Entitlement and billing lifecycle | Commercial later | Discovery and eventual SaaS provisioning |
 
-See the public [`/integrations`](https://www.policywatcher.online/integrations) directory and the canonical [integration options](docs/integrations.md) document for the decision guide, readiness boundaries and pilot architecture. API v1 remains the anonymous public contract; API v2 adds tenant-bound Microsoft Entra access without replacing v1.
+See the public [`/integrations`](https://policywatcher.online/integrations) directory and the canonical [integration options](docs/integrations.md) document for the decision guide, readiness boundaries and pilot architecture. API v1 remains the anonymous public contract; API v2 adds tenant-bound Microsoft Entra access without replacing v1.
 
 ---
 
@@ -1382,7 +1396,7 @@ policywatcher/
 
 **Fabrizio Degni**
 
-- Website: [policywatcher.online](https://www.policywatcher.online)
+- Website: [policywatcher.online](https://policywatcher.online)
 - PALO Framework: [paloframework.org](https://www.paloframework.org)
 - GitHub: [@sev7enITA](https://github.com/sev7enITA)
 

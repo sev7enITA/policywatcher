@@ -1,6 +1,57 @@
 # Changelog
 
-## Unreleased
+## Unreleased - 2026-08-14
+
+### AI structured-output and supply-chain P0
+- Replaced the shutdown `gemini-2.0-flash-lite` fallback with supported `gemini-3.5-flash-lite` while retaining the evaluated `gemini-2.5-flash` primary until the golden-model benchmark is available.
+- Added provider-side JSON Schema plus local semantic validation for all analysis fields, KPI vocabularies, evidence pairs and the six unique region/perspective combinations.
+- Added fallback handling for malformed or semantically invalid model output and focused regression coverage for the complete model chain.
+- Updated `@google/genai` to 2.17.1 and pinned patched `nanoid` and `js-yaml` releases; full `npm audit` now reports zero known vulnerabilities.
+
+### AI telemetry and evaluation contract
+- Added privacy-minimized, fail-open AI invocation telemetry for model, operation, outcome, latency, token counts, fallback use and schema/prompt lineage; policy text, prompts, responses, identities and provider messages are never stored.
+- Added a protected `/api/admin/ai-telemetry` aggregate and live model-level telemetry panel under `/admin/explainability`, with a 30-day window and 90-day retention.
+- Added the `policywatcher-golden.v1` synthetic EN/IT calibration set with material, ambiguous, unanswerable, partial, semantic-paraphrase and prompt-injection cases plus frozen promotion gates.
+- Added a reproducible bake-off harness for the deterministic BM25 baseline, external Qwen3/BGE adapters, Gemini 3.5 Flash-Lite extraction and Gemini 3.7 Flash escalation without adding RAG framework runtime dependencies.
+- Added the append-only `AiModelInvocation` migration. Telemetry failure remains non-blocking and cannot bypass evidence ingestion or publication gates.
+
+## 3.9.0-beta.41 - 2026-08-07
+
+### Adaptive Experience UI/UX
+- Added explicit `Focus`, `Balanced` and `Explore` dashboard modes that adapt hierarchy and information density without changing evidence, scores or publication gates.
+- Added a browser-local `System / Reduced` motion preference, deterministic next-action card and inspectable `Why this interface?` disclosure with a clear non-AI boundary.
+- Placed the primary `Today · Continue · Explore` workflow before promotion, added a keyboard skip link and strengthened focus, target-size and fixed-navigation clearance behavior.
+- Added current UX research, a timed release-presentation script and focused preference-codec coverage.
+
+### ER sitemap and presentation assets
+- Added a source-validated sitemap generator covering 33 literal static routes, seven editorial domains and four dynamic route families.
+- Added Mermaid, JSON and Markdown architecture records plus a presentation-ready PolicyWatcher Experience Map in optimized WebP and PNG.
+- Exposed the ER sitemap infographic on `/infographics` and connected it back to the complete Site Atlas.
+
+### Operational dashboard workflow
+- Added a deterministic `Oggi · Continua · Esplora` home that limits the initial queue to three decision-changing items.
+- Aggregated suspended-source volume into one Source QA priority and moved the full source ledger behind an accessible disclosure.
+- Added direct resume paths for the active workspace, public filters, Evidence Collections and Timeline; Atlas now owns full-platform discovery.
+- Reduced the visible Workspace Controls catalog while preserving every specialist route through Atlas and command resolution.
+
+### Global PolicyWatcher Civico
+- Extended `/associazioni` from an Italy-first pilot surface to a global civic workspace with explicit country, regulatory-area, theme and association-type context.
+- Added deterministic context matching that reuses only EU, US or explicitly Global jurisdictions and does not infer missing national coverage.
+- Included the active civic context in the local Markdown digest and updated Atlas, machine index, How To, release-impact and product guidance.
+- Produced the verified `dashboard-civic-global` Hostinger source package with embedded release manifest, no database and a separate SHA-256 checksum.
+
+### Global civic directory and platform context
+- Added a source-backed directory of 79 consumer and digital-rights organizations across 24 countries, including complete government-list snapshots for Italy, France and Spain plus selected BEUC, EDRi and Consumers International members.
+- Added eight protection types, country/region/search filters, national-regional-global ordering, direct official/source links and an explicit non-endorsement boundary.
+- Added a bounded user-suggestion form that requires HTTPS organization and independent-source URLs and opens a reviewable email draft without automatic transmission.
+- Added a versioned browser-local global context for region, country and EN/IT interface preference, with no IP geolocation and a declared English fallback for unsupported locales.
+- Connected the global context to the public header/footer, dashboard language and evidence region defaults, and both Civic directory and radar territory defaults.
+- Added a dated research note, focused contract tests and deploy-package entry checks for the new global context and Civic directory sources.
+
+### Browser distribution status
+- Updated the Browser Extension page and centralized release surfaces to report the owner-confirmed Microsoft Edge Add-ons publication on 6 August 2026.
+- Kept the direct Edge install action fail-closed until `NEXT_PUBLIC_EDGE_EXTENSION_URL` contains the official credential-free HTTPS listing URL.
+- Preserved Safari as a separate unavailable state pending publisher signing, packaging and App Store review.
 
 ## 3.9.0-beta.40 - 2026-08-06
 

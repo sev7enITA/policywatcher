@@ -22,6 +22,7 @@ import { ArrowUpRight } from 'lucide-react';
 import styles from './embed.module.css';
 import type { Metadata } from 'next';
 import { publicChangeWhere } from '@/lib/publicDataGate';
+import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin';
 
 const UUID_RE = /^[a-f0-9-]{36}$/i;
 
@@ -46,6 +47,7 @@ export async function generateMetadata({ params }: EmbedPageProps): Promise<Meta
   return {
     title: `${change.policy.company.name} - ${change.policy.name} | PolicyWatcher`,
     robots: { index: false, follow: false },
+    alternates: { canonical: `${POLICYWATCHER_CANONICAL_ORIGIN}/change/${id}` },
   };
 }
 

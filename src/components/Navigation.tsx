@@ -10,6 +10,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
+  ArrowRight,
   BarChart3,
   Bell,
   BookOpen,
@@ -41,6 +42,7 @@ import {
 import { POLICYWATCHER_VERSION } from '@/lib/release';
 import { getWorkspaceQuickActionIds } from '@/lib/workspaceNavigation';
 import type { EvidenceDepth, WorkspaceIntent } from '@/lib/dashboardComposer';
+import GlobalContextControl from './GlobalContextControl';
 import styles from './Navigation.module.css';
 
 export type NavLayout = 'hud' | 'spotlight' | 'sidebar';
@@ -171,6 +173,9 @@ export default function Navigation({
       close: 'Close',
       moreTitle: 'Workspace Controls',
       moreSubtitle: 'Public dashboard actions, exports, docs, and QA references.',
+      catalogTitle: 'Need the full platform map?',
+      catalogBody: 'Atlas keeps features, documentation and specialist surfaces in one browsable index.',
+      catalogAction: 'Open Atlas',
       navigationLabel: 'PolicyWatcher command ribbon',
       mobileLabel: 'PolicyWatcher mobile commands',
       quickAccessLabel: 'Workspace quick access',
@@ -250,6 +255,9 @@ export default function Navigation({
       close: 'Chiudi',
       moreTitle: 'Controlli Workspace',
       moreSubtitle: 'Azioni pubbliche, export, documentazione e riferimenti QA.',
+      catalogTitle: 'Cerchi la mappa completa?',
+      catalogBody: 'L’Atlante raccoglie funzioni, documentazione e superfici specialistiche in un solo indice.',
+      catalogAction: 'Apri l’Atlante',
       navigationLabel: 'Barra comandi PolicyWatcher',
       mobileLabel: 'Comandi mobili PolicyWatcher',
       quickAccessLabel: 'Accesso rapido del workspace',
@@ -293,16 +301,7 @@ export default function Navigation({
         { id: 'associations', label: t.associations, tooltip: t.tooltips.associations, icon: Users, href: '/associazioni' },
         { id: 'timeline', label: t.timeline, tooltip: t.tooltips.timeline, icon: Clock, href: '/timeline' },
         { id: 'observatory', label: t.observatory, tooltip: t.tooltips.observatory, icon: Search, href: '/observatory' },
-        { id: 'knowledge', label: t.knowledge, tooltip: t.tooltips.knowledge, icon: Layers3, href: '/knowledge' },
-        { id: 'developers', label: t.developers, tooltip: t.tooltips.developers, icon: Code2, href: '/developers' },
-        { id: 'integrations', label: t.integrations, tooltip: t.tooltips.integrations, icon: Plug, href: '/integrations' },
         { id: 'leaderboard', label: t.leaderboard, tooltip: t.tooltips.leaderboard, icon: BarChart3, href: '/leaderboard' },
-        { id: 'showcase', label: t.showcase, tooltip: t.tooltips.showcase, icon: Sparkles, href: '/showcase' },
-        { id: 'press-kit', label: t.pressKit, tooltip: t.tooltips.pressKit, icon: Newspaper, href: '/press-kit' },
-        { id: 'atlas', label: t.atlas, tooltip: t.tooltips.atlas, icon: GitFork, href: '/atlas' },
-        { id: 'feature-atlas', label: t.featureAtlas, tooltip: t.tooltips.featureAtlas, icon: Network, href: '/feature-atlas' },
-        { id: 'roadmap', label: t.roadmap, tooltip: t.tooltips.roadmap, icon: Cpu, href: '/roadmap' },
-        { id: 'trust', label: t.trust, tooltip: t.tooltips.trust, icon: ShieldCheck, href: '/trust' },
       ],
     },
     {
@@ -336,8 +335,6 @@ export default function Navigation({
     onToggleLanguage,
     t.about,
     t.associations,
-    t.atlas,
-    t.featureAtlas,
     t.audit,
     t.changelog,
     t.export,
@@ -347,21 +344,12 @@ export default function Navigation({
     t.methodology,
     t.observe,
     t.observatory,
-    t.knowledge,
-    t.developers,
-    t.integrations,
     t.operate,
-    t.roadmap,
-    t.pressKit,
     t.leaderboard,
-    t.showcase,
     t.subscribe,
     t.timeline,
-    t.trust,
     t.tooltips.about,
     t.tooltips.associations,
-    t.tooltips.atlas,
-    t.tooltips.featureAtlas,
     t.tooltips.changelog,
     t.tooltips.export,
     t.tooltips.howTo,
@@ -370,20 +358,44 @@ export default function Navigation({
     t.tooltips.matrix,
     t.tooltips.methodology,
     t.tooltips.observatory,
-    t.tooltips.knowledge,
-    t.tooltips.developers,
-    t.tooltips.integrations,
-    t.tooltips.roadmap,
-    t.tooltips.pressKit,
-    t.tooltips.showcase,
     t.tooltips.subscribe,
     t.tooltips.timeline,
+  ]);
+
+  const catalogCommands = useMemo<CommandItem[]>(() => [
+    { id: 'knowledge', label: t.knowledge, tooltip: t.tooltips.knowledge, icon: Layers3, href: '/knowledge' },
+    { id: 'developers', label: t.developers, tooltip: t.tooltips.developers, icon: Code2, href: '/developers' },
+    { id: 'integrations', label: t.integrations, tooltip: t.tooltips.integrations, icon: Plug, href: '/integrations' },
+    { id: 'showcase', label: t.showcase, tooltip: t.tooltips.showcase, icon: Sparkles, href: '/showcase' },
+    { id: 'press-kit', label: t.pressKit, tooltip: t.tooltips.pressKit, icon: Newspaper, href: '/press-kit' },
+    { id: 'atlas', label: t.atlas, tooltip: t.tooltips.atlas, icon: GitFork, href: '/atlas' },
+    { id: 'feature-atlas', label: t.featureAtlas, tooltip: t.tooltips.featureAtlas, icon: Network, href: '/feature-atlas' },
+    { id: 'roadmap', label: t.roadmap, tooltip: t.tooltips.roadmap, icon: Cpu, href: '/roadmap' },
+    { id: 'trust', label: t.trust, tooltip: t.tooltips.trust, icon: ShieldCheck, href: '/trust' },
+  ], [
+    t.atlas,
+    t.developers,
+    t.featureAtlas,
+    t.integrations,
+    t.knowledge,
+    t.pressKit,
+    t.roadmap,
+    t.showcase,
+    t.trust,
+    t.tooltips.atlas,
+    t.tooltips.developers,
+    t.tooltips.featureAtlas,
+    t.tooltips.integrations,
+    t.tooltips.knowledge,
+    t.tooltips.pressKit,
+    t.tooltips.roadmap,
+    t.tooltips.showcase,
     t.tooltips.trust,
   ]);
 
   const allCommands = useMemo(
-    () => groups.flatMap((group) => group.items),
-    [groups],
+    () => [...groups.flatMap((group) => group.items), ...catalogCommands],
+    [catalogCommands, groups],
   );
 
   const quickActionIds = useMemo(
@@ -524,6 +536,8 @@ export default function Navigation({
           {quickActions.map((item) => renderCommand(item))}
         </div>
 
+        <GlobalContextControl className={styles.dashboardContext} compact />
+
         <button
           type="button"
           className={styles.workspaceButton}
@@ -609,6 +623,10 @@ export default function Navigation({
               {renderCommand(workspaceCommand, 'sheet')}
             </div>
 
+            <div className={styles.sheetGlobalContext}>
+              <GlobalContextControl />
+            </div>
+
             <div className={styles.sheetGroups}>
               {groups.map((group) => (
                 <section key={group.id} className={styles.sheetGroup} aria-label={group.label}>
@@ -619,6 +637,15 @@ export default function Navigation({
                 </section>
               ))}
             </div>
+
+            <Link href="/atlas" className={styles.sheetCatalog} onClick={() => setMoreOpen(false)}>
+              <GitFork size={20} aria-hidden="true" />
+              <span>
+                <strong>{t.catalogTitle}</strong>
+                <small>{t.catalogBody}</small>
+              </span>
+              <span>{t.catalogAction} <ArrowRight size={15} aria-hidden="true" /></span>
+            </Link>
 
             <div className={styles.sheetFooter}>
               <span>{allCommands.length + 4}</span>

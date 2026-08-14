@@ -1,9 +1,9 @@
 import { cache } from 'react';
 import { db } from './db';
 import { publicChangeWhere, publicPolicyWhere, publicSnapshotWhere } from './publicDataGate';
+import { POLICYWATCHER_CANONICAL_ORIGIN } from './siteOrigin';
 
-export const POLICYWATCHER_ORIGIN =
-  process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || 'https://policywatcher.online';
+export const POLICYWATCHER_ORIGIN = POLICYWATCHER_CANONICAL_ORIGIN;
 
 export const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 

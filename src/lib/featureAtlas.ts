@@ -150,7 +150,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.37', shortLabel: '3.9 B37', label: '3.9.0 Beta 37' },
   { id: '3.9.0-beta.38', shortLabel: '3.9 B38', label: '3.9.0 Beta 38' },
   { id: '3.9.0-beta.39', shortLabel: '3.9 B39', label: '3.9.0 Beta 39' },
-  { id: '3.9.0-beta.40', shortLabel: '3.9 B40', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '3.9.0-beta.40', shortLabel: '3.9 B40', label: '3.9.0 Beta 40' },
+  { id: '3.9.0-beta.41', shortLabel: '3.9 B41', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -182,6 +183,8 @@ const primaryUserByDomain: Record<string, string> = {
 };
 
 const routeByFeature: Record<string, FeatureAtlasRoute> = {
+  'adaptive-experience-control': { href: '/', label: 'Adaptive dashboard experience', access: 'public' },
+  'global-geographic-context': { href: '/', label: 'Global context control', access: 'public' },
   'consumer-association-civic-workspace': { href: '/associazioni', label: 'PolicyWatcher Civico', access: 'public' },
   'github-press-kit-distribution': { href: '/press-kit#press-packages', label: 'Press Kit packages', access: 'public' },
   'categorized-resource-navigation': { href: '/', label: 'Public footer', access: 'public' },
@@ -244,6 +247,8 @@ const routeByFeature: Record<string, FeatureAtlasRoute> = {
 };
 
 const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
+  'adaptive-experience-control': [{ featureId: 'calm-workspace', relationship: 'governed-by' }, { featureId: 'interactive-public-navigation', relationship: 'distributed-through' }, { featureId: 'global-geographic-context', relationship: 'feeds' }],
+  'global-geographic-context': [{ featureId: 'qualified-language', relationship: 'governed-by' }, { featureId: 'consumer-association-civic-workspace', relationship: 'feeds' }, { featureId: 'calm-workspace', relationship: 'feeds' }],
   'consumer-association-civic-workspace': [{ featureId: 'public-evidence-gate', relationship: 'governed-by' }, { featureId: 'shareable-evidence-collections', relationship: 'feeds' }, { featureId: 'interactive-public-navigation', relationship: 'distributed-through' }],
   'word-contract-evidence-review': [{ featureId: 'agent-evidence-gateway', relationship: 'depends-on' }, { featureId: 'public-evidence-gate', relationship: 'governed-by' }],
   'multicloud-agent-source-packages': [{ featureId: 'agent-evidence-gateway', relationship: 'depends-on' }, { featureId: 'public-integration-directory', relationship: 'distributed-through' }],

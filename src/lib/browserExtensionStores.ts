@@ -14,9 +14,9 @@ export const POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS = {
     it: 'Pubblicata sul Chrome Web Store',
   },
   edge: {
-    state: 'unverified',
-    en: 'No verified Edge Add-ons listing yet',
-    it: 'Nessuna scheda Edge Add-ons ancora verificata',
+    state: 'published',
+    en: 'Published on Microsoft Edge Add-ons',
+    it: 'Pubblicata su Microsoft Edge Add-ons',
   },
   safari: {
     state: 'unavailable',

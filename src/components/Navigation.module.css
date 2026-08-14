@@ -582,7 +582,7 @@
 
 /* Calm workspace-aware command ribbon */
 .controlRibbon {
-  grid-template-columns: auto auto auto minmax(126px, 1fr) auto auto auto;
+  grid-template-columns: auto auto auto minmax(126px, 1fr) auto auto auto auto;
   width: min(1320px, calc(100vw - 28px));
 }
 
@@ -631,6 +631,10 @@
 
 .quickActions .commandButton {
   flex: 0 1 auto;
+}
+
+.dashboardContext {
+  min-width: 0;
 }
 
 .workspaceButton {
@@ -707,9 +711,79 @@
   border-bottom: 1px solid var(--border-color);
 }
 
+.sheetGlobalContext {
+  display: flex;
+  padding: 0 0 14px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sheetGlobalContext > * {
+  width: 100%;
+}
+
+.sheetGlobalContext button {
+  width: 100%;
+  max-width: none;
+  justify-content: flex-start;
+}
+
+.sheetCatalog {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  min-height: 66px;
+  margin-top: 14px;
+  padding: 11px 12px;
+  border: 1px solid rgba(99, 102, 241, 0.28);
+  border-radius: 9px;
+  background: rgba(99, 102, 241, 0.07);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.sheetCatalog > svg {
+  color: #4f46e5;
+}
+
+.sheetCatalog > span:nth-child(2) {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.sheetCatalog strong {
+  font-size: 0.8rem;
+}
+
+.sheetCatalog small {
+  color: var(--text-secondary);
+  font-size: 0.68rem;
+  line-height: 1.35;
+}
+
+.sheetCatalog > span:last-child {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  color: #4338ca;
+  font-size: 0.7rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.sheetCatalog:hover,
+.sheetCatalog:focus-visible {
+  border-color: rgba(79, 70, 229, 0.6);
+  background: rgba(99, 102, 241, 0.12);
+  outline: 2px solid rgba(129, 140, 248, 0.34);
+  outline-offset: 2px;
+}
+
 @media (max-width: 1180px) {
   .controlRibbon {
-    grid-template-columns: auto auto auto minmax(120px, 1fr) auto auto auto;
+    grid-template-columns: auto auto auto minmax(120px, 1fr) auto auto auto auto;
   }
 
   .quickActions .commandLabel {
@@ -724,6 +798,16 @@
 
   .workspaceButton {
     min-width: 136px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .controlRibbon {
+    grid-template-columns: auto auto auto minmax(120px, 1fr) auto auto auto;
+  }
+
+  .dashboardContext {
+    display: none;
   }
 }
 
@@ -765,5 +849,13 @@
 @media (max-width: 390px) {
   .sheetStartRow {
     grid-template-columns: 1fr;
+  }
+
+  .sheetCatalog {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+
+  .sheetCatalog > span:last-child {
+    grid-column: 2;
   }
 }

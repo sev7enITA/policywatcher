@@ -163,7 +163,7 @@ Status: live-domain scan required after deployment.
 Report URL:
 
 ```text
-https://developer.mozilla.org/en-US/observatory/analyze?host=www.policywatcher.online
+https://developer.mozilla.org/en-US/observatory/analyze?host=policywatcher.online
 ```
 
 Run after each material deployment or security-header change.
@@ -189,7 +189,7 @@ Status: live-domain scan required after deployment.
 Report URL:
 
 ```text
-https://securityheaders.com/?q=www.policywatcher.online&followRedirects=on&hide=on
+https://securityheaders.com/?q=policywatcher.online&followRedirects=on&hide=on
 ```
 
 Run after each material deployment or security-header change.

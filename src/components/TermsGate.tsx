@@ -28,6 +28,7 @@ interface TermsGateProps {
   children: React.ReactNode;
   lang: Lang;
   onLangToggle: () => void;
+  onAcceptanceChange?: (accepted: boolean) => void;
 }
 
 const content = {
@@ -103,7 +104,7 @@ const content = {
   },
 };
 
-export default function TermsGate({ children, lang, onLangToggle }: TermsGateProps) {
+export default function TermsGate({ children, lang, onLangToggle, onAcceptanceChange }: TermsGateProps) {
   const [accepted, setAccepted] = useState<boolean | null>(null);
   const [checked, setChecked] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -117,16 +118,19 @@ export default function TermsGate({ children, lang, onLangToggle }: TermsGatePro
           const timestamp = parseInt(stored, 10);
           if (!Number.isNaN(timestamp) && Date.now() - timestamp < ACCEPTANCE_TTL_MS) {
             setAccepted(true);
+            onAcceptanceChange?.(true);
             return;
           }
           localStorage.removeItem(TERMS_STORAGE_KEY);
         }
         setAccepted(false);
+        onAcceptanceChange?.(false);
       } catch {
         setAccepted(false);
+        onAcceptanceChange?.(false);
       }
     });
-  }, []);
+  }, [onAcceptanceChange]);
 
   const handleAccept = () => {
     if (!checked) {
@@ -139,6 +143,7 @@ export default function TermsGate({ children, lang, onLangToggle }: TermsGatePro
       /* ignore localStorage write errors */
     }
     setAccepted(true);
+    onAcceptanceChange?.(true);
   };
 
   if (accepted === null) return null;

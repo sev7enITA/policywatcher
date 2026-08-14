@@ -1,6 +1,6 @@
 {
   "name": "policywatcher",
-  "version": "3.9.0-beta.40",
+  "version": "3.9.0-beta.41",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,6 +10,7 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "scan:smoke:fallbacks": "vitest run src/lib/__tests__/scraperFallbackSmoke.test.ts",
     "extension:validate": "node scripts/validate-browser-extension.mjs",
     "extension:smoke": "node scripts/extension-browser-smoke.mjs",
     "extension:package": "bash scripts/package-browser-extension.sh",
@@ -23,10 +24,14 @@
     "press-kit:refresh-live": "node scripts/generate-press-kit-assets.mjs --refresh-live",
     "press-campaign:generate": "tsx scripts/generate-beta27-campaign-assets.ts",
     "agent-integrations:generate": "tsx scripts/generate-agent-integration-packages.ts",
-    "pulse:verify": "vitest run src/lib/__tests__/editorialPulse.test.ts src/lib/__tests__/pressMetrics.test.ts"
+    "pulse:verify": "vitest run src/lib/__tests__/editorialPulse.test.ts src/lib/__tests__/pressMetrics.test.ts",
+    "assets:sitemap-er": "node scripts/generate-sitemap-er.mjs",
+    "present:ux": "node scripts/present-ui-ux-release.mjs",
+    "ai:golden:validate": "tsx scripts/ai-bakeoff.ts --validate-only",
+    "ai:bakeoff": "tsx scripts/ai-bakeoff.ts"
   },
   "dependencies": {
-    "@google/genai": "^2.9.0",
+    "@google/genai": "^2.17.1",
     "@prisma/client": "^6.19.3",
     "@react-pdf/renderer": "^4.5.1",
     "@types/d3-geo": "^3.1.0",
@@ -64,6 +69,8 @@
     "vitest": "^4.1.9"
   },
   "overrides": {
+    "js-yaml": "4.3.1",
+    "nanoid": "3.3.18",
     "postcss": "8.5.23",
     "sharp": "0.35.3"
   },

@@ -1,7 +1,7 @@
-export const POLICYWATCHER_VERSION = '3.9.0-beta.40' as const;
-export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 40' as const;
-export const POLICYWATCHER_RELEASE_NAME = 'PolicyWatcher Civico' as const;
-export const POLICYWATCHER_RELEASE_DATE = '2026-08-06' as const;
+export const POLICYWATCHER_VERSION = '3.9.0-beta.41' as const;
+export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 41' as const;
+export const POLICYWATCHER_RELEASE_NAME = 'Adaptive Experience' as const;
+export const POLICYWATCHER_RELEASE_DATE = '2026-08-07' as const;
 export type PolicyWatcherReleaseChannel = 'stable' | 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL: PolicyWatcherReleaseChannel = 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL_LABEL = 'BETA' as const;
@@ -12,8 +12,8 @@ export const POLICYWATCHER_BROWSER_EXTENSION_VERSION = '3.8.3-beta.3' as const;
 export const POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION = '3.8.3 Beta 3' as const;
 export const POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE =
   `v${POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION} · EXTENSION BETA` as const;
-export const POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATE = 'chrome-store-published' as const;
+export const POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATE = 'chrome-edge-store-published' as const;
 export const POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS = {
-  en: 'Chrome Web Store published · Edge listing not yet verified · Safari not yet available',
-  it: 'Pubblicata sul Chrome Web Store · scheda Edge non ancora verificata · Safari non ancora disponibile',
+  en: 'Chrome Web Store and Microsoft Edge Add-ons published · Safari not yet available',
+  it: 'Pubblicata su Chrome Web Store e Microsoft Edge Add-ons · Safari non ancora disponibile',
 } as const;

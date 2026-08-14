@@ -13,7 +13,11 @@ The automated Chromium receipt is the first technical artifact for this cycle. I
 
 ### Distribution update - 27 July 2026
 
-The 3.8.3 Beta 3 package now has a public Chrome Web Store listing. No official Edge Add-ons listing is currently verified, and Safari signing and review remain outstanding. Chrome publication changes the distribution evidence for the cycle but does not by itself satisfy the multi-browser tester, duration, privacy-review or stable-promotion criteria below.
+The 3.8.3 Beta 3 package has a public Chrome Web Store listing.
+
+### Distribution update - 6 August 2026
+
+The publisher reports the same Beta package as published on Microsoft Edge Add-ons. The direct public listing URL still has to be configured in the deployment before PolicyWatcher exposes the Edge install action. Safari signing and review remain outstanding. Store publication changes the distribution evidence for the cycle but does not by itself satisfy the multi-browser tester, duration, privacy-review or stable-promotion criteria below.
 
 ## Restricted audience
 

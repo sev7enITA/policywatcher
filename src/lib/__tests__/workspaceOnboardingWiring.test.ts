@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 const navigation = readFileSync('src/components/Navigation.tsx', 'utf8');
 const dashboard = readFileSync('src/app/DashboardClient.tsx', 'utf8');
 const dashboardStyles = readFileSync('src/app/Dashboard.module.css', 'utf8');
+const termsGate = readFileSync('src/components/TermsGate.tsx', 'utf8');
 
 describe('calm toolbar wiring', () => {
   it('makes the release identity a keyboard-accessible changelog button', () => {
@@ -39,6 +40,25 @@ describe('calm toolbar wiring', () => {
 });
 
 describe('first-visit Workspace Active wiring', () => {
+  it('waits for terms acceptance before locking body scroll for the first-use composer', () => {
+    expect(termsGate).toContain('onAcceptanceChange?: (accepted: boolean) => void;');
+    expect(termsGate).toContain('onAcceptanceChange?.(true);');
+    expect(termsGate).toContain('onAcceptanceChange?.(false);');
+    expect(dashboard).toContain('onAcceptanceChange={setTermsAccessGranted}');
+    expect(dashboard).toContain('if (!termsAccessGranted || !workspaceConfiguratorOpen || !workspaceFirstUseMode) return;');
+    expect(dashboard).toContain('[closeWorkspaceComposer, termsAccessGranted, workspaceConfiguratorOpen, workspaceFirstUseMode]');
+  });
+
+  it('creates a three-lane operational home and collapses the long source ledger', () => {
+    expect(dashboard).toContain('buildDashboardTodayItems');
+    expect(dashboard).toContain('workflowTodayItems.map');
+    expect(dashboard).toContain('workflowText.today');
+    expect(dashboard).toContain('workflowText.continue');
+    expect(dashboard).toContain('workflowText.explore');
+    expect(dashboard).toContain('className={styles.sourceSuspensionDetails}');
+    expect(dashboardStyles).toContain('.workflowGrid');
+  });
+
   it('persists a distinct completion marker only after an explicit choice', () => {
     expect(dashboard).toContain('WORKSPACE_ONBOARDING_COMPLETED_KEY');
     expect(dashboard).toContain("JSON.stringify({ completed: true })");

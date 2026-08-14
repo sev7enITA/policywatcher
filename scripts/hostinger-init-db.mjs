@@ -318,6 +318,26 @@ const ddl = [
     "viewportClass" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
   )`,
+  `CREATE TABLE IF NOT EXISTS "AiModelInvocation" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "traceId" TEXT NOT NULL,
+    "operation" TEXT NOT NULL,
+    "provider" TEXT NOT NULL DEFAULT 'google',
+    "modelId" TEXT NOT NULL,
+    "attempt" INTEGER NOT NULL,
+    "fallbackUsed" BOOLEAN NOT NULL DEFAULT false,
+    "outcome" TEXT NOT NULL,
+    "errorCode" TEXT,
+    "durationMs" INTEGER NOT NULL,
+    "inputChars" INTEGER NOT NULL,
+    "outputChars" INTEGER,
+    "promptTokenCount" INTEGER,
+    "outputTokenCount" INTEGER,
+    "totalTokenCount" INTEGER,
+    "schemaVersion" TEXT,
+    "promptVersion" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+  )`,
   `CREATE TABLE IF NOT EXISTS "ScanRun" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "status" TEXT NOT NULL DEFAULT 'running',
@@ -491,6 +511,10 @@ const indexes = [
   `CREATE UNIQUE INDEX IF NOT EXISTS "AdminDashboardMetricEvent_visitId_eventKey_key" ON "AdminDashboardMetricEvent"("visitId", "eventKey")`,
   `CREATE INDEX IF NOT EXISTS "AdminDashboardMetricEvent_eventType_createdAt_idx" ON "AdminDashboardMetricEvent"("eventType", "createdAt")`,
   `CREATE INDEX IF NOT EXISTS "AdminDashboardMetricEvent_createdAt_idx" ON "AdminDashboardMetricEvent"("createdAt")`,
+  `CREATE INDEX IF NOT EXISTS "AiModelInvocation_createdAt_idx" ON "AiModelInvocation"("createdAt")`,
+  `CREATE INDEX IF NOT EXISTS "AiModelInvocation_operation_createdAt_idx" ON "AiModelInvocation"("operation", "createdAt")`,
+  `CREATE INDEX IF NOT EXISTS "AiModelInvocation_modelId_outcome_createdAt_idx" ON "AiModelInvocation"("modelId", "outcome", "createdAt")`,
+  `CREATE INDEX IF NOT EXISTS "AiModelInvocation_traceId_idx" ON "AiModelInvocation"("traceId")`,
 ];
 
 const upgradeColumns = {
@@ -581,6 +605,7 @@ try {
     changes: db.prepare('SELECT COUNT(*) AS count FROM "PolicyChange"').get().count,
     accessLogs: db.prepare('SELECT COUNT(*) AS count FROM "AdminAccessLog"').get().count,
     pressMetricEvents: db.prepare('SELECT COUNT(*) AS count FROM "PressMetricEvent"').get().count,
+    aiModelInvocations: db.prepare('SELECT COUNT(*) AS count FROM "AiModelInvocation"').get().count,
   };
 
   console.log('Database schema is ready.');

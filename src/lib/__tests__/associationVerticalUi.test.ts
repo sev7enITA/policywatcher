@@ -28,6 +28,11 @@ describe('consumer-association public workspace wiring', () => {
     expect(client).toContain('ASSOCIATION_WATCHLIST_STORAGE_KEY');
     expect(client).toContain('localStorage');
     expect(client).toContain('buildAssociationDigestMarkdown');
+    expect(client).toContain('matchesAssociationContext');
+    expect(client).toContain('Paese o area');
+    expect(client).toContain('Area normativa');
+    expect(client).toContain('Tipo di associazione');
+    expect(client).toContain('non deduce coperture locali');
     expect(client).toContain('catalogUnavailable');
     expect(client).toContain('<AddToCollectionButton');
     expect(client).toContain('lang="it"');

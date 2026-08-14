@@ -336,7 +336,7 @@ export async function validateOutboundUrl(rawUrl: string): Promise<{ ok: true; u
    Layer 1: robust transport fetch with retries + backoff
    --------------------------------------------------------------- */
 
-interface TransportResult {
+export interface TransportResult {
   ok: boolean;
   html: string;
   status: number;
@@ -347,6 +347,24 @@ interface TransportResult {
   /** Latest known archive capture rejected by the freshness guard. */
   staleArchiveTimestamp?: string;
   staleArchiveUrl?: string;
+}
+
+type TestTransport = (url: string, notBefore?: Date) => Promise<TransportResult>;
+
+export interface ScraperControlledFallbacks {
+  /** Test-only deterministic transport substitutes used by fallback smoke tests. */
+  direct?: TestTransport;
+  http2?: TestTransport;
+  rendered?: TestTransport;
+  wayback?: TestTransport;
+  commoncrawl?: TestTransport;
+  skipDelays?: boolean;
+}
+
+export interface ScrapePolicyOptions {
+  archiveNotBefore?: Date;
+  /** Refused in production; keeps smoke tests deterministic and offline. */
+  controlledFallbacks?: ScraperControlledFallbacks;
 }
 
 function enrichDiagnostics(diagnostics: ScrapeDiagnostic[]): ScrapeDiagnostic[] {
@@ -1636,9 +1654,15 @@ export async function fetchDiscoveryDocument(url: string): Promise<DiscoveryDocu
  */
 export async function scrapePolicyText(
   url: string,
-  options: { archiveNotBefore?: Date } = {},
+  options: ScrapePolicyOptions = {},
 ): Promise<ScrapeResult> {
-  const { archiveNotBefore } = options;
+  const { archiveNotBefore, controlledFallbacks } = options;
+  if (controlledFallbacks && process.env.NODE_ENV === 'production') {
+    throw new Error('controlled_fallbacks_disabled_in_production');
+  }
+  const fallbackDelay = controlledFallbacks?.skipDelays
+    ? async () => undefined
+    : politeDelay;
   const diagnostics: ScrapeDiagnostic[] = [];
   const destination = await validateOutboundUrl(url);
   if (!destination.ok) {
@@ -1656,7 +1680,9 @@ export async function scrapePolicyText(
   // Strategy 1: Direct HTTP/1.1 fetch.
   console.log(`[Scraper] [1/5] Direct fetch: ${url}`);
   const directStartedAt = Date.now();
-  const transport = await fetchWithRetry(destination.url);
+  const transport = controlledFallbacks?.direct
+    ? await controlledFallbacks.direct(destination.url, archiveNotBefore)
+    : await fetchWithRetry(destination.url);
   const directDurationMs = Date.now() - directStartedAt;
 
     if (!transport.ok && transport.html === '') {
@@ -1752,11 +1778,13 @@ export async function scrapePolicyText(
   // Repeated source-level failures are handled by the remediation registry;
   // this is not an anti-bot bypass and never attempts a CAPTCHA challenge.
   if (directReason.includes('400') || directReason.includes('403') || directReason === 'content_too_short') {
-    await politeDelay();
+    await fallbackDelay();
     console.log(`[Scraper] [2/5] HTTP/2 explicit: ${url}`);
     const h2StartedAt = Date.now();
     try {
-      const h2Result = await fetchWithHttp2(destination.url);
+      const h2Result = controlledFallbacks?.http2
+        ? await controlledFallbacks.http2(destination.url, archiveNotBefore)
+        : await fetchWithHttp2(destination.url);
       const h2DurationMs = Date.now() - h2StartedAt;
       if (h2Result.ok) {
         const validation = await validateContent(h2Result.html, url);
@@ -1830,11 +1858,13 @@ export async function scrapePolicyText(
   // Executes JavaScript: recovers SPA shells and many bot-protected pages.
   // This is the LAST strategy that sees the live site. Archives below
   // can only confirm past versions, never the current one.
-  if (rendererConfigured()) {
-    await politeDelay();
+  if (controlledFallbacks?.rendered || rendererConfigured()) {
+    await fallbackDelay();
     console.log(`[Scraper] [3/5] Rendered fetch: ${url}`);
     const renderedStartedAt = Date.now();
-    const rendered = await fetchWithRenderer(destination.url);
+    const rendered = controlledFallbacks?.rendered
+      ? await controlledFallbacks.rendered(destination.url, archiveNotBefore)
+      : await fetchWithRenderer(destination.url);
     const renderedDurationMs = Date.now() - renderedStartedAt;
     if (rendered.ok) {
       const validation = await validateContent(rendered.html, url);
@@ -1901,10 +1931,12 @@ export async function scrapePolicyText(
   }
 
   // Strategy 4: Wayback Machine (freshness-guarded).
-  await politeDelay();
+  await fallbackDelay();
   console.log(`[Scraper] [4/5] Wayback Machine: ${url}`);
   const waybackStartedAt = Date.now();
-  const wayback = await fetchFromWayback(url, archiveNotBefore);
+  const wayback = controlledFallbacks?.wayback
+    ? await controlledFallbacks.wayback(url, archiveNotBefore)
+    : await fetchFromWayback(url, archiveNotBefore);
   const waybackDurationMs = Date.now() - waybackStartedAt;
   if (wayback.ok) {
     const validation = await validateContent(wayback.html, url);
@@ -1960,10 +1992,12 @@ export async function scrapePolicyText(
   }
 
   // Strategy 5: Common Crawl (freshness-guarded).
-  await politeDelay();
+  await fallbackDelay();
   console.log(`[Scraper] [5/5] Common Crawl: ${url}`);
   const commonCrawlStartedAt = Date.now();
-  const cc = await fetchFromCommonCrawl(url, archiveNotBefore);
+  const cc = controlledFallbacks?.commoncrawl
+    ? await controlledFallbacks.commoncrawl(url, archiveNotBefore)
+    : await fetchFromCommonCrawl(url, archiveNotBefore);
   const commonCrawlDurationMs = Date.now() - commonCrawlStartedAt;
   if (cc.ok) {
     const validation = await validateContent(cc.html, url);

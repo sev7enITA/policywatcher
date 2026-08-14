@@ -25,6 +25,7 @@ export const metadata: Metadata = {
   title: 'Trust & Quality Evidence | PolicyWatcher',
   description:
     'Automated quality, security, and dataset assurance evidence for PolicyWatcher.',
+  alternates: { canonical: '/trust' },
 };
 
 type Tone = 'green' | 'blue' | 'amber' | 'violet' | 'slate';
@@ -42,8 +43,8 @@ type EvidenceCard = {
 const repoBase = 'https://github.com/sev7enITA/policywatcher';
 const scorecardUrl = 'https://scorecard.dev/viewer/?uri=github.com/sev7enITA/policywatcher';
 const bestPracticesProjectUrl = 'https://www.bestpractices.dev/projects/13465';
-const mdnObservatoryUrl = 'https://developer.mozilla.org/en-US/observatory/analyze?host=www.policywatcher.online';
-const securityHeadersUrl = 'https://securityheaders.com/?q=www.policywatcher.online&followRedirects=on&hide=on';
+const mdnObservatoryUrl = 'https://developer.mozilla.org/en-US/observatory/analyze?host=policywatcher.online';
+const securityHeadersUrl = 'https://securityheaders.com/?q=policywatcher.online&followRedirects=on&hide=on';
 
 const evidenceCards: EvidenceCard[] = [
   {

@@ -120,6 +120,98 @@
   gap: 22px;
 }
 
+.erPosterCard {
+  display: grid;
+  gap: 22px;
+  padding: clamp(22px, 4vw, 38px);
+  border: 1px solid #cddce2;
+  border-radius: 12px;
+  background: rgba(255, 252, 244, 0.96);
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.075);
+}
+
+.erPosterHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 22px;
+  align-items: end;
+}
+
+.erPosterHeader h2 {
+  max-width: 760px;
+  margin: 0 0 10px;
+  color: #0f172a;
+  font-size: clamp(1.8rem, 3.4vw, 3rem);
+  line-height: 1.02;
+}
+
+.erPosterHeader p {
+  max-width: 780px;
+  margin: 0;
+  color: #526276;
+  font-size: 0.96rem;
+  font-weight: 600;
+  line-height: 1.58;
+}
+
+.erPosterActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.erPosterActions a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 13px;
+  border: 1px solid #0f766e;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #0f766e;
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.erPosterActions a:first-child {
+  background: #0f766e;
+  color: #ffffff;
+}
+
+.erPosterActions a:hover {
+  transform: translateY(-1px);
+}
+
+.erPosterActions a:focus-visible {
+  outline: 3px solid rgba(79, 100, 197, 0.3);
+  outline-offset: 2px;
+}
+
+.erPosterFigure {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid #d8cdb8;
+  border-radius: 8px;
+  background: #f7f0df;
+}
+
+.erPosterFigure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.erPosterFigure figcaption {
+  padding: 10px 13px;
+  border-top: 1px solid #d8cdb8;
+  color: #5d6a80;
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
 .infographicCard {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(380px, 0.95fr);
@@ -387,6 +479,21 @@
   .infographicCard {
     gap: 24px;
     padding: 20px;
+  }
+
+  .erPosterHeader {
+    grid-template-columns: 1fr;
+  }
+
+  .erPosterActions {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: stretch;
+  }
+
+  .erPosterFigure {
+    margin-right: -8px;
+    margin-left: -8px;
   }
 
   .lensTabs {

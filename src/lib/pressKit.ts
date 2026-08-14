@@ -9,6 +9,9 @@ import {
 } from './release';
 import pressAssetManifest from '../../public/press-kit/asset-manifest.json';
 import pressPackageManifest from '../../public/press-kit/package-manifest.json';
+import { POLICYWATCHER_CANONICAL_ORIGIN } from './siteOrigin';
+
+export { POLICYWATCHER_CANONICAL_ORIGIN } from './siteOrigin';
 
 export type PressKitLocale = 'en' | 'it';
 export type PressKitLocalized = Record<PressKitLocale, string>;
@@ -128,8 +131,7 @@ export interface PressKitRegistryEvent {
 
 export const PRESS_KIT_RELEASE_DATE = POLICYWATCHER_RELEASE_DATE;
 export const PRESS_KIT_DATA_SNAPSHOT_DATE = '2026-08-02' as const;
-export const PRESS_KIT_CANONICAL_URL = 'https://policywatcher.online/press-kit' as const;
-export const POLICYWATCHER_CANONICAL_ORIGIN = 'https://policywatcher.online' as const;
+export const PRESS_KIT_CANONICAL_URL = `${POLICYWATCHER_CANONICAL_ORIGIN}/press-kit` as const;
 export const PRESS_KIT_JSON_URL = `${PRESS_KIT_CANONICAL_URL}/press-kit.json` as const;
 export const PRESS_KIT_REPOSITORY_URL = 'https://github.com/sev7enITA/policywatcher' as const;
 export const PRESS_KIT_LICENSE_URL = 'https://creativecommons.org/licenses/by/4.0/' as const;
@@ -536,12 +538,37 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'policywatcher-civico-3-9-0-beta-40',
+    slug: 'adaptive-experience-3-9-0-beta-41',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'product',
+    title: { en: 'Adaptive Experience', it: 'Esperienza adattiva' },
+    summary: { en: 'Adds explicit complexity and motion controls, a deterministic next step and a source-generated ER sitemap.', it: 'Aggiunge controlli espliciti di complessita e movimento, un prossimo passo deterministico e una sitemap ER generata dalla fonte.' },
+    changes: [
+      { en: 'Focus, Balanced and Explore modes change hierarchy and density while preserving evidence and publication gates.', it: 'Le modalita Focus, Bilanciata ed Esplora cambiano gerarchia e densita preservando evidenze e gate di pubblicazione.' },
+      { en: 'A visible motion preference, skip link, focus treatment and inspectable interface explanation improve user control.', it: 'Una preferenza visibile per il movimento, skip link, focus e spiegazione ispezionabile dell interfaccia migliorano il controllo utente.' },
+      { en: 'The ER sitemap generator validates 33 literal static routes, seven domains and four dynamic route families.', it: 'Il generatore della sitemap ER valida 33 route statiche letterali, sette domini e quattro famiglie di route dinamiche.' },
+    ],
+    boundaries: [
+      { en: 'The presentation presets do not personalize evidence, infer expertise or use AI ranking.', it: 'I preset di presentazione non personalizzano le evidenze, non inferiscono competenza e non usano ranking AI.' },
+      { en: 'The shipped accessibility improvements are not a formal WCAG conformance claim or measured usability outcome.', it: 'I miglioramenti di accessibilita distribuiti non sono una dichiarazione formale di conformita WCAG o un risultato di usabilita misurato.' },
+    ],
+    evidenceLinks: [
+      { href: '/', label: { en: 'Adaptive dashboard', it: 'Dashboard adattiva' } },
+      { href: '/infographics', label: { en: 'ER sitemap infographic', it: 'Infografica sitemap ER' } },
+      { href: '/feature-atlas', label: { en: 'Feature Atlas', it: 'Atlante funzionalita' } },
+    ],
+  },
+  {
+    slug: 'policywatcher-civico-3-9-0-beta-40',
+    version: '3.9.0-beta.40',
+    displayVersion: '3.9.0 Beta 40',
+    datePublished: '2026-08-06',
+    dateModified: '2026-08-07',
+    status: 'archived',
     category: 'product',
     title: { en: 'PolicyWatcher Civico', it: 'PolicyWatcher Civico' },
     summary: { en: 'Adds a bounded public-evidence workspace for a controlled pilot with Italian consumer associations.', it: 'Aggiunge un workspace circoscritto di evidenze pubbliche per un pilota controllato con le associazioni italiane dei consumatori.' },
@@ -549,6 +576,7 @@ export const pressKitReleases: PressKitRelease[] = [
       { en: 'Reviewers can build a browser-local watchlist from eligible published change records and assign local review states.', it: 'I revisori possono creare una watchlist locale al browser da record di modifica pubblicati e ammissibili, assegnando stati di revisione locali.' },
       { en: 'Theme triage, source-first inspection and a deterministic Markdown digest support repeatable internal briefing.', it: 'Triage per tema, ispezione source-first e digest Markdown deterministico supportano briefing interni ripetibili.' },
       { en: 'Selected public records can be handed to Evidence Collections while local titles and review state stay out of shared URLs.', it: 'I record pubblici selezionati possono passare alle Raccolte di evidenze mentre titoli locali e stato di revisione restano fuori dagli URL condivisi.' },
+      { en: 'Browser Extension availability now reports the owner-confirmed Microsoft Edge Add-ons publication independently from Safari.', it: 'La disponibilita della Browser Extension ora riporta la pubblicazione su Microsoft Edge Add-ons confermata dal publisher separatamente da Safari.' },
     ],
     boundaries: [
       { en: 'The workspace is not an association account, complaint system, legal opinion or automated publication desk.', it: 'Il workspace non e un account associativo, sistema reclami, parere legale o desk di pubblicazione automatica.' },
@@ -1365,7 +1393,9 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
-  { id: 'policywatcher-civico-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'PolicyWatcher Civico published', it: 'Pubblicato PolicyWatcher Civico' }, detail: { en: 'A source-first public-evidence workspace now supports a controlled browser-local pilot with Italian consumer associations.', it: 'Un workspace source-first di evidenze pubbliche ora supporta un pilota controllato e locale al browser con le associazioni italiane dei consumatori.' }, affectedHref: '/press-kit/releases/policywatcher-civico-3-9-0-beta-40' },
+  { id: 'adaptive-experience-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Adaptive Experience published', it: 'Pubblicata Esperienza adattiva' }, detail: { en: 'The dashboard now exposes deterministic complexity and motion controls plus a source-generated ER sitemap.', it: 'La dashboard ora espone controlli deterministici di complessita e movimento oltre a una sitemap ER generata dalla fonte.' }, affectedHref: '/press-kit/releases/adaptive-experience-3-9-0-beta-41' },
+  { id: 'edge-addons-publication', occurredAt: '2026-08-06', type: 'release', title: { en: 'Microsoft Edge Add-ons publication reported', it: 'Segnalata la pubblicazione su Microsoft Edge Add-ons' }, detail: { en: 'The Browser Extension page now reports Chrome and Edge as published while the Edge direct action remains gated by official URL configuration.', it: 'La pagina Browser Extension ora riporta Chrome ed Edge come pubblicati, mentre l azione diretta Edge resta vincolata alla configurazione dell URL ufficiale.' }, affectedHref: '/press-kit/releases/policywatcher-civico-3-9-0-beta-40' },
+  { id: 'policywatcher-civico-release', occurredAt: '2026-08-06', type: 'release', title: { en: 'PolicyWatcher Civico published', it: 'Pubblicato PolicyWatcher Civico' }, detail: { en: 'A source-first public-evidence workspace now supports a controlled browser-local pilot with Italian consumer associations.', it: 'Un workspace source-first di evidenze pubbliche ora supporta un pilota controllato e locale al browser con le associazioni italiane dei consumatori.' }, affectedHref: '/press-kit/releases/policywatcher-civico-3-9-0-beta-40' },
   { id: 'managed-vps-releases-release', occurredAt: '2026-08-02', type: 'release', title: { en: 'Managed VPS Releases published', it: 'Pubblicate le Release VPS gestite' }, detail: { en: 'The protected Admin Center now uploads bounded Renderer packages through Hostinger to Operations Agent 0.2 and follows asynchronous verification or rollback.', it: 'L Admin Center protetto ora carica pacchetti Renderer circoscritti attraverso Hostinger verso Operations Agent 0.2 e segue verifica asincrona o rollback.' }, affectedHref: '/press-kit/releases/managed-vps-releases-3-9-0-beta-39' },
   { id: 'git-hosted-press-distribution-release', occurredAt: '2026-08-02', type: 'release', title: { en: 'Git-hosted Press Distribution published', it: 'Pubblicata la distribuzione Press Kit tramite Git' }, detail: { en: 'Complete EN and IT editorial packages now download from the public GitHub repository while Hostinger application artifacts exclude nested Press Kit ZIPs.', it: 'I pacchetti editoriali completi EN e IT ora vengono scaricati dal repository GitHub pubblico, mentre gli artifact applicativi Hostinger escludono gli ZIP Press Kit annidati.' }, affectedHref: '/press-kit/releases/git-hosted-press-distribution-3-9-0-beta-38' },
   { id: 'resource-navigation-retrieval-diagnostics-release', occurredAt: '2026-08-02', type: 'release', title: { en: 'Resource Navigation and Retrieval Diagnostics published', it: 'Pubblicate navigazione risorse e diagnostica retrieval' }, detail: { en: 'The public footer now groups its complete destination set while protected scans and renderer readiness expose bounded acquisition diagnostics.', it: 'Il footer pubblico ora raggruppa il set completo di destinazioni, mentre scansioni protette e readiness del renderer espongono diagnostica limitata delle acquisizioni.' }, affectedHref: '/press-kit/releases/resource-navigation-retrieval-diagnostics-3-9-0-beta-37' },

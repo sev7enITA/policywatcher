@@ -34,12 +34,12 @@ const copy = {
       ['Conferma gli indizi', 'Controlla organizzazione, policy e presenza del link di partenza.'],
       ['Verifica le evidenze', 'Solo i campi strutturati confermati raggiungono PolicyWatcher.'],
     ],
-    installTitle: 'Disponibilità per browser', installLead: 'Ogni browser mostra uno stato verificato in modo indipendente. Ultimo controllo: 27 luglio 2026.',
+    installTitle: 'Disponibilità per browser', installLead: 'Ogni browser mostra uno stato indipendente. Stato aggiornato: 6 agosto 2026.',
     chrome: 'Google Chrome', edge: 'Microsoft Edge', safari: 'Safari',
     chromeBody: 'Estensione Manifest V3 per browser desktop basati su Chromium.',
-    edgeBody: 'Compatibile con browser basati su Chromium; una scheda ufficiale su Microsoft Edge Add-ons non è ancora stata verificata.',
+    edgeBody: 'La versione per Microsoft Edge è pubblicata su Microsoft Edge Add-ons.',
     safariBody: 'Richiede firma del publisher e pacchetto App Store tramite Safari Web Extension.',
-    install: 'Apri e installa', safariNote: 'La sorgente Safari non equivale a un’app installabile. La disponibilità mobile verrà dichiarata solo dopo firma e revisione App Store.',
+    install: 'Apri e installa', directLinkPending: 'La scheda è pubblicata. Il pulsante diretto apparirà quando l’URL Edge Add-ons sarà configurato nel deployment.', safariNote: 'La sorgente Safari non equivale a un’app installabile. La disponibilità mobile verrà dichiarata solo dopo firma e revisione App Store.',
     fallback: 'Stai usando il telefono o lo store non è ancora disponibile?', fallbackBody: 'Incolla il testo visibile: i link nascosti non saranno inclusi, ma PolicyWatcher può usare le fonti già monitorate o aprire una richiesta minima di discovery e QA.', fallbackAction: 'Continua con il copia-incolla',
     privacy: 'Privacy', methodology: 'Metodo e limiti', legal: 'Non è consulenza legale.',
   },
@@ -58,12 +58,12 @@ const copy = {
       ['Confirm the clues', 'Review the organization, policies and whether a starting link was found.'],
       ['Verify the evidence', 'Only confirmed structured fields reach PolicyWatcher.'],
     ],
-    installTitle: 'Browser availability', installLead: 'Each browser has an independently verified status. Last checked: 27 July 2026.',
+    installTitle: 'Browser availability', installLead: 'Each browser has an independent status. Updated: 6 August 2026.',
     chrome: 'Google Chrome', edge: 'Microsoft Edge', safari: 'Safari',
     chromeBody: 'Manifest V3 extension for Chromium-based desktop browsers.',
-    edgeBody: 'Compatible with Chromium-based browsers; an official Microsoft Edge Add-ons listing has not yet been verified.',
+    edgeBody: 'The Microsoft Edge version is published on Microsoft Edge Add-ons.',
     safariBody: 'Requires publisher signing and App Store packaging as a Safari Web Extension.',
-    install: 'View and install', safariNote: 'Safari source is not an installable app. Mobile availability will be stated only after App Store signing and review.',
+    install: 'View and install', directLinkPending: 'The listing is published. The direct button will appear after the Edge Add-ons URL is configured in the deployment.', safariNote: 'Safari source is not an installable app. Mobile availability will be stated only after App Store signing and review.',
     fallback: 'On a phone or is the store not available yet?', fallbackBody: 'Paste the visible text: hidden links will not be included, but PolicyWatcher can use monitored sources or open a minimized discovery and QA request.', fallbackAction: 'Continue with copy and paste',
     privacy: 'Privacy', methodology: 'Method and limits', legal: 'Not legal advice.',
   },
@@ -110,15 +110,17 @@ export default function BrowserExtensionClient({ storeLinks }: { storeLinks: Bro
       <div className={styles.sectionHeading}><p>{lang === 'it' ? 'Disponibilità store' : 'Store availability'}</p><h2>{t.installTitle}</h2><span>{t.installLead}</span></div>
       <div className={styles.storeList}>{stores.map(({ id, name, body, icon: Icon }) => {
         const status = POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS[id];
-        const isPublished = status.state === 'published' && Boolean(storeLinks[id]);
-        return <article key={id} data-store-state={isPublished ? 'published' : status.state}>
+        const isPublished = status.state === 'published';
+        const hasInstallLink = isPublished && Boolean(storeLinks[id]);
+        return <article key={id} data-store-state={status.state}>
         <Icon aria-hidden="true" /><div><h3>{name}</h3>
           <strong className={isPublished ? styles.storePublished : styles.storePending}>
             <span aria-hidden="true" />{status[lang]}
           </strong>
-          <p>{body}</p>{isPublished
+          <p>{body}</p>{hasInstallLink
           ? <a href={storeLinks[id]!} target="_blank" rel="noopener noreferrer">{t.install}<ExternalLink aria-hidden="true" /></a>
           : null}
+          {id === 'edge' && isPublished && !hasInstallLink && <small>{t.directLinkPending}</small>}
           {id === 'safari' && <small>{t.safariNote}</small>}
         </div>
       </article>})}</div>

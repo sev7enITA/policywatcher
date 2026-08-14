@@ -30,6 +30,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { POLICYWATCHER_BUILD_LABEL, POLICYWATCHER_VERSION } from '@/lib/release';
+import { useGlobalContext } from './GlobalContextControl';
 import styles from './Footer.module.css';
 
 /** Props for the {@link Footer} component. */
@@ -120,7 +121,9 @@ const content = {
  * and a release boundary.
  */
 export default function Footer({ lang, variant = 'full' }: FooterProps) {
-  const t = content[lang];
+  const globalContext = useGlobalContext(lang);
+  const activeLang = globalContext.ready ? globalContext.lang : lang;
+  const t = content[activeLang];
 
   if (variant === 'compact') {
     return (
@@ -133,7 +136,7 @@ export default function Footer({ lang, variant = 'full' }: FooterProps) {
             </div>
             <p>{t.releaseNotice}</p>
           </div>
-          <nav className={styles.compactLinks} aria-label={lang === 'it' ? 'Link essenziali' : 'Essential links'}>
+          <nav className={styles.compactLinks} aria-label={activeLang === 'it' ? 'Link essenziali' : 'Essential links'}>
             <Link href="/knowledge"><FileText size={13} aria-hidden="true" />{t.knowledge}</Link>
             <Link href="/privacy"><Lock size={13} aria-hidden="true" />{t.privacy}</Link>
             <Link href="/terms"><FileText size={13} aria-hidden="true" />{t.terms}</Link>
@@ -239,8 +242,8 @@ export default function Footer({ lang, variant = 'full' }: FooterProps) {
 
           <nav className={styles.resourceDirectory} aria-label={t.resourceNavigation}>
             {resourceGroups.map((group) => (
-              <section className={styles.column} aria-labelledby={`footer-${lang}-${group.id}`} key={group.id}>
-                <h2 className={styles.columnTitle} id={`footer-${lang}-${group.id}`}>{group.label}</h2>
+              <section className={styles.column} aria-labelledby={`footer-${activeLang}-${group.id}`} key={group.id}>
+                <h2 className={styles.columnTitle} id={`footer-${activeLang}-${group.id}`}>{group.label}</h2>
                 {renderLinks(group)}
               </section>
             ))}

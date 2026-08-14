@@ -62,14 +62,14 @@ L’accesso alla scheda è temporaneo e avviene solo dopo il tuo gesto. Testo gr
 
 - **activeTab:** gives temporary access to the tab only after the user invokes the extension; replaces persistent access to all sites or webmail hosts.
 - **scripting:** injects the packaged, local clue scanner into the active tab after the explicit action.
-- **Host `https://www.policywatcher.online/*`:** permits the service worker to POST the confirmed structured clues to the production API and no other host.
+- **Host `https://policywatcher.online/*`:** permits the service worker to POST the confirmed structured clues to the production API and no other host.
 
 ## Microsoft Edge Privacy page
 
 - **Single purpose:** use the single-purpose text above.
 - **Remote code:** select **No**.
 - **Data usage:** disclose local handling of website content/personal communications and temporary current-tab URL access; explain that raw content is neither transmitted nor stored.
-- **Privacy URL:** `https://www.policywatcher.online/privacy`.
+- **Privacy URL:** `https://policywatcher.online/privacy`.
 - **Permission justification:** use the three justifications above.
 
 ## Required store assets
@@ -78,5 +78,5 @@ L’accesso alla scheda è temporaneo e avviene solo dopo il tuo gesto. Testo gr
 - Reviewed UI captures are in `docs/screenshots/` at 390 × 600 and 320 × 600; use them as the source for store-safe promotional compositions.
 - At least one Chrome screenshot: 1280 × 800 or 640 × 400, showing the disclosure and review states without real personal communications.
 - Edge screenshots and small promotional tile according to the current Partner Center form.
-- Support URL: `https://www.policywatcher.online/browser-extension`.
-- Privacy URL: `https://www.policywatcher.online/privacy`.
+- Support URL: `https://policywatcher.online/browser-extension`.
+- Privacy URL: `https://policywatcher.online/privacy`.

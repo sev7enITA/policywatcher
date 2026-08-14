@@ -373,6 +373,28 @@ TABLES = [
     )
     """,
     """
+    CREATE TABLE IF NOT EXISTS "AiModelInvocation" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "traceId" TEXT NOT NULL,
+      "operation" TEXT NOT NULL,
+      "provider" TEXT NOT NULL DEFAULT 'google',
+      "modelId" TEXT NOT NULL,
+      "attempt" INTEGER NOT NULL,
+      "fallbackUsed" BOOLEAN NOT NULL DEFAULT false,
+      "outcome" TEXT NOT NULL,
+      "errorCode" TEXT,
+      "durationMs" INTEGER NOT NULL,
+      "inputChars" INTEGER NOT NULL,
+      "outputChars" INTEGER,
+      "promptTokenCount" INTEGER,
+      "outputTokenCount" INTEGER,
+      "totalTokenCount" INTEGER,
+      "schemaVersion" TEXT,
+      "promptVersion" TEXT NOT NULL,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )
+    """,
+    """
     CREATE TABLE IF NOT EXISTS "ScanRun" (
       "id" TEXT NOT NULL PRIMARY KEY,
       "status" TEXT NOT NULL DEFAULT 'running',
@@ -557,6 +579,10 @@ INDEXES = [
     'CREATE UNIQUE INDEX IF NOT EXISTS "AdminDashboardMetricEvent_visitId_eventKey_key" ON "AdminDashboardMetricEvent"("visitId", "eventKey")',
     'CREATE INDEX IF NOT EXISTS "AdminDashboardMetricEvent_eventType_createdAt_idx" ON "AdminDashboardMetricEvent"("eventType", "createdAt")',
     'CREATE INDEX IF NOT EXISTS "AdminDashboardMetricEvent_createdAt_idx" ON "AdminDashboardMetricEvent"("createdAt")',
+    'CREATE INDEX IF NOT EXISTS "AiModelInvocation_createdAt_idx" ON "AiModelInvocation"("createdAt")',
+    'CREATE INDEX IF NOT EXISTS "AiModelInvocation_operation_createdAt_idx" ON "AiModelInvocation"("operation", "createdAt")',
+    'CREATE INDEX IF NOT EXISTS "AiModelInvocation_modelId_outcome_createdAt_idx" ON "AiModelInvocation"("modelId", "outcome", "createdAt")',
+    'CREATE INDEX IF NOT EXISTS "AiModelInvocation_traceId_idx" ON "AiModelInvocation"("traceId")',
 ]
 
 UPGRADE_COLUMNS = {
@@ -644,6 +670,7 @@ with sqlite3.connect(str(db_path), timeout=30) as con:
         "changes": con.execute('SELECT COUNT(*) FROM "PolicyChange"').fetchone()[0],
         "accessLogs": con.execute('SELECT COUNT(*) FROM "AdminAccessLog"').fetchone()[0],
         "pressMetricEvents": con.execute('SELECT COUNT(*) FROM "PressMetricEvent"').fetchone()[0],
+        "aiModelInvocations": con.execute('SELECT COUNT(*) FROM "AiModelInvocation"').fetchone()[0],
     }
 
 print("Database schema is ready.")

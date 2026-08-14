@@ -7,9 +7,57 @@
   display: flex;
   flex-direction: column;
   background: var(--bg-main);
+  scroll-padding-bottom: 112px;
   transition: padding-left 0.25s cubic-bezier(0.16, 1, 0.3, 1),
               padding-bottom 0.25s cubic-bezier(0.16, 1, 0.3, 1),
               padding-top 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skipLink {
+  position: fixed;
+  top: 10px;
+  left: 12px;
+  z-index: 500;
+  min-height: 44px;
+  padding: 11px 14px;
+  border: 2px solid #ffffff;
+  border-radius: 6px;
+  background: #0f172a;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-decoration: none;
+  transform: translateY(-150%);
+  transition: transform 120ms ease;
+}
+
+.skipLink:focus {
+  outline: 3px solid #fbbf24;
+  outline-offset: 2px;
+  transform: translateY(0);
+}
+
+.dashboard[data-experience-preset="focus"] .extensionBetaStrip,
+.dashboard[data-experience-preset="focus"] .workflowLane:not(.workflowToday) {
+  display: none;
+}
+
+.dashboard[data-experience-preset="focus"] .workflowGrid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.dashboard[data-experience-preset="focus"] .workflowToday {
+  grid-column: auto;
+}
+
+.dashboard[data-experience-motion="reduced"] *,
+.dashboard[data-experience-motion="reduced"] *::before,
+.dashboard[data-experience-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+  transition-duration: 0.01ms !important;
 }
 
 .releaseMapSection {
@@ -1846,6 +1894,388 @@
     [data-dashboard-module][data-mobile-span="1"] {
     width: 100%;
     grid-column: 1 / -1;
+  }
+}
+
+/* Operational home: a short decision path before the full evidence console. */
+.anchorTarget {
+  position: absolute;
+  top: -92px;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.workflowHub {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+  border: 1px solid var(--console-line);
+  border-top: 4px solid var(--dashboard-accent);
+  border-radius: 10px;
+  background: var(--console-paper, #f8fafc);
+  box-shadow: 0 12px 34px rgba(15, 23, 42, 0.07);
+}
+
+.workflowHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
+  gap: 24px;
+  align-items: end;
+}
+
+.workflowHeader h2 {
+  margin: 7px 0 0;
+  color: var(--console-ink);
+  font-size: clamp(1.35rem, 2vw, 1.85rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.workflowHeader > p {
+  margin: 0;
+  color: var(--console-muted);
+  font-size: 0.83rem;
+  line-height: 1.55;
+}
+
+.workflowEyebrow {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  color: var(--dashboard-accent-strong);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.workflowGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 0.82fr);
+  gap: 12px;
+}
+
+.workflowLane {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--console-line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.workflowToday {
+  border-left: 4px solid var(--dashboard-accent);
+}
+
+.workflowLaneHeader {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+  margin-bottom: 14px;
+}
+
+.workflowLaneHeader > span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--dashboard-accent) 11%, white);
+  color: var(--dashboard-accent-strong);
+  font-size: 0.65rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.workflowLaneHeader h3 {
+  margin: 0;
+  color: var(--console-ink);
+  font-size: 0.92rem;
+}
+
+.workflowLaneHeader p {
+  margin: 3px 0 0;
+  color: var(--console-muted);
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.workflowTodayList,
+.workflowLinkList,
+.workflowExploreList {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.workflowTodayList li {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) 34px;
+  gap: 9px;
+  align-items: center;
+  min-height: 66px;
+  padding: 9px;
+  border: 1px solid var(--console-line);
+  border-radius: 7px;
+  background: #ffffff;
+}
+
+.workflowTodayList li[data-kind='source-qa'] {
+  border-left: 3px solid #b45309;
+  background: #fffaf0;
+}
+
+.workflowItemIcon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--console-line);
+  border-radius: 6px;
+  background: #f8fafc;
+  color: var(--dashboard-accent-strong);
+}
+
+.workflowTodayList li[data-kind='source-qa'] .workflowItemIcon {
+  color: #92400e;
+}
+
+.workflowTodayList li > div {
+  display: grid;
+  min-width: 0;
+}
+
+.workflowItemEyebrow {
+  color: var(--console-muted);
+  font-size: 0.59rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.workflowTodayList strong,
+.workflowLinkList strong,
+.workflowExploreList strong {
+  overflow: hidden;
+  color: var(--console-ink);
+  font-size: 0.76rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workflowTodayList p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 2px 0 0;
+  color: var(--console-muted);
+  font-size: 0.67rem;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.workflowTodayList li > a {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  color: var(--dashboard-accent-strong);
+}
+
+.workflowTodayList li > a:hover,
+.workflowTodayList li > a:focus-visible {
+  background: color-mix(in srgb, var(--dashboard-accent) 11%, white);
+}
+
+.workflowLinkList a,
+.workflowExploreList a {
+  display: flex;
+  min-height: 48px;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 10px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: var(--console-ink);
+  text-decoration: none;
+}
+
+.workflowLinkList a:hover,
+.workflowLinkList a:focus-visible,
+.workflowExploreList a:hover,
+.workflowExploreList a:focus-visible {
+  border-color: var(--console-line);
+  background: #f8fafc;
+}
+
+.workflowLinkList a > span {
+  display: flex;
+  min-width: 0;
+  gap: 8px;
+  align-items: center;
+}
+
+.workflowLinkList small,
+.workflowExploreList small {
+  color: var(--console-muted);
+  font-size: 0.63rem;
+}
+
+.workflowExploreList a {
+  justify-content: flex-start;
+  border-color: var(--console-line);
+}
+
+.workflowExploreList a > svg:first-child {
+  flex: 0 0 auto;
+  color: var(--dashboard-accent-strong);
+}
+
+.workflowExploreList a > span {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+}
+
+.sourceSuspensionDetails,
+.releaseMapDisclosure {
+  border: 1px solid var(--console-line);
+  border-radius: 7px;
+  background: #ffffff;
+}
+
+.sourceSuspensionDetails > summary,
+.releaseMapDisclosure > summary {
+  display: flex;
+  min-height: 48px;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.sourceSuspensionDetails > summary::-webkit-details-marker,
+.releaseMapDisclosure > summary::-webkit-details-marker {
+  display: none;
+}
+
+.sourceSuspensionDetails > summary span {
+  color: var(--console-ink);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.sourceSuspensionDetails > summary small,
+.releaseMapDisclosure > summary small {
+  color: var(--console-muted);
+  font-size: 0.68rem;
+}
+
+.sourceSuspensionDetails .sourceSuspensionList {
+  padding: 0 12px 12px;
+}
+
+.releaseMapSection {
+  padding: 0;
+}
+
+.releaseMapDisclosure {
+  border: 0;
+  background: transparent;
+}
+
+.releaseMapDisclosure > summary {
+  min-height: 66px;
+  padding: 16px 18px;
+}
+
+.releaseMapDisclosure > summary > span {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--dashboard-accent-strong);
+}
+
+.releaseMapDisclosure > summary > span strong {
+  color: var(--console-ink);
+  font-size: 0.88rem;
+}
+
+.releaseMapDisclosure > summary > small {
+  margin-left: auto;
+}
+
+.releaseMapDisclosure > summary > svg {
+  transition: transform 160ms ease;
+}
+
+.releaseMapDisclosure[open] > summary > svg {
+  transform: rotate(90deg);
+}
+
+.releaseMapBody {
+  padding: 0 18px 18px;
+}
+
+.workflowHub :is(a, summary):focus-visible,
+.sourceSuspensionDetails > summary:focus-visible,
+.releaseMapDisclosure > summary:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--dashboard-accent) 38%, transparent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 1080px) {
+  .workflowGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .workflowToday {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .workflowHub {
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .workflowHeader,
+  .workflowGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .workflowHeader {
+    gap: 8px;
+  }
+
+  .workflowToday {
+    grid-column: auto;
+  }
+
+  .workflowLane {
+    padding: 13px;
+  }
+
+  .workflowLinkList a,
+  .workflowExploreList a {
+    min-height: 48px;
+  }
+
+  .releaseMapDisclosure > summary {
+    align-items: flex-start;
+  }
+
+  .releaseMapDisclosure > summary > small {
+    display: none;
   }
 }
 

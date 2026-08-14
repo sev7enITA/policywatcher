@@ -34,18 +34,18 @@ describe('release metadata', () => {
   it('matches the package version and composes one build label', () => {
     const packageJson = JSON.parse(readFileSync('package.json', 'utf8')) as { version: string };
     expect(POLICYWATCHER_VERSION).toBe(packageJson.version);
-    expect(POLICYWATCHER_RELEASE_NAME).toBe('PolicyWatcher Civico');
-    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.9.0-beta.40 PolicyWatcher Civico');
-    expect(POLICYWATCHER_RELEASE_DATE).toBe('2026-08-06');
+    expect(POLICYWATCHER_RELEASE_NAME).toBe('Adaptive Experience');
+    expect(POLICYWATCHER_BUILD_LABEL).toBe('v3.9.0-beta.41 Adaptive Experience');
+    expect(POLICYWATCHER_RELEASE_DATE).toBe('2026-08-07');
     expect(POLICYWATCHER_RELEASE_CHANNEL).toBe('beta');
     expect(POLICYWATCHER_RELEASE_CHANNEL_LABEL).toBe('BETA');
-    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v3.9.0-beta.40 · BETA');
+    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v3.9.0-beta.41 · BETA');
     expect(POLICYWATCHER_BROWSER_EXTENSION_VERSION).toBe('3.8.3-beta.3');
     expect(POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION).toBe('3.8.3 Beta 3');
     expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE).toBe('v3.8.3 Beta 3 · EXTENSION BETA');
-    expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATE).toBe('chrome-store-published');
+    expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATE).toBe('chrome-edge-store-published');
     expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS.en).toBe(
-      'Chrome Web Store published · Edge listing not yet verified · Safari not yet available',
+      'Chrome Web Store and Microsoft Edge Add-ons published · Safari not yet available',
     );
 
     const typedChannel: PolicyWatcherReleaseChannel = POLICYWATCHER_RELEASE_CHANNEL;

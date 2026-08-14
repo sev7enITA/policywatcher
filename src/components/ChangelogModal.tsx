@@ -89,7 +89,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Current Beta</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      The current release adds an Italian-language civic-review workspace for Italian consumer associations. It builds a bounded browser-local watchlist from eligible published changes, supports local review states and theme triage, creates a deterministic Markdown digest and hands public record identifiers to Evidence Collections. It does not create an association account, collect consumer cases, make legal findings or publish decisions.
+                      The current release adds browser-local Focus, Balanced and Explore modes, a visible reduced-motion preference, one deterministic workspace-specific next step and an inspectable non-AI interface explanation. The primary Today, Continue and Explore workflow now precedes promotion, while a source-generated ER sitemap and presentation infographic make 33 static routes, seven domains and four dynamic families easier to communicate. Presets change presentation only: evidence and publication gates remain unchanged.
                     </p>
                   </div>
 
@@ -109,7 +109,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeStable}>Stable</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      First-time visitors choose an objective and evidence depth, preview the resulting evidence modules and keep Source QA visible before applying the workspace. The toolbar exposes at most three relevant shortcuts, retains additional commands in More, and provides direct What Changed, Search, Workspace and changelog access. Preferences and completion stay local to the browser.
+                      Visitors choose an objective and evidence depth, then work through Today, Continue and Explore. Today keeps at most three priorities and one aggregated Source QA indicator; Continue resumes current context; Explore opens Atlas, Civico and Observatory. The More panel stays concise and routes the complete platform catalog through Atlas.
                     </p>
                   </div>
 

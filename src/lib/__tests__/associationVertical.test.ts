@@ -6,6 +6,7 @@ import {
   classifyAssociationThemes,
   getAssociationAttention,
   getAssociationSourceStage,
+  matchesAssociationContext,
   summarizeAssociationRadar,
   type AssociationEvidenceInput,
 } from '../associationVertical';
@@ -106,12 +107,50 @@ describe('consumer-association vertical', () => {
       [item],
       { [item.id]: 'pronto-per-pubblicazione' },
       new Date('2026-08-06T12:00:00.000Z'),
+      { country: 'it', regulatoryArea: 'privacy-data', organizationType: 'privacy' },
     );
 
     expect(digest).toContain('# PolicyWatcher Civico - digest di revisione');
     expect(digest).toContain('Pronte per pubblicazione locale: 1');
     expect(digest).toContain('https://policywatcher.online/evidence/');
     expect(digest).toContain(ASSOCIATION_VERTICAL_BOUNDARY);
+    expect(digest).toContain('Paese di lavoro: Italia');
+    expect(digest).toContain('Area normativa: Privacy e dati');
+    expect(digest).toContain('Tipo di associazione: Privacy e protezione dati');
     expect(digest).not.toContain('certifica la conformita');
+  });
+
+  it('applies country and association contexts without inventing national coverage', () => {
+    const [euItem] = buildAssociationRadarItems([evidence()]);
+    const [globalPrivacyItem] = buildAssociationRadarItems([evidence({
+      id: '1af02c98-d563-4cf8-8148-b5342af3f138',
+      policy: { ...evidence().policy, jurisdiction: 'Global' },
+    })]);
+    const [globalGeneralItem] = buildAssociationRadarItems([evidence({
+      id: '2bf13d09-e674-4cf8-8148-b5342af3f139',
+      summary: 'A short public statement changed.',
+      policy: { ...evidence().policy, name: 'Public statement', type: 'notice', jurisdiction: 'Global' },
+    })]);
+
+    expect(matchesAssociationContext(euItem, {
+      country: 'it',
+      regulatoryArea: 'privacy-data',
+      organizationType: 'privacy',
+    })).toBe(true);
+    expect(matchesAssociationContext(euItem, {
+      country: 'us',
+      regulatoryArea: 'all',
+      organizationType: 'all',
+    })).toBe(false);
+    expect(matchesAssociationContext(globalPrivacyItem, {
+      country: 'gb',
+      regulatoryArea: 'privacy-data',
+      organizationType: 'digital-rights',
+    })).toBe(true);
+    expect(matchesAssociationContext(globalGeneralItem, {
+      country: 'ca',
+      regulatoryArea: 'minors-online',
+      organizationType: 'children',
+    })).toBe(false);
   });
 });

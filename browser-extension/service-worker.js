@@ -1,6 +1,6 @@
 'use strict';
 
-const API_URL = 'https://www.policywatcher.online/api/policy-inquiries';
+const API_URL = 'https://policywatcher.online/api/policy-inquiries';
 const ALLOWED_KEYS = new Set([
   'companyName', 'senderDomain', 'sourceUrl', 'noticeDate', 'effectiveDate',
   'policyTypes', 'lang', 'honeypot'

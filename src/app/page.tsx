@@ -8,7 +8,7 @@ import styles from './HomePage.module.css';
 export const metadata: Metadata = {
   title: 'PolicyWatcher - Public Policy Change Monitor',
   description: 'Inspect evidence-gated company policies, verified baselines and published policy changes through a server-rendered public knowledge index and interactive dashboard.',
-  alternates: { canonical: POLICYWATCHER_ORIGIN },
+  alternates: { canonical: `${POLICYWATCHER_ORIGIN}/` },
 };
 
 export const dynamic = 'force-dynamic';

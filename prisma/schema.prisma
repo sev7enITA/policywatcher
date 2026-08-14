@@ -500,6 +500,32 @@ model AdminDashboardMetricEvent {
   @@index([createdAt])
 }
 
+model AiModelInvocation {
+  id               String   @id @default(uuid())
+  traceId          String
+  operation        String
+  provider         String   @default("google")
+  modelId          String
+  attempt          Int
+  fallbackUsed     Boolean  @default(false)
+  outcome          String
+  errorCode        String?
+  durationMs       Int
+  inputChars       Int
+  outputChars      Int?
+  promptTokenCount Int?
+  outputTokenCount Int?
+  totalTokenCount  Int?
+  schemaVersion    String?
+  promptVersion    String
+  createdAt        DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([operation, createdAt])
+  @@index([modelId, outcome, createdAt])
+  @@index([traceId])
+}
+
 model RegionImpact {
   id               String       @id @default(uuid())
   policyChangeId   String

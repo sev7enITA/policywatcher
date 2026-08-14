@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: 'Policy Signals Board | PolicyWatcher',
   description:
     'Evidence-only leaderboard for public policy-source coverage, retrieval traceability, and publicEvidence-gated movement.',
+  alternates: { canonical: '/leaderboard' },
 };
 
 const mixLabels: Array<[keyof LeaderboardRow['retrievalMix'], string]> = [

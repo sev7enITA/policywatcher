@@ -44,7 +44,8 @@ describe('categorized global footer', () => {
     expect(footer).toContain("product: 'Prodotto'");
     expect(footer).toContain("build: 'Sviluppo'");
     expect(footer.match(/id: '(explore|product|build|media)'/g)).toHaveLength(4);
-    expect(footer).toContain('aria-labelledby={`footer-${lang}-${group.id}`}');
+    expect(footer).toContain('aria-labelledby={`footer-${activeLang}-${group.id}`}');
+    expect(footer).toContain('useGlobalContext');
   });
 
   it('uses native mobile disclosures with accessible, touch-sized controls', () => {

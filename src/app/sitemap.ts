@@ -10,10 +10,11 @@
 import type { MetadataRoute } from 'next';
 import { db } from '@/lib/db';
 import { publicChangeWhere, publicPolicyWhere } from '@/lib/publicDataGate';
-import { POLICYWATCHER_CANONICAL_ORIGIN, pressKitReleases } from '@/lib/pressKit';
+import { pressKitReleases } from '@/lib/pressKit';
 import { pulseStories } from '@/lib/editorialPulse';
+import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin';
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || POLICYWATCHER_CANONICAL_ORIGIN;
+const BASE_URL = POLICYWATCHER_CANONICAL_ORIGIN;
 
 export const revalidate = 3600; // 1 hour
 export const dynamic = 'force-dynamic';
@@ -21,39 +22,41 @@ export const dynamic = 'force-dynamic';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static landing pages
   const staticEntries: MetadataRoute.Sitemap = [
-    { url: `${BASE_URL}/`, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
-    { url: `${BASE_URL}/associazioni`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.96 },
-    { url: `${BASE_URL}/evidence`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.94 },
-    { url: `${BASE_URL}/collections`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${BASE_URL}/showcase`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.95 },
-    { url: `${BASE_URL}/atlas`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${BASE_URL}/feature-atlas`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.92 },
-    { url: `${BASE_URL}/observatory`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${BASE_URL}/developers`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.84 },
-    { url: `${BASE_URL}/developers/event-continuity`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.82 },
-    { url: `${BASE_URL}/developers/webhook-readiness`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${BASE_URL}/integrations`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.88 },
-    { url: `${BASE_URL}/timeline`, lastModified: new Date(), changeFrequency: 'hourly', priority: 0.9 },
-    { url: `${BASE_URL}/what-changed`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.95 },
-    { url: `${BASE_URL}/browser-extension`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.86 },
-    { url: `${BASE_URL}/leaderboard`, lastModified: new Date(), changeFrequency: 'hourly', priority: 0.9 },
-    { url: `${BASE_URL}/trust`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${BASE_URL}/trust/residency`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.82 },
-    { url: `${BASE_URL}/infographics`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.88 },
-    { url: `${BASE_URL}/roadmap`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.85 },
-    { url: `${BASE_URL}/press`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.82 },
-    { url: `${BASE_URL}/press-kit`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.84 },
-    { url: `${BASE_URL}/pulse`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${BASE_URL}/press-kit/releases`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.82 },
-    { url: `${BASE_URL}/press-kit/data`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
-    { url: `${BASE_URL}/press-kit/reference`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.74 },
-    { url: `${BASE_URL}/press-kit/corrections`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.74 },
-    { url: `${BASE_URL}/press-kit/glossary`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.72 },
-    { url: `${BASE_URL}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.78 },
-    { url: `${BASE_URL}/methodology/confidence`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${BASE_URL}/security`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${BASE_URL}/privacy`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${BASE_URL}/terms`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.65 },
+    { url: `${BASE_URL}/`, changeFrequency: 'daily', priority: 1.0 },
+    // One canonical Civic route covers the global directory and evidence radar;
+    // browser-local country/type filters must not create thin indexable pages.
+    { url: `${BASE_URL}/associazioni`, changeFrequency: 'daily', priority: 0.96 },
+    { url: `${BASE_URL}/evidence`, changeFrequency: 'daily', priority: 0.94 },
+    { url: `${BASE_URL}/collections`, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${BASE_URL}/showcase`, changeFrequency: 'weekly', priority: 0.95 },
+    { url: `${BASE_URL}/atlas`, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${BASE_URL}/feature-atlas`, changeFrequency: 'weekly', priority: 0.92 },
+    { url: `${BASE_URL}/observatory`, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${BASE_URL}/developers`, changeFrequency: 'weekly', priority: 0.84 },
+    { url: `${BASE_URL}/developers/event-continuity`, changeFrequency: 'monthly', priority: 0.82 },
+    { url: `${BASE_URL}/developers/webhook-readiness`, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE_URL}/integrations`, changeFrequency: 'weekly', priority: 0.88 },
+    { url: `${BASE_URL}/timeline`, changeFrequency: 'hourly', priority: 0.9 },
+    { url: `${BASE_URL}/what-changed`, changeFrequency: 'weekly', priority: 0.95 },
+    { url: `${BASE_URL}/browser-extension`, changeFrequency: 'weekly', priority: 0.86 },
+    { url: `${BASE_URL}/leaderboard`, changeFrequency: 'hourly', priority: 0.9 },
+    { url: `${BASE_URL}/trust`, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${BASE_URL}/trust/residency`, changeFrequency: 'monthly', priority: 0.82 },
+    { url: `${BASE_URL}/infographics`, changeFrequency: 'weekly', priority: 0.88 },
+    { url: `${BASE_URL}/roadmap`, changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${BASE_URL}/press`, changeFrequency: 'weekly', priority: 0.82 },
+    { url: `${BASE_URL}/press-kit`, changeFrequency: 'weekly', priority: 0.84 },
+    { url: `${BASE_URL}/pulse`, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${BASE_URL}/press-kit/releases`, changeFrequency: 'weekly', priority: 0.82 },
+    { url: `${BASE_URL}/press-kit/data`, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${BASE_URL}/press-kit/reference`, changeFrequency: 'monthly', priority: 0.74 },
+    { url: `${BASE_URL}/press-kit/corrections`, changeFrequency: 'monthly', priority: 0.74 },
+    { url: `${BASE_URL}/press-kit/glossary`, changeFrequency: 'monthly', priority: 0.72 },
+    { url: `${BASE_URL}/about`, changeFrequency: 'monthly', priority: 0.78 },
+    { url: `${BASE_URL}/methodology/confidence`, changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${BASE_URL}/security`, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE_URL}/privacy`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/terms`, changeFrequency: 'monthly', priority: 0.65 },
   ];
 
   // All change permalinks (EN canonical). A database failure must not leak
@@ -88,10 +91,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   const changeEntries: MetadataRoute.Sitemap = changes.map((c) => ({
-    url: `${BASE_URL}/change/${c.id}?lang=en`,
+    url: `${BASE_URL}/change/${c.id}`,
     lastModified: c.createdAt,
     changeFrequency: 'monthly' as const,
     priority: 0.7,
+  }));
+
+  const evidenceEntries: MetadataRoute.Sitemap = changes.map((c) => ({
+    url: `${BASE_URL}/evidence/${c.id}`,
+    lastModified: c.createdAt,
+    changeFrequency: 'monthly' as const,
+    priority: 0.72,
   }));
 
   const knowledgePolicyEntries: MetadataRoute.Sitemap = knowledgePolicies.map((policy) => ({
@@ -143,5 +153,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...pulseEntries,
     ...newsroomEntries,
     ...changeEntries,
+    ...evidenceEntries,
   ];
 }

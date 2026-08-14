@@ -34,6 +34,7 @@ export const metadata: Metadata = {
   title: 'Webhook Readiness Kit | PolicyWatcher',
   description:
     'Inspect and verify the deterministic PolicyWatcher HMAC-SHA256 webhook test vector locally before outbound delivery is available.',
+  alternates: { canonical: '/developers/webhook-readiness' },
 };
 
 const verificationSteps = [

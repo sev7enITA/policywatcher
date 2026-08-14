@@ -53,8 +53,13 @@ const iconMap: Record<string, LucideIcon> = {
 
 const recommendedRoutes = [
   {
-    title: 'Consumer-association pilot',
-    body: 'Start in PolicyWatcher Civico, inspect the underlying change evidence, then check the methodology before preparing an association briefing.',
+    title: 'Adaptive orientation',
+    body: 'Choose Focus, Balanced or Explore on the dashboard, inspect why the interface is configured that way, then open the visual ER sitemap for the complete domain model.',
+    nodes: ['dashboard', 'infographics', 'feature-atlas'],
+  },
+  {
+    title: 'Global consumer advocacy',
+    body: 'Set the platform territory, find a source-backed national or digital-rights organization in PolicyWatcher Civico, then inspect the underlying evidence and methodology.',
     nodes: ['associations', 'timeline', 'methodology'],
   },
   {

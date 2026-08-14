@@ -301,6 +301,57 @@
 .boundaryNotice strong { font-size: 0.79rem; text-transform: uppercase; }
 .boundaryNotice p { margin-top: 4px; color: #294e50; font-size: 0.84rem; line-height: 1.55; }
 
+.contextPanel {
+  display: grid;
+  gap: 17px;
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid var(--rule-strong);
+  border-top: 3px solid var(--teal);
+  background: var(--paper-bright);
+}
+
+.contextIntro {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.contextIntro > svg {
+  margin-top: 2px;
+  color: var(--teal);
+}
+
+.contextIntro h3 {
+  margin-top: 4px;
+  color: var(--ink);
+  font: 650 1.15rem var(--font-display);
+}
+
+.contextIntro > div > p:last-child {
+  max-width: 850px;
+  margin-top: 6px;
+  color: var(--body);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.contextGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.contextSummary {
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+  color: var(--teal-dark);
+  font: 700 0.7rem/1.45 var(--font-mono);
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
+
 .workspace {
   display: grid;
   grid-template-columns: minmax(270px, 0.31fr) minmax(0, 0.69fr);
@@ -752,12 +803,14 @@
   .storageNote { grid-column: 1 / -1; }
   .dossierSection { grid-template-columns: 1fr; }
   .digestWorkbench { max-width: 650px; }
+  .contextGrid { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 760px) {
   .anchorNav { position: static; }
   .shell { width: min(100% - 28px, 1220px); }
   .anchorNav .shell { width: 100%; padding: 0 14px; }
+  .contextGrid { grid-template-columns: 1fr; }
   .anchorNav a { padding: 0 14px; }
   .hero,
   .radarSection,

@@ -1,5 +1,6 @@
 import { getDatabaseReadinessReport } from './databaseReadiness';
 import { POLICYWATCHER_VERSION } from './release';
+import { POLICYWATCHER_CANONICAL_ORIGIN } from './siteOrigin';
 import type { AdminRole } from './adminAuth';
 
 export type ProductionVerificationState = 'passed' | 'attention' | 'unavailable' | 'external';
@@ -77,13 +78,14 @@ function secretConfigurationCheck(): ProductionVerificationCheck {
 function runtimeCheck(origin: string | null): ProductionVerificationCheck {
   const production = process.env.NODE_ENV === 'production';
   const https = origin?.startsWith('https://') ?? false;
+  const canonical = origin === POLICYWATCHER_CANONICAL_ORIGIN;
   return {
     id: 'production-runtime',
     category: 'runtime',
     title: 'Production runtime and canonical HTTPS origin',
-    state: production && https ? 'passed' : 'attention',
-    observed: `NODE_ENV=${process.env.NODE_ENV || 'undefined'}; canonical origin ${origin ? 'resolved' : 'unavailable'}${https ? ' over HTTPS' : ''}.`,
-    expected: 'Production mode with a canonical credential-free HTTPS origin.',
+    state: production && https && canonical ? 'passed' : 'attention',
+    observed: `NODE_ENV=${process.env.NODE_ENV || 'undefined'}; origin ${origin || 'unavailable'}${canonical ? ' matches' : ' does not match'} the public canonical origin.`,
+    expected: `Production mode with APP_URL=${POLICYWATCHER_CANONICAL_ORIGIN}.`,
     boundary: 'The check does not validate DNS ownership, certificate chain, proxy routing or service availability.',
   };
 }

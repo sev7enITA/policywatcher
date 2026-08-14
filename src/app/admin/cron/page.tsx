@@ -41,11 +41,14 @@ import {
 interface DetailEntry {
   company: string;
   policy: string;
+  jurisdiction?: string;
   status: string;
   source?: string;
   runtime?: 'app' | 'vps' | 'archive' | 'none';
   transportLabel?: string;
   diagnostics?: StrategyDiagnostic[];
+  retrievalKeyId?: string;
+  acquisitionMode?: 'network' | 'deduplicated';
 }
 
 interface StrategyDiagnostic {
@@ -60,6 +63,7 @@ interface LastResult {
   checked?: number;
   selected?: number;
   changed?: number;
+  confirmationPending?: number;
   rebaselined?: number;
   partial?: number;
   errors?: number;
@@ -137,7 +141,7 @@ function formatTimestamp(iso: string | null | undefined): string {
 function badgeClass(status: string): string {
   const s = status.toLowerCase();
   if (s === 'changed' || s === 'error' || s === 'invalid') return styles.badgeError;
-  if (s === 'unavailable' || s === 'partial') return styles.badgeWarning;
+  if (s === 'unavailable' || s === 'partial' || s === 'confirmation_pending') return styles.badgeWarning;
   if (s === 'unchanged' || s === 'ok' || s === 'rebaselined') return styles.badgeSuccess;
   return styles.badgeNeutral;
 }
@@ -202,7 +206,8 @@ function strategyOutcomeClass(status: StrategyDiagnostic['status']): string {
   return styles.strategyFailed;
 }
 
-function formatStrategyReason(reason?: string): string {
+function formatStrategyReason(reason?: string, status?: StrategyDiagnostic['status']): string {
+  if (!reason && status === 'ok') return 'Content passed validation gates';
   if (!reason) return 'No reason recorded';
   return reason.length > 80 ? `${reason.slice(0, 77)}...` : reason;
 }
@@ -870,6 +875,12 @@ export default function CronManagerPage() {
             </div>
             <div className={styles.statBox}>
               <div className={styles.statValue}>
+                {lastResult.confirmationPending ?? 0}
+              </div>
+              <div className={styles.statLabel}>Awaiting confirmation</div>
+            </div>
+            <div className={styles.statBox}>
+              <div className={styles.statValue}>
                 {lastResult.rebaselined ?? 0}
               </div>
               <div className={styles.statLabel}>Re-baselined</div>
@@ -917,6 +928,7 @@ export default function CronManagerPage() {
                   <tr>
                     <th>Company</th>
                     <th>Policy</th>
+                    <th>Jurisdiction</th>
                     <th>Status</th>
                     <th>Runtime</th>
                     <th>Retrieval path</th>
@@ -930,6 +942,7 @@ export default function CronManagerPage() {
                       <tr key={`${d.company}-${d.policy}-${i}`}>
                         <td>{d.company}</td>
                         <td>{d.policy}</td>
+                        <td>{d.jurisdiction || 'Unspecified'}</td>
                         <td>
                           <span
                             className={`${styles.badge} ${badgeClass(d.status)}`}
@@ -942,7 +955,14 @@ export default function CronManagerPage() {
                             {runtimeLabel(runtime)}
                           </span>
                         </td>
-                        <td>{defaultTransportLabel(d)}</td>
+                        <td>
+                          {defaultTransportLabel(d)}
+                          {d.retrievalKeyId ? (
+                            <div className={styles.metaText}>
+                              acq:{d.retrievalKeyId} / {d.acquisitionMode || 'network'}
+                            </div>
+                          ) : null}
+                        </td>
                         <td>
                           {d.diagnostics?.length ? (
                             <div className={styles.strategyStack}>
@@ -963,7 +983,7 @@ export default function CronManagerPage() {
                                     {typeof diagnostic.httpStatus === 'number' && diagnostic.httpStatus > 0
                                       ? `HTTP ${diagnostic.httpStatus} / `
                                       : ''}
-                                    {formatStrategyReason(diagnostic.reason)}
+                                    {formatStrategyReason(diagnostic.reason, diagnostic.status)}
                                   </div>
                                   <div className={styles.strategyEscalation}>
                                     {formatEscalation(diagnostic, diagnosticIndex, d.diagnostics || [])}

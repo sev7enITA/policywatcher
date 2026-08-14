@@ -21,4 +21,14 @@ describe('formatScanCompletionLog', () => {
     expect(formatScanCompletionLog(clean, new Date('2026-07-21T12:00:00Z')))
       .toContain('Scan complete [OK]');
   });
+
+  it('requires attention while a changed hash awaits a consecutive confirmation', () => {
+    const message = formatScanCompletionLog(
+      { ...clean, confirmationPending: 2 },
+      new Date('2026-07-21T12:00:00Z')
+    );
+
+    expect(message).toContain('Scan complete [ATTENTION]');
+    expect(message).toContain('2 awaiting confirmation');
+  });
 });

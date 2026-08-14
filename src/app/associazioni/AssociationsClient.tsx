@@ -16,6 +16,7 @@ import {
   ListFilter,
   LockKeyhole,
   Mail,
+  MapPin,
   RotateCcw,
   Search,
   ShieldCheck,
@@ -24,20 +25,29 @@ import {
 } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import AddToCollectionButton from '@/components/AddToCollectionButton';
+import { useGlobalContext } from '@/components/GlobalContextControl';
 import {
+  ASSOCIATION_COUNTRY_LABELS,
+  ASSOCIATION_ORGANIZATION_TYPE_LABELS,
   ASSOCIATION_PILOT_PLAN,
+  ASSOCIATION_REGULATORY_AREA_LABELS,
   ASSOCIATION_REVIEW_STORAGE_KEY,
   ASSOCIATION_THEME_LABELS,
   ASSOCIATION_VERTICAL_BOUNDARY,
   ASSOCIATION_WATCHLIST_STORAGE_KEY,
   buildAssociationDigestMarkdown,
+  matchesAssociationContext,
   type AssociationAttention,
+  type AssociationCountryContext,
+  type AssociationOrganizationType,
   type AssociationRadarItem,
   type AssociationRadarSummary,
+  type AssociationRegulatoryArea,
   type AssociationReviewState,
   type AssociationSourceStage,
   type AssociationTheme,
 } from '@/lib/associationVertical';
+import CivicDirectory from './CivicDirectory';
 import styles from './associazioni.module.css';
 
 interface AssociationsClientProps {
@@ -89,6 +99,17 @@ const sourceLabels: Record<AssociationSourceStage, string> = {
 };
 
 const themeOptions = Object.entries(ASSOCIATION_THEME_LABELS) as Array<[AssociationTheme, string]>;
+const countryOptions = Object.entries(ASSOCIATION_COUNTRY_LABELS) as Array<[AssociationCountryContext, string]>;
+const regulatoryAreaOptions = Object.entries(ASSOCIATION_REGULATORY_AREA_LABELS) as Array<[AssociationRegulatoryArea, string]>;
+const organizationTypeOptions = Object.entries(ASSOCIATION_ORGANIZATION_TYPE_LABELS) as Array<[AssociationOrganizationType, string]>;
+
+function radarCountryFromGlobalContext(country: string, region: string): AssociationCountryContext {
+  if (country === 'it' || country === 'us' || country === 'gb' || country === 'ca' || country === 'au') {
+    return country;
+  }
+  if (region === 'europe') return 'eu';
+  return 'global';
+}
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -220,6 +241,7 @@ export default function AssociationsClient({
   summary,
   catalogUnavailable,
 }: AssociationsClientProps) {
+  const globalContext = useGlobalContext('it');
   const companies = useMemo(() => {
     const catalog = new Map<string, string>();
     for (const item of items) catalog.set(item.companySlug, item.company);
@@ -234,6 +256,9 @@ export default function AssociationsClient({
   const [reviewStates, setReviewStates] = useState<Record<string, AssociationReviewState>>({});
   const [selectedCompanySlugs, setSelectedCompanySlugs] = useState<string[]>(allCompanySlugs);
   const [query, setQuery] = useState('');
+  const [country, setCountry] = useState<AssociationCountryContext>('global');
+  const [regulatoryArea, setRegulatoryArea] = useState<AssociationRegulatoryArea>('all');
+  const [organizationType, setOrganizationType] = useState<AssociationOrganizationType>('all');
   const [theme, setTheme] = useState<'all' | AssociationTheme>('all');
   const [attention, setAttention] = useState<'all' | AssociationAttention>('all');
   const [storageHydrated, setStorageHydrated] = useState(false);
@@ -273,6 +298,14 @@ export default function AssociationsClient({
     }, 0);
     return () => window.clearTimeout(timer);
   }, [allCompanySlugs, catalogIds, catalogSlugs]);
+
+  useEffect(() => {
+    if (!globalContext.ready) return;
+    const timer = window.setTimeout(() => {
+      setCountry(radarCountryFromGlobalContext(globalContext.context.country, globalContext.context.region));
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [globalContext.context.country, globalContext.context.region, globalContext.ready]);
 
   useEffect(() => {
     if (!storageHydrated || !storageAvailable) return;
@@ -334,13 +367,14 @@ export default function AssociationsClient({
 
     return items.filter((item) => {
       if (!selected.has(item.companySlug)) return false;
+      if (!matchesAssociationContext(item, { country, regulatoryArea, organizationType })) return false;
       if (theme !== 'all' && !item.themes.includes(theme)) return false;
       if (attention !== 'all' && item.attention !== attention) return false;
       if (!term) return true;
       return [item.company, item.policyName, item.summary]
         .some((value) => value.toLocaleLowerCase('it').includes(term));
     });
-  }, [attention, items, query, selectedCompanySlugs, theme]);
+  }, [attention, country, items, organizationType, query, regulatoryArea, selectedCompanySlugs, theme]);
 
   const digestCounts = useMemo(() => ({
     reviewing: visibleItems.filter((item) => reviewStates[item.id] === 'in-revisione').length,
@@ -348,7 +382,12 @@ export default function AssociationsClient({
     verified: visibleItems.filter((item) => item.sourceStage === 'fonte-verificata').length,
   }), [reviewStates, visibleItems]);
 
-  const filtersActive = query.trim().length > 0 || theme !== 'all' || attention !== 'all';
+  const filtersActive = query.trim().length > 0
+    || country !== 'global'
+    || regulatoryArea !== 'all'
+    || organizationType !== 'all'
+    || theme !== 'all'
+    || attention !== 'all';
 
   function toggleCompany(slug: string) {
     setSelectedCompanySlugs((current) => (
@@ -376,6 +415,9 @@ export default function AssociationsClient({
 
   function resetFilters() {
     setQuery('');
+    setCountry(radarCountryFromGlobalContext(globalContext.context.country, globalContext.context.region));
+    setRegulatoryArea('all');
+    setOrganizationType('all');
     setTheme('all');
     setAttention('all');
   }
@@ -387,7 +429,11 @@ export default function AssociationsClient({
   }
 
   function buildDigest(): string {
-    return buildAssociationDigestMarkdown(visibleItems, reviewStates, new Date());
+    return buildAssociationDigestMarkdown(visibleItems, reviewStates, new Date(), {
+      country,
+      regulatoryArea,
+      organizationType,
+    });
   }
 
   async function copyDigest() {
@@ -423,6 +469,7 @@ export default function AssociationsClient({
       <nav className={styles.anchorNav} aria-label="Sezioni di PolicyWatcher Civico">
         <div className={styles.shell}>
           <a href="#panoramica">Panoramica</a>
+          <a href="#organizzazioni">Organizzazioni</a>
           <a href="#radar">Radar</a>
           <a href="#dossier">Dossier</a>
           <a href="#pilot">Pilot</a>
@@ -432,24 +479,21 @@ export default function AssociationsClient({
       <div className={styles.shell}>
         <header id="panoramica" className={styles.hero}>
           <div className={styles.heroCopy}>
-            <p className={styles.kicker}>Osservatorio civico · evidenze pubbliche</p>
+            <p className={styles.kicker}>Osservatorio civico globale · evidenze pubbliche</p>
             <h1>PolicyWatcher <span>Civico</span></h1>
             <p className={styles.lead}>
-              Dai cambiamenti nei contratti digitali a evidenze verificabili per la tutela dei consumatori.
+              79 realtà in 24 paesi, dalle associazioni generaliste ai diritti digitali, collegate a fonti verificabili e al radar delle policy globali.
             </p>
             <p className={styles.heroBoundary}>
               Un banco di lavoro per osservare fonti pubbliche, fare triage e preparare materiali da verificare.
               Non sostituisce la revisione legale o specialistica.
             </p>
             <div className={styles.heroActions}>
-              <a className={styles.primaryAction} href="#radar">
-                Apri il radar <ArrowRight size={17} aria-hidden="true" />
+              <a className={styles.primaryAction} href="#organizzazioni">
+                Esplora le organizzazioni <ArrowRight size={17} aria-hidden="true" />
               </a>
-              <a
-                className={styles.secondaryAction}
-                href="mailto:info@policywatcher.online?subject=Pilot%20PolicyWatcher%20Civico"
-              >
-                Proponi un pilot <Mail size={16} aria-hidden="true" />
+              <a className={styles.secondaryAction} href="#radar">
+                Apri il radar <FileSearch size={16} aria-hidden="true" />
               </a>
             </div>
           </div>
@@ -499,6 +543,8 @@ export default function AssociationsClient({
           </ol>
         </section>
 
+        <CivicDirectory />
+
         <section id="radar" className={styles.radarSection} aria-labelledby="radar-title">
           <div className={styles.sectionHeading}>
             <div>
@@ -518,6 +564,43 @@ export default function AssociationsClient({
               <p>{ASSOCIATION_VERTICAL_BOUNDARY}</p>
             </div>
           </aside>
+
+          <section className={styles.contextPanel} aria-labelledby="association-context-title">
+            <div className={styles.contextIntro}>
+              <MapPin size={21} aria-hidden="true" />
+              <div>
+                <p className={styles.kicker}>Contesto civico</p>
+                <h3 id="association-context-title">Declina il radar sul territorio e sul mandato</h3>
+                <p>
+                  Il contesto ordina le evidenze già presenti. Quando non esiste un set nazionale dedicato,
+                  PolicyWatcher mostra soltanto record esplicitamente globali e non deduce coperture locali.
+                </p>
+              </div>
+            </div>
+            <div className={styles.contextGrid}>
+              <label className={styles.selectField} htmlFor="civic-country-context">
+                <span>Paese o area</span>
+                <select id="civic-country-context" name="civic-country-context" value={country} onChange={(event) => setCountry(event.target.value as AssociationCountryContext)}>
+                  {countryOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+                </select>
+              </label>
+              <label className={styles.selectField} htmlFor="civic-regulatory-area">
+                <span>Area normativa</span>
+                <select id="civic-regulatory-area" name="civic-regulatory-area" value={regulatoryArea} onChange={(event) => setRegulatoryArea(event.target.value as AssociationRegulatoryArea)}>
+                  {regulatoryAreaOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+                </select>
+              </label>
+              <label className={styles.selectField} htmlFor="civic-organization-type">
+                <span>Tipo di associazione</span>
+                <select id="civic-organization-type" name="civic-organization-type" value={organizationType} onChange={(event) => setOrganizationType(event.target.value as AssociationOrganizationType)}>
+                  {organizationTypeOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+                </select>
+              </label>
+            </div>
+            <p className={styles.contextSummary} aria-live="polite">
+              Perimetro attivo · {ASSOCIATION_COUNTRY_LABELS[country]} · {ASSOCIATION_REGULATORY_AREA_LABELS[regulatoryArea]} · {ASSOCIATION_ORGANIZATION_TYPE_LABELS[organizationType]}
+            </p>
+          </section>
 
           <div className={styles.workspace}>
             <aside className={styles.controls} aria-label="Watchlist e filtri del radar">

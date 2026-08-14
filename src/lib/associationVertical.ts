@@ -17,6 +17,27 @@ export type AssociationTheme =
 export type AssociationAttention = 'prioritaria' | 'da-valutare' | 'monitoraggio';
 export type AssociationSourceStage = 'fonte-verificata' | 'revisione-richiesta' | 'stato-non-registrato';
 export type AssociationReviewState = 'osservato' | 'in-revisione' | 'pronto-per-pubblicazione';
+export type AssociationCountryContext = 'global' | 'it' | 'eu' | 'us' | 'gb' | 'ca' | 'au';
+export type AssociationRegulatoryArea =
+  | 'all'
+  | 'digital-contracts'
+  | 'privacy-data'
+  | 'ai-platforms'
+  | 'payments-markets'
+  | 'minors-online';
+export type AssociationOrganizationType =
+  | 'all'
+  | 'generalist'
+  | 'digital-rights'
+  | 'privacy'
+  | 'children'
+  | 'financial-services';
+
+export interface AssociationContext {
+  country: AssociationCountryContext;
+  regulatoryArea: AssociationRegulatoryArea;
+  organizationType: AssociationOrganizationType;
+}
 
 export interface AssociationEvidenceInput {
   id: string;
@@ -78,6 +99,88 @@ export const ASSOCIATION_THEME_LABELS: Readonly<Record<AssociationTheme, string>
   minori: 'Minori',
   trasparenza: 'Trasparenza',
 });
+
+export const ASSOCIATION_COUNTRY_LABELS: Readonly<Record<AssociationCountryContext, string>> = Object.freeze({
+  global: 'Globale',
+  it: 'Italia',
+  eu: 'Unione europea',
+  us: 'Stati Uniti',
+  gb: 'Regno Unito',
+  ca: 'Canada',
+  au: 'Australia',
+});
+
+export const ASSOCIATION_REGULATORY_AREA_LABELS: Readonly<Record<AssociationRegulatoryArea, string>> = Object.freeze({
+  all: 'Tutte le aree',
+  'digital-contracts': 'Contratti e servizi digitali',
+  'privacy-data': 'Privacy e dati',
+  'ai-platforms': 'AI e piattaforme',
+  'payments-markets': 'Pagamenti e mercati digitali',
+  'minors-online': 'Minori online',
+});
+
+export const ASSOCIATION_ORGANIZATION_TYPE_LABELS: Readonly<Record<AssociationOrganizationType, string>> = Object.freeze({
+  all: 'Tutte le associazioni',
+  generalist: 'Tutela consumatori generalista',
+  'digital-rights': 'Diritti digitali',
+  privacy: 'Privacy e protezione dati',
+  children: 'Minori e famiglie',
+  'financial-services': 'Servizi finanziari',
+});
+
+const regulatoryThemes: Readonly<Record<Exclude<AssociationRegulatoryArea, 'all'>, readonly AssociationTheme[]>> = Object.freeze({
+  'digital-contracts': ['condizioni-contrattuali', 'account-contenuti'],
+  'privacy-data': ['privacy-dati'],
+  'ai-platforms': ['intelligenza-artificiale', 'account-contenuti'],
+  'payments-markets': ['pagamenti-abbonamenti', 'condizioni-contrattuali'],
+  'minors-online': ['minori', 'privacy-dati', 'account-contenuti'],
+});
+
+const organizationThemes: Readonly<Record<Exclude<AssociationOrganizationType, 'all'>, readonly AssociationTheme[] | null>> = Object.freeze({
+  generalist: null,
+  'digital-rights': ['privacy-dati', 'intelligenza-artificiale', 'account-contenuti'],
+  privacy: ['privacy-dati', 'intelligenza-artificiale'],
+  children: ['minori', 'privacy-dati', 'account-contenuti'],
+  'financial-services': ['pagamenti-abbonamenti', 'condizioni-contrattuali', 'privacy-dati'],
+});
+
+function matchesThemeSet(item: AssociationRadarItem, themes: readonly AssociationTheme[] | null): boolean {
+  return themes === null || item.themes.some((theme) => themes.includes(theme));
+}
+
+function normalizeJurisdiction(value: string): string {
+  return value.trim().toLocaleLowerCase('en');
+}
+
+/**
+ * Applies an association's working context without inventing national data.
+ * Countries with no dedicated source set only receive records explicitly
+ * marked Global; EU contexts may use EU and Global evidence.
+ */
+export function matchesAssociationContext(
+  item: AssociationRadarItem,
+  context: AssociationContext,
+): boolean {
+  const jurisdiction = normalizeJurisdiction(item.jurisdiction);
+  const isGlobal = jurisdiction === 'global' || jurisdiction === 'worldwide' || jurisdiction.includes('global');
+  const isEu = jurisdiction === 'eu' || jurisdiction.includes('european union') || jurisdiction.includes('unione europea');
+  const isUs = jurisdiction === 'us' || jurisdiction === 'usa' || jurisdiction.includes('united states');
+
+  const countryMatches = context.country === 'global'
+    || (context.country === 'it' && (isEu || isGlobal))
+    || (context.country === 'eu' && (isEu || isGlobal))
+    || (context.country === 'us' && (isUs || isGlobal))
+    || (['gb', 'ca', 'au'] as AssociationCountryContext[]).includes(context.country) && isGlobal;
+
+  if (!countryMatches) return false;
+
+  const regulatoryMatches = context.regulatoryArea === 'all'
+    || matchesThemeSet(item, regulatoryThemes[context.regulatoryArea]);
+  if (!regulatoryMatches) return false;
+
+  return context.organizationType === 'all'
+    || matchesThemeSet(item, organizationThemes[context.organizationType]);
+}
 
 export const ASSOCIATION_PILOT_PLAN = Object.freeze([
   {
@@ -264,6 +367,7 @@ export function buildAssociationDigestMarkdown(
   items: readonly AssociationRadarItem[],
   reviewStates: Readonly<Record<string, AssociationReviewState>>,
   generatedAt: Date = new Date(),
+  context?: AssociationContext,
 ): string {
   const lines = [
     '# PolicyWatcher Civico - digest di revisione',
@@ -273,6 +377,11 @@ export function buildAssociationDigestMarkdown(
     `- Fonti verificate: ${items.filter((item) => item.sourceStage === 'fonte-verificata').length}`,
     `- In revisione locale: ${items.filter((item) => reviewStates[item.id] === 'in-revisione').length}`,
     `- Pronte per pubblicazione locale: ${items.filter((item) => reviewStates[item.id] === 'pronto-per-pubblicazione').length}`,
+    ...(context ? [
+      `- Paese di lavoro: ${ASSOCIATION_COUNTRY_LABELS[context.country]}`,
+      `- Area normativa: ${ASSOCIATION_REGULATORY_AREA_LABELS[context.regulatoryArea]}`,
+      `- Tipo di associazione: ${ASSOCIATION_ORGANIZATION_TYPE_LABELS[context.organizationType]}`,
+    ] : []),
     '',
     `> ${ASSOCIATION_VERTICAL_BOUNDARY}`,
     '',

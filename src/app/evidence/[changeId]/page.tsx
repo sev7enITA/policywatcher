@@ -20,6 +20,7 @@ import PublicHeader from '@/components/PublicHeader';
 import AddToCollectionButton from '@/components/AddToCollectionButton';
 import { getPublicEvidencePacket } from '@/lib/evidencePacketData';
 import { KPI_METRICS, type KpiField } from '@/lib/metricsCatalog';
+import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin';
 import styles from '../evidence.module.css';
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -63,19 +64,28 @@ function kpiLabel(value: KpiField | null): string {
 
 export async function generateMetadata({ params }: EvidenceDetailPageProps): Promise<Metadata> {
   const { changeId } = await params;
-  if (!UUID_RE.test(changeId)) return { title: 'Evidence Packet not found | PolicyWatcher' };
+  if (!UUID_RE.test(changeId)) return { title: 'Evidence Packet not found | PolicyWatcher', robots: { index: false } };
 
   try {
     const packet = await getPublicEvidencePacket(changeId);
     if (!packet || packet.publicationGate !== 'published') {
-      return { title: 'Evidence Packet not found | PolicyWatcher' };
+      return { title: 'Evidence Packet not found | PolicyWatcher', robots: { index: false } };
     }
+    const canonical = `${POLICYWATCHER_CANONICAL_ORIGIN}/evidence/${packet.changeId}`;
     return {
       title: `${packet.company.name} Evidence Packet | PolicyWatcher`,
       description: `Source confidence, explainability, advisory governance mapping and report output for change ${packet.changeId}.`,
+      alternates: { canonical },
+      openGraph: {
+        title: `${packet.company.name} Evidence Packet`,
+        description: `Public evidence and provenance for change ${packet.changeId}.`,
+        url: canonical,
+        type: 'article',
+        modifiedTime: packet.screeningDate,
+      },
     };
   } catch {
-    return { title: 'Evidence Packet | PolicyWatcher' };
+    return { title: 'Evidence Packet | PolicyWatcher', robots: { index: false } };
   }
 }
 
@@ -93,7 +103,7 @@ export default async function EvidenceDetailPage({ params }: EvidenceDetailPageP
 
   if (!packet || packet.publicationGate !== 'published') notFound();
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || 'https://policywatcher.online';
+  const baseUrl = POLICYWATCHER_CANONICAL_ORIGIN;
   const packetUrl = `${baseUrl}/evidence/${packet.changeId}`;
   const jsonUrl = `${baseUrl}/api/evidence-packet/${packet.changeId}?format=json`;
   const pdfUrl = `${baseUrl}/api/evidence-packet/${packet.changeId}?format=pdf`;

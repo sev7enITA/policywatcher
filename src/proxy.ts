@@ -5,6 +5,11 @@ import {
   evaluateAdminMutationBoundary,
 } from '@/lib/adminMutationBoundary';
 import { getClientIp } from '@/lib/rateLimit';
+import {
+  POLICYWATCHER_CANONICAL_ORIGIN,
+  POLICYWATCHER_WWW_HOSTNAME,
+  normalizeRequestHostname,
+} from '@/lib/siteOrigin';
 
 const adminMutationRateLimiter = new AdminMutationRateLimiter();
 
@@ -133,9 +138,36 @@ function handleAdminApi(request: NextRequest): NextResponse {
   return applyAdminApiResponseHeaders(NextResponse.next());
 }
 
+export function getCanonicalHostRedirect(request: NextRequest): URL | null {
+  // Existing published integrations may pin the legacy API hostname and reject
+  // redirects. API responses are not canonical HTML surfaces, so preserve this
+  // compatibility path while consolidating every crawlable page and discovery file.
+  if (request.nextUrl.pathname.startsWith('/api/')) return null;
+
+  const forwardedHostname = normalizeRequestHostname(request.headers.get('x-forwarded-host'));
+  const hostHostname = normalizeRequestHostname(request.headers.get('host'));
+  const requestHostname = request.nextUrl.hostname.toLowerCase().replace(/\.$/, '');
+  const observedHostnames = [forwardedHostname, hostHostname, requestHostname];
+
+  if (!observedHostnames.includes(POLICYWATCHER_WWW_HOSTNAME)) return null;
+
+  return new URL(`${request.nextUrl.pathname}${request.nextUrl.search}`, `${POLICYWATCHER_CANONICAL_ORIGIN}/`);
+}
+
 export function proxy(request: NextRequest) {
+  const canonicalRedirect = getCanonicalHostRedirect(request);
+  if (canonicalRedirect) return NextResponse.redirect(canonicalRedirect, 308);
+
   if (request.nextUrl.pathname.startsWith('/api/admin/')) {
     return handleAdminApi(request);
+  }
+
+  if (
+    request.nextUrl.pathname.startsWith('/api/')
+    || request.nextUrl.pathname === '/robots.txt'
+    || request.nextUrl.pathname === '/sitemap.xml'
+  ) {
+    return NextResponse.next();
   }
 
   const nonce = createNonce();
@@ -162,7 +194,9 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/api/admin/:path*',
+    '/api/:path*',
+    '/robots.txt',
+    '/sitemap.xml',
     {
       source: '/((?!api|_next/static|_next/image|favicon.ico|logo.png|robots.txt|sitemap.xml).*)',
       missing: [

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useMemo, type KeyboardEvent } from 'react';
 import {
@@ -133,6 +134,39 @@ export default function InfographicsPage() {
       </header>
 
       <div className={styles.infographicsGrid}>
+        <section className={styles.erPosterCard} aria-labelledby="sitemap-er-title">
+          <div className={styles.erPosterHeader}>
+            <div>
+              <span className={`${styles.eyebrow} ${styles.eyebrowTeal}`}>
+                <GitFork size={14} />
+                Infographic 00 · ER sitemap · August 2026
+              </span>
+              <h2 id="sitemap-er-title">The global experience, before the individual pages.</h2>
+              <p>
+                A source-backed map of 33 static sitemap entries, seven editorial domains and four dynamic entity families. Region, language and workspace orient the experience without changing evidence gates.
+              </p>
+            </div>
+            <div className={styles.erPosterActions}>
+              <Link href="/atlas">Open interactive Atlas</Link>
+              <a href="/infographics/policywatcher-experience-map-er-sitemap-2026-08.png" download>
+                Download PNG
+              </a>
+            </div>
+          </div>
+          <figure className={styles.erPosterFigure}>
+            <Image
+              src="/infographics/policywatcher-experience-map-er-sitemap-2026-08.webp"
+              alt="PolicyWatcher entity relationship sitemap with a central global experience connected to Monitor, Evidence, Civic, Trust and Method, Build and Integrate, Communicate, and Understand domains"
+              width={1536}
+              height={1024}
+              priority
+            />
+            <figcaption>
+              Editorial poster generated from the ER taxonomy. Exact routes and relations remain documented in the machine-readable sitemap inventory.
+            </figcaption>
+          </figure>
+        </section>
+
         {/* Infographic 1 */}
         <section className={styles.infographicCard}>
           <div className={styles.infoContent}>

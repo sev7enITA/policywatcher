@@ -86,7 +86,7 @@ describe('browser extension production boundary', () => {
     expect(manifest.version).toBe('3.8.3.3');
     expect(manifest.version_name).toBe('3.8.3 Beta 3');
     expect(manifest.permissions.sort()).toEqual(['activeTab', 'scripting']);
-    expect(manifest.host_permissions).toEqual(['https://www.policywatcher.online/*']);
+    expect(manifest.host_permissions).toEqual(['https://policywatcher.online/*']);
   });
 
   it('labels every installed and popup surface as Beta with localized first-use limits', () => {

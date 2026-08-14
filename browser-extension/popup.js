@@ -1,6 +1,6 @@
 'use strict';
 
-const POLICYWATCHER_ORIGIN = 'https://www.policywatcher.online';
+const POLICYWATCHER_ORIGIN = 'https://policywatcher.online';
 const POLICY_TYPES = ['privacy', 'terms', 'cookies', 'ai', 'acceptable-use'];
 
 const copy = {

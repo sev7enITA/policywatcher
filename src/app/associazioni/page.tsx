@@ -11,9 +11,9 @@ import { serializeJsonLd } from '@/lib/publicKnowledge';
 import AssociationsClient from './AssociationsClient';
 
 export const metadata: Metadata = {
-  title: 'PolicyWatcher Civico | Strumenti per le associazioni dei consumatori',
+  title: 'PolicyWatcher Civico | Workspace globale per le associazioni',
   description:
-    'Radar civico, revisione locale e dossier di evidenze pubbliche per le associazioni italiane dei consumatori.',
+    'Directory verificabile di associazioni dei consumatori e diritti digitali, con contesto globale per paese e radar di evidenze pubbliche.',
   alternates: { canonical: `${POLICYWATCHER_CANONICAL_ORIGIN}/associazioni` },
 };
 
@@ -41,9 +41,9 @@ export default async function AssociationsPage() {
     name: 'PolicyWatcher Civico',
     url: 'https://policywatcher.online/associazioni',
     applicationCategory: 'CivicTechnology',
-    inLanguage: 'it',
+    inLanguage: ['it', 'en'],
     description:
-      'Workspace pubblico per organizzare evidenze documentali e supportare la revisione umana delle associazioni dei consumatori.',
+      'Workspace pubblico globale con directory source-backed di associazioni dei consumatori e diritti digitali, contesto territoriale e radar di evidenze con revisione umana.',
     isPartOf: {
       '@type': 'WebSite',
       name: 'PolicyWatcher',

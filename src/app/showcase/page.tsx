@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: `PolicyWatcher ${POLICYWATCHER_VERSION} ${POLICYWATCHER_RELEASE_NAME} Showcase`,
   description:
     'PolicyWatcher native dashboard intelligence: validated composition, canonical KPIs, evidence-first data sources and five accessible, provenance-aware visualizations.',
+  alternates: { canonical: '/showcase' },
 };
 
 const topNav = [

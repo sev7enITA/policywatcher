@@ -293,7 +293,9 @@ describe('public press kit', () => {
     const managedVpsItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'managed-vps-releases');
     expect(managedVpsItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.39', endRelease: '3.9.0-beta.39' });
     const civicItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'consumer-association-civic-workspace');
-    expect(civicItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(civicItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.40', endRelease: '3.9.0-beta.40' });
+    const adaptiveExperienceItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'adaptive-experience-control');
+    expect(adaptiveExperienceItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
     expect(continuityAtlasItem?.route).toEqual({ href: '/developers/event-continuity', label: 'Event Feed Continuity Lab', access: 'public' });
   });
 });

@@ -3,18 +3,42 @@
 This is a source deployment package. It intentionally excludes `.next`,
 `node_modules`, environment files and SQLite databases.
 
-Beta 40 adds the public `/associazioni` PolicyWatcher Civico workspace. It does
-not add a database migration or a new environment variable. The pilot watchlist,
-review states and draft digest are stored only in the current browser; shared
-Evidence Collections continue to carry public change identifiers only.
+The 14 August 2026 AI P0 and evaluation update replaces the retired Gemini 2.0
+fallback with Gemini 3.5 Flash-Lite, enforces provider-side JSON Schema plus
+local semantic validation, and adds privacy-minimized AI invocation telemetry.
+Gemini 2.5 Flash remains the primary model until the frozen golden-set bake-off
+justifies a promotion. This update adds the append-only `AiModelInvocation`
+database migration but no environment variable. Back up the external database;
+the packaged postinstall/init flow applies the migration before startup. Deploy
+only the Hostinger application ZIP; Renderer and Operations Agent are unchanged.
+After restart, open `/admin/explainability`, confirm that the telemetry panel is
+available, and run one controlled policy scan. The structured analysis must be
+complete and any fallback must be recorded as Gemini 3.5 Flash-Lite.
 
-Deploy the Beta 40 Hostinger application ZIP through the normal Node.js release
+Beta 41 adds a browser-local dashboard experience layer (`Focus`, `Balanced`
+and `Explore`), an explicit reduced-motion override and the new ER sitemap
+infographic. It does not add a database migration or environment variable.
+Deploy through the normal Node.js release flow, then verify the three experience
+modes, `Why this interface?`, persistence after reload, keyboard skip link,
+reduced motion and `/infographics` on desktop and mobile. Confirm that the
+primary workflow remains visible in Focus mode and that source-quality and
+publication behavior are unchanged.
+
+Beta 40 added the public `/associazioni` PolicyWatcher Civico workspace and its
+7 August global-directory extension. It does not add a database migration or a
+new environment variable. The pilot watchlist, review states, global geographic
+context and draft digest are stored only in the current browser; shared Evidence
+Collections continue to carry public change identifiers only.
+
+For the Beta 40 Civic scope, deploy the Hostinger application ZIP through the normal Node.js release
 flow. The separate VPS Renderer and Operations Agent packages are unchanged by
-this release. After restart, verify `/associazioni` in both languages, confirm
-that eligible published records can be added to the local watchlist, and confirm
-that an empty or unavailable public catalog stays explicit instead of showing
-demo or private data. Also open one source link and one Evidence Collection
-handoff before accepting the deployment.
+this release. After restart, verify `/associazioni#organizzazioni` on desktop and
+mobile, select Italy, France and Spain, open one verification source, validate
+the suggestion form without sending it, and confirm that the global setting
+updates dashboard region/language defaults. Then confirm that eligible published
+records can be added to the local watchlist and that an empty or unavailable
+public catalog stays explicit instead of showing demo or private data. Also open
+one Evidence Collection handoff before accepting the deployment.
 
 Beta 39 adds end-to-end Renderer release upload to `/admin/vps-services`.
 Deploy VPS Operations Agent 0.2 once before using the managed control; the
@@ -27,16 +51,21 @@ Agent endpoint behind HTTPS. The Admin upload cap is 5 MiB decoded / 7 MiB JSON.
 
 1. Extract the ZIP into the Node.js application directory.
 2. Use Node.js 22.
-3. Configure `DATABASE_URL` as an absolute writable path outside the extracted
+3. Set both `APP_URL` and `NEXT_PUBLIC_APP_URL` exactly to
+   `https://policywatcher.online`. Keep `www.policywatcher.online` as a
+   redirect-only alias; the application returns a permanent 308 redirect while
+   the Hostinger HTTP redirect should point directly to the same non-`www`
+   HTTPS origin.
+4. Configure `DATABASE_URL` as an absolute writable path outside the extracted
    release directory, for example:
 
    `file:/home/USER/domains/policywatcher.online/policywatcher-data/production.db`
 
-4. Install with `npm ci` and build with `npm run build`.
-5. Set the startup file to `server.js` or use the startup command `npm start`.
-6. Do not configure `next start` directly: it bypasses the database readiness
+5. Install with `npm ci` and build with `npm run build`.
+6. Set the startup file to `server.js` or use the startup command `npm start`.
+7. Do not configure `next start` directly: it bypasses the database readiness
    gate packaged with the release.
-7. Restart the Node.js application after replacing the previous release.
+8. Restart the Node.js application after replacing the previous release.
 
 The startup log must show the configured database path, `Database schema is
 ready` and a `policyInquiries` count before Next.js starts accepting traffic.

@@ -45,8 +45,9 @@ function sourceLabel(source: string): string {
   return labels[source] || source || 'unknown';
 }
 
-function compactReason(reason: string | undefined): string {
-  if (!reason) return 'no explicit reason recorded';
+function compactReason(reason: string | undefined, status?: ScrapeDiagnostic['status']): string {
+  if (!reason && status === 'ok') return 'content passed validation gates';
+  if (!reason) return 'validation did not record a specific failure reason';
   return reason.length > 180 ? `${reason.slice(0, 177)}...` : reason;
 }
 
@@ -58,18 +59,19 @@ function formatDiagnosticLine(
   const source = diagnostic.source || 'unknown';
   const orderedIndex = STRATEGY_ORDER.includes(source) ? STRATEGY_ORDER.indexOf(source) + 1 : index + 1;
   const status = diagnostic.status || 'failed';
-  const reason = compactReason(diagnostic.reason);
+  const reason = compactReason(diagnostic.reason, status);
   const cause = diagnostic.cause ? ` cause=${diagnostic.cause}` : '';
   const duration = typeof diagnostic.durationMs === 'number' ? ` ${diagnostic.durationMs}ms` : '';
   const http = typeof diagnostic.httpStatus === 'number' && diagnostic.httpStatus > 0
     ? ` HTTP ${diagnostic.httpStatus}`
     : '';
   const next = diagnostics[index + 1]?.source;
+  if (status === 'ok') {
+    return `[${orderedIndex}/5 ${source}] ${status}${http}${duration}${cause}: ${reason}`;
+  }
   const escalation =
-    status === 'ok'
-      ? 'accepted as evidence'
-      : status === 'partial'
-        ? 'captured incomplete text; source suspended pending review'
+    status === 'partial'
+      ? 'captured incomplete text; source suspended pending review'
       : status === 'skipped'
         ? 'skipped by routing policy'
       : next
@@ -142,7 +144,7 @@ export async function POST(request: NextRequest) {
       cronState.lastResult = result as unknown as Record<string, unknown>;
       cronState.lastCompletedAt = new Date().toISOString();
       cronState.lastError = null;
-      cronState.progressActivity = `Scan complete: ${result.checked} checked, ${result.changed} changed, ${result.rebaselined} re-baselined, ${result.partial} partial, ${result.errors} errors.`;
+      cronState.progressActivity = `Scan complete: ${result.checked} checked, ${result.changed} changed, ${result.confirmationPending} awaiting confirmation, ${result.rebaselined} re-baselined, ${result.partial} partial, ${result.errors} errors.`;
       cronState.progressLog.push(formatScanCompletionLog(result));
     })
     .catch((err) => {

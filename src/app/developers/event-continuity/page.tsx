@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   title: 'Event Feed Continuity Lab | PolicyWatcher',
   description:
     'Inspect the anonymous PolicyWatcher change-event feed, save a browser-local checkpoint and review forward-polling continuity findings.',
+  alternates: { canonical: '/developers/event-continuity' },
 };
 
 const protocol = [

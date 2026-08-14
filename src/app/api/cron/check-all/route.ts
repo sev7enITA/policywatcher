@@ -35,6 +35,10 @@ import { establishVerifiedPolicyBaseline, replaceSeededPolicyBaseline } from '@/
 import { createErrorReference, getErrorMessage } from '@/lib/safeErrors';
 import { normalizeKpiFields } from '@/lib/kpiDefaults';
 import {
+  CHANGE_CONFIRMATION_PENDING_REASON,
+  isConsecutiveChangeConfirmation,
+} from '@/lib/changeConfirmation';
+import {
   buildAcquisitionKey,
   emptyRetrievalMetrics,
   recordRetrievalDiagnostics,
@@ -62,6 +66,7 @@ interface CheckDetail {
   status:
     | 'unchanged'
     | 'changed'
+    | 'confirmation_pending'
     | 'rebaselined'
     | 'partial'
     | 'error'
@@ -85,6 +90,7 @@ export interface ScanResult {
   checked: number;
   selected: number;
   changed: number;
+  confirmationPending: number;
   rebaselined: number;
   partial: number;
   errors: number;
@@ -150,6 +156,15 @@ function formatSourceMarker(source: string | null | undefined): string {
   const label = getTransportLabel(source);
   const suffix = runtime === 'vps' ? 'VPS' : runtime === 'archive' ? 'archive' : runtime === 'app' ? 'app' : 'none';
   return `${label} / ${suffix}`;
+}
+
+function formatPolicyProgressLabel(
+  policy: { company: { name: string }; name: string; jurisdiction?: string | null },
+  retrievalKeyId?: string,
+): string {
+  const jurisdiction = policy.jurisdiction?.trim() || 'Unspecified';
+  const acquisition = retrievalKeyId ? ` [acq:${retrievalKeyId}]` : '';
+  return `${policy.company.name} - ${policy.name} (${jurisdiction})${acquisition}`;
 }
 
 function isExpectedRebaselineAbort(error: unknown): boolean {
@@ -360,6 +375,7 @@ export async function runFullScan(
   const details: CheckDetail[] = [];
   let checked = 0;
   let changed = 0;
+  let confirmationPending = 0;
   let rebaselined = 0;
   let errors = 0;
 
@@ -391,15 +407,17 @@ export async function runFullScan(
         take: 1,
       },
       checkLogs: {
-        where: {
-          textHash: { not: null },
-          source: { in: ['direct', 'http2', 'rendered', 'wayback', 'commoncrawl'] },
-        },
         orderBy: { checkedAt: 'desc' },
-        take: 1,
+        // The latest row is required for consecutive-scan change confirmation.
+        // A small history still lets seeded-baseline detection find recent
+        // verified evidence when the newest row records a transient failure.
+        take: 5,
         select: {
           source: true,
           textHash: true,
+          status: true,
+          reason: true,
+          checkedAt: true,
         },
       },
     },
@@ -493,6 +511,7 @@ export async function runFullScan(
       const requestedUrl = policy.retrievalUrl || policy.url;
       const retrievalKey = buildAcquisitionKey(requestedUrl);
       const retrievalKeyId = retrievalKeyFingerprint(retrievalKey);
+      const policyProgressLabel = formatPolicyProgressLabel(policy, retrievalKeyId);
       const safeSourceLabel = sanitizeAcquisitionUrlForLog(requestedUrl);
       const acquisitionGroup = acquisitionGroups.get(retrievalKey)!;
       let retrievalPromise = retrievalCache.get(retrievalKey);
@@ -642,7 +661,7 @@ export async function runFullScan(
           runtime,
           transportLabel,
           diagnostics,
-          message: `${policy.company.name} - ${policy.name}: ${scrapeResult.status} (${scrapeResult.reason}) [${formatSourceMarker(source)}] [URL: ${policy.url}]`,
+          message: `${policyProgressLabel}: ${scrapeResult.status} (${scrapeResult.reason}) [${formatSourceMarker(source)}] [URL: ${policy.url}]`,
         });
         continue;
       }
@@ -713,7 +732,7 @@ export async function runFullScan(
           runtime,
           transportLabel,
           diagnostics,
-          message: `${policy.company.name} - ${policy.name}: temporarily suspended (${partialReason}) [${formatSourceMarker(source)}]`,
+          message: `${policyProgressLabel}: temporarily suspended (${partialReason}) [${formatSourceMarker(source)}]`,
         });
         continue;
       }
@@ -763,7 +782,7 @@ export async function runFullScan(
                 runtime,
                 transportLabel,
                 diagnostics,
-                message: `${policy.company.name} - ${policy.name}: baseline already established by another scan [${formatSourceMarker(source)}]`,
+                message: `${policyProgressLabel}: baseline already established by another scan [${formatSourceMarker(source)}]`,
               });
               continue;
             }
@@ -792,7 +811,7 @@ export async function runFullScan(
           runtime,
           transportLabel,
           diagnostics,
-          message: `${policy.company.name} - ${policy.name}: re-baselined from seeded evidence [OK] [${formatSourceMarker(source)}]`,
+          message: `${policyProgressLabel}: re-baselined from seeded evidence [OK] [${formatSourceMarker(source)}]`,
         });
         continue;
       }
@@ -840,8 +859,8 @@ export async function runFullScan(
           transportLabel,
           diagnostics,
           message: baseline.publicEvidence
-            ? `${policy.company.name} - ${policy.name}: first verified public baseline established [OK] [${formatSourceMarker(source)}]`
-            : `${policy.company.name} - ${policy.name}: verified private baseline retained pending onboarding QA [${formatSourceMarker(source)}]`,
+            ? `${policyProgressLabel}: first verified public baseline established [OK] [${formatSourceMarker(source)}]`
+            : `${policyProgressLabel}: verified private baseline retained pending onboarding QA [${formatSourceMarker(source)}]`,
         });
         continue;
       }
@@ -864,7 +883,7 @@ export async function runFullScan(
           runtime,
           transportLabel,
           diagnostics,
-          message: `${policy.company.name} - ${policy.name}: unchanged [OK] [${formatSourceMarker(source)}]`,
+          message: `${policyProgressLabel}: unchanged [OK] [${formatSourceMarker(source)}]`,
         });
 
         const checkedAt = new Date();
@@ -967,11 +986,68 @@ export async function runFullScan(
           runtime,
           transportLabel,
           diagnostics,
-          message: `${policy.company.name} - ${policy.name}: suspended (non-public baseline) [${formatSourceMarker(source)}]`,
+          message: `${policyProgressLabel}: suspended (non-public baseline) [${formatSourceMarker(source)}]`,
         });
         details.push(detail);
         continue;
       }
+
+      const latestCheckLog = policy.checkLogs[0];
+      if (!isConsecutiveChangeConfirmation(latestCheckLog, newHash)) {
+        const checkedAt = new Date();
+        await db.$transaction([
+          db.policy.update({
+            where: { id: policy.id },
+            data: {
+              lastCheckDate: checkedAt,
+              // The last verified public baseline remains valid while the
+              // candidate waits for the next same-hash observation.
+              dataStatus: 'Available',
+            },
+          }),
+          db.policyCheckLog.create({
+            data: {
+              policyId: policy.id,
+              status: 'Needs Review',
+              checkedAt,
+              source: scrapeResult.source || 'direct',
+              httpStatus: scrapeResult.httpStatus || null,
+              reason: CHANGE_CONFIRMATION_PENDING_REASON,
+              reasonCode: CHANGE_CONFIRMATION_PENDING_REASON,
+              finalUrl: scrapeResult.finalUrl || policy.url,
+              textHash: newHash,
+              textLength: newText.length,
+              archiveTimestamp,
+              durationMs: persistedRetrieval.durationMs,
+              scanRunId: scanRun.id,
+              sourceRetrievalId: persistedRetrieval.sourceRetrievalId,
+            },
+          }),
+        ]);
+
+        detail.status = 'confirmation_pending';
+        detail.error = CHANGE_CONFIRMATION_PENDING_REASON;
+        confirmationPending++;
+        details.push(detail);
+        onProgress?.({
+          phase: 'policy_done',
+          total: policies.length,
+          current: checked,
+          company: policy.company.name,
+          policy: policy.name,
+          jurisdiction: policy.jurisdiction,
+          status: 'confirmation_pending',
+          source,
+          runtime,
+          transportLabel,
+          diagnostics,
+          retrievalKeyId,
+          acquisitionMode,
+          message: `${policyProgressLabel}: CHANGED CANDIDATE [ATTENTION] awaiting the same hash in the next scan [${formatSourceMarker(source)}]`,
+        });
+        continue;
+      }
+
       changed++;
       const newVersion = latestSnapshot ? latestSnapshot.version + 1 : 1;
       const oldText = latestSnapshot ? latestSnapshot.text : '';
@@ -1097,7 +1173,7 @@ export async function runFullScan(
         runtime,
         transportLabel,
         diagnostics,
-        message: `${policy.company.name} - ${policy.name}: CHANGED [ATTENTION] (Risk: ${analysis.overallRisk}, Score: ${analysis.overallScore}/10) [${formatSourceMarker(source)}]`,
+        message: `${policyProgressLabel}: CHANGED CONFIRMED [ATTENTION] (Risk: ${analysis.overallRisk}, Score: ${analysis.overallScore}/10) [${formatSourceMarker(source)}]`,
       });
     } catch (policyError) {
       const errorReference = createErrorReference('scan');
@@ -1160,7 +1236,7 @@ export async function runFullScan(
         company: policy.company.name,
         policy: policy.name,
         status: 'error',
-        message: `${policy.company.name} - ${policy.name}: ERROR (${errorReference})`,
+        message: `${formatPolicyProgressLabel(policy, detail.retrievalKeyId)}: ERROR (${errorReference})`,
       });
     }
 
@@ -1249,6 +1325,7 @@ export async function runFullScan(
     checked,
     selected: policies.length,
     changed,
+    confirmationPending,
     rebaselined,
     partial: partialCount,
     errors,
@@ -1262,7 +1339,7 @@ export async function runFullScan(
   };
 
   console.log(
-    `[Cron] Check complete. Checked: ${checked}, Unique sources: ${retrievalMetrics.uniqueSources}, Network retrievals: ${retrievalMetrics.networkRetrievals}, Deduplicated: ${retrievalMetrics.deduplicatedRetrievals}, Changed: ${changed}, Re-baselined: ${rebaselined}, Partial: ${partialCount}, Unavailable: ${unavailableCount}, Invalid: ${invalidCount}, Errors: ${errors}`
+    `[Cron] Check complete. Checked: ${checked}, Unique sources: ${retrievalMetrics.uniqueSources}, Network retrievals: ${retrievalMetrics.networkRetrievals}, Deduplicated: ${retrievalMetrics.deduplicatedRetrievals}, Changed: ${changed}, Confirmation pending: ${confirmationPending}, Re-baselined: ${rebaselined}, Partial: ${partialCount}, Unavailable: ${unavailableCount}, Invalid: ${invalidCount}, Errors: ${errors}`
   );
 
   return result;

@@ -59,10 +59,11 @@ import CompareModal from '@/components/CompareModal';
 import TermsGate from '@/components/TermsGate';
 import CardRiskReasons from '@/components/ai/CardRiskReasons';
 import { SkeletonGrid, SkeletonStatsGrid } from '@/components/Skeleton';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence, MotionConfig, useReducedMotion } from 'framer-motion';
 import Footer from '@/components/Footer';
 import HowToModal from '@/components/HowToModal';
 import Navigation, { NavLayout } from '@/components/Navigation';
+import ExperienceControlCenter from '@/components/ExperienceControlCenter';
 import { createDeferredViewportEvaluator, shouldSuggestOnTheGo } from '@/lib/mobileContext';
 import { dashboardUpdateNotices, getObservatorySource, observatorySignals } from '@/lib/observatory';
 import { POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE, POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS, POLICYWATCHER_VERSION } from '@/lib/release';
@@ -109,6 +110,25 @@ import {
 import {
   getDashboardModuleDomProps,
 } from '@/lib/dashboardLayout';
+import { buildDashboardTodayItems } from '@/lib/dashboardWorkflow';
+import {
+  GLOBAL_CONTEXT_EVENT,
+  GLOBAL_CONTEXT_STORAGE_KEY,
+  parseGlobalContext,
+  readStoredGlobalContext,
+  resolveDashboardRegion,
+  resolvePlatformLanguage,
+  storeGlobalContext,
+  type GlobalContext,
+} from '@/lib/globalContext';
+import {
+  DEFAULT_EXPERIENCE_PREFERENCES,
+  EXPERIENCE_PREFERENCES_STORAGE_KEY,
+  getExperiencePresentation,
+  parseExperiencePreferences,
+  type ExperienceMotion,
+  type ExperiencePreset,
+} from '@/lib/experiencePreferences';
 
 // Re-export types for backward compatibility
 export type { Company, Policy, PolicyChange, RegionImpact } from '@/types/index';
@@ -690,6 +710,53 @@ const EXTENSION_BETA_COPY = {
   },
 } as const;
 
+const DASHBOARD_WORKFLOW_COPY = {
+  en: {
+    eyebrow: 'Working home',
+    title: 'Today, continue, explore',
+    lead: 'A calm starting point for the next useful action. The full evidence console remains available below.',
+    today: 'Today',
+    todayLead: 'Up to three items that can change what you do next.',
+    continue: 'Continue',
+    continueLead: 'Resume the current evidence context without rebuilding it.',
+    explore: 'Explore',
+    exploreLead: 'Open the public catalog only when you need a wider path.',
+    workspace: 'Active workspace',
+    filters: 'Current public filters',
+    filtersNone: 'No additional filters',
+    filtersActive: 'active filters',
+    collections: 'Evidence collections',
+    timeline: 'Verified timeline',
+    atlas: 'Site Atlas',
+    civic: 'Civic workspace',
+    observatory: 'Source Observatory',
+    open: 'Open',
+    resume: 'Resume',
+  },
+  it: {
+    eyebrow: 'Home operativa',
+    title: 'Oggi, continua, esplora',
+    lead: 'Un punto di partenza calmo per la prossima azione utile. La console completa delle evidenze resta disponibile sotto.',
+    today: 'Oggi',
+    todayLead: 'Massimo tre elementi che possono cambiare la prossima decisione.',
+    continue: 'Continua',
+    continueLead: 'Riprendi il contesto di evidenza corrente senza ricostruirlo.',
+    explore: 'Esplora',
+    exploreLead: 'Apri il catalogo pubblico solo quando serve allargare il percorso.',
+    workspace: 'Workspace attivo',
+    filters: 'Filtri pubblici correnti',
+    filtersNone: 'Nessun filtro aggiuntivo',
+    filtersActive: 'filtri attivi',
+    collections: 'Raccolte di evidenze',
+    timeline: 'Timeline verificata',
+    atlas: 'Atlante del sito',
+    civic: 'Workspace Civico',
+    observatory: 'Observatory delle fonti',
+    open: 'Apri',
+    resume: 'Riprendi',
+  },
+} as const;
+
 interface MarketPulseChange {
   id: string;
   overallRisk: 'Low' | 'Medium' | 'High';
@@ -793,6 +860,9 @@ export default function Dashboard() {
   const [dashboardAccent, setDashboardAccent] = useState<DashboardAccent>('indigo');
   const [showStats, setShowStats] = useState(true);
   const [showMarketPulse, setShowMarketPulse] = useState(true);
+  const [experiencePreset, setExperiencePreset] = useState<ExperiencePreset>(DEFAULT_EXPERIENCE_PREFERENCES.preset);
+  const [experienceMotion, setExperienceMotion] = useState<ExperienceMotion>(DEFAULT_EXPERIENCE_PREFERENCES.motion);
+  const [experiencePreferencesReady, setExperiencePreferencesReady] = useState(false);
   const [workspaceIntent, setWorkspaceIntent] = useState<WorkspaceIntent>('citizen');
   const [evidenceDepth, setEvidenceDepth] = useState<EvidenceDepth>('snapshot');
   const [draftWorkspaceIntent, setDraftWorkspaceIntent] = useState<WorkspaceIntent>('citizen');
@@ -802,6 +872,7 @@ export default function Dashboard() {
   const [workspaceOnboardingStep, setWorkspaceOnboardingStep] = useState(0);
   const [workspaceOnboardingCompleted, setWorkspaceOnboardingCompleted] = useState(false);
   const [workspaceReady, setWorkspaceReady] = useState(false);
+  const [termsAccessGranted, setTermsAccessGranted] = useState(false);
   const [onTheGoSuggested, setOnTheGoSuggested] = useState(false);
   const [onTheGoMotionSuggested, setOnTheGoMotionSuggested] = useState(false);
   const [onTheGoDismissed, setOnTheGoDismissed] = useState(false);
@@ -933,6 +1004,7 @@ export default function Dashboard() {
     const next = { ...current, lang: current.lang === 'en' ? 'it' as const : 'en' as const };
     applyDashboardShareState(next);
     syncDashboardShareUrl(next, 'push');
+    storeGlobalContext({ ...readStoredGlobalContext(), language: next.lang });
   }, [applyDashboardShareState, syncDashboardShareUrl]);
 
   const handleDashboardSortChange = useCallback((nextSort: DashboardSortBy) => {
@@ -978,6 +1050,7 @@ export default function Dashboard() {
   const commandLabels = WORKSPACE_COMMAND_LABELS[lang];
   const explorationIcons = [Search, Sparkles, Layers3, BarChart3, ShieldCheck, BookOpen, Newspaper, Route];
   const extensionBeta = EXTENSION_BETA_COPY[lang];
+  const workflowText = DASHBOARD_WORKFLOW_COPY[lang];
   const activeIntent = useMemo(
     () => intentOptions.find((option) => option.id === workspaceIntent) ?? intentOptions[0],
     [intentOptions, workspaceIntent]
@@ -1173,6 +1246,27 @@ export default function Dashboard() {
     let active = true;
     queueMicrotask(() => {
       if (!active) return;
+      try {
+        const stored = parseExperiencePreferences(localStorage.getItem(EXPERIENCE_PREFERENCES_STORAGE_KEY));
+        if (stored) {
+          setExperiencePreset(stored.preset);
+          setExperienceMotion(stored.motion);
+        }
+      } catch {
+        // Experience preferences are optional and browser-local.
+      } finally {
+        setExperiencePreferencesReady(true);
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    queueMicrotask(() => {
+      if (!active) return;
       let nextIntent: WorkspaceIntent = 'citizen';
       let nextDepth: EvidenceDepth = 'snapshot';
       let nextOnTheGoModeActive = false;
@@ -1181,6 +1275,8 @@ export default function Dashboard() {
       try {
         const queryProfile = decodeWorkspaceQuery(window.location.search);
         const dashboardQuery = decodeDashboardShareQuery(window.location.search);
+        const dashboardParams = new URLSearchParams(window.location.search);
+        const globalContext = readStoredGlobalContext();
         const onboardingCompleted = hasCompletedWorkspaceOnboarding(
           localStorage.getItem(WORKSPACE_ONBOARDING_COMPLETED_KEY),
         );
@@ -1202,7 +1298,15 @@ export default function Dashboard() {
           }
         }
 
-        applyDashboardShareState(dashboardQuery.state);
+        applyDashboardShareState({
+          ...dashboardQuery.state,
+          lang: dashboardParams.has('lang')
+            ? dashboardQuery.state.lang
+            : resolvePlatformLanguage(globalContext, window.navigator.language),
+          region: dashboardParams.has('region')
+            ? dashboardQuery.state.region
+            : resolveDashboardRegion(globalContext),
+        });
         if (dashboardQuery.issues.length > 0) setShareFeedback('normalized');
       } catch {
         // Invalid URLs or storage contents fall back to the public default profile.
@@ -1226,7 +1330,37 @@ export default function Dashboard() {
   }, [applyDashboardShareState]);
 
   useEffect(() => {
-    if (!workspaceConfiguratorOpen || !workspaceFirstUseMode) return;
+    const applyGlobalContext = (context: GlobalContext) => {
+      const current = dashboardShareStateRef.current;
+      const next: DashboardShareState = {
+        ...current,
+        lang: resolvePlatformLanguage(context, window.navigator.language),
+        region: resolveDashboardRegion(context),
+      };
+      applyDashboardShareState(next);
+      syncDashboardShareUrl(next, 'replace');
+    };
+
+    const onContextChange = (event: Event) => {
+      const detail = (event as CustomEvent<GlobalContext>).detail;
+      if (detail) applyGlobalContext(detail);
+    };
+    const onStorage = (event: StorageEvent) => {
+      if (event.key !== GLOBAL_CONTEXT_STORAGE_KEY) return;
+      const parsed = parseGlobalContext(event.newValue);
+      if (parsed) applyGlobalContext(parsed);
+    };
+
+    window.addEventListener(GLOBAL_CONTEXT_EVENT, onContextChange);
+    window.addEventListener('storage', onStorage);
+    return () => {
+      window.removeEventListener(GLOBAL_CONTEXT_EVENT, onContextChange);
+      window.removeEventListener('storage', onStorage);
+    };
+  }, [applyDashboardShareState, syncDashboardShareUrl]);
+
+  useEffect(() => {
+    if (!termsAccessGranted || !workspaceConfiguratorOpen || !workspaceFirstUseMode) return;
 
     composerPreviousFocusRef.current = document.activeElement instanceof HTMLElement
       ? document.activeElement
@@ -1269,7 +1403,7 @@ export default function Dashboard() {
         composerPreviousFocusRef.current.focus();
       }
     };
-  }, [closeWorkspaceComposer, workspaceConfiguratorOpen, workspaceFirstUseMode]);
+  }, [closeWorkspaceComposer, termsAccessGranted, workspaceConfiguratorOpen, workspaceFirstUseMode]);
 
   useEffect(() => {
     if (!workspaceReady) return;
@@ -1325,6 +1459,36 @@ export default function Dashboard() {
     if (!dashboardShareReady) return;
     syncDashboardShareUrl(dashboardShareState, 'replace');
   }, [dashboardShareReady, dashboardShareState, syncDashboardShareUrl]);
+
+  useEffect(() => {
+    if (!workspaceReady || !experiencePreferencesReady) return;
+    let active = true;
+
+    queueMicrotask(() => {
+      if (!active) return;
+      const presentation = getExperiencePresentation(experiencePreset, workspaceSettings);
+      setDashboardDensity(presentation.density);
+      setDashboardView(presentation.view);
+      setShowStats(presentation.showStats);
+      setShowMarketPulse(presentation.showMarketPulse);
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [experiencePreferencesReady, experiencePreset, workspaceReady, workspaceSettings]);
+
+  useEffect(() => {
+    if (!experiencePreferencesReady) return;
+    try {
+      localStorage.setItem(EXPERIENCE_PREFERENCES_STORAGE_KEY, JSON.stringify({
+        preset: experiencePreset,
+        motion: experienceMotion,
+      }));
+    } catch {
+      // Experience preferences remain active for the current session.
+    }
+  }, [experienceMotion, experiencePreferencesReady, experiencePreset]);
 
   useEffect(() => {
     const handlePopState = () => {
@@ -1544,6 +1708,18 @@ export default function Dashboard() {
   };
 
   const visibleMarketPulse = marketPulseChanges.slice(0, 12);
+  const workflowTodayItems = useMemo(() => buildDashboardTodayItems({
+    lang,
+    suspendedSources: sourceSuspensionsTotal,
+    changes: marketPulseChanges.map((change) => ({
+      id: change.id,
+      createdAt: change.createdAt,
+      overallRisk: change.overallRisk,
+      overallScore: change.overallScore,
+      company: change.policy.company.name,
+      policy: change.policy.name,
+    })),
+  }), [lang, marketPulseChanges, sourceSuspensionsTotal]);
 
   /** Triggers a CSV export of the currently filtered company list. */
   const handleExportCSV = async () => {
@@ -1873,7 +2049,12 @@ export default function Dashboard() {
   );
 
   return (
-    <TermsGate lang={lang} onLangToggle={handleDashboardLanguageToggle}>
+    <MotionConfig reducedMotion={experienceMotion === 'reduced' ? 'always' : 'user'}>
+    <TermsGate
+      lang={lang}
+      onLangToggle={handleDashboardLanguageToggle}
+      onAcceptanceChange={setTermsAccessGranted}
+    >
     <div
       className={styles.dashboard}
       data-nav-layout={navLayout}
@@ -1890,7 +2071,13 @@ export default function Dashboard() {
       data-source-id={dashboardDataView.manifest.sourceId}
       data-evidence-gate={dashboardDataView.manifest.evidenceGate}
       data-on-the-go={onTheGoProfileActive ? 'true' : 'false'}
+      data-experience-preset={experiencePreset}
+      data-experience-motion={experienceMotion}
     >
+
+      <a className={styles.skipLink} href="#dashboard-workflow-title">
+        {lang === 'it' ? 'Vai alle azioni principali' : 'Skip to primary actions'}
+      </a>
 
       {/* Conditionally render clean logo header for HUD / Spotlight modes */}
       {navLayout !== 'sidebar' && (
@@ -1960,6 +2147,7 @@ export default function Dashboard() {
 
       <div className={styles.mainContainer} role="region" aria-label="Interactive policy monitoring workspace">
         <motion.section
+          id="dashboard-workspace"
           className={styles.workspacePanel}
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
@@ -2054,7 +2242,110 @@ export default function Dashboard() {
             </motion.div>
           )}
 
+          <ExperienceControlCenter
+            lang={lang}
+            preset={experiencePreset}
+            motion={experienceMotion}
+            intent={workspaceIntent}
+            depth={evidenceDepth}
+            region={selectedRegion}
+            onPresetChange={setExperiencePreset}
+            onMotionChange={setExperienceMotion}
+          />
+
         </motion.section>
+
+        <section className={styles.workflowHub} aria-labelledby="dashboard-workflow-title">
+          <header className={styles.workflowHeader}>
+            <div>
+              <span className={styles.workflowEyebrow}>
+                <Route size={15} aria-hidden="true" />
+                {workflowText.eyebrow}
+              </span>
+              <h2 id="dashboard-workflow-title">{workflowText.title}</h2>
+            </div>
+            <p>{workflowText.lead}</p>
+          </header>
+
+          <div className={styles.workflowGrid}>
+            <article className={`${styles.workflowLane} ${styles.workflowToday}`} aria-labelledby="workflow-today-title">
+              <div className={styles.workflowLaneHeader}>
+                <span>01</span>
+                <div>
+                  <h3 id="workflow-today-title">{workflowText.today}</h3>
+                  <p>{workflowText.todayLead}</p>
+                </div>
+              </div>
+              <ol className={styles.workflowTodayList}>
+                {workflowTodayItems.map((item) => {
+                  const ItemIcon = item.kind === 'source-qa'
+                    ? ShieldAlert
+                    : item.kind === 'change'
+                      ? Clock
+                      : item.kind === 'civic'
+                        ? UserRound
+                        : Layers3;
+                  return (
+                    <li key={item.id} data-kind={item.kind}>
+                      <span className={styles.workflowItemIcon}><ItemIcon size={17} aria-hidden="true" /></span>
+                      <div>
+                        <span className={styles.workflowItemEyebrow}>{item.eyebrow}</span>
+                        <strong>{item.title}</strong>
+                        <p>{item.description}</p>
+                      </div>
+                      <Link href={item.href} aria-label={`${workflowText.open}: ${item.title}`}>
+                        <ArrowRight size={16} aria-hidden="true" />
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ol>
+            </article>
+
+            <article className={styles.workflowLane} aria-labelledby="workflow-continue-title">
+              <div className={styles.workflowLaneHeader}>
+                <span>02</span>
+                <div>
+                  <h3 id="workflow-continue-title">{workflowText.continue}</h3>
+                  <p>{workflowText.continueLead}</p>
+                </div>
+              </div>
+              <nav className={styles.workflowLinkList} aria-label={workflowText.continue}>
+                <a href="#dashboard-workspace">
+                  <span><Layers3 size={16} aria-hidden="true" /><strong>{workflowText.workspace}</strong></span>
+                  <small>{activeIntent.label} · {activeDepth.label}</small>
+                </a>
+                <a href="#dashboard-filters">
+                  <span><SlidersHorizontal size={16} aria-hidden="true" /><strong>{workflowText.filters}</strong></span>
+                  <small>{activeFilterCount > 0 ? `${activeFilterCount} ${workflowText.filtersActive}` : workflowText.filtersNone}</small>
+                </a>
+                <Link href="/collections">
+                  <span><BookOpen size={16} aria-hidden="true" /><strong>{workflowText.collections}</strong></span>
+                  <ArrowRight size={15} aria-hidden="true" />
+                </Link>
+                <Link href="/timeline">
+                  <span><Clock size={16} aria-hidden="true" /><strong>{workflowText.timeline}</strong></span>
+                  <ArrowRight size={15} aria-hidden="true" />
+                </Link>
+              </nav>
+            </article>
+
+            <article className={styles.workflowLane} aria-labelledby="workflow-explore-title">
+              <div className={styles.workflowLaneHeader}>
+                <span>03</span>
+                <div>
+                  <h3 id="workflow-explore-title">{workflowText.explore}</h3>
+                  <p>{workflowText.exploreLead}</p>
+                </div>
+              </div>
+              <nav className={styles.workflowExploreList} aria-label={workflowText.explore}>
+                <Link href="/atlas"><Route size={17} aria-hidden="true" /><span><strong>{workflowText.atlas}</strong><small>{workflowText.open}</small></span><ArrowRight size={15} aria-hidden="true" /></Link>
+                <Link href="/associazioni"><UserRound size={17} aria-hidden="true" /><span><strong>{workflowText.civic}</strong><small>{workflowText.open}</small></span><ArrowRight size={15} aria-hidden="true" /></Link>
+                <Link href="/observatory"><Search size={17} aria-hidden="true" /><span><strong>{workflowText.observatory}</strong><small>{workflowText.open}</small></span><ArrowRight size={15} aria-hidden="true" /></Link>
+              </nav>
+            </article>
+          </div>
+        </section>
 
         <section className={styles.extensionBetaStrip} aria-labelledby="extension-beta-title">
           <div className={styles.extensionBetaRail} aria-hidden="true">
@@ -2137,40 +2428,49 @@ export default function Dashboard() {
           transition={{ duration: 0.45, delay: 0.05 }}
           aria-labelledby="release-map-title"
         >
-          <div className={styles.releaseMapHeader}>
-            <div>
-              <span className={styles.releaseMapKicker}>
-                <Sparkles size={15} />
-                {t.exploreKicker}
+          <details className={styles.releaseMapDisclosure}>
+            <summary>
+              <span>
+                <Sparkles size={15} aria-hidden="true" />
+                <strong>{t.exploreTitle}</strong>
               </span>
-              <h2 id="release-map-title">{t.exploreTitle}</h2>
-              <p>{t.exploreLead}</p>
-            </div>
-            <Link href="/atlas" className={styles.releaseMapPrimaryLink}>
-              {t.exploreAtlas}
-              <ArrowRight size={15} />
-            </Link>
-          </div>
-
-          <div className={styles.releaseMapGrid}>
-            {t.exploreCards.map((card, index) => {
-              const Icon = explorationIcons[index] ?? Sparkles;
-              return (
-                <Link key={`${card.href}-${card.title}`} href={card.href} className={styles.releaseMapCard}>
-                  <span className={styles.releaseMapIcon}>
-                    <Icon size={18} />
-                  </span>
-                  <span className={styles.releaseMapMeta}>{card.category}</span>
-                  <h3>{card.title}</h3>
-                  <p>{card.body}</p>
-                  <span className={styles.releaseMapAction}>
-                    {t.exploreOpen}
-                    <ArrowRight size={14} />
-                  </span>
+              <small>{lang === 'it' ? 'Catalogo completo, documentazione e superfici collegate' : 'Full catalog, documentation and connected surfaces'}</small>
+              <ArrowRight size={16} aria-hidden="true" />
+            </summary>
+            <div className={styles.releaseMapBody}>
+              <div className={styles.releaseMapHeader}>
+                <div>
+                  <span className={styles.releaseMapKicker}>{t.exploreKicker}</span>
+                  <h2 id="release-map-title">{t.exploreTitle}</h2>
+                  <p>{t.exploreLead}</p>
+                </div>
+                <Link href="/atlas" className={styles.releaseMapPrimaryLink}>
+                  {t.exploreAtlas}
+                  <ArrowRight size={15} />
                 </Link>
-              );
-            })}
-          </div>
+              </div>
+
+              <div className={styles.releaseMapGrid}>
+                {t.exploreCards.map((card, index) => {
+                  const Icon = explorationIcons[index] ?? Sparkles;
+                  return (
+                    <Link key={`${card.href}-${card.title}`} href={card.href} className={styles.releaseMapCard}>
+                      <span className={styles.releaseMapIcon}>
+                        <Icon size={18} />
+                      </span>
+                      <span className={styles.releaseMapMeta}>{card.category}</span>
+                      <h3>{card.title}</h3>
+                      <p>{card.body}</p>
+                      <span className={styles.releaseMapAction}>
+                        {t.exploreOpen}
+                        <ArrowRight size={14} />
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </details>
         </motion.section>
 
         {/* Statistics Grid */}
@@ -2216,6 +2516,7 @@ export default function Dashboard() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
+          <span id="dashboard-filters" className={styles.anchorTarget} aria-hidden="true" />
           <div className={styles.searchFilterGroup}>
             <div className={styles.searchWrapper}>
               <Search className={styles.searchIcon} size={18} />
@@ -2433,6 +2734,7 @@ export default function Dashboard() {
             transition={{ duration: 0.45 }}
             aria-label={t.suspendedSourcesTitle}
           >
+            <span id="source-quality" className={styles.anchorTarget} aria-hidden="true" />
             <div className={styles.sourceSuspensionHeader}>
               <div>
                 <h2 className={styles.sourceSuspensionTitle}>
@@ -2447,26 +2749,32 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className={styles.sourceSuspensionList}>
-              {sourceSuspensions.slice(0, 6).map((source) => (
-                <div key={source.id} className={styles.sourceSuspensionItem}>
-                  <div>
-                    <strong>{source.company.name}</strong>
-                    <span>
-                      {source.policyName} / {source.jurisdiction}
-                      {source.sourceHost ? ` / ${source.sourceHost}` : ''}
-                    </span>
+            <details className={styles.sourceSuspensionDetails}>
+              <summary>
+                <span>{lang === 'it' ? 'Mostra il dettaglio delle sorgenti' : 'Show source details'}</span>
+                <small>{Math.min(sourceSuspensions.length, 6)} / {sourceSuspensionsTotal}</small>
+              </summary>
+              <div className={styles.sourceSuspensionList}>
+                {sourceSuspensions.slice(0, 6).map((source) => (
+                  <div key={source.id} className={styles.sourceSuspensionItem}>
+                    <div>
+                      <strong>{source.company.name}</strong>
+                      <span>
+                        {source.policyName} / {source.jurisdiction}
+                        {source.sourceHost ? ` / ${source.sourceHost}` : ''}
+                      </span>
+                    </div>
+                    <div className={styles.sourceSuspensionMeta}>
+                      <span>{t.suspendedSourceStatus}: {source.dataStatus}</span>
+                      <span>{t.suspendedSourceReason}: {getSuspensionReasonLabel(source)}</span>
+                      <span>
+                        {t.suspendedSourceLastCheck}: {new Date(source.lastCheckDate).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US')}
+                      </span>
+                    </div>
                   </div>
-                  <div className={styles.sourceSuspensionMeta}>
-                    <span>{t.suspendedSourceStatus}: {source.dataStatus}</span>
-                    <span>{t.suspendedSourceReason}: {getSuspensionReasonLabel(source)}</span>
-                    <span>
-                      {t.suspendedSourceLastCheck}: {new Date(source.lastCheckDate).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US')}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            </details>
           </motion.section>
         )}
 
@@ -2865,5 +3173,6 @@ export default function Dashboard() {
       )}
     </div>
     </TermsGate>
+    </MotionConfig>
   );
 }

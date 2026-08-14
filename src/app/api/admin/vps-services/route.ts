@@ -68,7 +68,7 @@ interface AgentStatusPayload {
 const HEALTH_TIMEOUT_MS = 8_000;
 const SMOKE_TIMEOUT_MS = 20_000;
 const AGENT_TIMEOUT_MS = 30_000;
-const DEFAULT_SMOKE_URL = 'https://www.policywatcher.online';
+const DEFAULT_SMOKE_URL = 'https://policywatcher.online';
 
 function getSmokeUrl(): string {
   return (

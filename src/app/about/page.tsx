@@ -21,6 +21,7 @@ export const metadata: Metadata = {
   title: 'About PolicyWatcher | Fabrizio Degni',
   description:
     'Project background, authorship, contact information, and public resources for PolicyWatcher.',
+  alternates: { canonical: '/about' },
 };
 
 const resources = [

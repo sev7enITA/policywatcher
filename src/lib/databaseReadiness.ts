@@ -23,6 +23,7 @@ export const EXPECTED_DATABASE_TABLES = [
   'AdminAccessLog',
   'PressMetricEvent',
   'AdminDashboardMetricEvent',
+  'AiModelInvocation',
   'RegionImpact',
   'Subscriber',
 ] as const;
@@ -38,6 +39,7 @@ export const EXPECTED_DATABASE_MIGRATIONS = [
   '20260730043000_source_reliability',
   '20260730162000_webhook_delivery_pilot',
   '20260801090000_admin_dashboard_telemetry',
+  '20260814070000_ai_model_telemetry',
 ] as const;
 
 export type DatabaseReadinessStatus = 'ready' | 'degraded' | 'unavailable';

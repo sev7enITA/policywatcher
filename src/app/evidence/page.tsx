@@ -17,6 +17,7 @@ import styles from './evidence.module.css';
 export const metadata: Metadata = {
   title: 'Evidence Packets | PolicyWatcher',
   description: 'Public, change-bound evidence packets for PolicyWatcher policy-change records.',
+  alternates: { canonical: '/evidence' },
 };
 
 export const dynamic = 'force-dynamic';

@@ -12,7 +12,7 @@
     "scripting"
   ],
   "host_permissions": [
-    "https://www.policywatcher.online/*"
+    "https://policywatcher.online/*"
   ],
   "background": {
     "service_worker": "service-worker.js"

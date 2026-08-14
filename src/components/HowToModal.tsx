@@ -7,6 +7,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock,
+  Gauge,
   Link2,
   PauseCircle,
   Route,
@@ -22,6 +23,7 @@ import styles from './HowToModal.module.css';
 
 type TourStepId =
   | 'workspace'
+  | 'experience'
   | 'share'
   | 'ticker'
   | 'sourceStatus'
@@ -63,6 +65,7 @@ interface HowToModalProps {
 
 const STEP_ICONS: Record<TourStepId, LucideIcon> = {
   workspace: SlidersHorizontal,
+  experience: Gauge,
   share: Link2,
   ticker: Search,
   sourceStatus: PauseCircle,
@@ -91,10 +94,22 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
     steps: [
       {
         id: 'workspace',
-        title: 'Choose the workspace',
+        title: 'Start with Today, Continue, Explore',
         description:
-          'Open Dashboard setup to select a session goal and evidence depth. It rearranges the view; it does not remove source or evidence gates.',
-        focusLabel: 'Dashboard setup',
+          'Today keeps no more than three decision-changing items, Continue resumes the active evidence context, and Explore opens Atlas, Civic and Observatory when you need a wider path.',
+        focusLabel: 'Operational home',
+      },
+      {
+        id: 'experience',
+        title: 'Choose the amount of interface you need',
+        description:
+          'Use Focus for one decision path, Balanced for the workspace default, or Explore for more secondary signals. Motion can follow the system or be reduced explicitly.',
+        focusLabel: 'Experience control',
+        notes: [
+          'The preference stays in this browser and changes presentation only.',
+          'Open Why this interface? to inspect the workspace, evidence depth and region inputs.',
+          'The next step is a deterministic route mapping, not an AI recommendation.',
+        ],
       },
       {
         id: 'share',
@@ -157,10 +172,11 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
         id: 'associations',
         title: 'Open the civic workspace',
         description:
-          'Use Civic Lab to build a browser-local pilot watchlist from published evidence, triage eligible changes, create a Markdown digest and hand selected records to Evidence Collections.',
+          'Set the global region, country and supported interface language, then use Civic Lab to find source-backed consumer organizations or build a browser-local evidence watchlist and review digest.',
         focusLabel: 'Civic Lab',
         notes: [
           'It does not create an association account, collect a consumer case or publish a decision.',
+          'Directory inclusion is not a partnership or endorsement; each card keeps its verification source and review date visible.',
           'Unavailable, suspended, seeded, private and otherwise ineligible records remain outside the workspace.',
         ],
       },
@@ -194,10 +210,22 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
     steps: [
       {
         id: 'workspace',
-        title: 'Scegli il workspace',
+        title: 'Parti da Oggi, Continua, Esplora',
         description:
-          'Apri le impostazioni dashboard per scegliere obiettivo della sessione e profondita delle evidenze. La vista si riordina, ma i gate di fonte ed evidenza restano.',
-        focusLabel: 'Impostazioni dashboard',
+          'Oggi mostra al massimo tre elementi che possono cambiare la decisione, Continua riprende il contesto di evidenza e Esplora apre Atlante, Civico e Observatory quando serve allargare il percorso.',
+        focusLabel: 'Home operativa',
+      },
+      {
+        id: 'experience',
+        title: 'Scegli quanta interfaccia ti serve',
+        description:
+          'Usa Focus per un solo percorso decisionale, Bilanciata per il default del workspace oppure Esplora per più segnali secondari. Il movimento può seguire il sistema o essere ridotto esplicitamente.',
+        focusLabel: 'Controllo esperienza',
+        notes: [
+          'La preferenza resta in questo browser e modifica solo la presentazione.',
+          'Apri Perché questa interfaccia? per ispezionare workspace, profondità delle evidenze e regione.',
+          'Il prossimo passo è una mappatura deterministica di route, non una raccomandazione AI.',
+        ],
       },
       {
         id: 'share',
@@ -260,10 +288,11 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
         id: 'associations',
         title: 'Apri il workspace civico',
         description:
-          'Usa Associazioni per creare una watchlist pilota locale al browser da evidenze pubblicate, fare triage delle modifiche ammissibili, generare un digest Markdown e passare i record selezionati alle Raccolte di evidenze.',
+          'Imposta area, paese e lingua supportata a livello globale, poi usa Associazioni per trovare realtà con fonte verificabile o costruire una watchlist locale e il digest di revisione.',
         focusLabel: 'Associazioni',
         notes: [
           'Non crea un account associativo, non raccoglie un caso consumatore e non pubblica una decisione.',
+          'La presenza nel directory non è partnership o endorsement: ogni scheda espone fonte di verifica e data di revisione.',
           'Record non disponibili, sospesi, seeded, privati o non ammissibili restano fuori dal workspace.',
         ],
       },

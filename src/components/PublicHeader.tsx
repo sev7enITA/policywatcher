@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import GlobalContextControl, { useGlobalContext } from './GlobalContextControl';
 import styles from './PublicHeader.module.css';
 
 export type PublicSection =
@@ -52,6 +53,8 @@ const links: Array<{ id: PublicSection; href: string; en: string; it: string }> 
 
 export default function PublicHeader({ current, lang = 'en' }: PublicHeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const globalContext = useGlobalContext(lang);
+  const activeLang = globalContext.ready ? globalContext.lang : lang;
 
   return (
     <header className={styles.header}>
@@ -60,9 +63,10 @@ export default function PublicHeader({ current, lang = 'en' }: PublicHeaderProps
           <Image src="/logo-mark.png" alt="" width={38} height={38} className={styles.mark} priority />
           <span>
             <strong>PolicyWatcher</strong>
-            <small>{lang === 'it' ? 'Laboratorio di evidenze pubbliche' : 'Public evidence laboratory'}</small>
+            <small>{activeLang === 'it' ? 'Laboratorio di evidenze pubbliche' : 'Public evidence laboratory'}</small>
           </span>
         </Link>
+        <GlobalContextControl className={styles.globalContext} fallbackLang={lang} />
         <button
           type="button"
           className={styles.menuButton}
@@ -71,10 +75,10 @@ export default function PublicHeader({ current, lang = 'en' }: PublicHeaderProps
           onClick={() => setMobileOpen((open) => !open)}
         >
           {mobileOpen ? <X size={19} /> : <Menu size={19} />}
-          <span>{lang === 'it' ? (mobileOpen ? 'Chiudi' : 'Menu') : (mobileOpen ? 'Close' : 'Menu')}</span>
+          <span>{activeLang === 'it' ? (mobileOpen ? 'Chiudi' : 'Menu') : (mobileOpen ? 'Close' : 'Menu')}</span>
         </button>
         <div className={styles.navWrap} data-open={mobileOpen ? 'true' : 'false'}>
-          <nav id="public-mobile-navigation" className={styles.nav} aria-label={lang === 'it' ? 'Navigazione pubblica' : 'Public navigation'}>
+          <nav id="public-mobile-navigation" className={styles.nav} aria-label={activeLang === 'it' ? 'Navigazione pubblica' : 'Public navigation'}>
             {links.map((link) => (
               <Link
                 key={link.id}
@@ -82,7 +86,7 @@ export default function PublicHeader({ current, lang = 'en' }: PublicHeaderProps
                 aria-current={current === link.id ? 'page' : undefined}
                 onClick={() => setMobileOpen(false)}
               >
-                {link[lang]}
+                {link[activeLang]}
               </Link>
             ))}
           </nav>
