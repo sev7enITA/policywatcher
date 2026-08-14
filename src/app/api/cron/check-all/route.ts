@@ -13,12 +13,14 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { createHash } from 'node:crypto';
 import { db } from '@/lib/db';
-import { scrapePolicyText, type ScrapeDiagnostic } from '@/lib/scraper';
+import { scrapePolicyText, type ScrapeDiagnostic, type ScrapeResult } from '@/lib/scraper';
 import { analyzePolicyChange } from '@/lib/gemini';
 import {
   sendPolicyChangeAlert,
   sendSourceSuspensionAdminAlert,
+  maskEmailForLog,
   ChangedPolicySummary,
   SourceSuspensionAlert,
 } from '@/lib/mailer';
@@ -29,9 +31,22 @@ import {
   normalizeIngestionMethod,
   shouldRebaselineFromSeededRecord,
 } from '@/lib/policyConfidence';
-import { replaceSeededPolicyBaseline } from '@/lib/policyBaseline';
+import { establishVerifiedPolicyBaseline, replaceSeededPolicyBaseline } from '@/lib/policyBaseline';
 import { createErrorReference, getErrorMessage } from '@/lib/safeErrors';
 import { normalizeKpiFields } from '@/lib/kpiDefaults';
+import {
+  CHANGE_CONFIRMATION_PENDING_REASON,
+  isConsecutiveChangeConfirmation,
+} from '@/lib/changeConfirmation';
+import {
+  buildAcquisitionKey,
+  emptyRetrievalMetrics,
+  recordRetrievalDiagnostics,
+  sanitizeAcquisitionUrlForLog,
+  suggestedSourceAction,
+  terminalRetrievalCause,
+  type RetrievalMetrics,
+} from '@/lib/sourceReliability';
 
 type RetrievalRuntime = 'app' | 'vps' | 'archive' | 'none';
 
@@ -47,9 +62,11 @@ interface CheckDetail {
   policyId: string;
   company: string;
   policy: string;
+  jurisdiction?: string;
   status:
     | 'unchanged'
     | 'changed'
+    | 'confirmation_pending'
     | 'rebaselined'
     | 'partial'
     | 'error'
@@ -61,6 +78,11 @@ interface CheckDetail {
   runtime?: RetrievalRuntime;
   transportLabel?: string;
   diagnostics?: ScrapeDiagnostic[];
+  retrievalKey?: string;
+  retrievalKeyId?: string;
+  sourceRetrievalId?: string;
+  cacheHit?: boolean;
+  acquisitionMode?: 'network' | 'deduplicated';
 }
 
 /** Result shape returned by runFullScan(). */
@@ -68,11 +90,14 @@ export interface ScanResult {
   checked: number;
   selected: number;
   changed: number;
+  confirmationPending: number;
   rebaselined: number;
   partial: number;
   errors: number;
   unavailable: number;
   invalid: number;
+  scanRunId: string;
+  retrievalMetrics: RetrievalMetrics;
   details: CheckDetail[];
   timestamp: string;
   options?: ScanOptions;
@@ -85,16 +110,23 @@ export interface ScanProgress {
   current: number;
   company?: string;
   policy?: string;
+  jurisdiction?: string;
   status?: string;
   source?: string;
   runtime?: RetrievalRuntime;
   transportLabel?: string;
   diagnostics?: ScrapeDiagnostic[];
+  retrievalKeyId?: string;
+  acquisitionMode?: 'network' | 'deduplicated';
   message: string;
 }
 
 /** Callback for real-time progress tracking. */
 export type ProgressCallback = (progress: ScanProgress) => void;
+
+function retrievalKeyFingerprint(retrievalKey: string): string {
+  return createHash('sha256').update(retrievalKey).digest('hex').slice(0, 12);
+}
 
 function getRetrievalRuntime(source: string | null | undefined): RetrievalRuntime {
   const normalized = (source || '').toLowerCase();
@@ -126,17 +158,21 @@ function formatSourceMarker(source: string | null | undefined): string {
   return `${label} / ${suffix}`;
 }
 
+function formatPolicyProgressLabel(
+  policy: { company: { name: string }; name: string; jurisdiction?: string | null },
+  retrievalKeyId?: string,
+): string {
+  const jurisdiction = policy.jurisdiction?.trim() || 'Unspecified';
+  const acquisition = retrievalKeyId ? ` [acq:${retrievalKeyId}]` : '';
+  return `${policy.company.name} - ${policy.name} (${jurisdiction})${acquisition}`;
+}
+
 function isExpectedRebaselineAbort(error: unknown): boolean {
   return getErrorMessage(error).startsWith('rebaseline_aborted_');
 }
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function sameHostPoliteDelay(): Promise<void> {
-  const ms = 1200 + Math.random() * 1800;
-  await sleep(ms);
 }
 
 function hostnameOf(rawUrl: string): string | null {
@@ -184,6 +220,140 @@ export async function readScanOptions(request: NextRequest): Promise<ScanOptions
   return { ...queryOptions, ...bodyOptions };
 }
 
+interface PersistedRetrieval {
+  result: ScrapeResult;
+  sourceRetrievalId: string;
+  durationMs: number;
+  reasonCode: string;
+}
+
+async function persistUniqueRetrieval(params: {
+  scanRunId: string;
+  retrievalKey: string;
+  requestedUrl: string;
+  archiveNotBefore?: Date;
+  result: ScrapeResult;
+  durationMs: number;
+  affectedPolicyIds: string[];
+}): Promise<PersistedRetrieval> {
+  const retrievalStatus = params.result.status === 'ok' && params.result.partial
+    ? 'partial'
+    : params.result.status;
+  const reasonCode = params.result.status === 'ok'
+    ? (params.result.partial ? 'partial' : 'verified')
+    : params.result.reasonCode || terminalRetrievalCause(params.result.diagnostics || []);
+  const sourceRetrieval = await db.sourceRetrieval.create({
+    data: {
+      scanRunId: params.scanRunId,
+      retrievalKey: params.retrievalKey,
+      requestedUrl: params.requestedUrl,
+      archiveNotBefore: params.archiveNotBefore || null,
+      status: retrievalStatus,
+      source: params.result.source || 'none',
+      httpStatus: params.result.httpStatus || null,
+      durationMs: params.durationMs,
+      reasonCode,
+      reason: params.result.reason || null,
+      finalUrl: params.result.finalUrl || params.requestedUrl,
+      archiveTimestamp: archiveTimestampFromScrape(params.result.archiveTimestamp),
+      attemptsJson: JSON.stringify(params.result.diagnostics || []),
+    },
+  });
+
+  const existingIssue = await db.sourceRemediationIssue.findUnique({
+    where: { retrievalKey: params.retrievalKey },
+  });
+  const affectedPolicyIds = [...new Set([
+    ...params.affectedPolicyIds,
+    ...(() => {
+      try {
+        return JSON.parse(existingIssue?.affectedPolicyIdsJson || '[]') as string[];
+      } catch {
+        return [];
+      }
+    })(),
+  ])];
+
+  if (params.result.status === 'ok' && !params.result.partial) {
+    if (existingIssue && existingIssue.status !== 'Resolved') {
+      await db.sourceRemediationIssue.update({
+        where: { retrievalKey: params.retrievalKey },
+        data: {
+          status: existingIssue.consecutiveFailures > 0 ? 'Recovered' : existingIssue.status,
+          consecutiveFailures: 0,
+          recoveredAt: existingIssue.consecutiveFailures > 0 ? new Date() : existingIssue.recoveredAt,
+          affectedPolicyIdsJson: JSON.stringify(affectedPolicyIds),
+        },
+      });
+    }
+  } else {
+    const consecutiveFailures = (existingIssue?.consecutiveFailures || 0) + 1;
+    await db.sourceRemediationIssue.upsert({
+      where: { retrievalKey: params.retrievalKey },
+      create: {
+        retrievalKey: params.retrievalKey,
+        sourceUrl: params.requestedUrl,
+        status: consecutiveFailures >= 3 ? 'Open' : 'Watching',
+        reasonCode,
+        affectedPolicyIdsJson: JSON.stringify(affectedPolicyIds),
+        totalFailures: 1,
+        consecutiveFailures,
+        suggestedAction: suggestedSourceAction(reasonCode),
+      },
+      update: {
+        sourceUrl: params.requestedUrl,
+        status: existingIssue?.status === 'Resolved'
+          ? 'Resolved'
+          : consecutiveFailures >= 3 ? 'Open' : 'Watching',
+        reasonCode,
+        affectedPolicyIdsJson: JSON.stringify(affectedPolicyIds),
+        totalFailures: { increment: 1 },
+        consecutiveFailures,
+        lastDetectedAt: new Date(),
+        recoveredAt: null,
+        suggestedAction: suggestedSourceAction(reasonCode),
+      },
+    });
+  }
+
+  const historicalReference = params.result.historicalReference;
+  if (historicalReference) {
+    const capturedAt = new Date(historicalReference.capturedAt);
+    if (!Number.isNaN(capturedAt.getTime())) {
+      await db.$transaction(
+        params.affectedPolicyIds.map((policyId) =>
+          db.historicalSourceReference.upsert({
+            where: {
+              policyId_source_capturedAt: {
+                policyId,
+                source: historicalReference.source,
+                capturedAt,
+              },
+            },
+            create: {
+              policyId,
+              sourceRetrievalId: sourceRetrieval.id,
+              source: historicalReference.source,
+              referenceUrl: historicalReference.referenceUrl || null,
+              capturedAt,
+              reasonCode: 'stale_archive',
+              eligibleForChangeDetection: false,
+            },
+            update: {
+              sourceRetrievalId: sourceRetrieval.id,
+              referenceUrl: historicalReference.referenceUrl || null,
+              observedAt: new Date(),
+              eligibleForChangeDetection: false,
+            },
+          })
+        )
+      );
+    }
+  }
+
+  return { result: params.result, sourceRetrievalId: sourceRetrieval.id, durationMs: params.durationMs, reasonCode };
+}
+
 // -- Core scan logic (framework-independent) --
 
 /**
@@ -205,6 +375,7 @@ export async function runFullScan(
   const details: CheckDetail[] = [];
   let checked = 0;
   let changed = 0;
+  let confirmationPending = 0;
   let rebaselined = 0;
   let errors = 0;
 
@@ -236,15 +407,17 @@ export async function runFullScan(
         take: 1,
       },
       checkLogs: {
-        where: {
-          textHash: { not: null },
-          source: { in: ['direct', 'http2', 'rendered', 'wayback', 'commoncrawl'] },
-        },
         orderBy: { checkedAt: 'desc' },
-        take: 1,
+        // The latest row is required for consecutive-scan change confirmation.
+        // A small history still lets seeded-baseline detection find recent
+        // verified evidence when the newest row records a transient failure.
+        take: 5,
         select: {
           source: true,
           textHash: true,
+          status: true,
+          reason: true,
+          checkedAt: true,
         },
       },
     },
@@ -254,6 +427,43 @@ export async function runFullScan(
     options.companySlug ? `company=${options.companySlug}` : null,
     options.limit ? `limit=${options.limit}` : null,
   ].filter(Boolean).join(', ');
+
+  const acquisitionGroups = new Map<string, {
+    policyIds: string[];
+    archiveNotBefore?: Date;
+    requestedUrl: string;
+  }>();
+  for (const policy of policies) {
+    const requestedUrl = policy.retrievalUrl || policy.url;
+    const retrievalKey = buildAcquisitionKey(requestedUrl);
+    const seededCandidate = shouldRebaselineFromSeededRecord(policy);
+    const hasPublicBaseline = policy.snapshots.some((snapshot) => snapshot.publicEvidence);
+    const archiveFloor = seededCandidate || !hasPublicBaseline ? undefined : policy.lastSuccessfulCheckDate;
+    const group = acquisitionGroups.get(retrievalKey) || {
+      policyIds: [],
+      requestedUrl,
+    };
+    group.policyIds.push(policy.id);
+    // Use the strictest freshness floor in a shared acquisition. This can
+    // under-recover an archive for an older record, but cannot promote stale
+    // evidence into a policy with a newer verified baseline.
+    if (archiveFloor && (!group.archiveNotBefore || archiveFloor > group.archiveNotBefore)) {
+      group.archiveNotBefore = archiveFloor;
+    }
+    acquisitionGroups.set(retrievalKey, group);
+  }
+
+  const scanRun = await db.scanRun.create({
+    data: {
+      status: 'running',
+      selectedRecords: policies.length,
+      uniqueSources: acquisitionGroups.size,
+      optionsJson: JSON.stringify(options),
+    },
+  });
+  const retrievalMetrics = emptyRetrievalMetrics(policies.length, acquisitionGroups.size);
+  const retrievalCache = new Map<string, Promise<PersistedRetrieval>>();
+  const hostLastRequestAt = new Map<string, number>();
 
   console.log(`[Cron] Starting check of ${policies.length} policies${optionLabel ? ` (${optionLabel})` : ''}.`);
   onProgress?.({
@@ -266,7 +476,6 @@ export async function runFullScan(
   // Track which policies changed for subscriber notifications
   const changedPolicySummaries: ChangedPolicySummary[] = [];
   const suspendedSourceAlerts: SourceSuspensionAlert[] = [];
-  let previousHost: string | null = null;
 
   // Process each policy
   for (const policy of policies) {
@@ -275,31 +484,19 @@ export async function runFullScan(
       policyId: policy.id,
       company: policy.company.name,
       policy: policy.name,
+      jurisdiction: policy.jurisdiction,
       status: 'unchanged',
     };
 
     try {
-      const currentHost = hostnameOf(policy.url);
-      if (currentHost && previousHost && currentHost === previousHost) {
-        onProgress?.({
-          phase: 'policy_start',
-          total: policies.length,
-          current: checked,
-          company: policy.company.name,
-          policy: policy.name,
-          message: `Polite delay before another ${currentHost} request...`,
-        });
-        await sameHostPoliteDelay();
-      }
-      previousHost = currentHost;
-
       onProgress?.({
         phase: 'policy_start',
         total: policies.length,
         current: checked,
         company: policy.company.name,
         policy: policy.name,
-        message: `Scraping ${policy.company.name} - ${policy.name}...`,
+        jurisdiction: policy.jurisdiction,
+        message: `Preparing ${policy.company.name} - ${policy.name} (${policy.jurisdiction})...`,
       });
 
       // Scrape current policy text (hardened: never fabricates).
@@ -311,16 +508,96 @@ export async function runFullScan(
       // used to reject otherwise usable archive evidence.
       const seededRebaselineCandidate = shouldRebaselineFromSeededRecord(policy);
       const hasPublicBaseline = policy.snapshots.some((snapshot) => snapshot.publicEvidence);
-      const scrapeResult = await scrapePolicyText(policy.url, {
-        archiveNotBefore:
-          seededRebaselineCandidate || !hasPublicBaseline ? undefined : policy.lastSuccessfulCheckDate,
+      const requestedUrl = policy.retrievalUrl || policy.url;
+      const retrievalKey = buildAcquisitionKey(requestedUrl);
+      const retrievalKeyId = retrievalKeyFingerprint(retrievalKey);
+      const policyProgressLabel = formatPolicyProgressLabel(policy, retrievalKeyId);
+      const safeSourceLabel = sanitizeAcquisitionUrlForLog(requestedUrl);
+      const acquisitionGroup = acquisitionGroups.get(retrievalKey)!;
+      let retrievalPromise = retrievalCache.get(retrievalKey);
+      const cacheHit = Boolean(retrievalPromise);
+      const acquisitionMode = cacheHit ? 'deduplicated' : 'network';
+      const acquisitionMarker = `[${cacheHit ? 'cached/deduplicated' : 'network'}] [acq:${retrievalKeyId}]`;
+
+      onProgress?.({
+        phase: 'policy_start',
+        total: policies.length,
+        current: checked,
+        company: policy.company.name,
+        policy: policy.name,
+        jurisdiction: policy.jurisdiction,
+        retrievalKeyId,
+        acquisitionMode,
+        message: cacheHit
+          ? `Reusing ${safeSourceLabel} for ${policy.company.name} - ${policy.name} ${acquisitionMarker}`
+          : `Fetching ${safeSourceLabel} for ${policy.company.name} - ${policy.name} ${acquisitionMarker}`,
       });
+
+      console.log(
+        `[Cron] Acquisition ${retrievalKeyId} ${acquisitionMode}: ` +
+        `${policy.company.name} / ${policy.name} / ${policy.jurisdiction} (${safeSourceLabel})`
+      );
+
+      if (!retrievalPromise) {
+        retrievalPromise = (async () => {
+          const currentHost = hostnameOf(requestedUrl);
+          const lastRequestAt = currentHost ? hostLastRequestAt.get(currentHost) : undefined;
+          if (currentHost && lastRequestAt) {
+            const remainingDelay = Math.max(0, 1500 - (Date.now() - lastRequestAt));
+            if (remainingDelay > 0) {
+              onProgress?.({
+                phase: 'policy_start',
+                total: policies.length,
+                current: checked,
+                company: policy.company.name,
+                policy: policy.name,
+                jurisdiction: policy.jurisdiction,
+                retrievalKeyId,
+                acquisitionMode,
+                message: `Per-host pacing before another ${currentHost} request ${acquisitionMarker}`,
+              });
+              await sleep(remainingDelay);
+            }
+          }
+          if (currentHost) hostLastRequestAt.set(currentHost, Date.now());
+          const startedAt = Date.now();
+          const result = await scrapePolicyText(acquisitionGroup.requestedUrl, {
+            archiveNotBefore: acquisitionGroup.archiveNotBefore,
+          });
+          const durationMs = Date.now() - startedAt;
+          recordRetrievalDiagnostics(
+            retrievalMetrics,
+            result.diagnostics || [],
+            result.status === 'ok' && result.partial ? 'partial' : result.status,
+            result.source,
+          );
+          return persistUniqueRetrieval({
+            scanRunId: scanRun.id,
+            retrievalKey,
+            requestedUrl: acquisitionGroup.requestedUrl,
+            archiveNotBefore: acquisitionGroup.archiveNotBefore,
+            result,
+            durationMs,
+            affectedPolicyIds: acquisitionGroup.policyIds,
+          });
+        })();
+        retrievalCache.set(retrievalKey, retrievalPromise);
+      } else {
+        retrievalMetrics.deduplicatedRetrievals += 1;
+      }
+      const persistedRetrieval = await retrievalPromise;
+      const scrapeResult = persistedRetrieval.result;
       const source = scrapeResult.source || (scrapeResult.status === 'ok' ? 'direct' : 'none');
       const runtime = getRetrievalRuntime(source);
       const transportLabel = getTransportLabel(source);
       const archiveTimestamp = archiveTimestampFromScrape(scrapeResult.archiveTimestamp);
       const diagnostics = scrapeResult.diagnostics || [];
       detail.diagnostics = diagnostics;
+      detail.retrievalKey = retrievalKey;
+      detail.retrievalKeyId = retrievalKeyId;
+      detail.sourceRetrievalId = persistedRetrieval.sourceRetrievalId;
+      detail.cacheHit = cacheHit;
+      detail.acquisitionMode = acquisitionMode;
 
       if (scrapeResult.status !== 'ok') {
         // Page unreachable or unusable. Record it honestly: do NOT
@@ -343,8 +620,12 @@ export async function runFullScan(
               source: scrapeResult.source || 'none',
               httpStatus: scrapeResult.httpStatus || null,
               reason: scrapeResult.reason || null,
+              reasonCode: persistedRetrieval.reasonCode,
               finalUrl: scrapeResult.finalUrl || policy.url,
               archiveTimestamp,
+              scanRunId: scanRun.id,
+              sourceRetrievalId: persistedRetrieval.sourceRetrievalId,
+              durationMs: persistedRetrieval.durationMs,
             },
           }),
         ]);
@@ -380,7 +661,7 @@ export async function runFullScan(
           runtime,
           transportLabel,
           diagnostics,
-          message: `${policy.company.name} - ${policy.name}: ${scrapeResult.status} (${scrapeResult.reason}) [${formatSourceMarker(source)}] [URL: ${policy.url}]`,
+          message: `${policyProgressLabel}: ${scrapeResult.status} (${scrapeResult.reason}) [${formatSourceMarker(source)}] [URL: ${policy.url}]`,
         });
         continue;
       }
@@ -407,10 +688,14 @@ export async function runFullScan(
               source: scrapeResult.source || 'direct',
               httpStatus: scrapeResult.httpStatus || null,
               reason: partialReason,
+              reasonCode: 'partial',
               finalUrl: scrapeResult.finalUrl || policy.url,
               textHash: newHash,
               textLength: newText.length,
               archiveTimestamp,
+              durationMs: persistedRetrieval.durationMs,
+              scanRunId: scanRun.id,
+              sourceRetrievalId: persistedRetrieval.sourceRetrievalId,
             },
           }),
         ]);
@@ -447,7 +732,7 @@ export async function runFullScan(
           runtime,
           transportLabel,
           diagnostics,
-          message: `${policy.company.name} - ${policy.name}: temporarily suspended (${partialReason}) [${formatSourceMarker(source)}]`,
+          message: `${policyProgressLabel}: temporarily suspended (${partialReason}) [${formatSourceMarker(source)}]`,
         });
         continue;
       }
@@ -468,6 +753,10 @@ export async function runFullScan(
               httpStatus: scrapeResult.httpStatus || null,
               finalUrl: scrapeResult.finalUrl || policy.url,
               archiveTimestamp,
+              scanRunId: scanRun.id,
+              sourceRetrievalId: persistedRetrieval.sourceRetrievalId,
+              durationMs: persistedRetrieval.durationMs,
+              reasonCode: persistedRetrieval.reasonCode,
             })
           );
         } catch (rebaselineError) {
@@ -493,7 +782,7 @@ export async function runFullScan(
                 runtime,
                 transportLabel,
                 diagnostics,
-                message: `${policy.company.name} - ${policy.name}: baseline already established by another scan [${formatSourceMarker(source)}]`,
+                message: `${policyProgressLabel}: baseline already established by another scan [${formatSourceMarker(source)}]`,
               });
               continue;
             }
@@ -522,7 +811,56 @@ export async function runFullScan(
           runtime,
           transportLabel,
           diagnostics,
-          message: `${policy.company.name} - ${policy.name}: re-baselined from seeded evidence [OK] [${formatSourceMarker(source)}]`,
+          message: `${policyProgressLabel}: re-baselined from seeded evidence [OK] [${formatSourceMarker(source)}]`,
+        });
+        continue;
+      }
+
+      // A previous successful scan may already have changed ingestionMethod
+      // and written a source check log without establishing public evidence.
+      // Do not let such records remain forever in the ordinary "unchanged"
+      // path: establish a verified baseline before comparing for changes.
+      if (!hasPublicBaseline) {
+        const checkedAt = new Date();
+        const baseline = await db.$transaction((tx) =>
+          establishVerifiedPolicyBaseline(tx, {
+            policyId: policy.id,
+            text: newText,
+            hash: newHash,
+            checkedAt,
+            ingestionMethod: normalizeIngestionMethod(scrapeResult.source || 'direct'),
+            source: scrapeResult.source || 'direct',
+            httpStatus: scrapeResult.httpStatus || null,
+            finalUrl: scrapeResult.finalUrl || policy.url,
+            archiveTimestamp,
+            scanRunId: scanRun.id,
+            sourceRetrievalId: persistedRetrieval.sourceRetrievalId,
+            durationMs: persistedRetrieval.durationMs,
+            reasonCode: persistedRetrieval.reasonCode,
+          })
+        );
+
+        detail.status = baseline.publicEvidence ? 'rebaselined' : 'partial';
+        detail.source = source;
+        detail.runtime = runtime;
+        detail.transportLabel = transportLabel;
+        details.push(detail);
+        if (baseline.publicEvidence) rebaselined++;
+
+        onProgress?.({
+          phase: 'policy_done',
+          total: policies.length,
+          current: checked,
+          company: policy.company.name,
+          policy: policy.name,
+          status: baseline.publicEvidence ? 'rebaselined' : 'partial',
+          source,
+          runtime,
+          transportLabel,
+          diagnostics,
+          message: baseline.publicEvidence
+            ? `${policyProgressLabel}: first verified public baseline established [OK] [${formatSourceMarker(source)}]`
+            : `${policyProgressLabel}: verified private baseline retained pending onboarding QA [${formatSourceMarker(source)}]`,
         });
         continue;
       }
@@ -545,7 +883,7 @@ export async function runFullScan(
           runtime,
           transportLabel,
           diagnostics,
-          message: `${policy.company.name} - ${policy.name}: unchanged [OK] [${formatSourceMarker(source)}]`,
+          message: `${policyProgressLabel}: unchanged [OK] [${formatSourceMarker(source)}]`,
         });
 
         const checkedAt = new Date();
@@ -571,6 +909,10 @@ export async function runFullScan(
               textHash: newHash,
               textLength: newText.length,
               archiveTimestamp,
+              reasonCode: 'verified',
+              durationMs: persistedRetrieval.durationMs,
+              scanRunId: scanRun.id,
+              sourceRetrievalId: persistedRetrieval.sourceRetrievalId,
             },
           }),
         ]);
@@ -603,10 +945,14 @@ export async function runFullScan(
               source: scrapeResult.source || 'direct',
               httpStatus: scrapeResult.httpStatus || null,
               reason: 'change_blocked_non_public_baseline',
+              reasonCode: 'content_invalid',
               finalUrl: scrapeResult.finalUrl || policy.url,
               textHash: newHash,
               textLength: newText.length,
               archiveTimestamp,
+              durationMs: persistedRetrieval.durationMs,
+              scanRunId: scanRun.id,
+              sourceRetrievalId: persistedRetrieval.sourceRetrievalId,
             },
           }),
         ]);
@@ -640,11 +986,68 @@ export async function runFullScan(
           runtime,
           transportLabel,
           diagnostics,
-          message: `${policy.company.name} - ${policy.name}: suspended (non-public baseline) [${formatSourceMarker(source)}]`,
+          message: `${policyProgressLabel}: suspended (non-public baseline) [${formatSourceMarker(source)}]`,
         });
         details.push(detail);
         continue;
       }
+
+      const latestCheckLog = policy.checkLogs[0];
+      if (!isConsecutiveChangeConfirmation(latestCheckLog, newHash)) {
+        const checkedAt = new Date();
+        await db.$transaction([
+          db.policy.update({
+            where: { id: policy.id },
+            data: {
+              lastCheckDate: checkedAt,
+              // The last verified public baseline remains valid while the
+              // candidate waits for the next same-hash observation.
+              dataStatus: 'Available',
+            },
+          }),
+          db.policyCheckLog.create({
+            data: {
+              policyId: policy.id,
+              status: 'Needs Review',
+              checkedAt,
+              source: scrapeResult.source || 'direct',
+              httpStatus: scrapeResult.httpStatus || null,
+              reason: CHANGE_CONFIRMATION_PENDING_REASON,
+              reasonCode: CHANGE_CONFIRMATION_PENDING_REASON,
+              finalUrl: scrapeResult.finalUrl || policy.url,
+              textHash: newHash,
+              textLength: newText.length,
+              archiveTimestamp,
+              durationMs: persistedRetrieval.durationMs,
+              scanRunId: scanRun.id,
+              sourceRetrievalId: persistedRetrieval.sourceRetrievalId,
+            },
+          }),
+        ]);
+
+        detail.status = 'confirmation_pending';
+        detail.error = CHANGE_CONFIRMATION_PENDING_REASON;
+        confirmationPending++;
+        details.push(detail);
+        onProgress?.({
+          phase: 'policy_done',
+          total: policies.length,
+          current: checked,
+          company: policy.company.name,
+          policy: policy.name,
+          jurisdiction: policy.jurisdiction,
+          status: 'confirmation_pending',
+          source,
+          runtime,
+          transportLabel,
+          diagnostics,
+          retrievalKeyId,
+          acquisitionMode,
+          message: `${policyProgressLabel}: CHANGED CANDIDATE [ATTENTION] awaiting the same hash in the next scan [${formatSourceMarker(source)}]`,
+        });
+        continue;
+      }
+
       changed++;
       const newVersion = latestSnapshot ? latestSnapshot.version + 1 : 1;
       const oldText = latestSnapshot ? latestSnapshot.text : '';
@@ -693,6 +1096,7 @@ export async function runFullScan(
             overallScore: analysis.overallScore,
             remediationsJson: JSON.stringify(analysis.remediations),
             publicEvidence: true,
+            publicPublishedAt: checkedAt,
             aiTrainingOptOut: analysis.aiTrainingOptOut,
             aiDataScrapingRestricted: analysis.aiDataScrapingRestricted,
             aiIpLicensing: analysis.aiIpLicensing,
@@ -735,6 +1139,10 @@ export async function runFullScan(
             textHash: newHash,
             textLength: newText.length,
             archiveTimestamp,
+            reasonCode: 'verified',
+            durationMs: persistedRetrieval.durationMs,
+            scanRunId: scanRun.id,
+            sourceRetrievalId: persistedRetrieval.sourceRetrievalId,
           },
         });
       });
@@ -765,7 +1173,7 @@ export async function runFullScan(
         runtime,
         transportLabel,
         diagnostics,
-        message: `${policy.company.name} - ${policy.name}: CHANGED [ATTENTION] (Risk: ${analysis.overallRisk}, Score: ${analysis.overallScore}/10) [${formatSourceMarker(source)}]`,
+        message: `${policyProgressLabel}: CHANGED CONFIRMED [ATTENTION] (Risk: ${analysis.overallRisk}, Score: ${analysis.overallScore}/10) [${formatSourceMarker(source)}]`,
       });
     } catch (policyError) {
       const errorReference = createErrorReference('scan');
@@ -793,7 +1201,9 @@ export async function runFullScan(
               checkedAt,
               source: detail.source || 'none',
               reason: `processing_error:${errorReference}`,
+              reasonCode: 'unknown',
               finalUrl: policy.url,
+              scanRunId: scanRun.id,
             },
           }),
         ]);
@@ -826,7 +1236,7 @@ export async function runFullScan(
         company: policy.company.name,
         policy: policy.name,
         status: 'error',
-        message: `${policy.company.name} - ${policy.name}: ERROR (${errorReference})`,
+        message: `${formatPolicyProgressLabel(policy, detail.retrievalKeyId)}: ERROR (${errorReference})`,
       });
     }
 
@@ -867,7 +1277,7 @@ export async function runFullScan(
         });
 
         if (filteredChanges.length === 0) {
-          console.log(`[Cron] Skipping subscriber ${subscriber.email}: no matching changes based on regions (${subscriber.regions}) or industries (${subscriber.industries})`);
+          console.log(`[Cron] Skipping subscriber ${maskEmailForLog(subscriber.email)}: no matching changes based on configured regions or industries.`);
           continue;
         }
 
@@ -879,10 +1289,8 @@ export async function runFullScan(
             subscriber.unsubscribeToken
           );
         } catch (mailError) {
-          console.error(
-            `[Cron] Failed to notify ${subscriber.email}:`,
-            mailError
-          );
+          const errorType = mailError instanceof Error ? mailError.name : 'UnknownError';
+          console.error(`[Cron] Failed to notify ${maskEmailForLog(subscriber.email)} (${errorType}).`);
         }
       }
     } catch (subscriberError) {
@@ -896,22 +1304,42 @@ export async function runFullScan(
   const invalidCount = details.filter((d) => d.status === 'invalid').length;
   const partialCount = details.filter((d) => d.status === 'partial').length;
 
+  await db.scanRun.update({
+    where: { id: scanRun.id },
+    data: {
+      status: 'completed',
+      completedAt: new Date(),
+      networkRetrievals: retrievalMetrics.networkRetrievals,
+      deduplicatedRetrievals: retrievalMetrics.deduplicatedRetrievals,
+      uniqueAvailableSources: retrievalMetrics.uniqueAvailableSources,
+      uniqueUnavailableSources: retrievalMetrics.uniqueUnavailableSources,
+      unavailableRecords: unavailableCount,
+      invalidRecords: invalidCount,
+      partialRecords: partialCount,
+      errorRecords: errors,
+      metricsJson: JSON.stringify(retrievalMetrics),
+    },
+  });
+
   const result: ScanResult = {
     checked,
     selected: policies.length,
     changed,
+    confirmationPending,
     rebaselined,
     partial: partialCount,
     errors,
     unavailable: unavailableCount,
     invalid: invalidCount,
+    scanRunId: scanRun.id,
+    retrievalMetrics,
     details,
     timestamp: new Date().toISOString(),
     options,
   };
 
   console.log(
-    `[Cron] Check complete. Checked: ${checked}, Changed: ${changed}, Re-baselined: ${rebaselined}, Partial: ${partialCount}, Unavailable: ${unavailableCount}, Invalid: ${invalidCount}, Errors: ${errors}`
+    `[Cron] Check complete. Checked: ${checked}, Unique sources: ${retrievalMetrics.uniqueSources}, Network retrievals: ${retrievalMetrics.networkRetrievals}, Deduplicated: ${retrievalMetrics.deduplicatedRetrievals}, Changed: ${changed}, Confirmation pending: ${confirmationPending}, Re-baselined: ${rebaselined}, Partial: ${partialCount}, Unavailable: ${unavailableCount}, Invalid: ${invalidCount}, Errors: ${errors}`
   );
 
   return result;

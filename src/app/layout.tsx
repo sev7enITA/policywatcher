@@ -12,6 +12,7 @@
 import type { Metadata } from 'next';
 import { Titillium_Web } from 'next/font/google';
 import { connection } from 'next/server';
+import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin';
 import './globals.css';
 
 /** Primary body font: Titillium Web in regular weights. */
@@ -22,16 +23,17 @@ const titilliumSans = Titillium_Web({
   weight: ['300', '400', '600', '700'],
 });
 
-/** Display / heading font: Titillium Web in heavier weights. */
+/** Display / heading font: restrained weights prevent dense public typography. */
 const titilliumDisplay = Titillium_Web({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
-  weight: ['600', '700', '900'],
+  weight: ['400', '600', '700'],
 });
 
 /** Site-wide metadata: title, description, keywords, author, and icons. */
 export const metadata: Metadata = {
+  metadataBase: new URL(POLICYWATCHER_CANONICAL_ORIGIN),
   title: 'PolicyWatcher - AI Policy Change Monitor',
   description: 'Monitor, compare, and analyze public Tech and FinTech policy changes over time with AI-assisted evidence mapping, multi-region impact views, and dataset QA indicators.',
   keywords: ['policy monitoring', 'policy change', 'GDPR', 'AI governance', 'FinTech', 'privacy policy', 'terms of service'],

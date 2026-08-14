@@ -1,13 +1,15 @@
 .overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 100000;
+  position: relative;
+  z-index: 1;
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: min(760px, 100vh);
   padding: 28px;
-  overflow-y: auto;
+  overflow: hidden;
+  border-top: 1px solid rgba(148, 163, 184, 0.24);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.24);
   background:
     linear-gradient(135deg, rgba(248, 250, 252, 0.94), rgba(241, 245, 249, 0.94)),
     radial-gradient(circle at 18% 18%, rgba(20, 184, 166, 0.14), transparent 32%),
@@ -25,10 +27,10 @@
 }
 
 .langToggle {
-  position: fixed;
+  position: absolute;
   top: 20px;
   right: 24px;
-  z-index: 100001;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: 7px;

@@ -25,6 +25,7 @@ import {
   TrendingUp,
   Globe,
   FileDown,
+  FileSearch,
   ExternalLink,
   AlertTriangle,
   ArrowLeft,
@@ -34,11 +35,14 @@ import DiffViewer from '@/components/DiffViewer';
 import AISummary from '@/components/ai/AISummary';
 import RiskReasons from '@/components/ai/RiskReasons';
 import EmbedModal from '@/components/EmbedModal';
+import AddToCollectionButton from '@/components/AddToCollectionButton';
 import styles from './change.module.css';
 import type { Metadata } from 'next';
 import { publicChangeWhere } from '@/lib/publicDataGate';
+import { PUBLIC_ANALYSIS_DISCLAIMER_COMPACT } from '@/lib/publicAnalysisDisclaimer';
+import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin';
 
-const UUID_RE = /^[a-f0-9-]{36}$/i;
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 function toSafeJsonLd(data: unknown): string {
   return JSON.stringify(data).replace(/</g, '\\u003c');
@@ -55,11 +59,14 @@ interface ChangePageProps {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: ChangePageProps): Promise<Metadata> {
   const { id } = await params;
+  const query = await searchParams;
+  const lang = query.lang === 'it' ? 'it' : 'en';
 
   // UUID guard: don't even hit the DB on junk
-  if (!UUID_RE.test(id)) return { title: 'PolicyWatcher - Not found' };
+  if (!UUID_RE.test(id)) return { title: 'PolicyWatcher - Not found', robots: { index: false } };
 
   const change = await db.policyChange.findFirst({
     where: publicChangeWhere({ id }),
@@ -69,43 +76,49 @@ export async function generateMetadata({
       tldrEn: true,
       tldrIt: true,
       aiSummaryEn: true,
+      aiSummaryIt: true,
       createdAt: true,
       policy: { select: { name: true, company: { select: { name: true } } } },
     },
   });
 
-  if (!change) return { title: 'PolicyWatcher - Not found' };
+  if (!change) return { title: 'PolicyWatcher - Not found', robots: { index: false } };
 
   const title = `${change.policy.company.name} - Policy Change`;
-  const description =
-    change.tldrEn ||
-    change.aiSummaryEn?.split('.')[0] + '.' ||
-    `Policy risk assessment for ${change.policy.company.name} ${change.policy.name}`;
+  const localizedSummary = lang === 'it'
+    ? change.tldrIt || change.aiSummaryIt
+    : change.tldrEn || change.aiSummaryEn;
+  const description = localizedSummary
+    ? `${localizedSummary.split('.')[0]}.`
+    : `Policy risk assessment for ${change.policy.company.name} ${change.policy.name}`;
   // Canonical + alternates (EN default, IT alternate). hreflang signals to
   // search engines that this is a bilingual permalink (avoids duplicate-
   // content penalty). Next maps alternates.languages to <link hreflang>.
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || 'https://www.policywatcher.online';
+  const englishUrl = `${POLICYWATCHER_CANONICAL_ORIGIN}/change/${id}`;
+  const italianUrl = `${englishUrl}?lang=it`;
+  const canonical = lang === 'it' ? italianUrl : englishUrl;
 
   return {
     title: `${title} | PolicyWatcher`,
     description: description.substring(0, 160),
     alternates: {
-      canonical: `${baseUrl}/change/${id}?lang=en`,
+      canonical,
       languages: {
-        en: `${baseUrl}/change/${id}?lang=en`,
-        it: `${baseUrl}/change/${id}?lang=it`,
-        'x-default': `${baseUrl}/change/${id}?lang=en`,
+        en: englishUrl,
+        it: italianUrl,
+        'x-default': englishUrl,
       },
     },
     openGraph: {
       title,
       description: description.substring(0, 160),
+      url: canonical,
       type: 'article',
       publishedTime: change.createdAt.toISOString(),
       // OG image wired in M2d (dynamic via /api/og/change/[id])
       images: [
         {
-          url: `${baseUrl}/api/og/change/${id}`,
+          url: `${POLICYWATCHER_CANONICAL_ORIGIN}/api/og/change/${id}`,
           width: 1200,
           height: 630,
           alt: `${change.policy.company.name} - Risk ${change.overallScore}/10`,
@@ -116,7 +129,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title,
       description: description.substring(0, 160),
-      images: [`${baseUrl}/api/og/change/${id}`],
+      images: [`${POLICYWATCHER_CANONICAL_ORIGIN}/api/og/change/${id}`],
     },
     other: {
       'article:published_time': change.createdAt.toISOString(),
@@ -194,12 +207,12 @@ export default async function ChangePage({
     diffTitle: isIt ? 'Cosa è cambiato' : 'What changed',
     regionsTitle: isIt ? 'Impatto regionale' : 'Regional impact',
     download: isIt ? 'Scarica PDF' : 'Download PDF',
+    evidence: isIt ? 'Apri pacchetto evidenze' : 'Open Evidence Packet',
     official: isIt ? 'Sito ufficiale' : 'Official site',
     embed: isIt ? 'Embed' : 'Embed',
     dashboard: isIt ? 'Apri in dashboard' : 'Open in dashboard',
     disclaimerTitle: isIt ? 'Disclaimer' : 'Disclaimer',
-    disclaimer:
-      'CONFIDENCE RELEASE v3.5: AI-assisted assessment of publicly available policy texts. Not legal advice. Not a compliance certification. Always consult provider sources and qualified legal counsel.',
+    disclaimer: PUBLIC_ANALYSIS_DISCLAIMER_COMPACT[isIt ? 'it' : 'en'],
     high: isIt ? 'Alto' : 'High',
     medium: isIt ? 'Medio' : 'Medium',
     low: isIt ? 'Basso' : 'Low',
@@ -215,18 +228,21 @@ export default async function ChangePage({
     impact: change.regionImpacts.find((i) => i.region === region && i.perspective === 'Individual'),
   }));
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || 'https://www.policywatcher.online';
+  const canonicalUrl = lang === 'it'
+    ? `${POLICYWATCHER_CANONICAL_ORIGIN}/change/${id}?lang=it`
+    : `${POLICYWATCHER_CANONICAL_ORIGIN}/change/${id}`;
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: `${change.policy.company.name} - ${change.policy.name} Policy Change`,
     datePublished: change.createdAt.toISOString(),
-    author: { '@type': 'Organization', name: 'PolicyWatcher', url: baseUrl },
-    publisher: { '@type': 'Organization', name: 'PolicyWatcher', url: baseUrl },
+    author: { '@type': 'Organization', name: 'PolicyWatcher', url: POLICYWATCHER_CANONICAL_ORIGIN },
+    publisher: { '@type': 'Organization', name: 'PolicyWatcher', url: POLICYWATCHER_CANONICAL_ORIGIN },
     description: tldr || '',
-    url: `${baseUrl}/change/${id}`,
-    image: `${baseUrl}/api/og/change/${id}`,
+    url: canonicalUrl,
+    inLanguage: lang,
+    image: `${POLICYWATCHER_CANONICAL_ORIGIN}/api/og/change/${id}`,
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: score,
@@ -256,7 +272,7 @@ export default async function ChangePage({
           </Link>
           <div className={styles.langLinks}>
             <a
-              href={`/change/${id}?lang=en`}
+              href={`/change/${id}`}
               className={lang === 'en' ? styles.langActive : styles.lang}
             >
               EN
@@ -373,7 +389,7 @@ export default async function ChangePage({
         {/* Actions */}
         <div className={styles.actions}>
           <a
-            href={`/api/report/${change.policy.id}?lang=${lang}`}
+            href={`/api/evidence-packet/${id}?format=pdf`}
             target="_blank"
             rel="noreferrer"
             className={`${styles.btn} ${styles.btnPrimary}`}
@@ -381,6 +397,14 @@ export default async function ChangePage({
             <FileDown size={15} />
             {t.download}
           </a>
+          <Link
+            href={`/evidence/${id}`}
+            className={`${styles.btn} ${styles.btnEvidence}`}
+          >
+            <FileSearch size={15} />
+            {t.evidence}
+          </Link>
+          <AddToCollectionButton changeId={id} className={styles.collectionAction} />
           <EmbedModal changeId={id} companyName={change.policy.company.name} />
           {change.policy.url && (
             <a

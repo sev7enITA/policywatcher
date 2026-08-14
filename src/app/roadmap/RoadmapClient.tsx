@@ -2,23 +2,37 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useMemo, useState, type CSSProperties } from 'react';
+import { useCallback, useMemo, useRef, useState, type CSSProperties } from 'react';
 import {
   ArrowLeft,
   ArrowUpRight,
+  BookOpenCheck,
+  ChevronRight,
   Cpu,
   Database,
   Eye,
+  FileCheck2,
+  Fingerprint,
   GitFork,
   ListChecks,
   Lock,
   Radio,
+  Scale,
   Search,
+  ServerCog,
   Settings2,
   ShieldCheck,
   SlidersHorizontal,
   Users,
+  UsersRound,
 } from 'lucide-react';
+import { ReleaseImpactMap } from '@/components/ReleaseImpactMap';
+import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
+import { POLICYWATCHER_RELEASE_NAME, POLICYWATCHER_VERSION } from '@/lib/release';
+import RoadmapSignalComposer, {
+  type RoadmapSignalComposerRequest,
+} from './RoadmapSignalComposer';
 import styles from './roadmap.module.css';
 
 type GoalId = 'citizen' | 'governance' | 'research' | 'builder';
@@ -70,9 +84,9 @@ const goals: Array<{
     label: 'Builder',
     title: 'Connect PolicyWatcher to other systems',
     summary:
-      'A technical view for API consumers, webhooks, event schemas, rate limits, signed payloads, and integration health.',
-    view: 'API docs, webhook diagnostics, event log, request status.',
-    output: 'Machine-readable events and signed integration feed.',
+      'A technical view for public API consumers and controlled enterprise pilots across Microsoft, Google Cloud and AWS.',
+    view: 'Integration options, public agent and API v1 contracts, tenant-bound API v2, provider packages, rate and source boundaries.',
+    output: 'Read-only machine-readable evidence, three agent source packages and bounded Microsoft workflow paths.',
     accent: '#f59e0b',
   },
 ];
@@ -96,6 +110,260 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 };
 
 const nowItems = [
+  {
+    phase: 'Current · 3.9.0-beta.41',
+    title: 'Adaptive Experience',
+    body:
+      'Let each visitor choose Focus, Balanced or Explore hierarchy, control motion explicitly and inspect the deterministic reason for the recommended next action.',
+    benefit: 'A global, feature-rich platform can stay task-oriented without removing expert routes or silently personalizing evidence.',
+    validation: 'Preferences are browser-local, invalid state fails closed and presets change presentation only; the release does not claim measured usability or accessibility conformance.',
+    icon: SlidersHorizontal,
+    href: '/',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.40',
+    title: 'PolicyWatcher Civico',
+    body:
+      'Turn eligible public policy changes into a bounded association pilot watchlist with theme triage, local review states, a Markdown digest and Evidence Collection handoff.',
+    benefit: 'Italian consumer associations can organize a source-first review scope without creating an account or sending member, consumer or draft data to PolicyWatcher.',
+    validation: 'The workspace reuses public-evidence gates, keeps working state in the browser and names unavailable or empty conditions; it does not manage complaints, make legal findings or publish decisions.',
+    icon: UsersRound,
+    href: '/associazioni',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.39',
+    title: 'Managed VPS Renderer releases',
+    body:
+      'Upload a bounded Renderer package from the protected Admin Center, verify it across the browser, Hostinger and VPS Agent, then follow asynchronous install, smoke and rollback state.',
+    benefit: 'Routine Renderer deltas no longer require manual package staging, extraction or service commands on the VPS.',
+    validation: 'The Agent accepts only signed bounded uploads, rejects unsafe archives and version mismatches, and reports one observable operation through completion or rollback.',
+    icon: ServerCog,
+    href: '/admin/vps-services',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.38',
+    title: 'Git-hosted Press Kit distribution',
+    body:
+      'Keep complete checksum-listed editorial packages in the public repository while serving download links from GitHub and excluding nested package archives from Hostinger deployments.',
+    benefit: 'Editors retain the complete EN and IT downloads while the application release is smaller, faster to transfer and easier to inspect.',
+    validation: 'The package manifest names GitHub as the provider, the UI labels the external handoff and the release builder rejects nested Press Kit ZIPs.',
+    icon: GitFork,
+    href: '/press-kit#press-packages',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.37',
+    title: 'Resource navigation and retrieval diagnostics',
+    body:
+      'Group the full public resource directory by intent and make shared acquisitions explicit through safe fingerprints, cache modes and renderer/browser coherence.',
+    benefit: 'Readers scan a shorter navigation structure while operators can distinguish legitimate regional fetches from reused acquisition results.',
+    validation: 'All footer destinations remain available; focused tests preserve semantic URL differences, redact log labels and verify renderer UA behavior without stealth or WAF bypass.',
+    icon: ListChecks,
+    href: '/feature-atlas',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.36',
+    title: 'Administrative mutation hardening',
+    body:
+      'Centralize same-origin provenance, route-specific declared-body limits, JSON enforcement, bounded rate state and safe response metadata for unsafe administrative API methods.',
+    benefit: 'Administrative mutation routes receive one consistent defense-in-depth boundary without changing public APIs or page CSP and framing behavior.',
+    validation: 'Focused tests cover accepted same-origin requests, denial paths, body caps, rate state, headers and page CSP; the control is not a pentest or distributed rate limit.',
+    icon: Lock,
+    href: '/security',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.35',
+    title: 'Community Signal Composer UX',
+    body:
+      'Turn candidate interest or a new proposal into a browser-local Need, Evidence, Limits and Review dossier before an explicit GitHub handoff.',
+    benefit: 'Researchers, citizens, GRC reviewers and builders can prepare a bounded proposal without sending draft contents to PolicyWatcher.',
+    validation: 'Strict local draft parsing and deterministic issue generation are covered; GitHub permissions, review, acceptance and adoption remain external.',
+    icon: Users,
+    href: '/roadmap#candidates',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.34',
+    title: 'Source Remediation Workbench UX',
+    body:
+      'Connect returned-window priority, safe filtering, bounded issue evidence, responsive layouts and the Detect to Close sequence in one protected workbench.',
+    benefit: 'Admins and Auditors can identify the next responsible remediation action while mutation controls remain admin-only.',
+    validation: 'Only Recovered issues can be closed and Resolved issues reopened; closure is not proof of continuous source availability or measured usability improvement.',
+    icon: Settings2,
+    href: '/admin/source-reliability',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.33',
+    title: 'Renderer production hardening',
+    body:
+      'Require explicit target-domain egress, HTTPS, bounded output and total runtime while separating public liveness from authenticated Chromium readiness and supporting a bounded two-secret rotation overlap.',
+    benefit: 'Operators can constrain rendered destinations and rotate credentials without exposing readiness detail publicly or accepting arbitrary public targets.',
+    validation: 'Focused tests cover allowlist parsing, subdomain boundaries, secret overlap, HTTPS enforcement and query-free operational logging; Chromium socket ownership remains an explicit limit.',
+    icon: Cpu,
+    href: '/admin/vps-services',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.30',
+    title: 'Word Contract Evidence Review',
+    body:
+      'Classify an explicitly selected Word clause locally against a fixed taxonomy, display the derived topics and search related public evidence only after a separate acknowledgement.',
+    benefit: 'Reviewers can reach cited public evidence from a Word clause without transmitting the selected clause to PolicyWatcher.',
+    validation: 'Network queries contain controlled topic labels only; the source package does not verify, approve or legally assess a contract.',
+    icon: FileCheck2,
+    href: '/office-addin/contract-review',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.29',
+    title: 'Microsoft, Google and AWS agent packages',
+    body:
+      'Validate a Microsoft 365 Copilot declarative agent, Vertex AI Agent Builder tool or Amazon Quick OpenAPI connector against the same public evidence contract.',
+    benefit: 'Enterprise users can query PolicyWatcher from an approved agent environment while public evidence remains at the source.',
+    validation: 'The repository provides source packages and runbooks; it does not deploy, approve, publish or certify them in customer environments.',
+    icon: GitFork,
+    href: '/integrations',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.28',
+    title: 'Cross-cloud Agent Evidence Gateway',
+    body:
+      'Retrieve deterministic capabilities, public change briefs and curated Observatory briefs through one flattened OpenAPI 3.0 contract.',
+    benefit: 'Agent tools receive timestamps, applied filters, answer context, citations and explicit evidence limits in a consistent form.',
+    validation: 'Only public evidence and curated references are returned; zero results do not establish absence and private workflows remain on API v2.',
+    icon: Radio,
+    href: '/api/v1/agent/openapi.json',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.22',
+    title: 'Browser-local event feed continuity',
+    body:
+      'Inspect the bounded public change-event window, save or import a strict local checkpoint and explicitly resume forward polling from its opaque cursor.',
+    benefit: 'Integration developers can rehearse checkpoint, deduplication and resume behavior without registering an endpoint or sending consumer state to PolicyWatcher.',
+    validation: 'The report detects observable duplicate, overlap, ordering and truncation conditions; it does not claim exhaustive monitoring, delivery confirmation or zero gaps.',
+    icon: Radio,
+    href: '/developers/event-continuity',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.17',
+    title: 'Local public-evidence watchlists and shareable collections',
+    body:
+      'Select up to 12 exact public change records, keep a bounded title and review state in localStorage, and share a canonical URL containing public change IDs only.',
+    benefit: 'Researchers and reviewers can assemble a reproducible scope without creating an account or sending personal workspace state to PolicyWatcher.',
+    validation: 'Shared links exclude the local title and review states; corrupt or oversized browser state is ignored and the selection remains bounded to public records.',
+    icon: GitFork,
+    href: '/collections',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.17',
+    title: 'Multi-change evidence briefing',
+    body:
+      'Selected exact-change Evidence Packets are composed into one deterministic collection with per-record identity, source state, screening trace, packet digest and review questions.',
+    benefit: 'A reviewer can carry a defined multi-record scope into editorial, research or governance work while retaining each original evidence boundary.',
+    validation: 'The collection is selection-based rather than exhaustive and does not infer a market, legal or compliance conclusion.',
+    icon: FileCheck2,
+    href: '/collections',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.17',
+    title: 'Portable generic evidence bundle',
+    body:
+      'One read-only endpoint returns deterministic JSON, Markdown or formula-safe CSV for 1–12 canonical public change IDs.',
+    benefit: 'Developers can move bounded public evidence into their own review workflow without a vendor-specific connector.',
+    validation: 'The endpoint accepts IDs and format only; direct Jira, Confluence, Teams or GRC delivery, signed webhooks and write operations remain unimplemented.',
+    icon: Database,
+    href: '/developers',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.16',
+    title: 'Source confidence and continuity ledger',
+    body:
+      'Public evidence files show publication state, sanitized retrieval status, last-check time and versioned public snapshot fingerprints for one change.',
+    benefit: 'Reviewers can inspect the recorded evidence chain without access to protected Dataset QA operations.',
+    validation: 'The public view excludes admin notes, raw retrieval failures, credentials and withheld records; retrieval state is not a source-authenticity rating.',
+    icon: Fingerprint,
+    href: '/evidence',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.16',
+    title: 'Advisory governance mapping',
+    body:
+      'Assessed KPI evidence is mapped to review questions for the EU AI Act, ISO/IEC 42001, NIST AI RMF and OECD AI Principles.',
+    benefit: 'GRC and legal reviewers receive a structured starting point for specialist framework review.',
+    validation: 'Mappings state mapped or not assessed, name their source and version, and never issue compliance, conformity or legal verdicts.',
+    icon: Scale,
+    href: '/evidence',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.16',
+    title: 'Source-anchored score explainability',
+    body:
+      'Stored score reasons can show an exact source passage, snapshot side and related KPI only when the passage matches the recorded snapshot.',
+    benefit: 'A reviewer can connect a screening reason to available source evidence instead of reading an unsupported explanation in isolation.',
+    validation: 'Nonmatching candidate quotes are rejected and hidden; historical records without an anchor state that the source passage was not recorded.',
+    icon: BookOpenCheck,
+    href: '/evidence',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.16',
+    title: 'Change-bound evidence reports',
+    body:
+      'Each publishable change can produce a two-page PDF and JSON packet with identity, evidence fingerprints, score trace, advisory mappings, review questions and digest.',
+    benefit: 'Reviewers can download an exact-change dossier without receiving a report for a later change in the same policy.',
+    validation: 'The packet is a bounded evidence record, not a certification, audit result, legal opinion or compliance assessment.',
+    icon: FileCheck2,
+    href: '/evidence',
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.2',
+    title: 'Shareable evidence views',
+    body:
+      'Copy view writes the public dashboard filters to a versioned canonical URL, while committed filter changes participate in browser history and stale values fail closed.',
+    benefit: 'Reviewers can share and revisit the same public evidence scope without manually reconstructing each visible filter.',
+    validation: 'Only public view state is encoded; identity, private evidence and consent state remain excluded, and a future link can still reflect changed source availability.',
+    icon: GitFork,
+  },
+  {
+    phase: 'Delivered · 3.9.0-beta.2',
+    title: 'Coordinated visual evidence drill-down',
+    body:
+      'Heatmap selection commits region and audience together, while radar KPI selection opens original and normalized values with explicit missing and tie outcomes.',
+    benefit: 'A visual signal now leads directly to its precise context, exact values and interpretation boundary.',
+    validation: 'Keyboard and mobile paths retain exact-value tables; normalized ordinal values are screening aids, not compliance or performance measurements.',
+    icon: Eye,
+  },
+  {
+    phase: 'Delivered · 3.8.1',
+    title: 'Mobile inquiry reliability',
+    body:
+      'The notification workflow now moves from paste to a local company/policy summary and one verification action, while optional corrections and explainability stay progressively disclosed.',
+    benefit: 'A person on a phone can submit a useful request without reconstructing hidden links, dates or a multi-field form.',
+    validation: 'Only successful writes show a registered reference; the admin queue has a visible count and optional minimized email alert, while raw notification content remains browser-local.',
+    icon: Search,
+  },
+  {
+    phase: 'Delivered · 3.8.0',
+    title: 'Browser Evidence Companion',
+    body:
+      'A minimum-permission Chrome, Edge and Safari companion reads an opened notice only after an explicit gesture, extracts non-personal clues locally, and connects the confirmed signal to PolicyWatcher’s published portfolio evidence.',
+    benefit: 'People can move from a real notification to a verifiable answer without copying raw personal communications into the platform.',
+    validation: 'No persistent mailbox access, raw-content transmission, remote code or automated publication; unknown sources still enter the human approval and QA workflow.',
+    icon: Search,
+  },
+  {
+    phase: 'Delivered · 3.7.2',
+    title: 'Calm Workspace onboarding and navigation',
+    body:
+      'First-time visitors choose an objective and evidence depth, preview the evidence stack, and enter a workspace whose toolbar exposes only the most relevant actions while retaining every command in More.',
+    benefit: 'The product becomes understandable before the full dashboard density appears, without removing expert capabilities.',
+    validation: 'Source QA remains visible, preferences stay local, setup is reversible, and the mobile navigation remains focused and safe-area aware.',
+    icon: SlidersHorizontal,
+  },
+  {
+    phase: 'Delivered · 3.7.1',
+    title: 'Notification-to-evidence inquiry',
+    body:
+      'A citizen can paste a plain-text terms/privacy notice, confirm the locally extracted organization and starting policy clues, receive portfolio-wide public evidence, or create a zero-content human-review inquiry that feeds controlled company discovery.',
+    benefit: 'The path from a real notification email to trustworthy evidence becomes direct without treating marketing copy as proof.',
+    validation: 'Only publicEvidence records answer immediately; unknown or unverified cases remain queued behind the human source-approval gate.',
+    icon: Search,
+  },
   {
     phase: 'Delivered · voted',
     title: 'Objective-based Dashboard Composer',
@@ -146,67 +414,131 @@ const nowItems = [
 const candidateFeatures = [
   {
     track: 'API',
-    title: 'Public API v1 and signed webhooks',
+    title: 'Read-only public integration directory',
     body:
-      'Expose source-gated company, policy, change, and signal data with rate limits, object-level authorization, and HMAC-signed outbound events.',
-    status: 'Enterprise pull',
-    risk: 'Needs careful schema versioning and replay protection.',
+      'Delivered in 3.9.0 Beta 11: a versioned manifest and localized Observatory registry make the public integration surface inspectable, rate-limited and source-bound.',
+    status: 'Delivered beta 11',
+    risk: 'The surface is deliberately read-only; it does not expose admin data, raw policy text or operational controls.',
+  },
+  {
+    track: 'Enterprise pilot',
+    title: 'Entra, Azure API Management and Power Platform',
+    body:
+      'Pilot ready: API v2 validates tenant-bound Entra tokens at the origin, publishes an OpenAPI contract, includes an APIM policy and provides a source-controlled custom connector package.',
+    status: 'Pilot ready',
+    risk: 'Certification, tenant entitlements, offboarding, delivery telemetry and commercial provisioning are not yet implemented.',
+  },
+  {
+    track: 'Enterprise agents',
+    title: 'Cross-cloud public evidence dialogue',
+    body:
+      'Delivered in Beta 28-29: one deterministic Agent Evidence Gateway plus source packages for Microsoft 365 Copilot, Vertex AI Agent Builder and Amazon Quick.',
+    status: 'Available gateway · source packages ready',
+    risk: 'Provider approval, tenant configuration, cloud logging, retention and product compatibility remain customer- and provider-controlled.',
+  },
+  {
+    track: 'Office',
+    title: 'Word Contract Evidence Review',
+    body:
+      'Delivered in Beta 30: locally classify selected clause text and send only displayed controlled topic labels to the public evidence gateway after explicit acknowledgement.',
+    status: 'Source package ready',
+    risk: 'Topic mapping can require professional review and must not be presented as contract verification, approval or legal advice.',
+  },
+  {
+    track: 'Collaboration',
+    title: 'Local public-evidence watchlists and shareable collections',
+    body:
+      'Delivered in 3.9.0 Beta 17: select up to 12 public change IDs, retain title and review states locally, and share an ID-only canonical URL.',
+    status: 'Delivered beta 17',
+    risk: 'This is not a persistent team workspace: accounts, ACLs, comments, presence and conflict resolution are not included.',
+  },
+  {
+    track: 'API',
+    title: 'Configured signed webhook delivery',
+    body:
+      'Delivered in 3.9.0 Beta 23: deployment-configured HTTPS destinations receive eligible public change events through HMAC-SHA256 signatures, a persistent outbox, per-attempt evidence and bounded retries.',
+    status: 'Delivered beta 23 · configured pilot',
+    risk: 'No public subscriptions, tenant self-service, endpoint challenge, automatic key rotation, guaranteed delivery or SLA.',
   },
   {
     track: 'Governance',
-    title: 'Advisory framework mapping',
+    title: 'Reviewed framework mapping catalogue',
     body:
-      'Map policy changes to EU AI Act, ISO/IEC 42001, NIST AI RMF, OECD AI Principles, and PALO lifecycle evidence without issuing compliance verdicts.',
-    status: 'Research ready',
-    risk: 'Wording must remain evidence-oriented, not legal determination.',
+      'Add versioned reviewer commentary, change history and additional framework topics to the delivered advisory map.',
+    status: 'Later validation',
+    risk: 'Reviewer input must remain attributable and must not turn topic relevance into a compliance verdict.',
   },
   {
     track: 'Dataset QA',
-    title: 'Source confidence ledger',
+    title: 'Aggregate source continuity trends',
     body:
-      'A public ledger for monitored source health: successful fetches, suspended sources, URL remediation, review decisions, and current publication state.',
-    status: 'Trust builder',
-    risk: 'Should avoid exposing operational secrets or private admin notes.',
+      'Publish bounded portfolio-level continuity trends across time without exposing raw failures, admin decisions or private remediation details.',
+    status: 'Later aggregate',
+    risk: 'Small cohorts and detailed failure patterns could reveal protected operational information.',
   },
   {
     track: 'Research',
     title: 'Market pulse atlas',
     body:
       'A visual atlas of policy movement by sector, jurisdiction, source status, and time period, designed for researchers and journalists.',
-    status: 'Narrative value',
+    status: 'Communication value',
     risk: 'Requires enough verified public evidence to avoid empty theatrics.',
   },
   {
     track: 'Reports',
-    title: 'Board-ready evidence packets',
+    title: 'Multi-change evidence briefing',
     body:
-      'Export a compact packet with source URL, snapshot hash, change summary, QA state, methodology limits, and recommended human-review questions.',
-    status: 'Near term',
-    risk: 'Must not imply certification or legal advice.',
+      'Delivered in 3.9.0 Beta 17: compose selected exact-change evidence packets into a dated bundle with selection scope and per-record digests.',
+    status: 'Delivered beta 17',
+    risk: 'Aggregation must preserve each packet boundary and must not imply a complete market or compliance assessment.',
   },
   {
     track: 'Signals',
-    title: 'Custom watchlists',
+    title: 'Persistent alert watchlists',
     body:
-      'Let users track a subset of companies, policies, jurisdictions, or governance topics and receive focused updates.',
+      'Let authenticated users subscribe to future changes for selected companies, policies, jurisdictions, or governance topics and receive focused updates.',
     status: 'Community ask',
-    risk: 'Subscription preferences need strong privacy defaults.',
+    risk: 'Persistent subscription preferences, identity and delivery controls need strong privacy defaults and are not part of local Evidence Collections.',
   },
   {
     track: 'Explainability',
-    title: 'Why this score changed',
+    title: 'Cross-version explanation trace',
     body:
-      'Show which text passages, KPI fields, region impact rows, and review decisions influenced a change in score or category.',
-    status: 'Core trust',
-    risk: 'Needs explicit AI boundary and source quote handling.',
+      'Compare source-anchored screening reasons across multiple public changes while retaining the original snapshot side and KPI linkage.',
+    status: 'Later lineage',
+    risk: 'Cross-version summaries must not infer causality where only stored screening outputs exist.',
+  },
+  {
+    track: 'Integrations',
+    title: 'Portable generic evidence bundle',
+    body:
+      'Delivered in 3.9.0 Beta 17: deterministic JSON, Markdown and formula-safe CSV exports for 1–12 canonical public change IDs.',
+    status: 'Delivered beta 17',
+    risk: 'The bundle is portable data only; it does not deliver directly into third-party products or expose private review state.',
   },
   {
     track: 'Integrations',
     title: 'Evidence export to GRC tools',
     body:
-      'Generate structured exports for Jira, Confluence, OneTrust-style workflows, and internal risk registers after the generic webhook layer is stable.',
-    status: 'Later',
-    risk: 'Direct vendor integration should follow a generic signed-events foundation.',
+      'Available in the current build as a vendor-neutral handoff manifest with deterministic work-item IDs, evidence links, digests, review questions and acceptance criteria.',
+    status: 'Available · generic handoff',
+    risk: 'The manifest does not create vendor records, assignments, deadlines or delivery confirmation. Direct publishing still requires identity, audit and delivery controls.',
+  },
+  {
+    track: 'Microsoft 365',
+    title: 'Teams, Copilot, MCP and Graph surfaces',
+    body:
+      'Copilot public-evidence agent source is delivered. Continue with an authenticated Teams route, a federated MCP server and optional Graph indexing over tenant-bound controls.',
+    status: 'Copilot source ready · Teams, MCP and Graph planned',
+    risk: 'Private surfaces need tenant authorization, content and retention boundaries, operational ownership and multi-tenant isolation tests.',
+  },
+  {
+    track: 'Distribution',
+    title: 'Microsoft commercial marketplace offer',
+    body:
+      'Start with a discovery listing, then evaluate a transactable SaaS offer after tenant provisioning, entitlements, billing events, consent revocation and support operations exist.',
+    status: 'Commercial later',
+    risk: 'Marketplace packaging must not precede a tested customer lifecycle and tenant-isolation model.',
   },
   {
     track: 'UX',
@@ -225,6 +557,20 @@ const candidateFeatures = [
     risk: 'Needs stable fixtures that do not become fake public evidence.',
   },
 ];
+
+type CandidateImplementationState = 'delivered' | 'pilot' | 'candidate';
+
+const candidateStateLabels: Record<CandidateImplementationState, string> = {
+  delivered: 'Delivered',
+  pilot: 'Pilot or partial',
+  candidate: 'Candidate',
+};
+
+function getCandidateImplementationState(status: string): CandidateImplementationState {
+  if (/delivered/i.test(status)) return 'delivered';
+  if (/ready|available/i.test(status)) return 'pilot';
+  return 'candidate';
+}
 
 const releaseLanes = [
   {
@@ -253,43 +599,65 @@ const releaseLanes = [
     title: 'Stability Release',
     body:
       'Centralized onboarding batch invariants, held-workflow defense in depth, deferred orientation evaluation with cleanup, root mobile overflow containment, and single-source release metadata.',
+    state: 'delivered',
+  },
+  {
+    label: '3.7.0',
+    title: 'Evidence Experience Release',
+    body:
+      'Bilingual notification-to-evidence inquiry with browser-local clue extraction, one-request company discovery, in-context baselines, evidence-provenance KPI QA, audited human handoff, and self-checking Hostinger startup.',
+    state: 'delivered',
+  },
+  {
+    label: '3.7.1',
+    title: 'Evidence Intake Reliability',
+    body:
+      'Plain-text-first notification intake, explicit clue confirmation, organization/domain conflict handling, portfolio-wide policy verification, and actionable database-unavailable states without transmitting raw message content.',
+    state: 'delivered',
+  },
+  {
+    label: '3.7.2',
+    title: 'Calm Workspace Release',
+    body:
+      'Progressive first-use onboarding, objective-aware quick actions, direct changelog identity, icon-only What Changed entry, focused mobile navigation, and browser-local personalization.',
+    state: 'delivered',
+  },
+  {
+    label: '3.8.0',
+    title: 'Browser Evidence Companion',
+    body:
+      'Production Chrome/Edge Manifest V3 extension and Safari-compatible source with temporary tab access, local clue extraction, structured confirmation and portfolio-wide public evidence results.',
+    state: 'delivered',
+  },
+  {
+    label: '3.8.1',
+    title: 'Mobile Inquiry Reliability',
+    body:
+      'One-action mobile notification intake, company extraction, persistence-specific receipts, visible admin queue count and privacy-minimized operator alerts.',
+    state: 'delivered',
+  },
+  {
+    label: POLICYWATCHER_VERSION,
+    title: POLICYWATCHER_RELEASE_NAME,
+    body:
+      'Action-oriented source remediation, a browser-local community signal dossier and a centralized defense-in-depth boundary for unsafe administrative API mutations.',
     state: 'current',
   },
   {
     label: '4.0',
     title: 'Feature Drop',
     body:
-      'API v1, signed webhooks, richer reports, multi-version diff, and stronger integration surfaces.',
+      'Self-service webhook lifecycle, endpoint proof and secret rotation, persistent alert watchlists, multi-version diff and production integration hardening after the configured pilot.',
     state: 'candidate',
   },
   {
     label: '4.5',
     title: 'Confidence Release',
     body:
-      'Governance mapping validation, source-confidence ledger, benchmark pack, and production database hardening.',
+      'Community benchmark pack, cross-version evidence lineage, external methodology review and production database hardening.',
     state: 'candidate',
   },
 ];
-
-function buildIssueUrl(feature: string, track: string) {
-  const title = `Roadmap signal: ${feature}`;
-  const body = [
-    `Feature: ${feature}`,
-    `Track: ${track}`,
-    '',
-    'What I need to understand or accomplish:',
-    '',
-    'Current workflow or workaround:',
-    '',
-    'What evidence, export, alert, or view would make this useful:',
-    '',
-    'Preferred detail level: Snapshot / Operational / Forensic',
-    '',
-    'Risks, wording limits, or source-quality concerns:',
-  ].join('\n');
-
-  return `${repoUrl}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
-}
 
 function buildWorkspaceHref(goalId: GoalId, depth: DetailLevel) {
   const intent = goalId === 'governance' ? 'grc' : goalId;
@@ -299,13 +667,6 @@ function buildWorkspaceHref(goalId: GoalId, depth: DetailLevel) {
 function HeroGraph() {
   return (
     <svg viewBox="0 0 760 520" className={styles.heroGraph} aria-hidden="true">
-      <defs>
-        <linearGradient id="roadmapRoute" x1="0" x2="1">
-          <stop stopColor="#5eead4" />
-          <stop offset="0.48" stopColor="#60a5fa" />
-          <stop offset="1" stopColor="#a78bfa" />
-        </linearGradient>
-      </defs>
       <path className={styles.graphGrid} d="M72 78h616M72 170h616M72 262h616M72 354h616M72 446h616M124 46v430M254 46v430M384 46v430M514 46v430M644 46v430" />
       <path className={styles.graphRoute} d="M94 384c76-120 142-150 231-104 78 40 112 8 158-72 45-79 101-113 183-52" />
       <path className={styles.graphRouteSoft} d="M100 188c67 48 117 63 175 31 71-39 106-29 155 28 57 66 126 77 225 12" />
@@ -358,19 +719,72 @@ function DepthDiagram({ level, goal }: { level: DetailLevel; goal: (typeof goals
 export default function RoadmapClient() {
   const [goalId, setGoalId] = useState<GoalId>('citizen');
   const [detailLevel, setDetailLevel] = useState<DetailLevel>('forensic');
+  const [candidateSearch, setCandidateSearch] = useState('');
+  const [candidateTrack, setCandidateTrack] = useState('all');
+  const [candidateState, setCandidateState] = useState<'all' | CandidateImplementationState>('all');
+  const [composerRequest, setComposerRequest] = useState<RoadmapSignalComposerRequest | null>(null);
+  const [hasSavedSignalDraft, setHasSavedSignalDraft] = useState(false);
+  const composerRequestId = useRef(0);
   const selectedGoal = useMemo(() => goals.find((goal) => goal.id === goalId) ?? goals[0], [goalId]);
+  const candidateTracks = useMemo(
+    () => Array.from(new Set(candidateFeatures.map((feature) => feature.track))).sort(),
+    [],
+  );
+  const candidateTrackCount = useMemo(
+    () => candidateTracks.length,
+    [candidateTracks],
+  );
+  const filteredCandidateFeatures = useMemo(() => {
+    const query = candidateSearch.trim().toLocaleLowerCase();
+    return candidateFeatures.filter((feature) => {
+      const state = getCandidateImplementationState(feature.status);
+      const matchesTrack = candidateTrack === 'all' || feature.track === candidateTrack;
+      const matchesState = candidateState === 'all' || state === candidateState;
+      const matchesSearch = !query || [feature.title, feature.track, feature.body, feature.status, feature.risk]
+        .some((value) => value.toLocaleLowerCase().includes(query));
+      return matchesTrack && matchesState && matchesSearch;
+    });
+  }, [candidateSearch, candidateState, candidateTrack]);
+  const filtersActive = Boolean(candidateSearch.trim()) || candidateTrack !== 'all' || candidateState !== 'all';
+
+  const openNewSignal = useCallback(() => {
+    composerRequestId.current += 1;
+    setComposerRequest({ id: composerRequestId.current, mode: 'new' });
+  }, []);
+
+  const resumeSignal = useCallback(() => {
+    composerRequestId.current += 1;
+    setComposerRequest({ id: composerRequestId.current, mode: 'resume' });
+  }, []);
+
+  const openCandidateSignal = useCallback((title: string, track: string) => {
+    composerRequestId.current += 1;
+    setComposerRequest({ id: composerRequestId.current, mode: 'candidate', title, track });
+  }, []);
+
+  const closeSignalComposer = useCallback(() => setComposerRequest(null), []);
+  const updateDraftAvailability = useCallback((available: boolean) => setHasSavedSignalDraft(available), []);
+
+  function clearCandidateFilters() {
+    setCandidateSearch('');
+    setCandidateTrack('all');
+    setCandidateState('all');
+  }
 
   return (
-    <main className={styles.page}>
+    <>
+      <PublicHeader current="roadmap" />
+      <main className={styles.page}>
       <nav className={styles.nav} aria-label="Roadmap navigation">
         <Link href="/" className={styles.brand}>
           <Image src="/logo-mark.png" alt="" width={34} height={34} className={styles.brandMark} priority />
           <span>PolicyWatcher</span>
         </Link>
         <div className={styles.navLinks}>
-          <a href="#workspace">Workspace</a>
-          <a href="#now">Now</a>
           <a href="#candidates">Candidates</a>
+          <a href="#impact-map">Release impact</a>
+          <Link href="/feature-atlas">Feature Atlas</Link>
+          <a href="#workspace">Workspace</a>
           <a href="#method">Ranking</a>
           <a href={repoUrl} target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
@@ -385,16 +799,20 @@ export default function RoadmapClient() {
           <span className={styles.eyebrow}>Community-shaped roadmap</span>
           <h1>Help decide what PolicyWatcher should show next</h1>
           <p>
-            PolicyWatcher is moving from static dashboards to goal-driven evidence workspaces. The next step is not more navigation. It is a clearer way to ask: what do you need to understand, how much evidence do you need, and what should the system hide until the source is trustworthy enough?
+            PolicyWatcher includes goal-driven evidence workspaces in addition to static dashboard views. Workspace configuration records the user objective, requested evidence depth and modules that remain unavailable until source requirements are met.
           </p>
           <div className={styles.heroActions}>
             <a className={styles.primaryAction} href="#candidates">
               Signal a roadmap priority
               <ArrowUpRight size={17} />
             </a>
-            <a className={styles.secondaryAction} href={buildIssueUrl('New roadmap proposal', 'Community proposal')} target="_blank" rel="noopener noreferrer">
+            <button className={styles.secondaryAction} type="button" onClick={openNewSignal}>
               Propose a new idea
-            </a>
+            </button>
+            <Link className={styles.secondaryAction} href="/feature-atlas">
+              Explore feature dependencies
+              <ArrowUpRight size={17} />
+            </Link>
           </div>
         </section>
 
@@ -414,7 +832,7 @@ export default function RoadmapClient() {
               <span>detail levels</span>
             </div>
             <div>
-              <strong>10</strong>
+              <strong>{candidateTrackCount}</strong>
               <span>candidate tracks</span>
             </div>
           </div>
@@ -444,14 +862,16 @@ export default function RoadmapClient() {
         </article>
       </section>
 
-      <section className={`${styles.section} ${styles.workspaceSection}`} id="workspace">
+      <details className={styles.lowerPriorityDisclosure} id="workspace">
+        <summary><span>Explore the adaptive workspace</span><small>Optional product demonstrator, collapsed to keep community signals first.</small></summary>
+      <section className={`${styles.section} ${styles.workspaceSection}`}>
         <div className={styles.sectionHead}>
           <div>
             <span className={styles.sectionLabel}>Adaptive workspace</span>
             <h2>Start from the question, not from the dashboard</h2>
           </div>
           <p>
-            PolicyWatcher 3.6.3 now opens a guided start for first-time visitors. The selected purpose and evidence depth compose a preview from registered, real dashboard modules; the choice stays reversible and Source QA remains pinned in every generated stack.
+            PolicyWatcher retains a guided start for first-time visitors. The selected purpose and evidence depth compose a preview from registered dashboard modules; the choice stays reversible and Source QA remains pinned in every generated stack.
           </p>
         </div>
 
@@ -503,7 +923,10 @@ export default function RoadmapClient() {
           </div>
         </div>
       </section>
+      </details>
 
+      <details className={styles.lowerPriorityDisclosure} id="impact-map">
+        <summary><span>Review delivered releases and impact evidence</span><small>Version history and the full release-impact map.</small></summary>
       <section className={styles.section} id="now">
         <div className={styles.sectionHead}>
           <div>
@@ -536,6 +959,12 @@ export default function RoadmapClient() {
                     <dd>{item.validation}</dd>
                   </div>
                 </dl>
+                {'href' in item && item.href ? (
+                  <Link href={item.href} className={styles.deliveredLink}>
+                    Open delivered surface
+                    <ArrowUpRight size={15} />
+                  </Link>
+                ) : null}
               </article>
             );
           })}
@@ -552,19 +981,79 @@ export default function RoadmapClient() {
         ))}
       </section>
 
+      <section className={styles.section}>
+        <ReleaseImpactMap />
+      </section>
+      </details>
+
       <section className={styles.section} id="candidates">
         <div className={styles.sectionHead}>
           <div>
             <span className={styles.sectionLabel}>Feature radar</span>
-            <h2>Potential evolutions the community can rank</h2>
+            <h2>Potential evolutions ready for a structured signal</h2>
           </div>
           <p>
-            Each candidate needs more than a vote. The best signal explains the workflow, the expected evidence, the acceptable limits, and the reason the current product does not solve it yet.
+            Candidate review records the workflow, expected evidence, acceptable limits and the current implementation gap. No popularity or endorsement count is inferred.
           </p>
         </div>
 
-        <div className={styles.candidateGrid}>
-          {candidateFeatures.map((feature, index) => (
+        <div className={styles.candidateControls}>
+          <label className={styles.candidateSearch}>
+            <span>Search candidates</span>
+            <div>
+              <Search size={17} aria-hidden="true" />
+              <input
+                type="search"
+                value={candidateSearch}
+                onChange={(event) => setCandidateSearch(event.target.value)}
+                placeholder="Search title, evidence need or risk"
+              />
+            </div>
+          </label>
+          <label>
+            <span>Track</span>
+            <select value={candidateTrack} onChange={(event) => setCandidateTrack(event.target.value)}>
+              <option value="all">All tracks</option>
+              {candidateTracks.map((track) => <option value={track} key={track}>{track}</option>)}
+            </select>
+          </label>
+          <label>
+            <span>Implementation state</span>
+            <select
+              value={candidateState}
+              onChange={(event) => setCandidateState(event.target.value as 'all' | CandidateImplementationState)}
+            >
+              <option value="all">All states</option>
+              {(Object.keys(candidateStateLabels) as CandidateImplementationState[]).map((state) => (
+                <option value={state} key={state}>{candidateStateLabels[state]}</option>
+              ))}
+            </select>
+          </label>
+          <div className={styles.candidateControlActions}>
+            <span role="status" aria-live="polite">
+              {filteredCandidateFeatures.length} of {candidateFeatures.length} candidates
+            </span>
+            <button type="button" onClick={clearCandidateFilters} disabled={!filtersActive}>Clear filters</button>
+            {hasSavedSignalDraft ? (
+              <button type="button" className={styles.resumeDraftButton} onClick={resumeSignal}>Resume local draft</button>
+            ) : null}
+          </div>
+        </div>
+
+        {candidateFeatures.length === 0 ? (
+          <div className={styles.candidateEmptyState}>
+            <h3>No candidate data is available</h3>
+            <p>The roadmap catalogue could not provide candidate records.</p>
+          </div>
+        ) : filteredCandidateFeatures.length === 0 ? (
+          <div className={styles.candidateEmptyState}>
+            <h3>No candidates match these filters</h3>
+            <p>Clear the filters or search for a different evidence need.</p>
+            <button type="button" onClick={clearCandidateFilters}>Reset candidate view</button>
+          </div>
+        ) : (
+          <div className={styles.candidateGrid}>
+          {filteredCandidateFeatures.map((feature, index) => (
             <article
               className={styles.candidateCard}
               key={feature.title}
@@ -572,7 +1061,7 @@ export default function RoadmapClient() {
             >
               <div className={styles.candidateTop}>
                 <span>{feature.track}</span>
-                <b>{feature.status}</b>
+                <b>{candidateStateLabels[getCandidateImplementationState(feature.status)]} · {feature.status}</b>
               </div>
               <h3>{feature.title}</h3>
               <p>{feature.body}</p>
@@ -580,13 +1069,14 @@ export default function RoadmapClient() {
                 <strong>Watch point</strong>
                 <span>{feature.risk}</span>
               </div>
-              <a className={styles.signalLink} href={buildIssueUrl(feature.title, feature.track)} target="_blank" rel="noopener noreferrer">
+              <button className={styles.signalLink} type="button" onClick={() => openCandidateSignal(feature.title, feature.track)}>
                 Signal interest
-                <ArrowUpRight size={15} />
-              </a>
+                <ChevronRight size={15} />
+              </button>
             </article>
           ))}
-        </div>
+          </div>
+        )}
       </section>
 
       <section className={styles.methodSection} id="method">
@@ -631,13 +1121,13 @@ export default function RoadmapClient() {
             The most useful feedback is specific: the role you have, the decision you need to make, the evidence you trust, and the level of detail you expect.
           </p>
         </div>
-        <a className={styles.primaryAction} href={buildIssueUrl('New roadmap proposal', 'Community proposal')} target="_blank" rel="noopener noreferrer">
+        <button className={styles.primaryAction} type="button" onClick={openNewSignal}>
           Open a roadmap proposal
-          <ArrowUpRight size={17} />
-        </a>
+          <ChevronRight size={17} />
+        </button>
       </section>
 
-      <footer className={styles.footer}>
+      <section className={styles.footer} aria-label="Roadmap boundary and local links">
         <span>PolicyWatcher roadmap - community signal board</span>
         <span>Planning surface only. Features may change after validation, testing, and review.</span>
         <div>
@@ -646,7 +1136,15 @@ export default function RoadmapClient() {
           <Link href="/trust">Trust</Link>
           <Link href="/methodology/confidence">Methodology</Link>
         </div>
-      </footer>
-    </main>
+      </section>
+      <Footer lang="en" />
+      </main>
+      <RoadmapSignalComposer
+        request={composerRequest}
+        tracks={candidateTracks}
+        onClose={closeSignalComposer}
+        onDraftAvailabilityChange={updateDraftAvailability}
+      />
+    </>
   );
 }

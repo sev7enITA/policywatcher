@@ -20,14 +20,15 @@ import {
 } from 'lucide-react';
 import styles from './TermsGate.module.css';
 import type { Lang } from '@/types';
+import { TERMS_ACCEPTANCE_TTL_DAYS, TERMS_OF_USE, TERMS_STORAGE_KEY } from '@/lib/termsOfUse';
 
-const STORAGE_KEY = 'policywatcher_terms_accepted_v2';
-const ACCEPTANCE_TTL_MS = 90 * 24 * 60 * 60 * 1000;
+const ACCEPTANCE_TTL_MS = TERMS_ACCEPTANCE_TTL_DAYS * 24 * 60 * 60 * 1000;
 
 interface TermsGateProps {
   children: React.ReactNode;
   lang: Lang;
   onLangToggle: () => void;
+  onAcceptanceChange?: (accepted: boolean) => void;
 }
 
 const content = {
@@ -56,16 +57,9 @@ const content = {
       },
     ],
     continueBtn: 'Review use terms',
-    termsTitle: 'Use Boundaries',
-    termsIntro:
-      'Access requires acknowledging these limits. They keep the platform precise about what it does and does not do.',
-    terms: [
-      'PolicyWatcher maps evidence and changes in public policy texts; it is not a legal, regulatory, or compliance certification.',
-      'Assessments are indicative outputs from automated AI-assisted analysis of publicly available policy material and local dataset metadata.',
-      'Outputs can contain omissions, source access gaps, interpretive errors, or delayed updates, especially when provider pages block automated retrieval.',
-      'Risk scores and summaries are inspection aids. Decisions should be checked against provider sources and qualified professional advice.',
-      'The author and platform are not responsible for decisions, actions, or omissions based solely on dashboard output.',
-    ],
+    termsTitle: TERMS_OF_USE.en.boundaryTitle,
+    termsIntro: TERMS_OF_USE.en.intro,
+    terms: TERMS_OF_USE.en.boundaries,
     checkbox: 'I understand these use boundaries and accept the Terms of Use.',
     acceptBtn: 'Accept & Continue',
     backBtn: 'Back',
@@ -98,16 +92,9 @@ const content = {
       },
     ],
     continueBtn: 'Rivedi condizioni d\'uso',
-    termsTitle: 'Confini d\'uso',
-    termsIntro:
-      'L\'accesso richiede di riconoscere questi limiti. Servono a descrivere con precisione cosa la piattaforma fa e cosa non fa.',
-    terms: [
-      'PolicyWatcher mappa evidenze e cambiamenti nei testi di policy pubblici; non è una certificazione legale, regolatoria o di compliance.',
-      'Le valutazioni sono output indicativi da analisi automatizzata assistita da AI su materiale pubblico e metadata del dataset locale.',
-      'Gli output possono contenere omissioni, gap di accesso alle fonti, errori interpretativi o ritardi di aggiornamento, specie quando i provider bloccano il recupero automatico.',
-      'Punteggi di rischio e sintesi sono strumenti di ispezione. Le decisioni vanno verificate sulle fonti provider e con consulenza qualificata.',
-      'Autore e piattaforma non sono responsabili per decisioni, azioni od omissioni basate esclusivamente sull\'output della dashboard.',
-    ],
+    termsTitle: TERMS_OF_USE.it.boundaryTitle,
+    termsIntro: TERMS_OF_USE.it.intro,
+    terms: TERMS_OF_USE.it.boundaries,
     checkbox: 'Ho compreso questi confini d\'uso e accetto i Termini di Utilizzo.',
     acceptBtn: 'Accetta e continua',
     backBtn: 'Indietro',
@@ -117,7 +104,7 @@ const content = {
   },
 };
 
-export default function TermsGate({ children, lang, onLangToggle }: TermsGateProps) {
+export default function TermsGate({ children, lang, onLangToggle, onAcceptanceChange }: TermsGateProps) {
   const [accepted, setAccepted] = useState<boolean | null>(null);
   const [checked, setChecked] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -126,21 +113,24 @@ export default function TermsGate({ children, lang, onLangToggle }: TermsGatePro
   useEffect(() => {
     queueMicrotask(() => {
       try {
-        const stored = localStorage.getItem(STORAGE_KEY);
+        const stored = localStorage.getItem(TERMS_STORAGE_KEY);
         if (stored) {
           const timestamp = parseInt(stored, 10);
           if (!Number.isNaN(timestamp) && Date.now() - timestamp < ACCEPTANCE_TTL_MS) {
             setAccepted(true);
+            onAcceptanceChange?.(true);
             return;
           }
-          localStorage.removeItem(STORAGE_KEY);
+          localStorage.removeItem(TERMS_STORAGE_KEY);
         }
         setAccepted(false);
+        onAcceptanceChange?.(false);
       } catch {
         setAccepted(false);
+        onAcceptanceChange?.(false);
       }
     });
-  }, []);
+  }, [onAcceptanceChange]);
 
   const handleAccept = () => {
     if (!checked) {
@@ -148,11 +138,12 @@ export default function TermsGate({ children, lang, onLangToggle }: TermsGatePro
       return;
     }
     try {
-      localStorage.setItem(STORAGE_KEY, Date.now().toString());
+      localStorage.setItem(TERMS_STORAGE_KEY, Date.now().toString());
     } catch {
       /* ignore localStorage write errors */
     }
     setAccepted(true);
+    onAcceptanceChange?.(true);
   };
 
   if (accepted === null) return null;
@@ -161,7 +152,11 @@ export default function TermsGate({ children, lang, onLangToggle }: TermsGatePro
   const t = content[lang];
 
   return (
-    <div className={styles.overlay}>
+    <section
+      className={styles.overlay}
+      data-scope="interactive-workspace"
+      aria-labelledby="workspace-access-title"
+    >
       <button onClick={onLangToggle} className={styles.langToggle}>
         <Languages size={14} />
         {t.langToggle}
@@ -174,7 +169,7 @@ export default function TermsGate({ children, lang, onLangToggle }: TermsGatePro
             {t.badge}
           </div>
 
-          <h1 className={styles.title}>{t.title}</h1>
+          <h1 id="workspace-access-title" className={styles.title}>{t.title}</h1>
           <p className={styles.subtitle}>{t.subtitle}</p>
 
           <div className={styles.stepper} aria-label={lang === 'it' ? 'Passaggi accesso' : 'Access steps'}>
@@ -280,6 +275,6 @@ export default function TermsGate({ children, lang, onLangToggle }: TermsGatePro
           {t.footer}
         </p>
       </div>
-    </div>
+    </section>
   );
 }

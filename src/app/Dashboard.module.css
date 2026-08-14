@@ -7,9 +7,57 @@
   display: flex;
   flex-direction: column;
   background: var(--bg-main);
+  scroll-padding-bottom: 112px;
   transition: padding-left 0.25s cubic-bezier(0.16, 1, 0.3, 1),
               padding-bottom 0.25s cubic-bezier(0.16, 1, 0.3, 1),
               padding-top 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skipLink {
+  position: fixed;
+  top: 10px;
+  left: 12px;
+  z-index: 500;
+  min-height: 44px;
+  padding: 11px 14px;
+  border: 2px solid #ffffff;
+  border-radius: 6px;
+  background: #0f172a;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-decoration: none;
+  transform: translateY(-150%);
+  transition: transform 120ms ease;
+}
+
+.skipLink:focus {
+  outline: 3px solid #fbbf24;
+  outline-offset: 2px;
+  transform: translateY(0);
+}
+
+.dashboard[data-experience-preset="focus"] .extensionBetaStrip,
+.dashboard[data-experience-preset="focus"] .workflowLane:not(.workflowToday) {
+  display: none;
+}
+
+.dashboard[data-experience-preset="focus"] .workflowGrid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.dashboard[data-experience-preset="focus"] .workflowToday {
+  grid-column: auto;
+}
+
+.dashboard[data-experience-motion="reduced"] *,
+.dashboard[data-experience-motion="reduced"] *::before,
+.dashboard[data-experience-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+  transition-duration: 0.01ms !important;
 }
 
 .releaseMapSection {
@@ -811,11 +859,78 @@
   position: relative;
 }
 
+.shareViewBtn {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 650;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.shareViewBtn:hover,
+.shareViewBtn:focus-visible {
+  border-color: var(--border-color-active);
+  background: var(--primary-glow);
+  color: var(--primary);
+}
+
+.shareStatus {
+  position: fixed;
+  z-index: 1600;
+  top: 84px;
+  right: 18px;
+  max-width: min(360px, calc(100vw - 32px));
+  padding: 10px 13px;
+  border: 1px solid rgba(15, 118, 110, 0.3);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #115e59;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.14);
+  font-size: 0.78rem;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.shareStatus:empty {
+  display: none;
+}
+
 .filterToggleBtn:hover,
 .filterToggleBtnActive {
   border-color: var(--border-color-active);
   color: var(--primary);
   background: var(--primary-glow);
+}
+
+@media (max-width: 520px) {
+  .shareViewBtn {
+    width: 42px;
+    min-width: 42px;
+    min-height: 42px;
+    padding: 0;
+  }
+
+  .shareViewBtn span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .shareStatus {
+    top: 68px;
+    right: 12px;
+  }
 }
 
 .filterBadge {
@@ -1538,34 +1653,6 @@
   color: var(--text-dark);
 }
 
-/* Chat Trigger Button */
-.chatTrigger {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.chatTrigger:hover {
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 12px 32px rgba(6, 182, 212, 0.4);
-}
-
-.chatTriggerIcon {
-  width: 24px;
-  height: 24px;
-  color: #ffffff;
-}
-
 /* Regional Alert Indicator */
 .regionalAlert {
   position: absolute;
@@ -1792,6 +1879,404 @@
   padding: 22px 28px 30px;
   display: flex;
   flex-direction: column;
+}
+
+/* Native dashboard layout contract: modules remain full-width in compatibility
+   mode, while deterministic placement metadata enables validated migration. */
+.dashboard[data-dashboard-layout="policywatcher.dashboard.layout.evidence-flow.v1"]
+  [data-dashboard-module] {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 760px) {
+  .dashboard[data-dashboard-layout="policywatcher.dashboard.layout.evidence-flow.v1"]
+    [data-dashboard-module][data-mobile-span="1"] {
+    width: 100%;
+    grid-column: 1 / -1;
+  }
+}
+
+/* Operational home: a short decision path before the full evidence console. */
+.anchorTarget {
+  position: absolute;
+  top: -92px;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.workflowHub {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+  border: 1px solid var(--console-line);
+  border-top: 4px solid var(--dashboard-accent);
+  border-radius: 10px;
+  background: var(--console-paper, #f8fafc);
+  box-shadow: 0 12px 34px rgba(15, 23, 42, 0.07);
+}
+
+.workflowHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
+  gap: 24px;
+  align-items: end;
+}
+
+.workflowHeader h2 {
+  margin: 7px 0 0;
+  color: var(--console-ink);
+  font-size: clamp(1.35rem, 2vw, 1.85rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.workflowHeader > p {
+  margin: 0;
+  color: var(--console-muted);
+  font-size: 0.83rem;
+  line-height: 1.55;
+}
+
+.workflowEyebrow {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  color: var(--dashboard-accent-strong);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.workflowGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 0.82fr);
+  gap: 12px;
+}
+
+.workflowLane {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--console-line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.workflowToday {
+  border-left: 4px solid var(--dashboard-accent);
+}
+
+.workflowLaneHeader {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+  margin-bottom: 14px;
+}
+
+.workflowLaneHeader > span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--dashboard-accent) 11%, white);
+  color: var(--dashboard-accent-strong);
+  font-size: 0.65rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.workflowLaneHeader h3 {
+  margin: 0;
+  color: var(--console-ink);
+  font-size: 0.92rem;
+}
+
+.workflowLaneHeader p {
+  margin: 3px 0 0;
+  color: var(--console-muted);
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.workflowTodayList,
+.workflowLinkList,
+.workflowExploreList {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.workflowTodayList li {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) 34px;
+  gap: 9px;
+  align-items: center;
+  min-height: 66px;
+  padding: 9px;
+  border: 1px solid var(--console-line);
+  border-radius: 7px;
+  background: #ffffff;
+}
+
+.workflowTodayList li[data-kind='source-qa'] {
+  border-left: 3px solid #b45309;
+  background: #fffaf0;
+}
+
+.workflowItemIcon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--console-line);
+  border-radius: 6px;
+  background: #f8fafc;
+  color: var(--dashboard-accent-strong);
+}
+
+.workflowTodayList li[data-kind='source-qa'] .workflowItemIcon {
+  color: #92400e;
+}
+
+.workflowTodayList li > div {
+  display: grid;
+  min-width: 0;
+}
+
+.workflowItemEyebrow {
+  color: var(--console-muted);
+  font-size: 0.59rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.workflowTodayList strong,
+.workflowLinkList strong,
+.workflowExploreList strong {
+  overflow: hidden;
+  color: var(--console-ink);
+  font-size: 0.76rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workflowTodayList p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 2px 0 0;
+  color: var(--console-muted);
+  font-size: 0.67rem;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.workflowTodayList li > a {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  color: var(--dashboard-accent-strong);
+}
+
+.workflowTodayList li > a:hover,
+.workflowTodayList li > a:focus-visible {
+  background: color-mix(in srgb, var(--dashboard-accent) 11%, white);
+}
+
+.workflowLinkList a,
+.workflowExploreList a {
+  display: flex;
+  min-height: 48px;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 10px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: var(--console-ink);
+  text-decoration: none;
+}
+
+.workflowLinkList a:hover,
+.workflowLinkList a:focus-visible,
+.workflowExploreList a:hover,
+.workflowExploreList a:focus-visible {
+  border-color: var(--console-line);
+  background: #f8fafc;
+}
+
+.workflowLinkList a > span {
+  display: flex;
+  min-width: 0;
+  gap: 8px;
+  align-items: center;
+}
+
+.workflowLinkList small,
+.workflowExploreList small {
+  color: var(--console-muted);
+  font-size: 0.63rem;
+}
+
+.workflowExploreList a {
+  justify-content: flex-start;
+  border-color: var(--console-line);
+}
+
+.workflowExploreList a > svg:first-child {
+  flex: 0 0 auto;
+  color: var(--dashboard-accent-strong);
+}
+
+.workflowExploreList a > span {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+}
+
+.sourceSuspensionDetails,
+.releaseMapDisclosure {
+  border: 1px solid var(--console-line);
+  border-radius: 7px;
+  background: #ffffff;
+}
+
+.sourceSuspensionDetails > summary,
+.releaseMapDisclosure > summary {
+  display: flex;
+  min-height: 48px;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.sourceSuspensionDetails > summary::-webkit-details-marker,
+.releaseMapDisclosure > summary::-webkit-details-marker {
+  display: none;
+}
+
+.sourceSuspensionDetails > summary span {
+  color: var(--console-ink);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.sourceSuspensionDetails > summary small,
+.releaseMapDisclosure > summary small {
+  color: var(--console-muted);
+  font-size: 0.68rem;
+}
+
+.sourceSuspensionDetails .sourceSuspensionList {
+  padding: 0 12px 12px;
+}
+
+.releaseMapSection {
+  padding: 0;
+}
+
+.releaseMapDisclosure {
+  border: 0;
+  background: transparent;
+}
+
+.releaseMapDisclosure > summary {
+  min-height: 66px;
+  padding: 16px 18px;
+}
+
+.releaseMapDisclosure > summary > span {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--dashboard-accent-strong);
+}
+
+.releaseMapDisclosure > summary > span strong {
+  color: var(--console-ink);
+  font-size: 0.88rem;
+}
+
+.releaseMapDisclosure > summary > small {
+  margin-left: auto;
+}
+
+.releaseMapDisclosure > summary > svg {
+  transition: transform 160ms ease;
+}
+
+.releaseMapDisclosure[open] > summary > svg {
+  transform: rotate(90deg);
+}
+
+.releaseMapBody {
+  padding: 0 18px 18px;
+}
+
+.workflowHub :is(a, summary):focus-visible,
+.sourceSuspensionDetails > summary:focus-visible,
+.releaseMapDisclosure > summary:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--dashboard-accent) 38%, transparent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 1080px) {
+  .workflowGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .workflowToday {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .workflowHub {
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .workflowHeader,
+  .workflowGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .workflowHeader {
+    gap: 8px;
+  }
+
+  .workflowToday {
+    grid-column: auto;
+  }
+
+  .workflowLane {
+    padding: 13px;
+  }
+
+  .workflowLinkList a,
+  .workflowExploreList a {
+    min-height: 48px;
+  }
+
+  .releaseMapDisclosure > summary {
+    align-items: flex-start;
+  }
+
+  .releaseMapDisclosure > summary > small {
+    display: none;
+  }
 }
 
 .workspacePanel,
@@ -2107,6 +2592,241 @@
 
 .dashboard[data-on-the-go="true"] .companyCard {
   min-height: 0;
+}
+
+.extensionBetaStrip {
+  position: relative;
+  display: grid;
+  grid-template-columns: 6px minmax(150px, 0.38fr) minmax(320px, 1fr) minmax(250px, 0.64fr);
+  gap: 18px;
+  align-items: center;
+  min-width: 0;
+  margin-bottom: 16px;
+  padding: 15px 16px 15px 0;
+  overflow: hidden;
+  border: 1px solid rgba(63, 85, 166, 0.22);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: var(--console-shadow);
+}
+
+.extensionBetaRail {
+  align-self: stretch;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 3px;
+  min-height: 84px;
+}
+
+.extensionBetaRail span:nth-child(1) {
+  background: #3f55a6;
+}
+
+.extensionBetaRail span:nth-child(2) {
+  background: #146c6a;
+}
+
+.extensionBetaRail span:nth-child(3) {
+  background: #b45309;
+}
+
+.extensionBetaIdentity,
+.extensionBetaCopy,
+.extensionBetaActions {
+  min-width: 0;
+}
+
+.extensionBetaIdentity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+}
+
+.extensionBetaBadge {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  padding: 5px 8px;
+  border: 1px solid rgba(180, 83, 9, 0.38);
+  border-radius: 3px;
+  background: #fffbeb;
+  color: #92400e;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+}
+
+.extensionBetaEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #3f55a6;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.extensionBetaCopy h2 {
+  margin: 0;
+  color: var(--console-ink);
+  font-family: var(--workspace-ui-font);
+  font-size: clamp(1.05rem, 1.6vw, 1.32rem);
+  font-weight: 700;
+  line-height: 1.18;
+}
+
+.extensionBetaCopy p {
+  max-width: 780px;
+  margin: 6px 0 8px;
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.48;
+}
+
+.extensionBetaStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #475569;
+  font-size: 0.72rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.extensionBetaStatusDot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #b45309;
+  box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.12);
+}
+
+.extensionBetaActions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 7px;
+}
+
+.extensionBetaPrimary,
+.extensionBetaSecondary {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.extensionBetaPrimary {
+  border: 1px solid #3f55a6;
+  background: #3f55a6;
+  color: #ffffff;
+}
+
+.extensionBetaPrimary:hover {
+  background: #33458a;
+}
+
+.extensionBetaSecondary {
+  border: 1px solid rgba(20, 108, 106, 0.28);
+  background: #f8fbfb;
+  color: #0b5553;
+}
+
+.extensionBetaSecondary:hover {
+  border-color: rgba(20, 108, 106, 0.52);
+  background: #eef8f7;
+}
+
+.extensionBetaPrimary:focus-visible,
+.extensionBetaSecondary:focus-visible {
+  outline: 3px solid rgba(63, 85, 166, 0.28);
+  outline-offset: 2px;
+}
+
+.extensionBetaActions small {
+  color: #78350f;
+  font-size: 0.67rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+@media (max-width: 1080px) {
+  .extensionBetaStrip {
+    grid-template-columns: 6px minmax(145px, 0.34fr) minmax(280px, 1fr);
+  }
+
+  .extensionBetaActions {
+    grid-column: 2 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .extensionBetaActions small {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 680px) {
+  .extensionBetaStrip {
+    grid-template-columns: 5px minmax(0, 1fr);
+    gap: 12px;
+    padding: 14px 12px 14px 0;
+  }
+
+  .extensionBetaRail {
+    grid-row: 1 / 4;
+    min-height: 100%;
+  }
+
+  .extensionBetaIdentity,
+  .extensionBetaCopy,
+  .extensionBetaActions {
+    grid-column: 2;
+  }
+
+  .extensionBetaActions {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .extensionBetaActions small {
+    grid-column: auto;
+    font-size: 0.7rem;
+  }
+
+  .extensionBetaCopy h2 {
+    font-size: 1.08rem;
+  }
+
+  .extensionBetaCopy p {
+    font-size: 0.82rem;
+  }
+
+  .extensionBetaStatus {
+    align-items: flex-start;
+    font-size: 0.74rem;
+  }
+
+  .extensionBetaStatusDot {
+    margin-top: 4px;
+  }
+
+  .extensionBetaPrimary,
+  .extensionBetaSecondary {
+    width: 100%;
+    min-height: 48px;
+  }
 }
 
 .observatoryTicker {
@@ -2589,7 +3309,8 @@
   box-shadow: 0 0 0 3px var(--dashboard-accent-soft);
 }
 
-.filterToggleBtn {
+.filterToggleBtn,
+.shareViewBtn {
   border-radius: 7px;
   border-color: var(--console-line);
   background: rgba(248, 250, 252, 0.72);
@@ -3016,6 +3737,225 @@
 
   .companyGrid {
     grid-template-columns: 1fr;
+  }
+}
+
+.workspacePreviewInvariant {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .workspaceConfiguratorDialog[data-onboarding-step="2"] {
+    padding-bottom: calc(116px + env(safe-area-inset-bottom));
+    scroll-padding-bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+
+  .workspacePreviewInvariant {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 7px;
+    align-items: start;
+    padding: 8px 9px;
+    border-left: 3px solid #0f766e;
+    background: #f0fdfa;
+    color: #115e59;
+  }
+
+  .workspacePreviewInvariant p {
+    margin: 0;
+    color: #315d5a;
+    font-size: 0.7rem;
+    line-height: 1.38;
+  }
+
+  .workspacePreviewInvariant strong {
+    color: #134e4a;
+  }
+
+  .workspacePrivacyNote[data-step="2"] {
+    display: none;
+  }
+}
+
+@keyframes workspaceDialogEnter {
+  from {
+    transform: translateY(6px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.workspaceConfiguratorDialog {
+  animation: workspaceDialogEnter 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 480px) {
+  .workspaceConfiguratorDialog {
+    animation-duration: 0.1s;
+  }
+
+  .workspacePrivacyNote[data-step="0"] .workspaceEvidenceInvariant,
+  .workspacePrivacyNote[data-step="1"] .workspaceEvidenceInvariant {
+    display: none;
+  }
+
+  .workspacePrivacyNote[data-step="0"],
+  .workspacePrivacyNote[data-step="1"] {
+    padding-block: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workspaceConfiguratorDialog,
+  .workspaceComposerOverlay {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Progressive Workspace Active onboarding */
+.workspaceStepIndicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  color: var(--dashboard-accent-strong);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.workspaceStepIndicator > div {
+  display: grid;
+  grid-template-columns: repeat(3, 34px);
+  gap: 5px;
+}
+
+.workspaceStepIndicator i {
+  display: block;
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(100, 116, 139, 0.2);
+}
+
+.workspaceStepIndicator i[data-active="true"] {
+  background: var(--dashboard-accent);
+}
+
+.workspaceConfiguratorDialog .workspaceControls {
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: 20px;
+}
+
+.workspaceConfiguratorDialog .workspaceIntentGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.workspaceIntentExplanation {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  text-transform: none !important;
+}
+
+.workspaceIntentExplanation strong {
+  display: block;
+}
+
+.workspaceIntentExplanation small {
+  color: #64748b;
+  font-size: 0.74rem;
+  font-weight: 550;
+  line-height: 1.35;
+  text-transform: none;
+}
+
+.workspaceDepthStack button {
+  justify-content: space-between;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.workspaceDepthStack button > span {
+  display: grid;
+  gap: 3px;
+}
+
+.workspaceDepthStack button strong {
+  color: currentColor;
+  font-size: 0.84rem;
+}
+
+.workspaceDepthStack button small {
+  color: #64748b;
+  font-size: 0.74rem;
+  font-weight: 550;
+  line-height: 1.35;
+}
+
+.workspaceDepthActive small {
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+.workspacePrivacyNote {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-left: 3px solid #0f766e;
+  background: #f0fdfa;
+  color: #115e59;
+}
+
+.workspacePrivacyNote p {
+  margin: 0;
+  color: #315d5a;
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.workspacePrivacyNote strong {
+  color: #134e4a;
+}
+
+.workspaceActions {
+  justify-content: space-between;
+}
+
+.workspaceActionsStart {
+  display: flex;
+}
+
+@media (max-width: 760px) {
+  .workspaceConfiguratorDialog .workspaceIntentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .workspaceConfiguratorDialog .workspaceIntentGrid button {
+    grid-template-columns: 18px minmax(62px, 0.25fr) minmax(0, 1fr) 18px;
+    min-height: 74px;
+  }
+
+  .workspaceConfiguratorDialog .workspaceDepthStack {
+    grid-template-columns: 1fr;
+  }
+
+  .workspaceDepthStack button {
+    min-height: 66px;
+  }
+
+  .workspaceStepIndicator {
+    justify-content: space-between;
+  }
+
+  .workspaceActionsStart {
+    flex: 1;
+  }
+
+  .workspaceActionsStart .workspaceCloseButton {
+    width: 100%;
   }
 }
 
@@ -3575,5 +4515,53 @@
     left: 0;
     margin: 0;
     padding: 10px 14px max(10px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Final progressive-onboarding overrides (after composer compatibility rules). */
+.workspaceConfiguratorDialog .workspaceControls {
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: 20px;
+}
+
+.workspaceConfiguratorDialog .workspaceIntentGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.workspaceConfiguratorDialog .workspaceDepthStack button {
+  justify-content: space-between;
+}
+
+@media (max-width: 760px) {
+  .workspaceConfiguratorDialog .workspaceIntentGrid,
+  .workspaceConfiguratorDialog .workspaceDepthStack {
+    grid-template-columns: 1fr;
+  }
+
+  .workspaceConfiguratorDialog .workspaceIntentGrid button {
+    grid-template-columns: 18px minmax(62px, 0.25fr) minmax(0, 1fr) 18px;
+    min-height: 74px;
+  }
+}
+
+@media (max-width: 480px) {
+  .workspaceConfiguratorDialog[data-onboarding-step="2"] {
+    padding-bottom: calc(116px + env(safe-area-inset-bottom));
+    scroll-padding-bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+
+  .workspaceGeneratedCard .workspacePreviewInvariant {
+    display: grid;
+  }
+
+  .workspaceGeneratedCard .workspacePreviewInvariant p {
+    margin: 0;
+    color: #315d5a;
+    font-size: 0.7rem;
+    line-height: 1.38;
+  }
+
+  .workspacePrivacyNote[data-step="2"] {
+    display: none;
   }
 }

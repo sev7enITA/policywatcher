@@ -113,6 +113,14 @@
   line-height: 1.65;
 }
 
+.hero p.freshnessNote {
+  margin-top: 12px;
+  color: #0f766e;
+  font-size: 0.82rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
 .heroActions {
   display: flex;
   flex-wrap: wrap;

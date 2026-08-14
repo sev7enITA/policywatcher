@@ -7,7 +7,8 @@
 
 set -euo pipefail
 
-APP_DIR="$(pwd)"
+APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+LOCAL_PRISMA="${APP_DIR}/node_modules/.bin/prisma"
 
 if ! command -v python3 >/dev/null 2>&1 && command -v python >/dev/null 2>&1; then
   PYTHON_BIN="python"
@@ -32,23 +33,50 @@ if ! command -v "${PYTHON_BIN}" >/dev/null 2>&1 && ! command -v node >/dev/null 
 fi
 
 run_prisma() {
-  if [[ -x "${APP_DIR}/node_modules/.bin/prisma" ]]; then
-    "${APP_DIR}/node_modules/.bin/prisma" "$@"
+  if [[ ! -x "${LOCAL_PRISMA}" ]]; then
+    echo "The lockfile-installed Prisma CLI was not found. Run npm ci/redeploy first."
+    echo "Refusing to download or execute an unpinned CLI during production startup."
+    exit 1
+  fi
+  "${LOCAL_PRISMA}" "$@"
+}
+
+run_local_sqlite_initializer() {
+  if command -v node >/dev/null 2>&1 && [[ -f "${APP_DIR}/scripts/hostinger-init-db.mjs" ]]; then
+    node "${APP_DIR}/scripts/hostinger-init-db.mjs"
+  elif command -v "${PYTHON_BIN}" >/dev/null 2>&1 && [[ -f "${APP_DIR}/scripts/hostinger-init-db.py" ]]; then
+    "${PYTHON_BIN}" "${APP_DIR}/scripts/hostinger-init-db.py"
+  else
+    echo "No supported local SQLite initializer is available."
+    return 1
+  fi
+}
+
+repair_prisma_schema_engine_mode() {
+  local engine
+  for engine in "${APP_DIR}"/node_modules/@prisma/engines/schema-engine-*; do
+    [[ -f "${engine}" ]] || continue
+    if [[ ! -x "${engine}" ]]; then
+      chmod u+x -- "${engine}" 2>/dev/null || true
+    fi
+  done
+}
+
+resolve_materialized_migrations() {
+  if [[ ! -s "${DB_PATH}" || ! -f "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs" ]]; then
     return
   fi
-
-  if command -v npx >/dev/null 2>&1; then
-    npx prisma "$@"
-    return
-  fi
-
-  if command -v npm >/dev/null 2>&1; then
-    npm exec -- prisma "$@"
-    return
-  fi
-
-  echo "Prisma CLI was not found. Run npm install/redeploy first, then rerun this script."
-  exit 1
+  # Hostinger's managed build shell does not expose /dev/fd, so capture the
+  # bounded migration-name list and consume it through a here-string.
+  local materialized_migrations
+  materialized_migrations="$(node "${APP_DIR}/scripts/hostinger-detect-materialized-migrations.mjs")"
+  while IFS= read -r materialized_migration; do
+    [[ -n "${materialized_migration}" ]] || continue
+    if ! run_prisma migrate resolve --applied "${materialized_migration}" >/dev/null; then
+      echo "Unable to register materialized migration: ${materialized_migration}"
+      return 1
+    fi
+  done <<< "${materialized_migrations}"
 }
 
 if [[ -z "${DATABASE_URL:-}" ]]; then
@@ -80,9 +108,11 @@ if [[ ! -w "${DB_DIR}" ]]; then
 fi
 
 if [[ -f "${DB_PATH}" ]]; then
-  BACKUP="${DB_PATH}.backup-$(date +%Y%m%d%H%M%S)"
-  cp "${DB_PATH}" "${BACKUP}"
-  echo "Backup created: ${BACKUP}"
+  if [[ "${POLICYWATCHER_SKIP_DB_BACKUP:-0}" != "1" ]]; then
+    BACKUP="${DB_PATH}.backup-$(date +%Y%m%d%H%M%S)"
+    cp "${DB_PATH}" "${BACKUP}"
+    echo "Backup created: ${BACKUP}"
+  fi
 else
   # Prisma's SQLite schema engine expects the target file to exist on some
   # hosts even when the containing directory is writable.
@@ -90,19 +120,27 @@ else
   chmod 600 "${DB_PATH}"
 fi
 
-if [[ -d "${APP_DIR}/prisma/migrations" ]] && { [[ -x "${APP_DIR}/node_modules/.bin/prisma" ]] || command -v npx >/dev/null 2>&1 || command -v npm >/dev/null 2>&1; }; then
-  run_prisma generate
-  if [[ -s "${DB_PATH}" && -d "${APP_DIR}/prisma/migrations/20260706213500_init" ]]; then
-    run_prisma migrate resolve --applied 20260706213500_init >/dev/null 2>&1 || true
+if [[ "${POLICYWATCHER_FORCE_SQLITE_FALLBACK:-0}" != "1" ]] && [[ -d "${APP_DIR}/prisma/migrations" ]] && [[ -x "${LOCAL_PRISMA}" ]]; then
+  repair_prisma_schema_engine_mode
+  if run_prisma generate; then
+    resolve_materialized_migrations
+    if ! run_prisma migrate deploy; then
+      echo "Prisma migration engine unavailable; using the bundled Node or Python SQLite initializer."
+      run_local_sqlite_initializer
+      # The fallback creates the same additive tables and indexes. Register all
+      # now-materialized migrations immediately so readiness is not degraded
+      # until the next deployment.
+      resolve_materialized_migrations
+    fi
+  else
+    echo "Prisma generate unavailable during initialization; using the bundled Node or Python SQLite initializer."
+    run_local_sqlite_initializer
   fi
-  run_prisma migrate deploy
-elif [[ -f "${APP_DIR}/scripts/hostinger-init-db.py" ]] && command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
-  "${PYTHON_BIN}" "${APP_DIR}/scripts/hostinger-init-db.py"
-elif [[ -f "${APP_DIR}/scripts/hostinger-init-db.mjs" ]]; then
-  node "${APP_DIR}/scripts/hostinger-init-db.mjs"
 else
-  run_prisma generate
-  run_prisma migrate deploy
+  run_local_sqlite_initializer
+  if command -v node >/dev/null 2>&1 && [[ -x "${LOCAL_PRISMA}" ]]; then
+    resolve_materialized_migrations
+  fi
 fi
 
 echo "Database schema is ready."

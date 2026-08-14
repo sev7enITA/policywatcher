@@ -14,25 +14,8 @@ import { TrendingUp, TrendingDown, Minus, Activity } from 'lucide-react';
 import RiskTrendChart from './RiskTrendChart';
 import styles from './Charts.module.css';
 import type { Lang } from '@/types';
-
-interface TrendPoint {
-  date: string;
-  score: number;
-  companyName: string;
-  policyName: string;
-  version: number;
-  risk: string;
-}
-
-interface TrendSummary {
-  count: number;
-  avgScore: number;
-  minScore: number;
-  maxScore: number;
-  latestScore: number;
-  firstScore: number;
-  delta: number;
-}
+import type { RiskTrendPoint, RiskTrendSummary } from '@/lib/riskTrends';
+import { loadPublicDataSource } from '@/lib/dataSourceRegistry';
 
 interface RiskTrendPanelProps {
   companyId?: string;
@@ -68,8 +51,8 @@ export default function RiskTrendPanel({
   industry,
   lang,
 }: RiskTrendPanelProps) {
-  const [points, setPoints] = useState<TrendPoint[]>([]);
-  const [summary, setSummary] = useState<TrendSummary | null>(null);
+  const [points, setPoints] = useState<RiskTrendPoint[]>([]);
+  const [summary, setSummary] = useState<RiskTrendSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const t = translations[lang];
 
@@ -79,16 +62,14 @@ export default function RiskTrendPanel({
       if (active) setLoading(true);
     });
 
-    const params = new URLSearchParams();
-    if (companyId) params.set('companyId', companyId);
-    if (industry) params.set('industry', industry);
-
-    fetch(`/api/trends?${params.toString()}`)
-      .then((r) => r.json())
-      .then((data) => {
+    loadPublicDataSource<{ points?: RiskTrendPoint[]; summary?: RiskTrendSummary }>(
+      'riskTrends',
+      { companyId, industry }
+    )
+      .then((result) => {
         if (!active) return;
-        setPoints(data.points || []);
-        setSummary(data.summary || null);
+        setPoints(result.data.points || []);
+        setSummary(result.data.summary || null);
       })
       .catch((err) => console.error('Trend fetch failed:', err))
       .finally(() => {
@@ -146,17 +127,6 @@ export default function RiskTrendPanel({
     );
   }
 
-  // Map trend points to the chart data shape (version-indexed)
-  const chartData = points.map((p, idx) => ({
-    version: idx + 1,
-    score: p.score,
-    date: new Date(p.date).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-    }),
-  }));
-
   const delta = summary.delta;
   const deltaIcon =
     delta > 0 ? <TrendingUp size={13} /> : delta < 0 ? <TrendingDown size={13} /> : <Minus size={13} />;
@@ -196,7 +166,7 @@ export default function RiskTrendPanel({
         </div>
       </div>
 
-      <RiskTrendChart data={chartData} lang={lang} />
+      <RiskTrendChart data={points} lang={lang} embedded />
     </div>
   );
 }

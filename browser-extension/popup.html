@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="color-scheme" content="light">
+    <title>PolicyWatcher: What changed?</title>
+    <link rel="stylesheet" href="popup.css">
+    <script src="popup.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="https://policywatcher.online/" target="_blank" rel="noopener noreferrer" data-i18n-aria="openWebsite">
+        <img src="icons/icon-48.png" width="34" height="34" alt="">
+        <span><strong>PolicyWatcher</strong><small id="extension-version">Extension</small></span>
+      </a>
+      <button id="beta-info-button" class="beta-info-button" type="button" aria-expanded="false" aria-controls="beta-info-panel" data-i18n-aria="betaInfoAction">
+        <span>BETA</span>
+      </button>
+      <div class="top-actions">
+        <div class="language-switch" role="group" data-i18n-aria="language">
+          <button type="button" data-lang="it" aria-pressed="true">IT</button>
+          <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <a class="site-link" href="https://policywatcher.online/" target="_blank" rel="noopener noreferrer" data-i18n-title="openWebsite" data-i18n-aria="openWebsite">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 5h5v5M19 5l-8 8M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
+        </a>
+      </div>
+      <div id="beta-info-panel" class="beta-info-panel" role="note" hidden>
+        <strong data-i18n="betaInfoTitle">Versione di test</strong>
+        <p data-i18n="betaInfoBody">Può produrre risultati incompleti. Non usare comunicazioni riservate; il contenuto grezzo resta locale. Solo informativo, non è consulenza legale.</p>
+      </div>
+    </header>
+
+    <main>
+      <section id="disclosure-view" class="view" aria-labelledby="disclosure-title">
+        <p class="eyebrow" data-i18n="privacyBoundary">Confine di privacy</p>
+        <h1 id="disclosure-title" data-i18n="disclosureTitle">Prima di leggere la pagina</h1>
+        <p class="lead" data-i18n="disclosureLead">PolicyWatcher chiederà accesso temporaneo alla scheda solo dopo la tua conferma.</p>
+
+        <aside class="beta-warning" role="note" aria-labelledby="beta-warning-title">
+          <strong id="beta-warning-title" data-i18n="betaWarningTitle">Stai usando una versione BETA</strong>
+          <p data-i18n="betaWarningSafety">Software pre-release: estrazione ed evidenze possono essere incomplete o non disponibili. Non usarlo con comunicazioni riservate, sanitarie, finanziarie, lavorative o di autenticazione.</p>
+          <p data-i18n="betaWarningBoundary">Solo informativo, non è consulenza legale. Il contenuto grezzo resta locale e non viene trasmesso.</p>
+        </aside>
+
+        <ol class="evidence-rail" data-i18n-aria="evidenceJourney">
+          <li>
+            <span class="rail-dot">1</span>
+            <div><strong data-i18n="railNotice">Notifica visibile</strong><p data-i18n="railNoticeBody">Seleziona il testo utile della mail o della pagina.</p></div>
+          </li>
+          <li class="local-step">
+            <span class="rail-dot">2</span>
+            <div><strong data-i18n="railLocal">Indizi locali</strong><p data-i18n="railLocalBody">Il testo viene letto nel browser e scartato subito.</p><span class="zone-label" data-i18n="onDevice">Sul tuo dispositivo</span></div>
+          </li>
+          <li class="network-step">
+            <span class="rail-dot">3</span>
+            <div><strong data-i18n="railEvidence">Evidenze PolicyWatcher</strong><p data-i18n="railEvidenceBody">Solo gli indizi confermati possono attraversare il confine.</p><span class="zone-label" data-i18n="onPolicyWatcher">In PolicyWatcher</span></div>
+          </li>
+        </ol>
+
+        <div class="privacy-facts">
+          <p class="access-note"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.6 2.9 8.1 7 10 4.1-1.9 7-5.4 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-5"/></svg><span data-i18n="factAccess">PolicyWatcher usa l’accesso temporaneo activeTab solo quando premi il pulsante.</span></p>
+          <div class="data-boundary">
+            <div class="local-boundary"><strong data-i18n="localOnly">Resta locale</strong><span data-i18n="factDiscard">Il testo visibile viene elaborato nel browser e scartato subito.</span></div>
+            <div class="sent-boundary"><strong data-i18n="mayCross">Può essere inviato</strong><span data-i18n="factMayCross">Solo organizzazione o dominio confermati, URL ripulito, categorie e date.</span></div>
+          </div>
+          <p class="never-line"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span data-i18n="factNever">Mai inviati o conservati: indirizzo email, oggetto, corpo, allegati o fingerprint.</span></p>
+        </div>
+
+        <button id="continue-button" class="primary-button" type="button">
+          <span data-i18n="continue">Continua e analizza localmente</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </section>
+
+      <section id="capture-view" class="view" hidden aria-labelledby="capture-title">
+        <button type="button" class="back-button" data-back="disclosure"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg><span data-i18n="privacyBoundary">Confine di privacy</span></button>
+        <p class="eyebrow" data-i18n="localInspection">Analisi locale</p>
+        <h1 id="capture-title" data-i18n="captureTitle">Controlla questa notifica</h1>
+        <p class="lead" data-i18n="captureLead">Per maggiore precisione, seleziona prima il testo della notifica nella pagina.</p>
+
+        <div class="selection-tip">
+          <kbd>1</kbd><span data-i18n="selectTip">Seleziona la parte della mail che descrive l’aggiornamento.</span>
+        </div>
+        <button id="scan-button" class="primary-button scan-button" type="button">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4M8 11h6M11 8v6"/></svg>
+          <span data-i18n="scan">Analizza la scheda localmente</span>
+        </button>
+        <p id="scan-status" class="status-line" role="status" aria-live="polite"></p>
+
+        <div class="divider"><span data-i18n="or">oppure</span></div>
+        <button id="manual-button" class="secondary-button" type="button"><span data-i18n="manual">Inserisci solo gli indizi manualmente</span></button>
+        <p class="microcopy" data-i18n="unsupported">Usa l’inserimento manuale per PDF, pagine protette o schede non supportate.</p>
+      </section>
+
+      <section id="review-view" class="view" hidden aria-labelledby="review-title">
+        <button type="button" class="back-button" data-back="capture"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg><span data-i18n="back">Indietro</span></button>
+        <p class="eyebrow" data-i18n="confirmClues">Conferma degli indizi</p>
+        <h1 id="review-title" data-i18n="reviewTitle">Controlla prima dell’invio</h1>
+
+        <div id="source-summary" class="source-summary">
+          <span class="signal"><i></i><span id="source-label">-</span></span>
+          <span id="confidence-label" class="confidence">-</span>
+        </div>
+        <div id="discard-confirmation" class="discard-confirmation" hidden>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M8 10v7M12 10v7M16 10v7M6 7l1 14h10l1-14"/></svg>
+          <span data-i18n="discardConfirmed">Testo grezzo scartato. Non è entrato nel popup.</span>
+        </div>
+        <div id="manual-confirmation" class="manual-confirmation" hidden>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          <span data-i18n="manualBoundary">Nessun testo della pagina è stato analizzato: possono essere inviati solo i campi che compili.</span>
+        </div>
+
+        <form id="review-form" novalidate>
+          <label><span data-i18n="company">Organizzazione</span><input id="company-name" name="companyName" maxlength="160" autocomplete="organization" placeholder="Waze"></label>
+          <label><span data-i18n="senderDomain">Dominio mittente</span><input id="sender-domain" name="senderDomain" maxlength="253" inputmode="url" placeholder="waze.com"></label>
+          <label><span data-i18n="sourceUrl">URL ufficiale della policy (facoltativo)</span><input id="source-url" name="sourceUrl" maxlength="2000" inputmode="url" autocomplete="url" placeholder="https://example.com/privacy"></label>
+          <div class="date-grid">
+            <label><span data-i18n="noticeDate">Data notifica</span><input id="notice-date" name="noticeDate" type="date"></label>
+            <label><span data-i18n="effectiveDate">Entrata in vigore</span><input id="effective-date" name="effectiveDate" type="date"></label>
+          </div>
+          <fieldset>
+            <legend data-i18n="policyTypes">Policy indicate</legend>
+            <div class="chips">
+              <label><input type="checkbox" name="policyType" value="privacy"><span data-i18n="privacy">Privacy</span></label>
+              <label><input type="checkbox" name="policyType" value="terms"><span data-i18n="terms">Termini</span></label>
+              <label><input type="checkbox" name="policyType" value="cookies"><span data-i18n="cookies">Cookie</span></label>
+              <label><input type="checkbox" name="policyType" value="ai"><span data-i18n="ai">IA</span></label>
+              <label><input type="checkbox" name="policyType" value="acceptable-use"><span data-i18n="acceptableUse">Uso accettabile</span></label>
+            </div>
+          </fieldset>
+          <div class="scope-note">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h6v6H4zM14 12h6v6h-6zM10 9h4M12 9v6M10 15h4"/></svg>
+            <div><strong data-i18n="scopeTitle">Dal segnale all’intero portafoglio</strong><p data-i18n="scopeBody">Le categorie iniziali ordinano i risultati, ma PolicyWatcher controlla tutte le policy pubbliche monitorate dell’azienda.</p></div>
+          </div>
+          <p id="form-error" class="form-error" role="alert"></p>
+          <button id="submit-button" class="primary-button" type="submit"><span data-i18n="submit">Controlla le evidenze PolicyWatcher</span></button>
+          <p class="payload-note"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span data-i18n="payloadNote">Partono solo organizzazione/dominio, URL ripulito, categorie, date e lingua.</span></p>
+        </form>
+      </section>
+
+      <section id="result-view" class="view" hidden aria-labelledby="result-title">
+        <button type="button" class="back-button" data-back="review"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg><span data-i18n="editClues">Modifica indizi</span></button>
+        <div id="result-content" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer>
+      <a href="https://policywatcher.online/privacy" target="_blank" rel="noopener noreferrer" data-i18n="privacyLink">Privacy</a>
+      <a href="https://policywatcher.online/methodology/confidence" target="_blank" rel="noopener noreferrer" data-i18n="methodologyLink">Metodo e limiti</a>
+      <span data-i18n="legalNote">Non è consulenza legale</span>
+    </footer>
+  </body>
+</html>

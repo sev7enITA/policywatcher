@@ -1,0 +1,39 @@
+1
+00:00:00,000 --> 00:00:08,000
+PolicyWatcher Beta 27 connects public policy evidence with the operational checks required before publication.
+
+2
+00:00:08,000 --> 00:00:17,000
+The workflow starts with deterministic priorities. Each item identifies severity, cause, evidence timestamp, affected records, stated impact and one responsible destination.
+
+3
+00:00:17,000 --> 00:00:28,000
+Publication readiness is divided into five stages: Configured, Retrieved, Baseline verified, Public and Analysed. Numerators, the shared denominator and excluded records remain visible.
+
+4
+00:00:28,000 --> 00:00:34,000
+A missing scan or unavailable metric is never converted into zero or a healthy state.
+
+5
+00:00:34,000 --> 00:00:46,000
+Independent status cards provide bounded evidence for Dataset QA, database readiness, webhook delivery and VPS services. Administrators reach operational controls; auditors receive read-only verification routes.
+
+6
+00:00:46,000 --> 00:00:55,000
+The public platform keeps source links, timestamps, methodology, Claim Registry entries, release records and correction routes available for inspection.
+
+7
+00:00:55,000 --> 00:01:05,000
+Its configured inventory records 16 companies across six sectors. The framework defines 15 canonical KPIs across privacy, AI governance and ethics.
+
+8
+00:01:05,000 --> 00:01:13,000
+These figures describe configured scope. They are not exhaustive coverage, legal advice, compliance certification or independent validation.
+
+9
+00:01:13,000 --> 00:01:20,000
+Pulse adds reviewed leads, deterministic Story Packs, citations, social cards and embeddable evidence visuals.
+
+10
+00:01:20,000 --> 00:01:27,000
+Inspect the evidence, limitations, dated assets and release audit at policywatcher.online/press-kit.

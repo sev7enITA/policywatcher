@@ -7,23 +7,31 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock,
+  Gauge,
+  Link2,
   PauseCircle,
   Route,
+  ScanSearch,
   Search,
   ShieldCheck,
   SlidersHorizontal,
   UserRound,
+  UsersRound,
   X,
 } from 'lucide-react';
 import styles from './HowToModal.module.css';
 
 type TourStepId =
   | 'workspace'
+  | 'experience'
+  | 'share'
   | 'ticker'
   | 'sourceStatus'
   | 'market'
   | 'evidence'
+  | 'drilldown'
   | 'navigation'
+  | 'associations'
   | 'mobile';
 
 type TourStep = {
@@ -57,11 +65,15 @@ interface HowToModalProps {
 
 const STEP_ICONS: Record<TourStepId, LucideIcon> = {
   workspace: SlidersHorizontal,
+  experience: Gauge,
+  share: Link2,
   ticker: Search,
   sourceStatus: PauseCircle,
   market: Clock,
   evidence: ShieldCheck,
+  drilldown: ScanSearch,
   navigation: Route,
+  associations: UsersRound,
   mobile: UserRound,
 };
 
@@ -82,10 +94,33 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
     steps: [
       {
         id: 'workspace',
-        title: 'Choose the workspace',
+        title: 'Start with Today, Continue, Explore',
         description:
-          'Open Dashboard setup to select a session goal and evidence depth. It rearranges the view; it does not remove source or evidence gates.',
-        focusLabel: 'Dashboard setup',
+          'Today keeps no more than three decision-changing items, Continue resumes the active evidence context, and Explore opens Atlas, Civic and Observatory when you need a wider path.',
+        focusLabel: 'Operational home',
+      },
+      {
+        id: 'experience',
+        title: 'Choose the amount of interface you need',
+        description:
+          'Use Focus for one decision path, Balanced for the workspace default, or Explore for more secondary signals. Motion can follow the system or be reduced explicitly.',
+        focusLabel: 'Experience control',
+        notes: [
+          'The preference stays in this browser and changes presentation only.',
+          'Open Why this interface? to inspect the workspace, evidence depth and region inputs.',
+          'The next step is a deterministic route mapping, not an AI recommendation.',
+        ],
+      },
+      {
+        id: 'share',
+        title: 'Copy a shareable evidence view',
+        description:
+          'Set the public filters, then use Copy view. The canonical URL can carry industry, risk, region, audience, time, search, sort, language, and workspace state.',
+        focusLabel: 'Copy view',
+        notes: [
+          'Personal or private evidence and consent state are never included in the link.',
+          'Back and forward restore committed valid views; stale or invalid values fail closed.',
+        ],
       },
       {
         id: 'ticker',
@@ -98,7 +133,7 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
         id: 'sourceStatus',
         title: 'Check source status first',
         description:
-          'Temporarily suspended sources are called out before interpretation. Treat the notice as a gate: public evidence is unavailable until verification.',
+          'Temporarily suspended sources are called out before interpretation. Treat the notice as a gate, then use Timeline → Source continuity to inspect sanitized retrieval-state transitions separately from provider policy changes.',
         focusLabel: 'Source status notice',
       },
       {
@@ -116,11 +151,34 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
         focusLabel: 'Evidence details',
       },
       {
+        id: 'drilldown',
+        title: 'Coordinate regional and KPI evidence',
+        description:
+          'Select a heatmap cell to commit region and audience together, then select a radar KPI to inspect original and normalized values.',
+        focusLabel: 'Evidence drill-down',
+        notes: [
+          'Missing and tie states remain explicit; use the exact-value table whenever the chart is not sufficient.',
+          'Normalized ordinal values support comparison only: they are not compliance or performance ratings.',
+        ],
+      },
+      {
         id: 'navigation',
         title: 'Use navigation to widen the search',
         description:
           'Navigation and the sitemap link to Observatory, Atlas, timeline, methodology, and other public context.',
         focusLabel: 'Navigation and sitemap',
+      },
+      {
+        id: 'associations',
+        title: 'Open the civic workspace',
+        description:
+          'Set the global region, country and supported interface language, then use Civic Lab to find source-backed consumer organizations or build a browser-local evidence watchlist and review digest.',
+        focusLabel: 'Civic Lab',
+        notes: [
+          'It does not create an association account, collect a consumer case or publish a decision.',
+          'Directory inclusion is not a partnership or endorsement; each card keeps its verification source and review date visible.',
+          'Unavailable, suspended, seeded, private and otherwise ineligible records remain outside the workspace.',
+        ],
       },
       {
         id: 'mobile',
@@ -152,10 +210,33 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
     steps: [
       {
         id: 'workspace',
-        title: 'Scegli il workspace',
+        title: 'Parti da Oggi, Continua, Esplora',
         description:
-          'Apri le impostazioni dashboard per scegliere obiettivo della sessione e profondita delle evidenze. La vista si riordina, ma i gate di fonte ed evidenza restano.',
-        focusLabel: 'Impostazioni dashboard',
+          'Oggi mostra al massimo tre elementi che possono cambiare la decisione, Continua riprende il contesto di evidenza e Esplora apre Atlante, Civico e Observatory quando serve allargare il percorso.',
+        focusLabel: 'Home operativa',
+      },
+      {
+        id: 'experience',
+        title: 'Scegli quanta interfaccia ti serve',
+        description:
+          'Usa Focus per un solo percorso decisionale, Bilanciata per il default del workspace oppure Esplora per più segnali secondari. Il movimento può seguire il sistema o essere ridotto esplicitamente.',
+        focusLabel: 'Controllo esperienza',
+        notes: [
+          'La preferenza resta in questo browser e modifica solo la presentazione.',
+          'Apri Perché questa interfaccia? per ispezionare workspace, profondità delle evidenze e regione.',
+          'Il prossimo passo è una mappatura deterministica di route, non una raccomandazione AI.',
+        ],
+      },
+      {
+        id: 'share',
+        title: 'Copia una vista evidenze condivisibile',
+        description:
+          'Imposta i filtri pubblici, poi usa Copia vista. L URL canonico puo includere settore, rischio, regione, audience, periodo, ricerca, ordinamento, lingua e workspace.',
+        focusLabel: 'Copia vista',
+        notes: [
+          'Evidenze personali o private e stato del consenso non vengono mai inclusi nel link.',
+          'Indietro e avanti ripristinano viste valide confermate; valori obsoleti o non validi falliscono in modo chiuso.',
+        ],
       },
       {
         id: 'ticker',
@@ -168,7 +249,7 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
         id: 'sourceStatus',
         title: 'Controlla prima lo stato della fonte',
         description:
-          'Le fonti temporaneamente sospese sono evidenziate prima dell interpretazione. Tratta l avviso come un gate: l evidenza pubblica non e disponibile fino alla verifica.',
+          'Le fonti temporaneamente sospese sono evidenziate prima dell interpretazione. Tratta l avviso come un gate, poi usa Timeline → Source continuity per ispezionare transizioni di retrieval sanificate, separate dai cambiamenti delle policy provider.',
         focusLabel: 'Avviso stato fonte',
       },
       {
@@ -186,11 +267,34 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
         focusLabel: 'Dettagli evidenze',
       },
       {
+        id: 'drilldown',
+        title: 'Coordina evidenze regionali e KPI',
+        description:
+          'Seleziona una cella della heatmap per confermare insieme regione e audience, poi seleziona un KPI radar per ispezionare valori originali e normalizzati.',
+        focusLabel: 'Drill-down evidenze',
+        notes: [
+          'Stati mancanti e parita restano espliciti; usa la tabella dei valori esatti quando il grafico non basta.',
+          'I valori ordinali normalizzati servono solo al confronto: non sono giudizi di conformita o performance.',
+        ],
+      },
+      {
         id: 'navigation',
         title: 'Usa la navigazione per ampliare la ricerca',
         description:
           'Navigazione e sitemap collegano Observatory, Atlas, timeline, metodologia e altro contesto pubblico.',
         focusLabel: 'Navigazione e sitemap',
+      },
+      {
+        id: 'associations',
+        title: 'Apri il workspace civico',
+        description:
+          'Imposta area, paese e lingua supportata a livello globale, poi usa Associazioni per trovare realtà con fonte verificabile o costruire una watchlist locale e il digest di revisione.',
+        focusLabel: 'Associazioni',
+        notes: [
+          'Non crea un account associativo, non raccoglie un caso consumatore e non pubblica una decisione.',
+          'La presenza nel directory non è partnership o endorsement: ogni scheda espone fonte di verifica e data di revisione.',
+          'Record non disponibili, sospesi, seeded, privati o non ammissibili restano fuori dal workspace.',
+        ],
       },
       {
         id: 'mobile',
@@ -245,6 +349,7 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
         firstCard: 'Termini AI / Fonte verificata',
         secondCard: 'Privacy / Evidenza recente',
         method: 'Metodo',
+        civic: 'Associazioni',
       }
     : {
         publicHome: 'PUBLIC HOME',
@@ -262,6 +367,7 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
         firstCard: 'AI Terms / Source verified',
         secondCard: 'Privacy / Latest evidence',
         method: 'Method',
+        civic: 'Civic Lab',
       };
 
   const handleClose = useCallback(() => {
@@ -479,6 +585,7 @@ export default function HowToModal({ onClose, lang }: HowToModalProps) {
                 <span>Atlas</span>
                 <span>Observatory</span>
                 <span>Timeline</span>
+                <span>{previewText.civic}</span>
                 <span>{previewText.method}</span>
               </nav>
 

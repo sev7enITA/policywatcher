@@ -1,0 +1,238 @@
+.page {
+  --security-ink: #102033;
+  --security-muted: #526275;
+  --security-line: #d6e0e8;
+  --security-teal: #146c6a;
+  --security-blue: #3f55a6;
+  min-height: 100vh;
+  padding: 42px 24px 72px;
+  color: var(--security-ink);
+  background:
+    linear-gradient(90deg, rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+    #f6f8f8;
+  background-size: 32px 32px;
+  font-family: var(--font-sans);
+}
+
+.card {
+  position: relative;
+  width: min(100%, 920px);
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--security-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.08);
+}
+
+.card::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: linear-gradient(90deg, var(--security-teal) 0 48%, var(--security-blue) 48% 78%, #c76b42 78%);
+  content: '';
+}
+
+.hero {
+  padding: 44px 44px 36px;
+  border-bottom: 1px solid var(--security-line);
+  background: linear-gradient(135deg, rgba(20, 108, 106, 0.07), transparent 58%);
+}
+
+.eyebrow,
+.sectionLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--security-teal);
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 13px 0 12px;
+  color: #0f172a;
+  font-family: var(--font-sans);
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 680;
+  letter-spacing: -0.035em;
+  line-height: 1.03;
+}
+
+.hero p,
+.section p,
+.section li {
+  color: var(--security-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.hero p {
+  max-width: 700px;
+  margin: 0;
+}
+
+.content {
+  display: grid;
+  gap: 0;
+  padding: 0 44px;
+}
+
+.section {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--security-line);
+}
+
+.section h2 {
+  margin: 8px 0 10px;
+  color: #162033;
+  font-family: var(--font-sans);
+  font-size: 1.22rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.section p {
+  margin: 0;
+}
+
+.section a {
+  color: var(--security-teal);
+  font-weight: 650;
+  text-underline-offset: 3px;
+}
+
+.section ul {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding-left: 20px;
+}
+
+.controlGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.controlCard {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--security-line);
+  border-top: 3px solid var(--security-teal);
+  border-radius: 7px;
+  background: #f8fbfb;
+}
+
+.controlCard:nth-child(2),
+.controlCard:nth-child(4) {
+  border-top-color: var(--security-blue);
+}
+
+.controlCard svg {
+  color: var(--security-teal);
+}
+
+.controlCard:nth-child(2) svg,
+.controlCard:nth-child(4) svg {
+  color: var(--security-blue);
+}
+
+.controlCard strong {
+  color: #0f172a;
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.controlCard span {
+  color: var(--security-muted);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 24px 44px 30px;
+  background: #f8fafb;
+}
+
+.primaryAction,
+.backLink {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 7px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.primaryAction {
+  padding: 10px 16px;
+  border: 1px solid var(--security-teal);
+  background: var(--security-teal);
+  color: #fff;
+}
+
+.backLink {
+  padding: 10px 4px;
+  color: var(--security-muted);
+}
+
+.primaryAction:hover {
+  background: #0d5755;
+}
+
+.backLink:hover {
+  color: var(--security-teal);
+}
+
+.primaryAction:focus-visible,
+.backLink:focus-visible,
+.section a:focus-visible {
+  outline: 3px solid rgba(63, 85, 166, 0.35);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 20px 12px 48px;
+  }
+
+  .hero,
+  .content {
+    padding-right: 22px;
+    padding-left: 22px;
+  }
+
+  .hero {
+    padding-top: 34px;
+    padding-bottom: 28px;
+  }
+
+  .controlGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 22px;
+  }
+
+  .backLink {
+    min-height: 38px;
+  }
+}

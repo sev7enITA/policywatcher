@@ -3,7 +3,7 @@
 /**
  * @file page.tsx (Methodology & Confidence)
  *
- * Public bilingual page explaining PolicyWatcher's Truth & Confidence Framework,
+ * Public bilingual page explaining PolicyWatcher's Evidence & Confidence Framework,
  * double-checking ingestion cascade, AI constraints, and known limitations.
  * Exposes the GRC/auditing telemetry logic to ensure transparency and accountability.
  */
@@ -20,12 +20,14 @@ import {
 } from 'lucide-react';
 import styles from './confidence.module.css';
 import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
+import { POLICYWATCHER_VERSION } from '@/lib/release';
 
 const translationContent = {
   en: {
     backHome: 'Back to Dashboard',
     tag: 'Auditing Framework',
-    title: 'Truth & Confidence Methodology',
+    title: 'Evidence & Confidence Methodology',
     subtitle: 'PolicyWatcher’s operational framework for data provenance, AI constraints, check history, and review accountability.',
     intro: 'GRC and AI Governance work requires evidence-first verification. This page explains how PolicyWatcher records configured sources, maps changes, constrains AI processing, and exposes limitations.',
     
@@ -56,11 +58,15 @@ const translationContent = {
           'Provider-challenge handling: if an official page is protected by anti-bot or WAF controls, the renderer result is still treated as insufficient evidence unless usable policy text is retrieved. The source stays suspended until a verified baseline, official PDF, or traced admin review confirms it.',
           'Archive fallback: if live retrieval fails, the pipeline may try Wayback Machine and Common Crawl snapshots where available.',
           'Freshness guard: archived snapshots older than the last successful check are rejected so an old cached copy cannot be registered as a new policy change.',
+          'Shared-acquisition guard: records that resolve to the same normalized retrieval URL share one network acquisition per scan. Policy-specific comparison and evidence records remain separate, and the strictest applicable freshness floor is used.',
+          'Source identity separation: the public canonical policy URL remains the citation target, while an optional official machine-readable mirror or PDF can be configured as the retrieval URL.',
           'Strategy diagnostics: each retrieval attempt records the strategy used, outcome, HTTP status where available, rejection/failure reason, and whether the system escalated to the next fallback.',
+          'Operational cause taxonomy: retrieval outcomes use bounded reason codes for access blocks, rate limits, upstream availability, timeouts, incomplete or invalid content, stale archives, configuration and routing decisions.',
           'Host-drift guard: live redirects to a different host are marked for review instead of being accepted as baseline evidence.',
           'Path-drift guard: configured policy URLs that resolve to a same-host homepage or non-policy landing page are rejected instead of becoming baseline evidence.',
           'Completeness guard: over-cap extraction is marked Partial and suspended from public evidence instead of being stored as a complete policy text.',
           'Batch execution: administrative scans can be limited by company slug or policy count so the first source-verification run can be resumed safely on shared hosting.',
+          'Scan-run accounting: each full scan persists selected-record, unique-source, network, deduplication, availability and dependency metrics for operational review.',
           'Honest failure recording: if a page remains unreachable, the system does not create a successful version record from missing data. It updates the policy status to "Unavailable" or "Needs Review" and writes a check-log row.',
           'Hash fingerprinting: retrieved text records are fingerprinted with SHA-256 so later integrity checks can detect mismatches between text and hash.'
         ]
@@ -73,7 +79,7 @@ const translationContent = {
           'Direct grounding: summaries and bullet points are generated from the retrieved/versioned text record being analysed.',
           'No unsupported filling: prompts instruct the model to return "Not Specified" or "Unavailable" when the document does not support a field or KPI.',
           'Structured mapping: categorisations are normalized against the expected analysis fields used by PolicyWatcher.',
-          'Audit trail: Every AI analysis is linked directly to the specific policy version records (old vs. new) from which it was generated.'
+          'Audit trail: persisted AI analyses reference the policy version records used for the comparison.'
         ]
       },
       {
@@ -83,13 +89,15 @@ const translationContent = {
         bullets: [
           'Configured URL: Direct link to the source document monitored.',
           'Ingestion method: indication of whether the current record was seeded, directly retrieved, fetched via HTTP/2, rendered through the VPS service, or recovered through an archive source.',
-          'Scan timestamps: both the Last Checked and Last Successful Fetch times are visible for every policy.',
+          'Scan timestamps: policy detail views expose Last Checked and Last Successful Fetch values when recorded.',
           'Check logs: each scan result can be recorded with status, source, HTTP status, reason, final URL, hash, text length, and archive snapshot timestamp when an archive source is used.',
           'Public-evidence gate: policy snapshots and change records must be explicitly marked as public evidence before public APIs, sitemap, digests, reports, share pages, timelines, or benchmark views can expose them.',
           'Policy Signals Board: the public leaderboard ranks only source coverage, retrieval traceability, public baselines, and publicEvidence-gated movement. It does not certify companies, compliance, safety, internal conduct, or provider trustworthiness.',
-          'Re-baseline protection: the first successful fetch after Seeded ingestion evidence establishes the real baseline only. It replaces seeded history for that policy and does not create a PolicyChange, AI score, or subscriber notification. A record is eligible only when it is still seed-only: Configured status alone is not enough, and existing source-evidence logs or public baselines route the scan into normal comparison instead of destructive re-baseline.',
+          'Verified baseline establishment: the first successful source retrieval establishes or promotes one exact-hash baseline without creating a PolicyChange, AI score, or subscriber notification. Records in onboarding QA remain private. Existing source logs can no longer leave an otherwise verified policy permanently outside the public-evidence gate.',
           'Public suspension: when the latest fetch/update produces anomalies or insufficient evidence, the source is temporarily suspended and public views expose only the suspension notice, not the underlying analysis.',
           'Source remediation: official-but-blocked sources are repaired through market-specific URL mapping, official PDF/CDN evidence where available, or traced administrative review. PolicyWatcher does not promote anti-bot challenge pages, placeholders, or stale archive copies into public evidence.',
+          'Historical-reference boundary: a stale Wayback or Common Crawl candidate may be retained as a dated continuity reference, but remains explicitly ineligible for baseline creation or change detection.',
+          'Reliability queue: repeated failures are grouped by retrieval key, assigned a structured cause and suggested operator action, and retained until recovery or an explicit administrative resolution.',
           'Administrator alerting: source suspensions can generate an internal operational email with metadata and a Dataset QA link, without including policy text, scores, diffs, KPIs, or AI interpretation.',
           'Dataset QA control groups: source fit, retrieval evidence, public evidence gates, seeded-record boundaries, hash consistency, check-log completeness, timestamp integrity, archive timestamp coverage, KPI coverage, regional impact coverage, access logs, and subscriber hygiene are inspected before release decisions.',
           'Review decisions: Dataset QA issues can be marked reviewed, ignored with reason, or reopened, with append-only review-log evidence.',
@@ -99,14 +107,30 @@ const translationContent = {
       {
         icon: ShieldCheck,
         title: '5. Adaptive Workspace & Public Surfaces',
-        desc: 'Release 3.6.3 introduces a goal-oriented workspace layer without changing evidence rules.',
+        desc: `Release ${POLICYWATCHER_VERSION} adds protected operational-readiness presentation and bounded measurement without changing public evidence rules or server-side authorization.`,
         bullets: [
           'Adaptive Workspace: users can select a session intent (Citizen, GRC / Legal, Research, Builder) and evidence depth (Snapshot, Operational, Forensic).',
+          'Validated composition: dashboard modules come from an immutable allowlist with deterministic identities; each valid composition requires Source QA as its first module.',
+          'Guarded interaction: direct controls and the Command Palette dispatch typed actions through an acyclic authorization graph and one canonical workspace URL/local-storage codec.',
+          'Evidence-first sources: each registered dashboard source declares endpoint, query scope, freshness, visibility, public-evidence gate and known limitations before loading.',
+          'Rendering and export parity: the visible filtered company list and CSV export use one view model; the export includes query identity, coverage, filters, evidence gate, limitations and release provenance.',
+          'Accessible chart contract: supported charts define summary, table, provenance and limitations, while reduced-motion settings disable nonessential animation.',
           'Presentation-only adaptation: density, module priority, dashboard emphasis, and URL parameters may change, but publicEvidence gates, source suspensions, and Dataset QA warnings remain active.',
-          'Public exploration surfaces: Timeline, Policy Signals Board, Site Atlas, Roadmap, Press Wall, Showcase, Trust, and Infographics expose different views of the same evidence boundary.',
+          'Crawlable Public Knowledge: the server-rendered index, company pages, policy pages and home snapshot reuse the same publication gates and expose bounded metadata and evidence links without raw policy text.',
+          'Public exploration surfaces: PolicyWatcher Civico, Knowledge, Timeline, Policy Signals Board, Site Atlas, Roadmap, Press Wall, Showcase, Trust, and Infographics expose different views of the same evidence boundary.',
+          'Civic review boundary: the association workspace builds a bounded browser-local pilot watchlist from eligible public records. It does not create an association account, manage complaints, collect consumer identities, make legal findings or publish decisions.',
+          'Local MIME intake: a selected .eml file is decoded in browser memory with bounded depth and size, recipient and attachment exclusion, plain-text preference and inactive HTML fallback; the raw file is not sent to PolicyWatcher.',
+          'Public integration directory: the read-only v1 manifest describes available public sources, parameter allowlists, evidence gates and cache limits; the localized Observatory endpoint exposes only curated registry metadata, review timestamps and scheduled events.',
+          'Agent Evidence Gateway: cross-cloud agent packages call three deterministic, read-only operations with bounded filters, flattened responses, generated timestamps, citations and explicit zero-result limits. Prompt transcripts, document text and tenant identity are outside this public contract.',
+          'Word evidence mapping: the current selection is classified locally against a fixed taxonomy; only acknowledged topic labels, language and a bounded result limit can leave the task pane. This maps public research evidence and does not verify or legally assess a contract.',
+          'Integration boundary: no public v1 route exposes policy text, hashes, raw retrieval failures, administrative records, credentials, write operations or outbound webhooks.',
           'Site Atlas: maps public pages, trust surfaces, methodology pages, community pages, and protected admin boundaries as an entity relationship graph.',
           'Press and Roadmap: public references and community priorities are tracked for transparency; they are not treated as endorsements, certifications, or external validation of company compliance.',
-          'Admin boundary: operational tools such as Cron Manager, Dataset QA, Review Log, Access Log, Company Registry, Database diagnostics, KPI Audit, and VPS Services remain protected by admin/auditor roles.'
+          'Admin boundary: operational tools such as Cron Manager, Dataset QA, Review Log, Access Log, Company Registry, Database diagnostics, KPI Audit, and VPS Services remain protected by admin/auditor roles.',
+          'Protected dashboard measurement: allowlisted events use a random per-visit identifier, server-derived role, bounded values and 90-day retention. Event-derived values remain hidden below the stated minimum sample and do not establish targets or improvement.',
+          'False-positive prevention: missing scans, absent migrations, unavailable modules and unknown metrics remain explicitly unavailable. They are not converted to zero, clear or healthy states.',
+          'Role-safe operations: the same protected evidence is presented as responsible-console actions for Admin and read-only verification routes for Auditor; endpoint authorization remains authoritative.',
+          'Operational sequence: the dashboard links at most five priorities to a five-stage Configured → Retrieved → Baseline verified → Public → Analysed funnel, four independently loaded live-status cards and bounded measurement.'
         ]
       },
       {
@@ -160,11 +184,15 @@ const translationContent = {
           'Gestione challenge provider: se una pagina ufficiale è protetta da controlli anti-bot o WAF, il risultato del renderer resta evidenza insufficiente se non produce testo policy utilizzabile. La sorgente resta sospesa finché una baseline verificata, un PDF ufficiale o una revisione amministrativa tracciata non la confermano.',
           'Fallback archivio: se il recupero live fallisce, la pipeline può tentare snapshot Wayback Machine e Common Crawl disponibili.',
           'Freshness guard: gli snapshot archivio più vecchi dell\'ultimo controllo riuscito vengono rifiutati, così una cache vecchia non può apparire come nuova modifica.',
+          'Guardia acquisizioni condivise: i record che usano lo stesso URL di retrieval normalizzato condividono una sola acquisizione di rete per scansione. Confronto ed evidenze restano separati per policy e viene applicato il limite di freshness più restrittivo.',
+          'Separazione identità sorgente: l\'URL canonico pubblico resta il riferimento di citazione, mentre un mirror machine-readable o PDF ufficiale può essere configurato come URL di retrieval opzionale.',
           'Diagnostica strategie: ogni tentativo di retrieval registra strategia usata, esito, HTTP status quando disponibile, motivo di rifiuto/fallimento e passaggio al fallback successivo.',
+          'Tassonomia cause operative: gli esiti usano codici circoscritti per access block, rate limit, indisponibilità upstream, timeout, contenuto incompleto o invalido, archivio stale, configurazione e decisioni di routing.',
           'Host-drift guard: i redirect live verso un host diverso vengono marcati per revisione invece di essere accettati come evidenza baseline.',
           'Path-drift guard: URL policy configurati che finiscono su homepage dello stesso host o landing page non-policy sono respinti invece di diventare evidenza baseline.',
           'Completeness guard: le estrazioni oltre il limite vengono marcate Partial e sospese dall\'evidenza pubblica invece di essere salvate come testo policy completo.',
           'Esecuzione batch: le scansioni amministrative possono essere limitate per company slug o numero policy, così la prima verifica sorgenti può riprendere in sicurezza su shared hosting.',
+          'Contabilità ScanRun: ogni scansione completa persiste metriche su record selezionati, fonti uniche, chiamate di rete, deduplicazione, disponibilità e dipendenze degradate.',
           'Registrazione trasparente degli errori: se una pagina resta irraggiungibile, il sistema non crea un record di versione riuscito partendo da dati mancanti. Aggiorna lo stato a "Unavailable" o "Needs Review" e scrive una riga di check-log.',
           'Fingerprint hash: i record testuali recuperati sono improntati con SHA-256 per consentire controlli successivi di coerenza tra testo e hash.'
         ]
@@ -177,7 +205,7 @@ const translationContent = {
           'Ancoraggio diretto: riassunti e punti chiave sono generati dal record testuale recuperato/versionato.',
           'Nessun riempimento non supportato: i prompt chiedono al modello di restituire "Non specificato" o "Non disponibile" quando il documento non supporta un campo o KPI.',
           'Mappatura strutturata: le categorizzazioni sono normalizzate rispetto ai campi di analisi previsti da PolicyWatcher.',
-          'Audit trail: ogni analisi IA è collegata agli specifici record di versione della policy (vecchia vs nuova) da cui è stata prodotta.'
+          'Audit trail: le analisi IA persistite fanno riferimento ai record di versione usati per il confronto.'
         ]
       },
       {
@@ -187,13 +215,15 @@ const translationContent = {
         bullets: [
           'URL Configurato: Link diretto al documento sorgente monitorato.',
           'Metodo di ingestione: indicazione se il record corrente deriva da seed, recupero diretto, HTTP/2, renderer VPS o fonte archivio.',
-          'Timestamp scansioni: visibilità di Ultimo Controllo e Ultimo Check Riuscito per ogni policy.',
+          'Timestamp scansioni: le viste di dettaglio mostrano Ultimo Controllo e Ultimo Check Riuscito quando registrati.',
           'Check log: ogni scansione può registrare stato, fonte, HTTP status, motivo, final URL, hash, lunghezza testo e timestamp dello snapshot quando viene usata una fonte archivio.',
           'Gate publicEvidence: snapshot e change devono essere marcati esplicitamente come evidenza pubblica prima che API pubbliche, sitemap, digest, report, share page, timeline o benchmark li espongano.',
           'Policy Signals Board: la leaderboard pubblica ordina soltanto copertura fonte, tracciabilità del retrieval, baseline pubbliche e movimenti marcati publicEvidence. Non certifica aziende, conformità, sicurezza, condotta interna o affidabilità del provider.',
-          'Protezione re-baseline: il primo fetch riuscito dopo evidenza di ingestion Seeded stabilisce soltanto la baseline reale. Sostituisce la history seedata per quella policy e non crea PolicyChange, score AI o notifica subscriber. Un record è eleggibile solo se è ancora seed-only: il solo stato Configured non basta, e log di evidenza sorgente o baseline pubbliche instradano la scansione nel confronto normale invece che nella re-baseline distruttiva.',
+          'Creazione baseline verificata: il primo retrieval sorgente riuscito crea o promuove una baseline con hash esatto senza generare PolicyChange, score AI o notifiche. I record in QA onboarding restano privati. Log sorgente preesistenti non possono più lasciare una policy verificata permanentemente fuori dal gate pubblico.',
           'Sospensione pubblica: quando l\'ultimo fetching o aggiornamento produce anomalie o evidenza insufficiente, la sorgente viene temporaneamente sospesa e le viste pubbliche espongono solo l\'avviso di sospensione, non l\'analisi sottostante.',
           'Remediation sorgenti: fonti ufficiali ma bloccate vengono corrette tramite URL market-specific, evidenza PDF/CDN ufficiale dove disponibile o revisione amministrativa tracciata. PolicyWatcher non promuove challenge anti-bot, placeholder o copie archivio stale a evidenza pubblica.',
+          'Confine riferimenti storici: un candidato Wayback o Common Crawl stale può essere conservato come riferimento di continuità datato, ma resta esplicitamente escluso dalla creazione baseline e dal change detection.',
+          'Coda affidabilità: i fallimenti ripetuti sono aggregati per retrieval key, associati a causa strutturata e azione suggerita, e mantenuti fino al recupero o a una risoluzione amministrativa esplicita.',
           'Alert amministrativo: le sospensioni delle sorgenti possono generare una mail operativa interna con metadati e link alla console Dataset QA, senza includere testo policy, score, diff, KPI o interpretazione AI.',
           'Gruppi di controllo Dataset QA: source fit, evidenza retrieval, gate public evidence, confini seed, coerenza hash, completezza check-log, integrità timestamp, copertura timestamp archivio, KPI, impatti regionali, access log e igiene subscriber sono verificati prima delle decisioni di rilascio.',
           'Decisioni di revisione: le issue Dataset QA possono essere marcate reviewed, ignored con motivazione o reopened, con evidenza append-only nel review log.',
@@ -203,14 +233,27 @@ const translationContent = {
       {
         icon: ShieldCheck,
         title: '5. Workspace adattivo e superfici pubbliche',
-        desc: 'La release 3.6.3 introduce un layer di workspace orientato all\'obiettivo senza cambiare le regole di evidenza.',
+        desc: `La release ${POLICYWATCHER_VERSION} aggiunge presentazione della readiness operativa protetta e misurazione circoscritta senza cambiare le regole di evidenza pubblica o l autorizzazione server-side.`,
         bullets: [
           'Workspace adattivo: l\'utente puo selezionare intento di sessione (Cittadino, GRC / Legal, Ricerca, Builder) e profondita evidenza (Snapshot, Operativa, Forensic).',
+          'Composizione validata: i moduli dashboard provengono da una allowlist immutabile con identita deterministiche; Source QA e obbligatorio e resta in prima posizione.',
+          'Interazione controllata: controlli diretti e Command Palette inviano azioni tipizzate attraverso un grafo di autorizzazione aciclico e un codec canonico per URL e localStorage.',
+          'Sorgenti evidence-first: ogni sorgente dashboard registrata dichiara endpoint, query, freshness, visibilita, gate di evidenza pubblica e limitazioni note prima del caricamento.',
+          'Parita rendering ed export: elenco aziende filtrato e CSV usano lo stesso view model; l\'export include identita query, copertura, filtri, gate, limitazioni e provenienza release.',
+          'Contratto grafici accessibile: i grafici supportati dichiarano riepilogo, tabella, provenienza e limitazioni; la preferenza reduced motion disattiva le animazioni non essenziali.',
           'Adattamento solo di presentazione: densita, priorita dei moduli, enfasi della dashboard e parametri URL possono cambiare, ma gate publicEvidence, sospensioni sorgenti e avvisi Dataset QA restano attivi.',
-          'Superfici pubbliche: Timeline, Policy Signals Board, Site Atlas, Roadmap, Press Wall, Showcase, Trust e Infographics mostrano prospettive diverse dello stesso perimetro di evidenza.',
+          'Superfici pubbliche: PolicyWatcher Civico, Knowledge, Timeline, Policy Signals Board, Site Atlas, Roadmap, Press Wall, Showcase, Trust e Infographics mostrano prospettive diverse dello stesso perimetro di evidenza.',
+          'Confine della revisione civica: il workspace per le associazioni crea una watchlist pilota circoscritta e locale al browser usando record pubblici ammissibili. Non crea un account associativo, non gestisce reclami, non raccoglie identita dei consumatori, non formula conclusioni legali e non pubblica decisioni.',
+          'Intake MIME locale: un file .eml selezionato viene decodificato nella memoria del browser con limiti di profondita e dimensione, esclusione di destinatari e allegati, preferenza per il testo semplice e fallback HTML inattivo; il file grezzo non viene inviato a PolicyWatcher.',
+          'Directory pubblica per integrazioni: il manifest v1 in sola lettura descrive le fonti pubbliche disponibili, gli allowlist dei parametri, gli evidence gate e i limiti cache; l endpoint Observatory localizzato espone solo metadati del registro curato, timestamp di revisione ed eventi pianificati.',
+          'Confine di integrazione: nessuna route pubblica v1 espone testo policy, hash, errori raw di retrieval, record amministrativi, credenziali, operazioni di scrittura o webhook in uscita.',
           'Site Atlas: mappa pagine pubbliche, superfici trust, pagine metodologia, pagine community e confini admin protetti come grafo entita-relazioni.',
           'Press e Roadmap: riferimenti pubblici e priorita community sono tracciati per trasparenza; non sono endorsement, certificazioni o validazioni esterne della compliance aziendale.',
-          'Confine admin: strumenti operativi come Cron Manager, Dataset QA, Review Log, Access Log, Company Registry, diagnostica database, KPI Audit e VPS Services restano protetti da ruoli admin/auditor.'
+          'Confine admin: strumenti operativi come Cron Manager, Dataset QA, Review Log, Access Log, Company Registry, diagnostica database, KPI Audit e VPS Services restano protetti da ruoli admin/auditor.',
+          'Misurazione dashboard protetta: gli eventi in allowlist usano un identificativo casuale per visita, ruolo derivato dal server, valori limitati e conservazione di 90 giorni. I valori restano nascosti sotto il campione minimo e non stabiliscono target o miglioramenti.',
+          'Prevenzione dei falsi positivi: scansioni mancanti, migrazioni assenti, moduli non disponibili e metriche ignote restano esplicitamente non disponibili. Non vengono convertiti in stati zero, clear o healthy.',
+          'Operazioni role-safe: la stessa evidenza protetta e presentata come azione verso la console responsabile per Admin e route di verifica in sola lettura per Auditor; l autorizzazione degli endpoint resta autorevole.',
+          'Sequenza operativa: la dashboard collega al massimo cinque priorita a un funnel in cinque stadi Configured → Retrieved → Baseline verified → Public → Analysed, quattro live-status card indipendenti e misurazione circoscritta.'
         ]
       },
       {
@@ -238,6 +281,7 @@ export default function MethodologyConfidence() {
 
   return (
     <div className={styles.container}>
+      <PublicHeader current="methodology" lang={lang} />
       <header className={styles.header}>
         <div className={styles.headerContent}>
           <Link href="/" className={styles.backBtn}>

@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PolicyWatcher Today Wall</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --line: #dbe4f0;
+      --primary: #6366f1;
+      --secondary: #06b6d4;
+      --shadow: 0 28px 70px rgba(15, 23, 42, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+      background:
+        radial-gradient(circle at 88% 4%, rgba(99, 102, 241, 0.12), transparent 32%),
+        radial-gradient(circle at 8% 92%, rgba(6, 182, 212, 0.12), transparent 32%),
+        var(--bg);
+      color: var(--ink);
+      font-family: Inter, "Space Grotesk", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .shell {
+      width: min(100vw, 2560px);
+      margin: 0 auto;
+      padding: 28px clamp(16px, 3vw, 44px) 40px;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 12px 28px rgba(99, 102, 241, 0.24);
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1.1;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button,
+    a {
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0 16px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      text-decoration: none;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    button:hover,
+    a:hover {
+      color: var(--primary);
+      border-color: rgba(99, 102, 241, 0.35);
+    }
+
+    .wall {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 1px solid rgba(219, 228, 240, 0.95);
+      border-radius: 24px;
+      overflow: hidden;
+      background: white;
+      box-shadow: var(--shadow);
+    }
+
+    .wall img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+
+    .note {
+      margin: 16px 4px 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 900px) {
+      .toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .actions {
+        justify-content: flex-start;
+      }
+    }
+
+    @media print {
+      @page {
+        size: 16in 9in;
+        margin: 0;
+      }
+
+      body {
+        background: white;
+      }
+
+      .shell {
+        width: 16in;
+        padding: 0;
+      }
+
+      .toolbar,
+      .note {
+        display: none;
+      }
+
+      .wall {
+        width: 16in;
+        height: 9in;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="toolbar">
+      <div class="brand">
+        <div class="mark" aria-hidden="true">PW</div>
+        <div>
+          <strong>PolicyWatcher Today Wall</strong>
+          <span>What it is today, how it got here, and the numbers behind the 3.5 Confidence track.</span>
+        </div>
+      </div>
+      <nav class="actions" aria-label="Wall actions">
+        <button type="button" onclick="document.querySelector('.wall').requestFullscreen?.()">Fullscreen</button>
+        <button type="button" onclick="window.print()">Print / PDF</button>
+        <a href="policywatcher-today-wall.svg" download>Download SVG</a>
+      </nav>
+    </header>
+
+    <section class="wall">
+      <img src="policywatcher-today-wall.svg" alt="PolicyWatcher today wall infographic">
+    </section>
+
+    <p class="note">
+      Inventory numbers are local release metrics. Public confidence views stay gated until source-verified retrieval logs replace seeded records.
+    </p>
+  </main>
+</body>
+</html>

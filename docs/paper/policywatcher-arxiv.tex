@@ -1,0 +1,1240 @@
+% ============================================================================
+% PolicyWatcher: arXiv submission source (expanded)
+% Compile: pdflatex (2 passes) or tectonic. Standard TeX Live packages only,
+% so the file compiles unmodified on arXiv and Overleaf.
+% Suggested arXiv categories: cs.CY (primary), cs.SE and cs.CR (cross-list).
+% Style note: this document deliberately avoids em dashes and en dashes.
+% ============================================================================
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{placeins}
+
+\setlength{\emergencystretch}{2em}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=single,
+  framesep=4pt,
+  columns=fullflexible,
+}
+
+\newcommand{\pw}{\textsc{PolicyWatcher}}
+\newtheorem{invariant}{Invariant}
+
+\title{\pw: An Evidence-Preserving Pipeline for Monitoring\\
+Terms-of-Service and Privacy-Policy Changes\\
+on Consumer Technology Platforms}
+
+\author{
+  Fabrizio Degni\\
+  \small PolicyWatcher Project\\
+  \small \url{https://policywatcher.online}
+}
+
+\date{30 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Terms of service and privacy policies govern the digital lives of billions of
+people, yet they change silently. Providers routinely amend clauses on data
+collection, artificial-intelligence training, and content licensing without
+effective notice to the users bound by them. We present \pw, an open, low-cost
+platform that acquires configured policy pages, detects text changes, and
+publishes bilingual plain-language analyses only after an explicit evidence
+gate. The central contribution is an \emph{evidence-preserving monitoring
+architecture} that separates source acquisition, immutable snapshots,
+AI-assisted interpretation, publication eligibility, and downstream reuse. The
+current system combines (i) a five-strategy retrieval cascade spanning direct
+HTTP, explicit HTTP/2, remote headless rendering, and two freshness-guarded web
+archives; (ii) content and transport validation for bot walls, soft not-found
+pages, consent interstitials, redirect drift, and network egress risk; (iii)
+scan-level acquisition deduplication with persisted run, retrieval, remediation,
+and historical-reference records; and (iv) a first-baseline protocol that
+promotes exact source-supported content without emitting a false change, model
+score, or notification. Evidence-governance packets, deterministic collection
+exports, a forward-only public change feed, and a local webhook receiver
+conformance lab extend the same provenance boundary into review and integration
+workflows. A dated public snapshot collected on 30 July 2026 reports 50 policy
+records, of which 45 passed the public evidence gate and five were withheld;
+the public change inventory contained 35 records. These figures describe one
+operational state, not semantic accuracy, legal compliance, market coverage, or
+adoption. The release was validated by 485 automated tests across 89 test files,
+a production build, static checks, a read-only source inventory, and a dry-run
+baseline-repair control. The platform runs on commodity shared hosting plus a
+small virtual private server and is released as inspectable source code. We
+discuss the threat model, public-interest retrieval ethics, AI transparency,
+limits of the current evidence claims, and a protocol for longitudinal and
+expert-annotated evaluation.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+
+The notice-and-consent model remains the legal backbone of the relationship
+between consumers and online platforms, despite two decades of evidence that it
+does not function as notice for ordinary users. Reading the privacy policies a
+person encounters in a single year has been estimated to require on the order of
+two hundred hours \cite{mcdonald2008cost}. Users overwhelmingly accept terms
+unread, including clauses that no reasonable person would accept if they were
+read \cite{obar2020biggest}, and the language of the documents themselves is
+frequently pitched above the reading level of the general public
+\cite{fabian2017readability, reidenberg2015disagreeable}. The problem is
+compounded by change. Policies are living documents, and the clauses that matter
+most to citizens, including data retention, cross-border transfer,
+artificial-intelligence training on user content, and licensing of
+user-generated works, are precisely the clauses that providers have amended most
+aggressively during the generative-AI transition. A user who consented in
+January is bound in June by text they have never seen, and the mechanisms that
+would surface such a change to the affected population do not exist at scale.
+
+Civil-society initiatives have partly addressed the static version of this
+problem. ToS;DR crowdsources human-authored summaries and ratings of terms of
+service \cite{tosdr}, and the Electronic Frontier Foundation's TOSBack project
+pioneered automated tracking of terms pages \cite{tosback}. On the research side,
+a substantial literature has produced annotated corpora \cite{wilson2016creation},
+million-document longitudinal archives \cite{amos2021privacy}, and automated
+clause-level analysis using natural-language processing and machine learning
+\cite{harkous2018polisis, srinath2021privacy, lippi2019claudette,
+andow2019policylint, cui2023poligraph}. Yet a gap persists between
+\emph{corpus construction}, which is retrospective and research-oriented, and
+\emph{civic monitoring}, which must be continuous, forward-looking, and
+communicated in plain language to the people affected.
+
+Closing that gap requires solving an engineering problem that is easy to
+underestimate. \textbf{Reliably obtaining the current, complete text of a policy
+page is adversarial.} The pages that matter most sit behind bot-mitigation
+walls, JavaScript-only rendering, geographic content splits, and frequent URL
+churn. Naive scrapers silently capture error pages, consent interstitials, or
+stale cached copies, and every downstream artifact, from a stored diff to a risk
+score to a subscriber email, inherits that corruption without any signal that it
+has occurred. The dominant failure mode in this domain is not a crash. It is a
+plausible wrong value that propagates as if it were fact.
+
+\pw{} is a running platform that monitors 50 policy documents across 16
+technology and fintech providers in up to four jurisdictional variants
+(European Union, United States, United Kingdom, and Global), detects changes,
+and publishes bilingual (English and Italian) analyses, risk assessments,
+comparison matrices, and subscriber notifications. This paper reports its design
+as a systems contribution, organized around a single question:
+
+\begin{quote}
+\emph{How can a public-interest monitoring system keep each public record tied
+to retrieved evidence, and withhold the record when that condition is not met?}
+\end{quote}
+
+\noindent The contributions of this paper are the following.
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{An evidence-grade acquisition cascade} (Section~\ref{sec:pipeline})
+  that combines direct fetching with realistic browser fingerprints, explicit
+  HTTP/2 negotiation for protocol-strict providers, remote headless rendering
+  for script-dependent pages, and two web archives, all governed by a
+  \emph{freshness guard} with a stated timestamp invariant that rejects archive
+  snapshots captured before the latest live baseline (Section~\ref{sec:freshness}).
+  \item \textbf{A two-layer validation model} (Section~\ref{sec:validation})
+  that separates transport-level outcomes from content-level pathologies,
+  including bot challenges, soft not-found pages, maintenance pages, paywalls,
+  consent walls, and redirect drift, behind a deterministic result contract that
+  forces every caller to handle failure explicitly, and an egress-side
+  server-side request forgery guard with DNS pinning.
+  \item \textbf{A source-reliability control plane}
+  (Section~\ref{sec:reliability}) that normalizes acquisition keys, deduplicates
+  shared retrievals, persists scan and retrieval counts, records structured
+  failure causes, and retains stale archive candidates only as historical
+  references excluded from change detection.
+  \item \textbf{A data-governance layer} (Section~\ref{sec:governance}) that
+  encodes the distinction between fixtures and evidence in the database schema,
+  gates every public surface on evidence status, and defines an exact-evidence
+  first-baseline protocol that emits no spurious change event, model score, or
+  notification.
+  \item \textbf{Citable evidence and bounded integration contracts}
+  (Section~\ref{sec:delivery}) comprising change-bound evidence packets,
+  deterministic browser-local collections and handoff manifests, a forward-only
+  public change-event feed, and a receiver conformance suite whose results are
+  explicitly separated from endpoint certification or delivery guarantees.
+  \item \textbf{A threat model and an adversarial self-assessment}
+  (Sections~\ref{sec:threat} and~\ref{sec:redteam}) conducted against the
+  running system, framed by two questions: where can uncertain data still become
+  public evidence, and which function can destroy or promote data irreversibly
+  if an operational state is wrong. We report the findings and the guardrails
+  that closed them.
+  \item \textbf{An implementation and reproducibility account}
+  (Section~\ref{sec:impl}) covering the open-source release, the automated test
+  suite, continuous integration, and third-party quality attestation, together
+  with a deployment blueprint (Section~\ref{sec:deployment}) that runs the entire
+  platform on commodity shared hosting plus one small virtual private server.
+\end{enumerate}
+
+\section{Background and Related Work}
+\label{sec:related}
+
+\subsection{The readability and change problem}
+The mismatch between the legal function of policies and their practical
+readability is well documented. McDonald and Cranor quantified the aggregate
+time cost of reading policies \cite{mcdonald2008cost}; Reidenberg et al.\
+demonstrated systematic mismatches between policy meaning and user understanding
+\cite{reidenberg2015disagreeable}; and large-scale readability analyses confirm
+that policies routinely exceed the comprehension level of the general population
+\cite{fabian2017readability}. Obar and Oeldorf-Hirsch showed experimentally that
+users accept unread terms at near-universal rates \cite{obar2020biggest}. These
+results motivate a monitoring system oriented toward the affected public rather
+than toward researchers, and they motivate a focus on \emph{change}, because a
+reader who cannot be expected to read a policy once certainly cannot be expected
+to re-read it after every amendment.
+
+\subsection{Policy corpora and longitudinal analysis}
+Wilson et al.\ introduced OPP-115, the first richly annotated privacy-policy
+corpus, establishing a data-practice taxonomy that later systems reused
+\cite{wilson2016creation}. Amos et al.\ curated more than one million policy
+snapshots spanning two decades by mining the Wayback Machine, and documented both
+the growth of policy length over time and the methodological hazards of
+archive-based curation, notably error pages and boilerplate masquerading as
+policies \cite{amos2021privacy}. Linden et al.\ analyzed the policy landscape
+before and after the General Data Protection Regulation and found measurable
+changes in length and disclosure \cite{linden2020landscape}. The content
+validation layer in \pw{} (Section~\ref{sec:validation}) operationalizes the
+hazards these corpora identified as run-time checks, and the freshness guard
+(Section~\ref{sec:freshness}) addresses a failure mode specific to \emph{live}
+monitoring that retrospective corpora, which fix a snapshot set in advance, do
+not face.
+
+\subsection{Automated policy and terms analysis}
+A rich line of work applies natural-language processing to policies and terms.
+Privee and Polisis demonstrated automated classification and question answering
+over privacy policies \cite{zimmeck2014privee, harkous2018polisis}; PrivaSeer
+scaled corpus construction to the open web \cite{srinath2021privacy}; PolicyLint
+and PoliGraph extracted and reasoned over data-flow statements, including
+internal contradictions \cite{andow2019policylint, cui2023poligraph}; and MAPS
+and related systems scaled compliance analysis to mobile-app ecosystems
+\cite{zimmeck2019maps}. In the terms-of-service setting specifically, the
+CLAUDETTE line of work trained detectors of potentially unfair contractual
+clauses \cite{lippi2019claudette}. \pw{} consumes a general-purpose large
+language model for bilingual summarization and risk annotation, but treats the
+model as an \emph{untrusted component}: its outputs are schema-validated,
+range-checked, and, by policy, never a substitute for retrieval evidence
+(Section~\ref{sec:analysis}). The system's contribution is therefore
+complementary to this literature. It is not a new clause classifier but an
+infrastructure that supplies the classifier, whatever it is, with a validated
+retrieval path and publishes its outputs only when the provenance condition is
+met.
+
+\subsection{Consent interfaces and web measurement}
+A parallel measurement literature studies the interfaces that gate access to
+policy-governed services. Studies of cookie consent notices and their dark
+patterns \cite{utz2019consent, nouwens2020dark, matte2020cookie,
+sanchezrola2019optout} document precisely the consent walls and interstitials
+that a policy scraper must detect and reject rather than ingest. Work on
+realistic and reproducible web crawling \cite{jueckstock2021realistic} and on
+the detection of browser fingerprinting \cite{iqbal2021fingerprinting} frames the
+technical arms race that makes reliable retrieval adversarial and that motivates
+the multi-strategy cascade in Section~\ref{sec:pipeline}. Automated auditing of
+third-party disclosure in policies \cite{libert2018auditing} further underscores
+that a policy's text and a site's actual behavior can diverge, which is one
+reason \pw{} anchors every published record to a specific retrieval event.
+
+\subsection{Monitoring services and positioning}
+TOSBack \cite{tosback} and ToS;DR \cite{tosdr} are the closest antecedents in
+spirit. TOSBack tracks raw page text and TOSBack-style diffs; ToS;DR provides
+human-curated ratings. \pw{} differs in three respects. First, it invests in
+adversarial retrieval, which is required because modern policy pages actively
+resist naive fetching in ways that were less prevalent when earlier trackers
+were designed. Second, it maintains a per-document provenance model in which
+every published datum links to a check log that records the transport used, the
+HTTP status, the content hash, and the source of retrieval. Third, it governs
+the boundary between demonstration data and evidence explicitly, which we found
+in practice to be the dominant integrity risk (Section~\ref{sec:redteam}).
+Regulatory context is provided by the transparency obligations of the General
+Data Protection Regulation \cite{gdpr} and the terms-and-conditions provisions
+of the Digital Services Act \cite{dsa}; independent monitoring gives such
+obligations empirical traction.
+
+The EU Artificial Intelligence Act introduces transparency obligations for
+providers and deployers of certain AI systems in Article 50
+\cite{aiact}. The European Commission's July 2026 guidelines state that these
+obligations apply from 2 August 2026 and provide practical guidance on scope and
+implementation \cite{ecarticle50}. \pw{} does not assess conformity with those
+obligations. The relevance is architectural: AI-assisted public-interest text,
+source provenance, human-review boundaries, and machine-readable distribution
+should be distinguishable and inspectable rather than presented as a single
+authoritative output.
+
+\section{System Overview}
+\label{sec:overview}
+
+\pw{} is implemented as a server-rendered web application (Next.js with the App
+Router, React, and TypeScript) backed by a relational database accessed through
+an object-relational mapper (Prisma over SQLite). Policy analysis calls a
+hosted large language model. Headless rendering, which requires a Chromium
+runtime that shared hosting cannot provide, runs as a separate authenticated
+service (Section~\ref{sec:deployment}). The platform comprises five subsystems.
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Acquisition}: a scheduled scanner that, for each configured
+  policy URL, executes the retrieval cascade and validation of
+  Sections~\ref{sec:pipeline} and~\ref{sec:validation}, producing either a
+  normalized text with a SHA-256 content hash or an explicit failure status.
+  \item \textbf{Change detection and analysis}: hash comparison against the
+  stored baseline, and, on change, a stored full-text line diff plus a
+  model-generated analysis comprising bilingual summaries, key points,
+  remediation guidance, a risk score, a fifteen-indicator assessment, and
+  per-region impact statements (Section~\ref{sec:analysis}).
+  \item \textbf{Publication}: a public dashboard, a change timeline, per-change
+  pages with diffs, a cross-company comparison matrix over the indicator
+  taxonomy, regional heatmaps and radar benchmarks, an evidence-ranked signals
+  board, a regulatory observatory, embeddable widgets, downloadable reports, and
+  subscriber email digests, all gated on evidence status
+  (Section~\ref{sec:governance}).
+  \item \textbf{Evidence reuse and integration}: change-bound evidence packets,
+  deterministic evidence collections, vendor-neutral handoff manifests, a
+  public change-event polling feed, versioned JSON Schemas, and a local receiver
+  verification and conformance workbench (Section~\ref{sec:delivery}).
+  \item \textbf{Operations and audit}: an administrative surface exposing
+  per-policy check logs, scan runs, source retrievals, remediation state,
+  dataset-quality findings with severity-ranked blockers, explainability review,
+  an append-only review log, an access log, and health and control endpoints for
+  the remote renderer.
+\end{enumerate}
+
+\paragraph{Data model.}
+Persistence is separated into twenty relational entities. \texttt{Company} and \texttt{Policy} hold
+the configured monitoring scope; a policy carries its source URL, jurisdiction,
+current text and hash, a lifecycle value, and the ingestion method that records
+how the current text was obtained. A policy snapshot stores versioned full texts,
+each flagged as public evidence. A policy-change record stores the diff and the
+analysis fields. A policy-check log stores one row per retrieval attempt,
+recording status, source, HTTP status, final URL, content hash, text length,
+failure reason, and, for archive retrievals, the snapshot timestamp.
+\texttt{ScanRun}, \texttt{SourceRetrieval}, \texttt{SourceRemediationIssue}, and
+\texttt{HistoricalSourceReference} retain scan-level accounting, shared
+acquisition state, repeated failures, and dated archive context without merging
+them into public evidence. Additional entities cover discovery and onboarding,
+policy inquiries, dataset-QA decisions, administrative review, access logging,
+press measurement, regional impact, and subscribers. The check log and source
+retrieval records form the provenance spine: public records retain a link to the
+attempt that produced their source evidence while operational telemetry remains
+separately queryable.
+
+\section{The Evidence Acquisition Cascade}
+\label{sec:pipeline}
+
+\subsection{Design invariant: evidence or explicit status}
+The pipeline's contract is that a retrieval attempt returns exactly one of three
+statuses. \texttt{ok} carries validated text and a hash. \texttt{unavailable}
+signals a transient failure such as a timeout, a bot block, or a maintenance
+page. \texttt{invalid} signals that the URL no longer denotes the intended
+document, for example a hard not-found response, a soft not-found page, or a
+redirect that drifts to an unrelated destination. Nothing else is
+representable in the result type. A caller cannot receive partial text without a
+hash, or a hash without provenance. Failure paths write a check-log row and a
+user-facing notice that directs the reader to the official source, rather than
+an approximation. This shape was chosen after observing that most data-integrity
+incidents in scraping systems are not exceptions but plausible wrong values that
+propagate silently.
+
+\subsection{The retrieval cascade}
+Strategies are ordered by fidelity to the live site. Archives come last because
+they can only witness the past. Table~\ref{tab:cascade} summarizes the cascade.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}l l X@{}}
+\toprule
+\textbf{Order} & \textbf{Strategy} & \textbf{Role and rationale} \\
+\midrule
+1 & Direct HTTP/1.1 & Realistic desktop browser fingerprint; manual redirects with per-hop validation; body-aware timeout. Primary path. \\
+2 & Explicit HTTP/2 & Direct ALPN negotiation for providers that reject HTTP/1.1 from non-browser clients with protocol-level errors. \\
+3 & Rendered fetch & Remote headless Chromium executes JavaScript; recovers single-page-application shells and many bot-protected pages. Optional. \\
+4 & Wayback Machine & Freshness-guarded archived snapshot; witness of last resort. \\
+5 & Common Crawl & Freshness-guarded archive; gzip-compressed records are decompressed before extraction. \\
+\bottomrule
+\end{tabularx}
+\caption{The five-strategy retrieval cascade. Strategies 1 to 3 observe the live
+site; strategies 4 and 5 are archives subject to the freshness guard of
+Section~\ref{sec:freshness}.}
+\label{tab:cascade}
+\end{table}
+\FloatBarrier
+
+\textbf{Direct fetch.} The primary path issues an HTTP/1.1 request with a
+realistic desktop browser fingerprint (User-Agent, client-hint headers, and
+fetch-metadata headers), follows redirects manually with server-side request
+forgery re-validation at every hop, and retries on status 429 and 5xx with
+exponential backoff. The request timeout of twenty seconds covers the response
+\emph{body}, not merely the response headers, which matters against slow-drip
+responses that deliver headers promptly and then stall. Responses whose content
+type is clearly not HTML, such as PDF, images, or octet streams, are rejected
+rather than parsed. The transport makes up to three attempts and rotates among
+three browser profiles.
+
+\textbf{Explicit HTTP/2.} Several large providers reject HTTP/1.1 requests from
+non-browser clients with protocol-level 400 responses. A dedicated client
+negotiates HTTP/2 over ALPN directly. Response chunks are accumulated as bytes
+and decoded once, because decoding at arbitrary chunk boundaries corrupts
+multi-byte UTF-8 sequences, and redirects are treated as failures at this layer
+by construction.
+
+\textbf{Rendered fetch.} Pages that ship as JavaScript application shells, which
+is increasingly the norm for exactly the providers most relevant to consumers,
+are delegated to a self-hosted rendering service (Section~\ref{sec:deployment}).
+The service loads the page in headless Chromium, waits for hydration and for
+network quiescence, and returns the rendered document. If the service is not
+configured or is unreachable, the cascade continues to the archives. Rendering
+is an amplifier, not a dependency.
+
+\textbf{Freshness-guarded archives.} The Wayback Machine \cite{wayback} and
+Common Crawl \cite{commoncrawl} serve as witnesses of last resort. Common Crawl
+records are located by CDX lookup and fetched by byte-range reads of
+gzip-compressed WARC records, which are decompressed before parsing. Both archive
+strategies enforce the freshness guard of Section~\ref{sec:freshness}.
+
+\subsection{Content validation}
+\label{sec:validation}
+The second layer validates \emph{what} was retrieved. Its checks are pure
+functions of the retrieved bytes and are unit-tested in isolation.
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Block-page detection}: signatures of CAPTCHA and JavaScript
+  challenges, web application firewall denial pages, maintenance pages,
+  paywalls and login walls, and consent interstitials, matched only against the
+  document head so that a policy which legitimately \emph{discusses} CAPTCHAs is
+  not itself flagged.
+  \item \textbf{Soft not-found detection}: short pages using not-found
+  phrasings in multiple languages, which catches servers that return status 200
+  for missing documents.
+  \item \textbf{Structural extraction}: removal of boilerplate (navigation,
+  headers, footers, cookie banners, hidden elements) and conversion of the main
+  content region to deterministic, structured plain text. The
+  \emph{same} normalizer feeds storage, hashing, and diffing, so cosmetic markup
+  changes do not register as policy changes. When a configured URL carries a
+  fragment identifier, extraction is scoped to the addressed section.
+  \item \textbf{Plausibility checks}: a minimum length of 800 characters and a
+  policy-marker vocabulary test that requires at least three of twenty
+  domain terms, which rejects well-formed pages that are not policies. Extracted
+  text is capped at 500{,}000 characters to bound storage.
+  \item \textbf{Drift rejection}: a live retrieval whose final URL, after
+  redirects, lands on a different registrable domain (host drift) or on a site
+  root when a document path was configured (path drift) is rejected as
+  \texttt{invalid} rather than ingested. This closes the failure path in which a
+  redirect to a homepage whose footer contains the word ``privacy'' would
+  otherwise pass the marker test.
+\end{itemize}
+
+\subsection{Egress protection}
+Because the scanner fetches administrator-configured URLs from server-side
+infrastructure, every fetch passes a server-side request forgery guard \cite{owasp2021}: a scheme
+allowlist, rejection of credentials embedded in the URL, DNS resolution with
+blocking of private, loopback, and link-local addresses, and re-validation on
+every redirect hop. To close the time-of-check-to-time-of-use gap between
+validation and connection, the HTTP/1.1 and HTTP/2 clients pin the validated
+address at connection time rather than re-resolving the hostname, and the IPv6
+address parser is hardened against compressed and mixed notations. The companion
+renderer applies the same address policy to every browser-initiated subresource
+request and checks redirect coherence against the Public Suffix List.
+
+\section{The Freshness Guard}
+\label{sec:freshness}
+
+The archive strategies introduce a subtle integrity risk that is specific to
+live monitoring. Suppose the live site is temporarily blocked. A naive cascade
+would fall through to an archive and recover an older copy of the document, whose
+hash differs from the stored baseline. The system would then register a
+\emph{change}, run analysis, and notify subscribers about a regression to a
+superseded text. When the live site later recovers, a second spurious change
+fires. We eliminate this oscillation class with a single rule.
+
+\begin{quote}
+An archived snapshot is admissible only if its capture timestamp is not earlier
+than the policy's last successful live retrieval.
+\end{quote}
+
+\noindent Let $t_\ell$ be the timestamp of the last retrieval that produced a
+stored baseline, and let $t_s$ be the capture timestamp of a candidate archive
+snapshot. The guard admits the snapshot only if $t_s \ge t_\ell$.
+
+\begin{invariant}
+Provided that the recorded archive capture timestamp is accurate, the freshness
+guard rejects any candidate snapshot captured before the current baseline.
+\end{invariant}
+
+\begin{proof}[Proof sketch]
+The stored baseline was written by a retrieval at time $t_\ell$, and by the
+pipeline invariant it reflects the document observed at $t_\ell$. An archive
+snapshot is admitted only when $t_s \ge t_\ell$, so any admitted snapshot was
+captured no earlier than the current baseline. A change is recorded only when an
+admitted retrieval yields a hash different from the baseline hash. Therefore a
+recorded change from an archive source refers to a capture at or after $t_\ell$,
+not before it. The rule prevents a pre-$t_\ell$ capture from becoming a new
+baseline under those assumptions. Snapshots lacking a timestamp are treated as
+inadmissible, so the rule does not rely on an unknown capture time.
+\end{proof}
+
+The guard is enforced in both archive strategies. Admitted archive retrievals
+additionally carry their capture timestamp into the check log, so that the age of
+recovered evidence is recorded and can be displayed to readers. A practical side
+effect is a reduction in load on public-interest archive infrastructure, since
+stale snapshots are rejected before they are fetched in full.
+
+\section{Source Reliability Control Plane}
+\label{sec:reliability}
+
+The acquisition cascade originally persisted policy-level check logs but did
+not make the relationship between selected records, unique source acquisitions,
+network attempts, and reused results explicit. This matters when several policy
+records share a legal hub, or when a canonical policy URL points to a separate
+official retrieval mirror or PDF. Treating every row as a network fetch inflates
+operational counts and can apply inconsistent archive-freshness floors.
+
+The current scanner computes a normalized \emph{retrieval key} for each selected
+policy. Records with the same key share one acquisition while retaining
+independent comparisons, snapshots, jurisdictions, and publication decisions.
+The strictest last-successful-live timestamp among the sharing records becomes
+the archive-freshness floor. A persisted \texttt{ScanRun} records selected rows,
+unique retrieval keys, network attempts, deduplicated acquisitions, unavailable
+sources, and dependency failures. Each \texttt{SourceRetrieval} records the
+normalized key, strategy, outcome, structured cause code, HTTP metadata, hash,
+and affected-record count.
+
+Failures are classified by stable causes such as source unavailability, content
+rejection, dependency failure, and invalid configuration. Repeated failures can
+open a \texttt{SourceRemediationIssue}; the record suggests review actions but
+never authorizes bypassing a provider access control. Archive candidates that
+fail the freshness guard are stored only as
+\texttt{HistoricalSourceReference} records. They can explain source continuity
+but cannot create a baseline or a change.
+
+The protected Source Reliability console exposes these distinctions and the
+public-baseline coverage count. It is intentionally an operational control
+plane, not a public quality score. A zero or partial coverage state means that
+the evidence gate is withholding records; it is not evidence of provider
+quality, system security, or legal compliance.
+
+\section{Change Detection and Analysis}
+\label{sec:analysis}
+
+Change detection is hash equality over normalized text. On inequality, the system
+stores a new immutable snapshot and a full-text line diff. An earlier design
+truncated the diff to the first ten thousand characters, which silently hid
+changes beyond the opening pages of long documents; the current design stores the
+complete diff. The system then generates an analysis with a hosted large language
+model. The primary model is \texttt{gemini-2.5-flash}; on transient errors such
+as rate limiting or temporary unavailability, the system falls back to
+\texttt{gemini-3.5-flash-lite}. Generation uses a low temperature, constrains
+the response with provider-side JSON Schema, and validates the payload again
+locally before normalization or persistence.
+
+The analysis schema contains bilingual executive summaries, a one-sentence
+take-away in each language, three to five key points with sentiment, exactly
+three risk rationales, an overall risk band, an integer risk score from 1 to 10,
+two to four remediation actions with links to official opt-out or objection
+mechanisms, exactly six per-region impact statements (the cross product of three
+regions and two perspectives), and the fifteen-indicator assessment of
+Table~\ref{tab:kpi}.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}l X@{}}
+\toprule
+\textbf{Group (5 indicators each)} & \textbf{Indicators and representative values} \\
+\midrule
+Privacy and data protection &
+Data collection (Minimal / Moderate / Extensive); Third-party sharing
+(Restricted / Limited / Broad); Data retention (Defined / Extended /
+Indefinite); Right to deletion (Full / Partial / Not available); Cross-border
+transfer (Restricted / Controlled / Unrestricted). \\
+\addlinespace
+AI governance &
+Training opt-out (Available / Opt-out / Not available); Output ownership
+(User retained / Shared / Company retained); Algorithmic transparency
+(Published / Mentioned / Opaque); Automated decisions (Transparent / Partial /
+Opaque); Bias and fairness (Committed / Mentioned / Absent). \\
+\addlinespace
+Ethics and corporate governance &
+Consent mechanism (Explicit opt-in / Opt-out / Implicit); Regulatory compliance
+(Comprehensive / Partial / Minimal); Breach notification (Within 24h / Within
+72h / Unspecified); Independent audit (Certified / Mentioned / Absent); Content
+moderation (Transparent / Partial / Opaque). \\
+\bottomrule
+\end{tabularx}
+\caption{The fifteen-indicator taxonomy used for cross-company comparison. Every
+indicator additionally admits the value ``Not assessed'', which is the default
+until an assessment is made.}
+\label{tab:kpi}
+\end{table}
+\FloatBarrier
+
+Three properties keep the model subordinate to evidence. First, analyses are
+generated only for retrieved text; there is no path from model output to policy
+text. Second, model outputs are parsed against a strict schema with range
+validation: an out-of-range risk score or an unrecognized risk band causes the
+analysis to be rejected rather than clamped, and indicator values are passed
+through a case-insensitive whitelist that maps anything unrecognized to ``Not
+assessed''. Third, in production the system prefers to block ingestion of an
+analysis over substituting a heuristic mock; the demonstration fallback is
+available only when an explicit environment flag is set. The conversational
+interface that answers user questions over a policy applies an explicit
+prompt-injection guard that treats the policy context as untrusted input and
+returns an honest ``unavailable'' response rather than fabricating an answer.
+
+The public analysis layer exposes both unified and side-by-side diffs, exact
+snapshot hashes, region-aware heatmaps, and benchmark radar views. Normalized
+benchmark values are accompanied by original categorical values, missing-value
+states, and a statement that the visualizations are comparative review aids,
+not compliance or business-performance scores. Where the stored analysis
+contains a source passage, publication requires an exact substring match
+against the declared snapshot side. Unmatched passages are withheld rather than
+presented as citations. Governance references to the EU AI Act, ISO/IEC 42001,
+NIST AI RMF, and OECD AI Principles are advisory review mappings, not legal
+interpretations or conformity assessments.
+
+\section{Citable Evidence and Bounded Integration}
+\label{sec:delivery}
+
+The platform extends the public evidence gate through four reuse contracts.
+First, a change-bound \emph{Evidence Packet} exposes sanitized source-confidence
+state, snapshot identifiers, SHA-256 fingerprints, verified source passages,
+advisory governance references, human-review questions, and a deterministic
+content digest as JSON or PDF. Second, browser-local \emph{Evidence Collections}
+group up to twelve exact public changes. Shared URLs contain only sorted public
+change identifiers; local titles and review state do not leave the browser. A
+collection can be exported as deterministic JSON, Markdown, CSV, or a
+vendor-neutral handoff manifest containing evidence links, digests, review
+questions, acceptance criteria, and receiving-system instructions.
+
+Third, a versioned public change-event feed provides bounded forward polling of
+already-published events. It uses deterministic event identifiers, an opaque
+cursor, separate publication time, localized summaries, and exact evidence
+links. It is not a subscriber registry and provides no push delivery, recipient
+state, retry, or receipt. Fourth, a candidate HMAC-\allowbreak SHA-256 receiver contract is
+published with exact headers, signing input, a public test vector, and Node and
+Python examples. A browser-local Receiver Conformance Lab executes eight
+positive and negative fixtures and exports only case identifiers, expected and
+actual decision codes, totals, and the interpretation boundary.
+
+These contracts are deliberately separable. A deterministic digest establishes
+artifact identity, not semantic truth. A passing receiver fixture establishes
+compatibility with that case, not endpoint identity, production secret custody,
+replay protection, delivery reliability, or implementation certification.
+Direct publishing to Jira, Confluence, Microsoft Teams, Slack, or a GRC system
+remains outside the public contract until identity, authorization, delivery,
+retry, and audit controls are implemented.
+
+\section{Functional Surface at Beta 21}
+\label{sec:features}
+
+Table~\ref{tab:features} records the main available surfaces so that the systems
+claims can be separated from the size of the product interface. Availability
+means that a route or contract exists in the inspected release; it does not
+establish adoption, completeness, continuous uptime, or independent validation.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}l X X@{}}
+\toprule
+\textbf{Domain} & \textbf{Available functions} & \textbf{Boundary} \\
+\midrule
+Acquisition and monitoring & Five-path retrieval cascade; complete and bounded scans; normalized shared acquisition keys; source continuity; structured remediation. & External source access and structure remain provider-dependent. \\
+\addlinespace
+Evidence and analysis & Immutable snapshots; full and side-by-side diffs; bilingual summaries; fifteen indicators; source-anchored reasons; change-bound JSON/PDF Evidence Packets. & AI-assisted outputs require review and are not legal findings. \\
+\addlinespace
+Public exploration & Evidence Console; Timeline; Signals; Observatory; regional heatmap; radar benchmark; Matrix; Atlas; Feature Atlas; Showcase; release-impact Roadmap. & Missing assessments remain ``Not assessed'' and visual normalization is not a compliance score. \\
+\addlinespace
+Intake and companion access & ``What changed?'' text intake; browser-local bounded MIME parsing; published Chrome extension for selected page text and links. & No mailbox access, attachment processing, or automatic legal classification is claimed. \\
+\addlinespace
+Collaboration and integration & Browser-local Evidence Collections; deterministic exports; handoff manifests; public v1 and enterprise-oriented v2 read contracts; change-event polling; receiver verification and conformance fixtures. & No persistent team workspace or outbound third-party delivery is available. \\
+\addlinespace
+Transparency and reuse & Public methodology, Trust and QA pages, Claim Registry, Press Kit, Data Room, release archive, structured data, citable embeds, Pulse story packs, social cards, corrections and coverage registries. & Editorial and aggregate telemetry does not measure truth, reach, endorsement, or conversion. \\
+\addlinespace
+Protected governance & Grouped admin navigation; Source Reliability; Cron Manager; Dataset QA; explainability; KPI audit; review and access logs; source onboarding; database and VPS readiness. & Protected operations remain role-scoped and optional metrics cannot become an authentication dependency. \\
+\bottomrule
+\end{tabularx}
+\caption{Available PolicyWatcher functional surface in release 3.9.0 Beta 21,
+with the principal interpretation boundary for each domain.}
+\label{tab:features}
+\end{table}
+\FloatBarrier
+
+\section{Data Governance: Fixtures versus Evidence}
+\label{sec:governance}
+
+A monitoring platform needs demonstration data before its first production scan,
+and it needs development fixtures forever after. The dominant integrity risk we
+encountered in practice was not a scraping failure but \emph{fixture leakage}:
+hand-authored demonstration records, complete with plausible dates and risk
+scores, reaching public surfaces indistinguishably from evidence. \pw{} addresses
+this structurally.
+
+\paragraph{Schema-level distinction.}
+Every policy carries an \texttt{ingestionMethod}, which is either \texttt{Seeded}
+or one of the retrieval sources (\texttt{direct}, \texttt{http2},
+\texttt{rendered}, \texttt{wayback}, \texttt{commoncrawl}), and a
+\texttt{dataStatus} lifecycle value drawn from \texttt{Configured},
+\texttt{Available}, \texttt{Partial}, \texttt{Needs Review}, \texttt{Unavailable},
+and \texttt{Reviewed}. Snapshots and changes additionally carry a
+\texttt{publicEvidence} boolean. Fixtures are born \texttt{Seeded} and
+\texttt{Configured}; they are not treated as retrieved evidence.
+
+\paragraph{Public data gate.}
+Every public surface, which includes the read APIs, the server-rendered pages,
+the share and embed routes, the OpenGraph image routes, the downloadable
+reports, the sitemap, and, critically, the subscriber emails, filters on
+evidence status. To be public, a policy must have a status in the set
+$\{\texttt{Available}, \texttt{Reviewed}\}$, must not be \texttt{Seeded}, and
+must have at least one snapshot flagged as public evidence; changes must
+themselves be flagged as public evidence. Policies in a suspended state are
+represented publicly only by a minimal ``source under verification'' notice, with
+no text, no scores, and no timeline events. The gate is a single shared predicate
+applied uniformly; Section~\ref{sec:redteam} explains why centralization matters.
+
+A consequence of this design, which we state plainly because it is unusual, is
+that the bundled local development database can contain 50 configured policy
+rows while admitting none of them to public routes. The records exercise the
+interface but remain \texttt{Seeded} and \texttt{Configured} until retrieval
+evidence exists. Production and local fixture states must therefore be measured
+separately; the cardinality of a configured inventory is never a claim about
+public evidence coverage.
+
+\paragraph{First-baseline and repair protocol.}
+Promoting fixtures or previously misclassified records to evidence poses a trap.
+The first real retrieval necessarily differs from a placeholder, and a naive
+pipeline would emit a wave of fabricated ``changes'', each with a model score
+and notification. The first-baseline path treats successful source text as a
+baseline when no exact verified baseline exists. It stores or promotes the
+matching snapshot, updates the policy provenance, and emits no change record,
+analysis, or notification.
+
+Existing deployments use a separate dry-run-first repair command. A row is
+eligible only when a stored snapshot hash matches a successful source check for
+that policy. The dry run lists eligible and retained-private rows; mutation
+requires an explicit \texttt{--apply} flag. The repair cannot infer evidence,
+promote a stale historical reference, bypass source access controls, or create a
+change event. This narrower authorization rule replaces reliance on a mutable
+status flag and preserves genuine history.
+
+\paragraph{Quality gates as release blockers.}
+A dataset-assurance tool audits the database for source-evidence defects and
+treats them as blockers rather than warnings, because the intended production
+state is to remain publicly silent until evidence exists. The command-line tool
+uses two severities, blocker and warning, and fails the build if any blocker is
+present. The administrative console applies a richer three-level scheme (critical,
+warning, informational) across roughly twenty issue areas, among them Source Fit,
+which flags a global policy whose URL uses a regional path segment or an
+EU-or-US policy pointing at a locale-specific page; Coverage, which flags missing
+or very short text and missing analysis; Freshness, which flags policies not
+successfully checked in more than thirty days; and Hash Integrity, Snapshot
+Chain, and Public Evidence Gate checks. Each finding carries a stable identifier
+and is reconciled against an append-only review table, so that a human decision to
+accept or ignore a finding is itself recorded with its author and rationale.
+
+\section{Threat Model}
+\label{sec:threat}
+
+We consider three classes of adversary and one class of operator error. The
+first adversary is the \emph{monitored provider} that, deliberately or not,
+serves bot walls, geo-splits, or JavaScript-only shells that frustrate
+retrieval; the cascade and validation layers are the response. The second is the
+\emph{network position} that could induce the server-side fetcher to reach
+internal infrastructure; the server-side request forgery guard with DNS pinning
+is the response. The third is the \emph{content adversary} that embeds
+instructions in policy text intended to steer the language model; the analysis
+layer treats retrieved text as untrusted and validates model outputs against a
+schema. The fourth class, which our self-assessment found to be the most
+consequential in practice, is \emph{operator error}: a wrong status, a
+mis-scoped deletion, or a deployment artifact that overwrites live data. The
+governance layer, the evidence-based re-baseline predicate, and the operational
+guardrails of Section~\ref{sec:redteam} address this class. We explicitly do not
+attempt to cover a compromised hosting environment, a leaked administrative
+secret used within its validity window, or an archive that itself serves
+corrupted data without an observable indication.
+
+\section{Adversarial Self-Assessment}
+\label{sec:redteam}
+
+Before the first production re-baseline, we conducted a structured red-team
+review of the running system, organized around two questions:
+
+\begin{enumerate}[leftmargin=*]
+  \item Where can uncertain, seeded, incomplete, or badly-retrieved data still
+  become public evidence, a notification, a timeline entry, a risk score, or
+  apparently reliable history?
+  \item Which function can delete, overwrite, or promote data irreversibly if an
+  operational state is wrong?
+\end{enumerate}
+
+The review combined manual code audit, live probing of external dependencies,
+database inspection, and parallel automated code exploration. Table~\ref{tab:red}
+summarizes representative confirmed findings, all subsequently closed. We report
+the methodology and the failure classes rather than dwelling on individual
+defects, because the two guiding questions generalize to any civic-evidence
+platform and, in our experience, surfaced cross-cutting risks that
+component-level checklists did not.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}l X X@{}}
+\toprule
+\textbf{Class} & \textbf{Finding} & \textbf{Guardrail} \\
+\midrule
+Ungated egress & Periodic email digests queried changes by recency alone,
+bypassing the gate that protected web surfaces, so fixture changes could have
+been mailed to subscribers as real intelligence. & Apply the same evidence
+predicate to every egress channel, including email, feeds, and the sitemap; a
+time window is not a filter. \\
+\addlinespace
+Enumeration & The sitemap enumerated all change identifiers, including gated
+ones, advertising non-public resources to crawlers. & Gate the sitemap on the
+same predicate as the pages it references. \\
+\addlinespace
+Archive regression & A transient block on a live site could reinstate an
+outdated archived copy as a change; a legacy cache fallback had also become dead
+weight upstream. & The freshness guard of Section~\ref{sec:freshness}; removal of
+the retired fallback. \\
+\addlinespace
+Irreversible operation & Re-baseline, cascade deletion of a company, and the
+inclusion of a database file in a deployment artifact each offered a single-step
+path to irreversible loss under operator error. & Gate destruction on evidence,
+not on a flag; exclude data stores from deployment artifacts; separate the
+session-signing secret from the API secret; require an encrypted export before
+promotion. \\
+\bottomrule
+\end{tabularx}
+\caption{Representative findings from the adversarial self-assessment and the
+guardrails that closed them.}
+\label{tab:red}
+\end{table}
+\FloatBarrier
+
+\section{Implementation, Testing, and Reproducibility}
+\label{sec:impl}
+
+\pw{} is released as open source. The retrieval and validation logic is factored
+so that its decision functions, including URL and address validation, block-page
+and soft not-found detection, text extraction, the freshness guard, and the
+drift checks, are pure and unit-tested; the public-data gate and the governance
+predicates are likewise unit-tested. At the time of writing the suite comprises
+485 tests across 89 test files and passes in full. Network-dependent paths, which are
+not amenable to deterministic unit testing, are exercised by integration smoke
+tests against live sources. Continuous integration runs five workflows on each
+change: a quality gate (schema validation, build, lint, dependency audit, and the
+dataset-assurance check), a coverage workflow that uploads to a coverage service,
+static analysis with CodeQL, a SonarCloud scan, and an OpenSSF Scorecard run.
+The release also completed TypeScript validation, linting with no release-source
+errors, a production build that generated 130 application routes and pages, a
+read-only source-inventory audit, and a dry-run baseline repair. A production
+dependency advisory check reported no known advisories at the time of the run;
+this is not a claim that the application has no vulnerabilities. The project
+additionally holds an OpenSSF Best Practices self-attestation. We stress
+that these are engineering-quality signals, not legal or compliance
+certifications, and the platform's public documentation states this explicitly.
+
+We report these facts as implementation context, not as an assessment of legal,
+semantic, or model-analysis correctness. The per-attempt check-log schema was
+designed so that the evaluation of Section~\ref{sec:eval} can be reconstructed
+from operational data.
+
+\section{Operational Evaluation of the Running Platform}
+\label{sec:eval}
+
+This section reports a reproducible, point-in-time operational measurement of
+the running public platform. It deliberately answers narrower questions than a
+semantic benchmark: what fraction of the configured inventory is exposed through
+the public-evidence gate; which retrieval path is recorded for the current
+inventory; and whether a seeded fixture instance exposes its placeholder records.
+It does \emph{not} measure the correctness of a detected policy change, the
+correctness of legal or model-generated interpretation, or latency across repeated
+runs.
+
+\subsection{Protocol and data artifact}
+
+The production snapshot was collected at 2026-07-30 10:06:57 UTC from four
+unauthenticated JSON endpoints of the running platform:
+\url{/api/leaderboard}, \url{/api/source-suspensions},
+\url{/api/changes?page=1&pageSize=50}, and \url{/api/companies}. The collection
+capture record, endpoint digests, and interpretation notes are included with the
+paper source. They access no
+administrative API, credentials, subscriber information, private check logs, or
+raw policy text. A local development instance with the seeded fixture inventory
+was queried with the same endpoints as a control for the public-data gate.
+
+The data artifact distinguishes a currently available record from a record that
+is merely configured. It records the last retrieval path in the public
+leaderboard, not a repeated-trial success probability. In particular, a
+\texttt{PolicyChange} record visible through the public API is counted as a
+public change-record inventory item; this evaluation does not independently
+validate that record as a provider's legal amendment. The production snapshot
+describes the deployed database, while the local control describes the bundled
+fixture database after the Beta 21 migration.
+
+\subsection{Results}
+
+Table~\ref{tab:eval} reports the public production state. Of the 50 policy
+records reported by the leaderboard, 45 (90.0\%) satisfied the public-evidence
+gate and five (10.0\%) were suspended. The public companies endpoint returned 15
+company records. The leaderboard reported 18 company rows, reflecting a broader
+inclusion rule; because the release does not yet publish a versioned scope
+manifest reconciling those denominators, we do not calculate a provider-level
+coverage percentage. Four suspended documents belonged to Revolut and covered
+its EU and UK privacy-policy and terms-of-use variants; the fifth was Amazon's EU
+privacy notice. Their public representation exposed a minimal suspension state
+but no policy text, score, timeline item, or analysis.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}l r r X@{}}
+\toprule
+\textbf{Public operational measure} & \textbf{Production} & \textbf{Seeded control} & \textbf{Interpretation} \\
+\midrule
+Policy records & 50 & 50 & Policy-row cardinality reported by each instance. \\
+Public-evidence records & 45 (90.0\%) & 0 (0.0\%) & Records admitted to the public data gate. \\
+Suspended records & 5 (10.0\%) & 50 of 50 & Minimal notices only; no policy text or analysis is exposed. \\
+Public companies endpoint & 15 & 0 & Company records returned after public-data filtering; not a configured-scope denominator. \\
+Public change-record inventory & 35 & 0 & Inventory of records that passed the public change gate, not a semantic-accuracy score. \\
+\bottomrule
+\end{tabularx}
+\caption{Dated operational snapshot from the production public APIs and a local
+seeded-fixture control. The two instances have the same configured inventory but
+different evidence states.}
+\label{tab:eval}
+\end{table}
+\FloatBarrier
+
+The retrieval-path inventory contains 40 direct, five VPS-rendered, and five
+archive-labeled policy rows. These are current inventory labels, not repeated
+trial success rates. The public summary reports five renderer-backed and five
+archive-backed rows but does not expose enough row-level evidence to infer that
+every archive-labeled row is currently admissible for publication; the five
+suspended records remain outside the public policy dataset.
+
+The seeded-fixture control produced zero public-evidence records, zero public
+change records, and zero publicly listed providers while returning 50 suspension
+notices. This contrast is evidence that the tested public endpoints respect the
+fixture-versus-evidence boundary under the supplied fixture state. It is not a
+complete proof that every present or future output channel is free of leakage;
+the code-level public-data gate and its test suite provide the complementary
+engineering evidence described in Section~\ref{sec:impl}.
+
+\subsection{What the snapshot does not establish}
+
+The measurement has no independently annotated corpus of known policy revisions,
+no expert legal coding, no repeated scan window, and no controlled baseline
+system. It therefore cannot estimate precision or recall for change detection,
+agreement with legal experts, robustness over time, or comparative advantage over
+other monitoring systems. The 35 public change records are useful for inventory and interface
+testing, but should not be read as 35 independently verified legal events. A
+rigorous next study requires a versioned corpus of provider-published
+texts, timestamped ground truth, blinded expert annotation, and a multi-week
+repeated-scan protocol.
+
+\section{Deployment and Operations}
+\label{sec:deployment}
+
+A design constraint throughout was operability by a single individual at consumer
+cost. The web application, comprising the dashboard, the APIs, and the scanner,
+runs on commodity shared hosting without root access. Headless rendering, which
+requires a Chromium runtime, runs as an authenticated service of a few hundred
+lines on a small virtual private server, reached over HTTPS and treated as
+optional at every call site. The renderer refuses to start without its bearer
+secret, applies the same address policy as the main application to every
+subresource, blocks heavy subresources such as images and fonts for speed, uses a
+fresh browser context per request to avoid cookie bleed, and bounds concurrency.
+A separate operations agent on the same server performs backup, health probing,
+update, and rollback. Scans are batchable, with bounded batch sizes and
+per-company selection, to respect shared-hosting execution limits, and per-domain
+politeness delays together with retry backoff bound the request rate to any
+single provider. The production database is located outside the extracted
+application directory so that redeploying the application cannot overwrite live
+data, a safeguard added in direct response to the self-assessment of
+Section~\ref{sec:redteam}. The resulting monthly operating cost is on the order of
+a few tens of euros, which we consider part of the contribution: longitudinal
+policy accountability does not require institutional infrastructure.
+
+\section{Ethical Considerations}
+\label{sec:ethics}
+
+\paragraph{Purpose and proportionality.}
+The system retrieves only public legal documents that providers are already
+obligated to make available to their users. It does so at low frequency, on the
+order of weekly scans of 50 documents, with politeness delays. It collects no
+personal data and exercises no platform functionality beyond reading published
+pages.
+
+\paragraph{The fingerprinting tension.}
+Reliable retrieval currently requires browser-realistic request fingerprints,
+because several providers block identified crawlers from the very pages that bind
+their users. That fact is itself a transparency finding. We document the tension
+rather than hide it, and the roadmap includes an honest-first mode that first
+attempts retrieval with an identifying agent and a contact URL and escalates to
+browser-realistic fingerprints only when refused, together with the publication
+of per-provider accessibility statistics.
+
+\paragraph{Archives and load.}
+Archive fallbacks impose load on public-interest infrastructure. The freshness
+guard has the side effect of minimizing archive queries, and archive-derived data
+is labeled with its capture time so that readers can judge its currency.
+
+\paragraph{Publication integrity.}
+The governance layer reflects an ethical stance. For a platform whose purpose is
+trust, publishing nothing is strictly better than publishing plausible
+fabrication. Every user-facing analysis carries its provenance and links to the
+official document, and the analysis layer is presented to users as
+AI-assisted rather than authoritative.
+
+\section{Limitations and Future Work}
+\label{sec:limits}
+
+\paragraph{Evaluation.}
+Section~\ref{sec:eval} reports a dated operational snapshot and a seeded-fixture
+control. It does not report retrieval success rates \emph{over time},
+false-change rates, or agreement between model-generated risk annotations and
+expert legal coding. The check-log schema can support the first two measures; the
+next study should pre-register a time window, preserve a provider-versioned
+reference corpus, and include blinded expert review of a sampled set of detected
+and non-detected changes.
+
+\paragraph{Long-document analysis.}
+Truncation before model analysis can miss clauses deep in long documents. We are
+implementing a chunked map-reduce pipeline with an explicit coverage manifest
+that records which spans of the document each conclusion derives from, enabling
+audits for missed clauses and for conclusions unsupported by the text.
+
+\paragraph{Raw evidence retention.}
+The system stores normalized text. Retaining compressed raw HTML per snapshot,
+with retention tiers, would strengthen the evidentiary chain and permit
+retrospective re-extraction as the normalizer improves.
+
+\paragraph{Extraction robustness.}
+Accordion widgets, tabbed legal hubs, and multi-document pages remain extraction
+hazards. Fragment-scoped extraction mitigates but does not eliminate them, and a
+per-provider extraction test corpus with reference outputs is in progress.
+
+\paragraph{Coverage and scale.}
+Fifty documents across sixteen providers is a deliberate depth-over-breadth
+choice. Scaling to hundreds of providers requires per-domain scheduling,
+conditional requests using entity tags and modification times, and automated URL
+rediscovery that follows legal-hub links and sitemaps when a configured URL dies.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+\pw{} shows how continuous monitoring of the legal documents that govern consumer
+technology can be organized around retrieval provenance and explicit withholding
+states at civic cost. The mechanisms reported here, namely the freshness-guarded
+retrieval cascade, the deterministic failure contract, the fixture-versus-evidence
+boundary enforced at public egress, the evidence-gated re-baseline protocol, and
+the adversarial questions that structure the self-assessment, are reusable design
+patterns for systems that turn scraped web content into public records. The
+operational snapshot is intentionally modest: it records what the running
+platform exposed and withheld on a specific date. The source-reliability control
+plane makes scan scope, acquisition reuse, failure causes, and remediation state
+observable without converting them into public quality scores. Evidence Packets,
+Collections, change-event polling, and receiver fixtures demonstrate how the
+same provenance boundary can continue into reuse and integration. Semantic
+accuracy, legal interpretation, adoption, and comparative performance remain
+questions for a future expert-annotated, longitudinal study.
+
+\subsection*{Availability}
+The platform is publicly accessible at \url{https://policywatcher.online}.
+The source code is released as open source and is subject to continuous
+integration and third-party quality attestation as described in
+Section~\ref{sec:impl}.
+
+\begin{thebibliography}{99}
+
+\bibitem{mcdonald2008cost}
+A.~M. McDonald and L.~F. Cranor.
+The cost of reading privacy policies.
+\emph{I/S: A Journal of Law and Policy for the Information Society},
+4(3):543-568, 2008.
+
+\bibitem{obar2020biggest}
+J.~A. Obar and A.~Oeldorf-Hirsch.
+The biggest lie on the internet: ignoring the privacy policies and terms of
+service policies of social networking services.
+\emph{Information, Communication and Society}, 23(1):128-147, 2020.
+
+\bibitem{fabian2017readability}
+B.~Fabian, T.~Ermakova, and T.~Lentz.
+Large-scale readability analysis of privacy policies.
+In \emph{Proc. Int. Conf. on Web Intelligence (WI)}, 2017.
+
+\bibitem{reidenberg2015disagreeable}
+J.~R. Reidenberg, T.~Breaux, L.~F. Cranor, B.~French, et al.
+Disagreeable privacy policies: mismatches between meaning and users'
+understanding.
+\emph{Berkeley Technology Law Journal}, 30(1):39-88, 2015.
+
+\bibitem{wilson2016creation}
+S.~Wilson, F.~Schaub, A.~A. Dara, F.~Liu, S.~Cherivirala, P.~G. Leon, et al.
+The creation and analysis of a website privacy policy corpus.
+In \emph{Proc. 54th Annual Meeting of the Association for Computational
+Linguistics (ACL)}, 2016.
+
+\bibitem{amos2021privacy}
+R.~Amos, G.~Acar, E.~Lucherini, M.~Kshirsagar, A.~Narayanan, and J.~Mayer.
+Privacy policies over time: curation and analysis of a million-document dataset.
+In \emph{Proc. The Web Conference (WWW)}, 2021.
+
+\bibitem{linden2020landscape}
+T.~Linden, R.~Khandelwal, H.~Harkous, and K.~Fawaz.
+The privacy policy landscape after the GDPR.
+\emph{Proceedings on Privacy Enhancing Technologies (PoPETs)}, 2020(1):47-64,
+2020.
+
+\bibitem{zimmeck2014privee}
+S.~Zimmeck and S.~M. Bellovin.
+Privee: an architecture for automatically analyzing web privacy policies.
+In \emph{Proc. 23rd USENIX Security Symposium}, 2014.
+
+\bibitem{harkous2018polisis}
+H.~Harkous, K.~Fawaz, R.~Lebret, F.~Schaub, K.~G. Shin, and K.~Aberer.
+Polisis: automated analysis and presentation of privacy policies using deep
+learning.
+In \emph{Proc. 27th USENIX Security Symposium}, 2018.
+
+\bibitem{srinath2021privacy}
+M.~Srinath, S.~Wilson, and C.~L. Giles.
+Privacy at scale: introducing the PrivaSeer corpus of web privacy policies.
+In \emph{Proc. 59th Annual Meeting of the Association for Computational
+Linguistics (ACL)}, 2021.
+
+\bibitem{andow2019policylint}
+B.~Andow, S.~Y. Mahmud, W.~Wang, J.~Whitaker, W.~Enck, B.~Reaves, K.~Singh, and
+T.~Xie.
+PolicyLint: investigating internal privacy policy contradictions on Google Play.
+In \emph{Proc. 28th USENIX Security Symposium}, 2019.
+
+\bibitem{cui2023poligraph}
+H.~Cui, R.~Trimananda, A.~Markopoulou, and S.~Jordan.
+PoliGraph: automated privacy policy analysis using knowledge graphs.
+In \emph{Proc. 32nd USENIX Security Symposium}, 2023.
+
+\bibitem{zimmeck2019maps}
+S.~Zimmeck, P.~Story, D.~Smullen, A.~Ravichander, Z.~Wang, J.~Reidenberg,
+N.~C. Russell, and N.~Sadeh.
+MAPS: scaling privacy compliance analysis to a million apps.
+\emph{Proceedings on Privacy Enhancing Technologies (PoPETs)}, 2019(3):66-86,
+2019.
+
+\bibitem{lippi2019claudette}
+M.~Lippi, P.~Pa\l{}ka, G.~Contissa, F.~Lagioia, H.-W. Micklitz, G.~Sartor, and
+P.~Torroni.
+CLAUDETTE: an automated detector of potentially unfair clauses in online terms
+of service.
+\emph{Artificial Intelligence and Law}, 27(2):117-139, 2019.
+
+\bibitem{utz2019consent}
+C.~Utz, M.~Degeling, S.~Fahl, F.~Schaub, and T.~Holz.
+(Un)informed consent: studying GDPR consent notices in the field.
+In \emph{Proc. ACM SIGSAC Conference on Computer and Communications Security
+(CCS)}, 2019.
+
+\bibitem{nouwens2020dark}
+M.~Nouwens, I.~Liccardi, M.~Veale, D.~Karger, and L.~Kagal.
+Dark patterns after the GDPR: scraping consent pop-ups and demonstrating their
+influence.
+In \emph{Proc. CHI Conference on Human Factors in Computing Systems}, 2020.
+
+\bibitem{matte2020cookie}
+C.~Matte, N.~Bielova, and C.~Santos.
+Do cookie banners respect my choice? Measuring legal compliance of banners from
+IAB Europe's transparency and consent framework.
+In \emph{Proc. IEEE Symposium on Security and Privacy (S\&P)}, 2020.
+
+\bibitem{sanchezrola2019optout}
+I.~Sanchez-Rola, M.~Dell'Amico, P.~Kotzias, D.~Balzarotti, L.~Bilge,
+P.-A. Vervier, and I.~Santos.
+Can I opt out yet? GDPR and the global illusion of cookie control.
+In \emph{Proc. ACM Asia Conference on Computer and Communications Security
+(AsiaCCS)}, 2019.
+
+\bibitem{libert2018auditing}
+T.~Libert.
+An automated approach to auditing disclosure of third-party data collection in
+website privacy policies.
+In \emph{Proc. The Web Conference (WWW)}, 2018.
+
+\bibitem{jueckstock2021realistic}
+J.~Jueckstock, S.~Sarker, P.~Snyder, A.~Beggs, P.~Papadopoulos, M.~Varvello,
+B.~Livshits, and A.~Kapravelos.
+Towards realistic and reproducible web crawl measurement.
+In \emph{Proc. The Web Conference (WWW)}, 2021.
+
+\bibitem{iqbal2021fingerprinting}
+U.~Iqbal, S.~Englehardt, and Z.~Shafiq.
+Fingerprinting the fingerprinters: learning to detect browser fingerprinting
+behaviors.
+In \emph{Proc. IEEE Symposium on Security and Privacy (S\&P)}, 2021.
+
+\bibitem{tosdr}
+Terms of Service; Didn't Read.
+\url{https://tosdr.org}. Accessed July 2026.
+
+\bibitem{tosback}
+Electronic Frontier Foundation.
+TOSBack: the terms-of-service tracker.
+\url{https://tosback.org}. Accessed July 2026.
+
+\bibitem{wayback}
+Internet Archive.
+The Wayback Machine.
+\url{https://web.archive.org}. Accessed July 2026.
+
+\bibitem{commoncrawl}
+Common Crawl Foundation.
+The Common Crawl corpus.
+\url{https://commoncrawl.org}. Accessed July 2026.
+
+\bibitem{gdpr}
+European Parliament and Council.
+Regulation (EU) 2016/679 (General Data Protection Regulation), Articles 12 to 14.
+\emph{Official Journal of the European Union}, L119, 2016.
+
+\bibitem{dsa}
+European Parliament and Council.
+Regulation (EU) 2022/2065 (Digital Services Act), Article 14.
+\emph{Official Journal of the European Union}, L277, 2022.
+
+\bibitem{aiact}
+European Parliament and Council.
+Regulation (EU) 2024/1689 laying down harmonised rules on artificial
+intelligence, Article 50.
+\emph{Official Journal of the European Union}, L, 2024/1689, 2024.
+
+\bibitem{ecarticle50}
+European Commission.
+Guidelines on the implementation of the transparency obligations for certain AI
+systems under Article 50 of the AI Act.
+Shaping Europe's Digital Future, 20 July 2026.
+\url{https://digital-strategy.ec.europa.eu/en/library/guidelines-transparency-obligations-providers-and-deployers-ai-systems}.
+Accessed 30 July 2026.
+
+\bibitem{owasp2021}
+Open Worldwide Application Security Project.
+OWASP Top 10:2021, A10 Server-Side Request Forgery.
+\url{https://owasp.org/Top10/}. Accessed July 2026.
+
+\end{thebibliography}
+
+\end{document}

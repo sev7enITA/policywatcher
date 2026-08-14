@@ -203,119 +203,6 @@
   padding: 0 24px 20px;
 }
 
-.sectionTitle {
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text-main);
-  margin-bottom: 12px;
-}
-
-.chartWrapper {
-  width: 100%;
-  height: 380px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 14px;
-  padding: 16px;
-}
-
-/* Table */
-.tableSection {
-  padding: 0 24px 24px;
-}
-
-.tableWrap {
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.82rem;
-}
-
-.th {
-  text-align: left;
-  padding: 12px 14px;
-  background: var(--bg-tertiary);
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-muted);
-  border-bottom: 1px solid var(--border-color);
-}
-
-.tr {
-  border-bottom: 1px solid var(--border-subtle);
-  transition: background 0.15s ease;
-}
-
-.tr:last-child {
-  border-bottom: none;
-}
-
-.tr:hover {
-  background: var(--bg-secondary);
-}
-
-.td {
-  padding: 11px 14px;
-  color: var(--text-body);
-}
-
-.tdLabel {
-  padding: 11px 14px;
-  font-weight: 600;
-  color: var(--text-main);
-}
-
-.tdWinner {
-  background: rgba(16, 185, 129, 0.06);
-  color: var(--risk-low);
-  font-weight: 600;
-}
-
-.tdWinnerCol {
-  padding: 11px 14px;
-}
-
-.winnerBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 9px;
-  border-radius: 9999px;
-  font-size: 0.7rem;
-  font-weight: 700;
-}
-
-.winnerA {
-  background: rgba(99, 102, 241, 0.1);
-  color: var(--primary);
-}
-
-.winnerB {
-  background: rgba(6, 182, 212, 0.1);
-  color: var(--secondary);
-}
-
-.tieBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 9px;
-  border-radius: 9999px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  background: var(--bg-tertiary);
-}
-
 /* Responsive */
 @media (max-width: 720px) {
   .selectors {
@@ -328,9 +215,6 @@
   }
   .summaryRow {
     grid-template-columns: 1fr;
-  }
-  .chartWrapper {
-    height: 300px;
   }
   .summaryStats {
     flex-wrap: wrap;

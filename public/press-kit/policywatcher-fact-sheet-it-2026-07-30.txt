@@ -1,0 +1,19 @@
+Scheda stampa PolicyWatcher
+Version 3.9.0-beta.25 · 2026-07-30
+
+Dati configurati sul prodotto con perimetro e limiti di riuso espliciti.
+
+16: aziende monitorate configurate
+Esclude la fixture WAZE per l onboarding amministrativo; non e copertura esaustiva.
+
+6: settori configurati
+Le etichette di settore organizzano l inventario monitorato.
+
+15: KPI canonici
+Privacy, governance AI ed etica; le valutazioni non disponibili sono Non valutato.
+
+EN / IT: lingue editoriali
+Press kit e alcune pagine guida selezionate.
+
+Boundary: Non e consulenza legale, certificazione di conformita o copertura esaustiva del mercato.
+Current source: https://policywatcher.online/press-kit

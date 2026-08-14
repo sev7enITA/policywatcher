@@ -1,0 +1,150 @@
+.pageHeader {
+  align-items: end;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.refreshButton {
+  flex: 0 0 auto;
+  width: auto !important;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 18px;
+}
+
+.filterButton {
+  border-radius: 7px !important;
+  flex: 0 0 auto;
+  min-height: 34px;
+  padding: 7px 12px !important;
+  width: auto !important;
+}
+
+.queue {
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  background: var(--surface, #fff);
+  border: 1px solid var(--border, #dbe2ea);
+  min-width: 0;
+  padding: 20px;
+}
+
+.cardHeader {
+  align-items: flex-start;
+  border-bottom: 1px solid var(--border, #e2e7ed);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  padding-bottom: 14px;
+}
+
+.cardGrid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr);
+  margin-top: 16px;
+  min-width: 0;
+}
+
+.evidence,
+.actions {
+  min-width: 0;
+}
+
+.noContentStored {
+  background: #f5f7fa;
+  border-left: 3px solid #0f766e;
+  color: #46536a;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  padding: 11px 12px;
+}
+
+.actions {
+  align-content: start;
+  display: grid;
+  gap: 12px;
+}
+
+.actions label {
+  display: grid;
+  gap: 6px;
+}
+
+.actions input,
+.actions select,
+.actions textarea {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-height: 42px;
+  width: 100%;
+}
+
+.actions hr {
+  border: 0;
+  border-top: 1px solid var(--border, #e2e7ed);
+  margin: 5px 0;
+  width: 100%;
+}
+
+.destructiveActions {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.managerFooter {
+  margin-top: 14px;
+}
+
+.managerLink {
+  width: auto !important;
+}
+
+@media (max-width: 720px) {
+  .pageHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .filters {
+    gap: 6px;
+  }
+
+  .filterButton {
+    font-size: 0.78rem !important;
+    min-height: 32px;
+    padding: 6px 9px !important;
+  }
+
+  .card {
+    padding: 14px;
+  }
+
+  .cardGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .actions {
+    border-top: 1px solid var(--border, #e2e7ed);
+    padding-top: 18px;
+  }
+
+  .destructiveActions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .managerLink {
+    width: 100% !important;
+  }
+}

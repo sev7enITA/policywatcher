@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">PolicyWatcher Operational Flow</title>
+  <desc id="desc">Detailed flow diagram of PolicyWatcher source retrieval, versioning, analysis, QA and output pipeline.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.55" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef2ff"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#10b981"/>
+      <stop offset="1" stop-color="#06b6d4"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#0f172a" flood-opacity="0.11"/>
+    </filter>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M 44 0 L 0 0 0 44" fill="none" stroke="#dbe4f0" stroke-width="1" opacity="0.35"/>
+    </pattern>
+    <marker id="arrowIndigo" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto">
+      <path d="M2,2 L11,6.5 L2,11 Z" fill="#6366f1"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto">
+      <path d="M2,2 L11,6.5 L2,11 Z" fill="#10b981"/>
+    </marker>
+    <style>
+      .font { font-family: Arial; }
+      .mono { font-family: Monaco; }
+      .title { font-size: 56px; font-weight: 860; fill: #0f172a; letter-spacing: -0.5px; }
+      .subtitle { font-size: 23px; font-weight: 560; fill: #475569; }
+      .eyebrow { font-size: 17px; font-weight: 860; fill: #4f46e5; letter-spacing: 2.6px; }
+      .stepNumber { font-size: 17px; font-weight: 900; fill: #ffffff; }
+      .stepTitle { font-size: 22px; font-weight: 850; fill: #0f172a; }
+      .stepBody { font-size: 15.5px; font-weight: 560; fill: #475569; }
+      .tag { font-size: 13px; font-weight: 820; fill: #64748b; letter-spacing: 0.9px; }
+      .rail { fill: none; stroke: #c7d2fe; stroke-width: 5; stroke-linecap: round; }
+      .railActive { fill: none; stroke: url(#brand); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 16 22; animation: dash 16s linear infinite; }
+      .card { fill: rgba(255,255,255,0.96); stroke: #dbe4f0; stroke-width: 1.5; filter: url(#shadow); }
+      .mini { fill: #f8fafc; stroke: #e2e8f0; stroke-width: 1.2; }
+      .loop { fill: none; stroke: #10b981; stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 9 12; animation: dash 15s linear infinite; }
+      @keyframes dash { to { stroke-dashoffset: -360; } }
+    </style>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#grid)" opacity="0.5"/>
+  <circle cx="1710" cy="210" r="280" fill="#06b6d4" opacity="0.055"/>
+  <circle cx="250" cy="1010" r="330" fill="#6366f1" opacity="0.055"/>
+
+  <g class="font">
+    <g transform="translate(84 60)">
+      <rect width="58" height="58" rx="15" fill="url(#brand)"/>
+      <path d="M18 18 h22 v7 H25 v10 h14 v7 H18 Z" fill="#fff"/>
+      <path d="M42 17 c8 6 9 19 0 25" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+      <text x="78" y="24" class="tag">POLICYWATCHER 3.5</text>
+      <text x="78" y="52" class="tag" fill="#64748b">Operational flow diagram</text>
+    </g>
+    <text x="84" y="180" class="eyebrow">DETAILED INGESTION AND ASSURANCE SEQUENCE</text>
+    <text x="84" y="250" class="title">Every output is downstream of retrieval evidence</text>
+    <text x="84" y="293" class="subtitle">The pipeline separates configured public sources, transport evidence, text versioning, AI-assisted interpretation and human QA decisions.</text>
+
+    <path class="rail" d="M178 520 H1742"/>
+    <path class="railActive" d="M178 520 H1742" marker-end="url(#arrowIndigo)"/>
+
+    <g transform="translate(108 390)">
+      <rect class="card" width="250" height="234" rx="24"/>
+      <circle cx="44" cy="44" r="22" fill="#6366f1"/><text x="44" y="51" text-anchor="middle" class="stepNumber">1</text>
+      <text x="84" y="48" class="stepTitle">Source Registry</text>
+      <text x="28" y="92" class="stepBody">Company, policy type, URL,</text>
+      <text x="28" y="116" class="stepBody">jurisdiction and intended</text>
+      <text x="28" y="140" class="stepBody">market context are explicit.</text>
+      <rect x="28" y="170" width="194" height="38" rx="12" fill="#eef2ff" stroke="#c7d2fe"/>
+      <text x="125" y="194" text-anchor="middle" class="tag">Global / EU / US</text>
+    </g>
+
+    <g transform="translate(386 360)">
+      <rect class="card" width="292" height="294" rx="24"/>
+      <circle cx="44" cy="44" r="22" fill="#6366f1"/><text x="44" y="51" text-anchor="middle" class="stepNumber">2</text>
+      <text x="84" y="48" class="stepTitle">Retrieval Cascade</text>
+      <text x="28" y="92" class="stepBody">The scraper records how each</text>
+      <text x="28" y="116" class="stepBody">policy text was retrieved.</text>
+      <g transform="translate(28 146)">
+        <rect class="mini" width="236" height="30" rx="10"/><text x="14" y="20" class="tag">direct HTTP/1.1</text>
+        <rect class="mini" y="38" width="236" height="30" rx="10"/><text x="14" y="58" class="tag">explicit HTTP/2</text>
+        <rect class="mini" y="76" width="236" height="30" rx="10"/><text x="14" y="96" class="tag">VPS renderer</text>
+        <rect class="mini" y="114" width="236" height="30" rx="10"/><text x="14" y="134" class="tag">fresh archive fallback</text>
+      </g>
+    </g>
+
+    <g transform="translate(706 390)">
+      <rect class="card" width="250" height="234" rx="24"/>
+      <circle cx="44" cy="44" r="22" fill="#6366f1"/><text x="44" y="51" text-anchor="middle" class="stepNumber">3</text>
+      <text x="84" y="48" class="stepTitle">Normalize &amp; Hash</text>
+      <text x="28" y="92" class="stepBody">Text is extracted, normalized</text>
+      <text x="28" y="116" class="stepBody">and fingerprinted with</text>
+      <text x="28" y="140" class="stepBody">SHA-256 for integrity.</text>
+      <text x="28" y="196" class="mono" font-size="16" fill="#4f46e5">currentHash == text</text>
+    </g>
+
+    <g transform="translate(984 390)">
+      <rect class="card" width="250" height="234" rx="24"/>
+      <circle cx="44" cy="44" r="22" fill="#6366f1"/><text x="44" y="51" text-anchor="middle" class="stepNumber">4</text>
+      <text x="84" y="48" class="stepTitle">Version Chain</text>
+      <text x="28" y="92" class="stepBody">PolicySnapshot rows preserve</text>
+      <text x="28" y="116" class="stepBody">version, hash and text.</text>
+      <text x="28" y="140" class="stepBody">PolicyChange stores the</text>
+      <text x="28" y="164" class="stepBody">old/new relationship.</text>
+    </g>
+
+    <g transform="translate(1262 390)">
+      <rect class="card" width="250" height="234" rx="24"/>
+      <circle cx="44" cy="44" r="22" fill="#6366f1"/><text x="44" y="51" text-anchor="middle" class="stepNumber">5</text>
+      <text x="84" y="48" class="stepTitle">Structured Analysis</text>
+      <text x="28" y="92" class="stepBody">Gemini produces bilingual</text>
+      <text x="28" y="116" class="stepBody">summaries, risk reasons,</text>
+      <text x="28" y="140" class="stepBody">remediations and KPI fields.</text>
+      <rect x="28" y="172" width="194" height="38" rx="12" fill="#fff7ed" stroke="#fed7aa"/>
+      <text x="125" y="196" text-anchor="middle" class="tag">AI-assisted, bounded</text>
+    </g>
+
+    <g transform="translate(1540 360)">
+      <rect class="card" width="292" height="294" rx="24"/>
+      <circle cx="44" cy="44" r="22" fill="#10b981"/><text x="44" y="51" text-anchor="middle" class="stepNumber">6</text>
+      <text x="84" y="48" class="stepTitle">QA &amp; Publication</text>
+      <text x="28" y="92" class="stepBody">Dataset QA blocks release</text>
+      <text x="28" y="116" class="stepBody">on integrity failures and</text>
+      <text x="28" y="140" class="stepBody">surfaces warnings for review.</text>
+      <g transform="translate(28 170)">
+        <rect class="mini" width="236" height="30" rx="10"/><text x="14" y="20" class="tag">admin review log</text>
+        <rect class="mini" y="38" width="236" height="30" rx="10"/><text x="14" y="58" class="tag">CSV / backup export</text>
+        <rect class="mini" y="76" width="236" height="30" rx="10"/><text x="14" y="96" class="tag">public views / alerts</text>
+      </g>
+    </g>
+
+    <path class="loop" d="M1668 674 C1600 758 1454 785 1290 738 C1145 696 1078 704 1008 768" marker-end="url(#arrowGreen)"/>
+    <text x="1060" y="806" class="tag" fill="#047857">human QA decisions feed append-only evidence</text>
+    <path class="loop" d="M520 680 C502 758 424 790 322 744 C242 708 206 724 170 782" marker-end="url(#arrowGreen)"/>
+    <text x="162" y="822" class="tag" fill="#047857">source-fit migration can run dry-run before production changes</text>
+
+    <g transform="translate(84 888)">
+      <rect width="1752" height="112" rx="24" fill="#0f172a" opacity="0.96" filter="url(#shadow)"/>
+      <text x="36" y="42" font-size="22" font-weight="850" fill="#ffffff">Release 3.5 discipline</text>
+      <text x="36" y="76" font-size="18" font-weight="560" fill="#cbd5e1">If retrieval fails, the system records status such as Needs Review or Unavailable. It does not invent source text to keep the dashboard looking complete.</text>
+      <g transform="translate(1338 24)">
+        <rect width="368" height="64" rx="18" fill="#ffffff" opacity="0.08" stroke="#334155"/>
+        <text x="22" y="28" class="tag" fill="#93c5fd">OUTPUTS</text>
+        <text x="22" y="51" font-size="17" font-weight="760" fill="#ffffff">timeline, matrix, heatmap, reports, trust pages</text>
+      </g>
+    </g>
+  </g>
+</svg>

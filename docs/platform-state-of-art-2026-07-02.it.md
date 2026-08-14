@@ -247,7 +247,7 @@ Sono stati allineati alla 3.5.1 Audit Operations:
 Variabili produzione richieste:
 
 - `NODE_ENV=production`
-- `APP_URL=https://www.policywatcher.online`
+- `APP_URL=https://policywatcher.online`
 - `API_SECRET`
 - `SESSION_HMAC_SECRET`
 - `ADMIN_USER`

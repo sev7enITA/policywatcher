@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eef5f6">
+  <title>PolicyWatcher Social Shorts</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="control-room-page">
+  <main class="control-room" aria-labelledby="control-room-title">
+    <header class="room-header">
+      <a class="room-brand" href="../../../" aria-label="PolicyWatcher home">
+        <img src="../../../public/logo-mark.png" alt="" width="42" height="42">
+        <span>
+          <strong>PolicyWatcher</strong>
+          <small>v3.6.3 social shorts</small>
+        </span>
+      </a>
+      <p class="room-label">Vertical preview control room</p>
+    </header>
+
+    <section class="room-layout" aria-label="Social short preview">
+      <aside class="clip-list" aria-label="Choose a short">
+        <p class="section-tag">Three clips</p>
+        <h1 id="control-room-title">A small evidence story, one frame at a time.</h1>
+        <div class="clip-buttons" role="tablist" aria-label="PolicyWatcher social shorts">
+          <button class="clip-button is-active" type="button" role="tab" aria-selected="true" aria-controls="short-preview" data-short="short-01-source-to-evidence.html" data-index="0">
+            <span class="clip-index">01</span>
+            <span><strong>Source to evidence</strong><small>What can you inspect?</small></span>
+          </button>
+          <button class="clip-button" type="button" role="tab" aria-selected="false" aria-controls="short-preview" data-short="short-02-adaptive-workspace.html" data-index="1">
+            <span class="clip-index">02</span>
+            <span><strong>Adaptive Workspace</strong><small>A view shaped for the work</small></span>
+          </button>
+          <button class="clip-button" type="button" role="tab" aria-selected="false" aria-controls="short-preview" data-short="short-03-public-boundaries.html" data-index="2">
+            <span class="clip-index">03</span>
+            <span><strong>Public boundaries</strong><small>Status stays with the signal</small></span>
+          </button>
+        </div>
+        <p class="room-note">Each sequence loops in 21 seconds. The direct short links are ready for 1080 × 1920 browser-frame capture.</p>
+      </aside>
+
+      <section class="preview-column">
+        <div class="preview-toolbar" aria-label="Preview controls">
+          <span id="activeClipLabel">01 / Source to evidence</span>
+          <div class="preview-actions">
+            <button class="icon-control" id="pausePreview" type="button" aria-label="Pause preview" title="Pause preview"><span class="pause-icon" aria-hidden="true"></span></button>
+            <button class="icon-control" id="restartPreview" type="button" aria-label="Restart preview" title="Restart preview"><span class="restart-icon" aria-hidden="true"></span></button>
+            <button class="cycle-toggle" id="cyclePreview" type="button" aria-pressed="false">Cycle clips</button>
+          </div>
+        </div>
+        <div class="preview-frame" id="short-preview" role="tabpanel" aria-live="polite">
+          <iframe id="shortFrame" title="PolicyWatcher social short preview" src="short-01-source-to-evidence.html?record=1"></iframe>
+        </div>
+        <div class="preview-meta">
+          <span>1080 × 1920 artboard</span>
+          <span>30 fps friendly CSS motion</span>
+          <a id="openShort" href="short-01-source-to-evidence.html?record=1" target="_blank" rel="noreferrer">Open record view</a>
+        </div>
+      </section>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

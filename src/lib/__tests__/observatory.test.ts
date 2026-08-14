@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { buildObservatoryIcs, getObservatoryCountdown, type ObservatoryEvent } from '../observatory';
+import {
+  buildObservatoryIcs,
+  compareObservatoryDeadlines,
+  getObservatoryCountdown,
+  observatorySignals,
+  type ObservatoryEvent,
+} from '../observatory';
 
 describe('getObservatoryCountdown', () => {
   it('compares UTC calendar days instead of elapsed 24-hour periods', () => {
@@ -9,6 +15,44 @@ describe('getObservatoryCountdown', () => {
     expect(getObservatoryCountdown(new Date('2026-07-22T00:01:00Z'), now)).toBe('Tomorrow');
     expect(getObservatoryCountdown(new Date('2026-07-23T12:00:00Z'), now)).toBe('D-2');
     expect(getObservatoryCountdown(new Date('2026-07-20T23:59:00Z'), now)).toBe('Review due');
+  });
+});
+
+describe('observatory source facts', () => {
+  it('keeps the July 2026 watchlist source-specific and reviewable', () => {
+    expect(observatorySignals.map((signal) => signal.id)).toEqual([
+      'eu-ai-act-article-50-guidelines',
+      'edpb-anonymisation-web-scraping-guidelines',
+      'ftc-ai-accuracy-comment-watch',
+      'ico-safe-ai-workplan',
+    ]);
+
+    for (const signal of observatorySignals) {
+      expect(signal.sourceUrl).toMatch(/^https:\/\//);
+      expect(signal.publishedOn).toMatch(/^2026-\d{2}-\d{2}$/);
+      expect(signal.reviewUtc).toMatch(/^2026\d{4}T\d{6}Z$/);
+    }
+
+    const ftc = observatorySignals.find((signal) => signal.id === 'ftc-ai-accuracy-comment-watch');
+    expect(ftc?.summary.en).toContain('not a final rule');
+    expect(observatorySignals.find((signal) => signal.id === 'edpb-anonymisation-web-scraping-guidelines')?.reviewUtc).toBe('20261030T090000Z');
+  });
+
+  it('orders future deadlines before overdue work and remains deterministic', () => {
+    const now = new Date('2026-07-27T12:00:00Z');
+    const items = [
+      { id: 'overdue-old', deadlineAt: Date.parse('2026-07-20T09:00:00Z') },
+      { id: 'future-later', deadlineAt: Date.parse('2026-09-01T09:00:00Z') },
+      { id: 'overdue-recent', deadlineAt: Date.parse('2026-07-26T09:00:00Z') },
+      { id: 'future-next', deadlineAt: Date.parse('2026-08-02T09:00:00Z') },
+    ];
+
+    expect(items.sort((a, b) => compareObservatoryDeadlines(a, b, now)).map((item) => item.id)).toEqual([
+      'future-next',
+      'future-later',
+      'overdue-recent',
+      'overdue-old',
+    ]);
   });
 });
 

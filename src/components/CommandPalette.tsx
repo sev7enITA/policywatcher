@@ -28,6 +28,7 @@ import {
   Download,
   Grid3X3,
   GitFork,
+  Network,
   BookOpen,
   ShieldAlert,
   CornerDownLeft,
@@ -35,9 +36,13 @@ import {
   ArrowDown,
   HelpCircle,
   Cpu,
+  Code2,
   ShieldCheck,
   Newspaper,
   UserRound,
+  Link2,
+  Plug,
+  FolderKanban,
 } from 'lucide-react';
 import styles from './CommandPalette.module.css';
 import type { Company, Lang } from '@/types';
@@ -87,6 +92,8 @@ interface CommandPaletteProps {
   onOpenMatrix: () => void;
   onOpenMethodology: () => void;
   onOpenHowTo: () => void;
+  /** Copy the canonical URL for the currently configured dashboard evidence view. */
+  onCopyView: () => void;
   /** Navigate the dashboard to a specific company card. */
   onSelectCompany: (companyId: string) => void;
   onSetIndustry: (industry: string) => void;
@@ -117,6 +124,7 @@ export default function CommandPalette({
   onOpenMatrix,
   onOpenMethodology,
   onOpenHowTo,
+  onCopyView,
   onSelectCompany,
   onSetIndustry,
   onSetRisk,
@@ -172,6 +180,19 @@ export default function CommandPalette({
         },
       },
       {
+        id: 'act-copy-view',
+        label: 'Copy configured dashboard view',
+        labelIt: 'Copia la vista dashboard configurata',
+        hint: 'URL',
+        icon: <Link2 size={16} />,
+        group: 'actions',
+        keywords: 'copy share link url deep link configured view dashboard filters',
+        run: () => {
+          onCopyView();
+          onClose();
+        },
+      },
+      {
         id: 'act-matrix',
         label: 'Open KPI Matrix',
         labelIt: 'Apri Matrice KPI',
@@ -220,6 +241,17 @@ export default function CommandPalette({
         },
       },
       {
+        id: 'act-associations',
+        label: 'Open Civic Lab',
+        labelIt: 'Apri Associazioni',
+        icon: <UserRound size={16} />,
+        group: 'actions',
+        keywords: 'associations associazioni consumer consumers cittadini civic watchlist review digest evidence',
+        run: () => {
+          window.location.href = '/associazioni';
+        },
+      },
+      {
         id: 'act-atlas',
         label: 'Open Site Atlas',
         labelIt: 'Apri Atlante del sito',
@@ -231,6 +263,28 @@ export default function CommandPalette({
         },
       },
       {
+        id: 'act-feature-atlas',
+        label: 'Open Feature Intelligence Atlas',
+        labelIt: 'Apri Atlante delle funzionalità',
+        icon: <Network size={16} />,
+        group: 'actions',
+        keywords: 'feature atlas capability dependency operational constellation evidence chain kpi kri implementation proof',
+        run: () => {
+          window.location.href = '/feature-atlas';
+        },
+      },
+      {
+        id: 'act-knowledge',
+        label: 'Open Public Knowledge',
+        labelIt: 'Apri Conoscenza pubblica',
+        icon: <BookOpen size={16} />,
+        group: 'actions',
+        keywords: 'knowledge company policy reference crawlable server rendered ssr evidence public',
+        run: () => {
+          window.location.href = '/knowledge';
+        },
+      },
+      {
         id: 'act-observatory',
         label: 'Open Observatory',
         labelIt: 'Apri Osservatorio',
@@ -239,6 +293,39 @@ export default function CommandPalette({
         keywords: 'observatory osservatorio fonti sources registry news events regulatory privacy governance ieee oecd edpb nist ftc ico',
         run: () => {
           window.location.href = '/observatory';
+        },
+      },
+      {
+        id: 'act-developers',
+        label: 'Open Developer Directory',
+        labelIt: 'Apri Directory per sviluppatori',
+        icon: <Code2 size={16} />,
+        group: 'actions',
+        keywords: 'developer sviluppatori api integration integrations manifest json cors webhook observatory builder',
+        run: () => {
+          window.location.href = '/developers';
+        },
+      },
+      {
+        id: 'act-collections',
+        label: 'Open Evidence Collections',
+        labelIt: 'Apri Raccolte di evidenze',
+        icon: <FolderKanban size={16} />,
+        group: 'actions',
+        keywords: 'collections collection bundle briefing review local share ids markdown json csv evidence',
+        run: () => {
+          window.location.href = '/collections';
+        },
+      },
+      {
+        id: 'act-integrations',
+        label: 'Open Integration Options',
+        labelIt: 'Apri opzioni di integrazione',
+        icon: <Plug size={16} />,
+        group: 'actions',
+        keywords: 'integration integrations enterprise azure entra apim power platform connector teams copilot mcp marketplace api v1 v2',
+        run: () => {
+          window.location.href = '/integrations';
         },
       },
       {
@@ -261,6 +348,28 @@ export default function CommandPalette({
         keywords: 'press media mentions coverage articles linkedin community talked about policywatcher',
         run: () => {
           window.location.href = '/press';
+        },
+      },
+      {
+        id: 'act-press-kit',
+        label: 'Open Press Kit',
+        labelIt: 'Apri Press Kit',
+        icon: <Newspaper size={16} />,
+        group: 'actions',
+        keywords: 'press kit media facts assets downloads contact newsroom stampa scheda',
+        run: () => {
+          window.location.href = '/press-kit';
+        },
+      },
+      {
+        id: 'act-pulse',
+        label: 'Open Editorial Pulse',
+        labelIt: 'Apri Pulse editoriale',
+        icon: <Newspaper size={16} />,
+        group: 'actions',
+        keywords: 'pulse story leads journalists story pack social cards editorial newsroom',
+        run: () => {
+          window.location.href = '/pulse';
         },
       },
       {
@@ -406,6 +515,7 @@ export default function CommandPalette({
     onOpenMethodology,
     onOpenSubscribe,
     onOpenHowTo,
+    onCopyView,
     onSelectCompany,
     onClearFilters,
     onSetIndustry,

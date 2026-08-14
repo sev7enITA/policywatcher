@@ -13,6 +13,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import {
+  getSession,
   hasSessionSigningSecret,
   validateCredentials,
   setSessionCookie,
@@ -29,6 +30,22 @@ function trackAccess(input: {
   detail?: string;
 }) {
   void recordAdminAccess(input);
+}
+
+/**
+ * Verifies an existing admin session without depending on database health.
+ *
+ * The admin shell must remain reachable when a database metric or an optional
+ * telemetry table is temporarily unavailable; individual pages can then show
+ * their own scoped diagnostics instead of trapping the operator at login.
+ */
+export async function GET(request: NextRequest) {
+  const session = getSession(request);
+  if (!session.valid) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  return NextResponse.json({ valid: true, role: session.role });
 }
 
 /**
@@ -61,7 +78,9 @@ export async function POST(request: NextRequest) {
     if (!role) {
       // Intentional delay on failed login to slow down brute force attempts
       await new Promise(resolve => setTimeout(resolve, 1000));
-      console.warn(`[Admin Auth] Failed login attempt for username: "${username}"`);
+      // The durable access log records the bounded username. Keep console logs
+      // free of attacker-controlled fields so CR/LF cannot forge log entries.
+      console.warn('[Admin Auth] Failed login attempt.');
       trackAccess({
         event: 'login_failed',
         request,
@@ -88,7 +107,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log(`[Admin Auth] Successful login: ${username} (role: ${role})`);
+    console.log('[Admin Auth] Successful login.');
     trackAccess({
       event: 'login_success',
       request,

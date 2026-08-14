@@ -1,0 +1,46 @@
+.wrap {
+  display: inline-flex;
+  min-width: 0;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 13px;
+  border: 1px solid #087a75;
+  background: #f4fbf8;
+  color: #075e5a;
+  font-size: 0.8rem;
+  font-weight: 750;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.button:hover {
+  background: #e6f5f1;
+  color: #064c49;
+}
+
+.button:focus-visible {
+  outline: 3px solid rgba(51, 76, 186, 0.28);
+  outline-offset: 3px;
+}
+
+.compact .button {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 11px;
+  font-size: 0.77rem;
+}
+
+.live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}

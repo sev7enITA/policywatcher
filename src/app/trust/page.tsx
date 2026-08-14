@@ -11,11 +11,13 @@ import {
   ExternalLink,
   FileSearch,
   GitBranch,
+  Globe2,
   Lock,
   Server,
   ShieldCheck,
 } from 'lucide-react';
 import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
 import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';
 import styles from './trust.module.css';
 
@@ -23,6 +25,7 @@ export const metadata: Metadata = {
   title: 'Trust & Quality Evidence | PolicyWatcher',
   description:
     'Automated quality, security, and dataset assurance evidence for PolicyWatcher.',
+  alternates: { canonical: '/trust' },
 };
 
 type Tone = 'green' | 'blue' | 'amber' | 'violet' | 'slate';
@@ -40,10 +43,20 @@ type EvidenceCard = {
 const repoBase = 'https://github.com/sev7enITA/policywatcher';
 const scorecardUrl = 'https://scorecard.dev/viewer/?uri=github.com/sev7enITA/policywatcher';
 const bestPracticesProjectUrl = 'https://www.bestpractices.dev/projects/13465';
-const mdnObservatoryUrl = 'https://developer.mozilla.org/en-US/observatory/analyze?host=www.policywatcher.online';
-const securityHeadersUrl = 'https://securityheaders.com/?q=www.policywatcher.online&followRedirects=on&hide=on';
+const mdnObservatoryUrl = 'https://developer.mozilla.org/en-US/observatory/analyze?host=policywatcher.online';
+const securityHeadersUrl = 'https://securityheaders.com/?q=policywatcher.online&followRedirects=on&hide=on';
 
 const evidenceCards: EvidenceCard[] = [
+  {
+    title: 'Residency & Processor Evidence',
+    status: 'Dated public register',
+    tone: 'green',
+    icon: Globe2,
+    body:
+      'Separates reviewed provider documents, operator declarations, deployment-dependent facts and open evidence for hosting, storage, backups, retrieval, AI and email processing.',
+    href: '/trust/residency',
+    linkLabel: 'Open evidence pack',
+  },
   {
     title: 'Dataset QA Gate',
     status: 'Local + CI',
@@ -65,24 +78,34 @@ const evidenceCards: EvidenceCard[] = [
     linkLabel: 'Open signals board',
   },
   {
+    title: 'Native Dashboard Contracts',
+    status: 'Validated at startup + tests',
+    tone: 'violet',
+    icon: GitBranch,
+    body:
+      'Dashboard modules, actions, data sources, layouts, KPI semantics and chart specifications are allowlisted and validated. The visible filtered view and CSV export share one provenance-aware view model.',
+    href: '/showcase',
+    linkLabel: 'Open functional showcase',
+  },
+  {
     title: 'Renderer-Backed Retrieval',
-    status: 'Confidence hardening',
+    status: 'Renderer 1.2 hardened',
     tone: 'blue',
     icon: Server,
     body:
-      'The scraper can call a separate bearer-protected VPS renderer for script-rendered pages. Initial URLs, browser redirects, and subresource requests are validated against SSRF rules.',
+      'The scraper can call a separate bearer-protected VPS renderer for script-rendered pages. Renderer 1.2 requires HTTPS target allowlists, bounds runtime and output, supports secret rotation, uses Chromium-native User-Agent defaults and exposes authenticated readiness diagnostics without stealth plugins.',
     href: `${repoBase}/tree/main/renderer`,
     linkLabel: 'Open renderer source',
   },
   {
-    title: 'State of the Art Report',
-    status: 'Repository report',
+    title: 'Platform Status Report',
+    status: 'Historical snapshot · 5 July 2026',
     tone: 'slate',
     icon: FileSearch,
     body:
-      'The repository contains a current platform report covering configured inventory, assurance controls, public assets, deployment notes, known warnings, and next priorities.',
+      'This dated repository snapshot documents the platform state on 5 July 2026. Use current release metadata and live workflow links elsewhere on this page for the present implementation.',
     href: `${repoBase}/blob/main/docs/platform-state-of-art-2026-07-05.md`,
-    linkLabel: 'Open report',
+    linkLabel: 'Open historical report',
   },
   {
     title: 'GitHub Quality Gate',
@@ -90,7 +113,7 @@ const evidenceCards: EvidenceCard[] = [
     tone: 'blue',
     icon: GitBranch,
     body:
-      'Runs Prisma validation, source-evidence dataset assurance, lint, production build, and high-severity dependency audit before public release changes are merged.',
+      'Runs Prisma validation, source-evidence dataset assurance, lint, production build, and high-severity production-dependency audit before public release changes are merged.',
     href: `${repoBase}/actions/workflows/quality.yml`,
     linkLabel: 'Open workflow',
   },
@@ -116,11 +139,11 @@ const evidenceCards: EvidenceCard[] = [
   },
   {
     title: 'OpenSSF Best Practices',
-    status: 'Passing self-attestation',
+    status: 'External self-attestation',
     tone: 'green',
     icon: CheckCircle2,
     body:
-      'OpenSSF Best Practices project 13465 is passing. This is public self-attestation evidence for open-source process hygiene, not a legal or security certification.',
+      'OpenSSF Best Practices project 13465 publishes an external repository-process self-attestation status. The linked record is not a legal or security certification.',
     href: bestPracticesProjectUrl,
     linkLabel: 'Open badge record',
   },
@@ -188,6 +211,10 @@ const workflowSteps = [
     detail: 'The QA script compares hashes, version records, check logs, timestamps, and accepted status values at the policy-record grain.',
   },
   {
+    title: 'Presentation contract checks',
+    detail: 'Dashboard grammar, action graph, data sources, responsive layout, KPI catalog and chart specifications are validated before evidence is rendered or exported.',
+  },
+  {
     title: 'Release gate',
     detail: 'A release can be promoted only after source-evidence dataset assurance, lint, build, and security scan workflow have passed.',
   },
@@ -229,7 +256,7 @@ const badges = [
 const badgeHighlights = [
   {
     label: 'OpenSSF Best Practices',
-    state: 'Obtained: passing',
+    state: 'External status',
     href: bestPracticesProjectUrl,
     badge: 'https://www.bestpractices.dev/projects/13465/badge',
     note: 'External OpenSSF Best Practices self-attestation for project 13465.',
@@ -253,6 +280,7 @@ const badgeHighlights = [
 export default function TrustPage() {
   return (
     <div className={styles.page}>
+      <PublicHeader current="trust" />
       <header className={styles.topbar}>
         <div className={styles.topbarInner}>
           <Link href="/" className={styles.backLink}>
@@ -319,10 +347,10 @@ export default function TrustPage() {
             </span>
             <h2 id="obtained-badges">Public quality signals that can be inspected.</h2>
             <p>
-              The OpenSSF Best Practices badge is already passing. The other
-              badges expose public workflow or repository-review evidence and
-              should be read as operational signals, not as legal, regulatory,
-              or security certifications.
+              The OpenSSF Best Practices badge links to the external project
+              self-attestation status. The other badges expose public workflow
+              or repository-review evidence. These links are operational
+              signals, not legal, regulatory, or security certifications.
             </p>
           </div>
           <div className={styles.obtainedGrid}>

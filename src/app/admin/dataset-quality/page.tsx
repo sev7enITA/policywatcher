@@ -612,43 +612,49 @@ export default function DatasetQualityPage() {
                     </td>
                     <td>{issue.action}</td>
                     <td style={{ minWidth: 230 }}>
-                      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
-                        <button
-                          type="button"
-                          className={`${styles.btn} ${styles.btnSecondary}`}
-                          disabled={pendingIssueKey === issue.issueKey || issue.reviewStatus === 'reviewed'}
-                          onClick={() => void reviewIssue(issue, 'reviewed')}
-                        >
-                          Reviewed
-                        </button>
-                        <button
-                          type="button"
-                          className={`${styles.btn} ${styles.btnSecondary}`}
-                          disabled={pendingIssueKey === issue.issueKey || issue.reviewStatus === 'open'}
-                          onClick={() => void reviewIssue(issue, 'open')}
-                        >
-                          Reopen
-                        </button>
-                      </div>
-                      <textarea
-                        className={styles.input}
-                        value={ignoreReasons[issue.issueKey] || ''}
-                        onChange={(event) => setIgnoreReasons((current) => ({
-                          ...current,
-                          [issue.issueKey]: event.target.value,
-                        }))}
-                        placeholder="Reason for ignore..."
-                        rows={2}
-                        style={{ width: '100%', minHeight: 56, resize: 'vertical', marginBottom: 6 }}
-                      />
-                      <button
-                        type="button"
-                        className={`${styles.btn} ${styles.btnSecondary}`}
-                        disabled={pendingIssueKey === issue.issueKey || issue.reviewStatus === 'ignored'}
-                        onClick={() => void reviewIssue(issue, 'ignored')}
-                      >
-                        Ignore with reason
-                      </button>
+                      {data.role === 'admin' ? (
+                        <>
+                          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
+                            <button
+                              type="button"
+                              className={`${styles.btn} ${styles.btnSecondary}`}
+                              disabled={pendingIssueKey === issue.issueKey || issue.reviewStatus === 'reviewed'}
+                              onClick={() => void reviewIssue(issue, 'reviewed')}
+                            >
+                              Reviewed
+                            </button>
+                            <button
+                              type="button"
+                              className={`${styles.btn} ${styles.btnSecondary}`}
+                              disabled={pendingIssueKey === issue.issueKey || issue.reviewStatus === 'open'}
+                              onClick={() => void reviewIssue(issue, 'open')}
+                            >
+                              Reopen
+                            </button>
+                          </div>
+                          <textarea
+                            className={styles.input}
+                            value={ignoreReasons[issue.issueKey] || ''}
+                            onChange={(event) => setIgnoreReasons((current) => ({
+                              ...current,
+                              [issue.issueKey]: event.target.value,
+                            }))}
+                            placeholder="Reason for ignore..."
+                            rows={2}
+                            style={{ width: '100%', minHeight: 56, resize: 'vertical', marginBottom: 6 }}
+                          />
+                          <button
+                            type="button"
+                            className={`${styles.btn} ${styles.btnSecondary}`}
+                            disabled={pendingIssueKey === issue.issueKey || issue.reviewStatus === 'ignored'}
+                            onClick={() => void reviewIssue(issue, 'ignored')}
+                          >
+                            Ignore with reason
+                          </button>
+                        </>
+                      ) : (
+                        <span className={styles.metaText}>Auditor access is read-only.</span>
+                      )}
                     </td>
                   </tr>
                 ))

@@ -12,6 +12,11 @@ import { createHash, createHmac, randomUUID } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { recordAdminAccess } from '@/lib/adminAccessLog';
+import {
+  isValidRendererPackageSha256,
+  isValidRendererVersion,
+} from '@/lib/vpsPackageContract';
+import { validateRendererPackageUpload } from '@/lib/vpsPackageUpload';
 
 type ServiceStatus = 'online' | 'offline' | 'misconfigured' | 'degraded';
 
@@ -19,10 +24,17 @@ interface RendererHealthPayload {
   ok?: boolean;
   active?: number;
   uptimeSeconds?: number;
+  capacity?: number;
   maxConcurrency?: number;
   navTimeoutMs?: number;
   service?: string;
   version?: string;
+  state?: string;
+  secretRotation?: string;
+  targetAllowlistCount?: number;
+  subresourceAllowlistCount?: number;
+  browserVersionMajor?: string;
+  userAgentMode?: string;
 }
 
 interface AgentStatusPayload {
@@ -56,7 +68,7 @@ interface AgentStatusPayload {
 const HEALTH_TIMEOUT_MS = 8_000;
 const SMOKE_TIMEOUT_MS = 20_000;
 const AGENT_TIMEOUT_MS = 30_000;
-const DEFAULT_SMOKE_URL = 'https://www.policywatcher.online';
+const DEFAULT_SMOKE_URL = 'https://policywatcher.online';
 
 function getSmokeUrl(): string {
   return (
@@ -105,7 +117,7 @@ function getAgentUrl(): string | null {
 
 function getAgentSecret(): string | null {
   const raw = process.env.VPS_AGENT_SECRET?.trim();
-  return raw || null;
+  return raw && raw.length >= 32 ? raw : null;
 }
 
 function publicEndpoint(url: string | null): string | null {
@@ -150,7 +162,10 @@ async function timedFetch(
   }
 }
 
-async function callAgent(path: string, options: { method?: 'GET' | 'POST'; body?: unknown } = {}) {
+async function callAgent(
+  path: string,
+  options: { method?: 'GET' | 'POST'; body?: unknown; timeoutMs?: number } = {},
+) {
   const agentUrl = getAgentUrl();
   const secret = getAgentSecret();
   const method = options.method || 'GET';
@@ -180,7 +195,7 @@ async function callAgent(path: string, options: { method?: 'GET' | 'POST'; body?
         },
         body: method === 'GET' ? undefined : rawBody,
       },
-      AGENT_TIMEOUT_MS
+      options.timeoutMs ?? AGENT_TIMEOUT_MS
     );
     const text = await response.text();
     let payload: unknown = {};
@@ -243,8 +258,8 @@ async function checkRendererHealth() {
 
   try {
     const { response, latencyMs } = await timedFetch(
-      `${rendererUrl}/healthz`,
-      { method: 'GET' },
+      `${rendererUrl}/readyz`,
+      { method: 'GET', headers: { Authorization: `Bearer ${secret}` } },
       HEALTH_TIMEOUT_MS
     );
     const text = await response.text();
@@ -266,7 +281,7 @@ async function checkRendererHealth() {
       latencyMs,
       httpStatus: response.status,
       health,
-      error: ok ? null : `Unexpected health response: HTTP ${response.status}`,
+      error: ok ? null : `Unexpected readiness response: HTTP ${response.status}`,
       checkedAt: new Date().toISOString(),
     };
   } catch (error) {
@@ -449,7 +464,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
   }
 
-  let body: { action?: string; serviceId?: string; version?: string; sha256?: string } = {};
+  let body: {
+    action?: string;
+    serviceId?: string;
+    version?: string;
+    filename?: string;
+    sha256?: string;
+    contentBase64?: string;
+  } = {};
   try {
     body = await request.json();
   } catch {
@@ -470,6 +492,73 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unsupported service action.' }, { status: 400 });
   }
 
+  if (body.action === 'upload-and-update') {
+    const upload = validateRendererPackageUpload(body);
+    if (!upload.ok) {
+      auditVpsOperation(request, 'agent_upload_and_update', undefined, session.role, upload.error);
+      return NextResponse.json({ error: upload.error }, { status: 400 });
+    }
+
+    const staged = await callAgent('/packages/upload', {
+      method: 'POST',
+      timeoutMs: 60_000,
+      body: {
+        version: upload.version,
+        filename: upload.filename,
+        sha256: upload.sha256,
+        contentBase64: upload.contentBase64,
+      },
+    });
+    if (!staged.ok) {
+      const payload = staged.payload as { error?: string };
+      const error = payload.error || staged.error || 'renderer_package_upload_failed';
+      auditVpsOperation(request, 'agent_package_upload', undefined, session.role, error);
+      return NextResponse.json({
+        serviceId: 'agent',
+        action: body.action,
+        ok: false,
+        stage: 'upload',
+        error,
+      }, { status: staged.httpStatus === 423 ? 423 : 502 });
+    }
+
+    const deployment = await callAgent('/update', {
+      method: 'POST',
+      timeoutMs: 10_000,
+      body: { version: upload.version, sha256: upload.sha256 },
+    });
+    if (!deployment.ok) {
+      const payload = deployment.payload as { error?: string };
+      const error = payload.error || deployment.error || 'renderer_update_not_accepted';
+      auditVpsOperation(request, 'agent_update_acceptance', undefined, session.role, error);
+      return NextResponse.json({
+        serviceId: 'agent',
+        action: body.action,
+        ok: false,
+        stage: 'deployment',
+        uploaded: staged.payload,
+        error,
+      }, { status: deployment.httpStatus === 423 ? 423 : 502 });
+    }
+
+    auditVpsOperation(
+      request,
+      'agent_upload_and_update',
+      undefined,
+      session.role,
+      `accepted version ${upload.version}`,
+    );
+    return NextResponse.json({
+      serviceId: 'agent',
+      action: body.action,
+      ok: true,
+      accepted: true,
+      uploaded: staged.payload,
+      result: deployment.payload,
+      bytes: upload.bytes,
+    }, { status: 202 });
+  }
+
   const actionToEndpoint: Record<string, { path: string; method: 'GET' | 'POST'; payload?: unknown }> = {
     'agent-smoke': { path: '/smoke-test', method: 'POST' },
     backup: { path: '/backup', method: 'POST' },
@@ -488,10 +577,10 @@ export async function POST(request: NextRequest) {
   }
 
   if (body.action === 'update') {
-    if (!body.version || !/^[0-9A-Za-z._-]{1,64}$/.test(body.version)) {
+    if (!isValidRendererVersion(body.version)) {
       return NextResponse.json({ error: 'Invalid update version.' }, { status: 400 });
     }
-    if (!body.sha256 || !/^[a-fA-F0-9]{64}$/.test(body.sha256)) {
+    if (!isValidRendererPackageSha256(body.sha256)) {
       return NextResponse.json({ error: 'Invalid SHA256 checksum.' }, { status: 400 });
     }
   }

@@ -1,18 +1,24 @@
 import styles from './privacy.module.css';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION, POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS } from '@/lib/release';
+import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | PolicyWatcher',
   description: 'How PolicyWatcher handles your data, in full transparency.',
+  alternates: { canonical: '/privacy' },
 };
 
 export default function PrivacyPolicyPage() {
   return (
-    <main className={styles.container}>
+    <>
+      <PublicHeader current="privacy" />
+      <main className={styles.container}>
       <article className={styles.content}>
         <h1 className={styles.title}>Privacy Policy</h1>
-        <p className={styles.subtitle}>Last updated: June 23, 2026</p>
+        <p className={styles.subtitle}>Last updated: August 7, 2026</p>
 
         <section className={styles.section}>
           <h2>Who we are</h2>
@@ -24,6 +30,29 @@ export default function PrivacyPolicyPage() {
           <p>
             For any privacy-related questions, you can contact us at:{' '}
             <a href="mailto:privacy@policywatcher.online">privacy@policywatcher.online</a>
+          </p>
+        </section>
+
+        <section className={styles.section}>
+          <h2>Protected dashboard measurement</h2>
+          <p>
+            The authenticated administrative dashboard can record four allowlisted operational events:
+            time to the first tagged action, an Action Center destination attempt, confirmed arrival at
+            its canonical protected route, and mobile distance to the first priority. The authenticated
+            role is derived by the server and arbitrary destinations or metadata are rejected.
+          </p>
+          <p>
+            Each event retains a random per-visit identifier, event type and key, Admin or Auditor role,
+            an allowlisted priority and destination when applicable, a bounded numeric value, viewport
+            class and server timestamp. Records are retained for at most 90 days and per-visit event keys
+            are deduplicated.
+          </p>
+          <p>
+            Dashboard measurement does not store an IP address, user agent, referrer, email, username,
+            account identifier, query string, free text or arbitrary metadata. Event-derived values remain
+            hidden until their stated minimum sample is available. Missing or unavailable measurements are
+            not converted to zero and do not establish task completion, usability improvement, accessibility
+            conformance, service levels or operational health.
           </p>
         </section>
 
@@ -47,7 +76,7 @@ export default function PrivacyPolicyPage() {
 
           <h3>Data we do not collect</h3>
           <ul>
-            <li>We do not use cookies (no tracking cookies, no analytics cookies, no session cookies).</li>
+            <li>Public pages use no tracking or analytics cookies. A protected administrator or auditor login uses one essential HTTP-only signed session cookie with a 24-hour maximum age.</li>
             <li>We do not use Google Analytics, Meta Pixel, or any third-party tracking service.</li>
             <li>We do not collect IP addresses for profiling purposes.</li>
             <li>We do not fingerprint your browser or device.</li>
@@ -56,12 +85,146 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section className={styles.section}>
+          <h2>Cookie-free newsroom event counting</h2>
+          <p>
+            The Press Kit and Editorial Pulse use a first-party endpoint to count allowlisted aggregate newsroom events:
+            press-package and Story Pack actions, Data Room and Pulse story views, social-card actions,
+            citation and embed copies, press-contact intentions and launch-destination actions.
+            A valid Pulse campaign link can also record its fixed, allowlisted campaign cohort.
+            This counting uses no analytics cookie and no third-party analytics service.
+          </p>
+          <p>Each accepted event record retains exactly:</p>
+          <ul>
+            <li><strong>Event type:</strong> one of the documented newsroom or editorial-funnel actions.</li>
+            <li><strong>Allowlisted target:</strong> a published locale, story slug, card format, copy category, contact route or launch destination.</li>
+            <li><strong>Locale:</strong> English or Italian.</li>
+            <li><strong>Server timestamp:</strong> when the event request was accepted.</li>
+          </ul>
+          <p>
+            The event record does not retain an IP address, user agent, referrer, URL query,
+            cookie or session identifier, fingerprint, email address, outlet name, free text or
+            message recipient. An IP address can be used transiently in server memory for rate
+            limiting, but is not written to the newsroom event record or its rate-limit log.
+          </p>
+          <p>
+            Download, copy, contact and launch events measure actions or click intentions only. They do not
+            confirm a completed transfer, publication, delivered message, conversion or unique person.
+            Data Room and Pulse story events are requested once per page-component load. Automated traffic can affect all counts.
+            A failed event write does not prevent the requested public action.
+          </p>
+          <p>
+            Campaign URLs may contain one public parameter, <code>campaign</code>, whose value must match
+            a published allowlisted campaign cohort identifier. Unknown, duplicate or additional values
+            are ignored for campaign measurement. PolicyWatcher does not retain the raw query string.
+          </p>
+          <p>
+            Authenticated administrators may record aggregate outreach operations for an allowlisted cohort:
+            pitch sent, reply received, interview requested, coverage confirmed or correction requested.
+            These records use the same event type, allowlisted target, locale and server timestamp fields.
+            The administrative endpoint rejects recipient, journalist, outlet, email, subject override,
+            message body, notes and arbitrary target values. Auditors can inspect aggregate totals but cannot create them.
+          </p>
+        </section>
+
+        <section className={styles.section}>
+          <h2>Enterprise agents and Word contract evidence review</h2>
+          <p>
+            The public Agent Evidence Gateway accepts only allowlisted topic, company, sector, region,
+            language and result-limit fields. It does not accept prompt transcripts, document text,
+            tenant identifiers, account identifiers, access tokens or arbitrary metadata. Requests are
+            rate limited without writing a client IP address to an application event record.
+          </p>
+          <p>
+            In the Word task pane, the selected clause is read only after an explicit action and is
+            classified locally against a fixed topic taxonomy. The selection, document name, document
+            identifier, user identity and Office access token are not sent to PolicyWatcher. After a
+            separate acknowledgement, the task pane sends only the displayed controlled topic labels,
+            language and bounded result limit to retrieve related public evidence.
+          </p>
+          <p>
+            Customer-side Microsoft 365, Google Cloud and AWS agent configurations remain subject to
+            the customer&apos;s own tenant, project or account controls. PolicyWatcher does not administer
+            those environments through the supplied source packages.
+          </p>
+        </section>
+
+        <section className={styles.section}>
           <h2>Local storage</h2>
           <p>
-            We use your browser&apos;s <code>localStorage</code> for a single purpose: remembering
-            whether you have accepted the Terms of Use disclaimer. This data never leaves your
-            browser and is not transmitted to our servers. You can clear it at any time through
-            your browser settings.
+            We use your browser&apos;s <code>localStorage</code> to remember the Terms of Use disclaimer,
+            language and display preferences, the administrator&apos;s release-versioned outreach-readiness checklist, and your optional Adaptive Workspace configuration and
+            onboarding completion. These settings contain no email address or account identifier, do
+            not leave your browser, and can be cleared at any time through your browser settings.
+          </p>
+          <p>
+            The global context setting stores only a selected macro-region, country code and EN/IT
+            language preference. It does not request, derive or store an IP-based location, GPS
+            position, street address, citizenship or legal jurisdiction. PolicyWatcher Civico also
+            stores bounded watchlist identifiers and review states locally. Organization suggestions
+            are not submitted automatically: the form prepares a draft in your configured email client.
+          </p>
+        </section>
+
+        <section className={styles.section}>
+          <h2>Policy-update inquiries</h2>
+          <p>
+            When you use the “What changed?” workflow, the notification you paste is treated as an
+            unverified clue and is parsed locally in your browser. The original text, sender and
+            recipient addresses, subject, message body and any content fingerprint are not included
+            in the API request and are not stored by PolicyWatcher.
+          </p>
+          <p>
+            If you select a saved <code>.eml</code> file, the bounded MIME parser also runs locally
+            in browser memory. PolicyWatcher does not connect to your mailbox or upload the file.
+            Recipient headers and attachments are excluded before clue review; attachments are not
+            opened. Unsupported, attachment-only and oversized messages are rejected locally.
+          </p>
+          <p>
+            Only operational, non-personal clues needed for human review are sent: an organization or
+            registrable domain, a query-free official URL when supplied, policy categories and dates.
+            These clues are not sent to Gemini, and submitted links are not fetched before an
+            administrator approves the source. The random public inquiry reference contains no user
+            identifier.
+          </p>
+          <p>
+            A reference is shown only after the inquiry has been saved in the protected administrator
+            queue. When operational SMTP is configured, PolicyWatcher may notify the administrator
+            using the same minimized clues and reference; the pasted notification, email addresses,
+            subject and fingerprint are never included. If storage is unavailable, no queue item or
+            administrator email is created and the interface says that the request was not registered.
+          </p>
+        </section>
+
+        <section className={styles.section}>
+          <h2>PolicyWatcher browser extension</h2>
+          <p>
+            Browser extension {POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION}: {POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS.en}. Beta status does not
+            reduce the privacy, permission-minimization or data-handling controls described here.
+          </p>
+          <p>
+            The browser extension receives temporary access to the active tab only after you press
+            its inspection button. It does not request persistent access to Gmail, Outlook, your
+            mailbox, browsing history, cookies or the clipboard. The visible notice is processed
+            inside that tab to identify minimal operational clues and is immediately discarded.
+          </p>
+          <p>
+            Before any request is sent, you can review and correct the organization, sender domain,
+            query-free official URL, policy categories and relevant dates. Only those confirmed fields
+            can be transmitted over HTTPS to PolicyWatcher. The extension does not transmit or store
+            the email address, recipient, subject, message body, attachments or a content fingerprint,
+            and it contains no analytics, advertising, telemetry or remotely hosted executable code.
+          </p>
+          <p>
+            The deployment infrastructure may process an IP address transiently for security logs and
+            rate limiting. It is not used for profiling, advertising or extension analytics. The
+            extension does not retain inquiry history, language or disclosure state after its popup
+            closes.
+          </p>
+          <p>
+            PolicyWatcher&apos;s use of information accessed through the browser extension complies
+            with the Chrome Web Store User Data Policy, including its Limited Use requirements. The
+            information is used only to provide the user-facing notice-to-evidence feature and is not
+            used for advertising, profiling, credit decisions, resale or unrelated purposes.
           </p>
         </section>
 
@@ -114,11 +277,18 @@ export default function PrivacyPolicyPage() {
         <section className={styles.section}>
           <h2>Data storage and security</h2>
           <ul>
-            <li>Subscriber data is stored in an encrypted SQLite database hosted on our server infrastructure.</li>
-            <li>All communications with the platform are encrypted via HTTPS/TLS.</li>
+            <li>Subscriber data is stored in the production SQLite database. PolicyWatcher does not claim application-level encryption of the live database file; filesystem, volume and backup protection depend on verified hosting controls.</li>
+            <li>Production traffic is configured to use HTTPS/TLS; transport security depends on the active hosting and proxy configuration.</li>
             <li>Access to the database is restricted and protected by API authentication.</li>
+            <li>Application logs use masked recipient references for email operations. Hosting-level request logs and their retention remain subject to the active provider configuration.</li>
+            <li>The protected Admin dashboard can store allowlisted aggregate-use events with a random per-visit identifier, server-derived role, viewport class and bounded numeric values. It does not store an IP address, user agent, referrer, email, username, account identifier, query string, free text or arbitrary metadata in this telemetry table. Retention is 90 days.</li>
             <li>We do not store data longer than necessary. If you unsubscribe, your data is marked as inactive and can be permanently deleted upon request.</li>
           </ul>
+          <p>
+            The dated <Link href="/trust/residency">Residency and Processor Evidence</Link> register separates
+            reviewed public documents, operator declarations, deployment-dependent facts and evidence that
+            remains open. It does not infer the active server or backup region from a provider contract.
+          </p>
         </section>
 
         <section className={styles.section}>
@@ -148,13 +318,15 @@ export default function PrivacyPolicyPage() {
           </p>
         </section>
 
-        <footer className={styles.footer}>
+        <div className={styles.footer}>
           <p>
             Copyright {new Date().getFullYear()} PolicyWatcher by Fabrizio Degni. All rights reserved.
           </p>
           <Link href="/" className={styles.backLink}>Back to Dashboard</Link>
-        </footer>
+        </div>
       </article>
-    </main>
+      </main>
+      <Footer lang="en" />
+    </>
   );
 }

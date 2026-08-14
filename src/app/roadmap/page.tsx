@@ -4,7 +4,8 @@ import RoadmapClient from './RoadmapClient';
 export const metadata: Metadata = {
   title: 'PolicyWatcher Community Roadmap',
   description:
-    'PolicyWatcher public roadmap and community signal board: adaptive workspaces, source assurance, API integrations, governance mapping, and future evidence workflows shaped by user feedback.',
+    'PolicyWatcher public roadmap and community signal board: native dashboard intelligence, source assurance, API integrations, governance mapping, and future evidence workflows shaped by user feedback.',
+  alternates: { canonical: '/roadmap' },
 };
 
 export default function RoadmapPage() {

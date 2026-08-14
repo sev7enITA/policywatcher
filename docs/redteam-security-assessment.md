@@ -1,4 +1,4 @@
-# Red Team Security Assessment — Release 3.5.1 / v3.5 Branch
+# Red Team Security Assessment - Release 3.5.1 / v3.5 Branch
 
 **Date:** 2026-07-08
 **Subject:** Vulnerability & Threat Vector Assessment

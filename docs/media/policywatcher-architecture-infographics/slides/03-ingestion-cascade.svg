@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="ingestion-cascade-title ingestion-cascade-desc">
+  <title id="ingestion-cascade-title">Five retrieval strategies, one evidence decision</title>
+  <desc id="ingestion-cascade-desc">A scan escalates only when the previous strategy fails, rejects, or produces incomplete source evidence.</desc>
+
+  <defs>
+    <linearGradient id="brandStroke" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#6658f6"/>
+      <stop offset="0.48" stop-color="#10b8d7"/>
+      <stop offset="1" stop-color="#14b878"/>
+    </linearGradient>
+    <linearGradient id="warmStroke" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f39a18"/>
+      <stop offset="1" stop-color="#ef4444"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#132033" flood-opacity="0.13"/>
+    </filter>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#132033" flood-opacity="0.09"/>
+    </filter>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V64" fill="none" stroke="#dfe7f0" stroke-width="1" opacity="0.48"/>
+      <path d="M32 0V64M0 32H64" fill="none" stroke="#ecf1f6" stroke-width="1" opacity="0.65"/>
+    </pattern>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#6658f6"/>
+    </marker>
+    <marker id="arrowCyan" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#10b8d7"/>
+    </marker>
+    <marker id="arrowAmber" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#f39a18"/>
+    </marker>
+  </defs>
+
+  <style>
+    svg { background: #f7f9fc; }
+    .grid-bg { fill: url(#grid); opacity: .8; }
+    .brand { font-family: Arial, Helvetica, sans-serif; }
+    .serif { font-family: Georgia, serif; }
+    .kicker { font-size: 24px; letter-spacing: 3px; text-transform: uppercase; fill: #6658f6; font-weight: 800; }
+    .title { font-size: 58px; font-weight: 850; fill: #101827; letter-spacing: 0; }
+    .subtitle { font-size: 25px; fill: #526071; font-weight: 520; }
+    .small { font-size: 18px; fill: #526071; font-weight: 520; }
+    .micro { font-size: 14px; fill: #7b8797; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .node-title { font-size: 24px; fill: #101827; font-weight: 820; }
+    .node-sub { font-size: 18px; fill: #526071; font-weight: 500; }
+    .panel { fill: rgba(255,255,255,.92); stroke: #d7e0ea; stroke-width: 2; rx: 8; filter: url(#shadow); }
+    .soft-panel { fill: rgba(255,255,255,.82); stroke: #d7e0ea; stroke-width: 2; rx: 8; filter: url(#soft); }
+    .dark-panel { fill: #162033; stroke: rgba(255,255,255,.16); stroke-width: 2; rx: 8; filter: url(#shadow); }
+    .dark-title { fill: #fff; font-size: 25px; font-weight: 820; }
+    .dark-sub { fill: #bdc9da; font-size: 17px; font-weight: 520; }
+    .chip { fill: #eef1ff; stroke: #c8c3ff; stroke-width: 1.5; rx: 18; }
+    .chip-text { fill: #6658f6; font-size: 16px; font-weight: 800; }
+    .wire { fill: none; stroke: #6658f6; stroke-width: 4; stroke-linecap: round; marker-end: url(#arrow); }
+    .wire-cyan { fill: none; stroke: #10b8d7; stroke-width: 4; stroke-linecap: round; marker-end: url(#arrowCyan); }
+    .wire-amber { fill: none; stroke: #f39a18; stroke-width: 4; stroke-linecap: round; marker-end: url(#arrowAmber); }
+    .faint-wire { fill: none; stroke: #c9d5e4; stroke-width: 3; stroke-linecap: round; }
+    .pulse { animation: pulse 2.8s ease-in-out infinite; transform-origin: center; }
+    .flow { stroke-dasharray: 12 18; animation: flow 5s linear infinite; }
+    .float { animation: float 6s ease-in-out infinite; }
+    .draw { stroke-dasharray: 900; stroke-dashoffset: 900; animation: draw 1.9s ease forwards; }
+    @keyframes flow { to { stroke-dashoffset: -180; } }
+    @keyframes pulse { 0%,100% { opacity: .65; transform: scale(1); } 50% { opacity: 1; transform: scale(1.035); } }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+  </style>
+  <rect width="1920" height="1080" fill="#f7f9fc"/>
+  <rect class="grid-bg" width="1920" height="1080"/>
+  <g class="brand">
+
+
+  <g transform="translate(94 64) scale(1)">
+    <rect x="0" y="0" width="54" height="54" rx="12" fill="#eef1ff" stroke="#cbc7ff" stroke-width="2"/>
+    <path d="M15 35c7-18 19-18 24 0" fill="none" stroke="#6658f6" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="27" cy="22" r="8" fill="none" stroke="#10b8d7" stroke-width="4"/>
+    <path d="M15 39h24" stroke="#14b878" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <text x="165" y="86" class="micro">PolicyWatcher v3.5.1</text>
+  <text x="165" y="124" class="kicker">Ingestion cascade</text>
+  <text x="94" y="180" class="title">Five retrieval strategies, one</text><text x="94" y="234" class="title">evidence decision</text>
+  <text x="98" y="276" class="subtitle">A scan escalates only when the previous strategy fails, rejects, or</text><text x="98" y="306" class="subtitle">produces incomplete source evidence.</text>
+  <line x1="94" y1="324" x2="1826" y2="324" stroke="#d8e1ec" stroke-width="2"/>
+  <rect x="1590" y="72" width="236" height="48" rx="24" fill="#ffffff" stroke="#d8e1ec" stroke-width="2"/>
+  <circle cx="1622" cy="96" r="7" fill="#14b878"/>
+  <text x="1640" y="102" class="small" style="font-weight:800; fill:#101827;">Evidence-first diagrams</text>
+
+    <rect x="106" y="334" width="1708" height="596" rx="8" class="panel"/>
+
+      <g class="float" style="animation-delay:0s">
+        <rect x="145" y="430" width="275" height="310" rx="8" class="soft-panel"/>
+        <rect x="145" y="430" width="275" height="9" rx="4" fill="#6658f6"/>
+        <circle cx="201" cy="505" r="30" fill="#6658f6" opacity=".13"/>
+        <text x="201" y="515" text-anchor="middle" class="node-title" style="fill:#6658f6;">1</text>
+        <text x="175" y="585" class="node-title">Direct</text>
+        <text x="175" y="620" class="node-sub">Hostinger HTTP</text>
+        <line x1="175" y1="648" x2="390" y2="648" stroke="#dce5ef"/>
+        <text x="175" y="690" class="node-sub">Socket-pinned client</text>
+        <text x="175" y="724" class="node-sub">SSRF and drift checks</text>
+      </g>
+      <path d="M420 585H490" class="wire flow"/>
+      <g class="float" style="animation-delay:0.25s">
+        <rect x="490" y="430" width="275" height="310" rx="8" class="soft-panel"/>
+        <rect x="490" y="430" width="275" height="9" rx="4" fill="#10b8d7"/>
+        <circle cx="546" cy="505" r="30" fill="#10b8d7" opacity=".13"/>
+        <text x="546" y="515" text-anchor="middle" class="node-title" style="fill:#10b8d7;">2</text>
+        <text x="520" y="585" class="node-title">HTTP/2</text>
+        <text x="520" y="620" class="node-sub">Hostinger fallback</text>
+        <line x1="520" y1="648" x2="735" y2="648" stroke="#dce5ef"/>
+        <text x="520" y="690" class="node-sub">Explicit h2 transport</text>
+        <text x="520" y="724" class="node-sub">Status and body validation</text>
+      </g>
+      <path d="M765 585H835" class="wire flow"/>
+      <g class="float" style="animation-delay:0.5s">
+        <rect x="835" y="430" width="275" height="310" rx="8" class="soft-panel"/>
+        <rect x="835" y="430" width="275" height="9" rx="4" fill="#14b878"/>
+        <circle cx="891" cy="505" r="30" fill="#14b878" opacity=".13"/>
+        <text x="891" y="515" text-anchor="middle" class="node-title" style="fill:#14b878;">3</text>
+        <text x="865" y="585" class="node-title">Rendered</text>
+        <text x="865" y="620" class="node-sub">VPS Playwright</text>
+        <line x1="865" y1="648" x2="1080" y2="648" stroke="#dce5ef"/>
+        <text x="865" y="690" class="node-sub">DOM after script render</text>
+        <text x="865" y="724" class="node-sub">Bearer protected service</text>
+      </g>
+      <path d="M1110 585H1180" class="wire flow"/>
+      <g class="float" style="animation-delay:0.75s">
+        <rect x="1180" y="430" width="275" height="310" rx="8" class="soft-panel"/>
+        <rect x="1180" y="430" width="275" height="9" rx="4" fill="#f39a18"/>
+        <circle cx="1236" cy="505" r="30" fill="#f39a18" opacity=".13"/>
+        <text x="1236" y="515" text-anchor="middle" class="node-title" style="fill:#f39a18;">4</text>
+        <text x="1210" y="585" class="node-title">Wayback</text>
+        <text x="1210" y="620" class="node-sub">Archive recovery</text>
+        <line x1="1210" y1="648" x2="1425" y2="648" stroke="#dce5ef"/>
+        <text x="1210" y="690" class="node-sub">Freshness guarded</text>
+        <text x="1210" y="724" class="node-sub">Timestamp evidence</text>
+      </g>
+      <path d="M1455 585H1525" class="wire flow"/>
+      <g class="float" style="animation-delay:1s">
+        <rect x="1525" y="430" width="275" height="310" rx="8" class="soft-panel"/>
+        <rect x="1525" y="430" width="275" height="9" rx="4" fill="#ef4444"/>
+        <circle cx="1581" cy="505" r="30" fill="#ef4444" opacity=".13"/>
+        <text x="1581" y="515" text-anchor="middle" class="node-title" style="fill:#ef4444;">5</text>
+        <text x="1555" y="585" class="node-title">Common Crawl</text>
+        <text x="1555" y="620" class="node-sub">Archive recovery</text>
+        <line x1="1555" y1="648" x2="1770" y2="648" stroke="#dce5ef"/>
+        <text x="1555" y="690" class="node-sub">WARC recovery</text>
+        <text x="1555" y="724" class="node-sub">Last fallback path</text>
+      </g>
+
+    <rect x="324" y="800" width="1272" height="66" rx="8" fill="#111827"/>
+    <text x="360" y="841" class="dark-sub">Each strategy records outcome, HTTP status where available, rejection or failure reason, final URL and escalation path.</text>
+
+  <g>
+    <rect x="144" y="352" width="270" height="38" rx="19" fill="#fff" stroke="#14b878" stroke-width="2"/>
+    <circle cx="166" cy="371" r="6" fill="#14b878"/>
+    <text x="182" y="377" class="chip-text" style="fill:#14b878;">accept only substantive text</text>
+  </g>
+
+  <g>
+    <rect x="440" y="352" width="250" height="38" rx="19" fill="#fff" stroke="#f39a18" stroke-width="2"/>
+    <circle cx="462" cy="371" r="6" fill="#f39a18"/>
+    <text x="478" y="377" class="chip-text" style="fill:#f39a18;">suspend uncertain feeds</text>
+  </g>
+
+  <g>
+    <rect x="710" y="352" width="250" height="38" rx="19" fill="#fff" stroke="#ef4444" stroke-width="2"/>
+    <circle cx="732" cy="371" r="6" fill="#ef4444"/>
+    <text x="748" y="377" class="chip-text" style="fill:#ef4444;">do not fabricate content</text>
+  </g>
+
+
+  <text x="94" y="1014" class="micro">Source-backed evidence mapping, not certification</text>
+  <text x="1826" y="1014" class="micro" text-anchor="end">Architecture infographics</text>
+  </g>
+</svg>

@@ -1,12 +1,13 @@
 {
   "name": "policywatcher-vps-agent",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "private": true,
   "description": "PolicyWatcher VPS operations agent for renderer health, backup, verified update and rollback",
   "type": "module",
   "main": "agent.mjs",
   "scripts": {
-    "start": "node agent.mjs"
+    "start": "node agent.mjs",
+    "test": "node --test agent.test.mjs"
   },
   "engines": {
     "node": ">=20"

@@ -20,6 +20,7 @@ import { isAuthorized } from '@/lib/auth';
 import { normalizePreferenceKey, splitPreferenceKeys } from '@/lib/subscriberPreferences';
 import { publicChangeWhere } from '@/lib/publicDataGate';
 import { cleanupOldAdminAccessLogs } from '@/lib/adminAccessLog';
+import { cleanupAdminDashboardTelemetry } from '@/lib/adminDashboardTelemetryStorage';
 
 /**
  * Sends a personalised monthly digest to every active subscriber.
@@ -39,6 +40,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
   try {
+    try {
+      await cleanupAdminDashboardTelemetry();
+    } catch (cleanupError) {
+      console.warn('[Monthly Cron] Dashboard telemetry retention cleanup failed:', cleanupError);
+    }
+
     // 1. Get active digest subscribers. Monthly is retained as an operator
     // route, but must not broaden delivery beyond explicit digest opt-in.
     const subscribers = await db.subscriber.findMany({

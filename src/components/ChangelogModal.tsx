@@ -3,6 +3,12 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle2, Clock, Sparkles } from 'lucide-react';
+import {
+  POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION,
+  POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS,
+  POLICYWATCHER_RELEASE_NAME,
+  POLICYWATCHER_VERSION,
+} from '@/lib/release';
 import styles from './ChangelogModal.module.css';
 
 interface ChangelogModalProps {
@@ -51,11 +57,79 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                 <div className={styles.featureList}>
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>Stability Release (v3.6.5)</span>
-                      <span className={styles.badgeActive}>Current</span>
+                      <span className={styles.featureName}>Press Outreach Desk</span>
+                      <span className={styles.badgeActive}>Protected operations</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Onboarding batch status now comes from one tested invariant, empty batches remain active, and held workflows are included in duplicate-prevention queries. Orientation changes use a deferred, cancellable viewport evaluation, animated dashboard tracks cannot enlarge the mobile root scroll area, and visible build metadata comes from one release source.
+                      Authenticated operators can verify the current release through a browser-local launch gate, use five versioned campaign cohorts and inspect all-time or 30-day aggregate outreach signals. Administrators can record allowlisted pitch, reply, interview, coverage and correction events; auditors remain read-only. The workflow stores no journalist, outlet, email, message, note, referrer or recipient history and does not calculate conversion rates.
+                    </p>
+                  </div>
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Editorial Pulse</span>
+                      <span className={styles.badgeActive}>Public beta</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      Pulse is a human-approved registry of evidence-linked story leads. Each record includes a dated, deterministic Story Pack, source and Claim Registry links, an explicit scope boundary, a reusable citation, four social-card formats and an embeddable evidence visual. The Data Room now publishes Dataset and DataDownload metadata, while aggregate editorial events remain allowlisted and exclude persistent visitor identifiers.
+                    </p>
+                  </div>
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Enterprise Integration Surface</span>
+                      <span className={styles.badgeActive}>Pilot ready</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      The Integration Options directory distinguishes available, source-ready, pilot-ready, planned and later commercial paths. A public Agent Evidence Gateway now supports source packages for Microsoft 365 Copilot, Vertex AI Agent Builder and Amazon Quick, while authenticated private workflows remain on Enterprise API v2. Teams, MCP, self-service webhook lifecycle and Marketplace provisioning remain planned.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>{POLICYWATCHER_RELEASE_NAME} (v{POLICYWATCHER_VERSION})</span>
+                      <span className={styles.badgeActive}>Current Beta</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      The current release adds browser-local Focus, Balanced and Explore modes, a visible reduced-motion preference, one deterministic workspace-specific next step and an inspectable non-AI interface explanation. The primary Today, Continue and Explore workflow now precedes promotion, while a source-generated ER sitemap and presentation infographic make 33 static routes, seven domains and four dynamic families easier to communicate. Presets change presentation only: evidence and publication gates remain unchanged.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Browser Evidence Companion (v{POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION})</span>
+                      <span className={styles.badgeActive}>Extension Beta</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      A Manifest V3 companion lets people inspect an opened policy-update notice only after an explicit gesture. Raw notice text is parsed and discarded inside the active page; users confirm the minimal clues before the service worker asks PolicyWatcher for portfolio-wide public evidence. {POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS.en}.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Calm Workspace (v3.7.2)</span>
+                      <span className={styles.badgeStable}>Stable</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      Visitors choose an objective and evidence depth, then work through Today, Continue and Explore. Today keeps at most three priorities and one aggregated Source QA indicator; Continue resumes current context; Explore opens Atlas, Civico and Observatory. The More panel stays concise and routes the complete platform catalog through Atlas.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Evidence Intake Reliability (v3.7.1)</span>
+                      <span className={styles.badgeStable}>Stable</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      Plain-text notices work when copy-and-paste omits hidden links. Users confirm the company, starting policy categories, dates and optional official URL locally; PolicyWatcher then prioritizes that signal while checking the company’s configured public policy portfolio. Conflicts and unavailable database storage produce explicit states without transmitting the raw email.
+                    </p>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <span className={styles.featureName}>Stability Release (v3.6.5)</span>
+                      <span className={styles.badgeStable}>Stable</span>
+                    </div>
+                    <p className={styles.featureDesc}>
+                      Centralized onboarding batch invariants, held-workflow duplicate protection, cancellable orientation evaluation, component-level overflow containment, and single-source release metadata.
                     </p>
                   </div>
 
@@ -101,7 +175,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
 
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>Truth & Confidence Layer (v3.5.0)</span>
+                      <span className={styles.featureName}>Evidence &amp; Confidence Layer (v3.5.0)</span>
                       <span className={styles.badgeStable}>Stable</span>
                     </div>
                     <p className={styles.featureDesc}>
@@ -115,7 +189,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeDone}>Completed</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Major public-release upgrade with a policy-change timeline, home-page Market Pulse, SEO-ready change permalinks, embeddable change widgets, dynamic OG social cards, sitemap generation, improved diff rendering, industry-average benchmarking, regional heatmaps, encrypted backup verification, and the Dataset QA Status. Dataset QA now checks source-fit, hash integrity, freshness, structured AI JSON, KPI coverage, regional impacts, and subscriber hygiene. Security updates include safer cron secret handling, sanitized AI assistant rendering, protected subscriber tokens, escaped email templates, SSRF-aware scraper egress checks, stronger backup passphrases, and tighter deployment diagnostics.
+                      Public release with a policy-change timeline, home-page Market Pulse, change permalinks, embeddable change widgets, dynamic OG social cards, sitemap generation, diff rendering, industry-average benchmarking, regional heatmaps, encrypted backup verification, and Dataset QA status. Dataset QA checks source fit, hash integrity, freshness, structured AI JSON, KPI coverage, regional impacts, and subscriber hygiene. Security updates include cron secret handling, sanitized AI assistant rendering, protected subscriber tokens, escaped email templates, SSRF-aware scraper egress checks, backup passphrase requirements, and deployment diagnostics.
                     </p>
                   </div>
 
@@ -125,17 +199,17 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>New</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Secure admin dashboard at /admin with two roles: Admin (full CRUD, cron control, company management) and Auditor (read-only for regulatory review). Features include system metrics dashboard, cron manager with concurrency lock, database inspector, interactive KPI audit matrix (16x15), company and policy CRUD management, and full feature explainability documentation. Security: HMAC-SHA256 signed HTTP-only cookies, rate-limited login (5/min), constant-time comparison, and intentional delay on failed attempts. Also added a Sources tab showing all monitored documents per company with Wayback Machine archive links.
+                      Protected admin dashboard at /admin with two roles: Admin (company and policy operations, cron control) and Auditor (read-only access to selected review views). Features include system metrics, cron manager with concurrency lock, database inspector, KPI audit matrix (16x15), company and policy management, and feature documentation. Controls include HMAC-SHA256 signed HTTP-only cookies, rate-limited login (5/min), constant-time comparison, and intentional delay on failed attempts. A Sources tab lists configured documents per company with Wayback Machine availability links.
                     </p>
                   </div>
 
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>AI Engine Migration & Open Source (v2.4.0)</span>
+                      <span className={styles.featureName}>AI Engine Migration & Public Repository (v2.4.0)</span>
                       <span className={styles.badgeDone}>Completed</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Migrated AI engine from deprecated Gemini 1.5 Flash to Gemini 2.5 Flash with automatic fallback to Gemini 2.0 Flash-Lite on 503/429 errors for high-availability resilience. Published full source code on GitHub under CC BY 4.0 license with comprehensive documentation, architecture diagrams, and methodology. Replaced all emoji with custom SVG icon set across the onboarding wizard.
+                      Migrated the AI engine from deprecated Gemini 1.5 Flash to Gemini 2.5 Flash with a Gemini 2.0 Flash-Lite fallback for 503/429 responses. Published the repository on GitHub under CC BY 4.0 with documentation, architecture diagrams, and methodology. Replaced emoji in the onboarding wizard with SVG icons.
                     </p>
                   </div>
 
@@ -155,7 +229,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeDone}>Completed</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      Personalized instant alerts or weekly/monthly digests filtered by chosen regions and industry preferences, complete with self-service unsubscribe management.
+                      Preference-filtered change alerts and weekly/monthly digests with self-service unsubscribe management.
                     </p>
                   </div>
 

@@ -6,6 +6,10 @@
   padding: 24px 16px 60px;
 }
 
+.collectionAction > a {
+  border-radius: 8px;
+}
+
 .container {
   max-width: 760px;
   margin: 0 auto;
@@ -296,6 +300,17 @@
   background: var(--bg-secondary);
   color: var(--text-body);
   border: 1px solid var(--border-color);
+}
+
+.btnEvidence {
+  background: #eef8f5;
+  color: #087a75;
+  border: 1px solid #68aaa5;
+}
+
+.btnEvidence:hover {
+  background: #e2f3ef;
+  border-color: #087a75;
 }
 
 .btnGhost:hover {

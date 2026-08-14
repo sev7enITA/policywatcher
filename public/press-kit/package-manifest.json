@@ -1,0 +1,35 @@
+{
+  "schema": "https://policywatcher.online/schemas/press-kit-package-manifest/v1",
+  "schemaVersion": "1.1.0",
+  "generatedAt": "2026-08-02",
+  "release": "3.9.0-beta.27",
+  "currentProductRelease": "3.9.0-beta.41",
+  "distribution": {
+    "provider": "github-repository",
+    "repository": "https://github.com/sev7enITA/policywatcher",
+    "revision": "d02b90489dd58d7884dbf14dcb1d52ad12a5ed07",
+    "boundary": "Downloads are pinned to the Git commit containing these packages. Verify the package SHA-256 before use."
+  },
+  "packages": [
+    {
+      "locale": "en",
+      "filename": "policywatcher-press-package-en-2026-08-02.zip",
+      "href": "https://github.com/sev7enITA/policywatcher/raw/d02b90489dd58d7884dbf14dcb1d52ad12a5ed07/public/press-kit/policywatcher-press-package-en-2026-08-02.zip",
+      "distribution": "github-repository",
+      "bytes": 17696916,
+      "sha256": "eb23d7364449e36af6b7b317791e36d88fef3c0698b14e73d9b32d4a5076dc2c",
+      "generatedAt": "2026-08-02",
+      "version": "3.9.0-beta.27"
+    },
+    {
+      "locale": "it",
+      "filename": "policywatcher-press-package-it-2026-08-02.zip",
+      "href": "https://github.com/sev7enITA/policywatcher/raw/d02b90489dd58d7884dbf14dcb1d52ad12a5ed07/public/press-kit/policywatcher-press-package-it-2026-08-02.zip",
+      "distribution": "github-repository",
+      "bytes": 17696982,
+      "sha256": "69968e4969f06551ad370277be84abc65a7e5fd28cbcd4160c467d6af697e287",
+      "generatedAt": "2026-08-02",
+      "version": "3.9.0-beta.27"
+    }
+  ]
+}

@@ -1,0 +1,219 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">PolicyWatcher Data Ingestion Pipeline</title>
+  <desc id="desc">A dedicated PolicyWatcher slide showing ingestion sources, runtime paths and all implemented source, transport, renderer, content, archive and persistence checks.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="0.56" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#eef2ff"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#10b981"/>
+      <stop offset="1" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="dark" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#172554"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#0f172a" flood-opacity="0.11"/>
+    </filter>
+    <filter id="deepShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="24" stdDeviation="22" flood-color="#0f172a" flood-opacity="0.16"/>
+    </filter>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M 44 0 L 0 0 0 44" fill="none" stroke="#dbe4f0" stroke-width="1" opacity="0.36"/>
+    </pattern>
+    <marker id="arrowBlue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#6366f1"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#10b981"/>
+    </marker>
+    <style>
+      .font { font-family: Arial, Helvetica, sans-serif; }
+      .mono { font-family: Monaco, Menlo, monospace; }
+      .title { font-size: 47px; font-weight: 900; fill: #0f172a; letter-spacing: 0; }
+      .subtitle { font-size: 20px; font-weight: 650; fill: #475569; }
+      .eyebrow { font-size: 16px; font-weight: 900; fill: #4f46e5; letter-spacing: 2.6px; }
+      .section { font-size: 20px; font-weight: 900; fill: #0f172a; }
+      .label { font-size: 18px; font-weight: 900; fill: #0f172a; }
+      .body { font-size: 14.5px; font-weight: 650; fill: #475569; }
+      .bodySmall { font-size: 12.6px; font-weight: 650; fill: #475569; }
+      .tiny { font-size: 12.5px; font-weight: 850; fill: #64748b; letter-spacing: 0.8px; }
+      .card { fill: rgba(255,255,255,0.96); stroke: #dbe4f0; stroke-width: 1.4; filter: url(#shadow); }
+      .darkCard { fill: url(#dark); filter: url(#deepShadow); }
+      .sourceCard { fill: #ffffff; stroke: #dbe4f0; stroke-width: 1.4; filter: url(#shadow); }
+      .checkCard { fill: #ffffff; stroke: #dbe4f0; stroke-width: 1.2; filter: url(#shadow); }
+      .rail { fill: none; stroke: #c7d2fe; stroke-width: 4; stroke-linecap: round; }
+      .railActive { fill: none; stroke: url(#brand); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 12 16; animation: dash 16s linear infinite; }
+      .guardRail { fill: none; stroke: url(#green); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 12 18; animation: dash 18s linear infinite; }
+      .pulse { animation: pulse 2.8s ease-in-out infinite; }
+      @keyframes dash { to { stroke-dashoffset: -360; } }
+      @keyframes pulse { 0%,100% { opacity: 0.75; } 50% { opacity: 1; } }
+    </style>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#grid)" opacity="0.48"/>
+  <circle cx="1605" cy="140" r="320" fill="#6366f1" opacity="0.052"/>
+  <circle cx="210" cy="960" r="360" fill="#06b6d4" opacity="0.07"/>
+
+  <g class="font">
+    <g transform="translate(80 58)">
+      <rect width="58" height="58" rx="15" fill="url(#brand)"/>
+      <path d="M18 18 h22 v7 H25 v10 h14 v7 H18 Z" fill="#fff"/>
+      <path d="M42 17 c8 6 9 19 0 25" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+      <text x="78" y="24" class="tiny">POLICYWATCHER 3.5</text>
+      <text x="78" y="52" class="tiny" fill="#64748b">Ingestion pipeline and implemented checks</text>
+    </g>
+
+    <text x="80" y="176" class="eyebrow">DATA INGESTION CONTROL MAP</text>
+    <text x="80" y="242" class="title">Policy texts pass through source, transport, content and QA gates</text>
+    <text x="80" y="282" class="subtitle">The pipeline can recover difficult pages, but it does not fabricate content. Failed retrieval becomes explicit status and check-log evidence.</text>
+
+    <text x="80" y="354" class="section">Sources and runtime paths</text>
+    <text x="1258" y="354" class="section">Implemented checks</text>
+
+    <path class="rail" d="M430 614 C560 614 596 566 708 566"/>
+    <path class="railActive" d="M430 614 C560 614 596 566 708 566" marker-end="url(#arrowBlue)"/>
+    <path class="guardRail" d="M1076 566 C1162 566 1186 528 1240 528" marker-end="url(#arrowGreen)"/>
+    <path class="guardRail" d="M1076 566 C1162 566 1186 604 1240 604" marker-end="url(#arrowGreen)"/>
+    <path class="guardRail" d="M1076 566 C1162 566 1186 680 1240 680" marker-end="url(#arrowGreen)"/>
+
+    <g transform="translate(80 382)">
+      <g>
+        <rect class="sourceCard" width="354" height="76" rx="18"/>
+        <circle cx="36" cy="38" r="18" fill="#eef2ff" stroke="#c7d2fe"/>
+        <text x="36" y="44" text-anchor="middle" font-size="15" font-weight="900" fill="#4f46e5">0</text>
+        <text x="70" y="31" class="label">Configured provider URL</text>
+        <text x="70" y="55" class="body">policy type, jurisdiction, market context</text>
+      </g>
+      <g transform="translate(0 94)">
+        <rect class="sourceCard" width="354" height="76" rx="18"/>
+        <circle cx="36" cy="38" r="18" fill="#ecfdf5" stroke="#bbf7d0"/>
+        <text x="36" y="44" text-anchor="middle" font-size="15" font-weight="900" fill="#047857">1</text>
+        <text x="70" y="31" class="label">Hostinger direct fetch</text>
+        <text x="70" y="55" class="body">HTTP/1.1, browser headers, retries</text>
+      </g>
+      <g transform="translate(0 188)">
+        <rect class="sourceCard" width="354" height="76" rx="18"/>
+        <circle cx="36" cy="38" r="18" fill="#ecfeff" stroke="#a5f3fc"/>
+        <text x="36" y="44" text-anchor="middle" font-size="15" font-weight="900" fill="#0891b2">2</text>
+        <text x="70" y="31" class="label">Hostinger HTTP/2 fetch</text>
+        <text x="70" y="55" class="body">explicit ALPN path for strict providers</text>
+      </g>
+      <g transform="translate(0 282)">
+        <rect class="sourceCard" width="354" height="76" rx="18"/>
+        <circle cx="36" cy="38" r="18" fill="#eef2ff" stroke="#c7d2fe"/>
+        <text x="36" y="44" text-anchor="middle" font-size="15" font-weight="900" fill="#4f46e5">3</text>
+        <text x="70" y="31" class="label">VPS renderer</text>
+        <text x="70" y="55" class="body">Playwright / Chromium for script pages</text>
+      </g>
+      <g transform="translate(0 376)">
+        <rect class="sourceCard" width="354" height="76" rx="18"/>
+        <circle cx="36" cy="38" r="18" fill="#fff7ed" stroke="#fed7aa"/>
+        <text x="36" y="44" text-anchor="middle" font-size="15" font-weight="900" fill="#92400e">4</text>
+        <text x="70" y="31" class="label">Wayback fallback</text>
+        <text x="70" y="55" class="body">freshness-guarded archived HTML</text>
+      </g>
+      <g transform="translate(0 470)">
+        <rect class="sourceCard" width="354" height="76" rx="18"/>
+        <circle cx="36" cy="38" r="18" fill="#fff7ed" stroke="#fed7aa"/>
+        <text x="36" y="44" text-anchor="middle" font-size="15" font-weight="900" fill="#92400e">5</text>
+        <text x="70" y="31" class="label">Common Crawl fallback</text>
+        <text x="70" y="55" class="body">CDX lookup, byte range, WARC decode</text>
+      </g>
+    </g>
+
+    <g transform="translate(716 392)" class="pulse">
+      <rect class="darkCard" width="354" height="370" rx="34"/>
+      <text x="34" y="54" font-size="26" font-weight="900" fill="#ffffff">Evidence normalizer</text>
+      <text x="34" y="90" font-size="17" font-weight="650" fill="#cbd5e1">One deterministic result shape:</text>
+      <g transform="translate(34 118)">
+        <rect width="286" height="38" rx="12" fill="#ffffff" opacity="0.08" stroke="#334155"/>
+        <text x="16" y="25" font-size="14" font-weight="850" fill="#ffffff">status: ok | unavailable | invalid</text>
+        <rect y="48" width="286" height="38" rx="12" fill="#ffffff" opacity="0.08" stroke="#334155"/>
+        <text x="16" y="73" font-size="14" font-weight="850" fill="#ffffff">source: direct | http2 | rendered</text>
+        <rect y="96" width="286" height="38" rx="12" fill="#ffffff" opacity="0.08" stroke="#334155"/>
+        <text x="16" y="121" font-size="14" font-weight="850" fill="#ffffff">finalUrl, httpStatus, attempts</text>
+        <rect y="144" width="286" height="38" rx="12" fill="#ffffff" opacity="0.08" stroke="#334155"/>
+        <text x="16" y="169" font-size="14" font-weight="850" fill="#ffffff">text, SHA-256 hash, archive time</text>
+      </g>
+      <text x="34" y="326" font-size="18" font-weight="850" fill="#bbf7d0">Rule: no clean policy text, no snapshot.</text>
+    </g>
+
+    <g transform="translate(1246 382)">
+      <g>
+        <rect class="checkCard" width="594" height="76" rx="18"/>
+        <rect x="0" y="0" width="10" height="76" rx="5" fill="#6366f1"/>
+        <text x="28" y="28" class="label">URL and SSRF guard</text>
+        <text x="28" y="50" class="bodySmall">scheme allowlist, credential block, DNS lookup, private IP block</text>
+        <text x="28" y="66" class="bodySmall">localhost block, final URL validation after redirects</text>
+      </g>
+      <g transform="translate(0 84)">
+        <rect class="checkCard" width="594" height="76" rx="18"/>
+        <rect x="0" y="0" width="10" height="76" rx="5" fill="#6366f1"/>
+        <text x="28" y="28" class="label">Transport guard</text>
+        <text x="28" y="50" class="bodySmall">timeouts, retries, backoff, user-agent rotation and redirect cap</text>
+        <text x="28" y="66" class="bodySmall">unsupported content-type rejection before text extraction</text>
+      </g>
+      <g transform="translate(0 168)">
+        <rect class="checkCard" width="594" height="76" rx="18"/>
+        <rect x="0" y="0" width="10" height="76" rx="5" fill="#6366f1"/>
+        <text x="28" y="28" class="label">Renderer guard</text>
+        <text x="28" y="50" class="bodySmall">bearer secret, concurrency cap, fresh browser context</text>
+        <text x="28" y="66" class="bodySmall">heavy resource abort and subresource SSRF checks</text>
+      </g>
+      <g transform="translate(0 252)">
+        <rect class="checkCard" width="594" height="76" rx="18"/>
+        <rect x="0" y="0" width="10" height="76" rx="5" fill="#10b981"/>
+        <text x="28" y="28" class="label">Content guard</text>
+        <text x="28" y="50" class="bodySmall">soft-404, captcha, maintenance, paywall/login, consent wall</text>
+        <text x="28" y="66" class="bodySmall">minimum length and policy-marker hit checks</text>
+      </g>
+      <g transform="translate(0 336)">
+        <rect class="checkCard" width="594" height="76" rx="18"/>
+        <rect x="0" y="0" width="10" height="76" rx="5" fill="#f59e0b"/>
+        <text x="28" y="28" class="label">Archive guard</text>
+        <text x="28" y="50" class="bodySmall">reject stale snapshots older than last successful check</text>
+        <text x="28" y="66" class="bodySmall">strip Wayback chrome, decode Common Crawl WARC records</text>
+      </g>
+      <g transform="translate(0 420)">
+        <rect class="checkCard" width="594" height="76" rx="18"/>
+        <rect x="0" y="0" width="10" height="76" rx="5" fill="#10b981"/>
+        <text x="28" y="28" class="label">Persistence and Dataset QA</text>
+        <text x="28" y="50" class="bodySmall">PolicyCheckLog, dataStatus, ingestionMethod, finalUrl, textLength</text>
+        <text x="28" y="66" class="bodySmall">hash chain, QA findings and admin review surface</text>
+      </g>
+    </g>
+
+    <g transform="translate(80 914)">
+      <rect class="card" width="1760" height="94" rx="24"/>
+      <g transform="translate(30 20)">
+        <rect width="332" height="54" rx="16" fill="#ecfdf5" stroke="#bbf7d0"/>
+        <text x="22" y="23" class="tiny" fill="#047857">OK PATH</text>
+        <text x="22" y="43" font-size="16" font-weight="900" fill="#047857">store text, hash, snapshot and check log</text>
+      </g>
+      <g transform="translate(402 20)">
+        <rect width="366" height="54" rx="16" fill="#fff7ed" stroke="#fed7aa"/>
+        <text x="22" y="23" class="tiny" fill="#92400e">UNAVAILABLE PATH</text>
+        <text x="22" y="43" font-size="16" font-weight="900" fill="#92400e">record failure, do not fabricate content</text>
+      </g>
+      <g transform="translate(808 20)">
+        <rect width="330" height="54" rx="16" fill="#fef2f2" stroke="#fecaca"/>
+        <text x="22" y="23" class="tiny" fill="#b91c1c">INVALID PATH</text>
+        <text x="22" y="43" font-size="16" font-weight="900" fill="#b91c1c">wrong/gone source requires review</text>
+      </g>
+      <g transform="translate(1178 20)">
+        <rect width="520" height="54" rx="16" fill="#eef2ff" stroke="#c7d2fe"/>
+        <text x="22" y="23" class="tiny" fill="#4f46e5">CHANGE PATH</text>
+        <text x="22" y="43" font-size="16" font-weight="900" fill="#4f46e5">diff, Gemini analysis, KPIs, regional impacts and notifications</text>
+      </g>
+    </g>
+  </g>
+</svg>

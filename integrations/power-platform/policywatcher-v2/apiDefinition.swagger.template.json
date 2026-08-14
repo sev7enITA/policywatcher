@@ -1,0 +1,469 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "PolicyWatcher Enterprise",
+    "description": "Read-only access to evidence-gated policy changes, source continuity, and curated governance signals.",
+    "version": "2.0"
+  },
+  "host": "__API_HOST__",
+  "basePath": "__API_BASE_PATH__",
+  "schemes": ["https"],
+  "consumes": [],
+  "produces": ["application/json"],
+  "securityDefinitions": {
+    "oauth2-auth": {
+      "type": "oauth2",
+      "flow": "accessCode",
+      "authorizationUrl": "https://login.microsoftonline.com/__TENANT_ID__/oauth2/v2.0/authorize",
+      "tokenUrl": "https://login.microsoftonline.com/__TENANT_ID__/oauth2/v2.0/token",
+      "scopes": {
+        "__READ_SCOPE_URI__": "Read PolicyWatcher evidence-gated enterprise data."
+      }
+    }
+  },
+  "security": [
+    {
+      "oauth2-auth": ["__READ_SCOPE_URI__"]
+    }
+  ],
+  "paths": {
+    "/manifest": {
+      "get": {
+        "operationId": "GetEnterpriseManifest",
+        "summary": "Get integration capabilities",
+        "description": "Returns the v2 capabilities, authentication model, and explicit data boundaries.",
+        "x-ms-summary": "Get integration capabilities",
+        "x-ms-visibility": "advanced",
+        "responses": {
+          "200": {
+            "description": "Enterprise integration directory.",
+            "schema": { "$ref": "#/definitions/ObjectEnvelope" }
+          },
+          "default": { "$ref": "#/responses/ProblemResponse" }
+        }
+      }
+    },
+    "/companies": {
+      "get": {
+        "operationId": "ListCompanies",
+        "summary": "List monitored companies",
+        "description": "Lists companies and policy sources that pass the PolicyWatcher public-evidence gate.",
+        "x-ms-summary": "List monitored companies",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "industry",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "x-ms-summary": "Industry",
+            "description": "Exact industry label."
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100,
+            "required": false,
+            "x-ms-summary": "Company name",
+            "description": "Company-name fragment."
+          },
+          { "$ref": "#/parameters/Page" },
+          { "$ref": "#/parameters/PageSize" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated companies.",
+            "schema": { "$ref": "#/definitions/CompanyListEnvelope" }
+          },
+          "default": { "$ref": "#/responses/ProblemResponse" }
+        }
+      }
+    },
+    "/changes": {
+      "get": {
+        "operationId": "ListPolicyChanges",
+        "summary": "List verified policy changes",
+        "description": "Lists evidence-gated changes with company, policy, risk, and source references.",
+        "x-ms-summary": "List verified policy changes",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "type": "string",
+            "format": "uuid",
+            "required": false,
+            "x-ms-summary": "Company ID"
+          },
+          {
+            "name": "companySlug",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "x-ms-summary": "Company slug"
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "x-ms-summary": "Region"
+          },
+          {
+            "name": "risk",
+            "in": "query",
+            "type": "string",
+            "enum": ["Low", "Medium", "High"],
+            "required": false,
+            "x-ms-summary": "Risk level"
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "type": "string",
+            "format": "date",
+            "required": false,
+            "x-ms-summary": "Changed since"
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "type": "string",
+            "format": "date",
+            "required": false,
+            "x-ms-summary": "Changed until"
+          },
+          { "$ref": "#/parameters/Page" },
+          { "$ref": "#/parameters/PageSize" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated evidence-gated changes.",
+            "schema": { "$ref": "#/definitions/ChangeListEnvelope" }
+          },
+          "default": { "$ref": "#/responses/ProblemResponse" }
+        }
+      }
+    },
+    "/changes/{changeId}": {
+      "get": {
+        "operationId": "GetPolicyChange",
+        "summary": "Get a verified policy change",
+        "description": "Gets structured evidence and analysis without raw policy text or snapshot hashes.",
+        "x-ms-summary": "Get a verified policy change",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "changeId",
+            "in": "path",
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "x-ms-summary": "Change ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Evidence-gated change detail.",
+            "schema": { "$ref": "#/definitions/ChangeEnvelope" }
+          },
+          "default": { "$ref": "#/responses/ProblemResponse" }
+        }
+      }
+    },
+    "/sources/{sourceId}/continuity": {
+      "get": {
+        "operationId": "GetSourceContinuity",
+        "summary": "Get source continuity",
+        "description": "Gets sanitized source-state transitions without policy text or raw retrieval diagnostics.",
+        "x-ms-summary": "Get source continuity",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "sourceId",
+            "in": "path",
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "x-ms-summary": "Source ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sanitized continuity response.",
+            "schema": { "$ref": "#/definitions/ObjectEnvelope" }
+          },
+          "default": { "$ref": "#/responses/ProblemResponse" }
+        }
+      }
+    },
+    "/observatory/signals": {
+      "get": {
+        "operationId": "ListObservatorySignals",
+        "summary": "List governance signals",
+        "description": "Lists reviewed references from the curated PolicyWatcher Observatory registry.",
+        "x-ms-summary": "List governance signals",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "query",
+            "type": "string",
+            "enum": ["en", "it"],
+            "default": "en",
+            "required": false,
+            "x-ms-summary": "Language"
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "x-ms-summary": "Region"
+          },
+          {
+            "name": "priority",
+            "in": "query",
+            "type": "string",
+            "enum": ["high", "medium", "watch"],
+            "required": false,
+            "x-ms-summary": "Priority"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Curated governance signals.",
+            "schema": { "$ref": "#/definitions/SignalListEnvelope" }
+          },
+          "default": { "$ref": "#/responses/ProblemResponse" }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "Page": {
+      "name": "page",
+      "in": "query",
+      "type": "integer",
+      "format": "int32",
+      "minimum": 1,
+      "default": 1,
+      "required": false,
+      "x-ms-summary": "Page",
+      "x-ms-visibility": "advanced"
+    },
+    "PageSize": {
+      "name": "pageSize",
+      "in": "query",
+      "type": "integer",
+      "format": "int32",
+      "minimum": 1,
+      "maximum": 100,
+      "default": 25,
+      "required": false,
+      "x-ms-summary": "Page size",
+      "x-ms-visibility": "advanced"
+    }
+  },
+  "responses": {
+    "ProblemResponse": {
+      "description": "PolicyWatcher problem response.",
+      "schema": { "$ref": "#/definitions/Problem" }
+    }
+  },
+  "definitions": {
+    "ResponseMeta": {
+      "type": "object",
+      "required": ["generatedAt", "tenantId", "requestId"],
+      "properties": {
+        "generatedAt": { "type": "string", "format": "date-time" },
+        "tenantId": { "type": "string", "format": "uuid" },
+        "requestId": { "type": "string" },
+        "page": { "type": "integer", "format": "int32" },
+        "pageSize": { "type": "integer", "format": "int32" },
+        "total": { "type": "integer", "format": "int32" },
+        "totalPages": { "type": "integer", "format": "int32" }
+      },
+      "additionalProperties": true
+    },
+    "CompanyReference": {
+      "type": "object",
+      "required": ["id", "name", "slug", "industry"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "industry": { "type": "string" },
+        "website": { "type": "string", "format": "uri" }
+      }
+    },
+    "PolicySource": {
+      "type": "object",
+      "required": ["id", "name", "type", "jurisdiction", "url", "dataStatus"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "name": { "type": "string" },
+        "type": { "type": "string" },
+        "jurisdiction": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "dataStatus": { "type": "string" },
+        "lastCheckDate": { "type": "string", "format": "date-time" },
+        "lastSuccessfulCheckDate": { "type": "string", "format": "date-time" },
+        "changes": {
+          "type": "array",
+          "maxItems": 1,
+          "items": { "$ref": "#/definitions/ChangeReference" }
+        }
+      }
+    },
+    "Company": {
+      "type": "object",
+      "required": ["id", "name", "slug", "industry", "website", "policies"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "industry": { "type": "string" },
+        "website": { "type": "string", "format": "uri" },
+        "policies": { "type": "array", "items": { "$ref": "#/definitions/PolicySource" } }
+      }
+    },
+    "ChangeReference": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "overallRisk": { "type": "string", "enum": ["Low", "Medium", "High"] },
+        "overallScore": { "type": "integer", "format": "int32", "minimum": 1, "maximum": 10 }
+      }
+    },
+    "EvidenceReference": {
+      "type": "object",
+      "required": ["publicEvidence", "snapshotVersion", "observedAt", "sourceUrl"],
+      "properties": {
+        "publicEvidence": { "type": "boolean", "enum": [true] },
+        "snapshotVersion": { "type": "integer", "format": "int32" },
+        "observedAt": { "type": "string", "format": "date-time" },
+        "sourceUrl": { "type": "string", "format": "uri" }
+      }
+    },
+    "RegionImpact": {
+      "type": "object",
+      "properties": {
+        "region": { "type": "string" },
+        "perspective": { "type": "string", "enum": ["Individual", "Enterprise"] },
+        "riskLevel": { "type": "string", "enum": ["Low", "Medium", "High"] },
+        "impactAnalysisEn": { "type": "string" },
+        "impactAnalysisIt": { "type": "string" },
+        "complianceNoteEn": { "type": "string", "x-nullable": true },
+        "complianceNoteIt": { "type": "string", "x-nullable": true }
+      }
+    },
+    "PolicyChange": {
+      "type": "object",
+      "required": ["id", "createdAt", "overallRisk", "overallScore", "policy", "evidence"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "overallRisk": { "type": "string", "enum": ["Low", "Medium", "High"] },
+        "overallScore": { "type": "integer", "format": "int32", "minimum": 1, "maximum": 10 },
+        "tldrEn": { "type": "string", "x-nullable": true },
+        "tldrIt": { "type": "string", "x-nullable": true },
+        "aiSummaryEn": { "type": "string" },
+        "aiSummaryIt": { "type": "string" },
+        "keyPoints": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+        "riskReasons": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+        "remediations": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+        "policy": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string", "format": "uuid" },
+            "name": { "type": "string" },
+            "type": { "type": "string" },
+            "jurisdiction": { "type": "string" },
+            "url": { "type": "string", "format": "uri" },
+            "company": { "$ref": "#/definitions/CompanyReference" }
+          }
+        },
+        "regionImpacts": { "type": "array", "items": { "$ref": "#/definitions/RegionImpact" } },
+        "evidence": { "$ref": "#/definitions/EvidenceReference" },
+        "excludedFields": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "ObservatorySignal": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "summary": { "type": "string" },
+        "contentType": { "type": "string" },
+        "region": { "type": "string" },
+        "priority": { "type": "string", "enum": ["high", "medium", "watch"] },
+        "publishedOn": { "type": "string", "format": "date" },
+        "reviewUtc": { "type": "string" },
+        "sourceUrl": { "type": "string", "format": "uri" },
+        "source": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "ObjectEnvelope": {
+      "type": "object",
+      "required": ["apiVersion", "data", "meta"],
+      "properties": {
+        "apiVersion": { "type": "string", "enum": ["v2"] },
+        "data": { "type": "object", "additionalProperties": true },
+        "meta": { "$ref": "#/definitions/ResponseMeta" }
+      }
+    },
+    "CompanyListEnvelope": {
+      "type": "object",
+      "required": ["apiVersion", "data", "meta"],
+      "properties": {
+        "apiVersion": { "type": "string", "enum": ["v2"] },
+        "data": { "type": "array", "items": { "$ref": "#/definitions/Company" } },
+        "meta": { "$ref": "#/definitions/ResponseMeta" }
+      }
+    },
+    "ChangeListEnvelope": {
+      "type": "object",
+      "required": ["apiVersion", "data", "meta"],
+      "properties": {
+        "apiVersion": { "type": "string", "enum": ["v2"] },
+        "data": { "type": "array", "items": { "$ref": "#/definitions/PolicyChange" } },
+        "meta": { "$ref": "#/definitions/ResponseMeta" }
+      }
+    },
+    "ChangeEnvelope": {
+      "type": "object",
+      "required": ["apiVersion", "data", "meta"],
+      "properties": {
+        "apiVersion": { "type": "string", "enum": ["v2"] },
+        "data": { "$ref": "#/definitions/PolicyChange" },
+        "meta": { "$ref": "#/definitions/ResponseMeta" }
+      }
+    },
+    "SignalListEnvelope": {
+      "type": "object",
+      "required": ["apiVersion", "data", "meta"],
+      "properties": {
+        "apiVersion": { "type": "string", "enum": ["v2"] },
+        "data": { "type": "array", "items": { "$ref": "#/definitions/ObservatorySignal" } },
+        "meta": { "$ref": "#/definitions/ResponseMeta" }
+      }
+    },
+    "Problem": {
+      "type": "object",
+      "required": ["type", "title", "status", "detail", "code", "requestId"],
+      "properties": {
+        "type": { "type": "string", "format": "uri" },
+        "title": { "type": "string" },
+        "status": { "type": "integer", "format": "int32" },
+        "detail": { "type": "string" },
+        "code": { "type": "string" },
+        "requestId": { "type": "string" }
+      }
+    }
+  },
+  "tags": []
+}

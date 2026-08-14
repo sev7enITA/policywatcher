@@ -447,6 +447,13 @@
   height: 56px;
 }
 
+.previewCanvas[data-focus='share'] .focusRing {
+  top: 38px;
+  right: 7px;
+  left: 7px;
+  height: 60px;
+}
+
 .previewCanvas[data-focus='ticker'] .focusRing {
   top: 100px;
   right: 8px;
@@ -479,12 +486,27 @@
   --focus-color: var(--tour-indigo);
 }
 
+.previewCanvas[data-focus='drilldown'] .focusRing {
+  top: 222px;
+  right: 7px;
+  left: 7px;
+  height: 83px;
+}
+
 .previewCanvas[data-focus='navigation'] .focusRing {
   right: 8px;
   bottom: 5px;
   left: 8px;
   height: 38px;
   --focus-color: var(--tour-teal);
+}
+
+.previewCanvas[data-focus='associations'] .focusRing {
+  right: 8px;
+  bottom: 5px;
+  left: 8px;
+  height: 38px;
+  --focus-color: var(--tour-indigo);
 }
 
 .previewCanvas[data-focus='mobile'] .focusRing {
@@ -576,7 +598,7 @@
 
 .progressTrack {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(11, minmax(0, 1fr));
   gap: 4px;
   margin-top: 8px;
 }

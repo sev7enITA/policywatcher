@@ -1,0 +1,5 @@
+id,value,unit,scope,as_of
+"monitored-companies","16","configured monitored companies","Excludes the WAZE admin-onboarding fixture; not exhaustive market coverage.","2026-08-01"
+"configured-sectors","6","configured sectors","Sector labels organize the monitored inventory.","2026-08-01"
+"canonical-kpis","15","canonical KPIs","Privacy, AI governance and ethics; unavailable assessments are Not assessed.","2026-08-01"
+"editorial-languages","EN / IT","editorial languages","Press kit and selected guidance surfaces.","2026-08-01"

@@ -155,4 +155,10 @@
   .title {
     font-size: 1.5rem;
   }
+
+  .section p,
+  .section ul li {
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
 }

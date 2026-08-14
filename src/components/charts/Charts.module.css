@@ -1,6 +1,7 @@
 /* Charts.module.css - Shared chart styles */
 
 .chartCard {
+  margin: 0;
   background: #ffffff;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -10,6 +11,115 @@
   position: relative;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.chartFrameEmbedded {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.chartFrameEmbedded::before {
+  display: none;
+}
+
+.chartFrameHeader .chartTitle {
+  margin-bottom: 6px;
+}
+
+.chartDescription,
+.chartTextSummary {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.chartDescription {
+  margin: 0 0 10px;
+}
+
+.chartTextSummary {
+  margin: 0 0 12px;
+  padding: 9px 11px;
+  border-left: 3px solid var(--chart-primary, #6366f1);
+  border-radius: 0 8px 8px 0;
+  background: var(--bg-secondary);
+}
+
+.chartVisual {
+  min-width: 0;
+}
+
+.chartDataDisclosure {
+  margin-top: 12px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 10px;
+}
+
+.chartDataDisclosure summary {
+  color: var(--text-body);
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.chartTableScroller {
+  margin-top: 10px;
+  overflow-x: auto;
+}
+
+.chartDataTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+  text-align: left;
+}
+
+.chartDataTable th,
+.chartDataTable td {
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--border-subtle);
+  white-space: nowrap;
+}
+
+.chartDataTable th {
+  color: var(--text-main);
+  background: var(--bg-secondary);
+  font-weight: 700;
+}
+
+.chartDataTable td {
+  color: var(--text-muted);
+}
+
+.chartProvenance {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+
+.chartProvenance ul {
+  margin: 3px 0 0 18px;
+}
+
+.visuallyHidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 .chartCard::before {
@@ -80,6 +190,13 @@
 }
 
 /* Gauge center text */
+.gaugeVisual {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin: 0 auto;
+}
+
 .gaugeCenter {
   position: absolute;
   top: 50%;
@@ -172,6 +289,123 @@
   color: #059669;
 }
 
+.heatMapCellMissing {
+  cursor: default;
+  background: var(--bg-secondary);
+  border-style: dashed;
+  color: var(--text-muted);
+}
+
+.benchmarkChartVisual {
+  width: 100%;
+  height: 380px;
+}
+
+.chartSelectionInspector {
+  display: grid;
+  gap: 9px;
+  margin-top: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--chart-primary, #6366f1);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--text-body);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.chartSelectionInspector p,
+.chartSelectionInspector small {
+  margin: 0;
+}
+
+.chartSelectionInspector small {
+  color: var(--text-muted);
+}
+
+.chartSelectionHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--text-main);
+}
+
+.chartSelectionHeading > span,
+.chartSelectionHeading > strong {
+  font-weight: 700;
+}
+
+.chartSelectionHeading button {
+  min-height: 32px;
+  padding: 5px 9px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.benchmarkDrilldownControls {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 2px 0 7px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+}
+
+.benchmarkDrilldownButton {
+  min-height: 36px;
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  scroll-snap-align: start;
+}
+
+.benchmarkDrilldownButton[aria-pressed='true'] {
+  border-color: var(--chart-primary, #6366f1);
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--text-main);
+}
+
+.benchmarkSelectionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.benchmarkSelectionGrid > div {
+  display: grid;
+  gap: 3px;
+  padding: 9px 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 7px;
+  background: var(--bg-secondary);
+}
+
+.benchmarkSelectionGrid strong,
+.benchmarkSelectionGrid span,
+.benchmarkSelectionGrid small {
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heatMapCell {
+    transition: none;
+  }
+
+  .heatMapCell:hover {
+    transform: none;
+  }
+}
+
 /* Responsive */
 .chartContainer {
   width: 100%;
@@ -189,5 +423,21 @@
 
   .heatMapGrid {
     gap: 4px;
+  }
+
+  .benchmarkChartVisual {
+    height: 320px;
+  }
+
+  .chartSelectionInspector {
+    padding: 11px;
+  }
+
+  .benchmarkDrilldownButton {
+    min-height: 44px;
+  }
+
+  .benchmarkSelectionGrid {
+    grid-template-columns: 1fr;
   }
 }

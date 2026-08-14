@@ -1,4 +1,4 @@
-# Security and Functional Audit — Release 3.6.3
+# Security and Functional Audit - Release 3.6.3
 
 **Date:** 2026-07-10
 **Subject:** v3.6.3 Audit and Red Team Evaluation

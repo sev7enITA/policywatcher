@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { buildLeaderboard, type LeaderboardRow, type LeaderboardSnapshot } from '@/lib/leaderboard';
 import { getLeaderboardSnapshot } from '@/lib/leaderboardData';
+import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
 import styles from './leaderboard.module.css';
 
 export const dynamic = 'force-dynamic';
@@ -10,6 +12,7 @@ export const metadata: Metadata = {
   title: 'Policy Signals Board | PolicyWatcher',
   description:
     'Evidence-only leaderboard for public policy-source coverage, retrieval traceability, and publicEvidence-gated movement.',
+  alternates: { canonical: '/leaderboard' },
 };
 
 const mixLabels: Array<[keyof LeaderboardRow['retrievalMix'], string]> = [
@@ -22,7 +25,7 @@ const mixLabels: Array<[keyof LeaderboardRow['retrievalMix'], string]> = [
 ];
 
 function formatDate(value: string | null): string {
-  if (!value) return 'No verified timestamp';
+  if (!value) return 'No recorded timestamp';
   return new Intl.DateTimeFormat('en', {
     month: 'short',
     day: 'numeric',
@@ -101,7 +104,7 @@ function PodiumCard({ row }: { row: LeaderboardRow }) {
       </div>
       <dl className={styles.compactStats}>
         <div>
-          <dt>Verified policies</dt>
+          <dt>Evidence-gated policies</dt>
           <dd>
             {row.verifiedPolicyCount}/{row.policyCount}
           </dd>
@@ -124,7 +127,7 @@ function LeaderboardTable({ rows }: { rows: LeaderboardRow[] }) {
   if (rows.length === 0) {
     return (
       <div className={styles.emptyState}>
-        No source-verified leaderboard rows are available yet.
+        No evidence-gated leaderboard rows are available yet.
       </div>
     );
   }
@@ -137,7 +140,7 @@ function LeaderboardTable({ rows }: { rows: LeaderboardRow[] }) {
             <th>Rank</th>
             <th>Company</th>
             <th>Evidence index</th>
-            <th>Verified policies</th>
+            <th>Evidence-gated policies</th>
             <th>Retrieval mix</th>
             <th>Public movement</th>
             <th>Latest source evidence</th>
@@ -266,7 +269,9 @@ export default async function LeaderboardPage() {
   const topEvidence = snapshot.boards.evidence.slice(0, 3);
 
   return (
-    <main className={styles.page}>
+    <>
+      <PublicHeader current="signals" />
+      <main className={styles.page}>
       <section className={styles.hero}>
         <div className={styles.navLine}>
           <Link href="/" className={styles.brandLink}>
@@ -283,12 +288,20 @@ export default async function LeaderboardPage() {
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy}>
             <span className={styles.eyebrow}>Evidence-only public board</span>
+            <time dateTime={snapshot.generatedAt} className={styles.generatedAt}>
+              Snapshot generated {formatDate(snapshot.generatedAt)}
+            </time>
             <h1>Policy Signals Board</h1>
             <p>
               A leaderboard for observable source coverage, retrieval traceability,
-              public baselines, and source-verified policy movement. It does not
+              public baselines, and evidence-gated policy movement. It does not
               certify companies, legal compliance, internal conduct, safety, or
               provider trustworthiness.
+            </p>
+            <p>
+              This public evidence-orientation board is separate from the protected
+              five-stage publication-readiness funnel. An empty or unavailable board
+              is not evidence that protected operations are healthy.
             </p>
             <div className={styles.heroActions}>
               <Link href="#evidence-board" className={styles.primaryAction}>
@@ -339,7 +352,7 @@ export default async function LeaderboardPage() {
           detail="configured public-source records"
         />
         <MetricTile
-          label="Verified policies"
+          label="Verified public baselines"
           value={snapshot.summary.verifiedPolicyCount}
           detail="non-seeded public baselines"
         />
@@ -422,6 +435,8 @@ export default async function LeaderboardPage() {
           ))}
         </div>
       </section>
-    </main>
+      </main>
+      <Footer lang="en" />
+    </>
   );
 }

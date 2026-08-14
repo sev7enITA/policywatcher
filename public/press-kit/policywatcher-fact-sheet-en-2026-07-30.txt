@@ -1,0 +1,19 @@
+PolicyWatcher press fact sheet
+Version 3.9.0-beta.25 · 2026-07-30
+
+Configured product facts with explicit scope and reuse boundaries.
+
+16: configured monitored companies
+Excludes the WAZE admin-onboarding fixture; not exhaustive market coverage.
+
+6: configured sectors
+Sector labels organize the monitored inventory.
+
+15: canonical KPIs
+Privacy, AI governance and ethics; unavailable assessments are Not assessed.
+
+EN / IT: editorial languages
+Press kit and selected guidance surfaces.
+
+Boundary: Not legal advice, compliance certification or exhaustive market coverage.
+Current source: https://policywatcher.online/press-kit

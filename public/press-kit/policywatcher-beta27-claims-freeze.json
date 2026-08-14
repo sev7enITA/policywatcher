@@ -1,0 +1,229 @@
+{
+  "$schema": "https://policywatcher.online/schemas/editorial-claims-freeze/v1",
+  "schemaVersion": "1.0.0",
+  "campaign": "beta27-international-press",
+  "release": "3.9.0-beta.27",
+  "releaseName": "Admin Operational Readiness",
+  "asOf": "2026-08-01",
+  "immutableCampaignSnapshot": true,
+  "canonicalRegistry": "https://policywatcher.online/press-kit#claim-registry",
+  "interpretationBoundary": "This snapshot records approved campaign claims and their boundaries. It does not establish semantic truth, legal compliance, exhaustive coverage, independent validation or current status after the as-of date.",
+  "facts": [
+    {
+      "id": "monitored-companies",
+      "value": "16",
+      "label": {
+        "en": "configured monitored companies",
+        "it": "aziende monitorate configurate"
+      },
+      "scope": {
+        "en": "Configured monitored inventory. It excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage.",
+        "it": "Inventario monitorato configurato. Esclude la fixture WAZE per l onboarding amministrativo e non e copertura esaustiva del mercato."
+      },
+      "proofHref": "/",
+      "asOf": "2026-08-01",
+      "verifiedAt": "2026-08-01",
+      "recordStatus": "current"
+    },
+    {
+      "id": "configured-sectors",
+      "value": "6",
+      "label": {
+        "en": "configured sectors",
+        "it": "settori configurati"
+      },
+      "scope": {
+        "en": "Sector labels organize the monitored inventory.",
+        "it": "Le etichette di settore organizzano l inventario monitorato."
+      },
+      "proofHref": "/",
+      "asOf": "2026-08-01",
+      "verifiedAt": "2026-08-01",
+      "recordStatus": "current"
+    },
+    {
+      "id": "canonical-kpis",
+      "value": "15",
+      "label": {
+        "en": "canonical KPIs",
+        "it": "KPI canonici"
+      },
+      "scope": {
+        "en": "Privacy, AI governance and ethics; unavailable assessments display Not assessed.",
+        "it": "Privacy, governance AI ed etica; le valutazioni non disponibili mostrano Non valutato."
+      },
+      "proofHref": "/feature-atlas",
+      "asOf": "2026-08-01",
+      "verifiedAt": "2026-08-01",
+      "recordStatus": "current"
+    },
+    {
+      "id": "editorial-languages",
+      "value": "EN / IT",
+      "label": {
+        "en": "editorial languages",
+        "it": "lingue editoriali"
+      },
+      "scope": {
+        "en": "The press kit and selected guidance pages support English and Italian.",
+        "it": "Il press kit e alcune pagine guida supportano inglese e italiano."
+      },
+      "proofHref": "/press-kit",
+      "asOf": "2026-08-01",
+      "verifiedAt": "2026-08-01",
+      "recordStatus": "current"
+    }
+  ],
+  "claims": [
+    {
+      "id": "public-evidence-gate",
+      "claim": {
+        "en": "Published analytical records are filtered by the public evidence gate.",
+        "it": "I record analitici pubblicati sono filtrati dal gate delle evidenze pubbliche."
+      },
+      "status": {
+        "en": "Implemented control",
+        "it": "Controllo implementato"
+      },
+      "type": "evidence",
+      "proofHref": "/methodology/confidence",
+      "boundary": {
+        "en": "A gate reduces unsupported publication; it does not prove source completeness or legal authority.",
+        "it": "Il gate riduce pubblicazioni non supportate; non prova completezza o autorita legale della fonte."
+      },
+      "asOf": "2026-08-01",
+      "verifiedAt": "2026-08-01",
+      "reviewCadence": {
+        "en": "Each evidence-gate release",
+        "it": "Ogni release del gate evidenze"
+      },
+      "recordStatus": "current",
+      "permalink": "/press-kit#claim-public-evidence-gate"
+    },
+    {
+      "id": "configured-inventory",
+      "claim": {
+        "en": "The configured monitored inventory covers 16 companies across 6 sectors and excludes the WAZE admin-onboarding fixture.",
+        "it": "L inventario monitorato configurato comprende 16 aziende in 6 settori ed esclude la fixture WAZE per l onboarding amministrativo."
+      },
+      "status": {
+        "en": "Configured inventory",
+        "it": "Inventario configurato"
+      },
+      "type": "inventory",
+      "proofHref": "/",
+      "boundary": {
+        "en": "This is not exhaustive public or market coverage, and source availability can change.",
+        "it": "Non e copertura pubblica o di mercato esaustiva e la disponibilita delle fonti puo cambiare."
+      },
+      "asOf": "2026-08-01",
+      "verifiedAt": "2026-08-01",
+      "reviewCadence": {
+        "en": "Each web release",
+        "it": "Ogni release web"
+      },
+      "recordStatus": "current",
+      "permalink": "/press-kit#claim-configured-inventory"
+    },
+    {
+      "id": "canonical-kpis",
+      "claim": {
+        "en": "One framework defines 15 canonical KPIs across privacy, AI governance and ethics.",
+        "it": "Un framework definisce 15 KPI canonici tra privacy, governance AI ed etica."
+      },
+      "status": {
+        "en": "Documented method",
+        "it": "Metodo documentato"
+      },
+      "type": "method",
+      "proofHref": "/feature-atlas",
+      "boundary": {
+        "en": "Normalized values support comparison only; unavailable assessments have no numerical value and the result is not a compliance score.",
+        "it": "I valori normalizzati servono solo al confronto; le valutazioni non disponibili non hanno valore numerico e il risultato non e un punteggio di conformita."
+      },
+      "asOf": "2026-08-01",
+      "verifiedAt": "2026-08-01",
+      "reviewCadence": {
+        "en": "When the KPI framework changes",
+        "it": "Quando cambia il framework KPI"
+      },
+      "recordStatus": "current",
+      "permalink": "/press-kit#claim-canonical-kpis"
+    },
+    {
+      "id": "public-code",
+      "claim": {
+        "en": "The repository and release notes are public and reusable under CC BY 4.0.",
+        "it": "Repository e note di release sono pubblici e riutilizzabili con licenza CC BY 4.0."
+      },
+      "status": {
+        "en": "Public repository",
+        "it": "Repository pubblico"
+      },
+      "type": "code",
+      "proofHref": "https://github.com/sev7enITA/policywatcher",
+      "boundary": {
+        "en": "This describes repository access and license terms; no OSI certification is claimed.",
+        "it": "Descrive accesso e licenza del repository; non viene dichiarata alcuna certificazione OSI."
+      },
+      "asOf": "2026-08-01",
+      "verifiedAt": "2026-08-01",
+      "reviewCadence": {
+        "en": "Each licensing change",
+        "it": "A ogni modifica di licenza"
+      },
+      "recordStatus": "current",
+      "permalink": "/press-kit#claim-public-code"
+    },
+    {
+      "id": "source-timestamps",
+      "claim": {
+        "en": "Evidence views preserve source-specific screening and snapshot timestamps.",
+        "it": "Le viste evidenza mantengono timestamp specifici di screening e snapshot."
+      },
+      "status": {
+        "en": "Dataset-derived",
+        "it": "Derivato dal dataset"
+      },
+      "type": "freshness",
+      "proofHref": "/timeline",
+      "boundary": {
+        "en": "Release metadata is dated 1 August 2026; update intervals depend on source retrieval and review.",
+        "it": "I metadata di release sono datati 1 agosto 2026; gli intervalli di aggiornamento dipendono dal recupero e dalla revisione delle fonti."
+      },
+      "asOf": "2026-08-01",
+      "verifiedAt": "2026-08-01",
+      "reviewCadence": {
+        "en": "Each source-screening release",
+        "it": "Ogni release di screening fonti"
+      },
+      "recordStatus": "current",
+      "permalink": "/press-kit#claim-source-timestamps"
+    },
+    {
+      "id": "external-coverage",
+      "claim": {
+        "en": "Public articles and professional posts have discussed PolicyWatcher.",
+        "it": "Articoli pubblici e post professionali hanno discusso PolicyWatcher."
+      },
+      "status": {
+        "en": "External signal",
+        "it": "Segnale esterno"
+      },
+      "type": "coverage",
+      "proofHref": "/press",
+      "boundary": {
+        "en": "Mentions are references, not endorsements, certifications or independent audits.",
+        "it": "Le menzioni sono riferimenti, non endorsement, certificazioni o audit indipendenti."
+      },
+      "asOf": "2026-08-01",
+      "verifiedAt": "2026-08-01",
+      "reviewCadence": {
+        "en": "When the coverage registry changes",
+        "it": "Quando cambia il registro copertura"
+      },
+      "recordStatus": "current",
+      "permalink": "/press-kit#claim-external-coverage"
+    }
+  ]
+}

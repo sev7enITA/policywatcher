@@ -1,0 +1,399 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "PolicyWatcher: audit tecnico dello stato dell’arte – agosto 2026",
+    "description": "Algoritmi, modelli, SLM, retrieval, librerie, ricerca asiatica ed evidenze early-adopter. Snapshot verificato al 14 agosto 2026.",
+    "generatedAt": "2026-08-14T06:00:00+02:00",
+    "cards": [
+      {
+        "id": "tests_card",
+        "description": "Verifica locale del repository al 14 agosto 2026.",
+        "dataset": "headline_metrics",
+        "sourceId": "audit_snapshot_sql",
+        "filter": { "metric": "tests" },
+        "metrics": [{ "label": "Test superati", "field": "value" }]
+      },
+      {
+        "id": "slm_card",
+        "description": "Modelli piccoli o locali presenti nel percorso di produzione.",
+        "dataset": "headline_metrics",
+        "sourceId": "audit_snapshot_sql",
+        "filter": { "metric": "slm" },
+        "metrics": [{ "label": "SLM in uso", "field": "value" }]
+      },
+      {
+        "id": "fallback_card",
+        "description": "Fallback Gemini configurati ma già disattivati dal provider.",
+        "dataset": "headline_metrics",
+        "sourceId": "audit_snapshot_sql",
+        "filter": { "metric": "fallback" },
+        "metrics": [{ "label": "Fallback non operativo", "field": "value" }]
+      },
+      {
+        "id": "vuln_card",
+        "description": "Risultato di npm audit sulle dipendenze di produzione.",
+        "dataset": "headline_metrics",
+        "sourceId": "audit_snapshot_sql",
+        "filter": { "metric": "vulnerability" },
+        "metrics": [{ "label": "Vulnerabilità high", "field": "value" }]
+      }
+    ],
+    "charts": [
+      {
+        "id": "maturity_chart",
+        "title": "Maturità tecnica per area",
+        "subtitle": "Scala ordinale 0–5, giudizio audit al 14 agosto 2026; 5 = frontiera dimostrata sul corpus PolicyWatcher.",
+        "type": "bar",
+        "dataset": "maturity_chart",
+        "sourceId": "audit_snapshot_sql",
+        "intent": "comparison",
+        "question": "In quali aree PolicyWatcher è più vicino o più lontano dalla frontiera tecnica dimostrata?",
+        "rationale": "Nove categorie comparabili su una scala ordinale esplicita; la tabella adiacente conserva evidenze e limiti.",
+        "layout": "full",
+        "valueFormat": "number",
+        "encodings": {
+          "x": { "field": "area", "type": "nominal", "label": "Area tecnica" },
+          "y": { "field": "score", "type": "quantitative", "label": "Maturità (0–5)" },
+          "tooltip": [
+            { "field": "score", "type": "quantitative", "label": "Score", "format": "number" },
+            { "field": "band", "type": "text", "label": "Classe" }
+          ]
+        },
+        "maxRows": 9,
+        "compatibleTypes": ["bar"]
+      }
+    ],
+    "tables": [
+      {
+        "id": "maturity_table",
+        "title": "Maturità tecnica per area",
+        "subtitle": "Valutazione ordinale basata sul codice corrente; non è un benchmark standardizzato.",
+        "dataset": "maturity",
+        "sourceId": "audit_snapshot_sql",
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          { "field": "area", "label": "Area", "type": "text" },
+          { "field": "maturity", "label": "Maturità", "type": "text" },
+          { "field": "evidence", "label": "Evidenza attuale", "type": "text" },
+          { "field": "gap", "label": "Scarto dallo stato dell’arte", "type": "text" },
+          { "field": "priority", "label": "Priorità", "type": "text" }
+        ]
+      },
+      {
+        "id": "dependency_table",
+        "title": "Versioni, compatibilità e rischi immediati",
+        "subtitle": "Confronto con i registri e la documentazione ufficiale consultati il 14 agosto 2026.",
+        "dataset": "dependencies",
+        "sourceId": "audit_snapshot_sql",
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          { "field": "component", "label": "Componente", "type": "text" },
+          { "field": "current", "label": "Corrente", "type": "text" },
+          { "field": "reference", "label": "Riferimento 14/08/26", "type": "text" },
+          { "field": "assessment", "label": "Valutazione", "type": "text" },
+          { "field": "action", "label": "Azione", "type": "text" }
+        ]
+      },
+      {
+        "id": "architecture_table",
+        "title": "Architettura algoritmica raccomandata",
+        "subtitle": "Evoluzione incrementale: il determinismo resta il gate, i modelli intervengono solo dove misurabili.",
+        "dataset": "target_architecture",
+        "sourceId": "audit_snapshot_sql",
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          { "field": "stage", "label": "Stadio", "type": "text" },
+          { "field": "algorithm", "label": "Algoritmo / tecnologia", "type": "text" },
+          { "field": "purpose", "label": "Scopo", "type": "text" },
+          { "field": "gate", "label": "Gate di qualità", "type": "text" },
+          { "field": "decision", "label": "Decisione", "type": "text" }
+        ]
+      },
+      {
+        "id": "asia_table",
+        "title": "Progetti asiatici e sperimentali rilevanti",
+        "subtitle": "Selezione da repository e documentazione primari; le dichiarazioni dei maintainer richiedono benchmark sul corpus PolicyWatcher.",
+        "dataset": "asia_watchlist",
+        "sourceId": "audit_snapshot_sql",
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          { "field": "project", "label": "Progetto", "type": "text" },
+          { "field": "origin", "label": "Origine", "type": "text" },
+          { "field": "capability", "label": "Capacità rilevante", "type": "text" },
+          { "field": "fit", "label": "Fit per PolicyWatcher", "type": "text" },
+          { "field": "decision", "label": "Decisione", "type": "text" }
+        ]
+      },
+      {
+        "id": "community_table",
+        "title": "Segnali da Reddit e community cutting-edge",
+        "subtitle": "Evidenza aneddotica, separata dalle fonti primarie e usata solo per formulare ipotesi di test.",
+        "dataset": "community_signals",
+        "sourceId": "audit_snapshot_sql",
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          { "field": "signal", "label": "Segnale ricorrente", "type": "text" },
+          { "field": "observation", "label": "Osservazione", "type": "text" },
+          { "field": "implication", "label": "Implicazione per PolicyWatcher", "type": "text" },
+          { "field": "confidence", "label": "Peso nell’audit", "type": "text" }
+        ]
+      },
+      {
+        "id": "roadmap_table",
+        "title": "Piano di riallineamento 0–90 giorni",
+        "subtitle": "Sequenza proposta; nessun cambio modello va promosso senza i gate indicati.",
+        "dataset": "roadmap",
+        "sourceId": "audit_snapshot_sql",
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          { "field": "window", "label": "Finestra", "type": "text" },
+          { "field": "priority", "label": "Priorità", "type": "text" },
+          { "field": "work", "label": "Intervento", "type": "text" },
+          { "field": "acceptance", "label": "Criterio di accettazione", "type": "text" },
+          { "field": "deployment", "label": "Impatto deploy", "type": "text" }
+        ]
+      },
+      {
+        "id": "evaluation_table",
+        "title": "Benchmark minimo prima della promozione",
+        "subtitle": "Metriche da calcolare su un golden set EN/IT derivato da cambi reali, casi negativi e documenti avversariali.",
+        "dataset": "evaluation_contract",
+        "sourceId": "audit_snapshot_sql",
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          { "field": "stage", "label": "Stadio", "type": "text" },
+          { "field": "metrics", "label": "Metriche", "type": "text" },
+          { "field": "cohort", "label": "Coorte / denominatore", "type": "text" },
+          { "field": "release_gate", "label": "Gate proposto", "type": "text" },
+          { "field": "failure", "label": "Fallimento da intercettare", "type": "text" }
+        ]
+      }
+    ],
+    "sources": [
+      { "id": "audit_snapshot_sql", "label": "Reviewed audit dataset query", "path": "docs/reports/policywatcher-state-of-art-audit-2026-08-14.sql" },
+      { "id": "repo_audit", "label": "PolicyWatcher repository audit", "path": "src/lib/gemini.ts" },
+      { "id": "verification_runs", "label": "PolicyWatcher verification runs", "path": "package.json" },
+      { "id": "dependency_audit", "label": "PolicyWatcher dependency audit", "path": "package-lock.json" },
+      { "id": "research_registry", "label": "Primary-source research registry, cutoff 2026-08-14", "href": "https://arxiv.org/abs/2603.01710" },
+      { "id": "google_deprecations", "label": "Google Gemini deprecation schedule", "href": "https://ai.google.dev/gemini-api/docs/deprecations" },
+      { "id": "google_latest", "label": "Google Gemini 3.7 Flash", "href": "https://ai.google.dev/gemini-api/docs/latest-model" },
+      { "id": "google_structured", "label": "Google structured outputs", "href": "https://ai.google.dev/gemini-api/docs/structured-output" },
+      { "id": "google_interactions", "label": "Gemini Interactions API retention", "href": "https://ai.google.dev/gemini-api/docs/interactions-overview" },
+      { "id": "nanoid_advisory", "label": "GitHub advisory GHSA-2v37-7h3g-55p8", "href": "https://github.com/advisories/GHSA-2v37-7h3g-55p8" },
+      { "id": "prisma_upgrade", "label": "Prisma ORM 7 upgrade guide", "href": "https://www.prisma.io/docs/guides/upgrade-prisma-orm/v7" },
+      { "id": "playwright_releases", "label": "Playwright release notes", "href": "https://playwright.dev/docs/release-notes" },
+      { "id": "asia_primary_sources", "label": "Asian AI primary-source registry", "href": "https://github.com/QwenLM/Qwen3-Embedding" },
+      { "id": "qwen_embedding", "label": "Qwen3 Embedding and Reranker", "href": "https://github.com/QwenLM/Qwen3-Embedding" },
+      { "id": "qwen_vl_embedding", "label": "Qwen3-VL Embedding and Reranker", "href": "https://github.com/QwenLM/Qwen3-VL-Embedding" },
+      { "id": "flag_embedding", "label": "BAAI FlagEmbedding", "href": "https://github.com/FlagOpen/FlagEmbedding" },
+      { "id": "minicpm", "label": "OpenBMB MiniCPM5-1B", "href": "https://github.com/OpenBMB/MiniCPM" },
+      { "id": "mineru", "label": "OpenDataLab MinerU", "href": "https://github.com/opendatalab/MinerU" },
+      { "id": "paddleocr", "label": "PaddleOCR releases", "href": "https://github.com/PaddlePaddle/PaddleOCR/releases" },
+      { "id": "ragflow", "label": "RAGFlow", "href": "https://github.com/infiniflow/ragflow" },
+      { "id": "lightrag", "label": "LightRAG", "href": "https://github.com/HKUDS/LightRAG" },
+      { "id": "kimi_linear", "label": "Kimi Linear", "href": "https://github.com/MoonshotAI/Kimi-Linear" },
+      { "id": "kimi_k3", "label": "Kimi K3", "href": "https://github.com/MoonshotAI/Kimi-K3" },
+      { "id": "legal_eval_sources", "label": "Legal retrieval and RAG benchmark registry", "href": "https://github.com/isaacus-dev/legal-rag-bench" },
+      { "id": "legal_rag_bench", "label": "Legal RAG Bench", "href": "https://arxiv.org/abs/2603.01710" },
+      { "id": "legalbench_rag", "label": "LegalBench-RAG", "href": "https://github.com/zeroentropy-ai/legalbenchrag" },
+      { "id": "legalbench", "label": "LegalBench", "href": "https://github.com/HazyResearch/legalbench" },
+      { "id": "lexclipr", "label": "LexCLiPR, ACL 2025", "href": "https://aclanthology.org/2025.acl-long.683/" },
+      { "id": "community_scan", "label": "Reddit RAG and LocalLLaMA scan, August 2026", "href": "https://www.reddit.com/r/Rag/comments/1v7g3oe/hybrid_search_and_reranking_made_my_rag_worse/" },
+      { "id": "reddit_production", "label": "r/Rag: demo to production", "href": "https://www.reddit.com/r/Rag/comments/1u88gi7/what_actually_broke_when_we_took_rag_from_demo_to/" },
+      { "id": "reddit_ops", "label": "r/Rag: production RAG", "href": "https://www.reddit.com/r/Rag/comments/1usojml/what_does_production_rag_looks_like/" },
+      { "id": "reddit_models", "label": "r/LocalLLaMA: embedding and reranking", "href": "https://www.reddit.com/r/LocalLLaMA/comments/1vjk57h/best_embedding_reranking_model/" },
+      { "id": "langfuse", "label": "Langfuse observability and evaluations", "href": "https://github.com/langfuse/langfuse" }
+    ],
+    "blocks": [
+      {
+        "id": "executive_summary",
+        "type": "markdown",
+        "body": "## Verdetto tecnico\n\n**No: PolicyWatcher non è oggi allo stato dell’arte end-to-end per AI, SLM e retrieval.** È invece una base software moderna con una catena di acquisizione e di evidenza insolitamente robusta: cinque trasporti di recupero, controlli SSRF, rifiuto degli archivi obsoleti, SHA-256, doppia conferma del cambio, citazioni ancorate al testo e gate di pubblicazione.\n\nLo scarto è concentrato in quattro punti: la catena Gemini usa un fallback spento dal 1 giugno 2026; l’output JSON è richiesto per prompt ma non vincolato da schema; chat e analisi usano troncamento/context stuffing senza retrieval ibrido o reranking; non esiste un benchmark AI golden EN/IT. Inoltre `npm audit --omit=dev` rileva una vulnerabilità high transitiva in `nanoid`.\n\nLa decisione corretta non è sostituire tutto con un modello più grande. Occorre mantenere i gate deterministici, costruire prima le valutazioni e poi introdurre retrieval di clausole, output strutturato e routing tra un modello economico e un modello di escalation."
+      },
+      {
+        "id": "headline_metrics_block",
+        "type": "metric-strip",
+        "cardIds": ["tests_card", "slm_card", "fallback_card", "vuln_card"]
+      },
+      {
+        "id": "scope_method",
+        "type": "markdown",
+        "body": "## Perimetro e metodo\n\nSnapshot al **14 agosto 2026**, confrontato con il report operativo del 5 luglio 2026. Sono stati ispezionati codice, dipendenze, renderer, CI e test locali; le versioni sono state confrontate con registri e documentazione ufficiale. La ricerca esterna comprende repository e paper primari occidentali e asiatici. Reddit e community sono trattati come segnali early-adopter, mai come prova di prestazione.\n\nLe classi di maturità sono giudizi ordinali da 0 a 5: 0 assente, 1 iniziale, 2 basilare, 3 solido, 4 avanzato, 5 frontiera dimostrata sul proprio corpus. Non esiste ancora un dataset quantitativo sufficiente per assegnare uno score scientifico complessivo. L’unico grafico rende visibile questa scala dichiaratamente ordinale; la tabella adiacente, con evidenze e gap, resta la base auditabile."
+      },
+      {
+        "id": "maturity_result",
+        "type": "markdown",
+        "body": "## La piattaforma è moderna, ma la qualità AI non è ancora dimostrata\n\nLa parte più forte è la **provenienza dell’evidenza**; la parte più debole è ciò che accade dopo il rilevamento: selezione del contesto, comprensione delle clausole, calibrazione del rischio e misurazione degli errori. I 714 test superati provano stabilità del software corrente, non accuratezza legale o superiorità del modello."
+      },
+      { "id": "maturity_chart_block", "type": "chart", "chartId": "maturity_chart" },
+      { "id": "maturity_block", "type": "table", "tableId": "maturity_table" },
+      {
+        "id": "urgent_result",
+        "type": "markdown",
+        "body": "## Due divergenze richiedono correzione immediata\n\n`gemini-2.0-flash-lite`, configurato come fallback, è stato disattivato da Google il **1 giugno 2026**. In caso di 429/503 del primario, PolicyWatcher tenta quindi un endpoint non più disponibile. Il primario `gemini-2.5-flash` resta attivo, ma non è la generazione più recente. Google ha reso GA `gemini-3.7-flash` nell’agosto 2026 e raccomanda la nuova Interactions API per le funzionalità più recenti; la migrazione impone di rimuovere parametri di sampling ora deprecati.\n\nSeparatamente, la catena `next → postcss → nanoid@3.3.16` ricade in GHSA-2v37-7h3g-55p8. Il problema può causare un loop infinito con input specifici e ha severità high. Poiché la CI dichiara un gate `npm audit --omit=dev --audit-level=high`, lo snapshot corrente non soddisfa il proprio gate supply-chain."
+      },
+      { "id": "dependency_block", "type": "table", "tableId": "dependency_table" },
+      {
+        "id": "algorithm_result",
+        "type": "markdown",
+        "body": "## Il miglior salto algoritmico è lavorare per clausole, non aumentare i token\n\nOggi il cambio è individuato con hash del documento e presentato con diff lineare; questa scelta è verificabile, ma tratta spostamenti, menu dinamici e riformulazioni come rumore o cambio globale. Il prompt AI riceve al massimo 45.000 caratteri nella prima analisi, oppure 22.000 + 22.000 nel confronto, mentre la chat concatena fino a 10.000 caratteri per policy.\n\nLa traiettoria consigliata è: canonicalizzazione strutturale; identificatori stabili di sezione; hash per blocco; allineamento lessicale e semantico delle clausole; retrieval con astensione; schema JSON validato; escalation solo per i casi ambigui. La ricerca legale 2025–2026 converge su pipeline multistadio in cui la qualità del retrieval pesa spesso più del generatore."
+      },
+      { "id": "architecture_block", "type": "table", "tableId": "architecture_table" },
+      {
+        "id": "asia_result",
+        "type": "markdown",
+        "body": "## La ricerca asiatica offre componenti utili, non un rimpiazzo monolitico\n\nIl candidato con il miglior rapporto fit/rischio è **Qwen3-Embedding-0.6B + Qwen3-Reranker-0.6B**: multilingue, 32K, instruction-aware e abbastanza piccoli da essere testati sul VPS. **BGE-M3** è il challenger utile perché combina segnali dense, sparse e multi-vector. **MiniCPM5-1B** può essere provato come classificatore/router locale a basso costo, ma non deve assegnare score legali senza validazione.\n\nPer PDF e scansioni, MinerU 3.4 e PaddleOCR-VL sono più rilevanti di un nuovo chatbot: conservano layout, tabelle e ordine di lettura, cioè la materia prima da cui dipende il retrieval. RAGFlow e LightRAG sono comparatori architetturali; Kimi Linear/K3 restano nel radar di ricerca per long context, non sono una scelta pragmatica per il deployment attuale."
+      },
+      { "id": "asia_block", "type": "table", "tableId": "asia_table" },
+      {
+        "id": "community_result",
+        "type": "markdown",
+        "body": "## Gli early adopter confermano che il benchmark viene prima del reranker\n\nNei thread r/Rag e r/LocalLLaMA del 2026 ricorrono quattro temi: corpus e ground truth dominano il risultato; hybrid search può peggiorare un corpus piccolo; un reranker generico può spostare verso il basso risultati già corretti; osservabilità, astensione e failure buckets sono più importanti della demo. Un caso pubblicato su circa 250 coppie curate ha riportato hit@3 peggiore dopo BM25 e reranking.\n\nQuesti numeri non sono trasferibili a PolicyWatcher e non vengono usati come benchmark. Il segnale utile è metodologico: ogni nuova libreria è un’ipotesi da confrontare con il baseline corrente, includendo query senza risposta e più risposte equivalenti."
+      },
+      { "id": "community_block", "type": "table", "tableId": "community_table" },
+      {
+        "id": "roadmap_result",
+        "type": "markdown",
+        "body": "## Il riallineamento può avvenire senza riscrivere la piattaforma\n\nLa sequenza riduce il rischio: prima si ripristinano sicurezza e disponibilità, poi si misura il comportamento esistente, quindi si sperimentano modello e retrieval dietro feature flag. La promozione in produzione richiede parità o miglioramento sui casi reali e nessuna regressione sui gate di evidenza."
+      },
+      { "id": "roadmap_block", "type": "table", "tableId": "roadmap_table" },
+      {
+        "id": "evaluation_result",
+        "type": "markdown",
+        "body": "## Lo stato dell’arte va dimostrato con un contratto di valutazione\n\nIl golden set deve contenere cambi materiali, non-cambi, clausole spostate, boilerplate, pagine parziali, fonti archivio, testi EN/IT, prompt injection e domande senza risposta. Le soglie sotto sono **gate proposti**, non risultati correnti. Vanno congelate prima del confronto per evitare di scegliere metriche dopo aver visto l’esito."
+      },
+      { "id": "evaluation_block", "type": "table", "tableId": "evaluation_table" },
+      {
+        "id": "limitations",
+        "type": "markdown",
+        "body": "## Limiti e decisione finale\n\nQuesto audit è una fotografia del repository e delle fonti accessibili al 14 agosto 2026. Le prestazioni dichiarate dai maintainer di modelli asiatici non sono state riprodotte sull’hardware PolicyWatcher; Reddit è aneddotico; non sono stati eseguiti test con dati di produzione o chiamate Gemini a pagamento.\n\n**Decisione:** conservare l’architettura evidence-first; correggere subito fallback e vulnerabilità; introdurre JSON Schema e telemetria AI; costruire il golden set; poi eseguire un bake-off fra baseline, Qwen3/BGE per retrieval, Gemini 3.5 Flash-Lite per estrazione e Gemini 3.7 Flash per escalation. RAGFlow, LightRAG, Kimi K3 e GraphRAG non vanno adottati wholesale finché un caso d’uso e un guadagno misurato non lo giustificano."
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-08-14T06:00:00+02:00",
+    "status": "partial",
+    "datasets": {
+      "headline_metrics": [
+        { "metric": "tests", "value": "714 / 714" },
+        { "metric": "slm", "value": "0" },
+        { "metric": "fallback", "value": "1" },
+        { "metric": "vulnerability", "value": "1" }
+      ],
+      "maturity": [
+        { "area": "Acquisizione e provenienza", "maturity": "Avanzato (4/5)", "evidence": "Direct HTTP/1.1, HTTP/2, renderer, Wayback, Common Crawl; SSRF e freshness guard", "gap": "Estrazione ancora euristica; mancano profili DOM per fonte e metriche corpus-wide", "priority": "P1" },
+        { "area": "Change detection", "maturity": "Solido+ (3.5/5)", "evidence": "SHA-256, diffLines e doppia conferma dello stesso hash", "gap": "Nessuna identità stabile di clausola, block hash o allineamento semantico", "priority": "P1" },
+        { "area": "Analisi AI strutturata", "maturity": "Basilare (2/5)", "evidence": "Gemini, normalizzazione difensiva, quote ancorate al testo", "gap": "Fallback spento, modello non recente, schema solo nel prompt, validazione parziale", "priority": "P0" },
+        { "area": "Chat e retrieval", "maturity": "Iniziale (1/5)", "evidence": "Context stuffing con protezione da prompt injection", "gap": "Nessun BM25/FTS, embedding, reranker, citazione per clausola o astensione misurata", "priority": "P1" },
+        { "area": "SLM / inferenza locale", "maturity": "Assente (0/5)", "evidence": "Nessun modello locale nel codice o nelle dipendenze", "gap": "Nessun routing locale, benchmark hardware o fallback controllato", "priority": "P2" },
+        { "area": "AI eval e osservabilità", "maturity": "Iniziale (1.5/5)", "evidence": "CI software forte e diagnostica retrieval", "gap": "Nessun golden set AI, tracing prompt/modello, calibration o regression gate", "priority": "P0" },
+        { "area": "Stack web e librerie", "maturity": "Avanzato (4/5)", "evidence": "Next 16, React 19, Node 22, TypeScript 5.9, Vitest 4", "gap": "Minor arretrati; renderer Playwright 1.50; major Prisma/TS da pianificare", "priority": "P1" },
+        { "area": "Supply-chain security", "maturity": "Solido ma degradato (2.5/5)", "evidence": "CodeQL, OpenSSF, audit gate e lockfile", "gap": "Una vulnerabilità high di produzione rende rosso il gate dichiarato", "priority": "P0" },
+        { "area": "Auditabilità e governance", "maturity": "Avanzato+ (4.5/5)", "evidence": "Evidence gate, quote verification, no demo fallback pubblico, review log", "gap": "Manca una lineage completa per prompt, modello, schema e versione del benchmark", "priority": "P1" }
+      ],
+      "maturity_chart": [
+        { "area": "Acquisizione", "score": 4, "band": "Avanzato" },
+        { "area": "Change detection", "score": 3.5, "band": "Solido+" },
+        { "area": "Analisi AI", "score": 2, "band": "Basilare" },
+        { "area": "Chat / retrieval", "score": 1, "band": "Iniziale" },
+        { "area": "SLM locale", "score": 0, "band": "Assente" },
+        { "area": "AI eval / observability", "score": 1.5, "band": "Iniziale" },
+        { "area": "Stack web", "score": 4, "band": "Avanzato" },
+        { "area": "Supply chain", "score": 2.5, "band": "Solido ma degradato" },
+        { "area": "Governance", "score": 4.5, "band": "Avanzato+" }
+      ],
+      "dependencies": [
+        { "component": "Gemini model chain", "current": "2.5 Flash → 2.0 Flash-Lite", "reference": "3.7 Flash GA; 2.0 Flash-Lite spento 01/06/26", "assessment": "Fallback non operativo; sampling corrente incompatibile con migrazione 3.x", "action": "P0: bake-off 3.5 Flash-Lite / 3.7 Flash, Interactions API, store=false" },
+        { "component": "@google/genai", "current": "2.9.0", "reference": "2.17.1", "assessment": "Otto minor dietro; API structured output più evoluta", "action": "Aggiornare in ramo dedicato con schema Zod/JSON e regression test" },
+        { "component": "nanoid transitivo", "current": "3.3.16", "reference": "3.3.18 patched", "assessment": "GHSA high: potenziale denial of service per loop infinito", "action": "P0: aggiornare lock/override, rieseguire npm audit e build" },
+        { "component": "Next.js", "current": "16.2.11", "reference": "16.3.1", "assessment": "Stack moderno; patch/minor arretrato", "action": "Aggiornare dopo la correzione nanoid e la suite completa" },
+        { "component": "React / ReactDOM", "current": "19.2.4", "reference": "19.2.8", "assessment": "Patch arretrata, nessun debito architetturale", "action": "Aggiornamento coordinato e smoke UI" },
+        { "component": "Playwright app", "current": "1.61.1", "reference": "1.62.1", "assessment": "Quasi corrente", "action": "Aggiornare e rigenerare browser del CI" },
+        { "component": "Playwright renderer", "current": "^1.50.0", "reference": "1.62.1", "assessment": "Disallineamento sensibile tra renderer e test app", "action": "P1: unificare versione e verificare Chromium/VPS" },
+        { "component": "Prisma", "current": "6.19.3", "reference": "7.9.1", "assessment": "Major disponibile con breaking change ESM/generator", "action": "Non aggiornare alla cieca; spike con schema e deploy clone" },
+        { "component": "TypeScript", "current": "5.9.3", "reference": "7.0.2", "assessment": "Major disponibile; 5.9 resta una base moderna", "action": "P2: attendere compatibilità Next/Prisma e fare migration spike" }
+      ],
+      "target_architecture": [
+        { "stage": "1. Acquisizione", "algorithm": "Cascata corrente + profilo fonte + DOM structural fingerprint", "purpose": "Recuperare testo verificabile e separare policy da chrome/boilerplate", "gate": "Completezza, freshness, host/path drift, soft-404", "decision": "Conservare e irrobustire" },
+        { "stage": "2. Canonicalizzazione", "algorithm": "Heading tree, block hash, normalizzazione liste/date/nav", "purpose": "Dare identità stabile a sezioni e clausole", "gate": "Golden non-change e fixture per fonte", "decision": "Nuovo P1" },
+        { "stage": "3. Allineamento", "algorithm": "Exact hash + Myers/patience diff + embedding similarity", "purpose": "Distinguere inserimento, rimozione, spostamento e parafrasi", "gate": "Precision/recall clause-level e astensione", "decision": "Pilot Qwen3/BGE" },
+        { "stage": "4. Retrieval", "algorithm": "FTS/BM25 + dense vectors + optional selective rerank", "purpose": "Fornire solo clausole pertinenti a chat e analisi", "gate": "Recall@k, nDCG/MRR, no-answer accuracy, latenza p95", "decision": "A/B contro dense-only e baseline" },
+        { "stage": "5. Analisi", "algorithm": "JSON Schema + model router + evidence verifier", "purpose": "Estrarre fatti, score e sintesi con output tipizzato", "gate": "Schema success, quote precision, kappa umano, EN/IT consistency", "decision": "3.5 Flash-Lite default; 3.7 Flash escalation se vince" }
+      ],
+      "asia_watchlist": [
+        { "project": "Qwen3 Embedding / Reranker 0.6B", "origin": "Alibaba Qwen, Cina", "capability": "100+ lingue, 32K, MRL, instruction-aware, embedding + cross-encoder", "fit": "Alto per clausole EN/IT e retrieval locale", "decision": "Pilot P1 sul golden set" },
+        { "project": "BGE-M3 + bge-reranker-v2-m3", "origin": "BAAI, Cina", "capability": "Dense, sparse e multi-vector; multilingue; 8K", "fit": "Alto come challenger ibrido", "decision": "Benchmark contro Qwen3" },
+        { "project": "MiniCPM5-1B", "origin": "OpenBMB/Tsinghua, Cina", "capability": "SLM 1B on-device; GGUF Q4 circa 657 MB; think/no-think", "fit": "Medio per routing o pre-classificazione; basso per risk scoring finale", "decision": "Pilot P2, mai fonte legale autonoma" },
+        { "project": "MinerU 3.4 / MinerU2.5-Pro", "origin": "OpenDataLab, Cina", "capability": "PDF/Office/image → Markdown/JSON; layout, tabelle, formule, 109 lingue", "fit": "Alto quando entrano documenti e scansioni", "decision": "Pilot su 30 PDF difficili" },
+        { "project": "PaddleOCR-VL 1.6", "origin": "PaddlePaddle/Baidu, Cina", "capability": "Document understanding compatto, OCR multilingue e backend edge", "fit": "Medio-alto come alternativa parser/VLM", "decision": "Challenger del pilot PDF" },
+        { "project": "RAGFlow", "origin": "InfiniFlow, Cina", "capability": "Parsing profondo, chunk ispezionabili, full-text + vector, rerank e citazioni", "fit": "Medio come reference architecture; basso come migrazione wholesale", "decision": "Studiare pattern, non adottare lo stack" },
+        { "project": "LightRAG", "origin": "HKU, Hong Kong", "capability": "Graph-based RAG leggero e retrieval relazionale", "fit": "Basso-medio finché il corpus non richiede relazioni multi-documento", "decision": "Radar sperimentale" },
+        { "project": "Kimi Linear / Kimi K3", "origin": "Moonshot AI, Cina", "capability": "Long context e architetture frontier; K3 multimodale 1M context", "fit": "Basso per costi/complessità e assenza di bisogno dimostrato", "decision": "Research radar soltanto" },
+        { "project": "Qwen3-VL Embedding / Reranker", "origin": "Alibaba Qwen, Cina", "capability": "Retrieval multimodale di documenti visuali", "fit": "Futuro fit su tabelle, screenshot e scansioni", "decision": "Dopo il pilot parser" }
+      ],
+      "community_signals": [
+        { "signal": "Hybrid e reranking non sono upgrade universali", "observation": "Un caso con corpus piccolo ha peggiorato hit@3 aggiungendo BM25 e cross-encoder", "implication": "Confrontare dense-only, hybrid e rerank; includere intervalli e failure buckets", "confidence": "Bassa come prestazione, alta come ipotesi di test" },
+        { "signal": "Ground truth prima del modello", "observation": "Risposte equivalenti e query senza risposta cambiano radicalmente la lettura delle metriche", "implication": "Golden set multi-label con astensione corretta", "confidence": "Coerente con benchmark primari" },
+        { "signal": "Struttura documentale domina il retrieval", "observation": "Heading, tabelle e reading order persi non vengono recuperati da un reranker", "implication": "Canonicalizzazione e parsing prima di vector DB", "confidence": "Coerente con MinerU/RAGFlow e letteratura" },
+        { "signal": "La produzione fallisce su ops, non sulla demo", "observation": "Osservabilità, permessi, retry, drift e regressioni emergono come temi ricorrenti", "implication": "Tracciare modello, prompt hash, schema, costo, latenza e fallback", "confidence": "Segnale operativo plausibile, non benchmark" },
+        { "signal": "I modelli locali richiedono misure hardware", "observation": "Le raccomandazioni cambiano con CPU/GPU, RAM, quantizzazione e p95 atteso", "implication": "Benchmark MiniCPM/Qwen sul VPS reale prima di scegliere runtime", "confidence": "Alta come vincolo ingegneristico" }
+      ],
+      "roadmap": [
+        { "window": "0–3 giorni", "priority": "P0", "work": "Aggiornare nanoid a 3.3.18+ tramite lock/override", "acceptance": "npm audit --omit=dev: 0 high/critical; test, lint, typecheck e build verdi", "deployment": "Hostinger app" },
+        { "window": "0–3 giorni", "priority": "P0", "work": "Rimuovere il fallback Gemini spento e aggiungere un errore operativo esplicito", "acceptance": "Nessuna chiamata a model ID shutdown; test 429/503 deterministici", "deployment": "Backend app" },
+        { "window": "Prima settimana", "priority": "P0", "work": "Creare schema Zod/JSON completo per PolicyAnalysisResult", "acceptance": "100% output validati o rifiutati; nessun default silenzioso su campi critici", "deployment": "Backend app" },
+        { "window": "Prima settimana", "priority": "P0", "work": "Congelare golden set v1 EN/IT", "acceptance": "Cambi, non-cambi, no-answer, archive, partial e prompt injection con review umana", "deployment": "Solo CI" },
+        { "window": "Settimane 2–3", "priority": "P1", "work": "Bake-off Gemini 2.5 vs 3.5 Flash-Lite vs 3.7 Flash", "acceptance": "Miglioramento o parità su quote, kappa, schema, costo e p95; store=false", "deployment": "Shadow mode" },
+        { "window": "Settimane 2–4", "priority": "P1", "work": "Block canonicalization e clause IDs", "acceptance": "Riduzione falsi cambi su fixture senza perdita di cambi materiali", "deployment": "Feature flag" },
+        { "window": "Giorni 30–45", "priority": "P1", "work": "Pilot Qwen3-Embedding/Reranker 0.6B e BGE-M3", "acceptance": "Recall@10 e no-answer superiori al baseline entro budget p95", "deployment": "VPS sperimentale" },
+        { "window": "Giorni 30–60", "priority": "P1", "work": "Chat con retrieval per clausola e citazioni", "acceptance": "Ogni claim supportato da clause ID o astensione; test injection", "deployment": "Beta flag" },
+        { "window": "Giorni 45–60", "priority": "P1", "work": "Unificare Playwright renderer/app a 1.62.x", "acceptance": "Smoke delle fonti dinamiche e nessuna regressione su VPS", "deployment": "VPS renderer" },
+        { "window": "Giorni 60–90", "priority": "P2", "work": "Pilot MiniCPM5-1B per triage locale", "acceptance": "Costo/latency win misurato senza regressione materiale; mai score finale", "deployment": "VPS opzionale" },
+        { "window": "Giorni 60–90", "priority": "P2", "work": "Pilot MinerU vs PaddleOCR-VL su PDF", "acceptance": "30 documenti difficili, layout/table recall e review umana", "deployment": "Servizio separato" },
+        { "window": "Giorni 60–90", "priority": "P2", "work": "Spike Prisma 7; TypeScript 7 separato", "acceptance": "Migration rehearsal, build e rollback documentato", "deployment": "Clone di staging" }
+      ],
+      "evaluation_contract": [
+        { "stage": "Acquisizione", "metrics": "Success rate per trasporto, completezza, stale rejection, p95", "cohort": "Ogni fonte × metodo × giorno", "release_gate": "Nessuna regressione materiale vs baseline", "failure": "Shell SPA, partial, archive vecchio, host/path drift" },
+        { "stage": "Change detection", "metrics": "Precision, recall, F1 document e clause-level", "cohort": "Tutti i cambi/non-cambi golden", "release_gate": "Recall cambi materiali ≥ baseline; falsi positivi in calo", "failure": "Menu/date/cookie banner o clausola spostata" },
+        { "stage": "Retrieval", "metrics": "Recall@5/10, MRR, nDCG, character overlap", "cohort": "Query EN/IT con uno o più clause ID validi", "release_gate": "Recall@10 ≥ 0,95 sui casi answerable", "failure": "Clausola corretta assente dal candidate set" },
+        { "stage": "Astensione", "metrics": "No-answer accuracy, false answer rate", "cohort": "Tutte le query senza risposta", "release_gate": "False answer rate ≤ 2%", "failure": "Risposta plausibile ma non supportata" },
+        { "stage": "Structured output", "metrics": "Schema-valid rate e retry rate", "cohort": "Ogni chiamata modello", "release_gate": "100% validato; 0 pubblicazioni da payload invalido", "failure": "Enum, range, array o campi mancanti" },
+        { "stage": "Evidenza", "metrics": "Quote precision, quote coverage, claim support", "cohort": "Ogni risk reason e KPI pubblicato", "release_gate": "100% quote esistenti; ≥ 95% claim critici supportati", "failure": "Citazione inventata o lato old/new errato" },
+        { "stage": "Risk scoring", "metrics": "Weighted Cohen’s kappa, calibration/Brier, severe-error rate", "cohort": "Doppia review umana stratificata", "release_gate": "Kappa ≥ baseline; 0 downgrade grave non segnalato", "failure": "Score numerico non calibrato o divergenza EN/IT" },
+        { "stage": "Operazioni", "metrics": "p50/p95 latency, token, costo, fallback, schema error, drift", "cohort": "Ogni model ID/versione e tipo richiesta", "release_gate": "Budget concordato e rollback automatico", "failure": "Costo o latenza senza beneficio; modello deprecato" },
+        { "stage": "Sicurezza", "metrics": "Prompt-injection pass rate e data-retention configuration", "cohort": "Suite avversariale + chat", "release_gate": "0 istruzioni da policy eseguite; store=false verificato", "failure": "Policy text tratta come istruzione o log non previsto" }
+      ]
+    },
+    "accessIssues": [
+      {
+        "id": "no_production_model_eval",
+        "scope": "AI quality",
+        "message": "Non esiste ancora un golden set PolicyWatcher né sono state eseguite chiamate comparative ai modelli con dati reali; le soglie del report sono proposte, non risultati."
+      },
+      {
+        "id": "community_is_anecdotal",
+        "scope": "Community evidence",
+        "message": "Reddit e discussioni community non sono controllate né generalizzabili; vengono usate soltanto per definire test e failure mode."
+      },
+      {
+        "id": "vendor_benchmarks_not_reproduced",
+        "scope": "Asian models",
+        "message": "I benchmark dichiarati dai maintainer non sono stati riprodotti sul corpus, sulle lingue e sull’hardware PolicyWatcher."
+      }
+    ]
+  },
+  "package_info": {
+    "originUrl": "artifact://policywatcher-state-of-art-audit-2026-08-14",
+    "controls": { "edit": false, "refresh": false }
+  }
+}

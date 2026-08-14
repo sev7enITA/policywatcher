@@ -4,7 +4,7 @@
 # Configure this in your Hostinger Panel or as a system Cron job.
 
 # Read environment variables or arguments. Never ship a fallback API secret.
-APP_URL="${1:-${APP_URL:-https://www.policywatcher.online}}"
+APP_URL="${1:-${APP_URL:-https://policywatcher.online}}"
 API_SECRET="${2:-${API_SECRET:-}}"
 
 if [ -z "$API_SECRET" ]; then

@@ -215,7 +215,7 @@ function tierFor(row: Omit<LeaderboardRow, 'rank' | 'tier' | 'notes'>): Evidence
 function notesFor(row: Omit<LeaderboardRow, 'rank' | 'tier' | 'notes'>, tier: EvidenceTier): string[] {
   const notes: string[] = [];
   if (tier === 'Evidence-ready') {
-    notes.push('All public-facing policy records are backed by source evidence gates.');
+    notes.push('Public-facing policy records pass the configured source-evidence gates.');
   }
   if (row.suspendedPolicyCount > 0) {
     notes.push(`${row.suspendedPolicyCount} policy source(s) require review before public evidence use.`);

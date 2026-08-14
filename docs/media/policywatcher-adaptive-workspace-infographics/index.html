@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PolicyWatcher Adaptive Workspace Infographics</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="deck-shell" aria-label="PolicyWatcher Adaptive Workspace animated infographics">
+    <header class="deck-header">
+      <a class="brand-lockup" href="../../../" aria-label="PolicyWatcher">
+        <img src="../../../public/logo-mark.png" alt="" class="brand-mark">
+        <span>
+          <strong>PolicyWatcher</strong>
+          <small>Objective Composer Build 3.6.3</small>
+        </span>
+      </a>
+
+      <nav class="deck-controls" aria-label="Infographic navigation">
+        <button type="button" class="deck-btn" data-goto="0">Logic</button>
+        <button type="button" class="deck-btn" data-goto="1">Categories</button>
+        <button type="button" class="deck-btn" data-goto="2">Build Map</button>
+        <button type="button" class="deck-btn deck-btn-ghost" id="autoplayToggle" aria-pressed="true">Auto-play</button>
+      </nav>
+    </header>
+
+    <section class="stage" aria-live="polite">
+      <article class="infographic active" data-slide="0" aria-label="Adaptive Workspace flow">
+        <div class="scene-grid scene-flow">
+          <div class="copy-block">
+            <span class="kicker">Infographic 01</span>
+            <h1>Start with the objective. Preview the evidence stack.</h1>
+            <p>
+              On first use, PolicyWatcher asks what the user needs to understand and how much evidence they need.
+              It previews registered dashboard modules, then collapses after explicit apply.
+            </p>
+            <div class="signal-row">
+              <span>Intent</span>
+              <span>Depth</span>
+              <span>Module preview</span>
+              <span>Explicit apply</span>
+            </div>
+          </div>
+
+          <div class="flow-visual" aria-hidden="true">
+            <svg class="beam-map" viewBox="0 0 980 560" role="img">
+              <defs>
+                <linearGradient id="beamA" x1="0" x2="1">
+                  <stop offset="0" stop-color="#5eead4"/>
+                  <stop offset="0.55" stop-color="#6672ff"/>
+                  <stop offset="1" stop-color="#f59e0b"/>
+                </linearGradient>
+                <filter id="softGlow">
+                  <feGaussianBlur stdDeviation="6" result="blur"/>
+                  <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+              <path class="beam beam-one" d="M120 148 C300 80 465 105 624 228 C716 300 800 312 900 250"/>
+              <path class="beam beam-two" d="M112 342 C300 434 468 392 620 278 C742 186 840 196 900 214"/>
+              <path class="beam beam-three" d="M130 250 C302 252 430 252 560 252 C695 252 810 252 906 252"/>
+              <circle class="node-dot dot-a" cx="120" cy="148" r="10"/>
+              <circle class="node-dot dot-b" cx="112" cy="342" r="10"/>
+              <circle class="node-dot dot-c" cx="906" cy="252" r="13"/>
+            </svg>
+
+            <div class="phone-frame">
+              <div class="phone-top">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="setup-card">
+                <small>Adaptive workspace</small>
+                <strong>GRC / Legal</strong>
+                <p>Operational evidence depth</p>
+                <div class="module-preview"><span>Source QA</span><span>Risk & coverage</span><span>Company evidence</span></div>
+                <button type="button">Apply workspace</button>
+              </div>
+              <div class="collapse-track">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="summary-pill">
+                <b>Workspace active</b>
+                <span>GRC / Operational</span>
+              </div>
+              <div class="dashboard-stack">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            <div class="floating-note note-one">Real modules only</div>
+            <div class="floating-note note-two">Explicit apply</div>
+            <div class="floating-note note-three">Compact after setup</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="infographic" data-slide="1" aria-label="Adaptive Workspace categories and evidence depth">
+        <div class="scene-grid scene-matrix">
+          <div class="copy-block">
+            <span class="kicker">Infographic 02</span>
+            <h1>Four intents. Three evidence depths. One source-quality rule.</h1>
+            <p>
+              Users choose the purpose of the session and the evidence depth they need.
+              PolicyWatcher composes real evidence modules while Source QA stays pinned.
+            </p>
+          </div>
+
+          <div class="matrix-visual" aria-hidden="true">
+            <div class="axis axis-y">
+              <span>Citizen</span>
+              <span>GRC / Legal</span>
+              <span>Research</span>
+              <span>Builder</span>
+            </div>
+            <div class="axis axis-x">
+              <span>Snapshot</span>
+              <span>Operational</span>
+              <span>Forensic</span>
+            </div>
+            <div class="adaptive-matrix">
+              <div class="scan-window"></div>
+              <span class="cell citizen snapshot">Company evidence</span>
+              <span class="cell citizen operational">Context filters</span>
+              <span class="cell citizen forensic">Market pulse</span>
+              <span class="cell grc snapshot">Source QA</span>
+              <span class="cell grc operational">Risk & coverage</span>
+              <span class="cell grc forensic">Company evidence</span>
+              <span class="cell research snapshot">Market pulse</span>
+              <span class="cell research operational">Context filters</span>
+              <span class="cell research forensic">Observatory watch</span>
+              <span class="cell builder snapshot">Company evidence</span>
+              <span class="cell builder operational">Risk & coverage</span>
+              <span class="cell builder forensic">Source QA</span>
+            </div>
+            <div class="qa-band">
+              <div class="qa-light"></div>
+              <strong>Source QA remains visible</strong>
+              <span>Suspended, partial or unavailable sources are not hidden by personalization.</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="infographic" data-slide="2" aria-label="PolicyWatcher build surface map">
+        <div class="scene-grid scene-map">
+          <div class="copy-block">
+            <span class="kicker">Infographic 03</span>
+            <h1>The latest build turns the site into a guided evidence workspace.</h1>
+            <p>
+              New public sections and build surfaces help visitors understand what exists,
+              what is planned, what has been discussed publicly and where evidence boundaries live.
+            </p>
+          </div>
+
+          <div class="orbit-map" aria-hidden="true">
+            <svg viewBox="0 0 980 620" class="orbit-svg">
+              <defs>
+                <linearGradient id="orbitLine" x1="0" x2="1">
+                  <stop offset="0" stop-color="#146c6a"/>
+                  <stop offset="0.5" stop-color="#6672ff"/>
+                  <stop offset="1" stop-color="#b45309"/>
+                </linearGradient>
+              </defs>
+              <circle class="orbit orbit-a" cx="490" cy="310" r="210"/>
+              <circle class="orbit orbit-b" cx="490" cy="310" r="142"/>
+              <circle class="orbit orbit-c" cx="490" cy="310" r="276"/>
+              <path class="pulse-route" d="M235 178 C360 88 630 88 750 180 C872 274 812 450 650 512 C488 574 260 508 206 352 C184 288 196 228 235 178"/>
+            </svg>
+
+            <div class="core-node">
+              <img src="../../../public/logo-mark.png" alt="">
+              <strong>Adaptive Workspace</strong>
+              <span>3.6.3</span>
+            </div>
+
+            <div class="orbit-node n-dashboard"><strong>Evidence Console</strong><span>goal-based UI</span></div>
+            <div class="orbit-node n-roadmap"><strong>Roadmap</strong><span>community priorities</span></div>
+            <div class="orbit-node n-press"><strong>Press Wall</strong><span>public references</span></div>
+            <div class="orbit-node n-atlas"><strong>Atlas</strong><span>relationship graph</span></div>
+            <div class="orbit-node n-trust"><strong>Trust & QA</strong><span>quality signals</span></div>
+            <div class="orbit-node n-admin"><strong>Bulk Intake</strong><span>private baseline gate</span></div>
+
+            <div class="map-legend">
+              <span><i class="legend-teal"></i>Core workspace</span>
+              <span><i class="legend-indigo"></i>Evidence views</span>
+              <span><i class="legend-amber"></i>Trust and QA</span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <footer class="deck-footer">
+      <div class="progress-track" aria-hidden="true">
+        <span class="progress-bar"></span>
+      </div>
+      <button type="button" class="arrow-btn" id="prevSlide" aria-label="Previous infographic">Previous</button>
+      <div class="slide-index"><span id="slideNumber">01</span> / 03</div>
+      <button type="button" class="arrow-btn" id="nextSlide" aria-label="Next infographic">Next</button>
+    </footer>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>

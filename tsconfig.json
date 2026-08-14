@@ -32,6 +32,7 @@
   ],
   "exclude": [
     "node_modules",
+    "_archivio-locale",
     "coverage",
     "test-results",
     "vitest.config.ts",

@@ -14,7 +14,7 @@ describe('mobile context', () => {
   });
 
   it('does not register a continuous device-motion listener on the landing page', () => {
-    const page = readFileSync('src/app/page.tsx', 'utf8');
+    const page = readFileSync('src/app/DashboardClient.tsx', 'utf8');
     expect(page).not.toContain('devicemotion');
     expect(page).not.toContain('DeviceMotionEvent');
     expect(page).toContain('window.screen.orientation');

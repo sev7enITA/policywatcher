@@ -1,0 +1,220 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2560" height="1440" viewBox="0 0 2560 1440" role="img" aria-labelledby="title desc">
+  <title id="title">PolicyWatcher Today Wall Infographic</title>
+  <desc id="desc">A single-wall infographic explaining what PolicyWatcher is today and how the platform evolved from early alerting and onboarding to the 3.5 Confidence Release.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="0.48" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#eef2ff"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#10b981"/>
+      <stop offset="1" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="dark" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#172554"/>
+    </linearGradient>
+    <linearGradient id="warm" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f59e0b"/>
+      <stop offset="1" stop-color="#ef4444"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <filter id="deepShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="30" stdDeviation="26" flood-color="#0f172a" flood-opacity="0.18"/>
+    </filter>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#dbe4f0" stroke-width="1" opacity="0.4"/>
+    </pattern>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#6366f1"/>
+    </marker>
+    <style>
+      .font { font-family: Arial, Helvetica, sans-serif; }
+      .mono { font-family: Monaco, Menlo, monospace; }
+      .eyebrow { font-size: 22px; font-weight: 900; letter-spacing: 4px; fill: #4f46e5; }
+      .title { font-size: 86px; font-weight: 900; fill: #0f172a; letter-spacing: -1px; }
+      .subtitle { font-size: 30px; font-weight: 700; fill: #475569; }
+      .body { font-size: 21px; font-weight: 620; fill: #475569; }
+      .small { font-size: 17px; font-weight: 800; fill: #64748b; letter-spacing: 1.1px; }
+      .tiny { font-size: 15px; font-weight: 780; fill: #64748b; letter-spacing: 0.7px; }
+      .metric { font-size: 58px; font-weight: 900; fill: #0f172a; }
+      .metricDark { font-size: 58px; font-weight: 900; fill: #ffffff; }
+      .metricLabel { font-size: 16px; font-weight: 900; fill: #64748b; letter-spacing: 1.5px; }
+      .card { fill: rgba(255,255,255,0.96); stroke: #dbe4f0; stroke-width: 1.5; filter: url(#shadow); }
+      .darkCard { fill: url(#dark); filter: url(#deepShadow); }
+      .pillText { font-size: 18px; font-weight: 860; fill: #334155; }
+      .timelineLine { stroke: #c7d2fe; stroke-width: 8; stroke-linecap: round; }
+      .timelinePulse { stroke: url(#brand); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 18 24; animation: dash 18s linear infinite; }
+      .orbit { fill: none; stroke: #93c5fd; stroke-width: 2.5; stroke-dasharray: 12 18; opacity: 0.46; animation: dash 28s linear infinite; }
+      .scan { animation: scan 4.6s ease-in-out infinite; }
+      @keyframes dash { to { stroke-dashoffset: -520; } }
+      @keyframes scan { 0%,100% { opacity: 0.35; } 50% { opacity: 0.95; } }
+    </style>
+  </defs>
+
+  <rect width="2560" height="1440" fill="url(#bg)"/>
+  <rect width="2560" height="1440" fill="url(#grid)" opacity="0.55"/>
+  <circle cx="2200" cy="120" r="520" fill="#6366f1" opacity="0.055"/>
+  <circle cx="180" cy="1320" r="560" fill="#06b6d4" opacity="0.07"/>
+  <circle cx="2160" cy="1120" r="320" fill="#10b981" opacity="0.055"/>
+
+  <g class="font">
+    <g transform="translate(112 84)">
+      <rect width="82" height="82" rx="22" fill="url(#brand)" filter="url(#shadow)"/>
+      <path d="M27 27 h31 v10 H38 v14 h20 v10 H27 Z" fill="#ffffff"/>
+      <path d="M62 25 c14 12 14 37 0 49" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+      <text x="108" y="34" class="small">POLICYWATCHER</text>
+      <text x="108" y="71" font-size="30" font-weight="850" fill="#0f172a">State of the Art Wall</text>
+    </g>
+
+    <text x="112" y="252" class="eyebrow">FROM POLICY ALERTING TO INSPECTABLE CONFIDENCE INFRASTRUCTURE</text>
+    <text x="112" y="356" class="title">What PolicyWatcher is today</text>
+    <text x="112" y="410" class="subtitle">A civic-tech platform that monitors configured public policy sources, records retrieval evidence,</text>
+    <text x="112" y="448" class="subtitle">detects text changes, and exposes QA status before AI-assisted interpretation is promoted.</text>
+
+    <g transform="translate(1546 86)">
+      <rect class="darkCard" width="902" height="332" rx="34"/>
+      <text x="42" y="58" font-size="28" font-weight="900" fill="#ffffff">Today, in one sentence</text>
+      <text x="42" y="106" font-size="25" font-weight="700" fill="#cbd5e1">PolicyWatcher is no longer only a dashboard.</text>
+      <text x="42" y="144" font-size="25" font-weight="700" fill="#cbd5e1">It is an inspectable monitoring stack with source-fit QA,</text>
+      <text x="42" y="182" font-size="25" font-weight="700" fill="#cbd5e1">retrieval telemetry, versioned evidence and admin review paths.</text>
+      <g transform="translate(42 224)">
+        <rect width="242" height="66" rx="18" fill="#ffffff" opacity="0.09" stroke="#334155"/>
+        <circle cx="34" cy="33" r="10" fill="#10b981"/>
+        <text x="58" y="28" class="tiny" fill="#cbd5e1">QA STATUS</text>
+        <text x="58" y="51" font-size="18" font-weight="900" fill="#ffffff">seed blockers</text>
+      </g>
+      <g transform="translate(314 224)">
+        <rect width="242" height="66" rx="18" fill="#ffffff" opacity="0.09" stroke="#334155"/>
+        <circle cx="34" cy="33" r="10" fill="#f59e0b"/>
+        <text x="58" y="28" class="tiny" fill="#cbd5e1">KNOWN WARNING</text>
+        <text x="58" y="51" font-size="18" font-weight="900" fill="#ffffff">Plaid legal hub</text>
+      </g>
+      <g transform="translate(586 224)">
+        <rect width="274" height="66" rx="18" fill="#ffffff" opacity="0.09" stroke="#334155"/>
+        <circle cx="34" cy="33" r="10" fill="#6366f1"/>
+        <text x="58" y="28" class="tiny" fill="#cbd5e1">CURRENT TRACK</text>
+        <text x="58" y="51" font-size="18" font-weight="900" fill="#ffffff">3.5.1 Audit Ops</text>
+      </g>
+    </g>
+
+    <g transform="translate(112 490)">
+      <rect class="card" width="2336" height="246" rx="34"/>
+      <text x="34" y="54" font-size="28" font-weight="900" fill="#0f172a">Numbers wall</text>
+      <text x="34" y="88" class="body">Configured local inventory. Seed-derived records are blocked from public confidence views until retrieval evidence is refreshed.</text>
+      <g transform="translate(34 122)">
+        <g><text class="metric" x="0" y="56">16</text><text class="metricLabel" x="0" y="90">CONFIGURED CO.</text></g>
+        <g transform="translate(210 0)"><text class="metric" x="0" y="56">50</text><text class="metricLabel" x="0" y="90">CONFIGURED POLICIES</text></g>
+        <g transform="translate(470 0)"><text class="metric" x="0" y="56">103</text><text class="metricLabel" x="0" y="90">LOCAL SNAPSHOTS</text></g>
+        <g transform="translate(720 0)"><text class="metric" x="0" y="56">53</text><text class="metricLabel" x="0" y="90">SEED CHANGES</text></g>
+        <g transform="translate(940 0)"><text class="metric" x="0" y="56">318</text><text class="metricLabel" x="0" y="90">SEED IMPACTS</text></g>
+        <g transform="translate(1240 0)"><text class="metric" x="0" y="56">15</text><text class="metricLabel" x="0" y="90">GOVERNANCE KPIs</text></g>
+        <g transform="translate(1510 0)"><text class="metric" x="0" y="56">55</text><text class="metricLabel" x="0" y="90">TESTS PASSING</text></g>
+        <g transform="translate(1740 0)"><text class="metric" x="0" y="56">5</text><text class="metricLabel" x="0" y="90">CI WORKFLOWS</text></g>
+        <g transform="translate(1940 0)">
+          <rect x="0" y="2" width="320" height="94" rx="24" fill="#fef2f2" stroke="#fecaca"/>
+          <text class="metric" x="28" y="58" fill="#b91c1c">100</text>
+          <text class="metricLabel" x="118" y="38" fill="#b91c1c">SOURCE BLOCKERS</text>
+          <text class="tiny" x="118" y="68" fill="#b91c1c">public data gated</text>
+        </g>
+      </g>
+    </g>
+
+    <g transform="translate(112 804)">
+      <text x="0" y="0" font-size="34" font-weight="900" fill="#0f172a">How we got here</text>
+      <text x="0" y="42" class="body">The platform evolved from alerting and onboarding into a structured evidence pipeline.</text>
+      <path class="timelineLine" d="M28 150 H2324"/>
+      <path class="timelinePulse" d="M28 150 H2324" marker-end="url(#arrow)"/>
+
+      <g transform="translate(0 84)">
+        <circle cx="28" cy="66" r="20" fill="#6366f1"/>
+        <rect class="card" x="0" y="104" width="330" height="196" rx="24"/>
+        <text x="26" y="142" class="small">v2.2</text>
+        <text x="26" y="176" font-size="25" font-weight="900" fill="#0f172a">Alerts &amp; personalization</text>
+        <text x="26" y="214" class="body">Email alerts, digests and</text>
+        <text x="26" y="244" class="body">user preference paths.</text>
+      </g>
+
+      <g transform="translate(382 84)">
+        <circle cx="28" cy="66" r="20" fill="#6366f1"/>
+        <rect class="card" x="0" y="104" width="330" height="196" rx="24"/>
+        <text x="26" y="142" class="small">v2.3 / v2.4</text>
+        <text x="26" y="176" font-size="25" font-weight="900" fill="#0f172a">Onboarding + Gemini 2.5</text>
+        <text x="26" y="214" class="body">How To guide, AI migration</text>
+        <text x="26" y="244" class="body">and open-source repo.</text>
+      </g>
+
+      <g transform="translate(764 84)">
+        <circle cx="28" cy="66" r="20" fill="#6366f1"/>
+        <rect class="card" x="0" y="104" width="330" height="196" rx="24"/>
+        <text x="26" y="142" class="small">v2.5</text>
+        <text x="26" y="176" font-size="25" font-weight="900" fill="#0f172a">Admin &amp; source recovery</text>
+        <text x="26" y="214" class="body">Admin dashboard, Wayback</text>
+        <text x="26" y="244" class="body">paths and document sources.</text>
+      </g>
+
+      <g transform="translate(1146 84)">
+        <circle cx="28" cy="66" r="20" fill="#6366f1"/>
+        <rect class="card" x="0" y="104" width="330" height="196" rx="24"/>
+        <text x="26" y="142" class="small">v3.0</text>
+        <text x="26" y="176" font-size="25" font-weight="900" fill="#0f172a">Feature Drop</text>
+        <text x="26" y="214" class="body">Timeline, diff viewer, shares,</text>
+        <text x="26" y="244" class="body">reports and Dataset QA.</text>
+      </g>
+
+      <g transform="translate(1528 84)">
+        <circle cx="28" cy="66" r="20" fill="#10b981"/>
+        <rect class="card" x="0" y="104" width="330" height="196" rx="24"/>
+        <text x="26" y="142" class="small">v3.5</text>
+        <text x="26" y="176" font-size="25" font-weight="900" fill="#0f172a">Confidence Release</text>
+        <text x="26" y="214" class="body">Truth layer, check logs, trust,</text>
+        <text x="26" y="244" class="body">CodeQL and OpenSSF evidence.</text>
+      </g>
+
+      <g transform="translate(1910 84)">
+        <circle cx="28" cy="66" r="20" fill="#10b981"/>
+        <rect class="card" x="0" y="104" width="414" height="196" rx="24"/>
+        <text x="26" y="142" class="small">v3.5.1</text>
+        <text x="26" y="176" font-size="25" font-weight="900" fill="#0f172a">Audit Operations</text>
+        <text x="26" y="214" class="body">Review log, QA issue states,</text>
+        <text x="26" y="244" class="body">VPS renderer and runtime view.</text>
+      </g>
+    </g>
+
+    <g transform="translate(112 1222)">
+      <rect class="darkCard" width="750" height="126" rx="28"/>
+      <text x="34" y="45" font-size="24" font-weight="900" fill="#ffffff">Built as an evidence pipeline</text>
+      <text x="34" y="82" font-size="20" font-weight="650" fill="#cbd5e1">Configured sources → retrieval cascade → hashes → snapshots</text>
+      <text x="34" y="108" font-size="20" font-weight="650" fill="#cbd5e1">→ AI-assisted analysis → Dataset QA → admin review.</text>
+    </g>
+
+    <g transform="translate(902 1222)">
+      <rect class="card" width="712" height="126" rx="28"/>
+      <text x="34" y="45" font-size="24" font-weight="900" fill="#0f172a">Current assurance spine</text>
+      <text x="34" y="82" font-size="20" font-weight="650" fill="#475569">Direct fetch, HTTP/2, VPS renderer, archive fallback,</text>
+      <text x="34" y="108" font-size="20" font-weight="650" fill="#475569">source-fit checks, reviews and public trust evidence.</text>
+    </g>
+
+    <g transform="translate(1654 1222)">
+      <rect class="card" width="794" height="126" rx="28"/>
+      <text x="34" y="45" font-size="24" font-weight="900" fill="#0f172a">Methodological boundary</text>
+      <text x="34" y="82" font-size="20" font-weight="650" fill="#475569">It maps and explains public policy evidence. It does not certify</text>
+      <text x="34" y="108" font-size="20" font-weight="650" fill="#475569">legal compliance or internal corporate conduct.</text>
+    </g>
+
+    <g transform="translate(2140 452)">
+      <path class="orbit" d="M0 0 C110 60 160 180 90 282 C12 396 -132 340 -152 220 C-174 88 -104 -52 0 0Z"/>
+      <path class="orbit" d="M-40 30 C70 -34 182 28 190 152 C198 300 44 382 -74 312 C-188 244 -162 88 -40 30Z"/>
+      <circle class="scan" cx="26" cy="144" r="16" fill="#6366f1"/>
+      <circle class="scan" cx="-96" cy="230" r="12" fill="#06b6d4"/>
+      <circle class="scan" cx="126" cy="260" r="12" fill="#10b981"/>
+    </g>
+  </g>
+</svg>

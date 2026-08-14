@@ -1,0 +1,33 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.24/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.24",
+  "version": "1.0.0",
+  "id": "946f5f73-c41b-41ba-bf04-94a70163f7bf",
+  "developer": {
+    "name": "PolicyWatcher",
+    "websiteUrl": "https://policywatcher.online",
+    "privacyUrl": "https://policywatcher.online/privacy",
+    "termsOfUseUrl": "https://policywatcher.online/terms"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "PolicyWatcher",
+    "full": "PolicyWatcher Public Evidence Agent"
+  },
+  "description": {
+    "short": "Retrieve cited public policy-change evidence.",
+    "full": "A read-only Microsoft 365 Copilot declarative agent for retrieving deterministic, source-linked public evidence and curated Observatory signals from PolicyWatcher."
+  },
+  "accentColor": "#4459C7",
+  "copilotAgents": {
+    "declarativeAgents": [
+      {
+        "id": "policywatcherEvidenceAgent",
+        "file": "declarativeAgent.json"
+      }
+    ]
+  }
+}

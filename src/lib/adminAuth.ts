@@ -150,14 +150,15 @@ export function verifySessionToken(token: string | null | undefined): SessionRes
  * @returns The role if valid, or null.
  */
 export function validateCredentials(username: string, password: string): AdminRole | null {
-  const adminUser = normalizeConfiguredSecret(process.env.ADMIN_USER) || 'admin';
+  const requireExplicitUsernames = process.env.NODE_ENV === 'production';
+  const adminUser = normalizeConfiguredSecret(process.env.ADMIN_USER) || (requireExplicitUsernames ? null : 'admin');
   const adminPass = process.env.ADMIN_PASSWORD;
-  const auditorUser = normalizeConfiguredSecret(process.env.AUDITOR_USER) || 'auditor';
+  const auditorUser = normalizeConfiguredSecret(process.env.AUDITOR_USER) || (requireExplicitUsernames ? null : 'auditor');
   const auditorPass = process.env.AUDITOR_PASSWORD;
   const providedUser = username.trim();
 
-  if (providedUser === adminUser && matchesConfiguredValue(password, adminPass)) return 'admin';
-  if (providedUser === auditorUser && matchesConfiguredValue(password, auditorPass)) return 'auditor';
+  if (adminUser && providedUser === adminUser && matchesConfiguredValue(password, adminPass)) return 'admin';
+  if (auditorUser && providedUser === auditorUser && matchesConfiguredValue(password, auditorPass)) return 'auditor';
 
   return null;
 }

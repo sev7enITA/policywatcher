@@ -1,0 +1,106 @@
+.rail {
+  width: min(1180px, calc(100% - 40px));
+  margin: 22px auto 0;
+  display: grid;
+  grid-template-columns: 3px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 16px;
+  border: 1px solid #d8e3e8;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.055);
+}
+
+.rule {
+  align-self: stretch;
+  min-height: 48px;
+  border-radius: 2px;
+  background: #14b8a6;
+}
+
+.rail[data-tone='review'] .rule {
+  background: #f59e0b;
+}
+
+.rail[data-tone='blocked'] {
+  border-color: #f2c9c9;
+  background: #fff8f8;
+}
+
+.rail[data-tone='blocked'] .rule {
+  background: #dc2626;
+}
+
+.rail[data-tone='guide'] .rule {
+  background: #4f64c5;
+}
+
+.copy {
+  min-width: 0;
+}
+
+.copy > span {
+  display: block;
+  margin-bottom: 2px;
+  color: #0f766e;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.rail[data-tone='review'] .copy > span {
+  color: #a16207;
+}
+
+.rail[data-tone='blocked'] .copy > span {
+  color: #b91c1c;
+}
+
+.rail[data-tone='guide'] .copy > span {
+  color: #4355a6;
+}
+
+.copy strong {
+  display: block;
+  color: #0f172a;
+  font-size: 1rem;
+}
+
+.copy p {
+  margin: 3px 0 0;
+  color: #5b6b7f;
+  font-size: 0.83rem;
+  line-height: 1.4;
+}
+
+.meta {
+  display: grid;
+  justify-items: end;
+  gap: 7px;
+  color: #64748b;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.meta a {
+  color: #0f766e;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+  .rail {
+    width: min(100% - 24px, 1180px);
+    grid-template-columns: 3px minmax(0, 1fr);
+    gap: 13px;
+  }
+
+  .meta {
+    grid-column: 2;
+    justify-items: start;
+    text-align: left;
+  }
+}

@@ -6,6 +6,7 @@ export interface ConfiguredPolicyInput {
   name: string;
   type: string;
   url: string;
+  retrievalUrl?: string | null;
   jurisdiction: string;
 }
 
@@ -26,6 +27,7 @@ export function normalizeConfiguredPolicyInput(input: unknown): ConfiguredPolicy
   const name = normalizedString(source.name);
   const type = normalizedString(source.type).toLowerCase();
   const url = normalizedString(source.url);
+  const retrievalUrl = normalizedString(source.retrievalUrl);
   const jurisdiction = normalizedString(source.jurisdiction) || 'Global';
 
   if (!name || !type || !url) {
@@ -41,9 +43,20 @@ export function normalizeConfiguredPolicyInput(input: unknown): ConfiguredPolicy
     return { ok: false, error: 'Policy URL must be a valid absolute URL.' };
   }
 
+  if (retrievalUrl) {
+    try {
+      const parsed = new URL(retrievalUrl);
+      if (!['http:', 'https:'].includes(parsed.protocol) || parsed.username || parsed.password) {
+        return { ok: false, error: 'Retrieval URL must be a credential-free HTTP or HTTPS URL.' };
+      }
+    } catch {
+      return { ok: false, error: 'Retrieval URL must be a valid absolute URL.' };
+    }
+  }
+
   return {
     ok: true,
-    value: { name, type, url, jurisdiction },
+    value: { name, type, url, jurisdiction, ...(retrievalUrl ? { retrievalUrl } : {}) },
   };
 }
 
@@ -76,7 +89,7 @@ export async function createConfiguredPolicy(
       checkedAt: configuredAt,
       source: 'seeded',
       reason: 'admin_policy_created_pending_first_verified_scan',
-      finalUrl: input.url,
+      finalUrl: input.retrievalUrl || input.url,
       textHash: initialHash,
       textLength: 0,
     },

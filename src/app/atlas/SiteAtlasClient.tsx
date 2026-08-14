@@ -8,6 +8,7 @@ import {
   BarChart3,
   BookOpen,
   Clock,
+  Code2,
   ExternalLink,
   FileText,
   GitFork,
@@ -23,6 +24,8 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
+import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';
 import {
   publicSectionEdges,
   publicSectionGroups,
@@ -36,6 +39,7 @@ const iconMap: Record<string, LucideIcon> = {
   'bar-chart': BarChart3,
   book: BookOpen,
   clock: Clock,
+  code: Code2,
   'file-text': FileText,
   layout: LayoutDashboard,
   lock: Lock,
@@ -49,6 +53,16 @@ const iconMap: Record<string, LucideIcon> = {
 
 const recommendedRoutes = [
   {
+    title: 'Adaptive orientation',
+    body: 'Choose Focus, Balanced or Explore on the dashboard, inspect why the interface is configured that way, then open the visual ER sitemap for the complete domain model.',
+    nodes: ['dashboard', 'infographics', 'feature-atlas'],
+  },
+  {
+    title: 'Global consumer advocacy',
+    body: 'Set the platform territory, find a source-backed national or digital-rights organization in PolicyWatcher Civico, then inspect the underlying evidence and methodology.',
+    nodes: ['associations', 'timeline', 'methodology'],
+  },
+  {
     title: 'First inspection',
     body: 'Start with the dashboard, check public QA evidence, then read the methodology before using signals.',
     nodes: ['dashboard', 'trust', 'methodology'],
@@ -59,9 +73,14 @@ const recommendedRoutes = [
     nodes: ['timeline', 'leaderboard', 'dashboard'],
   },
   {
-    title: 'Public narrative',
+    title: 'Public product information',
     body: 'Use the project page, showcase, press wall and roadmap to understand who maintains PolicyWatcher, how it is discussed, and where it may evolve.',
     nodes: ['about', 'showcase', 'press', 'roadmap'],
+  },
+  {
+    title: 'System integration',
+    body: 'Read the public integration directory, inspect the curated Observatory registry, then use the methodology to understand data boundaries.',
+    nodes: ['developers', 'observatory', 'methodology'],
   },
 ];
 
@@ -98,7 +117,9 @@ export default function SiteAtlasClient() {
   );
 
   return (
-    <main className={styles.page}>
+    <>
+      <PublicHeader current="atlas" />
+      <main className={styles.page}>
       <section className={styles.hero}>
         <nav className={styles.topbar} aria-label="Atlas navigation">
           <Link href="/" className={styles.backLink}>
@@ -116,7 +137,7 @@ export default function SiteAtlasClient() {
           <div>
             <span className={styles.eyebrow}>
               <GitFork size={15} />
-              Interactive sitemap
+              Interactive sitemap · {POLICYWATCHER_BUILD_LABEL}
             </span>
             <h1>PolicyWatcher Site Atlas</h1>
             <p>
@@ -284,9 +305,9 @@ export default function SiteAtlasClient() {
         <div className={styles.sectionHeading}>
           <span>
             <Route size={15} />
-            Complete linked sitemap
+            Linked sitemap
           </span>
-          <h2>Every public and protected-boundary surface, grouped by purpose.</h2>
+          <h2>Registered public and protected-boundary routes, grouped by purpose.</h2>
         </div>
 
         <div className={styles.sitemapFamilies}>
@@ -374,6 +395,7 @@ export default function SiteAtlasClient() {
       </section>
 
       <Footer lang="en" />
-    </main>
+      </main>
+    </>
   );
 }

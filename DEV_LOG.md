@@ -1,4 +1,4 @@
-# PolicyWatcher — Diario Sviluppo (per il team)
+# PolicyWatcher - Diario Sviluppo (per il team)
 
 **Data:** 2026-06-20
 **Stack:** Next.js 16.2.9 (App Router, Turbopack) · React 19 · TypeScript · Prisma + SQLite · Google Gemini · @react-pdf/renderer · Recharts · Framer Motion
@@ -12,14 +12,14 @@
 
 **Soluzione:**
 
-- `src/lib/gemini.ts` — Prompt riscritto per produrre JSON strutturato:
+- `src/lib/gemini.ts` - Prompt riscritto per produrre JSON strutturato:
   - `tldrEn/It` (1 frase, max 160 char)
   - `keyPoints[]` (3-5 bullet con sentiment: positive/neutral/negative)
   - `riskReasons[]` (max 3 motivi con `deltaScore`, es. `+2`)
   - Regole di scrittura: niente legalese, frasi brevi, quantitativo.
-- `prisma/schema.prisma` — Aggiunte colonne nullable retrocompatibili: `tldrEn`, `tldrIt`, `keyPointsJson`, `riskReasonsJson`.
-- `src/types/index.ts` — Aggiunti tipi `RiskReason`, `KeyPoint`.
-- `src/app/api/scrape/route.ts` + `src/app/api/cron/check-all/route.ts` — persistono i nuovi campi.
+- `prisma/schema.prisma` - Aggiunte colonne nullable retrocompatibili: `tldrEn`, `tldrIt`, `keyPointsJson`, `riskReasonsJson`.
+- `src/types/index.ts` - Aggiunti tipi `RiskReason`, `KeyPoint`.
+- `src/app/api/scrape/route.ts` + `src/app/api/cron/check-all/route.ts` - persistono i nuovi campi.
 - Mock di fallback aggiornato con i nuovi campi strutturati.
 
 **Nuovi componenti UI** (`src/components/ai/`):
@@ -38,11 +38,11 @@ Integrati in `PolicyDetails.tsx` e nelle card di `page.tsx`.
 
 ## 2. Command Palette (⌘K) + Skeleton loaders
 
-- `src/components/CommandPalette.tsx` — Palette stile Raycast/Linear:
+- `src/components/CommandPalette.tsx` - Palette stile Raycast/Linear:
   - Ricerca fuzzy, 3 gruppi (Azioni, Filtri, Navigazione)
   - Navigazione tastiera (↑↓ Enter Esc)
   - Trigger globale **⌘K / Ctrl+K** + bottone con hint nell'header
-- `src/components/Skeleton.tsx` — Placeholder animati (shimmer) che sostituiscono lo spinner:
+- `src/components/Skeleton.tsx` - Placeholder animati (shimmer) che sostituiscono lo spinner:
   - `SkeletonStatsGrid`, `SkeletonGrid`, `SkeletonCard`
   - Mimano il layout reale → perceived performance x2
 
@@ -50,8 +50,8 @@ Integrati in `PolicyDetails.tsx` e nelle card di `page.tsx`.
 
 ## 3. Risk Trend Chart con dati storici reali
 
-- `src/app/api/trends/route.ts` — Aggrega storico risk score per compagnia o industria, con summary (avg/min/max/delta).
-- `src/components/charts/RiskTrendPanel.tsx` — Fetcha dati reali + summary + AreaChart.
+- `src/app/api/trends/route.ts` - Aggrega storico risk score per compagnia o industria, con summary (avg/min/max/delta).
+- `src/components/charts/RiskTrendPanel.tsx` - Fetcha dati reali + summary + AreaChart.
 - Sostituito il chart SVG hardcoded in `PolicyDetails.tsx`.
 - Corretti i colori dei chart per tema chiaro (erano hardcodati dark).
 
@@ -59,22 +59,22 @@ Integrati in `PolicyDetails.tsx` e nelle card di `page.tsx`.
 
 ## 4. Confronto A/B due compagnie
 
-- `src/app/api/compare/route.ts` — Profilo KPI aggregato di 2 compagnie con radar data (15 KPI pesati).
-- `src/components/CompareModal.tsx` — Due selettori + badge "VS" + **radar/spider chart** (Recharts) + tabella diff con highlight vincitore.
+- `src/app/api/compare/route.ts` - Profilo KPI aggregato di 2 compagnie con radar data (15 KPI pesati).
+- `src/components/CompareModal.tsx` - Due selettori + badge "VS" + **radar/spider chart** (Recharts) + tabella diff con highlight vincitore.
 - Bottone "Compare" nell'header + entry nella Command Palette.
 
 ---
 
 ## 5. Executive PDF + Share URL pubblico
 
-- `src/pdf/ExecutiveReport.tsx` — Documento A4 brandizzato (@react-pdf/renderer):
+- `src/pdf/ExecutiveReport.tsx` - Documento A4 brandizzato (@react-pdf/renderer):
   - Score gauge, TL;DR, key points, risk reasons, regional impact, footer con disclaimer.
-- `src/app/api/report/[policyId]/route.tsx` — Genera PDF server-side (`runtime: 'nodejs'`), mai inventato (404 se no analysis).
-- `src/app/share/[id]/page.tsx` + `share.module.css` — Pagina pubblica read-only con:
+- `src/app/api/report/[policyId]/route.tsx` - Genera PDF server-side (`runtime: 'nodejs'`), mai inventato (404 se no analysis).
+- `src/app/share/[id]/page.tsx` + `share.module.css` - Pagina pubblica read-only con:
   - Open Graph + Twitter metadata per anteprime social
   - Toggle EN/IT via query string
   - Server component (SEO-friendly)
-- `PolicyDetails.tsx` — Bottoni **Share** (Web Share API + fallback clipboard) e **PDF Report**.
+- `PolicyDetails.tsx` - Bottoni **Share** (Web Share API + fallback clipboard) e **PDF Report**.
 
 ---
 
@@ -92,7 +92,7 @@ Questo pattern rompe il montaggio del corpo tabella su Turbopack/Next 16 (il `us
 
 ## 7. Terms of Use acceptance gate
 
-- `src/components/TermsGate.tsx` + `.module.css` — Blocca l'accesso alla piattaforma finché l'utente non accetta:
+- `src/components/TermsGate.tsx` + `.module.css` - Blocca l'accesso alla piattaforma finché l'utente non accetta:
   - Checkbox + pulsante "Accetta & Continua"
   - Disclaimer alpha completo EN/IT
   - Persistenza in `localStorage` (chiave versionata `policywatcher_terms_accepted_v1`)
@@ -117,8 +117,8 @@ Questo pattern rompe il montaggio del corpo tabella su Turbopack/Next 16 (il `us
 - `invalid` → link permanentemente morto (404/410)
 
 **Caller aggiornati:**
-- `scrape/route.ts` — restituisce `{ unavailable: true, message, officialUrl }` con HTTP 503/422.
-- `cron/check-all/route.ts` — registra `status: 'unavailable'|'invalid'` nel detail, NON crea snapshot, NON lancia AI. Summary finale conta onestamente `unavailable` e `invalid`.
+- `scrape/route.ts` - restituisce `{ unavailable: true, message, officialUrl }` con HTTP 503/422.
+- `cron/check-all/route.ts` - registra `status: 'unavailable'|'invalid'` nel detail, NON crea snapshot, NON lancia AI. Summary finale conta onestamente `unavailable` e `invalid`.
 - Hash unificato a **SHA-256** ovunque (prima era MD5 in scrape, SHA-256 in cron).
 
 ---
@@ -132,7 +132,7 @@ In `CrossCompanyMatrix.tsx`: il disclaimer lungo è ora **collassabile** (espans
 
 ---
 
-## File modificati/creati — indice completo
+## File modificati/creati - indice completo
 
 ### File nuovi
 ```

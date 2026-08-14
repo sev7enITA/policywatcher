@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo, type KeyboardEvent } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef, type KeyboardEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { geoNaturalEarth1, geoPath, type GeoPermissibleObjects } from 'd3-geo';
 import { feature } from 'topojson-client';
@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import styles from '../admin.module.css';
 import { PolicyDiscoveryWorkspace } from '@/components/admin/PolicyDiscoveryWorkspace';
+import { hasEstablishedCompanyBaseline } from '@/lib/adminDiscoveryState';
 
 const MAP_WIDTH = 980;
 const MAP_HEIGHT = 360;
@@ -54,6 +55,7 @@ interface Policy {
   name: string;
   type: string;
   url: string;
+  retrievalUrl: string | null;
   jurisdiction: string;
   currentHash: string | null;
   dataStatus: string;
@@ -61,6 +63,7 @@ interface Policy {
   lastCheckDate: string;
   lastSuccessfulCheckDate: string;
   updatedAt: string;
+  snapshots: { id: string }[];
   _count: { changes: number; snapshots: number };
 }
 
@@ -175,6 +178,7 @@ export default function CompanyManagerPage() {
     name: '',
     type: 'privacy' as string,
     url: '',
+    retrievalUrl: '',
     jurisdiction: 'Global' as string,
   });
   const [addPolicyLoading, setAddPolicyLoading] = useState(false);
@@ -184,6 +188,8 @@ export default function CompanyManagerPage() {
   const [deleteTarget, setDeleteTarget] = useState<Company | null>(null);
   const [deleteConfirmName, setDeleteConfirmName] = useState('');
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [baselineScanCompanyId, setBaselineScanCompanyId] = useState<string | null>(null);
+  const baselinePollTimerRef = useRef<number | null>(null);
 
   /* ---------- Data Fetching ---------- */
   const fetchCompanies = useCallback(async () => {
@@ -204,8 +210,10 @@ export default function CompanyManagerPage() {
         return;
       }
 
-      setCompanies(data.companies || []);
+      const nextCompanies = data.companies || [];
+      setCompanies(nextCompanies);
       setRole(data.role || null);
+      return nextCompanies as Company[];
     } catch {
       setError('Failed to load companies. Please try again.');
     } finally {
@@ -217,6 +225,69 @@ export default function CompanyManagerPage() {
     queueMicrotask(() => {
       void fetchCompanies();
     });
+  }, [fetchCompanies]);
+
+  useEffect(() => () => {
+    if (baselinePollTimerRef.current) window.clearTimeout(baselinePollTimerRef.current);
+  }, []);
+
+  const handleRunFirstScan = useCallback(async (company: Company) => {
+    const response = await fetch('/api/admin/cron-status', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        companySlug: company.slug,
+        limit: Math.min(company.policies.length, 50),
+      }),
+    });
+    const data = await response.json().catch(() => null);
+    if (!response.ok) {
+      throw new Error(
+        response.status === 409
+          ? 'Another monitoring scan is already running. Retry when it has completed.'
+          : data?.error || 'Unable to start the first monitoring scan.'
+      );
+    }
+
+    setBaselineScanCompanyId(company.id);
+    try {
+      await new Promise<void>((resolve, reject) => {
+        async function poll() {
+          try {
+            const statusResponse = await fetch('/api/admin/cron-status', { credentials: 'include' });
+            if (!statusResponse.ok) throw new Error('Unable to read the monitoring scan status.');
+            const status = await statusResponse.json();
+            if (status.isRunning) {
+              baselinePollTimerRef.current = window.setTimeout(() => void poll(), 2_000);
+              return;
+            }
+
+            baselinePollTimerRef.current = null;
+            const refreshedCompanies = await fetchCompanies();
+            const errors = Number(status.lastResult?.errors || 0);
+            const partial = Number(status.lastResult?.partial || 0);
+            const unavailable = Number(status.lastResult?.unavailable || 0);
+            const invalid = Number(status.lastResult?.invalid || 0);
+            const refreshedCompany = refreshedCompanies?.find((item) => item.id === company.id);
+            const baselineReady = Boolean(
+              refreshedCompany && hasEstablishedCompanyBaseline(refreshedCompany.policies)
+            );
+            if (!baselineReady) {
+              reject(new Error(`First monitoring scan needs attention: ${errors} errors, ${partial} partial, ${unavailable} unavailable and ${invalid} invalid sources. Review the affected policies, then retry the baseline.`));
+              return;
+            }
+            resolve();
+          } catch (scanError) {
+            reject(scanError);
+          }
+        }
+
+        baselinePollTimerRef.current = window.setTimeout(() => void poll(), 2_000);
+      });
+    } finally {
+      setBaselineScanCompanyId(null);
+    }
   }, [fetchCompanies]);
 
   /* ---------- Slug Auto-generation ---------- */
@@ -264,18 +335,7 @@ export default function CompanyManagerPage() {
         return;
       }
 
-      const discoveryRes = await fetch('/api/admin/policy-discovery', {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ companyId: data.company.id }),
-      });
-      if (!discoveryRes.ok) {
-        const discoveryData = await discoveryRes.json();
-        setError(
-          `Company created, but automatic policy discovery could not start: ${discoveryData.error || 'unknown error'}`
-        );
-      }
+      if (data.discoveryError) setError(data.discoveryError);
 
       // Reset, open the company row, and refresh while discovery runs.
       setCompanyForm(EMPTY_COMPANY_FORM);
@@ -343,6 +403,7 @@ export default function CompanyManagerPage() {
           name: policyForm.name.trim(),
           type: policyForm.type,
           url: policyForm.url.trim(),
+          retrievalUrl: policyForm.retrievalUrl.trim() || null,
           jurisdiction: policyForm.jurisdiction,
         }),
       });
@@ -354,7 +415,7 @@ export default function CompanyManagerPage() {
         return;
       }
 
-      setPolicyForm({ name: '', type: 'privacy', url: '', jurisdiction: 'Global' });
+      setPolicyForm({ name: '', type: 'privacy', url: '', retrievalUrl: '', jurisdiction: 'Global' });
       setAddPolicyFor(null);
       await fetchCompanies();
     } catch {
@@ -757,6 +818,8 @@ export default function CompanyManagerPage() {
                     setAddPolicyError={setAddPolicyError}
                     onAddPolicy={() => handleAddPolicy(company.id)}
                     onRefresh={() => void fetchCompanies()}
+                    onRunFirstScan={() => handleRunFirstScan(company)}
+                    scanRunning={baselineScanCompanyId === company.id}
                   />
                 );
               })}
@@ -832,15 +895,17 @@ interface CompanyTableRowProps {
   onDeletePolicy: (policyId: string, policyName: string) => void;
   addPolicyFor: string | null;
   setAddPolicyFor: (id: string | null) => void;
-  policyForm: { name: string; type: string; url: string; jurisdiction: string };
+  policyForm: { name: string; type: string; url: string; retrievalUrl: string; jurisdiction: string };
   setPolicyForm: React.Dispatch<
-    React.SetStateAction<{ name: string; type: string; url: string; jurisdiction: string }>
+    React.SetStateAction<{ name: string; type: string; url: string; retrievalUrl: string; jurisdiction: string }>
   >;
   addPolicyLoading: boolean;
   addPolicyError: string;
   setAddPolicyError: (err: string) => void;
   onAddPolicy: () => void;
   onRefresh: () => void;
+  onRunFirstScan: () => Promise<void>;
+  scanRunning: boolean;
 }
 
 function CompanyTableRow({
@@ -861,9 +926,31 @@ function CompanyTableRow({
   setAddPolicyError,
   onAddPolicy,
   onRefresh,
+  onRunFirstScan,
+  scanRunning,
 }: CompanyTableRowProps) {
   const industryBadge = INDUSTRY_COLORS[company.industry] || 'badgePrimary';
   const showPolicyForm = addPolicyFor === company.id;
+
+  async function configureRetrievalUrl(policy: Policy) {
+    const nextValue = window.prompt(
+      'Optional official retrieval URL. Leave empty to use the canonical public URL. A new scan is required after this change.',
+      policy.retrievalUrl || ''
+    );
+    if (nextValue === null) return;
+    const response = await fetch('/api/admin/policies', {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: policy.id, retrievalUrl: nextValue.trim() }),
+    });
+    const payload = await response.json();
+    if (!response.ok) {
+      window.alert(payload.error || 'Unable to update the retrieval URL.');
+      return;
+    }
+    onRefresh();
+  }
 
   return (
     <>
@@ -939,7 +1026,7 @@ function CompanyTableRow({
                       if (showPolicyForm) {
                         setAddPolicyFor(null);
                       } else {
-                        setPolicyForm({ name: '', type: 'privacy', url: '', jurisdiction: 'Global' });
+                        setPolicyForm({ name: '', type: 'privacy', url: '', retrievalUrl: '', jurisdiction: 'Global' });
                         setAddPolicyError('');
                         setAddPolicyFor(company.id);
                       }
@@ -991,6 +1078,22 @@ function CompanyTableRow({
                           </option>
                         ))}
                       </select>
+                    </div>
+                  </div>
+                  <div className={styles.formRow}>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Official Retrieval URL (optional)</label>
+                      <input
+                        className={styles.input}
+                        type="url"
+                        value={policyForm.retrievalUrl}
+                        onChange={(e) =>
+                          setPolicyForm((prev) => ({ ...prev, retrievalUrl: e.target.value }))
+                        }
+                        placeholder="Official machine-readable mirror or PDF"
+                        disabled={addPolicyLoading}
+                      />
+                      <span className={styles.metaText}>The canonical URL remains the public citation.</span>
                     </div>
                   </div>
                   <div className={styles.formRow}>
@@ -1066,11 +1169,25 @@ function CompanyTableRow({
                         <span className={styles.policyUrl} title={policy.url}>
                           {policy.url}
                         </span>
+                        {policy.retrievalUrl && (
+                          <span className={styles.policyUrl} title={policy.retrievalUrl}>
+                            Retrieval: {policy.retrievalUrl}
+                          </span>
+                        )}
                       </div>
                       <div className={styles.policyMeta}>
                         <span style={{ fontSize: '0.75rem', color: 'var(--text-dark)' }}>
                           {policy._count.changes} changes / {policy._count.snapshots} snapshots
                         </span>
+                        {isAdmin && (
+                          <button
+                            className={`${styles.btn} ${styles.btnSmall} ${styles.btnGhost}`}
+                            onClick={() => void configureRetrievalUrl(policy)}
+                            title="Configure optional official retrieval URL"
+                          >
+                            <Globe size={13} /> Retrieval
+                          </button>
+                        )}
                         {isAdmin && (
                           <button
                             className={`${styles.btn} ${styles.btnSmall} ${styles.btnDangerOutline}`}
@@ -1092,6 +1209,9 @@ function CompanyTableRow({
                 policyCount={company.policies.length}
                 isAdmin={isAdmin}
                 onPoliciesChanged={onRefresh}
+                onRunFirstScan={onRunFirstScan}
+                hasEstablishedBaseline={hasEstablishedCompanyBaseline(company.policies)}
+                scanRunning={scanRunning}
                 compact
               />
             </div>

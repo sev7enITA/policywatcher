@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eef5f6">
+  <title>PolicyWatcher Short 03 - Public boundaries</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="short-page" data-short="boundaries">
+  <main class="short-stage" aria-label="PolicyWatcher public boundaries animated short">
+    <article class="artboard boundaries-artboard" id="shortArtboard">
+      <div class="technical-grid" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <section class="short-hook boundaries-hook" data-animate>
+        <p class="section-tag">Public evidence rule</p>
+        <h1>When a source is uncertain,<br>it should not become a public fact.</h1>
+      </section>
+
+      <section class="state-stack" data-animate aria-label="Source states">
+        <div class="state-card state-available"><i class="status-dot available"></i><strong>Available</strong></div>
+        <div class="state-card state-review"><i class="status-dot amber"></i><strong>Needs Review</strong></div>
+        <div class="state-card state-unavailable"><i class="status-dot unavailable"></i><strong>Unavailable</strong></div>
+      </section>
+
+      <section class="public-evidence visual-card boundary-card" data-animate aria-label="Public evidence">
+        <p class="panel-tag">Public evidence</p>
+        <strong>Available or reviewed</strong>
+        <small>Exposed with its status</small>
+      </section>
+
+      <section class="suspension-panel visual-card boundary-card" data-animate aria-label="Temporary suspension">
+        <p class="panel-tag">Temporary suspension</p>
+        <strong>Not a public fact</strong>
+        <small>Needs Review, Unavailable, or no public evidence</small>
+      </section>
+
+      <section class="mobile-notice visual-card" data-animate aria-label="Mobile reading mode suspension notice">
+        <div class="phone-top"><span></span></div>
+        <p class="panel-tag">Mobile reading mode</p>
+        <strong>Source temporarily suspended</strong>
+        <small>Notice and minimal source metadata</small>
+      </section>
+
+      <footer class="short-cta boundaries-cta" data-animate>
+        <div class="cta-brand"><img src="../../../public/logo-mark.png" alt="" width="40" height="40"><span>PolicyWatcher</span></div>
+        <strong>Evidence status<br>stays with the signal.</strong>
+      </footer>
+    </article>
+  </main>
+  <div class="short-controls" aria-label="Short controls">
+    <button class="icon-control" data-action="pause" type="button" aria-label="Pause animation" title="Pause animation"><span class="pause-icon" aria-hidden="true"></span></button>
+    <button class="icon-control" data-action="restart" type="button" aria-label="Restart animation" title="Restart animation"><span class="restart-icon" aria-hidden="true"></span></button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "PolicyWatcher: What changed? BETA"
+  },
+  "extensionDescription": {
+    "message": "BETA: inspect policy-change notices locally, then check available PolicyWatcher evidence."
+  },
+  "actionTitle": {
+    "message": "PolicyWatcher BETA: check what changed"
+  }
+}

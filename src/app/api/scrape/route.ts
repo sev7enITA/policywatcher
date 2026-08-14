@@ -28,7 +28,7 @@ import {
   shouldRebaselineFromSeededRecord,
 } from '@/lib/policyConfidence';
 import { sendSourceSuspensionAdminAlert } from '@/lib/mailer';
-import { replaceSeededPolicyBaseline } from '@/lib/policyBaseline';
+import { establishVerifiedPolicyBaseline, replaceSeededPolicyBaseline } from '@/lib/policyBaseline';
 import { createErrorReference, getErrorMessage } from '@/lib/safeErrors';
 import { normalizeKpiFields } from '@/lib/kpiDefaults';
 import * as Diff from 'diff';
@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
     // yet, so its bootstrap timestamp must not block initial archive baseline.
     const seededRebaselineCandidate = shouldRebaselineFromSeededRecord(policy);
     const hasPublicBaseline = policy.snapshots.some((snapshot) => snapshot.publicEvidence);
-    const scrapeResult = await scrapePolicyText(policy.url, {
+    const scrapeResult = await scrapePolicyText(policy.retrievalUrl || policy.url, {
       archiveNotBefore:
         seededRebaselineCandidate || !hasPublicBaseline ? undefined : policy.lastSuccessfulCheckDate,
     });
@@ -308,6 +308,31 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    if (!hasPublicBaseline) {
+      const baseline = await db.$transaction((tx) =>
+        establishVerifiedPolicyBaseline(tx, {
+          policyId: policy.id,
+          text: newText,
+          hash: newHash,
+          checkedAt,
+          ingestionMethod,
+          source: scrapeResult.source || 'direct',
+          httpStatus: scrapeResult.httpStatus || null,
+          finalUrl: scrapeResult.finalUrl || policy.url,
+          archiveTimestamp,
+        })
+      );
+      return NextResponse.json({
+        changed: false,
+        rebaselined: baseline.publicEvidence,
+        publicationPending: !baseline.publicEvidence,
+        message: baseline.publicEvidence
+          ? 'First source-verified public baseline established. No PolicyChange, AI score, or subscriber alert was generated.'
+          : 'Verified baseline retained privately pending onboarding QA and publication review.',
+        policy: baseline.policy,
+      });
+    }
+
     // If text hasn't changed, return status
     if (newHash === policy.currentHash) {
       const [updatedPolicy] = await db.$transaction([
@@ -446,6 +471,7 @@ export async function POST(request: NextRequest) {
           overallScore: aiAnalysis.overallScore,
           remediationsJson: JSON.stringify(aiAnalysis.remediations),
           publicEvidence: true,
+          publicPublishedAt: checkedAt,
           aiTrainingOptOut: aiAnalysis.aiTrainingOptOut,
           aiDataScrapingRestricted: aiAnalysis.aiDataScrapingRestricted,
           aiIpLicensing: aiAnalysis.aiIpLicensing,

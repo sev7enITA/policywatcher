@@ -20,6 +20,17 @@
   --primary-glow: rgba(99, 102, 241, 0.08);
   --secondary: #06b6d4;
   --secondary-glow: rgba(6, 182, 212, 0.08);
+
+  /* Charts */
+  --chart-primary: var(--primary);
+  --chart-secondary: var(--secondary);
+  --chart-axis: var(--text-muted);
+  --chart-grid: rgba(148, 163, 184, 0.25);
+  --chart-grid-strong: rgba(148, 163, 184, 0.3);
+  --chart-cursor: rgba(99, 102, 241, 0.2);
+  --chart-cursor-fill: rgba(99, 102, 241, 0.06);
+  --chart-point-stroke: #ffffff;
+  --chart-track: rgba(148, 163, 184, 0.16);
   
   /* Text */
   --text-main: #0f172a;

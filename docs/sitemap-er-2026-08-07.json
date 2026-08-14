@@ -1,0 +1,116 @@
+{
+  "generatedAt": "2026-08-07",
+  "staticRouteCount": 33,
+  "domainCount": 7,
+  "dynamicFamilyCount": 4,
+  "domains": [
+    {
+      "id": "monitor",
+      "label": "Monitor",
+      "relation": "ORIENTA",
+      "routes": [
+        "/",
+        "/observatory",
+        "/timeline",
+        "/what-changed",
+        "/leaderboard"
+      ]
+    },
+    {
+      "id": "evidence",
+      "label": "Evidence",
+      "relation": "PUBBLICA",
+      "routes": [
+        "/evidence",
+        "/collections"
+      ]
+    },
+    {
+      "id": "civic",
+      "label": "Civic",
+      "relation": "ORIENTA",
+      "routes": [
+        "/associazioni"
+      ]
+    },
+    {
+      "id": "trust-method",
+      "label": "Trust & Method",
+      "relation": "VERIFICA",
+      "routes": [
+        "/trust",
+        "/trust/residency",
+        "/methodology/confidence",
+        "/security",
+        "/privacy",
+        "/terms"
+      ]
+    },
+    {
+      "id": "build-integrate",
+      "label": "Build & Integrate",
+      "relation": "PUBBLICA",
+      "routes": [
+        "/developers",
+        "/developers/event-continuity",
+        "/developers/webhook-readiness",
+        "/integrations",
+        "/browser-extension"
+      ]
+    },
+    {
+      "id": "communicate",
+      "label": "Communicate",
+      "relation": "PUBBLICA",
+      "routes": [
+        "/press",
+        "/press-kit",
+        "/pulse",
+        "/press-kit/releases",
+        "/press-kit/data",
+        "/press-kit/reference",
+        "/press-kit/corrections",
+        "/press-kit/glossary"
+      ]
+    },
+    {
+      "id": "understand",
+      "label": "Understand",
+      "relation": "SPIEGA",
+      "routes": [
+        "/showcase",
+        "/atlas",
+        "/feature-atlas",
+        "/infographics",
+        "/roadmap",
+        "/about"
+      ]
+    }
+  ],
+  "dynamicFamilies": [
+    {
+      "id": "change",
+      "domain": "monitor",
+      "route": "/change/{changeId}",
+      "entity": "PolicyChange"
+    },
+    {
+      "id": "knowledge",
+      "domain": "evidence",
+      "route": "/knowledge → /companies/{slug} → /policies/{policyId}",
+      "entity": "Company + Policy"
+    },
+    {
+      "id": "release",
+      "domain": "communicate",
+      "route": "/press-kit/releases/{slug}",
+      "entity": "PressRelease"
+    },
+    {
+      "id": "pulse",
+      "domain": "communicate",
+      "route": "/pulse/{slug}",
+      "entity": "PulseStory"
+    }
+  ]
+}

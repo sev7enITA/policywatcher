@@ -1,0 +1,591 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import {
+  ArrowLeft,
+  ArrowRight,
+  BadgeCheck,
+  Bot,
+  Braces,
+  Cable,
+  Check,
+  CircleDot,
+  Clock3,
+  Code2,
+  FileJson,
+  Fingerprint,
+  KeyRound,
+  LayoutPanelTop,
+  LockKeyhole,
+  Network,
+  Puzzle,
+  Radio,
+  ServerCog,
+  ShieldCheck,
+  ShoppingBag,
+  Workflow,
+  FolderKanban,
+  Cloud,
+  FileSearch,
+} from 'lucide-react';
+import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
+import styles from './integrations.module.css';
+
+export const metadata: Metadata = {
+  title: 'Enterprise Integrations | PolicyWatcher',
+  description:
+    'PolicyWatcher integration architecture: public and Entra-authenticated APIs, Microsoft 365 Copilot, Vertex AI Agent Builder, Amazon Quick, Word, Power Platform, embeds, and feeds.',
+  alternates: { canonical: '/integrations' },
+};
+
+const decisions = [
+  { job: 'Public read and discovery', path: 'Public API v1', state: 'Available' },
+  { job: 'Portable multi-change evidence', path: 'Evidence Collections', state: 'Available' },
+  { job: 'Review-system handoff', path: 'Vendor-neutral handoff manifest', state: 'Available' },
+  { job: 'Change automation polling', path: 'Public change event feed', state: 'Available' },
+  { job: 'Polling continuity rehearsal', path: 'Event Feed Continuity Lab', state: 'Available' },
+  { job: 'Receiver signature testing', path: 'Webhook Readiness Kit', state: 'Available' },
+  { job: 'Operator-controlled push', path: 'Configured Webhook Delivery', state: 'Pilot ready' },
+  { job: 'Tenant-authenticated system access', path: 'Enterprise API v2', state: 'Pilot ready' },
+  { job: 'Workflow automation', path: 'Power Platform connector', state: 'Pilot ready' },
+  { job: 'Cross-cloud agent evidence', path: 'Agent Evidence Gateway', state: 'Available' },
+  { job: 'Tenant conversation', path: 'Copilot, Vertex AI and Amazon Quick packages', state: 'Source ready' },
+  { job: 'Clause evidence review', path: 'PolicyWatcher for Word', state: 'Source ready' },
+  { job: 'In-workflow collaboration', path: 'Teams cards and tab', state: 'Planned' },
+  { job: 'Federated tool access', path: 'MCP', state: 'Planned' },
+  { job: 'Procurement and billing', path: 'Microsoft Marketplace', state: 'Commercial later' },
+];
+
+const capabilityLanes = [
+  {
+    id: 'available',
+    label: 'Available',
+    note: 'Public, bounded surfaces in the current product.',
+    icon: BadgeCheck,
+    cards: [
+      {
+        title: 'Agent Evidence Gateway',
+        audience: 'Microsoft 365 Copilot, Vertex AI Agent Builder and Amazon Quick pilots',
+        role: 'Returns deterministic, source-linked public change and Observatory briefs through one OpenAPI 3.0 contract.',
+        boundary: 'Anonymous, read-only public evidence only. No confidential prompts, tenant data, raw policy text or model-generated verdicts.',
+        artifact: '/api/v1/agent/openapi.json',
+        href: '/api/v1/agent/openapi.json',
+        link: 'Inspect agent contract',
+        external: true,
+      },
+      {
+        title: 'Public API v1',
+        audience: 'Developers, researchers, public-interest tools',
+        role: 'Anonymous discovery of the integration manifest, curated Observatory registry and portable evidence bundles.',
+        boundary: 'Read-only public metadata, publication-aware gates, shared IP rate policy.',
+        artifact: '/api/v1/manifest  |  /api/v1/observatory  |  /api/v1/evidence-collections',
+        href: '/developers',
+        link: 'Developer directory',
+      },
+      {
+        title: 'Public evidence surfaces',
+        audience: 'Browsers, newsroom tools, downstream readers',
+        role: 'Human-readable evidence views plus JSON and RSS release feeds.',
+        boundary: 'Only already-public records and release metadata. No private retrieval state.',
+        artifact: '/change/{id}  |  /press-kit/feed.json',
+        href: '/press-kit/releases',
+        link: 'Release feeds',
+      },
+      {
+        title: 'Shareable evidence collections',
+        audience: 'Researchers, editors, governance reviewers, developers',
+        role: 'Selects up to 12 exact public changes and exports deterministic evidence bundles or a vendor-neutral review handoff.',
+        boundary: 'Only canonical public evidence leaves the browser. Local title, review states, assignees and due dates are excluded.',
+        artifact: '/collections  |  /api/v1/evidence-collections',
+        href: '/collections',
+        link: 'Open collections',
+      },
+      {
+        title: 'Collaboration handoff manifest',
+        audience: 'GRC, ticketing and collaboration workflow owners',
+        role: 'Provides deterministic work-item titles, acceptance criteria, evidence links and digests for authorized human import.',
+        boundary: 'Creates no third-party record, assignment, deadline, notification or delivery confirmation.',
+        artifact: '/api/v1/evidence-collections?changes={ids}&format=handoff',
+        href: '/collections',
+        link: 'Build a handoff',
+      },
+      {
+        title: 'Public change event feed',
+        audience: 'Automation owners, researchers and integration developers',
+        role: 'Polls already-published change events through stable event IDs and a forward-only opaque cursor.',
+        boundary: 'No subscription, push delivery, recipient data, delivery receipt or signed webhook claim.',
+        artifact: '/api/v1/change-events?limit=25&lang=en',
+        href: '/api/v1/change-events?limit=25&lang=en',
+        link: 'Open event feed',
+        external: true,
+      },
+      {
+        title: 'Event Feed Continuity Lab',
+        audience: 'Polling consumer developers and integration reviewers',
+        role: 'Inspects bounded event windows, stores a strict browser-local checkpoint and explicitly resumes from its opaque cursor.',
+        boundary: 'No hosted consumer, exhaustive-monitoring claim, server-side replay store, delivery receipt or push delivery.',
+        artifact: '/developers/event-continuity  |  /schemas/event-continuity-checkpoint/v1',
+        href: '/developers/event-continuity',
+        link: 'Open continuity workbench',
+      },
+      {
+        title: 'Webhook Readiness Kit',
+        audience: 'Integration developers and security reviewers',
+        role: 'Tests the candidate HMAC-SHA256 receiver contract locally with one editable vector and eight deterministic positive and negative fixtures.',
+        boundary: 'No endpoint registration, subscriptions, production secrets, push delivery, retries or delivery confirmation.',
+        artifact: '/developers/webhook-readiness  |  /api/v1/webhook-verification-kit  |  /api/v1/webhook-conformance-suite',
+        href: '/developers/webhook-readiness',
+        link: 'Open verification workbench',
+      },
+      {
+        title: 'Browser extension',
+        audience: 'Reviewers working from a provider policy page',
+        role: 'Moves a page-level review into the existing PolicyWatcher evidence workflow.',
+        boundary: 'The extension does not turn third-party page content into an enterprise API response.',
+        artifact: '/browser-extension',
+        href: '/browser-extension',
+        link: 'Browser extension',
+      },
+      {
+        title: 'Embeddable change card',
+        audience: 'Publishers and evidence-aware websites',
+        role: 'Frames one public change card through a purpose-built embed route.',
+        boundary: 'The main portal stays frame-protected. Only the dedicated card route is embeddable.',
+        artifact: '/embed/change/{id}',
+      },
+    ],
+  },
+  {
+    id: 'pilot',
+    label: 'Pilot ready',
+    note: 'Implemented in source; tenant activation still requires configuration.',
+    icon: Fingerprint,
+    cards: [
+      {
+        title: 'Enterprise API v2',
+        audience: 'Enterprise applications, IT and identity administrators',
+        role: 'Tenant-bound access to companies, changes, continuity, and governance signals.',
+        boundary: 'Verified Entra tenant, delegated scope or app role, private no-store responses.',
+        artifact: '/api/v2/openapi.json',
+        href: '/api/v2/openapi.json',
+        link: 'Inspect OpenAPI',
+        external: true,
+      },
+      {
+        title: 'Azure API Management edge',
+        audience: 'Platform engineering and API operations',
+        role: 'Gateway policy for token validation, request correlation, and controlled origin access.',
+        boundary: 'APIM does not replace origin authorization. The origin verifies the Entra token again.',
+        artifact: 'docs/azure/apim-policy.xml',
+      },
+      {
+        title: 'Power Platform connector',
+        audience: 'Power Automate, Power Apps, Logic Apps, Copilot Studio',
+        role: 'Six read actions over the same v2 evidence contract, ready for a test tenant pilot.',
+        boundary: 'Two Entra applications and environment configuration are required before import.',
+        artifact: 'integrations/power-platform/policywatcher-v2',
+      },
+      {
+        title: 'Microsoft 365 Copilot evidence agent',
+        audience: 'Licensed Microsoft 365 Copilot users and tenant administrators',
+        role: 'Declarative agent 1.8 and API plugin 2.4 package for cited public evidence dialogue inside the customer tenant.',
+        boundary: 'Source package only: not AppSource-published, tenant-enabled or certified. Private access remains on Entra-authenticated API v2.',
+        artifact: 'integrations/microsoft-copilot/policywatcher-evidence-agent',
+      },
+      {
+        title: 'Vertex AI Agent Builder tool',
+        audience: 'Google Cloud agent builders and project administrators',
+        role: 'OpenAPI tool and tool-first playbook instructions for the same deterministic public evidence contract.',
+        boundary: 'Source package only: not deployed into a customer Google Cloud project and no PolicyWatcher dataset is copied by the package.',
+        artifact: 'integrations/google-agent-builder/policywatcher-evidence-tool',
+      },
+      {
+        title: 'Amazon Quick OpenAPI connector',
+        audience: 'AWS account owners and Amazon Quick authors',
+        role: 'Three-operation OpenAPI connector constrained to one JSON endpoint contract and flattened responses.',
+        boundary: 'Source package only: not deployed or shared in an AWS account. Amazon Q Business remains a legacy path for existing customers only.',
+        artifact: 'integrations/amazon-quick/policywatcher-evidence-connector',
+      },
+      {
+        title: 'PolicyWatcher Contract Evidence Review for Word',
+        audience: 'Legal, procurement and GRC reviewers working in Word',
+        role: 'Classifies an explicitly selected clause locally and searches public evidence with controlled topic labels only.',
+        boundary: 'Selected clause text is not sent or stored. The add-in maps evidence; it does not verify, approve or legally assess a contract.',
+        artifact: '/office-addin/contract-review  |  integrations/office-word',
+        href: '/office-addin/contract-review',
+        link: 'Preview task pane',
+      },
+      {
+        title: 'Configured webhook delivery',
+        audience: 'Integration and security operations teams',
+        role: 'Sends eligible public change events to deployment-configured HTTPS destinations through a signed persistent outbox.',
+        boundary: 'No public registration, tenant self-service, endpoint challenge, automatic key rotation, guaranteed delivery or SLA.',
+        artifact: '/admin/webhook-delivery  |  policy.change.published',
+      },
+    ],
+  },
+  {
+    id: 'planned',
+    label: 'Planned',
+    note: 'Architected next paths; not delivered or enabled today.',
+    icon: Clock3,
+    cards: [
+      {
+        title: 'Self-service webhook lifecycle',
+        audience: 'Tenant administrators and integration owners',
+        role: 'Tenant-managed endpoint registration, challenge verification, secret rotation and delivery-health controls.',
+        boundary: 'The configured pilot does not establish tenant identity, self-service provisioning or a delivery commitment.',
+        artifact: 'Future tenant delivery control plane',
+      },
+      {
+        title: 'Teams and Microsoft 365',
+        audience: 'Legal, GRC, procurement, and business owners',
+        role: 'Dedicated SSO tab, Adaptive Cards, and evidence deep links inside collaboration flows.',
+        boundary: 'Requires a purpose-built route. The whole portal is not iframe-ready.',
+        artifact: 'Dedicated M365 surface, not portal HTML fetching',
+      },
+      {
+        title: 'Federated MCP connector',
+        audience: 'Copilot administrators and knowledge architects',
+        role: 'Real-time search and fetch from PolicyWatcher without copying records into an index.',
+        boundary: 'Authenticated read tools, tenant controls, and source-of-truth links are required.',
+        artifact: 'search  |  fetch  |  query tools',
+      },
+      {
+        title: 'Synchronized Copilot connector',
+        audience: 'Organizations requiring Microsoft 365 indexed discovery',
+        role: 'Optional external content indexing for tenant search and Copilot grounding.',
+        boundary: 'Needs ACLs, delete propagation, retention review, and stale-record controls.',
+        artifact: 'Optional path after governance review',
+      },
+    ],
+  },
+  {
+    id: 'commercial',
+    label: 'Commercial later',
+    note: 'Distribution and lifecycle work after the enterprise foundation.',
+    icon: ShoppingBag,
+    cards: [
+      {
+        title: 'Microsoft Marketplace SaaS',
+        audience: 'Enterprise procurement and cloud marketplace buyers',
+        role: 'Discovery, commercial plans, purchasing, and access to the PolicyWatcher service.',
+        boundary: 'A Marketplace offer distributes the SaaS. It does not embed the portal as the product.',
+        artifact: 'Listing first  |  transactable offer later',
+      },
+      {
+        title: 'Provisioning and entitlements',
+        audience: 'Tenant owners, billing, and customer success',
+        role: 'Subscription activation, plan mapping, lifecycle events, and tenant entitlement checks.',
+        boundary: 'Requires a production tenant model, support process, audit history, and lifecycle webhooks.',
+        artifact: 'Fulfillment API  +  subscription lifecycle',
+      },
+    ],
+  },
+] as const;
+
+const pilotSteps = [
+  ['Register the protected API', 'Create the PolicyWatcher Enterprise API app, expose policywatcher.read, and define PolicyWatcher.Read.All.'],
+  ['Register the connector client', 'Create a separate Power Platform connector app and grant the delegated API permission.'],
+  ['Allowlist the test tenant', 'Configure the pilot tenant ID and API audiences on the PolicyWatcher origin.'],
+  ['Choose the API front door', 'Use the public HTTPS origin for a controlled smoke test, or the preferred APIM URL.'],
+  ['Identify the Power Platform environment', 'Use the test Environment ID to keep the connector and flows isolated.'],
+  ['Import and connect', 'Generate the source-controlled connector package, import it, and complete interactive consent.'],
+  ['Prove rejection paths', 'Test wrong tenant, wrong audience, missing scope or role, and direct-origin rejection once APIM is enforced.'],
+] as const;
+
+function Status({ kind, children }: { kind: string; children: React.ReactNode }) {
+  return <span className={`${styles.status} ${styles[`status_${kind}`]}`}>{children}</span>;
+}
+
+export default function IntegrationsPage() {
+  return (
+    <>
+      <PublicHeader current="integrations" />
+      <main className={styles.page}>
+        <section className={styles.hero}>
+          <nav className={styles.topbar} aria-label="Integration page navigation">
+            <Link href="/" className={styles.backLink}>
+              <ArrowLeft size={16} aria-hidden="true" />
+              Evidence Console
+            </Link>
+            <div className={styles.topbarLinks}>
+              <Link href="/developers">Developers</Link>
+              <Link href="/roadmap">Roadmap</Link>
+              <Link href="/trust">Trust QA</Link>
+            </div>
+          </nav>
+
+          <div className={styles.heroDocument}>
+            <div className={styles.heroCopy}>
+              <span className={styles.eyebrow}>
+                <Network size={16} aria-hidden="true" />
+                Enterprise integration surface
+              </span>
+              <h1>One evidence contract. Many enterprise entry points.</h1>
+              <p>
+                PolicyWatcher is API-first. Microsoft, Google and AWS agent packages, workflow connectors and Office experiences sit on the same publication gate and explicit data boundary. Integrations consume evidence records, never scraped portal HTML.
+              </p>
+              <div className={styles.heroActions}>
+                <a href="#topology" className={styles.primaryAction}>
+                  Explore integration map
+                  <ArrowRight size={16} aria-hidden="true" />
+                </a>
+                <a href="/api/v2/openapi.json" className={styles.secondaryAction} target="_blank" rel="noreferrer">
+                  Inspect OpenAPI v2
+                  <FileJson size={16} aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+
+            <aside className={styles.summaryPanel} aria-label="Integration contract summary">
+              <div><span>01</span><strong>v1 public</strong><small>Anonymous, read-only</small></div>
+              <div><span>02</span><strong>v2 Entra</strong><small>Tenant-bound, read-only</small></div>
+              <div><span>03</span><strong>3 cloud agent packages</strong><small>Controlled pilot source</small></div>
+              <div><span>04</span><strong>Word evidence review</strong><small>Selected text remains local</small></div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="topology" className={styles.section} aria-labelledby="topology-title">
+          <header className={styles.sectionHeader}>
+            <span>Integration topology</span>
+            <h2 id="topology-title">Every path crosses the evidence boundary.</h2>
+            <p>The central contract is the control point. Status labels describe delivery state in words, not color alone.</p>
+          </header>
+
+          <div className={styles.legend} aria-label="Readiness legend">
+            <Status kind="available">Available</Status>
+            <Status kind="pilot">Pilot ready</Status>
+            <Status kind="planned">Planned</Status>
+            <Status kind="commercial">Commercial later</Status>
+          </div>
+
+          <div className={styles.topology} aria-label="PolicyWatcher enterprise integration architecture">
+            <div className={styles.branchColumn}>
+              <article className={`${styles.topologyNode} ${styles.nodeAvailable}`}>
+                <div className={styles.nodeHeading}><Braces size={18} /><Status kind="available">Available</Status></div>
+                <h3>Public API v1</h3>
+                <p>Public read and discovery.</p>
+                <code>/api/v1</code>
+              </article>
+              <article className={`${styles.topologyNode} ${styles.nodePilot}`}>
+                <div className={styles.nodeHeading}><ServerCog size={18} /><Status kind="pilot">Pilot ready</Status></div>
+                <h3>Enterprise API + APIM</h3>
+                <p>Tenant-authenticated system access.</p>
+                <code>/api/v2</code>
+              </article>
+              <article className={`${styles.topologyNode} ${styles.nodePilot}`}>
+                <div className={styles.nodeHeading}><Workflow size={18} /><Status kind="pilot">Pilot ready</Status></div>
+                <h3>Power Platform</h3>
+                <p>Composable workflow automation.</p>
+                <code>6 read actions</code>
+              </article>
+              <article className={`${styles.topologyNode} ${styles.nodeAvailable}`}>
+                <div className={styles.nodeHeading}><Cloud size={18} /><Status kind="available">Available</Status></div>
+                <h3>Agent Evidence Gateway</h3>
+                <p>One flattened public contract.</p>
+                <code>3 read operations</code>
+              </article>
+            </div>
+
+            <div className={styles.spine}>
+              <div className={styles.spineCap}><CircleDot size={17} /> PolicyWatcher core</div>
+              <div className={styles.spineStage}>
+                <ShieldCheck size={23} aria-hidden="true" />
+                <span>Publication Gate</span>
+                <small>Only reviewed, public evidence passes</small>
+              </div>
+              <div className={styles.spineFlow} aria-hidden="true"><span /><span /><span /></div>
+              <div className={styles.spineStage}>
+                <KeyRound size={23} aria-hidden="true" />
+                <span>Tenant Boundary</span>
+                <small>Verified Entra identity for v2</small>
+              </div>
+              <div className={styles.spineContract}>
+                <Cable size={24} aria-hidden="true" />
+                <strong>Evidence contract</strong>
+                <code>OpenAPI 3.0.3</code>
+              </div>
+            </div>
+
+            <div className={styles.branchColumn}>
+              <article className={`${styles.topologyNode} ${styles.nodePlanned}`}>
+                <div className={styles.nodeHeading}><LayoutPanelTop size={18} /><Status kind="planned">Planned</Status></div>
+                <h3>Teams and M365</h3>
+                <p>Dedicated collaboration experience.</p>
+                <code>SSO tab + cards</code>
+              </article>
+              <article className={`${styles.topologyNode} ${styles.nodePilot}`}>
+                <div className={styles.nodeHeading}><Bot size={18} /><Status kind="pilot">Source ready</Status></div>
+                <h3>Copilot · Vertex AI · Amazon Quick</h3>
+                <p>Tenant-hosted agent packages.</p>
+                <code>one OpenAPI contract</code>
+              </article>
+              <article className={`${styles.topologyNode} ${styles.nodePilot}`}>
+                <div className={styles.nodeHeading}><FileSearch size={18} /><Status kind="pilot">Source ready</Status></div>
+                <h3>Word task pane</h3>
+                <p>Local clause classification.</p>
+                <code>derived topics only</code>
+              </article>
+              <article className={`${styles.topologyNode} ${styles.nodeCommercial}`}>
+                <div className={styles.nodeHeading}><ShoppingBag size={18} /><Status kind="commercial">Commercial later</Status></div>
+                <h3>Marketplace</h3>
+                <p>Procurement, plans, and lifecycle.</p>
+                <code>SaaS offer</code>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.decisionSection} aria-labelledby="decision-title">
+          <header>
+            <span>Choose by job</span>
+            <h2 id="decision-title">Start with the outcome, then select the surface.</h2>
+          </header>
+          <dl className={styles.decisionStrip}>
+            {decisions.map((item, index) => (
+              <div key={item.job}>
+                <dt><span>{String(index + 1).padStart(2, '0')}</span>{item.job}</dt>
+                <dd>{item.path}<small>{item.state}</small></dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <section className={styles.section} aria-labelledby="catalog-title">
+          <header className={styles.sectionHeader}>
+            <span>Capability catalog</span>
+            <h2 id="catalog-title">Delivered surfaces stay separate from future architecture.</h2>
+            <p>Each entry names its audience, role, boundary, and concrete route or artifact.</p>
+          </header>
+
+          <div className={styles.catalog}>
+            {capabilityLanes.map((lane) => {
+              const LaneIcon = lane.icon;
+              return (
+                <section key={lane.id} className={`${styles.lane} ${styles[`lane_${lane.id}`]}`} aria-labelledby={`lane-${lane.id}`}>
+                  <header className={styles.laneHeader}>
+                    <LaneIcon size={21} aria-hidden="true" />
+                    <div>
+                      <h3 id={`lane-${lane.id}`}>{lane.label}</h3>
+                      <p>{lane.note}</p>
+                    </div>
+                    <span>{String(lane.cards.length).padStart(2, '0')}</span>
+                  </header>
+                  <div className={styles.laneEntries}>
+                    {lane.cards.map((card) => (
+                      <article key={card.title} className={styles.capability}>
+                        <div className={styles.capabilityTitle}>
+                          <h4>{card.title}</h4>
+                          {'href' in card && card.href ? (
+                            <Link href={card.href} target={'external' in card && card.external ? '_blank' : undefined} rel={'external' in card && card.external ? 'noreferrer' : undefined}>
+                              {card.link}<ArrowRight size={14} aria-hidden="true" />
+                            </Link>
+                          ) : null}
+                        </div>
+                        <dl>
+                          <div><dt>Audience</dt><dd>{card.audience}</dd></div>
+                          <div><dt>Role</dt><dd>{card.role}</dd></div>
+                          <div><dt>Boundary</dt><dd>{card.boundary}</dd></div>
+                        </dl>
+                        <code>{card.artifact}</code>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className={styles.section} aria-labelledby="comparison-title">
+          <header className={styles.sectionHeader}>
+            <span>Contract choice</span>
+            <h2 id="comparison-title">Public agent gateway or tenant-bound v2?</h2>
+            <p>The agent gateway supports cited public dialogue across clouds. v2 remains the authenticated foundation for private enterprise workflows.</p>
+          </header>
+          <div className={styles.comparisonRegion} role="region" aria-label="Comparison of PolicyWatcher API v1 and v2" tabIndex={0}>
+            <table className={styles.comparisonTable}>
+              <thead><tr><th scope="col">Dimension</th><th scope="col">Public API v1</th><th scope="col">Enterprise API v2</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Access</th><td data-label="v1">Public internet</td><td data-label="v2">Allowlisted Entra tenant</td></tr>
+                <tr><th scope="row">Audience</th><td data-label="v1">Public developers and researchers</td><td data-label="v2">Enterprise apps, users, and automation</td></tr>
+                <tr><th scope="row">Use case</th><td data-label="v1">Discovery and curated registry reads</td><td data-label="v2">Evidence, continuity, and governance workflows</td></tr>
+                <tr><th scope="row">Authentication</th><td data-label="v1">None, anonymous read-only</td><td data-label="v2"><code>policywatcher.read</code> or <code>PolicyWatcher.Read.All</code></td></tr>
+                <tr><th scope="row">Data boundary</th><td data-label="v1">Public metadata and curated references</td><td data-label="v2">Evidence-gated records with verified tenant context</td></tr>
+                <tr><th scope="row">Contract</th><td data-label="v1"><code>/api/v1/manifest</code></td><td data-label="v2"><code>/api/v2/openapi.json</code></td></tr>
+                <tr><th scope="row">Readiness</th><td data-label="v1"><Status kind="available">Available</Status></td><td data-label="v2"><Status kind="pilot">Pilot ready</Status></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section className={styles.pilotSection} aria-labelledby="pilot-title">
+          <div className={styles.pilotIntro}>
+            <span>Private Microsoft tenant pilot</span>
+            <h2 id="pilot-title">Seven checks for authenticated API v2 workflows.</h2>
+            <p>The pilot uses identifiers and controlled configuration. A client secret belongs in a protected secret store and must never be pasted into a document, issue, chat, or generated artifact.</p>
+            <Link href="/api/v2/openapi.json" target="_blank" rel="noreferrer">
+              Open machine-readable contract
+              <FileJson size={16} aria-hidden="true" />
+            </Link>
+          </div>
+          <ol className={styles.pilotList}>
+            {pilotSteps.map(([title, body], index) => (
+              <li key={title}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <div><strong>{title}</strong><p>{body}</p></div>
+                <Check size={17} aria-hidden="true" />
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className={styles.securityBand} aria-labelledby="security-title">
+          <div className={styles.securityLead}>
+            <LockKeyhole size={26} aria-hidden="true" />
+            <span>Security and data boundary</span>
+            <h2 id="security-title">Integrations receive bounded evidence, not the machinery behind it.</h2>
+            <p>API consumers do not fetch PolicyWatcher portal HTML. They receive structured records that have already crossed the same publication controls used by public evidence views.</p>
+          </div>
+          <div className={styles.boundaryFlow} aria-label="Integration data boundary flow">
+            <div><Radio size={18} /><span>Provider source</span></div>
+            <ArrowRight size={18} aria-hidden="true" />
+            <div><ShieldCheck size={18} /><span>Publication Gate</span></div>
+            <ArrowRight size={18} aria-hidden="true" />
+            <div><Braces size={18} /><span>Bounded record</span></div>
+          </div>
+          <div className={styles.exclusionList}>
+            <strong>Never returned to API consumers</strong>
+            <ul>
+              <li>Raw policy text</li>
+              <li>Raw snapshot text or non-public fingerprints</li>
+              <li>Private retrieval diagnostics</li>
+              <li>Credentials</li>
+              <li>Administrator logs</li>
+            </ul>
+          </div>
+        </section>
+
+        <section className={styles.finalCta} aria-labelledby="next-title">
+          <div>
+            <span>Next entry point</span>
+            <h2 id="next-title">Use the contract that matches the work.</h2>
+            <p>Inspect the public agent contract, validate a source package in an isolated tenant or cloud project, or use v2 for authenticated enterprise workflows.</p>
+          </div>
+          <div className={styles.finalLinks}>
+            <Link href="/developers"><Code2 size={17} /> Developer directory</Link>
+            <Link href="/collections"><FolderKanban size={17} /> Evidence collections</Link>
+            <Link href="/api/v2/openapi.json" target="_blank" rel="noreferrer"><FileJson size={17} /> OpenAPI v2</Link>
+            <Link href="/api/v1/agent/openapi.json" target="_blank" rel="noreferrer"><Bot size={17} /> Agent OpenAPI</Link>
+            <Link href="/office-addin/contract-review"><FileSearch size={17} /> Word task pane</Link>
+            <Link href="/roadmap"><Puzzle size={17} /> Integration roadmap</Link>
+            <Link href="/browser-extension"><LayoutPanelTop size={17} /> Browser extension</Link>
+          </div>
+        </section>
+      </main>
+      <Footer lang="en" variant="compact" />
+    </>
+  );
+}

@@ -7,6 +7,7 @@ import https from 'https';
 import http from 'http';
 import tls from 'tls';
 import { getDomain } from 'tldts';
+import { classifyRetrievalCause, terminalRetrievalCause, type RetrievalCause } from '@/lib/sourceReliability';
 
 /**
  * PolicyWatcher - Hardened Policy Scraper v3
@@ -60,6 +61,8 @@ export interface ScrapeResult {
   finalUrl: string;
   /** Human-readable reason for non-ok status (for logging / surfacing). */
   reason: string;
+  /** Stable terminal category for metrics and remediation routing. */
+  reasonCode?: RetrievalCause;
   /** HTTP status code observed (0 if transport failed entirely). */
   httpStatus: number;
   /** Number of attempts made. */
@@ -80,6 +83,12 @@ export interface ScrapeResult {
   originalTextLength?: number;
   /** Ordered fallback diagnostics for admin/runtime observability. */
   diagnostics?: ScrapeDiagnostic[];
+  /** Dated archive metadata that is explicitly ineligible for change detection. */
+  historicalReference?: {
+    source: 'wayback' | 'commoncrawl';
+    capturedAt: string;
+    referenceUrl?: string;
+  };
 }
 
 export interface ScrapeDiagnostic {
@@ -88,6 +97,8 @@ export interface ScrapeDiagnostic {
   reason?: string;
   httpStatus?: number;
   finalUrl?: string;
+  durationMs?: number;
+  cause?: RetrievalCause;
 }
 
 export interface DiscoveryDocumentResult {
@@ -157,6 +168,15 @@ async function sha256(input: string): Promise<string> {
 
 function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms));
+}
+
+export function sanitizeLogText(value: unknown, maxLength = 320): string {
+  return String(value ?? '')
+    .replace(/[\r\n\u2028\u2029]/g, ' ')
+    .replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, maxLength);
 }
 
 /** Polite delay: random 1-3 seconds between requests. */
@@ -325,7 +345,7 @@ export async function validateOutboundUrl(rawUrl: string): Promise<{ ok: true; u
    Layer 1: robust transport fetch with retries + backoff
    --------------------------------------------------------------- */
 
-interface TransportResult {
+export interface TransportResult {
   ok: boolean;
   html: string;
   status: number;
@@ -333,6 +353,34 @@ interface TransportResult {
   error: string;
   /** Wayback/CDX timestamp (YYYYMMDDhhmmss) when the HTML came from an archive. */
   archiveTimestamp?: string;
+  /** Latest known archive capture rejected by the freshness guard. */
+  staleArchiveTimestamp?: string;
+  staleArchiveUrl?: string;
+}
+
+type TestTransport = (url: string, notBefore?: Date) => Promise<TransportResult>;
+
+export interface ScraperControlledFallbacks {
+  /** Test-only deterministic transport substitutes used by fallback smoke tests. */
+  direct?: TestTransport;
+  http2?: TestTransport;
+  rendered?: TestTransport;
+  wayback?: TestTransport;
+  commoncrawl?: TestTransport;
+  skipDelays?: boolean;
+}
+
+export interface ScrapePolicyOptions {
+  archiveNotBefore?: Date;
+  /** Refused in production; keeps smoke tests deterministic and offline. */
+  controlledFallbacks?: ScraperControlledFallbacks;
+}
+
+function enrichDiagnostics(diagnostics: ScrapeDiagnostic[]): ScrapeDiagnostic[] {
+  return diagnostics.map((diagnostic) => ({
+    ...diagnostic,
+    cause: classifyRetrievalCause(diagnostic),
+  }));
 }
 
 /** Parses a Wayback/CDX timestamp (YYYYMMDDhhmmss, possibly shorter) into a UTC Date. */
@@ -739,7 +787,7 @@ async function fetchWithHttp2(url: string): Promise<TransportResult> {
         });
 
         req.on('error', (err: Error) => {
-          console.warn(`[Scraper] HTTP/2 request error for ${parsed.hostname}: ${err.message}`);
+          console.warn(`[Scraper] HTTP/2 request error for ${parsed.hostname}: ${sanitizeLogText(err.message)}`);
           finish({ ok: false, html: '', status: 0, finalUrl: url, error: 'h2_request_failed' }, true);
         });
 
@@ -747,12 +795,12 @@ async function fetchWithHttp2(url: string): Promise<TransportResult> {
       });
 
       client.on('error', (err: Error) => {
-        console.warn(`[Scraper] HTTP/2 connection error for ${parsed.hostname}: ${err.message}`);
+        console.warn(`[Scraper] HTTP/2 connection error for ${parsed.hostname}: ${sanitizeLogText(err.message)}`);
         finish({ ok: false, html: '', status: 0, finalUrl: url, error: 'h2_connect_failed' }, true);
       });
     } catch (err) {
       const e = err as Error;
-      console.warn(`[Scraper] HTTP/2 setup error for ${parsed.hostname}: ${e.message}`);
+      console.warn(`[Scraper] HTTP/2 setup error for ${parsed.hostname}: ${sanitizeLogText(e.message)}`);
       finish({ ok: false, html: '', status: 0, finalUrl: url, error: 'h2_failed' }, true);
     }
   });
@@ -770,31 +818,39 @@ async function fetchWithHttp2(url: string): Promise<TransportResult> {
  * Snapshots older than `notBefore` are rejected (freshness guard).
  */
 async function fetchFromWayback(originalUrl: string, notBefore?: Date): Promise<TransportResult> {
+  let staleCandidate: { timestamp: string; url: string } | null = null;
   // Strategy A: Availability API (fast, simple)
+  let availabilityTimedOut = false;
   try {
     const availUrl = `https://archive.org/wayback/available?url=${encodeURIComponent(originalUrl)}`;
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 10_000);
+    try {
+      const availRes = await fetch(availUrl, {
+        signal: controller.signal,
+        headers: { 'User-Agent': 'PolicyWatcher/3.1 (https://policywatcher.online)' },
+      });
 
-    const availRes = await fetch(availUrl, {
-      signal: controller.signal,
-      headers: { 'User-Agent': 'PolicyWatcher/3.1 (https://policywatcher.online)' },
-    });
-    clearTimeout(timeout);
-
-    if (availRes.ok) {
-      const data = await availRes.json() as {
-        archived_snapshots?: { closest?: { available?: boolean; url?: string; timestamp?: string } };
-      };
-      const snap = data?.archived_snapshots?.closest;
-      if (snap?.available && snap?.url && isFreshEnough(snap.timestamp, notBefore)) {
-        // Convert to raw URL (id_ prefix prevents Wayback toolbar injection)
-        const rawUrl = snap.url.replace(/\/web\/(\d+)\//, '/web/$1id_/');
-        const result = await fetchWaybackPage(rawUrl);
-        if (result.ok) return { ...result, archiveTimestamp: snap.timestamp };
+      if (availRes.ok) {
+        const data = await availRes.json() as {
+          archived_snapshots?: { closest?: { available?: boolean; url?: string; timestamp?: string } };
+        };
+        const snap = data?.archived_snapshots?.closest;
+        if (snap?.available && snap?.url && snap.timestamp) {
+          if (isFreshEnough(snap.timestamp, notBefore)) {
+            const rawUrl = snap.url.replace(/\/web\/(\d+)\//, '/web/$1id_/');
+            const result = await fetchWaybackPage(rawUrl);
+            if (result.ok) return { ...result, archiveTimestamp: snap.timestamp };
+          } else {
+            staleCandidate = { timestamp: snap.timestamp, url: snap.url };
+          }
+        }
       }
+    } finally {
+      clearTimeout(timeout);
     }
-  } catch {
+  } catch (error) {
+    availabilityTimedOut = (error as Error).name === 'AbortError';
     // Fall through to CDX API
   }
 
@@ -804,12 +860,15 @@ async function fetchFromWayback(originalUrl: string, notBefore?: Date): Promise<
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15_000);
-
-    const cdxRes = await fetch(cdxUrl, {
-      signal: controller.signal,
-      headers: { 'User-Agent': 'PolicyWatcher/3.1 (https://policywatcher.online)' },
-    });
-    clearTimeout(timeout);
+    let cdxRes: Response;
+    try {
+      cdxRes = await fetch(cdxUrl, {
+        signal: controller.signal,
+        headers: { 'User-Agent': 'PolicyWatcher/3.1 (https://policywatcher.online)' },
+      });
+    } finally {
+      clearTimeout(timeout);
+    }
 
     if (!cdxRes.ok) {
       return { ok: false, html: '', status: cdxRes.status, finalUrl: cdxUrl, error: 'wayback_cdx_error' };
@@ -827,6 +886,7 @@ async function fetchFromWayback(originalUrl: string, notBefore?: Date): Promise<
       const ts = rows[i][0];
       if (!isFreshEnough(ts, notBefore)) {
         sawStale = true;
+        staleCandidate = { timestamp: ts, url: `https://web.archive.org/web/${ts}/${originalUrl}` };
         continue;
       }
       const rawUrl = `https://web.archive.org/web/${ts}id_/${originalUrl}`;
@@ -839,12 +899,30 @@ async function fetchFromWayback(originalUrl: string, notBefore?: Date): Promise<
       html: '',
       status: 0,
       finalUrl: cdxUrl,
-      error: sawStale ? 'wayback_only_stale_snapshots' : 'wayback_all_snapshots_invalid',
+      error: sawStale
+        ? 'wayback_only_stale_snapshots'
+        : availabilityTimedOut ? 'wayback_availability_timeout_no_fresh_snapshot' : 'wayback_all_snapshots_invalid',
+      staleArchiveTimestamp: staleCandidate?.timestamp,
+      staleArchiveUrl: staleCandidate?.url,
     };
   } catch (err) {
     const e = err as Error;
-    return { ok: false, html: '', status: 0, finalUrl: cdxUrl, error: `wayback_error:${e.message}` };
+    return {
+      ok: false,
+      html: '',
+      status: 0,
+      finalUrl: cdxUrl,
+      error: e.name === 'AbortError' ? 'wayback_cdx_timeout' : `wayback_cdx_error:${e.message}`,
+      staleArchiveTimestamp: staleCandidate?.timestamp,
+      staleArchiveUrl: staleCandidate?.url,
+    };
   }
+}
+
+export function stripArchiveScripts(html: string): string {
+  const $ = cheerio.load(html);
+  $('script').remove();
+  return $.html();
 }
 
 /** Fetches and cleans a single Wayback Machine page. */
@@ -865,8 +943,9 @@ async function fetchWaybackPage(rawUrl: string): Promise<TransportResult> {
     let html = await res.text();
     // Strip Wayback Machine toolbar injection and tracking scripts
     html = html.replace(/<!-- BEGIN WAYBACK TOOLBAR INSERT -->[\s\S]*?<!-- END WAYBACK TOOLBAR INSERT -->/gi, '');
-    html = html.replace(/<script[^>]*wombat[^>]*>[\s\S]*?<\/script>/gi, '');
-    html = html.replace(/<script[^>]*archive\.org[^>]*>[\s\S]*?<\/script>/gi, '');
+    // Archive HTML is evidence input, never executable content. Parse it and
+    // remove every script node instead of relying on repeated string deletion.
+    html = stripArchiveScripts(html);
     // Fix Wayback-rewritten URLs back to originals (optional, for cleaner text)
     html = html.replace(/https?:\/\/web\.archive\.org\/web\/\d+\//g, '');
 
@@ -965,62 +1044,106 @@ async function fetchWithRenderer(url: string): Promise<TransportResult> {
  * with its own CDX index. Often has snapshots that Wayback Machine doesn't.
  * API: https://index.commoncrawl.org/
  */
+type CommonCrawlCollection = { 'cdx-api': string; id: string };
+let commonCrawlCollectionCache: { expiresAt: number; collections: CommonCrawlCollection[] } | null = null;
+let lastCommonCrawlRequestAt = 0;
+
+async function commonCrawlPacing(): Promise<void> {
+  const waitMs = Math.max(0, 500 - (Date.now() - lastCommonCrawlRequestAt));
+  if (waitMs > 0) await sleep(waitMs);
+  lastCommonCrawlRequestAt = Date.now();
+}
+
+async function loadCommonCrawlCollections(): Promise<CommonCrawlCollection[]> {
+  if (commonCrawlCollectionCache && commonCrawlCollectionCache.expiresAt > Date.now()) {
+    return commonCrawlCollectionCache.collections;
+  }
+  await commonCrawlPacing();
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10_000);
+  try {
+    const response = await fetch('https://index.commoncrawl.org/collinfo.json', {
+      signal: controller.signal,
+      headers: { 'User-Agent': 'PolicyWatcher/3.9 (+https://policywatcher.online/methodology/confidence)' },
+    });
+    if (!response.ok) throw new Error(`cc_collections_${response.status}`);
+    const collections = await response.json() as CommonCrawlCollection[];
+    commonCrawlCollectionCache = { expiresAt: Date.now() + 6 * 60 * 60 * 1000, collections };
+    return collections;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 async function fetchFromCommonCrawl(originalUrl: string, notBefore?: Date): Promise<TransportResult> {
   try {
-    // 1. Get the latest Common Crawl index
-    const controller1 = new AbortController();
-    const timeout1 = setTimeout(() => controller1.abort(), 10_000);
-    const collRes = await fetch('https://index.commoncrawl.org/collinfo.json', {
-      signal: controller1.signal,
-      headers: { 'User-Agent': 'PolicyWatcher/3.1' },
-    });
-    clearTimeout(timeout1);
-
-    if (!collRes.ok) {
-      return { ok: false, html: '', status: 0, finalUrl: originalUrl, error: 'cc_index_error' };
-    }
-
-    const collections = await collRes.json() as Array<{ 'cdx-api': string; id: string }>;
+    const collections = await loadCommonCrawlCollections();
     if (!collections.length) {
       return { ok: false, html: '', status: 0, finalUrl: originalUrl, error: 'cc_no_collections' };
     }
 
-    // Use the most recent collection
-    const latestCdx = collections[0]['cdx-api'];
+    type CdxRecord = { url: string; filename: string; offset: string; length: string; timestamp?: string };
+    let record: CdxRecord | null = null;
+    let lastSearchUrl = originalUrl;
+    let lastFailure = 'cc_no_results';
+    let staleRecord: CdxRecord | null = null;
 
-    // 2. Search for the URL in the CDX index
-    const controller2 = new AbortController();
-    const timeout2 = setTimeout(() => controller2.abort(), 15_000);
-    const searchUrl = `${latestCdx}?url=${encodeURIComponent(originalUrl)}&output=json&limit=1&filter=status:200`;
-    const cdxRes = await fetch(searchUrl, {
-      signal: controller2.signal,
-      headers: { 'User-Agent': 'PolicyWatcher/3.1' },
-    });
-    clearTimeout(timeout2);
-
-    if (!cdxRes.ok) {
-      return { ok: false, html: '', status: 0, finalUrl: searchUrl, error: `cc_cdx_${cdxRes.status}` };
+    for (const collection of collections.slice(0, 3)) {
+      await commonCrawlPacing();
+      const searchUrl = `${collection['cdx-api']}?url=${encodeURIComponent(originalUrl)}&output=json&limit=1&filter=status:200`;
+      lastSearchUrl = searchUrl;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 15_000);
+        try {
+          const response = await fetch(searchUrl, {
+            signal: controller.signal,
+            headers: { 'User-Agent': 'PolicyWatcher/3.9 (+https://policywatcher.online/methodology/confidence)' },
+          });
+          if (!response.ok) {
+            lastFailure = `cc_cdx_${response.status}`;
+            if ((response.status === 429 || response.status >= 500) && attempt === 0) {
+              await sleep(750);
+              continue;
+            }
+            break;
+          }
+          const lines = (await response.text()).trim().split('\n').filter(Boolean);
+          if (!lines.length) {
+            lastFailure = 'cc_no_results';
+            break;
+          }
+          const candidate = JSON.parse(lines[0]) as CdxRecord;
+          if (!isFreshEnough(candidate.timestamp, notBefore)) {
+            staleRecord = candidate;
+            lastFailure = 'cc_only_stale_snapshots';
+            break;
+          }
+          record = candidate;
+          break;
+        } catch (error) {
+          lastFailure = (error as Error).name === 'AbortError' ? 'cc_cdx_timeout' : `cc_cdx_error:${(error as Error).message}`;
+          if (attempt === 0) {
+            await sleep(750);
+            continue;
+          }
+        } finally {
+          clearTimeout(timeout);
+        }
+      }
+      if (record) break;
     }
 
-    const text = await cdxRes.text();
-    const lines = text.trim().split('\n').filter(l => l.length > 0);
-    if (lines.length === 0) {
-      return { ok: false, html: '', status: 0, finalUrl: searchUrl, error: 'cc_no_results' };
-    }
-
-    // Parse the CDX record (NDJSON format)
-    const record = JSON.parse(lines[0]) as {
-      url: string;
-      filename: string;
-      offset: string;
-      length: string;
-      timestamp?: string;
-    };
-
-    // Freshness guard: crawls run months apart, so most CC snapshots are
-    // older than our last successful check, reject them explicitly.
-    if (!isFreshEnough(record.timestamp, notBefore)) {
-      return { ok: false, html: '', status: 0, finalUrl: originalUrl, error: 'cc_only_stale_snapshots' };
+    if (!record) {
+      return {
+        ok: false,
+        html: '',
+        status: 0,
+        finalUrl: lastSearchUrl,
+        error: lastFailure,
+        staleArchiveTimestamp: staleRecord?.timestamp,
+        staleArchiveUrl: staleRecord ? `commoncrawl://${staleRecord.url}` : undefined,
+      };
     }
 
     // 3. Fetch the actual page from Common Crawl S3
@@ -1030,14 +1153,18 @@ async function fetchFromCommonCrawl(originalUrl: string, notBefore?: Date): Prom
 
     const controller3 = new AbortController();
     const timeout3 = setTimeout(() => controller3.abort(), 20_000);
-    const warcRes = await fetch(warc_url, {
-      signal: controller3.signal,
-      headers: {
-        'User-Agent': 'PolicyWatcher/3.1',
-        Range: `bytes=${offset}-${offset + length - 1}`,
-      },
-    });
-    clearTimeout(timeout3);
+    let warcRes: Response;
+    try {
+      warcRes = await fetch(warc_url, {
+        signal: controller3.signal,
+        headers: {
+          'User-Agent': 'PolicyWatcher/3.9 (+https://policywatcher.online/methodology/confidence)',
+          Range: `bytes=${offset}-${offset + length - 1}`,
+        },
+      });
+    } finally {
+      clearTimeout(timeout3);
+    }
 
     if (!warcRes.ok && warcRes.status !== 206) {
       return { ok: false, html: '', status: warcRes.status, finalUrl: warc_url, error: `cc_warc_${warcRes.status}` };
@@ -1070,7 +1197,13 @@ async function fetchFromCommonCrawl(originalUrl: string, notBefore?: Date): Prom
     return { ok: true, html, status: 200, finalUrl: `commoncrawl://${record.url}`, error: '', archiveTimestamp: record.timestamp };
   } catch (err) {
     const e = err as Error;
-    return { ok: false, html: '', status: 0, finalUrl: originalUrl, error: `cc_error:${e.message}` };
+    return {
+      ok: false,
+      html: '',
+      status: 0,
+      finalUrl: originalUrl,
+      error: e.name === 'AbortError' ? 'cc_index_timeout' : `cc_error:${e.message}`,
+    };
   }
 }
 
@@ -1414,6 +1547,7 @@ export async function fetchDiscoveryDocument(url: string): Promise<DiscoveryDocu
       diagnostics,
     };
   }
+  const logUrl = sanitizeLogText(destination.url);
 
   const accept = (source: string, result: TransportResult): DiscoveryDocumentResult | null => {
     if (!result.ok) {
@@ -1456,13 +1590,13 @@ export async function fetchDiscoveryDocument(url: string): Promise<DiscoveryDocu
     };
   };
 
-  console.log(`[Discovery] [1/5] Direct fetch: ${url}`);
+  console.log(`[Discovery] [1/5] Direct fetch: ${logUrl}`);
   const direct = await fetchWithRetry(destination.url);
   const directAccepted = accept('direct', direct);
   if (directAccepted) return directAccepted;
 
   await politeDelay();
-  console.log(`[Discovery] [2/5] HTTP/2 fetch: ${url}`);
+  console.log(`[Discovery] [2/5] HTTP/2 fetch: ${logUrl}`);
   try {
     const http2Result = await fetchWithHttp2(destination.url);
     const http2Accepted = accept('http2', http2Result);
@@ -1473,7 +1607,7 @@ export async function fetchDiscoveryDocument(url: string): Promise<DiscoveryDocu
 
   if (rendererConfigured()) {
     await politeDelay();
-    console.log(`[Discovery] [3/5] Rendered fetch: ${url}`);
+    console.log(`[Discovery] [3/5] Rendered fetch: ${logUrl}`);
     const rendered = await fetchWithRenderer(destination.url);
     const renderedAccepted = accept('rendered', rendered);
     if (renderedAccepted) return renderedAccepted;
@@ -1482,13 +1616,13 @@ export async function fetchDiscoveryDocument(url: string): Promise<DiscoveryDocu
   }
 
   await politeDelay();
-  console.log(`[Discovery] [4/5] Wayback fetch: ${url}`);
+  console.log(`[Discovery] [4/5] Wayback fetch: ${logUrl}`);
   const wayback = await fetchFromWayback(destination.url);
   const waybackAccepted = accept('wayback', wayback);
   if (waybackAccepted) return waybackAccepted;
 
   await politeDelay();
-  console.log(`[Discovery] [5/5] Common Crawl fetch: ${url}`);
+  console.log(`[Discovery] [5/5] Common Crawl fetch: ${logUrl}`);
   const commonCrawl = await fetchFromCommonCrawl(destination.url);
   const commonCrawlAccepted = accept('commoncrawl', commonCrawl);
   if (commonCrawlAccepted) return commonCrawlAccepted;
@@ -1537,9 +1671,15 @@ export async function fetchDiscoveryDocument(url: string): Promise<DiscoveryDocu
  */
 export async function scrapePolicyText(
   url: string,
-  options: { archiveNotBefore?: Date } = {},
+  options: ScrapePolicyOptions = {},
 ): Promise<ScrapeResult> {
-  const { archiveNotBefore } = options;
+  const { archiveNotBefore, controlledFallbacks } = options;
+  if (controlledFallbacks && process.env.NODE_ENV === 'production') {
+    throw new Error('controlled_fallbacks_disabled_in_production');
+  }
+  const fallbackDelay = controlledFallbacks?.skipDelays
+    ? async () => undefined
+    : politeDelay;
   const diagnostics: ScrapeDiagnostic[] = [];
   const destination = await validateOutboundUrl(url);
   if (!destination.ok) {
@@ -1551,12 +1691,17 @@ export async function scrapePolicyText(
     });
     return makeResult('unavailable', destination.finalUrl, destination.reason, 0, 0, 'direct', diagnostics);
   }
+  const logUrl = sanitizeLogText(destination.url);
 
   let directReason = '';
 
   // Strategy 1: Direct HTTP/1.1 fetch.
-  console.log(`[Scraper] [1/5] Direct fetch: ${url}`);
-  const transport = await fetchWithRetry(destination.url);
+  console.log(`[Scraper] [1/5] Direct fetch: ${logUrl}`);
+  const directStartedAt = Date.now();
+  const transport = controlledFallbacks?.direct
+    ? await controlledFallbacks.direct(destination.url, archiveNotBefore)
+    : await fetchWithRetry(destination.url);
+  const directDurationMs = Date.now() - directStartedAt;
 
     if (!transport.ok && transport.html === '') {
       directReason = transport.error;
@@ -1566,8 +1711,9 @@ export async function scrapePolicyText(
         reason: transport.error,
         httpStatus: transport.status,
         finalUrl: transport.finalUrl,
+        durationMs: directDurationMs,
       });
-      console.log(`[Scraper] [1/5] Transport failure: ${transport.error}`);
+      console.log('[Scraper] [1/5] Transport failure recorded.');
     } else {
     const httpStatus = transport.status;
 
@@ -1579,6 +1725,7 @@ export async function scrapePolicyText(
         reason: directReason,
         httpStatus,
         finalUrl: transport.finalUrl,
+        durationMs: directDurationMs,
       });
       console.log(`[Scraper] [1/5] ${httpStatus} Gone`);
     } else if (httpStatus >= 400 && !(httpStatus === 403 && transport.html.length > 5_000)) {
@@ -1589,28 +1736,32 @@ export async function scrapePolicyText(
         reason: directReason,
         httpStatus,
         finalUrl: transport.finalUrl,
+        durationMs: directDurationMs,
       });
       console.log(`[Scraper] [1/5] HTTP ${httpStatus}`);
     } else {
       const validation = await validateContent(transport.html, url);
       if (validation.ok) {
         if (hasLiveHostDrift(url, transport.finalUrl, 'direct')) {
-          console.log(`[Scraper] [1/5] Host drift rejected: ${url} -> ${transport.finalUrl}`);
-          diagnostics.push({ source: 'direct', status: 'rejected', reason: 'host_drift', httpStatus, finalUrl: transport.finalUrl });
+          console.log(`[Scraper] [1/5] Host drift rejected: ${logUrl} -> ${sanitizeLogText(transport.finalUrl)}`);
+          diagnostics.push({ source: 'direct', status: 'rejected', reason: 'host_drift', httpStatus, finalUrl: transport.finalUrl, durationMs: directDurationMs });
           return makeResult('invalid', transport.finalUrl, 'host_drift', httpStatus, MAX_RETRIES + 1, 'direct', diagnostics);
         }
         if (hasLivePathDrift(url, transport.finalUrl, 'direct')) {
-          console.log(`[Scraper] [1/5] Path drift rejected: ${url} -> ${transport.finalUrl}`);
-          diagnostics.push({ source: 'direct', status: 'rejected', reason: 'path_drift', httpStatus, finalUrl: transport.finalUrl });
+          console.log(`[Scraper] [1/5] Path drift rejected: ${logUrl} -> ${sanitizeLogText(transport.finalUrl)}`);
+          diagnostics.push({ source: 'direct', status: 'rejected', reason: 'path_drift', httpStatus, finalUrl: transport.finalUrl, durationMs: directDurationMs });
           return makeResult('invalid', transport.finalUrl, 'path_drift', httpStatus, MAX_RETRIES + 1, 'direct', diagnostics);
         }
         console.log(`[Scraper] [OK] Direct fetch OK (${validation.text.length} chars)`);
         diagnostics.push({
           source: 'direct',
           status: validation.partial ? 'partial' : 'ok',
-          reason: validation.partial ? validation.partialReason || 'partial_retrieval' : undefined,
+          reason: validation.partial
+            ? validation.partialReason || 'partial_retrieval'
+            : httpStatus !== 200 ? `accepted_noncanonical_http_status:${httpStatus}` : undefined,
           httpStatus,
           finalUrl: transport.finalUrl,
+          durationMs: directDurationMs,
         });
         return {
           status: 'ok',
@@ -1624,7 +1775,7 @@ export async function scrapePolicyText(
           partial: validation.partial,
           partialReason: validation.partialReason,
           originalTextLength: validation.originalTextLength,
-          diagnostics,
+          diagnostics: enrichDiagnostics(diagnostics),
         };
       }
       directReason = validation.reason;
@@ -1634,38 +1785,48 @@ export async function scrapePolicyText(
         reason: validation.reason,
         httpStatus,
         finalUrl: transport.finalUrl,
+        durationMs: directDurationMs,
       });
       console.log(`[Scraper] [1/5] Content rejected: ${validation.reason}`);
     }
   }
 
   // Strategy 2: HTTP/2 explicit (for Meta 400 errors).
-  // Only try if direct fetch got 400 (protocol mismatch) or content_too_short (SPA shell)
-  if (directReason.includes('400') || directReason === 'content_too_short') {
-    await politeDelay();
-    console.log(`[Scraper] [2/5] HTTP/2 explicit: ${url}`);
+  // Try protocol-sensitive 400s, SPA shells, and one bounded 403 probe.
+  // Repeated source-level failures are handled by the remediation registry;
+  // this is not an anti-bot bypass and never attempts a CAPTCHA challenge.
+  if (directReason.includes('400') || directReason.includes('403') || directReason === 'content_too_short') {
+    await fallbackDelay();
+    console.log(`[Scraper] [2/5] HTTP/2 explicit: ${logUrl}`);
+    const h2StartedAt = Date.now();
     try {
-      const h2Result = await fetchWithHttp2(destination.url);
+      const h2Result = controlledFallbacks?.http2
+        ? await controlledFallbacks.http2(destination.url, archiveNotBefore)
+        : await fetchWithHttp2(destination.url);
+      const h2DurationMs = Date.now() - h2StartedAt;
       if (h2Result.ok) {
         const validation = await validateContent(h2Result.html, url);
         if (validation.ok) {
           if (hasLiveHostDrift(url, h2Result.finalUrl, 'http2')) {
-            console.log(`[Scraper] [2/5] Host drift rejected: ${url} -> ${h2Result.finalUrl}`);
-            diagnostics.push({ source: 'http2', status: 'rejected', reason: 'host_drift', httpStatus: h2Result.status, finalUrl: h2Result.finalUrl });
+            console.log(`[Scraper] [2/5] Host drift rejected: ${logUrl} -> ${sanitizeLogText(h2Result.finalUrl)}`);
+            diagnostics.push({ source: 'http2', status: 'rejected', reason: 'host_drift', httpStatus: h2Result.status, finalUrl: h2Result.finalUrl, durationMs: h2DurationMs });
             return makeResult('invalid', h2Result.finalUrl, 'host_drift', h2Result.status, MAX_RETRIES + 2, 'http2', diagnostics);
           }
           if (hasLivePathDrift(url, h2Result.finalUrl, 'http2')) {
-            console.log(`[Scraper] [2/5] Path drift rejected: ${url} -> ${h2Result.finalUrl}`);
-            diagnostics.push({ source: 'http2', status: 'rejected', reason: 'path_drift', httpStatus: h2Result.status, finalUrl: h2Result.finalUrl });
+            console.log(`[Scraper] [2/5] Path drift rejected: ${logUrl} -> ${sanitizeLogText(h2Result.finalUrl)}`);
+            diagnostics.push({ source: 'http2', status: 'rejected', reason: 'path_drift', httpStatus: h2Result.status, finalUrl: h2Result.finalUrl, durationMs: h2DurationMs });
             return makeResult('invalid', h2Result.finalUrl, 'path_drift', h2Result.status, MAX_RETRIES + 2, 'http2', diagnostics);
           }
           console.log(`[Scraper] [OK] HTTP/2 fetch OK (${validation.text.length} chars)`);
           diagnostics.push({
             source: 'http2',
             status: validation.partial ? 'partial' : 'ok',
-            reason: validation.partial ? validation.partialReason || 'partial_retrieval' : undefined,
+            reason: validation.partial
+              ? validation.partialReason || 'partial_retrieval'
+              : h2Result.status !== 200 ? `accepted_noncanonical_http_status:${h2Result.status}` : undefined,
             httpStatus: h2Result.status,
             finalUrl: h2Result.finalUrl,
+            durationMs: h2DurationMs,
           });
           return {
             status: 'ok',
@@ -1679,7 +1840,7 @@ export async function scrapePolicyText(
             partial: validation.partial,
             partialReason: validation.partialReason,
             originalTextLength: validation.originalTextLength,
-            diagnostics,
+            diagnostics: enrichDiagnostics(diagnostics),
           };
         }
         diagnostics.push({
@@ -1688,6 +1849,7 @@ export async function scrapePolicyText(
           reason: validation.reason,
           httpStatus: h2Result.status,
           finalUrl: h2Result.finalUrl,
+          durationMs: h2DurationMs,
         });
         console.log(`[Scraper] [2/5] H2 content rejected: ${validation.reason}`);
       } else {
@@ -1697,46 +1859,54 @@ export async function scrapePolicyText(
           reason: h2Result.error,
           httpStatus: h2Result.status,
           finalUrl: h2Result.finalUrl,
+          durationMs: h2DurationMs,
         });
-        console.log(`[Scraper] [2/5] H2 fetch failed: ${h2Result.error}`);
+        console.log(`[Scraper] [2/5] H2 fetch failed: ${sanitizeLogText(h2Result.error)}`);
       }
     } catch (err) {
-      diagnostics.push({ source: 'http2', status: 'failed', reason: (err as Error).message });
-      console.log(`[Scraper] [2/5] H2 error: ${(err as Error).message}`);
+      diagnostics.push({ source: 'http2', status: 'failed', reason: (err as Error).message, durationMs: Date.now() - h2StartedAt });
+      console.log(`[Scraper] [2/5] H2 error: ${sanitizeLogText((err as Error).message)}`);
     }
   } else {
-    diagnostics.push({ source: 'http2', status: 'skipped', reason: 'not_a_400_or_spa_issue' });
-    console.log(`[Scraper] [2/5] HTTP/2 skipped (not a 400/SPA issue)`);
+    diagnostics.push({ source: 'http2', status: 'skipped', reason: 'routing_policy_not_protocol_spa_or_403' });
+    console.log(`[Scraper] [2/5] HTTP/2 skipped by routing policy`);
   }
 
   // Strategy 3: Rendered fetch (Playwright service on the VPS).
   // Executes JavaScript: recovers SPA shells and many bot-protected pages.
   // This is the LAST strategy that sees the live site. Archives below
   // can only confirm past versions, never the current one.
-  if (rendererConfigured()) {
-    await politeDelay();
-    console.log(`[Scraper] [3/5] Rendered fetch: ${url}`);
-    const rendered = await fetchWithRenderer(destination.url);
+  if (controlledFallbacks?.rendered || rendererConfigured()) {
+    await fallbackDelay();
+    console.log(`[Scraper] [3/5] Rendered fetch: ${logUrl}`);
+    const renderedStartedAt = Date.now();
+    const rendered = controlledFallbacks?.rendered
+      ? await controlledFallbacks.rendered(destination.url, archiveNotBefore)
+      : await fetchWithRenderer(destination.url);
+    const renderedDurationMs = Date.now() - renderedStartedAt;
     if (rendered.ok) {
       const validation = await validateContent(rendered.html, url);
       if (validation.ok) {
         if (hasLiveHostDrift(url, rendered.finalUrl, 'rendered')) {
-          console.log(`[Scraper] [3/5] Host drift rejected: ${url} -> ${rendered.finalUrl}`);
-          diagnostics.push({ source: 'rendered', status: 'rejected', reason: 'host_drift', httpStatus: rendered.status, finalUrl: rendered.finalUrl });
+          console.log(`[Scraper] [3/5] Host drift rejected: ${logUrl} -> ${sanitizeLogText(rendered.finalUrl)}`);
+          diagnostics.push({ source: 'rendered', status: 'rejected', reason: 'host_drift', httpStatus: rendered.status, finalUrl: rendered.finalUrl, durationMs: renderedDurationMs });
           return makeResult('invalid', rendered.finalUrl, 'host_drift', rendered.status, MAX_RETRIES + 3, 'rendered', diagnostics);
         }
         if (hasLivePathDrift(url, rendered.finalUrl, 'rendered')) {
-          console.log(`[Scraper] [3/5] Path drift rejected: ${url} -> ${rendered.finalUrl}`);
-          diagnostics.push({ source: 'rendered', status: 'rejected', reason: 'path_drift', httpStatus: rendered.status, finalUrl: rendered.finalUrl });
+          console.log(`[Scraper] [3/5] Path drift rejected: ${logUrl} -> ${sanitizeLogText(rendered.finalUrl)}`);
+          diagnostics.push({ source: 'rendered', status: 'rejected', reason: 'path_drift', httpStatus: rendered.status, finalUrl: rendered.finalUrl, durationMs: renderedDurationMs });
           return makeResult('invalid', rendered.finalUrl, 'path_drift', rendered.status, MAX_RETRIES + 3, 'rendered', diagnostics);
         }
         console.log(`[Scraper] [OK] Rendered fetch OK (${validation.text.length} chars)`);
         diagnostics.push({
           source: 'rendered',
           status: validation.partial ? 'partial' : 'ok',
-          reason: validation.partial ? validation.partialReason || 'partial_retrieval' : undefined,
+          reason: validation.partial
+            ? validation.partialReason || 'partial_retrieval'
+            : rendered.status !== 200 ? `accepted_noncanonical_http_status:${rendered.status}` : undefined,
           httpStatus: rendered.status,
           finalUrl: rendered.finalUrl,
+          durationMs: renderedDurationMs,
         });
         return {
           status: 'ok',
@@ -1750,7 +1920,7 @@ export async function scrapePolicyText(
           partial: validation.partial,
           partialReason: validation.partialReason,
           originalTextLength: validation.originalTextLength,
-          diagnostics,
+          diagnostics: enrichDiagnostics(diagnostics),
         };
       }
       diagnostics.push({
@@ -1759,6 +1929,7 @@ export async function scrapePolicyText(
         reason: validation.reason,
         httpStatus: rendered.status,
         finalUrl: rendered.finalUrl,
+        durationMs: renderedDurationMs,
       });
       console.log(`[Scraper] [3/5] Rendered content rejected: ${validation.reason}`);
     } else {
@@ -1768,8 +1939,9 @@ export async function scrapePolicyText(
         reason: rendered.error,
         httpStatus: rendered.status,
         finalUrl: rendered.finalUrl,
+        durationMs: renderedDurationMs,
       });
-      console.log(`[Scraper] [3/5] Rendered fetch failed: ${rendered.error}`);
+      console.log(`[Scraper] [3/5] Rendered fetch failed: ${sanitizeLogText(rendered.error)}`);
     }
   } else {
     diagnostics.push({ source: 'rendered', status: 'skipped', reason: 'renderer_not_configured' });
@@ -1777,18 +1949,23 @@ export async function scrapePolicyText(
   }
 
   // Strategy 4: Wayback Machine (freshness-guarded).
-  await politeDelay();
-  console.log(`[Scraper] [4/5] Wayback Machine: ${url}`);
-  const wayback = await fetchFromWayback(url, archiveNotBefore);
+  await fallbackDelay();
+  console.log(`[Scraper] [4/5] Wayback Machine: ${logUrl}`);
+  const waybackStartedAt = Date.now();
+  const wayback = controlledFallbacks?.wayback
+    ? await controlledFallbacks.wayback(url, archiveNotBefore)
+    : await fetchFromWayback(url, archiveNotBefore);
+  const waybackDurationMs = Date.now() - waybackStartedAt;
   if (wayback.ok) {
     const validation = await validateContent(wayback.html, url);
     if (validation.ok) {
-      console.log(`[Scraper] [OK] Wayback Machine OK (${validation.text.length} chars from ${wayback.finalUrl})`);
+      console.log(`[Scraper] [OK] Wayback Machine OK (${validation.text.length} chars from ${sanitizeLogText(wayback.finalUrl)})`);
       diagnostics.push({
         source: 'wayback',
         status: validation.partial ? 'partial' : 'ok',
         httpStatus: 200,
         finalUrl: wayback.finalUrl,
+        durationMs: waybackDurationMs,
         reason: validation.partial
           ? validation.partialReason || 'partial_retrieval'
           : wayback.archiveTimestamp ? `archive_timestamp:${wayback.archiveTimestamp}` : undefined,
@@ -1808,7 +1985,7 @@ export async function scrapePolicyText(
         partial: validation.partial,
         partialReason: validation.partialReason,
         originalTextLength: validation.originalTextLength,
-        diagnostics,
+        diagnostics: enrichDiagnostics(diagnostics),
       };
     }
     diagnostics.push({
@@ -1817,6 +1994,7 @@ export async function scrapePolicyText(
       reason: validation.reason,
       httpStatus: wayback.status,
       finalUrl: wayback.finalUrl,
+      durationMs: waybackDurationMs,
     });
     console.log(`[Scraper] [4/5] Wayback content rejected: ${validation.reason}`);
   } else {
@@ -1826,14 +2004,19 @@ export async function scrapePolicyText(
       reason: wayback.error,
       httpStatus: wayback.status,
       finalUrl: wayback.finalUrl,
+      durationMs: waybackDurationMs,
     });
-    console.log(`[Scraper] [4/5] Wayback failed: ${wayback.error}`);
+    console.log(`[Scraper] [4/5] Wayback failed: ${sanitizeLogText(wayback.error)}`);
   }
 
   // Strategy 5: Common Crawl (freshness-guarded).
-  await politeDelay();
-  console.log(`[Scraper] [5/5] Common Crawl: ${url}`);
-  const cc = await fetchFromCommonCrawl(url, archiveNotBefore);
+  await fallbackDelay();
+  console.log(`[Scraper] [5/5] Common Crawl: ${logUrl}`);
+  const commonCrawlStartedAt = Date.now();
+  const cc = controlledFallbacks?.commoncrawl
+    ? await controlledFallbacks.commoncrawl(url, archiveNotBefore)
+    : await fetchFromCommonCrawl(url, archiveNotBefore);
+  const commonCrawlDurationMs = Date.now() - commonCrawlStartedAt;
   if (cc.ok) {
     const validation = await validateContent(cc.html, url);
     if (validation.ok) {
@@ -1843,6 +2026,7 @@ export async function scrapePolicyText(
         status: validation.partial ? 'partial' : 'ok',
         httpStatus: 200,
         finalUrl: cc.finalUrl,
+        durationMs: commonCrawlDurationMs,
         reason: validation.partial
           ? validation.partialReason || 'partial_retrieval'
           : cc.archiveTimestamp ? `archive_timestamp:${cc.archiveTimestamp}` : undefined,
@@ -1862,7 +2046,7 @@ export async function scrapePolicyText(
         partial: validation.partial,
         partialReason: validation.partialReason,
         originalTextLength: validation.originalTextLength,
-        diagnostics,
+        diagnostics: enrichDiagnostics(diagnostics),
       };
     }
     diagnostics.push({
@@ -1871,6 +2055,7 @@ export async function scrapePolicyText(
       reason: validation.reason,
       httpStatus: cc.status,
       finalUrl: cc.finalUrl,
+      durationMs: commonCrawlDurationMs,
     });
     console.log(`[Scraper] [5/5] Common Crawl content rejected: ${validation.reason}`);
   } else {
@@ -1880,8 +2065,9 @@ export async function scrapePolicyText(
       reason: cc.error,
       httpStatus: cc.status,
       finalUrl: cc.finalUrl,
+      durationMs: commonCrawlDurationMs,
     });
-    console.log(`[Scraper] [5/5] Common Crawl failed: ${cc.error}`);
+    console.log(`[Scraper] [5/5] Common Crawl failed: ${sanitizeLogText(cc.error)}`);
   }
 
   // All strategies exhausted.
@@ -1890,17 +2076,40 @@ export async function scrapePolicyText(
     .join(' | ');
   const finalReason = diagnosticReason || directReason || 'all_sources_failed';
   const httpStatus = transport.status;
+  const enrichedDiagnostics = enrichDiagnostics(diagnostics);
+  const reasonCode = terminalRetrievalCause(enrichedDiagnostics);
 
-  console.log(`[Scraper] [ERROR] All 5 strategies exhausted for ${url}: ${finalReason}`);
-  return makeResult(
-    finalReason.includes('gone') || finalReason === 'soft_404' ? 'invalid' : 'unavailable',
+  const historicalCandidates = [
+    wayback.staleArchiveTimestamp
+      ? { source: 'wayback' as const, capturedAt: wayback.staleArchiveTimestamp, referenceUrl: wayback.staleArchiveUrl }
+      : null,
+    cc.staleArchiveTimestamp
+      ? { source: 'commoncrawl' as const, capturedAt: cc.staleArchiveTimestamp, referenceUrl: cc.staleArchiveUrl }
+      : null,
+  ].filter((candidate): candidate is NonNullable<typeof candidate> => Boolean(candidate));
+  historicalCandidates.sort((left, right) => {
+    const leftDate = parseArchiveTimestamp(left.capturedAt)?.getTime() || 0;
+    const rightDate = parseArchiveTimestamp(right.capturedAt)?.getTime() || 0;
+    return rightDate - leftDate;
+  });
+
+  console.log('[Scraper] [ERROR] All 5 strategies exhausted.');
+  const failedResult = makeResult(
+    reasonCode === 'source_gone' ? 'invalid' : 'unavailable',
     transport.finalUrl || url,
     finalReason,
     httpStatus,
     MAX_RETRIES + 5,
     'none',
-    diagnostics,
+    enrichedDiagnostics,
   );
+  failedResult.reasonCode = reasonCode;
+  const historicalReference = historicalCandidates[0];
+  if (historicalReference) {
+    const capturedAt = parseArchiveTimestamp(historicalReference.capturedAt)?.toISOString();
+    if (capturedAt) failedResult.historicalReference = { ...historicalReference, capturedAt };
+  }
+  return failedResult;
 }
 
 /**
@@ -1924,7 +2133,8 @@ function makeResult(
     httpStatus,
     attempts,
     source,
-    diagnostics,
+    diagnostics: enrichDiagnostics(diagnostics),
+    reasonCode: status === 'ok' ? 'verified' : terminalRetrievalCause(diagnostics),
   };
 }
 

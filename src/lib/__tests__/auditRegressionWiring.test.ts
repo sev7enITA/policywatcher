@@ -14,8 +14,10 @@ describe('audit regression wiring', () => {
 
   it('does not keep discovery jobs in global memory', () => {
     const route = readFileSync('src/app/api/admin/policy-discovery/route.ts', 'utf8');
+    const workflow = readFileSync('src/lib/policyDiscoveryWorkflow.ts', 'utf8');
     expect(route).not.toContain('globalThis');
     expect(route).not.toContain('new Map');
-    expect(route).toContain('claimDiscoveryJob(db, company.id)');
+    expect(route).toContain('startPolicyDiscovery(company)');
+    expect(workflow).toContain('claimDiscoveryJob(db, company.id)');
   });
 });

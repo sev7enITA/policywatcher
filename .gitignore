@@ -13,6 +13,15 @@ renderer/node_modules/
 /coverage
 /test-results
 
+# local agent and generated workspaces
+/.codex/
+/artifacts/
+/deliverables/
+/output/
+/tmp/
+*.pyc
+__pycache__/
+
 # next.js
 /.next/
 /out/
@@ -53,5 +62,11 @@ next-env.d.ts
 
 # archives
 *.zip
+!public/press-kit/policywatcher-press-package-*.zip
 deployment-quarantine/
 PolicyWatcher-architecture-infographics-*/
+
+# expanded or generated publication outputs
+/public/press-kit/policywatcher-press-package-*/
+/docs/paper/build*/
+/docs/paper/~$*

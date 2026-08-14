@@ -1,123 +1,116 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useId, useState } from 'react';
+import { useReducedMotion } from 'framer-motion';
 import type { Lang, RiskLevel } from '@/types';
+import {
+  RISK_GAUGE_CHART_SPEC,
+  localizedChartText,
+  summarizeRiskGaugeChart,
+} from '@/lib/chartSpec';
+import { CHART_TOKENS, getRiskChartColor } from '@/lib/chartTokens';
+import AccessibleChartFrame, { type AccessibleChartTable } from './AccessibleChartFrame';
 import styles from './Charts.module.css';
 
 interface ComplianceGaugeProps {
-  score: number; // 0-10
+  score: number;
   riskLevel: RiskLevel;
   lang: Lang;
 }
 
-const riskColorMap: Record<RiskLevel, string> = {
-  Low: '#10b981',
-  Medium: '#f59e0b',
-  High: '#f43f5e',
-};
-
 const riskLabelMap = {
   en: { Low: 'Low Risk', Medium: 'Medium Risk', High: 'High Risk' },
   it: { Low: 'Rischio Basso', Medium: 'Rischio Medio', High: 'Rischio Alto' },
-};
+} as const;
 
-const translations = {
-  en: { title: 'Compliance Score' },
-  it: { title: 'Punteggio Compliance' },
-};
+function buildAccessibleTable(
+  score: number,
+  riskLevel: RiskLevel,
+  lang: Lang
+): AccessibleChartTable {
+  const copy = RISK_GAUGE_CHART_SPEC.copy;
+  const normalizedScore = Math.min(Math.max(Number.isFinite(score) ? score : 0, 0), 10);
+  return {
+    caption: localizedChartText(copy.title, lang),
+    columns: [
+      { key: 'score', label: localizedChartText(copy.columns.score, lang) },
+      { key: 'risk', label: localizedChartText(copy.columns.risk, lang) },
+    ],
+    rows: [{
+      score: `${normalizedScore.toFixed(1)}/10`,
+      risk: riskLabelMap[lang][riskLevel],
+    }],
+  };
+}
 
-export default function ComplianceGauge({
-  score,
-  riskLevel,
-  lang,
-}: ComplianceGaugeProps) {
+export default function ComplianceGauge({ score, riskLevel, lang }: ComplianceGaugeProps) {
   const [animatedScore, setAnimatedScore] = useState(0);
-  const t = translations[lang];
-  const color = riskColorMap[riskLevel];
+  const prefersReducedMotion = useReducedMotion();
+  const reactId = useId().replace(/:/g, '');
+  const gradientId = `risk-gauge-gradient-${reactId}`;
+  const glowId = `risk-gauge-glow-${reactId}`;
+  const spec = RISK_GAUGE_CHART_SPEC;
+  const color = getRiskChartColor(riskLevel);
+  const target = Math.min(Math.max(Number.isFinite(score) ? score : 0, 0), 10);
+  const displayedScore = prefersReducedMotion ? target : animatedScore;
 
-  // Animate score on mount
   useEffect(() => {
-    const target = Math.min(Math.max(score, 0), 10);
+    if (prefersReducedMotion) return;
+
     let frame: number;
     let start: number | null = null;
     const duration = 1200;
-
     const animate = (timestamp: number) => {
       if (!start) start = timestamp;
       const progress = Math.min((timestamp - start) / duration, 1);
-      // Ease out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
       setAnimatedScore(eased * target);
-      if (progress < 1) {
-        frame = requestAnimationFrame(animate);
-      }
+      if (progress < 1) frame = requestAnimationFrame(animate);
     };
 
     frame = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(frame);
-  }, [score]);
+  }, [prefersReducedMotion, target]);
 
-  // SVG arc calculations
   const size = 180;
   const strokeWidth = 14;
   const center = size / 2;
   const radius = center - strokeWidth;
-  // Arc spans 240 degrees (from 150 to 390 / -210 to 30)
   const startAngle = 150;
   const endAngle = 390;
-  const totalAngle = endAngle - startAngle;
-  const scoreAngle = startAngle + (animatedScore / 10) * totalAngle;
+  const scoreAngle = startAngle + (displayedScore / 10) * (endAngle - startAngle);
 
-  const polarToCartesian = (
-    cx: number,
-    cy: number,
-    r: number,
-    angleDeg: number
-  ) => {
+  const polarToCartesian = (cx: number, cy: number, r: number, angleDeg: number) => {
     const rad = ((angleDeg - 90) * Math.PI) / 180;
-    return {
-      x: cx + r * Math.cos(rad),
-      y: cy + r * Math.sin(rad),
-    };
+    return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
   };
-
-  const describeArc = (
-    cx: number,
-    cy: number,
-    r: number,
-    startA: number,
-    endA: number
-  ) => {
+  const describeArc = (cx: number, cy: number, r: number, startA: number, endA: number) => {
     const start = polarToCartesian(cx, cy, r, endA);
     const end = polarToCartesian(cx, cy, r, startA);
     const largeArcFlag = endA - startA <= 180 ? '0' : '1';
     return `M ${start.x} ${start.y} A ${r} ${r} 0 ${largeArcFlag} 0 ${end.x} ${end.y}`;
   };
 
-  const bgArc = describeArc(center, center, radius, startAngle, endAngle);
-  const valueArc =
-    animatedScore > 0.05
-      ? describeArc(center, center, radius, startAngle, scoreAngle)
-      : '';
+  const backgroundArc = describeArc(center, center, radius, startAngle, endAngle);
+  const valueArc = displayedScore > 0.05
+    ? describeArc(center, center, radius, startAngle, scoreAngle)
+    : '';
 
   return (
-    <div className={styles.chartCard}>
-      <h4 className={styles.chartTitle}>{t.title}</h4>
-      <div
-        style={{
-          position: 'relative',
-          width: size,
-          height: size,
-          margin: '0 auto',
-        }}
-      >
+    <AccessibleChartFrame
+      spec={spec}
+      lang={lang}
+      summary={summarizeRiskGaugeChart(score, riskLevel, lang)}
+      table={buildAccessibleTable(score, riskLevel, lang)}
+    >
+      <div className={styles.gaugeVisual}>
         <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
           <defs>
-            <linearGradient id="gaugeGradient" x1="0" y1="0" x2="1" y2="1">
+            <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stopColor={color} stopOpacity={0.8} />
               <stop offset="100%" stopColor={color} stopOpacity={1} />
             </linearGradient>
-            <filter id="gaugeGlow">
+            <filter id={glowId}>
               <feGaussianBlur stdDeviation="3" result="blur" />
               <feMerge>
                 <feMergeNode in="blur" />
@@ -125,36 +118,31 @@ export default function ComplianceGauge({
               </feMerge>
             </filter>
           </defs>
-          {/* Background track */}
           <path
-            d={bgArc}
+            d={backgroundArc}
             fill="none"
-            stroke="rgba(255, 255, 255, 0.06)"
+            stroke={CHART_TOKENS.track}
             strokeWidth={strokeWidth}
             strokeLinecap="round"
           />
-          {/* Value arc */}
           {valueArc && (
             <path
               d={valueArc}
               fill="none"
-              stroke="url(#gaugeGradient)"
+              stroke={`url(#${gradientId})`}
               strokeWidth={strokeWidth}
               strokeLinecap="round"
-              filter="url(#gaugeGlow)"
+              filter={`url(#${glowId})`}
             />
           )}
         </svg>
-        {/* Center text */}
         <div className={styles.gaugeCenter}>
           <div className={styles.gaugeScore} style={{ color }}>
-            {animatedScore.toFixed(1)}
+            {displayedScore.toFixed(1)}
           </div>
-          <div className={styles.gaugeLabel}>
-            {riskLabelMap[lang][riskLevel]}
-          </div>
+          <div className={styles.gaugeLabel}>{riskLabelMap[lang][riskLevel]}</div>
         </div>
       </div>
-    </div>
+    </AccessibleChartFrame>
   );
 }

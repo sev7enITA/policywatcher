@@ -1,0 +1,26 @@
+.provenance {
+  border-left: 3px solid #3f51aa;
+  margin: 18px 0 4px;
+  padding: 2px 0 2px 14px;
+}
+
+.provenance strong {
+  color: #2d3f91;
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.provenance p {
+  color: #526078;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  margin: 6px 0 0;
+}
+
+.currentNav {
+  border-bottom: 2px solid #0f766e;
+  color: #263b8f !important;
+  font-weight: 750 !important;
+}

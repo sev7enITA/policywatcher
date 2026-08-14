@@ -7,6 +7,7 @@
  */
 
 import nodemailer from 'nodemailer';
+import { buildAcquisitionKey } from '@/lib/sourceReliability';
 
 // -- Types --
 
@@ -32,6 +33,16 @@ export interface SourceSuspensionAlert {
   httpStatus?: number | null;
   officialUrl: string;
   checkedAt: Date | string;
+}
+
+export interface PolicyInquiryAdminAlert {
+  reference: string;
+  companyHint?: string | null;
+  normalizedDomain?: string | null;
+  policyTypes: string[];
+  noticeDate?: Date | string | null;
+  effectiveDate?: Date | string | null;
+  kind: 'verify_existing' | 'unknown_company';
 }
 
 // -- Transport Setup --
@@ -76,6 +87,18 @@ function getAdminAlertAddress(): string | null {
     process.env.SMTP_USER ||
     null
   );
+}
+
+/**
+ * Produces a non-deliverable recipient reference for operational logs.
+ * The complete address remains available only to the SMTP transport.
+ */
+export function maskEmailForLog(email: string): string {
+  const normalized = email.trim();
+  const separator = normalized.lastIndexOf('@');
+  if (separator <= 0 || separator === normalized.length - 1) return 'masked-recipient';
+  const local = normalized.slice(0, separator);
+  return `${local.slice(0, 1)}***@masked-domain`;
 }
 
 // -- Risk color helper --
@@ -231,20 +254,32 @@ export async function sendSourceSuspensionAdminAlert(
   if (alerts.length === 0) return true;
 
   const appUrl = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-  const subject =
-    alerts.length === 1
-      ? `PolicyWatcher QA: source temporarily suspended (${alerts[0].companyName})`
-      : `PolicyWatcher QA: ${alerts.length} sources temporarily suspended`;
+  const groupedAlerts = [...alerts.reduce((groups, alert) => {
+    const key = buildAcquisitionKey(alert.officialUrl);
+    const existing = groups.get(key);
+    if (existing) existing.push(alert);
+    else groups.set(key, [alert]);
+    return groups;
+  }, new Map<string, SourceSuspensionAlert[]>()).entries()];
 
-  const rows = alerts
+  const subject =
+    groupedAlerts.length === 1
+      ? `PolicyWatcher QA: source temporarily suspended (${groupedAlerts[0][1][0].companyName})`
+      : `PolicyWatcher QA: ${groupedAlerts.length} unique sources temporarily suspended`;
+
+  const rows = groupedAlerts
     .slice(0, 25)
-    .map((alert) => {
+    .map(([, grouped]) => {
+      const alert = grouped[0];
       const checkedAt = alert.checkedAt instanceof Date ? alert.checkedAt.toISOString() : alert.checkedAt;
+      const affectedRecords = grouped
+        .map((item) => `${item.policyName} / ${item.jurisdiction}`)
+        .join('; ');
       return `
         <tr>
           <td style="padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.08); color: #f3f4f6; font-size: 13px;">
             <strong>${escapeHtml(alert.companyName)}</strong><br>
-            <span style="color: #9ca3af;">${escapeHtml(alert.policyName)} / ${escapeHtml(alert.jurisdiction)}</span><br>
+            <span style="color: #9ca3af;">${escapeHtml(affectedRecords)}</span><br>
             <span style="color: #6b7280; word-break: break-all;">${escapeHtml(alert.officialUrl)}</span>
           </td>
           <td style="padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.08); color: #fbbf24; font-size: 13px;">
@@ -261,7 +296,7 @@ export async function sendSourceSuspensionAdminAlert(
     })
     .join('');
 
-  const hiddenCount = Math.max(0, alerts.length - 25);
+  const hiddenCount = Math.max(0, groupedAlerts.length - 25);
   const dashboardUrl = `${appUrl.replace(/\/+$/, '')}/admin/dataset-quality`;
 
   const bodyContent = `
@@ -287,6 +322,50 @@ export async function sendSourceSuspensionAdminAlert(
     }
     <p style="margin: 0; font-size: 13px; color: #9ca3af; line-height: 1.6;">
       Review the Dataset QA console: <a href="${escapeHtml(dashboardUrl)}" style="color: #818cf8; text-decoration: underline;">${escapeHtml(dashboardUrl)}</a>
+    </p>`;
+
+  return sendEmail(to, subject, wrapOperationalTemplate(bodyContent));
+}
+
+/**
+ * Notifies the operator after a new privacy-minimized inquiry was persisted.
+ * The raw notification, its subject, addresses and content fingerprints are
+ * never accepted by this function and therefore cannot enter the email.
+ */
+export async function sendPolicyInquiryAdminAlert(
+  inquiry: PolicyInquiryAdminAlert,
+): Promise<boolean> {
+  const to = getAdminAlertAddress();
+  if (!to) {
+    console.log('[PolicyWatcher Mailer] Admin alert recipient not configured. The inquiry remains available in /admin/inquiries.');
+    return false;
+  }
+
+  const appUrl = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const dashboardUrl = `${appUrl.replace(/\/+$/, '')}/admin/inquiries`;
+  const company = (inquiry.companyHint || inquiry.normalizedDomain || 'Company not identified')
+    .replace(/[\r\n]+/g, ' ')
+    .slice(0, 160);
+  const policyTypes = inquiry.policyTypes.length > 0 ? inquiry.policyTypes.join(', ') : 'not specified';
+  const dateValue = (value?: Date | string | null) => value instanceof Date ? value.toISOString() : value || 'not specified';
+  const subject = `PolicyWatcher inquiry ${inquiry.reference}: ${company}`;
+  const bodyContent = `
+    <p style="margin: 0 0 18px; font-size: 15px; color: #f3f4f6; line-height: 1.6;">
+      A new privacy-minimized policy inquiry was saved and is ready for human review.
+    </p>
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; margin-bottom: 18px; color: #d1d5db; font-size: 13px; line-height: 1.6;">
+      <tr><td style="padding: 7px 0; color: #9ca3af; width: 150px;">Reference</td><td><strong>${escapeHtml(inquiry.reference)}</strong></td></tr>
+      <tr><td style="padding: 7px 0; color: #9ca3af;">Company/domain</td><td>${escapeHtml(company)}</td></tr>
+      <tr><td style="padding: 7px 0; color: #9ca3af;">Request type</td><td>${escapeHtml(inquiry.kind)}</td></tr>
+      <tr><td style="padding: 7px 0; color: #9ca3af;">Policy categories</td><td>${escapeHtml(policyTypes)}</td></tr>
+      <tr><td style="padding: 7px 0; color: #9ca3af;">Notice date</td><td>${escapeHtml(dateValue(inquiry.noticeDate))}</td></tr>
+      <tr><td style="padding: 7px 0; color: #9ca3af;">Effective date</td><td>${escapeHtml(dateValue(inquiry.effectiveDate))}</td></tr>
+    </table>
+    <p style="margin: 0 0 12px; font-size: 13px; color: #9ca3af; line-height: 1.6;">
+      The notification text, subject, sender, recipient and content fingerprint were not collected.
+    </p>
+    <p style="margin: 0; font-size: 13px; color: #9ca3af; line-height: 1.6;">
+      Review the admin queue: <a href="${escapeHtml(dashboardUrl)}" style="color: #818cf8; text-decoration: underline;">${escapeHtml(dashboardUrl)}</a>
     </p>`;
 
   return sendEmail(to, subject, wrapOperationalTemplate(bodyContent));
@@ -369,7 +448,7 @@ export async function sendSubscriptionConfirmation(
   const greeting = name ? `Hello ${escapeHtml(name)}` : 'Hello';
   const subject = 'Welcome to PolicyWatcher Alerts';
 
-  const freqLabel = frequency === 'WEEKLY' ? 'Weekly Digest' : 'Real-time Alerts';
+  const freqLabel = frequency === 'WEEKLY' ? 'Weekly Digest' : 'Published change alerts';
   const unsubscribeLink = escapeHtml(buildUnsubscribeLink(email, token));
 
   const bodyContent = `
@@ -581,7 +660,7 @@ async function sendEmail(
 
   if (!transport) {
     console.log('[PolicyWatcher Mailer] SMTP not configured. Email not sent.');
-    console.log(`  To: ${to}`);
+    console.log(`  Recipient: ${maskEmailForLog(to)}`);
     console.log(`  Subject: ${subject}`);
     console.log(`  Body length: ${html.length} chars`);
     return false;
@@ -594,10 +673,11 @@ async function sendEmail(
       subject,
       html,
     });
-    console.log(`[PolicyWatcher Mailer] Email sent to ${to}: "${subject}"`);
+    console.log(`[PolicyWatcher Mailer] Email sent to ${maskEmailForLog(to)}: "${subject}"`);
     return true;
   } catch (error) {
-    console.error('[PolicyWatcher Mailer] Failed to send email:', error);
+    const errorType = error instanceof Error ? error.name : 'UnknownError';
+    console.error(`[PolicyWatcher Mailer] Email delivery failed for ${maskEmailForLog(to)} (${errorType}).`);
     return false;
   }
 }

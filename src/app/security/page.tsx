@@ -1,279 +1,120 @@
-'use client';
-
-import React from 'react';
-import { ShieldAlert, ArrowLeft, Send, FileSearch, Lock, Server, ShieldCheck } from 'lucide-react';
+import type { Metadata } from 'next';
+import { ArrowLeft, FileSearch, Lock, Send, Server, ShieldAlert, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
+import Footer from '@/components/Footer';
+import PublicHeader from '@/components/PublicHeader';
+import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';
+import styles from './security.module.css';
+
+export const metadata: Metadata = {
+  title: 'Vulnerability Disclosure Policy | PolicyWatcher',
+  description: 'Security reporting channel, response boundaries and current PolicyWatcher operational controls.',
+  alternates: { canonical: '/security' },
+};
 
 export default function SecurityPage() {
   return (
-    <div style={containerStyle}>
-      <div style={cardStyle}>
-        <div style={headerStyle}>
-          <div style={logoContainerStyle}>
-            <ShieldAlert size={28} style={{ color: '#6366f1' }} />
-            <span style={logoTextStyle}>PolicyWatcher Security</span>
-          </div>
-          <h1 style={titleStyle}>Vulnerability Disclosure Policy</h1>
-          <p style={subtitleStyle}>
-            We take security seriously. If you discover a security vulnerability in our platform, please report it to us responsibly.
-          </p>
-        </div>
-
-        <div style={contentStyle}>
-          <section style={sectionStyle}>
-            <h2 style={sectionTitleStyle}>Security Controls in the 3.5 Confidence Track</h2>
-            <p style={paragraphStyle}>
-              PolicyWatcher documents security and confidence work as operational evidence within a defined certification boundary. The current release includes:
-            </p>
-            <div style={controlGridStyle}>
-              <div style={controlCardStyle}>
-                <Lock size={18} style={controlIconStyle} />
-                <strong style={controlTitleStyle}>Session and API Boundaries</strong>
-                <span style={controlTextStyle}>HMAC-signed admin sessions, rate-limited login, bearer-protected internal routes and production seed endpoint lockout.</span>
-              </div>
-              <div style={controlCardStyle}>
-                <Server size={18} style={controlIconStyle} />
-                <strong style={controlTitleStyle}>Renderer Isolation</strong>
-                <span style={controlTextStyle}>Optional VPS renderer for script-rendered pages, protected by shared secret and SSRF validation for URLs, redirects and subresources.</span>
-              </div>
-              <div style={controlCardStyle}>
-                <FileSearch size={18} style={controlIconStyle} />
-                <strong style={controlTitleStyle}>Dataset QA Evidence</strong>
-                <span style={controlTextStyle}>Source-fit checks, SHA-256 consistency, check logs, ingestion-method visibility and append-only QA review decisions.</span>
-              </div>
-              <div style={controlCardStyle}>
-                <ShieldCheck size={18} style={controlIconStyle} />
-                <strong style={controlTitleStyle}>Public Validation Signals</strong>
-                <span style={controlTextStyle}>GitHub Quality Gate, CodeQL, OpenSSF Scorecard, OpenSSF Best Practices passing badge and live header scan links.</span>
-              </div>
+    <>
+      <PublicHeader current="security" />
+      <main className={styles.page}>
+        <article className={styles.card}>
+          <header className={styles.hero}>
+            <div className={styles.eyebrow}>
+              <ShieldAlert size={18} aria-hidden="true" />
+              <span>PolicyWatcher Security</span>
             </div>
-            <p style={paragraphStyle}>
-              See <Link href="/trust" style={linkStyle}>Trust & Quality Evidence</Link> and <Link href="/methodology/confidence" style={linkStyle}>Confidence Methodology</Link> for the public boundary of these checks.
+            <h1>Vulnerability Disclosure Policy</h1>
+            <p>
+              This page describes the channel and information requested for reporting a potential security vulnerability.
             </p>
-          </section>
+          </header>
 
-          <section style={sectionStyle}>
-            <h2 style={sectionTitleStyle}>How to Report</h2>
-            <p style={paragraphStyle}>
-              Please send vulnerability reports via email to <a href="mailto:security@policywatcher.online" style={linkStyle}>security@policywatcher.online</a>. To help us triage your report quickly, please include:
-            </p>
-            <ul style={listStyle}>
-              <li>A description of the vulnerability and its potential impact.</li>
-              <li>Detailed, step-by-step instructions or a proof-of-concept (PoC) to reproduce it.</li>
-              <li>Any suggested remediation steps.</li>
-            </ul>
-          </section>
+          <div className={styles.content}>
+            <section className={styles.section}>
+              <span className={styles.sectionLabel}>Current operating boundary</span>
+              <h2>Security controls for {POLICYWATCHER_BUILD_LABEL}</h2>
+              <p>
+                PolicyWatcher documents security and confidence work as operational evidence within a defined certification boundary. The current release includes:
+              </p>
+              <div className={styles.controlGrid}>
+                <div className={styles.controlCard}>
+                  <Lock size={18} aria-hidden="true" />
+                  <strong>Session and API Boundaries</strong>
+                  <span>HMAC-signed admin sessions, rate-limited login, bearer-protected internal routes and production seed endpoint lockout.</span>
+                </div>
+                <div className={styles.controlCard}>
+                  <Server size={18} aria-hidden="true" />
+                  <strong>Renderer Isolation</strong>
+                  <span>Optional VPS renderer for script-rendered pages, protected by shared secret and SSRF validation for URLs, redirects and subresources.</span>
+                </div>
+                <div className={styles.controlCard}>
+                  <FileSearch size={18} aria-hidden="true" />
+                  <strong>Dataset QA Evidence</strong>
+                  <span>Source-fit checks, SHA-256 consistency, check logs, ingestion-method visibility and append-only QA review decisions.</span>
+                </div>
+                <div className={styles.controlCard}>
+                  <ShieldCheck size={18} aria-hidden="true" />
+                  <strong>Public Validation Signals</strong>
+                  <span>Links to GitHub Quality Gate, CodeQL, OpenSSF Scorecard, the OpenSSF Best Practices project and a public header scan.</span>
+                </div>
+                <div className={styles.controlCard}>
+                  <Lock size={18} aria-hidden="true" />
+                  <strong>Enterprise Integration Boundary</strong>
+                  <span>Agent routes accept bounded public-evidence filters only. The Word task pane keeps selected clause text local and uses an Office-specific framing policy without weakening clickjacking protection elsewhere.</span>
+                </div>
+              </div>
+              <p>
+                See <Link href="/trust">Trust &amp; Quality Evidence</Link> and <Link href="/methodology/confidence">Confidence Methodology</Link> for the public boundary of these checks.
+              </p>
+            </section>
 
-          <section style={sectionStyle}>
-            <h2 style={sectionTitleStyle}>Responsible Disclosure Guidelines</h2>
-            <p style={paragraphStyle}>
-              We request that you follow these guidelines to protect our users and system:
-            </p>
-            <ul style={listStyle}>
-              <li>Give us reasonable time to investigate and mitigate the issue before making it public.</li>
-              <li>Do not access, modify, or delete user data that does not belong to you.</li>
-              <li>Do not perform destructive actions, distributed denial of service (DDoS), or social engineering attacks.</li>
-            </ul>
-          </section>
+            <section className={styles.section}>
+              <span className={styles.sectionLabel}>Reporting channel</span>
+              <h2>How to Report</h2>
+              <p>
+                Please send vulnerability reports via email to <a href="mailto:security@policywatcher.online">security@policywatcher.online</a>. To help us triage your report quickly, please include:
+              </p>
+              <ul>
+                <li>A description of the vulnerability and its potential impact.</li>
+                <li>Detailed, step-by-step instructions or a proof-of-concept (PoC) to reproduce it.</li>
+                <li>Any suggested remediation steps.</li>
+              </ul>
+            </section>
 
-          <section style={sectionStyle}>
-            <h2 style={sectionTitleStyle}>Our Commitment</h2>
-            <p style={paragraphStyle}>
-              If you follow the guidelines above, we commit to:
-            </p>
-            <ul style={listStyle}>
-              <li>Acknowledge receipt of your report in a timely manner.</li>
-              <li>Work quickly to resolve the vulnerability.</li>
-              <li>Not pursue legal action against you.</li>
-            </ul>
-          </section>
-        </div>
+            <section className={styles.section}>
+              <span className={styles.sectionLabel}>Safe research</span>
+              <h2>Responsible Disclosure Guidelines</h2>
+              <p>We request that you follow these guidelines to protect our users and system:</p>
+              <ul>
+                <li>Give us reasonable time to investigate and mitigate the issue before making it public.</li>
+                <li>Do not access, modify, or delete user data that does not belong to you.</li>
+                <li>Do not perform destructive actions, distributed denial of service (DDoS), or social engineering attacks.</li>
+              </ul>
+            </section>
 
-        <div style={footerStyle}>
-          <a href="mailto:security@policywatcher.online?subject=Vulnerability%20Report" style={buttonStyle}>
-            <Send size={16} /> Report a Vulnerability
-          </a>
-          <Link href="/" style={backLinkStyle}>
-            <ArrowLeft size={16} /> Return to Homepage
-          </Link>
-        </div>
-      </div>
-    </div>
+            <section className={styles.section}>
+              <span className={styles.sectionLabel}>Response boundary</span>
+              <h2>Our Commitment</h2>
+              <p>If you follow the guidelines above, we commit to:</p>
+              <ul>
+                <li>Acknowledge receipt of your report in a timely manner.</li>
+                <li>Work quickly to resolve the vulnerability.</li>
+                <li>Not pursue legal action against you.</li>
+              </ul>
+            </section>
+          </div>
+
+          <footer className={styles.actions}>
+            <a href="mailto:security@policywatcher.online?subject=Vulnerability%20Report" className={styles.primaryAction}>
+              <Send size={16} aria-hidden="true" /> Report a Vulnerability
+            </a>
+            <Link href="/" className={styles.backLink}>
+              <ArrowLeft size={16} aria-hidden="true" /> Return to Homepage
+            </Link>
+          </footer>
+        </article>
+      </main>
+      <Footer lang="en" />
+    </>
   );
 }
-
-const containerStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  minHeight: '100vh',
-  padding: '40px 24px',
-  background: 'radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent 60%), #f8fafc',
-  fontFamily: 'var(--font-sans)',
-};
-
-const cardStyle: React.CSSProperties = {
-  width: '100%',
-  maxWidth: '860px',
-  background: '#ffffff',
-  border: '1px solid #e2e8f0',
-  borderRadius: '24px',
-  boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02)',
-  padding: '40px',
-  boxSizing: 'border-box',
-  display: 'flex',
-  flexDirection: 'column',
-};
-
-const controlGridStyle: React.CSSProperties = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-  gap: '12px',
-};
-
-const controlCardStyle: React.CSSProperties = {
-  border: '1px solid #e2e8f0',
-  borderRadius: '8px',
-  padding: '14px',
-  background: '#f8fafc',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '8px',
-};
-
-const controlIconStyle: React.CSSProperties = {
-  color: '#6366f1',
-};
-
-const controlTitleStyle: React.CSSProperties = {
-  color: '#0f172a',
-  fontSize: '0.92rem',
-  lineHeight: '1.35',
-};
-
-const controlTextStyle: React.CSSProperties = {
-  color: '#64748b',
-  fontSize: '0.84rem',
-  lineHeight: '1.55',
-};
-
-const headerStyle: React.CSSProperties = {
-  textAlign: 'center',
-  marginBottom: '32px',
-  borderBottom: '1px solid #f1f5f9',
-  paddingBottom: '24px',
-};
-
-const logoContainerStyle: React.CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '10px',
-  marginBottom: '16px',
-};
-
-const logoTextStyle: React.CSSProperties = {
-  fontFamily: 'var(--font-display)',
-  fontSize: '1.25rem',
-  fontWeight: 800,
-  background: 'linear-gradient(135deg, #6366f1, #818cf8)',
-  WebkitBackgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
-};
-
-const titleStyle: React.CSSProperties = {
-  fontFamily: 'var(--font-display)',
-  fontSize: '1.65rem',
-  fontWeight: 700,
-  color: '#0f172a',
-  marginBottom: '12px',
-  letterSpacing: '-0.02em',
-};
-
-const subtitleStyle: React.CSSProperties = {
-  fontSize: '0.95rem',
-  lineHeight: '1.6',
-  color: '#64748b',
-  margin: 0,
-};
-
-const contentStyle: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '28px',
-  marginBottom: '36px',
-};
-
-const sectionStyle: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '10px',
-};
-
-const sectionTitleStyle: React.CSSProperties = {
-  fontFamily: 'var(--font-display)',
-  fontSize: '1.15rem',
-  fontWeight: 700,
-  color: '#1e293b',
-  margin: 0,
-};
-
-const paragraphStyle: React.CSSProperties = {
-  fontSize: '0.92rem',
-  lineHeight: '1.6',
-  color: '#475569',
-  margin: 0,
-};
-
-const linkStyle: React.CSSProperties = {
-  color: '#6366f1',
-  textDecoration: 'underline',
-  fontWeight: 500,
-};
-
-const listStyle: React.CSSProperties = {
-  fontSize: '0.92rem',
-  lineHeight: '1.6',
-  color: '#475569',
-  margin: 0,
-  paddingLeft: '20px',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '6px',
-};
-
-const footerStyle: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  gap: '16px',
-  borderTop: '1px solid #f1f5f9',
-  paddingTop: '24px',
-};
-
-const buttonStyle: React.CSSProperties = {
-  padding: '12px 28px',
-  borderRadius: '12px',
-  background: 'linear-gradient(135deg, #6366f1, #818cf8)',
-  color: '#ffffff',
-  fontSize: '0.92rem',
-  fontWeight: 600,
-  textDecoration: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '8px',
-  boxShadow: '0 4px 12px rgba(99, 102, 241, 0.15)',
-  cursor: 'pointer',
-  transition: 'transform 0.2s, box-shadow 0.2s',
-};
-
-const backLinkStyle: React.CSSProperties = {
-  fontSize: '0.88rem',
-  fontWeight: 600,
-  color: '#64748b',
-  textDecoration: 'none',
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '6px',
-  transition: 'color 0.2s ease',
-};

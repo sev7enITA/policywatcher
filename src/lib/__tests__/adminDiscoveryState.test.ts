@@ -1,5 +1,30 @@
 import { describe, expect, it } from 'vitest';
-import { getCronTargetControlState, getDiscoveryUiState } from '../adminDiscoveryState';
+import {
+  getCronTargetControlState,
+  getDiscoveryUiState,
+  hasEstablishedCompanyBaseline,
+} from '../adminDiscoveryState';
+
+describe('hasEstablishedCompanyBaseline', () => {
+  const established = {
+    currentHash: 'sha256',
+    lastSuccessfulCheckDate: '2026-07-21T12:00:00.000Z',
+    dataStatus: 'Available',
+    _count: { snapshots: 1 },
+    snapshots: [{ id: 'snapshot-1' }],
+  };
+
+  it('requires verified evidence for every approved policy', () => {
+    expect(hasEstablishedCompanyBaseline([established])).toBe(true);
+    expect(hasEstablishedCompanyBaseline([established, { ...established, currentHash: null }])).toBe(false);
+    expect(hasEstablishedCompanyBaseline([established, { ...established, dataStatus: 'Needs Review' }])).toBe(false);
+    expect(hasEstablishedCompanyBaseline([established, { ...established, snapshots: [] }])).toBe(false);
+  });
+
+  it('does not treat an empty policy inventory as an established baseline', () => {
+    expect(hasEstablishedCompanyBaseline([])).toBe(false);
+  });
+});
 
 describe('getDiscoveryUiState', () => {
   it('keeps a zero-policy company in discovery without a scan action', () => {

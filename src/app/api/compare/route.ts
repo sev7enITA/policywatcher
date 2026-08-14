@@ -10,39 +10,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
 import { publicPolicyWhere } from '@/lib/publicDataGate';
-
-// KPI keys compared side by side (15 total across 3 families)
-const KPI_KEYS = [
-  'kpiDataCollection',
-  'kpiThirdPartySharing',
-  'kpiDataRetention',
-  'kpiRightToDeletion',
-  'kpiCrossBorderTransfer',
-  'kpiAiTrainingOptOut',
-  'kpiAiOutputOwnership',
-  'kpiAlgoTransparency',
-  'kpiAutomatedDecision',
-  'kpiAiBiasFairness',
-  'kpiConsentMechanism',
-  'kpiRegulatoryCompliance',
-  'kpiBreachNotification',
-  'kpiIndependentAudit',
-  'kpiContentModeration',
-];
-
-// Same weighting logic used by /api/matrix to derive a numeric score per KPI
-const kpiWeights: Record<string, number> = {
-  Extensive: 3, Broad: 3, Indefinite: 3, None: 3, Unrestricted: 3,
-  Moderate: 2, Limited: 2, Extended: 2, Partial: 2, Controlled: 2,
-  Minimal: 1, Defined: 1, Restricted: 1, Full: 1,
-  'Not Available': 3, 'Company Retained': 3, Opaque: 3, Undisclosed: 3, Absent: 3,
-  Shared: 2, Mentioned: 2,
-  Available: 1, 'User Retained': 1, Published: 1, Disclosed: 1, Committed: 1,
-  Implicit: 3, Unspecified: 3,
-  'Opt-Out': 2,
-  'Explicit Opt-In': 1, Comprehensive: 1, 'Within 24h': 1, 'Within 72h': 1, Certified: 1, Transparent: 1,
-  'Not assessed': 0,
-};
+import {
+  KPI_FIELD_KEYS,
+  KPI_METRICS,
+  NOT_ASSESSED_KPI_VALUE,
+  getKpiConcernRank,
+  getMoreConcerningKpiValue,
+  isAssessedKpiValue,
+  type KpiField,
+} from '@/lib/metricsCatalog';
 
 /**
  * Converts a textual KPI value to a numeric 0-100 risk score.
@@ -50,29 +26,9 @@ const kpiWeights: Record<string, number> = {
  * @param value - The human-readable KPI value (e.g. "Extensive", "Minimal").
  * @returns An integer 0-100 where 0 = safe and 100 = most concerning.
  */
-function kpiToScore(value: string): number {
-  // 0-100 scale; 0 = safe, 100 = concerning
-  const weight = kpiWeights[value] ?? 0;
-  return Math.round((weight / 3) * 100);
+function kpiToScore(field: KpiField, value: string): number {
+  return Math.round((getKpiConcernRank(field, value) / 3) * 100);
 }
-
-const labels: Record<string, { en: string; it: string }> = {
-  kpiDataCollection: { en: 'Data Collection', it: 'Raccolta Dati' },
-  kpiThirdPartySharing: { en: 'Third-Party Sharing', it: 'Condivisione Terzi' },
-  kpiDataRetention: { en: 'Data Retention', it: 'Conservazione' },
-  kpiRightToDeletion: { en: 'Right to Deletion', it: 'Diritto Cancellazione' },
-  kpiCrossBorderTransfer: { en: 'Cross-Border Transfer', it: 'Trasferimento Transfront.' },
-  kpiAiTrainingOptOut: { en: 'AI Training Opt-Out', it: 'Opt-Out Training AI' },
-  kpiAiOutputOwnership: { en: 'AI Output Ownership', it: 'Proprietà Output AI' },
-  kpiAlgoTransparency: { en: 'Algorithmic Transparency', it: 'Trasparenza Algoritmica' },
-  kpiAutomatedDecision: { en: 'Automated Decisions', it: 'Decisioni Automatiche' },
-  kpiAiBiasFairness: { en: 'AI Bias & Fairness', it: 'Bias e Equità AI' },
-  kpiConsentMechanism: { en: 'Consent Mechanism', it: 'Meccanismo Consenso' },
-  kpiRegulatoryCompliance: { en: 'Regulatory Compliance', it: 'Conformità Normativa' },
-  kpiBreachNotification: { en: 'Breach Notification', it: 'Notifica Violazione' },
-  kpiIndependentAudit: { en: 'Independent Audit', it: 'Audit Indipendente' },
-  kpiContentModeration: { en: 'Content Moderation', it: 'Moderazione Contenuti' },
-};
 
 function buildRisk(overallScore: number): string {
   return overallScore >= 7 ? 'High' : overallScore >= 4 ? 'Medium' : 'Low';
@@ -80,19 +36,18 @@ function buildRisk(overallScore: number): string {
 
 function aggregateCompanyKpis(
   policies: Array<{ changes: Array<Record<string, unknown>> }>
-): Record<string, string> {
-  const aggregated: Record<string, string> = {};
-  KPI_KEYS.forEach((k: string) => (aggregated[k] = 'Not assessed'));
+): Record<KpiField, string> {
+  const aggregated = Object.fromEntries(
+    KPI_FIELD_KEYS.map((field) => [field, NOT_ASSESSED_KPI_VALUE])
+  ) as Record<KpiField, string>;
 
   policies.forEach((policy) => {
     const latestChange = policy.changes[0];
     if (!latestChange) return;
-    KPI_KEYS.forEach((k: string) => {
-      const val = latestChange[k];
+    KPI_FIELD_KEYS.forEach((field) => {
+      const val = latestChange[field];
       if (typeof val === 'string' && val) {
-        const currentWeight = kpiWeights[aggregated[k]] ?? 0;
-        const newWeight = kpiWeights[val] ?? 0;
-        if (newWeight >= currentWeight) aggregated[k] = val;
+        aggregated[field] = getMoreConcerningKpiValue(field, aggregated[field], val);
       }
     });
   });
@@ -132,27 +87,28 @@ async function getCompanyProfile(companyId: string) {
   const aggregated = aggregateCompanyKpis(company.policies as unknown as Array<{ changes: Array<Record<string, unknown>> }>);
 
   // Latest overall risk + score (from any policy's latest change)
-  let overallScore = 0;
+  let overallScore: number | null = null;
   let overallRisk = 'Not assessed';
+  let scoreTotal = 0;
   let scoreCount = 0;
   company.policies.forEach((p) => {
     const c = p.changes[0];
     if (c) {
-      overallScore += c.overallScore;
+      scoreTotal += c.overallScore;
       scoreCount++;
     }
   });
   if (scoreCount > 0) {
-    overallScore = Math.round((overallScore / scoreCount) * 10) / 10;
+    overallScore = Math.round((scoreTotal / scoreCount) * 10) / 10;
     overallRisk = buildRisk(overallScore);
   }
 
-  const radar = KPI_KEYS.map((k: string) => ({
-    key: k,
-    labelEn: labels[k].en,
-    labelIt: labels[k].it,
-    value: kpiToScore(aggregated[k]),
-    rawValue: aggregated[k],
+  const radar = KPI_FIELD_KEYS.map((field) => ({
+    key: field,
+    labelEn: KPI_METRICS[field].label.en,
+    labelIt: KPI_METRICS[field].label.it,
+    value: kpiToScore(field, aggregated[field]),
+    rawValue: aggregated[field],
   }));
 
   return {
@@ -187,7 +143,9 @@ async function getIndustryBenchmarkProfile(industry: string, excludeCompanyId?: 
 
   const comparableCompanies = companies.filter((company) => company.id !== excludeCompanyId);
   const cohort = comparableCompanies.length > 0 ? comparableCompanies : companies;
-  const kpiScores: Record<string, number[]> = Object.fromEntries(KPI_KEYS.map((key) => [key, []]));
+  const kpiScores = Object.fromEntries(
+    KPI_FIELD_KEYS.map((field) => [field, [] as number[]])
+  ) as Record<KpiField, number[]>;
   let overallTotal = 0;
   let overallCount = 0;
   let policiesCount = 0;
@@ -195,9 +153,9 @@ async function getIndustryBenchmarkProfile(industry: string, excludeCompanyId?: 
   cohort.forEach((company) => {
     policiesCount += company.policies.length;
     const aggregated = aggregateCompanyKpis(company.policies as unknown as Array<{ changes: Array<Record<string, unknown>> }>);
-    KPI_KEYS.forEach((key) => {
-      const score = kpiToScore(aggregated[key]);
-      if (aggregated[key] !== 'Not assessed') kpiScores[key].push(score);
+    KPI_FIELD_KEYS.forEach((field) => {
+      const value = aggregated[field];
+      if (isAssessedKpiValue(value)) kpiScores[field].push(kpiToScore(field, value));
     });
     company.policies.forEach((policy) => {
       const latest = policy.changes[0];
@@ -207,18 +165,20 @@ async function getIndustryBenchmarkProfile(industry: string, excludeCompanyId?: 
     });
   });
 
-  const overallScore = overallCount > 0 ? Math.round((overallTotal / overallCount) * 10) / 10 : 0;
-  const radar = KPI_KEYS.map((key) => {
-    const scores = kpiScores[key];
+  const overallScore = overallCount > 0
+    ? Math.round((overallTotal / overallCount) * 10) / 10
+    : null;
+  const radar = KPI_FIELD_KEYS.map((field) => {
+    const scores = kpiScores[field];
     const avg = scores.length
       ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length)
       : 0;
     return {
-      key,
-      labelEn: labels[key].en,
-      labelIt: labels[key].it,
+      key: field,
+      labelEn: KPI_METRICS[field].label.en,
+      labelIt: KPI_METRICS[field].label.it,
       value: avg,
-      rawValue: scores.length ? `Avg ${avg}/100` : 'Not assessed',
+      rawValue: scores.length ? `Avg ${avg}/100` : NOT_ASSESSED_KPI_VALUE,
     };
   });
 
@@ -229,7 +189,7 @@ async function getIndustryBenchmarkProfile(industry: string, excludeCompanyId?: 
     website: '',
     logo: '',
     overallScore,
-    overallRisk: buildRisk(overallScore),
+    overallRisk: overallScore === null ? 'Not assessed' : buildRisk(overallScore),
     radar,
     policiesCount,
   };

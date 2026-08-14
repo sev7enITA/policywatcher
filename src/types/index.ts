@@ -8,6 +8,8 @@
  * All domain interfaces for the application.
  */
 
+import type { KpiField } from '@/lib/metricsCatalog';
+
 /**
  * Represents the regulatory impact assessment for a specific
  * region (EU / US / Global) and audience perspective (Individual / Enterprise).
@@ -33,6 +35,9 @@ export interface RiskReason {
   textEn: string;
   textIt: string;
   deltaScore: number;
+  evidenceQuote?: string;
+  evidenceSide?: 'old' | 'new';
+  relatedKpi?: KpiField;
 }
 
 /**

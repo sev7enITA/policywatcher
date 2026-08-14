@@ -1,0 +1,39 @@
+1
+00:00:00,000 --> 00:00:08,000
+PolicyWatcher Beta 27 collega le evidenze pubbliche sulle policy ai controlli operativi necessari prima della pubblicazione.
+
+2
+00:00:08,000 --> 00:00:17,000
+Il flusso parte da priorità deterministiche. Ogni elemento indica severità, causa, timestamp, record interessati, impatto e una destinazione responsabile.
+
+3
+00:00:17,000 --> 00:00:28,000
+La readiness è divisa in cinque fasi: Configured, Retrieved, Baseline verified, Public e Analysed. Numeratori, denominatore e record esclusi restano visibili.
+
+4
+00:00:28,000 --> 00:00:34,000
+Una scansione mancante o una metrica non disponibile non diventano mai zero o uno stato positivo.
+
+5
+00:00:34,000 --> 00:00:46,000
+Le card forniscono evidenze circoscritte per Dataset QA, database, webhook e VPS. Gli amministratori accedono ai controlli; gli auditor a percorsi di verifica in sola lettura.
+
+6
+00:00:46,000 --> 00:00:55,000
+La piattaforma pubblica mantiene disponibili fonti, timestamp, metodologia, Claim Registry, release e percorsi di correzione.
+
+7
+00:00:55,000 --> 00:01:05,000
+L'inventario configurato registra 16 aziende in sei settori. Il framework definisce 15 KPI canonici tra privacy, governance AI ed etica.
+
+8
+00:01:05,000 --> 00:01:13,000
+Questi numeri descrivono il perimetro configurato. Non sono copertura esaustiva, consulenza legale, certificazione o validazione indipendente.
+
+9
+00:01:13,000 --> 00:01:20,000
+Pulse aggiunge lead revisionati, Story Pack deterministici, citazioni, social card e visual incorporabili.
+
+10
+00:01:20,000 --> 00:01:27,000
+Consulta evidenze, limiti, asset datati e audit della release su policywatcher.online/press-kit.

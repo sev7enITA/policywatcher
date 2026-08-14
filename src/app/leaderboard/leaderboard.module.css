@@ -126,6 +126,15 @@
   text-transform: uppercase;
 }
 
+.generatedAt {
+  display: block;
+  margin-top: 8px;
+  color: #0f766e;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
 .eyebrow::before {
   content: "";
   width: 22px;
