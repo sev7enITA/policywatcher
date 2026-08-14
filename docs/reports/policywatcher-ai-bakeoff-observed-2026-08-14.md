@@ -1,4 +1,4 @@
-# PolicyWatcher AI bake-off — observed run
+# PolicyWatcher AI bake-off - observed run
 
 Date: 14 August 2026. Golden set: `policywatcher-golden.v1`.
 
