@@ -79,11 +79,32 @@ npm run ai:bakeoff -- --providers=baseline
 Run local retrieval challengers after their adapters are available:
 
 ```bash
+python3 -m venv /tmp/policywatcher-ai-eval
+/tmp/policywatcher-ai-eval/bin/pip install sentence-transformers==5.7.0
+
+/tmp/policywatcher-ai-eval/bin/python scripts/local-retrieval-adapter.py \
+  --port 8101 \
+  --embedding-model Qwen/Qwen3-Embedding-0.6B \
+  --reranker-model Qwen/Qwen3-Reranker-0.6B
+
+/tmp/policywatcher-ai-eval/bin/python scripts/local-retrieval-adapter.py \
+  --port 8103 \
+  --embedding-model BAAI/bge-m3
+
 QWEN3_EMBEDDING_URL=http://127.0.0.1:8101/embed \
-QWEN3_RERANKER_URL=http://127.0.0.1:8102/rerank \
+QWEN3_RERANKER_URL=http://127.0.0.1:8101/rerank \
 BGE_M3_EMBEDDING_URL=http://127.0.0.1:8103/embed \
 npm run ai:bakeoff -- --providers=baseline,qwen3,bge-m3
 ```
+
+The Qwen track performs dense candidate retrieval first and reranks only the
+top two candidates. This prevents a reranker-only score from being mislabeled
+as an embedding-plus-reranker result.
+
+Set `HF_TOKEN` before launching the adapters when the Hugging Face anonymous
+download tier cannot retrieve the official model weights within the evaluation
+window. A missing model is recorded as unavailable; it is never replaced with
+a smaller or unrelated model under the same challenger label.
 
 Run paid Gemini tracks only with an explicit evaluation key and budget:
 

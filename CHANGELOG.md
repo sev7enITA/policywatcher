@@ -14,6 +14,8 @@
 - Added the `policywatcher-golden.v1` synthetic EN/IT calibration set with material, ambiguous, unanswerable, partial, semantic-paraphrase and prompt-injection cases plus frozen promotion gates.
 - Added a reproducible bake-off harness for the deterministic BM25 baseline, external Qwen3/BGE adapters, Gemini 3.5 Flash-Lite extraction and Gemini 3.7 Flash escalation without adding RAG framework runtime dependencies.
 - Added the append-only `AiModelInvocation` migration. Telemetry failure remains non-blocking and cannot bypass evidence ingestion or publication gates.
+- Completed the observed BM25/Gemini bake-off, added loopback-only Sentence Transformers adapters for Qwen3/BGE-M3, corrected Qwen to dense-retrieve before reranking, and recorded unavailable challengers without substitution.
+- Classified network resets as transient model failures, switched AI latency measurement to a monotonic clock, contained golden-set file access, and replaced three polynomial-regex paths with bounded linear parsing.
 
 ## 3.9.0-beta.41 - 2026-08-07
 

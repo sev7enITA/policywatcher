@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  isValidSubscriberEmail,
   normalizePreferenceKey,
   normalizePreferenceValue,
   splitPreferenceKeys,
@@ -9,6 +10,7 @@ describe('subscriberPreferences', () => {
   it('normalizes whitespace around compound preference values', () => {
     expect(normalizePreferenceValue('Cloud / SaaS')).toBe('Cloud/SaaS');
     expect(normalizePreferenceValue('  AI Provider  ')).toBe('AI Provider');
+    expect(normalizePreferenceValue(`${' '.repeat(50_000)}/${' '.repeat(50_000)}`)).toBe('/');
   });
 
   it('creates stable lowercase preference keys', () => {
@@ -22,5 +24,13 @@ describe('subscriberPreferences', () => {
       'cloud/saas',
       'fintech',
     ]);
+  });
+
+  it('validates bounded subscriber addresses without backtracking', () => {
+    expect(isValidSubscriberEmail('reader@example.com')).toBe(true);
+    expect(isValidSubscriberEmail('reader+policy@sub.example.org')).toBe(true);
+    expect(isValidSubscriberEmail('reader@@example.com')).toBe(false);
+    expect(isValidSubscriberEmail('reader@.example.com')).toBe(false);
+    expect(isValidSubscriberEmail(`${'a'.repeat(100_000)}@example.com`)).toBe(false);
   });
 });

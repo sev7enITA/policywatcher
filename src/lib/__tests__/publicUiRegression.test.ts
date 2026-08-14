@@ -57,7 +57,7 @@ describe('public UI regression fixes', () => {
     expect(existsSync('src/app/api/pulse/launch-kit/route.ts')).toBe(false);
     expect(existsSync('src/app/api/og/launch/[asset]/route.tsx')).toBe(false);
     expect(change).toMatch(/\/api\/evidence-packet\/\$\{id\}\?format=pdf/);
-    expect(change).not.toContain('/api/report/${change.policy.id}');
+    expect(change).not.toMatch(/\/api\/report\/\$\{change\.policy\.id\}/);
     expect(evidenceIndex).toContain('listPublicEvidencePacketSummaries');
     expect(evidenceDetail).toContain('getPublicEvidencePacket(changeId)');
     expect(evidenceDetail).toContain("'@type': 'DataDownload'");

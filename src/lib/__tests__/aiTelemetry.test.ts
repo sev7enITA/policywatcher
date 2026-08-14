@@ -18,6 +18,10 @@ describe('AI telemetry', () => {
     expect(classifyAiTelemetryError(new Error('secret provider detail'))).toEqual({
       outcome: 'provider-error', errorCode: 'provider_error',
     });
+    const reset = new TypeError('fetch failed', { cause: Object.assign(new Error('socket reset'), { code: 'ECONNRESET' }) });
+    expect(classifyAiTelemetryError(reset)).toEqual({
+      outcome: 'transient-error', errorCode: 'network_error',
+    });
   });
 
   it('aggregates model and fallback rates without content fields', () => {

@@ -12,6 +12,7 @@ import {
   SUBSCRIBER_FREQUENCIES,
   SUBSCRIBER_INDUSTRIES,
   SUBSCRIBER_REGIONS,
+  isValidSubscriberEmail,
   normalizePreferenceValue,
 } from '@/lib/subscriberPreferences';
 
@@ -85,9 +86,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const normalizedEmail = email.toLowerCase().trim();
-    if (!emailRegex.test(normalizedEmail)) {
+    if (!isValidSubscriberEmail(normalizedEmail)) {
       return NextResponse.json(
         { error: 'Invalid email format.' },
         { status: 400 }
