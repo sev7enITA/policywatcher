@@ -1,0 +1,172 @@
+{
+  "$schema": "./schemas/ai-model-registry.v1.schema.json",
+  "schemaVersion": "policywatcher-ai-model-registry.v1",
+  "asOf": "2026-08-15",
+  "promotionPolicy": {
+    "mode": "human-approved-evidence-first",
+    "automaticPromotion": false,
+    "requiresObservedEvaluation": true,
+    "requiresSchemaConformance": true,
+    "requiresEvidenceQuality": true,
+    "requiresOperationalAvailability": true,
+    "privacyBoundary": "Evaluation records contain model identifiers, aggregate metrics, gates and evidence references only; prompts, policy text and model responses are excluded."
+  },
+  "candidates": [
+    {
+      "id": "baseline-bm25",
+      "workload": "retrieval",
+      "provider": "policywatcher",
+      "model": "deterministic-bm25",
+      "status": "qualified",
+      "evaluation": {
+        "state": "observed",
+        "cases": 9,
+        "metrics": {
+          "hitAt1": 0.8571,
+          "hitAt3": 1,
+          "mrr": 0.9286,
+          "answerabilityAccuracy": 0.8889,
+          "abstentionF1": 0.8
+        },
+        "passesFrozenGates": true
+      },
+      "evidenceRefs": [
+        "docs/reports/policywatcher-ai-bakeoff-observed-2026-08-14.md",
+        "evals/policy-analysis/golden-set.v1.json"
+      ],
+      "decision": "Retain as the deterministic retrieval baseline and safe fallback."
+    },
+    {
+      "id": "qwen3-embedding-reranker",
+      "workload": "retrieval",
+      "provider": "qwen",
+      "model": "Qwen3-Embedding-0.6B + Qwen3-Reranker-0.6B",
+      "status": "pending",
+      "evaluation": {
+        "state": "not-observed",
+        "cases": 0,
+        "metrics": {},
+        "passesFrozenGates": false
+      },
+      "evidenceRefs": [
+        "https://huggingface.co/Qwen/Qwen3-Embedding-0.6B",
+        "https://huggingface.co/Qwen/Qwen3-Reranker-0.6B",
+        "scripts/local-retrieval-adapter.py"
+      ],
+      "blockers": [
+        "Exact model weights were not available locally and the anonymous download did not complete inside the evaluation window."
+      ],
+      "decision": "Evaluate through the loopback adapter after authenticated model download; do not promote from metadata alone."
+    },
+    {
+      "id": "bge-m3",
+      "workload": "retrieval",
+      "provider": "baai",
+      "model": "BAAI/bge-m3",
+      "status": "pending",
+      "evaluation": {
+        "state": "not-observed",
+        "cases": 0,
+        "metrics": {},
+        "passesFrozenGates": false
+      },
+      "evidenceRefs": [
+        "https://huggingface.co/BAAI/bge-m3",
+        "scripts/local-retrieval-adapter.py"
+      ],
+      "blockers": [
+        "Exact model weights were not available locally inside the evaluation window."
+      ],
+      "decision": "Evaluate on the frozen golden set; retain baseline until a measured gain clears every gate."
+    },
+    {
+      "id": "gemini-3-5-flash-lite",
+      "workload": "extraction",
+      "provider": "gcp.gen_ai",
+      "model": "gemini-3.5-flash-lite",
+      "status": "qualified",
+      "evaluation": {
+        "state": "observed",
+        "cases": 5,
+        "metrics": {
+          "schemaConformance": 1,
+          "riskAccuracy": 1,
+          "evidenceRecall": 1,
+          "evidencePrecision": 1,
+          "forbiddenClaimRate": 0
+        },
+        "passesFrozenGates": true
+      },
+      "evidenceRefs": [
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite",
+        "docs/reports/policywatcher-ai-bakeoff-observed-2026-08-14.md"
+      ],
+      "decision": "Qualified for structured extraction behind the existing evidence and fallback boundaries."
+    },
+    {
+      "id": "gemini-3-7-flash",
+      "workload": "escalation",
+      "provider": "gcp.gen_ai",
+      "model": "gemini-3.7-flash",
+      "status": "blocked",
+      "evaluation": {
+        "state": "observed-unavailable",
+        "cases": 3,
+        "metrics": {
+          "completedCases": 0,
+          "providerUnavailable": 3
+        },
+        "passesFrozenGates": false
+      },
+      "evidenceRefs": [
+        "https://ai.google.dev/gemini-api/docs/models",
+        "docs/reports/policywatcher-ai-bakeoff-observed-2026-08-14.md"
+      ],
+      "blockers": [
+        "All three escalation attempts returned provider-unavailable responses during the definitive run.",
+        "No public model card was present in the official catalog at the evaluation date."
+      ],
+      "decision": "Do not promote; repeat only after public availability and operational stability are evidenced."
+    },
+    {
+      "id": "ragflow",
+      "workload": "architecture",
+      "provider": "open-source",
+      "model": "RAGFlow",
+      "status": "research-only",
+      "evaluation": { "state": "not-observed", "cases": 0, "metrics": {}, "passesFrozenGates": false },
+      "evidenceRefs": ["docs/reports/policywatcher-state-of-art-audit-2026-08-14.html"],
+      "decision": "No wholesale adoption without a scoped use case and measured gain."
+    },
+    {
+      "id": "lightrag",
+      "workload": "architecture",
+      "provider": "open-source",
+      "model": "LightRAG",
+      "status": "research-only",
+      "evaluation": { "state": "not-observed", "cases": 0, "metrics": {}, "passesFrozenGates": false },
+      "evidenceRefs": ["docs/reports/policywatcher-state-of-art-audit-2026-08-14.html"],
+      "decision": "No wholesale adoption without a scoped use case and measured gain."
+    },
+    {
+      "id": "kimi-k3",
+      "workload": "architecture",
+      "provider": "moonshot",
+      "model": "Kimi K3",
+      "status": "research-only",
+      "evaluation": { "state": "not-observed", "cases": 0, "metrics": {}, "passesFrozenGates": false },
+      "evidenceRefs": ["docs/reports/policywatcher-state-of-art-audit-2026-08-14.html"],
+      "decision": "No runtime adoption without a scoped use case and measured gain."
+    },
+    {
+      "id": "graphrag",
+      "workload": "architecture",
+      "provider": "open-source",
+      "model": "GraphRAG",
+      "status": "research-only",
+      "evaluation": { "state": "not-observed", "cases": 0, "metrics": {}, "passesFrozenGates": false },
+      "evidenceRefs": ["docs/reports/policywatcher-state-of-art-audit-2026-08-14.html"],
+      "decision": "No wholesale adoption without a graph-specific case and measured gain."
+    }
+  ]
+}

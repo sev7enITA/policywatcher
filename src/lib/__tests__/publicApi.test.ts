@@ -49,6 +49,11 @@ describe('public integration directory', () => {
         evidenceGate: 'public-reference',
       }),
     ]));
+    expect(manifest.releaseEvidence).toMatchObject({
+      endpoint: '/api/v1/release-evidence',
+      schema: '/schemas/release-evidence-ledger/v1',
+      humanReview: '/pulse/two-week-release-impact',
+    });
     expect(manifest.boundaries.join(' ')).toMatch(/does not expose policy text/i);
   });
 

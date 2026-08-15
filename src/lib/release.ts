@@ -1,7 +1,7 @@
-export const POLICYWATCHER_VERSION = '3.9.0-beta.41' as const;
-export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 41' as const;
-export const POLICYWATCHER_RELEASE_NAME = 'Adaptive Experience' as const;
-export const POLICYWATCHER_RELEASE_DATE = '2026-08-07' as const;
+export const POLICYWATCHER_VERSION = '3.9.0-beta.42' as const;
+export const POLICYWATCHER_VERSION_DISPLAY = '3.9.0 Beta 42' as const;
+export const POLICYWATCHER_RELEASE_NAME = 'Evidence Release Control Plane' as const;
+export const POLICYWATCHER_RELEASE_DATE = '2026-08-15' as const;
 export type PolicyWatcherReleaseChannel = 'stable' | 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL: PolicyWatcherReleaseChannel = 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL_LABEL = 'BETA' as const;

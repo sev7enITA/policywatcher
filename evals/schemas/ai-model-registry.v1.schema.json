@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://policywatcher.online/schemas/ai-model-registry/v1",
+  "title": "PolicyWatcher AI model registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "asOf", "promotionPolicy", "candidates"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": "policywatcher-ai-model-registry.v1" },
+    "asOf": { "type": "string", "format": "date" },
+    "promotionPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "automaticPromotion", "requiresObservedEvaluation", "requiresSchemaConformance", "requiresEvidenceQuality", "requiresOperationalAvailability", "privacyBoundary"],
+      "properties": {
+        "mode": { "const": "human-approved-evidence-first" },
+        "automaticPromotion": { "const": false },
+        "requiresObservedEvaluation": { "const": true },
+        "requiresSchemaConformance": { "const": true },
+        "requiresEvidenceQuality": { "const": true },
+        "requiresOperationalAvailability": { "const": true },
+        "privacyBoundary": { "type": "string", "minLength": 40 }
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "workload", "provider", "model", "status", "evaluation", "evidenceRefs", "decision"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+          "workload": { "enum": ["retrieval", "extraction", "escalation", "architecture"] },
+          "provider": { "type": "string", "minLength": 2 },
+          "model": { "type": "string", "minLength": 2 },
+          "status": { "enum": ["qualified", "blocked", "pending", "research-only"] },
+          "evaluation": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["state", "cases", "metrics", "passesFrozenGates"],
+            "properties": {
+              "state": { "enum": ["observed", "observed-unavailable", "not-observed"] },
+              "cases": { "type": "integer", "minimum": 0 },
+              "metrics": {
+                "type": "object",
+                "additionalProperties": { "type": "number" }
+              },
+              "passesFrozenGates": { "type": "boolean" }
+            }
+          },
+          "evidenceRefs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 3 } },
+          "blockers": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 10 } },
+          "decision": { "type": "string", "minLength": 20 }
+        }
+      }
+    }
+  }
+}

@@ -134,6 +134,38 @@ export default function InfographicsPage() {
       </header>
 
       <div className={styles.infographicsGrid}>
+        <section className={styles.erPosterCard} aria-labelledby="release-evidence-pulse-title">
+          <div className={styles.erPosterHeader}>
+            <div>
+              <span className={`${styles.eyebrow} ${styles.eyebrowIndigo}`}>
+                <Radio size={14} />
+                Infographic 04 · Release evidence · 2-15 August 2026
+              </span>
+              <h2 id="release-evidence-pulse-title">Six releases. One inspectable evidence window.</h2>
+              <p>
+                A bilingual press-ready record of the last fourteen days: what shipped, the implementation impact, the observable metric and the residual limit attached to every claim.
+              </p>
+            </div>
+            <div className={styles.erPosterActions}>
+              <Link href="/pulse/two-week-release-impact">Open interactive Pulse</Link>
+              <a href="/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.png" download>English PNG</a>
+              <a href="/press-kit/policywatcher-release-evidence-pulse-it-2026-08-15.png" download>Italiano PNG</a>
+            </div>
+          </div>
+          <figure className={styles.erPosterFigure}>
+            <Image
+              src="/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.webp"
+              alt="Six PolicyWatcher release cards with dates, implementation impacts, metrics and limitations for the fourteen days from 2 to 15 August 2026"
+              width={2400}
+              height={3168}
+              priority
+            />
+            <figcaption>
+              Deterministic rendering of the public release evidence ledger. Implementation inventory, not measured adoption or compliance. The decorative background was generated with AI and is disclosed in the Press Kit metadata.
+            </figcaption>
+          </figure>
+        </section>
+
         <section className={styles.erPosterCard} aria-labelledby="sitemap-er-title">
           <div className={styles.erPosterHeader}>
             <div>

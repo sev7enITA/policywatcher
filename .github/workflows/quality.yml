@@ -58,6 +58,12 @@ jobs:
       - name: Dataset fixture assurance
         run: npm run qa:dataset -- --allow-seeded-fixtures
 
+      - name: Validate AI model registry
+        run: npm run ai:registry:validate
+
+      - name: Validate release evidence ledger
+        run: npm run release:evidence:validate
+
       - name: Lint
         run: npm run lint
 

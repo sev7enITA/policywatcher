@@ -41,7 +41,7 @@ if ! git -C "${APP_DIR}" diff --quiet || ! git -C "${APP_DIR}" diff --cached --q
     exit 1
   fi
   SOURCE_STATE="workspace-snapshot"
-  SOURCE_STATE_DIGEST="$({ git -C "${APP_DIR}" diff --binary HEAD -- .; git -C "${APP_DIR}" ls-files --others --exclude-standard -- docs/ai-evaluation-protocol-2026-08-14.md docs/reports/policywatcher-ai-bakeoff-baseline-2026-08-14.md docs/seo-canonical-realignment-2026-08-08.md evals prisma/migrations/20260814070000_ai_model_telemetry scripts/ai-bakeoff.ts scripts/generate-sitemap-er.mjs scripts/present-ui-ux-release.mjs public/infographics src/app/admin/explainability/AiTelemetryPanel.tsx src/app/api/admin/ai-telemetry/route.ts src/app/associazioni src/app/infographics/layout.tsx src/app/methodology/confidence/layout.tsx src/app/timeline/layout.tsx src/app/unsubscribe/layout.tsx src/components/ExperienceControlCenter.module.css src/components/ExperienceControlCenter.tsx src/components/GlobalContextControl.module.css src/components/GlobalContextControl.tsx src/lib/aiEvaluation.ts src/lib/aiTelemetry.ts src/lib/changeConfirmation.ts src/lib/civicOrganizations.ts src/lib/dashboardWorkflow.ts src/lib/experiencePreferences.ts src/lib/geminiPolicySchema.ts src/lib/globalContext.ts src/lib/siteOrigin.ts | while IFS= read -r snapshot_file; do shasum -a 256 "${APP_DIR}/${snapshot_file}"; done; } | shasum -a 256 | awk '{print $1}')"
+  SOURCE_STATE_DIGEST="$({ git -C "${APP_DIR}" diff --binary HEAD -- .; git -C "${APP_DIR}" ls-files --others --exclude-standard -- data docs/ai-evaluation-protocol-2026-08-14.md docs/media/policywatcher-release-evidence-pulse docs/press-brief-3.9.0-beta.42.md docs/press-release-3.9.0-beta.42-en.md docs/press-release-3.9.0-beta.42-it.md docs/releases/policywatcher-3.9.0-beta.42-github-release.md docs/reports/policywatcher-ai-bakeoff-baseline-2026-08-14.md docs/seo-canonical-realignment-2026-08-08.md evals prisma/migrations/20260814070000_ai_model_telemetry scripts/ai-bakeoff.ts scripts/generate-release-evidence-assets.mjs scripts/generate-sitemap-er.mjs scripts/present-ui-ux-release.mjs public/infographics public/press-kit/policywatcher-release-evidence-pulse-background-2026-08-15.png public/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.png public/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.webp public/press-kit/policywatcher-release-evidence-pulse-it-2026-08-15.png public/press-kit/policywatcher-release-evidence-pulse-it-2026-08-15.webp src/app/admin/explainability/AiTelemetryPanel.tsx src/app/api/admin/ai-telemetry/route.ts src/app/associazioni src/app/infographics/layout.tsx src/app/methodology/confidence/layout.tsx src/app/timeline/layout.tsx src/app/unsubscribe/layout.tsx src/components/ExperienceControlCenter.module.css src/components/ExperienceControlCenter.tsx src/components/GlobalContextControl.module.css src/components/GlobalContextControl.tsx src/lib/aiEvaluation.ts src/lib/aiTelemetry.ts src/lib/changeConfirmation.ts src/lib/civicOrganizations.ts src/lib/dashboardWorkflow.ts src/lib/experiencePreferences.ts src/lib/geminiPolicySchema.ts src/lib/globalContext.ts src/lib/siteOrigin.ts | while IFS= read -r snapshot_file; do shasum -a 256 "${APP_DIR}/${snapshot_file}"; done; } | shasum -a 256 | awk '{print $1}')"
 fi
 if [[ "${VERSION}" != "${LOCK_VERSION}" || "${VERSION}" != "${RELEASE_VERSION}" ]]; then
   echo "Release version mismatch: package=${VERSION}, lock=${LOCK_VERSION}, UI=${RELEASE_VERSION}." >&2
@@ -60,22 +60,25 @@ fi
 
 required_sources=(
   package.json package-lock.json next.config.ts tsconfig.json server.js design-qa.md
-  README.md HOSTINGER-DEPLOY.md CHANGELOG.md SECURITY.md LICENSE .env.example public src prisma scripts integrations evals
+  README.md HOSTINGER-DEPLOY.md CHANGELOG.md SECURITY.md LICENSE .env.example public src prisma scripts integrations evals data
   docs/dataset-confidence-audit-2026-07-05.md docs/audit-v3.6.5.md
   docs/audit-v3.7.0.md docs/audit-v3.7.1.md docs/audit-v3.7.2.md docs/audit-v3.8.0.md docs/audit-v3.8.1.md docs/audit-v3.8.2.md docs/audit-v3.8.3.md docs/audit-v3.8.3-beta.2.md docs/audit-v3.8.3-beta.3.md docs/audit-v3.8.3-beta.4.md docs/beta-evidence-cycle-v3.8.3.md docs/platform-state-of-art-2026-07-05.md
-  docs/audit-v3.9.0-beta.1.md docs/audit-v3.9.0-beta.2.md docs/audit-v3.9.0-beta.3.md docs/audit-v3.9.0-beta.4.md docs/audit-v3.9.0-beta.5.md docs/audit-v3.9.0-beta.6.md docs/audit-v3.9.0-beta.7.md docs/audit-v3.9.0-beta.8.md docs/audit-v3.9.0-beta.9.md docs/audit-v3.9.0-beta.10.md docs/audit-v3.9.0-beta.11.md docs/audit-v3.9.0-beta.12.md docs/audit-v3.9.0-beta.13.md docs/audit-v3.9.0-beta.14.md docs/audit-v3.9.0-beta.15.md docs/audit-v3.9.0-beta.16.md docs/audit-v3.9.0-beta.17.md docs/audit-v3.9.0-beta.18.md docs/audit-v3.9.0-beta.19.md docs/audit-v3.9.0-beta.20.md docs/audit-v3.9.0-beta.21.md docs/audit-v3.9.0-beta.22.md docs/audit-v3.9.0-beta.23.md docs/audit-v3.9.0-beta.24.md docs/audit-v3.9.0-beta.25.md docs/audit-v3.9.0-beta.26.md docs/audit-v3.9.0-beta.27.md docs/audit-v3.9.0-beta.28.md docs/audit-v3.9.0-beta.29.md docs/audit-v3.9.0-beta.30.md docs/audit-v3.9.0-beta.31.md docs/audit-v3.9.0-beta.32.md docs/audit-v3.9.0-beta.33.md docs/audit-v3.9.0-beta.34.md docs/audit-v3.9.0-beta.35.md docs/audit-v3.9.0-beta.36.md docs/audit-v3.9.0-beta.37.md docs/audit-v3.9.0-beta.38.md docs/audit-v3.9.0-beta.39.md docs/audit-v3.9.0-beta.40.md docs/audit-v3.9.0-beta.41.md docs/associations-vertical.md docs/crawlable-public-knowledge-layer.md docs/platform-state-of-art-2026-07-05.it.md docs/third-party-validation.md docs/public-api-v1.md docs/integrations.md docs/source-reliability.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
+  docs/audit-v3.9.0-beta.1.md docs/audit-v3.9.0-beta.2.md docs/audit-v3.9.0-beta.3.md docs/audit-v3.9.0-beta.4.md docs/audit-v3.9.0-beta.5.md docs/audit-v3.9.0-beta.6.md docs/audit-v3.9.0-beta.7.md docs/audit-v3.9.0-beta.8.md docs/audit-v3.9.0-beta.9.md docs/audit-v3.9.0-beta.10.md docs/audit-v3.9.0-beta.11.md docs/audit-v3.9.0-beta.12.md docs/audit-v3.9.0-beta.13.md docs/audit-v3.9.0-beta.14.md docs/audit-v3.9.0-beta.15.md docs/audit-v3.9.0-beta.16.md docs/audit-v3.9.0-beta.17.md docs/audit-v3.9.0-beta.18.md docs/audit-v3.9.0-beta.19.md docs/audit-v3.9.0-beta.20.md docs/audit-v3.9.0-beta.21.md docs/audit-v3.9.0-beta.22.md docs/audit-v3.9.0-beta.23.md docs/audit-v3.9.0-beta.24.md docs/audit-v3.9.0-beta.25.md docs/audit-v3.9.0-beta.26.md docs/audit-v3.9.0-beta.27.md docs/audit-v3.9.0-beta.28.md docs/audit-v3.9.0-beta.29.md docs/audit-v3.9.0-beta.30.md docs/audit-v3.9.0-beta.31.md docs/audit-v3.9.0-beta.32.md docs/audit-v3.9.0-beta.33.md docs/audit-v3.9.0-beta.34.md docs/audit-v3.9.0-beta.35.md docs/audit-v3.9.0-beta.36.md docs/audit-v3.9.0-beta.37.md docs/audit-v3.9.0-beta.38.md docs/audit-v3.9.0-beta.39.md docs/audit-v3.9.0-beta.40.md docs/audit-v3.9.0-beta.41.md docs/audit-v3.9.0-beta.42.md docs/associations-vertical.md docs/crawlable-public-knowledge-layer.md docs/platform-state-of-art-2026-07-05.it.md docs/third-party-validation.md docs/public-api-v1.md docs/integrations.md docs/source-reliability.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
   docs/architecture/native-dashboard-engine.md docs/architecture/native-dashboard-functional-implementation-report.md docs/architecture/vizro-patterns-knowledge-base.md
   docs/native-dashboard-user-guide.md docs/dashboard-workflow-and-global-civic-2026-08-06.md
   docs/global-consumer-association-research-2026-08-07.md
   docs/ux-research-august-2026.md docs/presentation-ui-ux-beta41-2026-08-07.md
   docs/seo-canonical-realignment-2026-08-08.md
-  docs/ai-evaluation-protocol-2026-08-14.md docs/reports/policywatcher-ai-bakeoff-baseline-2026-08-14.md
+  docs/ai-evaluation-protocol-2026-08-14.md docs/reports/policywatcher-ai-bakeoff-baseline-2026-08-14.md docs/reports/policywatcher-ai-bakeoff-observed-2026-08-14.md docs/reports/policywatcher-security-diff-beta42-2026-08-15.md
   docs/sitemap-er-2026-08-07.md docs/sitemap-er-2026-08-07.mmd docs/sitemap-er-2026-08-07.json
   docs/press-outreach-2026-07-27.md
   docs/press-newsroom-measurement.md
   docs/editorial-pulse.md
   docs/press-release-3.9.0-beta.13-it.md
   docs/press-release-3.9.0-beta.13-en.md
+  docs/press-release-3.9.0-beta.42-it.md docs/press-release-3.9.0-beta.42-en.md
+  docs/press-brief-3.9.0-beta.42.md docs/releases/policywatcher-3.9.0-beta.42-github-release.md
+  docs/media/policywatcher-release-evidence-pulse
 )
 for source in "${required_sources[@]}"; do
   if [[ ! -e "${APP_DIR}/${source}" ]]; then
@@ -180,7 +183,7 @@ required_entries=(
   scripts/generate-sitemap-er.mjs scripts/present-ui-ux-release.mjs
   src/components/HomeKnowledgeSnapshot.tsx src/components/HomeKnowledgeSnapshot.module.css
   design-qa.md docs/dashboard-workflow-and-global-civic-2026-08-06.md docs/global-consumer-association-research-2026-08-07.md
-  docs/audit-v3.9.0-beta.41.md docs/ux-research-august-2026.md docs/presentation-ui-ux-beta41-2026-08-07.md
+  docs/audit-v3.9.0-beta.41.md docs/audit-v3.9.0-beta.42.md docs/ux-research-august-2026.md docs/presentation-ui-ux-beta41-2026-08-07.md
   docs/seo-canonical-realignment-2026-08-08.md
   docs/sitemap-er-2026-08-07.md docs/sitemap-er-2026-08-07.mmd docs/sitemap-er-2026-08-07.json
   src/app/api/v1/change-events/route.ts src/lib/publicChangeEvents.ts src/lib/publicChangeEventData.ts
@@ -220,9 +223,20 @@ required_entries=(
   src/app/api/cron/check-all/route.ts src/lib/sourceReliability.ts
   src/lib/gemini.ts src/lib/geminiPolicySchema.ts src/app/admin/explainability/page.tsx
   src/lib/aiTelemetry.ts src/lib/aiEvaluation.ts
+  src/lib/aiModelRegistry.ts src/lib/releasePulse.ts src/lib/releasePulseValidation.ts
+  src/components/ReleaseEvidencePulse.tsx src/components/ReleaseEvidencePulse.module.css
+  src/components/pulse/PulseEvidenceVisual.tsx src/components/pulse/PulseIndexClient.tsx src/lib/editorialPulse.ts
   src/app/api/admin/ai-telemetry/route.ts src/app/admin/explainability/AiTelemetryPanel.tsx
-  evals/policy-analysis/golden-set.v1.json scripts/ai-bakeoff.ts
-  docs/ai-evaluation-protocol-2026-08-14.md docs/reports/policywatcher-ai-bakeoff-baseline-2026-08-14.md
+  evals/policy-analysis/golden-set.v1.json evals/ai-model-registry.v1.json evals/schemas/ai-model-registry.v1.schema.json
+  data/releases/release-evidence-ledger.v1.json scripts/ai-bakeoff.ts scripts/ai-model-promotion-gate.ts scripts/verify-release-evidence-ledger.ts
+  scripts/generate-release-evidence-assets.mjs
+  src/app/api/v1/release-evidence/route.ts
+  public/press-kit/policywatcher-release-evidence-pulse-background-2026-08-15.png
+  public/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.png public/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.webp
+  public/press-kit/policywatcher-release-evidence-pulse-it-2026-08-15.png public/press-kit/policywatcher-release-evidence-pulse-it-2026-08-15.webp
+  docs/press-release-3.9.0-beta.42-it.md docs/press-release-3.9.0-beta.42-en.md docs/press-brief-3.9.0-beta.42.md
+  docs/releases/policywatcher-3.9.0-beta.42-github-release.md
+  docs/ai-evaluation-protocol-2026-08-14.md docs/reports/policywatcher-ai-bakeoff-baseline-2026-08-14.md docs/reports/policywatcher-ai-bakeoff-observed-2026-08-14.md docs/reports/policywatcher-security-diff-beta42-2026-08-15.md
   scripts/hostinger-init-db.sh scripts/hostinger-init-db.mjs
   scripts/hostinger-init-db.py scripts/hostinger-detect-materialized-migrations.mjs
   scripts/hostinger-postinstall-db.mjs scripts/hostinger-audit-source-inventory.mjs

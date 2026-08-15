@@ -64,6 +64,7 @@ import Footer from '@/components/Footer';
 import HowToModal from '@/components/HowToModal';
 import Navigation, { NavLayout } from '@/components/Navigation';
 import ExperienceControlCenter from '@/components/ExperienceControlCenter';
+import ReleaseEvidencePulse from '@/components/ReleaseEvidencePulse';
 import { createDeferredViewportEvaluator, shouldSuggestOnTheGo } from '@/lib/mobileContext';
 import { dashboardUpdateNotices, getObservatorySource, observatorySignals } from '@/lib/observatory';
 import { POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE, POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS, POLICYWATCHER_VERSION } from '@/lib/release';
@@ -2346,6 +2347,8 @@ export default function Dashboard() {
             </article>
           </div>
         </section>
+
+        <ReleaseEvidencePulse locale={lang} variant="compact" />
 
         <section className={styles.extensionBetaStrip} aria-labelledby="extension-beta-title">
           <div className={styles.extensionBetaRail} aria-hidden="true">

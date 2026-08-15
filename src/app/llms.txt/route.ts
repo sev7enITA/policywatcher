@@ -28,6 +28,7 @@ PolicyWatcher is a public evidence laboratory that records verified policy basel
 - Agent gateway capabilities: ${POLICYWATCHER_ORIGIN}/api/v1/agent/capabilities
 - Agent gateway OpenAPI: ${POLICYWATCHER_ORIGIN}/api/v1/agent/openapi.json
 - Residency evidence pack: ${POLICYWATCHER_ORIGIN}/api/v1/residency-evidence
+- Release evidence ledger: ${POLICYWATCHER_ORIGIN}/api/v1/release-evidence
 
 ## Enterprise integration boundary
 The public Agent Evidence Gateway accepts bounded filters and returns deterministic public-evidence briefs with citations. It does not accept prompt transcripts, contract text, tenant identifiers, account identifiers, access tokens, or arbitrary metadata. Microsoft 365 Copilot, Vertex AI Agent Builder, Amazon Quick, and Word source packages require deployment and approval in the customer environment; source-package availability is not marketplace publication, certification, or tenant installation.

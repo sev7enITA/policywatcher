@@ -1,6 +1,21 @@
 # Changelog
 
-## Unreleased - 2026-08-14
+## 3.9.0-beta.42 - 2026-08-15
+
+### Wave 1 - AI EvalOps control plane
+- Added a versioned nine-candidate model registry with JSON Schema, semantic validation and a human-approved promotion gate.
+- Projected privacy-safe AI telemetry onto the OpenTelemetry GenAI semantic vocabulary without adding prompts, policy text or responses.
+- Kept baseline BM25 and Gemini 3.5 Flash-Lite qualified, Qwen3/BGE pending, Gemini 3.7 Flash blocked and RAGFlow, LightRAG, Kimi K3 and GraphRAG research-only.
+
+### Wave 2 - release evidence ledger
+- Added a deterministic 14-day release ledger covering Beta 37 through Beta 42, with implementation impacts, evidence references, explicit boundaries and SHA-256 integrity.
+- Added a cached public `/api/v1/release-evidence` contract with ETag support and cross-registry validation against Press Kit and release-impact records.
+- Added CI validation so model and release registries fail closed when evidence, dates, joins or promotion invariants diverge.
+
+### Wave 3 - Evidence Pulse UI/UX and press distribution
+- Added an accessible two-week release pulse, exact-data infographic variants and bilingual newsroom copy sourced from the same ledger.
+- Applied progressive visual transitions only when supported and when reduced motion is not requested; semantic lists and focus behavior remain authoritative.
+- Preserved implementation-versus-outcome boundaries across the website, JSON endpoint, release notes and press assets.
 
 ### AI structured-output and supply-chain P0
 - Replaced the shutdown `gemini-2.0-flash-lite` fallback with supported `gemini-3.5-flash-lite` while retaining the evaluated `gemini-2.5-flash` primary until the golden-model benchmark is available.

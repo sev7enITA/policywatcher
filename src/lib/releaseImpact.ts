@@ -34,7 +34,7 @@ export interface ReleaseImpactItem {
   externalDependency?: string;
 }
 
-export const RELEASE_IMPACT_UPDATED_AT = '7 August 2026' as const;
+export const RELEASE_IMPACT_UPDATED_AT = '15 August 2026' as const;
 
 export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.7.0', shortLabel: '3.7.0', label: '3.7.0', state: 'delivered' },
@@ -93,7 +93,8 @@ export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.9.0-beta.38', shortLabel: '3.9 B38', label: '3.9.0 Beta 38', state: 'delivered' },
   { id: '3.9.0-beta.39', shortLabel: '3.9 B39', label: '3.9.0 Beta 39', state: 'delivered' },
   { id: '3.9.0-beta.40', shortLabel: '3.9 B40', label: '3.9.0 Beta 40', state: 'delivered' },
-  { id: '3.9.0-beta.41', shortLabel: '3.9 B41', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
+  { id: '3.9.0-beta.41', shortLabel: '3.9 B41', label: '3.9.0 Beta 41', state: 'delivered' },
+  { id: '3.9.0-beta.42', shortLabel: '3.9 B42', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
   { id: 'next', shortLabel: 'Next', label: 'Next beta horizon', state: 'planned' },
   { id: 'later', shortLabel: 'Later', label: 'Later horizon', state: 'planned' },
 ];
@@ -112,11 +113,56 @@ export const RELEASE_IMPACT_DOMAINS: ReleaseImpactDomain[] = [
 
 export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
   {
+    id: 'two-week-release-evidence-pulse',
+    title: 'Two-week Release Evidence Pulse',
+    summary: 'Turns the current 14-day release ledger into one accessible, bilingual and press-ready view with evidence and residual limitations attached.',
+    domainId: 'experience',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '3.9.0-beta.42',
+    endRelease: '3.9.0-beta.42',
+    benefit: 'Readers can move from a release claim to its implementation inventory, evidence reference and named boundary without decoding the complete changelog.',
+    kpi: 'Pulse contract available: six release clusters, one inclusive 14-day UTC window, EN/IT copy, deterministic ordering and shared web/press data',
+    kri: 'Residual KRI: implementation inventory can be mistaken for adoption, service quality, compliance or user outcomes when separated from its boundary',
+    evidence: 'Versioned ledger, semantic join validation, public JSON endpoint, accessible Pulse surface, deterministic press infographic and focused tests.',
+    limitation: 'The pulse is a product-release record. It does not measure usage, market impact, legal compliance, accessibility conformance or continuous production health.',
+  },
+  {
+    id: 'release-evidence-ledger',
+    title: 'Release Evidence Ledger',
+    summary: 'Publishes a versioned two-week release contract with deterministic ordering, public cache semantics and content-integrity evidence.',
+    domainId: 'assurance',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '3.9.0-beta.42',
+    endRelease: '3.9.0-beta.42',
+    benefit: 'Website, newsroom, API and press assets consume the same dated release-impact source instead of maintaining independent summaries.',
+    kpi: 'Ledger controls available: JSON contract, inclusive-window validation, SHA-256 digest, ETag, press-release join and impact-reference join',
+    kri: 'Residual KRI: a checksum proves byte consistency only and the ledger still requires human review of semantic claims',
+    evidence: 'Static source ledger, validation script, public API, schema route, CI gate and cross-registry tests.',
+    limitation: 'The ledger is not a signed third-party attestation, adoption report, audit opinion or proof that every deployed instance runs the recorded revision.',
+  },
+  {
+    id: 'ai-evalops-control-plane',
+    title: 'AI EvalOps Control Plane',
+    summary: 'Makes model qualification, blockers and research-only architecture decisions explicit in one versioned registry with frozen promotion invariants.',
+    domainId: 'assurance',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '3.9.0-beta.42',
+    endRelease: '3.9.0-beta.42',
+    benefit: 'Operators can distinguish qualified, unavailable, unscored and research-only options before changing an evidence workflow.',
+    kpi: 'Registry inventory: nine candidates, two qualified, two pending retrieval challengers, one blocked escalation model and four research-only architectures',
+    kri: 'Residual KRI: the golden set is small and synthetic, provider availability changes and no candidate may be promoted automatically',
+    evidence: 'JSON Schema, semantic validator, promotion CLI, observed bake-off report, privacy-safe OpenTelemetry projection and focused tests.',
+    limitation: 'Qualification is limited to the frozen evaluation contract and requires human approval; it is not a universal model ranking or production SLA.',
+  },
+  {
     id: 'adaptive-experience-control',
     title: 'Adaptive Experience Control',
     summary: 'Lets visitors choose Focus, Balanced or Explore hierarchy plus an explicit motion preference without changing evidence or publication gates.',
     domainId: 'experience',
-    status: 'current',
+    status: 'delivered',
     horizon: 'delivered',
     startRelease: '3.9.0-beta.41',
     endRelease: '3.9.0-beta.41',

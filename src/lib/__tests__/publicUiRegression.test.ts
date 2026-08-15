@@ -137,7 +137,7 @@ describe('public UI regression fixes', () => {
     expect(FEATURE_ATLAS_FEATURES.some((feature) => feature.id === 'governed-regional-benchmark-visualizations')).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.some((item) => item.kpi && item.kri)).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.filter((item) => ['shareable-evidence-views', 'coordinated-evidence-drilldown'].includes(item.id))).toHaveLength(2);
-    expect(RELEASE_IMPACT_UPDATED_AT).toBe('7 August 2026');
+    expect(RELEASE_IMPACT_UPDATED_AT).toBe('15 August 2026');
     expect(FEATURE_ATLAS_CURRENT_RELEASE_ID).toBe(POLICYWATCHER_VERSION);
     expect(FEATURE_ATLAS_RELEASES.filter((release) => release.current)).toHaveLength(1);
     expect(RELEASE_COLUMNS.filter((release) => release.state === 'current').map((release) => release.id)).toEqual([POLICYWATCHER_VERSION]);

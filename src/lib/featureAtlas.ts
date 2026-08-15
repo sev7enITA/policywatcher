@@ -151,7 +151,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.38', shortLabel: '3.9 B38', label: '3.9.0 Beta 38' },
   { id: '3.9.0-beta.39', shortLabel: '3.9 B39', label: '3.9.0 Beta 39' },
   { id: '3.9.0-beta.40', shortLabel: '3.9 B40', label: '3.9.0 Beta 40' },
-  { id: '3.9.0-beta.41', shortLabel: '3.9 B41', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '3.9.0-beta.41', shortLabel: '3.9 B41', label: '3.9.0 Beta 41' },
+  { id: '3.9.0-beta.42', shortLabel: '3.9 B42', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,

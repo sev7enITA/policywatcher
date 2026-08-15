@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ReleaseEvidencePulse from '@/components/ReleaseEvidencePulse';
 import { pressKitReleases } from '@/lib/pressKit';
 import type { PulseLocale, PulseStory } from '@/lib/editorialPulse';
 import styles from './pulse.module.css';
@@ -21,6 +22,10 @@ const pipeline = {
 } as const;
 
 export default function PulseEvidenceVisual({ story, lang, compact = false }: { story: PulseStory; lang: PulseLocale; compact?: boolean }) {
+  if (story.visualKind === 'release-impact') {
+    return <ReleaseEvidencePulse locale={lang} variant={compact ? 'compact' : 'full'} />;
+  }
+
   if (story.visualKind === 'evidence-pipeline') {
     return (
       <figure className={`${styles.visual} ${compact ? styles.visualCompact : ''}`}>

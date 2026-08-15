@@ -35,7 +35,7 @@ describe('production verification contract', () => {
         'strict-transport-security': 'max-age=31536000', 'x-content-type-options': 'nosniff',
         'x-frame-options': 'DENY', 'content-security-policy': "frame-ancestors 'none'",
       });
-      if (target.endsWith('/api/v1/manifest')) return response(200, { release: '3.9.0-beta.41' });
+      if (target.endsWith('/api/v1/manifest')) return response(200, { release: '3.9.0-beta.42' });
       return response(401, { error: 'Unauthorized' });
     }) as unknown as typeof fetch;
 

@@ -168,6 +168,7 @@ describe('public press kit', () => {
     expect(pressKitSchemas['webhook-verification-kit'].$id).toBe('https://policywatcher.online/schemas/webhook-verification-kit/v1');
     expect(pressKitSchemas['webhook-conformance-suite'].$id).toBe('https://policywatcher.online/schemas/webhook-conformance-suite/v1');
     expect(pressKitSchemas['event-continuity-checkpoint'].$id).toBe('https://policywatcher.online/schemas/event-continuity-checkpoint/v1');
+    expect(pressKitSchemas['release-evidence-ledger'].$id).toBe('https://policywatcher.online/schemas/release-evidence-ledger/v1');
   });
 
   it('connects the Press Kit through public navigation and supporting surfaces', () => {
@@ -295,7 +296,9 @@ describe('public press kit', () => {
     const civicItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'consumer-association-civic-workspace');
     expect(civicItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.40', endRelease: '3.9.0-beta.40' });
     const adaptiveExperienceItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'adaptive-experience-control');
-    expect(adaptiveExperienceItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(adaptiveExperienceItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.41', endRelease: '3.9.0-beta.41' });
+    const releaseEvidenceItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'release-evidence-ledger');
+    expect(releaseEvidenceItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
     expect(continuityAtlasItem?.route).toEqual({ href: '/developers/event-continuity', label: 'Event Feed Continuity Lab', access: 'public' });
   });
 });

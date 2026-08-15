@@ -1,6 +1,6 @@
 {
   "name": "policywatcher",
-  "version": "3.9.0-beta.41",
+  "version": "3.9.0-beta.42",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -28,7 +28,10 @@
     "assets:sitemap-er": "node scripts/generate-sitemap-er.mjs",
     "present:ux": "node scripts/present-ui-ux-release.mjs",
     "ai:golden:validate": "tsx scripts/ai-bakeoff.ts --validate-only",
-    "ai:bakeoff": "tsx scripts/ai-bakeoff.ts"
+    "ai:bakeoff": "tsx scripts/ai-bakeoff.ts",
+    "ai:registry:validate": "tsx scripts/ai-model-promotion-gate.ts",
+    "release:evidence:validate": "tsx scripts/verify-release-evidence-ledger.ts",
+    "release:evidence:assets": "node scripts/generate-release-evidence-assets.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.17.1",

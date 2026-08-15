@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Languages } from 'lucide-react';
 import PublicHeader from '@/components/PublicHeader';
 import Footer from '@/components/Footer';
-import { PULSE_AS_OF, pulseBeatLabels, pulseStories, type PulseBeat, type PulseLocale } from '@/lib/editorialPulse';
+import { PULSE_DESK_AS_OF, pulseBeatLabels, pulseStories, type PulseBeat, type PulseLocale } from '@/lib/editorialPulse';
 import { recordPressMetric } from '@/lib/pressMetrics';
 import { editorialCampaignById, parseCampaignLandingSearch } from '@/lib/editorialCampaigns';
 import styles from './pulse.module.css';
@@ -26,7 +26,7 @@ export default function PulseIndexClient() {
     <PublicHeader current="pulse" lang={lang} />
     <main className={styles.main}>
       <section className={styles.hero}>
-        <div className={styles.heroRule}><span>EDITORIAL DESK · AS OF {PULSE_AS_OF}</span><button type="button" onClick={() => setLang(lang === 'en' ? 'it' : 'en')}><Languages size={14} />{lang === 'en' ? 'Italiano' : 'English'}</button></div>
+        <div className={styles.heroRule}><span>EDITORIAL DESK · AS OF {PULSE_DESK_AS_OF}</span><button type="button" onClick={() => setLang(lang === 'en' ? 'it' : 'en')}><Languages size={14} />{lang === 'en' ? 'Italiano' : 'English'}</button></div>
         <div className={styles.heroGrid}><div><p className={styles.kicker}>PolicyWatcher Pulse</p><h1>{lang === 'en' ? 'Story leads with the evidence attached.' : 'Spunti editoriali con le evidenze allegate.'}</h1><p className={styles.lede}>{lang === 'en' ? 'A human-approved registry that packages supported public facts, boundaries and reusable citations without auto-promoting database or AI rankings.' : 'Un registro approvato da persone che organizza fatti pubblici supportati, limiti e citazioni riutilizzabili senza promuovere automaticamente ranking del database o dell AI.'}</p></div><aside><strong>{pulseStories.length}</strong><span>{lang === 'en' ? 'verified leads' : 'lead verificati'}</span><p>{lang === 'en' ? 'Each lead has a dated Story Pack, source links and a visible scope boundary.' : 'Ogni lead include Story Pack datato, link alle fonti e un limite di perimetro visibile.'}</p></aside></div>
         <nav className={styles.evidenceLinks} aria-label="Evidence references"><Link href="/press-kit/data">Data Room <ArrowRight size={13} /></Link><Link href="/press-kit#claim-registry">Claim Registry <ArrowRight size={13} /></Link><Link href="/press-kit/releases">Releases <ArrowRight size={13} /></Link></nav>
       </section>

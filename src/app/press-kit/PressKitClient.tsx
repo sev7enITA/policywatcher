@@ -65,7 +65,7 @@ const copy = {
     title: 'PolicyWatcher press kit.',
     lead: 'Product facts, supporting links, limitations, release information, media files and press contact details.',
     currentRelease: 'Current web release',
-    releaseDate: 'Released 6 August 2026',
+    releaseDate: 'Released 15 August 2026',
     factSheet: 'Download fact sheet',
     copyShort: 'Copy short boilerplate',
     copied: 'Copied',
@@ -104,7 +104,7 @@ const copy = {
     glossary: 'Glossary',
     statusTitle: 'Briefing status',
     releaseFreshness: 'Release metadata',
-    releaseFreshnessBody: 'Current to 6 August 2026 for the web application.',
+    releaseFreshnessBody: 'Current to 15 August 2026 for the web application.',
     evidenceFreshness: 'Platform evidence',
     evidenceFreshnessBody: 'Timestamps are recorded per source; update intervals depend on retrieval and review.',
     extension: 'Extension track',
@@ -140,7 +140,7 @@ const copy = {
     boilerLabel: 'Boilerplates and citation', boilerTitle: 'Descriptions and citation details.',
     short: 'Short boilerplate', long: 'Long boilerplate', copyAction: 'Copy text',
     citation: 'Suggested citation',
-    citationText: `PolicyWatcher, ${POLICYWATCHER_VERSION_DISPLAY} ${POLICYWATCHER_RELEASE_NAME}, 6 August 2026, https://policywatcher.online/press-kit (accessed [date]).`,
+    citationText: `PolicyWatcher, ${POLICYWATCHER_VERSION_DISPLAY} ${POLICYWATCHER_RELEASE_NAME}, 15 August 2026, https://policywatcher.online/press-kit (accessed [date]).`,
     corrections: 'Corrections and factual questions: info@policywatcher.online. Include the cited URL and the statement requiring review.',
     founderLabel: 'Founder and contact', founderTitle: 'Fabrizio Degni',
     founderBio: 'Independent builder working on public-interest tools for inspecting and discussing digital-policy changes with links to source material.',
@@ -155,7 +155,7 @@ const copy = {
     title: 'Press kit PolicyWatcher.',
     lead: 'Dati sul prodotto, link di supporto, limiti, informazioni di release, file media e contatti stampa.',
     currentRelease: 'Release web corrente',
-    releaseDate: 'Rilasciata il 6 agosto 2026',
+    releaseDate: 'Rilasciata il 15 agosto 2026',
     factSheet: 'Scarica la scheda stampa',
     copyShort: 'Copia boilerplate breve',
     copied: 'Copiato',
@@ -194,7 +194,7 @@ const copy = {
     glossary: 'Glossario',
     statusTitle: 'Stato briefing',
     releaseFreshness: 'Metadata release',
-    releaseFreshnessBody: 'Correnti al 6 agosto 2026 per l applicazione web.',
+    releaseFreshnessBody: 'Correnti al 15 agosto 2026 per l applicazione web.',
     evidenceFreshness: 'Evidenze piattaforma',
     evidenceFreshnessBody: 'I timestamp sono registrati per fonte; gli intervalli dipendono da recupero e revisione.',
     extension: 'Track estensione',
@@ -230,7 +230,7 @@ const copy = {
     boilerLabel: 'Boilerplate e citazione', boilerTitle: 'Descrizioni e dettagli per la citazione.',
     short: 'Boilerplate breve', long: 'Boilerplate lungo', copyAction: 'Copia testo',
     citation: 'Citazione suggerita',
-    citationText: `PolicyWatcher, ${POLICYWATCHER_VERSION_DISPLAY} ${POLICYWATCHER_RELEASE_NAME}, 6 agosto 2026, https://policywatcher.online/press-kit (consultato il [data]).`,
+    citationText: `PolicyWatcher, ${POLICYWATCHER_VERSION_DISPLAY} ${POLICYWATCHER_RELEASE_NAME}, 15 agosto 2026, https://policywatcher.online/press-kit (consultato il [data]).`,
     corrections: 'Correzioni e domande fattuali: info@policywatcher.online. Includere URL citato e affermazione da verificare.',
     founderLabel: 'Fondatore e contatti', founderTitle: 'Fabrizio Degni',
     founderBio: 'Builder indipendente di strumenti di interesse pubblico per ispezionare e discutere i cambiamenti delle policy digitali con link alle fonti.',
@@ -260,6 +260,10 @@ const pressAssetImageSizes: Record<string, { width: number; height: number }> = 
   'beta27-pulse-screenshot': { width: 1440, height: 1000 },
   'beta27-data-room-screenshot': { width: 1440, height: 1000 },
   'two-week-progress': { width: 866, height: 1817 },
+  'release-evidence-pulse-en-png': { width: 2400, height: 3168 },
+  'release-evidence-pulse-en-webp': { width: 2400, height: 3168 },
+  'release-evidence-pulse-it-png': { width: 2400, height: 3350 },
+  'release-evidence-pulse-it-webp': { width: 2400, height: 3350 },
   'feature-atlas-screenshot': { width: 1440, height: 1000 },
   'release-impact-screenshot': { width: 1440, height: 1000 },
 };
@@ -425,6 +429,27 @@ export default function PressKitClient() {
               <aside className={styles.releaseIndex} aria-label={t.cycleTitle}><span>{t.cycleTitle}</span><ul>{release.changes.slice(0, 5).map((change, index) => <li key={change.en}><span>{String(index + 1).padStart(2, '0')}</span>{change[lang]}</li>)}</ul></aside>
             </div>
           ))}
+          <article className={styles.releasePulseCallout}>
+            <Image
+              src={lang === 'en' ? '/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.webp' : '/press-kit/policywatcher-release-evidence-pulse-it-2026-08-15.webp'}
+              alt={lang === 'en' ? 'PolicyWatcher fourteen-day release evidence infographic' : 'Infografica PolicyWatcher sulle evidenze di release in quattordici giorni'}
+              width={2400}
+              height={lang === 'en' ? 3168 : 3350}
+              loading="lazy"
+              sizes="(max-width: 760px) calc(100vw - 32px), 420px"
+              unoptimized
+            />
+            <div>
+              <span>14-day release evidence pulse</span>
+              <h3>{lang === 'en' ? 'Six release clusters, their implementation impact and the limit of each claim.' : 'Sei cluster di release, il loro impatto implementativo e il limite di ogni affermazione.'}</h3>
+              <p>{lang === 'en' ? 'One dated ledger drives the interactive story, public API and bilingual press infographic.' : 'Un unico ledger datato alimenta la storia interattiva, l API pubblica e l infografica stampa bilingue.'}</p>
+              <div>
+                <Link href="/pulse/two-week-release-impact">{lang === 'en' ? 'Open evidence story' : 'Apri storia delle evidenze'}<ArrowRight size={13} /></Link>
+                <a href={lang === 'en' ? '/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.png' : '/press-kit/policywatcher-release-evidence-pulse-it-2026-08-15.png'} download><Download size={13} />{lang === 'en' ? 'Download print PNG' : 'Scarica PNG stampa'}</a>
+              </div>
+              <small>{lang === 'en' ? 'Implementation inventory, not adoption or compliance outcomes. Decorative background generated with AI and disclosed in asset metadata.' : 'Inventario implementativo, non risultati di adozione o conformita. Sfondo decorativo generato con AI e dichiarato nei metadata dell asset.'}</small>
+            </div>
+          </article>
           <Link className={styles.subpageAction} href="/press-kit/releases"><Archive size={14} />{t.releaseArchive}</Link>
         </section>
 

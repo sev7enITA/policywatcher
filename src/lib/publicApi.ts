@@ -96,6 +96,12 @@ export function getPublicApiManifest() {
       contract: 'dated bounded evidence register with deterministic SHA-256 digest',
       humanReview: '/trust/residency',
     },
+    releaseEvidence: {
+      endpoint: '/api/v1/release-evidence',
+      schema: '/schemas/release-evidence-ledger/v1',
+      contract: 'inclusive 14-day release ledger with deterministic SHA-256 digest and explicit claim boundaries',
+      humanReview: '/pulse/two-week-release-impact',
+    },
     agentGateway: {
       contract: '/api/v1/agent/openapi.json',
       operations: ['/api/v1/agent/capabilities', '/api/v1/agent/change-brief', '/api/v1/agent/observatory-brief'],

@@ -111,8 +111,8 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
 
 const nowItems = [
   {
-    phase: 'Current · 3.9.0-beta.41',
-    title: 'Adaptive Experience',
+    phase: 'Current · 3.9.0-beta.42',
+    title: 'Evidence Release Control Plane',
     body:
       'Let each visitor choose Focus, Balanced or Explore hierarchy, control motion explicitly and inspect the deterministic reason for the recommended next action.',
     benefit: 'A global, feature-rich platform can stay task-oriented without removing expert routes or silently personalizing evidence.',

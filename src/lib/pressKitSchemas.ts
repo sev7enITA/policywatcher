@@ -6,6 +6,64 @@ const localized = {
 } as const;
 
 export const pressKitSchemas = {
+  'release-evidence-ledger': {
+    $schema: 'https://json-schema.org/draft/2020-12/schema',
+    $id: 'https://policywatcher.online/schemas/release-evidence-ledger/v1',
+    title: 'PolicyWatcher release evidence ledger',
+    type: 'object',
+    required: ['schemaVersion', 'generatedAt', 'window', 'currentRelease', 'integrity', 'claimBoundary', 'releases'],
+    properties: {
+      schemaVersion: { const: 'policywatcher-release-evidence-ledger.v1' },
+      generatedAt: { type: 'string', format: 'date-time' },
+      window: {
+        type: 'object',
+        required: ['start', 'end', 'inclusiveDays', 'timezone'],
+        properties: {
+          start: { type: 'string', format: 'date' },
+          end: { type: 'string', format: 'date' },
+          inclusiveDays: { const: 14 },
+          timezone: { const: 'UTC' },
+        },
+        additionalProperties: false,
+      },
+      currentRelease: { type: 'string' },
+      integrity: {
+        type: 'object',
+        required: ['algorithm', 'canonicalization', 'digest'],
+        properties: {
+          algorithm: { const: 'sha256' },
+          canonicalization: { const: 'JSON.stringify(releases)' },
+          digest: { type: 'string', pattern: '^[a-f0-9]{64}$' },
+        },
+        additionalProperties: false,
+      },
+      claimBoundary: { type: 'string', minLength: 40 },
+      releases: {
+        type: 'array',
+        minItems: 1,
+        items: {
+          type: 'object',
+          required: ['version', 'displayVersion', 'date', 'title', 'wave', 'impact', 'metrics', 'evidence', 'boundary'],
+          properties: {
+            version: { type: 'string' },
+            displayVersion: { type: 'string' },
+            date: { type: 'string', format: 'date' },
+            title: localized,
+            wave: { enum: ['technical', 'distribution', 'product', 'experience', 'assurance'] },
+            impact: localized,
+            metrics: {
+              type: 'array', minItems: 1, maxItems: 4,
+              items: { type: 'object', required: ['value', 'label'], properties: { value: { type: 'string' }, label: localized }, additionalProperties: false },
+            },
+            evidence: { type: 'array', minItems: 1, items: { type: 'string' }, uniqueItems: true },
+            boundary: localized,
+          },
+          additionalProperties: false,
+        },
+      },
+    },
+    additionalProperties: false,
+  },
   'press-kit': {
     $schema: 'https://json-schema.org/draft/2020-12/schema',
     $id: 'https://policywatcher.online/schemas/press-kit/v1',
