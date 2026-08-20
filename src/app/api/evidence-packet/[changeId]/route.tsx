@@ -15,7 +15,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ changeId: string }> },
 ) {
-  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-get' });
+  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-evidence-packet' });
   if (limited) return limited;
 
   const { changeId } = await params;

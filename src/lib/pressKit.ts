@@ -3,6 +3,7 @@ import {
   POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS,
   POLICYWATCHER_RELEASE_CHANNEL_LABEL,
   POLICYWATCHER_RELEASE_DATE,
+  POLICYWATCHER_RELEASE_DATE_LABEL,
   POLICYWATCHER_RELEASE_NAME,
   POLICYWATCHER_VERSION,
   POLICYWATCHER_VERSION_DISPLAY,
@@ -229,7 +230,7 @@ export const pressKitClaims: PressKitClaim[] = [
     type: 'freshness',
     proofHref: '/timeline',
     proofLabel: { en: 'Policy timeline', it: 'Timeline policy' },
-    boundary: { en: 'Release metadata is dated 6 August 2026; update intervals depend on source retrieval and review.', it: 'I metadata di release sono datati 6 agosto 2026; gli intervalli di aggiornamento dipendono dal recupero e dalla revisione delle fonti.' },
+    boundary: { en: `Release metadata is dated ${POLICYWATCHER_RELEASE_DATE_LABEL.en}; update intervals depend on source retrieval and review.`, it: `I metadata di release sono datati ${POLICYWATCHER_RELEASE_DATE_LABEL.it}; gli intervalli di aggiornamento dipendono dal recupero e dalla revisione delle fonti.` },
     asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
     reviewCadence: { en: 'Each source-screening release', it: 'Ogni release di screening fonti' }, recordStatus: 'current', permalink: '/press-kit#claim-source-timestamps',
   },
@@ -454,6 +455,64 @@ const pressKitAssetDefinitions: PressKitAsset[] = [
     rightsUrl: '/press-kit/LICENSE-ASSETS.md',
     metadataStandard: asset.metadataStandard as PressKitAsset['metadataStandard'],
   })),
+  ...[
+    { id: 'v4-beta2-value-en-png', format: 'PNG', filename: 'policywatcher-v4-beta2-value-infographic-en-2026-08-20.png', mediaType: 'image/png', metadataStandard: 'IPTC Photo Metadata 2025.1' },
+    { id: 'v4-beta2-value-en-webp', format: 'WebP', filename: 'policywatcher-v4-beta2-value-infographic-en-2026-08-20.webp', mediaType: 'image/webp', metadataStandard: 'document-manifest' },
+  ].map((asset) => ({
+    id: asset.id,
+    filename: asset.filename,
+    href: `/press-kit/${asset.filename}`,
+    mediaType: asset.mediaType,
+    dimensions: '1800 x 2700 px',
+    bytes: 0,
+    sha256: '',
+    contentCredentials: 'not-attached' as const,
+    title: { en: `PolicyWatcher 4 operating-model guide (${asset.format}, English)`, it: `Guida al modello operativo di PolicyWatcher 4 (${asset.format}, inglese)` },
+    caption: {
+      en: 'A factual guide for product, governance, research and integration teams explaining the move from change records to durable reusable evidence, with a separate technical mirror for architecture, Git, integrations and shared workflows.',
+      it: 'Guida fattuale per team di prodotto, governance, ricerca e integrazione sul passaggio dai record di cambiamento a evidenze durevoli e riutilizzabili, con uno specchio tecnico separato per architettura, Git, integrazioni e workflow condivisi.',
+    },
+    alt: {
+      en: 'PolicyWatcher 4 operating-model guide for product, governance, research and integration teams with a secondary technical reference',
+      it: 'Guida al cambio di modello operativo di PolicyWatcher 4 per team di prodotto, governance, ricerca e integrazione, con uno specchio tecnico secondario',
+    },
+    usageBoundary: {
+      en: 'Dated release checkpoint, not continuous availability, legal quality, corpus completeness, compliance certification or competitive superiority. Live readiness is not frozen into the asset. The illustration layer is AI-generated and disclosed.',
+      it: 'Checkpoint di release datato, non disponibilità continua, qualità legale, completezza del corpus, certificazione di conformità o superiorità competitiva. La readiness live non è cristallizzata nell’asset. Il livello illustrativo è generato con AI e dichiarato.',
+    },
+    creditLine: 'PolicyWatcher / Fabrizio Degni',
+    rightsUrl: '/press-kit/LICENSE-ASSETS.md',
+    metadataStandard: asset.metadataStandard as PressKitAsset['metadataStandard'],
+  })),
+  ...[
+    { id: 'v4-foundation-beta-en-png', format: 'PNG', filename: 'policywatcher-v4-foundation-beta-en-2026-08-20.png', mediaType: 'image/png', metadataStandard: 'IPTC Photo Metadata 2025.1' },
+    { id: 'v4-foundation-beta-en-webp', format: 'WebP', filename: 'policywatcher-v4-foundation-beta-en-2026-08-20.webp', mediaType: 'image/webp', metadataStandard: 'document-manifest' },
+  ].map((asset) => ({
+    id: asset.id,
+    filename: asset.filename,
+    href: `/press-kit/${asset.filename}`,
+    mediaType: asset.mediaType,
+    dimensions: '1800 x 2700 px',
+    bytes: 0,
+    sha256: '',
+    contentCredentials: 'not-attached' as const,
+    title: { en: `PolicyWatcher 4 Foundation Beta infographic (${asset.format}, English)`, it: `Infografica PolicyWatcher 4 Foundation Beta (${asset.format}, inglese)` },
+    caption: {
+      en: 'Detailed English release infographic covering the canonical evidence graph, taxonomy, publication readiness, migration controls, verification evidence and gated production boundaries.',
+      it: 'Infografica di release dettagliata in inglese su grafo canonico delle evidenze, tassonomia, publication readiness, controlli di migrazione, evidenze di verifica e limiti di produzione soggetti a gate.',
+    },
+    alt: {
+      en: 'PolicyWatcher 4 Foundation Beta infographic with the five-node evidence chain, six-topic taxonomy, five-stage readiness snapshot, migration controls and production boundaries',
+      it: 'Infografica PolicyWatcher 4 Foundation Beta con catena delle evidenze a cinque nodi, tassonomia a sei temi, snapshot readiness a cinque stadi, controlli di migrazione e limiti di produzione',
+    },
+    usageBoundary: {
+      en: 'The readiness values are a dated aggregate operational snapshot. GitHub promotion does not mean Hostinger deployment or infrastructure cutover. The decorative background is AI-generated and disclosed.',
+      it: 'I valori di readiness sono uno snapshot operativo aggregato e datato. La promozione GitHub non equivale al deploy Hostinger o al cutover infrastrutturale. Lo sfondo decorativo e generato con AI e dichiarato.',
+    },
+    creditLine: 'PolicyWatcher / Fabrizio Degni',
+    rightsUrl: '/press-kit/LICENSE-ASSETS.md',
+    metadataStandard: asset.metadataStandard as PressKitAsset['metadataStandard'],
+  })),
   {
     id: 'feature-atlas-screenshot',
     filename: 'policywatcher-feature-atlas-2026-07-27.png',
@@ -575,12 +634,37 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'canonical-evidence-foundation-4-0-0-beta-1',
+    slug: 'production-readiness-hardening-4-0-0-beta-2',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'confidence',
+    title: { en: 'Production Readiness Hardening', it: 'Hardening della readiness di produzione' },
+    summary: { en: 'Applies the highest-priority independent-assessment remediations to request identity, bounded ingestion, scan lifecycle, sessions, consent and encrypted recovery exports.', it: 'Applica le remediation prioritarie degli assessment indipendenti a identità delle richieste, ingestione limitata, ciclo di vita delle scansioni, sessioni, consenso ed export cifrati di recovery.' },
+    changes: [
+      { en: 'Production rate limiting now fails each unattributed request closed and requires exactly one verified proxy identity source, while public routes use separate buckets.', it: 'Il rate limiting di produzione ora rifiuta singolarmente ogni richiesta non attribuita e richiede una sola fonte di identità proxy verificata, mentre le route pubbliche usano bucket separati.' },
+      { en: 'Scraper decompression, public AI bodies, policy context and model output are bounded; full scans use a durable lease, renewal and stale-run recovery.', it: 'Decompressione scraper, body AI pubblici, contesto policy e output del modello sono limitati; le scansioni complete usano lease durevole, rinnovo e recupero dei run stale.' },
+      { en: 'Admin sessions have a dedicated revocation version, subscriber alerts require a 48-hour double opt-in, and encrypted exports cover all 31 application tables in a versioned envelope.', it: 'Le sessioni Admin hanno una versione di revoca dedicata, gli alert richiedono double opt-in entro 48 ore e gli export cifrati coprono tutte le 31 tabelle applicative in un contenitore versionato.' },
+    ],
+    boundaries: [
+      { en: 'The candidate still requires Hostinger staging with the real proxy header, 16/16 migrations, SMTP confirmation and post-deploy smoke evidence.', it: 'La candidate richiede ancora staging Hostinger con header proxy reale, 16/16 migrazioni, conferma SMTP ed evidenze smoke post-deploy.' },
+      { en: 'Backup-file verification is not a restore drill; PostgreSQL, object storage and canonical reads remain separately gated.', it: 'La verifica del file di backup non è una prova di ripristino; PostgreSQL, object storage e letture canoniche restano soggetti a gate separati.' },
+    ],
+    evidenceLinks: [
+      { href: '/developers', label: { en: 'Developer contract', it: 'Contratto sviluppatori' } },
+      { href: '/admin/database', label: { en: 'Protected database readiness', it: 'Readiness database protetta' } },
+      { href: '/feature-atlas', label: { en: 'Feature Atlas', it: 'Atlante funzionalita' } },
+    ],
+  },
+  {
+    slug: 'canonical-evidence-foundation-4-0-0-beta-1',
+    version: '4.0.0-beta.1',
+    displayVersion: '4.0.0 Beta 1',
+    datePublished: '2026-08-19',
+    dateModified: '2026-08-20',
+    status: 'archived',
     category: 'confidence',
     title: { en: 'Canonical Evidence Foundation', it: 'Fondazione canonica delle evidenze' },
     summary: { en: 'Introduces a canonical document evidence graph, stable public identifiers, a focused provision taxonomy and one authoritative publication-readiness metric.', it: 'Introduce un grafo canonico delle evidenze documentali, identificatori pubblici stabili, una tassonomia mirata delle clausole e una sola metrica autorevole di publication readiness.' },
@@ -1480,6 +1564,8 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+  { id: 'production-readiness-hardening-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Production Readiness Hardening candidate recorded', it: 'Registrata la candidate Production Readiness Hardening' }, detail: { en: 'The Beta 2 candidate applies the material independent-assessment remediations while preserving the Beta 1 evidence contracts and explicit deployment gates.', it: 'La candidate Beta 2 applica le remediation materiali degli assessment indipendenti preservando i contratti di evidenza Beta 1 e i gate di deployment espliciti.' }, affectedHref: '/press-kit/releases/production-readiness-hardening-4-0-0-beta-2' },
+  { id: 'canonical-evidence-foundation-release', occurredAt: '2026-08-19', type: 'release', title: { en: 'Canonical Evidence Foundation published', it: 'Pubblicata Canonical Evidence Foundation' }, detail: { en: 'The v4 foundation introduces a canonical document-evidence graph, stable public identifiers, a focused provision taxonomy and one database-derived publication-readiness contract.', it: 'La foundation v4 introduce un grafo canonico delle evidenze documentali, identificatori pubblici stabili, una tassonomia mirata delle clausole e un unico contratto di publication readiness derivato dal database.' }, affectedHref: '/press-kit/releases/canonical-evidence-foundation-4-0-0-beta-1' },
   { id: 'evidence-release-control-plane-release', occurredAt: '2026-08-15', type: 'release', title: { en: 'Evidence Release Control Plane published', it: 'Pubblicato Evidence Release Control Plane' }, detail: { en: 'A human-approved model registry, privacy-safe telemetry, validated release ledger and bilingual Evidence Pulse now share explicit evidence and residual boundaries.', it: 'Un registro modelli approvato da persone, telemetria rispettosa della privacy, un ledger di release validato ed Evidence Pulse bilingue ora condividono evidenze e limiti residui espliciti.' }, affectedHref: '/press-kit/releases/evidence-release-control-plane-3-9-0-beta-42' },
   { id: 'adaptive-experience-release', occurredAt: '2026-08-07', type: 'release', title: { en: 'Adaptive Experience published', it: 'Pubblicata Esperienza adattiva' }, detail: { en: 'The dashboard now exposes deterministic complexity and motion controls plus a source-generated ER sitemap.', it: 'La dashboard ora espone controlli deterministici di complessita e movimento oltre a una sitemap ER generata dalla fonte.' }, affectedHref: '/press-kit/releases/adaptive-experience-3-9-0-beta-41' },
   { id: 'edge-addons-publication', occurredAt: '2026-08-06', type: 'release', title: { en: 'Microsoft Edge Add-ons publication reported', it: 'Segnalata la pubblicazione su Microsoft Edge Add-ons' }, detail: { en: 'The Browser Extension page now reports Chrome and Edge as published while the Edge direct action remains gated by official URL configuration.', it: 'La pagina Browser Extension ora riporta Chrome ed Edge come pubblicati, mentre l azione diretta Edge resta vincolata alla configurazione dell URL ufficiale.' }, affectedHref: '/press-kit/releases/policywatcher-civico-3-9-0-beta-40' },

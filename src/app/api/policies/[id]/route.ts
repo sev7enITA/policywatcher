@@ -32,7 +32,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-get' });
+  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-policy-detail' });
   if (limited) return limited;
 
   try {
@@ -105,7 +105,7 @@ export async function GET(
   } catch (error) {
     console.error('Error fetching policy details:', error);
     return NextResponse.json(
-      { error: 'Errore interno durante il recupero della policy.' },
+      { error: 'Unable to retrieve the policy.' },
       { status: 500 }
     );
   }

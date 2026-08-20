@@ -36,7 +36,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ policyId: string }> }
 ) {
-  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-get' });
+  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-policy-report' });
   if (limited) return limited;
 
   try {
@@ -118,7 +118,7 @@ export async function GET(
   } catch (error) {
     console.error('[PDF Report] Error:', error);
     return NextResponse.json(
-      { error: 'Errore durante la generazione del PDF.' },
+      { error: 'Unable to generate the PDF report.' },
       { status: 500 }
     );
   }

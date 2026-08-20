@@ -1,0 +1,20 @@
+Scheda stampa PolicyWatcher
+Version 4.0.0-beta.2 · 2026-08-20
+Release corrente: Production Readiness Hardening
+
+Dati configurati sul prodotto con perimetro e limiti di riuso espliciti.
+
+16: aziende monitorate configurate
+Esclude la fixture WAZE per l’onboarding amministrativo; non è copertura esaustiva.
+
+6: settori configurati
+Le etichette di settore organizzano l’inventario monitorato.
+
+15: KPI canonici
+Privacy, governance AI ed etica; le valutazioni non disponibili sono Non valutato.
+
+EN / IT: lingue editoriali
+Press kit e alcune pagine guida selezionate.
+
+Boundary: Non è consulenza legale, certificazione di conformità o copertura esaustiva del mercato.
+Current source: https://policywatcher.online/press-kit

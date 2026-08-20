@@ -65,7 +65,7 @@ const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 export async function GET(request: NextRequest) {
   // Rate limit: public listing, same bucket as other public GETs.
-  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-get' });
+  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-changes' });
   if (limited) return limited;
 
   try {

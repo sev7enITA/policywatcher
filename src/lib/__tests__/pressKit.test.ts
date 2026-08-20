@@ -59,6 +59,8 @@ describe('public press kit', () => {
       assets: Array<{ filename: string; bytes: number; sha256: string }>;
     };
     expect(manifest.contentCredentials).toBe('not-attached');
+    expect(manifest.assets.some((asset) => asset.filename === 'policywatcher-v4-foundation-beta-en-2026-08-20.png')).toBe(true);
+    expect(manifest.assets.some((asset) => asset.filename === 'policywatcher-v4-beta2-value-infographic-en-2026-08-20.png')).toBe(true);
     expect(manifest.assets.length).toBeGreaterThanOrEqual(pressKitAssets.length);
 
     for (const manifestAsset of manifest.assets) {
@@ -143,6 +145,8 @@ describe('public press kit', () => {
     expect(client).toContain('downloadFromGitHub');
     expect(client).not.toContain('href={pressPackage.href} download');
     expect(client).toContain('Content Credentials not attached');
+    expect(client).toContain('policywatcher-v4-beta2-value-infographic-en-2026-08-20.webp');
+    expect(client).toContain('Dated release checkpoint');
     expect(client).toContain('update intervals depend on retrieval and review');
     expect(client).toContain('Not assessed without assigning a numerical value');
     expect(client).toContain('className={styles.page} lang={lang}');
@@ -305,7 +309,9 @@ describe('public press kit', () => {
     const releaseEvidenceItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'release-evidence-ledger');
     expect(releaseEvidenceItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.42', endRelease: '3.9.0-beta.42' });
     const canonicalEvidenceItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'canonical-document-evidence-graph');
-    expect(canonicalEvidenceItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(canonicalEvidenceItem).toMatchObject({ status: 'delivered', startRelease: '4.0.0-beta.1', endRelease: '4.0.0-beta.1' });
+    const hardeningItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'production-readiness-hardening');
+    expect(hardeningItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
     expect(continuityAtlasItem?.route).toEqual({ href: '/developers/event-continuity', label: 'Event Feed Continuity Lab', access: 'public' });
   });
 });

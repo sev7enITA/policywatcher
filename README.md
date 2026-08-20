@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-4.0.0%20Beta%201%20Canonical%20Evidence%20Foundation-146c6a" alt="4.0.0 Beta 1 Canonical Evidence Foundation" />
+  <img src="https://img.shields.io/badge/Release-4.0.0%20Beta%202%20Production%20Readiness%20Hardening-146c6a" alt="4.0.0 Beta 2 Production Readiness Hardening" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -39,17 +39,28 @@ PolicyWatcher monitors configured public policy sources for 16 technology and fi
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
 
-### Release 4.0.0 Beta 1 Canonical Evidence Foundation Highlights
+### Release 4.0.0 Beta 2 Production Readiness Hardening Highlights
 
-- **Canonical evidence graph:** additive `Entity -> Document -> Version -> Change -> Provision` models establish the durable target chain without switching production reads prematurely.
-- **Stable public identifiers:** deterministic IDs decouple public references from internal database keys and future storage providers.
-- **Provision taxonomy 1.0.0:** AI training, data sharing, retention, arbitration, content licensing and liability share one versioned vocabulary.
-- **Authoritative readiness metric:** Admin, competitive analysis and `/api/v1/publication-readiness` consume the same database-derived configured, retrieved, baseline-verified, public and analysed counts plus latest capture.
-- **Provider portability:** SQLite production remains supported while PostgreSQL CI, baseline and rehearsal tooling are available as a separate future cutover gate.
-- **Wave 1B activation tooling:** guarded backfill, deterministic reconciliation and opt-in transactional dual-write are implemented and rehearsed on a sanitized copy. Production execution still requires a backup, approved maintenance window, clean apply/reconciliation report and explicit `POLICYWATCHER_DOCUMENT_EVIDENCE_DUAL_WRITE=1` activation.
-- **Remaining boundary:** canonical reads, PostgreSQL cutover and object-storage payload movement remain separately approved production waves.
+Release record: **20 August 2026**. The immutable `v4.0.0-beta.2` source tag and
+the production runtime both identify Beta 2; deployment evidence remains
+separate from source-test evidence.
 
-Functional report: [PolicyWatcher 4 vs 3.x](docs/reports/policywatcher-v4-vs-v3-2026-08-20.html)
+- **Trusted request identity:** managed environments require exactly one verified proxy identity source; unattributed requests fail individually instead of sharing a denial-of-service bucket.
+- **Bounded ingestion and AI:** compressed scraper responses, streamed public JSON bodies, chat questions, policy context and model output have explicit limits.
+- **Durable scan lifecycle:** one global lease prevents overlapping full scans, renews during work and closes or recovers failed and stale runs.
+- **Revocable, separated sessions:** admin and investor cookies use distinct signing secrets; incrementing `ADMIN_SESSION_VERSION` invalidates active admin and auditor sessions.
+- **Consent evidence:** new and reactivated alert subscriptions remain inactive until an explicit double-opt-in confirmation within 48 hours records its timestamp.
+- **Complete encrypted export:** the versioned AES-256-GCM envelope covers all 31 application tables and records bounded scrypt parameters; legacy partial files remain verification-compatible.
+- **SQLite runtime:** WAL is a readiness requirement, the application configures a 5-second busy timeout and deployment backups use the SQLite backup API.
+- **Foundation retained:** the Beta 1 canonical evidence graph, stable IDs, taxonomy and database-derived readiness metric remain intact. Canonical reads, PostgreSQL and object storage remain gated.
+
+Remediation audit: [4.0.0 Beta 2 assessment remediation](docs/audit-v4.0.0-beta.2-assessment-remediation.md)
+
+Release communication: [English](docs/communications/policywatcher-v4-beta2-assessment-remediation-2026-08-20-en.md) / [Italiano](docs/communications/policywatcher-v4-beta2-assessment-remediation-2026-08-20-it.md)
+
+Detailed 3.x → 4 value infographic: [editable SVG source](docs/media/policywatcher-v4-beta2-value-2026-08-20/policywatcher-v4-beta2-value-infographic-en-2026-08-20.svg) / [press-ready PNG](public/press-kit/policywatcher-v4-beta2-value-infographic-en-2026-08-20.png)
+
+Historical Foundation Beta assets remain available in the [Beta 1 release record](docs/releases/policywatcher-4.0.0-beta.1-github-release.md). Beta 2 release copy is maintained separately in the [Beta 2 release record](docs/releases/policywatcher-4.0.0-beta.2-github-release.md).
 
 ### Release 3.9.0 Beta 42 Evidence Release Control Plane Highlights
 
@@ -446,7 +457,7 @@ Measurement describes a bounded protected-dashboard sample. It does not prove ta
 - User-submitted URLs are clues only and are not fetched until an administrator approves onboarding.
 - Pasted notifications are never sent to Gemini. Verified answers come only from `publicPolicyWhere` / `publicChangeWhere` records.
 - A first scan establishes a baseline and cannot, by itself, prove what changed before monitoring began.
-- Production must set `TRUSTED_CLIENT_IP_HEADER` to a provider-controlled client-IP header, or enable `TRUST_PROXY_HEADERS=true` only after confirming that the Hostinger proxy overwrites forwarded headers. Otherwise the low-volume inquiry limiter falls back to one shared `unknown` bucket.
+- Staging and production must configure exactly one trusted client-identity source: `TRUSTED_CLIENT_IP_HEADER` for a provider-controlled header, or `TRUST_PROXY_HEADERS=true` only after confirming that the proxy overwrites forwarding headers. Missing identity fails the individual request with `503`; it never enters a shared anonymous rate-limit bucket.
 
 ### Release 3.6.4 Audit Fixes Highlights
 
@@ -1225,7 +1236,7 @@ Release 3.6.3 also requires migration `20260721090000_source_onboarding`, which 
 
 Release 3.6.4 additionally requires migration `20260721120000_policy_discovery_job`, which persists discovery run state and atomic run tokens. The same `npx prisma migrate deploy` or `bash scripts/hostinger-init-db.sh` step applies it without changing policy evidence.
 
-Security incident note: an unauthenticated debug environment endpoint existed in commit `ec2f699` and was removed from `main` by commit `f453b4a`. If commit `ec2f699` was deployed, rotate `ADMIN_PASSWORD`, `SESSION_HMAC_SECRET`, and `API_SECRET`. The endpoint did not intentionally expose secret values, but public deployment of diagnostic environment routes is not acceptable for production operations.
+Security incident note: an unauthenticated debug environment endpoint existed in commit `ec2f699` and was removed from `main` by commit `f453b4a`. If commit `ec2f699` was deployed, rotate `ADMIN_PASSWORD`, `ADMIN_SESSION_HMAC_SECRET`, `INVESTOR_SESSION_HMAC_SECRET`, and `API_SECRET`, then increment `ADMIN_SESSION_VERSION`. The endpoint did not intentionally expose secret values, but public deployment of diagnostic environment routes is not acceptable for production operations.
 
 ### Environment Variables
 
@@ -1233,7 +1244,10 @@ Security incident note: an unauthenticated debug environment endpoint existed in
 |----------|----------|-------------|
 | `GEMINI_API_KEY` | Yes | Google AI API key for Gemini 2.5 Flash |
 | `API_SECRET` | Yes | High-entropy bearer token for cron and protected operational endpoints |
-| `SESSION_HMAC_SECRET` | Yes | Separate high-entropy key for admin session cookies; never reuse `API_SECRET` |
+| `ADMIN_SESSION_HMAC_SECRET` | Yes | High-entropy key dedicated to admin/auditor session cookies |
+| `INVESTOR_SESSION_HMAC_SECRET` | Yes | Separate high-entropy key dedicated to investor session cookies |
+| `ADMIN_SESSION_VERSION` | Yes | Bounded revocation value; increment to invalidate all active admin/auditor sessions |
+| `GOOGLE_TTS_API_KEY` | No | Dedicated Google Cloud Text-to-Speech key; never falls back to `GEMINI_API_KEY` |
 | `POLICYWATCHER_INTERNAL_STUDY_PATH` | Admin study only | Absolute path to the confidential JSON mounted outside the release and web root; provision it through a private deployment channel |
 | `DATABASE_URL` | Yes | SQLite connection string. Use an absolute production path outside the extracted app source, e.g. `file:/home/USER/domains/policywatcher.online/policywatcher-data/production.db` |
 | `SMTP_HOST` | No | SMTP server hostname |
@@ -1253,8 +1267,8 @@ Security incident note: an unauthenticated debug environment endpoint existed in
 | `VPS_AGENT_SECRET` | Optional | Dedicated high-entropy HMAC secret used by the Hostinger app to call the operations agent |
 | `ALLOW_DATABASE_SEED_ENDPOINT` | No | Development-only flag for `/api/seed`; never enable in production |
 | `ADMIN_MUTATION_ALLOW_MISSING_PROVENANCE` | Test/non-production only | Explicitly permits controlled admin mutation tests without Origin or Fetch Metadata; ignored in production |
-| `TRUST_PROXY_HEADERS` | No | Set to `true` only after the reverse proxy is verified to overwrite forwarding headers |
-| `TRUSTED_CLIENT_IP_HEADER` | No | Provider-controlled client IP header to use for rate limiting |
+| `TRUST_PROXY_HEADERS` | Conditional | Set to `true` only after the reverse proxy is verified to overwrite forwarding headers; mutually exclusive with `TRUSTED_CLIENT_IP_HEADER` |
+| `TRUSTED_CLIENT_IP_HEADER` | Conditional | Provider-controlled client IP header; exactly one trusted identity source is mandatory on staging and production |
 
 ### Optional VPS Renderer Deployment
 

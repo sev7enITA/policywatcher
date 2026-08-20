@@ -4,6 +4,12 @@ Release: `4.0.0-beta.1` - Canonical Evidence Foundation
 
 Audit date: 19 August 2026
 
+Promotion update: the reviewed Foundation Beta source was promoted on GitHub at
+commit `13b3b61f20e78c6f56df93bae4af8d592c0712f0` and published as prerelease
+`v4.0.0-beta.1` on 20 August 2026. The Hostinger deployment, production
+backfill, dual-write activation, canonical read switch, PostgreSQL cutover and
+object-storage activation remain separate production gates.
+
 ## Audited scope
 
 - additive `Entity -> Document -> Version -> Change -> Provision` Prisma model;
@@ -86,9 +92,10 @@ The 19 August 2026 release-candidate workspace passed:
 - Hostinger packaging integrity and required-entry verification for a local
   `4.0.0-beta.1` workspace-snapshot artifact.
 
-The workspace-snapshot artifact is verification evidence only and is not
-promotable. Production packaging still requires the reviewed clean release
-commit, a new immutable checksum and the staging rehearsal described above.
+This workspace-snapshot artifact remains historical verification evidence and
+is not itself promotable. The later reviewed clean source commit and GitHub
+release do not replace the staging rehearsal, exact deployment checksum or
+live post-deploy checks described above.
 
 ## Residual risks
 

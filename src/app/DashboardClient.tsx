@@ -16,6 +16,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import {
@@ -47,21 +48,11 @@ import {
   Link2,
 } from 'lucide-react';
 import styles from './Dashboard.module.css';
-import PolicyDetails from '@/components/PolicyDetails';
-import LiveAssistant from '@/components/LiveAssistant';
-import SubscribeModal from '@/components/SubscribeModal';
-import AboutModal from '@/components/AboutModal';
-import ChangelogModal from '@/components/ChangelogModal';
-import MethodologyModal from '@/components/MethodologyModal';
-import CrossCompanyMatrix from '@/components/CrossCompanyMatrix';
-import CommandPalette from '@/components/CommandPalette';
-import CompareModal from '@/components/CompareModal';
 import TermsGate from '@/components/TermsGate';
 import CardRiskReasons from '@/components/ai/CardRiskReasons';
 import { SkeletonGrid, SkeletonStatsGrid } from '@/components/Skeleton';
 import { motion, AnimatePresence, MotionConfig, useReducedMotion } from 'framer-motion';
 import Footer from '@/components/Footer';
-import HowToModal from '@/components/HowToModal';
 import Navigation, { NavLayout } from '@/components/Navigation';
 import ExperienceControlCenter from '@/components/ExperienceControlCenter';
 import ReleaseEvidencePulse from '@/components/ReleaseEvidencePulse';
@@ -135,6 +126,17 @@ import {
 export type { Company, Policy, PolicyChange, RegionImpact } from '@/types/index';
 import type { Company } from '@/types/index';
 
+const PolicyDetails = dynamic(() => import('@/components/PolicyDetails'), { ssr: false });
+const LiveAssistant = dynamic(() => import('@/components/LiveAssistant'), { ssr: false });
+const SubscribeModal = dynamic(() => import('@/components/SubscribeModal'), { ssr: false });
+const AboutModal = dynamic(() => import('@/components/AboutModal'), { ssr: false });
+const ChangelogModal = dynamic(() => import('@/components/ChangelogModal'), { ssr: false });
+const MethodologyModal = dynamic(() => import('@/components/MethodologyModal'), { ssr: false });
+const CrossCompanyMatrix = dynamic(() => import('@/components/CrossCompanyMatrix'), { ssr: false });
+const CommandPalette = dynamic(() => import('@/components/CommandPalette'), { ssr: false });
+const CompareModal = dynamic(() => import('@/components/CompareModal'), { ssr: false });
+const HowToModal = dynamic(() => import('@/components/HowToModal'), { ssr: false });
+
 /** Bilingual UI string dictionary, keyed by language code. */
 const translations = {
   it: {
@@ -159,6 +161,8 @@ const translations = {
     viewAnalysis: 'Vedi Analisi',
     noResults: 'Nessun record pubblico conforme al gate di evidenza. I record seed restano nascosti finché non viene completata una scansione della fonte.',
     loading: 'Caricamento dati...',
+    loadError: 'I dati pubblici non sono disponibili in questo momento. Nessun empty-state è stato dedotto da questo errore.',
+    retry: 'Riprova',
     policiesList: 'Policies disponibili:',
     privacy: 'Privacy',
     terms: 'Servizi',
@@ -177,14 +181,14 @@ const translations = {
     openFullTimeline: 'Apri timeline completa',
     noMarketPulse: 'Nessuna modifica conforme al gate di evidenza per questo filtro.',
     suspendedSourcesTitle: 'Sorgenti temporaneamente sospese',
-    suspendedSourcesLead: 'Sono state identificate anomalie nell\'ultimo fetching o aggiornamento. Le sorgenti sotto riportate non espongono dati pubblici finche non vengono verificate.',
+    suspendedSourcesLead: 'Sono state identificate anomalie nell\'ultimo fetching o aggiornamento. Le sorgenti sotto riportate non espongono dati pubblici finché non vengono verificate.',
     suspendedSourcesCount: 'sorgenti sospese',
     suspendedSourceStatus: 'Stato',
     suspendedSourceReason: 'Motivo',
     suspendedSourceLastCheck: 'Ultimo check',
     sourceBaseline: 'Baseline sorgente',
     sourceVerified: 'Baseline della fonte pubblicata',
-    baselineRegistered: 'Baseline sorgente verificata. Nessuna modifica pubblicabile rilevata da quando il monitoraggio reale e stato avviato.',
+    baselineRegistered: 'Baseline sorgente verificata. Nessuna modifica pubblicabile rilevata da quando il monitoraggio reale è stato avviato.',
     noPolicyEvidence: 'Nessuna evidenza sorgente pubblicabile ancora disponibile.',
     sortByRisk: 'Rischio',
     sortByDate: 'Data',
@@ -312,6 +316,8 @@ const translations = {
     viewAnalysis: 'View Analysis',
     noResults: 'No public records pass the evidence gate. Seed records remain hidden until a source scan completes.',
     loading: 'Loading dashboard data...',
+    loadError: 'Public data is temporarily unavailable. This error is not being reported as an empty evidence state.',
+    retry: 'Retry',
     policiesList: 'Available policies:',
     privacy: 'Privacy',
     terms: 'Terms',
@@ -811,6 +817,7 @@ export default function Dashboard() {
   const prefersReducedMotion = useReducedMotion();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
+  const [dashboardLoadError, setDashboardLoadError] = useState(false);
   const [marketPulseChanges, setMarketPulseChanges] = useState<MarketPulseChange[]>([]);
   const [marketPulseLoading, setMarketPulseLoading] = useState(true);
   const [sourceSuspensions, setSourceSuspensions] = useState<SourceSuspension[]>([]);
@@ -820,6 +827,10 @@ export default function Dashboard() {
 
   // Bilingual state
   const [lang, setLang] = useState<'en' | 'it'>('en');
+
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   // Multi-region and audience state filters
   const [selectedRegion, setSelectedRegion] = useState<'EU' | 'US' | 'Global'>('EU');
@@ -1158,6 +1169,7 @@ export default function Dashboard() {
 
   const fetchCompanies = useCallback(async () => {
     setLoading(true);
+    setDashboardLoadError(false);
     try {
       const [companiesResult, suspensionsResult] = await Promise.all([
         loadPublicDataSource<Company[]>('dashboardCompanies'),
@@ -1168,6 +1180,7 @@ export default function Dashboard() {
       setSourceSuspensionsTotal(suspensionsResult.data.total || 0);
     } catch (error) {
       console.error('Error loading companies:', error);
+      setDashboardLoadError(true);
     } finally {
       setLoading(false);
     }
@@ -2087,7 +2100,7 @@ export default function Dashboard() {
             <div className={styles.logoArea} style={{ pointerEvents: 'none' }}>
               <Image src="/logo-mark.png" alt="PolicyWatcher" width={56} height={56} className={styles.logoImage} priority />
               <div>
-                <h1 className={styles.logoTitle}>PolicyWatcher</h1>
+                <p className={styles.logoTitle}>PolicyWatcher</p>
                 <span className={styles.logoSubtitle}>{t.subtitle}</span>
               </div>
             </div>
@@ -2851,7 +2864,7 @@ export default function Dashboard() {
         )}
 
         {/* Results Count */}
-        {!loading && (
+        {!loading && !dashboardLoadError && (
           <div className={styles.resultsInfo} style={{ order: getModuleOrder('companyCards') - 1 }}>
             {filteredCompanies.length} / {companies.length} {lang === 'it' ? 'compagnie' : 'companies'}
           </div>
@@ -2863,6 +2876,20 @@ export default function Dashboard() {
             <SkeletonStatsGrid />
             <SkeletonGrid count={6} />
           </>
+        ) : dashboardLoadError ? (
+          <div
+            {...getDashboardModuleDomProps(workspaceIntent, 'companyCards')}
+            className={styles.emptyState}
+            style={{ order: getModuleOrder('companyCards') }}
+            role="alert"
+          >
+            <AlertTriangle size={48} className={styles.emptyIcon} />
+            <p>{t.loadError}</p>
+            <button type="button" onClick={() => void fetchCompanies()} className={styles.clearFiltersBtn}>
+              <RotateCcw size={16} aria-hidden="true" />
+              {t.retry}
+            </button>
+          </div>
         ) : filteredCompanies.length === 0 ? (
           <div
             {...getDashboardModuleDomProps(workspaceIntent, 'companyCards')}
@@ -3130,42 +3157,46 @@ export default function Dashboard() {
       )}
 
       {/* Compare A/B Modal */}
-      <CompareModal
-        isOpen={compareOpen}
-        onClose={() => setCompareOpen(false)}
-        companies={companies}
-        lang={lang}
-      />
+      {compareOpen && (
+        <CompareModal
+          isOpen={compareOpen}
+          onClose={() => setCompareOpen(false)}
+          companies={companies}
+          lang={lang}
+        />
+      )}
 
       {/* Command Palette (Cmd K) */}
-      <CommandPalette
-        isOpen={commandPaletteOpen}
-        onClose={() => setCommandPaletteOpen(false)}
-        companies={companies}
-        lang={lang}
-        onToggleLanguage={handleDashboardLanguageToggle}
-        onOpenAssistant={() => setChatOpen(true)}
-        onOpenSubscribe={() => setSubscribeOpen(true)}
-        onOpenExport={() => handleExportCSV()}
-        onOpenMatrix={() => setMatrixOpen(true)}
-        onOpenMethodology={() => setMethodologyOpen(true)}
-        onOpenHowTo={() => setHowToOpen(true)}
-        onCopyView={() => void handleCopyDashboardView()}
-        onSelectCompany={handleSelectCompany}
-        onSetIndustry={(value) => dispatchDashboardAction({
-          type: 'setFilter', source: 'commandPalette', target: 'industry', value,
-        })}
-        onSetRisk={(value) => dispatchDashboardAction({
-          type: 'setFilter', source: 'commandPalette', target: 'risk', value: value as RiskFilter,
-        })}
-        onSetRegion={(value) => dispatchDashboardAction({
-          type: 'setFilter', source: 'commandPalette', target: 'region', value,
-        })}
-        onSetPerspective={(value) => dispatchDashboardAction({
-          type: 'setFilter', source: 'commandPalette', target: 'perspective', value,
-        })}
-        onClearFilters={clearAllFilters}
-      />
+      {commandPaletteOpen && (
+        <CommandPalette
+          isOpen={commandPaletteOpen}
+          onClose={() => setCommandPaletteOpen(false)}
+          companies={companies}
+          lang={lang}
+          onToggleLanguage={handleDashboardLanguageToggle}
+          onOpenAssistant={() => setChatOpen(true)}
+          onOpenSubscribe={() => setSubscribeOpen(true)}
+          onOpenExport={() => handleExportCSV()}
+          onOpenMatrix={() => setMatrixOpen(true)}
+          onOpenMethodology={() => setMethodologyOpen(true)}
+          onOpenHowTo={() => setHowToOpen(true)}
+          onCopyView={() => void handleCopyDashboardView()}
+          onSelectCompany={handleSelectCompany}
+          onSetIndustry={(value) => dispatchDashboardAction({
+            type: 'setFilter', source: 'commandPalette', target: 'industry', value,
+          })}
+          onSetRisk={(value) => dispatchDashboardAction({
+            type: 'setFilter', source: 'commandPalette', target: 'risk', value: value as RiskFilter,
+          })}
+          onSetRegion={(value) => dispatchDashboardAction({
+            type: 'setFilter', source: 'commandPalette', target: 'region', value,
+          })}
+          onSetPerspective={(value) => dispatchDashboardAction({
+            type: 'setFilter', source: 'commandPalette', target: 'perspective', value,
+          })}
+          onClearFilters={clearAllFilters}
+        />
+      )}
 
       {/* How To Modal */}
       {howToOpen && (

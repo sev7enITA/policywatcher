@@ -25,6 +25,7 @@ export default async function HomePage() {
     <div data-policywatcher-release={POLICYWATCHER_VERSION}>
       <main className={styles.publicKnowledgeMain}>
         <div className={styles.publicKnowledgeShell}>
+          <h1 className={styles.srOnly}>PolicyWatcher public policy change monitor</h1>
           <HomeKnowledgeSnapshot data={knowledge} />
         </div>
       </main>

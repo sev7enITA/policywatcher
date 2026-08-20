@@ -61,6 +61,86 @@ export interface ScanOptions {
   companySlug?: string;
 }
 
+const GLOBAL_SCAN_LEASE_KEY = 'policy-scan';
+const SCAN_LEASE_DURATION_MS = 15 * 60 * 1000;
+const LEGACY_SCAN_STALE_AFTER_MS = 24 * 60 * 60 * 1000;
+
+export class ScanAlreadyRunningError extends Error {
+  constructor() {
+    super('scan_already_running');
+    this.name = 'ScanAlreadyRunningError';
+  }
+}
+
+function scanLeaseExpiry(now = new Date()): Date {
+  return new Date(now.getTime() + SCAN_LEASE_DURATION_MS);
+}
+
+async function acquireScanRun(options: ScanOptions) {
+  const now = new Date();
+  await db.scanRun.updateMany({
+    where: {
+      status: 'running',
+      completedAt: null,
+      OR: [
+        { leaseExpiresAt: { lt: now } },
+        {
+          leaseExpiresAt: null,
+          startedAt: { lt: new Date(now.getTime() - LEGACY_SCAN_STALE_AFTER_MS) },
+        },
+      ],
+    },
+    data: {
+      status: 'failed',
+      completedAt: now,
+      leaseKey: null,
+      leaseExpiresAt: null,
+      failureReason: 'stale_scan_recovered',
+    },
+  });
+
+  try {
+    return await db.scanRun.create({
+      data: {
+        status: 'running',
+        leaseKey: GLOBAL_SCAN_LEASE_KEY,
+        leaseExpiresAt: scanLeaseExpiry(now),
+        optionsJson: JSON.stringify(options),
+      },
+    });
+  } catch (error) {
+    if ((error as { code?: unknown } | null)?.code === 'P2002') {
+      throw new ScanAlreadyRunningError();
+    }
+    throw error;
+  }
+}
+
+async function renewScanLease(scanRunId: string): Promise<void> {
+  const renewed = await db.scanRun.updateMany({
+    where: {
+      id: scanRunId,
+      status: 'running',
+      leaseKey: GLOBAL_SCAN_LEASE_KEY,
+    },
+    data: { leaseExpiresAt: scanLeaseExpiry() },
+  });
+  if (renewed.count !== 1) throw new Error('scan_lease_lost');
+}
+
+async function failScanRun(scanRunId: string): Promise<void> {
+  await db.scanRun.updateMany({
+    where: { id: scanRunId, status: 'running' },
+    data: {
+      status: 'failed',
+      completedAt: new Date(),
+      leaseKey: null,
+      leaseExpiresAt: null,
+      failureReason: 'scan_execution_failed',
+    },
+  });
+}
+
 // -- Types --
 
 /** Per-policy result detail included in the response `details` array. */
@@ -385,6 +465,9 @@ export async function runFullScan(
   let confirmationPending = 0;
   let rebaselined = 0;
   let errors = 0;
+  const scanRun = await acquireScanRun(options);
+
+  try {
 
   // Fetch selected policies with their company info. limit/companySlug let
   // operators run the first real-source rebaseline in safe batches.
@@ -458,12 +541,11 @@ export async function runFullScan(
     acquisitionGroups.set(retrievalKey, group);
   }
 
-  const scanRun = await db.scanRun.create({
+  await db.scanRun.update({
+    where: { id: scanRun.id },
     data: {
-      status: 'running',
       selectedRecords: policies.length,
       uniqueSources: acquisitionGroups.size,
-      optionsJson: JSON.stringify(options),
     },
   });
   const retrievalMetrics = emptyRetrievalMetrics(policies.length, acquisitionGroups.size);
@@ -484,6 +566,7 @@ export async function runFullScan(
 
   // Process each policy
   for (const policy of policies) {
+    await renewScanLease(scanRun.id);
     checked++;
     const detail: CheckDetail = {
       policyId: policy.id,
@@ -1318,6 +1401,7 @@ export async function runFullScan(
   }
 
   // Notify subscribers if any policies changed
+  await renewScanLease(scanRun.id);
   if (changedPolicySummaries.length > 0) {
     try {
       const activeSubscribers = await db.subscriber.findMany({
@@ -1375,6 +1459,9 @@ export async function runFullScan(
     data: {
       status: 'completed',
       completedAt: new Date(),
+      leaseKey: null,
+      leaseExpiresAt: null,
+      failureReason: null,
       networkRetrievals: retrievalMetrics.networkRetrievals,
       deduplicatedRetrievals: retrievalMetrics.deduplicatedRetrievals,
       uniqueAvailableSources: retrievalMetrics.uniqueAvailableSources,
@@ -1409,6 +1496,10 @@ export async function runFullScan(
   );
 
   return result;
+  } catch (error) {
+    await failScanRun(scanRun.id).catch(() => undefined);
+    throw error;
+  }
 }
 
 // -- HTTP route handler --
@@ -1431,6 +1522,12 @@ export async function POST(request: NextRequest) {
     const result = await runFullScan(undefined, options);
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
+    if (error instanceof ScanAlreadyRunningError) {
+      return NextResponse.json(
+        { error: 'A policy scan is already running.' },
+        { status: 409 },
+      );
+    }
     console.error('[Cron] Fatal error:', error);
     const errorReference = createErrorReference('cron');
     console.error(`[Cron] Fatal error reference ${errorReference}: ${getErrorMessage(error)}`);

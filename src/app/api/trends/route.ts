@@ -28,7 +28,7 @@ import { buildRiskTrendResponse } from '@/lib/riskTrends';
  * @returns JSON `{ points: TrendPoint[], summary }` or 500 on error.
  */
 export async function GET(request: NextRequest) {
-  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-get' });
+  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-trends' });
   if (limited) return limited;
 
   try {

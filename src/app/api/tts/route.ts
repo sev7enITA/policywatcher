@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { rateLimit } from '@/lib/rateLimit';
-import { cleanTextForSpeech } from '@/lib/ttsText';
+import { cleanTextForSpeech, MAX_TTS_INPUT_CHARS } from '@/lib/ttsText';
+import { readBoundedJsonObject } from '@/lib/requestBody';
+
+export const TTS_MAX_BODY_BYTES = 32 * 1024;
 
 /**
  * PolicyWatcher - Text-to-Speech API
@@ -27,17 +30,34 @@ export async function POST(request: NextRequest) {
   if (limited) return limited;
 
   try {
-    const { text, lang = 'en' } = await request.json();
+    const parsedBody = await readBoundedJsonObject(request, TTS_MAX_BODY_BYTES);
+    if (!parsedBody.ok) {
+      return NextResponse.json(
+        { error: parsedBody.reason === 'body_too_large' ? 'Payload too large.' : 'Invalid JSON body.' },
+        { status: parsedBody.reason === 'body_too_large' ? 413 : 400 },
+      );
+    }
+
+    const { text, lang = 'en' } = parsedBody.value;
 
     if (!text || typeof text !== 'string') {
       return NextResponse.json({ error: 'Missing "text" parameter.' }, { status: 400 });
     }
+    if (text.length > MAX_TTS_INPUT_CHARS) {
+      return NextResponse.json(
+        { error: `Text must not exceed ${MAX_TTS_INPUT_CHARS} characters.` },
+        { status: 400 },
+      );
+    }
+    if (lang !== 'en' && lang !== 'it') {
+      return NextResponse.json({ error: 'Unsupported language.' }, { status: 400 });
+    }
 
-    const apiKey = process.env.GOOGLE_TTS_API_KEY || process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GOOGLE_TTS_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
-        { error: 'No TTS API key configured. Set GOOGLE_TTS_API_KEY or GEMINI_API_KEY.' },
-        { status: 500 }
+        { error: 'Text-to-speech is not configured.' },
+        { status: 503 }
       );
     }
 
@@ -111,9 +131,9 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('TTS route error:', error);
+    console.error('TTS route error:', error instanceof Error ? error.message : 'unknown_error');
     return NextResponse.json(
-      { error: `TTS processing error: ${(error as Error).message}` },
+      { error: 'TTS processing failed.' },
       { status: 500 }
     );
   }

@@ -1,4 +1,6 @@
-# PolicyWatcher 4.0.0 Beta 1 - Canonical Evidence Foundation
+# PolicyWatcher 4.0.0 Beta 1 - Canonical Evidence Foundation - August 2026
+
+Release record date: 19 August 2026
 
 PolicyWatcher 4 starts the transition from policy-centric operational records
 to a durable document-evidence platform.

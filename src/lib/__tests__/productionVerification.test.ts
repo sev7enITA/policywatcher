@@ -24,7 +24,8 @@ describe('production verification contract', () => {
     vi.stubEnv('NODE_ENV', 'production');
     vi.stubEnv('APP_URL', 'https://policywatcher.online');
     vi.stubEnv('API_SECRET', 'a'.repeat(32));
-    vi.stubEnv('SESSION_HMAC_SECRET', 'b'.repeat(32));
+    vi.stubEnv('ADMIN_SESSION_HMAC_SECRET', 'b'.repeat(32));
+    vi.stubEnv('INVESTOR_SESSION_HMAC_SECRET', 'c'.repeat(32));
     mocks.readiness.mockResolvedValue({
       status: 'ready', schema: { presentTableCount: 10, expectedTableCount: 10, appliedMigrationCount: 4, expectedMigrationCount: 4 },
       integrity: { quickCheck: 'ok' },
@@ -36,7 +37,7 @@ describe('production verification contract', () => {
         'strict-transport-security': 'max-age=31536000', 'x-content-type-options': 'nosniff',
         'x-frame-options': 'DENY', 'content-security-policy': "frame-ancestors 'none'",
       });
-      if (target.endsWith('/api/v1/manifest')) return response(200, { release: '4.0.0-beta.1' });
+      if (target.endsWith('/api/v1/manifest')) return response(200, { release: '4.0.0-beta.2' });
       if (target.endsWith('/api/v1/publication-readiness')) return response(200, {
         schema: 'https://policywatcher.online/schemas/publication-readiness/v1',
         metricId: 'publication-readiness',
@@ -69,7 +70,8 @@ describe('production verification contract', () => {
     vi.stubEnv('NODE_ENV', 'production');
     vi.stubEnv('APP_URL', 'https://www.policywatcher.online');
     vi.stubEnv('API_SECRET', 'a'.repeat(32));
-    vi.stubEnv('SESSION_HMAC_SECRET', 'b'.repeat(32));
+    vi.stubEnv('ADMIN_SESSION_HMAC_SECRET', 'b'.repeat(32));
+    vi.stubEnv('INVESTOR_SESSION_HMAC_SECRET', 'c'.repeat(32));
     mocks.readiness.mockResolvedValue({ status: 'ready', schema: {}, integrity: {}, database: { provider: 'sqlite' } });
     const fetcher = vi.fn(async () => response(401, { error: 'Unauthorized' })) as unknown as typeof fetch;
 

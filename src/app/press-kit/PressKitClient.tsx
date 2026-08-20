@@ -37,6 +37,7 @@ import {
   POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS,
   POLICYWATCHER_RELEASE_BADGE,
   POLICYWATCHER_RELEASE_DATE,
+  POLICYWATCHER_RELEASE_DATE_LABEL,
   POLICYWATCHER_RELEASE_NAME,
   POLICYWATCHER_VERSION_DISPLAY,
 } from '@/lib/release';
@@ -65,7 +66,7 @@ const copy = {
     title: 'PolicyWatcher press kit.',
     lead: 'Product facts, supporting links, limitations, release information, media files and press contact details.',
     currentRelease: 'Current web release',
-    releaseDate: 'Released 15 August 2026',
+    releaseDate: `Released ${POLICYWATCHER_RELEASE_DATE_LABEL.en}`,
     factSheet: 'Download fact sheet',
     copyShort: 'Copy short boilerplate',
     copied: 'Copied',
@@ -104,7 +105,7 @@ const copy = {
     glossary: 'Glossary',
     statusTitle: 'Briefing status',
     releaseFreshness: 'Release metadata',
-    releaseFreshnessBody: 'Current to 15 August 2026 for the web application.',
+    releaseFreshnessBody: `Current to ${POLICYWATCHER_RELEASE_DATE_LABEL.en} for the web application.`,
     evidenceFreshness: 'Platform evidence',
     evidenceFreshnessBody: 'Timestamps are recorded per source; update intervals depend on retrieval and review.',
     extension: 'Extension track',
@@ -140,7 +141,7 @@ const copy = {
     boilerLabel: 'Boilerplates and citation', boilerTitle: 'Descriptions and citation details.',
     short: 'Short boilerplate', long: 'Long boilerplate', copyAction: 'Copy text',
     citation: 'Suggested citation',
-    citationText: `PolicyWatcher, ${POLICYWATCHER_VERSION_DISPLAY} ${POLICYWATCHER_RELEASE_NAME}, 15 August 2026, https://policywatcher.online/press-kit (accessed [date]).`,
+    citationText: `PolicyWatcher, ${POLICYWATCHER_VERSION_DISPLAY} ${POLICYWATCHER_RELEASE_NAME}, ${POLICYWATCHER_RELEASE_DATE_LABEL.en}, https://policywatcher.online/press-kit (accessed [date]).`,
     corrections: 'Corrections and factual questions: info@policywatcher.online. Include the cited URL and the statement requiring review.',
     founderLabel: 'Founder and contact', founderTitle: 'Fabrizio Degni',
     founderBio: 'Independent builder working on public-interest tools for inspecting and discussing digital-policy changes with links to source material.',
@@ -155,7 +156,7 @@ const copy = {
     title: 'Press kit PolicyWatcher.',
     lead: 'Dati sul prodotto, link di supporto, limiti, informazioni di release, file media e contatti stampa.',
     currentRelease: 'Release web corrente',
-    releaseDate: 'Rilasciata il 15 agosto 2026',
+    releaseDate: `Rilasciata il ${POLICYWATCHER_RELEASE_DATE_LABEL.it}`,
     factSheet: 'Scarica la scheda stampa',
     copyShort: 'Copia boilerplate breve',
     copied: 'Copiato',
@@ -194,7 +195,7 @@ const copy = {
     glossary: 'Glossario',
     statusTitle: 'Stato briefing',
     releaseFreshness: 'Metadata release',
-    releaseFreshnessBody: 'Correnti al 15 agosto 2026 per l applicazione web.',
+    releaseFreshnessBody: `Correnti al ${POLICYWATCHER_RELEASE_DATE_LABEL.it} per l applicazione web.`,
     evidenceFreshness: 'Evidenze piattaforma',
     evidenceFreshnessBody: 'I timestamp sono registrati per fonte; gli intervalli dipendono da recupero e revisione.',
     extension: 'Track estensione',
@@ -230,7 +231,7 @@ const copy = {
     boilerLabel: 'Boilerplate e citazione', boilerTitle: 'Descrizioni e dettagli per la citazione.',
     short: 'Boilerplate breve', long: 'Boilerplate lungo', copyAction: 'Copia testo',
     citation: 'Citazione suggerita',
-    citationText: `PolicyWatcher, ${POLICYWATCHER_VERSION_DISPLAY} ${POLICYWATCHER_RELEASE_NAME}, 15 agosto 2026, https://policywatcher.online/press-kit (consultato il [data]).`,
+    citationText: `PolicyWatcher, ${POLICYWATCHER_VERSION_DISPLAY} ${POLICYWATCHER_RELEASE_NAME}, ${POLICYWATCHER_RELEASE_DATE_LABEL.it}, https://policywatcher.online/press-kit (consultato il [data]).`,
     corrections: 'Correzioni e domande fattuali: info@policywatcher.online. Includere URL citato e affermazione da verificare.',
     founderLabel: 'Fondatore e contatti', founderTitle: 'Fabrizio Degni',
     founderBio: 'Builder indipendente di strumenti di interesse pubblico per ispezionare e discutere i cambiamenti delle policy digitali con link alle fonti.',
@@ -264,6 +265,10 @@ const pressAssetImageSizes: Record<string, { width: number; height: number }> = 
   'release-evidence-pulse-en-webp': { width: 2400, height: 3168 },
   'release-evidence-pulse-it-png': { width: 2400, height: 3350 },
   'release-evidence-pulse-it-webp': { width: 2400, height: 3350 },
+  'v4-foundation-beta-en-png': { width: 1800, height: 2700 },
+  'v4-foundation-beta-en-webp': { width: 1800, height: 2700 },
+  'v4-beta2-value-en-png': { width: 1800, height: 2700 },
+  'v4-beta2-value-en-webp': { width: 1800, height: 2700 },
   'feature-atlas-screenshot': { width: 1440, height: 1000 },
   'release-impact-screenshot': { width: 1440, height: 1000 },
 };
@@ -431,23 +436,23 @@ export default function PressKitClient() {
           ))}
           <article className={styles.releasePulseCallout}>
             <Image
-              src={lang === 'en' ? '/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.webp' : '/press-kit/policywatcher-release-evidence-pulse-it-2026-08-15.webp'}
-              alt={lang === 'en' ? 'PolicyWatcher fourteen-day release evidence infographic' : 'Infografica PolicyWatcher sulle evidenze di release in quattordici giorni'}
-              width={2400}
-              height={lang === 'en' ? 3168 : 3350}
+              src="/press-kit/policywatcher-v4-beta2-value-infographic-en-2026-08-20.webp"
+              alt={lang === 'en' ? 'PolicyWatcher 4 operating-model guide for product, governance, research and integration teams with a secondary technical reference' : 'Guida al cambio di modello operativo di PolicyWatcher 4 per team di prodotto, governance, ricerca e integrazione, con uno specchio tecnico secondario'}
+              width={1800}
+              height={2700}
               loading="lazy"
               sizes="(max-width: 760px) calc(100vw - 32px), 420px"
               unoptimized
             />
             <div>
-              <span>14-day release evidence pulse</span>
-              <h3>{lang === 'en' ? 'Release implementation summary' : 'Riepilogo implementazione release'}</h3>
-              <p>{lang === 'en' ? 'One dated ledger drives the interactive story, public API and bilingual press infographic.' : 'Un unico ledger datato alimenta la storia interattiva, l API pubblica e l infografica stampa bilingue.'}</p>
+              <span>{lang === 'en' ? 'Current release checkpoint · 20 August 2026' : 'Checkpoint della release corrente · 20 agosto 2026'}</span>
+              <h3>{lang === 'en' ? 'What the PolicyWatcher 4 operating-model change means' : 'Cosa significa il cambio di modello operativo di PolicyWatcher 4'}</h3>
+              <p>{lang === 'en' ? 'A factual guide for product, governance, research and integration teams. It explains the move from change records to durable reusable evidence, then separates the supporting architecture, Git, integration and workflow details.' : 'Una guida fattuale per team di prodotto, governance, ricerca e integrazione. Spiega il passaggio dai record di cambiamento a evidenze durevoli e riutilizzabili, separando poi architettura, Git, integrazioni e workflow di supporto.'}</p>
               <div>
-                <Link href="/pulse/two-week-release-impact">{lang === 'en' ? 'Open evidence story' : 'Apri storia delle evidenze'}<ArrowRight size={13} /></Link>
-                <a href={lang === 'en' ? '/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.png' : '/press-kit/policywatcher-release-evidence-pulse-it-2026-08-15.png'} download><Download size={13} />{lang === 'en' ? 'Download print PNG' : 'Scarica PNG stampa'}</a>
+                <Link href="/press-kit/releases/production-readiness-hardening-4-0-0-beta-2">{lang === 'en' ? 'Open release record' : 'Apri record release'}<ArrowRight size={13} /></Link>
+                <a href="/press-kit/policywatcher-v4-beta2-value-infographic-en-2026-08-20.png" download><Download size={13} />{lang === 'en' ? 'Download English PNG' : 'Scarica PNG inglese'}</a>
               </div>
-              <small>{lang === 'en' ? 'Implementation inventory, not adoption or compliance outcomes. Decorative background generated with AI and disclosed in asset metadata.' : 'Inventario implementativo, non risultati di adozione o conformita. Sfondo decorativo generato con AI e dichiarato nei metadata dell asset.'}</small>
+              <small>{lang === 'en' ? 'Dated release checkpoint; not continuous availability, legal quality, corpus completeness, compliance or competitive superiority. Live readiness is deliberately not frozen into the graphic. Illustration layer generated with AI and disclosed.' : 'Checkpoint di release datato; non disponibilità continua, qualità legale, completezza del corpus, conformità o superiorità competitiva. La readiness live non è cristallizzata nell’infografica. Livello illustrativo generato con AI e dichiarato.'}</small>
             </div>
           </article>
           <Link className={styles.subpageAction} href="/press-kit/releases"><Archive size={14} />{t.releaseArchive}</Link>

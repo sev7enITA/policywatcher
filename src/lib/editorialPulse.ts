@@ -224,7 +224,7 @@ export const pulseStories: PulseStory[] = [
     visualKind: 'release-timeline',
     facts: [
       { id: 'records', value: '36', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 42 in the public archive.', it: 'Dalla Beta 7 alla Beta 42 nell’archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
-      { id: 'current', value: 'Beta 42', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Evidence Release Control Plane.', it: 'Control plane delle release evidence-first.' }, claimId: 'public-code', proofHref: '/press-kit/releases/evidence-release-control-plane-3-9-0-beta-42' },
+      { id: 'reference', value: 'Beta 42', label: { en: 'Reference release record', it: 'Record release di riferimento' }, detail: { en: 'Evidence Release Control Plane.', it: 'Control plane delle release evidence-first.' }, claimId: 'public-code', proofHref: '/press-kit/releases/evidence-release-control-plane-3-9-0-beta-42' },
     ],
     sourceLinks: [
       { href: '/press-kit/releases', label: { en: 'Versioned release archive', it: 'Archivio release versionato' }, claimId: 'public-code' },

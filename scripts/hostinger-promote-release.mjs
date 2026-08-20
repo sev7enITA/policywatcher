@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { PROMOTION_MAX_AGE_MS, STAGING_ORIGIN } from './hostinger-environment-gate.mjs';
 import { REQUIRED_STAGING_CHECKS } from './hostinger-staging-smoke.mjs';
 
-const SUPPORTED_STAGING_VERIFICATION_CONTRACTS = new Set(['1.0.0', '1.1.0']);
+const SUPPORTED_STAGING_VERIFICATION_CONTRACTS = new Set(['1.0.0', '1.1.0', '1.2.0']);
 
 function argument(argv, name) {
   const index = argv.indexOf(name);

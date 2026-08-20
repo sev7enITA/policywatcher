@@ -41,7 +41,7 @@ if ! git -C "${APP_DIR}" diff --quiet || ! git -C "${APP_DIR}" diff --cached --q
     exit 1
   fi
   SOURCE_STATE="workspace-snapshot"
-  SOURCE_STATE_DIGEST="$({ git -C "${APP_DIR}" diff --binary HEAD -- .; git -C "${APP_DIR}" ls-files --others --exclude-standard -- data docs/ai-evaluation-protocol-2026-08-14.md docs/communications docs/hostinger-staging-promotion.md docs/media/policywatcher-civic-global-campaign-2026-08-18 docs/media/policywatcher-civico-associations-2026-08-18 docs/media/policywatcher-release-evidence-pulse docs/press-brief-3.9.0-beta.42.md docs/press-release-3.9.0-beta.42-en.md docs/press-release-3.9.0-beta.42-it.md docs/releases/policywatcher-3.9.0-beta.42-github-release.md docs/reports/policywatcher-ai-bakeoff-baseline-2026-08-14.md docs/reports/policywatcher-civico-ui-ux-audit-2026-08-18.md docs/seo-canonical-realignment-2026-08-08.md evals prisma/migrations/20260814070000_ai_model_telemetry prisma/migrations/20260817090000_source_integrity_control prisma/migrations/20260819120000_investor_magic_links scripts/ai-bakeoff.ts scripts/create-staging-database.mjs scripts/generate-civic-campaign-infographics.ts scripts/generate-release-evidence-assets.mjs scripts/generate-sitemap-er.mjs scripts/hostinger-environment-gate.mjs scripts/hostinger-managed-build.mjs scripts/hostinger-normalize-sqlite-datetimes.mjs scripts/hostinger-promote-release.mjs scripts/hostinger-staging-smoke.mjs scripts/present-ui-ux-release.mjs scripts/validate-internal-study-config.cjs public/infographics public/press-kit/policywatcher-release-evidence-pulse-background-2026-08-15.png public/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.png public/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.webp public/press-kit/policywatcher-release-evidence-pulse-it-2026-08-15.png public/press-kit/policywatcher-release-evidence-pulse-it-2026-08-15.webp src/app/admin/executive-study src/app/admin/InvestorAccessPanel.tsx src/app/admin/explainability/AiTelemetryPanel.tsx src/app/api/admin/ai-telemetry/route.ts src/app/api/admin/investor-access src/app/api/investor src/app/investor src/app/associazioni src/app/en/associations src/app/it/associazioni src/app/infographics/layout.tsx src/app/methodology/confidence/layout.tsx src/app/timeline/layout.tsx src/app/unsubscribe/layout.tsx src/components/ExperienceControlCenter.module.css src/components/ExperienceControlCenter.tsx src/components/GlobalContextControl.module.css src/components/GlobalContextControl.tsx src/lib/__tests__/executiveStudy.test.ts src/lib/__tests__/investorAccess.test.ts src/lib/aiEvaluation.ts src/lib/aiTelemetry.ts src/lib/changeConfirmation.ts src/lib/civicOrganizations.ts src/lib/dashboardWorkflow.ts src/lib/experiencePreferences.ts src/lib/geminiPolicySchema.ts src/lib/globalContext.ts src/lib/internalExecutiveStudyServer.ts src/lib/internalExecutiveStudyTypes.ts src/lib/investorAccess.ts src/lib/investorAccessService.ts src/lib/investorMutationBoundary.ts src/lib/siteOrigin.ts | while IFS= read -r snapshot_file; do shasum -a 256 "${APP_DIR}/${snapshot_file}"; done; } | shasum -a 256 | awk '{print $1}')"
+  SOURCE_STATE_DIGEST="$({ git -C "${APP_DIR}" diff --binary HEAD -- .; git -C "${APP_DIR}" ls-files --others --exclude-standard -- data docs/ai-evaluation-protocol-2026-08-14.md docs/communications docs/hostinger-staging-promotion.md docs/media/policywatcher-civic-global-campaign-2026-08-18 docs/media/policywatcher-civico-associations-2026-08-18 docs/media/policywatcher-release-evidence-pulse docs/media/policywatcher-v4-foundation-beta-2026-08-20 docs/press-brief-3.9.0-beta.42.md docs/press-release-3.9.0-beta.42-en.md docs/press-release-3.9.0-beta.42-it.md docs/press-release-4.0.0-beta.1-en.md docs/press-release-4.0.0-beta.1-it.md docs/releases/policywatcher-3.9.0-beta.42-github-release.md docs/reports/policywatcher-ai-bakeoff-baseline-2026-08-14.md docs/reports/policywatcher-civico-ui-ux-audit-2026-08-18.md docs/seo-canonical-realignment-2026-08-08.md evals prisma/migrations/20260814070000_ai_model_telemetry prisma/migrations/20260817090000_source_integrity_control prisma/migrations/20260819120000_investor_magic_links scripts/ai-bakeoff.ts scripts/create-staging-database.mjs scripts/generate-civic-campaign-infographics.ts scripts/generate-release-evidence-assets.mjs scripts/generate-sitemap-er.mjs scripts/hostinger-environment-gate.mjs scripts/hostinger-managed-build.mjs scripts/hostinger-normalize-sqlite-datetimes.mjs scripts/hostinger-promote-release.mjs scripts/hostinger-staging-smoke.mjs scripts/present-ui-ux-release.mjs scripts/validate-internal-study-config.cjs public/infographics public/press-kit/policywatcher-release-evidence-pulse-background-2026-08-15.png public/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.png public/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.webp public/press-kit/policywatcher-release-evidence-pulse-it-2026-08-15.png public/press-kit/policywatcher-release-evidence-pulse-it-2026-08-15.webp public/press-kit/policywatcher-v4-foundation-beta-en-2026-08-20.png public/press-kit/policywatcher-v4-foundation-beta-en-2026-08-20.webp public/press-kit/policywatcher-fact-sheet-en-2026-08-19.pdf public/press-kit/policywatcher-fact-sheet-en-2026-08-19.txt public/press-kit/policywatcher-fact-sheet-it-2026-08-19.pdf public/press-kit/policywatcher-fact-sheet-it-2026-08-19.txt src/app/admin/executive-study src/app/admin/InvestorAccessPanel.tsx src/app/admin/explainability/AiTelemetryPanel.tsx src/app/api/admin/ai-telemetry/route.ts src/app/api/admin/investor-access src/app/api/investor src/app/investor src/app/associazioni src/app/en/associations src/app/it/associazioni src/app/infographics/layout.tsx src/app/methodology/confidence/layout.tsx src/app/timeline/layout.tsx src/app/unsubscribe/layout.tsx src/components/ExperienceControlCenter.module.css src/components/ExperienceControlCenter.tsx src/components/GlobalContextControl.module.css src/components/GlobalContextControl.tsx src/lib/__tests__/executiveStudy.test.ts src/lib/__tests__/investorAccess.test.ts src/lib/aiEvaluation.ts src/lib/aiTelemetry.ts src/lib/changeConfirmation.ts src/lib/civicOrganizations.ts src/lib/dashboardWorkflow.ts src/lib/experiencePreferences.ts src/lib/geminiPolicySchema.ts src/lib/globalContext.ts src/lib/internalExecutiveStudyServer.ts src/lib/internalExecutiveStudyTypes.ts src/lib/investorAccess.ts src/lib/investorAccessService.ts src/lib/investorMutationBoundary.ts src/lib/siteOrigin.ts | while IFS= read -r snapshot_file; do shasum -a 256 "${APP_DIR}/${snapshot_file}"; done; } | shasum -a 256 | awk '{print $1}')"
   if [[ -f "${APP_DIR}/src/app/observatory/layout.tsx" ]] && ! git -C "${APP_DIR}" ls-files --error-unmatch -- src/app/observatory/layout.tsx >/dev/null 2>&1; then
     SOURCE_STATE_DIGEST="$({ printf '%s\n' "${SOURCE_STATE_DIGEST}"; shasum -a 256 "${APP_DIR}/src/app/observatory/layout.tsx"; } | shasum -a 256 | awk '{print $1}')"
   fi
@@ -54,12 +54,30 @@ if ! git -C "${APP_DIR}" diff --quiet || ! git -C "${APP_DIR}" diff --cached --q
     scripts/postgresql-rehearsal-target-preflight.mjs scripts/postgresql-rehearsal-worker.mjs \
     scripts/create-postgresql-rehearsal-fixture.mjs docs/postgresql-rehearsal.md \
     prisma/migrations/20260820100000_document_evidence_model/migration.sql \
+    prisma/migrations/20260820130000_scan_run_lifecycle/migration.sql \
+    prisma/migrations/20260820133000_subscriber_double_opt_in/migration.sql \
     docs/document-evidence-model.md docs/document-evidence-backfill-runbook.md \
     docs/audit-v4.0.0-beta.1-wave-1b.md \
+    docs/audit-v4.0.0-beta.2-assessment-remediation.md \
+    docs/client-compatibility-matrix-v4.md \
+    docs/releases/policywatcher-4.0.0-beta.2-github-release.md \
+    docs/media/policywatcher-v4-beta2-value-2026-08-20/README.md \
+    docs/media/policywatcher-v4-beta2-value-2026-08-20/policywatcher-v4-beta2-value-infographic-en-2026-08-20.svg \
+    docs/media/policywatcher-v4-beta2-value-2026-08-20/policywatcher-v4-beta2-value-background-ai-2026-08-20.png \
     scripts/backfill-document-evidence.ts scripts/reconcile-document-evidence.ts \
     scripts/smoke-document-evidence-dual-write.ts scripts/gate-document-evidence-activation.ts \
     src/lib/documentEvidenceSync.ts src/lib/documentEvidenceReconciliation.ts \
     src/lib/documentEvidenceMigration.ts src/app/api/v1/publication-readiness/route.ts \
+    src/lib/encryptedBackup.ts src/app/api/live/route.ts \
+    src/app/api/subscribers/confirm/route.ts src/app/confirm-subscription/layout.tsx \
+    src/app/confirm-subscription/page.tsx src/app/error.tsx src/app/loading.tsx \
+    src/app/RouteStatus.module.css \
+    public/press-kit/policywatcher-fact-sheet-en-2026-08-20.pdf \
+    public/press-kit/policywatcher-fact-sheet-en-2026-08-20.txt \
+    public/press-kit/policywatcher-fact-sheet-it-2026-08-20.pdf \
+    public/press-kit/policywatcher-fact-sheet-it-2026-08-20.txt \
+    public/press-kit/policywatcher-v4-beta2-value-infographic-en-2026-08-20.png \
+    public/press-kit/policywatcher-v4-beta2-value-infographic-en-2026-08-20.webp \
     src/lib/publicEvidenceIds.ts src/lib/provisionTaxonomy.ts \
     src/lib/publicationReadinessServer.ts src/lib/databaseErrors.ts; do
     if [[ -f "${APP_DIR}/${portability_source}" ]] && ! git -C "${APP_DIR}" ls-files --error-unmatch -- "${portability_source}" >/dev/null 2>&1; then
@@ -101,6 +119,8 @@ required_sources=(
   docs/document-evidence-model.md
   docs/document-evidence-backfill-runbook.md
   docs/audit-v4.0.0-beta.1-wave-1b.md
+  docs/audit-v4.0.0-beta.2-assessment-remediation.md
+  docs/client-compatibility-matrix-v4.md
   docs/reports/policywatcher-v4-vs-v3-2026-08-20.artifact.json
   docs/reports/policywatcher-v4-vs-v3-2026-08-20.html
   docs/reports/policywatcher-v4-vs-v3-2026-08-20.sql
@@ -112,9 +132,13 @@ required_sources=(
   docs/press-release-3.9.0-beta.13-it.md
   docs/press-release-3.9.0-beta.13-en.md
   docs/press-release-3.9.0-beta.42-it.md docs/press-release-3.9.0-beta.42-en.md
+  docs/press-release-4.0.0-beta.1-it.md docs/press-release-4.0.0-beta.1-en.md
   docs/press-brief-3.9.0-beta.42.md docs/releases/policywatcher-3.9.0-beta.42-github-release.md
   docs/releases/policywatcher-4.0.0-beta.1-github-release.md
+  docs/releases/policywatcher-4.0.0-beta.2-github-release.md
   docs/media/policywatcher-release-evidence-pulse
+  docs/media/policywatcher-v4-foundation-beta-2026-08-20
+  docs/media/policywatcher-v4-beta2-value-2026-08-20
 )
 for source in "${required_sources[@]}"; do
   if [[ ! -e "${APP_DIR}/${source}" ]]; then
@@ -147,6 +171,15 @@ while IFS= read -r untracked; do
       continue
       ;;
     prisma/migrations/20260820100000_document_evidence_model/migration.sql|src/app/api/v1/publication-readiness/route.ts|src/lib/publicEvidenceIds.ts|src/lib/provisionTaxonomy.ts|src/lib/publicationReadinessServer.ts|src/lib/documentEvidenceSync.ts|src/lib/documentEvidenceReconciliation.ts|src/lib/documentEvidenceMigration.ts|src/lib/__tests__/documentEvidenceMigration.test.ts|scripts/backfill-document-evidence.ts|scripts/reconcile-document-evidence.ts|scripts/smoke-document-evidence-dual-write.ts|scripts/gate-document-evidence-activation.ts)
+      continue
+      ;;
+    prisma/migrations/20260820130000_scan_run_lifecycle/migration.sql|prisma/migrations/20260820133000_subscriber_double_opt_in/migration.sql|src/lib/encryptedBackup.ts|src/app/api/live/route.ts|src/app/api/subscribers/confirm/route.ts|src/app/confirm-subscription/layout.tsx|src/app/confirm-subscription/page.tsx|src/app/error.tsx|src/app/loading.tsx|src/app/RouteStatus.module.css)
+      continue
+      ;;
+    public/press-kit/policywatcher-v4-foundation-beta-en-2026-08-20.png|public/press-kit/policywatcher-v4-foundation-beta-en-2026-08-20.webp|public/press-kit/policywatcher-v4-beta2-value-infographic-en-2026-08-20.png|public/press-kit/policywatcher-v4-beta2-value-infographic-en-2026-08-20.webp|public/press-kit/policywatcher-fact-sheet-en-2026-08-19.pdf|public/press-kit/policywatcher-fact-sheet-en-2026-08-19.txt|public/press-kit/policywatcher-fact-sheet-it-2026-08-19.pdf|public/press-kit/policywatcher-fact-sheet-it-2026-08-19.txt)
+      continue
+      ;;
+    public/press-kit/policywatcher-fact-sheet-en-2026-08-20.pdf|public/press-kit/policywatcher-fact-sheet-en-2026-08-20.txt|public/press-kit/policywatcher-fact-sheet-it-2026-08-20.pdf|public/press-kit/policywatcher-fact-sheet-it-2026-08-20.txt)
       continue
       ;;
     prisma/migrations/20260814070000_ai_model_telemetry/migration.sql|prisma/migrations/20260817090000_source_integrity_control/migration.sql|public/infographics/policywatcher-experience-map-er-sitemap-2026-08.png|public/infographics/policywatcher-experience-map-er-sitemap-2026-08.webp|public/infographics/policywatcher-civic-5w-global-directory-2026-08-18-v3.png|public/infographics/policywatcher-civic-technical-coverage-2026-08-18-v3.png|public/infographics/policywatcher-civic-editorial-workflow-2026-08-18.png|public/infographics/policywatcher-civic-editorial-workflow-2026-08-18.svg|public/infographics/policywatcher-civic-world-coverage-map-2026-08-18.png|public/infographics/policywatcher-civic-world-coverage-map-2026-08-18.svg|public/infographics/policywatcher-civico-associazioni-globali-2026-08-18.png|scripts/ai-bakeoff.ts|scripts/create-staging-database.mjs|scripts/generate-civic-campaign-infographics.ts|scripts/generate-sitemap-er.mjs|scripts/hostinger-environment-gate.mjs|scripts/hostinger-normalize-sqlite-datetimes.mjs|scripts/hostinger-promote-release.mjs|scripts/hostinger-staging-smoke.mjs|scripts/present-ui-ux-release.mjs|src/app/admin/explainability/AiTelemetryPanel.tsx|src/app/api/admin/ai-telemetry/route.ts|src/app/associazioni/CivicDirectory.module.css|src/app/associazioni/CivicDirectory.tsx|src/app/associazioni/LocalizedAssociationsPage.tsx|src/app/en/associations/page.tsx|src/app/it/associazioni/page.tsx|src/app/infographics/layout.tsx|src/app/methodology/confidence/layout.tsx|src/app/timeline/layout.tsx|src/app/unsubscribe/layout.tsx|src/components/ExperienceControlCenter.module.css|src/components/ExperienceControlCenter.tsx|src/components/GlobalContextControl.module.css|src/components/GlobalContextControl.tsx|src/lib/aiEvaluation.ts|src/lib/aiTelemetry.ts|src/lib/changeConfirmation.ts|src/lib/civicOrganizations.ts|src/lib/dashboardWorkflow.ts|src/lib/experiencePreferences.ts|src/lib/geminiPolicySchema.ts|src/lib/globalContext.ts|src/lib/siteOrigin.ts)
@@ -301,6 +334,8 @@ required_entries=(
   prisma/migrations/20260817090000_source_integrity_control/migration.sql
   prisma/migrations/20260819120000_investor_magic_links/migration.sql
   prisma/migrations/20260820100000_document_evidence_model/migration.sql
+  prisma/migrations/20260820130000_scan_run_lifecycle/migration.sql
+  prisma/migrations/20260820133000_subscriber_double_opt_in/migration.sql
   scripts/create-staging-database.mjs scripts/hostinger-environment-gate.mjs
   scripts/hostinger-managed-build.mjs
   scripts/hostinger-staging-smoke.mjs scripts/hostinger-promote-release.mjs
@@ -317,6 +352,8 @@ required_entries=(
   scripts/backfill-document-evidence.ts scripts/reconcile-document-evidence.ts scripts/smoke-document-evidence-dual-write.ts scripts/gate-document-evidence-activation.ts
   src/app/api/v1/publication-readiness/route.ts docs/document-evidence-model.md
   docs/document-evidence-backfill-runbook.md docs/audit-v4.0.0-beta.1-wave-1b.md
+  docs/audit-v4.0.0-beta.2-assessment-remediation.md docs/client-compatibility-matrix-v4.md
+  src/app/error.tsx src/app/loading.tsx src/app/RouteStatus.module.css
   src/components/Footer.tsx src/components/Footer.module.css
   src/app/api/cron/check-all/route.ts src/lib/sourceReliability.ts
   src/lib/gemini.ts src/lib/geminiPolicySchema.ts src/app/admin/explainability/page.tsx
@@ -332,8 +369,24 @@ required_entries=(
   public/press-kit/policywatcher-release-evidence-pulse-background-2026-08-15.png
   public/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.png public/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.webp
   public/press-kit/policywatcher-release-evidence-pulse-it-2026-08-15.png public/press-kit/policywatcher-release-evidence-pulse-it-2026-08-15.webp
+  public/press-kit/policywatcher-v4-foundation-beta-en-2026-08-20.png public/press-kit/policywatcher-v4-foundation-beta-en-2026-08-20.webp
+  public/press-kit/policywatcher-v4-beta2-value-infographic-en-2026-08-20.png public/press-kit/policywatcher-v4-beta2-value-infographic-en-2026-08-20.webp
+  public/press-kit/policywatcher-fact-sheet-en-2026-08-19.pdf public/press-kit/policywatcher-fact-sheet-en-2026-08-19.txt
+  public/press-kit/policywatcher-fact-sheet-it-2026-08-19.pdf public/press-kit/policywatcher-fact-sheet-it-2026-08-19.txt
+  public/press-kit/policywatcher-fact-sheet-en-2026-08-20.pdf public/press-kit/policywatcher-fact-sheet-en-2026-08-20.txt
+  public/press-kit/policywatcher-fact-sheet-it-2026-08-20.pdf public/press-kit/policywatcher-fact-sheet-it-2026-08-20.txt
   docs/press-release-3.9.0-beta.42-it.md docs/press-release-3.9.0-beta.42-en.md docs/press-brief-3.9.0-beta.42.md
+  docs/press-release-4.0.0-beta.1-it.md docs/press-release-4.0.0-beta.1-en.md
+  docs/communications/policywatcher-v4-foundation-beta-follow-up-2026-08-20-it.md docs/communications/policywatcher-v4-foundation-beta-follow-up-2026-08-20-en.md
+  docs/communications/policywatcher-v4-beta2-assessment-remediation-2026-08-20-it.md docs/communications/policywatcher-v4-beta2-assessment-remediation-2026-08-20-en.md
+  docs/media/policywatcher-v4-foundation-beta-2026-08-20/README.md
+  docs/media/policywatcher-v4-foundation-beta-2026-08-20/policywatcher-v4-foundation-beta-en-2026-08-20.svg
+  docs/media/policywatcher-v4-foundation-beta-2026-08-20/policywatcher-v4-foundation-background-ai-2026-08-20.png
+  docs/media/policywatcher-v4-beta2-value-2026-08-20/README.md
+  docs/media/policywatcher-v4-beta2-value-2026-08-20/policywatcher-v4-beta2-value-infographic-en-2026-08-20.svg
+  docs/media/policywatcher-v4-beta2-value-2026-08-20/policywatcher-v4-beta2-value-background-ai-2026-08-20.png
   docs/releases/policywatcher-3.9.0-beta.42-github-release.md docs/releases/policywatcher-4.0.0-beta.1-github-release.md
+  docs/releases/policywatcher-4.0.0-beta.2-github-release.md
   docs/ai-evaluation-protocol-2026-08-14.md docs/reports/policywatcher-ai-bakeoff-baseline-2026-08-14.md docs/reports/policywatcher-ai-bakeoff-observed-2026-08-14.md docs/reports/policywatcher-security-diff-beta42-2026-08-15.md
   scripts/hostinger-init-db.sh scripts/hostinger-init-db.mjs
   scripts/database-provider.mjs scripts/prisma-active-schema.mjs scripts/prepare-database.sh
@@ -350,6 +403,8 @@ required_entries=(
   src/lib/webhookDelivery.ts src/lib/webhookDeliveryData.ts
   src/app/admin/vps-services/page.tsx src/app/api/admin/vps-services/route.ts
   src/lib/vpsPackageContract.ts src/lib/vpsPackageUpload.ts src/lib/adminMutationBoundary.ts
+  src/lib/encryptedBackup.ts src/app/api/live/route.ts src/app/api/subscribers/confirm/route.ts
+  src/app/confirm-subscription/layout.tsx src/app/confirm-subscription/page.tsx
 )
 for entry in "${required_entries[@]}"; do
   if ! printf '%s\n' "${archive_entries}" | grep -Fx "${entry}" >/dev/null; then

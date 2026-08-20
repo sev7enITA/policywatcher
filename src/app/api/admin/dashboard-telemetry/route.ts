@@ -50,7 +50,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const session = getSession(request);
-  if (!session.valid || !session.role) return json({ error: 'Unauthorized' }, 401);
+  if (!session.valid) return json({ error: 'Unauthorized' }, 401);
+  if (session.role !== 'admin') return json({ error: 'Forbidden' }, 403);
   if (request.headers.get('content-type')?.split(';')[0].trim().toLowerCase() !== 'application/json') {
     return json({ error: 'Expected application/json.' }, 415);
   }

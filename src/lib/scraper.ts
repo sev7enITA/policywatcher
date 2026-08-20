@@ -2,7 +2,8 @@ import * as cheerio from 'cheerio';
 import { lookup } from 'dns/promises';
 import { isIP } from 'net';
 import { connect } from 'http2';
-import { gunzipSync, inflateSync, brotliDecompressSync } from 'zlib';
+import { brotliDecompress, gunzip, inflate } from 'zlib';
+import { promisify } from 'node:util';
 import https from 'https';
 import http from 'http';
 import tls from 'tls';
@@ -121,6 +122,82 @@ const MAX_REDIRECTS = 5;
 const BACKOFF_BASE_MS = 800;
 const MIN_TEXT_LENGTH = 800; // a real policy page has way more than this
 const MAX_TEXT_LENGTH = 500_000; // hard cap to avoid storing junk payloads
+export const MAX_NETWORK_RESPONSE_BYTES = 5_000_000;
+export const MAX_DECOMPRESSED_HTML_BYTES = 5_000_000;
+
+const gunzipAsync = promisify(gunzip);
+const inflateAsync = promisify(inflate);
+const brotliDecompressAsync = promisify(brotliDecompress);
+
+function responseLength(headers: http.IncomingHttpHeaders): number | null {
+  const raw = Array.isArray(headers['content-length'])
+    ? headers['content-length'][0]
+    : headers['content-length'];
+  if (!raw || !/^\d+$/.test(raw)) return null;
+  const parsed = Number(raw);
+  return Number.isSafeInteger(parsed) && parsed >= 0 ? parsed : null;
+}
+
+export async function decodeBoundedResponseBody(
+  buffer: Buffer,
+  contentEncoding: string,
+  maxOutputLength = MAX_DECOMPRESSED_HTML_BYTES,
+): Promise<string> {
+  if (buffer.byteLength > MAX_NETWORK_RESPONSE_BYTES) {
+    throw new Error('response_body_too_large');
+  }
+  try {
+    const encoding = contentEncoding.trim().toLowerCase();
+    const decoded = encoding === 'gzip'
+      ? await gunzipAsync(buffer, { maxOutputLength })
+      : encoding === 'deflate'
+        ? await inflateAsync(buffer, { maxOutputLength })
+        : encoding === 'br'
+          ? await brotliDecompressAsync(buffer, { maxOutputLength })
+          : buffer;
+    if (decoded.byteLength > maxOutputLength) throw new Error('decompressed_body_too_large');
+    return decoded.toString('utf8');
+  } catch (error) {
+    if (
+      error instanceof RangeError
+      || (error as { code?: unknown } | null)?.code === 'ERR_BUFFER_TOO_LARGE'
+    ) {
+      throw new Error('decompressed_body_too_large');
+    }
+    throw error;
+  }
+}
+
+export async function readBoundedFetchBody(
+  response: Response,
+  maxBytes = MAX_NETWORK_RESPONSE_BYTES,
+): Promise<Buffer> {
+  const declaredLength = Number(response.headers.get('content-length') || '0');
+  if (Number.isFinite(declaredLength) && declaredLength > maxBytes) {
+    throw new Error('response_body_too_large');
+  }
+  if (!response.body) return Buffer.alloc(0);
+
+  const reader = response.body.getReader();
+  const chunks: Buffer[] = [];
+  let receivedBytes = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const chunk = Buffer.from(value);
+      receivedBytes += chunk.byteLength;
+      if (receivedBytes > maxBytes) {
+        await reader.cancel('response_body_too_large').catch(() => undefined);
+        throw new Error('response_body_too_large');
+      }
+      chunks.push(chunk);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+  return Buffer.concat(chunks, receivedBytes);
+}
 
 // Operators may supply a current, truthful UA without changing code. The
 // override deliberately omits Client Hints so they cannot contradict it.
@@ -494,6 +571,12 @@ function requestPinnedHttp(
   signal: AbortSignal
 ): Promise<{ status: number; headers: http.IncomingHttpHeaders; body: string }> {
   return new Promise((resolve, reject) => {
+    let settled = false;
+    const rejectOnce = (error: Error) => {
+      if (settled) return;
+      settled = true;
+      reject(error);
+    };
     const isHttps = parsedUrl.protocol === 'https:';
     const transport = isHttps ? https : http;
 
@@ -516,34 +599,45 @@ function requestPinnedHttp(
 
     const req = transport.request(requestOptions, (res) => {
       const chunks: Buffer[] = [];
-      res.on('data', (chunk) => chunks.push(chunk));
-      res.on('end', () => {
+      let receivedBytes = 0;
+      const declaredLength = responseLength(res.headers);
+      if (declaredLength !== null && declaredLength > MAX_NETWORK_RESPONSE_BYTES) {
+        res.destroy(new Error('response_body_too_large'));
+        rejectOnce(new Error('response_body_too_large'));
+        return;
+      }
+      res.on('data', (chunk: Buffer) => {
+        if (settled) return;
+        const boundedChunk = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+        receivedBytes += boundedChunk.byteLength;
+        if (receivedBytes > MAX_NETWORK_RESPONSE_BYTES) {
+          res.destroy(new Error('response_body_too_large'));
+          rejectOnce(new Error('response_body_too_large'));
+          return;
+        }
+        chunks.push(boundedChunk);
+      });
+      res.on('end', async () => {
+        if (settled) return;
         const buffer = Buffer.concat(chunks);
         const encoding = (res.headers['content-encoding'] || '').toLowerCase();
-        let body = '';
         try {
-          if (encoding === 'gzip') {
-            body = gunzipSync(buffer).toString('utf8');
-          } else if (encoding === 'deflate') {
-            body = inflateSync(buffer).toString('utf8');
-          } else if (encoding === 'br') {
-            body = brotliDecompressSync(buffer).toString('utf8');
-          } else {
-            body = buffer.toString('utf8');
-          }
+          const body = await decodeBoundedResponseBody(buffer, encoding);
+          if (settled) return;
+          settled = true;
           resolve({
             status: res.statusCode || 0,
             headers: res.headers,
             body,
           });
         } catch (err) {
-          reject(err);
+          rejectOnce(err instanceof Error ? err : new Error('response_decode_failed'));
         }
       });
     });
 
     req.on('error', (err) => {
-      reject(err);
+      rejectOnce(err);
     });
 
     req.end();
@@ -786,16 +880,33 @@ async function fetchWithHttp2(url: string): Promise<TransportResult> {
         const req = activeClient.request(headers);
         const chunks: Buffer[] = [];
         let statusCode = 0;
+        let receivedBytes = 0;
 
         req.on('response', (hdrs) => {
           statusCode = hdrs[':status'] as number || 0;
+          const rawLength = hdrs['content-length'];
+          const declaredLength = typeof rawLength === 'string' && /^\d+$/.test(rawLength)
+            ? Number(rawLength)
+            : null;
+          if (declaredLength !== null && declaredLength > MAX_NETWORK_RESPONSE_BYTES) {
+            req.close();
+            finish({ ok: false, html: '', status: statusCode, finalUrl: url, error: 'h2_response_body_too_large' }, true);
+          }
         });
 
         req.on('data', (chunk: Buffer) => {
+          if (settled) return;
+          receivedBytes += chunk.byteLength;
+          if (receivedBytes > MAX_NETWORK_RESPONSE_BYTES) {
+            req.close();
+            finish({ ok: false, html: '', status: statusCode, finalUrl: url, error: 'h2_response_body_too_large' }, true);
+            return;
+          }
           chunks.push(chunk);
         });
 
         req.on('end', () => {
+          if (settled) return;
           // Concat buffers BEFORE decoding: chunk boundaries can split
           // multi-byte UTF-8 sequences and corrupt the text otherwise.
           const data = Buffer.concat(chunks).toString('utf8');
@@ -963,7 +1074,7 @@ async function fetchWaybackPage(rawUrl: string): Promise<TransportResult> {
       return { ok: false, html: '', status: res.status, finalUrl: rawUrl, error: `wayback_fetch_${res.status}` };
     }
 
-    let html = await res.text();
+    let html = (await readBoundedFetchBody(res)).toString('utf8');
     // Strip Wayback Machine toolbar injection and tracking scripts
     html = html.replace(/<!-- BEGIN WAYBACK TOOLBAR INSERT -->[\s\S]*?<!-- END WAYBACK TOOLBAR INSERT -->/gi, '');
     // Archive HTML is evidence input, never executable content. Parse it and
@@ -1195,13 +1306,13 @@ async function fetchFromCommonCrawl(originalUrl: string, notBefore?: Date): Prom
 
     // WARC records on data.commoncrawl.org are individually gzip-compressed:
     // decompress BEFORE parsing (reading them as text yields binary garbage).
-    const warcBuf = Buffer.from(await warcRes.arrayBuffer());
+    const warcBuf = await readBoundedFetchBody(warcRes);
     let warcData: string;
     try {
-      warcData = gunzipSync(warcBuf).toString('utf8');
+      warcData = await decodeBoundedResponseBody(warcBuf, 'gzip');
     } catch {
       // Defensive: fall back to raw text in case a record is uncompressed
-      warcData = warcBuf.toString('utf8');
+      warcData = await decodeBoundedResponseBody(warcBuf, '');
     }
 
     // WARC records have headers before the HTML. Extract just the HTML body.

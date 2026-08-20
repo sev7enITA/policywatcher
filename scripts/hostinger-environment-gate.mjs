@@ -72,12 +72,31 @@ function validateSharedEnvironment(errors, environment, expectedOrigin) {
   requireValue(errors, environment, 'ADMIN_USER');
   requireSecretLength(errors, environment, 'ADMIN_PASSWORD', 16);
   requireSecretLength(errors, environment, 'API_SECRET', 32);
-  requireSecretLength(errors, environment, 'SESSION_HMAC_SECRET', 32);
+  requireSecretLength(errors, environment, 'ADMIN_SESSION_HMAC_SECRET', 32);
+  requireSecretLength(errors, environment, 'INVESTOR_SESSION_HMAC_SECRET', 32);
+  requireValue(errors, environment, 'ADMIN_SESSION_VERSION');
 
   const apiSecret = normalized(environment.API_SECRET);
-  const sessionSecret = normalized(environment.SESSION_HMAC_SECRET);
-  if (apiSecret && sessionSecret && apiSecret === sessionSecret) {
-    errors.push('API_SECRET and SESSION_HMAC_SECRET must be different.');
+  const adminSessionSecret = normalized(environment.ADMIN_SESSION_HMAC_SECRET);
+  const investorSessionSecret = normalized(environment.INVESTOR_SESSION_HMAC_SECRET);
+  const distinctSecrets = [apiSecret, adminSessionSecret, investorSessionSecret].filter(Boolean);
+  if (new Set(distinctSecrets).size !== distinctSecrets.length) {
+    errors.push('API_SECRET, ADMIN_SESSION_HMAC_SECRET and INVESTOR_SESSION_HMAC_SECRET must all be different.');
+  }
+  if (!/^[A-Za-z0-9._-]{1,64}$/.test(normalized(environment.ADMIN_SESSION_VERSION))) {
+    errors.push('ADMIN_SESSION_VERSION must contain 1-64 letters, digits, dots, underscores or hyphens.');
+  }
+
+  const trustedClientHeader = normalized(environment.TRUSTED_CLIENT_IP_HEADER).toLowerCase();
+  const trustProxyHeaders = normalized(environment.TRUST_PROXY_HEADERS).toLowerCase() === 'true';
+  if (!trustedClientHeader && !trustProxyHeaders) {
+    errors.push('Configure TRUSTED_CLIENT_IP_HEADER or set TRUST_PROXY_HEADERS=true after verifying that the proxy overwrites forwarding headers.');
+  }
+  if (trustedClientHeader && trustProxyHeaders) {
+    errors.push('Configure exactly one trusted client identity source: TRUSTED_CLIENT_IP_HEADER or TRUST_PROXY_HEADERS.');
+  }
+  if (trustedClientHeader && !/^[a-z0-9-]{1,64}$/.test(trustedClientHeader)) {
+    errors.push('TRUSTED_CLIENT_IP_HEADER must be a valid HTTP header name.');
   }
 
   const releaseSha = normalized(environment.POLICYWATCHER_RELEASE_SHA256);
@@ -89,6 +108,7 @@ function validateSharedEnvironment(errors, environment, expectedOrigin) {
     'ALLOW_DATABASE_SEED_ENDPOINT',
     'ALLOW_SEEDED_PUBLIC_DATA',
     'ADMIN_MUTATION_ALLOW_MISSING_PROVENANCE',
+    'INVESTOR_MUTATION_ALLOW_MISSING_PROVENANCE',
     'ALLOW_DEMO_AI_FALLBACK',
   ]) {
     if (!isDisabled(environment[key])) errors.push(`${key} must be unset or false.`);

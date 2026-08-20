@@ -1,7 +1,7 @@
 {
   "schema": "https://policywatcher.online/schemas/press-kit-media-metadata/v1",
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-08-15",
+  "generatedAt": "2026-08-20",
   "standard": "IPTC Photo Metadata 2025.1",
   "contentCredentials": "not-attached",
   "vectorMasterAvailable": false,
@@ -358,6 +358,90 @@
       "creator": "PolicyWatcher / Fabrizio Degni",
       "credit": "PolicyWatcher / Fabrizio Degni"
     },
+    "policywatcher-v4-foundation-beta-en-2026-08-20.png": {
+      "date": "2026-08-20",
+      "title": {
+        "en": "PolicyWatcher 4 Foundation Beta infographic in English",
+        "it": "Infografica PolicyWatcher 4 Foundation Beta in inglese"
+      },
+      "description": {
+        "en": "Deterministically typeset release infographic covering the canonical evidence graph, stable public identifiers, provision taxonomy, database-derived readiness snapshot, controlled migration path, verification evidence and gated production boundaries. The decorative background is AI-generated and disclosed.",
+        "it": "Infografica di release composta deterministicamente su grafo canonico delle evidenze, identificatori pubblici stabili, tassonomia delle provision, snapshot readiness derivato dal database, percorso di migrazione controllato, evidenze di verifica e limiti di produzione soggetti a gate. Lo sfondo decorativo e generato con AI e dichiarato."
+      },
+      "alt": {
+        "en": "PolicyWatcher 4 Foundation Beta infographic with the five-node evidence chain, six-topic taxonomy, five-stage readiness snapshot, migration controls and production boundaries",
+        "it": "Infografica PolicyWatcher 4 Foundation Beta con catena delle evidenze a cinque nodi, tassonomia a sei temi, snapshot readiness a cinque stadi, controlli di migrazione e limiti di produzione"
+      },
+      "usage": {
+        "en": "Dated aggregate operational snapshot, not a compliance result. GitHub promotion does not mean Hostinger deployment or infrastructure cutover.",
+        "it": "Snapshot operativo aggregato e datato, non risultato di conformita. La promozione GitHub non equivale al deploy Hostinger o al cutover infrastrutturale."
+      },
+      "creator": "PolicyWatcher / Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    },
+    "policywatcher-v4-foundation-beta-en-2026-08-20.webp": {
+      "date": "2026-08-20",
+      "title": {
+        "en": "PolicyWatcher 4 Foundation Beta web infographic in English",
+        "it": "Infografica web PolicyWatcher 4 Foundation Beta in inglese"
+      },
+      "description": {
+        "en": "Web-optimized version of the dated English PolicyWatcher 4 Foundation Beta infographic.",
+        "it": "Versione ottimizzata per il web dell infografica inglese PolicyWatcher 4 Foundation Beta datata."
+      },
+      "alt": {
+        "en": "PolicyWatcher 4 Foundation Beta web infographic with architecture, taxonomy, readiness and migration controls",
+        "it": "Infografica web PolicyWatcher 4 Foundation Beta con architettura, tassonomia, readiness e controlli di migrazione"
+      },
+      "usage": {
+        "en": "Dated aggregate operational snapshot, not a compliance result. GitHub promotion does not mean Hostinger deployment or infrastructure cutover.",
+        "it": "Snapshot operativo aggregato e datato, non risultato di conformita. La promozione GitHub non equivale al deploy Hostinger o al cutover infrastrutturale."
+      },
+      "creator": "PolicyWatcher / Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    },
+    "policywatcher-v4-beta2-value-infographic-en-2026-08-20.png": {
+      "date": "2026-08-20",
+      "title": {
+        "en": "PolicyWatcher 4 operating-model guide in English",
+        "it": "Guida inglese al modello operativo di PolicyWatcher 4"
+      },
+      "description": {
+        "en": "A sober, deterministically typeset guide for product, governance, research and integration teams. It explains the move from PolicyWatcher 3.x change records to durable reusable evidence, then places architecture, Git and release state, integrations and workflow synergies in a separate technical mirror. The quiet illustration layer is AI-generated and disclosed.",
+        "it": "Guida sobria e composta deterministicamente per team di prodotto, governance, ricerca e integrazione. Spiega il passaggio dai record di cambiamento di PolicyWatcher 3.x a evidenze durevoli e riutilizzabili, collocando architettura, stato Git e release, integrazioni e sinergie di workflow in uno specchio tecnico separato. Il livello illustrativo discreto e generato con AI e dichiarato."
+      },
+      "alt": {
+        "en": "PolicyWatcher 4 operating-model guide for product, governance, research and integration teams with a secondary technical reference",
+        "it": "Guida al cambio di modello operativo di PolicyWatcher 4 per team di prodotto, governance, ricerca e integrazione, con uno specchio tecnico secondario"
+      },
+      "usage": {
+        "en": "Dated release checkpoint, not continuous availability, compliance certification, corpus completeness or competitive superiority. Live readiness is not frozen into the asset.",
+        "it": "Checkpoint di release datato, non disponibilita continua, certificazione di conformita, completezza del corpus o superiorita competitiva. La readiness live non e cristallizzata nell asset."
+      },
+      "creator": "PolicyWatcher / Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    },
+    "policywatcher-v4-beta2-value-infographic-en-2026-08-20.webp": {
+      "date": "2026-08-20",
+      "title": {
+        "en": "PolicyWatcher 4 operating-model web guide in English",
+        "it": "Guida web inglese al modello operativo di PolicyWatcher 4"
+      },
+      "description": {
+        "en": "Web-optimized version of the PolicyWatcher 4 operating-model guide.",
+        "it": "Versione ottimizzata per il web della guida al modello operativo di PolicyWatcher 4."
+      },
+      "alt": {
+        "en": "PolicyWatcher 4 operating-model web guide with the 3.x comparison, practical meaning and secondary architecture, Git, integration and synergy reference",
+        "it": "Guida web al modello operativo di PolicyWatcher 4 con confronto 3.x, significato pratico e riferimento secondario ad architettura, Git, integrazioni e sinergie"
+      },
+      "usage": {
+        "en": "Dated release checkpoint, not continuous availability, compliance certification, corpus completeness or competitive superiority. Live readiness is not frozen into the asset.",
+        "it": "Checkpoint di release datato, non disponibilita continua, certificazione di conformita, completezza del corpus o superiorita competitiva. La readiness live non e cristallizzata nell asset."
+      },
+      "creator": "PolicyWatcher / Fabrizio Degni",
+      "credit": "PolicyWatcher / Fabrizio Degni"
+    },
     "policywatcher-feature-atlas-2026-07-27.png": {
       "date": "2026-07-27",
       "title": {
@@ -440,7 +524,7 @@
       "creator": "Fabrizio Degni",
       "credit": "PolicyWatcher / Fabrizio Degni"
     },
-    "policywatcher-configured-scope-2026-08-15.png": {
+    "policywatcher-configured-scope-2026-08-20.png": {
       "title": {
         "en": "Configured scope data card",
         "it": "Scheda dati del perimetro configurato"

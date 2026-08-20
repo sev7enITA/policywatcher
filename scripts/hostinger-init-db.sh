@@ -86,6 +86,63 @@ normalize_sqlite_datetimes() {
   fi
 }
 
+create_consistent_sqlite_backup() {
+  local source_path="$1"
+  local backup_path="$2"
+  if command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
+    "${PYTHON_BIN}" - "${source_path}" "${backup_path}" <<'PY'
+import sqlite3
+import sys
+
+source_path, backup_path = sys.argv[1:3]
+source = sqlite3.connect(f"file:{source_path}?mode=ro", uri=True, timeout=30)
+target = sqlite3.connect(backup_path, timeout=30)
+try:
+    source.backup(target)
+finally:
+    target.close()
+    source.close()
+PY
+  elif command -v sqlite3 >/dev/null 2>&1; then
+    sqlite3 "${source_path}" ".backup '${backup_path}'"
+  elif [[ -e "${source_path}-wal" || -e "${source_path}-shm" ]]; then
+    echo "Cannot create a consistent WAL-aware backup without Python or sqlite3."
+    return 1
+  else
+    cp "${source_path}" "${backup_path}"
+  fi
+}
+
+configure_sqlite_runtime() {
+  if command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
+    "${PYTHON_BIN}" - "${DB_PATH}" <<'PY'
+import sqlite3
+import sys
+
+connection = sqlite3.connect(sys.argv[1], timeout=5)
+try:
+    connection.execute("PRAGMA busy_timeout = 5000")
+    journal_mode = connection.execute("PRAGMA journal_mode = WAL").fetchone()[0]
+    connection.execute("PRAGMA synchronous = NORMAL")
+    connection.execute("PRAGMA wal_autocheckpoint = 1000")
+    if str(journal_mode).lower() != "wal":
+        raise RuntimeError(f"SQLite refused WAL mode: {journal_mode}")
+finally:
+    connection.close()
+PY
+  elif command -v sqlite3 >/dev/null 2>&1; then
+    local journal_mode
+    journal_mode="$(sqlite3 "${DB_PATH}" 'PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL; PRAGMA synchronous=NORMAL; PRAGMA wal_autocheckpoint=1000;' | tail -n 2 | head -n 1)"
+    if [[ "${journal_mode,,}" != "wal" ]]; then
+      echo "SQLite refused WAL mode: ${journal_mode}"
+      return 1
+    fi
+  else
+    echo "Python or sqlite3 is required to configure the SQLite runtime."
+    return 1
+  fi
+}
+
 if [[ -z "${DATABASE_URL:-}" ]]; then
   echo "DATABASE_URL is not set."
   echo "Example:"
@@ -117,7 +174,7 @@ fi
 if [[ -f "${DB_PATH}" ]]; then
   if [[ "${POLICYWATCHER_SKIP_DB_BACKUP:-0}" != "1" ]]; then
     BACKUP="${DB_PATH}.backup-$(date +%Y%m%d%H%M%S)"
-    cp "${DB_PATH}" "${BACKUP}"
+    create_consistent_sqlite_backup "${DB_PATH}" "${BACKUP}"
     echo "Backup created: ${BACKUP}"
   fi
 else
@@ -151,6 +208,7 @@ else
 fi
 
 normalize_sqlite_datetimes
+configure_sqlite_runtime
 
 echo "Database schema is ready."
 echo "If this is a new database with 0 policies, run: node scripts/hostinger-seed-inventory.mjs"

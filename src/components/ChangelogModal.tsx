@@ -6,6 +6,7 @@ import { X, CheckCircle2, Clock, Sparkles } from 'lucide-react';
 import {
   POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION,
   POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS,
+  POLICYWATCHER_RELEASE_DATE_LABEL,
   POLICYWATCHER_RELEASE_NAME,
   POLICYWATCHER_VERSION,
 } from '@/lib/release';
@@ -85,7 +86,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
 
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>{POLICYWATCHER_RELEASE_NAME} (v{POLICYWATCHER_VERSION})</span>
+                      <span className={styles.featureName}>{POLICYWATCHER_RELEASE_NAME} (v{POLICYWATCHER_VERSION}, {POLICYWATCHER_RELEASE_DATE_LABEL.en})</span>
                       <span className={styles.badgeActive}>Current Beta</span>
                     </div>
                     <p className={styles.featureDesc}>

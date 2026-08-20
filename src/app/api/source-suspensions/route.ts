@@ -38,7 +38,7 @@ function reasonFromStatus(dataStatus: string, ingestionMethod: string, latestRea
 }
 
 export async function GET(request: NextRequest) {
-  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-get' });
+  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-source-suspensions' });
   if (limited) return limited;
 
   try {

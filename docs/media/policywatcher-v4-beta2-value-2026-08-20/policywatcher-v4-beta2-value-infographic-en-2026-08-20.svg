@@ -1,0 +1,215 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1800" height="2700" viewBox="0 0 1800 2700" role="img" aria-labelledby="title description">
+  <title id="title">PolicyWatcher 4: what the change of operating model means</title>
+  <desc id="description">A factual guide for product, governance, research and integration teams explaining the move from change records in PolicyWatcher 3.x to durable, reusable evidence in PolicyWatcher 4, with a secondary technical reference for architecture, Git, integrations and shared workflows.</desc>
+  <defs>
+    <style>
+      .sans { font-family: Arial; }
+      .serif { font-family: Georgia; }
+      .eyebrow { font-family: Arial; font-size: 19px; font-weight: 700; letter-spacing: 2.8px; fill: #196a67; }
+      .section { font-family: Arial; font-size: 21px; font-weight: 700; letter-spacing: 2.4px; fill: #196a67; }
+      .body { font-family: Arial; font-size: 24px; fill: #34444b; }
+      .small { font-family: Arial; font-size: 20px; fill: #536269; }
+      .micro { font-family: Arial; font-size: 16px; fill: #637278; }
+      .cardTitle { font-family: Arial; font-size: 27px; font-weight: 700; fill: #10263d; }
+      .techTitle { font-family: Arial; font-size: 22px; font-weight: 700; fill: #10263d; }
+    </style>
+  </defs>
+
+  <rect width="1800" height="2700" fill="#f5f2ea"/>
+  <image xlink:href="policywatcher-v4-beta2-value-background-ai-v2-2026-08-20.png" width="1800" height="2700" preserveAspectRatio="xMidYMid slice" opacity="0.32"/>
+  <rect x="0" y="0" width="1800" height="2700" fill="#f5f2ea" opacity="0.18"/>
+
+  <!-- Header: audience and purpose are explicit before any comparison. -->
+  <g transform="translate(88 58)">
+    <image xlink:href="policywatcher-wordmark-dark-source.png" width="420" height="105" preserveAspectRatio="xMinYMid meet"/>
+    <text class="sans" x="1624" y="32" text-anchor="end" font-size="18" font-weight="700" fill="#196a67">4.0.0 BETA 2 · AUGUST 2026</text>
+    <text class="sans" x="1624" y="66" text-anchor="end" font-size="17" fill="#637278">EXPLANATORY OVERVIEW</text>
+
+    <text class="eyebrow" x="0" y="158">WHAT CHANGED · WHO IT AFFECTS · HOW THE SYSTEM CONNECTS</text>
+    <text class="serif" x="0" y="248" font-size="72" font-weight="700" fill="#10263d">PolicyWatcher 4</text>
+    <text class="serif" x="0" y="322" font-size="58" fill="#10263d">What the change of operating model means.</text>
+    <text class="body" x="0" y="377">A factual guide to the move from change records to durable, reusable evidence.</text>
+
+    <rect x="0" y="421" width="1624" height="86" rx="18" fill="#ffffff" fill-opacity="0.88" stroke="#c8d2cf"/>
+    <text class="sans" x="28" y="453" font-size="16" font-weight="700" letter-spacing="1.7" fill="#196a67">INTENDED FOR</text>
+    <text class="sans" x="28" y="487" font-size="21" fill="#10263d">Product owners</text>
+    <line x1="258" y1="447" x2="258" y2="484" stroke="#c8d2cf"/>
+    <text class="sans" x="292" y="487" font-size="21" fill="#10263d">Governance &amp; legal teams</text>
+    <line x1="642" y1="447" x2="642" y2="484" stroke="#c8d2cf"/>
+    <text class="sans" x="676" y="487" font-size="21" fill="#10263d">Research &amp; editorial teams</text>
+    <line x1="1060" y1="447" x2="1060" y2="484" stroke="#c8d2cf"/>
+    <text class="sans" x="1094" y="487" font-size="21" fill="#10263d">Engineering &amp; integration partners</text>
+  </g>
+
+  <!-- The leap. -->
+  <g transform="translate(88 635)">
+    <text class="section" x="0" y="0">01 / THE LEAP IN ONE SENTENCE</text>
+    <text class="serif" x="0" y="62" font-size="42" font-weight="700" fill="#10263d">The monitored change is no longer the end of the record.</text>
+    <text class="body" x="0" y="105">Version 4 makes the evidence chain behind that change durable, addressable and reusable.</text>
+
+    <g transform="translate(0 158)">
+      <rect width="706" height="344" rx="22" fill="#fcfbf7" fill-opacity="0.96" stroke="#c4cdca" stroke-width="2"/>
+      <rect width="706" height="58" rx="22" fill="#e9ebe7"/>
+      <rect y="30" width="706" height="28" fill="#e9ebe7"/>
+      <text class="sans" x="28" y="38" font-size="18" font-weight="700" letter-spacing="2" fill="#536269">POLICYWATCHER 3.x</text>
+      <text class="cardTitle" x="28" y="108">Observe and report</text>
+      <text class="sans" x="28" y="158" font-size="24" font-weight="700" fill="#10263d">Company → Policy → Snapshot → Change</text>
+      <line x1="28" y1="186" x2="678" y2="186" stroke="#d7ddda"/>
+      <text class="small" x="28" y="226">Primary reusable unit</text>
+      <text class="sans" x="312" y="226" font-size="20" font-weight="700" fill="#10263d">change record</text>
+      <text class="small" x="28" y="268">Identity</text>
+      <text class="small" x="312" y="268">close to operational records</text>
+      <text class="small" x="28" y="310">Cross-system reuse</text>
+      <text class="small" x="312" y="310">possible, but harder to preserve</text>
+    </g>
+
+    <g transform="translate(728 286)" class="sans" text-anchor="middle">
+      <text x="70" y="-44" font-size="15" font-weight="700" letter-spacing="1.6" fill="#637278">ADDS AN</text>
+      <text x="70" y="-18" font-size="15" font-weight="700" letter-spacing="1.6" fill="#637278">EVIDENCE LAYER</text>
+      <line x1="2" y1="12" x2="120" y2="12" stroke="#c58a35" stroke-width="4"/>
+      <path d="M112 -1 L132 12 L112 25" fill="none" stroke="#c58a35" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <g transform="translate(864 158)">
+      <rect width="760" height="344" rx="22" fill="#e8f1ef" fill-opacity="0.97" stroke="#7da8a3" stroke-width="2"/>
+      <rect width="760" height="58" rx="22" fill="#196a67"/>
+      <rect y="30" width="760" height="28" fill="#196a67"/>
+      <text class="sans" x="28" y="38" font-size="18" font-weight="700" letter-spacing="2" fill="#ffffff">POLICYWATCHER 4</text>
+      <text class="cardTitle" x="28" y="108">Trace and reuse</text>
+      <text class="sans" x="28" y="158" font-size="23" font-weight="700" fill="#10263d">Entity → Document → Version → Change → Provision</text>
+      <line x1="28" y1="186" x2="732" y2="186" stroke="#b6ceca"/>
+      <text class="small" x="28" y="226">Primary reusable unit</text>
+      <text class="sans" x="322" y="226" font-size="20" font-weight="700" fill="#10263d">addressable evidence</text>
+      <text class="small" x="28" y="268">Identity</text>
+      <text class="small" x="322" y="268">stable public IDs</text>
+      <text class="small" x="28" y="310">Cross-system reuse</text>
+      <text class="small" x="322" y="310">explicit lineage and shared contracts</text>
+    </g>
+
+    <rect x="0" y="538" width="1624" height="126" rx="20" fill="#10263d"/>
+    <text class="sans" x="34" y="578" font-size="16" font-weight="700" letter-spacing="2" fill="#9bc9c4">WHAT THE CHANGE OF GEAR MEANS</text>
+    <text class="sans" x="34" y="621" font-size="24" fill="#ffffff">Monitoring remains the front door. The same observed change can now be reviewed, referenced,</text>
+    <text class="sans" x="34" y="652" font-size="24" fill="#ffffff">queried and carried across releases or storage migrations without losing its evidence path.</text>
+  </g>
+
+  <!-- Practical meaning. -->
+  <g transform="translate(88 1438)">
+    <text class="section" x="0" y="0">02 / WHAT VERSION 4 CHANGES IN PRACTICE</text>
+    <text class="body" x="0" y="42">Four consequences of the new evidence model. None replaces human review.</text>
+
+    <g transform="translate(0 84)">
+      <g>
+        <rect width="786" height="180" rx="18" fill="#fcfbf7" fill-opacity="0.96" stroke="#c8d2cf"/>
+        <text class="sans" x="28" y="36" font-size="15" font-weight="700" letter-spacing="1.6" fill="#196a67">01 · CONTINUITY</text>
+        <text class="cardTitle" x="28" y="78">References survive system change</text>
+        <text class="small" x="28" y="119">The same public identity can persist through renames,</text>
+        <text class="small" x="28" y="148">URL changes and future storage-provider changes.</text>
+      </g>
+      <g transform="translate(838 0)">
+        <rect width="786" height="180" rx="18" fill="#fcfbf7" fill-opacity="0.96" stroke="#c8d2cf"/>
+        <text class="sans" x="28" y="36" font-size="15" font-weight="700" letter-spacing="1.6" fill="#196a67">02 · REVIEWABILITY</text>
+        <text class="cardTitle" x="28" y="78">Interpretation resolves to evidence</text>
+        <text class="small" x="28" y="119">A claim can point to the document version, observed</text>
+        <text class="small" x="28" y="148">delta and provision that support the review.</text>
+      </g>
+      <g transform="translate(0 206)">
+        <rect width="786" height="180" rx="18" fill="#fcfbf7" fill-opacity="0.96" stroke="#c8d2cf"/>
+        <text class="sans" x="28" y="36" font-size="15" font-weight="700" letter-spacing="1.6" fill="#196a67">03 · SHARED OPERATIONAL STATE</text>
+        <text class="cardTitle" x="28" y="78">One readiness contract</text>
+        <text class="small" x="28" y="119">Admin, competitive analysis and public API read the</text>
+        <text class="small" x="28" y="148">same database-derived stages and latest capture.</text>
+      </g>
+      <g transform="translate(838 206)">
+        <rect width="786" height="180" rx="18" fill="#fcfbf7" fill-opacity="0.96" stroke="#c8d2cf"/>
+        <text class="sans" x="28" y="36" font-size="15" font-weight="700" letter-spacing="1.6" fill="#196a67">04 · CONTROLLED EVOLUTION</text>
+        <text class="cardTitle" x="28" y="78">Migration is observable</text>
+        <text class="small" x="28" y="119">Backfill, reconciliation and dual-write expose gaps</text>
+        <text class="small" x="28" y="148">before canonical reads or infrastructure cutover.</text>
+      </g>
+    </g>
+
+    <g transform="translate(0 504)">
+      <rect width="1624" height="86" rx="18" fill="#ffffff" fill-opacity="0.92" stroke="#aac2be"/>
+      <text class="sans" x="812" y="34" text-anchor="middle" font-size="15" font-weight="700" letter-spacing="1.9" fill="#637278">THE WORKFLOW NOW CONNECTS</text>
+      <text class="sans" x="812" y="66" text-anchor="middle" font-size="22" font-weight="700" fill="#10263d">MONITOR → CAPTURE → VERSION → TRACE → PUBLISH → INTEGRATE</text>
+    </g>
+  </g>
+
+  <!-- Technical mirror is intentionally secondary. -->
+  <g transform="translate(0 2108)">
+    <rect width="1800" height="492" fill="#e7ece9" fill-opacity="0.96"/>
+    <line x1="88" y1="0" x2="1712" y2="0" stroke="#196a67" stroke-width="3"/>
+    <text class="section" x="88" y="45">03 / TECHNICAL MIRROR · REFERENCE, NOT THE HEADLINE</text>
+    <text class="small" x="88" y="78">The implementation surfaces that support the operating-model change.</text>
+
+    <g transform="translate(88 110)">
+      <rect width="382" height="306" rx="18" fill="#fcfbf7" stroke="#c4cdca"/>
+      <text class="techTitle" x="24" y="40">Architecture</text>
+      <text class="micro" x="24" y="70">CANONICAL EVIDENCE CHAIN</text>
+      <g class="sans" transform="translate(24 94)" text-anchor="middle">
+        <circle cx="26" cy="26" r="26" fill="#10263d"/><text x="26" y="31" font-size="12" fill="#fff">E</text>
+        <line x1="52" y1="26" x2="86" y2="26" stroke="#196a67" stroke-width="3"/>
+        <circle cx="112" cy="26" r="26" fill="#196a67"/><text x="112" y="31" font-size="12" fill="#fff">D</text>
+        <line x1="138" y1="26" x2="172" y2="26" stroke="#196a67" stroke-width="3"/>
+        <circle cx="198" cy="26" r="26" fill="#196a67"/><text x="198" y="31" font-size="12" fill="#fff">V</text>
+        <line x1="224" y1="26" x2="258" y2="26" stroke="#c58a35" stroke-width="3"/>
+        <circle cx="284" cy="26" r="26" fill="#c58a35"/><text x="284" y="31" font-size="12" fill="#fff">C</text>
+        <line x1="310" y1="26" x2="330" y2="26" stroke="#c58a35" stroke-width="3"/>
+        <circle cx="338" cy="26" r="26" fill="#10263d"/><text x="338" y="31" font-size="12" fill="#fff">P</text>
+      </g>
+      <text class="micro" x="24" y="169">Entity · Document · Version · Change · Provision</text>
+      <text class="small" x="24" y="207">Provision taxonomy:</text>
+      <text class="micro" x="24" y="236">AI training · data sharing · retention</text>
+      <text class="micro" x="24" y="262">arbitration · content licensing · liability</text>
+    </g>
+
+    <g transform="translate(496 110)">
+      <rect width="382" height="306" rx="18" fill="#fcfbf7" stroke="#c4cdca"/>
+      <text class="techTitle" x="24" y="40">Git &amp; release</text>
+      <text class="micro" x="24" y="70">SEPARATE, TRACEABLE STATES</text>
+      <circle cx="29" cy="112" r="4" fill="#196a67"/><text class="small" x="44" y="119">Code, tests, docs and assets</text>
+      <text class="small" x="44" y="146">move as one source candidate.</text>
+      <circle cx="29" cy="184" r="4" fill="#196a67"/><text class="small" x="44" y="191">Artifact checksum links staging</text>
+      <text class="small" x="44" y="218">verification to production.</text>
+      <circle cx="29" cy="256" r="4" fill="#c58a35"/><text class="small" x="44" y="263">Commit/tag and hosting deployment</text>
+      <text class="small" x="44" y="290">remain distinct release states.</text>
+    </g>
+
+    <g transform="translate(904 110)">
+      <rect width="382" height="306" rx="18" fill="#fcfbf7" stroke="#c4cdca"/>
+      <text class="techTitle" x="24" y="40">Integrations</text>
+      <text class="micro" x="24" y="70">DURABLE EXCHANGE SURFACES</text>
+      <text class="small" x="24" y="114">Stable public IDs</text>
+      <line x1="24" y1="130" x2="348" y2="130" stroke="#d5dcd9"/>
+      <text class="small" x="24" y="163">Database-derived readiness</text>
+      <line x1="24" y1="179" x2="348" y2="179" stroke="#d5dcd9"/>
+      <text class="small" x="24" y="212">Public API v1 / v2</text>
+      <line x1="24" y1="228" x2="348" y2="228" stroke="#d5dcd9"/>
+      <text class="small" x="24" y="261">Evidence packets &amp; event contracts</text>
+      <text class="micro" x="24" y="289">Provider-neutral database and storage boundary</text>
+    </g>
+
+    <g transform="translate(1312 110)">
+      <rect width="400" height="306" rx="18" fill="#10263d"/>
+      <text class="sans" x="24" y="40" font-size="22" font-weight="700" fill="#ffffff">Synergies</text>
+      <text class="sans" x="24" y="70" font-size="16" letter-spacing="1.4" fill="#9bc9c4">ONE EVIDENCE STATE, MANY USES</text>
+      <text class="sans" x="200" y="124" text-anchor="middle" font-size="19" font-weight="700" fill="#ffffff">ADMIN</text>
+      <line x1="200" y1="139" x2="200" y2="169" stroke="#9bc9c4" stroke-width="3"/>
+      <text class="sans" x="200" y="196" text-anchor="middle" font-size="18" font-weight="700" fill="#ffffff">DATABASE-DERIVED READINESS</text>
+      <path d="M200 211 V234 M200 234 H90 M200 234 H310 M90 234 V250 M310 234 V250" fill="none" stroke="#c58a35" stroke-width="3"/>
+      <text class="sans" x="90" y="276" text-anchor="middle" font-size="16" fill="#ffffff">COMPETITIVE</text>
+      <text class="sans" x="90" y="296" text-anchor="middle" font-size="16" fill="#ffffff">ANALYSIS</text>
+      <text class="sans" x="310" y="276" text-anchor="middle" font-size="16" fill="#ffffff">PUBLIC</text>
+      <text class="sans" x="310" y="296" text-anchor="middle" font-size="16" fill="#ffffff">API</text>
+    </g>
+  </g>
+
+  <!-- Dated evidence and boundary. -->
+  <g transform="translate(0 2600)">
+    <rect width="1800" height="100" fill="#10263d"/>
+    <text class="sans" x="88" y="34" font-size="16" font-weight="700" letter-spacing="1.4" fill="#9bc9c4">RELEASE CHECKPOINT · 20 AUGUST 2026</text>
+    <text class="sans" x="88" y="66" font-size="18" fill="#ffffff">1,034 tests · 31 application tables · 16 migrations · 11/11 staging checks · v4 Beta 2 deployed</text>
+    <text class="sans" x="1712" y="34" text-anchor="end" font-size="16" font-weight="700" fill="#c58a35">LIVE STATUS IS NOT FROZEN INTO THIS GRAPHIC</text>
+    <text class="sans" x="1712" y="66" text-anchor="end" font-size="16" fill="#cbd7d4">Use /api/v1/publication-readiness · Not a compliance or completeness claim</text>
+  </g>
+</svg>

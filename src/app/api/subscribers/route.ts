@@ -6,6 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { randomUUID } from 'node:crypto';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
 import {
@@ -57,10 +58,10 @@ function normalizeName(value: unknown): string | null {
 // -- POST: Subscribe --
 
 /**
- * Creates a new subscriber or reactivates a previously unsubscribed one.
+ * Creates a pending subscriber or issues a fresh confirmation request.
  *
  * Validates the email format, checks for duplicates, handles reactivation
- * of soft-deleted subscribers, and fires a confirmation email (non-blocking).
+ * of soft-deleted subscribers, and sends a double-opt-in confirmation email.
  *
  * @param request - The incoming request with `{ email, name?, regions?, industries?, frequency? }`.
  * @returns Generic 202 response for create/reactivation/existing records.
@@ -111,28 +112,31 @@ export async function POST(request: NextRequest) {
     });
 
     if (existing) {
-      // If previously unsubscribed, reactivate
+      // Inactive and pending records receive a new single-use confirmation token.
       if (!existing.isActive) {
-        const reactivated = await db.subscriber.update({
+        const pending = await db.subscriber.update({
           where: { id: existing.id },
           data: {
-            isActive: true,
+            isActive: false,
             name: normalizeName(name) || existing.name,
             regions: normalizedRegions,
             industries: normalizedIndustries,
             frequency: normalizedFrequency,
+            confirmationToken: randomUUID(),
+            confirmationRequestedAt: new Date(),
+            confirmedAt: null,
           },
         });
         
         try {
-          const { sendSubscriptionConfirmation } = await import('@/lib/mailer');
-          sendSubscriptionConfirmation(
-            reactivated.email,
-            reactivated.name || undefined,
-            reactivated.regions,
-            reactivated.industries,
-            reactivated.frequency,
-            reactivated.unsubscribeToken
+          const { sendSubscriptionConfirmationRequest } = await import('@/lib/mailer');
+          await sendSubscriptionConfirmationRequest(
+            pending.email,
+            pending.name || undefined,
+            pending.regions,
+            pending.industries,
+            pending.frequency,
+            pending.confirmationToken as string,
           );
         } catch (mailError) {
           console.error('[Subscribers API] Failed to send confirmation:', mailError);
@@ -158,20 +162,23 @@ export async function POST(request: NextRequest) {
         regions: normalizedRegions,
         industries: normalizedIndustries,
         frequency: normalizedFrequency,
-        isActive: true,
+        isActive: false,
+        confirmationToken: randomUUID(),
+        confirmationRequestedAt: new Date(),
+        confirmedAt: null,
       },
     });
 
-    // Send confirmation email (non-blocking)
+    // Send a double-opt-in request. The record remains inactive until POST /confirm.
     try {
-      const { sendSubscriptionConfirmation } = await import('@/lib/mailer');
-      sendSubscriptionConfirmation(
+      const { sendSubscriptionConfirmationRequest } = await import('@/lib/mailer');
+      await sendSubscriptionConfirmationRequest(
         subscriber.email,
         subscriber.name || undefined,
         subscriber.regions,
         subscriber.industries,
         subscriber.frequency,
-        subscriber.unsubscribeToken
+        subscriber.confirmationToken as string,
       );
     } catch (mailError) {
       console.error('[Subscribers API] Failed to send confirmation:', mailError);
@@ -244,7 +251,11 @@ export async function DELETE(request: NextRequest) {
     // Soft-delete: mark as inactive
     await db.subscriber.update({
       where: { id: subscriber.id },
-      data: { isActive: false },
+      data: {
+        isActive: false,
+        confirmationToken: null,
+        confirmationRequestedAt: null,
+      },
     });
 
     return NextResponse.json(

@@ -204,7 +204,7 @@ async function getIndustryBenchmarkProfile(industry: string, excludeCompanyId?: 
  * @returns JSON `{ companyA, companyB }` or 400/404/500 error.
  */
 export async function GET(request: NextRequest) {
-  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-get' });
+  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-compare' });
   if (limited) return limited;
 
   try {

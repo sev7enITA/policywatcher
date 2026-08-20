@@ -254,6 +254,9 @@ const ddl = [
     "industries" TEXT NOT NULL,
     "frequency" TEXT NOT NULL DEFAULT 'INSTANT',
     "unsubscribeToken" TEXT NOT NULL,
+    "confirmationToken" TEXT,
+    "confirmationRequestedAt" DATETIME,
+    "confirmedAt" DATETIME,
     "isActive" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL
@@ -366,6 +369,9 @@ const ddl = [
     "status" TEXT NOT NULL DEFAULT 'running',
     "startedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "completedAt" DATETIME,
+    "leaseKey" TEXT,
+    "leaseExpiresAt" DATETIME,
+    "failureReason" TEXT,
     "selectedRecords" INTEGER NOT NULL DEFAULT 0,
     "uniqueSources" INTEGER NOT NULL DEFAULT 0,
     "networkRetrievals" INTEGER NOT NULL DEFAULT 0,
@@ -569,6 +575,8 @@ const indexes = [
   `CREATE INDEX IF NOT EXISTS "PolicyCheckLog_sourceRetrievalId_idx" ON "PolicyCheckLog"("sourceRetrievalId")`,
   `CREATE INDEX IF NOT EXISTS "ScanRun_startedAt_idx" ON "ScanRun"("startedAt")`,
   `CREATE INDEX IF NOT EXISTS "ScanRun_status_idx" ON "ScanRun"("status")`,
+  `CREATE UNIQUE INDEX IF NOT EXISTS "ScanRun_leaseKey_key" ON "ScanRun"("leaseKey")`,
+  `CREATE INDEX IF NOT EXISTS "ScanRun_leaseExpiresAt_idx" ON "ScanRun"("leaseExpiresAt")`,
   `CREATE UNIQUE INDEX IF NOT EXISTS "SourceRetrieval_scanRunId_retrievalKey_key" ON "SourceRetrieval"("scanRunId", "retrievalKey")`,
   `CREATE INDEX IF NOT EXISTS "SourceRetrieval_retrievalKey_createdAt_idx" ON "SourceRetrieval"("retrievalKey", "createdAt")`,
   `CREATE INDEX IF NOT EXISTS "SourceRetrieval_status_idx" ON "SourceRetrieval"("status")`,
@@ -592,6 +600,7 @@ const indexes = [
   `CREATE INDEX IF NOT EXISTS "RegionImpact_policyChangeId_idx" ON "RegionImpact"("policyChangeId")`,
   `CREATE UNIQUE INDEX IF NOT EXISTS "Subscriber_email_key" ON "Subscriber"("email")`,
   `CREATE UNIQUE INDEX IF NOT EXISTS "Subscriber_unsubscribeToken_key" ON "Subscriber"("unsubscribeToken")`,
+  `CREATE UNIQUE INDEX IF NOT EXISTS "Subscriber_confirmationToken_key" ON "Subscriber"("confirmationToken")`,
   `CREATE UNIQUE INDEX IF NOT EXISTS "DatasetQaIssueReview_issueKey_key" ON "DatasetQaIssueReview"("issueKey")`,
   `CREATE INDEX IF NOT EXISTS "DatasetQaIssueReview_status_idx" ON "DatasetQaIssueReview"("status")`,
   `CREATE INDEX IF NOT EXISTS "DatasetQaIssueReview_severity_idx" ON "DatasetQaIssueReview"("severity")`,
@@ -669,6 +678,16 @@ const upgradeColumns = {
     ['scanRunId', `ALTER TABLE "PolicyCheckLog" ADD COLUMN "scanRunId" TEXT REFERENCES "ScanRun"("id") ON DELETE SET NULL ON UPDATE CASCADE`],
     ['sourceRetrievalId', `ALTER TABLE "PolicyCheckLog" ADD COLUMN "sourceRetrievalId" TEXT REFERENCES "SourceRetrieval"("id") ON DELETE SET NULL ON UPDATE CASCADE`],
   ],
+  ScanRun: [
+    ['leaseKey', `ALTER TABLE "ScanRun" ADD COLUMN "leaseKey" TEXT`],
+    ['leaseExpiresAt', `ALTER TABLE "ScanRun" ADD COLUMN "leaseExpiresAt" DATETIME`],
+    ['failureReason', `ALTER TABLE "ScanRun" ADD COLUMN "failureReason" TEXT`],
+  ],
+  Subscriber: [
+    ['confirmationToken', `ALTER TABLE "Subscriber" ADD COLUMN "confirmationToken" TEXT`],
+    ['confirmationRequestedAt', `ALTER TABLE "Subscriber" ADD COLUMN "confirmationRequestedAt" DATETIME`],
+    ['confirmedAt', `ALTER TABLE "Subscriber" ADD COLUMN "confirmedAt" DATETIME`],
+  ],
   PolicySnapshot: [
     ['publicEvidence', `ALTER TABLE "PolicySnapshot" ADD COLUMN "publicEvidence" BOOLEAN NOT NULL DEFAULT false`],
   ],
@@ -705,6 +724,7 @@ function columnsFor(db, table) {
 try {
   const db = new DatabaseSync(dbPath);
   db.exec('PRAGMA foreign_keys=ON');
+  db.exec('PRAGMA busy_timeout=5000');
 
   for (const statement of ddl) {
     db.exec(statement);
@@ -727,6 +747,11 @@ try {
   for (const statement of indexes) {
     db.exec(statement);
   }
+
+  const journalMode = String(db.prepare('PRAGMA journal_mode=WAL').get().journal_mode || '').toLowerCase();
+  db.exec('PRAGMA synchronous=NORMAL');
+  db.exec('PRAGMA wal_autocheckpoint=1000');
+  if (journalMode !== 'wal') throw new Error(`SQLite refused WAL mode: ${journalMode || 'unknown'}`);
 
   const counts = {
     companies: db.prepare('SELECT COUNT(*) AS count FROM "Company"').get().count,

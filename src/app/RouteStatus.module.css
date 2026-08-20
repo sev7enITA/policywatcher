@@ -1,0 +1,100 @@
+.page {
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 20px;
+  background: #f3f0e8;
+  color: #173c37;
+}
+
+.card {
+  width: min(680px, 100%);
+  padding: clamp(28px, 6vw, 56px);
+  border: 1px solid #b7b8ad;
+  border-top: 5px solid #17685f;
+  background: #fffef9;
+  box-shadow: 0 22px 60px rgba(23, 60, 55, 0.1);
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: #56645f;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.card h1 {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.9rem, 5vw, 3.4rem);
+  line-height: 1.05;
+}
+
+.card > p:not(.eyebrow) {
+  max-width: 58ch;
+  margin: 20px 0 0;
+  color: #46534f;
+  line-height: 1.65;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.actions button,
+.actions a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border: 1px solid #17685f;
+  background: #17685f;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.actions a {
+  background: transparent;
+  color: #17685f;
+}
+
+.actions button:focus-visible,
+.actions a:focus-visible {
+  outline: 3px solid #d38b35;
+  outline-offset: 3px;
+}
+
+.progress {
+  width: 100%;
+  height: 4px;
+  margin-top: 28px;
+  overflow: hidden;
+  background: #d8d8cf;
+}
+
+.progress::after {
+  content: '';
+  display: block;
+  width: 45%;
+  height: 100%;
+  background: #17685f;
+  animation: route-progress 1.25s ease-in-out infinite alternate;
+}
+
+@keyframes route-progress {
+  from { transform: translateX(-20%); }
+  to { transform: translateX(145%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress::after { animation: none; width: 100%; }
+}

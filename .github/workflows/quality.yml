@@ -20,8 +20,10 @@ jobs:
       NEXT_TELEMETRY_DISABLED: '1'
       DATABASE_URL: file:./dev.db
       GEMINI_API_KEY: ci-placeholder
-      API_SECRET: ci-placeholder-secret
-      SESSION_HMAC_SECRET: ci-placeholder-session-secret
+      API_SECRET: ci-api-secret-not-for-production-0001
+      ADMIN_SESSION_HMAC_SECRET: ci-admin-session-secret-not-production-0002
+      INVESTOR_SESSION_HMAC_SECRET: ci-investor-session-secret-not-production-0003
+      ADMIN_SESSION_VERSION: ci
       APP_URL: http://localhost:3000
 
     steps:
@@ -101,8 +103,10 @@ jobs:
       DATABASE_URL: postgresql://policywatcher:policywatcher@127.0.0.1:5432/policywatcher_ci?schema=public
       DIRECT_URL: postgresql://policywatcher:policywatcher@127.0.0.1:5432/policywatcher_ci?schema=public
       GEMINI_API_KEY: ci-placeholder
-      API_SECRET: ci-placeholder-secret
-      SESSION_HMAC_SECRET: ci-placeholder-session-secret
+      API_SECRET: ci-api-secret-not-for-production-0001
+      ADMIN_SESSION_HMAC_SECRET: ci-admin-session-secret-not-production-0002
+      INVESTOR_SESSION_HMAC_SECRET: ci-investor-session-secret-not-production-0003
+      ADMIN_SESSION_VERSION: ci
       APP_URL: http://localhost:3000
 
     steps:

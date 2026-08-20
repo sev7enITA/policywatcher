@@ -249,12 +249,12 @@ const priorityPipeline = [
 
 const nowItems = [
   {
-    phase: 'Current · 4.0.0-beta.1',
-    title: 'Canonical Evidence Foundation',
+    phase: 'Current · 4.0.0-beta.2',
+    title: 'Production Readiness Hardening',
     body:
-      'Establish a canonical document evidence graph, stable public IDs, a focused provision taxonomy and one database-derived publication-readiness contract.',
-    benefit: 'Evidence can evolve toward durable documents and provisions while operators and integrations compare one authoritative readiness funnel.',
-    validation: 'Canonical tables start empty; backfill, dual-write, PostgreSQL cutover and object storage remain separately gated production waves.',
+      'Close the highest-impact independent-assessment findings around request identity, response bounds, scan leases, session revocation, consent and verified recovery exports.',
+    benefit: 'The Foundation Beta keeps its evidence model while production behavior becomes safer, more observable and less ambiguous.',
+    validation: 'Staging proxy identity, migrations, WAL, SMTP confirmation, backup verification and post-deploy smoke remain mandatory external gates.',
     icon: SlidersHorizontal,
     href: '/',
   },

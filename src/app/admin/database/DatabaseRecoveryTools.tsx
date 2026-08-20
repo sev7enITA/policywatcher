@@ -13,13 +13,10 @@ import styles from '../admin.module.css';
 
 interface DecryptedBackupSummary {
   version: string;
-  exportedAt: string;
-  summary: {
-    companies: number;
-    policies: number;
-    snapshots: number;
-    subscribers: number;
-  };
+  exportedAt: string | null;
+  formatVersion: number;
+  scope: 'complete-application-export' | 'legacy-partial-export';
+  summary: { tableCount?: number; totalRecords?: number; counts?: Record<string, number> };
 }
 
 export function DatabaseRecoveryTools({ role }: { role: 'admin' | 'auditor' }) {
@@ -131,7 +128,7 @@ export function DatabaseRecoveryTools({ role }: { role: 'admin' | 'auditor' }) {
       <div className={styles.backupPanel}>
         <form className={styles.backupCol} onSubmit={(event) => { event.preventDefault(); void handleExportBackup(); }}>
           <h3 className={styles.backupColTitle}><Download size={18} /> Encrypted export</h3>
-          <p className={styles.backupDescription}>Exports the operational dataset using AES-256-GCM. Keep the password outside the downloaded file.</p>
+          <p className={styles.backupDescription}>Exports all 31 application tables in a versioned AES-256-GCM envelope. Keep the password outside the downloaded file. A verified export is not a restore rehearsal.</p>
           {exportError && <p className={`${styles.alert} ${styles.alertWarning}`} role="alert"><AlertTriangle size={14} />{exportError}</p>}
           {exportSuccess && <p className={styles.recoverySuccess} role="status"><ShieldCheck size={14} />Encrypted backup downloaded.</p>}
           <div className={styles.inputGroup}>
@@ -176,11 +173,10 @@ export function DatabaseRecoveryTools({ role }: { role: 'admin' | 'auditor' }) {
               <h4 className={styles.decryptedTitle}><ShieldCheck size={16} /> Backup verified</h4>
               <dl className={styles.decryptedStats}>
                 <div className={styles.decryptedStatItem}><dt>Version</dt><dd className={styles.decryptedValue}>{decryptedSummary.version}</dd></div>
-                <div className={styles.decryptedStatItem}><dt>Exported</dt><dd className={styles.decryptedValue}>{new Date(decryptedSummary.exportedAt).toLocaleDateString()}</dd></div>
-                <div className={styles.decryptedStatItem}><dt>Companies</dt><dd className={styles.decryptedValue}>{decryptedSummary.summary.companies}</dd></div>
-                <div className={styles.decryptedStatItem}><dt>Policies</dt><dd className={styles.decryptedValue}>{decryptedSummary.summary.policies}</dd></div>
-                <div className={styles.decryptedStatItem}><dt>Snapshots</dt><dd className={styles.decryptedValue}>{decryptedSummary.summary.snapshots}</dd></div>
-                <div className={styles.decryptedStatItem}><dt>Subscribers</dt><dd className={styles.decryptedValue}>{decryptedSummary.summary.subscribers}</dd></div>
+                <div className={styles.decryptedStatItem}><dt>Format</dt><dd className={styles.decryptedValue}>v{decryptedSummary.formatVersion} · {decryptedSummary.scope}</dd></div>
+                <div className={styles.decryptedStatItem}><dt>Exported</dt><dd className={styles.decryptedValue}>{decryptedSummary.exportedAt ? new Date(decryptedSummary.exportedAt).toLocaleDateString() : 'Unknown'}</dd></div>
+                <div className={styles.decryptedStatItem}><dt>Tables</dt><dd className={styles.decryptedValue}>{decryptedSummary.summary.tableCount ?? 'Legacy partial'}</dd></div>
+                <div className={styles.decryptedStatItem}><dt>Records</dt><dd className={styles.decryptedValue}>{decryptedSummary.summary.totalRecords ?? 'Not declared'}</dd></div>
               </dl>
             </div>
           )}

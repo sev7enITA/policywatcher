@@ -62,15 +62,18 @@ async function fetchWithTimeout(fetcher: Fetcher, url: string, timeoutMs = 8_000
 
 function secretConfigurationCheck(): ProductionVerificationCheck {
   const apiSecret = process.env.API_SECRET?.trim() || '';
-  const sessionSecret = process.env.SESSION_HMAC_SECRET?.trim() || '';
-  const strongAndSeparate = apiSecret.length >= 32 && sessionSecret.length >= 32 && apiSecret !== sessionSecret;
+  const adminSessionSecret = process.env.ADMIN_SESSION_HMAC_SECRET?.trim() || '';
+  const investorSessionSecret = process.env.INVESTOR_SESSION_HMAC_SECRET?.trim() || '';
+  const secrets = [apiSecret, adminSessionSecret, investorSessionSecret];
+  const strongAndSeparate = secrets.every((secret) => secret.length >= 32)
+    && new Set(secrets).size === secrets.length;
   return {
     id: 'secret-separation',
     category: 'security',
     title: 'Operational and session secret separation',
     state: strongAndSeparate ? 'passed' : 'attention',
-    observed: strongAndSeparate ? 'Both secrets are configured, high-entropy-length and distinct.' : 'One or both secrets are missing, short or reused.',
-    expected: 'API_SECRET and SESSION_HMAC_SECRET are distinct and at least 32 characters.',
+    observed: strongAndSeparate ? 'API, admin-session and investor-session secrets are configured, high-entropy-length and distinct.' : 'One or more secrets are missing, short or reused.',
+    expected: 'API_SECRET, ADMIN_SESSION_HMAC_SECRET and INVESTOR_SESSION_HMAC_SECRET are distinct and at least 32 characters.',
     boundary: 'Only configuration presence, length and equality are checked. Secret randomness, custody and rotation are not proved.',
   };
 }

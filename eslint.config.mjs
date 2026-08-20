@@ -15,6 +15,8 @@ const eslintConfig = defineConfig([
     "test-results/**",
     "_archivio-locale/**",
     ".codex/**",
+    // Local assessment worktrees contain their own generated output/config.
+    ".claude/worktrees/**",
     "artifacts/**",
     "deliverables/**",
     "output/**",
