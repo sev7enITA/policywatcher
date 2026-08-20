@@ -1,4 +1,4 @@
-# PolicyWatcher Civic — LinkedIn follow-up post
+# PolicyWatcher Civic - LinkedIn follow-up post
 
 Publication date: after the Hostinger redeployment that exposes `/en/associations`.
 
@@ -25,7 +25,7 @@ The catalog was reviewed on 7 August 2026. It is not exhaustive. Inclusion recor
 
 #CivicTech #ConsumerProtection #DigitalRights #PolicyMonitoring #OpenData
 
-## First comment — complete link set
+## First comment - complete link set
 
 Direct access to the main functions:
 
@@ -50,7 +50,7 @@ Italiano
 Visual and supporting resources
 
 - Infographics hub: https://policywatcher.online/infographics
-- Global directory — 5W infographic: https://policywatcher.online/infographics/policywatcher-civic-5w-global-directory-2026-08-18-v3.png
+- Global directory - 5W infographic: https://policywatcher.online/infographics/policywatcher-civic-5w-global-directory-2026-08-18-v3.png
 - Technical coverage infographic: https://policywatcher.online/infographics/policywatcher-civic-technical-coverage-2026-08-18-v3.png
 - Editorial posting workflow: https://policywatcher.online/infographics/policywatcher-civic-editorial-workflow-2026-08-18.png
 - World coverage map: https://policywatcher.online/infographics/policywatcher-civic-world-coverage-map-2026-08-18.png
@@ -64,7 +64,7 @@ Visual and supporting resources
 Mention only verified official LinkedIn pages and only where the post is materially relevant. A restrained first group is:
 
 - Consumers International
-- BEUC — The European Consumer Organisation
+- BEUC - The European Consumer Organisation
 - European Digital Rights (EDRi)
 - Altroconsumo
 - UFC-Que Choisir

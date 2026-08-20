@@ -7,23 +7,23 @@ SUBTITLE: "THE GLOBAL DIRECTORY FOR CONSUMER AND DIGITAL RIGHTS"
 
 Create five clearly numbered information bands around a central civic/evidence motif:
 
-"1 — WHO"
+"1 - WHO"
 "79 organizations across 24 countries"
 "Consumer advocates · digital-rights networks · researchers · journalists · citizens"
 
-"2 — WHAT"
+"2 - WHAT"
 "Source-backed directory + policy evidence radar"
 "Find an organization · inspect its public source · review relevant policy changes"
 
-"3 — WHERE"
+"3 - WHERE"
 "Global · regional · national"
 "Choose region or country. Platform language and context adapt without changing the evidence."
 
-"4 — WHEN"
+"4 - WHEN"
 "Research snapshot reviewed 7 August 2026"
 "Not live or exhaustive. Sources and status are rechecked before updates."
 
-"5 — WHY"
+"5 - WHY"
 "Turn policy change into an inspectable civic workflow"
 "Evidence first. Human review before reuse or publication."
 
@@ -53,14 +53,14 @@ TOP METRICS:
 "41 DIGITAL/PRIVACY SPECIALISTS"
 "8 PROTECTION AREAS"
 
-SECTION 1 — COVERAGE MODEL
+SECTION 1 - COVERAGE MODEL
 Show three nested or connected layers:
-"GLOBAL — worldwide networks"
-"REGIONAL — cross-country networks"
-"NATIONAL — country-specific organizations"
+"GLOBAL - worldwide networks"
+"REGIONAL - cross-country networks"
+"NATIONAL - country-specific organizations"
 Caption: "A country view can include its national records, relevant regional networks and global networks. It does not infer subnational coverage."
 
-SECTION 2 — USER CHOICES
+SECTION 2 - USER CHOICES
 Show three controls, in order:
 "1. REGION OR COUNTRY"
 "2. PROTECTION TYPE"
@@ -76,12 +76,12 @@ Then list the exact eight protection types in two balanced columns:
 "Food & sustainability"
 Add: "Shareable filters: civic_territory · civic_type · civic_q"
 
-SECTION 3 — EVIDENCE WORKFLOW
+SECTION 3 - EVIDENCE WORKFLOW
 Render a clear left-to-right or top-to-bottom sequence:
 "DIRECTORY → PUBLIC SOURCE → POLICY RADAR → LOCAL REVIEW → MARKDOWN DIGEST"
 Under it: "Watchlist and review states stay in the browser. Human review remains required before reuse."
 
-SECTION 4 — CONTRIBUTION & CORRECTION
+SECTION 4 - CONTRIBUTION & CORRECTION
 Create two distinct paths:
 "SUBMIT A NEW LISTING"
 "Organization representatives and community users may submit."

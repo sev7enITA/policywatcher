@@ -1,4 +1,4 @@
-# Audit funzionale e tecnico — Canonical Evidence Wave 1B
+# Audit funzionale e tecnico - Canonical Evidence Wave 1B
 
 Release line: `4.0.0-beta.1`
 

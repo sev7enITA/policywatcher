@@ -198,7 +198,7 @@
       {
         "id": "continuity_intro",
         "type": "markdown",
-        "body": "## Cosa non viene perso dalla 3.x\n\nLa 4 conserva le capacità operative costruite nella 3.x — retrieval, hash, conferma dei cambi, gate `publicEvidence`, API, Civic, AI governance e controlli amministrativi — e fornisce loro un modello canonico di destinazione. Non tutte queste capacità sono quindi “nuove in 4”: molte sono ereditate e rafforzate."
+        "body": "## Cosa non viene perso dalla 3.x\n\nLa 4 conserva le capacità operative costruite nella 3.x - retrieval, hash, conferma dei cambi, gate `publicEvidence`, API, Civic, AI governance e controlli amministrativi - e fornisce loro un modello canonico di destinazione. Non tutte queste capacità sono quindi “nuove in 4”: molte sono ereditate e rafforzate."
       },
       { "id": "continuity_block", "type": "table", "tableId": "continuity_table" },
       {

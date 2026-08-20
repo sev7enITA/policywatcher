@@ -47,11 +47,11 @@ function formatShortDate(value: string): string {
 }
 
 function score(value: number | null, suffix = ''): string {
-  return value === null ? '—' : `${value.toLocaleString('it-IT', { maximumFractionDigits: 1 })}${suffix}`;
+  return value === null ? '\u2014' : `${value.toLocaleString('it-IT', { maximumFractionDigits: 1 })}${suffix}`;
 }
 
 function signed(value: number | null, suffix = ''): string {
-  if (value === null) return '—';
+  if (value === null) return '\u2014';
   return `${value > 0 ? '+' : ''}${value.toLocaleString('it-IT', { maximumFractionDigits: 1 })}${suffix}`;
 }
 
@@ -219,7 +219,7 @@ export default async function CompetitiveAnalysisPage({ searchParams }: { search
             {funnel.map((stage, index) => {
               const percentage = pct(stage.metric.value, configured);
               const rateLabel = stage.metric.reason ?? (percentage === null ? 'Percentuale non calcolabile: denominatore non disponibile.' : `${percentage}% del perimetro configurato`);
-              return <li key={stage.label} className={stage.metric.state === 'unavailable' || percentage === null ? styles.missingStage : undefined}><span className={styles.funnelNumber}>0{index + 1}</span><div><h3>{stage.label}</h3><p>{rateLabel}</p></div><strong>{stage.metric.value ?? '—'}</strong><div className={`${styles.funnelTrack} ${percentage === null ? styles.unavailableTrack : ''}`} aria-hidden="true">{percentage !== null && <span style={{ width: `${percentage}%` }} />}</div></li>;
+              return <li key={stage.label} className={stage.metric.state === 'unavailable' || percentage === null ? styles.missingStage : undefined}><span className={styles.funnelNumber}>0{index + 1}</span><div><h3>{stage.label}</h3><p>{rateLabel}</p></div><strong>{stage.metric.value ?? '\u2014'}</strong><div className={`${styles.funnelTrack} ${percentage === null ? styles.unavailableTrack : ''}`} aria-hidden="true">{percentage !== null && <span style={{ width: `${percentage}%` }} />}</div></li>;
             })}
           </ol>
           <dl className={styles.metricLedger}>

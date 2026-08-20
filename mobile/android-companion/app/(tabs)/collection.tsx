@@ -89,7 +89,7 @@ function ProgressRibbon({ selected, reviewed }: { selected: number; reviewed: nu
   const steps = [
     { number: '01', label: copy.collection.select, value: copy.collection.selected(selected), active: selected > 0 },
     { number: '02', label: copy.collection.review, value: copy.collection.reviewed(reviewed), active: reviewed > 0 },
-    { number: '03', label: copy.collection.handoff, value: selected > 0 ? copy.common.web : '—', active: selected > 0 },
+    { number: '03', label: copy.collection.handoff, value: selected > 0 ? copy.common.web : '\u2014', active: selected > 0 },
   ];
   return <View style={styles.ribbon}>{steps.map((step) => <View key={step.number} style={[styles.step, step.active && styles.stepActive]}><Text style={[styles.stepNumber, step.active && styles.stepNumberActive]}>{step.number}</Text><Text style={styles.stepLabel}>{step.label}</Text><Text numberOfLines={1} style={styles.stepValue}>{step.value}</Text></View>)}</View>;
 }

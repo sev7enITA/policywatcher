@@ -894,7 +894,7 @@
   position: absolute;
   top: 18px;
   left: 0;
-  content: '—';
+  content: '\2014';
   color: #f0c9b8;
 }
 
