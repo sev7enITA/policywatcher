@@ -3,7 +3,7 @@
 Stato di pubblicazione: follow-up della release. Tag sorgente immutabile e
 deployment in produzione verificati il 20 agosto 2026.
 
-20 agosto 2026 — PolicyWatcher ha promosso `4.0.0-beta.2`, la release Production
+20 agosto 2026 - PolicyWatcher ha promosso `4.0.0-beta.2`, la release Production
 Readiness Hardening della Foundation v4. L’aggiornamento applica i
 rilievi materiali emersi da tre revisioni esterne senza modificare gli ID
 pubblici stabili, la tassonomia o il contratto di publication readiness

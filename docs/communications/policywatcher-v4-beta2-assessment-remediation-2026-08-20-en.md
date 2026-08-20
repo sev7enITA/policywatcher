@@ -3,7 +3,7 @@
 Publication status: release follow-up. Immutable source tag and production
 deployment verified on 20 August 2026.
 
-20 August 2026 — PolicyWatcher has promoted `4.0.0-beta.2`, the Production
+20 August 2026 - PolicyWatcher has promoted `4.0.0-beta.2`, the Production
 Readiness Hardening release for the v4 Foundation. The update applies the
 material findings from three third-party reviews without changing the stable
 public evidence identifiers, taxonomy or publication-readiness contract

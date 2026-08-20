@@ -2,7 +2,7 @@
 
 ## Press release
 
-**Milan, 20 August 2026** — PolicyWatcher has completed the production
+**Milan, 20 August 2026** - PolicyWatcher has completed the production
 deployment of version `4.0.0-beta.2`. The public manifest now reports the new
 release, while the website continues to provide access to policy monitoring,
 public sources and the applicable publication limitations.
@@ -116,7 +116,7 @@ Asset planned for availability after promotion of the new package:
 > explicit path from source to version, delta and provision, while keeping
 > observed data separate from assessments and system limitations.”
 
-— **Fabrizio Degni, founder of PolicyWatcher**
+- **Fabrizio Degni, founder of PolicyWatcher**
 *Proposed statement, subject to approval before external distribution.*
 
 ## Limitations and next gates
