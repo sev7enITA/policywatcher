@@ -148,11 +148,18 @@ describe('document evidence migration and dual-write contracts', () => {
 
   it('keeps web and Expo lint policies independent while preserving one root gate', () => {
     const packageJson = JSON.parse(source('package.json')) as { scripts: Record<string, string> };
+    const workflow = source('.github/workflows/quality.yml');
     expect(packageJson.scripts.lint).toBe('npm run lint:web && npm run lint:mobile');
     expect(packageJson.scripts['lint:web']).toBe('eslint .');
     expect(packageJson.scripts['lint:mobile']).toBe(
       'npm --prefix mobile/android-companion run lint',
     );
     expect(source('eslint.config.mjs')).toContain('"mobile/**"');
+    const installMobileDependencies = workflow.indexOf(
+      'npm ci --prefix mobile/android-companion',
+    );
+    const lint = workflow.indexOf('npm run lint');
+    expect(installMobileDependencies).toBeGreaterThanOrEqual(0);
+    expect(lint).toBeGreaterThan(installMobileDependencies);
   });
 });
