@@ -12,6 +12,7 @@
 import type { Metadata } from 'next';
 import { Titillium_Web } from 'next/font/google';
 import { connection } from 'next/server';
+import { headers } from 'next/headers';
 import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin';
 import './globals.css';
 
@@ -58,10 +59,39 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   await connection();
+  const requestHeaders = await headers();
+  const documentLanguage = requestHeaders.get('x-policywatcher-locale') === 'it' ? 'it' : 'en';
+  const deploymentTarget = process.env.POLICYWATCHER_DEPLOYMENT_TARGET?.trim().toLowerCase();
+  const isStaging = deploymentTarget === 'staging';
 
   return (
-    <html lang="en" className={`${titilliumSans.variable} ${titilliumDisplay.variable}`}>
+    <html
+      lang={documentLanguage}
+      className={`${titilliumSans.variable} ${titilliumDisplay.variable}`}
+      data-deployment-target={deploymentTarget || 'unconfigured'}
+    >
       <body>
+        {isStaging ? (
+          <aside
+            role="status"
+            aria-label="Staging environment"
+            style={{
+              position: 'sticky',
+              top: 0,
+              zIndex: 10000,
+              padding: '0.45rem 1rem',
+              borderBottom: '1px solid #f6c453',
+              background: '#3d2b00',
+              color: '#fff4cf',
+              fontSize: '0.82rem',
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              textAlign: 'center',
+            }}
+          >
+            STAGING ENVIRONMENT · TEST DATA · NOT PRODUCTION
+          </aside>
+        ) : null}
         {children}
       </body>
     </html>

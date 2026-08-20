@@ -15,6 +15,7 @@ Public entry points:
 | Surface | Primary use | Authentication | Readiness | Entry point |
 | --- | --- | --- | --- | --- |
 | Public API v1 | Public evidence discovery, Observatory sources and signals | None; read-only CORS | Available | [`public-api-v1.md`](public-api-v1.md) |
+| Publication Readiness metric | Aggregate configured, retrieved, baseline-verified, public and analysed counts plus latest capture | None; read-only CORS and no-store | Available | `/api/v1/publication-readiness` |
 | Existing public data routes | Public companies, policy evidence, comparisons, trends and continuity where listed by the v1 manifest | Current route policy | Available | `/api/v1/manifest` |
 | Shareable Evidence Collections | Select up to 12 exact public changes and export deterministic JSON, Markdown, CSV or vendor-neutral handoff records | None; browser-local selection plus read-only CORS | Available | `/collections` |
 | Collaboration Handoff Manifest | Prepare review work items with evidence links, digests and acceptance criteria for authorized import | None; read-only deterministic export | Available | `/api/v1/evidence-collections?format=handoff` |
@@ -46,7 +47,9 @@ Public entry points:
 
 ### Publish or research public evidence
 
-Use API v1 for anonymous, cacheable, read-only access to the public evidence directory, curated Observatory registry and deterministic Evidence Collections. Clients should discover current routes and boundaries through `/api/v1/manifest` rather than assume that every portal endpoint is a stable integration contract.
+Use API v1 for anonymous, read-only access to the public evidence directory, curated Observatory registry and deterministic Evidence Collections. Clients should discover current routes and boundaries through `/api/v1/manifest` rather than assume that every portal endpoint is a stable integration contract. Most reference resources are cacheable; `/api/v1/publication-readiness` is database-derived on request and explicitly uses `Cache-Control: no-store`.
+
+Use `/api/v1/publication-readiness` when an integration needs the same aggregate operational funnel used by Admin and competitive analysis. Its JSON Schema is `/schemas/publication-readiness/v1`. It exposes counts, availability and the latest successful capture timestamp only, never policy text, private records or internal identifiers.
 
 Use `/collections` when a reviewer needs to group up to 12 exact public changes before handing a stable bundle to another person or tool. Selection, title and review status are stored locally. A share URL carries only sorted public UUIDs, and the JSON, Markdown and CSV exports contain provenance, digests, citations, review questions and explicit boundaries. This is a portable review artifact, not a persistent team workspace.
 

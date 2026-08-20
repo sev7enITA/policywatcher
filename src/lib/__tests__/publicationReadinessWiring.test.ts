@@ -5,6 +5,7 @@ describe('publication readiness wiring', () => {
   const page = readFileSync('src/app/admin/page.tsx', 'utf8');
   const component = readFileSync('src/app/admin/PublicationReadinessFunnel.tsx', 'utf8');
   const route = readFileSync('src/app/api/admin/metrics/route.ts', 'utf8');
+  const server = readFileSync('src/lib/publicationReadinessServer.ts', 'utf8');
 
   it('replaces Database Inventory while retaining the adjacent risk profile', () => {
     expect(page).not.toContain('Database Inventory');
@@ -23,6 +24,7 @@ describe('publication readiness wiring', () => {
     expect(component).toContain('<table>');
     expect(component).toContain('<caption>');
     expect(component).toContain('scope="row"');
+    expect(component).toContain('Latest capture');
   });
 
   it('uses distinct semantic icons for measured, unavailable and consistency-review states', () => {
@@ -34,8 +36,9 @@ describe('publication readiness wiring', () => {
   });
 
   it('reuses the production publication gate and returns an unavailable 503 contract', () => {
-    expect(route).toContain('publicPolicyWhere()');
-    expect(route).toContain("publicPolicyWhere({ changes: { some: { publicEvidence: true } } })");
+    expect(route).toContain('getAuthoritativePublicationReadiness');
+    expect(server).toContain('publicPolicyWhere(policyWhere)');
+    expect(server).toContain('changes: { some: { publicEvidence: true } }');
     expect(route).toContain('buildUnavailablePublicationReadiness(checkedAt)');
   });
 });

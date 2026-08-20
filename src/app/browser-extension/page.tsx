@@ -3,7 +3,7 @@ import BrowserExtensionClient from './BrowserExtensionClient';
 import { getBrowserExtensionStoreLinks } from '@/lib/browserExtensionStores';
 
 export const metadata: Metadata = {
-  title: 'Browser extension | PolicyWatcher',
+  title: 'Link verification | PolicyWatcher',
   description: 'Capture policy-update notification clues and real policy links locally, then verify them against PolicyWatcher evidence.',
   alternates: { canonical: '/browser-extension' },
 };

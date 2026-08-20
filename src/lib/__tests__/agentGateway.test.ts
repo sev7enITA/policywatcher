@@ -28,6 +28,7 @@ describe('agent evidence gateway', () => {
     expect(Array.isArray(brief.answerContext)).toBe(false);
     expect(Array.isArray(brief.citations)).toBe(false);
     expect(brief.boundary).toContain('not legal advice');
+    expect(brief.boundary).toContain('not evidence-ready');
   });
 
   it('publishes three read-only operations without unsupported schema composition or array data types', () => {

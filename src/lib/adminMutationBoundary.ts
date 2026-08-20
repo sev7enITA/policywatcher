@@ -75,6 +75,8 @@ const EXACT_ROUTE_CAPS: Record<string, number> = {
   '/api/admin/dashboard-telemetry': 8 * KIB,
   '/api/admin/webhook-delivery': 8 * KIB,
   '/api/admin/export-encrypted': 8 * KIB,
+  '/api/admin/investor-access': 8 * KIB,
+  '/api/admin/investor-access/[grantId]': 8 * KIB,
   // Base64-encoded Renderer packages are bounded to 5 MiB before forwarding.
   '/api/admin/vps-services': MAX_RENDERER_PACKAGE_REQUEST_BYTES,
   // Up to 100 bounded onboarding rows, including long official source URLs.
@@ -88,6 +90,9 @@ function isMutationMethod(method: string): method is AdminMutationMethod {
 }
 
 export function normalizeAdminMutationRoute(pathname: string): string {
+  if (/^\/api\/admin\/investor-access\/[^/]+\/?$/.test(pathname)) {
+    return '/api/admin/investor-access/[grantId]';
+  }
   if (/^\/api\/admin\/source-onboarding\/[^/]+\/?$/.test(pathname)) {
     return '/api/admin/source-onboarding/[itemId]';
   }

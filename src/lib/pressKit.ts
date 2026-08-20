@@ -512,6 +512,8 @@ export const pressKitAssets: PressKitAsset[] = pressKitAssetDefinitions.map((ass
 });
 
 export const pressKitCycleItems: PressKitLocalized[] = [
+  { en: 'Canonical Entity, Document, Version, Change and Provision evidence chain with stable public identifiers and separately gated activation.', it: 'Catena canonica Entity, Document, Version, Change e Provision con identificatori pubblici stabili e attivazione soggetta a gate separati.' },
+  { en: 'One aggregate database-derived publication-readiness contract shared by Admin, competitive analysis and the public API.', it: 'Un unico contratto aggregato di publication readiness derivato dal database e condiviso da Admin, analisi competitiva e API pubblica.' },
   { en: 'Human-approved AI model registry with JSON Schema, frozen evidence gates and automatic promotion disabled.', it: 'Registro dei modelli AI approvato da persone con JSON Schema, gate di evidenza congelati e promozione automatica disabilitata.' },
   { en: 'Privacy-safe GenAI telemetry projection that excludes prompts, responses and source content.', it: 'Proiezione di telemetria GenAI rispettosa della privacy che esclude prompt, risposte e contenuto delle fonti.' },
   { en: 'One validated fourteen-day release ledger drives the public API, Evidence Pulse and bilingual press infographic.', it: 'Un unico ledger di release validato su quattordici giorni alimenta API pubblica, Evidence Pulse e infografica stampa bilingue.' },
@@ -573,12 +575,37 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'evidence-release-control-plane-3-9-0-beta-42',
+    slug: 'canonical-evidence-foundation-4-0-0-beta-1',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'confidence',
+    title: { en: 'Canonical Evidence Foundation', it: 'Fondazione canonica delle evidenze' },
+    summary: { en: 'Introduces a canonical document evidence graph, stable public identifiers, a focused provision taxonomy and one authoritative publication-readiness metric.', it: 'Introduce un grafo canonico delle evidenze documentali, identificatori pubblici stabili, una tassonomia mirata delle clausole e una sola metrica autorevole di publication readiness.' },
+    changes: [
+      { en: 'Entity, Document, Version, Change and Provision form an additive evidence chain while the operational legacy model remains authoritative during the gated transition.', it: 'Entity, Document, Version, Change e Provision formano una catena di evidenza additiva mentre il modello operativo legacy resta autorevole durante la transizione controllata.' },
+      { en: 'Deterministic public IDs and a versioned taxonomy cover AI training, data sharing, retention, arbitration, content licensing and liability.', it: 'ID pubblici deterministici e una tassonomia versionata coprono training AI, condivisione dati, conservazione, arbitrato, licenze sui contenuti e responsabilita.' },
+      { en: 'One no-store database query now feeds Admin, competitive analysis and the public publication-readiness contract.', it: 'Una sola query database no-store alimenta ora Admin, analisi competitiva e contratto pubblico di publication readiness.' },
+    ],
+    boundaries: [
+      { en: 'The canonical tables are introduced empty. Backfill, reconciliation, dual-write and read switching remain separate production gates.', it: 'Le tabelle canoniche vengono introdotte vuote. Backfill, riconciliazione, dual-write e cambio delle letture restano gate di produzione separati.' },
+      { en: 'This beta does not claim PostgreSQL cutover, object-storage activation, exhaustive source coverage, legal review or analysis quality.', it: 'Questa beta non dichiara cutover PostgreSQL, attivazione object storage, copertura esaustiva delle fonti, revisione legale o qualita dell analisi.' },
+    ],
+    evidenceLinks: [
+      { href: '/developers', label: { en: 'Developer contract', it: 'Contratto sviluppatori' } },
+      { href: '/api/v1/publication-readiness', label: { en: 'Publication readiness API', it: 'API publication readiness' } },
+      { href: '/feature-atlas', label: { en: 'Feature Atlas', it: 'Atlante funzionalita' } },
+    ],
+  },
+  {
+    slug: 'evidence-release-control-plane-3-9-0-beta-42',
+    version: '3.9.0-beta.42',
+    displayVersion: '3.9.0 Beta 42',
+    datePublished: '2026-08-15',
+    dateModified: '2026-08-15',
+    status: 'archived',
     category: 'confidence',
     title: { en: 'Evidence Release Control Plane', it: 'Control plane delle release evidence-first' },
     summary: { en: 'Adds a model qualification registry, a hashed release-evidence ledger and a two-week evidence pulse shared by web, API and press assets.', it: 'Aggiunge un registro di qualificazione dei modelli, un ledger delle release con hash e un evidence pulse di due settimane condiviso da web, API e asset stampa.' },
@@ -643,7 +670,7 @@ export const pressKitReleases: PressKitRelease[] = [
       { en: 'Watchlist and review state remain in the current browser; unavailable or ineligible records do not become civic evidence.', it: 'Watchlist e stato di revisione restano nel browser corrente; record non disponibili o non ammissibili non diventano evidenze civiche.' },
     ],
     evidenceLinks: [
-      { href: '/associazioni', label: { en: 'Civic Lab', it: 'Associazioni' } },
+      { href: '/en/associations', label: { en: 'Civic Lab', it: 'Associazioni' } },
       { href: '/methodology/confidence', label: { en: 'Confidence methodology', it: 'Metodologia confidence' } },
       { href: '/feature-atlas', label: { en: 'Feature Atlas', it: 'Atlante funzionalita' } },
     ],

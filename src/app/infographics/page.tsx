@@ -105,9 +105,9 @@ export default function InfographicsPage() {
     <div className={styles.page}>
       <PublicHeader current="infographics" />
       <EvidenceStatusRail
-        label="Explanatory visual guide"
-        title="Product architecture, not live production data"
-        detail="These interactive diagrams explain workspace behavior and safety boundaries. For current persisted evidence, use the Signals board."
+        label="Visual documentation"
+        title="Product architecture"
+        detail="These diagrams document workspace behavior and safety boundaries. Current persisted evidence is available on the Signals board."
         meta={`Guide build ${POLICYWATCHER_BUILD_LABEL}`}
         tone="guide"
       />
@@ -117,9 +117,9 @@ export default function InfographicsPage() {
           <Sparkles size={14} />
           Visual Guide & Infographics
         </span>
-        <h1>Understanding the Adaptive Workspace</h1>
+        <h1>Infographics</h1>
         <p>
-          Discover how PolicyWatcher v{POLICYWATCHER_VERSION} connects adaptive workspaces, canonical shareable views, coordinated evidence drill-downs, release impact and safety overrides.
+          PolicyWatcher v{POLICYWATCHER_VERSION} diagrams cover adaptive workspaces, shareable views, evidence drill-downs, release impact and safety overrides.
         </p>
         <nav className={styles.contextLinks} aria-label="Related evidence views">
           <Link href="/timeline">
@@ -134,6 +134,185 @@ export default function InfographicsPage() {
       </header>
 
       <div className={styles.infographicsGrid}>
+        <section className={styles.erPosterCard} aria-labelledby="civic-editorial-workflow-title">
+          <div className={styles.erPosterHeader}>
+            <div>
+              <span className={`${styles.eyebrow} ${styles.eyebrowIndigo}`}>
+                <Radio size={14} />
+                Infographic 09 · Editorial workflow · 18 August 2026
+              </span>
+              <h2 id="civic-editorial-workflow-title">Civic editorial workflow</h2>
+              <p>
+                A descriptive Day 0-Day 10 sequence for introducing the directory, explaining coverage, showing
+                one country view, documenting the contribution path and presenting the evidence method.
+              </p>
+            </div>
+            <div className={styles.erPosterActions}>
+              <Link href="/en/associations#organizzazioni">Open the directory</Link>
+              <a href="/infographics/policywatcher-civic-editorial-workflow-2026-08-18.png" download>
+                Download PNG
+              </a>
+              <a href="/infographics/policywatcher-civic-editorial-workflow-2026-08-18.svg" download>
+                Download SVG
+              </a>
+            </div>
+          </div>
+          <figure className={styles.erPosterFigure}>
+            <Image
+              src="/infographics/policywatcher-civic-editorial-workflow-2026-08-18.png"
+              alt="English PolicyWatcher Civic editorial workflow showing five posts from Day 0 to Day 10, with a named asset, call to action and measurement point for each post"
+              width={1200}
+              height={1500}
+              priority
+            />
+            <figcaption>
+              Deterministic campaign workflow. Visits, source opens, copied views and user-initiated drafts are
+              measured separately from impressions. Inclusion does not imply partnership or endorsement.
+            </figcaption>
+          </figure>
+        </section>
+
+        <section className={styles.erPosterCard} aria-labelledby="civic-world-map-title">
+          <div className={styles.erPosterHeader}>
+            <div>
+              <span className={`${styles.eyebrow} ${styles.eyebrowTeal}`}>
+                <GitFork size={14} />
+                Infographic 08 · World coverage map · 18 August 2026
+              </span>
+              <h2 id="civic-world-map-title">Consumer association coverage</h2>
+              <p>
+                A proportional-symbol world map derived from the directory: 76 national listings across 24
+                countries, with a Europe inset and the three global or regional networks reported separately.
+              </p>
+            </div>
+            <div className={styles.erPosterActions}>
+              <Link href="/en/associations#organizzazioni">Inspect the listings</Link>
+              <a href="/infographics/policywatcher-civic-world-coverage-map-2026-08-18.png" download>
+                Download PNG
+              </a>
+              <a href="/infographics/policywatcher-civic-world-coverage-map-2026-08-18.svg" download>
+                Download SVG
+              </a>
+            </div>
+          </div>
+          <figure className={styles.erPosterFigure}>
+            <Image
+              src="/infographics/policywatcher-civic-world-coverage-map-2026-08-18.png"
+              alt="English PolicyWatcher Civic world coverage map showing 76 national association listings across 24 countries, a detailed Europe inset, and three global or regional networks outside the country counts"
+              width={1200}
+              height={1500}
+              priority
+            />
+            <figcaption>
+              Country-level coverage view derived from the catalog reviewed on 7 August 2026. Marker positions
+              are approximate country centroids, not office addresses; coverage is curated and not exhaustive.
+            </figcaption>
+          </figure>
+        </section>
+
+        <section className={styles.erPosterCard} aria-labelledby="civic-5w-title">
+          <div className={styles.erPosterHeader}>
+            <div>
+              <span className={`${styles.eyebrow} ${styles.eyebrowTeal}`}>
+                <GitFork size={14} />
+                Infographic 07 · PolicyWatcher Civic 5W · 18 August 2026
+              </span>
+              <h2 id="civic-5w-title">Global civic workflow</h2>
+              <p>
+                The English launch visual explains the audience, scope, geographic model, research date and
+                evidence-first purpose of the global directory, with direct paths to explore, submit and correct.
+              </p>
+            </div>
+            <div className={styles.erPosterActions}>
+              <Link href="/en/associations#organizzazioni">Open PolicyWatcher Civic</Link>
+              <a href="/infographics/policywatcher-civic-5w-global-directory-2026-08-18-v3.png" download>
+                Download 5W PNG
+              </a>
+            </div>
+          </div>
+          <figure className={styles.erPosterFigure}>
+            <Image
+              src="/infographics/policywatcher-civic-5w-global-directory-2026-08-18-v3.png"
+              alt="English PolicyWatcher Civic 5W infographic with the official PolicyWatcher logo, explaining who the global directory serves, what it provides, where it operates, when its research was reviewed and why the evidence workflow exists"
+              width={946}
+              height={1663}
+              priority
+            />
+            <figcaption>
+              AI-generated editorial visualization grounded in the catalog snapshot reviewed on 7 August 2026.
+              Inclusion records a verifiable public source; it does not imply partnership, endorsement or legal authority.
+            </figcaption>
+          </figure>
+        </section>
+
+        <section className={styles.erPosterCard} aria-labelledby="civic-technical-title">
+          <div className={styles.erPosterHeader}>
+            <div>
+              <span className={`${styles.eyebrow} ${styles.eyebrowIndigo}`}>
+                <GitFork size={14} />
+                Infographic 06 · Technical coverage · 18 August 2026
+              </span>
+              <h2 id="civic-technical-title">Civic review controls</h2>
+              <p>
+                The technical companion shows global, regional and national coverage; the eight protection types;
+                shareable filters; the evidence workflow; and the separate paths for submissions and corrections.
+              </p>
+            </div>
+            <div className={styles.erPosterActions}>
+              <Link href="/en/associations#segnala-associazione">Submit or correct a listing</Link>
+              <a href="/infographics/policywatcher-civic-technical-coverage-2026-08-18-v3.png" download>
+                Download technical PNG
+              </a>
+            </div>
+          </div>
+          <figure className={styles.erPosterFigure}>
+            <Image
+              src="/infographics/policywatcher-civic-technical-coverage-2026-08-18-v3.png"
+              alt="English technical infographic with the official PolicyWatcher logo, showing 79 organizations across 24 countries, coverage layers, eight protection filters, evidence workflow and controlled submission and correction paths"
+              width={897}
+              height={1752}
+            />
+            <figcaption>
+              Detailed implementation view. Watchlists and review states remain in the browser; email drafts and
+              directory changes require explicit human action.
+            </figcaption>
+          </figure>
+        </section>
+
+        <section className={styles.erPosterCard} aria-labelledby="civic-associations-title">
+          <div className={styles.erPosterHeader}>
+            <div>
+              <span className={`${styles.eyebrow} ${styles.eyebrowTeal}`}>
+                <GitFork size={14} />
+                Infographic 05 · Civic directory · 18 August 2026
+              </span>
+              <h2 id="civic-associations-title">Consumer association directory</h2>
+              <p>
+                The earlier Italian editorial poster presents the country-aware directory, eight protection areas,
+                the evidence-to-digest workflow and the controlled path for suggesting another organization.
+              </p>
+            </div>
+            <div className={styles.erPosterActions}>
+              <Link href="/it/associazioni#organizzazioni">Open PolicyWatcher Civico</Link>
+              <a href="/infographics/policywatcher-civico-associazioni-globali-2026-08-18.png" download>
+                Download PNG
+              </a>
+            </div>
+          </div>
+          <figure className={styles.erPosterFigure}>
+            <Image
+              src="/infographics/policywatcher-civico-associazioni-globali-2026-08-18.png"
+              alt="Italian PolicyWatcher Civico infographic showing 79 organizations in 24 countries, 41 digital specialists, eight protection areas and a five-step evidence workflow"
+              width={972}
+              height={1619}
+            />
+            <figcaption>
+              AI-generated editorial visualization grounded in the catalog snapshot reviewed on 7 August 2026.
+              Inclusion documents a public verification source; it does not imply partnership, endorsement or legal authority.
+            </figcaption>
+          </figure>
+        </section>
+
         <section className={styles.erPosterCard} aria-labelledby="release-evidence-pulse-title">
           <div className={styles.erPosterHeader}>
             <div>
@@ -141,7 +320,7 @@ export default function InfographicsPage() {
                 <Radio size={14} />
                 Infographic 04 · Release evidence · 2-15 August 2026
               </span>
-              <h2 id="release-evidence-pulse-title">Six releases. One inspectable evidence window.</h2>
+              <h2 id="release-evidence-pulse-title">Release evidence</h2>
               <p>
                 A bilingual press-ready record of the last fourteen days: what shipped, the implementation impact, the observable metric and the residual limit attached to every claim.
               </p>
@@ -173,7 +352,7 @@ export default function InfographicsPage() {
                 <GitFork size={14} />
                 Infographic 00 · ER sitemap · August 2026
               </span>
-              <h2 id="sitemap-er-title">The global experience, before the individual pages.</h2>
+              <h2 id="sitemap-er-title">Site map model</h2>
               <p>
                 A source-backed map of 33 static sitemap entries, seven editorial domains and four dynamic entity families. Region, language and workspace orient the experience without changing evidence gates.
               </p>

@@ -17,12 +17,14 @@ import {
   buildEnvironmentReadiness,
   classifyDatabaseError,
   EXPECTED_DATABASE_MIGRATIONS,
+  EXPECTED_POSTGRESQL_MIGRATIONS,
   EXPECTED_DATABASE_TABLES,
   getDatabaseReadinessReport,
 } from '@/lib/databaseReadiness';
 
 const healthyDiagnostics = {
   configured: true,
+  provider: 'sqlite' as const,
   url: 'file:/tmp/policywatcher.db',
   filePath: '/tmp/policywatcher.db',
   directoryPath: '/tmp',
@@ -86,6 +88,10 @@ describe('database readiness report', () => {
     expect(report.schema.missingMigrations).toEqual([]);
     expect(report.schema.lastAppliedMigration).toBe(EXPECTED_DATABASE_MIGRATIONS.at(-1));
     expect(report.database).not.toHaveProperty('url');
+    const migrationQuery = mocks.queryRawUnsafe.mock.calls
+      .map(([sql]) => String(sql))
+      .find((sql) => sql.includes('_prisma_migrations'));
+    expect(migrationQuery).toContain('ORDER BY migration_name ASC');
   });
 
   it('reports an unreadable file without issuing database queries', async () => {
@@ -103,10 +109,62 @@ describe('database readiness report', () => {
     expect(mocks.queryRawUnsafe).not.toHaveBeenCalled();
   });
 
+  it('evaluates PostgreSQL with provider-specific schema, size and migration checks', async () => {
+    mocks.diagnostics.mockResolvedValue({
+      ...healthyDiagnostics,
+      provider: 'postgresql',
+      url: 'postgresql://redacted.invalid/policywatcher',
+      filePath: null,
+      directoryPath: null,
+      directoryExists: false,
+      directoryWritable: false,
+      fileExists: false,
+      fileReadable: false,
+      fileWritable: false,
+      fileSizeBytes: 0,
+    });
+    mocks.queryRawUnsafe.mockImplementation(async (sql: string) => {
+      if (sql.includes('information_schema.tables')) {
+        return [...EXPECTED_DATABASE_TABLES, '_prisma_migrations'].map((name) => ({ name }));
+      }
+      if (sql.includes('pg_database_size')) return [{ value: 21_000_000n }];
+      if (sql.includes('_prisma_migrations')) {
+        return EXPECTED_POSTGRESQL_MIGRATIONS.map((migration_name) => ({
+          migration_name,
+          finished_at: new Date('2026-08-19T12:00:00.000Z'),
+          rolled_back_at: null,
+        }));
+      }
+      throw new Error(`Unexpected SQL: ${sql}`);
+    });
+
+    const report = await getDatabaseReadinessReport();
+
+    expect(report.status).toBe('ready');
+    expect(report.database).toMatchObject({ provider: 'postgresql', filePath: null, fileSizeBytes: 21_000_000 });
+    expect(report.database).not.toHaveProperty('url');
+    expect(report.integrity).toMatchObject({
+      quickCheck: 'ok',
+      journalMode: 'postgresql',
+      foreignKeysEnabled: true,
+      pageCount: null,
+      freePageCount: null,
+    });
+    expect(report.schema).toMatchObject({
+      expectedMigrationCount: 1,
+      appliedMigrationCount: 1,
+      missingMigrations: [],
+      lastAppliedMigration: EXPECTED_POSTGRESQL_MIGRATIONS[0],
+    });
+  });
+
   it('uses bounded diagnostic codes instead of returning raw database errors', () => {
     expect(classifyDatabaseError({ code: 'P2021', message: 'sensitive detail' })).toBe('P2021');
     expect(classifyDatabaseError(new Error('database is locked'))).toBe('SQLITE_BUSY');
     expect(classifyDatabaseError(new Error('database disk image is malformed'))).toBe('SQLITE_CORRUPT');
+    expect(classifyDatabaseError({ code: '40001' })).toBe('POSTGRES_SERIALIZATION_FAILURE');
+    expect(classifyDatabaseError({ code: '40P01' })).toBe('POSTGRES_DEADLOCK');
+    expect(classifyDatabaseError({ code: 'ECONNREFUSED' })).toBe('DATABASE_UNREACHABLE');
     expect(classifyDatabaseError(new Error('arbitrary internal statement'))).toBe('DATABASE_QUERY_FAILED');
   });
 

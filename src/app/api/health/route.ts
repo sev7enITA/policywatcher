@@ -18,8 +18,8 @@ import { getDatabaseDiagnostics } from '@/lib/databaseConfig';
 /**
  * Performs a lightweight health check of the running instance.
  *
- * Validates the bearer token, then checks whether the database file exists and
- * can be queried. It intentionally avoids returning filesystem paths or env
+ * Validates the bearer token, then checks whether the configured database
+ * can be queried. It intentionally avoids returning connection URLs, filesystem paths or env
  * var inventories.
  *
  * @param request - The incoming request with a bearer token.
@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
 
   let companyCount = 0;
   let queryOk = false;
-  if (database.fileExists) {
+  if (database.provider === 'postgresql' || database.fileExists) {
     try {
       const { db } = await import('@/lib/db');
       companyCount = await db.company.count();
@@ -52,9 +52,10 @@ export async function GET(request: NextRequest) {
     timestamp: new Date().toISOString(),
     database: {
       configured: database.configured,
+      provider: database.provider,
       directoryExists: database.directoryExists,
       directoryWritable: database.directoryWritable,
-      exists: database.fileExists,
+      exists: database.provider === 'postgresql' ? queryOk : database.fileExists,
       readable: database.fileReadable,
       writable: database.fileWritable,
       sizeBytes: database.fileSizeBytes,

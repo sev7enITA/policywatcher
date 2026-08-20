@@ -243,7 +243,7 @@ export default function CollectionsClient({
           <div className={styles.heroGrid}>
             <div>
               <p className={styles.kicker}>PolicyWatcher {POLICYWATCHER_VERSION_DISPLAY}</p>
-              <h1>Shareable Evidence Collections</h1>
+              <h1>Evidence collections</h1>
               <p className={styles.lead}>Select up to 12 exact public changes, record a local review state, and export one deterministic evidence bundle.</p>
             </div>
             <aside className={styles.scopeNote}>
@@ -427,7 +427,7 @@ export default function CollectionsClient({
         </div>
 
         <section className={styles.boundary} aria-labelledby="boundary-title">
-          <div><p className={styles.kicker}>Integration boundary</p><h2 id="boundary-title">Portable evidence data, with explicit limits.</h2></div>
+          <div><p className={styles.kicker}>Integration boundary</p><h2 id="boundary-title">Collection data and limits</h2></div>
           <dl>
             <div><dt>Included</dt><dd>Exact public change IDs, bounded evidence records, packet digests and review questions.</dd></div>
             <div><dt>Local only</dt><dd>Your collection title and per-record review state.</dd></div>

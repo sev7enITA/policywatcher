@@ -1,4 +1,5 @@
 import type { Policy, PolicySnapshot, Prisma } from '@prisma/client';
+import { dualWriteCanonicalPolicyGraph } from '@/lib/documentEvidenceSync';
 
 interface ReplaceSeededPolicyBaselineParams {
   policyId: string;
@@ -46,6 +47,111 @@ interface EstablishVerifiedPolicyBaselineResult {
   promotedExistingSnapshot: boolean;
 }
 
+type EstablishSourceMigrationBaselineParams = EstablishVerifiedPolicyBaselineParams;
+
+interface EstablishSourceMigrationBaselineResult {
+  policy: Policy;
+  snapshot: PolicySnapshot;
+  createdSnapshot: boolean;
+}
+
+/**
+ * Accepts the first verified capture after an administrator changes the
+ * acquisition endpoint. The capture becomes the new comparison baseline but
+ * never creates a provider-authored PolicyChange: the content boundary was
+ * introduced by our source configuration, not by evidence of a publisher
+ * edit.
+ */
+export async function establishSourceMigrationBaseline(
+  tx: Prisma.TransactionClient,
+  params: EstablishSourceMigrationBaselineParams
+): Promise<EstablishSourceMigrationBaselineResult> {
+  const current = await tx.policy.findUnique({
+    where: { id: params.policyId },
+    select: { sourceMigrationPending: true },
+  });
+  if (!current?.sourceMigrationPending) {
+    throw new Error('source_migration_rebaseline_aborted_not_pending');
+  }
+
+  const latestSnapshot = await tx.policySnapshot.findFirst({
+    where: { policyId: params.policyId },
+    orderBy: [{ version: 'desc' }, { createdAt: 'desc' }],
+  });
+
+  const createdSnapshot = latestSnapshot?.hash !== params.hash;
+  const snapshot = createdSnapshot
+    ? await tx.policySnapshot.create({
+        data: {
+          policyId: params.policyId,
+          version: (latestSnapshot?.version || 0) + 1,
+          text: params.text,
+          hash: params.hash,
+          publicEvidence: true,
+          createdAt: params.checkedAt,
+        },
+      })
+    : latestSnapshot;
+
+  if (!snapshot) {
+    throw new Error('source_migration_rebaseline_aborted_missing_snapshot');
+  }
+
+  const policy = await tx.policy.update({
+    where: { id: params.policyId },
+    data: {
+      currentText: params.text,
+      currentHash: params.hash,
+      lastCheckDate: params.checkedAt,
+      lastSuccessfulCheckDate: params.checkedAt,
+      dataStatus: 'Available',
+      ingestionMethod: params.ingestionMethod,
+      sourceMigrationPending: false,
+      sourceMigrationRequestedAt: null,
+    },
+  });
+
+  await tx.policyCheckLog.create({
+    data: {
+      policyId: params.policyId,
+      status: 'Available',
+      checkedAt: params.checkedAt,
+      source: params.source,
+      httpStatus: params.httpStatus || null,
+      reason: 'verified_source_migration_baseline_established',
+      finalUrl: params.finalUrl,
+      textHash: params.hash,
+      textLength: params.text.length,
+      archiveTimestamp: params.archiveTimestamp || null,
+      scanRunId: params.scanRunId || null,
+      sourceRetrievalId: params.sourceRetrievalId || null,
+      durationMs: params.durationMs ?? null,
+      reasonCode: params.reasonCode || 'verified',
+    },
+  });
+
+  await tx.adminReviewLog.create({
+    data: {
+      actorRole: 'system',
+      action: 'source_migration_baseline_established',
+      targetType: 'policy',
+      targetId: params.policyId,
+      note: 'Verified the newly configured acquisition source and established a comparison baseline without creating a provider change event.',
+      metadataJson: JSON.stringify({
+        source: params.source,
+        finalUrl: params.finalUrl,
+        archiveTimestamp: params.archiveTimestamp?.toISOString() || null,
+        createdSnapshot,
+        snapshotVersion: snapshot.version,
+      }),
+    },
+  });
+
+  await dualWriteCanonicalPolicyGraph(tx, params.policyId);
+
+  return { policy, snapshot, createdSnapshot };
+}
+
 /**
  * Establishes the first source-verified baseline when a policy has already
  * accumulated retrieval logs but still has no public snapshot. This closes a
@@ -80,6 +186,7 @@ export async function establishVerifiedPolicyBaseline(
         ingestionMethod: params.ingestionMethod,
       },
     });
+    await dualWriteCanonicalPolicyGraph(tx, params.policyId);
     return {
       policy,
       snapshot: existingPublicSnapshot,
@@ -186,6 +293,8 @@ export async function establishVerifiedPolicyBaseline(
       }),
     },
   });
+
+  await dualWriteCanonicalPolicyGraph(tx, params.policyId);
 
   return { policy, snapshot, publicEvidence, promotedExistingSnapshot };
 }
@@ -331,6 +440,8 @@ export async function replaceSeededPolicyBaseline(
       }),
     },
   });
+
+  await dualWriteCanonicalPolicyGraph(tx, params.policyId, { prune: true });
 
   return {
     policy,

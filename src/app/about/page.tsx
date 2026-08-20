@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 const resources = [
   {
-    title: 'Confidence Methodology',
+    title: 'Evidence methodology',
     body: 'How retrieval paths, source status, public-evidence gates, and AI-assisted interpretation are described.',
     href: '/methodology/confidence',
     icon: BookOpen,
@@ -188,7 +188,7 @@ export default function AboutPage() {
       <section className={styles.openSourceBand} aria-label="Public repository resources">
         <div>
           <span>Public repository</span>
-          <h2>Inspect the project where it is built.</h2>
+          <h2>Project repository</h2>
         </div>
         <div className={styles.openSourceLinks}>
           <a href="https://github.com/sev7enITA/policywatcher" target="_blank" rel="noopener noreferrer">

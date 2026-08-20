@@ -6,8 +6,9 @@ PolicyWatcher is a public evidence laboratory that records verified policy basel
 
 ## Canonical public sections
 - Adaptive evidence dashboard with Focus, Balanced and Explore presentation controls: ${POLICYWATCHER_ORIGIN}/
-- Global consumer-association and digital-rights directory with country, type and verification-source filters: ${POLICYWATCHER_ORIGIN}/associazioni#organizzazioni
-- Civic public-evidence workspace with country and regulatory context: ${POLICYWATCHER_ORIGIN}/associazioni#radar
+- Global consumer-association and digital-rights directory with country, type and verification-source filters: ${POLICYWATCHER_ORIGIN}/en/associations#organizzazioni
+- Civic public-evidence workspace with country and regulatory context: ${POLICYWATCHER_ORIGIN}/en/associations#radar
+- Italian localized Civic workspace: ${POLICYWATCHER_ORIGIN}/it/associazioni
 - Knowledge base: ${POLICYWATCHER_ORIGIN}/knowledge
 - Evidence packets: ${POLICYWATCHER_ORIGIN}/evidence
 - Confidence methodology: ${POLICYWATCHER_ORIGIN}/methodology/confidence
@@ -25,6 +26,8 @@ PolicyWatcher is a public evidence laboratory that records verified policy basel
 - Published change events: ${POLICYWATCHER_ORIGIN}/api/v1/change-events
 - Observatory registry: ${POLICYWATCHER_ORIGIN}/api/v1/observatory?lang=en
 - Evidence collections: ${POLICYWATCHER_ORIGIN}/api/v1/evidence-collections
+- Authoritative publication readiness: ${POLICYWATCHER_ORIGIN}/api/v1/publication-readiness
+- Publication readiness JSON Schema: ${POLICYWATCHER_ORIGIN}/schemas/publication-readiness/v1
 - Agent gateway capabilities: ${POLICYWATCHER_ORIGIN}/api/v1/agent/capabilities
 - Agent gateway OpenAPI: ${POLICYWATCHER_ORIGIN}/api/v1/agent/openapi.json
 - Residency evidence pack: ${POLICYWATCHER_ORIGIN}/api/v1/residency-evidence
@@ -32,6 +35,8 @@ PolicyWatcher is a public evidence laboratory that records verified policy basel
 
 ## Enterprise integration boundary
 The public Agent Evidence Gateway accepts bounded filters and returns deterministic public-evidence briefs with citations. It does not accept prompt transcripts, contract text, tenant identifiers, account identifiers, access tokens, or arbitrary metadata. Microsoft 365 Copilot, Vertex AI Agent Builder, Amazon Quick, and Word source packages require deployment and approval in the customer environment; source-package availability is not marketplace publication, certification, or tenant installation.
+
+Publication Readiness is one aggregate database-derived metric with five ordered stages and the latest successful capture timestamp. It is returned without caching and does not expose policy text, private records or internal identifiers. Unavailable measurements remain null and must not be interpreted as zero.
 
 ## Evidence boundary
 Public knowledge and machine endpoints exclude configured, seeded, withheld, unverified, private, and admin records. They do not expose raw policy text, internal logs, raw failures, admin notes, credentials, or database diagnostics. Missing or unavailable data must not be interpreted as a healthy state.

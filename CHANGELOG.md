@@ -1,5 +1,70 @@
 # Changelog
 
+## Unreleased
+
+### Canonical evidence Wave 1B
+
+- Pinned the patched `deepmerge-ts` 8.0.1 transitive release after the pre-promotion supply-chain gate identified GHSA-ggr8-5vv4-36mx through Prisma configuration; `npm audit --omit=dev` returns zero known vulnerabilities.
+- Added guarded, idempotent historical backfill with dry-run/apply reports and a persisted success audit event.
+- Added deterministic reconciliation for stable IDs, text hashes, relationships, publication gates, taxonomy projections, missing rows and orphaned bridges.
+- Added opt-in transactional dual-write to company, policy, baseline, detected-change, publication-state and destructive admin mutation boundaries; a canonical failure rolls back the legacy mutation.
+- Added a non-production dual-write smoke, seed synchronization and the production activation/rollback runbook.
+- Extended PostgreSQL CI to canonical-backfill the SQLite fixture before import and run the transactional dual-write smoke against disposable PostgreSQL after checksum parity.
+- Added a read-only build/runtime activation gate that blocks dual-write startup unless canonical reconciliation has zero errors and warnings.
+- Split root web and Expo lint policies while preserving one `npm run lint` gate; generated mobile output is no longer incorrectly linted by the Next.js configuration.
+- Rehearsed a sanitized local copy twice: 17 entities, 50 documents, 91 versions, 91 changes and 240 provisions reconciled with zero errors or warnings; the second apply preserved identical counts.
+
+## 4.0.0-beta.1 - 2026-08-19
+
+### Canonical evidence foundation
+- Added the additive `Entity -> Document -> Version -> Change -> Provision` model with internal UUIDs and deterministic stable public IDs.
+- Added provision taxonomy `1.0.0` for AI training, data sharing, retention, arbitration, content licensing and liability.
+- Kept the legacy operational model authoritative during this wave; canonical tables start empty and require separate backfill, reconciliation, dual-write and read-switch approval.
+- Added a provider-neutral `contentRef` boundary while retaining optional inline content for the controlled storage transition.
+
+### Authoritative publication readiness
+- Centralized configured, retrieved, baseline-verified, public and analysed counts plus latest capture in one database-derived server query.
+- Reused the same metric in Admin, the protected competitive comparison and `/api/v1/publication-readiness`.
+- Published JSON Schema v1, manifest discovery, aggregate-only boundaries and `Cache-Control: no-store` semantics.
+- Added staging and production verification gates for schema identity, stage order, latest capture and prohibited-field absence.
+
+### Database portability and release safety
+- Added a PostgreSQL schema baseline, CI contract checks and importer rehearsal tooling without authorizing the production cutover.
+- Added provider-neutral database preparation and error handling while retaining SQLite as the current production provider.
+- Added the additive SQLite document-evidence migration and aligned the Node and Python Hostinger initializers.
+- Kept PostgreSQL cutover, object-storage activation, tenant data, workspaces, accounts and billing behind explicit production gates.
+
+### Source integrity control
+- Corrected the Wise US Privacy Notice and TikTok Community Guidelines catalog routes, and separated Klarna’s public citations from its official legal-document acquisition endpoints.
+- Added controlled source migrations: changing an acquisition key now queues a verified replacement baseline and cannot emit a provider-authored change event during the transition.
+- Classified Common Crawl exact-match misses as `not_in_archive`, treated HTTP 202 as a pending/challenge response, strengthened long soft-404 and same-host error-route detection, and stopped target-page failures from falsely degrading the renderer dependency.
+- Reopened previously resolved remediation issues when fresh failures recur.
+- Enforced an archive freshness floor for every baseline path; a source migration can no longer accept a capture older than the administrator's migration request.
+- Normalized Hostinger SQLite `DATETIME` storage to Prisma epoch milliseconds, preventing maintenance logs from sorting ahead of newer scans and blocking two-scan change confirmation.
+- Taught the Hostinger migration resolver to recognize the conservative legacy `Policy.dataStatus = Configured` default when the initial schema is already materialized.
+- Reduced the Gemini provider schema to structural constraints while retaining strict local vocabulary, cardinality, numeric and semantic validation, eliminating production `INVALID_ARGUMENT: too many states` failures on confirmed changes.
+- Closed remediation rows tied to acquisition keys superseded by controlled source migrations, while keeping the replacement baseline visible in its dedicated verification queue.
+- Ordered Database Readiness by migration identifier rather than resolution time, so a repaired legacy ledger no longer presents the initial migration as the newest schema release.
+
+### Administrative UI/UX
+- Replaced click-only company rows and prompt-based retrieval editing with keyboard-accessible disclosure buttons and a labeled source-integrity editor.
+- Added explicit public-citation, acquisition-endpoint, evidence-state and baseline-pending metadata to Company Manager.
+- Added a controlled source-migration queue to Source Reliability with direct verification and configuration actions.
+- Verified the corrected local inventory: Klarna 4/4, Wise 4/4 after repairing an additional legacy EU route, and PayPal 4/4 acquired successfully; TikTok Community Guidelines remains explicitly dependent on the production VPS renderer.
+
+### PolicyWatcher Civico UI/UX and launch assets
+- Added complete server-rendered English and Italian Civic routes at `/en/associations` and `/it/associazioni`, reciprocal canonical/hreflang metadata, route-correct summaries and digests, and a query-preserving permanent redirect from `/associazioni`.
+- Connected the global language control, public navigation, dashboard, machine index, Site Atlas, Feature Atlas and Hostinger package gates to the localized routes; changing language on Civic now changes URL without creating a mixed-language page.
+- Added URL-backed, copyable Civic directory views while preserving global region and country defaults.
+- Expanded directory search to Italian and English protection labels, source names and localized country names.
+- Derived every public coverage metric from the organization catalog to prevent hero, directory and communication claims from drifting apart.
+- Made self-submission explicit for organization representatives and added a separate correction action to every directory listing, with current listing ID and evidence sources prefilled in a reviewable email draft.
+- Kept submissions and corrections fail-closed: nothing is sent, accepted, changed or published automatically.
+- Added English 5W and technical infographics, their `/infographics` entries, an English LinkedIn launch post, press release, Day 0–Day 10 posting workflow and a Figma campaign source file.
+- Replaced generated interpretations of the PolicyWatcher mark with the official wordmark asset and removed vague campaign language from the posting workflow.
+- Preserved the earlier Italian launch asset and documented the final ImageGen prompts, source references and AI-generation boundary.
+- Added deterministic English editorial-workflow and world-coverage infographics, both with the official wordmark, downloadable SVG/PNG variants and catalog-derived counts; country markers are explicitly identified as approximate centroids rather than office locations.
+
 ## 3.9.0-beta.42 - 2026-08-15
 
 ### Wave 1 - AI EvalOps control plane

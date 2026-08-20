@@ -158,7 +158,7 @@ export default async function EvidenceDetailPage({ params }: EvidenceDetailPageP
           </div>
 
           <ol className={styles.detailSpine} aria-label="Evidence packet stages">
-            <li><span>01</span><Fingerprint size={18} aria-hidden="true" /><strong>Source Confidence</strong></li>
+            <li><span>01</span><Fingerprint size={18} aria-hidden="true" /><strong>Source evidence</strong></li>
             <li><span>02</span><BookOpenCheck size={18} aria-hidden="true" /><strong>Explainability</strong></li>
             <li><span>03</span><Scale size={18} aria-hidden="true" /><strong>Governance Relevance</strong></li>
             <li><span>04</span><FileText size={18} aria-hidden="true" /><strong>Report Output</strong></li>
@@ -167,7 +167,7 @@ export default async function EvidenceDetailPage({ params }: EvidenceDetailPageP
           <section className={styles.packetSection} id="source-confidence" aria-labelledby="source-title">
             <div className={styles.packetSectionHead}>
               <span>01</span>
-              <div><p className={styles.kicker}>Dataset QA · sanitized public view</p><h2 id="source-title">Source Confidence</h2></div>
+              <div><p className={styles.kicker}>Dataset QA · sanitized public view</p><h2 id="source-title">Source evidence</h2></div>
             </div>
             <div className={styles.sourceGrid}>
               <dl className={styles.dataLedger}>

@@ -2,6 +2,8 @@ import path from 'path';
 
 const DEFAULT_SQLITE_PATH = path.join(/*turbopackIgnore: true*/ process.cwd(), 'prisma', 'dev.db');
 
+export type DatabaseProvider = 'sqlite' | 'postgresql' | 'unknown';
+
 export function configuredDatabaseUrl(): string | null {
   const value = process.env.DATABASE_URL;
   if (typeof value !== 'string') return null;
@@ -36,6 +38,13 @@ export function getDatabaseUrl(): string {
   const configured = configuredDatabaseUrl();
   if (configured) return normalizeSqliteUrl(configured);
   return `file:${DEFAULT_SQLITE_PATH}`;
+}
+
+export function getDatabaseProvider(databaseUrl = getDatabaseUrl()): DatabaseProvider {
+  const normalized = databaseUrl.trim().toLowerCase();
+  if (normalized.startsWith('file:')) return 'sqlite';
+  if (normalized.startsWith('postgresql://') || normalized.startsWith('postgres://')) return 'postgresql';
+  return 'unknown';
 }
 
 export function getSqliteFilePath(databaseUrl = getDatabaseUrl()): string | null {

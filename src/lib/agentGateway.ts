@@ -184,7 +184,7 @@ export function getAgentObservatoryBrief(query: AgentBriefQuery) {
       : 'No curated Observatory signal matched the requested filters. Do not infer that no external development exists.',
     citations: matches.map((signal) => signal.sourceUrl).join('\n'),
     filterSummary: `region=${query.region || 'any'}; topic=${query.topic || 'any'}; lang=${query.lang}; limit=${query.limit}`,
-    boundary: `${AGENT_GATEWAY_BOUNDARY} Observatory signals are manually curated references and are not automatically ingested as policy evidence.`,
+    boundary: `${AGENT_GATEWAY_BOUNDARY} Observatory signals are manually curated references and are not automatically ingested as policy evidence. Catalogued sources under source review are not evidence-ready and do not contribute operational claims.`,
   };
 }
 

@@ -19,7 +19,9 @@ interface UrlUpdate {
   jurisdictions?: string[];
   oldUrlPart: string;     // partial match against current URL
   newUrl: string;
+  newRetrievalUrl?: string | null;
   reason: string;
+  batch?: 'source-integrity-2026-08-17';
 }
 
 interface MigrationResult {
@@ -122,14 +124,25 @@ const URL_UPDATES: UrlUpdate[] = [
     oldUrlPart: 'wise.com/gb/legal/privacy-policy',
     newUrl: 'https://wise.com/gb/legal/privacy-notice-personal-en',
     reason: 'Official Wise personal privacy notice applies globally and includes country-specific provisions',
+    batch: 'source-integrity-2026-08-17',
+  },
+  {
+    company: 'Wise',
+    policyName: 'Privacy Policy',
+    jurisdictions: ['EU'],
+    oldUrlPart: 'wise.com/eu/legal/privacy-policy',
+    newUrl: 'https://wise.com/gb/legal/privacy-notice-personal-en',
+    reason: 'Replace the retired EU route with the current personal privacy notice',
+    batch: 'source-integrity-2026-08-17',
   },
   {
     company: 'Wise',
     policyName: 'Privacy Policy',
     jurisdictions: ['US'],
-    oldUrlPart: 'wise.com/gb/legal/privacy-policy',
-    newUrl: 'https://wise.com/us/legal/privacy-policy',
-    reason: 'US policy record should use the US-specific Wise privacy source',
+    oldUrlPart: 'wise.com/us/legal/privacy-policy',
+    newUrl: 'https://wise.com/us/legal/privacy-notice',
+    reason: 'Use the actual US personal privacy notice rather than the legal index page',
+    batch: 'source-integrity-2026-08-17',
   },
   {
     company: 'Wise',
@@ -145,9 +158,12 @@ const URL_UPDATES: UrlUpdate[] = [
   {
     company: 'Klarna',
     policyName: 'Privacy Notice',
+    jurisdictions: ['US'],
     oldUrlPart: 'klarna.com/us/privacy',
     newUrl: 'https://www.klarna.com/us/privacy/',
-    reason: 'Official US privacy page is directly fetchable',
+    newRetrievalUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy',
+    reason: 'Keep the public Klarna citation and acquire the linked legal notice from the official CDN',
+    batch: 'source-integrity-2026-08-17',
   },
   {
     company: 'Klarna',
@@ -155,7 +171,9 @@ const URL_UPDATES: UrlUpdate[] = [
     jurisdictions: ['US'],
     oldUrlPart: 'cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy',
     newUrl: 'https://www.klarna.com/us/privacy/',
-    reason: 'Replace previous CDN workaround with official US privacy page',
+    newRetrievalUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy',
+    reason: 'Separate the public citation from the official legal-document acquisition endpoint',
+    batch: 'source-integrity-2026-08-17',
   },
   {
     company: 'Klarna',
@@ -163,22 +181,38 @@ const URL_UPDATES: UrlUpdate[] = [
     jurisdictions: ['EU'],
     oldUrlPart: 'klarna.com/international/privacy-policy',
     newUrl: 'https://www.klarna.com/ie/privacy/',
-    reason: 'Official English EU/Ireland privacy page is directly fetchable',
+    newRetrievalUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/privacy',
+    reason: 'Keep the public EU citation and acquire the linked legal notice from the official CDN',
+    batch: 'source-integrity-2026-08-17',
+  },
+  {
+    company: 'Klarna',
+    policyName: 'Privacy Notice',
+    jurisdictions: ['EU'],
+    oldUrlPart: 'klarna.com/ie/privacy',
+    newUrl: 'https://www.klarna.com/ie/privacy/',
+    newRetrievalUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/privacy',
+    reason: 'Attach the official legal-document acquisition endpoint to the current public citation',
+    batch: 'source-integrity-2026-08-17',
   },
   {
     company: 'Klarna',
     policyName: 'Terms of Service',
     oldUrlPart: 'klarna.com/us/terms',
     newUrl: 'https://www.klarna.com/us/terms-of-use/',
-    reason: 'Official US terms page replaces stale CDN URL',
+    newRetrievalUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/user',
+    reason: 'Keep the public US terms citation and acquire the linked legal document from the official CDN',
+    batch: 'source-integrity-2026-08-17',
   },
   {
     company: 'Klarna',
     policyName: 'Terms of Service',
     jurisdictions: ['US'],
-    oldUrlPart: 'cdn.klarna.com/1.0/shared/content/legal/terms/en-us/terms',
+    oldUrlPart: 'cdn.klarna.com/1.0/shared/content/legal/terms/en-us',
     newUrl: 'https://www.klarna.com/us/terms-of-use/',
-    reason: 'Replace previous CDN workaround with official US terms page',
+    newRetrievalUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/user',
+    reason: 'Separate the public citation from the official legal-document acquisition endpoint',
+    batch: 'source-integrity-2026-08-17',
   },
   {
     company: 'Klarna',
@@ -186,7 +220,19 @@ const URL_UPDATES: UrlUpdate[] = [
     jurisdictions: ['EU'],
     oldUrlPart: 'klarna.com/international/terms-and-conditions',
     newUrl: 'https://www.klarna.com/ie/terms-and-conditions/',
-    reason: 'Official English EU/Ireland terms page; QA will suspend if the returned body is too short',
+    newRetrievalUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/user',
+    reason: 'Keep the public EU terms citation and acquire the linked legal document from the official CDN',
+    batch: 'source-integrity-2026-08-17',
+  },
+  {
+    company: 'Klarna',
+    policyName: 'Terms of Service',
+    jurisdictions: ['EU'],
+    oldUrlPart: 'klarna.com/ie/terms-and-conditions',
+    newUrl: 'https://www.klarna.com/ie/terms-and-conditions/',
+    newRetrievalUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/user',
+    reason: 'Attach the official legal-document acquisition endpoint to the current public citation',
+    batch: 'source-integrity-2026-08-17',
   },
 
   // Plaid: the /legal hub is too broad; anchor-scoped extraction keeps the
@@ -220,9 +266,10 @@ const URL_UPDATES: UrlUpdate[] = [
   {
     company: 'TikTok',
     policyName: 'Community Guidelines',
-    oldUrlPart: 'tiktok.com/community-guidelines',
-    newUrl: 'https://www.tiktok.com/legal/page/global/community-guidelines',
-    reason: '/legal/page/ path serves SSR HTML (23KB text)',
+    oldUrlPart: 'tiktok.com/legal/page/global/community-guidelines',
+    newUrl: 'https://www.tiktok.com/community-guidelines',
+    reason: 'Replace the retired legal-page route with TikTok’s canonical rendered guidelines route',
+    batch: 'source-integrity-2026-08-17',
   },
 
   // Amazon AWS DPA: service-terms is too broad; use focused AWS DPA source.
@@ -281,9 +328,13 @@ const URL_UPDATES: UrlUpdate[] = [
 
 async function main() {
   const dryRun = process.argv.includes('--dry-run');
+  const sourceIntegrityOnly = process.argv.includes('--source-integrity-2026-08-17');
+  const updates = sourceIntegrityOnly
+    ? URL_UPDATES.filter((update) => update.batch === 'source-integrity-2026-08-17')
+    : URL_UPDATES;
 
   console.log('\nPolicyWatcher URL Migration\n');
-  console.log(`${URL_UPDATES.length} URL updates to apply.\n`);
+  console.log(`${updates.length} URL updates to apply.\n`);
   if (dryRun) {
     console.log('DRY RUN: no database rows will be changed.\n');
   }
@@ -292,7 +343,7 @@ async function main() {
   let skipped = 0;
   let notFound = 0;
 
-  for (const upd of URL_UPDATES) {
+  for (const upd of updates) {
     const result = await applyUrlUpdate(upd, dryRun);
     updated += result.updated;
     skipped += result.skipped;
@@ -318,6 +369,8 @@ async function applyUrlUpdate(upd: UrlUpdate, dryRun: boolean): Promise<Migratio
       OR: [
         { url: { contains: upd.oldUrlPart } },
         { url: upd.newUrl },
+        { retrievalUrl: { contains: upd.oldUrlPart } },
+        ...(upd.newRetrievalUrl ? [{ retrievalUrl: upd.newRetrievalUrl }] : []),
       ],
     },
     include: {
@@ -345,13 +398,16 @@ async function applyUrlUpdate(upd: UrlUpdate, dryRun: boolean): Promise<Migratio
   for (const policy of policies) {
     const label = `${policy.company.name} / ${policy.name} / ${policy.jurisdiction}`;
 
-    if (policy.url === upd.newUrl) {
+    const nextRetrievalUrl = upd.newRetrievalUrl === undefined
+      ? policy.retrievalUrl
+      : upd.newRetrievalUrl;
+    if (policy.url === upd.newUrl && policy.retrievalUrl === nextRetrievalUrl) {
       console.log(`[SKIP] ${label} - already updated`);
       skipped++;
       continue;
     }
 
-    if (!policy.url.includes(upd.oldUrlPart)) {
+    if (!policy.url.includes(upd.oldUrlPart) && !(policy.retrievalUrl || '').includes(upd.oldUrlPart)) {
       // Defensive guard in case the query is expanded in the future.
       console.log(`[SKIP] ${label} - URL does not match expected source fragment`);
       console.log(`   current: ${policy.url}`);
@@ -361,12 +417,20 @@ async function applyUrlUpdate(upd: UrlUpdate, dryRun: boolean): Promise<Migratio
 
     if (!dryRun) {
       const nextStatus = policy.snapshots.length > 0 ? 'Needs Review' : 'Configured';
+      const previousAcquisitionUrl = policy.retrievalUrl || policy.url;
+      const nextAcquisitionUrl = nextRetrievalUrl || upd.newUrl;
+      const acquisitionChanged = previousAcquisitionUrl !== nextAcquisitionUrl;
+      const requiresRebaseline = policy.snapshots.length > 0 && acquisitionChanged;
+      const requestedAt = new Date();
       await prisma.$transaction([
         prisma.policy.update({
           where: { id: policy.id },
           data: {
             url: upd.newUrl,
+            retrievalUrl: nextRetrievalUrl,
             dataStatus: nextStatus,
+            sourceMigrationPending: requiresRebaseline,
+            sourceMigrationRequestedAt: requiresRebaseline ? requestedAt : null,
           },
         }),
         prisma.policyCheckLog.create({
@@ -374,8 +438,11 @@ async function applyUrlUpdate(upd: UrlUpdate, dryRun: boolean): Promise<Migratio
             policyId: policy.id,
             status: nextStatus,
             source: 'source_remediation',
-            reason: 'source_url_remediation',
-            finalUrl: upd.newUrl,
+            reason: requiresRebaseline
+              ? 'source_migration_pending_rebaseline'
+              : 'source_url_remediation',
+            reasonCode: 'configuration',
+            finalUrl: nextAcquisitionUrl,
           },
         }),
       ]);
@@ -384,6 +451,10 @@ async function applyUrlUpdate(upd: UrlUpdate, dryRun: boolean): Promise<Migratio
     console.log(`[${dryRun ? 'DRY' : 'UPDATE'}] ${label}`);
     console.log(`   ${policy.url}`);
     console.log(`   -> ${upd.newUrl}`);
+    if (policy.retrievalUrl !== nextRetrievalUrl) {
+      console.log(`   retrieval: ${policy.retrievalUrl || '(canonical URL)'}`);
+      console.log(`   -> ${nextRetrievalUrl || '(canonical URL)'}`);
+    }
     console.log(`   (${upd.reason})\n`);
     updated++;
   }

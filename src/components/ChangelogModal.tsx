@@ -89,7 +89,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Current Beta</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      The current release adds browser-local Focus, Balanced and Explore modes, a visible reduced-motion preference, one deterministic workspace-specific next step and an inspectable non-AI interface explanation. The primary Today, Continue and Explore workflow now precedes promotion, while a source-generated ER sitemap and presentation infographic make 33 static routes, seven domains and four dynamic families easier to communicate. Presets change presentation only: evidence and publication gates remain unchanged.
+                      The current release adds the canonical Entity, Document, Version, Change and Provision evidence chain, deterministic public IDs, provision taxonomy 1.0.0 and one database-derived publication-readiness contract shared by Admin, competitive analysis and the public API. Canonical tables start empty: backfill, dual-write, PostgreSQL cutover and object storage remain separately gated production waves.
                     </p>
                   </div>
 
@@ -105,7 +105,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
 
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
-                      <span className={styles.featureName}>Calm Workspace (v3.7.2)</span>
+                      <span className={styles.featureName}>Workspace navigation (v3.7.2)</span>
                       <span className={styles.badgeStable}>Stable</span>
                     </div>
                     <p className={styles.featureDesc}>

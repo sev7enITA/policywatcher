@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-08-07",
-  "staticRouteCount": 33,
+  "staticRouteCount": 34,
   "domainCount": 7,
   "dynamicFamilyCount": 4,
   "domains": [
@@ -30,7 +30,8 @@
       "label": "Civic",
       "relation": "ORIENTA",
       "routes": [
-        "/associazioni"
+        "/en/associations",
+        "/it/associazioni"
       ]
     },
     {

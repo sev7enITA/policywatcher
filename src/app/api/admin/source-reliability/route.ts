@@ -26,6 +26,8 @@ export async function GET(request: NextRequest) {
           jurisdiction: true,
           url: true,
           retrievalUrl: true,
+          sourceMigrationPending: true,
+          sourceMigrationRequestedAt: true,
           dataStatus: true,
           lastCheckDate: true,
           lastSuccessfulCheckDate: true,
@@ -63,6 +65,17 @@ export async function GET(request: NextRequest) {
           })),
         };
       });
+    const sourceMigrations = policies
+      .filter((policy) => policy.sourceMigrationPending)
+      .map((policy) => ({
+        policyId: policy.id,
+        company: policy.company.name,
+        policy: policy.name,
+        jurisdiction: policy.jurisdiction,
+        requestedAt: policy.sourceMigrationRequestedAt,
+        canonicalUrl: policy.url,
+        acquisitionUrl: policy.retrievalUrl || policy.url,
+      }));
 
     const policyById = new Map(policies.map((policy) => [policy.id, policy]));
     const issues = sortRemediationIssues(remediationIssues).map((issue) => {
@@ -129,6 +142,7 @@ export async function GET(request: NextRequest) {
         })(),
       })),
       remediationIssues: issues,
+      sourceMigrations,
       remediationSummary: buildReturnedRemediationSummary(issues, remediationIssueCount),
       nextAction: deriveNextRemediationAction(issues),
       boundary:

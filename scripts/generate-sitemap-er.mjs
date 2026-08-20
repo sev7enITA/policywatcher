@@ -25,7 +25,7 @@ const DOMAINS = [
     id: 'civic',
     label: 'Civic',
     relation: 'ORIENTA',
-    routes: ['/associazioni'],
+    routes: ['/en/associations', '/it/associazioni'],
   },
   {
     id: 'trust-method',
@@ -152,7 +152,7 @@ if (new Set(staticRoutes).size !== staticRoutes.length) {
 if (missing.length || extra.length) {
   throw new Error(`Sitemap taxonomy drift. Missing: ${missing.join(', ') || 'none'}. Extra: ${extra.join(', ') || 'none'}.`);
 }
-if (staticRoutes.length !== 33 || DOMAINS.length !== 7 || DYNAMIC_FAMILIES.length !== 4) {
+if (staticRoutes.length !== 34 || DOMAINS.length !== 7 || DYNAMIC_FAMILIES.length !== 4) {
   throw new Error(`Unexpected map cardinality: ${staticRoutes.length} static, ${DOMAINS.length} domains, ${DYNAMIC_FAMILIES.length} dynamic families.`);
 }
 

@@ -169,6 +169,11 @@ describe('public press kit', () => {
     expect(pressKitSchemas['webhook-conformance-suite'].$id).toBe('https://policywatcher.online/schemas/webhook-conformance-suite/v1');
     expect(pressKitSchemas['event-continuity-checkpoint'].$id).toBe('https://policywatcher.online/schemas/event-continuity-checkpoint/v1');
     expect(pressKitSchemas['release-evidence-ledger'].$id).toBe('https://policywatcher.online/schemas/release-evidence-ledger/v1');
+    expect(pressKitSchemas['publication-readiness'].$id).toBe('https://policywatcher.online/schemas/publication-readiness/v1');
+    expect(pressKitSchemas['publication-readiness'].properties.stages.prefixItems.map(
+      (stage) => stage.allOf[1].properties.id.const,
+    )).toEqual(['configured', 'retrieved', 'baseline-verified', 'public', 'analysed']);
+    expect(pressKitSchemas['publication-readiness'].properties.stages.items).toBe(false);
   });
 
   it('connects the Press Kit through public navigation and supporting surfaces', () => {
@@ -298,7 +303,9 @@ describe('public press kit', () => {
     const adaptiveExperienceItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'adaptive-experience-control');
     expect(adaptiveExperienceItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.41', endRelease: '3.9.0-beta.41' });
     const releaseEvidenceItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'release-evidence-ledger');
-    expect(releaseEvidenceItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(releaseEvidenceItem).toMatchObject({ status: 'delivered', startRelease: '3.9.0-beta.42', endRelease: '3.9.0-beta.42' });
+    const canonicalEvidenceItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'canonical-document-evidence-graph');
+    expect(canonicalEvidenceItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
     expect(continuityAtlasItem?.route).toEqual({ href: '/developers/event-continuity', label: 'Event Feed Continuity Lab', access: 'public' });
   });
 });

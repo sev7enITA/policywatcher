@@ -3,7 +3,7 @@
   "schemaVersion": "1.1.0",
   "generatedAt": "2026-08-02",
   "release": "3.9.0-beta.27",
-  "currentProductRelease": "3.9.0-beta.42",
+  "currentProductRelease": "4.0.0-beta.1",
   "distribution": {
     "provider": "github-repository",
     "repository": "https://github.com/sev7enITA/policywatcher",

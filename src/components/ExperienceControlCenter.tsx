@@ -38,8 +38,8 @@ const PRESET_ICONS = {
 
 const COPY = {
   en: {
-    kicker: 'Experience control · August 2026',
-    title: 'Choose how much platform you need right now.',
+    kicker: 'Interface settings · August 2026',
+    title: 'Interface settings',
     lead: 'The evidence stays unchanged. Only hierarchy, density and secondary modules adapt locally.',
     presetLabel: 'Interface mode',
     presets: {
@@ -50,13 +50,13 @@ const COPY = {
     motionSystem: 'Motion: system',
     motionReduced: 'Motion: reduced',
     next: 'Recommended next step',
-    why: 'Why this interface?',
+    why: 'Configuration basis',
     whyBody: 'This is deterministic personalization based on the selected workspace, evidence depth and your local display preference. It is not an AI judgment and never changes publication or source-quality gates.',
     local: 'Saved only in this browser',
   },
   it: {
-    kicker: 'Controllo esperienza · agosto 2026',
-    title: 'Scegli quanta piattaforma ti serve adesso.',
+    kicker: 'Impostazioni interfaccia · agosto 2026',
+    title: 'Impostazioni interfaccia',
     lead: 'Le evidenze non cambiano. Si adattano localmente solo gerarchia, densità e moduli secondari.',
     presetLabel: 'Modalità interfaccia',
     presets: {
@@ -67,7 +67,7 @@ const COPY = {
     motionSystem: 'Movimento: sistema',
     motionReduced: 'Movimento: ridotto',
     next: 'Prossimo passo consigliato',
-    why: 'Perché questa interfaccia?',
+    why: 'Criterio di configurazione',
     whyBody: 'È una personalizzazione deterministica basata su workspace, profondità delle evidenze e preferenza visiva locale. Non è un giudizio AI e non modifica mai i gate di pubblicazione o qualità delle fonti.',
     local: 'Salvato solo in questo browser',
   },

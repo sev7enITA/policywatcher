@@ -122,8 +122,10 @@ const BACKOFF_BASE_MS = 800;
 const MIN_TEXT_LENGTH = 800; // a real policy page has way more than this
 const MAX_TEXT_LENGTH = 500_000; // hard cap to avoid storing junk payloads
 
-// Realistic browser headers - rotation per attempt.
-const BROWSER_PROFILES = [
+// Operators may supply a current, truthful UA without changing code. The
+// override deliberately omits Client Hints so they cannot contradict it.
+const CONFIGURED_USER_AGENT = process.env.SCRAPER_USER_AGENT?.trim();
+const DEFAULT_BROWSER_PROFILES = [
   {
     ua: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
     secChUa: '"Chromium";v="126", "Google Chrome";v="126", "Not-A.Brand";v="8"',
@@ -140,6 +142,9 @@ const BROWSER_PROFILES = [
     platform: '',
   },
 ];
+const BROWSER_PROFILES = CONFIGURED_USER_AGENT
+  ? [{ ua: CONFIGURED_USER_AGENT, secChUa: '', platform: '' }]
+  : DEFAULT_BROWSER_PROFILES;
 
 /**
  * Policy content markers - used to verify the page is actually a
@@ -439,7 +444,8 @@ export function hasLivePathDrift(originalUrl: string, finalUrl: string, source: 
   const finalPath = normalizeComparablePath(finalUrl);
   if (!originalPath || !finalPath) return false;
 
-  return originalPath !== '/' && finalPath === '/';
+  const finalPathIsError = /^\/(?:404|not-found|page-not-found|error)(?:\/|$)/.test(finalPath);
+  return originalPath !== '/' && (finalPath === '/' || finalPathIsError);
 }
 
 function buildHeaders(profile: typeof BROWSER_PROFILES[0]): Record<string, string> {
@@ -637,6 +643,21 @@ async function fetchWithRetry(url: string): Promise<TransportResult> {
 
         const html = res.body;
 
+        if (res.status === 202) {
+          lastError = 'http_202_pending';
+          if (attempt < MAX_RETRIES) {
+            await sleep(BACKOFF_BASE_MS * Math.pow(2, attempt));
+            break;
+          }
+          return {
+            ok: false,
+            html,
+            status: res.status,
+            finalUrl: requestUrl,
+            error: lastError,
+          };
+        }
+
         if ((res.status >= 200 && res.status < 300) || (res.status === 403 && html.length > 5_000)) {
           // 200 OK, or 403 with substantial body (soft-block like Revolut)
           if (res.status === 403) {
@@ -779,7 +800,9 @@ async function fetchWithHttp2(url: string): Promise<TransportResult> {
           // multi-byte UTF-8 sequences and corrupt the text otherwise.
           const data = Buffer.concat(chunks).toString('utf8');
           // 3xx is a failure here: this client does not follow redirects.
-          if (statusCode >= 200 && statusCode < 300 && data.length > 0) {
+          if (statusCode === 202) {
+            finish({ ok: false, html: data, status: statusCode, finalUrl: url, error: 'h2_202_pending' });
+          } else if (statusCode >= 200 && statusCode < 300 && data.length > 0) {
             finish({ ok: true, html: data, status: statusCode, finalUrl: url, error: '' });
           } else {
             finish({ ok: false, html: data, status: statusCode, finalUrl: url, error: `h2_status_${statusCode}` });
@@ -1247,6 +1270,7 @@ export function detectBlockPage(html: string): string | null {
 export function detectSoft404(html: string): boolean {
   const $ = cheerio.load(html);
   const bodyText = $('body').text().toLowerCase();
+  const titleAndHeading = `${$('title').text()} ${$('h1').first().text()}`.toLowerCase();
   const soft404Signals = [
     'page not found',
     '404 error',
@@ -1262,7 +1286,7 @@ export function detectSoft404(html: string): boolean {
   if (bodyText.length < 1500) {
     return soft404Signals.some((s) => bodyText.includes(s));
   }
-  return false;
+  return soft404Signals.some((signal) => titleAndHeading.includes(signal));
 }
 
 /**

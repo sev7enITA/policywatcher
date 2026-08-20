@@ -138,7 +138,7 @@ export default function PressPage() {
           <section className={styles.qualify} aria-labelledby="qualify-title">
             <div>
               <p className={styles.kicker}>Reading the ledger</p>
-              <h2 id="qualify-title">How records qualify</h2>
+              <h2 id="qualify-title">Record criteria</h2>
             </div>
             <dl>
               <div>
@@ -161,7 +161,7 @@ export default function PressPage() {
           <section className={styles.distribution} aria-labelledby="distribution-title">
             <div>
               <p className={styles.kicker}>Distribution</p>
-              <h2 id="distribution-title">Use or extend the registry</h2>
+              <h2 id="distribution-title">Registry use and contributions</h2>
               <p>Download the current record set, consult the Press Kit, or send a public reference for consideration.</p>
             </div>
             <nav aria-label="Registry distribution actions">
@@ -183,7 +183,7 @@ export default function PressPage() {
           <section className={styles.method} aria-labelledby="method-title">
             <div>
               <p className={styles.kicker}>Method and boundary</p>
-              <h2 id="method-title">What this registry does and does not show</h2>
+              <h2 id="method-title">Registry scope and limitations</h2>
             </div>
             <div>
               <p>

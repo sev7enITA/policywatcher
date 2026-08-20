@@ -5,6 +5,12 @@ import {
   evaluateAdminMutationBoundary,
 } from '@/lib/adminMutationBoundary';
 import { getClientIp } from '@/lib/rateLimit';
+import { COOKIE_NAME, verifySessionToken } from '@/lib/adminAuth';
+import {
+  INVESTOR_SESSION_COOKIE,
+  verifyInvestorSessionToken,
+} from '@/lib/investorAccess';
+import { INVESTOR_RESPONSE_HEADERS } from '@/lib/investorMutationBoundary';
 import {
   POLICYWATCHER_CANONICAL_ORIGIN,
   POLICYWATCHER_WWW_HOSTNAME,
@@ -12,6 +18,11 @@ import {
 } from '@/lib/siteOrigin';
 
 const adminMutationRateLimiter = new AdminMutationRateLimiter();
+const STAGING_ROBOTS_HEADER = 'noindex, nofollow, noarchive';
+const INTERNAL_STUDY_PATH = '/admin/executive-study';
+const INTERNAL_STUDY_ROBOTS_HEADER = 'noindex, nofollow, noarchive, noimageindex';
+const INVESTOR_ACCESS_PATH = '/investor/access';
+const INVESTOR_STUDY_PATH = '/investor/executive-study';
 
 const imageSources = [
   "'self'",
@@ -79,6 +90,26 @@ function createContentSecurityPolicy(nonce: string, pathname: string) {
 
 function applyAdminApiResponseHeaders(response: NextResponse) {
   for (const [name, value] of Object.entries(ADMIN_API_RESPONSE_HEADERS)) {
+    response.headers.set(name, value);
+  }
+  return response;
+}
+
+function applyDeploymentResponseHeaders<T extends Response>(response: T): T {
+  if (process.env.POLICYWATCHER_DEPLOYMENT_TARGET?.trim().toLowerCase() === 'staging') {
+    response.headers.set('X-Robots-Tag', STAGING_ROBOTS_HEADER);
+  }
+  return response;
+}
+
+function applyInternalStudyResponseHeaders<T extends Response>(response: T): T {
+  response.headers.set('Cache-Control', 'private, no-cache, no-store, max-age=0, must-revalidate');
+  response.headers.set('X-Robots-Tag', INTERNAL_STUDY_ROBOTS_HEADER);
+  return response;
+}
+
+function applyInvestorResponseHeaders<T extends Response>(response: T): T {
+  for (const [name, value] of Object.entries(INVESTOR_RESPONSE_HEADERS)) {
     response.headers.set(name, value);
   }
   return response;
@@ -156,10 +187,37 @@ export function getCanonicalHostRedirect(request: NextRequest): URL | null {
 
 export function proxy(request: NextRequest) {
   const canonicalRedirect = getCanonicalHostRedirect(request);
-  if (canonicalRedirect) return NextResponse.redirect(canonicalRedirect, 308);
+  if (canonicalRedirect) return applyDeploymentResponseHeaders(NextResponse.redirect(canonicalRedirect, 308));
+
+  if (request.nextUrl.pathname === '/associazioni') {
+    const localizedUrl = request.nextUrl.clone();
+    localizedUrl.pathname = '/it/associazioni';
+    return applyDeploymentResponseHeaders(NextResponse.redirect(localizedUrl, 308));
+  }
+
+  if (request.nextUrl.pathname === INTERNAL_STUDY_PATH) {
+    const session = verifySessionToken(request.cookies.get(COOKIE_NAME)?.value);
+    if (!session.valid || (session.role !== 'admin' && session.role !== 'auditor')) {
+      const response = NextResponse.redirect(new URL('/admin/login', request.url), 307);
+      return applyDeploymentResponseHeaders(applyInternalStudyResponseHeaders(response));
+    }
+  }
+
+  if (request.nextUrl.pathname === INVESTOR_STUDY_PATH) {
+    const session = verifyInvestorSessionToken(request.cookies.get(INVESTOR_SESSION_COOKIE)?.value);
+    if (!session.valid) {
+      const response = NextResponse.redirect(new URL(INVESTOR_ACCESS_PATH, request.url), 307);
+      return applyDeploymentResponseHeaders(applyInvestorResponseHeaders(response));
+    }
+  }
 
   if (request.nextUrl.pathname.startsWith('/api/admin/')) {
-    return handleAdminApi(request);
+    return applyDeploymentResponseHeaders(handleAdminApi(request));
+  }
+
+
+  if (request.nextUrl.pathname.startsWith('/api/investor/')) {
+    return applyDeploymentResponseHeaders(applyInvestorResponseHeaders(NextResponse.next()));
   }
 
   if (
@@ -167,7 +225,7 @@ export function proxy(request: NextRequest) {
     || request.nextUrl.pathname === '/robots.txt'
     || request.nextUrl.pathname === '/sitemap.xml'
   ) {
-    return NextResponse.next();
+    return applyDeploymentResponseHeaders(NextResponse.next());
   }
 
   const nonce = createNonce();
@@ -176,6 +234,7 @@ export function proxy(request: NextRequest) {
 
   requestHeaders.set('x-nonce', nonce);
   requestHeaders.set('Content-Security-Policy', csp);
+  requestHeaders.set('x-policywatcher-locale', request.nextUrl.pathname.startsWith('/it/') ? 'it' : 'en');
 
   const response = NextResponse.next({
     request: {
@@ -186,14 +245,25 @@ export function proxy(request: NextRequest) {
   response.headers.set('Content-Security-Policy', csp);
   response.headers.set(
     'Referrer-Policy',
-    request.nextUrl.pathname.startsWith('/office-addin/') ? 'no-referrer' : 'strict-origin-when-cross-origin',
+    request.nextUrl.pathname.startsWith('/office-addin/') || request.nextUrl.pathname.startsWith('/investor/')
+      ? 'no-referrer'
+      : 'strict-origin-when-cross-origin',
   );
 
-  return response;
+  if (request.nextUrl.pathname === INTERNAL_STUDY_PATH) {
+    applyInternalStudyResponseHeaders(response);
+  }
+
+  if (request.nextUrl.pathname.startsWith('/investor/')) {
+    applyInvestorResponseHeaders(response);
+  }
+
+  return applyDeploymentResponseHeaders(response);
 }
 
 export const config = {
   matcher: [
+    '/admin/executive-study',
     '/api/:path*',
     '/robots.txt',
     '/sitemap.xml',

@@ -23,9 +23,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static landing pages
   const staticEntries: MetadataRoute.Sitemap = [
     { url: `${BASE_URL}/`, changeFrequency: 'daily', priority: 1.0 },
-    // One canonical Civic route covers the global directory and evidence radar;
-    // browser-local country/type filters must not create thin indexable pages.
-    { url: `${BASE_URL}/associazioni`, changeFrequency: 'daily', priority: 0.96 },
+    // One canonical URL per supported language covers the global directory and
+    // evidence radar; browser-local filters do not create thin indexable pages.
+    {
+      url: `${BASE_URL}/en/associations`,
+      changeFrequency: 'daily',
+      priority: 0.96,
+      alternates: { languages: { en: `${BASE_URL}/en/associations`, it: `${BASE_URL}/it/associazioni` } },
+    },
+    {
+      url: `${BASE_URL}/it/associazioni`,
+      changeFrequency: 'daily',
+      priority: 0.96,
+      alternates: { languages: { en: `${BASE_URL}/en/associations`, it: `${BASE_URL}/it/associazioni` } },
+    },
     { url: `${BASE_URL}/evidence`, changeFrequency: 'daily', priority: 0.94 },
     { url: `${BASE_URL}/collections`, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/showcase`, changeFrequency: 'weekly', priority: 0.95 },

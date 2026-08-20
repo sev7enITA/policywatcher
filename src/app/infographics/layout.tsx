@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'PolicyWatcher Infographics',
+  title: 'Infographics | PolicyWatcher',
   description: 'Interactive and downloadable maps of PolicyWatcher evidence, product and public-discovery surfaces.',
   alternates: { canonical: '/infographics' },
 };

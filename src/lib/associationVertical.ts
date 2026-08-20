@@ -2,8 +2,14 @@ export const ASSOCIATION_VERTICAL_SCHEMA = 'policywatcher.association-radar.v1' 
 export const ASSOCIATION_REVIEW_STORAGE_KEY = 'policywatcher:association-review:v1' as const;
 export const ASSOCIATION_WATCHLIST_STORAGE_KEY = 'policywatcher:association-watchlist:v1' as const;
 
-export const ASSOCIATION_VERTICAL_BOUNDARY =
-  'Il radar organizza evidenze pubbliche già ammesse dai gate di PolicyWatcher. La rilevanza civica è un segnale di triage, non un giudizio legale, una certificazione di conformità o una prova della condotta interna del fornitore.';
+export type AssociationLanguage = 'en' | 'it';
+
+export const ASSOCIATION_VERTICAL_BOUNDARIES: Readonly<Record<AssociationLanguage, string>> = Object.freeze({
+  it: 'Il radar organizza evidenze pubbliche già ammesse dai gate di PolicyWatcher. La rilevanza civica è un segnale di triage, non un giudizio legale, una certificazione di conformità o una prova della condotta interna del fornitore.',
+  en: 'The radar organizes public evidence already admitted by PolicyWatcher publication gates. Civic relevance is a triage signal, not a legal judgment, a compliance certification or proof of a provider’s internal conduct.',
+});
+
+export const ASSOCIATION_VERTICAL_BOUNDARY = ASSOCIATION_VERTICAL_BOUNDARIES.it;
 
 export type AssociationTheme =
   | 'privacy-dati'
@@ -100,12 +106,32 @@ export const ASSOCIATION_THEME_LABELS: Readonly<Record<AssociationTheme, string>
   trasparenza: 'Trasparenza',
 });
 
+export const ASSOCIATION_THEME_LABELS_EN: Readonly<Record<AssociationTheme, string>> = Object.freeze({
+  'privacy-dati': 'Privacy and data',
+  'condizioni-contrattuali': 'Contract terms',
+  'intelligenza-artificiale': 'Artificial intelligence',
+  'pagamenti-abbonamenti': 'Payments and subscriptions',
+  'account-contenuti': 'Accounts and content',
+  minori: 'Children',
+  trasparenza: 'Transparency',
+});
+
 export const ASSOCIATION_COUNTRY_LABELS: Readonly<Record<AssociationCountryContext, string>> = Object.freeze({
   global: 'Globale',
   it: 'Italia',
   eu: 'Unione europea',
   us: 'Stati Uniti',
   gb: 'Regno Unito',
+  ca: 'Canada',
+  au: 'Australia',
+});
+
+export const ASSOCIATION_COUNTRY_LABELS_EN: Readonly<Record<AssociationCountryContext, string>> = Object.freeze({
+  global: 'Global',
+  it: 'Italy',
+  eu: 'European Union',
+  us: 'United States',
+  gb: 'United Kingdom',
   ca: 'Canada',
   au: 'Australia',
 });
@@ -119,6 +145,15 @@ export const ASSOCIATION_REGULATORY_AREA_LABELS: Readonly<Record<AssociationRegu
   'minors-online': 'Minori online',
 });
 
+export const ASSOCIATION_REGULATORY_AREA_LABELS_EN: Readonly<Record<AssociationRegulatoryArea, string>> = Object.freeze({
+  all: 'All areas',
+  'digital-contracts': 'Digital contracts and services',
+  'privacy-data': 'Privacy and data',
+  'ai-platforms': 'AI and platforms',
+  'payments-markets': 'Payments and digital markets',
+  'minors-online': 'Children online',
+});
+
 export const ASSOCIATION_ORGANIZATION_TYPE_LABELS: Readonly<Record<AssociationOrganizationType, string>> = Object.freeze({
   all: 'Tutte le associazioni',
   generalist: 'Tutela consumatori generalista',
@@ -127,6 +162,46 @@ export const ASSOCIATION_ORGANIZATION_TYPE_LABELS: Readonly<Record<AssociationOr
   children: 'Minori e famiglie',
   'financial-services': 'Servizi finanziari',
 });
+
+export const ASSOCIATION_ORGANIZATION_TYPE_LABELS_EN: Readonly<Record<AssociationOrganizationType, string>> = Object.freeze({
+  all: 'All organizations',
+  generalist: 'General consumer protection',
+  'digital-rights': 'Digital rights',
+  privacy: 'Privacy and data protection',
+  children: 'Children and families',
+  'financial-services': 'Financial services',
+});
+
+export const ASSOCIATION_REVIEW_LABELS: Readonly<Record<AssociationLanguage, Record<AssociationReviewState, string>>> = Object.freeze({
+  it: { osservato: 'Osservato', 'in-revisione': 'In revisione', 'pronto-per-pubblicazione': 'Pronto per pubblicazione' },
+  en: { osservato: 'Observed', 'in-revisione': 'Under review', 'pronto-per-pubblicazione': 'Ready for publication' },
+});
+
+export const ASSOCIATION_ATTENTION_LABELS: Readonly<Record<AssociationLanguage, Record<AssociationAttention, string>>> = Object.freeze({
+  it: { prioritaria: 'Prioritaria', 'da-valutare': 'Da valutare', monitoraggio: 'Monitoraggio' },
+  en: { prioritaria: 'Priority', 'da-valutare': 'To assess', monitoraggio: 'Monitoring' },
+});
+
+export const ASSOCIATION_SOURCE_LABELS: Readonly<Record<AssociationLanguage, Record<AssociationSourceStage, string>>> = Object.freeze({
+  it: { 'fonte-verificata': 'Fonte verificata', 'revisione-richiesta': 'Revisione richiesta', 'stato-non-registrato': 'Stato fonte non registrato' },
+  en: { 'fonte-verificata': 'Verified source', 'revisione-richiesta': 'Review required', 'stato-non-registrato': 'Source status not recorded' },
+});
+
+export function associationThemeLabels(lang: AssociationLanguage): Readonly<Record<AssociationTheme, string>> {
+  return lang === 'it' ? ASSOCIATION_THEME_LABELS : ASSOCIATION_THEME_LABELS_EN;
+}
+
+export function associationCountryLabels(lang: AssociationLanguage): Readonly<Record<AssociationCountryContext, string>> {
+  return lang === 'it' ? ASSOCIATION_COUNTRY_LABELS : ASSOCIATION_COUNTRY_LABELS_EN;
+}
+
+export function associationRegulatoryAreaLabels(lang: AssociationLanguage): Readonly<Record<AssociationRegulatoryArea, string>> {
+  return lang === 'it' ? ASSOCIATION_REGULATORY_AREA_LABELS : ASSOCIATION_REGULATORY_AREA_LABELS_EN;
+}
+
+export function associationOrganizationTypeLabels(lang: AssociationLanguage): Readonly<Record<AssociationOrganizationType, string>> {
+  return lang === 'it' ? ASSOCIATION_ORGANIZATION_TYPE_LABELS : ASSOCIATION_ORGANIZATION_TYPE_LABELS_EN;
+}
 
 const regulatoryThemes: Readonly<Record<Exclude<AssociationRegulatoryArea, 'all'>, readonly AssociationTheme[]>> = Object.freeze({
   'digital-contracts': ['condizioni-contrattuali', 'account-contenuti'],
@@ -205,6 +280,33 @@ export const ASSOCIATION_PILOT_PLAN = Object.freeze([
   },
 ] as const);
 
+export const ASSOCIATION_PILOT_PLAN_EN = Object.freeze([
+  {
+    week: 'Week 0',
+    title: 'Shared scope',
+    description: 'Choose one topic, 10–20 services and relevance criteria with the participating organization.',
+  },
+  {
+    week: 'Weeks 1–2',
+    title: 'Baseline and source quality',
+    description: 'Verify official pages, acquisition status and evidence eligible for publication.',
+  },
+  {
+    week: 'Weeks 3–7',
+    title: 'Radar and review',
+    description: 'Triage changes, prepare a weekly digest and assemble dossiers locally.',
+  },
+  {
+    week: 'Week 8',
+    title: 'Final report',
+    description: 'Record useful evidence, sources that could not be monitored, actual reuse and the decision on whether to continue.',
+  },
+] as const);
+
+export function associationPilotPlan(lang: AssociationLanguage) {
+  return lang === 'it' ? ASSOCIATION_PILOT_PLAN : ASSOCIATION_PILOT_PLAN_EN;
+}
+
 const themeMatchers: ReadonlyArray<{
   theme: AssociationTheme;
   patterns: readonly string[];
@@ -266,6 +368,37 @@ const questionsByTheme: Readonly<Record<AssociationTheme, readonly string[]>> = 
   ],
 });
 
+const questionsByThemeEn: Readonly<Record<AssociationTheme, readonly string[]>> = Object.freeze({
+  'privacy-dati': [
+    'Which data categories or purposes are involved?',
+    'Does the change affect choices, notices or objection tools available to people?',
+  ],
+  'condizioni-contrattuali': [
+    'Which user rights, obligations or limitations change?',
+    'Are the effective date and communication method stated?',
+  ],
+  'intelligenza-artificiale': [
+    'Does the text describe new uses of data or content for artificial-intelligence systems?',
+    'Are understandable choices, exclusions or explanations available to the user?',
+  ],
+  'pagamenti-abbonamenti': [
+    'Do costs, renewals, refunds or cancellation rights change?',
+    'Are the new terms presented before they have an economic effect?',
+  ],
+  'account-contenuti': [
+    'Do the rules on access, suspension, deletion or content use change?',
+    'Is there a clearly described appeal or recovery path?',
+  ],
+  minori: [
+    'Does the change concern age, consent, verification or protections for children?',
+    'Is the information understandable to young users and families?',
+  ],
+  trasparenza: [
+    'Does the official source make it possible to reconstruct what changed and when?',
+    'Are further documents or qualified review needed before informing the public?',
+  ],
+});
+
 function normalizeText(input: AssociationEvidenceInput): string {
   return [
     input.policy.name,
@@ -299,13 +432,18 @@ export function getAssociationAttention(overallRisk: string, sourceState: string
   return 'monitoraggio';
 }
 
-export function getAssociationCitizenQuestions(themes: readonly AssociationTheme[]): string[] {
-  const questions = themes.flatMap((theme) => questionsByTheme[theme]);
+export function getAssociationCitizenQuestions(
+  themes: readonly AssociationTheme[],
+  lang: AssociationLanguage = 'it',
+): string[] {
+  const dictionary = lang === 'it' ? questionsByTheme : questionsByThemeEn;
+  const questions = themes.flatMap((theme) => dictionary[theme]);
   return [...new Set(questions)].slice(0, 3);
 }
 
 export function buildAssociationRadarItems(
   inputs: readonly AssociationEvidenceInput[],
+  lang: AssociationLanguage = 'it',
 ): AssociationRadarItem[] {
   return inputs
     .map((input) => {
@@ -320,15 +458,17 @@ export function buildAssociationRadarItems(
         policyName: input.policy.name,
         policyType: input.policy.type,
         jurisdiction: input.policy.jurisdiction,
-        summary: input.summary?.trim() || 'Sintesi non disponibile: aprire il pacchetto di evidenze prima della revisione.',
+        summary: input.summary?.trim() || (lang === 'it'
+          ? 'Sintesi non disponibile: aprire il pacchetto di evidenze prima della revisione.'
+          : 'Summary unavailable: open the evidence packet before review.'),
         sourceStage: getAssociationSourceStage(input.sourceState),
         attention: getAssociationAttention(input.overallRisk, input.sourceState),
         screeningScore: Number.isFinite(input.overallScore) ? input.overallScore : 0,
         themes,
-        citizenQuestions: getAssociationCitizenQuestions(themes),
+        citizenQuestions: getAssociationCitizenQuestions(themes, lang),
         evidenceHref: `/evidence/${encodeURIComponent(input.id)}`,
-        changeHref: `/change/${encodeURIComponent(input.id)}?lang=it`,
-        sourceBoundary: ASSOCIATION_VERTICAL_BOUNDARY,
+        changeHref: `/change/${encodeURIComponent(input.id)}?lang=${lang}`,
+        sourceBoundary: ASSOCIATION_VERTICAL_BOUNDARIES[lang],
       } satisfies AssociationRadarItem;
     })
     .sort((left, right) => {
@@ -368,22 +508,30 @@ export function buildAssociationDigestMarkdown(
   reviewStates: Readonly<Record<string, AssociationReviewState>>,
   generatedAt: Date = new Date(),
   context?: AssociationContext,
+  lang: AssociationLanguage = 'it',
 ): string {
+  const countryLabels = associationCountryLabels(lang);
+  const regulatoryLabels = associationRegulatoryAreaLabels(lang);
+  const organizationLabels = associationOrganizationTypeLabels(lang);
+  const themeLabels = associationThemeLabels(lang);
+  const reviewLabels = ASSOCIATION_REVIEW_LABELS[lang];
+  const attentionLabels = ASSOCIATION_ATTENTION_LABELS[lang];
+  const sourceLabels = ASSOCIATION_SOURCE_LABELS[lang];
   const lines = [
-    '# PolicyWatcher Civico - digest di revisione',
+    lang === 'it' ? '# PolicyWatcher Civico - digest di revisione' : '# PolicyWatcher Civic - review digest',
     '',
-    `- Generato: ${generatedAt.toISOString()}`,
-    `- Evidenze incluse: ${items.length}`,
-    `- Fonti verificate: ${items.filter((item) => item.sourceStage === 'fonte-verificata').length}`,
-    `- In revisione locale: ${items.filter((item) => reviewStates[item.id] === 'in-revisione').length}`,
-    `- Pronte per pubblicazione locale: ${items.filter((item) => reviewStates[item.id] === 'pronto-per-pubblicazione').length}`,
+    `- ${lang === 'it' ? 'Generato' : 'Generated'}: ${generatedAt.toISOString()}`,
+    `- ${lang === 'it' ? 'Evidenze incluse' : 'Included evidence'}: ${items.length}`,
+    `- ${lang === 'it' ? 'Fonti verificate' : 'Verified sources'}: ${items.filter((item) => item.sourceStage === 'fonte-verificata').length}`,
+    `- ${lang === 'it' ? 'In revisione locale' : 'Under local review'}: ${items.filter((item) => reviewStates[item.id] === 'in-revisione').length}`,
+    `- ${lang === 'it' ? 'Pronte per pubblicazione locale' : 'Locally ready for publication'}: ${items.filter((item) => reviewStates[item.id] === 'pronto-per-pubblicazione').length}`,
     ...(context ? [
-      `- Paese di lavoro: ${ASSOCIATION_COUNTRY_LABELS[context.country]}`,
-      `- Area normativa: ${ASSOCIATION_REGULATORY_AREA_LABELS[context.regulatoryArea]}`,
-      `- Tipo di associazione: ${ASSOCIATION_ORGANIZATION_TYPE_LABELS[context.organizationType]}`,
+      `- ${lang === 'it' ? 'Paese di lavoro' : 'Working country'}: ${countryLabels[context.country]}`,
+      `- ${lang === 'it' ? 'Area normativa' : 'Regulatory area'}: ${regulatoryLabels[context.regulatoryArea]}`,
+      `- ${lang === 'it' ? 'Tipo di associazione' : 'Organization type'}: ${organizationLabels[context.organizationType]}`,
     ] : []),
     '',
-    `> ${ASSOCIATION_VERTICAL_BOUNDARY}`,
+    `> ${ASSOCIATION_VERTICAL_BOUNDARIES[lang]}`,
     '',
   ];
 
@@ -391,16 +539,16 @@ export function buildAssociationDigestMarkdown(
     lines.push(
       `## ${index + 1}. ${markdownSafe(item.company)} - ${markdownSafe(item.policyName)}`,
       '',
-      `- Stato locale: ${reviewStates[item.id] ?? 'osservato'}`,
-      `- Segnale di triage: ${item.attention}`,
-      `- Stato fonte: ${item.sourceStage}`,
-      `- Data evidenza: ${item.createdAt}`,
-      `- Temi: ${item.themes.map((theme) => ASSOCIATION_THEME_LABELS[theme]).join(', ')}`,
-      `- Pacchetto di evidenze: https://policywatcher.online${item.evidenceHref}`,
+      `- ${lang === 'it' ? 'Stato locale' : 'Local status'}: ${reviewLabels[reviewStates[item.id] ?? 'osservato']}`,
+      `- ${lang === 'it' ? 'Segnale di triage' : 'Triage signal'}: ${attentionLabels[item.attention]}`,
+      `- ${lang === 'it' ? 'Stato fonte' : 'Source status'}: ${sourceLabels[item.sourceStage]}`,
+      `- ${lang === 'it' ? 'Data evidenza' : 'Evidence date'}: ${item.createdAt}`,
+      `- ${lang === 'it' ? 'Temi' : 'Themes'}: ${item.themes.map((theme) => themeLabels[theme]).join(', ')}`,
+      `- ${lang === 'it' ? 'Pacchetto di evidenze' : 'Evidence packet'}: https://policywatcher.online${item.evidenceHref}`,
       '',
       markdownSafe(item.summary),
       '',
-      '**Domande per la revisione umana**',
+      lang === 'it' ? '**Domande per la revisione umana**' : '**Questions for human review**',
       '',
       ...item.citizenQuestions.map((question) => `- ${markdownSafe(question)}`),
       '',

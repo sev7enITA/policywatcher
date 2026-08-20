@@ -1,5 +1,6 @@
 import { Prisma } from '@prisma/client';
 import type { PrismaClient } from '@prisma/client';
+import { isTransientDatabaseWriteContention } from './databaseErrors';
 
 type InquiryCreateArgs = Parameters<PrismaClient['policyInquiry']['create']>[0];
 type InquiryRecord = Awaited<ReturnType<PrismaClient['policyInquiry']['create']>>;
@@ -12,13 +13,6 @@ function isActiveDedupeConflict(error: unknown): boolean {
   return Array.isArray(target)
     ? target.includes('activeDedupeKey')
     : String(target || '').includes('activeDedupeKey');
-}
-
-function isTransientSqliteWriteContention(error: unknown): boolean {
-  if (!error || typeof error !== 'object') return false;
-  const value = error as { code?: unknown; message?: unknown };
-  return ['P1008', 'P2034'].includes(String(value.code || ''))
-    || /database is locked|sqlite_busy|operation timed out/i.test(String(value.message || ''));
 }
 
 function retryDelay(attempt: number): Promise<void> {
@@ -43,7 +37,7 @@ export async function createOrReuseActiveInquiry(
         if (!existing) throw error;
         return { inquiry: existing, created: false };
       }
-      if (!isTransientSqliteWriteContention(error) || attempt === MAX_WRITE_ATTEMPTS - 1) throw error;
+      if (!isTransientDatabaseWriteContention(error) || attempt === MAX_WRITE_ATTEMPTS - 1) throw error;
       await retryDelay(attempt);
     }
   }

@@ -76,6 +76,15 @@ interface ReliabilityData {
     metrics?: { degradedDependencies?: string[] } | null;
   }>;
   remediationIssues: RemediationIssue[];
+  sourceMigrations: Array<{
+    policyId: string;
+    company: string;
+    policy: string;
+    jurisdiction: string;
+    requestedAt: string | null;
+    canonicalUrl: string;
+    acquisitionUrl: string;
+  }>;
   remediationSummary: {
     returned: number;
     total: number;
@@ -266,6 +275,30 @@ export default function SourceReliabilityPage() {
 
       {data && (
         <>
+          {data.sourceMigrations.length > 0 && (
+            <section className={reliabilityStyles.migrationPanel} aria-labelledby="source-migration-title">
+              <div className={reliabilityStyles.migrationPanelIntro}>
+                <RefreshCw size={20} />
+                <div>
+                  <span>Controlled source migrations</span>
+                  <h2 id="source-migration-title">{data.sourceMigrations.length} baseline{data.sourceMigrations.length === 1 ? '' : 's'} queued</h2>
+                  <p>The next verified capture becomes the comparison baseline. Provider-change notifications stay suppressed during this transition.</p>
+                </div>
+              </div>
+              <ul>
+                {data.sourceMigrations.map((migration) => (
+                  <li key={migration.policyId}>
+                    <span><strong>{migration.company} · {migration.policy}</strong><small>{migration.jurisdiction} · queued {formatDate(migration.requestedAt)}</small></span>
+                    <a href={migration.acquisitionUrl} target="_blank" rel="noopener noreferrer">Inspect endpoint <ExternalLink size={13} /></a>
+                  </li>
+                ))}
+              </ul>
+              <div className={reliabilityStyles.migrationActions}>
+                <Link href="/admin/companies" className={`${styles.btn} ${styles.btnSecondary}`}>Review source configuration</Link>
+                {data.role === 'admin' && <Link href="/admin/cron" className={`${styles.btn} ${styles.btnPrimary}`}>Run verification scan</Link>}
+              </div>
+            </section>
+          )}
           <section className={reliabilityStyles.priorityStrip} aria-labelledby="returned-window-title">
             <div className={reliabilityStyles.priorityIntro}>
               <span>Returned window</span>

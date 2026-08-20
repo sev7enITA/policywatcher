@@ -1,7 +1,13 @@
 import { db } from './db';
 import { getDatabaseDiagnostics, type DatabaseDiagnostics } from './databaseConfig';
+import type { DatabaseProvider } from './databaseUrl';
 
 export const EXPECTED_DATABASE_TABLES = [
+  'Entity',
+  'Document',
+  'Version',
+  'Change',
+  'Provision',
   'Company',
   'PolicyDiscoveryJob',
   'PolicyInquiry',
@@ -21,6 +27,8 @@ export const EXPECTED_DATABASE_TABLES = [
   'SourceOnboardingBatch',
   'SourceOnboardingItem',
   'AdminAccessLog',
+  'InvestorAccessGrant',
+  'InvestorAccessEvent',
   'PressMetricEvent',
   'AdminDashboardMetricEvent',
   'AiModelInvocation',
@@ -28,7 +36,7 @@ export const EXPECTED_DATABASE_TABLES = [
   'Subscriber',
 ] as const;
 
-export const EXPECTED_DATABASE_MIGRATIONS = [
+export const EXPECTED_SQLITE_MIGRATIONS = [
   '20260706213500_init',
   '20260719070000_policy_discovery',
   '20260721090000_source_onboarding',
@@ -40,7 +48,17 @@ export const EXPECTED_DATABASE_MIGRATIONS = [
   '20260730162000_webhook_delivery_pilot',
   '20260801090000_admin_dashboard_telemetry',
   '20260814070000_ai_model_telemetry',
+  '20260817090000_source_integrity_control',
+  '20260819120000_investor_magic_links',
+  '20260820100000_document_evidence_model',
 ] as const;
+
+export const EXPECTED_POSTGRESQL_MIGRATIONS = [
+  '00000000000000_postgresql_baseline',
+] as const;
+
+// Backward-compatible name for the production SQLite migration contract.
+export const EXPECTED_DATABASE_MIGRATIONS = EXPECTED_SQLITE_MIGRATIONS;
 
 export type DatabaseReadinessStatus = 'ready' | 'degraded' | 'unavailable';
 
@@ -65,8 +83,8 @@ export interface EnvironmentReadinessReport {
   boundary: string;
 }
 
-interface SqliteNameRow { name: string }
-interface SqliteValueRow { [key: string]: unknown }
+interface DatabaseNameRow { name: string }
+interface DatabaseValueRow { [key: string]: unknown }
 interface MigrationRow {
   migration_name: string;
   finished_at: Date | string | null;
@@ -115,7 +133,7 @@ export function buildEnvironmentReadiness(
   };
 }
 
-function firstValue(rows: SqliteValueRow[]): unknown {
+function firstValue(rows: DatabaseValueRow[]): unknown {
   const row = rows[0];
   return row ? Object.values(row)[0] : undefined;
 }
@@ -135,20 +153,37 @@ function toIso(value: Date | string | null): string | null {
 
 export function classifyDatabaseError(error: unknown): string {
   const candidate = error as { code?: unknown; message?: unknown } | null;
-  if (typeof candidate?.code === 'string' && /^P\d{4}$/.test(candidate.code)) return candidate.code;
+  const code = typeof candidate?.code === 'string' ? candidate.code.toUpperCase() : '';
+  if (/^P\d{4}$/.test(code)) return code;
+  if (code === '40001') return 'POSTGRES_SERIALIZATION_FAILURE';
+  if (code === '40P01') return 'POSTGRES_DEADLOCK';
+  if (code === '53300') return 'POSTGRES_CONNECTION_LIMIT';
+  if (code === '42P01') return 'SCHEMA_MISSING';
+  if (code === 'ECONNREFUSED') return 'DATABASE_UNREACHABLE';
   const detail = String(candidate?.message || error || '').toLowerCase();
   if (detail.includes('database is locked') || detail.includes('sqlite_busy')) return 'SQLITE_BUSY';
   if (detail.includes('readonly') || detail.includes('read-only')) return 'SQLITE_READONLY';
   if (detail.includes('malformed')) return 'SQLITE_CORRUPT';
   if (detail.includes('unable to open')) return 'SQLITE_CANTOPEN';
+  if (detail.includes('serialization failure') || detail.includes('could not serialize')) return 'POSTGRES_SERIALIZATION_FAILURE';
+  if (detail.includes('deadlock detected')) return 'POSTGRES_DEADLOCK';
+  if (detail.includes('too many connections')) return 'POSTGRES_CONNECTION_LIMIT';
+  if (detail.includes('connection refused') || detail.includes('connection terminated')) return 'DATABASE_UNREACHABLE';
   if (detail.includes('no such table') || detail.includes('does not exist')) return 'SCHEMA_MISSING';
   return 'DATABASE_QUERY_FAILED';
+}
+
+function expectedMigrations(provider: DatabaseProvider): readonly string[] {
+  return provider === 'postgresql'
+    ? EXPECTED_POSTGRESQL_MIGRATIONS
+    : EXPECTED_SQLITE_MIGRATIONS;
 }
 
 function unavailableReport(
   diagnostics: DatabaseDiagnostics,
   diagnosticCode: string,
 ): DatabaseReadinessReport {
+  const migrations = expectedMigrations(diagnostics.provider);
   const { url: _url, ...database } = diagnostics;
   void _url;
   return {
@@ -166,9 +201,9 @@ function unavailableReport(
       expectedTableCount: EXPECTED_DATABASE_TABLES.length,
       presentTableCount: 0,
       missingTables: [...EXPECTED_DATABASE_TABLES],
-      expectedMigrationCount: EXPECTED_DATABASE_MIGRATIONS.length,
+      expectedMigrationCount: migrations.length,
       appliedMigrationCount: 0,
-      missingMigrations: [...EXPECTED_DATABASE_MIGRATIONS],
+      missingMigrations: [...migrations],
       migrationLedgerAvailable: false,
       lastAppliedMigration: null,
       lastAppliedAt: null,
@@ -180,21 +215,44 @@ function unavailableReport(
 
 export async function getDatabaseReadinessReport(): Promise<DatabaseReadinessReport> {
   const diagnostics = await getDatabaseDiagnostics();
-  if (!diagnostics.filePath || !diagnostics.fileExists || !diagnostics.fileReadable) {
+  if (diagnostics.provider === 'unknown') {
+    return unavailableReport(diagnostics, 'UNSUPPORTED_DATABASE_PROVIDER');
+  }
+  if (
+    diagnostics.provider === 'sqlite'
+    && (!diagnostics.filePath || !diagnostics.fileExists || !diagnostics.fileReadable)
+  ) {
     return unavailableReport(diagnostics, diagnostics.fileExists ? 'SQLITE_NOT_READABLE' : 'SQLITE_FILE_MISSING');
   }
 
   try {
-    const [tableRows, quickRows, journalRows, foreignKeyRows, pageRows, freePageRows] = await Promise.all([
-      db.$queryRawUnsafe<SqliteNameRow[]>(
-        `SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' ORDER BY name`,
-      ),
-      db.$queryRawUnsafe<SqliteValueRow[]>('PRAGMA quick_check(1)'),
-      db.$queryRawUnsafe<SqliteValueRow[]>('PRAGMA journal_mode'),
-      db.$queryRawUnsafe<SqliteValueRow[]>('PRAGMA foreign_keys'),
-      db.$queryRawUnsafe<SqliteValueRow[]>('PRAGMA page_count'),
-      db.$queryRawUnsafe<SqliteValueRow[]>('PRAGMA freelist_count'),
-    ]);
+    const provider = diagnostics.provider;
+    const [tableRows, quickRows, journalRows, foreignKeyRows, pageRows, freePageRows, sizeRows] = provider === 'postgresql'
+      ? await Promise.all([
+        db.$queryRawUnsafe<DatabaseNameRow[]>(
+          `SELECT table_name AS "name"
+           FROM information_schema.tables
+           WHERE table_schema = current_schema()
+           ORDER BY table_name`,
+        ),
+        Promise.resolve([{ value: 'ok' }] as DatabaseValueRow[]),
+        Promise.resolve([{ value: 'postgresql' }] as DatabaseValueRow[]),
+        Promise.resolve([{ value: 1 }] as DatabaseValueRow[]),
+        Promise.resolve([{ value: null }] as DatabaseValueRow[]),
+        Promise.resolve([{ value: null }] as DatabaseValueRow[]),
+        db.$queryRawUnsafe<DatabaseValueRow[]>('SELECT pg_database_size(current_database()) AS "value"'),
+      ])
+      : await Promise.all([
+        db.$queryRawUnsafe<DatabaseNameRow[]>(
+          `SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' ORDER BY name`,
+        ),
+        db.$queryRawUnsafe<DatabaseValueRow[]>('PRAGMA quick_check(1)'),
+        db.$queryRawUnsafe<DatabaseValueRow[]>('PRAGMA journal_mode'),
+        db.$queryRawUnsafe<DatabaseValueRow[]>('PRAGMA foreign_keys'),
+        db.$queryRawUnsafe<DatabaseValueRow[]>('PRAGMA page_count'),
+        db.$queryRawUnsafe<DatabaseValueRow[]>('PRAGMA freelist_count'),
+        Promise.resolve([] as DatabaseValueRow[]),
+      ]);
 
     const presentTables = new Set(tableRows.map((row) => row.name));
     const missingTables = EXPECTED_DATABASE_TABLES.filter((table) => !presentTables.has(table));
@@ -207,7 +265,7 @@ export async function getDatabaseReadinessReport(): Promise<DatabaseReadinessRep
           `SELECT migration_name, finished_at, rolled_back_at
            FROM "_prisma_migrations"
            WHERE finished_at IS NOT NULL AND rolled_back_at IS NULL
-           ORDER BY finished_at ASC`,
+           ORDER BY migration_name ASC`,
         );
       } catch {
         migrationLedgerAvailable = false;
@@ -215,7 +273,8 @@ export async function getDatabaseReadinessReport(): Promise<DatabaseReadinessRep
     }
 
     const appliedMigrationNames = new Set(migrations.map((row) => row.migration_name));
-    const missingMigrations = EXPECTED_DATABASE_MIGRATIONS.filter(
+    const providerMigrations = expectedMigrations(provider);
+    const missingMigrations = providerMigrations.filter(
       (migration) => !appliedMigrationNames.has(migration),
     );
     const lastMigration = migrations.at(-1) || null;
@@ -229,11 +288,13 @@ export async function getDatabaseReadinessReport(): Promise<DatabaseReadinessRep
       || !migrationLedgerAvailable
       || missingMigrations.length > 0
       || !foreignKeysEnabled
-      || !diagnostics.fileWritable
-      || !diagnostics.directoryWritable
+      || (provider === 'sqlite' && (!diagnostics.fileWritable || !diagnostics.directoryWritable))
     );
     const { url: _url, ...database } = diagnostics;
     void _url;
+    if (provider === 'postgresql') {
+      database.fileSizeBytes = toNumber(firstValue(sizeRows)) ?? 0;
+    }
 
     return {
       status: degraded ? 'degraded' : 'ready',
@@ -250,7 +311,7 @@ export async function getDatabaseReadinessReport(): Promise<DatabaseReadinessRep
         expectedTableCount: EXPECTED_DATABASE_TABLES.length,
         presentTableCount: EXPECTED_DATABASE_TABLES.length - missingTables.length,
         missingTables,
-        expectedMigrationCount: EXPECTED_DATABASE_MIGRATIONS.length,
+        expectedMigrationCount: providerMigrations.length,
         appliedMigrationCount: migrations.length,
         missingMigrations,
         migrationLedgerAvailable,

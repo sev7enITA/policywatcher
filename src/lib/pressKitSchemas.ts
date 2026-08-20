@@ -6,6 +6,78 @@ const localized = {
 } as const;
 
 export const pressKitSchemas = {
+  'publication-readiness': {
+    $schema: 'https://json-schema.org/draft/2020-12/schema',
+    $id: 'https://policywatcher.online/schemas/publication-readiness/v1',
+    title: 'PolicyWatcher authoritative publication readiness metric',
+    type: 'object',
+    required: [
+      'schema',
+      'metricId',
+      'contractVersion',
+      'source',
+      'checkedAt',
+      'available',
+      'denominator',
+      'stages',
+      'latestCapture',
+      'consistencyWarning',
+      'scopeBoundary',
+    ],
+    $defs: {
+      stage: {
+        type: 'object',
+        required: ['id', 'label', 'count', 'denominator', 'excluded', 'availability', 'definition', 'boundary'],
+        properties: {
+          id: { enum: ['configured', 'retrieved', 'baseline-verified', 'public', 'analysed'] },
+          label: { type: 'string', minLength: 1 },
+          count: { type: ['integer', 'null'], minimum: 0 },
+          denominator: { type: ['integer', 'null'], minimum: 0 },
+          excluded: { type: ['integer', 'null'], minimum: 0 },
+          availability: { enum: ['measured', 'unavailable', 'review'] },
+          definition: { type: 'string', minLength: 1 },
+          boundary: { type: ['string', 'null'] },
+        },
+        additionalProperties: false,
+      },
+    },
+    properties: {
+      schema: { const: 'https://policywatcher.online/schemas/publication-readiness/v1' },
+      metricId: { const: 'publication-readiness' },
+      contractVersion: { const: '1.0.0' },
+      source: { const: 'database' },
+      checkedAt: { type: 'string', format: 'date-time' },
+      available: { type: 'boolean' },
+      denominator: { type: ['integer', 'null'], minimum: 0 },
+      stages: {
+        type: 'array',
+        minItems: 5,
+        maxItems: 5,
+        prefixItems: [
+          { allOf: [{ $ref: '#/$defs/stage' }, { properties: { id: { const: 'configured' } } }] },
+          { allOf: [{ $ref: '#/$defs/stage' }, { properties: { id: { const: 'retrieved' } } }] },
+          { allOf: [{ $ref: '#/$defs/stage' }, { properties: { id: { const: 'baseline-verified' } } }] },
+          { allOf: [{ $ref: '#/$defs/stage' }, { properties: { id: { const: 'public' } } }] },
+          { allOf: [{ $ref: '#/$defs/stage' }, { properties: { id: { const: 'analysed' } } }] },
+        ],
+        items: false,
+      },
+      latestCapture: {
+        type: 'object',
+        required: ['capturedAt', 'availability', 'definition', 'reason'],
+        properties: {
+          capturedAt: { type: ['string', 'null'], format: 'date-time' },
+          availability: { enum: ['measured', 'unavailable'] },
+          definition: { type: 'string', minLength: 1 },
+          reason: { type: ['string', 'null'] },
+        },
+        additionalProperties: false,
+      },
+      consistencyWarning: { type: ['string', 'null'] },
+      scopeBoundary: { type: 'string', minLength: 1 },
+    },
+    additionalProperties: false,
+  },
   'release-evidence-ledger': {
     $schema: 'https://json-schema.org/draft/2020-12/schema',
     $id: 'https://policywatcher.online/schemas/release-evidence-ledger/v1',

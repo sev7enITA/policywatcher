@@ -15,14 +15,12 @@ import {
   buildUnavailableAdminActionCenter,
 } from '@/lib/adminActionCenter';
 import {
-  buildPublicationReadiness,
   buildUnavailablePublicationReadiness,
-  type PublicationReadinessMetric,
 } from '@/lib/publicationReadiness';
+import { getAuthoritativePublicationReadiness } from '@/lib/publicationReadinessServer';
 import { buildPressMetricCounts, emptyPressMetricCounts } from '@/lib/pressMetrics';
 import { ensurePressMetricStorage } from '@/lib/pressMetricStorage';
 import { buildAcquisitionKey } from '@/lib/sourceReliability';
-import { publicPolicyWhere } from '@/lib/publicDataGate';
 
 function toIso(value: Date | null | undefined): string | null {
   return value ? value.toISOString() : null;
@@ -151,67 +149,6 @@ export async function GET(request: NextRequest) {
       console.warn('[Admin Metrics] Webhook terminal-failure metric unavailable:', error);
     }
 
-    const unavailableStage = (reason: string): PublicationReadinessMetric => ({
-      available: false,
-      count: null,
-      reason,
-    });
-    let retrievedStage = unavailableStage('Retrieved-policy metric is unavailable.');
-    let baselineStage = unavailableStage('Verified-baseline metric is unavailable.');
-    let publicStage = unavailableStage('Public-policy metric is unavailable.');
-    let analysedStage = unavailableStage('Analysed-policy metric is unavailable.');
-
-    try {
-      retrievedStage = {
-        available: true,
-        count: await db.policy.count({
-          where: {
-            checkLogs: {
-              some: {
-                status: { in: ['Available', 'Reviewed'] },
-                source: { notIn: ['seeded', 'none'], not: null },
-                OR: [
-                  { textHash: { not: null } },
-                  { textLength: { gt: 0 } },
-                ],
-              },
-            },
-          },
-        }),
-      };
-    } catch (error) {
-      console.warn('[Admin Metrics] Retrieved-policy funnel metric unavailable:', error);
-    }
-
-    try {
-      baselineStage = {
-        available: true,
-        count: await db.policy.count({ where: { snapshots: { some: { publicEvidence: true } } } }),
-      };
-    } catch (error) {
-      console.warn('[Admin Metrics] Baseline-verified funnel metric unavailable:', error);
-    }
-
-    try {
-      publicStage = {
-        available: true,
-        count: await db.policy.count({ where: publicPolicyWhere() }),
-      };
-    } catch (error) {
-      console.warn('[Admin Metrics] Public-policy funnel metric unavailable:', error);
-    }
-
-    try {
-      analysedStage = {
-        available: true,
-        count: await db.policy.count({
-          where: publicPolicyWhere({ changes: { some: { publicEvidence: true } } }),
-        }),
-      };
-    } catch (error) {
-      console.warn('[Admin Metrics] Analysed-policy funnel metric unavailable:', error);
-    }
-
     const sourceReliabilityAvailable = (
       baselineMetricsAvailable && scanMetricAvailable && remediationMetricAvailable
     );
@@ -302,21 +239,17 @@ export async function GET(request: NextRequest) {
         latestCreatedAt: toIso(latestPolicyInquiryAt),
       },
     });
-    const publicationReadiness = buildPublicationReadiness({
-      checkedAt,
-      configured: { available: true, count: policyCount },
-      retrieved: retrievedStage,
-      baselineVerified: baselineStage,
-      public: publicStage,
-      analysed: analysedStage,
+    const publicationReadiness = await getAuthoritativePublicationReadiness({
+      checkedAt: new Date(checkedAt),
     });
 
     return NextResponse.json({
       system: {
         nodeVersion: process.version,
         nodeEnv: process.env.NODE_ENV || 'development',
-        dbPath: database.filePath || 'non-sqlite-database-url',
-        dbExists: database.fileExists,
+        databaseProvider: database.provider,
+        dbPath: database.filePath || 'managed-database',
+        dbExists: database.provider === 'postgresql' || database.fileExists,
         dbDirectoryExists: database.directoryExists,
         dbDirectoryWritable: database.directoryWritable,
         dbFileReadable: database.fileReadable,

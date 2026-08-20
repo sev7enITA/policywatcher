@@ -17,12 +17,16 @@ const URL_UPDATES = [
   ['Microsoft', 'Privacy Statement', ['Global'], 'privacy.microsoft.com/en/privacystatement', 'https://www.microsoft.com/en-us/privacy/privacystatement', 'Official Microsoft Privacy Statement baseline'],
   ['Zoom', 'Privacy Statement', null, 'explore.zoom.us/en/privacy', 'https://www.zoom.com/en/trust/privacy/privacy-statement/', 'Current official Zoom Trust Center privacy URL'],
   ['Zoom', 'Terms of Service', null, 'explore.zoom.us/en/terms', 'https://www.zoom.com/en/trust/terms/', 'Current official Zoom Trust Center terms URL'],
-  ['Klarna', 'Privacy Notice', ['US'], 'cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy', 'https://www.klarna.com/us/privacy/', 'Replace previous CDN workaround with official US privacy page'],
-  ['Klarna', 'Privacy Notice', null, 'klarna.com/us/privacy', 'https://www.klarna.com/us/privacy/', 'Official US privacy page is directly fetchable'],
-  ['Klarna', 'Privacy Notice', ['EU'], 'klarna.com/international/privacy-policy', 'https://www.klarna.com/ie/privacy/', 'Official English EU/Ireland privacy page is directly fetchable'],
-  ['Klarna', 'Terms of Service', ['US'], 'cdn.klarna.com/1.0/shared/content/legal/terms/en-us/terms', 'https://www.klarna.com/us/terms-of-use/', 'Replace previous CDN workaround with official US terms page'],
-  ['Klarna', 'Terms of Service', null, 'klarna.com/us/terms', 'https://www.klarna.com/us/terms-of-use/', 'Official US terms page replaces stale CDN URL'],
-  ['Klarna', 'Terms of Service', ['EU'], 'klarna.com/international/terms-and-conditions', 'https://www.klarna.com/ie/terms-and-conditions/', 'Official English EU/Ireland terms page; QA suspends if body is too short'],
+  ['Wise', 'Privacy Policy', ['EU', 'Global'], 'wise.com/gb/legal/privacy-policy', 'https://wise.com/gb/legal/privacy-notice-personal-en', 'Use the current personal privacy notice rather than the legal index page', null],
+  ['Wise', 'Privacy Policy', ['EU'], 'wise.com/eu/legal/privacy-policy', 'https://wise.com/gb/legal/privacy-notice-personal-en', 'Replace the retired EU route with the current personal privacy notice', null],
+  ['Wise', 'Privacy Policy', ['US'], 'wise.com/us/legal/privacy-policy', 'https://wise.com/us/legal/privacy-notice', 'Use the actual US personal privacy notice rather than the legal index page', null],
+  ['Klarna', 'Privacy Notice', ['US'], 'klarna.com/us/privacy', 'https://www.klarna.com/us/privacy/', 'Separate the public citation from the official legal-document acquisition endpoint', 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy'],
+  ['Klarna', 'Privacy Notice', ['EU'], 'klarna.com/ie/privacy', 'https://www.klarna.com/ie/privacy/', 'Separate the public citation from the official legal-document acquisition endpoint', 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/privacy'],
+  ['Klarna', 'Privacy Notice', ['EU'], 'klarna.com/international/privacy-policy', 'https://www.klarna.com/ie/privacy/', 'Replace the stale public URL and attach the official legal notice', 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/privacy'],
+  ['Klarna', 'Terms of Service', ['US'], 'klarna.com/us/terms', 'https://www.klarna.com/us/terms-of-use/', 'Separate the public citation from the official legal-document acquisition endpoint', 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/user'],
+  ['Klarna', 'Terms of Service', ['EU'], 'klarna.com/ie/terms-and-conditions', 'https://www.klarna.com/ie/terms-and-conditions/', 'Separate the public citation from the official legal-document acquisition endpoint', 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/user'],
+  ['Klarna', 'Terms of Service', ['EU'], 'klarna.com/international/terms-and-conditions', 'https://www.klarna.com/ie/terms-and-conditions/', 'Replace the stale public URL and attach the official legal terms', 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/user'],
+  ['TikTok', 'Community Guidelines', ['Global'], 'tiktok.com/legal/page/global/community-guidelines', 'https://www.tiktok.com/community-guidelines', 'Replace the retired legal-page route with the canonical rendered guidelines route', null],
   ['Plaid', 'Privacy Policy', ['US', 'EU'], 'plaid.com/legal', 'https://plaid.com/legal#end-user-privacy-policy', 'Anchor-scoped End User Privacy Policy'],
   ['Plaid', 'End User Services Agreement', ['US'], 'plaid.com/legal', 'https://plaid.com/legal#end-user-services-agreement-us', 'Anchor-scoped US EUSA'],
   ['Plaid', 'End User Services Agreement', ['EU'], 'plaid.com/legal', 'https://plaid.com/legal#end-user-services-agreement-eea', 'Anchor-scoped EEA EUSA'],
@@ -59,6 +63,7 @@ const selectPolicies = db.prepare(`
   SELECT
     p.id,
     p.url,
+    p.retrievalUrl,
     p.jurisdiction,
     p.name AS policyName,
     c.name AS companyName,
@@ -75,14 +80,24 @@ const selectPolicies = db.prepare(`
 
 const updatePolicy = db.prepare(`
   UPDATE Policy
-  SET url = ?, dataStatus = ?, updatedAt = ?
+  SET url = ?, retrievalUrl = ?, dataStatus = ?,
+      sourceMigrationPending = ?, sourceMigrationRequestedAt = ?, updatedAt = ?
   WHERE id = ?
 `);
 
 const insertCheckLog = db.prepare(`
   INSERT INTO PolicyCheckLog (
-    id, policyId, status, checkedAt, source, reason, finalUrl, createdAt
-  ) VALUES (?, ?, ?, ?, 'source_remediation', 'source_url_remediation', ?, ?)
+    id, policyId, status, checkedAt, source, reason, reasonCode, finalUrl, createdAt
+  ) VALUES (?, ?, ?, ?, 'source_remediation', ?, 'configuration', ?, ?)
+`);
+
+const resolvePreviousSourceIssue = db.prepare(`
+  UPDATE SourceRemediationIssue
+  SET status = 'Resolved', consecutiveFailures = 0,
+      recoveredAt = ?, resolvedAt = ?,
+      suggestedAction = 'Superseded by controlled source migration; verify the queued replacement baseline.',
+      updatedAt = ?
+  WHERE sourceUrl = ? AND status != 'Resolved'
 `);
 
 let updated = 0;
@@ -97,10 +112,10 @@ console.log(`Database: ${dbPath}\n`);
 if (!dryRun) db.exec('BEGIN');
 
 try {
-  for (const [company, policyName, jurisdictions, oldUrlPart, newUrl, reason] of URL_UPDATES) {
+  for (const [company, policyName, jurisdictions, oldUrlPart, newUrl, reason, configuredRetrievalUrl] of URL_UPDATES) {
     const rows = selectPolicies.all(company, policyName)
       .filter((row) => !jurisdictions || jurisdictions.includes(row.jurisdiction))
-      .filter((row) => row.url.includes(oldUrlPart) || row.url === newUrl);
+      .filter((row) => row.url.includes(oldUrlPart) || (row.retrievalUrl || '').includes(oldUrlPart) || row.url === newUrl);
 
     if (rows.length === 0) {
       console.log(`[NOT FOUND] ${company} / ${policyName} (url contains "${oldUrlPart}")`);
@@ -110,23 +125,38 @@ try {
 
     for (const row of rows) {
       const label = `${row.companyName} / ${row.policyName} / ${row.jurisdiction}`;
-      if (row.url === newUrl) {
+      const nextRetrievalUrl = configuredRetrievalUrl === undefined ? row.retrievalUrl : configuredRetrievalUrl;
+      if (row.url === newUrl && row.retrievalUrl === nextRetrievalUrl) {
         console.log(`[SKIP] ${label} - already updated`);
         skipped++;
         continue;
       }
 
       const nextStatus = row.publicEvidenceCount > 0 ? 'Needs Review' : 'Configured';
-      const now = new Date().toISOString();
+      // Prisma stores SQLite DateTime values as epoch milliseconds. Keeping
+      // raw maintenance writes in the same representation preserves correct
+      // chronological ordering with application-created rows.
+      const now = Date.now();
+      const previousAcquisitionUrl = row.retrievalUrl || row.url;
+      const nextAcquisitionUrl = nextRetrievalUrl || newUrl;
+      const requiresRebaseline = row.publicEvidenceCount > 0 && previousAcquisitionUrl !== nextAcquisitionUrl;
+      const logReason = requiresRebaseline ? 'source_migration_pending_rebaseline' : 'source_url_remediation';
 
       if (!dryRun) {
-        updatePolicy.run(newUrl, nextStatus, now, row.id);
-        insertCheckLog.run(randomUUID(), row.id, nextStatus, now, newUrl, now);
+        updatePolicy.run(newUrl, nextRetrievalUrl, nextStatus, requiresRebaseline ? 1 : 0, requiresRebaseline ? now : null, now, row.id);
+        insertCheckLog.run(randomUUID(), row.id, nextStatus, now, logReason, nextAcquisitionUrl, now);
+        if (previousAcquisitionUrl !== nextAcquisitionUrl) {
+          resolvePreviousSourceIssue.run(now, now, now, previousAcquisitionUrl);
+        }
       }
 
       console.log(`[${dryRun ? 'DRY' : 'UPDATE'}] ${label}`);
       console.log(`   ${row.url}`);
       console.log(`   -> ${newUrl}`);
+      if (row.retrievalUrl !== nextRetrievalUrl) {
+        console.log(`   retrieval: ${row.retrievalUrl || '(canonical URL)'}`);
+        console.log(`   -> ${nextRetrievalUrl || '(canonical URL)'}`);
+      }
       console.log(`   status after URL change: ${nextStatus}`);
       console.log(`   (${reason})\n`);
       updated++;

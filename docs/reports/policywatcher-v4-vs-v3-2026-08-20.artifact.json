@@ -1,0 +1,323 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "PolicyWatcher 4: report funzionale e confronto con la linea 3.x",
+    "description": "Confronto verificabile tra PolicyWatcher 3.9.0-beta.42 e 4.0.0-beta.1, inclusa la Wave 1B implementata ma non ancora attivata in produzione.",
+    "generatedAt": "2026-08-20T03:38:00+02:00",
+    "cards": [
+      {
+        "id": "canonical_models_card",
+        "description": "Nuovi livelli del grafo canonico di evidenza.",
+        "dataset": "headline_metrics",
+        "sourceId": "report_snapshot_sql",
+        "filter": { "metric": "canonical_models" },
+        "metrics": [{ "label": "Modelli canonici", "field": "value" }]
+      },
+      {
+        "id": "taxonomy_card",
+        "description": "Ambiti della tassonomia Provision 1.0.0.",
+        "dataset": "headline_metrics",
+        "sourceId": "report_snapshot_sql",
+        "filter": { "metric": "taxonomy_domains" },
+        "metrics": [{ "label": "Categorie provision", "field": "value" }]
+      },
+      {
+        "id": "tests_card",
+        "description": "Ultima suite completa registrata nell’audit Wave 1B.",
+        "dataset": "headline_metrics",
+        "sourceId": "report_snapshot_sql",
+        "filter": { "metric": "tests" },
+        "metrics": [{ "label": "Test superati", "field": "value" }]
+      },
+      {
+        "id": "production_writes_card",
+        "description": "Scritture eseguite sui dati di produzione durante il rehearsal.",
+        "dataset": "headline_metrics",
+        "sourceId": "report_snapshot_sql",
+        "filter": { "metric": "production_writes" },
+        "metrics": [{ "label": "Scritture produzione", "field": "value" }]
+      }
+    ],
+    "charts": [
+      {
+        "id": "rehearsal_counts_chart",
+        "title": "Grafo canonico creato nel rehearsal Wave 1B",
+        "subtitle": "Conteggi dopo il backfill di una copia SQLite sanitizzata; non sono dati di produzione.",
+        "type": "bar",
+        "dataset": "rehearsal_counts",
+        "sourceId": "report_snapshot_sql",
+        "intent": "comparison",
+        "question": "Quale volume di oggetti canonici è stato effettivamente creato e riconciliato nel rehearsal?",
+        "rationale": "I cinque livelli del nuovo grafo hanno conteggi diversi; il grafico rende immediata la scala, mentre l’audit conserva i valori esatti e il perimetro.",
+        "layout": "full",
+        "valueFormat": "number",
+        "encodings": {
+          "x": { "field": "model", "type": "nominal", "label": "Modello canonico" },
+          "y": { "field": "count", "type": "quantitative", "label": "Record riconciliati" },
+          "tooltip": [
+            { "field": "count", "type": "quantitative", "label": "Record", "format": "number" },
+            { "field": "scope", "type": "text", "label": "Perimetro" }
+          ]
+        },
+        "maxRows": 5,
+        "compatibleTypes": ["bar"]
+      }
+    ],
+    "tables": [
+      {
+        "id": "feature_inventory_table",
+        "title": "Funzionalità introdotte nella linea 4",
+        "subtitle": "“Consegnata” descrive il codice; l’ultima colonna chiarisce se la capacità è già attiva nel percorso produttivo.",
+        "dataset": "feature_inventory",
+        "sourceId": "report_snapshot_sql",
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          { "field": "capability", "label": "Capacità", "type": "text" },
+          { "field": "wave", "label": "Introduzione", "type": "text" },
+          { "field": "functional_value", "label": "Valore funzionale", "type": "text" },
+          { "field": "technical_control", "label": "Controllo tecnico", "type": "text" },
+          { "field": "live_status", "label": "Stato produttivo", "type": "text" }
+        ]
+      },
+      {
+        "id": "comparison_table",
+        "title": "PolicyWatcher 3.x vs 4",
+        "subtitle": "Base 3.x: 3.9.0-beta.42, ultima beta prima della major. Base 4: 4.0.0-beta.1 più Wave 1B in Unreleased.",
+        "dataset": "version_comparison",
+        "sourceId": "report_snapshot_sql",
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          { "field": "area", "label": "Area", "type": "text" },
+          { "field": "v3", "label": "Linea 3.x", "type": "text" },
+          { "field": "v4", "label": "Linea 4", "type": "text" },
+          { "field": "meaning", "label": "Differenza sostanziale", "type": "text" }
+        ]
+      },
+      {
+        "id": "impact_table",
+        "title": "Impatti della major release",
+        "subtitle": "Benefici attesi e costo operativo sono separati dalle capacità già dimostrate.",
+        "dataset": "stakeholder_impacts",
+        "sourceId": "report_snapshot_sql",
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          { "field": "stakeholder", "label": "Ambito", "type": "text" },
+          { "field": "positive_impact", "label": "Impatto positivo", "type": "text" },
+          { "field": "cost_or_risk", "label": "Costo / rischio", "type": "text" },
+          { "field": "management", "label": "Come viene gestito", "type": "text" }
+        ]
+      },
+      {
+        "id": "continuity_table",
+        "title": "Capacità 3.x conservate o rafforzate",
+        "subtitle": "La major non azzera le wave precedenti: le porta sotto una fondazione di evidenza più stabile.",
+        "dataset": "continuity",
+        "sourceId": "report_snapshot_sql",
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          { "field": "capability", "label": "Capacità 3.x", "type": "text" },
+          { "field": "v4_treatment", "label": "Trattamento in 4", "type": "text" },
+          { "field": "boundary", "label": "Confine", "type": "text" }
+        ]
+      },
+      {
+        "id": "activation_table",
+        "title": "Stato di attivazione e gate residui",
+        "subtitle": "La distinzione evita di presentare come live ciò che è soltanto pronto per staging o rehearsal.",
+        "dataset": "activation_status",
+        "sourceId": "report_snapshot_sql",
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          { "field": "capability", "label": "Capacità", "type": "text" },
+          { "field": "code_status", "label": "Codice", "type": "text" },
+          { "field": "production_status", "label": "Produzione", "type": "text" },
+          { "field": "next_gate", "label": "Gate successivo", "type": "text" }
+        ]
+      }
+    ],
+    "sources": [
+      { "id": "report_snapshot_sql", "label": "Indice SQL riproducibile del report", "path": "docs/reports/policywatcher-v4-vs-v3-2026-08-20.sql" },
+      { "id": "release_history", "label": "Changelog e confronto delle release", "path": "CHANGELOG.md" },
+      { "id": "release_identity", "label": "Identità della release corrente", "path": "src/lib/release.ts" },
+      { "id": "v4_foundation_audit", "label": "Audit PolicyWatcher 4.0.0 Beta 1", "path": "docs/audit-v4.0.0-beta.1.md" },
+      { "id": "wave1b_audit", "label": "Audit funzionale e tecnico Wave 1B", "path": "docs/audit-v4.0.0-beta.1-wave-1b.md" },
+      { "id": "canonical_model", "label": "Contratto del modello document-evidence", "path": "docs/document-evidence-model.md" },
+      { "id": "backfill_runbook", "label": "Runbook backfill, reconciliation e dual-write", "path": "docs/document-evidence-backfill-runbook.md" },
+      { "id": "postgresql_readiness", "label": "Readiness PostgreSQL", "path": "docs/postgresql-readiness.md" },
+      { "id": "publication_contract", "label": "Contratto API pubblico v1", "path": "docs/public-api-v1.md" },
+      { "id": "competitive_runtime", "label": "Valutazione competitiva dinamica", "path": "src/lib/competitiveAnalysis.ts" },
+      { "id": "quality_manifest", "label": "Comandi e dipendenze della release", "path": "package.json" }
+    ],
+    "blocks": [
+      {
+        "id": "executive_summary",
+        "type": "markdown",
+        "body": "## Executive Summary\n\n**PolicyWatcher 4 è una major giustificata dal cambio di fondazione, non da un semplice ampliamento dell’interfaccia.** La linea 3.x è una piattaforma matura di monitoraggio basata sul percorso `Company → Policy → PolicySnapshot → PolicyChange`; la 4 introduce il modello durevole `Entity → Document → Version → Change → Provision`, identificatori pubblici stabili, una tassonomia versionata delle clausole e un unico contratto di publication readiness derivato dal database.\n\nLa Wave 1B rende questa transizione concretamente eseguibile: backfill idempotente, riconciliazione deterministica, dual-write transazionale opzionale e gate di attivazione fail-closed. Il rehearsal su copia sanitizzata è passato e la qualità locale è verde (**153 file, 999 test**), ma produzione non è stata modificata. Le letture restano sul modello legacy; dual-write è spento; PostgreSQL, object storage, workspace, account, billing e multi-tenancy restano gate successivi.\n\nLa decisione consigliata è promuovere la 4 come **foundation beta**, poi attivare in sequenza: backfill e riconciliazione live, dual-write controllato, shadow-read con misure di parity, read switch canonico, object storage e infine PostgreSQL/multi-tenancy."
+      },
+      {
+        "id": "headline_metrics_block",
+        "type": "metric-strip",
+        "cardIds": ["canonical_models_card", "taxonomy_card", "tests_card", "production_writes_card"]
+      },
+      {
+        "id": "scope_method",
+        "type": "markdown",
+        "body": "## Perimetro e metodo\n\nIl confronto usa come riferimento 3.x la **3.9.0-beta.42**, ultima beta documentata prima della major, e come riferimento 4 la **4.0.0-beta.1 – Canonical Evidence Foundation**, includendo separatamente la Wave 1B presente in `Unreleased`. Le affermazioni derivano da changelog, audit, schema, runbook, API e codice di valutazione competitiva del repository al 20 agosto 2026.\n\nGli stati usati sono: **operativo** quando alimenta il percorso corrente; **consegnato ma gated** quando il codice è disponibile ma richiede attivazione; **pending** quando il cutover non è autorizzato. Non viene usato un grafico perché l’evoluzione è categoriale e dipende dallo stato di attivazione: una matrice esatta è più leggibile e meno fuorviante di uno score sintetico."
+      },
+      {
+        "id": "features_intro",
+        "type": "markdown",
+        "body": "## Le funzionalità introdotte con la versione 4\n\nIl nucleo della major è la separazione tra identità, documento, cattura, transizione e singola provision. Questo abilita lineage più preciso, riferimenti durevoli e future letture a livello di clausola. A questa base si aggiungono una metrica autorevole condivisa, portabilità PostgreSQL e strumenti di migrazione che preservano il comportamento 3.x durante il passaggio."
+      },
+      { "id": "feature_inventory_block", "type": "table", "tableId": "feature_inventory_table" },
+      {
+        "id": "rehearsal_intro",
+        "type": "markdown",
+        "body": "## La nuova catena è stata popolata e riconciliata in rehearsal\n\nIl backfill su copia sanitizzata ha creato **17 Entity, 50 Document, 91 Version, 91 Change e 240 Provision**, con zero errori e warning. Il secondo apply ha mantenuto gli stessi conteggi, dimostrando idempotenza sul perimetro provato."
+      },
+      { "id": "rehearsal_counts_block", "type": "chart", "chartId": "rehearsal_counts_chart" },
+      {
+        "id": "comparison_intro",
+        "type": "markdown",
+        "body": "## Il salto 3.x → 4 in una frase\n\n**3.x monitora policy; 4 costruisce una piattaforma di evidenza documentale.** L’esperienza pubblica e amministrativa resta compatibile, ma il modello target diventa più stabile, auditabile e preparato a storage e database diversi."
+      },
+      { "id": "comparison_block", "type": "table", "tableId": "comparison_table" },
+      {
+        "id": "impact_intro",
+        "type": "markdown",
+        "body": "## Impatti: il beneficio principale è la continuità dell’evidenza\n\nLa major riduce l’accoppiamento tra URL, nomi, UUID interni e riferimenti pubblici. Il prezzo è una fase di coesistenza: ogni scrittura può aggiornare due grafi, la riconciliazione diventa un gate operativo e i payload restano temporaneamente inline finché object storage non viene attivato."
+      },
+      { "id": "impact_block", "type": "table", "tableId": "impact_table" },
+      {
+        "id": "continuity_intro",
+        "type": "markdown",
+        "body": "## Cosa non viene perso dalla 3.x\n\nLa 4 conserva le capacità operative costruite nella 3.x — retrieval, hash, conferma dei cambi, gate `publicEvidence`, API, Civic, AI governance e controlli amministrativi — e fornisce loro un modello canonico di destinazione. Non tutte queste capacità sono quindi “nuove in 4”: molte sono ereditate e rafforzate."
+      },
+      { "id": "continuity_block", "type": "table", "tableId": "continuity_table" },
+      {
+        "id": "activation_intro",
+        "type": "markdown",
+        "body": "## La 4 è pronta come foundation, non ancora come cutover completo\n\nIl codice di backfill, reconciliation e dual-write è completo e provato su una copia sanitizzata. Il percorso produttivo continua però a leggere il modello legacy: questo è intenzionale e rende la major reversibile durante la prima wave."
+      },
+      { "id": "activation_block", "type": "table", "tableId": "activation_table" },
+      {
+        "id": "next_steps",
+        "type": "markdown",
+        "body": "## Passi raccomandati\n\n1. **Staging con dual-write spento:** promuovere l’artefatto verificato e ripetere il rehearsal su una copia rappresentativa recente.\n2. **Backfill produzione in manutenzione:** backup ripristinabile, dry-run, apply, secondo apply idempotente e reconciliation a zero errori/warning.\n3. **Dual-write controllato:** abilitare il flag esatto, eseguire una cattura controllata e riconciliare prima di riprendere i job.\n4. **Shadow-read e parity:** confrontare legacy e canonico senza cambiare le risposte pubbliche; definire soglia e rollback.\n5. **Storage e database:** spostare i payload dietro `contentRef`, provare restore/PITR e carico PostgreSQL, quindi pianificare il cutover.\n6. **Solo dopo i gate infrastrutturali:** introdurre workspace, account, billing e isolamento multi-tenant."
+      },
+      {
+        "id": "further_questions",
+        "type": "markdown",
+        "body": "## Domande da chiudere prima della Wave 2\n\n- Quale finestra e quale owner approvano backfill e attivazione dual-write in produzione?\n- Quale soglia di parity autorizza il read switch canonico e per quanto tempo deve restare verde?\n- Quale provider object storage implementerà `contentRef`, con quali regole di retention, cifratura e restore?\n- Quali metriche p95, error rate e lock contention rendono accettabile il dual-write su storici lunghi?\n- Quali provision devono essere sottoposte a revisione umana prima di diventare `reviewed` o `published`?"
+      },
+      {
+        "id": "caveats",
+        "type": "markdown",
+        "body": "## Caveat e assunzioni\n\nQuesto report valuta funzionalità e controlli presenti nel repository; non misura adozione, ricavi, disponibilità live, qualità legale o superiorità competitiva. I **999 test** dimostrano il comportamento coperto dalla suite, non la completezza del corpus o l’assenza di rischi in produzione. Il rehearsal usa una copia sanitizzata e non sostituisce backup restore, performance test e riconciliazione sui dati live.\n\nLa tassonomia 1.0.0 classifica linguaggio osservato e non stabilisce validità o applicabilità legale. L’indice Conduct Atlas nella pagina riservata è direzionale e versionato; non è una quota di mercato o una certificazione. Il confronto “3.x” usa l’ultima beta 3.9.0-beta.42, non ogni stato intermedio della lunga serie 3.x."
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-08-20T03:38:00+02:00",
+    "status": "partial",
+    "datasets": {
+      "headline_metrics": [
+        { "metric": "canonical_models", "value": "5" },
+        { "metric": "taxonomy_domains", "value": "6" },
+        { "metric": "tests", "value": "999 / 999" },
+        { "metric": "production_writes", "value": "0" }
+      ],
+      "rehearsal_counts": [
+        { "model": "Entity", "count": 17, "scope": "Copia SQLite sanitizzata" },
+        { "model": "Document", "count": 50, "scope": "Copia SQLite sanitizzata" },
+        { "model": "Version", "count": 91, "scope": "Copia SQLite sanitizzata" },
+        { "model": "Change", "count": 91, "scope": "Copia SQLite sanitizzata" },
+        { "model": "Provision", "count": 240, "scope": "Copia SQLite sanitizzata" }
+      ],
+      "feature_inventory": [
+        { "capability": "Grafo Entity → Document → Version → Change → Provision", "wave": "4.0 Beta 1", "functional_value": "Distingue soggetto, documento, cattura, transizione e clausola osservata.", "technical_control": "Cinque modelli additivi con UUID interni, bridge legacy e relazioni esplicite.", "live_status": "Schema consegnato; letture ancora legacy." },
+        { "capability": "ID pubblici stabili", "wave": "4.0 Beta 1", "functional_value": "Riferimenti pubblici durevoli anche se cambiano nome, URL o provider storage.", "technical_control": "Prefissi ent_/doc_/ver_/chg_/prv_ e SHA-256 deterministico troncato a 128 bit.", "live_status": "Attivi sul grafo canonico; non ancora read path primario." },
+        { "capability": "Tassonomia Provision 1.0.0", "wave": "4.0 Beta 1", "functional_value": "Vocabolario comune per AI training, data sharing, retention, arbitration, content licensing e liability.", "technical_control": "Versione persistita, assessment bounded e review status indipendente.", "live_status": "Consegnata; mapping iniziale conservativo." },
+        { "capability": "Publication readiness autorevole", "wave": "4.0 Beta 1", "functional_value": "Admin, confronto competitivo e API vedono lo stesso funnel.", "technical_control": "Una query server-side, cinque stadi ordinati, ultima cattura, JSON Schema v1 e no-store.", "live_status": "Operativa sul database legacy autorevole." },
+        { "capability": "Valutazione competitiva dinamica e riservata", "wave": "Linea 4", "functional_value": "Ogni ricalcolo mostra posizione e gap rispetto a Conduct Atlas con storico degli snapshot.", "technical_control": "Metodo e benchmark versionati, metriche live, fingerprint SHA-256, storico in AdminReviewLog.", "live_status": "Operativa nell’area Admin protetta." },
+        { "capability": "Portabilità PostgreSQL", "wave": "4.0 Beta 1", "functional_value": "Prepara crescita e isolamento senza imporre subito il cutover.", "technical_control": "Schema derivato, migrazioni dedicate, PostgreSQL 16 CI, importer e checksum parity.", "live_status": "CI e rehearsal; produzione ancora SQLite." },
+        { "capability": "Boundary storage provider-neutral", "wave": "4.0 Beta 1", "functional_value": "Consente di spostare in futuro il testo fuori dal database.", "technical_control": "Version.contentRef separato da contentText inline transitorio.", "live_status": "Contratto pronto; object storage non attivo." },
+        { "capability": "Backfill storico idempotente", "wave": "Wave 1B", "functional_value": "Proietta la storia 3.x nel grafo 4 senza perdere la sorgente operativa.", "technical_control": "Dry-run predefinito, acknowledgement per apply, transazioni per Company/Policy e audit finale.", "live_status": "Consegnato e rehearsed; non eseguito sui dati live." },
+        { "capability": "Riconciliazione deterministica", "wave": "Wave 1B", "functional_value": "Rende misurabile la parità prima di attivare il nuovo percorso.", "technical_control": "Verifica ID, hash, relazioni, conteggi, gate pubblici, tassonomia e orphan.", "live_status": "Consegnata; gate richiesto per l’attivazione." },
+        { "capability": "Dual-write transazionale opt-in", "wave": "Wave 1B", "functional_value": "Mantiene allineati modello legacy e canonico durante la transizione.", "technical_control": "Stessa transazione Prisma; un errore canonico annulla anche la mutazione legacy.", "live_status": "Spento per default; produzione non attivata." },
+        { "capability": "Gate build/runtime fail-closed", "wave": "Wave 1B", "functional_value": "Impedisce di avviare dual-write su dati non riconciliati.", "technical_control": "Flag esatto =1 e reconciliation obbligatoria senza errori o warning.", "live_status": "Consegnato; entra in gioco solo all’attivazione." }
+      ],
+      "version_comparison": [
+        { "area": "Unità centrale", "v3": "Policy e snapshot operativi.", "v4": "Documento e catena canonica di evidenza.", "meaning": "Da monitoraggio record-centric a piattaforma document-evidence." },
+        { "area": "Identità", "v3": "UUID e slug interni spesso vicini ai riferimenti applicativi.", "v4": "ID pubblici deterministici separati dagli UUID.", "meaning": "Link e integrazioni possono sopravvivere a rinomini, migrazioni e provider diversi." },
+        { "area": "Granularità", "v3": "Cambio a livello di policy, con analisi strutturata.", "v4": "Versione, change e provision distinguibili.", "meaning": "Prepara audit, retrieval e confronto a livello di clausola." },
+        { "area": "Tassonomia", "v3": "Campi e KPI dell’analisi esistente.", "v4": "Sei temi provision-level con versione e review status.", "meaning": "Il significato resta stabile nel tempo e può essere riletto senza reinterpretare il passato." },
+        { "area": "Publication readiness", "v3": "Metriche e gate costruiti nelle wave 3.x.", "v4": "Un solo contratto database-derived condiviso da Admin, API e benchmark.", "meaning": "Meno drift tra dashboard, API e pagina competitiva." },
+        { "area": "Confronto competitivo", "v3": "Confronti di prodotto e benchmark, senza il nuovo cockpit storico Conduct Atlas.", "v4": "Cockpit Admin dinamico, metodo versionato, snapshot e priorità calcolate.", "meaning": "Il posizionamento può essere aggiornato e confrontato nel tempo." },
+        { "area": "Database", "v3": "SQLite/Hostinger come percorso operativo.", "v4": "SQLite resta live; PostgreSQL ha schema, CI, importer e rehearsal dedicati.", "meaning": "La portabilità è verificabile prima del cutover." },
+        { "area": "Migrazione dati", "v3": "Riparazioni e migrazioni puntuali del modello operativo.", "v4": "Backfill idempotente, reconciliation, dual-write e activation gate.", "meaning": "Il passaggio major è osservabile, ripetibile e rollback-aware." },
+        { "area": "Storage documenti", "v3": "Testo persistito nel database.", "v4": "contentRef provider-neutral più testo inline transitorio.", "meaning": "Object storage è predisposto ma non ancora attivato." },
+        { "area": "Read path", "v3": "Legacy autorevole.", "v4": "Ancora legacy autorevole durante la prima wave.", "meaning": "Compatibilità immediata; il valore canonico non è ancora esposto end-to-end." },
+        { "area": "Workspace, account e billing", "v3": "Fuori dal percorso pubblico principale; pilot enterprise bounded.", "v4": "Esplicitamente gated dopo database/storage/isolamento.", "meaning": "La major prepara il terreno ma non dichiara multi-tenancy o monetizzazione già operative." },
+        { "area": "Sicurezza del rilascio", "v3": "Gate Hostinger, audit, source integrity e mutation hardening.", "v4": "Gli stessi controlli più gate specifici per canonical parity e PostgreSQL.", "meaning": "La sicurezza operativa viene estesa alla trasformazione del dato." }
+      ],
+      "stakeholder_impacts": [
+        { "stakeholder": "Prodotto", "positive_impact": "Evidenza navigabile e spiegabile fino alla singola provision.", "cost_or_risk": "Finché i read path sono legacy, parte del valore resta infrastrutturale.", "management": "Roadmap esplicita verso shadow-read e read switch." },
+        { "stakeholder": "Utenti pubblici", "positive_impact": "Metriche di readiness coerenti e riferimenti futuri più stabili.", "cost_or_risk": "Nessun nuovo claim legale può derivare automaticamente dalla tassonomia.", "management": "Gate publicEvidence, review status e boundary aggregate-only." },
+        { "stakeholder": "Amministrazione", "positive_impact": "Cockpit competitivo dinamico e priorità ricalcolabili su dati operativi.", "cost_or_risk": "Un indice direzionale può essere confuso con performance o market share.", "management": "Metodo/benchmark versionati, copertura, confidence e boundary visibili." },
+        { "stakeholder": "Engineering", "positive_impact": "Modello più coerente, ID stabili e minore lock-in di database/storage.", "cost_or_risk": "Coesistenza di due grafi, maggiori vincoli transazionali e script legacy da sospendere.", "management": "Un solo proiettore, reconciliation e attivazione fail-closed." },
+        { "stakeholder": "Operations", "positive_impact": "Migrazione ripetibile con dry-run, report, checksum e rollback documentato.", "cost_or_risk": "Il dual-write privilegia parità rispetto alla disponibilità della singola scrittura.", "management": "Flag disabilitabile, manutenzione controllata e backup ripristinabile." },
+        { "stakeholder": "Data governance", "positive_impact": "Lineage più chiaro tra documento, versione, change, provision e fonte.", "cost_or_risk": "Mapping arbitration/liability può restare not_assessed e richiede review umana.", "management": "Nessuna inferenza legale inventata; taxonomyVersion e reviewStatus persistiti." },
+        { "stakeholder": "Commerciale / enterprise", "positive_impact": "Fondazione più adatta a futuri workspace e isolamento tenant.", "cost_or_risk": "Nessun account, billing o multi-tenancy viene consegnato dalla 4.0 Beta 1.", "management": "Queste capacità restano dietro gate PostgreSQL, storage e isolation test." }
+      ],
+      "continuity": [
+        { "capability": "Acquisizione multi-trasporto e source integrity", "v4_treatment": "Conservata e corretta con migrazioni sorgente controllate, freshness floor e classificazioni più precise.", "boundary": "L’affidabilità live resta dipendente dalle fonti e dal renderer VPS." },
+        { "capability": "SHA-256, baseline e conferma cambi", "v4_treatment": "Riutilizzata come input verificato per Version e Change canonici.", "boundary": "La prima wave non cambia l’algoritmo pubblico di rilevazione." },
+        { "capability": "publicEvidence e claim governance", "v4_treatment": "Proiettata nei gate canonici e mantenuta nella metrica autorevole.", "boundary": "Readiness non prova completezza, legal review o qualità analitica." },
+        { "capability": "AI EvalOps e telemetry privacy-safe", "v4_treatment": "Ereditata dalla 3.9 Beta 42; il grafo canonico prepara lineage più granulare.", "boundary": "La major non dimostra automaticamente maggiore accuratezza AI." },
+        { "capability": "API v1/v2 pilot, webhook e release evidence", "v4_treatment": "Conservata; publication-readiness si aggiunge come contratto v1 autorevole.", "boundary": "Le superfici enterprise restano pilot e non equivalgono a un SaaS multi-tenant." },
+        { "capability": "Civic EN/IT, directory globale e adaptive UX", "v4_treatment": "Conservata e inclusa negli asset di lancio della major.", "boundary": "Watchlist e review civiche restano browser-local e fail-closed." },
+        { "capability": "Admin hardening e release gates", "v4_treatment": "Estesa con controlli di canonical reconciliation e PostgreSQL portability.", "boundary": "I test locali non sostituiscono staging, restore e post-deploy live." }
+      ],
+      "activation_status": [
+        { "capability": "Schema canonico", "code_status": "Consegnato", "production_status": "Migrazione additiva disponibile; tabelle inizialmente vuote.", "next_gate": "Deploy staging e Database Readiness 31/31, 14/14." },
+        { "capability": "Backfill storico", "code_status": "Consegnato e idempotente", "production_status": "Non eseguito sui dati live.", "next_gate": "Backup, dry-run ready, apply e secondo apply invariato." },
+        { "capability": "Riconciliazione", "code_status": "Consegnata", "production_status": "Passata solo su copia sanitizzata.", "next_gate": "Zero errori/warning sulla produzione dopo backfill." },
+        { "capability": "Dual-write", "code_status": "Consegnato e smoke-tested", "production_status": "Disabilitato per default.", "next_gate": "Flag =1 solo dopo reconciliation pulita; cattura controllata." },
+        { "capability": "Letture canoniche", "code_status": "Non attivate", "production_status": "Legacy ancora autorevole.", "next_gate": "Shadow-read, telemetry di parity, soglia e rollback approvati." },
+        { "capability": "Object storage", "code_status": "Boundary contentRef consegnata", "production_status": "Payload ancora inline.", "next_gate": "Provider, cifratura, retention, restore e migrazione payload." },
+        { "capability": "PostgreSQL", "code_status": "CI, schema e importer consegnati", "production_status": "Cutover non approvato; SQLite resta live.", "next_gate": "Rehearsal rappresentativo, load/pool, PITR e rollback." },
+        { "capability": "Workspace/account/billing/multi-tenancy", "code_status": "Fuori scope", "production_status": "Non attivi.", "next_gate": "PostgreSQL tenant model, isolamento e storage prima delle feature commerciali." }
+      ]
+    },
+    "accessIssues": [
+      {
+        "id": "production_not_observed",
+        "scope": "Production activation",
+        "message": "Il report non usa dati live e non prova il completamento di backfill, dual-write o canonical read switch in produzione."
+      },
+      {
+        "id": "v3_scope_definition",
+        "scope": "Version comparison",
+        "message": "La linea 3.x è rappresentata dalla 3.9.0-beta.42; le beta precedenti contengono capacità incrementali non elencate singolarmente."
+      },
+      {
+        "id": "no_outcome_claims",
+        "scope": "Business and legal outcomes",
+        "message": "Le funzionalità e i test non costituiscono prova di adozione, ricavo, compliance, accuratezza legale o superiorità competitiva."
+      }
+    ]
+  },
+  "package_info": {
+    "originUrl": "artifact://policywatcher-v4-vs-v3-2026-08-20",
+    "controls": { "edit": false, "refresh": false }
+  }
+}

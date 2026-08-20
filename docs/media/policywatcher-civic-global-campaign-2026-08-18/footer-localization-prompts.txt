@@ -1,0 +1,20 @@
+FINAL EDIT PROMPT 1 - 5W V3
+
+Use case: text-localization
+Asset type: production PolicyWatcher Civic LinkedIn infographic
+Input image: policywatcher-civic-5w-global-directory-2026-08-18-v2.png is the edit target.
+Primary request: Change only the footer URL on the bottom line from “policywatcher.online/associazioni” to the exact text “policywatcher.online/en/associations”.
+Text (verbatim): “policywatcher.online/en/associations”
+Constraints: Preserve the exact original canvas dimensions, official PolicyWatcher logo, all other words, numbers, icons, borders, spacing, typography, colors, texture, hierarchy and composition. The new URL must be centered in the same footer position, fully visible, correctly spelled and readable. Do not translate, restyle, redraw or move anything else. Do not add any new marks, logos, slogans, decorations or watermarks.
+Avoid: any change outside the existing footer URL; misspellings; cropped text; altered logo; reflowed layout.
+
+
+FINAL EDIT PROMPT 2 - TECHNICAL V3
+
+Use case: text-localization
+Asset type: production PolicyWatcher Civic technical LinkedIn infographic
+Input image: policywatcher-civic-technical-coverage-2026-08-18-v2.png is the edit target.
+Primary request: Change only the footer URL on the bottom line from “policywatcher.online/associazioni” to the exact text “policywatcher.online/en/associations”.
+Text (verbatim): “policywatcher.online/en/associations”
+Constraints: Preserve the exact original canvas dimensions, official PolicyWatcher logo, all other words, numbers, icons, borders, spacing, typography, colors, texture, hierarchy and composition. The new URL must be centered in the same footer position, fully visible, correctly spelled and readable. Do not translate, restyle, redraw or move anything else. Do not add any new marks, logos, slogans, decorations or watermarks.
+Avoid: any change outside the existing footer URL; misspellings; cropped text; altered logo; reflowed layout.

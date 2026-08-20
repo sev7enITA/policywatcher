@@ -1,4 +1,5 @@
 import { db } from '@/lib/db';
+import { dualWriteCanonicalEntity } from '@/lib/documentEvidenceSync';
 import { runPolicyDiscoveryJob, startPolicyDiscovery } from '@/lib/policyDiscoveryWorkflow';
 
 export interface CreateCompanyForOnboardingInput {
@@ -48,8 +49,12 @@ export async function createCompanyAndStartDiscovery(
   });
   if (existing) throw new Error('COMPANY_EXISTS');
 
-  const company = await db.company.create({
-    data: { name, slug, industry, website, logo: input.logo || null },
+  const company = await db.$transaction(async (tx) => {
+    const created = await tx.company.create({
+      data: { name, slug, industry, website, logo: input.logo || null },
+    });
+    await dualWriteCanonicalEntity(tx, created.id);
+    return created;
   });
 
   try {

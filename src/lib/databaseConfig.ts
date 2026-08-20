@@ -1,7 +1,14 @@
-import { configuredDatabaseUrl, getDatabaseUrl, getSqliteFilePath } from './databaseUrl';
+import {
+  configuredDatabaseUrl,
+  getDatabaseProvider,
+  getDatabaseUrl,
+  getSqliteFilePath,
+  type DatabaseProvider,
+} from './databaseUrl';
 
 export interface DatabaseDiagnostics {
   configured: boolean;
+  provider: DatabaseProvider;
   url: string;
   filePath: string | null;
   directoryPath: string | null;
@@ -20,6 +27,7 @@ export async function getDatabaseDiagnostics(): Promise<DatabaseDiagnostics> {
   ]);
 
   const url = getDatabaseUrl();
+  const provider = getDatabaseProvider(url);
   const filePath = getSqliteFilePath(url);
   const directoryPath = filePath ? path.dirname(filePath) : null;
   const directoryExists = directoryPath ? fs.existsSync(directoryPath) : false;
@@ -55,6 +63,7 @@ export async function getDatabaseDiagnostics(): Promise<DatabaseDiagnostics> {
 
   return {
     configured: Boolean(configuredDatabaseUrl()),
+    provider,
     url,
     filePath,
     directoryPath,

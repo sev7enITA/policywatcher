@@ -94,14 +94,14 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
     steps: [
       {
         id: 'workspace',
-        title: 'Start with Today, Continue, Explore',
+        title: 'Dashboard sections',
         description:
           'Today keeps no more than three decision-changing items, Continue resumes the active evidence context, and Explore opens Atlas, Civic and Observatory when you need a wider path.',
         focusLabel: 'Operational home',
       },
       {
         id: 'experience',
-        title: 'Choose the amount of interface you need',
+        title: 'Interface density',
         description:
           'Use Focus for one decision path, Balanced for the workspace default, or Explore for more secondary signals. Motion can follow the system or be reduced explicitly.',
         focusLabel: 'Experience control',
@@ -113,7 +113,7 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
       },
       {
         id: 'share',
-        title: 'Copy a shareable evidence view',
+        title: 'Shareable evidence view',
         description:
           'Set the public filters, then use Copy view. The canonical URL can carry industry, risk, region, audience, time, search, sort, language, and workspace state.',
         focusLabel: 'Copy view',
@@ -124,35 +124,35 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
       },
       {
         id: 'ticker',
-        title: 'Read the Observatory ticker',
+        title: 'Observatory ticker',
         description:
           'The ticker surfaces linked monitoring notes. Pause it on hover or focus, then open the source when you need context.',
         focusLabel: 'Observatory ticker',
       },
       {
         id: 'sourceStatus',
-        title: 'Check source status first',
+        title: 'Source status',
         description:
           'Temporarily suspended sources are called out before interpretation. Treat the notice as a gate, then use Timeline → Source continuity to inspect sanitized retrieval-state transitions separately from provider policy changes.',
         focusLabel: 'Source status notice',
       },
       {
         id: 'market',
-        title: 'Follow the market, then open a company',
+        title: 'Market changes',
         description:
           'Market Pulse puts recent changes into sequence. Company cards narrow the view to a provider and its public policy record.',
         focusLabel: 'Market Pulse',
       },
       {
         id: 'evidence',
-        title: 'Open the evidence details',
+        title: 'Evidence details',
         description:
           'Use View analysis for retrieval status, source baseline, changes, and limits before relying on a summary or score.',
         focusLabel: 'Evidence details',
       },
       {
         id: 'drilldown',
-        title: 'Coordinate regional and KPI evidence',
+        title: 'Regional and KPI filters',
         description:
           'Select a heatmap cell to commit region and audience together, then select a radar KPI to inspect original and normalized values.',
         focusLabel: 'Evidence drill-down',
@@ -163,14 +163,14 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
       },
       {
         id: 'navigation',
-        title: 'Use navigation to widen the search',
+        title: 'Public navigation',
         description:
           'Navigation and the sitemap link to Observatory, Atlas, timeline, methodology, and other public context.',
         focusLabel: 'Navigation and sitemap',
       },
       {
         id: 'associations',
-        title: 'Open the civic workspace',
+        title: 'Consumer associations',
         description:
           'Set the global region, country and supported interface language, then use Civic Lab to find source-backed consumer organizations or build a browser-local evidence watchlist and review digest.',
         focusLabel: 'Civic Lab',
@@ -182,7 +182,7 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
       },
       {
         id: 'mobile',
-        title: 'Choose mobile reading deliberately',
+        title: 'Mobile reading profile',
         description:
           'Desktop keeps the full workspace. On mobile, the optional On-the-Go reading profile is activated from the workspace prompt.',
         focusLabel: 'Optional mobile profile',
@@ -210,14 +210,14 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
     steps: [
       {
         id: 'workspace',
-        title: 'Parti da Oggi, Continua, Esplora',
+        title: 'Sezioni della dashboard',
         description:
           'Oggi mostra al massimo tre elementi che possono cambiare la decisione, Continua riprende il contesto di evidenza e Esplora apre Atlante, Civico e Observatory quando serve allargare il percorso.',
         focusLabel: 'Home operativa',
       },
       {
         id: 'experience',
-        title: 'Scegli quanta interfaccia ti serve',
+        title: 'Densità dell’interfaccia',
         description:
           'Usa Focus per un solo percorso decisionale, Bilanciata per il default del workspace oppure Esplora per più segnali secondari. Il movimento può seguire il sistema o essere ridotto esplicitamente.',
         focusLabel: 'Controllo esperienza',
@@ -229,7 +229,7 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
       },
       {
         id: 'share',
-        title: 'Copia una vista evidenze condivisibile',
+        title: 'Vista evidenze condivisibile',
         description:
           'Imposta i filtri pubblici, poi usa Copia vista. L URL canonico puo includere settore, rischio, regione, audience, periodo, ricerca, ordinamento, lingua e workspace.',
         focusLabel: 'Copia vista',
@@ -240,35 +240,35 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
       },
       {
         id: 'ticker',
-        title: 'Leggi il ticker Observatory',
+        title: 'Ticker Observatory',
         description:
           'Il ticker mostra note di monitoraggio collegate. Fermalo con hover o focus, poi apri la fonte quando serve contesto.',
         focusLabel: 'Ticker Observatory',
       },
       {
         id: 'sourceStatus',
-        title: 'Controlla prima lo stato della fonte',
+        title: 'Stato della fonte',
         description:
           'Le fonti temporaneamente sospese sono evidenziate prima dell interpretazione. Tratta l avviso come un gate, poi usa Timeline → Source continuity per ispezionare transizioni di retrieval sanificate, separate dai cambiamenti delle policy provider.',
         focusLabel: 'Avviso stato fonte',
       },
       {
         id: 'market',
-        title: 'Segui il mercato, poi apri un azienda',
+        title: 'Modifiche di mercato',
         description:
           'Market Pulse mette in sequenza le modifiche recenti. Le card azienda restringono la lettura a un provider e al suo record policy pubblico.',
         focusLabel: 'Market Pulse',
       },
       {
         id: 'evidence',
-        title: 'Apri i dettagli delle evidenze',
+        title: 'Dettagli delle evidenze',
         description:
           'Usa Vedi analisi per stato di recupero, baseline fonte, modifiche e limiti prima di usare una sintesi o uno score.',
         focusLabel: 'Dettagli evidenze',
       },
       {
         id: 'drilldown',
-        title: 'Coordina evidenze regionali e KPI',
+        title: 'Filtri regionali e KPI',
         description:
           'Seleziona una cella della heatmap per confermare insieme regione e audience, poi seleziona un KPI radar per ispezionare valori originali e normalizzati.',
         focusLabel: 'Drill-down evidenze',
@@ -279,14 +279,14 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
       },
       {
         id: 'navigation',
-        title: 'Usa la navigazione per ampliare la ricerca',
+        title: 'Navigazione pubblica',
         description:
           'Navigazione e sitemap collegano Observatory, Atlas, timeline, metodologia e altro contesto pubblico.',
         focusLabel: 'Navigazione e sitemap',
       },
       {
         id: 'associations',
-        title: 'Apri il workspace civico',
+        title: 'Associazioni dei consumatori',
         description:
           'Imposta area, paese e lingua supportata a livello globale, poi usa Associazioni per trovare realtà con fonte verificabile o costruire una watchlist locale e il digest di revisione.',
         focusLabel: 'Associazioni',
@@ -298,7 +298,7 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
       },
       {
         id: 'mobile',
-        title: 'Scegli consapevolmente la lettura mobile',
+        title: 'Profilo di lettura mobile',
         description:
           'Desktop mantiene il workspace completo. Su mobile, il profilo opzionale di lettura On-the-Go si attiva dal prompt del workspace.',
         focusLabel: 'Profilo mobile opzionale',

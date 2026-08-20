@@ -13,7 +13,7 @@ const EVIDENCE_SIDES = ['old', 'new'] as const;
 const REGIONS = ['EU', 'US', 'Global'] as const;
 const PERSPECTIVES = ['Individual', 'Enterprise'] as const;
 
-export const POLICY_ANALYSIS_SCHEMA_VERSION = 'policy-analysis.schema.v1';
+export const POLICY_ANALYSIS_SCHEMA_VERSION = 'policy-analysis.schema.v2';
 
 const AI_TRAINING_VALUES = ['Allowed', 'Not Allowed', 'Opt-out available', 'Not specified'] as const;
 const AI_SCRAPING_VALUES = ['Restricted', 'Permitted', 'Not specified'] as const;
@@ -26,13 +26,16 @@ const kpiEnum = (field: KpiField): string[] => [
 ];
 
 const kpiProperties = Object.fromEntries(
-  KPI_FIELD_KEYS.map((field) => [field, { type: 'string', enum: kpiEnum(field) }]),
+  KPI_FIELD_KEYS.map((field) => [field, { type: 'string' }]),
 );
 
 /**
  * JSON Schema sent to Gemini together with responseMimeType=application/json.
- * The schema constrains syntax and vocabulary at generation time; the local
- * assertion below remains the final trust boundary before persistence.
+ * The provider schema constrains JSON shape and required fields at generation
+ * time. Vocabulary, cardinality, numeric bounds and cross-field semantics stay
+ * in the local assertion below. Keeping combinatorial enums and nested array
+ * bounds out of the provider contract avoids Gemini's "too many states"
+ * rejection while preserving a fail-closed persistence boundary.
  */
 export const POLICY_ANALYSIS_RESPONSE_SCHEMA = Object.freeze({
   type: 'object',
@@ -44,49 +47,43 @@ export const POLICY_ANALYSIS_RESPONSE_SCHEMA = Object.freeze({
     tldrIt: { type: 'string' },
     keyPoints: {
       type: 'array',
-      minItems: 3,
-      maxItems: 5,
       items: {
         type: 'object',
         additionalProperties: false,
         properties: {
           textEn: { type: 'string' },
           textIt: { type: 'string' },
-          sentiment: { type: 'string', enum: [...SENTIMENTS] },
+          sentiment: { type: 'string' },
         },
         required: ['textEn', 'textIt', 'sentiment'],
       },
     },
     riskReasons: {
       type: 'array',
-      minItems: 3,
-      maxItems: 3,
       items: {
         type: 'object',
         additionalProperties: false,
         properties: {
-          icon: { type: 'string', enum: [...RISK_ICONS] },
+          icon: { type: 'string' },
           textEn: { type: 'string' },
           textIt: { type: 'string' },
-          deltaScore: { type: 'number', minimum: -10, maximum: 10 },
+          deltaScore: { type: 'number' },
           evidenceQuote: { type: 'string' },
-          evidenceSide: { type: 'string', enum: [...EVIDENCE_SIDES] },
-          relatedKpi: { type: 'string', enum: [...KPI_FIELD_KEYS] },
+          evidenceSide: { type: 'string' },
+          relatedKpi: { type: 'string' },
         },
         required: ['icon', 'textEn', 'textIt', 'deltaScore'],
       },
     },
-    overallRisk: { type: 'string', enum: [...RISK_LEVELS] },
-    overallScore: { type: 'number', minimum: 1, maximum: 10 },
-    aiTrainingOptOut: { type: 'string', enum: [...AI_TRAINING_VALUES] },
-    aiDataScrapingRestricted: { type: 'string', enum: [...AI_SCRAPING_VALUES] },
-    aiIpLicensing: { type: 'string', enum: [...AI_IP_VALUES] },
-    aiPromptRetention: { type: 'string', enum: [...AI_RETENTION_VALUES] },
+    overallRisk: { type: 'string' },
+    overallScore: { type: 'number' },
+    aiTrainingOptOut: { type: 'string' },
+    aiDataScrapingRestricted: { type: 'string' },
+    aiIpLicensing: { type: 'string' },
+    aiPromptRetention: { type: 'string' },
     ...kpiProperties,
     remediations: {
       type: 'array',
-      minItems: 2,
-      maxItems: 4,
       items: {
         type: 'object',
         additionalProperties: false,
@@ -104,17 +101,15 @@ export const POLICY_ANALYSIS_RESPONSE_SCHEMA = Object.freeze({
     },
     regionImpacts: {
       type: 'array',
-      minItems: 6,
-      maxItems: 6,
       items: {
         type: 'object',
         additionalProperties: false,
         properties: {
-          region: { type: 'string', enum: [...REGIONS] },
-          perspective: { type: 'string', enum: [...PERSPECTIVES] },
+          region: { type: 'string' },
+          perspective: { type: 'string' },
           impactAnalysisEn: { type: 'string' },
           impactAnalysisIt: { type: 'string' },
-          riskLevel: { type: 'string', enum: [...RISK_LEVELS] },
+          riskLevel: { type: 'string' },
           complianceNoteEn: { type: 'string' },
           complianceNoteIt: { type: 'string' },
         },

@@ -9,6 +9,7 @@ import {
   GLOBAL_COUNTRIES,
   GLOBAL_REGION_LABELS,
   globalContextLabel,
+  localizedCivicPath,
   normalizeGlobalContext,
   parseGlobalContext,
   resolvePlatformLanguage,
@@ -29,7 +30,10 @@ interface UseGlobalContextResult {
   updateContext: (next: Partial<GlobalContext>) => GlobalContext;
 }
 
-export function useGlobalContext(fallbackLanguage: PlatformLanguage = 'en'): UseGlobalContextResult {
+export function useGlobalContext(
+  fallbackLanguage: PlatformLanguage = 'en',
+  forcedLanguage?: PlatformLanguage,
+): UseGlobalContextResult {
   const [context, setContext] = useState<GlobalContext>({ ...DEFAULT_GLOBAL_CONTEXT });
   const [browserLanguage, setBrowserLanguage] = useState('');
   const [ready, setReady] = useState(false);
@@ -72,9 +76,10 @@ export function useGlobalContext(fallbackLanguage: PlatformLanguage = 'en'): Use
     };
   }, []);
 
-  const lang = !configured && context.language === 'auto' && context.country === 'all'
+  const resolvedLanguage = !configured && context.language === 'auto' && context.country === 'all'
     ? fallbackLanguage
     : resolvePlatformLanguage(context, browserLanguage);
+  const lang = forcedLanguage ?? resolvedLanguage;
 
   useEffect(() => {
     if (!ready) return;
@@ -97,10 +102,12 @@ interface GlobalContextControlProps {
   className?: string;
   compact?: boolean;
   fallbackLang?: PlatformLanguage;
+  forcedLang?: PlatformLanguage;
 }
 
-export default function GlobalContextControl({ className = '', compact = false, fallbackLang = 'en' }: GlobalContextControlProps) {
-  const { context, lang, updateContext } = useGlobalContext(fallbackLang);
+export default function GlobalContextControl({ className = '', compact = false, fallbackLang = 'en', forcedLang }: GlobalContextControlProps) {
+  const { context, lang, updateContext } = useGlobalContext(fallbackLang, forcedLang);
+  const displayLang = forcedLang ?? lang;
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState<GlobalContext>(context);
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -127,7 +134,7 @@ export default function GlobalContextControl({ className = '', compact = false, 
       : GLOBAL_COUNTRIES.filter((country) => country.region === draft.region)
   ), [draft.region]);
 
-  const copy = lang === 'it' ? {
+  const copy = displayLang === 'it' ? {
     trigger: 'Paese e lingua',
     eyebrow: 'Contesto globale PolicyWatcher',
     title: 'Area, paese e lingua',
@@ -177,8 +184,15 @@ export default function GlobalContextControl({ className = '', compact = false, 
   }
 
   function save() {
-    updateContext(draft);
+    const stored = updateContext(draft);
     setOpen(false);
+    const nextLang = stored.language === 'auto' && stored.country === 'all'
+      ? displayLang
+      : resolvePlatformLanguage(stored, window.navigator.language ?? '');
+    const localizedPath = localizedCivicPath(window.location.pathname, nextLang);
+    if (localizedPath && localizedPath !== window.location.pathname) {
+      window.location.assign(`${localizedPath}${window.location.search}${window.location.hash}`);
+    }
   }
 
   return (
@@ -195,8 +209,8 @@ export default function GlobalContextControl({ className = '', compact = false, 
         title={copy.trigger}
       >
         <Globe2 size={17} aria-hidden="true" />
-        <span>{globalContextLabel(context, lang)}</span>
-        <small>{lang.toUpperCase()}</small>
+        <span>{globalContextLabel(context, displayLang)}</span>
+        <small>{displayLang.toUpperCase()}</small>
       </button>
 
       {open && (
@@ -224,7 +238,7 @@ export default function GlobalContextControl({ className = '', compact = false, 
                 <span><MapPin size={15} aria-hidden="true" /> {copy.region}</span>
                 <select data-testid="global-context-region" value={draft.region} onChange={(event) => setRegion(event.target.value as GlobalRegion)}>
                   {(Object.entries(GLOBAL_REGION_LABELS) as Array<[GlobalRegion, { en: string; it: string }]>).map(([value, labels]) => (
-                    <option key={value} value={value}>{labels[lang]}</option>
+                    <option key={value} value={value}>{labels[displayLang]}</option>
                   ))}
                 </select>
               </label>

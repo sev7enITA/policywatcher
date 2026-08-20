@@ -53,11 +53,20 @@ describe('source reliability diagnostics', () => {
     ])).toBe('access_blocked');
   });
 
+  it('classifies an exact Common Crawl miss as archive coverage, not a missing live source', () => {
+    expect(classifyRetrievalCause({
+      source: 'commoncrawl',
+      status: 'failed',
+      httpStatus: 404,
+      reason: 'cc_cdx_404',
+    })).toBe('not_in_archive');
+  });
+
   it('counts unique retrieval metrics and degraded dependencies', () => {
     const metrics = emptyRetrievalMetrics(2, 1);
     recordRetrievalDiagnostics(metrics, [
       { source: 'direct', status: 'failed', httpStatus: 403, durationMs: 20 },
-      { source: 'rendered', status: 'failed', httpStatus: 503, durationMs: 100 },
+      { source: 'rendered', status: 'failed', reason: 'renderer_upstream_unavailable', httpStatus: 503, durationMs: 100 },
     ], 'unavailable', 'none');
     metrics.deduplicatedRetrievals += 1;
 
@@ -70,6 +79,15 @@ describe('source reliability diagnostics', () => {
       retrievalAttempts: 2,
       degradedDependencies: ['rendered'],
     });
+  });
+
+  it('does not mark the renderer dependency degraded when the target page returns an unusable response', () => {
+    const metrics = emptyRetrievalMetrics(1, 1);
+    recordRetrievalDiagnostics(metrics, [
+      { source: 'rendered', status: 'rejected', reason: 'content_too_short', httpStatus: 503 },
+    ], 'unavailable', 'none');
+
+    expect(metrics.degradedDependencies).toEqual([]);
   });
 
   it('does not count a partial extraction as an available unique source', () => {

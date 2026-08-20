@@ -15,7 +15,7 @@ export interface ProductionVerificationCheck {
   boundary: string;
 }
 export interface ProductionVerificationReport {
-  contractVersion: '1.0.0';
+  contractVersion: '1.1.0';
   release: string;
   checkedAt: string;
   origin: string | null;
@@ -100,9 +100,10 @@ async function httpChecks(origin: string | null, fetcher: Fetcher): Promise<Prod
   }
 
   const checks: ProductionVerificationCheck[] = [];
-  const [trustResult, manifestResult, adminBoundaryResult, healthBoundaryResult] = await Promise.allSettled([
+  const [trustResult, manifestResult, readinessResult, adminBoundaryResult, healthBoundaryResult] = await Promise.allSettled([
     fetchWithTimeout(fetcher, `${origin}/trust`),
     fetchWithTimeout(fetcher, `${origin}/api/v1/manifest`),
+    fetchWithTimeout(fetcher, `${origin}/api/v1/publication-readiness`),
     fetchWithTimeout(fetcher, `${origin}/api/admin/database-readiness`),
     fetchWithTimeout(fetcher, `${origin}/api/health`),
   ]);
@@ -143,6 +144,42 @@ async function httpChecks(origin: string | null, fetcher: Fetcher): Promise<Prod
       id: 'deployed-release', category: 'runtime', title: 'Deployed release identity', state: 'unavailable',
       observed: 'The public manifest could not be retrieved.', expected: `Public manifest reports ${POLICYWATCHER_VERSION}.`,
       boundary: 'An unavailable response is not converted into a version mismatch.',
+    });
+  }
+
+  if (readinessResult.status === 'fulfilled') {
+    let payload: Record<string, unknown> | null = null;
+    try { payload = await readinessResult.value.json() as Record<string, unknown>; } catch { payload = null; }
+    const stages = Array.isArray(payload?.stages)
+      ? payload.stages.map((stage) => (stage && typeof stage === 'object' && 'id' in stage ? stage.id : null))
+      : [];
+    const expectedStages = ['configured', 'retrieved', 'baseline-verified', 'public', 'analysed'];
+    const latestCapture = payload?.latestCapture;
+    const contractPass = readinessResult.value.status === 200
+      && readinessResult.value.headers.get('cache-control') === 'no-store'
+      && payload?.schema === 'https://policywatcher.online/schemas/publication-readiness/v1'
+      && payload?.metricId === 'publication-readiness'
+      && payload?.contractVersion === '1.0.0'
+      && payload?.source === 'database'
+      && JSON.stringify(stages) === JSON.stringify(expectedStages)
+      && typeof latestCapture === 'object'
+      && latestCapture !== null
+      && 'capturedAt' in latestCapture;
+    checks.push({
+      id: 'publication-readiness-contract', category: 'http', title: 'Authoritative publication-readiness contract',
+      state: contractPass ? 'passed' : 'attention',
+      observed: contractPass
+        ? 'The live database-derived metric exposes the ordered stages, latest capture and no-store boundary.'
+        : `The readiness endpoint returned HTTP ${readinessResult.value.status} or diverged from contract 1.0.0.`,
+      expected: 'HTTP 200, schema v1, database source, five ordered stages, latest capture and Cache-Control: no-store.',
+      boundary: 'This aggregate contract check does not prove source completeness, analysis quality or current availability of every configured source.',
+    });
+  } else {
+    checks.push({
+      id: 'publication-readiness-contract', category: 'http', title: 'Authoritative publication-readiness contract', state: 'unavailable',
+      observed: 'The deployed publication-readiness response could not be retrieved.',
+      expected: 'A reachable aggregate database-derived metric conforming to schema v1.',
+      boundary: 'Network failure is reported as unavailable and never converted into zero counts.',
     });
   }
 
@@ -188,8 +225,8 @@ export async function getProductionVerificationReport(input: {
       state: database.status === 'ready' ? 'passed' : database.status === 'unavailable' ? 'unavailable' : 'attention',
       observed: database.status === 'unavailable'
         ? 'Database readiness is unavailable.'
-        : `${database.schema.presentTableCount}/${database.schema.expectedTableCount} tables and ${database.schema.appliedMigrationCount}/${database.schema.expectedMigrationCount} migrations observed; quick_check=${database.integrity.quickCheck}.`,
-      expected: 'Ready status, SQLite quick_check ok, all expected tables and migrations present, readable and writable database file.',
+        : `${database.database.provider}: ${database.schema.presentTableCount}/${database.schema.expectedTableCount} tables and ${database.schema.appliedMigrationCount}/${database.schema.expectedMigrationCount} migrations observed; integrity=${database.integrity.quickCheck}.`,
+      expected: 'Ready status, provider integrity check ok, and all provider-specific tables and migrations present; SQLite also requires readable and writable local storage.',
       boundary: 'Readiness is a point-in-time local check. It does not prove backup freshness, recovery time, data completeness or future availability.',
     });
   } catch {
@@ -215,7 +252,7 @@ export async function getProductionVerificationReport(input: {
   const status = summary.unavailable > 0 ? 'unavailable' : summary.attention > 0 || summary.external > 0 ? 'attention' : 'ready';
 
   return {
-    contractVersion: '1.0.0', release: POLICYWATCHER_VERSION, checkedAt, origin, role: input.role,
+    contractVersion: '1.1.0', release: POLICYWATCHER_VERSION, checkedAt, origin, role: input.role,
     status, summary, checks,
     boundary: 'This report is a bounded post-deploy verification snapshot. It is not a penetration-test certificate, service-level statement, security certification or guarantee of continuous availability.',
   };

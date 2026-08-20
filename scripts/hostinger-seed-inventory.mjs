@@ -42,8 +42,8 @@ function sqlitePathFromUrl(value) {
   return raw;
 }
 
-function nowIso() {
-  return new Date().toISOString();
+function nowMs() {
+  return Date.now();
 }
 
 function sha256(text) {
@@ -156,7 +156,7 @@ const companies = [
     website: 'https://wise.com',
     policies: [
       { name: 'Privacy Policy', type: 'privacy', jurisdiction: 'EU', url: 'https://wise.com/gb/legal/privacy-notice-personal-en' },
-      { name: 'Privacy Policy', type: 'privacy', jurisdiction: 'US', url: 'https://wise.com/us/legal/privacy-policy' },
+      { name: 'Privacy Policy', type: 'privacy', jurisdiction: 'US', url: 'https://wise.com/us/legal/privacy-notice' },
       { name: 'Privacy Policy', type: 'privacy', jurisdiction: 'Global', url: 'https://wise.com/gb/legal/privacy-notice-personal-en' },
       { name: 'Terms of Use', type: 'terms', jurisdiction: 'Global', url: 'https://wise.com/us/legal/terms-of-use' },
     ],
@@ -168,10 +168,10 @@ const companies = [
     industry: 'FinTech',
     website: 'https://www.klarna.com',
     policies: [
-      { name: 'Privacy Notice', type: 'privacy', jurisdiction: 'EU', url: 'https://www.klarna.com/ie/privacy/' },
-      { name: 'Privacy Notice', type: 'privacy', jurisdiction: 'US', url: 'https://www.klarna.com/us/privacy/' },
-      { name: 'Terms of Service', type: 'terms', jurisdiction: 'EU', url: 'https://www.klarna.com/ie/terms-and-conditions/' },
-      { name: 'Terms of Service', type: 'terms', jurisdiction: 'US', url: 'https://www.klarna.com/us/terms-of-use/' },
+      { name: 'Privacy Notice', type: 'privacy', jurisdiction: 'EU', url: 'https://www.klarna.com/ie/privacy/', retrievalUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/privacy' },
+      { name: 'Privacy Notice', type: 'privacy', jurisdiction: 'US', url: 'https://www.klarna.com/us/privacy/', retrievalUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy' },
+      { name: 'Terms of Service', type: 'terms', jurisdiction: 'EU', url: 'https://www.klarna.com/ie/terms-and-conditions/', retrievalUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/user' },
+      { name: 'Terms of Service', type: 'terms', jurisdiction: 'US', url: 'https://www.klarna.com/us/terms-of-use/', retrievalUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/user' },
     ],
   },
   {
@@ -228,7 +228,7 @@ const companies = [
     website: 'https://www.tiktok.com',
     policies: [
       { name: 'Privacy Policy', type: 'privacy', jurisdiction: 'EU', url: 'https://www.tiktok.com/legal/privacy-policy-eea' },
-      { name: 'Community Guidelines', type: 'community', jurisdiction: 'Global', url: 'https://www.tiktok.com/legal/page/global/community-guidelines' },
+      { name: 'Community Guidelines', type: 'community', jurisdiction: 'Global', url: 'https://www.tiktok.com/community-guidelines' },
     ],
   },
   {
@@ -306,14 +306,14 @@ const countPolicyCheckLogs = db.prepare(
 );
 const insertPolicy = db.prepare(
   `INSERT INTO "Policy" (
-    "id", "companyId", "name", "type", "url", "jurisdiction",
+    "id", "companyId", "name", "type", "url", "retrievalUrl", "jurisdiction",
     "currentText", "currentHash", "dataStatus", "lastCheckDate",
     "lastSuccessfulCheckDate", "ingestionMethod", "createdAt", "updatedAt"
-   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Configured', ?, ?, 'Seeded', ?, ?)`
+   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Configured', ?, ?, 'Seeded', ?, ?)`
 );
 const updateSeededPolicy = db.prepare(
   `UPDATE "Policy"
-   SET "name" = ?, "url" = ?, "currentText" = ?, "currentHash" = ?,
+   SET "name" = ?, "url" = ?, "retrievalUrl" = ?, "currentText" = ?, "currentHash" = ?,
        "dataStatus" = 'Configured', "ingestionMethod" = 'Seeded',
        "updatedAt" = ?
    WHERE "id" = ?`
@@ -332,7 +332,7 @@ const countChangeRows = db.prepare('SELECT COUNT(*) AS count FROM "PolicyChange"
 db.exec('BEGIN IMMEDIATE');
 try {
   for (const company of companies) {
-    const timestamp = nowIso();
+    const timestamp = nowMs();
     let companyId = getCompanyBySlug.get(company.slug)?.id;
     if (!companyId) {
       companyId = randomUUID();
@@ -356,7 +356,7 @@ try {
       const current = getPolicy.get(companyId, policy.type, policy.jurisdiction);
       const text = placeholderText(company.name, policy);
       const hash = sha256(text);
-      const policyTimestamp = nowIso();
+      const policyTimestamp = nowMs();
 
       if (!current) {
         const policyId = randomUUID();
@@ -366,6 +366,7 @@ try {
           policy.name,
           policy.type,
           policy.url,
+          policy.retrievalUrl || null,
           policy.jurisdiction,
           text,
           hash,
@@ -389,7 +390,7 @@ try {
         continue;
       }
 
-      updateSeededPolicy.run(policy.name, policy.url, text, hash, policyTimestamp, current.id);
+      updateSeededPolicy.run(policy.name, policy.url, policy.retrievalUrl || null, text, hash, policyTimestamp, current.id);
       stats.policiesUpdated++;
 
       const checkLogs = Number(countPolicyCheckLogs.get(current.id)?.count || 0);

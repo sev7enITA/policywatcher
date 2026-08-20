@@ -15,7 +15,7 @@ import EventContinuityClient from './EventContinuityClient';
 import styles from './event-continuity.module.css';
 
 export const metadata: Metadata = {
-  title: 'Event Feed Continuity Lab | PolicyWatcher',
+  title: 'Event feed continuity | PolicyWatcher',
   description:
     'Inspect the anonymous PolicyWatcher change-event feed, save a browser-local checkpoint and review forward-polling continuity findings.',
   alternates: { canonical: '/developers/event-continuity' },
@@ -77,7 +77,7 @@ export default function EventContinuityPage() {
                 <DatabaseZap size={16} aria-hidden="true" />
                 Event feed continuity · Beta 22
               </span>
-              <h1>Inspect what a forward cursor can and cannot show.</h1>
+              <h1>Event feed continuity</h1>
               <p>
                 Request an anonymous public event window, review continuity signals and keep an opaque checkpoint in this browser. The lab exercises polling and resume semantics; it is not an outbound webhook product.
               </p>
@@ -141,7 +141,7 @@ export default function EventContinuityPage() {
         <section id="continuity-lab" className={styles.workbenchSection} aria-labelledby="continuity-heading">
           <header className={styles.sectionHeader}>
             <span>Continuity workbench</span>
-            <h2 id="continuity-heading">Move the cursor only after reviewing the window.</h2>
+            <h2 id="continuity-heading">Cursor checkpoint</h2>
             <p>Start from the current public window or resume from a checkpoint previously saved in this browser. Requests are never retried automatically.</p>
           </header>
           <EventContinuityClient />
@@ -150,7 +150,7 @@ export default function EventContinuityPage() {
         <section className={styles.protocolSection} aria-labelledby="protocol-heading">
           <header className={styles.sectionHeader}>
             <span>Operational protocol</span>
-            <h2 id="protocol-heading">Four explicit steps from inspection to resume.</h2>
+            <h2 id="protocol-heading">Continuity procedure</h2>
             <p>The sequence keeps local observation, checkpoint storage and the next feed request distinguishable.</p>
           </header>
           <ol className={styles.protocol}>
@@ -170,7 +170,7 @@ export default function EventContinuityPage() {
           <Eye size={24} aria-hidden="true" />
           <div>
             <span>Exact boundary</span>
-            <h2 id="limitations-heading">A local continuity report is bounded evidence.</h2>
+            <h2 id="limitations-heading">Continuity report limitations</h2>
             <p>
               A clean local report is not proof of exhaustive monitoring, network delivery, endpoint identity or legal/compliance status. The public cursor can expose duplicates, ordering regressions and a truncated initial window; it cannot prove that every external policy update exists.
             </p>

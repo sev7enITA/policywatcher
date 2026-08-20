@@ -298,7 +298,7 @@ export default function Navigation({
       id: 'observe',
       label: t.observe,
       items: [
-        { id: 'associations', label: t.associations, tooltip: t.tooltips.associations, icon: Users, href: '/associazioni' },
+        { id: 'associations', label: t.associations, tooltip: t.tooltips.associations, icon: Users, href: lang === 'it' ? '/it/associazioni' : '/en/associations' },
         { id: 'timeline', label: t.timeline, tooltip: t.tooltips.timeline, icon: Clock, href: '/timeline' },
         { id: 'observatory', label: t.observatory, tooltip: t.tooltips.observatory, icon: Search, href: '/observatory' },
         { id: 'leaderboard', label: t.leaderboard, tooltip: t.tooltips.leaderboard, icon: BarChart3, href: '/leaderboard' },
@@ -325,6 +325,7 @@ export default function Navigation({
       ],
     },
   ], [
+    lang,
     onOpenAbout,
     onOpenChangelog,
     onOpenExport,

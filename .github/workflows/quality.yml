@@ -72,3 +72,98 @@ jobs:
 
       - name: Audit high severity production dependencies
         run: npm audit --omit=dev --audit-level=high
+
+  postgresql-portability:
+    name: PostgreSQL schema and runtime portability
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: policywatcher_ci
+          POSTGRES_USER: policywatcher
+          POSTGRES_PASSWORD: policywatcher
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U policywatcher -d policywatcher_ci"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+      DATABASE_URL: postgresql://policywatcher:policywatcher@127.0.0.1:5432/policywatcher_ci?schema=public
+      DIRECT_URL: postgresql://policywatcher:policywatcher@127.0.0.1:5432/policywatcher_ci?schema=public
+      GEMINI_API_KEY: ci-placeholder
+      API_SECRET: ci-placeholder-secret
+      SESSION_HMAC_SECRET: ci-placeholder-session-secret
+      APP_URL: http://localhost:3000
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies and generate the PostgreSQL client
+        run: npm ci
+
+      - name: Validate generated PostgreSQL schema
+        run: npm run db:postgresql:validate
+
+      - name: Deploy PostgreSQL migration history
+        run: npm run db:postgresql:migrate
+
+      - name: Reject schema drift
+        run: node node_modules/prisma/build/index.js migrate diff --exit-code --from-url "$DIRECT_URL" --to-schema-datamodel prisma/postgresql/schema.prisma
+
+      - name: Verify portable relational operations
+        run: npm run db:postgresql:smoke
+
+      - name: Create SQLite rehearsal fixture
+        run: |
+          DATABASE_URL=file:/tmp/policywatcher-rehearsal-source.db node scripts/hostinger-init-db.mjs
+          node scripts/create-postgresql-rehearsal-fixture.mjs --database /tmp/policywatcher-rehearsal-source.db
+
+      - name: Backfill and reconcile canonical evidence in the SQLite fixture
+        env:
+          POLICYWATCHER_DOCUMENT_EVIDENCE_BACKFILL_ACK: I_ACKNOWLEDGE_DOCUMENT_EVIDENCE_BACKFILL
+        run: |
+          DATABASE_URL=file:/tmp/policywatcher-rehearsal-source.db node scripts/prisma-active-schema.mjs generate
+          DATABASE_URL=file:/tmp/policywatcher-rehearsal-source.db npm run db:document-evidence:backfill -- --apply --report /tmp/policywatcher-document-evidence-sqlite.json
+          node scripts/prisma-active-schema.mjs generate
+
+      - name: Rehearse SQLite-to-PostgreSQL import and reconciliation
+        env:
+          POLICYWATCHER_REHEARSAL_ACK: I_UNDERSTAND_THIS_WRITES_TO_A_DISPOSABLE_POSTGRESQL_DATABASE
+        run: >-
+          npm run db:postgresql:rehearsal --
+          --source /tmp/policywatcher-rehearsal-source.db
+          --report /tmp/policywatcher-postgresql-rehearsal.json
+
+      - name: Verify canonical dual-write on PostgreSQL
+        env:
+          POLICYWATCHER_DOCUMENT_EVIDENCE_DUAL_WRITE: '1'
+          POLICYWATCHER_DOCUMENT_EVIDENCE_SMOKE_ACK: I_ACKNOWLEDGE_DOCUMENT_EVIDENCE_SMOKE_WRITES
+        run: >-
+          npm run db:document-evidence:smoke --
+          --report /tmp/policywatcher-document-evidence-postgresql.json
+
+      - name: Upload sanitized rehearsal evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: postgresql-rehearsal-report
+          path: |
+            /tmp/policywatcher-postgresql-rehearsal.json
+            /tmp/policywatcher-document-evidence-sqlite.json
+            /tmp/policywatcher-document-evidence-postgresql.json
+          if-no-files-found: warn
+          retention-days: 14

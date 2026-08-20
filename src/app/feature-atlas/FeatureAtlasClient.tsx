@@ -278,7 +278,7 @@ export default function FeatureAtlasClient() {
         <div className={styles.heroCopy}>
           <Link href="/" className={styles.backLink}><ArrowLeft size={15} /> Evidence Console</Link>
           <span className={styles.eyebrow}><GitBranch size={14} /> Operational constellation · {POLICYWATCHER_VERSION_DISPLAY}</span>
-          <h1>Feature Intelligence Atlas</h1>
+          <h1>Feature atlas</h1>
           <p>
             Follow PolicyWatcher from a user signal to official evidence, qualified analysis,
             public distribution and recorded remediation. Nodes include outcome,
@@ -344,7 +344,7 @@ export default function FeatureAtlasClient() {
       <section className={styles.workspace} aria-label="Feature dependency workspace">
         <div className={styles.mapPanel} id="feature-atlas-map">
           <header className={styles.panelHeader}>
-            <div><span>System map / evidence chain</span><h2>Six operating stages, one fail-closed boundary</h2></div>
+            <div><span>System map / evidence chain</span><h2>Operating stages</h2></div>
             <p>{visibleFeatures.length} of {FEATURE_ATLAS_FEATURES.length} nodes shown</p>
           </header>
 
@@ -459,7 +459,7 @@ export default function FeatureAtlasClient() {
       <section className={styles.changelog} aria-labelledby="changelog-chain-title">
         <header>
           <span>Compact changelog chain</span>
-          <h2 id="changelog-chain-title">Step through Beta 2 → {POLICYWATCHER_VERSION_DISPLAY}</h2>
+          <h2 id="changelog-chain-title">Release history through {POLICYWATCHER_VERSION_DISPLAY}</h2>
           <p>Select a milestone to isolate capabilities first represented in that release.</p>
         </header>
         <ol>
@@ -483,7 +483,7 @@ export default function FeatureAtlasClient() {
       </section>
 
       <section className={styles.methodNote}>
-        <div><span>Reading protocol</span><h2>Trace the claim. Keep the boundary.</h2></div>
+        <div><span>Reading protocol</span><h2>Claim verification procedure</h2></div>
         <p>Feature evidence identifies an implementation surface. Delivery state describes repository inventory, not availability in a specific deployment. AI-assisted signals remain text-derived attention cues, and public data routes apply the configured evidence gate.</p>
         <Link href="/methodology/confidence">Read methodology <ArrowRight size={15} /></Link>
       </section>

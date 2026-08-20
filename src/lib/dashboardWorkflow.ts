@@ -97,7 +97,7 @@ export function buildDashboardTodayItems({
     description: isIt
       ? 'Imposta Paese, area regolatoria, tema e tipo di associazione sul catalogo pubblico.'
       : 'Set country, regulatory area, theme and association type on the public catalog.',
-    href: '/associazioni',
+    href: isIt ? '/it/associazioni' : '/en/associations',
     priority: 3,
   });
 

@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "PolicyWatcher Companion",
+    "slug": "policywatcher-companion",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "policywatcher",
+    "userInterfaceStyle": "light",
+    "icon": "./assets/policywatcher-logo-mark-512.png",
+    "android": {
+      "package": "online.policywatcher.companion",
+      "predictiveBackGestureEnabled": true,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/policywatcher-logo-mark-512.png",
+        "backgroundColor": "#F6F2E9"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/policywatcher-logo-mark-512.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/policywatcher-logo-mark-512.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#F6F2E9"
+        }
+      ],
+      "expo-sqlite",
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

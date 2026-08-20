@@ -21,8 +21,8 @@ type Lang = 'it' | 'en';
 const copy = {
   it: {
     back: 'Cosa è cambiato?', switchLanguage: 'English', kicker: 'Estensione browser · Beta',
-    title: 'Dalla mail ai link reali, senza inviare la mail',
-    lead: 'Con un gesto esplicito, PolicyWatcher legge localmente la notifica aperta e recupera i link presenti nella pagina. Tu confermi gli indizi minimi prima della verifica.',
+    title: 'Verifica dei link',
+    lead: 'PolicyWatcher legge localmente la notifica aperta e recupera i link presenti nella pagina. Conferma organizzazione, policy e link di partenza prima della verifica.',
     betaTitle: 'Versione Beta per test controllati', betaBody: 'È software pre-release: estrazione ed evidenze possono essere incomplete o non disponibili. Non usarlo con comunicazioni riservate, sanitarie, finanziarie, lavorative o di autenticazione; non è consulenza legale.', betaBoundary: 'Il contenuto grezzo resta sul dispositivo e non viene trasmesso.',
     boundary: 'Campi esclusi dalla trasmissione', boundaryBody: 'Il payload dell’estensione esclude testo, oggetto, indirizzi e allegati.',
     local: 'Nella scheda aperta', localItems: ['Testo visibile della notifica', 'Link reali presenti nei pulsanti', 'Mittente e date visibili'],
@@ -45,8 +45,8 @@ const copy = {
   },
   en: {
     back: 'What changed?', switchLanguage: 'Italiano', kicker: 'Browser extension · Beta',
-    title: 'From the email to real links, without sending the email',
-    lead: 'After an explicit action, PolicyWatcher reads the open notification locally and retrieves links present in the page. You confirm the minimal clues before verification.',
+    title: 'Link verification',
+    lead: 'PolicyWatcher reads the open notice locally and retrieves links from the page. Confirm the organization, policy and starting link before verification.',
     betaTitle: 'Beta version for controlled testing', betaBody: 'This is pre-release software: extraction and evidence may be incomplete or unavailable. Do not use it with confidential, health, financial, employment or authentication communications; it is not legal advice.', betaBoundary: 'Raw content stays on the device and is not transmitted.',
     boundary: 'Fields excluded from transmission', boundaryBody: 'The extension payload excludes text, subject, addresses and attachments.',
     local: 'In the open tab', localItems: ['Visible notification text', 'Real links behind buttons', 'Visible sender and dates'],

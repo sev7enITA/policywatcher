@@ -85,7 +85,7 @@ const copy = {
       ['Route a request', 'Press, fact-checking, interview or speaking.'],
     ],
     packagesLabel: 'Press packages',
-    packagesTitle: 'Language-specific editorial files.',
+    packagesTitle: 'Editorial files by language',
     packagesLead: 'Every package lists version, generation date, contents, rights boundary and checksum.',
     packageContents: 'Included files',
     packageVersion: 'Version',
@@ -94,11 +94,11 @@ const copy = {
     releaseArchive: 'Open release archive',
     dataRoom: 'Open data room',
     contactRouting: 'Request routing',
-    contactTitle: 'Send the request with the context needed for review.',
+    contactTitle: 'Press contact',
     contactLead: 'These routes use one public address with a contextual subject. No response time is promised.',
     requestedContext: 'Please include',
     sendRequest: 'Prepare email',
-    referenceTitle: 'Provenance, corrections and terminology.',
+    referenceTitle: 'Reference information',
     provenance: 'Provenance status',
     correctionsLog: 'Correction register',
     glossary: 'Glossary',
@@ -120,7 +120,7 @@ const copy = {
       ['Data Quality', 'Withhold incomplete evidence and display Not assessed without assigning a numerical value.'],
     ],
     cycleLabel: 'Latest two-week development cycle',
-    cycleTitle: 'Functions included in the current release.',
+    cycleTitle: 'Platform functions available in the current build.',
     ledgerLabel: 'Claim Ledger',
     ledgerTitle: 'Claims, supporting links and limitations.',
     ledgerLead: 'Each entry identifies a product statement, its supporting page and its stated limitation.',
@@ -175,7 +175,7 @@ const copy = {
       ['Indirizza una richiesta', 'Stampa, fact-checking, intervista o speaking.'],
     ],
     packagesLabel: 'Pacchetti stampa',
-    packagesTitle: 'File editoriali specifici per lingua.',
+    packagesTitle: 'File editoriali per lingua',
     packagesLead: 'Ogni pacchetto elenca versione, data di generazione, contenuti, limiti di utilizzo e checksum.',
     packageContents: 'File inclusi',
     packageVersion: 'Versione',
@@ -184,11 +184,11 @@ const copy = {
     releaseArchive: 'Apri archivio release',
     dataRoom: 'Apri data room',
     contactRouting: 'Instradamento richieste',
-    contactTitle: 'Invia la richiesta con il contesto necessario alla revisione.',
+    contactTitle: 'Contatto stampa',
     contactLead: 'I percorsi usano un unico indirizzo pubblico con oggetto contestuale. Non viene promessa una tempistica di risposta.',
     requestedContext: 'Includere',
     sendRequest: 'Prepara email',
-    referenceTitle: 'Provenienza, correzioni e terminologia.',
+    referenceTitle: 'Informazioni di riferimento',
     provenance: 'Stato provenienza',
     correctionsLog: 'Registro correzioni',
     glossary: 'Glossario',
@@ -210,7 +210,7 @@ const copy = {
       ['Qualita dati', 'Trattenere evidenze incomplete e mostrare Non valutato senza assegnare un valore numerico.'],
     ],
     cycleLabel: 'Ultimo ciclo di sviluppo di due settimane',
-    cycleTitle: 'Funzioni incluse nella release corrente.',
+    cycleTitle: 'Funzioni della piattaforma disponibili nella build corrente.',
     ledgerLabel: 'Registro delle affermazioni',
     ledgerTitle: 'Affermazioni, link di supporto e limiti.',
     ledgerLead: 'Ogni voce identifica una dichiarazione sul prodotto, la pagina di supporto e il limite dichiarato.',
@@ -441,7 +441,7 @@ export default function PressKitClient() {
             />
             <div>
               <span>14-day release evidence pulse</span>
-              <h3>{lang === 'en' ? 'Six release clusters, their implementation impact and the limit of each claim.' : 'Sei cluster di release, il loro impatto implementativo e il limite di ogni affermazione.'}</h3>
+              <h3>{lang === 'en' ? 'Release implementation summary' : 'Riepilogo implementazione release'}</h3>
               <p>{lang === 'en' ? 'One dated ledger drives the interactive story, public API and bilingual press infographic.' : 'Un unico ledger datato alimenta la storia interattiva, l API pubblica e l infografica stampa bilingue.'}</p>
               <div>
                 <Link href="/pulse/two-week-release-impact">{lang === 'en' ? 'Open evidence story' : 'Apri storia delle evidenze'}<ArrowRight size={13} /></Link>
@@ -468,7 +468,7 @@ export default function PressKitClient() {
         </section>
 
         <section className={styles.dataPreview} aria-labelledby="data-preview-title">
-          <div className={styles.sectionIntro}><span>06 / Data room</span><h2 id="data-preview-title">{lang === 'en' ? 'Published snapshots and reusable formats.' : 'Snapshot pubblicati e formati riutilizzabili.'}</h2><p>{lang === 'en' ? 'Each record states its date, method, citation and reuse boundary. Only listed formats are available.' : 'Ogni record indica data, metodo, citazione e limite di riuso. Sono disponibili solo i formati elencati.'}</p></div>
+          <div className={styles.sectionIntro}><span>06 / Data room</span><h2 id="data-preview-title">{lang === 'en' ? 'Published data formats' : 'Formati dati pubblicati'}</h2><p>{lang === 'en' ? 'Each record states its date, method, citation and reuse boundary. Only listed formats are available.' : 'Ogni record indica data, metodo, citazione e limite di riuso. Sono disponibili solo i formati elencati.'}</p></div>
           <div className={styles.dataGrid}>
             {pressKitDataSnapshots.slice(0, 3).map((snapshot) => (
               <article className={styles.dataCard} key={snapshot.id}>

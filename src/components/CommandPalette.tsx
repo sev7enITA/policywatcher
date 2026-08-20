@@ -248,7 +248,7 @@ export default function CommandPalette({
         group: 'actions',
         keywords: 'associations associazioni consumer consumers cittadini civic watchlist review digest evidence',
         run: () => {
-          window.location.href = '/associazioni';
+          window.location.href = lang === 'it' ? '/it/associazioni' : '/en/associations';
         },
       },
       {
@@ -509,6 +509,7 @@ export default function CommandPalette({
   }, [
     companies,
     isIt,
+    lang,
     onOpenAssistant,
     onOpenExport,
     onOpenMatrix,

@@ -29,7 +29,7 @@ L'estensione del 7 agosto aggiunge un directory source-backed di 79 organizzazio
 
 Il controllo globale condiviso salva area, paese e lingua `auto|en|it` in `policywatcher:global-context:v1`. Non usa geolocalizzazione IP. Influenza public header/footer, lingua e regione iniziale della dashboard, filtro iniziale del directory e contesto del radar. Il fallback per paesi senza locale completo è English e viene dichiarato nell'interfaccia.
 
-La form “Segnala un'altra associazione” valida URL HTTPS, limita e normalizza i campi, poi apre una bozza email. Non effettua una submission silenziosa e una segnalazione non determina l'inclusione.
+La form “Segnala o correggi un'organizzazione” consente a un rappresentante di proporre direttamente la propria associazione oppure a un utente di segnalarla. Valida URL HTTPS, limita e normalizza i campi, poi apre una bozza email. Ogni scheda esistente ha anche una bozza di correzione separata con ID e fonti correnti. Nessuna azione invia dati, accetta la proposta o pubblica modifiche automaticamente.
 
 ## Risorse sincronizzate
 
@@ -37,7 +37,7 @@ La form “Segnala un'altra associazione” valida URL HTTPS, limita e normalizz
 - How To bilingue;
 - README;
 - Site Atlas e release-impact map;
-- `llms.txt` e sitemap canonica `/associazioni`;
+- `llms.txt` e sitemap con canonical localizzati `/en/associations` e `/it/associazioni`;
 - documentazione del verticale e Design QA;
 - ricerca datata `docs/global-consumer-association-research-2026-08-07.md`;
 - pagina Browser Extension con stato Microsoft Edge Add-ons pubblicato e azione diretta fail-closed finché manca l'URL ufficiale configurato.

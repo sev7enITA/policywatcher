@@ -14,6 +14,7 @@ const mocks = vi.hoisted(() => ({
   inquiryCount: vi.fn(),
   inquiryFindFirst: vi.fn(),
   policyFindMany: vi.fn(),
+  policyCheckLogFindFirst: vi.fn(),
   scanFindFirst: vi.fn(),
   remediationCount: vi.fn(),
   remediationFindFirst: vi.fn(),
@@ -37,6 +38,7 @@ vi.mock('@/lib/db', () => ({
   db: {
     company: { count: mocks.companyCount },
     policy: { count: mocks.policyCount, findMany: mocks.policyFindMany },
+    policyCheckLog: { findFirst: mocks.policyCheckLogFindFirst },
     policySnapshot: { count: mocks.snapshotCount },
     policyChange: {
       count: mocks.changeCount,
@@ -91,6 +93,9 @@ describe('admin metrics resilience', () => {
     mocks.allChanges.mockResolvedValue([{ overallScore: 50, overallRisk: 'Medium' }]);
     mocks.inquiryFindFirst.mockResolvedValue(null);
     mocks.policyFindMany.mockResolvedValue([]);
+    mocks.policyCheckLogFindFirst.mockResolvedValue({
+      checkedAt: new Date('2026-07-31T11:00:00.000Z'),
+    });
     mocks.scanFindFirst.mockResolvedValue({ status: 'completed', startedAt: new Date() });
     mocks.remediationCount.mockResolvedValue(0);
     mocks.remediationFindFirst.mockResolvedValue(null);
@@ -121,8 +126,10 @@ describe('admin metrics resilience', () => {
   });
 
   it('keeps one failed funnel query unavailable while other stages remain measured', async () => {
-    mocks.policyCount.mockImplementation((args?: { where?: { checkLogs?: unknown } }) => {
-      if (args?.where?.checkLogs) return Promise.reject(new Error('PolicyCheckLog unavailable'));
+    mocks.policyCount.mockImplementation((args?: { where?: unknown }) => {
+      if ((JSON.stringify(args?.where) || '').includes('checkLogs')) {
+        return Promise.reject(new Error('PolicyCheckLog unavailable'));
+      }
       return Promise.resolve(32);
     });
 

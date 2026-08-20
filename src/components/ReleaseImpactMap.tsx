@@ -269,7 +269,7 @@ export function ReleaseImpactRail() {
       <div className={styles.railHeading}>
         <div>
           <span className={styles.kicker}>Shared release map</span>
-          <h3 id="release-rail-title">Select a release to inspect its impact</h3>
+          <h3 id="release-rail-title">Release impact details</h3>
         </div>
         <Link href="/roadmap">Full roadmap <ArrowRight size={14} /></Link>
       </div>

@@ -19,6 +19,8 @@ const eslintConfig = defineConfig([
     "deliverables/**",
     "output/**",
     "tmp/**",
+    // The Expo companion has an independent flat config and lint command.
+    "mobile/**",
     "next-env.d.ts",
   ]),
 ]);

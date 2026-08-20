@@ -2,7 +2,7 @@ export type Locale = 'en' | 'it';
 
 export type LocalizedText = Record<Locale, string>;
 
-export const OBSERVATORY_VERIFIED_AT = '27 July 2026' as const;
+export const OBSERVATORY_VERIFIED_AT = '17 August 2026' as const;
 
 export type ObservatoryContentType =
   | 'regulatory updates'
@@ -11,6 +11,22 @@ export type ObservatoryContentType =
   | 'standards'
   | 'events';
 
+export type ObservatorySourceKind =
+  | 'observatory'
+  | 'authority'
+  | 'standards-hub'
+  | 'repository'
+  | 'tracker';
+
+export type ObservatoryEvidenceStatus = 'verified' | 'source-review';
+
+export type ObservatoryEvidenceRole =
+  | 'policy-context'
+  | 'binding-implementation'
+  | 'enforcement'
+  | 'standards-implementation'
+  | 'research-context';
+
 export interface ObservatorySource {
   id: string;
   name: string;
@@ -18,9 +34,28 @@ export interface ObservatorySource {
   url: string;
   region: string;
   authority: string;
+  kind: ObservatorySourceKind;
+  evidenceStatus: ObservatoryEvidenceStatus;
+  evidenceRole: ObservatoryEvidenceRole;
+  evidenceReady: boolean;
+  lastReviewLabel: LocalizedText;
+  accessCapability?: 'public-web';
   contentTypes: ObservatoryContentType[];
   reviewCadence: LocalizedText;
   note: LocalizedText;
+}
+
+export type ObservatoryInsightLens = 'convergence' | 'divergence' | 'blind-spot';
+
+export interface ObservatoryMetaInsight {
+  id: string;
+  lens: ObservatoryInsightLens;
+  eyebrow: LocalizedText;
+  title: LocalizedText;
+  summary: LocalizedText;
+  implication: LocalizedText;
+  sourceIds: string[];
+  evidenceBoundary: 'catalog-inference';
 }
 
 export interface ObservatorySignal {
@@ -37,6 +72,7 @@ export interface ObservatorySignal {
   reviewTimeLabel: LocalizedText;
   localHref: string;
   priority: 'high' | 'medium' | 'watch';
+  state: 'In force' | 'Guidance';
 }
 
 export interface ObservatoryEvent {
@@ -102,6 +138,12 @@ export const observatorySources: ObservatorySource[] = [
     url: 'https://oecd.ai/',
     region: 'Global',
     authority: 'Intergovernmental policy observatory',
+    kind: 'observatory',
+    evidenceStatus: 'verified',
+    evidenceRole: 'policy-context',
+    evidenceReady: true,
+    lastReviewLabel: { en: OBSERVATORY_VERIFIED_AT, it: '17 agosto 2026' },
+    accessCapability: 'public-web',
     contentTypes: ['AI governance', 'regulatory updates', 'events'],
     reviewCadence: {
       en: 'Reviewed during monthly governance sweeps',
@@ -119,6 +161,12 @@ export const observatorySources: ObservatorySource[] = [
     url: 'https://www.edpb.europa.eu/news_en',
     region: 'European Union',
     authority: 'EU data protection body',
+    kind: 'authority',
+    evidenceStatus: 'verified',
+    evidenceRole: 'enforcement',
+    evidenceReady: true,
+    lastReviewLabel: { en: OBSERVATORY_VERIFIED_AT, it: '17 agosto 2026' },
+    accessCapability: 'public-web',
     contentTypes: ['privacy enforcement', 'regulatory updates', 'events'],
     reviewCadence: {
       en: 'Reviewed during EU privacy sweeps',
@@ -136,6 +184,12 @@ export const observatorySources: ObservatorySource[] = [
     url: 'https://digital-strategy.ec.europa.eu/en/policies/ai-office',
     region: 'European Union',
     authority: 'European Commission AI governance office',
+    kind: 'authority',
+    evidenceStatus: 'verified',
+    evidenceRole: 'binding-implementation',
+    evidenceReady: true,
+    lastReviewLabel: { en: OBSERVATORY_VERIFIED_AT, it: '17 agosto 2026' },
+    accessCapability: 'public-web',
     contentTypes: ['AI governance', 'regulatory updates', 'events'],
     reviewCadence: {
       en: 'Reviewed during EU AI Act monitoring',
@@ -153,6 +207,12 @@ export const observatorySources: ObservatorySource[] = [
     url: 'https://www.ftc.gov/news-events/topics/protecting-consumer-privacy-security/privacy-security-enforcement',
     region: 'United States',
     authority: 'US consumer protection agency',
+    kind: 'authority',
+    evidenceStatus: 'verified',
+    evidenceRole: 'enforcement',
+    evidenceReady: true,
+    lastReviewLabel: { en: OBSERVATORY_VERIFIED_AT, it: '17 agosto 2026' },
+    accessCapability: 'public-web',
     contentTypes: ['privacy enforcement', 'AI governance', 'regulatory updates'],
     reviewCadence: {
       en: 'Reviewed during US enforcement sweeps',
@@ -170,6 +230,12 @@ export const observatorySources: ObservatorySource[] = [
     url: 'https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/',
     region: 'United Kingdom',
     authority: 'UK information rights regulator',
+    kind: 'authority',
+    evidenceStatus: 'verified',
+    evidenceRole: 'enforcement',
+    evidenceReady: true,
+    lastReviewLabel: { en: OBSERVATORY_VERIFIED_AT, it: '17 agosto 2026' },
+    accessCapability: 'public-web',
     contentTypes: ['privacy enforcement', 'regulatory updates', 'events'],
     reviewCadence: {
       en: 'Reviewed during UK privacy sweeps',
@@ -187,6 +253,12 @@ export const observatorySources: ObservatorySource[] = [
     url: 'https://airc.nist.gov/',
     region: 'United States',
     authority: 'US standards and measurement institute',
+    kind: 'standards-hub',
+    evidenceStatus: 'verified',
+    evidenceRole: 'standards-implementation',
+    evidenceReady: true,
+    lastReviewLabel: { en: OBSERVATORY_VERIFIED_AT, it: '17 agosto 2026' },
+    accessCapability: 'public-web',
     contentTypes: ['standards', 'AI governance', 'events'],
     reviewCadence: {
       en: 'Reviewed during standards sweeps',
@@ -204,6 +276,12 @@ export const observatorySources: ObservatorySource[] = [
     url: 'https://ieee-isope.org/',
     region: 'Global',
     authority: 'Standards and policy engineering community',
+    kind: 'standards-hub',
+    evidenceStatus: 'verified',
+    evidenceRole: 'standards-implementation',
+    evidenceReady: true,
+    lastReviewLabel: { en: OBSERVATORY_VERIFIED_AT, it: '17 agosto 2026' },
+    accessCapability: 'public-web',
     contentTypes: ['standards', 'events', 'AI governance'],
     reviewCadence: {
       en: 'Reviewed during standards and events sweeps',
@@ -214,9 +292,171 @@ export const observatorySources: ObservatorySource[] = [
       it: 'Eventi orientati agli standard e riferimenti di policy engineering.',
     },
   },
+  {
+    id: 'ai-observatory',
+    name: 'AI Observatory',
+    shortName: 'AI Observatory',
+    url: 'https://www.ai-observatory.org/',
+    region: 'Global',
+    authority: 'Independent/research observatory',
+    kind: 'observatory',
+    evidenceStatus: 'source-review',
+    evidenceRole: 'research-context',
+    evidenceReady: false,
+    lastReviewLabel: {
+      en: 'Catalogued 19 August 2026 · methodology pending',
+      it: 'Censita il 19 agosto 2026 · metodologia in revisione',
+    },
+    accessCapability: 'public-web',
+    contentTypes: ['AI governance'],
+    reviewCadence: {
+      en: 'Source review and methodology assessment pending',
+      it: 'Revisione della fonte e valutazione metodologica in corso',
+    },
+    note: {
+      en: 'Its methodology and outputs must pass the PolicyWatcher source gate before they can generate operational signals. It is not used as sole evidence for substantive regulatory claims.',
+      it: 'Metodologia e output devono superare il source gate di PolicyWatcher prima di generare segnali operativi. Non viene usata come unica evidenza per affermazioni regolatorie sostanziali.',
+    },
+  },
 ];
 
+export const observatoryMetaInsights: ObservatoryMetaInsight[] = [
+  {
+    id: 'principle-to-proof',
+    lens: 'convergence',
+    eyebrow: { en: 'Convergence', it: 'Convergenza' },
+    title: { en: 'From principle to proof', it: 'Dal principio alla prova' },
+    summary: {
+      en: 'The census connects policy context, binding implementation and enforcement with standards and implementation support. The catalog-level signal is the relationship between these layers; it is not a claim that every source reaches the same conclusion.',
+      it: 'Il censimento collega contesto di policy, attuazione vincolante ed enforcement con standard e supporto implementativo. Il segnale, a livello di catalogo, è la relazione tra questi piani: non significa che tutte le fonti dicano la stessa cosa.',
+    },
+    implication: {
+      en: 'Read a policy theme across authority, enforcement and implementation lenses before turning it into an operational claim.',
+      it: 'Leggi ogni tema tra autorità, enforcement e implementazione prima di trasformarlo in una conclusione operativa.',
+    },
+    sourceIds: ['oecd-ai', 'edpb-news', 'eu-ai-office', 'ftc-tech', 'uk-ico', 'nist-airc', 'ieee-isope'],
+    evidenceBoundary: 'catalog-inference',
+  },
+  {
+    id: 'different-clocks-authority',
+    lens: 'divergence',
+    eyebrow: { en: 'Divergence', it: 'Divergenza' },
+    title: { en: 'Different clocks, different authority', it: 'Tempi diversi, autorità diverse' },
+    summary: {
+      en: 'Regulatory obligations, consultations, standards work and observatory analysis move at different cadences and carry different authority. A single undifferentiated feed would hide those differences.',
+      it: 'Obblighi regolatori, consultazioni, standard e analisi degli osservatori si muovono con cadenze e livelli di autorità diversi. Un feed indistinto nasconderebbe proprio queste differenze.',
+    },
+    implication: {
+      en: 'Keep dates, authority and evidence role attached to every update; compare them without flattening them.',
+      it: 'Mantieni data, autorità e ruolo probatorio su ogni aggiornamento: confronta le fonti senza appiattirle.',
+    },
+    sourceIds: ['oecd-ai', 'edpb-news', 'eu-ai-office', 'ftc-tech', 'uk-ico', 'nist-airc', 'ieee-isope'],
+    evidenceBoundary: 'catalog-inference',
+  },
+  {
+    id: 'coverage-not-global-yet',
+    lens: 'blind-spot',
+    eyebrow: { en: 'Blind spot', it: 'Punto cieco' },
+    title: { en: 'Coverage is not yet global', it: 'La copertura non è ancora globale' },
+    summary: {
+      en: 'PolicyWatcher\'s present census includes Global, EU, US and UK entries, but no dedicated authority source for Africa, Latin America or Asia-Pacific. This is a gap in our catalog, not evidence that those regions lack governance activity. AI Observatory is catalogued under source review and cannot close or substantiate those gaps.',
+      it: 'Il censimento attuale di PolicyWatcher include fonti Global, UE, USA e UK, ma nessuna autorità dedicata per Africa, America Latina o Asia-Pacifico. È un limite del nostro catalogo, non l’assenza di attività di governance in quelle regioni. AI Observatory è censita ma in source review: non può colmare né provare questi gap.',
+    },
+    implication: {
+      en: 'Prioritize authority-source discovery in the uncovered regions and keep new observatories behind the evidence gate until reviewed.',
+      it: 'Dai priorità alla ricerca di fonti istituzionali nelle regioni scoperte e mantieni i nuovi osservatori dietro l’evidence gate fino alla verifica.',
+    },
+    sourceIds: observatorySources.map((source) => source.id),
+    evidenceBoundary: 'catalog-inference',
+  },
+];
+
+export function getMetaObservatoryMetrics() {
+  return {
+    censusSources: observatorySources.length,
+    verifiedSources: observatorySources.filter((source) => source.evidenceStatus === 'verified').length,
+    evidenceReadySources: observatorySources.filter((source) => source.evidenceReady).length,
+    sourcesUnderReview: observatorySources.filter((source) => source.evidenceStatus === 'source-review').length,
+    insightLenses: new Set(observatoryMetaInsights.map((insight) => insight.lens)).size,
+  };
+}
+
 export const observatorySignals: ObservatorySignal[] = [
+  {
+    id: 'eu-ai-act-article-50-in-force-2026',
+    sourceId: 'eu-ai-office',
+    title: {
+      en: 'AI Act Article 50 transparency obligations are now applicable',
+      it: 'Gli obblighi di trasparenza dell articolo 50 AI Act sono applicabili',
+    },
+    summary: {
+      en: 'From 2 August, providers must support machine-readable marking of generated or manipulated content and deployers must disclose defined AI interactions or synthetic content. The 2 December 2026 window applies only to marking and detection for systems already on the market before 2 August.',
+      it: 'Dal 2 agosto i provider devono supportare il marking machine-readable dei contenuti generati o manipolati e i deployer devono dichiarare, nei casi previsti, interazioni AI o contenuti sintetici. La finestra al 2 dicembre 2026 riguarda solo marking e detection per sistemi già sul mercato prima del 2 agosto.',
+    },
+    contentType: 'AI governance',
+    region: 'European Union',
+    dateLabel: {
+      en: 'In force 2 Aug 2026',
+      it: 'In vigore 2 ago 2026',
+    },
+    sourceUrl: 'https://digital-strategy.ec.europa.eu/en/factpages/quick-facts-transparency-rules-ai-systems',
+    publishedOn: '2026-08-02',
+    reviewUtc: '20260802T090000Z',
+    reviewTimeLabel: { en: 'Applicable · verified 17 Aug', it: 'Applicabile · verificato 17 ago' },
+    localHref: '/observatory',
+    priority: 'high',
+    state: 'In force',
+  },
+  {
+    id: 'eu-ai-act-gpai-full-enforcement-2026',
+    sourceId: 'eu-ai-office',
+    title: {
+      en: 'Full Commission enforcement begins for GPAI obligations',
+      it: 'Inizia il pieno enforcement della Commissione sugli obblighi GPAI',
+    },
+    summary: {
+      en: 'On 2 August the Commission moved from the collaborative phase to full enforcement of general-purpose AI model provider obligations, including additional measures for models with systemic risk.',
+      it: 'Il 2 agosto la Commissione è passata dalla fase collaborativa al pieno enforcement degli obblighi dei provider di modelli general-purpose AI, comprese le misure aggiuntive per i modelli con rischio sistemico.',
+    },
+    contentType: 'regulatory updates',
+    region: 'European Union',
+    dateLabel: {
+      en: 'Enforcement from 2 Aug 2026',
+      it: 'Enforcement dal 2 ago 2026',
+    },
+    sourceUrl: 'https://digital-strategy.ec.europa.eu/en/faqs/guidelines-obligations-general-purpose-ai-providers',
+    publishedOn: '2026-08-02',
+    reviewUtc: '20260802T100000Z',
+    reviewTimeLabel: { en: 'Fully enforceable · verified 17 Aug', it: 'Pienamente applicabile · verificato 17 ago' },
+    localHref: '/observatory',
+    priority: 'high',
+    state: 'In force',
+  },
+  {
+    id: 'eu-ai-literacy-supervision-2026',
+    sourceId: 'eu-ai-office',
+    title: {
+      en: 'Supervision and enforcement of AI literacy measures begins',
+      it: 'Iniziano supervisione ed enforcement delle misure di AI literacy',
+    },
+    summary: {
+      en: 'From 3 August authorities supervise and enforce the AI literacy measures already required by the AI Act. This entry reflects the framework in force and does not repeat superseded wording from the earlier Omnibus proposal.',
+      it: 'Dal 3 agosto le autorità supervisionano e applicano le misure di AI literacy già richieste dall AI Act. La voce riflette il quadro vigente e non ripropone formulazioni superate della precedente proposta Omnibus.',
+    },
+    contentType: 'AI governance',
+    region: 'European Union',
+    dateLabel: {
+      en: 'Supervision from 3 Aug 2026',
+      it: 'Supervisione dal 3 ago 2026',
+    },
+    sourceUrl: 'https://digital-strategy.ec.europa.eu/en/faqs/ai-literacy-questions-answers',
+    publishedOn: '2026-08-03',
+    reviewUtc: '20260803T090000Z',
+    reviewTimeLabel: { en: 'Enforcement started · verified 17 Aug', it: 'Enforcement avviato · verificato 17 ago' },
+    localHref: '/observatory',
+    priority: 'high',
+    state: 'In force',
+  },
   {
     id: 'eu-ai-act-article-50-guidelines',
     sourceId: 'eu-ai-office',
@@ -240,6 +480,7 @@ export const observatorySignals: ObservatorySignal[] = [
     reviewTimeLabel: { en: 'Obligations apply · 09:00 UTC review', it: 'Obblighi applicabili · revisione 09:00 UTC' },
     localHref: '/observatory',
     priority: 'high',
+    state: 'Guidance',
   },
   {
     id: 'edpb-anonymisation-web-scraping-guidelines',
@@ -264,6 +505,7 @@ export const observatorySignals: ObservatorySignal[] = [
     reviewTimeLabel: { en: 'Consultation closes · 09:00 UTC review', it: 'Chiusura consultazione · revisione 09:00 UTC' },
     localHref: '/observatory',
     priority: 'high',
+    state: 'Guidance',
   },
   {
     id: 'ftc-ai-accuracy-comment-watch',
@@ -288,6 +530,7 @@ export const observatorySignals: ObservatorySignal[] = [
     reviewTimeLabel: { en: 'PolicyWatcher review · 15:00 UTC', it: 'Revisione PolicyWatcher · 15:00 UTC' },
     localHref: '/observatory',
     priority: 'medium',
+    state: 'Guidance',
   },
   {
     id: 'ico-safe-ai-workplan',
@@ -312,6 +555,7 @@ export const observatorySignals: ObservatorySignal[] = [
     reviewTimeLabel: { en: 'PolicyWatcher review · 09:00 UTC', it: 'Revisione PolicyWatcher · 09:00 UTC' },
     localHref: '/observatory',
     priority: 'medium',
+    state: 'Guidance',
   },
 ];
 
@@ -437,19 +681,20 @@ export function getObservatorySource(sourceId: string): ObservatorySource | unde
   return observatorySources.find((source) => source.id === sourceId);
 }
 
-export function buildObservatoryIcs(event: ObservatoryEvent): string {
+export function buildObservatoryIcs(event: ObservatoryEvent, locale: Locale = 'en'): string {
   const uid = formatIcsUid(event.id);
-  const title = escapeIcsText(event.title.en);
-  const summary = escapeIcsText(event.summary.en);
-  const location = escapeIcsText(event.location.en);
+  const title = escapeIcsText(event.title[locale]);
+  const summary = escapeIcsText(event.summary[locale]);
+  const location = escapeIcsText(event.location[locale]);
   const sourceUrl = formatIcsHttpUrl(event.href);
   const startUtc = formatIcsDateTime(event.calendar.startUtc);
   const endUtc = formatIcsDateTime(event.calendar.endUtc);
+  const sourceLabel = locale === 'it' ? 'Fonte' : 'Source';
 
   return foldIcsLines([
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//PolicyWatcher//Observatory//EN',
+    `PRODID:-//PolicyWatcher//Observatory//${locale.toUpperCase()}`,
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',
@@ -458,7 +703,7 @@ export function buildObservatoryIcs(event: ObservatoryEvent): string {
     `DTSTART:${startUtc}`,
     `DTEND:${endUtc}`,
     `SUMMARY:${title}`,
-    `DESCRIPTION:${summary} Source: ${escapeIcsText(sourceUrl)}`,
+    `DESCRIPTION:${summary} ${sourceLabel}: ${escapeIcsText(sourceUrl)}`,
     `LOCATION:${location}`,
     `URL:${sourceUrl}`,
     'END:VEVENT',

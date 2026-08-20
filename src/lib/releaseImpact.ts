@@ -34,7 +34,7 @@ export interface ReleaseImpactItem {
   externalDependency?: string;
 }
 
-export const RELEASE_IMPACT_UPDATED_AT = '15 August 2026' as const;
+export const RELEASE_IMPACT_UPDATED_AT = '19 August 2026' as const;
 
 export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.7.0', shortLabel: '3.7.0', label: '3.7.0', state: 'delivered' },
@@ -94,7 +94,8 @@ export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.9.0-beta.39', shortLabel: '3.9 B39', label: '3.9.0 Beta 39', state: 'delivered' },
   { id: '3.9.0-beta.40', shortLabel: '3.9 B40', label: '3.9.0 Beta 40', state: 'delivered' },
   { id: '3.9.0-beta.41', shortLabel: '3.9 B41', label: '3.9.0 Beta 41', state: 'delivered' },
-  { id: '3.9.0-beta.42', shortLabel: '3.9 B42', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
+  { id: '3.9.0-beta.42', shortLabel: '3.9 B42', label: '3.9.0 Beta 42', state: 'delivered' },
+  { id: '4.0.0-beta.1', shortLabel: '4.0 B1', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
   { id: 'next', shortLabel: 'Next', label: 'Next beta horizon', state: 'planned' },
   { id: 'later', shortLabel: 'Later', label: 'Later horizon', state: 'planned' },
 ];
@@ -113,11 +114,41 @@ export const RELEASE_IMPACT_DOMAINS: ReleaseImpactDomain[] = [
 
 export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
   {
+    id: 'canonical-document-evidence-graph',
+    title: 'Canonical Document Evidence Graph',
+    summary: 'Introduces stable public identities and the Entity, Document, Version, Change and Provision evidence chain as an additive canonical model.',
+    domainId: 'assurance',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '4.0.0-beta.1',
+    endRelease: '4.0.0-beta.1',
+    benefit: 'Evidence consumers can reference durable public records while storage and internal database identifiers remain implementation details.',
+    kpi: 'Foundation available: five canonical models, deterministic public IDs and one versioned six-topic provision taxonomy',
+    kri: 'Residual KRI: canonical tables remain empty until the separately gated backfill and dual-write wave is completed',
+    evidence: 'Prisma schema, additive SQLite migration, PostgreSQL baseline, deterministic ID helpers, taxonomy registry and focused contract tests.',
+    limitation: 'This wave establishes the target model but does not claim canonical-data completeness, PostgreSQL cutover or object-storage activation.',
+  },
+  {
+    id: 'authoritative-publication-readiness',
+    title: 'Authoritative Publication Readiness',
+    summary: 'Publishes one database-derived aggregate for configured, retrieved, baseline-verified, public and analysed policy records plus latest capture.',
+    domainId: 'operations',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '4.0.0-beta.1',
+    endRelease: '4.0.0-beta.1',
+    benefit: 'Operators and integrations compare the same measured funnel instead of maintaining divergent dashboard, competitive and API counts.',
+    kpi: 'One contract available: five ordered stages, one latest-capture timestamp, one JSON Schema and shared Admin, competitive and public consumers',
+    kri: 'Residual KRI: an aggregate count does not prove source completeness, legal review, analytical quality or continuous availability',
+    evidence: 'Single server query, no-store public endpoint, JSON Schema, manifest discovery, staging smoke check and post-deploy verification.',
+    limitation: 'The metric exposes aggregate operational evidence only and intentionally excludes policy text, private records and internal identifiers.',
+  },
+  {
     id: 'two-week-release-evidence-pulse',
     title: 'Two-week Release Evidence Pulse',
     summary: 'Turns the current 14-day release ledger into one accessible, bilingual and press-ready view with evidence and residual limitations attached.',
     domainId: 'experience',
-    status: 'current',
+    status: 'delivered',
     horizon: 'delivered',
     startRelease: '3.9.0-beta.42',
     endRelease: '3.9.0-beta.42',
@@ -132,7 +163,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
     title: 'Release Evidence Ledger',
     summary: 'Publishes a versioned two-week release contract with deterministic ordering, public cache semantics and content-integrity evidence.',
     domainId: 'assurance',
-    status: 'current',
+    status: 'delivered',
     horizon: 'delivered',
     startRelease: '3.9.0-beta.42',
     endRelease: '3.9.0-beta.42',
@@ -147,7 +178,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
     title: 'AI EvalOps Control Plane',
     summary: 'Makes model qualification, blockers and research-only architecture decisions explicit in one versioned registry with frozen promotion invariants.',
     domainId: 'assurance',
-    status: 'current',
+    status: 'delivered',
     horizon: 'delivered',
     startRelease: '3.9.0-beta.42',
     endRelease: '3.9.0-beta.42',
@@ -447,7 +478,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
   },
   {
     id: 'press-kit-navigation-discovery',
-    title: 'Press Kit navigation discovery',
+    title: 'Press Kit navigation',
     summary: 'Adds a direct Press Kit link to dashboard controls, the public header and command search.',
     domainId: 'distribution',
     status: 'delivered',
@@ -507,7 +538,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
   },
   {
     id: 'calm-workspace',
-    title: 'Calm evidence workspace',
+    title: 'Evidence workspace',
     summary: 'Adapts the workspace to user objective and evidence depth, then separates Today, Continue and Explore.',
     domainId: 'experience',
     status: 'delivered',
@@ -538,7 +569,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
   },
   {
     id: 'regional-discovery',
-    title: 'Regional policy discovery',
+    title: 'Regional policy sources',
     summary: 'Retains locale-specific official policy variants through discovery and review.',
     domainId: 'retrieval',
     status: 'delivered',
@@ -629,7 +660,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
   },
   {
     id: 'impact-clarity',
-    title: 'Release impact clarity',
+    title: 'Release impact mapping',
     summary: 'Connects releases to affected domains, unlocked outcomes, evidence and residual risks.',
     domainId: 'experience',
     status: 'delivered',
@@ -697,7 +728,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
     startRelease: 'beta.10',
     endRelease: 'beta.10',
     benefit: 'Readers and operators can understand why public evidence is withheld without seeing internal errors.',
-    kpi: 'Suspension cause clarity: Unlocked',
+    kpi: 'Suspension cause display: Unlocked',
     kri: 'Source remediation outcome: Not guaranteed',
     evidence: 'Bilingual category mapping, evidence rail, bounded disclosure and direct methodology links.',
     limitation: 'The console explains recorded state and does not claim that a blocked source can always be recovered.',

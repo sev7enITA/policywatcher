@@ -13,6 +13,29 @@ import {
   createConfiguredPolicy,
   normalizeConfiguredPolicyInput,
 } from '@/lib/configuredPolicy';
+import { buildAcquisitionKey } from '@/lib/sourceReliability';
+import {
+  deleteCanonicalDocumentForLegacyPolicy,
+  dualWriteCanonicalPolicyGraph,
+} from '@/lib/documentEvidenceSync';
+
+function validatePublicSourceUrl(value: string, label: string): string | null {
+  let parsed: URL;
+  try {
+    parsed = new URL(value);
+  } catch {
+    return `${label} must be a valid absolute URL.`;
+  }
+  const hostname = parsed.hostname.toLowerCase();
+  const privateHost = hostname === 'localhost' || hostname.endsWith('.localhost') || hostname.endsWith('.local')
+    || /^(127\.|10\.|192\.168\.|169\.254\.)/.test(hostname)
+    || /^172\.(1[6-9]|2\d|3[01])\./.test(hostname)
+    || hostname === '::1';
+  if (!['http:', 'https:'].includes(parsed.protocol) || parsed.username || parsed.password || privateHost) {
+    return `${label} must be a public credential-free HTTP(S) URL.`;
+  }
+  return null;
+}
 
 export async function POST(request: NextRequest) {
   const session = getSession(request);
@@ -64,28 +87,30 @@ export async function PATCH(request: NextRequest) {
   }
 
   try {
-    const body = await request.json() as { id?: unknown; retrievalUrl?: unknown };
+    const body = await request.json() as { id?: unknown; url?: unknown; retrievalUrl?: unknown; note?: unknown };
     const id = typeof body.id === 'string' ? body.id.trim() : '';
+    const hasCanonicalUrl = Object.prototype.hasOwnProperty.call(body, 'url');
+    const hasRetrievalUrl = Object.prototype.hasOwnProperty.call(body, 'retrievalUrl');
+    const canonicalUrl = typeof body.url === 'string' ? body.url.trim() : '';
     const retrievalUrl = typeof body.retrievalUrl === 'string' ? body.retrievalUrl.trim() : '';
+    const operatorNote = typeof body.note === 'string' ? body.note.trim().slice(0, 500) : '';
     if (!id) {
       return NextResponse.json({ error: 'Policy id is required.' }, { status: 400 });
     }
+    if (!hasCanonicalUrl && !hasRetrievalUrl) {
+      return NextResponse.json({ error: 'Provide url and/or retrievalUrl.' }, { status: 400 });
+    }
 
-    if (retrievalUrl) {
-      let parsed: URL;
-      try {
-        parsed = new URL(retrievalUrl);
-      } catch {
-        return NextResponse.json({ error: 'Retrieval URL must be a valid absolute URL.' }, { status: 400 });
-      }
-      const hostname = parsed.hostname.toLowerCase();
-      const privateHost = hostname === 'localhost' || hostname.endsWith('.localhost') || hostname.endsWith('.local')
-        || /^(127\.|10\.|192\.168\.|169\.254\.)/.test(hostname)
-        || /^172\.(1[6-9]|2\d|3[01])\./.test(hostname)
-        || hostname === '::1';
-      if (!['http:', 'https:'].includes(parsed.protocol) || parsed.username || parsed.password || privateHost) {
-        return NextResponse.json({ error: 'Retrieval URL must be a public credential-free HTTP(S) URL.' }, { status: 400 });
-      }
+    if (hasCanonicalUrl && !canonicalUrl) {
+      return NextResponse.json({ error: 'Canonical URL cannot be empty.' }, { status: 400 });
+    }
+    const canonicalError = hasCanonicalUrl ? validatePublicSourceUrl(canonicalUrl, 'Canonical URL') : null;
+    if (canonicalError) return NextResponse.json({ error: canonicalError }, { status: 400 });
+    const retrievalError = hasRetrievalUrl && retrievalUrl
+      ? validatePublicSourceUrl(retrievalUrl, 'Retrieval URL')
+      : null;
+    if (retrievalError) {
+      return NextResponse.json({ error: retrievalError }, { status: 400 });
     }
 
     const existing = await db.policy.findUnique({
@@ -100,11 +125,40 @@ export async function PATCH(request: NextRequest) {
     }
 
     const checkedAt = new Date();
-    const nextStatus = existing.snapshots.length > 0 ? 'Needs Review' : 'Configured';
+    const nextCanonicalUrl = hasCanonicalUrl ? canonicalUrl : existing.url;
+    const nextRetrievalUrl = hasRetrievalUrl ? retrievalUrl || null : existing.retrievalUrl;
+    const canonicalChanged = nextCanonicalUrl !== existing.url;
+    const retrievalChanged = nextRetrievalUrl !== existing.retrievalUrl;
+    if (!canonicalChanged && !retrievalChanged) {
+      return NextResponse.json({
+        success: true,
+        changed: false,
+        requiresRebaseline: existing.sourceMigrationPending,
+        policy: existing,
+      });
+    }
+
+    const previousAcquisitionUrl = existing.retrievalUrl || existing.url;
+    const nextAcquisitionUrl = nextRetrievalUrl || nextCanonicalUrl;
+    const acquisitionChanged = buildAcquisitionKey(previousAcquisitionUrl) !== buildAcquisitionKey(nextAcquisitionUrl);
+    const hasPublicBaseline = existing.snapshots.length > 0;
+    const requiresRebaseline = existing.sourceMigrationPending || (hasPublicBaseline && acquisitionChanged);
+    const nextStatus = hasPublicBaseline ? 'Needs Review' : 'Configured';
+    const reason = acquisitionChanged
+      ? (hasPublicBaseline ? 'source_migration_pending_rebaseline' : 'source_configured_pending_first_baseline')
+      : 'canonical_citation_updated_pending_scan';
     const policy = await db.$transaction(async (tx) => {
       const updated = await tx.policy.update({
         where: { id },
-        data: { retrievalUrl: retrievalUrl || null, dataStatus: nextStatus },
+        data: {
+          url: nextCanonicalUrl,
+          retrievalUrl: nextRetrievalUrl,
+          dataStatus: nextStatus,
+          sourceMigrationPending: requiresRebaseline,
+          sourceMigrationRequestedAt: requiresRebaseline
+            ? existing.sourceMigrationRequestedAt || checkedAt
+            : null,
+        },
       });
       await tx.policyCheckLog.create({
         data: {
@@ -112,30 +166,33 @@ export async function PATCH(request: NextRequest) {
           status: nextStatus,
           checkedAt,
           source: 'source_remediation',
-          reason: retrievalUrl ? 'official_retrieval_url_configured_pending_scan' : 'retrieval_url_cleared_pending_scan',
+          reason,
           reasonCode: 'configuration',
-          finalUrl: retrievalUrl || existing.url,
+          finalUrl: nextAcquisitionUrl,
         },
       });
       await tx.adminReviewLog.create({
         data: {
           actorRole: session.role || 'admin',
-          action: retrievalUrl ? 'retrieval_url_configured' : 'retrieval_url_cleared',
+          action: acquisitionChanged ? 'policy_source_migration_requested' : 'policy_canonical_url_updated',
           targetType: 'policy',
           targetId: id,
           targetLabel: `${existing.company.name} / ${existing.name} / ${existing.jurisdiction}`,
-          oldValue: existing.retrievalUrl,
-          newValue: retrievalUrl || null,
-          note: 'Canonical public URL retained; source must pass a new scan before the retrieval configuration is accepted as current evidence.',
+          oldValue: JSON.stringify({ url: existing.url, retrievalUrl: existing.retrievalUrl }),
+          newValue: JSON.stringify({ url: nextCanonicalUrl, retrievalUrl: nextRetrievalUrl }),
+          note: operatorNote || (acquisitionChanged
+            ? 'The acquisition source changed. Its first verified capture will establish a new comparison baseline without creating a provider change event.'
+            : 'The public canonical citation changed while the acquisition endpoint remained stable; a new scan is required.'),
         },
       });
+      await dualWriteCanonicalPolicyGraph(tx, id);
       return updated;
     });
 
-    return NextResponse.json({ success: true, policy });
+    return NextResponse.json({ success: true, changed: true, requiresRebaseline, acquisitionChanged, policy });
   } catch (error) {
     console.error('[Admin Policies] PATCH error:', error);
-    return NextResponse.json({ error: 'Unable to update retrieval URL.' }, { status: 500 });
+    return NextResponse.json({ error: 'Unable to update source configuration.' }, { status: 500 });
   }
 }
 
@@ -180,7 +237,10 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    await db.policy.delete({ where: { id } });
+    await db.$transaction(async (tx) => {
+      await deleteCanonicalDocumentForLegacyPolicy(tx, id);
+      await tx.policy.delete({ where: { id } });
+    });
 
     return NextResponse.json({
       success: true,

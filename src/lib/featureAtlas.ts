@@ -152,7 +152,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.39', shortLabel: '3.9 B39', label: '3.9.0 Beta 39' },
   { id: '3.9.0-beta.40', shortLabel: '3.9 B40', label: '3.9.0 Beta 40' },
   { id: '3.9.0-beta.41', shortLabel: '3.9 B41', label: '3.9.0 Beta 41' },
-  { id: '3.9.0-beta.42', shortLabel: '3.9 B42', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '3.9.0-beta.42', shortLabel: '3.9 B42', label: '3.9.0 Beta 42' },
+  { id: '4.0.0-beta.1', shortLabel: '4.0 B1', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -184,9 +185,11 @@ const primaryUserByDomain: Record<string, string> = {
 };
 
 const routeByFeature: Record<string, FeatureAtlasRoute> = {
+  'canonical-document-evidence-graph': { href: '/developers', label: 'Developer contract', access: 'public' },
+  'authoritative-publication-readiness': { href: '/api/v1/publication-readiness', label: 'Publication readiness API', access: 'public' },
   'adaptive-experience-control': { href: '/', label: 'Adaptive dashboard experience', access: 'public' },
   'global-geographic-context': { href: '/', label: 'Global context control', access: 'public' },
-  'consumer-association-civic-workspace': { href: '/associazioni', label: 'PolicyWatcher Civico', access: 'public' },
+  'consumer-association-civic-workspace': { href: '/en/associations', label: 'PolicyWatcher Civic', access: 'public' },
   'github-press-kit-distribution': { href: '/press-kit#press-packages', label: 'Press Kit packages', access: 'public' },
   'categorized-resource-navigation': { href: '/', label: 'Public footer', access: 'public' },
   'retrieval-deduplication-diagnostics': { href: '/admin/source-reliability', label: 'Source Reliability', access: 'protected' },
@@ -248,6 +251,8 @@ const routeByFeature: Record<string, FeatureAtlasRoute> = {
 };
 
 const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
+  'canonical-document-evidence-graph': [{ featureId: 'public-evidence-gate', relationship: 'governed-by' }],
+  'authoritative-publication-readiness': [{ featureId: 'public-integration-directory', relationship: 'distributed-through' }, { featureId: 'public-evidence-gate', relationship: 'governed-by' }],
   'adaptive-experience-control': [{ featureId: 'calm-workspace', relationship: 'governed-by' }, { featureId: 'interactive-public-navigation', relationship: 'distributed-through' }, { featureId: 'global-geographic-context', relationship: 'feeds' }],
   'global-geographic-context': [{ featureId: 'qualified-language', relationship: 'governed-by' }, { featureId: 'consumer-association-civic-workspace', relationship: 'feeds' }, { featureId: 'calm-workspace', relationship: 'feeds' }],
   'consumer-association-civic-workspace': [{ featureId: 'public-evidence-gate', relationship: 'governed-by' }, { featureId: 'shareable-evidence-collections', relationship: 'feeds' }, { featureId: 'interactive-public-navigation', relationship: 'distributed-through' }],
@@ -386,7 +391,7 @@ const platformFeatures: FeatureAtlasFeature[] = [
     benefit: 'Reviewers receive a bounded prioritization cue without losing the underlying text evidence.', kpi: 'Inventory KPI · qualified analysis path available', kri: 'Residual KRI · model output can be incomplete or inaccurate', evidence: 'Gemini analysis boundary, deterministic policy-confidence fallback, parsed reason components and qualified public wording.', limitation: 'Signals are not legal findings, adoption measurements or compliance certification.', primaryUser: 'GRC or policy reviewer', route: { href: '/methodology/confidence', label: 'Confidence methodology', access: 'public' }, dependencies: [{ featureId: 'textual-change-extraction', relationship: 'depends-on' }, { featureId: 'explainability-methodology', relationship: 'governed-by' }], source: 'platform-inventory',
   },
   {
-    id: 'dataset-qa', title: 'Dataset QA and confidence review', shortLabel: 'Dataset QA',
+    id: 'dataset-qa', title: 'Dataset QA review', shortLabel: 'Dataset QA',
     summary: 'Checks coverage, freshness, evidence state and onboarding readiness through protected operations.', kind: 'technical', domainId: 'assurance', stageId: 'assurance', state: 'delivered', releaseId: 'beta.2', release: '3.8.3 Beta 2', horizon: 'delivered',
     benefit: 'Operators can find incomplete evidence before it reaches public interpretation.', kpi: 'Inventory KPI · dataset assurance workflow available', kri: 'Residual KRI · operator capacity and production freshness remain open', evidence: 'Dataset-quality admin route, assurance script, QA indicators, KPI audit and review logs.', limitation: 'Automated QA cannot establish source completeness or replace human review.', primaryUser: 'Dataset QA reviewer', route: { href: '/admin/dataset-quality', label: 'Dataset quality', access: 'protected' }, dependencies: [{ featureId: 'immutable-snapshot-evidence', relationship: 'depends-on' }], source: 'platform-inventory',
   },
@@ -574,7 +579,7 @@ const platformSurfaceFeatures: FeatureAtlasFeature[] = [
     benefit: 'The pipeline can separate recorded text changes from repeated identical captures.', kpi: 'Inventory KPI · deterministic content comparison available', kri: 'Residual KRI · normalization can hide non-textual presentation changes', evidence: 'Snapshot hashes, configured policy baselines and scraper comparison logic.', limitation: 'Hash equality applies to normalized captured content, not the complete provider experience.', primaryUser: 'Evidence pipeline reviewer', dependencies: [{ featureId: 'immutable-snapshot-evidence', relationship: 'depends-on' }],
   }),
   surfaceFeature({
-    id: 'policy-confidence-rubric', title: 'Deterministic policy confidence rubric', shortLabel: 'Confidence rubric',
+    id: 'policy-confidence-rubric', title: 'Deterministic policy evidence rubric', shortLabel: 'Evidence rubric',
     summary: 'Computes explainable evidence-confidence categories from source and review conditions.', kind: 'technical', domainId: 'analysis', stageId: 'assurance', releaseId: 'beta.5', release: '3.8.3 Beta 5',
     benefit: 'A reviewer receives a reproducible confidence cue when interpreting evidence.', kpi: 'Inventory KPI · deterministic confidence rubric available', kri: 'Residual KRI · categorical confidence can be over-interpreted', evidence: 'Policy confidence helpers, defaults, reason codes and regression tests.', limitation: 'Confidence describes evidence conditions, not legal correctness or business impact.', primaryUser: 'Evidence reviewer', route: { href: '/methodology/confidence', label: 'Confidence methodology', access: 'public' }, dependencies: [{ featureId: 'dataset-qa', relationship: 'governed-by' }],
   }),

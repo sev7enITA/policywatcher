@@ -79,6 +79,13 @@ resolve_materialized_migrations() {
   done <<< "${materialized_migrations}"
 }
 
+normalize_sqlite_datetimes() {
+  local normalizer="${APP_DIR}/scripts/hostinger-normalize-sqlite-datetimes.mjs"
+  if command -v node >/dev/null 2>&1 && [[ -f "${normalizer}" ]]; then
+    node "${normalizer}" --apply
+  fi
+}
+
 if [[ -z "${DATABASE_URL:-}" ]]; then
   echo "DATABASE_URL is not set."
   echo "Example:"
@@ -142,6 +149,8 @@ else
     resolve_materialized_migrations
   fi
 fi
+
+normalize_sqlite_datetimes
 
 echo "Database schema is ready."
 echo "If this is a new database with 0 policies, run: node scripts/hostinger-seed-inventory.mjs"

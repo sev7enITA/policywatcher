@@ -4,6 +4,7 @@ import { db } from '@/lib/db';
 import { getErrorMessage } from '@/lib/safeErrors';
 import { prepareSourceOnboardingRows, summarizeSourceOnboardingBatch } from '@/lib/sourceOnboarding';
 import { resolveBulkOnboardingCandidate } from '@/lib/sourceOnboardingCandidate';
+import { dualWriteCanonicalEntity } from '@/lib/documentEvidenceSync';
 
 const batchInclude = {
   items: {
@@ -148,6 +149,7 @@ export async function POST(request: NextRequest) {
             website: row.website,
           },
         });
+        await dualWriteCanonicalEntity(tx, company.id);
 
         const existingPolicy = await tx.policy.findUnique({
           where: {

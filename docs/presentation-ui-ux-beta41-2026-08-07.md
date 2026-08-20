@@ -2,7 +2,7 @@
 
 Duration: about 7 minutes
 Audience: associations, policy teams, partners and product stakeholders
-Demo routes: `/`, `/associazioni`, `/infographics`, `/atlas`
+Demo routes: `/`, `/en/associations`, `/it/associazioni`, `/infographics`, `/atlas`
 
 ## 00:00 - The change in one sentence
 
@@ -51,7 +51,7 @@ Demo routes: `/`, `/associazioni`, `/infographics`, `/atlas`
 
 ## 04:45 - Global remains global
 
-**Do:** open `/associazioni`, change country or region, and show the source/suggestion boundary.
+**Do:** open `/en/associations`, switch the interface to Italian from the global context control, confirm the route changes to `/it/associazioni`, then change country or region and show the source/suggestion boundary.
 
 **Say:** “The experience layer sits above the whole product. The global region, country and language context still affects the public shell, dashboard defaults and Civic discovery. Civic remains source-first: users can filter verified entries and propose another organization through a reviewable email draft, never an automatic publication.”
 
@@ -59,7 +59,7 @@ Demo routes: `/`, `/associazioni`, `/infographics`, `/atlas`
 
 **Do:** open `/infographics` and show `PolicyWatcher Experience Map`.
 
-**Say:** “The platform is now described through seven domains: Monitor, Evidence, Civic, Trust & Method, Build & Integrate, Communicate and Understand. The editorial poster is for presentation; the exact Mermaid and JSON records are generated from the sitemap source and validate 33 literal static routes plus four dynamic route families.”
+**Say:** “The platform is now described through seven domains: Monitor, Evidence, Civic, Trust & Method, Build & Integrate, Communicate and Understand. The editorial poster is for presentation; the exact Mermaid and JSON records are generated from the sitemap source and validate 34 literal static routes plus four dynamic route families.”
 
 **Do:** follow the link to `/atlas` to show the complete catalog.
 

@@ -6,7 +6,7 @@ import { getPublicEvidencePacket, listPublicEvidencePacketSummaries } from '@/li
 import CollectionsClient from './CollectionsClient';
 
 export const metadata: Metadata = {
-  title: 'Shareable Evidence Collections | PolicyWatcher',
+  title: 'Evidence collections | PolicyWatcher',
   description:
     'Select up to 12 exact public PolicyWatcher changes, review them locally and export a deterministic evidence bundle.',
   alternates: { canonical: '/collections' },

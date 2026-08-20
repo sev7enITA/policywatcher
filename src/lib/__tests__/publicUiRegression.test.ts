@@ -63,7 +63,7 @@ describe('public UI regression fixes', () => {
     expect(evidenceDetail).toContain("'@type': 'DataDownload'");
     expect(header).toContain("{ id: 'evidence', href: '/evidence'");
     expect(sitemap).toContain('${BASE_URL}/evidence');
-    expect(roadmap).toContain('Source confidence and continuity ledger');
+    expect(roadmap).toContain('Source evidence and continuity ledger');
     expect(roadmap).toContain('Advisory governance mapping');
     expect(roadmap).toContain('Source-anchored score explainability');
     expect(roadmap).toContain('Change-bound evidence reports');
@@ -84,6 +84,14 @@ describe('public UI regression fixes', () => {
     expect(sitemap).toContain('${BASE_URL}/developers');
     expect(developers).toContain('<PublicHeader current="developers" />');
     expect(developers).toContain('/api/v1/manifest');
+    expect(developers).toContain('/api/v1/publication-readiness');
+    expect(developers).toContain('/schemas/publication-readiness/v1');
+    expect(developers).toContain('configured → retrieved → baseline verified');
+    expect(developers).toContain('Cache-Control: no-store');
+    expect(developers).toContain('without policy text, internal identifiers or record-level detail');
+    expect(developers).toContain('styles.readinessCard');
+    expect(developers).toContain('styles.readinessPipeline');
+    expect(read('src/app/developers/developers.module.css')).toContain('repeat(auto-fit, minmax(260px, 1fr))');
   });
 
   it('makes PolicyWatcher Civico discoverable across public navigation and machine routes', () => {
@@ -95,9 +103,8 @@ describe('public UI regression fixes', () => {
     const sitemap = read('src/app/sitemap.ts');
     const llms = read('src/app/llms.txt/route.ts');
 
-    for (const source of [navigation, palette, header, footer, atlas, sitemap, llms]) {
-      expect(source).toContain('/associazioni');
-    }
+    for (const source of [navigation, palette, header, footer, atlas, sitemap, llms]) expect(source).toContain('/en/associations');
+    for (const source of [navigation, palette, header, footer, sitemap, llms]) expect(source).toContain('/it/associazioni');
     expect(header).toContain("id: 'associations'");
     expect(palette).toContain("id: 'act-associations'");
   });
@@ -137,7 +144,7 @@ describe('public UI regression fixes', () => {
     expect(FEATURE_ATLAS_FEATURES.some((feature) => feature.id === 'governed-regional-benchmark-visualizations')).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.some((item) => item.kpi && item.kri)).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.filter((item) => ['shareable-evidence-views', 'coordinated-evidence-drilldown'].includes(item.id))).toHaveLength(2);
-    expect(RELEASE_IMPACT_UPDATED_AT).toBe('15 August 2026');
+    expect(RELEASE_IMPACT_UPDATED_AT).toBe('19 August 2026');
     expect(FEATURE_ATLAS_CURRENT_RELEASE_ID).toBe(POLICYWATCHER_VERSION);
     expect(FEATURE_ATLAS_RELEASES.filter((release) => release.current)).toHaveLength(1);
     expect(RELEASE_COLUMNS.filter((release) => release.state === 'current').map((release) => release.id)).toEqual([POLICYWATCHER_VERSION]);
@@ -245,6 +252,29 @@ describe('public UI regression fixes', () => {
     expect(leaderboard).toContain('snapshot.generatedAt');
     expect(observatory).toContain('OBSERVATORY_VERIFIED_AT');
     expect(privacy).toContain('Last updated: August 7, 2026');
+  });
+
+  it('keeps the meta-observatory ledger ahead of operations with independent accessible filters', () => {
+    const observatory = read('src/app/observatory/page.tsx');
+    const styles = read('src/app/observatory/observatory.module.css');
+
+    expect(observatory.indexOf('<SourceLedgerSection locale={locale} copy={copy} />')).toBeLessThan(observatory.indexOf('id="august-update"'));
+    expect(observatory).toContain('href="#sources"');
+    expect(observatory).toContain('name="watch-category-filter"');
+    expect(observatory).toContain('name="watch-region-filter"');
+    expect(observatory).not.toContain('name="watch-filter"');
+    expect(observatory).toContain("const globalContext = useGlobalContext('en')");
+    expect(observatory).toContain('const observatoryPageCopy: Record<Locale, ObservatoryPageCopy>');
+    expect(observatory).toContain('<PublicHeader current="observatory" lang={locale} />');
+    expect(observatory).toContain('<Footer lang={locale} />');
+    expect(observatory).not.toContain('lockLang');
+    expect(observatory).toContain("title: 'Policy, privacy and AI observatory'");
+    expect(observatory).toContain("title: 'Osservatorio su policy, privacy e IA'");
+    expect(observatory).toContain('buildObservatoryIcs(event, locale)');
+    expect(styles).toContain(':global(#filter-ai:focus-visible)');
+    expect(styles).toContain(':global(#filter-eu:focus-visible)');
+    expect(styles).toContain(':global(#filter-ai:checked) ~ .boardList .watchCard:not(.categoryAi)');
+    expect(styles).toContain(':global(#filter-eu:checked) ~ .boardList .watchCard:not(.regionEu)');
   });
 
   it('uses the shared public shell on conventional editorial and evidence pages', () => {

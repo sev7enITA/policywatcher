@@ -22,6 +22,21 @@ export interface PublicationReadinessInput {
   baselineVerified: PublicationReadinessMetric;
   public: PublicationReadinessMetric;
   analysed: PublicationReadinessMetric;
+  latestCapture?: PublicationReadinessCaptureMetric;
+  scopeBoundary?: string;
+}
+
+export interface PublicationReadinessCaptureMetric {
+  available: boolean;
+  capturedAt: string | null;
+  reason?: string | null;
+}
+
+export interface PublicationReadinessLatestCapture {
+  capturedAt: string | null;
+  availability: 'measured' | 'unavailable';
+  definition: string;
+  reason: string | null;
 }
 
 export interface PublicationReadinessStage {
@@ -43,11 +58,13 @@ export interface PublicationReadinessResult {
   available: boolean;
   denominator: number | null;
   stages: PublicationReadinessStage[];
+  latestCapture: PublicationReadinessLatestCapture;
   consistencyWarning: string | null;
   scopeBoundary: string;
 }
 
 const SCOPE_BOUNDARY = 'Counts policy records in the configured monitoring inventory. Excluded means a record has not reached that measured stage; it does not by itself identify an error or establish source completeness.';
+const LATEST_CAPTURE_DEFINITION = 'Most recent successful non-seeded retrieval with persisted text or hash evidence.';
 
 const STAGE_METADATA: Record<PublicationReadinessStageId, Pick<PublicationReadinessStage, 'label' | 'definition' | 'actionHref' | 'actionLabel'>> = {
   configured: {
@@ -85,6 +102,26 @@ const STAGE_METADATA: Record<PublicationReadinessStageId, Pick<PublicationReadin
 function safeCount(metric: PublicationReadinessMetric): number | null {
   if (!metric.available || metric.count === null || !Number.isFinite(metric.count)) return null;
   return Math.max(0, Math.trunc(metric.count));
+}
+
+function latestCapture(metric: PublicationReadinessCaptureMetric | undefined): PublicationReadinessLatestCapture {
+  if (!metric?.available) {
+    return {
+      capturedAt: null,
+      availability: 'unavailable',
+      definition: LATEST_CAPTURE_DEFINITION,
+      reason: metric?.reason || 'Latest-capture metric is unavailable.',
+    };
+  }
+
+  const parsed = metric.capturedAt ? new Date(metric.capturedAt) : null;
+  const valid = !parsed || !Number.isNaN(parsed.getTime());
+  return {
+    capturedAt: valid && parsed ? parsed.toISOString() : null,
+    availability: valid ? 'measured' : 'unavailable',
+    definition: LATEST_CAPTURE_DEFINITION,
+    reason: valid ? null : 'Latest-capture timestamp is invalid.',
+  };
 }
 
 export function buildPublicationReadiness(input: PublicationReadinessInput): PublicationReadinessResult {
@@ -141,8 +178,9 @@ export function buildPublicationReadiness(input: PublicationReadinessInput): Pub
     available: stages.some((stage) => stage.availability !== 'unavailable'),
     denominator: configuredCount,
     stages,
+    latestCapture: latestCapture(input.latestCapture),
     consistencyWarning: warnings.length > 0 ? warnings.join(' ') : null,
-    scopeBoundary: SCOPE_BOUNDARY,
+    scopeBoundary: input.scopeBoundary || SCOPE_BOUNDARY,
   };
 }
 
@@ -155,5 +193,10 @@ export function buildUnavailablePublicationReadiness(checkedAt: string): Publica
     baselineVerified: unavailable,
     public: unavailable,
     analysed: unavailable,
+    latestCapture: {
+      available: false,
+      capturedAt: null,
+      reason: 'Database metrics are unavailable.',
+    },
   });
 }

@@ -229,8 +229,8 @@ const translations = {
     accentTeal: 'Teal',
     accentSlate: 'Slate',
     exploreKicker: `Mappa release v${POLICYWATCHER_VERSION}`,
-    exploreTitle: 'Tutte le nuove superfici, in un unico punto.',
-    exploreLead: 'La dashboard nativa ora unifica workspace, filtri, provenienza, KPI, trend ed export in contratti validati; Observatory, atlante, segnali policy, trust center e roadmap restano percorsi collegati.',
+    exploreTitle: 'Sezioni e strumenti pubblici',
+    exploreLead: 'La dashboard include workspace, filtri, provenienza, KPI, trend ed export. Observatory, mappa del sito, segnali policy, Trust e roadmap sono disponibili come sezioni collegate.',
     exploreAtlas: 'Apri sitemap completa',
     exploreOpen: 'Apri',
     exploreCards: [
@@ -382,8 +382,8 @@ const translations = {
     accentTeal: 'Teal',
     accentSlate: 'Slate',
     exploreKicker: `v${POLICYWATCHER_VERSION} release map`,
-    exploreTitle: 'Public routes and direct links.',
-    exploreLead: 'The native dashboard now unifies workspace, filters, provenance, KPIs, trends and exports through validated contracts; Observatory, Atlas, Policy Signals, Trust and Roadmap remain connected paths.',
+    exploreTitle: 'Public sections and tools',
+    exploreLead: 'The dashboard includes workspace controls, filters, provenance, KPIs, trends and exports. Observatory, the site map, Policy Signals, Trust and the roadmap are available as linked sections.',
     exploreAtlas: 'Open full sitemap',
     exploreOpen: 'Open',
     exploreCards: [
@@ -476,7 +476,7 @@ const WORKSPACE_INTENTS: Record<'en' | 'it', Array<{
     {
       id: 'citizen',
       label: 'Citizen',
-      title: 'Understand what changed and why it matters',
+      title: 'Change summary',
       detail: 'Plain-language briefing, source status, affected rights, and region impact.',
       accent: 'teal',
       icon: UserRound,
@@ -484,7 +484,7 @@ const WORKSPACE_INTENTS: Record<'en' | 'it', Array<{
     {
       id: 'grc',
       label: 'GRC / Legal',
-      title: 'Inspect evidence before using a signal',
+      title: 'Evidence review',
       detail: 'QA state, retrieval evidence, review notes, KPI matrix, and source limitations.',
       accent: 'indigo',
       icon: Scale,
@@ -492,7 +492,7 @@ const WORKSPACE_INTENTS: Record<'en' | 'it', Array<{
     {
       id: 'research',
       label: 'Research',
-      title: 'Compare market movement over time',
+      title: 'Market comparison',
       detail: 'Timeline, market pulse, filters, sector comparison, and export paths.',
       accent: 'teal',
       icon: FlaskConical,
@@ -500,7 +500,7 @@ const WORKSPACE_INTENTS: Record<'en' | 'it', Array<{
     {
       id: 'builder',
       label: 'Builder',
-      title: 'Connect PolicyWatcher to other systems',
+      title: 'System integration',
       detail: 'Exports, public methodology, release artifacts, and integration-oriented views.',
       accent: 'slate',
       icon: PlugZap,
@@ -510,7 +510,7 @@ const WORKSPACE_INTENTS: Record<'en' | 'it', Array<{
     {
       id: 'citizen',
       label: 'Cittadino',
-      title: 'Capire cosa e cambiato e perche conta',
+      title: 'Riepilogo delle modifiche',
       detail: 'Briefing semplice, stato fonte, diritti impattati e lettura per regione.',
       accent: 'teal',
       icon: UserRound,
@@ -518,7 +518,7 @@ const WORKSPACE_INTENTS: Record<'en' | 'it', Array<{
     {
       id: 'grc',
       label: 'GRC / Legal',
-      title: 'Ispezionare evidenze prima di usare un segnale',
+      title: 'Revisione delle evidenze',
       detail: 'Stato QA, recupero fonte, review notes, matrice KPI e limiti della sorgente.',
       accent: 'indigo',
       icon: Scale,
@@ -526,7 +526,7 @@ const WORKSPACE_INTENTS: Record<'en' | 'it', Array<{
     {
       id: 'research',
       label: 'Ricerca',
-      title: 'Confrontare movimenti di mercato nel tempo',
+      title: 'Confronto di mercato',
       detail: 'Timeline, market pulse, filtri, confronto settori e percorsi di export.',
       accent: 'teal',
       icon: FlaskConical,
@@ -534,7 +534,7 @@ const WORKSPACE_INTENTS: Record<'en' | 'it', Array<{
     {
       id: 'builder',
       label: 'Builder',
-      title: 'Collegare PolicyWatcher ad altri sistemi',
+      title: 'Integrazione di sistema',
       detail: 'Export, metodologia pubblica, artefatti release e viste orientate alle integrazioni.',
       accent: 'slate',
       icon: PlugZap,
@@ -628,10 +628,10 @@ const WORKSPACE_COMMAND_LABELS: Record<'en' | 'it', Record<string, string>> = {
 const WORKSPACE_COPY = {
   en: {
     label: 'Adaptive workspace',
-    title: 'Start from the question, not from the dashboard',
-    lead: 'Choose the purpose of the session and the depth of evidence you need. PolicyWatcher reorganizes density, priority, and context while source-quality warnings remain visible.',
-    chooseIntent: 'What do you want to understand?',
-    chooseDepth: 'How much evidence do you need?',
+    title: 'Workspace configuration',
+    lead: 'Session purpose and evidence depth control module priority, density and context. Source-quality warnings remain visible.',
+    chooseIntent: 'Session purpose',
+    chooseDepth: 'Evidence depth',
     generatedLogic: 'Your Workspace Active',
     step: 'Step',
     of: 'of',
@@ -641,7 +641,7 @@ const WORKSPACE_COPY = {
     backAction: 'Back',
     essentialAction: 'Use essential workspace',
     localPreferences: 'Preferences stay in this browser.',
-    evidenceInvariant: 'Your workspace changes priority and density, not the underlying public evidence or publication safeguards.',
+    evidenceInvariant: 'Public evidence and publication safeguards remain unchanged when you adjust the workspace.',
     activeProfile: 'Active workspace',
     primaryModules: 'Primary evidence',
     supportingModules: 'Supporting evidence',
@@ -660,10 +660,10 @@ const WORKSPACE_COPY = {
   },
   it: {
     label: 'Workspace adattivo',
-    title: 'Parti dalla domanda, non dalla dashboard',
-    lead: 'Scegli lo scopo della sessione e la profondita delle evidenze. PolicyWatcher riorganizza densita, priorita e contesto mantenendo visibili gli avvisi sulla qualita delle fonti.',
-    chooseIntent: 'Cosa vuoi comprendere?',
-    chooseDepth: 'Quante evidenze ti servono?',
+    title: 'Configurazione workspace',
+    lead: 'Scopo della sessione e profondità delle evidenze controllano priorità dei moduli, densità e contesto. Gli avvisi sulla qualità delle fonti restano visibili.',
+    chooseIntent: 'Scopo della sessione',
+    chooseDepth: 'Profondità delle evidenze',
     generatedLogic: 'Il tuo Workspace Active',
     step: 'Passaggio',
     of: 'di',
@@ -673,7 +673,7 @@ const WORKSPACE_COPY = {
     backAction: 'Indietro',
     essentialAction: 'Usa il workspace essenziale',
     localPreferences: 'Le preferenze restano in questo browser.',
-    evidenceInvariant: 'Il workspace cambia priorita e densita, non le evidenze pubbliche sottostanti o le salvaguardie di pubblicazione.',
+    evidenceInvariant: 'Le evidenze pubbliche e le salvaguardie di pubblicazione restano invariate quando configuri il workspace.',
     activeProfile: 'Workspace attivo',
     primaryModules: 'Evidenze primarie',
     supportingModules: 'Evidenze di supporto',
@@ -697,7 +697,7 @@ const EXTENSION_BETA_COPY = {
     eyebrow: 'Browser extension Beta',
     title: 'Browser extension: from the email to real links',
     body: 'After an explicit gesture, the extension reads visible text and page links locally; PolicyWatcher receives only the organization, categories, dates, and cleaned URLs.',
-    primaryAction: 'Explore the browser extension',
+    primaryAction: 'Open browser extension',
     fallbackAction: 'On mobile? Paste the notice',
     disclaimer: 'Pre-release software: results may be incomplete. Not legal advice.',
   },
@@ -705,7 +705,7 @@ const EXTENSION_BETA_COPY = {
     eyebrow: 'Estensione browser Beta',
     title: 'Estensione browser: dalla mail ai link reali',
     body: 'Dopo un gesto esplicito, l’estensione legge localmente il testo visibile e i link presenti nella pagina; a PolicyWatcher arrivano solo azienda, categorie, date e URL ripuliti.',
-    primaryAction: 'Scopri l’estensione browser',
+    primaryAction: 'Apri estensione browser',
     fallbackAction: 'Sei su mobile? Incolla la notifica',
     disclaimer: 'Software pre-release: i risultati possono essere incompleti. Non è consulenza legale.',
   },
@@ -713,15 +713,15 @@ const EXTENSION_BETA_COPY = {
 
 const DASHBOARD_WORKFLOW_COPY = {
   en: {
-    eyebrow: 'Working home',
-    title: 'Today, continue, explore',
-    lead: 'A calm starting point for the next useful action. The full evidence console remains available below.',
-    today: 'Today',
-    todayLead: 'Up to three items that can change what you do next.',
-    continue: 'Continue',
-    continueLead: 'Resume the current evidence context without rebuilding it.',
-    explore: 'Explore',
-    exploreLead: 'Open the public catalog only when you need a wider path.',
+    eyebrow: 'Dashboard overview',
+    title: 'Dashboard overview',
+    lead: 'This section lists recent activity, the active workspace and links to public sections. The complete evidence console follows below.',
+    today: 'Recent activity',
+    todayLead: 'Up to three current items from the available public data.',
+    continue: 'Current view',
+    continueLead: 'The active workspace and public filters for this browser.',
+    explore: 'Public sections',
+    exploreLead: 'Links to collections, timeline, the site map, associations and source references.',
     workspace: 'Active workspace',
     filters: 'Current public filters',
     filtersNone: 'No additional filters',
@@ -735,15 +735,15 @@ const DASHBOARD_WORKFLOW_COPY = {
     resume: 'Resume',
   },
   it: {
-    eyebrow: 'Home operativa',
-    title: 'Oggi, continua, esplora',
-    lead: 'Un punto di partenza calmo per la prossima azione utile. La console completa delle evidenze resta disponibile sotto.',
-    today: 'Oggi',
-    todayLead: 'Massimo tre elementi che possono cambiare la prossima decisione.',
-    continue: 'Continua',
-    continueLead: 'Riprendi il contesto di evidenza corrente senza ricostruirlo.',
-    explore: 'Esplora',
-    exploreLead: 'Apri il catalogo pubblico solo quando serve allargare il percorso.',
+    eyebrow: 'Panoramica dashboard',
+    title: 'Panoramica dashboard',
+    lead: 'Questa sezione elenca attività recente, workspace attivo e collegamenti alle sezioni pubbliche. La console completa delle evidenze segue sotto.',
+    today: 'Attività recente',
+    todayLead: 'Fino a tre elementi correnti dai dati pubblici disponibili.',
+    continue: 'Vista corrente',
+    continueLead: 'Workspace attivo e filtri pubblici di questo browser.',
+    explore: 'Sezioni pubbliche',
+    exploreLead: 'Collegamenti a raccolte, timeline, mappa del sito, associazioni e fonti.',
     workspace: 'Workspace attivo',
     filters: 'Filtri pubblici correnti',
     filtersNone: 'Nessun filtro aggiuntivo',
@@ -2341,7 +2341,7 @@ export default function Dashboard() {
               </div>
               <nav className={styles.workflowExploreList} aria-label={workflowText.explore}>
                 <Link href="/atlas"><Route size={17} aria-hidden="true" /><span><strong>{workflowText.atlas}</strong><small>{workflowText.open}</small></span><ArrowRight size={15} aria-hidden="true" /></Link>
-                <Link href="/associazioni"><UserRound size={17} aria-hidden="true" /><span><strong>{workflowText.civic}</strong><small>{workflowText.open}</small></span><ArrowRight size={15} aria-hidden="true" /></Link>
+                <Link href={lang === 'it' ? '/it/associazioni' : '/en/associations'}><UserRound size={17} aria-hidden="true" /><span><strong>{workflowText.civic}</strong><small>{workflowText.open}</small></span><ArrowRight size={15} aria-hidden="true" /></Link>
                 <Link href="/observatory"><Search size={17} aria-hidden="true" /><span><strong>{workflowText.observatory}</strong><small>{workflowText.open}</small></span><ArrowRight size={15} aria-hidden="true" /></Link>
               </nav>
             </article>

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Evidence & Confidence Methodology | PolicyWatcher',
-  description: 'PolicyWatcher data provenance, publication gates, AI constraints and confidence boundaries.',
+  title: 'Evidence methodology | PolicyWatcher',
+  description: 'PolicyWatcher data provenance, publication gates, AI constraints and evidence limitations.',
   alternates: { canonical: '/methodology/confidence' },
 };
 

@@ -1,6 +1,6 @@
 # PolicyWatcher sitemap ER – agosto 2026
 
-Il modello separa l’esperienza globale dai sette domini informativi. Le **33 route statiche** provengono direttamente da `src/app/sitemap.ts`; le quattro famiglie dinamiche descrivono entità indicizzate solo quando superano i rispettivi gate pubblici.
+Il modello separa l’esperienza globale dai sette domini informativi. Le **34 route statiche** provengono direttamente da `src/app/sitemap.ts`; le quattro famiglie dinamiche descrivono entità indicizzate solo quando superano i rispettivi gate pubblici.
 
 ## Grafo ER
 
@@ -37,7 +37,7 @@ erDiagram
   DOMAIN_civic {
     string id "civic"
     string label "Civic"
-    int static_routes "1"
+    int static_routes "2"
     string relationship "ORIENTA"
   }
   DOMAIN_trust_method {
@@ -71,7 +71,7 @@ erDiagram
   EXPERIENCE ||--o{ DOMAIN_build_integrate : "PUBBLICA"
   EXPERIENCE ||--o{ DOMAIN_communicate : "PUBBLICA"
   EXPERIENCE ||--o{ DOMAIN_understand : "SPIEGA"
-  EXPERIENCE ||--o{ STATIC_ROUTE : "espone 33 entry"
+  EXPERIENCE ||--o{ STATIC_ROUTE : "espone 34 entry"
   EXPERIENCE ||--o{ DYNAMIC_FAMILY : "indicizza 4 famiglie"
   STATIC_ROUTE }o--|| DYNAMIC_FAMILY : "conduce a"
 ```
@@ -99,7 +99,8 @@ Relazione con l’esperienza: **PUBBLICA**.
 
 Relazione con l’esperienza: **ORIENTA**.
 
-- `/associazioni`
+- `/en/associations`
+- `/it/associazioni`
 
 ### Trust & Method
 

@@ -1,5 +1,6 @@
 import { createHash } from 'crypto';
 import { PrismaClient } from '@prisma/client';
+import { runDocumentEvidenceBackfill } from '../src/lib/documentEvidenceMigration';
 
 const prisma = new PrismaClient();
 
@@ -79,6 +80,7 @@ interface PolicySeedInput {
   type: string;
   jurisdiction: string;
   url: string;
+  retrievalUrl?: string;
   currentText: string;
   currentHash: string;
   snapshots: SnapshotInput[];
@@ -152,6 +154,7 @@ async function seedPolicy(companyId: string, input: PolicySeedInput) {
       type: input.type,
       jurisdiction: input.jurisdiction,
       url: input.url,
+      retrievalUrl: input.retrievalUrl,
       currentText,
       currentHash,
       dataStatus: 'Configured',
@@ -244,6 +247,7 @@ async function seedPolicy(companyId: string, input: PolicySeedInput) {
 
 async function main() {
   console.log('Cleaning existing database content...');
+  await prisma.entity.deleteMany({});
   await prisma.regionImpact.deleteMany({});
   await prisma.policyChange.deleteMany({});
   await prisma.policySnapshot.deleteMany({});
@@ -1713,7 +1717,7 @@ async function main() {
   // Wise Privacy Policy - US
   await seedPolicy(co['wise'].id, {
     name: 'Privacy Policy', type: 'privacy', jurisdiction: 'US',
-    url: 'https://wise.com/us/legal/privacy-policy',
+    url: 'https://wise.com/us/legal/privacy-notice',
     currentText: 'Wise Privacy Policy V2 (US) - FinCEN-compliant AML processing and state-level money transmitter disclosures.',
     currentHash: 'wise-privacy-us-v2',
     snapshots: [
@@ -1860,6 +1864,7 @@ async function main() {
   await seedPolicy(co['klarna'].id, {
     name: 'Privacy Notice', type: 'privacy', jurisdiction: 'EU',
     url: 'https://www.klarna.com/ie/privacy/',
+    retrievalUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/privacy',
     currentText: 'Klarna Privacy Notice V2 (EU) - AI-powered purchase financing decisions and consumer data profiling under GDPR.',
     currentHash: 'klarna-privacy-eu-v2',
     snapshots: [
@@ -1910,6 +1915,7 @@ async function main() {
   await seedPolicy(co['klarna'].id, {
     name: 'Privacy Notice', type: 'privacy', jurisdiction: 'US',
     url: 'https://www.klarna.com/us/privacy/',
+    retrievalUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy',
     currentText: 'Klarna Privacy Notice V2 (US) - AI credit decisions and CCPA/CPRA-compliant data practices.',
     currentHash: 'klarna-privacy-us-v2',
     snapshots: [
@@ -1957,6 +1963,7 @@ async function main() {
   await seedPolicy(co['klarna'].id, {
     name: 'Terms of Service', type: 'terms', jurisdiction: 'EU',
     url: 'https://www.klarna.com/ie/terms-and-conditions/',
+    retrievalUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/user',
     currentText: 'Klarna Terms of Service V2 (EU) - Updated Pay Later terms and consumer credit directive compliance.',
     currentHash: 'klarna-terms-eu-v2',
     snapshots: [
@@ -2004,6 +2011,7 @@ async function main() {
   await seedPolicy(co['klarna'].id, {
     name: 'Terms of Service', type: 'terms', jurisdiction: 'US',
     url: 'https://www.klarna.com/us/terms-of-use/',
+    retrievalUrl: 'https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/user',
     currentText: 'Klarna Terms of Service V2 (US) - CFPB-regulated BNPL terms with binding arbitration.',
     currentHash: 'klarna-terms-us-v2',
     snapshots: [
@@ -2608,7 +2616,7 @@ async function main() {
   // TikTok Community Guidelines - Global
   await seedPolicy(co['tiktok'].id, {
     name: 'Community Guidelines', type: 'terms', jurisdiction: 'Global',
-    url: 'https://www.tiktok.com/legal/page/global/community-guidelines',
+    url: 'https://www.tiktok.com/community-guidelines',
     currentText: '# TikTok Community Guidelines V2\nExpanded AI labeling requirements for synthetic media. Automated content removal for policy violations. Limited appeal mechanism for removed content. Government takedown request disclosures published quarterly.',
     currentHash: 'tiktok-guidelines-v2',
     snapshots: [
@@ -2864,7 +2872,17 @@ async function main() {
     }],
   });
 
-  console.log('Seed completed successfully for 16 monitored companies plus the WAZE onboarding fixture.');
+  const canonicalBackfill = await runDocumentEvidenceBackfill({
+    apply: true,
+    client: prisma,
+    actorRole: 'seed',
+    recordAudit: false,
+  });
+  if (canonicalBackfill.status !== 'applied') {
+    throw new Error(`Seed canonical backfill failed: ${canonicalBackfill.executionError || canonicalBackfill.status}`);
+  }
+
+  console.log('Seed completed successfully for 16 monitored companies plus the WAZE onboarding fixture. Canonical evidence graph reconciled.');
 }
 
 main()

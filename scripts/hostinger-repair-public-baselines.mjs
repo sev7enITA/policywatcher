@@ -135,7 +135,9 @@ const insertReviewLog = hasReviewLog
     `)
   : null;
 
-const now = new Date().toISOString();
+// Match Prisma's SQLite DateTime representation so later ORDER BY operations
+// remain chronological across application and maintenance writes.
+const now = Date.now();
 db.exec('BEGIN IMMEDIATE');
 try {
   for (const candidate of eligible) {

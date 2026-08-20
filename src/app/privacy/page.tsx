@@ -74,7 +74,7 @@ export default function PrivacyPolicyPage() {
             We do not share, sell, or transfer your email address to any third party, for any reason.
           </p>
 
-          <h3>Data we do not collect</h3>
+          <h3>Excluded data</h3>
           <ul>
             <li>Public pages use no tracking or analytics cookies. A protected administrator or auditor login uses one essential HTTP-only signed session cookie with a 24-hour maximum age.</li>
             <li>We do not use Google Analytics, Meta Pixel, or any third-party tracking service.</li>

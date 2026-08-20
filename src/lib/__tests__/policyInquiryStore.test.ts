@@ -76,7 +76,7 @@ describe('active policy inquiry deduplication', () => {
     expect(await client.policyInquiry.count()).toBe(2);
   });
 
-  it('retries bounded transient SQLite contention before persisting the inquiry', async () => {
+  it('retries bounded transient database contention before persisting the inquiry', async () => {
     const inquiry = { id: 'inquiry-1', publicToken: 'inq_retry' };
     const create = vi.fn()
       .mockRejectedValueOnce(Object.assign(new Error('database is locked'), { code: 'P1008' }))
@@ -99,5 +99,27 @@ describe('active policy inquiry deduplication', () => {
     expect(result).toEqual({ inquiry, created: true });
     expect(create).toHaveBeenCalledTimes(3);
     expect(findUnique).not.toHaveBeenCalled();
+  });
+
+  it('retries a PostgreSQL serialization failure before persisting the inquiry', async () => {
+    const inquiry = { id: 'inquiry-pg', publicToken: 'inq_pg_retry' };
+    const create = vi.fn()
+      .mockRejectedValueOnce(Object.assign(new Error('could not serialize access'), { code: '40001' }))
+      .mockResolvedValueOnce(inquiry);
+
+    const result = await createOrReuseActiveInquiry({
+      policyInquiry: { create, findUnique: vi.fn() },
+    } as never, {
+      data: {
+        publicToken: 'inq_pg_retry',
+        dedupeKey: 'pg-retry-key',
+        activeDedupeKey: 'pg-retry-key',
+        status: 'Proposed',
+        kind: 'unknown_company',
+      },
+    });
+
+    expect(result).toEqual({ inquiry, created: true });
+    expect(create).toHaveBeenCalledTimes(2);
   });
 });

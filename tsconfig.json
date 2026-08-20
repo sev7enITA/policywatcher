@@ -32,6 +32,7 @@
   ],
   "exclude": [
     "node_modules",
+    "mobile",
     "_archivio-locale",
     "coverage",
     "test-results",

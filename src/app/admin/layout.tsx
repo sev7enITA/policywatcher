@@ -36,6 +36,7 @@ import {
   Activity,
   Webhook,
   ScanSearch,
+  Scale,
 } from 'lucide-react';
 import styles from './admin.module.css';
 import { AdminPageGuide } from '@/components/admin/AdminPageGuide';
@@ -119,6 +120,18 @@ const NAV_ITEMS: NavItem[] = [
     label: 'Review Log',
     href: '/admin/review-log',
     icon: <History size={18} />,
+    section: 'Govern',
+  },
+  {
+    label: 'Executive Study',
+    href: '/admin/executive-study',
+    icon: <BookOpen size={18} />,
+    section: 'Govern',
+  },
+  {
+    label: 'Analisi competitiva',
+    href: '/admin/competitive-analysis',
+    icon: <Scale size={18} />,
     section: 'Govern',
   },
   {

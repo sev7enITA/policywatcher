@@ -58,6 +58,14 @@ export function PublicationReadinessFunnel({
         <div className={styles.readinessFunnelChecked}>
           <span>Checked</span>
           <time dateTime={presentedResult.checkedAt}>{formatCheckedAt(presentedResult.checkedAt)}</time>
+          <span className={styles.readinessCaptureLabel}>Latest capture</span>
+          {presentedResult.latestCapture.capturedAt ? (
+            <time dateTime={presentedResult.latestCapture.capturedAt}>
+              {formatCheckedAt(presentedResult.latestCapture.capturedAt)}
+            </time>
+          ) : (
+            <strong>Not available</strong>
+          )}
         </div>
       </header>
 
