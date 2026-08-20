@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-## 4.0.0-beta.1 - 2026-08-20
+## 4.0.0-beta.1 - 2026-08-19
 
 ### Foundation Beta promotion
 
