@@ -36,10 +36,11 @@ export type PublicSection =
 interface PublicHeaderProps {
   current: PublicSection;
   lang?: 'en' | 'it';
+  lockLang?: boolean;
 }
 
 const links: Array<{ id: PublicSection; href: string; en: string; it: string }> = [
-  { id: 'associations', href: '/associazioni', en: 'Civic Lab', it: 'Associazioni' },
+  { id: 'associations', href: '/en/associations', en: 'Civic Lab', it: 'Associazioni' },
   { id: 'knowledge', href: '/knowledge', en: 'Knowledge', it: 'Conoscenza' },
   { id: 'collections', href: '/collections', en: 'Collections', it: 'Raccolte' },
   { id: 'evidence', href: '/evidence', en: 'Evidence', it: 'Evidenze' },
@@ -51,10 +52,10 @@ const links: Array<{ id: PublicSection; href: string; en: string; it: string }> 
   { id: 'legal', href: '/terms', en: 'Terms', it: 'Termini' },
 ];
 
-export default function PublicHeader({ current, lang = 'en' }: PublicHeaderProps) {
+export default function PublicHeader({ current, lang = 'en', lockLang = false }: PublicHeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const globalContext = useGlobalContext(lang);
-  const activeLang = globalContext.ready ? globalContext.lang : lang;
+  const globalContext = useGlobalContext(lang, lockLang ? lang : undefined);
+  const activeLang = lockLang ? lang : globalContext.ready ? globalContext.lang : lang;
 
   return (
     <header className={styles.header}>
@@ -66,7 +67,7 @@ export default function PublicHeader({ current, lang = 'en' }: PublicHeaderProps
             <small>{activeLang === 'it' ? 'Laboratorio di evidenze pubbliche' : 'Public evidence laboratory'}</small>
           </span>
         </Link>
-        <GlobalContextControl className={styles.globalContext} fallbackLang={lang} />
+        <GlobalContextControl className={styles.globalContext} fallbackLang={lang} forcedLang={lockLang ? lang : undefined} />
         <button
           type="button"
           className={styles.menuButton}
@@ -82,7 +83,9 @@ export default function PublicHeader({ current, lang = 'en' }: PublicHeaderProps
             {links.map((link) => (
               <Link
                 key={link.id}
-                href={link.href}
+                href={link.id === 'associations'
+                  ? activeLang === 'it' ? '/it/associazioni' : '/en/associations'
+                  : link.href}
                 aria-current={current === link.id ? 'page' : undefined}
                 onClick={() => setMobileOpen(false)}
               >

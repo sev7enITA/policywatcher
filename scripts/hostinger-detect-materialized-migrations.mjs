@@ -35,6 +35,19 @@ const normalizedDefault = (value) => String(value ?? '')
   .replace(/^['"]|['"]$/g, '')
   .toUpperCase();
 
+function materializedDefaultMatches(table, column, expected, actual) {
+  if (normalizedDefault(actual) === normalizedDefault(expected)) return true;
+
+  // Early Hostinger initializers used the safer Configured default while the
+  // initial Prisma migration used Available. Existing rows and all subsequent
+  // application writes are explicit; accepting this conservative legacy
+  // default lets Prisma record the already-materialized initial migration.
+  return table === 'Policy'
+    && column === 'dataStatus'
+    && normalizedDefault(expected) === 'AVAILABLE'
+    && normalizedDefault(actual) === 'CONFIGURED';
+}
+
 function tableInfo(table) {
   return db.prepare(`PRAGMA table_info("${table.replaceAll('"', '""')}")`).all();
 }
@@ -56,7 +69,7 @@ function migrationIsMaterialized(sql) {
       if (/\bNOT NULL\b/i.test(suffix) && Number(actual.notnull) !== 1) return false;
       if (/\bPRIMARY KEY\b/i.test(suffix) && Number(actual.pk) !== 1) return false;
       const expectedDefault = suffix.match(/\bDEFAULT\s+(.+?)(?=\s+(?:PRIMARY|UNIQUE|REFERENCES|CHECK|COLLATE)\b|$)/i)?.[1];
-      if (expectedDefault !== undefined && normalizedDefault(actual.dflt_value) !== normalizedDefault(expectedDefault)) {
+      if (expectedDefault !== undefined && !materializedDefaultMatches(table, name, expectedDefault, actual.dflt_value)) {
         return false;
       }
     }
@@ -83,7 +96,7 @@ function migrationIsMaterialized(sql) {
     if (!actual || String(actual.type).toUpperCase() !== type.toUpperCase()) return false;
     if (/\bNOT NULL\b/i.test(suffix) && Number(actual.notnull) !== 1) return false;
     const expectedDefault = suffix.match(/\bDEFAULT\s+(.+?)(?=\s+(?:REFERENCES|CHECK|COLLATE)\b|$)/i)?.[1];
-    if (expectedDefault !== undefined && normalizedDefault(actual.dflt_value) !== normalizedDefault(expectedDefault)) {
+    if (expectedDefault !== undefined && !materializedDefaultMatches(table, name, expectedDefault, actual.dflt_value)) {
       return false;
     }
   }

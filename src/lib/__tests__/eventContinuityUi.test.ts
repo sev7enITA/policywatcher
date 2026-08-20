@@ -67,7 +67,7 @@ describe('event feed continuity public workbench', () => {
 
   it('adds a clear route from the developer directory without presenting the lab as another API', () => {
     expect(developers).toContain('href="/developers/event-continuity"');
-    expect(developers).toContain('Six machine endpoints and one continuity workbench.');
-    expect(developers).toContain('The six API endpoints accept `GET`');
+    expect(developers).toContain('Seven machine endpoints and one continuity workbench.');
+    expect(developers).toContain('The seven API endpoints accept `GET`');
   });
 });

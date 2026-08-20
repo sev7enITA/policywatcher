@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import {
   AI_TELEMETRY_PRIVACY_BOUNDARY,
+  AI_TELEMETRY_SEMCONV_SCHEMA_URL,
+  AI_TELEMETRY_SEMCONV_SOURCE_URL,
   buildAiTelemetrySummary,
+  buildAiTelemetrySemanticProjection,
   classifyAiTelemetryError,
   type AiTelemetryRow,
 } from '@/lib/aiTelemetry';
@@ -46,5 +49,25 @@ describe('AI telemetry', () => {
       attempts: 1, successes: 1, averageTotalTokens: 150,
     });
     expect(AI_TELEMETRY_PRIVACY_BOUNDARY).toContain('never persisted');
+  });
+
+  it('projects privacy-safe OpenTelemetry GenAI attributes without content', () => {
+    const projection = buildAiTelemetrySemanticProjection({
+      traceId: 'trace-safe', operation: 'golden-set-extraction', modelId: 'gemini-3.5-flash-lite',
+      attempt: 0, outcome: 'success', durationMs: 42, inputChars: 500, outputChars: 200,
+      promptTokenCount: 100, outputTokenCount: 40, promptVersion: 'p1', schemaVersion: 's1',
+    });
+    expect(AI_TELEMETRY_SEMCONV_SCHEMA_URL).toBeNull();
+    expect(projection.schemaUrl).toBeNull();
+    expect(projection.conventionsSource).toBe(AI_TELEMETRY_SEMCONV_SOURCE_URL);
+    expect(projection.attributes).toMatchObject({
+      'gen_ai.operation.name': 'generate_content',
+      'gen_ai.provider.name': 'gcp.gen_ai',
+      'gen_ai.request.model': 'gemini-3.5-flash-lite',
+      'gen_ai.response.model': 'gemini-3.5-flash-lite',
+      'gen_ai.usage.input_tokens': 100,
+      'gen_ai.usage.output_tokens': 40,
+    });
+    expect(JSON.stringify(projection)).not.toContain('trace-safe');
   });
 });

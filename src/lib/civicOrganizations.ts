@@ -27,6 +27,12 @@ export type CivicVerificationKind =
 
 export type CivicTerritory = GlobalRegion | GlobalCountryCode;
 
+export const CIVIC_DIRECTORY_QUERY_KEYS = Object.freeze({
+  territory: 'civic_territory',
+  type: 'civic_type',
+  query: 'civic_q',
+});
+
 export interface CivicOrganization {
   schema: typeof CIVIC_DIRECTORY_SCHEMA;
   id: string;
@@ -213,6 +219,22 @@ export const CIVIC_ORGANIZATIONS: readonly CivicOrganization[] = Object.freeze([
   organization({ id: 'za-national-consumer-forum', name: 'National Consumer Forum', shortName: 'NCF', country: 'za', types: ['consumer-generalist'], website: 'https://www.ncf.org.za/' }),
 ]);
 
+export const CIVIC_DIRECTORY_STATS = Object.freeze({
+  organizations: CIVIC_ORGANIZATIONS.length,
+  countries: new Set(
+    CIVIC_ORGANIZATIONS
+      .filter((organization) => organization.country !== 'all')
+      .map((organization) => organization.country),
+  ).size,
+  digitalSpecialists: CIVIC_ORGANIZATIONS.filter(
+    (organization) => organization.types.includes('digital-rights')
+      || organization.types.includes('privacy-data'),
+  ).length,
+  verificationSources: new Set(
+    CIVIC_ORGANIZATIONS.map((organization) => organization.sourceUrl),
+  ).size,
+});
+
 export function countryLabel(country: GlobalCountryCode, lang: PlatformLanguage): string {
   if (country === 'all') return lang === 'it' ? 'Rete globale' : 'Global network';
   const option = GLOBAL_COUNTRIES.find((entry) => entry.code === country);
@@ -223,8 +245,86 @@ export function countryLabel(country: GlobalCountryCode, lang: PlatformLanguage)
 function textMatches(organization: CivicOrganization, query: string): boolean {
   const normalized = query.trim().toLocaleLowerCase('en');
   if (!normalized) return true;
-  return [organization.name, organization.shortName ?? '', organization.country, ...organization.types]
+  const country = GLOBAL_COUNTRIES.find((entry) => entry.code === organization.country);
+  return [
+    organization.name,
+    organization.shortName ?? '',
+    organization.country,
+    organization.region,
+    organization.sourceLabel,
+    country?.label ?? '',
+    country?.nativeLabel ?? '',
+    ...organization.types,
+    ...organization.types.flatMap((type) => [CIVIC_TYPE_LABELS[type].it, CIVIC_TYPE_LABELS[type].en]),
+  ]
     .some((value) => value.toLocaleLowerCase('en').includes(normalized));
+}
+
+const CIVIC_TERRITORIES = new Set<CivicTerritory>([
+  'global',
+  'all',
+  'europe',
+  'north-america',
+  'latin-america',
+  'asia-pacific',
+  'africa',
+  ...GLOBAL_COUNTRIES.map((country) => country.code),
+]);
+
+const CIVIC_TYPES = new Set<CivicOrganizationType>(
+  Object.keys(CIVIC_TYPE_LABELS) as CivicOrganizationType[],
+);
+
+export interface CivicDirectoryQuerySnapshot {
+  territory: CivicTerritory | null;
+  type: CivicOrganizationType | 'all' | null;
+  query: string;
+  hasExplicitFilters: boolean;
+}
+
+function cleanDirectoryQuery(value: string): string {
+  return value.replace(/[\u0000-\u001f\u007f]+/g, ' ').trim().slice(0, 120);
+}
+
+export function parseCivicDirectoryQuery(search: string | URLSearchParams): CivicDirectoryQuerySnapshot {
+  const params = typeof search === 'string'
+    ? new URLSearchParams(search.startsWith('?') ? search.slice(1) : search)
+    : search;
+  const territoryValue = params.get(CIVIC_DIRECTORY_QUERY_KEYS.territory);
+  const typeValue = params.get(CIVIC_DIRECTORY_QUERY_KEYS.type);
+  const queryValue = params.get(CIVIC_DIRECTORY_QUERY_KEYS.query);
+  const territory = territoryValue && CIVIC_TERRITORIES.has(territoryValue as CivicTerritory)
+    ? territoryValue as CivicTerritory
+    : null;
+  const type = typeValue === 'all' || (typeValue && CIVIC_TYPES.has(typeValue as CivicOrganizationType))
+    ? typeValue as CivicOrganizationType | 'all'
+    : null;
+  const query = cleanDirectoryQuery(queryValue ?? '');
+
+  return {
+    territory,
+    type,
+    query,
+    hasExplicitFilters: territory !== null || type !== null || query.length > 0,
+  };
+}
+
+export function buildCivicDirectorySearch(
+  filters: { territory: CivicTerritory; type: CivicOrganizationType | 'all'; query: string },
+  existingSearch = '',
+): string {
+  const params = new URLSearchParams(existingSearch.startsWith('?') ? existingSearch.slice(1) : existingSearch);
+  params.delete(CIVIC_DIRECTORY_QUERY_KEYS.territory);
+  params.delete(CIVIC_DIRECTORY_QUERY_KEYS.type);
+  params.delete(CIVIC_DIRECTORY_QUERY_KEYS.query);
+
+  if (filters.territory !== 'global') params.set(CIVIC_DIRECTORY_QUERY_KEYS.territory, filters.territory);
+  if (filters.type !== 'all') params.set(CIVIC_DIRECTORY_QUERY_KEYS.type, filters.type);
+  const query = cleanDirectoryQuery(filters.query);
+  if (query) params.set(CIVIC_DIRECTORY_QUERY_KEYS.query, query);
+
+  const serialized = params.toString();
+  return serialized ? `?${serialized}` : '';
 }
 
 export function matchesCivicDirectory(
@@ -289,12 +389,14 @@ export interface CivicSuggestionInput {
   website: string;
   sourceUrl: string;
   focus: string;
+  submittedBy?: string;
 }
 
 export function buildCivicSuggestionMailto(input: CivicSuggestionInput): string | null {
   const name = cleanSuggestionText(input.name, 140);
   const country = cleanSuggestionText(input.country, 80);
   const focus = cleanSuggestionText(input.focus, 600);
+  const submittedBy = cleanSuggestionText(input.submittedBy ?? '', 80);
   const website = safeHttpsUrl(input.website);
   const sourceUrl = safeHttpsUrl(input.sourceUrl);
   if (!name || !country || !website || !sourceUrl) return null;
@@ -308,8 +410,44 @@ export function buildCivicSuggestionMailto(input: CivicSuggestionInput): string 
     `Official website: ${website}`,
     `Independent registry or network source: ${sourceUrl}`,
     `Digital-consumer focus: ${focus || 'Not specified'}`,
+    `Submitted by: ${submittedBy || 'Not specified'}`,
     '',
     'I understand that the suggestion is reviewed before inclusion and does not establish affiliation or endorsement.',
+  ].join('\n');
+
+  return `mailto:${CIVIC_SUGGESTION_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+export interface CivicCorrectionInput {
+  organizationId: string;
+  name: string;
+  website: string;
+  sourceUrl: string;
+}
+
+export function buildCivicCorrectionMailto(input: CivicCorrectionInput): string | null {
+  const organizationId = cleanSuggestionText(input.organizationId, 100);
+  const name = cleanSuggestionText(input.name, 140);
+  const website = safeHttpsUrl(input.website);
+  const sourceUrl = safeHttpsUrl(input.sourceUrl);
+  if (!organizationId || !name || !website || !sourceUrl) return null;
+
+  const subject = `Civic directory correction · ${name}`;
+  const body = [
+    'Correction request for the PolicyWatcher Civic directory',
+    '',
+    `Listing ID: ${organizationId}`,
+    `Organization: ${name}`,
+    `Current official website: ${website}`,
+    `Current verification source: ${sourceUrl}`,
+    '',
+    'Requested correction:',
+    '',
+    'Supporting public source (HTTPS):',
+    '',
+    'Relationship to the organization (optional):',
+    '',
+    'I understand that PolicyWatcher reviews evidence before applying a change and that this email does not update the directory automatically.',
   ].join('\n');
 
   return `mailto:${CIVIC_SUGGESTION_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;

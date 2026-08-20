@@ -1,0 +1,107 @@
+{
+  "$schema": "https://policywatcher.online/schemas/release-evidence-ledger/v1",
+  "schemaVersion": "policywatcher-release-evidence-ledger.v1",
+  "generatedAt": "2026-08-15T10:00:00Z",
+  "window": {
+    "start": "2026-08-02",
+    "end": "2026-08-15",
+    "inclusiveDays": 14,
+    "timezone": "UTC"
+  },
+  "currentRelease": "3.9.0-beta.42",
+  "integrity": {
+    "algorithm": "sha256",
+    "canonicalization": "JSON.stringify(releases)",
+    "digest": "eb11c7348931d88574bef2ecc8d6ab320e23b9b543765b1e4da543130d759c9f"
+  },
+  "claimBoundary": "Implementation inventory and observed evaluation evidence only. Release metrics do not establish adoption, legal compliance, continuous availability or user outcomes.",
+  "releases": [
+    {
+      "version": "3.9.0-beta.37",
+      "displayVersion": "Beta 37",
+      "date": "2026-08-02",
+      "title": { "en": "Resource navigation and retrieval diagnostics", "it": "Navigazione risorse e diagnostica retrieval" },
+      "wave": "technical",
+      "impact": { "en": "Made public navigation easier to scan and shared retrieval behavior inspectable without weakening source boundaries.", "it": "Ha reso più leggibile la navigazione pubblica e ispezionabile il retrieval condiviso senza indebolire i confini delle fonti." },
+      "metrics": [
+        { "value": "4", "label": { "en": "semantic resource groups", "it": "gruppi semantici di risorse" } },
+        { "value": "2", "label": { "en": "retrieval execution modes exposed", "it": "modalità di esecuzione retrieval esposte" } }
+      ],
+      "evidence": ["categorized-resource-navigation", "retrieval-deduplication-diagnostics"],
+      "boundary": { "en": "Information architecture and diagnostics do not prove findability, source availability or continuous deduplication savings.", "it": "Architettura informativa e diagnostica non provano reperibilità, disponibilità delle fonti o risparmi continui da deduplicazione." }
+    },
+    {
+      "version": "3.9.0-beta.38",
+      "displayVersion": "Beta 38",
+      "date": "2026-08-02",
+      "title": { "en": "Git-hosted press distribution", "it": "Distribuzione stampa tramite Git" },
+      "wave": "distribution",
+      "impact": { "en": "Separated complete press packages from application deploys and added commit-pinned, checksum-listed delivery.", "it": "Ha separato i pacchetti stampa completi dai deploy applicativi e aggiunto distribuzione vincolata al commit con checksum." },
+      "metrics": [
+        { "value": "2", "label": { "en": "language packages", "it": "pacchetti linguistici" } },
+        { "value": "SHA-256", "label": { "en": "published integrity method", "it": "metodo di integrità pubblicato" } }
+      ],
+      "evidence": ["github-press-kit-distribution"],
+      "boundary": { "en": "Checksums establish byte integrity, not authorship, semantic accuracy, availability or endorsement.", "it": "I checksum stabiliscono integrità dei byte, non autorialità, accuratezza semantica, disponibilità o endorsement." }
+    },
+    {
+      "version": "3.9.0-beta.39",
+      "displayVersion": "Beta 39",
+      "date": "2026-08-02",
+      "title": { "en": "Managed VPS renderer releases", "it": "Release gestite del renderer VPS" },
+      "wave": "technical",
+      "impact": { "en": "Added bounded, signed and observable renderer deployment with smoke verification and rollback state.", "it": "Ha aggiunto deployment del renderer limitato, firmato e osservabile con smoke test e stato di rollback." },
+      "metrics": [
+        { "value": "5 MiB", "label": { "en": "renderer package cap", "it": "limite pacchetto renderer" } },
+        { "value": "7", "label": { "en": "named release controls", "it": "controlli di release nominati" } }
+      ],
+      "evidence": ["managed-vps-releases"],
+      "boundary": { "en": "The workflow manages renderer packages only and provides no arbitrary file transfer, shell access or agent self-update.", "it": "Il workflow gestisce solo pacchetti renderer e non offre trasferimento arbitrario, accesso shell o auto-aggiornamento dell'agente." }
+    },
+    {
+      "version": "3.9.0-beta.40",
+      "displayVersion": "Beta 40",
+      "date": "2026-08-06",
+      "title": { "en": "Global civic evidence workspace", "it": "Workspace globale per evidenze civiche" },
+      "wave": "product",
+      "impact": { "en": "Extended civic review with explicit geographic context and a source-backed organization directory.", "it": "Ha esteso la revisione civica con contesto geografico esplicito e un catalogo di organizzazioni supportato da fonti." },
+      "metrics": [
+        { "value": "79", "label": { "en": "directory entries", "it": "organizzazioni nel catalogo" } },
+        { "value": "24", "label": { "en": "countries", "it": "paesi" } },
+        { "value": "8", "label": { "en": "protection types", "it": "tipi di tutela" } }
+      ],
+      "evidence": ["global-geographic-context", "consumer-association-civic-workspace"],
+      "boundary": { "en": "Directory inclusion is not endorsement or legal-status certification; coverage remains non-exhaustive.", "it": "L'inclusione nel catalogo non è endorsement o certificazione dello stato legale; la copertura resta non esaustiva." }
+    },
+    {
+      "version": "3.9.0-beta.41",
+      "displayVersion": "Beta 41",
+      "date": "2026-08-07",
+      "title": { "en": "Adaptive evidence experience", "it": "Esperienza adattiva delle evidenze" },
+      "wave": "experience",
+      "impact": { "en": "Added explicit hierarchy and motion controls while keeping evidence, scores and publication gates unchanged.", "it": "Ha aggiunto controlli espliciti su gerarchia e movimento mantenendo invariati evidenze, punteggi e gate di pubblicazione." },
+      "metrics": [
+        { "value": "3", "label": { "en": "presentation modes", "it": "modalità di presentazione" } },
+        { "value": "2", "label": { "en": "motion states", "it": "stati del movimento" } },
+        { "value": "33", "label": { "en": "validated literal routes", "it": "route letterali validate" } }
+      ],
+      "evidence": ["adaptive-experience-control"],
+      "boundary": { "en": "Presentation controls do not infer expertise, personalize evidence or establish measured usability or WCAG conformance.", "it": "I controlli di presentazione non inferiscono competenza, non personalizzano le evidenze e non stabiliscono usabilità misurata o conformità WCAG." }
+    },
+    {
+      "version": "3.9.0-beta.42",
+      "displayVersion": "Beta 42",
+      "date": "2026-08-15",
+      "title": { "en": "Evidence control plane and release pulse", "it": "Control plane delle evidenze e release pulse" },
+      "wave": "assurance",
+      "impact": { "en": "Turns model decisions and release impact into versioned, validated and publicly inspectable evidence contracts.", "it": "Trasforma decisioni sui modelli e impatto delle release in contratti di evidenza versionati, validati e ispezionabili pubblicamente." },
+      "metrics": [
+        { "value": "9", "label": { "en": "model candidates registered", "it": "candidati modello registrati" } },
+        { "value": "2", "label": { "en": "candidates qualified", "it": "candidati qualificati" } },
+        { "value": "6", "label": { "en": "release clusters in the ledger", "it": "cluster release nel ledger" } }
+      ],
+      "evidence": ["ai-evalops-control-plane", "release-evidence-ledger", "two-week-release-evidence-pulse"],
+      "boundary": { "en": "Qualification is dataset-scoped and human-approved; the pulse reports implementation evidence, not adoption or compliance outcomes.", "it": "La qualificazione è circoscritta al dataset e approvata da persone; il pulse riporta evidenze implementative, non risultati di adozione o conformità." }
+    }
+  ]
+}

@@ -5,8 +5,10 @@ import {
   type PublicDataSourceId,
 } from './dataSourceRegistry';
 import {
+  getMetaObservatoryMetrics,
   OBSERVATORY_VERIFIED_AT,
   observatoryEvents,
+  observatoryMetaInsights,
   observatorySignals,
   observatorySources,
   type Locale,
@@ -88,6 +90,7 @@ export function getPublicApiManifest() {
       'The API does not expose policy text, raw failure reasons, admin logs, private records, or credentials. Evidence collections may repeat public snapshot and packet fingerprints already exposed by the selected Evidence Packets.',
       'Observatory entries are a curated local registry with review timestamps, not an automated external news feed.',
       'Published records remain subject to source availability and public-evidence gates.',
+      'Publication readiness is one aggregate database-derived metric. It exposes counts and the latest successful capture timestamp, never policy text or internal identifiers.',
       'The change-event feed is a forward-polling surface. It does not confirm notification delivery or replace future signed webhook controls.',
       'The residency evidence pack distinguishes public documents, operator declarations, deployment-dependent facts and open evidence; it does not prove the live deployment region.',
     ],
@@ -95,6 +98,18 @@ export function getPublicApiManifest() {
       endpoint: '/api/v1/residency-evidence',
       contract: 'dated bounded evidence register with deterministic SHA-256 digest',
       humanReview: '/trust/residency',
+    },
+    releaseEvidence: {
+      endpoint: '/api/v1/release-evidence',
+      schema: '/schemas/release-evidence-ledger/v1',
+      contract: 'inclusive 14-day release ledger with deterministic SHA-256 digest and explicit claim boundaries',
+      humanReview: '/pulse/two-week-release-impact',
+    },
+    publicationReadiness: {
+      endpoint: '/api/v1/publication-readiness',
+      schema: '/schemas/publication-readiness/v1',
+      contract: 'configured → retrieved → baseline verified → public → analysed, plus latest capture',
+      cache: 'no-store',
     },
     agentGateway: {
       contract: '/api/v1/agent/openapi.json',
@@ -116,7 +131,7 @@ export function getPublicObservatoryPayload(locale: PublicApiLocale) {
       mode: 'curated-local-registry',
       refresh: 'manual review',
       boundary:
-        'Listed sources and signals support review and discovery. They are not automatically ingested into PolicyWatcher policy evidence.',
+        'Listed sources and signals support review and discovery. They are not automatically ingested into PolicyWatcher policy evidence; catalogued sources under review are not evidence-ready.',
     },
     sources: observatorySources.map((source) => ({
       id: source.id,
@@ -125,10 +140,30 @@ export function getPublicObservatoryPayload(locale: PublicApiLocale) {
       url: source.url,
       region: source.region,
       authority: source.authority,
+      kind: source.kind,
+      evidenceStatus: source.evidenceStatus,
+      evidenceRole: source.evidenceRole,
+      evidenceReady: source.evidenceReady,
+      lastReviewLabel: source.lastReviewLabel[locale],
+      accessCapability: source.accessCapability,
       contentTypes: [...source.contentTypes],
       reviewCadence: source.reviewCadence[locale],
       note: source.note[locale],
     })),
+    metaObservatory: {
+      trustRule: 'catalogued ≠ verified ≠ evidence-ready; no single-source synthesis',
+      metrics: getMetaObservatoryMetrics(),
+      insights: observatoryMetaInsights.map((insight) => ({
+        id: insight.id,
+        lens: insight.lens,
+        eyebrow: insight.eyebrow[locale],
+        title: insight.title[locale],
+        summary: insight.summary[locale],
+        implication: insight.implication[locale],
+        sourceIds: [...insight.sourceIds],
+        evidenceBoundary: insight.evidenceBoundary,
+      })),
+    },
     signals: observatorySignals.map((signal) => ({
       id: signal.id,
       sourceId: signal.sourceId,

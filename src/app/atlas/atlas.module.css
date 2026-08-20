@@ -727,6 +727,11 @@
   }
 
   .nodeGroup text {
+    display: none;
+  }
+
+  .nodeSelected text {
+    display: block;
     font-size: 4px;
   }
 }

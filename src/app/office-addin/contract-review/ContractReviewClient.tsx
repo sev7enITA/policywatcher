@@ -158,7 +158,7 @@ export default function ContractReviewClient() {
       <section className={styles.step} aria-labelledby="topics-title">
         <span className={styles.stepNumber}>02</span>
         <div className={styles.stepBody}>
-          <h2 id="topics-title">Review derived topics</h2>
+          <h2 id="topics-title">Derived topics</h2>
           {derivation ? (
             <>
               <div className={styles.selectionMeta}>
@@ -185,7 +185,7 @@ export default function ContractReviewClient() {
       <section className={styles.step} aria-labelledby="search-title">
         <span className={styles.stepNumber}>03</span>
         <div className={styles.stepBody}>
-          <h2 id="search-title">Find related public evidence</h2>
+          <h2 id="search-title">Related public evidence</h2>
           <label className={styles.consent}>
             <input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} disabled={!derivation} />
             <span>I understand that only the displayed topic labels, not the clause text, will be sent.</span>

@@ -1,5 +1,6 @@
 import { createHash, randomBytes } from 'node:crypto';
 import { getDomain } from 'tldts';
+import { isDatabaseStorageUnavailable } from './databaseErrors';
 import type { InquiryPolicyType, LocalPolicyInquiryClues } from './policyInquiryClient';
 
 const ALLOWED_POLICY_TYPES = new Set<InquiryPolicyType>([
@@ -225,14 +226,8 @@ export function prioritizePortfolioEvidence<T extends PortfolioChangeLike>(
 }
 
 export function isPolicyInquiryStorageUnavailable(error: unknown): boolean {
-  if (!error || typeof error !== 'object') return false;
-  const value = error as { code?: unknown; message?: unknown; meta?: unknown };
-  const detail = `${String(value.message || '')} ${JSON.stringify(value.meta || {})}`;
-  const code = String(value.code || '');
   // This route cannot operate when any schema dependency is missing. Prisma
   // may report Company first and PolicyInquiry only on the subsequent create,
   // so classify the whole missing/unmigrated schema family consistently.
-  const unavailablePrismaStorage = ['P1001', 'P1003', 'P1008', 'P2021', 'P2022', 'P2034'].includes(code);
-  const unavailableSqliteStorage = /no such (?:table|column)|does not exist|unable to open database file|database is locked|readonly database|database disk image is malformed/i.test(detail);
-  return unavailablePrismaStorage || unavailableSqliteStorage;
+  return isDatabaseStorageUnavailable(error);
 }

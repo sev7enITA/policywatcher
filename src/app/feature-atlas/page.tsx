@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import FeatureAtlasClient from './FeatureAtlasClient';
 
 export const metadata: Metadata = {
-  title: 'Feature Intelligence Atlas | PolicyWatcher',
+  title: 'Feature atlas | PolicyWatcher',
   description:
-    'Explore PolicyWatcher capabilities as an operational evidence constellation with dependencies, qualitative inventory KPIs, residual KRIs, implementation proof and delivery horizons.',
+    'PolicyWatcher capability directory with dependencies, inventory KPIs, residual KRIs, implementation references and delivery status.',
   alternates: { canonical: '/feature-atlas' },
 };
 

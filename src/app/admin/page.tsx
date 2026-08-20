@@ -42,6 +42,7 @@ import { OperationalActionCenter } from './OperationalActionCenter';
 import { PublicationReadinessFunnel } from './PublicationReadinessFunnel';
 import { LiveStatusCards } from './LiveStatusCards';
 import { DashboardMeasurement } from './DashboardMeasurement';
+import { InvestorAccessPanel } from './InvestorAccessPanel';
 import {
   getAdminDashboardRolePresentation,
   type AdminConsoleRole,
@@ -270,6 +271,8 @@ export default function AdminDashboardPage() {
       <OperationalActionCenter result={metrics.actionCenter} role={metrics.role} />
 
       <LiveStatusCards role={metrics.role} />
+
+      {metrics.role === 'admin' ? <InvestorAccessPanel /> : null}
 
       <section className={styles.reliabilitySummary} aria-labelledby="source-readiness-title">
         <header className={styles.reliabilitySummaryHeader}>

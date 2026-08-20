@@ -32,6 +32,7 @@ import { establishVerifiedPolicyBaseline, replaceSeededPolicyBaseline } from '@/
 import { createErrorReference, getErrorMessage } from '@/lib/safeErrors';
 import { normalizeKpiFields } from '@/lib/kpiDefaults';
 import * as Diff from 'diff';
+import { dualWriteCanonicalPolicyGraph } from '@/lib/documentEvidenceSync';
 
 function archiveTimestampFromScrape(value: string | undefined): Date | null {
   if (!value) return null;
@@ -516,6 +517,8 @@ export async function POST(request: NextRequest) {
           archiveTimestamp,
         },
       });
+
+      await dualWriteCanonicalPolicyGraph(tx, policy.id);
 
       return {
         policyChange: createdPolicyChange,

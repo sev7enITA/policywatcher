@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "policywatcher.source-integrity-corrections.v1",
+  "verifiedAt": "2026-08-17",
+  "evidenceBoundary": "A changed acquisition key requires a verified replacement baseline and does not create a provider-authored change event.",
+  "corrections": [
+    {
+      "provider": "Wise",
+      "policy": "Privacy Policy",
+      "jurisdiction": "US",
+      "canonicalUrl": "https://wise.com/us/legal/privacy-notice",
+      "retrievalUrl": null,
+      "replaces": "https://wise.com/us/legal/privacy-policy",
+      "reason": "The previous URL is a legal index rather than the US notice."
+    },
+    {
+      "provider": "Wise",
+      "policy": "Privacy Policy",
+      "jurisdiction": "EU",
+      "canonicalUrl": "https://wise.com/gb/legal/privacy-notice-personal-en",
+      "retrievalUrl": null,
+      "replaces": "https://wise.com/eu/legal/privacy-policy",
+      "reason": "The legacy EU route is retired; use the current personal privacy notice."
+    },
+    {
+      "provider": "Wise",
+      "policy": "Privacy Policy",
+      "jurisdiction": "Global",
+      "canonicalUrl": "https://wise.com/gb/legal/privacy-notice-personal-en",
+      "retrievalUrl": null,
+      "replaces": "https://wise.com/gb/legal/privacy-policy",
+      "reason": "The previous URL is a legal index rather than the personal privacy notice."
+    },
+    {
+      "provider": "TikTok",
+      "policy": "Community Guidelines",
+      "jurisdiction": "Global",
+      "canonicalUrl": "https://www.tiktok.com/community-guidelines",
+      "retrievalUrl": null,
+      "replaces": "https://www.tiktok.com/legal/page/global/community-guidelines",
+      "reason": "The previous route is retired; the canonical route is rendered when required."
+    },
+    {
+      "provider": "Klarna",
+      "policy": "Privacy Notice",
+      "jurisdiction": "EU",
+      "canonicalUrl": "https://www.klarna.com/ie/privacy/",
+      "retrievalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/privacy",
+      "reason": "Public overview retained as citation; linked official notice used for acquisition."
+    },
+    {
+      "provider": "Klarna",
+      "policy": "Privacy Notice",
+      "jurisdiction": "US",
+      "canonicalUrl": "https://www.klarna.com/us/privacy/",
+      "retrievalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy",
+      "reason": "Public overview retained as citation; linked official notice used for acquisition."
+    },
+    {
+      "provider": "Klarna",
+      "policy": "Terms of Service",
+      "jurisdiction": "EU",
+      "canonicalUrl": "https://www.klarna.com/ie/terms-and-conditions/",
+      "retrievalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/user",
+      "reason": "Public overview retained as citation; linked official terms used for acquisition."
+    },
+    {
+      "provider": "Klarna",
+      "policy": "Terms of Service",
+      "jurisdiction": "US",
+      "canonicalUrl": "https://www.klarna.com/us/terms-of-use/",
+      "retrievalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/user",
+      "reason": "Public overview retained as citation; linked official terms used for acquisition."
+    }
+  ],
+  "reviewHolds": [
+    {
+      "provider": "Amazon",
+      "policy": "Privacy Notice",
+      "jurisdiction": "EU",
+      "reason": "Fetcher access is blocked; do not promote an unverified alternate source or update date."
+    },
+    {
+      "provider": "Revolut",
+      "reason": "Provider access controls remain in force; use only official, traceable sources and do not bypass challenges."
+    }
+  ]
+}

@@ -31,7 +31,7 @@ import WebhookReadinessClient from './WebhookReadinessClient';
 import styles from './webhook-readiness.module.css';
 
 export const metadata: Metadata = {
-  title: 'Webhook Readiness Kit | PolicyWatcher',
+  title: 'Webhook verification | PolicyWatcher',
   description:
     'Inspect and verify the deterministic PolicyWatcher HMAC-SHA256 webhook test vector locally before outbound delivery is available.',
   alternates: { canonical: '/developers/webhook-readiness' },
@@ -105,7 +105,7 @@ export default function WebhookReadinessPage() {
                 <Workflow size={16} aria-hidden="true" />
                 Webhook readiness · local verification
               </span>
-              <h1>Verify the delivery contract before enabling delivery.</h1>
+              <h1>Webhook verification</h1>
               <p>
                 Inspect the exact signed input and verify a deterministic public test vector in this browser. This readiness kit defines receiver interoperability; it does not provide webhook subscriptions or outbound delivery.
               </p>
@@ -154,7 +154,7 @@ export default function WebhookReadinessPage() {
         <section className={styles.workbenchSection} aria-labelledby="workbench-heading">
           <header className={styles.sectionHeader}>
             <span>Protocol workbench</span>
-            <h2 id="workbench-heading">Nothing hidden between raw body and decision.</h2>
+            <h2 id="workbench-heading">Signature test</h2>
             <p>Change any field to test failure behavior, then restore the canonical vector. All computation remains on this device.</p>
           </header>
           <WebhookReadinessClient
@@ -167,7 +167,7 @@ export default function WebhookReadinessPage() {
         <section className={styles.section} aria-labelledby="sequence-heading">
           <header className={styles.sectionHeader}>
             <span>Receiver sequence</span>
-            <h2 id="sequence-heading">Verification has five explicit stages.</h2>
+            <h2 id="sequence-heading">Verification stages</h2>
             <p>The browser workbench covers construction, calculation and comparison. Production receivers must also enforce freshness and replay controls.</p>
           </header>
           <ol className={styles.sequence}>
@@ -187,7 +187,7 @@ export default function WebhookReadinessPage() {
         <section className={styles.section} aria-labelledby="examples-heading">
           <header className={styles.sectionHeader}>
             <span>Receiver examples</span>
-            <h2 id="examples-heading">Implement the same contract in your runtime.</h2>
+            <h2 id="examples-heading">Runtime examples</h2>
             <p>These examples verify the signature shape and digest. Add the production controls listed below before accepting a delivered event.</p>
           </header>
           <div className={styles.codeGrid}>
@@ -206,7 +206,7 @@ export default function WebhookReadinessPage() {
           <div className={styles.productionColumn}>
             <header className={styles.sectionHeader}>
               <span>Production receiver</span>
-              <h2 id="production-heading">Controls still owned by the integrator.</h2>
+              <h2 id="production-heading">Integrator controls</h2>
             </header>
             <ul className={styles.checklist}>
               {WEBHOOK_PRODUCTION_CHECKLIST.map((item) => (
@@ -229,7 +229,7 @@ export default function WebhookReadinessPage() {
           <Clock3 size={23} aria-hidden="true" />
           <div>
             <span>Available now</span>
-            <h2>Use forward polling for published change events.</h2>
+            <h2>Published change-event feed</h2>
             <p>The public feed exposes already-published events with an opaque cursor. It does not imply delivery or receipt.</p>
           </div>
           <div className={styles.nextLinks}>

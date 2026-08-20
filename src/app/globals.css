@@ -61,6 +61,16 @@
   /* Glass */
   --glass-bg: rgba(255, 255, 255, 0.8);
   --glass-filter: blur(12px) saturate(180%);
+
+  /* Sticky public chrome: shared by anchored public pages. */
+  --public-header-block-size: 76px;
+  --public-anchor-gap: 16px;
+}
+
+@media (max-width: 1100px) {
+  :root {
+    --public-header-block-size: 110px;
+  }
 }
 
 * {

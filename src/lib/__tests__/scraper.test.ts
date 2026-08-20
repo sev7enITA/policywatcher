@@ -181,6 +181,11 @@ describe('detectSoft404', () => {
     expect(detectSoft404(long)).toBe(false);
   });
 
+  it('detects a long soft-404 template when the title and primary heading identify it', () => {
+    const long = `<html><head><title>Page not found</title></head><body><h1>404 error</h1><nav>${'link '.repeat(500)}</nav></body></html>`;
+    expect(detectSoft404(long)).toBe(true);
+  });
+
   it('does not flag a normal policy page', () => {
     expect(detectSoft404(POLICY_HTML)).toBe(false);
   });
@@ -331,6 +336,10 @@ describe('hasLiveHostDrift', () => {
 describe('hasLivePathDrift', () => {
   it('rejects live redirects from a configured policy path to the homepage on the same host', () => {
     expect(hasLivePathDrift('https://stripe.com/us/privacy', 'https://stripe.com/', 'direct')).toBe(true);
+  });
+
+  it('rejects live redirects from a policy path to a same-host 404 route', () => {
+    expect(hasLivePathDrift('https://www.tiktok.com/legal/page/global/community-guidelines', 'https://www.tiktok.com/404/', 'rendered')).toBe(true);
   });
 
   it('does not reject equivalent paths or archive URLs', () => {

@@ -44,6 +44,11 @@ describe('public data-source registry', () => {
       evidenceGate: 'public-reference',
       allowedQueryParams: ['lang'],
     });
+    expect(PUBLIC_DATA_SOURCES.publicationReadiness).toMatchObject({
+      endpoint: '/api/v1/publication-readiness',
+      evidenceGate: 'public-reference',
+      allowedQueryParams: [],
+    });
     expect(PUBLIC_DATA_SOURCES.evidenceCollections).toMatchObject({
       endpoint: '/api/v1/evidence-collections',
       allowedQueryParams: ['changes', 'format'],

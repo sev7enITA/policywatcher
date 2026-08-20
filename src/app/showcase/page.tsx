@@ -8,7 +8,7 @@ import PublicHeader from '@/components/PublicHeader';
 import styles from './showcase.module.css';
 
 export const metadata: Metadata = {
-  title: `PolicyWatcher ${POLICYWATCHER_VERSION} ${POLICYWATCHER_RELEASE_NAME} Showcase`,
+  title: `Product overview | PolicyWatcher ${POLICYWATCHER_VERSION}`,
   description:
     'PolicyWatcher native dashboard intelligence: validated composition, canonical KPIs, evidence-first data sources and five accessible, provenance-aware visualizations.',
   alternates: { canonical: '/showcase' },
@@ -374,11 +374,7 @@ export default function ShowcasePage() {
             <SignalMark />
             PolicyWatcher {POLICYWATCHER_VERSION} {POLICYWATCHER_RELEASE_NAME}
           </span>
-          <h1>
-            <span>PolicyWatcher</span>
-            <span>confidence</span>
-            <span>map.</span>
-          </h1>
+          <h1>Product overview</h1>
           <p>
             This page describes what the current platform exposes: public
             dashboard contracts, change views, canonical analysis fields,
@@ -423,7 +419,7 @@ export default function ShowcasePage() {
       <section id="atlas" className={`${styles.section} ${styles.atlasSection}`}>
         <div className={styles.sectionHeader}>
           <span className={styles.sectionKicker}>Data model</span>
-          <h2>What the interface reads from the configured records.</h2>
+          <h2>Configured data</h2>
           <p>
             The public and admin pages are built around companies, policies,
             policy changes, check logs, region impacts, subscribers and QA results. The
@@ -466,7 +462,7 @@ export default function ShowcasePage() {
       <section id="signals" className={`${styles.section} ${styles.signalsSection}`}>
         <div className={styles.sectionHeader}>
           <span className={styles.sectionKicker}>Animated data views</span>
-          <h2>Visual modules currently present in the platform.</h2>
+          <h2>Visualization modules</h2>
           <p>
             The animated SVGs below are static representations of existing
             product views. They describe UI modules and the database fields they
@@ -492,7 +488,7 @@ export default function ShowcasePage() {
       <section id="quality" className={`${styles.section} ${styles.qualitySection}`}>
         <div className={styles.qualityNarrative}>
           <span className={styles.sectionKicker}>Dataset QA</span>
-          <h2>Dataset QA lists checks and issues for review.</h2>
+          <h2>Dataset QA checks</h2>
           <p>
             The admin QA layer checks source fit, retrieval evidence, public
             evidence gates, seeded-record boundaries, hash consistency,
@@ -520,7 +516,7 @@ export default function ShowcasePage() {
         <div className={styles.adminIntro}>
           <div>
             <span className={styles.sectionKicker}>Administrative tools</span>
-            <h2>Admin functions available across the {POLICYWATCHER_VERSION} dashboard intelligence and confidence track.</h2>
+            <h2>Administration functions</h2>
             <p>
             The admin area includes login, metrics, company and policy
               management, dataset QA, KPI audit, explainability, cron status,
@@ -554,7 +550,7 @@ export default function ShowcasePage() {
       <section id="flow" className={`${styles.section} ${styles.flowSection}`}>
         <div className={styles.sectionHeader}>
           <span className={styles.sectionKicker}>Workflow</span>
-          <h2>How database records feed the public views.</h2>
+          <h2>Public data flow</h2>
           <p>
             This is a functional map of routes and records used by the app. It
             separates what is configured in the dataset from what is shown in
@@ -577,7 +573,7 @@ export default function ShowcasePage() {
       <section id="trust" className={`${styles.section} ${styles.qualitySection}`}>
         <div className={styles.qualityNarrative}>
           <span className={styles.sectionKicker}>Trust & Quality</span>
-          <h2>Public evidence follows explicit QA gates.</h2>
+          <h2>Publication gates</h2>
           <p>
             The Trust page presents workflow status, CodeQL, OpenSSF Scorecard,
             targeted reliability coverage, Sonar readiness, Codecov readiness and live HTTP
@@ -611,7 +607,7 @@ export default function ShowcasePage() {
       <section className={styles.finalCta}>
         <div>
           <span className={styles.sectionKicker}>Public interface</span>
-          <h2>A platform with visible methodology and admin review tools.</h2>
+          <h2>Methodology and review tools</h2>
           <p>
             The public interface explains its methodology and exposes available
             analysis outputs with confidence boundaries. The admin interface adds

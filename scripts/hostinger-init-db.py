@@ -139,6 +139,7 @@ TABLES = [
       "name" TEXT NOT NULL,
       "type" TEXT NOT NULL,
       "url" TEXT NOT NULL,
+      "retrievalUrl" TEXT,
       "jurisdiction" TEXT NOT NULL DEFAULT 'Global',
       "currentText" TEXT NOT NULL,
       "currentHash" TEXT NOT NULL,
@@ -146,6 +147,8 @@ TABLES = [
       "lastCheckDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
       "lastSuccessfulCheckDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
       "ingestionMethod" TEXT NOT NULL DEFAULT 'Seeded',
+      "sourceMigrationPending" BOOLEAN NOT NULL DEFAULT false,
+      "sourceMigrationRequestedAt" DATETIME,
       "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
       "updatedAt" DATETIME NOT NULL,
       CONSTRAINT "Policy_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company" ("id") ON DELETE CASCADE ON UPDATE CASCADE
@@ -351,6 +354,30 @@ TABLES = [
     )
     """,
     """
+    CREATE TABLE IF NOT EXISTS "InvestorAccessGrant" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "tokenHash" TEXT NOT NULL,
+      "recipientLabel" TEXT NOT NULL,
+      "createdByRole" TEXT NOT NULL,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "expiresAt" DATETIME NOT NULL,
+      "revokedAt" DATETIME,
+      "lastAccessedAt" DATETIME,
+      "accessCount" INTEGER NOT NULL DEFAULT 0
+    )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS "InvestorAccessEvent" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "grantId" TEXT,
+      "event" TEXT NOT NULL,
+      "actorRole" TEXT,
+      "detail" TEXT,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      CONSTRAINT "InvestorAccessEvent_grantId_fkey" FOREIGN KEY ("grantId") REFERENCES "InvestorAccessGrant" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+    )
+    """,
+    """
     CREATE TABLE IF NOT EXISTS "PressMetricEvent" (
       "eventType" TEXT NOT NULL,
       "target" TEXT NOT NULL,
@@ -503,6 +530,91 @@ TABLES = [
       CONSTRAINT "WebhookDeliveryAttempt_deliveryId_fkey" FOREIGN KEY ("deliveryId") REFERENCES "WebhookDelivery" ("id") ON DELETE CASCADE ON UPDATE CASCADE
     )
     """,
+    """
+    CREATE TABLE IF NOT EXISTS "Entity" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "publicId" TEXT NOT NULL,
+      "canonicalKey" TEXT NOT NULL,
+      "name" TEXT NOT NULL,
+      "entityType" TEXT NOT NULL DEFAULT 'organization',
+      "website" TEXT,
+      "legacyCompanyId" TEXT,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "updatedAt" DATETIME NOT NULL
+    )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS "Document" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "publicId" TEXT NOT NULL,
+      "entityId" TEXT NOT NULL,
+      "canonicalKey" TEXT NOT NULL,
+      "title" TEXT NOT NULL,
+      "documentType" TEXT NOT NULL,
+      "jurisdiction" TEXT NOT NULL DEFAULT 'Global',
+      "canonicalUrl" TEXT NOT NULL,
+      "legacyPolicyId" TEXT,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "updatedAt" DATETIME NOT NULL,
+      CONSTRAINT "Document_entityId_fkey" FOREIGN KEY ("entityId") REFERENCES "Entity" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS "Version" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "publicId" TEXT NOT NULL,
+      "documentId" TEXT NOT NULL,
+      "sequence" INTEGER NOT NULL,
+      "contentHash" TEXT NOT NULL,
+      "sourceUrl" TEXT NOT NULL,
+      "capturedAt" DATETIME NOT NULL,
+      "effectiveAt" DATETIME,
+      "contentRef" TEXT,
+      "contentText" TEXT,
+      "publicEvidence" BOOLEAN NOT NULL DEFAULT false,
+      "legacySnapshotId" TEXT,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      CONSTRAINT "Version_documentId_fkey" FOREIGN KEY ("documentId") REFERENCES "Document" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS "Change" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "publicId" TEXT NOT NULL,
+      "documentId" TEXT NOT NULL,
+      "fromVersionId" TEXT,
+      "toVersionId" TEXT NOT NULL,
+      "kind" TEXT NOT NULL DEFAULT 'detected',
+      "summary" TEXT,
+      "detectedAt" DATETIME NOT NULL,
+      "publicEvidence" BOOLEAN NOT NULL DEFAULT false,
+      "publishedAt" DATETIME,
+      "legacyPolicyChangeId" TEXT,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      CONSTRAINT "Change_documentId_fkey" FOREIGN KEY ("documentId") REFERENCES "Document" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+      CONSTRAINT "Change_fromVersionId_fkey" FOREIGN KEY ("fromVersionId") REFERENCES "Version" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+      CONSTRAINT "Change_toVersionId_fkey" FOREIGN KEY ("toVersionId") REFERENCES "Version" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS "Provision" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "publicId" TEXT NOT NULL,
+      "changeId" TEXT NOT NULL,
+      "taxonomyVersion" TEXT NOT NULL DEFAULT '1.0.0',
+      "taxonomyKey" TEXT NOT NULL,
+      "ordinal" INTEGER NOT NULL DEFAULT 0,
+      "assessment" TEXT NOT NULL DEFAULT 'not_assessed',
+      "evidenceText" TEXT,
+      "evidenceHash" TEXT,
+      "sourceLocator" TEXT,
+      "rationale" TEXT,
+      "reviewStatus" TEXT NOT NULL DEFAULT 'draft',
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "updatedAt" DATETIME NOT NULL,
+      CONSTRAINT "Provision_changeId_fkey" FOREIGN KEY ("changeId") REFERENCES "Change" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    )
+    """,
 ]
 
 INDEXES = [
@@ -531,6 +643,7 @@ INDEXES = [
     'CREATE UNIQUE INDEX IF NOT EXISTS "Policy_companyId_type_jurisdiction_key" ON "Policy"("companyId", "type", "jurisdiction")',
     'CREATE INDEX IF NOT EXISTS "Policy_companyId_idx" ON "Policy"("companyId")',
     'CREATE INDEX IF NOT EXISTS "Policy_jurisdiction_idx" ON "Policy"("jurisdiction")',
+    'CREATE INDEX IF NOT EXISTS "Policy_sourceMigrationPending_idx" ON "Policy"("sourceMigrationPending")',
     'CREATE INDEX IF NOT EXISTS "PolicyCheckLog_policyId_idx" ON "PolicyCheckLog"("policyId")',
     'CREATE INDEX IF NOT EXISTS "PolicyCheckLog_checkedAt_idx" ON "PolicyCheckLog"("checkedAt")',
     'CREATE INDEX IF NOT EXISTS "PolicyCheckLog_status_idx" ON "PolicyCheckLog"("status")',
@@ -574,6 +687,13 @@ INDEXES = [
     'CREATE INDEX IF NOT EXISTS "AdminAccessLog_event_idx" ON "AdminAccessLog"("event")',
     'CREATE INDEX IF NOT EXISTS "AdminAccessLog_username_idx" ON "AdminAccessLog"("username")',
     'CREATE INDEX IF NOT EXISTS "AdminAccessLog_ipAddress_idx" ON "AdminAccessLog"("ipAddress")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "InvestorAccessGrant_tokenHash_key" ON "InvestorAccessGrant"("tokenHash")',
+    'CREATE INDEX IF NOT EXISTS "InvestorAccessGrant_expiresAt_idx" ON "InvestorAccessGrant"("expiresAt")',
+    'CREATE INDEX IF NOT EXISTS "InvestorAccessGrant_revokedAt_idx" ON "InvestorAccessGrant"("revokedAt")',
+    'CREATE INDEX IF NOT EXISTS "InvestorAccessGrant_createdAt_idx" ON "InvestorAccessGrant"("createdAt")',
+    'CREATE INDEX IF NOT EXISTS "InvestorAccessEvent_grantId_createdAt_idx" ON "InvestorAccessEvent"("grantId", "createdAt")',
+    'CREATE INDEX IF NOT EXISTS "InvestorAccessEvent_event_createdAt_idx" ON "InvestorAccessEvent"("event", "createdAt")',
+    'CREATE INDEX IF NOT EXISTS "InvestorAccessEvent_createdAt_idx" ON "InvestorAccessEvent"("createdAt")',
     'CREATE INDEX IF NOT EXISTS "PressMetricEvent_eventType_createdAt_idx" ON "PressMetricEvent"("eventType", "createdAt")',
     'CREATE INDEX IF NOT EXISTS "PressMetricEvent_eventType_target_createdAt_idx" ON "PressMetricEvent"("eventType", "target", "createdAt")',
     'CREATE UNIQUE INDEX IF NOT EXISTS "AdminDashboardMetricEvent_visitId_eventKey_key" ON "AdminDashboardMetricEvent"("visitId", "eventKey")',
@@ -583,6 +703,32 @@ INDEXES = [
     'CREATE INDEX IF NOT EXISTS "AiModelInvocation_operation_createdAt_idx" ON "AiModelInvocation"("operation", "createdAt")',
     'CREATE INDEX IF NOT EXISTS "AiModelInvocation_modelId_outcome_createdAt_idx" ON "AiModelInvocation"("modelId", "outcome", "createdAt")',
     'CREATE INDEX IF NOT EXISTS "AiModelInvocation_traceId_idx" ON "AiModelInvocation"("traceId")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "Entity_publicId_key" ON "Entity"("publicId")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "Entity_canonicalKey_key" ON "Entity"("canonicalKey")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "Entity_legacyCompanyId_key" ON "Entity"("legacyCompanyId")',
+    'CREATE INDEX IF NOT EXISTS "Entity_entityType_idx" ON "Entity"("entityType")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "Document_publicId_key" ON "Document"("publicId")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "Document_legacyPolicyId_key" ON "Document"("legacyPolicyId")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "Document_entityId_canonicalKey_key" ON "Document"("entityId", "canonicalKey")',
+    'CREATE INDEX IF NOT EXISTS "Document_entityId_idx" ON "Document"("entityId")',
+    'CREATE INDEX IF NOT EXISTS "Document_documentType_jurisdiction_idx" ON "Document"("documentType", "jurisdiction")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "Version_publicId_key" ON "Version"("publicId")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "Version_legacySnapshotId_key" ON "Version"("legacySnapshotId")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "Version_documentId_sequence_key" ON "Version"("documentId", "sequence")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "Version_documentId_contentHash_key" ON "Version"("documentId", "contentHash")',
+    'CREATE INDEX IF NOT EXISTS "Version_documentId_capturedAt_idx" ON "Version"("documentId", "capturedAt")',
+    'CREATE INDEX IF NOT EXISTS "Version_publicEvidence_idx" ON "Version"("publicEvidence")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "Change_publicId_key" ON "Change"("publicId")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "Change_legacyPolicyChangeId_key" ON "Change"("legacyPolicyChangeId")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "Change_documentId_toVersionId_key" ON "Change"("documentId", "toVersionId")',
+    'CREATE INDEX IF NOT EXISTS "Change_documentId_detectedAt_idx" ON "Change"("documentId", "detectedAt")',
+    'CREATE INDEX IF NOT EXISTS "Change_fromVersionId_idx" ON "Change"("fromVersionId")',
+    'CREATE INDEX IF NOT EXISTS "Change_toVersionId_idx" ON "Change"("toVersionId")',
+    'CREATE INDEX IF NOT EXISTS "Change_publicEvidence_publishedAt_idx" ON "Change"("publicEvidence", "publishedAt")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "Provision_publicId_key" ON "Provision"("publicId")',
+    'CREATE UNIQUE INDEX IF NOT EXISTS "Provision_changeId_taxonomyKey_ordinal_key" ON "Provision"("changeId", "taxonomyKey", "ordinal")',
+    'CREATE INDEX IF NOT EXISTS "Provision_taxonomyKey_assessment_idx" ON "Provision"("taxonomyKey", "assessment")',
+    'CREATE INDEX IF NOT EXISTS "Provision_reviewStatus_idx" ON "Provision"("reviewStatus")',
 ]
 
 UPGRADE_COLUMNS = {
@@ -595,6 +741,8 @@ UPGRADE_COLUMNS = {
         ("lastSuccessfulCheckDate", 'ALTER TABLE "Policy" ADD COLUMN "lastSuccessfulCheckDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP'),
          ("ingestionMethod", 'ALTER TABLE "Policy" ADD COLUMN "ingestionMethod" TEXT NOT NULL DEFAULT "Seeded"'),
         ("retrievalUrl", 'ALTER TABLE "Policy" ADD COLUMN "retrievalUrl" TEXT'),
+        ("sourceMigrationPending", 'ALTER TABLE "Policy" ADD COLUMN "sourceMigrationPending" BOOLEAN NOT NULL DEFAULT false'),
+        ("sourceMigrationRequestedAt", 'ALTER TABLE "Policy" ADD COLUMN "sourceMigrationRequestedAt" DATETIME'),
     ],
     "PolicyCheckLog": [
         ("archiveTimestamp", 'ALTER TABLE "PolicyCheckLog" ADD COLUMN "archiveTimestamp" DATETIME'),
@@ -669,6 +817,7 @@ with sqlite3.connect(str(db_path), timeout=30) as con:
         "snapshots": con.execute('SELECT COUNT(*) FROM "PolicySnapshot"').fetchone()[0],
         "changes": con.execute('SELECT COUNT(*) FROM "PolicyChange"').fetchone()[0],
         "accessLogs": con.execute('SELECT COUNT(*) FROM "AdminAccessLog"').fetchone()[0],
+        "investorAccessGrants": con.execute('SELECT COUNT(*) FROM "InvestorAccessGrant"').fetchone()[0],
         "pressMetricEvents": con.execute('SELECT COUNT(*) FROM "PressMetricEvent"').fetchone()[0],
         "aiModelInvocations": con.execute('SELECT COUNT(*) FROM "AiModelInvocation"').fetchone()[0],
     }

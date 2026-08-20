@@ -1,5 +1,59 @@
 import { describe, expect, it, vi } from 'vitest';
-import { establishVerifiedPolicyBaseline } from '../policyBaseline';
+import { establishSourceMigrationBaseline, establishVerifiedPolicyBaseline } from '../policyBaseline';
+
+describe('controlled source migration baseline', () => {
+  it('establishes a replacement baseline without creating a policy change', async () => {
+    const previousSnapshot = {
+      id: 'snapshot-2',
+      policyId: 'policy-1',
+      version: 2,
+      text: 'old source text',
+      hash: 'old-hash',
+      publicEvidence: true,
+      createdAt: new Date('2026-08-01T00:00:00Z'),
+    };
+    const newSnapshot = { ...previousSnapshot, id: 'snapshot-3', version: 3, text: 'verified replacement text', hash: 'new-hash' };
+    const tx = {
+      policy: {
+        findUnique: vi.fn().mockResolvedValue({ sourceMigrationPending: true }),
+        update: vi.fn().mockResolvedValue({ id: 'policy-1', sourceMigrationPending: false }),
+      },
+      policySnapshot: {
+        findFirst: vi.fn().mockResolvedValue(previousSnapshot),
+        create: vi.fn().mockResolvedValue(newSnapshot),
+      },
+      policyCheckLog: { create: vi.fn().mockResolvedValue({ id: 'log-1' }) },
+      adminReviewLog: { create: vi.fn().mockResolvedValue({ id: 'review-1' }) },
+      policyChange: { create: vi.fn() },
+    };
+
+    const result = await establishSourceMigrationBaseline(tx as never, {
+      policyId: 'policy-1',
+      text: 'verified replacement text',
+      hash: 'new-hash',
+      checkedAt: new Date('2026-08-17T10:00:00Z'),
+      ingestionMethod: 'VPS Renderer',
+      source: 'rendered',
+      httpStatus: 200,
+      finalUrl: 'https://example.com/legal/privacy',
+    });
+
+    expect(result).toMatchObject({ createdSnapshot: true, snapshot: { version: 3, publicEvidence: true } });
+    expect(tx.policy.update).toHaveBeenCalledWith({
+      where: { id: 'policy-1' },
+      data: expect.objectContaining({
+        currentHash: 'new-hash',
+        dataStatus: 'Available',
+        sourceMigrationPending: false,
+        sourceMigrationRequestedAt: null,
+      }),
+    });
+    expect(tx.policyCheckLog.create).toHaveBeenCalledWith(expect.objectContaining({
+      data: expect.objectContaining({ reason: 'verified_source_migration_baseline_established' }),
+    }));
+    expect(tx.policyChange.create).not.toHaveBeenCalled();
+  });
+});
 
 describe('verified public baseline gate', () => {
   it('promotes a matching non-public snapshot after a successful source retrieval', async () => {

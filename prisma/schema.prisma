@@ -8,6 +8,117 @@ generator client {
   binaryTargets = ["native", "linux-musl-openssl-3.0.x", "debian-openssl-3.0.x"]
 }
 
+// Canonical public evidence graph. These models are additive while the
+// Company/Policy/PolicySnapshot/PolicyChange pipeline is backfilled and moved
+// to dual-write. Public IDs are materialized deterministic identifiers; UUIDs
+// remain the internal relational keys.
+model Entity {
+  id              String     @id @default(uuid())
+  publicId        String     @unique
+  canonicalKey    String     @unique
+  name            String
+  entityType      String     @default("organization")
+  website         String?
+  legacyCompanyId String?    @unique
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  documents       Document[]
+
+  @@index([entityType])
+}
+
+model Document {
+  id             String    @id @default(uuid())
+  publicId       String    @unique
+  entityId       String
+  entity         Entity    @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  canonicalKey   String
+  title          String
+  documentType   String
+  jurisdiction   String    @default("Global")
+  canonicalUrl   String
+  legacyPolicyId String?   @unique
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  versions       Version[]
+  changes        Change[]
+
+  @@unique([entityId, canonicalKey])
+  @@index([entityId])
+  @@index([documentType, jurisdiction])
+}
+
+model Version {
+  id               String    @id @default(uuid())
+  publicId         String    @unique
+  documentId       String
+  document         Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  sequence         Int
+  contentHash      String
+  sourceUrl        String
+  capturedAt       DateTime
+  effectiveAt      DateTime?
+  contentRef       String?
+  contentText      String? // Transitional inline payload; future writes may use provider-neutral contentRef
+  publicEvidence   Boolean   @default(false)
+  legacySnapshotId String?   @unique
+  createdAt        DateTime  @default(now())
+  outgoingChanges  Change[]  @relation("ChangeFromVersion")
+  incomingChanges  Change[]  @relation("ChangeToVersion")
+
+  @@unique([documentId, sequence])
+  @@unique([documentId, contentHash])
+  @@index([documentId, capturedAt])
+  @@index([publicEvidence])
+}
+
+model Change {
+  id                   String      @id @default(uuid())
+  publicId             String      @unique
+  documentId           String
+  document             Document    @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  fromVersionId        String?
+  fromVersion          Version?    @relation("ChangeFromVersion", fields: [fromVersionId], references: [id], onDelete: SetNull)
+  toVersionId          String
+  toVersion            Version     @relation("ChangeToVersion", fields: [toVersionId], references: [id], onDelete: Cascade)
+  kind                 String      @default("detected") // baseline, detected, correction
+  summary              String?
+  detectedAt           DateTime
+  publicEvidence       Boolean     @default(false)
+  publishedAt          DateTime?
+  legacyPolicyChangeId String?     @unique
+  createdAt            DateTime    @default(now())
+  provisions           Provision[]
+
+  @@unique([documentId, toVersionId])
+  @@index([documentId, detectedAt])
+  @@index([fromVersionId])
+  @@index([toVersionId])
+  @@index([publicEvidence, publishedAt])
+}
+
+model Provision {
+  id              String   @id @default(uuid())
+  publicId        String   @unique
+  changeId        String
+  change          Change   @relation(fields: [changeId], references: [id], onDelete: Cascade)
+  taxonomyVersion String   @default("1.0.0")
+  taxonomyKey     String
+  ordinal         Int      @default(0)
+  assessment      String   @default("not_assessed")
+  evidenceText    String?
+  evidenceHash    String?
+  sourceLocator   String?
+  rationale       String?
+  reviewStatus    String   @default("draft") // draft, reviewed, published
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([changeId, taxonomyKey, ordinal])
+  @@index([taxonomyKey, assessment])
+  @@index([reviewStatus])
+}
+
 model Company {
   id                        String                     @id @default(uuid())
   name                      String                     @unique
@@ -92,31 +203,34 @@ model PolicyDiscoveryCandidate {
 }
 
 model Policy {
-  id                      String                      @id @default(uuid())
-  companyId               String
-  company                 Company                     @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  name                    String // e.g. "Privacy Policy", "Terms of Service"
-  type                    String // e.g. "privacy", "terms", "ai", "acceptable-use"
-  url                     String
-  retrievalUrl            String? // Optional official machine-readable mirror/PDF; url remains the public canonical link
-  jurisdiction            String                      @default("Global") // "EU", "US", "UK", "Global", etc.
-  currentText             String
-  currentHash             String
-  dataStatus              String                      @default("Available") // "Configured", "Available", "Partial", "Needs Review", "Unavailable", "Reviewed"
-  lastCheckDate           DateTime                    @default(now())
-  lastSuccessfulCheckDate DateTime                    @default(now())
-  ingestionMethod         String                      @default("Seeded") // "Seeded", "Direct Scrape", "Wayback Cache", etc.
-  createdAt               DateTime                    @default(now())
-  updatedAt               DateTime                    @updatedAt
-  snapshots               PolicySnapshot[]
-  changes                 PolicyChange[]
-  checkLogs               PolicyCheckLog[]
-  historicalReferences    HistoricalSourceReference[]
-  sourceOnboardingItems   SourceOnboardingItem[]
+  id                         String                      @id @default(uuid())
+  companyId                  String
+  company                    Company                     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name                       String // e.g. "Privacy Policy", "Terms of Service"
+  type                       String // e.g. "privacy", "terms", "ai", "acceptable-use"
+  url                        String
+  retrievalUrl               String? // Optional official machine-readable mirror/PDF; url remains the public canonical link
+  sourceMigrationPending     Boolean                     @default(false) // Successful retrieval establishes a new baseline without creating a provider change
+  sourceMigrationRequestedAt DateTime?
+  jurisdiction               String                      @default("Global") // "EU", "US", "UK", "Global", etc.
+  currentText                String
+  currentHash                String
+  dataStatus                 String                      @default("Available") // "Configured", "Available", "Partial", "Needs Review", "Unavailable", "Reviewed"
+  lastCheckDate              DateTime                    @default(now())
+  lastSuccessfulCheckDate    DateTime                    @default(now())
+  ingestionMethod            String                      @default("Seeded") // "Seeded", "Direct Scrape", "Wayback Cache", etc.
+  createdAt                  DateTime                    @default(now())
+  updatedAt                  DateTime                    @updatedAt
+  snapshots                  PolicySnapshot[]
+  changes                    PolicyChange[]
+  checkLogs                  PolicyCheckLog[]
+  historicalReferences       HistoricalSourceReference[]
+  sourceOnboardingItems      SourceOnboardingItem[]
 
   @@unique([companyId, type, jurisdiction])
   @@index([companyId])
   @@index([jurisdiction])
+  @@index([sourceMigrationPending])
 }
 
 model PolicyCheckLog {
@@ -471,6 +585,37 @@ model AdminAccessLog {
   @@index([event])
   @@index([username])
   @@index([ipAddress])
+}
+
+model InvestorAccessGrant {
+  id             String                @id @default(uuid())
+  tokenHash      String                @unique
+  recipientLabel String
+  createdByRole  String
+  createdAt      DateTime              @default(now())
+  expiresAt      DateTime
+  revokedAt      DateTime?
+  lastAccessedAt DateTime?
+  accessCount    Int                   @default(0)
+  events         InvestorAccessEvent[]
+
+  @@index([expiresAt])
+  @@index([revokedAt])
+  @@index([createdAt])
+}
+
+model InvestorAccessEvent {
+  id        String               @id @default(uuid())
+  grantId   String?
+  grant     InvestorAccessGrant? @relation(fields: [grantId], references: [id], onDelete: SetNull)
+  event     String
+  actorRole String?
+  detail    String?
+  createdAt DateTime             @default(now())
+
+  @@index([grantId, createdAt])
+  @@index([event, createdAt])
+  @@index([createdAt])
 }
 
 model PressMetricEvent {

@@ -63,6 +63,7 @@ describe('role-specific admin dashboard wiring', () => {
     const stageIds: PublicationReadinessStageId[] = ['configured', 'retrieved', 'baseline-verified', 'public', 'analysed'];
     const measured: PublicationReadinessResult = {
       checkedAt: '2026-08-01T10:00:00.000Z', available: true, denominator: 5,
+      latestCapture: { capturedAt: null, availability: 'measured', definition: 'Test capture', reason: null },
       consistencyWarning: null, scopeBoundary: 'Bounded',
       stages: stageIds.map((id) => ({ id, label: id, count: 5, denominator: 5, excluded: 0, availability: 'measured', definition: `${id} definition`, actionHref: '/admin/cron', actionLabel: 'Admin action', reason: null, boundary: null })),
     };

@@ -22,9 +22,9 @@ import { getPublicApiManifest, PUBLIC_API_VERSION } from '@/lib/publicApi';
 import styles from './developers.module.css';
 
 export const metadata: Metadata = {
-  title: 'Developers | PolicyWatcher',
+  title: 'Developer APIs and tools | PolicyWatcher',
   description:
-    'Read-only public integration directory for PolicyWatcher evidence, cross-cloud agent briefs and Observatory registry data.',
+    'Read-only public integration directory for PolicyWatcher evidence, publication readiness, cross-cloud agent briefs and Observatory registry data.',
   alternates: { canonical: '/developers' },
 };
 
@@ -56,9 +56,9 @@ export default function DevelopersPage() {
                 <Code2 size={16} />
                 Public API v1 directory
               </span>
-              <h1>Evidence-ready data, with its boundaries attached.</h1>
+              <h1>Developer APIs and tools</h1>
               <p>
-                PolicyWatcher exposes a small anonymous, read-only integration surface for public evidence metadata, portable evidence collections, cross-cloud agent briefs and the curated Observatory registry. The contract keeps publication gates, review cadence and source limits visible to the system consuming it.
+                PolicyWatcher exposes a small anonymous, read-only integration surface for public evidence metadata, database-derived publication readiness, portable evidence collections, cross-cloud agent briefs and the curated Observatory registry. The contract keeps publication gates, review cadence and source limits visible to the system consuming it.
               </p>
               <div className={styles.heroActions}>
                 <a href="#endpoints" className={styles.primaryAction}>
@@ -89,8 +89,8 @@ export default function DevelopersPage() {
               <dl>
                 <div><dt>Access</dt><dd>No API key</dd></div>
                 <div><dt>Rate</dt><dd>{manifest.rateLimit.requests}/min standard · 30/min collections and events</dd></div>
-                <div><dt>Cache</dt><dd>{manifest.cache.maxAgeSeconds} seconds shared</dd></div>
-                <div><dt>Scope</dt><dd>Public evidence, collections + curated registry</dd></div>
+                <div><dt>Cache</dt><dd>{manifest.cache.maxAgeSeconds}s shared · readiness no-store</dd></div>
+                <div><dt>Scope</dt><dd>Public evidence, aggregate readiness, collections + curated registry</dd></div>
               </dl>
             </aside>
           </div>
@@ -114,8 +114,8 @@ export default function DevelopersPage() {
         <section id="endpoints" className={styles.section}>
           <header className={styles.sectionHeader}>
             <span>Endpoints</span>
-            <h2>Six machine endpoints and one continuity workbench.</h2>
-            <p>The six API endpoints accept `GET`, permit cross-origin read access without credentials, and apply bounded public-data and rate policies. The browser-local continuity workbench calls only the published change-event feed after an explicit user action.</p>
+            <h2>Public endpoints</h2>
+            <p>Seven machine endpoints and one continuity workbench. The seven API endpoints accept `GET`, permit cross-origin read access without credentials, and apply bounded public-data and rate policies. The browser-local continuity workbench calls only the published change-event feed after an explicit user action.</p>
           </header>
           <div className={styles.endpointGrid}>
             <article className={styles.endpointCard}>
@@ -128,6 +128,18 @@ export default function DevelopersPage() {
               <p>Lists the current public data sources, allowed parameters, evidence gates, cache window and API boundaries.</p>
               <pre><code>{`curl https://policywatcher.online/api/v1/manifest`}</code></pre>
               <a href="/api/v1/manifest" target="_blank" rel="noreferrer">Open endpoint <ArrowRight size={15} /></a>
+            </article>
+            <article className={`${styles.endpointCard} ${styles.readinessCard}`}>
+              <div className={styles.endpointHeader}>
+                <span>GET · AUTHORITATIVE · NO-STORE</span>
+                <ShieldCheck size={19} aria-hidden="true" />
+              </div>
+              <h3>Publication readiness</h3>
+              <code>/api/v1/publication-readiness</code>
+              <p>Returns one database-derived aggregate metric with `Cache-Control: no-store`. Counts and the latest successful capture are exposed without policy text, internal identifiers or record-level detail.</p>
+              <pre className={styles.readinessPipeline}><code>{`configured → retrieved → baseline verified → public → analysed · latest capture`}</code></pre>
+              <a href="/api/v1/publication-readiness" target="_blank" rel="noreferrer">Open endpoint <ArrowRight size={15} aria-hidden="true" /></a>
+              <a href="/schemas/publication-readiness/v1" target="_blank" rel="noreferrer">Open JSON Schema <ArrowRight size={15} aria-hidden="true" /></a>
             </article>
             <article className={styles.endpointCard}>
               <div className={styles.endpointHeader}>
@@ -189,7 +201,7 @@ export default function DevelopersPage() {
         <section className={styles.section} aria-labelledby="enterprise-api-heading">
           <header className={styles.sectionHeader}>
             <span>Enterprise pilot</span>
-            <h2 id="enterprise-api-heading">Need a tenant boundary? Use API v2.</h2>
+            <h2 id="enterprise-api-heading">Enterprise API v2</h2>
             <p>API v2 adds Microsoft Entra authentication, an allowlisted tenant claim, an Azure API Management policy and a Power Platform connector package. It remains read-only and does not replace v1.</p>
           </header>
           <div className={styles.endpointGrid}>
@@ -229,7 +241,7 @@ export default function DevelopersPage() {
         <section className={styles.section}>
           <header className={styles.sectionHeader}>
             <span>Directory</span>
-            <h2>Published sources remain explicit.</h2>
+            <h2>Published source directory</h2>
             <p>The manifest describes the established public data routes too. It does not turn them into unrestricted database access.</p>
           </header>
           <div className={styles.sourceTable} role="region" aria-label="Public data source directory" tabIndex={0}>
@@ -251,7 +263,7 @@ export default function DevelopersPage() {
           <BookOpen size={24} />
           <div>
             <span>Operating note</span>
-            <h2>Connect to the evidence, not around it.</h2>
+            <h2>API access models</h2>
             <p>
               Use API v1 for anonymous public reading and API v2 for a controlled Entra tenant pilot. The readiness kit and conformance suite let receivers test the candidate signature contract locally. Subscriptions, signed outbound delivery and write operations remain future roadmap work.
             </p>

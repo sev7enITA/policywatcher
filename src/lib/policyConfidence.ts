@@ -99,3 +99,25 @@ export function shouldRebaselineFromSeededRecord(policy: {
   if ((policy.snapshots || []).some((snapshot) => snapshot.publicEvidence)) return false;
   return true;
 }
+
+/**
+ * Returns the oldest archive capture that can be considered current evidence.
+ *
+ * A source migration must never establish its replacement baseline from an
+ * archive captured before the administrator requested the migration. For all
+ * other records, the last successful check remains the freshness boundary.
+ * This also prevents first/seeded baselines from silently accepting evidence
+ * that predates the monitoring record.
+ */
+export function archiveFreshnessFloor(policy: {
+  lastSuccessfulCheckDate?: Date | null;
+  sourceMigrationPending?: boolean | null;
+  sourceMigrationRequestedAt?: Date | null;
+}): Date | undefined {
+  const candidate = policy.sourceMigrationPending && policy.sourceMigrationRequestedAt
+    ? policy.sourceMigrationRequestedAt
+    : policy.lastSuccessfulCheckDate;
+
+  if (!(candidate instanceof Date) || Number.isNaN(candidate.getTime())) return undefined;
+  return candidate;
+}

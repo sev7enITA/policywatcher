@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-3.9.0%20Beta%2041%20Adaptive%20Experience-146c6a" alt="3.9.0 Beta 41 Adaptive Experience" />
+  <img src="https://img.shields.io/badge/Release-4.0.0%20Beta%201%20Canonical%20Evidence%20Foundation-146c6a" alt="4.0.0 Beta 1 Canonical Evidence Foundation" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -39,21 +39,33 @@ PolicyWatcher monitors configured public policy sources for 16 technology and fi
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
 
-### Release 3.9.0 Beta 41 Adaptive Experience Highlights
+### Release 4.0.0 Beta 1 Canonical Evidence Foundation Highlights
 
-- **User-controlled complexity:** `Focus`, `Balanced` and `Explore` change dashboard hierarchy and density without changing evidence or publication gates.
-- **Explainable adaptation:** the dashboard shows one deterministic next step and a `Why this interface?` disclosure with its workspace, depth, region and browser-local boundary.
-- **Motion sovereignty:** a visible `System / Reduced` preference complements the operating-system setting and suppresses non-essential motion.
-- **Workflow first:** `Today · Continue · Explore` now precedes promotional content, with a keyboard skip link and stronger focus/target behavior.
-- **ER sitemap assets:** `npm run assets:sitemap-er` validates 33 literal static routes, seven domains and four dynamic route families, while `/infographics` presents the new PolicyWatcher Experience Map.
-- **Presentation run sheet:** `npm run present:ux` validates and prints the timed Beta 41 demo script.
+- **Canonical evidence graph:** additive `Entity -> Document -> Version -> Change -> Provision` models establish the durable target chain without switching production reads prematurely.
+- **Stable public identifiers:** deterministic IDs decouple public references from internal database keys and future storage providers.
+- **Provision taxonomy 1.0.0:** AI training, data sharing, retention, arbitration, content licensing and liability share one versioned vocabulary.
+- **Authoritative readiness metric:** Admin, competitive analysis and `/api/v1/publication-readiness` consume the same database-derived configured, retrieved, baseline-verified, public and analysed counts plus latest capture.
+- **Provider portability:** SQLite production remains supported while PostgreSQL CI, baseline and rehearsal tooling are available as a separate future cutover gate.
+- **Wave 1B activation tooling:** guarded backfill, deterministic reconciliation and opt-in transactional dual-write are implemented and rehearsed on a sanitized copy. Production execution still requires a backup, approved maintenance window, clean apply/reconciliation report and explicit `POLICYWATCHER_DOCUMENT_EVIDENCE_DUAL_WRITE=1` activation.
+- **Remaining boundary:** canonical reads, PostgreSQL cutover and object-storage payload movement remain separately approved production waves.
+
+Functional report: [PolicyWatcher 4 vs 3.x](docs/reports/policywatcher-v4-vs-v3-2026-08-20.html)
+
+### Release 3.9.0 Beta 42 Evidence Release Control Plane Highlights
+
+- **Human-approved model registry:** a versioned JSON Schema contract controls which AI candidates may enter bake-off or production paths; automatic promotion remains disabled.
+- **Privacy-safe AI telemetry:** the public projection excludes prompts, responses and source content while exposing bounded invocation evidence.
+- **Validated release ledger:** a fourteen-day UTC window joins Beta 37 through Beta 42 to public release and impact records with SHA-256, ETag and deterministic JSON.
+- **Public Evidence Pulse:** the homepage receipt and full editorial story share the same validated ledger and explicit claim boundaries.
+- **Bilingual press evidence:** deterministic English and Italian PNG/WebP infographics include checksums and metadata; Content Credentials are not attached.
+- **Evaluation boundary:** model qualification is dataset-scoped and human-approved; release records describe implementation, not adoption, compliance or independent validation.
 
 ### Release 3.9.0 Beta 40 PolicyWatcher Civico Highlights
 
-- **Global association workspace:** `/associazioni` contextualizes eligible public policy changes by country, regulatory area, theme and type of association without inventing national coverage.
+- **Localized global association workspace:** `/en/associations` and `/it/associazioni` expose complete English and Italian variants with reciprocal `hreflang`; `/associazioni` permanently redirects to the Italian route while preserving query filters.
 - **Verified civic directory:** 79 organizations across 24 countries can be filtered by territory and eight consumer-protection specializations, with the official site, verification source and review date kept visible.
 - **Global platform context:** a shared region/country and EN/IT language preference now influences the public shell, dashboard defaults and Civic territory; it stays in the browser and does not use IP geolocation.
-- **Controlled suggestions:** visitors can propose another organization only with an HTTPS official site and independent registry/network source; the platform opens a reviewable email draft and sends nothing automatically.
+- **Controlled submissions and corrections:** organization representatives and community users can propose a listing with an HTTPS official site and independent registry/network source; every existing card can prepare a separate correction draft with the listing ID and current sources. Nothing is sent or published automatically.
 - **Operational dashboard home:** `Oggi · Continua · Esplora` limits the starting queue to three priorities, resumes active evidence work and moves the complete catalog behind Atlas.
 - **Local pilot watchlist:** reviewers can select territorial and thematic scope, assign local review states and retain their working context in the current browser without creating an account.
 - **Source-first triage:** each record keeps its source, publication status and evidence boundary visible before summaries, classifications or follow-up actions.
@@ -867,6 +879,8 @@ flowchart LR
 - Intake validates HTTP(S) URLs, rejects local/private hosts and in-batch duplicates, and restricts industry/jurisdiction values to the admin registry vocabulary.
 - Cron Manager supports batch limits and targeted company slug scans, with per-strategy diagnostics for direct, HTTP/2, VPS-rendered, Wayback, and Common Crawl attempts.
 - Company Registry supports adding companies and policy sources; new records start as configured inventory and remain non-public until verified by a scan.
+- Company Registry separates the public canonical citation from an optional official acquisition endpoint. When that endpoint changes, the next verified capture establishes a controlled replacement baseline without creating a provider change event.
+- Source Reliability distinguishes live-source failures from exact archive misses (`not_in_archive`) and exposes every pending source migration as an explicit verification queue.
 - Dataset QA tracks source fit, retrieval evidence, public-evidence state, seeded boundaries, hash consistency, archive timestamps, KPI coverage, regional impact, access logs, and subscriber hygiene.
 - Review Log records append-only Dataset QA and remediation decisions.
 - Access Log records admin authentication and operational events for debugging and auditing, with IP minimization and retention cleanup.
@@ -886,7 +900,7 @@ flowchart LR
 | Framework | Next.js 16.2.11 (App Router, Turbopack) |
 | UI | React 19, Framer Motion, Lucide React, CSS Modules |
 | AI Engine | Google Gemini 2.5 Flash (`@google/genai`) |
-| Database | Prisma ORM + SQLite (migration-ready for PostgreSQL) |
+| Database | Prisma ORM + SQLite production, PostgreSQL portability gate in CI |
 | Scraping | Cheerio extraction, socket-pinned HTTP/1.1/HTTP/2, optional VPS renderer, Wayback/Common Crawl fallback |
 | Charts | Recharts 3.8.1 |
 | PDF | @react-pdf/renderer 4.5 |
@@ -897,6 +911,13 @@ flowchart LR
 ---
 
 ## Database Schema
+
+SQLite remains the active production provider. A provider-neutral Prisma build
+path, a separate PostgreSQL baseline and an ephemeral PostgreSQL CI gate are
+documented in [PostgreSQL readiness](docs/postgresql-readiness.md). This is
+portability evidence, not an authorization to move production data.
+The isolated [SQLite-to-PostgreSQL rehearsal runbook](docs/postgresql-rehearsal.md)
+adds a read-only source copy, sanitized import and per-table reconciliation.
 
 ```mermaid
 erDiagram
@@ -1084,7 +1105,7 @@ Seeded records are treated as configured/unverified. They are hidden from public
 ### Production Build
 
 ```bash
-npm run build    # Runs: prisma generate && next build
+npm run build    # Generates Prisma for DATABASE_URL, then runs next build
 npm start        # Starts server.js, verifies/upgrades SQLite, then starts Next.js
 ```
 
@@ -1107,7 +1128,7 @@ from the deployed app directory:
 ```bash
 export PATH="/opt/alt/alt-nodejs22/root/usr/bin:$PATH"
 export DATABASE_URL="file:/home/u847874844/domains/policywatcher.online/policywatcher-data/production.db"
-bash scripts/hostinger-init-db.sh
+bash scripts/prepare-database.sh
 ```
 
 Release 3.8.1 and later require the `PolicyInquiry` table. `npm start` is pinned
@@ -1142,6 +1163,13 @@ export DATABASE_URL="file:/home/u847874844/domains/policywatcher.online/policywa
 node scripts/hostinger-remediate-sources.mjs --dry-run
 node scripts/hostinger-remediate-sources.mjs
 ```
+
+Legacy Hostinger databases may contain ISO text dates from earlier maintenance
+scripts beside Prisma epoch-millisecond dates. Audit them without mutation with
+`node scripts/hostinger-normalize-sqlite-datetimes.mjs`; `--apply` converts only
+parseable `DATETIME` values. The packaged database initializer performs this
+normalization after its backup so consecutive scan confirmation remains
+chronological.
 
 Then use Cron Manager with a company slug for focused verification, for example
 `zoom`, `microsoft`, `plaid`, `amazon`, or `klarna`.
@@ -1206,6 +1234,7 @@ Security incident note: an unauthenticated debug environment endpoint existed in
 | `GEMINI_API_KEY` | Yes | Google AI API key for Gemini 2.5 Flash |
 | `API_SECRET` | Yes | High-entropy bearer token for cron and protected operational endpoints |
 | `SESSION_HMAC_SECRET` | Yes | Separate high-entropy key for admin session cookies; never reuse `API_SECRET` |
+| `POLICYWATCHER_INTERNAL_STUDY_PATH` | Admin study only | Absolute path to the confidential JSON mounted outside the release and web root; provision it through a private deployment channel |
 | `DATABASE_URL` | Yes | SQLite connection string. Use an absolute production path outside the extracted app source, e.g. `file:/home/USER/domains/policywatcher.online/policywatcher-data/production.db` |
 | `SMTP_HOST` | No | SMTP server hostname |
 | `SMTP_PORT` | No | SMTP server port |

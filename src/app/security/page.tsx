@@ -70,7 +70,7 @@ export default function SecurityPage() {
 
             <section className={styles.section}>
               <span className={styles.sectionLabel}>Reporting channel</span>
-              <h2>How to Report</h2>
+              <h2>Reporting process</h2>
               <p>
                 Please send vulnerability reports via email to <a href="mailto:security@policywatcher.online">security@policywatcher.online</a>. To help us triage your report quickly, please include:
               </p>

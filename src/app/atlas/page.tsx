@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import SiteAtlasClient from './SiteAtlasClient';
 
 export const metadata: Metadata = {
-  title: 'PolicyWatcher Site Atlas',
+  title: 'Site map | PolicyWatcher',
   description:
-    'Interactive entity-relationship sitemap for PolicyWatcher public sections, evidence views, trust surfaces, methodology, roadmap and protected operations boundary.',
+    'PolicyWatcher route graph with public sections, evidence views, quality controls, methodology and protected operations.',
   alternates: { canonical: '/atlas' },
 };
 

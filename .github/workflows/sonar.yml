@@ -17,6 +17,7 @@ jobs:
     timeout-minutes: 20
     env:
       NEXT_TELEMETRY_DISABLED: '1'
+      DATABASE_URL: file:./dev.db
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     steps:

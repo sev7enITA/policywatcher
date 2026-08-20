@@ -100,15 +100,17 @@
 .sectionHeader { max-width: 790px; }
 .sectionHeader h2, .methodBand h2 { margin: 9px 0 10px; color: #102038; font-size: clamp(1.7rem, 3vw, 2.55rem); font-weight: 600; letter-spacing: -0.025em; line-height: 1.08; }
 
-.endpointGrid { align-items: stretch; gap: 14px; margin-top: 22px; }
+.endpointGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); align-items: stretch; gap: 14px; margin-top: 22px; }
 .endpointCard { flex: 1 1 0; min-width: 0; padding: 20px; border: 1px solid rgba(15, 23, 42, 0.12); border-top: 4px solid #4f63db; border-radius: 8px; background: rgba(255, 255, 255, 0.94); box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06); }
 .endpointCard + .endpointCard { border-top-color: #14958d; }
+.readinessCard { grid-column: span 2; }
 .endpointHeader { display: flex; align-items: center; justify-content: space-between; color: #314bc1; }
 .endpointHeader span { padding: 4px 7px; border-radius: 5px; background: #eef1ff; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; }
 .endpointCard h3 { margin: 18px 0 6px; color: #15243a; font-size: 1.23rem; font-weight: 600; }
 .endpointCard > code { color: #0f5f5a; font-family: var(--font-mono); font-size: 0.78rem; }
 .endpointCard p { min-height: 72px; margin: 14px 0; color: #5a687c; font-size: 0.86rem; line-height: 1.55; }
 .endpointCard pre { overflow-x: auto; margin: 0 0 16px; padding: 11px; border: 1px solid #e3e8ef; border-radius: 6px; background: #f7f9fb; color: #203753; font-size: 0.7rem; }
+.endpointCard .readinessPipeline, .readinessPipeline code { white-space: normal; overflow-wrap: anywhere; }
 .endpointCard a { color: #135a56; font-weight: 650; }
 
 .sourceTable { overflow-x: auto; margin-top: 22px; border: 1px solid rgba(15, 23, 42, 0.11); border-radius: 8px; background: rgba(255, 255, 255, 0.9); }
@@ -135,6 +137,7 @@
   .heroGrid { padding: 20px; }
   .contractCard dl, .boundaries { grid-template-columns: 1fr; }
   .endpointGrid { display: grid; }
+  .readinessCard { grid-column: span 1; }
   .endpointCard p { min-height: auto; }
   .methodBand { display: grid; gap: 13px; margin-top: 42px; margin-bottom: 42px; }
   .bandLink { width: fit-content; }

@@ -108,12 +108,12 @@ export function AdminPageGuide({ pathname }: { pathname: string }) {
 
             <div className={styles.guideBody}>
               <section className={styles.guideSection}>
-                <h3>What this page is for</h3>
+                <h3>Page purpose</h3>
                 <p>{guide.purpose}</p>
               </section>
 
               <section className={styles.guideSection}>
-                <h3>How to use it</h3>
+                <h3>Procedure</h3>
                 <ol className={styles.guideSteps}>
                   {guide.steps.map((step) => <li key={step}>{step}</li>)}
                 </ol>

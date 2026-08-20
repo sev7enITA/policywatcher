@@ -32,7 +32,7 @@ import PublicHeader from '@/components/PublicHeader';
 import styles from './integrations.module.css';
 
 export const metadata: Metadata = {
-  title: 'Enterprise Integrations | PolicyWatcher',
+  title: 'Integrations | PolicyWatcher',
   description:
     'PolicyWatcher integration architecture: public and Entra-authenticated APIs, Microsoft 365 Copilot, Vertex AI Agent Builder, Amazon Quick, Word, Power Platform, embeds, and feeds.',
   alternates: { canonical: '/integrations' },
@@ -40,6 +40,7 @@ export const metadata: Metadata = {
 
 const decisions = [
   { job: 'Public read and discovery', path: 'Public API v1', state: 'Available' },
+  { job: 'Aggregate operational readiness', path: 'Publication Readiness API', state: 'Available' },
   { job: 'Portable multi-change evidence', path: 'Evidence Collections', state: 'Available' },
   { job: 'Review-system handoff', path: 'Vendor-neutral handoff manifest', state: 'Available' },
   { job: 'Change automation polling', path: 'Public change event feed', state: 'Available' },
@@ -76,9 +77,9 @@ const capabilityLanes = [
       {
         title: 'Public API v1',
         audience: 'Developers, researchers, public-interest tools',
-        role: 'Anonymous discovery of the integration manifest, curated Observatory registry and portable evidence bundles.',
-        boundary: 'Read-only public metadata, publication-aware gates, shared IP rate policy.',
-        artifact: '/api/v1/manifest  |  /api/v1/observatory  |  /api/v1/evidence-collections',
+        role: 'Anonymous discovery of the integration manifest, curated Observatory registry, publication readiness and portable evidence bundles.',
+        boundary: 'Read-only public metadata, publication-aware gates and bounded rate policies. Publication readiness is database-derived and no-store.',
+        artifact: '/api/v1/manifest  |  /api/v1/publication-readiness  |  /schemas/publication-readiness/v1',
         href: '/developers',
         link: 'Developer directory',
       },
@@ -322,13 +323,13 @@ export default function IntegrationsPage() {
                 <Network size={16} aria-hidden="true" />
                 Enterprise integration surface
               </span>
-              <h1>One evidence contract. Many enterprise entry points.</h1>
+              <h1>Integrations</h1>
               <p>
-                PolicyWatcher is API-first. Microsoft, Google and AWS agent packages, workflow connectors and Office experiences sit on the same publication gate and explicit data boundary. Integrations consume evidence records, never scraped portal HTML.
+                Integrations use published evidence records through APIs, connectors and package surfaces. Microsoft, Google, AWS and Office implementations share the publication gate and data boundary. Scraped portal HTML is excluded.
               </p>
               <div className={styles.heroActions}>
                 <a href="#topology" className={styles.primaryAction}>
-                  Explore integration map
+                  Open integration map
                   <ArrowRight size={16} aria-hidden="true" />
                 </a>
                 <a href="/api/v2/openapi.json" className={styles.secondaryAction} target="_blank" rel="noreferrer">
@@ -350,8 +351,8 @@ export default function IntegrationsPage() {
         <section id="topology" className={styles.section} aria-labelledby="topology-title">
           <header className={styles.sectionHeader}>
             <span>Integration topology</span>
-            <h2 id="topology-title">Every path crosses the evidence boundary.</h2>
-            <p>The central contract is the control point. Status labels describe delivery state in words, not color alone.</p>
+            <h2 id="topology-title">Integration data flow</h2>
+            <p>The central contract is the control point. Status labels describe delivery state in text and color.</p>
           </header>
 
           <div className={styles.legend} aria-label="Readiness legend">
@@ -441,7 +442,7 @@ export default function IntegrationsPage() {
         <section className={styles.decisionSection} aria-labelledby="decision-title">
           <header>
             <span>Choose by job</span>
-            <h2 id="decision-title">Start with the outcome, then select the surface.</h2>
+            <h2 id="decision-title">Integration selection</h2>
           </header>
           <dl className={styles.decisionStrip}>
             {decisions.map((item, index) => (
@@ -456,7 +457,7 @@ export default function IntegrationsPage() {
         <section className={styles.section} aria-labelledby="catalog-title">
           <header className={styles.sectionHeader}>
             <span>Capability catalog</span>
-            <h2 id="catalog-title">Delivered surfaces stay separate from future architecture.</h2>
+            <h2 id="catalog-title">Integration catalog</h2>
             <p>Each entry names its audience, role, boundary, and concrete route or artifact.</p>
           </header>
 
@@ -502,7 +503,7 @@ export default function IntegrationsPage() {
         <section className={styles.section} aria-labelledby="comparison-title">
           <header className={styles.sectionHeader}>
             <span>Contract choice</span>
-            <h2 id="comparison-title">Public agent gateway or tenant-bound v2?</h2>
+            <h2 id="comparison-title">API access comparison</h2>
             <p>The agent gateway supports cited public dialogue across clouds. v2 remains the authenticated foundation for private enterprise workflows.</p>
           </header>
           <div className={styles.comparisonRegion} role="region" aria-label="Comparison of PolicyWatcher API v1 and v2" tabIndex={0}>
@@ -524,7 +525,7 @@ export default function IntegrationsPage() {
         <section className={styles.pilotSection} aria-labelledby="pilot-title">
           <div className={styles.pilotIntro}>
             <span>Private Microsoft tenant pilot</span>
-            <h2 id="pilot-title">Seven checks for authenticated API v2 workflows.</h2>
+            <h2 id="pilot-title">API v2 pilot checklist</h2>
             <p>The pilot uses identifiers and controlled configuration. A client secret belongs in a protected secret store and must never be pasted into a document, issue, chat, or generated artifact.</p>
             <Link href="/api/v2/openapi.json" target="_blank" rel="noreferrer">
               Open machine-readable contract
@@ -546,8 +547,8 @@ export default function IntegrationsPage() {
           <div className={styles.securityLead}>
             <LockKeyhole size={26} aria-hidden="true" />
             <span>Security and data boundary</span>
-            <h2 id="security-title">Integrations receive bounded evidence, not the machinery behind it.</h2>
-            <p>API consumers do not fetch PolicyWatcher portal HTML. They receive structured records that have already crossed the same publication controls used by public evidence views.</p>
+            <h2 id="security-title">Data shared with integrations</h2>
+            <p>API consumers receive structured records that have passed the publication controls used by public evidence views. PolicyWatcher portal HTML remains outside the API contract.</p>
           </div>
           <div className={styles.boundaryFlow} aria-label="Integration data boundary flow">
             <div><Radio size={18} /><span>Provider source</span></div>
@@ -571,7 +572,7 @@ export default function IntegrationsPage() {
         <section className={styles.finalCta} aria-labelledby="next-title">
           <div>
             <span>Next entry point</span>
-            <h2 id="next-title">Use the contract that matches the work.</h2>
+            <h2 id="next-title">Related integration resources</h2>
             <p>Inspect the public agent contract, validate a source package in an isolated tenant or cloud project, or use v2 for authenticated enterprise workflows.</p>
           </div>
           <div className={styles.finalLinks}>

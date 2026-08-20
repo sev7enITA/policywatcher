@@ -27,12 +27,18 @@ import {
 import { isAuthorized } from '@/lib/auth';
 import { normalizePreferenceKey, splitPreferenceKeys } from '@/lib/subscriberPreferences';
 import {
+  archiveFreshnessFloor,
   dataStatusFromScrapeFailure,
   normalizeIngestionMethod,
   shouldRebaselineFromSeededRecord,
 } from '@/lib/policyConfidence';
-import { establishVerifiedPolicyBaseline, replaceSeededPolicyBaseline } from '@/lib/policyBaseline';
+import {
+  establishSourceMigrationBaseline,
+  establishVerifiedPolicyBaseline,
+  replaceSeededPolicyBaseline,
+} from '@/lib/policyBaseline';
 import { createErrorReference, getErrorMessage } from '@/lib/safeErrors';
+import { dualWriteCanonicalPolicyGraph } from '@/lib/documentEvidenceSync';
 import { normalizeKpiFields } from '@/lib/kpiDefaults';
 import {
   CHANGE_CONFIRMATION_PENDING_REASON,
@@ -168,7 +174,9 @@ function formatPolicyProgressLabel(
 }
 
 function isExpectedRebaselineAbort(error: unknown): boolean {
-  return getErrorMessage(error).startsWith('rebaseline_aborted_');
+  const message = getErrorMessage(error);
+  return message.startsWith('rebaseline_aborted_')
+    || message.startsWith('source_migration_rebaseline_aborted_');
 }
 
 function sleep(ms: number): Promise<void> {
@@ -302,15 +310,14 @@ async function persistUniqueRetrieval(params: {
       },
       update: {
         sourceUrl: params.requestedUrl,
-        status: existingIssue?.status === 'Resolved'
-          ? 'Resolved'
-          : consecutiveFailures >= 3 ? 'Open' : 'Watching',
+        status: consecutiveFailures >= 3 ? 'Open' : 'Watching',
         reasonCode,
         affectedPolicyIdsJson: JSON.stringify(affectedPolicyIds),
         totalFailures: { increment: 1 },
         consecutiveFailures,
         lastDetectedAt: new Date(),
         recoveredAt: null,
+        resolvedAt: null,
         suggestedAction: suggestedSourceAction(reasonCode),
       },
     });
@@ -436,9 +443,7 @@ export async function runFullScan(
   for (const policy of policies) {
     const requestedUrl = policy.retrievalUrl || policy.url;
     const retrievalKey = buildAcquisitionKey(requestedUrl);
-    const seededCandidate = shouldRebaselineFromSeededRecord(policy);
-    const hasPublicBaseline = policy.snapshots.some((snapshot) => snapshot.publicEvidence);
-    const archiveFloor = seededCandidate || !hasPublicBaseline ? undefined : policy.lastSuccessfulCheckDate;
+    const archiveFloor = archiveFreshnessFloor(policy);
     const group = acquisitionGroups.get(retrievalKey) || {
       policyIds: [],
       requestedUrl,
@@ -735,6 +740,65 @@ export async function runFullScan(
           message: `${policyProgressLabel}: temporarily suspended (${partialReason}) [${formatSourceMarker(source)}]`,
         });
         continue;
+      }
+
+      if (policy.sourceMigrationPending) {
+        const checkedAt = new Date();
+        try {
+          const sourceBaseline = await db.$transaction((tx) =>
+            establishSourceMigrationBaseline(tx, {
+              policyId: policy.id,
+              text: newText,
+              hash: newHash,
+              checkedAt,
+              ingestionMethod: normalizeIngestionMethod(scrapeResult.source || 'direct'),
+              source: scrapeResult.source || 'direct',
+              httpStatus: scrapeResult.httpStatus || null,
+              finalUrl: scrapeResult.finalUrl || requestedUrl,
+              archiveTimestamp,
+              scanRunId: scanRun.id,
+              sourceRetrievalId: persistedRetrieval.sourceRetrievalId,
+              durationMs: persistedRetrieval.durationMs,
+              reasonCode: persistedRetrieval.reasonCode,
+            })
+          );
+          detail.status = 'rebaselined';
+          detail.source = source;
+          detail.runtime = runtime;
+          detail.transportLabel = transportLabel;
+          details.push(detail);
+          rebaselined++;
+          onProgress?.({
+            phase: 'policy_done',
+            total: policies.length,
+            current: checked,
+            company: policy.company.name,
+            policy: policy.name,
+            status: 'rebaselined',
+            source,
+            runtime,
+            transportLabel,
+            diagnostics,
+            message: `${policyProgressLabel}: source migration baseline established${sourceBaseline.createdSnapshot ? '' : ' (content hash unchanged)'} [OK] [${formatSourceMarker(source)}]`,
+          });
+          continue;
+        } catch (sourceBaselineError) {
+          if (isExpectedRebaselineAbort(sourceBaselineError)) {
+            const refreshedPolicy = await db.policy.findUnique({
+              where: { id: policy.id },
+              select: { currentHash: true, sourceMigrationPending: true },
+            });
+            if (!refreshedPolicy?.sourceMigrationPending && refreshedPolicy?.currentHash === newHash) {
+              detail.status = 'unchanged';
+              detail.source = source;
+              detail.runtime = runtime;
+              detail.transportLabel = transportLabel;
+              details.push(detail);
+              continue;
+            }
+          }
+          throw sourceBaselineError;
+        }
       }
 
       if (seededRebaselineCandidate) {
@@ -1145,6 +1209,8 @@ export async function runFullScan(
             sourceRetrievalId: persistedRetrieval.sourceRetrievalId,
           },
         });
+
+        await dualWriteCanonicalPolicyGraph(tx, policy.id);
       });
 
       // Track for subscriber notifications

@@ -4,7 +4,7 @@ Release di riferimento: `3.9.0-beta.40`, estensione globale del 7 agosto 2026.
 
 ## Obiettivo
 
-`/associazioni` trasforma le evidenze pubbliche di PolicyWatcher in un percorso globale di triage e revisione per le associazioni dei consumatori. Il verticale non crea un dataset parallelo: legge soltanto cambiamenti che hanno già superato i gate pubblici comuni alla piattaforma.
+`/it/associazioni` e `/en/associations` trasformano le evidenze pubbliche di PolicyWatcher in un percorso globale di triage e revisione per le associazioni dei consumatori. `/associazioni` è un redirect permanente compatibile verso la variante italiana. Il verticale non crea un dataset parallelo: legge soltanto cambiamenti che hanno già superato i gate pubblici comuni alla piattaforma.
 
 Il contesto si declina su quattro assi: paese o area, area normativa, tema e tipo di associazione. La scelta non altera i record e non genera una copertura nazionale inesistente. Italia e Unione europea possono leggere evidenze marcate UE o Global; gli Stati Uniti evidenze US o Global; i paesi per cui non è ancora presente un set dedicato ricevono esclusivamente record marcati Global.
 
@@ -36,21 +36,25 @@ Non viene usata geolocalizzazione IP. In modalità automatica l’Italia usa l�
 
 Il contesto influenza il public header/footer, la lingua e la regione iniziale della dashboard, il territorio iniziale del directory e la corrispondenza territoriale del radar. Non prova residenza, cittadinanza, foro competente o applicabilità giuridica.
 
-## Segnalazioni degli utenti
+## Segnalazioni e correzioni
 
-La form richiede nome, paese/area, sito ufficiale HTTPS e una fonte HTTPS indipendente (registro pubblico o rete verificabile). Il focus digitale è facoltativo. La normalizzazione elimina caratteri di controllo, limita le lunghezze, rifiuta URL non HTTPS e genera una `mailto:` revisionabile.
+La form accetta sia proposte inviate da un rappresentante dell'organizzazione sia segnalazioni della comunità. Richiede nome, paese/area, sito ufficiale HTTPS e una fonte HTTPS indipendente (registro pubblico o rete verificabile). Il focus digitale è facoltativo. La normalizzazione elimina caratteri di controllo, limita le lunghezze, rifiuta URL non HTTPS e genera una `mailto:` revisionabile.
 
-Nessun dato viene trasmesso automaticamente. L’inclusione avviene solo dopo revisione editoriale della fonte e non crea una relazione con l’organizzazione segnalata.
+Ogni scheda esistente espone inoltre “Segnala correzione” / “Report a correction”. L'azione prepara una bozza separata con ID della scheda, sito ufficiale corrente e fonte di verifica corrente, più campi testuali da completare per correzione richiesta, fonte pubblica di supporto e relazione facoltativa con l'organizzazione.
+
+Nessun dato viene trasmesso automaticamente. Inclusioni e correzioni avvengono solo dopo revisione editoriale delle fonti e non creano una relazione con l'organizzazione segnalata.
 
 ## Flusso dei dati
 
 1. `listPublicEvidencePacketSummaries()` recupera fino a 50 cambiamenti pubblici tramite `publicChangeWhere`.
-2. La sintesi italiana usa `tldrIt` o `aiSummaryIt`, con fallback alle versioni inglesi già pubbliche.
-3. `buildAssociationRadarItems()` applica una classificazione tematica deterministica e costruisce domande di revisione.
+2. La route italiana usa `tldrIt` o `aiSummaryIt`, con fallback inglese; la route inglese usa `tldrEn` o `aiSummaryEn`.
+3. `buildAssociationRadarItems()` riceve la lingua della route, applica una classificazione tematica deterministica e costruisce domande di revisione localizzate.
 4. Il server passa al client soltanto campi pubblici e link alle pagine Evidence/Change.
 5. Il client applica il contesto territoriale e associativo, quindi consente filtri, watchlist, stato di revisione e generazione del digest senza inviare questi dati al server.
 
-La sitemap conserva un solo URL canonico, `/associazioni`: i filtri di contesto sono stato di lavoro locale e non producono pagine nazionali indicizzabili prive di un catalogo dedicato.
+La sitemap espone due URL canonici, `/en/associations` e `/it/associazioni`, collegati da `hreflang` reciproci e da `x-default` inglese. I filtri di contesto restano stato di lavoro e query condivisibili, senza produrre pagine nazionali indicizzabili prive di un catalogo dedicato.
+
+La lingua dell'URL è la fonte di verità per contenuto, metadati, dati strutturati, date, radar e digest. Il controllo globale conserva la preferenza nel browser e, quando viene applicata una lingua diversa sul verticale, naviga alla route corrispondente mantenendo query e hash.
 
 Un errore di accesso al catalogo produce lo stato “temporaneamente non disponibile”. Un catalogo accessibile senza record pubblicabili produce uno stato vuoto separato. Dati seed, record trattenuti e snapshot non pubblici non diventano materiale dimostrativo.
 
@@ -119,7 +123,7 @@ Prima del rilascio:
 ```bash
 npx vitest run src/lib/__tests__/associationVertical.test.ts src/lib/__tests__/associationVerticalUi.test.ts
 npx vitest run src/lib/__tests__/globalContext.test.ts src/lib/__tests__/civicOrganizations.test.ts
-npx eslint src/app/associazioni src/components/GlobalContextControl.tsx src/lib/associationVertical.ts src/lib/civicOrganizations.ts src/lib/globalContext.ts
+npx eslint src/app/associazioni src/app/en/associations src/app/it/associazioni src/components/GlobalContextControl.tsx src/lib/associationVertical.ts src/lib/civicOrganizations.ts src/lib/globalContext.ts
 npm run build
 ```
 

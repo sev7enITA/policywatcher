@@ -16,6 +16,7 @@ describe('publication readiness funnel', () => {
       baselineVerified: measured(15),
       public: measured(12),
       analysed: measured(7),
+      latestCapture: { available: true, capturedAt: '2026-07-31T11:30:00.000Z' },
     });
 
     expect(result.stages.map((stage) => stage.id)).toEqual(PUBLICATION_READINESS_STAGE_IDS);
@@ -24,6 +25,10 @@ describe('publication readiness funnel', () => {
     expect(result.stages.map((stage) => stage.denominator)).toEqual([20, 20, 20, 20, 20]);
     expect(result.stages.map((stage) => stage.excluded)).toEqual([0, 2, 5, 8, 13]);
     expect(result.stages.every((stage) => stage.availability === 'measured')).toBe(true);
+    expect(result.latestCapture).toMatchObject({
+      availability: 'measured',
+      capturedAt: '2026-07-31T11:30:00.000Z',
+    });
   });
 
   it('keeps a failed optional stage unavailable rather than converting it to zero', () => {
@@ -57,6 +62,7 @@ describe('publication readiness funnel', () => {
     });
 
     expect(result.available).toBe(false);
+    expect(result.latestCapture.availability).toBe('unavailable');
     expect(result.denominator).toBeNull();
     expect(result.stages.every((stage) => (
       stage.availability === 'unavailable'

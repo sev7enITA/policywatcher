@@ -22,7 +22,7 @@ import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';
 import styles from './trust.module.css';
 
 export const metadata: Metadata = {
-  title: 'Trust & Quality Evidence | PolicyWatcher',
+  title: 'Trust and quality controls | PolicyWatcher',
   description:
     'Automated quality, security, and dataset assurance evidence for PolicyWatcher.',
   alternates: { canonical: '/trust' },
@@ -298,7 +298,7 @@ export default function TrustPage() {
               <ShieldCheck size={16} />
               Trust & Quality Evidence
             </span>
-            <h1>Inspectable controls for dataset confidence.</h1>
+            <h1>Trust and quality controls</h1>
             <p>
               This page collects the checks used to assess whether the monitored
               records are consistent enough for public analysis. The badges below
@@ -345,7 +345,7 @@ export default function TrustPage() {
               <CheckCircle2 size={14} />
               Obtained and visible badges
             </span>
-            <h2 id="obtained-badges">Public quality signals that can be inspected.</h2>
+            <h2 id="obtained-badges">Public quality signals</h2>
             <p>
               The OpenSSF Best Practices badge links to the external project
               self-attestation status. The other badges expose public workflow
@@ -417,7 +417,7 @@ export default function TrustPage() {
               <GitBranch size={14} />
               Assurance workflow
             </span>
-            <h2 id="qa-workflow">From configured source to release decision</h2>
+            <h2 id="qa-workflow">Dataset QA workflow</h2>
             <p>
               PolicyWatcher treats confidence as an operational state. A record
               may be available, partial, unavailable, or in need of review; the
@@ -441,7 +441,7 @@ export default function TrustPage() {
         <section className={styles.boundaryPanel}>
           <div>
             <span className={styles.sectionEyebrow}>Evidence scope</span>
-            <h2>Operational evidence with clear scope.</h2>
+            <h2>Operational evidence scope</h2>
           </div>
           <p>
             PolicyWatcher monitors configured public source URLs, records check

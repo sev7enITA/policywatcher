@@ -53,6 +53,7 @@ function readinessResult(): PublicationReadinessResult {
     checkedAt: '2026-08-01T10:00:00.000Z',
     available: true,
     denominator: 5,
+    latestCapture: { capturedAt: null, availability: 'measured', definition: 'Test capture', reason: null },
     consistencyWarning: null,
     scopeBoundary: 'Test boundary',
     stages: ids.map((id) => ({

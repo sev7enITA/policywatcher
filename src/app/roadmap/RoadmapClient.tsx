@@ -52,7 +52,7 @@ const goals: Array<{
   {
     id: 'citizen',
     label: 'Citizen',
-    title: 'Understand what changed and why it matters',
+    title: 'Change summary',
     summary:
       'A low-noise reading mode focused on policy changes, plain-language summaries, affected rights, and what should be verified at the source.',
     view: 'Change cards, source status, short explanations, region impact.',
@@ -109,14 +109,152 @@ const depthLabels: Record<DetailLevel, { label: string; note: string; includes: 
   },
 };
 
+type BaselineState = 'verified' | 'partial' | 'gap';
+
+const baselineStateLabels: Record<BaselineState, string> = {
+  verified: 'Verified',
+  partial: 'Partial',
+  gap: 'Gap',
+};
+
+const technicalBaseline: Array<{
+  module: string;
+  evidence: string;
+  opportunity: string;
+  state: BaselineState;
+  reference: string;
+}> = [
+  {
+    module: 'Acquisition',
+    evidence: 'Five-step cascade: direct, HTTP/2, Renderer, Wayback and Common Crawl.',
+    opportunity: 'The mass scan loop is still sequential; move long-running work behind a durable queue.',
+    state: 'partial',
+    reference: 'scraper.ts · cron/check-all/route.ts',
+  },
+  {
+    module: 'AI and scoring',
+    evidence: 'Structured output is schema-validated; Beta 42 includes a golden set and AI telemetry.',
+    opportunity: 'The model produces the score. Input is capped at 45,000 characters or 22,000 + 22,000, not scored by a deterministic formula.',
+    state: 'verified',
+    reference: 'gemini.ts · geminiPolicySchema.ts · golden-set.v1.json',
+  },
+  {
+    module: 'Data and retention',
+    evidence: 'SQLite backs 31 Prisma models, including five additive canonical evidence models; AI telemetry and access logs have a 90-day retention policy.',
+    opportunity: 'Canonical backfill is not active and PolicyCheckLog has no explicit retention policy.',
+    state: 'partial',
+    reference: 'prisma/schema.prisma · aiTelemetry.ts',
+  },
+  {
+    module: 'Admin and identity',
+    evidence: 'Signed sessions and roles are present.',
+    opportunity: 'Credentials are shared by role, with no individual identity or central revocation; rate state remains in memory.',
+    state: 'gap',
+    reference: 'adminAuth.ts · rateLimit.ts',
+  },
+  {
+    module: 'Dashboard',
+    evidence: 'DashboardClient is about 3,181 lines and 125 KB; the public “map” is an impact matrix.',
+    opportunity: 'Decompose and measure the bundle; add true geography and regional filtering only where supported by data.',
+    state: 'gap',
+    reference: 'DashboardClient.tsx · ReleaseImpactMap.tsx',
+  },
+  {
+    module: 'API and webhooks',
+    evidence: 'v1 and v2 are not symmetrical; a persistent outbox and signed delivery headers already exist.',
+    opportunity: 'The worker still depends on application invocation. Actual headers use the PolicyWatcher-* prefix.',
+    state: 'partial',
+    reference: 'webhookDelivery.ts · webhookDeliveryData.ts',
+  },
+  {
+    module: 'Browser extension',
+    evidence: 'activeTab enables local selection/page analysis and up to three evidence summaries.',
+    opportunity: 'The companion does not display KPI values or a policy score.',
+    state: 'verified',
+    reference: 'browser-extension/popup.js',
+  },
+  {
+    module: 'VPS services',
+    evidence: 'The Agent uses HMAC, timestamp and nonce; the Renderer uses Bearer auth with two-secret rotation.',
+    opportunity: 'Keep release and readiness evidence bounded and observable across both services.',
+    state: 'verified',
+    reference: 'api/admin/vps-services · vps-agent/agent.mjs',
+  },
+  {
+    module: 'Evidence packet',
+    evidence: 'JSON and PDF exports include SHA-256 integrity material.',
+    opportunity: 'Packets lack a digital signature, complete diff and archive timestamp.',
+    state: 'partial',
+    reference: 'evidencePacket.ts',
+  },
+  {
+    module: 'Email and feeds',
+    evidence: 'User templates are English-only; newsroom RSS and JSON Feed already exist.',
+    opportunity: 'Unsubscribe is client-confirmed rather than one-click, and bounce suppression is not implemented.',
+    state: 'partial',
+    reference: 'press-kit/feed.xml/route.ts · email templates',
+  },
+];
+
+const priorityPipeline = [
+  {
+    title: 'Durable queue for asynchronous workloads',
+    outcome: 'Scraping, webhooks and email run as persistent jobs with retry, backoff, idempotency and a dead-letter queue.',
+    gate: 'Completion and retry metrics are visible; recovery is tested.',
+    horizon: 'Now',
+  },
+  {
+    title: 'Source-bound RAG and governed scoring',
+    outcome: 'Chunking and source-anchored citations cover every KPI; scoring is deterministic only when presented as such, otherwise explicitly AI-generated.',
+    gate: 'Golden-set quality and claim-to-evidence traceability pass review.',
+    horizon: 'Now',
+  },
+  {
+    title: 'Individual enterprise identity',
+    outcome: 'OIDC, MFA, session revocation and per-user audit records replace role-shared attribution.',
+    gate: 'No admin action is attributable only to a shared role.',
+    horizon: 'Next',
+  },
+  {
+    title: 'Modular, measured dashboard',
+    outcome: 'DashboardClient is decomposed, secondary surfaces are lazy-loaded and bundle changes are measured; geography follows actual data coverage.',
+    gate: 'A bundle budget and responsive tests pass before release.',
+    horizon: 'Next',
+  },
+  {
+    title: 'Hardened webhook egress and scheduling',
+    outcome: 'DNS pinning and rebinding protection align webhook SSRF policy with acquisition; scheduling no longer depends on app cron.',
+    gate: 'Redirect/DNS tests and an independent scheduler healthcheck pass.',
+    horizon: 'Next',
+  },
+  {
+    title: 'Email deliverability and consent',
+    outcome: 'Provider events drive bounce/complaint suppression and true RFC 8058 one-click unsubscribe while preserving granular preferences.',
+    gate: 'Provider events and the suppression list are auditable.',
+    horizon: 'Next',
+  },
+  {
+    title: 'PostgreSQL and object storage when needed',
+    outcome: 'Persistence moves only when deployment is genuinely multi-instance, with an attachment strategy and tested backup/restore.',
+    gate: 'The operational requirement and a restore drill are documented first.',
+    horizon: 'Conditional',
+  },
+  {
+    title: 'High-assurance evidence export',
+    outcome: 'Packets include complete diff and archive timestamp; PDF signing and multiple renderers follow stable queue and storage foundations.',
+    gate: 'Signature verification and reproducible rendering pass.',
+    horizon: 'Conditional',
+  },
+] as const;
+
 const nowItems = [
   {
-    phase: 'Current · 3.9.0-beta.41',
-    title: 'Adaptive Experience',
+    phase: 'Current · 4.0.0-beta.1',
+    title: 'Canonical Evidence Foundation',
     body:
-      'Let each visitor choose Focus, Balanced or Explore hierarchy, control motion explicitly and inspect the deterministic reason for the recommended next action.',
-    benefit: 'A global, feature-rich platform can stay task-oriented without removing expert routes or silently personalizing evidence.',
-    validation: 'Preferences are browser-local, invalid state fails closed and presets change presentation only; the release does not claim measured usability or accessibility conformance.',
+      'Establish a canonical document evidence graph, stable public IDs, a focused provision taxonomy and one database-derived publication-readiness contract.',
+    benefit: 'Evidence can evolve toward durable documents and provisions while operators and integrations compare one authoritative readiness funnel.',
+    validation: 'Canonical tables start empty; backfill, dual-write, PostgreSQL cutover and object storage remain separately gated production waves.',
     icon: SlidersHorizontal,
     href: '/',
   },
@@ -128,7 +266,7 @@ const nowItems = [
     benefit: 'Italian consumer associations can organize a source-first review scope without creating an account or sending member, consumer or draft data to PolicyWatcher.',
     validation: 'The workspace reuses public-evidence gates, keeps working state in the browser and names unavailable or empty conditions; it does not manage complaints, make legal findings or publish decisions.',
     icon: UsersRound,
-    href: '/associazioni',
+    href: '/en/associations',
   },
   {
     phase: 'Delivered · 3.9.0-beta.39',
@@ -272,7 +410,7 @@ const nowItems = [
   },
   {
     phase: 'Delivered · 3.9.0-beta.16',
-    title: 'Source confidence and continuity ledger',
+    title: 'Source evidence and continuity ledger',
     body:
       'Public evidence files show publication state, sanitized retrieval status, last-check time and versioned public snapshot fingerprints for one change.',
     benefit: 'Reviewers can inspect the recorded evidence chain without access to protected Dataset QA operations.',
@@ -348,7 +486,7 @@ const nowItems = [
   },
   {
     phase: 'Delivered · 3.7.2',
-    title: 'Calm Workspace onboarding and navigation',
+    title: 'Workspace onboarding and navigation',
     body:
       'First-time visitors choose an objective and evidence depth, preview the evidence stack, and enter a workspace whose toolbar exposes only the most relevant actions while retaining every command in More.',
     benefit: 'The product becomes understandable before the full dashboard density appears, without removing expert capabilities.',
@@ -369,7 +507,7 @@ const nowItems = [
     title: 'Objective-based Dashboard Composer',
     body:
       'On a first visit, a guided start asks for the user objective and evidence depth, previews a typed stack of real dashboard evidence modules, and saves the selected workspace.',
-    benefit: 'Users start from the question they have and receive an evidence stack assembled from existing product modules.',
+    benefit: 'The selected session purpose determines an evidence stack assembled from existing product modules.',
     validation: 'Accepted: generated stacks use registered evidence modules only, remain reversible, and always keep Source QA visible.',
     icon: SlidersHorizontal,
   },
@@ -381,24 +519,6 @@ const nowItems = [
     benefit: 'Large source batches move through one durable, auditable workflow instead of ad hoc record creation.',
     validation: 'Accepted: duplicate and URL checks run before approval; imports and first baselines remain private until QA passes and an operator publishes them.',
     icon: ListChecks,
-  },
-  {
-    phase: 'In progress',
-    title: 'Source Remediation Workbench',
-    body:
-      'Turn failed retrievals into an actionable admin workflow: URL repair, jurisdiction fit, duplicate source decisions, and source suspension review.',
-    benefit: 'Dataset confidence becomes a daily operating loop rather than a hidden maintenance task.',
-    validation: 'Every repaired source must show before/after QA status and retrieval evidence.',
-    icon: Search,
-  },
-  {
-    phase: 'In progress',
-    title: 'Community Signal Board',
-    body:
-      'Let users signal which roadmap candidates matter most and describe their real workflow, evidence needs, and acceptable limits.',
-    benefit: 'Prioritization becomes traceable and grounded in actual use cases.',
-    validation: 'GitHub issues become structured roadmap signals with acceptance criteria.',
-    icon: Users,
   },
   {
     phase: 'Planned',
@@ -617,7 +737,7 @@ const releaseLanes = [
   },
   {
     label: '3.7.2',
-    title: 'Calm Workspace Release',
+    title: 'Workspace Navigation Release',
     body:
       'Progressive first-use onboarding, objective-aware quick actions, direct changelog identity, icon-only What Changed entry, focused mobile navigation, and browser-local personalization.',
     state: 'delivered',
@@ -640,7 +760,7 @@ const releaseLanes = [
     label: POLICYWATCHER_VERSION,
     title: POLICYWATCHER_RELEASE_NAME,
     body:
-      'Action-oriented source remediation, a browser-local community signal dossier and a centralized defense-in-depth boundary for unsafe administrative API mutations.',
+      'Human-approved AI model registry, privacy-safe telemetry, validated release ledger and bilingual Evidence Pulse with explicit residual boundaries.',
     state: 'current',
   },
   {
@@ -652,7 +772,7 @@ const releaseLanes = [
   },
   {
     label: '4.5',
-    title: 'Confidence Release',
+    title: 'Evidence Methodology Release',
     body:
       'Community benchmark pack, cross-version evidence lineage, external methodology review and production database hardening.',
     state: 'candidate',
@@ -781,6 +901,8 @@ export default function RoadmapClient() {
           <span>PolicyWatcher</span>
         </Link>
         <div className={styles.navLinks}>
+          <a href="#technical-baseline">Baseline</a>
+          <a href="#pipeline">Pipeline</a>
           <a href="#candidates">Candidates</a>
           <a href="#impact-map">Release impact</a>
           <Link href="/feature-atlas">Feature Atlas</Link>
@@ -796,8 +918,8 @@ export default function RoadmapClient() {
             <ArrowLeft size={16} />
             Back to dashboard
           </Link>
-          <span className={styles.eyebrow}>Community-shaped roadmap</span>
-          <h1>Help decide what PolicyWatcher should show next</h1>
+          <span className={styles.eyebrow}>PRODUCT PLANNING</span>
+          <h1>Product roadmap</h1>
           <p>
             PolicyWatcher includes goal-driven evidence workspaces in addition to static dashboard views. Workspace configuration records the user objective, requested evidence depth and modules that remain unavailable until source requirements are met.
           </p>
@@ -819,7 +941,7 @@ export default function RoadmapClient() {
         <aside className={styles.heroBoard} aria-label="Roadmap signal preview">
           <div className={styles.boardChrome}>
             <span>roadmap.signal</span>
-            <b>live proposal surface</b>
+            <b>proposal interface</b>
           </div>
           <HeroGraph />
           <div className={styles.boardStats}>
@@ -842,33 +964,114 @@ export default function RoadmapClient() {
       <section className={styles.principles} aria-label="Roadmap principles">
         <article>
           <ShieldCheck size={18} />
-          <strong>Evidence first</strong>
-          <span>Public views should expose only source-gated records, not seeded or uncertain data.</span>
+          <strong>Publication gate</strong>
+          <span>Public views expose source-gated records. Seeded or uncertain records remain excluded.</span>
         </article>
         <article>
           <Eye size={18} />
-          <strong>Configurable clarity</strong>
-          <span>The interface should adapt to the user objective and chosen evidence depth.</span>
+          <strong>Interface configuration</strong>
+          <span>The interface uses the selected user objective and evidence depth.</span>
         </article>
         <article>
           <GitFork size={18} />
           <strong>Community signals</strong>
-          <span>Roadmap priority should come from concrete workflows, not generic feature voting.</span>
+          <span>Roadmap priority uses submissions tied to concrete workflows.</span>
         </article>
         <article>
           <Lock size={18} />
-          <strong>Measured language</strong>
-          <span>Future features keep the same discipline: mapping, review, evidence, and visible source-quality state.</span>
+          <strong>Claim scope</strong>
+          <span>Feature records include mapping, review, evidence and visible source-quality state.</span>
         </article>
       </section>
 
-      <details className={styles.lowerPriorityDisclosure} id="workspace">
+      <section className={`${styles.section} ${styles.baselineSection}`} id="technical-baseline">
+        <div className={styles.sectionHead}>
+          <div>
+            <span className={styles.sectionLabel}>Technical baseline · verified 17 August 2026</span>
+            <h2>Technical baseline</h2>
+          </div>
+          <p>
+            Ten evidence-backed module checks separate shipped capability from architectural opportunity. References point to the implementation inspected for this snapshot.
+          </p>
+        </div>
+
+        <div className={styles.baselineLegend} aria-label="Baseline status legend">
+          {(Object.keys(baselineStateLabels) as BaselineState[]).map((state) => (
+            <span key={state} data-state={state}>{baselineStateLabels[state]}</span>
+          ))}
+        </div>
+
+        <div className={styles.baselineTable} role="table" aria-label="Verified technical baseline">
+          <div className={styles.baselineHeader} role="row">
+            <span role="columnheader">Module</span>
+            <span role="columnheader">Current evidence</span>
+            <span role="columnheader">Limit / opportunity</span>
+            <span role="columnheader">Status</span>
+            <span role="columnheader">Technical reference</span>
+          </div>
+          {technicalBaseline.map((item, index) => (
+            <article className={styles.baselineRow} role="row" key={item.module}>
+              <div className={styles.baselineModule} role="cell">
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <strong>{item.module}</strong>
+              </div>
+              <p role="cell" data-label="Current evidence">{item.evidence}</p>
+              <p role="cell" data-label="Limit / opportunity">{item.opportunity}</p>
+              <div role="cell" data-label="Status">
+                <span className={styles.baselineStatus} data-state={item.state}>{baselineStateLabels[item.state]}</span>
+              </div>
+              <code role="cell" data-label="Technical reference">{item.reference}</code>
+            </article>
+          ))}
+        </div>
+
+        <aside className={styles.baselineNote}>
+          <BookOpenCheck size={18} aria-hidden="true" />
+          <p>
+            <code>docs/reports/policywatcher-state-of-art-audit-2026-08-14.artifact.json</code> remains a historical snapshot. Beta 42, released on 15 August, already closes some AI assurance gaps recorded there.
+          </p>
+        </aside>
+      </section>
+
+      <section className={`${styles.section} ${styles.pipelineSection}`} id="pipeline">
+        <div className={styles.sectionHead}>
+          <div>
+            <span className={styles.sectionLabel}>Priority pipeline · 01–08</span>
+            <h2>Priority pipeline</h2>
+          </div>
+          <p>
+            This ordered pipeline is the committed prioritization lens. The feature radar remains a separate, unprioritized candidate backlog.
+          </p>
+        </div>
+
+        <ol className={styles.pipelineList}>
+          {priorityPipeline.map((item, index) => (
+            <li key={item.title}>
+              <span className={styles.pipelineNumber} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <div className={styles.pipelineTitle}>
+                <span>{item.horizon}</span>
+                <h3>{item.title}</h3>
+              </div>
+              <div className={styles.pipelineOutcome}>
+                <small>Expected outcome</small>
+                <p>{item.outcome}</p>
+              </div>
+              <div className={styles.pipelineGate}>
+                <small>Dependency / gate</small>
+                <p>{item.gate}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <details className={`${styles.lowerPriorityDisclosure} ${styles.anchorSection}`} id="workspace">
         <summary><span>Explore the adaptive workspace</span><small>Optional product demonstrator, collapsed to keep community signals first.</small></summary>
       <section className={`${styles.section} ${styles.workspaceSection}`}>
         <div className={styles.sectionHead}>
           <div>
             <span className={styles.sectionLabel}>Adaptive workspace</span>
-            <h2>Start from the question, not from the dashboard</h2>
+            <h2>Workspace configuration</h2>
           </div>
           <p>
             PolicyWatcher retains a guided start for first-time visitors. The selected purpose and evidence depth compose a preview from registered dashboard modules; the choice stays reversible and Source QA remains pinned in every generated stack.
@@ -925,13 +1128,13 @@ export default function RoadmapClient() {
       </section>
       </details>
 
-      <details className={styles.lowerPriorityDisclosure} id="impact-map">
+      <details className={`${styles.lowerPriorityDisclosure} ${styles.anchorSection}`} id="impact-map">
         <summary><span>Review delivered releases and impact evidence</span><small>Version history and the full release-impact map.</small></summary>
       <section className={styles.section} id="now">
         <div className={styles.sectionHead}>
           <div>
             <span className={styles.sectionLabel}>Delivered outcomes and active work</span>
-            <h2>What the roadmap has already moved into the product</h2>
+            <h2>Delivered releases</h2>
           </div>
           <p>
             The voted outcomes are now shipped alongside the active Confidence work, with acceptance criteria and publication boundaries kept visible.
@@ -986,11 +1189,11 @@ export default function RoadmapClient() {
       </section>
       </details>
 
-      <section className={styles.section} id="candidates">
+      <section className={`${styles.section} ${styles.anchorSection}`} id="candidates">
         <div className={styles.sectionHead}>
           <div>
             <span className={styles.sectionLabel}>Feature radar</span>
-            <h2>Potential evolutions ready for a structured signal</h2>
+            <h2>Feature candidates</h2>
           </div>
           <p>
             Candidate review records the workflow, expected evidence, acceptable limits and the current implementation gap. No popularity or endorsement count is inferred.
@@ -1079,36 +1282,36 @@ export default function RoadmapClient() {
         )}
       </section>
 
-      <section className={styles.methodSection} id="method">
+      <section className={`${styles.methodSection} ${styles.anchorSection}`} id="method">
         <div className={styles.sectionHead}>
           <div>
-            <span className={styles.sectionLabel}>How ranking should work</span>
-            <h2>Signals should describe evidence needs</h2>
+            <span className={styles.sectionLabel}>Ranking model</span>
+            <h2>Signal criteria</h2>
           </div>
           <p>
-            A popular request still needs feasibility, source-quality review, security review, and wording discipline. Roadmap ranking should guide prioritization, not replace product judgment.
+            Each request is reviewed for feasibility, source quality, security and claim scope. The ranking informs product prioritization.
           </p>
         </div>
         <div className={styles.methodGrid}>
           <article>
             <ListChecks size={22} />
-            <h3>Use case clarity</h3>
-            <p>What question should PolicyWatcher help answer, and who is asking it?</p>
+            <h3>Use case</h3>
+            <p>Identify the user, decision and question.</p>
           </article>
           <article>
             <Database size={22} />
             <h3>Evidence requirement</h3>
-            <p>Which source, check log, snapshot, region, KPI, or export is needed?</p>
+            <p>Specify the required source, check log, snapshot, region, KPI or export.</p>
           </article>
           <article>
             <Cpu size={22} />
             <h3>Implementation path</h3>
-            <p>Can it be built without inventing data, hiding uncertainty, or overstating automation?</p>
+            <p>Document the implementation path, data requirements and automation limits.</p>
           </article>
           <article>
             <Radio size={22} />
             <h3>Release lane</h3>
-            <p>Is it a feature drop, a confidence hardening release, or a research candidate?</p>
+            <p>Classify the item as a feature release, evidence-method release or research candidate.</p>
           </article>
         </div>
       </section>
@@ -1116,7 +1319,7 @@ export default function RoadmapClient() {
       <section className={styles.callout}>
         <div>
           <span className={styles.sectionLabel}>Community input</span>
-          <h2>Tell us what you need PolicyWatcher to reveal</h2>
+          <h2>Roadmap signal submission</h2>
           <p>
             The most useful feedback is specific: the role you have, the decision you need to make, the evidence you trust, and the level of detail you expect.
           </p>

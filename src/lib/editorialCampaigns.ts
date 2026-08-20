@@ -268,7 +268,7 @@ export const OUTREACH_READINESS_STORAGE_KEY = `policywatcher:outreach-readiness:
 export const OUTREACH_READINESS_ITEMS = [
   { id: 'homepage', label: 'Production homepage reachable', href: '/' },
   { id: 'pulse', label: 'Pulse registry reachable', href: '/pulse' },
-  { id: 'release', label: 'Current release record reachable', href: RELEASE_ROUTE },
+  { id: 'release', label: 'Campaign release record reachable', href: RELEASE_ROUTE },
   { id: 'press-kit', label: 'Press Kit reachable', href: '/press-kit' },
   { id: 'data-room', label: 'Data Room reachable', href: '/press-kit/data' },
   { id: 'press-packages', label: 'English and Italian press packages present', href: '/press-kit#downloads' },

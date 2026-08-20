@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  archiveFreshnessFloor,
   dataStatusClassKey,
   dataStatusFromScrapeFailure,
   getWorstDataStatus,
@@ -64,5 +65,26 @@ describe('policyConfidence', () => {
       dataStatus: 'Configured',
       snapshots: [{ publicEvidence: true }],
     })).toBe(false);
+  });
+
+  it('rejects archives older than a pending source-migration request', () => {
+    const requestedAt = new Date('2026-08-18T02:15:15.323Z');
+
+    expect(archiveFreshnessFloor({
+      lastSuccessfulCheckDate: new Date('2026-08-01T04:37:39.895Z'),
+      sourceMigrationPending: true,
+      sourceMigrationRequestedAt: requestedAt,
+    })).toEqual(requestedAt);
+  });
+
+  it('keeps the last successful check as the archive floor for seeded and ordinary records', () => {
+    const lastSuccessfulCheckDate = new Date('2026-08-17T00:00:00.000Z');
+
+    expect(archiveFreshnessFloor({ lastSuccessfulCheckDate })).toEqual(lastSuccessfulCheckDate);
+    expect(archiveFreshnessFloor({
+      lastSuccessfulCheckDate,
+      sourceMigrationPending: true,
+      sourceMigrationRequestedAt: null,
+    })).toEqual(lastSuccessfulCheckDate);
   });
 });

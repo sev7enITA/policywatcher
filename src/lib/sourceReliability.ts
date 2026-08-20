@@ -9,6 +9,7 @@ export const RETRIEVAL_CAUSES = [
   'content_invalid',
   'source_gone',
   'stale_archive',
+  'not_in_archive',
   'configuration',
   'skipped',
   'unknown',
@@ -119,6 +120,9 @@ export function classifyRetrievalCause(input: DiagnosticLike): RetrievalCause {
   if (status === 'ok') return 'verified';
   if (status === 'partial') return 'partial';
   if (status === 'skipped') return 'skipped';
+  if (reason.includes('cc_cdx_404') || reason.includes('cc_no_results') || reason.includes('not_in_archive')) {
+    return 'not_in_archive';
+  }
   if (httpStatus === 404 || httpStatus === 410 || reason.includes('soft_404') || reason.includes('_gone')) {
     return 'source_gone';
   }
@@ -141,7 +145,10 @@ export function classifyRetrievalCause(input: DiagnosticLike): RetrievalCause {
   if (reason.includes('stale_snapshot') || reason.includes('stale_snapshots')) {
     return 'stale_archive';
   }
-  if (reason.includes('content_too_short') || reason.includes('empty_html') || reason.includes('partial_retrieval')) {
+  if (
+    reason.includes('content_too_short') || reason.includes('empty_html') ||
+    reason.includes('partial_retrieval') || reason.includes('202_pending')
+  ) {
     return 'content_incomplete';
   }
   if (
@@ -167,6 +174,7 @@ export function terminalRetrievalCause(diagnostics: DiagnosticLike[]): Retrieval
     'content_invalid',
     'content_incomplete',
     'stale_archive',
+    'not_in_archive',
     'configuration',
     'unknown',
   ];
@@ -224,10 +232,11 @@ export function recordRetrievalDiagnostics(
     metrics.strategies[source] = strategy;
 
     const cause = classifyRetrievalCause(diagnostic);
-    if (
-      (source === 'wayback' || source === 'commoncrawl' || source === 'rendered') &&
-      ['rate_limited', 'upstream_unavailable', 'transport_timeout'].includes(cause)
-    ) {
+    const dependencyFailure = source === 'rendered'
+      ? diagnostic.status === 'failed' && (diagnostic.reason || '').startsWith('renderer_')
+      : (source === 'wayback' || source === 'commoncrawl') &&
+        ['rate_limited', 'upstream_unavailable', 'transport_timeout'].includes(cause);
+    if (dependencyFailure) {
       metrics.degradedDependencies.push(source);
     }
   }
@@ -239,6 +248,7 @@ export function suggestedSourceAction(cause: RetrievalCause): string {
   if (cause === 'access_blocked') return 'Review an official regional URL, PDF, or traceable assisted source; do not bypass provider challenges.';
   if (cause === 'source_gone') return 'Run source discovery and verify a replacement official URL.';
   if (cause === 'stale_archive') return 'Keep the current source withheld and expose only dated historical-reference metadata.';
+  if (cause === 'not_in_archive') return 'No exact Common Crawl capture was found; keep this as an informational fallback miss and review another official source.';
   if (cause === 'content_incomplete' || cause === 'content_invalid') return 'Review extraction scope, canonical URL, and document markers.';
   if (cause === 'rate_limited' || cause === 'transport_timeout' || cause === 'upstream_unavailable') {
     return 'Review provider pacing, retry policy, and dependency health before changing the source.';

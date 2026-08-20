@@ -39,6 +39,8 @@ interface FooterProps {
   lang: 'en' | 'it';
   /** Compact keeps the utility-page boundary without the resource directory. */
   variant?: 'full' | 'compact';
+  /** Localized routes may lock visible copy to their URL language. */
+  lockLang?: boolean;
 }
 
 const content = {
@@ -120,9 +122,9 @@ const content = {
  * Global footer with categorized resources, legal links, contact information,
  * and a release boundary.
  */
-export default function Footer({ lang, variant = 'full' }: FooterProps) {
-  const globalContext = useGlobalContext(lang);
-  const activeLang = globalContext.ready ? globalContext.lang : lang;
+export default function Footer({ lang, variant = 'full', lockLang = false }: FooterProps) {
+  const globalContext = useGlobalContext(lang, lockLang ? lang : undefined);
+  const activeLang = lockLang ? lang : globalContext.ready ? globalContext.lang : lang;
   const t = content[activeLang];
 
   if (variant === 'compact') {
@@ -156,7 +158,7 @@ export default function Footer({ lang, variant = 'full' }: FooterProps) {
       id: 'explore',
       label: t.explore,
       links: [
-        { href: '/associazioni', label: t.associations, icon: UserRound },
+        { href: activeLang === 'it' ? '/it/associazioni' : '/en/associations', label: t.associations, icon: UserRound },
         { href: '/knowledge', label: t.knowledge, icon: FileText },
         { href: '/observatory', label: t.observatory, icon: Search },
         { href: '/collections', label: t.collections, icon: FolderKanban },

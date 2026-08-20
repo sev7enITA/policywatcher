@@ -53,33 +53,33 @@ const iconMap: Record<string, LucideIcon> = {
 
 const recommendedRoutes = [
   {
-    title: 'Adaptive orientation',
-    body: 'Choose Focus, Balanced or Explore on the dashboard, inspect why the interface is configured that way, then open the visual ER sitemap for the complete domain model.',
+    title: 'Dashboard view settings',
+    body: 'The dashboard stores the selected interface density and links to the product diagram and feature catalog.',
     nodes: ['dashboard', 'infographics', 'feature-atlas'],
   },
   {
-    title: 'Global consumer advocacy',
-    body: 'Set the platform territory, find a source-backed national or digital-rights organization in PolicyWatcher Civico, then inspect the underlying evidence and methodology.',
+    title: 'Consumer association review',
+    body: 'The association directory links territory filters, published change records and the evidence methodology.',
     nodes: ['associations', 'timeline', 'methodology'],
   },
   {
-    title: 'First inspection',
-    body: 'Start with the dashboard, check public QA evidence, then read the methodology before using signals.',
+    title: 'Evidence review controls',
+    body: 'The dashboard links Dataset QA controls and the evidence methodology.',
     nodes: ['dashboard', 'trust', 'methodology'],
   },
   {
-    title: 'Market movement',
-    body: 'Move from the timeline to the signals board when you need sector comparison instead of a single event.',
+    title: 'Market comparison',
+    body: 'The timeline shows individual events; the signals board provides sector comparisons.',
     nodes: ['timeline', 'leaderboard', 'dashboard'],
   },
   {
-    title: 'Public product information',
-    body: 'Use the project page, showcase, press wall and roadmap to understand who maintains PolicyWatcher, how it is discussed, and where it may evolve.',
+    title: 'Product information',
+    body: 'Project, product overview, coverage registry and roadmap pages provide authorship, implementation and release information.',
     nodes: ['about', 'showcase', 'press', 'roadmap'],
   },
   {
-    title: 'System integration',
-    body: 'Read the public integration directory, inspect the curated Observatory registry, then use the methodology to understand data boundaries.',
+    title: 'Integration references',
+    body: 'Developer APIs link to Observatory sources and evidence-method boundaries.',
     nodes: ['developers', 'observatory', 'methodology'],
   },
 ];
@@ -137,12 +137,12 @@ export default function SiteAtlasClient() {
           <div>
             <span className={styles.eyebrow}>
               <GitFork size={15} />
-              Interactive sitemap · {POLICYWATCHER_BUILD_LABEL}
+              Public route graph · {POLICYWATCHER_BUILD_LABEL}
             </span>
-            <h1>PolicyWatcher Site Atlas</h1>
+            <h1>Site map</h1>
             <p>
-              Explore the public platform as an evidence graph: sections, trust surfaces,
-              methodology boundaries, community pages and the protected operations layer.
+              The graph contains public sections, quality controls, evidence methodology,
+              public information and protected operations.
             </p>
           </div>
           <div className={styles.heroStats} aria-label="Atlas summary">
@@ -187,8 +187,8 @@ export default function SiteAtlasClient() {
         <div className={styles.graphPanel}>
           <div className={styles.graphHeader}>
             <div>
-              <h2>Relationship graph</h2>
-              <p>Select a node to inspect its role and linked paths.</p>
+              <h2>Route relationships</h2>
+              <p>Node selection displays the route role and connected sections.</p>
             </div>
             <span>{activeGroup === 'all' ? 'Full atlas' : publicSectionGroups[activeGroup].label}</span>
           </div>
@@ -307,7 +307,7 @@ export default function SiteAtlasClient() {
             <Route size={15} />
             Linked sitemap
           </span>
-          <h2>Registered public and protected-boundary routes, grouped by purpose.</h2>
+          <h2>Route directory</h2>
         </div>
 
         <div className={styles.sitemapFamilies}>
@@ -347,9 +347,9 @@ export default function SiteAtlasClient() {
         <div className={styles.sectionHeading}>
           <span>
             <Search size={15} />
-            Suggested exploration paths
+            Route sequences
           </span>
-          <h2>Start from the question, not from the menu.</h2>
+          <h2>Route groups</h2>
         </div>
         <div className={styles.routeCards}>
           {recommendedRoutes.map((route) => (
@@ -379,9 +379,9 @@ export default function SiteAtlasClient() {
         <div className={styles.sectionHeading}>
           <span>
             <ShieldCheck size={15} />
-            Coherence check
+            Route group summary
           </span>
-          <h2>Each surface has a specific job.</h2>
+          <h2>Group responsibilities</h2>
         </div>
         <div className={styles.familyGrid}>
           {(Object.entries(publicSectionGroups) as Array<[PublicSectionGroup, typeof publicSectionGroups[PublicSectionGroup]]>).map(([key, group]) => (

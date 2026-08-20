@@ -36,10 +36,10 @@ const content = {
     badge: 'POLICYWATCHER ACCESS',
     contextStep: 'Context',
     termsStep: 'Use terms',
-    title: 'Open the policy intelligence workspace',
+    title: 'Workspace access',
     subtitle:
-      'Before the dashboard loads, review what the system shows and where human verification remains required.',
-    contextTitle: 'What you are entering',
+      'The dashboard contains public policy evidence, Dataset QA metadata and AI-assisted summaries. Human verification remains required.',
+    contextTitle: 'Workspace contents',
     contextBody:
       'PolicyWatcher compares public policy-change evidence, jurisdictional impact signals, dataset QA metadata, and AI-assisted summaries in one inspection workspace.',
     evidence: [
@@ -71,10 +71,10 @@ const content = {
     badge: 'ACCESSO POLICYWATCHER',
     contextStep: 'Contesto',
     termsStep: 'Uso',
-    title: 'Apri il workspace di policy intelligence',
+    title: 'Accesso al workspace',
     subtitle:
-      'Prima di caricare la dashboard, rivedi cosa mostra il sistema e dove resta necessaria la verifica umana.',
-    contextTitle: 'Cosa stai aprendo',
+      'La dashboard contiene evidenze pubbliche sulle policy, metadata Dataset QA e sintesi assistite da IA. La verifica umana resta necessaria.',
+    contextTitle: 'Contenuti del workspace',
     contextBody:
       'PolicyWatcher confronta evidenze pubbliche di cambiamento policy, segnali di impatto per giurisdizione, metadata di QA dataset e sintesi AI-assisted in un workspace di ispezione.',
     evidence: [

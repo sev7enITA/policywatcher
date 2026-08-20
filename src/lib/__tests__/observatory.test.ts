@@ -2,8 +2,13 @@ import { describe, expect, it } from 'vitest';
 import {
   buildObservatoryIcs,
   compareObservatoryDeadlines,
+  getMetaObservatoryMetrics,
   getObservatoryCountdown,
+  OBSERVATORY_VERIFIED_AT,
+  observatoryMetaInsights,
   observatorySignals,
+  observatorySources,
+  type ObservatorySourceKind,
   type ObservatoryEvent,
 } from '../observatory';
 
@@ -19,13 +24,99 @@ describe('getObservatoryCountdown', () => {
 });
 
 describe('observatory source facts', () => {
-  it('keeps the July 2026 watchlist source-specific and reviewable', () => {
+  it('supports repository and tracker as future normalized source kinds', () => {
+    const futureKinds: ObservatorySourceKind[] = ['repository', 'tracker'];
+
+    expect(futureKinds).toEqual(['repository', 'tracker']);
+    expect(observatorySources.some((source) => futureKinds.includes(source.kind))).toBe(false);
+  });
+
+  it('catalogues eight normalized sources and keeps AI Observatory behind the source gate', () => {
+    expect(observatorySources).toHaveLength(8);
+
+    const aiObservatory = observatorySources.find((source) => source.id === 'ai-observatory');
+    expect(aiObservatory).toMatchObject({
+      name: 'AI Observatory',
+      shortName: 'AI Observatory',
+      url: 'https://www.ai-observatory.org/',
+      region: 'Global',
+      kind: 'observatory',
+      evidenceStatus: 'source-review',
+      evidenceRole: 'research-context',
+      evidenceReady: false,
+      accessCapability: 'public-web',
+    });
+    expect(aiObservatory?.note.en).toMatch(/methodology and outputs must pass/i);
+    expect(aiObservatory?.note.en).toMatch(/not used as sole evidence/i);
+
+    const normalizedKinds = new Set<ObservatorySourceKind>([
+      'observatory',
+      'authority',
+      'standards-hub',
+      'repository',
+      'tracker',
+    ]);
+    const normalizedRoles = new Set([
+      'policy-context',
+      'binding-implementation',
+      'enforcement',
+      'standards-implementation',
+      'research-context',
+    ]);
+    const normalizedStatuses = new Set(['verified', 'source-review']);
+
+    for (const source of observatorySources) {
+      expect(normalizedKinds.has(source.kind)).toBe(true);
+      expect(normalizedRoles.has(source.evidenceRole)).toBe(true);
+      expect(normalizedStatuses.has(source.evidenceStatus)).toBe(true);
+      expect(source.lastReviewLabel.en.length).toBeGreaterThan(0);
+      if (source.evidenceStatus === 'source-review') {
+        expect(source.evidenceReady).toBe(false);
+      }
+      if (source.evidenceReady) {
+        expect(source.evidenceStatus).toBe('verified');
+      }
+    }
+
+    expect(getMetaObservatoryMetrics()).toEqual({
+      censusSources: 8,
+      verifiedSources: 7,
+      evidenceReadySources: 7,
+      sourcesUnderReview: 1,
+      insightLenses: 3,
+    });
+  });
+
+  it('keeps cross-source insights referentially valid and covers the whole census', () => {
+    const sourceIds = new Set(observatorySources.map((source) => source.id));
+    const insightSourceIds = new Set(observatoryMetaInsights.flatMap((insight) => insight.sourceIds));
+
+    for (const insight of observatoryMetaInsights) {
+      expect(insight.evidenceBoundary).toBe('catalog-inference');
+      expect(insight.sourceIds.length).toBeGreaterThan(1);
+      for (const sourceId of insight.sourceIds) {
+        expect(sourceIds.has(sourceId), `${insight.id}: ${sourceId}`).toBe(true);
+      }
+    }
+
+    expect(insightSourceIds).toEqual(sourceIds);
+    const aiInsights = observatoryMetaInsights.filter((insight) => insight.sourceIds.includes('ai-observatory'));
+    expect(aiInsights).toHaveLength(1);
+    expect(aiInsights[0]?.lens).toBe('blind-spot');
+    expect(aiInsights[0]?.summary.en).toMatch(/catalogued under source review/i);
+  });
+
+  it('keeps the August 2026 applicability updates first, source-specific and reviewable', () => {
     expect(observatorySignals.map((signal) => signal.id)).toEqual([
+      'eu-ai-act-article-50-in-force-2026',
+      'eu-ai-act-gpai-full-enforcement-2026',
+      'eu-ai-literacy-supervision-2026',
       'eu-ai-act-article-50-guidelines',
       'edpb-anonymisation-web-scraping-guidelines',
       'ftc-ai-accuracy-comment-watch',
       'ico-safe-ai-workplan',
     ]);
+    expect(OBSERVATORY_VERIFIED_AT).toBe('17 August 2026');
 
     for (const signal of observatorySignals) {
       expect(signal.sourceUrl).toMatch(/^https:\/\//);
@@ -36,6 +127,10 @@ describe('observatory source facts', () => {
     const ftc = observatorySignals.find((signal) => signal.id === 'ftc-ai-accuracy-comment-watch');
     expect(ftc?.summary.en).toContain('not a final rule');
     expect(observatorySignals.find((signal) => signal.id === 'edpb-anonymisation-web-scraping-guidelines')?.reviewUtc).toBe('20261030T090000Z');
+    expect(observatorySignals.slice(0, 3).every((signal) => signal.state === 'In force')).toBe(true);
+    expect(observatorySignals[0]?.summary.en).toContain('2 December 2026');
+    expect(observatorySignals[1]?.sourceUrl).toContain('/guidelines-obligations-general-purpose-ai-providers');
+    expect(observatorySignals[2]?.sourceUrl).toContain('/ai-literacy-questions-answers');
   });
 
   it('orders future deadlines before overdue work and remains deterministic', () => {
@@ -62,7 +157,7 @@ describe('buildObservatoryIcs', () => {
       id: 'security-review',
       title: {
         en: 'Review\nATTACH:https://evil.example/payload\nBEGIN:VEVENT',
-        it: 'Review',
+        it: 'Revisione',
       },
       organizer: 'PolicyWatcher Observatory',
       dateLabel: {
@@ -75,11 +170,11 @@ describe('buildObservatoryIcs', () => {
       },
       location: {
         en: 'Remote room\r\nLOCATION:Injected',
-        it: 'Remote room',
+        it: 'Registro remoto',
       },
       summary: {
         en: 'Governance, privacy; and standards \\ review\r\nURL:https://evil.example',
-        it: 'Governance review',
+        it: 'Revisione governance',
       },
       href: 'https://example.com/source?x=1,2;y=3',
       calendar: {
@@ -102,6 +197,12 @@ describe('buildObservatoryIcs', () => {
     expect(unfolded).toContain('DESCRIPTION:Governance\\, privacy\\; and standards \\\\ review\\nURL:https://evil.example');
     expect(unfolded).toContain('LOCATION:Remote room\\nLOCATION:Injected');
     expect(unfolded).toContain('URL:https://example.com/source?x=1,2;y=3');
+
+    const italian = buildObservatoryIcs(event, 'it').replace(/\r\n /g, '');
+    expect(italian).toContain('PRODID:-//PolicyWatcher//Observatory//IT');
+    expect(italian).toContain('SUMMARY:Revisione');
+    expect(italian).toContain('DESCRIPTION:Revisione governance Fonte: https://example.com/source?x=1\\,2\\;y=3');
+    expect(italian).toContain('LOCATION:Registro remoto');
   });
 
   it('rejects unsafe calendar URL schemes', () => {

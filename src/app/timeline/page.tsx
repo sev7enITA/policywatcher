@@ -596,7 +596,7 @@ export default function TimelinePage() {
           <section className={styles.evidenceBoundary} aria-labelledby="continuity-boundary-title">
             <ShieldCheck size={22} aria-hidden="true" />
             <div>
-              <h2 id="continuity-boundary-title">Read the evidence boundary first</h2>
+              <h2 id="continuity-boundary-title">Evidence boundaries</h2>
               <p>
                 {continuity?.limitationEn || 'This operational ledger reports source retrieval and publication state. It does not assess a provider policy, service, legality or compliance.'}
               </p>

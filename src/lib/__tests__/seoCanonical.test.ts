@@ -13,13 +13,14 @@ const read = (path: string) => readFileSync(path, 'utf8');
 
 const staticCanonicalFiles = new Map<string, string>([
   ['/', 'src/app/page.tsx'],
-  ['/associazioni', 'src/app/associazioni/page.tsx'],
+  ['/en/associations', 'src/app/associazioni/LocalizedAssociationsPage.tsx'],
+  ['/it/associazioni', 'src/app/associazioni/LocalizedAssociationsPage.tsx'],
   ['/evidence', 'src/app/evidence/page.tsx'],
   ['/collections', 'src/app/collections/page.tsx'],
   ['/showcase', 'src/app/showcase/page.tsx'],
   ['/atlas', 'src/app/atlas/page.tsx'],
   ['/feature-atlas', 'src/app/feature-atlas/page.tsx'],
-  ['/observatory', 'src/app/observatory/page.tsx'],
+  ['/observatory', 'src/app/observatory/layout.tsx'],
   ['/developers', 'src/app/developers/page.tsx'],
   ['/developers/event-continuity', 'src/app/developers/event-continuity/page.tsx'],
   ['/developers/webhook-readiness', 'src/app/developers/webhook-readiness/page.tsx'],
@@ -67,6 +68,12 @@ describe('public canonical URL contract', () => {
     expect(response.headers.get('location')).toBe('https://policywatcher.online/change/example?lang=it');
   });
 
+  it('permanently redirects the legacy Civic route and preserves its filters', () => {
+    const response = proxy(new NextRequest('https://policywatcher.online/associazioni?civic_type=privacy-data#organizzazioni'));
+    expect(response.status).toBe(308);
+    expect(response.headers.get('location')).toBe('https://policywatcher.online/it/associazioni?civic_type=privacy-data#organizzazioni');
+  });
+
   it('honors the proxy-facing host header and keeps legacy API clients compatible', () => {
     const forwarded = new NextRequest('http://127.0.0.1:3000/robots.txt', {
       headers: { 'X-Forwarded-Host': 'www.policywatcher.online' },
@@ -80,8 +87,25 @@ describe('public canonical URL contract', () => {
 
   it('gives every literal static sitemap route explicit canonical metadata', () => {
     for (const [route, file] of staticCanonicalFiles) {
-      expect(read(file), `${route} (${file})`).toContain('alternates: { canonical:');
+      const source = read(file);
+      if (file.endsWith('LocalizedAssociationsPage.tsx')) {
+        expect(source, `${route} (${file})`).toContain('canonical,');
+        expect(source, `${route} (${file})`).toContain("'x-default'");
+      } else {
+        expect(source, `${route} (${file})`).toContain('alternates: { canonical:');
+      }
     }
+  });
+
+  it('keeps Observatory canonical metadata server-side with English defaults', () => {
+    const page = read('src/app/observatory/page.tsx');
+    const layout = read('src/app/observatory/layout.tsx');
+
+    expect(page).toContain("'use client'");
+    expect(page).not.toContain('export const metadata');
+    expect(layout).toContain("title: 'Policy, privacy and AI meta-observatory | PolicyWatcher'");
+    expect(layout).toContain("alternates: { canonical: '/observatory' }");
+    expect(layout).toContain("export const dynamic = 'force-dynamic'");
   });
 
   it('keeps sitemap URLs canonical and last-modified values evidence-backed', () => {
@@ -122,11 +146,13 @@ describe('public canonical URL contract', () => {
       'src/proxy.ts',
       'src/app/infographics/layout.tsx',
       'src/app/methodology/confidence/layout.tsx',
+      'src/app/observatory/layout.tsx',
       'src/app/timeline/layout.tsx',
       'src/app/unsubscribe/layout.tsx',
       'public/.well-known/security.txt',
     ]) {
       expect(packaging, required).toContain(required);
     }
+    expect(packaging.match(/src\/app\/observatory\/layout\.tsx/g)?.length ?? 0).toBeGreaterThanOrEqual(3);
   });
 });

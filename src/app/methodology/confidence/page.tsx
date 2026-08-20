@@ -27,7 +27,7 @@ const translationContent = {
   en: {
     backHome: 'Back to Dashboard',
     tag: 'Auditing Framework',
-    title: 'Evidence & Confidence Methodology',
+    title: 'Evidence methodology',
     subtitle: 'PolicyWatcher’s operational framework for data provenance, AI constraints, check history, and review accountability.',
     intro: 'GRC and AI Governance work requires evidence-first verification. This page explains how PolicyWatcher records configured sources, maps changes, constrains AI processing, and exposes limitations.',
     
@@ -38,8 +38,8 @@ const translationContent = {
     sections: [
       {
         icon: Scale,
-        title: '1. Informational Mapping (Non-Certification)',
-        desc: 'PolicyWatcher is a tracking and mapping tool, not a compliance certification body. The data presented on this platform:',
+        title: '1. Informational mapping and scope',
+        desc: 'PolicyWatcher tracks and maps public policy information for risk screening, benchmarking and lifecycle review. Its scope is limited to public disclosures and policy text:',
         bullets: [
           'Evaluates public disclosures and terms of service text, not internal company operations.',
           'Does NOT certify that a company complies with its policies, or that the policies comply with applicable laws.',
@@ -49,7 +49,7 @@ const translationContent = {
       },
       {
         icon: RefreshCw,
-        title: '2. Double-Checking Ingestion Cascade',
+        title: '2. Ingestion pipeline',
         desc: 'To avoid fabricated data and expose source failures clearly, the ingestion pipeline uses a prioritized retrieval cascade:',
         bullets: [
           'Primary source: direct HTTP retrieval of the configured policy URL with browser-like headers, redirect validation, retries, and timeout limits.',
@@ -85,7 +85,7 @@ const translationContent = {
       {
         icon: Eye,
         title: '4. Traceability Controls & Evidence',
-        desc: 'Confidence is built on evidence, not trust. PolicyWatcher exposes the following forensic elements in the UI:',
+        desc: 'PolicyWatcher exposes the following traceability elements in the interface:',
         bullets: [
           'Configured URL: Direct link to the source document monitored.',
           'Ingestion method: indication of whether the current record was seeded, directly retrieved, fetched via HTTP/2, rendered through the VPS service, or recovered through an archive source.',
@@ -153,7 +153,7 @@ const translationContent = {
   it: {
     backHome: 'Torna alla Dashboard',
     tag: 'Framework di Controllo',
-    title: 'Metodologia della Veridicità e Fiducia',
+    title: 'Metodologia delle evidenze',
     subtitle: 'Il framework operativo di PolicyWatcher per provenienza dei dati, vincoli dell\'IA, storico dei controlli e responsabilità di revisione.',
     intro: 'La governance GRC e dell\'IA richiede verifiche basate su evidenze. Questa pagina descrive come PolicyWatcher registra fonti configurate, mappa le modifiche, vincola l\'elaborazione IA ed espone le limitazioni.',
     
@@ -164,8 +164,8 @@ const translationContent = {
     sections: [
       {
         icon: Scale,
-        title: '1. Mappatura Informativa (Nessuna Certificazione)',
-        desc: 'PolicyWatcher è uno strumento di tracciamento e mappatura, non un ente di certificazione della conformità. I dati presenti sulla piattaforma:',
+        title: '1. Mappatura informativa e ambito',
+        desc: 'PolicyWatcher traccia e organizza informazioni pubbliche sulle policy per screening dei rischi, benchmarking e revisione del ciclo di vita. L’ambito è limitato alle dichiarazioni pubbliche e ai testi delle policy:',
         bullets: [
           'Valutano esclusivamente il testo delle policy pubbliche, non le operazioni interne dell\'azienda.',
           'NON certificano che un\'azienda rispetti le proprie policy, né che le policy siano conformi alle leggi vigenti.',
@@ -175,7 +175,7 @@ const translationContent = {
       },
       {
         icon: RefreshCw,
-        title: '2. Ingestione a Cascata con Doppio Controllo',
+        title: '2. Pipeline di ingestione',
         desc: 'Per evitare dati inventati ed esporre chiaramente i fallimenti di recupero, il sistema utilizza una cascata di acquisizione:',
         bullets: [
           'Fonte primaria: recupero HTTP diretto dell\'URL configurato con header simili a browser, validazione redirect, retry e timeout.',
@@ -211,7 +211,7 @@ const translationContent = {
       {
         icon: Eye,
         title: '4. Controlli di Tracciabilità ed Evidenze',
-        desc: 'La fiducia si basa sulle prove. PolicyWatcher espone i seguenti elementi forensi direttamente nell\'interfaccia:',
+        desc: 'PolicyWatcher espone i seguenti elementi di tracciabilità nell\'interfaccia:',
         bullets: [
           'URL Configurato: Link diretto al documento sorgente monitorato.',
           'Metodo di ingestione: indicazione se il record corrente deriva da seed, recupero diretto, HTTP/2, renderer VPS o fonte archivio.',

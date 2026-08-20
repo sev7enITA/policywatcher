@@ -307,6 +307,8 @@ Il team di Acme Corp`;
     expect(isPolicyInquiryStorageUnavailable({ code: 'P1003', message: 'Database does not exist' })).toBe(true);
     expect(isPolicyInquiryStorageUnavailable({ code: 'P1008', message: 'Operations timed out' })).toBe(true);
     expect(isPolicyInquiryStorageUnavailable({ code: 'P2034', message: 'Write conflict' })).toBe(true);
+    expect(isPolicyInquiryStorageUnavailable({ code: '40P01', message: 'deadlock detected' })).toBe(true);
+    expect(isPolicyInquiryStorageUnavailable({ code: 'ECONNREFUSED', message: 'connection refused' })).toBe(true);
     expect(isPolicyInquiryStorageUnavailable(new Error('upstream request failed'))).toBe(false);
   });
 });

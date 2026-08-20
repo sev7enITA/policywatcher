@@ -12,7 +12,7 @@ import {
 import styles from './knowledge.module.css';
 
 export const metadata: Metadata = {
-  title: 'Public Policy Knowledge Base | PolicyWatcher',
+  title: 'Public policy records | PolicyWatcher',
   description: 'Evidence-gated index of public companies, policies, verified baselines and published policy changes recorded by PolicyWatcher.',
   alternates: { canonical: `${POLICYWATCHER_ORIGIN}/knowledge` },
 };
@@ -197,7 +197,7 @@ export default async function KnowledgePage() {
             <div className={styles.heroGrid}>
               <div>
                 <p className={styles.kicker}>PolicyWatcher knowledge base</p>
-                <h1>Public policy records with their evidence boundary attached.</h1>
+                <h1>Public policy records</h1>
                 <p className={styles.lead}>PolicyWatcher records publicly available company policies, verified source baselines and published changes. This index provides direct textual access to the public records and their provenance links.</p>
                 <nav className={styles.actions} aria-label="Knowledge index entry points">
                   <a href="#inventory">Inspect public inventory <ArrowRight size={15} aria-hidden="true" /></a>

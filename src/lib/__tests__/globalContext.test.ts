@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   DEFAULT_GLOBAL_CONTEXT,
+  localizedCivicPath,
   normalizeGlobalContext,
   parseGlobalContext,
   resolveDashboardRegion,
@@ -33,5 +34,12 @@ describe('global context', () => {
     expect(resolveDashboardRegion(normalizeGlobalContext({ country: 'es' }))).toBe('EU');
     expect(resolveDashboardRegion(normalizeGlobalContext({ country: 'us' }))).toBe('US');
     expect(resolveDashboardRegion(normalizeGlobalContext({ country: 'br' }))).toBe('Global');
+  });
+
+  it('maps every Civic route to the selected localized URL', () => {
+    expect(localizedCivicPath('/associazioni', 'en')).toBe('/en/associations');
+    expect(localizedCivicPath('/it/associazioni', 'en')).toBe('/en/associations');
+    expect(localizedCivicPath('/en/associations', 'it')).toBe('/it/associazioni');
+    expect(localizedCivicPath('/trust', 'it')).toBeNull();
   });
 });

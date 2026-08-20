@@ -10,6 +10,7 @@ export const ADMIN_GUIDE_ROUTES = [
   '/admin/dataset-quality',
   '/admin/outreach',
   '/admin/review-log',
+  '/admin/competitive-analysis',
   '/admin/access-logs',
   '/admin/companies',
   '/admin/source-onboarding',
@@ -74,7 +75,7 @@ export const ADMIN_GUIDES: Record<AdminGuideRoute, AdminGuide> = {
     title: 'Source Reliability',
     purpose: 'Inspect unique retrievals, evidence-gate coverage, dependency health, historical-reference boundaries and recurring source remediation work.',
     steps: [
-      'Compare policy-record and unique-retrieval counts to identify shared acquisition keys.',
+      'Review controlled source migrations first, then compare policy-record and unique-retrieval counts to identify shared acquisition keys.',
       'Review recent scan runs for unavailable unique sources and degraded dependencies.',
       'Open remediation items only after repeated failures establish a stable source problem.',
       'Verify a regional URL, official mirror or PDF before changing the configured retrieval source.',
@@ -82,6 +83,7 @@ export const ADMIN_GUIDES: Record<AdminGuideRoute, AdminGuide> = {
     ],
     keyTerms: [
       { term: 'Acquisition key', definition: 'The normalized retrieval endpoint used to avoid duplicate network work while retaining separate policy records.' },
+      { term: 'Controlled source migration', definition: 'An acquisition-source update whose first verified capture becomes a new baseline without creating a provider change event.' },
       { term: 'Historical reference', definition: 'Dated archive metadata that remains ineligible for current change detection.' },
       { term: 'Remediation issue', definition: 'A durable operational item created after recurring retrieval failures.' },
     ],
@@ -222,6 +224,23 @@ export const ADMIN_GUIDES: Record<AdminGuideRoute, AdminGuide> = {
     ],
     commonMistake: 'Do not use the log as an editing screen; correct evidence through the original review workflow so a new decision is recorded.',
   },
+  '/admin/competitive-analysis': {
+    title: 'Analisi competitiva',
+    purpose: 'Esaminare la posizione competitiva ricalcolata dai dati operativi PolicyWatcher rispetto al benchmark pubblico e versionato ConductAtlas.',
+    steps: [
+      'Controllare timestamp, build, metodo, copertura e confidenza prima di usare l’indice direzionale.',
+      'Leggere radar, funnel e formule della matrice per distinguere metriche live, capacità verificate e claim esterni non verificati.',
+      'Esaminare le priorità ordinate dal gap pesato e le direttrici decisionali prima di modificare la roadmap.',
+      'Se il ruolo è Admin, registrare uno snapshot soltanto quando serve un punto auditabile; l’Auditor resta in sola lettura.',
+    ],
+    keyTerms: [
+      { term: 'Indice direzionale', definition: 'Uno score 0–100 di capacità comparabili; non è quota di mercato, valutazione aziendale o misura di qualità legale.' },
+      { term: 'Copertura score', definition: 'La quota di peso per cui esistono dati confrontabili; i dati mancanti sono esclusi e non valgono zero.' },
+      { term: 'Snapshot auditabile', definition: 'Una copia immutabile di metriche, metodo, benchmark e score conservata nel Review Log.' },
+      { term: 'Claim esterno non verificato', definition: 'Una dichiarazione del concorrente non validata in modo indipendente tramite accesso privato, evidenze dei clienti o test operativi.' },
+    ],
+    commonMistake: 'Non confrontare uno score PolicyWatcher live con ConductAtlas come se entrambi fossero telemetria corrente: il benchmark esterno è datato e versionato.',
+  },
   '/admin/access-logs': {
     title: 'Access Log',
     purpose: 'Review authentication events and administrator activity for operational security and suspicious access patterns.',
@@ -246,14 +265,15 @@ export const ADMIN_GUIDES: Record<AdminGuideRoute, AdminGuide> = {
       'Let automatic discovery inspect official pages, legal hubs and sitemaps.',
       'Review and approve or reject every candidate source.',
       'Use manual policy entry only when an official source cannot be discovered.',
-      'Move to Cron Manager to establish and monitor the approved baseline.',
+      'When remediation is required, edit the public citation and acquisition endpoint separately, document the decision, then verify the approved baseline in Cron Manager.',
     ],
     keyTerms: [
       { term: 'Registry', definition: 'The list of companies and approved policy sources managed by PolicyWatcher.' },
       { term: 'Candidate', definition: 'A discovered source awaiting a human decision.' },
       { term: 'Manual fallback', definition: 'Administrator entry of a verified official source when discovery cannot find it.' },
+      { term: 'Acquisition endpoint', definition: 'An optional official document URL used by the scanner while the canonical URL remains the public citation.' },
     ],
-    commonMistake: 'Do not manually add every policy before allowing discovery to search; manual entry is the controlled fallback.',
+    commonMistake: 'Do not overwrite a public citation with a machine-readable mirror; configure the official acquisition endpoint separately.',
   },
   '/admin/source-onboarding': {
     title: 'Source Onboarding',

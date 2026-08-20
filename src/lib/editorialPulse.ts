@@ -1,9 +1,10 @@
 import { POLICYWATCHER_CANONICAL_ORIGIN, PRESS_KIT_LICENSE_URL } from './pressKit';
+import { RELEASE_EVIDENCE_LEDGER, getReleaseEvidencePulse } from './releasePulse';
 
 export type PulseLocale = 'en' | 'it';
 export type PulseLocalized = Record<PulseLocale, string>;
 export type PulseBeat = 'ai-governance' | 'privacy' | 'data-quality' | 'distribution';
-export type PulseVisualKind = 'scope-strip' | 'evidence-pipeline' | 'release-timeline';
+export type PulseVisualKind = 'scope-strip' | 'evidence-pipeline' | 'release-timeline' | 'release-impact';
 export type PulseCardFormat = 'og' | 'square' | 'feed' | 'story';
 
 export interface PulseFact {
@@ -34,6 +35,7 @@ export interface PulseStory {
 
 export const PULSE_SCHEMA_VERSION = '1.0.0' as const;
 export const PULSE_AS_OF = '2026-08-01' as const;
+export const PULSE_DESK_AS_OF = RELEASE_EVIDENCE_LEDGER.window.end;
 export const PULSE_CANONICAL_URL = `${POLICYWATCHER_CANONICAL_ORIGIN}/pulse` as const;
 
 export const pulseBeatLabels: Record<PulseBeat, PulseLocalized> = {
@@ -50,7 +52,71 @@ export const pulseCardDimensions: Record<PulseCardFormat, { width: number; heigh
   story: { width: 1080, height: 1920, label: 'Story' },
 };
 
+const releaseEvidencePulse = getReleaseEvidencePulse();
+const releaseEvidenceReferenceCount = releaseEvidencePulse.reduce((total, release) => total + release.evidence.length, 0);
+
 export const pulseStories: PulseStory[] = [
+  {
+    slug: 'two-week-release-impact',
+    version: '1.0.0',
+    status: 'verified',
+    beat: 'distribution',
+    asOf: RELEASE_EVIDENCE_LEDGER.window.end,
+    updatedAt: RELEASE_EVIDENCE_LEDGER.window.end,
+    headline: {
+      en: 'What changed. What it unlocked. What remains unproven.',
+      it: 'Cosa è cambiato. Cosa ha sbloccato. Cosa resta da provare.',
+    },
+    deck: {
+      en: `${releaseEvidencePulse.length} release clusters across one inclusive ${RELEASE_EVIDENCE_LEDGER.window.inclusiveDays}-day window connect shipped implementation to exact metrics, evidence references and residual boundaries.`,
+      it: `${releaseEvidencePulse.length} cluster di release in una finestra inclusiva di ${RELEASE_EVIDENCE_LEDGER.window.inclusiveDays} giorni collegano implementazione, metriche esatte, riferimenti di evidenza e limiti residui.`,
+    },
+    whyItMatters: {
+      en: 'A shared, hashed ledger lets public readers and editors inspect what the product shipped without converting implementation inventory into claims about adoption, performance or compliance.',
+      it: 'Un ledger condiviso e dotato di hash permette a lettori ed editor di verificare cosa è stato distribuito senza trasformare l’inventario implementativo in dichiarazioni su adozione, prestazioni o conformità.',
+    },
+    boundary: {
+      en: RELEASE_EVIDENCE_LEDGER.claimBoundary,
+      it: 'Solo inventario implementativo ed evidenze di valutazione osservate. Le metriche di release non stabiliscono adozione, conformità legale, disponibilità continua o risultati per gli utenti.',
+    },
+    citation: {
+      en: `PolicyWatcher, “Two-week release impact,” Pulse story pack v1.0.0, ${RELEASE_EVIDENCE_LEDGER.window.end}, ${PULSE_CANONICAL_URL}/two-week-release-impact (accessed [date]).`,
+      it: `PolicyWatcher, “Impatto delle release in due settimane,” Pulse story pack v1.0.0, ${RELEASE_EVIDENCE_LEDGER.window.end}, ${PULSE_CANONICAL_URL}/two-week-release-impact (consultato il [data]).`,
+    },
+    visualKind: 'release-impact',
+    facts: [
+      {
+        id: 'release-clusters',
+        value: String(releaseEvidencePulse.length),
+        label: { en: 'Dated release clusters', it: 'Cluster di release datati' },
+        detail: { en: `${RELEASE_EVIDENCE_LEDGER.window.start} through ${RELEASE_EVIDENCE_LEDGER.window.end}, in ledger order.`, it: `Dal ${RELEASE_EVIDENCE_LEDGER.window.start} al ${RELEASE_EVIDENCE_LEDGER.window.end}, nell’ordine del ledger.` },
+        claimId: 'public-code',
+        proofHref: '/api/v1/release-evidence',
+      },
+      {
+        id: 'release-window',
+        value: String(RELEASE_EVIDENCE_LEDGER.window.inclusiveDays),
+        label: { en: 'Inclusive UTC days', it: 'Giorni UTC inclusivi' },
+        detail: { en: 'A frozen reporting window, not a real-time service-availability measure.', it: 'Una finestra di reporting congelata, non una misura in tempo reale della disponibilità del servizio.' },
+        claimId: 'public-code',
+        proofHref: '/api/v1/release-evidence',
+      },
+      {
+        id: 'release-evidence-references',
+        value: String(releaseEvidenceReferenceCount),
+        label: { en: 'Listed evidence references', it: 'Riferimenti di evidenza elencati' },
+        detail: { en: 'References join ledger entries to the release evidence inventory; they are not independent endorsements.', it: 'I riferimenti collegano le voci del ledger all’inventario delle evidenze di release; non sono endorsement indipendenti.' },
+        claimId: 'public-code',
+        proofHref: '/api/v1/release-evidence',
+      },
+    ],
+    sourceLinks: [
+      { href: '/api/v1/release-evidence', label: { en: 'Release evidence API', it: 'API evidenze release' } },
+      { href: '/press-kit/releases/evidence-release-control-plane-3-9-0-beta-42', label: { en: 'Beta 42 release record', it: 'Record release Beta 42' }, releaseSlug: 'evidence-release-control-plane-3-9-0-beta-42' },
+      { href: '/infographics', label: { en: 'Release evidence infographic', it: 'Infografica delle evidenze release' } },
+      { href: '/press-kit/releases', label: { en: 'Versioned release archive', it: 'Archivio release versionato' }, claimId: 'public-code' },
+    ],
+  },
   {
     slug: 'configured-policy-evidence-scope',
     version: '1.2.0',
@@ -130,38 +196,39 @@ export const pulseStories: PulseStory[] = [
   },
   {
     slug: 'versioned-beta-release-records',
-    version: '1.12.0',
+    version: '1.13.0',
     status: 'verified',
     beat: 'distribution',
-    asOf: PULSE_AS_OF,
-    updatedAt: '2026-08-07',
+    asOf: '2026-08-15',
+    updatedAt: '2026-08-15',
     headline: {
-      en: 'Thirty-five consecutive beta records document evidence, delivery, UX, operations and security changes',
-      it: 'Trentacinque record beta consecutivi documentano evidenze, distribuzione, UX, operazioni e sicurezza',
+      en: 'Thirty-six consecutive beta records document evidence, delivery, UX, operations and security changes',
+      it: 'Trentasei record beta consecutivi documentano evidenze, distribuzione, UX, operazioni e sicurezza',
     },
     deck: {
-      en: 'The release archive keeps Beta 7 through Beta 41 as dated, bounded product records with direct evidence links.',
-      it: 'L archivio release conserva dalla Beta 7 alla Beta 41 come record prodotto datati, circoscritti e collegati alle evidenze.',
+      en: 'The release archive keeps Beta 7 through Beta 42 as dated, bounded product records with direct evidence links.',
+      it: 'L’archivio release conserva dalla Beta 7 alla Beta 42 come record prodotto datati, circoscritti e collegati alle evidenze.',
     },
     whyItMatters: {
       en: 'A versioned product history lets editors verify what changed in the public platform without treating release labels as measured outcomes.',
-      it: 'Una cronologia prodotto versionata permette agli editor di verificare cosa e cambiato nella piattaforma pubblica senza trattare le etichette release come risultati misurati.',
+      it: 'Una cronologia prodotto versionata permette agli editor di verificare cosa è cambiato nella piattaforma pubblica senza trattare le etichette release come risultati misurati.',
     },
     boundary: {
       en: 'Release records describe shipped product changes and stated controls. They do not establish adoption, performance, legal compliance or independent validation.',
-      it: 'I record release descrivono modifiche prodotto e controlli dichiarati. Non stabiliscono adozione, prestazioni, conformita legale o validazione indipendente.',
+      it: 'I record release descrivono modifiche prodotto e controlli dichiarati. Non stabiliscono adozione, prestazioni, conformità legale o validazione indipendente.',
     },
     citation: {
-      en: `PolicyWatcher, “Versioned beta release records,” Pulse story pack v1.12.0, 2026-08-07, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (accessed [date]).`,
-      it: `PolicyWatcher, “Record beta versionati,” Pulse story pack v1.12.0, 2026-08-07, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (consultato il [data]).`,
+      en: `PolicyWatcher, “Versioned beta release records,” Pulse story pack v1.13.0, 2026-08-15, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (accessed [date]).`,
+      it: `PolicyWatcher, “Record beta versionati,” Pulse story pack v1.13.0, 2026-08-15, ${PULSE_CANONICAL_URL}/versioned-beta-release-records (consultato il [data]).`,
     },
     visualKind: 'release-timeline',
     facts: [
-      { id: 'records', value: '35', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 41 in the public archive.', it: 'Dalla Beta 7 alla Beta 41 nell archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
-      { id: 'current', value: 'Beta 41', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Adaptive Experience.', it: 'Esperienza adattiva.' }, claimId: 'public-code', proofHref: '/press-kit/releases/adaptive-experience-3-9-0-beta-41' },
+      { id: 'records', value: '36', label: { en: 'Consecutive release records', it: 'Record release consecutivi' }, detail: { en: 'Beta 7 through Beta 42 in the public archive.', it: 'Dalla Beta 7 alla Beta 42 nell’archivio pubblico.' }, claimId: 'public-code', proofHref: '/press-kit/releases' },
+      { id: 'current', value: 'Beta 42', label: { en: 'Current release record', it: 'Record release corrente' }, detail: { en: 'Evidence Release Control Plane.', it: 'Control plane delle release evidence-first.' }, claimId: 'public-code', proofHref: '/press-kit/releases/evidence-release-control-plane-3-9-0-beta-42' },
     ],
     sourceLinks: [
       { href: '/press-kit/releases', label: { en: 'Versioned release archive', it: 'Archivio release versionato' }, claimId: 'public-code' },
+      { href: '/press-kit/releases/evidence-release-control-plane-3-9-0-beta-42', label: { en: 'Beta 42 release record', it: 'Record release Beta 42' }, releaseSlug: 'evidence-release-control-plane-3-9-0-beta-42' },
       { href: '/press-kit/releases/adaptive-experience-3-9-0-beta-41', label: { en: 'Beta 41 release record', it: 'Record release Beta 41' }, releaseSlug: 'adaptive-experience-3-9-0-beta-41' },
       { href: '/press-kit/releases/policywatcher-civico-3-9-0-beta-40', label: { en: 'Beta 40 release record', it: 'Record release Beta 40' }, releaseSlug: 'policywatcher-civico-3-9-0-beta-40' },
       { href: '/press-kit/releases/managed-vps-releases-3-9-0-beta-39', label: { en: 'Beta 39 release record', it: 'Record release Beta 39' }, releaseSlug: 'managed-vps-releases-3-9-0-beta-39' },

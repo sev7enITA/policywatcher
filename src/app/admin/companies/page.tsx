@@ -56,6 +56,8 @@ interface Policy {
   type: string;
   url: string;
   retrievalUrl: string | null;
+  sourceMigrationPending: boolean;
+  sourceMigrationRequestedAt: string | null;
   jurisdiction: string;
   currentHash: string | null;
   dataStatus: string;
@@ -774,7 +776,7 @@ export default function CompanyManagerPage() {
         </div>
       ) : (
         <div className={styles.card}>
-          <table className={styles.table}>
+          <table className={`${styles.table} ${styles.companyTable}`} aria-label="Company registry">
             <thead>
               <tr>
                 <th style={{ width: 32 }}></th>
@@ -931,35 +933,65 @@ function CompanyTableRow({
 }: CompanyTableRowProps) {
   const industryBadge = INDUSTRY_COLORS[company.industry] || 'badgePrimary';
   const showPolicyForm = addPolicyFor === company.id;
+  const [editingPolicyId, setEditingPolicyId] = useState<string | null>(null);
+  const [sourceEditor, setSourceEditor] = useState({ url: '', retrievalUrl: '', note: '' });
+  const [sourceSaveState, setSourceSaveState] = useState<'idle' | 'saving' | 'saved'>('idle');
+  const [sourceSaveMessage, setSourceSaveMessage] = useState('');
+  const [sourceSaveError, setSourceSaveError] = useState('');
 
-  async function configureRetrievalUrl(policy: Policy) {
-    const nextValue = window.prompt(
-      'Optional official retrieval URL. Leave empty to use the canonical public URL. A new scan is required after this change.',
-      policy.retrievalUrl || ''
-    );
-    if (nextValue === null) return;
+  function openSourceEditor(policy: Policy) {
+    setEditingPolicyId(policy.id);
+    setSourceEditor({ url: policy.url, retrievalUrl: policy.retrievalUrl || '', note: '' });
+    setSourceSaveState('idle');
+    setSourceSaveMessage('');
+    setSourceSaveError('');
+  }
+
+  async function saveSourceConfiguration(policy: Policy) {
+    setSourceSaveState('saving');
+    setSourceSaveMessage('');
+    setSourceSaveError('');
     const response = await fetch('/api/admin/policies', {
       method: 'PATCH',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: policy.id, retrievalUrl: nextValue.trim() }),
+      body: JSON.stringify({
+        id: policy.id,
+        url: sourceEditor.url.trim(),
+        retrievalUrl: sourceEditor.retrievalUrl.trim(),
+        note: sourceEditor.note.trim(),
+      }),
     });
     const payload = await response.json();
     if (!response.ok) {
-      window.alert(payload.error || 'Unable to update the retrieval URL.');
+      setSourceSaveError(payload.error || 'Unable to update the source configuration.');
+      setSourceSaveState('idle');
       return;
     }
-    onRefresh();
+    setSourceSaveMessage(!payload.changed
+      ? 'No source changes detected.'
+      : payload.requiresRebaseline
+        ? 'Source saved. The next successful scan will establish the replacement baseline.'
+        : 'Source saved. The acquisition endpoint is unchanged, so no replacement baseline was queued.');
+    setSourceSaveState('saved');
+    await onRefresh();
   }
 
   return (
     <>
       {/* Main Row */}
-      <tr className={styles.companyRow} onClick={onToggle}>
+      <tr className={styles.companyRow}>
         <td>
-          <span className={`${styles.chevron} ${isExpanded ? styles.chevronOpen : ''}`}>
+          <button
+            type="button"
+            className={`${styles.companyToggle} ${isExpanded ? styles.companyToggleOpen : ''}`}
+            onClick={onToggle}
+            aria-expanded={isExpanded}
+            aria-controls={`company-policies-${company.id}`}
+            aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${company.name} policies`}
+          >
             {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-          </span>
+          </button>
         </td>
         <td>
           <span className={styles.companyName}>
@@ -1015,7 +1047,7 @@ function CompanyTableRow({
       {isExpanded && (
         <tr className={styles.expandedRow}>
           <td colSpan={isAdmin ? 8 : 7}>
-            <div className={styles.expandedContent}>
+            <div className={styles.expandedContent} id={`company-policies-${company.id}`}>
               <h4>
                 <FileText size={15} />
                 Policies ({company.policies.length})
@@ -1157,35 +1189,26 @@ function CompanyTableRow({
                 <ul className={styles.policyList}>
                   {company.policies.map((policy) => (
                     <li key={policy.id} className={styles.policyItem}>
-                      <div className={styles.policyInfo}>
-                        <FileText size={14} style={{ flexShrink: 0, color: 'var(--text-dark)' }} />
-                        <span className={styles.policyName}>{policy.name}</span>
-                        <span className={`${styles.badge} ${styles.badgeSecondary}`}>
-                          {policy.type}
-                        </span>
-                        <span className={`${styles.badge} ${styles.badgePrimary}`}>
-                          {policy.jurisdiction}
-                        </span>
-                        <span className={styles.policyUrl} title={policy.url}>
-                          {policy.url}
-                        </span>
-                        {policy.retrievalUrl && (
-                          <span className={styles.policyUrl} title={policy.retrievalUrl}>
-                            Retrieval: {policy.retrievalUrl}
+                      <div className={styles.policyCardHeader}>
+                        <div className={styles.policyInfo}>
+                          <FileText size={16} aria-hidden="true" />
+                          <span className={styles.policyName}>{policy.name}</span>
+                          <span className={`${styles.badge} ${styles.badgeSecondary}`}>{policy.type}</span>
+                          <span className={`${styles.badge} ${styles.badgePrimary}`}>{policy.jurisdiction}</span>
+                          <span className={`${styles.sourceState} ${policy.sourceMigrationPending ? styles.sourceStatePending : styles.sourceStateReady}`}>
+                            {policy.sourceMigrationPending ? 'Baseline pending' : policy.dataStatus}
                           </span>
-                        )}
-                      </div>
-                      <div className={styles.policyMeta}>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--text-dark)' }}>
-                          {policy._count.changes} changes / {policy._count.snapshots} snapshots
-                        </span>
+                        </div>
+                        <div className={styles.policyMeta}>
+                          <span>{policy._count.changes} changes · {policy._count.snapshots} snapshots</span>
                         {isAdmin && (
                           <button
                             className={`${styles.btn} ${styles.btnSmall} ${styles.btnGhost}`}
-                            onClick={() => void configureRetrievalUrl(policy)}
-                            title="Configure optional official retrieval URL"
+                            onClick={() => editingPolicyId === policy.id ? setEditingPolicyId(null) : openSourceEditor(policy)}
+                            aria-expanded={editingPolicyId === policy.id}
+                            aria-controls={`source-editor-${policy.id}`}
                           >
-                            <Globe size={13} /> Retrieval
+                            <Globe size={13} /> {editingPolicyId === policy.id ? 'Close source' : 'Edit source'}
                           </button>
                         )}
                         {isAdmin && (
@@ -1198,6 +1221,47 @@ function CompanyTableRow({
                           </button>
                         )}
                       </div>
+                      </div>
+                      <dl className={styles.policySources}>
+                        <div>
+                          <dt>Public citation</dt>
+                          <dd><a href={policy.url} target="_blank" rel="noreferrer">{policy.url}</a></dd>
+                        </div>
+                        <div>
+                          <dt>Acquisition endpoint</dt>
+                          <dd>{policy.retrievalUrl ? <a href={policy.retrievalUrl} target="_blank" rel="noreferrer">{policy.retrievalUrl}</a> : <span>Uses public citation</span>}</dd>
+                        </div>
+                      </dl>
+                      {editingPolicyId === policy.id && (
+                        <div className={styles.sourceEditor} id={`source-editor-${policy.id}`}>
+                          <div className={styles.sourceEditorIntro}>
+                            <strong>Source integrity control</strong>
+                            <span>Changing the acquisition endpoint queues a verified baseline. It will not create a provider change event.</span>
+                          </div>
+                          {sourceSaveError && <div className={`${styles.alert} ${styles.alertDanger}`} role="alert">{sourceSaveError}</div>}
+                          {sourceSaveState === 'saved' && <div className={`${styles.alert} ${styles.alertInfo}`} role="status">{sourceSaveMessage}</div>}
+                          <div className={styles.sourceEditorGrid}>
+                            <div className={styles.formGroup}>
+                              <label className={styles.label} htmlFor={`canonical-${policy.id}`}>Public canonical URL</label>
+                              <input id={`canonical-${policy.id}`} className={styles.input} type="url" value={sourceEditor.url} onChange={(event) => setSourceEditor((current) => ({ ...current, url: event.target.value }))} />
+                            </div>
+                            <div className={styles.formGroup}>
+                              <label className={styles.label} htmlFor={`retrieval-${policy.id}`}>Official acquisition URL (optional)</label>
+                              <input id={`retrieval-${policy.id}`} className={styles.input} type="url" value={sourceEditor.retrievalUrl} onChange={(event) => setSourceEditor((current) => ({ ...current, retrievalUrl: event.target.value }))} placeholder="Uses the public canonical URL when empty" />
+                            </div>
+                          </div>
+                          <div className={styles.formGroup}>
+                            <label className={styles.label} htmlFor={`source-note-${policy.id}`}>Operator note</label>
+                            <input id={`source-note-${policy.id}`} className={styles.input} value={sourceEditor.note} onChange={(event) => setSourceEditor((current) => ({ ...current, note: event.target.value }))} placeholder="Why this source changed and how it was verified" />
+                          </div>
+                          <div className={styles.formActions}>
+                            <button className={`${styles.btn} ${styles.btnSmall} ${styles.btnPrimary}`} onClick={() => void saveSourceConfiguration(policy)} disabled={sourceSaveState === 'saving'}>
+                              {sourceSaveState === 'saving' ? 'Saving…' : 'Save & queue baseline'}
+                            </button>
+                            <button className={`${styles.btn} ${styles.btnSmall} ${styles.btnGhost}`} onClick={() => setEditingPolicyId(null)} disabled={sourceSaveState === 'saving'}>Cancel</button>
+                          </div>
+                        </div>
+                      )}
                     </li>
                   ))}
                 </ul>

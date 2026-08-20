@@ -38,8 +38,8 @@ const NEXT_ACTIONS: Record<WorkspaceIntent, ExperienceNextAction> = Object.freez
     href: '/what-changed#paste-notice',
     label: { en: 'Check a policy notice', it: 'Verifica una comunicazione' },
     detail: {
-      en: 'Start from the message you received and trace it to public evidence.',
-      it: 'Parti dal messaggio ricevuto e risali alle evidenze pubbliche.',
+      en: 'The received message supplies the clues used to locate public evidence.',
+      it: 'Il messaggio ricevuto fornisce gli indizi usati per individuare le evidenze pubbliche.',
     },
   },
   grc: {

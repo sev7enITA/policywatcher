@@ -1,5 +1,6 @@
 import { createHash } from 'crypto';
 import type { Prisma } from '@prisma/client';
+import { dualWriteCanonicalPolicyGraph } from '@/lib/documentEvidenceSync';
 
 export interface ConfiguredPolicyInput {
   companyId: string;
@@ -94,6 +95,8 @@ export async function createConfiguredPolicy(
       textLength: 0,
     },
   });
+
+  await dualWriteCanonicalPolicyGraph(tx, policy.id);
 
   return policy;
 }

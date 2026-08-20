@@ -422,6 +422,38 @@ const pressKitAssetDefinitions: PressKitAsset[] = [
     usageBoundary: { en: 'Historical product summary; pair with current release metadata.', it: 'Sintesi storica del prodotto; accompagnare con i metadata della release corrente.' },
     creditLine: 'PolicyWatcher / Fabrizio Degni', rightsUrl: '/press-kit/LICENSE-ASSETS.md', metadataStandard: 'IPTC Photo Metadata 2025.1',
   },
+  ...[
+    { id: 'release-evidence-pulse-en-png', locale: 'en', format: 'PNG', filename: 'policywatcher-release-evidence-pulse-en-2026-08-15.png', mediaType: 'image/png', dimensions: '2400 x 3168 px', metadataStandard: 'IPTC Photo Metadata 2025.1' },
+    { id: 'release-evidence-pulse-en-webp', locale: 'en', format: 'WebP', filename: 'policywatcher-release-evidence-pulse-en-2026-08-15.webp', mediaType: 'image/webp', dimensions: '2400 x 3168 px', metadataStandard: 'document-manifest' },
+    { id: 'release-evidence-pulse-it-png', locale: 'it', format: 'PNG', filename: 'policywatcher-release-evidence-pulse-it-2026-08-15.png', mediaType: 'image/png', dimensions: '2400 x 3350 px', metadataStandard: 'IPTC Photo Metadata 2025.1' },
+    { id: 'release-evidence-pulse-it-webp', locale: 'it', format: 'WebP', filename: 'policywatcher-release-evidence-pulse-it-2026-08-15.webp', mediaType: 'image/webp', dimensions: '2400 x 3350 px', metadataStandard: 'document-manifest' },
+  ].map((asset) => ({
+    id: asset.id,
+    filename: asset.filename,
+    href: `/press-kit/${asset.filename}`,
+    mediaType: asset.mediaType,
+    dimensions: asset.dimensions,
+    bytes: 0,
+    sha256: '',
+    contentCredentials: 'not-attached' as const,
+    title: asset.locale === 'en'
+      ? { en: `Release Evidence Pulse infographic (${asset.format}, English)`, it: `Infografica Release Evidence Pulse (${asset.format}, inglese)` }
+      : { en: `Release Evidence Pulse infographic (${asset.format}, Italian)`, it: `Infografica Release Evidence Pulse (${asset.format}, italiano)` },
+    caption: {
+      en: 'Six dated release clusters across the 2 to 15 August 2026 evidence window, with implementation impacts, metrics and residual boundaries.',
+      it: 'Sei cluster di release datati nella finestra di evidenza dal 2 al 15 agosto 2026, con impatti implementativi, metriche e limiti residui.',
+    },
+    alt: asset.locale === 'en'
+      ? { en: 'English PolicyWatcher fourteen-day release evidence infographic', it: 'Infografica inglese PolicyWatcher sulle evidenze di release in quattordici giorni' }
+      : { en: 'Italian PolicyWatcher fourteen-day release evidence infographic', it: 'Infografica italiana PolicyWatcher sulle evidenze di release in quattordici giorni' },
+    usageBoundary: {
+      en: 'Implementation inventory, not measured adoption, independent validation or compliance certification. The decorative background is AI-generated and disclosed.',
+      it: 'Inventario implementativo, non adozione misurata, validazione indipendente o certificazione di conformita. Lo sfondo decorativo e generato con AI e dichiarato.',
+    },
+    creditLine: 'PolicyWatcher / Fabrizio Degni',
+    rightsUrl: '/press-kit/LICENSE-ASSETS.md',
+    metadataStandard: asset.metadataStandard as PressKitAsset['metadataStandard'],
+  })),
   {
     id: 'feature-atlas-screenshot',
     filename: 'policywatcher-feature-atlas-2026-07-27.png',
@@ -480,6 +512,11 @@ export const pressKitAssets: PressKitAsset[] = pressKitAssetDefinitions.map((ass
 });
 
 export const pressKitCycleItems: PressKitLocalized[] = [
+  { en: 'Canonical Entity, Document, Version, Change and Provision evidence chain with stable public identifiers and separately gated activation.', it: 'Catena canonica Entity, Document, Version, Change e Provision con identificatori pubblici stabili e attivazione soggetta a gate separati.' },
+  { en: 'One aggregate database-derived publication-readiness contract shared by Admin, competitive analysis and the public API.', it: 'Un unico contratto aggregato di publication readiness derivato dal database e condiviso da Admin, analisi competitiva e API pubblica.' },
+  { en: 'Human-approved AI model registry with JSON Schema, frozen evidence gates and automatic promotion disabled.', it: 'Registro dei modelli AI approvato da persone con JSON Schema, gate di evidenza congelati e promozione automatica disabilitata.' },
+  { en: 'Privacy-safe GenAI telemetry projection that excludes prompts, responses and source content.', it: 'Proiezione di telemetria GenAI rispettosa della privacy che esclude prompt, risposte e contenuto delle fonti.' },
+  { en: 'One validated fourteen-day release ledger drives the public API, Evidence Pulse and bilingual press infographic.', it: 'Un unico ledger di release validato su quattordici giorni alimenta API pubblica, Evidence Pulse e infografica stampa bilingue.' },
   { en: 'Local .eml decoding with bounded MIME parsing, attachment exclusion and browser-only clue extraction.', it: 'Decodifica locale .eml con parsing MIME limitato, esclusione allegati ed estrazione degli indizi solo nel browser.' },
   { en: 'Read-only public integration directory for the curated Observatory registry, with versioned endpoint and source-boundary metadata.', it: 'Catalogo pubblico di integrazione in sola lettura per il registro curato dell Osservatorio, con endpoint versionato e metadati sui limiti delle fonti.' },
   { en: 'Source Continuity Ledger with sanitized suspension, recovery and verification transitions.', it: 'Source Continuity Ledger con transizioni sanificate di sospensione, recupero e verifica.' },
@@ -538,12 +575,62 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'adaptive-experience-3-9-0-beta-41',
+    slug: 'canonical-evidence-foundation-4-0-0-beta-1',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'confidence',
+    title: { en: 'Canonical Evidence Foundation', it: 'Fondazione canonica delle evidenze' },
+    summary: { en: 'Introduces a canonical document evidence graph, stable public identifiers, a focused provision taxonomy and one authoritative publication-readiness metric.', it: 'Introduce un grafo canonico delle evidenze documentali, identificatori pubblici stabili, una tassonomia mirata delle clausole e una sola metrica autorevole di publication readiness.' },
+    changes: [
+      { en: 'Entity, Document, Version, Change and Provision form an additive evidence chain while the operational legacy model remains authoritative during the gated transition.', it: 'Entity, Document, Version, Change e Provision formano una catena di evidenza additiva mentre il modello operativo legacy resta autorevole durante la transizione controllata.' },
+      { en: 'Deterministic public IDs and a versioned taxonomy cover AI training, data sharing, retention, arbitration, content licensing and liability.', it: 'ID pubblici deterministici e una tassonomia versionata coprono training AI, condivisione dati, conservazione, arbitrato, licenze sui contenuti e responsabilita.' },
+      { en: 'One no-store database query now feeds Admin, competitive analysis and the public publication-readiness contract.', it: 'Una sola query database no-store alimenta ora Admin, analisi competitiva e contratto pubblico di publication readiness.' },
+    ],
+    boundaries: [
+      { en: 'The canonical tables are introduced empty. Backfill, reconciliation, dual-write and read switching remain separate production gates.', it: 'Le tabelle canoniche vengono introdotte vuote. Backfill, riconciliazione, dual-write e cambio delle letture restano gate di produzione separati.' },
+      { en: 'This beta does not claim PostgreSQL cutover, object-storage activation, exhaustive source coverage, legal review or analysis quality.', it: 'Questa beta non dichiara cutover PostgreSQL, attivazione object storage, copertura esaustiva delle fonti, revisione legale o qualita dell analisi.' },
+    ],
+    evidenceLinks: [
+      { href: '/developers', label: { en: 'Developer contract', it: 'Contratto sviluppatori' } },
+      { href: '/api/v1/publication-readiness', label: { en: 'Publication readiness API', it: 'API publication readiness' } },
+      { href: '/feature-atlas', label: { en: 'Feature Atlas', it: 'Atlante funzionalita' } },
+    ],
+  },
+  {
+    slug: 'evidence-release-control-plane-3-9-0-beta-42',
+    version: '3.9.0-beta.42',
+    displayVersion: '3.9.0 Beta 42',
+    datePublished: '2026-08-15',
+    dateModified: '2026-08-15',
+    status: 'archived',
+    category: 'confidence',
+    title: { en: 'Evidence Release Control Plane', it: 'Control plane delle release evidence-first' },
+    summary: { en: 'Adds a model qualification registry, a hashed release-evidence ledger and a two-week evidence pulse shared by web, API and press assets.', it: 'Aggiunge un registro di qualificazione dei modelli, un ledger delle release con hash e un evidence pulse di due settimane condiviso da web, API e asset stampa.' },
+    changes: [
+      { en: 'The AI EvalOps registry records nine candidates as qualified, blocked, pending or research-only and keeps every promotion human-approved.', it: 'Il registro AI EvalOps classifica nove candidati come qualificati, bloccati, pending o research-only e mantiene ogni promozione soggetta ad approvazione umana.' },
+      { en: 'A public 14-day release ledger joins release records to impact evidence and exposes a deterministic SHA-256 digest and ETag.', it: 'Un ledger pubblico di 14 giorni collega le release alle evidenze di impatto ed espone digest SHA-256 ed ETag deterministici.' },
+      { en: 'The Evidence Pulse reuses the ledger for an accessible web experience and exact-data press infographic with EN/IT briefing copy.', it: 'L Evidence Pulse riusa il ledger per un esperienza web accessibile e un infografica stampa con dati esatti e briefing EN/IT.' },
+    ],
+    boundaries: [
+      { en: 'Model qualification is limited to the frozen evaluation contract; Qwen3/BGE remain unscored and Gemini 3.7 Flash remains blocked.', it: 'La qualificazione dei modelli e limitata al contratto di valutazione congelato; Qwen3/BGE restano non valutati e Gemini 3.7 Flash resta bloccato.' },
+      { en: 'Release metrics are implementation evidence, not adoption, service quality, compliance, accessibility or market-impact outcomes.', it: 'Le metriche di release sono evidenze implementative, non risultati di adozione, qualita del servizio, conformita, accessibilita o impatto di mercato.' },
+    ],
+    evidenceLinks: [
+      { href: '/pulse/two-week-release-impact', label: { en: 'Two-week Evidence Pulse', it: 'Evidence Pulse di due settimane' } },
+      { href: '/api/v1/release-evidence', label: { en: 'Release evidence API', it: 'API delle evidenze release' } },
+      { href: '/infographics', label: { en: 'Press infographic', it: 'Infografica stampa' } },
+    ],
+  },
+  {
+    slug: 'adaptive-experience-3-9-0-beta-41',
+    version: '3.9.0-beta.41',
+    displayVersion: '3.9.0 Beta 41',
+    datePublished: '2026-08-07',
+    dateModified: '2026-08-07',
+    status: 'archived',
     category: 'product',
     title: { en: 'Adaptive Experience', it: 'Esperienza adattiva' },
     summary: { en: 'Adds explicit complexity and motion controls, a deterministic next step and a source-generated ER sitemap.', it: 'Aggiunge controlli espliciti di complessita e movimento, un prossimo passo deterministico e una sitemap ER generata dalla fonte.' },
@@ -583,7 +670,7 @@ export const pressKitReleases: PressKitRelease[] = [
       { en: 'Watchlist and review state remain in the current browser; unavailable or ineligible records do not become civic evidence.', it: 'Watchlist e stato di revisione restano nel browser corrente; record non disponibili o non ammissibili non diventano evidenze civiche.' },
     ],
     evidenceLinks: [
-      { href: '/associazioni', label: { en: 'Civic Lab', it: 'Associazioni' } },
+      { href: '/en/associations', label: { en: 'Civic Lab', it: 'Associazioni' } },
       { href: '/methodology/confidence', label: { en: 'Confidence methodology', it: 'Metodologia confidence' } },
       { href: '/feature-atlas', label: { en: 'Feature Atlas', it: 'Atlante funzionalita' } },
     ],
@@ -1393,7 +1480,8 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
-  { id: 'adaptive-experience-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Adaptive Experience published', it: 'Pubblicata Esperienza adattiva' }, detail: { en: 'The dashboard now exposes deterministic complexity and motion controls plus a source-generated ER sitemap.', it: 'La dashboard ora espone controlli deterministici di complessita e movimento oltre a una sitemap ER generata dalla fonte.' }, affectedHref: '/press-kit/releases/adaptive-experience-3-9-0-beta-41' },
+  { id: 'evidence-release-control-plane-release', occurredAt: '2026-08-15', type: 'release', title: { en: 'Evidence Release Control Plane published', it: 'Pubblicato Evidence Release Control Plane' }, detail: { en: 'A human-approved model registry, privacy-safe telemetry, validated release ledger and bilingual Evidence Pulse now share explicit evidence and residual boundaries.', it: 'Un registro modelli approvato da persone, telemetria rispettosa della privacy, un ledger di release validato ed Evidence Pulse bilingue ora condividono evidenze e limiti residui espliciti.' }, affectedHref: '/press-kit/releases/evidence-release-control-plane-3-9-0-beta-42' },
+  { id: 'adaptive-experience-release', occurredAt: '2026-08-07', type: 'release', title: { en: 'Adaptive Experience published', it: 'Pubblicata Esperienza adattiva' }, detail: { en: 'The dashboard now exposes deterministic complexity and motion controls plus a source-generated ER sitemap.', it: 'La dashboard ora espone controlli deterministici di complessita e movimento oltre a una sitemap ER generata dalla fonte.' }, affectedHref: '/press-kit/releases/adaptive-experience-3-9-0-beta-41' },
   { id: 'edge-addons-publication', occurredAt: '2026-08-06', type: 'release', title: { en: 'Microsoft Edge Add-ons publication reported', it: 'Segnalata la pubblicazione su Microsoft Edge Add-ons' }, detail: { en: 'The Browser Extension page now reports Chrome and Edge as published while the Edge direct action remains gated by official URL configuration.', it: 'La pagina Browser Extension ora riporta Chrome ed Edge come pubblicati, mentre l azione diretta Edge resta vincolata alla configurazione dell URL ufficiale.' }, affectedHref: '/press-kit/releases/policywatcher-civico-3-9-0-beta-40' },
   { id: 'policywatcher-civico-release', occurredAt: '2026-08-06', type: 'release', title: { en: 'PolicyWatcher Civico published', it: 'Pubblicato PolicyWatcher Civico' }, detail: { en: 'A source-first public-evidence workspace now supports a controlled browser-local pilot with Italian consumer associations.', it: 'Un workspace source-first di evidenze pubbliche ora supporta un pilota controllato e locale al browser con le associazioni italiane dei consumatori.' }, affectedHref: '/press-kit/releases/policywatcher-civico-3-9-0-beta-40' },
   { id: 'managed-vps-releases-release', occurredAt: '2026-08-02', type: 'release', title: { en: 'Managed VPS Releases published', it: 'Pubblicate le Release VPS gestite' }, detail: { en: 'The protected Admin Center now uploads bounded Renderer packages through Hostinger to Operations Agent 0.2 and follows asynchronous verification or rollback.', it: 'L Admin Center protetto ora carica pacchetti Renderer circoscritti attraverso Hostinger verso Operations Agent 0.2 e segue verifica asincrona o rollback.' }, affectedHref: '/press-kit/releases/managed-vps-releases-3-9-0-beta-39' },

@@ -65,7 +65,7 @@ const copy = {
     title: 'PolicyWatcher press kit.',
     lead: 'Product facts, supporting links, limitations, release information, media files and press contact details.',
     currentRelease: 'Current web release',
-    releaseDate: 'Released 6 August 2026',
+    releaseDate: 'Released 15 August 2026',
     factSheet: 'Download fact sheet',
     copyShort: 'Copy short boilerplate',
     copied: 'Copied',
@@ -85,7 +85,7 @@ const copy = {
       ['Route a request', 'Press, fact-checking, interview or speaking.'],
     ],
     packagesLabel: 'Press packages',
-    packagesTitle: 'Language-specific editorial files.',
+    packagesTitle: 'Editorial files by language',
     packagesLead: 'Every package lists version, generation date, contents, rights boundary and checksum.',
     packageContents: 'Included files',
     packageVersion: 'Version',
@@ -94,17 +94,17 @@ const copy = {
     releaseArchive: 'Open release archive',
     dataRoom: 'Open data room',
     contactRouting: 'Request routing',
-    contactTitle: 'Send the request with the context needed for review.',
+    contactTitle: 'Press contact',
     contactLead: 'These routes use one public address with a contextual subject. No response time is promised.',
     requestedContext: 'Please include',
     sendRequest: 'Prepare email',
-    referenceTitle: 'Provenance, corrections and terminology.',
+    referenceTitle: 'Reference information',
     provenance: 'Provenance status',
     correctionsLog: 'Correction register',
     glossary: 'Glossary',
     statusTitle: 'Briefing status',
     releaseFreshness: 'Release metadata',
-    releaseFreshnessBody: 'Current to 6 August 2026 for the web application.',
+    releaseFreshnessBody: 'Current to 15 August 2026 for the web application.',
     evidenceFreshness: 'Platform evidence',
     evidenceFreshnessBody: 'Timestamps are recorded per source; update intervals depend on retrieval and review.',
     extension: 'Extension track',
@@ -120,7 +120,7 @@ const copy = {
       ['Data Quality', 'Withhold incomplete evidence and display Not assessed without assigning a numerical value.'],
     ],
     cycleLabel: 'Latest two-week development cycle',
-    cycleTitle: 'Functions included in the current release.',
+    cycleTitle: 'Platform functions available in the current build.',
     ledgerLabel: 'Claim Ledger',
     ledgerTitle: 'Claims, supporting links and limitations.',
     ledgerLead: 'Each entry identifies a product statement, its supporting page and its stated limitation.',
@@ -140,7 +140,7 @@ const copy = {
     boilerLabel: 'Boilerplates and citation', boilerTitle: 'Descriptions and citation details.',
     short: 'Short boilerplate', long: 'Long boilerplate', copyAction: 'Copy text',
     citation: 'Suggested citation',
-    citationText: `PolicyWatcher, ${POLICYWATCHER_VERSION_DISPLAY} ${POLICYWATCHER_RELEASE_NAME}, 6 August 2026, https://policywatcher.online/press-kit (accessed [date]).`,
+    citationText: `PolicyWatcher, ${POLICYWATCHER_VERSION_DISPLAY} ${POLICYWATCHER_RELEASE_NAME}, 15 August 2026, https://policywatcher.online/press-kit (accessed [date]).`,
     corrections: 'Corrections and factual questions: info@policywatcher.online. Include the cited URL and the statement requiring review.',
     founderLabel: 'Founder and contact', founderTitle: 'Fabrizio Degni',
     founderBio: 'Independent builder working on public-interest tools for inspecting and discussing digital-policy changes with links to source material.',
@@ -155,7 +155,7 @@ const copy = {
     title: 'Press kit PolicyWatcher.',
     lead: 'Dati sul prodotto, link di supporto, limiti, informazioni di release, file media e contatti stampa.',
     currentRelease: 'Release web corrente',
-    releaseDate: 'Rilasciata il 6 agosto 2026',
+    releaseDate: 'Rilasciata il 15 agosto 2026',
     factSheet: 'Scarica la scheda stampa',
     copyShort: 'Copia boilerplate breve',
     copied: 'Copiato',
@@ -175,7 +175,7 @@ const copy = {
       ['Indirizza una richiesta', 'Stampa, fact-checking, intervista o speaking.'],
     ],
     packagesLabel: 'Pacchetti stampa',
-    packagesTitle: 'File editoriali specifici per lingua.',
+    packagesTitle: 'File editoriali per lingua',
     packagesLead: 'Ogni pacchetto elenca versione, data di generazione, contenuti, limiti di utilizzo e checksum.',
     packageContents: 'File inclusi',
     packageVersion: 'Versione',
@@ -184,17 +184,17 @@ const copy = {
     releaseArchive: 'Apri archivio release',
     dataRoom: 'Apri data room',
     contactRouting: 'Instradamento richieste',
-    contactTitle: 'Invia la richiesta con il contesto necessario alla revisione.',
+    contactTitle: 'Contatto stampa',
     contactLead: 'I percorsi usano un unico indirizzo pubblico con oggetto contestuale. Non viene promessa una tempistica di risposta.',
     requestedContext: 'Includere',
     sendRequest: 'Prepara email',
-    referenceTitle: 'Provenienza, correzioni e terminologia.',
+    referenceTitle: 'Informazioni di riferimento',
     provenance: 'Stato provenienza',
     correctionsLog: 'Registro correzioni',
     glossary: 'Glossario',
     statusTitle: 'Stato briefing',
     releaseFreshness: 'Metadata release',
-    releaseFreshnessBody: 'Correnti al 6 agosto 2026 per l applicazione web.',
+    releaseFreshnessBody: 'Correnti al 15 agosto 2026 per l applicazione web.',
     evidenceFreshness: 'Evidenze piattaforma',
     evidenceFreshnessBody: 'I timestamp sono registrati per fonte; gli intervalli dipendono da recupero e revisione.',
     extension: 'Track estensione',
@@ -210,7 +210,7 @@ const copy = {
       ['Qualita dati', 'Trattenere evidenze incomplete e mostrare Non valutato senza assegnare un valore numerico.'],
     ],
     cycleLabel: 'Ultimo ciclo di sviluppo di due settimane',
-    cycleTitle: 'Funzioni incluse nella release corrente.',
+    cycleTitle: 'Funzioni della piattaforma disponibili nella build corrente.',
     ledgerLabel: 'Registro delle affermazioni',
     ledgerTitle: 'Affermazioni, link di supporto e limiti.',
     ledgerLead: 'Ogni voce identifica una dichiarazione sul prodotto, la pagina di supporto e il limite dichiarato.',
@@ -230,7 +230,7 @@ const copy = {
     boilerLabel: 'Boilerplate e citazione', boilerTitle: 'Descrizioni e dettagli per la citazione.',
     short: 'Boilerplate breve', long: 'Boilerplate lungo', copyAction: 'Copia testo',
     citation: 'Citazione suggerita',
-    citationText: `PolicyWatcher, ${POLICYWATCHER_VERSION_DISPLAY} ${POLICYWATCHER_RELEASE_NAME}, 6 agosto 2026, https://policywatcher.online/press-kit (consultato il [data]).`,
+    citationText: `PolicyWatcher, ${POLICYWATCHER_VERSION_DISPLAY} ${POLICYWATCHER_RELEASE_NAME}, 15 agosto 2026, https://policywatcher.online/press-kit (consultato il [data]).`,
     corrections: 'Correzioni e domande fattuali: info@policywatcher.online. Includere URL citato e affermazione da verificare.',
     founderLabel: 'Fondatore e contatti', founderTitle: 'Fabrizio Degni',
     founderBio: 'Builder indipendente di strumenti di interesse pubblico per ispezionare e discutere i cambiamenti delle policy digitali con link alle fonti.',
@@ -260,6 +260,10 @@ const pressAssetImageSizes: Record<string, { width: number; height: number }> = 
   'beta27-pulse-screenshot': { width: 1440, height: 1000 },
   'beta27-data-room-screenshot': { width: 1440, height: 1000 },
   'two-week-progress': { width: 866, height: 1817 },
+  'release-evidence-pulse-en-png': { width: 2400, height: 3168 },
+  'release-evidence-pulse-en-webp': { width: 2400, height: 3168 },
+  'release-evidence-pulse-it-png': { width: 2400, height: 3350 },
+  'release-evidence-pulse-it-webp': { width: 2400, height: 3350 },
   'feature-atlas-screenshot': { width: 1440, height: 1000 },
   'release-impact-screenshot': { width: 1440, height: 1000 },
 };
@@ -425,6 +429,27 @@ export default function PressKitClient() {
               <aside className={styles.releaseIndex} aria-label={t.cycleTitle}><span>{t.cycleTitle}</span><ul>{release.changes.slice(0, 5).map((change, index) => <li key={change.en}><span>{String(index + 1).padStart(2, '0')}</span>{change[lang]}</li>)}</ul></aside>
             </div>
           ))}
+          <article className={styles.releasePulseCallout}>
+            <Image
+              src={lang === 'en' ? '/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.webp' : '/press-kit/policywatcher-release-evidence-pulse-it-2026-08-15.webp'}
+              alt={lang === 'en' ? 'PolicyWatcher fourteen-day release evidence infographic' : 'Infografica PolicyWatcher sulle evidenze di release in quattordici giorni'}
+              width={2400}
+              height={lang === 'en' ? 3168 : 3350}
+              loading="lazy"
+              sizes="(max-width: 760px) calc(100vw - 32px), 420px"
+              unoptimized
+            />
+            <div>
+              <span>14-day release evidence pulse</span>
+              <h3>{lang === 'en' ? 'Release implementation summary' : 'Riepilogo implementazione release'}</h3>
+              <p>{lang === 'en' ? 'One dated ledger drives the interactive story, public API and bilingual press infographic.' : 'Un unico ledger datato alimenta la storia interattiva, l API pubblica e l infografica stampa bilingue.'}</p>
+              <div>
+                <Link href="/pulse/two-week-release-impact">{lang === 'en' ? 'Open evidence story' : 'Apri storia delle evidenze'}<ArrowRight size={13} /></Link>
+                <a href={lang === 'en' ? '/press-kit/policywatcher-release-evidence-pulse-en-2026-08-15.png' : '/press-kit/policywatcher-release-evidence-pulse-it-2026-08-15.png'} download><Download size={13} />{lang === 'en' ? 'Download print PNG' : 'Scarica PNG stampa'}</a>
+              </div>
+              <small>{lang === 'en' ? 'Implementation inventory, not adoption or compliance outcomes. Decorative background generated with AI and disclosed in asset metadata.' : 'Inventario implementativo, non risultati di adozione o conformita. Sfondo decorativo generato con AI e dichiarato nei metadata dell asset.'}</small>
+            </div>
+          </article>
           <Link className={styles.subpageAction} href="/press-kit/releases"><Archive size={14} />{t.releaseArchive}</Link>
         </section>
 
@@ -443,7 +468,7 @@ export default function PressKitClient() {
         </section>
 
         <section className={styles.dataPreview} aria-labelledby="data-preview-title">
-          <div className={styles.sectionIntro}><span>06 / Data room</span><h2 id="data-preview-title">{lang === 'en' ? 'Published snapshots and reusable formats.' : 'Snapshot pubblicati e formati riutilizzabili.'}</h2><p>{lang === 'en' ? 'Each record states its date, method, citation and reuse boundary. Only listed formats are available.' : 'Ogni record indica data, metodo, citazione e limite di riuso. Sono disponibili solo i formati elencati.'}</p></div>
+          <div className={styles.sectionIntro}><span>06 / Data room</span><h2 id="data-preview-title">{lang === 'en' ? 'Published data formats' : 'Formati dati pubblicati'}</h2><p>{lang === 'en' ? 'Each record states its date, method, citation and reuse boundary. Only listed formats are available.' : 'Ogni record indica data, metodo, citazione e limite di riuso. Sono disponibili solo i formati elencati.'}</p></div>
           <div className={styles.dataGrid}>
             {pressKitDataSnapshots.slice(0, 3).map((snapshot) => (
               <article className={styles.dataCard} key={snapshot.id}>

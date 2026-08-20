@@ -42,7 +42,7 @@ export default function ResidencyEvidencePage() {
           <header className={styles.hero}>
             <div>
               <span className={styles.eyebrow}>Beta 31 · legal-resilience evidence</span>
-              <h1>Residency and processor evidence, without inferred certainty</h1>
+              <h1>Residency and processor evidence</h1>
               <p>
                 This dated pack separates provider documents, operator declarations, deployment-dependent facts and missing evidence. A public provider DPA does not by itself prove where the active PolicyWatcher deployment or its backups run.
               </p>

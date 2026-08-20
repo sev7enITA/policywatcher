@@ -6,6 +6,7 @@ export type PublicDataSourceId =
   | 'sourceSuspensions'
   | 'sourceContinuity'
   | 'observatoryRegistry'
+  | 'publicationReadiness'
   | 'evidenceCollections'
   | 'publicChangeEvents'
   | 'webhookVerificationKit'
@@ -129,6 +130,14 @@ export const PUBLIC_DATA_SOURCES: Readonly<Record<PublicDataSourceId, PublicData
       freshness: { mode: 'short-ttl', maxAgeSeconds: 300 },
       allowedQueryParams: ['lang'],
       description: 'Curated public registry of governance, privacy, standards and event references.',
+    }),
+    publicationReadiness: sourceSpec({
+      id: 'publicationReadiness',
+      endpoint: '/api/v1/publication-readiness',
+      evidenceGate: 'public-reference',
+      freshness: { mode: 'request', maxAgeSeconds: 0 },
+      allowedQueryParams: [],
+      description: 'Authoritative database-derived configured-to-analysed readiness funnel and latest successful capture timestamp.',
     }),
     evidenceCollections: sourceSpec({
       id: 'evidenceCollections',

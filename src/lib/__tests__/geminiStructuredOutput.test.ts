@@ -14,6 +14,7 @@ vi.mock('@google/genai', () => ({
 import { analyzePolicyChange, GEMINI_MODEL_CHAIN } from '@/lib/gemini';
 import {
   GeminiStructuredOutputError,
+  POLICY_ANALYSIS_SCHEMA_VERSION,
   POLICY_ANALYSIS_RESPONSE_SCHEMA,
   assertPolicyAnalysisResponse,
 } from '@/lib/geminiPolicySchema';
@@ -104,6 +105,18 @@ describe('Gemini supported models and structured output', () => {
         responseJsonSchema: POLICY_ANALYSIS_RESPONSE_SCHEMA,
       }),
     }));
+  });
+
+  it('keeps the provider schema structural and the strict semantic gate local', () => {
+    const serialized = JSON.stringify(POLICY_ANALYSIS_RESPONSE_SCHEMA);
+
+    expect(POLICY_ANALYSIS_SCHEMA_VERSION).toBe('policy-analysis.schema.v2');
+    expect(serialized).not.toContain('"enum"');
+    expect(serialized).not.toContain('"minItems"');
+    expect(serialized).not.toContain('"maxItems"');
+    expect(serialized).not.toContain('"minimum"');
+    expect(serialized).not.toContain('"maximum"');
+    expect(() => assertPolicyAnalysisResponse({})).toThrow(GeminiStructuredOutputError);
   });
 
   it('uses the supported fallback after a transient primary failure', async () => {

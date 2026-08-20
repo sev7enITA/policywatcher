@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { createConfiguredPolicy } from '@/lib/configuredPolicy';
 import { db } from '@/lib/db';
+import { dualWriteCanonicalPolicyGraph } from '@/lib/documentEvidenceSync';
 import {
   canPublishSourceOnboardingItem,
   evaluateSourceOnboardingQa,
@@ -211,6 +212,7 @@ export async function PATCH(
           metadata: { policyId: item.policyId, qaChecks: qa.result.checks },
         }),
       });
+      await dualWriteCanonicalPolicyGraph(tx, item.policyId!);
     });
     await refreshBatch(item.batchId);
     return NextResponse.json({ success: true });
@@ -342,6 +344,7 @@ export async function PATCH(
           metadata: { policyId: item.policyId },
         }),
       });
+      await dualWriteCanonicalPolicyGraph(tx, item.policyId!);
     });
   }
 

@@ -5,6 +5,9 @@ export const AI_TELEMETRY_WINDOW_DAYS = 30;
 export const AI_TELEMETRY_QUERY_LIMIT = 5_000;
 export const AI_ANALYSIS_PROMPT_VERSION = 'policy-analysis.v2';
 export const AI_CHAT_PROMPT_VERSION = 'policy-chat.v1';
+export const AI_TELEMETRY_SEMCONV_SOURCE_URL = 'https://github.com/open-telemetry/semantic-conventions-genai';
+// The dedicated GenAI semantic-conventions repository has not published a schema URL yet.
+export const AI_TELEMETRY_SEMCONV_SCHEMA_URL = null;
 
 export type AiTelemetryOperation =
   | 'policy-analysis'
@@ -40,6 +43,19 @@ export interface AiTelemetryRow extends AiTelemetryEvent {
   createdAt: Date | string;
 }
 
+export interface AiTelemetrySemanticProjection {
+  schemaUrl: null;
+  conventionsSource: typeof AI_TELEMETRY_SEMCONV_SOURCE_URL;
+  attributes: {
+    'gen_ai.operation.name': 'chat' | 'generate_content';
+    'gen_ai.provider.name': 'gcp.gen_ai';
+    'gen_ai.request.model': string;
+    'gen_ai.response.model'?: string;
+    'gen_ai.usage.input_tokens'?: number;
+    'gen_ai.usage.output_tokens'?: number;
+  };
+}
+
 export interface AiTelemetryModelSummary {
   modelId: string;
   attempts: number;
@@ -68,6 +84,22 @@ export interface AiTelemetrySummary {
 
 export const AI_TELEMETRY_PRIVACY_BOUNDARY =
   'Stores model, operation, outcome, latency, character counts, token counts and schema/prompt versions only. Policy text, prompts, responses, company names, policy names, user questions, URLs, IP addresses and provider error messages are never persisted. Retention is 90 days.';
+
+export function buildAiTelemetrySemanticProjection(event: AiTelemetryEvent): AiTelemetrySemanticProjection {
+  const operation = event.operation === 'policy-chat' ? 'chat' : 'generate_content';
+  return {
+    schemaUrl: AI_TELEMETRY_SEMCONV_SCHEMA_URL,
+    conventionsSource: AI_TELEMETRY_SEMCONV_SOURCE_URL,
+    attributes: {
+      'gen_ai.operation.name': operation,
+      'gen_ai.provider.name': 'gcp.gen_ai',
+      'gen_ai.request.model': event.modelId,
+      ...(event.outcome === 'success' ? { 'gen_ai.response.model': event.modelId } : {}),
+      ...(event.promptTokenCount == null ? {} : { 'gen_ai.usage.input_tokens': Math.max(0, Math.round(event.promptTokenCount)) }),
+      ...(event.outputTokenCount == null ? {} : { 'gen_ai.usage.output_tokens': Math.max(0, Math.round(event.outputTokenCount)) }),
+    },
+  };
+}
 
 function roundRate(numerator: number, denominator: number): number {
   return denominator ? Math.round((numerator / denominator) * 1_000) / 10 : 0;

@@ -12,6 +12,7 @@ import { db } from '@/lib/db';
 import {
   createCompanyAndStartDiscovery,
 } from '@/lib/companyOnboardingService';
+import { deleteCanonicalEntityForLegacyCompany } from '@/lib/documentEvidenceSync';
 
 export async function GET(request: NextRequest) {
   const session = getSession(request);
@@ -29,6 +30,8 @@ export async function GET(request: NextRequest) {
             type: true,
             url: true,
             retrievalUrl: true,
+            sourceMigrationPending: true,
+            sourceMigrationRequestedAt: true,
             jurisdiction: true,
             currentHash: true,
             dataStatus: true,
@@ -128,8 +131,11 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // Cascade delete is handled by Prisma schema (onDelete: Cascade)
-    await db.company.delete({ where: { id } });
+    await db.$transaction(async (tx) => {
+      await deleteCanonicalEntityForLegacyCompany(tx, id);
+      // Legacy and canonical descendants both cascade within this transaction.
+      await tx.company.delete({ where: { id } });
+    });
 
     return NextResponse.json({ success: true, deleted: company.name });
   } catch (error) {

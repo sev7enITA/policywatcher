@@ -12,6 +12,9 @@ describe('Hostinger runtime schema parity', () => {
   const packageJson = JSON.parse(readFileSync('package.json', 'utf8')) as {
     scripts?: Record<string, string>;
   };
+  const webTsconfig = JSON.parse(readFileSync('tsconfig.json', 'utf8')) as {
+    exclude?: string[];
+  };
   const hostingerBridge = readFileSync('server.js', 'utf8');
   const migrationLock = readFileSync('prisma/migrations/migration_lock.toml', 'utf8');
 
@@ -30,13 +33,19 @@ describe('Hostinger runtime schema parity', () => {
     expect(packageJson.scripts?.start).toBe('node server.js');
     expect(packageJson.scripts?.prestart).toBeUndefined();
     expect(packageJson.scripts?.postinstall).toContain('hostinger-postinstall-db.mjs');
-    expect(hostingerBridge).toContain("'.builds', 'last-source', 'scripts', 'hostinger-init-db.sh'");
-    expect(hostingerBridge).toContain('schemaScriptCandidates.find');
+    expect(packageJson.scripts?.['hostinger:preflight:production']).toContain('--phase build');
+    expect(hostingerBridge).toContain("'--phase', 'runtime'");
+    expect(hostingerBridge).toContain("'.builds', 'last-source', 'scripts', 'prepare-database.sh'");
+    expect(hostingerBridge).toContain('databasePreparationCandidates.find');
     expect(hostingerBridge).toContain('schemaCheck.status !== 0');
     expect(hostingerBridge).toContain('await cli.nextStart({ port })');
     expect(hostingerBridge).not.toContain("cli.nextStart(['-p'");
     expect(hostingerBridge).toContain('port > 65535');
     expect(migrationLock).toContain('provider = "sqlite"');
+  });
+
+  it('keeps the independent Expo companion outside the Next.js web typecheck', () => {
+    expect(webTsconfig.exclude).toContain('mobile');
   });
 
   it('keeps admin authentication independent from database metrics', () => {
@@ -52,11 +61,12 @@ describe('Hostinger runtime schema parity', () => {
     expect(metricsRoute).toContain('ensurePressMetricStorage');
   });
 
-  it('runs the database initializer during managed installs when DATABASE_URL is configured', () => {
+  it('keeps managed installs side-effect free until guarded build and runtime phases', () => {
     const postinstall = readFileSync('scripts/hostinger-postinstall-db.mjs', 'utf8');
-    expect(postinstall).toContain('DATABASE_URL is not available during install');
-    expect(postinstall).toContain('hostinger-init-db.sh');
-    expect(postinstall).toContain("POLICYWATCHER_SKIP_DB_BACKUP: '1'");
+    expect(postinstall).toContain('promotion validation is deferred');
+    expect(postinstall).toContain('database initialization is deferred');
+    expect(postinstall).not.toContain('hostinger-environment-gate.mjs');
+    expect(postinstall).not.toContain('hostinger-init-db.sh');
     expect(postinstall).not.toMatch(/\bnpx\b/);
   });
 

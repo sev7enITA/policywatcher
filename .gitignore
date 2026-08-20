@@ -52,6 +52,9 @@ yarn-error.log*
 # database (contains real user data)
 prisma/dev.db
 prisma/dev.db-journal
+# Materialized deterministically from prisma/schema.prisma for PostgreSQL
+# validation, generation and migrations. Never edit or commit this file.
+prisma/postgresql/schema.prisma
 
 # vercel
 .vercel
@@ -70,3 +73,10 @@ PolicyWatcher-architecture-infographics-*/
 /public/press-kit/policywatcher-press-package-*/
 /docs/paper/build*/
 /docs/paper/~$*
+
+# Confidential internal-study inputs and local review captures.
+# Deployments must inject the private JSON outside public source control.
+/reports/policywatcher-executive-mba/
+/src/private/executiveStudyData.private.json
+/src/private/executiveStudyData.private.test.ts
+/internal-previews/executive-study/

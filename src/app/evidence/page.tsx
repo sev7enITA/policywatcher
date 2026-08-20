@@ -25,7 +25,7 @@ export const dynamic = 'force-dynamic';
 const stages = [
   {
     number: '01',
-    title: 'Source Confidence',
+    title: 'Source evidence',
     text: 'Sanitized retrieval status and public snapshot fingerprints.',
     icon: Fingerprint,
   },

@@ -61,6 +61,7 @@ interface DatabaseReadiness {
   checkedAt: string;
   database: {
     configured: boolean;
+    provider: 'sqlite' | 'postgresql' | 'unknown';
     filePath: string | null;
     directoryPath: string | null;
     directoryExists: boolean;
@@ -253,6 +254,11 @@ export default function DatabaseInspectorPage() {
       ? 'Database degraded'
       : 'Database unavailable';
   const ReadinessIcon = readiness?.status === 'ready' ? CheckCircle2 : CircleAlert;
+  const databaseProviderLabel = readiness?.database.provider === 'postgresql'
+    ? 'PostgreSQL'
+    : readiness?.database.provider === 'sqlite'
+      ? 'SQLite'
+      : 'Unknown provider';
 
   return (
     <div>
@@ -309,9 +315,9 @@ export default function DatabaseInspectorPage() {
             <div className={styles.databaseReadinessGrid}>
               <article>
                 <ShieldCheck size={18} />
-                <span>SQLite integrity</span>
+                <span>{databaseProviderLabel} integrity</span>
                 <strong>{readiness.integrity.quickCheck === 'ok' ? 'Passed' : readiness.integrity.quickCheck}</strong>
-                <small>PRAGMA quick_check(1)</small>
+                <small>{readiness.database.provider === 'postgresql' ? 'Connection and schema query' : 'PRAGMA quick_check(1)'}</small>
               </article>
               <article>
                 <Layers3 size={18} />
@@ -327,9 +333,9 @@ export default function DatabaseInspectorPage() {
               </article>
               <article>
                 <HardDrive size={18} />
-                <span>SQLite file access</span>
-                <strong>{readiness.database.fileReadable ? 'R' : '-'}{readiness.database.fileWritable ? 'W' : '-'}</strong>
-                <small>{formatBytes(readiness.database.fileSizeBytes)} · {readiness.integrity.journalMode} journal</small>
+                <span>{readiness.database.provider === 'postgresql' ? 'Database connection' : 'SQLite file access'}</span>
+                <strong>{readiness.database.provider === 'postgresql' ? 'Connected' : `${readiness.database.fileReadable ? 'R' : '-'}${readiness.database.fileWritable ? 'W' : '-'}`}</strong>
+                <small>{readiness.database.provider === 'postgresql' ? `${formatBytes(readiness.database.fileSizeBytes)} · managed storage` : `${formatBytes(readiness.database.fileSizeBytes)} · ${readiness.integrity.journalMode} journal`}</small>
               </article>
             </div>
 
@@ -339,13 +345,15 @@ export default function DatabaseInspectorPage() {
                 {readiness.diagnosticCode && <p>Diagnostic code: <code>{readiness.diagnosticCode}</code></p>}
                 {readiness.schema.missingTables.length > 0 && <p>Missing tables: {readiness.schema.missingTables.join(', ')}</p>}
                 {readiness.schema.missingMigrations.length > 0 && <p>Missing migrations: {readiness.schema.missingMigrations.join(', ')}</p>}
-                <p>Redeploy the verified Hostinger package or run <code>bash scripts/hostinger-init-db.sh</code> from <code>.builds/last-source</code>. Do not reset or replace the production database.</p>
+                <p>{readiness.database.provider === 'postgresql'
+                  ? <>Stop promotion and inspect the PostgreSQL migration job. Do not reset or replace the production database.</>
+                  : <>Redeploy the verified Hostinger package or run <code>bash scripts/prepare-database.sh</code> from <code>.builds/last-source</code>. Do not reset or replace the production database.</>}</p>
               </div>
             )}
 
             <dl className={styles.databaseReadinessMeta}>
               <div><dt>Foreign keys</dt><dd>{readiness.integrity.foreignKeysEnabled ? 'Enabled for this connection' : 'Not reported as enabled'}</dd></div>
-              <div><dt>Pages</dt><dd>{readiness.integrity.pageCount ?? 'n/a'} total · {readiness.integrity.freePageCount ?? 'n/a'} free</dd></div>
+              <div><dt>{readiness.database.provider === 'postgresql' ? 'Storage' : 'Pages'}</dt><dd>{readiness.database.provider === 'postgresql' ? formatBytes(readiness.database.fileSizeBytes) : `${readiness.integrity.pageCount ?? 'n/a'} total · ${readiness.integrity.freePageCount ?? 'n/a'} free`}</dd></div>
               <div><dt>Last migration</dt><dd>{readiness.schema.lastAppliedMigration || 'Not available'}</dd></div>
               <div><dt>Migration time</dt><dd>{readiness.schema.lastAppliedAt ? new Date(readiness.schema.lastAppliedAt).toLocaleString() : 'Not available'}</dd></div>
             </dl>
@@ -379,7 +387,7 @@ export default function DatabaseInspectorPage() {
         )}
       </section>
 
-      <DatabaseRecoveryTools role={role} />
+      {readiness?.database.provider === 'sqlite' && <DatabaseRecoveryTools role={role} />}
 
       {/* Stats Summary Row */}
       <div className={styles.grid4} style={{ marginBottom: 24 }}>

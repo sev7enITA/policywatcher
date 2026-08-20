@@ -23,6 +23,12 @@ const disallowedRoutes = [
 const publicRules = { allow: '/', disallow: disallowedRoutes };
 
 export default function robots(): MetadataRoute.Robots {
+  if (process.env.POLICYWATCHER_DEPLOYMENT_TARGET?.trim().toLowerCase() === 'staging') {
+    return {
+      rules: [{ userAgent: '*', disallow: '/' }],
+    };
+  }
+
   return {
     rules: [
       { userAgent: '*', ...publicRules },

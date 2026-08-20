@@ -21,6 +21,18 @@ export type GlobalCountryCode =
 export type PlatformLanguagePreference = 'auto' | 'en' | 'it';
 export type PlatformLanguage = Exclude<PlatformLanguagePreference, 'auto'>;
 
+export const CIVIC_ROUTE_BY_LANGUAGE: Readonly<Record<PlatformLanguage, string>> = Object.freeze({
+  en: '/en/associations',
+  it: '/it/associazioni',
+});
+
+export function localizedCivicPath(pathname: string, lang: PlatformLanguage): string | null {
+  if (!['/associazioni', CIVIC_ROUTE_BY_LANGUAGE.en, CIVIC_ROUTE_BY_LANGUAGE.it].includes(pathname)) {
+    return null;
+  }
+  return CIVIC_ROUTE_BY_LANGUAGE[lang];
+}
+
 export interface GlobalContext {
   version: 1;
   region: GlobalRegion;

@@ -53,7 +53,7 @@ The platform separates:
 - national organizations;
 - six user-selectable macro areas: Global, Europe, North America, Latin America, Asia-Pacific and Africa.
 
-A country view includes the national records, relevant regional networks and global networks. It does not infer subnational coverage. The directory uses one canonical route (`/associazioni#organizzazioni`); filters remain browser state rather than generating thin country pages for search indexing.
+A country view includes the national records, relevant regional networks and global networks. It does not infer subnational coverage. The directory uses one canonical route per supported language (`/en/associations#organizzazioni` and `/it/associazioni#organizzazioni`); filters remain working state rather than generating thin country pages for search indexing.
 
 ## Inclusion and suggestion checks
 

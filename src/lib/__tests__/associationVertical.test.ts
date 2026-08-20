@@ -120,6 +120,26 @@ describe('consumer-association vertical', () => {
     expect(digest).not.toContain('certifica la conformita');
   });
 
+  it('builds an English radar and digest without Italian fallback copy', () => {
+    const [item] = buildAssociationRadarItems([evidence({ summary: null })], 'en');
+    const digest = buildAssociationDigestMarkdown(
+      [item],
+      { [item.id]: 'in-revisione' },
+      new Date('2026-08-06T12:00:00.000Z'),
+      { country: 'us', regulatoryArea: 'privacy-data', organizationType: 'digital-rights' },
+      'en',
+    );
+
+    expect(item.summary).toContain('Summary unavailable');
+    expect(item.changeHref).toContain('lang=en');
+    expect(item.citizenQuestions.join(' ')).toContain('data categories');
+    expect(digest).toContain('# PolicyWatcher Civic - review digest');
+    expect(digest).toContain('Working country: United States');
+    expect(digest).toContain('Regulatory area: Privacy and data');
+    expect(digest).toContain('Organization type: Digital rights');
+    expect(digest).not.toContain('Sintesi non disponibile');
+  });
+
   it('applies country and association contexts without inventing national coverage', () => {
     const [euItem] = buildAssociationRadarItems([evidence()]);
     const [globalPrivacyItem] = buildAssociationRadarItems([evidence({
