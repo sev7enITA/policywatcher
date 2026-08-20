@@ -148,6 +148,9 @@ jobs:
           --source /tmp/policywatcher-rehearsal-source.db
           --report /tmp/policywatcher-postgresql-rehearsal.json
 
+      - name: Regenerate PostgreSQL client after the rehearsal restores SQLite
+        run: node scripts/prisma-active-schema.mjs generate
+
       - name: Verify canonical dual-write on PostgreSQL
         env:
           POLICYWATCHER_DOCUMENT_EVIDENCE_DUAL_WRITE: '1'

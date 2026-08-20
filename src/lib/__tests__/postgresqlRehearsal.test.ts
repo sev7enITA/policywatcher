@@ -133,5 +133,11 @@ describe('SQLite to PostgreSQL rehearsal contract', () => {
     expect(sanitizer).toContain("'InvestorAccessGrant'");
     expect(sanitizer).toContain("'Subscriber'");
     expect(workflow).toContain('Rehearse SQLite-to-PostgreSQL import and reconciliation');
+    const rehearsal = workflow.indexOf('Rehearse SQLite-to-PostgreSQL import and reconciliation');
+    const regenerate = workflow.indexOf('Regenerate PostgreSQL client after the rehearsal restores SQLite');
+    const dualWriteSmoke = workflow.indexOf('Verify canonical dual-write on PostgreSQL');
+    expect(rehearsal).toBeGreaterThanOrEqual(0);
+    expect(regenerate).toBeGreaterThan(rehearsal);
+    expect(dualWriteSmoke).toBeGreaterThan(regenerate);
   });
 });
