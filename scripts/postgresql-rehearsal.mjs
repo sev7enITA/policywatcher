@@ -86,11 +86,6 @@ if (planOnly) {
   process.exit(0);
 }
 
-if (fs.existsSync(reportPath)) {
-  console.error('PostgreSQL rehearsal report already exists; refusing to overwrite it.');
-  process.exit(1);
-}
-
 let safety;
 try {
   safety = assertRehearsalSafety({

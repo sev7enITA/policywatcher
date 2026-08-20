@@ -194,7 +194,6 @@ async function main(): Promise<void> {
   const reportPath = argument(process.argv.slice(2), '--report');
   if (reportPath) {
     const absolutePath = path.resolve(reportPath);
-    if (fs.existsSync(absolutePath)) throw new Error(`Report already exists: ${absolutePath}`);
     fs.mkdirSync(path.dirname(absolutePath), { recursive: true });
     fs.writeFileSync(absolutePath, `${JSON.stringify(report, null, 2)}\n`, { flag: 'wx', mode: 0o600 });
   }

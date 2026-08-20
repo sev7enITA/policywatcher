@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 4.0.0-beta.1 - 2026-08-20
+
+### Foundation Beta promotion
+
+- Made the GitHub quality gate install the Android companion lockfile before running the repository-wide web and Expo lint contract.
+- Removed time-of-check/time-of-use races from migration and rehearsal report creation; reports are created atomically with exclusive `wx` semantics and remain non-overwriting.
+
 ### Canonical evidence Wave 1B
 
 - Pinned the patched `deepmerge-ts` 8.0.1 transitive release after the pre-promotion supply-chain gate identified GHSA-ggr8-5vv4-36mx through Prisma configuration; `npm audit --omit=dev` returns zero known vulnerabilities.
@@ -13,8 +20,6 @@
 - Added a read-only build/runtime activation gate that blocks dual-write startup unless canonical reconciliation has zero errors and warnings.
 - Split root web and Expo lint policies while preserving one `npm run lint` gate; generated mobile output is no longer incorrectly linted by the Next.js configuration.
 - Rehearsed a sanitized local copy twice: 17 entities, 50 documents, 91 versions, 91 changes and 240 provisions reconciled with zero errors or warnings; the second apply preserved identical counts.
-
-## 4.0.0-beta.1 - 2026-08-19
 
 ### Canonical evidence foundation
 - Added the additive `Entity -> Document -> Version -> Change -> Provision` model with internal UUIDs and deterministic stable public IDs.

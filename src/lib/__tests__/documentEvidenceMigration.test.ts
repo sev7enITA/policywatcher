@@ -122,6 +122,14 @@ describe('document evidence migration and dual-write contracts', () => {
     expect(source('scripts/smoke-document-evidence-dual-write.ts')).toContain(
       'document_evidence_dual_write_assertion_failed',
     );
+    for (const script of [
+      'scripts/backfill-document-evidence.ts',
+      'scripts/reconcile-document-evidence.ts',
+      'scripts/smoke-document-evidence-dual-write.ts',
+    ]) {
+      expect(source(script), script).not.toContain('existsSync(absolutePath)');
+      expect(source(script), script).toContain("flag: 'wx'");
+    }
   });
 
   it('runs canonical backfill and dual-write inside the PostgreSQL CI rehearsal', () => {

@@ -130,6 +130,8 @@ describe('SQLite to PostgreSQL rehearsal contract', () => {
     expect(orchestrator).toContain('postgresql-rehearsal-target-preflight.mjs');
     expect(orchestrator).toContain('postgresql-rehearsal-worker.mjs');
     expect(orchestrator).toContain('postgresql-contract-smoke.mjs');
+    expect(orchestrator).not.toContain('existsSync(reportPath)');
+    expect(orchestrator).toContain("flag: 'wx'");
     expect(sanitizer).toContain("'InvestorAccessGrant'");
     expect(sanitizer).toContain("'Subscriber'");
     expect(workflow).toContain('Rehearse SQLite-to-PostgreSQL import and reconciliation');

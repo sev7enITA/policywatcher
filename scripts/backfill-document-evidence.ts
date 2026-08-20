@@ -16,7 +16,6 @@ function argument(argv: string[], name: string): string | undefined {
 function writeReport(reportPath: string | undefined, report: unknown): void {
   if (!reportPath) return;
   const absolutePath = path.resolve(reportPath);
-  if (fs.existsSync(absolutePath)) throw new Error(`Report already exists: ${absolutePath}`);
   fs.mkdirSync(path.dirname(absolutePath), { recursive: true });
   fs.writeFileSync(absolutePath, `${JSON.stringify(report, null, 2)}\n`, { flag: 'wx', mode: 0o600 });
 }
