@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 
 import { db } from '../src/lib/db';
-import { reconcileDocumentEvidence } from '../src/lib/documentEvidenceReconciliation';
+import { verifyDocumentEvidenceActivation } from '../src/lib/documentEvidenceReconciliation';
 import { isDocumentEvidenceDualWriteEnabled } from '../src/lib/documentEvidenceSync';
 
 async function main(): Promise<void> {
@@ -10,10 +10,7 @@ async function main(): Promise<void> {
     return;
   }
 
-  const report = await db.$transaction(
-    async (tx) => reconcileDocumentEvidence(tx),
-    { maxWait: 10_000, timeout: 120_000 },
-  );
+  const report = await verifyDocumentEvidenceActivation(db);
   if (report.status !== 'reconciled' || report.errorCount !== 0 || report.warningCount !== 0) {
     const issueCodes = [...new Set(report.issues.map((issue) => issue.code))].sort();
     console.error(
@@ -24,7 +21,7 @@ async function main(): Promise<void> {
   }
 
   process.stdout.write(
-    `Canonical evidence activation gate passed: entities=${report.canonical.entities}; documents=${report.canonical.documents}; versions=${report.canonical.versions}; changes=${report.canonical.changes}; provisions=${report.canonical.provisions}.\n`,
+    `Canonical evidence activation gate passed (${report.mode}): entities=${report.canonical.entities}; documents=${report.canonical.documents}; versions=${report.canonical.versions}; changes=${report.canonical.changes}; provisions=${report.canonical.provisions}.\n`,
   );
 }
 

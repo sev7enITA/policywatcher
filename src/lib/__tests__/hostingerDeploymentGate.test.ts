@@ -25,7 +25,10 @@ function stagingEnvironment(): NodeJS.ProcessEnv {
     ADMIN_USER: 'staging-admin',
     ADMIN_PASSWORD: 'staging-password-long',
     API_SECRET: 'a-unique-staging-api-secret-value-123456',
-    SESSION_HMAC_SECRET: 'a-different-staging-session-secret-123456',
+    ADMIN_SESSION_HMAC_SECRET: 'a-different-staging-admin-session-secret-123456',
+    INVESTOR_SESSION_HMAC_SECRET: 'a-different-staging-investor-secret-123456',
+    ADMIN_SESSION_VERSION: '1',
+    TRUSTED_CLIENT_IP_HEADER: 'x-hostinger-client-ip',
   };
 }
 
@@ -41,7 +44,10 @@ function productionEnvironment(): NodeJS.ProcessEnv {
     ADMIN_USER: 'production-admin',
     ADMIN_PASSWORD: 'production-password-long',
     API_SECRET: 'a-unique-production-api-secret-value-123456',
-    SESSION_HMAC_SECRET: 'a-different-production-session-secret-123456',
+    ADMIN_SESSION_HMAC_SECRET: 'a-different-production-admin-session-secret-123456',
+    INVESTOR_SESSION_HMAC_SECRET: 'a-different-production-investor-secret-123456',
+    ADMIN_SESSION_VERSION: '1',
+    TRUSTED_CLIENT_IP_HEADER: 'x-hostinger-client-ip',
     GEMINI_API_KEY: 'configured-production-key',
   };
 }
@@ -64,6 +70,20 @@ describe('Hostinger staging-to-production gate', () => {
     expect(result.ok).toBe(false);
     expect(result.errors.join(' ')).toContain('dedicated staging path');
     expect(result.errors.join(' ')).toContain('SMTP_HOST must be unset');
+  });
+
+  it('requires exactly one verified proxy identity source', () => {
+    const missing = stagingEnvironment();
+    delete missing.TRUSTED_CLIENT_IP_HEADER;
+    const missingResult = validateHostingerEnvironment({ target: 'staging', environment: missing });
+    expect(missingResult.ok).toBe(false);
+    expect(missingResult.errors.join(' ')).toContain('TRUSTED_CLIENT_IP_HEADER');
+
+    const ambiguous = stagingEnvironment();
+    ambiguous.TRUST_PROXY_HEADERS = 'true';
+    const ambiguousResult = validateHostingerEnvironment({ target: 'staging', environment: ambiguous });
+    expect(ambiguousResult.ok).toBe(false);
+    expect(ambiguousResult.errors.join(' ')).toContain('exactly one');
   });
 
   it('requires a recent matching staging checksum for production', () => {
@@ -152,6 +172,7 @@ describe('Hostinger staging-to-production gate', () => {
 
   it('requires the authoritative publication-readiness contract in staging smoke', () => {
     const smoke = readFileSync('scripts/hostinger-staging-smoke.mjs', 'utf8');
+    const promotion = readFileSync('scripts/hostinger-promote-release.mjs', 'utf8');
 
     expect(smoke).toContain("'publication-readiness-contract'");
     expect(smoke).toContain('/api/v1/publication-readiness');
@@ -159,7 +180,9 @@ describe('Hostinger staging-to-production gate', () => {
     expect(smoke).toContain("response.headers.get('cache-control') === 'no-store'");
     expect(smoke).toContain("['configured', 'retrieved', 'baseline-verified', 'public', 'analysed']");
     expect(smoke).toContain('payload?.schema?.presentTableCount === 31');
-    expect(smoke).toContain('payload?.schema?.appliedMigrationCount === 14');
+    expect(smoke).toContain('payload?.schema?.appliedMigrationCount === 16');
     expect(smoke).toContain("payload?.integrity?.quickCheck === 'ok'");
+    expect(smoke).toContain("contractVersion: '1.2.0'");
+    expect(promotion).toContain("['1.0.0', '1.1.0', '1.2.0']");
   });
 });

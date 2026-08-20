@@ -16,7 +16,7 @@ import { rateLimit } from '@/lib/rateLimit';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
-  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-get' });
+  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-leaderboard' });
   if (limited) return limited;
 
   try {

@@ -4,7 +4,7 @@
     "version": 1,
     "surface": "report",
     "title": "PolicyWatcher 4: report funzionale e confronto con la linea 3.x",
-    "description": "Confronto verificabile tra PolicyWatcher 3.9.0-beta.42 e 4.0.0-beta.1, inclusa la Wave 1B implementata ma non ancora attivata in produzione.",
+    "description": "Snapshot storico del confronto tra PolicyWatcher 3.9.0-beta.42 e 4.0.0-beta.1; lo stato corrente e le remediation Beta 2 sono nel relativo audit.",
     "generatedAt": "2026-08-20T03:38:00+02:00",
     "cards": [
       {
@@ -85,7 +85,7 @@
       {
         "id": "comparison_table",
         "title": "PolicyWatcher 3.x vs 4",
-        "subtitle": "Base 3.x: 3.9.0-beta.42, ultima beta prima della major. Base 4: 4.0.0-beta.1 più Wave 1B in Unreleased.",
+        "subtitle": "Base 3.x: 3.9.0-beta.42, ultima beta prima della major. Base 4: 4.0.0-beta.1 con Wave 1B inclusa e attivazioni live ancora soggette a gate.",
         "dataset": "version_comparison",
         "sourceId": "report_snapshot_sql",
         "density": "spacious",
@@ -169,7 +169,7 @@
       {
         "id": "scope_method",
         "type": "markdown",
-        "body": "## Perimetro e metodo\n\nIl confronto usa come riferimento 3.x la **3.9.0-beta.42**, ultima beta documentata prima della major, e come riferimento 4 la **4.0.0-beta.1 – Canonical Evidence Foundation**, includendo separatamente la Wave 1B presente in `Unreleased`. Le affermazioni derivano da changelog, audit, schema, runbook, API e codice di valutazione competitiva del repository al 20 agosto 2026.\n\nGli stati usati sono: **operativo** quando alimenta il percorso corrente; **consegnato ma gated** quando il codice è disponibile ma richiede attivazione; **pending** quando il cutover non è autorizzato. Non viene usato un grafico perché l’evoluzione è categoriale e dipende dallo stato di attivazione: una matrice esatta è più leggibile e meno fuorviante di uno score sintetico."
+        "body": "## Perimetro e metodo\n\nIl confronto usa come riferimento 3.x la **3.9.0-beta.42**, ultima beta documentata prima della major, e come riferimento 4 la **4.0.0-beta.1 - Canonical Evidence Foundation**, che include la Wave 1B nel record di release. Le attivazioni live restano soggette ai gate documentati. Le affermazioni derivano da changelog, audit, schema, runbook, API e codice di valutazione competitiva del repository al 20 agosto 2026.\n\nGli stati usati sono: **operativo** quando alimenta il percorso corrente; **consegnato ma gated** quando il codice è disponibile ma richiede attivazione; **pending** quando il cutover non è autorizzato. Non viene usato un grafico perché l’evoluzione è categoriale e dipende dallo stato di attivazione: una matrice esatta è più leggibile e meno fuorviante di uno score sintetico."
       },
       {
         "id": "features_intro",
@@ -288,7 +288,7 @@
         { "capability": "Admin hardening e release gates", "v4_treatment": "Estesa con controlli di canonical reconciliation e PostgreSQL portability.", "boundary": "I test locali non sostituiscono staging, restore e post-deploy live." }
       ],
       "activation_status": [
-        { "capability": "Schema canonico", "code_status": "Consegnato", "production_status": "Migrazione additiva disponibile; tabelle inizialmente vuote.", "next_gate": "Deploy staging e Database Readiness 31/31, 14/14." },
+        { "capability": "Schema canonico", "code_status": "Consegnato", "production_status": "Migrazione additiva disponibile; tabelle inizialmente vuote.", "next_gate": "Snapshot Beta 1: 31/31 e 14/14; la candidate Beta 2 richiede 31/31 e 16/16." },
         { "capability": "Backfill storico", "code_status": "Consegnato e idempotente", "production_status": "Non eseguito sui dati live.", "next_gate": "Backup, dry-run ready, apply e secondo apply invariato." },
         { "capability": "Riconciliazione", "code_status": "Consegnata", "production_status": "Passata solo su copia sanitizzata.", "next_gate": "Zero errori/warning sulla produzione dopo backfill." },
         { "capability": "Dual-write", "code_status": "Consegnato e smoke-tested", "production_status": "Disabilitato per default.", "next_gate": "Flag =1 solo dopo reconciliation pulita; cattura controllata." },

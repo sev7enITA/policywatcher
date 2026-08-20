@@ -860,7 +860,7 @@ export default function VpsServicesPage() {
               <ShieldCheck size={18} />
               <div>
                 <strong>Read-only release evidence</strong>
-                <p>Auditor access exposes the active version, Agent state and configuration gates. Package selection and deployment controls are not rendered.</p>
+                 <p>Auditor access exposes the active version, Agent state and configuration gates. Package deployment controls are not rendered. Package selection is unavailable.</p>
               </div>
             </div>
           )}

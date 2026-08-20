@@ -266,6 +266,9 @@ model ScanRun {
   status                   String            @default("running") // running, completed, failed
   startedAt                DateTime          @default(now())
   completedAt              DateTime?
+  leaseKey                 String?           @unique // global while active; null after completion/failure
+  leaseExpiresAt           DateTime?
+  failureReason            String?
   selectedRecords          Int               @default(0)
   uniqueSources            Int               @default(0)
   networkRetrievals        Int               @default(0)
@@ -284,6 +287,7 @@ model ScanRun {
 
   @@index([startedAt])
   @@index([status])
+  @@index([leaseExpiresAt])
 }
 
 model SourceRetrieval {
@@ -687,14 +691,17 @@ model RegionImpact {
 }
 
 model Subscriber {
-  id               String   @id @default(uuid())
-  email            String   @unique
-  name             String?
-  regions          String // Comma-separated: "EU,US,Global"
-  industries       String // Comma-separated: "Tech Giant,FinTech"
-  frequency        String   @default("INSTANT") // "INSTANT" or "WEEKLY"
-  unsubscribeToken String   @unique @default(uuid())
-  isActive         Boolean  @default(true)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id                      String    @id @default(uuid())
+  email                   String    @unique
+  name                    String?
+  regions                 String // Comma-separated: "EU,US,Global"
+  industries              String // Comma-separated: "Tech Giant,FinTech"
+  frequency               String    @default("INSTANT") // "INSTANT" or "WEEKLY"
+  unsubscribeToken        String    @unique @default(uuid())
+  confirmationToken       String?   @unique
+  confirmationRequestedAt DateTime?
+  confirmedAt             DateTime?
+  isActive                Boolean   @default(true)
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
 }

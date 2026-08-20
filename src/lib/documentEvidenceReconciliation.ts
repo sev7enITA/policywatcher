@@ -19,6 +19,7 @@ import {
 } from '@/lib/documentEvidenceSync';
 
 export const DOCUMENT_EVIDENCE_RECONCILIATION_VERSION = '1.0.0' as const;
+export const DOCUMENT_EVIDENCE_ACTIVATION_GATE_VERSION = '1.0.0' as const;
 
 export interface DocumentEvidenceCounts {
   entities: number;
@@ -52,6 +53,19 @@ export interface DocumentEvidenceReconciliationReport {
   canonical: DocumentEvidenceCounts;
   errorCount: number;
   warningCount: number;
+  issues: ReconciliationIssue[];
+}
+
+export interface DocumentEvidenceActivationGateReport {
+  contractVersion: typeof DOCUMENT_EVIDENCE_ACTIVATION_GATE_VERSION;
+  checkedAt: string;
+  mode: 'aggregate-bridge-check';
+  status: 'reconciled' | 'blocked';
+  legacy: LegacyEvidenceCounts;
+  expected: DocumentEvidenceCounts;
+  canonical: DocumentEvidenceCounts;
+  errorCount: number;
+  warningCount: 0;
   issues: ReconciliationIssue[];
 }
 
@@ -166,6 +180,86 @@ export async function countCanonicalEvidence(
     tx.provision.count(),
   ]);
   return { entities, documents, versions, changes, provisions };
+}
+
+/**
+ * Constant-memory startup gate for an already fully reconciled dual-write graph.
+ *
+ * The explicit backfill/rehearsal command remains responsible for content-level
+ * reconciliation. Startup verifies aggregate cardinality and every immutable
+ * legacy bridge without loading either representation's policy text.
+ */
+export async function verifyDocumentEvidenceActivation(
+  tx: Prisma.TransactionClient,
+): Promise<DocumentEvidenceActivationGateReport> {
+  const [
+    companies,
+    policies,
+    snapshots,
+    changes,
+    baselines,
+    canonical,
+    bridgedEntities,
+    bridgedDocuments,
+    bridgedVersions,
+    bridgedChanges,
+    canonicalBaselines,
+  ] = await Promise.all([
+    tx.company.count(),
+    tx.policy.count(),
+    tx.policySnapshot.count(),
+    tx.policyChange.count(),
+    tx.policySnapshot.count({ where: { newChanges: { none: {} } } }),
+    countCanonicalEvidence(tx),
+    tx.entity.count({ where: { legacyCompanyId: { not: null } } }),
+    tx.document.count({ where: { legacyPolicyId: { not: null } } }),
+    tx.version.count({ where: { legacySnapshotId: { not: null } } }),
+    tx.change.count({ where: { legacyPolicyChangeId: { not: null } } }),
+    tx.change.count({ where: { legacyPolicyChangeId: null, kind: 'baseline' } }),
+  ]);
+  const legacy = { companies, policies, snapshots, changes };
+  const expected = {
+    entities: companies,
+    documents: policies,
+    versions: snapshots,
+    changes: changes + baselines,
+    provisions: changes * PROVISION_TAXONOMY_KEYS.length,
+  };
+  const issues: ReconciliationIssue[] = [];
+
+  for (const key of Object.keys(expected) as (keyof DocumentEvidenceCounts)[]) {
+    if (canonical[key] !== expected[key]) {
+      pushMismatch(issues, 'canonical_count_mismatch', `Expected ${expected[key]} ${key}, found ${canonical[key]}.`);
+    }
+  }
+  for (const [label, expectedCount, actualCount] of [
+    ['entity', companies, bridgedEntities],
+    ['document', policies, bridgedDocuments],
+    ['version', snapshots, bridgedVersions],
+    ['detected_change', changes, bridgedChanges],
+    ['baseline_change', baselines, canonicalBaselines],
+  ] as const) {
+    if (actualCount !== expectedCount) {
+      pushMismatch(
+        issues,
+        'canonical_bridge_count_mismatch',
+        `Expected ${expectedCount} bridged ${label} records, found ${actualCount}.`,
+      );
+    }
+  }
+
+  return {
+    contractVersion: DOCUMENT_EVIDENCE_ACTIVATION_GATE_VERSION,
+    checkedAt: new Date().toISOString(),
+    mode: 'aggregate-bridge-check',
+    status: issues.length === 0 ? 'reconciled' : 'blocked',
+    legacy,
+    expected,
+    canonical,
+    errorCount: issues.length,
+    warningCount: 0,
+    issues,
+  };
 }
 
 export async function reconcileDocumentEvidence(

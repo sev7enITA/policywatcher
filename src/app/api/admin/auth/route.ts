@@ -99,10 +99,10 @@ export async function POST(request: NextRequest) {
         request,
         username,
         actorRole: role,
-        detail: 'SESSION_HMAC_SECRET_missing',
+        detail: 'admin_session_configuration_missing',
       });
       return NextResponse.json(
-        { error: 'Admin session signing is not configured. Set SESSION_HMAC_SECRET and redeploy.' },
+        { error: 'Admin session signing is not configured. Set the dedicated signing secret and revocation version, then redeploy.' },
         { status: 503 }
       );
     }

@@ -34,7 +34,7 @@ export interface ReleaseImpactItem {
   externalDependency?: string;
 }
 
-export const RELEASE_IMPACT_UPDATED_AT = '19 August 2026' as const;
+export const RELEASE_IMPACT_UPDATED_AT = '20 August 2026' as const;
 
 export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.7.0', shortLabel: '3.7.0', label: '3.7.0', state: 'delivered' },
@@ -95,7 +95,8 @@ export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.9.0-beta.40', shortLabel: '3.9 B40', label: '3.9.0 Beta 40', state: 'delivered' },
   { id: '3.9.0-beta.41', shortLabel: '3.9 B41', label: '3.9.0 Beta 41', state: 'delivered' },
   { id: '3.9.0-beta.42', shortLabel: '3.9 B42', label: '3.9.0 Beta 42', state: 'delivered' },
-  { id: '4.0.0-beta.1', shortLabel: '4.0 B1', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
+  { id: '4.0.0-beta.1', shortLabel: '4.0 B1', label: '4.0.0 Beta 1', state: 'delivered' },
+  { id: '4.0.0-beta.2', shortLabel: '4.0 B2', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
   { id: 'next', shortLabel: 'Next', label: 'Next beta horizon', state: 'planned' },
   { id: 'later', shortLabel: 'Later', label: 'Later horizon', state: 'planned' },
 ];
@@ -118,7 +119,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
     title: 'Canonical Document Evidence Graph',
     summary: 'Introduces stable public identities and the Entity, Document, Version, Change and Provision evidence chain as an additive canonical model.',
     domainId: 'assurance',
-    status: 'current',
+    status: 'delivered',
     horizon: 'delivered',
     startRelease: '4.0.0-beta.1',
     endRelease: '4.0.0-beta.1',
@@ -133,7 +134,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
     title: 'Authoritative Publication Readiness',
     summary: 'Publishes one database-derived aggregate for configured, retrieved, baseline-verified, public and analysed policy records plus latest capture.',
     domainId: 'operations',
-    status: 'current',
+    status: 'delivered',
     horizon: 'delivered',
     startRelease: '4.0.0-beta.1',
     endRelease: '4.0.0-beta.1',
@@ -142,6 +143,21 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
     kri: 'Residual KRI: an aggregate count does not prove source completeness, legal review, analytical quality or continuous availability',
     evidence: 'Single server query, no-store public endpoint, JSON Schema, manifest discovery, staging smoke check and post-deploy verification.',
     limitation: 'The metric exposes aggregate operational evidence only and intentionally excludes policy text, private records and internal identifiers.',
+  },
+  {
+    id: 'production-readiness-hardening',
+    title: 'Production Readiness Hardening',
+    summary: 'Closes the highest-impact independent-assessment findings across request identity, bounded retrieval, scan lifecycle, session isolation, consent and recovery exports.',
+    domainId: 'security',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '4.0.0-beta.2',
+    endRelease: '4.0.0-beta.2',
+    benefit: 'Operators gain fail-closed client identity, bounded network and AI input paths, recoverable scan leases, revocable admin sessions and 48-hour subscriber confirmation evidence.',
+    kpi: 'Assessment remediation implemented: 3 high findings closed, 7 medium controls implemented or materially reduced, 16 SQLite migrations declared',
+    kri: 'Residual KRI: live Hostinger configuration, staging rehearsal, restore exercise and production deployment remain external gates',
+    evidence: 'Independent-assessment remediation audit, focused regression tests, environment gate, migration parity checks and current release manifest.',
+    limitation: 'Code-level closure does not prove the live proxy header, SMTP delivery, database corpus, backup restoration or production availability.',
   },
   {
     id: 'two-week-release-evidence-pulse',

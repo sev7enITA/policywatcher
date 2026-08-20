@@ -74,10 +74,14 @@ DATABASE_URL=file:/home/u847874844/domains/staging.policywatcher.online/policywa
 ADMIN_USER=<staging-only username>
 ADMIN_PASSWORD=<staging-only password of at least 16 characters>
 API_SECRET=<staging-only random value of at least 32 characters>
-SESSION_HMAC_SECRET=<different staging-only random value of at least 32 characters>
+ADMIN_SESSION_HMAC_SECRET=<staging-only admin-session random value of at least 32 characters>
+INVESTOR_SESSION_HMAC_SECRET=<different staging-only investor-session random value of at least 32 characters>
+ADMIN_SESSION_VERSION=1
+TRUSTED_CLIENT_IP_HEADER=<provider-controlled client-IP header verified in staging>
 ALLOW_DATABASE_SEED_ENDPOINT=false
 ALLOW_SEEDED_PUBLIC_DATA=false
 ADMIN_MUTATION_ALLOW_MISSING_PROVENANCE=false
+INVESTOR_MUTATION_ALLOW_MISSING_PROVENANCE=false
 ALLOW_DEMO_AI_FALLBACK=false
 ```
 
@@ -97,9 +101,16 @@ specific controlled test. Do not configure production cron jobs against the
 staging origin.
 
 The staging build command fails closed if the origin, database path, secrets,
-release checksum or outbound-delivery boundary is unsafe. Staging also displays
+trusted client-identity source, release checksum or outbound-delivery boundary
+is unsafe. Configure exactly one of `TRUSTED_CLIENT_IP_HEADER` and
+`TRUST_PROXY_HEADERS=true`; never both. Staging also displays
 a permanent visible banner, returns `X-Robots-Tag: noindex, nofollow, noarchive`
 and disallows all crawlers in `robots.txt`.
+
+Database Readiness must report `journalMode=wal`, `busyTimeoutMs>=5000`,
+`31/31` tables and `16/16` SQLite migrations. Deployment backups are created
+through the SQLite backup API so WAL state is included consistently; do not
+replace that step with a raw copy of the main `.db` file.
 
 ## 4. Verify the deployed candidate
 

@@ -559,6 +559,7 @@ ${question}`;
         contents: prompt,
         config: {
           temperature: 0.5,
+          maxOutputTokens: 800,
         },
       });
 

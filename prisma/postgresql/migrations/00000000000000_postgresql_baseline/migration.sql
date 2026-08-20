@@ -219,6 +219,9 @@ CREATE TABLE "ScanRun" (
     "status" TEXT NOT NULL DEFAULT 'running',
     "startedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "completedAt" TIMESTAMP(3),
+    "leaseKey" TEXT,
+    "leaseExpiresAt" TIMESTAMP(3),
+    "failureReason" TEXT,
     "selectedRecords" INTEGER NOT NULL DEFAULT 0,
     "uniqueSources" INTEGER NOT NULL DEFAULT 0,
     "networkRetrievals" INTEGER NOT NULL DEFAULT 0,
@@ -589,6 +592,9 @@ CREATE TABLE "Subscriber" (
     "industries" TEXT NOT NULL,
     "frequency" TEXT NOT NULL DEFAULT 'INSTANT',
     "unsubscribeToken" TEXT NOT NULL,
+    "confirmationToken" TEXT,
+    "confirmationRequestedAt" TIMESTAMP(3),
+    "confirmedAt" TIMESTAMP(3),
     "isActive" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -745,6 +751,12 @@ CREATE INDEX "ScanRun_startedAt_idx" ON "ScanRun"("startedAt");
 
 -- CreateIndex
 CREATE INDEX "ScanRun_status_idx" ON "ScanRun"("status");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ScanRun_leaseKey_key" ON "ScanRun"("leaseKey");
+
+-- CreateIndex
+CREATE INDEX "ScanRun_leaseExpiresAt_idx" ON "ScanRun"("leaseExpiresAt");
 
 -- CreateIndex
 CREATE INDEX "SourceRetrieval_retrievalKey_createdAt_idx" ON "SourceRetrieval"("retrievalKey", "createdAt");
@@ -928,6 +940,9 @@ CREATE UNIQUE INDEX "Subscriber_email_key" ON "Subscriber"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Subscriber_unsubscribeToken_key" ON "Subscriber"("unsubscribeToken");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Subscriber_confirmationToken_key" ON "Subscriber"("confirmationToken");
 
 -- AddForeignKey
 ALTER TABLE "Document" ADD CONSTRAINT "Document_entityId_fkey" FOREIGN KEY ("entityId") REFERENCES "Entity"("id") ON DELETE CASCADE ON UPDATE CASCADE;

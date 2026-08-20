@@ -279,6 +279,40 @@ export default function InfographicsPage() {
           </figure>
         </section>
 
+        <section className={styles.erPosterCard} aria-labelledby="v4-beta2-value-title">
+          <div className={styles.erPosterHeader}>
+            <div>
+              <span className={`${styles.eyebrow} ${styles.eyebrowTeal}`}>
+                <Radio size={14} />
+                Infographic 10 · Current v{POLICYWATCHER_VERSION} · August 2026
+              </span>
+              <h2 id="v4-beta2-value-title">PolicyWatcher 4: what the operating-model change means</h2>
+              <p>
+                A sober English guide for product, governance, research and integration teams. It explains the 3.x to 4
+                evidence-model change first, then keeps architecture, Git, integrations and shared workflows in a separate technical mirror.
+              </p>
+            </div>
+            <div className={styles.erPosterActions}>
+              <Link href="/press-kit/releases/production-readiness-hardening-4-0-0-beta-2">Open release record</Link>
+              <a href="/press-kit/policywatcher-v4-beta2-value-infographic-en-2026-08-20.png" download>English PNG</a>
+            </div>
+          </div>
+          <figure className={styles.erPosterFigure}>
+            <Image
+              src="/press-kit/policywatcher-v4-beta2-value-infographic-en-2026-08-20.webp"
+              alt="PolicyWatcher 4 operating-model guide for product, governance, research and integration teams, comparing 3.x change records with durable reusable evidence and placing architecture, Git, integrations and shared workflows in a secondary technical reference"
+              width={1800}
+              height={2700}
+              priority
+            />
+            <figcaption>
+              Dated Beta 2 release checkpoint, not a claim of continuous availability, legal quality, corpus completeness,
+              compliance or competitive superiority. Live readiness remains outside the static graphic. The illustration
+              layer was generated with AI; every claim, number and label is deterministic.
+            </figcaption>
+          </figure>
+        </section>
+
         <section className={styles.erPosterCard} aria-labelledby="civic-associations-title">
           <div className={styles.erPosterHeader}>
             <div>

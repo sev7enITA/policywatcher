@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "incremental": false,
+    "target": "ES2022",
+    "plugins": [],
+    "types": ["node", "vitest/globals"]
+  },
+  "include": [
+    "src/lib/__tests__/adminAuth.test.ts",
+    "src/lib/__tests__/databaseReadiness.test.ts",
+    "src/lib/__tests__/documentEvidenceModel.test.ts",
+    "src/lib/__tests__/documentEvidenceReconciliation.test.ts",
+    "src/lib/__tests__/encryptedBackup.test.ts",
+    "src/lib/__tests__/rateLimit.test.ts",
+    "src/lib/__tests__/requestBody.test.ts",
+    "src/lib/__tests__/scanRunLifecycle.test.ts",
+    "src/lib/__tests__/scraper.test.ts",
+    "src/lib/__tests__/scraperFallbackSmoke.test.ts",
+    "src/lib/__tests__/subscriberDoubleOptIn.test.ts"
+  ],
+  "exclude": ["node_modules", ".next", "mobile", "coverage", "test-results"]
+}

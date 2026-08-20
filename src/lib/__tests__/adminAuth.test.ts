@@ -18,7 +18,8 @@ describe('adminAuth', () => {
   });
 
   it('creates and verifies signed admin and auditor session tokens', () => {
-    vi.stubEnv('SESSION_HMAC_SECRET', 'session-secret');
+    vi.stubEnv('ADMIN_SESSION_HMAC_SECRET', 'session-secret');
+    vi.stubEnv('ADMIN_SESSION_VERSION', '1');
 
     const adminToken = createSessionToken('admin');
     const auditorToken = createSessionToken('auditor');
@@ -30,21 +31,25 @@ describe('adminAuth', () => {
   it('rejects malformed, tampered, invalid-role, and expired tokens', () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-07-02T00:00:00Z'));
-    vi.stubEnv('SESSION_HMAC_SECRET', 'session-secret');
+    vi.stubEnv('ADMIN_SESSION_HMAC_SECRET', 'session-secret');
+    vi.stubEnv('ADMIN_SESSION_VERSION', '1');
 
     const token = createSessionToken('admin');
-    const [role, timestamp, signature] = token.split(':');
+    expect(token).not.toBeNull();
+    if (!token) throw new Error('Expected an admin session token.');
+    const [, role, timestamp, sessionVersion, signature] = token.split(':');
 
     expect(verifySessionToken('not-a-token')).toEqual({ valid: false });
-    expect(verifySessionToken(`superadmin:${timestamp}:${signature}`)).toEqual({ valid: false });
-    expect(verifySessionToken(`${role}:${timestamp}:bad-signature`)).toEqual({ valid: false });
-    expect(verifySessionToken(`${role}:not-a-number:${signature}`)).toEqual({ valid: false });
+    expect(verifySessionToken(`v2:superadmin:${timestamp}:${sessionVersion}:${signature}`)).toEqual({ valid: false });
+    expect(verifySessionToken(`v2:${role}:${timestamp}:${sessionVersion}:bad-signature`)).toEqual({ valid: false });
+    expect(verifySessionToken(`v2:${role}:not-a-number:${sessionVersion}:${signature}`)).toEqual({ valid: false });
 
     vi.setSystemTime(new Date('2026-07-03T00:00:01Z'));
     expect(verifySessionToken(token)).toEqual({ valid: false });
   });
 
   it('invalidates sessions when no signing secret exists', () => {
+    vi.stubEnv('ADMIN_SESSION_HMAC_SECRET', '');
     vi.stubEnv('SESSION_HMAC_SECRET', '');
     vi.stubEnv('API_SECRET', '');
     const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
@@ -52,16 +57,36 @@ describe('adminAuth', () => {
     const token = createSessionToken('admin');
 
     expect(verifySessionToken(token)).toEqual({ valid: false });
-    expect(error).toHaveBeenCalledWith('[AdminAuth] SESSION_HMAC_SECRET is not set. Sessions will be invalid.');
+    expect(error).toHaveBeenCalledWith('[AdminAuth] ADMIN_SESSION_HMAC_SECRET is not set. Sessions will be invalid.');
   });
 
   it('does not fall back to API_SECRET for admin session signing', () => {
+    vi.stubEnv('ADMIN_SESSION_HMAC_SECRET', '');
     vi.stubEnv('SESSION_HMAC_SECRET', '');
     vi.stubEnv('API_SECRET', 'cron-secret');
 
     const token = createSessionToken('admin');
 
     expect(verifySessionToken(token)).toEqual({ valid: false });
+  });
+
+  it('revokes existing admin sessions when the configured version changes', () => {
+    vi.stubEnv('ADMIN_SESSION_HMAC_SECRET', 'session-secret');
+    vi.stubEnv('ADMIN_SESSION_VERSION', 'wave-1');
+    const token = createSessionToken('admin');
+    expect(verifySessionToken(token)).toMatchObject({ valid: true });
+
+    vi.stubEnv('ADMIN_SESSION_VERSION', 'wave-2');
+    expect(verifySessionToken(token)).toEqual({ valid: false });
+  });
+
+  it('does not accept the legacy shared secret on managed deployments', () => {
+    vi.stubEnv('POLICYWATCHER_DEPLOYMENT_TARGET', 'production');
+    vi.stubEnv('SESSION_HMAC_SECRET', 'legacy-shared-secret');
+    vi.stubEnv('ADMIN_SESSION_HMAC_SECRET', '');
+    vi.stubEnv('ADMIN_SESSION_VERSION', '1');
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    expect(createSessionToken('admin')).toBeNull();
   });
 
   it('validates admin and auditor credentials from environment variables', () => {
@@ -99,7 +124,8 @@ describe('adminAuth', () => {
   });
 
   it('reads, sets, and clears the signed admin session cookie', () => {
-    vi.stubEnv('SESSION_HMAC_SECRET', 'session-secret');
+    vi.stubEnv('ADMIN_SESSION_HMAC_SECRET', 'session-secret');
+    vi.stubEnv('ADMIN_SESSION_VERSION', '1');
 
     const response = setSessionCookie(NextResponse.json({ success: true }), 'admin');
     const cookie = response.cookies.get(COOKIE_NAME);

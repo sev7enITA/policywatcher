@@ -4,6 +4,12 @@ Release line: `4.0.0-beta.1`
 
 Data audit: 19 agosto 2026
 
+Aggiornamento promozione: la Wave 1B e inclusa nella Foundation Beta pubblicata
+su GitHub il 20 agosto 2026 al commit
+`13b3b61f20e78c6f56df93bae4af8d592c0712f0`. Il deploy Hostinger, il backfill
+live, l attivazione dual-write e i cutover di lettura e infrastruttura restano
+separatamente soggetti a gate.
+
 Ambito: backfill, riconciliazione e dual-write `Entity → Document → Version → Change → Provision`
 
 ## Verdetto
@@ -100,7 +106,7 @@ Report locali riservati:
 - ESLint web + companion Expo tramite il gate root `npm run lint`: **PASS**.
 - Supply chain pre-promozione del 20 agosto 2026: override `deepmerge-ts` **8.0.1**, Prisma generate/validate **PASS** e `npm audit --omit=dev` **0 vulnerabilità note**.
 - Build Next.js 16.2.11: **PASS**, 169 pagine statiche generate.
-- Packaging Hostinger workspace-snapshot: **PASS**, 1.143 entry con verifica contenuti/checksum; è evidenza locale non promuovibile finché il worktree non è reviewato e committato.
+- Packaging Hostinger workspace-snapshot: **PASS**, 1.143 entry con verifica contenuti/checksum; resta evidenza locale storica e non e l artifact di deploy. La successiva promozione GitHub non sostituisce il rehearsal di staging del checksum esatto.
 
 ## Rischi residui e gate mancanti
 

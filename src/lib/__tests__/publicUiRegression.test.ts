@@ -25,6 +25,8 @@ describe('public UI regression fixes', () => {
     expect(source).toContain('Canonical Shareable View State');
     expect(source).toContain('Regional Context Drill-down');
     expect(source).toContain('Benchmark KPI Inspector');
+    expect(source).toContain('policywatcher-v4-beta2-value-infographic-en-2026-08-20.webp');
+    expect(source).toContain('PolicyWatcher 4: what the operating-model change means');
     expect(source.match(/mobileDiagramLegend/g)).toHaveLength(2);
     expect(source).not.toContain('v3.6.3');
   });
@@ -144,7 +146,7 @@ describe('public UI regression fixes', () => {
     expect(FEATURE_ATLAS_FEATURES.some((feature) => feature.id === 'governed-regional-benchmark-visualizations')).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.some((item) => item.kpi && item.kri)).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.filter((item) => ['shareable-evidence-views', 'coordinated-evidence-drilldown'].includes(item.id))).toHaveLength(2);
-    expect(RELEASE_IMPACT_UPDATED_AT).toBe('19 August 2026');
+    expect(RELEASE_IMPACT_UPDATED_AT).toBe('20 August 2026');
     expect(FEATURE_ATLAS_CURRENT_RELEASE_ID).toBe(POLICYWATCHER_VERSION);
     expect(FEATURE_ATLAS_RELEASES.filter((release) => release.current)).toHaveLength(1);
     expect(RELEASE_COLUMNS.filter((release) => release.state === 'current').map((release) => release.id)).toEqual([POLICYWATCHER_VERSION]);

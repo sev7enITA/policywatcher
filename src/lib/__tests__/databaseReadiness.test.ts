@@ -11,6 +11,7 @@ vi.mock('@/lib/databaseConfig', () => ({
 }));
 vi.mock('@/lib/db', () => ({
   db: { $queryRawUnsafe: mocks.queryRawUnsafe },
+  databaseRuntimeConfiguration: Promise.resolve(0),
 }));
 
 import {
@@ -52,6 +53,9 @@ describe('database readiness report', () => {
 
     expect([...EXPECTED_DATABASE_TABLES].sort()).toEqual(models);
     expect([...EXPECTED_DATABASE_MIGRATIONS].sort()).toEqual(migrations);
+    expect(readFileSync('src/lib/db.ts', 'utf8')).toContain(
+      "$queryRawUnsafe<Array<Record<string, unknown>>>('PRAGMA busy_timeout = 5000')",
+    );
   });
 
   it('reports ready only when integrity, schema, ledger and file access are current', async () => {
@@ -61,6 +65,7 @@ describe('database readiness report', () => {
       }
       if (sql.includes('quick_check')) return [{ quick_check: 'ok' }];
       if (sql.includes('journal_mode')) return [{ journal_mode: 'wal' }];
+      if (sql.includes('busy_timeout')) return [{ busy_timeout: 5000n }];
       if (sql.includes('foreign_keys')) return [{ foreign_keys: 1n }];
       if (sql.includes('page_count')) return [{ page_count: 3000n }];
       if (sql.includes('freelist_count')) return [{ freelist_count: 12n }];
@@ -80,6 +85,7 @@ describe('database readiness report', () => {
     expect(report.integrity).toMatchObject({
       quickCheck: 'ok',
       journalMode: 'wal',
+      busyTimeoutMs: 5000,
       foreignKeysEnabled: true,
       pageCount: 3000,
       freePageCount: 12,
@@ -146,6 +152,7 @@ describe('database readiness report', () => {
     expect(report.integrity).toMatchObject({
       quickCheck: 'ok',
       journalMode: 'postgresql',
+      busyTimeoutMs: null,
       foreignKeysEnabled: true,
       pageCount: null,
       freePageCount: null,
@@ -168,22 +175,25 @@ describe('database readiness report', () => {
     expect(classifyDatabaseError(new Error('arbitrary internal statement'))).toBe('DATABASE_QUERY_FAILED');
   });
 
-  it('returns a fixed six-variable presence contract without exposing values', () => {
+  it('returns a fixed eight-variable presence contract without exposing values', () => {
     const report = buildEnvironmentReadiness({
       GEMINI_API_KEY: 'sensitive-key',
       API_SECRET: '',
-      SESSION_HMAC_SECRET: 'sensitive-secret',
+      ADMIN_SESSION_HMAC_SECRET: 'sensitive-admin-secret',
+      INVESTOR_SESSION_HMAC_SECRET: 'sensitive-investor-secret',
+      ADMIN_SESSION_VERSION: '1',
       DATABASE_URL: 'file:/private/database.db',
       SMTP_HOST: undefined,
       ADMIN_USER: 'admin@example.test',
-    });
+    } as NodeJS.ProcessEnv);
 
-    expect(report).toMatchObject({ configuredCount: 4, expectedCount: 6 });
+    expect(report).toMatchObject({ configuredCount: 6, expectedCount: 8 });
     expect(report.variables.map((variable) => variable.name)).toEqual([
-      'GEMINI_API_KEY', 'API_SECRET', 'SESSION_HMAC_SECRET', 'DATABASE_URL', 'SMTP_HOST', 'ADMIN_USER',
+      'GEMINI_API_KEY', 'API_SECRET', 'ADMIN_SESSION_HMAC_SECRET', 'INVESTOR_SESSION_HMAC_SECRET',
+      'ADMIN_SESSION_VERSION', 'DATABASE_URL', 'SMTP_HOST', 'ADMIN_USER',
     ]);
     expect(report.variables.map((variable) => variable.status)).toEqual([
-      'SET', 'NOT SET', 'SET', 'SET', 'NOT SET', 'SET',
+      'SET', 'NOT SET', 'SET', 'SET', 'SET', 'SET', 'NOT SET', 'SET',
     ]);
     expect(JSON.stringify(report)).not.toContain('sensitive');
     expect(JSON.stringify(report)).not.toContain('/private/database.db');

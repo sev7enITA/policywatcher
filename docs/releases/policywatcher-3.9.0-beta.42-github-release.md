@@ -1,4 +1,6 @@
-# PolicyWatcher 3.9.0 Beta 42 - Evidence Release Control Plane
+# PolicyWatcher 3.9.0 Beta 42 - Evidence Release Control Plane - August 2026
+
+Release record date: 15 August 2026
 
 Two technical waves and one UI/UX wave make model decisions and release impact versioned, validated and publicly inspectable.
 

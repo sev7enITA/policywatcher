@@ -61,6 +61,24 @@ describe('Beta 7 release security hardening', () => {
     expect(errorLog).toHaveBeenCalledWith(expect.stringMatching(/^\[Chat\] Error reference chat_[a-f0-9]{12}: Gemini transport detail/));
   });
 
+  it('bounds public chat input and the implicit database context', async () => {
+    const oversizedQuestion = await chatPost(new NextRequest('https://policywatcher.online/api/chat', {
+      method: 'POST',
+      body: JSON.stringify({ question: 'x'.repeat(1_001) }),
+    }));
+    expect(oversizedQuestion.status).toBe(400);
+    expect(mocks.policyFindMany).not.toHaveBeenCalled();
+
+    mocks.policyFindMany.mockResolvedValue([{ company: { name: 'Example' }, name: 'Privacy', currentText: 'Text' }]);
+    mocks.answerPolicyQuestion.mockResolvedValue('Bounded answer');
+    const ordinary = await chatPost(new NextRequest('https://policywatcher.online/api/chat', {
+      method: 'POST',
+      body: JSON.stringify({ question: 'What changed?' }),
+    }));
+    expect(ordinary.status).toBe(200);
+    expect(mocks.policyFindMany).toHaveBeenCalledWith(expect.objectContaining({ take: 20 }));
+  });
+
   it('keeps authenticated health diagnostics free of physical filesystem paths', async () => {
     vi.stubEnv('API_SECRET', 'health-secret');
     mocks.databaseDiagnostics.mockResolvedValue({

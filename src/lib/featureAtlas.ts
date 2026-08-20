@@ -153,7 +153,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.40', shortLabel: '3.9 B40', label: '3.9.0 Beta 40' },
   { id: '3.9.0-beta.41', shortLabel: '3.9 B41', label: '3.9.0 Beta 41' },
   { id: '3.9.0-beta.42', shortLabel: '3.9 B42', label: '3.9.0 Beta 42' },
-  { id: '4.0.0-beta.1', shortLabel: '4.0 B1', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '4.0.0-beta.1', shortLabel: '4.0 B1', label: '4.0.0 Beta 1' },
+  { id: '4.0.0-beta.2', shortLabel: '4.0 B2', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -520,8 +521,8 @@ const platformSurfaceFeatures: FeatureAtlasFeature[] = [
   }),
   surfaceFeature({
     id: 'subscriber-alerts', title: 'Policy change subscriptions', shortLabel: 'Change alerts',
-    summary: 'Collects bounded subscriber preferences for future public policy-change notifications.', kind: 'business', domainId: 'distribution', stageId: 'publication', releaseId: '3.7.0', release: '3.7.0',
-    benefit: 'A user can register interest in public policy-change alerts.', kpi: 'Inventory KPI · subscription preference workflow available', kri: 'Residual KRI · delivery, consent and list hygiene remain operational dependencies', evidence: 'Subscriber API, preference validation, subscribe modal and unsubscribe route.', limitation: 'Subscription does not guarantee delivery or imply that every source change is detected.', primaryUser: 'PolicyWatcher subscriber', route: { href: '/', label: 'Evidence Console', access: 'public' }, dependencies: [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }],
+    summary: 'Collects bounded subscriber preferences and keeps new or reactivated records pending until explicit confirmation.', kind: 'business', domainId: 'distribution', stageId: 'publication', releaseId: '3.7.0', release: '3.7.0',
+    benefit: 'A user can request public policy-change alerts and activate them through an explicit double opt-in step.', kpi: 'Inventory KPI · timestamped confirmation workflow available', kri: 'Residual KRI · SMTP delivery, legacy consent provenance and list hygiene remain operational dependencies', evidence: 'Subscriber API, rotated 48-hour confirmation token, requested/confirmed timestamps, fragment-based confirmation page and unsubscribe route.', limitation: 'Existing active rows retain unknown historical consent evidence; subscription does not guarantee delivery or complete change detection.', primaryUser: 'PolicyWatcher subscriber', route: { href: '/', label: 'Evidence Console', access: 'public' }, dependencies: [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }],
   }),
   surfaceFeature({
     id: 'inquiry-operator-notifications', title: 'Inquiry operator notifications', shortLabel: 'Inquiry notice',

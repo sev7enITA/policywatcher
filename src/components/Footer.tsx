@@ -29,7 +29,11 @@ import {
   UserRound,
 } from 'lucide-react';
 import Link from 'next/link';
-import { POLICYWATCHER_BUILD_LABEL, POLICYWATCHER_VERSION } from '@/lib/release';
+import {
+  POLICYWATCHER_BUILD_LABEL,
+  POLICYWATCHER_RELEASE_DATE_LABEL,
+  POLICYWATCHER_VERSION,
+} from '@/lib/release';
 import { useGlobalContext } from './GlobalContextControl';
 import styles from './Footer.module.css';
 
@@ -76,7 +80,7 @@ const content = {
     infographics: 'Infographics',
     paloFramework: 'PALO Framework',
     opensNewTab: 'opens in a new tab',
-    releaseNotice: `Release v${POLICYWATCHER_VERSION}. AI-assisted assessments, not legal advice. Verify with provider sources.`,
+    releaseNotice: `Release v${POLICYWATCHER_VERSION}, ${POLICYWATCHER_RELEASE_DATE_LABEL.en}. AI-assisted assessments, not legal advice. Verify with provider sources.`,
     copy: `Copyright ${new Date().getFullYear()} PolicyWatcher by Fabrizio Degni. All rights reserved.`,
     madeIn: 'Made in the EU',
   },
@@ -112,7 +116,7 @@ const content = {
     infographics: 'Infografiche',
     paloFramework: 'PALO Framework',
     opensNewTab: 'si apre in una nuova scheda',
-    releaseNotice: `Release v${POLICYWATCHER_VERSION}. Valutazioni assistite da AI, non parere legale. Verificare con le fonti provider.`,
+    releaseNotice: `Release v${POLICYWATCHER_VERSION}, ${POLICYWATCHER_RELEASE_DATE_LABEL.it}. Valutazioni assistite da AI, non parere legale. Verificare con le fonti provider.`,
     copy: `Copyright ${new Date().getFullYear()} PolicyWatcher di Fabrizio Degni. Tutti i diritti riservati.`,
     madeIn: 'Fatto in UE',
   },

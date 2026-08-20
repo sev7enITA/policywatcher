@@ -136,6 +136,12 @@ function buildUnsubscribeLink(email?: string, token?: string): string {
   return `${appUrl}/unsubscribe?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`;
 }
 
+function buildSubscriptionConfirmationLink(email: string, token: string): string {
+  const appUrl = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const fragment = new URLSearchParams({ email, token }).toString();
+  return `${appUrl}/confirm-subscription#${fragment}`;
+}
+
 // -- HTML Template Foundation --
 
 /**
@@ -434,27 +440,28 @@ export async function sendPolicyChangeAlert(
 // -- Subscription Confirmation --
 
 /**
- * Sends a welcome email confirming a new subscription.
+ * Sends a double-opt-in request. Opening the link only loads a page; the user
+ * must explicitly submit the confirmation before the subscriber becomes active.
  * Falls back to console.log if SMTP is not configured.
  */
-export async function sendSubscriptionConfirmation(
+export async function sendSubscriptionConfirmationRequest(
   email: string,
   name: string | undefined,
   regions: string,
   industries: string,
   frequency: string,
-  token?: string
+  confirmationToken: string,
 ): Promise<boolean> {
   const greeting = name ? `Hello ${escapeHtml(name)}` : 'Hello';
-  const subject = 'Welcome to PolicyWatcher Alerts';
+  const subject = 'Confirm your PolicyWatcher alerts';
 
   const freqLabel = frequency === 'WEEKLY' ? 'Weekly Digest' : 'Published change alerts';
-  const unsubscribeLink = escapeHtml(buildUnsubscribeLink(email, token));
+  const confirmationLink = escapeHtml(buildSubscriptionConfirmationLink(email, confirmationToken));
 
   const bodyContent = `
     <p style="margin: 0 0 20px; font-size: 15px; color: #f3f4f6; line-height: 1.6;">
       ${greeting},<br><br>
-      Your subscription to PolicyWatcher alerts has been confirmed. You will receive notifications based on your chosen preferences.
+      We received a request to subscribe this address to PolicyWatcher alerts. Confirm it within 48 hours. Until then, no policy alerts will be sent.
     </p>
     
     <!-- Subscription Preferences Summary -->
@@ -480,6 +487,14 @@ export async function sendSubscriptionConfirmation(
       </tr>
     </table>
 
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin: 0 0 24px;">
+      <tr>
+        <td align="center">
+          <a href="${confirmationLink}" style="display: inline-block; padding: 12px 20px; border-radius: 10px; background: #6366f1; color: #ffffff; font-size: 14px; font-weight: 700; text-decoration: none;">Review and confirm subscription</a>
+        </td>
+      </tr>
+    </table>
+
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 24px;">
       <tr>
         <td style="padding: 16px; background-color: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 10px;">
@@ -494,7 +509,7 @@ export async function sendSubscriptionConfirmation(
     </table>
     
     <p style="margin: 0 0 20px; font-size: 13px; color: #9ca3af; line-height: 1.5;">
-      <strong>How to Unsubscribe:</strong> If you ever wish to stop receiving updates, simply click the <strong>Unsubscribe</strong> link at the bottom of any email we send you, or click here: <a href="${unsubscribeLink}" style="color: #6366f1; text-decoration: underline;">Cancel Subscription</a>.
+      If you did not make this request, do nothing. The address will remain inactive. After confirmation, every alert will include a token-bound unsubscribe link.
     </p>
 
     <p style="margin: 0; font-size: 13px; color: #6b7280;">
@@ -502,7 +517,7 @@ export async function sendSubscriptionConfirmation(
       -- Fabrizio Degni
     </p>`;
 
-  const html = wrapInTemplate(bodyContent, email, token);
+  const html = wrapInTemplate(bodyContent);
   return sendEmail(email, subject, html);
 }
 

@@ -144,6 +144,8 @@ describe('document evidence migration and dual-write contracts', () => {
 
   it('blocks deployment and runtime activation when reconciliation is not clean', () => {
     const gate = source('scripts/gate-document-evidence-activation.ts');
+    expect(gate).toContain('verifyDocumentEvidenceActivation');
+    expect(gate).not.toContain('reconcileDocumentEvidence');
     expect(gate).toContain("report.status !== 'reconciled'");
     expect(gate).toContain('report.errorCount !== 0');
     expect(gate).toContain('report.warningCount !== 0');

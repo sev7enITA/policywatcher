@@ -27,7 +27,7 @@ import { allowSeededPublicData, publicPolicyWhere } from '@/lib/publicDataGate';
  * @returns JSON array of companies, or a 500 error.
  */
 export async function GET(request: NextRequest) {
-  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-get' });
+  const limited = rateLimit(request, { intervalMs: 60_000, max: 60, name: 'public-companies' });
   if (limited) return limited;
 
   try {
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('Error fetching companies:', error);
     return NextResponse.json(
-      { error: 'Errore interno durante il recupero delle compagnie.' },
+      { error: 'Unable to retrieve companies.' },
       { status: 500 }
     );
   }

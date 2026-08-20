@@ -4,7 +4,12 @@ import {
   AdminMutationRateLimiter,
   evaluateAdminMutationBoundary,
 } from '@/lib/adminMutationBoundary';
-import { getClientIp } from '@/lib/rateLimit';
+import {
+  clientIdentityUnavailableResponse,
+  getClientIp,
+  trustedClientIdentityRequired,
+  UNATTRIBUTED_CLIENT_IDENTITY,
+} from '@/lib/rateLimit';
 import { COOKIE_NAME, verifySessionToken } from '@/lib/adminAuth';
 import {
   INVESTOR_SESSION_COOKIE,
@@ -20,6 +25,7 @@ import {
 const adminMutationRateLimiter = new AdminMutationRateLimiter();
 const STAGING_ROBOTS_HEADER = 'noindex, nofollow, noarchive';
 const INTERNAL_STUDY_PATH = '/admin/executive-study';
+const ADMIN_LOGIN_PATH = '/admin/login';
 const INTERNAL_STUDY_ROBOTS_HEADER = 'noindex, nofollow, noarchive, noimageindex';
 const INVESTOR_ACCESS_PATH = '/investor/access';
 const INVESTOR_STUDY_PATH = '/investor/executive-study';
@@ -153,8 +159,15 @@ function handleAdminApi(request: NextRequest): NextResponse {
   }
 
   if (decision.applies) {
+    const clientIdentity = getClientIp(request);
+    if (
+      clientIdentity === UNATTRIBUTED_CLIENT_IDENTITY
+      && trustedClientIdentityRequired()
+    ) {
+      return applyAdminApiResponseHeaders(clientIdentityUnavailableResponse(decision.policy.routeKey));
+    }
     const rateLimit = adminMutationRateLimiter.check(
-      `${getClientIp(request)}:${request.method.toUpperCase()}:${decision.policy.routeKey}`,
+      `${clientIdentity}:${request.method.toUpperCase()}:${decision.policy.routeKey}`,
     );
     if (!rateLimit.allowed) {
       console.warn('[Admin mutation boundary] request denied', {
@@ -195,11 +208,18 @@ export function proxy(request: NextRequest) {
     return applyDeploymentResponseHeaders(NextResponse.redirect(localizedUrl, 308));
   }
 
-  if (request.nextUrl.pathname === INTERNAL_STUDY_PATH) {
+  if (
+    (request.nextUrl.pathname === '/admin' || request.nextUrl.pathname.startsWith('/admin/'))
+    && request.nextUrl.pathname !== ADMIN_LOGIN_PATH
+  ) {
     const session = verifySessionToken(request.cookies.get(COOKIE_NAME)?.value);
     if (!session.valid || (session.role !== 'admin' && session.role !== 'auditor')) {
-      const response = NextResponse.redirect(new URL('/admin/login', request.url), 307);
-      return applyDeploymentResponseHeaders(applyInternalStudyResponseHeaders(response));
+      const response = NextResponse.redirect(new URL(ADMIN_LOGIN_PATH, request.url), 307);
+      return applyDeploymentResponseHeaders(
+        request.nextUrl.pathname === INTERNAL_STUDY_PATH
+          ? applyInternalStudyResponseHeaders(response)
+          : response,
+      );
     }
   }
 
@@ -263,7 +283,7 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/admin/executive-study',
+    '/admin/:path*',
     '/api/:path*',
     '/robots.txt',
     '/sitemap.xml',

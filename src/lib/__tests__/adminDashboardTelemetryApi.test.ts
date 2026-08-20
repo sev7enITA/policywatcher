@@ -48,16 +48,18 @@ describe('admin dashboard telemetry API', () => {
   });
 
   it('derives actor role from the authenticated session and rejects noncanonical or privacy-bearing payloads', async () => {
+    mocks.session.mockReturnValue({ valid: true, role: 'admin' });
     const payload = { eventType: 'action-center-cta-attempt', visitId, priorityId: 'scan-stale', destination: '/admin/cron', viewportClass: 'desktop' };
     const accepted = await POST(post(payload));
     expect(accepted.status).toBe(202);
-    expect(mocks.record).toHaveBeenCalledWith(expect.objectContaining(payload), 'auditor');
+    expect(mocks.record).toHaveBeenCalledWith(expect.objectContaining(payload), 'admin');
 
     expect((await POST(post({ ...payload, destination: '/admin/inquiries' }))).status).toBe(400);
     expect((await POST(post({ ...payload, email: 'private@example.test' }))).status).toBe(400);
   });
 
   it('reports deduplication and requires a prior CTA attempt for arrival confirmation', async () => {
+    mocks.session.mockReturnValue({ valid: true, role: 'admin' });
     const payload = { eventType: 'canonical-route-arrival', visitId, priorityId: 'scan-stale', destination: '/admin/cron', viewportClass: 'desktop' };
     mocks.record.mockResolvedValueOnce('arrival-unconfirmed');
     expect((await POST(post(payload))).status).toBe(409);
@@ -65,5 +67,14 @@ describe('admin dashboard telemetry API', () => {
     const duplicate = await POST(post({ ...payload, eventType: 'action-center-cta-attempt' }));
     expect(duplicate.status).toBe(200);
     expect(await duplicate.json()).toMatchObject({ accepted: true, recorded: false });
+  });
+
+  it('preserves the auditor role as read-only', async () => {
+    const response = await POST(post({
+      eventType: 'action-center-cta-attempt', visitId, priorityId: 'scan-stale',
+      destination: '/admin/cron', viewportClass: 'desktop',
+    }));
+    expect(response.status).toBe(403);
+    expect(mocks.record).not.toHaveBeenCalled();
   });
 });

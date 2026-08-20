@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
 
     if (!policyId) {
       return NextResponse.json(
-        { error: 'policyId è richiesto.' },
+        { error: 'policyId is required.' },
         { status: 400 }
       );
     }
@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
 
     if (!policy) {
       return NextResponse.json(
-        { error: 'Policy non trovata.' },
+        { error: 'Policy not found.' },
         { status: 404 }
       );
     }

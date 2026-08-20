@@ -3,18 +3,19 @@
  *
  * POST /api/admin/export-encrypted
  *
- * Exports all database tables (companies, policies, snapshots, changes, impacts, subscribers)
- * in a secure encrypted format. Uses AES-256-GCM. The key is derived from the user-provided
- * password using scrypt with a random salt.
+ * Exports all application tables in a versioned AES-256-GCM envelope. This is
+ * a portable verification export, not by itself a tested database restore.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { db } from '@/lib/db';
-import { randomBytes, createCipheriv, scryptSync } from 'crypto';
-import { POLICYWATCHER_VERSION } from '@/lib/release';
-
-const MIN_BACKUP_PASSWORD_LENGTH = 12;
+import {
+  buildCompleteBackupPayload,
+  encryptBackupPayload,
+  MAX_BACKUP_PASSWORD_LENGTH,
+  MIN_BACKUP_PASSWORD_LENGTH,
+} from '@/lib/encryptedBackup';
 
 export async function POST(request: NextRequest) {
   const session = getSession(request);
@@ -24,67 +25,21 @@ export async function POST(request: NextRequest) {
 
   try {
     const { password } = await request.json();
-    if (!password || password.length < MIN_BACKUP_PASSWORD_LENGTH) {
+    if (typeof password !== 'string' || password.length < MIN_BACKUP_PASSWORD_LENGTH || password.length > MAX_BACKUP_PASSWORD_LENGTH) {
       return NextResponse.json(
         { error: `Password must be at least ${MIN_BACKUP_PASSWORD_LENGTH} characters long.` },
         { status: 400 }
       );
     }
 
-    // Fetch all system data
-    const [companies, policies, snapshots, changes, impacts, subscribers] = await Promise.all([
-      db.company.findMany(),
-      db.policy.findMany(),
-      db.policySnapshot.findMany(),
-      db.policyChange.findMany(),
-      db.regionImpact.findMany(),
-      db.subscriber.findMany(),
-    ]);
-
-    const backupPayload = {
-      version: POLICYWATCHER_VERSION,
-      exportedAt: new Date().toISOString(),
-      summary: {
-        companies: companies.length,
-        policies: policies.length,
-        snapshots: snapshots.length,
-        changes: changes.length,
-        subscribers: subscribers.length,
-      },
-      data: {
-        companies,
-        policies,
-        snapshots,
-        changes,
-        impacts,
-        subscribers,
-      },
-    };
-
-    const jsonString = JSON.stringify(backupPayload);
-
-    // Secure key derivation and GCM encryption
-    const salt = randomBytes(16);
-    const key = scryptSync(password, salt, 32); // 256-bit key
-    const iv = randomBytes(12); // GCM standard 12-byte IV
-
-    const cipher = createCipheriv('aes-256-gcm', key, iv);
-    let encrypted = cipher.update(jsonString, 'utf8', 'hex');
-    encrypted += cipher.final('hex');
-    const authTag = cipher.getAuthTag().toString('hex');
-
-    // Format: salt:iv:authTag:encryptedPayload
-    const encryptedFileContent = [
-      salt.toString('hex'),
-      iv.toString('hex'),
-      authTag,
-      encrypted,
-    ].join(':');
+    const backupPayload = await buildCompleteBackupPayload(db);
+    const encryptedFileContent = await encryptBackupPayload(backupPayload, password);
 
     return new NextResponse(encryptedFileContent, {
       headers: {
         'Content-Type': 'application/octet-stream',
         'Content-Disposition': 'attachment; filename="policywatcher-backup-encrypted.enc"',
+        'Cache-Control': 'no-store, max-age=0',
       },
     });
   } catch (error) {

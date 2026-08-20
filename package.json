@@ -1,6 +1,6 @@
 {
   "name": "policywatcher",
-  "version": "4.0.0-beta.1",
+  "version": "4.0.0-beta.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -17,6 +17,8 @@
     "lint:web": "eslint .",
     "lint:mobile": "npm --prefix mobile/android-companion run lint",
     "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "typecheck:critical-tests": "tsc --project tsconfig.tests.json --noEmit",
     "test:coverage": "vitest run --coverage",
     "scan:smoke:fallbacks": "vitest run src/lib/__tests__/scraperFallbackSmoke.test.ts",
     "extension:validate": "node scripts/validate-browser-extension.mjs",

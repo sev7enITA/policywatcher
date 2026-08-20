@@ -20,8 +20,17 @@ import { rateLimit } from '@/lib/rateLimit';
 import type { Prisma } from '@prisma/client';
 import { publicPolicyWhere } from '@/lib/publicDataGate';
 import { createErrorReference, getErrorMessage } from '@/lib/safeErrors';
+import { readBoundedJsonObject } from '@/lib/requestBody';
 
-type PolicyWithCompany = Prisma.PolicyGetPayload<{ include: { company: true } }>;
+type PolicyWithCompany = Prisma.PolicyGetPayload<{
+  select: { name: true; currentText: true; company: { select: { name: true } } };
+}>;
+
+export const CHAT_MAX_BODY_BYTES = 16 * 1024;
+export const CHAT_MAX_QUESTION_CHARS = 1_000;
+export const CHAT_MAX_POLICY_IDS = 12;
+export const CHAT_MAX_CONTEXT_POLICIES = 20;
+const MAX_POLICY_ID_CHARS = 128;
 
 /**
  * Handles a POST request to answer a user question about tracked policies.
@@ -35,16 +44,38 @@ export async function POST(request: NextRequest) {
   if (limited) return limited;
 
   try {
-    const body = await request.json();
-    const question = typeof body?.question === 'string' ? body.question : '';
-    const policyIds = Array.isArray(body?.policyIds)
-      ? body.policyIds.filter((id: unknown): id is string => typeof id === 'string')
-      : [];
+    const parsedBody = await readBoundedJsonObject(request, CHAT_MAX_BODY_BYTES);
+    if (!parsedBody.ok) {
+      return NextResponse.json(
+        { error: parsedBody.reason === 'body_too_large' ? 'Payload too large.' : 'Invalid JSON body.' },
+        { status: parsedBody.reason === 'body_too_large' ? 413 : 400 },
+      );
+    }
+
+    const body = parsedBody.value;
+    const question = typeof body.question === 'string' ? body.question.trim() : '';
+    const rawPolicyIds = Array.isArray(body.policyIds) ? body.policyIds : [];
+    if (rawPolicyIds.length > CHAT_MAX_POLICY_IDS) {
+      return NextResponse.json(
+        { error: `At most ${CHAT_MAX_POLICY_IDS} policy IDs are allowed.` },
+        { status: 400 },
+      );
+    }
+    const policyIds = Array.from(new Set(rawPolicyIds
+      .filter((id: unknown): id is string => typeof id === 'string')
+      .map((id) => id.trim())
+      .filter((id) => id.length > 0 && id.length <= MAX_POLICY_ID_CHARS)));
 
     if (!question) {
       return NextResponse.json(
-        { error: "Il parametro 'question' è richiesto." },
+        { error: "The 'question' parameter is required." },
         { status: 400 }
+      );
+    }
+    if (question.length > CHAT_MAX_QUESTION_CHARS) {
+      return NextResponse.json(
+        { error: `Question must not exceed ${CHAT_MAX_QUESTION_CHARS} characters.` },
+        { status: 400 },
       );
     }
 
@@ -56,17 +87,24 @@ export async function POST(request: NextRequest) {
         where: publicPolicyWhere({
           id: { in: policyIds },
         }),
-        include: {
-          company: true,
+        select: {
+          name: true,
+          currentText: true,
+          company: { select: { name: true } },
         },
+        take: CHAT_MAX_POLICY_IDS,
       });
     } else {
       // Fetch latest policies for all companies
       policiesToQuery = await db.policy.findMany({
         where: publicPolicyWhere(),
-        include: {
-          company: true,
+        select: {
+          name: true,
+          currentText: true,
+          company: { select: { name: true } },
         },
+        orderBy: { updatedAt: 'desc' },
+        take: CHAT_MAX_CONTEXT_POLICIES,
       });
     }
 

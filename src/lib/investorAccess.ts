@@ -12,7 +12,11 @@ export type InvestorSessionVerification =
   | { valid: false };
 
 function sessionSecret(): string | null {
-  const raw = process.env.SESSION_HMAC_SECRET;
+  const managedDeployment = ['staging', 'production'].includes(
+    process.env.POLICYWATCHER_DEPLOYMENT_TARGET?.trim().toLowerCase() || '',
+  );
+  const raw = process.env.INVESTOR_SESSION_HMAC_SECRET
+    || (!managedDeployment ? process.env.SESSION_HMAC_SECRET : undefined);
   if (typeof raw !== 'string') return null;
   let value = raw.trim();
   if (

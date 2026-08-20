@@ -1,4 +1,4 @@
-import { db } from './db';
+import { databaseRuntimeConfiguration, db } from './db';
 import { getDatabaseDiagnostics, type DatabaseDiagnostics } from './databaseConfig';
 import type { DatabaseProvider } from './databaseUrl';
 
@@ -51,6 +51,8 @@ export const EXPECTED_SQLITE_MIGRATIONS = [
   '20260817090000_source_integrity_control',
   '20260819120000_investor_magic_links',
   '20260820100000_document_evidence_model',
+  '20260820130000_scan_run_lifecycle',
+  '20260820133000_subscriber_double_opt_in',
 ] as const;
 
 export const EXPECTED_POSTGRESQL_MIGRATIONS = [
@@ -65,7 +67,9 @@ export type DatabaseReadinessStatus = 'ready' | 'degraded' | 'unavailable';
 export const ENVIRONMENT_READINESS_VARIABLES = [
   'GEMINI_API_KEY',
   'API_SECRET',
-  'SESSION_HMAC_SECRET',
+  'ADMIN_SESSION_HMAC_SECRET',
+  'INVESTOR_SESSION_HMAC_SECRET',
+  'ADMIN_SESSION_VERSION',
   'DATABASE_URL',
   'SMTP_HOST',
   'ADMIN_USER',
@@ -98,6 +102,7 @@ export interface DatabaseReadinessReport {
   integrity: {
     quickCheck: string;
     journalMode: string;
+    busyTimeoutMs: number | null;
     foreignKeysEnabled: boolean;
     pageCount: number | null;
     freePageCount: number | null;
@@ -193,6 +198,7 @@ function unavailableReport(
     integrity: {
       quickCheck: 'not-run',
       journalMode: 'unknown',
+      busyTimeoutMs: null,
       foreignKeysEnabled: false,
       pageCount: null,
       freePageCount: null,
@@ -226,8 +232,9 @@ export async function getDatabaseReadinessReport(): Promise<DatabaseReadinessRep
   }
 
   try {
+    await databaseRuntimeConfiguration;
     const provider = diagnostics.provider;
-    const [tableRows, quickRows, journalRows, foreignKeyRows, pageRows, freePageRows, sizeRows] = provider === 'postgresql'
+    const [tableRows, quickRows, journalRows, busyTimeoutRows, foreignKeyRows, pageRows, freePageRows, sizeRows] = provider === 'postgresql'
       ? await Promise.all([
         db.$queryRawUnsafe<DatabaseNameRow[]>(
           `SELECT table_name AS "name"
@@ -237,6 +244,7 @@ export async function getDatabaseReadinessReport(): Promise<DatabaseReadinessRep
         ),
         Promise.resolve([{ value: 'ok' }] as DatabaseValueRow[]),
         Promise.resolve([{ value: 'postgresql' }] as DatabaseValueRow[]),
+        Promise.resolve([{ value: null }] as DatabaseValueRow[]),
         Promise.resolve([{ value: 1 }] as DatabaseValueRow[]),
         Promise.resolve([{ value: null }] as DatabaseValueRow[]),
         Promise.resolve([{ value: null }] as DatabaseValueRow[]),
@@ -248,6 +256,7 @@ export async function getDatabaseReadinessReport(): Promise<DatabaseReadinessRep
         ),
         db.$queryRawUnsafe<DatabaseValueRow[]>('PRAGMA quick_check(1)'),
         db.$queryRawUnsafe<DatabaseValueRow[]>('PRAGMA journal_mode'),
+        db.$queryRawUnsafe<DatabaseValueRow[]>('PRAGMA busy_timeout'),
         db.$queryRawUnsafe<DatabaseValueRow[]>('PRAGMA foreign_keys'),
         db.$queryRawUnsafe<DatabaseValueRow[]>('PRAGMA page_count'),
         db.$queryRawUnsafe<DatabaseValueRow[]>('PRAGMA freelist_count'),
@@ -280,6 +289,7 @@ export async function getDatabaseReadinessReport(): Promise<DatabaseReadinessRep
     const lastMigration = migrations.at(-1) || null;
     const quickCheck = String(firstValue(quickRows) ?? 'unknown');
     const journalMode = String(firstValue(journalRows) ?? 'unknown');
+    const busyTimeoutMs = toNumber(firstValue(busyTimeoutRows));
     const foreignKeysEnabled = toNumber(firstValue(foreignKeyRows)) === 1;
 
     const degraded = (
@@ -288,6 +298,8 @@ export async function getDatabaseReadinessReport(): Promise<DatabaseReadinessRep
       || !migrationLedgerAvailable
       || missingMigrations.length > 0
       || !foreignKeysEnabled
+      || (provider === 'sqlite' && journalMode.toLowerCase() !== 'wal')
+      || (provider === 'sqlite' && (busyTimeoutMs ?? 0) < 5_000)
       || (provider === 'sqlite' && (!diagnostics.fileWritable || !diagnostics.directoryWritable))
     );
     const { url: _url, ...database } = diagnostics;
@@ -303,6 +315,7 @@ export async function getDatabaseReadinessReport(): Promise<DatabaseReadinessRep
       integrity: {
         quickCheck,
         journalMode,
+        busyTimeoutMs,
         foreignKeysEnabled,
         pageCount: toNumber(firstValue(pageRows)),
         freePageCount: toNumber(firstValue(freePageRows)),

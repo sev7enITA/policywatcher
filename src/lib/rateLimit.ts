@@ -31,6 +31,8 @@ interface RateLimitConfig {
   logClientIp?: boolean;
 }
 
+export const UNATTRIBUTED_CLIENT_IDENTITY = 'unattributed' as const;
+
 const buckets = new Map<string, Bucket>();
 
 // Periodically prune stale buckets so memory doesn't grow unbounded.
@@ -55,7 +57,30 @@ function pruneStale(now: number, ttlMs: number) {
 }
 
 const TRUST_PROXY_HEADERS = process.env.TRUST_PROXY_HEADERS === 'true';
-const TRUSTED_CLIENT_IP_HEADER = process.env.TRUSTED_CLIENT_IP_HEADER?.toLowerCase();
+const TRUSTED_CLIENT_IP_HEADER = process.env.TRUSTED_CLIENT_IP_HEADER?.trim().toLowerCase();
+const missingIdentityWarnings = new Set<string>();
+
+export function trustedClientIdentityConfigured(
+  environment: NodeJS.ProcessEnv = process.env,
+): boolean {
+  return environment.TRUST_PROXY_HEADERS?.trim().toLowerCase() === 'true'
+    || Boolean(environment.TRUSTED_CLIENT_IP_HEADER?.trim());
+}
+
+export function trustedClientIdentityRequired(
+  environment: NodeJS.ProcessEnv = process.env,
+): boolean {
+  const deploymentTarget = environment.POLICYWATCHER_DEPLOYMENT_TARGET?.trim().toLowerCase();
+  return environment.NODE_ENV === 'production'
+    || deploymentTarget === 'staging'
+    || deploymentTarget === 'production';
+}
+
+function normalizeTrustedClientIdentity(value: string | null): string | null {
+  const candidate = value?.split(',')[0]?.trim();
+  if (!candidate || candidate.length > 128 || /[\u0000-\u001f\u007f\s]/.test(candidate)) return null;
+  return candidate;
+}
 
 /**
  * Extracts the client IP address from trusted deployment headers only.
@@ -67,18 +92,38 @@ const TRUSTED_CLIENT_IP_HEADER = process.env.TRUSTED_CLIENT_IP_HEADER?.toLowerCa
  */
 export function getClientIp(request: Request): string {
   if (TRUSTED_CLIENT_IP_HEADER) {
-    const trusted = request.headers.get(TRUSTED_CLIENT_IP_HEADER);
-    if (trusted) return trusted.split(',')[0].trim();
+    const trusted = normalizeTrustedClientIdentity(request.headers.get(TRUSTED_CLIENT_IP_HEADER));
+    if (trusted) return trusted;
   }
 
   if (TRUST_PROXY_HEADERS) {
-    const forwarded = request.headers.get('x-forwarded-for');
-    if (forwarded) return forwarded.split(',')[0].trim();
-    const real = request.headers.get('x-real-ip');
+    const forwarded = normalizeTrustedClientIdentity(request.headers.get('x-forwarded-for'));
+    if (forwarded) return forwarded;
+    const real = normalizeTrustedClientIdentity(request.headers.get('x-real-ip'));
     if (real) return real;
   }
 
-  return 'unknown';
+  return UNATTRIBUTED_CLIENT_IDENTITY;
+}
+
+export function clientIdentityUnavailableResponse(name: string): NextResponse {
+  if (!missingIdentityWarnings.has(name)) {
+    missingIdentityWarnings.add(name);
+    console.error(`[RateLimit] ${name} rejected because trusted client identity is unavailable.`);
+  }
+  return NextResponse.json(
+    {
+      error: 'Request identity is temporarily unavailable.',
+      code: 'client_identity_unavailable',
+    },
+    {
+      status: 503,
+      headers: {
+        'Cache-Control': 'no-store, max-age=0',
+        'Retry-After': '60',
+      },
+    },
+  );
 }
 
 /**
@@ -97,7 +142,11 @@ export function rateLimit(
   const name = config.name ?? 'default';
   const logClientIp = config.logClientIp ?? true;
   const ip = getClientIp(request);
-  const key = `${name}:${ip}`;
+  if (ip === UNATTRIBUTED_CLIENT_IDENTITY && trustedClientIdentityRequired()) {
+    return clientIdentityUnavailableResponse(name);
+  }
+  const identity = ip === UNATTRIBUTED_CLIENT_IDENTITY ? 'local-development' : ip;
+  const key = `${name}:${identity}`;
 
   const now = Date.now();
   pruneStale(now, intervalMs);
@@ -117,7 +166,7 @@ export function rateLimit(
   if (bucket.tokens < 1) {
     const retryAfter = Math.ceil((1 - bucket.tokens) * (intervalMs / max) / 1000);
     console.warn(logClientIp
-      ? `[RateLimit] ${name} - IP ${ip} rate-limited. Retry in ${retryAfter}s.`
+      ? `[RateLimit] ${name} - IP ${identity} rate-limited. Retry in ${retryAfter}s.`
       : `[RateLimit] ${name} rate-limited. Retry in ${retryAfter}s.`);
     return NextResponse.json(
       {

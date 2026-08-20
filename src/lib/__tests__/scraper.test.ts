@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { isIP } from 'net';
+import { gzipSync } from 'node:zlib';
 
 vi.mock('dns/promises', () => ({
   lookup: vi.fn(async (hostname: string) => {
@@ -21,6 +22,7 @@ vi.mock('dns/promises', () => ({
 import {
   detectBlockPage,
   detectSoft404,
+  decodeBoundedResponseBody,
   extractPolicyText,
   hasLiveHostDrift,
   hasLivePathDrift,
@@ -31,6 +33,7 @@ import {
   stripArchiveScripts,
   validateOutboundUrl,
   resolveAndPinHostname,
+  readBoundedFetchBody,
   isCoherentHost,
   validateContent,
 } from '../scraper';
@@ -78,6 +81,22 @@ describe('scraper security boundaries', () => {
   it('keeps attacker-controlled text on one bounded log line', () => {
     expect(sanitizeLogText('timeout\r\n[Admin] forged')).toBe('timeout [Admin] forged');
     expect(sanitizeLogText('x'.repeat(400), 24)).toHaveLength(24);
+  });
+
+  it('decodes ordinary compressed HTML while rejecting excessive decompressed output', async () => {
+    const html = '<html><body>Privacy policy</body></html>';
+    await expect(decodeBoundedResponseBody(gzipSync(html), 'gzip', 1_024)).resolves.toBe(html);
+    await expect(
+      decodeBoundedResponseBody(gzipSync('x'.repeat(4_096)), 'gzip', 256),
+    ).rejects.toThrow('decompressed_body_too_large');
+  });
+
+  it('aborts bounded fetch reads that exceed the streaming byte limit', async () => {
+    const normal = new Response('policy');
+    await expect(readBoundedFetchBody(normal, 16)).resolves.toEqual(Buffer.from('policy'));
+
+    const oversized = new Response('x'.repeat(32));
+    await expect(readBoundedFetchBody(oversized, 16)).rejects.toThrow('response_body_too_large');
   });
 });
 

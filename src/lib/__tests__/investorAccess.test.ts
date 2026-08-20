@@ -33,7 +33,7 @@ import { formatAccessExpiry } from '@/app/admin/executive-study/ExecutiveStudyDo
 describe('investor token and signed session contract', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    process.env.SESSION_HMAC_SECRET = 'test-only-session-secret-with-sufficient-entropy';
+    process.env.INVESTOR_SESSION_HMAC_SECRET = 'test-only-investor-secret-with-sufficient-entropy';
   });
 
   it('generates at least 256 bits and stores a deterministic SHA-256 hash', () => {

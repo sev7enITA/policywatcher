@@ -2,6 +2,40 @@
 
 ## Unreleased
 
+### Foundation Beta communications and release-date history
+
+- Preserved the localized `19 August 2026` date on the historical Beta 1 release record while the current release surfaces use Beta 2 metadata.
+- Added month/year plus the exact record date to the maintained GitHub release-copy sources; future release titles should follow the same convention.
+- Added English and Italian press releases plus deployment-aware follow-up posts for the Beta 2 source tag and Hostinger publication.
+- Replaced the current v4 campaign visual with a detailed English 3.x → 4 value infographic: direct architecture comparison, four material benefits, clause-level evidence flow, readiness contract, verified engineering evidence and explicit production gates. The original Beta 1 graphic remains available as a historical asset.
+- Refreshed the current Press Kit fact sheets and manifests for `4.0.0-beta.2` while retaining Beta 1 and prior campaign visuals as historical assets.
+- Clarified the v4 audit and 3.x comparison: Wave 1B is included in Foundation Beta, while production backfill, dual-write activation, canonical reads, PostgreSQL and object storage remain gated.
+
+## 4.0.0-beta.2 - 2026-08-20
+
+### Independent-assessment remediation
+
+- Replaced the shared unattributed rate-limit identity with a fail-closed per-request response on managed deployments; staging and production now require exactly one verified proxy identity source, and public endpoints use route-specific buckets.
+- Added streaming compressed and decompressed response limits to direct HTTP, HTTP/2, Wayback and Common Crawl acquisition, using asynchronous bounded decompression instead of synchronous zlib calls.
+- Replaced full-graph startup reconciliation with an aggregate bridge verifier; explicit backfill and rehearsal retain the full deterministic reconciliation path.
+- Added a durable unique full-scan lease, periodic renewal, overlap rejection, failed-run closure and stale-run recovery.
+- Bounded public chat and TTS request bodies, questions, policy identifiers, context size and AI output; TTS now requires its own service key and returns bounded errors.
+- Separated admin and investor session signing, added `ADMIN_SESSION_VERSION` for global admin/auditor revocation and extended the managed environment gate accordingly.
+- Added subscriber double opt-in with rotated 48-hour confirmation tokens plus requested/confirmed timestamps; existing active subscribers are preserved without fabricating historical consent evidence.
+- Upgraded encrypted exports from a six-table legacy payload to a versioned 31-table AES-256-GCM envelope with recorded bounded scrypt parameters, asynchronous key derivation, Base64 encoding and legacy verification support.
+- Made SQLite WAL and a 5-second busy timeout explicit readiness requirements; deployment backups now use the SQLite backup API instead of raw main-file copies.
+- Protected all `/admin/*` shells at the proxy boundary, restored auditor read-only semantics, added credential-free minimal process liveness and synchronized the rendered `<html lang>` with the dashboard language.
+- Deferred heavy dashboard modals with dynamic imports, restored an SSR `<h1>`, expanded critical-control coverage inputs and added a dedicated critical-test type-check gate.
+- Separated dashboard acquisition failures from genuine empty evidence states, added a retry action and introduced explicit root loading and error boundaries.
+- Added bilingual Beta 2 assessment-remediation communications with explicit source, deployment and remaining infrastructure boundaries.
+
+### Schema and deployment notes
+
+- Added `20260820130000_scan_run_lifecycle` and `20260820133000_subscriber_double_opt_in`; current SQLite readiness is `31/31` tables and `16/16` migrations.
+- Updated the PostgreSQL baseline plus both Hostinger fallback initializers, environment documentation, staging smoke expectations, release registries, roadmap and Press Kit metadata.
+- Promoted the exact staging artefact to Hostinger production after `11/11` staging checks; the live manifest reports `4.0.0-beta.2`, the minimal liveness route is active, proxy-overwrite behaviour is verified and database readiness reports `31/31` tables, `16/16` migrations, WAL, a five-second busy timeout and integrity `ok`.
+- SMTP delivery evidence, an independent dynamic test, full hosting-layer CSP alignment, PostgreSQL cutover, object-storage activation and canonical-read activation remain separate claims or gates.
+
 ## 4.0.0-beta.1 - 2026-08-19
 
 ### Foundation Beta promotion

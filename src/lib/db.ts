@@ -10,7 +10,7 @@
  */
 
 import { PrismaClient } from '@prisma/client';
-import { getDatabaseUrl } from './databaseUrl';
+import { getDatabaseProvider, getDatabaseUrl } from './databaseUrl';
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
@@ -35,3 +35,16 @@ export const db =
 // Cache the client on the global object in non-production environments
 // so that hot-reloads do not create additional connections.
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = db;
+
+/**
+ * SQLite busy_timeout is connection-scoped, unlike persistent WAL mode. Start
+ * its configuration as soon as the singleton is created so it is queued before
+ * request work on Prisma's SQLite connection. PostgreSQL needs no PRAGMA.
+ */
+export const databaseRuntimeConfiguration = getDatabaseProvider(dbUrl) === 'sqlite'
+  ? db.$queryRawUnsafe<Array<Record<string, unknown>>>('PRAGMA busy_timeout = 5000')
+  : Promise.resolve(0);
+
+void databaseRuntimeConfiguration.catch((error) => {
+  console.error('[Database] Runtime contention configuration failed:', error instanceof Error ? error.message : 'unknown_error');
+});

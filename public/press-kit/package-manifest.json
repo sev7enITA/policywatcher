@@ -1,9 +1,9 @@
 {
   "schema": "https://policywatcher.online/schemas/press-kit-package-manifest/v1",
   "schemaVersion": "1.1.0",
-  "generatedAt": "2026-08-02",
+  "generatedAt": "2026-08-20",
   "release": "3.9.0-beta.27",
-  "currentProductRelease": "4.0.0-beta.1",
+  "currentProductRelease": "4.0.0-beta.2",
   "distribution": {
     "provider": "github-repository",
     "repository": "https://github.com/sev7enITA/policywatcher",
@@ -13,22 +13,22 @@
   "packages": [
     {
       "locale": "en",
-      "filename": "policywatcher-press-package-en-2026-08-02.zip",
-      "href": "https://github.com/sev7enITA/policywatcher/raw/d02b90489dd58d7884dbf14dcb1d52ad12a5ed07/public/press-kit/policywatcher-press-package-en-2026-08-02.zip",
+      "filename": "policywatcher-press-package-en-2026-08-20.zip",
+      "href": "https://github.com/sev7enITA/policywatcher/raw/d02b90489dd58d7884dbf14dcb1d52ad12a5ed07/public/press-kit/policywatcher-press-package-en-2026-08-20.zip",
       "distribution": "github-repository",
-      "bytes": 17696916,
-      "sha256": "eb23d7364449e36af6b7b317791e36d88fef3c0698b14e73d9b32d4a5076dc2c",
-      "generatedAt": "2026-08-02",
+      "bytes": 17698772,
+      "sha256": "eb36d6ce728fa3d70ed9df0aebea44c7818d75a379ce9a95ba45d667579728be",
+      "generatedAt": "2026-08-20",
       "version": "3.9.0-beta.27"
     },
     {
       "locale": "it",
-      "filename": "policywatcher-press-package-it-2026-08-02.zip",
-      "href": "https://github.com/sev7enITA/policywatcher/raw/d02b90489dd58d7884dbf14dcb1d52ad12a5ed07/public/press-kit/policywatcher-press-package-it-2026-08-02.zip",
+      "filename": "policywatcher-press-package-it-2026-08-20.zip",
+      "href": "https://github.com/sev7enITA/policywatcher/raw/d02b90489dd58d7884dbf14dcb1d52ad12a5ed07/public/press-kit/policywatcher-press-package-it-2026-08-20.zip",
       "distribution": "github-repository",
-      "bytes": 17696982,
-      "sha256": "69968e4969f06551ad370277be84abc65a7e5fd28cbcd4160c467d6af697e287",
-      "generatedAt": "2026-08-02",
+      "bytes": 17698817,
+      "sha256": "7685fcbc504a9e98451e388987a2d1028f56c95f7e96e4139c2c455ed1a5fbe7",
+      "generatedAt": "2026-08-20",
       "version": "3.9.0-beta.27"
     }
   ]

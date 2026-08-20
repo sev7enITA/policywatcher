@@ -218,8 +218,8 @@ export async function runStagingSmoke({
       `Expected 31/31 tables, received ${payload?.schema?.presentTableCount ?? '?'}/${payload?.schema?.expectedTableCount ?? '?'}.`,
     );
     expect(
-      payload?.schema?.appliedMigrationCount === 14 && payload?.schema?.expectedMigrationCount === 14,
-      `Expected 14/14 migrations, received ${payload?.schema?.appliedMigrationCount ?? '?'}/${payload?.schema?.expectedMigrationCount ?? '?'}.`,
+      payload?.schema?.appliedMigrationCount === 16 && payload?.schema?.expectedMigrationCount === 16,
+      `Expected 16/16 migrations, received ${payload?.schema?.appliedMigrationCount ?? '?'}/${payload?.schema?.expectedMigrationCount ?? '?'}.`,
     );
     expect(payload?.integrity?.quickCheck === 'ok', `Database integrity is ${payload?.integrity?.quickCheck || 'missing'}.`);
     return `${payload.schema?.presentTableCount ?? '?'} tables and ${payload.schema?.appliedMigrationCount ?? '?'} migrations reported ready.`;
