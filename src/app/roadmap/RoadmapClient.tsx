@@ -146,6 +146,15 @@ const technicalBaseline: Array<{
     reference: 'prisma/schema.prisma · aiTelemetry.ts',
   },
   {
+    module: 'Taxonomy and semantic evidence',
+    evidence:
+      'The local Full-V4 workspace implements versioned primary-sector, capability and evidence-backed regulatory-role classification, a 17-dimension readiness contract and a tested public taxonomy contract. Classification and provision workflows use draft → reviewed → published with separate reviewer/publisher provenance and immutable published records; the semantic gate requires exact captured-Version excerpts, SHA-256, canonical locators and rationale for positive, conditional or unclear assessments, while reviewed absence remains human-only.',
+    opportunity:
+      'Production activation is pending. Reconciliation 1.2.0 reports zero errors and warnings, but 317 of 330 provision slots are not_assessed, 13 are KPI-derived draft signals, zero are semantically decision-ready or published, and source/data gates remain open for Apple, Revolut and TikTok.',
+    state: 'partial',
+    reference: 'full-v4-taxonomy-contract.md · fullV4Readiness.ts · provisionEvidence.ts',
+  },
+  {
     module: 'Admin and identity',
     evidence: 'Signed sessions and roles are present.',
     opportunity: 'Credentials are shared by role, with no individual identity or central revocation; rate state remains in memory.',
@@ -198,6 +207,14 @@ const technicalBaseline: Array<{
 
 const priorityPipeline = [
   {
+    title: 'Full-V4 taxonomy production activation',
+    outcome:
+      'Move the locally implemented taxonomy, semantic-evidence gate and public taxonomy contract through controlled production activation without presenting draft signals as reviewed evidence.',
+    gate:
+      'Production migrations and remediation, zero-error reconciliation, endpoint smoke, strict Apple/Revolut/TikTok source QA, and accountable human review all pass before publication.',
+    horizon: 'Now',
+  },
+  {
     title: 'Durable queue for asynchronous workloads',
     outcome: 'Scraping, webhooks and email run as persistent jobs with retry, backoff, idempotency and a dead-letter queue.',
     gate: 'Completion and retry metrics are visible; recovery is tested.',
@@ -244,6 +261,44 @@ const priorityPipeline = [
     outcome: 'Packets include complete diff and archive timestamp; PDF signing and multiple renderers follow stable queue and storage foundations.',
     gate: 'Signature verification and reproducible rendering pass.',
     horizon: 'Conditional',
+  },
+] as const;
+
+const applicabilityContextInputs = [
+  'Exact legal subject',
+  'Group and brand',
+  'Service or product',
+  'Market operation',
+  'Territorial or regulatory nexus',
+  'Audience or customer class',
+  'Thresholds and exemptions',
+  'Effective time',
+] as const;
+
+const applicabilityMaturity = [
+  {
+    step: '01',
+    title: 'Evidence foundation',
+    status: 'Released foundation',
+    body: 'Retain the v4 Entity → Document → Version → Change → Provision lineage and exact source provenance.',
+  },
+  {
+    step: '02',
+    title: 'Entity and service relationships',
+    status: 'Research candidate',
+    body: 'Resolve the monitored portfolio entity to legal subjects, brands, services, markets and time-bounded operating relationships.',
+  },
+  {
+    step: '03',
+    title: 'Applicability predicates',
+    status: 'Research candidate',
+    body: 'Represent nexus, audience, thresholds, exemptions and effective-time conditions as typed, inspectable predicates.',
+  },
+  {
+    step: '04',
+    title: 'Reviewed assertions',
+    status: 'Human-controlled gate',
+    body: 'Permit an accountable reviewer—not an autonomous model—to advance a sourced assertion through a controlled review state.',
   },
 ] as const;
 
@@ -532,6 +587,15 @@ const nowItems = [
 ];
 
 const candidateFeatures = [
+  {
+    track: 'Semantic intelligence',
+    title: 'Reviewed Applicability Graph',
+    body:
+      'Research a provenance-rich ApplicabilityAssertion joining an observed Provision to the exact LegalEntity, Service, Jurisdiction, Audience and ValidityPeriod, with typed nexus, threshold and exemption conditions.',
+    status: 'Research candidate · no release commitment',
+    risk:
+      'This would be an evidence-backed review aid, not legal advice, enforceability proof or compliance certification. AI may propose candidates or extract conditions but cannot autonomously publish a legal conclusion.',
+  },
   {
     track: 'API',
     title: 'Read-only public integration directory',
@@ -903,6 +967,7 @@ export default function RoadmapClient() {
         <div className={styles.navLinks}>
           <a href="#technical-baseline">Baseline</a>
           <a href="#pipeline">Pipeline</a>
+          <a href="#evolution">Evolution</a>
           <a href="#candidates">Candidates</a>
           <a href="#impact-map">Release impact</a>
           <Link href="/feature-atlas">Feature Atlas</Link>
@@ -987,11 +1052,11 @@ export default function RoadmapClient() {
       <section className={`${styles.section} ${styles.baselineSection}`} id="technical-baseline">
         <div className={styles.sectionHead}>
           <div>
-            <span className={styles.sectionLabel}>Technical baseline · verified 17 August 2026</span>
+            <span className={styles.sectionLabel}>Technical baseline · verified 22 August 2026</span>
             <h2>Technical baseline</h2>
           </div>
           <p>
-            Ten evidence-backed module checks separate shipped capability from architectural opportunity. References point to the implementation inspected for this snapshot.
+            Eleven evidence-backed module checks separate the deployed 4.0.0-beta.2 release, locally validated deployment-pending work and architectural opportunity. References point to the implementation inspected for this snapshot.
           </p>
         </div>
 
@@ -1028,7 +1093,7 @@ export default function RoadmapClient() {
         <aside className={styles.baselineNote}>
           <BookOpenCheck size={18} aria-hidden="true" />
           <p>
-            <code>docs/reports/policywatcher-state-of-art-audit-2026-08-14.artifact.json</code> remains a historical snapshot. Beta 42, released on 15 August, already closes some AI assurance gaps recorded there.
+            <code>docs/reports/policywatcher-state-of-art-audit-2026-08-14.artifact.json</code> remains a historical snapshot. This 22 August baseline also inspects newer local Full-V4 work; production deployment is still pending and the online <code>/api/v1/taxonomy</code> endpoint currently returns 404.
           </p>
         </aside>
       </section>
@@ -1036,7 +1101,7 @@ export default function RoadmapClient() {
       <section className={`${styles.section} ${styles.pipelineSection}`} id="pipeline">
         <div className={styles.sectionHead}>
           <div>
-            <span className={styles.sectionLabel}>Priority pipeline · 01–08</span>
+            <span className={styles.sectionLabel}>Priority pipeline · 01–09</span>
             <h2>Priority pipeline</h2>
           </div>
           <p>
@@ -1063,6 +1128,102 @@ export default function RoadmapClient() {
             </li>
           ))}
         </ol>
+      </section>
+
+      <section className={`${styles.section} ${styles.evolutionSection} ${styles.anchorSection}`} id="evolution">
+        <div className={styles.evolutionHead}>
+          <div>
+            <span className={styles.evolutionLabel}>Evolution candidate · community architecture signal</span>
+            <h2>From evidence graph to reviewed applicability assertions</h2>
+          </div>
+          <div className={styles.evolutionIntroduction}>
+            <p>
+              A document jurisdiction records the monitored source or market scope. It does not decide whether a provision legally applies to a particular company, service, audience or moment in time—and company attributes alone cannot make that decision either.
+            </p>
+            <div className={styles.evolutionBadges} aria-label="Evolution maturity">
+              <span>Research candidate</span>
+              <span>Human-reviewed only</span>
+              <span>No release commitment</span>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.evolutionFlow} aria-label="Progression from observed language to reviewed applicability assertion">
+          <article className={styles.evolutionFlowStage} data-stage="evidence">
+            <header>
+              <span>01 · Evidence</span>
+              <b>Released v4 foundation</b>
+            </header>
+            <h3>What was written</h3>
+            <div className={styles.evidenceChain} aria-label="Released evidence chain">
+              {['Entity', 'Document', 'Version', 'Change', 'Provision'].map((node, index) => (
+                <span key={node}>
+                  <code>{node}</code>
+                  {index < 4 ? <ChevronRight size={13} aria-hidden="true" /> : null}
+                </span>
+              ))}
+            </div>
+            <p>Exact captured language remains anchored to its publisher, document, version and change lineage.</p>
+          </article>
+
+          <span className={styles.evolutionRail} aria-hidden="true"><ChevronRight size={20} /></span>
+
+          <article className={styles.evolutionFlowStage} data-stage="context">
+            <header>
+              <span>02 · Relationships</span>
+              <b>Proposed typed model</b>
+            </header>
+            <h3>Who / what / where / when context</h3>
+            <div className={styles.contextNodeGrid}>
+              {applicabilityContextInputs.map((input) => <code key={input}>{input}</code>)}
+            </div>
+            <p>These relationships supply review context; none is sufficient on its own to prove applicability.</p>
+          </article>
+
+          <span className={styles.evolutionRail} aria-hidden="true"><ChevronRight size={20} /></span>
+
+          <article className={styles.evolutionFlowStage} data-stage="assertion">
+            <header>
+              <span>03 · Assertion</span>
+              <b>Accountable review gate</b>
+            </header>
+            <h3>Reviewed applicability assertion</h3>
+            <code className={styles.assertionSignature}>Provision + LegalEntity + Service + Jurisdiction + Audience + ValidityPeriod</code>
+            <div className={styles.assertionOutcomes} aria-label="Candidate assertion outcomes">
+              <span>applies</span>
+              <span>may_apply</span>
+              <span>does_not_apply</span>
+              <span>unknown</span>
+            </div>
+            <p>Every assertion would retain source, rationale, provenance, time, review state and an accountable reviewer.</p>
+          </article>
+        </div>
+
+        <ol className={styles.maturityRail} aria-label="Applicability graph maturity path">
+          {applicabilityMaturity.map((item) => (
+            <li key={item.step}>
+              <span>{item.step}</span>
+              <div>
+                <small>{item.status}</small>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+
+        <div className={styles.evolutionBoundary}>
+          <div>
+            <strong>Claim boundary</strong>
+            <p>
+              This candidate is an evidence-backed review aid—not legal advice, enforceability proof, an autonomous legal determination or compliance certification. AI may propose candidates or extract conditions, but it cannot publish a legal conclusion autonomously.
+            </p>
+          </div>
+          <a href="#reviewed-applicability-graph">
+            Inspect the feature-radar candidate
+            <ChevronRight size={16} aria-hidden="true" />
+          </a>
+        </div>
       </section>
 
       <details className={`${styles.lowerPriorityDisclosure} ${styles.anchorSection}`} id="workspace">
@@ -1260,6 +1421,7 @@ export default function RoadmapClient() {
             <article
               className={styles.candidateCard}
               key={feature.title}
+              id={feature.title === 'Reviewed Applicability Graph' ? 'reviewed-applicability-graph' : undefined}
               style={{ '--delay': `${index * 0.04}s` } as CSSProperties}
             >
               <div className={styles.candidateTop}>

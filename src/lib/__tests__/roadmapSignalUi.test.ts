@@ -8,19 +8,47 @@ function read(path: string) {
 describe('roadmap community signal UI contract', () => {
   it('publishes the verified technical baseline and the ordered priority pipeline', () => {
     const roadmap = read('src/app/roadmap/RoadmapClient.tsx');
+    const baseline = roadmap.match(/const technicalBaseline:[\s\S]*?= \[([\s\S]*?)\];\n\nconst priorityPipeline/)?.[1] ?? '';
     const pipeline = roadmap.match(/const priorityPipeline = \[([\s\S]*?)\] as const;/)?.[1] ?? '';
 
     expect(roadmap).toContain('id="technical-baseline"');
     expect(roadmap).toContain('id="pipeline"');
-    expect(roadmap).toContain('Technical baseline · verified 17 August 2026');
+    expect(roadmap).toContain('Technical baseline · verified 22 August 2026');
     expect(roadmap).toContain('docs/reports/policywatcher-state-of-art-audit-2026-08-14.artifact.json');
-    expect(pipeline.match(/title:/g)).toHaveLength(8);
+    expect(baseline.match(/module:/g)).toHaveLength(11);
+    expect(baseline).toContain('Taxonomy and semantic evidence');
+    expect(baseline).toContain('exact captured-Version excerpts, SHA-256, canonical locators and rationale');
+    expect(baseline).toContain('reviewed absence remains human-only');
+    expect(baseline).toContain('317 of 330 provision slots are not_assessed');
+    expect(pipeline.match(/title:/g)).toHaveLength(9);
+    expect(pipeline).toContain('Full-V4 taxonomy production activation');
+    expect(pipeline).toContain('strict Apple/Revolut/TikTok source QA');
     expect(pipeline).toContain('Durable queue for asynchronous workloads');
     expect(pipeline).toContain('High-assurance evidence export');
     expect(roadmap).toContain("String(index + 1).padStart(2, '0')");
     expect(roadmap).not.toContain("phase: 'In progress'");
     expect(roadmap).toContain('Source Remediation Workbench UX');
     expect(roadmap).toContain('Community Signal Composer UX');
+  });
+
+  it('frames reviewed applicability as a human-controlled research candidate', () => {
+    const roadmap = read('src/app/roadmap/RoadmapClient.tsx');
+    const metadata = read('src/app/roadmap/page.tsx');
+    const architecture = read('docs/applicability-graph-evolution.md');
+
+    expect(roadmap).toContain('<a href="#evolution">Evolution</a>');
+    expect(roadmap).toContain('id="evolution"');
+    expect(roadmap).toContain('Evolution candidate · community architecture signal');
+    expect(roadmap).toContain('From evidence graph to reviewed applicability assertions');
+    expect(roadmap).toContain('Provision + LegalEntity + Service + Jurisdiction + Audience + ValidityPeriod');
+    expect(roadmap).toContain("title: 'Reviewed Applicability Graph'");
+    expect(roadmap).toContain("track: 'Semantic intelligence'");
+    expect(roadmap).toContain('AI may propose candidates or extract conditions, but it cannot publish a legal conclusion autonomously');
+    expect(roadmap).toContain('id={feature.title === \'Reviewed Applicability Graph\' ? \'reviewed-applicability-graph\' : undefined}');
+    expect(metadata).toContain('human-reviewed applicability assertions');
+    expect(architecture).toContain('Status: exploratory architecture candidate');
+    expect(architecture).toContain('Company attributes alone do not establish applicability either.');
+    expect(architecture).toContain('This evolution does not aim to:');
   });
 
   it('keeps anchored roadmap and observatory sections below sticky public chrome', () => {
