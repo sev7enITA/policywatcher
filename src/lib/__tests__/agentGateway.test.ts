@@ -31,12 +31,13 @@ describe('agent evidence gateway', () => {
     expect(brief.boundary).toContain('not evidence-ready');
   });
 
-  it('publishes three read-only operations without unsupported schema composition or array data types', () => {
+  it('publishes four read-only operations without unsupported schema composition or array data types', () => {
     const document = getAgentGatewayOpenApi();
     const serialized = JSON.stringify(document);
     const operations = Object.values(document.paths).flatMap((path) => Object.values(path));
     expect(document.openapi).toBe('3.0.0');
-    expect(operations).toHaveLength(3);
+    expect(operations).toHaveLength(4);
+    expect(operations.some((operation) => operation.operationId === 'getAgenticIncidentBrief')).toBe(true);
     expect(operations.every((operation) => 'operationId' in operation)).toBe(true);
     expect(operations.every((operation) => 'description' in operation && operation.description.length > 0)).toBe(true);
     expect(operations.flatMap((operation) => 'parameters' in operation ? operation.parameters : []).every((parameter) => parameter.description.length > 0)).toBe(true);
