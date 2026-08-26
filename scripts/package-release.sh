@@ -202,8 +202,10 @@ fi
 # compressed release assets inside the Hostinger application artifact.
 find "${STAGING_DIR}/public/press-kit" -maxdepth 1 -type f -name 'policywatcher-press-package-*.zip' -delete
 
-find "${STAGING_DIR}" -type f \( -path '*/__tests__/*' -o -path '*/__pycache__/*' \) -delete
-find "${STAGING_DIR}" -depth -type d \( -name __tests__ -o -name __pycache__ \) -delete
+find "${STAGING_DIR}" -depth \( \
+  -path '*/__tests__/*' -o -name __tests__ -o \
+  -path '*/__pycache__/*' -o -name __pycache__ \
+\) -delete
 find "${STAGING_DIR}" -type f \( -name '*.db' -o -name '*.sqlite' -o -name '*.sqlite3' -o -name '*.pyc' -o -name '.DS_Store' \) -delete
 # The provider-specific schema is generated deterministically during install;
 # never package a workspace materialization that could be stale.
