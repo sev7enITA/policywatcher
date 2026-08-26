@@ -43,10 +43,11 @@ Hardening controls:
 - 15-minute validated in-memory cache;
 - stale fallback limited to 24 hours, after which data becomes unavailable;
 - no raw provider response, attribution-review rationale, narrative full text or justifications are stored or returned.
+- successful, disabled and error responses use `Cache-Control: no-store`, so CDN/browser stale-while-revalidate windows cannot preserve a provider disablement or a withdrawn public response;
 
 The current provider payload includes records without a claimed event date. They are normalized with `occurredAt=null`, `dateBasis=provider-published-date-only` and the aggregate warning `missing_occurred_at`; they remain discoverable but are excluded from Vendor Response Monitor timelines because a temporal relationship cannot be calculated safely.
 
-The in-memory cache is an availability optimization, not durable evidence. A production operator may add a separately reviewed durable snapshot provider later without changing the canonical signal contract.
+The internal 15-minute provider cache is an availability optimization, not durable evidence. Disabling the adapter bypasses it immediately. A provider-side record removal can remain in that internal validated snapshot until the next provider refresh, but it is never extended by a browser or CDN cache. A production operator may add a separately reviewed durable snapshot provider later without changing the canonical signal contract.
 
 ## Public surfaces
 

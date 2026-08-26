@@ -27,6 +27,7 @@ export const PUBLIC_API_RATE_LIMIT = Object.freeze({
   overrides: Object.freeze([
     Object.freeze({ endpoint: '/api/v1/evidence-collections', requests: 30, intervalSeconds: 60 }),
     Object.freeze({ endpoint: '/api/v1/change-events', requests: 30, intervalSeconds: 60 }),
+    Object.freeze({ endpoint: '/api/v1/integrations/palo/signals', requests: 30, intervalSeconds: 60 }),
     Object.freeze({ endpoint: '/api/v1/agent/*', requests: 30, intervalSeconds: 60 }),
   ]),
 });

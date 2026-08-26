@@ -5,6 +5,10 @@ import {
   type PublicChangeEventQuery,
   type PublicChangeEventRow,
 } from './publicChangeEvents';
+import {
+  buildPaloPolicyWatcherBatch,
+  type PaloPolicyWatcherBatchQuery,
+} from './paloPolicyWatcherBatch';
 
 const select = {
   id: true,
@@ -60,5 +64,30 @@ export async function getPublicChangeEventFeed(query: Extract<PublicChangeEventQ
     inputCursor: query.cursor,
     hasMore: query.cursor ? hasMore : false,
     initialWindowTruncated: query.cursor ? false : hasMore,
+  });
+}
+
+export async function getPublicPaloSignalBatch(query: Extract<PaloPolicyWatcherBatchQuery, { ok: true }>) {
+  const cursorFilter = query.cursor ? {
+    OR: [
+      { publicPublishedAt: { gt: new Date(query.cursor.occurredAt) } },
+      { publicPublishedAt: new Date(query.cursor.occurredAt), id: { gt: query.cursor.changeId } },
+    ],
+  } : {};
+
+  const result = await db.policyChange.findMany({
+    where: publicChangeWhere({ publicPublishedAt: { not: null }, ...cursorFilter }) as never,
+    select,
+    orderBy: [{ publicPublishedAt: 'asc' }, { id: 'asc' }],
+    take: query.limit + 1,
+  });
+  const hasMore = result.length > query.limit;
+  const rows = result.slice(0, query.limit) as PublicChangeEventRow[];
+
+  return buildPaloPolicyWatcherBatch(rows, {
+    locale: query.locale,
+    limit: query.limit,
+    inputCursor: query.cursor,
+    hasMore,
   });
 }

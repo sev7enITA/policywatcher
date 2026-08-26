@@ -17,6 +17,7 @@ describe('public integration directory', () => {
     expect(manifest.rateLimit.overrides).toEqual(expect.arrayContaining([
       expect.objectContaining({ endpoint: '/api/v1/evidence-collections', requests: 30 }),
       expect.objectContaining({ endpoint: '/api/v1/change-events', requests: 30 }),
+      expect.objectContaining({ endpoint: '/api/v1/integrations/palo/signals', requests: 30 }),
     ]));
     expect(manifest.sources).toEqual(expect.arrayContaining([
       expect.objectContaining({

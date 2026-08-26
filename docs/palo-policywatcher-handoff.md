@@ -12,6 +12,14 @@ Every event in `GET /api/v1/change-events` includes an additive `links.paloSigna
 GET /api/v1/integrations/palo/signal?changeId=<public-change-uuid>&lang=en|it
 ```
 
+PALO can also run an optional bounded pull cycle over:
+
+```text
+GET /api/v1/integrations/palo/signals?cursor=<opaque>&limit=25&lang=en|it
+```
+
+This no-store endpoint starts from the oldest currently public signal and exposes a complete active snapshot through bounded forward pages. A consumer may classify a previously accepted signal as withdrawn only after every page validates successfully. A partial, rate-limited or unavailable traversal never proves revocation. The batch transport is optional: PALO retains its last validated local registry and its core governance paths remain available when PolicyWatcher is unreachable. Withdrawal is effective at the PolicyWatcher endpoint without a CDN grace window; the PALO registry reflects it on the next scheduled or manually dispatched complete traversal.
+
 The endpoint returns HTTP 404 unless the requested change still passes the PolicyWatcher public-evidence gate. Successful and error responses use `Cache-Control: no-store`, so withdrawing public evidence is not masked by a CDN stale window. A successful response is downloadable JSON with:
 
 - `format=palo-policywatcher-signal` and `schemaVersion=1.0.0`;

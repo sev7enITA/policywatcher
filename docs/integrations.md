@@ -20,6 +20,7 @@ Public entry points:
 | Shareable Evidence Collections | Select up to 12 exact public changes and export deterministic JSON, Markdown, CSV or vendor-neutral handoff records | None; browser-local selection plus read-only CORS | Available | `/collections` |
 | Collaboration Handoff Manifest | Prepare review work items with evidence links, digests and acceptance criteria for authorized import | None; read-only deterministic export | Available | `/api/v1/evidence-collections?format=handoff` |
 | Public Change Event Feed | Poll already-published change events with deterministic IDs and a forward cursor | None; read-only CORS | Available | `/api/v1/change-events` |
+| PALO Signal Pull Transport | Traverse a complete no-store snapshot of currently public PALO-compatible signals; PALO keeps the validated local fallback | None; read-only CORS | Available | `/api/v1/integrations/palo/signals` |
 | Event Feed Continuity Lab | Inspect bounded polling windows and maintain a strict browser-local checkpoint | None; local browser state plus read-only CORS | Available | `/developers/event-continuity` |
 | Webhook Readiness Kit | Verify the candidate HMAC-SHA256 receiver contract against a public deterministic vector | None; local browser verification plus read-only CORS | Available | `/developers/webhook-readiness` |
 | Receiver Conformance Suite | Run eight deterministic positive and negative receiver fixtures and compare expected decisions | None; local browser execution plus read-only CORS | Available | `/api/v1/webhook-conformance-suite` |
