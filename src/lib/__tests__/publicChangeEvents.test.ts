@@ -59,6 +59,9 @@ describe('public change event polling contract', () => {
       subject: { changeId: CHANGE_ID },
     });
     expect(first.events[0].eventId).toBe(second.events[0].eventId);
+    expect(first.events[0].links.paloSignal).toBe(
+      `https://policywatcher.online/api/v1/integrations/palo/signal?changeId=${CHANGE_ID}&lang=it`,
+    );
     expect(first.nextCursor).toBe(second.nextCursor);
     expect(JSON.stringify(first)).not.toMatch(/recipient|subscription|deliveryReceipt|webhookSecret|rawText/i);
   });

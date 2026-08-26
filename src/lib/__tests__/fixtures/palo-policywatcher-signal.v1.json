@@ -1,0 +1,62 @@
+{
+  "format": "palo-policywatcher-signal",
+  "schemaVersion": "1.0.0",
+  "signalId": "signal-policywatcher-11111111-1111-4111-8111-111111111111",
+  "observedAt": "2026-08-26T10:00:00.000Z",
+  "source": {
+    "sourceId": "policywatcher-change-11111111-1111-4111-8111-111111111111",
+    "title": "Alpha: AI Policy",
+    "url": "https://policywatcher.online/change/11111111-1111-4111-8111-111111111111",
+    "publisher": "PolicyWatcher",
+    "checkedAt": "2026-08-26T10:00:00.000Z"
+  },
+  "summary": "Alpha published a public policy change.",
+  "changeType": "unknown",
+  "subjects": ["alpha", "ai", "AI Policy"],
+  "jurisdictions": ["EU"],
+  "confidence": {
+    "level": "high",
+    "score": 1,
+    "rationale": "The handoff is emitted only after the PolicyWatcher public-evidence gate; policy significance and applicability remain unreviewed."
+  },
+  "authority": {
+    "status": "non-authoritative-monitoring-signal",
+    "disclaimer": "This is a non-authoritative monitoring signal, not legal advice, a compliance verdict, an applicability determination or a PALO gate decision."
+  },
+  "suggestedHandoff": {
+    "module": "PALO_RegulatoryWatch",
+    "eventName": "palo:policywatcher:signal",
+    "reviewGateIds": ["measure", "prove"]
+  },
+  "extensions": {
+    "contractOwner": "PALO",
+    "canonicalSchema": "https://paloframework.org/schemas/policywatcher-signal.schema.json",
+    "handoffBoundary": "PolicyWatcher exports only an already-public, evidence-gated observation. PALO remains responsible for applicability, risk, controls, decisions and accountable human review.",
+    "policyWatcherRecord": {
+      "changeId": "11111111-1111-4111-8111-111111111111",
+      "eventType": "policy.change.published",
+      "company": {
+        "id": "company-1",
+        "name": "Alpha",
+        "slug": "alpha",
+        "industry": "Technology"
+      },
+      "policy": {
+        "id": "policy-1",
+        "name": "AI Policy",
+        "type": "ai",
+        "jurisdiction": "EU"
+      },
+      "screening": {
+        "overallRisk": "Medium",
+        "overallScore": 5,
+        "boundary": "AI-assisted screening output for human review; not a legal, compliance or PALO risk verdict."
+      },
+      "links": {
+        "change": "https://policywatcher.online/change/11111111-1111-4111-8111-111111111111",
+        "evidence": "https://policywatcher.online/evidence/11111111-1111-4111-8111-111111111111",
+        "evidenceJson": "https://policywatcher.online/api/evidence-packet/11111111-1111-4111-8111-111111111111?format=json"
+      }
+    }
+  }
+}

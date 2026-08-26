@@ -16,8 +16,8 @@ verification.
 | Database example | `file:/home/u847874844/domains/staging.policywatcher.online/policywatcher-staging-data/staging.db` | `file:/home/u847874844/domains/policywatcher.online/policywatcher-data/production.db` |
 | Admin/API/session secrets | Unique staging values | Unique production values |
 | SMTP, webhooks, VPS Agent | Unset | Configured only when operationally required |
-| Build command | `npm run hostinger:build:staging` | `npm run hostinger:build:production` |
-| Startup | `server.js` / `npm start` | `server.js` / `npm start` |
+| Build command | `npm run build` with target `staging` | `npm run build` with target `production` |
+| Output/runtime | `.next` / Hostinger managed Next.js | `.next` / Hostinger managed Next.js |
 
 Create `staging.policywatcher.online` as an independent website, not as a
 subfolder of production. Hostinger documents both [independent subdomain
@@ -68,6 +68,7 @@ Environment changes take effect after Save and redeploy; see Hostinger's
 ```env
 POLICYWATCHER_DEPLOYMENT_TARGET=staging
 POLICYWATCHER_RELEASE_SHA256=<candidate ZIP SHA-256>
+POLICYWATCHER_ROGUE_AI_TRACKER_ENABLED=false
 APP_URL=https://staging.policywatcher.online
 NEXT_PUBLIC_APP_URL=https://staging.policywatcher.online
 DATABASE_URL=file:/home/u847874844/domains/staging.policywatcher.online/policywatcher-staging-data/staging.db
@@ -106,6 +107,13 @@ is unsafe. Configure exactly one of `TRUSTED_CLIENT_IP_HEADER` and
 `TRUST_PROXY_HEADERS=true`; never both. Staging also displays
 a permanent visible banner, returns `X-Robots-Tag: noindex, nofollow, noarchive`
 and disallows all crawlers in `robots.txt`.
+
+Hostinger's managed Next.js preset currently exposes only `npm run build`. This
+is the guarded path: `package.json` maps it to `scripts/hostinger-managed-build.mjs`,
+which reads `POLICYWATCHER_DEPLOYMENT_TARGET` and runs the same target-specific
+environment gate before database preparation and `next build`. The explicit
+`hostinger:build:staging` and `hostinger:build:production` scripts remain useful
+for local/operator preflight, but are not selectable in the managed preset UI.
 
 Database Readiness must report `journalMode=wal`, `busyTimeoutMs>=5000`,
 `31/31` tables and `16/16` SQLite migrations. Deployment backups are created
@@ -175,7 +183,7 @@ In the production Hostinger application:
 2. Restore and review all production environment variables.
 3. Add the three promotion values emitted above.
 4. Set `POLICYWATCHER_DEPLOYMENT_TARGET=production`.
-5. Select `npm run hostinger:build:production` and `server.js`.
+5. Select the managed Next.js preset, Node.js 22, `npm run build` and `.next`.
 6. Upload the exact staging-verified ZIP; do not recreate it.
 7. Redeploy and review startup logs before accepting the release.
 8. Run the existing protected production-verification panel and a bounded smoke

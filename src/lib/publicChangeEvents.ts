@@ -129,6 +129,7 @@ export function buildPublicChangeEventFeed(
         change: `https://policywatcher.online/change/${row.id}`,
         evidence: `https://policywatcher.online/evidence/${row.id}`,
         evidenceJson: `https://policywatcher.online/api/evidence-packet/${row.id}?format=json`,
+        paloSignal: `https://policywatcher.online/api/v1/integrations/palo/signal?changeId=${row.id}&lang=${options.locale}`,
       },
     };
   });
