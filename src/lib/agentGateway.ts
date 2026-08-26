@@ -1,11 +1,12 @@
 import { listEnterpriseChanges, ENTERPRISE_RISKS } from './enterpriseApiData';
 import { getPublicObservatoryPayload, type PublicApiLocale } from './publicApi';
 import { POLICYWATCHER_VERSION } from './release';
+import { agenticIncidentOpenApiPath } from './agenticIncidentAgent';
 
-export const AGENT_GATEWAY_SCHEMA_VERSION = '2026-08-01' as const;
+export const AGENT_GATEWAY_SCHEMA_VERSION = '2026-08-26' as const;
 export const AGENT_GATEWAY_MAX_RESULTS = 5;
 export const AGENT_GATEWAY_BOUNDARY =
-  'Public evidence only. Results are source-linked research context, not legal advice, a compliance decision, or a contract approval.';
+  'Public evidence or explicitly marked external research metadata only. Results are source-linked research context, not legal advice, a compliance decision, or a contract approval.';
 
 export interface AgentBriefQuery {
   companySlug?: string;
@@ -104,7 +105,7 @@ export function getAgentCapabilities() {
     release: POLICYWATCHER_VERSION,
     generatedAt: new Date().toISOString(),
     access: 'anonymous read-only public evidence',
-    operations: 'getCapabilities; getChangeBrief; getObservatoryBrief',
+    operations: 'getCapabilities; getChangeBrief; getObservatoryBrief; getAgenticIncidentBrief',
     compatibleTargets: 'Microsoft 365 Copilot declarative agents; Vertex AI Agent Builder tools; Amazon Quick OpenAPI connectors; existing Amazon Q Business custom plugins',
     privateAccess: 'Tenant-specific enterprise access remains available through the Entra-authenticated Enterprise API v2.',
     citations: 'Every brief returns canonical PolicyWatcher and/or original source URLs as newline-delimited text.',
@@ -275,6 +276,7 @@ export function getAgentGatewayOpenApi() {
           } } } } },
         },
       },
+      '/api/v1/agent/agentic-incident-brief': agenticIncidentOpenApiPath(),
     },
   };
 }

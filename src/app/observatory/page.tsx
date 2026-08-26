@@ -822,6 +822,10 @@ export default function ObservatoryPage() {
                   {copy.hero.watchAction}
                   <ArrowRight size={15} />
                 </Link>
+                <Link href="/observatory/agentic-incidents" className={styles.secondaryAction}>
+                  {locale === 'it' ? 'Incidenti agentici' : 'Agentic incidents'}
+                  <ArrowRight size={15} />
+                </Link>
               </div>
 
               {nextItem && (
