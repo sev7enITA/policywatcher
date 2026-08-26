@@ -157,6 +157,13 @@ describe('Hostinger staging-to-production gate', () => {
     expect(packager).toContain('internal-previews');
   });
 
+  it('removes nested test and Python cache trees before archive verification', () => {
+    const packager = readFileSync('scripts/package-release.sh', 'utf8');
+    expect(packager).toContain('find "${STAGING_DIR}" -depth');
+    expect(packager).toContain("-path '*/__tests__/*' -o -name __tests__");
+    expect(packager).toContain("-path '*/__pycache__/*' -o -name __pycache__");
+  });
+
   it('gates managed Hostinger builds before preparing the external database', () => {
     const packageJson = JSON.parse(readFileSync('package.json', 'utf8')) as {
       scripts: Record<string, string>;
