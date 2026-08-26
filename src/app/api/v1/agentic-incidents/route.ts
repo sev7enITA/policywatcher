@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 const PUBLIC_HEADERS = {
   'Access-Control-Allow-Origin': '*',
-  'Cache-Control': 'public, max-age=30, s-maxage=300, stale-while-revalidate=900',
+  'Cache-Control': 'no-store',
   'X-Content-Type-Options': 'nosniff',
 };
 const ERROR_HEADERS = { ...PUBLIC_HEADERS, 'Cache-Control': 'no-store' };
