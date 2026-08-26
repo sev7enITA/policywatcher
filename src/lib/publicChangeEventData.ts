@@ -26,6 +26,13 @@ const select = {
   },
 } as const;
 
+export async function getPublicChangeEventRow(changeId: string) {
+  return db.policyChange.findFirst({
+    where: publicChangeWhere({ id: changeId, publicPublishedAt: { not: null } }) as never,
+    select,
+  }) as Promise<PublicChangeEventRow | null>;
+}
+
 export async function getPublicChangeEventFeed(query: Extract<PublicChangeEventQuery, { ok: true }>) {
   const cursorFilter = query.cursor ? {
     OR: [
