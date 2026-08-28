@@ -32,6 +32,14 @@
 - Discoverability metadata does not guarantee indexing, ranking, citation or recommendation by an external service.
 - The previously observed live `GPTBot` HTTP 429 is a hosting, CDN or WAF operational check; application crawler rules allow the bot, but deployment verification remains required.
 
+### Deployment verification
+
+- Packaged the merged `main` revision `a2fd809` as one immutable Hostinger artifact with SHA-256 `6e561c32e68378d260db6acbe3341875b47b85c3c1d697f7cb329a588e2b0265`.
+- Passed all `11/11` staging promotion checks against that exact artifact, including release identity, no-index boundaries, authentication, database health, `31/31` tables and `16/16` migrations.
+- Created a manual production backup, promoted the staging-attested artifact, and completed the Hostinger production deployment on 28 August 2026; the live manifest and homepage report `4.0.0-beta.3`.
+- Verified the live SSR homepage, visible H1 and FAQ, canonical/description/social metadata, JSON-LD, 1200x630 OG image, crawler-aware `robots.txt`, 247-URL sitemap, `llms.txt`, database-derived publication readiness and 15 public companies.
+- Confirmed HTTP 200 for ordinary traffic, OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot, Googlebot and Bingbot. Hostinger still returns an empty HTTP 429 only for `GPTBot/1.0`; a support escalation was submitted with the HCDN request identifier and reproduction evidence.
+
 ## 4.0.0-beta.2 - 2026-08-20
 
 ### Independent-assessment remediation

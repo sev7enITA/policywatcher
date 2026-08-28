@@ -2,8 +2,8 @@
 
 Record date: 28 August 2026
 
-Status: source candidate. Staging and production promotion evidence must be
-added only after the immutable artifact passes those gates.
+Status: deployed to staging and production from one immutable, staging-attested
+artifact.
 
 PolicyWatcher 4 Beta 3 aligns the public homepage, social metadata, structured
 identity and crawler controls around the same server-rendered evidence boundary.
@@ -34,3 +34,19 @@ same checksum to production.
 
 Full audit:
 `docs/audit-v4.0.0-beta.3-ai-discoverability.md`
+
+## Deployment record
+
+- Merged source revision: `a2fd809ac2c0fe4d1625b7d3b29f07e33c5544f1`
+- Artifact SHA-256: `6e561c32e68378d260db6acbe3341875b47b85c3c1d697f7cb329a588e2b0265`
+- Staging gate: `11/11` checks passed on 28 August 2026
+- Production backup: completed before promotion
+- Production deployment: `Completed` and `Current` at 11:24 local time on
+  28 August 2026
+- Live identity: homepage and `/api/v1/manifest` report `4.0.0-beta.3`
+- Live evidence: SSR SEO markers, 1200x630 OG image, explicit crawler rules,
+  247 sitemap URLs, `llms.txt`, database readiness and 15 public companies
+  verified
+- Open infrastructure item: Hostinger returns HTTP 429 only for `GPTBot/1.0`;
+  all other tested search and AI crawlers return HTTP 200. A Hostinger support
+  escalation was submitted with the reproduction timestamp and HCDN request ID.
