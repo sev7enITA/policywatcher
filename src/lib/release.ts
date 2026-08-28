@@ -1,10 +1,10 @@
-export const POLICYWATCHER_VERSION = '4.0.0-beta.2' as const;
-export const POLICYWATCHER_VERSION_DISPLAY = '4.0.0 Beta 2' as const;
-export const POLICYWATCHER_RELEASE_NAME = 'Production Readiness Hardening' as const;
-export const POLICYWATCHER_RELEASE_DATE = '2026-08-20' as const;
+export const POLICYWATCHER_VERSION = '4.0.0-beta.3' as const;
+export const POLICYWATCHER_VERSION_DISPLAY = '4.0.0 Beta 3' as const;
+export const POLICYWATCHER_RELEASE_NAME = 'AI Discoverability and Citation Readiness' as const;
+export const POLICYWATCHER_RELEASE_DATE = '2026-08-28' as const;
 export const POLICYWATCHER_RELEASE_DATE_LABEL = {
-  en: '20 August 2026',
-  it: '20 agosto 2026',
+  en: '28 August 2026',
+  it: '28 agosto 2026',
 } as const;
 export const POLICYWATCHER_RELEASE_MONTH_LABEL = {
   en: 'August 2026',

@@ -634,12 +634,37 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'production-readiness-hardening-4-0-0-beta-2',
+    slug: 'ai-discoverability-citation-readiness-4-0-0-beta-3',
     version: POLICYWATCHER_VERSION,
     displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE,
     dateModified: POLICYWATCHER_RELEASE_DATE,
     status: 'current',
+    category: 'confidence',
+    title: { en: 'AI Discoverability and Citation Readiness', it: 'Discoverability AI e readiness per le citazioni' },
+    summary: { en: 'Aligns the public homepage, crawler controls and machine-readable identity around the same server-rendered evidence boundary.', it: 'Allinea homepage pubblica, controlli crawler e identita machine-readable allo stesso perimetro di evidenze renderizzato dal server.' },
+    changes: [
+      { en: 'The homepage now exposes a visible H1, explanatory copy, public reference links and useful FAQ answers before the interactive workspace.', it: 'La homepage ora espone H1 visibile, testo esplicativo, link pubblici di riferimento e FAQ utili prima del workspace interattivo.' },
+      { en: 'Open Graph, Twitter cards and a generated 1200x630 preview provide a canonical social summary.', it: 'Open Graph, Twitter Card e preview generata 1200x630 forniscono un riepilogo social canonico.' },
+      { en: 'JSON-LD describes the website, organization, founder, application and visible FAQ while robots rules explicitly cover major search and AI crawlers.', it: 'Il JSON-LD descrive sito, organizzazione, fondatore, applicazione e FAQ visibile, mentre robots include esplicitamente i principali crawler search e AI.' },
+    ],
+    boundaries: [
+      { en: 'Metadata and crawler rules do not guarantee ranking, indexing, citation or recommendation by any external service.', it: 'Metadata e regole crawler non garantiscono ranking, indicizzazione, citazione o raccomandazione da parte di servizi esterni.' },
+      { en: 'Hosting, CDN or WAF rate limits remain a deployment concern and must be verified against live crawler user agents.', it: 'I rate limit di hosting, CDN o WAF restano un tema di deployment da verificare con user agent crawler live.' },
+    ],
+    evidenceLinks: [
+      { href: '/knowledge', label: { en: 'Public knowledge base', it: 'Knowledge base pubblica' } },
+      { href: '/methodology/confidence', label: { en: 'Confidence methodology', it: 'Metodologia di confidenza' } },
+      { href: '/about', label: { en: 'About and contact', it: 'Informazioni e contatti' } },
+    ],
+  },
+  {
+    slug: 'production-readiness-hardening-4-0-0-beta-2',
+    version: '4.0.0-beta.2',
+    displayVersion: '4.0.0 Beta 2',
+    datePublished: '2026-08-20',
+    dateModified: '2026-08-20',
+    status: 'archived',
     category: 'confidence',
     title: { en: 'Production Readiness Hardening', it: 'Hardening della readiness di produzione' },
     summary: { en: 'Applies the highest-priority independent-assessment remediations to request identity, bounded ingestion, scan lifecycle, sessions, consent and encrypted recovery exports.', it: 'Applica le remediation prioritarie degli assessment indipendenti a identità delle richieste, ingestione limitata, ciclo di vita delle scansioni, sessioni, consenso ed export cifrati di recovery.' },
@@ -1564,7 +1589,8 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
-  { id: 'production-readiness-hardening-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Production Readiness Hardening candidate recorded', it: 'Registrata la candidate Production Readiness Hardening' }, detail: { en: 'The Beta 2 candidate applies the material independent-assessment remediations while preserving the Beta 1 evidence contracts and explicit deployment gates.', it: 'La candidate Beta 2 applica le remediation materiali degli assessment indipendenti preservando i contratti di evidenza Beta 1 e i gate di deployment espliciti.' }, affectedHref: '/press-kit/releases/production-readiness-hardening-4-0-0-beta-2' },
+  { id: 'ai-discoverability-citation-readiness-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'AI Discoverability and Citation Readiness recorded', it: 'Registrata Discoverability AI e readiness per le citazioni' }, detail: { en: 'Beta 3 aligns visible homepage content, canonical metadata, structured identity and explicit crawler access without claiming external indexing or citation outcomes.', it: 'La Beta 3 allinea contenuto visibile della homepage, metadata canonici, identita strutturata e accesso crawler esplicito senza dichiarare risultati esterni di indicizzazione o citazione.' }, affectedHref: '/press-kit/releases/ai-discoverability-citation-readiness-4-0-0-beta-3' },
+  { id: 'production-readiness-hardening-release', occurredAt: '2026-08-20', type: 'release', title: { en: 'Production Readiness Hardening candidate recorded', it: 'Registrata la candidate Production Readiness Hardening' }, detail: { en: 'The Beta 2 candidate applies the material independent-assessment remediations while preserving the Beta 1 evidence contracts and explicit deployment gates.', it: 'La candidate Beta 2 applica le remediation materiali degli assessment indipendenti preservando i contratti di evidenza Beta 1 e i gate di deployment espliciti.' }, affectedHref: '/press-kit/releases/production-readiness-hardening-4-0-0-beta-2' },
   { id: 'canonical-evidence-foundation-release', occurredAt: '2026-08-19', type: 'release', title: { en: 'Canonical Evidence Foundation published', it: 'Pubblicata Canonical Evidence Foundation' }, detail: { en: 'The v4 foundation introduces a canonical document-evidence graph, stable public identifiers, a focused provision taxonomy and one database-derived publication-readiness contract.', it: 'La foundation v4 introduce un grafo canonico delle evidenze documentali, identificatori pubblici stabili, una tassonomia mirata delle clausole e un unico contratto di publication readiness derivato dal database.' }, affectedHref: '/press-kit/releases/canonical-evidence-foundation-4-0-0-beta-1' },
   { id: 'evidence-release-control-plane-release', occurredAt: '2026-08-15', type: 'release', title: { en: 'Evidence Release Control Plane published', it: 'Pubblicato Evidence Release Control Plane' }, detail: { en: 'A human-approved model registry, privacy-safe telemetry, validated release ledger and bilingual Evidence Pulse now share explicit evidence and residual boundaries.', it: 'Un registro modelli approvato da persone, telemetria rispettosa della privacy, un ledger di release validato ed Evidence Pulse bilingue ora condividono evidenze e limiti residui espliciti.' }, affectedHref: '/press-kit/releases/evidence-release-control-plane-3-9-0-beta-42' },
   { id: 'adaptive-experience-release', occurredAt: '2026-08-07', type: 'release', title: { en: 'Adaptive Experience published', it: 'Pubblicata Esperienza adattiva' }, detail: { en: 'The dashboard now exposes deterministic complexity and motion controls plus a source-generated ER sitemap.', it: 'La dashboard ora espone controlli deterministici di complessita e movimento oltre a una sitemap ER generata dalla fonte.' }, affectedHref: '/press-kit/releases/adaptive-experience-3-9-0-beta-41' },

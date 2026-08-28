@@ -34,7 +34,7 @@ export interface ReleaseImpactItem {
   externalDependency?: string;
 }
 
-export const RELEASE_IMPACT_UPDATED_AT = '20 August 2026' as const;
+export const RELEASE_IMPACT_UPDATED_AT = '28 August 2026' as const;
 
 export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.7.0', shortLabel: '3.7.0', label: '3.7.0', state: 'delivered' },
@@ -96,7 +96,8 @@ export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.9.0-beta.41', shortLabel: '3.9 B41', label: '3.9.0 Beta 41', state: 'delivered' },
   { id: '3.9.0-beta.42', shortLabel: '3.9 B42', label: '3.9.0 Beta 42', state: 'delivered' },
   { id: '4.0.0-beta.1', shortLabel: '4.0 B1', label: '4.0.0 Beta 1', state: 'delivered' },
-  { id: '4.0.0-beta.2', shortLabel: '4.0 B2', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
+  { id: '4.0.0-beta.2', shortLabel: '4.0 B2', label: '4.0.0 Beta 2', state: 'delivered' },
+  { id: '4.0.0-beta.3', shortLabel: '4.0 B3', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
   { id: 'next', shortLabel: 'Next', label: 'Next beta horizon', state: 'planned' },
   { id: 'later', shortLabel: 'Later', label: 'Later horizon', state: 'planned' },
 ];
@@ -149,7 +150,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
     title: 'Production Readiness Hardening',
     summary: 'Closes the highest-impact independent-assessment findings across request identity, bounded retrieval, scan lifecycle, session isolation, consent and recovery exports.',
     domainId: 'security',
-    status: 'current',
+    status: 'delivered',
     horizon: 'delivered',
     startRelease: '4.0.0-beta.2',
     endRelease: '4.0.0-beta.2',
@@ -158,6 +159,21 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
     kri: 'Residual KRI: live Hostinger configuration, staging rehearsal, restore exercise and production deployment remain external gates',
     evidence: 'Independent-assessment remediation audit, focused regression tests, environment gate, migration parity checks and current release manifest.',
     limitation: 'Code-level closure does not prove the live proxy header, SMTP delivery, database corpus, backup restoration or production availability.',
+  },
+  {
+    id: 'ai-discoverability-citation-readiness',
+    title: 'AI Discoverability and Citation Readiness',
+    summary: 'Makes the homepage topic, public evidence boundaries, social preview and machine-readable identity explicit in server-rendered HTML.',
+    domainId: 'distribution',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '4.0.0-beta.3',
+    endRelease: '4.0.0-beta.3',
+    benefit: 'Search engines, AI assistants and readers receive the same visible description, canonical links, citation context and public evidence path.',
+    kpi: 'Homepage publishes one visible H1, substantive lead copy, Open Graph and Twitter metadata, a 1200x630 image, JSON-LD and visible FAQ answers',
+    kri: 'Residual KRI: crawler admission and rate limits at the hosting or CDN layer remain operational configuration, not an application metadata guarantee',
+    evidence: 'Server-rendered homepage source, WebSite/Organization/Person/SoftwareApplication/FAQPage graph, robots rules, llms.txt, sitemap and regression tests.',
+    limitation: 'Discoverability controls improve machine access and interpretation; they do not guarantee indexing, ranking, citation, recommendation or crawler availability.',
   },
   {
     id: 'two-week-release-evidence-pulse',

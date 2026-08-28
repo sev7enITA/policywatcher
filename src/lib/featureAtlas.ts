@@ -154,7 +154,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.41', shortLabel: '3.9 B41', label: '3.9.0 Beta 41' },
   { id: '3.9.0-beta.42', shortLabel: '3.9 B42', label: '3.9.0 Beta 42' },
   { id: '4.0.0-beta.1', shortLabel: '4.0 B1', label: '4.0.0 Beta 1' },
-  { id: '4.0.0-beta.2', shortLabel: '4.0 B2', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '4.0.0-beta.2', shortLabel: '4.0 B2', label: '4.0.0 Beta 2' },
+  { id: '4.0.0-beta.3', shortLabel: '4.0 B3', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -186,6 +187,7 @@ const primaryUserByDomain: Record<string, string> = {
 };
 
 const routeByFeature: Record<string, FeatureAtlasRoute> = {
+  'ai-discoverability-citation-readiness': { href: '/', label: 'Public evidence homepage', access: 'public' },
   'canonical-document-evidence-graph': { href: '/developers', label: 'Developer contract', access: 'public' },
   'authoritative-publication-readiness': { href: '/api/v1/publication-readiness', label: 'Publication readiness API', access: 'public' },
   'adaptive-experience-control': { href: '/', label: 'Adaptive dashboard experience', access: 'public' },

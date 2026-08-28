@@ -3,6 +3,14 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import HomeKnowledgeSnapshot from '../../components/HomeKnowledgeSnapshot';
+import {
+  HOME_CANONICAL_URL,
+  HOME_DESCRIPTION,
+  HOME_FAQS,
+  HOME_SOCIAL_IMAGE_URL,
+  HOME_STRUCTURED_DATA,
+  HOME_TITLE,
+} from '../homeSeo';
 import { isUuid, safePublicUrl, serializeJsonLd, type PublicKnowledgeHub } from '../publicKnowledge';
 
 const read = (path: string) => readFileSync(path, 'utf8');
@@ -98,6 +106,43 @@ describe('crawlable public knowledge layer', () => {
     expect(llms).toContain('do not expose raw policy text, internal logs, raw failures, admin notes, credentials');
   });
 
+  it('publishes complete homepage discovery metadata and safe structured identity data', () => {
+    const route = read('src/app/page.tsx');
+    const socialImage = read('src/app/api/og/home/route.tsx');
+    const graph = HOME_STRUCTURED_DATA['@graph'];
+
+    expect(HOME_TITLE.length).toBeLessThanOrEqual(60);
+    expect(HOME_DESCRIPTION.length).toBeLessThanOrEqual(160);
+    expect(HOME_CANONICAL_URL).toBe('https://policywatcher.online/');
+    expect(HOME_SOCIAL_IMAGE_URL).toBe('https://policywatcher.online/api/og/home');
+    expect(route).toContain('openGraph: {');
+    expect(route).toContain("siteName: 'PolicyWatcher'");
+    expect(route).toContain("card: 'summary_large_image'");
+    expect(route).toContain('type="application/ld+json"');
+    expect(route).toContain('serializeJsonLd(HOME_STRUCTURED_DATA)');
+    expect(graph.map((entry) => entry['@type'])).toEqual([
+      'WebSite',
+      'Organization',
+      'Person',
+      'SoftwareApplication',
+      'FAQPage',
+    ]);
+    expect(new Set(graph.map((entry) => entry['@id'])).size).toBe(graph.length);
+    expect(serializeJsonLd(HOME_STRUCTURED_DATA)).not.toContain('<');
+    expect(socialImage).toContain('{ width: 1200, height: 630 }');
+    expect(socialImage).toContain('Public evidence before interpretation');
+  });
+
+  it('keeps homepage FAQ schema identical to visible FAQ content', () => {
+    const route = read('src/app/page.tsx');
+    const faqGraph = HOME_STRUCTURED_DATA['@graph'].find((entry) => entry['@type'] === 'FAQPage');
+
+    expect(HOME_FAQS).toHaveLength(3);
+    expect(route).toContain('HOME_FAQS.map');
+    expect(route).toContain('<noscript>');
+    expect(faqGraph).toMatchObject({ '@type': 'FAQPage', mainEntity: expect.any(Array) });
+  });
+
   it('adds stable entity discovery to sitemap and public navigation', () => {
     const sitemap = read('src/app/sitemap.ts');
     expect(sitemap).toContain('where: publicPolicyWhere()');
@@ -153,6 +198,20 @@ describe('crawlable public knowledge layer', () => {
     expect(dashboard).not.toContain('knowledgeSnapshot');
     expect(dashboard).not.toContain('<main');
     expect(dashboard).toContain('role="region" aria-label="Interactive policy monitoring workspace"');
+  });
+
+  it('streams dynamic evidence below a visible crawlable homepage introduction', () => {
+    const route = read('src/app/page.tsx');
+    const headingOffset = route.indexOf('<h1>Track verified changes to public company policies</h1>');
+    const suspenseOffset = route.indexOf('<Suspense fallback={<HomeKnowledgeLoading />}>');
+
+    expect(route).toContain('export default function HomePage()');
+    expect(route).not.toContain('export default async function HomePage()');
+    expect(route).toContain('async function HomeKnowledgeSnapshotLoader()');
+    expect(route).toContain('Current evidence counts are loading.');
+    expect(route).not.toContain('styles.srOnly');
+    expect(headingOffset).toBeGreaterThan(-1);
+    expect(suspenseOffset).toBeGreaterThan(headingOffset);
   });
 
   it('scopes terms acknowledgement to the interactive workspace without a covering overlay', () => {

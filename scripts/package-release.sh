@@ -120,6 +120,7 @@ required_sources=(
   docs/document-evidence-backfill-runbook.md
   docs/audit-v4.0.0-beta.1-wave-1b.md
   docs/audit-v4.0.0-beta.2-assessment-remediation.md
+  docs/audit-v4.0.0-beta.3-ai-discoverability.md
   docs/client-compatibility-matrix-v4.md
   docs/reports/policywatcher-v4-vs-v3-2026-08-20.artifact.json
   docs/reports/policywatcher-v4-vs-v3-2026-08-20.html
@@ -136,6 +137,7 @@ required_sources=(
   docs/press-brief-3.9.0-beta.42.md docs/releases/policywatcher-3.9.0-beta.42-github-release.md
   docs/releases/policywatcher-4.0.0-beta.1-github-release.md
   docs/releases/policywatcher-4.0.0-beta.2-github-release.md
+  docs/releases/policywatcher-4.0.0-beta.3-github-release.md
   docs/media/policywatcher-release-evidence-pulse
   docs/media/policywatcher-v4-foundation-beta-2026-08-20
   docs/media/policywatcher-v4-beta2-value-2026-08-20
@@ -314,14 +316,15 @@ required_entries=(
   src/app/developers/webhook-readiness/webhook-readiness.module.css
   src/app/pulse/page.tsx src/app/pulse/[slug]/page.tsx
   src/app/api/pulse/story-pack/[slug]/route.ts src/app/embed/pulse/[slug]/page.tsx
-  src/app/layout.tsx src/app/page.tsx src/proxy.ts src/lib/siteOrigin.ts
+  src/app/layout.tsx src/app/page.tsx src/app/HomePage.module.css src/proxy.ts src/lib/siteOrigin.ts src/lib/homeSeo.ts
+  src/app/api/og/home/route.tsx
   src/app/infographics/layout.tsx src/app/methodology/confidence/layout.tsx src/app/observatory/layout.tsx
   src/app/timeline/layout.tsx src/app/unsubscribe/layout.tsx
   src/app/change/[id]/page.tsx src/app/evidence/[changeId]/page.tsx src/app/share/[id]/page.tsx
   src/app/knowledge/page.tsx src/app/knowledge/companies/[slug]/page.tsx
   src/app/knowledge/companies/[slug]/policies/[id]/page.tsx
   src/app/llms.txt/route.ts src/app/robots.ts src/app/sitemap.ts public/.well-known/security.txt
-  src/app/HomePage.module.css src/components/HomeKnowledgeSnapshot.tsx src/lib/publicKnowledge.ts
+  src/components/HomeKnowledgeSnapshot.tsx src/lib/publicKnowledge.ts
   docs/integrations.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
   docs/audit-v3.9.0-beta.21.md docs/audit-v3.9.0-beta.22.md docs/audit-v3.9.0-beta.23.md docs/audit-v3.9.0-beta.24.md docs/audit-v3.9.0-beta.25.md docs/audit-v3.9.0-beta.26.md docs/audit-v3.9.0-beta.27.md docs/audit-v3.9.0-beta.28.md docs/audit-v3.9.0-beta.29.md docs/audit-v3.9.0-beta.30.md docs/audit-v3.9.0-beta.31.md docs/audit-v3.9.0-beta.32.md docs/audit-v3.9.0-beta.33.md docs/audit-v3.9.0-beta.34.md docs/audit-v3.9.0-beta.35.md docs/audit-v3.9.0-beta.36.md docs/audit-v3.9.0-beta.37.md docs/audit-v3.9.0-beta.38.md docs/audit-v3.9.0-beta.39.md docs/audit-v3.9.0-beta.40.md docs/associations-vertical.md docs/crawlable-public-knowledge-layer.md docs/source-reliability.md docs/public-api-v1.md
   integrations/power-platform/policywatcher-v2/apiDefinition.swagger.template.json
@@ -354,7 +357,7 @@ required_entries=(
   scripts/backfill-document-evidence.ts scripts/reconcile-document-evidence.ts scripts/smoke-document-evidence-dual-write.ts scripts/gate-document-evidence-activation.ts
   src/app/api/v1/publication-readiness/route.ts docs/document-evidence-model.md
   docs/document-evidence-backfill-runbook.md docs/audit-v4.0.0-beta.1-wave-1b.md
-  docs/audit-v4.0.0-beta.2-assessment-remediation.md docs/client-compatibility-matrix-v4.md
+  docs/audit-v4.0.0-beta.2-assessment-remediation.md docs/audit-v4.0.0-beta.3-ai-discoverability.md docs/client-compatibility-matrix-v4.md
   src/app/error.tsx src/app/loading.tsx src/app/RouteStatus.module.css
   src/components/Footer.tsx src/components/Footer.module.css
   src/app/api/cron/check-all/route.ts src/lib/sourceReliability.ts
@@ -388,7 +391,7 @@ required_entries=(
   docs/media/policywatcher-v4-beta2-value-2026-08-20/policywatcher-v4-beta2-value-infographic-en-2026-08-20.svg
   docs/media/policywatcher-v4-beta2-value-2026-08-20/policywatcher-v4-beta2-value-background-ai-2026-08-20.png
   docs/releases/policywatcher-3.9.0-beta.42-github-release.md docs/releases/policywatcher-4.0.0-beta.1-github-release.md
-  docs/releases/policywatcher-4.0.0-beta.2-github-release.md
+  docs/releases/policywatcher-4.0.0-beta.2-github-release.md docs/releases/policywatcher-4.0.0-beta.3-github-release.md
   docs/ai-evaluation-protocol-2026-08-14.md docs/reports/policywatcher-ai-bakeoff-baseline-2026-08-14.md docs/reports/policywatcher-ai-bakeoff-observed-2026-08-14.md docs/reports/policywatcher-security-diff-beta42-2026-08-15.md
   scripts/hostinger-init-db.sh scripts/hostinger-init-db.mjs
   scripts/database-provider.mjs scripts/prisma-active-schema.mjs scripts/prepare-database.sh

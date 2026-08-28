@@ -37,7 +37,7 @@ describe('production verification contract', () => {
         'strict-transport-security': 'max-age=31536000', 'x-content-type-options': 'nosniff',
         'x-frame-options': 'DENY', 'content-security-policy': "frame-ancestors 'none'",
       });
-      if (target.endsWith('/api/v1/manifest')) return response(200, { release: '4.0.0-beta.2' });
+      if (target.endsWith('/api/v1/manifest')) return response(200, { release: '4.0.0-beta.3' });
       if (target.endsWith('/api/v1/publication-readiness')) return response(200, {
         schema: 'https://policywatcher.online/schemas/publication-readiness/v1',
         metricId: 'publication-readiness',
