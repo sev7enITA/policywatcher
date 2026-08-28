@@ -3,6 +3,30 @@
 This is a source deployment package. It intentionally excludes `.next`,
 `node_modules`, environment files and SQLite databases.
 
+## PolicyWatcher 4.0.0 Beta 3 deployment wave
+
+Beta 3 adds homepage discoverability and citation-readiness metadata without a
+database migration or new environment variable. Build one immutable ZIP from
+the reviewed commit, deploy it to staging, verify the homepage source and
+crawler responses, then promote the exact same SHA-256 artifact to production.
+
+Required Beta 3 checks:
+
+- `/` returns HTTP 200 and its server-rendered response contains the visible H1,
+  description, canonical URL, Open Graph/Twitter tags and JSON-LD graph;
+- `/api/og/home` returns a 1200x630 image response;
+- `/robots.txt`, `/sitemap.xml` and `/llms.txt` remain public in production and
+  staging continues to disallow indexing;
+- `OAI-SearchBot`, `GPTBot`, `ChatGPT-User`, `ClaudeBot`, `PerplexityBot`,
+  `Googlebot` and `Bingbot` can retrieve the public homepage without an
+  application-layer denial;
+- any remaining crawler-specific 429 is investigated in Hostinger, CDN or WAF
+  controls before it is described as resolved.
+
+Rollback requires only the preceding application artifact; the database schema
+is unchanged. Keep the normal pre-deployment database backup because promotion
+still replaces the complete application release.
+
 ## PolicyWatcher 4.0.0 Beta 1 deployment wave
 
 This wave adds migration `20260820100000_document_evidence_model`. It creates
@@ -29,7 +53,7 @@ Before staging or production:
 
 The staging and production acceptance state for SQLite is:
 
-- Database Readiness reports `ready`, `31/31` tables, `14/14` migrations and
+- Database Readiness reports `ready`, `31/31` tables, `16/16` migrations and
   integrity `ok`.
 - `/api/v1/publication-readiness` returns HTTP 200, schema v1, source
   `database`, the five stages in canonical order, `latestCapture` and

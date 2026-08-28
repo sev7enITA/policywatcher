@@ -33,7 +33,13 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       { userAgent: '*', ...publicRules },
       { userAgent: 'OAI-SearchBot', ...publicRules },
+      { userAgent: 'GPTBot', ...publicRules },
+      { userAgent: 'ChatGPT-User', ...publicRules },
+      { userAgent: 'ClaudeBot', ...publicRules },
       { userAgent: 'PerplexityBot', ...publicRules },
+      { userAgent: 'Google-Extended', ...publicRules },
+      { userAgent: 'Googlebot', ...publicRules },
+      { userAgent: 'Bingbot', ...publicRules },
     ],
     sitemap: `${POLICYWATCHER_CANONICAL_ORIGIN}/sitemap.xml`,
     host: POLICYWATCHER_CANONICAL_ORIGIN,

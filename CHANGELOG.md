@@ -8,8 +8,29 @@
 - Added month/year plus the exact record date to the maintained GitHub release-copy sources; future release titles should follow the same convention.
 - Added English and Italian press releases plus deployment-aware follow-up posts for the Beta 2 source tag and Hostinger publication.
 - Replaced the current v4 campaign visual with a detailed English 3.x → 4 value infographic: direct architecture comparison, four material benefits, clause-level evidence flow, readiness contract, verified engineering evidence and explicit production gates. The original Beta 1 graphic remains available as a historical asset.
-- Refreshed the current Press Kit fact sheets and manifests for `4.0.0-beta.2` while retaining Beta 1 and prior campaign visuals as historical assets.
+- Preserved the Beta 2 Press Kit fact sheets and manifests for `4.0.0-beta.2` while retaining Beta 1 and prior campaign visuals as historical assets.
 - Clarified the v4 audit and 3.x comparison: Wave 1B is included in Foundation Beta, while production backfill, dual-write activation, canonical reads, PostgreSQL and object storage remain gated.
+
+## 4.0.0-beta.3 - 2026-08-28
+
+### AI discoverability and citation readiness
+
+- Added a visible server-rendered homepage H1, substantive evidence-boundary copy, canonical public links, a no-JavaScript explanation and useful visible FAQ answers.
+- Added canonical Open Graph and Twitter metadata plus a generated 1200x630 social preview.
+- Added a homepage JSON-LD graph for the website, organization, founder, software application and visible FAQ, including public contact signals and safe serialization.
+- Made major search and AI crawler rules explicit while preserving the existing public sitemap, `llms.txt` guidance and protected-route exclusions.
+- Added regression coverage for rendered content, metadata, schema identity, FAQ parity, crawler policy and release packaging.
+
+### Post-Beta 2 integrations and release safety
+
+- Added the public Agentic Incident Observatory and its bounded public and agent-facing contracts.
+- Added single-record and batch PolicyWatcher-to-PALO signal exports with documented handoff contracts and fixtures.
+- Removed nested test trees from Hostinger release artifacts and strengthened required-entry verification for the new homepage SEO sources.
+
+### Boundaries
+
+- Discoverability metadata does not guarantee indexing, ranking, citation or recommendation by an external service.
+- The previously observed live `GPTBot` HTTP 429 is a hosting, CDN or WAF operational check; application crawler rules allow the bot, but deployment verification remains required.
 
 ## 4.0.0-beta.2 - 2026-08-20
 

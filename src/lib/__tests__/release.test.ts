@@ -36,14 +36,14 @@ describe('release metadata', () => {
   it('matches the package version and composes one build label', () => {
     const packageJson = JSON.parse(readFileSync('package.json', 'utf8')) as { version: string };
     expect(POLICYWATCHER_VERSION).toBe(packageJson.version);
-    expect(POLICYWATCHER_RELEASE_NAME).toBe('Production Readiness Hardening');
-    expect(POLICYWATCHER_BUILD_LABEL).toBe('v4.0.0-beta.2 Production Readiness Hardening');
-    expect(POLICYWATCHER_RELEASE_DATE).toBe('2026-08-20');
-    expect(POLICYWATCHER_RELEASE_DATE_LABEL).toEqual({ en: '20 August 2026', it: '20 agosto 2026' });
+    expect(POLICYWATCHER_RELEASE_NAME).toBe('AI Discoverability and Citation Readiness');
+    expect(POLICYWATCHER_BUILD_LABEL).toBe('v4.0.0-beta.3 AI Discoverability and Citation Readiness');
+    expect(POLICYWATCHER_RELEASE_DATE).toBe('2026-08-28');
+    expect(POLICYWATCHER_RELEASE_DATE_LABEL).toEqual({ en: '28 August 2026', it: '28 agosto 2026' });
     expect(POLICYWATCHER_RELEASE_MONTH_LABEL).toEqual({ en: 'August 2026', it: 'agosto 2026' });
     expect(POLICYWATCHER_RELEASE_CHANNEL).toBe('beta');
     expect(POLICYWATCHER_RELEASE_CHANNEL_LABEL).toBe('BETA');
-    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v4.0.0-beta.2 · BETA');
+    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v4.0.0-beta.3 · BETA');
     expect(POLICYWATCHER_BROWSER_EXTENSION_VERSION).toBe('3.8.3-beta.3');
     expect(POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION).toBe('3.8.3 Beta 3');
     expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE).toBe('v3.8.3 Beta 3 · EXTENSION BETA');

@@ -445,7 +445,7 @@ export default function PressKitClient() {
               unoptimized
             />
             <div>
-              <span>{lang === 'en' ? 'Current release checkpoint · 20 August 2026' : 'Checkpoint della release corrente · 20 agosto 2026'}</span>
+              <span>{lang === 'en' ? 'Historical Beta 2 checkpoint · 20 August 2026' : 'Checkpoint storico Beta 2 · 20 agosto 2026'}</span>
               <h3>{lang === 'en' ? 'What the PolicyWatcher 4 operating-model change means' : 'Cosa significa il cambio di modello operativo di PolicyWatcher 4'}</h3>
               <p>{lang === 'en' ? 'A factual guide for product, governance, research and integration teams. It explains the move from change records to durable reusable evidence, then separates the supporting architecture, Git, integration and workflow details.' : 'Una guida fattuale per team di prodotto, governance, ricerca e integrazione. Spiega il passaggio dai record di cambiamento a evidenze durevoli e riutilizzabili, separando poi architettura, Git, integrazioni e workflow di supporto.'}</p>
               <div>

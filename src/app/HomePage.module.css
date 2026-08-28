@@ -8,20 +8,167 @@
   margin: 0 auto;
 }
 
-.srOnly {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+.publicKnowledgeIntro {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(360px, 1.1fr);
+  gap: clamp(20px, 4vw, 64px);
+  align-items: end;
+  padding: 8px 2px 18px;
+}
+
+.eyebrow {
+  margin: 0 0 5px;
+  color: #0f766e;
+  font-size: .72rem;
+  font-weight: 750;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.publicKnowledgeIntro h1 {
+  max-width: 760px;
+  margin: 0;
+  color: #10223e;
+  font-size: clamp(1.75rem, 3.2vw, 3.1rem);
+  line-height: 1.02;
+  letter-spacing: -.035em;
+}
+
+.introBody {
+  display: grid;
+  gap: 11px;
+  padding-bottom: 2px;
+}
+
+.introBody > p {
+  max-width: 760px;
+  margin: 0;
+  color: #526178;
+  font-size: .9rem;
+  line-height: 1.55;
+}
+
+.introLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 16px;
+}
+
+.introLinks a,
+.publicKnowledgeLoading a {
+  color: #334cba;
+  font-size: .78rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.introLinks a:hover,
+.publicKnowledgeLoading a:hover {
+  color: #293fa1;
+}
+
+.publicKnowledgeLoading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 64px;
+  margin-bottom: 18px;
+  padding: 12px 16px;
+  border: 1px solid rgba(20, 108, 106, .26);
+  border-top: 3px solid #0f766e;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .98);
+}
+
+.publicKnowledgeLoading div {
+  display: grid;
+  gap: 2px;
+}
+
+.publicKnowledgeLoading strong {
+  color: #10223e;
+  font-size: .82rem;
+}
+
+.publicKnowledgeLoading p,
+.noScript {
+  margin: 0;
+  color: #526178;
+  font-size: .76rem;
+  line-height: 1.45;
+}
+
+.noScript {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border-left: 3px solid #0f766e;
+  background: #f0fdfa;
+}
+
+.faq {
+  padding: 32px 2px 46px;
+}
+
+.faq > h2 {
+  max-width: 760px;
+  margin: 0 0 18px;
+  color: #10223e;
+  font-size: clamp(1.25rem, 2.2vw, 1.9rem);
+  line-height: 1.15;
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.faqGrid article {
+  padding: 17px;
+  border: 1px solid #dce4ee;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.faqGrid h3 {
+  margin: 0 0 8px;
+  color: #10223e;
+  font-size: .9rem;
+  line-height: 1.35;
+}
+
+.faqGrid p {
+  margin: 0;
+  color: #526178;
+  font-size: .79rem;
+  line-height: 1.55;
 }
 
 @media (max-width: 640px) {
   .publicKnowledgeMain {
     padding: 12px 12px 0;
+  }
+
+  .publicKnowledgeIntro {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 4px 1px 15px;
+  }
+
+  .publicKnowledgeIntro h1 {
+    font-size: clamp(1.65rem, 9vw, 2.35rem);
+  }
+
+  .publicKnowledgeLoading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .faqGrid {
+    grid-template-columns: 1fr;
   }
 }

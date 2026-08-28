@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-4.0.0%20Beta%202%20Production%20Readiness%20Hardening-146c6a" alt="4.0.0 Beta 2 Production Readiness Hardening" />
+  <img src="https://img.shields.io/badge/Release-4.0.0%20Beta%203%20AI%20Discoverability-146c6a" alt="4.0.0 Beta 3 AI Discoverability and Citation Readiness" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -39,11 +39,29 @@ PolicyWatcher monitors configured public policy sources for 16 technology and fi
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
 
-### Release 4.0.0 Beta 2 Production Readiness Hardening Highlights
+### Release 4.0.0 Beta 3 AI Discoverability and Citation Readiness Highlights
+
+Release record: **28 August 2026**. Beta 3 makes the homepage meaning and public
+evidence boundary explicit to readers, search engines and AI assistants without
+claiming external indexing or citation outcomes.
+
+- **Visible server-rendered topic:** the homepage exposes one visible H1, substantive explanatory copy and direct paths to public records, methodology and contact information before the interactive workspace.
+- **Canonical social metadata:** Open Graph and Twitter metadata share the canonical homepage title, description and generated 1200x630 image.
+- **Structured identity:** JSON-LD describes the website, organization, founder, software application and visible FAQ using stable canonical identifiers.
+- **Citable answers:** three visible FAQ answers explain monitored scope, evidence verification and the legal-advice boundary; the FAQ schema mirrors that content.
+- **Explicit crawler policy:** major search and AI crawler user agents are explicitly allowed on public routes while protected and mutation APIs remain disallowed.
+- **Existing discovery retained:** the dynamic sitemap and `llms.txt` continue to expose canonical public resources and citation guidance.
+- **Operational boundary:** application rules allow `GPTBot`; any live 429 response must be resolved and verified at the hosting, CDN or WAF layer.
+
+Release audit: [4.0.0 Beta 3 discoverability audit](docs/audit-v4.0.0-beta.3-ai-discoverability.md)
+
+Release copy: [4.0.0 Beta 3 GitHub release record](docs/releases/policywatcher-4.0.0-beta.3-github-release.md)
+
+### Historical release 4.0.0 Beta 2 Production Readiness Hardening
 
 Release record: **20 August 2026**. The immutable `v4.0.0-beta.2` source tag and
-the production runtime both identify Beta 2; deployment evidence remains
-separate from source-test evidence.
+the production runtime at that promotion checkpoint both identified Beta 2;
+deployment evidence remains separate from source-test evidence.
 
 - **Trusted request identity:** managed environments require exactly one verified proxy identity source; unattributed requests fail individually instead of sharing a denial-of-service bucket.
 - **Bounded ingestion and AI:** compressed scraper responses, streamed public JSON bodies, chat questions, policy context and model output have explicit limits.

@@ -249,12 +249,12 @@ const priorityPipeline = [
 
 const nowItems = [
   {
-    phase: 'Current · 4.0.0-beta.2',
-    title: 'Production Readiness Hardening',
+    phase: 'Current · 4.0.0-beta.3',
+    title: 'AI Discoverability and Citation Readiness',
     body:
-      'Close the highest-impact independent-assessment findings around request identity, response bounds, scan leases, session revocation, consent and verified recovery exports.',
-    benefit: 'The Foundation Beta keeps its evidence model while production behavior becomes safer, more observable and less ambiguous.',
-    validation: 'Staging proxy identity, migrations, WAL, SMTP confirmation, backup verification and post-deploy smoke remain mandatory external gates.',
+      'Align visible homepage content, canonical social metadata, structured identity and crawler access around the public evidence boundary.',
+    benefit: 'Readers, search engines and AI assistants receive the same server-rendered topic, evidence path and citation context.',
+    validation: 'Live crawler admission, indexing and citation remain external outcomes that require post-deploy verification.',
     icon: SlidersHorizontal,
     href: '/',
   },
