@@ -4,7 +4,8 @@ Release: `4.0.0-beta.3` - AI Discoverability and Citation Readiness
 
 Audit date: 28 August 2026
 
-Status: source candidate; staging and production verification are recorded separately.
+Status: deployed to staging and production; external GPTBot rate limiting remains
+an open Hostinger infrastructure finding.
 
 ## Decision
 
@@ -50,3 +51,47 @@ and production-build gates; the clean release package must retain the homepage,
 SEO constants, OG route and this audit. The extracted artifact must build from
 its own contents. Staging and production must then be checked using ordinary and
 crawler user agents, with the immutable artifact checksum recorded.
+
+## Deployment evidence
+
+The release was packaged from merged `main` revision
+`a2fd809ac2c0fe4d1625b7d3b29f07e33c5544f1`. The immutable Hostinger artifact
+has SHA-256
+`6e561c32e68378d260db6acbe3341875b47b85c3c1d697f7cb329a588e2b0265`.
+
+Staging completed the full promotion contract on 28 August 2026:
+
+- `11/11` required checks passed against the exact artifact;
+- release identity, visible staging marker, `X-Robots-Tag` and disallow-all
+  `robots.txt` were correct;
+- the database was configured, readable and writable with 17 companies;
+- database readiness reported `31/31` tables, `16/16` migrations and integrity
+  `ok`;
+- administrator authentication and the database-derived publication-readiness
+  contract passed.
+
+Production received a manual files-and-database backup before promotion. The
+same artifact completed its Hostinger build in 2 minutes 17 seconds and became
+the current deployment at 11:24 local time on 28 August 2026. The managed build
+created an additional database backup. Prisma initially encountered a transient
+SQLite lock while probing migrations, then the guarded bundled initializer
+completed successfully and reported the schema ready; the deployment did not
+silently ignore the condition.
+
+Post-deployment probes verified:
+
+- HTTP 200 and `data-policywatcher-release="4.0.0-beta.3"` in the initial HTML;
+- visible H1 and FAQ content, description, canonical, Open Graph, Twitter,
+  JSON-LD and `noscript` markers;
+- `/api/og/home` as a 1200x630 PNG;
+- `/api/v1/manifest`, database-derived publication readiness, 15 public
+  companies, `/robots.txt`, a 247-URL `/sitemap.xml` and `/llms.txt`;
+- HTTP 200 for ordinary traffic, OAI-SearchBot, ChatGPT-User, ClaudeBot,
+  PerplexityBot, Googlebot and Bingbot.
+
+`GPTBot/1.0` alone still receives an empty HTTP 429 from Hostinger. The same
+application responds locally, production CDN is inactive, staging AI Audit
+allows GPTBot, and the staging response includes an HCDN request identifier.
+A Hostinger support escalation was submitted with both-domain evidence. This is
+recorded as an external infrastructure limitation, not as a successful crawler
+remediation and not as a source-code regression.
