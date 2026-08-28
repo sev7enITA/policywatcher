@@ -68,7 +68,9 @@ describe('PolicyWatcher 4 public consistency', () => {
     expect(read('docs/communications/policywatcher-v4-foundation-beta-follow-up-2026-08-20-en.md')).toContain('GitHub-only variant');
     expect(read('docs/releases/policywatcher-4.0.0-beta.2-github-release.md')).toContain('Status: promoted.');
     expect(read('docs/releases/policywatcher-4.0.0-beta.2-github-release.md')).toContain('v4.0.0-beta.2');
-    expect(read('docs/releases/policywatcher-4.0.0-beta.3-github-release.md')).toContain('Status: source candidate.');
+    expect(read('docs/releases/policywatcher-4.0.0-beta.3-github-release.md')).toContain('Status: deployed to staging and production');
+    expect(read('docs/releases/policywatcher-4.0.0-beta.3-github-release.md')).toContain('6e561c32e68378d260db6acbe3341875b47b85c3c1d697f7cb329a588e2b0265');
+    expect(read('docs/releases/policywatcher-4.0.0-beta.3-github-release.md')).toContain('Hostinger returns HTTP 429 only for `GPTBot/1.0`');
     expect(read('src/app/infographics/page.tsx')).toContain('policywatcher-v4-beta2-value-infographic-en-2026-08-20.webp');
   });
 });
