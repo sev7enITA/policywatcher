@@ -60,6 +60,7 @@ import { createDeferredViewportEvaluator, shouldSuggestOnTheGo } from '@/lib/mob
 import { dashboardUpdateNotices, getObservatorySource, observatorySignals } from '@/lib/observatory';
 import { POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE, POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS, POLICYWATCHER_VERSION } from '@/lib/release';
 import { dataStatusClassKey, getWorstDataStatus, normalizeDataStatus } from '@/lib/policyConfidence';
+import { getPolicyRiskPresentation } from '@/lib/policyRiskPresentation';
 import {
   composeDashboard,
   getDashboardModuleOrder,
@@ -145,7 +146,7 @@ const translations = {
     liveAssistant: 'Policy Live Assistant',
     monitoredCompanies: 'Compagnie Monitorate',
     criticalAlerts: 'Allerte Critiche',
-    avgRiskScore: 'Rischio Medio',
+    avgRiskScore: 'Punteggio complessivo medio',
     activeContext: 'Filtro Contesto Attivo',
     searchPlaceholder: 'Cerca compagnia, policy o termini...',
     allSectors: 'Tutti i Settori',
@@ -190,7 +191,7 @@ const translations = {
     sourceVerified: 'Baseline della fonte pubblicata',
     baselineRegistered: 'Baseline sorgente verificata. Nessuna modifica pubblicabile rilevata da quando il monitoraggio reale è stato avviato.',
     noPolicyEvidence: 'Nessuna evidenza sorgente pubblicabile ancora disponibile.',
-    sortByRisk: 'Rischio',
+    sortByRisk: 'Punteggio complessivo',
     sortByDate: 'Data',
     sortByName: 'Nome',
     allRisks: 'Tutti i Rischi',
@@ -300,7 +301,7 @@ const translations = {
     liveAssistant: 'Policy Live Assistant',
     monitoredCompanies: 'Monitored Companies',
     criticalAlerts: 'Critical Alerts',
-    avgRiskScore: 'Avg Risk Score',
+    avgRiskScore: 'Avg Overall Risk Score',
     activeContext: 'Active Context Filter',
     searchPlaceholder: 'Search company, policy or terms...',
     allSectors: 'All Sectors',
@@ -345,7 +346,7 @@ const translations = {
     sourceVerified: 'Source baseline published',
     baselineRegistered: 'Source baseline published. No publishable change has been detected since monitoring started.',
     noPolicyEvidence: 'No publishable source evidence is available yet.',
-    sortByRisk: 'Risk',
+    sortByRisk: 'Overall score',
     sortByDate: 'Date',
     sortByName: 'Name',
     allRisks: 'All Risks',
@@ -2653,7 +2654,7 @@ export default function Dashboard() {
             <div className={styles.filterGroup}>
               <label className={styles.filterLabel}>
                 <AlertTriangle size={14} />
-                {lang === 'it' ? 'Livello Rischio' : 'Risk Level'}
+                {lang === 'it' ? 'Rischio complessivo' : 'Overall risk'}
               </label>
               <div className={styles.toggleButtonGroup}>
                 {([
@@ -2919,16 +2920,21 @@ export default function Dashboard() {
             {filteredCompanies.map((company) => {
               const firstPolicy = company.policies[0];
               const companyDataStatus = getWorstDataStatus(company.policies);
-              const latestChange = firstPolicy?.changes[0];
+              const assessment = getPolicyRiskPresentation(firstPolicy, selectedRegion, selectedPerspective);
+              const latestChange = assessment.change;
               const firstPolicyStatus = normalizeDataStatus(firstPolicy?.dataStatus, 'Needs Review');
               const hasVerifiedBaseline = !latestChange && firstPolicyStatus === 'Available';
 
-              const matchingImpact = latestChange?.regionImpacts.find(
-                (imp) => imp.region === selectedRegion && imp.perspective === selectedPerspective
-              );
-
-              const currentRisk = matchingImpact?.riskLevel || latestChange?.overallRisk || 'Low';
-              const currentScore = latestChange?.overallScore || null;
+              const currentRisk = assessment.riskLevel;
+              const perspectiveLabel = selectedPerspective === 'Individual'
+                ? (lang === 'it' ? 'Persone' : 'Individuals')
+                : (lang === 'it' ? 'Imprese' : 'Enterprises');
+              const contextLabel = `${selectedRegion} · ${perspectiveLabel}`;
+              const riskLabel = assessment.scope === 'context'
+                ? `${lang === 'it' ? 'Rischio' : 'Risk'} · ${contextLabel}`
+                : (lang === 'it' ? 'Rischio complessivo' : 'Overall risk');
+              const localizedRisk = currentRisk === 'High' ? t.highRisk
+                : currentRisk === 'Medium' ? t.mediumRisk : t.lowRisk;
 
               const summaryText = latestChange
                 ? (lang === 'it'
@@ -2942,17 +2948,12 @@ export default function Dashboard() {
                 ? new Date(latestChange.createdAt).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' })
                 : 'N/A';
 
-              const cardRiskColor = latestChange ? getRiskColor(currentRisk) : getDataStatusColor(firstPolicyStatus);
-              const cardRiskColorGlow = latestChange ? getRiskColorGlow(currentRisk) : 'rgba(16, 185, 129, 0.14)';
+              const cardRiskColor = currentRisk ? getRiskColor(currentRisk) : getDataStatusColor(firstPolicyStatus);
+              const cardRiskColorGlow = currentRisk ? getRiskColorGlow(currentRisk) : 'rgba(16, 185, 129, 0.14)';
 
-              const hasHighAlert = company.policies.some((p) => {
-                const change = p.changes[0];
-                if (!change) return false;
-                const imp = change.regionImpacts.find(
-                  (i) => i.region === selectedRegion && i.perspective === selectedPerspective
-                );
-                return (imp?.riskLevel || change.overallRisk) === 'High';
-              });
+              const alertPolicies = company.policies.filter((policy) =>
+                getPolicyRiskPresentation(policy, selectedRegion, selectedPerspective).riskLevel === 'High'
+              );
 
               return (
                 <motion.div
@@ -2965,13 +2966,6 @@ export default function Dashboard() {
                   }}
                   whileHover={{ y: -8, transition: { duration: 0.2 } }}
                 >
-                  {hasHighAlert && (
-                    <div className={styles.regionalAlert} style={{ '--risk-color': 'var(--risk-high)' } as React.CSSProperties}>
-                      <span className={styles.pulsePoint}></span>
-                      {lang === 'it' ? `Allerta ${selectedRegion}` : `${selectedRegion} Alert`}
-                    </div>
-                  )}
-
                   <div className={styles.cardTop}>
                     <div className={styles.companyInfo}>
                       {getCompanyLogoUrl(company.website) ? (
@@ -2992,28 +2986,63 @@ export default function Dashboard() {
                           {company.name.substring(0, 2)}
                         </div>
                       )}
-                      <div>
+                      <div className={styles.companyIdentity}>
                         <h3 className={styles.companyName}>{company.name}</h3>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', marginTop: '4px' }}>
                           <span className={styles.industryTag}>{company.industry}</span>
                           {company.policies.length > 0 && (
                             <span className={`${styles.confidenceBadge} ${styles[`badge_${dataStatusClassKey(companyDataStatus)}`]}`}>
-                              {companyDataStatus}
+                              {lang === 'it' ? 'Fonti' : 'Sources'}: {companyDataStatus}
                             </span>
                           )}
                         </div>
                       </div>
                     </div>
 
-                    <div className={styles.riskIndicator}>
-                      <span className={styles.riskLabel}>
-                        {latestChange ? `Risk (${selectedRegion})` : t.sourceBaseline}
-                      </span>
-                      <div className={styles.riskScore} style={{ '--risk-color': cardRiskColor, '--risk-color-glow': cardRiskColorGlow } as React.CSSProperties}>
-                        {latestChange ? `${currentRisk} (${currentScore}/10)` : t.sourceVerified}
-                      </div>
-                    </div>
                   </div>
+
+                  <div className={styles.cardEvidence}>
+                    {firstPolicy && (
+                      <button className={styles.featuredPolicy} onClick={() => setSelectedPolicyId(firstPolicy.id)}>
+                        <span>{lang === 'it' ? 'Policy mostrata' : 'Policy shown'}</span>
+                        <strong>{firstPolicy.name} · {firstPolicy.jurisdiction}</strong>
+                      </button>
+                    )}
+                    <div className={styles.riskSummary}>
+                      <div className={styles.riskIndicator}>
+                        <span className={styles.riskLabel}>{latestChange ? riskLabel : t.sourceBaseline}</span>
+                        <div className={styles.riskScore} style={{ '--risk-color': cardRiskColor, '--risk-color-glow': cardRiskColorGlow } as React.CSSProperties}>
+                          {latestChange ? localizedRisk : hasVerifiedBaseline ? t.sourceVerified : firstPolicyStatus}
+                        </div>
+                      </div>
+                      {assessment.overallScore !== null && (
+                        <div className={styles.overallScore}>
+                          <span>{lang === 'it' ? 'Punteggio di rischio complessivo' : 'Overall risk score'}</span>
+                          <strong>{assessment.overallScore}/10</strong>
+                          <small>{lang === 'it' ? '1 = minore · 10 = maggiore' : '1 = lower · 10 = higher'}</small>
+                        </div>
+                      )}
+                    </div>
+                    {assessment.scope === 'overall' && (
+                      <p className={styles.contextUnavailable}>
+                        {lang === 'it' ? `Valutazione specifica non disponibile per ${contextLabel}.` : `Context assessment unavailable for ${contextLabel}.`}
+                      </p>
+                    )}
+                  </div>
+
+                  {alertPolicies.length > 0 && (
+                    <div className={styles.policyAlerts}>
+                      <strong>{lang === 'it' ? 'Policy che richiedono attenzione' : 'Policies requiring attention'} ({alertPolicies.length})</strong>
+                      {alertPolicies.map((alertPolicy) => (
+                        <button key={alertPolicy.id} onClick={() => setSelectedPolicyId(alertPolicy.id)}>
+                          <AlertTriangle size={14} aria-hidden="true" />
+                          <span>{alertPolicy.name} · {alertPolicy.jurisdiction} - {t.highRisk} · {getPolicyRiskPresentation(alertPolicy, selectedRegion, selectedPerspective).scope === 'context'
+                            ? contextLabel : lang === 'it' ? 'Rischio complessivo' : 'Overall risk'}</span>
+                          <ArrowRight size={14} aria-hidden="true" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
 
                   <p className={styles.cardMiddle}>
                     {summaryText}
@@ -3034,8 +3063,6 @@ export default function Dashboard() {
                     </span>
                     <div className={styles.policyPills}>
                       {company.policies.map((pol) => {
-                        const polRisk = pol.changes[0]?.overallRisk || 'Low';
-                        const polColor = getRiskColor(polRisk);
                         const jurisdictionMatch = pol.jurisdiction === selectedRegion || pol.jurisdiction === 'Global';
 
                         const dataStatus = normalizeDataStatus(pol.dataStatus, 'Needs Review');
@@ -3046,8 +3073,8 @@ export default function Dashboard() {
                             key={pol.id}
                             onClick={() => setSelectedPolicyId(pol.id)}
                             className={`${styles.policyPill} ${jurisdictionMatch ? styles.policyPillHighlight : ''}`}
-                            style={{ borderColor: polColor }}
-                            title={`${pol.name} - Ingestion: ${pol.ingestionMethod || 'Unknown'} (${dataStatus})`}
+                            title={`${pol.name} · ${pol.jurisdiction} - ${lang === 'it' ? 'Fonte' : 'Source'}: ${dataStatus}`}
+                            aria-label={`${pol.name} · ${pol.jurisdiction}`}
                           >
                             <span
                               style={{
@@ -3055,10 +3082,11 @@ export default function Dashboard() {
                                 height: '6px',
                                 borderRadius: '50%',
                                 backgroundColor: statusDotColor,
-                                display: 'inline-block'
+                                display: 'inline-block',
+                                flexShrink: 0
                               }}
                             />
-                            {getPolTypeLabel(pol.type)}
+                            <span className={styles.policyPillText}>{getPolTypeLabel(pol.type)}</span>
                             <span className={styles.jurisdictionBadge}>{pol.jurisdiction}</span>
                           </button>
                         );

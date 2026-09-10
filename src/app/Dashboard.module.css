@@ -1340,8 +1340,10 @@
 
 /* Company Grid - with staggered animation */
 .companyGrid {
+  min-width: 0;
+  width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
   gap: 20px;
 }
 
@@ -1401,7 +1403,7 @@
 }
 
 .dashboard[data-density="compact"] .companyGrid {
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
   gap: 14px;
 }
 
@@ -1430,11 +1432,13 @@
 
 @media (max-width: 768px) {
   .companyGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 .companyCard {
+  min-width: 0;
+  overflow-wrap: anywhere;
   padding: 22px;
   cursor: pointer;
   display: flex;
@@ -1513,9 +1517,10 @@
 }
 
 .riskIndicator {
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 4px;
 }
 
@@ -1547,6 +1552,114 @@
   overflow: hidden;
 }
 
+/* Policy identity and independently scoped risk signals. */
+.companyIdentity,
+.policyPillText {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.cardEvidence {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--console-line, var(--border-color));
+}
+
+.featuredPolicy {
+  display: grid;
+  gap: 4px;
+  min-height: 44px;
+  min-width: 0;
+  text-align: left;
+  overflow-wrap: anywhere;
+  color: var(--dashboard-accent-strong);
+}
+
+.featuredPolicy > span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.featuredPolicy > strong {
+  font-size: 0.85rem;
+}
+
+.riskSummary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px 16px;
+}
+
+.overallScore {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.overallScore strong {
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+
+.overallScore small,
+.contextUnavailable {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+.contextUnavailable {
+  margin: 0;
+}
+
+.policyAlerts {
+  display: grid;
+  gap: 4px;
+  margin-top: 14px;
+  padding: 10px;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #991b1b;
+  font-size: 0.75rem;
+}
+
+.policyAlerts button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  min-height: 44px;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.policyAlerts svg,
+.actionLink svg {
+  flex-shrink: 0;
+}
+
+.policyAlerts button span {
+  min-width: 0;
+  flex: 1;
+}
+
+.companyCard button:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .companyCard .policyPill {
+    min-height: 44px;
+  }
+}
+
 /* Policy Pills */
 .policyPillsSection {
   margin: 10px 0;
@@ -1568,6 +1681,10 @@
 }
 
 .policyPill {
+  min-width: 0;
+  max-width: 100%;
+  text-align: left;
+  white-space: normal;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -1603,6 +1720,9 @@
 }
 
 .cardBottom {
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 8px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1617,6 +1737,9 @@
 }
 
 .actionLink {
+  min-height: 44px;
+  max-width: 100%;
+  text-align: left;
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--primary);
@@ -2587,7 +2710,7 @@
 }
 
 .dashboard[data-on-the-go="true"] .companyGrid {
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .dashboard[data-on-the-go="true"] .companyCard {
@@ -3417,7 +3540,7 @@
 }
 
 .companyGrid {
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr));
   gap: 14px;
 }
 
@@ -3736,7 +3859,7 @@
   }
 
   .companyGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

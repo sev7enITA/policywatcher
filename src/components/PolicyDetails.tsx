@@ -20,7 +20,8 @@
  */
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import ModalDialog from '@/components/ModalDialog';
 import {
   X,
   Clock,
@@ -154,6 +155,10 @@ export default function PolicyDetails({
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const [closing, setClosing] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeButton = useRef<HTMLButtonElement>(null);
+  const requestVersion = useRef(0);
+  const [loadError, setLoadError] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('changes');
   const [activeChangeIndex, setActiveChangeIndex] = useState<number>(0);
   const [expandedSnapshot, setExpandedSnapshot] = useState<string | null>(null);
@@ -167,38 +172,50 @@ export default function PolicyDetails({
   }, [lang]);
 
   const handleClose = useCallback(() => {
+    if (closeTimer.current) return;
     setClosing(true);
-    setTimeout(() => onClose(), 250);
+    closeTimer.current = setTimeout(onClose,
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 250);
   }, [onClose]);
 
   const fetchPolicyDetails = useCallback(async () => {
+    const version = ++requestVersion.current;
     setLoading(true);
+    setLoadError(false);
+    setPolicy(null);
     try {
       const result = await loadPublicDataSource<FullPolicyDetails>('policyDetails', { policyId });
+      if (version !== requestVersion.current) return;
       setPolicy(result.data);
       setActiveChangeIndex(0);
     } catch (error) {
+      if (version !== requestVersion.current) return;
       console.error('Error fetching policy details:', error);
+      setLoadError(true);
     } finally {
-      setLoading(false);
+      if (version === requestVersion.current) setLoading(false);
     }
   }, [policyId]);
 
   useEffect(() => {
+    let active = true;
     queueMicrotask(() => {
-      void fetchPolicyDetails();
+      if (active) void fetchPolicyDetails();
     });
+    return () => {
+      active = false;
+      requestVersion.current += 1;
+    };
   }, [fetchPolicyDetails]);
 
-  // Escape key to close
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') handleClose();
-    };
-    window.addEventListener('keydown', handleEsc);
-    return () => window.removeEventListener('keydown', handleEsc);
-  }, [handleClose]);
+  useEffect(() => () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+  }, []);
 
+  useEffect(() => {
+    // A retry removes its button; keep focus on a stable control while loading.
+    if (loading) closeButton.current?.focus({ preventScroll: true });
+  }, [loading]);
 
   const copyToClipboard = () => {
     if (!policy) return;
@@ -207,19 +224,7 @@ export default function PolicyDetails({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  if (loading) {
-    return (
-      <div className={styles.overlay} onClick={handleClose}>
-        <div className={styles.panel} onClick={(e) => e.stopPropagation()} style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <RefreshCw className="animate-spin" size={40} color="var(--primary)" />
-        </div>
-      </div>
-    );
-  }
-
-  if (!policy) return null;
-
-  const activeChange = policy.changes[activeChangeIndex];
+  const activeChange = policy?.changes[activeChangeIndex];
 
   /**
    * Parses the JSON diff string and renders it as a styled inline diff.
@@ -313,24 +318,42 @@ export default function PolicyDetails({
       : activeChange?.tldrEn || activeChange?.aiSummaryEn) || '';
 
   return (
-    <div className={styles.overlay} onClick={handleClose} role="dialog" aria-modal="true" aria-label={`${policy.company.name} - ${policy.name}`}>
-      <div className={`${styles.panel} ${closing ? styles.panelClosing : ''}`} onClick={(e) => e.stopPropagation()}>
-        {/* Header */}
+    <ModalDialog
+      className={styles.overlay}
+      label={policy ? `${policy.company.name} - ${policy.name}` : lang === 'it' ? 'Dettaglio policy' : 'Policy details'}
+      onRequestClose={handleClose}
+    >
+      <div className={`${styles.panel} ${closing ? styles.panelClosing : ''}`}>
         <div className={styles.header}>
           <div className={styles.titleArea}>
-            <h2 className={styles.title}>{policy.company.name}</h2>
-            <span className={styles.subtitle}>
-              <FileText size={16} /> {policy.name}
-              <span className={styles.jurisdictionTag}>{policy.jurisdiction}</span>
-            </span>
+            <h2 className={styles.title}>{policy?.company.name || (lang === 'it' ? 'Dettaglio policy' : 'Policy details')}</h2>
+            {policy && (
+              <span className={styles.subtitle}>
+                <FileText size={16} /> {policy.name}
+                <span className={styles.jurisdictionTag}>{policy.jurisdiction}</span>
+              </span>
+            )}
           </div>
           <div className={styles.headerActions}>
-            <button onClick={handleClose} className={styles.closeBtn} aria-label="Close">
+            <button ref={closeButton} onClick={handleClose} className={styles.closeBtn} aria-label={lang === 'it' ? 'Chiudi dettaglio policy' : 'Close policy details'}>
               <X size={20} />
             </button>
           </div>
         </div>
 
+        {loading ? (
+          <div className={styles.loadState} role="status">
+            <RefreshCw className="animate-spin" size={32} aria-hidden="true" />
+            <p>{lang === 'it' ? 'Caricamento della policy…' : 'Loading policy…'}</p>
+          </div>
+        ) : loadError || !policy ? (
+          <div className={styles.loadState}>
+            <p role="alert">{lang === 'it' ? 'Impossibile caricare i dettagli della policy.' : 'Unable to load policy details.'}</p>
+            <button className={styles.scrapeBtn} onClick={() => void fetchPolicyDetails()}>
+              <RefreshCw size={16} aria-hidden="true" />{lang === 'it' ? 'Riprova' : 'Try again'}
+            </button>
+          </div>
+        ) : <>
         {/* Policy Link Section */}
         <div className={styles.linkSection}>
           <span className={styles.linkLabel}>
@@ -813,7 +836,8 @@ export default function PolicyDetails({
             </div>
           </div>
         )}
+        </>}
       </div>
-    </div>
+    </ModalDialog>
   );
 }
