@@ -173,6 +173,7 @@ export default function TimelinePage() {
   const [changesError, setChangesError] = useState<string | null>(null);
 
   const [query, setQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [industry, setIndustry] = useState('');
   const [risk, setRisk] = useState('');
   const [kpi, setKpi] = useState('');
@@ -186,10 +187,15 @@ export default function TimelinePage() {
   const [continuityState, setContinuityState] = useState<'' | SourceContinuityState>('');
   const [visibleContinuityCount, setVisibleContinuityCount] = useState(CONTINUITY_BATCH_SIZE);
 
-  const searchTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const changesController = useRef<AbortController | null>(null);
+  const changesRequest = useRef(0);
   const continuityStatusRef = useRef<SourceContinuityRequestStatus>('idle');
   const continuityMountedRef = useRef(true);
-  const hasFilters = Boolean(query || industry || risk || kpi || fromDate || toDate);
+  const normalizedQuery = query.trim();
+  const effectiveQuery = normalizedQuery.length >= 3 ? normalizedQuery : '';
+  const searchPending = effectiveQuery !== searchQuery;
+  const resultsLoading = loading || searchPending;
+  const hasFilters = Boolean(searchQuery || industry || risk || kpi || fromDate || toDate);
   const selectedKpi = KPI_OPTIONS.find((option) => option.value === kpi) || KPI_OPTIONS[0];
 
   const renderKpiIcon = (category: KpiCategory, size = 15) => {
@@ -207,6 +213,10 @@ export default function TimelinePage() {
 
   const fetchChanges = useCallback(
     async (pageNum: number, append = false) => {
+      const requestId = ++changesRequest.current;
+      changesController.current?.abort();
+      const controller = new AbortController();
+      changesController.current = controller;
       if (!append) setLoading(true);
       else setLoadingMore(true);
       setChangesError(null);
@@ -215,29 +225,33 @@ export default function TimelinePage() {
         const params = new URLSearchParams();
         params.set('page', String(pageNum));
         params.set('pageSize', String(PAGE_SIZE));
-        if (query.length >= 3) params.set('q', query);
+        if (searchQuery) params.set('q', searchQuery);
         if (industry) params.set('industry', industry);
         if (risk) params.set('risk', risk);
         if (kpi) params.set('kpi', kpi);
         if (fromDate) params.set('from', fromDate);
         if (toDate) params.set('to', toDate);
 
-        const response = await fetch(`/api/changes?${params.toString()}`);
+        const response = await fetch(`/api/changes?${params.toString()}`, { signal: controller.signal });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data: ApiResponse = await response.json();
+        if (requestId !== changesRequest.current || controller.signal.aborted) return;
 
         setChanges((previous) => (append ? [...previous, ...data.changes] : data.changes));
         setTotal(data.total);
         setPage(data.page);
         setTotalPages(data.totalPages);
       } catch {
+        if (requestId !== changesRequest.current || controller.signal.aborted) return;
         setChangesError('The policy-change archive is temporarily unavailable. Please try again.');
       } finally {
-        setLoading(false);
-        setLoadingMore(false);
+        if (requestId === changesRequest.current && !controller.signal.aborted) {
+          setLoading(false);
+          setLoadingMore(false);
+        }
       }
     },
-    [query, industry, risk, kpi, fromDate, toDate]
+    [searchQuery, industry, risk, kpi, fromDate, toDate]
   );
 
   const fetchContinuity = useCallback(async (trigger: SourceContinuityRequestTrigger) => {
@@ -260,9 +274,19 @@ export default function TimelinePage() {
   }, []);
 
   useEffect(() => {
+    const timeout = setTimeout(() => setSearchQuery(effectiveQuery), effectiveQuery ? 350 : 0);
+    return () => clearTimeout(timeout);
+  }, [effectiveQuery]);
+
+  useEffect(() => {
+    let active = true;
     queueMicrotask(() => {
-      void fetchChanges(1, false);
+      if (active) void fetchChanges(1, false);
     });
+    return () => {
+      active = false;
+      changesController.current?.abort();
+    };
   }, [fetchChanges]);
 
   useEffect(() => {
@@ -274,7 +298,6 @@ export default function TimelinePage() {
     continuityMountedRef.current = true;
     return () => {
       continuityMountedRef.current = false;
-      if (searchTimeout.current) clearTimeout(searchTimeout.current);
     };
   }, []);
 
@@ -306,12 +329,11 @@ export default function TimelinePage() {
 
   const handleSearchChange = (value: string) => {
     setQuery(value);
-    if (searchTimeout.current) clearTimeout(searchTimeout.current);
-    searchTimeout.current = setTimeout(() => undefined, 350);
   };
 
   const clearFilters = () => {
     setQuery('');
+    setSearchQuery('');
     setIndustry('');
     setRisk('');
     setKpi('');
@@ -320,7 +342,7 @@ export default function TimelinePage() {
   };
 
   const loadMore = () => {
-    if (page < totalPages && !loadingMore) void fetchChanges(page + 1, true);
+    if (page < totalPages && !loadingMore && !resultsLoading) void fetchChanges(page + 1, true);
   };
 
   const handleViewKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -338,14 +360,14 @@ export default function TimelinePage() {
   const continuityHasFilters = Boolean(continuityQuery || continuityState);
   const heroStats = activeView === 'policy-changes'
     ? [
-        { value: total, label: 'Changes tracked' },
+        { value: resultsLoading || changesError ? '…' : total, label: hasFilters ? 'Matching changes' : 'Published changes' },
         {
-          value: new Set(changes.map((change) => change.policy.company.id)).size || 'N/A',
-          label: 'Companies',
+          value: resultsLoading || changesError ? '…' : new Set(changes.map((change) => change.policy.company.id)).size,
+          label: 'Companies in loaded results',
         },
         {
-          value: new Set(changes.map((change) => change.policy.jurisdiction)).size || 'N/A',
-          label: 'Jurisdictions',
+          value: resultsLoading || changesError ? '…' : new Set(changes.map((change) => change.policy.jurisdiction)).size,
+          label: 'Jurisdictions in loaded results',
         },
       ]
     : [
@@ -419,6 +441,8 @@ export default function TimelinePage() {
                 <Search size={14} className={styles.searchIcon} />
                 <input
                   type="search"
+                  maxLength={200}
+                  aria-describedby="timeline-search-help"
                   className={styles.searchInput}
                   placeholder="Search changes... (e.g. biometric, data retention, GDPR)"
                   value={query}
@@ -482,7 +506,7 @@ export default function TimelinePage() {
                 aria-label="To date"
               />
 
-              {hasFilters && (
+              {(hasFilters || query) && (
                 <button type="button" className={styles.clearBtn} onClick={clearFilters}>
                   <XCircle size={12} /> Clear
                 </button>
@@ -490,11 +514,20 @@ export default function TimelinePage() {
             </div>
           </div>
 
-          {hasFilters && !loading && (
+          <p id="timeline-search-help" className={styles.searchHelp} role="status">
+            {normalizedQuery.length > 0 && normalizedQuery.length < 3
+              ? 'Enter at least 3 characters to search. Other filters still apply.'
+              : 'Search summaries and policy text with at least 3 characters.'}
+          </p>
+          <p className={styles.resultsStatus} role="status">
+            {resultsLoading ? 'Updating results…' : changesError ? 'Result counts unavailable.'
+              : `Showing ${changes.length} of ${total} ${hasFilters ? 'matching' : 'published'} changes.`}
+          </p>
+          {hasFilters && !resultsLoading && !changesError && (
             <div className={styles.activeFilters}>
               <Filter size={13} />
               <span className={styles.filterCount}>{total} result{total !== 1 ? 's' : ''}</span>
-              {query && <span className={styles.filterChip}>&quot;{query}&quot;</span>}
+              {searchQuery && <span className={styles.filterChip}>&quot;{searchQuery}&quot;</span>}
               {industry && <span className={styles.filterChip}>{industry}</span>}
               {risk && <span className={styles.filterChip}>{risk} Risk</span>}
               {kpi && (
@@ -507,7 +540,7 @@ export default function TimelinePage() {
           )}
 
           <div className={styles.timelineWrap}>
-            {loading ? (
+            {resultsLoading ? (
               Array.from({ length: 6 }).map((_, index) => (
                 <div key={index} className={styles.timelineItem} style={{ animationDelay: `${index * 0.08}s` }}>
                   <div className={styles.skeleton} />
@@ -525,12 +558,17 @@ export default function TimelinePage() {
             ) : changes.length === 0 ? (
               <div className={styles.emptyState}>
                 <Shield size={48} className={styles.emptyIcon} />
-                <h2 className={styles.emptyTitle}>No evidence-gated changes available</h2>
+                <h2 className={styles.emptyTitle}>{hasFilters ? 'No matching changes' : 'No published changes yet'}</h2>
                 <p className={styles.emptyText}>
                   {hasFilters
-                    ? 'Try adjusting your filters or search query.'
+                    ? 'No published change matches these filters. Clear them to browse the archive.'
                     : 'Sources that have not passed the publication gate do not expose policy-change analysis.'}
                 </p>
+                {hasFilters && (
+                  <button type="button" className={styles.retryButton} onClick={clearFilters}>
+                    <XCircle size={16} aria-hidden="true" /> Clear all filters
+                  </button>
+                )}
               </div>
             ) : (
               <>

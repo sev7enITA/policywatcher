@@ -3,15 +3,28 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.4);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  z-index: 10001;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border: 0;
+  padding: 12vh 12px 16px;
+  background: transparent;
+  color: inherit;
+  overflow: hidden;
+}
+
+.overlay[open] {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-top: 12vh;
-  animation: cpFadeIn 0.15s ease;
+}
+
+.overlay::backdrop {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
 }
 
 @keyframes cpFadeIn {
@@ -64,6 +77,7 @@
 
 .input {
   flex: 1;
+  min-width: 0;
   border: none;
   outline: none;
   background: transparent;
@@ -114,6 +128,7 @@
   gap: 10px;
   width: 100%;
   padding: 10px 12px;
+  min-height: 44px;
   border-radius: 10px;
   color: var(--text-body);
   font-size: 0.88rem;
@@ -142,13 +157,14 @@
 
 .itemLabel {
   flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .itemHint {
   flex-shrink: 0;
+  max-width: 35%;
+  overflow-wrap: anywhere;
   font-size: 0.72rem;
   color: var(--text-dark);
   background: var(--bg-tertiary);
@@ -221,4 +237,26 @@
     flex-wrap: wrap;
     gap: 10px;
   }
+}
+
+.closeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  flex-shrink: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  color: var(--text-body);
+}
+
+.closeButton:focus-visible, .input:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .palette, .overlay { animation: none; }
+  .item { transition: none; }
 }

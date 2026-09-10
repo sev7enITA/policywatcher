@@ -3095,7 +3095,11 @@ export default function Dashboard() {
                   </div>
 
                   <div className={styles.cardBottom}>
-                    <span className={styles.updateDate}>{t.updated}: {formattedDate}</span>
+                    <span className={styles.updateDate}>
+                      {latestChange
+                        ? `${lang === 'it' ? 'Ultima analisi pubblicata' : 'Latest published analysis'}: ${formattedDate}`
+                        : lang === 'it' ? 'Nessuna modifica pubblicata' : 'No published changes'}
+                    </span>
                     {firstPolicy && (
                       <button
                         onClick={() => setSelectedPolicyId(firstPolicy.id)}
@@ -3210,6 +3214,7 @@ export default function Dashboard() {
           onOpenHowTo={() => setHowToOpen(true)}
           onCopyView={() => void handleCopyDashboardView()}
           onSelectCompany={handleSelectCompany}
+          onSelectPolicy={setSelectedPolicyId}
           onSetIndustry={(value) => dispatchDashboardAction({
             type: 'setFilter', source: 'commandPalette', target: 'industry', value,
           })}

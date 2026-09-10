@@ -20,6 +20,8 @@ import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import {
   BarChart3,
   Search,
+  X,
+  FileText,
   Building2,
   SlidersHorizontal,
   Languages,
@@ -45,6 +47,7 @@ import {
   FolderKanban,
 } from 'lucide-react';
 import styles from './CommandPalette.module.css';
+import ModalDialog from './ModalDialog';
 import type { Company, Lang } from '@/types';
 
 /**
@@ -63,7 +66,7 @@ interface Command {
   /** Icon rendered before the label. */
   icon: React.ReactNode;
   /** Grouping category controls the section header in the results list. */
-  group: 'navigation' | 'filters' | 'actions';
+  group: 'navigation' | 'policies' | 'filters' | 'actions';
   /** Space-separated tokens used for fuzzy-ish search matching. */
   keywords?: string;
   /** Action executed when the command is selected. */
@@ -96,6 +99,7 @@ interface CommandPaletteProps {
   onCopyView: () => void;
   /** Navigate the dashboard to a specific company card. */
   onSelectCompany: (companyId: string) => void;
+  onSelectPolicy: (policyId: string) => void;
   onSetIndustry: (industry: string) => void;
   onSetRisk: (risk: string) => void;
   onSetRegion: (region: 'EU' | 'US' | 'Global') => void;
@@ -126,6 +130,7 @@ export default function CommandPalette({
   onOpenHowTo,
   onCopyView,
   onSelectCompany,
+  onSelectPolicy,
   onSetIndustry,
   onSetRisk,
   onSetRegion,
@@ -142,11 +147,12 @@ export default function CommandPalette({
   // Reset on open
   useEffect(() => {
     if (isOpen) {
-      requestAnimationFrame(() => {
+      const frame = requestAnimationFrame(() => {
         setQuery('');
         setActiveIndex(0);
         inputRef.current?.focus();
       });
+      return () => cancelAnimationFrame(frame);
     }
   }, [isOpen]);
 
@@ -505,7 +511,19 @@ export default function CommandPalette({
         },
       }));
 
-    return [...actions, ...filterCommands, ...companyCommands];
+    const policyCommands: Command[] = companies.flatMap((company) => company.policies.map((policy) => ({
+      id: `policy-${policy.id}`,
+      label: `${company.name} · ${policy.name} · ${policy.jurisdiction}`,
+      icon: <FileText size={16} />,
+      group: 'policies' as const,
+      keywords: `${company.name} ${policy.name} ${policy.type} ${policy.jurisdiction}`,
+      run: () => {
+        onSelectPolicy(policy.id);
+        onClose();
+      },
+    })));
+
+    return [...companyCommands, ...policyCommands, ...actions, ...filterCommands];
   }, [
     companies,
     isIt,
@@ -518,6 +536,7 @@ export default function CommandPalette({
     onOpenHowTo,
     onCopyView,
     onSelectCompany,
+    onSelectPolicy,
     onClearFilters,
     onSetIndustry,
     onSetPerspective,
@@ -530,7 +549,7 @@ export default function CommandPalette({
   // Filter by query
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return commands;
+    if (!q) return commands.filter((cmd) => cmd.group !== 'policies');
     return commands.filter((cmd) => {
       const haystack = `${cmd.label} ${cmd.labelIt || ''} ${
         cmd.keywords || ''
@@ -552,7 +571,7 @@ export default function CommandPalette({
       `[data-idx="${activeIndex}"]`
     );
     el?.scrollIntoView({ block: 'nearest' });
-  }, [activeIndex]);
+  }, [activeIndex, query]);
 
   const runActive = useCallback(() => {
     const cmd = filtered[activeIndex];
@@ -562,16 +581,17 @@ export default function CommandPalette({
   // Keyboard navigation inside the palette
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
+      if (e.nativeEvent.isComposing) return;
       if (e.key === 'ArrowDown') {
         e.preventDefault();
-        setActiveIndex((i) => Math.min(i + 1, filtered.length - 1));
+        setActiveIndex((i) => Math.max(0, Math.min(i + 1, filtered.length - 1)));
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         setActiveIndex((i) => Math.max(i - 1, 0));
       } else if (e.key === 'Enter') {
         e.preventDefault();
         runActive();
-      } else if (e.key === 'Escape') {
+      } else if (e.key === 'Escape' || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k')) {
         e.preventDefault();
         onClose();
       }
@@ -591,19 +611,18 @@ export default function CommandPalette({
   }, [filtered]);
 
   const groupLabels: Record<string, string> = isIt
-    ? { actions: 'Azioni', filters: 'Filtri', navigation: 'Navigazione' }
-    : { actions: 'Actions', filters: 'Filters', navigation: 'Navigation' };
+    ? { actions: 'Azioni', filters: 'Filtri', navigation: 'Aziende', policies: 'Policy' }
+    : { actions: 'Actions', filters: 'Filters', navigation: 'Companies', policies: 'Policies' };
 
   // All hooks must be called before this point (Rules of Hooks).
   if (!isOpen) return null;
 
 
   return (
-    <div className={styles.overlay} onClick={onClose} role="dialog" aria-modal="true">
+    <ModalDialog className={styles.overlay} label={isIt ? 'Ricerca rapida' : 'Quick search'} onRequestClose={onClose}>
       <div
         className={styles.palette}
         onClick={(e) => e.stopPropagation()}
-        onKeyDown={handleKeyDown}
       >
         {/* Search input */}
         <div className={styles.searchBar}>
@@ -611,6 +630,12 @@ export default function CommandPalette({
           <input
             ref={inputRef}
             type="text"
+            role="combobox"
+            aria-expanded="true"
+            aria-autocomplete="list"
+            aria-controls="command-palette-results"
+            aria-activedescendant={filtered[activeIndex] ? `command-${filtered[activeIndex].id}` : undefined}
+            onKeyDown={handleKeyDown}
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -618,25 +643,27 @@ export default function CommandPalette({
             }}
             placeholder={
               isIt
-                ? "Cerca un'azienda, un filtro o un'azione..."
-                : 'Search a company, filter, or action...'
+                ? "Cerca azienda, policy o azione..."
+                : 'Search companies, policies or actions...'
             }
             className={styles.input}
-            aria-label="Command palette search"
+            aria-label={isIt ? 'Cerca aziende, policy e azioni' : 'Search companies, policies and actions'}
           />
-          <kbd className={styles.escHint}>ESC</kbd>
+          <button type="button" className={styles.closeButton} onClick={onClose} aria-label={isIt ? 'Chiudi ricerca' : 'Close search'}>
+            <X size={20} aria-hidden="true" />
+          </button>
         </div>
 
         {/* Results */}
-        <div className={styles.results} ref={listRef}>
+        <div className={styles.results} ref={listRef} id="command-palette-results" role="listbox" aria-label={isIt ? 'Risultati della ricerca' : 'Search results'}>
           {filtered.length === 0 ? (
-            <div className={styles.empty}>
+            <div className={styles.empty} role="status">
               <Search size={28} className={styles.emptyIcon} />
-              <p>{isIt ? 'Nessun risultato' : 'No results found'}</p>
+              <p>{isIt ? 'Nessun risultato. Prova il nome di un’azienda o di una policy.' : 'No results. Try a company or policy name.'}</p>
             </div>
           ) : (
             Array.from(groups.entries()).map(([group, cmds]) => (
-              <div key={group} className={styles.group}>
+              <div key={group} className={styles.group} role="group" aria-label={groupLabels[group]}>
                 <div className={styles.groupLabel}>{groupLabels[group]}</div>
                 {cmds.map((cmd) => {
                   const idx = filtered.indexOf(cmd);
@@ -644,6 +671,10 @@ export default function CommandPalette({
                   return (
                     <button
                       key={cmd.id}
+                      id={`command-${cmd.id}`}
+                      role="option"
+                      aria-selected={isActive}
+                      tabIndex={-1}
                       data-idx={idx}
                       onMouseEnter={() => setActiveIndex(idx)}
                       onClick={() => cmd.run()}
@@ -688,6 +719,6 @@ export default function CommandPalette({
           </span>
         </div>
       </div>
-    </div>
+    </ModalDialog>
   );
 }

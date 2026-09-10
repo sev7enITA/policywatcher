@@ -363,7 +363,8 @@
 }
 
 .tabButton {
-  flex: 1 1 100px;
+  flex: 1 1 180px;
+  overflow-wrap: normal;
   min-width: 0;
   min-height: 44px;
   padding: 10px 16px;
@@ -913,3 +914,24 @@
     opacity: 0.65;
   }
 }
+
+.auditSummary {
+  cursor: pointer;
+  min-height: 44px;
+  color: var(--text-main);
+}
+.auditSummary > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 12px 4px 0;
+}
+.auditSummary > span:first-of-type { font-weight: 700; }
+.auditSummary:focus-visible, .timelineItem:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+.auditHint { margin: 8px 0 16px; color: var(--text-muted); font-size: .85rem; }
+.timelineItem { text-align: left; font: inherit; }
+
+.tabButton svg { flex-shrink: 0; }

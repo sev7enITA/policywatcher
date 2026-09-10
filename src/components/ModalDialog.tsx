@@ -48,7 +48,7 @@ export default function ModalDialog({ label, className, onRequestClose, children
         event.stopPropagation();
         if (event.key !== 'Tab') return;
         const controls = Array.from(event.currentTarget.querySelectorAll<HTMLElement>(
-          'a[href], button, input, select, textarea, [tabindex], [contenteditable="true"]',
+          'a[href], button, input, select, textarea, summary, [tabindex], [contenteditable="true"]',
         )).filter((node) => node.tabIndex >= 0 && !node.matches(':disabled')
           && !node.closest('[inert]') && node.getClientRects().length > 0
           && getComputedStyle(node).visibility !== 'hidden');

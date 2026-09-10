@@ -360,7 +360,7 @@ export default function PolicyDetails({
             {lang === 'it' ? 'Link Ufficiale Documento:' : 'Official Policy Document Link:'}
           </span>
           <div className={styles.linkInputWrapper}>
-            <input type="text" readOnly value={policy.url} className={styles.linkInput} />
+            <input type="text" readOnly aria-label={lang === 'it' ? 'URL della fonte ufficiale' : 'Official source URL'} value={policy.url} className={styles.linkInput} />
             <button onClick={copyToClipboard} className={styles.copyBtn} aria-label="Copy URL">
               {copied ? (lang === 'it' ? 'Copiato!' : 'Copied!') : <Copy size={14} />}
             </button>
@@ -411,11 +411,14 @@ export default function PolicyDetails({
         </div>
 
         {/* Auditing Log & Context Panel */}
-        <div className={styles.auditingPanel}>
-          <h4>
-            <ShieldCheck size={14} />
-            {lang === 'it' ? 'Metadati di Controllo ed Evidenza' : 'Auditing Evidence & Telemetry'}
-          </h4>
+        <details className={styles.auditingPanel}>
+          <summary className={styles.auditSummary}>
+            <span><ShieldCheck size={16} aria-hidden="true" /> {lang === 'it' ? 'Verifica della fonte' : 'Source verification'}</span>
+            <span className={`${styles.confidenceBadge} ${styles[`badge_${dataStatusClassKey(policy.dataStatus)}`]}`}>
+              {normalizeDataStatus(policy.dataStatus, 'Available')}
+            </span>
+          </summary>
+          <p className={styles.auditHint}>{lang === 'it' ? 'Controlli di acquisizione della fonte, separati dall’analisi dei contenuti.' : 'Source retrieval checks, separate from the content assessment.'}</p>
           <div className={styles.auditingGrid}>
             <div>
               <strong>{lang === 'it' ? 'Stato QA Dataset:' : 'Dataset QA Status:'}</strong>
@@ -455,7 +458,7 @@ export default function PolicyDetails({
               {lang === 'it' ? 'Leggi la metodologia di tracciabilità e i limiti dell\'AI' : 'Read traceability methodology & AI limits'}
             </a>
           </div>
-        </div>
+        </details>
 
         {/* Timeline */}
         {policy.changes.length > 0 && (
@@ -472,8 +475,10 @@ export default function PolicyDetails({
                   : `${lang === 'it' ? 'Iniziale' : 'Initial'} V${change.newSnapshot.version}`;
 
                 return (
-                  <div 
+                  <button
+                    type="button"
                     key={change.id}
+                    aria-pressed={isSelected}
                     onClick={() => setActiveChangeIndex(idx)}
                     className={`${styles.timelineItem} ${isSelected ? styles.timelineItemActive : ''}`}
                   >
@@ -482,7 +487,7 @@ export default function PolicyDetails({
                     <span className={`badge ${getRiskBadgeClass(change.overallRisk)}`} style={{ fontSize: '0.6rem', padding: '1px 6px', marginTop: '4px' }}>
                       {change.overallRisk}
                     </span>
-                  </div>
+                  </button>
                 );
               })}
             </div>
