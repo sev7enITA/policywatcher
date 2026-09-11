@@ -7,6 +7,8 @@
     "types": ["node", "vitest/globals"]
   },
   "include": [
+    "src/lib/__tests__/changeClassification.test.ts",
+    "src/lib/__tests__/changeClassificationDelivery.test.ts",
     "src/lib/__tests__/adminAuth.test.ts",
     "src/lib/__tests__/databaseReadiness.test.ts",
     "src/lib/__tests__/documentEvidenceModel.test.ts",

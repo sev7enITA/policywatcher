@@ -28,6 +28,9 @@ import {
   TrendingUp,
   XCircle,
 } from 'lucide-react';
+import { ChangeClassificationBadge } from '@/components/ChangeClassification';
+import type { ChangeClassification } from '@/lib/changeClassificationTypes';
+import { changeClassificationDescription } from '@/lib/changeClassificationCopy';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
 import {
@@ -49,6 +52,7 @@ import styles from './timeline.module.css';
 
 interface TimelineChange {
   id: string;
+  classification?: ChangeClassification;
   overallRisk: string;
   overallScore: number;
   tldrEn: string | null;
@@ -360,7 +364,7 @@ export default function TimelinePage() {
   const continuityHasFilters = Boolean(continuityQuery || continuityState);
   const heroStats = activeView === 'policy-changes'
     ? [
-        { value: resultsLoading || changesError ? '…' : total, label: hasFilters ? 'Matching changes' : 'Published changes' },
+        { value: resultsLoading || changesError ? '…' : total, label: hasFilters ? 'Matching records' : 'Published records' },
         {
           value: resultsLoading || changesError ? '…' : new Set(changes.map((change) => change.policy.company.id)).size,
           label: 'Companies in loaded results',
@@ -382,8 +386,8 @@ export default function TimelinePage() {
       <header className={styles.hero}>
         <h1 className={styles.heroTitle}>Policy Evidence Timeline</h1>
         <p className={styles.heroSub}>
-          Inspect two separate public records: what a provider changed, and whether PolicyWatcher
-          could verify the configured source. A source interruption is not a provider-policy finding.
+          Browse every archived revision, including editorial and unverified updates, alongside source continuity.
+          A classification describes the revision; the risk score describes the assessed policy.
         </p>
         <div className={styles.heroStats} aria-live="polite">
           {heroStats.map((stat) => (
@@ -521,7 +525,7 @@ export default function TimelinePage() {
           </p>
           <p className={styles.resultsStatus} role="status">
             {resultsLoading ? 'Updating results…' : changesError ? 'Result counts unavailable.'
-              : `Showing ${changes.length} of ${total} ${hasFilters ? 'matching' : 'published'} changes.`}
+              : `Showing ${changes.length} of ${total} ${hasFilters ? 'matching' : 'published'} records.`}
           </p>
           {hasFilters && !resultsLoading && !changesError && (
             <div className={styles.activeFilters}>
@@ -599,13 +603,15 @@ export default function TimelinePage() {
                         </div>
                         <div className={styles.cardMeta}>
                           <span className={styles.cardDate}><Clock size={11} />{date}</span>
-                          <span className={styles.cardRiskPill} data-risk={change.overallRisk}>{change.overallRisk}</span>
+                          <ChangeClassificationBadge classification={change.classification} />
+                          <span className={styles.cardRiskPill} data-risk={change.overallRisk}>Policy risk: {change.overallRisk}</span>
                           <span className={styles.cardScore} data-risk={change.overallRisk}>{change.overallScore}/10</span>
                           <span className={styles.cardIndustry}>{company.industry}</span>
                         </div>
-                        <p className={styles.cardTldr}>{tldr}</p>
+                        <p className={styles.cardTldr}>{changeClassificationDescription(change.classification, 'en')}</p>
+                        <p className={styles.cardTldr}><small>Archived AI summary: {tldr}</small></p>
                         <div className={styles.cardArrow}>
-                          <TrendingUp size={12} /> View full analysis <ArrowRight size={12} />
+                          <TrendingUp size={12} /> Compare evidence <ArrowRight size={12} />
                         </div>
                       </Link>
                     </article>

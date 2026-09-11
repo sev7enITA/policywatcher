@@ -26,6 +26,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
 import { publicChangeWhere } from '@/lib/publicDataGate';
+import { classificationSnapshotSelect, withChangeClassification } from '@/lib/changeClassification';
 
 const VALID_RISKS = new Set(['Low', 'Medium', 'High']);
 const VALID_INDUSTRIES = new Set([
@@ -143,6 +144,8 @@ export async function GET(request: NextRequest) {
         // NARROW select: metadata + AI summary, NOT diff/currentText
         select: {
           id: true,
+          oldSnapshot: { select: classificationSnapshotSelect },
+          newSnapshot: { select: classificationSnapshotSelect },
           overallRisk: true,
           overallScore: true,
           tldrEn: true,
@@ -179,7 +182,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(
       {
-        changes,
+        changes: changes.map(withChangeClassification),
         total,
         page,
         pageSize,

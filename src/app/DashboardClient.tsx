@@ -49,6 +49,7 @@ import {
 } from 'lucide-react';
 import styles from './Dashboard.module.css';
 import TermsGate from '@/components/TermsGate';
+import { ChangeClassificationBadge } from '@/components/ChangeClassification';
 import CardRiskReasons from '@/components/ai/CardRiskReasons';
 import { SkeletonGrid, SkeletonStatsGrid } from '@/components/Skeleton';
 import { motion, AnimatePresence, MotionConfig, useReducedMotion } from 'framer-motion';
@@ -3008,6 +3009,7 @@ export default function Dashboard() {
                         <strong>{firstPolicy.name} · {firstPolicy.jurisdiction}</strong>
                       </button>
                     )}
+                    {latestChange && <div style={{ margin: '12px 0' }}><ChangeClassificationBadge classification={latestChange.classification} lang={lang} /></div>}
                     <div className={styles.riskSummary}>
                       <div className={styles.riskIndicator}>
                         <span className={styles.riskLabel}>{latestChange ? riskLabel : t.sourceBaseline}</span>
@@ -3017,7 +3019,7 @@ export default function Dashboard() {
                       </div>
                       {assessment.overallScore !== null && (
                         <div className={styles.overallScore}>
-                          <span>{lang === 'it' ? 'Punteggio di rischio complessivo' : 'Overall risk score'}</span>
+                          <span>{lang === 'it' ? 'Rischio complessivo della policy' : 'Overall policy risk'}</span>
                           <strong>{assessment.overallScore}/10</strong>
                           <small>{lang === 'it' ? '1 = minore · 10 = maggiore' : '1 = lower · 10 = higher'}</small>
                         </div>

@@ -14,6 +14,7 @@
  */
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { classificationSnapshotSelect, withChangeClassification } from '@/lib/changeClassification';
 import { rateLimit } from '@/lib/rateLimit';
 import { allowSeededPublicData, publicPolicyWhere } from '@/lib/publicDataGate';
 
@@ -46,6 +47,8 @@ export async function GET(request: NextRequest) {
               take: 1,
               include: {
                 regionImpacts: true,
+                oldSnapshot: { select: classificationSnapshotSelect },
+                newSnapshot: { select: classificationSnapshotSelect },
               },
             },
           },
@@ -56,7 +59,10 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    return NextResponse.json(companies);
+    return NextResponse.json(companies.map(company => ({
+      ...company,
+      policies: company.policies.map(policy => ({ ...policy, changes: policy.changes.map(withChangeClassification) })),
+    })));
   } catch (error) {
     console.error('Error fetching companies:', error);
     return NextResponse.json(

@@ -48,6 +48,7 @@ import {
 import styles from './PolicyDetails.module.css';
 import type { Policy, PolicyChange, Company, Perspective, Region, RegionImpact } from '@/types/index';
 import AISummary from '@/components/ai/AISummary';
+import ChangeClassificationPanel, { ChangeClassificationBadge } from './ChangeClassification';
 import RiskReasons from '@/components/ai/RiskReasons';
 import RemediationSteps from '@/components/ai/RemediationSteps';
 import RiskTrendPanel from '@/components/charts/RiskTrendPanel';
@@ -97,7 +98,7 @@ interface FullPolicyDetails extends Policy {
   /** Change records linking consecutive snapshots. */
   changes: (PolicyChange & {
     oldSnapshot: { id: string; version: number } | null;
-    newSnapshot: { id: string; version: number };
+    newSnapshot: { id: string; version: number } | null;
     regionImpacts: RegionImpact[];
   })[];
 }
@@ -471,8 +472,8 @@ export default function PolicyDetails({
                 const date = new Date(change.createdAt).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' });
                 const isSelected = idx === activeChangeIndex;
                 const vText = change.oldSnapshot 
-                  ? `V${change.oldSnapshot.version} > V${change.newSnapshot.version}`
-                  : `${lang === 'it' ? 'Iniziale' : 'Initial'} V${change.newSnapshot.version}`;
+                  ? `V${change.oldSnapshot.version} > V${change.newSnapshot?.version ?? '?'}`
+                  : `${lang === 'it' ? 'Iniziale' : 'Initial'} V${change.newSnapshot?.version ?? '?'}`;
 
                 return (
                   <button
@@ -484,9 +485,7 @@ export default function PolicyDetails({
                   >
                     <span className={styles.versionTitle}>{vText}</span>
                     <span className={styles.versionDate}>{date}</span>
-                    <span className={`badge ${getRiskBadgeClass(change.overallRisk)}`} style={{ fontSize: '0.6rem', padding: '1px 6px', marginTop: '4px' }}>
-                      {change.overallRisk}
-                    </span>
+                    <ChangeClassificationBadge classification={change.classification} lang={lang} />
                   </button>
                 );
               })}
@@ -521,9 +520,10 @@ export default function PolicyDetails({
             {/* TAB 1: OVERVIEW & DIFFS */}
             {activeTab === 'changes' && (
               <div>
+                <ChangeClassificationPanel classification={activeChange.classification} lang={lang} />
                 <div className={styles.summaryBox}>
                   <h3 className={styles.sectionTitle} style={{ marginBottom: '8px' }}>
-                    <TrendingUp size={18} color="var(--primary)" /> {lang === 'it' ? 'Sintesi AI del Cambiamento' : 'AI Executive Summary'}
+                    <TrendingUp size={18} color="var(--primary)" /> {lang === 'it' ? 'Analisi AI archiviata' : 'Archived AI analysis'}
                   </h3>
                   <AISummary
                     tldrEn={activeChange.tldrEn}

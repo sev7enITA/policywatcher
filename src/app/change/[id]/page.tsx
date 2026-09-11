@@ -31,6 +31,8 @@ import {
   ArrowLeft,
   Clock,
 } from 'lucide-react';
+import ChangeClassificationPanel, { ChangeClassificationBadge } from '@/components/ChangeClassification';
+import { classifyPolicyChange, classificationSnapshotSelect } from '@/lib/changeClassification';
 import DiffViewer from '@/components/DiffViewer';
 import AISummary from '@/components/ai/AISummary';
 import RiskReasons from '@/components/ai/RiskReasons';
@@ -180,8 +182,8 @@ export default async function ChangePage({
         },
       },
       regionImpacts: true,
-      oldSnapshot: { select: { version: true, createdAt: true } },
-      newSnapshot: { select: { version: true, createdAt: true } },
+      oldSnapshot: { select: { ...classificationSnapshotSelect, createdAt: true } },
+      newSnapshot: { select: { ...classificationSnapshotSelect, createdAt: true } },
     },
   });
 
@@ -189,6 +191,7 @@ export default async function ChangePage({
     notFound();
   }
 
+  const classification = classifyPolicyChange(change);
   const score = change.overallScore;
   const risk = change.overallRisk;
   const screeningDate = change.createdAt.toISOString().split('T')[0];
@@ -199,7 +202,7 @@ export default async function ChangePage({
     backHome: isIt ? '← Tutti i cambiamenti' : '← All changes',
     badge: isIt ? 'CAMBIAMENTO REGISTRATO' : 'RECORDED CHANGE',
     screening: isIt ? 'Data screening' : 'Screening date',
-    riskLevel: isIt ? 'Livello rischio' : 'Risk level',
+    riskLevel: isIt ? 'Rischio della policy (AI)' : 'Policy risk (AI)',
     policy: isIt ? 'Policy' : 'Policy',
     jurisdiction: isIt ? 'Giurisdizione' : 'Jurisdiction',
     version: isIt ? 'Versione' : 'Version',
@@ -290,7 +293,7 @@ export default async function ChangePage({
         {/* Header */}
         <header className={styles.header}>
           <div className={styles.badgeRow}>
-            <span className={styles.badge}>{t.badge}</span>
+            <ChangeClassificationBadge classification={classification} lang={lang} />
             <span className={styles.dateChip}>
               <Clock size={11} />
               {screeningDate}
@@ -302,6 +305,8 @@ export default async function ChangePage({
             <span className={styles.policyType}>{change.policy.type}</span>
           </p>
         </header>
+
+        <ChangeClassificationPanel classification={classification} lang={lang} />
 
         {/* Score + meta row */}
         <div className={styles.scoreCard}>
@@ -350,7 +355,7 @@ export default async function ChangePage({
 
         {/* What changed (diff) */}
         <section className={styles.section}>
-          <DiffViewer diff={change.diff} lang={lang} title={t.diffTitle} maxHeight="500px" />
+          <DiffViewer diff={change.oldSnapshot?.publicEvidence && change.newSnapshot?.publicEvidence ? change.diff : ''} lang={lang} title={t.diffTitle} maxHeight="500px" />
         </section>
 
         {/* Regional impact */}
