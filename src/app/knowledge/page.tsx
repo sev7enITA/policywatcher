@@ -1,3 +1,5 @@
+import CaptureFreshness from '@/components/CaptureFreshness';
+import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { AlertTriangle, ArrowRight, FileSearch } from 'lucide-react';
@@ -11,15 +13,16 @@ import {
 } from '@/lib/publicKnowledge';
 import styles from './knowledge.module.css';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: 'Public policy records | PolicyWatcher',
   description: 'Evidence-gated index of public companies, policies, verified baselines and published policy changes recorded by PolicyWatcher.',
   alternates: { canonical: `${POLICYWATCHER_ORIGIN}/knowledge` },
-};
+}, 'en');
 
 export const dynamic = 'force-dynamic';
 
 const references = [
+  { href: '/guides', title: 'Policy monitoring guides', body: 'Practical reading paths for privacy notices, terms, AI policies and data processing agreements.' },
   { href: '/evidence', title: 'Evidence packets', body: 'Change-bound public provenance and downloadable evidence files.' },
   { href: '/methodology/confidence', title: 'Methodology', body: 'Publication gates, confidence boundaries and AI-analysis limits.' },
   { href: '/trust', title: 'Trust and Dataset QA', body: 'Quality controls and operational evidence available for inspection.' },
@@ -75,6 +78,7 @@ function HubContent({ data }: { data: PublicKnowledgeHub }) {
           <span><strong>Last verified baseline:</strong> {formatDate(data.lastVerifiedAt)}</span>
           <span><strong>Knowledge index updated:</strong> {formatDate(data.dateModified)}</span>
         </div>
+        <CaptureFreshness lastRetrievedAt={data.lastObservedAt} />
       </section>
 
       <section id="companies" className={styles.section} aria-labelledby="companies-title">

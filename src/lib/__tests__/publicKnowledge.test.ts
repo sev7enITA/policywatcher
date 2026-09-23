@@ -179,7 +179,7 @@ describe('crawlable public knowledge layer', () => {
     const html = renderToStaticMarkup(createElement('main', null, createElement(HomeKnowledgeSnapshot, { data })));
     expect(html.match(/<main/g)).toHaveLength(1);
     expect(html).toContain('<section');
-    expect(html).toContain('Crawlable public knowledge');
+    expect(html).toContain('Public policy records');
     expect(html).toContain('href="/knowledge"');
     expect(html).toContain('href="/knowledge/companies/example-provider"');
     expect(html).toContain('href="/knowledge/companies/example-provider/policies/22222222-2222-4222-8222-222222222222"');
@@ -200,18 +200,12 @@ describe('crawlable public knowledge layer', () => {
     expect(dashboard).toContain('role="region" aria-label="Interactive policy monitoring workspace"');
   });
 
-  it('streams dynamic evidence below a visible crawlable homepage introduction', () => {
+  it('renders the public index without a JavaScript-dependent loading boundary', () => {
     const route = read('src/app/page.tsx');
-    const headingOffset = route.indexOf('<h1>Track verified changes to public company policies</h1>');
-    const suspenseOffset = route.indexOf('<Suspense fallback={<HomeKnowledgeLoading />}>');
-
-    expect(route).toContain('export default function HomePage()');
-    expect(route).not.toContain('export default async function HomePage()');
-    expect(route).toContain('async function HomeKnowledgeSnapshotLoader()');
-    expect(route).toContain('Current evidence counts are loading.');
+    expect(route).toContain('export default async function HomePage()');
+    expect(route).not.toContain('<Suspense');
     expect(route).not.toContain('styles.srOnly');
-    expect(headingOffset).toBeGreaterThan(-1);
-    expect(suspenseOffset).toBeGreaterThan(headingOffset);
+    expect(route.indexOf('<HomeKnowledgeSnapshot')).toBeLessThan(route.indexOf('<DashboardClient'));
   });
 
   it('scopes terms acknowledgement to the interactive workspace without a covering overlay', () => {

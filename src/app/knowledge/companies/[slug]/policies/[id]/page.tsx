@@ -1,3 +1,7 @@
+import RelatedPolicyGuides from '@/components/RelatedPolicyGuides';
+import CaptureFreshness from '@/components/CaptureFreshness';
+import PublicBreadcrumbs from '@/components/PublicBreadcrumbs';
+import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { AlertTriangle, ArrowRight, ExternalLink, FileSearch } from 'lucide-react';
@@ -27,12 +31,12 @@ export async function generateMetadata({ params }: PolicyPageProps): Promise<Met
     const policy = await getPublicKnowledgePolicy(slug, id);
     if (!policy) return { title: 'Policy record not found | PolicyWatcher', robots: { index: false } };
     const canonical = `${POLICYWATCHER_ORIGIN}/knowledge/companies/${policy.company.slug}/policies/${policy.id}`;
-    return {
-      title: `${policy.company.name} ${policy.name} record | PolicyWatcher`,
-      description: `Public source, verification timestamps, baseline metadata and published changes for ${policy.company.name} ${policy.name}.`,
+    return withSocialMetadata({
+      title: `${policy.company.name} ${policy.name} (${policy.jurisdiction}) | PolicyWatcher`,
+      description: `Public source, verification timestamps, baseline metadata and published changes for ${policy.company.name} ${policy.name} (${policy.jurisdiction}).`,
       alternates: { canonical },
-      openGraph: { title: `${policy.company.name} / ${policy.name}`, description: 'Evidence-gated public policy record with source and baseline metadata.', url: canonical, type: 'article', modifiedTime: policy.dateModified },
-    };
+      openGraph: { title: `${policy.company.name} / ${policy.name} (${policy.jurisdiction})`, description: 'Evidence-gated public policy record with source and baseline metadata.', url: canonical, type: 'article', modifiedTime: policy.dateModified },
+    });
   } catch {
     return { title: 'Public policy record temporarily unavailable | PolicyWatcher', robots: { index: false } };
   }
@@ -71,9 +75,9 @@ export default async function PolicyKnowledgePage({ params }: PolicyPageProps) {
       {
         '@type': 'DigitalDocument',
         '@id': `${canonical}#document`,
-        name: policy.name,
+        name: `${policy.company.name} ${policy.name} (${policy.jurisdiction})`,
         url: canonical,
-        sameAs: policy.officialSourceUrl || undefined,
+        isBasedOn: policy.officialSourceUrl || undefined,
         dateModified: policy.dateModified,
         isPartOf: { '@type': 'CollectionPage', url: `${POLICYWATCHER_ORIGIN}/knowledge` },
         about: { '@type': 'Organization', name: policy.company.name },
@@ -89,11 +93,16 @@ export default async function PolicyKnowledgePage({ params }: PolicyPageProps) {
       <PublicHeader current="knowledge" />
       <main className={styles.page}>
         <div className={styles.shell}>
-          <nav className={styles.breadcrumbs} aria-label="Breadcrumb"><Link href="/knowledge">Knowledge</Link><span>/</span><Link href={`/knowledge/companies/${slug}`}>{policy?.company.name || 'Company'}</Link><span>/</span><span>{policy?.name || 'Policy record'}</span></nav>
+          <PublicBreadcrumbs items={[
+            { name: 'Knowledge', path: '/knowledge' },
+            { name: policy?.company.name || 'Company', path: `/knowledge/companies/${slug}` },
+            { name: policy ? `${policy.name} (${policy.jurisdiction})` : 'Policy record', path: canonical },
+          ]} />
+          {policy && <CaptureFreshness lastRetrievedAt={policy.lastRetrievedAt} />}
           {policy ? (
             <>
               <header className={styles.entityHeader}>
-                <div><p className={styles.kicker}>Public policy record</p><h1>{policy.name}</h1><p className={styles.lead}>{policy.company.name} / {policy.type} / {policy.jurisdiction}. This page presents source and evidence metadata; it does not reproduce the policy text.</p><nav className={styles.actions} aria-label={`${policy.name} source actions`}>{policy.officialSourceUrl && <a href={policy.officialSourceUrl} target="_blank" rel="noopener noreferrer external">Official policy source <ExternalLink size={14} aria-hidden="true" /></a>}<Link href={`/knowledge/companies/${policy.company.slug}`}>Company record</Link></nav></div>
+                <div><p className={styles.kicker}>Public policy record</p><h1>{policy.company.name} - {policy.name} ({policy.jurisdiction})</h1><p className={styles.lead}>{policy.company.name} / {policy.type} / {policy.jurisdiction}. This page presents source and evidence metadata; it does not reproduce the policy text.</p><nav className={styles.actions} aria-label={`${policy.name} source actions`}>{policy.officialSourceUrl && <a href={policy.officialSourceUrl} target="_blank" rel="noopener noreferrer external">Official policy source <ExternalLink size={14} aria-hidden="true" /></a>}<Link href={`/knowledge/companies/${policy.company.slug}`}>Company record</Link></nav></div>
                 <dl className={styles.ledger}><div><dt>Data status</dt><dd><span className={styles.status}>{policy.dataStatus}</span></dd></div><div><dt>Ingestion method</dt><dd>{policy.ingestionMethod}</dd></div><div><dt>Last retrieval</dt><dd>{formatDate(policy.lastRetrievedAt)}</dd></div><div><dt>Last check</dt><dd>{formatDate(policy.lastCheckedAt)}</dd></div><div><dt>Latest published baseline</dt><dd>{formatDate(policy.latestBaselineAt)}</dd></div><div><dt>Knowledge record updated</dt><dd>{formatDate(policy.dateModified)}</dd></div><div><dt>Published changes</dt><dd>{policy.publishedChangeCount}</dd></div></dl>
               </header>
 
@@ -102,6 +111,8 @@ export default async function PolicyKnowledgePage({ params }: PolicyPageProps) {
                 <Link href="/methodology/confidence">Publication methodology</Link>
                 <Link href="/evidence">Public evidence register</Link>
               </nav>
+
+              <section className={styles.section}><RelatedPolicyGuides policy={policy} /></section>
 
               <section className={styles.section} aria-labelledby="baselines-title">
                 <div className={styles.sectionHead}><div><p className={styles.kicker}>Published evidence</p><h2 id="baselines-title">Baseline metadata</h2></div><p>Hashes identify published baseline records. They do not expose the underlying raw source text.</p></div>

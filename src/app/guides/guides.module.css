@@ -1,0 +1,20 @@
+.page { background: #f6f2e9; color: #10223e; min-height: 80vh; padding: clamp(24px, 5vw, 64px) max(20px, calc((100vw - 1100px) / 2)); }
+.page a { color: #3049b4; text-underline-offset: 4px; }
+.page a:hover { text-decoration: underline; }
+.header { border-bottom: 3px solid #10223e; padding: 24px 0 32px; }
+.header h1 { max-width: 950px; font: 600 clamp(2.3rem, 5vw, 4.8rem)/1.04 var(--font-display); letter-spacing: -.035em; overflow-wrap: anywhere; }
+.header p { max-width: 780px; font-size: 1.1rem; line-height: 1.65; margin: 22px 0; }
+.meta { display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: .86rem; color: #42536a; }
+.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 32px 0; list-style: none; padding: 0; }
+.cards li { padding: 24px; border: 1px solid #b8bfc8; background: #fffdf8; }
+.cards h2 { font-size: 1.6rem; line-height: 1.2; margin-bottom: 14px; }
+.cards p { line-height: 1.6; }
+.body { max-width: 800px; }
+.section { padding: 32px 0; border-bottom: 1px solid #b8bfc8; scroll-margin-top: 90px; }
+.section h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); line-height: 1.25; margin-bottom: 18px; }
+.section p { font-size: 1.06rem; line-height: 1.75; margin: 14px 0; }
+.section li { line-height: 1.65; margin: 12px 0; }
+.section ul, .section ol { padding-left: 22px; }
+.note { border-left: 3px solid #8d4b17; padding: 12px 20px; margin: 28px 0; line-height: 1.65; background: #fffaf0; }
+.links { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 20px; }
+@media (max-width: 680px) { .cards { grid-template-columns: 1fr; } .page { padding-inline: 18px; } }

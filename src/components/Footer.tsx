@@ -144,6 +144,7 @@ export default function Footer({ lang, variant = 'full', lockLang = false }: Foo
           </div>
           <nav className={styles.compactLinks} aria-label={activeLang === 'it' ? 'Link essenziali' : 'Essential links'}>
             <Link href="/knowledge"><FileText size={13} aria-hidden="true" />{t.knowledge}</Link>
+            <Link href={activeLang === 'it' ? '/guides?lang=it' : '/guides'}><FileText size={13} aria-hidden="true" />{activeLang === 'it' ? 'Guide' : 'Guides'}</Link>
             <Link href="/privacy"><Lock size={13} aria-hidden="true" />{t.privacy}</Link>
             <Link href="/terms"><FileText size={13} aria-hidden="true" />{t.terms}</Link>
             <Link href="/press-kit"><Newspaper size={13} aria-hidden="true" />{t.pressKit}</Link>
@@ -164,6 +165,7 @@ export default function Footer({ lang, variant = 'full', lockLang = false }: Foo
       links: [
         { href: activeLang === 'it' ? '/it/associazioni' : '/en/associations', label: t.associations, icon: UserRound },
         { href: '/knowledge', label: t.knowledge, icon: FileText },
+        { href: activeLang === 'it' ? '/guides?lang=it' : '/guides', label: activeLang === 'it' ? 'Guide alle policy' : 'Policy guides', icon: FileText },
         { href: '/observatory', label: t.observatory, icon: Search },
         { href: '/collections', label: t.collections, icon: FolderKanban },
         { href: '/leaderboard', label: t.leaderboard, icon: BarChart3 },

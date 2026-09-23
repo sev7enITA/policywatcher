@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased - 2026-09-23 SEO visibility improvements
+
+- Make public records usable without JavaScript and return real 404 responses for missing records.
+- Distinguish policy, region and recorded revision in metadata; remove AI risk scores from review schema.
+- Align change summaries with evidence classification, preserving original AI screening as clearly labeled history.
+- Add four policy-monitoring guides in English and Italian, contextual public records and reciprocal language links.
+- Complete social previews, fix URL-selected document languages and expose capture-age limitations.
+- Add optional webmaster verification tokens and a repeatable `seo:smoke` check. Deployment remains subject to the existing staging and promotion process.
+
+See `docs/seo-visibility-implementation-2026-09-23.md` for validation and remaining operational work.
+
 ## Unreleased
 
 ### Foundation Beta communications and release-date history

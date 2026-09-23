@@ -2,7 +2,7 @@ import type { ChangeClassification, ChangeExcerpt } from '@/lib/changeClassifica
 import { CHANGE_KIND_LABELS, changeClassificationDescription } from '@/lib/changeClassificationCopy';
 import styles from './ChangeClassification.module.css';
 
-interface Props { classification?: ChangeClassification | null; lang?: 'en' | 'it' }
+interface Props { classification?: ChangeClassification | null; lang?: 'en' | 'it'; headingLevel?: 2 | 3 }
 
 export function ChangeClassificationBadge({ classification, lang = 'en' }: Props) {
   const kind = classification?.kind ?? 'needs_review';
@@ -18,11 +18,13 @@ function Excerpt({ value }: { value: ChangeExcerpt }) {
   </blockquote>;
 }
 
-export default function ChangeClassificationPanel({ classification, lang = 'en' }: Props) {
+export default function ChangeClassificationPanel({ classification, lang = 'en', headingLevel = 3 }: Props) {
   const it = lang === 'it';
+  const Heading = headingLevel === 2 ? 'h2' : 'h3';
+  const ExcerptHeading = headingLevel === 2 ? 'h3' : 'h4';
   return <section className={styles.panel} aria-label={it ? 'Verifica della modifica' : 'Change verification'}>
     <div className={styles.heading}>
-      <h3>{it ? 'Cosa cambia davvero' : 'What actually changed'}</h3>
+      <Heading>{it ? 'Cosa cambia davvero' : 'What actually changed'}</Heading>
       <ChangeClassificationBadge classification={classification} lang={lang} />
     </div>
     <p>{changeClassificationDescription(classification, lang)}</p>
@@ -33,8 +35,8 @@ export default function ChangeClassificationPanel({ classification, lang = 'en' 
       <summary>{it ? 'Confronto prima / dopo' : 'Before / after comparison'} <span>({classification!.evidence.length}/{classification!.totalHunks})</span></summary>
       <p className={styles.note}>{it ? 'Estratti esatti degli snapshot. Evidenziazioni = testo modificato; il contesto non evidenziato può essere invariato. Il diff completo segue nell’analisi.' : 'Exact snapshot excerpts. Highlights show edited text; surrounding context can be unchanged. The full diff follows in the analysis.'}</p>
       {classification!.evidence.map((evidence, index) => <div className={styles.comparison} key={index}>
-        <div><h4>{it ? 'Prima' : 'Before'} · V{classification!.oldVersion ?? '?'}</h4><Excerpt value={evidence.before} /></div>
-        <div><h4>{it ? 'Dopo' : 'After'} · V{classification!.newVersion ?? '?'}</h4><Excerpt value={evidence.after} /></div>
+        <div><ExcerptHeading>{it ? 'Prima' : 'Before'} · V{classification!.oldVersion ?? '?'}</ExcerptHeading><Excerpt value={evidence.before} /></div>
+        <div><ExcerptHeading>{it ? 'Dopo' : 'After'} · V{classification!.newVersion ?? '?'}</ExcerptHeading><Excerpt value={evidence.after} /></div>
         {evidence.anchoredQuote && <p className={styles.anchor}>{it ? 'Clausola selezionata dall’AI e riscontrata nel testo modificato' : 'AI-selected clause located in the edited text'}: <q>{evidence.anchoredQuote.text}</q></p>}
       </div>)}
     </details>}

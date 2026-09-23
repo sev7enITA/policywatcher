@@ -1,4 +1,4 @@
-import styles from './RouteStatus.module.css';
+import styles from '../RouteStatus.module.css';
 
 export default function RootLoading() {
   return (

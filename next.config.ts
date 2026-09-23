@@ -6,6 +6,8 @@ const projectRoot = dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Keep canonical, language and social metadata in the initial head for every reader.
+  htmlLimitedBots: /.*/,
   allowedDevOrigins: ['127.0.0.1'],
   turbopack: {
     root: projectRoot,

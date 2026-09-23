@@ -1660,7 +1660,7 @@ export function buildPressKitPayload() {
     contact: {
       name: 'Fabrizio Degni',
       email: 'info@policywatcher.online',
-      linkedin: 'https://linkedin.com/in/fabriziodegni',
+      linkedin: 'https://www.linkedin.com/in/fdegni/',
       github: PRESS_KIT_REPOSITORY_URL,
       routes: pressKitContactRoutes,
     },

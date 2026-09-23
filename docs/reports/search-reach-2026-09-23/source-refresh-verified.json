@@ -1,0 +1,83 @@
+{
+  "id": "1d5b11cf-fb17-44b9-807b-d65a6364e0e4",
+  "status": "completed",
+  "startedAt": 1790183746668,
+  "completedAt": 1790184208763,
+  "selectedRecords": 50,
+  "uniqueSources": 46,
+  "uniqueAvailableSources": 42,
+  "uniqueUnavailableSources": 4,
+  "failureReason": null,
+  "metrics": {
+    "policyRecords": 50,
+    "uniqueSources": 46,
+    "networkRetrievals": 46,
+    "deduplicatedRetrievals": 4,
+    "uniqueAvailableSources": 42,
+    "uniqueUnavailableSources": 4,
+    "retrievalAttempts": 68,
+    "directSuccesses": 40,
+    "rendererRescues": 0,
+    "archiveRescues": 2,
+    "degradedDependencies": [
+      "wayback"
+    ],
+    "strategies": {
+      "direct": {
+        "attempted": 46,
+        "accepted": 40,
+        "failed": 6,
+        "skipped": 0,
+        "durationMs": 19512
+      },
+      "http2": {
+        "attempted": 6,
+        "accepted": 0,
+        "failed": 6,
+        "skipped": 0,
+        "durationMs": 1254
+      },
+      "rendered": {
+        "attempted": 6,
+        "accepted": 0,
+        "failed": 6,
+        "skipped": 0,
+        "durationMs": 22187
+      },
+      "wayback": {
+        "attempted": 6,
+        "accepted": 2,
+        "failed": 4,
+        "skipped": 0,
+        "durationMs": 65412
+      },
+      "commoncrawl": {
+        "attempted": 4,
+        "accepted": 0,
+        "failed": 4,
+        "skipped": 0,
+        "durationMs": 35984
+      }
+    }
+  },
+  "statusCounts": [
+    {
+      "status": "Available",
+      "records": 40
+    },
+    {
+      "status": "Needs Review",
+      "records": 6
+    },
+    {
+      "status": "Unavailable",
+      "records": 4
+    }
+  ],
+  "afterCounts": {
+    "Company": 18,
+    "Policy": 50,
+    "PolicySnapshot": 112,
+    "PolicyChange": 61
+  }
+}

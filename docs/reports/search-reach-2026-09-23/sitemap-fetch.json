@@ -1,0 +1,20 @@
+[
+  {
+    "agent": "Googlebot",
+    "status": 200,
+    "urls": 342,
+    "type": "application/xml"
+  },
+  {
+    "agent": "bingbot",
+    "status": 200,
+    "urls": 342,
+    "type": "application/xml"
+  },
+  {
+    "agent": "Mozilla/5.0",
+    "status": 200,
+    "urls": 342,
+    "type": "application/xml"
+  }
+]

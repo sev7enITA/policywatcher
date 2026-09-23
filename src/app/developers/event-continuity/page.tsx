@@ -1,3 +1,4 @@
+import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
@@ -14,12 +15,12 @@ import PublicHeader from '@/components/PublicHeader';
 import EventContinuityClient from './EventContinuityClient';
 import styles from './event-continuity.module.css';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: 'Event feed continuity | PolicyWatcher',
   description:
     'Inspect the anonymous PolicyWatcher change-event feed, save a browser-local checkpoint and review forward-polling continuity findings.',
   alternates: { canonical: '/developers/event-continuity' },
-};
+}, 'en');
 
 const protocol = [
   {

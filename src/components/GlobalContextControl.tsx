@@ -83,10 +83,10 @@ export function useGlobalContext(
 
   useEffect(() => {
     if (!ready) return;
-    document.documentElement.lang = lang;
+    // The URL selects the document language; local preferences only affect widgets.
     document.documentElement.dataset.policywatcherRegion = context.region;
     document.documentElement.dataset.policywatcherCountry = context.country;
-  }, [context.country, context.region, lang, ready]);
+  }, [context.country, context.region, ready]);
 
   const updateContext = useCallback((next: Partial<GlobalContext>) => {
     const stored = storeGlobalContext(next);

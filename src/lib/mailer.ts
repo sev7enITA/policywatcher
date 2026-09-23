@@ -200,7 +200,7 @@ function wrapInTemplate(bodyContent: string, email?: string, token?: string): st
               <p style="margin: 8px 0 0; font-size: 11px; color: #4b5563;">
                 <a href="${unsubscribeLink}" style="color: #6366f1; text-decoration: underline;">Unsubscribe</a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a href="https://linkedin.com/in/fabriziodegni" style="color: #6366f1; text-decoration: underline;">LinkedIn</a>
+                <a href="https://www.linkedin.com/in/fdegni/" style="color: #6366f1; text-decoration: underline;">LinkedIn</a>
               </p>
             </td>
           </tr>

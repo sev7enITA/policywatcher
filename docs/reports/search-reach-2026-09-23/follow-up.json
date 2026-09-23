@@ -1,0 +1,44 @@
+{
+  "checkedAt": "2026-09-23T18:20:15.589687+00:00",
+  "sitemap": {
+    "httpIpv4": 200,
+    "httpIpv6": 200,
+    "contentType": "application/xml",
+    "urls": 348,
+    "duplicates": 0,
+    "sha256": "e4107b1a3c663a008e563bb9106092755be3815ef4341739f955587aaab34223"
+  },
+  "googleLiveTest": {
+    "testedAtLocal": "2026-09-23T20:14:53+02:00",
+    "fetch": "successful",
+    "crawlAllowed": true,
+    "indexingAllowed": true,
+    "inspectionUrl": "https://search.google.com/search-console/inspect?resource_id=sc-domain%3Apolicywatcher.online&id=epKgV_1KGtAqVJxbFYD-qw&alt_id=l18cZNuEdVRopUpbHfSjJA"
+  },
+  "googleSitemapReport": {
+    "status": "Success",
+    "displayedStatus": "Riuscita",
+    "discoveredUrls": 348,
+    "lastRead": "2026-09-23",
+    "resubmissionAccepted": true,
+    "resolved": true
+  },
+  "bingSitemap": {
+    "status": "Success",
+    "discoveredUrls": 348,
+    "errors": 0,
+    "warnings": 0
+  },
+  "scheduler": {
+    "installed": true,
+    "activated": false,
+    "reason": "Hostinger panel inaccessible while Mac is locked; no system crontab available",
+    "localTestsPassed": 10,
+    "serverTestsPassed": 10,
+    "serverCheck": "ready",
+    "executionProbe": "skipped_recent_full_scan",
+    "scanStarted": false,
+    "digestInvoked": false,
+    "serverPath": "/home/u847874844/policywatcher-ops/hostinger-scheduled-scan.py"
+  }
+}

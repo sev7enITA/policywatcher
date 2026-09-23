@@ -14,7 +14,6 @@ import {
   POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE,
 } from '@/lib/release';
 import styles from './browserExtension.module.css';
-import { useState } from 'react';
 
 type Lang = 'it' | 'en';
 
@@ -69,8 +68,7 @@ const copy = {
   },
 } as const;
 
-export default function BrowserExtensionClient({ storeLinks }: { storeLinks: BrowserExtensionStoreLinks }) {
-  const [lang, setLang] = useState<Lang>('it');
+export default function BrowserExtensionClient({ storeLinks, lang = 'en' }: { storeLinks: BrowserExtensionStoreLinks; lang?: Lang }) {
   const t = copy[lang];
   const stores = [
     { id: 'chrome' as const, name: t.chrome, body: t.chromeBody, icon: Globe2 },
@@ -81,7 +79,7 @@ export default function BrowserExtensionClient({ storeLinks }: { storeLinks: Bro
   return <main className={styles.shell}>
     <header className={styles.header}>
       <Link href="/" className={styles.brand}><Image src="/logo-mark.png" width={32} height={32} alt="" /><span>PolicyWatcher</span></Link>
-      <div><Link href="/what-changed"><ArrowLeft aria-hidden="true" />{t.back}</Link><button type="button" onClick={() => setLang(lang === 'it' ? 'en' : 'it')}><Languages aria-hidden="true" />{t.switchLanguage}</button></div>
+      <div><Link href="/what-changed"><ArrowLeft aria-hidden="true" />{t.back}</Link><Link href={lang === 'it' ? '/browser-extension' : '/browser-extension?lang=it'}><Languages aria-hidden="true" />{t.switchLanguage}</Link></div>
     </header>
 
     <section className={styles.hero}>
