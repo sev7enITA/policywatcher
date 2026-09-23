@@ -1,4 +1,4 @@
-# Pubblicazione SEO PolicyWatcher — 23 settembre 2026
+# Pubblicazione SEO PolicyWatcher - 23 settembre 2026
 
 La versione SEO è pubblicata e verificata su **https://policywatcher.online**. Verifica conclusa il 23 settembre 2026 alle **06:26 CEST**. La richiesta esplicita di pubblicazione in questo task ha autorizzato la promozione, eseguita dopo il superamento dello staging.
 

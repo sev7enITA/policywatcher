@@ -31,7 +31,7 @@ export default async function GuidePage({ params, searchParams }: Props) {
     mainEntityOfPage: localizedPublicUrl(path, lang), inLanguage: lang, dateModified: guide.updatedAt,
     author: { '@type': 'Organization', '@id': PUBLISHER_ID, name: 'PolicyWatcher', url: 'https://policywatcher.online/about' }, publisher: { '@id': PUBLISHER_ID },
     image: DEFAULT_SOCIAL_IMAGE, isAccessibleForFree: true,
-    citation: ['https://policywatcher.online/methodology/confidence', 'https://policywatcher.online/knowledge'],
+    citation: ['https://policywatcher.online/methodology/confidence', ...(t.sources || []).map((source) => new URL(source.href, 'https://policywatcher.online').href)],
   };
   return <><PublicHeader current="guides" lang={lang} lockLang /><main className={styles.page}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\u003c') }} />
@@ -41,6 +41,7 @@ export default async function GuidePage({ params, searchParams }: Props) {
     </header><div className={styles.body}>
       <nav className={styles.section} aria-label={lang === 'it' ? 'In questa guida' : 'On this page'}><ol>{t.sections.map((section, index) => <li key={section.heading}><a href={`#step-${index + 1}`}>{section.heading}</a></li>)}</ol><a href="#public-records">{lang === 'it' ? 'Policy pubbliche pertinenti' : 'Relevant public policies'}</a></nav>
       {t.sections.map((section, index) => <section className={styles.section} id={`step-${index + 1}`} key={section.heading}><h2>{section.heading}</h2>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}
+      {t.sources && <section className={styles.section} id="sources"><h2>{lang === 'it' ? 'Fonti e documenti del caso' : 'Case sources and records'}</h2><ul>{t.sources.map((source) => <li key={source.href}><a href={source.href}>{source.label}</a></li>)}</ul></section>}
       <section className={styles.section}><h2>{lang === 'it' ? 'Controlli prima di condividere' : 'Before you share a finding'}</h2><ul>{t.checklist.map((item) => <li key={item}>{item}</li>)}</ul></section>
       <section className={styles.section} id="public-records"><h2>{lang === 'it' ? 'Policy pubbliche pertinenti' : 'Relevant public policies'}</h2>
         <p>{lang === 'it' ? 'Questi collegamenti includono soltanto schede che superano i controlli di pubblicazione. Non rappresentano una copertura completa del mercato né una raccomandazione dei fornitori.' : 'These links include only records that pass the publication gate. They do not represent complete market coverage or a recommendation of the providers.'}</p>

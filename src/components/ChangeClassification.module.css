@@ -1,6 +1,6 @@
 .panel { padding: 20px; margin: 0 0 24px; border: 1px solid var(--border-color, rgba(128,128,128,.3)); border-radius: 14px; background: var(--bg-secondary, rgba(128,128,128,.05)); color: var(--text-main); min-width: 0; }
 .heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-.heading h3 { font-size: 1.05rem; margin: 0; }
+.heading h2, .heading h3 { font-size: 1.05rem; margin: 0; }
 .panel p { font-size: .86rem; line-height: 1.65; margin: 12px 0; }
 .badge { display: inline-flex; padding: 5px 9px; border: 1px solid currentColor; border-radius: 6px; color: var(--text-body); font-size: .75rem; line-height: 1.4; font-weight: 600; max-width: 100%; }
 .badge[data-change-kind="substantive"] { color: #854d0e; }
@@ -10,7 +10,7 @@
 .evidence summary, .provenance summary { cursor: pointer; font-size: .85rem; padding: 10px 0; font-weight: 600; }
 .evidence summary:focus-visible, .provenance summary:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
 .comparison { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 14px; padding: 14px 0; border-top: 1px solid var(--border-color, rgba(128,128,128,.3)); }
-.comparison h4 { margin: 0 0 8px; font-size: .78rem; color: var(--text-body); }
+.comparison h3, .comparison h4 { margin: 0 0 8px; font-size: .78rem; color: var(--text-body); }
 .quote { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-family: inherit; font-size: .8rem; line-height: 1.75; }
 .quote mark { color: inherit; background: rgba(234,179,8,.22); text-decoration: underline; text-decoration-color: var(--primary); text-underline-offset: 3px; }
 .anchor { grid-column: 1 / -1; padding: 10px; background: rgba(128,128,128,.08); overflow-wrap: anywhere; }

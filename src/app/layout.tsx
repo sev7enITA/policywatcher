@@ -44,7 +44,8 @@ export const metadata: Metadata = {
   robots: { 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 },
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
-    other: process.env.BING_SITE_VERIFICATION ? { 'msvalidate.01': process.env.BING_SITE_VERIFICATION } : undefined,
+    // Public ownership token supplied by the site's Bing Webmaster account.
+    other: { 'msvalidate.01': process.env.BING_SITE_VERIFICATION || '39A169BCC63989D39C99A4A1F841410C' },
   },
   icons: {
     icon: '/logo.png',

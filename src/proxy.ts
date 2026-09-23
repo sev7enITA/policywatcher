@@ -194,9 +194,20 @@ export function getCanonicalHostRedirect(request: NextRequest): URL | null {
   const requestHostname = request.nextUrl.hostname.toLowerCase().replace(/\.$/, '');
   const observedHostnames = [forwardedHostname, hostHostname, requestHostname];
 
-  if (!observedHostnames.includes(POLICYWATCHER_WWW_HOSTNAME)) return null;
+  const legacyHost = observedHostnames.includes(POLICYWATCHER_WWW_HOSTNAME);
+  const defaultLanguage = ['GET', 'HEAD'].includes(request.method)
+    && /^\/(change\/[^/]+|pulse\/[^/]+|share\/[^/]+|embed\/pulse\/[^/]+|guides(?:\/[^/]+)?|browser-extension)\/?$/.test(request.nextUrl.pathname)
+    && request.nextUrl.searchParams.getAll('lang').length === 1
+    && request.nextUrl.searchParams.get('lang') === 'en';
+  if (!legacyHost && !defaultLanguage) return null;
 
-  return new URL(`${request.nextUrl.pathname}${request.nextUrl.search}`, `${POLICYWATCHER_CANONICAL_ORIGIN}/`);
+  // Keep staging/local requests on their own origin. Consolidate www and the
+  // redundant English selector in one hop without removing unrelated filters.
+  const target = legacyHost
+    ? new URL(`${request.nextUrl.pathname}${request.nextUrl.search}`, `${POLICYWATCHER_CANONICAL_ORIGIN}/`)
+    : request.nextUrl.clone();
+  if (defaultLanguage) target.searchParams.delete('lang');
+  return target;
 }
 
 export function proxy(request: NextRequest) {

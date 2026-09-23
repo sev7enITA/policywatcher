@@ -1,3 +1,4 @@
+import RelatedPolicyGuides from '@/components/RelatedPolicyGuides';
 import CaptureFreshness from '@/components/CaptureFreshness';
 import PublicBreadcrumbs from '@/components/PublicBreadcrumbs';
 import { withSocialMetadata } from '@/lib/seo';
@@ -110,6 +111,8 @@ export default async function PolicyKnowledgePage({ params }: PolicyPageProps) {
                 <Link href="/methodology/confidence">Publication methodology</Link>
                 <Link href="/evidence">Public evidence register</Link>
               </nav>
+
+              <section className={styles.section}><RelatedPolicyGuides policy={policy} /></section>
 
               <section className={styles.section} aria-labelledby="baselines-title">
                 <div className={styles.sectionHead}><div><p className={styles.kicker}>Published evidence</p><h2 id="baselines-title">Baseline metadata</h2></div><p>Hashes identify published baseline records. They do not expose the underlying raw source text.</p></div>

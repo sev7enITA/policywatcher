@@ -68,6 +68,19 @@ describe('public canonical URL contract', () => {
     expect(response.headers.get('location')).toBe('https://policywatcher.online/change/example?lang=it');
   });
 
+  it('consolidates the default language in one hop and preserves translated and API URLs', () => {
+    for (const origin of ['https://policywatcher.online', 'https://www.policywatcher.online']) {
+      const response = proxy(new NextRequest(`${origin}/change/example?lang=en&utm_source=reference`));
+      expect(response.status).toBe(308);
+      expect(response.headers.get('location')).toBe('https://policywatcher.online/change/example?utm_source=reference');
+    }
+    for (const path of ['/api/v1/observatory?lang=en', '/admin?lang=en', '/guides?lang=it', '/guides?lang=en&lang=it']) {
+      expect(getCanonicalHostRedirect(new NextRequest(`https://policywatcher.online${path}`))).toBeNull();
+    }
+    expect(getCanonicalHostRedirect(new NextRequest('https://staging.policywatcher.online/guides?lang=en'))?.origin).toBe('https://staging.policywatcher.online');
+    expect(getCanonicalHostRedirect(new NextRequest('https://policywatcher.online/guides?lang=en', { method: 'POST' }))).toBeNull();
+  });
+
   it('permanently redirects the legacy Civic route and preserves its filters', () => {
     const response = proxy(new NextRequest('https://policywatcher.online/associazioni?civic_type=privacy-data#organizzazioni'));
     expect(response.status).toBe(308);

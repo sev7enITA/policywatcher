@@ -1,3 +1,4 @@
+import RelatedPolicyGuides from '@/components/RelatedPolicyGuides';
 import { changeClassificationDescription } from '@/lib/changeClassificationCopy';
 import { cache } from 'react';
 import PublicBreadcrumbs from '@/components/PublicBreadcrumbs';
@@ -212,7 +213,7 @@ export default async function ChangePage({
   };
 
   return (
-    <div className={styles.page}>
+    <main className={styles.page}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: toSafeJsonLd(jsonLd) }}
@@ -263,7 +264,7 @@ export default async function ChangePage({
           </p>
         </header>
 
-        <ChangeClassificationPanel classification={classification} lang={lang} />
+        <ChangeClassificationPanel classification={classification} lang={lang} headingLevel={2} />
 
         {/* Score + meta row */}
         <div className={styles.scoreCard}>
@@ -349,6 +350,8 @@ export default async function ChangePage({
           </section>
         )}
 
+        <section className={styles.section}><RelatedPolicyGuides policy={change.policy} lang={lang} /></section>
+
         {/* Actions */}
         <div className={styles.actions}>
           <a
@@ -395,7 +398,7 @@ export default async function ChangePage({
           </p>
         </footer>
       </div>
-    </div>
+    </main>
   );
 }
 
