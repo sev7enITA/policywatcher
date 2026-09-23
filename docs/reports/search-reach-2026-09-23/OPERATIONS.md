@@ -1,12 +1,12 @@
 # Verifica successiva e scansione pianificata
 
-Aggiornamento del 23 settembre 2026, ore 20:22 CEST.
+Aggiornamento del 23 settembre 2026, ore 20:24 CEST.
 
 ## Sitemap
 
 Bing Webmaster Tools mostra **Success**, **348 URL rilevati**, zero errori e zero avvisi. Il conteggio coincide con l'XML pubblico e non costituisce una prova di indicizzazione di tutte le pagine.
 
-Il test live di Search Console delle 20:14:53 CEST ha recuperato `https://policywatcher.online/sitemap.xml` con **esito positivo**: scansione consentita, URL disponibile per Google. La verifica è eseguita dallo strumento di ispezione Google per smartphone, non da un semplice client che ne imita lo User-Agent. Il report Sitemap continua tuttavia a mostrare “Impossibile recuperare” e zero URL rilevati. Il file è stato reinviato dopo questo test; non si considera risolto il report prima del suo aggiornamento.
+Il test live di Search Console delle 20:14:53 CEST ha recuperato `https://policywatcher.online/sitemap.xml` con **esito positivo**: scansione consentita, URL disponibile per Google. La verifica è eseguita dallo strumento di ispezione Google per smartphone, non da un semplice client che ne imita lo User-Agent. Dopo il reinvio, il report Sitemap è passato a **“Riuscita”**, tipo Sitemap, ultima lettura 23 settembre 2026 e **348 pagine rilevate**. Il problema di lettura della sitemap è quindi risolto anche nel report ufficiale. Questo risultato prova il recupero e la lettura del file, non l’indicizzazione di tutti gli URL.
 
 Ulteriori controlli indipendenti: HTTP 200 sia IPv4 sia IPv6, `application/xml`, XML valido, 348 URL univoci dello stesso dominio canonico. Non sono emerse ragioni per modificare DNS o robots.txt. La [procedura ufficiale Google](https://support.google.com/webmasters/answer/7451001?hl=en) distingue il recupero live dalla successiva lettura nel report Sitemap.
 
