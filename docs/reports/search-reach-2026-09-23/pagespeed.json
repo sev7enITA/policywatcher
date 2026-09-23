@@ -1,0 +1,26 @@
+{
+  "url": "https://pagespeed.web.dev/analysis/https-policywatcher-online-change-6851aafc-7813-4bf9-aef3-794dc09cba9f/ymuv0hw6i8?form_factor=mobile",
+  "testedUrl": "https://policywatcher.online/change/6851aafc-7813-4bf9-aef3-794dc09cba9f",
+  "capturedAt": "2026-09-23T19:39:00+02:00",
+  "mode": "mobile lab, emulated Moto G Power, slow 4G",
+  "scores": {
+    "performance": 99,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "agenticBrowsing": "3/3"
+  },
+  "fcpSeconds": 1.2,
+  "lcpSeconds": 2.0,
+  "tbtMs": 10,
+  "cls": 0,
+  "speedIndexSeconds": 1.2,
+  "crux": "No data",
+  "previousSamePage": {
+    "performance": 98,
+    "accessibility": 92,
+    "bestPractices": 100,
+    "seo": 100,
+    "agenticBrowsing": "2/3"
+  }
+}

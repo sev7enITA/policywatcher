@@ -1,0 +1,58 @@
+{
+  "recordedAt": "2026-09-23T17:35:25.612087+00:00",
+  "google": {
+    "sitemap": "https://policywatcher.online/sitemap.xml",
+    "submission": "accepted",
+    "processing": "could-not-read",
+    "indexingRequests": [
+      {
+        "url": "https://policywatcher.online/guides/privacy-policy-changes?lang=it",
+        "status": "accepted-priority-crawl-queue"
+      },
+      {
+        "url": "https://policywatcher.online/change/6851aafc-7813-4bf9-aef3-794dc09cba9f",
+        "status": "accepted-priority-crawl-queue"
+      },
+      {
+        "url": "https://policywatcher.online/guides/meta-automated-data-collection-terms",
+        "status": "accepted-priority-crawl-queue"
+      },
+      {
+        "url": "https://policywatcher.online/guides/aws-data-processing-addendum-dpa",
+        "status": "accepted-priority-crawl-queue"
+      },
+      {
+        "url": "https://policywatcher.online/guides/anthropic-acceptable-use-policy",
+        "status": "accepted-priority-crawl-queue"
+      }
+    ],
+    "postDeploymentResubmission": "accepted: Sitemap inviata; processing result not yet confirmed"
+  },
+  "scamadviser": {
+    "url": "https://www.scamadviser.com/check-website/policywatcher.online",
+    "action": "Update Score",
+    "beforeScore": 9,
+    "afterScore": 55,
+    "afterLabel": "Caution Recommended",
+    "previousIpqsWarningsVisibleAfterUpdate": false,
+    "note": "Third-party score, not Google ranking or a safety certification."
+  },
+  "bing": {
+    "ownership": "verified-by-deployed-meta-token",
+    "sitemap": "submitted-processing",
+    "sitemapUrl": "https://policywatcher.online/sitemap.xml",
+    "aiPerformance": {
+      "period": "2026-06-23/2026-09-22",
+      "displayedCitations": 0,
+      "displayedAverageCitedPages": 0,
+      "table": "No data available",
+      "interpretation": "Initial newly verified property view; not proof of no citations across AI services."
+    }
+  },
+  "indexNow": {
+    "submittedAt": "2026-09-23T17:38:40.466Z",
+    "httpStatus": 202,
+    "urls": 11,
+    "meaning": "received, validation/processing pending; no indexing guarantee"
+  }
+}
