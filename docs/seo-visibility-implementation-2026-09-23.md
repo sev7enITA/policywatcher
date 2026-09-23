@@ -2,7 +2,7 @@
 
 ## Stato e provenienza
 
-Implementazione completata e verificata localmente su una build di produzione Next.js e un database SQLite sintetico. Il sito online e il database di produzione non sono stati modificati. I numeri di verifica riportati sotto riguardano il candidato locale, non una nuova scansione della produzione dopo il rilascio.
+Implementazione pubblicata su `https://policywatcher.online` il 23 settembre 2026, dopo verifica sullo staging indipendente. Il rilascio usa il commit `cb799bcf7cbe65d554dae1bc09decc6a95931c92` e lo stesso archivio immutabile su entrambi gli ambienti. La scansione successiva alla pubblicazione ha verificato **318/318 URL della sitemap** senza errori SEO; dati ed evidenze preesistenti sono conservati. Dettagli e limiti nel [rapporto di pubblicazione](seo-visibility-deployment-2026-09-23.md). I numeri della sezione Verifiche sottostante documentano invece le prove locali sul database sintetico.
 
 Base: commit `ca6bb395f2a7ecd7d3128d501b8f8dba978e7fcf`, branch `codex/change-classification`, indicato nel rapporto di deployment dell'11 settembre come sorgente della release pubblicata. Branch di lavoro: `codex/seo-visibility-20260923`. Versione applicativa mantenuta a `4.0.0-beta.3`; il candidato è distinguibile mediante commit, etichetta dell'archivio e SHA-256.
 
