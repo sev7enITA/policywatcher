@@ -1,3 +1,4 @@
+import { publicRequestLanguage } from '@/lib/seo';
 import { NextRequest, NextResponse } from 'next/server';
 import {
   ADMIN_API_RESPONSE_HEADERS,
@@ -254,7 +255,7 @@ export function proxy(request: NextRequest) {
 
   requestHeaders.set('x-nonce', nonce);
   requestHeaders.set('Content-Security-Policy', csp);
-  requestHeaders.set('x-policywatcher-locale', request.nextUrl.pathname.startsWith('/it/') ? 'it' : 'en');
+  requestHeaders.set('x-policywatcher-locale', publicRequestLanguage(request.nextUrl.pathname, request.nextUrl.searchParams.get('lang')));
 
   const response = NextResponse.next({
     request: {

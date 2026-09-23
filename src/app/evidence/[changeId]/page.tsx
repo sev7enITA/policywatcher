@@ -1,3 +1,5 @@
+import PublicBreadcrumbs from '@/components/PublicBreadcrumbs';
+import { recordIdentity, withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -72,18 +74,19 @@ export async function generateMetadata({ params }: EvidenceDetailPageProps): Pro
       return { title: 'Evidence Packet not found | PolicyWatcher', robots: { index: false } };
     }
     const canonical = `${POLICYWATCHER_CANONICAL_ORIGIN}/evidence/${packet.changeId}`;
-    return {
-      title: `${packet.company.name} Evidence Packet | PolicyWatcher`,
-      description: `Source confidence, explainability, advisory governance mapping and report output for change ${packet.changeId}.`,
+    const identity = recordIdentity({ company: packet.company.name, policy: packet.policy.name, jurisdiction: packet.policy.jurisdiction, date: packet.screeningDate, version: packet.snapshots.current.version });
+    return withSocialMetadata({
+      title: `${identity} - Evidence | PolicyWatcher`,
+      description: `Sources, recorded versions and evidence for ${identity}. AI screening is separate from the impact of the revision.`,
       alternates: { canonical },
       openGraph: {
-        title: `${packet.company.name} Evidence Packet`,
-        description: `Public evidence and provenance for change ${packet.changeId}.`,
+        title: `${identity} - Evidence`,
+        description: `Inspect the sources, timestamps and recorded versions for ${identity}.`,
         url: canonical,
         type: 'article',
         modifiedTime: packet.screeningDate,
       },
-    };
+    });
   } catch {
     return { title: 'Evidence Packet | PolicyWatcher', robots: { index: false } };
   }
@@ -132,6 +135,7 @@ export default async function EvidenceDetailPage({ params }: EvidenceDetailPageP
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
         />
         <article className={`${styles.shell} ${styles.packet}`}>
+          <PublicBreadcrumbs items={[{ name: 'Evidence', path: '/evidence' }, { name: `${packet.company.name} ${packet.policy.name} (${packet.policy.jurisdiction}) · ${packet.screeningDate.slice(0, 10)}`, path: packetUrl }]} />
           <nav className={styles.backRow} aria-label="Evidence packet navigation">
             <Link href="/evidence"><ArrowLeft size={15} aria-hidden="true" /> Evidence register</Link>
             <span>Schema {packet.schemaVersion} · Mapping {packet.mappingVersion}</span>
@@ -140,7 +144,7 @@ export default async function EvidenceDetailPage({ params }: EvidenceDetailPageP
           <header className={styles.packetHeader}>
             <div className={styles.packetIdentity}>
               <p className={styles.kicker}>Public Evidence Packet</p>
-              <h1>{packet.company.name}</h1>
+              <h1>{packet.company.name} - {packet.policy.name}</h1>
               <p className={styles.packetPolicy}>{packet.policy.name}</p>
               <code title={packet.changeId}>{packet.changeId}</code>
             </div>

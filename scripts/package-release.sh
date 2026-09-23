@@ -70,7 +70,7 @@ if ! git -C "${APP_DIR}" diff --quiet || ! git -C "${APP_DIR}" diff --cached --q
     src/lib/documentEvidenceMigration.ts src/app/api/v1/publication-readiness/route.ts \
     src/lib/encryptedBackup.ts src/app/api/live/route.ts \
     src/app/api/subscribers/confirm/route.ts src/app/confirm-subscription/layout.tsx \
-    src/app/confirm-subscription/page.tsx src/app/error.tsx src/app/loading.tsx \
+    src/app/confirm-subscription/page.tsx src/app/error.tsx src/app/admin/loading.tsx \
     src/app/RouteStatus.module.css \
     public/press-kit/policywatcher-fact-sheet-en-2026-08-20.pdf \
     public/press-kit/policywatcher-fact-sheet-en-2026-08-20.txt \
@@ -103,6 +103,7 @@ fi
 required_sources=(
   package.json package-lock.json next.config.ts tsconfig.json server.js design-qa.md
   README.md HOSTINGER-DEPLOY.md CHANGELOG.md SECURITY.md LICENSE .env.example public src prisma scripts integrations evals data
+  docs/seo-visibility-implementation-2026-09-23.md
   docs/dataset-confidence-audit-2026-07-05.md docs/audit-v3.6.5.md
   docs/audit-v3.7.0.md docs/audit-v3.7.1.md docs/audit-v3.7.2.md docs/audit-v3.8.0.md docs/audit-v3.8.1.md docs/audit-v3.8.2.md docs/audit-v3.8.3.md docs/audit-v3.8.3-beta.2.md docs/audit-v3.8.3-beta.3.md docs/audit-v3.8.3-beta.4.md docs/beta-evidence-cycle-v3.8.3.md docs/platform-state-of-art-2026-07-05.md
   docs/audit-v3.9.0-beta.1.md docs/audit-v3.9.0-beta.2.md docs/audit-v3.9.0-beta.3.md docs/audit-v3.9.0-beta.4.md docs/audit-v3.9.0-beta.5.md docs/audit-v3.9.0-beta.6.md docs/audit-v3.9.0-beta.7.md docs/audit-v3.9.0-beta.8.md docs/audit-v3.9.0-beta.9.md docs/audit-v3.9.0-beta.10.md docs/audit-v3.9.0-beta.11.md docs/audit-v3.9.0-beta.12.md docs/audit-v3.9.0-beta.13.md docs/audit-v3.9.0-beta.14.md docs/audit-v3.9.0-beta.15.md docs/audit-v3.9.0-beta.16.md docs/audit-v3.9.0-beta.17.md docs/audit-v3.9.0-beta.18.md docs/audit-v3.9.0-beta.19.md docs/audit-v3.9.0-beta.20.md docs/audit-v3.9.0-beta.21.md docs/audit-v3.9.0-beta.22.md docs/audit-v3.9.0-beta.23.md docs/audit-v3.9.0-beta.24.md docs/audit-v3.9.0-beta.25.md docs/audit-v3.9.0-beta.26.md docs/audit-v3.9.0-beta.27.md docs/audit-v3.9.0-beta.28.md docs/audit-v3.9.0-beta.29.md docs/audit-v3.9.0-beta.30.md docs/audit-v3.9.0-beta.31.md docs/audit-v3.9.0-beta.32.md docs/audit-v3.9.0-beta.33.md docs/audit-v3.9.0-beta.34.md docs/audit-v3.9.0-beta.35.md docs/audit-v3.9.0-beta.36.md docs/audit-v3.9.0-beta.37.md docs/audit-v3.9.0-beta.38.md docs/audit-v3.9.0-beta.39.md docs/audit-v3.9.0-beta.40.md docs/audit-v3.9.0-beta.41.md docs/audit-v3.9.0-beta.42.md docs/audit-v4.0.0-beta.1.md docs/associations-vertical.md docs/crawlable-public-knowledge-layer.md docs/platform-state-of-art-2026-07-05.it.md docs/third-party-validation.md docs/public-api-v1.md docs/integrations.md docs/source-reliability.md docs/azure/enterprise-api-v2.md docs/azure/apim-policy.xml
@@ -175,7 +176,7 @@ while IFS= read -r untracked; do
     prisma/migrations/20260820100000_document_evidence_model/migration.sql|src/app/api/v1/publication-readiness/route.ts|src/lib/publicEvidenceIds.ts|src/lib/provisionTaxonomy.ts|src/lib/publicationReadinessServer.ts|src/lib/documentEvidenceSync.ts|src/lib/documentEvidenceReconciliation.ts|src/lib/documentEvidenceMigration.ts|src/lib/__tests__/documentEvidenceMigration.test.ts|scripts/backfill-document-evidence.ts|scripts/reconcile-document-evidence.ts|scripts/smoke-document-evidence-dual-write.ts|scripts/gate-document-evidence-activation.ts)
       continue
       ;;
-    prisma/migrations/20260820130000_scan_run_lifecycle/migration.sql|prisma/migrations/20260820133000_subscriber_double_opt_in/migration.sql|src/lib/encryptedBackup.ts|src/app/api/live/route.ts|src/app/api/subscribers/confirm/route.ts|src/app/confirm-subscription/layout.tsx|src/app/confirm-subscription/page.tsx|src/app/error.tsx|src/app/loading.tsx|src/app/RouteStatus.module.css)
+    prisma/migrations/20260820130000_scan_run_lifecycle/migration.sql|prisma/migrations/20260820133000_subscriber_double_opt_in/migration.sql|src/lib/encryptedBackup.ts|src/app/api/live/route.ts|src/app/api/subscribers/confirm/route.ts|src/app/confirm-subscription/layout.tsx|src/app/confirm-subscription/page.tsx|src/app/error.tsx|src/app/admin/loading.tsx|src/app/RouteStatus.module.css)
       continue
       ;;
     public/press-kit/policywatcher-v4-foundation-beta-en-2026-08-20.png|public/press-kit/policywatcher-v4-foundation-beta-en-2026-08-20.webp|public/press-kit/policywatcher-v4-beta2-value-infographic-en-2026-08-20.png|public/press-kit/policywatcher-v4-beta2-value-infographic-en-2026-08-20.webp|public/press-kit/policywatcher-fact-sheet-en-2026-08-19.pdf|public/press-kit/policywatcher-fact-sheet-en-2026-08-19.txt|public/press-kit/policywatcher-fact-sheet-it-2026-08-19.pdf|public/press-kit/policywatcher-fact-sheet-it-2026-08-19.txt)
@@ -358,7 +359,10 @@ required_entries=(
   src/app/api/v1/publication-readiness/route.ts docs/document-evidence-model.md
   docs/document-evidence-backfill-runbook.md docs/audit-v4.0.0-beta.1-wave-1b.md
   docs/audit-v4.0.0-beta.2-assessment-remediation.md docs/audit-v4.0.0-beta.3-ai-discoverability.md docs/client-compatibility-matrix-v4.md
-  src/app/error.tsx src/app/loading.tsx src/app/RouteStatus.module.css
+  scripts/seo-public-smoke.mjs docs/seo-visibility-implementation-2026-09-23.md
+  src/lib/seo.ts src/lib/policyGuides.ts src/app/guides/page.tsx src/app/guides/'[slug]'/page.tsx
+  src/components/PublicBreadcrumbs.tsx src/components/CaptureFreshness.tsx src/components/DocumentLanguage.tsx
+  src/app/error.tsx src/app/admin/loading.tsx src/app/RouteStatus.module.css
   src/components/Footer.tsx src/components/Footer.module.css
   src/app/api/cron/check-all/route.ts src/lib/sourceReliability.ts
   src/lib/gemini.ts src/lib/geminiPolicySchema.ts src/app/admin/explainability/page.tsx

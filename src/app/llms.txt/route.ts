@@ -9,6 +9,8 @@ PolicyWatcher is a public evidence laboratory that records verified policy basel
 - Global consumer-association and digital-rights directory with country, type and verification-source filters: ${POLICYWATCHER_ORIGIN}/en/associations#organizzazioni
 - Civic public-evidence workspace with country and regulatory context: ${POLICYWATCHER_ORIGIN}/en/associations#radar
 - Italian localized Civic workspace: ${POLICYWATCHER_ORIGIN}/it/associazioni
+- Policy monitoring guides (English): ${POLICYWATCHER_ORIGIN}/guides
+- Guide al monitoraggio delle policy (Italiano): ${POLICYWATCHER_ORIGIN}/guides?lang=it
 - Knowledge base: ${POLICYWATCHER_ORIGIN}/knowledge
 - Evidence packets: ${POLICYWATCHER_ORIGIN}/evidence
 - Confidence methodology: ${POLICYWATCHER_ORIGIN}/methodology/confidence

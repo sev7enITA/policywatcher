@@ -1,3 +1,4 @@
+import { withSocialMetadata } from '@/lib/seo';
 /* eslint-disable @next/next/no-img-element -- External workflow badges are provider-hosted SVG evidence links. */
 import type { Metadata } from 'next';
 import type { LucideIcon } from 'lucide-react';
@@ -21,12 +22,12 @@ import PublicHeader from '@/components/PublicHeader';
 import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';
 import styles from './trust.module.css';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: 'Trust and quality controls | PolicyWatcher',
   description:
     'Automated quality, security, and dataset assurance evidence for PolicyWatcher.',
   alternates: { canonical: '/trust' },
-};
+}, 'en');
 
 type Tone = 'green' | 'blue' | 'amber' | 'violet' | 'slate';
 

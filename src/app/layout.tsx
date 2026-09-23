@@ -10,6 +10,8 @@
  * All pages in the application inherit this layout.
  */
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
+import DocumentLanguage from '@/components/DocumentLanguage';
 import { Titillium_Web } from 'next/font/google';
 import { connection } from 'next/server';
 import { headers } from 'next/headers';
@@ -38,7 +40,12 @@ export const metadata: Metadata = {
   title: 'PolicyWatcher - AI Policy Change Monitor',
   description: 'Monitor, compare, and analyze public Tech and FinTech policy changes over time with AI-assisted evidence mapping, multi-region impact views, and dataset QA indicators.',
   keywords: ['policy monitoring', 'policy change', 'GDPR', 'AI governance', 'FinTech', 'privacy policy', 'terms of service'],
-  authors: [{ name: 'Fabrizio Degni' }],
+  authors: [{ name: 'Fabrizio Degni', url: `${POLICYWATCHER_CANONICAL_ORIGIN}/about` }],
+  robots: { 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+    other: process.env.BING_SITE_VERIFICATION ? { 'msvalidate.01': process.env.BING_SITE_VERIFICATION } : undefined,
+  },
   icons: {
     icon: '/logo.png',
     apple: '/logo.png',
@@ -93,6 +100,7 @@ export default async function RootLayout({
           </aside>
         ) : null}
         {children}
+        <Suspense fallback={null}><DocumentLanguage /></Suspense>
       </body>
     </html>
   );

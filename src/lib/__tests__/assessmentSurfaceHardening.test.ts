@@ -29,9 +29,10 @@ describe('assessment-driven surface hardening', () => {
     expect(dashboard).toContain('onClick={() => void fetchCompanies()}');
   });
 
-  it('has explicit root loading and error boundaries', () => {
+  it('keeps error recovery and scopes loading placeholders to the private admin workspace', () => {
     expect(existsSync('src/app/error.tsx')).toBe(true);
-    expect(existsSync('src/app/loading.tsx')).toBe(true);
+    expect(existsSync('src/app/loading.tsx')).toBe(false);
+    expect(existsSync('src/app/admin/loading.tsx')).toBe(true);
     expect(readFileSync('src/app/error.tsx', 'utf8')).toContain('No missing evidence or healthy status is inferred');
   });
 

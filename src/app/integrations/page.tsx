@@ -1,3 +1,4 @@
+import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
@@ -31,12 +32,12 @@ import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
 import styles from './integrations.module.css';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: 'Integrations | PolicyWatcher',
   description:
     'PolicyWatcher integration architecture: public and Entra-authenticated APIs, Microsoft 365 Copilot, Vertex AI Agent Builder, Amazon Quick, Word, Power Platform, embeds, and feeds.',
   alternates: { canonical: '/integrations' },
-};
+}, 'en');
 
 const decisions = [
   { job: 'Public read and discovery', path: 'Public API v1', state: 'Available' },

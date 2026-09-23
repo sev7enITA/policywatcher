@@ -1,3 +1,4 @@
+import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
@@ -5,12 +6,12 @@ import { parseEvidenceCollectionQuery } from '@/lib/evidenceCollection';
 import { getPublicEvidencePacket, listPublicEvidencePacketSummaries } from '@/lib/evidencePacketData';
 import CollectionsClient from './CollectionsClient';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: 'Evidence collections | PolicyWatcher',
   description:
     'Select up to 12 exact public PolicyWatcher changes, review them locally and export a deterministic evidence bundle.',
   alternates: { canonical: '/collections' },
-};
+}, 'en');
 
 export const dynamic = 'force-dynamic';
 

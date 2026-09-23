@@ -1,3 +1,7 @@
+import { changeClassificationDescription } from '@/lib/changeClassificationCopy';
+import { cache } from 'react';
+import PublicBreadcrumbs from '@/components/PublicBreadcrumbs';
+import { recordIdentity, changeSearchDescription, languageAlternates, withSocialMetadata, PUBLISHER_ID } from '@/lib/seo';
 /**
  * Public Change Permalink - /change/[id]
  *
@@ -10,7 +14,7 @@
  *   - `generateMetadata` returns OG/Twitter tags for social cards.
  *   - `lang` is a query-string param (?lang=en|it), default 'en'.
  *   - `id` validated as UUID before the DB query (rejects junk fast).
- *   - ISR via `revalidate = 60` (M2c) protects against cache-busting.
+ *   - Per-request memoization shares the gated record between metadata and content.
  *
  * SECURITY: every piece of change content (diff, summaries, region impacts)
  * is rendered via React text interpolation {value}. NEVER via
@@ -59,107 +63,9 @@ interface ChangePageProps {
 /* Metadata (SEO + social cards)                                       */
 /* ------------------------------------------------------------------ */
 
-export async function generateMetadata({
-  params,
-  searchParams,
-}: ChangePageProps): Promise<Metadata> {
-  const { id } = await params;
-  const query = await searchParams;
-  const lang = query.lang === 'it' ? 'it' : 'en';
-
-  // UUID guard: don't even hit the DB on junk
-  if (!UUID_RE.test(id)) return { title: 'PolicyWatcher - Not found', robots: { index: false } };
-
-  const change = await db.policyChange.findFirst({
-    where: publicChangeWhere({ id }),
-    select: {
-      overallRisk: true,
-      overallScore: true,
-      tldrEn: true,
-      tldrIt: true,
-      aiSummaryEn: true,
-      aiSummaryIt: true,
-      createdAt: true,
-      policy: { select: { name: true, company: { select: { name: true } } } },
-    },
-  });
-
-  if (!change) return { title: 'PolicyWatcher - Not found', robots: { index: false } };
-
-  const title = `${change.policy.company.name} - Policy Change`;
-  const localizedSummary = lang === 'it'
-    ? change.tldrIt || change.aiSummaryIt
-    : change.tldrEn || change.aiSummaryEn;
-  const description = localizedSummary
-    ? `${localizedSummary.split('.')[0]}.`
-    : `Policy risk assessment for ${change.policy.company.name} ${change.policy.name}`;
-  // Canonical + alternates (EN default, IT alternate). hreflang signals to
-  // search engines that this is a bilingual permalink (avoids duplicate-
-  // content penalty). Next maps alternates.languages to <link hreflang>.
-  const englishUrl = `${POLICYWATCHER_CANONICAL_ORIGIN}/change/${id}`;
-  const italianUrl = `${englishUrl}?lang=it`;
-  const canonical = lang === 'it' ? italianUrl : englishUrl;
-
-  return {
-    title: `${title} | PolicyWatcher`,
-    description: description.substring(0, 160),
-    alternates: {
-      canonical,
-      languages: {
-        en: englishUrl,
-        it: italianUrl,
-        'x-default': englishUrl,
-      },
-    },
-    openGraph: {
-      title,
-      description: description.substring(0, 160),
-      url: canonical,
-      type: 'article',
-      publishedTime: change.createdAt.toISOString(),
-      // OG image wired in M2d (dynamic via /api/og/change/[id])
-      images: [
-        {
-          url: `${POLICYWATCHER_CANONICAL_ORIGIN}/api/og/change/${id}`,
-          width: 1200,
-          height: 630,
-          alt: `${change.policy.company.name} - Risk ${change.overallScore}/10`,
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description: description.substring(0, 160),
-      images: [`${POLICYWATCHER_CANONICAL_ORIGIN}/api/og/change/${id}`],
-    },
-    other: {
-      'article:published_time': change.createdAt.toISOString(),
-      'article:section': 'Policy Analysis',
-      'article:tag': change.overallRisk,
-    },
-  };
-}
-
-/* ------------------------------------------------------------------ */
-/* Page                                                                */
-/* ------------------------------------------------------------------ */
-
-export default async function ChangePage({
-  params,
-  searchParams,
-}: ChangePageProps) {
-  const { id } = await params;
-  const sp = await searchParams;
-  const lang = sp.lang === 'it' ? 'it' : 'en';
-  const isIt = lang === 'it';
-
-  // UUID guard: fast 404 on junk with no DB hit or log noise.
-  if (!UUID_RE.test(id)) {
-    notFound();
-  }
-
-  const change = await db.policyChange.findFirst({
+const getChangeRecord = cache(async (id: string) => {
+  if (!UUID_RE.test(id)) return null;
+  return db.policyChange.findFirst({
     where: publicChangeWhere({ id }),
     include: {
       policy: {
@@ -186,6 +92,57 @@ export default async function ChangePage({
       newSnapshot: { select: { ...classificationSnapshotSelect, createdAt: true } },
     },
   });
+});
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: ChangePageProps): Promise<Metadata> {
+  const { id } = await params;
+  const query = await searchParams;
+  const lang = query.lang === 'it' ? 'it' : 'en';
+
+  // UUID guard: don't even hit the DB on junk
+  if (!UUID_RE.test(id)) return { title: 'PolicyWatcher - Not found', robots: { index: false } };
+
+  const change = await getChangeRecord(id);
+
+  if (!change) return { title: 'PolicyWatcher - Not found', robots: { index: false } };
+
+  const classification = classifyPolicyChange(change);
+  const identity = { company: change.policy.company.name, policy: change.policy.name, jurisdiction: change.policy.jurisdiction, date: change.createdAt.toISOString(), version: change.newSnapshot.version };
+  const title = `${recordIdentity(identity)} | PolicyWatcher`;
+  const description = changeSearchDescription(identity, classification, lang);
+  const alternates = languageAlternates(`/change/${id}`, lang);
+  return withSocialMetadata({
+    title, description, alternates,
+    openGraph: {
+      title, description, url: alternates.canonical, type: 'article',
+      publishedTime: (change.publicPublishedAt || change.createdAt).toISOString(),
+      images: [{ url: `${POLICYWATCHER_CANONICAL_ORIGIN}/api/og/change/${id}`, width: 1200, height: 630, alt: `${change.policy.company.name} / ${change.policy.name}` }],
+    },
+  }, lang);
+}
+
+/* ------------------------------------------------------------------ */
+/* Page                                                                */
+/* ------------------------------------------------------------------ */
+
+export default async function ChangePage({
+  params,
+  searchParams,
+}: ChangePageProps) {
+  const { id } = await params;
+  const sp = await searchParams;
+  const lang = sp.lang === 'it' ? 'it' : 'en';
+  const isIt = lang === 'it';
+
+  // UUID guard: fast 404 on junk with no DB hit or log noise.
+  if (!UUID_RE.test(id)) {
+    notFound();
+  }
+
+  const change = await getChangeRecord(id);
 
   if (!change) {
     notFound();
@@ -206,7 +163,7 @@ export default async function ChangePage({
     policy: isIt ? 'Policy' : 'Policy',
     jurisdiction: isIt ? 'Giurisdizione' : 'Jurisdiction',
     version: isIt ? 'Versione' : 'Version',
-    aiSummaryTitle: isIt ? 'Analisi AI' : 'AI Analysis',
+    aiSummaryTitle: isIt ? 'Screening AI originale' : 'Original AI screening',
     diffTitle: isIt ? 'Cosa è cambiato' : 'What changed',
     regionsTitle: isIt ? 'Impatto regionale' : 'Regional impact',
     download: isIt ? 'Scarica PDF' : 'Download PDF',
@@ -223,7 +180,7 @@ export default async function ChangePage({
   };
 
   const riskLabel = risk === 'High' ? t.high : risk === 'Medium' ? t.medium : t.low;
-  const tldr = isIt ? change.tldrIt || change.aiSummaryIt : change.tldrEn || change.aiSummaryEn;
+  const tldr = changeClassificationDescription(classification, lang);
 
   // Regional impacts (Individual perspective, like the share page)
   const regions = (['EU', 'US', 'Global'] as const).map((region) => ({
@@ -235,25 +192,19 @@ export default async function ChangePage({
     ? `${POLICYWATCHER_CANONICAL_ORIGIN}/change/${id}?lang=it`
     : `${POLICYWATCHER_CANONICAL_ORIGIN}/change/${id}`;
 
+  const identity = { company: change.policy.company.name, policy: change.policy.name, jurisdiction: change.policy.jurisdiction, date: change.createdAt.toISOString(), version: change.newSnapshot.version };
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    headline: `${change.policy.company.name} - ${change.policy.name} Policy Change`,
-    datePublished: change.createdAt.toISOString(),
-    author: { '@type': 'Organization', name: 'PolicyWatcher', url: POLICYWATCHER_CANONICAL_ORIGIN },
-    publisher: { '@type': 'Organization', name: 'PolicyWatcher', url: POLICYWATCHER_CANONICAL_ORIGIN },
-    description: tldr || '',
+    headline: recordIdentity(identity),
+    mainEntityOfPage: canonicalUrl,
+    datePublished: (change.publicPublishedAt || change.createdAt).toISOString(),
+    author: { '@type': 'Organization', '@id': PUBLISHER_ID, name: 'PolicyWatcher', url: POLICYWATCHER_CANONICAL_ORIGIN },
+    publisher: { '@type': 'Organization', '@id': PUBLISHER_ID, name: 'PolicyWatcher', url: POLICYWATCHER_CANONICAL_ORIGIN },
+    description: changeSearchDescription(identity, classification, lang),
     url: canonicalUrl,
     inLanguage: lang,
     image: `${POLICYWATCHER_CANONICAL_ORIGIN}/api/og/change/${id}`,
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: score,
-      bestRating: 10,
-      worstRating: 1,
-      ratingCount: 1,
-      reviewCount: 1,
-    },
     about: {
       '@type': 'Thing',
       name: `${change.policy.company.name} ${change.policy.name}`,
@@ -267,6 +218,12 @@ export default async function ChangePage({
         dangerouslySetInnerHTML={{ __html: toSafeJsonLd(jsonLd) }}
       />
       <div className={styles.container}>
+        <PublicBreadcrumbs lang={lang} items={[
+          { name: 'Knowledge', path: '/knowledge' },
+          { name: change.policy.company.name, path: `/knowledge/companies/${change.policy.company.slug}` },
+          { name: `${change.policy.name} (${change.policy.jurisdiction})`, path: `/knowledge/companies/${change.policy.company.slug}/policies/${change.policy.id}` },
+          { name: `${isIt ? 'Revisione' : 'Revision'} ${screeningDate} · V${change.newSnapshot.version}`, path: canonicalUrl },
+        ]} />
         {/* Top bar */}
         <div className={styles.topBar}>
           <Link href="/timeline" className={styles.backLink}>
@@ -299,9 +256,9 @@ export default async function ChangePage({
               {screeningDate}
             </span>
           </div>
-          <h1 className={styles.companyName}>{change.policy.company.name}</h1>
+          <h1 className={styles.companyName}>{change.policy.company.name} - {change.policy.name}</h1>
           <p className={styles.policyName}>
-            {change.policy.name}
+            {change.policy.jurisdiction} · {screeningDate} · V{change.newSnapshot.version}
             <span className={styles.policyType}>{change.policy.type}</span>
           </p>
         </header>
@@ -335,11 +292,12 @@ export default async function ChangePage({
           <p className={styles.tldr}>{tldr}</p>
         </section>
 
-        {/* AI Analysis (structured TL;DR + key points + risk reasons) */}
-        <section className={styles.section}>
+        {/* Retained screening history is not the current revision classification. */}
+        <section className={styles.section} data-nosnippet>
           <h2 className={styles.sectionTitle}>
             <ShieldAlert size={14} /> {t.aiSummaryTitle}
           </h2>
+          <p>{isIt ? 'Analisi automatica conservata con il record: può non descrivere correttamente questa revisione. Per stabilire cosa cambia, consulta la verifica e il confronto delle versioni.' : 'Automated analysis retained with the record; it may not accurately describe this revision. Use the change verification and version comparison to determine what changed.'}</p>
           <AISummary
             tldrEn={change.tldrEn}
             tldrIt={change.tldrIt}
@@ -409,7 +367,7 @@ export default async function ChangePage({
             <FileSearch size={15} />
             {t.evidence}
           </Link>
-          <AddToCollectionButton changeId={id} className={styles.collectionAction} />
+          <AddToCollectionButton changeId={id} className={styles.collectionAction} lang={lang} />
           <EmbedModal changeId={id} companyName={change.policy.company.name} />
           {change.policy.url && (
             <a

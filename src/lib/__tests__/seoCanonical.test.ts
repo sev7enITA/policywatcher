@@ -88,7 +88,9 @@ describe('public canonical URL contract', () => {
   it('gives every literal static sitemap route explicit canonical metadata', () => {
     for (const [route, file] of staticCanonicalFiles) {
       const source = read(file);
-      if (file.endsWith('LocalizedAssociationsPage.tsx')) {
+      if (route === '/browser-extension') {
+        expect(source).toContain("languageAlternates('/browser-extension', lang)");
+      } else if (file.endsWith('LocalizedAssociationsPage.tsx')) {
         expect(source, `${route} (${file})`).toContain('canonical,');
         expect(source, `${route} (${file})`).toContain("'x-default'");
       } else {
@@ -115,7 +117,7 @@ describe('public canonical URL contract', () => {
     expect(sitemap).toContain("import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin'");
     expect(sitemap).not.toContain('process.env.NEXT_PUBLIC_APP_URL');
     expect(sitemap).not.toContain('lastModified: new Date()');
-    expect(sitemap).toMatch(/url: `\$\{BASE_URL\}\/change\/\$\{c\.id\}`/);
+    expect(sitemap).toContain('localizedPublicUrl(`/change/${c.id}`, lang)');
     expect(sitemap).not.toContain('/change/${c.id}?lang=en');
     expect(sitemap).toMatch(/url: `\$\{BASE_URL\}\/evidence\/\$\{c\.id\}`/);
     expect(robots).toContain("import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin'");
@@ -127,8 +129,8 @@ describe('public canonical URL contract', () => {
   it('keeps localized public records self-canonical and utility routes out of the index', () => {
     const change = read('src/app/change/[id]/page.tsx');
     const pulse = read('src/app/pulse/[slug]/page.tsx');
-    expect(change).toContain("canonical = lang === 'it' ? italianUrl : englishUrl");
-    expect(change).toContain("languages: {");
+    expect(change).toContain('languageAlternates(`/change/${id}`, lang)');
+    expect(read('src/lib/seo.ts')).toContain("languages: { en, it, 'x-default': en }");
     expect(pulse).toContain("canonical = lang === 'it' ? italianUrl : englishUrl");
     expect(pulse).toContain("languages: { en: englishUrl, it: italianUrl, 'x-default': englishUrl }");
     expect(read('src/app/unsubscribe/layout.tsx')).toContain('robots: { index: false');

@@ -533,7 +533,7 @@ export default function PressKitClient() {
 
         <section className={styles.founder} aria-labelledby="founder-title">
           <Image src="/press-kit/fabrizio-degni-portrait-2400-source-upscale.png" alt={lang === 'en' ? 'Portrait of Fabrizio Degni' : 'Ritratto di Fabrizio Degni'} width={200} height={200} loading="eager" sizes="200px" unoptimized />
-          <div><span>{t.founderLabel}</span><h2 id="founder-title">{t.founderTitle}</h2><p>{t.founderBio}</p><small>{t.portraitNote}</small><nav aria-label={t.founderLabel}><a href="mailto:info@policywatcher.online"><Mail size={15} />info@policywatcher.online</a><a href="https://linkedin.com/in/fabriziodegni" target="_blank" rel="noopener noreferrer"><ExternalLink size={15} />LinkedIn</a><a href={PRESS_KIT_REPOSITORY_URL} target="_blank" rel="noopener noreferrer"><GitFork size={15} />GitHub</a></nav></div>
+          <div><span>{t.founderLabel}</span><h2 id="founder-title">{t.founderTitle}</h2><p>{t.founderBio}</p><small>{t.portraitNote}</small><nav aria-label={t.founderLabel}><a href="mailto:info@policywatcher.online"><Mail size={15} />info@policywatcher.online</a><a href="https://www.linkedin.com/in/fdegni/" target="_blank" rel="noopener noreferrer"><ExternalLink size={15} />LinkedIn</a><a href={PRESS_KIT_REPOSITORY_URL} target="_blank" rel="noopener noreferrer"><GitFork size={15} />GitHub</a></nav></div>
         </section>
 
         <section className={styles.boundaries} aria-labelledby="boundaries-title">

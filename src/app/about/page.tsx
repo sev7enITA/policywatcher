@@ -1,3 +1,5 @@
+import { HOME_STRUCTURED_DATA } from '@/lib/homeSeo';
+import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,12 +19,12 @@ import PublicHeader from '@/components/PublicHeader';
 import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';
 import styles from './about.module.css';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: 'About PolicyWatcher | Fabrizio Degni',
   description:
     'Project background, authorship, contact information, and public resources for PolicyWatcher.',
   alternates: { canonical: '/about' },
-};
+}, 'en');
 
 const resources = [
   {
@@ -54,6 +56,7 @@ const resources = [
 export default function AboutPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@graph': HOME_STRUCTURED_DATA['@graph'].filter((entity) => entity['@type'] === 'Organization' || entity['@type'] === 'Person') }).replace(/</g, '\u003c') }} />
       <PublicHeader current="about" />
       <main className={styles.page}>
       <nav className={styles.nav} aria-label="About page navigation">
@@ -122,7 +125,7 @@ export default function AboutPage() {
               <Mail size={16} />
               Contact PolicyWatcher
             </a>
-            <a href="https://linkedin.com/in/fabriziodegni" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/fdegni/" target="_blank" rel="noopener noreferrer">
               <ExternalLink size={16} />
               LinkedIn
             </a>
