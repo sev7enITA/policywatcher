@@ -2,6 +2,8 @@
 
 Le modifiche sono pubblicate su **policywatcher.online**, dopo la verifica dello stesso archivio sullo staging. Questa relazione distingue i risultati tecnici dalle richieste ancora in elaborazione presso i motori.
 
+**Aggiornamento delle 20:22 CEST:** Bing ha letto la sitemap con successo e rilevato 348 URL. Il test live Google ha recuperato il file con esito positivo, ma il report Sitemap mantiene l'errore. Il comando per le scansioni è installato e testato sul server; la pianificazione resta da attivare. Dettagli e impedimento operativo in [OPERATIONS.md](OPERATIONS.md).
+
 ## Contenuti pubblicati
 
 | Dossier | Collegamenti |
