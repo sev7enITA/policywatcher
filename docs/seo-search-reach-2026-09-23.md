@@ -21,7 +21,7 @@ Unavailable records: Revolut privacy and terms (blocked access), Amazon Privacy 
 
 ## External services and release status
 
-Google accepted sitemap submission, but initially reported that it could not read it. Independent HTTP retrieval returned 200 and valid XML with 318 URLs before the refresh. This is not an indexing success claim. Bing was added to the existing account and awaits the deployed ownership token. Final release and submission results will be recorded separately after staging and production verification.
+Google accepted sitemap submission, but initially reported that it could not read it. Independent HTTP retrieval returned 200 and valid XML with 318 URLs before the refresh. This is not an indexing success claim. Bing was added to the existing account and awaits the deployed ownership token. Final release and submission results are recorded in [the publication report](reports/search-reach-2026-09-23/README.md).
 
 ## Validation
 
