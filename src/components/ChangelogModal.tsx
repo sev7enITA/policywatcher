@@ -57,6 +57,14 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                 </h3>
                 <div className={styles.featureList}>
                   <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}><span className={styles.featureName}>Document scope and comparable evidence</span><span className={styles.badgeActive}>4.0.0 Beta 5</span></div>
+                    <p className={styles.featureDesc}>Choose privacy, terms, AI terms, DPA, acceptable use or community documents once for all companies. The selection reaches KPI matrices, per-type comparisons, timeline, assistant context, shared views and CSV provenance. Missing types remain unassessed. Subset means and industry benchmarks require complete type coverage; aggregate radar comparisons stop when it is incomplete. Scores average within type and then equally across types and companies.</p>
+                  </div>
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}><span className={styles.featureName}>Evidence consistency and current coverage</span><span className={styles.badgeActive}>4.0.0 Beta 4</span></div>
+                    <p className={styles.featureDesc}>Current public baselines, live and archive retrieval, unavailable checks, pending confirmation and canonical KPI coverage have explicit denominators. Confirmed-change counters advance only after successful storage; risk labels use the declared score scale. SMTP supports Hostinger TLS configuration, but delivery requires a configured and verified mailbox.</p>
+                  </div>
+                  <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
                       <span className={styles.featureName}>Press Outreach Desk</span>
                       <span className={styles.badgeActive}>Protected operations</span>
@@ -90,7 +98,7 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                       <span className={styles.badgeActive}>Current Beta</span>
                     </div>
                     <p className={styles.featureDesc}>
-                      The current release adds the canonical Entity, Document, Version, Change and Provision evidence chain, deterministic public IDs, provision taxonomy 1.0.0 and one database-derived publication-readiness contract shared by Admin, competitive analysis and the public API. Canonical tables start empty: backfill, dual-write, PostgreSQL cutover and object storage remain separately gated production waves.
+                      The current release applies one document-type selection to dashboard analyses and explains missing coverage, score weighting and KPI denominators consistently across Methodology and Atlas. The canonical evidence foundation remains part of the platform; database publication readiness is measured separately from analytical confidence. PostgreSQL cutover and object storage remain separately gated.
                     </p>
                   </div>
 
@@ -283,6 +291,14 @@ export default function ChangelogModal({ isOpen, onClose }: ChangelogModalProps)
                   Product Roadmap (Next Releases)
                 </h3>
                 <div className={styles.featureList}>
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}><span className={styles.featureName}>Document scope and comparable evidence</span><span className={styles.badgeActive}>4.0.0 Beta 5</span></div>
+                    <p className={styles.featureDesc}>Choose privacy, terms, AI terms, DPA, acceptable use or community documents once for all companies. The selection reaches KPI matrices, per-type comparisons, timeline, assistant context, shared views and CSV provenance. Missing types remain unassessed. Subset means and industry benchmarks require complete type coverage; aggregate radar comparisons stop when it is incomplete. Scores average within type and then equally across types and companies.</p>
+                  </div>
+                  <div className={styles.featureItem}>
+                    <div className={styles.featureHeader}><span className={styles.featureName}>Evidence consistency and current coverage</span><span className={styles.badgeActive}>4.0.0 Beta 4</span></div>
+                    <p className={styles.featureDesc}>Current public baselines, live and archive retrieval, unavailable checks, pending confirmation and canonical KPI coverage have explicit denominators. Confirmed-change counters advance only after successful storage; risk labels use the declared score scale. SMTP supports Hostinger TLS configuration, but delivery requires a configured and verified mailbox.</p>
+                  </div>
                   <div className={styles.featureItem}>
                     <div className={styles.featureHeader}>
                       <span className={styles.featureName}>GDPR & EU AI Act Alignment Engine</span>

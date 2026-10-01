@@ -130,7 +130,7 @@ export function getKpiConcernLevel(field: KpiField, value: string): KpiConcernLe
   const metric = KPI_METRICS[field];
   if (metric.lower.includes(value)) return 'lower';
   if (metric.moderate.includes(value)) return 'moderate';
-  return 'higher';
+  return metric.higher.includes(value) ? 'higher' : 'pending';
 }
 
 export function getKpiConcernRank(field: KpiField, value: string): number {
@@ -139,7 +139,9 @@ export function getKpiConcernRank(field: KpiField, value: string): number {
 }
 
 export function getMoreConcerningKpiValue(field: KpiField, current: string, candidate: string): string {
-  if (!isAssessedKpiValue(current)) return candidate || NOT_ASSESSED_KPI_VALUE;
-  if (!isAssessedKpiValue(candidate)) return current;
+  const currentAssessed = getKpiConcernLevel(field, current) !== 'pending';
+  const candidateAssessed = getKpiConcernLevel(field, candidate) !== 'pending';
+  if (!currentAssessed) return candidateAssessed ? candidate : NOT_ASSESSED_KPI_VALUE;
+  if (!candidateAssessed) return current;
   return getKpiConcernRank(field, current) >= getKpiConcernRank(field, candidate) ? current : candidate;
 }

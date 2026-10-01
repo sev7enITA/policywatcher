@@ -14,6 +14,7 @@
  */
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { classifyPolicyChange } from '@/lib/changeClassification';
 import { rateLimit } from '@/lib/rateLimit';
 import { publicPolicyWhere, publicSnapshotWhere } from '@/lib/publicDataGate';
 
@@ -101,7 +102,13 @@ export async function GET(
       orderBy: { name: 'asc' },
     });
 
-    return NextResponse.json({ ...policy, siblingPolicies });
+    return NextResponse.json({ ...policy, changes: policy.changes.map(change => ({
+      ...change,
+      oldSnapshot: change.oldSnapshot?.publicEvidence ? change.oldSnapshot : null,
+      newSnapshot: change.newSnapshot?.publicEvidence ? change.newSnapshot : null,
+      diff: change.oldSnapshot?.publicEvidence && change.newSnapshot?.publicEvidence ? change.diff : '',
+      classification: classifyPolicyChange(change),
+    })), siblingPolicies });
   } catch (error) {
     console.error('Error fetching policy details:', error);
     return NextResponse.json(

@@ -1,3 +1,4 @@
+import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
@@ -19,14 +20,14 @@ const pageCopy = {
     title: 'Associazioni dei consumatori | PolicyWatcher',
     description: 'Directory verificabile di associazioni dei consumatori e diritti digitali, con contesto globale per paese e radar di evidenze pubbliche.',
     name: 'PolicyWatcher Civico',
-    structuredDescription: 'Workspace pubblico globale con directory documentata di associazioni dei consumatori e diritti digitali, contesto territoriale e radar di evidenze con revisione umana.',
+    structuredDescription: 'Workspace pubblico globale con directory documentata di associazioni dei consumatori e diritti digitali, contesto territoriale e radar di evidenze con stati di revisione espliciti.',
     errorLabel: '[Associazioni] Catalogo pubblico delle evidenze non disponibile:',
   },
   en: {
     title: 'Consumer associations | PolicyWatcher',
     description: 'Source-backed directory of consumer and digital-rights organizations, with country context and a public-evidence radar.',
     name: 'PolicyWatcher Civic',
-    structuredDescription: 'Global public workspace with a source-backed directory of consumer and digital-rights organizations, territorial context and a human-reviewed evidence radar.',
+    structuredDescription: 'Global public workspace with a source-backed directory of consumer and digital-rights organizations, territorial context and an evidence radar with explicit review states.',
     errorLabel: '[Associations] Public evidence catalog unavailable:',
   },
 } as const;
@@ -34,7 +35,7 @@ const pageCopy = {
 export function buildAssociationsMetadata(lang: AssociationLanguage): Metadata {
   const copy = pageCopy[lang];
   const canonical = `${POLICYWATCHER_CANONICAL_ORIGIN}${ASSOCIATIONS_ROUTES[lang]}`;
-  return {
+  return withSocialMetadata({
     title: copy.title,
     description: copy.description,
     alternates: {
@@ -53,7 +54,7 @@ export function buildAssociationsMetadata(lang: AssociationLanguage): Metadata {
       alternateLocale: [lang === 'it' ? 'en_US' : 'it_IT'],
       type: 'website',
     },
-  };
+  }, lang);
 }
 
 export default async function LocalizedAssociationsPage({ lang }: { lang: AssociationLanguage }) {

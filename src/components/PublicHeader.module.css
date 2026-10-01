@@ -10,10 +10,12 @@
   width: min(1180px, calc(100% - 40px));
   min-height: var(--public-header-block-size, 76px);
   margin: 0 auto;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   justify-content: space-between;
-  gap: 28px;
+  gap: 10px;
+  padding: 12px 0;
 }
 
 .brand {
@@ -53,6 +55,7 @@
 
 .navWrap {
   min-width: 0;
+  grid-column: 1 / -1;
 }
 
 .globalContext {
@@ -65,12 +68,14 @@
 
 .nav {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: 4px;
 }
 
 .nav a {
+  white-space: nowrap;
   position: relative;
   padding: 10px 12px;
   border-radius: 7px;

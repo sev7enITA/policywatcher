@@ -8,6 +8,7 @@
  * All domain interfaces for the application.
  */
 
+import type { ChangeClassification } from '@/lib/changeClassificationTypes';
 import type { KpiField } from '@/lib/metricsCatalog';
 
 /**
@@ -57,6 +58,7 @@ export interface KeyPoint {
  * key points, risk reasons, KPI indicators, and per-region impacts).
  */
 export interface PolicyChange {
+  classification?: ChangeClassification;
   id: string;
   policyId: string;
   oldSnapshotId: string | null;

@@ -14,6 +14,9 @@ import { pressKitReleases } from '@/lib/pressKit';
 import { pulseStories } from '@/lib/editorialPulse';
 import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin';
 
+import { policyGuides } from '@/lib/policyGuides';
+import { languageAlternates, localizedPublicUrl } from '@/lib/seo';
+
 const BASE_URL = POLICYWATCHER_CANONICAL_ORIGIN;
 
 export const revalidate = 3600; // 1 hour
@@ -49,7 +52,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/integrations`, changeFrequency: 'weekly', priority: 0.88 },
     { url: `${BASE_URL}/timeline`, changeFrequency: 'hourly', priority: 0.9 },
     { url: `${BASE_URL}/what-changed`, changeFrequency: 'weekly', priority: 0.95 },
-    { url: `${BASE_URL}/browser-extension`, changeFrequency: 'weekly', priority: 0.86 },
+    ...(['en', 'it'] as const).map((lang) => ({ url: localizedPublicUrl('/browser-extension', lang), alternates: { languages: languageAlternates('/browser-extension', lang).languages }, changeFrequency: 'monthly' as const, priority: 0.86 })),
     { url: `${BASE_URL}/leaderboard`, changeFrequency: 'hourly', priority: 0.9 },
     { url: `${BASE_URL}/trust`, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/trust/residency`, changeFrequency: 'monthly', priority: 0.82 },
@@ -70,7 +73,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/terms`, changeFrequency: 'monthly', priority: 0.65 },
   ];
 
-  // All change permalinks (EN canonical). A database failure must not leak
+  // All public change permalinks and their URL-selected translations. A database failure must not leak
   // diagnostics or remove the stable static sitemap entries.
   let changes: Array<{ id: string; createdAt: Date }> = [];
   let knowledgePolicies: Array<{
@@ -101,12 +104,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('[Sitemap] Dynamic public records temporarily unavailable:', error);
   }
 
-  const changeEntries: MetadataRoute.Sitemap = changes.map((c) => ({
-    url: `${BASE_URL}/change/${c.id}`,
+  const changeEntries: MetadataRoute.Sitemap = changes.flatMap((c) => (['en', 'it'] as const).map((lang) => ({
+    url: localizedPublicUrl(`/change/${c.id}`, lang),
+    alternates: { languages: languageAlternates(`/change/${c.id}`, lang).languages },
     lastModified: c.createdAt,
     changeFrequency: 'monthly' as const,
     priority: 0.7,
-  }));
+  })));
 
   const evidenceEntries: MetadataRoute.Sitemap = changes.map((c) => ({
     url: `${BASE_URL}/evidence/${c.id}`,
@@ -137,7 +141,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
   const knowledgeHubEntry: MetadataRoute.Sitemap = [{
     url: `${BASE_URL}/knowledge`,
-    lastModified: knowledgePolicies[0]?.updatedAt,
+    lastModified: companyLastModified.size ? new Date(Math.max(...[...companyLastModified.values()].map((date) => date.getTime()))) : undefined,
     changeFrequency: 'daily',
     priority: 0.96,
   }];
@@ -149,15 +153,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: release.status === 'current' ? 0.82 : 0.7,
   }));
 
-  const pulseEntries: MetadataRoute.Sitemap = pulseStories.map((story) => ({
-    url: `${BASE_URL}/pulse/${story.slug}`,
+  const pulseEntries: MetadataRoute.Sitemap = pulseStories.flatMap((story) => (['en', 'it'] as const).map((lang) => ({
+    url: localizedPublicUrl(`/pulse/${story.slug}`, lang),
+    alternates: { languages: languageAlternates(`/pulse/${story.slug}`, lang).languages },
     lastModified: new Date(`${story.updatedAt}T12:00:00+02:00`),
     changeFrequency: 'monthly' as const,
     priority: 0.84,
+  })));
+
+  const guideEntries: MetadataRoute.Sitemap = [
+    { slug: '', updatedAt: '2026-09-23' }, ...policyGuides,
+  ].flatMap((guide) => (['en', 'it'] as const).map((lang) => {
+    const path = `/guides${guide.slug ? `/${guide.slug}` : ''}`;
+    return { url: localizedPublicUrl(path, lang), lastModified: new Date(`${guide.updatedAt}T00:00:00Z`), changeFrequency: 'monthly' as const, priority: 0.8, alternates: { languages: languageAlternates(path, lang).languages } };
   }));
 
   return [
     ...staticEntries,
+    ...guideEntries,
     ...knowledgeHubEntry,
     ...knowledgeCompanyEntries,
     ...knowledgePolicyEntries,

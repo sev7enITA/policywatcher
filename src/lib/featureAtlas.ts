@@ -155,7 +155,9 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '3.9.0-beta.42', shortLabel: '3.9 B42', label: '3.9.0 Beta 42' },
   { id: '4.0.0-beta.1', shortLabel: '4.0 B1', label: '4.0.0 Beta 1' },
   { id: '4.0.0-beta.2', shortLabel: '4.0 B2', label: '4.0.0 Beta 2' },
-  { id: '4.0.0-beta.3', shortLabel: '4.0 B3', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '4.0.0-beta.3', shortLabel: '4.0 B3', label: '4.0.0 Beta 3' },
+  { id: '4.0.0-beta.4', shortLabel: '4.0 B4', label: '4.0.0 Beta 4' },
+  { id: '4.0.0-beta.5', shortLabel: '4.0 B5', label: '4.0.0 Beta 5' },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -368,6 +370,30 @@ function surfaceFeature(
 }
 
 const platformFeatures: FeatureAtlasFeature[] = [
+  {
+    id: 'global-document-scope', title: 'Global document type selection', shortLabel: 'Document scope',
+    summary: 'Applies one multi-select scope to dashboard evidence, KPI matrix, comparison, history, assistant and exports.',
+    kind: 'business', domainId: 'analysis', stageId: 'assurance', state: 'current', releaseId: '4.0.0-beta.5', release: '4.0.0 Beta 5', horizon: 'delivered',
+    benefit: 'Reviewers can evaluate privacy policies separately from terms or inspect the same document mix across companies.',
+    kpi: 'Coverage KPI · requested, available and assessed document types; explicit assessed-policy and company denominators',
+    kri: 'Residual KRI · incomplete or uneven document and KPI coverage can prevent a comparison',
+    evidence: 'Shared document scope contract, public API validation, per-type comparison, CSV manifest and scope tests.',
+    limitation: 'Complete type coverage does not mean complete KPI assessment or legal applicability. All-document mode is an overview with variable coverage.',
+    primaryUser: 'Researcher and privacy reviewer', route: { href: '/?documents=privacy', label: 'Privacy-only dashboard', access: 'public' },
+    dependencies: [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }], source: 'platform-inventory',
+  },
+  {
+    id: 'current-evidence-coverage', title: 'Current evidence and KPI coverage', shortLabel: 'Evidence coverage',
+    summary: 'Separates public baselines, live and archive checks, unavailable sources, pending changes and assessed KPI values.',
+    kind: 'technical', domainId: 'evidence', stageId: 'assurance', state: 'current', releaseId: '4.0.0-beta.4', release: '4.0.0 Beta 4', horizon: 'delivered',
+    benefit: 'The dashboard exposes actual coverage instead of interpreting missing data as zero risk.',
+    kpi: 'Availability KPI · canonical assessed KPI values / (15 × current public policies in scope)',
+    kri: 'Residual KRI · missing or stale retrieval and incomplete AI assessments remain visible',
+    evidence: 'Evidence-status API, source suspension metadata, committed scan counters and auditable repair receipts.',
+    limitation: 'Coverage is an availability ratio, not confidence, certification or proof that all company practices are disclosed.',
+    primaryUser: 'Dataset reviewer', route: { href: '/methodology/confidence', label: 'Coverage methodology', access: 'public' },
+    dependencies: [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }], source: 'platform-inventory',
+  },
   {
     id: 'source-portfolio-monitoring', title: 'Source portfolio monitoring', shortLabel: 'Source portfolio',
     summary: 'Maintains a curated portfolio of official policy URLs and scheduled checks.', kind: 'technical', domainId: 'discovery', stageId: 'discovery', state: 'delivered', releaseId: '3.7.0', release: '3.7.0', horizon: 'delivered',

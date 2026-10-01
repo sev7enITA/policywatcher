@@ -1,3 +1,4 @@
+import { DOCUMENT_TYPES, matchesDocumentType, documentCoverage, documentTypesQuery, typeBalancedScore, type DocumentType } from './documentScope';
 import type { Company, Perspective, Region } from '@/types';
 import type { DateRangeFilter, RiskFilter } from './dashboardActions';
 import {
@@ -16,6 +17,7 @@ export type DashboardSortBy =
   | 'name-desc';
 
 export interface DashboardViewFilters {
+  documentTypes?: readonly DocumentType[];
   search: string;
   industry: string;
   risk: RiskFilter;
@@ -40,6 +42,7 @@ export interface DashboardViewManifest {
     visiblePolicies: number;
     visibleChangeRows: number;
   };
+  documentCoverage: Record<string, ReturnType<typeof documentCoverage>>;
   limitationKeys: readonly string[];
 }
 
@@ -61,6 +64,7 @@ function latestCompanyChange(company: Company) {
 
 function canonicalViewId(filters: DashboardViewFilters): string {
   const params = new URLSearchParams({
+    documents: documentTypesQuery(filters.documentTypes),
     dateRange: filters.dateRange,
     industry: filters.industry,
     perspective: filters.perspective,
@@ -82,7 +86,9 @@ export function buildDashboardViewModel(
   const normalizedSearch = filters.search.trim().toLowerCase();
   const cutoff = dateCutoff(filters.dateRange, now);
 
+  const types = filters.documentTypes || DOCUMENT_TYPES;
   const visibleCompanies = companies
+    .map(company => ({ ...company, policies: company.policies.filter(policy => matchesDocumentType(policy.type, types)) }))
     .filter((company) => {
       const matchesSearch =
         normalizedSearch.length === 0 ||
@@ -112,9 +118,9 @@ export function buildDashboardViewModel(
 
       switch (filters.sortBy) {
         case 'risk-desc':
-          return (rightChange?.overallScore || 0) - (leftChange?.overallScore || 0);
+          return (typeBalancedScore(right.policies) ?? -Infinity) - (typeBalancedScore(left.policies) ?? -Infinity) || 0;
         case 'risk-asc':
-          return (leftChange?.overallScore || 0) - (rightChange?.overallScore || 0);
+          return (typeBalancedScore(left.policies) ?? Infinity) - (typeBalancedScore(right.policies) ?? Infinity) || 0;
         case 'date-desc':
           return new Date(rightChange?.createdAt || 0).getTime() - new Date(leftChange?.createdAt || 0).getTime();
         case 'date-asc':
@@ -129,6 +135,7 @@ export function buildDashboardViewModel(
     });
 
   const activeFilterCount = [
+    types.length !== DOCUMENT_TYPES.length,
     filters.risk !== 'all',
     filters.dateRange !== 'all',
     filters.industry !== 'all',
@@ -158,9 +165,12 @@ export function buildDashboardViewModel(
           0
         ),
       },
+      documentCoverage: Object.fromEntries(visibleCompanies.map(company => [company.id, documentCoverage(company.policies, types)])),
       limitationKeys: Object.freeze([
+        'missing-document-types-are-not-zero-risk',
+        'scores-average-within-type-then-across-types-and-companies',
         'latest-public-change-per-policy',
-        'company-match-exports-all-visible-company-policies',
+        'company-match-exports-only-selected-document-types',
       ]),
     },
   };

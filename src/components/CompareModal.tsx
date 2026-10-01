@@ -14,6 +14,7 @@ import { X, GitCompare } from 'lucide-react';
 import styles from './CompareModal.module.css';
 import type { Company, Lang } from '@/types';
 import type { BenchmarkRadarSourcePoint } from '@/lib/chartSpec';
+import { DOCUMENT_TYPES, documentTypesQuery, documentScopeLabel, DOCUMENT_TYPE_LABELS, type DocumentType } from '@/lib/documentScope';
 import { loadPublicDataSource } from '@/lib/dataSourceRegistry';
 import BenchmarkRadarChart from './charts/BenchmarkRadarChart';
 
@@ -32,6 +33,10 @@ interface CompanyProfile {
   radar: BenchmarkRadarSourcePoint[];
   /** Number of distinct policies tracked for this company. */
   policiesCount: number;
+  coverage?: { assessedTypes: DocumentType[]; requestedTypes: DocumentType[]; complete: boolean };
+  byType?: { type: DocumentType; policiesCount: number; score: number | null }[];
+  benchmarkCompanies?: number;
+  excludedIncompleteCompanies?: number;
 }
 
 interface CompareResponse {
@@ -41,6 +46,7 @@ interface CompareResponse {
 
 /** Props for the {@link CompareModal} component. */
 interface CompareModalProps {
+  documentTypes?: readonly DocumentType[];
   /** Whether the modal overlay is currently visible. */
   isOpen: boolean;
   /** Dismiss callback. */
@@ -61,7 +67,7 @@ const translations = {
     subtitle: 'Side-by-side public policy risk comparison',
     selectA: 'Select company A',
     selectB: 'Select company B',
-    overall: 'Overall Score',
+    overall: 'Mean of assessed types',
     risk: 'Risk Level',
     policies: 'Policies',
     pickBoth: 'Pick two companies to compare',
@@ -73,7 +79,7 @@ const translations = {
     subtitle: 'Confronto affiancato del rischio nelle policy pubbliche',
     selectA: 'Seleziona azienda A',
     selectB: 'Seleziona azienda B',
-    overall: 'Punteggio Globale',
+    overall: 'Media dei tipi valutati',
     risk: 'Livello Rischio',
     policies: 'Policy',
     pickBoth: 'Scegli due aziende da confrontare',
@@ -96,9 +102,13 @@ export default function CompareModal({
   onClose,
   companies,
   lang,
+  documentTypes,
   initialCompanyA,
   initialCompanyB,
 }: CompareModalProps) {
+  const [typeView, setTypeView] = useState<'all' | DocumentType>('all');
+  const comparisonTypes = typeView === 'all' ? documentTypes : [typeView];
+  const comparisonQuery = documentTypesQuery(comparisonTypes);
   const [companyAId, setCompanyAId] = useState(initialCompanyA || '');
   const [companyBId, setCompanyBId] = useState(initialCompanyB || '');
   const [profileA, setProfileA] = useState<CompanyProfile | null>(null);
@@ -142,6 +152,7 @@ export default function CompareModal({
       setLoading(true);
       setLoadError(false);
       loadPublicDataSource<CompareResponse>('companyComparison', {
+        documents: comparisonQuery,
         companyA: companyAId,
         companyB: companyBId,
       })
@@ -168,7 +179,7 @@ export default function CompareModal({
     return () => {
       active = false;
     };
-  }, [isOpen, companyAId, companyBId]);
+  }, [isOpen, companyAId, companyBId, comparisonQuery]);
 
   const handleClose = () => {
     setClosing(true);
@@ -260,6 +271,26 @@ export default function CompareModal({
           </div>
         </div>
 
+        <div style={{ padding: '12px 24px', lineHeight: 1.6 }}>
+          <p><strong>{documentScopeLabel(documentTypes, lang)}</strong></p>
+          <label>{isIt ? 'Tipo da confrontare' : 'Document type to compare'}{' '}
+            <select value={typeView} onChange={e => setTypeView(e.target.value as 'all' | DocumentType)}>
+              <option value="all">{isIt ? 'Tutti i tipi selezionati' : 'All selected types'}</option>
+              {(documentTypes || DOCUMENT_TYPES).map(type => <option key={type} value={type}>{DOCUMENT_TYPE_LABELS[type][lang]}</option>)}
+            </select>
+          </label>
+          <p>{isIt ? 'Media per tipo di documento. Il valore aggregato usa i tipi valutati: se la copertura differisce, confrontare le singole tipologie qui sotto.' : 'Mean by document type. The aggregate uses assessed types: when coverage differs, compare individual types below.'}</p>
+          {!loading && !loadError && [profileA, profileB].filter(Boolean).map(profile => <div key={profile!.id}>
+            <strong>{profile!.name}</strong>
+            {profile!.coverage && <span> · {profile!.coverage.assessedTypes.length}/{profile!.coverage.requestedTypes.length} {isIt ? 'tipi valutati' : 'types assessed'}{!profile!.coverage.complete ? (isIt ? ' · Copertura incompleta' : ' · Incomplete coverage') : ''}</span>}
+            {profile!.benchmarkCompanies !== undefined && <span> · {profile!.benchmarkCompanies} {isIt ? 'aziende con tutti i tipi valutati; escluse per copertura incompleta: ' : 'companies with all types assessed; excluded for incomplete coverage: '}{profile!.excludedIncompleteCompanies}</span>}
+          </div>)}
+          {!loading && !loadError && profileA?.byType && profileB?.byType && <table style={{ width: '100%', marginTop: 12 }}>
+            <caption>{isIt ? 'Confronto per tipo di documento' : 'Comparison by document type'}</caption>
+            <thead><tr><th>{isIt ? 'Tipo' : 'Type'}</th><th>{profileA.name}</th><th>{profileB.name}</th></tr></thead>
+            <tbody>{profileA.byType.map(row => { const other = profileB.byType?.find(r => r.type === row.type); return <tr key={row.type}><th>{DOCUMENT_TYPE_LABELS[row.type][lang]}</th><td>{row.score === null ? (isIt ? 'Non valutato' : 'Not assessed') : row.score.toFixed(1) + '/10'} · {row.policiesCount} docs</td><td>{other?.score == null ? (isIt ? 'Non valutato' : 'Not assessed') : other.score.toFixed(1) + '/10'} · {other?.policiesCount || 0} docs</td></tr>; })}</tbody>
+          </table>}
+        </div>
         {/* Body */}
         {loading ? (
           <div className={styles.placeholder}>
@@ -316,7 +347,9 @@ export default function CompareModal({
 
             {/* Evidence-gated benchmark radar and exact-value table */}
             <div className={styles.chartSection}>
-              <BenchmarkRadarChart first={profileA} second={profileB} lang={lang} />
+              {profileA.coverage?.complete && (profileB.coverage?.complete || (profileB.benchmarkCompanies || 0) > 0)
+                ? <BenchmarkRadarChart first={profileA} second={profileB} lang={lang} />
+                : <p>{isIt ? 'Confronto KPI aggregato non disponibile: copertura documentale incompleta. Seleziona un tipo valutato per entrambe le aziende.' : 'Aggregate KPI comparison unavailable: incomplete document coverage. Select a type assessed for both companies.'}</p>}
             </div>
           </>
         )}

@@ -49,6 +49,7 @@ import {
 } from 'lucide-react';
 import styles from './Dashboard.module.css';
 import TermsGate from '@/components/TermsGate';
+import { ChangeClassificationBadge } from '@/components/ChangeClassification';
 import CardRiskReasons from '@/components/ai/CardRiskReasons';
 import { SkeletonGrid, SkeletonStatsGrid } from '@/components/Skeleton';
 import { motion, AnimatePresence, MotionConfig, useReducedMotion } from 'framer-motion';
@@ -60,6 +61,8 @@ import { createDeferredViewportEvaluator, shouldSuggestOnTheGo } from '@/lib/mob
 import { dashboardUpdateNotices, getObservatorySource, observatorySignals } from '@/lib/observatory';
 import { POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE, POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS, POLICYWATCHER_VERSION } from '@/lib/release';
 import { dataStatusClassKey, getWorstDataStatus, normalizeDataStatus } from '@/lib/policyConfidence';
+import type { DashboardEvidenceSummary } from '@/lib/dashboardEvidence';
+import { getPolicyRiskPresentation } from '@/lib/policyRiskPresentation';
 import {
   composeDashboard,
   getDashboardModuleOrder,
@@ -94,6 +97,7 @@ import {
   encodeDashboardShareQuery,
   type DashboardShareState,
 } from '@/lib/dashboardShareState';
+import { DOCUMENT_TYPES, DOCUMENT_TYPE_LABELS, documentTypesQuery, documentScopeLabel, typeBalancedScore, type DocumentType } from '@/lib/documentScope';
 import { loadPublicDataSource } from '@/lib/dataSourceRegistry';
 import {
   buildDashboardViewModel,
@@ -145,7 +149,7 @@ const translations = {
     liveAssistant: 'Policy Live Assistant',
     monitoredCompanies: 'Compagnie Monitorate',
     criticalAlerts: 'Allerte Critiche',
-    avgRiskScore: 'Rischio Medio',
+    avgRiskScore: 'Punteggio complessivo medio',
     activeContext: 'Filtro Contesto Attivo',
     searchPlaceholder: 'Cerca compagnia, policy o termini...',
     allSectors: 'Tutti i Settori',
@@ -190,7 +194,7 @@ const translations = {
     sourceVerified: 'Baseline della fonte pubblicata',
     baselineRegistered: 'Baseline sorgente verificata. Nessuna modifica pubblicabile rilevata da quando il monitoraggio reale è stato avviato.',
     noPolicyEvidence: 'Nessuna evidenza sorgente pubblicabile ancora disponibile.',
-    sortByRisk: 'Rischio',
+    sortByRisk: 'Punteggio complessivo',
     sortByDate: 'Data',
     sortByName: 'Nome',
     allRisks: 'Tutti i Rischi',
@@ -300,7 +304,7 @@ const translations = {
     liveAssistant: 'Policy Live Assistant',
     monitoredCompanies: 'Monitored Companies',
     criticalAlerts: 'Critical Alerts',
-    avgRiskScore: 'Avg Risk Score',
+    avgRiskScore: 'Avg Overall Risk Score',
     activeContext: 'Active Context Filter',
     searchPlaceholder: 'Search company, policy or terms...',
     allSectors: 'All Sectors',
@@ -345,7 +349,7 @@ const translations = {
     sourceVerified: 'Source baseline published',
     baselineRegistered: 'Source baseline published. No publishable change has been detected since monitoring started.',
     noPolicyEvidence: 'No publishable source evidence is available yet.',
-    sortByRisk: 'Risk',
+    sortByRisk: 'Overall score',
     sortByDate: 'Date',
     sortByName: 'Name',
     allRisks: 'All Risks',
@@ -822,11 +826,15 @@ export default function Dashboard() {
   const [marketPulseLoading, setMarketPulseLoading] = useState(true);
   const [sourceSuspensions, setSourceSuspensions] = useState<SourceSuspension[]>([]);
   const [sourceSuspensionsTotal, setSourceSuspensionsTotal] = useState(0);
+  const [evidenceSummary, setEvidenceSummary] = useState<DashboardEvidenceSummary | null>(null);
+  const [documentTypes, setDocumentTypes] = useState<readonly DocumentType[]>(DOCUMENT_TYPES);
+  const documentsQuery = documentTypesQuery(documentTypes);
   const [search, setSearch] = useState('');
   const [industryFilter, setIndustryFilter] = useState('all');
 
   // Bilingual state
   const [lang, setLang] = useState<'en' | 'it'>('en');
+  const scopeLabel = documentScopeLabel(documentTypes, lang);
 
   useEffect(() => {
     document.documentElement.lang = lang;
@@ -895,6 +903,7 @@ export default function Dashboard() {
   const shareFeedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const dashboardShareState = useMemo<DashboardShareState>(() => ({
+    documentTypes,
     industry: industryFilter,
     risk: riskFilter,
     region: selectedRegion,
@@ -904,6 +913,7 @@ export default function Dashboard() {
     sortBy,
     lang,
   }), [
+    documentTypes,
     dateRange,
     industryFilter,
     lang,
@@ -930,6 +940,7 @@ export default function Dashboard() {
 
   const applyDashboardShareState = useCallback((state: DashboardShareState) => {
     dashboardShareStateRef.current = state;
+    setDocumentTypes(state.documentTypes || DOCUMENT_TYPES);
     setSearch(state.search);
     setIndustryFilter(state.industry);
     setRiskFilter(state.risk);
@@ -988,6 +999,10 @@ export default function Dashboard() {
     }
 
     switch (action.target) {
+      case 'documentTypes':
+        next.documentTypes = action.value;
+        setSelectedPolicyId(null);
+        break;
       case 'industry':
         next.industry = action.value.trim();
         break;
@@ -1171,13 +1186,9 @@ export default function Dashboard() {
     setLoading(true);
     setDashboardLoadError(false);
     try {
-      const [companiesResult, suspensionsResult] = await Promise.all([
-        loadPublicDataSource<Company[]>('dashboardCompanies'),
-        loadPublicDataSource<{ sources?: SourceSuspension[]; total?: number }>('sourceSuspensions'),
-      ]);
+      const companiesResult = await loadPublicDataSource<Company[]>('dashboardCompanies');
       setCompanies(companiesResult.data);
-      setSourceSuspensions(suspensionsResult.data.sources || []);
-      setSourceSuspensionsTotal(suspensionsResult.data.total || 0);
+
     } catch (error) {
       console.error('Error loading companies:', error);
       setDashboardLoadError(true);
@@ -1194,7 +1205,28 @@ export default function Dashboard() {
 
   useEffect(() => {
     let active = true;
+    queueMicrotask(() => {
+      if (!active) return;
+      setEvidenceSummary(null);
+      setSourceSuspensions([]);
+      setSourceSuspensionsTotal(0);
+    });
+    Promise.all([
+      loadPublicDataSource<DashboardEvidenceSummary>('evidenceStatus', { documents: documentsQuery }),
+      loadPublicDataSource<{ sources?: SourceSuspension[]; total?: number }>('sourceSuspensions', { documents: documentsQuery }),
+    ]).then(([evidence, suspended]) => {
+      if (!active) return;
+      setEvidenceSummary(evidence.data);
+      setSourceSuspensions(suspended.data.sources || []);
+      setSourceSuspensionsTotal(suspended.data.total || 0);
+    }).catch(() => { if (active) setEvidenceSummary(null); });
+    return () => { active = false; };
+  }, [documentsQuery, companies]);
+
+  useEffect(() => {
+    let active = true;
     const query = {
+      documents: documentsQuery,
       page: 1,
       pageSize: 50,
       industry: industryFilter !== 'all' ? industryFilter : undefined,
@@ -1202,6 +1234,7 @@ export default function Dashboard() {
 
     queueMicrotask(() => {
       if (!active) return;
+      setMarketPulseChanges([]);
       setMarketPulseLoading(true);
       loadPublicDataSource<{ changes?: MarketPulseChange[] }>('marketPulse', query)
         .then((result) => {
@@ -1219,7 +1252,7 @@ export default function Dashboard() {
     return () => {
       active = false;
     };
-  }, [industryFilter]);
+  }, [industryFilter, documentsQuery]);
 
   useEffect(() => {
     let active = true;
@@ -1630,12 +1663,12 @@ export default function Dashboard() {
   // Helpers used by the command palette
   const handleSelectCompany = useCallback((companyId: string) => {
     const company = companies.find((c) => c.id === companyId);
-    if (company && company.policies[0]) {
-      setSelectedPolicyId(company.policies[0].id);
-    }
-  }, [companies]);
+    const policy = company?.policies.find(p => documentTypes.length === DOCUMENT_TYPES.length || documentTypes.includes(p.type as DocumentType));
+    if (policy) setSelectedPolicyId(policy.id);
+  }, [companies, documentTypes]);
   const dashboardDataView = useMemo(
     () => buildDashboardViewModel(companies, {
+      documentTypes,
       search,
       industry: industryFilter,
       risk: riskFilter,
@@ -1645,6 +1678,7 @@ export default function Dashboard() {
       perspective: selectedPerspective,
     }),
     [
+      documentTypes,
       companies,
       dateRange,
       industryFilter,
@@ -1658,9 +1692,9 @@ export default function Dashboard() {
   const filteredCompanies = dashboardDataView.companies;
 
   // Calculate statistics
-  const totalMonitored = companies.length;
+  const totalMonitored = filteredCompanies.length;
 
-  const activeWarnings = companies.filter((c) => {
+  const activeWarnings = filteredCompanies.filter((c) => {
     return c.policies.some((p) => {
       const latestChange = p.changes[0];
       if (!latestChange) return false;
@@ -1671,17 +1705,10 @@ export default function Dashboard() {
     });
   }).length;
 
-  let totalScore = 0;
-  let policiesCount = 0;
-  companies.forEach((c) => {
-    c.policies.forEach((p) => {
-      if (p.changes[0]) {
-        totalScore += p.changes[0].overallScore;
-        policiesCount++;
-      }
-    });
-  });
-  const averageRiskScore = policiesCount > 0 ? totalScore / policiesCount : 0;
+  const scoreCompanies = filteredCompanies.filter(company => documentTypes.length === DOCUMENT_TYPES.length || dashboardDataView.manifest.documentCoverage[company.id].complete);
+  const companyScores = scoreCompanies.map(company => typeBalancedScore(company.policies)).filter((score): score is number => score !== null);
+  const policiesCount = scoreCompanies.reduce((count, company) => count + company.policies.filter(p => Number.isFinite(p.changes[0]?.overallScore)).length, 0);
+  const averageRiskScore = companyScores.length ? companyScores.reduce((a, b) => a + b, 0) / companyScores.length : null;
 
   const activeFilterCount = dashboardDataView.activeFilterCount;
 
@@ -2110,11 +2137,12 @@ export default function Dashboard() {
 
       {/* Unified Layout Navigation coordinator */}
       <Navigation
+        documentScopeQuery={documentsQuery}
         lang={lang}
         onToggleLanguage={handleDashboardLanguageToggle}
         onOpenAssistant={() => setChatOpen(true)}
         onOpenSubscribe={() => setSubscribeOpen(true)}
-        onOpenExport={() => setExportMenuOpen(true)}
+        onOpenExport={() => void handleExportCSV()}
         onOpenMatrix={() => setMatrixOpen(true)}
         onOpenMethodology={() => setMethodologyOpen(true)}
         onOpenHowTo={() => setHowToOpen(true)}
@@ -2337,7 +2365,7 @@ export default function Dashboard() {
                   <span><BookOpen size={16} aria-hidden="true" /><strong>{workflowText.collections}</strong></span>
                   <ArrowRight size={15} aria-hidden="true" />
                 </Link>
-                <Link href="/timeline">
+                <Link href={`/timeline?documents=${encodeURIComponent(documentsQuery)}`}>
                   <span><Clock size={16} aria-hidden="true" /><strong>{workflowText.timeline}</strong></span>
                   <ArrowRight size={15} aria-hidden="true" />
                 </Link>
@@ -2489,6 +2517,55 @@ export default function Dashboard() {
           </details>
         </motion.section>
 
+        <section id="document-scope" className={`${styles.documentScope} glass-panel`} style={{ order: getModuleOrder('stats') - 2 }} aria-label={lang === 'it' ? 'Tipi di documento' : 'Document types'}>
+          <fieldset>
+            <legend>{lang === 'it' ? 'Tipi di documento' : 'Document types'}</legend>
+            <div className={styles.documentOptions}>
+              <button type="button" aria-pressed={documentTypes.length === DOCUMENT_TYPES.length}
+                onClick={() => dispatchDashboardAction({ type: 'setFilter', source: 'filters', target: 'documentTypes', value: [...DOCUMENT_TYPES] })}>
+                {lang === 'it' ? 'Tutti' : 'All'}
+              </button>
+              <button type="button" aria-pressed={documentTypes.length === 1 && documentTypes[0] === 'privacy'} onClick={() => dispatchDashboardAction({ type: 'setFilter', source: 'filters', target: 'documentTypes', value: ['privacy'] })}>{lang === 'it' ? 'Solo privacy' : 'Privacy only'}</button>
+              {DOCUMENT_TYPES.map(type => <label key={type}>
+                <input type="checkbox" checked={documentTypes.includes(type)}
+                  disabled={documentTypes.length === 1 && documentTypes.includes(type)}
+                  onChange={() => {
+                    const next = documentTypes.includes(type) ? documentTypes.filter(t => t !== type) : [...documentTypes, type];
+                    dispatchDashboardAction({ type: 'setFilter', source: 'filters', target: 'documentTypes', value: next });
+                    setSelectedPolicyId(null);
+                  }} />
+                {DOCUMENT_TYPE_LABELS[type][lang]}
+              </label>)}
+            </div>
+          </fieldset>
+          <div className={styles.documentOptions} style={{ marginTop: 12 }}>
+            <button type="button" onClick={() => setCompareOpen(true)}>{lang === 'it' ? 'Confronta aziende' : 'Compare companies'}</button>
+            <button type="button" onClick={() => setMatrixOpen(true)}>{lang === 'it' ? 'Matrice KPI' : 'KPI matrix'}</button>
+            <button type="button" onClick={() => void handleExportCSV()}>{lang === 'it' ? 'Esporta selezione CSV' : 'Export selection CSV'}</button>
+          </div>
+          <p aria-live="polite">{lang === 'it' ? 'Ambito attivo' : 'Active scope'}: <strong>{scopeLabel}</strong> · {selectedRegion}</p>
+          <p>{lang === 'it' ? 'Stessa selezione per tutte le aziende, KPI, confronti, assistente ed export. I documenti mancanti restano non valutabili.' : 'The same selection applies to every company, KPIs, comparisons, assistant and exports. Missing documents remain unassessed.'}</p>
+        </section>
+
+        {!loading && (
+          <section className={`${styles.evidenceStatus} glass-panel`} style={{ order: getModuleOrder('stats') - 1 }} aria-label={lang === 'it' ? 'Stato delle evidenze' : 'Evidence status'}>
+            <h2>{lang === 'it' ? 'Evidenze e copertura' : 'Evidence and coverage'}</h2>
+            {evidenceSummary ? <>
+              <div className={styles.evidenceFacts}>
+                <p><strong>{evidenceSummary.publicBaselines}/{evidenceSummary.totalPolicies}</strong><span>{lang === 'it' ? 'policy con baseline pubblica' : 'policies with a public baseline'}</span></p>
+                <p><strong>{evidenceSummary.liveChecks}</strong><span>{lang === 'it' ? 'ultimi controlli da fonte live' : 'latest checks from live sources'}</span></p>
+                <p><strong>{evidenceSummary.archiveChecks}</strong><span>{lang === 'it' ? 'ultimi controlli da archivio' : 'latest checks from archives'}</span></p>
+                <p><strong>{evidenceSummary.unavailableChecks}</strong><span>{lang === 'it' ? 'ultimi controlli indisponibili' : 'latest checks unavailable'}</span></p>
+                <p><strong>{evidenceSummary.pendingChanges}</strong><span>{lang === 'it' ? 'modifiche in attesa di conferma' : 'changes awaiting confirmation'}</span></p>
+                <p><strong>{evidenceSummary.totalKpis ? `${(100 * evidenceSummary.assessedKpis / evidenceSummary.totalKpis).toFixed(1)}%` : 'Not available'}</strong><span>{lang === 'it' ? 'KPI valutati sulle policy pubbliche attuali' : 'assessed KPIs on current public policies'}</span></p>
+              </div>
+              <p>{evidenceSummary.assessedKpis}/{evidenceSummary.totalKpis} {lang === 'it' ? 'KPI valutati; quelli non valutati restano esclusi dai punteggi. Le analisi sono assistite da AI.' : 'KPIs assessed; unassessed values remain excluded from scores. Analyses are AI-assisted.'}</p>
+              {evidenceSummary.otherChecks > 0 && <p>{evidenceSummary.otherChecks} {lang === 'it' ? 'controlli richiedono revisione o non sono ancora disponibili.' : 'checks require review or are not yet available.'}</p>}
+              <p>{lang === 'it' ? 'Inventario dei tipi selezionati, tutti i settori. Ultimo controllo registrato: ' : 'Inventory for selected document types, all industries. Latest recorded check: '}{evidenceSummary.latestCheckAt ? new Date(evidenceSummary.latestCheckAt).toLocaleString(lang === 'it' ? 'it-IT' : 'en-GB') : 'Not available'} · <Link href="/trust">{lang === 'it' ? 'Metodo e limiti' : 'Method and limitations'}</Link></p>
+            </> : <p>{lang === 'it' ? 'Stato delle evidenze temporaneamente non disponibile.' : 'Evidence status temporarily unavailable.'}</p>}
+          </section>
+        )}
+
         {/* Statistics Grid */}
         {showStats && isModuleVisible('stats') && (
           <motion.section
@@ -2500,18 +2577,20 @@ export default function Dashboard() {
             transition={{ duration: 0.6, staggerChildren: 0.1 }}
           >
             <div className={`${styles.statCard} glass-panel`} style={{ '--stat-color': 'var(--dashboard-accent)' } as React.CSSProperties}>
-              <span className={styles.statLabel}>{t.monitoredCompanies}</span>
+              <span className={styles.statLabel}>{lang === 'it' ? 'Aziende nella selezione' : 'Companies in selection'}</span>
               <div className={styles.statValue}>{totalMonitored}</div>
             </div>
             <div className={`${styles.statCard} glass-panel`} style={{ '--stat-color': 'var(--risk-high)' } as React.CSSProperties}>
-              <span className={styles.statLabel}>{t.criticalAlerts} ({selectedRegion})</span>
+              <span className={styles.statLabel}>{lang === 'it' ? 'Aziende con rischio alto' : 'Companies with high risk'} ({selectedRegion})</span>
               <div className={styles.statValue} style={{ color: activeWarnings > 0 ? 'var(--risk-high)' : 'var(--text-main)' }}>
                 {activeWarnings}
               </div>
             </div>
             <div className={`${styles.statCard} glass-panel`} style={{ '--stat-color': 'var(--secondary)' } as React.CSSProperties}>
-              <span className={styles.statLabel}>{t.avgRiskScore}</span>
-              <div className={styles.statValue}>{averageRiskScore.toFixed(1)}/10</div>
+              <span className={styles.statLabel}>{lang === 'it' ? 'Rischio complessivo medio' : 'Mean overall risk'}</span>
+              <div className={styles.statValue}>{averageRiskScore === null ? (lang === 'it' ? 'Non valutato' : 'Not assessed') : `${averageRiskScore.toFixed(1)}/10`}</div>
+              <small>{policiesCount} {lang === 'it' ? 'policy valutate; media per tipo, poi per azienda' : 'assessed policies; mean by type, then by company'}</small>
+              <small>{companyScores.length} {lang === 'it' ? 'aziende nel denominatore' : 'companies in denominator'} · {documentTypes.length === DOCUMENT_TYPES.length ? (lang === 'it' ? 'panoramica; copertura variabile' : 'overview; coverage varies') : (lang === 'it' ? 'solo tipi selezionati tutti valutati' : 'all selected types assessed')}</small>
             </div>
             <div className={`${styles.statCard} glass-panel`} style={{ '--stat-color': 'var(--risk-low)' } as React.CSSProperties}>
               <span className={styles.statLabel}>{t.activeContext}</span>
@@ -2653,7 +2732,7 @@ export default function Dashboard() {
             <div className={styles.filterGroup}>
               <label className={styles.filterLabel}>
                 <AlertTriangle size={14} />
-                {lang === 'it' ? 'Livello Rischio' : 'Risk Level'}
+                {lang === 'it' ? 'Rischio complessivo' : 'Overall risk'}
               </label>
               <div className={styles.toggleButtonGroup}>
                 {([
@@ -2812,7 +2891,7 @@ export default function Dashboard() {
                 </h2>
                 <p className={styles.marketPulseSubtitle}>{t.marketPulseSubtitle}</p>
               </div>
-              <Link href="/timeline" className={styles.marketPulseLink}>
+              <Link href={`/timeline?documents=${encodeURIComponent(documentsQuery)}`} className={styles.marketPulseLink}>
                 {t.openFullTimeline}
                 <ArrowRight size={14} />
               </Link>
@@ -2919,16 +2998,21 @@ export default function Dashboard() {
             {filteredCompanies.map((company) => {
               const firstPolicy = company.policies[0];
               const companyDataStatus = getWorstDataStatus(company.policies);
-              const latestChange = firstPolicy?.changes[0];
+              const assessment = getPolicyRiskPresentation(firstPolicy, selectedRegion, selectedPerspective);
+              const latestChange = assessment.change;
               const firstPolicyStatus = normalizeDataStatus(firstPolicy?.dataStatus, 'Needs Review');
               const hasVerifiedBaseline = !latestChange && firstPolicyStatus === 'Available';
 
-              const matchingImpact = latestChange?.regionImpacts.find(
-                (imp) => imp.region === selectedRegion && imp.perspective === selectedPerspective
-              );
-
-              const currentRisk = matchingImpact?.riskLevel || latestChange?.overallRisk || 'Low';
-              const currentScore = latestChange?.overallScore || null;
+              const currentRisk = assessment.riskLevel;
+              const perspectiveLabel = selectedPerspective === 'Individual'
+                ? (lang === 'it' ? 'Persone' : 'Individuals')
+                : (lang === 'it' ? 'Imprese' : 'Enterprises');
+              const contextLabel = `${selectedRegion} · ${perspectiveLabel}`;
+              const riskLabel = assessment.scope === 'context'
+                ? `${lang === 'it' ? 'Rischio' : 'Risk'} · ${contextLabel}`
+                : (lang === 'it' ? 'Rischio complessivo' : 'Overall risk');
+              const localizedRisk = currentRisk === 'High' ? t.highRisk
+                : currentRisk === 'Medium' ? t.mediumRisk : t.lowRisk;
 
               const summaryText = latestChange
                 ? (lang === 'it'
@@ -2942,17 +3026,12 @@ export default function Dashboard() {
                 ? new Date(latestChange.createdAt).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' })
                 : 'N/A';
 
-              const cardRiskColor = latestChange ? getRiskColor(currentRisk) : getDataStatusColor(firstPolicyStatus);
-              const cardRiskColorGlow = latestChange ? getRiskColorGlow(currentRisk) : 'rgba(16, 185, 129, 0.14)';
+              const cardRiskColor = currentRisk ? getRiskColor(currentRisk) : getDataStatusColor(firstPolicyStatus);
+              const cardRiskColorGlow = currentRisk ? getRiskColorGlow(currentRisk) : 'rgba(16, 185, 129, 0.14)';
 
-              const hasHighAlert = company.policies.some((p) => {
-                const change = p.changes[0];
-                if (!change) return false;
-                const imp = change.regionImpacts.find(
-                  (i) => i.region === selectedRegion && i.perspective === selectedPerspective
-                );
-                return (imp?.riskLevel || change.overallRisk) === 'High';
-              });
+              const alertPolicies = company.policies.filter((policy) =>
+                getPolicyRiskPresentation(policy, selectedRegion, selectedPerspective).riskLevel === 'High'
+              );
 
               return (
                 <motion.div
@@ -2965,13 +3044,6 @@ export default function Dashboard() {
                   }}
                   whileHover={{ y: -8, transition: { duration: 0.2 } }}
                 >
-                  {hasHighAlert && (
-                    <div className={styles.regionalAlert} style={{ '--risk-color': 'var(--risk-high)' } as React.CSSProperties}>
-                      <span className={styles.pulsePoint}></span>
-                      {lang === 'it' ? `Allerta ${selectedRegion}` : `${selectedRegion} Alert`}
-                    </div>
-                  )}
-
                   <div className={styles.cardTop}>
                     <div className={styles.companyInfo}>
                       {getCompanyLogoUrl(company.website) ? (
@@ -2992,28 +3064,71 @@ export default function Dashboard() {
                           {company.name.substring(0, 2)}
                         </div>
                       )}
-                      <div>
+                      <div className={styles.companyIdentity}>
                         <h3 className={styles.companyName}>{company.name}</h3>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', marginTop: '4px' }}>
                           <span className={styles.industryTag}>{company.industry}</span>
                           {company.policies.length > 0 && (
                             <span className={`${styles.confidenceBadge} ${styles[`badge_${dataStatusClassKey(companyDataStatus)}`]}`}>
-                              {companyDataStatus}
+                              {lang === 'it' ? 'Fonti' : 'Sources'}: {companyDataStatus}
                             </span>
                           )}
                         </div>
                       </div>
                     </div>
 
-                    <div className={styles.riskIndicator}>
-                      <span className={styles.riskLabel}>
-                        {latestChange ? `Risk (${selectedRegion})` : t.sourceBaseline}
-                      </span>
-                      <div className={styles.riskScore} style={{ '--risk-color': cardRiskColor, '--risk-color-glow': cardRiskColorGlow } as React.CSSProperties}>
-                        {latestChange ? `${currentRisk} (${currentScore}/10)` : t.sourceVerified}
-                      </div>
-                    </div>
                   </div>
+
+                  <div className={styles.cardEvidence}>
+                    <p className={styles.scopeCoverage}>
+                      {company.policies.length} {lang === 'it' ? 'documenti selezionati' : 'selected documents'} · {dashboardDataView.manifest.documentCoverage[company.id].assessedTypes.length}/{documentTypes.length} {lang === 'it' ? 'tipi valutati' : 'types assessed'}
+                    </p>
+                    {!dashboardDataView.manifest.documentCoverage[company.id].complete && <p className={styles.scopeCoverage}>
+                      {lang === 'it' ? 'Copertura incompleta: ' : 'Incomplete coverage: '}
+                      {[...dashboardDataView.manifest.documentCoverage[company.id].missingTypes, ...dashboardDataView.manifest.documentCoverage[company.id].unassessedTypes].map(type => DOCUMENT_TYPE_LABELS[type][lang]).join(', ')}
+                    </p>}
+                    {firstPolicy && (
+                      <button className={styles.featuredPolicy} onClick={() => setSelectedPolicyId(firstPolicy.id)}>
+                        <span>{lang === 'it' ? 'Policy mostrata' : 'Policy shown'}</span>
+                        <strong>{firstPolicy.name} · {firstPolicy.jurisdiction}</strong>
+                      </button>
+                    )}
+                    {latestChange && <div style={{ margin: '12px 0' }}><ChangeClassificationBadge classification={latestChange.classification} lang={lang} /></div>}
+                    <div className={styles.riskSummary}>
+                      <div className={styles.riskIndicator}>
+                        <span className={styles.riskLabel}>{latestChange ? riskLabel : t.sourceBaseline}</span>
+                        <div className={styles.riskScore} style={{ '--risk-color': cardRiskColor, '--risk-color-glow': cardRiskColorGlow } as React.CSSProperties}>
+                          {latestChange ? localizedRisk : hasVerifiedBaseline ? t.sourceVerified : firstPolicyStatus}
+                        </div>
+                      </div>
+                      {assessment.overallScore !== null && (
+                        <div className={styles.overallScore}>
+                          <span>{lang === 'it' ? 'Rischio complessivo della policy' : 'Overall policy risk'}</span>
+                          <strong>{latestChange?.overallRisk === 'High' ? t.highRisk : latestChange?.overallRisk === 'Medium' ? t.mediumRisk : t.lowRisk} · {assessment.overallScore}/10</strong>
+                          <small>{lang === 'it' ? '1 = minore · 10 = maggiore' : '1 = lower · 10 = higher'}</small>
+                        </div>
+                      )}
+                    </div>
+                    {assessment.scope === 'overall' && (
+                      <p className={styles.contextUnavailable}>
+                        {lang === 'it' ? `Valutazione specifica non disponibile per ${contextLabel}.` : `Context assessment unavailable for ${contextLabel}.`}
+                      </p>
+                    )}
+                  </div>
+
+                  {alertPolicies.length > 0 && (
+                    <div className={styles.policyAlerts}>
+                      <strong>{lang === 'it' ? 'Policy che richiedono attenzione' : 'Policies requiring attention'} ({alertPolicies.length})</strong>
+                      {alertPolicies.map((alertPolicy) => (
+                        <button key={alertPolicy.id} onClick={() => setSelectedPolicyId(alertPolicy.id)}>
+                          <AlertTriangle size={14} aria-hidden="true" />
+                          <span>{alertPolicy.name} · {alertPolicy.jurisdiction} - {t.highRisk} · {getPolicyRiskPresentation(alertPolicy, selectedRegion, selectedPerspective).scope === 'context'
+                            ? contextLabel : lang === 'it' ? 'Rischio complessivo' : 'Overall risk'}</span>
+                          <ArrowRight size={14} aria-hidden="true" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
 
                   <p className={styles.cardMiddle}>
                     {summaryText}
@@ -3034,8 +3149,6 @@ export default function Dashboard() {
                     </span>
                     <div className={styles.policyPills}>
                       {company.policies.map((pol) => {
-                        const polRisk = pol.changes[0]?.overallRisk || 'Low';
-                        const polColor = getRiskColor(polRisk);
                         const jurisdictionMatch = pol.jurisdiction === selectedRegion || pol.jurisdiction === 'Global';
 
                         const dataStatus = normalizeDataStatus(pol.dataStatus, 'Needs Review');
@@ -3046,8 +3159,8 @@ export default function Dashboard() {
                             key={pol.id}
                             onClick={() => setSelectedPolicyId(pol.id)}
                             className={`${styles.policyPill} ${jurisdictionMatch ? styles.policyPillHighlight : ''}`}
-                            style={{ borderColor: polColor }}
-                            title={`${pol.name} - Ingestion: ${pol.ingestionMethod || 'Unknown'} (${dataStatus})`}
+                            title={`${pol.name} · ${pol.jurisdiction} - ${lang === 'it' ? 'Fonte' : 'Source'}: ${dataStatus}`}
+                            aria-label={`${pol.name} · ${pol.jurisdiction}`}
                           >
                             <span
                               style={{
@@ -3055,10 +3168,11 @@ export default function Dashboard() {
                                 height: '6px',
                                 borderRadius: '50%',
                                 backgroundColor: statusDotColor,
-                                display: 'inline-block'
+                                display: 'inline-block',
+                                flexShrink: 0
                               }}
                             />
-                            {getPolTypeLabel(pol.type)}
+                            <span className={styles.policyPillText}>{getPolTypeLabel(pol.type)}</span>
                             <span className={styles.jurisdictionBadge}>{pol.jurisdiction}</span>
                           </button>
                         );
@@ -3067,7 +3181,11 @@ export default function Dashboard() {
                   </div>
 
                   <div className={styles.cardBottom}>
-                    <span className={styles.updateDate}>{t.updated}: {formattedDate}</span>
+                    <span className={styles.updateDate}>
+                      {latestChange
+                        ? `${lang === 'it' ? 'Ultima analisi pubblicata' : 'Latest published analysis'}: ${formattedDate}`
+                        : lang === 'it' ? 'Nessuna modifica pubblicata' : 'No published changes'}
+                    </span>
                     {firstPolicy && (
                       <button
                         onClick={() => setSelectedPolicyId(firstPolicy.id)}
@@ -3108,7 +3226,8 @@ export default function Dashboard() {
       {chatOpen && (
         <LiveAssistant
           onClose={() => setChatOpen(false)}
-          companies={companies}
+          companies={filteredCompanies}
+          documentTypes={documentTypes}
           lang={lang}
         />
       )}
@@ -3141,6 +3260,8 @@ export default function Dashboard() {
       {/* KPI Matrix Modal */}
       {matrixOpen && (
         <CrossCompanyMatrix
+          documentTypes={documentTypes}
+          companyIds={filteredCompanies.map(c => c.id)}
           isOpen={matrixOpen}
           onClose={() => setMatrixOpen(false)}
           lang={lang}
@@ -3161,7 +3282,8 @@ export default function Dashboard() {
         <CompareModal
           isOpen={compareOpen}
           onClose={() => setCompareOpen(false)}
-          companies={companies}
+          companies={filteredCompanies}
+          documentTypes={documentTypes}
           lang={lang}
         />
       )}
@@ -3171,7 +3293,7 @@ export default function Dashboard() {
         <CommandPalette
           isOpen={commandPaletteOpen}
           onClose={() => setCommandPaletteOpen(false)}
-          companies={companies}
+          companies={filteredCompanies}
           lang={lang}
           onToggleLanguage={handleDashboardLanguageToggle}
           onOpenAssistant={() => setChatOpen(true)}
@@ -3182,6 +3304,7 @@ export default function Dashboard() {
           onOpenHowTo={() => setHowToOpen(true)}
           onCopyView={() => void handleCopyDashboardView()}
           onSelectCompany={handleSelectCompany}
+          onSelectPolicy={setSelectedPolicyId}
           onSetIndustry={(value) => dispatchDashboardAction({
             type: 'setFilter', source: 'commandPalette', target: 'industry', value,
           })}

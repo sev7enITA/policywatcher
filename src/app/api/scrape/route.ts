@@ -16,6 +16,7 @@
  * @body {{ policyId: string }}
  * @returns {{ changed: boolean, message: string, policy?, change? }} or error.
  */
+import { classifyPolicyChange } from '@/lib/changeClassification';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { scrapePolicyText } from '@/lib/scraper';
@@ -532,6 +533,11 @@ export async function POST(request: NextRequest) {
       policy: updatedPolicy,
       change: {
         ...policyChange,
+        classification: classifyPolicyChange({
+          policyId: policy.id, oldSnapshot: latestSnapshot,
+          newSnapshot: { policyId: policy.id, text: newText, publicEvidence: true, version: newVersion },
+          riskReasonsJson: JSON.stringify(aiAnalysis.riskReasons),
+        }),
         regionImpacts: aiAnalysis.regionImpacts,
       },
     });

@@ -1,3 +1,4 @@
+import { DOCUMENT_TYPES, isDocumentTypes, type DocumentType } from './documentScope';
 import type { Perspective, Region, RiskLevel } from '@/types';
 import {
   isDashboardActionEdgeAllowed,
@@ -9,6 +10,7 @@ export type DateRangeFilter = 'all' | '7d' | '30d' | '90d';
 export type DashboardActionSource = DashboardActionGraphSource;
 
 export type DashboardAction =
+  | { type: 'setFilter'; source: DashboardActionSource; target: 'documentTypes'; value: DocumentType[] }
   | { type: 'setFilter'; source: DashboardActionSource; target: 'industry'; value: string }
   | { type: 'setFilter'; source: DashboardActionSource; target: 'risk'; value: RiskFilter }
   | { type: 'setFilter'; source: DashboardActionSource; target: 'region'; value: Region }
@@ -24,6 +26,7 @@ export type DashboardAction =
   | { type: 'resetFilters'; source: DashboardActionSource; target: 'allFilters' };
 
 export interface DashboardFilterState {
+  documentTypes?: readonly DocumentType[];
   industry: string;
   risk: RiskFilter;
   region: Region;
@@ -38,6 +41,7 @@ export interface DashboardActionValidation {
 }
 
 export const DEFAULT_DASHBOARD_FILTER_STATE: Readonly<DashboardFilterState> = Object.freeze({
+  documentTypes: DOCUMENT_TYPES,
   industry: 'all',
   risk: 'all',
   region: 'EU',
@@ -70,6 +74,7 @@ export function validateDashboardAction(action: DashboardAction): DashboardActio
       : { valid: false, reason: 'Unsupported regional context.' };
   }
 
+  if (action.target === 'documentTypes') return { valid: isDocumentTypes(action.value), reason: 'Select at least one known document type.' };
   if (action.target === 'industry') {
     const value = action.value.trim();
     return value.length > 0 && value.length <= 80 && !/[\u0000-\u001f]/.test(value)

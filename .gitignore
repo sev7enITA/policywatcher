@@ -80,3 +80,7 @@ PolicyWatcher-architecture-infographics-*/
 /src/private/executiveStudyData.private.json
 /src/private/executiveStudyData.private.test.ts
 /internal-previews/executive-study/
+
+# Local sanitized database fixtures for release verification
+/prisma/presentation-test.db*
+/prisma/scan-counter-test.db*

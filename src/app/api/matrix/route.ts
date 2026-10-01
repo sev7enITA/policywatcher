@@ -12,6 +12,7 @@
  *
  * @returns {{ companies: MatrixRow[] }} where each row has company info + kpis map.
  */
+import { parseDocumentTypes, documentTypeWhere, documentCoverage } from '@/lib/documentScope';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
@@ -36,9 +37,11 @@ export async function GET(request: NextRequest) {
   if (limited) return limited;
 
   try {
-    const policyWhere = publicPolicyWhere();
+    const documentTypes = parseDocumentTypes(request.nextUrl.searchParams.get('documents'));
+    if (!documentTypes) return NextResponse.json({ error: 'Invalid document types.' }, { status: 400 });
+    const policyWhere = publicPolicyWhere(documentTypeWhere(documentTypes));
     const companies = await db.company.findMany({
-      where: allowSeededPublicData() ? {} : { policies: { some: policyWhere } },
+      where: allowSeededPublicData() ? {} : { policies: { some: publicPolicyWhere() } },
       include: {
         policies: {
           where: policyWhere,
@@ -86,12 +89,17 @@ export async function GET(request: NextRequest) {
         website: company.website,
         industry: company.industry,
         kpis: aggregatedKpis,
+        coverage: documentCoverage(company.policies, documentTypes),
+        byType: documentTypes.map(type => {
+          const policies = company.policies.filter(p => p.type === type);
+          const kpis: Record<string, string> = Object.fromEntries(KPI_FIELD_KEYS.map(field => [field, NOT_ASSESSED_KPI_VALUE]));
+          for (const policy of policies) for (const field of KPI_FIELD_KEYS) {
+            kpis[field] = getMoreConcerningKpiValue(field, kpis[field], policy.changes[0]?.[field]);
+          }
+          return { type, kpis, coverage: documentCoverage(policies, [type]) };
+        }),
       };
-    }).filter((company) =>
-      Object.values(company.kpis).some(
-        (value) => value && value !== NOT_ASSESSED_KPI_VALUE
-      )
-    );
+    });
 
     return NextResponse.json({ companies: matrixData });
   } catch (error) {

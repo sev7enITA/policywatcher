@@ -1,3 +1,4 @@
+import { withSocialMetadata } from '@/lib/seo';
 import styles from './privacy.module.css';
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -5,11 +6,11 @@ import { POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION, POLICYWATCHER_BROWSER_
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: 'Privacy Policy | PolicyWatcher',
   description: 'How PolicyWatcher handles your data, in full transparency.',
   alternates: { canonical: '/privacy' },
-};
+}, 'en');
 
 export default function PrivacyPolicyPage() {
   return (

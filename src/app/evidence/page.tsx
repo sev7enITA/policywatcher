@@ -1,3 +1,4 @@
+import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
@@ -14,11 +15,11 @@ import AddToCollectionButton from '@/components/AddToCollectionButton';
 import { listPublicEvidencePacketSummaries } from '@/lib/evidencePacketData';
 import styles from './evidence.module.css';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: 'Evidence Packets | PolicyWatcher',
   description: 'Public, change-bound evidence packets for PolicyWatcher policy-change records.',
   alternates: { canonical: '/evidence' },
-};
+}, 'en');
 
 export const dynamic = 'force-dynamic';
 

@@ -4,6 +4,7 @@ export type PublicDataSourceId =
   | 'marketPulse'
   | 'policyDetails'
   | 'sourceSuspensions'
+  | 'evidenceStatus'
   | 'sourceContinuity'
   | 'observatoryRegistry'
   | 'publicationReadiness'
@@ -87,7 +88,7 @@ export const PUBLIC_DATA_SOURCES: Readonly<Record<PublicDataSourceId, PublicData
       endpoint: '/api/compare',
       evidenceGate: 'public-change',
       freshness: { mode: 'request', maxAgeSeconds: 0 },
-      allowedQueryParams: ['companyA', 'companyB'],
+      allowedQueryParams: ['companyA', 'companyB', 'documents'],
       description: 'Evidence-gated company and industry KPI benchmark profiles.',
     }),
     marketPulse: sourceSpec({
@@ -95,7 +96,7 @@ export const PUBLIC_DATA_SOURCES: Readonly<Record<PublicDataSourceId, PublicData
       endpoint: '/api/changes',
       evidenceGate: 'public-change',
       freshness: { mode: 'short-ttl', maxAgeSeconds: 60 },
-      allowedQueryParams: ['company', 'from', 'industry', 'kpi', 'page', 'pageSize', 'q', 'risk', 'to'],
+      allowedQueryParams: ['documents', 'company', 'from', 'industry', 'kpi', 'page', 'pageSize', 'q', 'risk', 'to'],
       description: 'Paginated public policy-change event stream.',
     }),
     policyDetails: sourceSpec({
@@ -107,12 +108,17 @@ export const PUBLIC_DATA_SOURCES: Readonly<Record<PublicDataSourceId, PublicData
       allowedQueryParams: [],
       description: 'Public policy detail with gated snapshots and public change analysis.',
     }),
+    evidenceStatus: sourceSpec({
+      id: 'evidenceStatus', endpoint: '/api/evidence-status', evidenceGate: 'public-policy',
+      freshness: { mode: 'request', maxAgeSeconds: 0 }, allowedQueryParams: ['documents'],
+      description: 'Aggregate inventory, latest retrieval state and current public KPI coverage without private content.',
+    }),
     sourceSuspensions: sourceSpec({
       id: 'sourceSuspensions',
       endpoint: '/api/source-suspensions',
       evidenceGate: 'public-suspension',
       freshness: { mode: 'short-ttl', maxAgeSeconds: 60 },
-      allowedQueryParams: [],
+      allowedQueryParams: ['documents'],
       description: 'Sanitized metadata for sources withheld by publication gates.',
     }),
     sourceContinuity: sourceSpec({
@@ -184,7 +190,7 @@ export const PUBLIC_DATA_SOURCES: Readonly<Record<PublicDataSourceId, PublicData
       endpoint: '/api/matrix',
       evidenceGate: 'public-policy',
       freshness: { mode: 'short-ttl', maxAgeSeconds: 60 },
-      allowedQueryParams: [],
+      allowedQueryParams: ['documents'],
       description: 'Cross-company KPI aggregation over public policy evidence.',
     }),
   });

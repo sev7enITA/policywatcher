@@ -1,3 +1,4 @@
+import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, ArrowUpRight, Database, FileCheck2, Globe2, Server, ShieldAlert } from 'lucide-react';
@@ -6,11 +7,11 @@ import PublicHeader from '@/components/PublicHeader';
 import { getResidencyEvidencePack, type ResidencyEvidenceState } from '@/lib/residencyEvidence';
 import styles from './residency.module.css';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: 'Residency & Processor Evidence | PolicyWatcher',
   description: 'A dated register of PolicyWatcher hosting, storage, transfer and processor evidence with open verification gaps.',
   alternates: { canonical: 'https://policywatcher.online/trust/residency' },
-};
+}, 'en');
 
 const stateLabels: Record<ResidencyEvidenceState, string> = {
   documented: 'Public document reviewed',

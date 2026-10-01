@@ -20,7 +20,8 @@
  */
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import ModalDialog from '@/components/ModalDialog';
 import {
   X,
   Clock,
@@ -47,6 +48,7 @@ import {
 import styles from './PolicyDetails.module.css';
 import type { Policy, PolicyChange, Company, Perspective, Region, RegionImpact } from '@/types/index';
 import AISummary from '@/components/ai/AISummary';
+import ChangeClassificationPanel, { ChangeClassificationBadge } from './ChangeClassification';
 import RiskReasons from '@/components/ai/RiskReasons';
 import RemediationSteps from '@/components/ai/RemediationSteps';
 import RiskTrendPanel from '@/components/charts/RiskTrendPanel';
@@ -96,7 +98,7 @@ interface FullPolicyDetails extends Policy {
   /** Change records linking consecutive snapshots. */
   changes: (PolicyChange & {
     oldSnapshot: { id: string; version: number } | null;
-    newSnapshot: { id: string; version: number };
+    newSnapshot: { id: string; version: number } | null;
     regionImpacts: RegionImpact[];
   })[];
 }
@@ -154,6 +156,10 @@ export default function PolicyDetails({
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const [closing, setClosing] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeButton = useRef<HTMLButtonElement>(null);
+  const requestVersion = useRef(0);
+  const [loadError, setLoadError] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('changes');
   const [activeChangeIndex, setActiveChangeIndex] = useState<number>(0);
   const [expandedSnapshot, setExpandedSnapshot] = useState<string | null>(null);
@@ -167,38 +173,50 @@ export default function PolicyDetails({
   }, [lang]);
 
   const handleClose = useCallback(() => {
+    if (closeTimer.current) return;
     setClosing(true);
-    setTimeout(() => onClose(), 250);
+    closeTimer.current = setTimeout(onClose,
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 250);
   }, [onClose]);
 
   const fetchPolicyDetails = useCallback(async () => {
+    const version = ++requestVersion.current;
     setLoading(true);
+    setLoadError(false);
+    setPolicy(null);
     try {
       const result = await loadPublicDataSource<FullPolicyDetails>('policyDetails', { policyId });
+      if (version !== requestVersion.current) return;
       setPolicy(result.data);
       setActiveChangeIndex(0);
     } catch (error) {
+      if (version !== requestVersion.current) return;
       console.error('Error fetching policy details:', error);
+      setLoadError(true);
     } finally {
-      setLoading(false);
+      if (version === requestVersion.current) setLoading(false);
     }
   }, [policyId]);
 
   useEffect(() => {
+    let active = true;
     queueMicrotask(() => {
-      void fetchPolicyDetails();
+      if (active) void fetchPolicyDetails();
     });
+    return () => {
+      active = false;
+      requestVersion.current += 1;
+    };
   }, [fetchPolicyDetails]);
 
-  // Escape key to close
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') handleClose();
-    };
-    window.addEventListener('keydown', handleEsc);
-    return () => window.removeEventListener('keydown', handleEsc);
-  }, [handleClose]);
+  useEffect(() => () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+  }, []);
 
+  useEffect(() => {
+    // A retry removes its button; keep focus on a stable control while loading.
+    if (loading) closeButton.current?.focus({ preventScroll: true });
+  }, [loading]);
 
   const copyToClipboard = () => {
     if (!policy) return;
@@ -207,19 +225,7 @@ export default function PolicyDetails({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  if (loading) {
-    return (
-      <div className={styles.overlay} onClick={handleClose}>
-        <div className={styles.panel} onClick={(e) => e.stopPropagation()} style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <RefreshCw className="animate-spin" size={40} color="var(--primary)" />
-        </div>
-      </div>
-    );
-  }
-
-  if (!policy) return null;
-
-  const activeChange = policy.changes[activeChangeIndex];
+  const activeChange = policy?.changes[activeChangeIndex];
 
   /**
    * Parses the JSON diff string and renders it as a styled inline diff.
@@ -313,31 +319,49 @@ export default function PolicyDetails({
       : activeChange?.tldrEn || activeChange?.aiSummaryEn) || '';
 
   return (
-    <div className={styles.overlay} onClick={handleClose} role="dialog" aria-modal="true" aria-label={`${policy.company.name} - ${policy.name}`}>
-      <div className={`${styles.panel} ${closing ? styles.panelClosing : ''}`} onClick={(e) => e.stopPropagation()}>
-        {/* Header */}
+    <ModalDialog
+      className={styles.overlay}
+      label={policy ? `${policy.company.name} - ${policy.name}` : lang === 'it' ? 'Dettaglio policy' : 'Policy details'}
+      onRequestClose={handleClose}
+    >
+      <div className={`${styles.panel} ${closing ? styles.panelClosing : ''}`}>
         <div className={styles.header}>
           <div className={styles.titleArea}>
-            <h2 className={styles.title}>{policy.company.name}</h2>
-            <span className={styles.subtitle}>
-              <FileText size={16} /> {policy.name}
-              <span className={styles.jurisdictionTag}>{policy.jurisdiction}</span>
-            </span>
+            <h2 className={styles.title}>{policy?.company.name || (lang === 'it' ? 'Dettaglio policy' : 'Policy details')}</h2>
+            {policy && (
+              <span className={styles.subtitle}>
+                <FileText size={16} /> {policy.name}
+                <span className={styles.jurisdictionTag}>{policy.jurisdiction}</span>
+              </span>
+            )}
           </div>
           <div className={styles.headerActions}>
-            <button onClick={handleClose} className={styles.closeBtn} aria-label="Close">
+            <button ref={closeButton} onClick={handleClose} className={styles.closeBtn} aria-label={lang === 'it' ? 'Chiudi dettaglio policy' : 'Close policy details'}>
               <X size={20} />
             </button>
           </div>
         </div>
 
+        {loading ? (
+          <div className={styles.loadState} role="status">
+            <RefreshCw className="animate-spin" size={32} aria-hidden="true" />
+            <p>{lang === 'it' ? 'Caricamento della policy…' : 'Loading policy…'}</p>
+          </div>
+        ) : loadError || !policy ? (
+          <div className={styles.loadState}>
+            <p role="alert">{lang === 'it' ? 'Impossibile caricare i dettagli della policy.' : 'Unable to load policy details.'}</p>
+            <button className={styles.scrapeBtn} onClick={() => void fetchPolicyDetails()}>
+              <RefreshCw size={16} aria-hidden="true" />{lang === 'it' ? 'Riprova' : 'Try again'}
+            </button>
+          </div>
+        ) : <>
         {/* Policy Link Section */}
         <div className={styles.linkSection}>
           <span className={styles.linkLabel}>
             {lang === 'it' ? 'Link Ufficiale Documento:' : 'Official Policy Document Link:'}
           </span>
           <div className={styles.linkInputWrapper}>
-            <input type="text" readOnly value={policy.url} className={styles.linkInput} />
+            <input type="text" readOnly aria-label={lang === 'it' ? 'URL della fonte ufficiale' : 'Official source URL'} value={policy.url} className={styles.linkInput} />
             <button onClick={copyToClipboard} className={styles.copyBtn} aria-label="Copy URL">
               {copied ? (lang === 'it' ? 'Copiato!' : 'Copied!') : <Copy size={14} />}
             </button>
@@ -388,11 +412,14 @@ export default function PolicyDetails({
         </div>
 
         {/* Auditing Log & Context Panel */}
-        <div className={styles.auditingPanel}>
-          <h4>
-            <ShieldCheck size={14} />
-            {lang === 'it' ? 'Metadati di Controllo ed Evidenza' : 'Auditing Evidence & Telemetry'}
-          </h4>
+        <details className={styles.auditingPanel}>
+          <summary className={styles.auditSummary}>
+            <span><ShieldCheck size={16} aria-hidden="true" /> {lang === 'it' ? 'Verifica della fonte' : 'Source verification'}</span>
+            <span className={`${styles.confidenceBadge} ${styles[`badge_${dataStatusClassKey(policy.dataStatus)}`]}`}>
+              {normalizeDataStatus(policy.dataStatus, 'Available')}
+            </span>
+          </summary>
+          <p className={styles.auditHint}>{lang === 'it' ? 'Controlli di acquisizione della fonte, separati dall’analisi dei contenuti.' : 'Source retrieval checks, separate from the content assessment.'}</p>
           <div className={styles.auditingGrid}>
             <div>
               <strong>{lang === 'it' ? 'Stato QA Dataset:' : 'Dataset QA Status:'}</strong>
@@ -432,7 +459,7 @@ export default function PolicyDetails({
               {lang === 'it' ? 'Leggi la metodologia di tracciabilità e i limiti dell\'AI' : 'Read traceability methodology & AI limits'}
             </a>
           </div>
-        </div>
+        </details>
 
         {/* Timeline */}
         {policy.changes.length > 0 && (
@@ -445,21 +472,21 @@ export default function PolicyDetails({
                 const date = new Date(change.createdAt).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' });
                 const isSelected = idx === activeChangeIndex;
                 const vText = change.oldSnapshot 
-                  ? `V${change.oldSnapshot.version} > V${change.newSnapshot.version}`
-                  : `${lang === 'it' ? 'Iniziale' : 'Initial'} V${change.newSnapshot.version}`;
+                  ? `V${change.oldSnapshot.version} > V${change.newSnapshot?.version ?? '?'}`
+                  : `${lang === 'it' ? 'Iniziale' : 'Initial'} V${change.newSnapshot?.version ?? '?'}`;
 
                 return (
-                  <div 
+                  <button
+                    type="button"
                     key={change.id}
+                    aria-pressed={isSelected}
                     onClick={() => setActiveChangeIndex(idx)}
                     className={`${styles.timelineItem} ${isSelected ? styles.timelineItemActive : ''}`}
                   >
                     <span className={styles.versionTitle}>{vText}</span>
                     <span className={styles.versionDate}>{date}</span>
-                    <span className={`badge ${getRiskBadgeClass(change.overallRisk)}`} style={{ fontSize: '0.6rem', padding: '1px 6px', marginTop: '4px' }}>
-                      {change.overallRisk}
-                    </span>
-                  </div>
+                    <ChangeClassificationBadge classification={change.classification} lang={lang} />
+                  </button>
                 );
               })}
             </div>
@@ -493,9 +520,10 @@ export default function PolicyDetails({
             {/* TAB 1: OVERVIEW & DIFFS */}
             {activeTab === 'changes' && (
               <div>
+                <ChangeClassificationPanel classification={activeChange.classification} lang={lang} />
                 <div className={styles.summaryBox}>
                   <h3 className={styles.sectionTitle} style={{ marginBottom: '8px' }}>
-                    <TrendingUp size={18} color="var(--primary)" /> {lang === 'it' ? 'Sintesi AI del Cambiamento' : 'AI Executive Summary'}
+                    <TrendingUp size={18} color="var(--primary)" /> {lang === 'it' ? 'Analisi AI archiviata' : 'Archived AI analysis'}
                   </h3>
                   <AISummary
                     tldrEn={activeChange.tldrEn}
@@ -813,7 +841,8 @@ export default function PolicyDetails({
             </div>
           </div>
         )}
+        </>}
       </div>
-    </div>
+    </ModalDialog>
   );
 }

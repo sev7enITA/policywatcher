@@ -19,9 +19,10 @@ export interface CSVRow {
   Company: string;
   Industry: string;
   Policy: string;
+  DocumentType: string;
   Jurisdiction: string;
   OverallRisk: string;
-  OverallScore: number;
+  OverallScore: number | '';
   Date: string;
   AITrainingOptOut: string;
   AIDataScraping: string;
@@ -47,6 +48,7 @@ export interface DashboardCSVRow {
   Company: string;
   Industry: string;
   Policy: string;
+  DocumentType: string;
   Jurisdiction: string;
   OverallRisk: string;
   OverallScore: number | '';
@@ -70,16 +72,16 @@ export interface DashboardCsvArtifact {
   rows: DashboardCSVRow[];
 }
 
-export function buildCompanyCsvRows(companies: readonly Company[]): CSVRow[] {
+export function buildCompanyCsvRows(companies: readonly Company[], includeUnassessed = false): CSVRow[] {
   const rows: CSVRow[] = [];
 
   for (const company of companies) {
     for (const policy of company.policies) {
       const latestChange = policy.changes?.[0];
-      if (!latestChange) continue;
+      if (!latestChange && !includeUnassessed) continue;
 
       const findRegionRisk = (region: string, perspective: string): string => {
-        const impact = latestChange.regionImpacts?.find(
+        const impact = latestChange?.regionImpacts?.find(
           (ri) => ri.region === region && ri.perspective === perspective
         );
         return impact?.riskLevel || 'N/A';
@@ -89,14 +91,15 @@ export function buildCompanyCsvRows(companies: readonly Company[]): CSVRow[] {
         Company: company.name,
         Industry: company.industry,
         Policy: policy.name,
+        DocumentType: policy.type,
         Jurisdiction: policy.jurisdiction,
-        OverallRisk: latestChange.overallRisk,
-        OverallScore: latestChange.overallScore,
-        Date: new Date(latestChange.createdAt).toISOString().split('T')[0],
-        AITrainingOptOut: latestChange.aiTrainingOptOut,
-        AIDataScraping: latestChange.aiDataScrapingRestricted,
-        AIIpLicensing: latestChange.aiIpLicensing,
-        AIPromptRetention: latestChange.aiPromptRetention,
+        OverallRisk: latestChange?.overallRisk ?? 'Not assessed',
+        OverallScore: latestChange?.overallScore ?? '',
+        Date: latestChange ? new Date(latestChange.createdAt).toISOString().split('T')[0] : '',
+        AITrainingOptOut: latestChange?.aiTrainingOptOut ?? 'Not assessed',
+        AIDataScraping: latestChange?.aiDataScrapingRestricted ?? 'Not assessed',
+        AIIpLicensing: latestChange?.aiIpLicensing ?? 'Not assessed',
+        AIPromptRetention: latestChange?.aiPromptRetention ?? 'Not assessed',
         RegionEU_Individual_Risk: findRegionRisk('EU', 'Individual'),
         RegionEU_Enterprise_Risk: findRegionRisk('EU', 'Enterprise'),
         RegionUS_Individual_Risk: findRegionRisk('US', 'Individual'),
@@ -124,7 +127,7 @@ export function buildDashboardCsvArtifact(
   view: DashboardViewModel,
   options: { generatedAt: string; policyWatcherRelease: string; language: Lang }
 ): DashboardCsvArtifact {
-  const policyRows = buildCompanyCsvRows(view.companies);
+  const policyRows = buildCompanyCsvRows(view.companies, true);
   const manifest: DashboardExportManifest = {
     ...view.manifest,
     ...options,
@@ -134,6 +137,7 @@ export function buildDashboardCsvArtifact(
     Company: '',
     Industry: '',
     Policy: '',
+    DocumentType: '',
     Jurisdiction: '',
     OverallRisk: '',
     OverallScore: '' as const,
@@ -276,8 +280,8 @@ export function generatePolicyReport(
     analysis: {
       summaryTitle: isIt ? 'Riepilogo Esecutivo' : 'Executive Summary',
       summary: isIt ? latestChange.aiSummaryIt : latestChange.aiSummaryEn,
-      overallRisk: latestChange.overallRisk,
-      overallScore: latestChange.overallScore,
+      overallRisk: latestChange?.overallRisk ?? 'Not assessed',
+      overallScore: latestChange?.overallScore ?? '',
       aiGovernance: [
         { label: aiGovernanceLabels[0], value: latestChange.aiTrainingOptOut },
         { label: aiGovernanceLabels[1], value: latestChange.aiDataScrapingRestricted },

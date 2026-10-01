@@ -1,3 +1,4 @@
+import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { buildLeaderboard, type LeaderboardRow, type LeaderboardSnapshot } from '@/lib/leaderboard';
@@ -8,12 +9,12 @@ import styles from './leaderboard.module.css';
 
 export const dynamic = 'force-dynamic';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: 'Policy Signals Board | PolicyWatcher',
   description:
     'Evidence-only leaderboard for public policy-source coverage, retrieval traceability, and publicEvidence-gated movement.',
   alternates: { canonical: '/leaderboard' },
-};
+}, 'en');
 
 const mixLabels: Array<[keyof LeaderboardRow['retrievalMix'], string]> = [
   ['direct', 'Direct'],
