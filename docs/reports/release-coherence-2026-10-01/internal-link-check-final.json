@@ -1,0 +1,50 @@
+{
+  "internalPaths": 478,
+  "existingPublicFiles": 46,
+  "checked": [
+    {
+      "path": "/llms.txt",
+      "status": 200
+    },
+    {
+      "path": "/schemas/agentic-incident-signal/v1",
+      "status": 200
+    },
+    {
+      "path": "/schemas/publication-readiness/v1",
+      "status": 200
+    },
+    {
+      "path": "/schemas/press-coverage/v1",
+      "status": 200
+    },
+    {
+      "path": "/schemas/evidence-collection/v1",
+      "status": 200
+    },
+    {
+      "path": "/schemas/change-event-feed/v1",
+      "status": 200
+    },
+    {
+      "path": "/schemas/event-continuity-checkpoint/v1",
+      "status": 200
+    },
+    {
+      "path": "/press-kit/press-kit.json",
+      "status": 200
+    },
+    {
+      "path": "/press-kit/policywatcher-fact-sheet-en-2026-08-20.pdf",
+      "status": 200
+    },
+    {
+      "path": "/press-kit/policywatcher-fact-sheet-it-2026-08-20.pdf",
+      "status": 200
+    },
+    {
+      "path": "/schemas/webhook-verification-kit/v1",
+      "status": 200
+    }
+  ]
+}

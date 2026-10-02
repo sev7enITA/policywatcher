@@ -227,7 +227,7 @@ model Policy {
   historicalReferences       HistoricalSourceReference[]
   sourceOnboardingItems      SourceOnboardingItem[]
 
-  @@unique([companyId, type, jurisdiction])
+  @@unique([companyId, type, jurisdiction, url])
   @@index([companyId])
   @@index([jurisdiction])
   @@index([sourceMigrationPending])

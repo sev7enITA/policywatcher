@@ -48,6 +48,7 @@ import styles from './Navigation.module.css';
 export type NavLayout = 'hud' | 'spotlight' | 'sidebar';
 
 interface NavigationProps {
+  documentScopeQuery?: string;
   /** Active UI language. */
   lang: 'en' | 'it';
   onToggleLanguage: () => void;
@@ -90,6 +91,7 @@ export default function Navigation({
   onToggleLanguage,
   onOpenAssistant,
   onOpenSubscribe,
+  documentScopeQuery,
   onOpenExport,
   onOpenMatrix,
   onOpenMethodology,
@@ -299,7 +301,7 @@ export default function Navigation({
       label: t.observe,
       items: [
         { id: 'associations', label: t.associations, tooltip: t.tooltips.associations, icon: Users, href: lang === 'it' ? '/it/associazioni' : '/en/associations' },
-        { id: 'timeline', label: t.timeline, tooltip: t.tooltips.timeline, icon: Clock, href: '/timeline' },
+        { id: 'timeline', label: t.timeline, tooltip: t.tooltips.timeline, icon: Clock, href: documentScopeQuery ? `/timeline?documents=${encodeURIComponent(documentScopeQuery)}` : '/timeline' },
         { id: 'observatory', label: t.observatory, tooltip: t.tooltips.observatory, icon: Search, href: '/observatory' },
         { id: 'leaderboard', label: t.leaderboard, tooltip: t.tooltips.leaderboard, icon: BarChart3, href: '/leaderboard' },
       ],
@@ -328,7 +330,8 @@ export default function Navigation({
     lang,
     onOpenAbout,
     onOpenChangelog,
-    onOpenExport,
+    documentScopeQuery,
+  onOpenExport,
     onOpenHowTo,
     onOpenMatrix,
     onOpenMethodology,

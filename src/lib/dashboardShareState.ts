@@ -1,3 +1,4 @@
+import { DOCUMENT_TYPES, documentTypesQuery, parseDocumentTypes } from './documentScope';
 import type { Lang, Perspective, Region } from '@/types';
 import {
   DEFAULT_DASHBOARD_FILTER_STATE,
@@ -27,6 +28,7 @@ export const DEFAULT_DASHBOARD_SHARE_STATE: Readonly<DashboardShareState> = Obje
 });
 
 const DASHBOARD_QUERY_KEYS = Object.freeze([
+  'documents',
   'dv',
   'industry',
   'risk',
@@ -73,6 +75,10 @@ export function decodeDashboardShareQuery(
 
   const schema = params.get('dv');
   if (schema && schema !== DASHBOARD_SHARE_SCHEMA) issues.push('Unsupported dashboard view schema.');
+
+  const documentTypes = parseDocumentTypes(params.get('documents'));
+  if (documentTypes) state.documentTypes = documentTypes;
+  else issues.push('Invalid document types.');
 
   const industry = params.get('industry');
   if (industry !== null) {
@@ -141,6 +147,7 @@ export function encodeDashboardShareQuery(
 
   const normalizedSearch = state.search.trim();
   const entries: Array<[string, string, boolean]> = [
+    ['documents', documentTypesQuery(state.documentTypes), (state.documentTypes || DOCUMENT_TYPES).length !== DOCUMENT_TYPES.length],
     ['industry', state.industry.trim(), state.industry.trim() !== DEFAULT_DASHBOARD_SHARE_STATE.industry],
     ['risk', state.risk, state.risk !== DEFAULT_DASHBOARD_SHARE_STATE.risk],
     ['region', state.region, state.region !== DEFAULT_DASHBOARD_SHARE_STATE.region],

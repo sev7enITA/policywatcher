@@ -1,3 +1,5 @@
+import PublicBreadcrumbs from '@/components/PublicBreadcrumbs';
+import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { AlertTriangle, ArrowRight, ExternalLink, FileSearch } from 'lucide-react';
@@ -25,12 +27,12 @@ export async function generateMetadata({ params }: CompanyPageProps): Promise<Me
     const company = await getPublicKnowledgeCompany(slug);
     if (!company) return { title: 'Company record not found | PolicyWatcher', robots: { index: false } };
     const canonical = `${POLICYWATCHER_ORIGIN}/knowledge/companies/${company.slug}`;
-    return {
+    return withSocialMetadata({
       title: `${company.name} public policy record | PolicyWatcher`,
       description: `Evidence-gated index of ${company.publicPolicyCount} public ${company.name} policy records monitored by PolicyWatcher.`,
       alternates: { canonical },
       openGraph: { title: `${company.name} public policy record`, description: `Public policy sources, verification timestamps and published changes for ${company.name}.`, url: canonical, type: 'website' },
-    };
+    });
   } catch {
     return { title: 'Public company record temporarily unavailable | PolicyWatcher', robots: { index: false } };
   }
@@ -81,7 +83,7 @@ export default async function CompanyKnowledgePage({ params }: CompanyPageProps)
       <PublicHeader current="knowledge" />
       <main className={styles.page}>
         <div className={styles.shell}>
-          <nav className={styles.breadcrumbs} aria-label="Breadcrumb"><Link href="/knowledge">Knowledge</Link><span>/</span><span>{company?.name || 'Company record'}</span></nav>
+          <PublicBreadcrumbs items={[{ name: 'Knowledge', path: '/knowledge' }, { name: company?.name || 'Company record', path: canonical }]} />
           {company ? (
             <>
               <header className={styles.entityHeader}>

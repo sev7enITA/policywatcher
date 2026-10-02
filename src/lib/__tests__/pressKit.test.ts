@@ -313,7 +313,7 @@ describe('public press kit', () => {
     const hardeningItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'production-readiness-hardening');
     expect(hardeningItem).toMatchObject({ status: 'delivered', startRelease: '4.0.0-beta.2', endRelease: '4.0.0-beta.2' });
     const discoverabilityItem = RELEASE_IMPACT_ITEMS.find((item) => item.id === 'ai-discoverability-citation-readiness');
-    expect(discoverabilityItem).toMatchObject({ status: 'current', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION });
+    expect(discoverabilityItem).toMatchObject({ status: 'delivered', startRelease: '4.0.0-beta.3', endRelease: '4.0.0-beta.3' });
     expect(continuityAtlasItem?.route).toEqual({ href: '/developers/event-continuity', label: 'Event Feed Continuity Lab', access: 'public' });
   });
 });

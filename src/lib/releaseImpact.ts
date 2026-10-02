@@ -34,7 +34,7 @@ export interface ReleaseImpactItem {
   externalDependency?: string;
 }
 
-export const RELEASE_IMPACT_UPDATED_AT = '28 August 2026' as const;
+export const RELEASE_IMPACT_UPDATED_AT = '1 October 2026' as const;
 
 export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.7.0', shortLabel: '3.7.0', label: '3.7.0', state: 'delivered' },
@@ -97,7 +97,9 @@ export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.9.0-beta.42', shortLabel: '3.9 B42', label: '3.9.0 Beta 42', state: 'delivered' },
   { id: '4.0.0-beta.1', shortLabel: '4.0 B1', label: '4.0.0 Beta 1', state: 'delivered' },
   { id: '4.0.0-beta.2', shortLabel: '4.0 B2', label: '4.0.0 Beta 2', state: 'delivered' },
-  { id: '4.0.0-beta.3', shortLabel: '4.0 B3', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
+  { id: '4.0.0-beta.3', shortLabel: '4.0 B3', label: '4.0.0 Beta 3', state: 'delivered' },
+  { id: '4.0.0-beta.4', shortLabel: '4.0 B4', label: '4.0.0 Beta 4', state: 'delivered' },
+  { id: '4.0.0-beta.5', shortLabel: '4.0 B5', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
   { id: 'next', shortLabel: 'Next', label: 'Next beta horizon', state: 'planned' },
   { id: 'later', shortLabel: 'Later', label: 'Later horizon', state: 'planned' },
 ];
@@ -115,6 +117,26 @@ export const RELEASE_IMPACT_DOMAINS: ReleaseImpactDomain[] = [
 ];
 
 export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
+  {
+    id: 'global-document-scope', title: 'Comparable document scope',
+    summary: 'Apply one multi-select document scope to every company and downstream dashboard analysis.',
+    domainId: 'experience', status: 'current', horizon: 'delivered', startRelease: '4.0.0-beta.5', endRelease: '4.0.0-beta.5',
+    benefit: 'Privacy-only and mixed document comparisons have visible, consistent inputs.',
+    kpi: 'Assessed requested types per company; eligible company count for complete-scope means.',
+    kri: 'Missing document types and baseline-only policies remain unassessed.',
+    evidence: 'Scope-aware dashboard, API handlers, comparison, matrix, timeline, assistant and CSV; methodology and integration tests.',
+    limitation: 'Complete type coverage is not complete KPI coverage or proven legal comparability. Separate public registries retain their own scope.',
+  },
+  {
+    id: 'current-evidence-coverage', title: 'Current evidence coverage',
+    summary: 'Separate live and archived public baselines, unavailable sources and current assessed KPI values.',
+    domainId: 'assurance', status: 'delivered', horizon: 'delivered', startRelease: '4.0.0-beta.4', endRelease: '4.0.0-beta.4',
+    benefit: 'Readers see the denominator and missing evidence behind dashboard figures.',
+    kpi: 'Canonical assessed values divided by 15 times current public policies in scope.',
+    kri: 'Availability and acquisition freshness do not validate AI interpretation.',
+    evidence: 'Evidence summary API, shared risk scale, transactional change counter and auditable consistency repair.',
+    limitation: 'SMTP delivery requires mailbox configuration and verification; source failures remain visible.',
+  },
   {
     id: 'canonical-document-evidence-graph',
     title: 'Canonical Document Evidence Graph',
@@ -165,7 +187,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
     title: 'AI Discoverability and Citation Readiness',
     summary: 'Makes the homepage topic, public evidence boundaries, social preview and machine-readable identity explicit in server-rendered HTML.',
     domainId: 'distribution',
-    status: 'current',
+    status: 'delivered',
     horizon: 'delivered',
     startRelease: '4.0.0-beta.3',
     endRelease: '4.0.0-beta.3',

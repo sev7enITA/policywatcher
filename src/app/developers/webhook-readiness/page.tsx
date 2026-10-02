@@ -1,3 +1,4 @@
+import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
@@ -30,12 +31,12 @@ import {
 import WebhookReadinessClient from './WebhookReadinessClient';
 import styles from './webhook-readiness.module.css';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: 'Webhook verification | PolicyWatcher',
   description:
     'Inspect and verify the deterministic PolicyWatcher HMAC-SHA256 webhook test vector locally before outbound delivery is available.',
   alternates: { canonical: '/developers/webhook-readiness' },
-};
+}, 'en');
 
 const verificationSteps = [
   {

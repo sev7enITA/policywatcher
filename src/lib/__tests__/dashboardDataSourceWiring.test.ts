@@ -11,13 +11,13 @@ const compareApi = readFileSync('src/app/api/compare/route.ts', 'utf8');
 describe('evidence-first data-source wiring', () => {
   it('routes public dashboard loads through the allowlisted registry', () => {
     expect(dashboard).toContain("loadPublicDataSource<Company[]>('dashboardCompanies')");
-    expect(dashboard).toContain("('sourceSuspensions')");
+    expect(dashboard).toContain("('sourceSuspensions', { documents: documentsQuery })");
     expect(dashboard).toContain("('marketPulse', query)");
   });
 
   it('routes trends and KPI matrix through registered sources', () => {
     expect(trends).toContain("'riskTrends'");
-    expect(matrix).toContain("loadPublicDataSource<MatrixResponse>('kpiMatrix')");
+    expect(matrix).toContain("loadPublicDataSource<MatrixResponse>('kpiMatrix', { documents: documentTypesQuery(documentTypes) })");
   });
 
   it('routes dynamic public policy details through the registered path template', () => {
@@ -34,7 +34,7 @@ describe('evidence-first data-source wiring', () => {
     expect(compareApi).toContain("from '@/lib/metricsCatalog'");
     expect(compareApi).toContain('getMoreConcerningKpiValue');
     expect(compareApi).toContain('isAssessedKpiValue');
-    expect(compareApi).toContain('let overallScore: number | null = null');
+    expect(compareApi).toContain('typeBalancedScore');
     expect(compareApi).not.toContain('const kpiWeights');
   });
 

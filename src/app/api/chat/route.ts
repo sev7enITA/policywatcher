@@ -13,6 +13,7 @@
  * @body {{ question: string; policyIds?: string[] }}
  * @returns {{ answer: string }}
  */
+import { DOCUMENT_TYPES, isDocumentTypes, documentTypeWhere } from '@/lib/documentScope';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { answerPolicyQuestion } from '@/lib/gemini';
@@ -53,6 +54,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = parsedBody.value;
+    if (body.documentTypes !== undefined && !isDocumentTypes(body.documentTypes)) return NextResponse.json({ error: 'Invalid document types.' }, { status: 400 });
+    const types = body.documentTypes === undefined ? [...DOCUMENT_TYPES] : body.documentTypes as Array<typeof DOCUMENT_TYPES[number]>;
+    if (body.companyIds !== undefined && (!Array.isArray(body.companyIds) || body.companyIds.length > 100 || !body.companyIds.every(id => typeof id === 'string' && id.length <= 128))) return NextResponse.json({ error: 'Invalid company scope.' }, { status: 400 });
+    const scopeWhere = { ...documentTypeWhere(types), ...(Array.isArray(body.companyIds) ? { companyId: { in: body.companyIds as string[] } } : {}) };
+
     const question = typeof body.question === 'string' ? body.question.trim() : '';
     const rawPolicyIds = Array.isArray(body.policyIds) ? body.policyIds : [];
     if (rawPolicyIds.length > CHAT_MAX_POLICY_IDS) {
@@ -85,6 +91,7 @@ export async function POST(request: NextRequest) {
     if (policyIds && policyIds.length > 0) {
       policiesToQuery = await db.policy.findMany({
         where: publicPolicyWhere({
+          ...scopeWhere,
           id: { in: policyIds },
         }),
         select: {
@@ -97,7 +104,7 @@ export async function POST(request: NextRequest) {
     } else {
       // Fetch latest policies for all companies
       policiesToQuery = await db.policy.findMany({
-        where: publicPolicyWhere(),
+        where: publicPolicyWhere(scopeWhere),
         select: {
           name: true,
           currentText: true,
@@ -108,6 +115,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    const availablePoliciesCount = await db.policy.count({ where: publicPolicyWhere({ ...scopeWhere, ...(policyIds.length ? { id: { in: policyIds } } : {}) }) });
     const contextPolicies = policiesToQuery.map((p) => ({
       company: p.company.name,
       policyName: p.name,
@@ -116,13 +124,14 @@ export async function POST(request: NextRequest) {
 
     if (contextPolicies.length === 0) {
       return NextResponse.json({
-        answer: 'Nessun contesto policy disponibile per rispondere alla domanda.',
+        answer: 'Nessun contesto policy disponibile nella selezione per rispondere alla domanda.',
+        contextPoliciesCount: 0, availablePoliciesCount: 0,
       });
     }
 
     const answer = await answerPolicyQuestion(question, contextPolicies);
 
-    return NextResponse.json({ answer });
+    return NextResponse.json({ answer, contextPoliciesCount: contextPolicies.length, availablePoliciesCount, documentTypes: types });
   } catch (error) {
     const errorReference = createErrorReference('chat');
     console.error(`[Chat] Error reference ${errorReference}: ${getErrorMessage(error)}`);

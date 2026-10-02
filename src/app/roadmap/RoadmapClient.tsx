@@ -249,7 +249,25 @@ const priorityPipeline = [
 
 const nowItems = [
   {
-    phase: 'Current · 4.0.0-beta.3',
+    phase: 'Current · 4.0.0-beta.5',
+    title: 'Document Scope and Comparable Evidence',
+    body: 'Select privacy, terms, AI terms, DPA, acceptable use and community documents once for all dashboard companies and analyses.',
+    benefit: 'Comparisons, KPI matrix, timeline, assistant and CSV share the same evidence scope; missing document types remain visible.',
+    validation: 'Type-balanced means, complete-scope eligibility and current KPI denominators measure coverage. They do not prove AI accuracy or legal compliance.',
+    icon: SlidersHorizontal,
+    href: '/methodology/confidence',
+  },
+  {
+    phase: 'Delivered · 4.0.0-beta.4',
+    title: 'Evidence Consistency and Live Coverage',
+    body: 'Show live and archived baselines, unavailable checks and assessed current KPIs with explicit denominators.',
+    benefit: 'Stored changes and dashboard counts use the same transaction and declared risk scale.',
+    validation: 'Source failures stay visible; SMTP delivery requires a configured and verified mailbox.',
+    icon: SlidersHorizontal,
+    href: '/trust',
+  },
+  {
+    phase: 'Delivered · 4.0.0-beta.3',
     title: 'AI Discoverability and Citation Readiness',
     body:
       'Align visible homepage content, canonical social metadata, structured identity and crawler access around the public evidence boundary.',

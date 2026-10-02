@@ -1,3 +1,4 @@
+import { riskFromScore } from '@/lib/riskScale';
 /**
  * Admin Dataset Quality API
  *
@@ -124,9 +125,7 @@ function cleanText(value: unknown, maxLength: number): string | undefined {
 }
 
 function expectedRisk(score: number): string {
-  if (score >= 7) return 'High';
-  if (score >= 4) return 'Medium';
-  return 'Low';
+  return riskFromScore(score);
 }
 
 function parseJsonArray(value: string | null): { valid: boolean; count: number } {
@@ -496,7 +495,7 @@ export async function GET(request: NextRequest) {
         });
       }
 
-      if (policy.lastSuccessfulCheckDate) {
+      if (policy.lastSuccessfulCheckDate && policy.snapshots.some(snapshot => snapshot.publicEvidence && snapshot.hash === policy.currentHash)) {
         policiesWithSuccessfulCheck++;
         if (policy.lastCheckDate && policy.lastSuccessfulCheckDate > policy.lastCheckDate) {
           addIssue('warning', {
@@ -528,7 +527,8 @@ export async function GET(request: NextRequest) {
         (log.status === 'Available' || log.status === 'Reviewed')
         && Boolean(log.source)
         && !isSeededIngestionMethod(log.source)
-        && (Boolean(log.textHash) || (log.textLength ?? 0) > 0)
+        && Boolean(log.textHash)
+        && policy.snapshots.some(snapshot => snapshot.publicEvidence && snapshot.hash === log.textHash)
       ));
       if (latestLog) {
         policiesWithCheckLogs++;
@@ -664,11 +664,12 @@ export async function GET(request: NextRequest) {
           policyName: policy.name,
           label: 'Policy has no AI change analysis',
           detail: 'No PolicyChange rows exist for this monitored policy.',
-          action: 'Run a scan or seed an initial analysis so public views have assessment data.',
+          action: 'Retrieve and verify a public baseline first. Analyze supported source changes; missing evidence must remain unassessed.',
         });
       }
 
-      const latestSnapshot = policy.snapshots[0];
+      // Historical/private captures do not replace the accepted comparison baseline.
+      const latestSnapshot = policy.snapshots.find((snapshot) => snapshot.publicEvidence);
       const hiddenSnapshotCount = policy.snapshots.filter((snapshot) => !snapshot.publicEvidence).length;
       if (hiddenSnapshotCount > 0) {
         addIssue('info', {
@@ -1060,7 +1061,7 @@ export async function GET(request: NextRequest) {
         status: gateStatus(assessedKpiCells, totalKpiCells),
         passed: assessedKpiCells,
         total: totalKpiCells,
-        detail: `${kpiCoveragePct}% of KPI cells are assessed.`,
+        detail: `${kpiCoveragePct}% of KPI cells across all stored historical changes are assessed; this is not current public dashboard coverage.`,
       },
       {
         id: 'region-impact',

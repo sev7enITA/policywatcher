@@ -21,6 +21,7 @@ import {
 import styles from './confidence.module.css';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
+import { DOCUMENT_SCOPE_METHODOLOGY } from '@/lib/documentScopeCopy';
 import { POLICYWATCHER_VERSION } from '@/lib/release';
 
 const translationContent = {
@@ -36,6 +37,7 @@ const translationContent = {
     
     // Cards / Sections
     sections: [
+      { icon: Scale, title: DOCUMENT_SCOPE_METHODOLOGY.en.title, desc: DOCUMENT_SCOPE_METHODOLOGY.en.intro, bullets: DOCUMENT_SCOPE_METHODOLOGY.en.bullets },
       {
         icon: Scale,
         title: '1. Informational mapping and scope',
@@ -107,7 +109,7 @@ const translationContent = {
       {
         icon: ShieldCheck,
         title: '5. Adaptive Workspace & Public Surfaces',
-        desc: `Release ${POLICYWATCHER_VERSION} adds protected operational-readiness presentation and bounded measurement without changing public evidence rules or server-side authorization.`,
+        desc: `Release ${POLICYWATCHER_VERSION} combines shared document scope with protected operational-readiness presentation and bounded measurement without changing public evidence rules or server-side authorization.`,
         bullets: [
           'Adaptive Workspace: users can select a session intent (Citizen, GRC / Legal, Research, Builder) and evidence depth (Snapshot, Operational, Forensic).',
           'Validated composition: dashboard modules come from an immutable allowlist with deterministic identities; each valid composition requires Source QA as its first module.',
@@ -162,6 +164,7 @@ const translationContent = {
     
     // Cards / Sections
     sections: [
+      { icon: Scale, title: DOCUMENT_SCOPE_METHODOLOGY.it.title, desc: DOCUMENT_SCOPE_METHODOLOGY.it.intro, bullets: DOCUMENT_SCOPE_METHODOLOGY.it.bullets },
       {
         icon: Scale,
         title: '1. Mappatura informativa e ambito',
@@ -233,7 +236,7 @@ const translationContent = {
       {
         icon: ShieldCheck,
         title: '5. Workspace adattivo e superfici pubbliche',
-        desc: `La release ${POLICYWATCHER_VERSION} aggiunge presentazione della readiness operativa protetta e misurazione circoscritta senza cambiare le regole di evidenza pubblica o l autorizzazione server-side.`,
+        desc: `La release ${POLICYWATCHER_VERSION} combina ambito documentale condiviso, presentazione della readiness operativa protetta e misurazione circoscritta senza cambiare le regole di evidenza pubblica o l autorizzazione server-side.`,
         bullets: [
           'Workspace adattivo: l\'utente puo selezionare intento di sessione (Cittadino, GRC / Legal, Ricerca, Builder) e profondita evidenza (Snapshot, Operativa, Forensic).',
           'Composizione validata: i moduli dashboard provengono da una allowlist immutabile con identita deterministiche; Source QA e obbligatorio e resta in prima posizione.',

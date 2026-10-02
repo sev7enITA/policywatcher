@@ -1,3 +1,4 @@
+import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
@@ -21,12 +22,12 @@ import PublicHeader from '@/components/PublicHeader';
 import { getPublicApiManifest, PUBLIC_API_VERSION } from '@/lib/publicApi';
 import styles from './developers.module.css';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: 'Developer APIs and tools | PolicyWatcher',
   description:
     'Read-only public integration directory for PolicyWatcher evidence, publication readiness, cross-cloud agent briefs and Observatory registry data.',
   alternates: { canonical: '/developers' },
-};
+}, 'en');
 
 const manifest = getPublicApiManifest();
 

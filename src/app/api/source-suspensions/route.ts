@@ -5,6 +5,7 @@
  * is not publishable. It intentionally does not return policy text, diffs,
  * scores, summaries, or AI-generated analysis.
  */
+import { parseDocumentTypes, documentTypeWhere } from '@/lib/documentScope';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
@@ -42,10 +43,12 @@ export async function GET(request: NextRequest) {
   if (limited) return limited;
 
   try {
+    const documentTypes = parseDocumentTypes(request.nextUrl.searchParams.get('documents'));
+    if (!documentTypes) return NextResponse.json({ error: 'Invalid document types.' }, { status: 400 });
     const [total, policies] = await Promise.all([
-      db.policy.count({ where: suspendedPolicyWhere() as never }),
+      db.policy.count({ where: suspendedPolicyWhere(documentTypeWhere(documentTypes)) as never }),
       db.policy.findMany({
-        where: suspendedPolicyWhere() as never,
+        where: suspendedPolicyWhere(documentTypeWhere(documentTypes)) as never,
         select: {
           id: true,
           name: true,
@@ -56,6 +59,7 @@ export async function GET(request: NextRequest) {
           ingestionMethod: true,
           lastCheckDate: true,
           lastSuccessfulCheckDate: true,
+          snapshots: { where: { publicEvidence: true }, select: { id: true }, take: 1 },
           company: {
             select: {
               id: true,
@@ -93,7 +97,7 @@ export async function GET(request: NextRequest) {
         dataStatus: policy.dataStatus,
         ingestionMethod: policy.ingestionMethod,
         lastCheckDate: policy.lastCheckDate,
-        lastSuccessfulCheckDate: policy.lastSuccessfulCheckDate,
+        lastSuccessfulCheckDate: policy.snapshots.length ? policy.lastSuccessfulCheckDate : null,
         latestCheck: latestLog
           ? {
               status: latestLog.status,

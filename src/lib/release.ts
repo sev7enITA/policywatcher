@@ -1,14 +1,14 @@
-export const POLICYWATCHER_VERSION = '4.0.0-beta.3' as const;
-export const POLICYWATCHER_VERSION_DISPLAY = '4.0.0 Beta 3' as const;
-export const POLICYWATCHER_RELEASE_NAME = 'AI Discoverability and Citation Readiness' as const;
-export const POLICYWATCHER_RELEASE_DATE = '2026-08-28' as const;
+export const POLICYWATCHER_VERSION = '4.0.0-beta.5' as const;
+export const POLICYWATCHER_VERSION_DISPLAY = '4.0.0 Beta 5' as const;
+export const POLICYWATCHER_RELEASE_NAME = 'Document Scope and Comparable Evidence' as const;
+export const POLICYWATCHER_RELEASE_DATE = '2026-10-01' as const;
 export const POLICYWATCHER_RELEASE_DATE_LABEL = {
-  en: '28 August 2026',
-  it: '28 agosto 2026',
+  en: '1 October 2026',
+  it: '1 ottobre 2026',
 } as const;
 export const POLICYWATCHER_RELEASE_MONTH_LABEL = {
-  en: 'August 2026',
-  it: 'agosto 2026',
+  en: 'October 2026',
+  it: 'ottobre 2026',
 } as const;
 export type PolicyWatcherReleaseChannel = 'stable' | 'beta';
 export const POLICYWATCHER_RELEASE_CHANNEL: PolicyWatcherReleaseChannel = 'beta';

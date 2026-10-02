@@ -1,8 +1,9 @@
+import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import NewsroomPageClient from '../NewsroomPageClient';
 import { POLICYWATCHER_CANONICAL_ORIGIN, PRESS_KIT_LICENSE_URL, pressKitDataSnapshots } from '@/lib/pressKit';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: 'Editorial Data Room | PolicyWatcher',
   description: 'Dated PolicyWatcher editorial snapshots with citations, methodology links and published download formats.',
   alternates: { canonical: 'https://policywatcher.online/press-kit/data' },
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
     images: [{ url: 'https://policywatcher.online/api/og/data-room', width: 1200, height: 630, alt: 'PolicyWatcher Editorial Data Room' }],
   },
   twitter: { card: 'summary_large_image', images: ['https://policywatcher.online/api/og/data-room'] },
-};
+}, 'en');
 
 export default function PressKitDataPage() {
   const snapshot = pressKitDataSnapshots[0];

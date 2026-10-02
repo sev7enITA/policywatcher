@@ -6,6 +6,7 @@
  * Returns the latest snapshot of KPI/risk data for both companies so the
  * client can render a side-by-side comparison + radar chart.
  */
+import { parseDocumentTypes, documentTypeWhere, documentCoverage, typeBalancedScore, type DocumentType } from '@/lib/documentScope';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
@@ -65,12 +66,12 @@ function aggregateCompanyKpis(
  * @param companyId - The UUID of the company.
  * @returns The profile object, or `null` if the company does not exist.
  */
-async function getCompanyProfile(companyId: string) {
+async function getCompanyProfile(companyId: string, documentTypes: DocumentType[]) {
   const company = await db.company.findUnique({
     where: { id: companyId },
     include: {
       policies: {
-        where: publicPolicyWhere(),
+        where: publicPolicyWhere(documentTypeWhere(documentTypes)),
         include: {
           changes: {
             where: { publicEvidence: true },
@@ -86,22 +87,10 @@ async function getCompanyProfile(companyId: string) {
 
   const aggregated = aggregateCompanyKpis(company.policies as unknown as Array<{ changes: Array<Record<string, unknown>> }>);
 
-  // Latest overall risk + score (from any policy's latest change)
-  let overallScore: number | null = null;
-  let overallRisk = 'Not assessed';
-  let scoreTotal = 0;
-  let scoreCount = 0;
-  company.policies.forEach((p) => {
-    const c = p.changes[0];
-    if (c) {
-      scoreTotal += c.overallScore;
-      scoreCount++;
-    }
-  });
-  if (scoreCount > 0) {
-    overallScore = Math.round((scoreTotal / scoreCount) * 10) / 10;
-    overallRisk = buildRisk(overallScore);
-  }
+  const coverage = documentCoverage(company.policies, documentTypes);
+  const score = typeBalancedScore(company.policies);
+  const overallScore = score === null ? null : Math.round(score * 10) / 10;
+  const overallRisk = overallScore === null ? 'Not assessed' : buildRisk(overallScore);
 
   const radar = KPI_FIELD_KEYS.map((field) => ({
     key: field,
@@ -121,15 +110,20 @@ async function getCompanyProfile(companyId: string) {
     overallRisk,
     radar,
     policiesCount: company.policies.length,
+    coverage,
+    byType: documentTypes.map(type => {
+      const policies = company.policies.filter(p => p.type === type);
+      return { type, policiesCount: policies.length, score: typeBalancedScore(policies), kpis: aggregateCompanyKpis(policies as unknown as Array<{ changes: Array<Record<string, unknown>> }>) };
+    }),
   };
 }
 
-async function getIndustryBenchmarkProfile(industry: string, excludeCompanyId?: string) {
+async function getIndustryBenchmarkProfile(industry: string, documentTypes: DocumentType[], excludeCompanyId?: string) {
   const companies = await db.company.findMany({
     where: { industry },
     include: {
       policies: {
-        where: publicPolicyWhere(),
+        where: publicPolicyWhere(documentTypeWhere(documentTypes)),
         include: {
           changes: {
             where: { publicEvidence: true },
@@ -142,7 +136,7 @@ async function getIndustryBenchmarkProfile(industry: string, excludeCompanyId?: 
   });
 
   const comparableCompanies = companies.filter((company) => company.id !== excludeCompanyId);
-  const cohort = comparableCompanies.length > 0 ? comparableCompanies : companies;
+  const cohort = comparableCompanies.filter(company => documentCoverage(company.policies, documentTypes).complete);
   const kpiScores = Object.fromEntries(
     KPI_FIELD_KEYS.map((field) => [field, [] as number[]])
   ) as Record<KpiField, number[]>;
@@ -157,12 +151,8 @@ async function getIndustryBenchmarkProfile(industry: string, excludeCompanyId?: 
       const value = aggregated[field];
       if (isAssessedKpiValue(value)) kpiScores[field].push(kpiToScore(field, value));
     });
-    company.policies.forEach((policy) => {
-      const latest = policy.changes[0];
-      if (!latest) return;
-      overallTotal += latest.overallScore;
-      overallCount++;
-    });
+    const score = typeBalancedScore(company.policies);
+    if (score !== null) { overallTotal += score; overallCount++; }
   });
 
   const overallScore = overallCount > 0
@@ -192,6 +182,8 @@ async function getIndustryBenchmarkProfile(industry: string, excludeCompanyId?: 
     overallRisk: overallScore === null ? 'Not assessed' : buildRisk(overallScore),
     radar,
     policiesCount,
+    benchmarkCompanies: cohort.length,
+    excludedIncompleteCompanies: comparableCompanies.length - cohort.length,
   };
 }
 
@@ -208,6 +200,8 @@ export async function GET(request: NextRequest) {
   if (limited) return limited;
 
   try {
+    const documentTypes = parseDocumentTypes(request.nextUrl.searchParams.get('documents'));
+    if (!documentTypes) return NextResponse.json({ error: 'Invalid document types.' }, { status: 400 });
     const { searchParams } = new URL(request.url);
     const companyA = searchParams.get('companyA');
     const companyB = searchParams.get('companyB');
@@ -219,10 +213,10 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const profileA = await getCompanyProfile(companyA);
+    const profileA = await getCompanyProfile(companyA, documentTypes);
     const profileB = companyB === 'industry-average' && profileA
-      ? await getIndustryBenchmarkProfile(profileA.industry, profileA.id)
-      : await getCompanyProfile(companyB);
+      ? await getIndustryBenchmarkProfile(profileA.industry, documentTypes, profileA.id)
+      : await getCompanyProfile(companyB, documentTypes);
 
     if (!profileA || !profileB) {
       return NextResponse.json(
@@ -231,7 +225,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ companyA: profileA, companyB: profileB });
+    return NextResponse.json({ companyA: profileA, companyB: profileB, documentTypes });
   } catch (error) {
     console.error('Error in compare API:', error);
     return NextResponse.json(

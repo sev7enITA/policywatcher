@@ -6,6 +6,7 @@ const mocks = vi.hoisted(() => ({
   answerPolicyQuestion: vi.fn(),
   companyCount: vi.fn(),
   policyFindMany: vi.fn(),
+  policyCount: vi.fn(),
   databaseDiagnostics: vi.fn(),
 }));
 
@@ -16,7 +17,7 @@ vi.mock('@/lib/gemini', () => ({
 vi.mock('@/lib/db', () => ({
   db: {
     company: { count: mocks.companyCount },
-    policy: { findMany: mocks.policyFindMany },
+    policy: { findMany: mocks.policyFindMany, count: mocks.policyCount },
   },
 }));
 
@@ -32,6 +33,7 @@ import { proxy } from '../../proxy';
 describe('Beta 7 release security hardening', () => {
   beforeEach(() => {
     mocks.policyFindMany.mockReset();
+    mocks.policyCount.mockResolvedValue(1);
     mocks.answerPolicyQuestion.mockReset();
     mocks.companyCount.mockReset();
     mocks.databaseDiagnostics.mockReset();

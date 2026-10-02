@@ -50,9 +50,10 @@ const translations = {
     freqWeekly: 'Weekly Digest',
     submitText: 'Subscribe',
     submitting: 'Subscribing...',
-    successTitle: 'Check your inbox',
+    successTitle: 'Request received',
     successMessage:
-      'If this address can receive PolicyWatcher alerts, a confirmation email has been sent with your subscription details and instructions on how to unsubscribe at any time.',
+      'A new subscription becomes active only after you confirm it by email. Check your inbox and spam folder. If no confirmation arrives, try again later. An existing active subscription stays unchanged.',
+    emailUnavailable: 'Email subscriptions are temporarily unavailable. Please try again later.',
     errorGeneric: 'An error occurred. Please try again.',
     emailRequired: 'Please enter a valid email address.',
   },
@@ -71,9 +72,10 @@ const translations = {
     freqWeekly: 'Riepilogo settimanale',
     submitText: 'Iscriviti',
     submitting: 'Iscrizione in corso...',
-    successTitle: 'Controlla la tua email',
+    successTitle: 'Richiesta ricevuta',
     successMessage:
-      'Se questo indirizzo può ricevere gli avvisi PolicyWatcher, abbiamo inviato un\'email di conferma con i dettagli dell\'iscrizione e le istruzioni per disiscriverti in qualsiasi momento.',
+      'Una nuova iscrizione si attiva solo dopo la conferma via email. Controlla la posta in arrivo e lo spam. Se la conferma non arriva, riprova più tardi. Un’iscrizione già attiva resta invariata.',
+    emailUnavailable: 'Le iscrizioni via email sono temporaneamente non disponibili. Riprova più tardi.',
     errorGeneric: 'Si è verificato un errore. Riprova.',
     emailRequired: 'Inserisci un indirizzo email valido.',
   },
@@ -178,7 +180,7 @@ export default function SubscribeModal({
         setStatus('success');
       } else {
         const data = await res.json().catch(() => ({}));
-        setErrorMessage(data.error || t.errorGeneric);
+        setErrorMessage(data.code === 'EMAIL_UNAVAILABLE' ? t.emailUnavailable : data.error || t.errorGeneric);
         setStatus('error');
       }
     } catch {

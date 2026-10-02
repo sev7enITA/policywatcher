@@ -1,7 +1,7 @@
 'use client';
 
 import { Check, Globe2, Languages, MapPin, ShieldCheck, X } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   DEFAULT_GLOBAL_CONTEXT,
   GLOBAL_CONTEXT_EVENT,
@@ -21,6 +21,7 @@ import {
   type PlatformLanguagePreference,
 } from '@/lib/globalContext';
 import styles from './GlobalContextControl.module.css';
+import ModalDialog from './ModalDialog';
 
 interface UseGlobalContextResult {
   context: GlobalContext;
@@ -83,10 +84,10 @@ export function useGlobalContext(
 
   useEffect(() => {
     if (!ready) return;
-    document.documentElement.lang = lang;
+    // The URL selects the document language; local preferences only affect widgets.
     document.documentElement.dataset.policywatcherRegion = context.region;
     document.documentElement.dataset.policywatcherCountry = context.country;
-  }, [context.country, context.region, lang, ready]);
+  }, [context.country, context.region, ready]);
 
   const updateContext = useCallback((next: Partial<GlobalContext>) => {
     const stored = storeGlobalContext(next);
@@ -110,24 +111,6 @@ export default function GlobalContextControl({ className = '', compact = false, 
   const displayLang = forcedLang ?? lang;
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState<GlobalContext>(context);
-  const headingRef = useRef<HTMLHeadingElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    const frame = window.requestAnimationFrame(() => headingRef.current?.focus());
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
-    };
-    document.addEventListener('keydown', onKeyDown);
-    return () => {
-      window.cancelAnimationFrame(frame);
-      document.removeEventListener('keydown', onKeyDown);
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [open]);
-
   const countries = useMemo(() => (
     draft.region === 'global'
       ? GLOBAL_COUNTRIES
@@ -214,18 +197,14 @@ export default function GlobalContextControl({ className = '', compact = false, 
       </button>
 
       {open && (
-        <div className={styles.layer} role="presentation" onMouseDown={() => setOpen(false)}>
+        <ModalDialog label={copy.title} className={styles.layer} onRequestClose={() => setOpen(false)}>
           <section
             className={styles.dialog}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="global-context-title"
-            onMouseDown={(event) => event.stopPropagation()}
           >
             <header className={styles.header}>
               <div>
                 <p>{copy.eyebrow}</p>
-                <h2 id="global-context-title" ref={headingRef} tabIndex={-1}>{copy.title}</h2>
+                <h2 id="global-context-title">{copy.title}</h2>
                 <span>{copy.lead}</span>
               </div>
               <button type="button" onClick={() => setOpen(false)} aria-label={copy.close}>
@@ -288,7 +267,7 @@ export default function GlobalContextControl({ className = '', compact = false, 
               <button type="button" data-testid="global-context-save" className={styles.save} onClick={save}>{copy.save}</button>
             </footer>
           </section>
-        </div>
+        </ModalDialog>
       )}
     </div>
   );

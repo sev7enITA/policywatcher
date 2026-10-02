@@ -17,6 +17,8 @@
  * frame-ancestors. X-Frame-Options is not used on embed responses.
  */
 import { notFound } from 'next/navigation';
+import { classifyPolicyChange, classificationSnapshotSelect } from '@/lib/changeClassification';
+import { CHANGE_KIND_LABELS, changeClassificationDescription } from '@/lib/changeClassificationCopy';
 import { db } from '@/lib/db';
 import { ArrowUpRight } from 'lucide-react';
 import styles from './embed.module.css';
@@ -63,6 +65,10 @@ export default async function EmbedPage({ params }: EmbedPageProps) {
   const change = await db.policyChange.findFirst({
     where: publicChangeWhere({ id }),
     select: {
+      policyId: true,
+      riskReasonsJson: true,
+      oldSnapshot: { select: classificationSnapshotSelect },
+      newSnapshot: { select: classificationSnapshotSelect },
       overallRisk: true,
       overallScore: true,
       tldrEn: true,
@@ -98,10 +104,8 @@ export default async function EmbedPage({ params }: EmbedPageProps) {
     .join('')
     .toUpperCase()
     .slice(0, 2);
-  const tldr =
-    change.tldrEn ||
-    change.aiSummaryEn?.substring(0, 200) ||
-    'Policy change detected.';
+  const classification = classifyPolicyChange(change);
+  const tldr = changeClassificationDescription(classification, 'en');
   const date = change.createdAt.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
@@ -137,6 +141,7 @@ export default async function EmbedPage({ params }: EmbedPageProps) {
             </div>
           </div>
           <div className={styles.scoreBlock}>
+            <small>Policy risk (AI)</small>
             <span className={styles.scoreNum} style={{ color: scoreColor }}>
               {score}/10
             </span>
@@ -146,7 +151,7 @@ export default async function EmbedPage({ params }: EmbedPageProps) {
           </div>
         </div>
 
-        <p className={styles.tldr}>{tldr}</p>
+        <p className={styles.tldr}><strong>{CHANGE_KIND_LABELS.en[classification.kind]}</strong><br />{tldr}<br /><small>Change impact: not assessed. Verify the before / after evidence.</small></p>
       </div>
 
       {/* Footer */}

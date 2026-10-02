@@ -28,6 +28,7 @@ import {
 import Image from 'next/image';
 import styles from './CrossCompanyMatrix.module.css';
 import { getJustification, SCREENING_DATE, staticKpiJustificationsEnabled } from '@/lib/kpi-justifications';
+import { DOCUMENT_TYPES, DOCUMENT_TYPE_LABELS, documentTypesQuery, documentScopeLabel, type DocumentType } from '@/lib/documentScope';
 import { loadPublicDataSource } from '@/lib/dataSourceRegistry';
 import { PUBLIC_ANALYSIS_DISCLAIMER } from '@/lib/publicAnalysisDisclaimer';
 
@@ -37,6 +38,8 @@ import { PUBLIC_ANALYSIS_DISCLAIMER } from '@/lib/publicAnalysisDisclaimer';
 
 /** Props for the {@link CrossCompanyMatrix} component. */
 interface CrossCompanyMatrixProps {
+  documentTypes?: readonly DocumentType[];
+  companyIds?: string[];
   /** Whether the matrix overlay is currently shown. */
   isOpen: boolean;
   /** Dismiss callback (backdrop click, Escape, or close button). */
@@ -54,6 +57,8 @@ interface CompanyMatrixData {
   industry: string;
   /** Map of KPI key to assessed value string (e.g. `kpiDataCollection: "Extensive"`). */
   kpis: Record<string, string>;
+  coverage?: { availableTypes: string[]; assessedTypes: string[]; requestedTypes: string[] };
+  byType?: { type: DocumentType; kpis: Record<string, string>; coverage: CompanyMatrixData['coverage'] }[];
 }
 
 /** Wrapper for the `/api/matrix` JSON response. */
@@ -306,8 +311,16 @@ const getBadgeColor = (kpiKey: string, value: string): string => {
  * @param props - {@link CrossCompanyMatrixProps}
  * @returns The matrix overlay, or `null` when `isOpen` is false.
  */
-export default function CrossCompanyMatrix({ isOpen, onClose, lang }: CrossCompanyMatrixProps) {
-  const [data, setData] = useState<CompanyMatrixData[]>([]);
+export default function CrossCompanyMatrix({ isOpen, onClose, lang, documentTypes, companyIds }: CrossCompanyMatrixProps) {
+  const [rawData, setData] = useState<CompanyMatrixData[]>([]);
+  const [typeView, setTypeView] = useState<'all' | DocumentType>('all');
+  const data = useMemo(() => {
+    const cohort = companyIds ? rawData.filter(c => companyIds.includes(c.id)) : rawData;
+    return typeView === 'all' ? cohort : cohort.map(c => {
+      const row = c.byType?.find(r => r.type === typeView);
+      return { ...c, kpis: row?.kpis || {}, coverage: row?.coverage };
+    });
+  }, [rawData, companyIds, typeView]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [closing, setClosing] = useState(false);
@@ -337,7 +350,7 @@ export default function CrossCompanyMatrix({ isOpen, onClose, lang }: CrossCompa
     setLoading(true);
     setError(null);
     try {
-      const result = await loadPublicDataSource<MatrixResponse>('kpiMatrix');
+      const result = await loadPublicDataSource<MatrixResponse>('kpiMatrix', { documents: documentTypesQuery(documentTypes) });
       setData(result.data.companies);
     } catch (err) {
       console.error('Error fetching matrix:', err);
@@ -349,7 +362,7 @@ export default function CrossCompanyMatrix({ isOpen, onClose, lang }: CrossCompa
     } finally {
       setLoading(false);
     }
-  }, [lang]);
+  }, [lang, documentTypes]);
 
   const handleClose = useCallback(() => {
     setClosing(true);
@@ -461,6 +474,7 @@ export default function CrossCompanyMatrix({ isOpen, onClose, lang }: CrossCompa
     let total = 0;
 
     filteredData.forEach((co) => {
+      if (!co.coverage || co.coverage.assessedTypes.length !== co.coverage.requestedTypes.length) return;
       const val = co.kpis[kpiKey];
       if (val && val !== 'Not assessed') {
         counts[val] = (counts[val] || 0) + 1;
@@ -669,6 +683,13 @@ export default function CrossCompanyMatrix({ isOpen, onClose, lang }: CrossCompa
           </div>
         </div>
 
+        <p style={{ padding: '0 24px' }}>{documentScopeLabel(documentTypes, lang)} · {lang === 'it' ? 'Valore KPI più preoccupante tra i documenti selezionati. Copertura incompleta indicata per azienda.' : 'Most concerning KPI value across selected documents. Incomplete coverage is shown per company.'}</p>
+        <label style={{ display: 'block', padding: '12px 24px' }}>{lang === 'it' ? 'Vista KPI per tipo' : 'KPI view by document type'}{' '}
+          <select value={typeView} onChange={e => setTypeView(e.target.value as 'all' | DocumentType)}>
+            <option value="all">{lang === 'it' ? 'Aggregato dei tipi selezionati' : 'Selected types combined'}</option>
+            {(documentTypes || DOCUMENT_TYPES).map(type => <option key={type} value={type}>{DOCUMENT_TYPE_LABELS[type][lang]}</option>)}
+          </select>
+        </label>
         {/* ---- LOADING ---- */}
         {loading && (
           <div className={styles.loadingWrapper}>
@@ -841,7 +862,7 @@ export default function CrossCompanyMatrix({ isOpen, onClose, lang }: CrossCompa
                                 }}
                               />
                             </div>
-                            <span className={styles.companyName}>{company.name}</span>
+                            <span className={styles.companyName}>{company.name}<small style={{ display: 'block' }}>{company.coverage?.assessedTypes.length}/{company.coverage?.requestedTypes.length} {lang === 'it' ? 'tipi valutati' : 'types assessed'}</small></span>
                             <span className={styles.industryBadge}>{company.industry}</span>
                           </div>
                         </td>
@@ -951,8 +972,8 @@ export default function CrossCompanyMatrix({ isOpen, onClose, lang }: CrossCompa
                   <tr className={styles.summaryRow}>
                     <td className={styles.stickyCol}>
                       {lang === 'it'
-                        ? 'Consenso (Soglia 70%)'
-                        : 'Consensus (70% Threshold)'}
+                        ? 'Consenso (70%; solo copertura completa)'
+                        : 'Consensus (70%; complete coverage only)'}
                     </td>
                     <td className={styles.scoreCol} />
                     {activeKpis.map((kpi) => {

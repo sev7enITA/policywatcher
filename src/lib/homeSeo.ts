@@ -1,8 +1,8 @@
 import { POLICYWATCHER_RELEASE_DATE, POLICYWATCHER_VERSION } from '@/lib/release';
 import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin';
 
-export const HOME_TITLE = 'PolicyWatcher - Verified Public Policy Change Monitor';
-export const HOME_DESCRIPTION = 'Track evidence-gated company policies, verified baselines and published policy changes through PolicyWatcher\'s public knowledge base and interactive monitor.';
+export const HOME_TITLE = 'PolicyWatcher | Privacy, Terms & AI Policy Changes';
+export const HOME_DESCRIPTION = 'Track privacy policy, terms of service and AI policy updates. Compare recorded versions, inspect sources and follow company policy changes with PolicyWatcher.';
 export const HOME_CANONICAL_URL = `${POLICYWATCHER_CANONICAL_ORIGIN}/`;
 export const HOME_SOCIAL_IMAGE_URL = `${POLICYWATCHER_CANONICAL_ORIGIN}/api/og/home`;
 
@@ -58,8 +58,8 @@ export const HOME_STRUCTURED_DATA = {
       name: 'Fabrizio Degni',
       url: `${POLICYWATCHER_CANONICAL_ORIGIN}/about`,
       sameAs: [
-        'https://linkedin.com/in/fabriziodegni',
-        'https://github.com/sev7enITA/policywatcher',
+        'https://www.linkedin.com/in/fdegni/',
+        'https://github.com/sev7enITA',
       ],
     },
     {

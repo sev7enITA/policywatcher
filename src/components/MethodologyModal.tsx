@@ -7,6 +7,7 @@ import {
   BookOpen, Activity, ExternalLink, Layers, Gauge, Target, CheckCircle
 } from 'lucide-react';
 import { IconKpiSignal } from './icons/PolicyWatcherIcons';
+import { DOCUMENT_SCOPE_METHODOLOGY } from '@/lib/documentScopeCopy';
 import { POLICYWATCHER_VERSION } from '@/lib/release';
 
 interface MethodologyModalProps {
@@ -239,9 +240,9 @@ const content = {
     workspaceTitle: 'Adaptive Workspace & Public Surfaces',
     workspaceDesc: 'Release 3.6.3 makes the Objective-based Dashboard Composer the first-use entry when there is no valid saved workspace or deep-link preset. Users choose an intent (Citizen, GRC / Legal, Research, Builder) and evidence depth (Snapshot, Operational, Forensic), then preview a composition produced from a typed registry of real dashboard evidence modules. The choice is reversible and can be persisted or deep-linked. Source QA is pinned in every stack; source-quality warnings, suspended sources, Dataset QA limits and unavailable states are never removed by composition.\n\nPublic exploration surfaces follow the same boundary: the Policy Signals Board ranks evidence availability and traceability, the Site Atlas maps public sections and protected admin boundaries, Roadmap records community priorities and delivered outcomes, Press tracks public references, Showcase and Infographics explain capabilities, and Trust exposes external quality signals. None of these surfaces convert operational evidence into certification.',
     riskTitle: 'Overall Risk Score (1-10)',
-    riskDesc: 'Each monitored policy receives a composite risk score from 1 (very safe) to 10 (critical concerns). The score reflects data collection practices, AI governance posture, consent quality, regulatory alignment, and breach notification protocols.',
+    riskDesc: 'A policy with a public AI assessment may have a risk score from 1 to 10. It summarizes concerns identified in the disclosed text; it does not measure actual company conduct or certify safety or compliance. Missing assessments remain unassessed.',
     riskLow: 'Low (1-3)',
-    riskLowDesc: 'Strong user protections, transparent AI practices, explicit consent, quick breach notification, published audit results.',
+    riskLowDesc: 'Text indicates comparatively stronger protections or more explicit disclosures; these statements still require verification.',
     riskMedium: 'Medium (4-6)',
     riskMediumDesc: 'Partial protections, some opaque AI practices, opt-out consent flows, moderate data retention, limited third-party disclosure.',
     riskHigh: 'High (7-10)',
@@ -294,9 +295,9 @@ const content = {
     workspaceTitle: 'Workspace adattivo e superfici pubbliche',
     workspaceDesc: 'La release 3.6.3 rende il Composer della dashboard orientato all\'obiettivo il primo ingresso quando non esiste un workspace salvato valido o un preset deep-link. L\'utente sceglie un intento (Cittadino, GRC / Legal, Ricerca, Builder) e una profondita di evidenza (Snapshot, Operativa, Forensic), poi visualizza una composizione generata da un registro tipizzato di moduli reali della dashboard. La scelta e reversibile, persistibile e condivisibile via deep-link. Source QA resta fissato in ogni stack; avvisi sulla qualita delle fonti, sorgenti sospese, limiti Dataset QA e stati unavailable non vengono mai rimossi dalla composizione.\n\nLe superfici pubbliche seguono lo stesso perimetro: Policy Signals Board ordina disponibilita e tracciabilita delle evidenze, Site Atlas mappa sezioni pubbliche e confini admin protetti, Roadmap registra priorita community e risultati consegnati, Press conserva riferimenti pubblici, Showcase e Infographics spiegano le funzionalita, Trust espone segnali esterni di qualita. Nessuna di queste superfici trasforma evidenza operativa in certificazione.',
     riskTitle: 'Punteggio di Rischio Complessivo (1-10)',
-    riskDesc: 'Ogni policy monitorata riceve un punteggio composito da 1 (molto sicura) a 10 (criticità rilevanti). Il punteggio riflette le pratiche di raccolta dati, la governance dell\'IA, la qualità del consenso, l\'allineamento normativo e i protocolli di notifica delle violazioni.',
+    riskDesc: 'Una policy con analisi AI pubblica può avere un punteggio di rischio da 1 a 10. Il valore riassume le criticità individuate nel testo dichiarato; non misura la condotta reale né certifica sicurezza o conformità. Le analisi mancanti restano non valutate.',
     riskLow: 'Basso (1-3)',
-    riskLowDesc: 'Forti protezioni utente, pratiche IA trasparenti, consenso esplicito, notifica rapida delle violazioni, risultati di audit pubblicati.',
+    riskLowDesc: 'Il testo indica protezioni comparativamente maggiori o dichiarazioni più esplicite, da verificare comunque sulle fonti.',
     riskMedium: 'Medio (4-6)',
     riskMediumDesc: 'Protezioni parziali, alcune pratiche IA opache, flussi di consenso opt-out, conservazione dati moderata, divulgazione limitata a terzi.',
     riskHigh: 'Alto (7-10)',
@@ -533,6 +534,12 @@ export default function MethodologyModal({ isOpen, onClose, lang }: MethodologyM
 
               <hr className={styles.divider} />
 
+              <section aria-label={DOCUMENT_SCOPE_METHODOLOGY[lang].title}>
+                <h3 className={styles.sectionTitle}>{DOCUMENT_SCOPE_METHODOLOGY[lang].title}</h3>
+                <p className={styles.sectionDescription}>{DOCUMENT_SCOPE_METHODOLOGY[lang].intro}</p>
+                <ul className={styles.sectionDescription}>{DOCUMENT_SCOPE_METHODOLOGY[lang].bullets.map(bullet => <li key={bullet}>{bullet}</li>)}</ul>
+              </section>
+              <hr className={styles.divider} />
               {/* 3. Risk Score */}
               <div className={styles.sectionTitle}>
                 <span className={`${styles.sectionTitleIcon} ${styles.risk}`}><Gauge size={16} /></span>

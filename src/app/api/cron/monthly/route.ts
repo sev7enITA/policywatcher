@@ -16,6 +16,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { sendMonthlyDigest, ChangedPolicySummary } from '@/lib/mailer';
+import { classifyPolicyChange, classificationSnapshotSelect } from '@/lib/changeClassification';
+import { shouldNotifyChange } from '@/lib/changeClassificationTypes';
 import { isAuthorized } from '@/lib/auth';
 import { normalizePreferenceKey, splitPreferenceKeys } from '@/lib/subscriberPreferences';
 import { publicChangeWhere } from '@/lib/publicDataGate';
@@ -70,6 +72,8 @@ export async function GET(request: NextRequest) {
         },
       }),
       include: {
+        oldSnapshot: { select: classificationSnapshotSelect },
+        newSnapshot: { select: classificationSnapshotSelect },
         policy: {
           include: {
             company: true,
@@ -81,6 +85,8 @@ export async function GET(request: NextRequest) {
 
     // 3. Map to ChangedPolicySummary format
     const mappedChanges: ChangedPolicySummary[] = recentChanges.map((change) => ({
+      changeId: change.id,
+      classification: classifyPolicyChange(change),
       companyName: change.policy.company.name,
       policyName: change.policy.name,
       overallRisk: change.overallRisk,
@@ -100,17 +106,17 @@ export async function GET(request: NextRequest) {
       const filteredChanges = mappedChanges.filter(p => {
         const hasRegion = subscriberRegions.includes(normalizePreferenceKey(p.region));
         const hasIndustry = subscriberIndustries.includes(normalizePreferenceKey(p.industry));
-        return hasRegion && hasIndustry;
+        return hasRegion && hasIndustry && shouldNotifyChange(p.classification);
       });
 
       try {
-        await sendMonthlyDigest(
+        const sent = await sendMonthlyDigest(
           sub.email,
           sub.name || undefined,
           filteredChanges,
           sub.unsubscribeToken
         );
-        sentCount++;
+        if (sent) sentCount++;
       } catch (err) {
         console.error(`Failed to send monthly digest to ${sub.email}:`, err);
       }

@@ -1161,3 +1161,17 @@
     transition: none;
   }
 }
+
+.searchHelp, .resultsStatus {
+  max-width: 900px;
+  margin: 12px auto;
+  padding: 0 20px;
+  font-size: .85rem;
+  color: var(--text-muted);
+}
+.resultsStatus { color: var(--text-main); font-weight: 600; }
+
+/* Tall mobile filters must scroll away so they cannot cover results. */
+@media (max-width: 768px) {
+  .filterBar { position: static; }
+}
