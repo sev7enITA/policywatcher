@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.0.0-beta.5 hotfix - Global context and catalogue clarity (2026-10-02)
+
+- Render Global settings in the native modal top layer so the floating toolbar cannot clip it; retain keyboard focus and keep action buttons reachable on short and mobile viewports.
+- Distinguish documents excluded by the type filter, missing public document types and sources without a public analysis on company cards.
+- Link filtered cards to the full public company inventory; label baseline-only actions as View source and avoid implying that a completed scan means complete analysis.
+- Document the catalogue gaps and preserve every source, score and evidence gate.
+
 ## 4.0.0-beta.5 - Document Scope and Comparable Evidence (2026-10-01)
 
 - Add a global multi-select document scope with privacy-only and all-document shortcuts, shared links and reset.
@@ -10,7 +17,7 @@
 - Update Next.js and matching lint configuration, Nodemailer and vulnerable transitive runtime dependencies after the release dependency audit.
 - Clarify historical Dataset QA coverage and embedded revision classification; keep unassessed impact distinct from policy risk.
 - Align the bilingual methodology, Site Atlas, Feature Atlas, release impact, newsroom and changelog with the same scope and coverage contract.
-- Preserve the beta.4 database/evidence consistency and SMTP configuration fixes. Prepared release; production deployment requires Hostinger access.
+- Preserve the beta.4 database/evidence consistency and SMTP configuration fixes. Published on 2 October 2026; deployment evidence is recorded in docs/reports/hostinger-publication-2026-10-02/.
 
 ## 4.0.0-beta.4 - Evidence Consistency and Live Coverage (2026-10-01)
 

@@ -34,17 +34,28 @@
 .layer {
   position: fixed;
   inset: 0;
-  z-index: 1000;
-  display: grid;
-  place-items: center;
+  width: 100%;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
   padding: 20px;
-  background: rgba(8, 18, 32, 0.62);
-  backdrop-filter: blur(5px);
+  background: transparent;
+  overflow: hidden;
 }
+
+/* Native top-layer modality escapes the transformed floating toolbar. */
+.layer[open] { display: grid; place-items: center; }
+.layer::backdrop { background: rgba(8, 18, 32, 0.62); backdrop-filter: blur(5px); }
 
 .dialog {
   width: min(570px, 100%);
-  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 40px);
+  box-sizing: border-box;
+  min-height: 0;
+  overscroll-behavior: contain;
   overflow: auto;
   border: 1px solid #9baab2;
   border-radius: 3px;
@@ -79,15 +90,16 @@
 .boundary p { margin: 0; font-size: 0.8rem; line-height: 1.45; }
 .boundary small { display: block; margin-top: 5px; color: #607083; font-size: 0.73rem; line-height: 1.45; }
 
-.footer { display: flex; justify-content: flex-end; gap: 10px; padding: 17px 28px; border-top: 1px solid #cbd2cf; background: #f4f2eb; }
+.footer { position: sticky; bottom: 0; z-index: 1; display: flex; justify-content: flex-end; gap: 10px; padding: 17px 28px; border-top: 1px solid #cbd2cf; background: #f4f2eb; }
 .footer button { min-height: 42px; padding: 9px 15px; border: 1px solid #146c6a; font-size: 0.8rem; font-weight: 750; cursor: pointer; }
 .cancel { background: #fff; color: #195b59; }
 .save { background: #146c6a; color: #fff; }
 .save:hover { background: #0d5452; }
 
 @media (max-width: 720px) {
-  .layer { align-items: end; padding: 0; }
-  .dialog { width: 100%; max-height: 90vh; border-right: 0; border-bottom: 0; border-left: 0; box-shadow: none; }
+  .layer { padding: 0; }
+  .layer[open] { align-items: end; }
+  .dialog { width: 100%; max-height: 90dvh; border-right: 0; border-bottom: 0; border-left: 0; box-shadow: none; }
   .header, .fields { padding-right: 20px; padding-left: 20px; }
   .boundary { margin-right: 20px; margin-left: 20px; }
   .footer { position: sticky; bottom: 0; padding-right: 20px; padding-left: 20px; }

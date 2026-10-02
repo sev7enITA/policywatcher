@@ -192,7 +192,7 @@ const translations = {
     suspendedSourceLastCheck: 'Ultimo check',
     sourceBaseline: 'Baseline sorgente',
     sourceVerified: 'Baseline della fonte pubblicata',
-    baselineRegistered: 'Baseline sorgente verificata. Nessuna modifica pubblicabile rilevata da quando il monitoraggio reale è stato avviato.',
+    baselineRegistered: 'Documento sorgente pubblicato. Non è disponibile un’analisi pubblica delle modifiche per questo documento: punteggi e KPI restano non valutati.',
     noPolicyEvidence: 'Nessuna evidenza sorgente pubblicabile ancora disponibile.',
     sortByRisk: 'Punteggio complessivo',
     sortByDate: 'Data',
@@ -347,7 +347,7 @@ const translations = {
     suspendedSourceLastCheck: 'Last check',
     sourceBaseline: 'Source baseline',
     sourceVerified: 'Source baseline published',
-    baselineRegistered: 'Source baseline published. No publishable change has been detected since monitoring started.',
+    baselineRegistered: 'Source document published. No public change analysis is available for this document: scores and KPIs remain unassessed.',
     noPolicyEvidence: 'No publishable source evidence is available yet.',
     sortByRisk: 'Overall score',
     sortByDate: 'Date',
@@ -2997,11 +2997,15 @@ export default function Dashboard() {
           >
             {filteredCompanies.map((company) => {
               const firstPolicy = company.policies[0];
+              const coverage = dashboardDataView.manifest.documentCoverage[company.id];
+              const allPublicPolicyCount = companies.find(source => source.id === company.id)?.policies.length ?? company.policies.length;
+              const excludedDocumentCount = Math.max(0, allPublicPolicyCount - company.policies.length);
+              const isAllDocumentScope = documentTypes.length === DOCUMENT_TYPES.length;
               const companyDataStatus = getWorstDataStatus(company.policies);
               const assessment = getPolicyRiskPresentation(firstPolicy, selectedRegion, selectedPerspective);
               const latestChange = assessment.change;
               const firstPolicyStatus = normalizeDataStatus(firstPolicy?.dataStatus, 'Needs Review');
-              const hasVerifiedBaseline = !latestChange && firstPolicyStatus === 'Available';
+              const hasVerifiedBaseline = Boolean(firstPolicy) && !latestChange && ['Available', 'Reviewed'].includes(firstPolicyStatus);
 
               const currentRisk = assessment.riskLevel;
               const perspectiveLabel = selectedPerspective === 'Individual'
@@ -3018,9 +3022,11 @@ export default function Dashboard() {
                 ? (lang === 'it'
                     ? latestChange.tldrIt || latestChange.aiSummaryIt
                     : latestChange.tldrEn || latestChange.aiSummaryEn)
-                : hasVerifiedBaseline
-                  ? t.baselineRegistered
-                  : t.noPolicyEvidence;
+                : !firstPolicy
+                  ? (lang === 'it'
+                    ? 'Nessun documento pubblico corrisponde ai tipi selezionati. L’azienda resta visibile per rendere evidente la lacuna; non riceve un punteggio per questi tipi.'
+                    : 'No public document matches the selected types. The company remains visible to make the gap explicit; it receives no score for these types.')
+                  : hasVerifiedBaseline ? t.baselineRegistered : t.noPolicyEvidence;
 
               const formattedDate = latestChange
                 ? new Date(latestChange.createdAt).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' })
@@ -3081,11 +3087,18 @@ export default function Dashboard() {
 
                   <div className={styles.cardEvidence}>
                     <p className={styles.scopeCoverage}>
-                      {company.policies.length} {lang === 'it' ? 'documenti selezionati' : 'selected documents'} · {dashboardDataView.manifest.documentCoverage[company.id].assessedTypes.length}/{documentTypes.length} {lang === 'it' ? 'tipi valutati' : 'types assessed'}
+                      {company.policies.length}/{allPublicPolicyCount} {lang === 'it' ? 'documenti pubblici nel filtro' : 'public documents in scope'} · {coverage.assessedTypes.length}/{isAllDocumentScope ? coverage.availableTypes.length : documentTypes.length} {lang === 'it' ? 'tipi valutati' : 'types assessed'}
                     </p>
-                    {!dashboardDataView.manifest.documentCoverage[company.id].complete && <p className={styles.scopeCoverage}>
-                      {lang === 'it' ? 'Copertura incompleta: ' : 'Incomplete coverage: '}
-                      {[...dashboardDataView.manifest.documentCoverage[company.id].missingTypes, ...dashboardDataView.manifest.documentCoverage[company.id].unassessedTypes].map(type => DOCUMENT_TYPE_LABELS[type][lang]).join(', ')}
+                    {excludedDocumentCount > 0 && <p className={styles.scopeCoverage}>
+                      {excludedDocumentCount} {lang === 'it' ? 'documenti pubblici esclusi dal filtro per tipo.' : 'public documents excluded by the document-type filter.'}
+                    </p>}
+                    {!isAllDocumentScope && coverage.missingTypes.length > 0 && <p className={styles.scopeCoverage}>
+                      {lang === 'it' ? 'Nessun documento pubblico per: ' : 'No public documents for: '}
+                      {coverage.missingTypes.map(type => DOCUMENT_TYPE_LABELS[type][lang]).join(', ')}
+                    </p>}
+                    {coverage.unassessedTypes.length > 0 && <p className={styles.scopeCoverage}>
+                      {lang === 'it' ? 'Fonte pubblicata, analisi non disponibile: ' : 'Source published, analysis unavailable: '}
+                      {coverage.unassessedTypes.map(type => DOCUMENT_TYPE_LABELS[type][lang]).join(', ')}
                     </p>}
                     {firstPolicy && (
                       <button className={styles.featuredPolicy} onClick={() => setSelectedPolicyId(firstPolicy.id)}>
@@ -3094,7 +3107,7 @@ export default function Dashboard() {
                       </button>
                     )}
                     {latestChange && <div style={{ margin: '12px 0' }}><ChangeClassificationBadge classification={latestChange.classification} lang={lang} /></div>}
-                    <div className={styles.riskSummary}>
+                    {firstPolicy && <div className={styles.riskSummary}>
                       <div className={styles.riskIndicator}>
                         <span className={styles.riskLabel}>{latestChange ? riskLabel : t.sourceBaseline}</span>
                         <div className={styles.riskScore} style={{ '--risk-color': cardRiskColor, '--risk-color-glow': cardRiskColorGlow } as React.CSSProperties}>
@@ -3108,7 +3121,7 @@ export default function Dashboard() {
                           <small>{lang === 'it' ? '1 = minore · 10 = maggiore' : '1 = lower · 10 = higher'}</small>
                         </div>
                       )}
-                    </div>
+                    </div>}
                     {assessment.scope === 'overall' && (
                       <p className={styles.contextUnavailable}>
                         {lang === 'it' ? `Valutazione specifica non disponibile per ${contextLabel}.` : `Context assessment unavailable for ${contextLabel}.`}
@@ -3143,7 +3156,7 @@ export default function Dashboard() {
                   )}
 
                   {/* Policy Pills with Jurisdiction Badge */}
-                  <div className={styles.policyPillsSection}>
+                  {firstPolicy && <div className={styles.policyPillsSection}>
                     <span className={styles.policyPillsLabel}>
                       {t.policiesList}
                     </span>
@@ -3178,20 +3191,24 @@ export default function Dashboard() {
                         );
                       })}
                     </div>
-                  </div>
+                  </div>}
 
+                  {excludedDocumentCount > 0 && <Link href={`/knowledge/companies/${company.slug}`} className={styles.actionLink}>
+                    {lang === 'it' ? `Consulta tutti i ${allPublicPolicyCount} documenti pubblici` : `Browse all ${allPublicPolicyCount} public documents`} <ArrowRight size={14} />
+                  </Link>}
                   <div className={styles.cardBottom}>
                     <span className={styles.updateDate}>
                       {latestChange
                         ? `${lang === 'it' ? 'Ultima analisi pubblicata' : 'Latest published analysis'}: ${formattedDate}`
-                        : lang === 'it' ? 'Nessuna modifica pubblicata' : 'No published changes'}
+                        : !firstPolicy ? (lang === 'it' ? 'Nessun documento nel filtro' : 'No documents in scope')
+                          : lang === 'it' ? 'Analisi non disponibile' : 'Analysis unavailable'}
                     </span>
                     {firstPolicy && (
                       <button
                         onClick={() => setSelectedPolicyId(firstPolicy.id)}
                         className={styles.actionLink}
                       >
-                        {t.viewAnalysis} <ArrowRight size={14} />
+                        {latestChange ? t.viewAnalysis : lang === 'it' ? 'Apri documento' : 'View source'} <ArrowRight size={14} />
                       </button>
                     )}
                   </div>

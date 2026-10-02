@@ -378,7 +378,7 @@ const platformFeatures: FeatureAtlasFeature[] = [
     kpi: 'Coverage KPI · requested, available and assessed document types; explicit assessed-policy and company denominators',
     kri: 'Residual KRI · incomplete or uneven document and KPI coverage can prevent a comparison',
     evidence: 'Shared document scope contract, public API validation, per-type comparison, CSV manifest and scope tests.',
-    limitation: 'Complete type coverage does not mean complete KPI assessment or legal applicability. All-document mode is an overview with variable coverage.',
+    limitation: 'Cards distinguish filter exclusions, missing document types and published sources without an analysis. The catalogue is not exhaustive. Complete type coverage does not mean complete KPI assessment or legal applicability. All-document mode is an overview with variable coverage.',
     primaryUser: 'Researcher and privacy reviewer', route: { href: '/?documents=privacy', label: 'Privacy-only dashboard', access: 'public' },
     dependencies: [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }], source: 'platform-inventory',
   },
