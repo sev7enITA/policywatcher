@@ -153,15 +153,16 @@ export async function POST(request: NextRequest) {
 
         const existingPolicy = await tx.policy.findUnique({
           where: {
-            companyId_type_jurisdiction: {
+            companyId_type_jurisdiction_url: {
               companyId: company.id,
               type: row.policyType,
               jurisdiction: row.jurisdiction,
+              url: row.policyUrl,
             },
           },
           select: { id: true },
         });
-        if (existingPolicy) throw new Error('A policy with this company, type, and jurisdiction already exists.');
+        if (existingPolicy) throw new Error('This source is already configured for this company, type and jurisdiction.');
 
         const candidate = await resolveBulkOnboardingCandidate(tx, {
           companyId: company.id,

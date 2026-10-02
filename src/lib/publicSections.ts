@@ -73,6 +73,12 @@ export const publicSectionNodes: PublicSectionNode[] = [
     y: 35,
   },
   {
+    id: 'historical-comparisons', label: 'Official archive comparisons', href: '/historical-comparisons',
+    group: 'evidence', summary: 'Compare publisher-hosted versions recovered retrospectively, with source links, capture dates and SHA-256 fingerprints.',
+    role: 'Demonstrates reproducible textual comparisons without adding retrospective documents to live alerts or KPI scores.',
+    status: 'dynamic', icon: 'clock', x: 58, y: 72,
+  },
+  {
     id: 'knowledge',
     label: 'Public Knowledge Base',
     href: '/knowledge',
@@ -339,6 +345,8 @@ export const publicSectionNodes: PublicSectionNode[] = [
 ];
 
 export const publicSectionEdges: PublicSectionEdge[] = [
+  { from: 'knowledge', to: 'historical-comparisons', label: 'links to retrospective evidence in', strength: 'primary' },
+  { from: 'historical-comparisons', to: 'methodology', label: 'distinguishes capture and effective dates using', strength: 'primary' },
   { from: 'associations', to: 'knowledge', label: 'contains published records from', strength: 'primary' },
   { from: 'associations', to: 'what-changed', label: 'submits source signals to', strength: 'primary' },
   { from: 'associations', to: 'methodology', label: 'uses evidence boundaries from', strength: 'primary' },

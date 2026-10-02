@@ -8,6 +8,7 @@ import https from 'https';
 import http from 'http';
 import tls from 'tls';
 import { getDomain } from 'tldts';
+import { extractPdfPolicyHtml } from '@/lib/pdfPolicy';
 import { classifyRetrievalCause, terminalRetrievalCause, type RetrievalCause } from '@/lib/sourceReliability';
 
 /**
@@ -143,6 +144,14 @@ export async function decodeBoundedResponseBody(
   contentEncoding: string,
   maxOutputLength = MAX_DECOMPRESSED_HTML_BYTES,
 ): Promise<string> {
+  return (await decodeBoundedResponseBytes(buffer, contentEncoding, maxOutputLength)).toString('utf8');
+}
+
+async function decodeBoundedResponseBytes(
+  buffer: Buffer,
+  contentEncoding: string,
+  maxOutputLength = MAX_DECOMPRESSED_HTML_BYTES,
+): Promise<Buffer> {
   if (buffer.byteLength > MAX_NETWORK_RESPONSE_BYTES) {
     throw new Error('response_body_too_large');
   }
@@ -156,7 +165,7 @@ export async function decodeBoundedResponseBody(
           ? await brotliDecompressAsync(buffer, { maxOutputLength })
           : buffer;
     if (decoded.byteLength > maxOutputLength) throw new Error('decompressed_body_too_large');
-    return decoded.toString('utf8');
+    return decoded;
   } catch (error) {
     if (
       error instanceof RangeError
@@ -166,6 +175,17 @@ export async function decodeBoundedResponseBody(
     }
     throw error;
   }
+}
+
+export async function decodeBoundedDocumentBody(buffer: Buffer, encoding: string, contentType: string): Promise<string> {
+  const bytes = await decodeBoundedResponseBytes(buffer, encoding);
+  // A signature is required even when an official CDN labels a PDF as binary.
+  const isPdf = bytes.subarray(0, 5).toString('ascii') === '%PDF-';
+  if (isPdf || /^application\/pdf\b/i.test(contentType)) return extractPdfPolicyHtml(bytes);
+  if (/^(application\/octet-stream|image\/|video\/|audio\/)/i.test(contentType)) {
+    throw new Error(`unsupported_content_type:${contentType.split(';')[0]}`);
+  }
+  return bytes.toString('utf8');
 }
 
 export async function readBoundedFetchBody(
@@ -622,7 +642,7 @@ function requestPinnedHttp(
         const buffer = Buffer.concat(chunks);
         const encoding = (res.headers['content-encoding'] || '').toLowerCase();
         try {
-          const body = await decodeBoundedResponseBody(buffer, encoding);
+          const body = await decodeBoundedDocumentBody(buffer, encoding, res.headers['content-type'] || '');
           if (settled) return;
           settled = true;
           resolve({
@@ -722,19 +742,7 @@ async function fetchWithRetry(url: string): Promise<TransportResult> {
           continue;
         }
 
-        // Reject clearly non-HTML payloads (PDF, images, binaries):
-        // cheerio would extract garbage and the diff engine would churn.
-        const contentType = (res.headers['content-type'] || '').toLowerCase();
-        if (/^(application\/pdf|application\/octet-stream|image\/|video\/|audio\/)/.test(contentType)) {
-          return {
-            ok: false,
-            html: '',
-            status: res.status,
-            finalUrl: requestUrl,
-            error: `unsupported_content_type:${contentType.split(';')[0]}`,
-          };
-        }
-
+        // Transport has decoded bounded HTML or extracted an inert PDF body.
         const html = res.body;
 
         if (res.status === 202) {
@@ -881,9 +889,13 @@ async function fetchWithHttp2(url: string): Promise<TransportResult> {
         const chunks: Buffer[] = [];
         let statusCode = 0;
         let receivedBytes = 0;
+        let contentType = '';
+        let contentEncoding = '';
 
         req.on('response', (hdrs) => {
           statusCode = hdrs[':status'] as number || 0;
+          contentType = String(hdrs['content-type'] || '');
+          contentEncoding = String(hdrs['content-encoding'] || '');
           const rawLength = hdrs['content-length'];
           const declaredLength = typeof rawLength === 'string' && /^\d+$/.test(rawLength)
             ? Number(rawLength)
@@ -905,11 +917,17 @@ async function fetchWithHttp2(url: string): Promise<TransportResult> {
           chunks.push(chunk);
         });
 
-        req.on('end', () => {
+        req.on('end', async () => {
           if (settled) return;
           // Concat buffers BEFORE decoding: chunk boundaries can split
           // multi-byte UTF-8 sequences and corrupt the text otherwise.
-          const data = Buffer.concat(chunks).toString('utf8');
+          let data: string;
+          try {
+            data = await decodeBoundedDocumentBody(Buffer.concat(chunks), contentEncoding, contentType);
+          } catch (error) {
+            finish({ ok: false, html: '', status: statusCode, finalUrl: url, error: sanitizeLogText((error as Error).message) });
+            return;
+          }
           // 3xx is a failure here: this client does not follow redirects.
           if (statusCode === 202) {
             finish({ ok: false, html: data, status: statusCode, finalUrl: url, error: 'h2_202_pending' });

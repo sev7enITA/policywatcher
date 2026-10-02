@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.0.0-beta.5 - Official document coverage and historical evidence (2026-10-02)
+
+- Allow multiple distinct source URLs for the same company, document type and jurisdiction; retain exact-source uniqueness and preserve existing rows through SQLite and PostgreSQL migrations.
+- Extract text-based official PDFs through bounded direct and HTTP/2 transports and the existing content, hash, baseline and confirmation gates. Reject malformed, image-only and oversized documents.
+- Add an audited retrospective archive importer and public comparison view with official URLs, actual capture timestamps, separately established effective dates and text fingerprints. Archive pairs do not create live alerts, AI scores or KPI assessments.
+- Link historical comparisons from Evidence and Site Atlas; clarify the same provenance boundaries in the bilingual methodology.
+
 ## 4.0.0-beta.5 hotfix - Global context and catalogue clarity (2026-10-02)
 
 - Render Global settings in the native modal top layer so the floating toolbar cannot clip it; retain keyboard focus and keep action buttons reachable on short and mobile viewports.

@@ -4,6 +4,7 @@ export const DOCUMENT_SCOPE_METHODOLOGY = {
     title: 'Document scope and comparable assessments',
     intro: 'Choose privacy policies, terms of service, AI terms, data processing agreements, acceptable use policies or community guidelines. The same multi-selection applies to every company in the dashboard.',
     bullets: [
+      'Distinct documents may share a company, type and jurisdiction; duplicate source URLs remain constrained. Text-based official PDFs pass through the same content and baseline gates as HTML. Retrospective archive comparisons retain actual capture dates and separate publisher dates, and do not populate live KPI scores.',
       'Document type selects the evidence used for analysis; it is separate from KPI groups such as Privacy, AI Governance and Ethics. Region and audience contextualize impact and do not certify which jurisdiction governs a document.',
       'Scope is applied before risk filtering, pagination and aggregation. It follows evidence coverage, suspended sources, policy-change history, KPI matrix, company comparison, assistant context, CSV exports and shared links.',
       'Company cards separate documents excluded by the type filter, missing public document types and published sources without an analysis. All-document cards count assessed types against types actually published; selected subsets count against requested types. The catalogue is curated and may omit company documents.',
@@ -19,6 +20,7 @@ export const DOCUMENT_SCOPE_METHODOLOGY = {
     title: 'Tipi di documento e confronti omogenei',
     intro: 'Seleziona informative privacy, termini di servizio, termini AI, accordi sul trattamento dei dati, uso accettabile o linee guida della community. La stessa selezione multipla si applica a tutte le aziende della dashboard.',
     bullets: [
+      'Documenti distinti possono condividere azienda, tipo e giurisdizione; gli URL duplicati restano vincolati. I PDF ufficiali con testo seguono gli stessi controlli di contenuto e baseline delle pagine HTML. I confronti retrospettivi conservano la data reale di acquisizione e separano le date dichiarate dal fornitore, senza alimentare i punteggi KPI correnti.',
       'Il tipo di documento seleziona le evidenze da valutare; è distinto dai gruppi KPI Privacy, AI Governance ed Etica. Regione e pubblico contestualizzano gli impatti e non certificano la giurisdizione applicabile al documento.',
       'La selezione precede filtro di rischio, paginazione e aggregazione. Si applica a copertura delle evidenze, fonti sospese, cronologia delle modifiche, matrice KPI, confronto, contesto dell’assistente, CSV e link condivisi.',
       'Le schede distinguono documenti esclusi dal filtro, tipi senza documenti pubblici e fonti pubblicate prive di analisi. Con tutti i documenti, i tipi valutati sono rapportati ai tipi pubblicati; con una selezione, ai tipi richiesti. Il catalogo è curato e può non includere tutti i documenti aziendali.',

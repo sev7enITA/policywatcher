@@ -173,17 +173,18 @@ export async function PATCH(request: NextRequest) {
 
   const existingPolicy = await db.policy.findUnique({
     where: {
-      companyId_type_jurisdiction: {
+      companyId_type_jurisdiction_url: {
         companyId: candidate.companyId,
         type: candidate.type,
         jurisdiction: candidate.jurisdiction,
+        url: candidate.url,
       },
     },
   });
   if (existingPolicy) {
     return NextResponse.json(
       {
-        error: `A ${candidate.type}/${candidate.jurisdiction} policy already exists for this company.`,
+        error: `This source is already configured for this company, type and jurisdiction.`,
         policyId: existingPolicy.id,
       },
       { status: 409 }

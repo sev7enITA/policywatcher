@@ -75,6 +75,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, policy }, { status: 201 });
   } catch (error) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') {
+      return NextResponse.json({ error: 'This source is already configured for this company, type and jurisdiction.' }, { status: 409 });
+    }
     console.error('[Admin Policies] POST error:', error);
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
   }

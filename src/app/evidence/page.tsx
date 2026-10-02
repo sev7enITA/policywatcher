@@ -97,6 +97,7 @@ export default async function EvidenceIndexPage() {
                 </p>
                 <nav className={styles.heroActions} aria-label="Evidence entry points">
                   <a href="#evidence-register">View available evidence files <ArrowRight size={15} aria-hidden="true" /></a>
+                  <Link href="/historical-comparisons">Compare official archived versions <ArrowRight size={15} aria-hidden="true" /></Link>
                   <Link href="/collections">Build an evidence collection <FolderKanban size={15} aria-hidden="true" /></Link>
                 </nav>
               </div>
