@@ -1,4 +1,4 @@
-# Production page and section checks — 2 October 2026
+# Production page and section checks - 2 October 2026
 
 72 route templates checked against production; protected pages use an authenticated administrator session. The 427 concrete URL checks are recorded in the local publication evidence directory. These checks inspect responses and rendered structure, not every possible user interaction.
 

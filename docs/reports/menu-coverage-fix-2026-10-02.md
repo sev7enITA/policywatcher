@@ -1,4 +1,4 @@
-# Global menu and catalogue audit — 2 October 2026
+# Global menu and catalogue audit - 2 October 2026
 
 Read-only production inventory inspection. No policies, snapshots or analyses were deleted or inserted by this fix. Counts describe the configured catalogue, not all documents published by the companies. Public means a policy has at least one snapshot flagged as public evidence; analysis means at least one public change record.
 

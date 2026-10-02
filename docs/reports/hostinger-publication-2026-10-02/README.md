@@ -1,4 +1,4 @@
-# Hostinger publication — 2 October 2026
+# Hostinger publication - 2 October 2026
 
 PolicyWatcher **4.0.0-beta.5** is deployed to staging and production. The release implements the shared document-type filter, evidence/KPI denominator consistency and the corresponding methodology, Atlas, release history and changelog updates.
 
