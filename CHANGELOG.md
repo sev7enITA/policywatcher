@@ -6,6 +6,8 @@
 - Extract text-based official PDFs through bounded direct and HTTP/2 transports and the existing content, hash, baseline and confirmation gates. Reject malformed, image-only and oversized documents.
 - Add an audited retrospective archive importer and public comparison view with official URLs, actual capture timestamps, separately established effective dates and text fingerprints. Archive pairs do not create live alerts, AI scores or KPI assessments.
 - Link historical comparisons from Evidence and Site Atlas; clarify the same provenance boundaries in the bilingual methodology.
+- Recover the reviewed catalogue to 113 configured / 109 currently public documents across 18 companies, with 8 separate official archive comparisons. Preserve four unavailable sources and unassessed KPIs explicitly; quarantine misleading Apple/AWS evidence without deleting it.
+- Publish the per-company audit and source inventory in `docs/reports/company-source-recovery-2026-10-02.md`; align the operational staging check to 17 migrations.
 
 ## 4.0.0-beta.5 hotfix - Global context and catalogue clarity (2026-10-02)
 
