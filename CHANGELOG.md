@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased - Email subscription availability (2026-10-02)
+
+- Reject new subscription requests with a localized temporary-unavailability message when SMTP configuration is missing or invalid, before looking up or storing an email address.
+- Stop claiming that a confirmation was sent when only the request was accepted. Preserve generic responses for delivery failures and existing addresses, pending double opt-in, and masked delivery diagnostics.
+- Hostinger mailbox existence and DNS configuration do not establish authenticated SMTP readiness or delivery. The mailbox password and a successful authentication probe remain operational prerequisites.
+
 ## 4.0.0-beta.5 - Official document coverage and historical evidence (2026-10-02)
 
 - Allow multiple distinct source URLs for the same company, document type and jurisdiction; retain exact-source uniqueness and preserve existing rows through SQLite and PostgreSQL migrations.

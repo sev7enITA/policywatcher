@@ -7,7 +7,11 @@ const mocks = vi.hoisted(() => ({
   create: vi.fn(),
   update: vi.fn(),
   sendConfirmationRequest: vi.fn(),
+  smtpConfiguration: vi.fn(),
 }));
+
+vi.mock('@/lib/smtpConfiguration', () => ({ smtpConfiguration: mocks.smtpConfiguration }));
+vi.mock('@/lib/rateLimit', () => ({ rateLimit: vi.fn(() => null) }));
 
 vi.mock('@/lib/db', () => ({
   db: {
@@ -37,6 +41,38 @@ describe('subscriber double opt-in', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mocks.sendConfirmationRequest.mockResolvedValue(true);
+    mocks.smtpConfiguration.mockReturnValue({ host: 'smtp.example.test' });
+  });
+
+  it.each(['missing', 'invalid'])('rejects %s SMTP configuration before querying or storing an email', async (configuration) => {
+    mocks.smtpConfiguration.mockImplementation(() => {
+      if (configuration === 'invalid') throw new Error('invalid port');
+      return null;
+    });
+    const response = await requestSubscription(jsonRequest('/api/subscribers', { email: 'reader@example.test' }));
+    expect(response.status).toBe(503);
+    expect(response.headers.get('Retry-After')).toBe('600');
+    expect(await response.json()).toMatchObject({ code: 'EMAIL_UNAVAILABLE' });
+    expect(mocks.findUnique).not.toHaveBeenCalled();
+    expect(mocks.create).not.toHaveBeenCalled();
+    expect(mocks.sendConfirmationRequest).not.toHaveBeenCalled();
+  });
+
+  it('does not claim email delivery or reveal subscription status when SMTP rejects a message', async () => {
+    mocks.findUnique.mockResolvedValue(null);
+    mocks.create.mockImplementation(async ({ data }) => ({ id: 'sub-1', ...data }));
+    mocks.sendConfirmationRequest.mockResolvedValue(false);
+    const failed = await requestSubscription(jsonRequest('/api/subscribers', { email: 'reader@example.test' }));
+    const failedBody = await failed.json();
+    expect(failed.status).toBe(202);
+    expect(failedBody.message).not.toMatch(/has been sent/i);
+    expect(mocks.create).toHaveBeenCalledWith({ data: expect.objectContaining({ isActive: false, confirmedAt: null }) });
+
+    mocks.findUnique.mockResolvedValue({ id: 'existing', isActive: true });
+    const existing = await requestSubscription(jsonRequest('/api/subscribers', { email: 'reader@example.test' }));
+    expect(existing.status).toBe(failed.status);
+    expect(await existing.json()).toEqual(failedBody);
+    expect(mocks.sendConfirmationRequest).toHaveBeenCalledTimes(1);
   });
 
   it('stores a new request as inactive and sends a single-use confirmation token', async () => {
