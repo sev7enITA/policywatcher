@@ -11,7 +11,7 @@ function versionAtLeast(version: string, minimum: [number, number, number]): boo
 }
 
 describe('security-sensitive dependency locks', () => {
-  it('keeps sharp outside GHSA-f88m-g3jw-g9cj affected versions', () => {
+  it('keeps sharp outside the image processing advisory affected versions', () => {
     const packageJson = JSON.parse(readFileSync('package.json', 'utf8')) as {
       overrides?: Record<string, string>;
     };
@@ -20,13 +20,13 @@ describe('security-sensitive dependency locks', () => {
     };
     const sharpVersion = lock.packages['node_modules/sharp']?.version || '';
 
-    expect(packageJson.overrides?.sharp).toBe('0.35.3');
-    expect(sharpVersion).toBe('0.35.3');
-    expect(versionAtLeast(sharpVersion, [0, 35, 0])).toBe(true);
+    expect(packageJson.overrides?.sharp).toBe('0.35.5');
+    expect(sharpVersion).toBe('0.35.5');
+    expect(versionAtLeast(sharpVersion, [0, 35, 4])).toBe(true);
 
     for (const [path, dependency] of Object.entries(lock.packages)) {
       if (!path.startsWith('node_modules/@img/sharp-') || !dependency.version) continue;
-      expect(versionAtLeast(dependency.version, [0, 35, 0]), path).toBe(true);
+      expect(versionAtLeast(dependency.version, [0, 35, 4]), path).toBe(true);
     }
   });
 });

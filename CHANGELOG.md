@@ -1,5 +1,59 @@
 # Changelog
 
+## Unreleased - Email subscription availability (2026-10-02)
+
+- Reject new subscription requests with a localized temporary-unavailability message when SMTP configuration is missing or invalid, before looking up or storing an email address.
+- Stop claiming that a confirmation was sent when only the request was accepted. Preserve generic responses for delivery failures and existing addresses, pending double opt-in, and masked delivery diagnostics.
+- Hostinger mailbox existence and DNS configuration do not establish authenticated SMTP readiness or delivery. The mailbox password and a successful authentication probe remain operational prerequisites.
+- Update the transitive `source-map-js` dependency to 1.2.2 after the 6 October production-dependency audit identified GHSA-68fv-2mgg-jv7q; the production dependency audit and local build pass.
+
+## 4.0.0-beta.5 - Official document coverage and historical evidence (2026-10-02)
+
+- Allow multiple distinct source URLs for the same company, document type and jurisdiction; retain exact-source uniqueness and preserve existing rows through SQLite and PostgreSQL migrations.
+- Extract text-based official PDFs through bounded direct and HTTP/2 transports and the existing content, hash, baseline and confirmation gates. Reject malformed, image-only and oversized documents.
+- Add an audited retrospective archive importer and public comparison view with official URLs, actual capture timestamps, separately established effective dates and text fingerprints. Archive pairs do not create live alerts, AI scores or KPI assessments.
+- Link historical comparisons from Evidence and Site Atlas; clarify the same provenance boundaries in the bilingual methodology.
+- Recover the reviewed catalogue to 113 configured / 109 currently public documents across 18 companies, with 8 separate official archive comparisons. Preserve four unavailable sources and unassessed KPIs explicitly; quarantine misleading Apple/AWS evidence without deleting it.
+- Publish the per-company audit and source inventory in `docs/reports/company-source-recovery-2026-10-02.md`; align the operational staging check to 17 migrations.
+
+## 4.0.0-beta.5 hotfix - Global context and catalogue clarity (2026-10-02)
+
+- Render Global settings in the native modal top layer so the floating toolbar cannot clip it; retain keyboard focus and keep action buttons reachable on short and mobile viewports.
+- Distinguish documents excluded by the type filter, missing public document types and sources without a public analysis on company cards.
+- Link filtered cards to the full public company inventory; label baseline-only actions as View source and avoid implying that a completed scan means complete analysis.
+- Document the catalogue gaps and preserve every source, score and evidence gate.
+
+## 4.0.0-beta.5 - Document Scope and Comparable Evidence (2026-10-01)
+
+- Add a global multi-select document scope with privacy-only and all-document shortcuts, shared links and reset.
+- Apply the same scope to dashboard policy inputs, evidence coverage, source suspensions, event history, comparison, KPI matrix, assistant context and CSV exports.
+- Show missing and unassessed document types per company; preserve unassessed baseline rows and document scope in CSV provenance.
+- Average risk within document types and then across companies; selected-scope means and industry benchmarks require all requested types to have an assessment.
+- Block aggregate radar comparisons with incomplete type coverage; support individual document-type comparisons and KPI views.
+- Update Next.js and matching lint configuration, Nodemailer and vulnerable transitive runtime dependencies after the release dependency audit.
+- Clarify historical Dataset QA coverage and embedded revision classification; keep unassessed impact distinct from policy risk.
+- Align the bilingual methodology, Site Atlas, Feature Atlas, release impact, newsroom and changelog with the same scope and coverage contract.
+- Preserve the beta.4 database/evidence consistency and SMTP configuration fixes. Published on 2 October 2026; deployment evidence is recorded in docs/reports/hostinger-publication-2026-10-02/.
+
+## 4.0.0-beta.4 - Evidence Consistency and Live Coverage (2026-10-01)
+
+- Count confirmed changes only after their database transaction succeeds.
+- Show the inventory denominator, live/archive acquisition split, pending and unavailable checks, and current public KPI coverage.
+- Keep filtered statistics aligned with the selected records and show unassessed risk explicitly.
+- Use one numeric risk scale; quarantine a known historical TikTok error page with an auditable repair and backup.
+- Harden SMTP configuration for authenticated Hostinger TLS; mailbox activation requires account configuration.
+
+## Unreleased - 2026-09-23 SEO visibility improvements
+
+- Make public records usable without JavaScript and return real 404 responses for missing records.
+- Distinguish policy, region and recorded revision in metadata; remove AI risk scores from review schema.
+- Align change summaries with evidence classification, preserving original AI screening as clearly labeled history.
+- Add four policy-monitoring guides in English and Italian, contextual public records and reciprocal language links.
+- Complete social previews, fix URL-selected document languages and expose capture-age limitations.
+- Add optional webmaster verification tokens and a repeatable `seo:smoke` check. Deployment remains subject to the existing staging and promotion process.
+
+See `docs/seo-visibility-implementation-2026-09-23.md` for validation and remaining operational work.
+
 ## Unreleased
 
 ### Foundation Beta communications and release-date history

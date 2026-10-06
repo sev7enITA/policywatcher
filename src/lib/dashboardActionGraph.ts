@@ -1,5 +1,6 @@
 export type DashboardActionGraphSource = 'filters' | 'commandPalette' | 'regionHeatMap';
 export type DashboardControlId =
+  | 'documentTypes'
   | 'industry'
   | 'risk'
   | 'region'
@@ -79,6 +80,7 @@ const nodes = [
   { id: 'module.filters', kind: 'module' },
   { id: 'surface.commandPalette', kind: 'surface' },
   { id: 'visual.regionHeatMap', kind: 'surface' },
+  { id: 'control.documentTypes', kind: 'control' },
   { id: 'control.industry', kind: 'control' },
   { id: 'control.risk', kind: 'control' },
   { id: 'control.region', kind: 'control' },
@@ -95,6 +97,7 @@ export const DASHBOARD_ACTION_GRAPH: DashboardActionGraph = Object.freeze({
     Object.fromEntries(nodes.map((node) => [node.id, Object.freeze({ ...node })]))
   ),
   edges: Object.freeze([
+    edge('setFilter', 'filters', 'documentTypes'),
     edge('setFilter', 'filters', 'industry'),
     edge('setFilter', 'filters', 'risk'),
     edge('setFilter', 'filters', 'region'),

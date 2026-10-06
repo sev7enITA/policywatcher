@@ -67,7 +67,7 @@ const copy = {
     lead: 'Product facts, supporting links, limitations, release information, media files and press contact details.',
     currentRelease: 'Current web release',
     releaseDate: `Released ${POLICYWATCHER_RELEASE_DATE_LABEL.en}`,
-    factSheet: 'Download fact sheet',
+    factSheet: 'Archived fact sheet (20 Aug 2026)',
     copyShort: 'Copy short boilerplate',
     copied: 'Copied',
     copyFailed: 'Copy failed.',
@@ -157,7 +157,7 @@ const copy = {
     lead: 'Dati sul prodotto, link di supporto, limiti, informazioni di release, file media e contatti stampa.',
     currentRelease: 'Release web corrente',
     releaseDate: `Rilasciata il ${POLICYWATCHER_RELEASE_DATE_LABEL.it}`,
-    factSheet: 'Scarica la scheda stampa',
+    factSheet: 'Scheda stampa archiviata (20 ago 2026)',
     copyShort: 'Copia boilerplate breve',
     copied: 'Copiato',
     copyFailed: 'Copia non riuscita.',
@@ -329,7 +329,7 @@ export default function PressKitClient() {
             <h1 id="press-kit-title">{t.title}</h1>
             <p className={styles.heroLead}>{t.lead}</p>
             <div className={styles.heroActions}>
-              <a href={`/press-kit/policywatcher-fact-sheet-${lang}-${POLICYWATCHER_RELEASE_DATE}.pdf`} download><Download size={16} />{t.factSheet}</a>
+              <a href={`/press-kit/policywatcher-fact-sheet-${lang}-2026-08-20.pdf`} download><Download size={16} />{t.factSheet}</a>
               <button type="button" onClick={() => void copyText('hero-short', pressKitBoilerplates.short[lang])}>
                 {copied === 'hero-short' ? <Check size={16} /> : <Clipboard size={16} />}{copied === 'hero-short' ? t.copied : t.copyShort}
               </button>
@@ -533,7 +533,7 @@ export default function PressKitClient() {
 
         <section className={styles.founder} aria-labelledby="founder-title">
           <Image src="/press-kit/fabrizio-degni-portrait-2400-source-upscale.png" alt={lang === 'en' ? 'Portrait of Fabrizio Degni' : 'Ritratto di Fabrizio Degni'} width={200} height={200} loading="eager" sizes="200px" unoptimized />
-          <div><span>{t.founderLabel}</span><h2 id="founder-title">{t.founderTitle}</h2><p>{t.founderBio}</p><small>{t.portraitNote}</small><nav aria-label={t.founderLabel}><a href="mailto:info@policywatcher.online"><Mail size={15} />info@policywatcher.online</a><a href="https://linkedin.com/in/fabriziodegni" target="_blank" rel="noopener noreferrer"><ExternalLink size={15} />LinkedIn</a><a href={PRESS_KIT_REPOSITORY_URL} target="_blank" rel="noopener noreferrer"><GitFork size={15} />GitHub</a></nav></div>
+          <div><span>{t.founderLabel}</span><h2 id="founder-title">{t.founderTitle}</h2><p>{t.founderBio}</p><small>{t.portraitNote}</small><nav aria-label={t.founderLabel}><a href="mailto:info@policywatcher.online"><Mail size={15} />info@policywatcher.online</a><a href="https://www.linkedin.com/in/fdegni/" target="_blank" rel="noopener noreferrer"><ExternalLink size={15} />LinkedIn</a><a href={PRESS_KIT_REPOSITORY_URL} target="_blank" rel="noopener noreferrer"><GitFork size={15} />GitHub</a></nav></div>
         </section>
 
         <section className={styles.boundaries} aria-labelledby="boundaries-title">

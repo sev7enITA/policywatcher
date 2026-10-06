@@ -26,7 +26,7 @@ describe('public data-source registry', () => {
     expect(PUBLIC_DATA_SOURCES.companyComparison).toMatchObject({
       endpoint: '/api/compare',
       evidenceGate: 'public-change',
-      allowedQueryParams: ['companyA', 'companyB'],
+      allowedQueryParams: ['companyA', 'companyB', 'documents'],
     });
     expect(PUBLIC_DATA_SOURCES.policyDetails).toMatchObject({
       endpoint: '/api/policies/{policyId}',

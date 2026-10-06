@@ -12,6 +12,8 @@
  * cron-status endpoint can invoke it directly (no self-fetch required).
  */
 
+import { classifyPolicyChange } from '@/lib/changeClassification';
+import { shouldNotifyChange } from '@/lib/changeClassificationTypes';
 import { NextRequest, NextResponse } from 'next/server';
 import { createHash } from 'node:crypto';
 import { db } from '@/lib/db';
@@ -1195,7 +1197,6 @@ export async function runFullScan(
         continue;
       }
 
-      changed++;
       const newVersion = latestSnapshot ? latestSnapshot.version + 1 : 1;
       const oldText = latestSnapshot ? latestSnapshot.text : '';
 
@@ -1214,7 +1215,7 @@ export async function runFullScan(
       const diffResult = JSON.stringify(diffLib.diffLines(oldText, newText));
 
       const checkedAt = new Date();
-      await db.$transaction(async (tx) => {
+      const recordedChangeId = await db.$transaction(async (tx) => {
         const newSnapshot = await tx.policySnapshot.create({
           data: {
             policyId: policy.id,
@@ -1225,7 +1226,7 @@ export async function runFullScan(
           },
         });
 
-        await tx.policyChange.create({
+        const recordedChange = await tx.policyChange.create({
           data: {
             policyId: policy.id,
             oldSnapshotId: latestSnapshot?.id || null,
@@ -1294,10 +1295,23 @@ export async function runFullScan(
         });
 
         await dualWriteCanonicalPolicyGraph(tx, policy.id);
+        return recordedChange.id;
+      });
+
+      // Count only a successfully committed revision.
+      changed++;
+
+      // Archive every revision; suppress only proven presentation/identical updates in alerts.
+      const classification = classifyPolicyChange({
+        policyId: policy.id, oldSnapshot: latestSnapshot,
+        newSnapshot: { policyId: policy.id, text: newText, version: newVersion, publicEvidence: true },
+        riskReasonsJson: JSON.stringify(analysis.riskReasons),
       });
 
       // Track for subscriber notifications
-      changedPolicySummaries.push({
+      if (shouldNotifyChange(classification)) changedPolicySummaries.push({
+        changeId: recordedChangeId,
+        classification,
         companyName: policy.company.name,
         policyName: policy.name,
         overallRisk: analysis.overallRisk,

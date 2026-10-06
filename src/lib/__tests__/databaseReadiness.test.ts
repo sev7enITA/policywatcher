@@ -158,10 +158,10 @@ describe('database readiness report', () => {
       freePageCount: null,
     });
     expect(report.schema).toMatchObject({
-      expectedMigrationCount: 1,
-      appliedMigrationCount: 1,
+      expectedMigrationCount: EXPECTED_POSTGRESQL_MIGRATIONS.length,
+      appliedMigrationCount: EXPECTED_POSTGRESQL_MIGRATIONS.length,
       missingMigrations: [],
-      lastAppliedMigration: EXPECTED_POSTGRESQL_MIGRATIONS[0],
+      lastAppliedMigration: EXPECTED_POSTGRESQL_MIGRATIONS.at(-1),
     });
   });
 

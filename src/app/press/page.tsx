@@ -1,3 +1,4 @@
+import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
@@ -21,11 +22,11 @@ import {
 import PressCoverageRegistry, { type CoverageRecordView } from './PressCoverageRegistry';
 import styles from './press.module.css';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: 'Coverage Registry | PolicyWatcher',
   description: 'A source-linked registry of public references to PolicyWatcher.',
   alternates: { canonical: '/press' },
-};
+}, 'en');
 
 const submitReferenceHref = 'mailto:info@policywatcher.online?subject=PolicyWatcher%20public%20reference';
 

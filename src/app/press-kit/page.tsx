@@ -1,3 +1,4 @@
+import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import PressKitClient from './PressKitClient';
 import {
@@ -11,7 +12,7 @@ import {
   POLICYWATCHER_VERSION,
 } from '@/lib/release';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: 'Press Kit | PolicyWatcher',
   description: 'PolicyWatcher product facts, supporting links, limitations, media files, boilerplates and citation details.',
   alternates: { canonical: PRESS_KIT_CANONICAL_URL },
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
     description: 'Product facts, supporting links, limitations and owned media files.',
     images: ['https://policywatcher.online/press-kit/policywatcher-logo-square-1024.jpg'],
   },
-};
+}, 'en');
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -54,7 +55,7 @@ const jsonLd = {
       '@id': 'https://policywatcher.online/#founder',
       name: 'Fabrizio Degni',
       url: 'https://policywatcher.online/about',
-      sameAs: ['https://linkedin.com/in/fabriziodegni', PRESS_KIT_REPOSITORY_URL],
+      sameAs: ['https://www.linkedin.com/in/fdegni/', PRESS_KIT_REPOSITORY_URL],
       email: 'mailto:info@policywatcher.online',
       image: 'https://policywatcher.online/press-kit/fabrizio-degni-portrait-200.png',
     },

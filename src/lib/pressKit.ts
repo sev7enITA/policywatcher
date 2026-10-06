@@ -143,11 +143,11 @@ export const pressKitFacts: PressKitFact[] = [
     id: 'monitored-companies',
     value: '16',
     label: { en: 'configured monitored companies', it: 'aziende monitorate configurate' },
-    scope: { en: 'Configured monitored inventory. It excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage.', it: 'Inventario monitorato configurato. Esclude la fixture WAZE per l onboarding amministrativo e non e copertura esaustiva del mercato.' },
+    scope: { en: 'Historical configured inventory as of the displayed snapshot date; it excludes the WAZE admin-onboarding fixture. See the dashboard for current evidence counts; this is not exhaustive market coverage.', it: 'Inventario storico alla data indicata. Consulta la dashboard per i conteggi correnti; non rappresenta una copertura esaustiva del mercato.' },
     sourceHref: '/',
     sourceLabel: { en: 'Evidence Console', it: 'Console evidenze' },
-    asOf: PRESS_KIT_RELEASE_DATE,
-    verifiedAt: PRESS_KIT_RELEASE_DATE,
+    asOf: PRESS_KIT_DATA_SNAPSHOT_DATE,
+    verifiedAt: PRESS_KIT_DATA_SNAPSHOT_DATE,
     reviewCadence: { en: 'Each web release', it: 'Ogni release web' },
     recordStatus: 'current',
     permalink: '/press-kit#fact-monitored-companies',
@@ -157,7 +157,7 @@ export const pressKitFacts: PressKitFact[] = [
     value: '6',
     label: { en: 'configured sectors', it: 'settori configurati' },
     scope: { en: 'Sector labels organize the monitored inventory.', it: 'Le etichette di settore organizzano l inventario monitorato.' },
-    sourceHref: '/', sourceLabel: { en: 'Evidence Console', it: 'Console evidenze' }, asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    sourceHref: '/', sourceLabel: { en: 'Evidence Console', it: 'Console evidenze' }, asOf: PRESS_KIT_DATA_SNAPSHOT_DATE, verifiedAt: PRESS_KIT_DATA_SNAPSHOT_DATE,
     reviewCadence: { en: 'Each web release', it: 'Ogni release web' }, recordStatus: 'current', permalink: '/press-kit#fact-configured-sectors',
   },
   {
@@ -165,7 +165,7 @@ export const pressKitFacts: PressKitFact[] = [
     value: '15',
     label: { en: 'canonical KPIs', it: 'KPI canonici' },
     scope: { en: 'Privacy, AI governance and ethics; unavailable assessments display Not assessed.', it: 'Privacy, governance AI ed etica; le valutazioni non disponibili mostrano Non valutato.' },
-    sourceHref: '/feature-atlas', sourceLabel: { en: 'Feature Atlas', it: 'Atlante funzionalita' }, asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    sourceHref: '/feature-atlas', sourceLabel: { en: 'Feature Atlas', it: 'Atlante funzionalita' }, asOf: PRESS_KIT_DATA_SNAPSHOT_DATE, verifiedAt: PRESS_KIT_DATA_SNAPSHOT_DATE,
     reviewCadence: { en: 'When the KPI framework changes', it: 'Quando cambia il framework KPI' }, recordStatus: 'current', permalink: '/press-kit#fact-canonical-kpis',
   },
   {
@@ -173,7 +173,7 @@ export const pressKitFacts: PressKitFact[] = [
     value: 'EN / IT',
     label: { en: 'editorial languages', it: 'lingue editoriali' },
     scope: { en: 'The press kit and selected guidance pages support English and Italian.', it: 'Il press kit e alcune pagine guida supportano inglese e italiano.' },
-    sourceHref: '/press-kit', sourceLabel: { en: 'Press Kit', it: 'Press Kit' }, asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    sourceHref: '/press-kit', sourceLabel: { en: 'Press Kit', it: 'Press Kit' }, asOf: PRESS_KIT_DATA_SNAPSHOT_DATE, verifiedAt: PRESS_KIT_DATA_SNAPSHOT_DATE,
     reviewCadence: { en: 'Each public-language release', it: 'Ogni release linguistica pubblica' }, recordStatus: 'current', permalink: '/press-kit#fact-editorial-languages',
   },
 ];
@@ -187,7 +187,7 @@ export const pressKitClaims: PressKitClaim[] = [
     proofHref: '/methodology/confidence',
     proofLabel: { en: 'Methodology', it: 'Metodologia' },
     boundary: { en: 'A gate reduces unsupported publication; it does not prove source completeness or legal authority.', it: 'Il gate riduce pubblicazioni non supportate; non prova completezza o autorita legale della fonte.' },
-    asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    asOf: PRESS_KIT_DATA_SNAPSHOT_DATE, verifiedAt: PRESS_KIT_DATA_SNAPSHOT_DATE,
     reviewCadence: { en: 'Each evidence-gate release', it: 'Ogni release del gate evidenze' }, recordStatus: 'current', permalink: '/press-kit#claim-public-evidence-gate',
   },
   {
@@ -198,7 +198,7 @@ export const pressKitClaims: PressKitClaim[] = [
     proofHref: '/',
     proofLabel: { en: 'Evidence Console', it: 'Console evidenze' },
     boundary: { en: 'This is not exhaustive public or market coverage, and source availability can change.', it: 'Non e copertura pubblica o di mercato esaustiva e la disponibilita delle fonti puo cambiare.' },
-    asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    asOf: PRESS_KIT_DATA_SNAPSHOT_DATE, verifiedAt: PRESS_KIT_DATA_SNAPSHOT_DATE,
     reviewCadence: { en: 'Each web release', it: 'Ogni release web' }, recordStatus: 'current', permalink: '/press-kit#claim-configured-inventory',
   },
   {
@@ -209,7 +209,7 @@ export const pressKitClaims: PressKitClaim[] = [
     proofHref: '/feature-atlas',
     proofLabel: { en: 'Feature Atlas', it: 'Atlante funzionalita' },
     boundary: { en: 'Normalized values support comparison only; unavailable assessments have no numerical value and the result is not a compliance score.', it: 'I valori normalizzati servono solo al confronto; le valutazioni non disponibili non hanno valore numerico e il risultato non e un punteggio di conformita.' },
-    asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    asOf: PRESS_KIT_DATA_SNAPSHOT_DATE, verifiedAt: PRESS_KIT_DATA_SNAPSHOT_DATE,
     reviewCadence: { en: 'When the KPI framework changes', it: 'Quando cambia il framework KPI' }, recordStatus: 'current', permalink: '/press-kit#claim-canonical-kpis',
   },
   {
@@ -220,7 +220,7 @@ export const pressKitClaims: PressKitClaim[] = [
     proofHref: PRESS_KIT_REPOSITORY_URL,
     proofLabel: { en: 'GitHub repository', it: 'Repository GitHub' },
     boundary: { en: 'This describes repository access and license terms; no OSI certification is claimed.', it: 'Descrive accesso e licenza del repository; non viene dichiarata alcuna certificazione OSI.' },
-    asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    asOf: PRESS_KIT_DATA_SNAPSHOT_DATE, verifiedAt: PRESS_KIT_DATA_SNAPSHOT_DATE,
     reviewCadence: { en: 'Each licensing change', it: 'A ogni modifica di licenza' }, recordStatus: 'current', permalink: '/press-kit#claim-public-code',
   },
   {
@@ -231,7 +231,7 @@ export const pressKitClaims: PressKitClaim[] = [
     proofHref: '/timeline',
     proofLabel: { en: 'Policy timeline', it: 'Timeline policy' },
     boundary: { en: `Release metadata is dated ${POLICYWATCHER_RELEASE_DATE_LABEL.en}; update intervals depend on source retrieval and review.`, it: `I metadata di release sono datati ${POLICYWATCHER_RELEASE_DATE_LABEL.it}; gli intervalli di aggiornamento dipendono dal recupero e dalla revisione delle fonti.` },
-    asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    asOf: PRESS_KIT_DATA_SNAPSHOT_DATE, verifiedAt: PRESS_KIT_DATA_SNAPSHOT_DATE,
     reviewCadence: { en: 'Each source-screening release', it: 'Ogni release di screening fonti' }, recordStatus: 'current', permalink: '/press-kit#claim-source-timestamps',
   },
   {
@@ -242,7 +242,7 @@ export const pressKitClaims: PressKitClaim[] = [
     proofHref: '/press',
     proofLabel: { en: 'Coverage wall', it: 'Rassegna pubblica' },
     boundary: { en: 'Mentions are references, not endorsements, certifications or independent audits.', it: 'Le menzioni sono riferimenti, non endorsement, certificazioni o audit indipendenti.' },
-    asOf: PRESS_KIT_RELEASE_DATE, verifiedAt: PRESS_KIT_RELEASE_DATE,
+    asOf: PRESS_KIT_DATA_SNAPSHOT_DATE, verifiedAt: PRESS_KIT_DATA_SNAPSHOT_DATE,
     reviewCadence: { en: 'When the coverage registry changes', it: 'Quando cambia il registro copertura' }, recordStatus: 'current', permalink: '/press-kit#claim-external-coverage',
   },
 ];
@@ -634,12 +634,34 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
+    slug: 'document-scope-comparable-evidence-4-0-0-beta-5',
+    version: POLICYWATCHER_VERSION, displayVersion: POLICYWATCHER_VERSION_DISPLAY,
+    datePublished: POLICYWATCHER_RELEASE_DATE, dateModified: POLICYWATCHER_RELEASE_DATE,
+    status: 'current', category: 'methodology',
+    title: { en: 'Document Scope and Comparable Evidence', it: 'Ambito documentale ed evidenze confrontabili' },
+    summary: { en: 'Select document types once for all dashboard companies, with explicit coverage and consistent KPI denominators.', it: 'Seleziona una volta i tipi di documento per tutte le aziende della dashboard, con copertura esplicita e denominatori KPI coerenti.' },
+    changes: [
+      { en: 'Six document types, privacy-only shortcut and shared filtered views cover comparisons, KPI matrix, timeline, assistant and CSV.', it: 'Sei tipi documentali, selezione solo privacy e viste condivise filtrano confronti, matrice KPI, cronologia, assistente e CSV.' },
+      { en: 'Type-balanced scores and complete-scope company means expose missing and unassessed types.', it: 'Punteggi bilanciati per tipo e medie delle aziende con copertura completa rendono visibili tipi mancanti e non valutati.' },
+      { en: 'Methodology, Atlas and current evidence coverage explain the same calculation and publication boundaries.', it: 'Metodologia, Atlas e copertura delle evidenze correnti spiegano gli stessi criteri di calcolo e pubblicazione.' },
+    ],
+    boundaries: [
+      { en: 'Coverage measures evidence availability, not AI accuracy, legal compliance or statistical confidence.', it: 'La copertura misura la disponibilità delle evidenze, non accuratezza AI, conformità legale o confidenza statistica.' },
+      { en: 'Independent registries, subscriptions and administrative scans retain their own scope; SMTP delivery requires verified configuration.', it: 'Registri indipendenti, iscrizioni e scansioni amministrative mantengono il proprio ambito; l invio SMTP richiede configurazione verificata.' },
+    ],
+    evidenceLinks: [
+      { href: '/?documents=privacy', label: { en: 'Privacy-only dashboard', it: 'Dashboard solo privacy' } },
+      { href: '/methodology/confidence', label: { en: 'Methodology and denominators', it: 'Metodologia e denominatori' } },
+      { href: '/feature-atlas', label: { en: 'Feature Atlas', it: 'Atlante funzionalità' } },
+    ],
+  },
+  {
     slug: 'ai-discoverability-citation-readiness-4-0-0-beta-3',
-    version: POLICYWATCHER_VERSION,
-    displayVersion: POLICYWATCHER_VERSION_DISPLAY,
-    datePublished: POLICYWATCHER_RELEASE_DATE,
-    dateModified: POLICYWATCHER_RELEASE_DATE,
-    status: 'current',
+    version: '4.0.0-beta.3',
+    displayVersion: '4.0.0 Beta 3',
+    datePublished: '2026-08-28',
+    dateModified: '2026-08-28',
+    status: 'archived',
     category: 'confidence',
     title: { en: 'AI Discoverability and Citation Readiness', it: 'Discoverability AI e readiness per le citazioni' },
     summary: { en: 'Aligns the public homepage, crawler controls and machine-readable identity around the same server-rendered evidence boundary.', it: 'Allinea homepage pubblica, controlli crawler e identita machine-readable allo stesso perimetro di evidenze renderizzato dal server.' },
@@ -1589,7 +1611,8 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
-  { id: 'ai-discoverability-citation-readiness-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'AI Discoverability and Citation Readiness recorded', it: 'Registrata Discoverability AI e readiness per le citazioni' }, detail: { en: 'Beta 3 aligns visible homepage content, canonical metadata, structured identity and explicit crawler access without claiming external indexing or citation outcomes.', it: 'La Beta 3 allinea contenuto visibile della homepage, metadata canonici, identita strutturata e accesso crawler esplicito senza dichiarare risultati esterni di indicizzazione o citazione.' }, affectedHref: '/press-kit/releases/ai-discoverability-citation-readiness-4-0-0-beta-3' },
+  { id: 'document-scope-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Comparable document scope recorded', it: 'Registrato ambito documentale confrontabile' }, detail: { en: 'Beta 5 adds a shared selection of document types, explicit missing coverage, type-balanced scores and consistent methodology.', it: 'La Beta 5 introduce una selezione condivisa dei tipi documentali, copertura mancante esplicita, punteggi bilanciati per tipo e metodologia coerente.' }, affectedHref: '/press-kit/releases/document-scope-comparable-evidence-4-0-0-beta-5' },
+  { id: 'ai-discoverability-citation-readiness-release', occurredAt: '2026-08-28', type: 'release', title: { en: 'AI Discoverability and Citation Readiness recorded', it: 'Registrata Discoverability AI e readiness per le citazioni' }, detail: { en: 'Beta 3 aligns visible homepage content, canonical metadata, structured identity and explicit crawler access without claiming external indexing or citation outcomes.', it: 'La Beta 3 allinea contenuto visibile della homepage, metadata canonici, identita strutturata e accesso crawler esplicito senza dichiarare risultati esterni di indicizzazione o citazione.' }, affectedHref: '/press-kit/releases/ai-discoverability-citation-readiness-4-0-0-beta-3' },
   { id: 'production-readiness-hardening-release', occurredAt: '2026-08-20', type: 'release', title: { en: 'Production Readiness Hardening candidate recorded', it: 'Registrata la candidate Production Readiness Hardening' }, detail: { en: 'The Beta 2 candidate applies the material independent-assessment remediations while preserving the Beta 1 evidence contracts and explicit deployment gates.', it: 'La candidate Beta 2 applica le remediation materiali degli assessment indipendenti preservando i contratti di evidenza Beta 1 e i gate di deployment espliciti.' }, affectedHref: '/press-kit/releases/production-readiness-hardening-4-0-0-beta-2' },
   { id: 'canonical-evidence-foundation-release', occurredAt: '2026-08-19', type: 'release', title: { en: 'Canonical Evidence Foundation published', it: 'Pubblicata Canonical Evidence Foundation' }, detail: { en: 'The v4 foundation introduces a canonical document-evidence graph, stable public identifiers, a focused provision taxonomy and one database-derived publication-readiness contract.', it: 'La foundation v4 introduce un grafo canonico delle evidenze documentali, identificatori pubblici stabili, una tassonomia mirata delle clausole e un unico contratto di publication readiness derivato dal database.' }, affectedHref: '/press-kit/releases/canonical-evidence-foundation-4-0-0-beta-1' },
   { id: 'evidence-release-control-plane-release', occurredAt: '2026-08-15', type: 'release', title: { en: 'Evidence Release Control Plane published', it: 'Pubblicato Evidence Release Control Plane' }, detail: { en: 'A human-approved model registry, privacy-safe telemetry, validated release ledger and bilingual Evidence Pulse now share explicit evidence and residual boundaries.', it: 'Un registro modelli approvato da persone, telemetria rispettosa della privacy, un ledger di release validato ed Evidence Pulse bilingue ora condividono evidenze e limiti residui espliciti.' }, affectedHref: '/press-kit/releases/evidence-release-control-plane-3-9-0-beta-42' },
@@ -1660,7 +1683,7 @@ export function buildPressKitPayload() {
     contact: {
       name: 'Fabrizio Degni',
       email: 'info@policywatcher.online',
-      linkedin: 'https://linkedin.com/in/fabriziodegni',
+      linkedin: 'https://www.linkedin.com/in/fdegni/',
       github: PRESS_KIT_REPOSITORY_URL,
       routes: pressKitContactRoutes,
     },

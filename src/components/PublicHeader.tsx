@@ -10,6 +10,7 @@ import styles from './PublicHeader.module.css';
 export type PublicSection =
   | 'associations'
   | 'knowledge'
+  | 'guides'
   | 'collections'
   | 'evidence'
   | 'signals'
@@ -41,6 +42,7 @@ interface PublicHeaderProps {
 
 const links: Array<{ id: PublicSection; href: string; en: string; it: string }> = [
   { id: 'associations', href: '/en/associations', en: 'Civic Lab', it: 'Associazioni' },
+  { id: 'guides', href: '/guides', en: 'Guides', it: 'Guide' },
   { id: 'knowledge', href: '/knowledge', en: 'Knowledge', it: 'Conoscenza' },
   { id: 'collections', href: '/collections', en: 'Collections', it: 'Raccolte' },
   { id: 'evidence', href: '/evidence', en: 'Evidence', it: 'Evidenze' },
@@ -85,7 +87,7 @@ export default function PublicHeader({ current, lang = 'en', lockLang = false }:
                 key={link.id}
                 href={link.id === 'associations'
                   ? activeLang === 'it' ? '/it/associazioni' : '/en/associations'
-                  : link.href}
+                  : link.id === 'guides' && activeLang === 'it' ? '/guides?lang=it' : link.href}
                 aria-current={current === link.id ? 'page' : undefined}
                 onClick={() => setMobileOpen(false)}
               >

@@ -270,7 +270,7 @@ function companyScanState(company: CompanyBaseline, selectedSlug: string): Compa
 function companyStateLabel(state: CompanyScanState): string {
   const labels: Record<CompanyScanState, string> = {
     selected: 'Selected',
-    verified: 'Verified',
+    verified: 'Baseline available',
     attention: 'Review',
     pending: 'Pending',
     empty: 'No policies',

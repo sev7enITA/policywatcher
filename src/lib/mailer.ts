@@ -7,12 +7,17 @@
  */
 
 import nodemailer from 'nodemailer';
+import { smtpConfiguration } from '@/lib/smtpConfiguration';
+import { shouldNotifyChange, type ChangeClassification } from './changeClassificationTypes';
+import { CHANGE_KIND_LABELS, changeClassificationDescription } from './changeClassificationCopy';
 import { buildAcquisitionKey } from '@/lib/sourceReliability';
 
 // -- Types --
 
 /** Summary data for a single changed policy, used to build email alert cards. */
 export interface ChangedPolicySummary {
+  changeId?: string;
+  classification?: ChangeClassification;
   companyName: string;
   policyName: string;
   overallRisk: string;
@@ -52,24 +57,8 @@ export interface PolicyInquiryAdminAlert {
  * @returns A configured transport, or `null` if SMTP credentials are missing.
  */
 function createTransport() {
-  const host = process.env.SMTP_HOST;
-  const port = process.env.SMTP_PORT;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
-
-  if (!host || !port || !user || !pass) {
-    return null;
-  }
-
-  return nodemailer.createTransport({
-    host,
-    port: parseInt(port, 10),
-    secure: parseInt(port, 10) === 465,
-    auth: {
-      user,
-      pass,
-    },
-  });
+  const config = smtpConfiguration(process.env);
+  return config ? nodemailer.createTransport(config) : null;
 }
 
 /**
@@ -77,7 +66,7 @@ function createTransport() {
  * Defaults to the branded noreply address when `SMTP_FROM` is not set.
  */
 function getFromAddress(): string {
-  return process.env.SMTP_FROM || 'PolicyWatcher <noreply@policywatcher.dev>';
+  return process.env.SMTP_FROM || `PolicyWatcher <${process.env.SMTP_USER || 'noreply@policywatcher.online'}>`;
 }
 
 function getAdminAlertAddress(): string | null {
@@ -196,7 +185,7 @@ function wrapInTemplate(bodyContent: string, email?: string, token?: string): st
               <p style="margin: 8px 0 0; font-size: 11px; color: #4b5563;">
                 <a href="${unsubscribeLink}" style="color: #6366f1; text-decoration: underline;">Unsubscribe</a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a href="https://linkedin.com/in/fabriziodegni" style="color: #6366f1; text-decoration: underline;">LinkedIn</a>
+                <a href="https://www.linkedin.com/in/fdegni/" style="color: #6366f1; text-decoration: underline;">LinkedIn</a>
               </p>
             </td>
           </tr>
@@ -383,15 +372,27 @@ export async function sendPolicyInquiryAdminAlert(
  * Sends an alert email to a subscriber about changed policies.
  * Falls back to console.log if SMTP is not configured.
  */
+function renderChangeClassification(change: ChangedPolicySummary): string {
+  const kind = change.classification?.kind ?? 'needs_review';
+  const label = escapeHtml(CHANGE_KIND_LABELS.en[kind]);
+  const id = change.changeId;
+  const origin = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://policywatcher.online';
+  const link = id && /^[a-f0-9-]{36}$/i.test(id)
+    ? `<p><a href="${escapeHtml(`${origin.replace(/\/$/, '')}/change/${id}`)}">Compare before / after evidence</a></p>` : '';
+  return `<p style="font-size:13px;color:#e5e7eb"><strong>${label}</strong><br>Change impact: not assessed. The policy risk score is not a measure of this revision.</p>${link}`;
+}
+
 export async function sendPolicyChangeAlert(
   subscriberEmail: string,
   subscriberName: string | undefined,
   changedPolicies: ChangedPolicySummary[],
   token?: string
 ): Promise<boolean> {
+  changedPolicies = changedPolicies.filter(p => shouldNotifyChange(p.classification));
+  if (changedPolicies.length === 0) return false;
   const greeting = subscriberName ? `Hello ${escapeHtml(subscriberName)}` : 'Hello';
   const count = changedPolicies.length;
-  const subject = `PolicyWatcher Alert: ${count} polic${count === 1 ? 'y' : 'ies'} updated`;
+  const subject = `PolicyWatcher Alert: ${count} update${count === 1 ? '' : 's'} to review`;
 
   // Build change cards
   const cards = changedPolicies
@@ -401,7 +402,8 @@ export async function sendPolicyChangeAlert(
       const policyName = escapeHtml(p.policyName);
       const overallRisk = escapeHtml(p.overallRisk);
       const overallScore = escapeHtml(p.overallScore);
-      const summaryEn = escapeHtml(p.summaryEn);
+      const summaryEn = escapeHtml(changeClassificationDescription(p.classification, 'en'));
+      const classificationMarkup = renderChangeClassification(p);
       return `
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 16px;">
           <tr>
@@ -411,9 +413,10 @@ export async function sendPolicyChangeAlert(
                   <td>
                     <p style="margin: 0 0 4px; font-size: 15px; font-weight: 600; color: #f3f4f6;">${companyName} - ${policyName}</p>
                     <p style="margin: 0 0 8px; font-size: 12px; color: ${riskColor}; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
-                      Risk: ${overallRisk} (${overallScore}/10)
+                      Policy risk (AI): ${overallRisk} (${overallScore}/10)
                     </p>
                     <p style="margin: 0; font-size: 13px; color: #9ca3af; line-height: 1.5;">${summaryEn}</p>
+                    ${classificationMarkup}
                   </td>
                 </tr>
               </table>
@@ -426,7 +429,7 @@ export async function sendPolicyChangeAlert(
   const bodyContent = `
     <p style="margin: 0 0 20px; font-size: 15px; color: #f3f4f6; line-height: 1.6;">
       ${greeting},<br><br>
-      PolicyWatcher has detected changes in <strong>${count}</strong> monitored polic${count === 1 ? 'y' : 'ies'}. Below is a summary of the updates:
+      PolicyWatcher has recorded <strong>${count}</strong> updates requiring review. Classification below distinguishes potentially substantive changes from unverified cases:
     </p>
     ${cards}
     <p style="margin: 20px 0 0; font-size: 13px; color: #6b7280;">
@@ -532,15 +535,16 @@ export async function sendMonthlyDigest(
   recentChanges: ChangedPolicySummary[],
   token?: string
 ): Promise<boolean> {
+  recentChanges = recentChanges.filter(p => shouldNotifyChange(p.classification));
   const greeting = subscriberName ? `Hello ${escapeHtml(subscriberName)}` : 'Hello';
   const count = recentChanges.length;
-  const subject = `PolicyWatcher Monthly Digest: ${count} updates in the last 30 days`;
+  const subject = `PolicyWatcher Monthly Digest: ${count} update${count === 1 ? '' : 's'} in the last 30 days`;
 
   let cards = '';
   if (count === 0) {
     cards = `
       <p style="margin: 0; font-size: 13px; color: #9ca3af; line-height: 1.5;">
-        There have been no significant policy changes recorded in the last 30 days.
+        No updates requiring review are included for your preferences in this period. Identical and editorial revisions remain in the archive.
       </p>`;
   } else {
     cards = recentChanges
@@ -551,7 +555,8 @@ export async function sendMonthlyDigest(
         const overallRisk = escapeHtml(p.overallRisk);
         const overallScore = escapeHtml(p.overallScore);
         const region = escapeHtml(p.region);
-        const summaryEn = escapeHtml(p.summaryEn);
+        const summaryEn = escapeHtml(changeClassificationDescription(p.classification, 'en'));
+        const classificationMarkup = renderChangeClassification(p);
         return `
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 16px;">
             <tr>
@@ -561,9 +566,10 @@ export async function sendMonthlyDigest(
                     <td>
                       <p style="margin: 0 0 4px; font-size: 15px; font-weight: 600; color: #f3f4f6;">${companyName} - ${policyName}</p>
                       <p style="margin: 0 0 8px; font-size: 12px; color: ${riskColor}; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
-                        Risk: ${overallRisk} (${overallScore}/10) | Region: ${region}
+                        Policy risk (AI): ${overallRisk} (${overallScore}/10) | Region: ${region}
                       </p>
                       <p style="margin: 0; font-size: 13px; color: #9ca3af; line-height: 1.5;">${summaryEn}</p>
+                    ${classificationMarkup}
                     </td>
                   </tr>
                 </table>
@@ -599,15 +605,16 @@ export async function sendWeeklyDigest(
   recentChanges: ChangedPolicySummary[],
   token?: string
 ): Promise<boolean> {
+  recentChanges = recentChanges.filter(p => shouldNotifyChange(p.classification));
   const greeting = subscriberName ? `Hello ${escapeHtml(subscriberName)}` : 'Hello';
   const count = recentChanges.length;
-  const subject = `PolicyWatcher Weekly Digest: ${count} updates in the last 7 days`;
+  const subject = `PolicyWatcher Weekly Digest: ${count} update${count === 1 ? '' : 's'} in the last 7 days`;
 
   let cards = '';
   if (count === 0) {
     cards = `
       <p style="margin: 0; font-size: 13px; color: #9ca3af; line-height: 1.5;">
-        There have been no significant policy changes recorded in the last 7 days.
+        No updates requiring review are included for your preferences in this period. Identical and editorial revisions remain in the archive.
       </p>`;
   } else {
     cards = recentChanges
@@ -618,7 +625,8 @@ export async function sendWeeklyDigest(
         const overallRisk = escapeHtml(p.overallRisk);
         const overallScore = escapeHtml(p.overallScore);
         const region = escapeHtml(p.region);
-        const summaryEn = escapeHtml(p.summaryEn);
+        const summaryEn = escapeHtml(changeClassificationDescription(p.classification, 'en'));
+        const classificationMarkup = renderChangeClassification(p);
         return `
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 16px;">
             <tr>
@@ -628,9 +636,10 @@ export async function sendWeeklyDigest(
                     <td>
                       <p style="margin: 0 0 4px; font-size: 15px; font-weight: 600; color: #f3f4f6;">${companyName} - ${policyName}</p>
                       <p style="margin: 0 0 8px; font-size: 12px; color: ${riskColor}; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
-                        Risk: ${overallRisk} (${overallScore}/10) | Region: ${region}
+                        Policy risk (AI): ${overallRisk} (${overallScore}/10) | Region: ${region}
                       </p>
                       <p style="margin: 0; font-size: 13px; color: #9ca3af; line-height: 1.5;">${summaryEn}</p>
+                    ${classificationMarkup}
                     </td>
                   </tr>
                 </table>

@@ -1,3 +1,5 @@
+import { classifyPolicyChange, classificationSnapshotSelect } from '@/lib/changeClassification';
+import { changeClassificationDescription } from '@/lib/changeClassificationCopy';
 import { cache } from 'react';
 import { db } from './db';
 import { publicChangeWhere, publicPolicyWhere, publicSnapshotWhere } from './publicDataGate';
@@ -158,8 +160,10 @@ export const getPublicKnowledgeHub = cache(async (): Promise<PublicKnowledgeHub>
         createdAt: true,
         publicPublishedAt: true,
         overallRisk: true,
-        tldrEn: true,
-        aiSummaryEn: true,
+        policyId: true,
+        riskReasonsJson: true,
+        oldSnapshot: { select: classificationSnapshotSelect },
+        newSnapshot: { select: classificationSnapshotSelect },
         policy: {
           select: {
             id: true,
@@ -205,7 +209,7 @@ export const getPublicKnowledgeHub = cache(async (): Promise<PublicKnowledgeHub>
     publishedAt: asIso(change.publicPublishedAt!),
     observedAt: asIso(change.createdAt),
     overallRisk: change.overallRisk,
-    summary: change.tldrEn || change.aiSummaryEn,
+    summary: changeClassificationDescription(classifyPolicyChange(change), 'en'),
     policy: change.policy,
   }));
 
@@ -277,8 +281,10 @@ export const getPublicKnowledgeCompany = cache(async (slug: string): Promise<Pub
               createdAt: true,
               publicPublishedAt: true,
               overallRisk: true,
-              tldrEn: true,
-              aiSummaryEn: true,
+              policyId: true,
+              riskReasonsJson: true,
+              oldSnapshot: { select: classificationSnapshotSelect },
+              newSnapshot: { select: classificationSnapshotSelect },
             },
           },
           _count: { select: { changes: { where: publicChangeWhere({ publicPublishedAt: { not: null } }) as never } } },
@@ -309,7 +315,7 @@ export const getPublicKnowledgeCompany = cache(async (slug: string): Promise<Pub
       publishedAt: asIso(change.publicPublishedAt!),
       observedAt: asIso(change.createdAt),
       overallRisk: change.overallRisk,
-      summary: change.tldrEn || change.aiSummaryEn,
+      summary: changeClassificationDescription(classifyPolicyChange(change), 'en'),
       policy: {
         id: policy.id,
         name: policy.name,
@@ -376,8 +382,10 @@ export const getPublicKnowledgePolicy = cache(async (
           createdAt: true,
           publicPublishedAt: true,
           overallRisk: true,
-          tldrEn: true,
-          aiSummaryEn: true,
+          policyId: true,
+          riskReasonsJson: true,
+          oldSnapshot: { select: classificationSnapshotSelect },
+          newSnapshot: { select: classificationSnapshotSelect },
         },
       },
       _count: { select: { changes: { where: publicChangeWhere({ publicPublishedAt: { not: null } }) as never } } },
@@ -391,7 +399,7 @@ export const getPublicKnowledgePolicy = cache(async (
     publishedAt: asIso(change.publicPublishedAt!),
     observedAt: asIso(change.createdAt),
     overallRisk: change.overallRisk,
-    summary: change.tldrEn || change.aiSummaryEn,
+    summary: changeClassificationDescription(classifyPolicyChange(change), 'en'),
     policy: {
       id: policy.id,
       name: policy.name,

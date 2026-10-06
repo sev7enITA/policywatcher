@@ -1,3 +1,4 @@
+import { withSocialMetadata } from '@/lib/seo';
 import type { CSSProperties } from 'react';
 import type { Metadata } from 'next';
 import Image from 'next/image';
@@ -7,12 +8,12 @@ import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
 import styles from './showcase.module.css';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: `Product overview | PolicyWatcher ${POLICYWATCHER_VERSION}`,
   description:
     'PolicyWatcher native dashboard intelligence: validated composition, canonical KPIs, evidence-first data sources and five accessible, provenance-aware visualizations.',
   alternates: { canonical: '/showcase' },
-};
+}, 'en');
 
 const topNav = [
   ['01', 'Sources', '#atlas'],

@@ -1,6 +1,7 @@
 /* CardRiskReasons.module.css - compact inline reasons for dashboard cards */
 
 .wrapper {
+  min-width: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
@@ -8,6 +9,7 @@
 }
 
 .chip {
+  min-width: 0;
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -27,9 +29,9 @@
 }
 
 .text {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 /* icon color variants */

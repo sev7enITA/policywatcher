@@ -9,6 +9,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { randomUUID } from 'node:crypto';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
+import { smtpConfiguration } from '@/lib/smtpConfiguration';
 import {
   SUBSCRIBER_FREQUENCIES,
   SUBSCRIBER_INDUSTRIES,
@@ -21,7 +22,7 @@ const VALID_REGIONS = new Set<string>(SUBSCRIBER_REGIONS);
 const VALID_INDUSTRIES = new Set<string>(SUBSCRIBER_INDUSTRIES);
 const VALID_FREQUENCIES = new Set<string>(SUBSCRIBER_FREQUENCIES);
 const GENERIC_SUBSCRIBE_MESSAGE =
-  'If this email can receive PolicyWatcher alerts, a confirmation message has been sent.';
+  'Request received. A new subscription becomes active only after email confirmation. If no message arrives, please try again later.';
 
 function normalizeList(
   value: unknown,
@@ -106,6 +107,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check the service before looking up an address: this response must not
+    // reveal whether an address is already subscribed or store undeliverable requests.
+    let mailConfigured = false;
+    try {
+      mailConfigured = Boolean(smtpConfiguration(process.env));
+    } catch {
+      // Invalid configuration is an operator issue, not a subscriber error.
+    }
+    if (!mailConfigured) {
+      return NextResponse.json(
+        { code: 'EMAIL_UNAVAILABLE', error: 'Email subscriptions are temporarily unavailable. Please try again later.' },
+        { status: 503, headers: { 'Retry-After': '600' } },
+      );
+    }
+
     // Check for duplicate
     const existing = await db.subscriber.findUnique({
       where: { email: normalizedEmail },
@@ -130,7 +146,7 @@ export async function POST(request: NextRequest) {
         
         try {
           const { sendSubscriptionConfirmationRequest } = await import('@/lib/mailer');
-          await sendSubscriptionConfirmationRequest(
+          const sent = await sendSubscriptionConfirmationRequest(
             pending.email,
             pending.name || undefined,
             pending.regions,
@@ -138,8 +154,9 @@ export async function POST(request: NextRequest) {
             pending.frequency,
             pending.confirmationToken as string,
           );
-        } catch (mailError) {
-          console.error('[Subscribers API] Failed to send confirmation:', mailError);
+          if (!sent) console.warn('[Subscribers API] Confirmation delivery failed; request remains inactive.');
+        } catch {
+          console.error('[Subscribers API] Confirmation delivery failed; request remains inactive.');
         }
 
         return NextResponse.json(
@@ -172,7 +189,7 @@ export async function POST(request: NextRequest) {
     // Send a double-opt-in request. The record remains inactive until POST /confirm.
     try {
       const { sendSubscriptionConfirmationRequest } = await import('@/lib/mailer');
-      await sendSubscriptionConfirmationRequest(
+      const sent = await sendSubscriptionConfirmationRequest(
         subscriber.email,
         subscriber.name || undefined,
         subscriber.regions,
@@ -180,8 +197,9 @@ export async function POST(request: NextRequest) {
         subscriber.frequency,
         subscriber.confirmationToken as string,
       );
-    } catch (mailError) {
-      console.error('[Subscribers API] Failed to send confirmation:', mailError);
+      if (!sent) console.warn('[Subscribers API] Confirmation delivery failed; request remains inactive.');
+    } catch {
+      console.error('[Subscribers API] Confirmation delivery failed; request remains inactive.');
     }
 
     return NextResponse.json(

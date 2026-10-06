@@ -308,7 +308,7 @@ export default function DatasetQualityPage() {
             Dataset QA
           </h1>
           <p className={styles.pageSubtitle}>
-            Dataset integrity, coverage, freshness, and analysis-quality gates
+            Dataset integrity, coverage, freshness, and analysis-quality gates. This administrative audit includes all stored historical changes. KPI coverage uses that history; the public dashboard uses current public policies and its selected document types. Neither percentage measures analytical accuracy.
           </p>
         </div>
         <button
@@ -352,7 +352,7 @@ export default function DatasetQualityPage() {
         </div>
         <div className={styles.statBox}>
           <div className={styles.statValue}>{summary.kpiCoveragePct}%</div>
-          <div className={styles.statLabel}>KPI Coverage</div>
+          <div className={styles.statLabel}>Historical KPI Coverage</div>
         </div>
         <div className={styles.statBox}>
           <div className={styles.statValue}>{summary.regionCoveragePct}%</div>

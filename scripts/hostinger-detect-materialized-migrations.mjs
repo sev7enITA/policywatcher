@@ -104,7 +104,16 @@ function migrationIsMaterialized(sql) {
   const indexes = [...sql.matchAll(/CREATE\s+(UNIQUE\s+)?INDEX\s+"([^"]+)"\s+ON\s+"([^"]+)"\s*\(([^)]+)\)/gi)];
   for (const [, unique, index, table, columns] of indexes) {
     const actual = db.prepare("SELECT sql FROM sqlite_master WHERE type = 'index' AND name = ? AND tbl_name = ?").get(index, table);
-    if (!actual) return false;
+    if (!actual) {
+      // The multi-document migration supersedes the old one-document-per-type
+      // constraint. A fresh fallback schema already contains its replacement.
+      const replacement = index === 'Policy_companyId_type_jurisdiction_key'
+        ? db.prepare("SELECT sql FROM sqlite_master WHERE type = 'index' AND name = 'Policy_companyId_type_jurisdiction_url_key' AND tbl_name = 'Policy'").get()
+        : null;
+      if (replacement && /CREATE\s+UNIQUE\s+INDEX/i.test(String(replacement.sql))
+        && indexInfo('Policy_companyId_type_jurisdiction_url_key').map(row => row.name).join(',') === 'companyId,type,jurisdiction,url') continue;
+      return false;
+    }
     const actualUnique = /CREATE\s+UNIQUE\s+INDEX/i.test(String(actual.sql));
     if (actualUnique !== Boolean(unique)) return false;
     const expectedColumns = [...columns.matchAll(/"([^"]+)"/g)].map((match) => match[1]);

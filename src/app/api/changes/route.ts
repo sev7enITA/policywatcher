@@ -22,10 +22,12 @@
  *  - Prisma-parameterized queries (no injection).
  *  - All inputs validated + clamped against whitelists.
  */
+import { parseDocumentTypes, documentTypeWhere } from '@/lib/documentScope';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
 import { publicChangeWhere } from '@/lib/publicDataGate';
+import { classificationSnapshotSelect, withChangeClassification } from '@/lib/changeClassification';
 
 const VALID_RISKS = new Set(['Low', 'Medium', 'High']);
 const VALID_INDUSTRIES = new Set([
@@ -69,6 +71,8 @@ export async function GET(request: NextRequest) {
   if (limited) return limited;
 
   try {
+    const documentTypes = parseDocumentTypes(request.nextUrl.searchParams.get('documents'));
+    if (!documentTypes) return NextResponse.json({ error: 'Invalid document types.' }, { status: 400 });
     const { searchParams } = new URL(request.url);
 
     // --- Parse + validate filters ---
@@ -90,10 +94,10 @@ export async function GET(request: NextRequest) {
 
     // Build the where clause
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const where: Record<string, any> = {};
+    const where: Record<string, any> = { policy: documentTypeWhere(documentTypes) };
 
     if (industry && VALID_INDUSTRIES.has(industry)) {
-      where.policy = { company: { industry } };
+      where.policy = { ...where.policy, company: { industry } };
     }
     if (risk && VALID_RISKS.has(risk)) {
       where.overallRisk = risk;
@@ -143,6 +147,8 @@ export async function GET(request: NextRequest) {
         // NARROW select: metadata + AI summary, NOT diff/currentText
         select: {
           id: true,
+          oldSnapshot: { select: classificationSnapshotSelect },
+          newSnapshot: { select: classificationSnapshotSelect },
           overallRisk: true,
           overallScore: true,
           tldrEn: true,
@@ -179,7 +185,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(
       {
-        changes,
+        changes: changes.map(withChangeClassification),
         total,
         page,
         pageSize,

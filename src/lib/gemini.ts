@@ -1,3 +1,4 @@
+import { riskFromScore } from '@/lib/riskScale';
 /**
  * @module gemini
  *
@@ -466,7 +467,7 @@ function normalizeAnalysis(
         : {}),
       ...(reason.relatedKpi ? { relatedKpi: reason.relatedKpi } : {}),
     })),
-    overallRisk: parsed.overallRisk,
+    overallRisk: riskFromScore(parsed.overallScore),
     overallScore: parsed.overallScore,
     aiTrainingOptOut: parsed.aiTrainingOptOut || 'Not specified',
     aiDataScrapingRestricted: parsed.aiDataScrapingRestricted || 'Not specified',

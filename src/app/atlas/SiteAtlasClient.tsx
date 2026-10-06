@@ -64,12 +64,12 @@ const recommendedRoutes = [
   },
   {
     title: 'Evidence review controls',
-    body: 'The dashboard links Dataset QA controls and the evidence methodology.',
+    body: 'The dashboard separates public baseline, retrieval status and KPI coverage. The methodology defines document selection, equal weighting and incomplete-comparison boundaries.',
     nodes: ['dashboard', 'trust', 'methodology'],
   },
   {
     title: 'Market comparison',
-    body: 'The timeline shows individual events; the signals board provides sector comparisons.',
+    body: 'The dashboard compares the selected document types with explicit coverage and per-type views. The timeline inherits that selection; the separate Policy Signals board measures operational evidence availability.',
     nodes: ['timeline', 'leaderboard', 'dashboard'],
   },
   {

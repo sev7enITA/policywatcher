@@ -53,10 +53,12 @@ export const EXPECTED_SQLITE_MIGRATIONS = [
   '20260820100000_document_evidence_model',
   '20260820130000_scan_run_lifecycle',
   '20260820133000_subscriber_double_opt_in',
+  '20261002050000_multiple_documents_per_type',
 ] as const;
 
 export const EXPECTED_POSTGRESQL_MIGRATIONS = [
   '00000000000000_postgresql_baseline',
+  '20261002050000_multiple_documents_per_type',
 ] as const;
 
 // Backward-compatible name for the production SQLite migration contract.

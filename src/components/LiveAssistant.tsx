@@ -32,10 +32,12 @@ import {
   Cpu
 } from 'lucide-react';
 import styles from './LiveAssistant.module.css';
+import { documentScopeLabel, type DocumentType } from '@/lib/documentScope';
 import type { Company } from '@/types/index';
 
 /** Props for the {@link LiveAssistant} component. */
 interface LiveAssistantProps {
+  documentTypes?: readonly DocumentType[];
   /** Callback to dismiss the assistant overlay. */
   onClose: () => void;
   /** Full company list (available for context-aware prompts). */
@@ -136,7 +138,7 @@ type SpeechRecognitionWindow = Window & {
  * @param props - {@link LiveAssistantProps}
  * @returns The assistant overlay with chat log, input bar, and wave canvas.
  */
-export default function LiveAssistant({ onClose, lang }: LiveAssistantProps) {
+export default function LiveAssistant({ onClose, lang, companies, documentTypes }: LiveAssistantProps) {
   const t = translations[lang];
 
   const [messages, setMessages] = useState<Message[]>([
@@ -192,13 +194,13 @@ export default function LiveAssistant({ onClose, lang }: LiveAssistantProps) {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: query }),
+        body: JSON.stringify({ question: query, documentTypes, companyIds: companies.map(c => c.id) }),
       });
 
       if (!res.ok) throw new Error('Request failed');
 
       const data = await res.json();
-      setMessages((prev) => [...prev, { sender: 'system', text: data.answer }]);
+      setMessages((prev) => [...prev, { sender: 'system', text: `${documentScopeLabel(documentTypes, lang)} · ${data.contextPoliciesCount ?? 0}/${data.availablePoliciesCount ?? 0} ${lang === 'it' ? 'documenti nel contesto' : 'documents in context'}\n\n${data.answer}` }]);
       
       // Speak response via Google Cloud TTS if enabled
       if (speechEnabled && !ttsUnavailableRef.current) {
@@ -212,7 +214,7 @@ export default function LiveAssistant({ onClose, lang }: LiveAssistantProps) {
           const ttsRes = await fetch('/api/tts', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: data.answer, lang }),
+            body: JSON.stringify({ text: `${documentScopeLabel(documentTypes, lang)} · ${data.contextPoliciesCount ?? 0}/${data.availablePoliciesCount ?? 0} ${lang === 'it' ? 'documenti nel contesto' : 'documents in context'}\n\n${data.answer}`, lang }),
           });
 
           if (ttsRes.ok) {
@@ -256,7 +258,7 @@ export default function LiveAssistant({ onClose, lang }: LiveAssistantProps) {
       setMessages((prev) => [...prev, { sender: 'system', text: t.error }]);
       setAssistantState('idle');
     }
-  }, [input, lang, speechEnabled, speakWithBrowserTTS, t.error]);
+  }, [input, lang, speechEnabled, speakWithBrowserTTS, t.error, companies, documentTypes]);
 
   // Keep ref in sync for speech recognition callback
   useEffect(() => {

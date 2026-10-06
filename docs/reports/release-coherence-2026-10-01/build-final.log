@@ -1,0 +1,209 @@
+
+> policywatcher@4.0.0-beta.5 build
+> node scripts/hostinger-managed-build.mjs
+
+warn The configuration property `package.json#prisma` is deprecated and will be removed in Prisma 7. Please migrate to a Prisma config file (e.g., `prisma.config.ts`).
+For more information, see: https://pris.ly/prisma-config
+
+Prisma schema loaded from prisma/schema.prisma
+
+✔ Generated Prisma Client (v6.19.3) to ./node_modules/@prisma/client in 133ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Interested in query caching in just a few lines of code? Try Accelerate today! https://pris.ly/tip-3-accelerate
+
+▲ Next.js 16.3.8 (Turbopack)
+✓ Running next.config.ts took 17ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 697ms
+  Running TypeScript ...
+  Finished TypeScript in 2.3s ...
+  Collecting page data using 15 workers ...
+  Generating static pages using 15 workers (0/178) ...
+  Generating static pages using 15 workers (44/178) 
+  Generating static pages using 15 workers (88/178) 
+  Generating static pages using 15 workers (133/178) 
+✓ Generating static pages using 15 workers (178/178) in 295ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ƒ /_not-found
+├ ƒ /about
+├ ƒ /admin
+├ ƒ /admin/access-logs
+├ ƒ /admin/companies
+├ ƒ /admin/competitive-analysis
+├ ƒ /admin/cron
+├ ƒ /admin/database
+├ ƒ /admin/dataset-quality
+├ ƒ /admin/executive-study
+├ ƒ /admin/explainability
+├ ƒ /admin/inquiries
+├ ƒ /admin/kpi-audit
+├ ƒ /admin/login
+├ ƒ /admin/outreach
+├ ƒ /admin/production-verification
+├ ƒ /admin/review-log
+├ ƒ /admin/source-onboarding
+├ ƒ /admin/source-reliability
+├ ƒ /admin/vps-services
+├ ƒ /admin/webhook-delivery
+├ ƒ /api/admin/access-logs
+├ ƒ /api/admin/ai-telemetry
+├ ƒ /api/admin/auth
+├ ƒ /api/admin/companies
+├ ƒ /api/admin/cron-status
+├ ƒ /api/admin/dashboard-telemetry
+├ ƒ /api/admin/database-readiness
+├ ƒ /api/admin/dataset-quality
+├ ƒ /api/admin/decrypt-backup
+├ ƒ /api/admin/export-encrypted
+├ ƒ /api/admin/inquiries
+├ ƒ /api/admin/investor-access
+├ ƒ /api/admin/investor-access/[grantId]
+├ ƒ /api/admin/kpi-audit
+├ ƒ /api/admin/metrics
+├ ƒ /api/admin/outreach-events
+├ ƒ /api/admin/policies
+├ ƒ /api/admin/policy-discovery
+├ ƒ /api/admin/production-verification
+├ ƒ /api/admin/review-log
+├ ƒ /api/admin/source-onboarding
+├ ƒ /api/admin/source-onboarding/[itemId]
+├ ƒ /api/admin/source-reliability
+├ ƒ /api/admin/vps-services
+├ ƒ /api/admin/webhook-delivery
+├ ƒ /api/changes
+├ ƒ /api/chat
+├ ƒ /api/companies
+├ ƒ /api/compare
+├ ƒ /api/cron/check-all
+├ ƒ /api/cron/monthly
+├ ƒ /api/cron/webhook-delivery
+├ ƒ /api/cron/weekly
+├ ƒ /api/evidence-packet/[changeId]
+├ ƒ /api/evidence-status
+├ ƒ /api/health
+├ ƒ /api/investor/logout
+├ ƒ /api/investor/redeem
+├ ƒ /api/leaderboard
+├ ƒ /api/live
+├ ƒ /api/matrix
+├ ƒ /api/og/change/[id]
+├ ƒ /api/og/data-room
+├ ƒ /api/og/home
+├ ƒ /api/og/pulse
+├ ƒ /api/og/pulse/[slug]/[format]
+├ ƒ /api/og/release/[slug]
+├ ƒ /api/policies/[id]
+├ ƒ /api/policy-inquiries
+├ ƒ /api/press-metrics
+├ ƒ /api/press/coverage
+├ ƒ /api/pulse/story-pack/[slug]
+├ ƒ /api/report/[policyId]
+├ ƒ /api/scrape
+├ ƒ /api/seed
+├ ƒ /api/source-continuity
+├ ƒ /api/source-suspensions
+├ ƒ /api/subscribers
+├ ƒ /api/subscribers/confirm
+├ ƒ /api/trends
+├ ƒ /api/tts
+├ ƒ /api/v1/agent/agentic-incident-brief
+├ ƒ /api/v1/agent/capabilities
+├ ƒ /api/v1/agent/change-brief
+├ ƒ /api/v1/agent/observatory-brief
+├ ƒ /api/v1/agent/openapi.json
+├ ƒ /api/v1/agentic-incidents
+├ ƒ /api/v1/change-events
+├ ƒ /api/v1/evidence-collections
+├ ƒ /api/v1/integrations/palo/signal
+├ ƒ /api/v1/integrations/palo/signals
+├ ƒ /api/v1/manifest
+├ ƒ /api/v1/observatory
+├ ƒ /api/v1/publication-readiness
+├ ƒ /api/v1/release-evidence
+├ ƒ /api/v1/residency-evidence
+├ ƒ /api/v1/webhook-conformance-suite
+├ ƒ /api/v1/webhook-verification-kit
+├ ƒ /api/v2/changes
+├ ƒ /api/v2/changes/[changeId]
+├ ƒ /api/v2/companies
+├ ƒ /api/v2/manifest
+├ ƒ /api/v2/observatory/signals
+├ ƒ /api/v2/openapi.json
+├ ƒ /api/v2/sources/[sourceId]/continuity
+├ ƒ /associazioni
+├ ƒ /atlas
+├ ƒ /browser-extension
+├ ƒ /change/[id]
+├ ƒ /collections
+├ ƒ /confirm-subscription
+├ ƒ /developers
+├ ƒ /developers/event-continuity
+├ ƒ /developers/webhook-readiness
+├ ƒ /embed/change/[id]
+├ ƒ /embed/pulse/[slug]
+├ ƒ /en/associations
+├ ƒ /evidence
+├ ƒ /evidence/[changeId]
+├ ƒ /feature-atlas
+├ ƒ /guides
+├ ƒ /guides/[slug]
+├ ƒ /infographics
+├ ƒ /integrations
+├ ƒ /investor/access
+├ ƒ /investor/executive-study
+├ ƒ /it/associazioni
+├ ƒ /knowledge
+├ ƒ /knowledge/companies/[slug]
+├ ƒ /knowledge/companies/[slug]/policies/[id]
+├ ƒ /leaderboard
+├ ƒ /llms.txt
+├ ƒ /methodology/confidence
+├ ƒ /observatory
+├ ƒ /observatory/agentic-incidents
+├ ƒ /office-addin/contract-review
+├ ƒ /press
+├ ƒ /press-kit
+├ ƒ /press-kit/corrections
+├ ƒ /press-kit/data
+├ ○ /press-kit/feed.json
+├ ○ /press-kit/feed.xml
+├ ƒ /press-kit/glossary
+├ ○ /press-kit/press-kit.json
+├ ƒ /press-kit/reference
+├ ƒ /press-kit/releases
+├ ƒ /press-kit/releases/[slug]
+├ ƒ /privacy
+├ ƒ /pulse
+├ ƒ /pulse/[slug]
+├ ƒ /roadmap
+├ ○ /robots.txt
+├   /schemas/[schema]/v1
+│ ├ ● /schemas/publication-readiness/v1
+│ ├ ● /schemas/release-evidence-ledger/v1
+│ ├ ● /schemas/press-kit/v1
+│ └ ● [+13 more paths]
+├ ○ /schemas/agentic-incident-signal/v1
+├ ƒ /security
+├ ƒ /share/[id]
+├ ƒ /showcase
+├ ƒ /sitemap.xml
+├ ƒ /terms
+├ ƒ /timeline
+├ ƒ /trust
+├ ƒ /trust/residency
+├ ƒ /unsubscribe
+└ ƒ /what-changed
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+

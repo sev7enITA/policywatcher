@@ -1,0 +1,106 @@
+[
+  {
+    "documents": "privacy",
+    "status": 200,
+    "passed": true,
+    "body": {
+      "totalPolicies": 28,
+      "publicBaselines": 26,
+      "liveChecks": 25,
+      "archiveChecks": 1,
+      "pendingChanges": 0,
+      "unavailableChecks": 2,
+      "otherChecks": 0,
+      "assessedPolicies": 20,
+      "assessedKpis": 225,
+      "totalKpis": 390,
+      "latestCheckAt": "2026-10-01T20:02:15.453Z",
+      "generatedAt": "2026-10-02T03:12:22.667Z"
+    }
+  },
+  {
+    "documents": "privacy,terms",
+    "status": 200,
+    "passed": true,
+    "body": {
+      "totalPolicies": 45,
+      "publicBaselines": 41,
+      "liveChecks": 40,
+      "archiveChecks": 1,
+      "pendingChanges": 0,
+      "unavailableChecks": 4,
+      "otherChecks": 0,
+      "assessedPolicies": 32,
+      "assessedKpis": 350,
+      "totalKpis": 615,
+      "latestCheckAt": "2026-10-01T20:02:49.488Z",
+      "generatedAt": "2026-10-02T03:12:24.836Z"
+    }
+  },
+  {
+    "documents": "dpa",
+    "status": 200,
+    "passed": true,
+    "body": {
+      "totalPolicies": 1,
+      "publicBaselines": 1,
+      "liveChecks": 1,
+      "archiveChecks": 0,
+      "pendingChanges": 0,
+      "unavailableChecks": 0,
+      "otherChecks": 0,
+      "assessedPolicies": 1,
+      "assessedKpis": 5,
+      "totalKpis": 15,
+      "latestCheckAt": "2026-10-01T19:53:32.988Z",
+      "generatedAt": "2026-10-02T03:12:27.081Z"
+    }
+  },
+  {
+    "documents": "community",
+    "status": 200,
+    "passed": true,
+    "body": {
+      "totalPolicies": 1,
+      "publicBaselines": 0,
+      "liveChecks": 0,
+      "archiveChecks": 0,
+      "pendingChanges": 0,
+      "unavailableChecks": 1,
+      "otherChecks": 0,
+      "assessedPolicies": 0,
+      "assessedKpis": 0,
+      "totalKpis": 0,
+      "latestCheckAt": "2026-10-01T19:56:38.051Z",
+      "generatedAt": "2026-10-02T03:12:27.800Z"
+    }
+  },
+  {
+    "documents": "all",
+    "status": 200,
+    "passed": true,
+    "body": {
+      "totalPolicies": 50,
+      "publicBaselines": 45,
+      "liveChecks": 44,
+      "archiveChecks": 1,
+      "pendingChanges": 0,
+      "unavailableChecks": 5,
+      "otherChecks": 0,
+      "assessedPolicies": 35,
+      "assessedKpis": 375,
+      "totalKpis": 675,
+      "latestCheckAt": "2026-10-01T20:02:49.488Z",
+      "generatedAt": "2026-10-02T03:13:52.371Z"
+    },
+    "requestPath": "/api/evidence-status"
+  },
+  {
+    "documents": "unknown",
+    "status": 400,
+    "passed": true,
+    "body": {
+      "error": "Invalid document types."
+    }
+  }
+]

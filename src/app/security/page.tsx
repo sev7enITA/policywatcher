@@ -1,3 +1,4 @@
+import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import { ArrowLeft, FileSearch, Lock, Send, Server, ShieldAlert, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
@@ -6,11 +7,11 @@ import PublicHeader from '@/components/PublicHeader';
 import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';
 import styles from './security.module.css';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: 'Vulnerability Disclosure Policy | PolicyWatcher',
   description: 'Security reporting channel, response boundaries and current PolicyWatcher operational controls.',
   alternates: { canonical: '/security' },
-};
+}, 'en');
 
 export default function SecurityPage() {
   return (
