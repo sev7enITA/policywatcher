@@ -30,7 +30,7 @@ The fixture contained three services and 29 deliberately labelled local test cha
 
 ## Remaining release boundaries
 
-- The new endpoint and screens are source changes until merged and deployed through the project staging/promotion process. The companion defaults to the public website origin; its new feed requires that backend release. A local mock demonstrates the flow, not a deployed integration.
+- Website and citizen feed published as 5.0.0 on 6 October 2026 after 11 staging checks and immutable ZIP promotion. Production health, database integrity, public counts, pagination and browser entry were verified; see [deployment receipt](reports/policywatcher-5-2026-10-06/README.md). The companion public backend is now available; native device acceptance remains separate.
 - A development APK was generated, not installed or launched on the connected device. Native TalkBack, actual speech output, system sharing, large-text behavior and device-specific lifecycle checks remain unverified. The debug build is not a signed store release and may require the development bundler.
 - No push delivery, background source monitoring, cross-device synchronization or automatic provider-account actions are implemented.
 - The companion dependency audit reports findings in its Expo dependency graph, including pre-existing findings and the added sharing package's inherited build-tool exposure. No broad forced SDK upgrade was applied in this feature. Review the compatible dependency remediation separately before distributing a production mobile release.

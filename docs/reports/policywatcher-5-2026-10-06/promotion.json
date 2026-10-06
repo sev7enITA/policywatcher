@@ -1,0 +1,17 @@
+{
+  "contractVersion": "1.1.0",
+  "stagingVerificationContractVersion": "1.2.0",
+  "productionReady": true,
+  "release": "5.0.0",
+  "releaseName": "Your Services, Your Choices",
+  "sourceRevision": "05e836a8a114b60f3fdb7647ef1052065d6f6e9a",
+  "sourceState": "clean",
+  "artifact": "PolicyWatcher-5.0.0-hostinger-2026-10-06-citizen-r1.zip",
+  "artifactSha256": "79ca9a1a5b569cbbfc382bda6c8543d913e50bf76c265fcc3a43931ad7ebfce8",
+  "stagingOrigin": "https://staging.policywatcher.online",
+  "stagingVerifiedAt": "2026-10-06T17:40:13.217Z",
+  "stagingVerificationExpiresAt": "2026-10-07T17:40:13.217Z",
+  "approvedAt": "2026-10-06T17:42:41.883Z",
+  "approvedBy": "Fabrizio Degni: explicit request to publish PolicyWatcher 5 in Codex on 2026-10-06",
+  "boundary": "This is an explicit human promotion authorization for the exact staging-verified ZIP checksum. Any code, artifact or environment change requires a new staging verification."
+}
