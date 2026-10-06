@@ -27,6 +27,7 @@ export const PUBLIC_API_RATE_LIMIT = Object.freeze({
   overrides: Object.freeze([
     Object.freeze({ endpoint: '/api/v1/evidence-collections', requests: 30, intervalSeconds: 60 }),
     Object.freeze({ endpoint: '/api/v1/change-events', requests: 30, intervalSeconds: 60 }),
+    Object.freeze({ endpoint: '/api/v1/citizen-feed', requests: 30, intervalSeconds: 60 }),
     Object.freeze({ endpoint: '/api/v1/integrations/palo/signals', requests: 30, intervalSeconds: 60 }),
     Object.freeze({ endpoint: '/api/v1/agent/*', requests: 30, intervalSeconds: 60 }),
   ]),
@@ -75,6 +76,15 @@ export function getPublicApiManifest() {
     release: POLICYWATCHER_VERSION,
     documentation: '/developers',
     readOnly: true,
+    citizenExperience: {
+      page: '/per-te',
+      endpoint: '/api/v1/citizen-feed',
+      schemaVersion: '1.0',
+      pagination: 'descending public publication history, 25 records per page',
+      cache: 'no-store',
+      personalDataBoundary: 'Service selections, country, plan, choices and pasted notices remain on the device and are not accepted by this endpoint.',
+      interpretationBoundary: 'Summaries support review. They do not establish applicability to an account, legal compliance or the effect of a user action.',
+    },
     authentication: 'none',
     cors: {
       enabled: true,

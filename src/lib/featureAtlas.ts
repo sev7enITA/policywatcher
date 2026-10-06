@@ -158,6 +158,7 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '4.0.0-beta.3', shortLabel: '4.0 B3', label: '4.0.0 Beta 3' },
   { id: '4.0.0-beta.4', shortLabel: '4.0 B4', label: '4.0.0 Beta 4' },
   { id: '4.0.0-beta.5', shortLabel: '4.0 B5', label: '4.0.0 Beta 5' },
+  { id: POLICYWATCHER_VERSION, shortLabel: '5.0', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -371,9 +372,21 @@ function surfaceFeature(
 
 const platformFeatures: FeatureAtlasFeature[] = [
   {
+    id: 'citizen-journey', title: 'Your services, your choices', shortLabel: 'For you',
+    summary: 'Follow services, read bounded public evidence, consult official guides and keep local choices in Italian or English.',
+    kind: 'business', domainId: 'experience', stageId: 'publication', state: 'current', releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY, horizon: 'delivered',
+    benefit: 'A direct path from an update to its source and a personal next step.',
+    kpi: 'Acceptance scenarios and explicit evidence availability; no invented engagement metrics.',
+    kri: 'Local data can be lost when browser storage is cleared; automatic summaries require review.',
+    evidence: 'Shared citizen model, paginated public feed and documented desktop/mobile browser checks.',
+    limitation: 'No account sync, automatic support delivery or push notification. Android store distribution remains separate.',
+    primaryUser: 'Citizen', route: { href: '/per-te', label: 'For you / Per te', access: 'public' },
+    dependencies: [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }], source: 'platform-inventory',
+  },
+  {
     id: 'global-document-scope', title: 'Global document type selection', shortLabel: 'Document scope',
     summary: 'Applies one multi-select scope to dashboard evidence, KPI matrix, comparison, history, assistant and exports.',
-    kind: 'business', domainId: 'analysis', stageId: 'assurance', state: 'current', releaseId: '4.0.0-beta.5', release: '4.0.0 Beta 5', horizon: 'delivered',
+    kind: 'business', domainId: 'analysis', stageId: 'assurance', state: 'delivered', releaseId: '4.0.0-beta.5', release: '4.0.0 Beta 5', horizon: 'delivered',
     benefit: 'Reviewers can evaluate privacy policies separately from terms or inspect the same document mix across companies.',
     kpi: 'Coverage KPI · requested, available and assessed document types; explicit assessed-policy and company denominators',
     kri: 'Residual KRI · incomplete or uneven document and KPI coverage can prevent a comparison',

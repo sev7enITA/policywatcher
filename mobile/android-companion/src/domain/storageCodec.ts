@@ -1,8 +1,10 @@
 import type { Locale } from './changeEvent';
 import type { CollectionItem, ReviewStatus } from './collection';
+import { CITIZEN_MAX_SERVICES, emptyCitizenPreferences, parseCitizenPreferences, type CitizenPreferences } from '../../../../shared/citizen';
 
 export interface PersistedPreferences {
-  version: 2;
+  version: 3;
+  citizen: CitizenPreferences;
   locale: Locale;
   watchlist: string[];
   collection: CollectionItem[];
@@ -11,7 +13,8 @@ export interface PersistedPreferences {
 }
 
 type LegacyPreferences = {
-  version?: 1 | 2;
+  version?: 1 | 2 | 3;
+  citizen?: unknown;
   locale?: unknown;
   watchlist?: unknown;
   collection?: unknown;
@@ -21,7 +24,8 @@ type LegacyPreferences = {
 };
 
 export const DEFAULT_PREFERENCES: PersistedPreferences = {
-  version: 2,
+  version: 3,
+  citizen: emptyCitizenPreferences(),
   locale: 'it',
   watchlist: [],
   collection: [],
@@ -51,12 +55,18 @@ export function migratePreferences(value: unknown): PersistedPreferences {
         }];
       }).slice(0, 12)
     : [];
+  const watchlist = [...new Set(stringArray(legacy.watchlist, CITIZEN_MAX_SERVICES))];
+  const citizen = parseCitizenPreferences(JSON.stringify(legacy.citizen)) ?? {
+    ...emptyCitizenPreferences(),
+    followed: watchlist.map(serviceId => ({ serviceId, name: serviceId, slug: serviceId, plan: '' })),
+  };
   return {
-    version: 2,
+    version: 3,
+    citizen,
     locale: legacy.locale === 'en' ? 'en' : 'it',
-    watchlist: stringArray(legacy.watchlist, 200),
+    watchlist,
     collection,
-    explainerDismissed: legacy.version === 2 ? Boolean(legacy.explainerDismissed) : Boolean(legacy.onboardingSeen),
+    explainerDismissed: legacy.version === 2 || legacy.version === 3 ? Boolean(legacy.explainerDismissed) : Boolean(legacy.onboardingSeen),
     seenEventIds: stringArray(legacy.seenEventIds, 250),
   };
 }

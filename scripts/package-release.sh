@@ -102,7 +102,9 @@ fi
 
 required_sources=(
   package.json package-lock.json next.config.ts tsconfig.json server.js design-qa.md
-  README.md HOSTINGER-DEPLOY.md CHANGELOG.md SECURITY.md LICENSE .env.example public src prisma scripts integrations evals data
+  README.md HOSTINGER-DEPLOY.md CHANGELOG.md SECURITY.md LICENSE .env.example public src shared prisma scripts integrations evals data
+  docs/citizen-experience.md docs/citizen-experience-validation.md
+  docs/releases/policywatcher-5.0.0-github-release.md
   docs/document-scope-2026-10-01.md
   docs/releases/policywatcher-4.0.0-beta.5-github-release.md
   docs/seo-visibility-implementation-2026-09-23.md
@@ -194,7 +196,7 @@ while IFS= read -r untracked; do
   if [[ -e "${STAGING_DIR}/${untracked}" ]]; then
     find "${STAGING_DIR}/${untracked}" -depth -delete
   fi
-done < <(git -C "${APP_DIR}" ls-files --others --exclude-standard -- public src prisma scripts integrations)
+done < <(git -C "${APP_DIR}" ls-files --others --exclude-standard -- public src shared prisma scripts integrations)
 
 # Confidential study payloads are provisioned separately on the server and
 # must never enter the source ZIP, even when an ignored file exists below src.
@@ -266,6 +268,8 @@ fi
 
 required_entries=(
   package.json package-lock.json release-manifest.json HOSTINGER-DEPLOY.md server.js src/lib/release.ts
+  shared/citizen.ts shared/citizenGuides.ts src/lib/citizenData.ts
+  src/app/per-te/page.tsx src/app/per-te/CitizenClient.tsx src/app/api/v1/citizen-feed/route.ts
   scripts/validate-internal-study-config.cjs
   src/app/admin/executive-study/page.tsx src/app/admin/executive-study/ExecutiveStudyClient.tsx
   src/app/admin/executive-study/ExecutiveStudyOutline.tsx src/app/admin/executive-study/ExecutiveStudyDocument.tsx src/app/admin/executive-study/executiveStudy.module.css

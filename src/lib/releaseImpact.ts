@@ -1,4 +1,4 @@
-import { POLICYWATCHER_VERSION_DISPLAY } from './release';
+import { POLICYWATCHER_VERSION, POLICYWATCHER_VERSION_DISPLAY } from './release';
 
 export type ReleaseImpactKind = 'business' | 'technical';
 export type ReleaseImpactStatus = 'delivered' | 'current' | 'planned';
@@ -34,7 +34,7 @@ export interface ReleaseImpactItem {
   externalDependency?: string;
 }
 
-export const RELEASE_IMPACT_UPDATED_AT = '1 October 2026' as const;
+export const RELEASE_IMPACT_UPDATED_AT = '6 October 2026' as const;
 
 export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.7.0', shortLabel: '3.7.0', label: '3.7.0', state: 'delivered' },
@@ -99,7 +99,8 @@ export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '4.0.0-beta.2', shortLabel: '4.0 B2', label: '4.0.0 Beta 2', state: 'delivered' },
   { id: '4.0.0-beta.3', shortLabel: '4.0 B3', label: '4.0.0 Beta 3', state: 'delivered' },
   { id: '4.0.0-beta.4', shortLabel: '4.0 B4', label: '4.0.0 Beta 4', state: 'delivered' },
-  { id: '4.0.0-beta.5', shortLabel: '4.0 B5', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
+  { id: '4.0.0-beta.5', shortLabel: '4.0 B5', label: '4.0.0 Beta 5', state: 'delivered' },
+  { id: POLICYWATCHER_VERSION, shortLabel: '5.0', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
   { id: 'next', shortLabel: 'Next', label: 'Next beta horizon', state: 'planned' },
   { id: 'later', shortLabel: 'Later', label: 'Later horizon', state: 'planned' },
 ];
@@ -118,9 +119,19 @@ export const RELEASE_IMPACT_DOMAINS: ReleaseImpactDomain[] = [
 
 export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
   {
+    id: 'citizen-journey', title: 'Your services, your choices',
+    summary: 'A bilingual citizen journey connects followed services, readable updates, official guides and local choices.',
+    domainId: 'experience', status: 'current', horizon: 'delivered', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION,
+    benefit: 'Citizens can inspect the source, record a choice and prepare a support request in one accessible path.',
+    kpi: 'Usability acceptance scenarios passed; service and evidence availability remain visible.',
+    kri: 'Automatic summaries require source review; local choices are not synchronized across devices.',
+    evidence: '/per-te, the gated citizen feed, shared validation tests and documented browser acceptance checks.',
+    limitation: 'No automatic provider action or support-message delivery. Android store publication and physical-device acceptance remain separate.',
+  },
+  {
     id: 'global-document-scope', title: 'Comparable document scope',
     summary: 'Apply one multi-select document scope to every company and downstream dashboard analysis.',
-    domainId: 'experience', status: 'current', horizon: 'delivered', startRelease: '4.0.0-beta.5', endRelease: '4.0.0-beta.5',
+    domainId: 'experience', status: 'delivered', horizon: 'delivered', startRelease: '4.0.0-beta.5', endRelease: '4.0.0-beta.5',
     benefit: 'Privacy-only and mixed document comparisons have visible, consistent inputs.',
     kpi: 'Assessed requested types per company; eligible company count for complete-scope means.',
     kri: 'Missing document types and baseline-only policies remain unassessed.',

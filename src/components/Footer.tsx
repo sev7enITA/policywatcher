@@ -143,6 +143,7 @@ export default function Footer({ lang, variant = 'full', lockLang = false }: Foo
             <p>{t.releaseNotice}</p>
           </div>
           <nav className={styles.compactLinks} aria-label={activeLang === 'it' ? 'Link essenziali' : 'Essential links'}>
+            <Link href={activeLang === 'it' ? '/per-te' : '/per-te?lang=en'}><UserRound size={13} aria-hidden="true" />{activeLang === 'it' ? 'Per te' : 'For you'}</Link>
             <Link href="/knowledge"><FileText size={13} aria-hidden="true" />{t.knowledge}</Link>
             <Link href={activeLang === 'it' ? '/guides?lang=it' : '/guides'}><FileText size={13} aria-hidden="true" />{activeLang === 'it' ? 'Guide' : 'Guides'}</Link>
             <Link href="/privacy"><Lock size={13} aria-hidden="true" />{t.privacy}</Link>
@@ -163,6 +164,7 @@ export default function Footer({ lang, variant = 'full', lockLang = false }: Foo
       id: 'explore',
       label: t.explore,
       links: [
+        { href: activeLang === 'it' ? '/per-te' : '/per-te?lang=en', label: activeLang === 'it' ? 'Per te' : 'For you', icon: UserRound },
         { href: activeLang === 'it' ? '/it/associazioni' : '/en/associations', label: t.associations, icon: UserRound },
         { href: '/knowledge', label: t.knowledge, icon: FileText },
         { href: activeLang === 'it' ? '/guides?lang=it' : '/guides', label: activeLang === 'it' ? 'Guide alle policy' : 'Policy guides', icon: FileText },

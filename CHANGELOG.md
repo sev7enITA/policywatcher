@@ -1,6 +1,15 @@
 # Changelog
 
-## Unreleased - Email subscription availability (2026-10-02)
+## 5.0.0 - Your Services, Your Choices (2026-10-06)
+
+- Add the bilingual `/per-te` journey: follow services, inspect readable updates and original evidence, consult dated official guides, and record reviewed/action/remind choices locally.
+- Add local notice matching and a previewable support-request draft; pasted content is not sent to the server. Explicit reading aloud, keyboard navigation, mobile layouts, and storage recovery support the journey.
+- Publish an additive, paginated read-only citizen feed with existing public-evidence gates, explicit freshness/unknown states, and no personal preference filters.
+- Extend the Android companion with the same citizen model, local preference migration and offline boundaries; native distribution remains a separate milestone.
+- Include shared citizen modules in the immutable Hostinger source package and align package, API and product release metadata at 5.0.0.
+- Product major release: existing public v1 APIs retain their contracts; this release adds no database migration beyond the beta.5 baseline.
+
+### Included email subscription availability fixes
 
 - Reject new subscription requests with a localized temporary-unavailability message when SMTP configuration is missing or invalid, before looking up or storing an email address.
 - Stop claiming that a confirmation was sent when only the request was accepted. Preserve generic responses for delivery failures and existing addresses, pending double opt-in, and masked delivery diagnostics.

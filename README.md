@@ -16,11 +16,11 @@
   <a href="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml"><img src="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml/badge.svg?branch=main" alt="Targeted Reliability Coverage" /></a>
   <a href="https://scorecard.dev/viewer/?uri=github.com/sev7enITA/policywatcher"><img src="https://api.scorecard.dev/projects/github.com/sev7enITA/policywatcher/badge" alt="OpenSSF Scorecard" /></a>
   <a href="https://www.bestpractices.dev/projects/13465"><img src="https://www.bestpractices.dev/projects/13465/badge" alt="OpenSSF Best Practices" /></a>
-  <img src="https://img.shields.io/badge/Next.js-16.2.11-black" alt="Next.js 16" />
+  <img src="https://img.shields.io/badge/Next.js-16.3.8-black" alt="Next.js 16" />
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-4.0.0%20Beta%203%20AI%20Discoverability-146c6a" alt="4.0.0 Beta 3 AI Discoverability and Citation Readiness" />
+  <img src="https://img.shields.io/badge/Release-5.0.0%20Your%20Services%20Your%20Choices-146c6a" alt="PolicyWatcher 5.0.0 Your Services, Your Choices" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -35,11 +35,17 @@
 
 ## What Is PolicyWatcher?
 
-PolicyWatcher monitors configured public policy sources for 16 technology and financial companies across six sectors. The count excludes the WAZE admin-onboarding fixture and is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
+PolicyWatcher monitors configured public policy sources. The live catalogue reports its current coverage and unavailable sources; it is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
 
-### Release 4.0.0 Beta 3 AI Discoverability and Citation Readiness Highlights
+### Release 5.0.0: Your Services, Your Choices
+
+The new bilingual [For you journey](https://policywatcher.online/per-te) helps citizens follow services, read bounded summaries with original evidence, consult dated official guides, and keep a local record of their choices. Pasted notices and support drafts stay on the device. No account is required for this journey.
+
+This is a product major release; the additive public citizen feed keeps the existing v1 API contract. The Android companion shares the citizen model and has a locally compiled development APK; store publication and physical-device acceptance are separate milestones. See [release notes](docs/releases/policywatcher-5.0.0-github-release.md) and [validation](docs/citizen-experience-validation.md).
+
+### Historical release 4.0.0 Beta 3 AI Discoverability and Citation Readiness Highlights
 
 Release record: **28 August 2026**. Beta 3 makes the homepage meaning and public
 evidence boundary explicit to readers, search engines and AI assistants without
