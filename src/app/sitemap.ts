@@ -26,6 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static landing pages
   const staticEntries: MetadataRoute.Sitemap = [
     { url: `${BASE_URL}/`, changeFrequency: 'daily', priority: 1.0 },
+    ...['/per-te', '/per-te?lang=en'].map(path => ({ url: `${BASE_URL}${path}`, changeFrequency: 'daily' as const, priority: 0.96, alternates: { languages: { it: `${BASE_URL}/per-te`, en: `${BASE_URL}/per-te?lang=en` } } })),
     // One canonical URL per supported language covers the global directory and
     // evidence radar; browser-local filters do not create thin indexable pages.
     {

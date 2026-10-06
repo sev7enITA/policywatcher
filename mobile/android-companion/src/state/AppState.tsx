@@ -1,9 +1,9 @@
 import * as Haptics from 'expo-haptics';
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { AccessibilityInfo, Platform } from 'react-native';
 import type { ChangeEvent, ChangeFeed, Locale } from '@/domain/changeEvent';
 import { addCollectionItem, type CollectionItem, type ReviewStatus } from '@/domain/collection';
-import { demoFeed } from '@/domain/demo';
+import { CITIZEN_MAX_SERVICES, emptyCitizenPreferences, type CitizenPreferences } from '../../../../shared/citizen';
 import { COPY, type Copy } from '@/i18n/copy';
 import { fetchPublicFeed } from '@/services/api';
 import {
@@ -15,10 +15,14 @@ import {
   type PersistedPreferences,
 } from '@/services/storage';
 
-export type FeedMode = 'loading' | 'live' | 'cached' | 'demo';
+export type FeedMode = 'loading' | 'live' | 'cached' | 'unavailable';
 
 interface AppContextValue {
   hydrated: boolean;
+  citizen: CitizenPreferences;
+  setCitizen: (recipe: (value: CitizenPreferences) => CitizenPreferences) => void;
+  storageError: boolean;
+  recoverStorage: () => Promise<boolean>;
   locale: Locale;
   copy: Copy;
   feed: ChangeFeed | null;
@@ -58,25 +62,28 @@ export function AppStateProvider({ children }: React.PropsWithChildren) {
   const [refreshing, setRefreshing] = useState(false);
   const [lastError, setLastError] = useState<string | null>(null);
   const [newWatchedCount, setNewWatchedCount] = useState(0);
+  const [storageError, setStorageError] = useState(false);
+  const [persistenceReady, setPersistenceReady] = useState(false);
 
   useEffect(() => {
     let active = true;
     Promise.all([loadPreferences(), loadFeedCache()]).then(([storedPrefs, cache]) => {
       if (!active) return;
       setPrefs(storedPrefs);
+      setPersistenceReady(true);
       if (cache) {
         setFeed(cache.feed);
         setRefreshedAt(cache.refreshedAt);
         setFeedMode('cached');
       }
       setHydrated(true);
-    });
+    }).catch(() => { if (active) { setStorageError(true); setHydrated(true); } });
     return () => { active = false; };
   }, []);
 
   useEffect(() => {
-    if (hydrated) void savePreferences(prefs);
-  }, [hydrated, prefs]);
+    if (hydrated && persistenceReady) void savePreferences(prefs).then(() => setStorageError(false)).catch(() => setStorageError(true));
+  }, [hydrated, prefs, persistenceReady]);
 
   const refresh = useCallback(async () => {
     setRefreshing(true);
@@ -95,10 +102,7 @@ export function AppStateProvider({ children }: React.PropsWithChildren) {
     } catch (error) {
       setLastError(error instanceof Error ? error.message : 'unavailable');
       if (feed) setFeedMode('cached');
-      else {
-        setFeed(demoFeed(prefs.locale));
-        setFeedMode('demo');
-      }
+      else setFeedMode('unavailable');
     } finally {
       setRefreshing(false);
     }
@@ -113,13 +117,28 @@ export function AppStateProvider({ children }: React.PropsWithChildren) {
   }, [hydrated, prefs.locale]);
 
   const update = useCallback((recipe: (current: PersistedPreferences) => PersistedPreferences) => setPrefs(recipe), []);
+  const recoverStorage = useCallback(async () => {
+    const reset = { ...DEFAULT_PREFERENCES, citizen: emptyCitizenPreferences(), watchlist: [], collection: [], seenEventIds: [] };
+    try {
+      await savePreferences(reset);
+      setPrefs(reset); setPersistenceReady(true); setStorageError(false);
+      return true;
+    } catch { setStorageError(true); return false; }
+  }, []);
+  const setCitizen = useCallback((recipe: (value: CitizenPreferences) => CitizenPreferences) => update(current => {
+    const citizen = recipe(current.citizen);
+    return { ...current, citizen, watchlist: citizen.followed.map(service => service.serviceId) };
+  }), [update]);
   const setLocale = useCallback((locale: Locale) => update((current) => ({ ...current, locale })), [update]);
   const toggleWatch = useCallback((companyId: string) => {
     if (!feed?.events.some((event) => event.company.id === companyId)) return;
-    update((current) => ({
-      ...current,
-      watchlist: current.watchlist.includes(companyId) ? current.watchlist.filter((id) => id !== companyId) : [...current.watchlist, companyId],
-    }));
+    update((current) => {
+      const exists = current.citizen.followed.some(service => service.serviceId === companyId);
+      const company = feed.events.find(event => event.company.id === companyId)!.company;
+      const followed = exists ? current.citizen.followed.filter(service => service.serviceId !== companyId)
+        : current.citizen.followed.length < CITIZEN_MAX_SERVICES ? [...current.citizen.followed, { serviceId: companyId, name: company.name, slug: company.slug, plan: '' }] : current.citizen.followed;
+      return { ...current, watchlist: followed.map(service => service.serviceId), citizen: { ...current.citizen, followed } };
+    });
     void haptic('select');
   }, [feed, update]);
   const toggleSaved = useCallback((event: ChangeEvent) => {
@@ -175,8 +194,12 @@ export function AppStateProvider({ children }: React.PropsWithChildren) {
   const dismissExplainer = useCallback((dismissed: boolean) => update((current) => ({ ...current, explainerDismissed: dismissed })), [update]);
   const findEvent = useCallback((changeId: string) => feed?.events.find((event) => event.changeId === changeId), [feed]);
 
-  const value = useMemo<AppContextValue>(() => ({
+  const value: AppContextValue = {
     hydrated,
+    citizen: prefs.citizen,
+    setCitizen,
+    storageError,
+    recoverStorage,
     locale: prefs.locale,
     copy: COPY[prefs.locale],
     feed,
@@ -197,7 +220,7 @@ export function AppStateProvider({ children }: React.PropsWithChildren) {
     importCollection,
     dismissExplainer,
     findEvent,
-  }), [hydrated, prefs, feed, feedMode, refreshedAt, refreshing, lastError, newWatchedCount, refresh, setLocale, toggleWatch, toggleSaved, removeSaved, setReviewStatus, importCollection, dismissExplainer, findEvent]);
+  };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }

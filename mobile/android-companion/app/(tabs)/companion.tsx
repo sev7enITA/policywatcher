@@ -30,6 +30,7 @@ export default function CompanionScreen() {
         <View style={styles.fact}><Text style={styles.factLabel}>{copy.companion.storage}</Text><Text style={styles.factValue}>{copy.companion.storageValue}</Text></View>
       </View>
       <View style={styles.actions}>
+        <ActionButton label={locale === 'it' ? 'Apri la raccolta di evidenze' : 'Open evidence collection'} icon="bookmark-multiple-outline" onPress={() => router.navigate('/collection')} />
         <ActionButton label={copy.companion.workspace} icon="open-in-new" tone="primary" onPress={() => void Linking.openURL(POLICYWATCHER_ORIGIN)} />
         <ActionButton label={copy.explainer.revisit} icon="information-outline" onPress={() => { dismissExplainer(false); router.navigate('/'); }} />
       </View>

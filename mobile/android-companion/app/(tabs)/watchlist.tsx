@@ -1,53 +1,36 @@
-import { router } from 'expo-router';
-import { useMemo } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { Text, View } from 'react-native';
 import { ActionButton } from '@/components/ActionButton';
-import { EvidenceCard } from '@/components/EvidenceCard';
+import { CitizenStatus, cs, Field, useCitizenCopy } from '@/components/CitizenUI';
 import { Masthead } from '@/components/Masthead';
 import { PageIntro } from '@/components/PageIntro';
 import { Screen } from '@/components/Screen';
-import { StatePanel } from '@/components/StatePanel';
 import { useAppState } from '@/state/AppState';
-import { colors, font } from '@/theme/tokens';
+import { useCitizenState } from '@/state/CitizenState';
+import { CITIZEN_MAX_SERVICES } from '../../../../shared/citizen';
 
-export default function WatchlistScreen() {
-  const { copy, feed, watchlist, toggleWatch } = useAppState();
-  const watched = useMemo(() => watchlist.flatMap((companyId) => {
-    const records = feed?.events.filter((event) => event.company.id === companyId) ?? [];
-    return records[0] ? [{ company: records[0].company, records }] : [];
-  }), [feed, watchlist]);
-  return (
-    <Screen>
-      <Masthead />
-      <PageIntro eyebrow={copy.watchlist.eyebrow} title={copy.watchlist.title} body={copy.watchlist.body} aside={copy.watchlist.localOnly} />
-      {watched.length === 0 ? <StatePanel title={copy.watchlist.emptyTitle} body={copy.watchlist.emptyBody} actionLabel={copy.watchlist.browse} onAction={() => router.navigate('/')} /> : watched.map(({ company, records }, index) => (
-        <View key={company.id} style={styles.companySection}>
-          <View style={styles.companyHead}>
-            <View style={styles.companyIndex}><Text style={styles.companyIndexText}>{String(index + 1).padStart(2, '0')}</Text></View>
-            <View style={styles.companyCopy}>
-              <Text style={styles.companyName}>{company.name}</Text>
-              <Text style={styles.companyMeta}>{company.industry} · {copy.watchlist.publications(records.length)}</Text>
-            </View>
-            <Pressable accessibilityRole="button" accessibilityLabel={`${copy.watchlist.remove} ${company.name}`} onPress={() => toggleWatch(company.id)} style={({ pressed }) => [styles.remove, pressed && styles.pressed]}><Text style={styles.removeText}>{copy.watchlist.remove}</Text></Pressable>
-          </View>
-          <EvidenceCard event={records[0]!} index={index} showWatch={false} />
-        </View>
-      ))}
-      {watched.length > 0 ? <View style={styles.bottomAction}><ActionButton label={copy.watchlist.browse} icon="newspaper-variant-outline" onPress={() => router.navigate('/')} /></View> : null}
-    </Screen>
-  );
+export default function ServicesScreen() {
+  const t = useCitizenCopy();
+  const { citizen, setCitizen } = useAppState();
+  const { feed } = useCitizenState();
+  const [query, setQuery] = useState('');
+  const services = feed?.services.filter(service => service.name.toLocaleLowerCase().includes(query.toLocaleLowerCase().trim())) ?? [];
+  return <Screen><Masthead /><PageIntro eyebrow={t('SCELTE VOLONTARIE', 'VOLUNTARY CHOICES')} title={t('I miei servizi', 'My services')} body={t('Segui ciò che usi. Paese e piano restano sul dispositivo e non confermano quali clausole si applicano al tuo account.', 'Follow what you use. Country and plan stay on this device and do not confirm which clauses apply to your account.')} /><CitizenStatus />
+    <View style={cs.section}>
+      <Text style={cs.label}>{t('Paese di riferimento', 'Country context')}</Text>
+      <View style={cs.row}>{[['all', t('Non specificato', 'Unspecified')], ['it', 'Italia'], ['de', 'Deutschland'], ['fr', 'France'], ['es', 'España'], ['gb', 'United Kingdom'], ['us', 'United States']].map(([code, name]) => <ActionButton key={code} label={`${citizen.country === code ? '✓ ' : ''}${name}`} onPress={() => setCitizen(value => ({ ...value, country: code! }))} />)}</View>
+      <Text style={cs.small}>{t('Il paese aggiunge contesto. I documenti con ambito incerto restano visibili.', 'Country adds context. Documents with uncertain scope stay visible.')}</Text>
+      <Text accessibilityRole="header" style={cs.title}>{t('Servizi seguiti', 'Followed services')} ({citizen.followed.length})</Text>
+      {!citizen.followed.length ? <Text style={cs.body}>{t('Cerca qui sotto il primo servizio.', 'Find your first service below.')}</Text> : null}
+      {citizen.followed.map(followed => <View key={followed.serviceId} style={cs.card}>
+        <Text style={cs.subtitle}>{followed.name}</Text>
+        {!feed?.services.some(service => service.id === followed.serviceId) ? <Text style={cs.warning}>{t('Servizio non disponibile nel catalogo attuale. La scelta è conservata.', 'Service unavailable in the current catalog. Your selection is retained.')}</Text> : null}
+        <Field label={t('Piano o prodotto, facoltativo', 'Plan or product, optional')} value={followed.plan} maxLength={80} onChangeText={plan => setCitizen(value => ({ ...value, followed: value.followed.map(item => item.serviceId === followed.serviceId ? { ...item, plan } : item) }))} />
+        <ActionButton label={t(`Smetti di seguire ${followed.name}`, `Unfollow ${followed.name}`)} onPress={() => setCitizen(value => ({ ...value, followed: value.followed.filter(item => item.serviceId !== followed.serviceId) }))} />
+      </View>)}
+      <Field label={t('Cerca nel catalogo pubblico', 'Search the public catalog')} value={query} onChangeText={setQuery} autoCapitalize="none" />
+      {services.filter(service => !citizen.followed.some(item => item.serviceId === service.id)).map(service => <View key={service.id} style={cs.separator}><Text style={cs.subtitle}>{service.name}</Text><ActionButton label={t(`Segui ${service.name}`, `Follow ${service.name}`)} disabled={citizen.followed.length >= CITIZEN_MAX_SERVICES} onPress={() => setCitizen(value => ({ ...value, followed: [...value.followed, { serviceId: service.id, name: service.name, slug: service.slug, plan: '' }] }))} /></View>)}
+      {!services.length ? <Text style={cs.small}>{t('Nessun risultato nel catalogo disponibile.', 'No results in the available catalog.')}</Text> : null}
+      {citizen.followed.length >= CITIZEN_MAX_SERVICES ? <Text style={cs.warning}>{t(`Limite di ${CITIZEN_MAX_SERVICES} servizi raggiunto.`, `${CITIZEN_MAX_SERVICES}-service limit reached.`)}</Text> : null}
+    </View></Screen>;
 }
-
-const styles = StyleSheet.create({
-  companySection: { marginBottom: 9 },
-  companyHead: { marginHorizontal: 18, borderTopWidth: 2, borderTopColor: colors.ink, paddingVertical: 11, flexDirection: 'row', alignItems: 'center', gap: 10 },
-  companyIndex: { width: 35, height: 35, backgroundColor: colors.ink, alignItems: 'center', justifyContent: 'center' },
-  companyIndexText: { color: colors.white, fontFamily: font.mono, fontSize: 12, fontWeight: '800' },
-  companyCopy: { flex: 1 },
-  companyName: { color: colors.ink, fontSize: 18, fontWeight: '800' },
-  companyMeta: { color: colors.muted, fontFamily: font.mono, fontSize: 12, marginTop: 2 },
-  remove: { minWidth: 64, minHeight: 48, justifyContent: 'center', alignItems: 'flex-end' },
-  removeText: { color: colors.rust, fontSize: 13, fontWeight: '700' },
-  bottomAction: { marginHorizontal: 18, marginTop: 8 },
-  pressed: { opacity: 0.6 },
-});
