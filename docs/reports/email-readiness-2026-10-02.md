@@ -66,3 +66,18 @@ a newly flagged high-severity production dependency, source-map-js 1.2.1
 (GHSA-68fv-2mgg-jv7q). Updating that transitive dependency to 1.2.2 restored a
 zero-findings production npm audit; the local production build also passed.
 Deployment and an explicitly authorized recipient delivery test remain pending.
+
+### Subsequent authentication and delivery verification
+
+After the operator corrected the mailbox credentials, a fresh authentication-only
+probe from the production server succeeded. On 6 October 2026 at 05:11 UTC
+(07:11 Europe/Rome), exactly one explicitly authorized test message was sent
+from `alert@policywatcher.online` through Hostinger SMTP to the operator's test
+mailbox. Gmail placed it in INBOX; its Authentication-Results reported SPF,
+DKIM (hostingermail-a) and DMARC all passing. No subscriber record was modified
+and no subscriber notification batch was triggered.
+
+This verifies authenticated SMTP submission and delivery to the tested Gmail
+mailbox. It does not establish delivery to every provider or verify the running
+application's subscription-confirmation, alert and unsubscribe flows. Deployment
+of the email-availability code remains a separate pending step.
