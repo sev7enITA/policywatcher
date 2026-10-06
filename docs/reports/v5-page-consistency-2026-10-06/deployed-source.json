@@ -3,15 +3,15 @@
     "product": "PolicyWatcher",
     "version": "5.0.0",
     "releaseName": "Your Services, Your Choices",
-    "sourceRevision": "43875d4426aeda2d27b177228c668d4f937e7990",
+    "sourceRevision": "b83e779cc9186d50f687ea98e19d99b4668ebe0e",
     "sourceState": "clean",
     "sourceStateDigest": null,
-    "builtAt": "2026-10-06T21:42:25.120Z",
+    "builtAt": "2026-10-06T21:52:43.201Z",
     "target": "Hostinger Next.js source deployment",
     "startupCommand": "npm start",
     "startupFile": "server.js",
     "databaseIncluded": false,
-    "artifactLabel": "page-consistency-r2"
+    "artifactLabel": "page-consistency-r3"
   },
   "files": {
     "src/app/DashboardClient.tsx": "921e026d4a0b4837a9de7d4a00ef4b89627a1a689597c3a17692f9361e3373d9",
@@ -19,7 +19,7 @@
     "src/app/developers/event-continuity/page.tsx": "31698abd7046eba45d30e1be5f7ccfd0d035ff4447210a69bb2209e91b69c0e5",
     "src/app/developers/page.tsx": "072d5da890dd0db592cbadb128338ce00ee91753ba2b270ca6db476f76179c24",
     "src/app/feature-atlas/FeatureAtlasClient.tsx": "f19ba084f6c621191fd86fa5be2c8edd8da4c966461bde3aa8944326d438acff",
-    "src/app/press-kit/NewsroomPageClient.tsx": "15284bd02cce87e8cb78c8464c56ba67122da1274b24cda05347e3500a58717e",
+    "src/app/press-kit/NewsroomPageClient.tsx": "88b4e711420258a63acedef9f9e04562b45a3b4a2f1c980977159eab64f776cd",
     "src/app/press-kit/PressKitClient.tsx": "bc755a5e7759b958153eedc0102d90dbfad06dca1096ae114ef840818f4857ef",
     "src/app/press-kit/releases/[slug]/page.tsx": "1b76b2c78e146075dca53011e63a2f82764600209eb0bf3d3af788608a303fe5",
     "src/app/press-kit/releases/page.tsx": "f9d0a8e5fe33f7092b2417c2e3a028e501e35ac3a099eb252c255f6dd3e4c673",

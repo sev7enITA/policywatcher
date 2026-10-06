@@ -8,7 +8,7 @@ La produzione risponde già con **5.0.0** nel manifest pubblico. L'errore segnal
 
 Non è sufficiente cambiare il numero nel footer o svuotare la cache: occorre correggere i cataloghi e i componenti che descrivono il prodotto.
 
-**Stato di questa revisione:** pubblicata in produzione e verificata il 6 ottobre 2026. Hostinger indica il pacchetto `page-consistency-r2` come **Completed / Current**. La 5.0.0 originale era già online prima di questo audit; questa revisione ne corregge la documentazione e le interfacce. Il file `publication.json` contiene le ricevute della verifica. La scansione finale copre **521 URL**, comprese 47 varianti italiane dell’archivio: tutte rispondono HTTP 200, senza errori applicativi, footer di release precedenti o marcatori della versione 4 indicati come correnti.
+**Stato di questa revisione:** pubblicata in produzione e verificata il 6 ottobre 2026. Hostinger indica il pacchetto `page-consistency-r3` come **Completed / Current**. La 5.0.0 originale era già online prima di questo audit; questa revisione ne corregge la documentazione e le interfacce. Il file `publication.json` contiene le ricevute della verifica. La scansione finale copre **521 URL**, comprese 47 varianti italiane dell’archivio: tutte rispondono HTTP 200, senza errori applicativi, footer di release precedenti o marcatori della versione 4 indicati come correnti.
 
 ## Perimetro e metodo
 
@@ -59,6 +59,7 @@ L'Atlas passa da **141 righe con 137 identità univoche** a **143 funzionalità 
 ## Evidenze e ripetibilità
 
 - `production-after-summary.json` e `production-after-routes.csv`: verifica finale di 521 URL in produzione.
+- `production-after-summary.json` e `production-after-routes.csv`: verifica finale di 521 URL in produzione.
 - `production-before-summary.json`: riepilogo della produzione prima delle correzioni.
 - `production-before-routes.csv`: tutte le URL, stato HTTP, titolo e riferimenti di versione.
 - `source-release-references.json`: inventario dei riferimenti nei sorgenti.
@@ -70,6 +71,7 @@ L'Atlas passa da **141 righe con 137 identità univoche** a **143 funzionalità 
 - `staging-release-it.png`: pagina italiana della release verificata in staging.
 - `production-current-features.png`, `production-feature-atlas.png` e `production-release-history-it.png`: interfacce effettivamente pubblicate.
 - `deployed-source.json`: hash dei sorgenti presenti nel deployment.
+- `validation.json`: perimetro, revisioni ed esiti dei test.
 - `runtime-after.json` e `database-after.json`: stato operativo e confronto successivi.
 - `production-r1-summary.json`: scansione intermedia della prima revisione.
 
@@ -91,9 +93,9 @@ Il pannello di verifica della produzione, prima della revisione, riporta otto co
 
 ## Ricevuta di pubblicazione
 
-- Pacchetto: `PolicyWatcher-5.0.0-hostinger-2026-10-06-page-consistency-r2.zip`.
-- SHA-256: `e549176ea32278194cd1b093f1a8766effada9cebed812ec66d552df915dd246`.
-- Revisione dei sorgenti distribuiti: `43875d4426aeda2d27b177228c668d4f937e7990`.
+- Pacchetto: `PolicyWatcher-5.0.0-hostinger-2026-10-06-page-consistency-r3.zip`.
+- SHA-256: `6f8adef83b6f4830bfe85de77537db287b9d7910c7b4114fb8e1f6f88e9baec4`.
+- Revisione dei sorgenti distribuiti: `b83e779cc9186d50f687ea98e19d99b4668ebe0e`.
 - Staging: 11 controlli su 11 superati; stesso ZIP promosso in produzione.
 - Produzione: 21 file confrontati tramite SHA-256, tutti identici ai sorgenti verificati.
 - Database: integrità `ok`; righe e hash delle 12 tabelle di evidenze e sottoscrizioni confrontate sono invariati. Log tecnici di accesso non inclusi in quel confronto.
@@ -101,3 +103,11 @@ Il pannello di verifica della produzione, prima della revisione, riporta otto co
 - Le pagine pubbliche Atlas, roadmap e archivio release sono state ricontrollate nel browser; le catture sono allegate. Il passaggio di lingua viene verificato sia sul contenuto sia sui metadata, senza accettare nuovi termini d’uso.
 
 Il medesimo punto di attenzione sugli header e il limite della verifica esterna sono presenti anche dopo la revisione. Nessuna regressione rispetto alla fotografia iniziale è stata rilevata in quei controlli.
+
+
+
+## Ultimo controllo della navigazione
+
+La scansione completa di 521 URL è stata effettuata sulla revisione `page-consistency-r2`. La revisione definitiva `page-consistency-r3` modifica solo il controllo di cambio lingua, usando una navigazione completa per aggiornare insieme testo, lingua HTML e URL canonico; aggiunge anche lo stile coerente del controllo. Non aggiunge rotte o contenuti di release. Per questa modifica sono stati ripetuti 29 test mirati, build, lint, gli 11 controlli staging, il confronto dei 21 file distribuiti, la verifica runtime e dei dati e il percorso browser italiano → inglese → italiano in staging e produzione. Tutti superati.
+
+La suite completa di 1.144 test è riferita alla revisione precedente a questo singolo affinamento; `validation.json` distingue le due verifiche. Il report e gli inventari sono versionati nella [PR 22](https://github.com/sev7enITA/policywatcher/pull/22).
