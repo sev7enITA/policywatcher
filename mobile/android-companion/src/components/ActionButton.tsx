@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   pressed: { opacity: 0.72, transform: [{ translateY: 1 }] },
   disabled: { opacity: 0.45 },
   content: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
-  label: { color: colors.ink, fontSize: 14, fontWeight: '700', letterSpacing: 0.1, textAlign: 'center' },
+  label: { flexShrink: 1, paddingVertical: 10, color: colors.ink, fontSize: 14, fontWeight: '700', letterSpacing: 0.1, textAlign: 'center' },
   primaryLabel: { color: colors.white },
   dangerLabel: { color: colors.rust },
 });

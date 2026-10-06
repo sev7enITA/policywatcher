@@ -61,6 +61,12 @@ export const publicSectionGroups: Record<PublicSectionGroup, { label: string; de
 
 export const publicSectionNodes: PublicSectionNode[] = [
   {
+    id: 'per-te', label: 'For you', href: '/per-te', group: 'core',
+    summary: 'Citizen journey with voluntary service following, plain-language changes, official guides and choices saved on the device.',
+    role: 'Connects dated public evidence with local review records, private notice matching and downloadable support drafts. No account actions or messages are sent automatically.',
+    status: 'dynamic', icon: 'user', x: 20, y: 35,
+  },
+  {
     id: 'associations',
     label: 'Consumer associations',
     href: '/en/associations',
@@ -345,6 +351,9 @@ export const publicSectionNodes: PublicSectionNode[] = [
 ];
 
 export const publicSectionEdges: PublicSectionEdge[] = [
+  { from: 'per-te', to: 'knowledge', label: 'reads dated public evidence from', strength: 'primary' },
+  { from: 'per-te', to: 'associations', label: 'links support requests to', strength: 'primary' },
+  { from: 'dashboard', to: 'per-te', label: 'provides a citizen journey through', strength: 'primary' },
   { from: 'knowledge', to: 'historical-comparisons', label: 'links to retrospective evidence in', strength: 'primary' },
   { from: 'historical-comparisons', to: 'methodology', label: 'distinguishes capture and effective dates using', strength: 'primary' },
   { from: 'associations', to: 'knowledge', label: 'contains published records from', strength: 'primary' },

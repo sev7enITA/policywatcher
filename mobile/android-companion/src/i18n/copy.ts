@@ -34,10 +34,10 @@ const it = {
   companion: {
     eyebrow: 'APP COMPANION', title: 'Impostazioni', body: 'Configura la lingua e consulta le impostazioni di archiviazione e aggiornamento.',
     language: 'Lingua', italian: 'Italiano', english: 'English', dataTitle: 'Dati sul dispositivo',
-    dataBody: 'I link condivisi includono solo gli identificativi pubblici. Aziende osservate, titoli e stati di revisione restano sul dispositivo.',
+    dataBody: 'I link della raccolta includono solo gli identificativi pubblici. Servizi, paese, piano e scelte restano sul dispositivo. Le bozze includono la domanda che scegli di esportare.',
     pollingTitle: 'Aggiornamento del feed', pollingBody: 'Il feed si aggiorna quando apri o ricarichi l’app. Gli aggiornamenti avvengono mentre l’app è in uso.',
     boundaryTitle: 'Limiti dello screening', boundaryBody: 'Lo screening assistito da AI supporta la revisione umana: non è un verdetto legale, un alert esaustivo o una prova che la fonte sia ancora disponibile.',
-    workspace: 'Apri workspace web', origin: 'Origine pubblica', storage: 'Memoria locale', storageValue: 'SQLite KV · cache ultima lettura',
+    workspace: 'Apri PolicyWatcher sul web', origin: 'Origine pubblica', storage: 'Memoria locale', storageValue: 'SQLite su Android · memoria browser sul web',
   },
   detail: {
     back: 'Indietro', publication: 'DETTAGLI PUBBLICAZIONE', published: 'Pubblicato', jurisdiction: 'Giurisdizione', policyType: 'Tipo di policy',
@@ -82,10 +82,10 @@ const en: typeof it = {
   companion: {
     eyebrow: 'COMPANION APP', title: 'Settings', body: 'Set the language and review storage and update settings.',
     language: 'Language', italian: 'Italiano', english: 'English', dataTitle: 'On-device data',
-    dataBody: 'Shared links include public identifiers only. Watched companies, titles and review status stay on this device.',
+    dataBody: 'Collection links include public identifiers only. Services, country, plan and choices stay on this device. Drafts include the question you choose to export.',
     pollingTitle: 'Feed updates', pollingBody: 'The feed refreshes when you open or reload the app. Updates run while the app is in use.',
     boundaryTitle: 'Screening limitations', boundaryBody: 'AI-assisted screening supports human review: it is not a legal verdict, exhaustive alert or proof that a source is still available.',
-    workspace: 'Open web workspace', origin: 'Public origin', storage: 'Local storage', storageValue: 'SQLite KV · last-read cache',
+    workspace: 'Open PolicyWatcher on the web', origin: 'Public origin', storage: 'Local storage', storageValue: 'SQLite on Android · browser storage on web',
   },
   detail: {
     back: 'Back', publication: 'PUBLICATION DETAILS', published: 'Published', jurisdiction: 'Jurisdiction', policyType: 'Policy type',

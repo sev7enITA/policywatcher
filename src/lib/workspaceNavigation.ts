@@ -1,6 +1,7 @@
 import type { WorkspaceIntent } from './dashboardComposer';
 
 export type WorkspaceCommandId =
+  | 'per-te'
   | 'timeline'
   | 'observatory'
   | 'leaderboard'
@@ -12,7 +13,7 @@ export type WorkspaceCommandId =
   | 'subscribe';
 
 const WORKSPACE_QUICK_ACTIONS: Record<WorkspaceIntent, readonly WorkspaceCommandId[]> = {
-  citizen: ['timeline', 'leaderboard', 'subscribe'],
+  citizen: ['per-te', 'timeline', 'subscribe'],
   grc: ['timeline', 'matrix', 'export'],
   research: ['timeline', 'observatory', 'atlas'],
   builder: ['developers', 'observatory', 'trust'],

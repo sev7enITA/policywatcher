@@ -1,10 +1,12 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { useAppState } from '@/state/AppState';
+import { useCitizenState } from '@/state/CitizenState';
 import { colors, font } from '@/theme/tokens';
 
 export function Masthead() {
-  const { copy, feedMode } = useAppState();
-  const status = feedMode === 'live' ? copy.masthead.polling : feedMode === 'cached' ? copy.common.cached : feedMode === 'demo' ? copy.common.demo : copy.today.loading;
+  const { copy } = useAppState();
+  const { mode: feedMode } = useCitizenState();
+  const status = feedMode === 'live' ? copy.masthead.polling : feedMode === 'cached' ? copy.common.cached : feedMode === 'unavailable' ? copy.today.feedError : copy.today.loading;
   return (
     <View style={styles.root} accessibilityRole="header">
       <View style={styles.identity}>

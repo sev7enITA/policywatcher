@@ -14,6 +14,7 @@ export function publicLanguage(value: unknown): PublicLanguage {
 }
 
 export function publicRequestLanguage(pathname: string, queryLanguage: unknown): PublicLanguage {
+  if (/^\/per-te\/?$/.test(pathname)) return queryLanguage === 'en' ? 'en' : 'it';
   if (pathname.startsWith('/it/')) return 'it';
   const localizedQueryRoute = /^\/(change\/[^/]+|pulse\/[^/]+|share\/[^/]+|embed\/pulse\/[^/]+|guides(?:\/[^/]+)?|browser-extension)\/?$/.test(pathname);
   return localizedQueryRoute ? publicLanguage(queryLanguage) : 'en';

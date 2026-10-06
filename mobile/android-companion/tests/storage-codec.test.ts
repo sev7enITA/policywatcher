@@ -10,7 +10,7 @@ describe('storage migration and fallback', () => {
       watchlist: ['company_1', 123],
       collection: [{ changeId: 'local-id', title: 'Title', companyName: 'Company', status: 'unknown' }],
     });
-    expect(migrated.version).toBe(2);
+    expect(migrated.version).toBe(3);
     expect(migrated.locale).toBe('en');
     expect(migrated.explainerDismissed).toBe(true);
     expect(migrated.watchlist).toEqual(['company_1']);

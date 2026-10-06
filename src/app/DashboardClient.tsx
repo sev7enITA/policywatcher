@@ -76,6 +76,7 @@ import {
 } from '@/lib/dashboardComposer';
 import {
   getWorkspaceQuickActionIds,
+  type WorkspaceCommandId,
   hasCompletedWorkspaceOnboarding,
   WORKSPACE_ONBOARDING_COMPLETED_KEY,
 } from '@/lib/workspaceNavigation';
@@ -612,8 +613,10 @@ const WORKSPACE_MODULE_LABELS: Record<'en' | 'it', Record<DashboardModuleId, str
   },
 };
 
-const WORKSPACE_COMMAND_LABELS: Record<'en' | 'it', Record<string, string>> = {
+const WORKSPACE_COMMAND_LABELS: Record<'en' | 'it', Record<WorkspaceCommandId, string>> = {
   en: {
+    'per-te': 'For you',
+    developers: 'Developer tools',
     timeline: 'Timeline',
     leaderboard: 'Signals',
     subscribe: 'Alerts',
@@ -624,6 +627,8 @@ const WORKSPACE_COMMAND_LABELS: Record<'en' | 'it', Record<string, string>> = {
     trust: 'Trust QA',
   },
   it: {
+    'per-te': 'Per te',
+    developers: 'Strumenti per sviluppatori',
     timeline: 'Timeline',
     leaderboard: 'Segnali',
     subscribe: 'Avvisi',
