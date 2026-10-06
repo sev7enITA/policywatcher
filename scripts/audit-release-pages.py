@@ -39,6 +39,10 @@ paths=set(urllib.parse.urlsplit(u).path+('?' + urllib.parse.urlsplit(u).query if
 for f in Path('src/app').rglob('page.tsx'):
  p='/'+str(f.parent.relative_to('src/app'));p='/' if p=='/.' else p
  if not any(x in p for x in ['[','(','/admin']):paths.add(p)
+# Release archive language is URL-selected and must survive the changelog handoff.
+for p in list(paths):
+ if p == '/press-kit/releases' or p.startswith('/press-kit/releases/'):
+  paths.add(p.split('?')[0]+'?lang=it')
 rows=list(concurrent.futures.ThreadPoolExecutor(max_workers=2).map(fetch,sorted(paths)))
 (out/'routes.json').write_text(json.dumps(rows,indent=2))
 summary={'origin':origin,'checkedAt':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'sitemapUrls':len(urls),'total':len(rows),'http200':sum(r.get('status')==200 for r in rows),'errors':[r for r in rows if r.get('status')!=200 or r.get('applicationError')],'staleCurrent':[{'path':r['path'],'text':r.get('staleCurrent')} for r in rows if r.get('staleCurrent')],'oldBuilds':[{'path':r['path'],'versions':r.get('releaseFooters')} for r in rows if any(v!=expected for v in r.get('releaseFooters',[]))]}

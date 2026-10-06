@@ -148,7 +148,7 @@ export default function NewsroomPageClient({ view, releaseSlug, initialLang = 'e
             <p>{pageHeader[2]}</p>
           </div>
           <div className={styles.subpageTools}>
-            {view === 'releases' || view === 'release-detail' ? <Link href={localizedPublicPath(`/press-kit/releases${releaseSlug ? `/${releaseSlug}` : ''}`, lang === 'en' ? 'it' : 'en')} hrefLang={lang === 'en' ? 'it' : 'en'}><Languages size={15} />{t.switchLanguage}</Link> : <button type="button" onClick={() => setLang(lang === 'en' ? 'it' : 'en')}><Languages size={15} />{t.switchLanguage}</button>}
+            {view === 'releases' || view === 'release-detail' ? <a className={styles.subpageBack} href={localizedPublicPath(`/press-kit/releases${releaseSlug ? `/${releaseSlug}` : ''}`, lang === 'en' ? 'it' : 'en')} hrefLang={lang === 'en' ? 'it' : 'en'}><Languages size={15} />{t.switchLanguage}</a> : <button type="button" onClick={() => setLang(lang === 'en' ? 'it' : 'en')}><Languages size={15} />{t.switchLanguage}</button>}
             <Link className={styles.subpageBack} href="/press-kit"><ArrowLeft size={14} />{t.back}</Link>
           </div>
         </section>

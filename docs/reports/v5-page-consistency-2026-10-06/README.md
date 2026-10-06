@@ -8,14 +8,14 @@ La produzione risponde già con **5.0.0** nel manifest pubblico. L'errore segnal
 
 Non è sufficiente cambiare il numero nel footer o svuotare la cache: occorre correggere i cataloghi e i componenti che descrivono il prodotto.
 
-**Stato di questa revisione:** pubblicata in produzione e verificata il 6 ottobre 2026. Hostinger indica il pacchetto `page-consistency-r1` come **Completed / Current**. La 5.0.0 originale era già online prima di questo audit; questa revisione ne corregge la documentazione e le interfacce. Il file `publication.json` contiene le ricevute della verifica. La scansione successiva alla prima pubblicazione copre 474 URL: tutte rispondono HTTP 200 e non presentano marcatori correnti della versione 4. È in preparazione una seconda revisione per conservare la lingua nei collegamenti all’archivio.
+**Stato di questa revisione:** pubblicata in produzione e verificata il 6 ottobre 2026. Hostinger indica il pacchetto `page-consistency-r2` come **Completed / Current**. La 5.0.0 originale era già online prima di questo audit; questa revisione ne corregge la documentazione e le interfacce. Il file `publication.json` contiene le ricevute della verifica. La scansione finale copre **521 URL**, comprese 47 varianti italiane dell’archivio: tutte rispondono HTTP 200, senza errori applicativi, footer di release precedenti o marcatori della versione 4 indicati come correnti.
 
 ## Perimetro e metodo
 
-- **473 URL controllate direttamente via HTTP**, di cui 465 nella sitemap iniziale e otto percorsi concreti ricavati dai sorgenti: 473 risposte HTTP 200, nessuna pagina di errore applicativo rilevata.
+- Prima delle correzioni: **473 URL controllate direttamente via HTTP**, di cui 465 nella sitemap iniziale e otto percorsi concreti ricavati dai sorgenti: 473 risposte HTTP 200, nessuna pagina di errore applicativo rilevata.
 - Il controllo riguarda identità della release, riferimenti alle versioni, contenuti correnti/storici/futuri, registri e navigazione. Non costituisce un nuovo collaudo di tutte le funzioni o una verifica delle interpretazioni AI.
 - **74 template di pagina** censiti nei sorgenti, compresi **19 template amministrativi**. Le pagine protette sono esaminate nel codice per i riferimenti di release; non è attestato un walkthrough autenticato di ciascuna funzione amministrativa.
-- **603 riferimenti di release in 45 file applicativi** raccolti nell'inventario allegato; esclusi i test. Le occorrenze sono classificate per funzione, non sostituite indiscriminatamente.
+- **603 riferimenti di release in 45 file applicativi** raccolti nell'inventario allegato; esclusi i test. L’inventario fotografa la base esaminata. Le occorrenze sono classificate per funzione, non sostituite indiscriminatamente. Numeri di paragrafi nelle policy dei provider e versioni dei contratti API non identificano la release del sito.
 - Nei 310 documenti HTML che espongono un footer di release riconoscibile, il footer iniziale indica 5.0.0. Le altre risposte comprendono interfacce idratate dal client e pagine di singoli record: l'assenza di quel marcatore non dimostra una versione diversa.
 - Verifica browser del componente changelog in italiano e inglese, della modalità del dialogo, di Escape e del ripristino del focus, oltre alla geometria mobile a 390 × 844 px. La prova locale usa un harness temporaneo rimosso prima del pacchetto; il TermsGate originale è conservato.
 - Isolamento del lavoro dalla copia Desktop, che contiene modifiche preesistenti e una vecchia base Beta 2. La base corretta è `085d7fc`, successiva alla pubblicazione 5.0.0. Nessuna sovrascrittura dei sorgenti del workspace Desktop.
@@ -49,7 +49,7 @@ L'Atlas passa da **141 righe con 137 identità univoche** a **143 funzionalità 
 
 ## Verifiche tecniche
 
-- Suite web: **1.144 test superati, 14 esclusi** secondo la configurazione esistente. I sette nuovi test verificano registri, package/lock/changelog, unicità e dipendenze Atlas, ancore dei sei passaggi e rendering italiano/inglese del changelog e passaggio della lingua all’archivio e al dettaglio della release.
+- Suite web: **1.144 test superati, 14 esclusi** secondo la configurazione esistente. I sette nuovi test verificano registri, package/lock/changelog, unicità e dipendenze Atlas, ancore dei sei passaggi, rendering italiano/inglese del changelog e passaggio della lingua all’archivio e al dettaglio della release.
 - TypeScript e build di produzione completati. L'harness locale non è incluso nella build finale.
 - Lint web: **zero errori, 15 avvisi preesistenti**, principalmente immagini e navigazione. Nessun nuovo avviso nei file corretti.
 - Browser locale: 5.0.0/STABLE come prima release; titoli e limiti corretti in entrambe le lingue; storico Beta 5/Beta 4 disponibile; Escape e ritorno al controllo di apertura verificati. A 390 px il dialogo è largo 366 px, interamente nel viewport, senza overflow orizzontale.
@@ -58,6 +58,7 @@ L'Atlas passa da **141 righe con 137 identità univoche** a **143 funzionalità 
 
 ## Evidenze e ripetibilità
 
+- `production-after-summary.json` e `production-after-routes.csv`: verifica finale di 521 URL in produzione.
 - `production-before-summary.json`: riepilogo della produzione prima delle correzioni.
 - `production-before-routes.csv`: tutte le URL, stato HTTP, titolo e riferimenti di versione.
 - `source-release-references.json`: inventario dei riferimenti nei sorgenti.
@@ -67,6 +68,10 @@ L'Atlas passa da **141 righe con 137 identità univoche** a **143 funzionalità 
 - `staging-verification.json` e `promotion.json`: undici controlli staging superati e identità del pacchetto promosso.
 - `runtime-before.json` e `database-backup-receipt.json`: stato iniziale e ricevuta di backup, priva di credenziali e percorsi privati.
 - `staging-release-it.png`: pagina italiana della release verificata in staging.
+- `production-current-features.png`, `production-feature-atlas.png` e `production-release-history-it.png`: interfacce effettivamente pubblicate.
+- `deployed-source.json`: hash dei sorgenti presenti nel deployment.
+- `runtime-after.json` e `database-after.json`: stato operativo e confronto successivi.
+- `production-r1-summary.json`: scansione intermedia della prima revisione.
 
 Per ripetere il controllo HTTP dalla root dei sorgenti:
 
@@ -86,11 +91,13 @@ Il pannello di verifica della produzione, prima della revisione, riporta otto co
 
 ## Ricevuta di pubblicazione
 
-- Pacchetto: `PolicyWatcher-5.0.0-hostinger-2026-10-06-page-consistency-r1.zip`.
-- SHA-256: `eb4e7439794351d72066619a82d00d9380fbe605607af17f6c0f1b8e1b084eb6`.
-- Revisione dei sorgenti distribuiti: `78b41d2129152a70f8d14d7707f79141dfa39ca9`.
+- Pacchetto: `PolicyWatcher-5.0.0-hostinger-2026-10-06-page-consistency-r2.zip`.
+- SHA-256: `e549176ea32278194cd1b093f1a8766effada9cebed812ec66d552df915dd246`.
+- Revisione dei sorgenti distribuiti: `43875d4426aeda2d27b177228c668d4f937e7990`.
 - Staging: 11 controlli su 11 superati; stesso ZIP promosso in produzione.
-- Produzione: 17 file confrontati tramite SHA-256, tutti identici ai sorgenti verificati.
+- Produzione: 21 file confrontati tramite SHA-256, tutti identici ai sorgenti verificati.
 - Database: integrità `ok`; righe e hash delle 12 tabelle di evidenze e sottoscrizioni confrontate sono invariati. Log tecnici di accesso non inclusi in quel confronto.
 - Catalogo pubblico invariato: 18 aziende e 109 policy pubblicabili su 113 configurate. Invariati anche gli stadi di disponibilità delle evidenze.
-- Le pagine pubbliche Atlas, roadmap e archivio release sono state ricontrollate nel browser; le catture sono allegate.
+- Le pagine pubbliche Atlas, roadmap e archivio release sono state ricontrollate nel browser; le catture sono allegate. Il passaggio di lingua viene verificato sia sul contenuto sia sui metadata, senza accettare nuovi termini d’uso.
+
+Il medesimo punto di attenzione sugli header e il limite della verifica esterna sono presenti anche dopo la revisione. Nessuna regressione rispetto alla fotografia iniziale è stata rilevata in quei controlli.
