@@ -1,4 +1,4 @@
-# Email readiness — 2 October 2026
+# Email readiness - 2 October 2026
 
 ## Observed production configuration
 
