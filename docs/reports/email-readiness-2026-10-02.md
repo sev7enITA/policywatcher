@@ -50,3 +50,19 @@ Subscriber administration, persistent delivery status, consent-version evidence,
 retention and erasure handling remain separate unfinished application work.
 Mailbox existence does not establish that the privacy-request handling process
 is operational. The report does not assert GDPR compliance.
+
+## Follow-up - 6 October 2026
+
+The operator entered a mailbox password into Hostinger's SMTP_PASS environment
+variable. After applying the change, the production configuration contains the
+variable. Authentication probes from both the workstation and the production
+server were rejected with EAUTH / SMTP 535. No message was sent. A corrected
+mailbox password or operator-completed password reset is required before
+authentication and delivery can be verified. Do not treat the saved setting as
+an operational email service.
+
+The release style check was repaired in commit 0ab2829. Its next CI run reported
+a newly flagged high-severity production dependency, source-map-js 1.2.1
+(GHSA-68fv-2mgg-jv7q). Updating that transitive dependency to 1.2.2 restored a
+zero-findings production npm audit; the local production build also passed.
+Deployment and an explicitly authorized recipient delivery test remain pending.
