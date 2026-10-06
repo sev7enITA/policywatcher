@@ -22,6 +22,7 @@ import {
   pressKitReleases,
   type PressKitLocale,
 } from '@/lib/pressKit';
+import { localizedPublicPath } from '@/lib/seo';
 import { recordPressMetric } from '@/lib/pressMetrics';
 import styles from './pressKit.module.css';
 
@@ -30,6 +31,7 @@ type NewsroomView = 'releases' | 'release-detail' | 'data' | 'reference' | 'corr
 interface NewsroomPageClientProps {
   view: NewsroomView;
   releaseSlug?: string;
+  initialLang?: PressKitLocale;
 }
 
 const pageCopy = {
@@ -111,8 +113,8 @@ const pageCopy = {
   },
 } as const;
 
-export default function NewsroomPageClient({ view, releaseSlug }: NewsroomPageClientProps) {
-  const [lang, setLang] = useState<PressKitLocale>('en');
+export default function NewsroomPageClient({ view, releaseSlug, initialLang = 'en' }: NewsroomPageClientProps) {
+  const [lang, setLang] = useState<PressKitLocale>(initialLang);
   const dataRoomViewRecorded = useRef(false);
   const t = pageCopy[lang];
   const selectedRelease = releaseSlug ? pressKitReleases.find((release) => release.slug === releaseSlug) : null;
@@ -137,7 +139,7 @@ export default function NewsroomPageClient({ view, releaseSlug }: NewsroomPageCl
 
   return (
     <div className={styles.page} lang={lang}>
-      <PublicHeader current="press-kit" lang={lang} />
+      <PublicHeader current="press-kit" lang={lang} lockLang />
       <main className={styles.subpageMain}>
         <section className={styles.subpageHero}>
           <div>
@@ -146,7 +148,7 @@ export default function NewsroomPageClient({ view, releaseSlug }: NewsroomPageCl
             <p>{pageHeader[2]}</p>
           </div>
           <div className={styles.subpageTools}>
-            <button type="button" onClick={() => setLang(lang === 'en' ? 'it' : 'en')}><Languages size={15} />{t.switchLanguage}</button>
+            {view === 'releases' || view === 'release-detail' ? <Link href={localizedPublicPath(`/press-kit/releases${releaseSlug ? `/${releaseSlug}` : ''}`, lang === 'en' ? 'it' : 'en')} hrefLang={lang === 'en' ? 'it' : 'en'}><Languages size={15} />{t.switchLanguage}</Link> : <button type="button" onClick={() => setLang(lang === 'en' ? 'it' : 'en')}><Languages size={15} />{t.switchLanguage}</button>}
             <Link className={styles.subpageBack} href="/press-kit"><ArrowLeft size={14} />{t.back}</Link>
           </div>
         </section>
@@ -162,7 +164,7 @@ export default function NewsroomPageClient({ view, releaseSlug }: NewsroomPageCl
                   <div><dt>{t.releaseStatus}</dt><dd>{release.status}</dd></div>
                   <div><dt>{t.modified}</dt><dd>{release.dateModified}</dd></div>
                 </dl>
-                <Link className={styles.subpageAction} href={`/press-kit/releases/${release.slug}`}>{t.openRelease}<ArrowRight size={14} /></Link>
+                <Link className={styles.subpageAction} href={localizedPublicPath(`/press-kit/releases/${release.slug}`, lang)}>{t.openRelease}<ArrowRight size={14} /></Link>
               </article>
             ))}
           </section>
@@ -259,7 +261,7 @@ export default function NewsroomPageClient({ view, releaseSlug }: NewsroomPageCl
           </section>
         )}
       </main>
-      <Footer lang={lang} variant="compact" />
+      <Footer lang={lang} variant="compact" lockLang />
     </div>
   );
 }

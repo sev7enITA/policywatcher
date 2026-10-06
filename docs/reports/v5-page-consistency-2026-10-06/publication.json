@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-10-06T21:38:40.558165+00:00",
+  "status": "published-and-runtime-verified",
+  "productionOrigin": "https://policywatcher.online",
+  "release": "5.0.0",
+  "revision": "page-consistency-r1",
+  "artifact": "PolicyWatcher-5.0.0-hostinger-2026-10-06-page-consistency-r1.zip",
+  "artifactSha256": "eb4e7439794351d72066619a82d00d9380fbe605607af17f6c0f1b8e1b084eb6",
+  "sourceRevision": "78b41d2129152a70f8d14d7707f79141dfa39ca9",
+  "hostingerState": "Completed / Current (observed in browser)",
+  "sourceFilesCompared": 17,
+  "allSourceFilesMatch": true,
+  "databaseIntegrity": "ok",
+  "databaseEvidenceTablesCompared": 12,
+  "databaseEvidenceTablesUnchanged": true,
+  "publicationMetricsUnchanged": true,
+  "publicCatalogue": {
+    "companies": 18,
+    "policies": 109
+  },
+  "stagingChecksPassed": 11,
+  "webTestsPassed": 1142,
+  "webTestsSkipped": 14,
+  "githubPullRequest": "https://github.com/sev7enITA/policywatcher/pull/22",
+  "fullPostDeploymentCrawl": "running",
+  "operationalBoundary": "Production verification retains its pre-existing security-header attention item and external-test boundary. No independent security test is asserted."
+}

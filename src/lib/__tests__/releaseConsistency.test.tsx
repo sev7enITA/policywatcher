@@ -65,3 +65,26 @@ describe('public release consistency', () => {
     expect(html).toContain('<dialog');
   });
 });
+
+describe('release archive language handoff', () => {
+  it.each(['en', 'it'] as const)('preserves %s from the changelog through the archive and detail', async lang => {
+    const { default: ArchivePage, generateMetadata: archiveMetadata } = await import('@/app/press-kit/releases/page');
+    const { default: DetailPage, generateMetadata: detailMetadata } = await import('@/app/press-kit/releases/[slug]/page');
+    const { publicRequestLanguage } = await import('../seo');
+    const release = pressKitReleases.find(r => r.status === 'current')!;
+    const props = { params: Promise.resolve({ slug: release.slug }), searchParams: Promise.resolve({ lang }) };
+    const archive = await ArchivePage(props);
+    expect(archive.props.initialLang).toBe(lang);
+    const archiveHtml = renderToStaticMarkup(archive);
+    expect(archiveHtml).toContain(lang === 'it' ? 'Release prodotto datate.' : 'Dated product releases.');
+    expect(archiveHtml).toContain(`/press-kit/releases/${release.slug}${lang === 'it' ? '?lang=it' : ''}`);
+    const detailHtml = renderToStaticMarkup(await DetailPage(props));
+    expect(detailHtml).toContain(release.summary[lang]);
+    expect(detailHtml).toContain(`"inLanguage":"${lang}"`);
+    expect((await detailMetadata(props)).description).toBe(release.summary[lang]);
+    const expectedLocale = lang === 'it' ? 'it_IT' : 'en_US';
+    expect((await archiveMetadata(props)).openGraph?.locale).toBe(expectedLocale);
+    expect((await detailMetadata(props)).alternates?.canonical).toBe(`https://policywatcher.online/press-kit/releases/${release.slug}${lang === 'it' ? '?lang=it' : ''}`);
+    expect(publicRequestLanguage(`/press-kit/releases/${release.slug}`, lang)).toBe(lang);
+  });
+});

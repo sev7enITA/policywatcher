@@ -8,6 +8,7 @@
 - Align the roadmap current card, release summary, stable-channel labels and future horizons with 5.0.0. Remove obsolete Beta 4/5 cards from the future-work list.
 - Expand Feature Atlas with the citizen feed, service following, official guides, local choices, private notice matching and support drafts. Deduplicate capability IDs and distinguish historical delivery from the current release.
 - Add release history and citizen journeys to Site Atlas; label archived press packages and historical API capability milestones explicitly.
+- Preserve the selected language from dashboard changelog to release archive and detail, including localized metadata, canonical URLs and page language.
 - Add release-registry, rendered bilingual changelog and Atlas consistency checks. No database migration or evidence-score change.
 
 

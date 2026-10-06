@@ -1,0 +1,73 @@
+{
+  "contractVersion": "1.2.0",
+  "target": "staging",
+  "status": "passed",
+  "release": "5.0.0",
+  "releaseName": "Your Services, Your Choices",
+  "sourceRevision": "78b41d2129152a70f8d14d7707f79141dfa39ca9",
+  "sourceState": "clean",
+  "artifact": "PolicyWatcher-5.0.0-hostinger-2026-10-06-page-consistency-r1.zip",
+  "artifactSha256": "eb4e7439794351d72066619a82d00d9380fbe605607af17f6c0f1b8e1b084eb6",
+  "stagingOrigin": "https://staging.policywatcher.online",
+  "checkedAt": "2026-10-06T21:30:50.457Z",
+  "expiresAt": "2026-10-07T21:30:50.457Z",
+  "checks": [
+    {
+      "id": "homepage",
+      "status": "passed",
+      "detail": "HTTP 200; release 5.0.0 present in initial HTML."
+    },
+    {
+      "id": "staging-banner",
+      "status": "passed",
+      "detail": "Visible staging identity and DOM marker are present."
+    },
+    {
+      "id": "search-engine-boundary",
+      "status": "passed",
+      "detail": "Staging pages return noindex, nofollow, noarchive."
+    },
+    {
+      "id": "robots-boundary",
+      "status": "passed",
+      "detail": "robots.txt disallows the staging origin."
+    },
+    {
+      "id": "release-identity",
+      "status": "passed",
+      "detail": "Public manifest matches artifact release 5.0.0."
+    },
+    {
+      "id": "publication-readiness-contract",
+      "status": "passed",
+      "detail": "Database-derived publication readiness contract, stage order, no-store boundary and latest capture are valid."
+    },
+    {
+      "id": "health-auth-boundary",
+      "status": "passed",
+      "detail": "Operational health rejects unauthenticated requests."
+    },
+    {
+      "id": "database-health",
+      "status": "passed",
+      "detail": "18 companies; database is configured, readable and writable."
+    },
+    {
+      "id": "admin-authentication",
+      "status": "passed",
+      "detail": "Dedicated staging administrator can establish a signed session."
+    },
+    {
+      "id": "database-readiness",
+      "status": "passed",
+      "detail": "31 tables and 17 migrations reported ready."
+    },
+    {
+      "id": "public-dataset",
+      "status": "passed",
+      "detail": "16 public companies pass the staging evidence gate."
+    }
+  ],
+  "missingChecks": [],
+  "boundary": "This report verifies one staging deployment and one immutable artifact. It does not authorize production automatically or attest third-party service availability."
+}

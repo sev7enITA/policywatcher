@@ -1,0 +1,108 @@
+{
+  "at": "2026-10-06T21:37:18.954Z",
+  "phase": "after",
+  "manifest": {
+    "http": 200
+  },
+  "release": "5.0.0",
+  "publication": [
+    {
+      "id": "configured",
+      "label": "Configured",
+      "count": 113,
+      "denominator": 113,
+      "excluded": 0,
+      "availability": "measured",
+      "definition": "Every policy record in the configured monitoring inventory.",
+      "boundary": null
+    },
+    {
+      "id": "retrieved",
+      "label": "Retrieved",
+      "count": 112,
+      "denominator": 113,
+      "excluded": 1,
+      "availability": "measured",
+      "definition": "Policies with a successful non-seeded check and persisted text or hash evidence.",
+      "boundary": null
+    },
+    {
+      "id": "baseline-verified",
+      "label": "Baseline verified",
+      "count": 111,
+      "denominator": 113,
+      "excluded": 2,
+      "availability": "measured",
+      "definition": "Policies with at least one snapshot explicitly marked as public evidence.",
+      "boundary": null
+    },
+    {
+      "id": "public",
+      "label": "Public",
+      "count": 109,
+      "denominator": 113,
+      "excluded": 4,
+      "availability": "measured",
+      "definition": "Policies that pass the production publication gate for ingestion, status and evidence.",
+      "boundary": null
+    },
+    {
+      "id": "analysed",
+      "label": "Analysed",
+      "count": 34,
+      "denominator": 113,
+      "excluded": 79,
+      "availability": "measured",
+      "definition": "Public-gated policies with at least one change explicitly backed by public evidence.",
+      "boundary": null
+    }
+  ],
+  "companies": {
+    "http": 200
+  },
+  "catalogue": {
+    "companies": 18,
+    "policies": 109
+  },
+  "health": {
+    "http": 200,
+    "status": "ok",
+    "companyCount": 18,
+    "readable": true,
+    "writable": true
+  },
+  "adminAuth": 200,
+  "database": {
+    "http": 200,
+    "status": "ready",
+    "schema": {
+      "expectedTableCount": 31,
+      "presentTableCount": 31,
+      "missingTables": [],
+      "expectedMigrationCount": 17,
+      "appliedMigrationCount": 17,
+      "missingMigrations": [],
+      "migrationLedgerAvailable": true,
+      "lastAppliedMigration": "20261002050000_multiple_documents_per_type",
+      "lastAppliedAt": "2026-10-02T05:02:20.381Z"
+    },
+    "integrity": {
+      "quickCheck": "ok",
+      "journalMode": "wal",
+      "busyTimeoutMs": 5000,
+      "foreignKeysEnabled": true,
+      "pageCount": 7981,
+      "freePageCount": 0
+    }
+  },
+  "verification": {
+    "http": 200,
+    "status": "attention",
+    "summary": {
+      "passed": 8,
+      "attention": 1,
+      "unavailable": 0,
+      "external": 1
+    }
+  }
+}
