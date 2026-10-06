@@ -101,7 +101,7 @@ export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '4.0.0-beta.4', shortLabel: '4.0 B4', label: '4.0.0 Beta 4', state: 'delivered' },
   { id: '4.0.0-beta.5', shortLabel: '4.0 B5', label: '4.0.0 Beta 5', state: 'delivered' },
   { id: POLICYWATCHER_VERSION, shortLabel: '5.0', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
-  { id: 'next', shortLabel: 'Next', label: 'Next beta horizon', state: 'planned' },
+  { id: 'next', shortLabel: 'Next', label: 'Next release horizon', state: 'planned' },
   { id: 'later', shortLabel: 'Later', label: 'Later horizon', state: 'planned' },
 ];
 

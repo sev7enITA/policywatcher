@@ -167,7 +167,7 @@ export default function FeatureAtlasClient() {
   const [domainId, setDomainId] = useState('all');
   const [releaseId, setReleaseId] = useState('all');
   const [showDependencies, setShowDependencies] = useState(false);
-  const [selectedId, setSelectedId] = useState('feature-intelligence-atlas');
+  const [selectedId, setSelectedId] = useState('citizen-journey');
   const [openMobileStages, setOpenMobileStages] = useState<Set<FeatureAtlasStageId>>(() => new Set(['publication']));
   const inspectorRef = useRef<HTMLElement>(null);
 

@@ -52,11 +52,11 @@ const goals: Array<{
   {
     id: 'citizen',
     label: 'Citizen',
-    title: 'Change summary',
+    title: 'Your services, your choices',
     summary:
-      'A low-noise reading mode focused on policy changes, plain-language summaries, affected rights, and what should be verified at the source.',
-    view: 'Change cards, source status, short explanations, region impact.',
-    output: 'Readable briefing and shareable change page.',
+      'Follow the services you choose, read published changes, consult official guides and record a personal next step on your device.',
+    view: 'For you / Per te, source evidence, official guides, local notice matching.',
+    output: 'Local review records and a support draft you choose whether to share.',
     accent: '#5eead4',
   },
   {
@@ -249,7 +249,16 @@ const priorityPipeline = [
 
 const nowItems = [
   {
-    phase: 'Current · 4.0.0-beta.5',
+    phase: `Current · ${POLICYWATCHER_VERSION}`,
+    title: POLICYWATCHER_RELEASE_NAME,
+    body: 'For you / Per te brings followed services, published updates, official guides and personal review records into one bilingual journey.',
+    benefit: 'People can inspect original evidence, match a received notice on their device and prepare a support draft without creating an account.',
+    validation: 'Choices stay in this browser. No provider settings are changed, no support message is sent automatically, and Android store distribution remains separate.',
+    icon: UsersRound,
+    href: '/per-te',
+  },
+  {
+    phase: 'Delivered · 4.0.0-beta.5',
     title: 'Document Scope and Comparable Evidence',
     body: 'Select privacy, terms, AI terms, DPA, acceptable use and community documents once for all dashboard companies and analyses.',
     benefit: 'Comparisons, KPI matrix, timeline, assistant and CSV share the same evidence scope; missing document types remain visible.',
@@ -778,19 +787,19 @@ const releaseLanes = [
     label: POLICYWATCHER_VERSION,
     title: POLICYWATCHER_RELEASE_NAME,
     body:
-      'Human-approved AI model registry, privacy-safe telemetry, validated release ledger and bilingual Evidence Pulse with explicit residual boundaries.',
+      'Bilingual For you / Per te journey, public citizen feed, official guides, local choices, private notice matching and downloadable support drafts. Mobile web is available; native store distribution remains separate.',
     state: 'current',
   },
   {
-    label: '4.0',
-    title: 'Feature Drop',
+    label: 'Next',
+    title: 'Integration operations',
     body:
       'Self-service webhook lifecycle, endpoint proof and secret rotation, persistent alert watchlists, multi-version diff and production integration hardening after the configured pilot.',
     state: 'candidate',
   },
   {
-    label: '4.5',
-    title: 'Evidence Methodology Release',
+    label: 'Later',
+    title: 'Evidence methodology',
     body:
       'Community benchmark pack, cross-version evidence lineage, external methodology review and production database hardening.',
     state: 'candidate',
@@ -798,6 +807,7 @@ const releaseLanes = [
 ];
 
 function buildWorkspaceHref(goalId: GoalId, depth: DetailLevel) {
+  if (goalId === 'citizen') return '/per-te';
   const intent = goalId === 'governance' ? 'grc' : goalId;
   return `/?intent=${intent}&depth=${depth}`;
 }

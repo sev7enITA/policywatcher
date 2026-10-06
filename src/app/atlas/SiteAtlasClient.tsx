@@ -53,6 +53,16 @@ const iconMap: Record<string, LucideIcon> = {
 
 const recommendedRoutes = [
   {
+    title: 'Your services, your choices',
+    body: 'For you / Per te starts with voluntary service selection, then published updates, official guides, local choices, private notice matching and a support draft.',
+    nodes: ['per-te', 'knowledge', 'associations', 'methodology'],
+  },
+  {
+    title: 'Current release and history',
+    body: 'The changelog and release archive identify the current web release, earlier milestones and remaining delivery boundaries.',
+    nodes: ['changelog', 'feature-atlas', 'roadmap'],
+  },
+  {
     title: 'Dashboard view settings',
     body: 'The dashboard stores the selected interface density and links to the product diagram and feature catalog.',
     nodes: ['dashboard', 'infographics', 'feature-atlas'],
@@ -102,7 +112,7 @@ function NodeIcon({ node }: { node: PublicSectionNode }) {
 
 export default function SiteAtlasClient() {
   const [activeGroup, setActiveGroup] = useState<PublicSectionGroup | 'all'>('all');
-  const [selectedId, setSelectedId] = useState('dashboard');
+  const [selectedId, setSelectedId] = useState('per-te');
 
   const selectedNode = getNode(selectedId) ?? publicSectionNodes[0];
 
@@ -155,7 +165,7 @@ export default function SiteAtlasClient() {
               <span>relations</span>
             </div>
             <div>
-              <strong>6</strong>
+              <strong>{Object.keys(publicSectionGroups).length}</strong>
               <span>families</span>
             </div>
           </div>

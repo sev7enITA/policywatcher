@@ -1,0 +1,40 @@
+{
+  "checkedAt": "2026-10-06T21:59:48.480761+00:00",
+  "status": "published-and-verified",
+  "productionOrigin": "https://policywatcher.online",
+  "release": "5.0.0",
+  "revision": "page-consistency-r3",
+  "artifact": "PolicyWatcher-5.0.0-hostinger-2026-10-06-page-consistency-r3.zip",
+  "artifactSha256": "6f8adef83b6f4830bfe85de77537db287b9d7910c7b4114fb8e1f6f88e9baec4",
+  "sourceRevision": "b83e779cc9186d50f687ea98e19d99b4668ebe0e",
+  "hostingerState": "Completed / Current (observed in browser)",
+  "sourceFilesCompared": 21,
+  "allSourceFilesMatch": true,
+  "databaseIntegrity": "ok",
+  "databaseEvidenceTablesCompared": 12,
+  "databaseEvidenceTablesUnchanged": true,
+  "publicationMetricsUnchanged": true,
+  "publicCatalogue": {
+    "companies": 18,
+    "policies": 109
+  },
+  "stagingChecksPassed": 11,
+  "webTestsPassed": 1144,
+  "webTestsSkipped": 14,
+  "githubPullRequest": "https://github.com/sev7enITA/policywatcher/pull/22",
+  "fullPostDeploymentCrawl": {
+    "origin": "https://policywatcher.online",
+    "checkedAt": "2026-10-06T21:51:22Z",
+    "sitemapUrls": 466,
+    "total": 521,
+    "http200": 521,
+    "errors": [],
+    "staleCurrent": [],
+    "oldBuilds": []
+  },
+  "operationalBoundary": "Production verification retains its pre-existing security-header attention item and external-test boundary. No independent security test is asserted.",
+  "languageHandoff": "English and Italian archive/detail links, server content and metadata tested; staging and production browser verification passed.",
+  "fullCrawlRevision": "page-consistency-r2",
+  "finalRevisionDelta": "One release-language switch uses full navigation so canonical metadata refreshes with the page. Same route inventory and release content; final browser, staging, source and runtime verification repeated.",
+  "targetedFinalRegressionTestsPassed": 29
+}

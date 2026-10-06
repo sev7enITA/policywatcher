@@ -219,3 +219,30 @@
   color: #475569;
   margin: 0;
 }
+
+/* Native dialog owns focus, Escape and the top layer on desktop and mobile. */
+.modal {
+  inset: 0;
+  margin: auto;
+  transform: none;
+  width: min(680px, calc(100vw - 24px));
+  max-height: min(90dvh, 900px);
+  padding: clamp(20px, 4vw, 36px);
+  overflow: hidden;
+}
+.modal::backdrop {
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(6px);
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.body { overscroll-behavior: contain; }
+.featureHeader { flex-wrap: wrap; align-items: flex-start; }
+.featureHeader h4 { margin: 0; }
+.featureHeader time { font-size: 0.8rem; color: #475569; }
+.featureItem { overflow-wrap: anywhere; }
+.featureItem ul { padding-left: 20px; font-size: 0.88rem; line-height: 1.6; }
+.section a { color: #4338ca; text-decoration: underline; font-size: 0.88rem; }

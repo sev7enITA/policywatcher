@@ -320,7 +320,7 @@ const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
 };
 
 function getReleaseLabel(releaseId: string) {
-  if (releaseId === 'next') return 'Next beta horizon';
+  if (releaseId === 'next') return 'Next release horizon';
   if (releaseId === 'later') return 'Later horizon';
   if (releaseId.startsWith('beta.')) return `3.8.3 Beta ${releaseId.slice(5)}`;
   if (releaseId === POLICYWATCHER_VERSION) return POLICYWATCHER_VERSION_DISPLAY;
@@ -372,6 +372,186 @@ function surfaceFeature(
 
 const platformFeatures: FeatureAtlasFeature[] = [
   {
+    "id": "citizen-service-following",
+    "title": "Voluntary service following",
+    "shortLabel": "My services",
+    "summary": "Choose services and optional country context locally, with a searchable public catalogue.",
+    "benefit": "People start from the services they use without creating an account.",
+    "kpi": "Public service availability and local selection state.",
+    "kri": "Storage loss or an incomplete public catalogue can limit the view.",
+    "evidence": "CitizenClient service selector; shared/citizen preference validation and migration.",
+    "limitation": "Selections are device-local, are not sent to the citizen feed and do not configure email subscriptions.",
+    "kind": "business",
+    "domainId": "experience",
+    "stageId": "publication",
+    "state": "current",
+    "horizon": "delivered",
+    "primaryUser": "Citizen",
+    "route": {
+        "href": "/per-te#servizi",
+        "label": "Voluntary service following",
+        "access": "public"
+    },
+    "dependencies": [
+        {
+            "featureId": "citizen-public-feed",
+            "relationship": "depends-on"
+        }
+    ],
+    "source": "platform-inventory",
+    releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,
+  },
+  {
+    "id": "citizen-public-feed",
+    "title": "Public citizen feed and readable updates",
+    "shortLabel": "Citizen feed",
+    "summary": "Read paginated public changes, original sources, publication dates and explicit unknown evidence states.",
+    "benefit": "Each summary can be traced to the available public evidence.",
+    "kpi": "Validated catalogue and non-overlapping cursor pages.",
+    "kri": "Incomplete evidence or an automatic summary can mislead without source review.",
+    "evidence": "GET /api/v1/citizen-feed, shared/citizen parser and pagination tests.",
+    "limitation": "Read-only and no-store. Publication dates are not effective dates; personal preference filters are rejected.",
+    "kind": "technical",
+    "domainId": "distribution",
+    "stageId": "publication",
+    "state": "current",
+    "horizon": "delivered",
+    "primaryUser": "Citizen",
+    "route": {
+        "href": "/per-te#aggiornamenti",
+        "label": "Public citizen feed and readable updates",
+        "access": "public"
+    },
+    "dependencies": [
+        {
+            "featureId": "public-evidence-gate",
+            "relationship": "depends-on"
+        }
+    ],
+    "source": "platform-inventory",
+    releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,
+  },
+  {
+    "id": "citizen-official-guides",
+    "title": "Dated official action guides",
+    "shortLabel": "Official guides",
+    "summary": "Consult provider instructions with scope, official source links, review dates and limitations.",
+    "benefit": "People can review relevant options at the provider.",
+    "kpi": "Dated guide provenance and review-due state.",
+    "kri": "Provider instructions can change and may not apply to every account.",
+    "evidence": "shared/citizen official-guide registry and guide freshness checks.",
+    "limitation": "Guides do not execute provider actions or establish legal applicability.",
+    "kind": "business",
+    "domainId": "experience",
+    "stageId": "publication",
+    "state": "current",
+    "horizon": "delivered",
+    "primaryUser": "Citizen",
+    "route": {
+        "href": "/per-te#azioni",
+        "label": "Dated official action guides",
+        "access": "public"
+    },
+    "dependencies": [
+        {
+            "featureId": "citizen-service-following",
+            "relationship": "depends-on"
+        }
+    ],
+    "source": "platform-inventory",
+    releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,
+  },
+  {
+    "id": "citizen-local-choices",
+    "title": "Local choice and review records",
+    "shortLabel": "My choices",
+    "summary": "Record reviewed, action-declared or remind-later states; export or delete them locally.",
+    "benefit": "A new publication can prompt another review of the same document.",
+    "kpi": "Document-bound review state and local export/delete acceptance.",
+    "kri": "A declared action is not proof of an action at the provider.",
+    "evidence": "Shared choice model, local storage recovery, review reopening and export tests.",
+    "limitation": "No account synchronization, automatic reminders or push delivery; clearing browser storage can erase records.",
+    "kind": "business",
+    "domainId": "experience",
+    "stageId": "publication",
+    "state": "current",
+    "horizon": "delivered",
+    "primaryUser": "Citizen",
+    "route": {
+        "href": "/per-te#scelte",
+        "label": "Local choice and review records",
+        "access": "public"
+    },
+    "dependencies": [
+        {
+            "featureId": "citizen-public-feed",
+            "relationship": "depends-on"
+        }
+    ],
+    "source": "platform-inventory",
+    releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,
+  },
+  {
+    "id": "citizen-notice-matching",
+    "title": "Private local notice matching",
+    "shortLabel": "Notice matching",
+    "summary": "Match pasted text or a link against the catalogue already downloaded on the device.",
+    "benefit": "A received notice can guide the reader to candidate services and their public changes.",
+    "kpi": "Bounded local matching with explicit no-match and candidate states.",
+    "kri": "A candidate match does not authenticate a notice or prove its effective date.",
+    "evidence": "Shared local notice matcher and CitizenClient input boundaries.",
+    "limitation": "Pasted content is not sent, logged or saved; pasted links are not opened. Input is capped at 20 KiB.",
+    "kind": "technical",
+    "domainId": "experience",
+    "stageId": "publication",
+    "state": "current",
+    "horizon": "delivered",
+    "primaryUser": "Citizen",
+    "route": {
+        "href": "/per-te#comunicazione",
+        "label": "Private local notice matching",
+        "access": "public"
+    },
+    "dependencies": [
+        {
+            "featureId": "citizen-public-feed",
+            "relationship": "depends-on"
+        }
+    ],
+    "source": "platform-inventory",
+    releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,
+  },
+  {
+    "id": "citizen-support-draft",
+    "title": "Reviewable support request draft",
+    "shortLabel": "Support draft",
+    "summary": "Preview and download a support request with selected public evidence, a local record and a question.",
+    "benefit": "People can prepare context before deciding whether to contact an association.",
+    "kpi": "Bounded dossier construction and explicit download action.",
+    "kri": "A downloaded draft may contain the personal context the user chose to include.",
+    "evidence": "Shared citizen dossier builder, preview and download controls, association-directory links.",
+    "limitation": "Nothing is sent automatically. Directory entries do not imply a partnership; pasted notices are excluded.",
+    "kind": "business",
+    "domainId": "experience",
+    "stageId": "publication",
+    "state": "current",
+    "horizon": "delivered",
+    "primaryUser": "Citizen",
+    "route": {
+        "href": "/per-te#supporto",
+        "label": "Reviewable support request draft",
+        "access": "public"
+    },
+    "dependencies": [
+        {
+            "featureId": "citizen-local-choices",
+            "relationship": "depends-on"
+        }
+    ],
+    "source": "platform-inventory",
+    releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,
+  },
+  {
     id: 'citizen-journey', title: 'Your services, your choices', shortLabel: 'For you',
     summary: 'Follow services, read bounded public evidence, consult official guides and keep local choices in Italian or English.',
     kind: 'business', domainId: 'experience', stageId: 'publication', state: 'current', releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY, horizon: 'delivered',
@@ -381,7 +561,7 @@ const platformFeatures: FeatureAtlasFeature[] = [
     evidence: 'Shared citizen model, paginated public feed and documented desktop/mobile browser checks.',
     limitation: 'No account sync, automatic support delivery or push notification. Android store distribution remains separate.',
     primaryUser: 'Citizen', route: { href: '/per-te', label: 'For you / Per te', access: 'public' },
-    dependencies: [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }], source: 'platform-inventory',
+    dependencies: [{ featureId: 'citizen-public-feed', relationship: 'depends-on' }, { featureId: 'citizen-service-following', relationship: 'feeds' }, { featureId: 'citizen-official-guides', relationship: 'feeds' }, { featureId: 'citizen-local-choices', relationship: 'feeds' }, { featureId: 'citizen-notice-matching', relationship: 'feeds' }, { featureId: 'citizen-support-draft', relationship: 'feeds' }], source: 'platform-inventory',
   },
   {
     id: 'global-document-scope', title: 'Global document type selection', shortLabel: 'Document scope',
@@ -398,7 +578,7 @@ const platformFeatures: FeatureAtlasFeature[] = [
   {
     id: 'current-evidence-coverage', title: 'Current evidence and KPI coverage', shortLabel: 'Evidence coverage',
     summary: 'Separates public baselines, live and archive checks, unavailable sources, pending changes and assessed KPI values.',
-    kind: 'technical', domainId: 'evidence', stageId: 'assurance', state: 'current', releaseId: '4.0.0-beta.4', release: '4.0.0 Beta 4', horizon: 'delivered',
+    kind: 'technical', domainId: 'evidence', stageId: 'assurance', state: 'delivered', releaseId: '4.0.0-beta.4', release: '4.0.0 Beta 4', horizon: 'delivered',
     benefit: 'The dashboard exposes actual coverage instead of interpreting missing data as zero risk.',
     kpi: 'Availability KPI · canonical assessed KPI values / (15 × current public policies in scope)',
     kri: 'Residual KRI · missing or stale retrieval and incomplete AI assessments remain visible',
@@ -487,12 +667,12 @@ const platformSurfaceFeatures: FeatureAtlasFeature[] = [
   }),
   surfaceFeature({
     id: 'enterprise-api-v2-pilot', title: 'Enterprise API v2 pilot', shortLabel: 'Enterprise API v2',
-    summary: 'Adds tenant-bound Microsoft Entra access, an APIM facade and a Power Platform connector package for controlled enterprise pilots.', kind: 'technical', domainId: 'distribution', stageId: 'publication', state: 'current', releaseId: '3.9.0-beta.13', release: '3.9.0 Beta 13',
+    summary: 'Adds tenant-bound Microsoft Entra access, an APIM facade and a Power Platform connector package for controlled enterprise pilots.', kind: 'technical', domainId: 'distribution', stageId: 'publication', state: 'delivered', releaseId: '3.9.0-beta.13', release: '3.9.0 Beta 13',
     benefit: 'A test tenant can consume bounded evidence through API and Microsoft workflow surfaces without scraping portal HTML.', kpi: 'Inventory KPI · Entra-authenticated read-only enterprise contract and connector package available', kri: 'Residual KRI · certification, entitlements, delivery telemetry and multi-tenant provisioning remain open', evidence: 'API v2 routes and OpenAPI, Entra origin validation, APIM policy, Power Platform connector templates, generator and focused regression tests.', limitation: 'Pilot-ready does not mean generally available or commercially provisioned; Teams, Copilot plugins, MCP, self-service webhook lifecycle and Marketplace controls remain planned.', primaryUser: 'Enterprise integration reviewer', route: { href: '/integrations', label: 'Integration Options', access: 'public' }, dependencies: [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }, { featureId: 'public-integration-directory', relationship: 'distributed-through' }],
   }),
   surfaceFeature({
     id: 'editorial-pulse', title: 'Editorial Pulse', shortLabel: 'Pulse',
-    summary: 'Publishes a reviewed registry of evidence-linked story leads with deterministic reuse assets.', kind: 'business', domainId: 'distribution', stageId: 'publication', state: 'current', releaseId: '3.9.0-beta.13', release: '3.9.0 Beta 13',
+    summary: 'Publishes a reviewed registry of evidence-linked story leads with deterministic reuse assets.', kind: 'business', domainId: 'distribution', stageId: 'publication', state: 'delivered', releaseId: '3.9.0-beta.13', release: '3.9.0 Beta 13',
     benefit: 'Editors can reach dated facts, proof links, citations, Story Packs, social cards and embeds from one public record.', kpi: 'Inventory KPI · reviewed editorial leads and reusable assets available', kri: 'Residual KRI · coverage is small and reviewed; later source changes can make dated artifacts stale', evidence: 'Pulse registry, story detail routes, deterministic ZIP builder, four social-card formats, embed routes, Dataset metadata and aggregate event counts.', limitation: 'Pulse is not an automated newsroom, exhaustive coverage, independent validation or legal advice.', primaryUser: 'Journalist, analyst and research reviewer', route: { href: '/pulse', label: 'Editorial Pulse', access: 'public' }, dependencies: [{ featureId: 'public-evidence-gate', relationship: 'depends-on' }, { featureId: 'editorial-briefing-room', relationship: 'distributed-through' }],
   }),
   surfaceFeature({
@@ -708,10 +888,11 @@ const platformSurfaceFeatures: FeatureAtlasFeature[] = [
 ];
 
 export const FEATURE_ATLAS_FEATURES: FeatureAtlasFeature[] = [
-  ...RELEASE_IMPACT_ITEMS.map(toAtlasFeature),
+  // A detailed platform record replaces the release summary with the same ID.
+  ...RELEASE_IMPACT_ITEMS.filter((item) => ![...platformFeatures, ...platformSurfaceFeatures].some((feature) => feature.id === item.id)).map(toAtlasFeature),
   ...platformFeatures,
   ...platformSurfaceFeatures,
-];
+].sort((a, b) => Number(b.state === 'current') - Number(a.state === 'current'));
 
 export function getFeatureAtlasDomain(domainId: string) {
   return FEATURE_ATLAS_DOMAINS.find((domain) => domain.id === domainId);

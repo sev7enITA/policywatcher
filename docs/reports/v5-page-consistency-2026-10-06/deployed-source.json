@@ -1,0 +1,39 @@
+{
+  "manifest": {
+    "product": "PolicyWatcher",
+    "version": "5.0.0",
+    "releaseName": "Your Services, Your Choices",
+    "sourceRevision": "b83e779cc9186d50f687ea98e19d99b4668ebe0e",
+    "sourceState": "clean",
+    "sourceStateDigest": null,
+    "builtAt": "2026-10-06T21:52:43.201Z",
+    "target": "Hostinger Next.js source deployment",
+    "startupCommand": "npm start",
+    "startupFile": "server.js",
+    "databaseIncluded": false,
+    "artifactLabel": "page-consistency-r3"
+  },
+  "files": {
+    "src/app/DashboardClient.tsx": "921e026d4a0b4837a9de7d4a00ef4b89627a1a689597c3a17692f9361e3373d9",
+    "src/app/atlas/SiteAtlasClient.tsx": "1e8fdb6c6795ebb3f50bd7566dac889205f142eea07512edf5908c9dc489bd01",
+    "src/app/developers/event-continuity/page.tsx": "31698abd7046eba45d30e1be5f7ccfd0d035ff4447210a69bb2209e91b69c0e5",
+    "src/app/developers/page.tsx": "072d5da890dd0db592cbadb128338ce00ee91753ba2b270ca6db476f76179c24",
+    "src/app/feature-atlas/FeatureAtlasClient.tsx": "f19ba084f6c621191fd86fa5be2c8edd8da4c966461bde3aa8944326d438acff",
+    "src/app/press-kit/NewsroomPageClient.tsx": "88b4e711420258a63acedef9f9e04562b45a3b4a2f1c980977159eab64f776cd",
+    "src/app/press-kit/PressKitClient.tsx": "bc755a5e7759b958153eedc0102d90dbfad06dca1096ae114ef840818f4857ef",
+    "src/app/press-kit/releases/[slug]/page.tsx": "1b76b2c78e146075dca53011e63a2f82764600209eb0bf3d3af788608a303fe5",
+    "src/app/press-kit/releases/page.tsx": "f9d0a8e5fe33f7092b2417c2e3a028e501e35ac3a099eb252c255f6dd3e4c673",
+    "src/app/roadmap/RoadmapClient.tsx": "168a7d119d7f373d3c1b59f5375b73f71625a22c514db0a021b48379ae807240",
+    "src/app/trust/residency/page.tsx": "52a421a15af4413184f12cc945f97f54a8a5a5674ba65877599d141594f0e0d3",
+    "src/components/ChangelogModal.module.css": "119664fbbb51d9ebd3ed4914994fed7ead9b86d089413c245d835370f9ad22a4",
+    "src/components/ChangelogModal.tsx": "b3af686d9567639b7b33540dbc3313f9eaca7b7e41c7ff0f1ed345292b77a71c",
+    "src/components/ReleaseImpactMap.tsx": "ba4db3aadbc76cd5ae4dd74e54e754143a1cb05d2fb4187938709600a0ef869f",
+    "src/lib/featureAtlas.ts": "28aac7d9ae59a6ce4cba6580e076affa0618d0110e494d99cf550218333c17fb",
+    "src/lib/pressKit.ts": "da94a30ba60b1d0ccc170d4f46d2c72b307ec6c8cd5ef9c8a72fafa98cba5d31",
+    "src/lib/publicSections.ts": "a396685cb5a4e16bb4b3e86c8252006c49fa999b3f75ecdff571cbb03cab50eb",
+    "src/lib/releaseImpact.ts": "c9929e4635868c9283d72c23a3d089bc7a49a622797d3f61c8c71f8e43baae67",
+    "src/lib/seo.ts": "75802074077fd71e11b004a43e7d59b294b5b1278a997829490d2793643a47ee",
+    "package.json": "300d8a14e152501f11b932055d41fd3383688adaeb6ad948f7f74d4202f33e83",
+    "package-lock.json": "ab9e0e0155207633eb334b25397bbda77b3b77c4f0b35b765a82cafa952ef8f9"
+  }
+}

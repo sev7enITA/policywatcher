@@ -61,6 +61,12 @@ export const publicSectionGroups: Record<PublicSectionGroup, { label: string; de
 
 export const publicSectionNodes: PublicSectionNode[] = [
   {
+    id: 'changelog', label: 'Release history', href: '/press-kit/releases', group: 'community',
+    summary: 'Current release notes and archived milestones from the same register used by the dashboard changelog.',
+    role: 'Separates the current web release from historical releases, planned work and independently versioned companions.',
+    status: 'reference', icon: 'clock', x: 84, y: 43,
+  },
+  {
     id: 'per-te', label: 'For you', href: '/per-te', group: 'core',
     summary: 'Citizen journey with voluntary service following, plain-language changes, official guides and choices saved on the device.',
     role: 'Connects dated public evidence with local review records, private notice matching and downloadable support drafts. No account actions or messages are sent automatically.',
@@ -351,6 +357,8 @@ export const publicSectionNodes: PublicSectionNode[] = [
 ];
 
 export const publicSectionEdges: PublicSectionEdge[] = [
+  { from: 'changelog', to: 'roadmap', label: 'separates delivered history from plans in', strength: 'primary' },
+  { from: 'changelog', to: 'feature-atlas', label: 'maps delivered capabilities through', strength: 'primary' },
   { from: 'per-te', to: 'knowledge', label: 'reads dated public evidence from', strength: 'primary' },
   { from: 'per-te', to: 'associations', label: 'links support requests to', strength: 'primary' },
   { from: 'dashboard', to: 'per-te', label: 'provides a citizen journey through', strength: 'primary' },

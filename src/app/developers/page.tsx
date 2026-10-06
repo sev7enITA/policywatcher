@@ -155,7 +155,7 @@ export default function DevelopersPage() {
             </article>
             <article className={styles.endpointCard}>
               <div className={styles.endpointHeader}>
-                <span>GET · AVAILABLE · BETA 17</span>
+                <span>GET · AVAILABLE · INTRODUCED IN 3.9.0 BETA 17</span>
                 <FolderKanban size={19} />
               </div>
               <h3>Evidence collection bundle</h3>

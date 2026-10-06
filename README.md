@@ -45,6 +45,8 @@ The new bilingual [For you journey](https://policywatcher.online/per-te) helps c
 
 This is a product major release; the additive public citizen feed keeps the existing v1 API contract. The Android companion shares the citizen model and has a locally compiled development APK; store publication and physical-device acceptance are separate milestones. See [release notes](docs/releases/policywatcher-5.0.0-github-release.md) and [validation](docs/citizen-experience-validation.md).
 
+The dashboard changelog, release archive, Site Atlas and Feature Atlas share the current 5.0.0 release identity. Earlier version labels identify first delivery; browser extensions and native companions have independent release cycles. See the [page consistency audit](docs/reports/v5-page-consistency-2026-10-06/README.md).
+
 ### Historical release 4.0.0 Beta 3 AI Discoverability and Citation Readiness Highlights
 
 Release record: **28 August 2026**. Beta 3 makes the homepage meaning and public

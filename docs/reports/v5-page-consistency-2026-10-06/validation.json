@@ -1,0 +1,35 @@
+{
+  "fullWebSuite": {
+    "sourceRevision": "43875d4426aeda2d27b177228c668d4f937e7990",
+    "passed": 1144,
+    "skipped": 14,
+    "testFilesPassed": 175,
+    "testFilesSkipped": 3
+  },
+  "finalNavigationPatch": {
+    "sourceRevision": "b83e779cc9186d50f687ea98e19d99b4668ebe0e",
+    "targetedTestsPassed": 29,
+    "targetedFilesPassed": 4,
+    "productionBuild": "passed",
+    "lint": "passed",
+    "browserStaging": "Italian to English and back: body, html language and canonical aligned"
+  },
+  "webLint": {
+    "errors": 0,
+    "preExistingWarnings": 15
+  },
+  "changelogBrowser": {
+    "languages": [
+      "it",
+      "en"
+    ],
+    "nativeModal": true,
+    "escapeAndFocusReturn": "passed",
+    "localMobileGeometry": {
+      "width": 390,
+      "height": 844,
+      "dialogWidth": 366,
+      "horizontalOverflow": false
+    }
+  }
+}
