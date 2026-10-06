@@ -1,5 +1,7 @@
 # PolicyWatcher 5.0.0: Your Services, Your Choices
 
+**Published:** 6 October 2026. Staging and production deployment completed; see the [verification record](../reports/policywatcher-5-2026-10-06/README.md).
+
 The new **For you / Per te** journey connects public policy-change evidence to a citizen's own services and choices. It is available in Italian and English at `/per-te`, with a responsive layout and no account requirement.
 
 - Follow selected services locally and read concise automatic summaries alongside dated source evidence and bounded before/after passages.

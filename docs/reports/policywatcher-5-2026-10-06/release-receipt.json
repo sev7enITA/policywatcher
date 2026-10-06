@@ -1,0 +1,226 @@
+{
+  "release": "5.0.0",
+  "status": "deployed-and-verified",
+  "verifiedAt": "2026-10-06T17:50:14.211Z",
+  "productionOrigin": "https://policywatcher.online",
+  "entryPath": "/per-te",
+  "artifact": "PolicyWatcher-5.0.0-hostinger-2026-10-06-citizen-r1.zip",
+  "artifactSha256": "79ca9a1a5b569cbbfc382bda6c8543d913e50bf76c265fcc3a43931ad7ebfce8",
+  "sourceRevision": "05e836a8a114b60f3fdb7647ef1052065d6f6e9a",
+  "mergedCodeRevision": "c39e1f5269c714a808b29b864970af7e7823b25a",
+  "sourceTreesIdentical": true,
+  "hostinger": {
+    "stagingDeploymentId": "01a11247-db53-73fa-a6cd-57f79704425f",
+    "productionDeploymentId": "01a11251-4365-71cf-b778-9284511d9afa",
+    "stagingStatus": "Completed",
+    "productionStatus": "Completed",
+    "productionDuration": "2m 17s",
+    "productionCompletedLocal": "2026-10-06 19:46 Europe/Rome"
+  },
+  "backup": {
+    "created": true,
+    "integrity": "ok",
+    "sha256": "e30a7fbe86ae57f3f7772c6b4dc5c978d21020ad38f41da93a76b10fdc0cd978",
+    "privateLocationExcluded": true
+  },
+  "preservation": {
+    "tablesCompared": [
+      "Company",
+      "Policy",
+      "PolicySnapshot",
+      "PolicyChange",
+      "PolicyCheckLog",
+      "Entity",
+      "Document",
+      "Version",
+      "Change",
+      "Provision",
+      "HistoricalSourceReference",
+      "Subscriber"
+    ],
+    "allRowHashesIdentical": true,
+    "integrity": "ok",
+    "publicCompanies": 18,
+    "configuredPolicies": 113,
+    "publicPolicies": 109,
+    "publicAnalysedPolicies": 34
+  },
+  "runtime": {
+    "at": "2026-10-06T17:48:20.031Z",
+    "phase": "after",
+    "manifest": {
+      "http": 200
+    },
+    "release": "5.0.0",
+    "publication": [
+      {
+        "id": "configured",
+        "label": "Configured",
+        "count": 113,
+        "denominator": 113,
+        "excluded": 0,
+        "availability": "measured",
+        "definition": "Every policy record in the configured monitoring inventory.",
+        "boundary": null
+      },
+      {
+        "id": "retrieved",
+        "label": "Retrieved",
+        "count": 112,
+        "denominator": 113,
+        "excluded": 1,
+        "availability": "measured",
+        "definition": "Policies with a successful non-seeded check and persisted text or hash evidence.",
+        "boundary": null
+      },
+      {
+        "id": "baseline-verified",
+        "label": "Baseline verified",
+        "count": 111,
+        "denominator": 113,
+        "excluded": 2,
+        "availability": "measured",
+        "definition": "Policies with at least one snapshot explicitly marked as public evidence.",
+        "boundary": null
+      },
+      {
+        "id": "public",
+        "label": "Public",
+        "count": 109,
+        "denominator": 113,
+        "excluded": 4,
+        "availability": "measured",
+        "definition": "Policies that pass the production publication gate for ingestion, status and evidence.",
+        "boundary": null
+      },
+      {
+        "id": "analysed",
+        "label": "Analysed",
+        "count": 34,
+        "denominator": 113,
+        "excluded": 79,
+        "availability": "measured",
+        "definition": "Public-gated policies with at least one change explicitly backed by public evidence.",
+        "boundary": null
+      }
+    ],
+    "companies": {
+      "http": 200
+    },
+    "catalogue": {
+      "companies": 18,
+      "policies": 109
+    },
+    "health": {
+      "http": 200,
+      "status": "ok",
+      "companyCount": 18,
+      "readable": true,
+      "writable": true
+    },
+    "adminAuth": 200,
+    "database": {
+      "http": 200,
+      "status": "ready",
+      "schema": {
+        "expectedTableCount": 31,
+        "presentTableCount": 31,
+        "missingTables": [],
+        "expectedMigrationCount": 17,
+        "appliedMigrationCount": 17,
+        "missingMigrations": [],
+        "migrationLedgerAvailable": true,
+        "lastAppliedMigration": "20261002050000_multiple_documents_per_type",
+        "lastAppliedAt": "2026-10-02T05:02:20.381Z"
+      },
+      "integrity": {
+        "quickCheck": "ok",
+        "journalMode": "wal",
+        "busyTimeoutMs": 5000,
+        "foreignKeysEnabled": true,
+        "pageCount": 7981,
+        "freePageCount": 0
+      }
+    },
+    "verification": {
+      "http": 200,
+      "status": "attention",
+      "summary": {
+        "passed": 8,
+        "attention": 1,
+        "unavailable": 0,
+        "external": 1
+      }
+    }
+  },
+  "citizenFeed": {
+    "at": "2026-10-06T17:50:14.211Z",
+    "status": "passed",
+    "services": 18,
+    "policies": 109,
+    "firstPageChanges": 25,
+    "secondPageChanges": 25,
+    "paginationOverlap": false,
+    "cache": "no-store",
+    "profileQueryRejected": true,
+    "options": 204,
+    "catalogTruncated": false
+  },
+  "sourceFileSha256": {
+    "package.json": "300d8a14e152501f11b932055d41fd3383688adaeb6ad948f7f74d4202f33e83",
+    "package-lock.json": "ab9e0e0155207633eb334b25397bbda77b3b77c4f0b35b765a82cafa952ef8f9",
+    "shared/citizen.ts": "5ab9ff03f2e43da63553e8608efb0f19d9ec768ab7f17aaef2a3c678f0d922ed",
+    "shared/citizenGuides.ts": "1e2297958e9584aa07f2e85e7d21151a3b68b1fc212841808b9308bd1de7aec5",
+    "src/lib/citizenData.ts": "25556a5a030bbb15b7c79adcbb920f20bbc08b8c174bb9659b12ef5e7f6b196d",
+    "src/lib/release.ts": "a5c7275204201bfa68122dff5ede9e4b66598bffcd553465238391b0243fc843",
+    "src/app/per-te/page.tsx": "8c96206a9ea033820352f31b71353814e42ec62494dea50cfdf85c0960c9f0c1",
+    "src/app/per-te/CitizenClient.tsx": "2f6b5397a5cb3fa106fff8d460f9fe1fa94981679d817c3c2e6edd7e92d6f2f3",
+    "src/app/per-te/citizen.module.css": "e3bfbd2d7ec131f5cc835b62a050c97054029c12f2f21a4ff7224298fcd6336e",
+    "src/app/api/v1/citizen-feed/route.ts": "59041105017162f4bdfa56caec6ebaad9cb6dc119da3efb620ad751f16791e8a"
+  },
+  "browser": {
+    "productionServiceSelection": "passed",
+    "localNoticeMatch": "passed",
+    "testSelectionRemoved": true,
+    "mobileViewport": {
+      "width": 375,
+      "height": 812,
+      "horizontalOverflow": false
+    },
+    "stagingPageChecks": [
+      "/",
+      "/roadmap",
+      "/observatory",
+      "/knowledge",
+      "/admin/login",
+      "/per-te",
+      "/per-te?lang=en",
+      "/knowledge/companies/amazon/policies/033ac1b4-114a-40d4-a666-374379c0df00",
+      "/change/4961a031-d13e-4e25-b878-22fe5e890e52"
+    ],
+    "newScreenshotCapture": "Browser capture timed out; no new screenshot is claimed."
+  },
+  "existingBoundaries": [
+    {
+      "id": "security-headers",
+      "state": "attention-before-and-after",
+      "detail": "Trust response has HSTS, nosniff and X-Frame-Options DENY, but the hosting CSP is upgrade-insecure-requests and omits frame-ancestors none expected by the application check."
+    },
+    {
+      "id": "independent-dynamic-test",
+      "state": "external",
+      "detail": "No independent penetration test is asserted."
+    },
+    {
+      "id": "openssf-scorecard",
+      "state": "upstream-image-pull-failed-before-and-after",
+      "runId": 37505352445,
+      "detail": "gcr.io denies the upstream image request because billing is disabled on its project. No change to account billing was attempted."
+    },
+    {
+      "id": "android-store",
+      "state": "not-distributed",
+      "detail": "Development APK compiled locally; physical-device acceptance, dependency remediation and store distribution remain separate."
+    }
+  ]
+}
