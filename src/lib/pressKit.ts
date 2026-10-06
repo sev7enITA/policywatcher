@@ -634,10 +634,32 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
-    slug: 'document-scope-comparable-evidence-4-0-0-beta-5',
+    slug: 'your-services-your-choices-5-0-0',
     version: POLICYWATCHER_VERSION, displayVersion: POLICYWATCHER_VERSION_DISPLAY,
     datePublished: POLICYWATCHER_RELEASE_DATE, dateModified: POLICYWATCHER_RELEASE_DATE,
-    status: 'current', category: 'methodology',
+    status: 'current', category: 'product',
+    title: { en: 'Your Services, Your Choices', it: 'I tuoi servizi, le tue scelte' },
+    summary: { en: 'PolicyWatcher 5 adds a direct citizen journey from service updates to source evidence and personal choices.', it: 'PolicyWatcher 5 introduce un percorso per il cittadino, dagli aggiornamenti dei servizi alle fonti e alle proprie scelte.' },
+    changes: [
+      { en: 'Follow services locally and read automatic summaries with dated original evidence in Italian or English.', it: 'Segui i servizi sul dispositivo e leggi sintesi automatiche con evidenze originali datate, in italiano o inglese.' },
+      { en: 'Consult official guides, record a choice and prepare a downloadable support draft without an account.', it: 'Consulta guide ufficiali, annota una scelta e prepara una bozza scaricabile per chiedere supporto, senza account.' },
+      { en: 'Pasted notices are matched locally. Reading aloud starts only on request; keyboard and mobile layouts support access.', it: 'Le comunicazioni incollate vengono confrontate localmente. La lettura ad alta voce parte su richiesta; tastiera e layout mobile facilitano l accesso.' },
+    ],
+    boundaries: [
+      { en: 'Summaries require source review. Local choices do not change provider settings and drafts are not sent automatically.', it: 'Le sintesi richiedono la verifica della fonte. Le scelte locali non modificano le impostazioni del fornitore e le bozze non vengono inviate automaticamente.' },
+      { en: 'The Android companion has a locally compiled development build; physical-device acceptance and store distribution remain separate.', it: 'Il companion Android ha una build di sviluppo compilata localmente; collaudo su dispositivo fisico e distribuzione negli store restano separati.' },
+    ],
+    evidenceLinks: [
+      { href: '/per-te', label: { en: 'For you', it: 'Per te' } },
+      { href: '/api/v1/citizen-feed', label: { en: 'Public citizen feed', it: 'Feed pubblico per il cittadino' } },
+      { href: '/methodology/confidence', label: { en: 'Methodology', it: 'Metodologia' } },
+    ],
+  },
+  {
+    slug: 'document-scope-comparable-evidence-4-0-0-beta-5',
+    version: '4.0.0-beta.5', displayVersion: '4.0.0 Beta 5',
+    datePublished: '2026-10-01', dateModified: '2026-10-02',
+    status: 'archived', category: 'methodology',
     title: { en: 'Document Scope and Comparable Evidence', it: 'Ambito documentale ed evidenze confrontabili' },
     summary: { en: 'Select document types once for all dashboard companies, with explicit coverage and consistent KPI denominators.', it: 'Seleziona una volta i tipi di documento per tutte le aziende della dashboard, con copertura esplicita e denominatori KPI coerenti.' },
     changes: [
@@ -1611,7 +1633,8 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
-  { id: 'document-scope-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'Comparable document scope recorded', it: 'Registrato ambito documentale confrontabile' }, detail: { en: 'Beta 5 adds a shared selection of document types, explicit missing coverage, type-balanced scores and consistent methodology.', it: 'La Beta 5 introduce una selezione condivisa dei tipi documentali, copertura mancante esplicita, punteggi bilanciati per tipo e metodologia coerente.' }, affectedHref: '/press-kit/releases/document-scope-comparable-evidence-4-0-0-beta-5' },
+  { id: 'citizen-journey-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'PolicyWatcher 5 citizen journey', it: 'Percorso cittadino PolicyWatcher 5' }, detail: { en: 'For you connects followed services, dated source evidence, official guides and local choices.', it: 'Per te collega servizi seguiti, evidenze datate, guide ufficiali e scelte locali.' }, affectedHref: '/press-kit/releases/your-services-your-choices-5-0-0' },
+  { id: 'document-scope-release', occurredAt: '2026-10-01', type: 'release', title: { en: 'Comparable document scope recorded', it: 'Registrato ambito documentale confrontabile' }, detail: { en: 'Beta 5 adds a shared selection of document types, explicit missing coverage, type-balanced scores and consistent methodology.', it: 'La Beta 5 introduce una selezione condivisa dei tipi documentali, copertura mancante esplicita, punteggi bilanciati per tipo e metodologia coerente.' }, affectedHref: '/press-kit/releases/document-scope-comparable-evidence-4-0-0-beta-5' },
   { id: 'ai-discoverability-citation-readiness-release', occurredAt: '2026-08-28', type: 'release', title: { en: 'AI Discoverability and Citation Readiness recorded', it: 'Registrata Discoverability AI e readiness per le citazioni' }, detail: { en: 'Beta 3 aligns visible homepage content, canonical metadata, structured identity and explicit crawler access without claiming external indexing or citation outcomes.', it: 'La Beta 3 allinea contenuto visibile della homepage, metadata canonici, identita strutturata e accesso crawler esplicito senza dichiarare risultati esterni di indicizzazione o citazione.' }, affectedHref: '/press-kit/releases/ai-discoverability-citation-readiness-4-0-0-beta-3' },
   { id: 'production-readiness-hardening-release', occurredAt: '2026-08-20', type: 'release', title: { en: 'Production Readiness Hardening candidate recorded', it: 'Registrata la candidate Production Readiness Hardening' }, detail: { en: 'The Beta 2 candidate applies the material independent-assessment remediations while preserving the Beta 1 evidence contracts and explicit deployment gates.', it: 'La candidate Beta 2 applica le remediation materiali degli assessment indipendenti preservando i contratti di evidenza Beta 1 e i gate di deployment espliciti.' }, affectedHref: '/press-kit/releases/production-readiness-hardening-4-0-0-beta-2' },
   { id: 'canonical-evidence-foundation-release', occurredAt: '2026-08-19', type: 'release', title: { en: 'Canonical Evidence Foundation published', it: 'Pubblicata Canonical Evidence Foundation' }, detail: { en: 'The v4 foundation introduces a canonical document-evidence graph, stable public identifiers, a focused provision taxonomy and one database-derived publication-readiness contract.', it: 'La foundation v4 introduce un grafo canonico delle evidenze documentali, identificatori pubblici stabili, una tassonomia mirata delle clausole e un unico contratto di publication readiness derivato dal database.' }, affectedHref: '/press-kit/releases/canonical-evidence-foundation-4-0-0-beta-1' },

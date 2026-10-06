@@ -172,7 +172,7 @@ export function buildCitizenDossier(input: { locale: CitizenLocale; choice?: Cit
     action_recorded: it ? 'Ho eseguito un’azione' : 'I took an action',
     remind_me: it ? 'Voglio rivedere la modifica' : 'I want to review the change again',
   }[choice.status] : '';
-  return [it ? 'PolicyWatcher — bozza per chiedere supporto' : 'PolicyWatcher — draft support request',
+  return [it ? 'PolicyWatcher - bozza per chiedere supporto' : 'PolicyWatcher - draft support request',
     `${it ? 'Preparata il' : 'Prepared on'}: ${input.generatedAt || new Date().toISOString()}`,
     `${it ? 'Servizio' : 'Service'}: ${choice?.serviceName || input.service?.name || (it ? 'non selezionato' : 'not selected')}`,
     `${it ? 'Documento' : 'Document'}: ${choice?.policyName || policy?.name || (it ? 'non selezionato' : 'not selected')}`,

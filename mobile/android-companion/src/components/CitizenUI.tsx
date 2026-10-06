@@ -29,7 +29,7 @@ export function ExternalAction({ label, url }: { label: string; url: string }) {
   return <ActionButton label={label} accessibilityLabel={`${label}. ${t('Apre un sito esterno', 'Opens an external website')}`} icon="open-in-new" disabled={!safe} onPress={() => { if (safe) void Linking.openURL(safe); }} />;
 }
 export function localDate(value: string | null | undefined, locale: string) {
-  return value && Number.isFinite(Date.parse(value)) ? new Date(value).toLocaleDateString(locale === 'it' ? 'it-IT' : 'en-GB') : '—';
+  return value && Number.isFinite(Date.parse(value)) ? new Date(value).toLocaleDateString(locale === 'it' ? 'it-IT' : 'en-GB') : '-';
 }
 export const cs = StyleSheet.create({
   section: { marginHorizontal: 18, marginBottom: 22, gap: 12 },

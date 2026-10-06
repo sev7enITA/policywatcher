@@ -12,19 +12,19 @@ import { RELEASE_COLUMNS, RELEASE_IMPACT_ITEMS } from '../releaseImpact';
 
 const read = (path: string) => readFileSync(path, 'utf8');
 
-describe('PolicyWatcher 4 public consistency', () => {
+describe('PolicyWatcher 5 public consistency', () => {
   it('keeps one current release across release, impact, atlas and newsroom records', () => {
-    expect(POLICYWATCHER_VERSION).toBe('4.0.0-beta.5');
-    expect(POLICYWATCHER_RELEASE_NAME).toBe('Document Scope and Comparable Evidence');
-    expect(POLICYWATCHER_RELEASE_DATE).toBe('2026-10-01');
-    expect(POLICYWATCHER_RELEASE_DATE_LABEL.en).toBe('1 October 2026');
+    expect(POLICYWATCHER_VERSION).toBe('5.0.0');
+    expect(POLICYWATCHER_RELEASE_NAME).toBe('Your Services, Your Choices');
+    expect(POLICYWATCHER_RELEASE_DATE).toBe('2026-10-06');
+    expect(POLICYWATCHER_RELEASE_DATE_LABEL.en).toBe('6 October 2026');
     expect(FEATURE_ATLAS_CURRENT_RELEASE_ID).toBe(POLICYWATCHER_VERSION);
     expect(RELEASE_COLUMNS.filter((release) => release.state === 'current').map((release) => release.id)).toEqual([POLICYWATCHER_VERSION]);
     expect(pressKitReleases.filter((release) => release.status === 'current').map((release) => release.version)).toEqual([POLICYWATCHER_VERSION]);
     expect(pressKitReleases.find((release) => release.version === '3.9.0-beta.27')?.status).toBe('archived');
   });
 
-  it('preserves prior waves and publishes the current document scope wave', () => {
+  it('preserves prior waves and publishes the current citizen wave', () => {
     expect(RELEASE_IMPACT_ITEMS.some((item) => item.id === 'residency-assurance' && item.status === 'delivered' && item.startRelease === '3.9.0-beta.31')).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.some((item) => item.id === 'production-validation' && item.status === 'delivered' && item.startRelease === '3.9.0-beta.32')).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.some((item) => item.id === 'renderer-hardening' && item.status === 'delivered' && item.startRelease === '3.9.0-beta.33')).toBe(true);
@@ -40,7 +40,7 @@ describe('PolicyWatcher 4 public consistency', () => {
     expect(RELEASE_IMPACT_ITEMS.some((item) => item.id === 'canonical-document-evidence-graph' && item.status === 'delivered' && item.startRelease === '4.0.0-beta.1')).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.some((item) => item.id === 'authoritative-publication-readiness' && item.status === 'delivered' && item.startRelease === '4.0.0-beta.1')).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.some((item) => item.id === 'production-readiness-hardening' && item.status === 'delivered' && item.startRelease === '4.0.0-beta.2')).toBe(true);
-    expect(RELEASE_IMPACT_ITEMS.some((item) => item.id === 'global-document-scope' && item.status === 'current' && item.startRelease === POLICYWATCHER_VERSION)).toBe(true);
+    expect(RELEASE_IMPACT_ITEMS.some((item) => item.id === 'citizen-journey' && item.status === 'current' && item.startRelease === POLICYWATCHER_VERSION)).toBe(true);
     expect(FEATURE_ATLAS_FEATURES.some((feature) => feature.id === 'source-remediation-workbench-ux' && feature.route?.href === '/admin/source-reliability')).toBe(true);
     expect(FEATURE_ATLAS_FEATURES.some((feature) => feature.id === 'community-signal-composer' && feature.route?.href === '/roadmap')).toBe(true);
     expect(FEATURE_ATLAS_FEATURES.some((feature) => feature.id === 'consumer-association-civic-workspace' && feature.route?.href === '/en/associations')).toBe(true);
