@@ -22,7 +22,7 @@ type StatusFilter = 'all' | ReleaseImpactStatus;
 
 const statusLabels: Record<ReleaseImpactStatus, string> = {
   delivered: 'Delivered',
-  current: 'Current beta',
+  current: 'Current release',
   planned: 'Planned',
 };
 
@@ -140,7 +140,7 @@ export function ReleaseImpactMap() {
         <div className={styles.legend} aria-label="Status legend">
           <small>Impact inventory updated {RELEASE_IMPACT_UPDATED_AT}</small>
           <span><i data-kind="delivered" />Delivered</span>
-          <span><i data-kind="current" />Current beta</span>
+          <span><i data-kind="current" />Current release</span>
           <span><i data-kind="planned" />Planned</span>
           <span><i data-kind="external" />External dependency</span>
         </div>

@@ -2,6 +2,15 @@
 
 ## 5.0.0 - Your Services, Your Choices (2026-10-06)
 
+### Page and release-reference consistency
+
+- Drive the bilingual dashboard changelog from the newsroom release register; show 5.0.0 first, retain earlier release provenance and link future work separately.
+- Align the roadmap current card, release summary, stable-channel labels and future horizons with 5.0.0. Remove obsolete Beta 4/5 cards from the future-work list.
+- Expand Feature Atlas with the citizen feed, service following, official guides, local choices, private notice matching and support drafts. Deduplicate capability IDs and distinguish historical delivery from the current release.
+- Add release history and citizen journeys to Site Atlas; label archived press packages and historical API capability milestones explicitly.
+- Add release-registry, rendered bilingual changelog and Atlas consistency checks. No database migration or evidence-score change.
+
+
 - Add the bilingual `/per-te` journey: follow services, inspect readable updates and original evidence, consult dated official guides, and record reviewed/action/remind choices locally.
 - Add local notice matching and a previewable support-request draft; pasted content is not sent to the server. Explicit reading aloud, keyboard navigation, mobile layouts, and storage recovery support the journey.
 - Publish an additive, paginated read-only citizen feed with existing public-evidence gates, explicit freshness/unknown states, and no personal preference filters.

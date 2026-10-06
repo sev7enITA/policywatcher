@@ -1,0 +1,3017 @@
+[
+  {
+    "file": "src/app/DashboardClient.tsx",
+    "line": 62,
+    "reference": "import { POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE, POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS, POLICYWATCHER_VERSION } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/DashboardClient.tsx",
+    "line": 240,
+    "reference": "exploreKicker: `Mappa release v${POLICYWATCHER_VERSION}`,"
+  },
+  {
+    "file": "src/app/DashboardClient.tsx",
+    "line": 395,
+    "reference": "exploreKicker: `v${POLICYWATCHER_VERSION} release map`,"
+  },
+  {
+    "file": "src/app/DashboardClient.tsx",
+    "line": 1776,
+    "reference": "{ policyWatcherRelease: POLICYWATCHER_VERSION, language: lang },"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 15,
+    "reference": "import { POLICYWATCHER_VERSION } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/page.tsx",
+    "line": 56,
+    "reference": "<div data-policywatcher-release={POLICYWATCHER_VERSION}>"
+  },
+  {
+    "file": "src/components/Footer.tsx",
+    "line": 33,
+    "reference": "POLICYWATCHER_BUILD_LABEL,"
+  },
+  {
+    "file": "src/components/Footer.tsx",
+    "line": 34,
+    "reference": "POLICYWATCHER_RELEASE_DATE_LABEL,"
+  },
+  {
+    "file": "src/components/Footer.tsx",
+    "line": 35,
+    "reference": "POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/components/Footer.tsx",
+    "line": 83,
+    "reference": "releaseNotice: `Release v${POLICYWATCHER_VERSION}, ${POLICYWATCHER_RELEASE_DATE_LABEL.en}. AI-assisted assessments, not legal advice. Verify with provider sources.`,"
+  },
+  {
+    "file": "src/components/Footer.tsx",
+    "line": 119,
+    "reference": "releaseNotice: `Release v${POLICYWATCHER_VERSION}, ${POLICYWATCHER_RELEASE_DATE_LABEL.it}. Valutazioni assistite da AI, non parere legale. Verificare con le fonti provider.`,"
+  },
+  {
+    "file": "src/components/Footer.tsx",
+    "line": 156,
+    "reference": "<p className={styles.compactCopy}>{t.copy} / Build {POLICYWATCHER_BUILD_LABEL}</p>"
+  },
+  {
+    "file": "src/components/Footer.tsx",
+    "line": 284,
+    "reference": "<p className={styles.copy}>{t.copy} / Build {POLICYWATCHER_BUILD_LABEL}</p>"
+  },
+  {
+    "file": "src/components/ChangelogModal.tsx",
+    "line": 7,
+    "reference": "import { POLICYWATCHER_RELEASE_CHANNEL_LABEL, POLICYWATCHER_VERSION } from '@/lib/release';"
+  },
+  {
+    "file": "src/components/ChangelogModal.tsx",
+    "line": 43,
+    "reference": "const current = pressKitReleases.find(release => release.status === 'current' && release.version === POLICYWATCHER_VERSION);"
+  },
+  {
+    "file": "src/components/ChangelogModal.tsx",
+    "line": 56,
+    "reference": "<h3 className={styles.sectionTitle}><CheckCircle2 size={16} className={styles.sectionIconActive} />{t.current} · {current.displayVersion} · {POLICYWATCHER_RELEASE_CHANNEL_LABEL}</h3>"
+  },
+  {
+    "file": "src/components/ReleaseImpactMap.tsx",
+    "line": 17,
+    "reference": "import { POLICYWATCHER_VERSION_DISPLAY } from '@/lib/release';"
+  },
+  {
+    "file": "src/components/ReleaseImpactMap.tsx",
+    "line": 179,
+    "reference": "The matrix contains {visibleItems.length} visible work items across {groupedItems.length} domains. Releases run from 3.7.0 through the current {POLICYWATCHER_VERSION_DISPLAY} and two future horizons."
+  },
+  {
+    "file": "src/components/Navigation.tsx",
+    "line": 42,
+    "reference": "import { POLICYWATCHER_VERSION } from '@/lib/release';"
+  },
+  {
+    "file": "src/components/Navigation.tsx",
+    "line": 136,
+    "reference": "status: `v${POLICYWATCHER_VERSION}`,"
+  },
+  {
+    "file": "src/components/Navigation.tsx",
+    "line": 218,
+    "reference": "status: `v${POLICYWATCHER_VERSION}`,"
+  },
+  {
+    "file": "src/components/MethodologyModal.tsx",
+    "line": 11,
+    "reference": "import { POLICYWATCHER_VERSION } from '@/lib/release';"
+  },
+  {
+    "file": "src/components/MethodologyModal.tsx",
+    "line": 241,
+    "reference": "workspaceDesc: 'Release 3.6.3 makes the Objective-based Dashboard Composer the first-use entry when there is no valid saved workspace or deep-link preset. Users choose an intent (Citizen, GRC / Legal, Research, Builder) and evidence depth (Snapshot, Operational, Forensic), then preview a composition produced from a typed registry of real dashboard evidence modules. The choice is reversible and can be persisted or deep-linked. Source QA is pinned in every stack; source-quality warnings, suspended sources, Dataset QA limits and unavailable states are never removed by composition.\\n\\nPublic exploration surfaces follow the same boundary: the Policy Signals Board ranks evidence availability and traceability, the Site Atlas maps public sections and protected admin boundaries, Roadmap records community priorities and delivered outcomes, Press tracks public references, Showcase and Infographics explain capabilities, and Trust exposes external quality signals. None of these surfaces convert operational evidence into certification.',"
+  },
+  {
+    "file": "src/components/MethodologyModal.tsx",
+    "line": 284,
+    "reference": "limitsDesc1: `Release v${POLICYWATCHER_VERSION}: PolicyWatcher is in active development and presents evidence mapping, not certification. The assessments are generated by AI models (Google Gemini) through automated text analysis. While we strive for accuracy, these evaluations:`,"
+  },
+  {
+    "file": "src/components/MethodologyModal.tsx",
+    "line": 296,
+    "reference": "workspaceDesc: 'La release 3.6.3 rende il Composer della dashboard orientato all\\'obiettivo il primo ingresso quando non esiste un workspace salvato valido o un preset deep-link. L\\'utente sceglie un intento (Cittadino, GRC / Legal, Ricerca, Builder) e una profondita di evidenza (Snapshot, Operativa, Forensic), poi visualizza una composizione generata da un registro tipizzato di moduli reali della dashboard. La scelta e reversibile, persistibile e condivisibile via deep-link. Source QA resta fissato in ogni stack; avvisi sulla qualita delle fonti, sorgenti sospese, limiti Dataset QA e stati unavailable non vengono mai rimossi dalla composizione.\\n\\nLe superfici pubbliche seguono lo stesso perimetro: Policy Signals Board ordina disponibilita e tracciabilita delle evidenze, Site Atlas mappa sezioni pubbliche e confini admin protetti, Roadmap registra priorita community e risultati consegnati, Press conserva riferimenti pubblici, Showcase e Infographics spiegano le funzionalita, Trust espone segnali esterni di qualita. Nessuna di queste superfici trasforma evidenza operativa in certificazione.',"
+  },
+  {
+    "file": "src/components/MethodologyModal.tsx",
+    "line": 339,
+    "reference": "limitsDesc1: `Release v${POLICYWATCHER_VERSION}: PolicyWatcher e in sviluppo attivo e presenta una mappatura di evidenze, non una certificazione. Le valutazioni sono generate da modelli IA (Google Gemini) tramite analisi testuale automatizzata. Pur impegnandoci per l'accuratezza, queste valutazioni:`,"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1,
+    "reference": "import { POLICYWATCHER_VERSION, POLICYWATCHER_VERSION_DISPLAY } from './release';"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 40,
+    "reference": "{ id: '3.7.0', shortLabel: '3.7.0', label: '3.7.0', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 41,
+    "reference": "{ id: '3.7.1', shortLabel: '3.7.1', label: '3.7.1', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 42,
+    "reference": "{ id: '3.7.2', shortLabel: '3.7.2', label: '3.7.2', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 43,
+    "reference": "{ id: '3.8.0', shortLabel: '3.8.0', label: '3.8.0', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 44,
+    "reference": "{ id: '3.8.1', shortLabel: '3.8.1', label: '3.8.1', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 45,
+    "reference": "{ id: '3.8.2', shortLabel: '3.8.2', label: '3.8.2', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 46,
+    "reference": "{ id: 'beta.2', shortLabel: 'B2', label: '3.8.3 Beta 2', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 47,
+    "reference": "{ id: 'beta.3', shortLabel: 'B3', label: '3.8.3 Beta 3', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 48,
+    "reference": "{ id: 'beta.4', shortLabel: 'B4', label: '3.8.3 Beta 4', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 49,
+    "reference": "{ id: 'beta.5', shortLabel: 'B5', label: '3.8.3 Beta 5', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 50,
+    "reference": "{ id: 'beta.6', shortLabel: 'B6', label: '3.8.3 Beta 6', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 51,
+    "reference": "{ id: 'beta.7', shortLabel: 'B7', label: '3.8.3 Beta 7', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 52,
+    "reference": "{ id: 'beta.8', shortLabel: 'B8', label: '3.8.3 Beta 8', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 53,
+    "reference": "{ id: 'beta.9', shortLabel: 'B9', label: '3.8.3 Beta 9', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 54,
+    "reference": "{ id: 'beta.10', shortLabel: 'B10', label: '3.8.3 Beta 10', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 55,
+    "reference": "{ id: 'beta.11', shortLabel: 'B11', label: '3.8.3 Beta 11', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 56,
+    "reference": "{ id: '3.9.0-beta.1', shortLabel: '3.9 B1', label: '3.9.0 Beta 1', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 57,
+    "reference": "{ id: '3.9.0-beta.2', shortLabel: '3.9 B2', label: '3.9.0 Beta 2', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 58,
+    "reference": "{ id: '3.9.0-beta.3', shortLabel: '3.9 B3', label: '3.9.0 Beta 3', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 59,
+    "reference": "{ id: '3.9.0-beta.4', shortLabel: '3.9 B4', label: '3.9.0 Beta 4', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 60,
+    "reference": "{ id: '3.9.0-beta.5', shortLabel: '3.9 B5', label: '3.9.0 Beta 5', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 61,
+    "reference": "{ id: '3.9.0-beta.6', shortLabel: '3.9 B6', label: '3.9.0 Beta 6', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 62,
+    "reference": "{ id: '3.9.0-beta.7', shortLabel: '3.9 B7', label: '3.9.0 Beta 7', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 63,
+    "reference": "{ id: '3.9.0-beta.8', shortLabel: '3.9 B8', label: '3.9.0 Beta 8', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 64,
+    "reference": "{ id: '3.9.0-beta.9', shortLabel: '3.9 B9', label: '3.9.0 Beta 9', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 65,
+    "reference": "{ id: '3.9.0-beta.10', shortLabel: '3.9 B10', label: '3.9.0 Beta 10', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 66,
+    "reference": "{ id: '3.9.0-beta.11', shortLabel: '3.9 B11', label: '3.9.0 Beta 11', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 67,
+    "reference": "{ id: '3.9.0-beta.12', shortLabel: '3.9 B12', label: '3.9.0 Beta 12', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 68,
+    "reference": "{ id: '3.9.0-beta.13', shortLabel: '3.9 B13', label: '3.9.0 Beta 13', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 69,
+    "reference": "{ id: '3.9.0-beta.14', shortLabel: '3.9 B14', label: '3.9.0 Beta 14', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 70,
+    "reference": "{ id: '3.9.0-beta.15', shortLabel: '3.9 B15', label: '3.9.0 Beta 15', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 71,
+    "reference": "{ id: '3.9.0-beta.16', shortLabel: '3.9 B16', label: '3.9.0 Beta 16', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 72,
+    "reference": "{ id: '3.9.0-beta.17', shortLabel: '3.9 B17', label: '3.9.0 Beta 17', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 73,
+    "reference": "{ id: '3.9.0-beta.18', shortLabel: '3.9 B18', label: '3.9.0 Beta 18', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 74,
+    "reference": "{ id: '3.9.0-beta.19', shortLabel: '3.9 B19', label: '3.9.0 Beta 19', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 75,
+    "reference": "{ id: '3.9.0-beta.20', shortLabel: '3.9 B20', label: '3.9.0 Beta 20', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 76,
+    "reference": "{ id: '3.9.0-beta.21', shortLabel: '3.9 B21', label: '3.9.0 Beta 21', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 77,
+    "reference": "{ id: '3.9.0-beta.22', shortLabel: '3.9 B22', label: '3.9.0 Beta 22', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 78,
+    "reference": "{ id: '3.9.0-beta.23', shortLabel: '3.9 B23', label: '3.9.0 Beta 23', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 79,
+    "reference": "{ id: '3.9.0-beta.24', shortLabel: '3.9 B24', label: '3.9.0 Beta 24', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 80,
+    "reference": "{ id: '3.9.0-beta.25', shortLabel: '3.9 B25', label: '3.9.0 Beta 25', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 81,
+    "reference": "{ id: '3.9.0-beta.26', shortLabel: '3.9 B26', label: '3.9.0 Beta 26', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 82,
+    "reference": "{ id: '3.9.0-beta.27', shortLabel: '3.9 B27', label: '3.9.0 Beta 27', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 83,
+    "reference": "{ id: '3.9.0-beta.28', shortLabel: '3.9 B28', label: '3.9.0 Beta 28', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 84,
+    "reference": "{ id: '3.9.0-beta.29', shortLabel: '3.9 B29', label: '3.9.0 Beta 29', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 85,
+    "reference": "{ id: '3.9.0-beta.30', shortLabel: '3.9 B30', label: '3.9.0 Beta 30', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 86,
+    "reference": "{ id: '3.9.0-beta.31', shortLabel: '3.9 B31', label: '3.9.0 Beta 31', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 87,
+    "reference": "{ id: '3.9.0-beta.32', shortLabel: '3.9 B32', label: '3.9.0 Beta 32', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 88,
+    "reference": "{ id: '3.9.0-beta.33', shortLabel: '3.9 B33', label: '3.9.0 Beta 33', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 89,
+    "reference": "{ id: '3.9.0-beta.34', shortLabel: '3.9 B34', label: '3.9.0 Beta 34', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 90,
+    "reference": "{ id: '3.9.0-beta.35', shortLabel: '3.9 B35', label: '3.9.0 Beta 35', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 91,
+    "reference": "{ id: '3.9.0-beta.36', shortLabel: '3.9 B36', label: '3.9.0 Beta 36', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 92,
+    "reference": "{ id: '3.9.0-beta.37', shortLabel: '3.9 B37', label: '3.9.0 Beta 37', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 93,
+    "reference": "{ id: '3.9.0-beta.38', shortLabel: '3.9 B38', label: '3.9.0 Beta 38', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 94,
+    "reference": "{ id: '3.9.0-beta.39', shortLabel: '3.9 B39', label: '3.9.0 Beta 39', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 95,
+    "reference": "{ id: '3.9.0-beta.40', shortLabel: '3.9 B40', label: '3.9.0 Beta 40', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 96,
+    "reference": "{ id: '3.9.0-beta.41', shortLabel: '3.9 B41', label: '3.9.0 Beta 41', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 97,
+    "reference": "{ id: '3.9.0-beta.42', shortLabel: '3.9 B42', label: '3.9.0 Beta 42', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 98,
+    "reference": "{ id: '4.0.0-beta.1', shortLabel: '4.0 B1', label: '4.0.0 Beta 1', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 99,
+    "reference": "{ id: '4.0.0-beta.2', shortLabel: '4.0 B2', label: '4.0.0 Beta 2', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 100,
+    "reference": "{ id: '4.0.0-beta.3', shortLabel: '4.0 B3', label: '4.0.0 Beta 3', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 101,
+    "reference": "{ id: '4.0.0-beta.4', shortLabel: '4.0 B4', label: '4.0.0 Beta 4', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 102,
+    "reference": "{ id: '4.0.0-beta.5', shortLabel: '4.0 B5', label: '4.0.0 Beta 5', state: 'delivered' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 103,
+    "reference": "{ id: POLICYWATCHER_VERSION, shortLabel: '5.0', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 124,
+    "reference": "domainId: 'experience', status: 'current', horizon: 'delivered', startRelease: POLICYWATCHER_VERSION, endRelease: POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 134,
+    "reference": "domainId: 'experience', status: 'delivered', horizon: 'delivered', startRelease: '4.0.0-beta.5', endRelease: '4.0.0-beta.5',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 144,
+    "reference": "domainId: 'assurance', status: 'delivered', horizon: 'delivered', startRelease: '4.0.0-beta.4', endRelease: '4.0.0-beta.4',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 158,
+    "reference": "startRelease: '4.0.0-beta.1',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 159,
+    "reference": "endRelease: '4.0.0-beta.1',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 173,
+    "reference": "startRelease: '4.0.0-beta.1',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 174,
+    "reference": "endRelease: '4.0.0-beta.1',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 188,
+    "reference": "startRelease: '4.0.0-beta.2',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 189,
+    "reference": "endRelease: '4.0.0-beta.2',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 203,
+    "reference": "startRelease: '4.0.0-beta.3',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 204,
+    "reference": "endRelease: '4.0.0-beta.3',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 218,
+    "reference": "startRelease: '3.9.0-beta.42',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 219,
+    "reference": "endRelease: '3.9.0-beta.42',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 233,
+    "reference": "startRelease: '3.9.0-beta.42',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 234,
+    "reference": "endRelease: '3.9.0-beta.42',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 248,
+    "reference": "startRelease: '3.9.0-beta.42',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 249,
+    "reference": "endRelease: '3.9.0-beta.42',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 263,
+    "reference": "startRelease: '3.9.0-beta.41',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 264,
+    "reference": "endRelease: '3.9.0-beta.41',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 278,
+    "reference": "startRelease: '3.9.0-beta.40',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 279,
+    "reference": "endRelease: '3.9.0-beta.40',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 293,
+    "reference": "startRelease: '3.9.0-beta.40',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 294,
+    "reference": "endRelease: '3.9.0-beta.40',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 308,
+    "reference": "startRelease: '3.9.0-beta.30',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 309,
+    "reference": "endRelease: '3.9.0-beta.30',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 324,
+    "reference": "startRelease: '3.9.0-beta.29',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 325,
+    "reference": "endRelease: '3.9.0-beta.29',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 340,
+    "reference": "startRelease: '3.9.0-beta.28',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 341,
+    "reference": "endRelease: '3.9.0-beta.28',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 355,
+    "reference": "startRelease: '3.9.0-beta.27',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 356,
+    "reference": "endRelease: '3.9.0-beta.27',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 370,
+    "reference": "startRelease: '3.9.0-beta.26',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 371,
+    "reference": "endRelease: '3.9.0-beta.26',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 385,
+    "reference": "startRelease: '3.9.0-beta.25',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 386,
+    "reference": "endRelease: '3.9.0-beta.25',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 400,
+    "reference": "startRelease: '3.9.0-beta.24',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 401,
+    "reference": "endRelease: '3.9.0-beta.24',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 415,
+    "reference": "startRelease: '3.9.0-beta.23',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 416,
+    "reference": "endRelease: '3.9.0-beta.23',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 430,
+    "reference": "startRelease: '3.9.0-beta.22',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 431,
+    "reference": "endRelease: '3.9.0-beta.22',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 445,
+    "reference": "startRelease: '3.9.0-beta.21',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 446,
+    "reference": "endRelease: '3.9.0-beta.21',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 460,
+    "reference": "startRelease: '3.9.0-beta.21',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 461,
+    "reference": "endRelease: '3.9.0-beta.21',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 475,
+    "reference": "startRelease: '3.9.0-beta.21',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 476,
+    "reference": "endRelease: '3.9.0-beta.21',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 490,
+    "reference": "startRelease: '3.9.0-beta.9',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 491,
+    "reference": "endRelease: '3.9.0-beta.9',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 506,
+    "reference": "startRelease: '3.9.0-beta.8',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 507,
+    "reference": "endRelease: '3.9.0-beta.8',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 521,
+    "reference": "startRelease: '3.9.0-beta.7',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 522,
+    "reference": "endRelease: '3.9.0-beta.7',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 536,
+    "reference": "startRelease: '3.9.0-beta.6',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 537,
+    "reference": "endRelease: '3.9.0-beta.6',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 551,
+    "reference": "startRelease: '3.9.0-beta.5',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 552,
+    "reference": "endRelease: '3.9.0-beta.5',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 566,
+    "reference": "startRelease: '3.9.0-beta.4',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 567,
+    "reference": "endRelease: '3.9.0-beta.4',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 581,
+    "reference": "startRelease: '3.9.0-beta.3',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 582,
+    "reference": "endRelease: '3.9.0-beta.3',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 596,
+    "reference": "startRelease: '3.7.0',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 597,
+    "reference": "endRelease: '3.7.1',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 611,
+    "reference": "startRelease: '3.7.2',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 612,
+    "reference": "endRelease: '3.7.2',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 626,
+    "reference": "startRelease: '3.8.0',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 631,
+    "reference": "evidence: 'Browser extension 3.8.3 Beta 3 is published on Chrome Web Store and, by publisher report, Microsoft Edge Add-ons while retaining local parsing with explicit confirmation.',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 642,
+    "reference": "startRelease: '3.8.2',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 868,
+    "reference": "startRelease: '3.9.0-beta.1',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 869,
+    "reference": "endRelease: '3.9.0-beta.1',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 883,
+    "reference": "startRelease: '3.9.0-beta.2',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 884,
+    "reference": "endRelease: '3.9.0-beta.2',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 898,
+    "reference": "startRelease: '3.9.0-beta.13',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 899,
+    "reference": "endRelease: '3.9.0-beta.13',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 913,
+    "reference": "startRelease: '3.9.0-beta.14',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 914,
+    "reference": "endRelease: '3.9.0-beta.14',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 928,
+    "reference": "startRelease: '3.9.0-beta.15',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 929,
+    "reference": "endRelease: '3.9.0-beta.15',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 943,
+    "reference": "startRelease: '3.9.0-beta.16',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 944,
+    "reference": "endRelease: '3.9.0-beta.16',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 958,
+    "reference": "startRelease: '3.9.0-beta.17',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 959,
+    "reference": "endRelease: '3.9.0-beta.17',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 973,
+    "reference": "startRelease: '3.9.0-beta.18',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 974,
+    "reference": "endRelease: '3.9.0-beta.18',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 988,
+    "reference": "startRelease: '3.9.0-beta.19',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 989,
+    "reference": "endRelease: '3.9.0-beta.19',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1003,
+    "reference": "startRelease: '3.9.0-beta.19',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1004,
+    "reference": "endRelease: '3.9.0-beta.19',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1018,
+    "reference": "startRelease: '3.9.0-beta.20',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1019,
+    "reference": "endRelease: '3.9.0-beta.20',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1033,
+    "reference": "startRelease: '3.9.0-beta.2',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1034,
+    "reference": "endRelease: '3.9.0-beta.2',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1048,
+    "reference": "startRelease: '3.9.0-beta.2',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1049,
+    "reference": "endRelease: '3.9.0-beta.2',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1063,
+    "reference": "startRelease: '3.9.0-beta.12',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1064,
+    "reference": "endRelease: '3.9.0-beta.12',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1094,
+    "reference": "startRelease: '3.9.0-beta.11',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1095,
+    "reference": "endRelease: '3.9.0-beta.11',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1109,
+    "reference": "startRelease: '3.9.0-beta.10',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1110,
+    "reference": "endRelease: '3.9.0-beta.10',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1139,
+    "reference": "startRelease: '3.9.0-beta.31',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1140,
+    "reference": "endRelease: '3.9.0-beta.31',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1155,
+    "reference": "startRelease: '3.9.0-beta.32',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1156,
+    "reference": "endRelease: '3.9.0-beta.32',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1171,
+    "reference": "startRelease: '3.9.0-beta.33',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1172,
+    "reference": "endRelease: '3.9.0-beta.33',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1186,
+    "reference": "startRelease: '3.9.0-beta.34',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1187,
+    "reference": "endRelease: '3.9.0-beta.34',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1201,
+    "reference": "startRelease: '3.9.0-beta.35',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1202,
+    "reference": "endRelease: '3.9.0-beta.35',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1217,
+    "reference": "startRelease: '3.9.0-beta.36',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1218,
+    "reference": "endRelease: '3.9.0-beta.36',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1232,
+    "reference": "startRelease: '3.9.0-beta.37',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1233,
+    "reference": "endRelease: '3.9.0-beta.37',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1247,
+    "reference": "startRelease: '3.9.0-beta.37',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1248,
+    "reference": "endRelease: '3.9.0-beta.37',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1262,
+    "reference": "startRelease: '3.9.0-beta.38',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1263,
+    "reference": "endRelease: '3.9.0-beta.38',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1278,
+    "reference": "startRelease: '3.9.0-beta.39',"
+  },
+  {
+    "file": "src/lib/releaseImpact.ts",
+    "line": 1279,
+    "reference": "endRelease: '3.9.0-beta.39',"
+  },
+  {
+    "file": "src/lib/agenticIncidentAgent.ts",
+    "line": 9,
+    "reference": "import { POLICYWATCHER_VERSION } from './release';"
+  },
+  {
+    "file": "src/lib/agenticIncidentAgent.ts",
+    "line": 68,
+    "reference": "release: POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/lib/residencyEvidence.ts",
+    "line": 2,
+    "reference": "import { POLICYWATCHER_VERSION } from './release';"
+  },
+  {
+    "file": "src/lib/residencyEvidence.ts",
+    "line": 140,
+    "reference": "release: POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/lib/productionVerification.ts",
+    "line": 2,
+    "reference": "import { POLICYWATCHER_VERSION } from './release';"
+  },
+  {
+    "file": "src/lib/productionVerification.ts",
+    "line": 140,
+    "reference": "state: manifestResult.value.ok && release === POLICYWATCHER_VERSION ? 'passed' : 'attention',"
+  },
+  {
+    "file": "src/lib/productionVerification.ts",
+    "line": 142,
+    "reference": "expected: `Public manifest reports ${POLICYWATCHER_VERSION}.`,"
+  },
+  {
+    "file": "src/lib/productionVerification.ts",
+    "line": 148,
+    "reference": "observed: 'The public manifest could not be retrieved.', expected: `Public manifest reports ${POLICYWATCHER_VERSION}.`,"
+  },
+  {
+    "file": "src/lib/productionVerification.ts",
+    "line": 258,
+    "reference": "contractVersion: '1.1.0', release: POLICYWATCHER_VERSION, checkedAt, origin, role: input.role,"
+  },
+  {
+    "file": "src/lib/competitiveAnalysisServer.ts",
+    "line": 5,
+    "reference": "import { POLICYWATCHER_VERSION } from './release';"
+  },
+  {
+    "file": "src/lib/competitiveAnalysisServer.ts",
+    "line": 188,
+    "reference": "const currentSnapshot = evaluation ? buildCompetitiveSnapshot({ buildLabel: POLICYWATCHER_VERSION, metrics, evaluation }) : null;"
+  },
+  {
+    "file": "src/lib/competitiveAnalysisServer.ts",
+    "line": 206,
+    "reference": "buildLabel: POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/lib/encryptedBackup.ts",
+    "line": 2,
+    "reference": "import { POLICYWATCHER_VERSION } from './release';"
+  },
+  {
+    "file": "src/lib/encryptedBackup.ts",
+    "line": 120,
+    "reference": "applicationVersion: POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/lib/enterpriseOpenApi.ts",
+    "line": 3,
+    "reference": "import { POLICYWATCHER_VERSION } from './release';"
+  },
+  {
+    "file": "src/lib/enterpriseOpenApi.ts",
+    "line": 68,
+    "reference": "openapi: '3.0.3',"
+  },
+  {
+    "file": "src/lib/enterpriseOpenApi.ts",
+    "line": 75,
+    "reference": "'x-policywatcher-release': POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/lib/agentGateway.ts",
+    "line": 3,
+    "reference": "import { POLICYWATCHER_VERSION } from './release';"
+  },
+  {
+    "file": "src/lib/agentGateway.ts",
+    "line": 105,
+    "reference": "release: POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/lib/agentGateway.ts",
+    "line": 149,
+    "reference": "release: POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/lib/agentGateway.ts",
+    "line": 179,
+    "reference": "release: POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/lib/agentGateway.ts",
+    "line": 219,
+    "reference": "openapi: '3.0.0',"
+  },
+  {
+    "file": "src/lib/editorialCampaigns.ts",
+    "line": 2,
+    "reference": "import { POLICYWATCHER_VERSION } from './release';"
+  },
+  {
+    "file": "src/lib/editorialCampaigns.ts",
+    "line": 4,
+    "reference": "const BETA_27_CAMPAIGN_RELEASE = '3.9.0-beta.27' as const;"
+  },
+  {
+    "file": "src/lib/editorialCampaigns.ts",
+    "line": 71,
+    "reference": "id: 'beta13-press-it', version: '1.0.0', release: '3.9.0-beta.13', locale: 'it', region: 'italy', channel: 'earned-press', lifecycle: 'archived',"
+  },
+  {
+    "file": "src/lib/editorialCampaigns.ts",
+    "line": 75,
+    "reference": "availableCopySource: 'docs/press-release-3.9.0-beta.13-it.md',"
+  },
+  {
+    "file": "src/lib/editorialCampaigns.ts",
+    "line": 85,
+    "reference": "id: 'beta13-press-intl', version: '1.0.0', release: '3.9.0-beta.13', locale: 'en', region: 'global', channel: 'earned-press', lifecycle: 'archived',"
+  },
+  {
+    "file": "src/lib/editorialCampaigns.ts",
+    "line": 89,
+    "reference": "availableCopySource: 'docs/press-release-3.9.0-beta.13-en.md',"
+  },
+  {
+    "file": "src/lib/editorialCampaigns.ts",
+    "line": 99,
+    "reference": "id: 'beta13-linkedin', version: '1.0.0', release: '3.9.0-beta.13', locale: 'en', region: 'global', channel: 'linkedin', lifecycle: 'archived',"
+  },
+  {
+    "file": "src/lib/editorialCampaigns.ts",
+    "line": 113,
+    "reference": "id: 'beta13-product-hunt', version: '1.0.0', release: '3.9.0-beta.13', locale: 'en', region: 'global', channel: 'product-hunt', lifecycle: 'archived',"
+  },
+  {
+    "file": "src/lib/editorialCampaigns.ts",
+    "line": 127,
+    "reference": "id: 'beta13-show-hn', version: '1.0.0', release: '3.9.0-beta.13', locale: 'en', region: 'global', channel: 'show-hn', lifecycle: 'archived',"
+  },
+  {
+    "file": "src/lib/editorialCampaigns.ts",
+    "line": 202,
+    "reference": "landingRoute: '/pulse', availableCopySource: 'docs/press-release-3.9.0-beta.27-en.md', disclosure: 'Founder product update; Beta and evidence boundaries remain explicit.', readiness: 'ready-for-operator-review',"
+  },
+  {
+    "file": "src/lib/editorialCampaigns.ts",
+    "line": 267,
+    "reference": "export const OUTREACH_READINESS_STORAGE_KEY = `policywatcher:outreach-readiness:${POLICYWATCHER_VERSION}` as const;"
+  },
+  {
+    "file": "src/lib/homeSeo.ts",
+    "line": 1,
+    "reference": "import { POLICYWATCHER_RELEASE_DATE, POLICYWATCHER_VERSION } from '@/lib/release';"
+  },
+  {
+    "file": "src/lib/homeSeo.ts",
+    "line": 74,
+    "reference": "softwareVersion: POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/lib/homeSeo.ts",
+    "line": 75,
+    "reference": "dateModified: POLICYWATCHER_RELEASE_DATE,"
+  },
+  {
+    "file": "src/lib/enterpriseApi.ts",
+    "line": 8,
+    "reference": "import { POLICYWATCHER_VERSION } from './release';"
+  },
+  {
+    "file": "src/lib/enterpriseApi.ts",
+    "line": 200,
+    "reference": "release: POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/lib/release.ts",
+    "line": 1,
+    "reference": "export const POLICYWATCHER_VERSION = '5.0.0' as const;"
+  },
+  {
+    "file": "src/lib/release.ts",
+    "line": 2,
+    "reference": "export const POLICYWATCHER_VERSION_DISPLAY = '5.0.0' as const;"
+  },
+  {
+    "file": "src/lib/release.ts",
+    "line": 3,
+    "reference": "export const POLICYWATCHER_RELEASE_NAME = 'Your Services, Your Choices' as const;"
+  },
+  {
+    "file": "src/lib/release.ts",
+    "line": 4,
+    "reference": "export const POLICYWATCHER_RELEASE_DATE = '2026-10-06' as const;"
+  },
+  {
+    "file": "src/lib/release.ts",
+    "line": 5,
+    "reference": "export const POLICYWATCHER_RELEASE_DATE_LABEL = {"
+  },
+  {
+    "file": "src/lib/release.ts",
+    "line": 9,
+    "reference": "export const POLICYWATCHER_RELEASE_MONTH_LABEL = {"
+  },
+  {
+    "file": "src/lib/release.ts",
+    "line": 14,
+    "reference": "export const POLICYWATCHER_RELEASE_CHANNEL: PolicyWatcherReleaseChannel = 'stable';"
+  },
+  {
+    "file": "src/lib/release.ts",
+    "line": 15,
+    "reference": "export const POLICYWATCHER_RELEASE_CHANNEL_LABEL = 'STABLE' as const;"
+  },
+  {
+    "file": "src/lib/release.ts",
+    "line": 16,
+    "reference": "export const POLICYWATCHER_RELEASE_BADGE ="
+  },
+  {
+    "file": "src/lib/release.ts",
+    "line": 17,
+    "reference": "`v${POLICYWATCHER_VERSION} · ${POLICYWATCHER_RELEASE_CHANNEL_LABEL}` as const;"
+  },
+  {
+    "file": "src/lib/release.ts",
+    "line": 18,
+    "reference": "export const POLICYWATCHER_BUILD_LABEL = `v${POLICYWATCHER_VERSION} ${POLICYWATCHER_RELEASE_NAME}` as const;"
+  },
+  {
+    "file": "src/lib/release.ts",
+    "line": 19,
+    "reference": "export const POLICYWATCHER_BROWSER_EXTENSION_VERSION = '3.8.3-beta.3' as const;"
+  },
+  {
+    "file": "src/lib/release.ts",
+    "line": 20,
+    "reference": "export const POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION = '3.8.3 Beta 3' as const;"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 1,
+    "reference": "import { POLICYWATCHER_VERSION, POLICYWATCHER_VERSION_DISPLAY } from './release';"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 78,
+    "reference": "export const FEATURE_ATLAS_CURRENT_RELEASE_ID = POLICYWATCHER_VERSION;"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 104,
+    "reference": "{ id: 'beta.2', shortLabel: 'B2', label: '3.8.3 Beta 2' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 105,
+    "reference": "{ id: 'beta.3', shortLabel: 'B3', label: '3.8.3 Beta 3' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 106,
+    "reference": "{ id: 'beta.4', shortLabel: 'B4', label: '3.8.3 Beta 4' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 107,
+    "reference": "{ id: 'beta.5', shortLabel: 'B5', label: '3.8.3 Beta 5' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 108,
+    "reference": "{ id: 'beta.6', shortLabel: 'B6', label: '3.8.3 Beta 6' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 109,
+    "reference": "{ id: 'beta.7', shortLabel: 'B7', label: '3.8.3 Beta 7' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 110,
+    "reference": "{ id: 'beta.8', shortLabel: 'B8', label: '3.8.3 Beta 8' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 111,
+    "reference": "{ id: 'beta.9', shortLabel: 'B9', label: '3.8.3 Beta 9' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 112,
+    "reference": "{ id: 'beta.10', shortLabel: 'B10', label: '3.8.3 Beta 10' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 113,
+    "reference": "{ id: 'beta.11', shortLabel: 'B11', label: '3.8.3 Beta 11' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 114,
+    "reference": "{ id: '3.9.0-beta.1', shortLabel: '3.9 B1', label: '3.9.0 Beta 1' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 115,
+    "reference": "{ id: '3.9.0-beta.2', shortLabel: '3.9 B2', label: '3.9.0 Beta 2' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 116,
+    "reference": "{ id: '3.9.0-beta.3', shortLabel: '3.9 B3', label: '3.9.0 Beta 3' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 117,
+    "reference": "{ id: '3.9.0-beta.4', shortLabel: '3.9 B4', label: '3.9.0 Beta 4' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 118,
+    "reference": "{ id: '3.9.0-beta.5', shortLabel: '3.9 B5', label: '3.9.0 Beta 5' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 119,
+    "reference": "{ id: '3.9.0-beta.6', shortLabel: '3.9 B6', label: '3.9.0 Beta 6' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 120,
+    "reference": "{ id: '3.9.0-beta.7', shortLabel: '3.9 B7', label: '3.9.0 Beta 7' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 121,
+    "reference": "{ id: '3.9.0-beta.8', shortLabel: '3.9 B8', label: '3.9.0 Beta 8' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 122,
+    "reference": "{ id: '3.9.0-beta.9', shortLabel: '3.9 B9', label: '3.9.0 Beta 9' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 123,
+    "reference": "{ id: '3.9.0-beta.10', shortLabel: '3.9 B10', label: '3.9.0 Beta 10' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 124,
+    "reference": "{ id: '3.9.0-beta.11', shortLabel: '3.9 B11', label: '3.9.0 Beta 11' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 125,
+    "reference": "{ id: '3.9.0-beta.12', shortLabel: '3.9 B12', label: '3.9.0 Beta 12' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 126,
+    "reference": "{ id: '3.9.0-beta.13', shortLabel: '3.9 B13', label: '3.9.0 Beta 13' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 127,
+    "reference": "{ id: '3.9.0-beta.14', shortLabel: '3.9 B14', label: '3.9.0 Beta 14' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 128,
+    "reference": "{ id: '3.9.0-beta.15', shortLabel: '3.9 B15', label: '3.9.0 Beta 15' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 129,
+    "reference": "{ id: '3.9.0-beta.16', shortLabel: '3.9 B16', label: '3.9.0 Beta 16' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 130,
+    "reference": "{ id: '3.9.0-beta.17', shortLabel: '3.9 B17', label: '3.9.0 Beta 17' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 131,
+    "reference": "{ id: '3.9.0-beta.18', shortLabel: '3.9 B18', label: '3.9.0 Beta 18' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 132,
+    "reference": "{ id: '3.9.0-beta.19', shortLabel: '3.9 B19', label: '3.9.0 Beta 19' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 133,
+    "reference": "{ id: '3.9.0-beta.20', shortLabel: '3.9 B20', label: '3.9.0 Beta 20' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 134,
+    "reference": "{ id: '3.9.0-beta.21', shortLabel: '3.9 B21', label: '3.9.0 Beta 21' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 135,
+    "reference": "{ id: '3.9.0-beta.22', shortLabel: '3.9 B22', label: '3.9.0 Beta 22' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 136,
+    "reference": "{ id: '3.9.0-beta.23', shortLabel: '3.9 B23', label: '3.9.0 Beta 23' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 137,
+    "reference": "{ id: '3.9.0-beta.24', shortLabel: '3.9 B24', label: '3.9.0 Beta 24' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 138,
+    "reference": "{ id: '3.9.0-beta.25', shortLabel: '3.9 B25', label: '3.9.0 Beta 25' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 139,
+    "reference": "{ id: '3.9.0-beta.26', shortLabel: '3.9 B26', label: '3.9.0 Beta 26' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 140,
+    "reference": "{ id: '3.9.0-beta.27', shortLabel: '3.9 B27', label: '3.9.0 Beta 27' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 141,
+    "reference": "{ id: '3.9.0-beta.28', shortLabel: '3.9 B28', label: '3.9.0 Beta 28' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 142,
+    "reference": "{ id: '3.9.0-beta.29', shortLabel: '3.9 B29', label: '3.9.0 Beta 29' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 143,
+    "reference": "{ id: '3.9.0-beta.30', shortLabel: '3.9 B30', label: '3.9.0 Beta 30' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 144,
+    "reference": "{ id: '3.9.0-beta.31', shortLabel: '3.9 B31', label: '3.9.0 Beta 31' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 145,
+    "reference": "{ id: '3.9.0-beta.32', shortLabel: '3.9 B32', label: '3.9.0 Beta 32' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 146,
+    "reference": "{ id: '3.9.0-beta.33', shortLabel: '3.9 B33', label: '3.9.0 Beta 33' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 147,
+    "reference": "{ id: '3.9.0-beta.34', shortLabel: '3.9 B34', label: '3.9.0 Beta 34' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 148,
+    "reference": "{ id: '3.9.0-beta.35', shortLabel: '3.9 B35', label: '3.9.0 Beta 35' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 149,
+    "reference": "{ id: '3.9.0-beta.36', shortLabel: '3.9 B36', label: '3.9.0 Beta 36' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 150,
+    "reference": "{ id: '3.9.0-beta.37', shortLabel: '3.9 B37', label: '3.9.0 Beta 37' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 151,
+    "reference": "{ id: '3.9.0-beta.38', shortLabel: '3.9 B38', label: '3.9.0 Beta 38' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 152,
+    "reference": "{ id: '3.9.0-beta.39', shortLabel: '3.9 B39', label: '3.9.0 Beta 39' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 153,
+    "reference": "{ id: '3.9.0-beta.40', shortLabel: '3.9 B40', label: '3.9.0 Beta 40' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 154,
+    "reference": "{ id: '3.9.0-beta.41', shortLabel: '3.9 B41', label: '3.9.0 Beta 41' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 155,
+    "reference": "{ id: '3.9.0-beta.42', shortLabel: '3.9 B42', label: '3.9.0 Beta 42' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 156,
+    "reference": "{ id: '4.0.0-beta.1', shortLabel: '4.0 B1', label: '4.0.0 Beta 1' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 157,
+    "reference": "{ id: '4.0.0-beta.2', shortLabel: '4.0 B2', label: '4.0.0 Beta 2' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 158,
+    "reference": "{ id: '4.0.0-beta.3', shortLabel: '4.0 B3', label: '4.0.0 Beta 3' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 159,
+    "reference": "{ id: '4.0.0-beta.4', shortLabel: '4.0 B4', label: '4.0.0 Beta 4' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 160,
+    "reference": "{ id: '4.0.0-beta.5', shortLabel: '4.0 B5', label: '4.0.0 Beta 5' },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 161,
+    "reference": "{ id: POLICYWATCHER_VERSION, shortLabel: '5.0', label: POLICYWATCHER_VERSION_DISPLAY },"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 164,
+    "reference": "label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 325,
+    "reference": "if (releaseId.startsWith('beta.')) return `3.8.3 Beta ${releaseId.slice(5)}`;"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 326,
+    "reference": "if (releaseId === POLICYWATCHER_VERSION) return POLICYWATCHER_VERSION_DISPLAY;"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 327,
+    "reference": "if (releaseId === '3.9.0-beta.1') return '3.9.0 Beta 1';"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 402,
+    "reference": "releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 432,
+    "reference": "releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 462,
+    "reference": "releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 492,
+    "reference": "releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 522,
+    "reference": "releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 552,
+    "reference": "releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 557,
+    "reference": "kind: 'business', domainId: 'experience', stageId: 'publication', state: 'current', releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY, horizon: 'delivered',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 569,
+    "reference": "kind: 'business', domainId: 'analysis', stageId: 'assurance', state: 'delivered', releaseId: '4.0.0-beta.5', release: '4.0.0 Beta 5', horizon: 'delivered',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 581,
+    "reference": "kind: 'technical', domainId: 'evidence', stageId: 'assurance', state: 'delivered', releaseId: '4.0.0-beta.4', release: '4.0.0 Beta 4', horizon: 'delivered',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 592,
+    "reference": "summary: 'Maintains a curated portfolio of official policy URLs and scheduled checks.', kind: 'technical', domainId: 'discovery', stageId: 'discovery', state: 'delivered', releaseId: '3.7.0', release: '3.7.0', horizon: 'delivered',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 597,
+    "reference": "summary: 'Stores retrieved policy text with timestamps and content hashes before publication.', kind: 'technical', domainId: 'evidence', stageId: 'retrieval', state: 'delivered', releaseId: 'beta.2', release: '3.8.3 Beta 2', horizon: 'delivered',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 602,
+    "reference": "summary: 'Attempts direct retrieval before bounded archival and protected renderer fallbacks.', kind: 'technical', domainId: 'retrieval', stageId: 'retrieval', state: 'delivered', releaseId: 'beta.2', release: '3.8.3 Beta 2', horizon: 'delivered',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 607,
+    "reference": "summary: 'Builds bounded added, removed and unchanged text evidence from snapshot pairs.', kind: 'technical', domainId: 'analysis', stageId: 'assurance', state: 'delivered', releaseId: 'beta.2', release: '3.8.3 Beta 2', horizon: 'delivered',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 612,
+    "reference": "summary: 'Produces qualified analysis from source text with a deterministic fallback when AI output is unavailable.', kind: 'technical', domainId: 'analysis', stageId: 'assurance', state: 'delivered', releaseId: 'beta.2', release: '3.8.3 Beta 2', horizon: 'delivered',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 617,
+    "reference": "summary: 'Checks coverage, freshness, evidence state and onboarding readiness through protected operations.', kind: 'technical', domainId: 'assurance', stageId: 'assurance', state: 'delivered', releaseId: 'beta.2', release: '3.8.3 Beta 2', horizon: 'delivered',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 622,
+    "reference": "summary: 'Exposes only records that satisfy explicit publication, verification and suspension boundaries.', kind: 'technical', domainId: 'evidence', stageId: 'publication', state: 'delivered', releaseId: 'beta.4', release: '3.8.3 Beta 4', horizon: 'delivered',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 627,
+    "reference": "summary: 'Documents provenance, retrieval fallbacks, confidence boundaries and qualified use.', kind: 'business', domainId: 'legal', stageId: 'assurance', state: 'delivered', releaseId: 'beta.5', release: '3.8.3 Beta 5', horizon: 'delivered',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 632,
+    "reference": "summary: 'Distributes source-qualified changes through timelines, permalinks, share views and bounded reports.', kind: 'business', domainId: 'distribution', stageId: 'publication', state: 'delivered', releaseId: 'beta.5', release: '3.8.3 Beta 5', horizon: 'delivered',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 637,
+    "reference": "summary: 'Provides protected scan, source, QA, correction, access-log and recovery workspaces.', kind: 'technical', domainId: 'operations', stageId: 'remediation', state: 'delivered', releaseId: 'beta.6', release: '3.8.3 Beta 6', horizon: 'delivered',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 642,
+    "reference": "summary: 'Withholds unsuitable evidence and presents bounded causes, attempts and next operator actions.', kind: 'technical', domainId: 'operations', stageId: 'remediation', state: 'delivered', releaseId: 'beta.10', release: '3.8.3 Beta 10', horizon: 'delivered',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 647,
+    "reference": "summary: 'Bounds public input, minimizes sensitive logging and separates public from privileged operations.', kind: 'technical', domainId: 'security', stageId: 'assurance', state: 'delivered', releaseId: 'beta.5', release: '3.8.3 Beta 5', horizon: 'delivered',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 652,
+    "reference": "summary: 'States the platform storage region and backup region alongside explicit documentary limits.', kind: 'business', domainId: 'legal', stageId: 'publication', state: 'delivered', releaseId: 'beta.6', release: '3.8.3 Beta 6', horizon: 'delivered',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 657,
+    "reference": "summary: 'Connects evidence, methodology, trust, roadmap and page-level orientation surfaces.', kind: 'business', domainId: 'navigation', stageId: 'publication', state: 'delivered', releaseId: 'beta.8', release: '3.8.3 Beta 8', horizon: 'delivered',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 665,
+    "reference": "summary: 'Publishes a small versioned API directory and localized Observatory registry for read-only public integrations.', kind: 'technical', domainId: 'distribution', stageId: 'publication', releaseId: '3.9.0-beta.11', release: '3.9.0 Beta 11',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 670,
+    "reference": "summary: 'Adds tenant-bound Microsoft Entra access, an APIM facade and a Power Platform connector package for controlled enterprise pilots.', kind: 'technical', domainId: 'distribution', stageId: 'publication', state: 'delivered', releaseId: '3.9.0-beta.13', release: '3.9.0 Beta 13',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 675,
+    "reference": "summary: 'Publishes a reviewed registry of evidence-linked story leads with deterministic reuse assets.', kind: 'business', domainId: 'distribution', stageId: 'publication', state: 'delivered', releaseId: '3.9.0-beta.13', release: '3.9.0 Beta 13',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 680,
+    "reference": "summary: 'Composes public companies, policy records, QA state and source availability into the main inspection workspace.', kind: 'business', domainId: 'intelligence', stageId: 'publication', releaseId: '3.7.0', release: '3.7.0',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 685,
+    "reference": "summary: 'Filters evidence by company, industry, region and reviewer perspective while retaining a deterministic workspace.', kind: 'business', domainId: 'experience', stageId: 'publication', releaseId: '3.7.2', release: '3.7.2',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 690,
+    "reference": "summary: 'Keeps EU, US and global source context visible across public filtering and comparison.', kind: 'business', domainId: 'intelligence', stageId: 'publication', releaseId: '3.8.2', release: '3.8.2',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 695,
+    "reference": "summary: 'Orders publishable policy changes chronologically with source and review context.', kind: 'business', domainId: 'intelligence', stageId: 'publication', releaseId: '3.7.0', release: '3.7.0',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 700,
+    "reference": "summary: 'Provides a stable public detail surface for a single publishable change record.', kind: 'business', domainId: 'evidence', stageId: 'publication', releaseId: '3.7.0', release: '3.7.0',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 705,
+    "reference": "summary: 'Presents source, snapshot, analysis and evidence-state details for an inspected policy record.', kind: 'business', domainId: 'evidence', stageId: 'publication', releaseId: '3.7.0', release: '3.7.0',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 710,
+    "reference": "summary: 'Separates additions, removals and unchanged policy text for direct inspection.', kind: 'technical', domainId: 'analysis', stageId: 'assurance', releaseId: '3.7.0', release: '3.7.0',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 715,
+    "reference": "summary: 'Creates a bounded presentation surface for a publishable change without exposing private records.', kind: 'business', domainId: 'distribution', stageId: 'publication', releaseId: '3.7.0', release: '3.7.0',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 720,
+    "reference": "summary: 'Renders selected public evidence with source dates, qualification and correction routes.', kind: 'business', domainId: 'distribution', stageId: 'publication', releaseId: '3.7.0', release: '3.7.0',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 725,
+    "reference": "summary: 'Exports the selected public evidence inventory with normalized fields.', kind: 'business', domainId: 'distribution', stageId: 'publication', releaseId: '3.7.0', release: '3.7.0',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 730,
+    "reference": "summary: 'Compares evidence-qualified policy indicators across the visible provider portfolio.', kind: 'business', domainId: 'intelligence', stageId: 'publication', releaseId: '3.7.0', release: '3.7.0',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 735,
+    "reference": "summary: 'Ranks operational evidence signals such as source coverage, traceability and recorded movement.', kind: 'business', domainId: 'intelligence', stageId: 'publication', releaseId: 'beta.8', release: '3.8.3 Beta 8',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 740,
+    "reference": "summary: 'Curates reference sources for privacy, AI governance, standards and enforcement context.', kind: 'business', domainId: 'intelligence', stageId: 'discovery', releaseId: 'beta.8', release: '3.8.3 Beta 8',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 745,
+    "reference": "summary: 'Collects bounded subscriber preferences and keeps new or reactivated records pending until explicit confirmation.', kind: 'business', domainId: 'distribution', stageId: 'publication', releaseId: '3.7.0', release: '3.7.0',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 750,
+    "reference": "summary: 'Notifies the protected review workflow when a bounded policy inquiry needs human attention.', kind: 'technical', domainId: 'intake', stageId: 'intake', releaseId: '3.7.1', release: '3.7.1',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 755,
+    "reference": "summary: 'Moves reviewed official candidates through private baseline, QA and explicit publication decisions.', kind: 'technical', domainId: 'discovery', stageId: 'discovery', releaseId: 'beta.4', release: '3.8.3 Beta 4',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 760,
+    "reference": "summary: 'Captures bounded candidate reasons, locale clues and review state before configuration.', kind: 'technical', domainId: 'discovery', stageId: 'discovery', releaseId: 'beta.4', release: '3.8.3 Beta 4',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 765,
+    "reference": "summary: 'Schedules and records official-source discovery work without coupling it to public publication.', kind: 'technical', domainId: 'discovery', stageId: 'discovery', releaseId: 'beta.4', release: '3.8.3 Beta 4',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 770,
+    "reference": "summary: 'Keeps provider, policy type, region and official URL configuration explicit.', kind: 'technical', domainId: 'discovery', stageId: 'discovery', releaseId: '3.7.0', release: '3.7.0',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 775,
+    "reference": "summary: 'Attempts bounded HTTP retrieval from the configured official source before fallbacks.', kind: 'technical', domainId: 'retrieval', stageId: 'retrieval', releaseId: '3.7.0', release: '3.7.0',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 780,
+    "reference": "summary: 'Looks for bounded historical snapshots when the configured official source cannot be retrieved.', kind: 'technical', domainId: 'retrieval', stageId: 'retrieval', releaseId: 'beta.2', release: '3.8.3 Beta 2',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 785,
+    "reference": "summary: 'Queries bounded Common Crawl indexes as another recovery path for public source text.', kind: 'technical', domainId: 'retrieval', stageId: 'retrieval', releaseId: 'beta.2', release: '3.8.3 Beta 2',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 790,
+    "reference": "summary: 'Uses a separately protected renderer for official sources that require browser execution.', kind: 'technical', domainId: 'retrieval', stageId: 'retrieval', releaseId: 'beta.4', release: '3.8.3 Beta 4',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 795,
+    "reference": "summary: 'Records bounded retrieval attempts and timestamps for source QA and public status presentation.', kind: 'technical', domainId: 'evidence', stageId: 'retrieval', releaseId: 'beta.6', release: '3.8.3 Beta 6',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 800,
+    "reference": "summary: 'Uses normalized content hashes to avoid treating identical stored text as a new change.', kind: 'technical', domainId: 'evidence', stageId: 'retrieval', releaseId: '3.7.0', release: '3.7.0',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 805,
+    "reference": "summary: 'Computes explainable evidence-confidence categories from source and review conditions.', kind: 'technical', domainId: 'analysis', stageId: 'assurance', releaseId: 'beta.5', release: '3.8.3 Beta 5',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 810,
+    "reference": "summary: 'Presents bounded reasons behind an AI-assisted or deterministic attention signal.', kind: 'business', domainId: 'analysis', stageId: 'assurance', releaseId: 'beta.5', release: '3.8.3 Beta 5',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 815,
+    "reference": "summary: 'Checks KPI defaults, justifications and coverage through a protected audit surface.', kind: 'technical', domainId: 'assurance', stageId: 'assurance', releaseId: 'beta.6', release: '3.8.3 Beta 6',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 820,
+    "reference": "summary: 'Keeps correction verification, triage, acceptance and resolution states explicit.', kind: 'technical', domainId: 'corrections', stageId: 'remediation', releaseId: 'beta.9', release: '3.8.3 Beta 9',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 825,
+    "reference": "summary: 'Presents recorded evidence review actions and outcomes to authorized operators.', kind: 'technical', domainId: 'trust', stageId: 'remediation', releaseId: 'beta.6', release: '3.8.3 Beta 6',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 830,
+    "reference": "summary: 'Protects operational routes with server-side session checks that remain available during database recovery.', kind: 'technical', domainId: 'security', stageId: 'remediation', releaseId: 'beta.6', release: '3.8.3 Beta 6',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 835,
+    "reference": "summary: 'Records bounded administrative access events for protected operational review.', kind: 'technical', domainId: 'security', stageId: 'remediation', releaseId: 'beta.6', release: '3.8.3 Beta 6',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 840,
+    "reference": "summary: 'Applies bounded request-rate policies to selected exposed intake and assistant routes.', kind: 'technical', domainId: 'security', stageId: 'intake', releaseId: 'beta.5', release: '3.8.3 Beta 5',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 845,
+    "reference": "summary: 'Limits request bodies and keeps internal failure details out of public responses.', kind: 'technical', domainId: 'security', stageId: 'intake', releaseId: 'beta.5', release: '3.8.3 Beta 5',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 850,
+    "reference": "summary: 'Masks or excludes sensitive values in selected operational and public-request logs.', kind: 'technical', domainId: 'security', stageId: 'assurance', releaseId: 'beta.5', release: '3.8.3 Beta 5',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 855,
+    "reference": "summary: 'Detects materialized schema drift between deployed SQLite state and application expectations.', kind: 'technical', domainId: 'operations', stageId: 'remediation', releaseId: 'beta.6', release: '3.8.3 Beta 6',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 860,
+    "reference": "summary: 'Documents primary and backup operating locations with recovery-oriented database tooling.', kind: 'technical', domainId: 'operations', stageId: 'remediation', releaseId: 'beta.6', release: '3.8.3 Beta 6',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 865,
+    "reference": "summary: 'Keeps core evidence and workspace actions accessible across desktop and mobile layouts.', kind: 'business', domainId: 'experience', stageId: 'publication', releaseId: '3.7.2', release: '3.7.2',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 870,
+    "reference": "summary: 'Provides English and Italian framing across core evidence, release and correction surfaces.', kind: 'business', domainId: 'experience', stageId: 'publication', releaseId: 'beta.6', release: '3.8.3 Beta 6',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 875,
+    "reference": "summary: 'Requires explicit acknowledgement of product limits before using the public workspace.', kind: 'business', domainId: 'legal', stageId: 'intake', releaseId: '3.7.0', release: '3.7.0',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 880,
+    "reference": "summary: 'Answers bounded questions using selected public context and explicit source-verification language.', kind: 'business', domainId: 'analysis', stageId: 'assurance', releaseId: '3.7.0', release: '3.7.0',"
+  },
+  {
+    "file": "src/lib/featureAtlas.ts",
+    "line": 885,
+    "reference": "summary: 'Converts selected explanatory text to speech through a bounded public request path.', kind: 'business', domainId: 'experience', stageId: 'publication', releaseId: '3.7.0', release: '3.7.0',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 4,
+    "reference": "POLICYWATCHER_RELEASE_CHANNEL_LABEL,"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 5,
+    "reference": "POLICYWATCHER_RELEASE_DATE,"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 6,
+    "reference": "POLICYWATCHER_RELEASE_DATE_LABEL,"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 7,
+    "reference": "POLICYWATCHER_RELEASE_NAME,"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 8,
+    "reference": "POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 9,
+    "reference": "POLICYWATCHER_VERSION_DISPLAY,"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 133,
+    "reference": "export const PRESS_KIT_RELEASE_DATE = POLICYWATCHER_RELEASE_DATE;"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 233,
+    "reference": "boundary: { en: `Release metadata is dated ${POLICYWATCHER_RELEASE_DATE_LABEL.en}; update intervals depend on source retrieval and review.`, it: `I metadata di release sono datati ${POLICYWATCHER_RELEASE_DATE_LABEL.it}; gli intervalli di aggiornamento dipendono dal recupero e dalla revisione delle fonti.` },"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 526,
+    "reference": "caption: { en: 'Product screenshot of the capability and dependency atlas in 3.9.0 Beta 3, captured on 27 July 2026.', it: 'Screenshot dell atlante di funzionalita e dipendenze in 3.9.0 Beta 3, acquisito il 27 luglio 2026.' },"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 638,
+    "reference": "version: POLICYWATCHER_VERSION, displayVersion: POLICYWATCHER_VERSION_DISPLAY,"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 639,
+    "reference": "datePublished: POLICYWATCHER_RELEASE_DATE, dateModified: POLICYWATCHER_RELEASE_DATE,"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 663,
+    "reference": "version: '4.0.0-beta.5', displayVersion: '4.0.0 Beta 5',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 686,
+    "reference": "version: '4.0.0-beta.4', displayVersion: '4.0.0 Beta 4',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 705,
+    "reference": "version: '4.0.0-beta.3',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 706,
+    "reference": "displayVersion: '4.0.0 Beta 3',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 730,
+    "reference": "version: '4.0.0-beta.2',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 731,
+    "reference": "displayVersion: '4.0.0 Beta 2',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 755,
+    "reference": "version: '4.0.0-beta.1',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 756,
+    "reference": "displayVersion: '4.0.0 Beta 1',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 780,
+    "reference": "version: '3.9.0-beta.42',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 781,
+    "reference": "displayVersion: '3.9.0 Beta 42',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 805,
+    "reference": "version: '3.9.0-beta.41',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 806,
+    "reference": "displayVersion: '3.9.0 Beta 41',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 830,
+    "reference": "version: '3.9.0-beta.40',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 831,
+    "reference": "displayVersion: '3.9.0 Beta 40',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 856,
+    "reference": "version: '3.9.0-beta.39',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 857,
+    "reference": "displayVersion: '3.9.0 Beta 39',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 881,
+    "reference": "version: '3.9.0-beta.38',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 882,
+    "reference": "displayVersion: '3.9.0 Beta 38',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 905,
+    "reference": "slug: 'resource-navigation-retrieval-diagnostics-3-9-0-beta-37', version: '3.9.0-beta.37', displayVersion: '3.9.0 Beta 37', datePublished: '2026-08-02', dateModified: '2026-08-02', status: 'archived', category: 'product',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 924,
+    "reference": "slug: 'remediation-community-mutation-hardening-3-9-0-beta-36', version: '3.9.0-beta.36', displayVersion: '3.9.0 Beta 36', datePublished: '2026-08-02', dateModified: '2026-08-02', status: 'archived', category: 'confidence',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 943,
+    "reference": "slug: 'community-signal-composer-3-9-0-beta-35', version: '3.9.0-beta.35', displayVersion: '3.9.0 Beta 35', datePublished: '2026-08-02', dateModified: '2026-08-02', status: 'archived', category: 'product',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 951,
+    "reference": "slug: 'source-remediation-workbench-3-9-0-beta-34', version: '3.9.0-beta.34', displayVersion: '3.9.0 Beta 34', datePublished: '2026-08-02', dateModified: '2026-08-02', status: 'archived', category: 'product',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 960,
+    "reference": "version: '3.9.0-beta.33',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 961,
+    "reference": "displayVersion: '3.9.0 Beta 33',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 983,
+    "reference": "slug: 'authenticated-production-verification-3-9-0-beta-32', version: '3.9.0-beta.32', displayVersion: '3.9.0 Beta 32', datePublished: '2026-08-02', dateModified: '2026-08-02', status: 'archived', category: 'confidence',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 991,
+    "reference": "slug: 'residency-processor-evidence-3-9-0-beta-31', version: '3.9.0-beta.31', displayVersion: '3.9.0 Beta 31', datePublished: '2026-08-02', dateModified: '2026-08-02', status: 'archived', category: 'confidence',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1000,
+    "reference": "version: '3.9.0-beta.30',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1001,
+    "reference": "displayVersion: '3.9.0 Beta 30',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1026,
+    "reference": "slug: 'multicloud-agent-source-packages-3-9-0-beta-29', version: '3.9.0-beta.29', displayVersion: '3.9.0 Beta 29', datePublished: '2026-08-01', dateModified: '2026-08-01', status: 'archived', category: 'product',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1034,
+    "reference": "slug: 'agent-evidence-gateway-3-9-0-beta-28', version: '3.9.0-beta.28', displayVersion: '3.9.0 Beta 28', datePublished: '2026-08-01', dateModified: '2026-08-01', status: 'archived', category: 'product',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1042,
+    "reference": "slug: 'admin-operational-readiness-3-9-0-beta-27', version: '3.9.0-beta.27', displayVersion: '3.9.0 Beta 27', datePublished: '2026-08-01', dateModified: '2026-08-01', status: 'archived', category: 'product',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1051,
+    "reference": "version: '3.9.0-beta.26',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1052,
+    "reference": "displayVersion: '3.9.0 Beta 26',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1077,
+    "reference": "version: '3.9.0-beta.25',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1078,
+    "reference": "displayVersion: '3.9.0 Beta 25',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1101,
+    "reference": "version: '3.9.0-beta.24',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1102,
+    "reference": "displayVersion: '3.9.0 Beta 24',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1127,
+    "reference": "version: '3.9.0-beta.23',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1128,
+    "reference": "displayVersion: '3.9.0 Beta 23',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1154,
+    "reference": "version: '3.9.0-beta.22',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1155,
+    "reference": "displayVersion: '3.9.0 Beta 22',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1181,
+    "reference": "version: '3.9.0-beta.21',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1182,
+    "reference": "displayVersion: '3.9.0 Beta 21',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1208,
+    "reference": "version: '3.9.0-beta.20',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1209,
+    "reference": "displayVersion: '3.9.0 Beta 20',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1235,
+    "reference": "version: '3.9.0-beta.19',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1236,
+    "reference": "displayVersion: '3.9.0 Beta 19',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1262,
+    "reference": "version: '3.9.0-beta.18',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1263,
+    "reference": "displayVersion: '3.9.0 Beta 18',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1289,
+    "reference": "version: '3.9.0-beta.17',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1290,
+    "reference": "displayVersion: '3.9.0 Beta 17',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1316,
+    "reference": "version: '3.9.0-beta.16',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1317,
+    "reference": "displayVersion: '3.9.0 Beta 16',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1343,
+    "reference": "version: '3.9.0-beta.15',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1344,
+    "reference": "displayVersion: '3.9.0 Beta 15',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1370,
+    "reference": "version: '3.9.0-beta.14',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1371,
+    "reference": "displayVersion: '3.9.0 Beta 14',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1397,
+    "reference": "version: '3.9.0-beta.13',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1398,
+    "reference": "displayVersion: '3.9.0 Beta 13',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1424,
+    "reference": "version: '3.9.0-beta.12',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1425,
+    "reference": "displayVersion: '3.9.0 Beta 12',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1449,
+    "reference": "version: '3.9.0-beta.11',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1450,
+    "reference": "displayVersion: '3.9.0 Beta 11',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1474,
+    "reference": "version: '3.9.0-beta.10',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1475,
+    "reference": "displayVersion: '3.9.0 Beta 10',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1498,
+    "reference": "version: '3.9.0-beta.9',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1499,
+    "reference": "displayVersion: '3.9.0 Beta 9',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1521,
+    "reference": "version: '3.9.0-beta.8',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1522,
+    "reference": "displayVersion: '3.9.0 Beta 8',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1544,
+    "reference": "version: '3.9.0-beta.7',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1545,
+    "reference": "displayVersion: '3.9.0 Beta 7',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1570,
+    "reference": "version: '3.9.0-beta.6',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1571,
+    "reference": "displayVersion: '3.9.0 Beta 6',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1595,
+    "reference": "slug: 'press-kit-navigation-3-9-0-beta-5', version: '3.9.0-beta.5', displayVersion: '3.9.0 Beta 5', datePublished: '2026-07-27', dateModified: '2026-07-27', status: 'archived', category: 'distribution',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1603,
+    "reference": "slug: 'qualified-public-language-3-9-0-beta-4', version: '3.9.0-beta.4', displayVersion: '3.9.0 Beta 4', datePublished: '2026-07-27', dateModified: '2026-07-27', status: 'archived', category: 'methodology',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1611,
+    "reference": "slug: 'verifiable-press-kit-3-9-0-beta-3', version: '3.9.0-beta.3', displayVersion: '3.9.0 Beta 3', datePublished: '2026-07-27', dateModified: '2026-07-27', status: 'archived', category: 'product',"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1659,
+    "reference": "{ id: 'citizen-journey-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'PolicyWatcher 5 citizen journey', it: 'Percorso cittadino PolicyWatcher 5' }, detail: { en: 'For you connects followed services, dated source evidence, official guides and local choices.', it: 'Per te collega servizi seguiti, evidenze datate, guide ufficiali e scelte locali.' }, affectedHref: '/press-kit/releases/your-services-your-choices-5-0-0' },"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1711,
+    "reference": "releaseDate: POLICYWATCHER_RELEASE_DATE,"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1715,
+    "reference": "version: POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1716,
+    "reference": "displayVersion: POLICYWATCHER_VERSION_DISPLAY,"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1717,
+    "reference": "releaseName: POLICYWATCHER_RELEASE_NAME,"
+  },
+  {
+    "file": "src/lib/pressKit.ts",
+    "line": 1718,
+    "reference": "channel: POLICYWATCHER_RELEASE_CHANNEL_LABEL,"
+  },
+  {
+    "file": "src/lib/publicApi.ts",
+    "line": 16,
+    "reference": "import { POLICYWATCHER_VERSION } from './release';"
+  },
+  {
+    "file": "src/lib/publicApi.ts",
+    "line": 76,
+    "reference": "release: POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/lib/publicApi.ts",
+    "line": 138,
+    "reference": "release: POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/app/press-kit/PressKitClient.tsx",
+    "line": 38,
+    "reference": "POLICYWATCHER_RELEASE_BADGE,"
+  },
+  {
+    "file": "src/app/press-kit/PressKitClient.tsx",
+    "line": 39,
+    "reference": "POLICYWATCHER_RELEASE_DATE,"
+  },
+  {
+    "file": "src/app/press-kit/PressKitClient.tsx",
+    "line": 40,
+    "reference": "POLICYWATCHER_RELEASE_DATE_LABEL,"
+  },
+  {
+    "file": "src/app/press-kit/PressKitClient.tsx",
+    "line": 41,
+    "reference": "POLICYWATCHER_RELEASE_NAME,"
+  },
+  {
+    "file": "src/app/press-kit/PressKitClient.tsx",
+    "line": 42,
+    "reference": "POLICYWATCHER_VERSION_DISPLAY,"
+  },
+  {
+    "file": "src/app/press-kit/PressKitClient.tsx",
+    "line": 69,
+    "reference": "releaseDate: `Released ${POLICYWATCHER_RELEASE_DATE_LABEL.en}`,"
+  },
+  {
+    "file": "src/app/press-kit/PressKitClient.tsx",
+    "line": 108,
+    "reference": "releaseFreshnessBody: `Current to ${POLICYWATCHER_RELEASE_DATE_LABEL.en} for the web application.`,"
+  },
+  {
+    "file": "src/app/press-kit/PressKitClient.tsx",
+    "line": 144,
+    "reference": "citationText: `PolicyWatcher, ${POLICYWATCHER_VERSION_DISPLAY} ${POLICYWATCHER_RELEASE_NAME}, ${POLICYWATCHER_RELEASE_DATE_LABEL.en}, https://policywatcher.online/press-kit (accessed [date]).`,"
+  },
+  {
+    "file": "src/app/press-kit/PressKitClient.tsx",
+    "line": 159,
+    "reference": "releaseDate: `Rilasciata il ${POLICYWATCHER_RELEASE_DATE_LABEL.it}`,"
+  },
+  {
+    "file": "src/app/press-kit/PressKitClient.tsx",
+    "line": 198,
+    "reference": "releaseFreshnessBody: `Correnti al ${POLICYWATCHER_RELEASE_DATE_LABEL.it} per l applicazione web.`,"
+  },
+  {
+    "file": "src/app/press-kit/PressKitClient.tsx",
+    "line": 234,
+    "reference": "citationText: `PolicyWatcher, ${POLICYWATCHER_VERSION_DISPLAY} ${POLICYWATCHER_RELEASE_NAME}, ${POLICYWATCHER_RELEASE_DATE_LABEL.it}, https://policywatcher.online/press-kit (consultato il [data]).`,"
+  },
+  {
+    "file": "src/app/press-kit/PressKitClient.tsx",
+    "line": 328,
+    "reference": "<p className={styles.releaseBadge}>{POLICYWATCHER_RELEASE_BADGE} · {POLICYWATCHER_RELEASE_DATE}</p>"
+  },
+  {
+    "file": "src/app/press-kit/PressKitClient.tsx",
+    "line": 341,
+    "reference": "<header><span>{t.statusTitle}</span><strong>{POLICYWATCHER_VERSION_DISPLAY}</strong></header>"
+  },
+  {
+    "file": "src/app/press-kit/page.tsx",
+    "line": 11,
+    "reference": "POLICYWATCHER_RELEASE_NAME,"
+  },
+  {
+    "file": "src/app/press-kit/page.tsx",
+    "line": 12,
+    "reference": "POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/app/press-kit/page.tsx",
+    "line": 44,
+    "reference": "softwareVersion: POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/app/press-kit/page.tsx",
+    "line": 47,
+    "reference": "description: `${POLICYWATCHER_RELEASE_NAME} public policy evidence application. Outputs are evidence-gated and are not legal advice or compliance certification.`,"
+  },
+  {
+    "file": "src/app/security/page.tsx",
+    "line": 7,
+    "reference": "import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/security/page.tsx",
+    "line": 36,
+    "reference": "<h2>Security controls for {POLICYWATCHER_BUILD_LABEL}</h2>"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 32,
+    "reference": "import { POLICYWATCHER_RELEASE_NAME, POLICYWATCHER_VERSION } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 252,
+    "reference": "phase: `Current · ${POLICYWATCHER_VERSION}`,"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 253,
+    "reference": "title: POLICYWATCHER_RELEASE_NAME,"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 261,
+    "reference": "phase: 'Delivered · 4.0.0-beta.5',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 270,
+    "reference": "phase: 'Delivered · 4.0.0-beta.4',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 279,
+    "reference": "phase: 'Delivered · 4.0.0-beta.3',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 289,
+    "reference": "phase: 'Delivered · 3.9.0-beta.40',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 299,
+    "reference": "phase: 'Delivered · 3.9.0-beta.39',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 309,
+    "reference": "phase: 'Delivered · 3.9.0-beta.38',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 319,
+    "reference": "phase: 'Delivered · 3.9.0-beta.37',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 329,
+    "reference": "phase: 'Delivered · 3.9.0-beta.36',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 339,
+    "reference": "phase: 'Delivered · 3.9.0-beta.35',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 349,
+    "reference": "phase: 'Delivered · 3.9.0-beta.34',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 359,
+    "reference": "phase: 'Delivered · 3.9.0-beta.33',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 369,
+    "reference": "phase: 'Delivered · 3.9.0-beta.30',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 379,
+    "reference": "phase: 'Delivered · 3.9.0-beta.29',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 389,
+    "reference": "phase: 'Delivered · 3.9.0-beta.28',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 399,
+    "reference": "phase: 'Delivered · 3.9.0-beta.22',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 409,
+    "reference": "phase: 'Delivered · 3.9.0-beta.17',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 419,
+    "reference": "phase: 'Delivered · 3.9.0-beta.17',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 429,
+    "reference": "phase: 'Delivered · 3.9.0-beta.17',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 439,
+    "reference": "phase: 'Delivered · 3.9.0-beta.16',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 449,
+    "reference": "phase: 'Delivered · 3.9.0-beta.16',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 459,
+    "reference": "phase: 'Delivered · 3.9.0-beta.16',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 469,
+    "reference": "phase: 'Delivered · 3.9.0-beta.16',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 479,
+    "reference": "phase: 'Delivered · 3.9.0-beta.2',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 488,
+    "reference": "phase: 'Delivered · 3.9.0-beta.2',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 497,
+    "reference": "phase: 'Delivered · 3.8.1',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 506,
+    "reference": "phase: 'Delivered · 3.8.0',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 515,
+    "reference": "phase: 'Delivered · 3.7.2',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 524,
+    "reference": "phase: 'Delivered · 3.7.1',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 566,
+    "reference": "'Delivered in 3.9.0 Beta 11: a versioned manifest and localized Observatory registry make the public integration surface inspectable, rate-limited and source-bound.',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 598,
+    "reference": "'Delivered in 3.9.0 Beta 17: select up to 12 public change IDs, retain title and review states locally, and share an ID-only canonical URL.',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 606,
+    "reference": "'Delivered in 3.9.0 Beta 23: deployment-configured HTTPS destinations receive eligible public change events through HMAC-SHA256 signatures, a persistent outbox, per-attempt evidence and bounded retries.',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 638,
+    "reference": "'Delivered in 3.9.0 Beta 17: compose selected exact-change evidence packets into a dated bundle with selection scope and per-record digests.',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 662,
+    "reference": "'Delivered in 3.9.0 Beta 17: deterministic JSON, Markdown and formula-safe CSV exports for 1–12 canonical public change IDs.',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 724,
+    "reference": "label: '3.5.1',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 731,
+    "reference": "label: '3.6.3',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 738,
+    "reference": "label: '3.6.4',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 745,
+    "reference": "label: '3.6.5',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 752,
+    "reference": "label: '3.7.0',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 759,
+    "reference": "label: '3.7.1',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 766,
+    "reference": "label: '3.7.2',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 773,
+    "reference": "label: '3.8.0',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 780,
+    "reference": "label: '3.8.1',"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 787,
+    "reference": "label: POLICYWATCHER_VERSION,"
+  },
+  {
+    "file": "src/app/roadmap/RoadmapClient.tsx",
+    "line": 788,
+    "reference": "title: POLICYWATCHER_RELEASE_NAME,"
+  },
+  {
+    "file": "src/app/admin/layout.tsx",
+    "line": 44,
+    "reference": "import { POLICYWATCHER_VERSION } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/admin/layout.tsx",
+    "line": 209,
+    "reference": "Admin Panel <span className={styles.logoVersion}>v{POLICYWATCHER_VERSION}</span>"
+  },
+  {
+    "file": "src/app/admin/page.tsx",
+    "line": 36,
+    "reference": "import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/admin/page.tsx",
+    "line": 148,
+    "reference": "PolicyWatcher {POLICYWATCHER_BUILD_LABEL}"
+  },
+  {
+    "file": "src/app/infographics/page.tsx",
+    "line": 15,
+    "reference": "import { POLICYWATCHER_BUILD_LABEL, POLICYWATCHER_VERSION } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/infographics/page.tsx",
+    "line": 111,
+    "reference": "meta={`Guide build ${POLICYWATCHER_BUILD_LABEL}`}"
+  },
+  {
+    "file": "src/app/infographics/page.tsx",
+    "line": 122,
+    "reference": "PolicyWatcher v{POLICYWATCHER_VERSION} diagrams cover adaptive workspaces, shareable views, evidence drill-downs, release impact and safety overrides."
+  },
+  {
+    "file": "src/app/infographics/page.tsx",
+    "line": 287,
+    "reference": "Infographic 10 · Current v{POLICYWATCHER_VERSION} · August 2026"
+  },
+  {
+    "file": "src/app/about/page.tsx",
+    "line": 19,
+    "reference": "import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/about/page.tsx",
+    "line": 81,
+    "reference": "<span className={styles.eyebrow}>Project authorship and public context · {POLICYWATCHER_BUILD_LABEL}</span>"
+  },
+  {
+    "file": "src/app/integrations/page.tsx",
+    "line": 410,
+    "reference": "<code>OpenAPI 3.0.3</code>"
+  },
+  {
+    "file": "src/app/feature-atlas/FeatureAtlasClient.tsx",
+    "line": 37,
+    "reference": "import { POLICYWATCHER_VERSION_DISPLAY } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/feature-atlas/FeatureAtlasClient.tsx",
+    "line": 280,
+    "reference": "<span className={styles.eyebrow}><GitBranch size={14} /> Operational constellation · {POLICYWATCHER_VERSION_DISPLAY}</span>"
+  },
+  {
+    "file": "src/app/feature-atlas/FeatureAtlasClient.tsx",
+    "line": 395,
+    "reference": "<small>{feature.kind === 'business' ? 'BIZ' : 'TECH'} · {feature.release.replace('3.8.3 ', '')}</small>"
+  },
+  {
+    "file": "src/app/feature-atlas/FeatureAtlasClient.tsx",
+    "line": 462,
+    "reference": "<h2 id=\"changelog-chain-title\">Release history through {POLICYWATCHER_VERSION_DISPLAY}</h2>"
+  },
+  {
+    "file": "src/app/trust/page.tsx",
+    "line": 22,
+    "reference": "import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/trust/page.tsx",
+    "line": 296,
+    "reference": "<div className={styles.releaseMark}>{POLICYWATCHER_BUILD_LABEL}</div>"
+  },
+  {
+    "file": "src/app/atlas/SiteAtlasClient.tsx",
+    "line": 28,
+    "reference": "import { POLICYWATCHER_BUILD_LABEL } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/atlas/SiteAtlasClient.tsx",
+    "line": 150,
+    "reference": "Public route graph · {POLICYWATCHER_BUILD_LABEL}"
+  },
+  {
+    "file": "src/app/showcase/page.tsx",
+    "line": 6,
+    "reference": "import { POLICYWATCHER_RELEASE_NAME, POLICYWATCHER_VERSION } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/showcase/page.tsx",
+    "line": 12,
+    "reference": "title: `Product overview | PolicyWatcher ${POLICYWATCHER_VERSION}`,"
+  },
+  {
+    "file": "src/app/showcase/page.tsx",
+    "line": 152,
+    "reference": "<b>v{POLICYWATCHER_VERSION}</b>"
+  },
+  {
+    "file": "src/app/showcase/page.tsx",
+    "line": 356,
+    "reference": "<small>Release {POLICYWATCHER_VERSION} {POLICYWATCHER_RELEASE_NAME}</small>"
+  },
+  {
+    "file": "src/app/showcase/page.tsx",
+    "line": 376,
+    "reference": "PolicyWatcher {POLICYWATCHER_VERSION} {POLICYWATCHER_RELEASE_NAME}"
+  },
+  {
+    "file": "src/app/showcase/page.tsx",
+    "line": 628,
+    "reference": "<span>PolicyWatcher {POLICYWATCHER_VERSION} {POLICYWATCHER_RELEASE_NAME}</span>"
+  },
+  {
+    "file": "src/app/collections/CollectionsClient.tsx",
+    "line": 24,
+    "reference": "import { POLICYWATCHER_VERSION_DISPLAY } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/collections/CollectionsClient.tsx",
+    "line": 245,
+    "reference": "<p className={styles.kicker}>PolicyWatcher {POLICYWATCHER_VERSION_DISPLAY}</p>"
+  },
+  {
+    "file": "src/app/developers/page.tsx",
+    "line": 158,
+    "reference": "<span>GET · AVAILABLE · INTRODUCED IN 3.9.0 BETA 17</span>"
+  },
+  {
+    "file": "src/app/developers/event-continuity/page.tsx",
+    "line": 79,
+    "reference": "Event feed continuity · introduced in 3.9.0 Beta 22"
+  },
+  {
+    "file": "src/app/trust/residency/page.tsx",
+    "line": 45,
+    "reference": "<span className={styles.eyebrow}>Introduced in 3.9.0 Beta 31 · legal-resilience evidence</span>"
+  },
+  {
+    "file": "src/app/api/og/home/route.tsx",
+    "line": 4,
+    "reference": "import { POLICYWATCHER_RELEASE_DATE } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/api/og/home/route.tsx",
+    "line": 15,
+    "reference": "asOf={POLICYWATCHER_RELEASE_DATE}"
+  },
+  {
+    "file": "src/app/admin/kpi-audit/page.tsx",
+    "line": 7,
+    "reference": "import { POLICYWATCHER_VERSION } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/admin/kpi-audit/page.tsx",
+    "line": 274,
+    "reference": "Confidence v{POLICYWATCHER_VERSION}"
+  },
+  {
+    "file": "src/app/admin/outreach/page.tsx",
+    "line": 30,
+    "reference": "POLICYWATCHER_RELEASE_DATE,"
+  },
+  {
+    "file": "src/app/admin/outreach/page.tsx",
+    "line": 31,
+    "reference": "POLICYWATCHER_RELEASE_NAME,"
+  },
+  {
+    "file": "src/app/admin/outreach/page.tsx",
+    "line": 32,
+    "reference": "POLICYWATCHER_VERSION_DISPLAY,"
+  },
+  {
+    "file": "src/app/admin/outreach/page.tsx",
+    "line": 159,
+    "reference": "<p className={styles.eyebrow}>Editorial operations · {POLICYWATCHER_RELEASE_DATE}</p>"
+  },
+  {
+    "file": "src/app/admin/outreach/page.tsx",
+    "line": 163,
+    "reference": "<span className={styles.releaseBadge}>{POLICYWATCHER_VERSION_DISPLAY}<small>{POLICYWATCHER_RELEASE_NAME}</small></span>"
+  },
+  {
+    "file": "src/app/admin/outreach/page.tsx",
+    "line": 167,
+    "reference": "<div><dt>Release</dt><dd>{POLICYWATCHER_VERSION_DISPLAY}</dd></div>"
+  },
+  {
+    "file": "src/app/admin/login/page.tsx",
+    "line": 7,
+    "reference": "import { POLICYWATCHER_VERSION } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/admin/login/page.tsx",
+    "line": 77,
+    "reference": "<span className={styles.loginVersion}>v{POLICYWATCHER_VERSION}</span>"
+  },
+  {
+    "file": "src/app/methodology/confidence/page.tsx",
+    "line": 25,
+    "reference": "import { POLICYWATCHER_VERSION } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/methodology/confidence/page.tsx",
+    "line": 112,
+    "reference": "desc: `Release ${POLICYWATCHER_VERSION} combines shared document scope with protected operational-readiness presentation and bounded measurement without changing public evidence rules or server-side authorization.`,"
+  },
+  {
+    "file": "src/app/methodology/confidence/page.tsx",
+    "line": 239,
+    "reference": "desc: `La release ${POLICYWATCHER_VERSION} combina ambito documentale condiviso, presentazione della readiness operativa protetta e misurazione circoscritta senza cambiare le regole di evidenza pubblica o l autorizzazione server-side.`,"
+  },
+  {
+    "file": "src/app/press-kit/feed.xml/route.ts",
+    "line": 2,
+    "reference": "import { POLICYWATCHER_RELEASE_DATE } from '@/lib/release';"
+  },
+  {
+    "file": "src/app/press-kit/feed.xml/route.ts",
+    "line": 16,
+    "reference": "const xml = `<?xml version=\"1.0\" encoding=\"UTF-8\"?><rss version=\"2.0\"><channel><title>PolicyWatcher Evidence Newsroom releases</title><link>${POLICYWATCHER_CANONICAL_ORIGIN}/press-kit/releases</link><description>Dated product, methodology, confidence and distribution releases with stated boundaries.</description><language>en</language><lastBuildDate>${new Date(`${POLICYWATCHER_RELEASE_DATE}T10:00:00Z`).toUTCString()}</lastBuildDate><atom:link xmlns:atom=\"http://www.w3.org/2005/Atom\" href=\"${POLICYWATCHER_CANONICAL_ORIGIN}/press-kit/feed.xml\" rel=\"self\" type=\"application/rss+xml\"/>${items}</channel></rss>`;"
+  }
+]

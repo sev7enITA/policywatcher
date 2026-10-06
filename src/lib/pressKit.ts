@@ -643,10 +643,13 @@ export const pressKitReleases: PressKitRelease[] = [
     changes: [
       { en: 'Follow services locally and read automatic summaries with dated original evidence in Italian or English.', it: 'Segui i servizi sul dispositivo e leggi sintesi automatiche con evidenze originali datate, in italiano o inglese.' },
       { en: 'Consult official guides, record a choice and prepare a downloadable support draft without an account.', it: 'Consulta guide ufficiali, annota una scelta e prepara una bozza scaricabile per chiedere supporto, senza account.' },
-      { en: 'Pasted notices are matched locally. Reading aloud starts only on request; keyboard and mobile layouts support access.', it: 'Le comunicazioni incollate vengono confrontate localmente. La lettura ad alta voce parte su richiesta; tastiera e layout mobile facilitano l accesso.' },
+      { en: 'Read paginated public updates through the existing evidence gate; service selections and choices stay on the device.', it: 'Leggi aggiornamenti pubblici paginati attraverso i controlli esistenti sulle evidenze; servizi selezionati e scelte restano sul dispositivo.' },
+      { en: 'Export or delete local review records. A new publication about the same document reopens the review.', it: 'Esporta o cancella le annotazioni locali. Una nuova pubblicazione sullo stesso documento riapre la revisione.' },
+      { en: 'Pasted notices are matched locally. Reading aloud starts only on request; keyboard and mobile layouts support access.', it: 'Le comunicazioni incollate vengono confrontate localmente. La lettura ad alta voce parte su richiesta; tastiera e layout mobile facilitano l’accesso.' },
     ],
     boundaries: [
       { en: 'Summaries require source review. Local choices do not change provider settings and drafts are not sent automatically.', it: 'Le sintesi richiedono la verifica della fonte. Le scelte locali non modificano le impostazioni del fornitore e le bozze non vengono inviate automaticamente.' },
+      { en: 'No push notifications or cross-device synchronization. Clearing browser storage can erase local choices.', it: 'Nessuna notifica push o sincronizzazione tra dispositivi. La cancellazione dei dati del browser può eliminare le scelte locali.' },
       { en: 'The Android companion has a locally compiled development build; physical-device acceptance and store distribution remain separate.', it: 'Il companion Android ha una build di sviluppo compilata localmente; collaudo su dispositivo fisico e distribuzione negli store restano separati.' },
     ],
     evidenceLinks: [
@@ -665,6 +668,7 @@ export const pressKitReleases: PressKitRelease[] = [
     changes: [
       { en: 'Six document types, privacy-only shortcut and shared filtered views cover comparisons, KPI matrix, timeline, assistant and CSV.', it: 'Sei tipi documentali, selezione solo privacy e viste condivise filtrano confronti, matrice KPI, cronologia, assistente e CSV.' },
       { en: 'Type-balanced scores and complete-scope company means expose missing and unassessed types.', it: 'Punteggi bilanciati per tipo e medie delle aziende con copertura completa rendono visibili tipi mancanti e non valutati.' },
+      { en: 'Distinct official sources and bounded text-based PDF retrieval extend document coverage. Retrospective archive comparisons retain capture dates, source links and text fingerprints separately from live alerts and scores.', it: 'Fonti ufficiali distinte e acquisizione limitata di PDF testuali ampliano la copertura. I confronti retrospettivi conservano date di cattura, fonti e impronte dei testi separatamente da avvisi live e punteggi.' },
       { en: 'Methodology, Atlas and current evidence coverage explain the same calculation and publication boundaries.', it: 'Metodologia, Atlas e copertura delle evidenze correnti spiegano gli stessi criteri di calcolo e pubblicazione.' },
     ],
     boundaries: [
@@ -675,6 +679,25 @@ export const pressKitReleases: PressKitRelease[] = [
       { href: '/?documents=privacy', label: { en: 'Privacy-only dashboard', it: 'Dashboard solo privacy' } },
       { href: '/methodology/confidence', label: { en: 'Methodology and denominators', it: 'Metodologia e denominatori' } },
       { href: '/feature-atlas', label: { en: 'Feature Atlas', it: 'Atlante funzionalità' } },
+    ],
+  },
+  {
+    slug: 'evidence-consistency-live-coverage-4-0-0-beta-4',
+    version: '4.0.0-beta.4', displayVersion: '4.0.0 Beta 4',
+    datePublished: '2026-10-01', dateModified: '2026-10-06', status: 'archived', category: 'confidence',
+    title: { en: 'Evidence Consistency and Live Coverage', it: 'Coerenza delle evidenze e copertura corrente' },
+    summary: { en: 'An implementation milestone included in Beta 5: visible coverage denominators, consistent risk labels and committed-change counters.', it: 'Tappa di implementazione inclusa nella Beta 5: denominatori di copertura visibili, etichette di rischio coerenti e conteggio delle modifiche salvate.' },
+    changes: [
+      { en: 'Separate public baselines, live and archive retrieval, pending confirmation, unavailable checks and assessed KPI values.', it: 'Distingue baseline pubbliche, acquisizioni live e da archivio, conferme pendenti, controlli indisponibili e KPI valutati.' },
+      { en: 'Count confirmed changes after successful storage and apply the declared numeric risk scale consistently.', it: 'Conta le modifiche confermate dopo il salvataggio e applica in modo coerente la scala numerica del rischio.' },
+    ],
+    boundaries: [
+      { en: 'This historical milestone was prepared on 1 October and included in the Beta 5 publication; it does not claim a separate Beta 4 deployment. Coverage is not interpretation confidence.', it: 'Questa tappa storica è stata preparata il 1 ottobre e inclusa nella pubblicazione della Beta 5; non attesta un rilascio autonomo della Beta 4. La copertura non misura la confidenza dell’interpretazione.' },
+      { en: 'Unavailable sources and unassessed values remain explicit. Email delivery requires verified mailbox configuration.', it: 'Fonti indisponibili e valori non valutati rimangono espliciti. L’invio email richiede configurazione verificata della casella.' },
+    ],
+    evidenceLinks: [
+      { href: '/methodology/confidence', label: { en: 'Methodology', it: 'Metodologia' } },
+      { href: '/trust', label: { en: 'Trust and coverage', it: 'Qualità e copertura' } },
     ],
   },
   {

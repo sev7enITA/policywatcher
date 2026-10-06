@@ -76,7 +76,7 @@ export default function EventContinuityPage() {
             <div className={styles.heroCopy}>
               <span className={styles.eyebrow}>
                 <DatabaseZap size={16} aria-hidden="true" />
-                Event feed continuity · Beta 22
+                Event feed continuity · introduced in 3.9.0 Beta 22
               </span>
               <h1>Event feed continuity</h1>
               <p>

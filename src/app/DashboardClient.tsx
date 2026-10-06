@@ -3274,6 +3274,7 @@ export default function Dashboard() {
       {/* Changelog Modal */}
       {changelogOpen && (
         <ChangelogModal
+          lang={lang}
           isOpen={changelogOpen}
           onClose={() => setChangelogOpen(false)}
         />
