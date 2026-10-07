@@ -48,7 +48,8 @@ describe('SQLite to PostgreSQL rehearsal contract', () => {
       parsePrismaModels(readFileSync('prisma/schema.prisma', 'utf8')),
     );
     const names = models.map((model) => model.name);
-    expect(names).toHaveLength(31);
+    expect(names).toHaveLength(34);
+    expect(names.indexOf('Policy')).toBeLessThan(names.indexOf('ExtractionBaseline'));
     expect(names.indexOf('Entity')).toBeLessThan(names.indexOf('Document'));
     expect(names.indexOf('Document')).toBeLessThan(names.indexOf('Version'));
     expect(names.indexOf('Version')).toBeLessThan(names.indexOf('Change'));

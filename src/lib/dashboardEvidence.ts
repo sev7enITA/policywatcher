@@ -1,3 +1,4 @@
+import { isPendingConfirmationReason } from './changeConfirmation';
 import { KPI_ALLOWED_VALUES, KPI_FIELD_KEYS } from '@/lib/metricsCatalog';
 
 export interface EvidencePolicy {
@@ -29,7 +30,7 @@ export function summarizeDashboardEvidence(policies: EvidencePolicy[]) {
       }
     }
     if (latest && (!result.latestCheckAt || latest.checkedAt.getTime() > Date.parse(result.latestCheckAt))) result.latestCheckAt = latest.checkedAt.toISOString();
-    if (latest?.reason === 'change_confirmation_pending') result.pendingChanges++;
+    if (isPendingConfirmationReason(latest?.reason)) result.pendingChanges++;
     else if (latest?.status === 'Unavailable') result.unavailableChecks++;
     else if (latest?.status === 'Available' && ['direct', 'http2', 'rendered'].includes(latest.source || '')) result.liveChecks++;
     else if (latest?.status === 'Available' && ['wayback', 'commoncrawl'].includes(latest.source || '') && latest.archiveTimestamp) result.archiveChecks++;

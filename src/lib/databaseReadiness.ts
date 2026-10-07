@@ -3,6 +3,9 @@ import { getDatabaseDiagnostics, type DatabaseDiagnostics } from './databaseConf
 import type { DatabaseProvider } from './databaseUrl';
 
 export const EXPECTED_DATABASE_TABLES = [
+  'ExtractionBaseline',
+  'ExternalDocumentReference',
+  'EvidenceQualityReview',
   'Entity',
   'Document',
   'Version',
@@ -54,11 +57,13 @@ export const EXPECTED_SQLITE_MIGRATIONS = [
   '20260820130000_scan_run_lifecycle',
   '20260820133000_subscriber_double_opt_in',
   '20261002050000_multiple_documents_per_type',
+  '20261007120000_evidence_assurance',
 ] as const;
 
 export const EXPECTED_POSTGRESQL_MIGRATIONS = [
   '00000000000000_postgresql_baseline',
   '20261002050000_multiple_documents_per_type',
+  '20261007120000_evidence_assurance',
 ] as const;
 
 // Backward-compatible name for the production SQLite migration contract.

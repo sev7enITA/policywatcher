@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { describe, expect, it } from 'vitest';
 import {
@@ -8,10 +8,9 @@ import {
 
 describe('PostgreSQL portability contract', () => {
   const sqliteSchema = readFileSync('prisma/schema.prisma', 'utf8');
-  const baseline = readFileSync(
-    'prisma/postgresql/migrations/00000000000000_postgresql_baseline/migration.sql',
-    'utf8',
-  );
+  const baseline = readdirSync('prisma/postgresql/migrations', { withFileTypes: true })
+    .filter(entry => entry.isDirectory()).sort((a, b) => a.name.localeCompare(b.name))
+    .map(entry => readFileSync(`prisma/postgresql/migrations/${entry.name}/migration.sql`, 'utf8')).join('\n');
   const packageJson = JSON.parse(readFileSync('package.json', 'utf8')) as {
     scripts?: Record<string, string>;
   };
@@ -33,10 +32,10 @@ describe('PostgreSQL portability contract', () => {
     expect(postgresqlModels).toEqual(sqliteModels);
   });
 
-  it('keeps a complete, provider-specific PostgreSQL baseline under version control', () => {
+  it('keeps a complete, provider-specific PostgreSQL migration chain under version control', () => {
     const models = [...sqliteSchema.matchAll(/^model\s+(\w+)\s+\{/gm)].map((match) => match[1]);
     for (const model of models) {
-      expect(baseline, `PostgreSQL baseline is missing ${model}`).toContain(`CREATE TABLE "${model}"`);
+      expect(baseline, `PostgreSQL migration chain is missing ${model}`).toContain(`CREATE TABLE "${model}"`);
     }
     expect(readFileSync('prisma/postgresql/migrations/migration_lock.toml', 'utf8'))
       .toContain('provider = "postgresql"');

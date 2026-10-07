@@ -104,6 +104,8 @@ required_sources=(
   package.json package-lock.json next.config.ts tsconfig.json server.js design-qa.md
   README.md HOSTINGER-DEPLOY.md CHANGELOG.md SECURITY.md LICENSE .env.example public src shared prisma scripts integrations evals data
   docs/citizen-experience.md docs/citizen-experience-validation.md
+  docs/evidence-assurance-pilot.md docs/reports/eu-terms-reuse-2026-10-07
+  docs/reports/evidence-assurance-release-2026-10-07
   docs/releases/policywatcher-5.0.0-github-release.md
   docs/document-scope-2026-10-01.md
   docs/releases/policywatcher-4.0.0-beta.5-github-release.md

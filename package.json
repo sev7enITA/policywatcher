@@ -53,7 +53,11 @@
     "release:evidence:validate": "tsx scripts/verify-release-evidence-ledger.ts",
     "release:evidence:assets": "node scripts/generate-release-evidence-assets.mjs",
     "seo:smoke": "node scripts/seo-public-smoke.mjs",
-    "seo:indexnow": "node scripts/submit-indexnow.mjs"
+    "seo:indexnow": "node scripts/submit-indexnow.mjs",
+    "extraction:profile": "node scripts/extraction-profile.mjs",
+    "prebuild": "node scripts/extraction-profile.mjs --check",
+    "pretest": "node scripts/extraction-profile.mjs --check",
+    "eu:pilot": "tsx scripts/eu-archive-pilot.ts"
   },
   "dependencies": {
     "@google/genai": "^2.17.1",

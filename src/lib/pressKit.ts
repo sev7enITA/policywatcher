@@ -636,11 +636,12 @@ export const pressKitReleases: PressKitRelease[] = [
   {
     slug: 'your-services-your-choices-5-0-0',
     version: POLICYWATCHER_VERSION, displayVersion: POLICYWATCHER_VERSION_DISPLAY,
-    datePublished: POLICYWATCHER_RELEASE_DATE, dateModified: POLICYWATCHER_RELEASE_DATE,
+    datePublished: POLICYWATCHER_RELEASE_DATE, dateModified: '2026-10-07',
     status: 'current', category: 'product',
     title: { en: 'Your Services, Your Choices', it: 'I tuoi servizi, le tue scelte' },
     summary: { en: 'PolicyWatcher 5 adds a direct citizen journey from service updates to source evidence and personal choices.', it: 'PolicyWatcher 5 introduce un percorso per il cittadino, dagli aggiornamenti dei servizi alle fonti e alle proprie scelte.' },
     changes: [
+      { en: '7 October assurance update: native parser-upgrade protection, reviewed false-positive and citation-support samples, metadata-only EU discovery/history and transient extraction comparison.', it: 'Aggiornamento del 7 ottobre: protezione dagli aggiornamenti del parser, campioni revisionati di falsi positivi e supporto delle citazioni, discovery e storico UE di soli metadati e confronto transitorio delle estrazioni.' },
       { en: 'Follow services locally and read automatic summaries with dated original evidence in Italian or English.', it: 'Segui i servizi sul dispositivo e leggi sintesi automatiche con evidenze originali datate, in italiano o inglese.' },
       { en: 'Consult official guides, record a choice and prepare a downloadable support draft without an account.', it: 'Consulta guide ufficiali, annota una scelta e prepara una bozza scaricabile per chiedere supporto, senza account.' },
       { en: 'Read paginated public updates through the existing evidence gate; service selections and choices stay on the device.', it: 'Leggi aggiornamenti pubblici paginati attraverso i controlli esistenti sulle evidenze; servizi selezionati e scelte restano sul dispositivo.' },
@@ -648,6 +649,7 @@ export const pressKitReleases: PressKitRelease[] = [
       { en: 'Pasted notices are matched locally. Reading aloud starts only on request; keyboard and mobile layouts support access.', it: 'Le comunicazioni incollate vengono confrontate localmente. La lettura ad alta voce parte su richiesta; tastiera e layout mobile facilitano l’accesso.' },
     ],
     boundaries: [
+      { en: 'Reviewed sample ratios are not population accuracy. EU references require applicability review; archive metadata neither confirms live changes nor authorizes republication of third-party texts.', it: 'Le percentuali sui campioni revisionati non misurano l’accuratezza generale. I riferimenti UE richiedono verifica di applicabilita; i metadati storici non confermano modifiche live e non autorizzano la ripubblicazione dei testi di terzi.' },
       { en: 'Summaries require source review. Local choices do not change provider settings and drafts are not sent automatically.', it: 'Le sintesi richiedono la verifica della fonte. Le scelte locali non modificano le impostazioni del fornitore e le bozze non vengono inviate automaticamente.' },
       { en: 'No push notifications or cross-device synchronization. Clearing browser storage can erase local choices.', it: 'Nessuna notifica push o sincronizzazione tra dispositivi. La cancellazione dei dati del browser può eliminare le scelte locali.' },
       { en: 'The Android companion has a locally compiled development build; physical-device acceptance and store distribution remain separate.', it: 'Il companion Android ha una build di sviluppo compilata localmente; collaudo su dispositivo fisico e distribuzione negli store restano separati.' },

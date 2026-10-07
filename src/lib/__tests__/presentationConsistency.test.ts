@@ -30,6 +30,10 @@ describe('Evidence summary', () => {
     const p = policy(); p.checkLogs.push({ checkedAt: new Date('2026-10-02'), status: 'Needs Review', source: 'direct', reason: 'change_confirmation_pending', archiveTimestamp: null });
     expect(summarizeDashboardEvidence([p])).toMatchObject({ pendingChanges: 1, liveChecks: 0, publicBaselines: 1 });
   });
+  it('counts profile-bound confirmation without claiming a live verification', () => {
+    const p = policy(); p.checkLogs.push({ checkedAt: new Date('2026-10-07'), status: 'Needs Review', source: 'direct', reason: `change_confirmation_pending:${'a'.repeat(64)}`, archiveTimestamp: null });
+    expect(summarizeDashboardEvidence([p])).toMatchObject({ pendingChanges: 1, liveChecks: 0 });
+  });
   it('never publishes a seeded or quarantined baseline', () => {
     expect(summarizeDashboardEvidence([policy({ ingestionMethod: 'Seeded' }), policy({ snapshots: [{ publicEvidence: false }] })]).publicBaselines).toBe(0);
   });

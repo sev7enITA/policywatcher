@@ -16,7 +16,7 @@ describe('public release consistency', () => {
     const lock = JSON.parse(readFileSync('package-lock.json', 'utf8'));
     expect(lock.version).toBe(POLICYWATCHER_VERSION);
     expect(lock.packages[''].version).toBe(POLICYWATCHER_VERSION);
-    expect(readFileSync('CHANGELOG.md', 'utf8').match(/^## (\S+)/m)?.[1]).toBe(POLICYWATCHER_VERSION);
+    expect(readFileSync('CHANGELOG.md', 'utf8').match(/^## (\d+\.\d+\.\d+\S*)/m)?.[1]).toBe(POLICYWATCHER_VERSION);
   });
 
   it('keeps unique Atlas identities, valid dependencies and accurate current states', () => {

@@ -1,5 +1,6 @@
 'use client';
 
+import ReviewedEvidenceMetrics from '@/components/admin/ReviewedEvidenceMetrics';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
@@ -322,6 +323,7 @@ export default function DatasetQualityPage() {
         </button>
       </div>
 
+      <ReviewedEvidenceMetrics />
       <div className={styles.statGrid}>
         <div className={styles.statBox}>
           <div className={styles.statValue}>{summary.qualityScore}</div>

@@ -224,6 +224,7 @@ model Policy {
   snapshots                  PolicySnapshot[]
   changes                    PolicyChange[]
   checkLogs                  PolicyCheckLog[]
+  extractionBaseline         ExtractionBaseline?
   historicalReferences       HistoricalSourceReference[]
   sourceOnboardingItems      SourceOnboardingItem[]
 
@@ -704,4 +705,59 @@ model Subscriber {
   isActive                Boolean   @default(true)
   createdAt               DateTime  @default(now())
   updatedAt               DateTime  @updatedAt
+}
+
+// Private, bounded extractor input. Never exposed by public evidence endpoints.
+model ExtractionBaseline {
+  policyId String @id
+  policy Policy @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  baselineHash String
+  profileHash String
+  inputHash String
+  input String?
+  sourceUrl String
+  capturedAt DateTime
+  updatedAt DateTime @updatedAt
+}
+
+// Metadata only: no third-party text and no automatic Policy/Change projection.
+model ExternalDocumentReference {
+  id String @id @default(uuid())
+  referenceKey String @unique
+  projectId Int
+  path String
+  commitSha String
+  blobId String
+  recordedAt DateTime
+  observedAt DateTime @default(now())
+  service String
+  title String
+  suggestedType String?
+  jurisdiction String @default("unconfirmed")
+  language String @default("en")
+  referenceUrl String
+  license String
+  attribution String
+  status String @default("proposed")
+  policyId String?
+  reviewNote String?
+  reviewedAt DateTime?
+  @@index([service, status])
+}
+
+model EvidenceQualityReview {
+  id String @id @default(uuid())
+  subjectKey String @unique
+  changeId String
+  metric String
+  verdict String
+  evidenceHash String
+  claim String @default("")
+  quote String @default("")
+  note String
+  reviewedBy String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([changeId])
+  @@index([metric])
 }

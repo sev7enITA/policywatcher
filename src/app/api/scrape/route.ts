@@ -1,3 +1,6 @@
+import { extractionGuardEnabled } from '@/lib/extractionProfile';
+import { guardExtraction, anchorCommittedExtraction } from '@/lib/extractionGuard';
+import { confirmationReason, isConsecutiveChangeConfirmation } from '@/lib/changeConfirmation';
 /**
  * PolicyWatcher - On-Demand Scrape & Analyze API
  *
@@ -29,7 +32,7 @@ import {
   shouldRebaselineFromSeededRecord,
 } from '@/lib/policyConfidence';
 import { sendSourceSuspensionAdminAlert } from '@/lib/mailer';
-import { establishVerifiedPolicyBaseline, replaceSeededPolicyBaseline } from '@/lib/policyBaseline';
+import { establishSourceMigrationBaseline, establishVerifiedPolicyBaseline, replaceSeededPolicyBaseline } from '@/lib/policyBaseline';
 import { createErrorReference, getErrorMessage } from '@/lib/safeErrors';
 import { normalizeKpiFields } from '@/lib/kpiDefaults';
 import * as Diff from 'diff';
@@ -60,6 +63,8 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  if (process.env.POLICYWATCHER_SCANS_PAUSED === '1') return NextResponse.json({ error: 'policy_scans_paused' }, { status: 503 });
+
   // Rate limit: scrape+AI is the most expensive operation.
   // 3/10min per IP (enough for genuine exploration, blocks abuse).
   const limited = rateLimit(request, {
@@ -88,15 +93,13 @@ export async function POST(request: NextRequest) {
           take: 1,
         },
         checkLogs: {
-          where: {
-            textHash: { not: null },
-            source: { in: ['direct', 'http2', 'rendered', 'wayback', 'commoncrawl'] },
-          },
           orderBy: { checkedAt: 'desc' },
           take: 1,
           select: {
             source: true,
             textHash: true,
+            status: true,
+            reason: true,
           },
         },
       },
@@ -265,6 +268,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (extractionGuardEnabled() && !['direct', 'http2', 'rendered'].includes(scrapeResult.source)) {
+      const decision = await guardExtraction(policy, scrapeResult);
+      return NextResponse.json({ changed: false, reason: decision.reason }, { status: 409 });
+    }
+    if (policy.sourceMigrationPending && extractionGuardEnabled()) {
+      await db.$transaction(tx => establishSourceMigrationBaseline(tx, {
+        policyId: policy.id, text: newText, hash: newHash, checkedAt, ingestionMethod,
+        source: scrapeResult.source, finalUrl: scrapeResult.finalUrl,
+      }));
+      await anchorCommittedExtraction(policy.id, scrapeResult);
+      return NextResponse.json({ changed: false, rebaselined: true, reason: 'reviewed_extraction_baseline' });
+    }
+
     if (seededRebaselineCandidate) {
       let rebaseline;
       try {
@@ -299,6 +315,7 @@ export async function POST(request: NextRequest) {
         throw rebaselineError;
       }
 
+      await anchorCommittedExtraction(policy.id, scrapeResult);
       return NextResponse.json({
         changed: false,
         rebaselined: true,
@@ -324,6 +341,7 @@ export async function POST(request: NextRequest) {
           archiveTimestamp,
         })
       );
+      await anchorCommittedExtraction(policy.id, scrapeResult);
       return NextResponse.json({
         changed: false,
         rebaselined: baseline.publicEvidence,
@@ -336,6 +354,20 @@ export async function POST(request: NextRequest) {
     }
 
     // If text hasn't changed, return status
+    const extractionDecision = await guardExtraction(policy, scrapeResult);
+    if (!extractionDecision.proceed) {
+      return NextResponse.json({ changed: false, needsReview: true, reason: extractionDecision.reason }, { status: 409 });
+    }
+    if (extractionDecision.profileHash && newHash !== policy.currentHash
+        && !isConsecutiveChangeConfirmation(policy.checkLogs[0], newHash, extractionDecision.profileHash)) {
+      await db.policyCheckLog.create({ data: {
+        policyId: policy.id, status: 'Needs Review', source: scrapeResult.source,
+        textHash: newHash, textLength: newText.length, reason: confirmationReason(extractionDecision.profileHash),
+        reasonCode: 'change_confirmation_pending', finalUrl: scrapeResult.finalUrl,
+      } });
+      return NextResponse.json({ changed: false, reason: 'change_confirmation_pending' }, { status: 202 });
+    }
+
     if (newHash === policy.currentHash) {
       const [updatedPolicy] = await db.$transaction([
         db.policy.update({
@@ -527,6 +559,7 @@ export async function POST(request: NextRequest) {
       };
     });
 
+    await anchorCommittedExtraction(policy.id, scrapeResult);
     return NextResponse.json({
       changed: true,
       message: 'Nuova versione rilevata ed analizzata con successo!',
