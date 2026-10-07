@@ -17,6 +17,12 @@ Onboarding includes an interface-language selector. Existing local preferences a
 
 ## Publication boundary
 
-Prepared from main `08fce31f7d822b516202a7a1a7a2452e35cc41b2`, preserving the evidence-assurance release. The dirty Desktop checkout was not modified. No production deployment is asserted in this report. Staging and production require the normal immutable artifact workflow in `docs/hostinger-staging-promotion.md`.
+Prepared from main `08fce31f7d822b516202a7a1a7a2452e35cc41b2`, preserving the evidence-assurance release. The existing application sources in the dirty Desktop checkout were not modified; copies of this report and the release ZIP were added there. No production deployment is asserted in this report. Staging and production require the normal immutable artifact workflow in `docs/hostinger-staging-promotion.md`.
 
 This fixes the reported home/workspace language split and shared preference resolution. It is not an assertion that all historical documents and every separately authored public page have been translated.
+
+## Verified staging candidate
+
+Hostinger reports **Completed / Current** for `PolicyWatcher-5.0.0-hostinger-2026-10-07-language-consistency-r1.zip`. SHA-256: `cc91e1875f512222d502e9bc1b05e59e2bc278ef3d8ba8d5ca02f50e77b71743`. Source revision: `3ebdca4d690700ca10be10a8e9589e8f6f7b0b70`.
+
+All 11 staging smoke checks passed at 2026-10-07T06:06:57.377Z. Nine browser scenarios passed against the deployed staging site; onboarding acceptance was not performed there. The attached staging screenshot shows the actual Italian homepage. Production promotion awaits the requested human approval.
