@@ -116,6 +116,7 @@ import {
   resolveDashboardRegion,
   resolvePlatformLanguage,
   storeGlobalContext,
+  syncLanguagePreferenceCookie,
   type GlobalContext,
 } from '@/lib/globalContext';
 import {
@@ -301,7 +302,7 @@ const translations = {
   },
   en: {
     title: 'PolicyWatcher',
-    subtitle: 'AI Policy Change Monitor',
+    subtitle: 'Monitoraggio AI delle modifiche alle policy',
     liveAssistant: 'Policy Live Assistant',
     monitoredCompanies: 'Monitored Companies',
     criticalAlerts: 'Critical Alerts',
@@ -822,7 +823,10 @@ interface SourceSuspension {
  * Manages all top-level UI state (companies list, filters, modal visibility,
  * language, region, perspective) and renders the full single-page dashboard.
  */
-export default function Dashboard() {
+export default function Dashboard({ initialLanguage = 'en', onLanguageChange }: {
+  initialLanguage?: 'en' | 'it';
+  onLanguageChange?: (lang: 'en' | 'it') => void;
+} = {}) {
   const prefersReducedMotion = useReducedMotion();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
@@ -838,12 +842,13 @@ export default function Dashboard() {
   const [industryFilter, setIndustryFilter] = useState('all');
 
   // Bilingual state
-  const [lang, setLang] = useState<'en' | 'it'>('en');
+  const [lang, setLang] = useState<'en' | 'it'>(initialLanguage);
   const scopeLabel = documentScopeLabel(documentTypes, lang);
 
   useEffect(() => {
     document.documentElement.lang = lang;
-  }, [lang]);
+    onLanguageChange?.(lang);
+  }, [lang, onLanguageChange]);
 
   // Multi-region and audience state filters
   const [selectedRegion, setSelectedRegion] = useState<'EU' | 'US' | 'Global'>('EU');
@@ -1329,10 +1334,13 @@ export default function Dashboard() {
         const dashboardQuery = decodeDashboardShareQuery(window.location.search);
         const dashboardParams = new URLSearchParams(window.location.search);
         const globalContext = readStoredGlobalContext();
-        const onboardingCompleted = hasCompletedWorkspaceOnboarding(
-          localStorage.getItem(WORKSPACE_ONBOARDING_COMPLETED_KEY),
-        );
-        const saved = parseWorkspaceProfile(localStorage.getItem(WORKSPACE_PROFILE_KEY));
+        syncLanguagePreferenceCookie(globalContext.language);
+        let onboardingCompleted = false;
+        let saved: ReturnType<typeof parseWorkspaceProfile> = null;
+        try {
+          onboardingCompleted = hasCompletedWorkspaceOnboarding(localStorage.getItem(WORKSPACE_ONBOARDING_COMPLETED_KEY));
+          saved = parseWorkspaceProfile(localStorage.getItem(WORKSPACE_PROFILE_KEY));
+        } catch { /* Browser language and URL still work without storage. */ }
 
         if (queryProfile.hasWorkspaceParams) {
           shouldOpenFirstUse = false;
@@ -1352,9 +1360,9 @@ export default function Dashboard() {
 
         applyDashboardShareState({
           ...dashboardQuery.state,
-          lang: dashboardParams.has('lang')
+          lang: ['it', 'en'].includes(dashboardParams.get('lang') ?? '')
             ? dashboardQuery.state.lang
-            : resolvePlatformLanguage(globalContext, window.navigator.language),
+            : resolvePlatformLanguage(globalContext, window.navigator.languages),
           region: dashboardParams.has('region')
             ? dashboardQuery.state.region
             : resolveDashboardRegion(globalContext),
@@ -1386,7 +1394,7 @@ export default function Dashboard() {
       const current = dashboardShareStateRef.current;
       const next: DashboardShareState = {
         ...current,
-        lang: resolvePlatformLanguage(context, window.navigator.language),
+        lang: resolvePlatformLanguage(context, window.navigator.languages),
         region: resolveDashboardRegion(context),
       };
       applyDashboardShareState(next);
@@ -1398,9 +1406,9 @@ export default function Dashboard() {
       if (detail) applyGlobalContext(detail);
     };
     const onStorage = (event: StorageEvent) => {
-      if (event.key !== GLOBAL_CONTEXT_STORAGE_KEY) return;
+      if (event.key !== GLOBAL_CONTEXT_STORAGE_KEY && event.key !== null) return;
       const parsed = parseGlobalContext(event.newValue);
-      if (parsed) applyGlobalContext(parsed);
+      applyGlobalContext(parsed ?? { ...readStoredGlobalContext(), language: 'auto' });
     };
 
     window.addEventListener(GLOBAL_CONTEXT_EVENT, onContextChange);
@@ -1882,6 +1890,14 @@ export default function Dashboard() {
           {workspaceText.title}
         </h2>
         <p id="workspace-composer-description">{workspaceText.lead}</p>
+        <label className={styles.onboardingLanguage}>
+          {lang === 'it' ? 'Lingua dell’interfaccia' : 'Interface language'}
+          <select aria-label={lang === 'it' ? 'Lingua dell’interfaccia' : 'Interface language'} value={lang}
+            onChange={(event) => storeGlobalContext({ ...readStoredGlobalContext(), language: event.target.value as 'en' | 'it' })}>
+            <option value="it">Italiano</option><option value="en">English</option>
+          </select>
+          <span>{lang === 'it' ? 'Al primo accesso usiamo la lingua del browser. Ogni tua scelta viene ricordata.' : 'Your browser sets the initial language. Any language you choose is remembered.'}</span>
+        </label>
         {workspaceFirstUseMode && (
           <div className={styles.workspaceStepIndicator} aria-label={`${workspaceText.step} ${workspaceOnboardingStep + 1} ${workspaceText.of} 3`}>
             <span>{workspaceText.step} {workspaceOnboardingStep + 1} {workspaceText.of} 3</span>
@@ -2192,7 +2208,7 @@ export default function Dashboard() {
         )}
       </AnimatePresence>
 
-      <div className={styles.mainContainer} role="region" aria-label="Interactive policy monitoring workspace">
+      <div className={styles.mainContainer} role="region" aria-label={lang === 'it' ? 'Spazio di monitoraggio interattivo delle policy' : 'Interactive policy monitoring workspace'}>
         <motion.section
           id="dashboard-workspace"
           className={styles.workspacePanel}
@@ -3224,7 +3240,7 @@ export default function Dashboard() {
         )}
       </div>
 
-      <Footer lang={lang} />
+      <Footer lang={lang} lockLang />
 
       {/* Slide-over Policy Details */}
       {selectedPolicyId && (

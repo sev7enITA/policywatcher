@@ -118,8 +118,8 @@ describe('crawlable public knowledge layer', () => {
     expect(route).toContain('openGraph: {');
     expect(route).toContain("siteName: 'PolicyWatcher'");
     expect(route).toContain("card: 'summary_large_image'");
-    expect(route).toContain('type="application/ld+json"');
-    expect(route).toContain('serializeJsonLd(HOME_STRUCTURED_DATA)');
+    expect(read('src/app/HomeClient.tsx')).toContain('type="application/ld+json"');
+    expect(read('src/app/HomeClient.tsx')).toContain('JSON.stringify(homeStructuredData(lang))');
     expect(graph.map((entry) => entry['@type'])).toEqual([
       'WebSite',
       'Organization',
@@ -134,12 +134,11 @@ describe('crawlable public knowledge layer', () => {
   });
 
   it('keeps homepage FAQ schema identical to visible FAQ content', () => {
-    const route = read('src/app/page.tsx');
     const faqGraph = HOME_STRUCTURED_DATA['@graph'].find((entry) => entry['@type'] === 'FAQPage');
 
     expect(HOME_FAQS).toHaveLength(3);
-    expect(route).toContain('HOME_FAQS.map');
-    expect(route).toContain('<noscript>');
+    expect(read('src/app/HomeClient.tsx')).toContain('homeFaqs(lang).map');
+    expect(read('src/app/HomeClient.tsx')).toContain('<noscript>');
     expect(faqGraph).toMatchObject({ '@type': 'FAQPage', mainEntity: expect.any(Array) });
   });
 
@@ -190,24 +189,26 @@ describe('crawlable public knowledge layer', () => {
     const route = read('src/app/page.tsx');
     const dashboard = read('src/app/DashboardClient.tsx');
     expect(route).not.toContain("'use client'");
-    expect(route).toContain('<main className={styles.publicKnowledgeMain}>');
-    expect(route).toContain('<HomeKnowledgeSnapshot data={knowledge} />');
-    expect(route).toContain('<DashboardClient />');
-    expect(route.indexOf('<HomeKnowledgeSnapshot data={knowledge} />')).toBeLessThan(route.indexOf('<DashboardClient />'));
+    const home = read('src/app/HomeClient.tsx');
+    expect(route).toContain('<HomeClient knowledge={knowledge} initialLanguage={initialLanguage} />');
+    expect(home).toContain('<main className={styles.publicKnowledgeMain}>');
+    expect(home).toContain('<HomeKnowledgeSnapshot data={knowledge} lang={lang} />');
+    expect(home.indexOf('<HomeKnowledgeSnapshot')).toBeLessThan(home.indexOf('<DashboardClient'));
+    expect(home).not.toContain('ssr: false');
     expect(dashboard).toContain("'use client'");
     expect(dashboard).not.toContain('knowledgeSnapshot');
     expect(dashboard).not.toContain('<main');
-    expect(dashboard).toContain('role="region" aria-label="Interactive policy monitoring workspace"');
+    expect(dashboard).toContain('Interactive policy monitoring workspace');
   });
 
   it('renders evidence and the visible introduction in the initial server response', () => {
     const route = read('src/app/page.tsx');
-    expect(route).toContain('export default async function HomePage()');
+    expect(route).toContain('export default async function HomePage({ searchParams }: Props)');
     expect(route).toContain('await getPublicKnowledgeHub()');
     expect(route).not.toContain('<Suspense');
     expect(route).not.toContain('styles.srOnly');
-    expect(route).toContain('<h1>Track updates to privacy policies, terms of service and AI policies</h1>');
-    expect(route).toContain('<HomeKnowledgeSnapshot');
+    expect(read('src/app/HomeClient.tsx')).toContain('Track updates to privacy policies, terms of service and AI policies');
+    expect(read('src/app/HomeClient.tsx')).toContain('<HomeKnowledgeSnapshot');
   });
 
   it('scopes terms acknowledgement to the interactive workspace without a covering overlay', () => {

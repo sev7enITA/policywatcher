@@ -20,7 +20,7 @@ import {
 } from '../release';
 
 const releaseSurfaces = [
-  'src/app/page.tsx',
+  'src/app/HomeClient.tsx',
   'src/app/trust/page.tsx',
   'src/app/admin/layout.tsx',
   'src/app/admin/login/page.tsx',

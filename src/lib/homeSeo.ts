@@ -91,3 +91,33 @@ export const HOME_STRUCTURED_DATA = {
     },
   ],
 } as const;
+
+
+export const HOME_FAQS_IT = [
+  {
+    question: 'Cosa monitora PolicyWatcher?',
+    answer: 'PolicyWatcher monitora le fonti pubbliche delle policy aziendali e pubblica i record solo quando sono disponibili una versione di riferimento verificata e i collegamenti alle fonti.',
+  },
+  {
+    question: 'Posso verificare una modifica segnalata?',
+    answer: 'Sì. I record pubblici rimandano all’azienda monitorata, alla policy, alla versione di riferimento verificata e alla fonte ufficiale disponibile, per consentire di esaminare le evidenze e i loro limiti.',
+  },
+  {
+    question: 'PolicyWatcher fornisce consulenza legale?',
+    answer: 'No. Il controllo automatizzato e le evidenze pubblicate supportano una verifica indipendente; non costituiscono consulenza legale, certificazione o valutazione di conformità.',
+  },
+] as const;
+
+export function homeFaqs(lang: 'en' | 'it') {
+  return lang === 'it' ? HOME_FAQS_IT : HOME_FAQS;
+}
+
+export function homeStructuredData(lang: 'en' | 'it') {
+  return {
+    ...HOME_STRUCTURED_DATA,
+    '@graph': HOME_STRUCTURED_DATA['@graph'].map((entry) => entry['@type'] === 'FAQPage'
+      ? { ...entry, inLanguage: lang, mainEntity: homeFaqs(lang).map((item) => ({
+        '@type': 'Question', name: item.question, acceptedAnswer: { '@type': 'Answer', text: item.answer },
+      })) } : entry),
+  };
+}

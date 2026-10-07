@@ -541,7 +541,7 @@ export default function Navigation({
           {quickActions.map((item) => renderCommand(item))}
         </div>
 
-        <GlobalContextControl className={styles.dashboardContext} compact />
+        <GlobalContextControl className={styles.dashboardContext} compact fallbackLang={lang} forcedLang={lang} />
 
         <button
           type="button"
@@ -629,7 +629,7 @@ export default function Navigation({
             </div>
 
             <div className={styles.sheetGlobalContext}>
-              <GlobalContextControl />
+              <GlobalContextControl fallbackLang={lang} forcedLang={lang} />
             </div>
 
             <div className={styles.sheetGroups}>

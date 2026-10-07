@@ -25,7 +25,8 @@ describe('global context', () => {
   });
 
   it('uses an honest EN fallback outside the supported Italian locale', () => {
-    expect(resolvePlatformLanguage(normalizeGlobalContext({ country: 'it' }))).toBe('it');
+    expect(resolvePlatformLanguage(normalizeGlobalContext({ country: 'it' }), 'en-GB')).toBe('en');
+    expect(resolvePlatformLanguage(normalizeGlobalContext({ country: 'fr' }), 'it-IT')).toBe('it');
     expect(resolvePlatformLanguage(normalizeGlobalContext({ country: 'fr' }))).toBe('en');
     expect(resolvePlatformLanguage({ ...DEFAULT_GLOBAL_CONTEXT }, 'it-IT')).toBe('it');
   });

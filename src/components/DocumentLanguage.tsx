@@ -9,6 +9,9 @@ export default function DocumentLanguage() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const lang = publicRequestLanguage(pathname || '/', searchParams.get('lang'));
-  useEffect(() => { document.documentElement.lang = lang; }, [lang]);
+  useEffect(() => {
+    // The home and workspace share live browser/onboarding state, including URL updates.
+    if (pathname !== '/') document.documentElement.lang = lang;
+  }, [lang, pathname]);
   return null;
 }

@@ -4706,3 +4706,7 @@
 .documentOptions label:has(input:checked), .documentOptions button[aria-pressed="true"] { border-color: var(--primary); background: rgba(99, 102, 241, .12); }
 .documentScope p, .scopeCoverage { font-size: .85rem; line-height: 1.6; margin-top: 10px; overflow-wrap: anywhere; }
 .documentOptions :focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+
+.onboardingLanguage { display: grid; gap: 0.5rem; margin-block: 1rem; font-weight: 600; }
+.onboardingLanguage select { padding: 0.6rem; border: 1px solid var(--border-color, #9da7b4); border-radius: 0.5rem; color: inherit; background: var(--bg-secondary, #fff); max-width: 20rem; }
+.onboardingLanguage span { font-size: 0.85rem; font-weight: 400; }
