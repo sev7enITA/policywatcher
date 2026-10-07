@@ -1,0 +1,68 @@
+{
+  "checkedAt": "2026-10-07T04:37:52.947628+00:00",
+  "integrity": "ok",
+  "backupAt": "20261007T042708Z",
+  "backupIntegrity": "ok",
+  "backupSha256": "ea6531f82844d273fa5eb1405cd41cad115ccd6e4d84f8ff148f7d86f3c891bc",
+  "comparison": {
+    "Company": {
+      "unchanged": true,
+      "beforeRows": 18,
+      "afterRows": 18
+    },
+    "Policy": {
+      "unchanged": true,
+      "beforeRows": 113,
+      "afterRows": 113
+    },
+    "PolicySnapshot": {
+      "unchanged": true,
+      "beforeRows": 199,
+      "afterRows": 199
+    },
+    "PolicyChange": {
+      "unchanged": true,
+      "beforeRows": 79,
+      "afterRows": 79
+    },
+    "PolicyCheckLog": {
+      "unchanged": false,
+      "beforeRows": 1915,
+      "afterRows": 1916
+    },
+    "Entity": {
+      "unchanged": true,
+      "beforeRows": 4,
+      "afterRows": 4
+    },
+    "Document": {
+      "unchanged": true,
+      "beforeRows": 8,
+      "afterRows": 8
+    },
+    "Version": {
+      "unchanged": true,
+      "beforeRows": 16,
+      "afterRows": 16
+    },
+    "Change": {
+      "unchanged": true,
+      "beforeRows": 8,
+      "afterRows": 8
+    },
+    "Provision": {
+      "unchanged": true,
+      "beforeRows": 0,
+      "afterRows": 0
+    },
+    "HistoricalSourceReference": {
+      "unchanged": true,
+      "beforeRows": 33,
+      "afterRows": 33
+    },
+    "Subscriber": {
+      "unchanged": true
+    }
+  },
+  "boundary": "Private table contents, subscriber counts/hashes and backup paths omitted. PolicyCheckLog gains one rejected archive-live-confirmation check; existing provider evidence and subscribers are unchanged."
+}

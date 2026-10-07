@@ -1,0 +1,70 @@
+{
+  "release": "5.0.0",
+  "revision": "evidence-assurance-r1",
+  "artifact": "PolicyWatcher-5.0.0-hostinger-2026-10-07-evidence-assurance-r1.zip",
+  "artifactSha256": "48e84b70c1f4b63fb295629bdb89a7beb6e434a42338eaeb587493516d6114df",
+  "sourceRevision": "f54e8dfaff0512d59349d4920afaff058fd328b6",
+  "implementationMergeCommit": "5634609a9fa3b8080a6f7e5ea12e04329c7d411c",
+  "implementationPullRequest": "https://github.com/sev7enITA/policywatcher/pull/23",
+  "productionOrigin": "https://policywatcher.online",
+  "stagingVerifiedAt": "2026-10-07T04:25:49.854Z",
+  "runtimeVerifiedAt": "2026-10-07T04:36:34.350Z",
+  "productionActivated": true,
+  "guardEnabled": true,
+  "scansPaused": false,
+  "baselineReadiness": {
+    "baseline_input_anchored": 107,
+    "external_capture_not_live_confirmation": 1,
+    "baseline_review_required": 4,
+    "retrieval_incomplete": 1
+  },
+  "publicCatalogue": {
+    "companies": 18,
+    "policies": 109
+  },
+  "database": {
+    "integrity": "ok",
+    "companies": 18,
+    "configuredPolicies": 113,
+    "snapshots": 199,
+    "providerChanges": 79,
+    "tables": 34,
+    "migrations": 18
+  },
+  "externalMetadata": {
+    "documents": 7,
+    "references": 16,
+    "collectionHead": "0dbd93e5c9b3af461ae31afb9d6b73760b6270c3",
+    "mode": "metadata_only"
+  },
+  "assessedReviewSamples": 0,
+  "humanReviewedMetrics": "null, not assessed",
+  "productionPages": {
+    "origin": "https://policywatcher.online",
+    "checkedAt": "2026-10-07T04:32:42Z",
+    "sitemapUrls": 466,
+    "total": 521,
+    "http200": 521,
+    "errors": [],
+    "staleCurrent": [],
+    "oldBuilds": []
+  },
+  "sourceIntegrity": {
+    "checkedAt": "2026-10-07T04:41:33.989686+00:00",
+    "scope": "Production last-source compared with immutable promoted ZIP",
+    "checkedFiles": 937,
+    "matchedFiles": 937,
+    "mismatches": []
+  },
+  "existingProductionVerification": {
+    "http": 200,
+    "status": "attention",
+    "summary": {
+      "passed": 8,
+      "attention": 1,
+      "unavailable": 0,
+      "external": 1
+    }
+  },
+  "boundary": "Operational rollout verified. Does not establish complete provider coverage, population accuracy, legal compliance or independent security certification."
+}

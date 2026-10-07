@@ -17,6 +17,18 @@ The Android companion shares the citizen model, official guides, local choices a
 
 ## Compatibility and validation
 
-This is a product major release. Existing public v1 API contracts remain in place; the citizen endpoint is additive. There is no new schema migration relative to the beta.5 source baseline. Browser-extension and Android package versions remain independent of the website version.
+This is a product major release. Existing public v1 API contracts remain in place; the citizen endpoint is additive. The original 6 October citizen release has no new schema migration relative to the beta.5 source baseline; the 7 October assurance update below adds three tables. Browser-extension and Android package versions remain independent of the website version.
 
 The implementation validation is recorded in `docs/citizen-experience-validation.md`. Hostinger publication must use one committed source ZIP, pass the staging checks and promote the exact verified checksum. The deployment receipt records the actual publication outcome separately from these release notes.
+
+## 7 October 2026 operational update: evidence assurance
+
+The five assurance features are now live: extraction-change guard, bounded EU metadata discovery, historical metadata references, transient extraction comparison and human-reviewed quality metrics. Methodology, Feature Atlas, Site Atlas, newsroom and runbook are updated. The guard is enabled and scans are resumed.
+
+The immutable `evidence-assurance-r1` Hostinger ZIP was built from `f54e8dfaff0512d59349d4920afaff058fd328b6`, verified in staging and promoted to production. SHA-256: `48e84b70c1f4b63fb295629bdb89a7beb6e434a42338eaeb587493516d6114df`. The existing 5.0.0 tag and original citizen artifact remain historical; the new attachment identifies this later source revision explicitly.
+
+Observed production state: 34 tables / 18 migrations; 18 companies, 113 configured policies, 109 public policies, 199 snapshots and 79 recorded changes. Exact live extraction inputs were anchored for 107 policies; four differing extractions, one archive-only result and one incomplete retrieval remain unresolved. Seven bounded EU documents supply 16 metadata-only references. No full EU policy texts, fabricated changes or historical alerts were added.
+
+Validation: 1,164 tests passed, 14 skipped; build and typechecks passed; 521/521 URL checks returned HTTP 200 in staging and production. Both new human-review metrics remain unassessed because the production sample has zero assessed reviews. This does not establish population accuracy, complete coverage or legal compliance. Existing Production Verification remains 8 passed / 1 attention / 1 external.
+
+Full rollout evidence: [production receipt](https://github.com/sev7enITA/policywatcher/tree/main/docs/reports/evidence-assurance-release-2026-10-07).

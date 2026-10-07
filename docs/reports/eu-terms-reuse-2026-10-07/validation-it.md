@@ -2,6 +2,8 @@
 
 Data: 7 ottobre 2026. Base Git: `77914ff`, ramo `codex/eu-evidence-quality`. Esito: implementazione e pilota locali verificati; nessuna attivazione o modifica al database di produzione.
 
+Questa ricevuta descrive la verifica locale iniziale. Il successivo rollout del 7 ottobre è completato e verificato in produzione, con guard attivo e scansioni riprese: [verbale di rilascio](../evidence-assurance-release-2026-10-07/README.md). I limiti locali qui sotto restano riferiti a quella fase.
+
 ## Risultati
 
 - Suite completa `npm test`: 1.164 test superati, 14 esclusi; 176 file superati e 3 esclusi. Le esclusioni restano visibili e non sono conteggiate come successo.

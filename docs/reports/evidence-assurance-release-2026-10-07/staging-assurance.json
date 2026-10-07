@@ -1,0 +1,79 @@
+{
+  "at": "2026-10-07T04:25:57.554Z",
+  "target": "staging",
+  "guardEnabled": true,
+  "scansPaused": false,
+  "checks": [
+    {
+      "name": "anonymous-boundary",
+      "ok": true,
+      "detail": 401
+    },
+    {
+      "name": "admin-authentication",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "protected-workbench",
+      "ok": true,
+      "detail": {
+        "references": 0,
+        "metrics": {
+          "falsePositiveShare": {
+            "numerator": 0,
+            "denominator": 0,
+            "percent": null,
+            "unassessed": 1
+          },
+          "citationSupport": {
+            "numerator": 0,
+            "denominator": 0,
+            "percent": null,
+            "unassessed": 0
+          },
+          "staleReviews": 0,
+          "scope": "Manually reviewed sample only; false-positive share among reviewed detected changes, not population false-positive rate. Citation support is a human judgement, not an exact-match score."
+        }
+      }
+    },
+    {
+      "name": "private-input-excluded",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "database-schema",
+      "ok": true,
+      "detail": {
+        "expectedTableCount": 34,
+        "presentTableCount": 34,
+        "missingTables": [],
+        "expectedMigrationCount": 18,
+        "appliedMigrationCount": 18,
+        "missingMigrations": [],
+        "migrationLedgerAvailable": true,
+        "lastAppliedMigration": "20261007120000_evidence_assurance",
+        "lastAppliedAt": "2026-10-07T04:17:36.111Z"
+      }
+    },
+    {
+      "name": "scan-resumed-without-fetch",
+      "ok": true,
+      "detail": 404
+    },
+    {
+      "name": "unassessed-review",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "transient-comparison",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "comparable": true
+      }
+    }
+  ]
+}

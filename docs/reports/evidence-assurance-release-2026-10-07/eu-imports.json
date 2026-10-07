@@ -1,0 +1,35 @@
+{
+  "method": "Native bounded adapter retrieved metadata locally; operator transferred checksum-verified receipt and applied atomic imports after hosting-side retrieval stalled and was stopped. No full policy text imported.",
+  "imports": [
+    {
+      "at": "2026-10-07T04:35:28.153Z",
+      "receiptSha256": "7da0bf5968e3ae8e2bdc1bc44df06a9146fc2aac986b95f091289563e7f72cc7",
+      "head": "0dbd93e5c9b3af461ae31afb9d6b73760b6270c3",
+      "importedReferences": 16,
+      "totalReferences": 16,
+      "providerChangesBefore": 79,
+      "providerChangesAfter": 79,
+      "target": "staging"
+    },
+    {
+      "at": "2026-10-07T04:35:28.814Z",
+      "receiptSha256": "7da0bf5968e3ae8e2bdc1bc44df06a9146fc2aac986b95f091289563e7f72cc7",
+      "head": "0dbd93e5c9b3af461ae31afb9d6b73760b6270c3",
+      "importedReferences": 16,
+      "totalReferences": 16,
+      "providerChangesBefore": 79,
+      "providerChangesAfter": 79,
+      "target": "staging"
+    },
+    {
+      "at": "2026-10-07T04:35:29.673Z",
+      "receiptSha256": "7da0bf5968e3ae8e2bdc1bc44df06a9146fc2aac986b95f091289563e7f72cc7",
+      "head": "0dbd93e5c9b3af461ae31afb9d6b73760b6270c3",
+      "importedReferences": 16,
+      "totalReferences": 16,
+      "providerChangesBefore": 79,
+      "providerChangesAfter": 79,
+      "target": "production"
+    }
+  ]
+}
