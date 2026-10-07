@@ -105,6 +105,12 @@ const NAV_ITEMS: NavItem[] = [
     section: 'Assure',
   },
   {
+    label: 'Evidence Reviews',
+    href: '/admin/evidence-quality',
+    icon: <ClipboardCheck size={18} />,
+    section: 'Assure',
+  },
+  {
     label: 'Dataset QA',
     href: '/admin/dataset-quality',
     icon: <ClipboardCheck size={18} />,

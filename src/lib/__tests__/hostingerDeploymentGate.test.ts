@@ -186,7 +186,7 @@ describe('Hostinger staging-to-production gate', () => {
     expect(smoke).toContain('https://policywatcher.online/schemas/publication-readiness/v1');
     expect(smoke).toContain("response.headers.get('cache-control') === 'no-store'");
     expect(smoke).toContain("['configured', 'retrieved', 'baseline-verified', 'public', 'analysed']");
-    expect(smoke).toContain('payload?.schema?.presentTableCount === 31');
+    expect(smoke).toContain('payload?.schema?.presentTableCount === 34');
     expect(smoke).toContain('payload?.schema?.appliedMigrationCount === 17');
     expect(smoke).toContain("payload?.integrity?.quickCheck === 'ok'");
     expect(smoke).toContain("contractVersion: '1.2.0'");

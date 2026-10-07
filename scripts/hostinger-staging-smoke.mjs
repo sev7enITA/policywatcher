@@ -214,7 +214,7 @@ export async function runStagingSmoke({
     expect(payload?.status === 'ready', `Database readiness is ${payload?.status || 'missing'}.`);
     expect(payload?.database?.provider === 'sqlite', `Expected SQLite staging provider, received ${payload?.database?.provider || 'missing'}.`);
     expect(
-      payload?.schema?.presentTableCount === 31 && payload?.schema?.expectedTableCount === 31,
+      payload?.schema?.presentTableCount === 34 && payload?.schema?.expectedTableCount === 34,
       `Expected 31/31 tables, received ${payload?.schema?.presentTableCount ?? '?'}/${payload?.schema?.expectedTableCount ?? '?'}.`,
     );
     expect(

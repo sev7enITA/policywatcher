@@ -1,3 +1,4 @@
+import { extractionEvidence } from './extractionProfile';
 import * as cheerio from 'cheerio';
 import { lookup } from 'dns/promises';
 import { isIP } from 'net';
@@ -53,6 +54,8 @@ import { classifyRetrievalCause, terminalRetrievalCause, type RetrievalCause } f
 export type ScrapeStatus = 'ok' | 'unavailable' | 'invalid';
 
 export interface ScrapeResult {
+  /** Private extractor input; never include in API responses. */
+  extraction?: ReturnType<typeof extractionEvidence>;
   /** Overall status of the scrape attempt. */
   status: ScrapeStatus;
   /** Cleaned plain-text policy content. Present only when status === 'ok'. */
@@ -1925,6 +1928,7 @@ export async function scrapePolicyText(
           httpStatus,
           attempts: MAX_RETRIES + 1,
           source: 'direct',
+          extraction: extractionEvidence(transport.html, url),
           partial: validation.partial,
           partialReason: validation.partialReason,
           originalTextLength: validation.originalTextLength,
@@ -1990,6 +1994,7 @@ export async function scrapePolicyText(
             httpStatus: h2Result.status,
             attempts: MAX_RETRIES + 2,
             source: 'http2',
+            extraction: extractionEvidence(h2Result.html, url),
             partial: validation.partial,
             partialReason: validation.partialReason,
             originalTextLength: validation.originalTextLength,
@@ -2070,6 +2075,7 @@ export async function scrapePolicyText(
           httpStatus: rendered.status,
           attempts: MAX_RETRIES + 3,
           source: 'rendered',
+          extraction: extractionEvidence(rendered.html, url),
           partial: validation.partial,
           partialReason: validation.partialReason,
           originalTextLength: validation.originalTextLength,

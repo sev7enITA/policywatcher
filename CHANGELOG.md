@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased - Evidence assurance pilot (2026-10-07)
+
+- Add an opt-in native extraction-profile guard to scheduled and manual scans, bounded private replay inputs, explicit technical-baseline events and reviewed recovery when old input is unavailable. Parser updates never create provider-change events.
+- Add a metadata-only EU archive pilot for Google, OpenAI and Meta privacy/terms: pinned commits, license-change stop, bounded history, idempotent imports and explicit applicability review. No upstream policy texts or executable filters are imported.
+- Extend Dataset QA with human-reviewed false-positive share and AI citation support, explicit denominators and stale-review exclusion. Add transient extraction comparison as a diagnostic signal.
+- Add protected evidence review controls, additive SQLite/PostgreSQL migrations, runtime/backup parity and a scan-pause rollback control. Local implementation and test results do not establish deployment or production improvement.
+
 ## 5.0.0 - Your Services, Your Choices (2026-10-06)
 
 ### Page and release-reference consistency

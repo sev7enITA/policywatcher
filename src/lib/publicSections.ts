@@ -348,7 +348,7 @@ export const publicSectionNodes: PublicSectionNode[] = [
     href: '/admin',
     group: 'boundary',
     summary: 'Protected console for Dataset QA, source scans, configured webhook delivery, VPS services, database inspection and review logs.',
-    role: 'Shown as an architecture boundary; access remains protected.',
+    role: 'Shown as an architecture boundary; access remains protected. The evidence-assurance extension is a local pilot pending deployment.',
     status: 'protected',
     icon: 'server',
     x: 50,

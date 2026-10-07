@@ -11,6 +11,9 @@ const SCRYPT_MAX_MEMORY_BYTES = 64 * 1024 * 1024;
 const BACKUP_AAD = 'policywatcher-encrypted-export:v2';
 
 export const COMPLETE_BACKUP_TABLES = [
+  ['ExtractionBaseline', 'extractionBaseline'],
+  ['ExternalDocumentReference', 'externalDocumentReference'],
+  ['EvidenceQualityReview', 'evidenceQualityReview'],
   ['Entity', 'entity'],
   ['Document', 'document'],
   ['Version', 'version'],

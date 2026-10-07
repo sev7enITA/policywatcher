@@ -1,0 +1,10 @@
+.workspace { padding: 24px; max-width: 1200px; }
+.workspace section { border-top: 1px solid var(--border-color, #64748b); padding-top: 20px; }
+.workspace label { display: grid; gap: 6px; }
+.workspace input:not([type=checkbox]), .workspace select, .workspace textarea { box-sizing: border-box; width: 100%; max-width: 100%; min-width: 0; font: inherit; padding: 10px; color: inherit; background: var(--bg-secondary, #182131); border: 1px solid #64748b; border-radius: 4px; }
+.workspace textarea { min-height: 100px; }
+.workspace button { font: inherit; padding: 10px 14px; border: 1px solid #64748b; border-radius: 4px; cursor: pointer; }
+.workspace button:disabled { opacity: .55; cursor: default; }
+.workspace code, .workspace p, .workspace pre { overflow-wrap: anywhere; }
+.workspace :focus-visible { outline: 3px solid #2dd4bf; outline-offset: 3px; }
+@media (max-width: 600px) { .workspace { padding: 12px; } }

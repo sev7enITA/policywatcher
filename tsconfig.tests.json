@@ -17,7 +17,8 @@
     "src/lib/__tests__/scanRunLifecycle.test.ts",
     "src/lib/__tests__/scraper.test.ts",
     "src/lib/__tests__/scraperFallbackSmoke.test.ts",
-    "src/lib/__tests__/subscriberDoubleOptIn.test.ts"
+    "src/lib/__tests__/subscriberDoubleOptIn.test.ts",
+    "src/lib/__tests__/evidenceAssurance.test.ts"
   ],
   "exclude": ["node_modules", ".next", "mobile", "coverage", "test-results"]
 }

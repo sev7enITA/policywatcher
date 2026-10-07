@@ -1,3 +1,5 @@
+import { extractionGuardEnabled } from '@/lib/extractionProfile';
+import { guardExtraction, anchorCommittedExtraction } from '@/lib/extractionGuard';
 /**
  * PolicyWatcher v3.0 - Scheduled Policy Check Endpoint
  *
@@ -45,6 +47,7 @@ import { normalizeKpiFields } from '@/lib/kpiDefaults';
 import {
   CHANGE_CONFIRMATION_PENDING_REASON,
   isConsecutiveChangeConfirmation,
+  confirmationReason,
 } from '@/lib/changeConfirmation';
 import {
   buildAcquisitionKey,
@@ -155,6 +158,7 @@ interface CheckDetail {
     | 'unchanged'
     | 'changed'
     | 'confirmation_pending'
+    | 'needs_review'
     | 'rebaselined'
     | 'partial'
     | 'error'
@@ -179,6 +183,7 @@ export interface ScanResult {
   selected: number;
   changed: number;
   confirmationPending: number;
+  extractionHeld: number;
   rebaselined: number;
   partial: number;
   errors: number;
@@ -461,6 +466,7 @@ export async function runFullScan(
   onProgress?: ProgressCallback,
   options: ScanOptions = {}
 ): Promise<ScanResult> {
+  if (process.env.POLICYWATCHER_SCANS_PAUSED === '1') throw new Error('policy_scans_paused');
   const details: CheckDetail[] = [];
   let checked = 0;
   let changed = 0;
@@ -827,6 +833,12 @@ export async function runFullScan(
         continue;
       }
 
+      if (extractionGuardEnabled() && !['direct', 'http2', 'rendered'].includes(scrapeResult.source)) {
+        const decision = await guardExtraction(policy, scrapeResult);
+        detail.status = 'needs_review'; detail.error = decision.reason; details.push(detail);
+        continue;
+      }
+
       if (policy.sourceMigrationPending) {
         const checkedAt = new Date();
         try {
@@ -853,6 +865,7 @@ export async function runFullScan(
           detail.transportLabel = transportLabel;
           details.push(detail);
           rebaselined++;
+          await anchorCommittedExtraction(policy.id, scrapeResult);
           onProgress?.({
             phase: 'policy_done',
             total: policies.length,
@@ -945,6 +958,7 @@ export async function runFullScan(
         detail.transportLabel = transportLabel;
         details.push(detail);
         rebaselined++;
+        await anchorCommittedExtraction(policy.id, scrapeResult);
 
         console.log(
           `[Cron] Re-baselined ${policy.company.name} - ${policy.name} from seeded evidence. Removed ${rebaseline.removedChangeCount} seeded changes and ${rebaseline.removedSnapshotCount} seeded snapshots.`
@@ -995,6 +1009,7 @@ export async function runFullScan(
         detail.transportLabel = transportLabel;
         details.push(detail);
         if (baseline.publicEvidence) rebaselined++;
+        await anchorCommittedExtraction(policy.id, scrapeResult);
 
         onProgress?.({
           phase: 'policy_done',
@@ -1011,6 +1026,17 @@ export async function runFullScan(
             ? `${policyProgressLabel}: first verified public baseline established [OK] [${formatSourceMarker(source)}]`
             : `${policyProgressLabel}: verified private baseline retained pending onboarding QA [${formatSourceMarker(source)}]`,
         });
+        continue;
+      }
+
+      const extractionDecision = await guardExtraction(policy, scrapeResult);
+      if (!extractionDecision.proceed) {
+        detail.status = 'needs_review';
+        detail.error = extractionDecision.reason;
+        details.push(detail);
+        onProgress?.({ phase: 'policy_done', total: policies.length, current: checked,
+          company: policy.company.name, policy: policy.name, status: 'needs_review',
+          message: `${policyProgressLabel}: ${extractionDecision.reason}` });
         continue;
       }
 
@@ -1142,7 +1168,7 @@ export async function runFullScan(
       }
 
       const latestCheckLog = policy.checkLogs[0];
-      if (!isConsecutiveChangeConfirmation(latestCheckLog, newHash)) {
+      if (!isConsecutiveChangeConfirmation(latestCheckLog, newHash, extractionDecision.profileHash)) {
         const checkedAt = new Date();
         await db.$transaction([
           db.policy.update({
@@ -1161,7 +1187,7 @@ export async function runFullScan(
               checkedAt,
               source: scrapeResult.source || 'direct',
               httpStatus: scrapeResult.httpStatus || null,
-              reason: CHANGE_CONFIRMATION_PENDING_REASON,
+              reason: confirmationReason(extractionDecision.profileHash),
               reasonCode: CHANGE_CONFIRMATION_PENDING_REASON,
               finalUrl: scrapeResult.finalUrl || policy.url,
               textHash: newHash,
@@ -1297,6 +1323,8 @@ export async function runFullScan(
         await dualWriteCanonicalPolicyGraph(tx, policy.id);
         return recordedChange.id;
       });
+
+      await anchorCommittedExtraction(policy.id, scrapeResult);
 
       // Count only a successfully committed revision.
       changed++;
@@ -1484,15 +1512,17 @@ export async function runFullScan(
       invalidRecords: invalidCount,
       partialRecords: partialCount,
       errorRecords: errors,
-      metricsJson: JSON.stringify(retrievalMetrics),
+      metricsJson: JSON.stringify({ ...retrievalMetrics, extractionHeld: details.filter(d => d.status === 'needs_review').length }),
     },
   });
 
+  const extractionHeld = details.filter(d => d.status === 'needs_review').length;
   const result: ScanResult = {
     checked,
     selected: policies.length,
     changed,
     confirmationPending,
+    extractionHeld,
     rebaselined,
     partial: partialCount,
     errors,
@@ -1531,6 +1561,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  if (process.env.POLICYWATCHER_SCANS_PAUSED === '1') return NextResponse.json({ error: 'policy_scans_paused' }, { status: 503 });
   try {
     const options = await readScanOptions(request);
     const result = await runFullScan(undefined, options);
