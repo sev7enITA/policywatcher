@@ -152,6 +152,25 @@ describe('extraction guard with real isolated SQLite', () => {
 });
 
 describe('reviewed quality and boundaries', () => {
+  it('removes private extraction inputs and operator notes from sanitized staging copies', () => {
+    const source = join(dir, 'sanitization-source.db'); const target = join(dir, 'sanitization-target.db');
+    const output = execFileSync(process.execPath, ['--input-type=module', '-e', `
+      import { DatabaseSync } from 'node:sqlite';
+      import { createStagingDatabase } from './scripts/create-staging-database.mjs';
+      const source = process.argv[1]; const target = process.argv[2];
+      const db = new DatabaseSync(source);
+      for (const table of ['ExtractionBaseline', 'EvidenceQualityReview', 'ExternalDocumentReference', 'Policy']) {
+        db.exec('CREATE TABLE "' + table + '" (id TEXT)'); db.prepare('INSERT INTO "' + table + '" VALUES (?)').run('fixture');
+      }
+      db.close(); const result = createStagingDatabase({ sourcePath: source, outputPath: target });
+      const clean = new DatabaseSync(target); const original = new DatabaseSync(source);
+      console.log(JSON.stringify({ removed: result.removed,
+        publicRows: clean.prepare('SELECT COUNT(*) AS n FROM Policy').get().n,
+        originalRows: original.prepare('SELECT COUNT(*) AS n FROM ExtractionBaseline').get().n }));
+      clean.close(); original.close();
+    `, source, target], { encoding: 'utf8' });
+    expect(JSON.parse(output)).toEqual({ removed: { ExtractionBaseline: 1, EvidenceQualityReview: 1, ExternalDocumentReference: 1 }, publicRows: 1, originalRows: 1 });
+  });
   it('reports unknown at zero denominator and excludes outdated evidence', () => {
     expect(reviewedMetrics([], new Map()).falsePositiveShare.percent).toBeNull();
     const m = reviewedMetrics([{ changeId: 'a', metric: 'substantive_change', verdict: 'fail', evidenceHash: 'old' },

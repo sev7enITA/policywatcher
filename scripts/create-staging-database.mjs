@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 
-const SANITIZATION_VERSION = '1.0.0';
+const SANITIZATION_VERSION = '1.1.0';
 export const SENSITIVE_TABLES = [
   'WebhookDeliveryAttempt',
   'WebhookDelivery',
@@ -19,6 +19,9 @@ export const SENSITIVE_TABLES = [
   'AiModelInvocation',
   'AdminReviewLog',
   'DatasetQaIssueReview',
+  'ExtractionBaseline',
+  'EvidenceQualityReview',
+  'ExternalDocumentReference',
 ];
 
 function argument(argv, name) {

@@ -4,7 +4,7 @@ Data: 7 ottobre 2026. Base Git: `77914ff`, ramo `codex/eu-evidence-quality`. Esi
 
 ## Risultati
 
-- Suite completa `npm test`: 1.163 test superati, 14 esclusi; 176 file superati e 3 esclusi. Le esclusioni restano visibili e non sono conteggiate come successo.
+- Suite completa `npm test`: 1.164 test superati, 14 esclusi; 176 file superati e 3 esclusi. Le esclusioni restano visibili e non sono conteggiate come successo.
 - `npm run lint:web`: zero errori, 15 avvisi preesistenti sulla navigazione in CommandPalette e GlobalContextControl. Ricontrollati senza errori i file modificati dopo questo passaggio.
 - `npm run typecheck` e `npm run typecheck:critical-tests`: superati.
 - `npm run build` con target locale e database SQLite isolato: superato, incluso controllo del fingerprint di estrazione e generazione Prisma. Questo è un controllo della build destinata alla produzione, non un deployment.
@@ -14,7 +14,7 @@ Data: 7 ottobre 2026. Base Git: `77914ff`, ramo `codex/eu-evidence-quality`. Esi
 
 ## Casi coperti dai nuovi test
 
-Database SQLite reale e temporaneo, inizializzatore Hostinger eseguito due volte; upgrade del parser senza PolicyChange; modifica del provider simultanea all'upgrade; input assente, corrotto, parziale o non più estraibile; recupero soggetto a hash corrente e revisione; separazione degli archivi dalle osservazioni live; conferma consecutiva con stesso profilo; normalizzazione degli URL senza collassare lingua e frammento; percorso manuale completo con AI solo dopo conferma; pausa delle scansioni prima del retrieval; accesso admin/auditor; citazioni inventate rifiutate; recensioni ripetute senza aumento artificiale del campione; revisioni invalidate dal cambiamento delle evidenze; metriche senza denominatore restituite come non valutate; importazione idempotente, perimetro e commit fissati, arresto al cambiamento della licenza; input privato escluso dalle risposte di overview.
+Database SQLite reale e temporaneo, inizializzatore Hostinger eseguito due volte; upgrade del parser senza PolicyChange; modifica del provider simultanea all'upgrade; input assente, corrotto, parziale o non più estraibile; recupero soggetto a hash corrente e revisione; separazione degli archivi dalle osservazioni live; conferma consecutiva con stesso profilo; normalizzazione degli URL senza collassare lingua e frammento; percorso manuale completo con AI solo dopo conferma; pausa delle scansioni prima del retrieval; accesso admin/auditor; citazioni inventate rifiutate; recensioni ripetute senza aumento artificiale del campione; revisioni invalidate dal cambiamento delle evidenze; metriche senza denominatore restituite come non valutate; importazione idempotente, perimetro e commit fissati, arresto al cambiamento della licenza; input privato escluso dalle risposte di overview; copia di staging sanitizzata senza input di estrazione e note degli operatori, preservando database originale e record pubblici.
 
 Sono state aggiornate e verificate le liste di tabelle per inizializzazione, readiness, backup cifrato e staging, oltre alla coerenza delle migrazioni SQLite/PostgreSQL. La migrazione PostgreSQL non è stata eseguita contro un server PostgreSQL in questa sessione: il controllo statico non sostituisce la rehearsal specifica del provider.
 
