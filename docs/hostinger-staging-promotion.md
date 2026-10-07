@@ -116,7 +116,7 @@ environment gate before database preparation and `next build`. The explicit
 for local/operator preflight, but are not selectable in the managed preset UI.
 
 Database Readiness must report `journalMode=wal`, `busyTimeoutMs>=5000`,
-`31/31` tables and `16/16` SQLite migrations. Deployment backups are created
+`34/34` tables and `18/18` SQLite migrations. Deployment backups are created
 through the SQLite backup API so WAL state is included consistently; do not
 replace that step with a raw copy of the main `.db` file.
 

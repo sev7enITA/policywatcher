@@ -39,6 +39,12 @@ PolicyWatcher monitors configured public policy sources. The live catalogue repo
 
 The platform is designed as a **civic tech tool** that produces structured summaries and governance indicators from retrieved public policy texts for review by citizens, SMEs, DPOs, and compliance professionals.
 
+### Evidence assurance update · 7 October 2026
+
+Scheduled and manual scans share an opt-in native extraction guard: parser upgrades replay the preserved baseline input before provider-change comparison. The protected `/admin/evidence-quality` workbench adds human-reviewed false-positive share and AI citation support with explicit denominators, metadata-only EU references, and transient extraction diagnostics. Unknown samples remain unassessed; archive metadata cannot confirm a live change or authorize third-party text republication.
+
+See the [deployment and rollback runbook](docs/evidence-assurance-pilot.md), [source/licensing assessment](docs/reports/eu-terms-reuse-2026-10-07/assessment-it.md) and [release evidence](docs/reports/evidence-assurance-release-2026-10-07/README.md). This update retains the 5.0.0 product version; the immutable artifact revision and checksum identify the deployed update.
+
 ### Release 5.0.0: Your Services, Your Choices
 
 The new bilingual [For you journey](https://policywatcher.online/per-te) helps citizens follow services, read bounded summaries with original evidence, consult dated official guides, and keep a local record of their choices. Pasted notices and support drafts stay on the device. No account is required for this journey.

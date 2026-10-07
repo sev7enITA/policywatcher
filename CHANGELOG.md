@@ -1,13 +1,13 @@
 # Changelog
 
-## Unreleased - Evidence assurance pilot (2026-10-07)
+## 5.0.0 - Your Services, Your Choices (2026-10-06)
+
+### Evidence assurance update (2026-10-07)
 
 - Add an opt-in native extraction-profile guard to scheduled and manual scans, bounded private replay inputs, explicit technical-baseline events and reviewed recovery when old input is unavailable. Parser updates never create provider-change events.
 - Add a metadata-only EU archive pilot for Google, OpenAI and Meta privacy/terms: pinned commits, license-change stop, bounded history, idempotent imports and explicit applicability review. No upstream policy texts or executable filters are imported.
 - Extend Dataset QA with human-reviewed false-positive share and AI citation support, explicit denominators and stale-review exclusion. Add transient extraction comparison as a diagnostic signal.
-- Add protected evidence review controls, additive SQLite/PostgreSQL migrations, runtime/backup parity and a scan-pause rollback control. Local implementation and test results do not establish deployment or production improvement.
-
-## 5.0.0 - Your Services, Your Choices (2026-10-06)
+- Add protected evidence review controls, additive SQLite/PostgreSQL migrations, runtime/backup parity and a scan-pause rollback control. Activation and production results are recorded separately in the release receipt; sample metrics do not establish population accuracy.
 
 ### Page and release-reference consistency
 
@@ -24,7 +24,7 @@
 - Publish an additive, paginated read-only citizen feed with existing public-evidence gates, explicit freshness/unknown states, and no personal preference filters.
 - Extend the Android companion with the same citizen model, local preference migration and offline boundaries; native distribution remains a separate milestone.
 - Include shared citizen modules in the immutable Hostinger source package and align package, API and product release metadata at 5.0.0.
-- Product major release: existing public v1 APIs retain their contracts; this release adds no database migration beyond the beta.5 baseline.
+- Product major release: existing public v1 APIs retain their contracts; the initial citizen release added no migration beyond beta.5; the 7 October assurance update adds three tables.
 
 ### Included email subscription availability fixes
 
