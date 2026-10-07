@@ -1,0 +1,7 @@
+{
+  "checkedAt": "2026-10-07T04:41:33.989686+00:00",
+  "scope": "Production last-source compared with immutable promoted ZIP",
+  "checkedFiles": 937,
+  "matchedFiles": 937,
+  "mismatches": []
+}

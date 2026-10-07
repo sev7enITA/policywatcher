@@ -2,6 +2,8 @@
 
 Implementation dated 7 October 2026, based on v5 main commit `77914ff`. Initial status: local pilot. Subsequent deployment status and runtime evidence are recorded in [the release report](reports/evidence-assurance-release-2026-10-07/README.md). The accompanying [assessment](reports/eu-terms-reuse-2026-10-07/assessment-it.md) documents the source and licensing investigation. The supplied independent audit was reviewed before implementation.
 
+Production activation on 7 October 2026: the extraction guard is enabled, scans are resumed, 107 of 113 configured policies have exact live input anchors, and 16 metadata-only EU references are imported. Six readiness findings remain unresolved; human-review metrics remain unassessed. See the release report for the immutable artifact, runtime checks and boundaries.
+
 ## What is implemented
 
 | Step | Implementation | Boundary |

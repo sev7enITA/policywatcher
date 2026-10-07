@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-07T04:30:52.218Z",
+  "manual": {
+    "http": 200,
+    "changed": false
+  },
+  "scheduled": {
+    "http": 200,
+    "changed": 0,
+    "checked": 1,
+    "extractionHeld": 0,
+    "rebaselined": 0
+  }
+}

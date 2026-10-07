@@ -1,0 +1,50 @@
+{
+  "mode": "exact_match_inputs_anchored",
+  "checkedAt": "2026-10-07T04:32:41.526Z",
+  "selected": 113,
+  "counts": {
+    "baseline_input_anchored": 107,
+    "external_capture_not_live_confirmation": 1,
+    "baseline_review_required": 4,
+    "retrieval_incomplete": 1
+  },
+  "rows": [
+    {
+      "policyId": "033ac1b4-114a-40d4-a666-374379c0df00",
+      "company": "amazon",
+      "reason": "external_capture_not_live_confirmation",
+      "source": "wayback"
+    },
+    {
+      "policyId": "11971ce4-bec9-4aef-ba32-8f79de72e4b7",
+      "company": "openai",
+      "source": "direct",
+      "reason": "baseline_review_required"
+    },
+    {
+      "policyId": "1f71d4a3-dddd-4562-9b89-38888c3d07a4",
+      "company": "stripe",
+      "source": "direct",
+      "reason": "baseline_review_required"
+    },
+    {
+      "policyId": "0fc30c2b-7467-4ce1-b8c1-8b79113990bf",
+      "company": "tiktok",
+      "source": "wayback",
+      "reason": "baseline_review_required"
+    },
+    {
+      "policyId": "21f11e54-42ae-4cfe-b48b-32726e20f340",
+      "company": "x-twitter",
+      "source": "wayback",
+      "reason": "baseline_review_required"
+    },
+    {
+      "policyId": "528f0dda-97b3-4b86-a62b-b44dcb2aface",
+      "company": "coca-cola",
+      "source": "none",
+      "reason": "retrieval_incomplete"
+    }
+  ],
+  "rowsScope": "Unresolved baseline-readiness findings only; anchored records omitted. Findings are not human-reviewed provider changes."
+}
