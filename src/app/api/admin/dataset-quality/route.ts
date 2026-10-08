@@ -24,6 +24,9 @@ import { DATA_STATUSES, isDataStatus, normalizeDataStatus } from '@/lib/policyCo
 import { isSeededIngestionMethod } from '@/lib/publicDataGate';
 import {
   calculateDatasetQualityScore,
+  hasFreshLiveCheck,
+  LIVE_CHECK_MAX_AGE_HOURS,
+  isCompleteRegionalImpact,
   newestTimestampedRecord,
 } from '@/lib/datasetQuality';
 
@@ -59,7 +62,6 @@ const VALID_DATA_STATUSES = new Set<string>(DATA_STATUSES);
 const VALID_SUBSCRIBER_REGIONS = new Set<string>(SUBSCRIBER_REGIONS);
 const VALID_SUBSCRIBER_INDUSTRIES = new Set<string>(SUBSCRIBER_INDUSTRIES);
 const VALID_FREQUENCIES = new Set<string>(SUBSCRIBER_FREQUENCIES);
-const STALE_POLICY_DAYS = 30;
 const MAX_ISSUES_RETURNED = 250;
 
 type Severity = 'critical' | 'warning' | 'info';
@@ -176,8 +178,8 @@ function normalizePolicyUrl(rawUrl: string): { normalized?: string; reason?: str
     if (isPrivateHostname(parsed.hostname)) {
       return { reason: 'Policy URL targets a private or local hostname.' };
     }
-    parsed.hash = '';
-    return { normalized: parsed.href.replace(/\/$/, '').toLowerCase() };
+    // Fragments scope distinct policy sections; paths can be case-sensitive.
+    return { normalized: parsed.href };
   } catch {
     return { reason: 'Policy URL is not parseable.' };
   }
@@ -319,7 +321,6 @@ export async function GET(request: NextRequest) {
     };
 
     const now = Date.now();
-    const staleCutoffMs = STALE_POLICY_DAYS * 24 * 60 * 60 * 1000;
     const policies = companies.flatMap((company) =>
       company.policies.map((policy) => ({ ...policy, companyName: company.name }))
     );
@@ -727,7 +728,7 @@ export async function GET(request: NextRequest) {
         }
       }
 
-      if (now - policy.updatedAt.getTime() > staleCutoffMs) {
+      if (!hasFreshLiveCheck(policy.checkLogs, now)) {
         stalePolicyIds.add(policy.id);
         addIssue('warning', {
           area: 'Freshness',
@@ -735,8 +736,8 @@ export async function GET(request: NextRequest) {
           entityId: policy.id,
           companyName: policy.companyName,
           policyName: policy.name,
-          label: 'Policy scan is stale',
-          detail: `Policy has not been updated in more than ${STALE_POLICY_DAYS} days.`,
+          label: 'Live source verification is stale',
+          detail: `No successful live acquisition within ${LIVE_CHECK_MAX_AGE_HOURS} hours. Metadata edits, archive recovery and failed attempts do not refresh this gate.`,
           action: 'Run a fresh cron scan and verify the source page is reachable.',
         });
       }
@@ -747,6 +748,7 @@ export async function GET(request: NextRequest) {
     let assessedKpiCells = 0;
     let totalKpiCells = 0;
     let presentRegionImpacts = 0;
+    let validRegionImpacts = 0;
     const expectedRegionImpacts = changes.length * EXPECTED_REGION_IMPACTS.length;
 
     for (const change of changes) {
@@ -863,6 +865,7 @@ export async function GET(request: NextRequest) {
       for (const [region, perspective] of EXPECTED_REGION_IMPACTS) {
         if (impactKeys.has(`${region}:${perspective}`)) {
           presentRegionImpacts++;
+          if (change.regionImpacts.some(impact => impact.region === region && impact.perspective === perspective && isCompleteRegionalImpact(impact))) validRegionImpacts++;
         } else {
           addIssue('warning', {
             area: 'Region Impact',
@@ -878,7 +881,7 @@ export async function GET(request: NextRequest) {
       }
 
       for (const impact of change.regionImpacts) {
-        if (!VALID_RISKS.has(impact.riskLevel) || !impact.impactAnalysisEn || !impact.impactAnalysisIt) {
+        if (!isCompleteRegionalImpact(impact)) {
           addIssue('warning', {
             area: 'Region Impact',
             entityType: 'change',
@@ -1014,11 +1017,11 @@ export async function GET(request: NextRequest) {
       },
       {
         id: 'freshness',
-        label: 'Freshness',
+        label: 'Live verification freshness',
         status: gateStatus(policies.length - stalePolicyIds.size, policies.length),
         passed: Math.max(policies.length - stalePolicyIds.size, 0),
         total: policies.length,
-        detail: `Policies updated within the last ${STALE_POLICY_DAYS} days.`,
+        detail: `Successful live acquisition within ${LIVE_CHECK_MAX_AGE_HOURS} hours; based on check-log provenance, not record updatedAt.`,
       },
       {
         id: 'confidence-status',
@@ -1065,11 +1068,11 @@ export async function GET(request: NextRequest) {
       },
       {
         id: 'region-impact',
-        label: 'Region Impact',
-        status: gateStatus(presentRegionImpacts, expectedRegionImpacts),
-        passed: presentRegionImpacts,
+        label: 'Region Impact Validity',
+        status: gateStatus(validRegionImpacts, expectedRegionImpacts),
+        passed: validRegionImpacts,
         total: expectedRegionImpacts,
-        detail: `${regionCoveragePct}% of expected regional impact rows exist.`,
+        detail: `${presentRegionImpacts}/${expectedRegionImpacts} expected rows exist; ${validRegionImpacts} have valid risk and non-empty analysis in both languages.`,
       },
       {
         id: 'policy-analysis',
@@ -1150,6 +1153,7 @@ export async function GET(request: NextRequest) {
         hashFailures: hashFailureIds.size,
         kpiCoveragePct,
         regionCoveragePct,
+        regionValidityPct: expectedRegionImpacts ? Math.round(validRegionImpacts / expectedRegionImpacts * 1000) / 10 : 0,
         jsonCoveragePct,
         latestChangeAt,
         latestPolicyUpdateAt,

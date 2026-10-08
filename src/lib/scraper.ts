@@ -1524,6 +1524,13 @@ export function extractPolicyText(html: string, sourceUrl?: string): string {
     return extractPolicyText(scopedHtml);
   }
 
+  // OneTrust document text is a sibling of its language picker. Generic
+  // policy-class matching otherwise selects the picker and loses the notice.
+  const notice = $('.otnotice-content');
+  if (notice.length === 1 && notice.text().trim().length >= MIN_TEXT_LENGTH) {
+    return extractPolicyText(`<main>${notice.html()}</main>`);
+  }
+
   const mainSelectors = [
     'main',
     'article',

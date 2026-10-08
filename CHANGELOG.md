@@ -2,6 +2,15 @@
 
 ## 5.0.0 - Your Services, Your Choices (2026-10-06)
 
+### Administrative reliability update (2026-10-09)
+
+- Add an authenticated scan-notification capability handshake and explicit silent/subscriber modes. The server-local scheduler can operate with SMTP configured; silent recovery suppresses subscriber and source-admin email without disabling mail configuration. Activation is evidenced separately in the operational receipt.
+- Extract OneTrust notice content instead of its language selector and regenerate the extraction profile; existing replay and consecutive-live-confirmation gates remain active.
+- Base Dataset QA freshness on successful live check logs within 30 hours. Distinguish regional row presence from valid bilingual analysis; preserve URL fragments and path case in duplicate checks.
+- Apply a common document/jurisdiction selection and current-public eligibility to administrative KPI audits. Missing assessments remain missing; no scores or human reviews are synthesized.
+- Add audited reconciliation for superseded retrieval URLs, a Consumer Goods category, and updated runtime, methodology and Atlas descriptions. Keep historical failures and evidence intact.
+- Make readiness diagnostics apply the same archive freshness floor as scans and label archive-only results separately.
+
 ### Evidence assurance update (2026-10-07)
 
 - Add an opt-in native extraction-profile guard to scheduled and manual scans, bounded private replay inputs, explicit technical-baseline events and reviewed recovery when old input is unavailable. Parser updates never create provider-change events.

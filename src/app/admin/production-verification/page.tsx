@@ -36,7 +36,7 @@ export default function ProductionVerificationPage() {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <div><span>Beta 32 · deployment assurance</span><h1>Production Verification</h1><p>Run one sanitized, authenticated snapshot across runtime identity, database readiness, live HTTP controls and negative authorization boundaries.</p></div>
+        <div><span>Runtime deployment assurance</span><h1>Production Verification</h1><p>Run one sanitized, authenticated snapshot across runtime identity, database readiness, live HTTP controls and negative authorization boundaries.</p></div>
         <button type="button" onClick={() => void load()} disabled={loading}><RefreshCw size={17} className={loading ? styles.spin : undefined} /> {loading ? 'Checking...' : 'Run verification'}</button>
       </header>
 

@@ -590,7 +590,7 @@ const platformFeatures: FeatureAtlasFeature[] = [
   {
     id: 'source-portfolio-monitoring', title: 'Source portfolio monitoring', shortLabel: 'Source portfolio',
     summary: 'Maintains a curated portfolio of official policy URLs and scheduled checks.', kind: 'technical', domainId: 'discovery', stageId: 'discovery', state: 'delivered', releaseId: '3.7.0', release: '3.7.0', horizon: 'delivered',
-    benefit: 'Official provider sources can be observed through one bounded operating inventory.', kpi: 'Inventory KPI · monitored-source workflow available', kri: 'Residual KRI · source ownership and URL drift require review', evidence: 'Configured policy inventory, scheduled scan routes, source onboarding candidate workflow and admin company views.', limitation: 'A configured URL does not establish completeness or continuing provider ownership.', primaryUser: 'Source QA operator', route: { href: '/admin/companies', label: 'Company sources', access: 'protected' }, dependencies: [], source: 'platform-inventory',
+    benefit: 'Official provider sources can be observed through one bounded operating inventory.', kpi: 'Inventory KPI · monitored-source workflow available', kri: 'Residual KRI · source ownership and URL drift require review', evidence: 'Configured policy inventory, scheduled scan routes, source onboarding candidate workflow and admin company views.', limitation: 'A configured URL does not establish completeness or continuing provider ownership. Scheduled operation requires an observed completed run; the launcher validates the notification contract before requesting a scan.', primaryUser: 'Source QA operator', route: { href: '/admin/companies', label: 'Company sources', access: 'protected' }, dependencies: [], source: 'platform-inventory',
   },
   {
     id: 'immutable-snapshot-evidence', title: 'Immutable snapshot and hash evidence', shortLabel: 'Snapshot + hash',
@@ -639,7 +639,7 @@ const platformFeatures: FeatureAtlasFeature[] = [
   },
   {
     id: 'dataset-qa', title: 'Dataset QA review', shortLabel: 'Dataset QA',
-    summary: 'Checks coverage, freshness, evidence state and onboarding readiness through protected operations.', kind: 'technical', domainId: 'assurance', stageId: 'assurance', state: 'delivered', releaseId: 'beta.2', release: '3.8.3 Beta 2', horizon: 'delivered',
+    summary: 'Checks coverage, successful live acquisitions within 30 hours, regional analysis validity and onboarding readiness through protected operations.', kind: 'technical', domainId: 'assurance', stageId: 'assurance', state: 'delivered', releaseId: 'beta.2', release: '3.8.3 Beta 2', horizon: 'delivered',
     benefit: 'Operators can find incomplete evidence before it reaches public interpretation.', kpi: 'Inventory KPI · dataset assurance workflow available', kri: 'Residual KRI · operator capacity and production freshness remain open', evidence: 'Dataset-quality admin route, assurance script, QA indicators, KPI audit and review logs. Evidence Reviews adds human-reviewed samples and EU metadata references with explicit denominators and applicability review.', limitation: 'Automated QA cannot establish source completeness or replace human review. Pilot sample ratios do not establish population accuracy; external metadata is not live verification.', primaryUser: 'Dataset QA reviewer', route: { href: '/admin/dataset-quality', label: 'Dataset quality', access: 'protected' }, dependencies: [{ featureId: 'immutable-snapshot-evidence', relationship: 'depends-on' }], source: 'platform-inventory',
   },
   {
@@ -837,7 +837,7 @@ const platformSurfaceFeatures: FeatureAtlasFeature[] = [
   }),
   surfaceFeature({
     id: 'kpi-assurance-audit', title: 'KPI definition assurance audit', shortLabel: 'KPI audit',
-    summary: 'Checks KPI defaults, justifications and coverage through a protected audit surface.', kind: 'technical', domainId: 'assurance', stageId: 'assurance', releaseId: 'beta.6', release: '3.8.3 Beta 6',
+    summary: 'Checks indicator coverage within an explicit common document and jurisdiction scope, using current public policies.', kind: 'technical', domainId: 'assurance', stageId: 'assurance', releaseId: 'beta.6', release: '3.8.3 Beta 6',
     benefit: 'Operators can find unsupported or incomplete indicator definitions before public use.', kpi: 'Inventory KPI · indicator audit workflow available', kri: 'Residual KRI · audited definitions still require domain review', evidence: 'KPI audit helpers, defaults, justifications, protected route and focused tests.', limitation: 'Definition coverage does not validate a provider outcome or legal conclusion.', primaryUser: 'Dataset QA reviewer', route: { href: '/admin/kpi-audit', label: 'KPI audit', access: 'protected' }, dependencies: [{ featureId: 'dataset-qa', relationship: 'depends-on' }],
   }),
   surfaceFeature({

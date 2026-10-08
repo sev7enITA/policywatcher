@@ -38,3 +38,19 @@ export function calculateDatasetQualityScore(checks: readonly QualityCheckScore[
   );
   return Math.round((passed / total) * 1000) / 10;
 }
+
+export const LIVE_CHECK_MAX_AGE_HOURS = 30;
+export function hasFreshLiveCheck(
+  logs: readonly { checkedAt: Date; source: string | null; status: string }[], now = Date.now(),
+): boolean {
+  return logs.some(log => ['direct', 'http2', 'rendered'].includes(log.source || '')
+    && ['Available', 'Reviewed'].includes(log.status)
+    && Number.isFinite(log.checkedAt.getTime())
+    && log.checkedAt.getTime() <= now
+    && now - log.checkedAt.getTime() <= LIVE_CHECK_MAX_AGE_HOURS * 60 * 60 * 1000);
+}
+
+export function isCompleteRegionalImpact(impact: { riskLevel: string; impactAnalysisEn: string; impactAnalysisIt: string }): boolean {
+  return ['Low', 'Medium', 'High'].includes(impact.riskLevel)
+    && Boolean(impact.impactAnalysisEn.trim()) && Boolean(impact.impactAnalysisIt.trim());
+}

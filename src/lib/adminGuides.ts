@@ -127,7 +127,7 @@ export const ADMIN_GUIDES: Record<AdminGuideRoute, AdminGuide> = {
     purpose: 'Inspect database readiness, configuration presence, recovery tools and the evidence inventory: integrity, schema, migrations, companies, policies, snapshots and detected changes.',
     steps: [
       'Review the readiness panel before interpreting inventory counts; confirm that integrity passed, all expected tables are present and the migration ledger is current.',
-      'Review the six presence-only environment checks without interpreting SET as validated or healthy configuration.',
+      'Review the presence-only environment checks without interpreting SET as validated or healthy configuration.',
       'Administrators can create or locally verify encrypted backups in Database Recovery; Auditors receive read-only evidence with no mutation controls.',
       'Locate a company and inspect its monitored policies, then open source links to compare stored evidence with the official document.',
       'Review snapshot and change counts, then use Companies or a review workflow when a source needs correction.',

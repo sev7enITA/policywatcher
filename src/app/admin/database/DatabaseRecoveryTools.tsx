@@ -128,7 +128,7 @@ export function DatabaseRecoveryTools({ role }: { role: 'admin' | 'auditor' }) {
       <div className={styles.backupPanel}>
         <form className={styles.backupCol} onSubmit={(event) => { event.preventDefault(); void handleExportBackup(); }}>
           <h3 className={styles.backupColTitle}><Download size={18} /> Encrypted export</h3>
-          <p className={styles.backupDescription}>Exports all 31 application tables in a versioned AES-256-GCM envelope. Keep the password outside the downloaded file. A verified export is not a restore rehearsal.</p>
+          <p className={styles.backupDescription}>Exports the current application table inventory in a versioned AES-256-GCM envelope. Keep the password outside the downloaded file. A verified export is not a restore rehearsal.</p>
           {exportError && <p className={`${styles.alert} ${styles.alertWarning}`} role="alert"><AlertTriangle size={14} />{exportError}</p>}
           {exportSuccess && <p className={styles.recoverySuccess} role="status"><ShieldCheck size={14} />Encrypted backup downloaded.</p>}
           <div className={styles.inputGroup}>

@@ -226,6 +226,7 @@ const industryFilters = [
   { key: 'E-Commerce', labelEn: 'E-Commerce', labelIt: 'E-Commerce' },
   { key: 'AI Provider', labelEn: 'AI Provider', labelIt: 'AI Provider' },
   { key: 'Cloud/SaaS', labelEn: 'Cloud/SaaS', labelIt: 'Cloud/SaaS' },
+  { key: 'Consumer Goods', labelEn: 'Consumer Goods', labelIt: 'Beni di consumo' },
 ];
 
 /* =============================================

@@ -17,6 +17,7 @@ export const SOURCE_ONBOARDING_INDUSTRIES = [
   'E-Commerce',
   'AI Provider',
   'Cloud/SaaS',
+  'Consumer Goods',
 ] as const;
 
 export const SOURCE_ONBOARDING_JURISDICTIONS = ['EU', 'US', 'UK', 'Global'] as const;

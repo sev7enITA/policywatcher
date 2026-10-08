@@ -89,6 +89,7 @@ interface CompanyBaselinePolicy {
   id: string;
   currentHash?: string | null;
   dataStatus?: string | null;
+  latestCheck?: { status: string; checkedAt: string; reason: string | null } | null;
   lastCheckDate?: string | null;
   lastSuccessfulCheckDate?: string | null;
   _count?: { snapshots?: number | null };
@@ -255,7 +256,7 @@ function companyScanState(company: CompanyBaseline, selectedSlug: string): Compa
   if (selectedSlug && company.slug === selectedSlug) return 'selected';
   if (company.policies.length === 0) return 'empty';
 
-  const statuses = company.policies.map((policy) => normalizeCompanyStatus(policy.dataStatus));
+  const statuses = company.policies.map((policy) => normalizeCompanyStatus(policy.latestCheck?.status || policy.dataStatus));
   const hasAttention = statuses.some((status) =>
     ['partial', 'needs review', 'unavailable'].includes(status)
   );
@@ -699,7 +700,7 @@ export default function CronManagerPage() {
                 ).length;
                 const attentionCount = company.policies.filter((policy) =>
                   ['partial', 'needs review', 'unavailable'].includes(
-                    normalizeCompanyStatus(policy.dataStatus)
+                    normalizeCompanyStatus(policy.latestCheck?.status || policy.dataStatus)
                   )
                 ).length;
 
@@ -733,7 +734,7 @@ export default function CronManagerPage() {
                     )}
                     {attentionCount === 0 && verifiedCount > 0 && state !== 'pending' && (
                       <span className={`${styles.badge} ${styles.badgeSuccess}`}>
-                        {verifiedCount} verified
+                        {verifiedCount} baselines available
                       </span>
                     )}
                   </button>

@@ -54,15 +54,15 @@ export default function ExplainabilityPage() {
             <div style={{ paddingLeft: 20 }}>|</div>
             <div>3. <strong>Hash Comparison</strong> (newHash !== currentHash?)</div>
             <div style={{ paddingLeft: 20 }}>|-- NO: skip, mark as &quot;unchanged&quot;</div>
-            <div style={{ paddingLeft: 20 }}>|-- YES: proceed to analysis</div>
+            <div style={{ paddingLeft: 20 }}>|-- YES: validate extraction provenance and replay any changed parser profile</div>
             <div style={{ paddingLeft: 20 }}>|</div>
-            <div>4. <strong>Snapshot Creation</strong> (save full text + hash + version)</div>
+            <div>4. <strong>Live Confirmation</strong> (require consecutive matching live observations; archive recovery is separate)</div>
             <div style={{ paddingLeft: 20 }}>|</div>
             <div>5. <strong>Gemini Analysis</strong> (send old + new text, receive structured JSON)</div>
             <div style={{ paddingLeft: 20 }}>|</div>
-            <div>6. <strong>PolicyChange Record</strong> (store AI analysis, KPIs, risk score, region impacts)</div>
+            <div>6. <strong>Commit Evidence</strong> (save snapshot and successful analysis together; retain the baseline on failure)</div>
             <div style={{ paddingLeft: 20 }}>|</div>
-            <div>7. <strong>Email Notifications</strong> (filter subscribers by region/industry, send alerts)</div>
+            <div>7. <strong>Email Notifications</strong> (explicit notification mode; silent maintenance sends no scan email)</div>
             <div style={{ paddingLeft: 20 }}>|</div>
             <div>8. <strong>UI Refresh</strong> (dashboard fetches /api/companies for updated data)</div>
           </div>
@@ -97,7 +97,7 @@ export default function ExplainabilityPage() {
             <li>A SHA-256 hash is computed on the extracted text for change detection.</li>
             <li>If the hash matches the stored hash, no action is taken (policy unchanged).</li>
             <li>If the previous record is backed by seeded evidence, the first verified fetch replaces it as the real baseline without creating a PolicyChange or subscriber notification.</li>
-            <li>If the hash differs after a verified baseline already exists, the full text is saved as a new PolicySnapshot and analyzed as a change.</li>
+            <li>If the hash differs after a verified baseline already exists, extraction provenance and parser replay are checked first. Consecutive matching live observations and successful analysis are required before committing a change; parser upgrades and archive recovery are not provider changes.</li>
           </ul>
 
           <h4 style={{ margin: '20px 0 12px', color: 'var(--primary)' }}>Data Integrity Controls</h4>

@@ -10,6 +10,8 @@ import { getSession } from '@/lib/adminAuth';
 import { db } from '@/lib/db';
 import { buildCompanyKpiAuditRow } from '@/lib/kpiAudit';
 import { KPI_FIELD_KEYS } from '@/lib/kpiDefaults';
+import { parseDocumentTypes, documentTypeWhere } from '@/lib/documentScope';
+import { publicPolicyWhere } from '@/lib/publicDataGate';
 
 export async function GET(request: NextRequest) {
   const session = getSession(request);
@@ -17,10 +19,16 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  const documentTypes = parseDocumentTypes(request.nextUrl.searchParams.get('documents'));
+  const jurisdiction = request.nextUrl.searchParams.get('jurisdiction') || 'all';
+  if (!documentTypes || !['all', 'Global', 'EU', 'US', 'UK'].includes(jurisdiction)) {
+    return NextResponse.json({ error: 'Invalid document scope' }, { status: 400 });
+  }
   try {
     const companies = await db.company.findMany({
       include: {
         policies: {
+          where: publicPolicyWhere({ ...documentTypeWhere(documentTypes), ...(jurisdiction === 'all' ? {} : { jurisdiction }) }),
           select: {
             name: true,
             changes: {
@@ -63,6 +71,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       matrix,
+      scope: { documentTypes, jurisdiction, eligibility: 'current-public-policy', aggregation: 'latest-assessed-value-per-field' },
       distribution,
       kpiFields: KPI_FIELD_KEYS,
       role: session.role,
