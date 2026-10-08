@@ -18,7 +18,7 @@ import urllib.error
 import urllib.request
 
 ORIGIN = "https://policywatcher.online"
-MIN_INTERVAL_MS = 20 * 60 * 60 * 1000
+MIN_INTERVAL_MS = 24 * 60 * 60 * 1000
 MAX_WAIT_SECONDS = 20 * 60
 
 

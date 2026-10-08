@@ -212,7 +212,9 @@ Both modes leave the SMTP configuration intact. Neither invokes weekly/monthly d
 
 Install `scripts/hostinger-scheduled-scan.py` outside public_html, retain its previous
 version, run `--check --notifications silent`, then observe a full completed ScanRun.
-Inspect existing hPanel cron entries before adding or updating the daily invocation.
+Inspect existing hPanel cron entries before adding or updating an hourly launcher invocation.
+The launcher performs a full scan only when the previous full pass is at least 24 hours old;
+hourly due checks avoid a manual run postponing the next automatic scan by almost two days.
 A saved schedule is not a completed execution: retain the launcher receipt and scan ID.
 Dataset QA uses successful live check logs within 30 hours; archive-only and review-held
 observations do not refresh that measure. Administrative KPI and regional completeness
