@@ -1,4 +1,4 @@
-# Administrative reliability correction — 9 October 2026
+# Administrative reliability correction - 9 October 2026
 
 The production audit found a scheduler blocked by its SMTP safeguard, a OneTrust language-picker extraction error, stale live checks hidden by record-update freshness, incomplete regional rows counted as full coverage, and inconsistent administrative KPI scope.
 
