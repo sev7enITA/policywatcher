@@ -1,6 +1,7 @@
 import { db } from '../src/lib/db';
 import { scrapePolicyText } from '../src/lib/scraper';
 import { guardExtraction } from '../src/lib/extractionGuard';
+import { archiveFreshnessFloor } from '../src/lib/policyConfidence';
 
 // Deployment-only baseline preparation. This never invokes AI or publishes a provider change.
 async function main() {
@@ -15,14 +16,14 @@ async function main() {
     while (next < policies.length) {
       const policy = policies[next++];
       try {
-        const result = await scrapePolicyText(policy.retrievalUrl || policy.url);
+        const result = await scrapePolicyText(policy.retrievalUrl || policy.url, { archiveNotBefore: archiveFreshnessFloor(policy) });
         // Initial readiness only anchors exact matches. Review holds never replace an existing baseline.
-        if (result.status === 'ok' && !result.partial && result.hash === policy.currentHash && apply) {
+        if (result.status === 'ok' && !result.partial && ['direct', 'http2', 'rendered'].includes(result.source) && result.hash === policy.currentHash && apply) {
           const decision = await guardExtraction(policy, result);
           rows.push({ policyId: policy.id, company: policy.company.slug, reason: decision.reason, source: result.source });
         } else {
           rows.push({ policyId: policy.id, company: policy.company.slug, source: result.source,
-            reason: result.status !== 'ok' || result.partial ? 'retrieval_incomplete' : result.hash === policy.currentHash ? 'exact_match_dry_run' : 'baseline_review_required' });
+            reason: result.status !== 'ok' || result.partial ? 'retrieval_incomplete' : !['direct', 'http2', 'rendered'].includes(result.source) ? 'archive_only_not_live_confirmation' : result.hash === policy.currentHash ? 'exact_match_dry_run' : 'baseline_review_required' });
         }
       } catch { rows.push({ policyId: policy.id, company: policy.company.slug, reason: 'retrieval_failed' }); }
     }

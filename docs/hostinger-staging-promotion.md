@@ -201,3 +201,21 @@ phases. The production build requires a verification no older than 24 hours;
 later restarts of that already-approved exact checksum continue to validate the
 environment and matching hashes without retroactively expiring the running
 release. A new build or different ZIP always requires a new staging report.
+
+## Scheduled scanning after the administrative reliability update
+
+Deploy the notification-capable application before replacing the server-local launcher.
+The new launcher refuses a server without the authenticated `scan-notifications-v1`
+capability handshake. Use `--notifications silent` for restoration tests and an explicit
+operator-approved `--notifications subscribers` for ordinary subscribed alerts.
+Both modes leave the SMTP configuration intact. Neither invokes weekly/monthly digests.
+
+Install `scripts/hostinger-scheduled-scan.py` outside public_html, retain its previous
+version, run `--check --notifications silent`, then observe a full completed ScanRun.
+Inspect existing hPanel cron entries before adding or updating an hourly launcher invocation.
+The launcher performs a full scan only when the previous full pass is at least 24 hours old;
+hourly due checks avoid a manual run postponing the next automatic scan by almost two days.
+A saved schedule is not a completed execution: retain the launcher receipt and scan ID.
+Dataset QA uses successful live check logs within 30 hours; archive-only and review-held
+observations do not refresh that measure. Administrative KPI and regional completeness
+must not be promoted into an accuracy percentage.

@@ -95,6 +95,7 @@ const INDUSTRIES = [
   { value: 'E-Commerce', label: 'E-Commerce' },
   { value: 'AI Provider', label: 'AI Provider' },
   { value: 'Cloud/SaaS', label: 'Cloud/SaaS' },
+  { value: 'Consumer Goods', label: 'Consumer Goods' },
 ];
 
 const KPI_OPTIONS: Array<{ value: string; label: string; category: KpiCategory }> = [

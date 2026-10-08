@@ -61,6 +61,7 @@ interface Policy {
   jurisdiction: string;
   currentHash: string | null;
   dataStatus: string;
+  latestCheck?: { status: string; checkedAt: string; reason: string | null } | null;
   ingestionMethod: string;
   lastCheckDate: string;
   lastSuccessfulCheckDate: string;
@@ -90,6 +91,7 @@ const INDUSTRIES = [
   'E-Commerce',
   'AI Provider',
   'Cloud/SaaS',
+  'Consumer Goods',
 ] as const;
 
 const POLICY_TYPES = [
@@ -1196,7 +1198,8 @@ function CompanyTableRow({
                           <span className={`${styles.badge} ${styles.badgeSecondary}`}>{policy.type}</span>
                           <span className={`${styles.badge} ${styles.badgePrimary}`}>{policy.jurisdiction}</span>
                           <span className={`${styles.sourceState} ${policy.sourceMigrationPending ? styles.sourceStatePending : styles.sourceStateReady}`}>
-                            {policy.sourceMigrationPending ? 'Baseline pending' : policy.dataStatus}
+                            {policy.sourceMigrationPending ? 'Baseline pending' : `Baseline: ${policy.dataStatus}`}
+                            {policy.latestCheck?.status === 'Needs Review' && ' · Latest observation: review pending'}
                           </span>
                         </div>
                         <div className={styles.policyMeta}>

@@ -4,6 +4,7 @@ export const DOCUMENT_SCOPE_METHODOLOGY = {
     title: 'Document scope and comparable assessments',
     intro: 'Choose privacy policies, terms of service, AI terms, data processing agreements, acceptable use policies or community guidelines. The same multi-selection applies to every company in the dashboard.',
     bullets: [
+      'Administrative Dataset QA measures successful live-check freshness within 30 hours and reports regional row presence separately from bilingual validity. The administrative KPI audit has an explicit document and jurisdiction scope and shows the latest assessed value per field; it is distinct from the public matrix aggregation.',
       'Distinct documents may share a company, type and jurisdiction; duplicate source URLs remain constrained. Text-based official PDFs pass through the same content and baseline gates as HTML. Retrospective archive comparisons retain actual capture dates and separate publisher dates, and do not populate live KPI scores.',
       'Document type selects the evidence used for analysis; it is separate from KPI groups such as Privacy, AI Governance and Ethics. Region and audience contextualize impact and do not certify which jurisdiction governs a document.',
       'Scope is applied before risk filtering, pagination and aggregation. It follows evidence coverage, suspended sources, policy-change history, KPI matrix, company comparison, assistant context, CSV exports and shared links.',
@@ -20,6 +21,7 @@ export const DOCUMENT_SCOPE_METHODOLOGY = {
     title: 'Tipi di documento e confronti omogenei',
     intro: 'Seleziona informative privacy, termini di servizio, termini AI, accordi sul trattamento dei dati, uso accettabile o linee guida della community. La stessa selezione multipla si applica a tutte le aziende della dashboard.',
     bullets: [
+      'Dataset QA misura la freschezza dei controlli live riusciti entro 30 ore e distingue presenza delle righe regionali e validità bilingue. Il KPI Audit amministrativo esplicita tipi documentali e giurisdizione e mostra l’ultimo valore valutato per campo; resta distinto dall’aggregazione della matrice pubblica.',
       'Documenti distinti possono condividere azienda, tipo e giurisdizione; gli URL duplicati restano vincolati. I PDF ufficiali con testo seguono gli stessi controlli di contenuto e baseline delle pagine HTML. I confronti retrospettivi conservano la data reale di acquisizione e separano le date dichiarate dal fornitore, senza alimentare i punteggi KPI correnti.',
       'Il tipo di documento seleziona le evidenze da valutare; è distinto dai gruppi KPI Privacy, AI Governance ed Etica. Regione e pubblico contestualizzano gli impatti e non certificano la giurisdizione applicabile al documento.',
       'La selezione precede filtro di rischio, paginazione e aggregazione. Si applica a copertura delle evidenze, fonti sospese, cronologia delle modifiche, matrice KPI, confronto, contesto dell’assistente, CSV e link condivisi.',

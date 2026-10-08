@@ -1,3 +1,4 @@
+import { NextRequest } from 'next/server';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
@@ -18,7 +19,7 @@ vi.mock('@/lib/db', () => ({
   },
 }));
 
-import { runFullScan, ScanAlreadyRunningError } from '@/app/api/cron/check-all/route';
+import { runFullScan, readScanOptions, ScanAlreadyRunningError } from '@/app/api/cron/check-all/route';
 
 describe('durable scan-run lifecycle', () => {
   beforeEach(() => {
@@ -63,4 +64,10 @@ describe('durable scan-run lifecycle', () => {
       }),
     });
   });
+});
+
+it('preserves an explicit silent scan mode and rejects misspellings', async () => {
+  const req = (mode: string) => new NextRequest('https://policywatcher.online/api/cron/check-all', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ notificationMode: mode }) });
+  expect(await readScanOptions(req('silent'))).toEqual({ notificationMode: 'silent' });
+  await expect(readScanOptions(req('silnet'))).rejects.toThrow('Invalid notification mode');
 });

@@ -366,7 +366,7 @@ export default function DatabaseInspectorPage() {
           <div>
             <span>Presence-only contract</span>
             <h2 id="environment-readiness-title"><Settings size={19} /> Environment readiness</h2>
-            <p>Only the presence of the six deployment variables is reported. Secret values are never returned.</p>
+            <p>Only the presence of the deployment variables is reported. Secret values are never returned.</p>
           </div>
           {readiness?.environment && <strong>{readiness.environment.configuredCount} / {readiness.environment.expectedCount} configured</strong>}
         </header>

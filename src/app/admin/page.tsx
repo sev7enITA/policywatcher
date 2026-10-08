@@ -424,7 +424,7 @@ export default function AdminDashboardPage() {
           <strong>{system.environmentReadiness.configuredCount} / {system.environmentReadiness.expectedCount} configured</strong>
           <span>Presence only; this does not establish secret validity, service availability or production health.</span>
         </div>
-        <Link href="/admin/database#environment-readiness" className={`${styles.btn} ${styles.btnSecondary}`}>View six checks</Link>
+        <Link href="/admin/database#environment-readiness" className={`${styles.btn} ${styles.btnSecondary}`}>View configuration checks</Link>
       </section>
 
       <DashboardMeasurement actionCenter={metrics.actionCenter} />

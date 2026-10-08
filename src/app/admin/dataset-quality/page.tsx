@@ -81,6 +81,7 @@ interface DatasetQualityData {
     hashFailures: number;
     kpiCoveragePct: number;
     regionCoveragePct: number;
+    regionValidityPct: number;
     jsonCoveragePct: number;
     latestChangeAt: string | null;
     latestPolicyUpdateAt: string | null;
@@ -358,11 +359,12 @@ export default function DatasetQualityPage() {
         </div>
         <div className={styles.statBox}>
           <div className={styles.statValue}>{summary.regionCoveragePct}%</div>
-          <div className={styles.statLabel}>Region Coverage</div>
+          <div className={styles.statLabel}>Regional Rows Present</div>
+          <div>{summary.regionValidityPct}% complete and valid</div>
         </div>
         <div className={styles.statBox}>
           <div className={styles.statValue}>{summary.stalePolicies}</div>
-          <div className={styles.statLabel}>Stale Policies</div>
+          <div className={styles.statLabel}>Live Checks Older Than 30h</div>
         </div>
       </div>
 

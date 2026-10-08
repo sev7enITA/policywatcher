@@ -1,3 +1,4 @@
+import { newestTimestampedRecord } from '@/lib/datasetQuality';
 /**
  * Admin Companies Management API
  *
@@ -35,6 +36,7 @@ export async function GET(request: NextRequest) {
             jurisdiction: true,
             currentHash: true,
             dataStatus: true,
+            checkLogs: { select: { status: true, checkedAt: true, reason: true } },
             ingestionMethod: true,
             lastCheckDate: true,
             lastSuccessfulCheckDate: true,
@@ -52,7 +54,7 @@ export async function GET(request: NextRequest) {
       orderBy: { name: 'asc' },
     });
 
-    return NextResponse.json({ companies, role: session.role });
+    return NextResponse.json({ companies: companies.map(company => ({ ...company, policies: company.policies.map(({ checkLogs, ...policy }) => ({ ...policy, latestCheck: newestTimestampedRecord(checkLogs) || null })) })), role: session.role });
   } catch (error) {
     console.error('[Admin Companies] GET error:', error);
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });

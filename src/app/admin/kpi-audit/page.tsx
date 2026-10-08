@@ -7,6 +7,7 @@ import styles from '../admin.module.css';
 import { POLICYWATCHER_VERSION } from '@/lib/release';
 import { getKpiConcernLevel, type KpiEvidence } from '@/lib/kpiAudit';
 import type { KpiField } from '@/lib/kpiDefaults';
+import { DOCUMENT_TYPES, DOCUMENT_TYPE_LABELS, documentTypesQuery, type DocumentType } from '@/lib/documentScope';
 
 interface KpiMatrixRow {
   companyName: string;
@@ -73,11 +74,14 @@ export default function KpiAuditPage() {
   const [data, setData] = useState<KpiAuditData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [documents, setDocuments] = useState<DocumentType[]>([...DOCUMENT_TYPES]);
+  const [jurisdiction, setJurisdiction] = useState('all');
 
   useEffect(() => {
+    let current = true;
     const load = async () => {
       try {
-        const res = await fetch('/api/admin/kpi-audit', {
+        const res = await fetch(`/api/admin/kpi-audit?documents=${encodeURIComponent(documentTypesQuery(documents))}&jurisdiction=${jurisdiction}`, {
           credentials: 'include',
         });
 
@@ -91,18 +95,19 @@ export default function KpiAuditPage() {
         }
 
         const json = await res.json();
-        setData(json);
+        if (current) { setData(json); setError(''); }
       } catch (err) {
-        setError(
+        if (current) setError(
           err instanceof Error ? err.message : 'Failed to load KPI audit data'
         );
       } finally {
-        setLoading(false);
+        if (current) setLoading(false);
       }
     };
 
     load();
-  }, [router]);
+    return () => { current = false; };
+  }, [router, documents, jurisdiction]);
 
   if (loading) {
     return (
@@ -138,11 +143,21 @@ export default function KpiAuditPage() {
   ).length;
 
   return (
+    <>
+      <fieldset className={styles.card} style={{ margin: 24, padding: 20 }}>
+        <legend>Common document scope</legend>
+        <p>Only current public policies in this selection contribute. Each cell shows its latest assessed value; missing assessments remain visible.</p>
+        {DOCUMENT_TYPES.map(type => <label key={type} style={{ display: 'inline-block', marginRight: 16 }}>
+          <input type="checkbox" checked={documents.includes(type)} disabled={documents.length === 1 && documents.includes(type)} onChange={event => setDocuments(previous => event.target.checked ? [...previous, type] : previous.filter(value => value !== type))} /> {DOCUMENT_TYPE_LABELS[type].en}
+        </label>)}
+        <label>Jurisdiction <select value={jurisdiction} onChange={event => setJurisdiction(event.target.value)}>{['all', 'Global', 'EU', 'US', 'UK'].map(value => <option key={value} value={value}>{value === 'all' ? 'All jurisdictions' : value}</option>)}</select></label>
+      </fieldset>
     <KpiDashboardInner
       matrix={sortedMatrix}
       fields={fields}
       fullCoverageCount={fullCoverageCount}
     />
+    </>
   );
 }
 

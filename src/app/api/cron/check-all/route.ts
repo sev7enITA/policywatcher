@@ -22,14 +22,11 @@ import { db } from '@/lib/db';
 import { scrapePolicyText, type ScrapeDiagnostic, type ScrapeResult } from '@/lib/scraper';
 import { analyzePolicyChange } from '@/lib/gemini';
 import {
-  sendPolicyChangeAlert,
-  sendSourceSuspensionAdminAlert,
-  maskEmailForLog,
   ChangedPolicySummary,
   SourceSuspensionAlert,
 } from '@/lib/mailer';
 import { isAuthorized } from '@/lib/auth';
-import { normalizePreferenceKey, splitPreferenceKeys } from '@/lib/subscriberPreferences';
+import { deliverScanNotifications } from '@/lib/scanNotifications';
 import {
   archiveFreshnessFloor,
   dataStatusFromScrapeFailure,
@@ -64,6 +61,8 @@ type RetrievalRuntime = 'app' | 'vps' | 'archive' | 'none';
 export interface ScanOptions {
   limit?: number;
   companySlug?: string;
+  /** Silent maintenance suppresses both subscriber and source-admin email. */
+  notificationMode?: 'silent' | 'subscribers';
 }
 
 const GLOBAL_SCAN_LEASE_KEY = 'policy-scan';
@@ -284,9 +283,14 @@ function archiveTimestampFromScrape(value: string | undefined): Date | null {
   return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
+class InvalidScanOptionsError extends Error {}
+
 function normalizeScanOptions(input: unknown): ScanOptions {
   if (!input || typeof input !== 'object') return {};
   const source = input as Record<string, unknown>;
+  if (source.notificationMode != null && !['silent', 'subscribers'].includes(String(source.notificationMode))) {
+    throw new InvalidScanOptionsError('Invalid notification mode');
+  }
   const limitValue = Number(source.limit);
   const companySlug =
     typeof source.companySlug === 'string' ? source.companySlug.trim().toLowerCase() : '';
@@ -296,6 +300,8 @@ function normalizeScanOptions(input: unknown): ScanOptions {
       ? { limit: Math.min(Math.floor(limitValue), 50) }
       : {}),
     ...(companySlug ? { companySlug } : {}),
+    ...(source.notificationMode === 'silent' || source.notificationMode === 'subscribers'
+      ? { notificationMode: source.notificationMode } : {}),
   };
 }
 
@@ -303,14 +309,12 @@ export async function readScanOptions(request: NextRequest): Promise<ScanOptions
   const queryOptions = normalizeScanOptions({
     limit: request.nextUrl.searchParams.get('limit'),
     companySlug: request.nextUrl.searchParams.get('companySlug') || request.nextUrl.searchParams.get('company'),
+    notificationMode: request.nextUrl.searchParams.get('notificationMode'),
   });
 
-  let bodyOptions: ScanOptions = {};
-  try {
-    bodyOptions = normalizeScanOptions(await request.json());
-  } catch {
-    bodyOptions = {};
-  }
+  let body: unknown;
+  try { body = await request.json(); } catch { body = {}; }
+  const bodyOptions = normalizeScanOptions(body);
 
   return { ...queryOptions, ...bodyOptions };
 }
@@ -1434,61 +1438,8 @@ export async function runFullScan(
     details.push(detail);
   }
 
-  if (suspendedSourceAlerts.length > 0) {
-    try {
-      await sendSourceSuspensionAdminAlert(suspendedSourceAlerts, 'cron');
-    } catch (mailError) {
-      console.error('[Cron] Failed to send source suspension admin alert:', mailError);
-    }
-  }
-
-  // Notify subscribers if any policies changed
   await renewScanLease(scanRun.id);
-  if (changedPolicySummaries.length > 0) {
-    try {
-      const activeSubscribers = await db.subscriber.findMany({
-        where: { 
-          isActive: true,
-          frequency: 'INSTANT'
-        },
-      });
-
-      console.log(
-        `[Cron] Processing notifications for ${activeSubscribers.length} subscribers.`
-      );
-
-      for (const subscriber of activeSubscribers) {
-        // Filter changes relevant to subscriber's regions/industries
-        const subscriberRegions = splitPreferenceKeys(subscriber.regions);
-        const subscriberIndustries = splitPreferenceKeys(subscriber.industries);
-
-        const filteredChanges = changedPolicySummaries.filter(p => {
-          const hasRegion = subscriberRegions.includes(normalizePreferenceKey(p.region));
-          const hasIndustry = subscriberIndustries.includes(normalizePreferenceKey(p.industry));
-          return hasRegion && hasIndustry;
-        });
-
-        if (filteredChanges.length === 0) {
-          console.log(`[Cron] Skipping subscriber ${maskEmailForLog(subscriber.email)}: no matching changes based on configured regions or industries.`);
-          continue;
-        }
-
-        try {
-          await sendPolicyChangeAlert(
-            subscriber.email,
-            subscriber.name || undefined,
-            filteredChanges,
-            subscriber.unsubscribeToken
-          );
-        } catch (mailError) {
-          const errorType = mailError instanceof Error ? mailError.name : 'UnknownError';
-          console.error(`[Cron] Failed to notify ${maskEmailForLog(subscriber.email)} (${errorType}).`);
-        }
-      }
-    } catch (subscriberError) {
-      console.error('[Cron] Error fetching subscribers:', subscriberError);
-    }
-  }
+  await deliverScanNotifications(options.notificationMode || 'subscribers', changedPolicySummaries, suspendedSourceAlerts);
 
   // Derived counts for honest reporting (unavailable/invalid never
   // produced fake snapshots: they are tracked here for transparency).
@@ -1552,6 +1503,12 @@ export async function runFullScan(
  * Thin HTTP wrapper around runFullScan(). Checks authorization, then
  * delegates to the core logic.
  */
+/** Read-only capability handshake: old deployments must not silently ignore a silent request. */
+export async function GET(request: NextRequest) {
+  if (!isAuthorized(request)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  return NextResponse.json({ contract: 'scan-notifications-v1', notificationModes: ['silent', 'subscribers'] }, { headers: { 'Cache-Control': 'no-store' } });
+}
+
 export async function POST(request: NextRequest) {
   // Auth check
   if (!isAuthorized(request)) {
@@ -1567,6 +1524,7 @@ export async function POST(request: NextRequest) {
     const result = await runFullScan(undefined, options);
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
+    if (error instanceof InvalidScanOptionsError) return NextResponse.json({ error: error.message }, { status: 400 });
     if (error instanceof ScanAlreadyRunningError) {
       return NextResponse.json(
         { error: 'A policy scan is already running.' },

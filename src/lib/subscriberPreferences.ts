@@ -7,6 +7,7 @@ export const SUBSCRIBER_INDUSTRIES = [
   'Social Media',
   'Cloud/SaaS',
   'E-Commerce',
+  'Consumer Goods',
 ] as const;
 
 export const SUBSCRIBER_FREQUENCIES = ['INSTANT', 'WEEKLY'] as const;

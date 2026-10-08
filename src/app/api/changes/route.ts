@@ -37,6 +37,7 @@ const VALID_INDUSTRIES = new Set([
   'E-Commerce',
   'AI Provider',
   'Cloud/SaaS',
+  'Consumer Goods',
 ]);
 
 /** Whitelisted KPI field names on PolicyChange (prevents arbitrary field access). */
