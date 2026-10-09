@@ -12,6 +12,8 @@ import {
   localizedCivicPath,
   normalizeGlobalContext,
   parseGlobalContext,
+  readStoredGlobalContext,
+  syncLanguagePreferenceCookie,
   resolvePlatformLanguage,
   storeGlobalContext,
   type GlobalContext,
@@ -36,7 +38,7 @@ export function useGlobalContext(
   forcedLanguage?: PlatformLanguage,
 ): UseGlobalContextResult {
   const [context, setContext] = useState<GlobalContext>({ ...DEFAULT_GLOBAL_CONTEXT });
-  const [browserLanguage, setBrowserLanguage] = useState('');
+  const [browserLanguage, setBrowserLanguage] = useState<readonly string[]>([]);
   const [ready, setReady] = useState(false);
   const [configured, setConfigured] = useState(false);
 
@@ -50,9 +52,11 @@ export function useGlobalContext(
       } catch {
         // Storage is optional; page-level language remains the honest fallback.
       }
-      setContext(stored ?? { ...DEFAULT_GLOBAL_CONTEXT });
+      const context = stored ?? readStoredGlobalContext();
+      setContext(context);
+      syncLanguagePreferenceCookie(context.language);
       setConfigured(Boolean(stored));
-      setBrowserLanguage(window.navigator.language ?? '');
+      setBrowserLanguage(window.navigator.languages?.length ? window.navigator.languages : [window.navigator.language]);
       setReady(true);
     });
 
@@ -77,14 +81,12 @@ export function useGlobalContext(
     };
   }, []);
 
-  const resolvedLanguage = !configured && context.language === 'auto' && context.country === 'all'
-    ? fallbackLanguage
-    : resolvePlatformLanguage(context, browserLanguage);
+  const resolvedLanguage = ready ? resolvePlatformLanguage(context, browserLanguage) : fallbackLanguage;
   const lang = forcedLanguage ?? resolvedLanguage;
 
   useEffect(() => {
     if (!ready) return;
-    // The URL selects the document language; local preferences only affect widgets.
+    // Document language is owned by the page; this hook synchronizes geographic context.
     document.documentElement.dataset.policywatcherRegion = context.region;
     document.documentElement.dataset.policywatcherCountry = context.country;
   }, [context.country, context.region, ready]);
@@ -121,7 +123,7 @@ export default function GlobalContextControl({ className = '', compact = false, 
     trigger: 'Paese e lingua',
     eyebrow: 'Contesto globale PolicyWatcher',
     title: 'Area, paese e lingua',
-    lead: 'Questa preferenza influenza la dashboard, il directory civico e la lingua delle superfici già localizzate.',
+    lead: 'La lingua scelta viene ricordata in questo browser. In modalità automatica usiamo la lingua del browser.',
     region: 'Area geografica',
     country: 'Paese / Stato',
     allCountries: 'Tutti i paesi dell’area',
@@ -129,7 +131,7 @@ export default function GlobalContextControl({ className = '', compact = false, 
     auto: 'Automatica',
     english: 'English',
     italian: 'Italiano',
-    fallback: 'Oggi l’interfaccia completa supporta EN e IT. Per gli altri paesi il fallback dichiarato è English.',
+    fallback: 'Lingue disponibili: italiano e inglese. Se nessuna lingua del browser è supportata, usiamo l’inglese. Il Paese non cambia la lingua.',
     privacy: 'Nessuna geolocalizzazione automatica: la scelta resta in questo browser.',
     cancel: 'Annulla',
     save: 'Applica contesto',
@@ -138,7 +140,7 @@ export default function GlobalContextControl({ className = '', compact = false, 
     trigger: 'Country and language',
     eyebrow: 'PolicyWatcher global context',
     title: 'Region, country and language',
-    lead: 'This preference affects the dashboard, Civic directory and the language of already-localized surfaces.',
+    lead: 'Your language choice is remembered in this browser. Automatic mode uses your browser language.',
     region: 'Geographic region',
     country: 'Country / state',
     allCountries: 'All countries in this region',
@@ -146,7 +148,7 @@ export default function GlobalContextControl({ className = '', compact = false, 
     auto: 'Automatic',
     english: 'English',
     italian: 'Italiano',
-    fallback: 'The complete interface currently supports EN and IT. Other countries use a declared English fallback.',
+    fallback: 'Available languages: Italian and English. If no browser language is supported, we use English. Country does not change the language.',
     privacy: 'No automatic geolocation: this choice stays in your browser.',
     cancel: 'Cancel',
     save: 'Apply context',
@@ -169,12 +171,14 @@ export default function GlobalContextControl({ className = '', compact = false, 
   function save() {
     const stored = updateContext(draft);
     setOpen(false);
-    const nextLang = stored.language === 'auto' && stored.country === 'all'
-      ? displayLang
-      : resolvePlatformLanguage(stored, window.navigator.language ?? '');
+    const nextLang = resolvePlatformLanguage(stored, window.navigator.languages);
     const localizedPath = localizedCivicPath(window.location.pathname, nextLang);
     if (localizedPath && localizedPath !== window.location.pathname) {
       window.location.assign(`${localizedPath}${window.location.search}${window.location.hash}`);
+    } else if (/^\/(per-te|guides(?:\/[^/]+)?|press-kit\/releases(?:\/[^/]+)?|change\/[^/]+|pulse\/[^/]+|share\/[^/]+|browser-extension)\/?$/.test(window.location.pathname)) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('lang', nextLang);
+      window.location.assign(url.toString());
     }
   }
 

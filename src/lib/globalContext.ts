@@ -1,3 +1,5 @@
+import { browserLanguage as detectBrowserLanguage, LANGUAGE_PREFERENCE_COOKIE, supportedLanguage } from './platformLanguage';
+
 export const GLOBAL_CONTEXT_SCHEMA = 'policywatcher.global-context.v1' as const;
 export const GLOBAL_CONTEXT_STORAGE_KEY = 'policywatcher:global-context:v1' as const;
 export const GLOBAL_CONTEXT_EVENT = 'policywatcher:global-context-change' as const;
@@ -156,12 +158,10 @@ export function parseGlobalContext(raw: string | null): GlobalContext | null {
 
 export function resolvePlatformLanguage(
   context: GlobalContext,
-  browserLanguage = '',
+  browserLanguage: string | readonly string[] = '',
 ): PlatformLanguage {
   if (context.language !== 'auto') return context.language;
-  if (context.country === 'it') return 'it';
-  if (context.country !== 'all') return 'en';
-  return browserLanguage.toLocaleLowerCase('en').startsWith('it') ? 'it' : 'en';
+  return detectBrowserLanguage(browserLanguage);
 }
 
 export function resolveDashboardRegion(context: GlobalContext): 'EU' | 'US' | 'Global' {
@@ -181,11 +181,15 @@ export function globalContextLabel(context: GlobalContext, lang: PlatformLanguag
 export function readStoredGlobalContext(): GlobalContext {
   if (typeof window === 'undefined') return { ...DEFAULT_GLOBAL_CONTEXT };
   try {
-    return parseGlobalContext(window.localStorage.getItem(GLOBAL_CONTEXT_STORAGE_KEY))
-      ?? { ...DEFAULT_GLOBAL_CONTEXT };
-  } catch {
-    return { ...DEFAULT_GLOBAL_CONTEXT };
-  }
+    const stored = parseGlobalContext(window.localStorage.getItem(GLOBAL_CONTEXT_STORAGE_KEY));
+    if (stored) return stored;
+  } catch { /* Storage is optional. */ }
+  let language: PlatformLanguagePreference = 'auto';
+  try {
+    const cookie = document.cookie.split('; ').find((item) => item.startsWith(`${LANGUAGE_PREFERENCE_COOKIE}=`));
+    language = supportedLanguage(cookie?.split('=')[1]) ?? 'auto';
+  } catch { /* Cookies are optional too. */ }
+  return { ...DEFAULT_GLOBAL_CONTEXT, language };
 }
 
 export function storeGlobalContext(context: Partial<GlobalContext>): GlobalContext {
@@ -196,6 +200,15 @@ export function storeGlobalContext(context: Partial<GlobalContext>): GlobalConte
   } catch {
     // The setting remains active in this tab through the custom event.
   }
+  syncLanguagePreferenceCookie(normalized.language);
   window.dispatchEvent(new CustomEvent<GlobalContext>(GLOBAL_CONTEXT_EVENT, { detail: normalized }));
   return normalized;
+}
+
+/** Mirror only the language preference for consistent server rendering on future visits. */
+export function syncLanguagePreferenceCookie(language: PlatformLanguagePreference): void {
+  if (typeof document === 'undefined') return;
+  try {
+    document.cookie = `${LANGUAGE_PREFERENCE_COOKIE}=${language}; Path=/; Max-Age=31536000; SameSite=Lax${window.location.protocol === 'https:' ? '; Secure' : ''}`;
+  } catch { /* The in-memory preference still works when persistence is blocked. */ }
 }
