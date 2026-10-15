@@ -101,7 +101,7 @@ function migrationIsMaterialized(sql) {
     }
   }
 
-  const indexes = [...sql.matchAll(/CREATE\s+(UNIQUE\s+)?INDEX\s+"([^"]+)"\s+ON\s+"([^"]+)"\s*\(([^)]+)\)/gi)];
+  const indexes = [...sql.matchAll(/CREATE\s+(UNIQUE\s+)?INDEX\s+(?:IF NOT EXISTS\s+)?"([^"]+)"\s+ON\s+"([^"]+)"\s*\(([^)]+)\)/gi)];
   for (const [, unique, index, table, columns] of indexes) {
     const actual = db.prepare("SELECT sql FROM sqlite_master WHERE type = 'index' AND name = ? AND tbl_name = ?").get(index, table);
     if (!actual) {
@@ -112,6 +112,11 @@ function migrationIsMaterialized(sql) {
         : null;
       if (replacement && /CREATE\s+UNIQUE\s+INDEX/i.test(String(replacement.sql))
         && indexInfo('Policy_companyId_type_jurisdiction_url_key').map(row => row.name).join(',') === 'companyId,type,jurisdiction,url') continue;
+      const occurrenceIndex = index === 'Version_documentId_contentHash_key'
+        ? db.prepare("SELECT sql FROM sqlite_master WHERE type = 'index' AND name = 'Version_documentId_contentHash_idx' AND tbl_name = 'Version'").get()
+        : null;
+      if (occurrenceIndex && !/CREATE\s+UNIQUE\s+INDEX/i.test(String(occurrenceIndex.sql))
+        && indexInfo('Version_documentId_contentHash_idx').map(row => row.name).join(',') === 'documentId,contentHash') continue;
       return false;
     }
     const actualUnique = /CREATE\s+UNIQUE\s+INDEX/i.test(String(actual.sql));
@@ -123,7 +128,10 @@ function migrationIsMaterialized(sql) {
     }
   }
 
-  return tableMatches.length > 0 || alterColumnMatches.length > 0;
+  for (const [, index] of sql.matchAll(/DROP INDEX(?: IF EXISTS)?\s+"([^"]+)"/gi)) {
+    if (db.prepare("SELECT 1 FROM sqlite_master WHERE type = 'index' AND name = ?").get(index)) return false;
+  }
+  return tableMatches.length > 0 || alterColumnMatches.length > 0 || indexes.length > 0;
 }
 
 for (const migration of fs.readdirSync(migrationsRoot).sort()) {

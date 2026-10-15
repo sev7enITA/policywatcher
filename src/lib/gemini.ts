@@ -19,6 +19,7 @@ import { riskFromScore } from '@/lib/riskScale';
  */
 
 import { randomUUID } from 'crypto';
+import { buildPolicyAnalysisPrompt, buildPolicyAnalysisManifest, type PolicyAnalysisManifest } from '@/lib/policyAnalysisManifest';
 import { GoogleGenAI } from '@google/genai';
 import { normalizeKpiFields, type KpiField } from '@/lib/kpiDefaults';
 import { anchorRiskReasonEvidence } from '@/lib/riskReasonEvidence';
@@ -82,6 +83,8 @@ function getErrorMessage(error: unknown): string {
 export const GEMINI_MODEL_CHAIN = ['gemini-2.5-flash', 'gemini-3.5-flash-lite'] as const;
 
 export interface PolicyAnalysisOptions {
+  /** Caller correlation shared by the persisted evidence and provider telemetry. */
+  traceId?: string;
   /** Explicit chain for offline evaluation. Production callers should omit it. */
   modelChain?: readonly string[];
   telemetryOperation?: Extract<AiTelemetryOperation, 'policy-analysis' | 'golden-set-extraction' | 'golden-set-escalation'>;
@@ -160,6 +163,8 @@ export interface KeyPoint {
  * and AI governance safety indicators.
  */
 export interface PolicyAnalysisResult {
+  /** Present only for a successful, validated provider response. */
+  inferenceManifest?: PolicyAnalysisManifest;
   // -- Legacy executive summary (kept for DB compatibility / fallback) --
   executiveSummaryEn: string;
   executiveSummaryIt: string;
@@ -224,27 +229,7 @@ export async function analyzePolicyChange(
   }
 
   const isInitial = !oldText;
-
-  const prompt = isInitial
-    ? `You are a legal and regulatory compliance AI expert. Analyze this policy:
-       Company: ${companyName}
-       Policy: ${policyName}
-
-       Policy Text:
-       ${newText.substring(0, 45000)}
-
-       Provide a structured JSON assessment of this policy.`
-    : `You are a legal and regulatory compliance AI expert. Compare these two versions of a policy and analyze the changes:
-       Company: ${companyName}
-       Policy: ${policyName}
-
-       OLD VERSION:
-       ${oldText.substring(0, 22000)}
-
-       NEW VERSION:
-       ${newText.substring(0, 22000)}
-
-       Analyze what changed and how it impacts users and businesses in different regions.`;
+  const prompt = buildPolicyAnalysisPrompt(companyName, policyName, oldText, newText);
 
   const systemInstruction = `You are a legal-tech assistant writing for a non-legal audience (product managers, founders, privacy-aware users).
 Your task is to analyze the policy content provided and return a JSON object that adheres STRICTLY to the following TypeScript interface.
@@ -343,7 +328,7 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
   // Try each model in the fallback chain until one succeeds.
   const client = getClient();
   let lastError: unknown = null;
-  const traceId = randomUUID();
+  const traceId = options.traceId || randomUUID();
   const modelChain = options.modelChain?.length ? options.modelChain : GEMINI_MODEL_CHAIN;
   const telemetryOperation = options.telemetryOperation || 'policy-analysis';
 
@@ -351,7 +336,7 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
     const startedAt = performance.now();
     try {
       console.log(`[Gemini] Trying model: ${modelId} for ${companyName}/${policyName}`);
-      const response = await client.models.generateContent({
+      const request = {
         model: modelId,
         contents: prompt,
         config: {
@@ -360,7 +345,8 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
           responseJsonSchema: POLICY_ANALYSIS_RESPONSE_SCHEMA,
           ...(modelId.startsWith('gemini-3.7') ? {} : { temperature: 0.1 }),
         },
-      });
+      };
+      const response = await client.models.generateContent(request);
 
       const textResponse = response.text || '{}';
       const cleanedText = textResponse
@@ -388,7 +374,15 @@ Do not include any markdown styling like \`\`\`json ... \`\`\` in your response.
         schemaVersion: POLICY_ANALYSIS_SCHEMA_VERSION,
         promptVersion: AI_ANALYSIS_PROMPT_VERSION,
       });
-      return normalized;
+      return {
+        ...normalized,
+        inferenceManifest: buildPolicyAnalysisManifest({
+          traceId, context: { companyName, policyName }, oldText, newText, request, rawResponse: textResponse,
+          normalizedResponse: normalized, attempt,
+          promptVersion: AI_ANALYSIS_PROMPT_VERSION,
+          schemaVersion: POLICY_ANALYSIS_SCHEMA_VERSION,
+        }),
+      };
     } catch (error) {
       lastError = error;
       const classified = classifyAiTelemetryError(error);

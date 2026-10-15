@@ -3,7 +3,7 @@ import { db } from '@/lib/db';
 export const AI_TELEMETRY_RETENTION_DAYS = 90;
 export const AI_TELEMETRY_WINDOW_DAYS = 30;
 export const AI_TELEMETRY_QUERY_LIMIT = 5_000;
-export const AI_ANALYSIS_PROMPT_VERSION = 'policy-analysis.v2';
+export const AI_ANALYSIS_PROMPT_VERSION = 'policy-analysis.v3-full-document';
 export const AI_CHAT_PROMPT_VERSION = 'policy-chat.v1';
 export const AI_TELEMETRY_SEMCONV_SOURCE_URL = 'https://github.com/open-telemetry/semantic-conventions-genai';
 // The dedicated GenAI semantic-conventions repository has not published a schema URL yet.

@@ -1,3 +1,4 @@
+import { publicChangeFields } from './publicChangeFields';
 import { createHash } from 'node:crypto';
 import { diffWordsWithSpace } from 'diff';
 import { KPI_FIELD_KEYS } from './metricsCatalog';
@@ -126,6 +127,6 @@ export function classifyPolicyChange(input: Input): ChangeClassification {
 
 /** Keep full snapshot texts on the server for list endpoints. */
 export function withChangeClassification<T extends Input>(row: T) {
-  const { oldSnapshot: _old, newSnapshot: _new, ...publicRow } = row;
+  const { oldSnapshot: _old, newSnapshot: _new, ...publicRow } = publicChangeFields(row);
   return { ...publicRow, classification: classifyPolicyChange({ ...publicRow, oldSnapshot: _old, newSnapshot: _new }) };
 }

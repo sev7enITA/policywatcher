@@ -1,6 +1,10 @@
 import { extractionGuardEnabled } from '@/lib/extractionProfile';
 import { guardExtraction, anchorCommittedExtraction } from '@/lib/extractionGuard';
 import { confirmationReason, isConsecutiveChangeConfirmation } from '@/lib/changeConfirmation';
+import { randomUUID } from 'node:crypto';
+import { buildAnalysisProvenance, POLICY_SCORE_METHOD } from '@/lib/analysisProvenance';
+import { AI_ANALYSIS_PROMPT_VERSION } from '@/lib/aiTelemetry';
+import { POLICY_ANALYSIS_SCHEMA_VERSION } from '@/lib/geminiPolicySchema';
 /**
  * PolicyWatcher - On-Demand Scrape & Analyze API
  *
@@ -287,6 +291,8 @@ export async function POST(request: NextRequest) {
         rebaseline = await db.$transaction((tx) =>
           replaceSeededPolicyBaseline(tx, {
             policyId: policy.id,
+              sourceUrl: policy.url,
+              requestedUrl: policy.retrievalUrl || policy.url,
             text: newText,
             hash: newHash,
             checkedAt,
@@ -331,6 +337,8 @@ export async function POST(request: NextRequest) {
       const baseline = await db.$transaction((tx) =>
         establishVerifiedPolicyBaseline(tx, {
           policyId: policy.id,
+              sourceUrl: policy.url,
+              requestedUrl: policy.retrievalUrl || policy.url,
           text: newText,
           hash: newHash,
           checkedAt,
@@ -471,11 +479,13 @@ export async function POST(request: NextRequest) {
     const serializedDiff = JSON.stringify(diffObjects);
 
     // Call Gemini AI
+    const analysisTraceId = randomUUID();
     const aiAnalysis = await analyzePolicyChange(
       policy.company.name,
       policy.name,
       oldText,
-      newText
+      newText,
+      { traceId: analysisTraceId }
     );
 
     const { policyChange, updatedPolicy } = await db.$transaction(async (tx) => {
@@ -486,6 +496,11 @@ export async function POST(request: NextRequest) {
           text: newText,
           hash: newHash,
           publicEvidence: true,
+          sourceUrl: policy.url,
+          requestedUrl: policy.retrievalUrl || policy.url,
+          finalUrl: scrapeResult.finalUrl || policy.retrievalUrl || policy.url,
+          sourceProvenance: 'captured',
+          createdAt: checkedAt,
         },
       });
 
@@ -506,6 +521,14 @@ export async function POST(request: NextRequest) {
           remediationsJson: JSON.stringify(aiAnalysis.remediations),
           publicEvidence: true,
           publicPublishedAt: checkedAt,
+          analysisTraceId,
+          analysisMethod: POLICY_SCORE_METHOD,
+          analysisSchemaVersion: POLICY_ANALYSIS_SCHEMA_VERSION,
+          analysisPromptVersion: AI_ANALYSIS_PROMPT_VERSION,
+          analysisInputHash: aiAnalysis.inferenceManifest?.requestSha256 ?? null,
+          analysisEvidenceJson: JSON.stringify(buildAnalysisProvenance({
+            traceId: analysisTraceId, versionId: newSnapshot.id, oldVersionId: latestSnapshot?.id ?? null, contentHash: newHash, analysis: aiAnalysis,
+          })),
           aiTrainingOptOut: aiAnalysis.aiTrainingOptOut,
           aiDataScrapingRestricted: aiAnalysis.aiDataScrapingRestricted,
           aiIpLicensing: aiAnalysis.aiIpLicensing,

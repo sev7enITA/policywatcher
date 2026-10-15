@@ -3,6 +3,10 @@
 This is a source deployment package. It intentionally excludes `.next`,
 `node_modules`, environment files and SQLite databases.
 
+## PolicyWatcher 5.1.0 - 15 October 2026
+
+Deploy one immutable source ZIP to staging, verify 35/35 tables, 19/19 SQLite migrations, both changelog languages, public evidence packets, authentication boundaries and the unchanged 30-hour live-freshness rule. Promote the exact verified SHA-256 artifact. Keep a consistent pre-migration database backup and the previous application ZIP together for rollback; see [5.1 release notes](docs/releases/policywatcher-5.1.0-github-release.md). Do not activate canonical dual-write or issue subscriber notifications as a deployment side effect.
+
 ## PolicyWatcher 4.0.0 Beta 3 deployment wave
 
 Beta 3 adds homepage discoverability and citation-readiness metadata without a

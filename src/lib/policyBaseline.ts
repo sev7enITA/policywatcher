@@ -10,6 +10,8 @@ interface ReplaceSeededPolicyBaselineParams {
   source: string;
   httpStatus?: number | null;
   finalUrl: string;
+  sourceUrl?: string;
+  requestedUrl?: string;
   archiveTimestamp?: Date | null;
   scanRunId?: string;
   sourceRetrievalId?: string;
@@ -33,6 +35,8 @@ interface EstablishVerifiedPolicyBaselineParams {
   source: string;
   httpStatus?: number | null;
   finalUrl: string;
+  sourceUrl?: string;
+  requestedUrl?: string;
   archiveTimestamp?: Date | null;
   scanRunId?: string;
   sourceRetrievalId?: string;
@@ -79,19 +83,19 @@ export async function establishSourceMigrationBaseline(
     orderBy: [{ version: 'desc' }, { createdAt: 'desc' }],
   });
 
-  const createdSnapshot = latestSnapshot?.hash !== params.hash;
-  const snapshot = createdSnapshot
-    ? await tx.policySnapshot.create({
-        data: {
-          policyId: params.policyId,
-          version: (latestSnapshot?.version || 0) + 1,
-          text: params.text,
-          hash: params.hash,
-          publicEvidence: true,
-          createdAt: params.checkedAt,
-        },
-      })
-    : latestSnapshot;
+  // A source migration is a new observation even if its bytes recur.
+  const createdSnapshot = true;
+  const snapshot = await tx.policySnapshot.create({
+    data: {
+      ...snapshotSourceMetadata(params),
+      policyId: params.policyId,
+      version: (latestSnapshot?.version || 0) + 1,
+      text: params.text,
+      hash: params.hash,
+      publicEvidence: true,
+      createdAt: params.checkedAt,
+    },
+  });
 
   if (!snapshot) {
     throw new Error('source_migration_rebaseline_aborted_missing_snapshot');
@@ -218,6 +222,7 @@ export async function establishVerifiedPolicyBaseline(
     });
     snapshot = await tx.policySnapshot.create({
       data: {
+        ...snapshotSourceMetadata(params),
         policyId: params.policyId,
         version: (latestSnapshot?.version || 0) + 1,
         text: params.text,
@@ -364,6 +369,7 @@ export async function replaceSeededPolicyBaseline(
 
   const snapshot = await tx.policySnapshot.create({
     data: {
+      ...snapshotSourceMetadata(params),
       policyId: params.policyId,
       version: 1,
       text: params.text,
@@ -448,5 +454,17 @@ export async function replaceSeededPolicyBaseline(
     snapshot,
     removedChangeCount: changeIds.length,
     removedSnapshotCount: removedSnapshots.count,
+  };
+}
+
+function snapshotSourceMetadata(params: {
+  sourceUrl?: string; requestedUrl?: string; finalUrl: string; sourceRetrievalId?: string;
+}) {
+  return {
+    sourceUrl: params.sourceUrl ?? null,
+    requestedUrl: params.requestedUrl ?? null,
+    finalUrl: params.finalUrl,
+    sourceRetrievalId: params.sourceRetrievalId ?? null,
+    sourceProvenance: params.sourceUrl && params.requestedUrl ? 'captured' : 'unknown',
   };
 }

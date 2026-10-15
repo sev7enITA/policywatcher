@@ -9,6 +9,7 @@ export const EXPECTED_DATABASE_TABLES = [
   'Entity',
   'Document',
   'Version',
+  'ContentArtifact',
   'Change',
   'Provision',
   'Company',
@@ -58,12 +59,14 @@ export const EXPECTED_SQLITE_MIGRATIONS = [
   '20260820133000_subscriber_double_opt_in',
   '20261002050000_multiple_documents_per_type',
   '20261007120000_evidence_assurance',
+  '20261015160000_dq_lineage_occurrences',
 ] as const;
 
 export const EXPECTED_POSTGRESQL_MIGRATIONS = [
   '00000000000000_postgresql_baseline',
   '20261002050000_multiple_documents_per_type',
   '20261007120000_evidence_assurance',
+  '20261015160000_dq_lineage_occurrences',
 ] as const;
 
 // Backward-compatible name for the production SQLite migration contract.

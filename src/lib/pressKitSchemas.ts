@@ -255,7 +255,7 @@ export const pressKitSchemas = {
     required: ['schema', 'schemaVersion', 'mappingVersion', 'changeId', 'screeningDate', 'publicationGate', 'company', 'policy', 'sourceConfidence', 'snapshots', 'assessment', 'governance', 'humanReviewQuestions', 'methodologyUrl', 'changeUrl', 'boundary', 'contentDigest'],
     properties: {
       schema: { const: 'https://policywatcher.online/schemas/evidence-packet/v1' },
-      schemaVersion: { const: '1.0.0' },
+      schemaVersion: { enum: ['1.0.0', '1.1.0'] },
       mappingVersion: { type: 'string' },
       changeId: { type: 'string', format: 'uuid' },
       screeningDate: { type: 'string', format: 'date-time' },
@@ -264,6 +264,8 @@ export const pressKitSchemas = {
       policy: { type: 'object' },
       sourceConfidence: { type: 'object' },
       snapshots: { type: 'object' },
+      analysisLineage: { type: 'object', required: ['status', 'inputCoverage', 'semanticCoverage', 'boundary'], properties: { status: { enum: ['verified', 'not_recorded', 'unverifiable', 'mismatch'] }, inputCoverage: { enum: ['complete', 'unknown'] }, semanticCoverage: { const: 'not_measured' }, boundary: { type: 'string' } } },
+      captureLineage: { type: 'object' },
       assessment: { type: 'object' },
       governance: { type: 'object' },
       humanReviewQuestions: { type: 'array', items: { type: 'string' }, minItems: 1 },

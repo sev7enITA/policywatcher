@@ -56,6 +56,9 @@ export async function guardExtraction(policy: PolicyInput, result: ScrapeResult)
       await tx.policySnapshot.create({ data: {
         policyId: policy.id, version: latest.version + 1, text: replay.text, hash: replay.hash,
         publicEvidence: true, createdAt: anchor.capturedAt,
+        sourceUrl: latest.sourceUrl, requestedUrl: anchor.sourceUrl,
+        finalUrl: latest.finalUrl, sourceProvenance: 'replayed',
+        sourceRetrievalId: latest.sourceRetrievalId,
       } });
       await tx.policy.update({ where: { id: policy.id }, data: { currentText: replay.text, currentHash: replay.hash } });
       await dualWriteCanonicalPolicyGraph(tx, policy.id);

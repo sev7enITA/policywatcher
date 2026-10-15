@@ -17,6 +17,7 @@ export const COMPLETE_BACKUP_TABLES = [
   ['Entity', 'entity'],
   ['Document', 'document'],
   ['Version', 'version'],
+  ['ContentArtifact', 'contentArtifact'],
   ['Change', 'change'],
   ['Provision', 'provision'],
   ['Company', 'company'],
@@ -204,7 +205,8 @@ function validateCompleteBackupPayload(payload: unknown): CompleteBackupPayload 
   }
   const countValues = counts as Record<string, unknown>;
   const dataValues = data as Record<string, unknown>;
-  const expectedTables = COMPLETE_BACKUP_TABLES.map(([tableName]) => tableName);
+  const expectedTables = COMPLETE_BACKUP_TABLES.map(([tableName]) => tableName)
+    .filter(table => table !== 'ContentArtifact' || value.applicationVersion !== '5.0.0');
   if (
     summaryValue.tableCount !== expectedTables.length
     || Object.keys(dataValues).length !== expectedTables.length

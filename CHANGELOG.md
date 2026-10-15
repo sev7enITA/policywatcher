@@ -1,5 +1,17 @@
 # Changelog
 
+## 5.1.0 - Traceable Evidence (2026-10-15)
+
+- Sends complete extracted documents to analysis (500,000 characters per document maximum); oversized input fails explicitly.
+- Retains replayable SDK request manifests, response fingerprints and snapshot references for new analyses.
+- Freezes capture URLs and timestamps; separates recurring version occurrences from reusable content artifacts while preserving legacy public IDs.
+- Rejects missing or incomplete URL-fragment sections without expanding to unrelated body text.
+- Adds bounded lineage verification to public evidence packets; historical missing evidence remains unknown.
+- Preserves the 30-hour successful-live-check freshness contract and existing extraction, publication and confirmation gates.
+- Adds the additive `20261015160000_dq_lineage_occurrences` migration. Existing capture fields and public IDs are not rewritten. Canonical dual-write remains subject to its existing gate.
+
+Input coverage is not semantic accuracy. The wider competitor-research backlog remains planned work. Android and extension releases are independent.
+
 ## 5.0.0 - Your Services, Your Choices (2026-10-06)
 
 ### Administrative reliability update (2026-10-09)

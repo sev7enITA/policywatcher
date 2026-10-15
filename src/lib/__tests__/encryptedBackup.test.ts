@@ -31,11 +31,23 @@ describe('complete encrypted backup', () => {
     const payload = await buildCompleteBackupPayload(client, new Date('2026-08-20T10:00:00Z'));
 
     expect(COMPLETE_BACKUP_TABLES.map(([table]) => table)).toEqual([...EXPECTED_DATABASE_TABLES]);
-    expect(payload.summary).toMatchObject({ tableCount: 34, totalRecords: 34 });
-    expect(Object.keys(payload.data)).toHaveLength(34);
+    expect(payload.summary).toMatchObject({ tableCount: 35, totalRecords: 35 });
+    expect(Object.keys(payload.data)).toHaveLength(35);
     for (const [, delegate] of COMPLETE_BACKUP_TABLES) {
       expect(client[delegate].findMany).toHaveBeenCalledOnce();
     }
+  });
+
+  it('still verifies a complete 5.0.0 backup with its historical 34-table inventory', async () => {
+    const payload = await buildCompleteBackupPayload(completeClient());
+    payload.applicationVersion = '5.0.0';
+    delete payload.data.ContentArtifact;
+    delete payload.summary.counts.ContentArtifact;
+    payload.summary.tableCount = 34;
+    payload.summary.totalRecords = 34;
+    const password = 'historical backup test password';
+    const encrypted = await encryptBackupPayload(payload, password);
+    await expect(decryptBackupFile(encrypted, password)).resolves.toEqual(payload);
   });
 
   it('round-trips the v2 envelope and records bounded cryptographic parameters', async () => {

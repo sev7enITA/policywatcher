@@ -1433,7 +1433,8 @@ function urlFragment(sourceUrl?: string): string | null {
   if (!sourceUrl) return null;
   try {
     const hash = new URL(sourceUrl).hash.replace(/^#/, '').trim();
-    return hash ? decodeURIComponent(hash) : null;
+    if (!hash) return null;
+    try { return decodeURIComponent(hash); } catch { return hash; }
   } catch {
     return null;
   }
@@ -1464,6 +1465,7 @@ function headingLevel(element: unknown): number | null {
 function buildFragmentScopedHtml(
   $: cheerio.CheerioAPI,
   target: CheerioSelection,
+  minimumTextLength: number,
 ): string | null {
   const targetElement = target[0];
   if (!targetElement) return null;
@@ -1471,7 +1473,7 @@ function buildFragmentScopedHtml(
   const directText = target.text().replace(/\s+/g, ' ').trim();
   const targetLevel = headingLevel(targetElement);
 
-  if (directText.length >= MIN_TEXT_LENGTH && targetLevel === null) {
+  if (directText.length >= minimumTextLength && targetLevel === null) {
     return $.html(target);
   }
 
@@ -1489,20 +1491,30 @@ function buildFragmentScopedHtml(
       scopedText += ` ${$(sibling).text().replace(/\s+/g, ' ').trim()}`;
     });
 
-    if (scopedText.trim().length >= MIN_TEXT_LENGTH) {
+    if (scopedText.trim().length >= minimumTextLength) {
       return `<main>${pieces.join('\n')}</main>`;
     }
-  }
-
-  const parentSection = target.closest('section, article, [role="region"]').first();
-  if (parentSection.length && parentSection.text().replace(/\s+/g, ' ').trim().length >= MIN_TEXT_LENGTH) {
-    return $.html(parentSection);
+    // A heading defines a hard boundary: a short section cannot borrow text
+    // from sibling sections through its enclosing article.
+    return null;
   }
 
   return null;
 }
 
-export function extractPolicyText(html: string, sourceUrl?: string): string {
+export interface PolicyExtractionContract {
+  /** Explicitly reviewed source minimum. Marker and block-page gates still apply. */
+  minimumTextLength?: number;
+}
+
+function extractionMinimum(contract: PolicyExtractionContract): number | null {
+  const minimum = contract.minimumTextLength ?? MIN_TEXT_LENGTH;
+  return Number.isInteger(minimum) && minimum >= 100 && minimum <= MAX_TEXT_LENGTH ? minimum : null;
+}
+
+export function extractPolicyText(html: string, sourceUrl?: string, contract: PolicyExtractionContract = {}): string {
+  const minimumTextLength = extractionMinimum(contract);
+  if (minimumTextLength === null) return '';
   const $ = cheerio.load(html);
 
   // Remove boilerplate elements
@@ -1518,10 +1530,10 @@ export function extractPolicyText(html: string, sourceUrl?: string): string {
     const target = findFragmentTarget($, fragment);
     if (!target) return '';
 
-    const scopedHtml = buildFragmentScopedHtml($, target);
+    const scopedHtml = buildFragmentScopedHtml($, target, minimumTextLength);
     if (!scopedHtml) return '';
 
-    return extractPolicyText(scopedHtml);
+    return extractPolicyText(scopedHtml, undefined, contract);
   }
 
   // OneTrust document text is a sibling of its language picker. Generic
@@ -1609,21 +1621,28 @@ function visibleText(html: string): string {
  * Validates HTML content through Layer 2 checks.
  * Returns { ok: true, text, hash } or { ok: false, reason }.
  */
-export async function validateContent(html: string, sourceUrl?: string): Promise<
+export async function validateContent(html: string, sourceUrl?: string, contract: PolicyExtractionContract = {}): Promise<
   | { ok: true; text: string; hash: string; partial?: boolean; partialReason?: string; originalTextLength?: number }
   | { ok: false; reason: string }
 > {
+  const minimumTextLength = extractionMinimum(contract);
+  if (minimumTextLength === null) return { ok: false, reason: 'invalid_extraction_contract' };
   const blockReason = detectBlockPage(html);
   if (blockReason) return { ok: false, reason: `blocked:${blockReason}` };
 
   if (detectSoft404(html)) return { ok: false, reason: 'soft_404' };
 
-  const text = extractPolicyText(html, sourceUrl);
-  if (text.length < MIN_TEXT_LENGTH) {
+  const text = extractPolicyText(html, sourceUrl, contract);
+  if (text.length < minimumTextLength) {
+    if (urlFragment(sourceUrl)) {
+      const fragment = urlFragment(sourceUrl)!;
+      const target = findFragmentTarget(cheerio.load(html), fragment);
+      return { ok: false, reason: target ? 'scope_incomplete' : 'scope_missing' };
+    }
     // Before giving up, check raw visible text length
     // Some sites have complex DOM that our extractor misses
     const rawText = visibleText(html);
-    if (rawText.length >= MIN_TEXT_LENGTH) {
+    if (rawText.length >= minimumTextLength) {
       // Use raw visible text as fallback
       const trimmed = rawText.slice(0, MAX_TEXT_LENGTH);
       // Validate it's actually a policy page

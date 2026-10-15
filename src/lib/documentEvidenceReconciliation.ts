@@ -1,3 +1,4 @@
+import { versionOccurrenceDigest } from '@/lib/versionOccurrence';
 import type { Prisma } from '@prisma/client';
 import {
   buildChangePublicId,
@@ -110,21 +111,10 @@ export async function inspectLegacyEvidenceSource(
       snapshots += policy.snapshots.length;
       changes += policy.changes.length;
       const snapshotIds = new Set(policy.snapshots.map((snapshot) => snapshot.id));
-      const hashes = new Map<string, string>();
       const targeted = new Set(policy.changes.map((change) => change.newSnapshotId));
       baselines += policy.snapshots.filter((snapshot) => !targeted.has(snapshot.id)).length;
 
       for (const snapshot of policy.snapshots) {
-        const prior = hashes.get(snapshot.hash);
-        if (prior && prior !== snapshot.id) {
-          pushMismatch(
-            issues,
-            'legacy_snapshot_duplicate_hash',
-            `Policy ${policy.id} has multiple snapshots with content hash ${snapshot.hash}.`,
-            { legacyId: snapshot.id },
-          );
-        }
-        hashes.set(snapshot.hash, snapshot.id);
         if (sha256Text(snapshot.text) !== snapshot.hash) {
           pushMismatch(
             issues,
@@ -364,9 +354,11 @@ export async function reconcileDocumentEvidence(
       const versionPublicIds = new Map<string, string>();
       for (const snapshot of policy.snapshots) {
         legacySnapshotIds.add(snapshot.id);
-        const versionPublicId = buildVersionPublicId(documentPublicId, snapshot.hash);
-        versionPublicIds.set(snapshot.id, versionPublicId);
+        const legacyVersionPublicId = buildVersionPublicId(documentPublicId, snapshot.hash);
+        const occurrencePublicId = buildVersionPublicId(documentPublicId, versionOccurrenceDigest(snapshot.hash, snapshot.id));
         const version = versionsByLegacy.get(snapshot.id);
+        const versionPublicId = version?.publicId ?? occurrencePublicId;
+        versionPublicIds.set(snapshot.id, versionPublicId);
         if (!version) {
           pushMismatch(issues, 'missing_version', 'No canonical Version is bridged to this snapshot.', {
             legacyId: snapshot.id,
@@ -375,9 +367,11 @@ export async function reconcileDocumentEvidence(
         }
         if (
           version.documentId !== document.id ||
-          version.publicId !== versionPublicId ||
+          ![legacyVersionPublicId, occurrencePublicId].includes(version.publicId) ||
           version.contentHash !== snapshot.hash ||
-          version.sourceUrl !== policy.url ||
+          (snapshot.sourceProvenance === 'captured' && version.sourceProvenance === 'captured' && (
+            version.sourceUrl !== snapshot.sourceUrl || version.requestedUrl !== snapshot.requestedUrl || version.finalUrl !== snapshot.finalUrl
+          )) ||
           version.contentText !== snapshot.text ||
           (!version.contentText && !version.contentRef) ||
           version.publicEvidence !== snapshot.publicEvidence ||

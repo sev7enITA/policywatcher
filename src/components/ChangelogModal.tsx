@@ -10,7 +10,7 @@ import styles from './ChangelogModal.module.css';
 const copy = {
   en: {
     title: 'System changelog', close: 'Close changelog',
-    subtitle: 'Current web release and earlier milestones', current: 'Current release',
+    subtitle: 'Current web release and earlier milestones', current: 'Latest published release',
     implemented: 'Implemented features', boundaries: 'Availability and limits',
     history: 'Earlier releases', historical: 'Historical release',
     historyNote: 'Version numbers below identify when a feature was introduced. These features remain included in the current web release.',
@@ -20,7 +20,7 @@ const copy = {
   },
   it: {
     title: 'Registro delle modifiche', close: 'Chiudi registro delle modifiche',
-    subtitle: 'Release web corrente e tappe precedenti', current: 'Release corrente',
+    subtitle: 'Release web corrente e tappe precedenti', current: 'Ultima release pubblicata',
     implemented: 'Funzionalità implementate', boundaries: 'Disponibilità e limiti',
     history: 'Release precedenti', historical: 'Release storica',
     historyNote: 'Le versioni qui sotto indicano quando è stata introdotta una funzionalità. Queste funzionalità restano incluse nella release web corrente.',

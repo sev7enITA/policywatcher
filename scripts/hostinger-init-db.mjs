@@ -550,6 +550,11 @@ CREATE INDEX IF NOT EXISTS "EvidenceQualityReview_metric_idx" ON "EvidenceQualit
     "updatedAt" DATETIME NOT NULL,
     CONSTRAINT "Document_entityId_fkey" FOREIGN KEY ("entityId") REFERENCES "Entity" ("id") ON DELETE CASCADE ON UPDATE CASCADE
   )`,
+  `CREATE TABLE IF NOT EXISTS "ContentArtifact" (
+  "contentHash" TEXT NOT NULL PRIMARY KEY,
+  "text" TEXT NOT NULL,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+)`,
   `CREATE TABLE IF NOT EXISTS "Version" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "publicId" TEXT NOT NULL,
@@ -704,7 +709,9 @@ const indexes = [
   `CREATE UNIQUE INDEX IF NOT EXISTS "Version_publicId_key" ON "Version"("publicId")`,
   `CREATE UNIQUE INDEX IF NOT EXISTS "Version_legacySnapshotId_key" ON "Version"("legacySnapshotId")`,
   `CREATE UNIQUE INDEX IF NOT EXISTS "Version_documentId_sequence_key" ON "Version"("documentId", "sequence")`,
-  `CREATE UNIQUE INDEX IF NOT EXISTS "Version_documentId_contentHash_key" ON "Version"("documentId", "contentHash")`,
+  `DROP INDEX IF EXISTS "Version_documentId_contentHash_key"`,
+  `CREATE INDEX IF NOT EXISTS "Version_documentId_contentHash_idx" ON "Version"("documentId", "contentHash")`,
+  `CREATE INDEX IF NOT EXISTS "Version_contentArtifactHash_idx" ON "Version"("contentArtifactHash")`,
   `CREATE INDEX IF NOT EXISTS "Version_documentId_capturedAt_idx" ON "Version"("documentId", "capturedAt")`,
   `CREATE INDEX IF NOT EXISTS "Version_publicEvidence_idx" ON "Version"("publicEvidence")`,
   `CREATE UNIQUE INDEX IF NOT EXISTS "Change_publicId_key" ON "Change"("publicId")`,
@@ -721,6 +728,12 @@ const indexes = [
 ];
 
 const upgradeColumns = {
+  Version: [
+    ['requestedUrl', `ALTER TABLE "Version" ADD COLUMN "requestedUrl" TEXT`],
+    ['finalUrl', `ALTER TABLE "Version" ADD COLUMN "finalUrl" TEXT`],
+    ['sourceProvenance', `ALTER TABLE "Version" ADD COLUMN "sourceProvenance" TEXT NOT NULL DEFAULT 'unknown'`],
+    ['contentArtifactHash', `ALTER TABLE "Version" ADD COLUMN "contentArtifactHash" TEXT REFERENCES "ContentArtifact"("contentHash") ON DELETE RESTRICT ON UPDATE CASCADE`],
+  ],
   PolicyInquiry: [
     ['activeDedupeKey', `ALTER TABLE "PolicyInquiry" ADD COLUMN "activeDedupeKey" TEXT`],
   ],
@@ -751,9 +764,21 @@ const upgradeColumns = {
     ['confirmedAt', `ALTER TABLE "Subscriber" ADD COLUMN "confirmedAt" DATETIME`],
   ],
   PolicySnapshot: [
+    ['sourceUrl', `ALTER TABLE "PolicySnapshot" ADD COLUMN "sourceUrl" TEXT`],
+    ['requestedUrl', `ALTER TABLE "PolicySnapshot" ADD COLUMN "requestedUrl" TEXT`],
+    ['finalUrl', `ALTER TABLE "PolicySnapshot" ADD COLUMN "finalUrl" TEXT`],
+    ['sourceProvenance', `ALTER TABLE "PolicySnapshot" ADD COLUMN "sourceProvenance" TEXT NOT NULL DEFAULT 'unknown'`],
+    ['sourceRetrievalId', `ALTER TABLE "PolicySnapshot" ADD COLUMN "sourceRetrievalId" TEXT REFERENCES "SourceRetrieval"("id") ON DELETE SET NULL ON UPDATE CASCADE`],
     ['publicEvidence', `ALTER TABLE "PolicySnapshot" ADD COLUMN "publicEvidence" BOOLEAN NOT NULL DEFAULT false`],
   ],
   PolicyChange: [
+    ['analysisTraceId', `ALTER TABLE "PolicyChange" ADD COLUMN "analysisTraceId" TEXT`],
+    ['analysisMethod', `ALTER TABLE "PolicyChange" ADD COLUMN "analysisMethod" TEXT`],
+    ['analysisSchemaVersion', `ALTER TABLE "PolicyChange" ADD COLUMN "analysisSchemaVersion" TEXT`],
+    ['analysisPromptVersion', `ALTER TABLE "PolicyChange" ADD COLUMN "analysisPromptVersion" TEXT`],
+    ['analysisInputHash', `ALTER TABLE "PolicyChange" ADD COLUMN "analysisInputHash" TEXT`],
+    ['analysisEvidenceJson', `ALTER TABLE "PolicyChange" ADD COLUMN "analysisEvidenceJson" TEXT`],
+
     ['tldrEn', `ALTER TABLE "PolicyChange" ADD COLUMN "tldrEn" TEXT`],
     ['tldrIt', `ALTER TABLE "PolicyChange" ADD COLUMN "tldrIt" TEXT`],
     ['keyPointsJson', `ALTER TABLE "PolicyChange" ADD COLUMN "keyPointsJson" TEXT`],

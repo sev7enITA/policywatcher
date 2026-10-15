@@ -1,3 +1,4 @@
+import { publicAnalysisLineage } from './publicAnalysisLineage';
 import { createHash } from 'node:crypto';
 import {
   GOVERNANCE_MAPPING_BOUNDARY,
@@ -8,11 +9,15 @@ import { KPI_FIELD_KEYS, type KpiField } from './metricsCatalog';
 import { anchorRiskReasonEvidence } from './riskReasonEvidence';
 import { normalizeSourceContinuityChannel } from './sourceContinuity';
 
-export const EVIDENCE_PACKET_SCHEMA_VERSION = '1.0.0' as const;
+export const EVIDENCE_PACKET_SCHEMA_VERSION = '1.1.0' as const;
 export const EVIDENCE_PACKET_BOUNDARY =
   'This packet records PolicyWatcher evidence and AI-assisted screening for one public change. It is not legal advice, a compliance verdict, a certification, or proof that the external source remains unchanged.';
 
 interface SnapshotInput {
+  sourceUrl?: string | null;
+  requestedUrl?: string | null;
+  finalUrl?: string | null;
+  sourceProvenance?: string;
   version: number;
   hash: string;
   text: string;
@@ -29,6 +34,9 @@ interface RegionImpactInput {
 }
 
 interface EvidenceChangeInput extends Partial<Record<KpiField, string | null>> {
+  analysisEvidenceJson?: string | null;
+  analysisInputHash?: string | null;
+  analysisTraceId?: string | null;
   id: string;
   publicEvidence: boolean;
   createdAt: Date | string;
@@ -176,6 +184,17 @@ export function buildEvidencePacket(input: EvidencePacketInput) {
         capturedAt: iso(input.change.newSnapshot.createdAt),
       },
     },
+    analysisLineage: publicAnalysisLineage({
+      evidenceJson: input.change.analysisEvidenceJson,
+      requestHash: input.change.analysisInputHash,
+      traceId: input.change.analysisTraceId,
+      oldSnapshot: input.change.oldSnapshot,
+      newSnapshot: input.change.newSnapshot,
+    }),
+    captureLineage: {
+      old: input.change.oldSnapshot?.publicEvidence ? publicCapture(input.change.oldSnapshot) : null,
+      current: publicCapture(input.change.newSnapshot),
+    },
     assessment: {
       summary: input.change.tldrEn || input.change.aiSummaryEn,
       overallRisk: input.change.overallRisk,
@@ -210,3 +229,14 @@ export function buildEvidencePacket(input: EvidencePacketInput) {
 }
 
 export type EvidencePacket = ReturnType<typeof buildEvidencePacket>;
+
+function publicCapture(snapshot: SnapshotInput) {
+  return {
+    provenance: snapshot.sourceProvenance ?? 'unknown',
+    sourceUrl: snapshot.sourceUrl ? safePublicUrl(snapshot.sourceUrl) : null,
+    requestedUrl: snapshot.requestedUrl ? safePublicUrl(snapshot.requestedUrl) : null,
+    finalUrl: snapshot.finalUrl ? safePublicUrl(snapshot.finalUrl) : null,
+    capturedAt: iso(snapshot.createdAt),
+    urlDisclosure: 'credentials-query-fragment-redacted',
+  };
+}
