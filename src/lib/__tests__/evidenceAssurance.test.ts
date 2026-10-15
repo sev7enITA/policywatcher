@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { PrismaClient } from '@prisma/client';
+import { buildPolicyAnalysisManifest, buildPolicyAnalysisPrompt } from '../policyAnalysisManifest';
 import { NextRequest } from 'next/server';
 import { extractionEvidence, extractionProfileHash, sha256 } from '../extractionProfile';
 import { compareExtractions, reviewedMetrics } from '../evidenceQuality';
@@ -19,7 +20,15 @@ let guard: typeof import('../extractionGuard');
 let scraper: typeof import('../scraper');
 let api: typeof import('../../app/api/admin/evidence-quality/route');
 let scrapeApi: typeof import('../../app/api/scrape/route');
-const analyze = vi.fn().mockResolvedValue({ executiveSummaryEn: 'Fixture analysis', executiveSummaryIt: 'Analisi fixture', overallRisk: 'Low', overallScore: 1, remediations: [], regionImpacts: [], aiTrainingOptOut: 'Not assessed', aiDataScrapingRestricted: 'Not assessed', aiIpLicensing: 'Not assessed', aiPromptRetention: 'Not assessed' });
+const analysisFixture = { executiveSummaryEn: 'Fixture analysis', executiveSummaryIt: 'Analisi fixture', overallRisk: 'Low', overallScore: 1, riskReasons: [], remediations: [], regionImpacts: [], aiTrainingOptOut: 'Not assessed', aiDataScrapingRestricted: 'Not assessed', aiIpLicensing: 'Not assessed', aiPromptRetention: 'Not assessed' };
+const analyze = vi.fn().mockImplementation(async (companyName, policyName, oldText, newText, options) => ({
+  ...analysisFixture,
+  inferenceManifest: buildPolicyAnalysisManifest({
+    traceId: options.traceId, context: { companyName, policyName }, oldText, newText,
+    request: { model: 'fixture-model', contents: buildPolicyAnalysisPrompt(companyName, policyName, oldText, newText), config: { systemInstruction: 'Fixture instruction' } },
+    rawResponse: JSON.stringify(analysisFixture), normalizedResponse: analysisFixture, promptVersion: 'fixture', schemaVersion: 'fixture', attempt: 0,
+  }),
+}));
 let session = { valid: true, role: 'admin' as 'admin' | 'auditor' };
 
 beforeAll(async () => {
@@ -132,6 +141,23 @@ describe('extraction guard with real isolated SQLite', () => {
     const second = await scrapeApi.POST(request({ policyId: policy.id }));
     expect(second.status).toBe(200); expect(analyze).toHaveBeenCalledOnce();
     expect(await db.policyChange.count()).toBe(1);
+    const stored = await db.policyChange.findFirstOrThrow({ include: { oldSnapshot: true, newSnapshot: true } });
+    const provenance = JSON.parse(stored.analysisEvidenceJson!);
+    expect(stored.analysisInputHash).toBe(provenance.inference.requestSha256);
+    expect(stored.analysisTraceId).toBe(provenance.inference.traceId);
+    const companyApi = await import('../../app/api/companies/route');
+    const policyApi = await import('../../app/api/policies/[id]/route');
+    const companiesResponse = await companyApi.GET(new NextRequest('https://localhost/api/companies'));
+    const policyResponse = await policyApi.GET(new NextRequest(`https://localhost/api/policies/${policy.id}`), { params: Promise.resolve({ id: policy.id }) });
+    expect(companiesResponse.status).toBe(200); expect(policyResponse.status).toBe(200);
+    for (const response of [companiesResponse, policyResponse]) {
+      const json = await response.text();
+      expect(json).not.toContain('analysisEvidenceJson');
+      expect(json).not.toContain('Fixture instruction');
+    }
+    expect(stored.newSnapshot).toMatchObject({ sourceUrl: url, requestedUrl: url, finalUrl: url, sourceProvenance: 'captured' });
+    const { publicAnalysisLineage } = await import('../publicAnalysisLineage');
+    expect(publicAnalysisLineage({ evidenceJson: stored.analysisEvidenceJson, requestHash: stored.analysisInputHash, traceId: stored.analysisTraceId, oldSnapshot: stored.oldSnapshot, newSnapshot: stored.newSnapshot }).status).toBe('verified');
     expect((await db.extractionBaseline.findUniqueOrThrow({ where: { policyId: policy.id } })).baselineHash).toBe(changed.hash);
     const third = await scrapeApi.POST(request({ policyId: policy.id }));
     expect(third.status).toBe(200); expect(analyze).toHaveBeenCalledOnce();

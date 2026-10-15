@@ -1,3 +1,4 @@
+import { publicChangeFields } from '@/lib/publicChangeFields';
 /**
  * PolicyWatcher - Single Policy Detail API
  *
@@ -103,7 +104,7 @@ export async function GET(
     });
 
     return NextResponse.json({ ...policy, changes: policy.changes.map(change => ({
-      ...change,
+      ...publicChangeFields(change),
       oldSnapshot: change.oldSnapshot?.publicEvidence ? change.oldSnapshot : null,
       newSnapshot: change.newSnapshot?.publicEvidence ? change.newSnapshot : null,
       diff: change.oldSnapshot?.publicEvidence && change.newSnapshot?.publicEvidence ? change.diff : '',

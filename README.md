@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-5.0.0%20Your%20Services%20Your%20Choices-146c6a" alt="PolicyWatcher 5.0.0 Your Services, Your Choices" />
+  <img src="https://img.shields.io/badge/Release-5.1.0%20Traceable%20Evidence-146c6a" alt="PolicyWatcher 5.1.0 Traceable Evidence" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -43,15 +43,19 @@ The platform is designed as a **civic tech tool** that produces structured summa
 
 Scheduled and manual scans share an opt-in native extraction guard: parser upgrades replay the preserved baseline input before provider-change comparison. The protected `/admin/evidence-quality` workbench adds human-reviewed false-positive share and AI citation support with explicit denominators, metadata-only EU references, and transient extraction diagnostics. Unknown samples remain unassessed; archive metadata cannot confirm a live change or authorize third-party text republication.
 
-See the [deployment and rollback runbook](docs/evidence-assurance-pilot.md), [source/licensing assessment](docs/reports/eu-terms-reuse-2026-10-07/assessment-it.md) and [release evidence](docs/reports/evidence-assurance-release-2026-10-07/README.md). This update retains the 5.0.0 product version; the immutable artifact revision and checksum identify the deployed update.
+See the [deployment and rollback runbook](docs/evidence-assurance-pilot.md), [source/licensing assessment](docs/reports/eu-terms-reuse-2026-10-07/assessment-it.md) and [release evidence](docs/reports/evidence-assurance-release-2026-10-07/README.md). That 7 October update retained the 5.0.0 product version; the immutable artifact revision and checksum identify the deployed update.
 
-### Release 5.0.0: Your Services, Your Choices
+### Release 5.1.0: Traceable Evidence - 15 October 2026
+
+Full extracted analysis inputs, replayable request manifests, immutable capture metadata, recurring version occurrences and strict fragment scope strengthen data quality and lineage. Public evidence packets expose bounded hash-verification summaries while private raw responses stay private. Existing 30-hour live freshness and evidence gates are preserved. See [release notes](docs/releases/policywatcher-5.1.0-github-release.md).
+
+### Historical release 5.0.0: Your Services, Your Choices
 
 The new bilingual [For you journey](https://policywatcher.online/per-te) helps citizens follow services, read bounded summaries with original evidence, consult dated official guides, and keep a local record of their choices. Pasted notices and support drafts stay on the device. No account is required for this journey.
 
 This is a product major release; the additive public citizen feed keeps the existing v1 API contract. The Android companion shares the citizen model and has a locally compiled development APK; store publication and physical-device acceptance are separate milestones. See [release notes](docs/releases/policywatcher-5.0.0-github-release.md) and [validation](docs/citizen-experience-validation.md).
 
-The dashboard changelog, release archive, Site Atlas and Feature Atlas share the current 5.0.0 release identity. Earlier version labels identify first delivery; browser extensions and native companions have independent release cycles. See the [page consistency audit](docs/reports/v5-page-consistency-2026-10-06/README.md).
+The dashboard changelog, release archive, Site Atlas and Feature Atlas share the current 5.1.0 release identity. Earlier version labels identify first delivery; browser extensions and native companions have independent release cycles. See the [page consistency audit](docs/reports/v5-page-consistency-2026-10-06/README.md).
 
 ### Historical release 4.0.0 Beta 3 AI Discoverability and Citation Readiness Highlights
 

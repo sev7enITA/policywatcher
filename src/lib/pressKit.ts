@@ -634,10 +634,79 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 
 export const pressKitReleases: PressKitRelease[] = [
   {
+  "slug": "traceable-evidence-5-1-0",
+  "version": "5.1.0",
+  "displayVersion": "5.1.0",
+  "datePublished": "2026-10-15",
+  "dateModified": "2026-10-15",
+  "status": "current",
+  "category": "methodology",
+  "title": {
+    "en": "Traceable Evidence",
+    "it": "Evidenze tracciabili"
+  },
+  "summary": {
+    "en": "PolicyWatcher 5.1 strengthens data quality and lineage from acquired source sections to AI requests and recurring document versions.",
+    "it": "PolicyWatcher 5.1 rafforza qualità dei dati e lineage: dalle sezioni acquisite alle richieste AI e alle versioni ricorrenti dei documenti."
+  },
+  "changes": [
+    {
+      "en": "Complete extracted documents are supplied to AI analysis up to 500,000 characters each. Larger inputs stop explicitly instead of being silently truncated.",
+      "it": "L’analisi AI riceve i documenti estratti completi, fino a 500.000 caratteri ciascuno. Gli input superiori al limite vengono fermati esplicitamente, senza tagli silenziosi."
+    },
+    {
+      "en": "New analyses retain model, prompt, request and response fingerprints, source snapshot references and reproducible request recipes.",
+      "it": "Le nuove analisi conservano modello, prompt, impronte di richiesta e risposta, riferimenti agli snapshot e istruzioni per ricostruire la richiesta."
+    },
+    {
+      "en": "Capture metadata is frozen. Repeated content remains a separate dated occurrence while identical text can share a content artifact.",
+      "it": "I metadati delle acquisizioni vengono conservati. Un testo ricorrente resta un’osservazione datata distinta, pur condividendo lo stesso contenuto."
+    },
+    {
+      "en": "A missing or incomplete source section is rejected rather than replaced by the full page. Live-check freshness retains the existing 30-hour threshold.",
+      "it": "Una sezione mancante o incompleta viene rifiutata senza sostituirla con l’intera pagina. La freschezza dei controlli live mantiene la soglia esistente di 30 ore."
+    },
+    {
+      "en": "Evidence packets distinguish recorded, hash-verified analysis lineage from missing historical provenance.",
+      "it": "I pacchetti di evidenza distinguono il lineage registrato e verificato tramite hash dalla provenienza storica non disponibile."
+    }
+  ],
+  "boundaries": [
+    {
+      "en": "Full input coverage is not proof of complete semantic analysis or legal correctness. Existing evidence, review and consecutive-observation gates remain active.",
+      "it": "La copertura completa dell’input non dimostra completezza semantica o correttezza legale. Restano attivi i controlli sulle evidenze, la revisione e la conferma con osservazioni consecutive."
+    },
+    {
+      "en": "Historical analyses are not retroactively certified. Raw AI responses remain in private provenance; canonical dual-write follows its existing activation gate.",
+      "it": "Le analisi storiche non vengono certificate retroattivamente. Le risposte AI integrali restano nella provenienza privata; la scrittura canonica segue il controllo di attivazione esistente."
+    },
+    {
+      "en": "No new subscriber notifications, mobile release or automatic provider action is introduced.",
+      "it": "Nessuna nuova notifica agli iscritti, release mobile o azione automatica presso i fornitori."
+    }
+  ],
+  "evidenceLinks": [
+    {
+      "href": "/feature-atlas",
+      "label": {
+        "en": "Features and limits",
+        "it": "Funzionalità e limiti"
+      }
+    },
+    {
+      "href": "/methodology/confidence",
+      "label": {
+        "en": "Evidence methodology",
+        "it": "Metodologia delle evidenze"
+      }
+    }
+  ]
+},
+  {
     slug: 'your-services-your-choices-5-0-0',
-    version: POLICYWATCHER_VERSION, displayVersion: POLICYWATCHER_VERSION_DISPLAY,
-    datePublished: POLICYWATCHER_RELEASE_DATE, dateModified: '2026-10-07',
-    status: 'current', category: 'product',
+    version: '5.0.0', displayVersion: '5.0.0',
+    datePublished: '2026-10-06', dateModified: '2026-10-07',
+    status: 'archived', category: 'product',
     title: { en: 'Your Services, Your Choices', it: 'I tuoi servizi, le tue scelte' },
     summary: { en: 'PolicyWatcher 5 adds a direct citizen journey from service updates to source evidence and personal choices.', it: 'PolicyWatcher 5 introduce un percorso per il cittadino, dagli aggiornamenti dei servizi alle fonti e alle proprie scelte.' },
     changes: [
@@ -1658,7 +1727,7 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
-  { id: 'citizen-journey-release', occurredAt: POLICYWATCHER_RELEASE_DATE, type: 'release', title: { en: 'PolicyWatcher 5 citizen journey', it: 'Percorso cittadino PolicyWatcher 5' }, detail: { en: 'For you connects followed services, dated source evidence, official guides and local choices.', it: 'Per te collega servizi seguiti, evidenze datate, guide ufficiali e scelte locali.' }, affectedHref: '/press-kit/releases/your-services-your-choices-5-0-0' },
+  { id: 'citizen-journey-release', occurredAt: '2026-10-06', type: 'release', title: { en: 'PolicyWatcher 5 citizen journey', it: 'Percorso cittadino PolicyWatcher 5' }, detail: { en: 'For you connects followed services, dated source evidence, official guides and local choices.', it: 'Per te collega servizi seguiti, evidenze datate, guide ufficiali e scelte locali.' }, affectedHref: '/press-kit/releases/your-services-your-choices-5-0-0' },
   { id: 'document-scope-release', occurredAt: '2026-10-01', type: 'release', title: { en: 'Comparable document scope recorded', it: 'Registrato ambito documentale confrontabile' }, detail: { en: 'Beta 5 adds a shared selection of document types, explicit missing coverage, type-balanced scores and consistent methodology.', it: 'La Beta 5 introduce una selezione condivisa dei tipi documentali, copertura mancante esplicita, punteggi bilanciati per tipo e metodologia coerente.' }, affectedHref: '/press-kit/releases/document-scope-comparable-evidence-4-0-0-beta-5' },
   { id: 'ai-discoverability-citation-readiness-release', occurredAt: '2026-08-28', type: 'release', title: { en: 'AI Discoverability and Citation Readiness recorded', it: 'Registrata Discoverability AI e readiness per le citazioni' }, detail: { en: 'Beta 3 aligns visible homepage content, canonical metadata, structured identity and explicit crawler access without claiming external indexing or citation outcomes.', it: 'La Beta 3 allinea contenuto visibile della homepage, metadata canonici, identita strutturata e accesso crawler esplicito senza dichiarare risultati esterni di indicizzazione o citazione.' }, affectedHref: '/press-kit/releases/ai-discoverability-citation-readiness-4-0-0-beta-3' },
   { id: 'production-readiness-hardening-release', occurredAt: '2026-08-20', type: 'release', title: { en: 'Production Readiness Hardening candidate recorded', it: 'Registrata la candidate Production Readiness Hardening' }, detail: { en: 'The Beta 2 candidate applies the material independent-assessment remediations while preserving the Beta 1 evidence contracts and explicit deployment gates.', it: 'La candidate Beta 2 applica le remediation materiali degli assessment indipendenti preservando i contratti di evidenza Beta 1 e i gate di deployment espliciti.' }, affectedHref: '/press-kit/releases/production-readiness-hardening-4-0-0-beta-2' },

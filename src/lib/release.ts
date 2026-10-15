@@ -1,10 +1,10 @@
-export const POLICYWATCHER_VERSION = '5.0.0' as const;
-export const POLICYWATCHER_VERSION_DISPLAY = '5.0.0' as const;
-export const POLICYWATCHER_RELEASE_NAME = 'Your Services, Your Choices' as const;
-export const POLICYWATCHER_RELEASE_DATE = '2026-10-06' as const;
+export const POLICYWATCHER_VERSION = '5.1.0' as const;
+export const POLICYWATCHER_VERSION_DISPLAY = '5.1.0' as const;
+export const POLICYWATCHER_RELEASE_NAME = 'Traceable Evidence' as const;
+export const POLICYWATCHER_RELEASE_DATE = '2026-10-15' as const;
 export const POLICYWATCHER_RELEASE_DATE_LABEL = {
-  en: '6 October 2026',
-  it: '6 ottobre 2026',
+  en: '15 October 2026',
+  it: '15 ottobre 2026',
 } as const;
 export const POLICYWATCHER_RELEASE_MONTH_LABEL = {
   en: 'October 2026',

@@ -39,7 +39,7 @@ describe('public release consistency', () => {
     const steps = ['citizen-service-following', 'citizen-public-feed', 'citizen-official-guides', 'citizen-local-choices', 'citizen-notice-matching', 'citizen-support-draft'];
     for (const id of steps) {
       const feature = FEATURE_ATLAS_FEATURES.find(f => f.id === id);
-      expect(feature?.releaseId, id).toBe(POLICYWATCHER_VERSION);
+      expect(feature?.releaseId, id).toBe('5.0.0');
       expect(feature?.limitation.length, id).toBeGreaterThan(40);
       expect(citizenSource, id).toContain(`id="${feature?.route?.href.split('#')[1]}"`);
     }
@@ -59,7 +59,7 @@ describe('public release consistency', () => {
     expect(html).toContain(POLICYWATCHER_RELEASE_CHANNEL_LABEL);
     expect(html.indexOf(POLICYWATCHER_VERSION)).toBeLessThan(html.indexOf('4.0.0 Beta 5'));
     expect(html).toContain(lang === 'it' ? 'Release storica' : 'Historical release');
-    expect(html).toContain(lang === 'it' ? 'Nessuna' : 'No push');
+    expect(html).toContain(lang === 'it' ? 'Nessuna' : 'No new');
     expect(html).toContain(`lang=${lang}`);
     expect(html).not.toMatch(/Current Beta|Q3 2026|Q4 2026|KPI Compliance Matrix/);
     expect(html).toContain('<dialog');

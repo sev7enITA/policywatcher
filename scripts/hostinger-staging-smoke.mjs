@@ -214,12 +214,12 @@ export async function runStagingSmoke({
     expect(payload?.status === 'ready', `Database readiness is ${payload?.status || 'missing'}.`);
     expect(payload?.database?.provider === 'sqlite', `Expected SQLite staging provider, received ${payload?.database?.provider || 'missing'}.`);
     expect(
-      payload?.schema?.presentTableCount === 34 && payload?.schema?.expectedTableCount === 34,
+      payload?.schema?.presentTableCount === 35 && payload?.schema?.expectedTableCount === 35,
       `Expected 31/31 tables, received ${payload?.schema?.presentTableCount ?? '?'}/${payload?.schema?.expectedTableCount ?? '?'}.`,
     );
     expect(
-      payload?.schema?.appliedMigrationCount === 18 && payload?.schema?.expectedMigrationCount === 18,
-      `Expected 18/18 migrations, received ${payload?.schema?.appliedMigrationCount ?? '?'}/${payload?.schema?.expectedMigrationCount ?? '?'}.`,
+      payload?.schema?.appliedMigrationCount === 19 && payload?.schema?.expectedMigrationCount === 19,
+      `Expected 19/19 migrations, received ${payload?.schema?.appliedMigrationCount ?? '?'}/${payload?.schema?.expectedMigrationCount ?? '?'}.`,
     );
     expect(payload?.integrity?.quickCheck === 'ok', `Database integrity is ${payload?.integrity?.quickCheck || 'missing'}.`);
     return `${payload.schema?.presentTableCount ?? '?'} tables and ${payload.schema?.appliedMigrationCount ?? '?'} migrations reported ready.`;

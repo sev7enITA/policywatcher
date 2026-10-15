@@ -158,7 +158,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '4.0.0-beta.3', shortLabel: '4.0 B3', label: '4.0.0 Beta 3' },
   { id: '4.0.0-beta.4', shortLabel: '4.0 B4', label: '4.0.0 Beta 4' },
   { id: '4.0.0-beta.5', shortLabel: '4.0 B5', label: '4.0.0 Beta 5' },
-  { id: POLICYWATCHER_VERSION, shortLabel: '5.0', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '5.0.0', shortLabel: '5.0', label: '5.0.0' },
+  { id: POLICYWATCHER_VERSION, shortLabel: '5.1', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -384,7 +385,7 @@ const platformFeatures: FeatureAtlasFeature[] = [
     "kind": "business",
     "domainId": "experience",
     "stageId": "publication",
-    "state": "current",
+    "state": "delivered",
     "horizon": "delivered",
     "primaryUser": "Citizen",
     "route": {
@@ -399,7 +400,7 @@ const platformFeatures: FeatureAtlasFeature[] = [
         }
     ],
     "source": "platform-inventory",
-    releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,
+    releaseId: '5.0.0', release: '5.0.0',
   },
   {
     "id": "citizen-public-feed",
@@ -414,7 +415,7 @@ const platformFeatures: FeatureAtlasFeature[] = [
     "kind": "technical",
     "domainId": "distribution",
     "stageId": "publication",
-    "state": "current",
+    "state": "delivered",
     "horizon": "delivered",
     "primaryUser": "Citizen",
     "route": {
@@ -429,7 +430,7 @@ const platformFeatures: FeatureAtlasFeature[] = [
         }
     ],
     "source": "platform-inventory",
-    releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,
+    releaseId: '5.0.0', release: '5.0.0',
   },
   {
     "id": "citizen-official-guides",
@@ -444,7 +445,7 @@ const platformFeatures: FeatureAtlasFeature[] = [
     "kind": "business",
     "domainId": "experience",
     "stageId": "publication",
-    "state": "current",
+    "state": "delivered",
     "horizon": "delivered",
     "primaryUser": "Citizen",
     "route": {
@@ -459,7 +460,7 @@ const platformFeatures: FeatureAtlasFeature[] = [
         }
     ],
     "source": "platform-inventory",
-    releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,
+    releaseId: '5.0.0', release: '5.0.0',
   },
   {
     "id": "citizen-local-choices",
@@ -474,7 +475,7 @@ const platformFeatures: FeatureAtlasFeature[] = [
     "kind": "business",
     "domainId": "experience",
     "stageId": "publication",
-    "state": "current",
+    "state": "delivered",
     "horizon": "delivered",
     "primaryUser": "Citizen",
     "route": {
@@ -489,7 +490,7 @@ const platformFeatures: FeatureAtlasFeature[] = [
         }
     ],
     "source": "platform-inventory",
-    releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,
+    releaseId: '5.0.0', release: '5.0.0',
   },
   {
     "id": "citizen-notice-matching",
@@ -504,7 +505,7 @@ const platformFeatures: FeatureAtlasFeature[] = [
     "kind": "technical",
     "domainId": "experience",
     "stageId": "publication",
-    "state": "current",
+    "state": "delivered",
     "horizon": "delivered",
     "primaryUser": "Citizen",
     "route": {
@@ -519,7 +520,7 @@ const platformFeatures: FeatureAtlasFeature[] = [
         }
     ],
     "source": "platform-inventory",
-    releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,
+    releaseId: '5.0.0', release: '5.0.0',
   },
   {
     "id": "citizen-support-draft",
@@ -534,7 +535,7 @@ const platformFeatures: FeatureAtlasFeature[] = [
     "kind": "business",
     "domainId": "experience",
     "stageId": "publication",
-    "state": "current",
+    "state": "delivered",
     "horizon": "delivered",
     "primaryUser": "Citizen",
     "route": {
@@ -549,12 +550,12 @@ const platformFeatures: FeatureAtlasFeature[] = [
         }
     ],
     "source": "platform-inventory",
-    releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY,
+    releaseId: '5.0.0', release: '5.0.0',
   },
   {
     id: 'citizen-journey', title: 'Your services, your choices', shortLabel: 'For you',
     summary: 'Follow services, read bounded public evidence, consult official guides and keep local choices in Italian or English.',
-    kind: 'business', domainId: 'experience', stageId: 'publication', state: 'current', releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY, horizon: 'delivered',
+    kind: 'business', domainId: 'experience', stageId: 'publication', state: 'delivered', releaseId: '5.0.0', release: '5.0.0', horizon: 'delivered',
     benefit: 'A direct path from an update to its source and a personal next step.',
     kpi: 'Acceptance scenarios and explicit evidence availability; no invented engagement metrics.',
     kri: 'Local data can be lost when browser storage is cleared; automatic summaries require review.',
@@ -614,27 +615,27 @@ const platformFeatures: FeatureAtlasFeature[] = [
   },
   {
     id: "extraction-profile-guard", title: "Parser upgrade protection", shortLabel: "Parser upgrade protection",
-    summary: "Replays preserved baseline input when extraction logic changes, without publishing an artificial provider change.", kind: 'technical', domainId: 'assurance', stageId: 'assurance', state: 'current', releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY, horizon: 'delivered',
+    summary: "Replays preserved baseline input when extraction logic changes, without publishing an artificial provider change.", kind: 'technical', domainId: 'assurance', stageId: 'assurance', state: 'delivered', releaseId: '5.0.0', release: '5.0.0', horizon: 'delivered',
     benefit: 'Makes evidence quality decisions inspectable without inflating public confidence.', kpi: 'Explicit reviewed sample counts and operational outcomes', kri: 'Missing inputs, incomplete scope and human review capacity', evidence: 'Native implementation, isolated database tests, protected admin workbench and dated release receipts.', limitation: "Old input may be unavailable; reviewed recovery and live observations remain required.", primaryUser: 'Evidence reviewer', route: { href: '/admin/evidence-quality', label: 'Evidence Reviews', access: 'protected' }, dependencies: [{ featureId: 'immutable-snapshot-evidence', relationship: 'depends-on' }], source: 'platform-inventory',
   },
   {
     id: "eu-metadata-discovery", title: "EU metadata discovery", shortLabel: "EU metadata discovery",
-    summary: "Proposes Google, OpenAI and Meta privacy and terms references for manual applicability review.", kind: 'technical', domainId: 'assurance', stageId: 'assurance', state: 'current', releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY, horizon: 'delivered',
+    summary: "Proposes Google, OpenAI and Meta privacy and terms references for manual applicability review.", kind: 'technical', domainId: 'assurance', stageId: 'assurance', state: 'delivered', releaseId: '5.0.0', release: '5.0.0', horizon: 'delivered',
     benefit: 'Makes evidence quality decisions inspectable without inflating public confidence.', kpi: 'Explicit reviewed sample counts and operational outcomes', kri: 'Missing inputs, incomplete scope and human review capacity', evidence: 'Native implementation, isolated database tests, protected admin workbench and dated release receipts.', limitation: "Bounded exact-folder pilot; no complete provider-coverage or automatic onboarding claim.", primaryUser: 'Evidence reviewer', route: { href: '/admin/evidence-quality', label: 'Evidence Reviews', access: 'protected' }, dependencies: [{ featureId: 'immutable-snapshot-evidence', relationship: 'depends-on' }], source: 'platform-inventory',
   },
   {
     id: "eu-metadata-history", title: "EU metadata history", shortLabel: "EU metadata history",
-    summary: "Retains pinned commits, blob identifiers, dates, source links, license and attribution.", kind: 'technical', domainId: 'assurance', stageId: 'assurance', state: 'current', releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY, horizon: 'delivered',
+    summary: "Retains pinned commits, blob identifiers, dates, source links, license and attribution.", kind: 'technical', domainId: 'assurance', stageId: 'assurance', state: 'delivered', releaseId: '5.0.0', release: '5.0.0', horizon: 'delivered',
     benefit: 'Makes evidence quality decisions inspectable without inflating public confidence.', kpi: 'Explicit reviewed sample counts and operational outcomes', kri: 'Missing inputs, incomplete scope and human review capacity', evidence: 'Native implementation, isolated database tests, protected admin workbench and dated release receipts.', limitation: "Up to three revisions per document; no policy text import, live confirmation or retroactive alerts.", primaryUser: 'Evidence reviewer', route: { href: '/admin/evidence-quality', label: 'Evidence Reviews', access: 'protected' }, dependencies: [{ featureId: 'immutable-snapshot-evidence', relationship: 'depends-on' }], source: 'platform-inventory',
   },
   {
     id: "extraction-comparison-review", title: "Extraction comparison review", shortLabel: "Extraction comparison review",
-    summary: "Compares a stored snapshot with an operator-supplied extraction using lexical diagnostics.", kind: 'technical', domainId: 'assurance', stageId: 'assurance', state: 'current', releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY, horizon: 'delivered',
+    summary: "Compares a stored snapshot with an operator-supplied extraction using lexical diagnostics.", kind: 'technical', domainId: 'assurance', stageId: 'assurance', state: 'delivered', releaseId: '5.0.0', release: '5.0.0', horizon: 'delivered',
     benefit: 'Makes evidence quality decisions inspectable without inflating public confidence.', kpi: 'Explicit reviewed sample counts and operational outcomes', kri: 'Missing inputs, incomplete scope and human review capacity', evidence: 'Native implementation, isolated database tests, protected admin workbench and dated release receipts.', limitation: "Scope and processing basis require review; agreement is not independent ground truth.", primaryUser: 'Evidence reviewer', route: { href: '/admin/evidence-quality', label: 'Evidence Reviews', access: 'protected' }, dependencies: [{ featureId: 'immutable-snapshot-evidence', relationship: 'depends-on' }], source: 'platform-inventory',
   },
   {
     id: "reviewed-evidence-metrics", title: "Reviewed evidence metrics", shortLabel: "Reviewed evidence metrics",
-    summary: "Separates false-positive share and AI citation support on human-reviewed samples with explicit denominators.", kind: 'technical', domainId: 'assurance', stageId: 'assurance', state: 'current', releaseId: POLICYWATCHER_VERSION, release: POLICYWATCHER_VERSION_DISPLAY, horizon: 'delivered',
+    summary: "Separates false-positive share and AI citation support on human-reviewed samples with explicit denominators.", kind: 'technical', domainId: 'assurance', stageId: 'assurance', state: 'delivered', releaseId: '5.0.0', release: '5.0.0', horizon: 'delivered',
     benefit: 'Makes evidence quality decisions inspectable without inflating public confidence.', kpi: 'Explicit reviewed sample counts and operational outcomes', kri: 'Missing inputs, incomplete scope and human review capacity', evidence: 'Native implementation, isolated database tests, protected admin workbench and dated release receipts.', limitation: "Purposive samples are not population accuracy; zero denominators remain unknown.", primaryUser: 'Evidence reviewer', route: { href: '/admin/evidence-quality', label: 'Evidence Reviews', access: 'protected' }, dependencies: [{ featureId: 'immutable-snapshot-evidence', relationship: 'depends-on' }], source: 'platform-inventory',
   },
   {

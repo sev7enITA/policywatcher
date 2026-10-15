@@ -132,6 +132,9 @@ describe('Hostinger runtime schema parity', () => {
       expect(completeResult.status).toBe(0);
       expect(completeResult.stdout).toContain('20260706213500_init');
       expect(completeResult.stdout).toContain('20260721150000_policy_inquiry');
+      expect(completeResult.stdout).toContain('20261002050000_multiple_documents_per_type');
+      expect(completeResult.stdout).toContain('20260820100000_document_evidence_model');
+      expect(completeResult.stdout).toContain('20261015160000_dq_lineage_occurrences');
     } finally {
       rmSync(directory, { recursive: true, force: true });
     }

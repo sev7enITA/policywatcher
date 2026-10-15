@@ -8,10 +8,10 @@ export async function getPublicEvidencePacket(changeId: string) {
     where: publicChangeWhere({ id: changeId, newSnapshot: { publicEvidence: true } }) as never,
     include: {
       oldSnapshot: {
-        select: { version: true, hash: true, text: true, publicEvidence: true, createdAt: true },
+        select: { version: true, hash: true, text: true, publicEvidence: true, createdAt: true, sourceUrl: true, requestedUrl: true, finalUrl: true, sourceProvenance: true },
       },
       newSnapshot: {
-        select: { version: true, hash: true, text: true, publicEvidence: true, createdAt: true },
+        select: { version: true, hash: true, text: true, publicEvidence: true, createdAt: true, sourceUrl: true, requestedUrl: true, finalUrl: true, sourceProvenance: true },
       },
       regionImpacts: {
         select: {

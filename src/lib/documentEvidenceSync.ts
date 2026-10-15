@@ -1,3 +1,4 @@
+import { syncVersionOccurrence } from '@/lib/versionOccurrence';
 import { createHash } from 'node:crypto';
 import type { PolicyChange, Prisma } from '@prisma/client';
 import {
@@ -16,7 +17,7 @@ import {
 
 export const DOCUMENT_EVIDENCE_DUAL_WRITE_ENV =
   'POLICYWATCHER_DOCUMENT_EVIDENCE_DUAL_WRITE' as const;
-export const DOCUMENT_EVIDENCE_SYNC_VERSION = '1.0.0' as const;
+export const DOCUMENT_EVIDENCE_SYNC_VERSION = '1.1.0' as const;
 
 const LEGACY_POLICY_GRAPH_INCLUDE = {
   company: true,
@@ -214,14 +215,8 @@ async function findOrCreateDocument(
 }
 
 function assertLegacyGraphCanBeProjected(policy: LegacyPolicyGraph): void {
-  const hashes = new Map<string, string>();
   const snapshotIds = new Set(policy.snapshots.map((snapshot) => snapshot.id));
   for (const snapshot of policy.snapshots) {
-    const priorId = hashes.get(snapshot.hash);
-    if (priorId && priorId !== snapshot.id) {
-      throw new Error(`legacy_snapshot_duplicate_hash:${policy.id}:${snapshot.hash}`);
-    }
-    hashes.set(snapshot.hash, snapshot.id);
     if (sha256Text(snapshot.text) !== snapshot.hash) {
       throw new Error(`legacy_snapshot_hash_mismatch:${snapshot.id}`);
     }
@@ -285,46 +280,9 @@ async function syncVersion(
   snapshot: LegacyPolicyGraph['snapshots'][number],
   nextSequence: () => number,
 ): Promise<CanonicalVersionRef> {
-  const publicId = buildVersionPublicId(document.publicId, snapshot.hash);
-  const [byLegacyId, byPublicId] = await Promise.all([
-    tx.version.findUnique({ where: { legacySnapshotId: snapshot.id } }),
-    tx.version.findUnique({ where: { publicId } }),
-  ]);
-  if (byLegacyId && byPublicId && byLegacyId.id !== byPublicId.id) {
-    throw new Error(`canonical_version_identity_conflict:${snapshot.id}`);
-  }
-  const existing = byLegacyId || byPublicId;
-  if (
-    existing &&
-    (existing.publicId !== publicId ||
-      existing.documentId !== document.id ||
-      (existing.legacySnapshotId && existing.legacySnapshotId !== snapshot.id))
-  ) {
-    throw new Error(`canonical_version_stable_id_conflict:${snapshot.id}`);
-  }
-  const sequence = existing?.sequence ?? nextSequence();
-  const data = {
-    publicId,
-    documentId: document.id,
-    sequence,
-    contentHash: snapshot.hash,
-    sourceUrl: policy.url,
-    capturedAt: snapshot.createdAt,
-    effectiveAt: null,
-    contentRef: null,
-    contentText: snapshot.text,
-    publicEvidence: snapshot.publicEvidence,
-    legacySnapshotId: snapshot.id,
-  };
-  const version = existing
-    ? await tx.version.update({ where: { id: existing.id }, data })
-    : await tx.version.create({ data: { ...data, createdAt: snapshot.createdAt } });
-  return {
-    id: version.id,
-    publicId: version.publicId,
-    sequence: version.sequence,
-    legacySnapshotId: version.legacySnapshotId,
-  };
+  return syncVersionOccurrence(tx, {
+    policyUrl: policy.url, document, snapshot, nextSequence, buildPublicId: buildVersionPublicId,
+  });
 }
 
 async function findOrCreateChange(

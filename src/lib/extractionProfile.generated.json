@@ -1,11 +1,11 @@
 {
   "version": 1,
   "files": {
-    "src/lib/scraper.ts": "3d4584bd129af0d2b1d0063564561b9c6aab48c32acdecb236db8e86181de7b8",
+    "src/lib/scraper.ts": "0272aba483c7e490ae398c9974f8c2ddf720d99112fccf9766cd4c0e1edd72dd",
     "src/lib/pdfPolicy.ts": "8e7547a94f0a447be6797dc8b37dd0a532de5cbb64050ceb48bc7b13552a791b",
     "src/lib/sourceReliability.ts": "244f281055837b5c8b0700106135b56edc27064bb54e4eb27a626c827e5af829",
     "src/lib/extractionProfile.ts": "9936fce8830d759e3d13de2517be5058205263617ba7045803f9d7444556cf19",
-    "package-lock.json": "ab9e0e0155207633eb334b25397bbda77b3b77c4f0b35b765a82cafa952ef8f9"
+    "package-lock.json": "f160b7ed1baca04bf7044a32fc382b00bf59523aabdf987adc7afad062277b75"
   },
-  "hash": "e6900ac21c1f6dda1665dfd6d59a852f50eb753ecaf25a4f33cbf9be0b22f64d"
+  "hash": "650ac4fa1bc134a41f6b2619348c9520e0afeb33c7678d31515796d462ffe271"
 }

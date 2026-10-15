@@ -17,7 +17,10 @@ import { guardExtraction, anchorCommittedExtraction } from '@/lib/extractionGuar
 import { classifyPolicyChange } from '@/lib/changeClassification';
 import { shouldNotifyChange } from '@/lib/changeClassificationTypes';
 import { NextRequest, NextResponse } from 'next/server';
-import { createHash } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
+import { buildAnalysisProvenance, POLICY_SCORE_METHOD } from '@/lib/analysisProvenance';
+import { AI_ANALYSIS_PROMPT_VERSION } from '@/lib/aiTelemetry';
+import { POLICY_ANALYSIS_SCHEMA_VERSION } from '@/lib/geminiPolicySchema';
 import { db } from '@/lib/db';
 import { scrapePolicyText, type ScrapeDiagnostic, type ScrapeResult } from '@/lib/scraper';
 import { analyzePolicyChange } from '@/lib/gemini';
@@ -849,6 +852,8 @@ export async function runFullScan(
           const sourceBaseline = await db.$transaction((tx) =>
             establishSourceMigrationBaseline(tx, {
               policyId: policy.id,
+              sourceUrl: policy.url,
+              requestedUrl: policy.retrievalUrl || policy.url,
               text: newText,
               hash: newHash,
               checkedAt,
@@ -911,6 +916,8 @@ export async function runFullScan(
           rebaseline = await db.$transaction((tx) =>
             replaceSeededPolicyBaseline(tx, {
               policyId: policy.id,
+              sourceUrl: policy.url,
+              requestedUrl: policy.retrievalUrl || policy.url,
               text: newText,
               hash: newHash,
               checkedAt,
@@ -992,6 +999,8 @@ export async function runFullScan(
         const baseline = await db.$transaction((tx) =>
           establishVerifiedPolicyBaseline(tx, {
             policyId: policy.id,
+              sourceUrl: policy.url,
+              requestedUrl: policy.retrievalUrl || policy.url,
             text: newText,
             hash: newHash,
             checkedAt,
@@ -1231,11 +1240,13 @@ export async function runFullScan(
       const oldText = latestSnapshot ? latestSnapshot.text : '';
 
       // Run Gemini analysis
+      const analysisTraceId = randomUUID();
       const analysis = await analyzePolicyChange(
         policy.company.name,
         policy.name,
         oldText,
-        newText
+        newText,
+        { traceId: analysisTraceId }
       );
 
       // Compute diff on the FULL texts (a 10k-char truncation here used to
@@ -1253,6 +1264,12 @@ export async function runFullScan(
             text: newText,
             hash: newHash,
             publicEvidence: true,
+            sourceUrl: policy.url,
+            requestedUrl: policy.retrievalUrl || policy.url,
+            finalUrl: scrapeResult.finalUrl || policy.retrievalUrl || policy.url,
+            sourceProvenance: 'captured',
+            createdAt: checkedAt,
+            sourceRetrievalId: persistedRetrieval.sourceRetrievalId,
           },
         });
 
@@ -1275,6 +1292,18 @@ export async function runFullScan(
             remediationsJson: JSON.stringify(analysis.remediations),
             publicEvidence: true,
             publicPublishedAt: checkedAt,
+            analysisTraceId,
+            analysisMethod: POLICY_SCORE_METHOD,
+            analysisSchemaVersion: POLICY_ANALYSIS_SCHEMA_VERSION,
+            analysisPromptVersion: AI_ANALYSIS_PROMPT_VERSION,
+            analysisInputHash: analysis.inferenceManifest?.requestSha256 ?? null,
+            analysisEvidenceJson: JSON.stringify(buildAnalysisProvenance({
+              traceId: analysisTraceId,
+              versionId: newSnapshot.id,
+              oldVersionId: latestSnapshot?.id ?? null,
+              contentHash: newHash,
+              analysis,
+            })),
             aiTrainingOptOut: analysis.aiTrainingOptOut,
             aiDataScrapingRestricted: analysis.aiDataScrapingRestricted,
             aiIpLicensing: analysis.aiIpLicensing,

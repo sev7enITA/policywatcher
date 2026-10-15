@@ -5,6 +5,10 @@ const mocks = vi.hoisted(() => ({
   generateContent: vi.fn(),
 }));
 
+vi.mock('@/lib/db', () => ({
+  db: { aiModelInvocation: { create: vi.fn().mockResolvedValue({}), deleteMany: vi.fn().mockResolvedValue({ count: 0 }) } },
+}));
+
 vi.mock('@google/genai', () => ({
   GoogleGenAI: class {
     models = { generateContent: mocks.generateContent };
@@ -12,6 +16,7 @@ vi.mock('@google/genai', () => ({
 }));
 
 import { analyzePolicyChange, GEMINI_MODEL_CHAIN } from '@/lib/gemini';
+import { analysisDigest, MAX_ANALYSIS_DOCUMENT_CHARS, verifyPolicyAnalysisManifest } from '@/lib/policyAnalysisManifest';
 import {
   GeminiStructuredOutputError,
   POLICY_ANALYSIS_SCHEMA_VERSION,
@@ -105,6 +110,37 @@ describe('Gemini supported models and structured output', () => {
         responseJsonSchema: POLICY_ANALYSIS_RESPONSE_SCHEMA,
       }),
     }));
+  });
+
+  it('sends a tail-only change and preserves a replayable manifest for the actual request', async () => {
+    const prefix = 'Unchanged legal terms. '.repeat(2000);
+    const oldText = `${prefix}Retention lasts 30 days.`;
+    const newText = `${prefix}Retention lasts indefinitely.`;
+    const payload = validPolicyAnalysis();
+    const rawResponse = JSON.stringify(payload);
+    mocks.generateContent.mockResolvedValue({ text: rawResponse });
+    const result = await analyzePolicyChange('Fixture', 'Privacy', oldText, newText);
+    const request = mocks.generateContent.mock.calls[0][0];
+    expect(request.contents).toContain(oldText);
+    expect(request.contents).toContain(newText);
+    expect(result.inferenceManifest?.requestSha256).toBe(analysisDigest(JSON.stringify(request)));
+    expect(result.inferenceManifest?.rawResponse).toBe(rawResponse);
+    expect(verifyPolicyAnalysisManifest(result.inferenceManifest!, oldText, newText).valid).toBe(true);
+  });
+
+  it('records the successful fallback model and attempt, not the failed primary', async () => {
+    mocks.generateContent.mockRejectedValueOnce(new Error('429 RESOURCE_EXHAUSTED'))
+      .mockResolvedValueOnce({ text: JSON.stringify(validPolicyAnalysis()) });
+    const result = await analyzePolicyChange('Fixture', 'Privacy', 'old', 'new');
+    expect(result.inferenceManifest?.model).toBe(GEMINI_MODEL_CHAIN[1]);
+    expect(result.inferenceManifest?.attempt).toBe(1);
+    expect(result.inferenceManifest?.requestSha256).toBe(analysisDigest(JSON.stringify(mocks.generateContent.mock.calls[1][0])));
+  });
+
+  it('does not call a provider or publish a full-coverage result for over-limit input', async () => {
+    await expect(analyzePolicyChange('Fixture', 'Privacy', '', 'x'.repeat(MAX_ANALYSIS_DOCUMENT_CHARS + 1)))
+      .rejects.toThrow('coverage_incomplete');
+    expect(mocks.generateContent).not.toHaveBeenCalled();
   });
 
   it('keeps the provider schema structural and the strict semantic gate local', () => {
