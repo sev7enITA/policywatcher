@@ -88,7 +88,9 @@ describe('public canonical URL contract', () => {
   it('gives every literal static sitemap route explicit canonical metadata', () => {
     for (const [route, file] of staticCanonicalFiles) {
       const source = read(file);
-      if (file.endsWith('browser-extension/page.tsx')) {
+      if (route === '/') {
+        expect(source).toContain("alternates: languageAlternates('/', lang)");
+      } else if (file.endsWith('browser-extension/page.tsx')) {
         expect(source).toContain("alternates: languageAlternates('/browser-extension', lang)");
       } else if (route === '/press-kit/releases') {
         expect(source).toContain("alternates: languageAlternates('/press-kit/releases', lang)");

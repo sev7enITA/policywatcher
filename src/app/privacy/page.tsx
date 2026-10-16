@@ -150,12 +150,18 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section className={styles.section}>
-          <h2>Local storage</h2>
+          <h2>Local storage and language preference</h2>
+          <p>
+            The essential <code>policywatcher-language</code> cookie stores only <code>en</code>, <code>it</code> or <code>auto</code>
+            for up to one year. It is sent to PolicyWatcher so the initial page can use your chosen language.
+            Automatic mode uses the browser’s language preferences, with English as the fallback when no supported language matches.
+            This cookie contains no identifier and is not used for tracking.
+          </p>
           <p>
             We use your browser&apos;s <code>localStorage</code> to remember the Terms of Use disclaimer,
             language and display preferences, the administrator&apos;s release-versioned outreach-readiness checklist, and your optional Adaptive Workspace configuration and
-            onboarding completion. These settings contain no email address or account identifier, do
-            not leave your browser, and can be cleared at any time through your browser settings.
+            onboarding completion. These settings contain no email address or account identifier and
+            remain in your browser, except for the language preference described below. You can clear these settings at any time through your browser settings.
           </p>
           <p>
             The global context setting stores only a selected macro-region, country code and EN/IT
