@@ -697,7 +697,7 @@ export const pressKitReleases: PressKitRelease[] = [
       }
     },
     {
-      "href": "https://github.com/sev7enITA/policywatcher/blob/main/evals/scraping/README.md",
+      "href": "https://github.com/sev7enITA/policywatcher/blob/v5.2.0/evals/scraping/README.md",
       "label": {
         "en": "Replay and shadow protocol",
         "it": "Protocollo di replay e shadow"

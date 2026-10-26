@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, readFile, readdir, rm, writeFile, rename, appendFile } from 'node:fs/promises';
+import * as fsPromises from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createCapture, digest, type RawCapture } from '../adaptiveAcquisition/evidence';
@@ -10,6 +11,12 @@ import { extractFrozenCapture, replayCorpus, type ReplayCorpus } from '../adapti
 import { resolveLesson } from '../adaptiveAcquisition/experience';
 import { scrapePolicyText, hasLivePathDrift, type ScraperControlledFallbacks, type TransportResult } from '../scraper';
 import * as scraperModule from '../scraper';
+
+// Keep real filesystem behavior while making the acquisition of a handle
+// controllable at the exact pathname-replacement boundary in the tests below.
+vi.mock('node:fs/promises', async (importOriginal) => ({
+  ...await importOriginal<typeof import('node:fs/promises')>(),
+}));
 
 const url = 'https://8.8.8.8/legal/privacy';
 const corpus = (): ReplayCorpus => JSON.parse(readFileSync('evals/scraping/corpus.synthetic.v1.json', 'utf8'));
@@ -96,12 +103,12 @@ describe('same-acquisition shadow', () => {
     const session = createShadowSession({ runId: 'partial', config: config(), provenance,
       persist: async (_, receipt) => { saved = receipt; } });
     const result = await session.scrape(url, { controlledFallbacks: controlled({ direct: async () => ({
-      ...transport(), html: html().replace('</article>', `<p>${'Personal data and privacy rights. '.repeat(20_000)}</p></article>`),
+      ...transport(), html: html().replace('</article>', `<p>${'Personal data and privacy rights. '.repeat(15_154).slice(0, 500_001)}</p></article>`),
     }) }) });
     expect(result.partial).toBe(true);
     expect(saved).toMatchObject({ captureMatch: 'exact', baseline: { agreement: 'ineligible_match', matchesProduction: true } });
     expect(session.summary().baselineMismatches).toBe(0);
-  });
+  }, 15_000); // The unchanged production validator and both replays parse the real storage limit under coverage.
   it('marks a diagnostic fallback as not comparable to the returned production source', async () => {
     let saved: ShadowReceipt | undefined;
     const session = createShadowSession({ runId: 'fallback', config: config(), provenance,
@@ -212,6 +219,61 @@ describe('optional runtime wiring', () => {
     const runtime = await optionalShadowRuntime('invalid', { configPath: '/nonexistent/shadow-config.json' });
     expect(runtime.scrape).toBe(scrapePolicyText);
     expect((await runtime.finish()).mode).toBe('configuration_error');
+  });
+  it('reads the opened configuration even if its pathname is replaced before inspection', async () => {
+    const folder = await mkdtemp(join(tmpdir(), 'pw-shadow-open-')); folders.push(folder);
+    const path = join(folder, 'config.json');
+    await writeFile(path, JSON.stringify({ ...config(), outputDirectory: join(folder, 'data') }));
+    const actualOpen = fsPromises.open;
+    const opened = vi.spyOn(fsPromises, 'open').mockImplementationOnce(async (filePath, flags, mode) => {
+      const file = await actualOpen(filePath, flags, mode);
+      await rename(path, join(folder, 'original-config.json'));
+      await writeFile(path, 'invalid replacement');
+      return file;
+    });
+    const runtime = await optionalShadowRuntime('opened-config', { configPath: path });
+    expect(opened).toHaveBeenCalledOnce();
+    expect(runtime.scrape).not.toBe(scrapePolicyText);
+    expect((await runtime.finish()).mode).toBe('shadow');
+  });
+  it('bounds reads and closes the handle when the opened configuration grows after inspection', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const folder = await mkdtemp(join(tmpdir(), 'pw-shadow-growing-')); folders.push(folder);
+    const path = join(folder, 'config.json');
+    await writeFile(path, JSON.stringify({ ...config(), outputDirectory: join(folder, 'data') }));
+    const actualOpen = fsPromises.open;
+    let closed: ReturnType<typeof vi.spyOn> | undefined;
+    vi.spyOn(fsPromises, 'open').mockImplementationOnce(async (filePath, flags, mode) => {
+      const file = await actualOpen(filePath, flags, mode);
+      const inspect = file.stat.bind(file);
+      vi.spyOn(file, 'stat').mockImplementationOnce(async () => {
+        const original = await inspect();
+        await appendFile(path, ' '.repeat(65_537));
+        return original;
+      });
+      closed = vi.spyOn(file, 'close');
+      return file;
+    });
+    const runtime = await optionalShadowRuntime('grown-config', { configPath: path });
+    expect(runtime.scrape).toBe(scrapePolicyText);
+    expect((await runtime.finish()).mode).toBe('configuration_error');
+    expect(closed).toHaveBeenCalledOnce();
+  });
+  it('rejects a directory configuration and does not start acquisition', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const folder = await mkdtemp(join(tmpdir(), 'pw-shadow-directory-')); folders.push(folder);
+    const runtime = await optionalShadowRuntime('directory-config', { configPath: folder });
+    expect(runtime.scrape).toBe(scrapePolicyText);
+    expect((await runtime.finish()).mode).toBe('configuration_error');
+  });
+  it.each([65_536, 65_537])('enforces the configuration byte boundary at %i bytes', async (bytes) => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const folder = await mkdtemp(join(tmpdir(), 'pw-shadow-size-')); folders.push(folder);
+    const path = join(folder, 'config.json');
+    const json = JSON.stringify({ ...config(), outputDirectory: join(folder, 'data') });
+    await writeFile(path, json + ' '.repeat(bytes - Buffer.byteLength(json)));
+    const runtime = await optionalShadowRuntime('size-config', { configPath: path });
+    expect((await runtime.finish()).mode).toBe(bytes === 65_536 ? 'shadow' : 'configuration_error');
   });
   it('persists real receipts and an idempotent run summary outside the checkout', async () => {
     const folder = await mkdtemp(join(tmpdir(), 'pw-shadow-test-')); folders.push(folder);

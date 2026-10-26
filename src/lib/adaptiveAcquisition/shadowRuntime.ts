@@ -1,4 +1,5 @@
-import { readFile, stat, mkdir } from 'node:fs/promises';
+import { readFile, open, mkdir } from 'node:fs/promises';
+import { constants } from 'node:fs';
 import { join, isAbsolute } from 'node:path';
 import { scrapePolicyText } from '../scraper';
 import { digest, sha256 } from './evidence';
@@ -6,6 +7,31 @@ import { privateCaptureDirectory, writeImmutableJson } from './storage';
 import { createShadowSession, validateShadowConfig, type ShadowConfig } from './shadow';
 
 export interface ShadowFileConfig extends ShadowConfig { outputDirectory: string }
+
+const MAX_CONFIG_BYTES = 65_536;
+
+async function readShadowConfig(configPath: string): Promise<ShadowFileConfig> {
+  if (!isAbsolute(configPath)) throw new Error('invalid_shadow_config_file');
+  // Inspect and consume the same opened file, even if its pathname is replaced.
+  // Nonblocking open lets us reject FIFOs/devices before attempting to read them.
+  const file = await open(configPath, constants.O_RDONLY | constants.O_NONBLOCK);
+  try {
+    const info = await file.stat();
+    if (!info.isFile() || info.size > MAX_CONFIG_BYTES) throw new Error('invalid_shadow_config_file');
+    const buffer = Buffer.alloc(MAX_CONFIG_BYTES + 1);
+    let length = 0;
+    while (length < buffer.length) {
+      const { bytesRead } = await file.read(buffer, length, buffer.length - length, length);
+      if (bytesRead === 0) break;
+      length += bytesRead;
+    }
+    // A writer may have extended the opened file after fstat; reads stay bounded.
+    if (length > MAX_CONFIG_BYTES) throw new Error('invalid_shadow_config_file');
+    return JSON.parse(buffer.toString('utf8', 0, length)) as ShadowFileConfig;
+  } finally {
+    await file.close();
+  }
+}
 
 export async function shadowProvenance(checkout: string): Promise<Record<string, string>> {
   const files = ['src/lib/scraper.ts', 'src/lib/sourceReliability.ts', 'src/lib/pdfPolicy.ts',
@@ -30,8 +56,7 @@ export async function optionalShadowRuntime(runId: string, options: {
   });
   if (!configPath) return disabled('disabled');
   try {
-    if (!isAbsolute(configPath) || (await stat(configPath)).size > 65_536) throw new Error('invalid_shadow_config_file');
-    const raw: ShadowFileConfig = JSON.parse(await readFile(configPath, 'utf8'));
+    const raw = await readShadowConfig(configPath);
     validateShadowConfig(raw);
     if (typeof raw.outputDirectory !== 'string' || !isAbsolute(raw.outputDirectory)) throw new Error('invalid_shadow_output');
     const directory = await privateCaptureDirectory(raw.outputDirectory, checkout);

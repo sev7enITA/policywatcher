@@ -4,8 +4,8 @@
 
 ## Local verification
 
-- Full test suite: 1,303 passed, 14 skipped across 190 files (187 passed, 3 skipped).
-- Focused acquisition/shadow/current-baseline suite: 193 passed across 12 files. Includes real PDF conversion and baseline preservation.
+- Full test suite: 1,308 passed under Node 22.23.4 with V8 coverage, 14 skipped across 190 files (187 passed, 3 skipped).
+- Focused acquisition/shadow/current-baseline suite: 198 passed across 12 files. Includes real PDF conversion and baseline preservation.
 - Actual cron and Prisma rehearsal: 6 passed on disposable SQLite. External transport, model, publication and mail sentinels were not called.
 - Canonical Next.js 16.4.3 production build: passed. Web lint: zero errors, 15 existing navigation warnings.
 - Production dependency audit after maintenance: zero known vulnerabilities returned by npm audit --omit=dev. This is a dated dependency result, not proof that the application is vulnerability-free.
@@ -29,6 +29,12 @@ node --import tsx scripts/scraping-replay.ts --out <private-temporary-output>
 ```
 
 The local build used a disposable SQLite path and no production credentials. The cron rehearsal creates and removes its own database. Private captures and credentials are excluded from Git and release artifacts.
+
+## CI correction
+
+The first CI pass identified pathname stat/read races and coverage timeouts in large truncation fixtures. Configuration and storage checks now inspect and read the same opened file. Configuration reads remain bounded if a file grows after inspection. Regression cases cover path replacement, file growth, directories and the 65,536-byte boundary. Truncation fixtures still cross the real 500,000-character guard, with explicit 15-second bounds for instrumented parsing. No check was suppressed and no coverage threshold was lowered.
+
+The public release UI passed review at 1440, 768 and 375 pixels, with no horizontal overflow or JavaScript errors in the reviewed routes. The admin panel matched its previously evaluated component.
 
 ## Boundaries
 

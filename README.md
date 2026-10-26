@@ -16,7 +16,7 @@
   <a href="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml"><img src="https://github.com/sev7enITA/policywatcher/actions/workflows/coverage.yml/badge.svg?branch=main" alt="Targeted Reliability Coverage" /></a>
   <a href="https://scorecard.dev/viewer/?uri=github.com/sev7enITA/policywatcher"><img src="https://api.scorecard.dev/projects/github.com/sev7enITA/policywatcher/badge" alt="OpenSSF Scorecard" /></a>
   <a href="https://www.bestpractices.dev/projects/13465"><img src="https://www.bestpractices.dev/projects/13465/badge" alt="OpenSSF Best Practices" /></a>
-  <img src="https://img.shields.io/badge/Next.js-16.3.8-black" alt="Next.js 16" />
+  <img src="https://img.shields.io/badge/Next.js-16.4.3-black" alt="Next.js 16" />
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
@@ -51,7 +51,7 @@ Optional shadow observation compares bounded extraction recipes on the same acqu
 
 Shadow is disabled by default and requires private operator configuration. This release does not enable a production pilot, train models, promote recipes automatically or establish calibrated confidence. See [release notes](docs/releases/policywatcher-5.2.0-github-release.md) and the [replay/shadow protocol](evals/scraping/README.md).
 
-### Release 5.1.0: Traceable Evidence - 15 October 2026
+### Historical release 5.1.0: Traceable Evidence - 15 October 2026
 
 Full extracted analysis inputs, replayable request manifests, immutable capture metadata, recurring version occurrences and strict fragment scope strengthen data quality and lineage. Public evidence packets expose bounded hash-verification summaries while private raw responses stay private. Existing 30-hour live freshness and evidence gates are preserved. See [release notes](docs/releases/policywatcher-5.1.0-github-release.md).
 
@@ -61,7 +61,7 @@ The new bilingual [For you journey](https://policywatcher.online/per-te) helps c
 
 This is a product major release; the additive public citizen feed keeps the existing v1 API contract. The Android companion shares the citizen model and has a locally compiled development APK; store publication and physical-device acceptance are separate milestones. See [release notes](docs/releases/policywatcher-5.0.0-github-release.md) and [validation](docs/citizen-experience-validation.md).
 
-The dashboard changelog, release archive, Site Atlas and Feature Atlas share the current 5.2.0 release identity. Earlier version labels identify first delivery; browser extensions and native companions have independent release cycles. See the [page consistency audit](docs/reports/v5-page-consistency-2026-10-06/README.md).
+The dashboard changelog, release archive, Site Atlas and Feature Atlas share the current 5.2.0 release identity. Earlier version labels identify first delivery; browser extensions and native companions have independent release cycles. See the [5.2.0 validation](docs/reports/adaptive-acquisition-release-2026-10-26/validation.md) and the [historical page consistency audit](docs/reports/v5-page-consistency-2026-10-06/README.md).
 
 ### Historical release 4.0.0 Beta 3 AI Discoverability and Citation Readiness Highlights
 

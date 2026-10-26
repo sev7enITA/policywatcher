@@ -1,11 +1,11 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { mkdtemp, readFile, rm, stat, symlink } from 'node:fs/promises';
+import { mkdtemp, open, rm, stat, symlink } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { canonicalJson, createCapture, digest, verifyCapture } from '../adaptiveAcquisition/evidence';
 import { applyRecipe, recipeApplies, validateRecipe } from '../adaptiveAcquisition/recipe';
-import { replayCorpus, validateCorpus, verifyReceipt, type ReplayCorpus, type ReplayReceipt } from '../adaptiveAcquisition/replay';
+import { extractFrozenCapture, replayCorpus, validateCorpus, verifyReceipt, type ReplayCorpus, type ReplayReceipt } from '../adaptiveAcquisition/replay';
 import { resolveLesson, type LessonProposal } from '../adaptiveAcquisition/experience';
 import { privateCaptureDirectory, writeImmutableJson } from '../adaptiveAcquisition/storage';
 import { emptyRetrievalMetrics, recordRetrievalDiagnostics } from '../sourceReliability';
@@ -116,15 +116,15 @@ describe('baseline comparison and conservative promotion', () => {
     }
   });
   it('does not let a selector hide a truncation finding in the original document', async () => {
-    const input = corpus();
-    const c = input.cases.find((item) => item.id === 'holdout-clean')!;
-    const longSection = `<section class="oversized-supplement"><p>${'Personal data and privacy rights. '.repeat(20_000)}</p></section>`;
+    const c = corpus().cases.find((item) => item.id === 'holdout-clean')!;
+    // Cross the real 500,000-character storage boundary, without replaying the
+    // oversized input twice through a full corpus whose gates are tested above.
+    const longText = 'Personal data and privacy rights. '.repeat(15_154).slice(0, 500_001);
+    const longSection = `<section class="oversized-supplement"><p>${longText}</p></section>`;
     c.capture = createCapture({ ...c.capture, html: c.capture.html.replace('<body>', '<body><main>').replace('</body>', `${longSection}</main></body>`) });
-    c.expected = { accept: false, required: [], forbidden: [] };
-    const receipt = await run(input, recipe());
-    expect(receipt.candidates[0].cases.find((item) => item.caseId === c.id))
-      .toMatchObject({ accepted: false, passes: true, reason: 'text_truncated_at_max_length' });
-  });
+    expect((await extractFrozenCapture(c.capture, c, recipe())))
+      .toMatchObject({ applied: true, accepted: false, reason: 'text_truncated_at_max_length' });
+  }, 15_000); // Real half-megabyte DOM parsing also runs under Node 22 V8 coverage.
   it('preserves strict fragment boundaries even when a candidate selects valid policy text elsewhere', async () => {
     const input = corpus(); input.cases = [input.cases[0]];
     const item = input.cases[0];
@@ -228,7 +228,7 @@ describe('scraper integration without network', () => {
   });
   it('does not equate partial acquisition with a complete comparison input', async () => {
     const result = await scrapePolicyText(sourceUrl, { controlledFallbacks: fallbacks({
-      direct: async () => ({ ...accepted(), html: accepted().html.replace('</article>', `<p>${'Personal data and privacy rights. '.repeat(20_000)}</p></article>`) }),
+      direct: async () => ({ ...accepted(), html: accepted().html.replace('</article>', `<p>${'Personal data and privacy rights. '.repeat(15_154).slice(0, 500_001)}</p></article>`) }),
     }) });
     expect(result.partial).toBe(true);
     expect(result.outcome).toMatchObject({ extraction: 'partial', eligibleForComparison: false });
@@ -253,8 +253,11 @@ describe('private immutable artifact storage', () => {
     const directory = await mkdtemp(join(tmpdir(), 'pw-evidence-test-')); temporary.push(directory);
     const path = join(directory, 'receipt.json');
     await writeImmutableJson(path, { a: 1 }); await writeImmutableJson(path, { a: 1 });
-    expect((await stat(path)).mode & 0o777).toBe(0o600);
-    expect(await readFile(path, 'utf8')).toBe('{"a":1}\n');
+    const file = await open(path, 'r');
+    try {
+      expect((await file.stat()).mode & 0o777).toBe(0o600);
+      expect(await file.readFile('utf8')).toBe('{"a":1}\n');
+    } finally { await file.close(); }
     await expect(writeImmutableJson(path, { a: 2 })).rejects.toThrow('conflict');
   });
   it('rejects raw-capture directories inside the checkout, including symlinks', async () => {
