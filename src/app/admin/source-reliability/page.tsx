@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import styles from '../admin.module.css';
 import reliabilityStyles from './source-reliability.module.css';
+import { AdaptiveAcquisitionPanel } from '@/components/admin/AdaptiveAcquisitionPanel';
 
 type IssueStatus = 'Open' | 'Watching' | 'Recovered' | 'Resolved';
 
@@ -73,7 +74,7 @@ interface ReliabilityData {
     networkRetrievals: number;
     deduplicatedRetrievals: number;
     uniqueUnavailableSources: number;
-    metrics?: { degradedDependencies?: string[] } | null;
+    metrics?: unknown;
   }>;
   remediationIssues: RemediationIssue[];
   sourceMigrations: Array<{
@@ -391,6 +392,8 @@ export default function SourceReliabilityPage() {
               </>
             )}
           </section>
+
+          <AdaptiveAcquisitionPanel runs={data.scanRuns} refreshing={loading} />
 
           <details className={reliabilityStyles.diagnosticDisclosure}>
             <summary><Activity size={18} /><span><strong>Inventory and scan diagnostics</strong><small>Lower-priority context: publication gate, scan runs and shared acquisition keys.</small></span></summary>

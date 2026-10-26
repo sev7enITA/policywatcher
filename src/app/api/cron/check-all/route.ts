@@ -22,7 +22,8 @@ import { buildAnalysisProvenance, POLICY_SCORE_METHOD } from '@/lib/analysisProv
 import { AI_ANALYSIS_PROMPT_VERSION } from '@/lib/aiTelemetry';
 import { POLICY_ANALYSIS_SCHEMA_VERSION } from '@/lib/geminiPolicySchema';
 import { db } from '@/lib/db';
-import { scrapePolicyText, type ScrapeDiagnostic, type ScrapeResult } from '@/lib/scraper';
+import { type ScrapeDiagnostic, type ScrapeResult } from '@/lib/scraper';
+import { optionalShadowRuntime } from '@/lib/adaptiveAcquisition/shadowRuntime';
 import { analyzePolicyChange } from '@/lib/gemini';
 import {
   ChangedPolicySummary,
@@ -135,7 +136,7 @@ async function renewScanLease(scanRunId: string): Promise<void> {
   if (renewed.count !== 1) throw new Error('scan_lease_lost');
 }
 
-async function failScanRun(scanRunId: string): Promise<void> {
+async function failScanRun(scanRunId: string, metricsJson?: string): Promise<void> {
   await db.scanRun.updateMany({
     where: { id: scanRunId, status: 'running' },
     data: {
@@ -144,6 +145,7 @@ async function failScanRun(scanRunId: string): Promise<void> {
       leaseKey: null,
       leaseExpiresAt: null,
       failureReason: 'scan_execution_failed',
+      ...(metricsJson ? { metricsJson } : {}),
     },
   });
 }
@@ -481,6 +483,8 @@ export async function runFullScan(
   let rebaselined = 0;
   let errors = 0;
   const scanRun = await acquireScanRun(options);
+  let scrapingShadow: Awaited<ReturnType<typeof optionalShadowRuntime>> | undefined;
+  let retrievalMetrics: RetrievalMetrics | undefined;
 
   try {
 
@@ -563,7 +567,11 @@ export async function runFullScan(
       uniqueSources: acquisitionGroups.size,
     },
   });
-  const retrievalMetrics = emptyRetrievalMetrics(policies.length, acquisitionGroups.size);
+  retrievalMetrics = emptyRetrievalMetrics(policies.length, acquisitionGroups.size);
+  scrapingShadow = await optionalShadowRuntime(scanRun.id);
+  // Stable references retain narrowing inside asynchronous acquisition closures.
+  const activeShadow = scrapingShadow;
+  const activeMetrics = retrievalMetrics;
   const retrievalCache = new Map<string, Promise<PersistedRetrieval>>();
   const hostLastRequestAt = new Map<string, number>();
 
@@ -664,15 +672,16 @@ export async function runFullScan(
           }
           if (currentHost) hostLastRequestAt.set(currentHost, Date.now());
           const startedAt = Date.now();
-          const result = await scrapePolicyText(acquisitionGroup.requestedUrl, {
+          const result = await activeShadow.scrape(acquisitionGroup.requestedUrl, {
             archiveNotBefore: acquisitionGroup.archiveNotBefore,
           });
           const durationMs = Date.now() - startedAt;
           recordRetrievalDiagnostics(
-            retrievalMetrics,
+            activeMetrics,
             result.diagnostics || [],
             result.status === 'ok' && result.partial ? 'partial' : result.status,
             result.source,
+            result.outcome,
           );
           return persistUniqueRetrieval({
             scanRunId: scanRun.id,
@@ -1492,7 +1501,7 @@ export async function runFullScan(
       invalidRecords: invalidCount,
       partialRecords: partialCount,
       errorRecords: errors,
-      metricsJson: JSON.stringify({ ...retrievalMetrics, extractionHeld: details.filter(d => d.status === 'needs_review').length }),
+      metricsJson: JSON.stringify({ ...retrievalMetrics, extractionHeld: details.filter(d => d.status === 'needs_review').length, scrapingShadow: await scrapingShadow.finish() }),
     },
   });
 
@@ -1521,7 +1530,16 @@ export async function runFullScan(
 
   return result;
   } catch (error) {
-    await failScanRun(scanRun.id).catch(() => undefined);
+    let metricsJson: string | undefined;
+    if (scrapingShadow) {
+      try {
+        metricsJson = JSON.stringify({ ...retrievalMetrics, extractionHeld: details.filter(d => d.status === 'needs_review').length, scrapingShadow: await scrapingShadow.finish() });
+      } catch {
+        // Persisting observer evidence must never replace the original scan error.
+        console.warn('[Scraping shadow] Failed-run summary unavailable.');
+      }
+    }
+    await failScanRun(scanRun.id, metricsJson).catch(() => undefined);
     throw error;
   }
 }

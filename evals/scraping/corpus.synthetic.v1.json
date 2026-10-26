@@ -1,0 +1,266 @@
+{
+  "schemaVersion": 1,
+  "kind": "synthetic",
+  "labelledBy": "PolicyWatcher synthetic contract fixtures v1; not production evidence",
+  "cases": [
+    {
+      "id": "train-noise",
+      "groupId": "train-noise",
+      "split": "train",
+      "language": "en",
+      "jurisdiction": "EU",
+      "capture": {
+        "schemaVersion": 1,
+        "requestedUrl": "https://fixture.example/legal/train-noise",
+        "finalUrl": "https://fixture.example/legal/train-noise",
+        "transport": "direct",
+        "httpStatus": 200,
+        "transportOk": true,
+        "capturedAt": "2026-10-19T00:00:00.000Z",
+        "bodyKind": "response_html",
+        "html": "<html><body><main><article id=\"policy-document\"><h1>Privacy Policy train-noise</h1><p>Section 0: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 1: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 2: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 3: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 4: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p></article><p>Promotional offer outside the policy. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. </p></main></body></html>",
+        "htmlSha256": "165abf9a5c4e214cbfc60139f3e74f05e81134bcee8866d41202843b9b9e1b8a",
+        "captureId": "0c8acbbde77947cc49b394b027a47076673a532c5c47bbf50fdfdce9d827b589"
+      },
+      "expected": {
+        "accept": true,
+        "required": [
+          "rights of access and erasure",
+          "retain records for 30 days"
+        ],
+        "forbidden": [
+          "Promotional offer outside the policy"
+        ]
+      }
+    },
+    {
+      "id": "train-clean",
+      "groupId": "train-clean",
+      "split": "train",
+      "language": "en",
+      "jurisdiction": "EU",
+      "capture": {
+        "schemaVersion": 1,
+        "requestedUrl": "https://fixture.example/legal/train-clean",
+        "finalUrl": "https://fixture.example/legal/train-clean",
+        "transport": "direct",
+        "httpStatus": 200,
+        "transportOk": true,
+        "capturedAt": "2026-10-19T00:00:00.000Z",
+        "bodyKind": "response_html",
+        "html": "<html><body><article id=\"policy-document\"><h1>Privacy Policy train-clean</h1><p>Section 0: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 1: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 2: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 3: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 4: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p></article></body></html>",
+        "htmlSha256": "b435f38d70e5f9408625b38ea50b9ea6da5f68b493c5e082a607dfd0da55d72f",
+        "captureId": "fe93b86a57c7523602fc44782811c977c043ed8500360cade96bbefb4254bc2c"
+      },
+      "expected": {
+        "accept": true,
+        "required": [
+          "rights of access and erasure",
+          "retain records for 30 days"
+        ],
+        "forbidden": [
+          "Promotional offer outside the policy"
+        ]
+      }
+    },
+    {
+      "id": "train-block",
+      "groupId": "train-block",
+      "split": "train",
+      "language": "en",
+      "jurisdiction": "EU",
+      "capture": {
+        "schemaVersion": 1,
+        "requestedUrl": "https://fixture.example/legal/train-block",
+        "finalUrl": "https://fixture.example/legal/train-block",
+        "transport": "direct",
+        "httpStatus": 200,
+        "transportOk": true,
+        "capturedAt": "2026-10-19T00:00:00.000Z",
+        "bodyKind": "response_html",
+        "html": "<html><body><title>Access denied</title><article id=\"policy-document\"><h1>Privacy Policy train-block</h1><p>Section 0: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 1: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 2: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 3: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 4: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p></article></body></html>",
+        "htmlSha256": "468deb0667f7b113b9a6ffc0ff6e4961ece4f4dea7a107c156febc2386e2ef53",
+        "captureId": "befc5058a48886d3ce891b5259a28a38192570ad0c2f45bce8d4a9458cafe901"
+      },
+      "expected": {
+        "accept": false,
+        "required": [],
+        "forbidden": [
+          "Promotional offer outside the policy"
+        ]
+      }
+    },
+    {
+      "id": "holdout-noise",
+      "groupId": "holdout-noise",
+      "split": "holdout",
+      "language": "en",
+      "jurisdiction": "EU",
+      "capture": {
+        "schemaVersion": 1,
+        "requestedUrl": "https://fixture.example/legal/holdout-noise",
+        "finalUrl": "https://fixture.example/legal/holdout-noise",
+        "transport": "direct",
+        "httpStatus": 200,
+        "transportOk": true,
+        "capturedAt": "2026-10-19T00:00:00.000Z",
+        "bodyKind": "response_html",
+        "html": "<html><body><main><article id=\"policy-document\"><h1>Privacy Policy holdout-noise</h1><p>Section 0: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 1: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 2: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 3: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 4: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p></article><p>Promotional offer outside the policy. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. Our catalog recommends excellent services. </p></main></body></html>",
+        "htmlSha256": "e731d1a0d45a7ace3357b6d8b5abe17305164d98221988758383adcefe9125b2",
+        "captureId": "a6409d01d62f3a4de1aa49858f00056ee5b09d45f03e7c94216efe1d8faa25c3"
+      },
+      "expected": {
+        "accept": true,
+        "required": [
+          "rights of access and erasure",
+          "retain records for 30 days"
+        ],
+        "forbidden": [
+          "Promotional offer outside the policy"
+        ]
+      }
+    },
+    {
+      "id": "holdout-clean",
+      "groupId": "holdout-clean",
+      "split": "holdout",
+      "language": "en",
+      "jurisdiction": "EU",
+      "capture": {
+        "schemaVersion": 1,
+        "requestedUrl": "https://fixture.example/legal/holdout-clean",
+        "finalUrl": "https://fixture.example/legal/holdout-clean",
+        "transport": "direct",
+        "httpStatus": 200,
+        "transportOk": true,
+        "capturedAt": "2026-10-19T00:00:00.000Z",
+        "bodyKind": "response_html",
+        "html": "<html><body><article id=\"policy-document\"><h1>Privacy Policy holdout-clean</h1><p>Section 0: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 1: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 2: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 3: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 4: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p></article></body></html>",
+        "htmlSha256": "d3f91e1b51865ace9817697402f056132599f07e2bab7b8dfe6e01cd64069062",
+        "captureId": "de8c123c95e43400b19e9d48818b04455067e60f2573cc84a05980d66e58ab2a"
+      },
+      "expected": {
+        "accept": true,
+        "required": [
+          "rights of access and erasure",
+          "retain records for 30 days"
+        ],
+        "forbidden": [
+          "Promotional offer outside the policy"
+        ]
+      }
+    },
+    {
+      "id": "holdout-block",
+      "groupId": "holdout-block",
+      "split": "holdout",
+      "language": "en",
+      "jurisdiction": "EU",
+      "capture": {
+        "schemaVersion": 1,
+        "requestedUrl": "https://fixture.example/legal/holdout-block",
+        "finalUrl": "https://fixture.example/legal/holdout-block",
+        "transport": "direct",
+        "httpStatus": 200,
+        "transportOk": true,
+        "capturedAt": "2026-10-19T00:00:00.000Z",
+        "bodyKind": "response_html",
+        "html": "<html><body><title>Access denied</title><article id=\"policy-document\"><h1>Privacy Policy holdout-block</h1><p>Section 0: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 1: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 2: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 3: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 4: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p></article></body></html>",
+        "htmlSha256": "c667603995fb719cc8159c0e1176b7e907e903059ad7806c6d3686b3e5b934c4",
+        "captureId": "6097566df193ce7f181e90e89b5723d9d913152c49ef57990a192bd50b5c0401"
+      },
+      "expected": {
+        "accept": false,
+        "required": [],
+        "forbidden": [
+          "Promotional offer outside the policy"
+        ]
+      }
+    },
+    {
+      "id": "holdout-archive",
+      "groupId": "holdout-archive",
+      "split": "holdout",
+      "language": "en",
+      "jurisdiction": "EU",
+      "capture": {
+        "schemaVersion": 1,
+        "requestedUrl": "https://fixture.example/legal/holdout-archive",
+        "finalUrl": "https://fixture.example/legal/holdout-archive",
+        "transport": "wayback",
+        "httpStatus": 200,
+        "transportOk": true,
+        "capturedAt": "2026-10-19T00:00:00.000Z",
+        "bodyKind": "response_html",
+        "html": "<html><body><article id=\"policy-document\"><h1>Privacy Policy holdout-archive</h1><p>Section 0: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 1: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 2: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 3: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 4: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p></article></body></html>",
+        "htmlSha256": "353f50de176bb6ab5bd47d02bb82a0a06e1e7b45458af7c6e445d76cae5a7fe6",
+        "archiveTimestamp": "20251001000000",
+        "captureId": "2a1a147586eea5a03848f39a3dbbb5f30c2760b15a3da437d2cf28a583c63df5"
+      },
+      "expected": {
+        "accept": false,
+        "required": [],
+        "forbidden": [
+          "Promotional offer outside the policy"
+        ]
+      }
+    },
+    {
+      "id": "holdout-drift",
+      "groupId": "holdout-drift",
+      "split": "holdout",
+      "language": "en",
+      "jurisdiction": "EU",
+      "capture": {
+        "schemaVersion": 1,
+        "requestedUrl": "https://fixture.example/legal/holdout-drift",
+        "finalUrl": "https://wrong.example/legal/holdout-drift",
+        "transport": "direct",
+        "httpStatus": 200,
+        "transportOk": true,
+        "capturedAt": "2026-10-19T00:00:00.000Z",
+        "bodyKind": "response_html",
+        "html": "<html><body><article id=\"policy-document\"><h1>Privacy Policy holdout-drift</h1><p>Section 0: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 1: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 2: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 3: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 4: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p></article></body></html>",
+        "htmlSha256": "20e6d08ddf56673749ecaf9936cc528d5eb18cf7195f773170d7f8935e554ea1",
+        "captureId": "0b0217478d21c9ffc4b5d3d3d203274cb74cfe4c12ef908af8a0de28609cbd04"
+      },
+      "expected": {
+        "accept": false,
+        "required": [],
+        "forbidden": [
+          "Promotional offer outside the policy"
+        ]
+      }
+    },
+    {
+      "id": "holdout-other-scope",
+      "groupId": "holdout-other-scope",
+      "split": "holdout",
+      "language": "it",
+      "jurisdiction": "EU",
+      "capture": {
+        "schemaVersion": 1,
+        "requestedUrl": "https://fixture.example/legal/holdout-other-scope",
+        "finalUrl": "https://fixture.example/legal/holdout-other-scope",
+        "transport": "direct",
+        "httpStatus": 200,
+        "transportOk": true,
+        "capturedAt": "2026-10-19T00:00:00.000Z",
+        "bodyKind": "response_html",
+        "html": "<html><body><article id=\"policy-document\"><h1>Privacy Policy holdout-other-scope</h1><p>Section 0: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 1: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 2: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 3: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p><p>Section 4: We collect personal data and account information for service delivery. You have rights of access and erasure. We retain records for 30 days. Consent governs cookies, processing purposes and third party disclosure under this legal agreement and GDPR.</p></article></body></html>",
+        "htmlSha256": "e20a7e55bf0eedd6d5a56fe03cb45ae24fb9c744cd68928a690eab92df77d121",
+        "captureId": "b459443cf7a16f072f9748add90f6e295fc40769acabee408c7b52545c4d793d"
+      },
+      "expected": {
+        "accept": true,
+        "required": [
+          "rights of access and erasure",
+          "retain records for 30 days"
+        ],
+        "forbidden": [
+          "Promotional offer outside the policy"
+        ]
+      }
+    }
+  ]
+}

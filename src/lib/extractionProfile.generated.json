@@ -1,11 +1,14 @@
 {
   "version": 1,
   "files": {
-    "src/lib/scraper.ts": "0272aba483c7e490ae398c9974f8c2ddf720d99112fccf9766cd4c0e1edd72dd",
+    "src/lib/scraper.ts": "fac808e2fc992180957016b1668294b491fa08c386757007a5a28bf6f2111bcc",
     "src/lib/pdfPolicy.ts": "8e7547a94f0a447be6797dc8b37dd0a532de5cbb64050ceb48bc7b13552a791b",
-    "src/lib/sourceReliability.ts": "244f281055837b5c8b0700106135b56edc27064bb54e4eb27a626c827e5af829",
+    "src/lib/sourceReliability.ts": "240865f6e82d1c41d8017126ce245f2491dcd7aa780abe9e0e5e65aa2d0d0400",
     "src/lib/extractionProfile.ts": "9936fce8830d759e3d13de2517be5058205263617ba7045803f9d7444556cf19",
-    "package-lock.json": "f160b7ed1baca04bf7044a32fc382b00bf59523aabdf987adc7afad062277b75"
+    "src/lib/acquisitionScope.ts": "e3cc3ec89c8f223af18ee6c9c62f1dae3b7cb59268ac30037f2338782abc38d9",
+    "src/lib/adaptiveAcquisition/evidence.ts": "3d9750beaa201901934e14cda98e9a8258e253058a25902c91a28ca7408bb36f",
+    "src/lib/adaptiveAcquisition/outcome.ts": "8e83e6a5891c3f062c228c72528bcf1203af8e05d445dce4e8b9980457d5d34f",
+    "package-lock.json": "e63b76d6d6551089a575ce5bda964f9ab26ba7f7e2c04ab6b8f38493caf1af87"
   },
-  "hash": "650ac4fa1bc134a41f6b2619348c9520e0afeb33c7678d31515796d462ffe271"
+  "hash": "90a70ca9b60a8b6c83bb614529e1ada8b60aa4e1fcfb90211c1c68ff14b2288a"
 }

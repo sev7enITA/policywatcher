@@ -15,7 +15,7 @@ export type ReleaseEvidencePulseVariant = 'compact' | 'full';
 
 const COPY = {
   en: {
-    kicker: '14-day evidence window',
+    kicker: 'Historical 14-day evidence window',
     headline: 'Release evidence',
     framing: 'Six dated release receipts connect shipped controls to their evidence and explicit residual boundary.',
     releases: 'release clusters',
@@ -47,7 +47,7 @@ const COPY = {
     claimBoundaryBody: RELEASE_EVIDENCE_LEDGER.claimBoundary,
   },
   it: {
-    kicker: 'Finestra di evidenza di 14 giorni',
+    kicker: 'Finestra storica di evidenza di 14 giorni',
     headline: 'Cosa è cambiato. Cosa ha sbloccato. Cosa resta da provare.',
     framing: 'Sei ricevute di release datate collegano i controlli distribuiti alle evidenze e al limite residuo esplicito.',
     releases: 'cluster di release',

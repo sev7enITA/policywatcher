@@ -159,7 +159,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '4.0.0-beta.4', shortLabel: '4.0 B4', label: '4.0.0 Beta 4' },
   { id: '4.0.0-beta.5', shortLabel: '4.0 B5', label: '4.0.0 Beta 5' },
   { id: '5.0.0', shortLabel: '5.0', label: '5.0.0' },
-  { id: POLICYWATCHER_VERSION, shortLabel: '5.1', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '5.1.0', shortLabel: '5.1', label: '5.1.0' },
+  { id: POLICYWATCHER_VERSION, shortLabel: '5.2', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -191,6 +192,10 @@ const primaryUserByDomain: Record<string, string> = {
 };
 
 const routeByFeature: Record<string, FeatureAtlasRoute> = {
+  'guarded-shadow-observation': { href: '/admin/source-reliability', label: 'Source Reliability (protected)', access: 'protected' },
+  'frozen-capture-replay': { href: '/press-kit/releases/adaptive-acquisition-evidence-5-2-0', label: 'Replay method and boundaries', access: 'public' },
+  'adaptive-acquisition-workbench': { href: '/admin/source-reliability', label: 'Adaptive acquisition (protected)', access: 'protected' },
+  'source-variant-scope': { href: '/methodology/confidence', label: 'Evidence methodology', access: 'public' },
   'ai-discoverability-citation-readiness': { href: '/', label: 'Public evidence homepage', access: 'public' },
   'canonical-document-evidence-graph': { href: '/developers', label: 'Developer contract', access: 'public' },
   'authoritative-publication-readiness': { href: '/api/v1/publication-readiness', label: 'Publication readiness API', access: 'public' },

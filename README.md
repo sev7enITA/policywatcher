@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-5.1.0%20Traceable%20Evidence-146c6a" alt="PolicyWatcher 5.1.0 Traceable Evidence" />
+  <img src="https://img.shields.io/badge/Release-5.2.0%20Adaptive%20Acquisition%20Evidence-146c6a" alt="PolicyWatcher 5.2.0 Adaptive Acquisition Evidence" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -45,6 +45,12 @@ Scheduled and manual scans share an opt-in native extraction guard: parser upgra
 
 See the [deployment and rollback runbook](docs/evidence-assurance-pilot.md), [source/licensing assessment](docs/reports/eu-terms-reuse-2026-10-07/assessment-it.md) and [release evidence](docs/reports/evidence-assurance-release-2026-10-07/README.md). That 7 October update retained the 5.0.0 product version; the immutable artifact revision and checksum identify the deployed update.
 
+### Release 5.2.0: Adaptive Acquisition Evidence - 26 October 2026
+
+Optional shadow observation compares bounded extraction recipes on the same acquisition while retaining the operational baseline. Frozen-input replay, immutable receipts and independent-label gates support reviewable candidate lessons. The read-only Source Reliability panel distinguishes scan results, persistence, observer errors, baseline errors and missing historical metrics. Explicit source-variant drift checks preserve document scope.
+
+Shadow is disabled by default and requires private operator configuration. This release does not enable a production pilot, train models, promote recipes automatically or establish calibrated confidence. See [release notes](docs/releases/policywatcher-5.2.0-github-release.md) and the [replay/shadow protocol](evals/scraping/README.md).
+
 ### Release 5.1.0: Traceable Evidence - 15 October 2026
 
 Full extracted analysis inputs, replayable request manifests, immutable capture metadata, recurring version occurrences and strict fragment scope strengthen data quality and lineage. Public evidence packets expose bounded hash-verification summaries while private raw responses stay private. Existing 30-hour live freshness and evidence gates are preserved. See [release notes](docs/releases/policywatcher-5.1.0-github-release.md).
@@ -55,7 +61,7 @@ The new bilingual [For you journey](https://policywatcher.online/per-te) helps c
 
 This is a product major release; the additive public citizen feed keeps the existing v1 API contract. The Android companion shares the citizen model and has a locally compiled development APK; store publication and physical-device acceptance are separate milestones. See [release notes](docs/releases/policywatcher-5.0.0-github-release.md) and [validation](docs/citizen-experience-validation.md).
 
-The dashboard changelog, release archive, Site Atlas and Feature Atlas share the current 5.1.0 release identity. Earlier version labels identify first delivery; browser extensions and native companions have independent release cycles. See the [page consistency audit](docs/reports/v5-page-consistency-2026-10-06/README.md).
+The dashboard changelog, release archive, Site Atlas and Feature Atlas share the current 5.2.0 release identity. Earlier version labels identify first delivery; browser extensions and native companions have independent release cycles. See the [page consistency audit](docs/reports/v5-page-consistency-2026-10-06/README.md).
 
 ### Historical release 4.0.0 Beta 3 AI Discoverability and Citation Readiness Highlights
 

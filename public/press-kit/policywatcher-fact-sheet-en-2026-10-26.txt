@@ -1,0 +1,20 @@
+Evidence before promotion
+Version 5.2.0 · 2026-10-26
+Source release: Adaptive Acquisition Evidence
+
+PolicyWatcher records configured public policy sources and explains changes for human review. This release makes extraction experiments inspectable.
+
+Baseline retained: Optional shadow observation
+An explicit source allowlist and per-scan budget bound comparisons with up to three candidate recipes. No extra fetch per candidate.
+
+Frozen-input replay: Reproducible candidate evidence
+Private captures and immutable receipts support replay. Train/holdout and independent-label gates keep unsupported lessons non-operational.
+
+Read-only diagnostics: Source Reliability workbench
+Inspect saved observations, separate baseline and observer errors, exclusions and comparisons. Missing evidence is distinct from zero.
+
+Explicit source scope: Locale and regional drift checks
+Explicit URL-variant drift is rejected. Live, partial and historical evidence remain distinct; URL hints are not legal jurisdiction.
+
+Boundary: Shadow is disabled by default and requires private operator configuration. No automatic recipe promotion, model training or calibrated confidence is claimed. This sheet is not an accuracy benchmark, legal opinion or production-activation receipt.
+Current source: https://policywatcher.online/press-kit

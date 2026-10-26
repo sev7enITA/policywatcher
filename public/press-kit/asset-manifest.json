@@ -1,8 +1,8 @@
 {
   "$schema": "https://policywatcher.online/schemas/press-kit-asset-manifest/v1",
   "schemaVersion": "2.0.0",
-  "generatedAt": "2026-08-20",
-  "release": "4.0.0-beta.2",
+  "generatedAt": "2026-10-26",
+  "release": "5.2.0",
   "contentCredentials": "not-attached",
   "metadataStandard": "IPTC Photo Metadata 2025.1",
   "vectorMasterAvailable": false,
@@ -625,50 +625,6 @@
       "contentCredentials": "not-attached"
     },
     {
-      "filename": "policywatcher-fact-sheet-en-2026-08-20.txt",
-      "mediaType": "text/plain",
-      "dimensions": null,
-      "bytes": 674,
-      "sha256": "e50b003b237ee8e274c86de29d769ecdeb7346d187786e4793097e6aab4903ab",
-      "creditLine": "PolicyWatcher / Fabrizio Degni",
-      "rightsUrl": "/press-kit/LICENSE-ASSETS.md",
-      "metadataStandard": "document-manifest",
-      "contentCredentials": "not-attached"
-    },
-    {
-      "filename": "policywatcher-fact-sheet-it-2026-08-20.txt",
-      "mediaType": "text/plain",
-      "dimensions": null,
-      "bytes": 727,
-      "sha256": "dcbd24b11fbb9b7d38db3f1cf58a78168186e7167aba5c5f9c35809e356b0d3a",
-      "creditLine": "PolicyWatcher / Fabrizio Degni",
-      "rightsUrl": "/press-kit/LICENSE-ASSETS.md",
-      "metadataStandard": "document-manifest",
-      "contentCredentials": "not-attached"
-    },
-    {
-      "filename": "policywatcher-fact-sheet-en-2026-08-20.pdf",
-      "mediaType": "application/pdf",
-      "dimensions": null,
-      "bytes": 4708,
-      "sha256": "4312acd8d48316fd879cd8e537af16aa28532a7ec61940ede4147a4dfcecbd2d",
-      "creditLine": "PolicyWatcher / Fabrizio Degni",
-      "rightsUrl": "/press-kit/LICENSE-ASSETS.md",
-      "metadataStandard": "document-manifest",
-      "contentCredentials": "not-attached"
-    },
-    {
-      "filename": "policywatcher-fact-sheet-it-2026-08-20.pdf",
-      "mediaType": "application/pdf",
-      "dimensions": null,
-      "bytes": 4741,
-      "sha256": "7eea03f9b26c861f4291511799bd12475be76b86f175f56251bfc23468a52106",
-      "creditLine": "PolicyWatcher / Fabrizio Degni",
-      "rightsUrl": "/press-kit/LICENSE-ASSETS.md",
-      "metadataStandard": "document-manifest",
-      "contentCredentials": "not-attached"
-    },
-    {
       "filename": "policywatcher-release-evidence-pulse-background-2026-08-15.png",
       "mediaType": "image/png",
       "dimensions": "1122 x 1402 px",
@@ -762,6 +718,50 @@
       "dimensions": "1800 x 2700 px",
       "bytes": 328290,
       "sha256": "085339eea281b875b1438cb0286b1382dddfb66e4f14eef6a3285fbd6c15d3ea",
+      "creditLine": "PolicyWatcher / Fabrizio Degni",
+      "rightsUrl": "/press-kit/LICENSE-ASSETS.md",
+      "metadataStandard": "document-manifest",
+      "contentCredentials": "not-attached"
+    },
+    {
+      "filename": "policywatcher-fact-sheet-en-2026-10-26.txt",
+      "mediaType": "text/plain",
+      "dimensions": null,
+      "bytes": 1316,
+      "sha256": "fe002b030018e0f937dfe8d412db89cd52df3fe7c5a4f68350f2953b04e9fa31",
+      "creditLine": "PolicyWatcher / Fabrizio Degni",
+      "rightsUrl": "/press-kit/LICENSE-ASSETS.md",
+      "metadataStandard": "document-manifest",
+      "contentCredentials": "not-attached"
+    },
+    {
+      "filename": "policywatcher-fact-sheet-en-2026-10-26.pdf",
+      "mediaType": "application/pdf",
+      "dimensions": null,
+      "bytes": 5365,
+      "sha256": "b3058050a79e24e0b36e851777910145c2c21d85e57c8bdcaf27b1279acaa7f1",
+      "creditLine": "PolicyWatcher / Fabrizio Degni",
+      "rightsUrl": "/press-kit/LICENSE-ASSETS.md",
+      "metadataStandard": "document-manifest",
+      "contentCredentials": "not-attached"
+    },
+    {
+      "filename": "policywatcher-fact-sheet-it-2026-10-26.txt",
+      "mediaType": "text/plain",
+      "dimensions": null,
+      "bytes": 1461,
+      "sha256": "664ad2a181d38c4882156fb2c2d81101327dc9d6dbd1da6e675364b265dcf068",
+      "creditLine": "PolicyWatcher / Fabrizio Degni",
+      "rightsUrl": "/press-kit/LICENSE-ASSETS.md",
+      "metadataStandard": "document-manifest",
+      "contentCredentials": "not-attached"
+    },
+    {
+      "filename": "policywatcher-fact-sheet-it-2026-10-26.pdf",
+      "mediaType": "application/pdf",
+      "dimensions": null,
+      "bytes": 5465,
+      "sha256": "c892247cd9ae45506515dddc171133a10b89f1f6517212123e1703c955b25641",
       "creditLine": "PolicyWatcher / Fabrizio Degni",
       "rightsUrl": "/press-kit/LICENSE-ASSETS.md",
       "metadataStandard": "document-manifest",

@@ -1,0 +1,20 @@
+Evidenze prima della promozione
+Version 5.2.0 · 2026-10-26
+Release del codice: Adaptive Acquisition Evidence
+
+PolicyWatcher registra fonti pubbliche configurate e spiega i cambiamenti per la revisione umana. Questa release rende ispezionabili gli esperimenti di estrazione.
+
+Baseline conservata: Osservazione shadow facoltativa
+Un elenco esplicito di fonti e un budget per scansione limitano il confronto a tre ricette candidate. Nessun fetch aggiuntivo per candidata.
+
+Replay su input congelati: Evidenze candidate riproducibili
+Catture private e ricevute immutabili supportano il replay. I controlli su train/holdout ed etichette indipendenti mantengono le lezioni non operative.
+
+Diagnostiche in sola lettura: Workbench Source Reliability
+Esamina osservazioni salvate, errori distinti di baseline e osservatore, esclusioni e confronti. Le evidenze mancanti sono distinte dallo zero.
+
+Scope esplicito della fonte: Controllo di lingua e variante regionale
+Le derive esplicite della variante URL vengono rifiutate. Evidenze live, parziali e storiche restano distinte; gli indizi URL non certificano una giurisdizione.
+
+Boundary: Shadow è disabilitato per impostazione predefinita e richiede una configurazione privata. Nessuna promozione automatica, addestramento di modelli o confidenza calibrata. Questa scheda non è un benchmark di accuratezza, parere legale o ricevuta di attivazione in produzione.
+Current source: https://policywatcher.online/press-kit

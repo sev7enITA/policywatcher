@@ -2,7 +2,8 @@ import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync } from 'node:fs';
 
 // Include extraction code and resolved dependencies, not deployment timestamps.
-const inputs = ['src/lib/scraper.ts', 'src/lib/pdfPolicy.ts', 'src/lib/sourceReliability.ts', 'src/lib/extractionProfile.ts', 'package-lock.json'];
+const inputs = ['src/lib/scraper.ts', 'src/lib/pdfPolicy.ts', 'src/lib/sourceReliability.ts', 'src/lib/extractionProfile.ts',
+  'src/lib/acquisitionScope.ts', 'src/lib/adaptiveAcquisition/evidence.ts', 'src/lib/adaptiveAcquisition/outcome.ts', 'package-lock.json'];
 const files = Object.fromEntries(inputs.map(file => [file, createHash('sha256').update(readFileSync(file)).digest('hex')]));
 const profile = { version: 1, files, hash: createHash('sha256').update(JSON.stringify(files)).digest('hex') };
 const target = 'src/lib/extractionProfile.generated.json';
