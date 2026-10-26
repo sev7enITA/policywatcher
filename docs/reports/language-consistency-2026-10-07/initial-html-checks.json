@@ -1,0 +1,22 @@
+[
+  {
+    "query": "/",
+    "language": "it",
+    "htmlInitial": true
+  },
+  {
+    "query": "/",
+    "language": "en",
+    "htmlInitial": true
+  },
+  {
+    "query": "/",
+    "language": "it",
+    "htmlInitial": true
+  },
+  {
+    "query": "/?lang=en",
+    "language": "en",
+    "htmlInitial": true
+  }
+]

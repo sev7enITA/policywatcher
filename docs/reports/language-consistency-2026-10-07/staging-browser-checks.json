@@ -1,0 +1,38 @@
+[
+  {
+    "name": "fresh-it-mobile",
+    "passed": true
+  },
+  {
+    "name": "fresh-en",
+    "passed": true
+  },
+  {
+    "name": "saved-it-browser-en",
+    "passed": true
+  },
+  {
+    "name": "saved-en-browser-it",
+    "passed": true
+  },
+  {
+    "name": "country-it-browser-en",
+    "passed": true
+  },
+  {
+    "name": "country-us-browser-it",
+    "passed": true
+  },
+  {
+    "name": "unsupported-fr",
+    "passed": true
+  },
+  {
+    "name": "storage-blocked-it",
+    "passed": true
+  },
+  {
+    "name": "explicit-link-en",
+    "passed": true
+  }
+]
