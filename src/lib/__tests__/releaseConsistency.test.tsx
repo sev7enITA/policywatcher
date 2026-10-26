@@ -59,7 +59,7 @@ describe('public release consistency', () => {
     expect(html).toContain(POLICYWATCHER_RELEASE_CHANNEL_LABEL);
     expect(html.indexOf(POLICYWATCHER_VERSION)).toBeLessThan(html.indexOf('4.0.0 Beta 5'));
     expect(html).toContain(lang === 'it' ? 'Release storica' : 'Historical release');
-    expect(html).toContain(lang === 'it' ? 'Nessuna' : 'No new');
+    expect(html).toContain(lang === 'it' ? 'Non sono dichiarati promozione automatica' : 'No automatic recipe promotion');
     expect(html).toContain(`lang=${lang}`);
     expect(html).not.toMatch(/Current Beta|Q3 2026|Q4 2026|KPI Compliance Matrix/);
     expect(html).toContain('<dialog');

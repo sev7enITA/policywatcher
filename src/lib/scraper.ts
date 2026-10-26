@@ -11,6 +11,9 @@ import tls from 'tls';
 import { getDomain } from 'tldts';
 import { extractPdfPolicyHtml } from '@/lib/pdfPolicy';
 import { classifyRetrievalCause, terminalRetrievalCause, type RetrievalCause } from '@/lib/sourceReliability';
+import { acquisitionOutcome, type AcquisitionOutcome } from './adaptiveAcquisition/outcome';
+import { createCapture, type RawCapture, type CaptureTransport } from './adaptiveAcquisition/evidence';
+import { hasExplicitLocaleDrift } from './acquisitionScope';
 
 /**
  * PolicyWatcher - Hardened Policy Scraper v3
@@ -54,6 +57,10 @@ import { classifyRetrievalCause, terminalRetrievalCause, type RetrievalCause } f
 export type ScrapeStatus = 'ok' | 'unavailable' | 'invalid';
 
 export interface ScrapeResult {
+  /** Independent acquisition dimensions, not a confirmed change or confidence score. */
+  outcome?: AcquisitionOutcome;
+  /** Present only when the caller requested private capture of extractor input. */
+  rawCaptureSummary?: { attempted: number; recorded: number; failed: number };
   /** Private extractor input; never include in API responses. */
   extraction?: ReturnType<typeof extractionEvidence>;
   /** Overall status of the scrape attempt. */
@@ -477,6 +484,8 @@ export interface ScraperControlledFallbacks {
 
 export interface ScrapePolicyOptions {
   archiveNotBefore?: Date;
+  /** Opt-in private corpus sink. Raw bodies never become public scrape results. */
+  onRawCapture?: (capture: RawCapture) => Promise<void>;
   /** Refused in production; keeps smoke tests deterministic and offline. */
   controlledFallbacks?: ScraperControlledFallbacks;
 }
@@ -536,6 +545,7 @@ function normalizeComparablePath(rawUrl: string): string | null {
 
 export function hasLivePathDrift(originalUrl: string, finalUrl: string, source: string): boolean {
   if (source === 'wayback' || source === 'commoncrawl') return false;
+  if (hasExplicitLocaleDrift(originalUrl, finalUrl)) return true;
   const originalHost = comparableHost(originalUrl);
   const finalHost = comparableHost(finalUrl);
   if (!originalHost || !finalHost || originalHost !== finalHost) return false;
@@ -1855,7 +1865,39 @@ export async function scrapePolicyText(
   url: string,
   options: ScrapePolicyOptions = {},
 ): Promise<ScrapeResult> {
+  const rawCaptureSummary = { attempted: 0, recorded: 0, failed: 0 };
+  const result = await scrapePolicyTextInternal(url, options, rawCaptureSummary);
+  return {
+    ...result, outcome: acquisitionOutcome(result),
+    ...(options.onRawCapture ? { rawCaptureSummary } : {}),
+  };
+}
+
+async function scrapePolicyTextInternal(
+  url: string,
+  options: ScrapePolicyOptions,
+  captureSummary: { attempted: number; recorded: number; failed: number },
+): Promise<ScrapeResult> {
   const { archiveNotBefore, controlledFallbacks } = options;
+  const capture = async (transport: TransportResult, source: CaptureTransport) => {
+    if (!options.onRawCapture) return;
+    captureSummary.attempted += 1;
+    try {
+      await options.onRawCapture(createCapture({
+        requestedUrl: url, finalUrl: transport.finalUrl || url, transport: source,
+        transportOk: transport.ok, httpStatus: transport.status, html: transport.html,
+        // Direct/archive inputs may already be converted from PDF by the baseline transport.
+        bodyKind: source === 'rendered' ? 'rendered_dom' : 'decoded_document_html',
+        capturedAt: new Date().toISOString(), archiveTimestamp: transport.archiveTimestamp,
+      }));
+      captureSummary.recorded += 1;
+    } catch {
+      captureSummary.failed += 1;
+      // Storage is observational: it cannot turn failed content into success or
+      // interrupt an otherwise valid acquisition. The sink must report its errors.
+      console.warn('[Scraper] Private raw capture failed.');
+    }
+  };
   if (controlledFallbacks && process.env.NODE_ENV === 'production') {
     throw new Error('controlled_fallbacks_disabled_in_production');
   }
@@ -1884,6 +1926,7 @@ export async function scrapePolicyText(
     ? await controlledFallbacks.direct(destination.url, archiveNotBefore)
     : await fetchWithRetry(destination.url);
   const directDurationMs = Date.now() - directStartedAt;
+  await capture(transport, 'direct');
 
     if (!transport.ok && transport.html === '') {
       directReason = transport.error;
@@ -1987,6 +2030,7 @@ export async function scrapePolicyText(
         ? await controlledFallbacks.http2(destination.url, archiveNotBefore)
         : await fetchWithHttp2(destination.url);
       const h2DurationMs = Date.now() - h2StartedAt;
+      await capture(h2Result, 'http2');
       if (h2Result.ok) {
         const validation = await validateContent(h2Result.html, url);
         if (validation.ok) {
@@ -2068,6 +2112,7 @@ export async function scrapePolicyText(
       ? await controlledFallbacks.rendered(destination.url, archiveNotBefore)
       : await fetchWithRenderer(destination.url);
     const renderedDurationMs = Date.now() - renderedStartedAt;
+    await capture(rendered, 'rendered');
     if (rendered.ok) {
       const validation = await validateContent(rendered.html, url);
       if (validation.ok) {
@@ -2141,6 +2186,7 @@ export async function scrapePolicyText(
     ? await controlledFallbacks.wayback(url, archiveNotBefore)
     : await fetchFromWayback(url, archiveNotBefore);
   const waybackDurationMs = Date.now() - waybackStartedAt;
+  await capture(wayback, 'wayback');
   if (wayback.ok) {
     const validation = await validateContent(wayback.html, url);
     if (validation.ok) {
@@ -2202,6 +2248,7 @@ export async function scrapePolicyText(
     ? await controlledFallbacks.commoncrawl(url, archiveNotBefore)
     : await fetchFromCommonCrawl(url, archiveNotBefore);
   const commonCrawlDurationMs = Date.now() - commonCrawlStartedAt;
+  await capture(cc, 'commoncrawl');
   if (cc.ok) {
     const validation = await validateContent(cc.html, url);
     if (validation.ok) {

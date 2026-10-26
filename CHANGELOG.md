@@ -1,5 +1,23 @@
 # Changelog
 
+## 5.2.0 - Adaptive Acquisition Evidence (2026-10-26)
+
+### Adaptive acquisition evidence
+
+- Added opt-in, allowlisted and budgeted shadow observation that reuses each baseline acquisition, compares up to three declarative recipes and returns the baseline result.
+- Added private frozen captures, immutable receipts, reproducible replay and train/holdout integrity checks. Candidate lessons retain counterexamples, expiry and non-operational status; provisional labels cannot validate them.
+- Added independent acquisition outcome dimensions and conservative explicit locale/region drift checks.
+- Added a read-only Adaptive acquisition panel to Source Reliability with run selection, separate persistence/error states, diagnostic exclusions and recipe-comparison counts. Missing historical metrics are not treated as zero or disabled.
+- Synchronized bilingual release history, roadmap, Feature Atlas, Release Impact, machine-readable discovery and current editorial assets. Existing 5.1.0 lineage, PDF and strict-fragment behavior is preserved.
+
+- Updated Next.js and its lint configuration to 16.4.3, Nodemailer to 10.1.4 and the resolved Undici dependency to address the release dependency audit.
+
+### Activation and interpretation boundaries
+
+- Shadow remains disabled without private operator configuration. Installing this release does not activate a production pilot.
+- No automatic recipe promotion, model training or calibrated-confidence claim. Broader independent labels, prospective validation and reviewed canary/rollback remain roadmap work.
+- Public content describes capabilities and their limits. Deployment and production activation require separate recorded evidence.
+
 ## 5.1.0 - Traceable Evidence (2026-10-15)
 
 - Sends complete extracted documents to analysis (500,000 characters per document maximum); oversized input fails explicitly.
@@ -90,7 +108,9 @@ Input coverage is not semantic accuracy. The wider competitor-research backlog r
 - Use one numeric risk scale; quarantine a known historical TikTok error page with an auditable repair and backup.
 - Harden SMTP configuration for authenticated Hostinger TLS; mailbox activation requires account configuration.
 
-## Unreleased - 2026-09-23 SEO visibility improvements
+## Unreleased
+
+ - 2026-09-23 SEO visibility improvements
 
 - Make public records usable without JavaScript and return real 404 responses for missing records.
 - Distinguish policy, region and recorded revision in metadata; remove AI risk scores from review schema.

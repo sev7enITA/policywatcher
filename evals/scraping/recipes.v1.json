@@ -1,0 +1,14 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "synthetic-policy-document",
+    "revision": 1,
+    "scope": {
+      "origin": "https://fixture.example",
+      "pathPrefix": "/legal",
+      "language": "en",
+      "jurisdiction": "EU"
+    },
+    "rootSelector": "#policy-document"
+  }
+]

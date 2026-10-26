@@ -73,10 +73,10 @@ export const ADMIN_GUIDES: Record<AdminGuideRoute, AdminGuide> = {
   },
   '/admin/source-reliability': {
     title: 'Source Reliability',
-    purpose: 'Inspect unique retrievals, evidence-gate coverage, dependency health, historical-reference boundaries and recurring source remediation work.',
+    purpose: 'Inspect unique retrievals, evidence-gate coverage, recurring source remediation work and read-only adaptive acquisition evidence.',
     steps: [
       'Review controlled source migrations first, then compare policy-record and unique-retrieval counts to identify shared acquisition keys.',
-      'Review recent scan runs for unavailable unique sources and degraded dependencies.',
+      'Select a run in Adaptive acquisition. Read scan status separately from observer mode, then inspect persisted observations, errors and comparison diagnostics.',
       'Open remediation items only after repeated failures establish a stable source problem.',
       'Verify a regional URL, official mirror or PDF before changing the configured retrieval source.',
       'Resolve an item only after a subsequent verified retrieval or documented source decision.',
@@ -86,8 +86,9 @@ export const ADMIN_GUIDES: Record<AdminGuideRoute, AdminGuide> = {
       { term: 'Controlled source migration', definition: 'An acquisition-source update whose first verified capture becomes a new baseline without creating a provider change event.' },
       { term: 'Historical reference', definition: 'Dated archive metadata that remains ineligible for current change detection.' },
       { term: 'Remediation issue', definition: 'A durable operational item created after recurring retrieval failures.' },
+      { term: 'Shadow observation', definition: 'Candidate extraction evidence collected alongside the baseline scraper. Each persisted observation can have up to three recipe comparisons; no recipe is promoted automatically.' },
     ],
-    commonMistake: 'Do not replace an official source with an unverified mirror or treat stale archive evidence as a current policy baseline.',
+    commonMistake: 'Do not treat comparison counts as source counts or calibrated confidence. Missing shadow metrics do not mean zero errors. Keep verified official sources and current evidence as the baseline.',
   },
   '/admin/webhook-delivery': {
     title: 'Webhook Delivery',

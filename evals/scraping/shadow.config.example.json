@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "mode": "shadow",
+  "maxObservations": 10,
+  "outputDirectory": "/absolute/private/path/policywatcher-shadow",
+  "targets": [
+    { "url": "https://www.anthropic.com/legal/privacy", "language": "en", "jurisdiction": "global" },
+    { "url": "https://www.anthropic.com/legal/aup", "language": "en", "jurisdiction": "global" }
+  ],
+  "recipes": [
+    {
+      "schemaVersion": 1,
+      "id": "anthropic-article-observation",
+      "revision": 1,
+      "scope": { "origin": "https://www.anthropic.com", "pathPrefix": "/legal", "language": "en", "jurisdiction": "global" },
+      "rootSelector": "article"
+    }
+  ]
+}

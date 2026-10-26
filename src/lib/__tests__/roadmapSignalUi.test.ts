@@ -12,9 +12,9 @@ describe('roadmap community signal UI contract', () => {
 
     expect(roadmap).toContain('id="technical-baseline"');
     expect(roadmap).toContain('id="pipeline"');
-    expect(roadmap).toContain('Technical baseline · verified 17 August 2026');
+    expect(roadmap).toContain('Technical baseline · August audit with subsequent release updates');
     expect(roadmap).toContain('docs/reports/policywatcher-state-of-art-audit-2026-08-14.artifact.json');
-    expect(pipeline.match(/title:/g)).toHaveLength(8);
+    expect(pipeline.match(/title:/g)).toHaveLength(9);
     expect(pipeline).toContain('Durable queue for asynchronous workloads');
     expect(pipeline).toContain('High-assurance evidence export');
     expect(roadmap).toContain("String(index + 1).padStart(2, '0')");

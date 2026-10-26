@@ -1,7 +1,9 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { gzipSync } from 'node:zlib';
 import { extractPdfPolicyHtml } from '../pdfPolicy';
-import { decodeBoundedDocumentBody, validateContent } from '../scraper';
+import { decodeBoundedDocumentBody, scrapePolicyText, validateContent } from '../scraper';
+import { createShadowSession, type ShadowReceipt } from '../adaptiveAcquisition/shadow';
+import { digest, type RawCapture } from '../adaptiveAcquisition/evidence';
 
 // Tiny valid PDF, with a computed xref, exercises the actual parser offline.
 function document(text: string): Buffer {
@@ -50,5 +52,31 @@ describe('official PDF policy ingestion', () => {
   it('retains unchanged HTML decoding', async () => {
     const html = '<html><body>Privacy &amp; data</body></html>';
     expect(await decodeBoundedDocumentBody(gzipSync(html), 'gzip', 'text/html; charset=utf-8')).toBe(html);
+  });
+  it('retains PDF extraction lineage and baseline output during private shadow replay', async () => {
+    vi.stubEnv('POLICYWATCHER_EXTRACTION_GUARD', '1');
+    try {
+      const url = 'https://8.8.8.8/legal/privacy.pdf';
+      const content = 'Privacy Policy. We collect personal data and process your information. You have rights to deletion. Contact us about data protection. '.repeat(8);
+      const html = await decodeBoundedDocumentBody(document(content), '', 'application/pdf');
+      const options = { controlledFallbacks: { skipDelays: true, direct: async () => ({ ok: true, html, status: 200, finalUrl: url, error: '' }) } };
+      const baseline = await scrapePolicyText(url, options);
+      let saved: { capture: RawCapture; receipt: ShadowReceipt } | undefined;
+      const session = createShadowSession({ runId: 'pdf-baseline', provenance: { test: digest('pdf-baseline') },
+        config: { schemaVersion: 1, mode: 'shadow', maxObservations: 1,
+          targets: [{ url, language: 'en', jurisdiction: 'EU' }],
+          recipes: [{ schemaVersion: 1, id: 'article', revision: 1, scope: { origin: 'https://8.8.8.8', pathPrefix: '/legal', language: 'en', jurisdiction: 'EU' }, rootSelector: 'article' }] },
+        persist: async (capture, receipt) => { saved = { capture, receipt }; } });
+      const result = await session.scrape(url, options);
+      expect(result.status).toBe('ok');
+      expect(result.extraction).toEqual(baseline.extraction);
+      expect(result.extraction?.input).toBe(html);
+      expect(result.text).toBe(baseline.text); expect(result.hash).toBe(baseline.hash);
+      expect(result).not.toHaveProperty('rawCaptureSummary');
+      expect(saved?.capture.bodyKind).toBe('decoded_document_html');
+      expect(saved?.receipt.baseline.agreement).toBe('accepted_match');
+      expect(saved?.receipt.livePromotionAllowed).toBe(false);
+      expect(await session.close()).toMatchObject({ attempted: 1, persisted: 1, baselineMismatches: 0 });
+    } finally { vi.unstubAllEnvs(); }
   });
 });

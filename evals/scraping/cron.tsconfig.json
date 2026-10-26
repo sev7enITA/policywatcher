@@ -1,0 +1,5 @@
+{
+  "extends": "./shadow.tsconfig.json",
+  "compilerOptions": { "lib": ["ESNext", "DOM", "DOM.Iterable"], "jsx": "react-jsx", "resolveJsonModule": true },
+  "include": ["./cron.rehearsal.ts", "../../src/app/api/cron/check-all/route.ts"]
+}

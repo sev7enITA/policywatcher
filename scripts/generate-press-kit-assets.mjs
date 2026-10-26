@@ -256,12 +256,34 @@ const pdfStyles = StyleSheet.create({ page: { padding: 44, fontSize: 10, color: 
 
 async function writeFactSheets() {
   const localized = {
-    en: { title: 'PolicyWatcher press fact sheet', lead: 'Configured product facts with explicit scope and reuse boundaries.', releaseLabel: 'Current release', labels: ['configured monitored companies', 'configured sectors', 'canonical KPIs', 'editorial languages'], scopes: facts.map((fact) => fact.scope), boundary: 'Not legal advice, compliance certification or exhaustive market coverage.' },
-    it: { title: 'Scheda stampa PolicyWatcher', lead: 'Dati configurati sul prodotto con perimetro e limiti di riuso espliciti.', releaseLabel: 'Release corrente', labels: ['aziende monitorate configurate', 'settori configurati', 'KPI canonici', 'lingue editoriali'], scopes: ['Esclude la fixture WAZE per l’onboarding amministrativo; non è copertura esaustiva.', 'Le etichette di settore organizzano l’inventario monitorato.', 'Privacy, governance AI ed etica; le valutazioni non disponibili sono Non valutato.', 'Press kit e alcune pagine guida selezionate.'], boundary: 'Non è consulenza legale, certificazione di conformità o copertura esaustiva del mercato.' },
+    en: {
+      title: 'Evidence before promotion',
+      lead: 'PolicyWatcher records configured public policy sources and explains changes for human review. This release makes extraction experiments inspectable.',
+      releaseLabel: 'Source release',
+      cards: [
+        { value: 'Baseline retained', label: 'Optional shadow observation', scope: 'An explicit source allowlist and per-scan budget bound comparisons with up to three candidate recipes. No extra fetch per candidate.' },
+        { value: 'Frozen-input replay', label: 'Reproducible candidate evidence', scope: 'Private captures and immutable receipts support replay. Train/holdout and independent-label gates keep unsupported lessons non-operational.' },
+        { value: 'Read-only diagnostics', label: 'Source Reliability workbench', scope: 'Inspect saved observations, separate baseline and observer errors, exclusions and comparisons. Missing evidence is distinct from zero.' },
+        { value: 'Explicit source scope', label: 'Locale and regional drift checks', scope: 'Explicit URL-variant drift is rejected. Live, partial and historical evidence remain distinct; URL hints are not legal jurisdiction.' },
+      ],
+      boundary: 'Shadow is disabled by default and requires private operator configuration. No automatic recipe promotion, model training or calibrated confidence is claimed. This sheet is not an accuracy benchmark, legal opinion or production-activation receipt.',
+    },
+    it: {
+      title: 'Evidenze prima della promozione',
+      lead: 'PolicyWatcher registra fonti pubbliche configurate e spiega i cambiamenti per la revisione umana. Questa release rende ispezionabili gli esperimenti di estrazione.',
+      releaseLabel: 'Release del codice',
+      cards: [
+        { value: 'Baseline conservata', label: 'Osservazione shadow facoltativa', scope: 'Un elenco esplicito di fonti e un budget per scansione limitano il confronto a tre ricette candidate. Nessun fetch aggiuntivo per candidata.' },
+        { value: 'Replay su input congelati', label: 'Evidenze candidate riproducibili', scope: 'Catture private e ricevute immutabili supportano il replay. I controlli su train/holdout ed etichette indipendenti mantengono le lezioni non operative.' },
+        { value: 'Diagnostiche in sola lettura', label: 'Workbench Source Reliability', scope: 'Esamina osservazioni salvate, errori distinti di baseline e osservatore, esclusioni e confronti. Le evidenze mancanti sono distinte dallo zero.' },
+        { value: 'Scope esplicito della fonte', label: 'Controllo di lingua e variante regionale', scope: 'Le derive esplicite della variante URL vengono rifiutate. Evidenze live, parziali e storiche restano distinte; gli indizi URL non certificano una giurisdizione.' },
+      ],
+      boundary: 'Shadow è disabilitato per impostazione predefinita e richiede una configurazione privata. Nessuna promozione automatica, addestramento di modelli o confidenza calibrata. Questa scheda non è un benchmark di accuratezza, parere legale o ricevuta di attivazione in produzione.',
+    },
   };
   for (const locale of ['en', 'it']) {
     const copy = localized[locale];
-    const txt = [`${copy.title}`, `Version ${VERSION} · ${RELEASE_DATE}`, `${copy.releaseLabel}: ${RELEASE_NAME}`, '', copy.lead, '', ...facts.flatMap((fact, index) => [`${fact.value}: ${copy.labels[index]}`, copy.scopes[index], '']), `Boundary: ${copy.boundary}`, `Current source: ${CANONICAL_URL}`].join('\n');
+    const txt = [`${copy.title}`, `Version ${VERSION} · ${RELEASE_DATE}`, `${copy.releaseLabel}: ${RELEASE_NAME}`, '', copy.lead, '', ...copy.cards.flatMap((card) => [`${card.value}: ${card.label}`, card.scope, '']), `Boundary: ${copy.boundary}`, `Current source: ${CANONICAL_URL}`].join('\n');
     writeFileSync(path.join(PRESS_DIR, `policywatcher-fact-sheet-${locale}-${RELEASE_DATE}.txt`), `${txt}\n`);
     const fixedDocumentDate = new Date(`${RELEASE_DATE}T12:00:00Z`);
     const document = React.createElement(Document, {
@@ -277,7 +299,7 @@ async function writeFactSheets() {
       React.createElement(Text, { style: pdfStyles.title }, copy.title),
       React.createElement(Text, { style: pdfStyles.lead }, copy.lead),
       React.createElement(View, { style: pdfStyles.card }, React.createElement(Text, { style: pdfStyles.label }, copy.releaseLabel), React.createElement(Text, { style: pdfStyles.value }, RELEASE_NAME)),
-      ...facts.map((fact, index) => React.createElement(View, { key: fact.id, style: pdfStyles.card }, React.createElement(Text, { style: pdfStyles.value }, fact.value), React.createElement(Text, { style: pdfStyles.label }, copy.labels[index]), React.createElement(Text, { style: pdfStyles.boundary }, copy.scopes[index]))),
+      ...copy.cards.map((card) => React.createElement(View, { key: card.label, style: pdfStyles.card }, React.createElement(Text, { style: pdfStyles.value }, card.value), React.createElement(Text, { style: pdfStyles.label }, card.label), React.createElement(Text, { style: pdfStyles.boundary }, card.scope))),
       React.createElement(Text, { style: pdfStyles.boundary }, copy.boundary),
       React.createElement(Text, { style: pdfStyles.footer }, `${CANONICAL_URL} · info@policywatcher.online`)
     ));
@@ -373,6 +395,26 @@ function createPackages(assetManifest) {
 }
 
 async function main() {
+  if (process.argv.includes('--fact-sheets-only')) {
+    await writeFactSheets();
+    const manifestPath = path.join(PRESS_DIR, 'asset-manifest.json');
+    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+    manifest.release = VERSION;
+    manifest.generatedAt = RELEASE_DATE;
+    manifest.assets = manifest.assets.filter((item) => !/^policywatcher-fact-sheet-(en|it)-\d{4}-\d{2}-\d{2}\.(txt|pdf)$/.test(item.filename));
+    for (const locale of ['en', 'it']) {
+      for (const [extension, type] of [['txt', 'text/plain'], ['pdf', 'application/pdf']]) {
+        manifest.assets.push(manifestEntry(`policywatcher-fact-sheet-${locale}-${RELEASE_DATE}.${extension}`, type));
+      }
+    }
+    writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+    const packagesPath = path.join(PRESS_DIR, 'package-manifest.json');
+    const packages = JSON.parse(readFileSync(packagesPath, 'utf8'));
+    packages.currentProductRelease = VERSION;
+    writeFileSync(packagesPath, `${JSON.stringify(packages, null, 2)}\n`);
+    process.stdout.write(`Generated current EN/IT release fact sheets for ${VERSION}; historical assets unchanged.\n`);
+    return;
+  }
   if (process.argv.includes('--refresh-live')) {
     await refreshLiveReleaseAssets();
     return;

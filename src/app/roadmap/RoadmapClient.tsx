@@ -134,13 +134,13 @@ const technicalBaseline: Array<{
   {
     module: 'AI and scoring',
     evidence: 'Structured output is schema-validated; Beta 42 includes a golden set and AI telemetry.',
-    opportunity: 'The model produces the score. Input is capped at 45,000 characters or 22,000 + 22,000, not scored by a deterministic formula.',
+    opportunity: 'The model produces the score. Each extracted document is supplied in full up to 500,000 characters; larger inputs stop explicitly. Semantic completeness still requires review.',
     state: 'verified',
     reference: 'gemini.ts · geminiPolicySchema.ts · golden-set.v1.json',
   },
   {
     module: 'Data and retention',
-    evidence: 'SQLite backs 31 Prisma models, including five additive canonical evidence models; AI telemetry and access logs have a 90-day retention policy.',
+    evidence: 'SQLite backs 35 Prisma models, including five additive canonical evidence models; AI telemetry and access logs have a 90-day retention policy.',
     opportunity: 'Canonical backfill is not active and PolicyCheckLog has no explicit retention policy.',
     state: 'partial',
     reference: 'prisma/schema.prisma · aiTelemetry.ts',
@@ -154,7 +154,7 @@ const technicalBaseline: Array<{
   },
   {
     module: 'Dashboard',
-    evidence: 'DashboardClient is about 3,181 lines and 125 KB; the public “map” is an impact matrix.',
+    evidence: 'The dashboard combines evidence discovery, comparison and a release impact matrix.',
     opportunity: 'Decompose and measure the bundle; add true geography and regional filtering only where supported by data.',
     state: 'gap',
     reference: 'DashboardClient.tsx · ReleaseImpactMap.tsx',
@@ -197,6 +197,12 @@ const technicalBaseline: Array<{
 ];
 
 const priorityPipeline = [
+  {
+    title: 'Independently evaluated acquisition learning',
+    outcome: 'Expand frozen-input benchmarks with independent labels, prospective shadow evidence and reviewed canary/rollback criteria.',
+    gate: 'Independent train/holdout evidence, no baseline regression and an explicit operator decision. Provisional self-labels cannot pass this gate.',
+    horizon: 'Next',
+  },
   {
     title: 'Durable queue for asynchronous workloads',
     outcome: 'Scraping, webhooks and email run as persistent jobs with retry, backoff, idempotency and a dead-letter queue.',
@@ -251,9 +257,27 @@ const nowItems = [
   {
     phase: `Current · ${POLICYWATCHER_VERSION}`,
     title: POLICYWATCHER_RELEASE_NAME,
-    body: 'For you / Per te brings followed services, published updates, official guides and personal review records into one bilingual journey.',
-    benefit: 'People can inspect original evidence, match a received notice on their device and prepare a support draft without creating an account.',
-    validation: 'Choices stay in this browser. No provider settings are changed, no support message is sent automatically, and Android store distribution remains separate.',
+    body: 'Bounded shadow observation, frozen-input replay and a read-only evidence workbench make candidate extraction behavior inspectable while retaining the baseline.',
+    benefit: 'Operators can distinguish saved observations, observer failures, source acquisition failures and unavailable summaries before reviewing a candidate.',
+    validation: 'Shadow is disabled by default. No recipe is promoted automatically, provisional labels cannot validate lessons, and calibrated confidence is not established.',
+    icon: Eye,
+    href: '/press-kit/releases/adaptive-acquisition-evidence-5-2-0',
+  },
+  {
+    phase: 'Delivered · 5.1.0',
+    title: 'Traceable Evidence',
+    body: 'Full extracted analysis inputs, reproducible request manifests and immutable capture metadata preserve analysis lineage.',
+    benefit: 'Reviewers can connect an analysis to its captured source and request recipe.',
+    validation: 'Hash verification does not establish semantic completeness or legal correctness.',
+    icon: Fingerprint,
+    href: '/press-kit/releases/traceable-evidence-5-1-0',
+  },
+  {
+    phase: 'Delivered · 5.0.0',
+    title: 'Your services, your choices',
+    body: 'For you / Per te connects followed services, published updates, official guides and local review records.',
+    benefit: 'People can inspect evidence and prepare a support draft without creating an account.',
+    validation: 'Choices stay on the device. Native store distribution remains separate.',
     icon: UsersRound,
     href: '/per-te',
   },
@@ -787,7 +811,7 @@ const releaseLanes = [
     label: POLICYWATCHER_VERSION,
     title: POLICYWATCHER_RELEASE_NAME,
     body:
-      'Bilingual For you / Per te journey, public citizen feed, official guides, local choices, private notice matching and downloadable support drafts. Mobile web is available; native store distribution remains separate.',
+      'Optional baseline-preserving shadow observation, reproducible replay, explicit source-variant checks and a read-only acquisition evidence panel. No automatic promotion or calibrated confidence.',
     state: 'current',
   },
   {
@@ -801,7 +825,7 @@ const releaseLanes = [
     label: 'Later',
     title: 'Evidence methodology',
     body:
-      'Community benchmark pack, cross-version evidence lineage, external methodology review and production database hardening.',
+      'Broader independently labelled replay sets, prospective shadow validation, calibrated uncertainty and reviewed canary/rollback criteria. Model training and automatic recipe promotion remain unimplemented.',
     state: 'candidate',
   },
 ];
@@ -1015,11 +1039,11 @@ export default function RoadmapClient() {
       <section className={`${styles.section} ${styles.baselineSection}`} id="technical-baseline">
         <div className={styles.sectionHead}>
           <div>
-            <span className={styles.sectionLabel}>Technical baseline · verified 17 August 2026</span>
+            <span className={styles.sectionLabel}>Technical baseline · August audit with subsequent release updates</span>
             <h2>Technical baseline</h2>
           </div>
           <p>
-            Ten evidence-backed module checks separate shipped capability from architectural opportunity. References point to the implementation inspected for this snapshot.
+            The August audit identifies architectural opportunities. Subsequent release updates cover full-document analysis and the 35-model evidence schema; this is not a new audit of all ten modules.
           </p>
         </div>
 
@@ -1032,7 +1056,7 @@ export default function RoadmapClient() {
         <div className={styles.baselineTable} role="table" aria-label="Verified technical baseline">
           <div className={styles.baselineHeader} role="row">
             <span role="columnheader">Module</span>
-            <span role="columnheader">Current evidence</span>
+            <span role="columnheader">Recorded evidence</span>
             <span role="columnheader">Limit / opportunity</span>
             <span role="columnheader">Status</span>
             <span role="columnheader">Technical reference</span>

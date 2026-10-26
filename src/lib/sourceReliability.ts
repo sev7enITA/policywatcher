@@ -1,3 +1,5 @@
+import type { AcquisitionOutcome } from './adaptiveAcquisition/outcome';
+
 export const RETRIEVAL_CAUSES = [
   'verified',
   'partial',
@@ -28,7 +30,11 @@ export interface DiagnosticLike {
 
 export interface StrategyMetric {
   attempted: number;
+  /** Legacy extraction count, including partial and historical results. */
   accepted: number;
+  completeLive?: number;
+  partial?: number;
+  historical?: number;
   failed: number;
   skipped: number;
   durationMs: number;
@@ -47,6 +53,8 @@ export interface RetrievalMetrics {
   archiveRescues: number;
   degradedDependencies: string[];
   strategies: Record<string, StrategyMetric>;
+  /** Counts by observed dimension, not calibrated probabilities. */
+  acquisitionOutcomes?: Record<string, number>;
 }
 
 const NON_SEMANTIC_QUERY_PARAMETERS = new Set([
@@ -195,6 +203,7 @@ export function emptyRetrievalMetrics(policyRecords: number, uniqueSources: numb
     archiveRescues: 0,
     degradedDependencies: [],
     strategies: {},
+    acquisitionOutcomes: {},
   };
 }
 
@@ -203,20 +212,31 @@ export function recordRetrievalDiagnostics(
   diagnostics: DiagnosticLike[],
   finalStatus: string,
   finalSource: string,
+  outcome?: AcquisitionOutcome,
 ): void {
   metrics.networkRetrievals += 1;
+  if (outcome) {
+    metrics.acquisitionOutcomes ??= {};
+    for (const dimension of ['transport', 'extraction', 'scope', 'quality', 'currency', 'changeConfirmation', 'eligibleForComparison'] as const) {
+      const key = `${dimension}:${outcome[dimension]}`;
+      metrics.acquisitionOutcomes[key] = (metrics.acquisitionOutcomes[key] || 0) + 1;
+    }
+  }
   if (finalStatus === 'ok') metrics.uniqueAvailableSources += 1;
   else metrics.uniqueUnavailableSources += 1;
 
-  if (finalSource === 'direct') metrics.directSuccesses += 1;
-  if (finalSource === 'rendered') metrics.rendererRescues += 1;
-  if (finalSource === 'wayback' || finalSource === 'commoncrawl') metrics.archiveRescues += 1;
+  if (finalStatus === 'ok' && finalSource === 'direct') metrics.directSuccesses += 1;
+  if (finalStatus === 'ok' && finalSource === 'rendered') metrics.rendererRescues += 1;
+  if (finalStatus === 'ok' && (finalSource === 'wayback' || finalSource === 'commoncrawl')) metrics.archiveRescues += 1;
 
   for (const diagnostic of diagnostics) {
     const source = diagnostic.source || 'unknown';
     const strategy = metrics.strategies[source] || {
       attempted: 0,
       accepted: 0,
+      completeLive: 0,
+      partial: 0,
+      historical: 0,
       failed: 0,
       skipped: 0,
       durationMs: 0,
@@ -227,6 +247,14 @@ export function recordRetrievalDiagnostics(
       metrics.retrievalAttempts += 1;
     }
     if (diagnostic.status === 'ok' || diagnostic.status === 'partial') strategy.accepted += 1;
+    strategy.completeLive ??= 0;
+    strategy.partial ??= 0;
+    strategy.historical ??= 0;
+    if (diagnostic.status === 'partial') strategy.partial += 1;
+    if (diagnostic.status === 'ok' || diagnostic.status === 'partial') {
+      if (source === 'wayback' || source === 'commoncrawl') strategy.historical += 1;
+      else if (diagnostic.status === 'ok' && ['direct', 'http2', 'rendered'].includes(source)) strategy.completeLive += 1;
+    }
     if (diagnostic.status === 'failed' || diagnostic.status === 'rejected') strategy.failed += 1;
     strategy.durationMs += diagnostic.durationMs || 0;
     metrics.strategies[source] = strategy;

@@ -1,0 +1,90 @@
+import { readFile, open, mkdir } from 'node:fs/promises';
+import { constants } from 'node:fs';
+import { join, isAbsolute } from 'node:path';
+import { scrapePolicyText } from '../scraper';
+import { digest, sha256 } from './evidence';
+import { privateCaptureDirectory, writeImmutableJson } from './storage';
+import { createShadowSession, validateShadowConfig, type ShadowConfig } from './shadow';
+
+export interface ShadowFileConfig extends ShadowConfig { outputDirectory: string }
+
+const MAX_CONFIG_BYTES = 65_536;
+
+async function readShadowConfig(configPath: string): Promise<ShadowFileConfig> {
+  if (!isAbsolute(configPath)) throw new Error('invalid_shadow_config_file');
+  // Inspect and consume the same opened file, even if its pathname is replaced.
+  // Nonblocking open lets us reject FIFOs/devices before attempting to read them.
+  const file = await open(configPath, constants.O_RDONLY | constants.O_NONBLOCK);
+  try {
+    const info = await file.stat();
+    if (!info.isFile() || info.size > MAX_CONFIG_BYTES) throw new Error('invalid_shadow_config_file');
+    const buffer = Buffer.alloc(MAX_CONFIG_BYTES + 1);
+    let length = 0;
+    while (length < buffer.length) {
+      const { bytesRead } = await file.read(buffer, length, buffer.length - length, length);
+      if (bytesRead === 0) break;
+      length += bytesRead;
+    }
+    // A writer may have extended the opened file after fstat; reads stay bounded.
+    if (length > MAX_CONFIG_BYTES) throw new Error('invalid_shadow_config_file');
+    return JSON.parse(buffer.toString('utf8', 0, length)) as ShadowFileConfig;
+  } finally {
+    await file.close();
+  }
+}
+
+export async function shadowProvenance(checkout: string): Promise<Record<string, string>> {
+  const files = ['src/lib/scraper.ts', 'src/lib/sourceReliability.ts', 'src/lib/pdfPolicy.ts',
+    'src/lib/extractionProfile.ts', 'src/lib/extractionProfile.generated.json', 'src/lib/acquisitionScope.ts',
+    ...['evidence', 'outcome', 'recipe', 'replay', 'shadow', 'shadowRuntime', 'storage']
+      .map((name) => `src/lib/adaptiveAcquisition/${name}.ts`), 'package-lock.json'];
+  const provenance: Record<string, string> = { nodeVersion: sha256(process.version) };
+  for (const file of files) provenance[file] = sha256(await readFile(join(checkout, file), 'utf8'));
+  return provenance;
+}
+
+/** Explicit configuration per scan. Missing/invalid configuration retains the baseline. */
+export async function optionalShadowRuntime(runId: string, options: {
+  configPath?: string;
+  checkout?: string;
+} = {}) {
+  const configPath = options.configPath ?? process.env.POLICYWATCHER_SCRAPING_SHADOW_CONFIG;
+  const checkout = options.checkout || process.cwd();
+  const disabled = (mode: 'disabled' | 'configuration_error') => ({
+    scrape: scrapePolicyText,
+    finish: async () => ({ mode, attempted: 0, persisted: 0, errors: mode === 'configuration_error' ? 1 : 0 }),
+  });
+  if (!configPath) return disabled('disabled');
+  try {
+    const raw = await readShadowConfig(configPath);
+    validateShadowConfig(raw);
+    if (typeof raw.outputDirectory !== 'string' || !isAbsolute(raw.outputDirectory)) throw new Error('invalid_shadow_output');
+    const directory = await privateCaptureDirectory(raw.outputDirectory, checkout);
+    const provenance = await shadowProvenance(checkout);
+    await mkdir(join(directory, 'captures'), { recursive: true, mode: 0o700 });
+    await mkdir(join(directory, 'observations'), { recursive: true, mode: 0o700 });
+    const config: ShadowConfig = { schemaVersion: 1, mode: 'shadow', maxObservations: raw.maxObservations,
+      targets: raw.targets, recipes: raw.recipes };
+    const session = createShadowSession({ runId, config, provenance, persist: async (capture, receipt) => {
+      await writeImmutableJson(join(directory, 'captures', `${capture.captureId}.json`), capture);
+      await writeImmutableJson(join(directory, 'observations', `${receipt.receiptId}.json`), receipt);
+    } });
+    let finished: Promise<ReturnType<typeof session.summary> & { summaryWriteFailed?: boolean }> | undefined;
+    return {
+      scrape: session.scrape,
+      finish: () => {
+        if (!finished) finished = (async () => {
+          const summary = await session.close();
+          const body = { schemaVersion: 1, runId, configSha256: digest(config), provenance, ...summary };
+          try { await writeImmutableJson(join(directory, `${digest(body)}.summary.json`), body); }
+          catch { return { ...summary, summaryWriteFailed: true }; }
+          return summary;
+        })();
+        return finished;
+      },
+    };
+  } catch {
+    console.warn('[Scraping shadow] Configuration unavailable; baseline retained.');
+    return disabled('configuration_error');
+  }
+}

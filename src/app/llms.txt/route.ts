@@ -1,8 +1,15 @@
+import { POLICYWATCHER_VERSION, POLICYWATCHER_RELEASE_NAME } from '@/lib/release';
 import { POLICYWATCHER_ORIGIN } from '@/lib/publicKnowledge';
 
 const content = `# PolicyWatcher
 
 PolicyWatcher is a public evidence laboratory that records verified policy baselines and published policy changes for monitored companies. AI-assisted screening outputs are not legal advice, compliance determinations, or provider statements.
+
+## Current source release
+${POLICYWATCHER_VERSION} ${POLICYWATCHER_RELEASE_NAME}. Optional shadow observation compares extraction recipes on preserved inputs while retaining the operational baseline. It is disabled by default. Provisional labels cannot validate their own lessons. No automatic promotion, model training or calibrated confidence is claimed.
+
+- [Release record](${POLICYWATCHER_ORIGIN}/press-kit/releases/adaptive-acquisition-evidence-5-2-0)
+- [Feature inventory and limits](${POLICYWATCHER_ORIGIN}/feature-atlas)
 
 ## Canonical public sections
 - [Adaptive evidence dashboard with Focus, Balanced and Explore presentation controls](${POLICYWATCHER_ORIGIN}/)

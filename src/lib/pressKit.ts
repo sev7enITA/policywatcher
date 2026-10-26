@@ -633,13 +633,85 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 });
 
 export const pressKitReleases: PressKitRelease[] = [
+{
+  "slug": "adaptive-acquisition-evidence-5-2-0",
+  "version": "5.2.0",
+  "displayVersion": "5.2.0",
+  "datePublished": "2026-10-26",
+  "dateModified": "2026-10-26",
+  "status": "current",
+  "category": "methodology",
+  "title": {
+    "en": "Adaptive Acquisition Evidence",
+    "it": "Evidenze di acquisizione adattiva"
+  },
+  "summary": {
+    "en": "Inspect how candidate extraction recipes behave on preserved source inputs, with bounded shadow observation and a read-only operational view.",
+    "it": "Esamina il comportamento delle ricette di estrazione candidate su input conservati, con osservazione shadow circoscritta e una vista operativa in sola lettura."
+  },
+  "changes": [
+    {
+      "en": "Optional shadow observation reuses the baseline acquisition, with an explicit source allowlist, a per-scan budget and up to three candidate recipes. The baseline result is retained.",
+      "it": "L’osservazione shadow facoltativa riusa l’acquisizione della baseline, con un elenco esplicito di fonti, un budget per scansione e fino a tre ricette candidate. Il risultato della baseline resta operativo."
+    },
+    {
+      "en": "Private captures, immutable receipts and frozen-input replay preserve evidence for comparison. Train/holdout and independent-label gates keep unsupported lessons ineligible for operational use.",
+      "it": "Catture private, ricevute immutabili e replay su input congelati conservano le evidenze del confronto. I controlli su train/holdout ed etichette indipendenti mantengono le lezioni non supportate fuori dall’uso operativo."
+    },
+    {
+      "en": "The Source Reliability workbench separates scan outcome, saved observations, observer errors, baseline acquisition errors and summary-write failures. Historical, disabled, partial and unavailable summaries remain distinct.",
+      "it": "Il workbench Source Reliability distingue esito della scansione, osservazioni salvate, errori dell’osservatore, errori di acquisizione della baseline e mancati salvataggi del riepilogo. Riepiloghi storici, disabilitati, parziali e non disponibili restano distinti."
+    },
+    {
+      "en": "Explicit locale or regional path changes are rejected as source-variant drift. Acquisition dimensions distinguish current live, partial and historical evidence.",
+      "it": "I cambi espliciti di lingua o variante regionale nel percorso vengono rifiutati come deriva della fonte. Le dimensioni di acquisizione distinguono evidenze live correnti, parziali e storiche."
+    }
+  ],
+  "boundaries": [
+    {
+      "en": "Shadow observation is disabled by default and requires a private operator configuration. Installing this release does not enable a production pilot.",
+      "it": "L’osservazione shadow è disabilitata per impostazione predefinita e richiede una configurazione privata dell’operatore. Installare questa release non attiva un pilot in produzione."
+    },
+    {
+      "en": "No automatic recipe promotion, model training or calibrated confidence is claimed. Provisional labels cannot validate their own lessons; broader independent evaluation remains planned.",
+      "it": "Non sono dichiarati promozione automatica delle ricette, addestramento di modelli o confidenza calibrata. Le etichette provvisorie non possono validare le proprie lezioni; resta prevista una valutazione indipendente più ampia."
+    },
+    {
+      "en": "A recorded comparison is not a source count, extraction-quality verdict or legal conclusion. Private captures and raw errors are not exposed in the panel or public APIs.",
+      "it": "Un confronto registrato non è un conteggio delle fonti, un giudizio sulla qualità dell’estrazione o una conclusione legale. Catture private ed errori integrali non sono esposti nel pannello o nelle API pubbliche."
+    }
+  ],
+  "evidenceLinks": [
+    {
+      "href": "/feature-atlas",
+      "label": {
+        "en": "Features and boundaries",
+        "it": "Funzionalità e limiti"
+      }
+    },
+    {
+      "href": "/roadmap",
+      "label": {
+        "en": "Independent evaluation roadmap",
+        "it": "Roadmap della valutazione indipendente"
+      }
+    },
+    {
+      "href": "https://github.com/sev7enITA/policywatcher/blob/v5.2.0/evals/scraping/README.md",
+      "label": {
+        "en": "Replay and shadow protocol",
+        "it": "Protocollo di replay e shadow"
+      }
+    }
+  ]
+},
   {
   "slug": "traceable-evidence-5-1-0",
   "version": "5.1.0",
   "displayVersion": "5.1.0",
   "datePublished": "2026-10-15",
   "dateModified": "2026-10-15",
-  "status": "current",
+  "status": "archived",
   "category": "methodology",
   "title": {
     "en": "Traceable Evidence",
@@ -1727,6 +1799,20 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+{
+  "id": "adaptive-acquisition-evidence-5-2-0",
+  "occurredAt": "2026-10-26",
+  "type": "release",
+  "title": {
+    "en": "Adaptive Acquisition Evidence release record",
+    "it": "Record della release Evidenze di acquisizione adattiva"
+  },
+  "detail": {
+    "en": "Bounded shadow observation, frozen-input replay and an operator evidence panel, with no automatic promotion.",
+    "it": "Osservazione shadow circoscritta, replay su input congelati e pannello operativo delle evidenze, senza promozione automatica."
+  },
+  "affectedHref": "/press-kit/releases/adaptive-acquisition-evidence-5-2-0"
+},
   { id: 'citizen-journey-release', occurredAt: '2026-10-06', type: 'release', title: { en: 'PolicyWatcher 5 citizen journey', it: 'Percorso cittadino PolicyWatcher 5' }, detail: { en: 'For you connects followed services, dated source evidence, official guides and local choices.', it: 'Per te collega servizi seguiti, evidenze datate, guide ufficiali e scelte locali.' }, affectedHref: '/press-kit/releases/your-services-your-choices-5-0-0' },
   { id: 'document-scope-release', occurredAt: '2026-10-01', type: 'release', title: { en: 'Comparable document scope recorded', it: 'Registrato ambito documentale confrontabile' }, detail: { en: 'Beta 5 adds a shared selection of document types, explicit missing coverage, type-balanced scores and consistent methodology.', it: 'La Beta 5 introduce una selezione condivisa dei tipi documentali, copertura mancante esplicita, punteggi bilanciati per tipo e metodologia coerente.' }, affectedHref: '/press-kit/releases/document-scope-comparable-evidence-4-0-0-beta-5' },
   { id: 'ai-discoverability-citation-readiness-release', occurredAt: '2026-08-28', type: 'release', title: { en: 'AI Discoverability and Citation Readiness recorded', it: 'Registrata Discoverability AI e readiness per le citazioni' }, detail: { en: 'Beta 3 aligns visible homepage content, canonical metadata, structured identity and explicit crawler access without claiming external indexing or citation outcomes.', it: 'La Beta 3 allinea contenuto visibile della homepage, metadata canonici, identita strutturata e accesso crawler esplicito senza dichiarare risultati esterni di indicizzazione o citazione.' }, affectedHref: '/press-kit/releases/ai-discoverability-citation-readiness-4-0-0-beta-3' },
