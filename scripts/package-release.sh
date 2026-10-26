@@ -217,6 +217,9 @@ find "${STAGING_DIR}" -depth \( \
   -path '*/__pycache__/*' -o -name __pycache__ \
 \) -delete
 find "${STAGING_DIR}" -type f \( -name '*.db' -o -name '*.sqlite' -o -name '*.sqlite3' -o -name '*.pyc' -o -name '.DS_Store' \) -delete
+# Hostinger installs production dependencies only. Keep replay fixtures and CLIs,
+# but exclude development-only evaluation runners from Next's TypeScript graph.
+find "${STAGING_DIR}/evals" -type f \( -name '*vitest.config.ts' -o -name '*.rehearsal.ts' \) -delete
 # The provider-specific schema is generated deterministically during install;
 # never package a workspace materialization that could be stale.
 find "${STAGING_DIR}/prisma/postgresql" -maxdepth 1 -type f -name 'schema.prisma' -delete 2>/dev/null || true
@@ -245,6 +248,10 @@ node -e '
 archive_entries="$(zipinfo -1 "${ARCHIVE}")"
 if printf '%s\n' "${archive_entries}" | grep -E '(^/|(^|/)\.\.(/|$))' >/dev/null; then
   echo "Archive contains an absolute or traversal path." >&2
+  exit 1
+fi
+if printf '%s\n' "${archive_entries}" | grep -E '^evals/.*(vitest\.config|\.rehearsal)\.ts$' >/dev/null; then
+  echo "Archive contains a development-only evaluation runner." >&2
   exit 1
 fi
 if printf '%s\n' "${archive_entries}" | grep -E '(^|/)(node_modules|\.next|\.git|artifacts|__tests__|__pycache__)(/|$)|\.(db|sqlite|sqlite3|pyc|pem|p12|pfx|key)$|-(wal|shm|journal)$' >/dev/null; then
