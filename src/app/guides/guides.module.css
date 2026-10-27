@@ -17,4 +17,9 @@
 .section ul, .section ol { padding-left: 22px; }
 .note { border-left: 3px solid #8d4b17; padding: 12px 20px; margin: 28px 0; line-height: 1.65; background: #fffaf0; }
 .links { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 20px; }
+.entryActions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.entryActions a { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 16px; border: 1px solid #b8bfc8; background: #fffdf8; font-weight: 600; }
+.entryActions a:first-child { color: #fff; background: #3049b4; border-color: #3049b4; }
+.entryActions a:focus-visible { outline: 3px solid #0f766e; outline-offset: 4px; }
+.header .independentNote { font-size: .9rem; margin: 14px 0 0; color: #42536a; }
 @media (max-width: 680px) { .cards { grid-template-columns: 1fr; } .page { padding-inline: 18px; } }

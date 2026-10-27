@@ -2394,7 +2394,10 @@ export default function Dashboard() {
           </div>
         </section>
 
-        <ReleaseEvidencePulse locale={lang} variant="compact" />
+        <details className={styles.historicalEvidence}>
+          <summary>{lang === 'it' ? 'Evidenze delle release precedenti' : 'Historical release evidence'}</summary>
+          <ReleaseEvidencePulse locale={lang} variant="compact" />
+        </details>
 
         <section className={styles.extensionBetaStrip} aria-labelledby="extension-beta-title">
           <div className={styles.extensionBetaRail} aria-hidden="true">

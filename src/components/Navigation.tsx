@@ -73,6 +73,7 @@ type CommandItem = {
   id: string;
   label: string;
   shortLabel?: string;
+  mobileLabel?: string;
   tooltip?: string;
   icon: LucideIcon;
   href?: string;
@@ -417,6 +418,7 @@ export default function Navigation({
   const whatChangedCommand: CommandItem = {
     id: 'what-changed',
     label: t.whatChanged,
+    mobileLabel: isIt ? 'Verifica' : 'Check',
     tooltip: t.tooltips.whatChanged,
     icon: MailSearch,
     href: '/what-changed',
@@ -438,7 +440,6 @@ export default function Navigation({
     tooltip: t.tooltips.assistant,
     icon: Zap,
     onClick: onOpenAssistant,
-    tone: 'accent',
   };
 
   const searchCommand: CommandItem = {
@@ -455,7 +456,7 @@ export default function Navigation({
     item.onClick?.();
   };
 
-  const renderCommand = (item: CommandItem, mode: 'ribbon' | 'sheet' | 'icon' = 'ribbon') => {
+  const renderCommand = (item: CommandItem, mode: 'ribbon' | 'sheet' | 'icon' | 'mobile' = 'ribbon') => {
     const Icon = item.icon;
     const className = [
       styles.commandButton,
@@ -468,7 +469,7 @@ export default function Navigation({
     const content = (
       <>
         <Icon size={18} aria-hidden="true" />
-        <span className={styles.commandLabel}>{item.label}</span>
+        <span className={styles.commandLabel}>{mode === 'mobile' ? item.mobileLabel ?? item.label : item.label}</span>
       </>
     );
 
@@ -574,10 +575,10 @@ export default function Navigation({
       </nav>
 
       <nav className={styles.mobileCommandBar} aria-label={t.mobileLabel}>
-        {renderCommand(whatChangedCommand)}
-        {renderCommand(workspaceCommand)}
-        {renderCommand(assistantCommand)}
-        {renderCommand(searchCommand)}
+        {renderCommand(whatChangedCommand, 'mobile')}
+        {renderCommand(workspaceCommand, 'mobile')}
+        {renderCommand(assistantCommand, 'mobile')}
+        {renderCommand(searchCommand, 'mobile')}
         <button
           type="button"
           className={`${styles.commandButton} ${styles.mobileMoreButton}`}

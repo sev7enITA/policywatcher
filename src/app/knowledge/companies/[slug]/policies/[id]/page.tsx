@@ -102,9 +102,17 @@ export default async function PolicyKnowledgePage({ params }: PolicyPageProps) {
           {policy ? (
             <>
               <header className={styles.entityHeader}>
-                <div><p className={styles.kicker}>Public policy record</p><h1>{policy.company.name} - {policy.name} ({policy.jurisdiction})</h1><p className={styles.lead}>{policy.company.name} / {policy.type} / {policy.jurisdiction}. This page presents source and evidence metadata; it does not reproduce the policy text.</p><nav className={styles.actions} aria-label={`${policy.name} source actions`}>{policy.officialSourceUrl && <a href={policy.officialSourceUrl} target="_blank" rel="noopener noreferrer external">Official policy source <ExternalLink size={14} aria-hidden="true" /></a>}<Link href={`/knowledge/companies/${policy.company.slug}`}>Company record</Link></nav></div>
+                <div><p className={styles.kicker}>Public policy record</p><h1>{policy.company.name} - {policy.name} ({policy.jurisdiction})</h1><p className={styles.lead}>{policy.company.name} / {policy.type} / {policy.jurisdiction}. Check recorded changes below or open the official policy. Source details and reference versions are available for verification.</p><nav className={styles.actions} aria-label={`${policy.name} source actions`}>{policy.changes[0] && <Link href={`/change/${policy.changes[0].id}`}>Latest published change <ArrowRight size={14} aria-hidden="true" /></Link>}{policy.officialSourceUrl && <a href={policy.officialSourceUrl} target="_blank" rel="noopener noreferrer external">Official policy source <ExternalLink size={14} aria-hidden="true" /></a>}<Link href={`/knowledge/companies/${policy.company.slug}`}>Company record</Link></nav></div>
+                <details className={styles.sourceDetails}>
+                  <summary>Source details and retrieval dates</summary>
                 <dl className={styles.ledger}><div><dt>Data status</dt><dd><span className={styles.status}>{policy.dataStatus}</span></dd></div><div><dt>Ingestion method</dt><dd>{policy.ingestionMethod}</dd></div><div><dt>Last retrieval</dt><dd>{formatDate(policy.lastRetrievedAt)}</dd></div><div><dt>Last check</dt><dd>{formatDate(policy.lastCheckedAt)}</dd></div><div><dt>Latest published baseline</dt><dd>{formatDate(policy.latestBaselineAt)}</dd></div><div><dt>Knowledge record updated</dt><dd>{formatDate(policy.dateModified)}</dd></div><div><dt>Published changes</dt><dd>{policy.publishedChangeCount}</dd></div></dl>
+                </details>
               </header>
+
+              <section className={styles.section} aria-labelledby="changes-title">
+                <div className={styles.sectionHead}><div><p className={styles.kicker}>Published change register</p><h2 id="changes-title">Linked changes and evidence</h2></div><p>Each change links to its citable public record and change-bound evidence packet. Screening labels are not legal conclusions.</p></div>
+                {policy.changes.length === 0 ? <div className={styles.notice} role="status"><FileSearch size={22} aria-hidden="true" /><div><h3>No published changes for this policy</h3><p>A verified source baseline is available, but no later public change record has been published.</p></div></div> : <ol className={styles.changeList}>{policy.changes.map((change) => <li key={change.id} className={styles.changeRow}><div className={styles.changeMeta}><span>Published</span><time dateTime={change.publishedAt}>{formatDate(change.publishedAt)}</time><span className={styles.riskLabel}>Screening: {change.overallRisk}</span></div><div><h3><Link href={`/change/${change.id}`}>{policy.company.name} / {policy.name}</Link></h3><p>{change.summary}</p></div><Link className={styles.openLink} href={`/evidence/${change.id}`}>Evidence packet <ArrowRight size={14} aria-hidden="true" /></Link></li>)}</ol>}
+              </section>
 
               <nav className={styles.entityReferences} aria-label="Evidence and methodology references">
                 <strong>Evidence and methodology</strong>
@@ -114,15 +122,12 @@ export default async function PolicyKnowledgePage({ params }: PolicyPageProps) {
 
               <section className={styles.section}><RelatedPolicyGuides policy={policy} /></section>
 
-              <section className={styles.section} aria-labelledby="baselines-title">
-                <div className={styles.sectionHead}><div><p className={styles.kicker}>Published evidence</p><h2 id="baselines-title">Baseline metadata</h2></div><p>Hashes identify published baseline records. They do not expose the underlying raw source text.</p></div>
+              <details className={`${styles.section} ${styles.sourceDetails}`}><summary>Reference versions and hashes</summary>
+                <div className={styles.sectionHead}><div><p className={styles.kicker}>Published evidence</p><h2 id="baselines-title">Reference version metadata</h2></div><p>Hashes identify published baseline records. They do not expose the underlying raw source text.</p></div>
                 {policy.baselines.length === 0 ? <div className={styles.notice} role="status"><FileSearch size={22} aria-hidden="true" /><div><h3>No published baseline metadata available</h3><p>This state should not occur for a public policy record and requires review.</p></div></div> : <ol className={styles.baselineList}>{policy.baselines.map((baseline) => <li key={`${baseline.version}-${baseline.hash}`}><strong>Version {baseline.version}</strong><span>{formatDate(baseline.publishedAt)}</span><code className={styles.hash}>{baseline.hash}</code></li>)}</ol>}
-              </section>
+              </details>
 
-              <section className={styles.section} aria-labelledby="changes-title">
-                <div className={styles.sectionHead}><div><p className={styles.kicker}>Published change register</p><h2 id="changes-title">Linked changes and evidence</h2></div><p>Each change links to its citable public record and change-bound evidence packet. Screening labels are not legal conclusions.</p></div>
-                {policy.changes.length === 0 ? <div className={styles.notice} role="status"><FileSearch size={22} aria-hidden="true" /><div><h3>No published changes for this policy</h3><p>A verified source baseline is available, but no later public change record has been published.</p></div></div> : <ol className={styles.changeList}>{policy.changes.map((change) => <li key={change.id} className={styles.changeRow}><div className={styles.changeMeta}><span>Published</span><time dateTime={change.publishedAt}>{formatDate(change.publishedAt)}</time><span className={styles.riskLabel}>Screening: {change.overallRisk}</span></div><div><h3><Link href={`/change/${change.id}`}>{policy.company.name} / {policy.name}</Link></h3><p>{change.summary}</p></div><Link className={styles.openLink} href={`/evidence/${change.id}`}>Evidence packet <ArrowRight size={14} aria-hidden="true" /></Link></li>)}</ol>}
-              </section>
+
             </>
           ) : (
             <section className={styles.section} aria-labelledby="unavailable-title"><div className={styles.notice} role="status"><AlertTriangle size={22} aria-hidden="true" /><div><h2 id="unavailable-title">Policy record temporarily unavailable</h2><p>The public database could not be read. No internal connection or storage details are exposed.</p><Link href="/knowledge">Return to the knowledge index</Link></div></div></section>

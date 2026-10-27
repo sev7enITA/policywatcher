@@ -26,6 +26,7 @@ export default async function GuidePage({ params, searchParams }: Props) {
   let hub: PublicKnowledgeHub | null = null;
   try { hub = await getPublicKnowledgeHub(); } catch { /* The guide remains available when the inventory cannot be loaded. */ }
   const policies = hub?.policies.filter((policy) => guideMatchesPolicy(guide, policy)) ?? [];
+  const officialSources = t.sources?.filter((source) => source.href.startsWith('https://')) ?? [];
   const schema = {
     '@context': 'https://schema.org', '@type': 'Article', headline: t.title, description: t.description,
     mainEntityOfPage: localizedPublicUrl(path, lang), inLanguage: lang, dateModified: guide.updatedAt,
@@ -38,6 +39,12 @@ export default async function GuidePage({ params, searchParams }: Props) {
     <PublicBreadcrumbs lang={lang} items={[{ name: 'PolicyWatcher', path: '/' }, { name: lang === 'it' ? 'Guide' : 'Guides', path: localizedPublicUrl('/guides', lang) }, { name: t.title, path: localizedPublicUrl(path, lang) }]} />
     <article><header className={styles.header}><h1>{t.title}</h1><p>{t.introduction}</p>
       <div className={styles.meta}><Link href="/about">PolicyWatcher</Link><span>{lang === 'it' ? 'Aggiornata il' : 'Updated'} <time dateTime={guide.updatedAt}>{guide.updatedAt}</time></span><Link href={localizedPublicPath(path, lang === 'en' ? 'it' : 'en')} hrefLang={lang === 'en' ? 'it' : 'en'}>{lang === 'en' ? 'Italiano' : 'English'}</Link></div>
+      <nav className={styles.entryActions} aria-label={lang === 'it' ? 'Inizia dalla fonte' : 'Start with the source'}>
+        {officialSources.map((source) => <a key={source.href} href={source.href}>{source.label} ↗</a>)}
+        <a href="#public-records">{lang === 'it' ? 'Versioni e schede registrate' : 'Recorded versions and sources'}</a>
+        <Link href="/what-changed#paste-notice">{lang === 'it' ? 'Verifica un avviso ricevuto' : 'Check a notice you received'}</Link>
+      </nav>
+      {officialSources.length > 0 && <p className={styles.independentNote}>{lang === 'it' ? 'Guida indipendente di PolicyWatcher. Il documento ufficiale è pubblicato dal fornitore.' : 'An independent PolicyWatcher guide. The provider publishes the official document.'}</p>}
     </header><div className={styles.body}>
       <nav className={styles.section} aria-label={lang === 'it' ? 'In questa guida' : 'On this page'}><ol>{t.sections.map((section, index) => <li key={section.heading}><a href={`#step-${index + 1}`}>{section.heading}</a></li>)}</ol><a href="#public-records">{lang === 'it' ? 'Policy pubbliche pertinenti' : 'Relevant public policies'}</a></nav>
       {t.sections.map((section, index) => <section className={styles.section} id={`step-${index + 1}`} key={section.heading}><h2>{section.heading}</h2>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}

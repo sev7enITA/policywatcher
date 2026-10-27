@@ -16,7 +16,7 @@ describe('Policy Live Assistant entry points', () => {
   it('keeps desktop, mobile, and Workspace Controls commands on the shared callback', () => {
     expect(navigation).toMatch(/const assistantCommand:[\s\S]*?onClick: onOpenAssistant/);
     expect(navigation).toContain("renderCommand(assistantCommand, 'icon')");
-    expect(navigation).toMatch(/<nav className=\{styles\.mobileCommandBar\}[\s\S]*?renderCommand\(assistantCommand\)/);
+    expect(navigation).toMatch(/<nav className=\{styles\.mobileCommandBar\}[\s\S]*?renderCommand\(assistantCommand, 'mobile'\)/);
     expect(navigation).toMatch(/className=\{styles\.sheetSearchRow\}[\s\S]*?renderCommand\(assistantCommand, 'sheet'\)/);
     expect(dashboard).toMatch(/<Navigation[\s\S]*?onOpenAssistant=\{\(\) => setChatOpen\(true\)\}/);
   });

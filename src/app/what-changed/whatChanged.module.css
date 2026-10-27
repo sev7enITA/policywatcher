@@ -25,3 +25,128 @@
 .captureChoice{display:grid;grid-template-columns:1.08fr .92fr;gap:12px;margin:0 0 14px}.capturePath{display:grid;grid-template-columns:42px minmax(0,1fr);gap:0 14px;align-items:start;min-height:188px;padding:20px;background:#fff;border:1px solid #d9e0ea;border-top:4px solid #8290a6}.extensionPath{color:#fff;background:#263b8f;border-color:#263b8f;border-top-color:#72b8af;box-shadow:0 14px 30px rgba(38,59,143,.16)}.pastePath{background:#fff;border-top-color:#0f766e}.pathIcon{display:grid;place-items:center;width:42px;height:42px;color:#30459f;background:#eef1fb;border:1px solid #c4cce6}.extensionPath .pathIcon{color:#fff;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.27)}.pathIcon svg{width:21px;height:21px}.pathCopy p{margin:0 0 3px;color:#0f766e;font-size:.66rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.extensionPath .pathCopy p{color:#9fe0d7}.pathCopy h2{margin:0;color:#172253;font-size:1.08rem;letter-spacing:-.02em}.extensionPath .pathCopy h2{color:#fff}.pathCopy>span{display:block;margin-top:8px;color:#58657b;font-size:.79rem;line-height:1.48}.extensionPath .pathCopy>span{color:#dce3ff}.pathAction{grid-column:1/-1;align-self:end;display:inline-flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;margin-top:17px;padding:0 12px;color:#263b8f;background:#fff;border:1px solid #cbd4e1;text-decoration:none;font-size:.8rem;font-weight:750}.extensionPath .pathAction{color:#fff;background:transparent;border-color:rgba(255,255,255,.38)}.pathAction:hover{border-color:#7180bd}.extensionPath .pathAction:hover{background:rgba(255,255,255,.09);border-color:#fff}.pathAction:focus-visible{outline:3px solid #95cfc8;outline-offset:3px}.pathAction svg{width:17px;height:17px}.mobileExtensionNote{display:none}.plainTextNotice{display:flex;align-items:flex-start;gap:10px;margin-top:13px;padding:11px 12px;color:#694b1d;background:#fff9ed;border-left:3px solid #c38a32}.plainTextNotice>svg{flex:0 0 auto;width:18px;height:18px;margin-top:1px}.plainTextNotice p{margin:0;font-size:.78rem;line-height:1.45}.plainTextNotice span{display:block;margin-top:5px;color:#5b6574;font-size:.74rem;line-height:1.45}.plainTextNotice a{display:inline-flex;align-items:center;gap:4px;min-height:44px;color:#30459f;font-weight:750;text-underline-offset:3px}.plainTextNotice a svg{width:14px;height:14px}.intro{padding-bottom:28px}.intro h1{font-size:clamp(2.2rem,5vw,3.8rem)}.lead{margin-top:20px;font-size:1.08rem;line-height:1.6}.brand,.header nav a,.header nav button,.footer a,.privacyDisclosure a,.changeLinks a,.sources a{display:inline-flex;align-items:center;min-height:44px}.privacyDisclosure a,.changeLinks a,.sources a{padding:3px 0}
 
 @media(max-width:700px){.header nav a{display:none}.captureChoice{grid-template-columns:1fr;gap:0}.capturePath{min-height:0;padding:16px}.pastePath{order:1;border-top-color:#0f766e;box-shadow:0 9px 22px rgba(15,118,110,.08)}.extensionPath{display:none}.mobileExtensionNote{order:2;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:52px;margin:0;padding:4px 10px 4px 14px;color:#5b687d;background:#f5f7fd;border:1px solid #d5dced;border-top:0;font-size:.78rem;line-height:1.4}.mobileExtensionNote a{display:inline-flex;align-items:center;gap:5px;min-height:44px;flex:0 0 auto;color:#30459f;font-weight:750}.mobileExtensionNote a svg{width:14px;height:14px}.pathCopy>span{font-size:.8rem}.pathAction{margin-top:13px}.plainTextNotice{margin-top:11px}.plainTextNotice span{display:none}.intro h1{font-size:1.95rem}.lead{font-size:.96rem}.trustStatement{margin-top:14px}}
+
+/* Keep recognition, disclosure and confirmation next to the chosen input. */
+
+.header {
+  min-height: 0;
+  padding: 8px max(24px,calc((100vw - 1180px)/2));
+}
+
+.header>p {
+  margin: 0;
+  color: #536078;
+  font-size: .8rem;
+}
+
+.intro {
+  padding-top: 28px;
+  padding-bottom: 20px;
+}
+
+.lead {
+  margin-top: 14px;
+}
+
+.transmissionNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  color: #46556b;
+  font-size: .78rem;
+  line-height: 1.45;
+}
+
+.transmissionNote svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+.alternateInput {
+  margin-top: 14px;
+}
+
+.alternateInput>div {
+  padding-top: 8px;
+}
+
+.captureAlternatives {
+  margin: 18px 0 26px;
+  border-top: 1px solid #d5dced;
+}
+
+.captureAlternatives>summary {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  cursor: pointer;
+  color: #30459f;
+  font-weight: 700;
+  font-size: .9rem;
+}
+
+.captureAlternatives>summary::before {
+  content: '+';
+  margin-right: 10px;
+}
+
+.captureAlternatives[open]>summary::before {
+  content: '−';
+}
+
+.captureAlternatives>summary:focus-visible {
+  outline: 3px solid #334cba;
+  outline-offset: 3px;
+}
+
+.captureAlternatives .captureChoice {
+  margin: 8px 0 0;
+}
+
+.afterPaste {
+  gap: 12px;
+}
+
+.guidedForm .messageField textarea {
+  min-height: 150px;
+}
+
+.intakeSection {
+  scroll-margin-top: calc(var(--public-header-block-size,110px) + 12px);
+}
+
+@media (max-width:700px) {
+  .intro {
+    padding-top: 20px;
+    padding-bottom: 16px;
+  }
+
+  .intro h1 {
+    font-size: 1.8rem;
+  }
+
+  .intro .trustStatement {
+    padding: 12px;
+  }
+
+  .guidedForm {
+    padding: 16px;
+  }
+
+  .header {
+    padding: 4px 16px;
+  }
+
+  .guidedForm .messageField textarea {
+    min-height: 140px;
+  }
+
+  .captureAlternatives .extensionPath {
+    display: grid;
+  }
+
+  .captureAlternatives .pastePath,.captureAlternatives .mobileExtensionNote {
+    display: none;
+  }
+}

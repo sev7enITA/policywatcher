@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { AlertTriangle, ArrowRight, FileSearch } from 'lucide-react';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
+import PublicCompanyFinder from '@/components/PublicCompanyFinder';
 import {
   getPublicKnowledgeHub,
   POLICYWATCHER_ORIGIN,
@@ -49,7 +50,7 @@ function HubContent({ data }: { data: PublicKnowledgeHub }) {
         <ul className={styles.counts} aria-label="Empty public knowledge inventory counts">
           <li><strong>0</strong><span>companies with public policies</span></li>
           <li><strong>0</strong><span>public policies</span></li>
-          <li><strong>0</strong><span>published baselines</span></li>
+          <li><strong>0</strong><span>reference versions</span></li>
           <li><strong>0</strong><span>published changes</span></li>
         </ul>
         <div className={styles.notice} role="status">
@@ -70,7 +71,7 @@ function HubContent({ data }: { data: PublicKnowledgeHub }) {
         <ul className={styles.counts} aria-label="Public knowledge inventory counts">
           <li><strong>{data.counts.companies}</strong><span>companies with public policies</span></li>
           <li><strong>{data.counts.policies}</strong><span>public policies</span></li>
-          <li><strong>{data.counts.baselines}</strong><span>published baselines</span></li>
+          <li><strong>{data.counts.baselines}</strong><span>reference versions</span></li>
           <li><strong>{data.counts.changes}</strong><span>published changes</span></li>
         </ul>
         <div className={styles.timestampRow}>
@@ -90,7 +91,7 @@ function HubContent({ data }: { data: PublicKnowledgeHub }) {
           {data.companies.map((company) => (
             <li key={company.id} className={styles.indexRow}>
               <div className={styles.indexIdentity}><h3>{company.name}</h3><p>{company.industry}</p></div>
-              <div className={styles.indexMeta}><dl><div><dt>Public policies</dt><dd>{company.publicPolicyCount}</dd></div><div><dt>Last observed</dt><dd>{formatDate(company.lastObservedAt)}</dd></div><div><dt>Publication state</dt><dd>Evidence-gated public</dd></div></dl></div>
+              <div className={styles.indexMeta}><dl><div><dt>Public policies</dt><dd>{company.publicPolicyCount}</dd></div><div><dt>Last observed</dt><dd>{formatDate(company.lastObservedAt)}</dd></div><div><dt>Publication state</dt><dd>Public evidence available</dd></div></dl></div>
               <Link className={styles.openLink} href={`/knowledge/companies/${company.slug}`}>Open company record <ArrowRight size={14} aria-hidden="true" /></Link>
             </li>
           ))}
@@ -197,12 +198,13 @@ export default async function KnowledgePage() {
       <main className={styles.page}>
         <div className={styles.shell}>
           <header className={styles.hero}>
-            <div className={styles.metaBar}><span>Public reference layer</span><span>Evidence-gated / server-rendered</span></div>
+            <div className={styles.metaBar}><span>Company policies and recorded updates</span><span>Sources you can inspect</span></div>
             <div className={styles.heroGrid}>
               <div>
                 <p className={styles.kicker}>PolicyWatcher knowledge base</p>
                 <h1>Public policy records</h1>
-                <p className={styles.lead}>PolicyWatcher records publicly available company policies, verified source baselines and published changes. This index provides direct textual access to the public records and their provenance links.</p>
+                <p className={styles.lead}>Find a company, choose the policy for your region and open its recorded changes. Each record links to the official source and the evidence behind the comparison.</p>
+                <PublicCompanyFinder companies={data?.companies.map(({ id, name, slug }) => ({ id, name, slug })) ?? []} unavailable={!data} />
                 <nav className={styles.actions} aria-label="Knowledge index entry points">
                   <a href="#inventory">Inspect public inventory <ArrowRight size={15} aria-hidden="true" /></a>
                   {data?.availability === 'available' ? (
@@ -212,7 +214,7 @@ export default async function KnowledgePage() {
                   )}
                 </nav>
               </div>
-              <aside className={styles.boundary} aria-label="Publication boundary"><strong>Publication boundary</strong><p>Configured, seeded, withheld or unverified records are excluded. Missing data is shown as unavailable or empty and is not reported as a positive status.</p></aside>
+              <aside className={styles.boundary} aria-label="Publication boundary"><strong>What appears here</strong><p>Configured, seeded, withheld or unverified records are excluded. Missing data is shown as unavailable or empty and is not reported as a positive status.</p></aside>
             </div>
           </header>
 

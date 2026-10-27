@@ -16,11 +16,11 @@ function formatDate(value: string | null): string {
 export default function HomeKnowledgeSnapshot({ data }: HomeKnowledgeSnapshotProps) {
   return (
     <section className={styles.section} aria-label="Public policy records">
-      <details className={styles.disclosure} open>
+      <details className={styles.disclosure}>
         <summary>
           <span>
             <span className={styles.kicker}><BookOpenCheck size={14} aria-hidden="true" /> Public policy records</span>
-            <strong>Verified records and source links</strong>
+            <strong>{data?.availability === 'available' ? `${data.counts.companies} companies · ${data.counts.policies} policies` : 'Verified records and source links'}</strong>
           </span>
           <span className={styles.disclosureAction}>Inspect index <ChevronDown size={16} aria-hidden="true" /></span>
         </summary>
@@ -43,7 +43,7 @@ export default function HomeKnowledgeSnapshot({ data }: HomeKnowledgeSnapshotPro
               <dl className={styles.counts} aria-label="Public knowledge counts">
                 <div><dt>Companies</dt><dd>{data.counts.companies}</dd></div>
                 <div><dt>Policies</dt><dd>{data.counts.policies}</dd></div>
-                <div><dt>Baselines</dt><dd>{data.counts.baselines}</dd></div>
+                <div><dt>Reference versions</dt><dd>{data.counts.baselines}</dd></div>
                 <div><dt>Changes</dt><dd>{data.counts.changes}</dd></div>
               </dl>
               <div className={styles.indexes}>
