@@ -1,7 +1,7 @@
 # Structured data and AI discovery consistency
 
 Audit date: 27 October 2026. Baseline production/source: `7be651e26ebe33e6d45306cb7ba9c2d6f47c3f09`.
-This report describes a verified candidate, not a production deployment receipt.
+The schema corrections were deployed to production on 27 October 2026 at 23:44 Europe/Rome and merged in [PR #33](https://github.com/sev7enITA/policywatcher/pull/33). The deployment and follow-up discovery observations are recorded below.
 
 ## Findings and changes
 
@@ -24,6 +24,20 @@ Local build passed. The full suite with coverage passed 1,313 tests, with 14 ord
 
 GLM-5.3 High independently inspected baseline public source, four live pages and official documentation, and found no blocker in the described fixes. The final diff review and release status are recorded in PR #33. GLM did not run the full crawl or local tests; its review is advisory and separate from execution evidence. Two initial reviewer claims were corrected: there were three affected serializer routes, and the guide publisher reference was already resolvable through its author node.
 
+## Production and discovery verification
+
+Production source revision: `6e2e9d51db83a6c4d964815d8aa1301dae4a9cbf`; merged commit: `d0703d302ab617ae756de3876252f393f2919c11`. Their source trees match. The immutable ZIP SHA-256 is `c95b933c5382fa0fcf03b296feb785dc5c7e5e1c837849f124e67cb74d2d3d78`. The Hostinger production gate passed and created a consistent database backup before startup.
+
+Post-deployment verification passed nine application checks, database readiness and authenticated health, 26 public workflow/export checks, and SEO checks across 564 sitemap URLs. All 534 pages containing JSON-LD parsed and passed the executed vocabulary checks. The graphs on all 81 comparable static pages exactly matched the tested candidate. Twelve principal pages and 245 linked resources passed the scoped launch check. A synthetic known-company notice returned public evidence through the browser; mobile homepage-to-notice navigation passed at 390 pixels without horizontal overflow.
+
+A subsequent initial-HTML navigation crawl reached all 564 sitemap URLs from the homepage, preserving both `lang=en` and `lang=it`. Maximum depth was four links; the main discovery pages were within one or two. Current robots rules permit all sitemap pages for the seven tested search/user-fetcher tokens while keeping operational paths excluded.
+
+Google Search Console reported the homepage indexed. Its live smartphone inspection on 27 October 2026 at 23:55 Europe/Rome reported the URL available to Google and eligible for indexing. The submitted sitemap was successful with 564 discovered URLs and a same-day read. These observations do not imply every sitemap URL is indexed.
+
+The 35 HTTP probes using OAI-SearchBot, ChatGPT-User, PerplexityBot, Claude-SearchBot and Claude-User names returned HTTP 200 and initial-HTML content where applicable. Fourteen Googlebot/Bingbot-name probes from the operator network returned HTTP 403 at Hostinger/LiteSpeed. User-agent strings do not authenticate crawler identity; these probes are not evidence that genuine search crawlers are blocked. The successful Google live inspection is stronger evidence for Google's access. No firewall protection was weakened, and genuine Bingbot-IP access was not independently established.
+
+The discovery-file audit found one unqualified export link in `llms.txt`: `/api/v1/evidence-collections` correctly returns HTTP 400 without a selection. The follow-up changes that link to `/collections` and explains the required `changes` parameter and supported formats. This preserves the API validation boundary instead of turning an invalid request into a successful response. The follow-up deployment receipt belongs in its pull request; the PR #33 receipt above describes the schema release.
+
 ## SEO/GEO boundaries
 
 Schema.org vocabulary validity does not imply eligibility for every Google rich result. The software application intentionally lacks fabricated offers and review ratings; its Google software rich-result eligibility is not claimed. Guide first-publication dates remain absent where not documented. FAQ markup matches visible content and is retained as semantics, without promising a retired search appearance.
@@ -40,3 +54,8 @@ Google's AI search features require the normal SEO foundations, not special AI m
 - https://developers.google.com/search/docs/appearance/structured-data/article
 - https://developers.google.com/search/docs/appearance/structured-data/sd-policies
 - https://developers.google.com/search/docs/appearance/ai-features
+- https://www.hostinger.com/support/hostinger-cdn-search-engine-crawlers-and-seo/
+- https://developers.google.com/crawling/docs/crawlers-fetchers/verify-google-requests
+- https://developers.openai.com/api/docs/bots
+- https://docs.perplexity.ai/docs/resources/perplexity-crawlers
+- https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler
