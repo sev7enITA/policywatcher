@@ -1,10 +1,11 @@
+import { PUBLIC_PUBLISHER, serializeJsonLd } from '@/lib/structuredData';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import PublicHeader from '@/components/PublicHeader';
 import PublicBreadcrumbs from '@/components/PublicBreadcrumbs';
 import Footer from '@/components/Footer';
 import { policyGuides } from '@/lib/policyGuides';
-import { languageAlternates, localizedPublicPath, localizedPublicUrl, publicLanguage, PUBLISHER_ID, withSocialMetadata } from '@/lib/seo';
+import { languageAlternates, localizedPublicPath, localizedPublicUrl, publicLanguage, withSocialMetadata } from '@/lib/seo';
 import styles from './guides.module.css';
 
 type Props = { searchParams: Promise<{ lang?: string }> };
@@ -21,11 +22,11 @@ export default async function GuidesPage({ searchParams }: Props) {
   const t = copy[lang];
   const schema = {
     '@context': 'https://schema.org', '@type': 'CollectionPage', name: t.title, description: t.description,
-    url: localizedPublicUrl('/guides', lang), inLanguage: lang, publisher: { '@id': PUBLISHER_ID },
+    url: localizedPublicUrl('/guides', lang), inLanguage: lang, publisher: PUBLIC_PUBLISHER,
     mainEntity: { '@type': 'ItemList', itemListElement: policyGuides.map((guide, index) => ({ '@type': 'ListItem', position: index + 1, name: guide.copy[lang].title, url: localizedPublicUrl(`/guides/${guide.slug}`, lang) })) },
   };
   return <><PublicHeader current="guides" lang={lang} lockLang /><main className={styles.page}>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\u003c') }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(schema) }} />
     <PublicBreadcrumbs lang={lang} items={[{ name: 'PolicyWatcher', path: '/' }, { name: lang === 'it' ? 'Guide' : 'Guides', path: localizedPublicUrl('/guides', lang) }]} />
     <header className={styles.header}><h1>{t.title}</h1><p>{t.description}</p><Link href={localizedPublicPath('/guides', lang === 'en' ? 'it' : 'en')} hrefLang={lang === 'en' ? 'it' : 'en'}>{lang === 'en' ? 'Italiano' : 'English'}</Link></header>
     <ul className={styles.cards}>{policyGuides.map((guide) => <li key={guide.slug}><h2><Link href={localizedPublicPath(`/guides/${guide.slug}`, lang)}>{guide.copy[lang].title}</Link></h2><p>{guide.copy[lang].description}</p></li>)}</ul>

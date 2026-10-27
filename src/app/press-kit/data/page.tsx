@@ -1,3 +1,4 @@
+import { PUBLIC_AUTHOR, PUBLIC_PUBLISHER, serializeJsonLd } from '@/lib/structuredData';
 import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import NewsroomPageClient from '../NewsroomPageClient';
@@ -31,8 +32,8 @@ export default function PressKitDataPage() {
     temporalCoverage: snapshot.asOf,
     isAccessibleForFree: true,
     license: PRESS_KIT_LICENSE_URL,
-    creator: { '@type': 'Person', name: 'Fabrizio Degni', url: `${POLICYWATCHER_CANONICAL_ORIGIN}/about` },
-    publisher: { '@type': 'Organization', name: 'PolicyWatcher', url: POLICYWATCHER_CANONICAL_ORIGIN },
+    creator: PUBLIC_AUTHOR,
+    publisher: PUBLIC_PUBLISHER,
     variableMeasured: ['Configured monitored companies', 'Configured sectors', 'Canonical KPIs', 'Editorial languages'],
     measurementTechnique: 'Configured inventory snapshot documented by the PolicyWatcher confidence methodology.',
     distribution: snapshot.files.map((file) => ({
@@ -42,5 +43,5 @@ export default function PressKitDataPage() {
       name: `${snapshot.title.en} - ${file.format}`,
     })),
   };
-  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} /><NewsroomPageClient view="data" /></>;
+  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} /><NewsroomPageClient view="data" /></>;
 }

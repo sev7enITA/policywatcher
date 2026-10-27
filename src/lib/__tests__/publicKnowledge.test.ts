@@ -78,7 +78,7 @@ describe('crawlable public knowledge layer', () => {
     expect(company).toContain('<Link href="/evidence">Public evidence register</Link>');
     expect(policy).toContain('<Link href="/methodology/confidence">Publication methodology</Link>');
     expect(policy).toContain('href={`/evidence/${change.id}`}');
-    expect(policy).toContain("about: { '@type': 'Organization', name: policy.company.name }");
+    expect(policy).toContain("about: { '@type': 'Organization', '@id': `${POLICYWATCHER_ORIGIN}/knowledge/companies/${slug}#organization`, name: policy.company.name }");
   });
 
   it('rejects unsafe official-source schemes', () => {

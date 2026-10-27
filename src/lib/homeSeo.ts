@@ -1,3 +1,4 @@
+import { AUTHOR_PROFILES, PUBLIC_AUTHOR, PUBLIC_PUBLISHER } from './structuredData';
 import { POLICYWATCHER_RELEASE_DATE, POLICYWATCHER_VERSION } from '@/lib/release';
 import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin';
 
@@ -34,10 +35,7 @@ export const HOME_STRUCTURED_DATA = {
       publisher: { '@id': `${POLICYWATCHER_CANONICAL_ORIGIN}/#organization` },
     },
     {
-      '@type': 'Organization',
-      '@id': `${POLICYWATCHER_CANONICAL_ORIGIN}/#organization`,
-      name: 'PolicyWatcher',
-      url: HOME_CANONICAL_URL,
+      ...PUBLIC_PUBLISHER,
       logo: {
         '@type': 'ImageObject',
         url: `${POLICYWATCHER_CANONICAL_ORIGIN}/logo.png`,
@@ -53,14 +51,8 @@ export const HOME_STRUCTURED_DATA = {
       sameAs: ['https://github.com/sev7enITA/policywatcher'],
     },
     {
-      '@type': 'Person',
-      '@id': `${POLICYWATCHER_CANONICAL_ORIGIN}/#founder`,
-      name: 'Fabrizio Degni',
-      url: `${POLICYWATCHER_CANONICAL_ORIGIN}/about`,
-      sameAs: [
-        'https://www.linkedin.com/in/fdegni/',
-        'https://github.com/sev7enITA',
-      ],
+      ...PUBLIC_AUTHOR,
+      sameAs: AUTHOR_PROFILES,
     },
     {
       '@type': 'SoftwareApplication',

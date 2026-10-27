@@ -12,12 +12,16 @@ ${POLICYWATCHER_VERSION} ${POLICYWATCHER_RELEASE_NAME}. Optional shadow observat
 - [Feature inventory and limits](${POLICYWATCHER_ORIGIN}/feature-atlas)
 
 ## Canonical public sections
+- [Project identity, author and contact](${POLICYWATCHER_ORIGIN}/about)
+- [Check a policy notice against recorded public evidence](${POLICYWATCHER_ORIGIN}/what-changed)
 - [Adaptive evidence dashboard with Focus, Balanced and Explore presentation controls](${POLICYWATCHER_ORIGIN}/)
 - [Global consumer-association and digital-rights directory with country, type and verification-source filters](${POLICYWATCHER_ORIGIN}/en/associations#organizzazioni)
 - [Civic public-evidence workspace with country and regulatory context](${POLICYWATCHER_ORIGIN}/en/associations#radar)
 - [Italian localized Civic workspace](${POLICYWATCHER_ORIGIN}/it/associazioni)
 - [Policy monitoring guides (English)](${POLICYWATCHER_ORIGIN}/guides)
 - [Guide al monitoraggio delle policy (Italiano)](${POLICYWATCHER_ORIGIN}/guides?lang=it)
+- [Wise AUP: official source and recorded versions (English)](${POLICYWATCHER_ORIGIN}/guides/wise-acceptable-use-policy)
+- [Wise AUP: fonte ufficiale e versioni registrate (Italiano)](${POLICYWATCHER_ORIGIN}/guides/wise-acceptable-use-policy?lang=it)
 - [Knowledge base](${POLICYWATCHER_ORIGIN}/knowledge)
 - [Evidence packets](${POLICYWATCHER_ORIGIN}/evidence)
 - [Confidence methodology](${POLICYWATCHER_ORIGIN}/methodology/confidence)

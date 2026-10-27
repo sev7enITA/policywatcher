@@ -1,3 +1,4 @@
+import { serializeJsonLd } from '@/lib/structuredData';
 import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -93,7 +94,7 @@ export default function PressPage() {
     <>
       <PublicHeader current="press" />
       <main className={styles.page}>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
         <div className={styles.shell}>
           <header className={styles.hero}>
             <div className={styles.eyebrowRow}>

@@ -1,3 +1,4 @@
+import { PUBLIC_PUBLISHER } from '@/lib/structuredData';
 import CaptureFreshness from '@/components/CaptureFreshness';
 import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
@@ -155,7 +156,7 @@ export default async function KnowledgePage() {
         name: 'PolicyWatcher Public Policy Knowledge Base',
         description: 'Evidence-gated index of public companies, policies, verified baselines and published policy changes.',
         dateModified: data.dateModified || undefined,
-        publisher: { '@type': 'Organization', name: 'PolicyWatcher', url: POLICYWATCHER_ORIGIN },
+        publisher: PUBLIC_PUBLISHER,
         mainEntity: { '@id': `${POLICYWATCHER_ORIGIN}/knowledge#dataset` },
       },
       {
@@ -174,7 +175,7 @@ export default async function KnowledgePage() {
           `Published changes: ${data.counts.changes}`,
         ],
         citation: [`${POLICYWATCHER_ORIGIN}/evidence`, `${POLICYWATCHER_ORIGIN}/methodology/confidence`],
-        publisher: { '@type': 'Organization', name: 'PolicyWatcher', url: POLICYWATCHER_ORIGIN },
+        publisher: PUBLIC_PUBLISHER,
       },
       {
         '@type': 'ItemList',

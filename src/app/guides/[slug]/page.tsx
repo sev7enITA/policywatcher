@@ -1,3 +1,4 @@
+import { PUBLIC_PUBLISHER, serializeJsonLd } from '@/lib/structuredData';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -6,7 +7,7 @@ import PublicBreadcrumbs from '@/components/PublicBreadcrumbs';
 import Footer from '@/components/Footer';
 import { getPolicyGuide, guideMatchesPolicy, policyGuides } from '@/lib/policyGuides';
 import { getPublicKnowledgeHub, type PublicKnowledgeHub } from '@/lib/publicKnowledge';
-import { DEFAULT_SOCIAL_IMAGE, languageAlternates, localizedPublicPath, localizedPublicUrl, publicLanguage, PUBLISHER_ID, withSocialMetadata } from '@/lib/seo';
+import { DEFAULT_SOCIAL_IMAGE, languageAlternates, localizedPublicPath, localizedPublicUrl, publicLanguage, withSocialMetadata } from '@/lib/seo';
 import styles from '../guides.module.css';
 
 type Props = { params: Promise<{ slug: string }>; searchParams: Promise<{ lang?: string }> };
@@ -30,12 +31,12 @@ export default async function GuidePage({ params, searchParams }: Props) {
   const schema = {
     '@context': 'https://schema.org', '@type': 'Article', headline: t.title, description: t.description,
     mainEntityOfPage: localizedPublicUrl(path, lang), inLanguage: lang, dateModified: guide.updatedAt,
-    author: { '@type': 'Organization', '@id': PUBLISHER_ID, name: 'PolicyWatcher', url: 'https://policywatcher.online/about' }, publisher: { '@id': PUBLISHER_ID },
+    author: PUBLIC_PUBLISHER, publisher: PUBLIC_PUBLISHER,
     image: DEFAULT_SOCIAL_IMAGE, isAccessibleForFree: true,
     citation: ['https://policywatcher.online/methodology/confidence', ...(t.sources || []).map((source) => new URL(source.href, 'https://policywatcher.online').href)],
   };
   return <><PublicHeader current="guides" lang={lang} lockLang /><main className={styles.page}>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\u003c') }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(schema) }} />
     <PublicBreadcrumbs lang={lang} items={[{ name: 'PolicyWatcher', path: '/' }, { name: lang === 'it' ? 'Guide' : 'Guides', path: localizedPublicUrl('/guides', lang) }, { name: t.title, path: localizedPublicUrl(path, lang) }]} />
     <article><header className={styles.header}><h1>{t.title}</h1><p>{t.introduction}</p>
       <div className={styles.meta}><Link href="/about">PolicyWatcher</Link><span>{lang === 'it' ? 'Aggiornata il' : 'Updated'} <time dateTime={guide.updatedAt}>{guide.updatedAt}</time></span><Link href={localizedPublicPath(path, lang === 'en' ? 'it' : 'en')} hrefLang={lang === 'en' ? 'it' : 'en'}>{lang === 'en' ? 'Italiano' : 'English'}</Link></div>

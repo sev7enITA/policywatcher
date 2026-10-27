@@ -101,9 +101,7 @@ export function safePublicUrl(value: string | null | undefined): string | null {
   }
 }
 
-export function serializeJsonLd(value: unknown): string {
-  return JSON.stringify(value).replace(/</g, '\\u003c');
-}
+export { serializeJsonLd } from './structuredData';
 
 export function isUuid(value: string): boolean {
   return UUID_PATTERN.test(value);
