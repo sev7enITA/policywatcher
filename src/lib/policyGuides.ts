@@ -453,6 +453,96 @@ export const policyGuides: PolicyGuide[] = [
     }
   }
 },
+{
+  "slug": "wise-acceptable-use-policy",
+  "updatedAt": "2026-10-27",
+  "policyTypes": [],
+  "policyIds": [
+    "fc0287e0-8b1b-488e-b623-05f4a188e8fb"
+  ],
+  "copy": {
+    "en": {
+      "title": "Wise Acceptable Use Policy (AUP): official source and recorded versions",
+      "description": "Find the official Wise AUP and its public source record. Check dates, document scope and available versions before treating a notice as a policy change.",
+      "introduction": "Looking for the Wise AUP? Start with Wise’s official document below. This independent guide helps you distinguish the current source from the versions recorded by PolicyWatcher; it does not determine whether a particular transaction is permitted.",
+      "sections": [
+        {
+          "heading": "Open the official source first",
+          "paragraphs": [
+            "On 27 October 2026, the generic Wise AUP address redirected to its UK legal page, which displayed “Worldwide” and a last-updated date of 25 March 2026. Check the destination and document scope on each visit; a country path alone does not settle which terms apply to your account."
+          ]
+        },
+        {
+          "heading": "What the public record shows",
+          "paragraphs": [
+            "At this review, the public AUP record listed one baseline captured on 2 October 2026 and no published changes. A baseline records a source observation. It does not prove that a clause was added on the capture date, or that the provider has never changed the document."
+          ]
+        },
+        {
+          "heading": "Investigate an update without assuming a change",
+          "paragraphs": [
+            "Match the notice to this document, then look for two dated versions of the same source. Keep the provider’s update date separate from retrieval dates. If a version is missing, retain that limitation and follow the provider’s source links instead of deriving a new restriction from an AI risk score."
+          ]
+        }
+      ],
+      "checklist": [
+        "Match the exact document and scope.",
+        "Separate provider and retrieval dates.",
+        "Require two versions for a change claim."
+      ],
+      "sources": [
+        {
+          "label": "Wise Acceptable Use Policy: official document",
+          "href": "https://wise.com/acceptable-use-policy"
+        },
+        {
+          "label": "Wise AUP: public source record",
+          "href": "/knowledge/companies/wise/policies/fc0287e0-8b1b-488e-b623-05f4a188e8fb"
+        }
+      ]
+    },
+    "it": {
+      "title": "Wise Acceptable Use Policy (AUP): fonte ufficiale e versioni registrate",
+      "description": "Trova la AUP ufficiale di Wise e la scheda della fonte. Verifica date, ambito e versioni disponibili prima di interpretare un avviso come modifica della policy.",
+      "introduction": "Cerchi la AUP di Wise? Parti dal documento ufficiale collegato qui sotto. Questa guida indipendente distingue la fonte attuale dalle versioni registrate da PolicyWatcher; non stabilisce se una singola transazione sia consentita.",
+      "sections": [
+        {
+          "heading": "Apri prima la fonte ufficiale",
+          "paragraphs": [
+            "Il 27 ottobre 2026 l’indirizzo generico della AUP rimandava alla pagina legale britannica, che indicava “Worldwide” e un ultimo aggiornamento al 25 marzo 2026. Controlla destinazione e ambito a ogni visita: il paese nel percorso URL non basta a stabilire i termini applicabili al tuo account."
+          ]
+        },
+        {
+          "heading": "Cosa mostra la scheda pubblica",
+          "paragraphs": [
+            "Al momento della verifica, la scheda AUP elencava una baseline acquisita il 2 ottobre 2026 e nessuna modifica pubblicata. La baseline documenta un’osservazione della fonte. Non prova che una clausola sia stata aggiunta alla data di acquisizione o che il fornitore non abbia mai modificato il documento."
+          ]
+        },
+        {
+          "heading": "Esamina un avviso senza presumere una modifica",
+          "paragraphs": [
+            "Associa l’avviso al documento corretto, poi cerca due versioni datate della stessa fonte. Separa la data di aggiornamento del fornitore dalle acquisizioni. Se manca una versione, dichiara il limite e consulta i collegamenti ufficiali invece di dedurre una nuova restrizione da un punteggio AI."
+          ]
+        }
+      ],
+      "checklist": [
+        "Verifica documento e ambito.",
+        "Distingui date del fornitore e acquisizioni.",
+        "Richiedi due versioni per affermare una modifica."
+      ],
+      "sources": [
+        {
+          "label": "Acceptable Use Policy Wise: documento ufficiale",
+          "href": "https://wise.com/acceptable-use-policy"
+        },
+        {
+          "label": "AUP Wise: scheda pubblica della fonte",
+          "href": "/knowledge/companies/wise/policies/fc0287e0-8b1b-488e-b623-05f4a188e8fb"
+        }
+      ]
+    }
+  }
+},
 ];
 
 export function getPolicyGuide(slug: string): PolicyGuide | undefined {

@@ -75,6 +75,11 @@ describe('public evidence collection API', () => {
     expect(handoff.headers.get('content-type')).toContain('application/vnd.policywatcher.evidence-handoff+json');
     expect(handoff.headers.get('content-disposition')).toContain('PolicyWatcher_Review_Handoff_pwh_');
     const handoffPayload = await handoff.json();
+    for (const response of [json, markdown, csv, handoff]) {
+      expect(response.headers.get('x-robots-tag')).toBe('noindex');
+      expect(response.headers.get('access-control-allow-origin')).toBe('*');
+      expect(response.status).toBe(200);
+    }
     expect(handoffPayload.collection.id).toBe(collection.collectionId);
     expect(handoffPayload.workItems[0]).toMatchObject({
       type: 'evidence-review',

@@ -116,3 +116,41 @@
 @media (prefers-reduced-motion: reduce) {
   .page { scroll-behavior: auto; }
 }
+
+.sourceDetails {
+  min-width: 0;
+  border-top: 1px solid #cbd5ce;
+}
+
+.sourceDetails>summary {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  color: #334cba;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.sourceDetails>summary::before {
+  content: '+';
+}
+
+.sourceDetails[open]>summary::before {
+  content: '−';
+}
+
+.sourceDetails>summary:focus-visible {
+  outline: 3px solid #334cba;
+  outline-offset: 3px;
+}
+
+.sourceDetails .ledger {
+  margin-top: 8px;
+}
+
+.sourceDetails .sectionHead {
+  padding-top: 14px;
+}

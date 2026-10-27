@@ -35,6 +35,7 @@ describe('public evidence packet API', () => {
     expect(response.status).toBe(200);
     expect(response.headers.get('content-disposition')).toContain(`${CHANGE_ID}.json`);
     expect(response.headers.get('cache-control')).toContain('s-maxage=3600');
+    expect(response.headers.get('x-robots-tag')).toBe('noindex');
     expect((await response.json()).changeId).toBe(CHANGE_ID);
   });
 

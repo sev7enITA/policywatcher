@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import DashboardClient from './DashboardClient';
 import HomeKnowledgeSnapshot from '@/components/HomeKnowledgeSnapshot';
+import PublicCompanyFinder from '@/components/PublicCompanyFinder';
 import {
   HOME_CANONICAL_URL,
   HOME_DESCRIPTION,
@@ -60,10 +61,13 @@ export default async function HomePage() {
               <div>
                 <p className={styles.eyebrow}>PolicyWatcher · Independent public evidence monitor</p>
                 <h1>Track updates to privacy policies, terms of service and AI policies</h1>
+                <p className={styles.noticePrompt}>Received a policy update? Start with the notice.</p>
+                <Link className={styles.noticeAction} href="/what-changed">Check a policy notice <span aria-hidden="true">→</span></Link>
               </div>
               <div className={styles.introBody}>
-                <p>Follow public company policies with recorded versions, source links and before-and-after evidence. Find the document that applies to your region, inspect what changed and keep the difference between a text revision and its possible impact clear.</p>
+                <p>Find the policy for your region, compare recorded versions and check the original source. Text changes and their possible impact are kept separate.</p>
                 <nav className={styles.introLinks} aria-label="PolicyWatcher public references">
+                  <Link href="/per-te?lang=en">Follow your services</Link>
                   <Link href="/knowledge">Browse public records</Link>
                   <Link href="/guides">Explore policy monitoring guides</Link>
                   <a href="#workspace">Open the interactive workspace</a>
@@ -75,6 +79,7 @@ export default async function HomePage() {
             <noscript>
               <p className={styles.noScript}>The public evidence summary and knowledge base work without JavaScript. JavaScript is only required for the interactive monitoring workspace.</p>
             </noscript>
+            <PublicCompanyFinder companies={knowledge?.companies.map(({ id, name, slug }) => ({ id, name, slug })) ?? []} unavailable={!knowledge} />
             <HomeKnowledgeSnapshot data={knowledge} />
             <section className={styles.faq} aria-labelledby="home-guides-title">
               <p className={styles.eyebrow}>Start with your question</p>
@@ -91,10 +96,10 @@ export default async function HomePage() {
               <h2 id="home-faq-title">How PolicyWatcher handles public policy evidence</h2>
               <div className={styles.faqGrid}>
                 {HOME_FAQS.map((item) => (
-                  <article key={item.question}>
-                    <h3>{item.question}</h3>
+                  <details className={styles.faqItem} key={item.question}>
+                    <summary>{item.question}</summary>
                     <p>{item.answer}</p>
-                  </article>
+                  </details>
                 ))}
               </div>
             </section>

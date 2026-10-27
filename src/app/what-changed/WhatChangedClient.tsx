@@ -1,7 +1,6 @@
 'use client';
 
 import { ChangeEvent, FormEvent, MouseEvent, useMemo, useRef, useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import {
   ArrowRight, CheckCircle2, ClipboardCheck, ChevronDown, FileSearch, FileUp, Languages,
@@ -52,7 +51,7 @@ const policyLabels: Record<Lang, Record<InquiryPolicyType, string>> = {
 const copy = {
   it: {
     kicker: 'VERIFICA NOTIFICA POLICY', title: 'Verifica di una notifica',
-    lead: 'L’estensione legge localmente i link presenti nella pagina; il copia-incolla contiene il testo visibile.',
+    lead: 'Incolla un avviso di aggiornamento per trovare le versioni pubbliche e le evidenze disponibili per il confronto.',
     trustTitle: 'Dati elaborati nel browser', trustBody: 'Il contenuto della notifica resta nel browser. A PolicyWatcher arrivano solo gli indizi minimi che confermi.',
     extensionChoiceLabel: 'Computer · Beta', extensionChoiceTitle: 'Estensione browser', extensionChoiceBody: 'Legge localmente il testo e i link presenti nella pagina. In questa Beta, estrazione o evidenze possono essere incomplete.', extensionChoiceAction: 'Dettagli estensione Beta',
     pasteChoiceLabel: 'Telefono o computer', pasteChoiceTitle: 'Inserimento testo', pasteChoiceBody: 'Il testo semplice non include i link nascosti. PolicyWatcher usa le fonti configurate o registra una richiesta limitata di discovery e QA.', pasteChoiceAction: 'Vai al copia-incolla',
@@ -108,7 +107,7 @@ const copy = {
   },
   en: {
     kicker: 'POLICY NOTICE VERIFICATION', title: 'Policy notice verification',
-    lead: 'The extension reads links present on the page locally; copy and paste contains visible text.',
+    lead: 'Paste a policy update notice to find the public versions and evidence available for comparison.',
     trustTitle: 'Browser processing', trustBody: 'The notification content stays in your browser. Only the minimal clues you confirm reach PolicyWatcher.',
     extensionChoiceLabel: 'Computer · Beta', extensionChoiceTitle: 'Browser extension', extensionChoiceBody: 'It reads text and links present on the page locally. In this Beta, extraction or evidence may be incomplete.', extensionChoiceAction: 'Beta extension details',
     pasteChoiceLabel: 'Phone or computer', pasteChoiceTitle: 'Text input', pasteChoiceBody: 'Plain text does not include hidden links. PolicyWatcher uses configured sources or registers a limited discovery and QA request.', pasteChoiceAction: 'Go to paste',
@@ -320,11 +319,11 @@ export default function WhatChangedClient() {
 
   return (
     <>
-      <PublicHeader current="what-changed" lang={lang} />
+      <PublicHeader current="what-changed" lang={lang} lockLang />
       <main className={styles.shell}>
       <header className={styles.header}>
-        <Link href="/" className={styles.brand}><Image src="/logo-mark.png" width={32} height={32} alt="" /><span>PolicyWatcher</span></Link>
-        <nav aria-label="Public navigation"><Link href="/what-changed" className={refinements.currentNav} aria-current="page">{lang === 'it' ? 'Cosa è cambiato?' : 'What changed?'}</Link><Link href="/timeline">Timeline</Link><Link href="/observatory">Observatory</Link><Link href="/atlas">Atlas</Link><Link href="/methodology/confidence">{t.methodology}</Link><button type="button" onClick={() => setLang(lang === 'it' ? 'en' : 'it')}><Languages size={16} /> {lang === 'it' ? 'English' : 'Italiano'}</button></nav>
+        <p>{lang === 'it' ? 'Nessun account richiesto' : 'No account needed'}</p>
+        <nav aria-label={lang === 'it' ? 'Lingua della pagina' : 'Page language'}><button type="button" onClick={() => setLang(lang === 'it' ? 'en' : 'it')}><Languages size={16} /> {lang === 'it' ? 'English' : 'Italiano'}</button></nav>
       </header>
 
       <section className={styles.intro}>
@@ -333,30 +332,10 @@ export default function WhatChangedClient() {
       </section>
 
       <div className={styles.workspace}>
-        <section className={styles.captureChoice} aria-label={lang === 'it' ? 'Scegli come acquisire la notifica' : 'Choose how to capture the notification'}>
-          <article className={`${styles.capturePath} ${styles.extensionPath}`}>
-            <div className={styles.pathIcon}><Puzzle aria-hidden="true" /></div>
-            <div className={styles.pathCopy}><p>{t.extensionChoiceLabel}</p><h2>{t.extensionChoiceTitle}</h2><span>{t.extensionChoiceBody}</span></div>
-            <Link className={styles.pathAction} href="/browser-extension">{t.extensionChoiceAction}<ArrowRight aria-hidden="true" /></Link>
-          </article>
-          <article className={`${styles.capturePath} ${styles.pastePath}`}>
-            <div className={styles.pathIcon}><ClipboardCheck aria-hidden="true" /></div>
-            <div className={styles.pathCopy}><p>{t.pasteChoiceLabel}</p><h2>{t.pasteChoiceTitle}</h2><span>{t.pasteChoiceBody}</span></div>
-            <a className={styles.pathAction} href="#paste-notice" onClick={focusPasteInput}>{t.pasteChoiceAction}<ArrowRight aria-hidden="true" /></a>
-          </article>
-          <p className={styles.mobileExtensionNote}>{t.desktopExtensionHint} <Link href="/browser-extension">{t.extensionShortLink}<ArrowRight aria-hidden="true" /></Link></p>
-        </section>
-
         <form className={`${styles.form} ${styles.guidedForm}`} onSubmit={submit}>
           <section id="paste-notice" className={styles.intakeSection} aria-labelledby="paste-title">
             <div className={styles.compactHeading}><div><h2 id="paste-title">{t.pasteTitle}</h2><p>{t.pasteHelp}</p></div><span><Laptop size={15} />{lang === 'it' ? 'Analisi locale' : 'Local analysis'}</span></div>
-            <label className={styles.messageField}>{t.message}<textarea ref={messageInputRef} id="notification-text" required value={input} onChange={(event) => { setEmailImport(null); updateInput(event.target.value); }} placeholder={t.messagePh} maxLength={20480} rows={8} /></label>
-            <div className={styles.emailFileIntake}>
-              <div><strong>{t.emlTitle}</strong><span id="email-file-help">{t.emlHelp}</span></div>
-              <label className={styles.emailFileAction}><FileUp aria-hidden="true" />{t.emlAction}<input type="file" accept=".eml,message/rfc822" aria-describedby="email-file-help" onChange={(event) => void importEmailFile(event)} /></label>
-            </div>
-            {emailImport && <p className={styles.emailFileStatus} role="status" aria-live="polite"><CheckCircle2 aria-hidden="true" /><span><strong>{t.emlReady}:</strong> {emailImport.name}{emailImport.ignoredAttachments > 0 ? ` · ${emailImport.ignoredAttachments} ${emailImport.ignoredAttachments === 1 ? t.emlAttachment : t.emlAttachments}` : ''}</span></p>}
-            <div className={styles.plainTextNotice} role="note"><Link2Off aria-hidden="true" /><div><p>{t.plainTextLimit}</p><span>{t.desktopExtensionHint} <Link href="/browser-extension">{t.extensionShortLink}<ArrowRight aria-hidden="true" /></Link></span></div></div>
+            <label className={styles.messageField}>{t.message}<textarea ref={messageInputRef} id="notification-text" required value={input} onChange={(event) => { setEmailImport(null); updateInput(event.target.value); }} placeholder={t.messagePh} maxLength={20480} rows={5} /></label>
           </section>
 
           {input.trim() && <div className={styles.afterPaste}>
@@ -388,7 +367,8 @@ export default function WhatChangedClient() {
               </div>
             </details>
 
-            <button className={styles.submit} type="submit" disabled={!canSubmit}>{loading ? t.loading : t.submit}<Search size={18} /></button>
+            <p className={styles.transmissionNote} id="notice-transmission"><LockKeyhole size={16} aria-hidden="true" />{t.privacy}</p>
+            <button className={styles.submit} type="submit" aria-describedby="notice-transmission" disabled={!canSubmit}>{loading ? t.loading : t.submit}<Search size={18} /></button>
 
             <details className={`${styles.disclosure} ${styles.privacyDisclosure}`}>
               <summary><span><LockKeyhole aria-hidden="true" />{t.privacyHow}</span><ChevronDown aria-hidden="true" /></summary>
@@ -396,9 +376,37 @@ export default function WhatChangedClient() {
             </details>
           </div>}
 
+          <details className={`${styles.disclosure} ${styles.alternateInput}`}>
+            <summary>{lang === 'it' ? 'Carica un file .eml o leggi i limiti del testo' : 'Upload an .eml file or read text limitations'}<ChevronDown aria-hidden="true" /></summary>
+            <div>
+            <div className={styles.emailFileIntake}>
+              <div><strong>{t.emlTitle}</strong><span id="email-file-help">{t.emlHelp}</span></div>
+              <label className={styles.emailFileAction}><FileUp aria-hidden="true" />{t.emlAction}<input type="file" accept=".eml,message/rfc822" aria-describedby="email-file-help" onChange={(event) => void importEmailFile(event)} /></label>
+            </div>
+            {emailImport && <p className={styles.emailFileStatus} role="status" aria-live="polite"><CheckCircle2 aria-hidden="true" /><span><strong>{t.emlReady}:</strong> {emailImport.name}{emailImport.ignoredAttachments > 0 ? ` · ${emailImport.ignoredAttachments} ${emailImport.ignoredAttachments === 1 ? t.emlAttachment : t.emlAttachments}` : ''}</span></p>}
+            <div className={styles.plainTextNotice} role="note"><Link2Off aria-hidden="true" /><div><p>{t.plainTextLimit}</p><span>{t.desktopExtensionHint} <Link href="/browser-extension">{t.extensionShortLink}<ArrowRight aria-hidden="true" /></Link></span></div></div>
+            </div>
+          </details>
+
           <label className={styles.honeypot} aria-hidden="true">Website<input value={honeypot} onChange={(e) => setHoneypot(e.target.value)} tabIndex={-1} autoComplete="off" /></label>
           {error && <p className={styles.error} role="alert">{error}</p>}
         </form>
+        <details className={styles.captureAlternatives}>
+          <summary>{lang === 'it' ? 'Usi un computer? Scopri l’estensione browser' : 'On a computer? Explore the browser extension'}</summary>
+        <section className={styles.captureChoice} aria-label={lang === 'it' ? 'Scegli come acquisire la notifica' : 'Choose how to capture the notification'}>
+          <article className={`${styles.capturePath} ${styles.extensionPath}`}>
+            <div className={styles.pathIcon}><Puzzle aria-hidden="true" /></div>
+            <div className={styles.pathCopy}><p>{t.extensionChoiceLabel}</p><h2>{t.extensionChoiceTitle}</h2><span>{t.extensionChoiceBody}</span></div>
+            <Link className={styles.pathAction} href="/browser-extension">{t.extensionChoiceAction}<ArrowRight aria-hidden="true" /></Link>
+          </article>
+          <article className={`${styles.capturePath} ${styles.pastePath}`}>
+            <div className={styles.pathIcon}><ClipboardCheck aria-hidden="true" /></div>
+            <div className={styles.pathCopy}><p>{t.pasteChoiceLabel}</p><h2>{t.pasteChoiceTitle}</h2><span>{t.pasteChoiceBody}</span></div>
+            <a className={styles.pathAction} href="#paste-notice" onClick={focusPasteInput}>{t.pasteChoiceAction}<ArrowRight aria-hidden="true" /></a>
+          </article>
+          <p className={styles.mobileExtensionNote}>{t.desktopExtensionHint} <Link href="/browser-extension">{t.extensionShortLink}<ArrowRight aria-hidden="true" /></Link></p>
+        </section>
+        </details>
 
         {result?.state === 'conflict' && <section className={`${styles.receipt} ${styles.conflictReceipt}`} aria-live="polite" data-result-explanation="conflict"><div className={styles.receiptHeading}><ShieldQuestion /><div><p>{t.clue}</p><h2>{t.conflictTitle}</h2></div></div><p>{t.conflictBody(result.companyCandidate.name, result.sourceCandidate.name)}</p></section>}
         {result?.state === 'storage_unavailable' && <section className={`${styles.receipt} ${styles.unavailableReceipt}`} aria-live="assertive" data-result-explanation="storage_unavailable"><div className={styles.receiptHeading}><FileSearch /><div><p>{lang === 'it' ? 'Non inviata' : 'Not sent'}</p><h2>{t.storageTitle}</h2></div></div><p>{t.storageHelp}</p><p>{t.storagePrivacy}</p><button className={styles.retry} type="button" onClick={() => void submit()} disabled={loading}><RotateCcw aria-hidden="true" />{loading ? t.loading : t.retry}</button></section>}

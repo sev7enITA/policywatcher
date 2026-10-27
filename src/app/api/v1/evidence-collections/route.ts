@@ -15,6 +15,9 @@ const COMMON_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Cache-Control': 'public, max-age=300, s-maxage=3600, stale-while-revalidate=86400',
   'X-Content-Type-Options': 'nosniff',
+  // Arbitrary selections are exports, not independent search landing pages.
+  // Keep crawling and cross-origin access available for public evidence clients.
+  'X-Robots-Tag': 'noindex',
 };
 
 const ERROR_HEADERS = {

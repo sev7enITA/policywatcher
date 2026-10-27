@@ -4706,3 +4706,34 @@
 .documentOptions label:has(input:checked), .documentOptions button[aria-pressed="true"] { border-color: var(--primary); background: rgba(99, 102, 241, .12); }
 .documentScope p, .scopeCoverage { font-size: .85rem; line-height: 1.6; margin-top: 10px; overflow-wrap: anywhere; }
 .documentOptions :focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+
+.historicalEvidence {
+  margin: 16px 0;
+  border-top: 1px solid var(--border-color,#dce4ee);
+}
+
+.historicalEvidence>summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 10px 4px;
+  color: var(--text-secondary,#526178);
+  font-size: .9rem;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.historicalEvidence>summary::before {
+  content: '+';
+}
+
+.historicalEvidence[open]>summary::before {
+  content: '−';
+}
+
+.historicalEvidence>summary:focus-visible {
+  outline: 3px solid #334cba;
+  outline-offset: 3px;
+}

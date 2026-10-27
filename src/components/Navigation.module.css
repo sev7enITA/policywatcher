@@ -859,3 +859,20 @@
     grid-column: 2;
   }
 }
+
+@media (max-width:760px) {
+  .mobileCommandBar {
+    bottom: max(6px,env(safe-area-inset-bottom));
+  }
+
+  .mobileCommandBar .commandLabel {
+    overflow: visible;
+    text-overflow: clip;
+    font-size: clamp(.56rem,2.3vw,.66rem);
+  }
+
+  .mobileCommandBar .commandButton:focus-visible {
+    outline: 3px solid #a5f3fc;
+    outline-offset: 1px;
+  }
+}
