@@ -1,3 +1,4 @@
+import { serializeJsonLd } from '@/lib/structuredData';
 import { HOME_STRUCTURED_DATA } from '@/lib/homeSeo';
 import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
@@ -56,7 +57,7 @@ const resources = [
 export default function AboutPage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@graph': HOME_STRUCTURED_DATA['@graph'].filter((entity) => entity['@type'] === 'Organization' || entity['@type'] === 'Person') }).replace(/</g, '\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd({ '@context': 'https://schema.org', '@graph': HOME_STRUCTURED_DATA['@graph'].filter((entity) => entity['@type'] === 'Organization' || entity['@type'] === 'Person') }) }} />
       <PublicHeader current="about" />
       <main className={styles.page}>
       <nav className={styles.nav} aria-label="About page navigation">

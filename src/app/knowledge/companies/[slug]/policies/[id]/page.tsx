@@ -1,3 +1,4 @@
+import { PUBLIC_PUBLISHER } from '@/lib/structuredData';
 import RelatedPolicyGuides from '@/components/RelatedPolicyGuides';
 import CaptureFreshness from '@/components/CaptureFreshness';
 import PublicBreadcrumbs from '@/components/PublicBreadcrumbs';
@@ -69,7 +70,7 @@ export default async function PolicyKnowledgePage({ params }: PolicyPageProps) {
         name: `${policy.company.name} ${policy.name} public record`,
         dateModified: policy.dateModified,
         mainEntity: { '@id': `${canonical}#document` },
-        publisher: { '@type': 'Organization', name: 'PolicyWatcher', url: POLICYWATCHER_ORIGIN },
+        publisher: PUBLIC_PUBLISHER,
         citation: [`${POLICYWATCHER_ORIGIN}/methodology/confidence`, ...policy.changes.map((change) => `${POLICYWATCHER_ORIGIN}/evidence/${change.id}`)],
       },
       {
@@ -80,9 +81,9 @@ export default async function PolicyKnowledgePage({ params }: PolicyPageProps) {
         isBasedOn: policy.officialSourceUrl || undefined,
         dateModified: policy.dateModified,
         isPartOf: { '@type': 'CollectionPage', url: `${POLICYWATCHER_ORIGIN}/knowledge` },
-        about: { '@type': 'Organization', name: policy.company.name },
+        about: { '@type': 'Organization', '@id': `${POLICYWATCHER_ORIGIN}/knowledge/companies/${slug}#organization`, name: policy.company.name },
         description: `Metadata record for the ${policy.name} source published by ${policy.company.name}. Raw policy text is not reproduced.`,
-        publisher: { '@type': 'Organization', name: 'PolicyWatcher', url: POLICYWATCHER_ORIGIN },
+        publisher: PUBLIC_PUBLISHER,
       },
     ],
   } : null;

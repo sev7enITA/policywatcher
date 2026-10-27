@@ -1,3 +1,4 @@
+import { PUBLIC_AUTHOR, PUBLIC_PUBLISHER, serializeJsonLd } from '@/lib/structuredData';
 import type { Metadata } from 'next';
 import { languageAlternates, localizedPublicUrl, publicLanguage } from '@/lib/seo';
 import NewsroomPageClient from '../../NewsroomPageClient';
@@ -42,21 +43,13 @@ export default async function PressKitReleasePage({ params, searchParams }: Rele
     inLanguage: lang,
     isAccessibleForFree: true,
     image: [`https://policywatcher.online/api/og/release/${release.slug}`],
-    author: {
-      '@type': 'Person',
-      name: 'Fabrizio Degni',
-      url: 'https://policywatcher.online/about',
-    },
-    publisher: {
-      '@type': 'Person',
-      name: 'Fabrizio Degni',
-      url: 'https://policywatcher.online/about',
-    },
+    author: PUBLIC_AUTHOR,
+    publisher: PUBLIC_PUBLISHER,
   } : null;
 
   return (
     <>
-      {jsonLd ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} /> : null}
+      {jsonLd ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} /> : null}
       <NewsroomPageClient key={`${slug}-${lang}`} view="release-detail" releaseSlug={slug} initialLang={lang} />
     </>
   );

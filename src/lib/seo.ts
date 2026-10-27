@@ -4,8 +4,7 @@ import type { ChangeClassification } from './changeClassificationTypes';
 import { CHANGE_KIND_LABELS, changeClassificationDescription } from './changeClassificationCopy';
 
 export type PublicLanguage = 'en' | 'it';
-export const PUBLISHER_ID = `${POLICYWATCHER_CANONICAL_ORIGIN}/#organization`;
-export const FOUNDER_ID = `${POLICYWATCHER_CANONICAL_ORIGIN}/#founder`;
+export { PUBLISHER_ID, FOUNDER_ID } from './structuredData';
 export const DEFAULT_SOCIAL_IMAGE = policyWatcherUrl('/api/og/home');
 
 /** URL state, not browser storage or Accept-Language, selects a public translation. */

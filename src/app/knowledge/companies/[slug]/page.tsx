@@ -1,3 +1,4 @@
+import { PUBLIC_PUBLISHER } from '@/lib/structuredData';
 import PublicBreadcrumbs from '@/components/PublicBreadcrumbs';
 import { withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
@@ -63,7 +64,7 @@ export default async function CompanyKnowledgePage({ params }: CompanyPageProps)
         name: `${company.name} public policy record`,
         dateModified: company.dateModified,
         mainEntity: { '@id': `${canonical}#organization` },
-        publisher: { '@type': 'Organization', name: 'PolicyWatcher', url: POLICYWATCHER_ORIGIN },
+        publisher: PUBLIC_PUBLISHER,
         citation: [`${POLICYWATCHER_ORIGIN}/methodology/confidence`, `${POLICYWATCHER_ORIGIN}/evidence`],
       },
       {

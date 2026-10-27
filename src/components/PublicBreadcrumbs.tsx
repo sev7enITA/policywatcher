@@ -1,3 +1,4 @@
+import { serializeJsonLd } from '@/lib/structuredData';
 import Link from 'next/link';
 import { breadcrumbData } from '@/lib/seo';
 
@@ -6,7 +7,7 @@ export default function PublicBreadcrumbs({ items, lang = 'en' }: {
   lang?: 'en' | 'it';
 }) {
   return <>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData(items)).replace(/</g, '\\u003c') }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbData(items)) }} />
     <nav aria-label={lang === 'it' ? 'Percorso di navigazione' : 'Breadcrumb'} style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem', marginBottom: '1.25rem', fontSize: '0.85rem' }}>
       {items.map((item, index) => <span key={item.path}>
         {index > 0 && <span aria-hidden="true"> / </span>}

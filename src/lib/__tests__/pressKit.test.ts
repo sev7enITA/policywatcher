@@ -151,9 +151,7 @@ describe('public press kit', () => {
     expect(client).toContain('Not assessed without assigning a numerical value');
     expect(client).toContain('className={styles.page} lang={lang}');
     expect(newsroomClient).toContain('className={styles.page} lang={lang}');
-    expect(page).toContain("'@type': 'SoftwareApplication'");
-    expect(page).toContain("'@type': 'Person'");
-    expect(page).not.toContain("'@type': 'Organization'");
+    expect(page).toContain("serializeJsonLd(PRESS_KIT_STRUCTURED_DATA)");
     expect(route).toContain('buildPressKitPayload()');
   });
 

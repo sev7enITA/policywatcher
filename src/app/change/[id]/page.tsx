@@ -1,8 +1,9 @@
+import { PUBLIC_PUBLISHER, serializeJsonLd } from '@/lib/structuredData';
 import RelatedPolicyGuides from '@/components/RelatedPolicyGuides';
 import { changeClassificationDescription } from '@/lib/changeClassificationCopy';
 import { cache } from 'react';
 import PublicBreadcrumbs from '@/components/PublicBreadcrumbs';
-import { recordIdentity, changeSearchDescription, languageAlternates, withSocialMetadata, PUBLISHER_ID } from '@/lib/seo';
+import { recordIdentity, changeSearchDescription, languageAlternates, withSocialMetadata } from '@/lib/seo';
 /**
  * Public Change Permalink - /change/[id]
  *
@@ -51,9 +52,6 @@ import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin';
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-function toSafeJsonLd(data: unknown): string {
-  return JSON.stringify(data).replace(/</g, '\\u003c');
-}
 
 interface ChangePageProps {
   params: Promise<{ id: string }>;
@@ -200,8 +198,8 @@ export default async function ChangePage({
     headline: recordIdentity(identity),
     mainEntityOfPage: canonicalUrl,
     datePublished: (change.publicPublishedAt || change.createdAt).toISOString(),
-    author: { '@type': 'Organization', '@id': PUBLISHER_ID, name: 'PolicyWatcher', url: POLICYWATCHER_CANONICAL_ORIGIN },
-    publisher: { '@type': 'Organization', '@id': PUBLISHER_ID, name: 'PolicyWatcher', url: POLICYWATCHER_CANONICAL_ORIGIN },
+    author: PUBLIC_PUBLISHER,
+    publisher: PUBLIC_PUBLISHER,
     description: changeSearchDescription(identity, classification, lang),
     url: canonicalUrl,
     inLanguage: lang,
@@ -216,7 +214,7 @@ export default async function ChangePage({
     <main className={styles.page}>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: toSafeJsonLd(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
       <div className={styles.container}>
         <PublicBreadcrumbs lang={lang} items={[

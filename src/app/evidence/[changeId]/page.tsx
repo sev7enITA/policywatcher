@@ -1,3 +1,4 @@
+import { PUBLIC_PUBLISHER, serializeJsonLd } from '@/lib/structuredData';
 import PublicBreadcrumbs from '@/components/PublicBreadcrumbs';
 import { recordIdentity, withSocialMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
@@ -118,7 +119,7 @@ export default async function EvidenceDetailPage({ params }: EvidenceDetailPageP
     identifier: packet.changeId,
     url: packetUrl,
     dateModified: packet.screeningDate,
-    creator: { '@type': 'Organization', name: 'PolicyWatcher', url: baseUrl },
+    creator: PUBLIC_PUBLISHER,
     isBasedOn: packet.policy.sourceUrl || packet.changeUrl,
     distribution: [
       { '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: jsonUrl },
@@ -132,7 +133,7 @@ export default async function EvidenceDetailPage({ params }: EvidenceDetailPageP
       <main className={styles.page}>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
         />
         <article className={`${styles.shell} ${styles.packet}`}>
           <PublicBreadcrumbs items={[{ name: 'Evidence', path: '/evidence' }, { name: `${packet.company.name} ${packet.policy.name} (${packet.policy.jurisdiction}) · ${packet.screeningDate.slice(0, 10)}`, path: packetUrl }]} />
