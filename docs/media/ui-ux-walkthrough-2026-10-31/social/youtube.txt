@@ -1,0 +1,39 @@
+POLICYWATCHER: nuova navigazione, rapporto PALO e percorso mobile in 180 secondi.
+
+Ho sviluppato PolicyWatcher per seguire le modifiche a policy e termini dei servizi digitali, conservare riferimenti alle fonti e supportare la revisione umana. Questa anteprima mostra come la nuova UI organizza i 26 comandi esistenti in OSSERVA, CONFRONTA e APPROFONDISCI, con ricerca italiana e inglese e menu coerenti su desktop e mobile.
+
+Il video presenta inoltre il mio rapporto tecnico Understanding PALO and PolicyWatcher, il Companion Android e PALO Framework Toolbox per iOS con schermate reali. La voce inglese è una voce sintetica originale; i testi a video sono italiani. Musica e grafica sono originali.
+
+CAPITOLI
+00:00 Una nuova bussola
+00:12 Tre percorsi, 26 comandi
+00:27 Osserva
+00:41 Confronta
+00:55 Approfondisci
+01:09 Ricerca bilingue
+01:24 Ruoli, contesto e tastiera
+01:39 Pagine pubbliche e mobile
+01:54 Understanding PALO and PolicyWatcher
+02:20 Companion Android
+02:40 PALO Framework Toolbox per iPhone e iPad
+02:50 Risorse e riscontri
+
+RISORSE E QR
+PolicyWatcher: https://policywatcher.online/
+Per te, percorso mobile web: https://policywatcher.online/per-te
+PALO per iPhone e iPad: https://apps.apple.com/it/app/p-a-l-o-framework-toolbox/id6761771299
+Site Atlas: https://policywatcher.online/atlas
+Feature Atlas: https://policywatcher.online/feature-atlas
+Timeline: https://policywatcher.online/timeline
+Metodo: https://policywatcher.online/methodology/confidence
+Guide: https://policywatcher.online/guides?lang=it
+Rapporto: https://www.researchgate.net/publication/414027896_Understanding_PALO_and_PolicyWatcher
+
+STATO VERIFICATO AL 31 OTTOBRE 2026
+UI/UX implementata e committata nel sorgente, con verifiche locali. Il deployment del nuovo menu sul sito è distinto. Le riprese della navigazione usano i componenti reali in un ambiente dimostrativo locale senza dati operativi.
+Companion Android 0.3.2 inviato alla revisione Google; installazione pubblica non ancora confermata. Il QR del Companion apre il percorso web disponibile. PALO Framework Toolbox 2.0 è disponibile per iPhone e iPad nell’App Store. È un prodotto distinto da PolicyWatcher Companion; il video non annuncia una nuova release iOS di PolicyWatcher.
+Il rapporto è un testo tecnico esplicativo, con esempio illustrativo e verifiche circoscritte di implementazione. Non è un articolo sottoposto a peer review e non dimostra efficacia in produzione. PolicyWatcher non certifica la conformità.
+
+Per un riscontro utile, indica il minuto del video e l’azione che avresti voluto trovare più facilmente.
+
+#PolicyWatcher #PALO #AIGovernance #UXDesign #TrasparenzaDigitale

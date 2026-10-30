@@ -1,0 +1,10 @@
+𝗡𝗮𝘃𝗶𝗴𝗮𝗿𝗲 𝗽𝗲𝗿 𝗼𝗯𝗶𝗲𝘁𝘁𝗶 è la scelta centrale della nuova UI di PolicyWatcher.
+
+Osserva raccoglie servizi e fonti. Confronta porta a modifiche, versioni e segnali. Approfondisci collega metodo, guide e strumenti di lettura. Sono ingressi indipendenti: non occorre completare un percorso per aprirne un altro.
+
+In Tutti gli strumenti rimangono disponibili i 26 comandi. La ricerca attraversa i gruppi e accetta termini italiani e inglesi: “export” trova Esporta dati anche nell’interfaccia italiana. L’aggiornamento è implementato nel sorgente; la distribuzione sul sito resta distinta.
+
+Quale etichetta cambiereste per rendere immediata la vostra attività più frequente?
+https://policywatcher.online/atlas
+
+#PolicyWatcher #UserExperience #Accessibilità #ProductDesign

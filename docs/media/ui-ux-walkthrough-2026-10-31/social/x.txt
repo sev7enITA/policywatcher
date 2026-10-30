@@ -1,0 +1,7 @@
+POLICYWATCHER: OSSERVA, CONFRONTA, APPROFONDISCI.
+
+La mia anteprima UI: 26 comandi, ricerca IT/EN e percorsi più chiari. Nel video anche il rapporto PALO e il Companion Android. QR alle risorse.
+
+UI committata; deployment separato.
+https://policywatcher.online/
+#PolicyWatcher #PALO

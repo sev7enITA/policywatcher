@@ -55,4 +55,4 @@ At the owner's request, the source update is documented under the existing 5.2.0
 
 Follow-up validation: TypeScript passed; scoped ESLint passed for TypeScript/TSX sources (CSS is outside that lint configuration); nine relevant suites passed with 78 tests, including release-register/Atlas consistency and bilingual rendered changelog checks. The earlier 81-test navigation pass covers a different suite selection. Neither count is a production efficacy or usability result.
 
-The walkthrough and campaign are separately documented in `output/walkthrough-2026-10-31/`. Native availability is verified independently from the web source update; store review or a working Android build does not establish iOS distribution.
+The walkthrough storyboard and platform copy are documented in [`../media/ui-ux-walkthrough-2026-10-31/README.md`](../media/ui-ux-walkthrough-2026-10-31/README.md); local exports and evidence are in `output/walkthrough-2026-10-31/`. Native availability is verified independently from the web source update; store review or a working Android build does not establish iOS distribution.

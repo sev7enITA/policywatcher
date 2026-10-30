@@ -1,0 +1,186 @@
+[
+  {
+    "id": "00-intro",
+    "duration": 12,
+    "title": "Segui le evidenze.",
+    "subtitle": "Trova la prossima azione.",
+    "tag": "POLICYWATCHER · ANTEPRIMA UI",
+    "type": "intro",
+    "qr": "https://policywatcher.online/",
+    "qrLabel": "Esplora PolicyWatcher",
+    "voice": "PolicyWatcher. Follow the evidence. Find your next action. Welcome to a guided preview of a clearer way to navigate policy changes, research, and mobile access.",
+    "captions": "PolicyWatcher. Segui le evidenze. Trova la prossima azione. Un’anteprima guidata della nuova navigazione, della ricerca e dell’esperienza mobile."
+  },
+  {
+    "id": "01-compass",
+    "duration": 15,
+    "title": "Una bussola. Tre percorsi.",
+    "subtitle": "Osserva · Confronta · Approfondisci",
+    "tag": "01 / LA NUOVA NAVIGAZIONE",
+    "type": "desktop",
+    "shots": [
+      "menu-all.png"
+    ],
+    "qr": "https://policywatcher.online/atlas",
+    "qrLabel": "Esplora l’atlante",
+    "voice": "Start with your task. Monitor, Compare, and Understand are three independent paths, not a sequence you must complete. Open All tools for the complete directory, with twenty-six existing commands in one place.",
+    "captions": "Parti dal tuo obiettivo. Osserva, Confronta e Approfondisci sono percorsi indipendenti. Tutti gli strumenti raccoglie i 26 comandi esistenti in un unico catalogo."
+  },
+  {
+    "id": "02-monitor",
+    "duration": 14,
+    "title": "01  Osserva",
+    "subtitle": "Servizi, fonti e avvisi",
+    "tag": "SCEGLI COSA SEGUIRE",
+    "type": "desktop",
+    "shots": [
+      "menu-all.png",
+      "menu-monitor.png"
+    ],
+    "qr": "https://policywatcher.online/per-te",
+    "qrLabel": "Apri Per te",
+    "voice": "Choose Monitor to follow services, find public company policies, explore the Observatory, or reach alerts. Short descriptions explain each destination before you choose. The menu organizes familiar tools around what you want to do.",
+    "captions": "Osserva raccoglie servizi seguiti, policy pubbliche, Osservatorio e avvisi. Le descrizioni spiegano le destinazioni prima della scelta. Gli strumenti esistenti sono organizzati per attività."
+  },
+  {
+    "id": "03-compare",
+    "duration": 14,
+    "title": "02  Confronta",
+    "subtitle": "Modifiche, versioni e segnali",
+    "tag": "DAL CAMBIAMENTO AL CONFRONTO",
+    "type": "desktop",
+    "shots": [
+      "menu-monitor.png",
+      "menu-compare.png"
+    ],
+    "qr": "https://policywatcher.online/timeline",
+    "qrLabel": "Consulta la timeline",
+    "voice": "Compare brings together the timeline, policy signals, the KPI matrix, exports, and notice checking. Timeline links retain your selected document scope. Evidence boundaries and missing-data labels stay unchanged.",
+    "captions": "Confronta riunisce timeline, segnali, matrice KPI, esportazione e verifica degli avvisi. La timeline conserva i tipi di documento selezionati. Restano invariati i limiti delle evidenze."
+  },
+  {
+    "id": "04-understand",
+    "duration": 14,
+    "title": "03  Approfondisci",
+    "subtitle": "Evidenze, metodo e guide",
+    "tag": "LEGGI IL CONTESTO",
+    "type": "desktop",
+    "shots": [
+      "menu-compare.png",
+      "menu-understand.png"
+    ],
+    "qr": "https://policywatcher.online/methodology/confidence",
+    "qrLabel": "Leggi il metodo",
+    "voice": "Understand connects the method, user guide, quality checks, and AI Chat. Read the context before drawing a conclusion. PolicyWatcher supports evidence review; it does not certify compliance.",
+    "captions": "Approfondisci collega metodo, guida, controlli di qualità e AI Chat. Consulta il contesto prima di concludere. PolicyWatcher supporta la revisione delle evidenze, senza certificare la conformità."
+  },
+  {
+    "id": "05-search",
+    "duration": 15,
+    "title": "Cerca come parli.",
+    "subtitle": "Italiano e inglese, in tutti i gruppi",
+    "tag": "RICERCA BILINGUE",
+    "type": "desktop",
+    "shots": [
+      "menu-understand.png",
+      "menu-search.png",
+      "menu-empty.png"
+    ],
+    "qr": "https://policywatcher.online/feature-atlas",
+    "qrLabel": "Consulta le funzioni",
+    "voice": "Looking for export? Type the English term inside the Italian interface. Search crosses every group, understands matching synonyms, and handles accents. If nothing matches, a clear empty state lets you reset. Global command search remains separate.",
+    "captions": "Cerchi l’esportazione? Scrivi “export” anche nell’interfaccia italiana. La ricerca attraversa tutti i gruppi e riconosce sinonimi e accenti. Se non trova risultati, puoi ripartire. Resta disponibile la ricerca globale."
+  },
+  {
+    "id": "06-context",
+    "duration": 15,
+    "title": "Il tuo spazio, sempre a portata.",
+    "subtitle": "Ruoli · Contesto · Tastiera",
+    "tag": "ORIENTAMENTO E CONTROLLO",
+    "type": "desktop",
+    "shots": [
+      "menu-builder.png",
+      "menu-context.png",
+      "menu-builder.png"
+    ],
+    "qr": "https://policywatcher.online/atlas",
+    "qrLabel": "Esplora i percorsi",
+    "voice": "Role shortcuts stay together. Open country and language settings without losing your place. Escape closes the topmost dialog, and focus returns to its opener. Workspace and AI Chat remain in All tools, alongside the specialist destinations.",
+    "captions": "Le scorciatoie per ruolo restano raccolte. Paese e lingua si aprono senza perdere il contesto. Escape chiude la finestra in primo piano e restituisce il focus. Workspace e AI Chat sono in Tutti gli strumenti."
+  },
+  {
+    "id": "07-mobile-web",
+    "duration": 15,
+    "title": "La stessa logica. Ogni schermo.",
+    "subtitle": "Pagine pubbliche e menu compatti",
+    "tag": "DESKTOP + MOBILE",
+    "type": "mobileweb",
+    "shots": [
+      "public-guide.png",
+      "public-menu.png",
+      "menu-mobile.png"
+    ],
+    "qr": "https://policywatcher.online/guides?lang=it",
+    "qrLabel": "Apri le guide",
+    "voice": "Public pages share the same navigation language and show your current location. On smaller phones, the directory puts essential tools first. Visible focus, generous controls, and reduced-motion support help keep the experience understandable across screen sizes.",
+    "captions": "Le pagine pubbliche condividono i percorsi e indicano dove ti trovi. Sui telefoni piccoli, gli strumenti precedono le scorciatoie secondarie. Focus visibile, controlli ampi e movimento ridotto aiutano la navigazione."
+  },
+  {
+    "id": "08-paper",
+    "duration": 26,
+    "title": "Dalla policy alla revisione.",
+    "subtitle": "Understanding PALO and PolicyWatcher",
+    "tag": "IL RAPPORTO TECNICO",
+    "type": "paper",
+    "qr": "https://www.researchgate.net/publication/414027896_Understanding_PALO_and_PolicyWatcher",
+    "qrLabel": "Leggi su ResearchGate",
+    "voice": "For the wider picture, read Understanding PALO and PolicyWatcher, by Fabrizio Degni. This explanatory technical report follows a policy observation into a review candidate, through explicit service mappings, versioned records, and human decisions. Its fictional example connects policy change to systems that may need review. Implementation checks demonstrate specific behavior and connectivity, not production effectiveness. Scan the code to read the report.",
+    "captions": "Il rapporto tecnico di Fabrizio Degni collega un’osservazione sulle policy a una possibile revisione. Descrive mappature dei servizi, registri versionati e decisioni umane. L’esempio è illustrativo. I controlli dimostrano specifici comportamenti implementati, non efficacia in produzione. Il QR apre il rapporto su ResearchGate."
+  },
+  {
+    "id": "09-android",
+    "duration": 20,
+    "title": "PolicyWatcher Companion",
+    "subtitle": "Android · segui, leggi, scegli",
+    "tag": "L’ESPERIENZA MOBILE",
+    "type": "android",
+    "shots": [
+      "1-home-en.png",
+      "2-services-en.png",
+      "3-notice-en.png",
+      "4-settings-en.png"
+    ],
+    "qr": "https://policywatcher.online/per-te",
+    "qrLabel": "Prova il percorso web",
+    "voice": "The Android Companion brings followed services, public changes, local choices, and notice matching to a dedicated mobile interface. These are actual device captures. Version zero point three point two was submitted to Google review. Public store availability is not yet confirmed; the code opens the available web journey.",
+    "captions": "Il Companion Android riunisce servizi seguiti, modifiche pubbliche, scelte locali e confronto degli avvisi. Sono schermate reali del dispositivo. La versione 0.3.2 è stata inviata alla revisione Google; la disponibilità pubblica non è ancora confermata. Il QR apre il percorso web."
+  },
+  {
+    "id": "10-ios",
+    "duration": 10,
+    "title": "PALO, anche su iPhone.",
+    "subtitle": "Framework Toolbox · iPhone e iPad",
+    "tag": "L’ECOSISTEMA MOBILE",
+    "type": "ios",
+    "shots": [
+      "palo-ios-1.png",
+      "palo-ios-2.png"
+    ],
+    "qr": "https://apps.apple.com/it/app/p-a-l-o-framework-toolbox/id6761771299",
+    "qrLabel": "Apri l’App Store",
+    "voice": "For iPhone and iPad, explore PALO Framework Toolbox. This separate governance app complements the project ecosystem. Scan for the App Store listing.",
+    "captions": "Su iPhone e iPad trovi PALO Framework Toolbox. È un’app di governance distinta da PolicyWatcher Companion. Il QR apre la scheda ufficiale nell’App Store."
+  },
+  {
+    "id": "11-close",
+    "duration": 10,
+    "title": "Una scelta più chiara.",
+    "subtitle": "Esplora. Leggi. Condividi un riscontro.",
+    "tag": "POLICYWATCHER",
+    "type": "close",
+    "qr": "https://policywatcher.online/",
+    "qrLabel": "Esplora il progetto",
+    "voice": "Explore PolicyWatcher. Read the report. Tell us which step deserves more clarity. Better navigation begins with evidence, and improves with your feedback.",
+    "captions": "Esplora PolicyWatcher e leggi il rapporto. Indica il passaggio che vorresti più chiaro. La navigazione parte dalle evidenze e migliora con il confronto."
+  }
+]

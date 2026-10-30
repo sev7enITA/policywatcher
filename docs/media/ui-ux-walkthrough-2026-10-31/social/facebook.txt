@@ -1,0 +1,16 @@
+POLICYWATCHER: una bussola più chiara tra le regole dei servizi digitali.
+
+L’ho sviluppato per seguire le modifiche a policy e termini e poter tornare alle fonti. La nuova UI parte da tre azioni: OSSERVA, CONFRONTA, APPROFONDISCI. Il catalogo conserva tutti i 26 comandi, con ricerca italiana e inglese, scorciatoie per ruolo e menu pensati anche per il telefono.
+
+In questo video di 3 minuti mostro l’anteprima implementata, il rapporto Understanding PALO and PolicyWatcher e il Companion Android con schermate reali. Nel mio lavoro sulla governance dell’AI, un percorso comprensibile conta quanto la possibilità di verificare da dove arriva un’informazione.
+
+La UI è committata, con pubblicazione sul sito separata. Android 0.3.2 è stato inviato alla revisione Google e l’installazione pubblica non è ancora confermata. Per iPhone e iPad mostro anche PALO Framework Toolbox, già presente nell’App Store e distinto da PolicyWatcher Companion. Il rapporto è una guida tecnica con un esempio illustrativo, non una certificazione di efficacia.
+
+I QR nel video aprono le risorse. Potete anche partire da qui:
+https://policywatcher.online/
+https://policywatcher.online/per-te
+https://www.researchgate.net/publication/414027896_Understanding_PALO_and_PolicyWatcher
+
+Se un passaggio non è immediato, scrivetemi il minuto del video: è il riscontro più utile per migliorarlo.
+
+#PolicyWatcher #PALO #TrasparenzaDigitale #AIGovernance

@@ -1,0 +1,20 @@
+𝗣𝗼𝗹𝗶𝗰𝘆𝗪𝗮𝘁𝗰𝗵𝗲𝗿: una nuova bussola per orientarsi tra policy, evidenze e scelte.
+
+Ho aggiornato la UI e la UX partendo da un problema concreto: quando gli strumenti aumentano, trovare il prossimo passo diventa parte del lavoro. La nuova navigazione organizza i 26 comandi esistenti in tre percorsi: 𝗢𝘀𝘀𝗲𝗿𝘃𝗮, 𝗖𝗼𝗻𝗳𝗿𝗼𝗻𝘁𝗮, 𝗔𝗽𝗽𝗿𝗼𝗳𝗼𝗻𝗱𝗶𝘀𝗰𝗶.
+
+Il video di 180 secondi mostra l’anteprima implementata: ricerca in italiano e inglese, scorciatoie per ruolo, menu coerenti nelle pagine pubbliche e controlli più chiari su mobile e da tastiera. Le modifiche sono committate e documentate; la pubblicazione sul sito è un passaggio distinto. I QR aprono le risorse citate.
+
+Il filo conduttore è il mio lavoro sulla 𝗴𝗼𝘃𝗲𝗿𝗻𝗮𝗻𝗰𝗲 𝗱𝗲𝗹𝗹’𝗔𝗜: rendere visibili fonti, contesto e limiti, perché una persona possa decidere cosa approfondire. PolicyWatcher monitora policy e termini dei servizi digitali e ne collega i cambiamenti alle evidenze disponibili.
+
+Nel rapporto tecnico 𝗨𝗻𝗱𝗲𝗿𝘀𝘁𝗮𝗻𝗱𝗶𝗻𝗴 𝗣𝗔𝗟𝗢 𝗮𝗻𝗱 𝗣𝗼𝗹𝗶𝗰𝘆𝗪𝗮𝘁𝗰𝗵𝗲𝗿 spiego come un’osservazione possa diventare una richiesta di revisione dei sistemi coinvolti. Il rapporto presenta architettura, un esempio illustrativo e verifiche di implementazione; non dimostra efficacia in produzione.
+
+Mostro anche il 𝗖𝗼𝗺𝗽𝗮𝗻𝗶𝗼𝗻 𝗔𝗻𝗱𝗿𝗼𝗶𝗱 con schermate reali. La versione 0.3.2 è stata inviata alla revisione Google; l’installazione pubblica non è ancora confermata. Per iPhone e iPad presento anche 𝗣𝗔𝗟𝗢 𝗙𝗿𝗮𝗺𝗲𝘄𝗼𝗿𝗸 𝗧𝗼𝗼𝗹𝗯𝗼𝘅, disponibile sull’App Store: un’app di governance distinta dal Companion.
+
+Progetto: https://policywatcher.online/
+Rapporto: https://www.researchgate.net/publication/414027896_Understanding_PALO_and_PolicyWatcher
+Percorso mobile web: https://policywatcher.online/per-te
+PALO iOS: https://apps.apple.com/it/app/p-a-l-o-framework-toolbox/id6761771299
+
+Mi interessa un riscontro concreto: indicate il minuto del video e il passaggio che merita una spiegazione più semplice.
+
+#PolicyWatcher #PALO #AIGovernance #UXDesign #TrasparenzaDigitale

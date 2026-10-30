@@ -1,0 +1,184 @@
+[
+  {
+    "file": "PolicyWatcher-180s-landscape.mp4",
+    "duration": 180,
+    "video": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "r_frame_rate": "30/1"
+    },
+    "audio": {
+      "codec_name": "aac",
+      "sample_rate": "48000",
+      "channels": 2
+    },
+    "bytes": 14009739,
+    "sha256": "3d04a110e0ac806cb5cd64c19e72dc0057904cf4e1780ea1eaf876b476afb3bd",
+    "qr_checks": [
+      {
+        "scene": "00-intro",
+        "at": 6.6000000000000005,
+        "url": "https://policywatcher.online/",
+        "pass": true
+      },
+      {
+        "scene": "01-compass",
+        "at": 20.25,
+        "url": "https://policywatcher.online/atlas",
+        "pass": true
+      },
+      {
+        "scene": "02-monitor",
+        "at": 34.7,
+        "url": "https://policywatcher.online/per-te",
+        "pass": true
+      },
+      {
+        "scene": "03-compare",
+        "at": 48.7,
+        "url": "https://policywatcher.online/timeline",
+        "pass": true
+      },
+      {
+        "scene": "04-understand",
+        "at": 62.7,
+        "url": "https://policywatcher.online/methodology/confidence",
+        "pass": true
+      },
+      {
+        "scene": "05-search",
+        "at": 77.25,
+        "url": "https://policywatcher.online/feature-atlas",
+        "pass": true
+      },
+      {
+        "scene": "06-context",
+        "at": 92.25,
+        "url": "https://policywatcher.online/atlas",
+        "pass": true
+      },
+      {
+        "scene": "07-mobile-web",
+        "at": 107.25,
+        "url": "https://policywatcher.online/guides?lang=it",
+        "pass": true
+      },
+      {
+        "scene": "08-paper",
+        "at": 128.3,
+        "url": "https://www.researchgate.net/publication/414027896_Understanding_PALO_and_PolicyWatcher",
+        "pass": true
+      },
+      {
+        "scene": "09-android",
+        "at": 151.0,
+        "url": "https://policywatcher.online/per-te",
+        "pass": true
+      },
+      {
+        "scene": "10-ios",
+        "at": 165.5,
+        "url": "https://apps.apple.com/it/app/p-a-l-o-framework-toolbox/id6761771299",
+        "pass": true
+      },
+      {
+        "scene": "11-close",
+        "at": 175.5,
+        "url": "https://policywatcher.online/",
+        "pass": true
+      }
+    ]
+  },
+  {
+    "file": "PolicyWatcher-180s-vertical.mp4",
+    "duration": 180,
+    "video": {
+      "codec_name": "h264",
+      "width": 1080,
+      "height": 1920,
+      "r_frame_rate": "30/1"
+    },
+    "audio": {
+      "codec_name": "aac",
+      "sample_rate": "48000",
+      "channels": 2
+    },
+    "bytes": 19544100,
+    "sha256": "7ea61b29a2eeec9ec07f3a7a9f1ee0e3fe24250643f01ea22507db86f48d3a0e",
+    "qr_checks": [
+      {
+        "scene": "00-intro",
+        "at": 6.6000000000000005,
+        "url": "https://policywatcher.online/",
+        "pass": true
+      },
+      {
+        "scene": "01-compass",
+        "at": 20.25,
+        "url": "https://policywatcher.online/atlas",
+        "pass": true
+      },
+      {
+        "scene": "02-monitor",
+        "at": 34.7,
+        "url": "https://policywatcher.online/per-te",
+        "pass": true
+      },
+      {
+        "scene": "03-compare",
+        "at": 48.7,
+        "url": "https://policywatcher.online/timeline",
+        "pass": true
+      },
+      {
+        "scene": "04-understand",
+        "at": 62.7,
+        "url": "https://policywatcher.online/methodology/confidence",
+        "pass": true
+      },
+      {
+        "scene": "05-search",
+        "at": 77.25,
+        "url": "https://policywatcher.online/feature-atlas",
+        "pass": true
+      },
+      {
+        "scene": "06-context",
+        "at": 92.25,
+        "url": "https://policywatcher.online/atlas",
+        "pass": true
+      },
+      {
+        "scene": "07-mobile-web",
+        "at": 107.25,
+        "url": "https://policywatcher.online/guides?lang=it",
+        "pass": true
+      },
+      {
+        "scene": "08-paper",
+        "at": 128.3,
+        "url": "https://www.researchgate.net/publication/414027896_Understanding_PALO_and_PolicyWatcher",
+        "pass": true
+      },
+      {
+        "scene": "09-android",
+        "at": 151.0,
+        "url": "https://policywatcher.online/per-te",
+        "pass": true
+      },
+      {
+        "scene": "10-ios",
+        "at": 165.5,
+        "url": "https://apps.apple.com/it/app/p-a-l-o-framework-toolbox/id6761771299",
+        "pass": true
+      },
+      {
+        "scene": "11-close",
+        "at": 175.5,
+        "url": "https://policywatcher.online/",
+        "pass": true
+      }
+    ]
+  }
+]

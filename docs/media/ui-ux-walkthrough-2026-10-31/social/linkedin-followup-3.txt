@@ -1,0 +1,11 @@
+𝗟𝗲 𝗽𝗼𝗹𝗶𝗰𝘆 𝗻𝗲𝗹𝗹𝗮 𝘃𝗶𝘁𝗮 𝗾𝘂𝗼𝘁𝗶𝗱𝗶𝗮𝗻𝗮: seguire un servizio, leggere una modifica, scegliere cosa approfondire.
+
+Il Companion Android di PolicyWatcher raccoglie questi passaggi in un’interfaccia dedicata, con servizi seguiti, scelte locali e confronto degli avvisi. Nel walkthrough mostro schermate reali del dispositivo. La 0.3.2 è stata inviata alla revisione Google; la disponibilità pubblica di installazione non è ancora confermata.
+
+Su iPhone e iPad è disponibile anche PALO Framework Toolbox, l’app di governance dell’ecosistema PALO. È un prodotto distinto da PolicyWatcher Companion. Il QR dedicato nel video apre la scheda ufficiale dell’App Store.
+https://apps.apple.com/it/app/p-a-l-o-framework-toolbox/id6761771299
+
+Provate il percorso disponibile e segnalatemi il primo punto poco chiaro:
+https://policywatcher.online/per-te
+
+#PolicyWatcher #MobileUX #Android #iOS #DirittiDigitali

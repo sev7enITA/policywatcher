@@ -53,7 +53,7 @@ The dashboard now offers **Monitor / Compare / Understand** (Italian: **Osserva 
 
 Public pages share the task vocabulary and a grouped directory with active-route indication. The compact mobile bar, short-phone ordering, visible focus, focus return and nested-dialog Escape behavior were inspected down to 320 × 568. The in-app guide and both atlases describe the same navigation. Historical release highlights below describe their original delivery, not the current control layout.
 
-See the [research and navigation verification](docs/reports/ui-ux-navigation-2026-10-30.md). This source update has local verification; production deployment and measured human usability remain separate.
+See the [research and navigation verification](docs/reports/ui-ux-navigation-2026-10-30.md). This source update has local verification; production deployment and measured human usability remain separate. The [180-second walkthrough package](docs/media/ui-ux-walkthrough-2026-10-31/README.md) documents the chapter script, verified resource links and Italian platform copy.
 
 
 #### Adaptive acquisition
