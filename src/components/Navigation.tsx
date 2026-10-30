@@ -576,7 +576,9 @@ export default function Navigation({
               {renderQuickAccess('top')}
               <p className={styles.resultCount} role="status" aria-live="polite">
                 {directoryQuery.trim()
-                  ? `${visibleCommands.length} ${isIt ? 'risultati in tutti gli strumenti' : 'results across all tools'}`
+                  ? `${visibleCommands.length} ${isIt
+                    ? (visibleCommands.length === 1 ? 'risultato in tutti gli strumenti' : 'risultati in tutti gli strumenti')
+                    : (visibleCommands.length === 1 ? 'result across all tools' : 'results across all tools')}`
                   : activeLane !== 'all' ? NAVIGATION_COPY[activeLane][lang].description : isIt ? 'Scegli un percorso. Puoi passare da uno all’altro in qualsiasi momento.' : 'Choose a starting point. Move between them whenever you need.'}
               </p>
               {visibleCommands.length === 0 ? (
