@@ -255,6 +255,15 @@ const priorityPipeline = [
 
 const nowItems = [
   {
+    phase: `Source update · ${POLICYWATCHER_VERSION} · 31 October 2026`,
+    title: 'Monitor / Compare / Understand',
+    body: 'A searchable All tools directory connects 26 existing commands, bilingual synonyms and role shortcuts. Public pages share the same task vocabulary and active-route indication.',
+    benefit: 'Readers can choose by task or search directly; short-phone layouts keep the first tools visible and keyboard focus returns after closing dialogs.',
+    validation: 'Implemented and locally checked. Production deployment, comprehensive assistive-technology coverage and measured human usability remain separate.',
+    icon: Eye,
+    href: '/feature-atlas',
+  },
+  {
     phase: `Current · ${POLICYWATCHER_VERSION}`,
     title: POLICYWATCHER_RELEASE_NAME,
     body: 'Bounded shadow observation, frozen-input replay and a read-only evidence workbench make candidate extraction behavior inspectable while retaining the baseline.',

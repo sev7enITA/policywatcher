@@ -47,6 +47,17 @@ See the [deployment and rollback runbook](docs/evidence-assurance-pilot.md), [so
 
 ### Release 5.2.0: Adaptive Acquisition Evidence - 26 October 2026
 
+#### Navigation update - 31 October 2026
+
+The dashboard now offers **Monitor / Compare / Understand** (Italian: **Osserva / Confronta / Approfondisci**) and a searchable **All tools / Tutti gli strumenti** directory. All 26 existing commands remain reachable; bilingual search crosses groups and accepts synonyms and accents. Role shortcuts, global command search and document-scoped Timeline links are preserved. Workspace and AI Chat are available inside All tools.
+
+Public pages share the task vocabulary and a grouped directory with active-route indication. The compact mobile bar, short-phone ordering, visible focus, focus return and nested-dialog Escape behavior were inspected down to 320 × 568. The in-app guide and both atlases describe the same navigation. Historical release highlights below describe their original delivery, not the current control layout.
+
+See the [research and navigation verification](docs/reports/ui-ux-navigation-2026-10-30.md). This source update has local verification; production deployment and measured human usability remain separate.
+
+
+#### Adaptive acquisition
+
 Optional shadow observation compares bounded extraction recipes on the same acquisition while retaining the operational baseline. Frozen-input replay, immutable receipts and independent-label gates support reviewable candidate lessons. The read-only Source Reliability panel distinguishes scan results, persistence, observer errors, baseline errors and missing historical metrics. Explicit source-variant drift checks preserve document scope.
 
 Shadow is disabled by default and requires private operator configuration. This release does not enable a production pilot, train models, promote recipes automatically or establish calibrated confidence. See [release notes](docs/releases/policywatcher-5.2.0-github-release.md) and the [replay/shadow protocol](evals/scraping/README.md).

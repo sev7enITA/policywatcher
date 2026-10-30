@@ -638,7 +638,7 @@ export const pressKitReleases: PressKitRelease[] = [
   "version": "5.2.0",
   "displayVersion": "5.2.0",
   "datePublished": "2026-10-26",
-  "dateModified": "2026-10-26",
+  "dateModified": "2026-10-31",
   "status": "current",
   "category": "methodology",
   "title": {
@@ -650,6 +650,10 @@ export const pressKitReleases: PressKitRelease[] = [
     "it": "Esamina il comportamento delle ricette di estrazione candidate su input conservati, con osservazione shadow circoscritta e una vista operativa in sola lettura."
   },
   "changes": [
+    {
+      "en": "31 October navigation update: Monitor / Compare / Understand lead to 26 existing commands, bilingual cross-group search and role shortcuts in All tools. Public pages share the task vocabulary and active-route indication; short-phone layouts and nested-dialog keyboard behavior are refined.",
+      "it": "Aggiornamento navigazione del 31 ottobre: Osserva / Confronta / Approfondisci portano a 26 comandi esistenti, ricerca bilingue tra tutti i gruppi e scorciatoie per ruolo in Tutti gli strumenti. Le pagine pubbliche condividono i percorsi e indicano la pagina attiva; migliorano il layout sui telefoni piccoli e la gestione della tastiera nelle finestre sovrapposte."
+    },
     {
       "en": "Optional shadow observation reuses the baseline acquisition, with an explicit source allowlist, a per-scan budget and up to three candidate recipes. The baseline result is retained.",
       "it": "L’osservazione shadow facoltativa riusa l’acquisizione della baseline, con un elenco esplicito di fonti, un budget per scansione e fino a tre ricette candidate. Il risultato della baseline resta operativo."
@@ -668,6 +672,10 @@ export const pressKitReleases: PressKitRelease[] = [
     }
   ],
   "boundaries": [
+    {
+      "en": "The navigation update is source-implemented and locally checked. Production deployment and measured human usability require separate evidence; native app distribution follows independent store releases.",
+      "it": "L’aggiornamento di navigazione è implementato nel sorgente e verificato localmente. Il deployment in produzione e i risultati di usabilità con persone richiedono evidenze separate; le app native seguono release autonome negli store."
+    },
     {
       "en": "Shadow observation is disabled by default and requires a private operator configuration. Installing this release does not enable a production pilot.",
       "it": "L’osservazione shadow è disabilitata per impostazione predefinita e richiede una configurazione privata dell’operatore. Installare questa release non attiva un pilot in produzione."

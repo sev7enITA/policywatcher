@@ -34,7 +34,7 @@ export interface ReleaseImpactItem {
   externalDependency?: string;
 }
 
-export const RELEASE_IMPACT_UPDATED_AT = '26 October 2026' as const;
+export const RELEASE_IMPACT_UPDATED_AT = '31 October 2026' as const;
 
 export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.7.0', shortLabel: '3.7.0', label: '3.7.0', state: 'delivered' },
@@ -120,6 +120,21 @@ export const RELEASE_IMPACT_DOMAINS: ReleaseImpactDomain[] = [
 ];
 
 export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
+  {
+    id: 'evidence-compass-navigation',
+    title: 'Task-oriented evidence navigation',
+    summary: 'Monitor / Compare / Understand organize existing actions; All tools combines a complete directory, bilingual search and stable role shortcuts.',
+    domainId: 'experience',
+    status: 'current',
+    horizon: 'delivered',
+    startRelease: '5.2.0',
+    endRelease: '5.2.0',
+    benefit: 'Readers can choose a task, search across groups or return to familiar role actions without losing specialist destinations.',
+    kpi: 'Implementation inventory: 26 existing dashboard commands; responsive layouts inspected from 320 to 1440 pixels.',
+    kri: 'Discoverability of Workspace and AI Chat inside All tools requires human usability evaluation.',
+    evidence: 'Typed bilingual directory, shared task vocabulary, active public routes, focus return and containment, topmost-only Escape, automated checks and local browser inspection.',
+    limitation: 'Source update dated 31 October 2026. Model review and local checks do not establish production deployment, accessibility certification or measured task-completion gains.',
+  },
 {
   "id": "guarded-shadow-observation",
   "title": "Baseline-preserving shadow observation",

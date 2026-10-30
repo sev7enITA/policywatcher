@@ -2,6 +2,14 @@
 
 26 October 2026. Source release with optional, disabled-by-default shadow observation.
 
+## Navigation source update - 31 October 2026
+
+Monitor / Compare / Understand (Osserva / Confronta / Approfondisci) organize 26 existing dashboard commands. All tools provides bilingual cross-group search, synonyms and role shortcuts; Workspace and AI Chat remain accessible there. Public pages share the task groups and current-route indication. Short-phone ordering, visible focus, focus return and topmost-only Escape were checked locally down to 320 × 568.
+
+Changelog, in-app guide, Site Atlas, Feature Atlas, Release Impact, roadmap, README and discovery text describe the same controls. See the [navigation report](../reports/ui-ux-navigation-2026-10-30.md). This is a source update; production deployment, native store availability and measured human usability are separate states.
+
+## Acquisition release
+
 The new acquisition evidence loop makes extraction experiments inspectable. It preserves the operational baseline, compares candidate recipes against frozen inputs and keeps candidate lessons outside operational use until independent evidence supports a reviewed decision.
 
 ## Included

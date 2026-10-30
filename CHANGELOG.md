@@ -2,6 +2,16 @@
 
 ## 5.2.0 - Adaptive Acquisition Evidence (2026-10-26)
 
+### Navigation and discovery update (2026-10-31)
+
+- Organize dashboard navigation around Monitor / Compare / Understand (Osserva / Confronta / Approfondisci), with 26 existing commands in a searchable All tools directory.
+- Search across all groups with English/Italian synonyms and accent normalization; retain role shortcuts, the global command search and document-scoped Timeline links.
+- Give public pages the same task vocabulary, a grouped directory, active-route indication and their four direct entry links.
+- Keep controls reachable on short phones down to 320 × 568; preserve visible keyboard focus, modal focus containment and return, reduced motion, and topmost-only Escape for nested settings.
+- Align the bilingual in-app guide, release register, Site Atlas, Feature Atlas, Release Impact, roadmap, README and machine-readable discovery.
+
+Source update and local verification are recorded in [the navigation report](docs/reports/ui-ux-navigation-2026-10-30.md). Publication to production is a separate step; model reviews and automated checks do not establish measured user-task improvement. Native app/store releases remain independent.
+
 ### Adaptive acquisition evidence
 
 - Added opt-in, allowlisted and budgeted shadow observation that reuses each baseline acquisition, compares up to three declarative recipes and returns the baseline result.

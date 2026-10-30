@@ -37,6 +37,8 @@ export default function ModalDialog({ label, className, onRequestClose, children
       aria-label={label}
       aria-modal="true"
       onCancel={(event) => {
+        // React bubbles cancel through nested dialogs; only dismiss the top layer.
+        event.stopPropagation();
         event.preventDefault();
         onRequestClose();
       }}

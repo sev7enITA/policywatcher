@@ -107,7 +107,7 @@ export const publicSectionNodes: PublicSectionNode[] = [
     label: 'Evidence Console',
     href: '/',
     group: 'core',
-    summary: 'Main public dashboard with a global document-type selection, per-company coverage, scoped KPI comparisons, current actions and QA state.',
+    summary: 'Main public dashboard with Monitor / Compare / Understand navigation, a searchable All tools directory, global document selection, per-company coverage, scoped KPI comparisons and QA state.',
     role: 'One selection applies to privacy, terms, AI, DPA, acceptable use and community documents across companies, analysis tools and CSV exports. Missing evidence stays explicit under the publication gates.',
     status: 'dynamic',
     icon: 'layout',

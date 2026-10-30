@@ -193,6 +193,7 @@ const primaryUserByDomain: Record<string, string> = {
 
 const routeByFeature: Record<string, FeatureAtlasRoute> = {
   'guarded-shadow-observation': { href: '/admin/source-reliability', label: 'Source Reliability (protected)', access: 'protected' },
+  'evidence-compass-navigation': { href: '/', label: 'Monitor / Compare / Understand', access: 'public' },
   'frozen-capture-replay': { href: '/press-kit/releases/adaptive-acquisition-evidence-5-2-0', label: 'Replay method and boundaries', access: 'public' },
   'adaptive-acquisition-workbench': { href: '/admin/source-reliability', label: 'Adaptive acquisition (protected)', access: 'protected' },
   'source-variant-scope': { href: '/methodology/confidence', label: 'Evidence methodology', access: 'public' },
