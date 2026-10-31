@@ -19,6 +19,14 @@ Offline replay of the **same saved payloads** exposed and corrected extraction l
 
 Google EN/IT captures expose unresolved hidden DOM and are held for source-specific review. AWS DPA PDF produces text but lacks sufficient structure/language for the new contract gates; TikTok's nonsemantic page title also needs a reviewed source adapter. A heading, a large text count or HTTP 200 alone does not prove completeness. No complete provider contracts or independently annotated ground truth are claimed here.
 
+## Second real retrieval window
+
+The first window ran from 06:20:59.633 to 06:21:28.565 UTC; the second ran from 07:21:35.009 to 07:22:02.207 UTC. Per-source intervals are **3,632.307–3,635.376 seconds**, measured from actual acquisition timestamps without clock or record manipulation. All twelve sources again returned fresh HTTP 200 responses, with no detected host/path drift. These are actual requests, not conditional 304 responses or a second replay of the first capture.
+
+Both payload sets were compared under the extractor at `0002b53`. **12/12 text hashes and structured block arrays are identical; only 5/12 transport payload hashes are identical.** Thus seven changing payloads yielded stable extracted documents in this bounded observation. Apple still retains twelve controlled disclosure panels and 28,492 characters. Google EN/IT and Anthropic retain the same unresolved extraction diagnostics; AWS PDF still has no detected language or headings. Stability does not establish completeness or remove a hold. No real source contract was silently approved, and these two windows are not three daily qualification windows.
+
+The sanitized per-source timestamps, hashes and diagnostics are preserved in `docs/reports/engine-v6-qualification-evidence-2026-10-31.json`. Raw public-source payloads remain local under `output/engine-qualification-2026-10-31/capture-{1,2}/`; their stored hashes were checked against their bytes. PDF payloads retain the decoder-representation limitation above.
+
 ## Extractor changes and adversarial review
 
 Gemini 4 High / Argon Alta and GLM-5.3 Max are actual external reviews through the user's applications, not internal substitutes. GLM reviewed a frozen disclosure candidate and found concrete risks of silent omission and UI overinclusion. The subsequent candidate adds:
@@ -55,7 +63,9 @@ A fresh, isolated one-policy fixture on loopback port 3020 exercised the actual 
 
 ## Public announcement and Git checkpoints
 
-The live page is <https://policywatcher.online/engine-6-preview?lang=it> (English without the query). Homepage, product footer, roadmap and sitemap link to the announcement. The page clearly distinguishes local implementation, recorded verification and pending real-world qualification. Public source branch `codex/engine6-preview-announcement` ends at `1837889`; local engine checkpoints include `6a9c91e`, `1a2cdef`, `dfbd1be` and `2d1428d`. Later qualification work is committed separately. Git commits are local; no engine activation or remote branch publication is implied.
+The live page is <https://policywatcher.online/engine-6-preview?lang=it> (English without the query). Homepage, product footer, roadmap and sitemap link to the announcement. The page clearly distinguishes local implementation, recorded verification and pending real-world qualification. Public source branch `codex/engine6-preview-announcement` ends at `1837889`; local engine checkpoints include `6a9c91e`, `1a2cdef`, `dfbd1be`, `2d1428d` and `0002b53`. The final qualification evidence is committed separately. Git commits are local; no engine activation or remote branch publication is implied.
+
+The companion qualification manifest pins the current implementation/configuration/test files and local evidence files by SHA-256. It supplements, and does not rewrite, the original frozen source manifest. Committed evidence contains sanitized results only; databases, raw policy bodies, authenticated-session files and review-app transcripts are not committed.
 
 ## Remaining activation evidence
 

@@ -1,0 +1,479 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-31T07:23:15.250310+00:00",
+  "engineCodeCommit": "0002b537add69d5ce57d10a9ad8ddfc30b22cd1b",
+  "productionEngineActivated": false,
+  "boundary": "Local experimental qualification. Synthetic concurrency/UI results and bounded public-source retrievals do not establish production efficacy. No credentials, database or raw provider document bodies included.",
+  "tests": {
+    "fullPassed": 1383,
+    "fullSkipped": 14,
+    "focusedPassed": 64,
+    "engineFocusedPassed": 57,
+    "auditFocusedPassed": 7,
+    "productionBuild": "passed",
+    "webTypeScript": "passed",
+    "criticalTestTypeScript": "passed",
+    "lintErrors": 0,
+    "preexistingLintWarnings": 15
+  },
+  "twoWindows": {
+    "generatedAt": "2026-10-31T07:22:17.663878+00:00",
+    "engineCodeCommit": "0002b53",
+    "boundary": "Two real retrieval windows separated by at least one hour. Both payload sets compared under the same current extractor. No complete source contracts, AI, publication, notifications or annotated policy ground truth; stable extraction is not completeness. PDF payloads are decoder HTML, not original PDF bytes.",
+    "sources": 12,
+    "fresh200Both": 12,
+    "stableText": 12,
+    "stableBlocks": 12,
+    "stablePayloads": 5,
+    "minimumElapsedSeconds": 3632.307,
+    "maximumElapsedSeconds": 3635.376,
+    "rows": [
+      {
+        "id": "aws-service-terms",
+        "url": "https://aws.amazon.com/serviceterms/",
+        "format": "html",
+        "firstObservedAt": "2026-10-31T06:20:59.633Z",
+        "secondObservedAt": "2026-10-31T07:21:35.009Z",
+        "elapsedSeconds": 3635.376,
+        "fresh200Both": true,
+        "driftBothAbsent": true,
+        "payloadBytesIdentical": false,
+        "firstCurrentTextHash": "7b4b712c67ba59dfa17ecd83cd17d14d74a36ce40ca65b165454912712b0b223",
+        "secondCurrentTextHash": "7b4b712c67ba59dfa17ecd83cd17d14d74a36ce40ca65b165454912712b0b223",
+        "textIdentical": true,
+        "blocksIdentical": true,
+        "firstCurrentTextChars": 292225,
+        "secondCurrentTextChars": 292225,
+        "firstIssues": [],
+        "secondIssues": [],
+        "firstLanguage": "en-US",
+        "secondLanguage": "en-US",
+        "headingCount": 111,
+        "retainedDisclosureCount": 0
+      },
+      {
+        "id": "aws-dpa-pdf",
+        "url": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+        "format": "pdf",
+        "firstObservedAt": "2026-10-31T06:21:02.131Z",
+        "secondObservedAt": "2026-10-31T07:21:37.437Z",
+        "elapsedSeconds": 3635.306,
+        "fresh200Both": true,
+        "driftBothAbsent": true,
+        "payloadBytesIdentical": true,
+        "firstCurrentTextHash": "1bccaa83697a8dad456e214ead1009c2c5c652ec251213c4cb491a8eea48642d",
+        "secondCurrentTextHash": "1bccaa83697a8dad456e214ead1009c2c5c652ec251213c4cb491a8eea48642d",
+        "textIdentical": true,
+        "blocksIdentical": true,
+        "firstCurrentTextChars": 29403,
+        "secondCurrentTextChars": 29403,
+        "firstIssues": [],
+        "secondIssues": [],
+        "firstLanguage": null,
+        "secondLanguage": null,
+        "headingCount": 0,
+        "retainedDisclosureCount": 0
+      },
+      {
+        "id": "openai-service-terms",
+        "url": "https://openai.com/policies/service-terms/",
+        "format": "html",
+        "firstObservedAt": "2026-10-31T06:21:04.275Z",
+        "secondObservedAt": "2026-10-31T07:21:39.527Z",
+        "elapsedSeconds": 3635.252,
+        "fresh200Both": true,
+        "driftBothAbsent": true,
+        "payloadBytesIdentical": false,
+        "firstCurrentTextHash": "eff307311816698a7558176ab4c6ee86cf515cb46faad2c2472dbaed09351369",
+        "secondCurrentTextHash": "eff307311816698a7558176ab4c6ee86cf515cb46faad2c2472dbaed09351369",
+        "textIdentical": true,
+        "blocksIdentical": true,
+        "firstCurrentTextChars": 17121,
+        "secondCurrentTextChars": 17121,
+        "firstIssues": [],
+        "secondIssues": [],
+        "firstLanguage": "en-US",
+        "secondLanguage": "en-US",
+        "headingCount": 18,
+        "retainedDisclosureCount": 0
+      },
+      {
+        "id": "stripe-restricted",
+        "url": "https://stripe.com/legal/restricted-businesses",
+        "format": "html",
+        "firstObservedAt": "2026-10-31T06:21:07.209Z",
+        "secondObservedAt": "2026-10-31T07:21:42.368Z",
+        "elapsedSeconds": 3635.159,
+        "fresh200Both": true,
+        "driftBothAbsent": true,
+        "payloadBytesIdentical": true,
+        "firstCurrentTextHash": "0700a4e8e5acfec6835a1016d75b5e9f12b2bc8ef70d6b252939988d45273f78",
+        "secondCurrentTextHash": "0700a4e8e5acfec6835a1016d75b5e9f12b2bc8ef70d6b252939988d45273f78",
+        "textIdentical": true,
+        "blocksIdentical": true,
+        "firstCurrentTextChars": 25505,
+        "secondCurrentTextChars": 25505,
+        "firstIssues": [],
+        "secondIssues": [],
+        "firstLanguage": "en-IT",
+        "secondLanguage": "en-IT",
+        "headingCount": 59,
+        "retainedDisclosureCount": 0
+      },
+      {
+        "id": "stripe-privacy-it",
+        "url": "https://stripe.com/it/privacy",
+        "format": "html",
+        "firstObservedAt": "2026-10-31T06:21:09.233Z",
+        "secondObservedAt": "2026-10-31T07:21:44.326Z",
+        "elapsedSeconds": 3635.093,
+        "fresh200Both": true,
+        "driftBothAbsent": true,
+        "payloadBytesIdentical": true,
+        "firstCurrentTextHash": "bce63fbc5cae88b9291e1de2f2ff2aa969df1bc3edd4fa359b248211237fed72",
+        "secondCurrentTextHash": "bce63fbc5cae88b9291e1de2f2ff2aa969df1bc3edd4fa359b248211237fed72",
+        "textIdentical": true,
+        "blocksIdentical": true,
+        "firstCurrentTextChars": 94173,
+        "secondCurrentTextChars": 94173,
+        "firstIssues": [],
+        "secondIssues": [],
+        "firstLanguage": "it-IT",
+        "secondLanguage": "it-IT",
+        "headingCount": 32,
+        "retainedDisclosureCount": 0
+      },
+      {
+        "id": "google-privacy-en",
+        "url": "https://policies.google.com/privacy?hl=en",
+        "format": "html",
+        "firstObservedAt": "2026-10-31T06:21:11.558Z",
+        "secondObservedAt": "2026-10-31T07:21:46.388Z",
+        "elapsedSeconds": 3634.83,
+        "fresh200Both": true,
+        "driftBothAbsent": true,
+        "payloadBytesIdentical": false,
+        "firstCurrentTextHash": "1d1ec9444ac36cf1b04025cf9a0400d001a38c0ed4cd3af65cd9749a7b3b5204",
+        "secondCurrentTextHash": "1d1ec9444ac36cf1b04025cf9a0400d001a38c0ed4cd3af65cd9749a7b3b5204",
+        "textIdentical": true,
+        "blocksIdentical": true,
+        "firstCurrentTextChars": 90335,
+        "secondCurrentTextChars": 90335,
+        "firstIssues": [
+          {
+            "reason": "hidden_document_content_unresolved",
+            "target": null,
+            "chars": 121
+          },
+          {
+            "reason": "hidden_document_content_unresolved",
+            "target": "WIZ-footer",
+            "chars": 104
+          }
+        ],
+        "secondIssues": [
+          {
+            "reason": "hidden_document_content_unresolved",
+            "target": null,
+            "chars": 121
+          },
+          {
+            "reason": "hidden_document_content_unresolved",
+            "target": "WIZ-footer",
+            "chars": 104
+          }
+        ],
+        "firstLanguage": "en",
+        "secondLanguage": "en",
+        "headingCount": 122,
+        "retainedDisclosureCount": 0
+      },
+      {
+        "id": "google-privacy-it",
+        "url": "https://policies.google.com/privacy?hl=it",
+        "format": "html",
+        "firstObservedAt": "2026-10-31T06:21:13.643Z",
+        "secondObservedAt": "2026-10-31T07:21:48.232Z",
+        "elapsedSeconds": 3634.589,
+        "fresh200Both": true,
+        "driftBothAbsent": true,
+        "payloadBytesIdentical": false,
+        "firstCurrentTextHash": "426c71a5e8b16765e2a81d7209c596d8a8721747178e092ae72580a44d6cdb10",
+        "secondCurrentTextHash": "426c71a5e8b16765e2a81d7209c596d8a8721747178e092ae72580a44d6cdb10",
+        "textIdentical": true,
+        "blocksIdentical": true,
+        "firstCurrentTextChars": 105928,
+        "secondCurrentTextChars": 105928,
+        "firstIssues": [
+          {
+            "reason": "hidden_document_content_unresolved",
+            "target": null,
+            "chars": 169
+          },
+          {
+            "reason": "hidden_document_content_unresolved",
+            "target": "WIZ-footer",
+            "chars": 104
+          }
+        ],
+        "secondIssues": [
+          {
+            "reason": "hidden_document_content_unresolved",
+            "target": null,
+            "chars": 169
+          },
+          {
+            "reason": "hidden_document_content_unresolved",
+            "target": "WIZ-footer",
+            "chars": 104
+          }
+        ],
+        "firstLanguage": "it",
+        "secondLanguage": "it",
+        "headingCount": 122,
+        "retainedDisclosureCount": 0
+      },
+      {
+        "id": "microsoft-services",
+        "url": "https://www.microsoft.com/en/servicesagreement",
+        "format": "html",
+        "firstObservedAt": "2026-10-31T06:21:17.349Z",
+        "secondObservedAt": "2026-10-31T07:21:50.607Z",
+        "elapsedSeconds": 3633.258,
+        "fresh200Both": true,
+        "driftBothAbsent": true,
+        "payloadBytesIdentical": false,
+        "firstCurrentTextHash": "fc7eeb0110cbb88ae754ede716485f09018bedef0d0584452d69f14dc42c9389",
+        "secondCurrentTextHash": "fc7eeb0110cbb88ae754ede716485f09018bedef0d0584452d69f14dc42c9389",
+        "textIdentical": true,
+        "blocksIdentical": true,
+        "firstCurrentTextChars": 121025,
+        "secondCurrentTextChars": 121025,
+        "firstIssues": [],
+        "secondIssues": [],
+        "firstLanguage": "en",
+        "secondLanguage": "en",
+        "headingCount": 37,
+        "retainedDisclosureCount": 0
+      },
+      {
+        "id": "apple-privacy",
+        "url": "https://www.apple.com/legal/privacy/en-ww/",
+        "format": "html",
+        "firstObservedAt": "2026-10-31T06:21:20.259Z",
+        "secondObservedAt": "2026-10-31T07:21:52.711Z",
+        "elapsedSeconds": 3632.452,
+        "fresh200Both": true,
+        "driftBothAbsent": true,
+        "payloadBytesIdentical": true,
+        "firstCurrentTextHash": "c0241d1ce019b9ae117a52cee0274421719ec16bec114899dc1975b8745d9b8f",
+        "secondCurrentTextHash": "c0241d1ce019b9ae117a52cee0274421719ec16bec114899dc1975b8745d9b8f",
+        "textIdentical": true,
+        "blocksIdentical": true,
+        "firstCurrentTextChars": 28492,
+        "secondCurrentTextChars": 28492,
+        "firstIssues": [],
+        "secondIssues": [],
+        "firstLanguage": "en-US",
+        "secondLanguage": "en-US",
+        "headingCount": 14,
+        "retainedDisclosureCount": 12
+      },
+      {
+        "id": "anthropic-terms",
+        "url": "https://www.anthropic.com/legal/terms",
+        "format": "html",
+        "firstObservedAt": "2026-10-31T06:21:22.790Z",
+        "secondObservedAt": "2026-10-31T07:21:55.097Z",
+        "elapsedSeconds": 3632.307,
+        "fresh200Both": true,
+        "driftBothAbsent": true,
+        "payloadBytesIdentical": true,
+        "firstCurrentTextHash": "936b354b45e33f51ee6d0a3f0f4a1715cc5f469bdfb979103263ad8ec22d9a5b",
+        "secondCurrentTextHash": "936b354b45e33f51ee6d0a3f0f4a1715cc5f469bdfb979103263ad8ec22d9a5b",
+        "textIdentical": true,
+        "blocksIdentical": true,
+        "firstCurrentTextChars": 36211,
+        "secondCurrentTextChars": 36211,
+        "firstIssues": [
+          {
+            "reason": "document_header_metadata_unreviewed",
+            "target": null,
+            "chars": 105
+          }
+        ],
+        "secondIssues": [
+          {
+            "reason": "document_header_metadata_unreviewed",
+            "target": null,
+            "chars": 105
+          }
+        ],
+        "firstLanguage": "en",
+        "secondLanguage": "en",
+        "headingCount": 17,
+        "retainedDisclosureCount": 0
+      },
+      {
+        "id": "meta-privacy",
+        "url": "https://www.facebook.com/privacy/policy/",
+        "format": "html",
+        "firstObservedAt": "2026-10-31T06:21:25.633Z",
+        "secondObservedAt": "2026-10-31T07:21:59.426Z",
+        "elapsedSeconds": 3633.793,
+        "fresh200Both": true,
+        "driftBothAbsent": true,
+        "payloadBytesIdentical": false,
+        "firstCurrentTextHash": "d37f63453a8485c1624e95fe5fc180c5268ddacec39e8e203f3257585eca6bbf",
+        "secondCurrentTextHash": "d37f63453a8485c1624e95fe5fc180c5268ddacec39e8e203f3257585eca6bbf",
+        "textIdentical": true,
+        "blocksIdentical": true,
+        "firstCurrentTextChars": 54855,
+        "secondCurrentTextChars": 54855,
+        "firstIssues": [],
+        "secondIssues": [],
+        "firstLanguage": "en",
+        "secondLanguage": "en",
+        "headingCount": 11,
+        "retainedDisclosureCount": 0
+      },
+      {
+        "id": "tiktok-eea-terms",
+        "url": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+        "format": "html",
+        "firstObservedAt": "2026-10-31T06:21:28.565Z",
+        "secondObservedAt": "2026-10-31T07:22:02.207Z",
+        "elapsedSeconds": 3633.642,
+        "fresh200Both": true,
+        "driftBothAbsent": true,
+        "payloadBytesIdentical": false,
+        "firstCurrentTextHash": "819293325069c55b34a19b62e44d73b6f1cca5603e547a9082463ae1fea75ca5",
+        "secondCurrentTextHash": "819293325069c55b34a19b62e44d73b6f1cca5603e547a9082463ae1fea75ca5",
+        "textIdentical": true,
+        "blocksIdentical": true,
+        "firstCurrentTextChars": 28650,
+        "secondCurrentTextChars": 28650,
+        "firstIssues": [],
+        "secondIssues": [],
+        "firstLanguage": "en",
+        "secondLanguage": "en",
+        "headingCount": 10,
+        "retainedDisclosureCount": 0
+      }
+    ]
+  },
+  "syntheticConcurrency": {
+    "startedAt": "2026-10-31T06:48:26.348Z",
+    "completedAt": "2026-10-31T06:53:56.775Z",
+    "durationMs": 330427,
+    "passed": true,
+    "boundary": "500 synthetic records, 4 real Node processes, actual SIGKILL and natural lease expiry. No live retrieval, AI, publication or notification.",
+    "run": {
+      "id": "47944083-a39f-4042-b56b-1d7052073460",
+      "status": "completed",
+      "selected": 500
+    },
+    "counts": {
+      "tasks": 1000,
+      "completed": 1000,
+      "reserved": 0,
+      "changes": 0,
+      "outbox": 0,
+      "policyMutations": 0
+    },
+    "workers": [
+      {
+        "pid": 56980,
+        "code": 0,
+        "error": ""
+      },
+      {
+        "pid": 56981,
+        "code": 0,
+        "error": ""
+      },
+      {
+        "pid": 56982,
+        "code": 0,
+        "error": ""
+      },
+      {
+        "pid": 56983,
+        "code": 0,
+        "error": ""
+      }
+    ],
+    "crash": {
+      "code": null,
+      "signal": "SIGKILL",
+      "taskId": "55d4aa63-0629-42ca-9257-e5f71e3a5135",
+      "leaseExpires": "2026-10-31T06:53:26.807Z",
+      "attempts": [
+        {
+          "generation": 1,
+          "status": "expired",
+          "reason": "lease_expired"
+        },
+        {
+          "generation": 2,
+          "status": "completed",
+          "reason": null
+        }
+      ]
+    },
+    "integrity": [
+      {
+        "integrity_check": "ok"
+      }
+    ]
+  },
+  "syntheticAdminUI": {
+    "status": "passed",
+    "sourceMigrationPending": true,
+    "oldBaselinePreserved": true,
+    "snapshots": 1,
+    "changes": 0,
+    "outbox": 0,
+    "review": {
+      "status": "rebaseline_requested",
+      "reviewNote": "Synthetic local UI test: preserve the old baseline and require two new complete captures before replacement."
+    },
+    "auditRecords": 1,
+    "contractStillPinned": 1
+  },
+  "website": {
+    "url": "https://policywatcher.online/engine-6-preview?lang=it",
+    "sourceCommit": "1837889a7951dd6f060230f5dbadf6efdf820f76",
+    "baseProductionCommit": "6780e993519d40759eacf4cdcffa7aad1467cc93",
+    "changedFiles": 16,
+    "zipSha256": "81c8e19aea4fb701340b316fefad1507805e503978b1e5683c626ba3d3f2af07",
+    "productionCompletedAt": "2026-10-31T08:07:00+01:00",
+    "completionTimestampPrecision": "minute",
+    "announcementChecksPassed": 11,
+    "engineTables": 0,
+    "engineRuntimeDirectoryPresent": false,
+    "publicAppVersion": "5.2.0",
+    "operationalPanel": {
+      "passed": 9,
+      "attentionChecks": 0,
+      "unavailable": 0,
+      "external": 1,
+      "aggregate": "attention",
+      "externalRequirement": "Independent dynamic security test not attested"
+    }
+  },
+  "externalReviews": {
+    "gemini": {
+      "channel": "Gemini web / Vivaldi",
+      "modelShown": "Gemini 4 High / Argon Alta",
+      "scope": "Earlier frozen engine candidates and public-page design; design verdict PASS with refinements applied. Not execution or production qualification."
+    },
+    "glm": {
+      "channel": "ZCode Plan",
+      "modelShown": "GLM-5.3 Max",
+      "candidate": 4,
+      "verdict": "R1/R2 closed; no new P1 regression found in focused frozen candidate",
+      "limits": "Read-only code and supplied-result review; no model execution of tests or independent recomputation of hashes. Later explanatory UI/runbook wording is outside the frozen candidate."
+    }
+  }
+}
