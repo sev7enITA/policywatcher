@@ -1,0 +1,277 @@
+{
+  "generatedAt": "2026-10-31T13:06:58.072268+00:00",
+  "codeCommit": "ec736c242276e09edfe53dae82291d68b584172e",
+  "boundary": "Hashes preserve local artifacts; output paths are ignored and source bodies are not committed. Manifest is not a claim of independent or production qualification.",
+  "files": [
+    {
+      "path": "src/lib/engine/acquisition.ts",
+      "bytes": 20340,
+      "sha256": "e7c6495b54652bcade522ff846f0b40ca45033b96c8d81ce4926b92e1924dd00"
+    },
+    {
+      "path": "src/lib/scraper.ts",
+      "bytes": 94670,
+      "sha256": "485d3fa2ef225a7928bd4a5492afdb7f373d29377a030c5b32f148eccf6d0e82"
+    },
+    {
+      "path": "src/lib/__tests__/engineV6.test.ts",
+      "bytes": 81494,
+      "sha256": "cfa7be52da16639bfe20061cbf5d07715fe25516d88de96303564cce873ef23b"
+    },
+    {
+      "path": "src/lib/extractionProfile.generated.json",
+      "bytes": 5187,
+      "sha256": "59dd0f1f8ef6a18c5a8b991064be31909a15d45b72faa0170f417b2145b7a7ce"
+    },
+    {
+      "path": "docs/architecture/engine-source-review-runbook.md",
+      "bytes": 9181,
+      "sha256": "44bdde973ab479aaa0cefe4d58189328488bf6ed4852b0d3df25db1d82b85733"
+    },
+    {
+      "path": "docs/reports/engine-v6-scope-validation-2026-10-31.md",
+      "bytes": 8719,
+      "sha256": "42dd345d8c75e264968ff04e6c489f159a49cd96ddcb4d657b0e8127d6d34178"
+    },
+    {
+      "path": "docs/reports/engine-v6-scope-evidence-2026-10-31.json",
+      "bytes": 66430,
+      "sha256": "f4ba80551d93f82e736008ebeae47fe4d3892d32c05d2fdff377e7b80a47d709"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/regressions-before.log",
+      "bytes": 5732,
+      "sha256": "b38652534ab2c2f0f7171aa8ac3201db4714f7ae7e7cfa035e2da11440d57879"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/additional-removals-before.log",
+      "bytes": 1858,
+      "sha256": "a8e73857d7271c82ac596e366e83af7c7fc3cb840d796678d17ae9a5a9b018fb"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/gemini-root-before.log",
+      "bytes": 1082,
+      "sha256": "3e74413f678e63f1bdfb55c29e64411c490e6d7b9387880e0b5a281e180345ad"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/gemini-boundaries-before.log",
+      "bytes": 2319,
+      "sha256": "23d3d108ba23dca1e0bf179a7dc44378a8ea9e8257616be075612a9763da1d87"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/gemini-second-before.log",
+      "bytes": 5770,
+      "sha256": "7a356fd46034a57e2ce421c142613b447a0a585d02a64cb5e9166f427765cdea"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/compound-layout-before.log",
+      "bytes": 1208,
+      "sha256": "ad99effc0ac9977af337d4e2cb57a8200688c0187dc601b6d3227e3962fcfa5d"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/focused-qualified.log",
+      "bytes": 1395,
+      "sha256": "da9902a2a309a88b2059d8623a849b7fbac6df557db64028a435404bee9de44d"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/focused-verified.log",
+      "bytes": 431,
+      "sha256": "ceb00be7328df47bef84cf375e1a50913cd39a6c7c5eacef37b54d1861a2f983"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/full-tests-verified.log",
+      "bytes": 1592,
+      "sha256": "9b7b44901e157e0659f0be70bab14f3e3fe22a757db6f389d11d09269a7737da"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/typecheck-verified.log",
+      "bytes": 49,
+      "sha256": "375428b367bfbe2a2872aecc5dc5d1d0fe26cc010c19520f55e016eab1968a1a"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/test-types-verified.log",
+      "bytes": 94,
+      "sha256": "9f10b3b6fbfe108f64f586b7b57faa5f77e3fd3c4349dc83dc859260dfe1d4ab"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/lint-verified.log",
+      "bytes": 5480,
+      "sha256": "1e9e013da8da5242c5ead7dab479c5d896234552ec44be9a65e5af696d226a52"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/build-verified.log",
+      "bytes": 6326,
+      "sha256": "13e36fb7b9a6065f69b43da048fdb9538db0cf717331c28185436bd33f3daec7"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/capture-4/results.json",
+      "bytes": 15491,
+      "sha256": "fbf739c9f2e5c2fa93a9822205915e44172d20c87f7fddbdbbfc65f775a7974d"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-first/report.json",
+      "bytes": 61968,
+      "sha256": "2983fb01cfff81c6cd6e662583e44cdd10177aa01cda38b2ba2ab7b4f878a6e1"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-latest/report.json",
+      "bytes": 61968,
+      "sha256": "9b4f89fc93a0cef77ad604f1ff8442363307b0814d60300f2be3245412d4513b"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/final-window-comparison.json",
+      "bytes": 9226,
+      "sha256": "7e36464ddf9412c5991908245cf60d0da972c14a39e31822bc736626d8f8a3fd"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/gemini-review-1.txt",
+      "bytes": 18724,
+      "sha256": "6e205926a64162bd8ad2107371fadd431bd44bdc03e8384235a30c09b3644a9d"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/gemini-review-2.txt",
+      "bytes": 18249,
+      "sha256": "85b7388bd2bec3b9f85698614d4c1572339707fb584394876a25262a6ed1a532"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/gemini-scope-prompt.txt",
+      "bytes": 17126,
+      "sha256": "c0f86e30fe63cd5cfd94755b74fa3a50d648e6743a29a0412d2707b4ecae8a3b"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/gemini-followup-prompt.txt",
+      "bytes": 18308,
+      "sha256": "20994ed09a82b7cf12e431920697e0f6fa060a38aa4412a2e950553767d73b29"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/gemini-scope-candidate.json",
+      "bytes": 475,
+      "sha256": "e49d13cda3bcb7e5a31acec14b4bb807feda6a6ca379f598b0a4de73f981483b"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/gemini-followup-candidate.json",
+      "bytes": 415,
+      "sha256": "24a27e93e314e3458a63c78d44025397e153fec4d5ea252130f49243710e855b"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-first/anthropic-terms.extraction.json",
+      "bytes": 814784,
+      "sha256": "53f15eff1a0ae0eafe12805fc104641f2864daa39198090fa53fd62218be52fb"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-first/apple-privacy.extraction.json",
+      "bytes": 229787,
+      "sha256": "ae79a4c7b29d678638072efe6751c0f1273e0541b650064972b2809cd44dbd2e"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-first/aws-dpa-pdf.extraction.json",
+      "bytes": 156423,
+      "sha256": "369fbb2c0968f2cf81093d1e60c4ceca9acc06b43f2fb8befd303e7105e4ca16"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-first/aws-service-terms.extraction.json",
+      "bytes": 1980782,
+      "sha256": "9bc49a8b741a0efa5e0423811a328ed6a5d52b0fa95bd9d87273163c6796556c"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-first/google-privacy-en.extraction.json",
+      "bytes": 999544,
+      "sha256": "622c3b6a19d8dcc1154cbfeb8cd5c611b9005decef17ccc8aa71d0c69e9ff0b7"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-first/google-privacy-it.extraction.json",
+      "bytes": 1054917,
+      "sha256": "7bffae02a1bf496a8a32e417691a7ff85365408035f470d4a593b1637bb41b53"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-first/meta-privacy.extraction.json",
+      "bytes": 2607288,
+      "sha256": "9cbbbf586faa8b08d2753b2e7692f3cb37dd40fb8eac716e444c70476b6350ce"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-first/microsoft-services.extraction.json",
+      "bytes": 678283,
+      "sha256": "5cbb0f424356c5b670e4c6d892d6ea90731a3ab4352da8bd460a81e44195b625"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-first/openai-service-terms.extraction.json",
+      "bytes": 484742,
+      "sha256": "b34bf9d5612800654d1abb9b687ddcbaba8ce3a0cfbdf1db2a25a7d3b7767a26"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-first/stripe-privacy-it.extraction.json",
+      "bytes": 586268,
+      "sha256": "f5d6fd3f2566516439f71d257840c174fd183bd0403765754f6d808aec0a327c"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-first/stripe-restricted.extraction.json",
+      "bytes": 361779,
+      "sha256": "c6bf895b11d7ae3369fa63f01f67d0123c5350be4d098153bcfd4bba5f70ca55"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-first/tiktok-eea-terms.extraction.json",
+      "bytes": 386679,
+      "sha256": "b8fdc9ef044b56d513f190be54ac6e8500c043523de5e78ecb799cf06c02301d"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-latest/anthropic-terms.extraction.json",
+      "bytes": 814784,
+      "sha256": "53f15eff1a0ae0eafe12805fc104641f2864daa39198090fa53fd62218be52fb"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-latest/apple-privacy.extraction.json",
+      "bytes": 229787,
+      "sha256": "ae79a4c7b29d678638072efe6751c0f1273e0541b650064972b2809cd44dbd2e"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-latest/aws-dpa-pdf.extraction.json",
+      "bytes": 156423,
+      "sha256": "369fbb2c0968f2cf81093d1e60c4ceca9acc06b43f2fb8befd303e7105e4ca16"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-latest/aws-service-terms.extraction.json",
+      "bytes": 1980782,
+      "sha256": "a72c21f7260e85fcf59e32799267030a98a4926af0bee1876b9ad2250c0dd421"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-latest/google-privacy-en.extraction.json",
+      "bytes": 999544,
+      "sha256": "07acbb5ab5c9228aaf2e10b57428e1e2073985a18ba07196d298df07346b782c"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-latest/google-privacy-it.extraction.json",
+      "bytes": 1054916,
+      "sha256": "e299b46036818649f8ce6142883b0f544ed73b156a679aa519f0bfc2d5fce514"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-latest/meta-privacy.extraction.json",
+      "bytes": 2607915,
+      "sha256": "797efc8ba8581cb7283fcde340271fd0af7ce86a8dc16848d46437f39d836d8d"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-latest/microsoft-services.extraction.json",
+      "bytes": 678283,
+      "sha256": "6280545b533f7757670e7aabdcd6782765c52ec634014d82c58c6b0d46cdb222"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-latest/openai-service-terms.extraction.json",
+      "bytes": 488227,
+      "sha256": "f88da7f96988160e2708697bab5fce0a1c625940dcb5c7d2171b635384ed1e5f"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-latest/stripe-privacy-it.extraction.json",
+      "bytes": 586268,
+      "sha256": "270b4bb7ebae4f4c041a621be82b75b0102eea9989d03193522dc824a92ee285"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-latest/stripe-restricted.extraction.json",
+      "bytes": 361779,
+      "sha256": "96b6a75092ade77f845e8b3c8c3930158935feebe01fe92a4ca86ca044a4dce9"
+    },
+    {
+      "path": "output/engine-scope-2026-10-31/replay-verified-latest/tiktok-eea-terms.extraction.json",
+      "bytes": 386679,
+      "sha256": "8a4cb3c714250a6a45e56ee63a662b0930a25da288157bcbf12fdc4167aa67e5"
+    }
+  ]
+}

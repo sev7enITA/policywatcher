@@ -1,0 +1,709 @@
+{
+  "generatedAt": "2026-10-31T13:06:58.072268+00:00",
+  "codeCommit": "ec736c242276e09edfe53dae82291d68b584172e",
+  "boundary": "Local tests and bounded public-source acquisition only; no production activation, source contract approval, public baseline, notification or Git push. Final fixes tested locally after external review.",
+  "tests": {
+    "focusedPassed": 118,
+    "fullPassed": 1437,
+    "fullSkipped": 14,
+    "filesPassed": 192,
+    "filesSkipped": 3,
+    "addedTests": 36,
+    "typecheck": "passed",
+    "criticalTestTypes": "passed",
+    "lintErrors": 0,
+    "lintExistingWarnings": 15,
+    "isolatedBuild": "passed",
+    "reproducedFailingCases": 31,
+    "beforeProofs": [
+      {
+        "id": "initial",
+        "failed": 10,
+        "passed": 73,
+        "path": "output/engine-scope-2026-10-31/regressions-before.log",
+        "sha256": "b38652534ab2c2f0f7171aa8ac3201db4714f7ae7e7cfa035e2da11440d57879"
+      },
+      {
+        "id": "additionalRemovals",
+        "failed": 4,
+        "passed": 5,
+        "path": "output/engine-scope-2026-10-31/additional-removals-before.log",
+        "sha256": "a8e73857d7271c82ac596e366e83af7c7fc3cb840d796678d17ae9a5a9b018fb"
+      },
+      {
+        "id": "semanticRoot",
+        "failed": 1,
+        "passed": 0,
+        "path": "output/engine-scope-2026-10-31/gemini-root-before.log",
+        "sha256": "3e74413f678e63f1bdfb55c29e64411c490e6d7b9387880e0b5a281e180345ad"
+      },
+      {
+        "id": "listAndDialog",
+        "failed": 3,
+        "passed": 1,
+        "path": "output/engine-scope-2026-10-31/gemini-boundaries-before.log",
+        "sha256": "23d3d108ba23dca1e0bf179a7dc44378a8ea9e8257616be075612a9763da1d87"
+      },
+      {
+        "id": "secondReview",
+        "failed": 10,
+        "passed": 95,
+        "path": "output/engine-scope-2026-10-31/gemini-second-before.log",
+        "sha256": "7a356fd46034a57e2ce421c142613b447a0a585d02a64cb5e9166f427765cdea"
+      },
+      {
+        "id": "compoundLayout",
+        "failed": 3,
+        "passed": 0,
+        "path": "output/engine-scope-2026-10-31/compound-layout-before.log",
+        "sha256": "ad99effc0ac9977af337d4e2cb57a8200688c0187dc601b6d3227e3962fcfa5d"
+      }
+    ]
+  },
+  "profile": {
+    "hash": "1b0ce6c3740d88d07037c38921bea0a997f806fea256596a2bca08d23182109d",
+    "files": {
+      "scraper:transform": "a0b7ef6cccb0d4317b181792ee3d4fb68ac5cc585b92bff743a9d0bf433410ac",
+      "engine:document": "fc05f8a2bf24de454014ecec6963296f2e2337dc127b3b5064e5a5d4a80332b4",
+      "engine:transform": "c4bf8cc9c7365cec95c31191d44a5d5073f6747bd2fb5f7413afa3aee970f341",
+      "sourceReliability:identity": "116ee89de41eedb80dac797c4d7d96397a3f011c1a1398f5e1432cd15750d70a",
+      "src/lib/pdfPolicy.ts": "8e7547a94f0a447be6797dc8b37dd0a532de5cbb64050ceb48bc7b13552a791b",
+      "src/lib/acquisitionScope.ts": "e3cc3ec89c8f223af18ee6c9c62f1dae3b7cb59268ac30037f2338782abc38d9"
+    }
+  },
+  "sourceWindow": {
+    "sources": 12,
+    "successfulDirect200": 12,
+    "attempts": [
+      {
+        "id": "aws-service-terms",
+        "url": "https://aws.amazon.com/serviceterms/",
+        "durationMs": 1105,
+        "attempts": [
+          {
+            "kind": "direct",
+            "observedAt": "2026-10-31T12:43:17.380Z",
+            "status": 200,
+            "ok": true,
+            "finalUrl": "https://aws.amazon.com/service-terms/",
+            "drift": false,
+            "durationMs": 667,
+            "bodyBytes": 1039163,
+            "bodyHash": "2859ac16df4e784ad6bc8895a3486c625b7449bedc1482c905b67044b6d61991",
+            "transportError": "",
+            "extraction": "completed",
+            "textLength": 301235,
+            "textHash": "468f9e3558d630218e06765737fb45bbfe06ee418550396514c8e09209e4bddc",
+            "language": "en-US",
+            "languageMatches": true
+          }
+        ]
+      },
+      {
+        "id": "aws-dpa-pdf",
+        "url": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+        "durationMs": 535,
+        "attempts": [
+          {
+            "kind": "direct",
+            "observedAt": "2026-10-31T12:43:19.810Z",
+            "status": 200,
+            "ok": true,
+            "finalUrl": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+            "drift": false,
+            "durationMs": 490,
+            "bodyBytes": 31524,
+            "bodyHash": "1e81d983f60c84c7ed8003d4d4a1fa738134c63d5241e5914cae701e07fdfa76",
+            "transportError": "",
+            "extraction": "completed",
+            "textLength": 29403,
+            "textHash": "1bccaa83697a8dad456e214ead1009c2c5c652ec251213c4cb491a8eea48642d",
+            "language": null,
+            "languageMatches": false
+          }
+        ]
+      },
+      {
+        "id": "openai-service-terms",
+        "url": "https://openai.com/policies/service-terms/",
+        "durationMs": 973,
+        "attempts": [
+          {
+            "kind": "direct",
+            "observedAt": "2026-10-31T12:43:22.230Z",
+            "status": 200,
+            "ok": true,
+            "finalUrl": "https://openai.com/policies/service-terms/",
+            "drift": false,
+            "durationMs": 874,
+            "bodyBytes": 380960,
+            "bodyHash": "6e25a6cd746a08ea4ce1b4aa4637603d6ec3ef5a91329654d8373557a2167d99",
+            "transportError": "",
+            "extraction": "completed",
+            "textLength": 17146,
+            "textHash": "d1471290e1f919b485397c3afe4d3b4bc25d14b9a3a1a61336b6b385c407a014",
+            "language": "en-US",
+            "languageMatches": true
+          }
+        ]
+      },
+      {
+        "id": "stripe-restricted",
+        "url": "https://stripe.com/legal/restricted-businesses",
+        "durationMs": 1005,
+        "attempts": [
+          {
+            "kind": "direct",
+            "observedAt": "2026-10-31T12:43:24.761Z",
+            "status": 200,
+            "ok": true,
+            "finalUrl": "https://stripe.com/en-it/legal/restricted-businesses",
+            "drift": false,
+            "durationMs": 929,
+            "bodyBytes": 209992,
+            "bodyHash": "45404d187cd63f55097934655c37f8af39ba89484c8a4dd1d0fc07bb7407e72b",
+            "transportError": "",
+            "extraction": "completed",
+            "textLength": 25505,
+            "textHash": "0700a4e8e5acfec6835a1016d75b5e9f12b2bc8ef70d6b252939988d45273f78",
+            "language": "en-IT",
+            "languageMatches": true
+          }
+        ]
+      },
+      {
+        "id": "stripe-privacy-it",
+        "url": "https://stripe.com/it/privacy",
+        "durationMs": 477,
+        "attempts": [
+          {
+            "kind": "direct",
+            "observedAt": "2026-10-31T12:43:26.725Z",
+            "status": 200,
+            "ok": true,
+            "finalUrl": "https://stripe.com/it/privacy",
+            "drift": false,
+            "durationMs": 388,
+            "bodyBytes": 290477,
+            "bodyHash": "cb1fa19f50d906ac681a878e905037dc5c94c8fd7efd75530b5dc46b008b2ca8",
+            "transportError": "",
+            "extraction": "completed",
+            "textLength": 94175,
+            "textHash": "937328d97494810c5545099a8f1b6bba9c8cbcfa10a716cedcf02874dbc4652c",
+            "language": "it-IT",
+            "languageMatches": true
+          }
+        ]
+      },
+      {
+        "id": "google-privacy-en",
+        "url": "https://policies.google.com/privacy?hl=en",
+        "durationMs": 975,
+        "attempts": [
+          {
+            "kind": "direct",
+            "observedAt": "2026-10-31T12:43:29.083Z",
+            "status": 200,
+            "ok": true,
+            "finalUrl": "https://policies.google.com/privacy?hl=en",
+            "drift": false,
+            "durationMs": 768,
+            "bodyBytes": 677947,
+            "bodyHash": "75dea75196bd208e95810f1fa0b2a34ac96949680944246475956d6f2d575628",
+            "transportError": "",
+            "extraction": "completed",
+            "textLength": 91188,
+            "textHash": "fd951bb76d55656703a6aa501fad07964d1e12419587709245560377013b6328",
+            "language": "en",
+            "languageMatches": true
+          }
+        ]
+      },
+      {
+        "id": "google-privacy-it",
+        "url": "https://policies.google.com/privacy?hl=it",
+        "durationMs": 1170,
+        "attempts": [
+          {
+            "kind": "direct",
+            "observedAt": "2026-10-31T12:43:31.765Z",
+            "status": 200,
+            "ok": true,
+            "finalUrl": "https://policies.google.com/privacy?hl=it",
+            "drift": false,
+            "durationMs": 974,
+            "bodyBytes": 693774,
+            "bodyHash": "806aec97863f779d3de2ec61d4c3b6dab6d1f72e7f17e17e2e733f27153afaa5",
+            "transportError": "",
+            "extraction": "completed",
+            "textLength": 106965,
+            "textHash": "297cb8b5f85ab241cc4023ca25d1442f3321094868c89738074abea7602954f2",
+            "language": "it",
+            "languageMatches": true
+          }
+        ]
+      },
+      {
+        "id": "microsoft-services",
+        "url": "https://www.microsoft.com/en/servicesagreement",
+        "durationMs": 955,
+        "attempts": [
+          {
+            "kind": "direct",
+            "observedAt": "2026-10-31T12:43:34.270Z",
+            "status": 200,
+            "ok": true,
+            "finalUrl": "https://www.microsoft.com/en/servicesagreement",
+            "drift": false,
+            "durationMs": 807,
+            "bodyBytes": 310223,
+            "bodyHash": "201b1f4bfed3b86f9a7cb08662944927aa238b1774e37b547b108ae64e33cc70",
+            "transportError": "",
+            "extraction": "completed",
+            "textLength": 121815,
+            "textHash": "a4f6d7433a8c171cba1dc4e3cf183598d4b33716528c6f121974c480f2a1bd45",
+            "language": "en",
+            "languageMatches": true
+          }
+        ]
+      },
+      {
+        "id": "apple-privacy",
+        "url": "https://www.apple.com/legal/privacy/en-ww/",
+        "durationMs": 393,
+        "attempts": [
+          {
+            "kind": "direct",
+            "observedAt": "2026-10-31T12:43:36.264Z",
+            "status": 200,
+            "ok": true,
+            "finalUrl": "https://www.apple.com/legal/privacy/en-ww/",
+            "drift": false,
+            "durationMs": 344,
+            "bodyBytes": 140802,
+            "bodyHash": "82a9cbb7c58a2d57cb639ca3b9b8c8eb8913e9a10517b78de6150b80d483ae2c",
+            "transportError": "",
+            "extraction": "completed",
+            "textLength": 28093,
+            "textHash": "5ab12392e5ab82652c3b833f76ef0888fb38798b023acd1b5079cf7163d01fb7",
+            "language": "en-US",
+            "languageMatches": true
+          }
+        ]
+      },
+      {
+        "id": "anthropic-terms",
+        "url": "https://www.anthropic.com/legal/terms",
+        "durationMs": 1269,
+        "attempts": [
+          {
+            "kind": "direct",
+            "observedAt": "2026-10-31T12:43:38.937Z",
+            "status": 200,
+            "ok": true,
+            "finalUrl": "https://www.anthropic.com/legal/consumer-terms",
+            "drift": false,
+            "durationMs": 1123,
+            "bodyBytes": 601571,
+            "bodyHash": "e49fd2b8a12fd2d759c5f8149a91a4c62c4cfdad4aac4173f572430df7460032",
+            "transportError": "",
+            "extraction": "completed",
+            "textLength": 36241,
+            "textHash": "5ff9a92621fbc69ce5a606b17fc22b814e0cddee7e7aca5b83fe9999ea3c33d0",
+            "language": "en",
+            "languageMatches": true
+          }
+        ]
+      },
+      {
+        "id": "meta-privacy",
+        "url": "https://www.facebook.com/privacy/policy/",
+        "durationMs": 2711,
+        "attempts": [
+          {
+            "kind": "direct",
+            "observedAt": "2026-10-31T12:43:42.715Z",
+            "status": 200,
+            "ok": true,
+            "finalUrl": "https://www.facebook.com/privacy/policy/",
+            "drift": false,
+            "durationMs": 2130,
+            "bodyBytes": 2165067,
+            "bodyHash": "fbda0cafafbd40bdb35537d06ca3bdcfc91e4c14c8d482f24bd4a9e31e67305d",
+            "transportError": "",
+            "extraction": "completed",
+            "textLength": 54855,
+            "textHash": "d37f63453a8485c1624e95fe5fc180c5268ddacec39e8e203f3257585eca6bbf",
+            "language": "en",
+            "languageMatches": true
+          }
+        ]
+      },
+      {
+        "id": "tiktok-eea-terms",
+        "url": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+        "durationMs": 1002,
+        "attempts": [
+          {
+            "kind": "direct",
+            "observedAt": "2026-10-31T12:43:45.749Z",
+            "status": 200,
+            "ok": true,
+            "finalUrl": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+            "drift": false,
+            "durationMs": 950,
+            "bodyBytes": 275763,
+            "bodyHash": "23aca01ba6b54eb91e6bc31e0cedbaa121287375f7b190514495b53ab1d051e5",
+            "transportError": "",
+            "extraction": "completed",
+            "textLength": 28650,
+            "textHash": "819293325069c55b34a19b62e44d73b6f1cca5603e547a9082463ae1fea75ca5",
+            "language": "en",
+            "languageMatches": true
+          }
+        ]
+      }
+    ],
+    "sumPerSourceElapsedMs": 12570,
+    "languageMatches": 11,
+    "nodeAutomaticAddressFamilySelection": false,
+    "dailyWindowsQualified": false,
+    "attemptCount": 12
+  },
+  "finalParserWindowComparison": {
+    "boundary": "Both stored source windows replayed offline under the final parser. Replays are not new observations. Contract approval and complete policy coverage remain unverified.",
+    "rows": [
+      {
+        "id": "aws-service-terms",
+        "url": "https://aws.amazon.com/serviceterms/",
+        "firstObservedAt": "2026-10-31T06:20:59.633Z",
+        "latestObservedAt": "2026-10-31T12:43:17.380Z",
+        "profileHash": "de74882171a5cf6c8a63808b99db77d78940e6de863920ccbb7e02f8f7a76409",
+        "sameText": true,
+        "sameBlocks": true,
+        "previousParserChars": 301235,
+        "finalChars": 301235,
+        "heuristicMissingCount": 0,
+        "extractionIssues": [],
+        "retainedDisclosureIds": [],
+        "firstPayloadSha256": "b12ab11c307e53d766b4a64b6b7b87347adf33814a7b6a8910f4d059846dd734",
+        "latestPayloadSha256": "2859ac16df4e784ad6bc8895a3486c625b7449bedc1482c905b67044b6d61991"
+      },
+      {
+        "id": "aws-dpa-pdf",
+        "url": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+        "firstObservedAt": "2026-10-31T06:21:02.131Z",
+        "latestObservedAt": "2026-10-31T12:43:19.810Z",
+        "profileHash": "2664bb9fe0406e5d7d71bd1ca1a662f82696ded7b7afd11c402945c1e8fb1325",
+        "sameText": true,
+        "sameBlocks": true,
+        "previousParserChars": 29403,
+        "finalChars": 29403,
+        "heuristicMissingCount": 0,
+        "extractionIssues": [],
+        "retainedDisclosureIds": [],
+        "firstPayloadSha256": "1e81d983f60c84c7ed8003d4d4a1fa738134c63d5241e5914cae701e07fdfa76",
+        "latestPayloadSha256": "1e81d983f60c84c7ed8003d4d4a1fa738134c63d5241e5914cae701e07fdfa76"
+      },
+      {
+        "id": "openai-service-terms",
+        "url": "https://openai.com/policies/service-terms/",
+        "firstObservedAt": "2026-10-31T06:21:04.275Z",
+        "latestObservedAt": "2026-10-31T12:43:22.230Z",
+        "profileHash": "924e7a81c5a2614cd759a7c131ed56c38a3e6e61a81936dfb44e4ead7138a6e9",
+        "sameText": true,
+        "sameBlocks": true,
+        "previousParserChars": 17146,
+        "finalChars": 17149,
+        "heuristicMissingCount": 0,
+        "extractionIssues": [
+          {
+            "reason": "interactive_document_content_unreviewed",
+            "target": "select",
+            "chars": 1
+          }
+        ],
+        "retainedDisclosureIds": [],
+        "firstPayloadSha256": "56b284d7dea7a7f0c35139fa53ea2cb38baf7dcef216770151e1b6dff58094a3",
+        "latestPayloadSha256": "6e25a6cd746a08ea4ce1b4aa4637603d6ec3ef5a91329654d8373557a2167d99"
+      },
+      {
+        "id": "stripe-restricted",
+        "url": "https://stripe.com/legal/restricted-businesses",
+        "firstObservedAt": "2026-10-31T06:21:07.209Z",
+        "latestObservedAt": "2026-10-31T12:43:24.761Z",
+        "profileHash": "8beb38d3ff303e7e2607a7053fbd525e85e8939c4957d3259328f25afd91c83e",
+        "sameText": true,
+        "sameBlocks": true,
+        "previousParserChars": 25505,
+        "finalChars": 25505,
+        "heuristicMissingCount": 0,
+        "extractionIssues": [],
+        "retainedDisclosureIds": [],
+        "firstPayloadSha256": "501b0aaed24fd287bb264d9fad29e18a8e5705dd669d09bf80b24c93a53c98d9",
+        "latestPayloadSha256": "45404d187cd63f55097934655c37f8af39ba89484c8a4dd1d0fc07bb7407e72b"
+      },
+      {
+        "id": "stripe-privacy-it",
+        "url": "https://stripe.com/it/privacy",
+        "firstObservedAt": "2026-10-31T06:21:09.233Z",
+        "latestObservedAt": "2026-10-31T12:43:26.725Z",
+        "profileHash": "c602aef4da05829e4b63e3eb7f8f978784b9250ac0ec26bb3df733916d28a980",
+        "sameText": true,
+        "sameBlocks": true,
+        "previousParserChars": 94173,
+        "finalChars": 94175,
+        "heuristicMissingCount": 0,
+        "extractionIssues": [],
+        "retainedDisclosureIds": [],
+        "firstPayloadSha256": "e9115a3c517e20c45bfa7448a06b0cf56cb87388138f2f3392e6dd609bdf1ced",
+        "latestPayloadSha256": "cb1fa19f50d906ac681a878e905037dc5c94c8fd7efd75530b5dc46b008b2ca8"
+      },
+      {
+        "id": "google-privacy-en",
+        "url": "https://policies.google.com/privacy?hl=en",
+        "firstObservedAt": "2026-10-31T06:21:11.558Z",
+        "latestObservedAt": "2026-10-31T12:43:29.083Z",
+        "profileHash": "b4acca8b314c975879fa816f4baa14d485f24d04ece79afd853e4db82ea15fcd",
+        "sameText": true,
+        "sameBlocks": true,
+        "previousParserChars": 91188,
+        "finalChars": 91188,
+        "heuristicMissingCount": 0,
+        "extractionIssues": [
+          {
+            "reason": "dialog_document_scope_unverified",
+            "target": null,
+            "chars": 5
+          },
+          {
+            "reason": "dialog_document_scope_unverified",
+            "target": null,
+            "chars": 5
+          },
+          {
+            "reason": "interactive_document_content_unreviewed",
+            "target": "button",
+            "chars": 5
+          },
+          {
+            "reason": "hidden_document_content_unresolved",
+            "target": null,
+            "chars": 121
+          }
+        ],
+        "retainedDisclosureIds": [],
+        "firstPayloadSha256": "ae6b630f05b0e50860478d4f3d60e63e5c7da069b05e7292665a5c0d593bb852",
+        "latestPayloadSha256": "75dea75196bd208e95810f1fa0b2a34ac96949680944246475956d6f2d575628"
+      },
+      {
+        "id": "google-privacy-it",
+        "url": "https://policies.google.com/privacy?hl=it",
+        "firstObservedAt": "2026-10-31T06:21:13.643Z",
+        "latestObservedAt": "2026-10-31T12:43:31.765Z",
+        "profileHash": "de84a9a3da820a5ab80d04c0c5f7c6cf8a22a431f85648f25d64d6582a0ac591",
+        "sameText": true,
+        "sameBlocks": true,
+        "previousParserChars": 106965,
+        "finalChars": 106965,
+        "heuristicMissingCount": 0,
+        "extractionIssues": [
+          {
+            "reason": "dialog_document_scope_unverified",
+            "target": null,
+            "chars": 5
+          },
+          {
+            "reason": "dialog_document_scope_unverified",
+            "target": null,
+            "chars": 5
+          },
+          {
+            "reason": "interactive_document_content_unreviewed",
+            "target": "button",
+            "chars": 5
+          },
+          {
+            "reason": "hidden_document_content_unresolved",
+            "target": null,
+            "chars": 169
+          }
+        ],
+        "retainedDisclosureIds": [],
+        "firstPayloadSha256": "33ac4f5a0ebaa10d286d229f333ec8ae59557d9dc60d4f47cd814426cd948c20",
+        "latestPayloadSha256": "806aec97863f779d3de2ec61d4c3b6dab6d1f72e7f17e17e2e733f27153afaa5"
+      },
+      {
+        "id": "microsoft-services",
+        "url": "https://www.microsoft.com/en/servicesagreement",
+        "firstObservedAt": "2026-10-31T06:21:17.349Z",
+        "latestObservedAt": "2026-10-31T12:43:34.270Z",
+        "profileHash": "f112bd5a0d201e53ed7f0d6a463e27dc4e0487cfc06d4181c4ce443161d8ed78",
+        "sameText": true,
+        "sameBlocks": true,
+        "previousParserChars": 121815,
+        "finalChars": 121815,
+        "heuristicMissingCount": 0,
+        "extractionIssues": [],
+        "retainedDisclosureIds": [],
+        "firstPayloadSha256": "4046b76b95b371fc0617d5fd61dd11ca94468d6ab773c9b381690f1b9c953207",
+        "latestPayloadSha256": "201b1f4bfed3b86f9a7cb08662944927aa238b1774e37b547b108ae64e33cc70"
+      },
+      {
+        "id": "apple-privacy",
+        "url": "https://www.apple.com/legal/privacy/en-ww/",
+        "firstObservedAt": "2026-10-31T06:21:20.259Z",
+        "latestObservedAt": "2026-10-31T12:43:36.264Z",
+        "profileHash": "474edcb8a2e49ecc40858c93a63b9e63c7d1928a6e15dd960babd8a5e154523b",
+        "sameText": true,
+        "sameBlocks": true,
+        "previousParserChars": 28501,
+        "finalChars": 28124,
+        "heuristicMissingCount": 0,
+        "extractionIssues": [],
+        "retainedDisclosureIds": [
+          "accordion-panel-d5017b4a1ad75bff673d26d6eef13b50",
+          "accordion-panel-19901356b1f0ce0df114c0cdf1d5855c",
+          "accordion-panel-f0c3a039cfcad1c6e06253eb80cf0f37",
+          "accordion-panel-2096cb92cc5c907afbee60fd74b8b772",
+          "accordion-panel-6874dceb85f821cdee999836b0b62db8",
+          "accordion-panel-5225672c5498955e5dc7195c8c6189d6",
+          "accordion-panel-4bde7a22b3757c8f138d3284c359b44e",
+          "accordion-panel-0a9da8008cb9b600d91b5a4e6a2b80f0",
+          "accordion-panel-31616e7a49b5dc5655402392b7d7efa0",
+          "accordion-panel-0b0605ea18636c5a16293ede34ddee82",
+          "accordion-panel-cfe79ca28b4291780364fa61146f1c6d",
+          "accordion-panel-405e83e7ec35334ff3cd346ef2258da5"
+        ],
+        "firstPayloadSha256": "82a9cbb7c58a2d57cb639ca3b9b8c8eb8913e9a10517b78de6150b80d483ae2c",
+        "latestPayloadSha256": "82a9cbb7c58a2d57cb639ca3b9b8c8eb8913e9a10517b78de6150b80d483ae2c"
+      },
+      {
+        "id": "anthropic-terms",
+        "url": "https://www.anthropic.com/legal/terms",
+        "firstObservedAt": "2026-10-31T06:21:22.790Z",
+        "latestObservedAt": "2026-10-31T12:43:38.937Z",
+        "profileHash": "455e8581ba95085d0306caaf02ca3272b2c1f55ec9f0d909b38721e8afa10cbe",
+        "sameText": true,
+        "sameBlocks": true,
+        "previousParserChars": 36239,
+        "finalChars": 36241,
+        "heuristicMissingCount": 0,
+        "extractionIssues": [
+          {
+            "reason": "removed_document_content_unreviewed",
+            "target": "nav",
+            "chars": 387
+          },
+          {
+            "reason": "interactive_document_content_unreviewed",
+            "target": "base-ui-_R_1dbsnpfkq6btbH2_",
+            "chars": 23
+          },
+          {
+            "reason": "interactive_document_content_unreviewed",
+            "target": "base-ui-_R_aedbsnpfkq6btb_",
+            "chars": 7
+          },
+          {
+            "reason": "interactive_document_content_unreviewed",
+            "target": "base-ui-_R_6uudbsnpfkq6btb_",
+            "chars": 19
+          },
+          {
+            "reason": "document_header_metadata_unreviewed",
+            "target": null,
+            "chars": 105
+          }
+        ],
+        "retainedDisclosureIds": [],
+        "firstPayloadSha256": "e49fd2b8a12fd2d759c5f8149a91a4c62c4cfdad4aac4173f572430df7460032",
+        "latestPayloadSha256": "e49fd2b8a12fd2d759c5f8149a91a4c62c4cfdad4aac4173f572430df7460032"
+      },
+      {
+        "id": "meta-privacy",
+        "url": "https://www.facebook.com/privacy/policy/",
+        "firstObservedAt": "2026-10-31T06:21:25.633Z",
+        "latestObservedAt": "2026-10-31T12:43:42.715Z",
+        "profileHash": "ec3846ca777864486f198019606b8dd11981a5ae3067021a9a1ef90618b86b82",
+        "sameText": true,
+        "sameBlocks": true,
+        "previousParserChars": 54855,
+        "finalChars": 54855,
+        "heuristicMissingCount": 286,
+        "extractionIssues": [
+          {
+            "reason": "document_scope_unverified",
+            "target": null,
+            "chars": 0
+          }
+        ],
+        "retainedDisclosureIds": [],
+        "firstPayloadSha256": "fdeaad202259db72607addd56b2b0485e4511cad5f624a7deddc2fae4ba89c45",
+        "latestPayloadSha256": "fbda0cafafbd40bdb35537d06ca3bdcfc91e4c14c8d482f24bd4a9e31e67305d"
+      },
+      {
+        "id": "tiktok-eea-terms",
+        "url": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+        "firstObservedAt": "2026-10-31T06:21:28.565Z",
+        "latestObservedAt": "2026-10-31T12:43:45.749Z",
+        "profileHash": "7559fe80509f319c7a76603607c27dd49048d5b1f386124bc33e2216855f74fd",
+        "sameText": true,
+        "sameBlocks": true,
+        "previousParserChars": 28650,
+        "finalChars": 28650,
+        "heuristicMissingCount": 0,
+        "extractionIssues": [
+          {
+            "reason": "document_scope_unverified",
+            "target": null,
+            "chars": 0
+          }
+        ],
+        "retainedDisclosureIds": [],
+        "firstPayloadSha256": "c5d41e0e81780240390849cb12a0551102aeeb74f9c823b46031072e49e2ae07",
+        "latestPayloadSha256": "23aca01ba6b54eb91e6bc31e0cedbaa121287375f7b190514495b53ab1d051e5"
+      }
+    ]
+  },
+  "gemini": {
+    "observedAt": "2026-10-31T13:03:11.746Z",
+    "modelMode": "4 Argon Alta",
+    "completedReviews": 2,
+    "finalCommitExternallySignedOff": false,
+    "reviews": [
+      {
+        "round": 1,
+        "candidate": {
+          "baseCommit": "0fe69b16e099c2de677e9db28500192abacf1189",
+          "files": {
+            "src/lib/engine/acquisition.ts": "0c0f76f4ea8dfc6f05c2dcd1b734cbc9ad85ef6dab6848e12d511a6edb27107c",
+            "src/lib/scraper.ts": "a2793f7c1277177ab8c349257515849ea3d9a43900d8a3b765a8035ec91e24e3",
+            "src/lib/__tests__/engineV6.test.ts": "871072a58184f6d7f156d2d720f4f83ddb628a80d8a6e57383b301b756ad6342"
+          },
+          "promptSha256": "c0f86e30fe63cd5cfd94755b74fa3a50d648e6743a29a0412d2707b4ecae8a3b"
+        },
+        "answer": "- heading \"Gemini ha detto\" [level=6]\n  - heading \"1. Difetti concreti nel diff\" [level=3]\n  - heading \"D1. Perdita silenziosa di testo in visitChildren quando owner è undefined\" [level=4]:\n    - text: D1. Perdita silenziosa di testo in\n    - code: visitChildren\n    - text: quando\n    - code: owner\n    - text: è\n    - code: undefined\n  - list:\n    - paragraph: \"Severità: Alta (omissione non segnalata di testo normativo).\"\n    - paragraph:\n      - text: \"Posizione:\"\n      - code: src/lib/scraper.ts\n      - text: \", righe 1635–1658 (\"\n      - code: visitChildren\n      - text: /\n      - code: flush\n      - text: ).\n    - paragraph:\n      - text: \"Causa: L'attraversamento parte da\"\n      - code: \"$target.each((_, element) => { visitChildren(element); })\"\n      - text: con\n      - code: owner\n      - text: pari a\n      - code: undefined\n      - text: . Quando\n      - code: visitChildren\n      - text: incontra un contenitore non semantico che racchiude blocchi semantici (\n      - code: else if (el.find(semantic).length)\n      - text: ), invoca\n      - code: visitChildren(child, owner)\n      - text: propagando\n      - code: owner = undefined\n      - text: . In\n      - code: flush()\n      - text: \", la guardia\"\n      - code: if (owner && ownText)\n      - text: scarta qualsiasi testo raccolto finché\n      - code: owner\n      - text: resta\n      - code: undefined\n      - text: . Ciò si verifica anche quando\n      - code: $target\n      - text: stesso è un elemento semantico (es. scoping tramite\n      - code: \"#fragment\"\n      - text: su\n      - code: <li>\n      - text: \",\"\n      - code: <dd>\n      - text: \",\"\n      - code: <blockquote>\n      - text: o\n      - code: <p>\n      - text: ).\n    - paragraph: \"Riproduzione:\"\n    - generic: HTML\n    - button \"Scarica codice\":\n      - img: arrow_circle_down\n    - button \"Copia codice\":\n      - img: copy\n    - code:\n      - generic: <main>\n      - generic: <div class=\"clause-box\">\n      - text: We process biometric identifiers only with explicit consent.\n      - generic: <ul>\n      - generic: <li>\n      - text: \"Retention: 1 year.\"\n      - generic: </li>\n      - generic: </ul>\n      - text: Except where required by law.\n      - generic: </div>\n      - generic: </main>\n    - paragraph:\n      - text: Se il preparatore non converte\n      - code: div.clause-box\n      - text: in\n      - code: <p>\n      - text: (perché contiene\n      - code: <ul>\n      - text: ),\n      - code: visitChildren\n      - text: visita\n      - code: div.clause-box\n      - text: con\n      - code: owner = undefined\n      - text: \": i due blocchi di testo prima e dopo\"\n      - code: <ul>\n      - text: vengono scartati silenziosamente. Lo stesso accade se\n      - code: $target\n      - text: è direttamente\n      - code: <li id=\"scoped-clause\">Lead text<p>Nested</p>Tail text</li>\n      - text: .\n    - paragraph:\n      - text: \"Correzione: Se\"\n      - code: $target\n      - text: (l'elemento radice passato a\n      - code: visitChildren\n      - text: ) corrisponde a\n      - code: semantic\n      - text: \", inizializzare\"\n      - code: owner\n      - text: a\n      - code: element as Element\n      - text: ; per i run di testo privi di\n      - code: owner\n      - text: semantico, associare come fallback l'elemento contenitore corrente (\n      - code: parent as Element\n      - text: ) o sintetizzare un blocco\n      - code: <p>\n      - text: invece di scartare\n      - code: ownText\n      - text: \":\"\n    - generic: TypeScript\n    - button \"Scarica codice\":\n      - img: arrow_circle_down\n    - button \"Copia codice\":\n      - img: copy\n    - code:\n      - generic: \"function flush(fallbackOwner?: Element)\"\n      - text: \"{ const targetOwner = owner ?? fallbackOwner; const ownText = $(run).text().replace(/\\\\s+/g, ' ').trim(); if (targetOwner && ownText) entries.push({ element: targetOwner, ownText }); run = []; }\"\n    - paragraph: \"E nell'avvio:\"\n    - generic: TypeScript\n    - button \"Scarica codice\":\n      - img: arrow_circle_down\n    - button \"Copia codice\":\n      - img: copy\n    - code:\n      - text: $target.each(\n      - generic: (_, element) =>\n      - text: \"{ visitChildren(element, $(element).is(semantic) ? (element as Element) : undefined); });\"\n  - heading \"D2. Disallineamento tra scope in prepareEngineHtml e il selettore documento di extractPolicyText\" [level=4]:\n    - text: D2. Disallineamento tra\n    - code: scope\n    - text: in\n    - code: prepareEngineHtml\n    - text: e il selettore documento di\n    - code: extractPolicyText\n  - list:\n    - paragraph: \"Severità: Alta (sia falsi negativi con rimozione silenziosa, sia falsi positivi bloccanti).\"\n    - paragraph:\n      - text: \"Posizione:\"\n      - code: src/lib/engine/acquisition.ts\n      - text: \", righe 33 e 67–74.\"\n    - paragraph:\n      - text: \"Causa:\"\n      - code: prepareEngineHtml\n      - text: definisce\n      - code: const scope = 'main, article, [role=\"main\"]'\n      - text: \", mentre\"\n      - code: extractPolicyText\n      - text: seleziona il documento tramite\n      - code: .otnotice-content\n      - text: \",\"\n      - code: mainSelectors\n      - text: (che include contenitori basati su classi/ID privi di\n      - code: <main>\n      - text: /\n      - code: <article>\n      - text: ) o\n      - code: \"#fragment\"\n      - text: .\n    - list:\n      - paragraph:\n        - text: \"Falso negativo (omissione non segnalata): Se il documento sorgente è contenuto in\"\n        - code: <div class=\"otnotice-content\">\n        - text: o in un selettore di fallback senza\n        - code: <main>\n        - text: \",\"\n        - code: <article>\n        - text: o\n        - code: \"[role=\\\"main\\\"]\"\n        - text: \", la condizione\"\n        - code: node.parents(scope).length || node.is(scope) || node.find(scope).length\n        - text: è sempre falsa (\n        - code: \"0\"\n        - text: ).\n        - code: $(chrome).remove()\n        - text: elimina quindi\n        - code: <aside>\n        - text: \",\"\n        - code: <footer>\n        - text: \",\"\n        - code: .sidebar\n        - text: \",\"\n        - code: \"#header\"\n        - text: \",\"\n        - code: \"#footer\"\n        - text: interni alla policy senza registrare\n        - code: removed_document_content_unreviewed\n        - text: .\n      - paragraph:\n        - text: \"Falso positivo (blocco improprio): Se il sito ha\"\n        - code: <main>...</main>\n        - text: per la policy e un\n        - code: <footer id=\"footer\">\n        - text: o\n        - code: <aside class=\"sidebar\">\n        - text: esterno a\n        - code: <main>\n        - text: che contiene card editoriali marcate con\n        - code: <article>\n        - text: (es. widget \"Articoli correlati\" nel footer),\n        - code: node.find(scope).length\n        - text: sul\n        - code: <footer>\n        - text: /\n        - code: .sidebar\n        - text: esterno è maggiore di\n        - code: \"0\"\n        - text: e innesca\n        - code: removed_document_content_unreviewed\n        - text: su chrome esterno al documento.\n    - paragraph: \"Riproduzione:\"\n    - list:\n      - paragraph:\n        - text: \"Falso negativo:\"\n        - code: \"<div class=\\\"otnotice-content\\\"><h1>Privacy Policy</h1><p>Testo...</p><aside>Eccezione: vendiamo i dati.</aside></div>\"\n        - text: \"->\"\n        - code: <aside>\n        - text: rimosso senza issue.\n      - paragraph:\n        - text: \"Falso positivo:\"\n        - code: <main><h1>Privacy Policy</h1>...</main><footer><article>Blog post link</article></footer>\n        - text: \"-> cattura bloccata con\"\n        - code: removed_document_content_unreviewed\n        - text: .\n    - paragraph:\n      - text: \"Correzione: Risolvi la radice del documento in\"\n      - code: prepareEngineHtml\n      - text: con la stessa gerarchia di\n      - code: extractPolicyText\n      - text: (incluso\n      - code: .otnotice-content\n      - text: e il singolo nodo target primario) e verifica l'appartenenza/intersezione di\n      - code: chrome\n      - text: esclusivamente rispetto a tale nodo radice risolto.\n  - heading \"D3. Bypass del controllo su [role=\\\"dialog\\\"] quando il dialog è o contiene scope\" [level=4]:\n    - text: D3. Bypass del controllo su\n    - code: \"[role=\\\"dialog\\\"]\"\n    - text: quando il dialog è o contiene\n    - code: scope\n  - list:\n    - paragraph: \"Severità: Media-Alta (rimozione dell'intero documento senza issue specifica).\"\n    - paragraph:\n      - text: \"Posizione:\"\n      - code: src/lib/engine/acquisition.ts\n      - text: \", righe 61–74.\"\n    - paragraph:\n      - text: \"Causa: Il ciclo preesistente su\"\n      - code: $('[role=\"dialog\"]')\n      - text: controlla solo\n      - code: node.parents(scope).length\n      - text: \", mentre il nuovo ciclo su\"\n      - code: $(chrome)\n      - text: esclude esplicitamente\n      - code: \"[role=\\\"dialog\\\"]\"\n      - text: tramite\n      - code: .not('[role=\"dialog\"]')\n      - text: . Se un nodo\n      - code: \"[role=\\\"dialog\\\"]\"\n      - text: è esso stesso\n      - code: scope\n      - text: (\n      - code: <main role=\"dialog\">\n      - text: ) o contiene\n      - code: scope\n      - text: (\n      - code: <div role=\"dialog\"><main>...</main></div>\n      - text: ), il primo ciclo non lo segnala (\n      - code: node.parents(scope).length === 0\n      - text: ), il secondo ciclo lo salta per\n      - code: .not('[role=\"dialog\"]')\n      - text: \", e\"\n      - code: $(chrome).remove()\n      - text: rimuove l'intero\n      - code: <main>\n      - text: senza registrare né\n      - code: dialog_document_scope_unverified\n      - text: né\n      - code: removed_document_content_unreviewed\n      - text: .\n    - paragraph: \"Riproduzione:\"\n    - generic: HTML\n    - button \"Scarica codice\":\n      - img: arrow_circle_down\n    - button \"Copia codice\":\n      - img: copy\n    - code:\n      - generic: <div role=\"dialog\" id=\"policy-modal\">\n      - generic: <main>\n      - generic: <h1>\n      - text: Privacy Policy\n      - generic: </h1>\n      - generic: <h2>\n      - text: Data use\n      - generic: </h2>\n      - generic: <p>\n      - text: ...\n      - generic: </p>\n      - generic: </main>\n      - generic: </div>\n    - paragraph:\n      - text: \"Correzione: Estendere il controllo del ciclo\"\n      - code: $('[role=\"dialog\"]')\n      - text: \"alla riga 62 con la stessa condizione strutturale:\"\n    - generic: TypeScript\n    - button \"Scarica codice\":\n      - img: arrow_circle_down\n    - button \"Copia codice\":\n      - img: copy\n    - code: \"if ((node.parents(scope).length || node.is(scope) || node.find(scope).length) && chars > 0) { issues.push({ reason: 'dialog_document_scope_unverified', target: node.attr('id') || null, chars }); }\"\n  - heading \"D4. Perdita di sourceUrl nella chiamata ricorsiva per .otnotice-content\" [level=4]:\n    - text: D4. Perdita di\n    - code: sourceUrl\n    - text: nella chiamata ricorsiva per\n    - code: .otnotice-content\n  - list:\n    - paragraph:\n      - text: \"Severità: Media (regressione su URL con\"\n      - code: \"#fragment\"\n      - text: in pagine OneTrust).\n    - paragraph:\n      - text: \"Posizione:\"\n      - code: src/lib/scraper.ts\n      - text: \", riga 1594.\"\n    - paragraph:\n      - text: \"Causa:\"\n      - code: return extractPolicyText(\\\n      - text: \"${notice.html()}`, undefined, contract);\"\n      - code: propaga\n      - text: contract\n      - code: \", ma passa\"\n      - text: undefined\n      - code: al posto di\n      - text: sourceUrl\n      - code: . Qualsiasi logica dipendente da\n      - text: sourceUrl\n      - code: eseguita dopo il blocco\n      - text: .otnotice-content\n      - code: (o qualora lo scoping del\n      - text: \"#fragment` avvenga a valle) perde l'URL e l'eventuale hash.\"\n    - paragraph:\n      - text: \"Riproduzione: Invocare\"\n      - code: extractPolicyText(html, '[https://example.com/privacy#section-2](https://example.com/privacy#section-2)', contract)\n      - text: su un documento con singolo\n      - code: .otnotice-content\n      - text: .\n    - paragraph:\n      - text: \"Correzione: Passare\"\n      - code: sourceUrl\n      - text: (o omettere la ri-applicazione dello scope se già eseguita a monte, verificando l'ordine rispetto a\n      - code: buildFragmentScopedHtml\n      - text: ).\n  - heading \"2. Nuovi casi limite deterministici introdotti dalla patch\" [level=3]\n  - list:\n    - paragraph:\n      - text: Frammentazione dei marcatori\n      - code: <li>\n      - text: e mutazione semantica su\n      - code: <li><p>...</p></li>\n      - text: \":\"\n    - list:\n      - paragraph:\n        - text: Con\n        - code: \"preserveNestedBlockOrder: true\"\n        - text: \", un\"\n        - code: <li>Condizione A.<p>Dettaglio B.</p>Salvo C.</li>\n        - text: produce due entry con\n        - code: \"element: li\"\n        - text: (\n        - code: \"\\\"Condizione A.\\\"\"\n        - text: e\n        - code: \"\\\"Salvo C.\\\"\"\n        - text: ) e una con\n        - code: \"element: p\"\n        - text: (\n        - code: \"\\\"Dettaglio B.\\\"\"\n        - text: ). In\n        - code: entries.forEach\n        - text: \", poiché\"\n        - code: orderedText !== undefined\n        - text: \", entrambe le entry\"\n        - code: li\n        - text: attraversano il formattatore foglia e ricevono il prefisso\n        - code: \"-\"\n        - text: \", trasformando la clausola finale\"\n        - code: \"\\\"Salvo C.\\\"\"\n        - text: in un punto elenco separato anziché nella prosecuzione dello stesso item.\n      - paragraph:\n        - text: Viceversa, per\n        - code: <li><p>Unico paragrafo nel punto elenco</p></li>\n        - text: (senza testo diretto fuori da\n        - code: <p>\n        - text: ),\n        - code: visitChildren\n        - text: non emette alcuna entry con\n        - code: \"element: li\"\n        - text: (poiché\n        - code: ownText\n        - text: è vuoto) ed emette solo\n        - code: \"{ element: p }\"\n        - text: \", perdendo il prefisso di lista\"\n        - code: \"-\"\n        - text: .\n    - paragraph:\n      - text: Espansione di\n      - code: chrome\n      - text: a\n      - code: \"#header\"\n      - text: \",\"\n      - code: \"#footer\"\n      - text: \",\"\n      - code: .sidebar\n      - text: \",\"\n      - code: .nav-menu\n      - text: \":\"\n    - list:\n      - paragraph:\n        - text: Molti template legali racchiudono il titolo del documento in\n        - code: <div id=\"header\"><h1>Privacy Policy</h1></div>\n        - text: dentro\n        - code: <main>\n        - text: (o subito prima di\n        - code: <main>\n        - text: ). L'aggiunta di\n        - code: \"#header\"\n        - text: a\n        - code: chrome\n        - text: fa sì che\n        - code: prepareEngineHtml\n        - text: emetta\n        - code: removed_document_content_unreviewed\n        - text: (se dentro\n        - code: scope\n        - text: ) e rimuova l'\n        - code: <h1>\n        - text: con\n        - code: $(chrome).remove()\n        - text: \", impedendo anche il recupero tramite\"\n        - code: restoredTitleFromDom\n        - text: se\n        - code: prepared.titles\n        - text: viene calcolato dopo la rimozione o se il testo perde l'intestazione richiesta dal contratto.\n    - paragraph:\n      - text: Sovrascrittura di\n      - code: lastCandidate\n      - text: e relativo\n      - code: observedAt\n      - text: quando più trasporti restituiscono risposte HTTP 200 non idonee\n      - text: \":\"\n    - list:\n      - paragraph:\n        - text: In\n        - code: acquire\n        - text: \", se\"\n        - code: direct\n        - text: restituisce HTTP 200 al tempo\n        - math:\n          - generic: t\n          - generic: \"1\"\n        - text: t\n        - generic: \"1\"\n        - text: con corpo non idoneo (salvando\n        - code: lastCandidate\n        - text: con\n        - code: observedAt = t_1\n        - text: ) e il successivo fallback\n        - code: http2\n        - text: restituisce anch'esso HTTP 200 al tempo\n        - math:\n          - generic: t\n          - generic: \"2\"\n        - text: t\n        - generic: \"2\"\n        - text: con corpo non idoneo (non bloccato da 429/503 o eccezione di trasporto),\n        - code: lastCandidate\n        - text: viene sovrascritto con\n        - code: observedAt = t_2\n        - text: e\n        - code: source = 'http2'\n        - text: \", perdendo il timestamp e l'artefatto della prima cattura diretta.\"\n    - paragraph:\n      - text: Doppia emissione di issue su nodi\n      - code: chrome\n      - text: annidati in\n      - code: scope\n      - text: \":\"\n    - list:\n      - paragraph:\n        - text: Se\n        - code: <main>\n        - text: contiene\n        - code: <aside class=\"sidebar\"><nav class=\"nav-menu\">Link</nav></aside>\n        - text: \",\"\n        - code: $(chrome).not('[role=\"dialog\"]')\n        - text: seleziona sia\n        - code: <aside>\n        - text: sia\n        - code: <nav>\n        - text: \", registrando due volte\"\n        - code: removed_document_content_unreviewed\n        - text: per gli stessi caratteri.\n  - heading \"3. Lacune non verificate (fuori dal diff o prive di evidenza locale)\" [level=3]\n  - list:\n    - paragraph:\n      - text: Ordine esatto in\n      - code: prepareEngineHtml\n      - text: tra\n      - code: reviewedExclusions\n      - text: \", raccolta di\"\n      - code: prepared.titles\n      - text: e conversione\n      - code: div\n      - text: /\n      - code: span\n      - text: /\n      - code: pre\n      - text: \"->\"\n      - code: p\n      - text: \": Il diff mostra solo le righe 33–75 e 154–170 di\"\n      - code: acquisition.ts\n      - text: . Non è verificabile dal solo diff se\n      - code: prepared.titles\n      - text: venga estratto prima o dopo\n      - code: $(chrome).remove()\n      - text: \", né come il preparatore gestisca i\"\n      - code: <div>\n      - text: misti (testo + blocchi semantici figli) che innescano il difetto D1.\n    - paragraph:\n      - text: Posizione della chiamata a\n      - code: buildFragmentScopedHtml\n      - text: in\n      - code: src/lib/scraper.ts\n      - text: \": Non è visibile nel diff se lo scoping per\"\n      - code: \"#fragment\"\n      - text: avvenga prima o dopo il ramo\n      - code: .otnotice-content\n      - text: (riga 1592).\n    - paragraph:\n      - text: Logica di salvataggio di\n      - code: lastCandidate\n      - text: e interazione con la cache (righe 215–251 di\n      - code: acquisition.ts\n      - text: )\n      - text: \": Le righe intermedie del ciclo dei trasporti sono omesse nel diff; non è verificabile se\"\n      - code: store\n      - text: persista\n      - code: observedAt\n      - text: all'interno del record di cache prima della valutazione di idoneità.\n    - paragraph: \"Qualifica in produzione: Come indicato nel contesto, il superamento dei 93 test focalizzati attesta solo il comportamento sulle fixture sintetiche; restano non qualificati gli adapter dei provider, il corpus annotato reale e la tenuta sui DOM malformati in produzione.\"\n",
+        "answerSha256": "6e205926a64162bd8ad2107371fadd431bd44bdc03e8384235a30c09b3644a9d"
+      },
+      {
+        "round": 2,
+        "candidate": {
+          "files": {
+            "src/lib/engine/acquisition.ts": "213d59b0fed61f64693a3f232ce99081133c9fc2f8daba625a99e140a4633670",
+            "src/lib/scraper.ts": "a771e5f4fc87880a2627b4d18d58e94c6187617ae2b10fb4b644b5ddb0a7fc79",
+            "src/lib/__tests__/engineV6.test.ts": "19e9e84eb092e04464894a9cda55d398d9ce4d09c6187ecc1757ee550097abf1"
+          },
+          "promptSha256": "20994ed09a82b7cf12e431920697e0f6fa060a38aa4412a2e950553767d73b29"
+        },
+        "answer": "- heading \"Gemini ha detto\" [level=6]\n  - heading \"1. Stato dei rilievi precedenti\" [level=3]\n  - list:\n    - paragraph:\n      - text: \"D1 (Perdita di testo su radice semantica o wrapper misti): Risolto per il caso radice semantica (inizializzazione di\"\n      - code: owner\n      - text: su\n      - code: $target\n      - text: ) e per i\n      - code: div\n      - text: misti coperti da\n      - code: preserveRuns\n      - text: \", salvo il caso specifico di elementi\"\n      - code: excluded\n      - text: non rimossi né gate-ati (vedi R1).\n    - paragraph:\n      - text: D2 (Allineamento\n      - code: scope\n      - text: /\n      - code: <article>\n      - text: in\n      - code: <footer>\n      - text: )\n      - text: \": Chiuso per design. L'assenza o molteplicità di\"\n      - code: main, article, [role=\"main\"]\n      - text: è bloccata da\n      - code: document_scope_unverified\n      - text: /\n      - code: document_scope_ambiguous\n      - text: ;\n      - code: <article>\n      - text: nel\n      - code: <footer>\n      - text: resta bloccato intenzionalmente come ambiguo.\n    - paragraph:\n      - text: D3 (Controllo simmetrico su\n      - code: \"[role=\\\"dialog\\\"]\"\n      - text: )\n      - text: \": Risolto (\"\n      - code: node.parents(scope).length || node.is(scope) || node.find(scope).length\n      - text: ).\n    - paragraph:\n      - text: D4 (Ricorsione\n      - code: .otnotice-content\n      - text: e\n      - code: \"#fragment\"\n      - text: )\n      - text: \": Chiuso/Verificato (la risoluzione del\"\n      - code: \"#fragment\"\n      - text: precede il blocco\n      - code: .otnotice-content\n      - text: ).\n    - paragraph:\n      - text: Marker\n      - code: <li>\n      - text: multipli e gate\n      - code: header\n      - text: /\n      - code: form\n      - text: /\n      - code: noscript\n      - text: /\n      - code: svg\n      - text: \": Risolti tramite\"\n      - code: emittedListItems\n      - text: e inclusione nel controllo\n      - code: removed_document_content_unreviewed\n      - text: .\n  - heading \"2. Difetti concreti residui nel codice corrente\" [level=3]\n  - heading \"R1. Omissione silenziosa e rottura di paragrafo su button , [role=\\\"button\\\"] , select , [role=\\\"combobox\\\"] in contenitori non semantici\" [level=4]:\n    - text: R1. Omissione silenziosa e rottura di paragrafo su\n    - code: button\n    - text: \",\"\n    - code: \"[role=\\\"button\\\"]\"\n    - text: \",\"\n    - code: select\n    - text: \",\"\n    - code: \"[role=\\\"combobox\\\"]\"\n    - text: in contenitori non semantici\n  - list:\n    - paragraph: \"Severità: Alta (perdita silenziosa di testo normativo/link di opt-out senza issue).\"\n    - paragraph:\n      - text: \"Posizione:\"\n      - code: prepareEngineHtml\n      - text: (\n      - code: excluded\n      - text: in\n      - code: preserveRuns\n      - text: \", riga 92) combinato con\"\n      - code: extractPolicyText\n      - text: (\n      - code: visitChildren\n      - text: \", righe 176–198).\"\n    - paragraph:\n      - text: \"Causa:\"\n      - code: preserveRuns\n      - text: include\n      - code: button, [role=\"button\"], select, [role=\"combobox\"]\n      - text: in\n      - code: excluded\n      - text: \", ma questi selettori:\"\n    - list:\n      - paragraph:\n        - text: non sono controllati dal gate\n        - code: removed_document_content_unreviewed\n        - text: (riga 39);\n      - paragraph:\n        - text: non vengono rimossi da\n        - code: extractPolicyText\n        - text: . Quando un link o controllo (es.\n        - code: <a role=\"button\" href=\"/optout\">Do Not Sell My Personal Information</a>\n        - text: ) si trova dentro un\n        - code: <div>\n        - text: \",\"\n        - code: <section>\n        - text: o\n        - code: <main>\n        - text: insieme a testo inline,\n        - code: preserveRuns\n        - text: esegue\n        - code: flush()\n        - text: sul testo precedente (avvolgendolo in\n        - code: <p>\n        - text: ), salta il nodo\n        - code: excluded\n        - text: lasciandolo orfano tra due\n        - code: <p>\n        - text: \", ed esegue\"\n        - code: flush()\n        - text: sul testo successivo. Poi, in\n        - code: extractPolicyText\n        - text: \",\"\n        - code: visitChildren\n        - text: attraversa il\n        - code: <div>\n        - text: con\n        - code: owner = undefined\n        - text: \": il nodo\"\n        - code: <a role=\"button\">\n        - text: viene accumulato in\n        - code: run\n        - text: \", ma al\"\n        - code: flush()\n        - text: successivo la guardia\n        - code: if (owner && ownText)\n        - text: è falsa e il testo viene scartato senza emettere alcun issue.\n    - paragraph: \"Riproduzione:\"\n    - generic: HTML\n    - button \"Scarica codice\":\n      - img: arrow_circle_down\n    - button \"Copia codice\":\n      - img: copy\n    - code:\n      - generic: <main>\n      - generic: <h1>\n      - text: Privacy Policy\n      - generic: </h1>\n      - generic: <h2>\n      - text: Data use\n      - generic: </h2>\n      - generic: <div>\n      - text: You may exercise your right via\n      - generic: <a role=\"button\" href=\"/optout\">\n      - text: Do Not Sell My Personal Information\n      - generic: </a>\n      - text: at any time.\n      - generic: </div>\n      - generic: <h2>\n      - text: Contact\n      - generic: </h2>\n      - generic: <p>\n      - text: Contact us at privacy@example.com for any questions regarding these terms.\n      - generic: </p>\n      - generic: </main>\n    - paragraph:\n      - text: \"Esito:\"\n      - code: \"\\\"Do Not Sell My Personal Information\\\"\"\n      - text: scompare dall'output, la frase viene spezzata in due paragrafi (\n      - code: \"\\\"You may exercise your right via\\\"\"\n      - text: e\n      - code: \"\\\"at any time.\\\"\"\n      - text: ) e\n      - code: issues\n      - text: resta vuoto (\n      - code: \"[]\"\n      - text: ). Lo stesso\n      - code: <a role=\"button\">\n      - text: dentro un\n      - code: <p>\n      - text: o\n      - code: <li>\n      - text: viene invece estratto.\n    - paragraph: \"Correzione:\"\n    - list:\n      - paragraph:\n        - text: Non escludere\n        - code: a[role=\"button\"]\n        - text: in\n        - code: preserveRuns\n        - text: (o trattarlo come inline standard se privo di\n        - code: aria-controls\n        - text: ).\n      - paragraph:\n        - text: Per i controlli effettivamente esclusi (\n        - code: button, select, [role=\"combobox\"]\n        - text: ), aggiungere il gate in\n        - code: prepareEngineHtml\n        - text: (riga 39) se contengono testo dentro\n        - code: scope\n        - text: \", e rimuoverli coerentemente in\"\n        - code: extractPolicyText\n        - text: .\n  - heading \"R2. Sotto-selezione impropria in extractPolicyText dopo buildFragmentScopedHtml su target non-heading\" [level=4]:\n    - text: R2. Sotto-selezione impropria in\n    - code: extractPolicyText\n    - text: dopo\n    - code: buildFragmentScopedHtml\n    - text: su target non-heading\n  - list:\n    - paragraph:\n      - text: \"Severità: Media-Alta (troncamento silenzioso di sezioni scopate tramite\"\n      - code: \"#fragment\"\n      - text: ).\n    - paragraph:\n      - text: \"Posizione:\"\n      - code: buildFragmentScopedHtml\n      - text: (riga 116) e\n      - code: extractPolicyText\n      - text: (righe 166–205).\n    - paragraph:\n      - text: \"Causa: Quando il target del\"\n      - code: \"#fragment\"\n      - text: è un heading (\n      - code: targetLevel !== null\n      - text: ),\n      - code: buildFragmentScopedHtml\n      - text: restituisce\n      - code: \"<main>${pieces.join('\\\\n')}</main>\"\n      - text: (riga 133). Quando invece il target è un contenitore non-heading (\n      - code: targetLevel === null\n      - text: \", es.\"\n      - code: <section id=\"california\">\n      - text: o\n      - code: <div id=\"privacy-rights\">\n      - text: ), restituisce\n      - code: $.html(target)\n      - text: senza wrapper\n      - code: <main>\n      - text: . Nella chiamata ricorsiva\n      - code: extractPolicyText(scopedHtml, undefined, contract)\n      - text: \", la scansione di\"\n      - code: mainSelectors\n      - text: \"viene rieseguita: se il nodo radice del frammento non matcha\"\n      - code: mainSelectors\n      - text: \", ma un suo discendente più piccolo sì (es.\"\n      - code: <div class=\"policy-note\">\n      - text: che matcha\n      - code: \"[class*=\\\"policy\\\"]\"\n      - text: \", o\"\n      - code: <div class=\"legal-summary\">\n      - text: che matcha\n      - code: \"[class*=\\\"legal\\\"]\"\n      - text: ),\n      - code: container\n      - text: seleziona solo il sotto-nodo e scarta tutto il resto del frammento.\n    - paragraph: \"Riproduzione:\"\n    - generic: HTML\n    - button \"Scarica codice\":\n      - img: arrow_circle_down\n    - button \"Copia codice\":\n      - img: copy\n    - code:\n      - generic: <main>\n      - generic: <h1>\n      - text: Privacy Policy\n      - generic: </h1>\n      - generic: <section id=\"california\">\n      - generic: <h2>\n      - text: California Privacy Rights\n      - generic: </h2>\n      - generic: <p>\n      - text: California residents may request access to and deletion of personal categories collected over the prior 12 months.\n      - generic: </p>\n      - generic: <div class=\"policy-note\">\n      - text: Identity verification applies to all requests.\n      - generic: </div>\n      - generic: </section>\n      - generic: </main>\n    - paragraph:\n      - text: Con\n      - code: sourceUrl = \"[https://example.com/privacy#california](https://example.com/privacy#california)\"\n      - text: \", l'estrazione produce solo\"\n      - code: \"\\\"Identity verification applies to all requests.\\\"\"\n      - text: \", perdendo\"\n      - code: <h2>\n      - text: e il\n      - code: <p>\n      - text: principale.\n    - paragraph:\n      - text: \"Correzione: In\"\n      - code: buildFragmentScopedHtml\n      - text: (riga 116), avvolgere anche il ritorno non-heading in\n      - code: <main>\n      - text: (se il target non è già\n      - code: main\n      - text: /\n      - code: article\n      - text: /\n      - code: \"[role=\\\"main\\\"]\"\n      - text: \"):\"\n    - generic: TypeScript\n    - button \"Scarica codice\":\n      - img: arrow_circle_down\n    - button \"Copia codice\":\n      - img: copy\n    - code:\n      - text: \"if (directText.length >= minimumTextLength && targetLevel === null) { return target.is('main, article, [role=\\\"main\\\"]') ? $.html(target) :\"\n      - generic: \"`<main>${$.html(target)}</main>`\"\n      - text: \"; }\"\n  - heading \"R3. Falsi positivi nei gate e contaminazione di titles causati da <script> e <style> in prepareEngineHtml\" [level=4]:\n    - text: R3. Falsi positivi nei gate e contaminazione di\n    - code: titles\n    - text: causati da\n    - code: <script>\n    - text: e\n    - code: <style>\n    - text: in\n    - code: prepareEngineHtml\n  - list:\n    - paragraph: \"Severità: Media (blocchi impropri o duplicazione del titolo).\"\n    - paragraph:\n      - text: \"Posizione:\"\n      - code: prepareEngineHtml\n      - text: \", righe 35–87.\"\n    - paragraph:\n      - text: \"Causa:\"\n      - code: extractPolicyText\n      - text: rimuove\n      - code: script, style\n      - text: all'inizio (riga 158), mentre\n      - code: prepareEngineHtml\n      - text: non li rimuove mai. In Cheerio,\n      - code: .text()\n      - text: restituisce anche il contenuto testuale dei nodi\n      - code: <script>\n      - text: e\n      - code: <style>\n      - text: \". Di conseguenza:\"\n    - list:\n      - paragraph:\n        - text: Un\n        - code: <aside>\n        - text: \",\"\n        - code: <footer>\n        - text: \",\"\n        - code: <form>\n        - text: \",\"\n        - code: <header>\n        - text: o\n        - code: \"[aria-hidden=\\\"true\\\"]\"\n        - text: dentro\n        - code: scope\n        - text: privo di testo visibile ma contenente un blocco\n        - code: <style>...</style>\n        - text: o\n        - code: <script>...</script>\n        - text: ha\n        - code: chars > 0\n        - text: e innesca\n        - code: removed_document_content_unreviewed\n        - text: /\n        - code: document_header_metadata_unreviewed\n        - text: /\n        - code: hidden_document_content_unresolved\n        - text: .\n      - paragraph:\n        - text: Un\n        - code: \"<h1><style>.sr{}</style>Privacy Policy</h1>\"\n        - text: produce in\n        - code: prepared.titles[0]\n        - text: la stringa\n        - code: \"\\\".sr{}Privacy Policy\\\"\"\n        - text: \", che non coincide con\"\n        - code: \"\\\"Privacy Policy\\\"\"\n        - text: estratto da\n        - code: extractPolicyText\n        - text: e attiva erroneamente\n        - code: restoredTitleFromDom\n        - text: .\n    - paragraph: \"Riproduzione:\"\n    - generic: HTML\n    - button \"Scarica codice\":\n      - img: arrow_circle_down\n    - button \"Copia codice\":\n      - img: copy\n    - code:\n      - generic: <main>\n      - generic: <h1>\n      - text: Privacy Policy\n      - generic: </h1>\n      - generic: <aside>\n      - generic: <style>\n      - generic: \".ad-slot { display: none; }\"\n      - generic: </style>\n      - generic: </aside>\n      - generic: <h2>\n      - text: Data use\n      - generic: </h2>\n      - generic: <p>\n      - text: We keep account records for 30 days and delete them afterward.\n      - generic: </p>\n      - generic: </main>\n    - paragraph:\n      - text: \"Esito:\"\n      - code: prepareEngineHtml\n      - text: emette\n      - code: removed_document_content_unreviewed\n      - text: su\n      - code: <aside>\n      - text: per i 27 caratteri del CSS.\n    - paragraph:\n      - text: \"Correzione: Eseguire\"\n      - code: $('script, style').remove()\n      - text: in\n      - code: prepareEngineHtml\n      - text: subito dopo il ciclo\n      - code: reviewedExclusions\n      - text: (così da non alterare gli\n      - code: htmlSha256\n      - text: delle esclusioni già revisionate, ma ripulendo il DOM prima di tutti i gate\n      - code: .text()\n      - text: e del calcolo di\n      - code: titles\n      - text: ).\n  - heading \"R4. Perdita silenziosa di h2..h6 (e di h1 multipli) in <header> esterno a scope ma dentro <section>\" [level=4]:\n    - text: R4. Perdita silenziosa di\n    - code: h2..h6\n    - text: (e di\n    - code: h1\n    - text: multipli) in\n    - code: <header>\n    - text: esterno a\n    - code: scope\n    - text: ma dentro\n    - code: <section>\n  - list:\n    - paragraph:\n      - text: \"Severità: Bassa-Media (omissione non segnalata di sottotitoli/date nell'header esterno a\"\n      - code: <main>\n      - text: ).\n    - paragraph:\n      - text: \"Posizione:\"\n      - code: prepareEngineHtml\n      - text: \", righe 74–82.\"\n    - paragraph:\n      - text: \"Causa: Un\"\n      - code: <header>\n      - text: posto in una\n      - code: <section>\n      - text: esterna a\n      - code: <main>\n      - text: supera la guardia\n      - code: \"!el.parents(\"\n      - text: \"${scope}, section\"\n      - code: ).length\n      - text: per permettere il recupero dell'\n      - code: <h1>\n      - text: tramite\n      - code: documentTitles\n      - text: . Tuttavia,\n      - code: extra.find('h1,h2,h3,h4,h5,h6,nav').remove()\n      - text: esclude anche\n      - code: h2..h6\n      - text: dal calcolo di\n      - code: document_header_metadata_unreviewed\n      - text: . Poiché\n      - code: extractPolicyText\n      - text: estrae solo\n      - code: <main>\n      - text: (e\n      - code: restoredTitleFromDom\n      - text: ripristina solo un unico\n      - code: h1\n      - text: ), eventuali\n      - code: <h2>\n      - text: ..\n      - code: <h6>\n      - text: presenti in quell'\n      - code: <header>\n      - text: esterno vengono persi senza issue.\n    - paragraph: \"Riproduzione:\"\n    - generic: HTML\n    - button \"Scarica codice\":\n      - img: arrow_circle_down\n    - button \"Copia codice\":\n      - img: copy\n    - code:\n      - generic: <body>\n      - generic: <section>\n      - generic: <header>\n      - generic: <h1>\n      - text: Privacy Policy\n      - generic: </h1>\n      - generic: <h2>\n      - text: \"Effective Date: January 1, 2026\"\n      - generic: </h2>\n      - generic: </header>\n      - generic: </section>\n      - generic: <main>\n      - generic: <h2>\n      - text: Data use\n      - generic: </h2>\n      - generic: <p>\n      - text: We keep account records for 30 days...\n      - generic: </p>\n      - generic: </main>\n      - generic: </body>\n    - paragraph:\n      - text: \"Correzione: Quando\"\n      - code: \"!el.parents(scope).length\"\n      - text: \", rimuovere da\"\n      - code: extra\n      - text: soltanto\n      - code: h1, nav\n      - text: (lasciando\n      - code: h2..h6\n      - text: nel conteggio di\n      - code: extra\n      - text: finché non sono estratti dal documento).\n  - heading \"3. Limitazioni architetturali osservate (non classificate come errori della patch)\" [level=3]\n  - list:\n    - paragraph:\n      - text: Contenitori\n      - code: div\n      - text: /\n      - code: pre\n      - text: multipli annidati dentro\n      - code: li\n      - text: /\n      - code: blockquote\n      - text: /\n      - code: dd\n      - text: composti\n      - text: \": Poiché\"\n      - code: preserveRuns\n      - text: si arresta sui nodi\n      - code: semantic\n      - text: (\n      - code: if (el.is(semantic)) ... return\n      - text: ), se un\n      - code: <li>\n      - text: contiene sia un\n      - code: <p>\n      - text: sia due\n      - code: <div>\n      - text: fratelli privi di tag semantici interni,\n      - code: visitChildren\n      - text: accumula i due\n      - code: <div>\n      - text: nello stesso\n      - code: run\n      - text: unendoli in un singolo blocco testuale.\n    - paragraph:\n      - text: \"Appiattimento delle liste gerarchiche: Come definito nei confini del componente,\"\n      - code: emittedListItems\n      - text: garantisce un unico marker\n      - code: \"-\"\n      - text: per ciascun\n      - code: <li>\n      - text: sul suo primo blocco testuale, senza rappresentare la profondità di annidamento (\n      - code: <ul>\n      - text: /\n      - code: <ol>\n      - text: ).\n    - paragraph:\n      - text: Blocco prudenziale su\n      - code: article\n      - text: in\n      - code: footer\n      - text: e su\n      - code: lastCandidate\n      - text: non confermato\n      - text: \": Il blocco di\"\n      - code: <article>\n      - text: dentro chrome e la mancata conferma su candidati incompleti consecutivi sono coerenti con il principio fail-closed del motore.\n",
+        "answerSha256": "85b7388bd2bec3b9f85698614d4c1572339707fb584394876a25262a6ed1a532"
+      }
+    ],
+    "adjudication": {
+      "round1": "Semantic root, dialogs and list markers reproduced/fixed; generic wrapper and fragment-order concerns adjudicated against complete implementation; conservative scope holds intentional.",
+      "round2": "Interactive text, fragment narrowing, code/style contamination and external headers reproduced/fixed locally; separate compound layout clauses also corrected. Full nested-list hierarchy remains unqualified."
+    }
+  },
+  "glm": "Explicitly deferred by user; no new GLM review attempted or claimed."
+}
