@@ -1,0 +1,3124 @@
+{
+  "schema": "pw-source-review-ledger-1",
+  "observedAt": "2026-10-31T23:03:53.878646+00:00",
+  "catalogueReceiptHash": "7ce9176c31b846ae1ced7b0d8d43795438b6e94ac24b748daa900e75d30017ad",
+  "configuredPolicies": 113,
+  "distinctRetrievalScopes": 109,
+  "distinctHttpEndpoints": 104,
+  "rows": [
+    {
+      "sourceId": "719b5d829e25644e6e8acb5d",
+      "sourceUrl": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+      "httpEndpoint": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": null,
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "partial_aws_pdf",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "925a2137c2df38e00d021394",
+      "sourceUrl": "https://aws.amazon.com/agreement/",
+      "httpEndpoint": "https://aws.amazon.com/agreement/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://aws.amazon.com/agreement/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "87c9526a37054d6e2919443f",
+      "sourceUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+      "httpEndpoint": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-us",
+      "extractionIssues": {
+        "count": 2,
+        "reasons": [
+          "disclosure_scope_unverified",
+          "disclosure_target_missing"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "99768b93c4b8b93615a41ac6",
+      "sourceUrl": "https://www.anthropic.com/legal/terms",
+      "httpEndpoint": "https://www.anthropic.com/legal/terms",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 5,
+        "reasons": [
+          "document_header_metadata_unreviewed",
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.anthropic.com/legal/consumer-terms",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "54e2e6edd58ef2f2e09a5f70",
+      "sourceUrl": "https://aws.amazon.com/serviceterms/",
+      "httpEndpoint": "https://aws.amazon.com/serviceterms/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://aws.amazon.com/service-terms/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "df37b8f261e9861e8d1665b6",
+      "sourceUrl": "https://www.apple.com/legal/privacy/pdfs/apple-privacy-policy-en-ww.pdf",
+      "httpEndpoint": "https://www.apple.com/legal/privacy/pdfs/apple-privacy-policy-en-ww.pdf",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": null,
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.apple.com/legal/privacy/pdfs/apple-privacy-policy-en-ww.pdf",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "34cfa2c0e79e636712354096",
+      "sourceUrl": "https://www.anthropic.com/legal/aup",
+      "httpEndpoint": "https://www.anthropic.com/legal/aup",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 5,
+        "reasons": [
+          "document_header_metadata_unreviewed",
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.anthropic.com/legal/aup",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "2b238fb799dda916f4b698d3",
+      "sourceUrl": "https://aws.amazon.com/aup/",
+      "httpEndpoint": "https://aws.amazon.com/aup/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://aws.amazon.com/aup/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "c546386570594a710555aac1",
+      "sourceUrl": "https://www.apple.com/legal/privacy/data/en/intelligence-engine/",
+      "httpEndpoint": "https://www.apple.com/legal/privacy/data/en/intelligence-engine/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.apple.com/legal/privacy/data/en/intelligence-engine/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "47b9092320387f1cdc0a9746",
+      "sourceUrl": "https://www.anthropic.com/legal/privacy",
+      "httpEndpoint": "https://www.anthropic.com/legal/privacy",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 5,
+        "reasons": [
+          "document_header_metadata_unreviewed",
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.anthropic.com/legal/privacy",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "9410245cc2fd13c44cab01e4",
+      "sourceUrl": "https://www.apple.com/legal/internet-services/terms/site.html",
+      "httpEndpoint": "https://www.apple.com/legal/internet-services/terms/site.html",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.apple.com/legal/internet-services/terms/site.html",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "889404e284fb834cba5ec7cf",
+      "sourceUrl": "https://aws.amazon.com/terms/",
+      "httpEndpoint": "https://aws.amazon.com/terms/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://aws.amazon.com/terms/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "7f463c3a7a83b4f16bc68965",
+      "sourceUrl": "https://www.apple.com/legal/privacy/data/en/improve-intelligence/",
+      "httpEndpoint": "https://www.apple.com/legal/privacy/data/en/improve-intelligence/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.apple.com/legal/privacy/data/en/improve-intelligence/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "7dea3b226d0f0cafd4b9bfe9",
+      "sourceUrl": "https://www.anthropic.com/legal/commercial-terms",
+      "httpEndpoint": "https://www.anthropic.com/legal/commercial-terms",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 4,
+        "reasons": [
+          "document_header_metadata_unreviewed",
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.anthropic.com/legal/commercial-terms",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "ef58273d37f54713792d32a8",
+      "sourceUrl": "https://aws.amazon.com/privacy/",
+      "httpEndpoint": "https://aws.amazon.com/privacy/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://aws.amazon.com/privacy/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "4e6b4ba27d4eb5318dabaafb",
+      "sourceUrl": "https://www.anthropic.com/legal/consumer-health-data-privacy-policy",
+      "httpEndpoint": "https://www.anthropic.com/legal/consumer-health-data-privacy-policy",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 3,
+        "reasons": [
+          "document_header_metadata_unreviewed",
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.anthropic.com/legal/consumer-health-data-privacy-policy",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "44c7372804fae75d943f3ce4",
+      "sourceUrl": "https://datatrust.coca-cola.com/content/dam/privacyhub/us/en/notice-pdfs/Global-Consumer-Privacy-Notice-01312026-English.pdf",
+      "httpEndpoint": "https://datatrust.coca-cola.com/content/dam/privacyhub/us/en/notice-pdfs/Global-Consumer-Privacy-Notice-01312026-English.pdf",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": null,
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://datatrust.coca-cola.com/content/dam/privacyhub/us/en/notice-pdfs/Global-Consumer-Privacy-Notice-01312026-English.pdf",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "97ec190bc740c751c64983b1",
+      "sourceUrl": "https://www.coca-cola.com/us/en/legal/terms-of-service",
+      "httpEndpoint": "https://www.coca-cola.com/us/en/legal/terms-of-service",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.coca-cola.com/us/en/legal/terms-of-service",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "fb755ba1a77a1d488c8f8434",
+      "sourceUrl": "https://datatrust.coca-cola.com/us/en/notices/supplemental-us-privacy-notice",
+      "httpEndpoint": "https://datatrust.coca-cola.com/us/en/notices/supplemental-us-privacy-notice",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "document_scope_unverified"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://datatrust.coca-cola.com/us/en/notices/supplemental-us-privacy-notice",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "02c34f9c9a58f24003d91a5d",
+      "sourceUrl": "https://www.anthropic.com/legal/k12-terms",
+      "httpEndpoint": "https://www.anthropic.com/legal/k12-terms",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 4,
+        "reasons": [
+          "document_header_metadata_unreviewed",
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.anthropic.com/legal/k12-terms",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "7c7a08551e310b2e3ac1a1e8",
+      "sourceUrl": "https://policies.google.com/privacy?hl=it",
+      "httpEndpoint": "https://policies.google.com/privacy?hl=it",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "it",
+      "extractionIssues": {
+        "count": 4,
+        "reasons": [
+          "dialog_document_scope_unverified",
+          "hidden_document_content_unresolved",
+          "interactive_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "partial_google_browser",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://policies.google.com/privacy?hl=it",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "075488350aebd707c7ecb23e",
+      "sourceUrl": "https://datatrust.coca-cola.com/us/en/notices/us-consumer-health-privacy-policy",
+      "httpEndpoint": "https://datatrust.coca-cola.com/us/en/notices/us-consumer-health-privacy-policy",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "document_scope_unverified"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://datatrust.coca-cola.com/us/en/notices/us-consumer-health-privacy-policy",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "728cbd2b9c363ff97656e314",
+      "sourceUrl": "https://www.anthropic.com/legal/non-user-privacy-policy",
+      "httpEndpoint": "https://www.anthropic.com/legal/non-user-privacy-policy",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 5,
+        "reasons": [
+          "document_header_metadata_unreviewed",
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.anthropic.com/legal/non-user-privacy-policy",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "d0c1841f05ed306f4b258e2c",
+      "sourceUrl": "https://policies.google.com/privacy?hl=en",
+      "httpEndpoint": "https://policies.google.com/privacy?hl=en",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 4,
+        "reasons": [
+          "dialog_document_scope_unverified",
+          "hidden_document_content_unresolved",
+          "interactive_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://policies.google.com/privacy?hl=en",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "84b6c2c1b2777879486afea9",
+      "sourceUrl": "https://datatrust.coca-cola.com/us/en/notices/cookie-notice",
+      "httpEndpoint": "https://datatrust.coca-cola.com/us/en/notices/cookie-notice",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "document_scope_unverified"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://datatrust.coca-cola.com/us/en/notices/cookie-notice",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "47330706f5e77b8da361f65c",
+      "sourceUrl": "https://policies.google.com/privacy",
+      "httpEndpoint": "https://policies.google.com/privacy",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 4,
+        "reasons": [
+          "dialog_document_scope_unverified",
+          "hidden_document_content_unresolved",
+          "interactive_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://policies.google.com/privacy",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "c5ba7e61d299509745fa9870",
+      "sourceUrl": "https://www.anthropic.com/legal/promotion-credit-terms",
+      "httpEndpoint": "https://www.anthropic.com/legal/promotion-credit-terms",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 3,
+        "reasons": [
+          "document_header_metadata_unreviewed",
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.anthropic.com/legal/promotion-credit-terms",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "9debd1d5eaed29b2fdfde018",
+      "sourceUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/privacy",
+      "httpEndpoint": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/privacy",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "document_header_metadata_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/privacy",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "f6e1ce993df32f26860df569",
+      "sourceUrl": "https://policies.google.com/terms/generative-ai",
+      "httpEndpoint": "https://policies.google.com/terms/generative-ai",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 2,
+        "reasons": [
+          "hidden_document_content_unresolved",
+          "interactive_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://policies.google.com/terms/generative-ai",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "e1e8b926904e7c72a4528bf2",
+      "sourceUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy",
+      "httpEndpoint": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "document_header_metadata_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "b91dcbc42bea599ed817367b",
+      "sourceUrl": "https://www.facebook.com/privacy/policy/",
+      "httpEndpoint": "https://www.facebook.com/privacy/policy/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "document_scope_unverified"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.facebook.com/privacy/policy/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "40fe51c693a1104682feea40",
+      "sourceUrl": "https://policies.google.com/terms?hl=en",
+      "httpEndpoint": "https://policies.google.com/terms?hl=en",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 4,
+        "reasons": [
+          "dialog_document_scope_unverified",
+          "hidden_document_content_unresolved",
+          "interactive_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://policies.google.com/terms?hl=en",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "662c6f0ba4d93154731b46b0",
+      "sourceUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/user",
+      "httpEndpoint": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/user",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "document_header_metadata_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/user",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "61cf0e4de6c617bceacef77a",
+      "sourceUrl": "https://www.facebook.com/legal/terms",
+      "httpEndpoint": "https://www.facebook.com/legal/terms",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "document_scope_unverified"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.facebook.com/legal/terms",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "a38b84323416f63f44f352dd",
+      "sourceUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/user",
+      "httpEndpoint": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/user",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "document_header_metadata_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/user",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "6a6601848fa8b9d59ec0ed6b",
+      "sourceUrl": "https://www.microsoft.com/en-gb/privacy/privacystatement",
+      "httpEndpoint": "https://www.microsoft.com/en-gb/privacy/privacystatement",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-GB",
+      "extractionIssues": {
+        "count": 33,
+        "reasons": [
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.microsoft.com/en-gb/privacy/privacystatement",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "bc120419b5d057a8034c239f",
+      "sourceUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/sms-terms",
+      "httpEndpoint": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/sms-terms",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/sms-terms",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "b6bd617099cd8579eb61df3e",
+      "sourceUrl": "https://www.facebook.com/legal/ai-terms",
+      "httpEndpoint": "https://www.facebook.com/legal/ai-terms",
+      "state": "held",
+      "primaryExtractionCompleted": false,
+      "language": null,
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.facebook.com/legal/ai-terms",
+          "drift": false
+        }
+      ],
+      "rendererFollowUp": [
+        {
+          "kind": "rendered",
+          "observedAt": "2026-10-31T23:02:27.531Z",
+          "status": 200,
+          "finalUrl": "https://www.facebook.com/legal/ai-terms",
+          "drift": false,
+          "extraction": "completed",
+          "extractionError": null,
+          "language": "en",
+          "textLength": 14790
+        }
+      ]
+    },
+    {
+      "sourceId": "edf19fa798259e829859b820",
+      "sourceUrl": "https://www.microsoft.com/en-us/privacy/privacystatement",
+      "httpEndpoint": "https://www.microsoft.com/en-us/privacy/privacystatement",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 33,
+        "reasons": [
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.microsoft.com/en-us/privacy/privacystatement",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "82ccfff7f112c4eaa3905d85",
+      "sourceUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/referral-general",
+      "httpEndpoint": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/referral-general",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "document_header_metadata_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/referral-general",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "1d719a05666f166800e763fa",
+      "sourceUrl": "https://www.microsoft.com/en/servicesagreement",
+      "httpEndpoint": "https://www.microsoft.com/en/servicesagreement",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.microsoft.com/en/servicesagreement",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "44a9daa884d357a15d675454",
+      "sourceUrl": "https://www.xbox.com/legal/community-standards",
+      "httpEndpoint": "https://www.xbox.com/legal/community-standards",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "it",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "hidden_document_content_unresolved"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.xbox.com/it-IT/legal/community-standards",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "832747af440fd72af06e9c28",
+      "sourceUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-balance",
+      "httpEndpoint": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-balance",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "document_header_metadata_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-balance",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "90429499a61f4efa14ff622b",
+      "sourceUrl": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/termsofuse",
+      "httpEndpoint": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/termsofuse",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-us",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "hidden_document_content_unresolved"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/termsofuse",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "4b6ff91405fea7809eb472eb",
+      "sourceUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-membership-plan-v2",
+      "httpEndpoint": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-membership-plan-v2",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "document_header_metadata_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-membership-plan-v2",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "f3031b231b64afba7b6376e9",
+      "sourceUrl": "https://openai.com/policies/terms-of-use",
+      "httpEndpoint": "https://openai.com/policies/terms-of-use",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "interactive_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://openai.com/policies/terms-of-use/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "c25509f655181fce460983c3",
+      "sourceUrl": "https://www.microsoft.com/privacy/microsoft-consumer-health-data-privacy-policy",
+      "httpEndpoint": "https://www.microsoft.com/privacy/microsoft-consumer-health-data-privacy-policy",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "it-IT",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.microsoft.com/it-it/privacy/microsoft-consumer-health-data-privacy-policy",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "df5b8790be0dd3dfec4e4ce2",
+      "sourceUrl": "https://openai.com/policies/eu-privacy-policy",
+      "httpEndpoint": "https://openai.com/policies/eu-privacy-policy",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 3,
+        "reasons": [
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://openai.com/policies/eu-privacy-policy/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "cb0ecaefebd6958fb559bfea",
+      "sourceUrl": "https://www.paypal.com/lu/webapps/mpp/ua/privacy-full",
+      "httpEndpoint": "https://www.paypal.com/lu/webapps/mpp/ua/privacy-full",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 2,
+        "reasons": [
+          "disclosure_target_missing",
+          "document_scope_unverified"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.paypal.com/lu/legalhub/paypal/privacy-full",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "850e6c64d8f32ca25b9b9758",
+      "sourceUrl": "https://plaid.com/legal#end-user-privacy-policy",
+      "httpEndpoint": "https://plaid.com/legal",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 5,
+        "reasons": [
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://plaid.com/legal/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "77a64339977df0d085b73748",
+      "sourceUrl": "https://plaid.com/legal#end-user-services-agreement-us",
+      "httpEndpoint": "https://plaid.com/legal",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 5,
+        "reasons": [
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://plaid.com/legal/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "53ab53ec4d57b478a65c59d2",
+      "sourceUrl": "https://plaid.com/legal#end-user-services-agreement-eea",
+      "httpEndpoint": "https://plaid.com/legal",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 5,
+        "reasons": [
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://plaid.com/legal/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "b8c6d5709eeaa925f6cd750e",
+      "sourceUrl": "https://openai.com/policies/usage-policies/",
+      "httpEndpoint": "https://openai.com/policies/usage-policies/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "interactive_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://openai.com/policies/usage-policies/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "4c847fdda79560cfae07b526",
+      "sourceUrl": "https://www.paypal.com/us/webapps/mpp/ua/privacy-full",
+      "httpEndpoint": "https://www.paypal.com/us/webapps/mpp/ua/privacy-full",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 2,
+        "reasons": [
+          "disclosure_target_missing",
+          "document_scope_unverified"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.paypal.com/us/legalhub/paypal/privacy-full",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "e5dbe191597a3976f8b2132e",
+      "sourceUrl": "https://plaid.com/legal/#developer-policy",
+      "httpEndpoint": "https://plaid.com/legal/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 5,
+        "reasons": [
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://plaid.com/legal/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "1252d2ec8ba45187d9a782f3",
+      "sourceUrl": "https://plaid.com/legal/#cookie-policy",
+      "httpEndpoint": "https://plaid.com/legal/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 5,
+        "reasons": [
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://plaid.com/legal/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "f32cfe4b61f37baef5419265",
+      "sourceUrl": "https://plaid.com/legal/#end-user-services-agreement-uk",
+      "httpEndpoint": "https://plaid.com/legal/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 5,
+        "reasons": [
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://plaid.com/legal/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "1ba6481c286c80ac789b385e",
+      "sourceUrl": "https://plaid.com/legal/#plaid-account-terms",
+      "httpEndpoint": "https://plaid.com/legal/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 5,
+        "reasons": [
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://plaid.com/legal/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "fe82d34f0f54076fa008a77f",
+      "sourceUrl": "https://openai.com/policies/service-terms/",
+      "httpEndpoint": "https://openai.com/policies/service-terms/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "interactive_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://openai.com/policies/service-terms/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "d6be498450bf1e7a92e2b7d8",
+      "sourceUrl": "https://www.paypal.com/lu/legalhub/paypal/useragreement-full?locale.x=en_LU",
+      "httpEndpoint": "https://www.paypal.com/lu/legalhub/paypal/useragreement-full?locale.x=en_LU",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 2,
+        "reasons": [
+          "disclosure_target_missing",
+          "document_scope_unverified"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.paypal.com/lu/legalhub/paypal/useragreement-full?locale.x=en_LU",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "9502bccfa590830db1f7a73a",
+      "sourceUrl": "https://cdn.revolut.com/terms_and_conditions/pdf/customer_privacy_notice_52996afd_0.6.3_1787324053_en.pdf",
+      "httpEndpoint": "https://cdn.revolut.com/terms_and_conditions/pdf/customer_privacy_notice_52996afd_0.6.3_1787324053_en.pdf",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": null,
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://cdn.revolut.com/terms_and_conditions/pdf/customer_privacy_notice_52996afd_0.6.3_1787324053_en.pdf",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "53cd13bd410cb61604c900cc",
+      "sourceUrl": "https://openai.com/policies/services-agreement/",
+      "httpEndpoint": "https://openai.com/policies/services-agreement/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "interactive_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://openai.com/policies/services-agreement/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "90c872b648cda7007aea293a",
+      "sourceUrl": "https://cdn.revolut.com/terms_and_conditions/pdf/customer_privacy_notice_9b445a83_0.4.1_1787310726_en.pdf",
+      "httpEndpoint": "https://cdn.revolut.com/terms_and_conditions/pdf/customer_privacy_notice_9b445a83_0.4.1_1787310726_en.pdf",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": null,
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://cdn.revolut.com/terms_and_conditions/pdf/customer_privacy_notice_9b445a83_0.4.1_1787310726_en.pdf",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "f22729d5797dc763cd5876c9",
+      "sourceUrl": "https://openai.com/policies/data-processing-addendum/",
+      "httpEndpoint": "https://openai.com/policies/data-processing-addendum/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "interactive_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://openai.com/policies/data-processing-addendum/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "27eb6d1eaa39a4f1feba6b10",
+      "sourceUrl": "https://www.paypal.com/us/legalhub/paypal/useragreement-full",
+      "httpEndpoint": "https://www.paypal.com/us/legalhub/paypal/useragreement-full",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 2,
+        "reasons": [
+          "disclosure_target_missing",
+          "document_scope_unverified"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.paypal.com/us/legalhub/paypal/useragreement-full",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "45e137b95c966d509fd8ee0d",
+      "sourceUrl": "https://cdn.revolut.com/terms_and_conditions/pdf/personal_terms_be7cbf8e_3.6.0_1769700076_en.pdf",
+      "httpEndpoint": "https://cdn.revolut.com/terms_and_conditions/pdf/personal_terms_be7cbf8e_3.6.0_1769700076_en.pdf",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": null,
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://cdn.revolut.com/terms_and_conditions/pdf/personal_terms_be7cbf8e_3.6.0_1769700076_en.pdf",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "e20ab4d1d74bb3b47748eb77",
+      "sourceUrl": "https://openai.com/policies/privacy-policy/",
+      "httpEndpoint": "https://openai.com/policies/privacy-policy/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 3,
+        "reasons": [
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://openai.com/policies/privacy-policy/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "415d90309e1f86253a10ae60",
+      "sourceUrl": "https://www.paypal.com/us/legalhub/paypal/acceptableuse-full?locale.x=en_US",
+      "httpEndpoint": "https://www.paypal.com/us/legalhub/paypal/acceptableuse-full?locale.x=en_US",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 2,
+        "reasons": [
+          "disclosure_target_missing",
+          "document_scope_unverified"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.paypal.com/us/legalhub/paypal/acceptableuse-full?locale.x=en_US",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "5a4c97100ff61d926664e464",
+      "sourceUrl": "https://cdn.revolut.com/terms_and_conditions/pdf/personal_terms_e59ea0d9_1.5.0_1765469787_en.pdf",
+      "httpEndpoint": "https://cdn.revolut.com/terms_and_conditions/pdf/personal_terms_e59ea0d9_1.5.0_1765469787_en.pdf",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": null,
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://cdn.revolut.com/terms_and_conditions/pdf/personal_terms_e59ea0d9_1.5.0_1765469787_en.pdf",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "1138ba27d0178213bb774d43",
+      "sourceUrl": "https://openai.com/policies/health-privacy-policy/",
+      "httpEndpoint": "https://openai.com/policies/health-privacy-policy/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://openai.com/policies/health-privacy-policy/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "bd79465c7d2ec08dce014b9f",
+      "sourceUrl": "https://www.paypal.com/us/legalhub/paypal/dpa-business-management?country.x=US&locale.x=en_US",
+      "httpEndpoint": "https://www.paypal.com/us/legalhub/paypal/dpa-business-management?country.x=US&locale.x=en_US",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 2,
+        "reasons": [
+          "disclosure_target_missing",
+          "document_scope_unverified"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.paypal.com/us/legalhub/paypal/dpa-business-management?country.x=US&locale.x=en_US",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "f8a409252219b46588db7de1",
+      "sourceUrl": "https://stripe.com/it/privacy",
+      "httpEndpoint": "https://stripe.com/it/privacy",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "it-IT",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://stripe.com/it/privacy",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "9aaa59390d552247e1bf2d89",
+      "sourceUrl": "https://openai.com/policies/education-terms/",
+      "httpEndpoint": "https://openai.com/policies/education-terms/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "interactive_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://openai.com/policies/education-terms/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "fe94df883901e79b68af62ef",
+      "sourceUrl": "https://www.tiktok.com/legal/privacy-policy-eea",
+      "httpEndpoint": "https://www.tiktok.com/legal/privacy-policy-eea",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "document_scope_unverified"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.tiktok.com/legal/page/eea/privacy-policy/en",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "ff418cf120aa659948612559",
+      "sourceUrl": "https://support.google.com/waze/answer/12075406?hl=en",
+      "httpEndpoint": "https://support.google.com/waze/answer/12075406?hl=en",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 4,
+        "reasons": [
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://support.google.com/waze/answer/12075406?hl=en",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "0d7c2d3cbc6fe117801e75e4",
+      "sourceUrl": "https://stripe.com/us/privacy",
+      "httpEndpoint": "https://stripe.com/us/privacy",
+      "state": "held",
+      "primaryExtractionCompleted": false,
+      "language": null,
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://stripe.com/en-it/privacy",
+          "drift": true
+        },
+        {
+          "kind": "http2",
+          "status": 307,
+          "finalUrl": "https://stripe.com/us/privacy",
+          "drift": false
+        }
+      ],
+      "rendererFollowUp": [
+        {
+          "kind": "rendered",
+          "observedAt": "2026-10-31T23:02:32.691Z",
+          "status": 200,
+          "finalUrl": "https://stripe.com/de/privacy",
+          "drift": true,
+          "extraction": "completed",
+          "extractionError": null,
+          "language": "de-DE",
+          "textLength": 89967
+        }
+      ]
+    },
+    {
+      "sourceId": "54001e3394b84656c4f7e11e",
+      "sourceUrl": "https://support.google.com/waze/answer/12373727?hl=en",
+      "httpEndpoint": "https://support.google.com/waze/answer/12373727?hl=en",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 4,
+        "reasons": [
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://support.google.com/waze/answer/12373727?hl=en",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "45581fb3189b774577e6ce12",
+      "sourceUrl": "https://support.google.com/waze/answer/14013702?hl=en",
+      "httpEndpoint": "https://support.google.com/waze/answer/14013702?hl=en",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 4,
+        "reasons": [
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://support.google.com/waze/answer/14013702?hl=en",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "8062d567dd2c644714d25b0a",
+      "sourceUrl": "https://www.tiktok.com/community-guidelines",
+      "httpEndpoint": "https://www.tiktok.com/community-guidelines",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.tiktok.com/safety/en/policies-and-engagement/overview",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "cdf36b73a5deb6574738e36d",
+      "sourceUrl": "https://stripe.com/privacy",
+      "httpEndpoint": "https://stripe.com/privacy",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-IT",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://stripe.com/en-it/privacy",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "9aba307dea174fcf29ef65fc",
+      "sourceUrl": "https://support.google.com/waze/answer/14600409?hl=en",
+      "httpEndpoint": "https://support.google.com/waze/answer/14600409?hl=en",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 5,
+        "reasons": [
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://support.google.com/waze/answer/14600409?hl=en",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "8f4b642820ff779d08614918",
+      "sourceUrl": "https://stripe.com/it/legal/ssa",
+      "httpEndpoint": "https://stripe.com/it/legal/ssa",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "it-IT",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://stripe.com/it/legal/ssa",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "69c54133e54ff677b1e08fbd",
+      "sourceUrl": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+      "httpEndpoint": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "document_scope_unverified"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "b0dff6c37cd1a0b731872ae7",
+      "sourceUrl": "https://wise.com/gb/legal/privacy-notice-personal-en",
+      "httpEndpoint": "https://wise.com/gb/legal/privacy-notice-personal-en",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "disclosure_target_missing"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://wise.com/gb/legal/privacy-notice-personal-en",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "38857076a5cc020ff9f37765",
+      "sourceUrl": "https://www.tiktok.com/legal/page/us/terms-of-service/en",
+      "httpEndpoint": "https://www.tiktok.com/legal/page/us/terms-of-service/en",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "document_scope_unverified"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.tiktok.com/legal/page/us/terms-of-service/en",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "8618addf08b39343d1c18e6f",
+      "sourceUrl": "https://wise.com/us/legal/privacy-notice",
+      "httpEndpoint": "https://wise.com/us/legal/privacy-notice",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "disclosure_target_missing"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://wise.com/us/legal/privacy-notice",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "9f018688e43e5893e95b3a21",
+      "sourceUrl": "https://www.tiktok.com/legal/page/global/childrens-privacy-policy/en",
+      "httpEndpoint": "https://www.tiktok.com/legal/page/global/childrens-privacy-policy/en",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "document_scope_unverified"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.tiktok.com/legal/page/global/childrens-privacy-policy/en",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "6eefe096cb3023bec4aaaea1",
+      "sourceUrl": "https://stripe.com/us/legal/ssa",
+      "httpEndpoint": "https://stripe.com/us/legal/ssa",
+      "state": "held",
+      "primaryExtractionCompleted": false,
+      "language": null,
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://stripe.com/en-it/legal/ssa",
+          "drift": true
+        },
+        {
+          "kind": "http2",
+          "status": 307,
+          "finalUrl": "https://stripe.com/us/legal/ssa",
+          "drift": false
+        }
+      ],
+      "rendererFollowUp": [
+        {
+          "kind": "rendered",
+          "observedAt": "2026-10-31T23:02:39.309Z",
+          "status": 200,
+          "finalUrl": "https://stripe.com/de/legal/ssa",
+          "drift": true,
+          "extraction": "completed",
+          "extractionError": null,
+          "language": "de-DE",
+          "textLength": 124948
+        }
+      ]
+    },
+    {
+      "sourceId": "ba38f3fe973298d14fccff8b",
+      "sourceUrl": "https://wise.com/us/legal/terms-of-use",
+      "httpEndpoint": "https://wise.com/us/legal/terms-of-use",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "disclosure_target_missing"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://wise.com/us/legal/terms-of-use-personal",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "8ff07eae3fd8ae29f35d3769",
+      "sourceUrl": "https://x.com/en/privacy",
+      "httpEndpoint": "https://x.com/en/privacy",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://x.com/en/privacy",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "83523d880616400519bba36f",
+      "sourceUrl": "https://stripe.com/legal/dpa",
+      "httpEndpoint": "https://stripe.com/legal/dpa",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-IT",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://stripe.com/en-it/legal/dpa",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "b77f52bde22374ea16695f8f",
+      "sourceUrl": "https://wise.com/us/legal/acceptable-use-policy",
+      "httpEndpoint": "https://wise.com/us/legal/acceptable-use-policy",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-US",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "disclosure_target_missing"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://wise.com/us/legal/acceptable-use-policy",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "3e344b07d5ed24f7e0eeebaf",
+      "sourceUrl": "https://x.com/en/tos",
+      "httpEndpoint": "https://x.com/en/tos",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 2,
+        "reasons": [
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://x.com/en/tos",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "8b0cbeca6612a896211c9aef",
+      "sourceUrl": "https://stripe.com/legal/restricted-businesses",
+      "httpEndpoint": "https://stripe.com/legal/restricted-businesses",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en-IT",
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://stripe.com/en-it/legal/restricted-businesses",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "4f4f1871910ad93f1ec83c69",
+      "sourceUrl": "https://wise.com/gb/legal/terms-of-use-personal",
+      "httpEndpoint": "https://wise.com/gb/legal/terms-of-use-personal",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "disclosure_target_missing"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://wise.com/gb/legal/terms-of-use-personal",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "be36d170c96232335b5be9ae",
+      "sourceUrl": "https://wise.com/gb/legal/terms-of-use-business",
+      "httpEndpoint": "https://wise.com/gb/legal/terms-of-use-business",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "disclosure_target_missing"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://wise.com/gb/legal/terms-of-use-business",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "b72aebf778ef7695987e864b",
+      "sourceUrl": "https://www.zoom.com/en/trust/privacy/privacy-statement/",
+      "httpEndpoint": "https://www.zoom.com/en/trust/privacy/privacy-statement/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 2,
+        "reasons": [
+          "document_scope_ambiguous",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.zoom.com/en/trust/privacy/privacy-statement/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "f854ccaa3d5b4f4e3b3fba24",
+      "sourceUrl": "https://help.x.com/en/rules-and-policies/x-rules",
+      "httpEndpoint": "https://help.x.com/en/rules-and-policies/x-rules",
+      "state": "unavailable",
+      "primaryExtractionCompleted": false,
+      "language": null,
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 403,
+          "finalUrl": "https://help.x.com/en/rules-and-policies/x-rules",
+          "drift": false
+        },
+        {
+          "kind": "http2",
+          "status": 403,
+          "finalUrl": "https://help.x.com/en/rules-and-policies/x-rules",
+          "drift": false
+        }
+      ],
+      "rendererFollowUp": [
+        {
+          "kind": "rendered",
+          "observedAt": "2026-10-31T23:02:46.127Z",
+          "status": 403,
+          "finalUrl": "https://help.x.com/en/rules-and-policies/x-rules",
+          "drift": false,
+          "extraction": "rejected",
+          "extractionError": "source_block_or_soft_404",
+          "language": null,
+          "textLength": null
+        }
+      ]
+    },
+    {
+      "sourceId": "4d29f70b9b58fde027290630",
+      "sourceUrl": "https://wise.com/us/legal/terms-of-use-business",
+      "httpEndpoint": "https://wise.com/us/legal/terms-of-use-business",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "disclosure_target_missing"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://wise.com/us/legal/terms-of-use-business",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "e64676f40a56382db092190b",
+      "sourceUrl": "https://www.zoom.com/en/trust/terms/",
+      "httpEndpoint": "https://www.zoom.com/en/trust/terms/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 3,
+        "reasons": [
+          "document_scope_ambiguous",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.zoom.com/en/trust/terms/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "851300d85f80887ae7625597",
+      "sourceUrl": "https://wise.com/gb/legal/privacy-notice-business-en",
+      "httpEndpoint": "https://wise.com/gb/legal/privacy-notice-business-en",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "disclosure_target_missing"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://wise.com/gb/legal/privacy-notice-business-en",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "62a1eb62d6a386c76d8dc90f",
+      "sourceUrl": "https://www.zoom.com/en/trust/acceptable-use-guidelines/",
+      "httpEndpoint": "https://www.zoom.com/en/trust/acceptable-use-guidelines/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 6,
+        "reasons": [
+          "document_scope_ambiguous",
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.zoom.com/en/trust/acceptable-use-guidelines/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "9f0de4a42dcc9be27053150b",
+      "sourceUrl": "https://media.zoom.com/download/assets/zoom-global-dpa.pdf/dd327ebea27e11efb613d6ba63ed4cee",
+      "httpEndpoint": "https://media.zoom.com/download/assets/zoom-global-dpa.pdf/dd327ebea27e11efb613d6ba63ed4cee",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": null,
+      "extractionIssues": {
+        "count": 0,
+        "reasons": []
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://media.zoom.com/download/assets/zoom-global-dpa.pdf/dd327ebea27e11efb613d6ba63ed4cee",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "70922ea8b0cef3ef0fb049d2",
+      "sourceUrl": "https://wise.com/en/legal/wise-assistant-terms-of-use",
+      "httpEndpoint": "https://wise.com/en/legal/wise-assistant-terms-of-use",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 1,
+        "reasons": [
+          "disclosure_target_missing"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://wise.com/en/legal/wise-assistant-terms-of-use",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "ee5844d172e8b4e7781abd36",
+      "sourceUrl": "https://www.zoom.com/en/trust/zoom-phone-acceptable-use-policy/",
+      "httpEndpoint": "https://www.zoom.com/en/trust/zoom-phone-acceptable-use-policy/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 4,
+        "reasons": [
+          "document_scope_ambiguous",
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.zoom.com/en/trust/zoom-phone-acceptable-use-policy/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "d8540a7edb8c536dbad2a3b4",
+      "sourceUrl": "https://www.zoom.com/en/trust/contact-center-acceptable-use-policy/",
+      "httpEndpoint": "https://www.zoom.com/en/trust/contact-center-acceptable-use-policy/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 2,
+        "reasons": [
+          "document_scope_ambiguous",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.zoom.com/en/trust/contact-center-acceptable-use-policy/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "be22e603cb557941f48526e7",
+      "sourceUrl": "https://www.zoom.com/en/trust/zoom-events-privacy/",
+      "httpEndpoint": "https://www.zoom.com/en/trust/zoom-events-privacy/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 2,
+        "reasons": [
+          "document_scope_ambiguous",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.zoom.com/en/trust/zoom-events-privacy/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "422fc092269f32c0351222a1",
+      "sourceUrl": "https://www.zoom.com/en/trust/us-privacy-addendum/",
+      "httpEndpoint": "https://www.zoom.com/en/trust/us-privacy-addendum/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 4,
+        "reasons": [
+          "document_scope_ambiguous",
+          "interactive_document_content_unreviewed",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.zoom.com/en/trust/us-privacy-addendum/",
+          "drift": false
+        }
+      ]
+    },
+    {
+      "sourceId": "f90c64ba7bd0bf5ff123557e",
+      "sourceUrl": "https://www.zoom.com/en/trust/schools-privacy-statement/",
+      "httpEndpoint": "https://www.zoom.com/en/trust/schools-privacy-statement/",
+      "state": "held",
+      "primaryExtractionCompleted": true,
+      "language": "en",
+      "extractionIssues": {
+        "count": 2,
+        "reasons": [
+          "document_scope_ambiguous",
+          "removed_document_content_unreviewed"
+        ]
+      },
+      "independentAnnotation": "pending",
+      "sourceContractApproved": false,
+      "qualificationReasons": [
+        "independent_completeness_review_pending",
+        "multi_day_observations_pending"
+      ],
+      "primaryTransportAttempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.zoom.com/en/trust/schools-privacy-statement/",
+          "drift": false
+        }
+      ]
+    }
+  ],
+  "boundary": "Review work queue, not approved source contracts. Availability and extraction are distinct from independently established completeness. Renderer results are follow-up captures, not a second whole-corpus daily window."
+}

@@ -1,0 +1,599 @@
+{
+  "schema": "pw-campaign-evidence-1",
+  "recordedAt": "2026-10-31T23:07:15.439861+00:00",
+  "daily": {
+    "schema": "pw-engine-campaign-status-1",
+    "observedAt": "2026-10-31T22:42:52.032Z",
+    "manifestHash": "f0a30fcedc7940665da6b759b8123e215857e545b78d6665faa308e614c8b8a7",
+    "sources": 12,
+    "observedWindows": 1,
+    "countedAcquisitionDays": 1,
+    "targetDays": 3,
+    "minimumRequiredSpanHours": 48,
+    "observedMinimumSpanHours": 0,
+    "acquisitionWindowTargetMet": false,
+    "sourceCompletenessQualified": false,
+    "real500SourceCapacityQualified": false,
+    "productionQualified": false,
+    "languageUnverifiedSources": [
+      "aws-dpa-pdf"
+    ],
+    "windows": [
+      {
+        "id": "2026-10-31T22-42-21-785Z",
+        "day": "2026-10-31",
+        "accepted": true,
+        "reasons": []
+      }
+    ],
+    "boundary": "Fresh acquisition windows only. Completeness annotations, source approval, realistic capacity and publication qualification are separate and are not granted by this counter.",
+    "unsealedWindows": [],
+    "currentImplementationMatches": true
+  },
+  "catalogue": {
+    "startedAt": "2026-10-31T22:43:07.591Z",
+    "completedAt": "2026-10-31T22:44:38.751Z",
+    "durationMs": 91160,
+    "sourceCommit": "8a05a09f57874afb306e2e39ff39a8b41b0cbf82",
+    "catalogueHash": "adeb5b7fc023c028288830aa866480cb716475a9e18a2cbae1a927449d2e0338",
+    "boundary": "Configured real catalogue from local Mac; 3 workers, one request per origin at a time, 1.5s pacing, origin held after 429/503. No models, renderer, contracts, production DB or delivery. Not 500-source or VPS qualification.",
+    "configuredPolicies": 113,
+    "retrievalScopes": 109,
+    "httpEndpoints": 104,
+    "origins": 24,
+    "completedEndpoints": 104,
+    "attempts": 107,
+    "successfulEndpoints": 101,
+    "extractedScopes": 105,
+    "sourceCompletenessQualified": false,
+    "productionQualified": false,
+    "endpointDurationMs": {
+      "p50": 650,
+      "p95": 2340
+    }
+  },
+  "blockedSources": [
+    {
+      "url": "https://www.facebook.com/legal/ai-terms",
+      "attempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://www.facebook.com/legal/ai-terms",
+          "drift": false
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.facebook.com/legal/ai-terms",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "url": "https://stripe.com/us/privacy",
+      "attempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://stripe.com/en-it/privacy",
+          "drift": true
+        },
+        {
+          "kind": "http2",
+          "status": 307,
+          "finalUrl": "https://stripe.com/us/privacy",
+          "drift": false
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://stripe.com/us/privacy",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "url": "https://stripe.com/us/legal/ssa",
+      "attempts": [
+        {
+          "kind": "direct",
+          "status": 200,
+          "finalUrl": "https://stripe.com/en-it/legal/ssa",
+          "drift": true
+        },
+        {
+          "kind": "http2",
+          "status": 307,
+          "finalUrl": "https://stripe.com/us/legal/ssa",
+          "drift": false
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://stripe.com/us/legal/ssa",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "url": "https://help.x.com/en/rules-and-policies/x-rules",
+      "attempts": [
+        {
+          "kind": "direct",
+          "status": 403,
+          "finalUrl": "https://help.x.com/en/rules-and-policies/x-rules",
+          "drift": false
+        },
+        {
+          "kind": "http2",
+          "status": 403,
+          "finalUrl": "https://help.x.com/en/rules-and-policies/x-rules",
+          "drift": false
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://help.x.com/en/rules-and-policies/x-rules",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    }
+  ],
+  "recovery": {
+    "observedAt": "2026-10-31T22:49:20.252Z",
+    "sourceCommit": "867d3ce6b3a6f85ce605df28537a64d7ffc936d8",
+    "boundary": "500 synthetic expired leases injected in the past, 2 runs, 4 real processes on local Mac. No real network or natural expiry qualification.",
+    "passed": true,
+    "durationMs": 829,
+    "recoveryUnderFiveSeconds": true,
+    "counts": {
+      "queued": 250,
+      "failed": 250,
+      "expiredAttempts": 500,
+      "runningAttempts": 0,
+      "leases": 0,
+      "completedErrorRuns": 1,
+      "changes": 0,
+      "outbox": 0
+    },
+    "workers": [
+      {
+        "code": 0,
+        "error": "",
+        "measurement": {
+          "recoveryMs": 198
+        }
+      },
+      {
+        "code": 0,
+        "error": "",
+        "measurement": {
+          "recoveryMs": 487
+        }
+      },
+      {
+        "code": 0,
+        "error": "",
+        "measurement": {
+          "recoveryMs": 685
+        }
+      },
+      {
+        "code": 0,
+        "error": "",
+        "measurement": {
+          "recoveryMs": 330
+        }
+      }
+    ],
+    "integrity": [
+      {
+        "integrity_check": "ok"
+      }
+    ]
+  },
+  "tests": {
+    "passed": 1455,
+    "skipped": 14,
+    "orphanRunRegressionsReproducedBeforeFix": 2,
+    "fixCommit": "867d3ce6b3a6f85ce605df28537a64d7ffc936d8"
+  },
+  "annotation": {
+    "source": "https://policies.google.com/privacy?hl=it",
+    "annotator": "Gemini 4 Argon Alta",
+    "input": "independent original browser main content; no engine output supplied",
+    "anchors": [
+      {
+        "id": "A1",
+        "sha256": "760c39f01058fddcca7f412b8386c38c8512e7ee851d49f700578aa24892faea",
+        "modelExpected": 1,
+        "browserOccurrences": 1,
+        "engineOccurrences": 1
+      },
+      {
+        "id": "A2",
+        "sha256": "51830ba92792f28c36a754671ef9ae340f48015f86980a926cf85dc7b2b8a08d",
+        "modelExpected": 1,
+        "browserOccurrences": 1,
+        "engineOccurrences": 1
+      },
+      {
+        "id": "A3",
+        "sha256": "a8186c429c1252f958686fdd425eabfa2d804bace33bda520809cf0a32d93e7e",
+        "modelExpected": 2,
+        "browserOccurrences": 2,
+        "engineOccurrences": 2
+      },
+      {
+        "id": "A4",
+        "sha256": "021f6dad74afd71534d1c5187964c98e6e44d5d1a981038264bfe2350689d69e",
+        "modelExpected": 1,
+        "browserOccurrences": 1,
+        "engineOccurrences": 1
+      },
+      {
+        "id": "A5",
+        "sha256": "58fa204f4fb1d5051784a69399ef922d7a3f196d9896623240c75453e74d99c1",
+        "modelExpected": 7,
+        "browserOccurrences": 7,
+        "engineOccurrences": 7
+      }
+    ],
+    "browserHeadings": 121,
+    "modelHeadings": 122,
+    "browserLinks": 308,
+    "modelLinks": 227,
+    "openingOccurrences": {
+      "browser": 1,
+      "engine": 1
+    },
+    "terminalLineOccurrences": {
+      "browser": 1,
+      "engine": 2
+    },
+    "state": "held",
+    "limits": [
+      "model structural counts corrected against captured DOM",
+      "terminal duplicate requires adjudication",
+      "linked documents and collapsed definitions not independently qualified",
+      "single observed calendar day"
+    ]
+  },
+  "externalReview": {
+    "glmModel": "GLM-5.3 Max",
+    "glmCompletedReviews": [
+      "campaign capacity protocol",
+      "mass recovery and crash-boundary design"
+    ],
+    "glmReviewText": "Parte B — Delega qualifica Engine 6 (500 policy/giorno), Value: 1\nParte B — Delega qualifica Engine 6 (500 policy/giorno)\nLetti integralmente: \nengine-v6-qualification-campaign.md\n, \nengine-v6-scope-validation-2026-10-31.md\n, \nscripts/engine-concurrency-probe.ts\n, \nscripts/engine-acquisition-probe.ts\n, \nsrc/lib/engine/store.ts\n. Nessuna esecuzione. Giudizio complessivo: il confine fixture/Internet è dichiarato correttamente in entrambi i documenti e nei boundary dei probe; ciò che manca è proprio ciò che la campagna chiede — carico reale, tempi, budget. Otto rilievi, ciascuno con criterio falsificabile.\nLa prova da 500 non misura capacità reale: fetch sintetico a latenza zero.  Il worker del probe risolve  acquire  all'istante (engine-concurrency-probe.ts:34-36); il report 330s dimostra scheduling/fencing/recovery, non throughput.  Criterio falsificabile:  rieseguire con latenza iniettata (p50 800ms / p95 4s per trasporto, 5% di 429 con Retry-After) e pubblicare wall-time, età coda e p50/p95 per stadio; se il tempo supera la finestra notturna, il target 500/giorno è non provato — confutazione: completamento dentro finestra con margine ≥30%.\nRecovery di massa non testato e potenzialmente O(n²). recoverExpiredTasks  (store.ts:93-111) processa 500 task scaduti con una transazione  e un \nreconcileRun\n completo per task  (ogni  reconcileRun  rilegge tutti i task del run: 500×1000 righe), e viene rieseguito all'inizio di ogni  claimTask  da ogni worker. Il probe uccide un solo processo con un solo task claimato (probe:20-25).  Criterio falsificabile:  SIGKILL di tutti e 4 i worker con ≥100 task running scaduti; misurare time-to-first-claim e occorrenze di \"database is locked\" negli stderr; confutazione: primo claim < 5s e zero lock, altrimenti batch  updateMany  + reconcile singolo.\nIl percorso publish non è mai stato sotto 4 processi.  Il run del probe è  mode: 'observe'  (probe:54): counts  changes=0/outbox=0  sono conseguenza della modalità, non una prova; recordAttempt/publicazione/CAS outbox sotto concorrenza restano non qualificati.  Criterio:  rieseguire in publish con fixture a baseline identica, atteso esattamente N unchanged + 0 snapshot duplicati + 0 outbox spuri sotto SIGKILL; ogni duplicato è una Fallita.\nBackoff senza jitter e Retry-After fino a 24h in un colpo solo. retryAt = now + min(DAILY_MS, max(60_000·2^attempt, retryAfterMs))  (store.ts:241): nessun jitter → ri-allineamento a grappolo dei retry sullo stesso origine/errore; un solo  Retry-After: 86400  parcheggia un'origine per un giorno.  Criterio:  istogramma delle  nextAttemptAt  nel run sintetico con fallimenti uniformi — picchi a +120s/+240s esatti confermano il difetto; dopo jitter ±25% la distribuzione deve appiattirsi; cap tier per Retry-After (es. max 1h con escalation) da verificare su fonti reali.\nStati per modalità indipendenti → doppio carico per origine lo stesso giorno. enginePolicyState  è letto per  mode  corrente (store.ts:49) e  nextDueAt  è per-modalità: un run observe e uno publish nello stesso giorno ri-processano le stesse fonti (doppio fetch per origine, budget di rete dimezzato o gentilezza raddoppiata).  Criterio:  enqueued un run per modalità sullo stesso inventario a 24h di distanza: contare fetch task per origine (atteso 2× se confermato); decidere se condividere  nextDueAt  cross-mode o fissare una sola modalità nella campagna.\nRapporto fetch/policy non misurato: la dedup si spezza su baseline e candidati. fetchKey  include  baselineHash  e  forceFresh  (store.ts:70): due policy con lo stesso URL ma baseline diverse (o una con candidato pendente) generano fetch separati nello stesso run.  Criterio:  sull'inventario reale, riportare fetch task distinti per origine e rapporto fetch/policy; se >1,1 su cataloghi senza URL condivisi, indagare; il pacing per origine protegge la gentilezza ma il modello di capacità va ricalibrato.\nProbe di acquisizione: non rieseguibile nella stessa directory e senza copertura renderer.  I file si scrivono con  wx  (engine-acquisition-probe.ts:34,44): un secondo run dello stesso corpus crasha al primo write; il loop tenta solo direct→http2 e si ferma su estrazione riuscita — il costo di escalation al renderer non è mai misurato, pur essendo il ramo più caro (probe:29,52).  Criterio:  (a) sottodirectory timestampata o flag di troncamento → secondo run deve completare; (b) aggiungere al corpus fonti che richiedono renderer e riportare tentativi/byte/secondi-renderer per fonte.\nLe \"tre finestre\" possono cadere in 72 ore: stabilità a 3 giorni, non multigiorno.  Il protocollo (campagna §2) impone 1 finestra/data e ≥20h di distanza, ma non uno span minimo: finestre in 3 giorni consecutivi allo stesso orario campionano 48-72h, non la variabilità settimanale (deploy/CDN dei provider).  Criterio:  pre-registrare span minimo ≥5 giorni di calendario tra prima e ultima finestra (o etichettare esplicitamente \"stabilità a 3 giorni\"); una campagna passata in 72h non qualifica la freschezza multigiorno.\nNota di denominatore e non-approvazione:\n il catalogo pubblico da verificare (113 policy storiche) resta il denominatore da confermare prima di qualsiasi cifra \"500\" (campagna §3 lo chiede esplicitamente); 12 fonti in un giorno non sono 12 fonti in giorni distinti, e il report di scope validation lo dice onestamente. Limiti già dichiarati che non ripeto come rilievi: contratti completi per provider, adapter renderer/HTTP2 dal vivo, PDF originale/lingua/OCR, corpus annotato indipendente, costo modello su documenti interi, PostgreSQL/throughput di p\nNon approvo la produzione\n: tutti e otto i rilievi sono prerequisiti misurabili prima di qualunque attivazione.\n11:35 PM\nFollow-up delegato, sola lettura: verifica sul codice corrente i punti della tua Parte B, soprattutto recupero massivo lease scaduti. Sto preparando benchmark isolato da 500 task con lease portati esplicitamente nel passato (fault injection, non attesa naturale). Proposta minima: conservare la transazione fenced per ogni task, raccogliere runId realmente modificati in Set e riconciliare ciascun run una sola volta dopo il ciclo. Analizza crash intermedi, concorrenza tra processi e run rimasti running; indica\nHighSpeed\nVerifica sul codice corrente — recupero massivo lease scadute e proposta di ottimizzazione, Value: 1\nVerifica sul codice corrente — recupero massivo lease scadute e proposta di ottimizzazione\nRiverificato \nstore.ts\n e \npipeline.ts\n all'albero attuale: le sezioni rilevanti non sono cambiate rispetto alla mia Parte B. Nell'ultima risposta ho eseguito solo due letture read-only (Read + grep); nessuna modifica, nessun DB toccato.\n1. Fatti sul codice corrente, Value: 2\n1. Fatti sul codice corrente\nIl costo quadratico è confermato e localizzato :  recoverExpiredTasks  (store.ts:93-111) itera gli scaduti e chiama  reconcileRun(task.runId) dentro il ciclo  (riga 106); ogni  reconcileRun  (righe 257-265) rilegge  tutti  i task del run ( findMany({ where: { runId } }) ). Con 500 scaduti in un run da 1000 task: fino a ~500k righe lette più 500  updateMany  su  engineRun . Il tutto viene rieseguito all'inizio di  ogni claimTask  (riga 115), quindi da ogni worker.\nLa transazione per-task non è \nfenced\n, ed è corretto che non lo sia : è una transazione CAS-precondizionata ( status:'running', leaseToken: task.leaseToken, leaseExpiresAt: { lte: now } , righe 98-100) — il recovering non detiene alcuna lease e pretende di sostituirne il detentore. Precisazione alla tua proposta: \"conservare la transazione fenced per task\" va inteso come \"conservare la transazione precondizionata per task\"; introdurre  fenced  lì sarebbe sbagliato (fallirebbe sempre l'assert sul leaseToken).\nLa concorrenza tra processi è già sicura ma sprecona : due processi che eseguono  recoverExpiredTasks  in parallelo leggono lo stesso insieme scaduti; il primo vince il CAS ( changed.count === 1 ), il secondo ottiene  count === 0  e la sua transazione termina senza effetti (riga 101) — ma  entrambi  chiamano  reconcileRun  per ogni task (anche per task che non hanno modificato).  reconcileRun  concorrente è idempotente (updateMany non verificato, nessun throw), quindi corretto ma duplicato.\nIl detentore originale sospende senza effetti doppi : se il worker \"morto\" si risveglia dopo il requeue, ogni sua  fenced / transition / failTask  fallisce la precondizione sul leaseToken →  engine_lease_lost , e  workerStep  salta esplicitamente  failTask  per quel codice (pipeline.ts:289 e catch nel workerStep). L'aggiornamento degli attempt ( generation: task.totalAttempts, status: 'running' , riga 102) è anch'esso precondizionato: nessun doppio 'expired' sulla stessa generazione.\ntake: 500\n sulla findMany degli scaduti  (riga 94): il tuo benchmark con esattamente 500 task entra in un solo passaggio; se inietti più di 500 lease scadute servono invocazioni ripetute — da sizare di conseguenza.\nworkerStep\n riconcilia il run del task processato  alla fine di ogni step (pipeline.ts:289): è l'altro percorso, oltre al recovery, che chiude i run.\nValue: 2, 2. La proposta minima (Set dei runId realmente modificati + riconciliazione differita) preserva gli invarianti\n2. La proposta minima (Set dei runId realmente modificati + riconciliazione differita) \npreserva gli invarianti\nAnalisi dei tre assi che hai chiesto:\nCrash intermedi.\n Ogni transazione per-task è autonoma e durevole; un crash dopo k task lascia i primi k recuperati e i restanti ancora 'running' con lease nel passato → la successiva \nrecoverExpiredTasks\n li riprende (stessa findMany). Convergenza garantita, nessuno stato ibrido: un task o resta com'era o è atomicamente riaccodato/fallito con attempt marcato. Il crash tra fine ciclo e riconciliazione differita lascia task a posto e run 'running' — vedi il gap al §3, che però \nesiste identico nel codice attuale\n (crash tra riga 105 e 106): la proposta non lo introduce, non lo chiude.\nConcorrenza tra processi.\n La proprietà che rende sana la deferral è che \nreconcileRun\n è \nstate-based, non delta-based\n: calcola 'active' dallo stato corrente del run, non da cosa ha modificato il chiamante. Quindi riconciliare il run R una volta, dopo averne modificato un qualsiasi sottoinsieme di task, è equivalente a riconciliarlo dopo ogni task — anzi più accurato, perché la findMany a fine ciclo vede anche i requeue appena scritti. Con il Set popolato solo su \nchanged.count === 1\n, ogni processo riconcilia solo i run che ha effettivamente toccato: l'altro processo (che ha perso il CAS) non duplica. Copertura incrociata: se A modifica un task del run R e crasha prima della riconciliazione, e B modifica un altro task di R e riconcilia, la riconciliazione di B copre anche il task di A.\nRun rimasti 'running'.\n Dentro il ciclo la riconciliazione differita non può completare prematuramente un run che abbia ancora task attivi (la guardia \nactive\n è sulla findMany fresca); il caso \"ultimo task del run recuperato\" passa da riconciliazione immediata a riconciliazione a fine ciclo — stessa semantica, istante leggermente dopo. Un worker vivo sullo stesso run non è influenzato (le sue transazioni sono precondizionate sul proprio leaseToken, non sullo stato del run).\nVerdetto: approvo la modifica minima così com'è\n, con una raccomandazione (§3) e l'avvertenza di aggiungere al Set \ndentro/subito dopo la transazione vincente\n (non a fine ciclo basandosi su memoria lunga), per non perdere runId in caso di eccezioni a metà ciclo.\n3. Gap di liveness pre-esistente che la proposta lascia aperto (raccomandazione), Value: 2\n3. Gap di liveness pre-esistente che la proposta lascia aperto (raccomandazione)\nSe un crash avviene dopo l'ultima transazione per-task di un run i cui task sono \ntutti\n terminali, e prima della sua riconciliazione (attuale riga 106, o la tua differita), nessuno riconcilia più quel run: \nclaimTask\n seleziona solo task di run 'queued/running' ma i task sono tutti terminali, e \nworkerStep\n non processerà mai più quel run. Il run resta 'running' per sempre (oggi l'unica uscita è \ncancelRun\n manuale). Il fatto è dimostrabile nel codice; la frequenza pratica è ipotesi (finestra di crash stretta). \nFix minimo consigliato\n, coerente con la tua proposta: dopo il ciclo, oltre ai runId nel Set, riconciliare (con bound, es. \ntake: 50\n) i run ancora 'running' i cui task sono tutti terminali — una sweep idempotente che chiude anche i run orfani di crash precedenti.\n4. Test discriminanti per il benchmark con fault injection (lease nel passato), Value: 2\n4. Test discriminanti per il benchmark con fault injection (lease nel passato)\nL'iniezione esplicita di \nleaseExpiresAt\n nel passato è valida: è esattamente la precondizione del recovery (riga 99). Assert decisivi, in ordine di potere discriminante:\nConcorrenza doppio-recovery : due processi eseguono  recoverExpiredTasks  in parallelo sugli stessi 500; alla fine  engineAttempt  con status 'expired' deve essere  esattamente  il numero di task effettivamente recuperati (nessun doppio tentativo per generazione) e la somma stati task = totale (completed+failed+queued+blocked). Discrimina CAS difettosi.\nChiusura run unica : con la modifica, strumentare il conteggio  engineRun.findMany  per riconciliazione (o wrappare  reconcileRun ): deve essere ≤ run distinti toccati, non ≥ task. Oltre al muro temporale (attuale O(n²) vs differita: il tempo di recovery su 500 scaduti deve scendere da N a frazione senza 'database is locked' negli stderr — soglia da pre-registrare, es. <10s).\nInvarianti di prenotazione :  activePolicyId  non-null  solo  su task non terminali (i requeued lo conservano, i failed lo rilasciano — riga 100); nessun  Policy  mutato in modalità observe;  terminalFailure  rispetta il suo CAS su  expectedBaselineHash  (righe 224-228).\nCrash intermedio con fork : recovery in processo fork ucciso con SIGKILL dopo k transazioni (stesso pattern del probe esistente); al riavvio: convergenza totale, attempt 'expired' = recuperati, e — con lo sweep del §3 —  nessun run 'running' residuo ; senza sweep questo assert fallisce oggi: è il test che discrimina la raccomandazione.\nCoerenza fallimenti : task con  attempt >= MAX_ATTEMPTS  prima del recovery → 'failed' + check log Needs Review in publish +  nextDueAt  spostato; task con attempt residui → 'queued' con  nextAttemptAt = now  e prioritari al claim.\nValue: 2, 5. Dimostrare \"pubblicazione invariata su 500 baseline\" senza chiamare modelli, con flag publish attivo\n5. Dimostrare \"pubblicazione invariata su 500 baseline\" senza chiamare modelli, con flag publish attivo\nFattibile con precisione, riusando il pattern del concurrency-probe. Design:\nPerimetro : DB dedicato sotto  output/  con guard identica a engine-concurrency-probe.ts:9-10 ( DATABASE_URL !== file:.../probe.db → throw ,  PUBLICATION !== '1' richiesto ,  NOTIFICATIONS === '0'  richiesto): il flag publish è ammesso solo perché il DB è locale dedicato; la guard rende impossibile eseguirlo altrove per costruzione.\nSemantica : 500 policy con contratti sintetici (come fa già il probe, righe 48-53) e fixture  acquire  che restituisce un artefatto con  document.hash === policy.currentHash  ed  eligible: true . In  evaluate  l'uguaglianza hash è verificata  prima  di ogni controllo baseline/analisi: il ramo è  verified_unchanged  →  recordAttempt  (publish:  lastCheckDate ,  lastSuccessfulCheckDate , dataStatus 'Available') →  anchor  (upsert baseline, nessun nuovo snapshot) →  finishTask('unchanged') . I modelli non vengono mai invocati:  analysis: { analyze/verify: () => { throw new Error('model_must_not_run') } }  come sentinella (pattern già usato dal probe, righe 37).\nAssert falsificabili :  policyChange.count() === 0 ;  engineOutbox.count() === 0 ;  policySnapshot.count() === 500  (nessuno nuovo — il ramo unchanged non crea snapshot, fatto di codice);  engineReview.count() === 0 ; 500 task completed con outcome 'unchanged';  currentHash  invariato per tutte; sentinelle mai chiamate;  lastSuccessfulCheckDate > 0  per tutte. Sotto 4 worker + SIGKILL a metà (combinazione con il §4), gli stessi assert al riavvio dimostrano che recovery+publish-unchanged sono congiuntamente sicuri.\nCoorte di controllo negativa (consigliata) : 5 policy con fixture a hash diverso: senza modelli devono fermarsi allo stage analyze ( model_must_not_run  → 3 tentativi → terminale) e produrre  zero  PolicyChange/outbox/snapshot — dimostra che in publish la pubblicazione è impossibile senza output modello valido, non semplicemente assente.\nCosa non dimostra  (da scrivere nel report del benchmark): non misura latenza di rete reale né costo modelli; non esercita analisi/verifica/claim-gate; conferma solo il percorso unchanged in publish e l'assenza di effetti pubblici — esattamente l'obiettivo dichiarato.\n6. Fatti vs ipotesi, Value: 2\n6. Fatti vs ipotesi\nFatti (dal codice, con righe)\n: costo O(scaduti×task-per-run) del ciclo attuale (store.ts:106 + 257-265); chiamata recovery in ogni claimTask (115); transazioni per-task CAS-precondizionate e idempotenti sotto concorrenza (98-104); idempotenza di reconcileRun concorrente; impossibilità di commit post-scadenza dentro \nfenced\n (assert iniziale + controllo su snapshot, 158-166); skip di failTask su lease-lost nel workerStep; finestra di run-orfano 'running' (crash tra 106 e la riconciliazione, senza altri task claimabili); ramo unchanged privo di snapshot/outbox/analisi. \nIpotesi (da misurare nel benchmark)\n: entità assoluta del peggioramento temporale e frequenza di 'database is locked' su SQLite con recovery concorrenti; frequenza pratica del run-orfano; rapporti di throughput con latenze realistiche (già rilievo B1).\n11:44 PM\nGenerated by Highspeed\nentry area (settable) Placeholder: Ask for follow-up changes, Value: \nGLM-5.3\nMax\nentry area (settable) Placeholder: Ask for follow-up changes, Value: ",
+    "geminiCompletedReviews": [
+      "campaign source and daily-window methodology",
+      "independent Google browser annotation"
+    ],
+    "modelReviewsAreExecution": false
+  },
+  "automation": {
+    "id": "policywatcher-engine-6-osservazioni-giornaliere",
+    "active": true,
+    "dailyLocalTime": "21:00",
+    "timezone": "Europe/Rome",
+    "requiresLocalExecutionEnvironment": true
+  },
+  "productionEngineActivated": false,
+  "extractionGates": {
+    "extractedScopes": 105,
+    "scopesWithUnresolvedExtractionIssues": 79,
+    "issueOccurrencesByReason": {
+      "removed_document_content_unreviewed": 70,
+      "interactive_document_content_unreviewed": 112,
+      "document_header_metadata_unreviewed": 15,
+      "disclosure_target_missing": 16,
+      "document_scope_unverified": 15,
+      "dialog_document_scope_unverified": 8,
+      "hidden_document_content_unresolved": 7,
+      "document_scope_ambiguous": 8,
+      "disclosure_scope_unverified": 1
+    },
+    "languages": {
+      "en": 57,
+      "en-US": 29,
+      "unknown": 8,
+      "it": 2,
+      "en-IT": 3,
+      "en-us": 2,
+      "en-GB": 1,
+      "it-IT": 3
+    },
+    "boundary": "Diagnostic counts on saved captures. Zero issues is not independent source completeness or contract approval."
+  },
+  "publishCapacityInitial": {
+    "startedAt": "2026-10-31T22:47:13.340Z",
+    "completedAt": "2026-10-31T22:59:16.465Z",
+    "durationMs": 723125,
+    "passed": false,
+    "boundary": "500 synthetic unchanged baselines in isolated publish mode, 4 real processes, 800ms/4s injected retrieval latency and 5% first-attempt synthetic 429, actual SIGKILL and natural lease expiry. No Internet, AI or subscriber delivery; not real 500-source or VPS qualification.",
+    "run": {
+      "id": "d293701a-65be-46e1-b77d-6ea0fd0b49fa",
+      "status": "running",
+      "selected": 500
+    },
+    "counts": {
+      "tasks": 1000,
+      "completed": 960,
+      "reserved": 21,
+      "changes": 0,
+      "outbox": 0,
+      "policyMutations": 0,
+      "verifiedPolicies": 500,
+      "snapshots": 0,
+      "logs": 479,
+      "anchors": 479
+    },
+    "workers": [
+      {
+        "pid": 16246,
+        "code": 0,
+        "error": ""
+      },
+      {
+        "pid": 16247,
+        "code": 0,
+        "error": ""
+      },
+      {
+        "pid": 16248,
+        "code": 0,
+        "error": ""
+      },
+      {
+        "pid": 16249,
+        "code": 0,
+        "error": ""
+      }
+    ],
+    "crash": {
+      "code": null,
+      "signal": "SIGKILL",
+      "taskId": "341f3452-e3d1-4fd0-a40c-8203931ea463",
+      "leaseExpires": "2026-10-31T22:52:13.776Z",
+      "attempts": [
+        {
+          "generation": 1,
+          "status": "expired",
+          "reason": "lease_expired"
+        },
+        {
+          "generation": 2,
+          "status": "completed",
+          "reason": null
+        }
+      ]
+    },
+    "integrity": [
+      {
+        "integrity_check": "ok"
+      }
+    ]
+  },
+  "publishCapacityContinuation": {
+    "startedAt": "2026-10-31T23:01:12.916Z",
+    "completedAt": "2026-10-31T23:04:12.173Z",
+    "sourceCommit": "7c9f3f0708a18210e94784bbe4bce7df324f41fc",
+    "priorPhasePassed": false,
+    "priorPhaseDurationMs": 723125,
+    "durationMs": 179257,
+    "totalElapsedIncludingInterventionMs": 1018833,
+    "passed": true,
+    "boundary": "Explicit resumed experiment on the original synthetic database. Initial c12c60a run exceeded its 12-minute harness deadline; this continuation uses the recorded later engine commit. Not an uninterrupted throughput benchmark, Internet workload, or VPS qualification.",
+    "counts": {
+      "tasks": 1000,
+      "completed": 1000,
+      "reserved": 0,
+      "changes": 0,
+      "snapshots": 0,
+      "outbox": 0,
+      "reviews": 0,
+      "anchors": 500,
+      "logs": 500,
+      "uniqueVerifiedPolicies": 500,
+      "unchangedOutcomes": 500,
+      "policyMutations": 0
+    },
+    "workers": [
+      {
+        "code": 0,
+        "error": ""
+      },
+      {
+        "code": 0,
+        "error": ""
+      },
+      {
+        "code": 0,
+        "error": ""
+      },
+      {
+        "code": 0,
+        "error": ""
+      }
+    ],
+    "runStatus": "completed",
+    "integrity": [
+      {
+        "integrity_check": "ok"
+      }
+    ]
+  },
+  "initialHarnessCounterCorrection": "Initial verifiedPolicies count was invalid because the fixture timestamp defaulted to now; original result remained failed. Continuation uses 500 unique verified logs, outcomes and anchors.",
+  "syntheticRestore": {
+    "observedAt": "2026-10-31T23:06:31.774435+00:00",
+    "boundary": "SQLite online backup and reopened restore of isolated synthetic 500-policy fixture, not production disaster recovery",
+    "logicalDataEqual": true,
+    "logicalDigest": "26716c1003ee1065f210bcf5b145e29a2a6b4cecf37d9a6a706a2c05844e37dc",
+    "tables": 45,
+    "integrity": "ok",
+    "taskCount": 1000,
+    "restoredBytes": 4648960
+  },
+  "pdfIndependentComparison": {
+    "observedAt": "2026-10-31T22:58:32.450428+00:00",
+    "source": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+    "reference": "independently downloaded original PDF; Poppler pdftotext -layout",
+    "originalPdfHash": "15f95fd3f83f4880e538ec08867b58f4648bf48fb7a0f8af7d0f79c94f456c19",
+    "referenceTextHash": "32d7700febef58b6b30bd6d281e314e2d79ccc3da30c5b8ecd0eade441651b9c",
+    "engineExtractionFile": "output/engine-daily-cohort-20261031/windows/2026-10-31T22-42-21-785Z/capture/aws-dpa-pdf-direct.extraction.json",
+    "engineExtractionHash": "369fbb2c0968f2cf81093d1e60c4ceca9acc06b43f2fb8befd303e7105e4ca16",
+    "pages": 10,
+    "referenceWordTokens": 4519,
+    "engineWordTokens": 4519,
+    "wordSequenceExactlyEqual": true,
+    "comparisonNormalization": "Unicode word tokens, casefold; whitespace and punctuation ignored explicitly",
+    "sourceCompletenessQualified": false,
+    "state": "held",
+    "limits": [
+      "not byte, punctuation or layout equivalence",
+      "incorporated external documents not qualified",
+      "one day only",
+      "language absent from automatic acquisition remains recorded"
+    ],
+    "modelProposedAnchors": [
+      {
+        "id": "A1",
+        "sha256": "895f9bfaa8e6a6aa1545866215b9c60a270297f6db4f18095f1f7e1044714189",
+        "expected": 1,
+        "referenceOccurrences": 1,
+        "engineOccurrences": 1,
+        "declaredPages": [
+          3
+        ]
+      },
+      {
+        "id": "A2",
+        "sha256": "a7d4b8553f12573ce7e4788663d04e160cbf179202b05e227e2d974c8fc1ad4c",
+        "expected": 1,
+        "referenceOccurrences": 1,
+        "engineOccurrences": 1,
+        "declaredPages": [
+          6
+        ]
+      },
+      {
+        "id": "A3",
+        "sha256": "3f41a13e801e53058e28319677f7b42b7721a8853d76e113d0aa32f0e033c04b",
+        "expected": 1,
+        "referenceOccurrences": 1,
+        "engineOccurrences": 1,
+        "declaredPages": [
+          6
+        ]
+      },
+      {
+        "id": "A4",
+        "sha256": "0d248de9ddb2fd9dbd268f4a2a66f7006d98b13bed035188aaa46f9829b58ad5",
+        "expected": 1,
+        "referenceOccurrences": 1,
+        "engineOccurrences": 1,
+        "declaredPages": [
+          8
+        ]
+      },
+      {
+        "id": "A5",
+        "sha256": "d04f7ae40a8b7e2f00217d7f39a8e5a0d4717ca9b050aa96de0a31788f7a65ee",
+        "expected": 4,
+        "referenceOccurrences": 4,
+        "engineOccurrences": 4,
+        "declaredPages": [
+          1,
+          4,
+          6
+        ]
+      }
+    ],
+    "modelIdentity": "Submitted Argon Alta; UI at completion exhausted quota and switched to Flash-Lite; actual response model unconfirmed"
+  },
+  "rendererFollowUp": {
+    "completed": 4,
+    "rows": [
+      {
+        "url": "https://www.facebook.com/legal/ai-terms",
+        "attempts": [
+          {
+            "kind": "rendered",
+            "observedAt": "2026-10-31T23:02:27.531Z",
+            "status": 200,
+            "finalUrl": "https://www.facebook.com/legal/ai-terms",
+            "drift": false,
+            "durationMs": 4627,
+            "bodyHash": "39a588e3667a1dd4efd1f47139363761c94b88f51e92a82df1e6820f99ea113e",
+            "extraction": "completed",
+            "extractionError": null,
+            "textLength": 14790,
+            "language": "en"
+          }
+        ]
+      },
+      {
+        "url": "https://stripe.com/us/privacy",
+        "attempts": [
+          {
+            "kind": "rendered",
+            "observedAt": "2026-10-31T23:02:32.691Z",
+            "status": 200,
+            "finalUrl": "https://stripe.com/de/privacy",
+            "drift": true,
+            "durationMs": 3504,
+            "bodyHash": "4b5a35fb28dca135dc663dbe550b428cdd548e5da95f2daef850fd30a5f773a6",
+            "extraction": "completed",
+            "extractionError": null,
+            "textLength": 89967,
+            "language": "de-DE"
+          }
+        ]
+      },
+      {
+        "url": "https://stripe.com/us/legal/ssa",
+        "attempts": [
+          {
+            "kind": "rendered",
+            "observedAt": "2026-10-31T23:02:39.309Z",
+            "status": 200,
+            "finalUrl": "https://stripe.com/de/legal/ssa",
+            "drift": true,
+            "durationMs": 3521,
+            "bodyHash": "b3f8aec9477d5ddd183aa5d307552982f601eb353530f4656676c68ccdf051d0",
+            "extraction": "completed",
+            "extractionError": null,
+            "textLength": 124948,
+            "language": "de-DE"
+          }
+        ]
+      },
+      {
+        "url": "https://help.x.com/en/rules-and-policies/x-rules",
+        "attempts": [
+          {
+            "kind": "rendered",
+            "observedAt": "2026-10-31T23:02:46.127Z",
+            "status": 403,
+            "finalUrl": "https://help.x.com/en/rules-and-policies/x-rules",
+            "drift": false,
+            "durationMs": 3644,
+            "bodyHash": "f7587ad0d90e740bf957be6352606a6d6a7ed24b1539785bd8ff8242a2c2de0e",
+            "extraction": "rejected",
+            "extractionError": "source_block_or_soft_404",
+            "textLength": null,
+            "language": null
+          }
+        ]
+      }
+    ],
+    "boundary": "Four follow-up requests through the configured renderer, not a complete daily cohort or 500-source VPS load test"
+  }
+}
