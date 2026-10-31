@@ -76,6 +76,10 @@ export default async function HomePage() {
                 </nav>
               </div>
             </header>
+            <aside className={styles.enginePreviewNotice} aria-label="Engine 6 Preview experimental programme">
+              <div><strong>Engine 6 Preview · experimentation in progress</strong><p>A local preview for more traceable policy retrieval and validation. Live qualification is still pending.</p></div>
+              <nav aria-label="Engine 6 Preview announcement"><Link href="/engine-6-preview">Architecture and evidence <span aria-hidden="true">↗</span></Link><Link href="/engine-6-preview?lang=it" hrefLang="it">Leggi in italiano</Link></nav>
+            </aside>
             <noscript>
               <p className={styles.noScript}>The public evidence summary and knowledge base work without JavaScript. JavaScript is only required for the interactive monitoring workspace.</p>
             </noscript>

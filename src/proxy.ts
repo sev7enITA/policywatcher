@@ -196,7 +196,7 @@ export function getCanonicalHostRedirect(request: NextRequest): URL | null {
 
   const legacyHost = observedHostnames.includes(POLICYWATCHER_WWW_HOSTNAME);
   const defaultLanguage = ['GET', 'HEAD'].includes(request.method)
-    && /^\/(change\/[^/]+|pulse\/[^/]+|share\/[^/]+|embed\/pulse\/[^/]+|guides(?:\/[^/]+)?|browser-extension)\/?$/.test(request.nextUrl.pathname)
+    && /^\/(change\/[^/]+|pulse\/[^/]+|share\/[^/]+|embed\/pulse\/[^/]+|guides(?:\/[^/]+)?|browser-extension|engine-6-preview)\/?$/.test(request.nextUrl.pathname)
     && request.nextUrl.searchParams.getAll('lang').length === 1
     && request.nextUrl.searchParams.get('lang') === 'en';
   if (!legacyHost && !defaultLanguage) return null;

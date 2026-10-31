@@ -15,7 +15,7 @@ export function publicLanguage(value: unknown): PublicLanguage {
 export function publicRequestLanguage(pathname: string, queryLanguage: unknown): PublicLanguage {
   if (/^\/per-te\/?$/.test(pathname)) return queryLanguage === 'en' ? 'en' : 'it';
   if (pathname.startsWith('/it/')) return 'it';
-  const localizedQueryRoute = /^\/(change\/[^/]+|pulse\/[^/]+|share\/[^/]+|embed\/pulse\/[^/]+|guides(?:\/[^/]+)?|press-kit\/releases(?:\/[^/]+)?|browser-extension)\/?$/.test(pathname);
+  const localizedQueryRoute = /^\/(change\/[^/]+|pulse\/[^/]+|share\/[^/]+|embed\/pulse\/[^/]+|guides(?:\/[^/]+)?|press-kit\/releases(?:\/[^/]+)?|browser-extension|engine-6-preview)\/?$/.test(pathname);
   return localizedQueryRoute ? publicLanguage(queryLanguage) : 'en';
 }
 
