@@ -1,4 +1,4 @@
-# PolicyWatcher Engine 6 — implementazione locale e verifica
+# PolicyWatcher Engine 6 - implementazione locale e verifica
 
 31 ottobre 2026. Branch `codex/engine-v6-local`, base `680c0e549c369f8cc8db7ea8aaeca3b3ac56903e`. Il checkout è `/Users/fabriziodegni/Projects/PolicyWatcher-public-update-20261026`. Stato: preview locale `pw-engine-6.0.0-alpha.1`, disabilitata per default. Il prodotto pubblico mantiene la versione 5.2.0. Non è stata distribuita una release 6.0, né modificato il DB di produzione.
 

@@ -1,4 +1,4 @@
-# PolicyWatcher 6 — dimensionamento e budget
+# PolicyWatcher 6 - dimensionamento e budget
 
 31 ottobre 2026. Obiettivo dell'owner: fino a 500 policy controllate ogni giorno, affidabilità e copertura prima di velocità e costo. Nessun servizio è stato acquistato. Il piano VPS e i preventivi di upgrade sono stati letti nel pannello Hostinger autenticato aperto dall'owner. Gli scenari API rimangono stime, non consumi misurati.
 

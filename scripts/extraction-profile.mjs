@@ -27,7 +27,7 @@ function declarations(file, roots) {
 const files = {
   'scraper:transform': hash(declarations('src/lib/scraper.ts', ['validateContent', 'decodeBoundedDocumentBody'])),
   'engine:document': hash(declarations('src/lib/engine/document.ts', ['structureDocument', 'assessDocument'])),
-  'engine:transform': hash(declarations('src/lib/engine/acquisition.ts', ['extractEngineBody'])),
+  'engine:transform': hash(declarations('src/lib/engine/acquisition.ts', ['extractEngineBody', 'assessCapture'])),
   'sourceReliability:identity': hash(declarations('src/lib/sourceReliability.ts', ['buildAcquisitionKey'])),
   ...Object.fromEntries(['src/lib/pdfPolicy.ts', 'src/lib/acquisitionScope.ts'].map(file => [file, hash(readFileSync(file))])),
 };

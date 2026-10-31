@@ -79,6 +79,97 @@ beforeEach(async () => {
 afterAll(async () => { await database.$disconnect(); await otherClient.$disconnect(); vi.unstubAllEnvs(); rmSync(dir, { recursive: true, force: true }); });
 
 describe('V6 evidence contracts', () => {
+  it('retains a document header without importing the site banner', () => {
+    const html = `<html lang="en"><header><h1>Site navigation</h1></header><main><article><header><h1>Privacy Policy</h1><nav>Document navigation links</nav></header><h2>Data use</h2><p>${'We retain records only for the documented purpose. '.repeat(4)}</p></article></main></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    expect(body.document.text).toContain('# Privacy Policy');
+    expect(body.document.text).not.toContain('Site navigation');
+    expect(body.document.text).not.toContain('Document navigation links');
+    expect(body.extraction?.retainedDocumentHeaders).toBe(1);
+    expect(body.html).toBe(html);
+  });
+  it('restores a unique semantic document title preceding the selected main content', () => {
+    const html = `<html lang="it"><section><header><h1>Informativa sulla privacy</h1></header></section><main><h2>Introduzione</h2><p>${'Conserviamo i dati per le finalità indicate nel documento. '.repeat(4)}</p></main></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    expect(body.document.blocks[0].text).toBe('# Informativa sulla privacy');
+    expect(body.extraction?.restoredTitleFromDom).toBe(true);
+    expect(body.language).toBe('it');
+  });
+  it('retains explicitly controlled disclosure text but excludes unrelated hidden content', () => {
+    const html = `<html lang="en"><nav><button aria-controls="menu" aria-expanded="false">Menu</button><div id="menu" aria-hidden="true"><p>Hidden site menu</p></div></nav><main><h1>Privacy Policy</h1><h2>Retention</h2><button aria-controls="retention" aria-expanded="false">Read retention</button><div id="retention" aria-hidden="true"><p>${'We retain account data for 30 days after account closure. '.repeat(4)}</p></div><div aria-hidden="true"><p>Unrelated hidden variant</p></div></main></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    expect(body.document.text).toContain('30 days after account closure');
+    expect(body.document.text).not.toContain('Hidden site menu');
+    expect(body.document.text).not.toContain('Unrelated hidden variant');
+    expect(body.extraction?.retainedDisclosureIds).toEqual(['retention']);
+  });
+  it('does not expand ambiguous duplicate IDs or synthesize a heading from the HTML title', () => {
+    const html = `<html lang="en"><head><title>Privacy Policy</title></head><main><h2>Data use</h2><p>${'Only visible verified document content should be compared. '.repeat(4)}</p><button aria-controls="duplicate" aria-expanded="false">More</button><div id="duplicate" aria-hidden="true"><p>Hidden A</p></div><div id="duplicate" aria-hidden="true"><p>Hidden B</p></div></main></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    expect(body.extraction?.retainedDisclosureIds).toEqual([]);
+    expect(body.document.text).not.toContain('Hidden A');
+    expect(body.document.text).not.toContain('Hidden B');
+    expect(body.document.text).not.toContain('Privacy Policy');
+  });
+  it('holds unresolved hidden content and ambiguous controls even when the visible contract matches', () => {
+    const visible = '<h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>Contact the privacy team for information about this policy.</p>';
+    const hidden = `<div id="extra" aria-hidden="true"><p>${'An additional binding clause is present here. '.repeat(4)}</p></div>`;
+    for (const content of [
+      `<main>${visible}${hidden}</main>`,
+      `<div id="content">${visible}<button aria-controls="extra" aria-expanded="false">More</button>${hidden}</div>`,
+      `<main>${visible}<button aria-controls="extra">More</button>${hidden}</main>`,
+      `<main>${visible}<button aria-controls="extra" aria-expanded="false">More</button></main>${hidden}`,
+    ]) {
+      const body = acquisition.extractEngineBody(`<html lang="en">${content}</html>`, fixtureUrl);
+      expect(assessDocument(body.document, contract, fixtureUrl, 'en').eligible).toBe(true);
+      expect(acquisition.assessCapture(body, contract, fixtureUrl).eligible).toBe(false);
+      expect(body.extraction?.issues?.length).toBeGreaterThan(0);
+    }
+  });
+  it('supports semantic link disclosures and excludes known consent dialog chrome within main', () => {
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><a aria-controls="details" aria-expanded="false">Details</a><div id="details" aria-hidden="true"><p>${'The policy retains records for thirty days. '.repeat(4)}</p></div><div role="dialog"><button aria-controls="cookies" aria-expanded="false">Consent</button><div id="cookies" aria-hidden="true"><p>${'Cookie user interface choice. '.repeat(10)}</p></div></div></main></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    expect(body.document.text).toContain('thirty days');
+    expect(body.document.text).not.toContain('Cookie user interface');
+    expect(body.extraction?.retainedDisclosureIds).toEqual(['details']);
+    expect(body.extraction?.issues).toEqual([]);
+  });
+  it('flags unreviewed header metadata and never restores a bare brand h1', () => {
+    const content = `<h2>Data use</h2><p>${'The legal document contains the binding policy terms. '.repeat(4)}</p>`;
+    const body = acquisition.extractEngineBody(`<html lang="en"><article><header><h1>Privacy Policy</h1><p>Home > Legal > Privacy</p></header>${content}</article></html>`, fixtureUrl);
+    expect(body.extraction?.issues?.map(i => i.reason)).toContain('document_header_metadata_unreviewed');
+    const brand = acquisition.extractEngineBody(`<html lang="en"><h1>ACME</h1><main>${content}</main></html>`, fixtureUrl);
+    expect(brand.document.text).not.toContain('ACME');
+    expect(brand.extraction?.restoredTitleFromDom).toBe(false);
+  });
+  it('does not lose duplicate-ID ambiguity when the other ID is in removed chrome', () => {
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><p>${'The visible policy is long enough for bounded extraction. '.repeat(4)}</p><button aria-controls="details" aria-expanded="false">Details</button><div id="details" aria-hidden="true"><p>Hidden clause</p></div></main><footer><div id="details">Duplicate target</div></footer></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    expect(body.extraction?.retainedDisclosureIds).toEqual([]);
+    expect(body.extraction?.issues?.map(i => i.reason)).toContain('disclosure_target_ambiguous');
+  });
+  it('does not mark a hidden-content capture eligible or cacheable after all transports', async () => {
+    const p = await seed('hidden');
+    await run('hidden-acquisition');
+    const fetch = await database.engineTask.findFirstOrThrow({ where: { kind: 'fetch' } });
+    const input = JSON.parse(fetch.inputJson) as TaskInput;
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>Contact the privacy team for information about this policy.</p><div aria-hidden="true"><p>${'An extra contractual clause was not extracted. '.repeat(4)}</p></div></main></html>`;
+    const transport = vi.fn(async () => ({ ok: true, status: 200, finalUrl: p.url, html, error: null, validators: { etag: 'hidden-fixture' } }));
+    const observation = await acquisition.acquire(input, transport);
+    expect(transport).toHaveBeenCalledTimes(3);
+    expect(observation.eligible).toBe(false);
+    expect(observation.reasons).toContain('hidden_document_content_unresolved');
+    expect(observation.artifactId).not.toBeNull();
+    expect(observation.cache).toBeUndefined();
+  });
+  it('does not inject an out-of-scope page title into a fragment-scoped document', () => {
+    const html = `<html lang="en"><section><header><h1>All Policies</h1></header></section><main><section id="privacy"><h2>Privacy</h2><p>${'The scoped privacy section contains its own complete statement. '.repeat(4)}</p></section><section><h2>Other</h2><p>Unrelated terms.</p></section></main></html>`;
+    const body = acquisition.extractEngineBody(html, `${fixtureUrl}#privacy`);
+    expect(body.document.text).toContain('## Privacy');
+    expect(body.document.text).not.toContain('All Policies');
+    expect(body.document.text).not.toContain('Unrelated terms');
+    expect(body.extraction?.restoredTitleFromDom).toBe(false);
+  });
   it('rejects generic marketing despite policy keywords; rejects missing sections/language', () => {
     const marketing = structureDocument('# Privacy Course\n\nLearn privacy terms, personal data and rights. '.repeat(20));
     expect(assessDocument(marketing, contract, fixtureUrl, 'en').eligible).toBe(false);

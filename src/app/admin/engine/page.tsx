@@ -78,7 +78,7 @@ export default function EngineWorkspace() {
           <p>Run {run.id}</p>
           {['queued', 'running'].includes(run.status) && <button style={buttonStyle} disabled={busy} onClick={() => void action({ action: 'cancel', runId: run.id, note: 'Administrator cancelled remaining work from the Engine 6 workspace.' })}>Cancel remaining work</button>}
           <table style={{ width: '100%', textAlign: 'left', borderSpacing: '10px' }}><thead><tr><th>Policy / retrieval</th><th>Stage</th><th>Status</th><th>Outcome / reason</th></tr></thead><tbody>
-            {run.tasks.map(t => <tr key={t.id}><td>{t.policyId ? policyName(t.policyId) : 'Shared source retrieval'}</td><td>{label(t.stage)}</td><td>{label(t.status)} ({t.attempt})</td><td>{t.lastError || (t.resultJson ? label(JSON.parse(t.resultJson).outcome || (JSON.parse(t.resultJson).eligible ? 'source accepted' : 'source needs review')) : '—')}</td></tr>)}
+            {run.tasks.map(t => <tr key={t.id}><td>{t.policyId ? policyName(t.policyId) : 'Shared source retrieval'}</td><td>{label(t.stage)}</td><td>{label(t.status)} ({t.attempt})</td><td>{t.lastError || (t.resultJson ? label(JSON.parse(t.resultJson).outcome || (JSON.parse(t.resultJson).eligible ? 'source accepted' : 'source needs review')) : 'Not recorded')}</td></tr>)}
           </tbody></table>
         </details>)}
       </section>
@@ -98,7 +98,7 @@ export default function EngineWorkspace() {
         {reviewDetail && <div style={{ borderTop: '2px solid #7089ae', paddingTop: 20 }}>
           <h3>Frozen evidence and independent verification</h3>
           <p>{policyName(reviewDetail.review.policyId)} · {label(reviewDetail.review.status)}</p>
-          <p>Captured {reviewDetail.payload.observation?.observedAt ? new Date(reviewDetail.payload.observation.observedAt).toLocaleString() : '—'} · {reviewDetail.payload.observation?.source} · HTTP {reviewDetail.payload.observation?.httpStatus}</p>
+          <p>Captured {reviewDetail.payload.observation?.observedAt ? new Date(reviewDetail.payload.observation.observedAt).toLocaleString() : 'Not recorded'} · {reviewDetail.payload.observation?.source} · HTTP {reviewDetail.payload.observation?.httpStatus}</p>
           {(reviewDetail.payload.checkpoint?.analysis?.value.claims || []).map(claim => <article key={claim.id} style={{ padding: 18, marginBottom: 16, background: 'var(--bg-secondary)', color: 'var(--text-main)', border: '1px solid var(--border-color)', borderRadius: 8 }}>
             <h4>{claim.textEn}</h4><p>{claim.textIt}</p><p>Impact {claim.impact}/10 · {label(claim.category)}</p>
             {claim.evidence.map((span, i) => <div key={i}><strong>{span.side === 'old' ? 'Previous version' : 'Captured version'}</strong><blockquote style={{ borderLeft: '3px solid #839bc0', paddingLeft: 14, whiteSpace: 'pre-wrap' }}>{span.quote}</blockquote></div>)}

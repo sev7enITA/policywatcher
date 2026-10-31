@@ -4,7 +4,7 @@ Data: 31 ottobre 2026. Stato: architettura obiettivo, implementata per increment
 
 Decisioni dell'owner del 31 ottobre: implementazione locale verificata autorizzata; affidabilità e copertura precedono velocità e costo; fino a 500 policy con controllo giornaliero; riuso di Hostinger/VPS e valutazione dei servizi aggiuntivi necessari con budget mensile esplicito; pubblicazione automatica soltanto con evidenze complete, revisione umana per dubbi o alto impatto. Le revisioni successive usano Gemini 4 High nella tab Vivaldi predisposta e GLM 5.3 Max nell'app ZCode. Nessun deploy o acquisto di servizi è incluso nell'implementazione locale.
 
-La [diagnosi](../reports/engine-audit-2026-10-31.md) identifica difetti riprodotti e limiti delle evidenze. Il nome provvisorio della linea di lavoro è **PolicyWatcher 6 — Document Evidence Engine**; il numero non viene applicato al prodotto finché perimetro e gate non sono concordati.
+La [diagnosi](../reports/engine-audit-2026-10-31.md) identifica difetti riprodotti e limiti delle evidenze. Il nome provvisorio della linea di lavoro è **PolicyWatcher 6 - Document Evidence Engine**; il numero non viene applicato al prodotto finché perimetro e gate non sono concordati.
 
 ## Risultato atteso
 
@@ -169,12 +169,12 @@ Eseguire shadow su tutte le fonti selezionate per almeno tre finestre complete i
 
 | Incremento | Consegna | Prova di chiusura |
 | --- | --- | --- |
-| M0 — misura corretta | Correggere D1–D4, D6 e D8; esiti completi dopo commit, avanzamento batch, storico/live separati, linkage e baseline gap leggibile | Le riproduzioni diventano test di regressione con aspettativa corretta; inventario e notifiche invariati salvo stati espliciti |
-| M1 — lavoro durevole | Tabelle task/attempt/outbox e contratti claim/heartbeat/complete, progresso da DB, fencing e idempotenza | Crash/retry/tardivi su SQLite locale e topologia di staging; nessun live deploy implicito |
-| M2 — recupero efficiente | Profili fonti, HTTP condizionale, budget per host, routing renderer e readiness | Pilot reale comparabile, nuove catture archiviate, distribuzioni tempi/costi |
-| M3 — documento strutturato | Artefatti e AST, completezza, lingua/ambito, replay parser, PDF e OCR selettivo | Corpus reale annotato e holdout; migrazione reversibile con vecchie evidenze conservate |
-| M4 — analisi verificabile | Diff per clausola, coverage ledger, claim gate, astensione, coda AI e benchmark modelli | Test numeri/negazioni/ambito, errori di citazione bloccati, resa bilingue verificata |
-| M5 — qualificazione | Canary, restore drill, UI operativa, runbook, compatibilità API/mobile/export | Evidenza di staging e produzione limitata, criteri di stop e rollback verificati |
+| M0 - misura corretta | Correggere D1–D4, D6 e D8; esiti completi dopo commit, avanzamento batch, storico/live separati, linkage e baseline gap leggibile | Le riproduzioni diventano test di regressione con aspettativa corretta; inventario e notifiche invariati salvo stati espliciti |
+| M1 - lavoro durevole | Tabelle task/attempt/outbox e contratti claim/heartbeat/complete, progresso da DB, fencing e idempotenza | Crash/retry/tardivi su SQLite locale e topologia di staging; nessun live deploy implicito |
+| M2 - recupero efficiente | Profili fonti, HTTP condizionale, budget per host, routing renderer e readiness | Pilot reale comparabile, nuove catture archiviate, distribuzioni tempi/costi |
+| M3 - documento strutturato | Artefatti e AST, completezza, lingua/ambito, replay parser, PDF e OCR selettivo | Corpus reale annotato e holdout; migrazione reversibile con vecchie evidenze conservate |
+| M4 - analisi verificabile | Diff per clausola, coverage ledger, claim gate, astensione, coda AI e benchmark modelli | Test numeri/negazioni/ambito, errori di citazione bloccati, resa bilingue verificata |
+| M5 - qualificazione | Canary, restore drill, UI operativa, runbook, compatibilità API/mobile/export | Evidenza di staging e produzione limitata, criteri di stop e rollback verificati |
 
 Il difetto D7 non deve aspettare il completamento dell'intera AST: prevedere una correzione mirata della fedeltà delle tabelle dopo M0, qualificata su catture congelate. Cambia la trasformazione del documento, quindi richiede una nuova versione del parser e il relativo replay; non può essere rilasciata come modifica invisibile né applicata con una rebaseline indiscriminata. M3 generalizza questa protezione a tutti i formati e alla struttura documentale.
 

@@ -1,10 +1,13 @@
 import { load } from 'cheerio';
 import { acquireEngineTransport, hasLiveHostDrift, hasLivePathDrift, extractPolicyText, detectBlockPage, detectSoft404, type TransportResult } from '../scraper';
 import { db } from '../db';
-import { digest, structureDocument, assessDocument, type StructuredDocument } from './document';
+import { digest, structureDocument, assessDocument, type SourceContract, type StructuredDocument } from './document';
 import { DAILY_MS, putArtifact, readArtifact, type TaskInput, type Tx } from './store';
 
-export interface CaptureBody { html: string; document: StructuredDocument; language?: string }
+export interface CaptureBody {
+  html: string; document: StructuredDocument; language?: string;
+  extraction?: { retainedDisclosureIds: string[]; retainedDocumentHeaders: number; restoredTitleFromDom: boolean; issues?: Array<{ reason: string; target: string | null; chars: number }> };
+}
 export interface Observation {
   artifactId: string | null; observedAt: string; source: string; httpStatus: number; finalUrl: string;
   notModified: boolean; eligible: boolean; reasons: string[]; retryAfterMs?: number;
@@ -19,14 +22,84 @@ export async function saveRepresentation(tx: Tx, observation: Observation) {
   await tx.engineHttpCache.upsert({ where: { key }, create: { key, ...data }, update: data });
 }
 export type Transport = typeof acquireEngineTransport;
+/** Preserve document semantics before the shared boilerplate normalizer runs.
+ * Collapsed content is retained only when a disclosure control in the document
+ * explicitly references its unique ID. Unrelated hidden DOM stays excluded.
+ */
+function prepareEngineHtml(html: string) {
+  const $ = load(html);
+  const scope = 'main, article, [role="main"]';
+  const originalIdCounts = new Map<string, number>();
+  $('[id]').each((_, e) => { const id = $(e).attr('id')!; originalIdCounts.set(id, (originalIdCounts.get(id) || 0) + 1); });
+  const chrome = 'nav, footer, aside, [role="banner"], [role="contentinfo"], [role="dialog"], .cookie-banner, #cookie-banner, .breadcrumb, .breadcrumbs';
+  const issues: Array<{ reason: string; target: string | null; chars: number }> = [];
+  // Known UI chrome is excluded consistently, including a dialog placed inside main.
+  $(chrome).remove();
+  const retainedDisclosureIds: string[] = [];
+  $('[aria-controls]').each((_, control) => {
+    const el = $(control);
+    if (el.parents('header, svg').length) return;
+    for (const id of (el.attr('aria-controls') || '').split(/\s+/).filter(Boolean)) {
+      const targets = $('[id]').filter((__, node) => $(node).attr('id') === id);
+      const chars = targets.text().replace(/\s+/g, ' ').trim().length;
+      let reason: string | undefined;
+      if ((originalIdCounts.get(id) || 0) > 1) reason = 'disclosure_target_ambiguous';
+      else if (targets.length !== 1) reason = 'disclosure_target_missing';
+      else if (!el.parents(scope).length || !targets.parents(scope).length) reason = 'disclosure_scope_unverified';
+      else if (!el.is('button[aria-expanded], a[aria-expanded], [role="button"][aria-expanded]')) reason = 'disclosure_control_unverified';
+      if (reason) { issues.push({ reason, target: id, chars }); continue; }
+      if (targets.attr('aria-hidden') === 'true' && targets.find('p, li, table, blockquote, dt, dd').length) {
+        targets.removeAttr('aria-hidden'); retainedDisclosureIds.push(id);
+      }
+    }
+  });
+  $('[aria-hidden="true"]').each((_, node) => {
+    const el = $(node);
+    if (el.parents('header, svg, [aria-hidden="true"]').length) return;
+    const chars = el.text().replace(/\s+/g, ' ').trim().length;
+    if (chars >= 100) issues.push({ reason: 'hidden_document_content_unresolved', target: el.attr('id') || null, chars });
+  });
+  const documentTitles = new Set<unknown>();
+  let retainedDocumentHeaders = 0;
+  $('header').each((_, header) => {
+    const el = $(header);
+    if (el.is('[role="banner"]') || el.parents(chrome).length || !el.parents(`${scope}, section`).length
+        || !el.find('h1, h2, h3, h4, h5, h6').length) return;
+    el.find('h1').each((_, h) => { documentTitles.add(h); });
+    const extra = el.clone(); extra.find('h1,h2,h3,h4,h5,h6,nav').remove();
+    const chars = extra.text().replace(/\s+/g, ' ').trim().length;
+    if (chars) issues.push({ reason: 'document_header_metadata_unreviewed', target: el.attr('id') || null, chars });
+    // Keep attributes: fragment IDs and existing boilerplate classes are evidence.
+    header.name = 'div'; retainedDocumentHeaders++;
+  });
+  // Some publishers put a single document h1 in a section preceding <main>.
+  // Recover only that actual semantic heading, never infer a title from keywords.
+  const titles = $('h1').filter((_, heading) => !$(heading).parents(`${chrome}, header, [aria-hidden="true"]`).length
+      && ($(heading).parents(scope).length > 0 || documentTitles.has(heading)))
+    .map((_, heading) => $(heading).text().replace(/\s+/g, ' ').trim()).get().filter(Boolean);
+  return { html: $.html(), titles: [...new Set(titles)], retainedDisclosureIds, retainedDocumentHeaders, issues };
+}
 export function extractEngineBody(html: string, sourceUrl: string, contentLanguage?: string): CaptureBody {
   if (Buffer.byteLength(html) > 5_000_000) throw new Error('response_body_too_large');
   if (detectBlockPage(html) || detectSoft404(html)) throw new Error('source_block_or_soft_404');
   // Identity is established by the reviewed contract, not English keyword counts.
-  const text = extractPolicyText(html, sourceUrl, { minimumTextLength: 100 });
+  const prepared = prepareEngineHtml(html);
+  let text = extractPolicyText(prepared.html, sourceUrl, { minimumTextLength: 100 });
+  const scoped = Boolean(new URL(sourceUrl).hash);
+  const restoredTitleFromDom = !scoped && text.length >= 100 && prepared.titles.length === 1
+    && !text.split(/\r?\n/).some(line => line.replace(/^#{1,6}\s+/, '').trim() === prepared.titles[0]);
+  if (restoredTitleFromDom) text = `# ${prepared.titles[0]}\n\n${text}`;
   if (text.length < 100 || text.length > 500_000) throw new Error('extraction_size_out_of_bounds');
   const language = load(html)('html').attr('lang') || contentLanguage;
-  return { html, document: structureDocument(text), ...(language ? { language } : {}) };
+  return { html, document: structureDocument(text), ...(language ? { language } : {}),
+    extraction: { retainedDisclosureIds: prepared.retainedDisclosureIds, retainedDocumentHeaders: prepared.retainedDocumentHeaders, restoredTitleFromDom, issues: prepared.issues } };
+}
+/** Extraction uncertainty is a hard evidence gate, including cached/replayed bodies. */
+export function assessCapture(body: CaptureBody, contract: SourceContract | null, sourceUrl: string) {
+  const assessment = assessDocument(body.document, contract, sourceUrl, body.language);
+  const reasons = [...new Set([...assessment.reasons, ...(body.extraction?.issues || []).map(issue => issue.reason)])];
+  return { ...assessment, reasons, eligible: reasons.length === 0,
+    completeness: body.extraction?.issues?.length ? 'unknown' : assessment.completeness };
 }
 export function cacheable(result: TransportResult, sourceUrl: string): boolean {
   const v = result.validators;
@@ -72,7 +145,7 @@ export async function acquire(input: TaskInput, transport: Transport = acquireEn
         || result.validators?.vary || /no-store|private/i.test(result.validators?.cacheControl || '')) {
         diagnostics.push({ source, status: 304, reason: 'conditional_cache_ineligible' }); continue;
       }
-      const assessment = assessDocument(cachedBody.document, input.contract, input.sourceUrl, cachedBody.language);
+      const assessment = assessCapture(cachedBody, input.contract, input.sourceUrl);
       return { artifactId: cached.artifactId, observedAt, source, httpStatus: 304, finalUrl, notModified: true,
         eligible: assessment.eligible, reasons: assessment.reasons, cache: { key, etag: cached.etag, lastModified: cached.lastModified, profileHash: input.profileHash },
         diagnostics: [...diagnostics, { source, status: 304, reason: 'cached_representation_revalidated' }] };
@@ -81,9 +154,8 @@ export async function acquire(input: TaskInput, transport: Transport = acquireEn
     let body: CaptureBody;
     try { body = extractEngineBody(result.html, input.sourceUrl, result.validators?.contentLanguage); }
     catch { diagnostics.push({ source, status: result.status, reason: 'extraction_rejected' }); continue; }
-    const { document, language } = body;
     const artifactId = await putArtifact(body);
-    const assessment = assessDocument(document, input.contract, input.sourceUrl, language);
+    const assessment = assessCapture(body, input.contract, input.sourceUrl);
     diagnostics.push({ source, status: result.status, reason: assessment.eligible ? 'contract_satisfied' : assessment.reasons.join(',') });
     // A successful HTTP response with incomplete identity/coverage triggers the next transport.
     if (!assessment.eligible && source !== order[order.length - 1]) {

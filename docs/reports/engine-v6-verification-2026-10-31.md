@@ -1,4 +1,4 @@
-# PolicyWatcher Engine 6 — registro della verifica locale
+# PolicyWatcher Engine 6 - registro della verifica locale
 
 31 ottobre 2026. Preview `pw-engine-6.0.0-alpha.1`, branch `codex/engine-v6-local`, base `680c0e549c369f8cc8db7ea8aaeca3b3ac56903e`. Questo registro descrive prove locali, non un rilascio né una misura dell'efficacia sul catalogo reale.
 

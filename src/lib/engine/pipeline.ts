@@ -2,7 +2,7 @@ import { diffLines } from 'diff';
 import type { Policy } from '@prisma/client';
 import { db } from '../db';
 import { dualWriteCanonicalPolicyGraph } from '../documentEvidenceSync';
-import { acquire, extractEngineBody, saveRepresentation, type Observation, type CaptureBody } from './acquisition';
+import { acquire, assessCapture, extractEngineBody, saveRepresentation, type Observation, type CaptureBody } from './acquisition';
 import { digest, structureDocument, compareDocuments, ENGINE_SCHEMA } from './document';
 import { liveAnalysis, validateClaims, validateVerification, type AnalysisProvider, type AnalysisInput, type ClaimSet,
   type ModelOutput, type Verification } from './claims';
@@ -324,8 +324,7 @@ async function approveBaselineReview(review: { id: string; taskId: string }, pay
   const replay = Boolean(checkpoint.baselineCandidateArtifactId);
   const body = await readArtifact<CaptureBody>(checkpoint.baselineCandidateArtifactId || checkpoint.observation.artifactId!);
   if (body.document.hash !== digest(body.document.text)) throw new Error('artifact_integrity_failure');
-  const { assessDocument } = await import('./document');
-  if (!assessDocument(body.document, payload.input.contract, payload.input.sourceUrl, body.language).eligible) throw new Error('review_hard_gate_unresolved');
+  if (!assessCapture(body, payload.input.contract, payload.input.sourceUrl).eligible) throw new Error('review_hard_gate_unresolved');
   if (Date.now() - Date.parse(checkpoint.observation.observedAt) > 2 * DAILY_MS || (!replay && !checkpoint.confirmation)) throw new Error('review_hard_gate_unresolved');
   return db.$transaction(async tx => {
     const task = await tx.engineTask.findUniqueOrThrow({ where: { id: review.taskId } });
