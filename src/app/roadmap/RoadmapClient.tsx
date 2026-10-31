@@ -1013,6 +1013,11 @@ export default function RoadmapClient() {
         </aside>
       </header>
 
+      <aside className={styles.enginePreviewNotice} aria-label="Engine 6 Preview experimental programme">
+        <div><span>EXPERIMENTAL PROGRAMME · 31 OCTOBER 2026</span><h2>Engine 6 Preview</h2><p>Local experimentation is in progress on source completeness, evidence-linked analysis and resumable scanning. Live qualification is pending; the public service remains on version 5.2.0.</p></div>
+        <nav aria-label="Engine 6 Preview details"><Link href="/engine-6-preview">Explore architecture, decision flow and entity relationships <ArrowUpRight size={17} aria-hidden="true" /></Link><Link href="/engine-6-preview?lang=it" hrefLang="it">Leggi in italiano</Link></nav>
+      </aside>
+
       <section className={styles.principles} aria-label="Roadmap principles">
         <article>
           <ShieldCheck size={18} />
