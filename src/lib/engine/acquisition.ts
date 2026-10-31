@@ -58,6 +58,9 @@ function prepareEngineHtml(html: string, contract?: SourceContract | null) {
       appliedExclusions.push({ selector: rule.selector, htmlSha256, reviewNote: rule.reviewNote }); node.remove();
     } catch { issues.push({ reason: 'reviewed_exclusion_selector_invalid', target: rule.selector, chars: 0 }); }
   }
+  // Exclusion hashes bind the original DOM; presentation/code text is removed
+  // only afterwards, before text-based scope gates and title recovery.
+  $('script, style').remove();
   $('[role="dialog"]').each((_, element) => {
     const node = $(element); const chars = node.text().replace(/\s+/g, ' ').trim().length;
     if ((node.parents(scope).length || node.is(scope) || node.find(scope).length) && chars > 0) issues.push({ reason: 'dialog_document_scope_unverified', target: node.attr('id') || null, chars });
@@ -73,6 +76,7 @@ function prepareEngineHtml(html: string, contract?: SourceContract | null) {
   // UI chrome stays excluded from analysis, but uncertain removals cannot pass.
   $(chrome).remove();
   const retainedDisclosureIds: string[] = [];
+  const retainedDisclosureControls = new Set<AnyNode>();
   $('[aria-controls]').each((_, control) => {
     const el = $(control);
     if (el.parents('header, svg').length) return;
@@ -85,9 +89,18 @@ function prepareEngineHtml(html: string, contract?: SourceContract | null) {
       else if (!el.parents(scope).length || !targets.parents(scope).length) reason = 'disclosure_scope_unverified';
       else if (!el.is('button[aria-expanded], a[aria-expanded], [role="button"][aria-expanded]')) reason = 'disclosure_control_unverified';
       if (reason) { issues.push({ reason, target: id, chars }); continue; }
+      retainedDisclosureControls.add(control);
       if (targets.attr('aria-hidden') === 'true' && targets.find('p, li, table, blockquote, dt, dd').length) {
         targets.removeAttr('aria-hidden'); retainedDisclosureIds.push(id);
       }
+    }
+  });
+  $('button, [role="button"], select, [role="combobox"]').each((_, element) => {
+    const node = $(element); const chars = node.text().replace(/\s+/g, ' ').trim().length;
+    const inlineLink = node.is('a[href][role="button"]') && !node.attr('aria-controls');
+    if (chars && !inlineLink && !retainedDisclosureControls.has(element)
+        && (node.parents(scope).length || node.is(scope) || node.find(scope).length)) {
+      issues.push({ reason: 'interactive_document_content_unreviewed', target: node.attr('id') || element.name, chars });
     }
   });
   $('[aria-hidden="true"]').each((_, node) => {
@@ -109,7 +122,9 @@ function prepareEngineHtml(html: string, contract?: SourceContract | null) {
     if (el.is('[role="banner"]') || el.parents(chrome).length || !el.parents(`${scope}, section`).length
         || !el.find('h1, h2, h3, h4, h5, h6').length) return;
     el.find('h1').each((_, h) => { documentTitles.add(h); });
-    const extra = el.clone(); extra.find('h1,h2,h3,h4,h5,h6,nav').remove();
+    const external = !el.parents(scope).length;
+    if (external && el.find('h1').length !== 1) issues.push({ reason: 'document_header_title_ambiguous', target: el.attr('id') || null, chars: el.text().trim().length });
+    const extra = el.clone(); extra.find(external ? 'h1,nav' : 'h1,h2,h3,h4,h5,h6,nav').remove();
     const chars = extra.text().replace(/\s+/g, ' ').trim().length;
     if (chars) issues.push({ reason: 'document_header_metadata_unreviewed', target: el.attr('id') || null, chars });
     // Keep attributes: fragment IDs and existing boilerplate classes are evidence.
@@ -125,7 +140,7 @@ function prepareEngineHtml(html: string, contract?: SourceContract | null) {
   // Wrapping every text node separately would break qualifiers and duplicate text.
   const semantic = 'h1,h2,h3,h4,h5,h6,p,li,table,dt,dd,blockquote';
   const boundaries = `${semantic},div,section,article,main,details,summary,pre,figure,figcaption,dl,ul,ol,[role="main"]`;
-  const excluded = `${chrome},header,script,style,iframe,noscript,svg,form,button,[role="button"],select,[role="combobox"],.nav-menu,#header,#footer,.sidebar,[aria-hidden="true"]`;
+  const excluded = `${chrome},header,script,style,iframe,noscript,svg,form,[aria-hidden="true"]`;
   let retainedUnstructuredRuns = 0;
   function preserveRuns(node: AnyNode) {
     if (!('children' in node)) return;
@@ -138,7 +153,22 @@ function prepareEngineHtml(html: string, contract?: SourceContract | null) {
       });
       return;
     }
-    if (el.is(semantic)) { el.find('table').each((_, table) => { preserveRuns(table); }); return; }
+    if (el.is(semantic)) {
+      if (el.is('li,blockquote,dt,dd')) {
+        // Keep the parent's inline lead/continuations for the ordered serializer;
+        // only promote separate leaf layout blocks, not a wrapper around a list.
+        function preserveNestedLayout(parent: AnyNode) {
+          if (!('children' in parent)) return;
+          for (const child of [...parent.children]) {
+            if (child.type === 'text' || child.type === 'comment' || $(child).is(excluded)) continue;
+            if ($(child).is(semantic) || ($(child).is(boundaries) && !$(child).find(boundaries).length)) preserveRuns(child);
+            else preserveNestedLayout(child);
+          }
+        }
+        preserveNestedLayout(node);
+      } else el.find('table').each((_, table) => { preserveRuns(table); });
+      return;
+    }
     let run: AnyNode[] = [];
     function flush() {
       if (run.length && $(run).text().trim()) {

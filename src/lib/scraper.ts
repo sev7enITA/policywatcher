@@ -1523,7 +1523,7 @@ function buildFragmentScopedHtml(
   const targetLevel = headingLevel(targetElement);
 
   if (directText.length >= minimumTextLength && targetLevel === null) {
-    return $.html(target);
+    return target.is('main, article, [role="main"]') ? $.html(target) : `<main>${$.html(target)}</main>`;
   }
 
   if (targetLevel !== null) {
@@ -1556,6 +1556,8 @@ export interface PolicyExtractionContract {
   minimumTextLength?: number;
   /** Engine 6 opt-in: preserve own-text runs around nested semantic blocks. */
   preserveNestedBlockOrder?: boolean;
+  /** Internal recursion guard: an explicit URL fragment must not be narrowed again. */
+  fragmentScopeResolved?: boolean;
 }
 
 function extractionMinimum(contract: PolicyExtractionContract): number | null {
@@ -1584,13 +1586,13 @@ export function extractPolicyText(html: string, sourceUrl?: string, contract: Po
     const scopedHtml = buildFragmentScopedHtml($, target, minimumTextLength);
     if (!scopedHtml) return '';
 
-    return extractPolicyText(scopedHtml, undefined, contract);
+    return extractPolicyText(scopedHtml, undefined, { ...contract, fragmentScopeResolved: true });
   }
 
   // OneTrust document text is a sibling of its language picker. Generic
   // policy-class matching otherwise selects the picker and loses the notice.
   const notice = $('.otnotice-content');
-  if (notice.length === 1 && notice.text().trim().length >= MIN_TEXT_LENGTH) {
+  if (!contract.fragmentScopeResolved && notice.length === 1 && notice.text().trim().length >= MIN_TEXT_LENGTH) {
     return extractPolicyText(`<main>${notice.html()}</main>`, undefined, contract);
   }
 

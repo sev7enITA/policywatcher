@@ -146,6 +146,13 @@ describe('V6 evidence contracts', () => {
     expect(body.document.text.split('Retention period')).toHaveLength(2);
     expect(body.document.text.indexOf('Account records are shared.')).toBeLessThan(body.document.text.indexOf('Except when consent is withdrawn.'));
   });
+  it.each(['li', 'blockquote', 'dd'])('keeps separate layout clauses inside a compound %s', tag => {
+    const content = `<${tag}><p>We keep account records for thirty days.</p><div>No sale.</div><div>Consent is required.</div></${tag}>`;
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2>${tag === 'li' ? `<ul>${content}</ul>` : tag === 'dd' ? `<dl>${content}</dl>` : content}<h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    expect(body.document.blocks.some(b => b.text === 'No sale.')).toBe(true);
+    expect(body.document.blocks.some(b => b.text === 'Consent is required.')).toBe(true);
+  });
   it('retains own text when the selected fragment root is itself a semantic policy container', () => {
     const scopedUrl = fixtureUrl + '#scope';
     const html = `<html lang="en"><main><ul><li id="scope" class="policy-content">Only with consent.<h1>Privacy Policy</h1><h2>Data use</h2><p>We share account records.</p>Except when consent is withdrawn.<h2>Contact</h2><p>${contract.terminalText}</p></li></ul></main></html>`;
@@ -173,6 +180,45 @@ describe('V6 evidence contracts', () => {
     expect(body.document.text).toContain('We keep account records only with valid consent.');
     expect(body.document.text).not.toContain('UNRELATED TERMS');
     expect(body.document.text).not.toContain('# Privacy Policy');
+  });
+  it('retains an inline opt-out link with button semantics as part of the complete clause', () => {
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><div>You may exercise your right via <a role="button" href="/optout">Do Not Sell My Personal Information</a> at any time.</div><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    expect(body.document.text).toContain('You may exercise your right via Do Not Sell My Personal Information at any time.');
+    expect(acquisition.assessCapture(body, contract, fixtureUrl).eligible).toBe(true);
+  });
+  it.each(['button', 'span role="button"', 'select', 'span role="combobox"'])('holds unreviewed interactive text in %s instead of silently omitting it', wrapper => {
+    const content = wrapper === 'select' ? '<option>No sale of personal data</option>' : 'No sale of personal data';
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><div>Choose: <${wrapper}>${content}</${wrapper.split(' ')[0]}> to exercise your right.</div><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl), contract, fixtureUrl).reasons).toContain('interactive_document_content_unreviewed');
+  });
+  it('retains a verified disclosure label and its target without treating the control as unresolved UI', () => {
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><button aria-expanded="false" aria-controls="disclosure">No sale of personal data</button><div id="disclosure" aria-hidden="true"><p>We do not sell account records.</p></div><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    expect(body.document.text).toContain('No sale of personal data');
+    expect(acquisition.assessCapture(body, contract, fixtureUrl).eligible).toBe(true);
+  });
+  it.each(['policy-note', 'otnotice-content'])('does not narrow a resolved fragment to a nested %s container', className => {
+    const html = `<html lang="en"><main><section id="scope"><h1>Privacy Policy</h1><h2>Data use</h2><p>We do not sell account records.</p><div class="${className}"><p>${'Identity verification applies to all requests. '.repeat(40)}</p></div><h2>Contact</h2><p>${contract.terminalText}</p></section><h2>Unrelated</h2><p>UNRELATED SECTION MUST BE EXCLUDED.</p></main></html>`;
+    const sourceUrl = fixtureUrl + '#scope'; const body = acquisition.extractEngineBody(html, sourceUrl);
+    expect(body.document.text).toContain('We do not sell account records.');
+    expect(body.document.text).toContain(contract.terminalText);
+    expect(body.document.text).not.toContain('UNRELATED SECTION');
+    expect(acquisition.assessCapture(body, { ...contract, sourceUrl }, sourceUrl).eligible).toBe(true);
+  });
+  it('ignores script/style text in gates and titles without changing raw evidence or exclusion hashes', () => {
+    const html = `<html lang="en"><main><h1><style>.fixture {color:red}</style>Privacy Policy</h1><aside><script>window.fixture = true;</script></aside><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    expect(body.html).toBe(html); expect(body.document.text).not.toContain('fixture');
+    expect(body.document.text.split('# Privacy Policy')).toHaveLength(2);
+    expect(acquisition.assessCapture(body, contract, fixtureUrl).eligible).toBe(true);
+    const $ = load(html);
+    const reviewed = parseSourceContract({ ...contract, reviewedExclusions: [{ selector: 'aside', htmlSha256: digest($.html($('aside'))), purpose: 'non_document_ui', reviewNote: 'Reviewed exact script-only interface container in this fixture.' }] });
+    expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl, undefined, reviewed), reviewed, fixtureUrl).eligible).toBe(true);
+  });
+  it.each(['<h2>Effective date: October 31, 2026</h2>', '<h1>Additional policy title</h1>'])('holds unresolved external document header content: %s', extra => {
+    const html = `<html lang="en"><section><header><h1>Privacy Policy</h1>${extra}</header></section><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl), contract, fixtureUrl).eligible).toBe(false);
   });
   it('does not hold site chrome outside the document, and accepts an exact reviewed in-document exclusion', () => {
     const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><aside id="ui">Related links</aside><h2>Contact</h2><p>${contract.terminalText}</p></main><footer>Site copyright</footer></html>`;
