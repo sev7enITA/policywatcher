@@ -1,9 +1,9 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import type { GroundedClaim, Verification } from '@/lib/engine/claims';
-import type { StructuredDocument } from '@/lib/engine/document';
+import type { ReviewedExclusion, SourceContract, StructuredDocument } from '@/lib/engine/document';
 import styles from '../admin.module.css';
 
 type Policy = { id: string; name: string; url: string; retrievalUrl: string | null; jurisdiction: string; company: { name: string } };
@@ -15,6 +15,26 @@ type Status = { coverage?: { total: number; contracted: number; verified: number
 const fieldStyle = { width: '100%', padding: 10, margin: '6px 0 16px', background: 'var(--bg-secondary)', color: 'var(--text-main)', border: '1px solid var(--border-color)', borderRadius: 6 };
 const buttonStyle = { padding: '10px 16px', marginRight: 12, marginBottom: 12, cursor: 'pointer', borderRadius: 6, border: '1px solid #7089ae', background: '#203a5a', color: '#fff' };
 const label = (value: string) => value.replaceAll('_', ' ');
+type EditableExclusion = ReviewedExclusion & { dialogHeadings?: string[] };
+function parseReviewedExclusions(value: string): EditableExclusion[] {
+  let parsed: unknown;
+  try { parsed = JSON.parse(value.trim() || '[]'); }
+  catch { throw new Error('Reviewed exclusions must be valid JSON. Use an array of objects, or [] for no exclusions.'); }
+  if (!Array.isArray(parsed) || parsed.length > 20) throw new Error('Reviewed exclusions must be a JSON array with at most 20 entries.');
+  return parsed.map((entry: unknown, index: number) => {
+    const prefix = `Exclusion ${index + 1}: `;
+    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) throw new Error(`${prefix}expected an object.`);
+    const item = entry as Record<string, unknown>;
+    if (typeof item.selector !== 'string' || !item.selector.trim() || item.selector.length > 300) throw new Error(`${prefix}selector must contain 1–300 characters.`);
+    if (/:(?:has|contains|matches|not)\s*\(/i.test(item.selector)) throw new Error(`${prefix}use a specific selector without :has(), :contains(), :matches() or :not().`);
+    if (typeof item.htmlSha256 !== 'string' || !/^[a-f0-9]{64}$/.test(item.htmlSha256)) throw new Error(`${prefix}htmlSha256 must be a 64-character lowercase hexadecimal hash of the reviewed node.`);
+    if (item.purpose !== 'non_document_ui') throw new Error(`${prefix}purpose must be "non_document_ui".`);
+    if (typeof item.reviewNote !== 'string' || item.reviewNote.trim().length < 20 || item.reviewNote.length > 1000) throw new Error(`${prefix}reviewNote must contain 20–1,000 characters explaining the review.`);
+    if (item.dialogHeadings !== undefined && (!Array.isArray(item.dialogHeadings) || item.dialogHeadings.some(h => typeof h !== 'string' || !h.trim()))) throw new Error(`${prefix}dialogHeadings, when supplied, must be an array of non-empty strings.`);
+    return { selector: item.selector, htmlSha256: item.htmlSha256, purpose: 'non_document_ui', reviewNote: item.reviewNote,
+      ...(item.dialogHeadings !== undefined ? { dialogHeadings: item.dialogHeadings as string[] } : {}) };
+  });
+}
 
 export default function EngineWorkspace() {
   const [status, setStatus] = useState<Status | null>(null);
@@ -27,6 +47,13 @@ export default function EngineWorkspace() {
   const [language, setLanguage] = useState('en');
   const [preferredTransport, setTransport] = useState('direct');
   const [note, setNote] = useState('');
+  const [exclusions, setExclusions] = useState('[]');
+  const [exclusionsError, setExclusionsError] = useState('');
+  const [contractLoading, setContractLoading] = useState(false);
+  const [contractError, setContractError] = useState('');
+  const [loadedPolicyId, setLoadedPolicyId] = useState('');
+  const [contractBounds, setContractBounds] = useState({ minimumChars: 100, maximumChars: 500000 });
+  const contractRequest = useRef<AbortController | null>(null);
   const [reviewDetail, setReviewDetail] = useState<Detail | null>(null);
   const [reviewNote, setReviewNote] = useState('');
   const refresh = useCallback(async () => {
@@ -39,19 +66,52 @@ export default function EngineWorkspace() {
     const timer = setInterval(() => { void refresh().catch(() => undefined); }, 5000);
     return () => { clearTimeout(initial); clearInterval(timer); };
   }, [refresh]);
-  async function action(body: unknown) {
+  useEffect(() => () => contractRequest.current?.abort(), []);
+  async function selectPolicy(nextPolicyId: string) {
+    contractRequest.current?.abort();
+    const controller = new AbortController();
+    contractRequest.current = controller;
+    setPolicyId(nextPolicyId); setLoadedPolicyId(''); setContractError(''); setExclusionsError('');
+    setTitles(''); setHeadings(''); setTerminal(''); setLanguage('en'); setTransport('direct'); setNote(''); setExclusions('[]');
+    setContractBounds({ minimumChars: 100, maximumChars: 500000 });
+    setContractLoading(Boolean(nextPolicyId));
+    if (!nextPolicyId) return;
+    try {
+      const response = await fetch(`/api/admin/engine?policyId=${encodeURIComponent(nextPolicyId)}`, { cache: 'no-store', signal: controller.signal });
+      if (!response.ok) throw new Error('Unable to load the reviewed source contract. Retry loading it before saving.');
+      const result: { contract: SourceContract | null } = await response.json();
+      if (controller.signal.aborted || contractRequest.current !== controller) return;
+      if (result.contract) {
+        const contract = result.contract;
+        setTitles(contract.titleAliases.join('\n')); setHeadings(contract.requiredHeadings.join('\n')); setTerminal(contract.terminalText);
+        setLanguage(contract.language); setTransport(contract.preferredTransport); setNote(contract.reviewNote);
+        setExclusions(JSON.stringify(contract.reviewedExclusions || [], null, 2));
+        setContractBounds({ minimumChars: contract.minimumChars, maximumChars: contract.maximumChars });
+      }
+      setLoadedPolicyId(nextPolicyId);
+    } catch (error) {
+      if (!controller.signal.aborted && contractRequest.current === controller) setContractError(error instanceof Error ? error.message : 'Unable to load the reviewed source contract.');
+    } finally {
+      if (!controller.signal.aborted && contractRequest.current === controller) setContractLoading(false);
+    }
+  }
+  async function action(body: { action: string; [key: string]: unknown }) {
     setBusy(true);
     try {
       const response = await fetch('/api/admin/engine', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       const result = await response.json();
       if (!response.ok) throw new Error(label(result.error || 'Request failed'));
-      setMessage(result.run ? `Run accepted: ${result.run.selected} policies due. A worker processes the saved queue.` : 'Saved.');
+      setMessage(body.action === 'rebaseline'
+        ? 'A newly confirmed baseline has been requested. Two fresh captures are still required; the old baseline and history are preserved. This request creates no public change or notification.'
+        : result.run ? `Run accepted: ${result.run.selected} policies due. A worker processes the saved queue.` : 'Saved.');
       setReviewDetail(null); setReviewNote('');
       await refresh();
     } catch (e) { setMessage(e instanceof Error ? e.message : 'Request failed'); }
     finally { setBusy(false); }
   }
   const selected = status?.policies.find(p => p.id === policyId);
+  const reviewReasons: string[] = reviewDetail ? JSON.parse(reviewDetail.review.reasonsJson) : [];
+  const needsRebaseline = reviewReasons.length === 1 && reviewReasons[0] === 'parser_upgrade_rebaseline_required';
   const policyName = (id: string) => { const p = status?.policies.find(p => p.id === id); return p ? `${p.company.name} · ${p.name} (${p.jurisdiction})` : id; };
   return <div style={{ maxWidth: 1200 }}>
     <h1 className={styles.pageTitle}>Engine 6 Preview</h1>
@@ -110,25 +170,43 @@ export default function EngineWorkspace() {
           })}
           <details style={{ marginBottom: 16 }}><summary>Technical provenance</summary><pre style={{ maxHeight: 300, overflow: 'auto', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{JSON.stringify(reviewDetail, null, 2)}</pre></details>
           <label>Review rationale (minimum 20 characters)<textarea style={fieldStyle} value={reviewNote} onChange={e => setReviewNote(e.target.value)} /></label>
-          <button style={buttonStyle} disabled={busy || reviewDetail.review.mode !== 'publish' || !status.publicationEnabled || reviewNote.trim().length < 20 || !JSON.parse(reviewDetail.review.reasonsJson).every((r: string) => ['high_impact_review_required', 'parser_upgrade_requires_baseline_review', 'formatting_requires_baseline_review'].includes(r))} onClick={() => void action({ action: 'approve', reviewId: reviewDetail.review.id, note: reviewNote })}>Approve reviewed evidence</button>
+          {needsRebaseline && <div style={{ marginBottom: 18, padding: 16, border: '1px solid var(--border-color)', background: 'var(--bg-secondary)' }}>
+            <h4>A new extraction baseline needs fresh confirmation</h4>
+            <p>The parser upgrade cannot safely reuse the earlier extraction as a comparable baseline. Requesting a replacement starts a confirmation process: a worker must obtain two fresh captures before a new baseline can be recorded. The existing baseline and history are preserved; clicking this button publishes no policy change and sends no notification.</p>
+            <p>Replacing the baseline can absorb a real provider policy change without producing a change alert. Use this only after explicit review establishes that the historical baseline cannot be compared reliably.</p>
+            <p>This preview has no dedicated action to revoke a baseline replacement request. Scan-pause and publication controls remain available.</p>
+            <button style={buttonStyle} disabled={busy || !status.publicationEnabled || reviewDetail.review.mode !== 'publish' || reviewDetail.review.status !== 'pending' || reviewNote.trim().length < 20} onClick={() => void action({ action: 'rebaseline', reviewId: reviewDetail.review.id, note: reviewNote })}>Request a newly confirmed baseline</button>
+          </div>}
+          <button style={buttonStyle} disabled={busy || needsRebaseline || reviewDetail.review.status !== 'pending' || reviewDetail.review.mode !== 'publish' || !status.publicationEnabled || reviewNote.trim().length < 20 || !reviewReasons.every(r => ['high_impact_review_required', 'parser_upgrade_requires_baseline_review', 'formatting_requires_baseline_review'].includes(r))} onClick={() => void action({ action: 'approve', reviewId: reviewDetail.review.id, note: reviewNote })}>Approve reviewed evidence</button>
           <button style={buttonStyle} disabled={busy || reviewNote.trim().length < 20} onClick={() => void action({ action: 'refresh', reviewId: reviewDetail.review.id, note: reviewNote })}>Request fresh evidence</button>
           <button style={buttonStyle} disabled={busy || reviewNote.trim().length < 20} onClick={() => void action({ action: 'reject', reviewId: reviewDetail.review.id, note: reviewNote })}>Close without publishing</button>
         </div>}
       </section>
       <section className={styles.card}>
         <h2>Review a source contract</h2><p>A source contract defines the document identity and completeness checks. Read the official document before recording these expectations. A changed title or missing terminal section will require review.</p>
-        <form onSubmit={e => { e.preventDefault(); if (!selected) return; void action({ action: 'contract', policyId,
+        <form onSubmit={e => { e.preventDefault(); if (!selected || busy || contractLoading || loadedPolicyId !== policyId) return;
+          let reviewedExclusions: EditableExclusion[];
+          try { reviewedExclusions = parseReviewedExclusions(exclusions); setExclusionsError(''); }
+          catch (error) { setExclusionsError(error instanceof Error ? error.message : 'Unable to parse reviewed exclusions.'); return; }
+          void action({ action: 'contract', policyId,
           contract: { schemaVersion: 1, sourceUrl: selected.retrievalUrl || selected.url, titleAliases: titles.split('\n').filter(Boolean), requiredHeadings: headings.split('\n').filter(Boolean), terminalText: terminal,
-            language, preferredTransport, minimumChars: 100, maximumChars: 500000, reviewedAt: new Date().toISOString(), reviewNote: note } }); }}>
-          <label>Policy<select required style={fieldStyle} value={policyId} onChange={e => setPolicyId(e.target.value)}><option value="">Select a policy</option>{status.policies.map(p => <option key={p.id} value={p.id}>{policyName(p.id)}</option>)}</select></label>
+            language, preferredTransport, ...contractBounds, reviewedExclusions, reviewedAt: new Date().toISOString(), reviewNote: note } }); }}>
+          <label>Policy<select required disabled={busy} style={fieldStyle} value={policyId} onChange={e => void selectPolicy(e.target.value)}><option value="">Select a policy</option>{status.policies.map(p => <option key={p.id} value={p.id}>{policyName(p.id)}</option>)}</select></label>
+          {contractLoading && <p role="status">Loading the reviewed source contract…</p>}
+          {contractError && <div><p role="alert">{contractError}</p><button type="button" style={buttonStyle} disabled={busy || !policyId || contractLoading} onClick={() => void selectPolicy(policyId)}>Retry loading source contract</button></div>}
           {selected && <p><a href={selected.retrievalUrl || selected.url} target="_blank" rel="noreferrer">Read the official source ↗</a></p>}
+          <fieldset disabled={busy || !selected || contractLoading || loadedPolicyId !== policyId} style={{ border: 0, padding: 0, minWidth: 0 }}>
           <label>Expected document titles, one per line<textarea required style={fieldStyle} value={titles} onChange={e => setTitles(e.target.value)} /></label>
           <label>Required section headings, one per line<textarea required style={fieldStyle} value={headings} onChange={e => setHeadings(e.target.value)} /></label>
           <label>Exact text near the end of the document<textarea required minLength={10} style={fieldStyle} value={terminal} onChange={e => setTerminal(e.target.value)} /></label>
           <label>Document language<select style={fieldStyle} value={language} onChange={e => setLanguage(e.target.value)}><option value="en">English</option><option value="it">Italian</option></select></label>
           <label>Preferred retrieval<select style={fieldStyle} value={preferredTransport} onChange={e => setTransport(e.target.value)}><option value="direct">Direct HTTP</option><option value="rendered">Browser rendering</option></select></label>
+          <label>Reviewed exclusions (optional JSON array)<textarea rows={8} spellCheck={false} style={{ ...fieldStyle, fontFamily: 'var(--font-mono)' }} value={exclusions} aria-describedby="reviewed-exclusions-help reviewed-exclusions-error" aria-invalid={Boolean(exclusionsError)} onChange={e => { setExclusions(e.target.value); setExclusionsError(''); }} /></label>
+          <p id="reviewed-exclusions-help">Use [] for none. Every exclusion must identify a specific reviewed node with selector and htmlSha256, purpose &quot;non_document_ui&quot;, and a reviewNote of at least 20 characters. Optional dialogHeadings records reviewed dialog headings. Exclude only non-document interface content, never policy provisions. Each exclusion is pinned to the reviewed HTML hash; new or changed nodes remain held for review.</p>
+          <p id="reviewed-exclusions-error" role={exclusionsError ? 'alert' : undefined}>{exclusionsError}</p>
           <label>What did you verify?<textarea required minLength={10} style={fieldStyle} value={note} onChange={e => setNote(e.target.value)} /></label>
-          <button style={buttonStyle} disabled={busy || !selected}>Save reviewed contract</button>
+          <button style={buttonStyle} disabled={busy || !selected || contractLoading || loadedPolicyId !== policyId}>Save reviewed contract</button>
+          </fieldset>
         </form>
       </section>
     </>}

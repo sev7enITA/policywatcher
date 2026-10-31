@@ -67,6 +67,14 @@ export function structureDocument(text: string): StructuredDocument {
   return { schema: ENGINE_SCHEMA, text, hash: digest(text), blocks };
 }
 
+export interface ReviewedExclusion {
+  /** Exactly one non-document UI node, pinned to reviewed serialized DOM bytes. */
+  selector: string;
+  htmlSha256: string;
+  purpose: 'non_document_ui';
+  dialogHeadings?: string[];
+  reviewNote: string;
+}
 export interface SourceContract {
   schemaVersion: 1;
   /** Exact approved retrieval URL, including the document fragment. */
@@ -78,6 +86,7 @@ export interface SourceContract {
   minimumChars: number;
   maximumChars: number;
   preferredTransport: 'direct' | 'rendered';
+  reviewedExclusions?: ReviewedExclusion[];
   reviewedAt: string;
   reviewNote: string;
 }
@@ -99,9 +108,18 @@ export function parseSourceContract(value: unknown): SourceContract {
       || typeof c.reviewNote !== 'string' || c.reviewNote.trim().length < 10 || c.reviewNote.length > 2000) {
     throw new Error('invalid_source_contract');
   }
+  if (c.reviewedExclusions !== undefined && (!Array.isArray(c.reviewedExclusions) || c.reviewedExclusions.length > 20
+      || c.reviewedExclusions.some(e => !e || typeof e.selector !== 'string' || !e.selector.trim() || e.selector.length > 300
+        || /:(?:has|contains|matches|not)\s*\(/i.test(e.selector) || !/^[a-f0-9]{64}$/.test(e.htmlSha256)
+        || (e.dialogHeadings !== undefined && (!Array.isArray(e.dialogHeadings) || e.dialogHeadings.length > 20
+          || e.dialogHeadings.some(h => typeof h !== 'string' || !h.trim() || h.length > 300)))
+        || e.purpose !== 'non_document_ui' || typeof e.reviewNote !== 'string' || e.reviewNote.trim().length < 20 || e.reviewNote.length > 1000))) {
+    throw new Error('invalid_reviewed_exclusion');
+  }
   return { schemaVersion: 1, sourceUrl: c.sourceUrl, titleAliases: [...c.titleAliases],
     requiredHeadings: [...c.requiredHeadings], terminalText: c.terminalText, language: c.language,
     minimumChars: c.minimumChars, maximumChars: c.maximumChars,
+    ...(c.reviewedExclusions?.length ? { reviewedExclusions: c.reviewedExclusions.map(e => ({ selector: e.selector, htmlSha256: e.htmlSha256, purpose: e.purpose, reviewNote: e.reviewNote, ...(e.dialogHeadings ? { dialogHeadings: [...e.dialogHeadings] } : {}) })) } : {}),
     preferredTransport: c.preferredTransport, reviewedAt: c.reviewedAt, reviewNote: c.reviewNote };
 }
 

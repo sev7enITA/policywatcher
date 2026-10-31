@@ -1,12 +1,13 @@
 import { load } from 'cheerio';
 import { acquireEngineTransport, hasLiveHostDrift, hasLivePathDrift, extractPolicyText, detectBlockPage, detectSoft404, type TransportResult } from '../scraper';
 import { db } from '../db';
-import { digest, structureDocument, assessDocument, type SourceContract, type StructuredDocument } from './document';
+import { digest, normalized, structureDocument, assessDocument, type SourceContract, type StructuredDocument } from './document';
 import { DAILY_MS, putArtifact, readArtifact, type TaskInput, type Tx } from './store';
 
 export interface CaptureBody {
   html: string; document: StructuredDocument; language?: string;
-  extraction?: { retainedDisclosureIds: string[]; retainedDocumentHeaders: number; restoredTitleFromDom: boolean; issues?: Array<{ reason: string; target: string | null; chars: number }> };
+  extraction?: { retainedDisclosureIds: string[]; retainedDocumentHeaders: number; restoredTitleFromDom: boolean; issues?: Array<{ reason: string; target: string | null; chars: number }>;
+    reviewedExclusionHash?: string; appliedExclusions?: Array<{ selector: string; htmlSha256: string; reviewNote: string }> };
 }
 export interface Observation {
   artifactId: string | null; observedAt: string; source: string; httpStatus: number; finalUrl: string;
@@ -26,13 +27,40 @@ export type Transport = typeof acquireEngineTransport;
  * Collapsed content is retained only when a disclosure control in the document
  * explicitly references its unique ID. Unrelated hidden DOM stays excluded.
  */
-function prepareEngineHtml(html: string) {
+function prepareEngineHtml(html: string, contract?: SourceContract | null) {
   const $ = load(html);
   const scope = 'main, article, [role="main"]';
   const originalIdCounts = new Map<string, number>();
   $('[id]').each((_, e) => { const id = $(e).attr('id')!; originalIdCounts.set(id, (originalIdCounts.get(id) || 0) + 1); });
   const chrome = 'nav, footer, aside, [role="banner"], [role="contentinfo"], [role="dialog"], .cookie-banner, #cookie-banner, .breadcrumb, .breadcrumbs';
   const issues: Array<{ reason: string; target: string | null; chars: number }> = [];
+  const appliedExclusions: Array<{ selector: string; htmlSha256: string; reviewNote: string }> = [];
+  // No blanket waiver: a reviewed UI exclusion stops matching if its DOM changes.
+  for (const rule of contract?.reviewedExclusions || []) {
+    try {
+      const matches = $(rule.selector);
+      if (matches.length !== 1) {
+        issues.push({ reason: 'reviewed_exclusion_target_changed', target: rule.selector, chars: matches.text().length }); continue;
+      }
+      const node = matches.first();
+      const htmlSha256 = digest($.html(node));
+      const headings = node.find('h1,h2,h3,h4,h5,h6').map((_, h) => normalized($(h).text())).get();
+      const reviewedDialog = node.is('[role="dialog"]') && rule.dialogHeadings
+        && JSON.stringify(headings) === JSON.stringify(rule.dialogHeadings.map(normalized));
+      if (node.is('html, body, main, article, [role="main"], h1, h2, h3, h4, h5, h6')
+          || node.find('main, article, [role="main"]').length || (headings.length && !reviewedDialog)) {
+        issues.push({ reason: 'reviewed_exclusion_document_boundary', target: rule.selector, chars: node.text().length }); continue;
+      }
+      if (htmlSha256 !== rule.htmlSha256) {
+        issues.push({ reason: 'reviewed_exclusion_content_changed', target: rule.selector, chars: node.text().length }); continue;
+      }
+      appliedExclusions.push({ selector: rule.selector, htmlSha256, reviewNote: rule.reviewNote }); node.remove();
+    } catch { issues.push({ reason: 'reviewed_exclusion_selector_invalid', target: rule.selector, chars: 0 }); }
+  }
+  $('[role="dialog"]').each((_, element) => {
+    const node = $(element); const chars = node.text().replace(/\s+/g, ' ').trim().length;
+    if (node.parents(scope).length && chars >= 100) issues.push({ reason: 'dialog_document_scope_unverified', target: node.attr('id') || null, chars });
+  });
   // Known UI chrome is excluded consistently, including a dialog placed inside main.
   $(chrome).remove();
   const retainedDisclosureIds: string[] = [];
@@ -77,13 +105,13 @@ function prepareEngineHtml(html: string) {
   const titles = $('h1').filter((_, heading) => !$(heading).parents(`${chrome}, header, [aria-hidden="true"]`).length
       && ($(heading).parents(scope).length > 0 || documentTitles.has(heading)))
     .map((_, heading) => $(heading).text().replace(/\s+/g, ' ').trim()).get().filter(Boolean);
-  return { html: $.html(), titles: [...new Set(titles)], retainedDisclosureIds, retainedDocumentHeaders, issues };
+  return { html: $.html(), titles: [...new Set(titles)], retainedDisclosureIds, retainedDocumentHeaders, issues, appliedExclusions };
 }
-export function extractEngineBody(html: string, sourceUrl: string, contentLanguage?: string): CaptureBody {
+export function extractEngineBody(html: string, sourceUrl: string, contentLanguage?: string, contract?: SourceContract | null): CaptureBody {
   if (Buffer.byteLength(html) > 5_000_000) throw new Error('response_body_too_large');
   if (detectBlockPage(html) || detectSoft404(html)) throw new Error('source_block_or_soft_404');
   // Identity is established by the reviewed contract, not English keyword counts.
-  const prepared = prepareEngineHtml(html);
+  const prepared = prepareEngineHtml(html, contract);
   let text = extractPolicyText(prepared.html, sourceUrl, { minimumTextLength: 100 });
   const scoped = Boolean(new URL(sourceUrl).hash);
   const restoredTitleFromDom = !scoped && text.length >= 100 && prepared.titles.length === 1
@@ -92,12 +120,14 @@ export function extractEngineBody(html: string, sourceUrl: string, contentLangua
   if (text.length < 100 || text.length > 500_000) throw new Error('extraction_size_out_of_bounds');
   const language = load(html)('html').attr('lang') || contentLanguage;
   return { html, document: structureDocument(text), ...(language ? { language } : {}),
-    extraction: { retainedDisclosureIds: prepared.retainedDisclosureIds, retainedDocumentHeaders: prepared.retainedDocumentHeaders, restoredTitleFromDom, issues: prepared.issues } };
+    extraction: { retainedDisclosureIds: prepared.retainedDisclosureIds, retainedDocumentHeaders: prepared.retainedDocumentHeaders, restoredTitleFromDom, issues: prepared.issues, appliedExclusions: prepared.appliedExclusions,
+      reviewedExclusionHash: digest(JSON.stringify(contract?.reviewedExclusions || [])) } };
 }
 /** Extraction uncertainty is a hard evidence gate, including cached/replayed bodies. */
 export function assessCapture(body: CaptureBody, contract: SourceContract | null, sourceUrl: string) {
   const assessment = assessDocument(body.document, contract, sourceUrl, body.language);
-  const reasons = [...new Set([...assessment.reasons, ...(body.extraction?.issues || []).map(issue => issue.reason)])];
+  const exclusionsChanged = contract?.reviewedExclusions?.length && body.extraction?.reviewedExclusionHash !== digest(JSON.stringify(contract.reviewedExclusions));
+  const reasons = [...new Set([...assessment.reasons, ...(exclusionsChanged ? ['reviewed_exclusion_context_mismatch'] : []), ...(body.extraction?.issues || []).map(issue => issue.reason)])];
   return { ...assessment, reasons, eligible: reasons.length === 0,
     completeness: body.extraction?.issues?.length ? 'unknown' : assessment.completeness };
 }
@@ -112,7 +142,7 @@ export async function acquire(input: TaskInput, transport: Transport = acquireEn
   const observedAt = new Date().toISOString();
   if (!input.contract || input.contract.sourceUrl !== input.sourceUrl) return { artifactId: null, observedAt, source: 'none', httpStatus: 0, finalUrl: input.sourceUrl,
     notModified: false, eligible: false, reasons: [input.contract ? 'source_contract_mismatch' : 'source_contract_missing'], diagnostics: [] };
-  const key = digest(JSON.stringify([input.sourceUrl, input.profileHash, 'engine-http-client-1']));
+  const key = digest(JSON.stringify([input.sourceUrl, input.profileHash, input.contractHash, 'engine-http-client-1']));
   const cached = !input.forceFresh ? await db.engineHttpCache.findUnique({ where: { key } }) : null;
   let cachedBody: CaptureBody | null = null;
   if (cached && cached.profileHash === input.profileHash && cached.expiresAt > new Date()) {
@@ -152,7 +182,7 @@ export async function acquire(input: TaskInput, transport: Transport = acquireEn
     }
     if (!result.ok) { diagnostics.push({ source, status: result.status, reason: 'transport_rejected' }); continue; }
     let body: CaptureBody;
-    try { body = extractEngineBody(result.html, input.sourceUrl, result.validators?.contentLanguage); }
+    try { body = extractEngineBody(result.html, input.sourceUrl, result.validators?.contentLanguage, input.contract); }
     catch { diagnostics.push({ source, status: result.status, reason: 'extraction_rejected' }); continue; }
     const artifactId = await putArtifact(body);
     const assessment = assessCapture(body, input.contract, input.sourceUrl);

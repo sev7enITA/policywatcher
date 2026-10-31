@@ -138,11 +138,13 @@ async function evaluate(lease: Lease, input: TaskInput) {
   if (!establishing && oldAnchor!.profileHash !== input.profileHash) {
     if (!oldAnchor!.input || digest(oldAnchor!.input) !== oldAnchor!.inputHash) return hold(lease, observation, ['extraction_replay_unavailable']);
     let replayBody: CaptureBody;
-    try { replayBody = extractEngineBody(oldAnchor!.input, input.sourceUrl, input.contract?.language); }
+    try { replayBody = extractEngineBody(oldAnchor!.input, input.sourceUrl, input.contract?.language, input.contract); }
     catch { return hold(lease, observation, ['extraction_replay_incomplete']); }
     // The reviewer explicitly checks old language and extraction before adoption.
     const baselineCandidateArtifactId = await putArtifact(replayBody);
-    return hold(lease, observation, ['parser_upgrade_requires_baseline_review'], {
+    const replayReason = assessCapture(replayBody, input.contract, input.sourceUrl).eligible
+      ? 'parser_upgrade_requires_baseline_review' : 'parser_upgrade_rebaseline_required';
+    return hold(lease, observation, [replayReason], {
       observation, oldArtifactId: await putArtifact(structureDocument(policy.currentText)), baselineCandidateArtifactId,
     });
   }
@@ -285,6 +287,36 @@ export async function workerStep(dependencies: EngineDependencies = defaults): P
   } finally { clearInterval(timer); }
   await reconcileRun(lease.runId);
   return true;
+}
+
+/** Explicitly request a new baseline when historical DOM cannot be safely replayed.
+ * This does not adopt a snapshot: two fresh contract-eligible captures are still required.
+ */
+export async function requestConfirmedRebaseline(id: string, note: string, actor: string) {
+  if (process.env.POLICYWATCHER_ENGINE_PUBLICATION !== '1' || process.env.POLICYWATCHER_SCANS_PAUSED === '1') throw new Error('publication_disabled');
+  if (note.trim().length < 20 || note.length > 2000) throw new Error('review_note_required');
+  return db.$transaction(async tx => {
+    const review = await tx.engineReview.findUniqueOrThrow({ where: { id } });
+    if (review.status === 'rebaseline_requested') return { status: review.status };
+    if (review.status !== 'pending' || review.mode !== 'publish'
+      || JSON.stringify(JSON.parse(review.reasonsJson)) !== JSON.stringify(['parser_upgrade_rebaseline_required'])) throw new Error('rebaseline_review_required');
+    const payload = JSON.parse(review.payloadJson) as { input: TaskInput; runId: string; observation?: Observation };
+    if (!payload.observation?.eligible || !payload.observation.artifactId
+      || Date.now() - Date.parse(payload.observation.observedAt) > 2 * DAILY_MS) throw new Error('review_hard_gate_unresolved');
+    const captured = await readArtifact<CaptureBody>(payload.observation.artifactId, tx);
+    if (!assessCapture(captured, payload.input.contract, payload.input.sourceUrl).eligible) throw new Error('review_hard_gate_unresolved');
+    if (await tx.engineTask.count({ where: { activePolicyId: review.policyId } })) throw new Error('policy_active_cancel_first');
+    const task = await tx.engineTask.findUniqueOrThrow({ where: { id: review.taskId } });
+    const policy = await currentPolicy(tx, task as Lease, payload.input);
+    if (!await publicationMode(tx, payload.runId)) throw new Error('observe_run_cannot_publish');
+    const won = await tx.engineReview.updateMany({ where: { id, status: 'pending' }, data: { status: 'rebaseline_requested', reviewedAt: new Date(), reviewedBy: actor, reviewNote: note } });
+    if (!won.count) throw new Error('review_conflict');
+    await tx.policy.update({ where: { id: policy.id }, data: { sourceMigrationPending: true, sourceMigrationRequestedAt: new Date() } });
+    await tx.enginePolicyState.update({ where: stateKey(policy.id, 'publish'), data: { ...clearCandidate, nextDueAt: new Date(), reason: 'confirmed_rebaseline_requested' } });
+    await tx.adminReviewLog.create({ data: { actorRole: actor, action: 'engine_rebaseline_requested', targetType: 'policy', targetId: policy.id,
+      note, metadataJson: JSON.stringify({ reviewId: id, retainedBaselineHash: policy.currentHash, requiresFreshCaptures: 2 }) } });
+    return { status: 'rebaseline_requested' };
+  }, { timeout: 15_000 });
 }
 
 export async function approveReview(id: string, note: string, actor: string) {

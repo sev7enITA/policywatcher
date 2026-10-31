@@ -4,7 +4,7 @@ import { db } from '@/lib/db';
 import { readBoundedJsonObject } from '@/lib/requestBody';
 import { digest, ENGINE_SCHEMA, parseSourceContract } from '@/lib/engine/document';
 import { enqueueRun, cancelRun, engineEnabled, stateKey, readArtifact } from '@/lib/engine/store';
-import { approveReview, closeReview } from '@/lib/engine/pipeline';
+import { approveReview, closeReview, requestConfirmedRebaseline } from '@/lib/engine/pipeline';
 import { validateOutboundUrl } from '@/lib/scraper';
 
 const json = (value: unknown, status = 200) => NextResponse.json(value, { status, headers: { 'Cache-Control': 'private, no-store' } });
@@ -13,6 +13,11 @@ const authorized = (request: NextRequest) => { const s = getSession(request); re
 export async function GET(request: NextRequest) {
   if (!authorized(request)) return json({ error: 'Admin access required' }, 403);
   if (!engineEnabled()) return json({ enabled: false, schema: ENGINE_SCHEMA, runs: [], reviews: [], policies: [] });
+  const policyId = request.nextUrl.searchParams.get('policyId');
+  if (policyId) {
+    const stored = await db.engineSourceContract.findUnique({ where: { policyId } });
+    return json({ contract: stored ? JSON.parse(stored.contractJson) : null });
+  }
   const reviewId = request.nextUrl.searchParams.get('reviewId');
   if (reviewId) {
     const review = await db.engineReview.findUnique({ where: { id: reviewId } });
@@ -20,10 +25,10 @@ export async function GET(request: NextRequest) {
     const payload = JSON.parse(review.payloadJson);
     const artifactId = payload.observation?.artifactId;
     // Raw HTML stays in the private artifact store. The authenticated reviewer sees frozen text and claims.
-    const artifact = artifactId ? await readArtifact<{ document: unknown }>(artifactId) : null;
+    const artifact = artifactId ? await readArtifact<{ document: unknown; extraction?: unknown }>(artifactId) : null;
     const oldDocument = payload.checkpoint?.oldArtifactId ? await readArtifact(payload.checkpoint.oldArtifactId) : null;
-    const baselineCandidate = payload.checkpoint?.baselineCandidateArtifactId ? await readArtifact<{ document: unknown }>(payload.checkpoint.baselineCandidateArtifactId) : null;
-    return json({ review, payload, document: artifact?.document, oldDocument, baselineCandidate: baselineCandidate?.document });
+    const baselineCandidate = payload.checkpoint?.baselineCandidateArtifactId ? await readArtifact<{ document: unknown; extraction?: unknown }>(payload.checkpoint.baselineCandidateArtifactId) : null;
+    return json({ review, payload, document: artifact?.document, extraction: artifact?.extraction, oldDocument, baselineCandidate: baselineCandidate?.document, baselineExtraction: baselineCandidate?.extraction });
   }
   const [runs, reviews, policies, outbox, tasks, states, contracts] = await Promise.all([
     db.engineRun.findMany({ orderBy: { createdAt: 'desc' }, take: 20, include: { tasks: {
@@ -79,6 +84,10 @@ export async function POST(request: NextRequest) {
           note: contract.reviewNote, newValue: contractHash } });
       });
       return json({ contractHash });
+    }
+    if (body.action === 'rebaseline') {
+      if (typeof body.reviewId !== 'string' || typeof body.note !== 'string') return json({ error: 'review_and_note_required' }, 400);
+      return json(await requestConfirmedRebaseline(body.reviewId, body.note, 'admin'));
     }
     if (body.action === 'reject' || body.action === 'refresh') {
       if (typeof body.reviewId !== 'string' || typeof body.note !== 'string') return json({ error: 'review_and_note_required' }, 400);

@@ -190,8 +190,8 @@ export async function putArtifact(body: unknown): Promise<string> {
   await db.engineArtifact.upsert({ where: { id }, create: { id, bodyJson, byteCount }, update: {} });
   return id;
 }
-export async function readArtifact<T>(id: string): Promise<T> {
-  const row = await db.engineArtifact.findUniqueOrThrow({ where: { id } });
+export async function readArtifact<T>(id: string, reader: Pick<Tx, 'engineArtifact'> = db): Promise<T> {
+  const row = await reader.engineArtifact.findUniqueOrThrow({ where: { id } });
   if (digest(row.bodyJson) !== id || Buffer.byteLength(row.bodyJson) !== row.byteCount) throw new Error('artifact_integrity_failure');
   return JSON.parse(row.bodyJson) as T;
 }

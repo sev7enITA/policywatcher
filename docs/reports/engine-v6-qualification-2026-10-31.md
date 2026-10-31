@@ -29,15 +29,15 @@ Gemini 4 High / Argon Alta and GLM-5.3 Max are actual external reviews through t
 - Duplicate-ID checks before removing UI chrome, so sanitizing the DOM cannot erase ambiguity.
 - Regression scenarios for the risks above. The extraction profile includes both transformation and assessment, with `pretest` and `prebuild` freshness checks.
 
-These are conservative safeguards. Generic extraction cannot identify every arbitrary nonsemantic UI fragment or short hidden legal clause. Reviewed source contracts, provider-specific adapters and annotated completeness checks remain necessary; uncertain cases may be held more often. A second frozen GLM review is in progress at the time of this checkpoint. Test-only transports were also corrected to satisfy the complete `TransportResult` type.
+These are conservative safeguards. Generic extraction cannot identify every arbitrary nonsemantic UI fragment or short hidden legal clause. Reviewed source contracts, provider-specific adapters and annotated completeness checks remain necessary; uncertain cases may be held more often. The second frozen GLM review confirmed those closures and identified the operational need for source-specific resolution. An exact, reviewed DOM-exclusion route was then implemented; the third review exposed historical replay and headed-dialog dead ends. Candidate 4 added the explicitly confirmed rebaseline route and exact dialog-heading acknowledgement. GLM confirmed R1/R2 closed and found no new P1 regression in that focused scope. The accepted operational limits (zero-match held, possible absorption of a real change during deliberate rebaseline, and no dedicated withdrawal action) are stated in the runbook and UI. See `docs/architecture/engine-source-review-runbook.md`. Test-only transports were also corrected to satisfy the complete `TransportResult` type.
 
 ## Verification checkpoint
 
-- Full regression suite: **1,379 passed, 14 skipped** (191 files passed, 3 skipped).
-- Focused suite: **60 passed**, consisting of 53 Engine 6 tests and 7 audit regressions.
-- Web TypeScript and production compilation passed; critical-test TypeScript rerun after the fixture-type correction.
+- Full regression suite: **1,383 passed, 14 skipped** (191 files passed, 3 skipped).
+- Focused suite: **64 passed**, consisting of 57 Engine 6 tests and 7 audit regressions.
+- Web TypeScript and production compilation passed; critical-test TypeScript passed after the fixture-type correction.
 - Lint has no errors; the existing 15 web warnings remain.
-- A separate four-process, 500-policy synthetic concurrency/crash probe is running. Its outcome is not yet claimed. It uses a real SIGKILL and the natural five-minute lease expiry, without changing the clock or expiry values.
+- A separate four-process, 500-policy synthetic concurrency/crash probe passed: 1,000/1,000 tasks completed in 330.4 seconds, zero remaining reservations, public policy mutations, changes or outbox deliveries. All four processes exited successfully; SQLite integrity is `ok`. An actual SIGKILL was followed by natural five-minute lease expiry and a completed second attempt. The scheduling/store code was unchanged by the later extraction-rule extension.
 
 The public preview page deliberately records the earlier initial checkpoint (1,369/14, including 43 engine tests), rather than presenting an unfinished live experiment as a final qualification.
 
@@ -45,9 +45,17 @@ The public preview page deliberately records the earlier initial checkpoint (1,3
 
 The announcement has English/Italian architecture, decision-flow and entity-relationship diagrams, text alternatives, full-size SVG links, and an accessible horizontally scrolling entity table. Gemini's independent design verdict was PASS; recommended refinements were applied. Desktop rendering and a 390px DOM/layout check passed; the automated mobile screenshot capture was unreliable and is not evidence of an actual-device visual test.
 
-The deployment candidate is based on the currently deployed source `6780e993519d40759eacf4cdcffa7aad1467cc93`, with only 16 content/navigation/SEO files changed. No Engine 6 runtime or migration is included. The content source is isolated on `codex/engine6-preview-announcement`. Staging verification and production publication are still pending at this checkpoint.
+The deployment candidate is based on the currently deployed source `6780e993519d40759eacf4cdcffa7aad1467cc93`, with only 16 content/navigation/SEO files changed. No Engine 6 runtime or migration is included. The content source is isolated on `codex/engine6-preview-announcement`. Staging completed at 07:54 CET; all 11 release checks and 10 announcement-specific checks passed. The exact ZIP SHA-256 is `81c8e19aea4fb701340b316fefad1507805e503978b1e5683c626ba3d3f2af07`, source `1837889a7951dd6f060230f5dbadf6efdf820f76`. Promotion records the owner’s explicit website-publication instruction from this chat. Production completed at 08:07 CET (2m39s). All 11 announcement-specific checks passed on the public origin. The authenticated operational panel reports 9 passed, 0 attention checks, 0 unavailable, and 1 external requirement for an independent dynamic security test; its aggregate status remains `attention` for that separately unperformed external test. SQLite integrity, 35 application tables and 19 migrations are confirmed. SSH readback confirms the exact source revision, no Engine runtime directory and no Engine tables.
 
-Before deployment, the production SQLite online-backup API produced a consistent backup; a separate restored copy passed integrity checking. It contains 18 companies, 113 policies, 118 changes and 242 snapshots; no Engine tables. The schema count includes 35 application tables plus two internal bookkeeping tables. No source database was overwritten.
+Before deployment, the production SQLite online-backup API produced a consistent backup; a separate restored copy passed integrity checking. It contains 18 companies, 113 policies, 118 changes and 242 snapshots; no Engine tables. The schema count includes 35 application tables plus two internal bookkeeping tables. No source database was overwritten. A second immediate backup at 08:03 CET had the same content checksum, confirming no intervening evidence-data change before this deployment.
+
+## Additional local administrative execution
+
+A fresh, isolated one-policy fixture on loopback port 3020 exercised the actual compiled interface and authenticated API. Selecting the policy loaded its complete contract, including pinned exclusions and retained size bounds. Invalid exclusion JSON showed an actionable error without modifying the saved contract. The ordinary approval button stayed disabled for `parser_upgrade_rebaseline_required`; the dedicated request required a substantive rationale. After clicking, database readback confirmed one audit record, `rebaseline_requested`, the original baseline hash and single snapshot preserved, zero PolicyChange and zero outbox entries. A separate automated integration test demonstrates that the first new capture is insufficient and the second confirmed capture establishes a baseline without AI or a provider-change event. Those fixture timestamps are synthetic and do not substitute for real observation windows.
+
+## Public announcement and Git checkpoints
+
+The live page is <https://policywatcher.online/engine-6-preview?lang=it> (English without the query). Homepage, product footer, roadmap and sitemap link to the announcement. The page clearly distinguishes local implementation, recorded verification and pending real-world qualification. Public source branch `codex/engine6-preview-announcement` ends at `1837889`; local engine checkpoints include `6a9c91e`, `1a2cdef`, `dfbd1be` and `2d1428d`. Later qualification work is committed separately. Git commits are local; no engine activation or remote branch publication is implied.
 
 ## Remaining activation evidence
 

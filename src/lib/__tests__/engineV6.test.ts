@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { PrismaClient } from '@prisma/client';
+import { load } from 'cheerio';
 import { digest, structureDocument, compareDocuments, assessDocument, parseSourceContract, type SourceContract } from '../engine/document';
 import { validateClaims, validateVerification, modelEvidence, CLAIM_SCHEMA, type AnalysisInput, type ClaimSet, type AnalysisProvider } from '../engine/claims';
 import type { CaptureBody, Observation } from '../engine/acquisition';
@@ -132,7 +133,7 @@ describe('V6 evidence contracts', () => {
     expect(body.document.text).toContain('thirty days');
     expect(body.document.text).not.toContain('Cookie user interface');
     expect(body.extraction?.retainedDisclosureIds).toEqual(['details']);
-    expect(body.extraction?.issues).toEqual([]);
+    expect(body.extraction?.issues?.map(i => i.reason)).toEqual(['dialog_document_scope_unverified']);
   });
   it('flags unreviewed header metadata and never restores a bare brand h1', () => {
     const content = `<h2>Data use</h2><p>${'The legal document contains the binding policy terms. '.repeat(4)}</p>`;
@@ -154,13 +155,53 @@ describe('V6 evidence contracts', () => {
     const fetch = await database.engineTask.findFirstOrThrow({ where: { kind: 'fetch' } });
     const input = JSON.parse(fetch.inputJson) as TaskInput;
     const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>Contact the privacy team for information about this policy.</p><div aria-hidden="true"><p>${'An extra contractual clause was not extracted. '.repeat(4)}</p></div></main></html>`;
-    const transport = vi.fn(async () => ({ ok: true, status: 200, finalUrl: p.url, html, error: null, validators: { etag: 'hidden-fixture' } }));
+    const transport = vi.fn(async () => ({ ok: true, status: 200, finalUrl: p.url, html, error: '', validators: { etag: 'hidden-fixture' } }));
     const observation = await acquisition.acquire(input, transport);
     expect(transport).toHaveBeenCalledTimes(3);
     expect(observation.eligible).toBe(false);
     expect(observation.reasons).toContain('hidden_document_content_unresolved');
     expect(observation.artifactId).not.toBeNull();
     expect(observation.cache).toBeUndefined();
+  });
+  it('resolves only an exact reviewed non-document node and reopens review after any DOM change', () => {
+    const ui = `<div id="ui" aria-hidden="true"><p>${'Interface text, not a policy provision. '.repeat(4)}</p></div>`;
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>Contact the privacy team for information about this policy.</p>${ui}</main></html>`;
+    const $ = load(html);
+    const reviewed = parseSourceContract({ ...contract, reviewedExclusions: [{ selector: '#ui', htmlSha256: digest($.html($('#ui'))), purpose: 'non_document_ui', reviewNote: 'Reviewed exact non-document user-interface content.' }] });
+    const body = acquisition.extractEngineBody(html, fixtureUrl, undefined, reviewed);
+    expect(acquisition.assessCapture(body, reviewed, fixtureUrl).eligible).toBe(true);
+    expect(body.document.text).not.toContain('Interface text');
+    expect(body.html).toBe(html);
+    expect(body.extraction?.appliedExclusions).toHaveLength(1);
+    const changed = acquisition.extractEngineBody(html.replace('Interface text,', 'Modified interface text,'), fixtureUrl, undefined, reviewed);
+    expect(acquisition.assessCapture(changed, reviewed, fixtureUrl).reasons).toContain('reviewed_exclusion_content_changed');
+    const missing = acquisition.extractEngineBody(html.replace(ui, ''), fixtureUrl, undefined, reviewed);
+    expect(acquisition.assessCapture(missing, reviewed, fixtureUrl).reasons).toContain('reviewed_exclusion_target_changed');
+    expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl), reviewed, fixtureUrl).reasons).toContain('reviewed_exclusion_context_mismatch');
+  });
+  it('refuses blanket exclusions, document containers and duplicated selector targets', () => {
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><p>${'This is substantive document text which must not be waived. '.repeat(4)}</p><div class="ui">One</div><div class="ui">Two</div></main></html>`;
+    const $ = load(html);
+    expect(() => parseSourceContract({ ...contract, reviewedExclusions: [{ selector: '#ui', purpose: 'non_document_ui', reviewNote: 'Reviewed user interface metadata.' }] })).toThrow('invalid_reviewed_exclusion');
+    for (const selector of ['main', '.ui']) {
+      const reviewed = parseSourceContract({ ...contract, reviewedExclusions: [{ selector, htmlSha256: digest($.html($(selector).first())), purpose: 'non_document_ui', reviewNote: 'Synthetic attempted exclusion for the boundary test.' }] });
+      const body = acquisition.extractEngineBody(html, fixtureUrl, undefined, reviewed);
+      expect(body.extraction?.appliedExclusions).toEqual([]);
+      expect(body.extraction?.issues?.some(i => i.reason.startsWith('reviewed_exclusion_'))).toBe(true);
+      expect(body.document.text).toContain('substantive document text');
+    }
+  });
+  it('requires explicit dialog-heading acknowledgement before excluding a complete reviewed UI dialog', () => {
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p><div id="consent" role="dialog"><h2>Cookie settings</h2><p>${'Interface controls for unrelated cookie preferences. '.repeat(4)}</p></div></main></html>`;
+    const $ = load(html); const rule = { selector: '#consent', htmlSha256: digest($.html($('#consent'))), purpose: 'non_document_ui' as const, reviewNote: 'Reviewed this exact cookie-settings user-interface dialog.' };
+    const base = parseSourceContract({ ...contract, reviewedExclusions: [rule] });
+    expect(acquisition.extractEngineBody(html, fixtureUrl, undefined, base).extraction?.issues?.map(i => i.reason)).toContain('reviewed_exclusion_document_boundary');
+    const reviewed = parseSourceContract({ ...contract, reviewedExclusions: [{ ...rule, dialogHeadings: ['Cookie settings'] }] });
+    const body = acquisition.extractEngineBody(html, fixtureUrl, undefined, reviewed);
+    expect(body.document.text).not.toContain('Cookie settings');
+    expect(acquisition.assessCapture(body, reviewed, fixtureUrl).eligible).toBe(true);
+    const mismatched = { ...reviewed, reviewedExclusions: [{ ...rule, dialogHeadings: ['Different heading'] }] };
+    expect(acquisition.extractEngineBody(html, fixtureUrl, undefined, mismatched).extraction?.issues?.map(i => i.reason)).toContain('reviewed_exclusion_document_boundary');
   });
   it('does not inject an out-of-scope page title into a fragment-scoped document', () => {
     const html = `<html lang="en"><section><header><h1>All Policies</h1></header></section><main><section id="privacy"><h2>Privacy</h2><p>${'The scoped privacy section contains its own complete statement. '.repeat(4)}</p></section><section><h2>Other</h2><p>Unrelated terms.</p></section></main></html>`;
@@ -468,6 +509,39 @@ describe('adjudicated Gemini and GLM review regressions', () => {
     expect(await database.policyChange.count()).toBe(0); expect(await database.engineOutbox.count()).toBe(0);
     expect((await database.extractionBaseline.findUniqueOrThrow({ where: { policyId: p.id } })).profileHash).toBe(store.engineExtractionProfileHash(fixtureUrl));
     expect((await database.engineReview.findUniqueOrThrow({ where: { id: review.id } })).status).toBe('approved');
+  });
+  it('requests two new baseline captures when reviewed UI cannot replay historical HTML', async () => {
+    const p = await seed();
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 60 days.</p><h2>Contact</h2><p>${contract.terminalText}</p><div id="ui" aria-hidden="true"><p>${'Current interface metadata, outside the policy. '.repeat(4)}</p></div></main></html>`;
+    const $ = load(html);
+    const reviewed = parseSourceContract({ ...contract, reviewedExclusions: [{ selector: '#ui', htmlSha256: digest($.html($('#ui'))), purpose: 'non_document_ui', reviewNote: 'Reviewed the exact unrelated interface metadata.' }] });
+    const contractJson = JSON.stringify(reviewed);
+    await database.engineSourceContract.update({ where: { policyId: p.id }, data: { contractJson, contractHash: digest(contractJson) } });
+    const oldHtml = html.replaceAll('Current interface', 'Historical interface').replace('60 days', '30 days');
+    await database.extractionBaseline.update({ where: { policyId: p.id }, data: { profileHash: 'legacy-profile', input: oldHtml, inputHash: digest(oldHtml) } });
+    const body = acquisition.extractEngineBody(html, fixtureUrl, undefined, reviewed);
+    expect(acquisition.assessCapture(body, reviewed, fixtureUrl).eligible).toBe(true);
+    const get = async (): Promise<Observation> => ({ artifactId: await store.putArtifact(body), observedAt: new Date().toISOString(), source: 'direct', httpStatus: 200,
+      finalUrl: fixtureUrl, notModified: false, eligible: true, reasons: [], diagnostics: [] });
+    await run('rebaseline-hold'); await drain({ acquire: get });
+    const review = await database.engineReview.findFirstOrThrow();
+    expect(review.reasonsJson).toBe(JSON.stringify(['parser_upgrade_rebaseline_required']));
+    await expect(pipeline.approveReview(review.id, 'Cannot approve an incomplete historical replay.', 'fixture-admin')).rejects.toThrow('review_hard_gate_unresolved');
+    const note = 'Reviewed the complete current source; retain history and request a newly confirmed baseline.';
+    await pipeline.requestConfirmedRebaseline(review.id, note, 'fixture-admin');
+    await pipeline.requestConfirmedRebaseline(review.id, note, 'fixture-admin');
+    expect((await database.policy.findUniqueOrThrow({ where: { id: p.id } })).currentHash).toBe(p.currentHash);
+    expect((await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'publish') })).candidateHash).toBeNull();
+    expect(await database.policySnapshot.count()).toBe(1);
+    await database.engineOrigin.updateMany({ data: { nextAllowedAt: new Date(0) } });
+    await run('rebaseline-fresh-one'); await drain({ acquire: get });
+    expect(await database.policySnapshot.count()).toBe(1);
+    await readySecond(p.id); await run('rebaseline-fresh-two'); await drain({ acquire: get });
+    expect((await database.policy.findUniqueOrThrow({ where: { id: p.id } })).currentHash).toBe(body.document.hash);
+    expect(await database.policySnapshot.count()).toBe(2);
+    expect(await database.policyChange.count()).toBe(0); expect(await database.engineOutbox.count()).toBe(0);
+    expect(analysis.analyze).not.toHaveBeenCalled();
+    expect((await database.engineReview.findUniqueOrThrow({ where: { id: review.id } })).reviewNote).toBe(note);
   });
   it('refreshes stale evidence without deleting the previous review capture', async () => {
     const p = await seed(); await run('refresh-first'); await drain(); await readySecond(p.id); await run('refresh-second');
