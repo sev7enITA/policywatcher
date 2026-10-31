@@ -54,7 +54,7 @@ async function main() {
       const startedAt = new Date();
       const company = await db.company.create({ data: { name: 'Synthetic Concurrency Fixture', slug: 'synthetic-concurrency-fixture', website: 'https://example.com', industry: 'Synthetic test' } });
       await db.policy.createMany({ data: Array.from({ length: 500 }, (_, i) => ({ id: `probe-${i}`, companyId: company.id, name: `Synthetic ${i}`, type: 'privacy',
-        url: `https://origin${i % 25}.example.com/policy/${i}`, currentHash: digest(text), currentText: text, lastCheckDate: new Date(0) })) });
+        url: `https://origin${i % 25}.example.com/policy/${i}`, currentHash: digest(text), currentText: text, lastCheckDate: new Date(0), lastSuccessfulCheckDate: new Date(0) })) });
       await db.engineSourceContract.createMany({ data: Array.from({ length: 500 }, (_, i) => {
         const contractJson = JSON.stringify({ schemaVersion: 1, sourceUrl: `https://origin${i % 25}.example.com/policy/${i}`, titleAliases: ['Privacy Policy'], requiredHeadings: ['Data use', 'Contact'],
           terminalText: 'Contact the privacy team for further information about this policy.', language: 'en', minimumChars: 100, maximumChars: 500000, preferredTransport: 'direct',
