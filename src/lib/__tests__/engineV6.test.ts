@@ -122,6 +122,65 @@ describe('V6 evidence contracts', () => {
     const html = `<html lang="en"><main><h1>Privacy Policy</h1><p>${'Context about the policy and the scope of these terms. '.repeat(3)}</p><ul><li>Uses:<table><caption>Adults only</caption><tr><th>Purpose</th><th>Consent</th></tr><tr><td>Training</td><td>No</td></tr></table></li></ul></main></html>`;
     expect(acquisition.extractEngineBody(html, fixtureUrl).document.text.split('Adults only')).toHaveLength(2);
   });
+  it.each(['li', 'blockquote', 'dd'])('retains ordered clauses inside a compound %s without moving its final exception', tag => {
+    const content = `<${tag}>Lead condition.<p>We share account records.</p>Except when consent is withdrawn.<p>We retain audit logs.</p>Only for thirty days.</${tag}>`;
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2>${tag === 'li' ? `<ul>${content}</ul>` : tag === 'dd' ? `<dl>${content}</dl>` : content}<h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    let previous = -1;
+    for (const clause of ['Lead condition.', 'We share account records.', 'Except when consent is withdrawn.', 'We retain audit logs.', 'Only for thirty days.']) {
+      expect(body.document.text.split(clause)).toHaveLength(2);
+      const at = body.document.text.indexOf(clause); expect(at).toBeGreaterThan(previous); previous = at;
+    }
+    expect(acquisition.assessCapture(body, contract, fixtureUrl).eligible).toBe(true);
+  });
+  it.each(['aside', 'footer', 'nav', 'div role="contentinfo"', 'div class="sidebar"', 'header', 'form', 'noscript', 'svg'])('holds unreviewed text removed from %s within the document', wrapper => {
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><${wrapper} id="exception">Except that we may sell records.</${wrapper.split(' ')[0]}><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    expect(assessDocument(body.document, contract, fixtureUrl, 'en').eligible).toBe(true);
+    expect(acquisition.assessCapture(body, contract, fixtureUrl).reasons).toContain('removed_document_content_unreviewed');
+  });
+  it('keeps a compound list lead across layout wrappers and emits nested headings once', () => {
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><ul><li><span>a. </span><div>Only with consent:<ul><li>Account records are shared.</li></ul>Except when consent is withdrawn.</div></li><li><h3>Retention period</h3><p>Thirty days after account closure.</p></li></ul><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    expect(body.document.text).toContain('- a. Only with consent:');
+    expect(body.document.text.split('Retention period')).toHaveLength(2);
+    expect(body.document.text.indexOf('Account records are shared.')).toBeLessThan(body.document.text.indexOf('Except when consent is withdrawn.'));
+  });
+  it('retains own text when the selected fragment root is itself a semantic policy container', () => {
+    const scopedUrl = fixtureUrl + '#scope';
+    const html = `<html lang="en"><main><ul><li id="scope" class="policy-content">Only with consent.<h1>Privacy Policy</h1><h2>Data use</h2><p>We share account records.</p>Except when consent is withdrawn.<h2>Contact</h2><p>${contract.terminalText}</p></li></ul></main></html>`;
+    const body = acquisition.extractEngineBody(html, scopedUrl);
+    expect(body.document.text).toContain('Only with consent.');
+    expect(body.document.text).toContain('Except when consent is withdrawn.');
+    expect(body.document.text.indexOf('We share account records.')).toBeLessThan(body.document.text.indexOf('Except when consent is withdrawn.'));
+    expect(acquisition.assessCapture(body, { ...contract, sourceUrl: scopedUrl }, scopedUrl).eligible).toBe(true);
+  });
+  it('emits one list marker per compound item, including paragraph-only items', () => {
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><ul><li>Lead condition.<p>We share account records.</p>Except when consent is withdrawn.</li><li><p>We delete records after thirty days.</p></li></ul><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    expect(body.document.text).toContain('- Lead condition.');
+    expect(body.document.text).not.toContain('- Except when consent is withdrawn.');
+    expect(body.document.text).toContain('- We delete records after thirty days.');
+  });
+  it.each(['<main role="dialog">', '<div role="dialog"><article>'])('holds dialog scopes even when the dialog contains its document root: %s', opening => {
+    const closing = opening.includes('<article>') ? '</article></div>' : '</main>';
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main>${opening}<p>Except that we may sell account records.</p>${closing}</html>`;
+    expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl), contract, fixtureUrl).reasons).toContain('dialog_document_scope_unverified');
+  });
+  it('scopes OneTrust fragments before recursion without importing adjacent notice sections', () => {
+    const html = `<html lang="en"><main><div class="otnotice-content"><h1>Privacy Policy</h1><h2 id="data">Data use</h2><p>${'We keep account records only with valid consent. '.repeat(8)}</p><h2>Other terms</h2><p>${'UNRELATED TERMS MUST STAY OUTSIDE THE REQUESTED FRAGMENT. '.repeat(8)}</p></div></main></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl + '#data');
+    expect(body.document.text).toContain('We keep account records only with valid consent.');
+    expect(body.document.text).not.toContain('UNRELATED TERMS');
+    expect(body.document.text).not.toContain('# Privacy Policy');
+  });
+  it('does not hold site chrome outside the document, and accepts an exact reviewed in-document exclusion', () => {
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><aside id="ui">Related links</aside><h2>Contact</h2><p>${contract.terminalText}</p></main><footer>Site copyright</footer></html>`;
+    const $ = load(html);
+    const reviewed = parseSourceContract({ ...contract, reviewedExclusions: [{ selector: '#ui', htmlSha256: digest($.html($('#ui'))), purpose: 'non_document_ui', reviewNote: 'Reviewed these exact related navigation links as interface content.' }] });
+    expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl, undefined, reviewed), reviewed, fixtureUrl).eligible).toBe(true);
+    expect(acquisition.assessCapture(acquisition.extractEngineBody(html.replace('Related links', 'New clause'), fixtureUrl, undefined, reviewed), reviewed, fixtureUrl).eligible).toBe(false);
+  });
   it('requires resolved model identities and normalizes provider prefixes for verifier separation', () => {
     expect(validateModelPair(receipt, undefined)).toEqual(['verification_model_identity_missing']);
     expect(validateModelPair(receipt, { ...receipt, model: '   ' })).toEqual(['verification_model_identity_missing']);
@@ -309,6 +368,20 @@ describe('V6 evidence contracts', () => {
 });
 
 describe('V6 persistence, fencing and publication', () => {
+  it('persists removed-content uncertainty as a hard review gate before baseline, models or notifications', async () => {
+    const policy = await seed();
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 60 days.</p><aside>Except that account records may be sold.</aside><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const transport = vi.fn<import('../engine/acquisition').Transport>(async () => ({ ok: true, html, status: 200, finalUrl: fixtureUrl, error: '', validators: { etag: 'uncertain-v1' } }));
+    await run('removed-content-review'); await drain({ acquire: input => acquisition.acquire(input, transport) });
+    expect(transport).toHaveBeenCalledTimes(3);
+    expect(analysis.analyze).not.toHaveBeenCalled(); expect(analysis.verify).not.toHaveBeenCalled();
+    expect(await database.policyChange.count()).toBe(0); expect(await database.engineOutbox.count()).toBe(0);
+    expect(await database.engineHttpCache.count()).toBe(0);
+    expect((await database.policy.findUniqueOrThrow({ where: { id: policy.id } })).currentHash).toBe(digest(oldText));
+    const review = await database.engineReview.findFirstOrThrow({ where: { policyId: policy.id, status: 'pending' } });
+    expect(JSON.parse(review.reasonsJson)).toContain('removed_document_content_unreviewed');
+    await expect(pipeline.approveReview(review.id, 'Human approval must not waive omitted unreviewed source text.', 'fixture-admin')).rejects.toThrow('review_hard_gate_unresolved');
+  });
   it('holds a change when the verifier resolves to the same model as the analyst', async () => {
     const policy = await seed();
     const provider = { ...analysis, verify: async (input: AnalysisInput, claims: ClaimSet) => {
@@ -472,6 +545,29 @@ describe('V6 representation cache and source fallback', () => {
   const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
   const makeInput = (): TaskInput => ({ mode: 'publish', sourceUrl: fixtureUrl, scopeHash: 'fixture', baselineHash: digest(oldText), profileHash: store.engineExtractionProfileHash(fixtureUrl),
     contractHash: digest(JSON.stringify(contract)), contract, forceFresh: false, origin: 'https://example.com' });
+  it('timestamps each successful response after transport completion, including fallback', async () => {
+    let receivedAt = 0;
+    const transport = vi.fn<import('../engine/acquisition').Transport>(async (_url, source) => {
+      await new Promise(resolve => setTimeout(resolve, 20)); receivedAt = Date.now();
+      return { ok: source === 'http2', html: source === 'http2' ? html : '', status: source === 'http2' ? 200 : 500, finalUrl: fixtureUrl, error: '' };
+    });
+    const result = await acquisition.acquire(makeInput(), transport);
+    expect(result.eligible).toBe(true); expect(result.source).toBe('http2');
+    expect(Date.parse(result.observedAt)).toBeGreaterThanOrEqual(receivedAt);
+  });
+  it('retains an incomplete response timestamp when later transports fail', async () => {
+    let receivedAt = 0, laterFailureAt = 0;
+    const transport = vi.fn<import('../engine/acquisition').Transport>(async (_url, source) => {
+      await new Promise(resolve => setTimeout(resolve, 20));
+      if (source !== 'direct') { laterFailureAt = Date.now(); throw new Error('fixture_later_failure'); }
+      receivedAt = Date.now();
+      return { ok: true, html: html.replace('Privacy Policy', 'Other Policy'), status: 200, finalUrl: fixtureUrl, error: '' };
+    });
+    const result = await acquisition.acquire(makeInput(), transport);
+    expect(result.eligible).toBe(false); expect(result.artifactId).not.toBeNull(); expect(result.source).toBe('direct');
+    expect(Date.parse(result.observedAt)).toBeGreaterThanOrEqual(receivedAt);
+    expect(Date.parse(result.observedAt)).toBeLessThan(laterFailureAt);
+  });
   it('revalidates a complete cached representation with ETag and rejects reuse for pending candidates', async () => {
     const input = makeInput();
     const initial = vi.fn(async () => ({ ok: true, html, status: 200, finalUrl: fixtureUrl, error: '', validators: { etag: '"fixture-v1"' } }));

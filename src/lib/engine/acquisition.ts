@@ -33,7 +33,7 @@ function prepareEngineHtml(html: string, contract?: SourceContract | null) {
   const scope = 'main, article, [role="main"]';
   const originalIdCounts = new Map<string, number>();
   $('[id]').each((_, e) => { const id = $(e).attr('id')!; originalIdCounts.set(id, (originalIdCounts.get(id) || 0) + 1); });
-  const chrome = 'nav, footer, aside, [role="banner"], [role="contentinfo"], [role="dialog"], .cookie-banner, #cookie-banner, .breadcrumb, .breadcrumbs';
+  const chrome = 'nav, footer, aside, [role="banner"], [role="contentinfo"], [role="dialog"], .cookie-banner, #cookie-banner, .breadcrumb, .breadcrumbs, .nav-menu, #header, #footer, .sidebar';
   const issues: Array<{ reason: string; target: string | null; chars: number }> = [];
   const appliedExclusions: Array<{ selector: string; htmlSha256: string; reviewNote: string }> = [];
   // No blanket waiver: a reviewed UI exclusion stops matching if its DOM changes.
@@ -60,9 +60,17 @@ function prepareEngineHtml(html: string, contract?: SourceContract | null) {
   }
   $('[role="dialog"]').each((_, element) => {
     const node = $(element); const chars = node.text().replace(/\s+/g, ' ').trim().length;
-    if (node.parents(scope).length && chars > 0) issues.push({ reason: 'dialog_document_scope_unverified', target: node.attr('id') || null, chars });
+    if ((node.parents(scope).length || node.is(scope) || node.find(scope).length) && chars > 0) issues.push({ reason: 'dialog_document_scope_unverified', target: node.attr('id') || null, chars });
   });
-  // Known UI chrome is excluded consistently, including a dialog placed inside main.
+  // Tag/class names alone do not prove that text within a legal document is UI.
+  // Keep the raw body and hold until an exact, reviewed exclusion resolves it.
+  $(`${chrome}, form, iframe, noscript, svg`).not('[role="dialog"]').each((_, element) => {
+    const node = $(element); const chars = node.text().replace(/\s+/g, ' ').trim().length;
+    if (chars && (node.parents(scope).length || node.is(scope) || node.find(scope).length)) {
+      issues.push({ reason: 'removed_document_content_unreviewed', target: node.attr('id') || element.name, chars });
+    }
+  });
+  // UI chrome stays excluded from analysis, but uncertain removals cannot pass.
   $(chrome).remove();
   const retainedDisclosureIds: string[] = [];
   $('[aria-controls]').each((_, control) => {
@@ -94,6 +102,10 @@ function prepareEngineHtml(html: string, contract?: SourceContract | null) {
   let retainedDocumentHeaders = 0;
   $('header').each((_, header) => {
     const el = $(header);
+    if (el.parents(scope).length && !el.find('h1,h2,h3,h4,h5,h6').length) {
+      const chars = el.text().replace(/\s+/g, ' ').trim().length;
+      if (chars) issues.push({ reason: 'removed_document_content_unreviewed', target: el.attr('id') || 'header', chars });
+    }
     if (el.is('[role="banner"]') || el.parents(chrome).length || !el.parents(`${scope}, section`).length
         || !el.find('h1, h2, h3, h4, h5, h6').length) return;
     el.find('h1').each((_, h) => { documentTitles.add(h); });
@@ -154,7 +166,7 @@ export function extractEngineBody(html: string, sourceUrl: string, contentLangua
   if (detectBlockPage(html) || detectSoft404(html)) throw new Error('source_block_or_soft_404');
   // Identity is established by the reviewed contract, not English keyword counts.
   const prepared = prepareEngineHtml(html, contract);
-  let text = extractPolicyText(prepared.html, sourceUrl, { minimumTextLength: 100 });
+  let text = extractPolicyText(prepared.html, sourceUrl, { minimumTextLength: 100, preserveNestedBlockOrder: true });
   const scoped = Boolean(new URL(sourceUrl).hash);
   const restoredTitleFromDom = !scoped && text.length >= 100 && prepared.titles.length === 1
     && !text.split(/\r?\n/).some(line => line.replace(/^#{1,6}\s+/, '').trim() === prepared.titles[0]);
@@ -181,7 +193,7 @@ export function cacheable(result: TransportResult, sourceUrl: string): boolean {
 }
 
 export async function acquire(input: TaskInput, transport: Transport = acquireEngineTransport): Promise<Observation> {
-  const observedAt = new Date().toISOString();
+  let observedAt = new Date().toISOString();
   if (!input.contract || input.contract.sourceUrl !== input.sourceUrl) return { artifactId: null, observedAt, source: 'none', httpStatus: 0, finalUrl: input.sourceUrl,
     notModified: false, eligible: false, reasons: [input.contract ? 'source_contract_mismatch' : 'source_contract_missing'], diagnostics: [] };
   const key = digest(JSON.stringify([input.sourceUrl, input.profileHash, input.contractHash, 'engine-http-client-1']));
@@ -203,6 +215,9 @@ export async function acquire(input: TaskInput, transport: Transport = acquireEn
     try { result = await transport(input.sourceUrl, source, source === 'direct' && cachedBody && cached
       ? { etag: cached.etag || undefined, lastModified: cached.lastModified || undefined } : undefined); }
     catch { diagnostics.push({ source, status: 0, reason: 'transport_failed' }); continue; }
+    // Confirmation spacing is measured between received representations, not
+    // request starts. Each fallback response gets its own receipt timestamp.
+    observedAt = new Date().toISOString();
     lastStatus = result.status; finalUrl = result.finalUrl;
     if (result.status === 429 || result.status === 503) {
       return { artifactId: null, observedAt, source, httpStatus: result.status, finalUrl, notModified: false,
@@ -241,6 +256,6 @@ export async function acquire(input: TaskInput, transport: Transport = acquireEn
       eligible: assessment.eligible, reasons: assessment.reasons, diagnostics, cache };
   }
   if (lastCandidate) return { ...lastCandidate, diagnostics };
-  return { artifactId: null, observedAt, source: 'none', httpStatus: lastStatus, finalUrl, notModified: false,
+  return { artifactId: null, observedAt: new Date().toISOString(), source: 'none', httpStatus: lastStatus, finalUrl, notModified: false,
     eligible: false, reasons: ['live_source_unverified'], diagnostics };
 }

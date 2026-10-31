@@ -1,5 +1,6 @@
 import { extractionEvidence } from './extractionProfile';
 import * as cheerio from 'cheerio';
+import type { AnyNode, Element } from 'domhandler';
 import { lookup } from 'dns/promises';
 import { isIP } from 'net';
 import { connect } from 'http2';
@@ -1553,6 +1554,8 @@ function buildFragmentScopedHtml(
 export interface PolicyExtractionContract {
   /** Explicitly reviewed source minimum. Marker and block-page gates still apply. */
   minimumTextLength?: number;
+  /** Engine 6 opt-in: preserve own-text runs around nested semantic blocks. */
+  preserveNestedBlockOrder?: boolean;
 }
 
 function extractionMinimum(contract: PolicyExtractionContract): number | null {
@@ -1588,7 +1591,7 @@ export function extractPolicyText(html: string, sourceUrl?: string, contract: Po
   // policy-class matching otherwise selects the picker and loses the notice.
   const notice = $('.otnotice-content');
   if (notice.length === 1 && notice.text().trim().length >= MIN_TEXT_LENGTH) {
-    return extractPolicyText(`<main>${notice.html()}</main>`);
+    return extractPolicyText(`<main>${notice.html()}</main>`, undefined, contract);
   }
 
   const mainSelectors = [
@@ -1624,9 +1627,48 @@ export function extractPolicyText(html: string, sourceUrl?: string, contract: Po
 
   // Extract structured text from semantic leaf blocks. Avoid generic div/span
   // selectors: they overlap with child paragraphs and duplicate whole sections.
-  $target.find('h1, h2, h3, h4, h5, h6, p, li, table, dt, dd, blockquote').each((_, element) => {
+  const semantic = 'h1, h2, h3, h4, h5, h6, p, li, table, dt, dd, blockquote';
+  type Entry = { element: Element; ownText?: string };
+  let entries: Entry[] = $target.find(semantic).toArray().map(element => ({ element }));
+  if (contract.preserveNestedBlockOrder) {
+    entries = [];
+    function visitChildren(parent: AnyNode, owner?: Element) {
+      if (!('children' in parent)) return;
+      let run: AnyNode[] = [];
+      function flush() {
+        const ownText = $(run).text().replace(/\s+/g, ' ').trim();
+        if (owner && ownText) entries.push({ element: owner, ownText });
+        run = [];
+      }
+      function visit(nodes: AnyNode[]) {
+        for (const child of nodes) {
+          if (child.type === 'comment') continue;
+          if (child.type === 'text') { run.push(child); continue; }
+          const el = $(child);
+          if (el.is(semantic)) {
+            flush();
+            if (el.is('table') || !el.find(semantic).length) entries.push({ element: child as Element });
+            else visitChildren(child, child as Element);
+          } else if (el.find(semantic).length && 'children' in child) {
+            // A layout wrapper does not split a single leading/trailing run.
+            visit(child.children);
+          } else run.push(child);
+        }
+      }
+      visit(parent.children);
+      flush();
+    }
+    $target.each((_, element) => {
+      if (!$(element).is(semantic)) visitChildren(element);
+      else if ($(element).is('table') || !$(element).find(semantic).length) entries.push({ element });
+      else visitChildren(element, element);
+    });
+  }
+  const emittedListItems = new Set<AnyNode>();
+  entries.forEach(({ element, ownText: orderedText }) => {
     const $el = $(element);
     const tag = element.tagName.toLowerCase();
+    const listItem = contract.preserveNestedBlockOrder ? $el.closest('li')[0] : undefined;
     if ($el.parents('table').length) return;
     if (tag === 'table') {
       // Cell position and repeated/short values are evidence, including "No".
@@ -1643,19 +1685,23 @@ export function extractPolicyText(html: string, sourceUrl?: string, contract: Po
       return;
     }
     // Skip overlapping containers, preserving their own text when present.
-    if ($el.find('p, li, table, blockquote, dt, dd').length) {
+    if (orderedText === undefined && $el.find('p, li, table, blockquote, dt, dd').length) {
       const own = $el.clone();
       own.find('p, li, table, blockquote, dt, dd').remove();
       const ownText = own.text().replace(/\s+/g, ' ').trim();
       if (ownText) blocks.push(tag === 'li' ? `- ${ownText}` : `\n${ownText}\n`);
       return;
     }
-    const text = $el.text().trim().replace(/\s+/g, ' ');
+    const text = orderedText ?? $el.text().trim().replace(/\s+/g, ' ');
     if (!text) return;
     if (tag.startsWith('h')) {
       const level = parseInt(tag.substring(1));
       blocks.push(`\n${'#'.repeat(level)} ${text}\n`);
-    } else if (tag === 'li') {
+      if (listItem) emittedListItems.add(listItem);
+    } else if (listItem && !emittedListItems.has(listItem)) {
+      emittedListItems.add(listItem);
+      blocks.push(`- ${text}`);
+    } else if (tag === 'li' && !contract.preserveNestedBlockOrder) {
       blocks.push(`- ${text}`);
     } else {
       blocks.push(`\n${text}\n`);
