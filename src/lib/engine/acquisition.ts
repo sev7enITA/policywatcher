@@ -1,4 +1,5 @@
 import { load } from 'cheerio';
+import type { AnyNode } from 'domhandler';
 import { acquireEngineTransport, hasLiveHostDrift, hasLivePathDrift, extractPolicyText, detectBlockPage, detectSoft404, type TransportResult } from '../scraper';
 import { db } from '../db';
 import { digest, normalized, structureDocument, assessDocument, type SourceContract, type StructuredDocument } from './document';
@@ -6,7 +7,7 @@ import { DAILY_MS, putArtifact, readArtifact, type TaskInput, type Tx } from './
 
 export interface CaptureBody {
   html: string; document: StructuredDocument; language?: string;
-  extraction?: { retainedDisclosureIds: string[]; retainedDocumentHeaders: number; restoredTitleFromDom: boolean; issues?: Array<{ reason: string; target: string | null; chars: number }>;
+  extraction?: { retainedDisclosureIds: string[]; retainedDocumentHeaders: number; restoredTitleFromDom: boolean; retainedUnstructuredRuns?: number; issues?: Array<{ reason: string; target: string | null; chars: number }>;
     reviewedExclusionHash?: string; appliedExclusions?: Array<{ selector: string; htmlSha256: string; reviewNote: string }> };
 }
 export interface Observation {
@@ -59,7 +60,7 @@ function prepareEngineHtml(html: string, contract?: SourceContract | null) {
   }
   $('[role="dialog"]').each((_, element) => {
     const node = $(element); const chars = node.text().replace(/\s+/g, ' ').trim().length;
-    if (node.parents(scope).length && chars >= 100) issues.push({ reason: 'dialog_document_scope_unverified', target: node.attr('id') || null, chars });
+    if (node.parents(scope).length && chars > 0) issues.push({ reason: 'dialog_document_scope_unverified', target: node.attr('id') || null, chars });
   });
   // Known UI chrome is excluded consistently, including a dialog placed inside main.
   $(chrome).remove();
@@ -85,7 +86,9 @@ function prepareEngineHtml(html: string, contract?: SourceContract | null) {
     const el = $(node);
     if (el.parents('header, svg, [aria-hidden="true"]').length) return;
     const chars = el.text().replace(/\s+/g, ' ').trim().length;
-    if (chars >= 100) issues.push({ reason: 'hidden_document_content_unresolved', target: el.attr('id') || null, chars });
+    // A short negation or exception can reverse a clause. Length is not a safe
+    // completeness waiver inside the document; exact UI exclusions remain reviewed.
+    if (chars >= 100 || (chars > 0 && el.parents(scope).length)) issues.push({ reason: 'hidden_document_content_unresolved', target: el.attr('id') || null, chars });
   });
   const documentTitles = new Set<unknown>();
   let retainedDocumentHeaders = 0;
@@ -105,7 +108,46 @@ function prepareEngineHtml(html: string, contract?: SourceContract | null) {
   const titles = $('h1').filter((_, heading) => !$(heading).parents(`${chrome}, header, [aria-hidden="true"]`).length
       && ($(heading).parents(scope).length > 0 || documentTitles.has(heading)))
     .map((_, heading) => $(heading).text().replace(/\s+/g, ' ').trim()).get().filter(Boolean);
-  return { html: $.html(), titles: [...new Set(titles)], retainedDisclosureIds, retainedDocumentHeaders, issues, appliedExclusions };
+  // Preserve loose inline runs as complete paragraphs, in DOM order. Selecting
+  // only existing p/li elements loses real clauses in div/span and legal dates.
+  // Wrapping every text node separately would break qualifiers and duplicate text.
+  const semantic = 'h1,h2,h3,h4,h5,h6,p,li,table,dt,dd,blockquote';
+  const boundaries = `${semantic},div,section,article,main,details,summary,pre,figure,figcaption,dl,ul,ol,[role="main"]`;
+  const excluded = `${chrome},header,script,style,iframe,noscript,svg,form,button,[role="button"],select,[role="combobox"],.nav-menu,#header,#footer,.sidebar,[aria-hidden="true"]`;
+  let retainedUnstructuredRuns = 0;
+  function preserveRuns(node: AnyNode) {
+    if (!('children' in node)) return;
+    const el = $(node);
+    if (el.is(excluded)) return;
+    if (el.is('table')) {
+      el.children('caption').each((_, caption) => {
+        const text = $(caption).text().replace(/\s+/g, ' ').trim();
+        if (text) { el.before($('<p></p>').text(text)); retainedUnstructuredRuns++; }
+      });
+      return;
+    }
+    if (el.is(semantic)) { el.find('table').each((_, table) => { preserveRuns(table); }); return; }
+    let run: AnyNode[] = [];
+    function flush() {
+      if (run.length && $(run).text().trim()) {
+        $(run).wrapAll('<p></p>'); retainedUnstructuredRuns++;
+      }
+      run = [];
+    }
+    for (const child of [...node.children]) {
+      if (child.type === 'comment') continue;
+      if (child.type !== 'text' && $(child).is(excluded)) { flush(); continue; }
+      if (child.type !== 'text' && ($(child).is(boundaries) || $(child).find(boundaries).length)) {
+        flush(); preserveRuns(child);
+      } else run.push(child);
+    }
+    flush();
+  }
+  const roots = $(scope).filter((_, node) => !$(node).parents(scope).length);
+  if (!roots.length) issues.push({ reason: 'document_scope_unverified', target: null, chars: 0 });
+  else if (roots.length > 1) issues.push({ reason: 'document_scope_ambiguous', target: null, chars: 0 });
+  roots.each((_, node) => { preserveRuns(node); });
+  return { html: $.html(), titles: [...new Set(titles)], retainedDisclosureIds, retainedDocumentHeaders, retainedUnstructuredRuns, issues, appliedExclusions };
 }
 export function extractEngineBody(html: string, sourceUrl: string, contentLanguage?: string, contract?: SourceContract | null): CaptureBody {
   if (Buffer.byteLength(html) > 5_000_000) throw new Error('response_body_too_large');
@@ -120,7 +162,7 @@ export function extractEngineBody(html: string, sourceUrl: string, contentLangua
   if (text.length < 100 || text.length > 500_000) throw new Error('extraction_size_out_of_bounds');
   const language = load(html)('html').attr('lang') || contentLanguage;
   return { html, document: structureDocument(text), ...(language ? { language } : {}),
-    extraction: { retainedDisclosureIds: prepared.retainedDisclosureIds, retainedDocumentHeaders: prepared.retainedDocumentHeaders, restoredTitleFromDom, issues: prepared.issues, appliedExclusions: prepared.appliedExclusions,
+    extraction: { retainedDisclosureIds: prepared.retainedDisclosureIds, retainedDocumentHeaders: prepared.retainedDocumentHeaders, retainedUnstructuredRuns: prepared.retainedUnstructuredRuns, restoredTitleFromDom, issues: prepared.issues, appliedExclusions: prepared.appliedExclusions,
       reviewedExclusionHash: digest(JSON.stringify(contract?.reviewedExclusions || [])) } };
 }
 /** Extraction uncertainty is a hard evidence gate, including cached/replayed bodies. */

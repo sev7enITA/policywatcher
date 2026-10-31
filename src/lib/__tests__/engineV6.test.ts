@@ -6,7 +6,7 @@ import { execFileSync } from 'node:child_process';
 import { PrismaClient } from '@prisma/client';
 import { load } from 'cheerio';
 import { digest, structureDocument, compareDocuments, assessDocument, parseSourceContract, type SourceContract } from '../engine/document';
-import { validateClaims, validateVerification, modelEvidence, CLAIM_SCHEMA, type AnalysisInput, type ClaimSet, type AnalysisProvider } from '../engine/claims';
+import { validateClaims, validateVerification, validateModelPair, engineModelPair, modelEvidence, CLAIM_SCHEMA, type AnalysisInput, type ClaimSet, type AnalysisProvider } from '../engine/claims';
 import type { CaptureBody, Observation } from '../engine/acquisition';
 import type { TaskInput } from '../engine/store';
 
@@ -80,6 +80,54 @@ beforeEach(async () => {
 afterAll(async () => { await database.$disconnect(); await otherClient.$disconnect(); vi.unstubAllEnvs(); rmSync(dir, { recursive: true, force: true }); });
 
 describe('V6 evidence contracts', () => {
+  it('requires an explicit distinct model configuration before any paid inference', () => {
+    try {
+      vi.stubEnv('POLICYWATCHER_ENGINE_ANALYST_MODEL', ''); vi.stubEnv('POLICYWATCHER_ENGINE_VERIFIER_MODEL', '');
+      expect(engineModelPair).toThrow('analysis_model_configuration_required');
+      vi.stubEnv('POLICYWATCHER_ENGINE_ANALYST_MODEL', 'test-analyst'); vi.stubEnv('POLICYWATCHER_ENGINE_VERIFIER_MODEL', 'models/TEST-ANALYST');
+      expect(engineModelPair).toThrow('analysis_model_pair_not_independent');
+      vi.stubEnv('POLICYWATCHER_ENGINE_VERIFIER_MODEL', 'https://unapproved.invalid/model');
+      expect(engineModelPair).toThrow('analysis_model_configuration_invalid');
+      vi.stubEnv('POLICYWATCHER_ENGINE_VERIFIER_MODEL', 'test-verifier');
+      expect(engineModelPair()).toEqual({ analyst: 'test-analyst', verifier: 'test-verifier' });
+    } finally { vi.unstubAllEnvs(); }
+  });
+  it('retains interleaved unstructured clauses and inline qualifiers in document order without duplication', () => {
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><div>Effective <span>October 31, 2026</span>.</div><h2>Data use</h2><p>We keep account records for 30 days.</p><div>We may use <a href="/definitions">account data</a> <strong>only with consent.</strong><section><p>We do not sell medical records.</p></section>Except where a court requires disclosure.</div><pre>Example: request denied.</pre><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    const clauses = ['Effective October 31, 2026.', 'We may use account data only with consent.', 'We do not sell medical records.', 'Except where a court requires disclosure.', 'Example: request denied.'];
+    let previous = -1;
+    for (const clause of clauses) {
+      expect(body.document.text.split(clause)).toHaveLength(2);
+      const at = body.document.text.indexOf(clause); expect(at).toBeGreaterThan(previous); previous = at;
+    }
+    expect(body.html).toBe(html);
+    expect(acquisition.assessCapture(body, contract, fixtureUrl).eligible).toBe(true);
+  });
+  it('retains table captions and native disclosure summaries without duplicating rows', () => {
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><p>${'Context about the policy and the scope of these terms. '.repeat(3)}</p><table><caption>Adults only</caption><tr><th>Purpose</th><th>Consent</th></tr><tr><td>Training</td><td>No</td></tr></table><details><summary>Exception for children</summary><p>Training is never allowed for children.</p></details></main></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    for (const clause of ['Adults only', '| Training | No |', 'Exception for children', 'Training is never allowed for children.']) expect(body.document.text.split(clause)).toHaveLength(2);
+    expect(body.document.text.indexOf('Adults only')).toBeLessThan(body.document.text.indexOf('| Purpose | Consent |'));
+  });
+  it('holds an otherwise matching page without an explicit document boundary', () => {
+    const html = `<html lang="en"><body><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><div>We sell personal data.</div><h2>Contact</h2><p>${contract.terminalText}</p></body></html>`;
+    expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl), contract, fixtureUrl).reasons).toContain('document_scope_unverified');
+  });
+  it('holds multiple disconnected document roots instead of silently choosing only the longest', () => {
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main><article><p>Except that account data may be sold.</p></article></html>`;
+    expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl), contract, fixtureUrl).reasons).toContain('document_scope_ambiguous');
+  });
+  it('retains a table caption nested inside a semantic list item', () => {
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><p>${'Context about the policy and the scope of these terms. '.repeat(3)}</p><ul><li>Uses:<table><caption>Adults only</caption><tr><th>Purpose</th><th>Consent</th></tr><tr><td>Training</td><td>No</td></tr></table></li></ul></main></html>`;
+    expect(acquisition.extractEngineBody(html, fixtureUrl).document.text.split('Adults only')).toHaveLength(2);
+  });
+  it('requires resolved model identities and normalizes provider prefixes for verifier separation', () => {
+    expect(validateModelPair(receipt, undefined)).toEqual(['verification_model_identity_missing']);
+    expect(validateModelPair(receipt, { ...receipt, model: '   ' })).toEqual(['verification_model_identity_missing']);
+    expect(validateModelPair(receipt, { ...receipt, model: `  models/${receipt.model.toUpperCase()}  ` })).toEqual(['verification_model_not_independent']);
+    expect(validateModelPair(receipt, { ...receipt, model: 'independent-test-provider' })).toEqual([]);
+  });
   it('retains a document header without importing the site banner', () => {
     const html = `<html lang="en"><header><h1>Site navigation</h1></header><main><article><header><h1>Privacy Policy</h1><nav>Document navigation links</nav></header><h2>Data use</h2><p>${'We retain records only for the documented purpose. '.repeat(4)}</p></article></main></html>`;
     const body = acquisition.extractEngineBody(html, fixtureUrl);
@@ -142,6 +190,16 @@ describe('V6 evidence contracts', () => {
     const brand = acquisition.extractEngineBody(`<html lang="en"><h1>ACME</h1><main>${content}</main></html>`, fixtureUrl);
     expect(brand.document.text).not.toContain('ACME');
     expect(brand.extraction?.restoredTitleFromDom).toBe(false);
+  });
+  it.each(['We sell data.', 'Non vendiamo dati.', 'No.'])('holds short unresolved legal text inside the document: %s', clause => {
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><div aria-hidden="true"><p>${clause}</p></div><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    expect(acquisition.assessCapture(body, contract, fixtureUrl).eligible).toBe(false);
+    expect(body.extraction?.issues?.map(i => i.reason)).toContain('hidden_document_content_unresolved');
+  });
+  it('holds a short unreviewed dialog inside the legal document', () => {
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><div role="dialog"><p>You waive class actions.</p></div><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl), contract, fixtureUrl).reasons).toContain('dialog_document_scope_unverified');
   });
   it('does not lose duplicate-ID ambiguity when the other ID is in removed chrome', () => {
     const html = `<html lang="en"><main><h1>Privacy Policy</h1><p>${'The visible policy is long enough for bounded extraction. '.repeat(4)}</p><button aria-controls="details" aria-expanded="false">Details</button><div id="details" aria-hidden="true"><p>Hidden clause</p></div></main><footer><div id="details">Duplicate target</div></footer></html>`;
@@ -241,9 +299,30 @@ describe('V6 evidence contracts', () => {
     const claims = grounded(input); claims.claims[0].textEn = 'The new terms are effective October 29, 2026.';
     expect(validateClaims(claims, input).reasons).toContain('date_role_unsubstantiated');
   });
+  it.each(['La legge applicabile è quella irlandese.', 'Il cliente ci manleva dalle pretese di terzi.', 'La giurisdizione esclusiva è irlandese.'])('routes sensitive Italian obligations to review despite a low model score: %s', clause => {
+    const old = structureDocument('# Condizioni\n\nSi applicano le condizioni precedenti.');
+    const next = structureDocument(`# Condizioni\n\n${clause}`);
+    const input = { old, next, deltas: compareDocuments(old, next).deltas };
+    const claims = grounded(input); claims.claims[0].impact = 1;
+    expect(validateClaims(claims, input).highImpact).toBe(true);
+  });
 });
 
 describe('V6 persistence, fencing and publication', () => {
+  it('holds a change when the verifier resolves to the same model as the analyst', async () => {
+    const policy = await seed();
+    const provider = { ...analysis, verify: async (input: AnalysisInput, claims: ClaimSet) => {
+      const verified = await analysis.verify(input, claims);
+      return { ...verified, receipt: { ...verified.receipt, model: `models/${receipt.model}` } };
+    } };
+    await run('same-model-first'); await drain({ analysis: provider });
+    await readySecond(policy.id); await run('same-model-second'); await drain({ analysis: provider });
+    expect(await database.policyChange.count()).toBe(0);
+    expect(await database.engineOutbox.count()).toBe(0);
+    const review = await database.engineReview.findFirstOrThrow({ where: { policyId: policy.id, status: 'pending' } });
+    expect(JSON.parse(review.reasonsJson)).toContain('verification_model_not_independent');
+    await expect(pipeline.approveReview(review.id, 'Human review cannot waive the missing independent model.', 'fixture-admin')).rejects.toThrow('review_hard_gate_unresolved');
+  });
   it('deduplicates shared fetches and idempotency keys', async () => {
     await seed('a'); await seed('b');
     const first = await run('same-request'); const second = await run('same-request');

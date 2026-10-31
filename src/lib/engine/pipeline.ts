@@ -4,7 +4,7 @@ import { db } from '../db';
 import { dualWriteCanonicalPolicyGraph } from '../documentEvidenceSync';
 import { acquire, assessCapture, extractEngineBody, saveRepresentation, type Observation, type CaptureBody } from './acquisition';
 import { digest, structureDocument, compareDocuments, ENGINE_SCHEMA } from './document';
-import { liveAnalysis, validateClaims, validateVerification, type AnalysisProvider, type AnalysisInput, type ClaimSet,
+import { liveAnalysis, validateClaims, validateVerification, validateModelPair, type AnalysisProvider, type AnalysisInput, type ClaimSet,
   type ModelOutput, type Verification } from './claims';
 import { advanceTask, claimTask, failTask, fenced, finishTask, heartbeat, putArtifact, readArtifact, reconcileRun,
   policyScopeHash, stateKey, engineExtractionProfileHash, DAILY_MS, CONFIRMATION_MS, MAX_ATTEMPTS, type Lease, type TaskInput, type Tx } from './store';
@@ -253,7 +253,8 @@ async function processTask(lease: Lease, dependencies: EngineDependencies) {
     return advanceTask(lease, 'commit', checkpoint);
   }
   if (lease.stage !== 'commit') throw new Error('unknown_engine_stage');
-  const reasons = validateVerification(checkpoint.verification?.value, validation.claims);
+  const reasons = [...validateVerification(checkpoint.verification?.value, validation.claims),
+    ...validateModelPair(checkpoint.analysis?.receipt, checkpoint.verification?.receipt)];
   if (validation.highImpact) reasons.push('high_impact_review_required');
   if (Date.now() - Date.parse(checkpoint.observation.observedAt) > 2 * DAILY_MS) reasons.push('evidence_stale');
   if (reasons.length) return hold(lease, checkpoint.observation, reasons, checkpoint);
@@ -334,6 +335,7 @@ export async function approveReview(id: string, note: string, actor: string) {
   const body = await readArtifact<CaptureBody>(payload.checkpoint.observation.artifactId!);
   const validated = validateClaims(payload.checkpoint.analysis?.value, evidence);
   if (!validated.claims || validated.reasons.length || validateVerification(payload.checkpoint.verification?.value, validated.claims).length
+    || validateModelPair(payload.checkpoint.analysis?.receipt, payload.checkpoint.verification?.receipt).length
     || Date.now() - Date.parse(payload.checkpoint.observation.observedAt) > 2 * DAILY_MS) throw new Error('review_hard_gate_unresolved');
   return db.$transaction(async tx => {
     const task = await tx.engineTask.findUniqueOrThrow({ where: { id: review.taskId } });

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "engine:worker": "tsx scripts/engine-worker.ts",
-    "engine:test": "vitest run src/lib/__tests__/engineV6.test.ts src/lib/__tests__/engineAuditRegression.test.ts",
+    "engine:test": "vitest run src/lib/__tests__/engineV6.test.ts src/lib/__tests__/engineAuditRegression.test.ts src/lib/__tests__/engineModelRuntime.test.ts",
     "dev": "next dev",
     "build": "node scripts/hostinger-managed-build.mjs",
     "postinstall": "node scripts/prisma-active-schema.mjs generate && node scripts/hostinger-postinstall-db.mjs",
