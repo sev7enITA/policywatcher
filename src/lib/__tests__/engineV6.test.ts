@@ -414,6 +414,27 @@ describe('V6 evidence contracts', () => {
 });
 
 describe('V6 persistence, fencing and publication', () => {
+  it('reconciles terminal runs left behind by a crash after the last task transaction', async () => {
+    await seed();
+    const interrupted = await run('crash-before-run-reconciliation', 'observe');
+    await database.engineRun.update({ where: { id: interrupted.id }, data: { status: 'running' } });
+    // Persisted state at the crash boundary: task commit succeeded, run commit did not.
+    await database.engineTask.updateMany({ where: { runId: interrupted.id }, data: { status: 'failed', completedAt: new Date(), activePolicyId: null } });
+    await store.recoverExpiredTasks();
+    expect((await database.engineRun.findUniqueOrThrow({ where: { id: interrupted.id } })).status).toBe('completed_with_errors');
+    expect(await store.claimTask()).toBeNull();
+    expect(await database.policyChange.count()).toBe(0);
+  });
+  it('reconciles successful orphan runs but preserves active and cancelled runs', async () => {
+    await seed(); const successful = await run('completed-before-crash', 'observe');
+    await database.engineTask.updateMany({ where: { runId: successful.id }, data: { status: 'completed', activePolicyId: null } });
+    const active = await run('still-active', 'observe');
+    const cancelled = await database.engineRun.create({ data: { requestKey: 'already-cancelled', requestedBy: 'fixture', status: 'cancelled' } });
+    await store.recoverExpiredTasks();
+    expect((await database.engineRun.findUniqueOrThrow({ where: { id: successful.id } })).status).toBe('completed');
+    expect((await database.engineRun.findUniqueOrThrow({ where: { id: active.id } })).status).toBe('queued');
+    expect((await database.engineRun.findUniqueOrThrow({ where: { id: cancelled.id } })).status).toBe('cancelled');
+  });
   it('persists removed-content uncertainty as a hard review gate before baseline, models or notifications', async () => {
     const policy = await seed();
     const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 60 days.</p><aside>Except that account records may be sold.</aside><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;

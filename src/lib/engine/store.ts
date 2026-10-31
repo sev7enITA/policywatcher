@@ -103,11 +103,20 @@ export async function recoverExpiredTasks(now = new Date()) {
         data: { status: 'expired', reason: 'lease_expired', endedAt: now } });
       if (terminal) await terminalFailure(tx, task, 'lease_attempts_exhausted');
     });
-    await reconcileRun(task.runId);
   }
   const failedDependencies = await db.engineTask.findMany({ where: { kind: 'fetch', status: { in: ['failed', 'completed'] },
     run: { status: { in: ['queued', 'running'] } } }, select: { id: true } });
   if (failedDependencies.length) await db.engineTask.updateMany({ where: { status: 'blocked', dependencyId: { in: failedDependencies.map(d => d.id) } }, data: { status: 'queued' } });
+  // A process can die after the final task commits but before run reconciliation.
+  // Sweep persisted terminal runs even when no lease expired in this invocation.
+  // Predicates are checked in each UPDATE, rather than using a stale task snapshot.
+  const terminal = ['completed', 'failed', 'cancelled'];
+  await db.engineRun.updateMany({ where: { status: { in: ['queued', 'running'] },
+    tasks: { none: { status: { notIn: terminal } }, some: { status: 'failed' } } },
+    data: { status: 'completed_with_errors', completedAt: now } });
+  await db.engineRun.updateMany({ where: { status: { in: ['queued', 'running'] },
+    tasks: { none: { status: { notIn: ['completed', 'cancelled'] } } } },
+    data: { status: 'completed', completedAt: now } });
 }
 
 export async function claimTask(): Promise<Lease | null> {
