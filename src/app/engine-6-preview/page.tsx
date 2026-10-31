@@ -72,8 +72,11 @@ const copy = {
     nextText: 'Before live activation, qualification needs an annotated corpus and at least three complete daily windows. The target is up to 500 policies per day; reliability and coverage take priority.',
     qualification: ['Source identity and completeness', 'False change alerts and unsupported claims', 'Retrieval coverage, retries and latency', 'Model tokens and cost per changed document', 'Evidence growth, backup and restore'],
     limits: 'OCR for scanned PDFs, general PDF structure recovery, automatic source-contract onboarding and automatic evidence pruning are outside this preview. Ambiguous documents remain in review.',
-    downloads: 'Download diagram', textVersion: 'Read the diagram as text', source: 'Diagram source',
+    downloads: 'Download diagram', textVersion: 'Read the diagram as text', fullSize: 'Open full size', newTab: 'opens in a new tab',
+    tableHint: 'Scroll horizontally to read every column. Keyboard: focus the table area and use the arrow keys.',
+    diagramLegends: ['Official inputs, private working evidence and the publication boundary.', 'Green: verified outcomes. Amber: waiting or review.', 'Solid: database foreign keys. Dashed: application references.'],
     related: 'Continue exploring', links: ['Method and confidence', 'Trust and quality', 'Product roadmap'],
+    relatedLanguage: 'These reference pages open in English. The methodology page also offers an Italian language switch.',
     footerNote: 'A public record of an experiment. Status will change only as new verification evidence is recorded.',
   },
   it: {
@@ -139,8 +142,11 @@ const copy = {
     nextText: 'Prima dell’attivazione live servono un corpus annotato e almeno tre finestre giornaliere complete. L’obiettivo è fino a 500 policy al giorno, con affidabilità e copertura prioritarie.',
     qualification: ['Identità e completezza delle fonti', 'Falsi cambiamenti e affermazioni non supportate', 'Copertura, retry e latenza del recupero', 'Token e costo per documento modificato', 'Crescita delle prove, backup e ripristino'],
     limits: 'OCR dei PDF scansiti, ricostruzione generale della struttura PDF, configurazione automatica dei contratti di fonte e cancellazione automatica delle prove sono fuori da questa preview. I documenti ambigui restano in revisione.',
-    downloads: 'Scarica il diagramma', textVersion: 'Leggi il diagramma in forma testuale', source: 'Sorgente del diagramma',
+    downloads: 'Scarica il diagramma', textVersion: 'Leggi il diagramma in forma testuale', fullSize: 'Apri a piena dimensione', newTab: 'si apre in una nuova scheda',
+    tableHint: 'Scorri in orizzontale per leggere tutte le colonne. Da tastiera: seleziona l’area della tabella e usa le frecce.',
+    diagramLegends: ['Fonti ufficiali, prove di lavoro private e confine di pubblicazione.', 'Verde: esiti verificati. Ambra: attesa o revisione.', 'Continua: chiavi esterne nel DB. Tratteggiata: riferimenti applicativi.'],
     related: 'Continua a esplorare', links: ['Metodo e confidence', 'Qualità e fiducia', 'Roadmap del prodotto'],
+    relatedLanguage: 'Questi approfondimenti si aprono in inglese. La metodologia offre anche un selettore per la lingua italiana.',
     footerNote: 'Un resoconto pubblico di una sperimentazione. Lo stato cambierà con la registrazione di nuove prove di verifica.',
   },
 };
@@ -159,8 +165,11 @@ export default async function EnginePreviewPage({ searchParams }: Props) {
     <figure className={styles.diagram}>
       <Image src={`/engine-6-preview/${name}-${lang}.svg`} alt={alt} width={width} height={height} unoptimized />
       <figcaption>
-        <span>{lang === 'it' ? 'Schema della preview locale · 31 ottobre 2026' : 'Local preview schematic · 31 October 2026'}</span>
-        <a href={`/engine-6-preview/${name}-${lang}.svg`} download><Download size={15} aria-hidden="true" />{t.downloads} <span className={styles.format}>SVG</span></a>
+        <span>{t.diagramLegends[['architecture', 'decision-flow', 'entities'].indexOf(name)]}</span>
+        <div className={styles.diagramActions}>
+          <a href={`/engine-6-preview/${name}-${lang}.svg`} target="_blank" rel="noopener noreferrer" aria-label={`${t.fullSize} (${t.newTab})`}>{t.fullSize}<ArrowUpRight size={15} aria-hidden="true" /></a>
+          <a href={`/engine-6-preview/${name}-${lang}.svg`} download><Download size={15} aria-hidden="true" />{t.downloads} <span className={styles.format}>SVG</span></a>
+        </div>
       </figcaption>
     </figure>
   );
@@ -191,13 +200,14 @@ export default async function EnginePreviewPage({ searchParams }: Props) {
       </section>
       <section className={styles.section} id="entities" aria-labelledby="entities-title"><div className={styles.sectionHeading}><p className={styles.eyebrow}>03 / {t.nav[2]}</p><h2 id="entities-title">{t.erTitle}</h2><p>{t.erIntro}</p></div>
         {diagram('entities', t.erAlt, 1200, 840)}
-        <div className={styles.tableWrap}><table><caption>{t.erTitle}</caption><thead><tr><th scope="col">{t.entity}</th><th scope="col">{t.responsibility}</th><th scope="col">{t.relationship}</th></tr></thead><tbody>{t.entities.map(([entity, responsibility, relationship]) => <tr key={entity}><th scope="row">{entity}</th><td>{responsibility}</td><td>{relationship}</td></tr>)}</tbody></table></div>
+        <p className={styles.tableHint} id="entities-scroll-hint">{t.tableHint} <span aria-hidden="true">↔</span></p>
+        <div className={styles.tableWrap} role="region" aria-labelledby="entities-title" aria-describedby="entities-scroll-hint" tabIndex={0}><table><caption>{t.erTitle}</caption><thead><tr><th scope="col">{t.entity}</th><th scope="col">{t.responsibility}</th><th scope="col">{t.relationship}</th></tr></thead><tbody>{t.entities.map(([entity, responsibility, relationship]) => <tr key={entity}><th scope="row">{entity}</th><td>{responsibility}</td><td>{relationship}</td></tr>)}</tbody></table></div>
       </section>
       <section className={styles.section} id="validation" aria-labelledby="validation-title"><div className={styles.sectionHeading}><p className={styles.eyebrow}>04 / {t.nav[3]}</p><h2 id="validation-title">{t.ledgerTitle}</h2><p>{t.ledgerIntro}</p></div>
         <div className={styles.ledger}>{t.checks.map(([check, result, limit]) => <article key={check}><h3>{check}</h3><div><strong>{result}</strong><p>{limit}</p></div></article>)}</div>
         <div className={styles.qualification}><div><span className={styles.pendingLabel}>{lang === 'it' ? 'Da qualificare' : 'Qualification pending'}</span><h3>{t.nextTitle}</h3><p>{t.nextText}</p></div><ul>{t.qualification.map(item => <li key={item}>{item}</li>)}</ul></div><p className={styles.limits}>{t.limits}</p>
       </section>
-      <footer className={styles.notebookFooter}><p>{t.footerNote}</p><nav aria-label={t.related}>{['/methodology/confidence', '/trust', '/roadmap'].map((href, i) => <Link key={href} href={href}>{t.links[i]}<ArrowUpRight size={16} aria-hidden="true" /></Link>)}</nav></footer>
+      <footer className={styles.notebookFooter}><p>{t.footerNote}</p><div><nav aria-label={t.related}>{['/methodology/confidence', '/trust', '/roadmap'].map((href, i) => <Link key={href} href={href} hrefLang="en">{t.links[i]}<span className={styles.languageBadge}>EN</span><ArrowUpRight size={16} aria-hidden="true" /></Link>)}</nav><p className={styles.relatedLanguage}>{t.relatedLanguage}</p></div></footer>
     </main>
     <Footer lang={lang} lockLang />
   </>;
