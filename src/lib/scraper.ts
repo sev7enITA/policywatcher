@@ -465,7 +465,7 @@ export interface TransportResult {
   finalUrl: string;
   error: string;
   /** Whitelisted representation metadata; never cookies or authorization. */
-  validators?: { etag?: string; lastModified?: string; vary?: string; cacheControl?: string; contentLanguage?: string };
+  validators?: { etag?: string; lastModified?: string; vary?: string; cacheControl?: string; contentLanguage?: string; serverDate?: string; age?: string };
   retryAfterMs?: number;
   /** Wayback/CDX timestamp (YYYYMMDDhhmmss) when the HTML came from an archive. */
   archiveTimestamp?: string;
@@ -503,7 +503,7 @@ export async function acquireEngineTransport(url: string, kind: 'direct' | 'http
         finalUrl: destination.url, error: res.status === 200 ? '' : `http_${res.status}`,
         retryAfterMs: Number.isFinite(retryAfterMs) ? retryAfterMs : undefined,
         validators: { etag: res.headers.etag, lastModified: res.headers['last-modified'], vary: res.headers.vary,
-          cacheControl: res.headers['cache-control'], contentLanguage: res.headers['content-language'] } };
+          cacheControl: res.headers['cache-control'], contentLanguage: res.headers['content-language'], serverDate: res.headers.date, age: res.headers.age } };
     }
     throw new Error('too_many_redirects');
   } finally { clearTimeout(timer); }
