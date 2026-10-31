@@ -74,6 +74,7 @@ interface LastResult {
 }
 
 interface CronStatus {
+  engineV6?: boolean;
   isRunning: boolean;
   startedAt: string | null;
   lastCompletedAt: string | null;
@@ -522,6 +523,7 @@ export default function CronManagerPage() {
   return (
     <div>
       {/* Page Header */}
+      <p><a href="/admin/engine">Open Engine 6 Preview: durable runs, source contracts and evidence reviews →</a></p>
       <div className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>Cron Manager</h1>
         <p className={styles.pageSubtitle}>

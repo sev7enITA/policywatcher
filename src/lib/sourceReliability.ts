@@ -11,6 +11,7 @@ export const RETRIEVAL_CAUSES = [
   'content_invalid',
   'source_gone',
   'stale_archive',
+  'historical_only',
   'not_in_archive',
   'configuration',
   'skipped',
@@ -222,7 +223,8 @@ export function recordRetrievalDiagnostics(
       metrics.acquisitionOutcomes[key] = (metrics.acquisitionOutcomes[key] || 0) + 1;
     }
   }
-  if (finalStatus === 'ok') metrics.uniqueAvailableSources += 1;
+  if (finalStatus === 'ok' && ['direct', 'http2', 'rendered'].includes(finalSource)
+      && (!outcome || outcome.eligibleForComparison)) metrics.uniqueAvailableSources += 1;
   else metrics.uniqueUnavailableSources += 1;
 
   if (finalStatus === 'ok' && finalSource === 'direct') metrics.directSuccesses += 1;

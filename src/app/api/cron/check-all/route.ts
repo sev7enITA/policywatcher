@@ -1,4 +1,5 @@
 import { extractionGuardEnabled } from '@/lib/extractionProfile';
+import { engineEnabled, enqueueRun } from '@/lib/engine/store';
 import { guardExtraction, anchorCommittedExtraction } from '@/lib/extractionGuard';
 /**
  * PolicyWatcher v3.0 - Scheduled Policy Check Endpoint
@@ -302,7 +303,7 @@ function normalizeScanOptions(input: unknown): ScanOptions {
 
   return {
     ...(Number.isFinite(limitValue) && limitValue > 0
-      ? { limit: Math.min(Math.floor(limitValue), 50) }
+      ? { limit: Math.min(Math.floor(limitValue), engineEnabled() ? 500 : 50) }
       : {}),
     ...(companySlug ? { companySlug } : {}),
     ...(source.notificationMode === 'silent' || source.notificationMode === 'subscribers'
@@ -343,8 +344,11 @@ async function persistUniqueRetrieval(params: {
   const retrievalStatus = params.result.status === 'ok' && params.result.partial
     ? 'partial'
     : params.result.status;
+  const liveAvailable = params.result.status === 'ok' && !params.result.partial
+    && ['direct', 'http2', 'rendered'].includes(params.result.source)
+    && (!params.result.outcome || params.result.outcome.eligibleForComparison);
   const reasonCode = params.result.status === 'ok'
-    ? (params.result.partial ? 'partial' : 'verified')
+    ? (params.result.partial ? 'partial' : liveAvailable ? 'verified' : 'historical_only')
     : params.result.reasonCode || terminalRetrievalCause(params.result.diagnostics || []);
   const sourceRetrieval = await db.sourceRetrieval.create({
     data: {
@@ -378,7 +382,7 @@ async function persistUniqueRetrieval(params: {
     })(),
   ])];
 
-  if (params.result.status === 'ok' && !params.result.partial) {
+  if (liveAvailable) {
     if (existingIssue && existingIssue.status !== 'Resolved') {
       await db.sourceRemediationIssue.update({
         where: { retrievalKey: params.retrievalKey },
@@ -472,9 +476,14 @@ async function persistUniqueRetrieval(params: {
  * @returns Scan result with counts and per-policy details.
  */
 export async function runFullScan(
-  onProgress?: ProgressCallback,
+  progressCallback?: ProgressCallback,
   options: ScanOptions = {}
 ): Promise<ScanResult> {
+  if (engineEnabled()) throw new Error('engine_v6_use_durable_queue');
+  // A disconnected observer must not turn a committed result into an error.
+  const onProgress: ProgressCallback = event => {
+    try { progressCallback?.(event); } catch { console.warn('[Cron] Progress observer unavailable.'); }
+  };
   if (process.env.POLICYWATCHER_SCANS_PAUSED === '1') throw new Error('policy_scans_paused');
   const details: CheckDetail[] = [];
   let checked = 0;
@@ -710,6 +719,11 @@ export async function runFullScan(
       detail.sourceRetrievalId = persistedRetrieval.sourceRetrievalId;
       detail.cacheHit = cacheHit;
       detail.acquisitionMode = acquisitionMode;
+      detail.source = source;
+      detail.runtime = runtime;
+      detail.transportLabel = transportLabel;
+      const extractionContext = { scanRunId: scanRun.id,
+        sourceRetrievalId: persistedRetrieval.sourceRetrievalId, durationMs: persistedRetrieval.durationMs };
 
       if (scrapeResult.status !== 'ok') {
         // Page unreachable or unusable. Record it honestly: do NOT
@@ -850,8 +864,12 @@ export async function runFullScan(
       }
 
       if (extractionGuardEnabled() && !['direct', 'http2', 'rendered'].includes(scrapeResult.source)) {
-        const decision = await guardExtraction(policy, scrapeResult);
+        const decision = await guardExtraction(policy, scrapeResult, extractionContext);
         detail.status = 'needs_review'; detail.error = decision.reason; details.push(detail);
+        onProgress?.({ phase: 'policy_done', total: policies.length, current: checked,
+          company: policy.company.name, policy: policy.name, status: 'needs_review',
+          source, runtime, transportLabel, diagnostics,
+          message: `${policyProgressLabel}: ${decision.reason} [ATTENTION] [${formatSourceMarker(source)}]` });
         continue;
       }
 
@@ -1051,13 +1069,14 @@ export async function runFullScan(
         continue;
       }
 
-      const extractionDecision = await guardExtraction(policy, scrapeResult);
+      const extractionDecision = await guardExtraction(policy, scrapeResult, extractionContext);
       if (!extractionDecision.proceed) {
         detail.status = 'needs_review';
         detail.error = extractionDecision.reason;
         details.push(detail);
         onProgress?.({ phase: 'policy_done', total: policies.length, current: checked,
           company: policy.company.name, policy: policy.name, status: 'needs_review',
+          source, runtime, transportLabel, diagnostics,
           message: `${policyProgressLabel}: ${extractionDecision.reason}` });
         continue;
       }
@@ -1068,21 +1087,6 @@ export async function runFullScan(
         detail.source = source;
         detail.runtime = runtime;
         detail.transportLabel = transportLabel;
-        details.push(detail);
-        onProgress?.({
-          phase: 'policy_done',
-          total: policies.length,
-          current: checked,
-          company: policy.company.name,
-          policy: policy.name,
-          status: 'unchanged',
-          source,
-          runtime,
-          transportLabel,
-          diagnostics,
-          message: `${policyProgressLabel}: unchanged [OK] [${formatSourceMarker(source)}]`,
-        });
-
         const checkedAt = new Date();
         await db.$transaction([
           db.policy.update({
@@ -1113,6 +1117,11 @@ export async function runFullScan(
             },
           }),
         ]);
+        details.push(detail);
+        onProgress?.({ phase: 'policy_done', total: policies.length, current: checked,
+          company: policy.company.name, policy: policy.name, status: 'unchanged',
+          source, runtime, transportLabel, diagnostics,
+          message: `${policyProgressLabel}: unchanged [OK] [${formatSourceMarker(source)}]` });
         continue;
       }
 
@@ -1525,7 +1534,7 @@ export async function runFullScan(
   };
 
   console.log(
-    `[Cron] Check complete. Checked: ${checked}, Unique sources: ${retrievalMetrics.uniqueSources}, Network retrievals: ${retrievalMetrics.networkRetrievals}, Deduplicated: ${retrievalMetrics.deduplicatedRetrievals}, Changed: ${changed}, Confirmation pending: ${confirmationPending}, Re-baselined: ${rebaselined}, Partial: ${partialCount}, Unavailable: ${unavailableCount}, Invalid: ${invalidCount}, Errors: ${errors}`
+    `[Cron] Check complete. Checked: ${checked}, Unique sources: ${retrievalMetrics.uniqueSources}, Network retrievals: ${retrievalMetrics.networkRetrievals}, Deduplicated: ${retrievalMetrics.deduplicatedRetrievals}, Changed: ${changed}, Confirmation pending: ${confirmationPending}, Needing review: ${extractionHeld}, Re-baselined: ${rebaselined}, Partial: ${partialCount}, Unavailable: ${unavailableCount}, Invalid: ${invalidCount}, Errors: ${errors}`
   );
 
   return result;
@@ -1568,6 +1577,12 @@ export async function POST(request: NextRequest) {
   if (process.env.POLICYWATCHER_SCANS_PAUSED === '1') return NextResponse.json({ error: 'policy_scans_paused' }, { status: 503 });
   try {
     const options = await readScanOptions(request);
+    if (engineEnabled()) {
+      const run = await enqueueRun({ ...options, limit: options.limit || 500, requestedBy: 'scheduler', notificationMode: options.notificationMode || 'subscribers',
+        requestKey: request.headers.get('Idempotency-Key') || `scheduled:${new Date().toISOString().slice(0, 13)}:${createHash('sha256').update(JSON.stringify(options)).digest('hex').slice(0, 16)}`,
+        mode: process.env.POLICYWATCHER_ENGINE_PUBLICATION === '1' ? 'publish' : 'observe' });
+      return NextResponse.json({ accepted: true, runId: run.id, status: run.status, statusUrl: '/api/admin/engine' }, { status: 202 });
+    }
     const result = await runFullScan(undefined, options);
     return NextResponse.json(result, { status: 200 });
   } catch (error) {

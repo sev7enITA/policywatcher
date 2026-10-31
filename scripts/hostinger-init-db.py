@@ -902,6 +902,15 @@ with sqlite3.connect(str(db_path), timeout=30) as con:
     for statement in TABLES:
         con.execute(statement)
 
+    # The canonical additive engine migration is shared by both CLI-free initializers.
+    engine_sql = (Path(__file__).resolve().parent.parent / 'prisma/migrations/20261031060000_engine_v6/migration.sql').read_text()
+    engine_sql = engine_sql.replace('CREATE TABLE ', 'CREATE TABLE IF NOT EXISTS ')
+    engine_sql = engine_sql.replace('CREATE UNIQUE INDEX ', 'CREATE UNIQUE INDEX IF NOT EXISTS ')
+    engine_sql = engine_sql.replace('CREATE INDEX ', 'CREATE INDEX IF NOT EXISTS ')
+    if 'engineTaskId' in columns_for(con, 'PolicyCheckLog'):
+        engine_sql = engine_sql.replace('ALTER TABLE "PolicyCheckLog" ADD COLUMN "engineTaskId" TEXT;', '')
+    con.executescript(engine_sql)
+
     for table, columns in UPGRADE_COLUMNS.items():
         existing = columns_for(con, table)
         for column, statement in columns:

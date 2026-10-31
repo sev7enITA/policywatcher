@@ -12,6 +12,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
 import { readScanOptions, runFullScan, ScanProgress } from '@/app/api/cron/check-all/route';
+import { engineEnabled } from '@/lib/engine/store';
 import type { ScrapeDiagnostic } from '@/lib/scraper';
 import { formatScanCompletionLog } from '@/lib/adminScanSummary';
 
@@ -89,6 +90,7 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json({
     ...cronState,
+    engineV6: engineEnabled(),
     timestamp: new Date().toISOString(),
   });
 }
@@ -98,6 +100,8 @@ export async function POST(request: NextRequest) {
   if (!session.valid || session.role !== 'admin') {
     return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
   }
+
+  if (engineEnabled()) return NextResponse.json({ error: 'Use the durable engine workspace.', url: '/admin/engine' }, { status: 409 });
 
   if (cronState.isRunning) {
     return NextResponse.json(
@@ -144,7 +148,7 @@ export async function POST(request: NextRequest) {
       cronState.lastResult = result as unknown as Record<string, unknown>;
       cronState.lastCompletedAt = new Date().toISOString();
       cronState.lastError = null;
-      cronState.progressActivity = `Scan complete: ${result.checked} checked, ${result.changed} changed, ${result.confirmationPending} awaiting confirmation, ${result.rebaselined} re-baselined, ${result.partial} partial, ${result.errors} errors.`;
+      cronState.progressActivity = `Scan complete: ${result.checked} checked, ${result.changed} changed, ${result.confirmationPending} awaiting confirmation, ${result.extractionHeld} needing review, ${result.rebaselined} re-baselined, ${result.partial} partial, ${result.errors} errors.`;
       cronState.progressLog.push(formatScanCompletionLog(result));
     })
     .catch((err) => {

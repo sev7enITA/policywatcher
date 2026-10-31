@@ -61,6 +61,7 @@ const NAV_ITEMS: NavItem[] = [
     icon: <LayoutDashboard size={18} />,
     section: 'Overview',
   },
+  { label: 'Engine 6 Preview', href: '/admin/engine', icon: <ScanSearch size={18} />, section: 'Monitor', adminOnly: true },
   {
     label: 'Cron Manager',
     href: '/admin/cron',

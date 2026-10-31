@@ -1,0 +1,245 @@
+{
+  "schemaVersion": 1,
+  "engineVersion": "pw-engine-6.0.0-alpha.1",
+  "generatedAt": "2026-10-31T06:10:16.256122+00:00",
+  "baseCommit": "680c0e549c369f8cc8db7ea8aaeca3b3ac56903e",
+  "branch": "codex/engine-v6-local",
+  "scope": "Changed implementation, configuration and tests; excludes documentation and local evidence. Model reviews cover frozen candidates, not all final changes.",
+  "candidate2ManifestSha256": "8059b170cfaddb7f5dd1e20eba4e6ba8ffcce90229a70de0bb50400418a0cb20",
+  "files": [
+    {
+      "path": ".env.example",
+      "sha256": "4b9a60abcffedff41e47600cb890389b50f2f6e15d91f3020f9d0dda1693d695",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "package.json",
+      "sha256": "82664c8b51a332360620eecc38feb8a61608777e061bf82d1b33446673c66c50",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "prisma/migrations/20261031060000_engine_v6/migration.sql",
+      "sha256": "03426874b810d97e67f44cbcc20fe387a29b7c790fb32576951292041e39a5c4",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "prisma/postgresql/migrations/20261031060000_engine_v6/migration.sql",
+      "sha256": "d6af4e65c2308e36afd4c1393aa6c8761627553dbb53bb0b2ff529db751aeee8",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "prisma/schema.prisma",
+      "sha256": "f5a03b0876c5ee83ad20668e8f5d63cf8a91030fe62c7bc17a98d77c7adfab47",
+      "candidate2Sha256": "fa0b2ae96928c509229474a29c06f0425d10731182e579f88ede481956d7f064",
+      "candidate2Relation": "changed_after_review"
+    },
+    {
+      "path": "scripts/engine-worker.ts",
+      "sha256": "f31f7e5719eef6d9d80757d1b4c554c3883f91de07f07584975f349da2ce245b",
+      "candidate2Sha256": "f31f7e5719eef6d9d80757d1b4c554c3883f91de07f07584975f349da2ce245b",
+      "candidate2Relation": "unchanged"
+    },
+    {
+      "path": "scripts/extraction-profile.mjs",
+      "sha256": "31350c9c4c583a8a2cda397f91ce2d0e9fc012852ff63f14209439a75dae66bf",
+      "candidate2Sha256": "31350c9c4c583a8a2cda397f91ce2d0e9fc012852ff63f14209439a75dae66bf",
+      "candidate2Relation": "unchanged"
+    },
+    {
+      "path": "scripts/hostinger-init-db.mjs",
+      "sha256": "93f629b75606c16d677f57504e8a2218cca12f6420282a8722cb940389fa3524",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "scripts/hostinger-init-db.py",
+      "sha256": "1d8c0ebfe7f4d2b59008ee99aa7cecab5260b3b4a859e4425120d909b93276e1",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/app/admin/cron/page.tsx",
+      "sha256": "15285af2927fadb630c9cef7be52355be4ca2d67695c00a6b65b4c1287994789",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/app/admin/engine/page.tsx",
+      "sha256": "b19cb0606ba9a2e69ddf7ea95313447dbdb3f4ebc2b151669076b236343e282f",
+      "candidate2Sha256": "3f2eaaacd8ed65a11375ce7fe796a86c9e8a09bcc746cecf23ddb371deff7e03",
+      "candidate2Relation": "changed_after_review"
+    },
+    {
+      "path": "src/app/admin/layout.tsx",
+      "sha256": "05897d31216e38e7052a95bd7d40f8990747636fc33cdcf4595b68be7dfc5cae",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/app/api/admin/cron-status/route.ts",
+      "sha256": "17fb7b166dace73739d8574321dc7700b31bb6f7fabce211223aa2beb6ed7a0e",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/app/api/admin/engine/route.ts",
+      "sha256": "10a84daafe3542bd3fc7974eb9e961686bb519e9c229aa13c0b935e5324d1efd",
+      "candidate2Sha256": "f804a7ca6a491dddc2413c59bc1ebd7572e70d2ab76311194716e26b84ff613c",
+      "candidate2Relation": "changed_after_review"
+    },
+    {
+      "path": "src/app/api/cron/check-all/route.ts",
+      "sha256": "6b03f2595b53c2cb417921ecfeca6ef609f7f04a1297eeca6b1c3b6ebf7bb7ef",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/app/api/scrape/route.ts",
+      "sha256": "dfd6f49f0102b278e28f930c87f9390a7dc044dc9b43c4a44747a459766f7874",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/lib/__tests__/deploymentSchemaParity.test.ts",
+      "sha256": "ddc709199b6bc65789116e6bad46710822a193cd07d3f1c0935542fad56dce9a",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/lib/__tests__/encryptedBackup.test.ts",
+      "sha256": "1ae4f855172ca5aebc20e0dd83ebf0a4a87383cf83968811d620b8a39cef9cdc",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/lib/__tests__/engineAuditRegression.test.ts",
+      "sha256": "1edac484b02f791b6ca887b0e6bc0cecb3fd663fc556e9e4d687dbe8c9bef96e",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/lib/__tests__/engineV6.test.ts",
+      "sha256": "76bd4621a14ad1df04827023a727e3d8243bac4bfbaa95bea7019749759ef434",
+      "candidate2Sha256": "16223ed1579dcf5d9a318c10b339a54eb457dd0b7b4874805ac23ecb5cf95dc6",
+      "candidate2Relation": "changed_after_review"
+    },
+    {
+      "path": "src/lib/__tests__/postgresqlRehearsal.test.ts",
+      "sha256": "9eb15165c346cfcd51391c2deee6b0468191f0af5b459f43b0aa4b52e169ff0f",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/lib/adminScanSummary.ts",
+      "sha256": "dce730c1e8de82a307d6e14f2645367b65d4884e72c6529445ef859742bafbfa",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/lib/aiEvaluation.ts",
+      "sha256": "2d2c5c0238ed520ae2a99851a6801a8bc01f374a40c5a79702fd31637b02b65c",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/lib/databaseReadiness.ts",
+      "sha256": "10da9aa184fbacf020bf029eb5a91845a7e01d9410ed0441b81eb0a58f8fc619",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/lib/encryptedBackup.ts",
+      "sha256": "9657d361c726170336e0285ddb8f204693d6285555f960af3d4eb87604134741",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/lib/engine/acquisition.ts",
+      "sha256": "b1a6a046a3b4e352c3b65789487f7a035c07e272bdc5bf455fb98415eca4502f",
+      "candidate2Sha256": "b1a6a046a3b4e352c3b65789487f7a035c07e272bdc5bf455fb98415eca4502f",
+      "candidate2Relation": "unchanged"
+    },
+    {
+      "path": "src/lib/engine/claims.ts",
+      "sha256": "3172d69c74ce03513f5e51130abc06c443f42f72e1fd77b5b3b5fa60fc929b45",
+      "candidate2Sha256": "4a85bc076a7d2f5c335ca556d7b94fba4a34173cd4c5a1e84336d65b971ba073",
+      "candidate2Relation": "changed_after_review"
+    },
+    {
+      "path": "src/lib/engine/document.ts",
+      "sha256": "c9355a1f712245fa9c894f668936fa750cd52ec1d8a7de322b037935b5afa4aa",
+      "candidate2Sha256": "c9355a1f712245fa9c894f668936fa750cd52ec1d8a7de322b037935b5afa4aa",
+      "candidate2Relation": "unchanged"
+    },
+    {
+      "path": "src/lib/engine/outbox.ts",
+      "sha256": "48fa86d023b5ff4f3b9987e9973880d114406d78245a163c65beaabddc986135",
+      "candidate2Sha256": "48fa86d023b5ff4f3b9987e9973880d114406d78245a163c65beaabddc986135",
+      "candidate2Relation": "unchanged"
+    },
+    {
+      "path": "src/lib/engine/pipeline.ts",
+      "sha256": "426e6ef2ec4d15ae98c69bc941564477010e69ce59a64d5cd0e08cb2ae42fcfa",
+      "candidate2Sha256": "5ac3eaf34bdb3aeb7b4cc51e5551b91a7f2e2076095a0dfaa47e275995954ada",
+      "candidate2Relation": "changed_after_review"
+    },
+    {
+      "path": "src/lib/engine/store.ts",
+      "sha256": "f1cc363320d9f7d45d2f6bc7318a29568ef16ed9c8dce6a8ee2abec82bed98f9",
+      "candidate2Sha256": "07134a364bf2b621d73f14bc557cd152ed4d2abceb7fd7537aba8b51df3eba18",
+      "candidate2Relation": "changed_after_review"
+    },
+    {
+      "path": "src/lib/extractionGuard.ts",
+      "sha256": "b73fa7c70858fbe27ea6bc0e2495e7950a6a1db61c1a05ba62198018cf1cb5d9",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/lib/extractionProfile.generated.json",
+      "sha256": "361e3942981cb65f8557e9217133158bb244c567e2417f9a0ee3112ee09a3378",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/lib/mailer.ts",
+      "sha256": "9a7297b6b681cc082b7292192bb0b47d3b7f0dfd1d2159bca19cf47d9055130f",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/lib/scraper.ts",
+      "sha256": "d8c91c71239eaad0203e81edf4763ea88cb3c94e990d122b9b0a7f9017110626",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/lib/sourceReliability.ts",
+      "sha256": "df343b432dfd7d1934d96fefe87a26328693b8f8dfae165524b0fdc9685c8ded",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "src/lib/sourceRemediation.ts",
+      "sha256": "e071aedce67b2377e172d2599b29fe8e759a81925a6fdf27b227e00090b9d5ea",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha256": "6585560ed9b0a07b4193a8f30062f1e9073b81d247f051c8a76c7a16a86d3a44",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    },
+    {
+      "path": "tsconfig.tests.json",
+      "sha256": "8f11ae16bd9e2a75245ed21b8f01d1a2313905d2736486d4bfc248dd4d7326a5",
+      "candidate2Sha256": null,
+      "candidate2Relation": "outside_review_bundle"
+    }
+  ]
+}

@@ -816,6 +816,14 @@ try {
   for (const statement of ddl) {
     db.exec(statement);
   }
+  // Additive engine schema, also applied on existing SQLite installations.
+  const engineSql = fs.readFileSync(new URL('../prisma/migrations/20261031060000_engine_v6/migration.sql', import.meta.url), 'utf8')
+    .replace('ALTER TABLE "PolicyCheckLog" ADD COLUMN "engineTaskId" TEXT;',
+      columnsFor(db, 'PolicyCheckLog').has('engineTaskId') ? '' : 'ALTER TABLE "PolicyCheckLog" ADD COLUMN "engineTaskId" TEXT;')
+    .replaceAll('CREATE TABLE ', 'CREATE TABLE IF NOT EXISTS ')
+    .replaceAll('CREATE UNIQUE INDEX ', 'CREATE UNIQUE INDEX IF NOT EXISTS ')
+    .replaceAll('CREATE INDEX ', 'CREATE INDEX IF NOT EXISTS ');
+  db.exec(engineSql);
 
   for (const [table, columns] of Object.entries(upgradeColumns)) {
     const existing = columnsFor(db, table);

@@ -1,0 +1,510 @@
+import { beforeAll, beforeEach, afterAll, describe, it, expect, vi } from 'vitest';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { PrismaClient } from '@prisma/client';
+import { digest, structureDocument, compareDocuments, assessDocument, parseSourceContract, type SourceContract } from '../engine/document';
+import { validateClaims, validateVerification, modelEvidence, CLAIM_SCHEMA, type AnalysisInput, type ClaimSet, type AnalysisProvider } from '../engine/claims';
+import type { CaptureBody, Observation } from '../engine/acquisition';
+import type { TaskInput } from '../engine/store';
+
+const dir = mkdtempSync(join(tmpdir(), 'pw-engine-v6-'));
+const url = `file:${join(dir, 'engine.db')}`;
+const database = new PrismaClient({ datasources: { db: { url } } });
+const otherClient = new PrismaClient({ datasources: { db: { url } } });
+let store: typeof import('../engine/store');
+let pipeline: typeof import('../engine/pipeline');
+let acquisition: typeof import('../engine/acquisition');
+let outbox: typeof import('../engine/outbox');
+const oldText = '# Privacy Policy\n\n## Data use\n\nWe keep account records for 30 days.\n\n## Contact\n\nContact the privacy team for information about this policy.';
+const newText = oldText.replace('30 days', '60 days');
+const fixtureUrl = 'https://example.com/privacy';
+const contract: SourceContract = { schemaVersion: 1, sourceUrl: fixtureUrl, titleAliases: ['Privacy Policy'],
+  requiredHeadings: ['Data use', 'Contact'], terminalText: 'Contact the privacy team for information about this policy.',
+  language: 'en', minimumChars: 100, maximumChars: 500000, preferredTransport: 'direct',
+  reviewedAt: '2026-10-31T00:00:00.000Z', reviewNote: 'Reviewed the complete synthetic fixture.' };
+const receipt = { model: 'synthetic-test-provider', promptVersion: 'fixture-1', inputHash: digest('fixture-input'), outputHash: digest('fixture-output'), inputTokens: 0, outputTokens: 0 };
+
+function grounded(input: AnalysisInput): ClaimSet {
+  return { schema: CLAIM_SCHEMA, claims: [{ id: 'c1', operation: 'modified', category: 'content',
+    textEn: 'The retention period changes from 30 to 60 days.', textIt: 'Il periodo di conservazione passa da 30 a 60 giorni.', impact: 4,
+    deltaIds: input.deltas.map(d => d.id), evidence: input.deltas.map(d => ({ side: d.side,
+      documentHash: d.side === 'old' ? input.old.hash : input.next.hash, start: d.block.start, end: d.block.end, quote: d.block.text })) }] };
+}
+const analysis: AnalysisProvider = {
+  analyze: vi.fn(async input => ({ value: grounded(input), receipt })),
+  verify: vi.fn(async (_input: AnalysisInput, claims: ClaimSet) => ({ value: { verdicts: claims.claims.map(c => ({ claimId: c.id, verdict: 'supported' as const, reason: 'Synthetic fixture verification.' })) }, receipt: { ...receipt, model: 'independent-test-provider' } })),
+};
+async function capture(text = newText, notModified = false): Promise<Observation> {
+  const body: CaptureBody = { html: `<html lang="en"><main>${text}</main></html>`, document: structureDocument(text), language: 'en' };
+  return { artifactId: await store.putArtifact(body), observedAt: new Date().toISOString(), source: 'direct', httpStatus: notModified ? 304 : 200,
+    finalUrl: fixtureUrl, notModified, eligible: true, reasons: [], diagnostics: [] };
+}
+async function seed(suffix = '', sourceUrl = fixtureUrl) {
+  const company = await database.company.create({ data: { name: `Fixture${suffix}`, slug: `fixture${suffix}`, website: 'https://example.com', industry: 'Technology' } });
+  const policy = await database.policy.create({ data: { companyId: company.id, name: 'Privacy Policy', type: 'privacy', url: sourceUrl,
+    currentHash: digest(oldText), currentText: oldText, lastCheckDate: new Date(0), lastSuccessfulCheckDate: new Date(0), ingestionMethod: 'Direct Scrape',
+    snapshots: { create: { version: 1, text: oldText, hash: digest(oldText), publicEvidence: true } } } });
+  const contractJson = JSON.stringify({ ...contract, sourceUrl });
+  await database.engineSourceContract.create({ data: { policyId: policy.id, contractJson, contractHash: digest(contractJson), reviewedBy: 'fixture-admin' } });
+  await database.extractionBaseline.create({ data: { policyId: policy.id, baselineHash: policy.currentHash, profileHash: store.engineExtractionProfileHash(sourceUrl),
+    inputHash: digest(oldText), input: oldText, sourceUrl, capturedAt: new Date() } });
+  return policy;
+}
+async function drain(dependencies: Partial<import('../engine/pipeline').EngineDependencies> = {}) {
+  for (let i = 0; i < 40; i++) if (!await pipeline.workerStep({ acquire: async () => capture(), analysis, ...dependencies })) break;
+}
+async function readySecond(policyId: string, mode = 'publish') {
+  await database.enginePolicyState.update({ where: store.stateKey(policyId, mode), data: { candidateObservedAt: new Date(Date.now() - store.CONFIRMATION_MS - 1000), nextDueAt: new Date(0) } });
+  await database.engineOrigin.updateMany({ data: { nextAllowedAt: new Date(0) } });
+}
+async function run(requestKey: string, mode: 'publish' | 'observe' = 'publish') {
+  return store.enqueueRun({ requestKey, mode, requestedBy: 'fixture-admin', notificationMode: 'subscribers' });
+}
+beforeAll(async () => {
+  execFileSync(process.execPath, ['scripts/hostinger-init-db.mjs'], { env: { ...process.env, DATABASE_URL: url }, stdio: 'pipe' });
+  vi.doMock('../db', () => ({ db: database }));
+  store = await import('../engine/store'); pipeline = await import('../engine/pipeline');
+  acquisition = await import('../engine/acquisition'); outbox = await import('../engine/outbox');
+});
+beforeEach(async () => {
+  vi.stubEnv('POLICYWATCHER_SCANS_PAUSED', '0'); vi.stubEnv('POLICYWATCHER_ENGINE_PUBLICATION', '1'); vi.stubEnv('POLICYWATCHER_ENGINE_NOTIFICATIONS', '0');
+  await database.engineRun.deleteMany(); await database.engineReview.deleteMany(); await database.engineOutbox.deleteMany();
+  await database.engineSourceContract.deleteMany(); await database.enginePolicyState.deleteMany(); await database.engineOrigin.deleteMany();
+  await database.engineHttpCache.deleteMany(); await database.engineArtifact.deleteMany(); await database.company.deleteMany();
+  await database.engineAttempt.deleteMany();
+  await database.subscriber.deleteMany(); vi.clearAllMocks();
+});
+afterAll(async () => { await database.$disconnect(); await otherClient.$disconnect(); vi.unstubAllEnvs(); rmSync(dir, { recursive: true, force: true }); });
+
+describe('V6 evidence contracts', () => {
+  it('rejects generic marketing despite policy keywords; rejects missing sections/language', () => {
+    const marketing = structureDocument('# Privacy Course\n\nLearn privacy terms, personal data and rights. '.repeat(20));
+    expect(assessDocument(marketing, contract, fixtureUrl, 'en').eligible).toBe(false);
+    expect(assessDocument(structureDocument(oldText), contract, fixtureUrl, 'en').eligible).toBe(true);
+    expect(assessDocument(structureDocument(oldText), contract, fixtureUrl).reasons).toContain('document_language_unverified');
+    expect(assessDocument(structureDocument(oldText.replace('## Contact', '## Other')), contract, fixtureUrl, 'en').reasons).toContain('required_sections_missing');
+    expect(() => parseSourceContract({ ...contract, minimumChars: 0 })).toThrow();
+  });
+  it('keeps short repeated table cells and exact UTF-16 offsets, including emoji', () => {
+    const doc = structureDocument('# Privacy 🛡️\n\n| Use | Consent |\n| Ads | No |\n| AI | No |');
+    expect(doc.blocks.filter(b => b.kind === 'table')).toHaveLength(3);
+    for (const b of doc.blocks) expect(doc.text.slice(b.start, b.end)).toBe(b.text);
+    expect(new Set(doc.blocks.map(b => b.id)).size).toBe(doc.blocks.length);
+  });
+  it('all-or-hold: invalid spans, missing deltas and verifier uncertainty block publication', () => {
+    const input = { old: structureDocument(oldText), next: structureDocument(newText), deltas: compareDocuments(structureDocument(oldText), structureDocument(newText)).deltas };
+    const claims = grounded(input);
+    expect(validateClaims(claims, input).reasons).toEqual([]);
+    claims.claims[0].evidence[0].quote = 'invented quote';
+    expect(validateClaims(claims, input).reasons).toContain('claim_span_invalid');
+    expect(validateClaims(claims, input).reasons).toContain('change_coverage_incomplete');
+    expect(validateVerification({ verdicts: [{ claimId: 'c1', verdict: 'uncertain', reason: 'Ambiguous scope' }] }, grounded(input))).toEqual(['claim_uncertain']);
+  });
+  it('blocks the observed AWS date-role error', () => {
+    const old = structureDocument('# Service Terms\n\nLast Updated: October 20, 2026');
+    const next = structureDocument('# Service Terms\n\nLast Updated: October 29, 2026');
+    const input = { old, next, deltas: compareDocuments(old, next).deltas };
+    const claims = grounded(input); claims.claims[0].textEn = 'The new terms are effective October 29, 2026.';
+    expect(validateClaims(claims, input).reasons).toContain('date_role_unsubstantiated');
+  });
+});
+
+describe('V6 persistence, fencing and publication', () => {
+  it('deduplicates shared fetches and idempotency keys', async () => {
+    await seed('a'); await seed('b');
+    const first = await run('same-request'); const second = await run('same-request');
+    expect(second.id).toBe(first.id);
+    expect(await database.engineTask.count({ where: { kind: 'fetch' } })).toBe(1);
+    expect(await database.engineTask.count({ where: { kind: 'policy' } })).toBe(2);
+    const competing = await run('different-request');
+    expect(competing.selected).toBe(0);
+    expect(await database.engineTask.count({ where: { kind: 'policy' } })).toBe(2);
+  });
+  it('does not starve an eligible origin behind forty throttled fetches', async () => {
+    const p = await seed();
+    await database.policy.createMany({ data: Array.from({ length: 42 }, (_, i) => ({ companyId: p.companyId, name: `A${i}`, type: `a${i}`,
+      url: `https://example.com/p${i}`, currentText: oldText, currentHash: digest(oldText), lastCheckDate: new Date(0) })) });
+    await seed('other', 'https://example.org/privacy'); await run('origin-fairness');
+    await database.engineOrigin.create({ data: { origin: 'https://example.com', nextAllowedAt: new Date(Date.now() + 120000) } });
+    const claimed = await store.claimTask();
+    expect(JSON.parse(claimed!.inputJson).origin).toBe('https://example.org');
+  });
+  it('rejects late completion after another client reclaims the expired lease', async () => {
+    await seed(); await run('lease-test');
+    const first = await store.claimTask(); expect(first).not.toBeNull();
+    await otherClient.engineTask.update({ where: { id: first!.id }, data: { leaseExpiresAt: new Date(0) } });
+    await otherClient.engineOrigin.updateMany({ data: { leaseExpiresAt: new Date(0) } });
+    const second = await store.claimTask(); expect(second?.id).toBe(first!.id);
+    expect(second!.leaseToken).not.toBe(first!.leaseToken);
+    await expect(store.fenced(first!, tx => store.finishTask(tx, first!, { illegal: true }))).rejects.toThrow('engine_lease_lost');
+    expect((await database.engineTask.findUniqueOrThrow({ where: { id: first!.id } })).leaseToken).toBe(second!.leaseToken);
+  });
+  it('rolls back writes if expiry occurs inside the transaction', async () => {
+    const p = await seed(); await run('lease-mid-transaction'); const lease = await store.claimTask();
+    await database.engineTask.update({ where: { id: lease!.id }, data: { leaseExpiresAt: new Date(Date.now() + 100) } });
+    await expect(store.fenced(lease!, async tx => {
+      await tx.policy.update({ where: { id: p.id }, data: { name: 'Must roll back' } });
+      await new Promise(resolve => setTimeout(resolve, 150));
+    })).rejects.toThrow('engine_lease_lost');
+    expect((await database.policy.findUniqueOrThrow({ where: { id: p.id } })).name).toBe('Privacy Policy');
+  });
+  it('commits once after two independent captures, analysis and verification; queues notifications atomically', async () => {
+    const p = await seed(); await run('first-observation'); await drain();
+    expect(await database.policyChange.count()).toBe(0);
+    await readySecond(p.id); await run('second-observation'); await drain();
+    expect(await database.policyChange.count()).toBe(1);
+    expect(await database.engineOutbox.count()).toBe(1);
+    expect(await database.policySnapshot.count({ where: { policyId: p.id } })).toBe(2);
+    expect((await database.policy.findUniqueOrThrow({ where: { id: p.id } })).currentHash).toBe(digest(newText));
+    await drain(); expect(await database.policyChange.count()).toBe(1);
+    expect(analysis.analyze).toHaveBeenCalledTimes(1); expect(analysis.verify).toHaveBeenCalledTimes(1);
+  });
+  it('persists the analysis checkpoint and retries verifier without re-fetch or re-analysis', async () => {
+    const p = await seed(); await run('retry-first'); await drain(); await readySecond(p.id); await run('retry-second');
+    const fetch = vi.fn(async () => capture()); let failed = false;
+    const provider = { ...analysis, verify: vi.fn(async (input: AnalysisInput, claims: ClaimSet) => {
+      if (!failed) { failed = true; throw new Error('fixture_verifier_timeout'); } return analysis.verify(input, claims);
+    }) };
+    await drain({ acquire: fetch, analysis: provider });
+    const retry = await database.engineTask.findFirstOrThrow({ where: { stage: 'verify', status: 'queued' } });
+    expect(retry.checkpointJson).toContain('synthetic-test-provider');
+    await database.engineTask.update({ where: { id: retry.id }, data: { nextAttemptAt: new Date(0) } });
+    await drain({ acquire: fetch, analysis: provider });
+    expect(fetch).toHaveBeenCalledTimes(1); expect(analysis.analyze).toHaveBeenCalledTimes(1);
+    expect(provider.verify).toHaveBeenCalledTimes(2); expect(await database.policyChange.count()).toBe(1);
+  });
+  it('never uses 304 as the second independent capture', async () => {
+    const p = await seed(); await run('304-first'); await drain(); await readySecond(p.id); await run('304-second');
+    await drain({ acquire: async () => capture(newText, true) });
+    expect(await database.policyChange.count()).toBe(0);
+    expect((await database.engineReview.findFirstOrThrow()).reasonsJson).toContain('conditional_response_cannot_confirm_change');
+  });
+  it('does not publish observed changes', async () => {
+    const p = await seed(); await run('observe-first', 'observe'); await drain(); await readySecond(p.id, 'observe'); await run('observe-second', 'observe'); await drain();
+    expect(await database.policyChange.count()).toBe(0); expect(await database.engineOutbox.count()).toBe(0);
+    expect((await database.policy.findUniqueOrThrow({ where: { id: p.id } })).currentHash).toBe(digest(oldText));
+    expect((await database.policy.findUniqueOrThrow({ where: { id: p.id } })).lastCheckDate.getTime()).toBe(0);
+  });
+  it('keeps high impact private until a recorded, evidence-valid approval', async () => {
+    const p = await seed(); await run('impact-first'); await drain(); await readySecond(p.id); await run('impact-second');
+    await drain({ analysis: { ...analysis, analyze: async input => { const value = grounded(input); value.claims[0].impact = 8; return { value, receipt }; } } });
+    expect(await database.policyChange.count()).toBe(0);
+    const review = await database.engineReview.findFirstOrThrow();
+    const changeId = await pipeline.approveReview(review.id, 'Reviewed exact before and after clauses and their impact.', 'fixture-admin');
+    expect(changeId).toBeTruthy(); expect(await database.policyChange.count()).toBe(1);
+    expect(await pipeline.approveReview(review.id, 'Reviewed exact before and after clauses and their impact.', 'fixture-admin')).toBe(changeId);
+    expect(await database.policyChange.count()).toBe(1);
+  });
+  it('holds baseline gaps; human approval cannot waive missing evidence', async () => {
+    const p = await seed(); await database.extractionBaseline.delete({ where: { policyId: p.id } });
+    await run('gap-run-test'); await drain(); const review = await database.engineReview.findFirstOrThrow();
+    expect(review.reasonsJson).toContain('extraction_baseline_missing');
+    await expect(pipeline.approveReview(review.id, 'I would like to approve this missing evidence.', 'fixture-admin')).rejects.toThrow('review_hard_gate_unresolved');
+    expect(await database.policyChange.count()).toBe(0);
+  });
+  it('detects immutable artifact corruption', async () => {
+    const id = await store.putArtifact({ content: 'fixture' });
+    await database.engineArtifact.update({ where: { id }, data: { bodyJson: '{"content":"changed"}' } });
+    await expect(store.readArtifact(id)).rejects.toThrow('artifact_integrity_failure');
+  });
+  it('plans a full 500-policy daily batch without requiring 500 network fetches', async () => {
+    const p = await seed();
+    await database.policy.createMany({ data: Array.from({ length: 499 }, (_, i) => ({ companyId: p.companyId, name: `Fixture ${i}`, type: `fixture-${i}`,
+      url: fixtureUrl, currentText: oldText, currentHash: digest(oldText), lastCheckDate: new Date(0) })) });
+    const planned = await run('scale-500'); expect(planned.selected).toBe(500);
+    expect(await database.engineTask.count({ where: { kind: 'policy' } })).toBe(500);
+    // One contracted source representation and one representation with no contract.
+    expect(await database.engineTask.count({ where: { kind: 'fetch' } })).toBe(2);
+  });
+  it('fences a policy mutation made after analysis but before commit', async () => {
+    const p = await seed(); await run('context-first'); await drain(); await readySecond(p.id); await run('context-second');
+    const provider = { ...analysis, verify: async (input: AnalysisInput, claims: ClaimSet) => {
+      await database.policy.update({ where: { id: p.id }, data: { jurisdiction: 'EU' } });
+      return analysis.verify(input, claims);
+    } };
+    await drain({ analysis: provider });
+    expect(await database.policyChange.count()).toBe(0); expect(await database.engineOutbox.count()).toBe(0);
+    expect((await database.engineTask.findFirstOrThrow({ where: { stage: 'commit' } })).lastError).toBe('engine_context_changed');
+  });
+  it('retries one recipient without re-sending acknowledged recipients', async () => {
+    const p = await seed(); await run('mail-first'); await drain(); await readySecond(p.id); await run('mail-second'); await drain();
+    await database.subscriber.create({ data: { email: 'fixture@example.test', regions: 'Global', industries: 'Technology', frequency: 'INSTANT', isActive: true, confirmedAt: new Date() } });
+    vi.stubEnv('POLICYWATCHER_ENGINE_NOTIFICATIONS', '1');
+    const sender = vi.fn().mockResolvedValueOnce(false).mockResolvedValue(true);
+    await outbox.outboxStep(sender); // atomic recipient fanout
+    expect(await database.engineOutbox.count(), JSON.stringify(await database.engineOutbox.findMany())).toBe(2);
+    await outbox.outboxStep(sender); // failed SMTP acknowledgment
+    expect(sender).toHaveBeenCalledTimes(1);
+    await database.engineOutbox.updateMany({ where: { status: 'pending' }, data: { nextAttemptAt: new Date(0) } });
+    await outbox.outboxStep(sender); await outbox.outboxStep(sender);
+    expect(sender).toHaveBeenCalledTimes(2);
+    expect(sender.mock.calls[0][4]).toBe(sender.mock.calls[1][4]);
+    expect(await database.engineOutbox.count({ where: { status: 'delivered' } })).toBe(2);
+  });
+  it('keeps candidate evidence during AI retries but records terminal failure and advances scheduling', async () => {
+    const p = await seed(); await run('fail-first'); await drain(); await readySecond(p.id); await run('fail-second');
+    const provider = { ...analysis, analyze: async () => { throw new Error('fixture_model_unavailable'); } };
+    for (let i = 0; i < 3; i++) {
+      await drain({ analysis: provider });
+      await database.engineTask.updateMany({ where: { status: 'queued', stage: 'analyze' }, data: { nextAttemptAt: new Date(0) } });
+    }
+    const state = await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'publish') });
+    expect(state.candidateHash).toBe(digest(newText)); expect(state.nextDueAt.getTime()).toBeGreaterThan(Date.now());
+    expect(await database.engineAttempt.count({ where: { stage: 'analyze', status: 'failed' } })).toBe(3);
+    expect((await database.engineRun.findUniqueOrThrow({ where: { requestKey: 'fail-second' } })).status).toBe('completed_with_errors');
+  });
+});
+
+describe('V6 representation cache and source fallback', () => {
+  const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+  const makeInput = (): TaskInput => ({ mode: 'publish', sourceUrl: fixtureUrl, scopeHash: 'fixture', baselineHash: digest(oldText), profileHash: store.engineExtractionProfileHash(fixtureUrl),
+    contractHash: digest(JSON.stringify(contract)), contract, forceFresh: false, origin: 'https://example.com' });
+  it('revalidates a complete cached representation with ETag and rejects reuse for pending candidates', async () => {
+    const input = makeInput();
+    const initial = vi.fn(async () => ({ ok: true, html, status: 200, finalUrl: fixtureUrl, error: '', validators: { etag: '"fixture-v1"' } }));
+    const captured = await acquisition.acquire(input, initial);
+    expect(captured.eligible).toBe(true); expect(await database.engineHttpCache.count()).toBe(0);
+    await database.$transaction(tx => acquisition.saveRepresentation(tx, captured));
+    const body = await store.readArtifact<CaptureBody>(captured.artifactId!); input.baselineHash = body.document.hash;
+    expect(await database.engineHttpCache.count()).toBe(1);
+    const next = vi.fn<import('../engine/acquisition').Transport>(async () => ({ ok: false, html: '', status: 304, finalUrl: fixtureUrl, error: '' }));
+    const checked = await acquisition.acquire(input, next);
+    expect(checked.notModified).toBe(true); expect(next.mock.calls[0][2]).toEqual({ etag: '"fixture-v1"', lastModified: undefined });
+    const pending = await acquisition.acquire({ ...input, forceFresh: true }, next);
+    expect(pending.eligible).toBe(false); expect(pending.notModified).toBe(false);
+  });
+  it('does not issue validators for a corrupt cached artifact or a Vary response', async () => {
+    const input = makeInput();
+    const initial = async () => ({ ok: true, html, status: 200, finalUrl: fixtureUrl, error: '', validators: { etag: '"v1"' } });
+    const captured = await acquisition.acquire(input, initial);
+    await database.$transaction(tx => acquisition.saveRepresentation(tx, captured));
+    await database.engineArtifact.update({ where: { id: captured.artifactId! }, data: { bodyJson: '{}' } });
+    const next = vi.fn<import('../engine/acquisition').Transport>(initial); await acquisition.acquire(input, next);
+    expect(next.mock.calls[0][2]).toBeUndefined();
+    expect(acquisition.cacheable({ ...await initial(), validators: { etag: '"v1"', vary: '*' } }, fixtureUrl)).toBe(false);
+  });
+  it('tries rendering when direct HTML passes legacy shape but fails the source contract', async () => {
+    const transport = vi.fn(async (_url: string, source: string) => ({ ok: true,
+      html: source === 'rendered' ? html : '<main><h1>Privacy courses</h1><p>' + 'Learn privacy policy terms and personal data. '.repeat(20) + '</p></main>',
+      status: 200, finalUrl: fixtureUrl, error: '' }));
+    const result = await acquisition.acquire(makeInput(), transport);
+    expect(result.source).toBe('rendered'); expect(result.eligible).toBe(true); expect(transport).toHaveBeenCalledTimes(3);
+  });
+  it('stops on Retry-After and preserves origin cooldown', async () => {
+    const transport = vi.fn(async () => ({ ok: false, html: '', status: 429, finalUrl: fixtureUrl, error: 'rate_limited', retryAfterMs: 120000 }));
+    const result = await acquisition.acquire(makeInput(), transport);
+    expect(transport).toHaveBeenCalledTimes(1); expect(result.retryAfterMs).toBe(120000);
+    await seed(); await run('backoff-run'); await drain({ acquire: async () => result });
+    expect((await database.engineOrigin.findUniqueOrThrow({ where: { origin: 'https://example.com' } })).nextAllowedAt.getTime()).toBeGreaterThan(Date.now() + 100000);
+  });
+  it('supports Italian evidence through reviewed identity instead of English keyword frequency', async () => {
+    const itContract = { ...contract, titleAliases: ['Informativa sulla riservatezza'], requiredHeadings: ['Dati', 'Contatti'], language: 'it' as const,
+      terminalText: 'Per ulteriori informazioni contattare il responsabile della protezione dei dati.' };
+    const itHtml = `<html lang="it"><main><h1>Informativa sulla riservatezza</h1><h2>Dati</h2><p>Conserviamo i dati per trenta giorni.</p><h2>Contatti</h2><p>${itContract.terminalText}</p></main></html>`;
+    const result = await acquisition.acquire({ ...makeInput(), contract: itContract }, async () => ({ ok: true, html: itHtml, status: 200, finalUrl: fixtureUrl, error: '' }));
+    expect(result.eligible).toBe(true);
+  });
+});
+
+
+describe('adjudicated Gemini and GLM review regressions', () => {
+  it('separates headings, paragraphs, CRLF and asterisk lists without changing UTF-16 offsets', () => {
+    const text = '# Privacy 🛡️\r\nParagraph first line\r\nwrapped line\r\n\r\n* No\r\n* No\r\n## GDPR\r\nFinal';
+    const doc = structureDocument(text);
+    expect(doc.blocks.map(b => b.kind)).toEqual(['heading', 'paragraph', 'list', 'list', 'heading', 'paragraph']);
+    expect(doc.hash).toBe(digest(text));
+    for (const block of doc.blocks) expect(text.slice(block.start, block.end)).toBe(block.text);
+  });
+  it('accepts short complete blocks and separate table header/row anchors', () => {
+    const old = structureDocument('# A\n\n| Use | Consent |\n| Ads | No |\n| AI | No |');
+    const next = structureDocument('# B\n\n| Use | Consent |\n| Ads | No |\n| AI | Yes |');
+    const input = { old, next, deltas: compareDocuments(old, next).deltas };
+    const value = grounded(input);
+    for (const [side, doc] of [['old', old], ['new', next]] as const) {
+      const header = doc.blocks[1]; value.claims[0].evidence.push({ side, documentHash: doc.hash, start: header.start, end: header.end, quote: header.text });
+    }
+    expect(validateClaims(value, input).reasons).toEqual([]);
+  });
+  it('retains full context only once in a large-document model request', () => {
+    const old = structureDocument('# Policy\n\n' + Array.from({ length: 500 }, (_, i) => `Clause ${i}: ` + 'abc '.repeat(200)).join('\n\n'));
+    const next = structureDocument(old.text.replace('Clause 250:', 'Clause 250 changed:'));
+    const payload = modelEvidence({ old, next, deltas: compareDocuments(old, next).deltas });
+    expect(JSON.stringify(payload).length).toBeLessThan(1_200_000);
+    expect(payload.old.blocks.map(b => b.text)).toEqual(old.text.split('\n\n').map(text => text.trim()));
+    expect(payload.deltas.every(d => 'blockId' in d && !('block' in d))).toBe(true);
+  });
+  it('skips network and preserves public state when a contract is missing; deduplicates configuration reviews', async () => {
+    const p = await seed(); await database.engineSourceContract.delete({ where: { policyId: p.id } });
+    const transport = vi.fn(async () => { throw new Error('must_not_fetch'); });
+    for (const requestKey of ['no-contract-first', 'no-contract-second']) {
+      await database.enginePolicyState.updateMany({ data: { nextDueAt: new Date(0) } });
+      await database.engineOrigin.updateMany({ data: { nextAllowedAt: new Date(0) } });
+      await run(requestKey); await drain({ acquire: input => acquisition.acquire(input, transport) });
+    }
+    expect(transport).not.toHaveBeenCalled(); expect(await database.engineReview.count()).toBe(1);
+    const current = await database.policy.findUniqueOrThrow({ where: { id: p.id } });
+    expect(current.dataStatus).toBe(p.dataStatus); expect(current.lastCheckDate.getTime()).toBe(0);
+  });
+  it('records eligible pending evidence without degrading public availability', async () => {
+    const p = await seed(); await run('available-pending'); await drain();
+    const current = await database.policy.findUniqueOrThrow({ where: { id: p.id } });
+    expect(current.dataStatus).toBe('Available'); expect(current.lastSuccessfulCheckDate!.getTime()).toBeGreaterThan(0);
+    expect(current.currentHash).toBe(p.currentHash); expect(await database.policyChange.count()).toBe(0);
+  });
+  it('does not mutate a newer context from hold or terminal failure', async () => {
+    const p = await seed(); await run('stale-hold');
+    await drain({ acquire: async () => {
+      await database.policy.update({ where: { id: p.id }, data: { jurisdiction: 'EU', dataStatus: 'Available' } });
+      return { ...await capture(), eligible: false, reasons: ['required_sections_missing'] };
+    } });
+    const current = await database.policy.findUniqueOrThrow({ where: { id: p.id } });
+    expect(current.dataStatus).toBe('Available'); expect(current.lastCheckDate.getTime()).toBe(0);
+    expect(await database.engineReview.count()).toBe(0); expect(await database.policyCheckLog.count()).toBe(0);
+    const task = await database.engineTask.findFirstOrThrow({ where: { kind: 'policy' } });
+    expect(task.status).toBe('failed'); expect(task.attempt).toBe(1);
+  });
+  it('requires explicit approval of an extractor replay and publishes no provider-change event', async () => {
+    const p = await seed();
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    await database.extractionBaseline.update({ where: { policyId: p.id }, data: { profileHash: 'legacy-profile', input: html, inputHash: digest(html) } });
+    await run('replay-review'); await drain();
+    const review = await database.engineReview.findFirstOrThrow();
+    expect(review.reasonsJson).toContain('parser_upgrade_requires_baseline_review');
+    expect(await database.policySnapshot.count()).toBe(1);
+    await pipeline.approveReview(review.id, 'Reviewed stored original HTML and every replayed section.', 'fixture-admin');
+    expect(await database.policyChange.count()).toBe(0); expect(await database.engineOutbox.count()).toBe(0);
+    expect((await database.extractionBaseline.findUniqueOrThrow({ where: { policyId: p.id } })).profileHash).toBe(store.engineExtractionProfileHash(fixtureUrl));
+    expect((await database.engineReview.findUniqueOrThrow({ where: { id: review.id } })).status).toBe('approved');
+  });
+  it('refreshes stale evidence without deleting the previous review capture', async () => {
+    const p = await seed(); await run('refresh-first'); await drain(); await readySecond(p.id); await run('refresh-second');
+    const provider = { ...analysis, analyze: async (input: AnalysisInput) => { const value = grounded(input); value.claims[0].impact = 8; return { value, receipt }; } };
+    await drain({ analysis: provider });
+    const review = await database.engineReview.findFirstOrThrow(); const originalTask = await database.engineTask.findUniqueOrThrow({ where: { id: review.taskId } });
+    const payload = JSON.parse(review.payloadJson); payload.checkpoint.observation.observedAt = new Date(Date.now() - 3 * store.DAILY_MS).toISOString();
+    await database.engineReview.update({ where: { id: review.id }, data: { payloadJson: JSON.stringify(payload) } });
+    await expect(pipeline.approveReview(review.id, 'Review delayed; older evidence must be refreshed.', 'fixture-admin')).rejects.toThrow('review_hard_gate_unresolved');
+    await pipeline.closeReview(review.id, 'refresh', 'Obtain fresh source evidence before deciding.', 'fixture-admin');
+    await database.engineOrigin.updateMany({ data: { nextAllowedAt: new Date(0) } });
+    await run('refresh-third'); await drain({ analysis: provider }); await readySecond(p.id); await run('refresh-fourth'); await drain({ analysis: provider });
+    const refreshed = await database.engineReview.findFirstOrThrow({ where: { policyId: p.id, status: 'pending' } });
+    expect((await database.engineReview.findUniqueOrThrow({ where: { id: review.id } })).reviewNote).toBe('Obtain fresh source evidence before deciding.');
+    expect(refreshed.status).toBe('pending'); expect(refreshed.taskId).not.toBe(review.taskId);
+    expect((await database.engineTask.findUniqueOrThrow({ where: { id: review.taskId } })).checkpointJson).toBe(originalTask.checkpointJson);
+    await pipeline.approveReview(refreshed.id, 'Fresh independent captures and impact verified.', 'fixture-admin');
+    expect(await database.policyChange.count()).toBe(1);
+  });
+  it('retries transient acquisition without losing the pending candidate', async () => {
+    const p = await seed(); await run('outage-first'); await drain(); await readySecond(p.id); await run('outage-second');
+    const fetch = vi.fn(async () => ({ ...await capture(), artifactId: null, eligible: false, reasons: ['origin_backoff'], httpStatus: 429, retryAfterMs: 120000 }));
+    await drain({ acquire: fetch });
+    expect(await database.engineTask.count({ where: { kind: 'policy', status: 'blocked' } })).toBe(1);
+    for (let i = 0; i < 2; i++) {
+      await database.engineTask.updateMany({ where: { kind: 'fetch', status: 'queued' }, data: { nextAttemptAt: new Date(0) } });
+      await database.engineOrigin.updateMany({ data: { nextAllowedAt: new Date(0) } }); await drain({ acquire: fetch });
+    }
+    expect(fetch).toHaveBeenCalledTimes(3);
+    expect((await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'publish') })).candidateHash).toBe(digest(newText));
+  });
+  it('does not deliver to unconfirmed subscribers and terminates the expired fifth outbox attempt', async () => {
+    const p = await seed(); await run('consent-first'); await drain(); await readySecond(p.id); await run('consent-second'); await drain();
+    await database.subscriber.create({ data: { email: 'unconfirmed@example.test', regions: 'Global', industries: 'Technology', frequency: 'INSTANT', isActive: true } });
+    vi.stubEnv('POLICYWATCHER_ENGINE_NOTIFICATIONS', '1'); const sender = vi.fn().mockResolvedValue(true);
+    await outbox.outboxStep(sender); await outbox.outboxStep(sender);
+    expect(sender).not.toHaveBeenCalled(); expect(await database.engineOutbox.count()).toBe(1);
+    await database.engineOutbox.updateMany({ data: { status: 'sending', attempt: 5, leaseToken: 'expired', leaseExpiresAt: new Date(0) } });
+    await outbox.outboxStep(sender);
+    expect((await database.engineOutbox.findFirstOrThrow()).status).toBe('failed');
+  });
+  it('requires two fresh observations for an explicit source migration even when the text hash is identical', async () => {
+    const p = await seed(); await database.policy.update({ where: { id: p.id }, data: { sourceMigrationPending: true } });
+    await run('migration-same-first'); await drain({ acquire: async () => capture(oldText) });
+    expect((await database.policy.findUniqueOrThrow({ where: { id: p.id } })).sourceMigrationPending).toBe(true);
+    await readySecond(p.id); await run('migration-same-second'); await drain({ acquire: async () => capture(oldText) });
+    expect((await database.policy.findUniqueOrThrow({ where: { id: p.id } })).sourceMigrationPending).toBe(false);
+    expect(await database.policyChange.count()).toBe(0);
+  });
+  it('does not process queued publication runs while the publication switch is off', async () => {
+    await seed(); await run('disabled-publication'); vi.stubEnv('POLICYWATCHER_ENGINE_PUBLICATION', '0');
+    expect(await store.claimTask()).toBeNull(); expect(await database.policyChange.count()).toBe(0);
+  });
+});
+
+
+describe('final review isolation and history regressions', () => {
+  it('keeps observation scheduling and candidates separate from publication state', async () => {
+    const p = await seed(); await run('isolation-observe', 'observe'); await drain();
+    expect(await database.enginePolicyState.findUnique({ where: store.stateKey(p.id, 'publish') })).toBeNull();
+    const publish = await run('isolation-publish'); expect(publish.selected).toBe(1);
+    await database.engineOrigin.updateMany({ data: { nextAllowedAt: new Date(0) } }); await drain();
+    const state = await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'publish') });
+    await readySecond(p.id, 'observe'); await run('isolation-observe-unchanged', 'observe');
+    await drain({ acquire: async () => capture(oldText) });
+    expect(await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'publish') })).toEqual(state);
+    expect(await database.engineHttpCache.count()).toBe(0);
+  });
+  it('labels observe-only findings without adding an approvable production review', async () => {
+    const p = await seed(); await run('observed-impact-first', 'observe'); await drain(); await readySecond(p.id, 'observe'); await run('observed-impact-second', 'observe');
+    await drain({ analysis: { ...analysis, analyze: async input => { const value = grounded(input); value.claims[0].impact = 8; return { value, receipt }; } } });
+    const review = await database.engineReview.findFirstOrThrow();
+    expect(review.mode).toBe('observe'); expect(review.status).toBe('observed');
+    await expect(pipeline.approveReview(review.id, 'Do not allow an observation-only run to publish.', 'fixture')).rejects.toThrow('review_not_pending');
+    expect((await run('publish-after-observation')).selected).toBe(1);
+  });
+  it('keeps old review payloads immutable and only the newest dynamic capture pending', async () => {
+    const p = await seed(); await database.extractionBaseline.delete({ where: { policyId: p.id } });
+    await run('dynamic-first'); await drain(); const oldReview = await database.engineReview.findFirstOrThrow();
+    await database.enginePolicyState.update({ where: store.stateKey(p.id, 'publish'), data: { nextDueAt: new Date(0) } });
+    await database.engineOrigin.updateMany({ data: { nextAllowedAt: new Date(0) } }); await run('dynamic-second');
+    await drain({ acquire: async () => {
+      const result = await capture(); const body = await store.readArtifact<CaptureBody>(result.artifactId!);
+      result.artifactId = await store.putArtifact({ ...body, html: body.html + '<!-- different dynamic nonce -->' }); return result;
+    } });
+    expect(await database.engineReview.count({ where: { status: 'pending' } })).toBe(1);
+    const history = await database.engineReview.findUniqueOrThrow({ where: { id: oldReview.id } });
+    expect(history.status).toBe('superseded'); expect(history.payloadJson).toBe(oldReview.payloadJson);
+  });
+  it('supersedes an obsolete review after a fresh unchanged capture', async () => {
+    const p = await seed(); await database.extractionBaseline.delete({ where: { policyId: p.id } });
+    await run('obsolete-first'); await drain();
+    await database.enginePolicyState.update({ where: store.stateKey(p.id, 'publish'), data: { nextDueAt: new Date(0) } });
+    await database.engineOrigin.updateMany({ data: { nextAllowedAt: new Date(0) } }); await run('obsolete-second'); await drain({ acquire: async () => capture(oldText) });
+    expect(await database.engineReview.count({ where: { status: 'pending' } })).toBe(0);
+    expect((await database.policy.findUniqueOrThrow({ where: { id: p.id } })).dataStatus).toBe('Available');
+  });
+  it('uses the header of the changed table, without crossing a blank-line table boundary', () => {
+    const old = structureDocument('| First | Value |\n| Other | No |\n\n| Purpose | Consent |\n| AI | No |');
+    const next = structureDocument(old.text.replace('| AI | No |', '| AI | Yes |'));
+    const input = { old, next, deltas: compareDocuments(old, next).deltas }; const claims = grounded(input);
+    for (const [side, doc] of [['old', old], ['new', next]] as const) {
+      const header = doc.blocks[2]; claims.claims[0].evidence.push({ side, documentHash: doc.hash, start: header.start, end: header.end, quote: header.text });
+    }
+    expect(validateClaims(claims, input).reasons).toEqual([]);
+  });
+});
+
+
+describe('operational release regressions', () => {
+  it('cancels a paused publication run, fences the old worker, and frees policies for observation', async () => {
+    await seed(); const runToCancel = await run('cancel-active-run'); const lease = await store.claimTask();
+    vi.stubEnv('POLICYWATCHER_ENGINE_PUBLICATION', '0');
+    expect((await run('blocked-observe', 'observe')).selected).toBe(0);
+    await store.cancelRun(runToCancel.id, 'Stop remaining publication work and observe sources.', 'fixture-admin');
+    expect((await run('unblocked-observe', 'observe')).selected).toBe(1);
+    await expect(store.fenced(lease!, tx => store.finishTask(tx, lease!, { stale: true }))).rejects.toThrow('engine_lease_lost');
+    expect((await database.engineRun.findUniqueOrThrow({ where: { id: runToCancel.id } })).status).toBe('cancelled');
+  });
+  it('approves a confirmed formatting baseline without announcing a provider change', async () => {
+    const p = await seed(); const formatting = oldText.replace('## Data use', '### Data use');
+    await run('formatting-first'); await drain({ acquire: async () => capture(formatting) });
+    await readySecond(p.id); await run('formatting-second'); await drain({ acquire: async () => capture(formatting) });
+    const review = await database.engineReview.findFirstOrThrow({ where: { status: 'pending' } });
+    expect(review.reasonsJson).toContain('formatting_requires_baseline_review');
+    await pipeline.approveReview(review.id, 'Reviewed identical clauses and the changed heading markup.', 'fixture-admin');
+    const current = await database.policy.findUniqueOrThrow({ where: { id: p.id } });
+    expect(current.currentHash).toBe(digest(formatting)); expect(current.dataStatus).toBe('Available');
+    expect(await database.policyChange.count()).toBe(0); expect(await database.engineOutbox.count()).toBe(0);
+  });
+});

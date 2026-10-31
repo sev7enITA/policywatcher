@@ -3,6 +3,8 @@ import { getDatabaseDiagnostics, type DatabaseDiagnostics } from './databaseConf
 import type { DatabaseProvider } from './databaseUrl';
 
 export const EXPECTED_DATABASE_TABLES = [
+  'EngineRun', 'EngineTask', 'EngineArtifact', 'EngineAttempt', 'EngineSourceContract',
+  'EnginePolicyState', 'EngineOrigin', 'EngineHttpCache', 'EngineReview', 'EngineOutbox',
   'ExtractionBaseline',
   'ExternalDocumentReference',
   'EvidenceQualityReview',
@@ -60,6 +62,7 @@ export const EXPECTED_SQLITE_MIGRATIONS = [
   '20261002050000_multiple_documents_per_type',
   '20261007120000_evidence_assurance',
   '20261015160000_dq_lineage_occurrences',
+  '20261031060000_engine_v6',
 ] as const;
 
 export const EXPECTED_POSTGRESQL_MIGRATIONS = [
@@ -67,6 +70,7 @@ export const EXPECTED_POSTGRESQL_MIGRATIONS = [
   '20261002050000_multiple_documents_per_type',
   '20261007120000_evidence_assurance',
   '20261015160000_dq_lineage_occurrences',
+  '20261031060000_engine_v6',
 ] as const;
 
 // Backward-compatible name for the production SQLite migration contract.

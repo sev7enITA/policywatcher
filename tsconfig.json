@@ -31,6 +31,7 @@
     "**/*.mts"
   ],
   "exclude": [
+    "output",
     "node_modules",
     "mobile",
     "_archivio-locale",

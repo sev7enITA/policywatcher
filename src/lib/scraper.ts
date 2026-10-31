@@ -463,11 +463,49 @@ export interface TransportResult {
   status: number;
   finalUrl: string;
   error: string;
+  /** Whitelisted representation metadata; never cookies or authorization. */
+  validators?: { etag?: string; lastModified?: string; vary?: string; cacheControl?: string; contentLanguage?: string };
+  retryAfterMs?: number;
   /** Wayback/CDX timestamp (YYYYMMDDhhmmss) when the HTML came from an archive. */
   archiveTimestamp?: string;
   /** Latest known archive capture rejected by the freshness guard. */
   staleArchiveTimestamp?: string;
   staleArchiveUrl?: string;
+}
+
+/** One bounded, pinned request chain. V6 owns retries and per-origin backoff. */
+export async function acquireEngineTransport(url: string, kind: 'direct' | 'http2' | 'rendered',
+  validators?: { etag?: string; lastModified?: string }): Promise<TransportResult> {
+  if (kind === 'http2') return fetchWithHttp2(url);
+  if (kind === 'rendered') return rendererConfigured() ? fetchWithRenderer(url)
+    : { ok: false, html: '', status: 0, finalUrl: url, error: 'renderer_not_configured' };
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  try {
+    let current = url;
+    for (let redirects = 0; redirects <= MAX_REDIRECTS; redirects++) {
+      const destination = await validateOutboundUrl(current);
+      if (!destination.ok) throw new Error(destination.reason);
+      const headers = buildHeaders(BROWSER_PROFILES[0]);
+      // Conditional validators are never forwarded across a redirect.
+      if (!redirects && validators?.etag) headers['If-None-Match'] = validators.etag;
+      else if (!redirects && validators?.lastModified) headers['If-Modified-Since'] = validators.lastModified;
+      const res = await requestPinnedHttp(new URL(destination.url), destination.pinnedIp, headers, controller.signal);
+      if (res.status >= 300 && res.status < 400 && res.status !== 304 && res.headers.location) {
+        current = new URL(res.headers.location, current).toString();
+        if (!isCoherentHost(new URL(url).hostname, new URL(current).hostname)) throw new Error('host_drift');
+        continue;
+      }
+      const retry = res.headers['retry-after'];
+      const retryAfterMs = retry ? Math.min(86_400_000, Math.max(0, /^\d+$/.test(retry) ? Number(retry) * 1000 : Date.parse(retry) - Date.now())) : undefined;
+      return { ok: res.status >= 200 && res.status < 300 && res.status !== 202, html: res.body, status: res.status,
+        finalUrl: destination.url, error: res.status === 200 ? '' : `http_${res.status}`,
+        retryAfterMs: Number.isFinite(retryAfterMs) ? retryAfterMs : undefined,
+        validators: { etag: res.headers.etag, lastModified: res.headers['last-modified'], vary: res.headers.vary,
+          cacheControl: res.headers['cache-control'], contentLanguage: res.headers['content-language'] } };
+    }
+    throw new Error('too_many_redirects');
+  } finally { clearTimeout(timer); }
 }
 
 type TestTransport = (url: string, notBefore?: Date) => Promise<TransportResult>;
@@ -1583,18 +1621,37 @@ export function extractPolicyText(html: string, sourceUrl?: string, contract: Po
 
   const $target = container || $('body');
   const blocks: string[] = [];
-  const seen = new Set<string>();
 
   // Extract structured text from semantic leaf blocks. Avoid generic div/span
   // selectors: they overlap with child paragraphs and duplicate whole sections.
-  $target.find('h1, h2, h3, h4, h5, h6, p, li, td, th, dt, dd, blockquote').each((_, element) => {
+  $target.find('h1, h2, h3, h4, h5, h6, p, li, table, dt, dd, blockquote').each((_, element) => {
     const $el = $(element);
     const tag = element.tagName.toLowerCase();
+    if ($el.parents('table').length) return;
+    if (tag === 'table') {
+      // Cell position and repeated/short values are evidence, including "No".
+      const rows: string[] = [];
+      $el.find('tr').each((__, row) => {
+        const cells = $(row).children('th, td').map((___, cell) => {
+          const span = Math.max(Number($(cell).attr('colspan') || 1), Number($(cell).attr('rowspan') || 1));
+          const value = $(cell).text().replace(/\s+/g, ' ').trim().replace(/\|/g, '\\|');
+          return span > 1 ? `${value} [colspan=${$(cell).attr('colspan') || 1}; rowspan=${$(cell).attr('rowspan') || 1}]` : value;
+        }).get();
+        if (cells.length) rows.push(`| ${cells.join(' | ')} |`);
+      });
+      if (rows.length) blocks.push(`\n${rows.join('\n')}\n`);
+      return;
+    }
+    // Skip overlapping containers, preserving their own text when present.
+    if ($el.find('p, li, table, blockquote, dt, dd').length) {
+      const own = $el.clone();
+      own.find('p, li, table, blockquote, dt, dd').remove();
+      const ownText = own.text().replace(/\s+/g, ' ').trim();
+      if (ownText) blocks.push(tag === 'li' ? `- ${ownText}` : `\n${ownText}\n`);
+      return;
+    }
     const text = $el.text().trim().replace(/\s+/g, ' ');
-    if (!text || text.length < 3) return;
-    const dedupeKey = text.toLowerCase();
-    if (seen.has(dedupeKey)) return;
-    seen.add(dedupeKey);
+    if (!text) return;
     if (tag.startsWith('h')) {
       const level = parseInt(tag.substring(1));
       blocks.push(`\n${'#'.repeat(level)} ${text}\n`);
