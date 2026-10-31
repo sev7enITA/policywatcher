@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-31T11:00:23.825205+00:00",
+  "implementationCommit": "3a47d38f31fb51dc14eb49176196e34deb34f13b",
+  "previousCheckpoint": "077b1d0",
+  "boundary": "New code plus sanitized committed evidence. Local evidence hashes pin ignored artifacts without committing credentials, raw source bodies or databases. Neither model agreement nor test counts establish production efficacy.",
+  "implementationFiles": [
+    {
+      "path": ".env.example",
+      "sha256": "f8bde414f4062077e800dc3fe5489d47e36c91b99fc011ae649811487526e402"
+    },
+    {
+      "path": "docs/architecture/engine-source-review-runbook.md",
+      "sha256": "34027f32e84fd785e9da161957531942b88d23497315c544dc4ec3e85a5bf9e0"
+    },
+    {
+      "path": "evals/engine-v6/claims-corpus.json",
+      "sha256": "31eb5cc15aef4c6582cbdd9541031d5180ea045b0109d2c0db6e85d85cd5235e"
+    },
+    {
+      "path": "package.json",
+      "sha256": "75093d4f9b7012dbb6541a7f73ebc65395ffa0f23465baa6bc847418cf1cdb59"
+    },
+    {
+      "path": "scripts/engine-claims-probe.ts",
+      "sha256": "9b34fd99903301151c8ee236e086fa0f1410174f82b1e56ed32b880fb811990b"
+    },
+    {
+      "path": "scripts/engine-extraction-replay.ts",
+      "sha256": "45e244ec8abcf342ef927b3f83d371e6001a98a4ed4f57fa583e3d47bdbf8402"
+    },
+    {
+      "path": "src/lib/__tests__/engineModelRuntime.test.ts",
+      "sha256": "9729da161c314021f3e06ecfcc807f530e195702f654bfa4097604f749271e07"
+    },
+    {
+      "path": "src/lib/__tests__/engineV6.test.ts",
+      "sha256": "a3994f4f28c51d1c89657f3a2849453878fe6d0816b3eab1ce44a23794c8e8df"
+    },
+    {
+      "path": "src/lib/engine/acquisition.ts",
+      "sha256": "ba86751d1c87c39459b930a7554d751226a4cd37a2d56f4bdbfc537b10b6186a"
+    },
+    {
+      "path": "src/lib/engine/claims.ts",
+      "sha256": "f7ea5fc84715891c34a65caf4ac88f58bf0187039e956e1571446dcd11fd2fe7"
+    },
+    {
+      "path": "src/lib/engine/pipeline.ts",
+      "sha256": "ff4d6c9274ace183cb40159fe6d82b4079316b304a805083c12ecfbb50968e33"
+    },
+    {
+      "path": "src/lib/extractionProfile.generated.json",
+      "sha256": "f3ae44312c701066bb2e2052f34046d9555a0b771bef022e56800da5477888ff"
+    },
+    {
+      "path": "tsconfig.tests.json",
+      "sha256": "6252df3ceb5fdb7ed763c7fef32e6ae6b9f5706ee485bc61c1a696f3cd2dc252"
+    }
+  ],
+  "committedEvidence": [
+    {
+      "path": "docs/reports/engine-v6-adversarial-2026-10-31.md",
+      "sha256": "08f711f60d2fa29d8edb926a9dc7b64d032f397b6dd46ed908778882e6e5aadf"
+    },
+    {
+      "path": "docs/reports/engine-v6-adversarial-evidence-2026-10-31.json",
+      "sha256": "6b36e1fdd0bf140047f80550efaa3ce0e5e55c770ec5347c9243b6820f9ac6cd"
+    }
+  ],
+  "localEvidence": [
+    {
+      "path": "output/engine-adversarial-2026-10-31/regressions-before.log",
+      "sha256": "52c0934faa66f7cd207faa01a2d29682d7116bef3374bf11819a5f1b8bacc293"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/unstructured-before.log",
+      "sha256": "1a750cdbb270396e00103aa6dca47a4c55c29922f2236594593f5b8a83ac055c"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/full-tests-release.log",
+      "sha256": "9be7e9a1eeaf103890fa72282f48720faead59e4309dbed0704b6744118bb8db"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/focused-runtime-final.log",
+      "sha256": "ee3a226be09d7a5141e5ef9413aee88471a252419440186bc82e8103cd348846"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/typecheck-release.log",
+      "sha256": "375428b367bfbe2a2872aecc5dc5d1d0fe26cc010c19520f55e016eab1968a1a"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/test-types-release.log",
+      "sha256": "9f10b3b6fbfe108f64f586b7b57faa5f77e3fd3c4349dc83dc859260dfe1d4ab"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/lint-release.log",
+      "sha256": "312fafb96e2ea597dabd5f0f7ea59d32d56a42c9c3800231fe4a90b1f2582bde"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/build-release.log",
+      "sha256": "22e8ac6bc0291c5e3a209e2529baa80db40f45702cefca4957632c2dfa8604d3"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/source-window-comparison.json",
+      "sha256": "c7661cd290b0c897817001274cd21eb9059f7e3f6cd4f29082fc7f0374102fe1"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/artifact-storage-scenarios.json",
+      "sha256": "091eb6b50b1ef5147b7ca0660a2487dd9eed076afee926b8abfb347082fd0e6a"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/replay-final-pinned/report.json",
+      "sha256": "1fd18755f6333bd6dab6ede1eb26b9e5f15688c9f488739220a92835be5c13ee"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/live-default/results.json",
+      "sha256": "b1151daa2dfb55da9e934e18da5339ff4f22661ac9e0a338601bcc8720e46560"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/live-default-ipv4/results.json",
+      "sha256": "2d3f5d0388cb410c6ecf57d4dfb0d6dc5f03af3c8de2b8fcaf9f1d108a0f2299"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/live-current-models/results.json",
+      "sha256": "0432007b11ac03182ef52f3bc8a9b601bb55a4cc4d6a05f3d02bcbbf9692ca4b"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/model-output-revalidation.json",
+      "sha256": "48ce3b7f158b0a07b119ae58fefbd13f593195721da9bf5974bf23ed5958e988"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/bilingual-negative.json",
+      "sha256": "7fb1f2a162ffab274172c5c703a0d05ed9d34905a2918006d946c631252778ec"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/model-discovery.json",
+      "sha256": "1ce12dfba20efb273c19efe80d822b29c2b4f7cd882fba579e74066bbbe5cd1a"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/model-costs.json",
+      "sha256": "e15db6d5627555d0277c954263be005b4d6ec7756e38813bbc4fb40c89f03102"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/review-candidate-3/manifest.json",
+      "sha256": "33fd57ec3b0f518ceddbef684518d678f53bb42e0cba78292dfee3d8e4251f24"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/review-candidate-3/review.txt",
+      "sha256": "587c47f333ea18a9acc596da7a1c6fa530d9f67a13cebbae816bc2eafdeefabb"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/gemini-review-failure.json",
+      "sha256": "6c6f99e7f21106722982a1e9750d22df9744c6ec144d854d3ddca5f0edc90daa"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/gemini-review-failure-2.json",
+      "sha256": "541f9fb0f01fb011df0becd262c436d9b003c6f219e28467eed20afed512a0b6"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/gemini-review-stream-progress.json",
+      "sha256": "8f263c0d53a12ae090396805ed6a066caadfa26a19a8cd4cfe8fdc417ca99db2"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/gemini-review-stream-32k-failure.json",
+      "sha256": "8b877c253a59d54703e988dc62f78f122b2859c58171e9b429fb3fb9535f4086"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/capture-3/results.json",
+      "sha256": "a053555362cc7ac422a52474ccc95509e625b5846820eac4d4e37927d0110d7f"
+    },
+    {
+      "path": "output/engine-adversarial-2026-10-31/capture-3-retry/results.json",
+      "sha256": "1dc31dafd92efd248ac9eb9bdb5085189cbf4df7ded1062cb6c172aa006e542d"
+    }
+  ]
+}

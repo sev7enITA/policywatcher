@@ -2,6 +2,8 @@
 
 Status: local experimental engine. This record extends the initial verification at commit `6a9c91e`; it does not qualify activation in production. Public website announcement and engine runtime are separate artifacts.
 
+Continued testing after checkpoint `077b1d0` is recorded separately in [the adversarial report](engine-v6-adversarial-2026-10-31.md). That work found and corrected additional text-loss and model-verification defects; the earlier stability results below are not completeness claims.
+
 ## First bounded real-source probe
 
 Twelve official public endpoints were requested sequentially with direct transport and a bounded HTTP/2 fallback. All twelve returned HTTP 200 and produced extractable text. This is **transport/extraction coverage of a small corpus**, not evidence that twelve complete policies have been validated. No AI, renderer, subscriber delivery, production database or public baseline was used.
