@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Release-5.2.0%20Adaptive%20Acquisition%20Evidence-146c6a" alt="PolicyWatcher 5.2.0 Adaptive Acquisition Evidence" />
+  <img src="https://img.shields.io/badge/Stable%20service-5.2.0%20Adaptive%20Acquisition%20Evidence-146c6a" alt="PolicyWatcher 5.2.0 Adaptive Acquisition Evidence" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -35,12 +35,13 @@
 
 ## Current service and Engine 6 Preview
 
-**Updated 1 November 2026.** The public web service is **5.2.0**. Engine 6 has been implemented and tested on the [development branch](https://github.com/sev7enITA/policywatcher/tree/codex/engine-v6-local); it is not yet the engine serving the main website. A separate authenticated **6.0 Preview** is now being prepared so the new controls can be used online with private results.
+**Updated 1 November 2026.** The public web service is **5.2.0**. Engine 6 source is now integrated in `main` through [PR #37](https://github.com/sev7enITA/policywatcher/pull/37); the main public website still uses the stable engine. The separate authenticated [**6.0 Preview is online**](https://staging.policywatcher.online/admin/engine), with private results and publication/notifications disabled.
 
 | Find the work | Verified availability |
 | --- | --- |
-| [Engine 6 source](https://github.com/sev7enITA/policywatcher/tree/codex/engine-v6-local) | Durable tasks, source contracts, evidence validation, Stable/Preview selector and same-capture extraction comparison |
-| [Implementation and test report](https://github.com/sev7enITA/policywatcher/blob/codex/engine-v6-local/docs/reports/engine-v6-channels-2026-11-01.md) | 1,469 tests passed, 14 skipped; local browser report and JSON export verified |
+| [Private online Preview](https://staging.policywatcher.online/admin/engine) | 47 actual hosted checks passed; live Apple comparison, three explicit source-contract holds and unchanged official records |
+| [Engine 6 source](https://github.com/sev7enITA/policywatcher/tree/main) | Durable tasks, source contracts, evidence validation, Stable/Preview selector and same-capture extraction comparison |
+| [Implementation and test report](https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/engine-v6-hosted-build-remediation-2026-11-01.md) | 1,565 tests passed, 14 skipped; 44 local HTTP/worker checks on candidate 2 and 22 generated standalone-server checks on candidate 3 |
 | [Engineering notebook](https://policywatcher.online/engine-6-preview?lang=it) | Published bilingual documentation with architecture, flow and entity diagrams; not an interactive preview |
 | [Updated wiki](https://github.com/sev7enITA/policywatcher/wiki) | Stable operations, Engine 6 design, scan channels, release status and qualification limits |
 | [Daily campaign](https://github.com/sev7enITA/policywatcher/blob/codex/engine-v6-local/docs/reports/engine-v6-campaign-2026-10-31.md) | 12 sources, 2 counted dates, minimum 20.77-hour span at this checkpoint; 3 dates/48 hours and source completeness still pending |

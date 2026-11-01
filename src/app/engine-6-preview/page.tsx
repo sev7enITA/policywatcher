@@ -15,9 +15,9 @@ const copy = {
     intro: 'Engine 6 Preview is being developed and tested to make policy retrieval, comparison and validation more traceable. This page opens the design for inspection.',
     boundary: 'Private preview access / staging environment',
     boundaryText: 'The main public service remains on stable version 5.2.0. Engine 6 trials use a separate staging environment with administrator authentication and private observations. Qualification remains open.',
-    hostingStatus: 'The results below state their verification scope. Deployment receipts and remaining limits are maintained in the linked verification reports.',
+    hostingStatus: 'The private 6.0 Preview is online. 47 checks passed on the actual hosting, including a live Apple capture and unchanged official records. Access requires administrator authentication.',
     access: 'Open private 6.0 Preview', resources: 'Preview access, code and evidence',
-    development: 'Development branch', wiki: 'GitHub wiki', reports: 'Verification reports',
+    development: 'Engine 6 source on main', wiki: 'GitHub wiki', reports: 'Verification reports',
     isolation: 'The preview uses a dedicated database within the same hosting account. This is logical separation, not independent infrastructure isolation.',
     nav: ['Architecture', 'Decision flow', 'Entity relationships', 'Validation'],
     promiseTitle: 'Three questions guide the experiment.',
@@ -63,9 +63,11 @@ const copy = {
       ['Policy · PolicyChange · EngineOutbox', 'Public baseline, committed change and deferred delivery.', 'PolicyChange → Policy is an existing FK; outbox changeId is an application reference.'],
     ],
     ledgerTitle: 'What the evidence currently establishes.',
-    ledgerIntro: 'Recorded local verification, updated 1 November 2026. Historical regression and campaign results are retained. The new production-mode checks ran locally from 21:29:27 to 21:31:10 UTC on 1 November; they do not establish hosted availability or production accuracy.',
+    ledgerIntro: 'Recorded local verification, updated 1 November 2026. Historical regression and campaign results are retained. Local production-mode and generated standalone-server checks are reported separately from hosted verification and production accuracy.',
     check: 'Check', result: 'Recorded result', limit: 'What remains unproven',
     checks: [
+      ['Actual private hosted Preview', '47 checks passed; Apple HTTP 200 and a completed private comparison', 'One source contract was eligible; three other policies remained held. Public records and notifications were unchanged. An earlier read timeout is retained; sustained hosting availability and full coverage remain unqualified.'],
+      ['Hosted-build candidate regression', '1,565 passed · 14 skipped; 22 generated standalone-server checks passed locally', 'Standalone startup, HTTP/worker identity and missing-flag privacy verified. The first hosted build failure and the corrected local harness failure remain recorded. This row does not establish online availability.'],
       ['Private preview HTTP and worker checks', '44 checks passed in an actual local production-mode Next runtime', 'Authentication boundaries, shared HTTP/worker identity and observe/silent restrictions were checked. Initial HTTP shells do not demonstrate hydrated browser controls; these local checks do not verify hosted deployment.'],
       ['Live Apple privacy capture', 'HTTP 200 · eligible against the reviewed contract · 28,124 preview characters versus 2,089 stable characters', 'Both extractors used the same response. Outcome: confirmation_pending. No AI calls; official policy, baseline, public history and outbox records were unchanged. More characters do not prove completeness or correctness.'],
       ['Recovery after an actual SIGKILL', 'New worker ownership after 91.7 seconds; queued work completed and the earlier report survived', 'The process was killed after the live run had completed. This checks persisted queued work and leadership expiry, not interruption during a network fetch. Official records and notification events remained unchanged.'],
@@ -96,9 +98,9 @@ const copy = {
     intro: 'Engine 6 Preview è in sviluppo e sperimentazione per rendere più tracciabili recupero, confronto e validazione delle policy. Questa pagina rende il progetto consultabile.',
     boundary: 'Accesso alla preview privata / ambiente staging',
     boundaryText: 'Il servizio pubblico principale resta alla versione stabile 5.2.0. Le prove Engine 6 usano un ambiente staging separato, con autenticazione amministratore e osservazioni private. La qualificazione resta aperta.',
-    hostingStatus: 'I risultati sotto dichiarano il perimetro delle verifiche. Ricevute di rilascio e limiti residui sono conservati nei rapporti di verifica collegati.',
+    hostingStatus: 'La 6.0 Preview privata è online. Superati 47 controlli sul vero hosting, con cattura Apple live e record ufficiali invariati. L’accesso richiede autenticazione amministratore.',
     access: 'Apri la 6.0 Preview privata', resources: 'Accesso alla preview, codice e prove',
-    development: 'Ramo di sviluppo', wiki: 'Wiki GitHub', reports: 'Rapporti di verifica',
+    development: 'Codice Engine 6 su main', wiki: 'Wiki GitHub', reports: 'Rapporti di verifica',
     isolation: 'La preview usa un database dedicato nello stesso account di hosting. La separazione è logica, non equivale a un’infrastruttura indipendente.',
     nav: ['Architettura', 'Flusso decisionale', 'Entità e relazioni', 'Validazione'],
     promiseTitle: 'Tre domande guidano la sperimentazione.',
@@ -144,9 +146,11 @@ const copy = {
       ['Policy · PolicyChange · EngineOutbox', 'Baseline pubblica, modifica registrata e invio differito.', 'PolicyChange → Policy è una FK esistente; changeId dell’outbox è un riferimento applicativo.'],
     ],
     ledgerTitle: 'Che cosa dimostrano oggi le verifiche.',
-    ledgerIntro: 'Verifiche locali aggiornate al 1 novembre 2026. I risultati storici delle regressioni e della campagna sono conservati. I nuovi controlli in modalità produzione sono stati eseguiti localmente il 1 novembre dalle 21:29:27 alle 21:31:10 UTC; non attestano la disponibilità online o l’accuratezza in produzione.',
+    ledgerIntro: 'Verifiche locali aggiornate al 1 novembre 2026. I risultati storici delle regressioni e della campagna sono conservati. Le verifiche locali in modalità produzione e sul server standalone generato sono distinte dalle prove di hosting e dall’accuratezza in produzione.',
     check: 'Controllo', result: 'Risultato registrato', limit: 'Che cosa resta da dimostrare',
     checks: [
+      ['Preview privata sul vero hosting', '47 controlli superati; Apple HTTP 200 e confronto privato completato', 'Una fonte idonea rispetto al contratto; altre tre policy sospese. Record pubblici e notifiche invariati. Conservato un precedente timeout di lettura; continuità del servizio e copertura completa restano da qualificare.'],
+      ['Regressione del candidato per hosting', '1.565 superati · 14 esclusi; 22 controlli locali sul server standalone generato superati', 'Verificati avvio standalone, identità HTTP/worker e privacy senza flag di attivazione. Conservati il primo errore di build online e il controllo locale corretto. Questa riga non attesta la disponibilità online.'],
       ['Controlli HTTP e worker della preview privata', '44 controlli superati su un runtime Next reale, locale e in modalità produzione', 'Verificati autenticazione, identità condivisa tra HTTP e worker e vincoli observe/silent. Le risposte HTML iniziali non dimostrano i controlli interattivi nel browser; questi controlli locali non verificano il rilascio online.'],
       ['Cattura live della privacy Apple', 'HTTP 200 · idonea rispetto al contratto revisionato · 28.124 caratteri nella preview contro 2.089 nello stabile', 'I due estrattori hanno usato la stessa risposta. Esito: confirmation_pending. Nessuna chiamata AI; policy ufficiali, baseline, storico pubblico e outbox invariati. Un testo più lungo non dimostra completezza o correttezza.'],
       ['Ripresa dopo un SIGKILL reale', 'Nuovo worker operativo dopo 91,7 secondi; attività in coda concluse e rapporto precedente conservato', 'Il processo è stato terminato dopo la conclusione della scansione live. La prova verifica persistenza della coda e scadenza dell’assegnazione al worker, non un’interruzione durante il recupero di rete. Record ufficiali ed eventi di notifica invariati.'],
@@ -208,7 +212,7 @@ export default async function EnginePreviewPage({ searchParams }: Props) {
         <div className={styles.heroCopy}><h2>{t.title}</h2><p>{t.intro}</p><a href="#architecture" className={styles.explore}>{t.nav[0]} <ArrowDown size={18} aria-hidden="true" /></a></div>
       </header>
       <aside className={styles.boundary}><FlaskConical size={22} aria-hidden="true" /><div><strong>{t.boundary}</strong><p>{t.boundaryText}</p><p>{t.hostingStatus}</p><a className={styles.explore} href="https://staging.policywatcher.online/admin/engine">{t.access}<ArrowUpRight size={18} aria-hidden="true" /></a><p>{t.isolation}</p></div></aside>
-      <nav className={styles.sectionNav} aria-label={t.resources}><a href="https://github.com/sev7enITA/policywatcher/tree/codex/engine-v6-local">{t.development}<ArrowUpRight size={16} aria-hidden="true" /></a><a href="https://github.com/sev7enITA/policywatcher/wiki">{t.wiki}<ArrowUpRight size={16} aria-hidden="true" /></a><a href="https://github.com/sev7enITA/policywatcher/tree/codex/engine-v6-local/docs/reports">{t.reports}<ArrowUpRight size={16} aria-hidden="true" /></a></nav>
+      <nav className={styles.sectionNav} aria-label={t.resources}><a href="https://github.com/sev7enITA/policywatcher/tree/main">{t.development}<ArrowUpRight size={16} aria-hidden="true" /></a><a href="https://github.com/sev7enITA/policywatcher/wiki">{t.wiki}<ArrowUpRight size={16} aria-hidden="true" /></a><a href="https://github.com/sev7enITA/policywatcher/tree/main/docs/reports">{t.reports}<ArrowUpRight size={16} aria-hidden="true" /></a></nav>
       <nav className={styles.sectionNav} aria-label={lang === 'it' ? 'Indice del progetto' : 'Notebook contents'}>{sections.map((id, i) => <a href={`#${id}`} key={id}><span>0{i + 1}</span>{t.nav[i]}</a>)}</nav>
       <section className={styles.goals} aria-labelledby="preview-goals"><h2 id="preview-goals">{t.promiseTitle}</h2><div>{t.goals.map(([n, title, body]) => <article key={n}><span>{n}</span><h3>{title}</h3><p>{body}</p></article>)}</div></section>
       <section className={styles.section} id="architecture" aria-labelledby="architecture-title"><div className={styles.sectionHeading}><p className={styles.eyebrow}>01 / {t.nav[0]}</p><h2 id="architecture-title">{t.architectureTitle}</h2><p>{t.architectureIntro}</p></div>

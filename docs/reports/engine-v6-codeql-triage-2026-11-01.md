@@ -2,7 +2,7 @@
 
 Review scope: PR #37 merge revision `4cd0084f67e2ca953bd6501007c53b50e3769a13`, CodeQL analysis `2073032609`, created at `2026-11-01T21:52:45Z`. Alert numbers refer to that analysis, before the fixes described below. Its original SARIF is retained privately at `output/hosted-preview/codeql-20261101/analysis.sarif.json`; paths and lines in this report identify the analyzed revision.
 
-No alert was dismissed and no query suppression was added during this review. A successful local test does not establish that the subsequent GitHub code-scanning gate has passed.
+The initial review added no suppression or dismissal. The subsequent GitHub analysis confirmed alerts 80, 81 and 82 fixed. After reviewing the recorded SARIF flows and residual conditions, alerts 83 through 89 were individually dismissed as false positives with a rationale linked to this report. Alert 90 identifies the deliberate pathname replacement in the negative regression fixture and was dismissed as used in tests. No scanning rule was disabled. The CodeQL gate passed for the PR head `34c188c0d54ec24d61469ca1683dec8988252c6f`; all other required CI checks also passed before PR #37 was integrated.
 
 ## High-severity filesystem races
 
@@ -28,7 +28,7 @@ The `js/http-to-file-access` alerts all originate from the renderer `fetch` at `
 | 88 | `engine-renderer-probe.ts:38`, rendered `result.html` to `.body.txt` | A reachable, intentional renderer-to-evidence-file flow. The probe is restricted to at most four operator-selected corpus entries, validates their IDs and HTTPS URLs, and writes exclusive fixed-name text artifacts under local output. No HTML is executed or served by this write. |
 | 89 | `engine-renderer-probe.ts:48`, serialized rendered extraction to `.extraction.json` | A reachable, intentional preservation flow. JSON serialization does not make the embedded HTML trusted; it remains untrusted source evidence. The file is private diagnostic output and does not become a contract, model approval or published policy baseline. |
 
-These seven alerts warrant review as intentional, bounded diagnostic data flows, with the residual conditions below retained. This report does not mark the alerts resolved or alter repository security rules.
+These seven alerts were assessed as intentional diagnostic data flows, with the residual conditions below retained. Their dismissal is a documented triage decision, not a claim that the renderer resource limitations have been repaired. Repository security rules remain enabled.
 
 ## Residual conditions
 

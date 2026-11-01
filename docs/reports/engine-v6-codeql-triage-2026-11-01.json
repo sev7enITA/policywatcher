@@ -1,0 +1,150 @@
+{
+  "observedAt": "2026-11-01T22:17:27.620261+00:00",
+  "pullRequest": 37,
+  "head": "34c188c0d54ec24d61469ca1683dec8988252c6f",
+  "alerts": [
+    {
+      "number": 90,
+      "state": "dismissed",
+      "reason": "used in tests",
+      "comment": "Deliberate pathname replacement in a temporary Vitest fixture. This negative test proves the already-open descriptor retains original evidence despite replacement at lines19-23. No runtime ingestion path; CodeQL classification is test.",
+      "location": {
+        "path": "src/lib/__tests__/engineEvidenceFiles.test.ts",
+        "start_line": 22,
+        "end_line": 22,
+        "start_column": 13,
+        "end_column": 60
+      }
+    },
+    {
+      "number": 89,
+      "state": "dismissed",
+      "reason": "false positive",
+      "comment": "Intentional private renderer extraction JSON: validated ID/fixed suffix, wx creation. Embedded HTML stays untrusted; never served/executed/approved. Resource and account limits retained in engine-v6-codeql-triage-2026-11-01.md.",
+      "location": {
+        "path": "scripts/engine-renderer-probe.ts",
+        "start_line": 48,
+        "end_line": 48,
+        "start_column": 57,
+        "end_column": 91
+      }
+    },
+    {
+      "number": 88,
+      "state": "dismissed",
+      "reason": "false positive",
+      "comment": "Intentional operator-only renderer evidence capture: max4 sources, validated IDs/fixed suffixes, wx files not served/executed. Response-byte/disk limits explicitly remain follow-up work. SARIF analysis and boundaries: engine-v6-codeql-triage-2026-11-01.md.",
+      "location": {
+        "path": "scripts/engine-renderer-probe.ts",
+        "start_line": 38,
+        "end_line": 38,
+        "start_column": 65,
+        "end_column": 76
+      }
+    },
+    {
+      "number": 87,
+      "state": "dismissed",
+      "reason": "false positive",
+      "comment": "Intentional private extraction JSON: SHA-256 scope basename, wx creation; response cannot select path. No serving, execution, contract approval or publication. Direct/http2 caller cannot reach renderer. See engine-v6-codeql-triage-2026-11-01.md.",
+      "location": {
+        "path": "scripts/engine-catalogue-probe.ts",
+        "start_line": 63,
+        "end_line": 63,
+        "start_column": 48,
+        "end_column": 83
+      }
+    },
+    {
+      "number": 86,
+      "state": "dismissed",
+      "reason": "false positive",
+      "comment": "Intentional local catalogue evidence retention: SHA-256 URL basename, fixed transport suffix, wx creation. No serving/execution. Renderer branch infeasible for direct/http2 caller. Residual limits: engine-v6-codeql-triage-2026-11-01.md.",
+      "location": {
+        "path": "scripts/engine-catalogue-probe.ts",
+        "start_line": 47,
+        "end_line": 47,
+        "start_column": 67,
+        "end_column": 78
+      }
+    },
+    {
+      "number": 85,
+      "state": "dismissed",
+      "reason": "false positive",
+      "comment": "Intentional extraction JSON evidence: validated ID/fixed suffix, wx creation, output not served/executed. Response cannot select path. Renderer branch infeasible for direct/http2 caller. See engine-v6-codeql-triage-2026-11-01.md.",
+      "location": {
+        "path": "scripts/engine-acquisition-probe.ts",
+        "start_line": 44,
+        "end_line": 44,
+        "start_column": 57,
+        "end_column": 91
+      }
+    },
+    {
+      "number": 84,
+      "state": "dismissed",
+      "reason": "false positive",
+      "comment": "Intentional private evidence capture: validated corpus ID, fixed transport suffix, exclusive wx creation. Not served/executed. Renderer branch infeasible for direct/http2 caller. Detailed SARIF triage and residual limits: engine-v6-codeql-triage-2026-11-01.md.",
+      "location": {
+        "path": "scripts/engine-acquisition-probe.ts",
+        "start_line": 34,
+        "end_line": 34,
+        "start_column": 65,
+        "end_column": 76
+      }
+    },
+    {
+      "number": 83,
+      "state": "dismissed",
+      "reason": "false positive",
+      "comment": "Intentional operator-selected public corpus URL sent to configured renderer; reviewed SARIF analysis 2073032609 and documented boundaries in docs/reports/engine-v6-codeql-triage-2026-11-01.md.",
+      "location": {
+        "path": "src/lib/scraper.ts",
+        "start_line": 1193,
+        "end_line": 1193,
+        "start_column": 13,
+        "end_column": 36
+      }
+    },
+    {
+      "number": 82,
+      "state": "fixed",
+      "reason": null,
+      "comment": null,
+      "location": {
+        "path": "scripts/engine-reviewed-exclusion.ts",
+        "start_line": 13,
+        "end_line": 13,
+        "start_column": 21,
+        "end_column": 43
+      }
+    },
+    {
+      "number": 81,
+      "state": "fixed",
+      "reason": null,
+      "comment": null,
+      "location": {
+        "path": "scripts/engine-preview-bootstrap.ts",
+        "start_line": 126,
+        "end_line": 126,
+        "start_column": 31,
+        "end_column": 88
+      }
+    },
+    {
+      "number": 80,
+      "state": "fixed",
+      "reason": null,
+      "comment": null,
+      "location": {
+        "path": "scripts/engine-extraction-replay.ts",
+        "start_line": 31,
+        "end_line": 31,
+        "start_column": 26,
+        "end_column": 48
+      }
+    }
+  ]
+}

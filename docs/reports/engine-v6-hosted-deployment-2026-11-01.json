@@ -1,0 +1,83 @@
+{
+  "schema": "pw-hosted-preview-deployment-1",
+  "recordedAt": "2026-11-01T22:24:42.686670+00:00",
+  "status": "online_verified",
+  "release": "6.0.0-preview.1",
+  "origin": "https://staging.policywatcher.online",
+  "entry": "https://staging.policywatcher.online/admin/engine",
+  "stablePublicRelease": "5.2.0",
+  "deploymentId": "01a1992e-99e7-712f-bbfc-3bf04cb30890",
+  "providerState": "Completed / Current",
+  "archive": "PolicyWatcher-6.0.0-preview.1-hostinger-2026-11-01-engine6-private-preview-r2.zip",
+  "archiveSha256": "c887cd49959f38ab4137c235349c1f2e5785fed97848a4a42daf4410ef24bf26",
+  "sourceRevision": "34c188c0d54ec24d61469ca1683dec8988252c6f",
+  "implementationHash": "d9d5dde4f1c8d22c03c80ae200bc3e44734ef6a430c7e7bd037719ee30614e88",
+  "verification": {
+    "startedAt": "2026-11-01T22:19:52.702Z",
+    "completedAt": "2026-11-01T22:20:52.290Z",
+    "checksPassed": 47,
+    "checksFailed": 0,
+    "runId": "4e9eef90-0bbb-42ee-b945-922ac76ffffc",
+    "selectedPolicies": 4,
+    "eligibleCaptures": 1,
+    "missingContractHolds": 3,
+    "officialRowsUnchanged": true,
+    "aiAnalysisPerformed": false,
+    "publicationEnabled": false,
+    "notificationsEnabled": false
+  },
+  "apple": {
+    "sourceUrl": "https://www.apple.com/legal/privacy/en-ww/",
+    "outcome": "confirmation_pending",
+    "acquisition": {
+      "observedAt": "2026-11-01T22:20:48.021Z",
+      "httpStatus": 200,
+      "finalUrl": "https://www.apple.com/legal/privacy/en-ww/",
+      "source": "direct",
+      "eligible": true,
+      "artifactId": "45baed313dc24dc50e25f123ba273d659a99db56ab68ad36f4ee5d2bba043c14"
+    },
+    "stableChars": 2089,
+    "previewChars": 28124
+  },
+  "browser": {
+    "loginVerified": true,
+    "hydratedSelectorVerified": true,
+    "savedRunVisible": true,
+    "comparisonReport": "rendered_verified",
+    "jsonExport": "not_yet_verified_browser_download_timed_out_while_Mac_locked"
+  },
+  "preservedFailures": [
+    "First hosted build rejected provider config transformation before migrations.",
+    "First remote verifier GET timed out after 30 seconds before any scan. Follow-up returned private HTTP307 in576ms; successful47-check verifier needed no retry."
+  ],
+  "limits": [
+    "One bounded source contract, not full113-policy source qualification.",
+    "One hosted run and an observed leader handover do not qualify continuous managed-process availability.",
+    "Daily cohort remains2counted dates over20.771248actual hours.",
+    "500distinct live daily sources remain unqualified.",
+    "Dedicated database shares hosting account; isolation is logical."
+  ],
+  "artifacts": [
+    {
+      "path": "output/hosted-preview/hostinger-r2-completed.ax.txt",
+      "sha256": "7a1e28488ab531d9892d44997031e3517e1d9a686a7aaea2e363121968c11801"
+    },
+    {
+      "path": "output/hosted-preview/archive-verification-r2.json",
+      "sha256": "76e9a1153d4cf80fad2a979b897ed8f090a76f8c4ce8b8b83be2eb7e2ba4fcb3"
+    },
+    {
+      "path": "output/hosted-preview/hosted-verification-2026-11-01T22-19-52-701Z/evidence.json",
+      "sha256": "7cd28ae577b78e10376661312087010ea9e73bb88622f0c5120319163d2f7229"
+    },
+    {
+      "path": "output/hosted-preview/hosted-selector.ax.txt",
+      "sha256": "839572df8c6a6d3855645d0a75fa33947cd144beaa93cf2121fb51c3a19dd96a"
+    },
+    {
+      "path": "output/hosted-preview/hosted-comparison-report.ax.txt",
+      "sha256": "46a8c6d784d96a68010802b89a80735e21799ec019856e889506f7a2b9d84b36"
+    }
+  ]
+}
