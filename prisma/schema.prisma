@@ -14,6 +14,7 @@ model EngineRun {
   requestKey  String @unique
   mode        String @default("observe")
   notificationMode String @default("silent")
+  channelMetadataJson String?
   status      String @default("queued")
   selected    Int @default(0)
   requestedBy String

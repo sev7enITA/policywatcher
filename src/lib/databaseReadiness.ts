@@ -63,6 +63,7 @@ export const EXPECTED_SQLITE_MIGRATIONS = [
   '20261007120000_evidence_assurance',
   '20261015160000_dq_lineage_occurrences',
   '20261031060000_engine_v6',
+  '20261101170000_scan_channels',
 ] as const;
 
 export const EXPECTED_POSTGRESQL_MIGRATIONS = [
@@ -71,6 +72,7 @@ export const EXPECTED_POSTGRESQL_MIGRATIONS = [
   '20261007120000_evidence_assurance',
   '20261015160000_dq_lineage_occurrences',
   '20261031060000_engine_v6',
+  '20261101170000_scan_channels',
 ] as const;
 
 // Backward-compatible name for the production SQLite migration contract.

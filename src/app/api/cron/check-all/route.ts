@@ -1,5 +1,6 @@
 import { extractionGuardEnabled } from '@/lib/extractionProfile';
 import { engineEnabled, enqueueRun } from '@/lib/engine/store';
+import { experimentalChannelsAvailable, type ChannelMetadata } from '@/lib/scanChannels';
 import { guardExtraction, anchorCommittedExtraction } from '@/lib/extractionGuard';
 /**
  * PolicyWatcher v3.0 - Scheduled Policy Check Endpoint
@@ -64,6 +65,10 @@ import {
 type RetrievalRuntime = 'app' | 'vps' | 'archive' | 'none';
 
 export interface ScanOptions {
+  /** Set only by the authenticated manual channel dispatcher, never by scheduled input. */
+  channel?: 'stable';
+  requestKey?: string;
+  channelMetadata?: ChannelMetadata;
   limit?: number;
   companySlug?: string;
   /** Silent maintenance suppresses both subscriber and source-admin email. */
@@ -109,14 +114,20 @@ async function acquireScanRun(options: ScanOptions) {
   });
 
   try {
-    return await db.scanRun.create({
-      data: {
+    const data = {
+        ...(options.channel === 'stable' && options.requestKey ? { id: `stable:${options.requestKey}` } : {}),
         status: 'running',
         leaseKey: GLOBAL_SCAN_LEASE_KEY,
         leaseExpiresAt: scanLeaseExpiry(now),
         optionsJson: JSON.stringify(options),
-      },
-    });
+    };
+    if (experimentalChannelsAvailable()) {
+      return await db.$transaction(async tx => {
+        if (await tx.engineRun.count({ where: { status: { in: ['queued', 'running'] } } })) throw new ScanAlreadyRunningError();
+        return tx.scanRun.create({ data });
+      });
+    }
+    return await db.scanRun.create({ data });
   } catch (error) {
     if ((error as { code?: unknown } | null)?.code === 'P2002') {
       throw new ScanAlreadyRunningError();
@@ -479,7 +490,7 @@ export async function runFullScan(
   progressCallback?: ProgressCallback,
   options: ScanOptions = {}
 ): Promise<ScanResult> {
-  if (engineEnabled()) throw new Error('engine_v6_use_durable_queue');
+  if (engineEnabled() && !(options.channel === 'stable' && experimentalChannelsAvailable())) throw new Error('engine_v6_use_durable_queue');
   // A disconnected observer must not turn a committed result into an error.
   const onProgress: ProgressCallback = event => {
     try { progressCallback?.(event); } catch { console.warn('[Cron] Progress observer unavailable.'); }
@@ -1578,7 +1589,7 @@ export async function POST(request: NextRequest) {
   try {
     const options = await readScanOptions(request);
     if (engineEnabled()) {
-      const run = await enqueueRun({ ...options, limit: options.limit || 500, requestedBy: 'scheduler', notificationMode: options.notificationMode || 'subscribers',
+      const run = await enqueueRun({ companySlug: options.companySlug, limit: options.limit || 500, requestedBy: 'scheduler', notificationMode: options.notificationMode || 'subscribers',
         requestKey: request.headers.get('Idempotency-Key') || `scheduled:${new Date().toISOString().slice(0, 13)}:${createHash('sha256').update(JSON.stringify(options)).digest('hex').slice(0, 16)}`,
         mode: process.env.POLICYWATCHER_ENGINE_PUBLICATION === '1' ? 'publish' : 'observe' });
       return NextResponse.json({ accepted: true, runId: run.id, status: run.status, statusUrl: '/api/admin/engine' }, { status: 202 });

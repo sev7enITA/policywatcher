@@ -3,6 +3,7 @@ import type { EngineRun, EngineTask, Prisma } from '@prisma/client';
 import { db } from '../db';
 import { digest, ENGINE_SCHEMA, parseSourceContract, type SourceContract } from './document';
 import { extractionProfileHash } from '../extractionProfile';
+import { channelMetadata, channelRequestFingerprint, experimentalChannelsAvailable } from '../scanChannels';
 
 export const LEASE_MS = 5 * 60_000;
 export const MAX_ATTEMPTS = 3;
@@ -28,13 +29,20 @@ export const engineExtractionProfileHash = (url: string) => digest(`engine-extra
 export const policyScopeHash = (policy: { url: string; retrievalUrl?: string | null; jurisdiction: string; type: string }) =>
   digest(JSON.stringify([policy.url, policy.retrievalUrl || policy.url, policy.jurisdiction, policy.type]));
 
-export async function enqueueRun(options: { requestKey: string; mode: 'observe' | 'publish'; requestedBy: string; limit?: number; companySlug?: string; notificationMode?: 'silent' | 'subscribers' }, retry = 0): Promise<EngineRun> {
+export async function enqueueRun(options: { requestKey: string; mode: 'observe' | 'publish'; requestedBy: string; limit?: number; companySlug?: string; notificationMode?: 'silent' | 'subscribers'; channel?: 'preview' | 'compare' }, retry = 0): Promise<EngineRun> {
   if (process.env.POLICYWATCHER_SCANS_PAUSED === '1') throw new Error('policy_scans_paused');
   if (!/^[\w:.\-]{8,150}$/.test(options.requestKey)) throw new Error('invalid_request_key');
   const limit = options.limit ?? 500;
   if (!Number.isInteger(limit) || limit < 1 || limit > 500) throw new Error('invalid_engine_limit');
+  if (options.channel && (!experimentalChannelsAvailable() || options.mode !== 'observe' || options.notificationMode !== 'silent' || limit > 50)) throw new Error('experimental_channel_unavailable');
+  const metadata = options.channel ? channelMetadata({ channel: options.channel, limit, companySlug: options.companySlug }) : null;
   const existing = await db.engineRun.findUnique({ where: { requestKey: options.requestKey } });
-  if (existing) return existing;
+  const checkExisting = (run: EngineRun) => {
+    if (run.mode !== options.mode || Boolean(run.channelMetadataJson) !== Boolean(metadata)
+        || (metadata && JSON.parse(run.channelMetadataJson!).requestFingerprint !== channelRequestFingerprint({ channel: options.channel!, limit, companySlug: options.companySlug }))) throw new Error('request_key_conflict');
+    return run;
+  };
+  if (existing) return checkExisting(existing);
   const now = new Date();
   const [policies, contracts] = await Promise.all([
     db.policy.findMany({ where: options.companySlug ? { company: { slug: options.companySlug } } : undefined,
@@ -44,6 +52,7 @@ export async function enqueueRun(options: { requestKey: string; mode: 'observe' 
   const contractMap = new Map(contracts.map(c => [c.policyId, c]));
   try {
     return await db.$transaction(async tx => {
+      if (experimentalChannelsAvailable() && await tx.scanRun.count({ where: { status: 'running', leaseKey: 'policy-scan' } })) throw new Error('stable_scan_active');
       const [active, freshStates] = await Promise.all([
         tx.engineTask.findMany({ where: { activePolicyId: { not: null } }, select: { activePolicyId: true } }),
         tx.enginePolicyState.findMany({ where: { mode: options.mode } }),
@@ -54,6 +63,7 @@ export async function enqueueRun(options: { requestKey: string; mode: 'observe' 
         .sort((a, b) => Number(Boolean(freshStateMap.get(b.id)?.candidateHash)) - Number(Boolean(freshStateMap.get(a.id)?.candidateHash))
           || (freshStateMap.get(a.id)?.nextDueAt.getTime() || 0) - (freshStateMap.get(b.id)?.nextDueAt.getTime() || 0)).slice(0, limit);
       const run = await tx.engineRun.create({ data: { requestKey: options.requestKey, mode: options.mode,
+        channelMetadataJson: metadata ? JSON.stringify(metadata) : null,
         requestedBy: options.requestedBy, notificationMode: options.notificationMode || 'silent', selected: selected.length, status: selected.length ? 'queued' : 'completed', completedAt: selected.length ? null : now } });
       const fetches = new Map<string, string>();
       for (const policy of selected) {
@@ -84,7 +94,7 @@ export async function enqueueRun(options: { requestKey: string; mode: 'observe' 
   } catch (error) {
     // Concurrent clients with the same request key observe the same committed run.
     const duplicate = await db.engineRun.findUnique({ where: { requestKey: options.requestKey } });
-    if (duplicate) return duplicate;
+    if (duplicate) return checkExisting(duplicate);
     if (retry < 1 && error && typeof error === 'object' && 'code' in error && ['P2002', 'P2034'].includes(String(error.code))) return enqueueRun(options, retry + 1);
     throw error;
   }
@@ -246,12 +256,12 @@ async function terminalFailure(tx: Tx, task: EngineTask, reason: string) {
 }
 export async function failTask(lease: Lease, code: string, retryAfterMs = 0) {
   if (!/^[a-z0-9_:.-]{1,120}$/i.test(code)) code = 'engine_processing_error';
-  const terminal = lease.attempt >= MAX_ATTEMPTS || ['engine_context_changed', 'public_old_snapshot_missing'].includes(code);
+  const terminal = lease.attempt >= MAX_ATTEMPTS || ['engine_context_changed', 'channel_context_changed', 'public_old_snapshot_missing'].includes(code);
   const retryAt = new Date(Date.now() + Math.min(DAILY_MS, Math.max(60_000 * 2 ** lease.attempt, retryAfterMs)));
   await fenced(lease, async tx => {
     await tx.engineAttempt.updateMany({ where: { taskId: lease.id, generation: lease.totalAttempts, status: 'running' },
       data: { status: 'failed', reason: code, endedAt: new Date() } });
-    if (terminal && code !== 'engine_context_changed') await terminalFailure(tx, lease, code);
+    if (terminal && !['engine_context_changed', 'channel_context_changed'].includes(code)) await terminalFailure(tx, lease, code);
     await transition(tx, lease, { status: terminal ? 'failed' : 'queued', lastError: code,
       nextAttemptAt: retryAt,
       completedAt: terminal ? new Date() : null, ...(terminal ? { activePolicyId: null } : {}), leaseToken: null, leaseExpiresAt: null });

@@ -4,6 +4,8 @@ import { db } from '../db';
 import { dualWriteCanonicalPolicyGraph } from '../documentEvidenceSync';
 import { acquire, assessCapture, extractEngineBody, saveRepresentation, type Observation, type CaptureBody } from './acquisition';
 import { digest, structureDocument, compareDocuments, ENGINE_SCHEMA } from './document';
+import { assertChannelWorkerContext, type ChannelMetadata } from '../scanChannels';
+import { compareCapturedExtraction } from './comparison';
 import { liveAnalysis, validateClaims, validateVerification, validateModelPair, type AnalysisProvider, type AnalysisInput, type ClaimSet,
   type ModelOutput, type Verification } from './claims';
 import { advanceTask, claimTask, failTask, fenced, finishTask, heartbeat, putArtifact, readArtifact, reconcileRun,
@@ -36,14 +38,15 @@ async function currentPolicy(tx: Tx, lease: Lease, input: TaskInput): Promise<Po
     throw new Error('engine_context_changed');
   }
   if (contract) {
-    const lockedContract = await tx.engineSourceContract.updateMany({ where: { policyId: policy.id, contractHash: input.contractHash! }, data: { contractHash: input.contractHash! } });
+    const lockedContract = await tx.engineSourceContract.updateMany({ where: { policyId: policy.id, contractHash: input.contractHash!, updatedAt: contract.updatedAt }, data: { contractHash: input.contractHash!, updatedAt: contract.updatedAt } });
     if (!lockedContract.count) throw new Error('engine_context_changed');
   }
   // Acquire the policy write lock with a CAS before any baseline/snapshot effect.
   // On PostgreSQL this also prevents concurrent tasks reading the same version.
+  // Preserve the revision timestamp: taking a lock is not a document update.
   const locked = await tx.policy.updateMany({ where: { id: policy.id, currentHash: lease.expectedBaselineHash || '',
-    url: policy.url, retrievalUrl: policy.retrievalUrl, jurisdiction: policy.jurisdiction, type: policy.type },
-    data: { currentHash: policy.currentHash } });
+    updatedAt: policy.updatedAt, url: policy.url, retrievalUrl: policy.retrievalUrl, jurisdiction: policy.jurisdiction, type: policy.type },
+    data: { currentHash: policy.currentHash, updatedAt: policy.updatedAt } });
   if (!locked.count) throw new Error('engine_context_changed');
   return policy;
 }
@@ -229,12 +232,21 @@ async function publish(tx: Tx, policy: Policy, input: TaskInput, checkpoint: Che
 
 async function processTask(lease: Lease, dependencies: EngineDependencies) {
   const input = JSON.parse(lease.inputJson) as TaskInput;
+  const run = await db.engineRun.findUniqueOrThrow({ where: { id: lease.runId } });
+  const channel = run.channelMetadataJson ? JSON.parse(run.channelMetadataJson) as ChannelMetadata : null;
+  if (channel) assertChannelWorkerContext(channel, run.mode, run.notificationMode);
   if (lease.kind === 'fetch') {
     const observation = await dependencies.acquire(input);
     if (!observation.eligible && observation.reasons.some(r => ['origin_backoff', 'live_source_unverified'].includes(r)) && lease.attempt < MAX_ATTEMPTS) {
       return failTask(lease, observation.reasons[0], observation.retryAfterMs);
     }
-    await fenced(lease, tx => finishTask(tx, lease, observation, observation.retryAfterMs));
+    const result: Observation & { comparisonArtifactId?: string } = { ...observation };
+    if (channel?.channel === 'compare' && observation.artifactId) {
+      const body = await readArtifact<CaptureBody>(observation.artifactId);
+      result.comparisonArtifactId = await putArtifact(compareCapturedExtraction(body, input, observation));
+    }
+    if (channel) assertChannelWorkerContext(channel, run.mode, run.notificationMode);
+    await fenced(lease, tx => finishTask(tx, lease, result, observation.retryAfterMs));
     return;
   }
   if (lease.stage === 'evaluate') return evaluate(lease, input);

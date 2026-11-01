@@ -11,8 +11,12 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/adminAuth';
-import { readScanOptions, runFullScan, ScanProgress } from '@/app/api/cron/check-all/route';
-import { engineEnabled } from '@/lib/engine/store';
+import { runFullScan, type ScanOptions, type ScanProgress } from '@/app/api/cron/check-all/route';
+import { engineEnabled, enqueueRun } from '@/lib/engine/store';
+import { db } from '@/lib/db';
+import { readBoundedJsonObject } from '@/lib/requestBody';
+import { channelMetadata, parseChannelRequest, scanChannelCapabilities } from '@/lib/scanChannels';
+import { channelRunReport, recentChannelRuns } from '@/lib/engine/channelReports';
 import type { ScrapeDiagnostic } from '@/lib/scraper';
 import { formatScanCompletionLog } from '@/lib/adminScanSummary';
 
@@ -31,6 +35,8 @@ export const cronState = {
   progressLog: [] as string[],
   /** Live progress: current activity (what's happening right now). */
   progressActivity: '',
+  requestKey: null as string | null,
+  requestFingerprint: null as string | null,
 };
 
 const STRATEGY_ORDER = ['direct', 'http2', 'rendered', 'wayback', 'commoncrawl'];
@@ -88,11 +94,21 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
   }
 
+  const channels = scanChannelCapabilities();
+  const runId = request.nextUrl.searchParams.get('channelRunId');
+  if (runId) {
+    if (!channels.preview) return NextResponse.json({ error: 'experimental_channel_unavailable' }, { status: 409 });
+    if (!/^[\w:-]{1,160}$/.test(runId)) return NextResponse.json({ error: 'invalid_run_id' }, { status: 400 });
+    const report = await channelRunReport(runId);
+    return NextResponse.json(report || { error: 'run_not_found' }, { status: report ? 200 : 404, headers: { 'Cache-Control': 'private, no-store' } });
+  }
   return NextResponse.json({
     ...cronState,
     engineV6: engineEnabled(),
+    channels,
+    channelRuns: channels.preview ? await recentChannelRuns() : [],
     timestamp: new Date().toISOString(),
-  });
+  }, { headers: { 'Cache-Control': 'private, no-store' } });
 }
 
 export async function POST(request: NextRequest) {
@@ -101,9 +117,36 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
   }
 
-  if (engineEnabled()) return NextResponse.json({ error: 'Use the durable engine workspace.', url: '/admin/engine' }, { status: 409 });
+  const parsed = await readBoundedJsonObject(request, 16 * 1024);
+  if (!parsed.ok) return NextResponse.json({ error: parsed.reason }, { status: 400 });
+  let selected;
+  try { selected = parseChannelRequest(parsed.value); }
+  catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : 'invalid_scan_request' }, { status: 400 }); }
+  const channels = scanChannelCapabilities();
+  if (process.env.POLICYWATCHER_SCANS_PAUSED === '1') return NextResponse.json({ error: 'policy_scans_paused' }, { status: 503 });
+  if (!channels[selected.channel]) return NextResponse.json({ error: selected.channel === 'stable' ? 'stable_channel_unavailable' : 'experimental_channel_unavailable' }, { status: 409 });
+  if (selected.channel !== 'stable') {
+    try {
+      const run = await enqueueRun({ ...selected, channel: selected.channel, mode: 'observe', notificationMode: 'silent', requestedBy: 'admin-channel' });
+      return NextResponse.json({ accepted: true, channel: selected.channel, runId: run.id, status: run.status,
+        statusUrl: `/api/admin/cron-status?channelRunId=${encodeURIComponent(run.id)}` }, { status: 202 });
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : '';
+      const expected = ['request_key_conflict', 'stable_scan_active', 'experimental_channel_unavailable'];
+      return NextResponse.json({ error: expected.includes(reason) ? reason : 'unable_to_enqueue_channel' }, { status: expected.includes(reason) ? 409 : 500 });
+    }
+  }
+  const metadata = channelMetadata(selected);
+  const existing = await db.scanRun.findUnique({ where: { id: `stable:${selected.requestKey}` } });
+  if (existing) {
+    const prior = existing.optionsJson ? JSON.parse(existing.optionsJson) : null;
+    if (prior?.channelMetadata?.requestFingerprint !== metadata.requestFingerprint) return NextResponse.json({ error: 'request_key_conflict' }, { status: 409 });
+    return NextResponse.json({ accepted: true, channel: 'stable', runId: existing.id, status: existing.status, replayed: true });
+  }
+  if (channels.preview && await db.engineRun.count({ where: { status: { in: ['queued', 'running'] } } })) return NextResponse.json({ error: 'preview_scan_active' }, { status: 409 });
 
   if (cronState.isRunning) {
+    if (cronState.requestKey === selected.requestKey && cronState.requestFingerprint === metadata.requestFingerprint) return NextResponse.json({ accepted: true, channel: 'stable', runId: `stable:${selected.requestKey}`, status: 'running', replayed: true }, { status: 202 });
     return NextResponse.json(
       {
         error: 'A scan is already running.',
@@ -114,13 +157,16 @@ export async function POST(request: NextRequest) {
   }
 
   cronState.isRunning = true;
+  cronState.requestKey = selected.requestKey;
+  cronState.requestFingerprint = metadata.requestFingerprint;
   cronState.startedAt = new Date().toISOString();
   cronState.lastError = null;
   cronState.progressTotal = 0;
   cronState.progressCurrent = 0;
   cronState.progressLog = [];
   cronState.progressActivity = 'Initializing...';
-  const scanOptions = await readScanOptions(request);
+  const scanOptions: ScanOptions = { channel: 'stable', requestKey: selected.requestKey,
+    limit: selected.limit, companySlug: selected.companySlug, notificationMode: 'silent', channelMetadata: metadata };
 
   // Progress callback updates cronState in real time.
   const onProgress = (p: ScanProgress) => {
@@ -165,6 +211,8 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({
     success: true,
+    channel: 'stable',
+    runId: `stable:${selected.requestKey}`,
     message: 'Scan started. Poll GET /api/admin/cron-status for updates.',
     startedAt: cronState.startedAt,
     options: scanOptions,

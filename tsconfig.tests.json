@@ -18,6 +18,7 @@
     "src/lib/__tests__/rateLimit.test.ts",
     "src/lib/__tests__/requestBody.test.ts",
     "src/lib/__tests__/scanRunLifecycle.test.ts",
+    "src/lib/__tests__/scanChannels.test.ts",
     "src/lib/__tests__/scraper.test.ts",
     "src/lib/__tests__/scraperFallbackSmoke.test.ts",
     "src/lib/__tests__/subscriberDoubleOptIn.test.ts",

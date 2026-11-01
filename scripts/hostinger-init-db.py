@@ -817,6 +817,7 @@ INDEXES = [
 ]
 
 UPGRADE_COLUMNS = {
+    "EngineRun": [("channelMetadataJson", 'ALTER TABLE "EngineRun" ADD COLUMN "channelMetadataJson" TEXT')],
     "Version": [
         ('requestedUrl', 'ALTER TABLE "Version" ADD COLUMN "requestedUrl" TEXT'),
         ('finalUrl', 'ALTER TABLE "Version" ADD COLUMN "finalUrl" TEXT'),
