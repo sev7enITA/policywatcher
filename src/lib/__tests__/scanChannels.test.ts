@@ -13,6 +13,7 @@ const dir = mkdtempSync(resolve('output/engine-channels/test-'));
 const url = `file:${join(dir, 'test.db')}`;
 const database = new PrismaClient({ datasources: { db: { url } } });
 let role = 'admin';
+let stableGate: Promise<void> | null = null;
 let api: typeof import('../../app/api/admin/cron-status/route');
 let store: typeof import('../engine/store');
 let pipeline: typeof import('../engine/pipeline');
@@ -49,7 +50,7 @@ beforeAll(async () => {
   vi.doMock('../db', () => ({ db: database }));
   vi.doMock('../adminAuth', () => ({ getSession: () => ({ valid: role !== 'none', role }) }));
   vi.doMock('../scraper', async importOriginal => ({ ...await importOriginal<typeof import('../scraper')>(),
-    scrapePolicyText: async () => { throw new Error('unexpected_live_network_in_channel_test'); } }));
+    scrapePolicyText: async () => { if (stableGate) await stableGate; throw new Error('unexpected_live_network_in_channel_test'); } }));
   api = await import('../../app/api/admin/cron-status/route'); store = await import('../engine/store');
   pipeline = await import('../engine/pipeline'); acquisition = await import('../engine/acquisition'); comparison = await import('../engine/comparison');
 });
@@ -113,6 +114,35 @@ describe('manual stable and experimental channel boundary', () => {
     await store.cancelRun(accepted.runId, 'Synthetic test cancels work before testing the reverse direction.', 'test');
     await database.scanRun.create({ data: { status: 'running', leaseKey: 'policy-scan', leaseExpiresAt: new Date(Date.now() + 60000) } });
     const blocked = await api.POST(request({ channel: 'compare' })); expect(blocked.status).toBe(409); expect((await blocked.json()).error).toBe('stable_scan_active');
+  });
+  it('keeps expired stable leases held with an explicit recovery reason', async () => {
+    await database.scanRun.create({ data: { status: 'running', leaseKey: 'policy-scan', leaseExpiresAt: new Date(0) } });
+    const response = await api.POST(request({ channel: 'preview' }));
+    expect(response.status).toBe(409); expect((await response.json()).error).toBe('stable_scan_recovery_required');
+    expect(await database.engineRun.count()).toBe(0);
+  });
+  it('serializes simultaneous stable and preview starts in the supported SQLite workspace', async () => {
+    await seed();
+    for (let iteration = 0; iteration < 12; iteration++) {
+      let release = () => {}; stableGate = new Promise<void>(resolve => { release = resolve; });
+      try {
+        await Promise.all([api.POST(request({ channel: 'stable', requestKey: `race-stable-${iteration}`, limit: 1 })),
+          api.POST(request({ channel: 'preview', requestKey: `race-preview-${iteration}`, limit: 1 }))]);
+        // Let the fire-and-forget stable dispatcher acquire its durable lease.
+        await new Promise(resolve => setTimeout(resolve, 25));
+        const activeStable = await database.scanRun.count({ where: { status: 'running' } });
+        const activePreview = await database.engineRun.count({ where: { status: { in: ['queued', 'running'] } } });
+        expect(activeStable + activePreview).toBe(1);
+      } finally { release(); stableGate = null; await settleStable(); }
+      await database.engineRun.deleteMany(); await database.scanRun.deleteMany();
+    }
+  });
+  it('keeps frozen reports readable after new preview execution is disabled', async () => {
+    const { body } = await seed(); const accepted = await (await api.POST(request({ channel: 'compare', limit: 1 }))).json();
+    await drain(body); vi.stubEnv('POLICYWATCHER_ENGINE_CHANNELS', '0');
+    expect((await api.POST(request({ channel: 'preview' }))).status).toBe(409);
+    expect((await api.GET(get(`?channelRunId=${accepted.runId}`))).status).toBe(200);
+    expect((await (await api.GET(get())).json()).channelRuns).toHaveLength(1);
   });
   it('compares one capture without changing official evidence or invoking AI', async () => {
     const { policy, body } = await seed(); const before = await database.policy.findUniqueOrThrow({ where: { id: policy.id } });

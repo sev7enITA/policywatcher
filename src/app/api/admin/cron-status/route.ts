@@ -15,7 +15,7 @@ import { runFullScan, type ScanOptions, type ScanProgress } from '@/app/api/cron
 import { engineEnabled, enqueueRun } from '@/lib/engine/store';
 import { db } from '@/lib/db';
 import { readBoundedJsonObject } from '@/lib/requestBody';
-import { channelMetadata, parseChannelRequest, scanChannelCapabilities } from '@/lib/scanChannels';
+import { channelMetadata, isolatedChannelWorkspace, parseChannelRequest, scanChannelCapabilities } from '@/lib/scanChannels';
 import { channelRunReport, recentChannelRuns } from '@/lib/engine/channelReports';
 import type { ScrapeDiagnostic } from '@/lib/scraper';
 import { formatScanCompletionLog } from '@/lib/adminScanSummary';
@@ -97,7 +97,7 @@ export async function GET(request: NextRequest) {
   const channels = scanChannelCapabilities();
   const runId = request.nextUrl.searchParams.get('channelRunId');
   if (runId) {
-    if (!channels.preview) return NextResponse.json({ error: 'experimental_channel_unavailable' }, { status: 409 });
+    if (!isolatedChannelWorkspace()) return NextResponse.json({ error: 'experimental_channel_unavailable' }, { status: 409 });
     if (!/^[\w:-]{1,160}$/.test(runId)) return NextResponse.json({ error: 'invalid_run_id' }, { status: 400 });
     const report = await channelRunReport(runId);
     return NextResponse.json(report || { error: 'run_not_found' }, { status: report ? 200 : 404, headers: { 'Cache-Control': 'private, no-store' } });
@@ -106,7 +106,7 @@ export async function GET(request: NextRequest) {
     ...cronState,
     engineV6: engineEnabled(),
     channels,
-    channelRuns: channels.preview ? await recentChannelRuns() : [],
+    channelRuns: isolatedChannelWorkspace() ? await recentChannelRuns() : [],
     timestamp: new Date().toISOString(),
   }, { headers: { 'Cache-Control': 'private, no-store' } });
 }
@@ -132,7 +132,7 @@ export async function POST(request: NextRequest) {
         statusUrl: `/api/admin/cron-status?channelRunId=${encodeURIComponent(run.id)}` }, { status: 202 });
     } catch (error) {
       const reason = error instanceof Error ? error.message : '';
-      const expected = ['request_key_conflict', 'stable_scan_active', 'experimental_channel_unavailable'];
+      const expected = ['request_key_conflict', 'stable_scan_active', 'stable_scan_recovery_required', 'experimental_channel_unavailable'];
       return NextResponse.json({ error: expected.includes(reason) ? reason : 'unable_to_enqueue_channel' }, { status: expected.includes(reason) ? 409 : 500 });
     }
   }

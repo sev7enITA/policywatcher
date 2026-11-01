@@ -52,7 +52,11 @@ export async function enqueueRun(options: { requestKey: string; mode: 'observe' 
   const contractMap = new Map(contracts.map(c => [c.policyId, c]));
   try {
     return await db.$transaction(async tx => {
-      if (experimentalChannelsAvailable() && await tx.scanRun.count({ where: { status: 'running', leaseKey: 'policy-scan' } })) throw new Error('stable_scan_active');
+      if (experimentalChannelsAvailable()) {
+        const stable = await tx.scanRun.findFirst({ where: { status: 'running', leaseKey: 'policy-scan' } });
+        // Expiry alone does not prove the old process has stopped. Keep the hold explicit.
+        if (stable) throw new Error(stable.leaseExpiresAt && stable.leaseExpiresAt <= now ? 'stable_scan_recovery_required' : 'stable_scan_active');
+      }
       const [active, freshStates] = await Promise.all([
         tx.engineTask.findMany({ where: { activePolicyId: { not: null } }, select: { activePolicyId: true } }),
         tx.enginePolicyState.findMany({ where: { mode: options.mode } }),

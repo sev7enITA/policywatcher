@@ -474,6 +474,7 @@ export default function CronManagerPage() {
         const messages: Record<string, string> = {
           experimental_channel_unavailable: 'Preview is unavailable in this environment. The selected scan was not replaced with a Stable scan.',
           stable_channel_unavailable: 'Stable is unavailable in this environment. No other engine was started.',
+          stable_scan_recovery_required: 'The stable lease expired. Confirm that its worker has stopped and recover the interrupted Stable run before starting Preview.',
           stable_scan_active: 'The stable scan is still active. Wait for it to finish before starting Preview.',
           preview_scan_active: 'A private preview run is still active. Complete or cancel it in Engine 6 before starting Stable.',
           invalid_batch_limit: 'Choose a whole number between 1 and 50.',

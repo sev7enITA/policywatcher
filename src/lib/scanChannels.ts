@@ -19,18 +19,23 @@ export function channelImplementationHash(): string | null {
   return loadedImplementationHash === currentImplementationHash() ? loadedImplementationHash : null;
 }
 
-/** The first release is deliberately confined to a dedicated local SQLite copy. */
-export function experimentalChannelsAvailable(): boolean {
-  if (process.env.NODE_ENV === 'production' || process.env.POLICYWATCHER_ENGINE_CHANNELS !== '1'
-      || process.env.POLICYWATCHER_ENGINE_V6 !== '1' || process.env.POLICYWATCHER_ENGINE_PUBLICATION !== '0'
-      || process.env.POLICYWATCHER_ENGINE_NOTIFICATIONS !== '0') return false;
+/** Read access survives disabled execution flags and code changes, in the same isolated workspace. */
+export function isolatedChannelWorkspace(): boolean {
+  if (process.env.NODE_ENV === 'production') return false;
   const url = process.env.DATABASE_URL || '';
   if (!url.startsWith('file:') || /[?#]/.test(url)) return false;
   try {
     const root = realpathSync(resolve('output/engine-channels'));
     const database = realpathSync(resolve(url.slice(5)));
-    return database.startsWith(root + sep) && channelImplementationHash() !== null;
+    return database.startsWith(root + sep);
   } catch { return false; }
+}
+
+/** The first release is deliberately confined to a dedicated local SQLite copy. */
+export function experimentalChannelsAvailable(): boolean {
+  return isolatedChannelWorkspace() && process.env.POLICYWATCHER_ENGINE_CHANNELS === '1'
+    && process.env.POLICYWATCHER_ENGINE_V6 === '1' && process.env.POLICYWATCHER_ENGINE_PUBLICATION === '0'
+    && process.env.POLICYWATCHER_ENGINE_NOTIFICATIONS === '0' && channelImplementationHash() !== null;
 }
 
 export function scanChannelCapabilities() {
