@@ -6,7 +6,11 @@
     "passed": 1469,
     "skipped": 14,
     "channelTests": 14,
-    "simultaneousStartIterations": 12
+    "simultaneousStartIterations": 12,
+    "releaseMetadataAfterGeneratedInstructionsCorrection": {
+      "passed": 3,
+      "scope": "Typographic correction to generated AGENTS.md only; full suite results above are from prior code validation."
+    }
   },
   "officialPolicyRowsUnchanged": true,
   "officialChanges": 0,
@@ -284,6 +288,123 @@
       "path": "output/engine-channels/worker-preflight.log",
       "sha256": "a3f3029fd94dc522e58a2e837158a83f6401e30d9565acc9595dcce437df879c",
       "bytes": 220
+    },
+    {
+      "path": "output/engine-channels/http-production-guard.json",
+      "sha256": "969192664f4416ea497895d03e1d9ae30728166bd5eb3b755065df5b88dfeaca",
+      "bytes": 333
+    },
+    {
+      "path": "output/engine-channels/daily-window-2-status.json",
+      "sha256": "d50b877b74119a56454103c68927b62e202470a54ab9f3845eee5b5012de6be4",
+      "bytes": 1084
+    },
+    {
+      "path": "output/engine-channels/daily-window-2-comparison.json",
+      "sha256": "214244cf3399583a0ac3aa185f1b3d48fcd078c7a1d878eec8252300a2b7e727",
+      "bytes": 1865
+    },
+    {
+      "path": "output/engine-channels/daily-window-2-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "output/engine-channels/release-final.log",
+      "sha256": "2c97e3fba150f16db455ec1210c0761a351e599df86ccdc1e179faf0183323f8",
+      "bytes": 1629
+    },
+    {
+      "path": "output/engine-channels/release-editorial-verified.log",
+      "sha256": "32eb332ef7c0de42a74ff44cff6565577a9bcb5e568c78369c9a65c990e9e8ad",
+      "bytes": 247
+    },
+    {
+      "path": "output/engine-channels/site/artifact-r2.json",
+      "sha256": "4d89945a5ff00955e529b640fe7929471932514d0865b3e471ec1d05246ce7a8",
+      "bytes": 658
+    },
+    {
+      "path": "output/engine-channels/site/build-r2.log",
+      "sha256": "ae648fc7392bf57edfcbed66acc5ba084478d6a818816f4676ef3e32c7bb37de",
+      "bytes": 7150
+    },
+    {
+      "path": "output/engine-channels/site/announcement-local-r2-checks.json",
+      "sha256": "f015e255caa5aa6beda08f55969656ecb395d6cca932c95a9e10e95d0a208ffc",
+      "bytes": 1818
+    },
+    {
+      "path": "output/engine-channels/site/production-backup.json",
+      "sha256": "2478efbd57dd5012c3d92998baabcc4771c746fc3c10d3a543dce78de8ccdb5c",
+      "bytes": 342
+    },
+    {
+      "path": "output/engine-channels/site/verify-site.mjs",
+      "sha256": "8df1b1feaa310048ebc129b1851bb32bfccb4bfc16d4b0ad1e01bb80300d8500",
+      "bytes": 3046
     }
-  ]
+  ],
+  "updatedAt": "2026-11-01T19:36:43.771656+00:00",
+  "dailyAcquisition": {
+    "schema": "pw-engine-campaign-status-1",
+    "observedAt": "2026-11-01T19:29:45.218Z",
+    "manifestHash": "f0a30fcedc7940665da6b759b8123e215857e545b78d6665faa308e614c8b8a7",
+    "sources": 12,
+    "observedWindows": 2,
+    "countedAcquisitionDays": 2,
+    "targetDays": 3,
+    "minimumRequiredSpanHours": 48,
+    "observedMinimumSpanHours": 20.771248333333332,
+    "acquisitionWindowTargetMet": false,
+    "sourceCompletenessQualified": false,
+    "real500SourceCapacityQualified": false,
+    "productionQualified": false,
+    "languageUnverifiedSources": [
+      "aws-dpa-pdf"
+    ],
+    "windows": [
+      {
+        "id": "2026-10-31T22-42-21-785Z",
+        "day": "2026-10-31",
+        "accepted": true,
+        "reasons": []
+      },
+      {
+        "id": "2026-11-01T19-28-36-994Z",
+        "day": "2026-11-01",
+        "accepted": true,
+        "reasons": []
+      }
+    ],
+    "boundary": "Fresh acquisition windows only. Completeness annotations, source approval, realistic capacity and publication qualification are separate and are not granted by this counter.",
+    "unsealedWindows": [],
+    "currentImplementationMatches": true
+  },
+  "productionModeHttpGuard": {
+    "checkedAt": "2026-11-01T19:27:12.016Z",
+    "scope": "local production build against isolated fixture database",
+    "unauthenticatedRead": 403,
+    "authenticatedLogin": 200,
+    "previewEnabled": false,
+    "compareEnabled": false,
+    "previewPostStatus": 409,
+    "previewError": "experimental_channel_unavailable",
+    "newEngineRuns": 0
+  },
+  "siteUpdate": {
+    "sha256": "1ca49fa81461399f79c349b9404fd816f261050249d62ff25562453c48c8129c",
+    "sourceRevision": "5e2cb71324e795d418eef1b6122cfc384fb5b899",
+    "baseRevision": "6140faaf57145f54a948763101e8ead47aa146d0",
+    "changedFiles": [
+      "release-manifest.json",
+      "src/app/engine-6-preview/page.tsx"
+    ],
+    "engine6RuntimeIncluded": false,
+    "supersedesUnpublishedArtifact": "600963512fdfddebd51b9fe6e8890162c4b63aef2c26f0958e682d4259569ac1",
+    "status": "prepared_not_deployed",
+    "artifactPath": "output/engine-channels/site/PolicyWatcher-5.2.0-hostinger-2026-11-01-engine6-channels-wip-r2.zip",
+    "localHttpChecksPassed": 11,
+    "blocker": "Mac locked during Hostinger upload; no new deployment started; awaiting manual unlock."
+  }
 }

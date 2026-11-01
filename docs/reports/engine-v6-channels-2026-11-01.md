@@ -50,3 +50,13 @@ Stable manuale può aggiornare baseline e storico attraverso i controlli esisten
 ## Limiti ancora aperti
 
 Completezza fonte per fonte, osservazioni su date realmente successive, carico Internet su 500 fonti e capacità dell'infrastruttura destinata al servizio restano da qualificare. Il confronto acquisizione/analisi end-to-end è futuro. La pubblicazione del quaderno sul sito riguarda soltanto il resoconto: runtime, schema e scanner pubblici restano 5.2.0.
+
+## Seconda finestra reale e stato della pubblicazione
+
+La cattura `2026-11-01T19-28-36-994Z` (20:28 Europe/Rome), completata alle 20:29, aggiunge una seconda data accettata alla coorte immutabile: 12/12 osservazioni, zero catture mancanti, intervallo minimo per fonte 20,7712 ore. I componenti di acquisizione e il corpus corrispondono ancora al manifest originale. I 12 hash del testo estratto sono invariati; 10 payload decodificati sono diversi. Questo evidenzia stabilità dell'estrazione nella coppia osservata, non equivalenza legale, completezza o validità dell'origine. La lingua del PDF AWS resta non verificata. Il requisito di almeno 3 date e 48 ore non è soddisfatto.
+
+Un ulteriore smoke HTTP della build locale in modalità produzione ha verificato login amministrativo 200, accesso anonimo 403, Preview/compare disabilitati e POST preview 409 senza nuovi EngineRun. Il primo tentativo del driver ometteva l'header IP del proxy locale configurato ed è stato correttamente rifiutato dal rate limiter; il driver è stato corretto senza modificare l'applicazione.
+
+L'aggiornamento editoriale bilingue del diario è preparato, ma non è ancora pubblicato: il Mac si è bloccato durante l'upload su Hostinger. Nessun nuovo deployment è stato avviato. Il backup online di produzione ha `quick_check=ok`, con 18 aziende, 113 policy, 120 cambiamenti e 244 snapshot. Il seguito giornaliero già esistente resta attivo; il controllo delle 20 ore impedisce di contare di nuovo la stessa finestra.
+
+Il pacchetto editoriale r2 è compilato e verificato con 11 controlli HTTP locali: lingue IT/EN, testo dei canali e delle due finestre, sei SVG con hash invariati, navigazione e sitemap. Rispetto al pacchetto pubblicato cambiano solo la pagina del diario e il manifest di release. SHA-256 ZIP: `1ca49fa81461399f79c349b9404fd816f261050249d62ff25562453c48c8129c`. Il controllo tipografico ha rilevato due trattini lunghi nel nuovo AGENTS.md generato da Next.js; dopo la sostituzione con punti, tutti e tre i test di metadati release sono superati. Il log del tentativo precedente è conservato.
