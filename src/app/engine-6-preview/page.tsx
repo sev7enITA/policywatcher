@@ -10,7 +10,7 @@ import styles from './preview.module.css';
 type Props = { searchParams: Promise<{ lang?: string }> };
 const copy = {
   en: {
-    status: 'Experimental programme', date: '31 October 2026', kicker: 'Engineering notebook / 02',
+    status: 'Experimental programme', date: '1 November 2026', kicker: 'Engineering notebook / 03',
     title: 'A clearer path from source to evidence.',
     intro: 'Engine 6 Preview is being developed and tested to make policy retrieval, comparison and validation more traceable. This page opens the design for inspection.',
     boundary: 'Local implementation · live qualification pending',
@@ -42,14 +42,14 @@ const copy = {
       ['Apply the publication gate', 'Unsupported or uncertain claims → hold. Verified high impact → human review. Complete supported lower-impact changes → atomic commit when publication is enabled.'],
     ],
     reviewNote: 'Human approval does not waive missing evidence. Source or extraction-baseline repairs have their own review path. A purely presentational extraction change does not become a provider policy-change alert.',
-    modeTitle: 'Observation stays private.',
-    modeText: 'Observation can record findings without changing the public baseline. Publication and notification delivery are separately enabled. A saved run can be cancelled while its earlier evidence and attempts remain recorded.',
+    modeTitle: 'Stable by default. Preview by explicit choice.',
+    modeText: 'A new administrator selector is implemented and tested in an isolated local workspace. Stable uses the current scanner; Engine 6 Preview saves private observations without updating official baselines, history or notifications. An optional comparison runs both extractors on the same decoded capture. It does not compare live retrieval or AI models. The selector is not activated on this public service.',
     erTitle: 'The relationships behind a recorded change.',
     erIntro: 'This is a conceptual map of the implemented preview schema. A solid line is an explicit database foreign key; dashed lines are application-managed references, including identifiers in checkpoints and evidence payloads.',
     erAlt: 'Entity map showing EngineRun and EngineTask connected by an explicit one-to-many foreign key. Dashed logical references connect tasks, attempts, artifacts, source contracts, per-mode policy state, reviews, cache, origin scheduling, public changes and outbox events.',
     entity: 'Entity', responsibility: 'What it records', relationship: 'Relationship / identity',
     entities: [
-      ['EngineRun → EngineTask', 'A requested run and its resumable work.', 'Explicit runId foreign key; one run has many tasks.'],
+      ['EngineRun → EngineTask', 'A requested run, immutable channel/configuration metadata and its resumable work.', 'Explicit runId foreign key; one run has many tasks.'],
       ['EngineAttempt', 'Each claimed task stage and its outcome.', 'Logical taskId; attempt history is separate from the current task.'],
       ['EngineArtifact', 'Frozen captured or derived evidence with integrity checks.', 'Content-addressed ID; logical references from checkpoints and evidence payloads.'],
       ['EngineSourceContract', 'Reviewed expectations for one source document.', 'policyId identity; logical relationship to Policy.'],
@@ -59,13 +59,14 @@ const copy = {
       ['Policy · PolicyChange · EngineOutbox', 'Public baseline, committed change and deferred delivery.', 'PolicyChange → Policy is an existing FK; outbox changeId is an application reference.'],
     ],
     ledgerTitle: 'What the evidence currently establishes.',
-    ledgerIntro: 'Recorded local verification, 31 October 2026. These results are a starting point for qualification, not a production accuracy score.',
+    ledgerIntro: 'Recorded local verification, updated 1 November 2026. These results are a starting point for qualification, not a production accuracy score.',
     check: 'Check', result: 'Recorded result', limit: 'What remains unproven',
     checks: [
-      ['Automated regression suite', '1,455 passed · 14 skipped', 'Synthetic fixtures do not measure retrieval quality on the live catalogue.'],
+      ['Automated regression suite', '1,469 passed · 14 skipped', 'Synthetic fixtures do not measure retrieval quality on the live catalogue.'],
       ['Engine-specific tests', '120 engine regressions + 16 daily-campaign checks', 'A 500-record scheduling test is not 500 successful Internet retrievals.'],
       ['Build and static checks', 'Production build and TypeScript passed; lint had no errors', '15 pre-existing web lint warnings remain; no independent dynamic security audit is claimed.'],
       ['Administrative workflow', 'Approval and cancellation verified against an isolated database', 'One clearly labelled synthetic policy; no subscriber notifications.'],
+      ['Manual scan channels', '14 boundary tests passed; selector, private report and JSON export verified in the browser', 'Two synthetic local policies: one extraction difference and one unavailable comparison. All policy fields preserved; zero official changes, check logs or notification events. Matching text would still leave completeness unqualified.'],
       ['Real catalogue acquisition', '113 configured policies · 104 HTTP endpoints · 107 attempts in 91 seconds', '101 endpoints retrieved; 105 of 109 document scopes extracted. Four scopes failed retrieval/extraction; 79 extracted scopes still have unresolved structural checks. No source completeness is approved. Local Mac, no models or production writes.'],
       ['Daily observations', '1 counted window · 12 sources · 31 October', 'At least 3 distinct dates, 20 hours between windows and 48 hours overall are required. The frozen campaign has only just started; PDF language remains unverified.'],
       ['Mass recovery simulation', '500 expired leases · 4 processes · 0.83 seconds', 'Expiry was injected in an isolated local database. A crash could leave a completed run marked as active; two reproduced regressions now pass after the recovery fix. VPS and 500-source live capacity remain unqualified.'],
@@ -83,7 +84,7 @@ const copy = {
     footerNote: 'A public record of an experiment. Status will change only as new verification evidence is recorded.',
   },
   it: {
-    status: 'Programma sperimentale', date: '31 ottobre 2026', kicker: 'Quaderno di progetto / 02',
+    status: 'Programma sperimentale', date: '1 novembre 2026', kicker: 'Quaderno di progetto / 03',
     title: 'Un percorso più chiaro dalla fonte alle prove.',
     intro: 'Engine 6 Preview è in sviluppo e sperimentazione per rendere più tracciabili recupero, confronto e validazione delle policy. Questa pagina rende il progetto consultabile.',
     boundary: 'Implementazione locale · qualificazione reale da completare',
@@ -115,14 +116,14 @@ const copy = {
       ['Applicare il controllo di pubblicazione', 'Affermazioni incerte o non supportate → sospensione. Alto impatto verificato → revisione umana. Modifiche complete, supportate e a impatto contenuto → commit atomico se la pubblicazione è abilitata.'],
     ],
     reviewNote: 'L’approvazione umana non sostituisce le prove mancanti. Le riparazioni di fonte o baseline hanno un percorso di revisione dedicato. Una differenza di sola presentazione nell’estrazione non diventa un avviso di modifica della policy del provider.',
-    modeTitle: 'L’osservazione resta privata.',
-    modeText: 'L’osservazione può registrare risultati senza modificare la baseline pubblica. Pubblicazione e invio delle notifiche si abilitano separatamente. Un run salvato può essere annullato conservando prove e tentativi precedenti.',
+    modeTitle: 'Stabile predefinito. Preview per scelta esplicita.',
+    modeText: 'Un nuovo selettore per amministratori è implementato e testato in un ambiente locale isolato. Stabile usa lo scanner corrente; Engine 6 Preview salva osservazioni private senza modificare baseline ufficiali, storico o notifiche. Un confronto facoltativo esegue i due estrattori sulla stessa cattura decodificata. Non confronta il recupero live o i modelli AI. Il selettore non è attivato su questo servizio pubblico.',
     erTitle: 'Le relazioni dietro una modifica registrata.',
     erIntro: 'Mappa concettuale dello schema implementato nella preview. La linea continua indica una chiave esterna esplicita nel database; le linee tratteggiate sono riferimenti gestiti dall’applicazione, inclusi gli identificatori nei checkpoint e nelle prove.',
     erAlt: 'Mappa delle entità: EngineRun ed EngineTask sono collegati da una chiave esterna uno-a-molti. Riferimenti logici tratteggiati collegano attività, tentativi, artefatti, contratti di fonte, stato policy per modalità, revisioni, cache, pianificazione per origine, modifiche pubbliche e notifiche.',
     entity: 'Entità', responsibility: 'Che cosa registra', relationship: 'Relazione / identità',
     entities: [
-      ['EngineRun → EngineTask', 'Una scansione richiesta e le sue attività riprendibili.', 'Chiave esterna esplicita runId; un run contiene più attività.'],
+      ['EngineRun → EngineTask', 'Una scansione richiesta, metadati immutabili di canale/configurazione e attività riprendibili.', 'Chiave esterna esplicita runId; un run contiene più attività.'],
       ['EngineAttempt', 'Ogni assegnazione di una fase e il suo esito.', 'taskId logico; lo storico dei tentativi è separato dall’attività corrente.'],
       ['EngineArtifact', 'Prove acquisite o derivate, congelate e controllate per integrità.', 'ID basato sul contenuto; riferimenti logici nei checkpoint e nelle prove.'],
       ['EngineSourceContract', 'Aspettative revisionate per uno specifico documento.', 'Identità policyId; relazione logica con Policy.'],
@@ -132,13 +133,14 @@ const copy = {
       ['Policy · PolicyChange · EngineOutbox', 'Baseline pubblica, modifica registrata e invio differito.', 'PolicyChange → Policy è una FK esistente; changeId dell’outbox è un riferimento applicativo.'],
     ],
     ledgerTitle: 'Che cosa dimostrano oggi le verifiche.',
-    ledgerIntro: 'Verifiche locali registrate il 31 ottobre 2026. Questi risultati sono una base per la qualificazione, non un punteggio di accuratezza in produzione.',
+    ledgerIntro: 'Verifiche locali aggiornate al 1 novembre 2026. Questi risultati sono una base per la qualificazione, non un punteggio di accuratezza in produzione.',
     check: 'Controllo', result: 'Risultato registrato', limit: 'Che cosa resta da dimostrare',
     checks: [
-      ['Suite automatica di regressione', '1.455 superati · 14 esclusi', 'Le fixture sintetiche non misurano la qualità del recupero sul catalogo reale.'],
+      ['Suite automatica di regressione', '1.469 superati · 14 esclusi', 'Le fixture sintetiche non misurano la qualità del recupero sul catalogo reale.'],
       ['Test specifici del motore', '120 regressioni del motore + 16 controlli della campagna giornaliera', 'Un test di pianificazione con 500 record non equivale a 500 recuperi Internet riusciti.'],
       ['Build e controlli statici', 'Build di produzione e TypeScript superati; lint senza errori', 'Restano 15 warning web preesistenti; nessun audit dinamico indipendente di sicurezza è attestato.'],
       ['Flusso amministrativo', 'Approvazione e annullamento verificati su DB isolato', 'Una policy sintetica esplicitamente indicata; nessun invio agli iscritti.'],
+      ['Canali di scansione manuale', '14 test dei confini superati; selettore, rapporto privato ed esportazione JSON verificati nel browser', 'Due policy sintetiche locali: una differenza di estrazione e un confronto indisponibile. Tutti i campi delle policy preservati; zero modifiche, log di controllo ufficiali o eventi di notifica. Anche testi identici lasciano la completezza da qualificare.'],
       ['Recupero del catalogo reale', '113 policy configurate · 104 indirizzi HTTP · 107 tentativi in 91 secondi', '101 indirizzi recuperati; 105 dei 109 ambiti documentali estratti. Quattro ambiti bloccati nel recupero/estrazione; 79 estrazioni hanno controlli strutturali irrisolti. Nessuna fonte approvata per completezza. Prova sul Mac, senza modelli o scritture in produzione.'],
       ['Osservazioni giornaliere', '1 finestra conteggiata · 12 fonti · 31 ottobre', 'Servono almeno 3 date distinte, 20 ore tra finestre e 48 ore complessive. La campagna congelata è appena iniziata; la lingua del PDF resta da verificare.'],
       ['Simulazione del recupero massivo', '500 assegnazioni scadute · 4 processi · 0,83 secondi', 'Scadenza introdotta artificialmente in un database locale isolato. Un crash poteva lasciare attiva una scansione già conclusa: due regressioni riprodotte sono ora corrette. VPS e capacità su 500 fonti live restano da qualificare.'],
@@ -184,7 +186,7 @@ export default async function EnginePreviewPage({ searchParams }: Props) {
     <main className={styles.page} id="engine-preview-main">
       <div className={styles.masthead}>
         <span><FlaskConical size={16} aria-hidden="true" />{t.status}</span>
-        <time dateTime="2026-10-31">{t.date}</time>
+        <time dateTime="2026-11-01">{t.date}</time>
         <nav aria-label={lang === 'it' ? 'Lingua della pagina' : 'Page language'}><Link href="/engine-6-preview" hrefLang="en" aria-current={lang === 'en' ? 'page' : undefined}>EN</Link><Link href="/engine-6-preview?lang=it" hrefLang="it" aria-current={lang === 'it' ? 'page' : undefined}>IT</Link></nav>
       </div>
       <header className={styles.hero}>
