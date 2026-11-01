@@ -40,3 +40,13 @@ These seven alerts were assessed as intentional diagnostic data flows, with the 
 - The local workspace boundary is not protection against a hostile process with the same account and write access to the directory hierarchy. Private directory permissions and operator control remain required.
 
 The three acquisition probes and `src/lib/scraper.ts` were not modified in this review. The frozen daily qualification manifest and prior capture evidence were preserved.
+
+## Follow-up after integration: alert 91
+
+The email subsequently supplied by the owner contains the original PR #37 alerts, not a Google model review. A fresh GitHub API read confirmed the PR instances of 80, 81 and 82 as `fixed`, and 84 through 89 as `dismissed` with reason `false positive`. The top-level `state` for the old PR-only race alerts was null; the fixed state belongs to their recorded PR instances.
+
+The same check found a new, open `js/incomplete-sanitization` alert, [91](https://github.com/sev7enITA/policywatcher/security/code-scanning/91), on main revision `d649aa58ad9837b0d618f914a855af9a054bd3b1`, at `src/lib/scraper.ts:1681`. Table-cell serialization escaped literal pipes but did not first escape source backslashes. This is a confirmed encoding defect. The inspected consumers retain text blocks and offsets or interpolate React text; this review did not establish executable HTML, SQL injection or another exploitable high-severity sink. The scanner's severity is not a demonstrated exploit.
+
+The separate `codex/engine6-table-escaping` candidate escapes backslashes before pipes at the shared table serializer, including headers and both ordinary and ordered extraction modes. It does not claim to sanitize all Markdown or HTML. Four regressions cover backslash/pipe combinations, trailing backslashes, HTML-entity decoding, Unicode, offsets, repeated negative cells, empty cells and span annotations. Before the fix, two encoding cases failed and both ordinary controls passed; after it all four passed. The focused scraper, fallback, Engine 6 and audit suite passed 177 tests. Scoped ESLint, TypeScript without incremental cache and the generated extraction-profile check passed.
+
+The extraction profile changes from `1b0ce6c3740d88d07037c38921bea0a997f806fea256596a2bca08d23182109d` to `716e9cd3d47ca5711c6775f28f4a2a5047e5001aa02eaa477d833a03fc1518bd`. The existing daily cohort and hosted preview artifact retain the old implementation. Their observations and hosted checks must not be credited to this candidate. A new live cohort is required before attributing multi-day qualification to the new parser. This patch alone does not deploy either public runtime or close the GitHub alert; the new CodeQL analysis and release receipts are separate evidence.
