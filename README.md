@@ -33,6 +33,20 @@
 
 ---
 
+## Current service and Engine 6 Preview
+
+**Updated 1 November 2026.** The public web service is **5.2.0**. Engine 6 has been implemented and tested on the [development branch](https://github.com/sev7enITA/policywatcher/tree/codex/engine-v6-local); it is not yet the engine serving the main website. A separate authenticated **6.0 Preview** is now being prepared so the new controls can be used online with private results.
+
+| Find the work | Verified availability |
+| --- | --- |
+| [Engine 6 source](https://github.com/sev7enITA/policywatcher/tree/codex/engine-v6-local) | Durable tasks, source contracts, evidence validation, Stable/Preview selector and same-capture extraction comparison |
+| [Implementation and test report](https://github.com/sev7enITA/policywatcher/blob/codex/engine-v6-local/docs/reports/engine-v6-channels-2026-11-01.md) | 1,469 tests passed, 14 skipped; local browser report and JSON export verified |
+| [Engineering notebook](https://policywatcher.online/engine-6-preview?lang=it) | Published bilingual documentation with architecture, flow and entity diagrams; not an interactive preview |
+| [Updated wiki](https://github.com/sev7enITA/policywatcher/wiki) | Stable operations, Engine 6 design, scan channels, release status and qualification limits |
+| [Daily campaign](https://github.com/sev7enITA/policywatcher/blob/codex/engine-v6-local/docs/reports/engine-v6-campaign-2026-10-31.md) | 12 sources, 2 counted dates, minimum 20.77-hour span at this checkpoint; 3 dates/48 hours and source completeness still pending |
+
+Choosing Preview does not authorize public policy changes or subscriber notifications. Comparing the two extractors on the same capture is not an end-to-end comparison of Internet retrieval or AI models. Realistic 500-source capacity and production Engine 6 activation remain separate qualification steps.
+
 ## What Is PolicyWatcher?
 
 PolicyWatcher monitors configured public policy sources. The live catalogue reports its current coverage and unavailable sources; it is not exhaustive market coverage. It records retrieval evidence, detects text changes via SHA-256 hashing, and runs each detected change through Google Gemini for structured bilingual (EN/IT) risk analysis.
