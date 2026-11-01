@@ -22,6 +22,9 @@ function run(command, args, environment = process.env) {
 }
 
 if (isManagedHostingerBuild) {
+  // Hostinger wraps next.config.ts to force standalone output. Restore only its
+  // exact known wrapper around manifest-identical source before integrity checks.
+  run(process.execPath, [path.join(APP_DIR, 'scripts', 'hostinger-normalize-next-config.mjs')]);
   // Next normally supplies NODE_ENV=production during build. Validate that
   // runtime context in a child before migrations; reject an explicit other mode.
   run(path.join(APP_DIR, 'node_modules', '.bin', 'tsx'), [

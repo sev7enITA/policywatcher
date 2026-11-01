@@ -3,7 +3,7 @@
   "files": [
     [
       "next.config.ts",
-      "4487371a690840c2b0f750c68f67feb34d52565e3c0b2a30c5e2de6272fb4daa"
+      "d1b810645346e2b8bf104107357fd3644e9ea7be861dcd41b0592f635e9caabf"
     ],
     [
       "package-lock.json",
@@ -19,7 +19,7 @@
     ],
     [
       "scripts/engine-implementation-manifest.mjs",
-      "b771c16affaa23ff8c369f1fc452d43a1f4ecb5353cab08ad7d103f59144d721"
+      "f54af45518dba7fd7c2d3b0ce4ca00f514f1bd4e2341f1a8b72e376eea7bb37e"
     ],
     [
       "scripts/engine-worker.ts",
@@ -35,7 +35,11 @@
     ],
     [
       "scripts/hostinger-managed-build.mjs",
-      "f6ba2eef8a6984787dcc11990b3fe64f89abb1156d6b091a0e00dbd7d9d3cd01"
+      "dfac2cd566dafd7581cee23db91186e723d795ffb7dba9eb0f0d597062313f35"
+    ],
+    [
+      "scripts/hostinger-normalize-next-config.mjs",
+      "96e30d696d93718f39b4c76efcb752348e8e8007aefe9c8e2875d88f3db8a677"
     ],
     [
       "src/app/api/admin/cron-status/route.ts",
@@ -322,5 +326,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "708e3cb77e8149c7fa9ae5d0ccc7351033535f8a21582f2dc5c5226711547328"
+  "hash": "d9d5dde4f1c8d22c03c80ae200bc3e44734ef6a430c7e7bd037719ee30614e88"
 }

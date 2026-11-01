@@ -1,16 +1,17 @@
 /** Draft an exact DOM exclusion for local review; never saves a contract. */
-import { readFile, realpath, stat } from 'node:fs/promises';
+import { realpath } from 'node:fs/promises';
 import { resolve, sep } from 'node:path';
 import { createHash } from 'node:crypto';
 import { load } from 'cheerio';
+import { readBoundedEvidenceFile } from './lib/boundedEvidenceFile';
 
 async function main() {
   const [file, selector] = process.argv.slice(2);
   if (!file || !selector || selector.length > 300 || /:(?:has|contains|matches|not)\s*\(/i.test(selector)) throw new Error('capture_and_bounded_selector_required');
   const path = await realpath(resolve(file));
   const allowed = await realpath(resolve('output'));
-  if (!path.startsWith(allowed + sep) || (await stat(path)).size > 5_000_000) throw new Error('bounded_local_capture_required');
-  const raw = await readFile(path, 'utf8');
+  if (!path.startsWith(allowed + sep)) throw new Error('bounded_local_capture_required');
+  const raw = (await readBoundedEvidenceFile(path, 5_000_000)).toString('utf8');
   const $ = load(raw); const node = $(selector);
   if (node.length !== 1 || node.is('html, body, main, article, [role="main"], h1, h2, h3, h4, h5, h6')
     || node.find('main, article, [role="main"]').length

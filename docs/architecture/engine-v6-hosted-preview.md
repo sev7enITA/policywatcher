@@ -29,6 +29,8 @@ The worker imports no outbox delivery. Every task claim and commit is fenced by 
 
 Generate the implementation manifest with `node scripts/engine-implementation-manifest.mjs`. Its canonical file digest list covers engine dependencies, model interfaces, routing guards, worker bootstrap, database schema, dependencies and build controls. `--check` rejects drift. HTTP and worker records use the same bundled identity when runtime source files are absent; packaging and deployed archive hashes must still be verified separately.
 
+Hostinger wraps `next.config.ts` to force standalone output. The canonical configuration now declares standalone explicitly. Before preflight, a normalizer accepts only the observed byte-exact wrapper, checks the renamed base against the immutable manifest, and restores the approved source bytes. Unknown wrappers, modified bases, symbolic links and hard links are rejected. The manifest is never regenerated during deployment.
+
 The managed build calls the shared hosted guard and manifest check before database preparation. A preview release cannot be built for the production target. Instrumentation is excluded during `next build` by both the Next production-build phase and an explicit child-process override.
 
 Bootstrap uses `scripts/engine-preview-bootstrap.ts` with an explicit public-catalog JSON or read-only SQLite source. It creates a fresh dedicated database, imports only allowlisted company/policy fields and bounded reviewed contracts, and writes a receipt. An existing database is never reset or overwritten. Subscriber, session, notification, access-log, run and public-history records are not copied. Prior public baseline text is not a newly verified Engine 6 baseline.

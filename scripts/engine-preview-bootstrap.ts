@@ -5,11 +5,12 @@
  * --source-db /absolute/read-only-backup.db can replace --catalog; SQLite is opened read-only.
  */
 import { createHash } from 'node:crypto';
-import { existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, writeFileSync, chmodSync } from 'node:fs';
+import { constants, closeSync, existsSync, fchmodSync, fstatSync, lstatSync, mkdirSync, openSync, realpathSync, writeFileSync } from 'node:fs';
 import { dirname, isAbsolute, join, parse, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { PrismaClient } from '@prisma/client';
 import { digest, parseSourceContract } from '../src/lib/engine/document';
+import { readBoundedEvidenceFileSync } from './lib/boundedEvidenceFile';
 
 const args = new Map<string, string>();
 for (let i = 2; i < process.argv.length; i += 2) {
@@ -33,8 +34,7 @@ function publicUrl(v: unknown): string {
   return value;
 }
 function readJson(file: string) {
-  const bytes = readFileSync(file);
-  if (bytes.length > 100_000_000) throw new Error('catalog_too_large');
+  const bytes = readBoundedEvidenceFileSync(file, 100_000_000);
   return JSON.parse(bytes.toString('utf8'));
 }
 function noSymlink(path: string) {
@@ -62,7 +62,7 @@ async function main() {
   const allowed = [resolve('output/engine-channels/hosted-preview/preview.db'), '/home/u847874844/domains/staging.policywatcher.online/policywatcher-preview/preview.db'];
   if (!requested || !isAbsolute(requested) || !allowed.includes(requested) || resolve(requested) !== requested) throw new Error('dedicated_preview_database_required');
   if (Boolean(args.get('--catalog')) === Boolean(args.get('--source-db'))) throw new Error('one_catalog_source_required');
-  noSymlink(requested);
+  noSymlink(dirname(requested));
   const raw = args.has('--catalog') ? readJson(args.get('--catalog')!) : readonlyCatalog(args.get('--source-db')!);
   if (raw.schema !== 'pw-preview-public-catalog-1' || !Array.isArray(raw.companies) || !Array.isArray(raw.policies)
       || !raw.companies.length || raw.companies.length > 500 || !raw.policies.length || raw.policies.length > 5000) throw new Error('invalid_public_catalog');
@@ -110,26 +110,37 @@ async function main() {
   if (new Set(contracts.map(c => c.policyId)).size !== contracts.length) throw new Error('duplicate_contract');
   const inputHash = sha(JSON.stringify({ companies, policies, contracts, appliedOverrides }));
   const receiptPath = join(dirname(requested), 'bootstrap-receipt.json');
-  if (existsSync(requested)) {
-    const stat = lstatSync(requested);
-    if (!stat.isFile() || stat.nlink !== 1) throw new Error('preview_database_alias_rejected');
-    if (stat.size > 0) {
-      // Never migrate, reset or overwrite an existing database. A matching receipt is a no-op.
-      if (!existsSync(receiptPath) || readJson(receiptPath).inputHash !== inputHash) throw new Error('preview_database_already_exists');
+  mkdirSync(dirname(requested), { recursive: true, mode: 0o700 }); noSymlink(dirname(requested));
+  if (realpathSync(dirname(requested)) !== dirname(requested)) throw new Error('preview_parent_alias_rejected');
+  const parent = lstatSync(dirname(requested));
+  if ((parent.mode & 0o022) !== 0 || (process.getuid && parent.uid !== process.getuid())) throw new Error('private_preview_directory_required');
+  // Exclusive creation arbitrates concurrent initializers. Existing empty files
+  // are not reused: another process may already be preparing that database.
+  let descriptor: number;
+  try { descriptor = openSync(requested, constants.O_CREAT | constants.O_EXCL | constants.O_RDWR | constants.O_NOFOLLOW, 0o600); }
+  catch (error) {
+    if (!error || typeof error !== 'object' || !('code' in error) || error.code !== 'EEXIST') throw error;
+    const existing = openSync(requested, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
+    try {
+      const stat = fstatSync(existing);
+      if (!stat.isFile() || stat.nlink !== 1) throw new Error('preview_database_alias_rejected');
+      if (!stat.size) throw new Error('preview_database_initialization_in_progress');
+      let receipt: { inputHash?: string };
+      try { receipt = readJson(receiptPath); } catch { throw new Error('preview_database_already_exists'); }
+      if (receipt.inputHash !== inputHash) throw new Error('preview_database_already_exists');
       console.log(JSON.stringify({ state: 'already_initialized_no_changes', inputHash, database: requested }));
       return;
-    }
+    } finally { closeSync(existing); }
   }
-  mkdirSync(dirname(requested), { recursive: true, mode: 0o700 }); noSymlink(requested);
-  if (realpathSync(dirname(requested)) !== dirname(requested)) throw new Error('preview_parent_alias_rejected');
-  // The pinned SQLite schema engine expects the target file to exist on some hosts.
-  if (!existsSync(requested)) writeFileSync(requested, '', { flag: 'wx', mode: 0o600 });
+  // The pinned SQLite schema engine expects an existing target. Keep its
+  // descriptor open through initialization; permissions apply to that inode.
+  try {
   const migration = spawnSync(process.execPath, [resolve('node_modules/prisma/build/index.js'), 'migrate', 'deploy', '--schema', resolve('prisma/schema.prisma')], {
     cwd: process.cwd(), env: { ...process.env, DATABASE_URL: `file:${requested}`, POLICYWATCHER_ENGINE_PUBLICATION: '0', POLICYWATCHER_ENGINE_NOTIFICATIONS: '0', POLICYWATCHER_ENGINE_BUILD_PHASE: '1' },
     encoding: 'utf8', maxBuffer: 5_000_000,
   });
   if (migration.status !== 0) throw new Error('preview_schema_migration_failed');
-  chmodSync(requested, 0o600);
+  fchmodSync(descriptor, 0o600);
   const db = new PrismaClient({ datasources: { db: { url: `file:${requested}` } } });
   try {
     await db.$transaction(async tx => {
@@ -156,5 +167,6 @@ async function main() {
     writeFileSync(receiptPath, `${JSON.stringify(receipt, null, 2)}\n`, { flag: 'wx', mode: 0o600 });
     console.log(JSON.stringify(receipt));
   } finally { await db.$disconnect(); }
+  } finally { closeSync(descriptor); }
 }
 void main().catch(error => { console.error(error instanceof Error && /^[a-z_]+$/.test(error.message) ? error.message : 'preview_bootstrap_failed'); process.exitCode = 1; });

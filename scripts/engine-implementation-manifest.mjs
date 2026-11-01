@@ -11,6 +11,7 @@ const files = [
   'package.json', 'package-lock.json', 'prisma/schema.prisma',
   'scripts/engine-implementation-manifest.mjs', 'scripts/engine-worker.ts',
   'scripts/hostinger-managed-build.mjs', 'scripts/hostinger-environment-gate.mjs', 'scripts/hosted-preview-preflight.mjs',
+  'scripts/hostinger-normalize-next-config.mjs',
   'src/instrumentation.ts', 'src/lib/scanChannels.ts', 'src/lib/hostedPreview.ts', 'src/lib/db.ts', 'src/lib/databaseUrl.ts',
   'src/lib/scraper.ts', 'src/lib/extractionProfile.ts', 'src/lib/extractionProfile.generated.json',
   'src/lib/acquisitionScope.ts', 'src/lib/sourceReliability.ts', 'src/lib/pdfPolicy.ts',

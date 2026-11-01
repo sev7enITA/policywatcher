@@ -1,9 +1,10 @@
 /** Offline inclusion audit of bounded saved captures. Never a completeness oracle. */
-import { readFile, writeFile, mkdir, stat } from 'node:fs/promises';
+import { writeFile, mkdir, realpath } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { load } from 'cheerio';
 import type { AnyNode } from 'domhandler';
 import { digest } from '../src/lib/engine/document';
+import { readBoundedEvidenceFile } from './lib/boundedEvidenceFile';
 
 async function main() {
   const [input, output] = process.argv.slice(2).map(p => resolve(p));
@@ -12,7 +13,9 @@ async function main() {
       || !process.env.DATABASE_URL?.startsWith('file:' + boundary)
       || process.env.POLICYWATCHER_ENGINE_PUBLICATION === '1' || process.env.POLICYWATCHER_ENGINE_NOTIFICATIONS === '1') throw new Error('isolated_replay_required');
   type Attempt = { extraction?: string; bodyFile?: string; bodyHash?: string; observedAt: string; status?: number };
-  const captures = JSON.parse(await readFile(join(input, 'results.json'), 'utf8')) as { rows: Array<{ id: string; url: string; attempts: Attempt[] }> };
+  const inputRoot = await realpath(input), outputRoot = await realpath(resolve('output'));
+  if (!inputRoot.startsWith(outputRoot + '/')) throw new Error('isolated_replay_required');
+  const captures = JSON.parse((await readBoundedEvidenceFile(join(inputRoot, 'results.json'), 5_000_000)).toString('utf8')) as { rows: Array<{ id: string; url: string; attempts: Attempt[] }> };
   if (!Array.isArray(captures.rows) || captures.rows.length < 1 || captures.rows.length > 30) throw new Error('replay_budget_exceeded');
   await mkdir(output, { recursive: false });
   const { extractEngineBody } = await import('../src/lib/engine/acquisition');
@@ -26,9 +29,8 @@ async function main() {
       const attempt = row.attempts.find(a => a.extraction === 'completed');
       if (!attempt) { rows.push({ id: row.id, result: 'no_successful_capture' }); continue; }
       if (!attempt.bodyFile || !/^[a-z0-9-]+\.body\.txt$/.test(attempt.bodyFile)) throw new Error('invalid_capture_path');
-      const file = join(input, attempt.bodyFile);
-      if ((await stat(file)).size > 5_000_000) throw new Error('replay_payload_too_large');
-      const html = await readFile(file, 'utf8');
+      const file = join(inputRoot, attempt.bodyFile);
+      const html = (await readBoundedEvidenceFile(file, 5_000_000)).toString('utf8');
       if (digest(html) !== attempt.bodyHash) throw new Error('capture_integrity_failed');
       // No source contract is inferred or approved by this diagnostic.
       const body = extractEngineBody(html, row.url);
