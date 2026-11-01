@@ -21,11 +21,14 @@ describe('Hostinger runtime schema parity', () => {
   const modelNames = [...prismaSchema.matchAll(/^model\s+(\w+)\s+\{/gm)].map((match) => match[1]);
 
   it('creates every Prisma model in both CLI-free fallback initializers', () => {
+    const engineMigration = readFileSync('prisma/migrations/20261031060000_engine_v6/migration.sql', 'utf8').replaceAll('CREATE TABLE ', 'CREATE TABLE IF NOT EXISTS ');
+    expect(nodeFallback).toContain('20261031060000_engine_v6/migration.sql');
+    expect(pythonFallback).toContain('20261031060000_engine_v6/migration.sql');
     expect(modelNames.length).toBeGreaterThan(0);
     for (const model of modelNames) {
       const createTable = `CREATE TABLE IF NOT EXISTS "${model}"`;
-      expect(nodeFallback, `Node fallback is missing ${model}`).toContain(createTable);
-      expect(pythonFallback, `Python fallback is missing ${model}`).toContain(createTable);
+      expect(nodeFallback + engineMigration, `Node fallback is missing ${model}`).toContain(createTable);
+      expect(pythonFallback + engineMigration, `Python fallback is missing ${model}`).toContain(createTable);
     }
   });
 
@@ -124,6 +127,11 @@ describe('Hostinger runtime schema parity', () => {
         encoding: 'utf8',
       });
       expect(initialized.status, initialized.stderr).toBe(0);
+      // Re-running either initializer must preserve existing data and new unique indexes.
+      const twice = spawnSync('python3', ['scripts/hostinger-init-db.py'], {
+        env: { ...process.env, DATABASE_URL: `file:${completePath}` }, encoding: 'utf8',
+      });
+      expect(twice.status, twice.stderr).toBe(0);
       const completeResult = spawnSync('node', ['scripts/hostinger-detect-materialized-migrations.mjs'], {
         cwd: process.cwd(),
         env: { ...process.env, DATABASE_URL: `file:${completePath}`, NODE_NO_WARNINGS: '1' },
@@ -135,6 +143,7 @@ describe('Hostinger runtime schema parity', () => {
       expect(completeResult.stdout).toContain('20261002050000_multiple_documents_per_type');
       expect(completeResult.stdout).toContain('20260820100000_document_evidence_model');
       expect(completeResult.stdout).toContain('20261015160000_dq_lineage_occurrences');
+      expect(completeResult.stdout).toContain('20261031060000_engine_v6');
     } finally {
       rmSync(directory, { recursive: true, force: true });
     }

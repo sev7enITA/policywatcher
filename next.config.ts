@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 const projectRoot = dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   poweredByHeader: false,
   // Keep canonical, language and social metadata in the initial head for every reader.
   htmlLimitedBots: /.*/,

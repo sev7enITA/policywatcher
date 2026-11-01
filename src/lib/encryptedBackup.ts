@@ -11,6 +11,9 @@ const SCRYPT_MAX_MEMORY_BYTES = 64 * 1024 * 1024;
 const BACKUP_AAD = 'policywatcher-encrypted-export:v2';
 
 export const COMPLETE_BACKUP_TABLES = [
+  ['EngineRun', 'engineRun'], ['EngineTask', 'engineTask'], ['EngineArtifact', 'engineArtifact'], ['EngineAttempt', 'engineAttempt'],
+  ['EngineSourceContract', 'engineSourceContract'], ['EnginePolicyState', 'enginePolicyState'], ['EngineOrigin', 'engineOrigin'],
+  ['EngineHttpCache', 'engineHttpCache'], ['EngineReview', 'engineReview'], ['EngineOutbox', 'engineOutbox'],
   ['ExtractionBaseline', 'extractionBaseline'],
   ['ExternalDocumentReference', 'externalDocumentReference'],
   ['EvidenceQualityReview', 'evidenceQualityReview'],
@@ -54,6 +57,7 @@ type BackupClient = Record<string, BackupDelegate>;
 export interface CompleteBackupPayload {
   formatVersion: 2;
   applicationVersion: string;
+  inventoryVersion?: 'engine-v6';
   exportedAt: string;
   scope: 'complete-application-export';
   restoreMode: 'verification-only';
@@ -122,6 +126,7 @@ export async function buildCompleteBackupPayload(
   return {
     formatVersion: ENCRYPTED_BACKUP_FORMAT_VERSION,
     applicationVersion: POLICYWATCHER_VERSION,
+    inventoryVersion: 'engine-v6',
     exportedAt: now.toISOString(),
     scope: 'complete-application-export',
     restoreMode: 'verification-only',
@@ -206,8 +211,11 @@ function validateCompleteBackupPayload(payload: unknown): CompleteBackupPayload 
   const countValues = counts as Record<string, unknown>;
   const dataValues = data as Record<string, unknown>;
   const expectedTables = COMPLETE_BACKUP_TABLES.map(([tableName]) => tableName)
+    .filter(table => value.inventoryVersion === 'engine-v6' || !table.startsWith('Engine'))
     .filter(table => table !== 'ContentArtifact' || value.applicationVersion !== '5.0.0');
   if (
+    (value.inventoryVersion !== undefined && value.inventoryVersion !== 'engine-v6')
+    ||
     summaryValue.tableCount !== expectedTables.length
     || Object.keys(dataValues).length !== expectedTables.length
     || Object.keys(countValues).length !== expectedTables.length

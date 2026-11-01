@@ -1,0 +1,326 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-31T07:23:15.286905+00:00",
+  "engineCodeCommit": "0002b537add69d5ce57d10a9ad8ddfc30b22cd1b",
+  "branch": "codex/engine-v6-local",
+  "scope": "Current implementation/configuration/tests plus hashes of local qualification evidence. Supplements original frozen manifest; model reviews are scoped in the report. Local evidence hashes do not imply those files are in Git.",
+  "originalManifestSha256": "7d32e1483dcb32564f77e751e93e0a84a07db11d1931ed4db296d250763a4a53",
+  "files": [
+    {
+      "path": ".env.example",
+      "sha256": "4b9a60abcffedff41e47600cb890389b50f2f6e15d91f3020f9d0dda1693d695"
+    },
+    {
+      "path": "evals/engine-v6/acquisition-corpus.json",
+      "sha256": "b08c871f5e2e552e52a737051f9d0b9a4da8263e0549c0e9a67997e6239db692"
+    },
+    {
+      "path": "package.json",
+      "sha256": "82664c8b51a332360620eecc38feb8a61608777e061bf82d1b33446673c66c50"
+    },
+    {
+      "path": "prisma/migrations/20261031060000_engine_v6/migration.sql",
+      "sha256": "03426874b810d97e67f44cbcc20fe387a29b7c790fb32576951292041e39a5c4"
+    },
+    {
+      "path": "prisma/postgresql/migrations/20261031060000_engine_v6/migration.sql",
+      "sha256": "d6af4e65c2308e36afd4c1393aa6c8761627553dbb53bb0b2ff529db751aeee8"
+    },
+    {
+      "path": "prisma/schema.prisma",
+      "sha256": "f5a03b0876c5ee83ad20668e8f5d63cf8a91030fe62c7bc17a98d77c7adfab47"
+    },
+    {
+      "path": "scripts/engine-acquisition-probe.ts",
+      "sha256": "32c973251c4775c68391afedc4c307ae92b82a20eeedece1682bd3a72f8fd919"
+    },
+    {
+      "path": "scripts/engine-concurrency-probe.ts",
+      "sha256": "76e73a4972a8cbc95b78eec474244a6f6224481a3e7e70fc3462c1b236642d45"
+    },
+    {
+      "path": "scripts/engine-reviewed-exclusion.ts",
+      "sha256": "9722ca436346a6a0005b7eb0a12946dc589976824ac1da61ed171f3248c83a4a"
+    },
+    {
+      "path": "scripts/engine-worker.ts",
+      "sha256": "f31f7e5719eef6d9d80757d1b4c554c3883f91de07f07584975f349da2ce245b"
+    },
+    {
+      "path": "scripts/extraction-profile.mjs",
+      "sha256": "fb0c7b4a692e9241f53e513d1a80ab8c601661397d21a6217bf3bea5087f1b85"
+    },
+    {
+      "path": "scripts/hostinger-init-db.mjs",
+      "sha256": "93f629b75606c16d677f57504e8a2218cca12f6420282a8722cb940389fa3524"
+    },
+    {
+      "path": "scripts/hostinger-init-db.py",
+      "sha256": "1d8c0ebfe7f4d2b59008ee99aa7cecab5260b3b4a859e4425120d909b93276e1"
+    },
+    {
+      "path": "src/app/HomePage.module.css",
+      "sha256": "41bcf68126a2bd55a26bb135def2cddd22bc3cbe3a11cce41d61c41031657872"
+    },
+    {
+      "path": "src/app/admin/cron/page.tsx",
+      "sha256": "15285af2927fadb630c9cef7be52355be4ca2d67695c00a6b65b4c1287994789"
+    },
+    {
+      "path": "src/app/admin/engine/page.tsx",
+      "sha256": "1fec209f8d02fa99fb972a1ff908f97dabf89076830bb9053a5192ecf350feee"
+    },
+    {
+      "path": "src/app/admin/layout.tsx",
+      "sha256": "05897d31216e38e7052a95bd7d40f8990747636fc33cdcf4595b68be7dfc5cae"
+    },
+    {
+      "path": "src/app/api/admin/cron-status/route.ts",
+      "sha256": "17fb7b166dace73739d8574321dc7700b31bb6f7fabce211223aa2beb6ed7a0e"
+    },
+    {
+      "path": "src/app/api/admin/engine/route.ts",
+      "sha256": "644ccba62cbc0e26ae8398ce2bae078f28932dadf98756b80ee6800dda264c9a"
+    },
+    {
+      "path": "src/app/api/cron/check-all/route.ts",
+      "sha256": "6b03f2595b53c2cb417921ecfeca6ef609f7f04a1297eeca6b1c3b6ebf7bb7ef"
+    },
+    {
+      "path": "src/app/api/scrape/route.ts",
+      "sha256": "dfd6f49f0102b278e28f930c87f9390a7dc044dc9b43c4a44747a459766f7874"
+    },
+    {
+      "path": "src/app/engine-6-preview/page.tsx",
+      "sha256": "18506dc0df314986c34bf7c28740c4e33b0ca088009025cdeef40886e3dd5831"
+    },
+    {
+      "path": "src/app/engine-6-preview/preview.module.css",
+      "sha256": "e3c1f7568c13a5c86cf2dc225e174ccd5b59f0d3ddb534db784ee4442c91b608"
+    },
+    {
+      "path": "src/app/page.tsx",
+      "sha256": "4f160dd250ad00ce2e830f4298d28e8eca65cd69f0ac3f4b5c8f59f4031f7de5"
+    },
+    {
+      "path": "src/app/roadmap/RoadmapClient.tsx",
+      "sha256": "7d70f6519530c7dde5fa4bea737a0b3de77721525bbbe176d413365c63b6a9d8"
+    },
+    {
+      "path": "src/app/roadmap/roadmap.module.css",
+      "sha256": "b66f234d8bc4b201be5e619c572747b047387577c786a0dfeb324c871f0061df"
+    },
+    {
+      "path": "src/app/sitemap.ts",
+      "sha256": "72de9b1c5b4e9399719be5eddf4093fa5f001a9ec055a6cfadc49316ed25c295"
+    },
+    {
+      "path": "src/components/Footer.tsx",
+      "sha256": "75eb681367fb472d17231fcffc67241902029a1620790cad8321637c70a217fa"
+    },
+    {
+      "path": "src/lib/__tests__/deploymentSchemaParity.test.ts",
+      "sha256": "ddc709199b6bc65789116e6bad46710822a193cd07d3f1c0935542fad56dce9a"
+    },
+    {
+      "path": "src/lib/__tests__/encryptedBackup.test.ts",
+      "sha256": "1ae4f855172ca5aebc20e0dd83ebf0a4a87383cf83968811d620b8a39cef9cdc"
+    },
+    {
+      "path": "src/lib/__tests__/engineAuditRegression.test.ts",
+      "sha256": "1edac484b02f791b6ca887b0e6bc0cecb3fd663fc556e9e4d687dbe8c9bef96e"
+    },
+    {
+      "path": "src/lib/__tests__/engineV6.test.ts",
+      "sha256": "2af53550c21271a26812057ab32be6442cda8339e0d454804b6a1cc07b91a0e2"
+    },
+    {
+      "path": "src/lib/__tests__/postgresqlRehearsal.test.ts",
+      "sha256": "9eb15165c346cfcd51391c2deee6b0468191f0af5b459f43b0aa4b52e169ff0f"
+    },
+    {
+      "path": "src/lib/adminScanSummary.ts",
+      "sha256": "dce730c1e8de82a307d6e14f2645367b65d4884e72c6529445ef859742bafbfa"
+    },
+    {
+      "path": "src/lib/aiEvaluation.ts",
+      "sha256": "2d2c5c0238ed520ae2a99851a6801a8bc01f374a40c5a79702fd31637b02b65c"
+    },
+    {
+      "path": "src/lib/databaseReadiness.ts",
+      "sha256": "10da9aa184fbacf020bf029eb5a91845a7e01d9410ed0441b81eb0a58f8fc619"
+    },
+    {
+      "path": "src/lib/encryptedBackup.ts",
+      "sha256": "9657d361c726170336e0285ddb8f204693d6285555f960af3d4eb87604134741"
+    },
+    {
+      "path": "src/lib/engine/acquisition.ts",
+      "sha256": "bf0cb10de48c15cd9e7d3a68b21f7bfe830cb779656cd780218e81aac2041b48"
+    },
+    {
+      "path": "src/lib/engine/claims.ts",
+      "sha256": "3172d69c74ce03513f5e51130abc06c443f42f72e1fd77b5b3b5fa60fc929b45"
+    },
+    {
+      "path": "src/lib/engine/document.ts",
+      "sha256": "6543f9d0d2c768510a140b19e8d5191c7c90f7730062ef696f1e3471a4893540"
+    },
+    {
+      "path": "src/lib/engine/outbox.ts",
+      "sha256": "48fa86d023b5ff4f3b9987e9973880d114406d78245a163c65beaabddc986135"
+    },
+    {
+      "path": "src/lib/engine/pipeline.ts",
+      "sha256": "f5321f9443398400fd566f765b2d45c90de99719bdf988f0e8463d55447357d1"
+    },
+    {
+      "path": "src/lib/engine/store.ts",
+      "sha256": "56af695dc37832fcf20a270efdbd66190337bd78f3d5e581e967b89eb11509eb"
+    },
+    {
+      "path": "src/lib/extractionGuard.ts",
+      "sha256": "b73fa7c70858fbe27ea6bc0e2495e7950a6a1db61c1a05ba62198018cf1cb5d9"
+    },
+    {
+      "path": "src/lib/extractionProfile.generated.json",
+      "sha256": "73f2c78e8fb1d639408412556a881d7b3e2025d036060a9820226d2954da760a"
+    },
+    {
+      "path": "src/lib/mailer.ts",
+      "sha256": "9a7297b6b681cc082b7292192bb0b47d3b7f0dfd1d2159bca19cf47d9055130f"
+    },
+    {
+      "path": "src/lib/scraper.ts",
+      "sha256": "d8c91c71239eaad0203e81edf4763ea88cb3c94e990d122b9b0a7f9017110626"
+    },
+    {
+      "path": "src/lib/seo.ts",
+      "sha256": "b109e95a5f2ef7686fa1999fb3813ce2c16417bf9601864ee30c61c16973fecc"
+    },
+    {
+      "path": "src/lib/sourceReliability.ts",
+      "sha256": "df343b432dfd7d1934d96fefe87a26328693b8f8dfae165524b0fdc9685c8ded"
+    },
+    {
+      "path": "src/lib/sourceRemediation.ts",
+      "sha256": "e071aedce67b2377e172d2599b29fe8e759a81925a6fdf27b227e00090b9d5ea"
+    },
+    {
+      "path": "src/proxy.ts",
+      "sha256": "88809de9d4604c643e7229960f08baf4654572bad2f9830b7dd7beb21654848f"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha256": "6585560ed9b0a07b4193a8f30062f1e9073b81d247f051c8a76c7a16a86d3a44"
+    },
+    {
+      "path": "tsconfig.tests.json",
+      "sha256": "8f11ae16bd9e2a75245ed21b8f01d1a2313905d2736486d4bfc248dd4d7326a5"
+    }
+  ],
+  "committedEvidence": [
+    {
+      "path": "docs/reports/engine-v6-qualification-evidence-2026-10-31.json",
+      "sha256": "0691068bba36a49f0c3d9aba815dce16280d80ec8eb720fd1c7222146fbfa72b"
+    }
+  ],
+  "localEvidence": [
+    {
+      "path": "output/engine-qualification-2026-10-31/capture-1/results.json",
+      "sha256": "8095961bbbfd195a4c311b1674b56fe4369e001349270defa70d4b4c8f152929"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/capture-2/results.json",
+      "sha256": "53a4f42d25d0f4f071c6de8563e2d4ebe7bef763399ec556e3a4364e82ce43e2"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/replay-final.json",
+      "sha256": "b6e6139b1e67fe0fa615c7791a2aa6004522f0a522e56da0af40887eb169b8cb"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/two-window-comparison.json",
+      "sha256": "c164e6278d4c84406dce4893c480d8171455e24f8a7fe07f16ba9bd132cf575c"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/concurrency-500/report.json",
+      "sha256": "6adb72453c9a29d9f7d0aebe0f4c201ff67f3c49327cc41a7e994bfe01a9251a"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/ui-rebaseline-readback.json",
+      "sha256": "ad84bbf1137bc307807e3a77c6009f72c0b056fd4f52a10468046807c474a8a3"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/full-tests-rebaseline.log",
+      "sha256": "31929a80816ba5cbeb0fdddd7ac4774777df0831a50bcd2a9b482112c4adebda"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/rebaseline-tests-final.log",
+      "sha256": "930730cd0afaaab8c4fb113d0d91fbdf195781e4577b07f0e50fc5e06ada6618"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/test-types-rebaseline-final.log",
+      "sha256": "9f10b3b6fbfe108f64f586b7b57faa5f77e3fd3c4349dc83dc859260dfe1d4ab"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/rebaseline-types.log",
+      "sha256": "375428b367bfbe2a2872aecc5dc5d1d0fe26cc010c19520f55e016eab1968a1a"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/lint-rebaseline-final.log",
+      "sha256": "1e9e013da8da5242c5ead7dab479c5d896234552ec44be9a65e5af696d226a52"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/engine-build-release-checkpoint.log",
+      "sha256": "c860bfdced1a0ef3fe8c120f9cb2ffdb73c6d01f316e9f0b6147b09fe575a0fe"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/announcement-source.json",
+      "sha256": "ab3c06cdd2f40837428e55c28b00e02b09bd8b6bbca841d63fe7b559f2fdfa11"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/announcement-artifact.json",
+      "sha256": "39244a36b5ba6a7d7aaac1170462a7f3a31eb21e31c877361c449683ec42b417"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/announcement-staging-checks.json",
+      "sha256": "7abfed861981fcae262b63548e6873b85078c57cbfe68a9b49f3122c907b9f92"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/announcement-production-checks.json",
+      "sha256": "5a456ffb89f9f1cd530444ee9458c672f16351abb959a82564b2a23ec200f8a6"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/production-verification.json",
+      "sha256": "61ecef3f005b6f150a8766a1d8ce0f3bf292f7bd67e383cdb3cf46e7c6ebdbf6"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/production-runtime-checks.json",
+      "sha256": "32287801191e9c65956884a61dabcd8adc805f6c3ee31b0f674bdae7b4b35563"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/production-source-readback.json",
+      "sha256": "eb848b41b1394b53b8adbb2b0f0e595ba13a1a0a1ea829f19b0f8f391647765e"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/production-backup-report.json",
+      "sha256": "b1f25a12469daa113b960fc054d36ce100d391c1848e83f0a85f5ad91eff5f5a"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/production-immediate-backup.json",
+      "sha256": "35d69640e90ee53be7583660244e825e063df26a2383f598b87e4f5e69ae9231"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/PolicyWatcher-5.2.0-hostinger-2026-10-31-engine6-preview-notice.zip.staging-verification.json",
+      "sha256": "951ed4d5f44990bc5c7afbf695591dd783edae606421ab625351f461d5e67588"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/PolicyWatcher-5.2.0-hostinger-2026-10-31-engine6-preview-notice.zip.promotion.json",
+      "sha256": "7ed0243973b9432dd6f8e740129b09af92af2b90f0778f957af121f9657694e1"
+    },
+    {
+      "path": "output/engine-qualification-2026-10-31/glm-disclosures-review-4.txt",
+      "sha256": "26452e8abfb902de6dec94bbab73a382d1fa08544ce73f5f9209584a675ec3fe"
+    }
+  ]
+}

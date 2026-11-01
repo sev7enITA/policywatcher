@@ -41,7 +41,7 @@ import {
 import styles from './admin.module.css';
 import { AdminPageGuide } from '@/components/admin/AdminPageGuide';
 import { getAdminGuide } from '@/lib/adminGuides';
-import { POLICYWATCHER_VERSION } from '@/lib/release';
+import { POLICYWATCHER_RELEASE_CHANNEL, POLICYWATCHER_VERSION } from '@/lib/release';
 import { AdminDashboardTelemetryClient } from './AdminDashboardTelemetryClient';
 
 type Role = 'admin' | 'auditor';
@@ -61,6 +61,7 @@ const NAV_ITEMS: NavItem[] = [
     icon: <LayoutDashboard size={18} />,
     section: 'Overview',
   },
+  { label: 'Engine 6 Preview', href: '/admin/engine', icon: <ScanSearch size={18} />, section: 'Monitor', adminOnly: true },
   {
     label: 'Cron Manager',
     href: '/admin/cron',
@@ -429,7 +430,8 @@ export default function AdminLayout({
 
   // Filter nav items based on role
   const visibleItems = NAV_ITEMS.filter(
-    (item) => !item.adminOnly || role === 'admin'
+    (item) => (!item.adminOnly || role === 'admin')
+      && (POLICYWATCHER_RELEASE_CHANNEL !== 'preview' || ['/admin/engine', '/admin/cron'].includes(item.href))
   );
   const currentRouteTitle = getAdminGuide(pathname)?.title
     || visibleItems.find((item) => isActive(item.href))?.label

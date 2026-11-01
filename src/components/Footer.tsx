@@ -178,6 +178,7 @@ export default function Footer({ lang, variant = 'full', lockLang = false }: Foo
       label: t.product,
       links: [
         { href: '/roadmap', label: t.roadmap, icon: Cpu },
+        { href: activeLang === 'it' ? '/engine-6-preview?lang=it' : '/engine-6-preview', label: activeLang === 'it' ? 'Engine 6 · Sperimentazione' : 'Engine 6 · Experimental', icon: GitFork },
         { href: '/atlas', label: t.atlas, icon: GitFork },
         { href: '/feature-atlas', label: t.featureAtlas, icon: Network },
         { href: '/showcase', label: t.showcase, icon: Sparkles },

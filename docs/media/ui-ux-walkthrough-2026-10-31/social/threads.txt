@@ -1,0 +1,7 @@
+POLICYWATCHER, una nuova bussola: OSSERVA, CONFRONTA, APPROFONDISCI.
+
+Nel video mostro l’anteprima UI, il rapporto su PALO e il Companion Android. Sviluppo il progetto per collegare policy, fonti e revisione umana.
+
+UI committata, deployment separato. Android in revisione Google. PALO Framework Toolbox è su iOS, come app distinta dal Companion. QR nel video e risorse su https://policywatcher.online/
+
+#PolicyWatcher #PALO

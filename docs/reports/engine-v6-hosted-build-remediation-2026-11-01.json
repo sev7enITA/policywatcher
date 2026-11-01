@@ -1,0 +1,51 @@
+{
+  "schema": "pw-hosted-preview-candidate3-1",
+  "recordedAt": "2026-11-01T22:08:07.566044+00:00",
+  "release": "6.0.0-preview.1",
+  "implementationHash": "d9d5dde4f1c8d22c03c80ae200bc3e44734ef6a430c7e7bd037719ee30614e88",
+  "failedDeployment": {
+    "deploymentId": "01a1991b-6168-7145-af94-3d003611663b",
+    "archiveSha256": "88fbd18a785ece987283c61a1580bbe9af1fde5dc89ef74bc50e32b3f2f57977",
+    "stage": "pre_migration_preflight",
+    "reason": "Hostinger exact next.config.ts wrapper changed the raw file hash"
+  },
+  "automatedTests": {
+    "passed": 1565,
+    "skipped": 14
+  },
+  "actualLocalStandalone": {
+    "passed": 22,
+    "source": "generated .next/standalone/server.js",
+    "database": "fresh isolated copy",
+    "publicationEnabled": false,
+    "notificationsEnabled": false
+  },
+  "deployment": "retry_pending",
+  "review": "GLM-5.3 Max static review; no concrete integrity bypass found, no executed-test claim",
+  "artifacts": [
+    {
+      "path": "output/hosted-preview/hostinger-r1-failed-build.ax.txt",
+      "sha256": "99e96072736f256ad6433c8559ef7949b2027a8ca8ed1df9a6e93d2e2c8ba11e"
+    },
+    {
+      "path": "output/hosted-preview/hostinger-r1-next.config.ts",
+      "sha256": "ee8dae0cc029ba90e872223d312c98cf192a071c864f0a07e5479b36799be082"
+    },
+    {
+      "path": "output/hosted-preview/build-candidate3.log",
+      "sha256": "b433b4ce7b60739b73625394a3f5b10776aec19d1dbba7e9d85d5f5a2e554357"
+    },
+    {
+      "path": "output/hosted-preview/full-tests-candidate3.log",
+      "sha256": "a571ac79aaddd54d79ee59d3381fdeca11907e9b7d09de5d7819e80fb2d9fe37"
+    },
+    {
+      "path": "output/hosted-preview/packaged-smoke-candidate3-2026-11-01T22-06-02-119Z/evidence.json",
+      "sha256": "d3dad738ed66ee289d1c37638caf0c1e87c449938408f77d506cc9229d060464"
+    },
+    {
+      "path": "output/hosted-preview/glm-hosted-review-candidate3.ax.txt",
+      "sha256": "9b1d5cabfda733ffed5ddecaf73891b91588028f245f9349b745133ea416223a"
+    }
+  ]
+}

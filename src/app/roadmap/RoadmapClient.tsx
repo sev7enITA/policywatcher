@@ -255,6 +255,15 @@ const priorityPipeline = [
 
 const nowItems = [
   {
+    phase: `Source update · ${POLICYWATCHER_VERSION} · 31 October 2026`,
+    title: 'Monitor / Compare / Understand',
+    body: 'A searchable All tools directory connects 26 existing commands, bilingual synonyms and role shortcuts. Public pages share the same task vocabulary and active-route indication.',
+    benefit: 'Readers can choose by task or search directly; short-phone layouts keep the first tools visible and keyboard focus returns after closing dialogs.',
+    validation: 'Implemented and locally checked. Production deployment, comprehensive assistive-technology coverage and measured human usability remain separate.',
+    icon: Eye,
+    href: '/feature-atlas',
+  },
+  {
     phase: `Current · ${POLICYWATCHER_VERSION}`,
     title: POLICYWATCHER_RELEASE_NAME,
     body: 'Bounded shadow observation, frozen-input replay and a read-only evidence workbench make candidate extraction behavior inspectable while retaining the baseline.',
@@ -1012,6 +1021,11 @@ export default function RoadmapClient() {
           </div>
         </aside>
       </header>
+
+      <aside className={styles.enginePreviewNotice} aria-label="Engine 6 Preview experimental programme">
+        <div><span>EXPERIMENTAL PROGRAMME · 31 OCTOBER 2026</span><h2>Engine 6 Preview</h2><p>Local experimentation is in progress on source completeness, evidence-linked analysis and resumable scanning. Live qualification is pending; the public service remains on version 5.2.0.</p></div>
+        <nav aria-label="Engine 6 Preview details"><Link href="/engine-6-preview">Explore architecture, decision flow and entity relationships <ArrowUpRight size={17} aria-hidden="true" /></Link><Link href="/engine-6-preview?lang=it" hrefLang="it">Leggi in italiano</Link></nav>
+      </aside>
 
       <section className={styles.principles} aria-label="Roadmap principles">
         <article>

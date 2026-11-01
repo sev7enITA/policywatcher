@@ -65,6 +65,7 @@ export default function AdminLoginPage() {
         <div className={styles.loginLogoWrapper}>
           <Image
             src="/logo-mark.png"
+            unoptimized
             alt="PolicyWatcher Logo"
             width={52}
             height={52}

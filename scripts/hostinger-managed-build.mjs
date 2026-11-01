@@ -8,10 +8,10 @@ const APP_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const deploymentTarget = process.env.POLICYWATCHER_DEPLOYMENT_TARGET?.trim().toLowerCase();
 const isManagedHostingerBuild = deploymentTarget === 'staging' || deploymentTarget === 'production';
 
-function run(command, args) {
+function run(command, args, environment = process.env) {
   const completed = spawnSync(command, args, {
     cwd: APP_DIR,
-    env: process.env,
+    env: environment,
     stdio: 'inherit',
   });
 
@@ -22,6 +22,14 @@ function run(command, args) {
 }
 
 if (isManagedHostingerBuild) {
+  // Hostinger wraps next.config.ts to force standalone output. Restore only its
+  // exact known wrapper around manifest-identical source before integrity checks.
+  run(process.execPath, [path.join(APP_DIR, 'scripts', 'hostinger-normalize-next-config.mjs')]);
+  // Next normally supplies NODE_ENV=production during build. Validate that
+  // runtime context in a child before migrations; reject an explicit other mode.
+  run(path.join(APP_DIR, 'node_modules', '.bin', 'tsx'), [
+    path.join(APP_DIR, 'scripts', 'hosted-preview-preflight.mjs'),
+  ], { ...process.env, NODE_ENV: process.env.NODE_ENV || 'production' });
   // hPanel's managed Next.js preset exposes only `npm run build` and bypasses
   // server.js. Validate the immutable promotion boundary before any database
   // write, then run the same idempotent, backup-first schema preparation used
@@ -40,4 +48,5 @@ if (isManagedHostingerBuild) {
 }
 
 run(process.execPath, [path.join(APP_DIR, 'scripts', 'prisma-active-schema.mjs'), 'generate']);
-run(path.join(APP_DIR, 'node_modules', '.bin', 'next'), ['build']);
+run(process.execPath, [path.join(APP_DIR, 'scripts', 'engine-implementation-manifest.mjs'), '--check']);
+run(path.join(APP_DIR, 'node_modules', '.bin', 'next'), ['build'], { ...process.env, POLICYWATCHER_ENGINE_BUILD_PHASE: '1' });

@@ -1,0 +1,12 @@
+OSSERVA. CONFRONTA. APPROFONDISCI.
+Tre ingressi per orientarsi in PolicyWatcher, il progetto che sviluppo per seguire le modifiche alle policy dei servizi digitali e consultarne le evidenze.
+
+Nel walkthrough di 180 secondi: il nuovo catalogo con 26 comandi, ricerca IT/EN, scorciatoie per ruolo, menu pubblici e navigazione mobile. Poi il rapporto Understanding PALO and PolicyWatcher e le schermate reali del Companion Android. Voce inglese, testi italiani e QR per aprire le risorse.
+
+STATO DELLE NOVITÀ: UI implementata e committata, deployment sul sito separato. Android 0.3.2 inviato alla revisione Google, installazione pubblica ancora da confermare. Su iPhone e iPad, PALO Framework Toolbox è disponibile nell’App Store. È un’app distinta da PolicyWatcher Companion.
+
+La mia prospettiva sulla governance dell’AI parte da fonti, contesto e decisioni umane. Anche il rapporto distingue verifiche di implementazione e risultati ancora da misurare.
+
+Scansiona i QR da un altro schermo o apri policywatcher.online. Indicami il minuto del passaggio che renderesti più semplice.
+
+#PolicyWatcher #PALO #AIGovernance #UXDesign #PrivacyDigitale

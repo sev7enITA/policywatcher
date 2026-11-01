@@ -11,6 +11,8 @@ ${POLICYWATCHER_VERSION} ${POLICYWATCHER_RELEASE_NAME}. Optional shadow observat
 - [Release record](${POLICYWATCHER_ORIGIN}/press-kit/releases/adaptive-acquisition-evidence-5-2-0)
 - [Feature inventory and limits](${POLICYWATCHER_ORIGIN}/feature-atlas)
 
+The 31 October 2026 navigation source update groups existing tools as Monitor / Compare / Understand (Osserva / Confronta / Approfondisci). The dashboard All tools directory contains 26 existing commands with cross-group English/Italian search and role shortcuts. Public pages use the same task vocabulary. Workspace and AI Chat remain in All tools. This changes navigation, not evidence gates or legal interpretation; deployment and human usability outcomes require separate evidence.
+
 ## Canonical public sections
 - [Project identity, author and contact](${POLICYWATCHER_ORIGIN}/about)
 - [Check a policy notice against recorded public evidence](${POLICYWATCHER_ORIGIN}/what-changed)

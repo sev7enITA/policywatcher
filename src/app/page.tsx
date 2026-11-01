@@ -76,6 +76,10 @@ export default async function HomePage() {
                 </nav>
               </div>
             </header>
+            <aside className={styles.enginePreviewNotice} aria-label="Engine 6 Preview experimental programme">
+              <div><strong>Engine 6 Preview · private staging environment</strong><p>The main service remains on stable 5.2.0. Authenticated preview trials keep observations private. Source completeness and operation at real scale remain to be qualified.</p></div>
+              <nav aria-label="Engine 6 Preview access and evidence"><a href="https://staging.policywatcher.online/admin/engine">Open private 6.0 Preview <span aria-hidden="true">↗</span></a><Link href="/engine-6-preview">Architecture and evidence</Link><Link href="/engine-6-preview?lang=it" hrefLang="it">Architettura in italiano</Link><a href="https://github.com/sev7enITA/policywatcher/wiki">GitHub wiki</a></nav>
+            </aside>
             <noscript>
               <p className={styles.noScript}>The public evidence summary and knowledge base work without JavaScript. JavaScript is only required for the interactive monitoring workspace.</p>
             </noscript>

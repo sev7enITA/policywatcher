@@ -3,18 +3,23 @@
 /**
  * @file Navigation.tsx
  *
- * Deterministic command navigation for the public dashboard.
- * The previous interchangeable layouts were browser-state dependent; this
- * ribbon keeps the same controls visible and predictable on every profile.
+ * Task-based navigation for the public dashboard.
+ * Stable entrances lead to a complete, searchable directory; role shortcuts
+ * remain available without changing the main navigation order.
  */
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { flushSync } from 'react-dom';
 import {
   ArrowRight,
   BarChart3,
   Bell,
   BookOpen,
-  ChevronUp,
+  Compass,
+  ScanLine,
+  SlidersHorizontal,
+  Rows3,
   Clock,
   Code2,
   Cpu,
@@ -28,7 +33,7 @@ import {
   MailSearch,
   Network,
   Newspaper,
-  MoreHorizontal,
+  Menu,
   Plug,
   Search,
   ShieldCheck,
@@ -43,6 +48,8 @@ import { POLICYWATCHER_VERSION } from '@/lib/release';
 import { getWorkspaceQuickActionIds } from '@/lib/workspaceNavigation';
 import type { EvidenceDepth, WorkspaceIntent } from '@/lib/dashboardComposer';
 import GlobalContextControl from './GlobalContextControl';
+import ModalDialog from './ModalDialog';
+import { filterNavigationItems, NAVIGATION_COPY, NAVIGATION_GROUPS, NAVIGATION_LANES, navigationGroupFor, type NavigationFilter, type NavigationLane } from '@/lib/navigationDirectory';
 import styles from './Navigation.module.css';
 
 export type NavLayout = 'hud' | 'spotlight' | 'sidebar';
@@ -106,6 +113,8 @@ export default function Navigation({
   evidenceDepth,
 }: NavigationProps) {
   const [moreOpen, setMoreOpen] = useState(false);
+  const [directoryQuery, setDirectoryQuery] = useState('');
+  const [activeLane, setActiveLane] = useState<NavigationFilter>('all');
   const isIt = lang === 'it';
 
   useEffect(() => {
@@ -117,17 +126,6 @@ export default function Navigation({
       /* Browser storage can be unavailable in private contexts. */
     }
   }, [onChangeLayout]);
-
-  useEffect(() => {
-    if (!moreOpen) return;
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setMoreOpen(false);
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [moreOpen]);
 
   const t = {
     en: {
@@ -141,9 +139,9 @@ export default function Navigation({
       methodology: 'Methodology',
       howTo: 'How to',
       timeline: 'Timeline',
-      whatChanged: 'What changed?',
+      whatChanged: 'Check a notice',
       observatory: 'Observatory',
-      knowledge: 'Knowledge',
+      knowledge: 'Companies and policies',
       developers: 'Developers',
       integrations: 'Integrations',
       associations: 'Civic Lab',
@@ -152,15 +150,15 @@ export default function Navigation({
       atlas: 'Atlas',
       featureAtlas: 'Features',
       roadmap: 'Roadmap',
-      trust: 'Trust QA',
+      trust: 'Trust & quality',
       pressKit: 'Press Kit',
-      matrix: 'Matrix',
+      matrix: 'KPI matrix',
       subscribe: 'Alerts',
-      changelog: 'Changes',
+      changelog: 'Product updates',
       about: 'About',
       assistant: 'AI Chat',
       workspace: 'Workspace',
-      workspaceTitle: 'Configure Workspace Active',
+      workspaceTitle: 'Configure your workspace',
       workspaceIntent: {
         citizen: 'Citizen',
         grc: 'GRC / Legal',
@@ -172,14 +170,14 @@ export default function Navigation({
         operational: 'Operational',
         forensic: 'Forensic',
       },
-      more: 'More',
+      more: 'All tools',
       close: 'Close',
-      moreTitle: 'Workspace Controls',
-      moreSubtitle: 'Public dashboard actions, exports, docs, and QA references.',
+      moreTitle: 'Find your next step',
+      moreSubtitle: 'Three ways into the evidence. Every tool, in one place.',
       catalogTitle: 'Need the full platform map?',
       catalogBody: 'Atlas keeps features, documentation and specialist surfaces in one browsable index.',
       catalogAction: 'Open Atlas',
-      navigationLabel: 'PolicyWatcher command ribbon',
+      navigationLabel: 'PolicyWatcher navigation',
       mobileLabel: 'PolicyWatcher mobile commands',
       quickAccessLabel: 'Workspace quick access',
       language: 'Italiano',
@@ -188,7 +186,7 @@ export default function Navigation({
         timeline: 'Open the source-verified change timeline',
         whatChanged: 'Check a policy-update email against verified evidence',
         observatory: 'Open the curated policy source observatory',
-        knowledge: 'Open server-rendered public company and policy references',
+        knowledge: 'Find a company and read its public policy records',
         developers: 'Open public integration documentation and API directory',
         integrations: 'Compare public, enterprise, Microsoft and planned integration paths',
         associations: 'Open the consumer-association public-evidence workspace',
@@ -219,13 +217,13 @@ export default function Navigation({
       status: `v${POLICYWATCHER_VERSION}`,
       search: 'Cerca',
       searchTitle: 'Cerca azioni',
-      export: 'Export',
+      export: 'Esporta dati',
       methodology: 'Metodo',
       howTo: 'Guida',
       timeline: 'Timeline',
-      whatChanged: 'Cosa è cambiato?',
-      observatory: 'Observatory',
-      knowledge: 'Conoscenza',
+      whatChanged: 'Verifica un avviso',
+      observatory: 'Osservatorio',
+      knowledge: 'Aziende e policy',
       developers: 'Sviluppatori',
       integrations: 'Integrazioni',
       associations: 'Associazioni',
@@ -234,15 +232,15 @@ export default function Navigation({
       atlas: 'Atlante',
       featureAtlas: 'Funzioni',
       roadmap: 'Roadmap',
-      trust: 'Trust QA',
+      trust: 'Qualità e verifiche',
       pressKit: 'Press Kit',
-      matrix: 'Matrice',
+      matrix: 'Matrice KPI',
       subscribe: 'Avvisi',
-      changelog: 'Change',
+      changelog: 'Novità del prodotto',
       about: 'Info',
       assistant: 'AI Chat',
       workspace: 'Workspace',
-      workspaceTitle: 'Configura Workspace Active',
+      workspaceTitle: 'Configura il tuo spazio',
       workspaceIntent: {
         citizen: 'Cittadino',
         grc: 'GRC / Legal',
@@ -254,44 +252,44 @@ export default function Navigation({
         operational: 'Operativa',
         forensic: 'Forensic',
       },
-      more: 'Altro',
+      more: 'Tutti gli strumenti',
       close: 'Chiudi',
-      moreTitle: 'Controlli Workspace',
-      moreSubtitle: 'Azioni pubbliche, export, documentazione e riferimenti QA.',
+      moreTitle: 'Scegli da dove partire',
+      moreSubtitle: 'Tre modi per esplorare le evidenze. Ogni strumento, in un solo posto.',
       catalogTitle: 'Cerchi la mappa completa?',
       catalogBody: 'L’Atlante raccoglie funzioni, documentazione e superfici specialistiche in un solo indice.',
       catalogAction: 'Apri l’Atlante',
-      navigationLabel: 'Barra comandi PolicyWatcher',
+      navigationLabel: 'Navigazione PolicyWatcher',
       mobileLabel: 'Comandi mobili PolicyWatcher',
       quickAccessLabel: 'Accesso rapido del workspace',
       language: 'English',
       tooltips: {
-        search: 'Cerca aziende, policy e azioni della dashboard',
-        timeline: 'Apri la timeline delle modifiche verificate',
-        whatChanged: 'Verifica una mail di aggiornamento rispetto alle evidenze',
-        observatory: 'Apri l osservatorio curato delle fonti policy',
-        knowledge: 'Apri i riferimenti pubblici ad aziende e policy renderizzati sul server',
-        developers: 'Apri documentazione integrazioni e directory API pubblica',
-        integrations: 'Confronta integrazioni pubbliche, enterprise, Microsoft e pianificate',
-        associations: 'Apri il workspace di evidenze pubbliche per le associazioni dei consumatori',
-        leaderboard: 'Confronta le aziende per segnali di evidenza operativa',
-        showcase: 'Guarda overview, workflow e visual della piattaforma',
-        atlas: 'Esplora la piattaforma come grafo entita-relazioni',
-        featureAtlas: 'Traccia funzionalita, dipendenze ed evidenze implementative',
-        roadmap: 'Consulta funzioni pianificate e priorita community',
-        trust: 'Apri evidenze pubbliche di trust, QA e sicurezza',
-        pressKit: 'Apri dati sul prodotto, asset media e contatti stampa',
-        matrix: 'Apri la matrice KPI cross-company',
+        search: 'Cerca aziende, policy e strumenti',
+        timeline: 'Consulta la cronologia delle modifiche verificate',
+        whatChanged: 'Confronta un avviso di aggiornamento con le evidenze disponibili',
+        observatory: 'Esplora le fonti delle policy monitorate',
+        knowledge: 'Trova un’azienda e consulta le sue policy pubbliche',
+        developers: 'Consulta la documentazione delle integrazioni e delle API pubbliche',
+        integrations: 'Esplora le integrazioni pubbliche, aziendali, Microsoft e pianificate',
+        associations: 'Esplora le evidenze per le associazioni dei consumatori',
+        leaderboard: 'Confronta i segnali osservati nelle policy delle aziende',
+        showcase: 'Scopri la piattaforma, i percorsi di utilizzo e le presentazioni',
+        atlas: 'Esplora la mappa della piattaforma e i collegamenti tra le sezioni',
+        featureAtlas: 'Esplora funzionalità, dipendenze e prove di implementazione',
+        roadmap: 'Consulta le funzionalità pianificate e le priorità della community',
+        trust: 'Consulta le verifiche sulle fonti e sulla sicurezza',
+        pressKit: 'Trova informazioni sul prodotto, materiali e contatti per la stampa',
+        matrix: 'Confronta gli indicatori delle aziende',
         export: 'Esporta i dati filtrati della dashboard',
-        methodology: 'Leggi metodologia e processo di confidence',
-        howTo: 'Apri la guida utente',
-        subscribe: 'Iscriviti agli alert sulle modifiche',
-        changelog: 'Vedi modifiche di release e note manutentive',
-        language: 'Cambia lingua della dashboard',
-        about: 'Apri informazioni sul progetto e autore',
-        assistant: 'Interroga l’assistente PolicyWatcher',
-        workspace: 'Rivedi le priorita e configura il workspace',
-        more: 'Apri tutti i controlli',
+        methodology: 'Scopri il metodo e i limiti delle analisi',
+        howTo: 'Consulta la guida per usare PolicyWatcher',
+        subscribe: 'Ricevi avvisi sulle modifiche alle policy',
+        changelog: 'Consulta gli aggiornamenti e le note di manutenzione',
+        language: 'Cambia la lingua dell’interfaccia',
+        about: 'Scopri il progetto e il suo autore',
+        assistant: 'Fai una domanda sulle policy',
+        workspace: 'Rivedi le priorità e configura il tuo spazio',
+        more: 'Esplora tutti gli strumenti',
       },
     },
   }[lang];
@@ -333,7 +331,7 @@ export default function Navigation({
     onOpenAbout,
     onOpenChangelog,
     documentScopeQuery,
-  onOpenExport,
+    onOpenExport,
     onOpenHowTo,
     onOpenMatrix,
     onOpenMethodology,
@@ -451,214 +449,166 @@ export default function Navigation({
     onClick: onOpenSearch,
   };
 
+  const directoryCommands = [...allCommands, whatChangedCommand, workspaceCommand, assistantCommand, searchCommand];
+  const visibleCommands = filterNavigationItems(directoryCommands, directoryQuery, activeLane);
+  const directoryGroups = NAVIGATION_GROUPS.map((id) => ({
+    id,
+    ...NAVIGATION_COPY[id][lang],
+    items: visibleCommands.filter((item) => navigationGroupFor(item.id) === id),
+  })).filter((group) => group.items.length > 0);
+  const laneIcons = { monitor: ScanLine, compare: Rows3, understand: BookOpen };
+
+  const openDirectory = (lane: NavigationFilter = 'all') => {
+    setDirectoryQuery('');
+    setActiveLane(lane);
+    setMoreOpen(true);
+  };
+
   const runCommand = (item: CommandItem) => {
-    setMoreOpen(false);
+    // Unmount the directory and restore focus before another dialog takes over.
+    if (moreOpen) flushSync(() => setMoreOpen(false));
     item.onClick?.();
   };
 
-  const renderCommand = (item: CommandItem, mode: 'ribbon' | 'sheet' | 'icon' | 'mobile' = 'ribbon') => {
+  const renderCommand = (item: CommandItem, mode: 'ribbon' | 'sheet' | 'icon' | 'mobile' | 'quick' = 'ribbon') => {
     const Icon = item.icon;
     const className = [
       styles.commandButton,
       item.tone === 'accent' ? styles.commandAccent : '',
-      item.tone === 'quiet' ? styles.commandQuiet : '',
       mode === 'sheet' ? styles.sheetCommand : '',
+      mode === 'quick' ? styles.quickCommand : '',
       mode === 'icon' ? styles.iconOnlyCommand : '',
     ].filter(Boolean).join(' ');
-
     const content = (
       <>
         <Icon size={18} aria-hidden="true" />
-        <span className={styles.commandLabel}>{mode === 'mobile' ? item.mobileLabel ?? item.label : item.label}</span>
+        <span className={styles.commandText}>
+          <span className={styles.commandLabel}>{mode === 'mobile' ? item.mobileLabel ?? item.label : item.label}</span>
+          {mode === 'sheet' && <small>{item.tooltip}</small>}
+        </span>
+        {mode === 'sheet' && <ArrowRight size={15} className={styles.commandArrow} aria-hidden="true" />}
       </>
     );
-
+    const shared = { className, title: mode === 'sheet' ? undefined : item.tooltip, 'aria-label': item.shortLabel ?? item.label };
     if (item.href) {
-      return (
-        <Link
-          key={item.id}
-          href={item.href}
-          className={className}
-          data-tooltip={item.tooltip ?? item.shortLabel ?? item.label}
-          title={item.shortLabel ?? item.label}
-          aria-label={item.shortLabel ?? item.label}
-          onClick={() => setMoreOpen(false)}
-        >
-          {content}
-        </Link>
-      );
+      return <Link key={item.id} href={item.href} {...shared} onClick={() => setMoreOpen(false)}>{content}</Link>;
     }
+    return <button key={item.id} type="button" {...shared} onClick={() => runCommand(item)}>{content}</button>;
+  };
 
+  const laneButton = (lane: NavigationLane, mobile = false) => {
+    const Icon = laneIcons[lane];
+    const copy = NAVIGATION_COPY[lane][lang];
     return (
       <button
-        key={item.id}
+        key={lane}
         type="button"
-        className={className}
-        data-tooltip={item.tooltip ?? item.shortLabel ?? item.label}
-        title={item.shortLabel ?? item.label}
-        aria-label={item.shortLabel ?? item.label}
-        onClick={() => runCommand(item)}
+        className={styles.laneButton}
+        onClick={() => openDirectory(lane)}
+        aria-haspopup="dialog"
+        aria-expanded={moreOpen && activeLane === lane}
+        title={copy.description}
       >
-        {content}
+        <Icon size={mobile ? 20 : 17} aria-hidden="true" />
+        <span>{copy.label}</span>
       </button>
     );
   };
 
+  const renderQuickAccess = (position: 'top' | 'bottom') => !directoryQuery.trim() && activeLane === 'all' && (
+    <div className={`${styles.quickAccess} ${position === 'top' ? styles.quickAccessTop : styles.quickAccessBottom}`}>
+      <span><SlidersHorizontal size={15} aria-hidden="true" />{isIt ? 'Per il tuo spazio' : 'For your workspace'} <strong>{t.workspaceIntent[workspaceIntent]} · {t.evidenceDepth[evidenceDepth]}</strong></span>
+      <div>{quickActions.map((item) => renderCommand(item, 'quick'))}</div>
+    </div>
+  );
+
   return (
     <>
       <nav className={styles.controlRibbon} aria-label={t.navigationLabel}>
-        <button
-          type="button"
-          className={styles.ribbonIdentity}
-          aria-label={t.tooltips.changelog}
-          title={t.tooltips.changelog}
-          onClick={onOpenChangelog}
-        >
-          <span className={styles.identityMark} aria-hidden="true">
-            <span />
-          </span>
-          <span className={styles.identityText}>
-            <strong>PolicyWatcher</strong>
-            <span>{t.status}</span>
-          </span>
+        <button type="button" className={styles.ribbonIdentity} aria-label={t.tooltips.changelog} title={t.tooltips.changelog} onClick={onOpenChangelog}>
+          <Image src="/logo-mark.png" alt="" width={30} height={30} className={styles.identityMark} />
+          <span className={styles.identityText}><strong>PolicyWatcher</strong><span>{t.status}</span></span>
         </button>
-
+        <div className={styles.laneEntrances}>{NAVIGATION_LANES.map((lane) => laneButton(lane))}</div>
         {renderCommand(whatChangedCommand, 'icon')}
-
-        <button
-          type="button"
-          className={`${styles.commandButton} ${styles.searchButton}`}
-          onClick={onOpenSearch}
-          data-tooltip={t.tooltips.search}
-          title={t.searchTitle}
-          aria-label={t.searchTitle}
-        >
-          <Search size={18} aria-hidden="true" />
-          <span className={styles.commandLabel}>{t.search}</span>
-          <kbd className={styles.commandKbd}>Cmd K</kbd>
+        <button type="button" className={`${styles.commandButton} ${styles.searchButton}`} onClick={onOpenSearch} title={t.tooltips.search} aria-label={t.searchTitle}>
+          <Search size={18} aria-hidden="true" /><span>{t.search}</span><kbd>⌘ / Ctrl K</kbd>
         </button>
-
-        <div className={styles.quickActions} aria-label={t.quickAccessLabel}>
-          {quickActions.map((item) => renderCommand(item))}
-        </div>
-
-        <GlobalContextControl className={styles.dashboardContext} compact />
-
-        <button
-          type="button"
-          className={styles.workspaceButton}
-          onClick={onOpenWorkspace}
-          aria-label={t.workspaceTitle}
-          data-tooltip={t.tooltips.workspace}
-          title={t.workspaceTitle}
-        >
-          <Layers3 size={18} aria-hidden="true" />
-          <span>
-            <strong>{t.workspace}</strong>
-            <small>{t.workspaceIntent[workspaceIntent]} · {t.evidenceDepth[evidenceDepth]}</small>
-          </span>
+        <button type="button" className={`${styles.commandButton} ${styles.moreButton}`} onClick={() => openDirectory()} aria-haspopup="dialog" aria-expanded={moreOpen}>
+          <Menu size={19} aria-hidden="true" /><span>{t.more}</span>
         </button>
-
-        <button
-          type="button"
-          className={`${styles.commandButton} ${styles.moreButton}`}
-          onClick={() => setMoreOpen(true)}
-          data-tooltip={t.tooltips.more}
-          aria-label={t.more}
-          aria-expanded={moreOpen}
-        >
-          <MoreHorizontal size={19} aria-hidden="true" />
-          <span className={styles.commandLabel}>{t.more}</span>
-        </button>
-
-        {renderCommand(assistantCommand, 'icon')}
       </nav>
 
       <nav className={styles.mobileCommandBar} aria-label={t.mobileLabel}>
-        {renderCommand(whatChangedCommand, 'mobile')}
-        {renderCommand(workspaceCommand, 'mobile')}
-        {renderCommand(assistantCommand, 'mobile')}
-        {renderCommand(searchCommand, 'mobile')}
-        <button
-          type="button"
-          className={`${styles.commandButton} ${styles.mobileMoreButton}`}
-          onClick={() => setMoreOpen(true)}
-          data-tooltip={t.tooltips.more}
-          aria-label={t.more}
-          aria-expanded={moreOpen}
-        >
-          <MoreHorizontal size={20} aria-hidden="true" />
-          <span className={styles.commandLabel}>{t.more}</span>
+        {NAVIGATION_LANES.map((lane) => laneButton(lane, true))}
+        <button type="button" className={styles.mobileMoreButton} onClick={() => openDirectory()} aria-label={t.more} aria-haspopup="dialog" aria-expanded={moreOpen}>
+          <Menu size={20} aria-hidden="true" /><span>{isIt ? 'Strumenti' : 'All tools'}</span>
         </button>
       </nav>
 
       {moreOpen && (
-        <div className={styles.mobileSheetLayer} role="presentation" onClick={() => setMoreOpen(false)}>
-          <aside
-            className={styles.mobileSheet}
-            role="dialog"
-            aria-modal="true"
-            aria-label={t.moreTitle}
-            onClick={(event) => event.stopPropagation()}
-          >
-            <div className={styles.sheetGrip} aria-hidden="true">
-              <ChevronUp size={18} />
-            </div>
+        <ModalDialog label={t.moreTitle} className={styles.directoryLayer} onRequestClose={() => setMoreOpen(false)}>
+          <section className={styles.directory}>
             <header className={styles.sheetHeader}>
               <div>
+                <span className={styles.eyebrow}><Compass size={14} aria-hidden="true" /> {isIt ? 'La tua bussola' : 'Your evidence compass'}</span>
                 <h2>{t.moreTitle}</h2>
                 <p>{t.moreSubtitle}</p>
               </div>
-              <button
-                type="button"
-                className={styles.sheetCloseButton}
-                onClick={() => setMoreOpen(false)}
-                aria-label={t.close}
-              >
-                <X size={18} aria-hidden="true" />
-              </button>
+              <button type="button" className={styles.sheetCloseButton} onClick={() => setMoreOpen(false)} aria-label={t.close}><X size={21} aria-hidden="true" /></button>
             </header>
 
-            <div className={styles.sheetSearchRow}>
-              {renderCommand(searchCommand, 'sheet')}
-              {renderCommand(assistantCommand, 'sheet')}
+            <div className={styles.directoryToolbar}>
+              <label className={styles.toolSearch}>
+                <Search size={19} aria-hidden="true" />
+                <span className={styles.srOnly}>{isIt ? 'Trova uno strumento' : 'Find a tool'}</span>
+                <input value={directoryQuery} type="search" placeholder={isIt ? 'Trova uno strumento…' : 'Find a tool…'} onChange={(event) => setDirectoryQuery(event.target.value)} />
+              </label>
+              <GlobalContextControl fallbackLang={lang} />
             </div>
 
-            <div className={styles.sheetStartRow}>
-              {renderCommand(whatChangedCommand, 'sheet')}
-              {renderCommand(workspaceCommand, 'sheet')}
+            <div className={styles.filterBar} aria-label={isIt ? 'Filtra gli strumenti' : 'Filter tools'}>
+              <button type="button" aria-pressed={!directoryQuery.trim() && activeLane === 'all'} onClick={() => { setActiveLane('all'); setDirectoryQuery(''); }}>{t.more}<span>{directoryCommands.length}</span></button>
+              {NAVIGATION_LANES.map((lane) => <button key={lane} type="button" aria-pressed={!directoryQuery.trim() && activeLane === lane} onClick={() => { setDirectoryQuery(''); setActiveLane(lane); }}>{NAVIGATION_COPY[lane][lang].label}</button>)}
             </div>
 
-            <div className={styles.sheetGlobalContext}>
-              <GlobalContextControl />
+            <div className={styles.directoryBody}>
+              {renderQuickAccess('top')}
+              <p className={styles.resultCount} role="status" aria-live="polite">
+                {directoryQuery.trim()
+                  ? `${visibleCommands.length} ${isIt
+                    ? (visibleCommands.length === 1 ? 'risultato in tutti gli strumenti' : 'risultati in tutti gli strumenti')
+                    : (visibleCommands.length === 1 ? 'result across all tools' : 'results across all tools')}`
+                  : activeLane !== 'all' ? NAVIGATION_COPY[activeLane][lang].description : isIt ? 'Scegli un percorso. Puoi passare da uno all’altro in qualsiasi momento.' : 'Choose a starting point. Move between them whenever you need.'}
+              </p>
+              {visibleCommands.length === 0 ? (
+                <div className={styles.emptyState}>
+                  <Search size={28} aria-hidden="true" />
+                  <h3>{isIt ? 'Nessuno strumento trovato' : 'No matching tools'}</h3>
+                  <p>{isIt ? 'Prova “avvisi”, “fonti” o “esporta”. Puoi cercare anche in inglese.' : 'Try “alerts”, “sources” or “export”. Italian terms work too.'}</p>
+                  <button type="button" onClick={() => { setDirectoryQuery(''); setActiveLane('all'); }}>{isIt ? 'Mostra tutti gli strumenti' : 'Show all tools'}</button>
+                </div>
+              ) : (
+                <div className={styles.sheetGroups} data-filtered={activeLane !== 'all' && !directoryQuery.trim()}>
+                  {directoryGroups.map((group) => (
+                    <section key={group.id} className={styles.sheetGroup} data-group={group.id} aria-label={group.label}>
+                      <header className={styles.groupHeader}>
+                        {NAVIGATION_LANES.includes(group.id as NavigationLane) && <span className={styles.laneNumber} aria-hidden="true">0{NAVIGATION_LANES.indexOf(group.id as NavigationLane) + 1}</span>}
+                        <div><h3>{group.label}</h3><p>{group.description}</p></div>
+                      </header>
+                      <div className={styles.sheetGrid}>{group.items.map((item) => renderCommand(item, 'sheet'))}</div>
+                    </section>
+                  ))}
+                </div>
+              )}
+              {renderQuickAccess('bottom')}
             </div>
-
-            <div className={styles.sheetGroups}>
-              {groups.map((group) => (
-                <section key={group.id} className={styles.sheetGroup} aria-label={group.label}>
-                  <span className={styles.sheetGroupLabel}>{group.label}</span>
-                  <div className={styles.sheetGrid}>
-                    {group.items.map((item) => renderCommand(item, 'sheet'))}
-                  </div>
-                </section>
-              ))}
-            </div>
-
-            <Link href="/atlas" className={styles.sheetCatalog} onClick={() => setMoreOpen(false)}>
-              <GitFork size={20} aria-hidden="true" />
-              <span>
-                <strong>{t.catalogTitle}</strong>
-                <small>{t.catalogBody}</small>
-              </span>
-              <span>{t.catalogAction} <ArrowRight size={15} aria-hidden="true" /></span>
-            </Link>
-
-            <div className={styles.sheetFooter}>
-              <span>{allCommands.length + 4}</span>
-              <span>{isIt ? 'controlli disponibili' : 'available controls'}</span>
-            </div>
-          </aside>
-        </div>
+            <footer className={styles.sheetFooter}>
+              <span>PolicyWatcher <span aria-hidden="true">/</span> {isIt ? 'Dalle fonti alla comprensione' : 'From sources to understanding'}</span>
+              <button type="button" onClick={() => runCommand(searchCommand)}><Search size={15} aria-hidden="true" />{isIt ? 'Cerchi un’azienda o una policy?' : 'Looking for a company or policy?'}<ArrowRight size={14} aria-hidden="true" /></button>
+            </footer>
+          </section>
+        </ModalDialog>
       )}
     </>
   );

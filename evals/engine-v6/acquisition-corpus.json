@@ -1,0 +1,14 @@
+[
+  { "id": "aws-service-terms", "url": "https://aws.amazon.com/serviceterms/", "expectedLanguage": "en", "format": "html" },
+  { "id": "aws-dpa-pdf", "url": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf", "expectedLanguage": "en", "format": "pdf" },
+  { "id": "openai-service-terms", "url": "https://openai.com/policies/service-terms/", "expectedLanguage": "en", "format": "html" },
+  { "id": "stripe-restricted", "url": "https://stripe.com/legal/restricted-businesses", "expectedLanguage": "en", "format": "html" },
+  { "id": "stripe-privacy-it", "url": "https://stripe.com/it/privacy", "expectedLanguage": "it", "format": "html" },
+  { "id": "google-privacy-en", "url": "https://policies.google.com/privacy?hl=en", "expectedLanguage": "en", "format": "html" },
+  { "id": "google-privacy-it", "url": "https://policies.google.com/privacy?hl=it", "expectedLanguage": "it", "format": "html" },
+  { "id": "microsoft-services", "url": "https://www.microsoft.com/en/servicesagreement", "expectedLanguage": "en", "format": "html" },
+  { "id": "apple-privacy", "url": "https://www.apple.com/legal/privacy/en-ww/", "expectedLanguage": "en", "format": "html" },
+  { "id": "anthropic-terms", "url": "https://www.anthropic.com/legal/terms", "expectedLanguage": "en", "format": "html" },
+  { "id": "meta-privacy", "url": "https://www.facebook.com/privacy/policy/", "expectedLanguage": "en", "format": "html" },
+  { "id": "tiktok-eea-terms", "url": "https://www.tiktok.com/legal/page/eea/terms-of-service/en", "expectedLanguage": "en", "format": "html" }
+]

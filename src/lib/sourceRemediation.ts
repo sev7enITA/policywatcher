@@ -28,6 +28,7 @@ const REASON_LABELS: Record<string, string> = {
   content_invalid: 'Invalid policy content',
   source_gone: 'Source removed',
   stale_archive: 'Stale archive evidence',
+  historical_only: 'Historical evidence only; live source unverified',
   configuration: 'Configuration issue',
   partial: 'Partial retrieval',
   unknown: 'Unknown retrieval failure',

@@ -386,7 +386,8 @@ export async function sendPolicyChangeAlert(
   subscriberEmail: string,
   subscriberName: string | undefined,
   changedPolicies: ChangedPolicySummary[],
-  token?: string
+  token?: string,
+  messageId?: string
 ): Promise<boolean> {
   changedPolicies = changedPolicies.filter(p => shouldNotifyChange(p.classification));
   if (changedPolicies.length === 0) return false;
@@ -437,7 +438,7 @@ export async function sendPolicyChangeAlert(
     </p>`;
 
   const html = wrapInTemplate(bodyContent, subscriberEmail, token);
-  return sendEmail(subscriberEmail, subject, html);
+  return sendEmail(subscriberEmail, subject, html, messageId);
 }
 
 // -- Subscription Confirmation --
@@ -678,7 +679,8 @@ export async function sendWeeklyDigest(
 async function sendEmail(
   to: string,
   subject: string,
-  html: string
+  html: string,
+  messageId?: string
 ): Promise<boolean> {
   const transport = createTransport();
 
@@ -696,6 +698,7 @@ async function sendEmail(
       to,
       subject,
       html,
+      ...(messageId ? { messageId } : {}),
     });
     console.log(`[PolicyWatcher Mailer] Email sent to ${maskEmailForLog(to)}: "${subject}"`);
     return true;

@@ -20,23 +20,9 @@ describe('calm toolbar wiring', () => {
     expect(navigation).not.toContain("id: 'what-changed', label: t.whatChanged, tooltip: t.tooltips.whatChanged, icon: ShieldQuestion");
   });
 
-  it('keeps workspace quick actions concise while preserving full command groups in More', () => {
-    expect(navigation).toContain('getWorkspaceQuickActionIds(workspaceIntent)');
-    expect(navigation).toContain('{groups.map((group) => (');
-    expect(navigation).toContain("renderCommand(workspaceCommand, 'sheet')");
-  });
+  // Directory reachability, role shortcuts and bilingual search are exercised in
+  // navigationDirectory.test.ts; the superseded five-action layout is not a contract.
 
-  it('uses the required five-action mobile composition', () => {
-    const mobile = navigation.slice(
-      navigation.indexOf('<nav className={styles.mobileCommandBar}'),
-      navigation.indexOf('{moreOpen && ('),
-    );
-    expect(mobile).toContain('whatChangedCommand');
-    expect(mobile).toContain('workspaceCommand');
-    expect(mobile).toContain('assistantCommand');
-    expect(mobile).toContain('searchCommand');
-    expect(mobile).toContain('mobileMoreButton');
-  });
 });
 
 describe('first-visit Workspace Active wiring', () => {

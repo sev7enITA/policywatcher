@@ -2275,3 +2275,12 @@
     animation: none;
   }
 }
+.enginePreviewNotice { margin: 28px 0; padding: 24px; border: 1px solid #d9c49a; border-left: 4px solid #a16207; background: #fffbeb; color: #713f12; display: grid; grid-template-columns: 1.5fr 1fr; gap: 30px; align-items: center; }
+.enginePreviewNotice span { font-size: .7rem; letter-spacing: .1em; font-weight: 750; }
+.enginePreviewNotice h2 { color: #713f12; font-size: 1.7rem; margin: 8px 0; }
+.enginePreviewNotice p { font-size: .94rem; line-height: 1.65; }
+.enginePreviewNotice nav { display: grid; gap: 3px; }
+.enginePreviewNotice a { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; font-size: .94rem; font-weight: 650; text-decoration: underline; text-underline-offset: 4px; }
+.enginePreviewNotice a svg { flex: none; }
+.enginePreviewNotice a:focus-visible { outline: 3px solid #6366f1; outline-offset: 4px; }
+@media (max-width: 760px) { .enginePreviewNotice { grid-template-columns: 1fr; gap: 16px; padding: 20px; } }

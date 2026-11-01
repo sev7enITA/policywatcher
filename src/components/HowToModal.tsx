@@ -163,10 +163,14 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
       },
       {
         id: 'navigation',
-        title: 'Public navigation',
+        title: 'Find your next action',
         description:
-          'Navigation and the sitemap link to Observatory, Atlas, timeline, methodology, and other public context.',
-        focusLabel: 'Navigation and sitemap',
+          'Choose Monitor, Compare or Understand, or open All tools to search the complete directory. English and Italian terms work across every group.',
+        focusLabel: 'Monitor · Compare · Understand',
+        notes: [
+          'Your role shortcuts stay together. Workspace, AI Chat and specialist tools remain available in All tools; the main Search opens global command search.',
+          'Public pages use the same task groups. Escape closes the topmost dialog and returns focus to its opener.',
+        ],
       },
       {
         id: 'associations',
@@ -279,10 +283,14 @@ const TOUR_COPY: Record<'en' | 'it', TourCopy> = {
       },
       {
         id: 'navigation',
-        title: 'Navigazione pubblica',
+        title: 'Trova la prossima azione',
         description:
-          'Navigazione e sitemap collegano Observatory, Atlas, timeline, metodologia e altro contesto pubblico.',
-        focusLabel: 'Navigazione e sitemap',
+          'Scegli Osserva, Confronta o Approfondisci, oppure apri Tutti gli strumenti per cercare nel catalogo completo. I termini italiani e inglesi funzionano in tutti i gruppi.',
+        focusLabel: 'Osserva · Confronta · Approfondisci',
+        notes: [
+          'Le scorciatoie del tuo ruolo restano raccolte. Workspace, AI Chat e strumenti specialistici sono in Tutti gli strumenti; Cerca apre la ricerca globale dei comandi.',
+          'Le pagine pubbliche usano gli stessi gruppi. Escape chiude la finestra in primo piano e riporta il focus al pulsante di apertura.',
+        ],
       },
       {
         id: 'associations',

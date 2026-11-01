@@ -68,6 +68,7 @@ export async function POST(request: NextRequest) {
   }
 
   if (process.env.POLICYWATCHER_SCANS_PAUSED === '1') return NextResponse.json({ error: 'policy_scans_paused' }, { status: 503 });
+  if (process.env.POLICYWATCHER_ENGINE_V6 === '1') return NextResponse.json({ error: 'engine_v6_use_durable_queue', url: '/admin/engine' }, { status: 409 });
 
   // Rate limit: scrape+AI is the most expensive operation.
   // 3/10min per IP (enough for genuine exploration, blocks abuse).

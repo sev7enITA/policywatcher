@@ -1,0 +1,65 @@
+{
+  "schema": "pw-hosted-preview-qualification-1",
+  "recordedAt": "2026-11-01T21:47:25.549521+00:00",
+  "release": "6.0.0-preview.1",
+  "implementationHash": "708e3cb77e8149c7fa9ae5d0ccc7351033535f8a21582f2dc5c5226711547328",
+  "deployment": "pending",
+  "automatedTests": {
+    "passed": 1536,
+    "skipped": 14
+  },
+  "httpProductionMode": {
+    "passed": 44,
+    "completedAt": "2026-11-01T21:45:40.409Z",
+    "report": "output/hosted-preview/http-smoke-2026-11-01T21-43-58-265Z/evidence.json"
+  },
+  "sourceStrippedRuntime": {
+    "passed": 18,
+    "report": "output/hosted-preview/packaged-smoke-2026-11-01T21-45-28-167Z/evidence.json"
+  },
+  "sourceScope": {
+    "configuredPolicies": 113,
+    "previousPublicBaselines": 110,
+    "reviewedSourceContracts": 1,
+    "humanReviewed": false
+  },
+  "publicationEnabled": false,
+  "notificationsEnabled": false,
+  "fullSourceCompletenessQualified": false,
+  "real500SourceCapacityQualified": false,
+  "artifacts": [
+    {
+      "path": "output/hosted-preview/full-tests-r2.log",
+      "sha256": "859ca569e194449be7cbf69c35b409f2d454f8aeb5d74471fdb26a6ccc3bffa0"
+    },
+    {
+      "path": "output/hosted-preview/build-r3.log",
+      "sha256": "d954fc5f795410f920ed459182c64f6b31dd02774b7d0d8511085758571f0639"
+    },
+    {
+      "path": "output/hosted-preview/build-candidate2-queue-proof.json",
+      "sha256": "e5c7149f5b5042b4ad8b65880a1562dd0a5ff149343e4ccc11280a1f6eaf0fb2"
+    },
+    {
+      "path": "output/hosted-preview/http-smoke-2026-11-01T21-43-58-265Z/evidence.json",
+      "sha256": "e1266f5a4ba27675ecd76c84cf398983d7c02621d2b80ebf8553665164c50ffe"
+    },
+    {
+      "path": "output/hosted-preview/packaged-smoke-2026-11-01T21-45-28-167Z/evidence.json",
+      "sha256": "5eb6bd93787ed7158e5074a4b41cf22f29a53ba492091b2b4707a429e956dc07"
+    },
+    {
+      "path": "output/hosted-preview/glm-hosted-review-candidate2.ax.txt",
+      "sha256": "91b4e01c1d3157e723f8eaa92204aaf1abd1bf68f15efb749b9b0418459382f4"
+    },
+    {
+      "path": "output/hosted-preview/gemini-hosted-review.ax.txt",
+      "sha256": "225461ec57fbfce1b4dc62a213a5a68230ba56261d6a534e712c4cd74c7176a3"
+    },
+    {
+      "path": "output/hosted-preview/deploy-catalog/verification.json",
+      "sha256": "8e23fbaa5f63fe9bc8cf0ba557e0079723d3b80e33786d812a525e507b1d487a"
+    }
+  ],
+  "reviewBoundary": "Gemini Argon Alta and GLM-5.3 Max opinions are retained separately; neither review is deployment proof."
+}

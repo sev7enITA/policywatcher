@@ -23,6 +23,9 @@ import {
   Plus,
 } from 'lucide-react';
 import styles from '../admin.module.css';
+import ScanChannelControl from '@/components/admin/ScanChannelControl';
+import type { ScanChannel, scanChannelCapabilities } from '@/lib/scanChannels';
+import type { recentChannelRuns } from '@/lib/engine/channelReports';
 import { PolicyDiscoveryWorkspace } from '@/components/admin/PolicyDiscoveryWorkspace';
 import { getBatchLimitSummary } from '@/lib/adminBatchSummary';
 import {
@@ -74,6 +77,9 @@ interface LastResult {
 }
 
 interface CronStatus {
+  channels?: ReturnType<typeof scanChannelCapabilities>;
+  channelRuns?: Awaited<ReturnType<typeof recentChannelRuns>>;
+  engineV6?: boolean;
   isRunning: boolean;
   startedAt: string | null;
   lastCompletedAt: string | null;
@@ -359,6 +365,8 @@ export default function CronManagerPage() {
   const [triggering, setTriggering] = useState(false);
   const [alertMsg, setAlertMsg] = useState('');
   const [batchLimit, setBatchLimit] = useState('5');
+  const [scanChannel, setScanChannel] = useState<ScanChannel>('stable');
+  const requestRef = useRef<{ signature: string; key: string } | null>(null);
   const [companySlug, setCompanySlug] = useState('');
   const [selectedOnboardingActive, setSelectedOnboardingActive] = useState<boolean | null>(null);
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -373,9 +381,10 @@ export default function CronManagerPage() {
       if (!res.ok) return;
       const data: CronStatus = await res.json();
       setStatus(data);
+      setScanChannel(previous => previous === 'stable' && data.channels?.stable === false && data.channels?.preview ? 'preview' : previous);
 
       // Stop polling once the scan is no longer running
-      if (!data.isRunning && pollingRef.current) {
+      if (!data.isRunning && !data.channelRuns?.some(run => ['queued', 'running'].includes(run.status)) && pollingRef.current) {
         clearInterval(pollingRef.current);
         pollingRef.current = null;
       }
@@ -419,6 +428,11 @@ export default function CronManagerPage() {
     };
   }, [fetchStatus, fetchCompanyBaseline]);
 
+  const hasActiveRun = Boolean(status?.isRunning || status?.channelRuns?.some(run => ['queued', 'running'].includes(run.status)));
+  useEffect(() => {
+    if (hasActiveRun && !pollingRef.current) pollingRef.current = setInterval(fetchStatus, 2000);
+  }, [hasActiveRun, fetchStatus]);
+
   /* Auto-scroll log to bottom */
   useEffect(() => {
     if (logEndRef.current && status?.isRunning) {
@@ -437,6 +451,8 @@ export default function CronManagerPage() {
     setAlertMsg('');
     if (selectedTargetCompany && selectedTargetCompany.policies.length === 0) return;
     setTriggering(true);
+    const signature = JSON.stringify([scanChannel, batchLimit, companySlug]);
+    if (requestRef.current?.signature !== signature) requestRef.current = { signature, key: crypto.randomUUID() };
 
     try {
       const res = await fetch('/api/admin/cron-status', {
@@ -446,23 +462,32 @@ export default function CronManagerPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          channel: scanChannel,
+          requestKey: requestRef.current.key,
+          notificationMode: 'silent',
           limit: batchLimit.trim() ? Number(batchLimit) : undefined,
           companySlug: companySlug.trim() || undefined,
         }),
       });
 
-      if (res.status === 409) {
-        setAlertMsg('A scan is already running. Please wait for it to finish.');
-        setTriggering(false);
-        return;
-      }
-
+      const result = await res.json();
       if (!res.ok) {
-        setAlertMsg('Failed to start the scan. Please try again.');
+        const messages: Record<string, string> = {
+          experimental_channel_unavailable: 'Preview is unavailable in this environment. The selected scan was not replaced with a Stable scan.',
+          stable_channel_unavailable: 'Stable is unavailable in this environment. No other engine was started.',
+          stable_scan_recovery_required: 'The stable lease expired. Confirm that its worker has stopped and recover the interrupted Stable run before starting Preview.',
+          stable_scan_active: 'The stable scan is still active. Wait for it to finish before starting Preview.',
+          preview_scan_active: 'A private preview run is still active. Complete or cancel it in Engine 6 before starting Stable.',
+          invalid_batch_limit: 'Choose a whole number between 1 and 50.',
+          policy_scans_paused: 'Scans are paused.',
+          request_key_conflict: 'This request identifier already belongs to different scan options. Refresh before starting a new run.',
+        };
+        setAlertMsg(messages[result.error] || (res.status === 409 ? 'Another scan is active. Wait for it to finish.' : 'The scan could not be confirmed. Retry with the same options to reconcile the request.'));
         setTriggering(false);
         return;
       }
-
+      requestRef.current = null;
+      setAlertMsg(scanChannel === 'stable' ? 'Stable scan accepted. Manual notifications are off.' : `Private ${scanChannel === 'compare' ? 'comparison' : 'preview'} run accepted. A separate worker must process it; acceptance is not completion.`);
       // Refresh status and begin polling
       await fetchStatus();
       startPolling();
@@ -503,7 +528,7 @@ export default function CronManagerPage() {
     );
   }
 
-  const isRunning = status?.isRunning ?? false;
+  const isRunning = Boolean(status?.isRunning || status?.channelRuns?.some(run => ['queued', 'running'].includes(run.status)));
   const lastResult = status?.lastResult ?? null;
   const details = lastResult?.details ?? [];
   const progressTotal = status?.progressTotal ?? 0;
@@ -522,6 +547,7 @@ export default function CronManagerPage() {
   return (
     <div>
       {/* Page Header */}
+      <p><a href="/admin/engine">Open Engine 6 Preview: durable runs, source contracts and evidence reviews →</a></p>
       <div className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>Cron Manager</h1>
         <p className={styles.pageSubtitle}>
@@ -563,7 +589,7 @@ export default function CronManagerPage() {
           </div>
 
           {/* Started at */}
-          {isRunning && status?.startedAt && (
+          {status?.isRunning && status?.startedAt && (
             <div className={styles.statusItem}>
               <Play size={14} />
               <span className={styles.statusLabel}>Started</span>
@@ -580,7 +606,7 @@ export default function CronManagerPage() {
         </div>
 
         {/* Progress bar with percentage (while running) */}
-        {isRunning && progressTotal > 0 && (
+        {status?.isRunning && progressTotal > 0 && (
           <div style={{ marginTop: 16 }}>
             <div style={{
               display: 'flex',
@@ -612,7 +638,7 @@ export default function CronManagerPage() {
         )}
 
         {/* Indeterminate progress (before total is known) */}
-        {isRunning && progressTotal === 0 && (
+        {status?.isRunning && progressTotal === 0 && (
           <div className={styles.progressBar}>
             <div className={styles.progressIndeterminate} />
           </div>
@@ -625,6 +651,8 @@ export default function CronManagerPage() {
           <Play size={16} />
           Scan Batch Controls
         </h2>
+        <ScanChannelControl channel={scanChannel} onChange={setScanChannel} capabilities={status?.channels}
+          runs={status?.channelRuns || []} disabled={triggering || isRunning} />
         <div className={styles.scanControlGrid}>
           <label className={styles.scanControlField}>
             <span className={styles.statusLabel}>Maximum policies this run</span>
@@ -757,7 +785,7 @@ export default function CronManagerPage() {
             policyCount={selectedTargetCompany.policies.length}
             isAdmin
             onPoliciesChanged={fetchCompanyBaseline}
-            onRunFirstScan={handleRunScan}
+            onRunFirstScan={scanChannel === 'stable' ? handleRunScan : undefined}
             onWorkflowStateChange={setSelectedOnboardingActive}
             hasEstablishedBaseline={hasEstablishedCompanyBaseline(selectedTargetCompany.policies)}
             scanRunning={triggering || isRunning}
@@ -768,26 +796,26 @@ export default function CronManagerPage() {
           <button
             className={`${styles.btn} ${styles.btnPrimary}`}
             onClick={handleRunScan}
-            disabled={triggering || isRunning}
+            disabled={triggering || isRunning || status?.channels?.[scanChannel] === false}
           >
             {isRunning ? (
               <><Square size={16} /> Scan in progress...</>
             ) : triggering ? (
               <><RefreshCw size={16} className={styles.spinIcon} /> Starting scan...</>
             ) : (
-              <><Play size={16} /> Run monitoring scan</>
+              <><Play size={16} /> {scanChannel === 'stable' ? 'Run stable scan' : scanChannel === 'compare' ? 'Run private extraction comparison' : 'Run private preview scan'}</>
             )}
           </button>
         )}
       </div>
 
       {/* ============ LIVE LOG (while running or just finished) ============ */}
-      {(isRunning || progressLog.length > 0) && (
+      {(status?.isRunning || progressLog.length > 0) && (
         <div className={styles.card} style={{ marginBottom: 24 }}>
           <h2 className={styles.cardTitle}>
             <Terminal size={16} />
-            Live Scan Log
-            {isRunning && (
+            Stable Scan Log
+            {status?.isRunning && (
               <span style={{
                 marginLeft: 8,
                 fontSize: '0.7rem',
@@ -837,7 +865,7 @@ export default function CronManagerPage() {
             })}
 
             {/* Current activity (blinking) */}
-            {isRunning && progressActivity && (
+            {status?.isRunning && progressActivity && (
               <div className={`${styles.logLine} ${styles.logLineProgress}`}>
                 <span style={{ color: '#475569', userSelect: 'none' }}>
                   {String(progressLog.length + 1).padStart(3, ' ')}
@@ -1021,7 +1049,7 @@ export default function CronManagerPage() {
       )}
 
       {/* No results yet */}
-      {!lastResult && !isRunning && (
+      {!lastResult && !isRunning && !status?.channelRuns?.length && (
         <div className={styles.card}>
           <p className={styles.emptyState}>
             {selectedTargetCompany && selectedTargetControls?.mountDiscoveryWorkspace

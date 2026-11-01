@@ -2,9 +2,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef, useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { ArrowUpRight, ChevronDown, Compass, Menu, X } from 'lucide-react';
 import GlobalContextControl, { useGlobalContext } from './GlobalContextControl';
+import { NAVIGATION_COPY, NAVIGATION_GROUPS, NAVIGATION_LANES, navigationGroupFor, type NavigationLane } from '@/lib/navigationDirectory';
 import styles from './PublicHeader.module.css';
 
 export type PublicSection =
@@ -52,10 +53,19 @@ const links: Array<{ id: PublicSection; href: string; en: string; it: string }> 
   { id: 'evidence', href: '/evidence', en: 'Evidence', it: 'Evidenze' },
   { id: 'signals', href: '/leaderboard', en: 'Signals', it: 'Segnali' },
   { id: 'infographics', href: '/infographics', en: 'Infographics', it: 'Infografiche' },
-  { id: 'trust', href: '/trust', en: 'Trust QA', it: 'Trust QA' },
+  { id: 'trust', href: '/trust', en: 'Trust & quality', it: 'Qualità e verifiche' },
   { id: 'pulse', href: '/pulse', en: 'Pulse', it: 'Pulse' },
   { id: 'press-kit', href: '/press-kit', en: 'Press Kit', it: 'Press Kit' },
   { id: 'legal', href: '/terms', en: 'Terms', it: 'Termini' },
+  { id: 'timeline', href: '/timeline', en: 'Change timeline', it: 'Cronologia modifiche' },
+  { id: 'observatory', href: '/observatory', en: 'Source observatory', it: 'Osservatorio fonti' },
+  { id: 'developers', href: '/developers', en: 'Developers', it: 'Sviluppatori' },
+  { id: 'integrations', href: '/integrations', en: 'Integrations', it: 'Integrazioni' },
+  { id: 'atlas', href: '/atlas', en: 'Site Atlas', it: 'Mappa del sito' },
+  { id: 'feature-atlas', href: '/feature-atlas', en: 'Features', it: 'Funzionalità' },
+  { id: 'roadmap', href: '/roadmap', en: 'Roadmap', it: 'Roadmap' },
+  { id: 'showcase', href: '/showcase', en: 'Showcase', it: 'Vetrina' },
+  { id: 'about', href: '/about', en: 'About the project', it: 'Il progetto' },
 ];
 
 export default function PublicHeader({ current, lang = 'en', lockLang = false }: PublicHeaderProps) {
@@ -65,6 +75,29 @@ export default function PublicHeader({ current, lang = 'en', lockLang = false }:
   const primaryIds: PublicSection[] = ['what-changed', 'knowledge', 'guides', 'methodology'];
   const globalContext = useGlobalContext(lang, lockLang ? lang : undefined);
   const activeLang = lockLang ? lang : globalContext.ready ? globalContext.lang : lang;
+  const publicGroups = NAVIGATION_GROUPS.map((id) => ({
+    id,
+    ...NAVIGATION_COPY[id][activeLang],
+    label: id === 'settings' ? activeLang === 'it' ? 'Informazioni' : 'Information' : NAVIGATION_COPY[id][activeLang].label,
+    items: links.filter((link) => navigationGroupFor(link.id) === id),
+  })).filter((group) => group.items.length > 0);
+
+  useEffect(() => {
+    const dismissOutside = (event: PointerEvent) => {
+      if (event.target instanceof Node && !toolsRef.current?.contains(event.target) && toolsRef.current) {
+        toolsRef.current.open = false;
+      }
+    };
+    document.addEventListener('pointerdown', dismissOutside);
+    return () => document.removeEventListener('pointerdown', dismissOutside);
+  }, []);
+
+  function localizedHref(link: typeof links[number]) {
+    if (link.id === 'per-te') return activeLang === 'it' ? '/per-te' : '/per-te?lang=en';
+    if (link.id === 'associations') return activeLang === 'it' ? '/it/associazioni' : '/en/associations';
+    if (link.id === 'guides' && activeLang === 'it') return '/guides?lang=it';
+    return link.href;
+  }
 
   function closeNavigation() {
     setMobileOpen(false);
@@ -106,9 +139,7 @@ export default function PublicHeader({ current, lang = 'en', lockLang = false }:
             {primaryIds.map((id) => links.find((link) => link.id === id)!).map((link) => (
               <Link
                 key={link.id}
-                href={link.id === 'per-te' ? activeLang === 'it' ? '/per-te' : '/per-te?lang=en' : link.id === 'associations'
-                  ? activeLang === 'it' ? '/it/associazioni' : '/en/associations'
-                  : link.id === 'guides' && activeLang === 'it' ? '/guides?lang=it' : link.href}
+                href={localizedHref(link)}
                 aria-current={current === link.id ? 'page' : undefined}
                 onClick={closeNavigation}
               >
@@ -129,22 +160,34 @@ export default function PublicHeader({ current, lang = 'en', lockLang = false }:
                 }
               }}
             >
-              <summary>{activeLang === 'it' ? 'Altri strumenti' : 'More tools'}</summary>
-              <div className={styles.toolsLinks}>
-                {links.filter((link) => !primaryIds.includes(link.id)).map((link) => (
-                  <Link
-                    key={link.id}
-                    href={link.id === 'per-te'
-                      ? activeLang === 'it' ? '/per-te' : '/per-te?lang=en'
-                      : link.id === 'associations'
-                        ? activeLang === 'it' ? '/it/associazioni' : '/en/associations'
-                        : link.href}
-                    aria-current={current === link.id ? 'page' : undefined}
-                    onClick={closeNavigation}
-                  >
-                    {link[activeLang]}
-                  </Link>
-                ))}
+              <summary>
+                <Compass size={17} aria-hidden="true" />
+                <span>{activeLang === 'it' ? 'Tutti gli strumenti' : 'All tools'}</span>
+                <ChevronDown size={15} className={styles.toolsChevron} aria-hidden="true" />
+              </summary>
+              <div className={styles.toolsPanel}>
+                <header className={styles.directoryHeader}>
+                  <div><span>PolicyWatcher</span><h2>{activeLang === 'it' ? 'Scegli da dove partire' : 'Find your next step'}</h2></div>
+                  <button type="button" aria-label={activeLang === 'it' ? 'Chiudi strumenti' : 'Close tools'} onClick={() => { if (toolsRef.current) { toolsRef.current.open = false; toolsRef.current.querySelector('summary')?.focus(); } }}><X size={19} aria-hidden="true" /></button>
+                </header>
+                <div className={styles.toolsLinks}>
+                  {publicGroups.map((group) => (
+                    <section key={group.id} className={styles.toolGroup} data-group={group.id} aria-label={group.label}>
+                      <header>
+                        {NAVIGATION_LANES.includes(group.id as NavigationLane) && <span className={styles.laneNumber} aria-hidden="true">0{NAVIGATION_LANES.indexOf(group.id as NavigationLane) + 1}</span>}
+                        <div><h3>{group.label}</h3><p>{group.description}</p></div>
+                      </header>
+                      <div>{group.items.map((link) => (
+                        <Link key={link.id} href={localizedHref(link)} aria-current={current === link.id ? 'page' : undefined} onClick={closeNavigation}>
+                          <span>{link[activeLang]}</span><ArrowUpRight size={14} aria-hidden="true" />
+                        </Link>
+                      ))}</div>
+                    </section>
+                  ))}
+                </div>
+                <Link href="/" className={styles.workspaceLink} onClick={closeNavigation}>
+                  {activeLang === 'it' ? 'Apri lo spazio interattivo' : 'Open the interactive workspace'} <ArrowUpRight size={15} aria-hidden="true" />
+                </Link>
               </div>
             </details>
           </nav>

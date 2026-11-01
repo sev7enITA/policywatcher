@@ -8,6 +8,150 @@ generator client {
   binaryTargets = ["native", "linux-musl-openssl-3.0.x", "debian-openssl-3.0.x"]
 }
 
+// V6 engine is opt-in. Durable work and private evidence are separate from public versions.
+model EngineRun {
+  id          String @id @default(uuid())
+  requestKey  String @unique
+  mode        String @default("observe")
+  notificationMode String @default("silent")
+  channelMetadataJson String?
+  status      String @default("queued")
+  selected    Int @default(0)
+  requestedBy String
+  createdAt   DateTime @default(now())
+  completedAt DateTime?
+  tasks       EngineTask[]
+  @@index([status, createdAt])
+}
+
+model EngineTask {
+  id                   String @id @default(uuid())
+  runId                String
+  run                  EngineRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+  key                  String @unique
+  kind                 String
+  policyId             String?
+  activePolicyId       String? @unique
+  dependencyId         String?
+  stage                String @default("acquire")
+  status               String @default("queued")
+  priority             Int @default(0)
+  attempt              Int @default(0)
+  totalAttempts        Int @default(0)
+  leaseToken           String?
+  leaseExpiresAt       DateTime?
+  nextAttemptAt        DateTime @default(now())
+  expectedBaselineHash String?
+  inputJson            String
+  checkpointJson       String?
+  resultJson           String?
+  lastError            String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  completedAt          DateTime?
+  @@index([status, nextAttemptAt, priority])
+  @@index([runId, kind])
+  @@index([policyId, createdAt])
+  @@index([dependencyId])
+}
+
+model EngineArtifact {
+  id        String @id
+  bodyJson  String
+  byteCount Int
+  createdAt DateTime @default(now())
+}
+
+model EngineAttempt {
+  id String @id
+  taskId String
+  stage String
+  generation Int
+  startedAt DateTime @default(now())
+  endedAt DateTime?
+  status String @default("running")
+  reason String?
+  @@index([taskId, startedAt])
+}
+
+model EngineSourceContract {
+  policyId     String @id
+  contractJson String
+  contractHash String
+  reviewedBy   String
+  updatedAt    DateTime @updatedAt
+}
+
+model EnginePolicyState {
+  policyId             String
+  mode                 String @default("publish")
+  candidateHash        String?
+  candidateArtifactId  String?
+  candidateRunId       String?
+  candidateObservedAt  DateTime?
+  candidateProfileHash String?
+  lastAttemptAt        DateTime?
+  lastVerifiedAt       DateTime?
+  lastChangedAt        DateTime?
+  nextDueAt            DateTime @default(now())
+  reason               String?
+  @@id([policyId, mode])
+  @@index([mode, nextDueAt])
+}
+
+model EngineOrigin {
+  origin         String @id
+  leaseToken     String?
+  leaseExpiresAt DateTime?
+  nextAllowedAt  DateTime @default(now())
+  failures       Int @default(0)
+  updatedAt      DateTime @updatedAt
+}
+
+model EngineHttpCache {
+  key          String @id
+  artifactId   String
+  etag         String?
+  lastModified String?
+  profileHash  String
+  validatedAt  DateTime
+  expiresAt    DateTime
+}
+
+model EngineReview {
+  id                   String @id @default(uuid())
+  evidenceKey          String @unique
+  taskId               String @unique
+  policyId             String
+  mode                 String @default("publish")
+  expectedBaselineHash String
+  status               String @default("pending")
+  reasonsJson          String
+  payloadJson          String
+  reviewNote           String?
+  reviewedBy           String?
+  changeId             String?
+  createdAt            DateTime @default(now())
+  reviewedAt           DateTime?
+  @@index([status, createdAt])
+}
+
+model EngineOutbox {
+  id             String @id @default(uuid())
+  eventKey       String @unique
+  changeId       String
+  payloadJson    String
+  status         String @default("pending")
+  attempt        Int @default(0)
+  leaseToken     String?
+  leaseExpiresAt DateTime?
+  nextAttemptAt  DateTime @default(now())
+  lastError      String?
+  createdAt      DateTime @default(now())
+  deliveredAt    DateTime?
+  @@index([status, nextAttemptAt])
+}
+
 // Canonical public evidence graph. These models are additive while the
 // Company/Policy/PolicySnapshot/PolicyChange pipeline is backfilled and moved
 // to dual-write. Public IDs are materialized deterministic identifiers; UUIDs
@@ -266,6 +410,7 @@ model PolicyCheckLog {
   scanRunId         String?
   scanRun           ScanRun?         @relation(fields: [scanRunId], references: [id], onDelete: SetNull)
   sourceRetrievalId String?
+  engineTaskId      String? @unique
   sourceRetrieval   SourceRetrieval? @relation(fields: [sourceRetrievalId], references: [id], onDelete: SetNull)
   createdAt         DateTime         @default(now())
 

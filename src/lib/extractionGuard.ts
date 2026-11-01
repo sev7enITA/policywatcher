@@ -7,18 +7,24 @@ import { dualWriteCanonicalPolicyGraph } from './documentEvidenceSync';
 const LIVE = new Set(['direct', 'http2', 'rendered']);
 type PolicyInput = { id: string; currentHash: string; retrievalUrl?: string | null; url: string };
 export type ExtractionDecision = { proceed: boolean; reason: string; profileHash?: string };
+export type ExtractionCheckContext = { scanRunId?: string; sourceRetrievalId?: string; durationMs?: number };
 
 /** Guard both scheduled and manual scans. Imported archives never enter this path as live evidence. */
-export async function guardExtraction(policy: PolicyInput, result: ScrapeResult): Promise<ExtractionDecision> {
+export async function guardExtraction(policy: PolicyInput, result: ScrapeResult, context: ExtractionCheckContext = {}): Promise<ExtractionDecision> {
   if (!extractionGuardEnabled()) return { proceed: true, reason: 'guard_disabled' };
   const url = policy.retrievalUrl || policy.url;
   const profileHash = extractionProfileHash(url);
   const hold = async (reason: string) => {
-    await db.policyCheckLog.create({ data: {
-      policyId: policy.id, status: 'Needs Review', reason, reasonCode: reason,
-      source: result.source, textHash: result.hash, textLength: result.text.length,
-      finalUrl: result.finalUrl, archiveTimestamp: result.archiveTimestamp ? new Date(result.archiveTimestamp) : null,
-    } });
+    const checkedAt = new Date();
+    await db.$transaction([
+      db.policy.update({ where: { id: policy.id }, data: { lastCheckDate: checkedAt, dataStatus: 'Needs Review' } }),
+      db.policyCheckLog.create({ data: {
+        policyId: policy.id, checkedAt, status: 'Needs Review', reason, reasonCode: reason,
+        source: result.source, textHash: result.hash, textLength: result.text.length,
+        finalUrl: result.finalUrl, archiveTimestamp: result.archiveTimestamp ? new Date(result.archiveTimestamp) : null,
+        httpStatus: result.httpStatus || null, ...context,
+      } }),
+    ]);
     return { proceed: false, reason, profileHash };
   };
   if (result.status !== 'ok' || result.partial) return hold('extraction_input_incomplete');
@@ -67,7 +73,9 @@ export async function guardExtraction(policy: PolicyInput, result: ScrapeResult)
     await tx.policyCheckLog.create({ data: {
       policyId: policy.id, status: 'Needs Review', source: result.source, textHash: result.hash,
       textLength: result.text.length, reason: 'parser_upgrade', reasonCode: 'parser_upgrade', finalUrl: result.finalUrl,
+      httpStatus: result.httpStatus || null, ...context,
     } });
+    await tx.policy.update({ where: { id: policy.id }, data: { lastCheckDate: new Date(), dataStatus: 'Needs Review' } });
     await tx.adminReviewLog.create({ data: {
       actorRole: 'system', action: 'parser_upgrade', targetType: 'policy', targetId: policy.id,
       oldValue: anchor.profileHash, newValue: profileHash,

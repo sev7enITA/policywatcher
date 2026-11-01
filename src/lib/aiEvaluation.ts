@@ -173,12 +173,16 @@ export function evaluateRetrieval(
   let abstainFalseNegative = 0;
   let answerableCases = 0;
   for (const item of cases) {
+    if (item.answerable) answerableCases += 1;
     const result = byId.get(item.id);
-    if (!result) continue;
+    if (!result) {
+      // Missing output is a failed case, never a free correct abstention.
+      if (!item.answerable) abstainFalseNegative += 1;
+      continue;
+    }
     const relevant = new Set(item.relevantPassageIds);
     const firstRelevant = result.ranked.findIndex((passage) => relevant.has(passage.id));
     if (item.answerable) {
-      answerableCases += 1;
       if (firstRelevant === 0) hit1 += 1;
       if (firstRelevant >= 0 && firstRelevant < 3) hit3 += 1;
       if (firstRelevant >= 0) reciprocalRank += 1 / (firstRelevant + 1);

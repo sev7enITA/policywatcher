@@ -1,0 +1,142 @@
+{
+  "schema": "pw-engine-preview-publication-1",
+  "recordedAt": "2026-10-31T23:16:26.350508+00:00",
+  "page": "https://policywatcher.online/engine-6-preview?lang=it",
+  "productionRelease": "5.2.0",
+  "deploymentUi": {
+    "timestampDisplayed": "2026-11-01 00:05:35",
+    "timezone": "Europe/Rome",
+    "state": "Completed",
+    "current": true
+  },
+  "artifact": {
+    "name": "PolicyWatcher-5.2.0-hostinger-2026-10-31-engine6-qualification-wip-r1.zip",
+    "sha256": "d818faea3276f5f296b5faaf8d8aff868681f4658c906e956a07a16c8943fc58",
+    "sourceRevision": "6140faaf57145f54a948763101e8ead47aa146d0",
+    "baseRevision": "1837889a7951dd6f060230f5dbadf6efdf820f76",
+    "sourceFilesChanged": [
+      "src/app/engine-6-preview/page.tsx"
+    ],
+    "releaseManifestRegenerated": true,
+    "engine6RuntimeIncluded": false,
+    "runtimeAndSchemaUnchanged": true
+  },
+  "staging": {
+    "checkedAt": "2026-10-31T23:04:12.989Z",
+    "releaseChecksPassed": 11,
+    "pageAndDiagramChecksPassed": 10
+  },
+  "production": {
+    "pageChecksAt": "2026-10-31T23:08:36.763Z",
+    "pageAndDiagramChecksPassed": 11,
+    "runtimeChecksAt": "2026-10-31T23:08:35.411Z",
+    "health": "ok",
+    "applicationTables": 35,
+    "migrations": 19,
+    "databaseIntegrity": "ok",
+    "verificationStatus": "attention",
+    "verificationSummary": {
+      "passed": 9,
+      "attention": 0,
+      "unavailable": 0,
+      "external": 1
+    },
+    "externalCheck": "Independent dynamic security test not performed or asserted"
+  },
+  "backup": {
+    "checkedAt": "2026-10-31T23:15:31.495930+00:00",
+    "backupRelativeToSite": "private-release-backups/engine6-campaign-20261101/production.db",
+    "sha256": "1887cfa9136616499ee82de2942be8887fbd31993d84e1b91cfe1c9c7d70a856",
+    "bytes": 103804928,
+    "integrity": "ok",
+    "counts": {
+      "Company": 18,
+      "Policy": 113,
+      "PolicyChange": 120,
+      "PolicySnapshot": 244
+    }
+  },
+  "git": {
+    "engineBranch": "codex/engine-v6-local",
+    "engineRevisionBeforePublicationReceipt": "e2ee6f51930d914cb39e87908ead833bbd19ac86",
+    "announcementBranch": "codex/engine6-preview-announcement",
+    "announcementRevision": "6140faaf57145f54a948763101e8ead47aa146d0",
+    "bothBranchesPushedBeforeReceipt": true,
+    "mainChanged": false
+  },
+  "followup": {
+    "automationId": "policywatcher-engine-6-osservazioni-giornaliere",
+    "status": "ACTIVE",
+    "localTime": "21:00",
+    "timezone": "Europe/Rome",
+    "environmentRequirement": "Local environment available",
+    "observedWindows": 1,
+    "sourceCompletenessQualified": false,
+    "real500SourceCapacityQualified": false,
+    "productionQualified": false
+  },
+  "boundaries": [
+    "Publication is the evidence diary only; Engine 6 is not activated.",
+    "Staging and public page checks do not approve source completeness or 500-source capacity.",
+    "Backup quick_check and record counts do not establish a production recovery-time objective.",
+    "The independent dynamic security test remains external; the verification report correctly retains status attention.",
+    "The final GLM review after the fix remains unread because the Mac locked; earlier completed reviews and their implemented fix are separately recorded."
+  ],
+  "artifacts": [
+    {
+      "path": "output/engine-campaign-2026-10-31/PolicyWatcher-5.2.0-hostinger-2026-10-31-engine6-qualification-wip-r1.zip",
+      "sha256": "d818faea3276f5f296b5faaf8d8aff868681f4658c906e956a07a16c8943fc58",
+      "bytes": 70475935
+    },
+    {
+      "path": "output/engine-campaign-2026-10-31/site-artifact-r1.json",
+      "sha256": "58ae011d02aa530117f55532fbd76978fd6e9e8a9c7fc0ba7d2e4b0b88f633b2",
+      "bytes": 538
+    },
+    {
+      "path": "output/engine-campaign-2026-10-31/site-promotion.json",
+      "sha256": "ccf98cdc596ff7df3a331c621e201c3b6100eb1f7735339814a29b172af8ebc2",
+      "bytes": 938
+    },
+    {
+      "path": "output/engine-campaign-2026-10-31/staging-verification.json",
+      "sha256": "c92cadeba42acef996fbcffa7cd979dc1b5c32264562b5fa19765d9f0d4e9542",
+      "bytes": 2406
+    },
+    {
+      "path": "output/engine-campaign-2026-10-31/announcement-staging-r1-checks.json",
+      "sha256": "552c47dab58ad3f33e5dbfbd4825473d2fed56794d073d76bf346fdbef74eb88",
+      "bytes": 12717
+    },
+    {
+      "path": "output/engine-campaign-2026-10-31/announcement-production-r1-checks.json",
+      "sha256": "1fd60bd1c3ba4bffe4a4626d9fb64bec5d534741457da81258412ba7210155f6",
+      "bytes": 12777
+    },
+    {
+      "path": "output/engine-campaign-2026-10-31/production-runtime-checks.json",
+      "sha256": "846631229c09106d42a18922380f6bc4ec001a96937d740629f892c06cb88481",
+      "bytes": 325
+    },
+    {
+      "path": "output/engine-campaign-2026-10-31/production-verification.json",
+      "sha256": "ec27074476d0d0d1ed93514ff25e2a59c57ea07a45e7426c64e1c5b2b36f9aa2",
+      "bytes": 5322
+    },
+    {
+      "path": "output/engine-campaign-2026-10-31/production-backup-verification.json",
+      "sha256": "7a1a3747a63e5a4abefbc05a7751879ca0f5e96c2fd0c663da7266f1f3c971f8",
+      "bytes": 378
+    },
+    {
+      "path": "output/engine-campaign-2026-10-31/production-deployment-ui.txt",
+      "sha256": "441ff271a1ce536e3d772e4055c44cc67feabf116f38b5308bbb91291ea16167",
+      "bytes": 423
+    },
+    {
+      "path": "output/engine-campaign-2026-10-31/production-wip-20261101.png",
+      "sha256": "badf8c0438bfe8ca1b21dbc38c7e4c2dc32140eddead7b11bfbe32c94cc9050a",
+      "bytes": 114099
+    }
+  ]
+}

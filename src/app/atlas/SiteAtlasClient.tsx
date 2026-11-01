@@ -53,6 +53,11 @@ const iconMap: Record<string, LucideIcon> = {
 
 const recommendedRoutes = [
   {
+    title: 'Monitor / Compare / Understand',
+    body: 'Three independent task groups lead to the complete All tools directory. Dashboard search accepts English and Italian terms across groups; role shortcuts, Workspace and AI Chat remain reachable.',
+    nodes: ['dashboard', 'timeline', 'knowledge', 'feature-atlas'],
+  },
+  {
     title: 'Your services, your choices',
     body: 'For you / Per te starts with voluntary service selection, then published updates, official guides, local choices, private notice matching and a support draft.',
     nodes: ['per-te', 'knowledge', 'associations', 'methodology'],

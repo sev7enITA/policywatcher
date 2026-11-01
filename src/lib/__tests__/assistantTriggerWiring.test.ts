@@ -13,11 +13,9 @@ describe('Policy Live Assistant entry points', () => {
     expect(dashboardStyles).not.toMatch(/\.chatTrigger(?:Icon)?\b/);
   });
 
-  it('keeps desktop, mobile, and Workspace Controls commands on the shared callback', () => {
+  it('keeps the complete directory assistant action on the shared callback', () => {
     expect(navigation).toMatch(/const assistantCommand:[\s\S]*?onClick: onOpenAssistant/);
-    expect(navigation).toContain("renderCommand(assistantCommand, 'icon')");
-    expect(navigation).toMatch(/<nav className=\{styles\.mobileCommandBar\}[\s\S]*?renderCommand\(assistantCommand, 'mobile'\)/);
-    expect(navigation).toMatch(/className=\{styles\.sheetSearchRow\}[\s\S]*?renderCommand\(assistantCommand, 'sheet'\)/);
+    expect(navigation).toContain('workspaceCommand, assistantCommand, searchCommand');
     expect(dashboard).toMatch(/<Navigation[\s\S]*?onOpenAssistant=\{\(\) => setChatOpen\(true\)\}/);
   });
 

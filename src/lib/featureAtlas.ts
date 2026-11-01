@@ -160,7 +160,8 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '4.0.0-beta.5', shortLabel: '4.0 B5', label: '4.0.0 Beta 5' },
   { id: '5.0.0', shortLabel: '5.0', label: '5.0.0' },
   { id: '5.1.0', shortLabel: '5.1', label: '5.1.0' },
-  { id: POLICYWATCHER_VERSION, shortLabel: '5.2', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: '5.2.0', shortLabel: '5.2', label: '5.2.0' },
+  { id: POLICYWATCHER_VERSION, shortLabel: '6 P1', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -192,7 +193,11 @@ const primaryUserByDomain: Record<string, string> = {
 };
 
 const routeByFeature: Record<string, FeatureAtlasRoute> = {
+  'engine-six-private-preview': { href: '/admin/engine', label: 'Engine 6 Preview (protected)', access: 'protected' },
+  'engine-six-extraction-comparison': { href: '/admin/cron', label: 'Private scan comparison (protected)', access: 'protected' },
+  'engine-six-source-contracts': { href: '/admin/engine', label: 'Source contracts and reviews (protected)', access: 'protected' },
   'guarded-shadow-observation': { href: '/admin/source-reliability', label: 'Source Reliability (protected)', access: 'protected' },
+  'evidence-compass-navigation': { href: '/', label: 'Monitor / Compare / Understand', access: 'public' },
   'frozen-capture-replay': { href: '/press-kit/releases/adaptive-acquisition-evidence-5-2-0', label: 'Replay method and boundaries', access: 'public' },
   'adaptive-acquisition-workbench': { href: '/admin/source-reliability', label: 'Adaptive acquisition (protected)', access: 'protected' },
   'source-variant-scope': { href: '/methodology/confidence', label: 'Evidence methodology', access: 'public' },
@@ -263,6 +268,8 @@ const routeByFeature: Record<string, FeatureAtlasRoute> = {
 };
 
 const dependencyByFeature: Record<string, FeatureAtlasDependency[]> = {
+  'engine-six-extraction-comparison': [{ featureId: 'engine-six-private-preview', relationship: 'depends-on' }],
+  'engine-six-source-contracts': [{ featureId: 'engine-six-private-preview', relationship: 'depends-on' }],
   'canonical-document-evidence-graph': [{ featureId: 'public-evidence-gate', relationship: 'governed-by' }],
   'authoritative-publication-readiness': [{ featureId: 'public-integration-directory', relationship: 'distributed-through' }, { featureId: 'public-evidence-gate', relationship: 'governed-by' }],
   'adaptive-experience-control': [{ featureId: 'calm-workspace', relationship: 'governed-by' }, { featureId: 'interactive-public-navigation', relationship: 'distributed-through' }, { featureId: 'global-geographic-context', relationship: 'feeds' }],

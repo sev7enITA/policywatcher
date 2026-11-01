@@ -1,0 +1,10 @@
+𝗨𝗻𝗮 𝗽𝗼𝗹𝗶𝗰𝘆 𝗰𝗮𝗺𝗯𝗶𝗮. Quali sistemi richiedono una nuova revisione?
+
+Nel mio rapporto Understanding PALO and PolicyWatcher seguo questa domanda attraverso un esempio illustrativo: fonte osservata, mappature esplicite dei servizi, registri versionati e decisione di una persona responsabile.
+
+PolicyWatcher porta il segnale e la sua provenienza. PALO fornisce il contesto di governance in cui valutarlo. L’applicabilità dipende dall’organizzazione e dall’uso del servizio. Il rapporto documenta verifiche circoscritte di implementazione, senza trasformarle in una misura di efficacia operativa.
+
+Il testo comprende una parte introduttiva e un approfondimento tecnico, con comandi e registro delle evidenze:
+https://www.researchgate.net/publication/414027896_Understanding_PALO_and_PolicyWatcher
+
+#PALO #PolicyWatcher #AIGovernance #HumanOversight #EvidenceBased
