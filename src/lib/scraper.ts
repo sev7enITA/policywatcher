@@ -1678,7 +1678,9 @@ export function extractPolicyText(html: string, sourceUrl?: string, contract: Po
       $el.find('tr').each((__, row) => {
         const cells = $(row).children('th, td').map((___, cell) => {
           const span = Math.max(Number($(cell).attr('colspan') || 1), Number($(cell).attr('rowspan') || 1));
-          const value = $(cell).text().replace(/\s+/g, ' ').trim().replace(/\|/g, '\\|');
+          // Escape the escape character first so source backslashes cannot
+          // consume the escape added for a literal table separator.
+          const value = $(cell).text().replace(/\s+/g, ' ').trim().replace(/\\/g, '\\\\').replace(/\|/g, '\\|');
           return span > 1 ? `${value} [colspan=${$(cell).attr('colspan') || 1}; rowspan=${$(cell).attr('rowspan') || 1}]` : value;
         }).get();
         if (cells.length) rows.push(`| ${cells.join(' | ')} |`);

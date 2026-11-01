@@ -187,7 +187,7 @@
     ],
     [
       "src/lib/extractionProfile.generated.json",
-      "59dd0f1f8ef6a18c5a8b991064be31909a15d45b72faa0170f417b2145b7a7ce"
+      "7042ebbd8ffd22cfae944559320f6049f4d71e259ed20bb0d3a924c5ad960c43"
     ],
     [
       "src/lib/extractionProfile.ts",
@@ -287,7 +287,7 @@
     ],
     [
       "src/lib/scraper.ts",
-      "c5a06cd125f1d1a9b7bb496e51e169caac31114df4a692cc7775167bad44267f"
+      "87ebfb6f8bce2979110ae9f0b61ab74acf6a84192571aa8ae1f8664897e4d13c"
     ],
     [
       "src/lib/seo.ts",
@@ -326,5 +326,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "d9d5dde4f1c8d22c03c80ae200bc3e44734ef6a430c7e7bd037719ee30614e88"
+  "hash": "e22b6b906d0727b32f637a62e8e4118a134e3c4dfc2b60105bb0022f95518f49"
 }

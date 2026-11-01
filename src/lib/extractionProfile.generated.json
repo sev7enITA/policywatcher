@@ -1,7 +1,7 @@
 {
   "version": 2,
   "files": {
-    "scraper:transform": "a0b7ef6cccb0d4317b181792ee3d4fb68ac5cc585b92bff743a9d0bf433410ac",
+    "scraper:transform": "39e223a99bced995f0a1076f647e68373e46fd05ba64261cfdc889e48c4e1759",
     "engine:document": "fc05f8a2bf24de454014ecec6963296f2e2337dc127b3b5064e5a5d4a80332b4",
     "engine:transform": "c4bf8cc9c7365cec95c31191d44a5d5073f6747bd2fb5f7413afa3aee970f341",
     "sourceReliability:identity": "116ee89de41eedb80dac797c4d7d96397a3f011c1a1398f5e1432cd15750d70a",
@@ -106,5 +106,5 @@
       "integrity": "sha512-QaKxh0eNIi2mE9p2vEdzfagOKHCcj1pJ56EEHGQOVxp8r9/iszLUUV7v89x9O1p/T+NlTM5W7jW6+cz4Fq1YVg=="
     }
   },
-  "hash": "1b0ce6c3740d88d07037c38921bea0a997f806fea256596a2bca08d23182109d"
+  "hash": "716e9cd3d47ca5711c6775f28f4a2a5047e5001aa02eaa477d833a03fc1518bd"
 }
