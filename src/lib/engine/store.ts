@@ -3,7 +3,8 @@ import type { EngineRun, EngineTask, Prisma } from '@prisma/client';
 import { db } from '../db';
 import { digest, ENGINE_SCHEMA, parseSourceContract, type SourceContract } from './document';
 import { extractionProfileHash } from '../extractionProfile';
-import { channelMetadata, channelRequestFingerprint, experimentalChannelsAvailable } from '../scanChannels';
+import { assertChannelWorkerContext, channelMetadata, channelRequestFingerprint, experimentalChannelsAvailable } from '../scanChannels';
+import { assertHostedPreviewContext, isHostedPreview } from '../hostedPreview';
 
 export const LEASE_MS = 5 * 60_000;
 export const MAX_ATTEMPTS = 3;
@@ -30,12 +31,18 @@ export const policyScopeHash = (policy: { url: string; retrievalUrl?: string | n
   digest(JSON.stringify([policy.url, policy.retrievalUrl || policy.url, policy.jurisdiction, policy.type]));
 
 export async function enqueueRun(options: { requestKey: string; mode: 'observe' | 'publish'; requestedBy: string; limit?: number; companySlug?: string; notificationMode?: 'silent' | 'subscribers'; channel?: 'preview' | 'compare' }, retry = 0): Promise<EngineRun> {
+  if (isHostedPreview()) {
+    assertHostedPreviewContext();
+    if (!['preview', 'compare'].includes(options.channel || '') || options.mode !== 'observe'
+        || options.notificationMode !== 'silent' || (options.limit ?? 500) > 50) throw new Error('experimental_channel_unavailable');
+  }
   if (process.env.POLICYWATCHER_SCANS_PAUSED === '1') throw new Error('policy_scans_paused');
   if (!/^[\w:.\-]{8,150}$/.test(options.requestKey)) throw new Error('invalid_request_key');
   const limit = options.limit ?? 500;
   if (!Number.isInteger(limit) || limit < 1 || limit > 500) throw new Error('invalid_engine_limit');
   if (options.channel && (!experimentalChannelsAvailable() || options.mode !== 'observe' || options.notificationMode !== 'silent' || limit > 50)) throw new Error('experimental_channel_unavailable');
   const metadata = options.channel ? channelMetadata({ channel: options.channel, limit, companySlug: options.companySlug }) : null;
+  if (isHostedPreview()) assertChannelWorkerContext(metadata!, options.mode, options.notificationMode!);
   const existing = await db.engineRun.findUnique({ where: { requestKey: options.requestKey } });
   const checkExisting = (run: EngineRun) => {
     if (run.mode !== options.mode || Boolean(run.channelMetadataJson) !== Boolean(metadata)
@@ -134,6 +141,12 @@ export async function recoverExpiredTasks(now = new Date()) {
 }
 
 export async function claimTask(): Promise<Lease | null> {
+  const hosted = isHostedPreview();
+  const assertLeader = hosted ? (await import('./hostedWorker')).assertHostedWorkerLease : null;
+  if (hosted) {
+    assertHostedPreviewContext();
+    await db.$transaction(tx => assertLeader!(tx));
+  }
   if (process.env.POLICYWATCHER_SCANS_PAUSED === '1') return null;
   await recoverExpiredTasks();
   const now = new Date();
@@ -147,6 +160,13 @@ export async function claimTask(): Promise<Lease | null> {
     const token = randomUUID();
     try {
       const claimed = await db.$transaction(async tx => {
+        if (hosted) {
+          assertHostedPreviewContext();
+          await assertLeader!(tx);
+          // One active task across all origins, even during process overlap or
+          // leadership handover. Expired tasks retain their existing fencing.
+          if (await tx.engineTask.count({ where: { status: 'running', leaseExpiresAt: { gt: new Date() } } })) return null;
+        }
         if (candidate.kind === 'fetch') {
           const { origin } = JSON.parse(candidate.inputJson) as TaskInput;
           await tx.engineOrigin.upsert({ where: { origin }, create: { origin, nextAllowedAt: new Date(0) }, update: {} });
@@ -175,7 +195,11 @@ export async function claimTask(): Promise<Lease | null> {
 
 /** Both checks use the database-owner process clock. No remote worker timestamp is trusted. */
 export async function fenced<T>(lease: Lease, work: (tx: Tx) => Promise<T>): Promise<T> {
+  const hosted = isHostedPreview();
+  const assertLeader = hosted ? (await import('./hostedWorker')).assertHostedWorkerLease : null;
+  if (hosted) assertHostedPreviewContext();
   return db.$transaction(async tx => {
+    if (assertLeader) await assertLeader(tx);
     const before = await tx.engineTask.findUniqueOrThrow({ where: { id: lease.id } });
     const assert = async () => {
       const result = await tx.engineTask.updateMany({ where: { id: lease.id, leaseToken: lease.leaseToken,
@@ -187,6 +211,7 @@ export async function fenced<T>(lease: Lease, work: (tx: Tx) => Promise<T>): Pro
     // No network calls in work. The transaction owns the row until commit; expiry is
     // checked again even if work cleared the lease while completing the task.
     if (!before.leaseExpiresAt || before.leaseExpiresAt.getTime() <= Date.now()) throw new Error('engine_lease_lost');
+    if (hosted) assertHostedPreviewContext();
     return result;
   }, { timeout: 15_000 });
 }

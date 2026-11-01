@@ -608,7 +608,7 @@ const packageCopy: Record<PressKitLocale, Pick<PressKitPackage, 'id' | 'title' |
       { en: 'Asset manifest, IPTC metadata, credits and usage terms', it: 'Manifest asset, metadati IPTC, crediti e condizioni d uso' },
       { en: 'Beta 27 release, regional pitch drafts, FAQ, claims freeze and 87-second subtitled demo', it: 'Release Beta 27, pitch regionali, FAQ, claims freeze e demo sottotitolata di 87 secondi' },
     ],
-    boundary: { en: 'Verify the live Press Kit before later publication. Content Credentials are not attached.', it: 'Verificare il Press Kit live prima di pubblicazioni successive. Le Content Credentials non sono allegate.' },
+    boundary: { en: 'Historical package dated 20 August 2026, version 3.9.0-beta.27; its catalog context remains 5.2.0. It has not been regenerated for Engine 6 Preview. Verify the live release record before reuse. Content Credentials are not attached.', it: 'Pacchetto storico del 20 agosto 2026, versione 3.9.0-beta.27; il contesto del catalogo resta 5.2.0. Non è stato rigenerato per Engine 6 Preview. Verificare il registro della release prima del riuso. Le Content Credentials non sono allegate.' },
   },
   it: {
     id: 'press-package-it',
@@ -620,7 +620,7 @@ const packageCopy: Record<PressKitLocale, Pick<PressKitPackage, 'id' | 'title' |
       { en: 'Asset manifest, IPTC metadata, credits and usage terms', it: 'Manifest asset, metadati IPTC, crediti e condizioni d uso' },
       { en: 'Beta 27 release, regional pitch drafts, FAQ, claims freeze and 87-second subtitled demo', it: 'Release Beta 27, pitch regionali, FAQ, claims freeze e demo sottotitolata di 87 secondi' },
     ],
-    boundary: { en: 'Verify the live Press Kit before later publication. Content Credentials are not attached.', it: 'Verificare il Press Kit live prima di pubblicazioni successive. Le Content Credentials non sono allegate.' },
+    boundary: { en: 'Historical package dated 20 August 2026, version 3.9.0-beta.27; its catalog context remains 5.2.0. It has not been regenerated for Engine 6 Preview. Verify the live release record before reuse. Content Credentials are not attached.', it: 'Pacchetto storico del 20 agosto 2026, versione 3.9.0-beta.27; il contesto del catalogo resta 5.2.0. Non è stato rigenerato per Engine 6 Preview. Verificare il registro della release prima del riuso. Le Content Credentials non sono allegate.' },
   },
 };
 
@@ -633,13 +633,44 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 });
 
 export const pressKitReleases: PressKitRelease[] = [
+  {
+    slug: 'engine-six-private-preview-6-0-0-preview-1',
+    version: '6.0.0-preview.1',
+    displayVersion: '6.0.0-preview.1',
+    datePublished: '2026-11-01',
+    dateModified: '2026-11-01',
+    status: 'current',
+    category: 'product',
+    title: { en: 'Engine 6 Private Preview', it: 'Engine 6: preview privata' },
+    summary: {
+      en: 'A separate authenticated preview build introduces durable scans, private evidence and extraction comparison. Qualification is in progress; the stable public service remains 5.2.0.',
+      it: 'Una build preview separata e autenticata introduce scansioni persistenti, evidenze private e confronto delle estrazioni. La qualificazione è in corso; il servizio pubblico stabile resta 5.2.0.',
+    },
+    changes: [
+      { en: 'A dedicated database and supervised worker keep preview observations separate from official baselines and publication history. Central guards require silent observation runs with publication and notifications disabled.', it: 'Un database dedicato e un worker supervisionato mantengono le osservazioni preview separate dalle baseline ufficiali e dalla cronologia pubblica. I controlli centrali richiedono osservazioni silenziose, con pubblicazione e notifiche disabilitate.' },
+      { en: 'Preview and comparison runs retain fixed scope, implementation identity, source outcomes and exportable private reports. Unavailable captures remain distinct from matching extractor output.', it: 'Le esecuzioni preview e confronto conservano perimetro, identità dell’implementazione, esiti delle fonti e report privati esportabili. Le catture non disponibili restano distinte dalle estrazioni coincidenti.' },
+      { en: 'Reviewed source contracts check document identity, required sections, terminal text and language. Uncertain captures and unconfigured sources remain held for review.', it: 'I contratti delle fonti revisionati verificano identità del documento, sezioni richieste, testo finale e lingua. Le catture incerte e le fonti non configurate restano sospese per revisione.' },
+      { en: 'The development diary, repository entry points and wiki distinguish implemented features, recorded tests and remaining qualification work.', it: 'Il diario di sviluppo, i punti di accesso nel repository e la wiki distinguono funzionalità implementate, test registrati e qualificazioni ancora aperte.' },
+    ],
+    boundaries: [
+      { en: 'This is the current preview source record, not a production promotion. A completed hosted deployment requires separate recorded verification; the public runtime remains 5.2.0.', it: 'Questo è il registro corrente del codice preview, non una promozione in produzione. Il completamento del rilascio online richiede una verifica registrata separata; il runtime pubblico resta 5.2.0.' },
+      { en: 'Comparison applies two extractors to the same captured response. It does not compare independent acquisition paths or AI models, and identical text does not establish completeness.', it: 'Il confronto applica due estrattori alla stessa risposta catturata. Non confronta percorsi di acquisizione indipendenti o modelli AI; un testo identico non dimostra completezza.' },
+      { en: 'Corpus completeness, observations across multiple days and operation with 500 real policy sources remain under qualification. Model opinions, replay and retries are not substitutes for executed live evidence.', it: 'Completezza del corpus, osservazioni su più giorni e funzionamento con 500 fonti policy reali restano da qualificare. Opinioni dei modelli, replay e tentativi ripetuti non sostituiscono le evidenze live eseguite.' },
+      { en: 'Historical press packages, fact sheets and companion releases retain their original dates and versions. They have not been relabelled as Engine 6 assets.', it: 'Pacchetti stampa storici, schede e release dei companion conservano date e versioni originali. Non sono stati rinominati come asset Engine 6.' },
+    ],
+    evidenceLinks: [
+      { href: '/engine-6-preview', label: { en: 'Development diary and qualification limits', it: 'Diario di sviluppo e limiti della qualificazione' } },
+      { href: 'https://github.com/sev7enITA/policywatcher/blob/codex/engine-v6-local/docs/architecture/engine-v6-qualification-campaign.md', label: { en: 'Qualification protocol', it: 'Protocollo di qualificazione' } },
+      { href: 'https://github.com/sev7enITA/policywatcher/wiki/Engine-6-Preview', label: { en: 'Engine 6 wiki', it: 'Wiki Engine 6' } },
+    ],
+  },
 {
   "slug": "adaptive-acquisition-evidence-5-2-0",
   "version": "5.2.0",
   "displayVersion": "5.2.0",
   "datePublished": "2026-10-26",
   "dateModified": "2026-10-31",
-  "status": "current",
+  "status": "archived",
   "category": "methodology",
   "title": {
     "en": "Adaptive Acquisition Evidence",

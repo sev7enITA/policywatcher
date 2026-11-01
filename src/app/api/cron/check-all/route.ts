@@ -1,5 +1,6 @@
 import { extractionGuardEnabled } from '@/lib/extractionProfile';
 import { engineEnabled, enqueueRun } from '@/lib/engine/store';
+import { isHostedPreview } from '@/lib/hostedPreview';
 import { experimentalChannelsAvailable, type ChannelMetadata } from '@/lib/scanChannels';
 import { guardExtraction, anchorCommittedExtraction } from '@/lib/extractionGuard';
 /**
@@ -490,6 +491,7 @@ export async function runFullScan(
   progressCallback?: ProgressCallback,
   options: ScanOptions = {}
 ): Promise<ScanResult> {
+  if (isHostedPreview()) throw new Error('hosted_preview_stable_scan_disabled');
   if (engineEnabled() && !(options.channel === 'stable' && experimentalChannelsAvailable())) throw new Error('engine_v6_use_durable_queue');
   // A disconnected observer must not turn a committed result into an error.
   const onProgress: ProgressCallback = event => {
@@ -1577,6 +1579,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  if (isHostedPreview()) return NextResponse.json({ error: 'hosted_preview_scheduler_disabled' }, { status: 409 });
   // Auth check
   if (!isAuthorized(request)) {
     return NextResponse.json(

@@ -1,18 +1,18 @@
-export const POLICYWATCHER_VERSION = '5.2.0' as const;
-export const POLICYWATCHER_VERSION_DISPLAY = '5.2.0' as const;
-export const POLICYWATCHER_RELEASE_NAME = 'Adaptive Acquisition Evidence' as const;
-export const POLICYWATCHER_RELEASE_DATE = '2026-10-26' as const;
+export const POLICYWATCHER_VERSION = '6.0.0-preview.1' as const;
+export const POLICYWATCHER_VERSION_DISPLAY = '6.0.0-preview.1' as const;
+export const POLICYWATCHER_RELEASE_NAME = 'Engine 6 Private Preview' as const;
+export const POLICYWATCHER_RELEASE_DATE = '2026-11-01' as const;
 export const POLICYWATCHER_RELEASE_DATE_LABEL = {
-  en: '26 October 2026',
-  it: '26 ottobre 2026',
+  en: '1 November 2026',
+  it: '1 novembre 2026',
 } as const;
 export const POLICYWATCHER_RELEASE_MONTH_LABEL = {
-  en: 'October 2026',
-  it: 'ottobre 2026',
+  en: 'November 2026',
+  it: 'novembre 2026',
 } as const;
-export type PolicyWatcherReleaseChannel = 'stable' | 'beta';
-export const POLICYWATCHER_RELEASE_CHANNEL: PolicyWatcherReleaseChannel = 'stable';
-export const POLICYWATCHER_RELEASE_CHANNEL_LABEL = 'STABLE' as const;
+export type PolicyWatcherReleaseChannel = 'stable' | 'beta' | 'preview';
+export const POLICYWATCHER_RELEASE_CHANNEL: PolicyWatcherReleaseChannel = 'preview';
+export const POLICYWATCHER_RELEASE_CHANNEL_LABEL = 'PREVIEW' as const;
 export const POLICYWATCHER_RELEASE_BADGE =
   `v${POLICYWATCHER_VERSION} · ${POLICYWATCHER_RELEASE_CHANNEL_LABEL}` as const;
 export const POLICYWATCHER_BUILD_LABEL = `v${POLICYWATCHER_VERSION} ${POLICYWATCHER_RELEASE_NAME}` as const;

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { CheckCircle2, Clock, Sparkles, X } from 'lucide-react';
 import ModalDialog from '@/components/ModalDialog';
 import { pressKitReleases, type PressKitLocale } from '@/lib/pressKit';
-import { POLICYWATCHER_RELEASE_CHANNEL_LABEL, POLICYWATCHER_VERSION } from '@/lib/release';
+import { POLICYWATCHER_RELEASE_CHANNEL, POLICYWATCHER_RELEASE_CHANNEL_LABEL, POLICYWATCHER_VERSION } from '@/lib/release';
 import styles from './ChangelogModal.module.css';
 
 const copy = {
@@ -38,7 +38,8 @@ interface ChangelogModalProps {
 
 export default function ChangelogModal({ isOpen, onClose, lang = 'en' }: ChangelogModalProps) {
   if (!isOpen) return null;
-  const t = copy[lang];
+  const t = { ...copy[lang], ...(POLICYWATCHER_RELEASE_CHANNEL === 'preview'
+    ? { current: lang === 'it' ? 'Build preview corrente' : 'Current preview build' } : {}) };
   // The newsroom and dashboard read the same release record, including boundaries.
   const current = pressKitReleases.find(release => release.status === 'current' && release.version === POLICYWATCHER_VERSION);
   const history = pressKitReleases.filter(release => release.status === 'archived');

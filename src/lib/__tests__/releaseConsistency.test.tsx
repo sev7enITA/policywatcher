@@ -29,9 +29,11 @@ describe('public release consistency', () => {
     for (const impact of RELEASE_IMPACT_ITEMS.filter(i => i.status === 'current')) {
       expect(impact.endRelease, impact.id).toBe(POLICYWATCHER_VERSION);
     }
-    // Historical delivery retains the real version; it must not be relabelled as v5.
+    // Historical delivery retains the real version; it must not be relabelled as the preview.
     expect(FEATURE_ATLAS_FEATURES.find(f => f.id === 'global-document-scope')?.releaseId).toBe('4.0.0-beta.5');
     expect(FEATURE_ATLAS_FEATURES.find(f => f.id === 'current-evidence-coverage')?.releaseId).toBe('4.0.0-beta.4');
+    expect(FEATURE_ATLAS_FEATURES.find(f => f.id === 'guarded-shadow-observation')).toMatchObject({ releaseId: '5.2.0', state: 'delivered' });
+    expect(FEATURE_ATLAS_FEATURES.find(f => f.id === 'engine-six-private-preview')).toMatchObject({ releaseId: POLICYWATCHER_VERSION, state: 'current', route: { href: '/admin/engine', access: 'protected' } });
   });
 
   it('exposes all six citizen steps with real section anchors and explicit boundaries', () => {
@@ -57,9 +59,11 @@ describe('public release consistency', () => {
     const current = pressKitReleases.find(r => r.status === 'current')!;
     expect(html).toContain(current.title[lang]);
     expect(html).toContain(POLICYWATCHER_RELEASE_CHANNEL_LABEL);
-    expect(html.indexOf(POLICYWATCHER_VERSION)).toBeLessThan(html.indexOf('4.0.0 Beta 5'));
+    expect(html.indexOf(POLICYWATCHER_VERSION)).toBeLessThan(html.indexOf('Historical release · 5.2.0') >= 0 ? html.indexOf('Historical release · 5.2.0') : html.indexOf('Release storica · 5.2.0'));
     expect(html).toContain(lang === 'it' ? 'Release storica' : 'Historical release');
-    expect(html).toContain(lang === 'it' ? 'Non sono dichiarati promozione automatica' : 'No automatic recipe promotion');
+    expect(current.title[lang]).toBe(lang === 'it' ? 'Engine 6: preview privata' : 'Engine 6 Private Preview');
+    expect(html).toContain(lang === 'it' ? 'il runtime pubblico resta 5.2.0' : 'the public runtime remains 5.2.0');
+    expect(html).toContain(lang === 'it' ? 'restano da qualificare' : 'remain under qualification');
     expect(html).toContain(`lang=${lang}`);
     expect(html).not.toMatch(/Current Beta|Q3 2026|Q4 2026|KPI Compliance Matrix/);
     expect(html).toContain('<dialog');

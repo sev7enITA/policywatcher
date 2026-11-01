@@ -5,6 +5,7 @@ import { dualWriteCanonicalPolicyGraph } from '../documentEvidenceSync';
 import { acquire, assessCapture, extractEngineBody, saveRepresentation, type Observation, type CaptureBody } from './acquisition';
 import { digest, structureDocument, compareDocuments, ENGINE_SCHEMA } from './document';
 import { assertChannelWorkerContext, type ChannelMetadata } from '../scanChannels';
+import { assertHostedPreviewContext, isHostedPreview } from '../hostedPreview';
 import { compareCapturedExtraction } from './comparison';
 import { liveAnalysis, validateClaims, validateVerification, validateModelPair, type AnalysisProvider, type AnalysisInput, type ClaimSet,
   type ModelOutput, type Verification } from './claims';
@@ -233,7 +234,13 @@ async function publish(tx: Tx, policy: Policy, input: TaskInput, checkpoint: Che
 async function processTask(lease: Lease, dependencies: EngineDependencies) {
   const input = JSON.parse(lease.inputJson) as TaskInput;
   const run = await db.engineRun.findUniqueOrThrow({ where: { id: lease.runId } });
-  const channel = run.channelMetadataJson ? JSON.parse(run.channelMetadataJson) as ChannelMetadata : null;
+  let channel: ChannelMetadata | null;
+  try { channel = run.channelMetadataJson ? JSON.parse(run.channelMetadataJson) as ChannelMetadata : null; }
+  catch { throw new Error('channel_context_changed'); }
+  if (isHostedPreview()) {
+    assertHostedPreviewContext();
+    if (!channel || input.mode !== 'observe' || run.mode !== 'observe' || run.notificationMode !== 'silent') throw new Error('channel_context_changed');
+  }
   if (channel) assertChannelWorkerContext(channel, run.mode, run.notificationMode);
   if (lease.kind === 'fetch') {
     const observation = await dependencies.acquire(input);

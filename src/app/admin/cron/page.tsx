@@ -381,6 +381,7 @@ export default function CronManagerPage() {
       if (!res.ok) return;
       const data: CronStatus = await res.json();
       setStatus(data);
+      setScanChannel(previous => previous === 'stable' && data.channels?.stable === false && data.channels?.preview ? 'preview' : previous);
 
       // Stop polling once the scan is no longer running
       if (!data.isRunning && !data.channelRuns?.some(run => ['queued', 'running'].includes(run.status)) && pollingRef.current) {

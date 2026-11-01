@@ -12,6 +12,7 @@ import {
   UNATTRIBUTED_CLIENT_IDENTITY,
 } from '@/lib/rateLimit';
 import { COOKIE_NAME, verifySessionToken } from '@/lib/adminAuth';
+import { isHostedPreview } from '@/lib/hostedPreview';
 import {
   INVESTOR_SESSION_COOKIE,
   verifyInvestorSessionToken,
@@ -103,6 +104,10 @@ function applyAdminApiResponseHeaders(response: NextResponse) {
 }
 
 function applyDeploymentResponseHeaders<T extends Response>(response: T): T {
+  if (isHostedPreview()) {
+    response.headers.set('Cache-Control', 'private, no-store, max-age=0');
+    response.headers.set('X-Robots-Tag', STAGING_ROBOTS_HEADER);
+  }
   if (process.env.POLICYWATCHER_DEPLOYMENT_TARGET?.trim().toLowerCase() === 'staging') {
     response.headers.set('X-Robots-Tag', STAGING_ROBOTS_HEADER);
   }
@@ -211,6 +216,27 @@ export function getCanonicalHostRedirect(request: NextRequest): URL | null {
 }
 
 export function proxy(request: NextRequest) {
+  if (isHostedPreview()) {
+    const pathname = request.nextUrl.pathname;
+    const staticAsset = pathname.startsWith('/_next/static/')
+      || ['/favicon.ico', '/logo.png', '/logo-mark.png'].includes(pathname);
+    const authentication = pathname === ADMIN_LOGIN_PATH || pathname === '/api/admin/auth';
+    if (pathname === '/robots.txt') return applyDeploymentResponseHeaders(new NextResponse('User-agent: *\nDisallow: /\n', { headers: { 'Content-Type': 'text/plain' } }));
+    if (!staticAsset && !authentication) {
+      const session = verifySessionToken(request.cookies.get(COOKIE_NAME)?.value);
+      if (!session.valid || session.role !== 'admin') {
+        return applyDeploymentResponseHeaders(pathname.startsWith('/api/')
+          ? NextResponse.json({ error: 'Private preview: administrator access required.' }, { status: 401 })
+          : NextResponse.redirect(new URL(ADMIN_LOGIN_PATH, request.url), 307));
+      }
+      // The hosted trial has no scheduler, subscriptions or legacy mutation surface.
+      if (pathname.startsWith('/api/cron/') || (!['GET', 'HEAD', 'OPTIONS'].includes(request.method)
+        && !['/api/admin/engine', '/api/admin/cron-status'].includes(pathname))) {
+        return applyDeploymentResponseHeaders(NextResponse.json({ error: 'Unavailable in the private preview.' }, { status: 409 }));
+      }
+      if (pathname === '/' || pathname === '/admin') return applyDeploymentResponseHeaders(NextResponse.redirect(new URL('/admin/engine', request.url), 307));
+    }
+  }
   const canonicalRedirect = getCanonicalHostRedirect(request);
   if (canonicalRedirect) return applyDeploymentResponseHeaders(NextResponse.redirect(canonicalRedirect, 308));
 
@@ -295,16 +321,6 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/admin/:path*',
-    '/api/:path*',
-    '/robots.txt',
-    '/sitemap.xml',
-    {
-      source: '/((?!api|_next/static|_next/image|favicon.ico|logo.png|robots.txt|sitemap.xml).*)',
-      missing: [
-        { type: 'header', key: 'next-router-prefetch' },
-        { type: 'header', key: 'purpose', value: 'prefetch' },
-      ],
-    },
+    '/((?!_next/static|favicon.ico|logo.png|logo-mark.png).*)',
   ],
 };

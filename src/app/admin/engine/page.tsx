@@ -11,7 +11,7 @@ type Task = { id: string; policyId: string | null; kind: string; stage: string; 
 type Run = { id: string; mode: string; status: string; selected: number; createdAt: string; tasks: Task[] };
 type Review = { status: string; mode: string; id: string; policyId: string; reasonsJson: string; createdAt: string };
 type Detail = { review: Review & { status: string }; payload: { observation?: { observedAt: string; source: string; httpStatus: number }; checkpoint?: { analysis?: { value: { claims: GroundedClaim[] } }; verification?: { value: Verification } } }; document?: StructuredDocument; oldDocument?: StructuredDocument; baselineCandidate?: StructuredDocument };
-type Status = { coverage?: { total: number; contracted: number; verified: number; awaitingConfirmation: number }; enabled: boolean; publicationEnabled: boolean; schema: string; runs: Run[]; reviews: Review[]; policies: Policy[] };
+type Status = { hostedPreview?: boolean; worker?: { active: boolean; leader?: { phase: string; lastHeartbeatAt: string; lastError: string | null } | null; error?: string | null } | null; implementationHash?: string | null; coverage?: { total: number; contracted: number; verified: number; awaitingConfirmation: number }; enabled: boolean; publicationEnabled: boolean; schema: string; runs: Run[]; reviews: Review[]; policies: Policy[] };
 const fieldStyle = { width: '100%', padding: 10, margin: '6px 0 16px', background: 'var(--bg-secondary)', color: 'var(--text-main)', border: '1px solid var(--border-color)', borderRadius: 6 };
 const buttonStyle = { padding: '10px 16px', marginRight: 12, marginBottom: 12, cursor: 'pointer', borderRadius: 6, border: '1px solid #7089ae', background: '#203a5a', color: '#fff' };
 const label = (value: string) => value.replaceAll('_', ' ');
@@ -120,15 +120,23 @@ export default function EngineWorkspace() {
     {!status ? <p>Loading…</p> : !status.enabled ? <section className={styles.card}>
       <h2>Preview is disabled</h2><p>The current scanner remains active. Enable the preview in an isolated environment after applying its additive database migration.</p>
     </section> : <>
+      {status.hostedPreview && <section className={styles.card} style={{ marginBottom: 24 }}>
+        <h2>6.0 Preview · separate private environment</h2>
+        <p>Live captures and reports stay in this preview database. Official baselines, public changes and subscriber notifications are disabled. Source completeness, observation over several days and operation at 500 sources remain under qualification.</p>
+        <p>Worker: {status.worker?.active ? 'active' : 'not active'}{status.worker?.leader?.lastHeartbeatAt ? ` · last heartbeat ${new Date(status.worker.leader.lastHeartbeatAt).toLocaleString()}` : ''}.</p>
+        {(status.worker?.error || status.worker?.leader?.lastError) && <p role="alert">Worker status: {status.worker.error || status.worker.leader?.lastError}. Saved work is not evidence of a completed scan.</p>}
+        <p><Link href="/admin/cron">Start Preview or compare extractors</Link> · <a href="https://policywatcher.online" target="_blank" rel="noreferrer">Open stable PolicyWatcher 5.2.0</a></p>
+        <details><summary>Implementation identity</summary><code style={{ overflowWrap: 'anywhere' }}>{status.implementationHash || 'Unavailable; execution is blocked'}</code></details>
+      </section>}
       <section className={styles.card} style={{ marginBottom: 24 }}>
         <h2>Coverage and evidence</h2><p>{status.coverage?.contracted || 0}/{status.coverage?.total || 0} sources configured · {status.coverage?.verified || 0} baselines verified in the last 24 hours · {status.coverage?.awaitingConfirmation || 0} candidates awaiting confirmation.</p>
         <p>Missing baselines need a documented correction in <Link href="/admin/evidence-quality">Evidence Quality</Link>. A completed run may still contain held or unconfigured sources.</p>
       </section>
       <section className={styles.card} style={{ marginBottom: 24 }}>
         <h2>Start a durable run</h2>
-        <p>Up to 500 due policies. Observation keeps candidate changes private. Publication requires complete evidence and independent verification; high impact changes enter review.</p>
-        <button style={buttonStyle} disabled={busy} onClick={() => void action({ action: 'enqueue', mode: 'observe', requestKey: crypto.randomUUID() })}>Observe due policies</button>
-        <button style={buttonStyle} disabled={busy || !status.publicationEnabled} onClick={() => void action({ action: 'enqueue', mode: 'publish', requestKey: crypto.randomUUID() })}>Scan with publication gates</button>
+        <p>{status.hostedPreview ? 'Start with five due policies. Use the scan selector for a company scope, extraction comparison or a batch of up to 50. A completed run can include held sources that require review.' : 'Up to 500 due policies. Observation keeps candidate changes private. Publication requires complete evidence and independent verification; high impact changes enter review.'}</p>
+        <button style={buttonStyle} disabled={busy || (status.hostedPreview && !status.worker?.active)} onClick={() => void action({ action: 'enqueue', mode: 'observe', requestKey: crypto.randomUUID(), ...(status.hostedPreview ? { channel: 'preview', limit: 5 } : {}) })}>Observe due policies</button>
+        {!status.hostedPreview && <button style={buttonStyle} disabled={busy || !status.publicationEnabled} onClick={() => void action({ action: 'enqueue', mode: 'publish', requestKey: crypto.randomUUID() })}>Scan with publication gates</button>}
         <p>These manual runs are silent: no subscriber notifications. Scheduled notification delivery has a separate configuration.</p>
       </section>
       <section className={styles.card} style={{ marginBottom: 24, overflowX: 'auto' }}>

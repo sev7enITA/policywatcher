@@ -1,5 +1,17 @@
 # Changelog
 
+## 6.0.0-preview.1 - Engine 6 Private Preview (2026-11-01)
+
+Private preview build under qualification. The public service remains on stable 5.2.0. This source release record does not establish a completed hosted deployment or activate Engine 6 in production.
+
+- Adds a separate authenticated preview environment with its own database, private observations and supervised durable worker. Execution requires explicit preview settings, publication and notifications disabled, and a verified implementation identity.
+- Adds preview and comparison channels with fixed run scope, bounded batch size and exportable private reports. Comparison applies the stable and preview extractors to the same captured response; it does not compare independent retrieval or AI models.
+- Adds reviewed source contracts, structural completeness checks, exact source exclusions and explicit holds for missing or uncertain evidence. Captures, review inputs and execution provenance remain private.
+- Adds guarded worker startup, persisted work recovery, private worker status and central checks that reject incompatible queued tasks and public-scanner entry paths in the hosted preview.
+- Refreshes the development diary, GitHub entry points and wiki. Historical releases and press assets retain their original versions and evidence dates.
+
+Qualification remains open for corpus completeness, observations over multiple days and operation with 500 real policy sources. Captures and replay are distinct evidence; neither simulated dates nor retries count as observation days. Deployment status is recorded separately after verification. See the [qualification campaign](docs/architecture/engine-v6-qualification-campaign.md) and [bounded hosted-preview source review](docs/reports/engine-v6-preview-source-review-2026-11-01.md).
+
 ## 5.2.0 - Adaptive Acquisition Evidence (2026-10-26)
 
 ### Navigation and discovery update (2026-10-31)

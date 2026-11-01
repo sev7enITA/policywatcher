@@ -10,11 +10,15 @@ import styles from './preview.module.css';
 type Props = { searchParams: Promise<{ lang?: string }> };
 const copy = {
   en: {
-    status: 'Experimental programme', date: '1 November 2026', kicker: 'Engineering notebook / 03',
+    status: 'Experimental programme', date: '1 November 2026', kicker: 'Engineering notebook / 04',
     title: 'A clearer path from source to evidence.',
     intro: 'Engine 6 Preview is being developed and tested to make policy retrieval, comparison and validation more traceable. This page opens the design for inspection.',
-    boundary: 'Local implementation · live qualification pending',
-    boundaryText: 'The public service remains on version 5.2.0. Publishing this notebook does not activate Engine 6 or establish improved accuracy on real policies.',
+    boundary: 'Private preview access / staging environment',
+    boundaryText: 'The main public service remains on stable version 5.2.0. Engine 6 trials use a separate staging environment with administrator authentication and private observations. Qualification remains open.',
+    hostingStatus: 'The results below state their verification scope. Deployment receipts and remaining limits are maintained in the linked verification reports.',
+    access: 'Open private 6.0 Preview', resources: 'Preview access, code and evidence',
+    development: 'Development branch', wiki: 'GitHub wiki', reports: 'Verification reports',
+    isolation: 'The preview uses a dedicated database within the same hosting account. This is logical separation, not independent infrastructure isolation.',
     nav: ['Architecture', 'Decision flow', 'Entity relationships', 'Validation'],
     promiseTitle: 'Three questions guide the experiment.',
     goals: [
@@ -23,7 +27,7 @@ const copy = {
       ['03', 'Can the work recover safely?', 'Save tasks, attempts and checkpoints so interruption does not erase progress or publish a change twice.'],
     ],
     architectureTitle: 'Evidence moves through explicit boundaries.',
-    architectureIntro: 'Official sources enter a private working area. A public record is created only after the required checks succeed. Retrieval, AI analysis and delivery have separate responsibilities.',
+    architectureIntro: 'Official sources enter a private working area. This diagram documents the full engine architecture, including its publication boundary. The private preview records observations with publication and delivery disabled. Retrieval, AI analysis and delivery have separate responsibilities.',
     architectureAlt: 'Architecture: official sources enter a persistent queue, retrieval and source checks. Frozen evidence feeds comparison, analysis and verification. Review holds uncertain cases. An atomic commit creates public evidence, followed by a separate notification queue.',
     architectureSteps: [
       ['Official source', 'Direct HTTP, HTTP/2 and a configured browser renderer supply bounded retrieval paths. Archive captures do not attest current live availability.'],
@@ -42,8 +46,8 @@ const copy = {
       ['Apply the publication gate', 'Unsupported or uncertain claims → hold. Verified high impact → human review. Complete supported lower-impact changes → atomic commit when publication is enabled.'],
     ],
     reviewNote: 'Human approval does not waive missing evidence. Source or extraction-baseline repairs have their own review path. A purely presentational extraction change does not become a provider policy-change alert.',
-    modeTitle: 'Stable by default. Preview by explicit choice.',
-    modeText: 'A new administrator selector is implemented and tested in an isolated local workspace. Stable uses the current scanner; Engine 6 Preview saves private observations without updating official baselines, history or notifications. An optional comparison runs both extractors on the same decoded capture. It does not compare live retrieval or AI models. The selector is not activated on this public service.',
+    modeTitle: 'Stable on the main service. Private preview in staging.',
+    modeText: 'Authenticated administrators can select Preview or Compare for isolated trials, with at most 50 policies per batch. Both modes use observe and silent: publication and notifications are disabled, and official baselines and history are preserved. Stable scanning remains on the main service and is unavailable in the preview. Compare applies both extractors to one decoded capture; it does not compare acquisition performance or AI models.',
     erTitle: 'The relationships behind a recorded change.',
     erIntro: 'This is a conceptual map of the implemented preview schema. A solid line is an explicit database foreign key; dashed lines are application-managed references, including identifiers in checkpoints and evidence payloads.',
     erAlt: 'Entity map showing EngineRun and EngineTask connected by an explicit one-to-many foreign key. Dashed logical references connect tasks, attempts, artifacts, source contracts, per-mode policy state, reviews, cache, origin scheduling, public changes and outbox events.',
@@ -59,9 +63,12 @@ const copy = {
       ['Policy · PolicyChange · EngineOutbox', 'Public baseline, committed change and deferred delivery.', 'PolicyChange → Policy is an existing FK; outbox changeId is an application reference.'],
     ],
     ledgerTitle: 'What the evidence currently establishes.',
-    ledgerIntro: 'Recorded local verification, updated 1 November 2026. These results are a starting point for qualification, not a production accuracy score.',
+    ledgerIntro: 'Recorded local verification, updated 1 November 2026. Historical regression and campaign results are retained. The new production-mode checks ran locally from 21:29:27 to 21:31:10 UTC on 1 November; they do not establish hosted availability or production accuracy.',
     check: 'Check', result: 'Recorded result', limit: 'What remains unproven',
     checks: [
+      ['Private preview HTTP and worker checks', '44 checks passed in an actual local production-mode Next runtime', 'Authentication boundaries, shared HTTP/worker identity and observe/silent restrictions were checked. Initial HTTP shells do not demonstrate hydrated browser controls; these local checks do not verify hosted deployment.'],
+      ['Live Apple privacy capture', 'HTTP 200 · eligible against the reviewed contract · 28,124 preview characters versus 2,089 stable characters', 'Both extractors used the same response. Outcome: confirmation_pending. No AI calls; official policy, baseline, public history and outbox records were unchanged. More characters do not prove completeness or correctness.'],
+      ['Recovery after an actual SIGKILL', 'New worker ownership after 91.7 seconds; queued work completed and the earlier report survived', 'The process was killed after the live run had completed. This checks persisted queued work and leadership expiry, not interruption during a network fetch. Official records and notification events remained unchanged.'],
       ['Automated regression suite', '1,469 passed · 14 skipped', 'Synthetic fixtures do not measure retrieval quality on the live catalogue.'],
       ['Engine-specific tests', '120 engine regressions + 16 daily-campaign checks', 'A 500-record scheduling test is not 500 successful Internet retrievals.'],
       ['Build and static checks', 'Production build and TypeScript passed; lint had no errors', '15 pre-existing web lint warnings remain; no independent dynamic security audit is claimed.'],
@@ -84,11 +91,15 @@ const copy = {
     footerNote: 'A public record of an experiment. Status will change only as new verification evidence is recorded.',
   },
   it: {
-    status: 'Programma sperimentale', date: '1 novembre 2026', kicker: 'Quaderno di progetto / 03',
+    status: 'Programma sperimentale', date: '1 novembre 2026', kicker: 'Quaderno di progetto / 04',
     title: 'Un percorso più chiaro dalla fonte alle prove.',
     intro: 'Engine 6 Preview è in sviluppo e sperimentazione per rendere più tracciabili recupero, confronto e validazione delle policy. Questa pagina rende il progetto consultabile.',
-    boundary: 'Implementazione locale · qualificazione reale da completare',
-    boundaryText: 'Il servizio pubblico resta alla versione 5.2.0. La pubblicazione di questo quaderno non attiva Engine 6 e non dimostra una maggiore accuratezza sulle policy reali.',
+    boundary: 'Accesso alla preview privata / ambiente staging',
+    boundaryText: 'Il servizio pubblico principale resta alla versione stabile 5.2.0. Le prove Engine 6 usano un ambiente staging separato, con autenticazione amministratore e osservazioni private. La qualificazione resta aperta.',
+    hostingStatus: 'I risultati sotto dichiarano il perimetro delle verifiche. Ricevute di rilascio e limiti residui sono conservati nei rapporti di verifica collegati.',
+    access: 'Apri la 6.0 Preview privata', resources: 'Accesso alla preview, codice e prove',
+    development: 'Ramo di sviluppo', wiki: 'Wiki GitHub', reports: 'Rapporti di verifica',
+    isolation: 'La preview usa un database dedicato nello stesso account di hosting. La separazione è logica, non equivale a un’infrastruttura indipendente.',
     nav: ['Architettura', 'Flusso decisionale', 'Entità e relazioni', 'Validazione'],
     promiseTitle: 'Tre domande guidano la sperimentazione.',
     goals: [
@@ -97,7 +108,7 @@ const copy = {
       ['03', 'Il lavoro può riprendere in sicurezza?', 'Salvare attività, tentativi e checkpoint affinché un’interruzione non cancelli i progressi né pubblichi due volte la stessa modifica.'],
     ],
     architectureTitle: 'Le prove attraversano confini espliciti.',
-    architectureIntro: 'Le fonti ufficiali entrano in un’area di lavoro privata. Un record pubblico nasce solo dopo il superamento dei controlli richiesti. Recupero, analisi AI e invio hanno responsabilità separate.',
+    architectureIntro: 'Le fonti ufficiali entrano in un’area di lavoro privata. Il diagramma descrive l’intera architettura del motore, incluso il confine di pubblicazione. La preview privata registra osservazioni con pubblicazione e invio disabilitati. Recupero, analisi AI e invio hanno responsabilità separate.',
     architectureAlt: 'Architettura: le fonti ufficiali entrano in una coda persistente, nel recupero e nei controlli di fonte. Le prove congelate alimentano confronto, analisi e verifica. La revisione sospende i casi incerti. Un commit atomico crea le evidenze pubbliche, seguito da una coda separata per le notifiche.',
     architectureSteps: [
       ['Fonte ufficiale', 'HTTP diretto, HTTP/2 e un renderer browser configurato offrono percorsi di recupero con limiti. Le catture d’archivio non attestano la disponibilità live attuale.'],
@@ -116,8 +127,8 @@ const copy = {
       ['Applicare il controllo di pubblicazione', 'Affermazioni incerte o non supportate → sospensione. Alto impatto verificato → revisione umana. Modifiche complete, supportate e a impatto contenuto → commit atomico se la pubblicazione è abilitata.'],
     ],
     reviewNote: 'L’approvazione umana non sostituisce le prove mancanti. Le riparazioni di fonte o baseline hanno un percorso di revisione dedicato. Una differenza di sola presentazione nell’estrazione non diventa un avviso di modifica della policy del provider.',
-    modeTitle: 'Stabile predefinito. Preview per scelta esplicita.',
-    modeText: 'Un nuovo selettore per amministratori è implementato e testato in un ambiente locale isolato. Stabile usa lo scanner corrente; Engine 6 Preview salva osservazioni private senza modificare baseline ufficiali, storico o notifiche. Un confronto facoltativo esegue i due estrattori sulla stessa cattura decodificata. Non confronta il recupero live o i modelli AI. Il selettore non è attivato su questo servizio pubblico.',
+    modeTitle: 'Stabile sul servizio principale. Preview privata in staging.',
+    modeText: 'Gli amministratori autenticati possono selezionare Preview o Compare per prove isolate, con un massimo di 50 policy per scansione. Entrambe le modalità usano observe e silent: pubblicazione e notifiche sono disabilitate, baseline ufficiali e storico vengono preservati. La scansione Stabile resta sul servizio principale e non è disponibile nella preview. Compare applica i due estrattori a una sola cattura decodificata; non confronta le prestazioni di acquisizione o i modelli AI.',
     erTitle: 'Le relazioni dietro una modifica registrata.',
     erIntro: 'Mappa concettuale dello schema implementato nella preview. La linea continua indica una chiave esterna esplicita nel database; le linee tratteggiate sono riferimenti gestiti dall’applicazione, inclusi gli identificatori nei checkpoint e nelle prove.',
     erAlt: 'Mappa delle entità: EngineRun ed EngineTask sono collegati da una chiave esterna uno-a-molti. Riferimenti logici tratteggiati collegano attività, tentativi, artefatti, contratti di fonte, stato policy per modalità, revisioni, cache, pianificazione per origine, modifiche pubbliche e notifiche.',
@@ -133,9 +144,12 @@ const copy = {
       ['Policy · PolicyChange · EngineOutbox', 'Baseline pubblica, modifica registrata e invio differito.', 'PolicyChange → Policy è una FK esistente; changeId dell’outbox è un riferimento applicativo.'],
     ],
     ledgerTitle: 'Che cosa dimostrano oggi le verifiche.',
-    ledgerIntro: 'Verifiche locali aggiornate al 1 novembre 2026. Questi risultati sono una base per la qualificazione, non un punteggio di accuratezza in produzione.',
+    ledgerIntro: 'Verifiche locali aggiornate al 1 novembre 2026. I risultati storici delle regressioni e della campagna sono conservati. I nuovi controlli in modalità produzione sono stati eseguiti localmente il 1 novembre dalle 21:29:27 alle 21:31:10 UTC; non attestano la disponibilità online o l’accuratezza in produzione.',
     check: 'Controllo', result: 'Risultato registrato', limit: 'Che cosa resta da dimostrare',
     checks: [
+      ['Controlli HTTP e worker della preview privata', '44 controlli superati su un runtime Next reale, locale e in modalità produzione', 'Verificati autenticazione, identità condivisa tra HTTP e worker e vincoli observe/silent. Le risposte HTML iniziali non dimostrano i controlli interattivi nel browser; questi controlli locali non verificano il rilascio online.'],
+      ['Cattura live della privacy Apple', 'HTTP 200 · idonea rispetto al contratto revisionato · 28.124 caratteri nella preview contro 2.089 nello stabile', 'I due estrattori hanno usato la stessa risposta. Esito: confirmation_pending. Nessuna chiamata AI; policy ufficiali, baseline, storico pubblico e outbox invariati. Un testo più lungo non dimostra completezza o correttezza.'],
+      ['Ripresa dopo un SIGKILL reale', 'Nuovo worker operativo dopo 91,7 secondi; attività in coda concluse e rapporto precedente conservato', 'Il processo è stato terminato dopo la conclusione della scansione live. La prova verifica persistenza della coda e scadenza dell’assegnazione al worker, non un’interruzione durante il recupero di rete. Record ufficiali ed eventi di notifica invariati.'],
       ['Suite automatica di regressione', '1.469 superati · 14 esclusi', 'Le fixture sintetiche non misurano la qualità del recupero sul catalogo reale.'],
       ['Test specifici del motore', '120 regressioni del motore + 16 controlli della campagna giornaliera', 'Un test di pianificazione con 500 record non equivale a 500 recuperi Internet riusciti.'],
       ['Build e controlli statici', 'Build di produzione e TypeScript superati; lint senza errori', 'Restano 15 warning web preesistenti; nessun audit dinamico indipendente di sicurezza è attestato.'],
@@ -193,7 +207,8 @@ export default async function EnginePreviewPage({ searchParams }: Props) {
         <div><p className={styles.eyebrow}>{t.kicker}</p><h1>Engine <span>6</span><small>Preview</small></h1></div>
         <div className={styles.heroCopy}><h2>{t.title}</h2><p>{t.intro}</p><a href="#architecture" className={styles.explore}>{t.nav[0]} <ArrowDown size={18} aria-hidden="true" /></a></div>
       </header>
-      <aside className={styles.boundary}><FlaskConical size={22} aria-hidden="true" /><div><strong>{t.boundary}</strong><p>{t.boundaryText}</p></div></aside>
+      <aside className={styles.boundary}><FlaskConical size={22} aria-hidden="true" /><div><strong>{t.boundary}</strong><p>{t.boundaryText}</p><p>{t.hostingStatus}</p><a className={styles.explore} href="https://staging.policywatcher.online/admin/engine">{t.access}<ArrowUpRight size={18} aria-hidden="true" /></a><p>{t.isolation}</p></div></aside>
+      <nav className={styles.sectionNav} aria-label={t.resources}><a href="https://github.com/sev7enITA/policywatcher/tree/codex/engine-v6-local">{t.development}<ArrowUpRight size={16} aria-hidden="true" /></a><a href="https://github.com/sev7enITA/policywatcher/wiki">{t.wiki}<ArrowUpRight size={16} aria-hidden="true" /></a><a href="https://github.com/sev7enITA/policywatcher/tree/codex/engine-v6-local/docs/reports">{t.reports}<ArrowUpRight size={16} aria-hidden="true" /></a></nav>
       <nav className={styles.sectionNav} aria-label={lang === 'it' ? 'Indice del progetto' : 'Notebook contents'}>{sections.map((id, i) => <a href={`#${id}`} key={id}><span>0{i + 1}</span>{t.nav[i]}</a>)}</nav>
       <section className={styles.goals} aria-labelledby="preview-goals"><h2 id="preview-goals">{t.promiseTitle}</h2><div>{t.goals.map(([n, title, body]) => <article key={n}><span>{n}</span><h3>{title}</h3><p>{body}</p></article>)}</div></section>
       <section className={styles.section} id="architecture" aria-labelledby="architecture-title"><div className={styles.sectionHeading}><p className={styles.eyebrow}>01 / {t.nav[0]}</p><h2 id="architecture-title">{t.architectureTitle}</h2><p>{t.architectureIntro}</p></div>

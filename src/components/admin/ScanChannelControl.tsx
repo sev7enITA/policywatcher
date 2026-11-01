@@ -28,7 +28,7 @@ export default function ScanChannelControl({ channel, onChange, capabilities, ru
       <select className={styles.input} value={channel === 'stable' ? 'stable' : 'preview'} disabled={disabled}
         onChange={event => onChange(event.target.value as ScanChannel)} aria-describedby="scan-channel-help">
         <option value="stable" disabled={capabilities?.stable === false}>Stable · current operational scanner</option>
-        <option value="preview" disabled={!capabilities?.preview}>Engine 6 Preview · isolated local trial</option>
+        <option value="preview" disabled={!capabilities?.preview}>Engine 6 Preview · private trial</option>
       </select>
     </label>
     <p id="scan-channel-help" className={styles.metaText}>{channel === 'stable'
@@ -41,7 +41,9 @@ export default function ScanChannelControl({ channel, onChange, capabilities, ru
       <span className={styles.scanControlHelp}> The comparison does not run a second public scan or compare AI models. Differences require source review.</span>
     </label>}
     {capabilities?.reason && <p className={styles.metaText}>{capabilities.reason}</p>}
-    {capabilities?.preview && <p className={styles.metaText}>Isolated local workspace. Stable and Preview run one at a time; a conflicting start is rejected, not queued behind the other channel.</p>}
+    {capabilities?.preview && <p className={styles.metaText}>{capabilities.stable
+      ? 'Isolated workspace. Stable and Preview run one at a time; a conflicting start is rejected.'
+      : 'Separate private preview. Stable remains available on the main PolicyWatcher service. The comparison here uses its extractor on the same captured response.'}</p>}
     {runs.length > 0 && <div style={{ marginTop: 20 }}>
       <h3>Private preview runs</h3>
       <p className={styles.metaText}>The channel and scope are fixed when a run starts. No automatic fallback to Stable.</p>

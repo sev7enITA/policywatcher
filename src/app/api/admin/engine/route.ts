@@ -6,6 +6,9 @@ import { digest, ENGINE_SCHEMA, parseSourceContract } from '@/lib/engine/documen
 import { enqueueRun, cancelRun, engineEnabled, stateKey, readArtifact } from '@/lib/engine/store';
 import { approveReview, closeReview, requestConfirmedRebaseline } from '@/lib/engine/pipeline';
 import { validateOutboundUrl } from '@/lib/scraper';
+import { isHostedPreview, assertHostedPreviewContext } from '@/lib/hostedPreview';
+import { getHostedWorkerStatus } from '@/lib/engine/hostedWorker';
+import { channelImplementationHash, scanChannelCapabilities } from '@/lib/scanChannels';
 
 const json = (value: unknown, status = 200) => NextResponse.json(value, { status, headers: { 'Cache-Control': 'private, no-store' } });
 const authorized = (request: NextRequest) => { const s = getSession(request); return s.valid && s.role === 'admin'; };
@@ -38,9 +41,11 @@ export async function GET(request: NextRequest) {
     db.policy.findMany({ select: { id: true, name: true, url: true, retrievalUrl: true, jurisdiction: true, company: { select: { name: true } } }, take: 1000 }),
     db.engineOutbox.groupBy({ by: ['status'], _count: true }),
     db.engineTask.groupBy({ by: ['status'], _count: true }),
-    db.enginePolicyState.findMany({ where: { mode: 'publish' } }), db.engineSourceContract.findMany({ select: { policyId: true } }),
+    db.enginePolicyState.findMany({ where: { mode: isHostedPreview() ? 'observe' : 'publish' } }), db.engineSourceContract.findMany({ select: { policyId: true } }),
   ]);
   return json({ enabled: true, schema: ENGINE_SCHEMA, runs, reviews, policies, outbox, tasks,
+    hostedPreview: isHostedPreview(), channels: scanChannelCapabilities(), implementationHash: channelImplementationHash(),
+    worker: isHostedPreview() ? await getHostedWorkerStatus() : null,
     coverage: { total: policies.length, contracted: contracts.length, verified: states.filter(s => s.lastVerifiedAt && s.lastVerifiedAt.getTime() > Date.now() - 86400000).length, awaitingConfirmation: states.filter(s => s.candidateHash).length },
     publicationEnabled: process.env.POLICYWATCHER_ENGINE_PUBLICATION === '1' });
 }
@@ -52,6 +57,7 @@ export async function POST(request: NextRequest) {
   if (!parsed.ok) return json({ error: parsed.reason }, 400);
   const body = parsed.value;
   try {
+    if (isHostedPreview()) assertHostedPreviewContext();
     if (body.action === 'cancel') {
       if (typeof body.runId !== 'string' || typeof body.note !== 'string') return json({ error: 'run_and_note_required' }, 400);
       return json(await cancelRun(body.runId, body.note, 'admin'));
@@ -61,7 +67,8 @@ export async function POST(request: NextRequest) {
       if (body.mode === 'publish' && process.env.POLICYWATCHER_ENGINE_PUBLICATION !== '1') return json({ error: 'publication_disabled' }, 409);
       if (typeof body.requestKey !== 'string') return json({ error: 'request_key_required' }, 400);
       const run = await enqueueRun({ requestKey: body.requestKey, mode: body.mode, requestedBy: 'admin',
-        limit: body.limit === undefined ? 500 : Number(body.limit), notificationMode: body.notifications === true ? 'subscribers' : 'silent' });
+        limit: body.limit === undefined ? 500 : Number(body.limit), notificationMode: body.notifications === true ? 'subscribers' : 'silent',
+        ...(body.channel === 'preview' || body.channel === 'compare' ? { channel: body.channel } : {}) });
       return json({ run }, 202);
     }
     if (body.action === 'contract') {

@@ -92,7 +92,11 @@ describe('public press kit', () => {
       packages: Array<{ locale: string; filename: string; href: string; distribution: string; bytes: number; sha256: string }>;
     };
     expect(packageManifest.release).toBe('3.9.0-beta.27');
-    expect(packageManifest.currentProductRelease).toBe(POLICYWATCHER_VERSION);
+    // The published package manifest is historical evidence, independent of this preview build.
+    expect(packageManifest.currentProductRelease).toBe('5.2.0');
+    expect(packageManifest.currentProductRelease).not.toBe(POLICYWATCHER_VERSION);
+    expect(pressKitPackages.every(pressPackage => pressPackage.version === '3.9.0-beta.27')).toBe(true);
+    expect(pressKitPackages.every(pressPackage => pressPackage.boundary.en.includes('not been regenerated for Engine 6 Preview'))).toBe(true);
     expect(packageManifest.distribution).toMatchObject({
       provider: 'github-repository',
       repository: 'https://github.com/sev7enITA/policywatcher',
