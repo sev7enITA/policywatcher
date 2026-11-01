@@ -1,6 +1,6 @@
 {
   "schema": "pw-editorial-publication-evidence-1",
-  "updatedAt": "2026-11-01T20:22:42.046563+00:00",
+  "updatedAt": "2026-11-01T20:31:17.326377+00:00",
   "release": "5.2.0",
   "sourceRevision": "5e2cb71324e795d418eef1b6122cfc384fb5b899",
   "artifactSha256": "1ca49fa81461399f79c349b9404fd816f261050249d62ff25562453c48c8129c",
@@ -13,9 +13,48 @@
     "checkedAt": "2026-11-01T20:08:20.939Z"
   },
   "production": {
-    "status": "upload_retry_in_progress",
-    "deploymentStarted": false,
-    "reason": "First transfer ended before Hostinger accepted the file; retry uses the same immutable ZIP."
+    "status": "published_verified",
+    "deployment": "completed_current",
+    "observedCurrentAt": "2026-11-01T20:29:16Z",
+    "url": "https://policywatcher.online/engine-6-preview?lang=it",
+    "pageChecksPassed": 11,
+    "browserVerified": [
+      "English diary revision 03",
+      "Italian diary revision 03",
+      "Stable/Preview boundary",
+      "1469 passed / 14 skipped",
+      "2 daily windows / 12 sources",
+      "20.77 hours observed; qualification pending"
+    ],
+    "runtime": {
+      "checkedAt": "2026-11-01T20:29:17.214Z",
+      "status": "attention",
+      "release": "5.2.0",
+      "health": "ok",
+      "companies": 18,
+      "applicationTables": 35,
+      "migrations": 19,
+      "integrity": "ok",
+      "verificationSummary": {
+        "passed": 9,
+        "attention": 0,
+        "unavailable": 0,
+        "external": 1
+      },
+      "attention": []
+    },
+    "externalChecks": [
+      {
+        "id": "independent-dynamic-test",
+        "category": "external",
+        "title": "Independent dynamic security test",
+        "state": "external",
+        "observed": "No independent test result is generated or asserted by this application check.",
+        "expected": "A separately scoped, dated and attributable production test with triaged findings.",
+        "boundary": "The application can prepare and record verification evidence but cannot self-attest independence or a pentest outcome."
+      }
+    ],
+    "uploadHistory": "First production transfer ended before acceptance; second transfer succeeded with the same immutable ZIP."
   },
   "artifacts": [
     {
@@ -47,6 +86,36 @@
       "path": "output/engine-channels/site/production-backup.json",
       "sha256": "2478efbd57dd5012c3d92998baabcc4771c746fc3c10d3a543dce78de8ccdb5c",
       "bytes": 342
+    },
+    {
+      "path": "output/engine-channels/site/announcement-production-r2-checks.json",
+      "sha256": "f8911c8d44b5fd79b39965bd0d37718ca16c0a62bc2e71871618cd8bec2f1e1c",
+      "bytes": 12777
+    },
+    {
+      "path": "output/engine-channels/site/production-runtime-checks.json",
+      "sha256": "4892568e7f676ea28326278a7218c4af3554ed2840cb630f97952f01a53dd19a",
+      "bytes": 325
+    },
+    {
+      "path": "output/engine-channels/site/production-verification.json",
+      "sha256": "e62831851307feecccde1572529f36fcd7397ab92ef01e685bfcab468b4a34bf",
+      "bytes": 5322
+    },
+    {
+      "path": "output/engine-channels/site/production-runtime-r2.log",
+      "sha256": "b6c3511e34396f0a9ae3e5967b3e6fe2f6e62b8fa11749c535489702d9ec7055",
+      "bytes": 326
+    },
+    {
+      "path": "output/engine-channels/site/production-deployment-current.png",
+      "sha256": "e90d85957d2634d79601b4e18773b97a1033e0d5e03c0d3d818720969e5a817f",
+      "bytes": 122564
+    },
+    {
+      "path": "output/engine-channels/site/public-diary-validation-it.png",
+      "sha256": "fed6b266d5df6f718ba70b6b436d3887f2163a0b630eafb96bf4e986952d57ec",
+      "bytes": 113742
     }
   ]
 }

@@ -345,7 +345,7 @@
       "bytes": 3046
     }
   ],
-  "updatedAt": "2026-11-01T19:36:43.771656+00:00",
+  "updatedAt": "2026-11-01T20:31:17.326377+00:00",
   "dailyAcquisition": {
     "schema": "pw-engine-campaign-status-1",
     "observedAt": "2026-11-01T19:29:45.218Z",
@@ -402,9 +402,11 @@
     ],
     "engine6RuntimeIncluded": false,
     "supersedesUnpublishedArtifact": "600963512fdfddebd51b9fe6e8890162c4b63aef2c26f0958e682d4259569ac1",
-    "status": "prepared_not_deployed",
+    "status": "published_verified",
     "artifactPath": "output/engine-channels/site/PolicyWatcher-5.2.0-hostinger-2026-11-01-engine6-channels-wip-r2.zip",
     "localHttpChecksPassed": 11,
-    "blocker": "Mac locked during Hostinger upload; no new deployment started; awaiting manual unlock."
+    "publicationEvidence": "docs/reports/engine-v6-diary-publication-2026-11-01.json",
+    "observedCurrentAt": "2026-11-01T20:29:16Z",
+    "productionEngineActivated": false
   }
 }
