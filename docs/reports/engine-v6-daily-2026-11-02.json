@@ -1,0 +1,703 @@
+{
+  "schema": "pw-engine-daily-observation-1",
+  "dateEuropeRome": "2026-11-02",
+  "checkpoint": "050af196bb48a26d86f3bfb0857365e88e238d8a",
+  "cohort": "engine-daily-cohort-20261101-table-escaping",
+  "manifest": {
+    "schema": "pw-engine-qualification-1",
+    "createdAt": "2026-11-01T22:49:12.989Z",
+    "sourceCommit": "050af196bb48a26d86f3bfb0857365e88e238d8a",
+    "implementationHash": "a7895b12d7f505e9d7df0cb7804608aabddc6f15c6266dc6f029326b8ee14489",
+    "profileHash": "716e9cd3d47ca5711c6775f28f4a2a5047e5001aa02eaa477d833a03fc1518bd",
+    "corpusHash": "fdfbbcf07bbe08ada0e52eb16d483d0b2a8798740cf55943a1a5920539b77b54",
+    "sources": [
+      {
+        "id": "aws-service-terms",
+        "url": "https://aws.amazon.com/serviceterms/",
+        "expectedLanguage": "en",
+        "format": "html"
+      },
+      {
+        "id": "aws-dpa-pdf",
+        "url": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+        "expectedLanguage": "en",
+        "format": "pdf"
+      },
+      {
+        "id": "openai-service-terms",
+        "url": "https://openai.com/policies/service-terms/",
+        "expectedLanguage": "en",
+        "format": "html"
+      },
+      {
+        "id": "stripe-restricted",
+        "url": "https://stripe.com/legal/restricted-businesses",
+        "expectedLanguage": "en",
+        "format": "html"
+      },
+      {
+        "id": "stripe-privacy-it",
+        "url": "https://stripe.com/it/privacy",
+        "expectedLanguage": "it",
+        "format": "html"
+      },
+      {
+        "id": "google-privacy-en",
+        "url": "https://policies.google.com/privacy?hl=en",
+        "expectedLanguage": "en",
+        "format": "html"
+      },
+      {
+        "id": "google-privacy-it",
+        "url": "https://policies.google.com/privacy?hl=it",
+        "expectedLanguage": "it",
+        "format": "html"
+      },
+      {
+        "id": "microsoft-services",
+        "url": "https://www.microsoft.com/en/servicesagreement",
+        "expectedLanguage": "en",
+        "format": "html"
+      },
+      {
+        "id": "apple-privacy",
+        "url": "https://www.apple.com/legal/privacy/en-ww/",
+        "expectedLanguage": "en",
+        "format": "html"
+      },
+      {
+        "id": "anthropic-terms",
+        "url": "https://www.anthropic.com/legal/terms",
+        "expectedLanguage": "en",
+        "format": "html"
+      },
+      {
+        "id": "meta-privacy",
+        "url": "https://www.facebook.com/privacy/policy/",
+        "expectedLanguage": "en",
+        "format": "html"
+      },
+      {
+        "id": "tiktok-eea-terms",
+        "url": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+        "expectedLanguage": "en",
+        "format": "html"
+      }
+    ]
+  },
+  "window": {
+    "schema": "pw-engine-window-1",
+    "id": "2026-11-02T20-03-07-722Z",
+    "manifestHash": "395db5778b5fab8d15d2add676547547d27422fcedc5c991f26057beeacf0e38",
+    "implementationHash": "a7895b12d7f505e9d7df0cb7804608aabddc6f15c6266dc6f029326b8ee14489",
+    "startedAt": "2026-11-02T20:03:07.722Z",
+    "completedAt": "2026-11-02T20:03:43.009Z",
+    "mode": "live",
+    "complete": true,
+    "observations": [
+      {
+        "id": "aws-service-terms",
+        "observedAt": "2026-11-02T20:03:09.745Z",
+        "status": 200,
+        "transport": "direct",
+        "fresh": true,
+        "payloadHash": "7067727767959e1c3d9cdbf8014a4d59ced0e58d6dfd8a8fef1760239bde76e3",
+        "extractionCompleted": true,
+        "sourceDrift": false,
+        "languageMatches": true,
+        "textHash": "468f9e3558d630218e06765737fb45bbfe06ee418550396514c8e09209e4bddc"
+      },
+      {
+        "id": "aws-dpa-pdf",
+        "observedAt": "2026-11-02T20:03:13.837Z",
+        "status": 200,
+        "transport": "direct",
+        "fresh": true,
+        "payloadHash": "1e81d983f60c84c7ed8003d4d4a1fa738134c63d5241e5914cae701e07fdfa76",
+        "extractionCompleted": true,
+        "sourceDrift": false,
+        "languageMatches": false,
+        "textHash": "1bccaa83697a8dad456e214ead1009c2c5c652ec251213c4cb491a8eea48642d"
+      },
+      {
+        "id": "openai-service-terms",
+        "observedAt": "2026-11-02T20:03:16.156Z",
+        "status": 200,
+        "transport": "direct",
+        "fresh": true,
+        "payloadHash": "a42daa8fd99a5654a84d903d891850b89778264d1e9939cd4069c563fbd51162",
+        "extractionCompleted": true,
+        "sourceDrift": false,
+        "languageMatches": true,
+        "textHash": "665c4e795c14cac709d9780658eb2a8a61502c4c40380355e8112c45eb75bc39"
+      },
+      {
+        "id": "stripe-restricted",
+        "observedAt": "2026-11-02T20:03:19.679Z",
+        "status": 200,
+        "transport": "direct",
+        "fresh": true,
+        "payloadHash": "f45b661d2eb62f0cc70833999c09a85636541b7b4b64160d1b52fae73e7658ac",
+        "extractionCompleted": true,
+        "sourceDrift": false,
+        "languageMatches": true,
+        "textHash": "0700a4e8e5acfec6835a1016d75b5e9f12b2bc8ef70d6b252939988d45273f78"
+      },
+      {
+        "id": "stripe-privacy-it",
+        "observedAt": "2026-11-02T20:03:22.027Z",
+        "status": 200,
+        "transport": "direct",
+        "fresh": true,
+        "payloadHash": "2d0e5ced050ca705804cf9a9b94fc2b890574d7678c461e7202c1cf2f23746ac",
+        "extractionCompleted": true,
+        "sourceDrift": false,
+        "languageMatches": true,
+        "textHash": "937328d97494810c5545099a8f1b6bba9c8cbcfa10a716cedcf02874dbc4652c"
+      },
+      {
+        "id": "google-privacy-en",
+        "observedAt": "2026-11-02T20:03:24.607Z",
+        "status": 200,
+        "transport": "direct",
+        "fresh": true,
+        "payloadHash": "88ba8bb4fc911a28a824af21afecde1f3c5fc7efcb49c9a9683a0bf7b2ba30ac",
+        "extractionCompleted": true,
+        "sourceDrift": false,
+        "languageMatches": true,
+        "textHash": "fd951bb76d55656703a6aa501fad07964d1e12419587709245560377013b6328"
+      },
+      {
+        "id": "google-privacy-it",
+        "observedAt": "2026-11-02T20:03:27.109Z",
+        "status": 200,
+        "transport": "direct",
+        "fresh": true,
+        "payloadHash": "03c972ae0108b35419b9b51b096d98ad68b7a1e43c32e05a2ae6cfdc102c3b2b",
+        "extractionCompleted": true,
+        "sourceDrift": false,
+        "languageMatches": true,
+        "textHash": "297cb8b5f85ab241cc4023ca25d1442f3321094868c89738074abea7602954f2"
+      },
+      {
+        "id": "microsoft-services",
+        "observedAt": "2026-11-02T20:03:29.758Z",
+        "status": 200,
+        "transport": "direct",
+        "fresh": true,
+        "payloadHash": "9ce38a07ba7f7cf1cb2a2ab573b1fc161354dbc5aa710df16ea87d32db7420e3",
+        "extractionCompleted": true,
+        "sourceDrift": false,
+        "languageMatches": true,
+        "textHash": "a4f6d7433a8c171cba1dc4e3cf183598d4b33716528c6f121974c480f2a1bd45"
+      },
+      {
+        "id": "apple-privacy",
+        "observedAt": "2026-11-02T20:03:32.184Z",
+        "status": 200,
+        "transport": "direct",
+        "fresh": true,
+        "payloadHash": "82a9cbb7c58a2d57cb639ca3b9b8c8eb8913e9a10517b78de6150b80d483ae2c",
+        "extractionCompleted": true,
+        "sourceDrift": false,
+        "languageMatches": true,
+        "textHash": "5d3bc787e5503e924127e4af7a69675e8a44f1ebcd09793575079978c93a81be"
+      },
+      {
+        "id": "anthropic-terms",
+        "observedAt": "2026-11-02T20:03:35.072Z",
+        "status": 200,
+        "transport": "direct",
+        "fresh": true,
+        "payloadHash": "e49fd2b8a12fd2d759c5f8149a91a4c62c4cfdad4aac4173f572430df7460032",
+        "extractionCompleted": true,
+        "sourceDrift": false,
+        "languageMatches": true,
+        "textHash": "5ff9a92621fbc69ce5a606b17fc22b814e0cddee7e7aca5b83fe9999ea3c33d0"
+      },
+      {
+        "id": "meta-privacy",
+        "observedAt": "2026-11-02T20:03:38.464Z",
+        "status": 200,
+        "transport": "direct",
+        "fresh": true,
+        "payloadHash": "c6cda4ebb90eaba32c43c09c2c37fe7963ee1a48155703b15530897e6bc68cdf",
+        "extractionCompleted": true,
+        "sourceDrift": false,
+        "languageMatches": true,
+        "textHash": "d37f63453a8485c1624e95fe5fc180c5268ddacec39e8e203f3257585eca6bbf"
+      },
+      {
+        "id": "tiktok-eea-terms",
+        "observedAt": "2026-11-02T20:03:41.409Z",
+        "status": 200,
+        "transport": "direct",
+        "fresh": true,
+        "payloadHash": "4386ffb84a09bae6bd13425bd3b317f8a28611f01f89608523f1c348ddc33bcb",
+        "extractionCompleted": true,
+        "sourceDrift": false,
+        "languageMatches": true,
+        "textHash": "819293325069c55b34a19b62e44d73b6f1cca5603e547a9082463ae1fea75ca5"
+      }
+    ],
+    "failures": [],
+    "sourceReceiptHash": "6776c3ec27ee2a93e13cb1a8d847211d6afcf030458677eb455e07676dff35a5"
+  },
+  "status": {
+    "schema": "pw-engine-campaign-status-1",
+    "observedAt": "2026-11-02T20:03:43.023Z",
+    "manifestHash": "395db5778b5fab8d15d2add676547547d27422fcedc5c991f26057beeacf0e38",
+    "sources": 12,
+    "observedWindows": 1,
+    "countedAcquisitionDays": 1,
+    "targetDays": 3,
+    "minimumRequiredSpanHours": 48,
+    "observedMinimumSpanHours": 0,
+    "acquisitionWindowTargetMet": false,
+    "sourceCompletenessQualified": false,
+    "real500SourceCapacityQualified": false,
+    "productionQualified": false,
+    "languageUnverifiedSources": [
+      "aws-dpa-pdf"
+    ],
+    "windows": [
+      {
+        "id": "2026-11-02T20-03-07-722Z",
+        "day": "2026-11-02",
+        "accepted": true,
+        "reasons": []
+      }
+    ],
+    "boundary": "Fresh acquisition windows only. Completeness annotations, source approval, realistic capacity and publication qualification are separate and are not granted by this counter.",
+    "unsealedWindows": [],
+    "currentImplementationMatches": true
+  },
+  "metrics": {
+    "elapsedSeconds": 35.287,
+    "sources": 12,
+    "attempts": 12,
+    "http200": 12,
+    "retries": 0,
+    "decodedBodyBytes": 6848940,
+    "extractedCharacters": 935305,
+    "medianSourceDurationMs": 1142.0
+  },
+  "preflight": {
+    "checkedAt": "2026-11-02T20:03:00.199Z",
+    "manifestHash": "395db5778b5fab8d15d2add676547547d27422fcedc5c991f26057beeacf0e38",
+    "minimumElapsedHours": 24.554623888888887,
+    "allTwelveEligible": true,
+    "sources": [
+      {
+        "id": "aws-service-terms",
+        "latestPriorObservation": "2026-11-01T19:28:40.161Z",
+        "elapsedHours": 24.572232777777778,
+        "eligible": true
+      },
+      {
+        "id": "aws-dpa-pdf",
+        "latestPriorObservation": "2026-11-01T19:28:47.091Z",
+        "elapsedHours": 24.570307777777778,
+        "eligible": true
+      },
+      {
+        "id": "openai-service-terms",
+        "latestPriorObservation": "2026-11-01T19:28:50.126Z",
+        "elapsedHours": 24.56946472222222,
+        "eligible": true
+      },
+      {
+        "id": "stripe-restricted",
+        "latestPriorObservation": "2026-11-01T19:28:52.775Z",
+        "elapsedHours": 24.568728888888888,
+        "eligible": true
+      },
+      {
+        "id": "stripe-privacy-it",
+        "latestPriorObservation": "2026-11-01T19:28:55.069Z",
+        "elapsedHours": 24.568091666666668,
+        "eligible": true
+      },
+      {
+        "id": "google-privacy-en",
+        "latestPriorObservation": "2026-11-01T19:29:05.025Z",
+        "elapsedHours": 24.565326111111112,
+        "eligible": true
+      },
+      {
+        "id": "google-privacy-it",
+        "latestPriorObservation": "2026-11-01T19:29:08.580Z",
+        "elapsedHours": 24.56433861111111,
+        "eligible": true
+      },
+      {
+        "id": "microsoft-services",
+        "latestPriorObservation": "2026-11-01T19:29:14.295Z",
+        "elapsedHours": 24.562751111111112,
+        "eligible": true
+      },
+      {
+        "id": "apple-privacy",
+        "latestPriorObservation": "2026-11-01T19:29:17.416Z",
+        "elapsedHours": 24.561884166666665,
+        "eligible": true
+      },
+      {
+        "id": "anthropic-terms",
+        "latestPriorObservation": "2026-11-01T19:29:24.764Z",
+        "elapsedHours": 24.559843055555554,
+        "eligible": true
+      },
+      {
+        "id": "meta-privacy",
+        "latestPriorObservation": "2026-11-01T19:29:33.598Z",
+        "elapsedHours": 24.557389166666667,
+        "eligible": true
+      },
+      {
+        "id": "tiktok-eea-terms",
+        "latestPriorObservation": "2026-11-01T19:29:43.553Z",
+        "elapsedHours": 24.554623888888887,
+        "eligible": true
+      }
+    ]
+  },
+  "sources": [
+    {
+      "id": "aws-service-terms",
+      "url": "https://aws.amazon.com/serviceterms/",
+      "format": "html",
+      "expectedLanguage": "en",
+      "durationMs": 2033,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attemptCount": 1,
+      "observedAt": "2026-11-02T20:03:09.745Z",
+      "status": 200,
+      "kind": "direct",
+      "finalUrl": "https://aws.amazon.com/service-terms/",
+      "drift": false,
+      "bodyBytes": 1039163,
+      "bodyHash": "7067727767959e1c3d9cdbf8014a4d59ced0e58d6dfd8a8fef1760239bde76e3",
+      "textLength": 301235,
+      "textHash": "468f9e3558d630218e06765737fb45bbfe06ee418550396514c8e09209e4bddc",
+      "language": "en-US",
+      "languageMatches": true,
+      "blockCount": 928,
+      "headingCount": 111,
+      "validators": {
+        "lastModified": "Fri, 30 Oct 2026 20:52:12 GMT",
+        "vary": "accept-encoding",
+        "serverDate": "Mon, 02 Nov 2026 20:03:08 GMT"
+      }
+    },
+    {
+      "id": "aws-dpa-pdf",
+      "url": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+      "format": "pdf",
+      "expectedLanguage": "en",
+      "durationMs": 2137,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attemptCount": 1,
+      "observedAt": "2026-11-02T20:03:13.837Z",
+      "status": 200,
+      "kind": "direct",
+      "finalUrl": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+      "drift": false,
+      "bodyBytes": 31524,
+      "bodyHash": "1e81d983f60c84c7ed8003d4d4a1fa738134c63d5241e5914cae701e07fdfa76",
+      "textLength": 29403,
+      "textHash": "1bccaa83697a8dad456e214ead1009c2c5c652ec251213c4cb491a8eea48642d",
+      "language": null,
+      "languageMatches": false,
+      "blockCount": 368,
+      "headingCount": 0,
+      "validators": {
+        "etag": "W/\"0dbf924853615fc46d0864241573a20d\"",
+        "lastModified": "Tue, 19 Mar 2024 22:01:25 GMT",
+        "vary": "Accept-Encoding",
+        "serverDate": "Mon, 02 Nov 2026 02:43:21 GMT",
+        "age": "62392"
+      }
+    },
+    {
+      "id": "openai-service-terms",
+      "url": "https://openai.com/policies/service-terms/",
+      "format": "html",
+      "expectedLanguage": "en",
+      "durationMs": 869,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attemptCount": 1,
+      "observedAt": "2026-11-02T20:03:16.156Z",
+      "status": 200,
+      "kind": "direct",
+      "finalUrl": "https://openai.com/policies/service-terms/",
+      "drift": false,
+      "bodyBytes": 381622,
+      "bodyHash": "a42daa8fd99a5654a84d903d891850b89778264d1e9939cd4069c563fbd51162",
+      "textLength": 17149,
+      "textHash": "665c4e795c14cac709d9780658eb2a8a61502c4c40380355e8112c45eb75bc39",
+      "language": "en-US",
+      "languageMatches": true,
+      "blockCount": 64,
+      "headingCount": 18,
+      "validators": {
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, accept-encoding",
+        "cacheControl": "public, max-age=0, must-revalidate",
+        "serverDate": "Mon, 02 Nov 2026 20:03:15 GMT",
+        "age": "720"
+      }
+    },
+    {
+      "id": "stripe-restricted",
+      "url": "https://stripe.com/legal/restricted-businesses",
+      "format": "html",
+      "expectedLanguage": "en",
+      "durationMs": 2018,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attemptCount": 1,
+      "observedAt": "2026-11-02T20:03:19.679Z",
+      "status": 200,
+      "kind": "direct",
+      "finalUrl": "https://stripe.com/en-it/legal/restricted-businesses",
+      "drift": false,
+      "bodyBytes": 209992,
+      "bodyHash": "f45b661d2eb62f0cc70833999c09a85636541b7b4b64160d1b52fae73e7658ac",
+      "textLength": 25505,
+      "textHash": "0700a4e8e5acfec6835a1016d75b5e9f12b2bc8ef70d6b252939988d45273f78",
+      "language": "en-IT",
+      "languageMatches": true,
+      "blockCount": 238,
+      "headingCount": 59,
+      "validators": {
+        "serverDate": "Mon, 02 Nov 2026 20:03:19 GMT"
+      }
+    },
+    {
+      "id": "stripe-privacy-it",
+      "url": "https://stripe.com/it/privacy",
+      "format": "html",
+      "expectedLanguage": "it",
+      "durationMs": 854,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attemptCount": 1,
+      "observedAt": "2026-11-02T20:03:22.027Z",
+      "status": 200,
+      "kind": "direct",
+      "finalUrl": "https://stripe.com/it/privacy",
+      "drift": false,
+      "bodyBytes": 290477,
+      "bodyHash": "2d0e5ced050ca705804cf9a9b94fc2b890574d7678c461e7202c1cf2f23746ac",
+      "textLength": 94175,
+      "textHash": "937328d97494810c5545099a8f1b6bba9c8cbcfa10a716cedcf02874dbc4652c",
+      "language": "it-IT",
+      "languageMatches": true,
+      "blockCount": 272,
+      "headingCount": 32,
+      "validators": {
+        "serverDate": "Mon, 02 Nov 2026 20:03:21 GMT"
+      }
+    },
+    {
+      "id": "google-privacy-en",
+      "url": "https://policies.google.com/privacy?hl=en",
+      "format": "html",
+      "expectedLanguage": "en",
+      "durationMs": 1181,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attemptCount": 1,
+      "observedAt": "2026-11-02T20:03:24.607Z",
+      "status": 200,
+      "kind": "direct",
+      "finalUrl": "https://policies.google.com/privacy?hl=en",
+      "drift": false,
+      "bodyBytes": 677966,
+      "bodyHash": "88ba8bb4fc911a28a824af21afecde1f3c5fc7efcb49c9a9683a0bf7b2ba30ac",
+      "textLength": 91188,
+      "textHash": "fd951bb76d55656703a6aa501fad07964d1e12419587709245560377013b6328",
+      "language": "en",
+      "languageMatches": true,
+      "blockCount": 449,
+      "headingCount": 122,
+      "validators": {
+        "vary": "Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site, Sec-CH-Prefers-Color-Scheme",
+        "cacheControl": "no-cache, no-store, max-age=0, must-revalidate",
+        "serverDate": "Mon, 02 Nov 2026 20:03:23 GMT"
+      }
+    },
+    {
+      "id": "google-privacy-it",
+      "url": "https://policies.google.com/privacy?hl=it",
+      "format": "html",
+      "expectedLanguage": "it",
+      "durationMs": 1003,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attemptCount": 1,
+      "observedAt": "2026-11-02T20:03:27.109Z",
+      "status": 200,
+      "kind": "direct",
+      "finalUrl": "https://policies.google.com/privacy?hl=it",
+      "drift": false,
+      "bodyBytes": 693786,
+      "bodyHash": "03c972ae0108b35419b9b51b096d98ad68b7a1e43c32e05a2ae6cfdc102c3b2b",
+      "textLength": 106965,
+      "textHash": "297cb8b5f85ab241cc4023ca25d1442f3321094868c89738074abea7602954f2",
+      "language": "it",
+      "languageMatches": true,
+      "blockCount": 449,
+      "headingCount": 122,
+      "validators": {
+        "vary": "Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site, Sec-CH-Prefers-Color-Scheme",
+        "cacheControl": "no-cache, no-store, max-age=0, must-revalidate",
+        "serverDate": "Mon, 02 Nov 2026 20:03:26 GMT"
+      }
+    },
+    {
+      "id": "microsoft-services",
+      "url": "https://www.microsoft.com/en/servicesagreement",
+      "format": "html",
+      "expectedLanguage": "en",
+      "durationMs": 1103,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attemptCount": 1,
+      "observedAt": "2026-11-02T20:03:29.758Z",
+      "status": 200,
+      "kind": "direct",
+      "finalUrl": "https://www.microsoft.com/en/servicesagreement",
+      "drift": false,
+      "bodyBytes": 310223,
+      "bodyHash": "9ce38a07ba7f7cf1cb2a2ab573b1fc161354dbc5aa710df16ea87d32db7420e3",
+      "textLength": 121815,
+      "textHash": "a4f6d7433a8c171cba1dc4e3cf183598d4b33716528c6f121974c480f2a1bd45",
+      "language": "en",
+      "languageMatches": true,
+      "blockCount": 445,
+      "headingCount": 37,
+      "validators": {
+        "vary": "Accept-Encoding",
+        "cacheControl": "no-store",
+        "serverDate": "Mon, 02 Nov 2026 20:03:29 GMT"
+      }
+    },
+    {
+      "id": "apple-privacy",
+      "url": "https://www.apple.com/legal/privacy/en-ww/",
+      "format": "html",
+      "expectedLanguage": "en",
+      "durationMs": 813,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attemptCount": 1,
+      "observedAt": "2026-11-02T20:03:32.184Z",
+      "status": 200,
+      "kind": "direct",
+      "finalUrl": "https://www.apple.com/legal/privacy/en-ww/",
+      "drift": false,
+      "bodyBytes": 140802,
+      "bodyHash": "82a9cbb7c58a2d57cb639ca3b9b8c8eb8913e9a10517b78de6150b80d483ae2c",
+      "textLength": 28124,
+      "textHash": "5d3bc787e5503e924127e4af7a69675e8a44f1ebcd09793575079978c93a81be",
+      "language": "en-US",
+      "languageMatches": true,
+      "blockCount": 96,
+      "headingCount": 14,
+      "validators": {
+        "vary": "Accept-Encoding",
+        "cacheControl": "max-age=221",
+        "serverDate": "Mon, 02 Nov 2026 20:03:31 GMT"
+      }
+    },
+    {
+      "id": "anthropic-terms",
+      "url": "https://www.anthropic.com/legal/terms",
+      "format": "html",
+      "expectedLanguage": "en",
+      "durationMs": 1460,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attemptCount": 1,
+      "observedAt": "2026-11-02T20:03:35.072Z",
+      "status": 200,
+      "kind": "direct",
+      "finalUrl": "https://www.anthropic.com/legal/consumer-terms",
+      "drift": false,
+      "bodyBytes": 601571,
+      "bodyHash": "e49fd2b8a12fd2d759c5f8149a91a4c62c4cfdad4aac4173f572430df7460032",
+      "textLength": 36241,
+      "textHash": "5ff9a92621fbc69ce5a606b17fc22b814e0cddee7e7aca5b83fe9999ea3c33d0",
+      "language": "en",
+      "languageMatches": true,
+      "blockCount": 149,
+      "headingCount": 17,
+      "validators": {
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding",
+        "cacheControl": "s-maxage=300, stale-while-revalidate=31535700",
+        "serverDate": "Mon, 02 Nov 2026 20:03:34 GMT"
+      }
+    },
+    {
+      "id": "meta-privacy",
+      "url": "https://www.facebook.com/privacy/policy/",
+      "format": "html",
+      "expectedLanguage": "en",
+      "durationMs": 2314,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attemptCount": 1,
+      "observedAt": "2026-11-02T20:03:38.464Z",
+      "status": 200,
+      "kind": "direct",
+      "finalUrl": "https://www.facebook.com/privacy/policy/",
+      "drift": false,
+      "bodyBytes": 2195315,
+      "bodyHash": "c6cda4ebb90eaba32c43c09c2c37fe7963ee1a48155703b15530897e6bc68cdf",
+      "textLength": 54855,
+      "textHash": "d37f63453a8485c1624e95fe5fc180c5268ddacec39e8e203f3257585eca6bbf",
+      "language": "en",
+      "languageMatches": true,
+      "blockCount": 626,
+      "headingCount": 11,
+      "validators": {
+        "vary": "Accept-Encoding",
+        "cacheControl": "private, no-cache, no-store, must-revalidate",
+        "serverDate": "Mon, 02 Nov 2026 20:03:37 GMT"
+      }
+    },
+    {
+      "id": "tiktok-eea-terms",
+      "url": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+      "format": "html",
+      "expectedLanguage": "en",
+      "durationMs": 946,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attemptCount": 1,
+      "observedAt": "2026-11-02T20:03:41.409Z",
+      "status": 200,
+      "kind": "direct",
+      "finalUrl": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+      "drift": false,
+      "bodyBytes": 276499,
+      "bodyHash": "4386ffb84a09bae6bd13425bd3b317f8a28611f01f89608523f1c348ddc33bcb",
+      "textLength": 28650,
+      "textHash": "819293325069c55b34a19b62e44d73b6f1cca5603e547a9082463ae1fea75ca5",
+      "language": "en",
+      "languageMatches": true,
+      "blockCount": 195,
+      "headingCount": 10,
+      "validators": {
+        "cacheControl": "max-age=0, must-revalidate,max-age=0",
+        "serverDate": "Mon, 02 Nov 2026 20:03:41 GMT"
+      }
+    }
+  ],
+  "artifactHashes": {
+    "receipt.json": "ec161a24c4428e37b00dc2159512ff519b088dce302e3b91dd55b61d718551bc",
+    "probe.log": "fbefab3e43f82880f6e73d04b73be25ed1120747a85edc08ca044ef7025ca8e7",
+    "capture/results.json": "8957fde35b8e71f0f297f77bcfe0df517e610cb4b000ad8846e41252e6392a2b"
+  },
+  "nextWindowNotBeforeUtc": "2026-11-03T16:03:41.409Z",
+  "conservative48HourWindowStartNotBeforeUtc": "2026-11-04T20:03:43.009Z",
+  "limitations": [
+    "Fresh means a new live HTTP acquisition; HTTP 200 does not establish origin freshness. AWS PDF Age=62392 and OpenAI Age=720 were retained.",
+    "AWS PDF language is unverified and its saved payload is the decoder representation, not original PDF bytes.",
+    "Source completeness, independently annotated precision/recall, model factuality and live 500-source capacity remain unqualified.",
+    "12-source local timing is not a VPS or full-catalogue capacity benchmark. No models, renderer or production writes were used.",
+    "Previous-parser windows remain separate; no existing evidence or failure was overwritten. No new Gemini or GLM review was requested or claimed."
+  ]
+}
