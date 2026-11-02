@@ -257,28 +257,28 @@ const pdfStyles = StyleSheet.create({ page: { padding: 44, fontSize: 10, color: 
 async function writeFactSheets() {
   const localized = {
     en: {
-      title: 'Evidence before promotion',
-      lead: 'PolicyWatcher records configured public policy sources and explains changes for human review. This release makes extraction experiments inspectable.',
-      releaseLabel: 'Source release',
+      title: 'PolicyWatcher 5.5',
+      lead: 'The new Engine 6.0 Preview is available in a separate authenticated workspace for private scans, evidence review and extraction comparison.',
+      releaseLabel: 'Product release with experimental engine access',
       cards: [
-        { value: 'Baseline retained', label: 'Optional shadow observation', scope: 'An explicit source allowlist and per-scan budget bound comparisons with up to three candidate recipes. No extra fetch per candidate.' },
-        { value: 'Frozen-input replay', label: 'Reproducible candidate evidence', scope: 'Private captures and immutable receipts support replay. Train/holdout and independent-label gates keep unsupported lessons non-operational.' },
-        { value: 'Read-only diagnostics', label: 'Source Reliability workbench', scope: 'Inspect saved observations, separate baseline and observer errors, exclusions and comparisons. Missing evidence is distinct from zero.' },
-        { value: 'Explicit source scope', label: 'Locale and regional drift checks', scope: 'Explicit URL-variant drift is rejected. Live, partial and historical evidence remain distinct; URL hints are not legal jurisdiction.' },
+        { value: 'Engine 6.0 Preview', label: 'Online, separate and private', scope: 'Administrator access: staging.policywatcher.online/admin/engine. The main service retains its established scanner; Preview publication and notifications are disabled.' },
+        { value: 'Durable scans', label: 'Source contracts and saved evidence', scope: 'A dedicated database and worker preserve tasks and outcomes. Missing contracts, incomplete sections and unavailable captures remain explicit review holds.' },
+        { value: 'Compare and export', label: 'Two extractors, one captured response', scope: 'Inspect Stable and Preview extraction differences and export saved reports as JSON. This does not compare independent retrievals or AI models.' },
+        { value: 'Open engineering diary', label: 'Architecture, flows and entity diagrams', scope: 'English and Italian documentation links to dated tests and remaining qualification work: policywatcher.online/engine-6-preview.' },
       ],
-      boundary: 'Shadow is disabled by default and requires private operator configuration. No automatic recipe promotion, model training or calibrated confidence is claimed. This sheet is not an accuracy benchmark, legal opinion or production-activation receipt.',
+      boundary: 'Source completeness, at least three live dates spanning 48 actual hours, continuous worker availability and 500 distinct daily sources remain under qualification. Test receipts are not legal advice, certification or universal completeness claims.',
     },
     it: {
-      title: 'Evidenze prima della promozione',
-      lead: 'PolicyWatcher registra fonti pubbliche configurate e spiega i cambiamenti per la revisione umana. Questa release rende ispezionabili gli esperimenti di estrazione.',
-      releaseLabel: 'Release del codice',
+      title: 'PolicyWatcher 5.5',
+      lead: 'Il nuovo Engine 6.0 Preview è disponibile in uno spazio separato e autenticato per scansioni private, revisione delle evidenze e confronto delle estrazioni.',
+      releaseLabel: 'Release del prodotto con accesso al motore sperimentale',
       cards: [
-        { value: 'Baseline conservata', label: 'Osservazione shadow facoltativa', scope: 'Un elenco esplicito di fonti e un budget per scansione limitano il confronto a tre ricette candidate. Nessun fetch aggiuntivo per candidata.' },
-        { value: 'Replay su input congelati', label: 'Evidenze candidate riproducibili', scope: 'Catture private e ricevute immutabili supportano il replay. I controlli su train/holdout ed etichette indipendenti mantengono le lezioni non operative.' },
-        { value: 'Diagnostiche in sola lettura', label: 'Workbench Source Reliability', scope: 'Esamina osservazioni salvate, errori distinti di baseline e osservatore, esclusioni e confronti. Le evidenze mancanti sono distinte dallo zero.' },
-        { value: 'Scope esplicito della fonte', label: 'Controllo di lingua e variante regionale', scope: 'Le derive esplicite della variante URL vengono rifiutate. Evidenze live, parziali e storiche restano distinte; gli indizi URL non certificano una giurisdizione.' },
+        { value: 'Engine 6.0 Preview', label: 'Online, separato e privato', scope: 'Accesso amministratore: staging.policywatcher.online/admin/engine. Il servizio principale mantiene lo scanner consolidato; pubblicazione e notifiche Preview sono disabilitate.' },
+        { value: 'Scansioni persistenti', label: 'Contratti delle fonti ed evidenze salvate', scope: 'Database e worker dedicati conservano attività ed esiti. Contratti mancanti, sezioni incomplete e catture indisponibili restano casi espliciti di revisione.' },
+        { value: 'Confronto ed esportazione', label: 'Due estrattori, una risposta catturata', scope: 'Esamina le differenze tra estrazioni Stabile e Preview ed esporta i rapporti salvati in JSON. Non è un confronto tra recuperi indipendenti o modelli AI.' },
+        { value: 'Diario tecnico pubblico', label: 'Architettura, flussi e diagrammi delle entità', scope: 'Documentazione italiana e inglese, test datati e qualificazioni ancora aperte: policywatcher.online/engine-6-preview?lang=it.' },
       ],
-      boundary: 'Shadow è disabilitato per impostazione predefinita e richiede una configurazione privata. Nessuna promozione automatica, addestramento di modelli o confidenza calibrata. Questa scheda non è un benchmark di accuratezza, parere legale o ricevuta di attivazione in produzione.',
+      boundary: 'Restano da qualificare completezza delle fonti, almeno tre date live su 48 ore effettive, disponibilità continuativa del worker e 500 fonti giornaliere distinte. Le ricevute di test non sono pareri legali, certificazioni o garanzie universali di completezza.',
     },
   };
   for (const locale of ['en', 'it']) {

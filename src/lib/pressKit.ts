@@ -608,7 +608,7 @@ const packageCopy: Record<PressKitLocale, Pick<PressKitPackage, 'id' | 'title' |
       { en: 'Asset manifest, IPTC metadata, credits and usage terms', it: 'Manifest asset, metadati IPTC, crediti e condizioni d uso' },
       { en: 'Beta 27 release, regional pitch drafts, FAQ, claims freeze and 87-second subtitled demo', it: 'Release Beta 27, pitch regionali, FAQ, claims freeze e demo sottotitolata di 87 secondi' },
     ],
-    boundary: { en: 'Historical package dated 20 August 2026, version 3.9.0-beta.27; its catalog context remains 5.2.0. It has not been regenerated for Engine 6 Preview. Verify the live release record before reuse. Content Credentials are not attached.', it: 'Pacchetto storico del 20 agosto 2026, versione 3.9.0-beta.27; il contesto del catalogo resta 5.2.0. Non è stato rigenerato per Engine 6 Preview. Verificare il registro della release prima del riuso. Le Content Credentials non sono allegate.' },
+    boundary: { en: 'Historical package dated 20 August 2026, version 3.9.0-beta.27; the current catalog describes product 5.5.0. This historical bundle has not been regenerated for the current release. Verify the live release record before reuse. Content Credentials are not attached.', it: 'Pacchetto storico del 20 agosto 2026, versione 3.9.0-beta.27; il catalogo corrente descrive il prodotto 5.5.0. Questo bundle storico non è stato rigenerato per la release corrente. Verificare il registro della release prima del riuso. Le Content Credentials non sono allegate.' },
   },
   it: {
     id: 'press-package-it',
@@ -620,7 +620,7 @@ const packageCopy: Record<PressKitLocale, Pick<PressKitPackage, 'id' | 'title' |
       { en: 'Asset manifest, IPTC metadata, credits and usage terms', it: 'Manifest asset, metadati IPTC, crediti e condizioni d uso' },
       { en: 'Beta 27 release, regional pitch drafts, FAQ, claims freeze and 87-second subtitled demo', it: 'Release Beta 27, pitch regionali, FAQ, claims freeze e demo sottotitolata di 87 secondi' },
     ],
-    boundary: { en: 'Historical package dated 20 August 2026, version 3.9.0-beta.27; its catalog context remains 5.2.0. It has not been regenerated for Engine 6 Preview. Verify the live release record before reuse. Content Credentials are not attached.', it: 'Pacchetto storico del 20 agosto 2026, versione 3.9.0-beta.27; il contesto del catalogo resta 5.2.0. Non è stato rigenerato per Engine 6 Preview. Verificare il registro della release prima del riuso. Le Content Credentials non sono allegate.' },
+    boundary: { en: 'Historical package dated 20 August 2026, version 3.9.0-beta.27; the current catalog describes product 5.5.0. This historical bundle has not been regenerated for the current release. Verify the live release record before reuse. Content Credentials are not attached.', it: 'Pacchetto storico del 20 agosto 2026, versione 3.9.0-beta.27; il catalogo corrente descrive il prodotto 5.5.0. Questo bundle storico non è stato rigenerato per la release corrente. Verificare il registro della release prima del riuso. Le Content Credentials non sono allegate.' },
   },
 };
 
@@ -633,18 +633,97 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
 });
 
 export const pressKitReleases: PressKitRelease[] = [
+{
+  "slug": "engine-six-preview-5-5-0",
+  "version": "5.5.0",
+  "displayVersion": "5.5.0",
+  "datePublished": "2026-11-02",
+  "dateModified": "2026-11-02",
+  "status": "current",
+  "category": "product",
+  "title": {
+    "en": "PolicyWatcher 5.5: Engine 6 Preview",
+    "it": "PolicyWatcher 5.5: Engine 6 Preview"
+  },
+  "summary": {
+    "en": "PolicyWatcher 5.5 brings the new Engine 6 Preview into the product journey: a separate authenticated workspace for private scans, evidence review and extraction comparison, with a public engineering notebook.",
+    "it": "PolicyWatcher 5.5 porta il nuovo Engine 6 Preview nel percorso del prodotto: uno spazio separato e autenticato per scansioni private, revisione delle evidenze e confronto delle estrazioni, con un diario tecnico pubblico."
+  },
+  "changes": [
+    {
+      "en": "Open the online Engine 6 Preview from the homepage, changelog, roadmap and feature atlas. Product version 5.5 and experimental engine version 6.0 are stated separately.",
+      "it": "Accedi a Engine 6 Preview online dalla homepage, dal changelog, dalla roadmap e dall’atlante delle funzioni. La versione 5.5 del prodotto e la versione 6.0 del motore sperimentale sono indicate separatamente."
+    },
+    {
+      "en": "Private Preview runs use durable tasks, a dedicated database, worker health and saved reports. Source contracts make missing sections, uncertain identity and unavailable captures visible as review holds.",
+      "it": "Le scansioni Preview private usano attività persistenti, un database dedicato, lo stato del worker e rapporti salvati. I contratti delle fonti rendono visibili sezioni mancanti, identità incerta e catture indisponibili come casi sospesi per revisione."
+    },
+    {
+      "en": "Compare Stable and Preview extraction on one captured response. Inspect differences and export the saved report as JSON. The comparison does not trigger a second public scan.",
+      "it": "Confronta le estrazioni Stabile e Preview sulla stessa risposta catturata. Esamina le differenze ed esporta il rapporto salvato in JSON. Il confronto non avvia una seconda scansione pubblica."
+    },
+    {
+      "en": "Read the EN/IT architecture, decision-flow and entity diagrams together with dated verification receipts and explicit qualification limits. Release metadata, feeds and downloadable fact sheets share the 5.5.0 identity.",
+      "it": "Consulta architettura, flusso decisionale e diagrammi delle entità EN/IT insieme a ricevute di verifica datate e limiti espliciti. Metadati della release, feed e schede scaricabili condividono l’identità 5.5.0."
+    }
+  ],
+  "boundaries": [
+    {
+      "en": "Engine 6 is an experimental option in the separate authenticated Preview. The main service retains the established operational scanner. Preview observations cannot update official baselines, publish changes or notify subscribers.",
+      "it": "Engine 6 è un’opzione sperimentale nella Preview separata e autenticata. Il servizio principale mantiene lo scanner operativo consolidato. Le osservazioni Preview non aggiornano baseline ufficiali, non pubblicano modifiche e non inviano notifiche agli iscritti."
+    },
+    {
+      "en": "47 original hosted checks and 12 later restoration checks cover different executions; they are not added into a new benchmark. The browser JSON export matches the saved API report.",
+      "it": "I 47 controlli originali sull’hosting e i 12 successivi sul ripristino riguardano esecuzioni diverse; non vengono sommati in un nuovo benchmark. L’esportazione JSON dal browser coincide con il rapporto salvato via API."
+    },
+    {
+      "en": "Source completeness, three live dates spanning at least 48 actual hours, continuous worker availability and 500 distinct daily sources remain under qualification. Identical extracted text does not establish completeness.",
+      "it": "Completezza delle fonti, tre date live distribuite su almeno 48 ore effettive, disponibilità continuativa del worker e 500 fonti giornaliere distinte restano da qualificare. Testi estratti identici non dimostrano completezza."
+    }
+  ],
+  "evidenceLinks": [
+    {
+      "href": "https://staging.policywatcher.online/admin/engine",
+      "label": {
+        "en": "Open Engine 6 Preview (administrator access)",
+        "it": "Apri Engine 6 Preview (accesso amministratore)"
+      }
+    },
+    {
+      "href": "/engine-6-preview",
+      "label": {
+        "en": "Architecture, diagrams and qualification diary",
+        "it": "Architettura, diagrammi e diario di qualificazione"
+      }
+    },
+    {
+      "href": "https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/engine-v6-public-access-rollout-2026-11-02.md",
+      "label": {
+        "en": "Recorded hosted verification and preserved reports",
+        "it": "Verifiche registrate sull’hosting e rapporti conservati"
+      }
+    },
+    {
+      "href": "https://github.com/sev7enITA/policywatcher/wiki/Engine-6-Preview",
+      "label": {
+        "en": "Engine 6 wiki",
+        "it": "Wiki Engine 6"
+      }
+    }
+  ]
+},
   {
     slug: 'engine-six-private-preview-6-0-0-preview-1',
     version: '6.0.0-preview.1',
     displayVersion: '6.0.0-preview.1',
     datePublished: '2026-11-01',
     dateModified: '2026-11-01',
-    status: 'current',
+    status: 'archived',
     category: 'product',
     title: { en: 'Engine 6 Private Preview', it: 'Engine 6: preview privata' },
     summary: {
-      en: 'A separate authenticated preview build introduces durable scans, private evidence and extraction comparison. Qualification is in progress; the stable public service remains 5.2.0.',
-      it: 'Una build preview separata e autenticata introduce scansioni persistenti, evidenze private e confronto delle estrazioni. La qualificazione è in corso; il servizio pubblico stabile resta 5.2.0.',
+      en: 'A separate authenticated preview build introduces durable scans, private evidence and extraction comparison. Qualification is in progress; the public service was 5.2.0 when this preview build was first published.',
+      it: 'Una build preview separata e autenticata introduce scansioni persistenti, evidenze private e confronto delle estrazioni. La qualificazione è in corso; il servizio pubblico era alla 5.2.0 quando questa build preview è stata pubblicata.',
     },
     changes: [
       { en: 'A dedicated database and supervised worker keep preview observations separate from official baselines and publication history. Central guards require silent observation runs with publication and notifications disabled.', it: 'Un database dedicato e un worker supervisionato mantengono le osservazioni preview separate dalle baseline ufficiali e dalla cronologia pubblica. I controlli centrali richiedono osservazioni silenziose, con pubblicazione e notifiche disabilitate.' },
@@ -653,7 +732,7 @@ export const pressKitReleases: PressKitRelease[] = [
       { en: 'The development diary, repository entry points and wiki distinguish implemented features, recorded tests and remaining qualification work.', it: 'Il diario di sviluppo, i punti di accesso nel repository e la wiki distinguono funzionalità implementate, test registrati e qualificazioni ancora aperte.' },
     ],
     boundaries: [
-      { en: 'This is the current preview source record, not a production promotion. A completed hosted deployment requires separate recorded verification; the public runtime remains 5.2.0.', it: 'Questo è il registro corrente del codice preview, non una promozione in produzione. Il completamento del rilascio online richiede una verifica registrata separata; il runtime pubblico resta 5.2.0.' },
+      { en: 'Historical record of the first separate Preview build. The current product release is 5.5.0; Engine 6 remains experimental and separately authenticated.', it: 'Registro storico della prima build Preview separata. La release corrente del prodotto è 5.5.0; Engine 6 resta sperimentale e con autenticazione separata.' },
       { en: 'Comparison applies two extractors to the same captured response. It does not compare independent acquisition paths or AI models, and identical text does not establish completeness.', it: 'Il confronto applica due estrattori alla stessa risposta catturata. Non confronta percorsi di acquisizione indipendenti o modelli AI; un testo identico non dimostra completezza.' },
       { en: 'Corpus completeness, observations across multiple days and operation with 500 real policy sources remain under qualification. Model opinions, replay and retries are not substitutes for executed live evidence.', it: 'Completezza del corpus, osservazioni su più giorni e funzionamento con 500 fonti policy reali restano da qualificare. Opinioni dei modelli, replay e tentativi ripetuti non sostituiscono le evidenze live eseguite.' },
       { en: 'Historical press packages, fact sheets and companion releases retain their original dates and versions. They have not been relabelled as Engine 6 assets.', it: 'Pacchetti stampa storici, schede e release dei companion conservano date e versioni originali. Non sono stati rinominati come asset Engine 6.' },
@@ -1838,6 +1917,20 @@ export const pressKitGlossary: PressKitGlossaryEntry[] = [
 ];
 
 export const pressKitRegistryEvents: PressKitRegistryEvent[] = [
+{
+  "id": "engine-six-preview-product-5-5",
+  "occurredAt": "2026-11-02",
+  "type": "release",
+  "title": {
+    "en": "PolicyWatcher 5.5 introduces Engine 6 Preview",
+    "it": "PolicyWatcher 5.5 introduce Engine 6 Preview"
+  },
+  "detail": {
+    "en": "The product release connects readers and administrators to the online private Preview, bilingual diagrams, saved reports and qualification evidence.",
+    "it": "La release del prodotto collega lettori e amministratori alla Preview privata online, ai diagrammi bilingui, ai rapporti salvati e alle evidenze di qualificazione."
+  },
+  "affectedHref": "/press-kit/releases/engine-six-preview-5-5-0"
+},
 {
   "id": "adaptive-acquisition-evidence-5-2-0",
   "occurredAt": "2026-10-26",

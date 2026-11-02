@@ -1,6 +1,6 @@
 import { realpathSync, statSync } from 'node:fs';
 import { isAbsolute, join, resolve } from 'node:path';
-import { POLICYWATCHER_RELEASE_CHANNEL } from './release';
+import { POLICYWATCHER_DISTRIBUTION_CHANNEL } from './distribution';
 
 export const HOSTED_PREVIEW_ORIGIN = 'https://staging.policywatcher.online';
 const HOSTED_DATABASE = '/home/u847874844/domains/staging.policywatcher.online/policywatcher-preview/preview.db';
@@ -8,7 +8,7 @@ const HOSTED_DATABASE = '/home/u847874844/domains/staging.policywatcher.online/p
 /** Deployment intent is separate from whether execution is currently safe. */
 export function isHostedPreview(): boolean {
   return process.env.POLICYWATCHER_HOSTED_PREVIEW === '1'
-    || (process.env.NODE_ENV === 'production' && POLICYWATCHER_RELEASE_CHANNEL === 'preview');
+    || (process.env.NODE_ENV === 'production' && POLICYWATCHER_DISTRIBUTION_CHANNEL === 'private-preview');
 }
 
 /** Also permits private report reads after execution flags are disabled. */

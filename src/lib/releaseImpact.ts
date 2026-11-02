@@ -34,7 +34,7 @@ export interface ReleaseImpactItem {
   externalDependency?: string;
 }
 
-export const RELEASE_IMPACT_UPDATED_AT = '1 November 2026' as const;
+export const RELEASE_IMPACT_UPDATED_AT = '2 November 2026' as const;
 
 export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.7.0', shortLabel: '3.7.0', label: '3.7.0', state: 'delivered' },
@@ -103,7 +103,7 @@ export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '5.0.0', shortLabel: '5.0', label: '5.0.0', state: 'delivered' },
   { id: '5.1.0', shortLabel: '5.1', label: '5.1.0', state: 'delivered' },
   { id: '5.2.0', shortLabel: '5.2', label: '5.2.0', state: 'delivered' },
-  { id: POLICYWATCHER_VERSION, shortLabel: '6 P1', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
+  { id: POLICYWATCHER_VERSION, shortLabel: '5.5', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
   { id: 'next', shortLabel: 'Next', label: 'Next release horizon', state: 'planned' },
   { id: 'later', shortLabel: 'Later', label: 'Later horizon', state: 'planned' },
 ];
@@ -126,19 +126,19 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
     title: 'Engine 6 private preview workspace',
     summary: 'An authenticated preview build separates its database, durable task queue and private observations from the stable public service.',
     domainId: 'operations', status: 'current', horizon: 'delivered',
-    startRelease: '6.0.0-preview.1', endRelease: '6.0.0-preview.1',
+    startRelease: '5.5.0', endRelease: '5.5.0',
     benefit: 'Operators can inspect resumable work and worker health without publishing experimental results.',
     kpi: 'Recorded queued, completed and held tasks, worker heartbeat and immutable implementation identity.',
     kri: 'A managed process accepting a request does not establish worker continuity or successful capture.',
     evidence: 'Dedicated database guard, authenticated gateway, supervised worker, central execution limits and private run reports.',
-    limitation: 'Preview qualification is in progress. The public service remains 5.2.0; source completeness, multi-day operation and real 500-source capacity are not established by this build.',
+    limitation: 'Preview qualification is in progress. Product 5.5 provides access to the separate experimental Engine 6; source completeness, multi-day operation and real 500-source capacity are not established by this build.',
   },
   {
     id: 'engine-six-extraction-comparison',
     title: 'Private comparison on one capture',
     summary: 'Preview and comparison channels preserve their requested scope, implementation hash and source outcomes in an exportable private report.',
     domainId: 'retrieval', status: 'current', horizon: 'delivered',
-    startRelease: '6.0.0-preview.1', endRelease: '6.0.0-preview.1',
+    startRelease: '5.5.0', endRelease: '5.5.0',
     benefit: 'Reviewers can inspect extraction differences and unavailable evidence before considering a scanner change.',
     kpi: 'Explicit counts of different, identical-unqualified, pending and unavailable comparisons.',
     kri: 'Identical extracted text can still omit source content; a missing capture is not agreement.',
@@ -150,7 +150,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
     title: 'Reviewed source contracts and held evidence',
     summary: 'Document titles, required sections, terminal text, language and exact reviewed exclusions determine whether a captured representation can proceed.',
     domainId: 'assurance', status: 'current', horizon: 'delivered',
-    startRelease: '6.0.0-preview.1', endRelease: '6.0.0-preview.1',
+    startRelease: '5.5.0', endRelease: '5.5.0',
     benefit: 'Missing or uncertain source evidence remains visible as a hold instead of silently supporting analysis.',
     kpi: 'Configured contracts, observed capture outcomes and explicit reasons for held sources.',
     kri: 'A contract can be incomplete or stale; satisfying it does not establish provider-wide completeness.',

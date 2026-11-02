@@ -161,7 +161,7 @@ export const FEATURE_ATLAS_RELEASES: FeatureAtlasRelease[] = [
   { id: '5.0.0', shortLabel: '5.0', label: '5.0.0' },
   { id: '5.1.0', shortLabel: '5.1', label: '5.1.0' },
   { id: '5.2.0', shortLabel: '5.2', label: '5.2.0' },
-  { id: POLICYWATCHER_VERSION, shortLabel: '6 P1', label: POLICYWATCHER_VERSION_DISPLAY },
+  { id: POLICYWATCHER_VERSION, shortLabel: '5.5', label: POLICYWATCHER_VERSION_DISPLAY },
 ].map((release) => ({
   ...release,
   label: release.id === FEATURE_ATLAS_CURRENT_RELEASE_ID ? POLICYWATCHER_VERSION_DISPLAY : release.label,
@@ -193,9 +193,9 @@ const primaryUserByDomain: Record<string, string> = {
 };
 
 const routeByFeature: Record<string, FeatureAtlasRoute> = {
-  'engine-six-private-preview': { href: '/admin/engine', label: 'Engine 6 Preview (protected)', access: 'protected' },
-  'engine-six-extraction-comparison': { href: '/admin/cron', label: 'Private scan comparison (protected)', access: 'protected' },
-  'engine-six-source-contracts': { href: '/admin/engine', label: 'Source contracts and reviews (protected)', access: 'protected' },
+  'engine-six-private-preview': { href: 'https://staging.policywatcher.online/admin/engine', label: 'Engine 6 Preview (protected)', access: 'protected' },
+  'engine-six-extraction-comparison': { href: 'https://staging.policywatcher.online/admin/cron', label: 'Private scan comparison (protected)', access: 'protected' },
+  'engine-six-source-contracts': { href: 'https://staging.policywatcher.online/admin/engine', label: 'Source contracts and reviews (protected)', access: 'protected' },
   'guarded-shadow-observation': { href: '/admin/source-reliability', label: 'Source Reliability (protected)', access: 'protected' },
   'evidence-compass-navigation': { href: '/', label: 'Monitor / Compare / Understand', access: 'public' },
   'frozen-capture-replay': { href: '/press-kit/releases/adaptive-acquisition-evidence-5-2-0', label: 'Replay method and boundaries', access: 'public' },

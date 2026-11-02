@@ -12,17 +12,16 @@ import { RELEASE_COLUMNS, RELEASE_IMPACT_ITEMS } from '../releaseImpact';
 
 const read = (path: string) => readFileSync(path, 'utf8');
 
-describe('PolicyWatcher preview source consistency', () => {
-  it('identifies the preview build while preserving the historical stable release record', () => {
-    expect(POLICYWATCHER_VERSION).toBe('6.0.0-preview.1');
-    expect(POLICYWATCHER_RELEASE_NAME).toBe('Engine 6 Private Preview');
-    expect(POLICYWATCHER_RELEASE_DATE).toBe('2026-11-01');
-    expect(POLICYWATCHER_RELEASE_DATE_LABEL.en).toBe('1 November 2026');
+describe('PolicyWatcher 5 public consistency', () => {
+  it('keeps one current release across release, impact, atlas and newsroom records', () => {
+    expect(POLICYWATCHER_VERSION).toBe('5.5.0');
+    expect(POLICYWATCHER_RELEASE_NAME).toBe('Engine 6 Preview');
+    expect(POLICYWATCHER_RELEASE_DATE).toBe('2026-11-02');
+    expect(POLICYWATCHER_RELEASE_DATE_LABEL.en).toBe('2 November 2026');
     expect(FEATURE_ATLAS_CURRENT_RELEASE_ID).toBe(POLICYWATCHER_VERSION);
     expect(RELEASE_COLUMNS.filter((release) => release.state === 'current').map((release) => release.id)).toEqual([POLICYWATCHER_VERSION]);
     expect(pressKitReleases.filter((release) => release.status === 'current').map((release) => release.version)).toEqual([POLICYWATCHER_VERSION]);
     expect(pressKitReleases.find((release) => release.version === '5.2.0')?.status).toBe('archived');
-    expect(POLICYWATCHER_VERSION).toContain('-preview.');
     expect(pressKitReleases.find((release) => release.version === '3.9.0-beta.27')?.status).toBe('archived');
   });
 

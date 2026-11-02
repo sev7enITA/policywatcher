@@ -1,6 +1,6 @@
 {
   "name": "policywatcher",
-  "version": "6.0.0-preview.1",
+  "version": "5.5.0",
   "private": true,
   "scripts": {
     "engine:worker": "tsx scripts/engine-worker.ts",

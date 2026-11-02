@@ -329,7 +329,7 @@ export default function PressKitClient() {
             <h1 id="press-kit-title">{t.title}</h1>
             <p className={styles.heroLead}>{t.lead}</p>
             <div className={styles.heroActions}>
-              <a href={`/press-kit/policywatcher-fact-sheet-${lang}-2026-08-20.pdf`} download><Download size={16} />{t.factSheet}</a>
+              <a href={`/press-kit/policywatcher-fact-sheet-${lang}-${POLICYWATCHER_RELEASE_DATE}.pdf`} download><Download size={16} />{t.factSheet}</a>
               <button type="button" onClick={() => void copyText('hero-short', pressKitBoilerplates.short[lang])}>
                 {copied === 'hero-short' ? <Check size={16} /> : <Clipboard size={16} />}{copied === 'hero-short' ? t.copied : t.copyShort}
               </button>
@@ -429,7 +429,7 @@ export default function PressKitClient() {
                 <h3>{release.title[lang]}</h3>
                 <p>{release.summary[lang]}</p>
                 <dl className={styles.releaseMeta}><div><dt>{t.status}</dt><dd>{release.status}</dd></div><div><dt>{t.lastVerified}</dt><dd>{release.dateModified}</dd></div></dl>
-                <Link className={styles.releaseLink} href={`/press-kit/releases/${release.slug}`}>{lang === 'en' ? 'Read release record' : 'Leggi record release'}<ArrowRight size={13} /></Link>
+                <Link className={styles.releaseLink} href={`/press-kit/releases/${release.slug}${lang === 'it' ? '?lang=it' : ''}`}>{lang === 'en' ? 'Read release record' : 'Leggi record release'}<ArrowRight size={13} /></Link>
               </article>
               <aside className={styles.releaseIndex} aria-label={t.cycleTitle}><span>{t.cycleTitle}</span><ul>{release.changes.slice(0, 5).map((change, index) => <li key={change.en}><span>{String(index + 1).padStart(2, '0')}</span>{change[lang]}</li>)}</ul></aside>
             </div>
