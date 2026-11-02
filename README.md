@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb" alt="React 19" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178c6" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285f4" alt="Gemini 2.5 Flash" />
-  <img src="https://img.shields.io/badge/Stable%20service-5.2.0%20Adaptive%20Acquisition%20Evidence-146c6a" alt="PolicyWatcher 5.2.0 Adaptive Acquisition Evidence" />
+  <img src="https://img.shields.io/badge/Web%20release-5.5.0%20Engine%206%20Preview-146c6a" alt="PolicyWatcher 5.5.0 Engine 6 Preview" />
   <img src="https://img.shields.io/badge/Browser%20Extension-3.8.3%20Beta%203-b45309" alt="Browser Extension 3.8.3 Beta 3" />
 </p>
 
@@ -35,7 +35,7 @@
 
 ## Current service and Engine 6 Preview
 
-**Updated 2 November 2026.** The public web service is **5.2.0**. Engine 6 source is now integrated in `main` through [PR #37](https://github.com/sev7enITA/policywatcher/pull/37); the main public website still uses the stable engine. The separate authenticated [**6.0 Preview is online**](https://staging.policywatcher.online/admin/engine), with private results and publication/notifications disabled.
+**Updated 2 November 2026.** The public web release is **5.5.0**, with access to the separate experimental **Engine 6.0 Preview**. Engine 6 source is now integrated in `main` through [PR #37](https://github.com/sev7enITA/policywatcher/pull/37); the main public website still uses the stable engine. The separate authenticated [**6.0 Preview is online**](https://staging.policywatcher.online/admin/engine), with private results and publication/notifications disabled.
 
 | Find the work | Verified availability |
 | --- | --- |
@@ -44,9 +44,11 @@
 | [Implementation and test report](https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/engine-v6-hosted-build-remediation-2026-11-01.md) | 1,565 tests passed, 14 skipped; 44 local HTTP/worker checks on candidate 2 and 22 generated standalone-server checks on candidate 3 |
 | [Engineering notebook](https://policywatcher.online/engine-6-preview?lang=it) | Homepage access and bilingual diary published on 2 November; architecture, flow and entity diagrams; separate from the interactive private Preview |
 | [Updated wiki](https://github.com/sev7enITA/policywatcher/wiki) | Stable operations, Engine 6 design, scan channels, release status and qualification limits |
-| [Current parser and daily campaign](docs/reports/engine-v6-codeql-triage-2026-11-01.md) | PR #39: 1,569 tests passed, 14 skipped; new 12-source cohort with zero live windows at initialization. Prior parser observations remain separately preserved and incomplete |
+| [Current parser and daily campaign](https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/engine-v6-codeql-triage-2026-11-01.md) | PR #39: 1,569 tests passed, 14 skipped; new 12-source cohort with zero live windows at initialization. Prior parser observations remain separately preserved and incomplete |
 
-The public homepage now places the Preview access banner before the introduction. The exact content archive passed staging verification before production promotion. See the [2 November publication receipt](docs/reports/engine-v6-public-access-rollout-2026-11-02.md).
+The public homepage now places the PolicyWatcher 5.5 / Engine 6 Preview announcement before the introduction. The exact release archive passed staging verification before production promotion at 04:33 Europe/Rome. See the [5.5 publication receipt](docs/reports/policywatcher-5.5.0-publication-2026-11-02.md): 49 production release checks, 595 sitemap destinations and 30 source-file hashes passed; the same private Preview and all 12 observed database tables were preserved. The [earlier 5.2 content receipt](docs/reports/engine-v6-public-access-rollout-2026-11-02.md) remains historical.
+
+The Engine 6 source distribution on `main` remains restricted to private staging independently of the 5.5 product label. The public 5.5 artifact is built from `codex/release-5-5-public` and retains the established scanner. Packaging guards do not infer access permissions from a version number.
 
 Choosing Preview does not authorize public policy changes or subscriber notifications. Comparing the two extractors on the same capture is not an end-to-end comparison of Internet retrieval or AI models. Realistic 500-source capacity and production Engine 6 activation remain separate qualification steps.
 
@@ -62,7 +64,11 @@ Scheduled and manual scans share an opt-in native extraction guard: parser upgra
 
 See the [deployment and rollback runbook](docs/evidence-assurance-pilot.md), [source/licensing assessment](docs/reports/eu-terms-reuse-2026-10-07/assessment-it.md) and [release evidence](docs/reports/evidence-assurance-release-2026-10-07/README.md). That 7 October update retained the 5.0.0 product version; the immutable artifact revision and checksum identify the deployed update.
 
-### Release 5.2.0: Adaptive Acquisition Evidence - 26 October 2026
+### Release 5.5.0: Engine 6 Preview - 2 November 2026
+
+Open the [release notes](https://policywatcher.online/press-kit/releases/engine-six-preview-5-5-0) for direct access to the private Engine 6 Preview, durable scans, source contracts, extraction comparison and exportable evidence. The public site keeps the established scanner while completeness, multiple live dates and real 500-source scale remain under qualification.
+
+### Previous release 5.2.0: Adaptive Acquisition Evidence - 26 October 2026
 
 #### Navigation update - 31 October 2026
 
@@ -89,7 +95,7 @@ The new bilingual [For you journey](https://policywatcher.online/per-te) helps c
 
 This is a product major release; the additive public citizen feed keeps the existing v1 API contract. The Android companion shares the citizen model and has a locally compiled development APK; store publication and physical-device acceptance are separate milestones. See [release notes](docs/releases/policywatcher-5.0.0-github-release.md) and [validation](docs/citizen-experience-validation.md).
 
-The dashboard changelog, release archive, Site Atlas and Feature Atlas share the current 5.2.0 release identity. Earlier version labels identify first delivery; browser extensions and native companions have independent release cycles. See the [5.2.0 validation](docs/reports/adaptive-acquisition-release-2026-10-26/validation.md) and the [historical page consistency audit](docs/reports/v5-page-consistency-2026-10-06/README.md).
+The dashboard changelog, release archive, Site Atlas and Feature Atlas share the current 5.5.0 product release identity. Engine 6.0 is a separate experimental scanner version. Earlier version labels identify first delivery; browser extensions and native companions have independent release cycles. See the [5.2.0 validation](docs/reports/adaptive-acquisition-release-2026-10-26/validation.md) and the [historical page consistency audit](docs/reports/v5-page-consistency-2026-10-06/README.md).
 
 ### Historical release 4.0.0 Beta 3 AI Discoverability and Citation Readiness Highlights
 

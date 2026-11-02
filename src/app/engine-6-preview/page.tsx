@@ -14,7 +14,7 @@ const copy = {
     title: 'A clearer path from source to evidence.',
     intro: 'Engine 6 Preview is being developed and tested to make policy retrieval, comparison and validation more traceable. This page opens the design for inspection.',
     boundary: 'Private preview access / staging environment',
-    boundaryText: 'The main public service remains on stable version 5.2.0. Engine 6 trials use a separate staging environment with administrator authentication and private observations. Qualification remains open.',
+    boundaryText: 'PolicyWatcher 5.5.0 includes access to the experimental Engine 6.0 Preview. Engine 6 trials use a separate staging environment with administrator authentication and private observations. Qualification remains open.',
     hostingStatus: 'The private 6.0 Preview is online. 47 checks passed on the actual hosting, including a live Apple capture and unchanged official records. Access requires administrator authentication.',
     access: 'Open private 6.0 Preview', resources: 'Preview access, code and evidence',
     development: 'Engine 6 source on main', wiki: 'GitHub wiki', reports: 'Verification reports',
@@ -99,7 +99,7 @@ const copy = {
     title: 'Un percorso più chiaro dalla fonte alle prove.',
     intro: 'Engine 6 Preview è in sviluppo e sperimentazione per rendere più tracciabili recupero, confronto e validazione delle policy. Questa pagina rende il progetto consultabile.',
     boundary: 'Accesso alla preview privata / ambiente staging',
-    boundaryText: 'Il servizio pubblico principale resta alla versione stabile 5.2.0. Le prove Engine 6 usano un ambiente staging separato, con autenticazione amministratore e osservazioni private. La qualificazione resta aperta.',
+    boundaryText: 'PolicyWatcher 5.5.0 include l’accesso al nuovo Engine 6.0 Preview sperimentale. Le prove Engine 6 usano un ambiente staging separato, con autenticazione amministratore e osservazioni private. La qualificazione resta aperta.',
     hostingStatus: 'La 6.0 Preview privata è online. Superati 47 controlli sul vero hosting, con cattura Apple live e record ufficiali invariati. L’accesso richiede autenticazione amministratore.',
     access: 'Apri la 6.0 Preview privata', resources: 'Accesso alla preview, codice e prove',
     development: 'Codice Engine 6 su main', wiki: 'Wiki GitHub', reports: 'Rapporti di verifica',
@@ -183,7 +183,7 @@ const copy = {
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const lang = publicLanguage((await searchParams).lang);
-  return withSocialMetadata({ title: 'Engine 6 Preview | PolicyWatcher', description: copy[lang].intro,
+  return withSocialMetadata({ title: 'PolicyWatcher 5.5 · Engine 6 Preview', description: copy[lang].intro,
     alternates: languageAlternates('/engine-6-preview', lang) }, lang);
 }
 

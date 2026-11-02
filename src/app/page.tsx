@@ -58,8 +58,8 @@ export default async function HomePage() {
         <main className={styles.publicKnowledgeMain}>
           <div className={styles.publicKnowledgeShell}>
             <aside className={styles.enginePreviewNotice} aria-label="Engine 6 Preview experimental programme">
-              <div><strong>Engine 6.0 Preview is online</strong><p>Try the new engine in the separate private Preview. Administrator sign-in is required. This public service remains on Stable 5.2.0; Preview observations stay private while source coverage and daily operation are being qualified.</p></div>
-              <nav aria-label="Engine 6 Preview access and evidence"><a href="https://staging.policywatcher.online/admin/engine">Open private 6.0 Preview <span aria-hidden="true">↗</span></a><Link href="/engine-6-preview">Architecture and evidence</Link><Link href="/engine-6-preview?lang=it" hrefLang="it">Architettura in italiano</Link><a href="https://github.com/sev7enITA/policywatcher/wiki">GitHub wiki</a></nav>
+              <div><strong>PolicyWatcher 5.5 · Engine 6.0 Preview</strong><p>Try the new engine in the separate private Preview. Administrator sign-in is required. Release 5.5 introduces access to Engine 6.0 Preview. Preview observations stay private while source coverage and daily operation are being qualified.</p></div>
+              <nav aria-label="Engine 6 Preview access and evidence"><Link href="/press-kit/releases/engine-six-preview-5-5-0">What’s new in 5.5</Link><a href="https://staging.policywatcher.online/admin/engine">Open private 6.0 Preview <span aria-hidden="true">↗</span></a><Link href="/engine-6-preview">Architecture and evidence</Link><Link href="/engine-6-preview?lang=it" hrefLang="it">Architettura in italiano</Link><a href="https://github.com/sev7enITA/policywatcher/wiki">GitHub wiki</a></nav>
             </aside>
             <header className={styles.publicKnowledgeIntro}>
               <div>

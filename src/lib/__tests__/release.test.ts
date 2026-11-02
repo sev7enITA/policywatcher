@@ -36,14 +36,14 @@ describe('release metadata', () => {
   it('matches the package version and composes one build label', () => {
     const packageJson = JSON.parse(readFileSync('package.json', 'utf8')) as { version: string };
     expect(POLICYWATCHER_VERSION).toBe(packageJson.version);
-    expect(POLICYWATCHER_RELEASE_NAME).toBe('Engine 6 Private Preview');
-    expect(POLICYWATCHER_BUILD_LABEL).toBe('v6.0.0-preview.1 Engine 6 Private Preview');
-    expect(POLICYWATCHER_RELEASE_DATE).toBe('2026-11-01');
-    expect(POLICYWATCHER_RELEASE_DATE_LABEL).toEqual({ en: '1 November 2026', it: '1 novembre 2026' });
+    expect(POLICYWATCHER_RELEASE_NAME).toBe('Engine 6 Preview');
+    expect(POLICYWATCHER_BUILD_LABEL).toBe('v5.5.0 Engine 6 Preview');
+    expect(POLICYWATCHER_RELEASE_DATE).toBe('2026-11-02');
+    expect(POLICYWATCHER_RELEASE_DATE_LABEL).toEqual({ en: '2 November 2026', it: '2 novembre 2026' });
     expect(POLICYWATCHER_RELEASE_MONTH_LABEL).toEqual({ en: 'November 2026', it: 'novembre 2026' });
-    expect(POLICYWATCHER_RELEASE_CHANNEL).toBe('preview');
-    expect(POLICYWATCHER_RELEASE_CHANNEL_LABEL).toBe('PREVIEW');
-    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v6.0.0-preview.1 · PREVIEW');
+    expect(POLICYWATCHER_RELEASE_CHANNEL).toBe('stable');
+    expect(POLICYWATCHER_RELEASE_CHANNEL_LABEL).toBe('STABLE');
+    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v5.5.0 · STABLE');
     expect(POLICYWATCHER_BROWSER_EXTENSION_VERSION).toBe('3.8.3-beta.3');
     expect(POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION).toBe('3.8.3 Beta 3');
     expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE).toBe('v3.8.3 Beta 3 · EXTENSION BETA');
@@ -53,7 +53,7 @@ describe('release metadata', () => {
     );
 
     const typedChannel: PolicyWatcherReleaseChannel = POLICYWATCHER_RELEASE_CHANNEL;
-    expect(typedChannel).toBe('preview');
+    expect(typedChannel).toBe('stable');
   });
 
   it('keeps current release surfaces connected to centralized metadata', () => {

@@ -7,11 +7,11 @@
     ],
     [
       "package-lock.json",
-      "cf4501a2c907fec45c3345bf5ee4e8a89dd02140c7285cf6582379468862f863"
+      "b24528f1f480f216c355c8f0ee024928376873ae9f5ba381210ffcf5a7c868bf"
     ],
     [
       "package.json",
-      "842f82aa4301ccc5eed5f8c4984a7dc331bd8ba97aeb1cf7c3a34be19310376f"
+      "0a55050e32a8843f2748f05a397f2308272c16a656b2a7f58f8f363483eeba77"
     ],
     [
       "prisma/schema.prisma",
@@ -27,7 +27,7 @@
     ],
     [
       "scripts/hosted-preview-preflight.mjs",
-      "ad31b23cbb8d615b4cf04568c7c27ec6f463e92cc995c00f8b4d88b853810363"
+      "f0009e76971df64cfa1ec32f796fa12db76e103b39003ee1cf144cc77376c1e8"
     ],
     [
       "scripts/hostinger-environment-gate.mjs",
@@ -138,6 +138,10 @@
       "ef67946a87995fe9ba0737fb9beb5f2a99823e1f8650a809dbd277b01ad0e179"
     ],
     [
+      "src/lib/distribution.ts",
+      "f055eb007be076d76bd7cc2e58afdd9c5fd03cb7ae14510837ee8d1b00ddbc6b"
+    ],
+    [
       "src/lib/documentEvidenceSync.ts",
       "4f521f8796a388e8440c7ed9c067985d24d493018a9cef5d853e8e7568869205"
     ],
@@ -203,7 +207,7 @@
     ],
     [
       "src/lib/hostedPreview.ts",
-      "1e22ffb96b91396f68c7631398cfdf70066c1319c4b65826b2f20eef3ea3dc56"
+      "c5948c863b2d1881e0fc3c56b7df7dfad82c6d4b9a69f2bbff4f8147593ed069"
     ],
     [
       "src/lib/investorAccess.ts",
@@ -256,10 +260,6 @@
     [
       "src/lib/rateLimit.ts",
       "54e11f5260699756369a4b94b289f9bbf22548d639b12a23741a8afdc841f7a2"
-    ],
-    [
-      "src/lib/release.ts",
-      "389fc1a81460fef535f803524b17c32689f4775e4a63f36a23793413ab29633d"
     ],
     [
       "src/lib/requestBody.ts",
@@ -326,5 +326,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "e22b6b906d0727b32f637a62e8e4118a134e3c4dfc2b60105bb0022f95518f49"
+  "hash": "f8607544bb428f6e942c7c0411bfcc7ae740423cb16ea6748469339ecbd248cc"
 }

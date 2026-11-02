@@ -1,5 +1,17 @@
 # Changelog
 
+## 5.5.0 - Engine 6 Preview (2026-11-02)
+
+PolicyWatcher 5.5 introduces access to the new experimental Engine 6.0 in its separate authenticated online Preview. The established scanner remains operational on the main service.
+
+- Direct Preview access and release news across the homepage, changelog, roadmap, atlases and press kit.
+- Private durable scans, source contracts, saved evidence reports and same-capture Stable/Preview extraction comparison.
+- Browser JSON export verified against the saved API report; publication and notifications remain disabled in Preview.
+- Bilingual architecture, decision-flow and entity diagrams, dated verification receipts and explicit qualification limits.
+- Consistent product version, feeds, API metadata and current EN/IT fact sheets. Historical release records remain dated.
+
+Source completeness, multi-day qualification and real 500-source throughput remain open. Product 5.5 is distinct from the experimental engine version 6.0.
+
 ## 6.0.0-preview.1 - Engine 6 Private Preview (2026-11-01)
 
 Private preview build under qualification. The public service remains on stable 5.2.0. This source release record does not establish a completed hosted deployment or activate Engine 6 in production.
