@@ -61,6 +61,12 @@ export const publicSectionGroups: Record<PublicSectionGroup, { label: string; de
 
 export const publicSectionNodes: PublicSectionNode[] = [
   {
+    id: 'engine-6-preview', label: 'Engine 6 Preview', href: '/engine-6-preview', group: 'community',
+    summary: 'PolicyWatcher 5.5 introduces the separate experimental Engine 6 Preview, with architecture, decision-flow and entity diagrams.',
+    role: 'Connects private administrator trials with public qualification evidence. Preview observations do not publish official changes or notify subscribers.',
+    status: 'reference', icon: 'layers', x: 91, y: 52,
+  },
+  {
     id: 'changelog', label: 'Release history', href: '/press-kit/releases', group: 'community',
     summary: 'Current release notes and archived milestones from the same register used by the dashboard changelog.',
     role: 'Separates the current web release from historical releases, planned work and independently versioned companions.',
@@ -357,6 +363,9 @@ export const publicSectionNodes: PublicSectionNode[] = [
 ];
 
 export const publicSectionEdges: PublicSectionEdge[] = [
+  { from: 'changelog', to: 'engine-6-preview', label: 'introduces the experimental engine through', strength: 'primary' },
+  { from: 'roadmap', to: 'engine-6-preview', label: 'tracks qualification in', strength: 'primary' },
+  { from: 'feature-atlas', to: 'engine-6-preview', label: 'explains private trial capabilities in', strength: 'secondary' },
   { from: 'changelog', to: 'roadmap', label: 'separates delivered history from plans in', strength: 'primary' },
   { from: 'changelog', to: 'feature-atlas', label: 'maps delivered capabilities through', strength: 'primary' },
   { from: 'per-te', to: 'knowledge', label: 'reads dated public evidence from', strength: 'primary' },

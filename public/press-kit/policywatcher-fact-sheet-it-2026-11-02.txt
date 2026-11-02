@@ -1,0 +1,20 @@
+PolicyWatcher 5.5
+Version 5.5.0 · 2026-11-02
+Release del prodotto con accesso al motore sperimentale: Engine 6 Preview
+
+Il nuovo Engine 6.0 Preview è disponibile in uno spazio separato e autenticato per scansioni private, revisione delle evidenze e confronto delle estrazioni.
+
+Engine 6.0 Preview: Online, separato e privato
+Accesso amministratore: staging.policywatcher.online/admin/engine. Il servizio principale mantiene lo scanner consolidato; pubblicazione e notifiche Preview sono disabilitate.
+
+Scansioni persistenti: Contratti delle fonti ed evidenze salvate
+Database e worker dedicati conservano attività ed esiti. Contratti mancanti, sezioni incomplete e catture indisponibili restano casi espliciti di revisione.
+
+Confronto ed esportazione: Due estrattori, una risposta catturata
+Esamina le differenze tra estrazioni Stabile e Preview ed esporta i rapporti salvati in JSON. Non è un confronto tra recuperi indipendenti o modelli AI.
+
+Diario tecnico pubblico: Architettura, flussi e diagrammi delle entità
+Documentazione italiana e inglese, test datati e qualificazioni ancora aperte: policywatcher.online/engine-6-preview?lang=it.
+
+Boundary: Restano da qualificare completezza delle fonti, almeno tre date live su 48 ore effettive, disponibilità continuativa del worker e 500 fonti giornaliere distinte. Le ricevute di test non sono pareri legali, certificazioni o garanzie universali di completezza.
+Current source: https://policywatcher.online/press-kit

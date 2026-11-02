@@ -1,6 +1,40 @@
 # Changelog
 
+## 5.5.0 - Engine 6 Preview (2026-11-02)
+
+PolicyWatcher 5.5 introduces access to the new experimental Engine 6.0 in its separate authenticated online Preview. The established scanner remains operational on the main service.
+
+- Direct Preview access and release news across the homepage, changelog, roadmap, atlases and press kit.
+- Private durable scans, source contracts, saved evidence reports and same-capture Stable/Preview extraction comparison.
+- Browser JSON export verified against the saved API report; publication and notifications remain disabled in Preview.
+- Bilingual architecture, decision-flow and entity diagrams, dated verification receipts and explicit qualification limits.
+- Consistent product version, feeds, API metadata and current EN/IT fact sheets. Historical release records remain dated.
+
+Source completeness, multi-day qualification and real 500-source throughput remain open. Product 5.5 is distinct from the experimental engine version 6.0.
+
+## 6.0.0-preview.1 - Engine 6 Private Preview (2026-11-01)
+
+Private preview build under qualification. The public service remains on stable 5.2.0. This source release record does not establish a completed hosted deployment or activate Engine 6 in production.
+
+- Adds a separate authenticated preview environment with its own database, private observations and supervised durable worker. Execution requires explicit preview settings, publication and notifications disabled, and a verified implementation identity.
+- Adds preview and comparison channels with fixed run scope, bounded batch size and exportable private reports. Comparison applies the stable and preview extractors to the same captured response; it does not compare independent retrieval or AI models.
+- Adds reviewed source contracts, structural completeness checks, exact source exclusions and explicit holds for missing or uncertain evidence. Captures, review inputs and execution provenance remain private.
+- Adds guarded worker startup, persisted work recovery, private worker status and central checks that reject incompatible queued tasks and public-scanner entry paths in the hosted preview.
+- Refreshes the development diary, GitHub entry points and wiki. Historical releases and press assets retain their original versions and evidence dates.
+
+Qualification remains open for corpus completeness, observations over multiple days and operation with 500 real policy sources. Captures and replay are distinct evidence; neither simulated dates nor retries count as observation days. Deployment status is recorded separately after verification. See the [qualification campaign](docs/architecture/engine-v6-qualification-campaign.md) and [bounded hosted-preview source review](docs/reports/engine-v6-preview-source-review-2026-11-01.md).
+
 ## 5.2.0 - Adaptive Acquisition Evidence (2026-10-26)
+
+### Navigation and discovery update (2026-10-31)
+
+- Organize dashboard navigation around Monitor / Compare / Understand (Osserva / Confronta / Approfondisci), with 26 existing commands in a searchable All tools directory.
+- Search across all groups with English/Italian synonyms and accent normalization; retain role shortcuts, the global command search and document-scoped Timeline links.
+- Give public pages the same task vocabulary, a grouped directory, active-route indication and their four direct entry links.
+- Keep controls reachable on short phones down to 320 × 568; preserve visible keyboard focus, modal focus containment and return, reduced motion, and topmost-only Escape for nested settings.
+- Align the bilingual in-app guide, release register, Site Atlas, Feature Atlas, Release Impact, roadmap, README and machine-readable discovery.
+
+Source update and local verification are recorded in [the navigation report](docs/reports/ui-ux-navigation-2026-10-30.md). Publication to production is a separate step; model reviews and automated checks do not establish measured user-task improvement. Native app/store releases remain independent.
 
 ### Adaptive acquisition evidence
 

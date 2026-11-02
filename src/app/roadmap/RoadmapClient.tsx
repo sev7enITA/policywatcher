@@ -255,8 +255,26 @@ const priorityPipeline = [
 
 const nowItems = [
   {
-    phase: `Current · ${POLICYWATCHER_VERSION}`,
-    title: POLICYWATCHER_RELEASE_NAME,
+    phase: `Current · ${POLICYWATCHER_VERSION} · 2 November 2026`,
+    title: 'PolicyWatcher 5.5: Engine 6 Preview',
+    body: 'The new Engine 6 is available in a separate authenticated Preview, with durable scans, source contracts, private evidence and extraction comparison.',
+    benefit: 'Operators can inspect saved reports and export JSON; readers can follow architecture, decision-flow and entity diagrams in the public diary.',
+    validation: 'The main service retains its established scanner. Preview is private and silent. Source completeness, multiple live dates and 500 distinct daily sources remain under qualification.',
+    icon: Eye,
+    href: '/press-kit/releases/engine-six-preview-5-5-0',
+  },
+  {
+    phase: 'Delivered · 5.2.0 · 31 October 2026',
+    title: 'Monitor / Compare / Understand',
+    body: 'A searchable All tools directory connects 26 existing commands, bilingual synonyms and role shortcuts. Public pages share the same task vocabulary and active-route indication.',
+    benefit: 'Readers can choose by task or search directly; short-phone layouts keep the first tools visible and keyboard focus returns after closing dialogs.',
+    validation: 'Implemented and locally checked. Production deployment, comprehensive assistive-technology coverage and measured human usability remain separate.',
+    icon: Eye,
+    href: '/feature-atlas',
+  },
+  {
+    phase: 'Delivered · 5.2.0',
+    title: 'Adaptive Acquisition Evidence',
     body: 'Bounded shadow observation, frozen-input replay and a read-only evidence workbench make candidate extraction behavior inspectable while retaining the baseline.',
     benefit: 'Operators can distinguish saved observations, observer failures, source acquisition failures and unavailable summaries before reviewing a candidate.',
     validation: 'Shadow is disabled by default. No recipe is promoted automatically, provisional labels cannot validate lessons, and calibrated confidence is not established.',
@@ -811,7 +829,7 @@ const releaseLanes = [
     label: POLICYWATCHER_VERSION,
     title: POLICYWATCHER_RELEASE_NAME,
     body:
-      'Optional baseline-preserving shadow observation, reproducible replay, explicit source-variant checks and a read-only acquisition evidence panel. No automatic promotion or calibrated confidence.',
+      'Product 5.5 connects the main service to the separate experimental Engine 6.0 Preview: durable private scans, source contracts, saved comparison reports and JSON export. Publication and notifications remain disabled in Preview.',
     state: 'current',
   },
   {
@@ -1014,7 +1032,7 @@ export default function RoadmapClient() {
       </header>
 
       <aside className={styles.enginePreviewNotice} aria-label="Engine 6 Preview experimental programme">
-        <div><span>EXPERIMENTAL PROGRAMME · 31 OCTOBER 2026</span><h2>Engine 6 Preview</h2><p>Local experimentation is in progress on source completeness, evidence-linked analysis and resumable scanning. Live qualification is pending; the public service remains on version 5.2.0.</p></div>
+        <div><span>POLICYWATCHER 5.5 · 2 NOVEMBER 2026</span><h2>Engine 6.0 Preview is online</h2><p>The experimental engine runs in a separate authenticated workspace with private scans, source contracts, extraction comparison and saved reports. Source completeness, multiple live dates and real scale remain under qualification.</p></div>
         <nav aria-label="Engine 6 Preview details"><Link href="/engine-6-preview">Explore architecture, decision flow and entity relationships <ArrowUpRight size={17} aria-hidden="true" /></Link><Link href="/engine-6-preview?lang=it" hrefLang="it">Leggi in italiano</Link></nav>
       </aside>
 

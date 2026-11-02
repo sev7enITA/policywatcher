@@ -34,7 +34,7 @@ export interface ReleaseImpactItem {
   externalDependency?: string;
 }
 
-export const RELEASE_IMPACT_UPDATED_AT = '26 October 2026' as const;
+export const RELEASE_IMPACT_UPDATED_AT = '2 November 2026' as const;
 
 export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '3.7.0', shortLabel: '3.7.0', label: '3.7.0', state: 'delivered' },
@@ -102,7 +102,8 @@ export const RELEASE_COLUMNS: ReleaseColumn[] = [
   { id: '4.0.0-beta.5', shortLabel: '4.0 B5', label: '4.0.0 Beta 5', state: 'delivered' },
   { id: '5.0.0', shortLabel: '5.0', label: '5.0.0', state: 'delivered' },
   { id: '5.1.0', shortLabel: '5.1', label: '5.1.0', state: 'delivered' },
-  { id: POLICYWATCHER_VERSION, shortLabel: '5.2', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
+  { id: '5.2.0', shortLabel: '5.2', label: '5.2.0', state: 'delivered' },
+  { id: POLICYWATCHER_VERSION, shortLabel: '5.5', label: POLICYWATCHER_VERSION_DISPLAY, state: 'current' },
   { id: 'next', shortLabel: 'Next', label: 'Next release horizon', state: 'planned' },
   { id: 'later', shortLabel: 'Later', label: 'Later horizon', state: 'planned' },
 ];
@@ -120,12 +121,63 @@ export const RELEASE_IMPACT_DOMAINS: ReleaseImpactDomain[] = [
 ];
 
 export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
+  {
+    id: 'engine-six-private-preview',
+    title: 'Engine 6 private preview workspace',
+    summary: 'An authenticated preview build separates its database, durable task queue and private observations from the stable public service.',
+    domainId: 'operations', status: 'current', horizon: 'delivered',
+    startRelease: '5.5.0', endRelease: '5.5.0',
+    benefit: 'Operators can inspect resumable work and worker health without publishing experimental results.',
+    kpi: 'Recorded queued, completed and held tasks, worker heartbeat and immutable implementation identity.',
+    kri: 'A managed process accepting a request does not establish worker continuity or successful capture.',
+    evidence: 'Dedicated database guard, authenticated gateway, supervised worker, central execution limits and private run reports.',
+    limitation: 'Preview qualification is in progress. Product 5.5 provides access to the separate experimental Engine 6; source completeness, multi-day operation and real 500-source capacity are not established by this build.',
+  },
+  {
+    id: 'engine-six-extraction-comparison',
+    title: 'Private comparison on one capture',
+    summary: 'Preview and comparison channels preserve their requested scope, implementation hash and source outcomes in an exportable private report.',
+    domainId: 'retrieval', status: 'current', horizon: 'delivered',
+    startRelease: '5.5.0', endRelease: '5.5.0',
+    benefit: 'Reviewers can inspect extraction differences and unavailable evidence before considering a scanner change.',
+    kpi: 'Explicit counts of different, identical-unqualified, pending and unavailable comparisons.',
+    kri: 'Identical extracted text can still omit source content; a missing capture is not agreement.',
+    evidence: 'Frozen captures, run-bound channel metadata, bounded difference reports and JSON export.',
+    limitation: 'The comparison uses two extractors on the same capture. It does not compare independent acquisition paths or AI models and cannot publish changes or notify subscribers.',
+  },
+  {
+    id: 'engine-six-source-contracts',
+    title: 'Reviewed source contracts and held evidence',
+    summary: 'Document titles, required sections, terminal text, language and exact reviewed exclusions determine whether a captured representation can proceed.',
+    domainId: 'assurance', status: 'current', horizon: 'delivered',
+    startRelease: '5.5.0', endRelease: '5.5.0',
+    benefit: 'Missing or uncertain source evidence remains visible as a hold instead of silently supporting analysis.',
+    kpi: 'Configured contracts, observed capture outcomes and explicit reasons for held sources.',
+    kri: 'A contract can be incomplete or stale; satisfying it does not establish provider-wide completeness.',
+    evidence: 'Source contract editor, frozen review evidence, structural and language checks and private review queue.',
+    limitation: 'A bounded source review is not human certification or legal validation. Corpus completeness remains under qualification; publication and notifications are disabled in the hosted preview.',
+  },
+  {
+    id: 'evidence-compass-navigation',
+    title: 'Task-oriented evidence navigation',
+    summary: 'Monitor / Compare / Understand organize existing actions; All tools combines a complete directory, bilingual search and stable role shortcuts.',
+    domainId: 'experience',
+    status: 'delivered',
+    horizon: 'delivered',
+    startRelease: '5.2.0',
+    endRelease: '5.2.0',
+    benefit: 'Readers can choose a task, search across groups or return to familiar role actions without losing specialist destinations.',
+    kpi: 'Implementation inventory: 26 existing dashboard commands; responsive layouts inspected from 320 to 1440 pixels.',
+    kri: 'Discoverability of Workspace and AI Chat inside All tools requires human usability evaluation.',
+    evidence: 'Typed bilingual directory, shared task vocabulary, active public routes, focus return and containment, topmost-only Escape, automated checks and local browser inspection.',
+    limitation: 'Source update dated 31 October 2026. Model review and local checks do not establish production deployment, accessibility certification or measured task-completion gains.',
+  },
 {
   "id": "guarded-shadow-observation",
   "title": "Baseline-preserving shadow observation",
   "summary": "Compare candidate extraction recipes on the same eligible acquisition while retaining the operational baseline.",
   "domainId": "retrieval",
-  "status": "current",
+  "status": "delivered",
   "horizon": "delivered",
   "startRelease": "5.2.0",
   "endRelease": "5.2.0",
@@ -140,7 +192,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
   "title": "Frozen-input replay and bounded lessons",
   "summary": "Replay declared recipes on preserved captures with baseline retention and train/holdout checks.",
   "domainId": "assurance",
-  "status": "current",
+  "status": "delivered",
   "horizon": "delivered",
   "startRelease": "5.2.0",
   "endRelease": "5.2.0",
@@ -155,7 +207,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
   "title": "Adaptive acquisition evidence workbench",
   "summary": "Inspect run-level observer state, persistence, errors, exclusions and recipe comparisons in a read-only panel.",
   "domainId": "experience",
-  "status": "current",
+  "status": "delivered",
   "horizon": "delivered",
   "startRelease": "5.2.0",
   "endRelease": "5.2.0",
@@ -170,7 +222,7 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
   "title": "Explicit source-variant drift checks",
   "summary": "Reject explicit locale or regional path drift and keep live, partial and historical acquisition states distinct.",
   "domainId": "retrieval",
-  "status": "current",
+  "status": "delivered",
   "horizon": "delivered",
   "startRelease": "5.2.0",
   "endRelease": "5.2.0",

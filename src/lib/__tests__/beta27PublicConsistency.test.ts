@@ -14,10 +14,10 @@ const read = (path: string) => readFileSync(path, 'utf8');
 
 describe('PolicyWatcher 5 public consistency', () => {
   it('keeps one current release across release, impact, atlas and newsroom records', () => {
-    expect(POLICYWATCHER_VERSION).toBe('5.2.0');
-    expect(POLICYWATCHER_RELEASE_NAME).toBe('Adaptive Acquisition Evidence');
-    expect(POLICYWATCHER_RELEASE_DATE).toBe('2026-10-26');
-    expect(POLICYWATCHER_RELEASE_DATE_LABEL.en).toBe('26 October 2026');
+    expect(POLICYWATCHER_VERSION).toBe('5.5.0');
+    expect(POLICYWATCHER_RELEASE_NAME).toBe('Engine 6 Preview');
+    expect(POLICYWATCHER_RELEASE_DATE).toBe('2026-11-02');
+    expect(POLICYWATCHER_RELEASE_DATE_LABEL.en).toBe('2 November 2026');
     expect(FEATURE_ATLAS_CURRENT_RELEASE_ID).toBe(POLICYWATCHER_VERSION);
     expect(RELEASE_COLUMNS.filter((release) => release.state === 'current').map((release) => release.id)).toEqual([POLICYWATCHER_VERSION]);
     expect(pressKitReleases.filter((release) => release.status === 'current').map((release) => release.version)).toEqual([POLICYWATCHER_VERSION]);
@@ -41,7 +41,7 @@ describe('PolicyWatcher 5 public consistency', () => {
     expect(RELEASE_IMPACT_ITEMS.some((item) => item.id === 'authoritative-publication-readiness' && item.status === 'delivered' && item.startRelease === '4.0.0-beta.1')).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.some((item) => item.id === 'production-readiness-hardening' && item.status === 'delivered' && item.startRelease === '4.0.0-beta.2')).toBe(true);
     expect(RELEASE_IMPACT_ITEMS.some((item) => item.id === 'citizen-journey' && item.status === 'delivered' && item.startRelease === '5.0.0')).toBe(true);
-    expect(RELEASE_IMPACT_ITEMS.some((item) => item.id === 'guarded-shadow-observation' && item.status === 'current' && item.startRelease === '5.2.0')).toBe(true);
+    expect(RELEASE_IMPACT_ITEMS.some((item) => item.id === 'guarded-shadow-observation' && item.status === 'delivered' && item.startRelease === '5.2.0')).toBe(true);
     expect(pressKitReleases.find((release) => release.version === '5.1.0')?.status).toBe('archived');
     expect(FEATURE_ATLAS_FEATURES.some((feature) => feature.id === 'source-remediation-workbench-ux' && feature.route?.href === '/admin/source-reliability')).toBe(true);
     expect(FEATURE_ATLAS_FEATURES.some((feature) => feature.id === 'community-signal-composer' && feature.route?.href === '/roadmap')).toBe(true);

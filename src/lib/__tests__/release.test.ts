@@ -36,14 +36,14 @@ describe('release metadata', () => {
   it('matches the package version and composes one build label', () => {
     const packageJson = JSON.parse(readFileSync('package.json', 'utf8')) as { version: string };
     expect(POLICYWATCHER_VERSION).toBe(packageJson.version);
-    expect(POLICYWATCHER_RELEASE_NAME).toBe('Adaptive Acquisition Evidence');
-    expect(POLICYWATCHER_BUILD_LABEL).toBe('v5.2.0 Adaptive Acquisition Evidence');
-    expect(POLICYWATCHER_RELEASE_DATE).toBe('2026-10-26');
-    expect(POLICYWATCHER_RELEASE_DATE_LABEL).toEqual({ en: '26 October 2026', it: '26 ottobre 2026' });
-    expect(POLICYWATCHER_RELEASE_MONTH_LABEL).toEqual({ en: 'October 2026', it: 'ottobre 2026' });
+    expect(POLICYWATCHER_RELEASE_NAME).toBe('Engine 6 Preview');
+    expect(POLICYWATCHER_BUILD_LABEL).toBe('v5.5.0 Engine 6 Preview');
+    expect(POLICYWATCHER_RELEASE_DATE).toBe('2026-11-02');
+    expect(POLICYWATCHER_RELEASE_DATE_LABEL).toEqual({ en: '2 November 2026', it: '2 novembre 2026' });
+    expect(POLICYWATCHER_RELEASE_MONTH_LABEL).toEqual({ en: 'November 2026', it: 'novembre 2026' });
     expect(POLICYWATCHER_RELEASE_CHANNEL).toBe('stable');
     expect(POLICYWATCHER_RELEASE_CHANNEL_LABEL).toBe('STABLE');
-    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v5.2.0 · STABLE');
+    expect(POLICYWATCHER_RELEASE_BADGE).toBe('v5.5.0 · STABLE');
     expect(POLICYWATCHER_BROWSER_EXTENSION_VERSION).toBe('3.8.3-beta.3');
     expect(POLICYWATCHER_BROWSER_EXTENSION_DISPLAY_VERSION).toBe('3.8.3 Beta 3');
     expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE).toBe('v3.8.3 Beta 3 · EXTENSION BETA');
