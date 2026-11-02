@@ -1,0 +1,19 @@
+Every day, the rules behind our digital lives can change. A clause. A permission. A new use of your data. The question is simple. What changed, and where is the proof?
+
+PolicyWatcher helps people and organisations follow changes in the policies of digital services. Explore the source, compare versions, and understand why a change deserves attention. Clear information, with a path back to the evidence.
+
+Today, PolicyWatcher has two complementary sides. The stable service supports everyday use. Engine Six Preview is a separate, private workspace for testing the next generation. One mission, with a clear boundary between public operation and experimental results.
+
+The new pipeline starts before artificial intelligence. Source contracts check document identity, language, required sections, and the ending of the policy. A successful download is only the beginning. Incomplete or ambiguous material is held for review.
+
+Each capture becomes a traceable artifact. Versions can be compared against preserved evidence. A candidate change requires two fresh observations, at least an hour apart. A retry or a cached response does not become a second confirmation.
+
+Analysis must point to exact passages before and after the change. A separate verifier checks the evidence. High impact or uncertain cases move to human review. In the hosted Preview, automatic public changes and notifications remain disabled.
+
+Behind the interface, durable jobs connect runs, tasks, attempts, and stored artifacts. Checkpoints support recovery. Preview and Compare make the work inspectable, including a comparison of two extractors on the very same captured response.
+
+Research does not stop at a new build. Local tests, hosted checks, source completeness, and observations over time answer different questions. Five hundred policies a day is the scale target. Full qualification at that scale is still in progress.
+
+The public research diary opens the architecture, decision flow, and entity relationships. GitHub records the implementation and its limits. This is continuous engineering: measure, challenge, refine, and show the work.
+
+Explore PolicyWatcher today. Inspect Engine Six Preview. Follow the research. Because understanding a policy change should begin with evidence, and lead to a clearer decision.

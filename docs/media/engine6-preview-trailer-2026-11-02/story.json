@@ -1,0 +1,102 @@
+{
+  "title": "PolicyWatcher | Evidence in Motion",
+  "date": "2026-11-02",
+  "duration": 180,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "language": "en-GB",
+  "status": "Production in progress, not published",
+  "voiceProvider": "MakeMyVoice local Qwen3-TTS worker",
+  "animationTool": "Claude Motion",
+  "voiceDirection": "An original adult female British English mission-control narrator. Clear, poised, precise and quietly authoritative, with a smooth low-mid register, crisp consonants and restrained cinematic urgency. Human, intelligible, subtle warmth, no whisper, no breathy advertisement, no caricature or robotic glitches. Moderate pace around 145 words per minute, meaningful short pauses, clean sentence endings. Consistent voice and accent. Read only the exact supplied text. Do not imitate any real performer or existing game recording.",
+  "scenes": [
+    {
+      "start": 0,
+      "end": 14,
+      "title": "THE RULES CHANGE. KNOW WHAT CHANGED.",
+      "narration": "Every day, the rules behind our digital lives can change. A clause. A permission. A new use of your data. The question is simple. What changed, and where is the proof?",
+      "visual": "Cinematic macro of two neutral policy passages. A single changed line resolves from a field of text. Clearly illustrative, no fabricated provider quote. Original eye/shield mark reveals."
+    },
+    {
+      "start": 14,
+      "end": 32,
+      "title": "FROM POLICY TEXT TO A CLEARER DECISION",
+      "narration": "PolicyWatcher helps people and organisations follow changes in the policies of digital services. Explore the source, compare versions, and understand why a change deserves attention. Clear information, with a path back to the evidence.",
+      "visual": "Elegant source→version→change→evidence path. Brand mark and product 5.5.0. Public service overview, no invented metrics."
+    },
+    {
+      "start": 32,
+      "end": 50,
+      "title": "ONE MISSION. TWO ENVIRONMENTS.",
+      "narration": "Today, PolicyWatcher has two complementary sides. The stable service supports everyday use. Engine Six Preview is a separate, private workspace for testing the next generation. One mission, with a clear boundary between public operation and experimental results.",
+      "visual": "Two parallel horizontal paths: Stable / Public service / Product 5.5; Engine 6 Preview / Private admin workspace / Experimental. Shared mission, separate data boundary. Not a claim of independent infrastructure."
+    },
+    {
+      "start": 50,
+      "end": 70,
+      "title": "FIRST, QUALIFY THE SOURCE.",
+      "narration": "The new pipeline starts before artificial intelligence. Source contracts check document identity, language, required sections, and the ending of the policy. A successful download is only the beginning. Incomplete or ambiguous material is held for review.",
+      "visual": "Animated source contract checklist then three architecture stages: acquire→extract→qualify. Amber review branch visibly terminates before analysis. Use original architecture-en.svg as reference; rebuild a readable detail."
+    },
+    {
+      "start": 70,
+      "end": 89,
+      "title": "A CHANGE NEEDS MORE THAN ONE OBSERVATION.",
+      "narration": "Each capture becomes a traceable artifact. Versions can be compared against preserved evidence. A candidate change requires two fresh observations, at least an hour apart. A retry or a cached response does not become a second confirmation.",
+      "visual": "Two capture nodes with ≥1 h distance, hash identities, old/new blocks. Labels: fresh capture, fresh capture, confirmation. Cached response/retry shown outside count. Content fingerprints do not certify truth."
+    },
+    {
+      "start": 89,
+      "end": 109,
+      "title": "ANALYSE. VERIFY. REVIEW.",
+      "narration": "Analysis must point to exact passages before and after the change. A separate verifier checks the evidence. High impact or uncertain cases move to human review. In the hosted Preview, automatic public changes and notifications remain disabled.",
+      "visual": "Exact passages flow to analyst then separate verifier, then review gate. Publication boundary labelled DISABLED IN PREVIEW. Reference decision-flow-en.svg. No depiction of automatic Preview publication."
+    },
+    {
+      "start": 109,
+      "end": 127,
+      "title": "BUILT TO RESUME. DESIGNED TO BE INSPECTED.",
+      "narration": "Behind the interface, durable jobs connect runs, tasks, attempts, and stored artifacts. Checkpoints support recovery. Preview and Compare make the work inspectable, including a comparison of two extractors on the very same captured response.",
+      "visual": "Animated entity relationship diagram Run 1→N Task 1→N Attempt → Artifact; review decision linked to evidence. Reference entities-en.svg. Compare split-screen labelled same captured response / two extractors, not two acquisition engines."
+    },
+    {
+      "start": 127,
+      "end": 147,
+      "title": "RESEARCH IS PART OF THE PRODUCT.",
+      "narration": "Research does not stop at a new build. Local tests, hosted checks, source completeness, and observations over time answer different questions. Five hundred policies a day is the scale target. Full qualification at that scale is still in progress.",
+      "visual": "Three distinct research tracks: Source completeness, Observations across days, Real scale. All explicitly In qualification. Target 500 policies/day with TARGET label. No animated 100% ring or certification badge."
+    },
+    {
+      "start": 147,
+      "end": 163,
+      "title": "OPEN THE EVIDENCE. FOLLOW THE WORK.",
+      "narration": "The public research diary opens the architecture, decision flow, and entity relationships. GitHub records the implementation and its limits. This is continuous engineering: measure, challenge, refine, and show the work.",
+      "visual": "Three elegant floating sheets, architecture, decision flow, entities. Align into research diary and GitHub. Small source labels; no illegible whole-page screenshot wall."
+    },
+    {
+      "start": 163,
+      "end": 180,
+      "title": "POLICYWATCHER. FOLLOW THE CHANGE.",
+      "narration": "Explore PolicyWatcher today. Inspect Engine Six Preview. Follow the research. Because understanding a policy change should begin with evidence, and lead to a clearer decision.",
+      "visual": "Official logo hero. Three QR cards stationary for last 15 seconds: public service, Engine 6 research, source code. Show URLs, 4-module quiet zones, ≥220 px each at 1080p. End hold at least 3 seconds."
+    }
+  ],
+  "resources": [
+    {
+      "id": "site",
+      "label": "Explore PolicyWatcher",
+      "url": "https://policywatcher.online"
+    },
+    {
+      "id": "research",
+      "label": "Engine 6 research",
+      "url": "https://policywatcher.online/engine-6-preview"
+    },
+    {
+      "id": "code",
+      "label": "Inspect the source",
+      "url": "https://github.com/sev7enITA/policywatcher"
+    }
+  ]
+}
