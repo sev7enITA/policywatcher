@@ -21,6 +21,7 @@ describe('PolicyWatcher 5 public consistency', () => {
     expect(FEATURE_ATLAS_CURRENT_RELEASE_ID).toBe(POLICYWATCHER_VERSION);
     expect(RELEASE_COLUMNS.filter((release) => release.state === 'current').map((release) => release.id)).toEqual([POLICYWATCHER_VERSION]);
     expect(pressKitReleases.filter((release) => release.status === 'current').map((release) => release.version)).toEqual([POLICYWATCHER_VERSION]);
+    expect(pressKitReleases.find((release) => release.version === '5.2.0')?.status).toBe('archived');
     expect(pressKitReleases.find((release) => release.version === '3.9.0-beta.27')?.status).toBe('archived');
   });
 

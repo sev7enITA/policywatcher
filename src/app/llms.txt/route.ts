@@ -8,7 +8,7 @@ PolicyWatcher is a public evidence laboratory that records verified policy basel
 ## Current source release
 ${POLICYWATCHER_VERSION} ${POLICYWATCHER_RELEASE_NAME}. Product 5.5 offers access to the separate authenticated Engine 6.0 Preview at https://staging.policywatcher.online/admin/engine. Preview runs are private and silent; source completeness, multi-day operation and real 500-source capacity remain under qualification. Public release notes: https://policywatcher.online/press-kit/releases/engine-six-preview-5-5-0. Optional shadow observation compares extraction recipes on preserved inputs while retaining the operational baseline. It is disabled by default. Provisional labels cannot validate their own lessons. No automatic promotion, model training or calibrated confidence is claimed.
 
-- [Release record](${POLICYWATCHER_ORIGIN}/press-kit/releases/adaptive-acquisition-evidence-5-2-0)
+- [Release record](${POLICYWATCHER_ORIGIN}/press-kit/releases/engine-six-preview-5-5-0)
 - [Feature inventory and limits](${POLICYWATCHER_ORIGIN}/feature-atlas)
 
 ## Canonical public sections
