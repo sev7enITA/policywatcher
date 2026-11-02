@@ -20,7 +20,7 @@ Product 5.5 is the public stable service. Engine 6 is a private administrative P
 
 Private Motion project: https://claude.ai/cowork/cse_01Ly4pybymDoZgDyUaEHRhko?artifact=28914b15-318a-49b1-8c26-a59ac7728537
 
-Working media are stored outside Git in output/engine6-preview-trailer-2026-11-02/. Final export, audio quality, synchronisation, visual review and QR decoding from rendered frames are pending. Source PNG QR codes are validated separately; this is not yet a rendered-video check.
+Working media are stored outside Git in output/engine6-preview-trailer-2026-11-02/. Ten narration segments have now been generated in MakeMyVoice, assembled into a 180-second track without time stretching, and checked with an independent local transcription. Only spelling and number-format equivalents were observed. The supplied MP3 and exact cue JSON have been uploaded to Claude Motion. Final export, synchronisation, visual review and QR decoding from rendered frames are pending. Human timbre preference remains pending. Source PNG QR codes are validated separately; this is not yet a rendered-video check.
 
 MakeMyVoice uses its existing isolated MLX-Audio 0.5.3 runtime and pinned Qwen3-TTS VoiceDesign revision f90d617701d9f7f4ca499291e0b57f2b3c2fd2ee. Audio generation reports preserve exact-text and direction hashes. This new synthetic narrator does not change the owner's approved voice presets.
 

@@ -1,0 +1,100 @@
+{
+  "status": "Narration generated; Motion visuals and final MP4 pending",
+  "runtime": {
+    "name": "MLX-Audio",
+    "version": "0.5.3"
+  },
+  "model": {
+    "id": "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit",
+    "revision": "e7dd0585652209fa0d7783659aad4e8a324de11c",
+    "license": "Apache-2.0"
+  },
+  "mode": "new synthetic narrator continuity (no personal or game reference)",
+  "localInference": true,
+  "networkAccessDuringInference": false,
+  "segments": [
+    {
+      "id": "01",
+      "duration_seconds": 11.68,
+      "token_limit_reached": false,
+      "text_sha256": "21adcde13f61229315588c2859513ed1c587ddab6ea959d2802468d1f85ef954"
+    },
+    {
+      "id": "02",
+      "duration_seconds": 14.16,
+      "token_limit_reached": false,
+      "text_sha256": "2f856599a4d22bd2c09c3d0c6fb6b1d7e6480b08fe22c31cf22990faa204ebec"
+    },
+    {
+      "id": "03",
+      "duration_seconds": 17.04,
+      "token_limit_reached": false,
+      "text_sha256": "571eb230c7bb948e1a169afb00dd3bba6d465770779a287cb8ba672f9d34c606"
+    },
+    {
+      "id": "04",
+      "duration_seconds": 17.12,
+      "token_limit_reached": false,
+      "text_sha256": "82643b6fba75bf0885c68c58c6c3ecb796ceb6bbd48f0fc29fb314e844a51489"
+    },
+    {
+      "id": "05",
+      "duration_seconds": 14.96,
+      "token_limit_reached": false,
+      "text_sha256": "531a3b6b68b2d1c324d426f4b3ec590e588fdc7ac8647f9b9609e7ff8a54f41c"
+    },
+    {
+      "id": "06",
+      "duration_seconds": 15.36,
+      "token_limit_reached": false,
+      "text_sha256": "02fe65000ed0c0900c0840db74e1754a15b3c2f4ea45db06ec4fd455c4929db6"
+    },
+    {
+      "id": "07",
+      "duration_seconds": 15.2,
+      "token_limit_reached": false,
+      "text_sha256": "c43496cf611179359bf1e06134bbf9fcfcaa6878165bd0f5caa3f8b3cf648420"
+    },
+    {
+      "id": "08",
+      "duration_seconds": 15.84,
+      "token_limit_reached": false,
+      "text_sha256": "bb8a34f9c35c7b3f38a7dc86e1d274178d9265ccee723028f68141a3d8fe0ff2"
+    },
+    {
+      "id": "09",
+      "duration_seconds": 14.88,
+      "token_limit_reached": false,
+      "text_sha256": "6152ae5a30af399d53accc7af7d37c5c1df081bb6e94fbd08a861079b045021d"
+    },
+    {
+      "id": "10",
+      "duration_seconds": 11.36,
+      "token_limit_reached": false,
+      "text_sha256": "80f85a50dc42d865b61c6f0d45ff118ab5e7422279cb3b61ec282cffc3753f3c"
+    }
+  ],
+  "transcriptionCheck": "All ten scene transcripts inspected. Only number formatting, PolicyWatcher spacing and British/US spelling equivalents. This is not a human naturalness approval.",
+  "timeStretch": false,
+  "voiceHumanAcceptance": "pending",
+  "qrSourceChecks": [
+    {
+      "id": "site",
+      "url": "https://policywatcher.online",
+      "decoded": "https://policywatcher.online",
+      "sha256": "7be0f30f7ceb7d7ae1cffcf1a0249ab15f16d9e65ae254c9401bba86c0cbb665"
+    },
+    {
+      "id": "research",
+      "url": "https://policywatcher.online/engine-6-preview",
+      "decoded": "https://policywatcher.online/engine-6-preview",
+      "sha256": "9b5afaf62e1a25d819e6b24ffd100eb55541575b2919a21e18a2867776fb0a05"
+    },
+    {
+      "id": "code",
+      "url": "https://github.com/sev7enITA/policywatcher",
+      "decoded": "https://github.com/sev7enITA/policywatcher",
+      "sha256": "e28e718dd6c830e7451c6a82497b2a21f6d90b8cadd107f624d50fd289bc09e7"
+    }
+  ]
+}

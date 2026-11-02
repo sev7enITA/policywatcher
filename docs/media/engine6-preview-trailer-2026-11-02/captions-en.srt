@@ -1,0 +1,238 @@
+1
+00:00:00,600 --> 00:00:04,000
+Every day, the rules behind our digital
+lives can change,
+
+2
+00:00:04,500 --> 00:00:08,120
+a clause, a permission, a new use of your
+data.
+
+3
+00:00:08,920 --> 00:00:09,880
+The question is simple.
+
+4
+00:00:10,520 --> 00:00:12,120
+What changed and where is the proof?
+
+5
+00:00:14,750 --> 00:00:17,730
+PolicyWatcher helps people and
+organisations follow
+
+6
+00:00:17,730 --> 00:00:20,030
+changes in the policies of digital
+services.
+
+7
+00:00:20,810 --> 00:00:23,730
+Explore the source, compare versions and
+understand
+
+8
+00:00:23,730 --> 00:00:25,530
+why a change deserves attention.
+
+9
+00:00:26,370 --> 00:00:28,570
+Clear information with a path back to the
+evidence.
+
+10
+00:00:32,450 --> 00:00:36,050
+Today, PolicyWatcher has two complementary
+sides.
+
+11
+00:00:36,870 --> 00:00:39,090
+The stable service supports everyday use.
+
+12
+00:00:40,010 --> 00:00:42,850
+Engine 6 Preview is a separate, private
+workspace for
+
+13
+00:00:42,850 --> 00:00:44,050
+testing the next generation.
+
+14
+00:00:44,830 --> 00:00:47,930
+One mission, with a clear boundary between
+public operation
+
+15
+00:00:47,930 --> 00:00:49,250
+and experimental results.
+
+16
+00:00:50,750 --> 00:00:54,310
+The new pipeline starts before artificial
+intelligence.
+
+17
+00:00:55,430 --> 00:00:58,350
+Source contracts check document identity,
+language,
+
+18
+00:00:59,050 --> 00:01:01,050
+required sections and the ending of the
+policy.
+
+19
+00:01:01,850 --> 00:01:03,770
+A successful download is only the
+beginning.
+
+20
+00:01:04,450 --> 00:01:07,370
+Incomplete or ambiguous material is held
+for review.
+
+21
+00:01:10,750 --> 00:01:13,210
+Each capture becomes a traceable artifact.
+
+22
+00:01:14,250 --> 00:01:16,450
+Versions can be compared against preserved
+evidence.
+
+23
+00:01:17,210 --> 00:01:20,130
+A candidate change requires two fresh
+observations at
+
+24
+00:01:20,130 --> 00:01:21,230
+least an hour apart.
+
+25
+00:01:22,070 --> 00:01:24,710
+A retry or a cached response does not
+become a second
+
+26
+00:01:24,710 --> 00:01:25,170
+confirmation.
+
+27
+00:01:29,750 --> 00:01:33,130
+Analysis must point to exact passages
+before and after
+
+28
+00:01:33,130 --> 00:01:33,650
+the change.
+
+29
+00:01:34,350 --> 00:01:36,150
+A separate verifier checks the evidence.
+
+30
+00:01:36,970 --> 00:01:39,890
+High impact or uncertain cases move to
+human review.
+
+31
+00:01:40,550 --> 00:01:43,130
+In the hosted Preview, automatic public
+changes and
+
+32
+00:01:43,130 --> 00:01:44,530
+notifications remain disabled.
+
+33
+00:01:49,750 --> 00:01:53,890
+Behind the interface, durable jobs connect
+runs, tasks,
+
+34
+00:01:54,230 --> 00:01:55,670
+attempts, and stored artifacts.
+
+35
+00:01:56,610 --> 00:01:57,850
+Checkpoints support recovery.
+
+36
+00:01:58,570 --> 00:02:01,350
+Preview and compare make the work
+inspectable, including
+
+37
+00:02:01,350 --> 00:02:04,210
+a comparison of two extractors on the very
+same captured
+
+38
+00:02:04,210 --> 00:02:04,630
+response.
+
+39
+00:02:07,750 --> 00:02:10,190
+Research does not stop at a new build.
+
+40
+00:02:11,130 --> 00:02:14,170
+Local tests, hosted checks, source
+completeness and
+
+41
+00:02:14,170 --> 00:02:16,870
+observations over time answer different
+questions.
+
+42
+00:02:17,850 --> 00:02:20,110
+500 policies a day is the scale target.
+
+43
+00:02:20,770 --> 00:02:23,290
+Full qualification at that scale is still
+in progress.
+
+44
+00:02:27,450 --> 00:02:30,870
+The Public Research Diary opens the
+architecture, decision
+
+45
+00:02:30,870 --> 00:02:32,650
+flow, and entity relationships.
+
+46
+00:02:33,610 --> 00:02:36,130
+GitHub records the implementation and its
+limits.
+
+47
+00:02:37,050 --> 00:02:38,490
+This is continuous engineering.
+
+48
+00:02:39,190 --> 00:02:41,810
+Measure, challenge, refine, and show the
+work.
+
+49
+00:02:44,000 --> 00:02:46,020
+Explore PolicyWatcher today.
+
+50
+00:02:46,640 --> 00:02:48,200
+Inspect Engine 6 Preview.
+
+51
+00:02:48,880 --> 00:02:51,820
+Follow the research, because understanding
+a policy change
+
+52
+00:02:51,820 --> 00:02:54,780
+should begin with evidence and lead to a
+clearer decision.
