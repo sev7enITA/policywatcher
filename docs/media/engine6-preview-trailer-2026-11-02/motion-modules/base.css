@@ -1,0 +1,23 @@
+#stage { --ground:#10243d; --main:#6366f1; --second:#f5f1e8; --accent:#06b6d4; --amber:#f59e0b; color:var(--second); font-family:var(--sans, system-ui, sans-serif) }
+.ground { position:absolute; inset:0; background:radial-gradient(110% 90% at 70% 110%, color-mix(in srgb, var(--main) 22%, var(--ground)), var(--ground) 62%); overflow:hidden }
+.words { position:absolute; margin:0; display:flex; flex-direction:column; gap:22px } .words > * { margin:0 }
+.line { font-family:var(--display, var(--sans, system-ui, sans-serif)); font-size:84px; line-height:1.02; font-weight:700; letter-spacing:-.01em } .sub { font-size:40px; line-height:1.25; font-weight:400; color:color-mix(in srgb, var(--second) 78%, var(--ground)) }
+.kicker { font-size:28px; font-weight:600; letter-spacing:.22em; text-transform:uppercase; color:var(--accent) }
+.mono { font-family:var(--mono, ui-monospace, monospace) }
+.hero { font-size:140px; line-height:.95; font-weight:700; letter-spacing:-.02em }
+.big { font-size:52px; line-height:1.08; font-weight:700 }
+.label { font-size:30px; line-height:1.2; font-weight:600; letter-spacing:.03em }
+.layer { position:absolute; inset:0 }
+.art { position:absolute; inset:0; width:100%; height:100%; overflow:visible }
+.bd-grid { position:absolute; left:-200px; top:-200px; width:2400px; height:1500px; background-image:linear-gradient(color-mix(in srgb, var(--accent) 7%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--accent) 7%, transparent) 1px, transparent 1px); background-size:96px 96px }
+.bd-dots { position:absolute; left:-300px; top:-300px; width:2600px; height:1700px; background-image:radial-gradient(color-mix(in srgb, var(--second) 18%, transparent) 2px, transparent 2.5px); background-size:192px 192px }
+.bd-glow { position:absolute; width:1100px; height:1100px; border-radius:50%; background:radial-gradient(closest-side, color-mix(in srgb, var(--main) 30%, transparent), transparent) }
+.bd-g1 { left:-250px; top:-350px } .bd-g2 { left:1100px; top:380px; background:radial-gradient(closest-side, color-mix(in srgb, var(--accent) 16%, transparent), transparent) }
+.bd-vig { position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 50%, transparent 55%, rgba(0,0,0,.3)) }
+.sheet { position:absolute; box-sizing:border-box; background:var(--second); color:var(--ground); border-radius:14px; box-shadow:0 30px 70px rgba(0,0,0,.35) }
+.node { position:absolute; box-sizing:border-box; display:flex; flex-direction:column; justify-content:center; gap:6px; padding:0 30px; border-radius:20px; background:color-mix(in srgb, var(--ground) 80%, var(--main)); border:2px solid color-mix(in srgb, var(--main) 70%, var(--second)); box-shadow:0 24px 50px rgba(0,0,0,.3) }
+.n-amber { border-color:var(--amber); background:color-mix(in srgb, var(--ground) 86%, var(--amber)) } .n-cyan { border-color:var(--accent); background:color-mix(in srgb, var(--ground) 84%, var(--accent)) }
+.amber { color:var(--amber) } .cyan { color:var(--accent) } .dim { color:color-mix(in srgb, var(--second) 60%, var(--ground)) }
+.thread { fill:none; stroke:var(--accent); stroke-width:4; stroke-linecap:round } .thread-m { fill:none; stroke:var(--main); stroke-width:4; stroke-linecap:round } .thread-a { fill:none; stroke:var(--amber); stroke-width:4; stroke-linecap:round; stroke-dasharray:10 12 }
+.spark { fill:var(--accent) } .spark-a { fill:var(--amber) }
+.tag { position:absolute; padding:6px 18px; border-radius:999px; font-size:28px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; border:2px solid currentColor; white-space:nowrap }

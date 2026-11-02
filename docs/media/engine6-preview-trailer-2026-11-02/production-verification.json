@@ -1,5 +1,5 @@
 {
-  "status": "Narration generated; Motion visuals and final MP4 pending",
+  "status": "Final local MP4 delivered for viewing; not publicly published",
   "runtime": {
     "name": "MLX-Audio",
     "version": "0.5.3"
@@ -76,7 +76,7 @@
   ],
   "transcriptionCheck": "All ten scene transcripts inspected. Only number formatting, PolicyWatcher spacing and British/US spelling equivalents. This is not a human naturalness approval.",
   "timeStretch": false,
-  "voiceHumanAcceptance": "pending",
+  "voiceHumanAcceptance": "Fabrizio approved the 30-second voice direction on 2026-11-02 and requested it be retained. Full final video review remains separate.",
   "qrSourceChecks": [
     {
       "id": "site",
@@ -96,5 +96,142 @@
       "decoded": "https://github.com/sev7enITA/policywatcher",
       "sha256": "e28e718dd6c830e7451c6a82497b2a21f6d90b8cadd107f624d50fd289bc09e7"
     }
-  ]
+  ],
+  "captionCount": 49,
+  "minimumCaptionSeconds": 1.2,
+  "loudness": {
+    "mp3IntegratedLUFS": -16.41,
+    "mp3TruePeakDBTP": -1.74,
+    "masterSampleRate": 48000,
+    "masterDurationSeconds": 180
+  },
+  "finalVideo": {
+    "video": "output/engine6-preview-trailer-2026-11-02/export/policywatcher-engine6-preview-trailer-180s-1080p.mp4",
+    "sha256": "6af73f24ef8472146ff0f5a10a4b1275102e10270bc541c8eaefed7726971802",
+    "duration": "180.000000",
+    "video_stream": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "avg_frame_rate": "30/1",
+      "nb_frames": "5400"
+    },
+    "audio_streams": [
+      {
+        "codec_name": "aac",
+        "sample_rate": "48000",
+        "channels": 2,
+        "duration": "180.000000"
+      }
+    ],
+    "checks": {
+      "duration_180_seconds": true,
+      "1920_by_1080": true,
+      "30_fps": true,
+      "audio_present": true,
+      "three_qrs_readable_at_each_sample": true
+    },
+    "qr_samples": [
+      {
+        "second": 166,
+        "decoded": [
+          "https://github.com/sev7enITA/policywatcher",
+          "https://policywatcher.online",
+          "https://policywatcher.online/engine-6-preview"
+        ],
+        "all_expected_decoded": true
+      },
+      {
+        "second": 170,
+        "decoded": [
+          "https://github.com/sev7enITA/policywatcher",
+          "https://policywatcher.online",
+          "https://policywatcher.online/engine-6-preview"
+        ],
+        "all_expected_decoded": true
+      },
+      {
+        "second": 175,
+        "decoded": [
+          "https://github.com/sev7enITA/policywatcher",
+          "https://policywatcher.online",
+          "https://policywatcher.online/engine-6-preview"
+        ],
+        "all_expected_decoded": true
+      },
+      {
+        "second": 179,
+        "decoded": [
+          "https://github.com/sev7enITA/policywatcher",
+          "https://policywatcher.online",
+          "https://policywatcher.online/engine-6-preview"
+        ],
+        "all_expected_decoded": true
+      }
+    ],
+    "technical_pass": true,
+    "human_voice_acceptance": "separate, not established by these checks"
+  },
+  "audioSync": {
+    "method": "8000Hz mono sample correlation at authored scene offsets",
+    "reference": "audio/policywatcher-makemyvoice-narration-180s.wav",
+    "export": "policywatcher-engine6-preview-trailer-180s-1080p.mp4",
+    "scenes": [
+      {
+        "scene": 1,
+        "correlation_at_authored_position": 0.999997,
+        "pass_sync": true
+      },
+      {
+        "scene": 2,
+        "correlation_at_authored_position": 0.999979,
+        "pass_sync": true
+      },
+      {
+        "scene": 3,
+        "correlation_at_authored_position": 0.999978,
+        "pass_sync": true
+      },
+      {
+        "scene": 4,
+        "correlation_at_authored_position": 0.999987,
+        "pass_sync": true
+      },
+      {
+        "scene": 5,
+        "correlation_at_authored_position": 0.999992,
+        "pass_sync": true
+      },
+      {
+        "scene": 6,
+        "correlation_at_authored_position": 0.99998,
+        "pass_sync": true
+      },
+      {
+        "scene": 7,
+        "correlation_at_authored_position": 0.999988,
+        "pass_sync": true
+      },
+      {
+        "scene": 8,
+        "correlation_at_authored_position": 0.999995,
+        "pass_sync": true
+      },
+      {
+        "scene": 9,
+        "correlation_at_authored_position": 0.999989,
+        "pass_sync": true
+      },
+      {
+        "scene": 10,
+        "correlation_at_authored_position": 0.99999,
+        "pass_sync": true
+      }
+    ],
+    "all_scenes_match_timing": true
+  },
+  "visualReview": "Ten scene keyframes inspected in the final export; source timing checked for animated titles. This is not a claim of independent product qualification.",
+  "assembly": "Claude Motion silent visual export copied without video re-encoding; original MakeMyVoice WAV muxed as AAC stereo with selectable English subtitles.",
+  "knownPlayerLimit": "The editable Motion preview is silent. The delivered MP4 contains the full voice track.",
+  "precedingCandidates": "First silent visual export preserved locally as motion-export-v1.mp4; superseded after layout corrections."
 }

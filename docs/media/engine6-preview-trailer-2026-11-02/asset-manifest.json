@@ -1,0 +1,51 @@
+{
+  "createdAt": "2026-11-02T04:51:49.350Z",
+  "publication": "Final local delivery; not publicly published",
+  "files": [
+    {
+      "path": "audio/policywatcher-makemyvoice-narration-180s.wav",
+      "bytes": 25920102,
+      "sha256": "d49ab91a80978015a7f44802c68d4473bf7421a8f28bd208113e9827571335b7"
+    },
+    {
+      "path": "audio/policywatcher-makemyvoice-narration-180s.mp3",
+      "bytes": 4321197,
+      "sha256": "4ff2654dd11739e9e67382c001399c185a7a12d26e7cefbb9d0513cc1fc546da"
+    },
+    {
+      "path": "audio/cues.json",
+      "bytes": 3639,
+      "sha256": "71a0f868c3e543bc225fcff2b06420b69c28d27baf6428d3e5b7036ae0afde9f"
+    },
+    {
+      "path": "export/policywatcher-evidence-in-motion-en.srt",
+      "bytes": 3927,
+      "sha256": "2f57745005f2e0aa80f4db1b27846ed6c98f50492ff854b2080573c31e508427"
+    },
+    {
+      "path": "assets/qr-site.png",
+      "bytes": 2204,
+      "sha256": "7be0f30f7ceb7d7ae1cffcf1a0249ab15f16d9e65ae254c9401bba86c0cbb665"
+    },
+    {
+      "path": "assets/qr-research.png",
+      "bytes": 2651,
+      "sha256": "9b5afaf62e1a25d819e6b24ffd100eb55541575b2919a21e18a2867776fb0a05"
+    },
+    {
+      "path": "assets/qr-code.png",
+      "bytes": 2633,
+      "sha256": "e28e718dd6c830e7451c6a82497b2a21f6d90b8cadd107f624d50fd289bc09e7"
+    },
+    {
+      "path": "export/policywatcher-engine6-preview-trailer-180s-1080p.mp4",
+      "bytes": 81650624,
+      "sha256": "6af73f24ef8472146ff0f5a10a4b1275102e10270bc541c8eaefed7726971802"
+    },
+    {
+      "path": "export/policywatcher-evidence-in-motion-source.zip",
+      "bytes": 6123504,
+      "sha256": "7df5f19374ccdcd1db570a0a2dcfab7b733c623b99fc5152af414048f1ad6079"
+    }
+  ]
+}
