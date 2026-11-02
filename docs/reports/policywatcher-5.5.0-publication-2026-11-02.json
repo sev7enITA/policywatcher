@@ -1,0 +1,5284 @@
+{
+  "schema": "policywatcher-release-publication-1",
+  "recordedAt": "2026-11-02T03:39:35.532111+00:00",
+  "productVersion": "5.5.0",
+  "experimentalEngineVersion": "6.0",
+  "status": "published_and_preview_restored",
+  "publicArtifact": {
+    "sha256": "163cf12e831d2d5bc2ad688d82ef4551ae56b4f2fae9c215d1f748efff9a6344",
+    "entries": 1332,
+    "crcFailure": null,
+    "privateFiles": []
+  },
+  "publicSourceRevision": "ae3da73866f6638d096fb9a00e313a45c2b55389",
+  "publicBaseRevision": "d846a498988aaa22ce1bb955aba347e9d186463f",
+  "sourceIntegrationRevision": "d58cae7eba752b2ad3fd867c002d09954080f25a",
+  "stagingDeployment": {
+    "id": "01a19a4b-959e-72af-aad0-25b50c55f757",
+    "state": "Completed / Current",
+    "displayedTimeEuropeRome": "2026-11-02 04:28"
+  },
+  "productionDeployment": {
+    "id": "01a19a50-2ed3-71ce-bdaf-6b3d5d0f0c9f",
+    "state": "Completed / Current",
+    "displayedTimeEuropeRome": "2026-11-02 04:33"
+  },
+  "localValidation": {
+    "publicTestsPassed": 1313,
+    "sourceIntegrationTestsPassed": 1569,
+    "skippedEach": 14,
+    "lint": "passed with existing warnings",
+    "optimizedBuilds": "passed",
+    "pdfsRenderedAndVisuallyChecked": [
+      "en",
+      "it"
+    ]
+  },
+  "staging": {
+    "operational": {
+      "checkedAt": "2026-11-02T03:29:16.654Z",
+      "status": "passed",
+      "release": "5.5.0",
+      "checks": [
+        {
+          "id": "homepage",
+          "status": "passed",
+          "detail": "HTTP 200; release 5.5.0 present in initial HTML."
+        },
+        {
+          "id": "staging-banner",
+          "status": "passed",
+          "detail": "Visible staging identity and DOM marker are present."
+        },
+        {
+          "id": "search-engine-boundary",
+          "status": "passed",
+          "detail": "Staging pages return noindex, nofollow, noarchive."
+        },
+        {
+          "id": "robots-boundary",
+          "status": "passed",
+          "detail": "robots.txt disallows the staging origin."
+        },
+        {
+          "id": "release-identity",
+          "status": "passed",
+          "detail": "Public manifest matches artifact release 5.5.0."
+        },
+        {
+          "id": "publication-readiness-contract",
+          "status": "passed",
+          "detail": "Database-derived publication readiness contract, stage order, no-store boundary and latest capture are valid."
+        },
+        {
+          "id": "health-auth-boundary",
+          "status": "passed",
+          "detail": "Operational health rejects unauthenticated requests."
+        },
+        {
+          "id": "database-health",
+          "status": "passed",
+          "detail": "18 companies; database is configured, readable and writable."
+        },
+        {
+          "id": "admin-authentication",
+          "status": "passed",
+          "detail": "Dedicated staging administrator can establish a signed session."
+        },
+        {
+          "id": "database-readiness",
+          "status": "passed",
+          "detail": "35 tables and 19 migrations reported ready."
+        },
+        {
+          "id": "public-dataset",
+          "status": "passed",
+          "detail": "18 public companies pass the staging evidence gate."
+        }
+      ]
+    },
+    "releaseChecks": [
+      {
+        "id": "/_http",
+        "pass": true
+      },
+      {
+        "id": "/_product_identity",
+        "pass": true
+      },
+      {
+        "id": "homepage_news_before_heading",
+        "pass": true
+      },
+      {
+        "id": "homepage_release_link",
+        "pass": true
+      },
+      {
+        "id": "homepage_preview_link",
+        "pass": true
+      },
+      {
+        "id": "/roadmap_http",
+        "pass": true
+      },
+      {
+        "id": "/roadmap_product_identity",
+        "pass": true
+      },
+      {
+        "id": "/feature-atlas_http",
+        "pass": true
+      },
+      {
+        "id": "/feature-atlas_product_identity",
+        "pass": true
+      },
+      {
+        "id": "/press-kit_http",
+        "pass": true
+      },
+      {
+        "id": "/press-kit_product_identity",
+        "pass": true
+      },
+      {
+        "id": "/press-kit_current_pdf_link",
+        "pass": true
+      },
+      {
+        "id": "/press-kit?lang=it_http",
+        "pass": true
+      },
+      {
+        "id": "/press-kit?lang=it_product_identity",
+        "pass": true
+      },
+      {
+        "id": "/press-kit?lang=it_current_pdf_link",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/releases_http",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/releases_product_identity",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/releases?lang=it_http",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/releases?lang=it_product_identity",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/releases/engine-six-preview-5-5-0_http",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/releases/engine-six-preview-5-5-0_product_identity",
+        "pass": true
+      },
+      {
+        "id": "release_en_heading",
+        "pass": true
+      },
+      {
+        "id": "release_en_language",
+        "pass": true
+      },
+      {
+        "id": "release_en_canonical",
+        "pass": true
+      },
+      {
+        "id": "release_en_preview_link",
+        "pass": true
+      },
+      {
+        "id": "release_en_private_boundary",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/releases/engine-six-preview-5-5-0?lang=it_http",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/releases/engine-six-preview-5-5-0?lang=it_product_identity",
+        "pass": true
+      },
+      {
+        "id": "release_it_heading",
+        "pass": true
+      },
+      {
+        "id": "release_it_language",
+        "pass": true
+      },
+      {
+        "id": "release_it_canonical",
+        "pass": true
+      },
+      {
+        "id": "release_it_preview_link",
+        "pass": true
+      },
+      {
+        "id": "release_it_private_boundary",
+        "pass": true
+      },
+      {
+        "id": "/engine-6-preview_http",
+        "pass": true
+      },
+      {
+        "id": "/engine-6-preview_product_identity",
+        "pass": true
+      },
+      {
+        "id": "/engine-6-preview?lang=it_http",
+        "pass": true
+      },
+      {
+        "id": "/engine-6-preview?lang=it_product_identity",
+        "pass": true
+      },
+      {
+        "id": "public_api_version",
+        "pass": true
+      },
+      {
+        "id": "press_api_version",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/feed.json_version",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/feed.json_engine_news",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/feed.xml_version",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/feed.xml_engine_news",
+        "pass": true
+      },
+      {
+        "id": "/llms.txt_version",
+        "pass": true
+      },
+      {
+        "id": "/llms.txt_engine_news",
+        "pass": true
+      },
+      {
+        "id": "pdf_en_exact_bytes",
+        "pass": true,
+        "sha256": "fc8597bedc4094404d9570dbe5fdbd32022fd5223399fb8616c676ba30b3401f",
+        "bytes": 5383
+      },
+      {
+        "id": "pdf_it_exact_bytes",
+        "pass": true,
+        "sha256": "5b0e3f7c64420b459e22f6df4e0f302b49f96ed19dde7d2b3d1594ef38fed3c5",
+        "bytes": 5459
+      },
+      {
+        "id": "sitemap_new_release",
+        "pass": true
+      },
+      {
+        "id": "sitemap_routes_http_200",
+        "pass": true,
+        "count": 474,
+        "failed": []
+      }
+    ],
+    "routes": [
+      {
+        "path": "/per-te",
+        "status": 200
+      },
+      {
+        "path": "/",
+        "status": 200
+      },
+      {
+        "path": "/per-te?lang=en",
+        "status": 200
+      },
+      {
+        "path": "/it/associazioni",
+        "status": 200
+      },
+      {
+        "path": "/en/associations",
+        "status": 200
+      },
+      {
+        "path": "/evidence",
+        "status": 200
+      },
+      {
+        "path": "/collections",
+        "status": 200
+      },
+      {
+        "path": "/atlas",
+        "status": 200
+      },
+      {
+        "path": "/showcase",
+        "status": 200
+      },
+      {
+        "path": "/developers/event-continuity",
+        "status": 200
+      },
+      {
+        "path": "/feature-atlas",
+        "status": 200
+      },
+      {
+        "path": "/observatory",
+        "status": 200
+      },
+      {
+        "path": "/developers",
+        "status": 200
+      },
+      {
+        "path": "/timeline",
+        "status": 200
+      },
+      {
+        "path": "/what-changed",
+        "status": 200
+      },
+      {
+        "path": "/developers/webhook-readiness",
+        "status": 200
+      },
+      {
+        "path": "/integrations",
+        "status": 200
+      },
+      {
+        "path": "/browser-extension",
+        "status": 200
+      },
+      {
+        "path": "/browser-extension?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/engine-6-preview",
+        "status": 200
+      },
+      {
+        "path": "/engine-6-preview?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/trust/residency",
+        "status": 200
+      },
+      {
+        "path": "/infographics",
+        "status": 200
+      },
+      {
+        "path": "/leaderboard",
+        "status": 200
+      },
+      {
+        "path": "/trust",
+        "status": 200
+      },
+      {
+        "path": "/pulse",
+        "status": 200
+      },
+      {
+        "path": "/press",
+        "status": 200
+      },
+      {
+        "path": "/roadmap",
+        "status": 200
+      },
+      {
+        "path": "/press-kit",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/data",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/reference",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/corrections",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/glossary",
+        "status": 200
+      },
+      {
+        "path": "/about",
+        "status": 200
+      },
+      {
+        "path": "/security",
+        "status": 200
+      },
+      {
+        "path": "/methodology/confidence",
+        "status": 200
+      },
+      {
+        "path": "/privacy",
+        "status": 200
+      },
+      {
+        "path": "/guides",
+        "status": 200
+      },
+      {
+        "path": "/guides?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/terms",
+        "status": 200
+      },
+      {
+        "path": "/guides/privacy-policy-changes",
+        "status": 200
+      },
+      {
+        "path": "/guides/ai-provider-policy-updates",
+        "status": 200
+      },
+      {
+        "path": "/guides/ai-provider-policy-updates?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/guides/privacy-policy-changes?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/guides/data-processing-agreement-monitoring",
+        "status": 200
+      },
+      {
+        "path": "/guides/data-processing-agreement-monitoring?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/guides/terms-of-service-monitoring",
+        "status": 200
+      },
+      {
+        "path": "/guides/terms-of-service-monitoring?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/guides/aws-data-processing-addendum-dpa",
+        "status": 200
+      },
+      {
+        "path": "/guides/aws-data-processing-addendum-dpa?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/guides/meta-automated-data-collection-terms",
+        "status": 200
+      },
+      {
+        "path": "/guides/meta-automated-data-collection-terms?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/guides/anthropic-acceptable-use-policy",
+        "status": 200
+      },
+      {
+        "path": "/guides/wise-acceptable-use-policy",
+        "status": 200
+      },
+      {
+        "path": "/guides/wise-acceptable-use-policy?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/guides/anthropic-acceptable-use-policy?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/google",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/amazon",
+        "status": 200
+      },
+      {
+        "path": "/knowledge",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/tiktok",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/x-twitter",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/waze",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/revolut",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/paypal",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/stripe",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/meta",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/microsoft",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/coca-cola",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/apple",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/google/policies/f8790fb1-f068-4209-af8a-c4b4eb1c6a0b",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/0ec3d4b4-79d4-4e2e-8a66-60dde69a5c10",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/amazon/policies/632b2a6d-253e-4721-b4e4-432d4d3f5795",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/google/policies/11539eab-9c04-4d21-8496-ac21de3bc7e2",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/61d62a8b-1bce-4c49-8cd5-0b525c8174ca",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/afa522e5-142f-4f98-bcf7-5918df5cfd7f",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/12bdc558-4e06-456f-8b71-79b5ecf8507f",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/25b5cc7b-48a5-468f-89da-8faa44ae13f3",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/4137ed6f-9192-4fd3-851b-5f1aa6eb5586",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/f7159070-1445-49ac-aa51-daa4682bb431",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/ce028553-2a7a-42cb-83c7-f2d168432a46",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/2e48df83-b673-461e-87f1-173a3f073ef5",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/x-twitter/policies/f2b77af5-3705-4573-94a5-10153d76e7f5",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/x-twitter/policies/73b56cdd-595f-4133-a517-b5fa94dc0c97",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/b12c369f-415a-42cf-b4b8-11d70e823cbf",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/3e616451-ba60-46e6-9634-d5925da2d56a",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/e85abf12-e25c-4e95-8294-5d6d3955f6aa",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/4f9049fc-627c-4f18-8b1d-c781b287d13d",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/c5b2f6c4-80a2-4181-a67e-359c588b29f1",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/6e4db68c-6998-43dd-83ba-08eeab76e7f9",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/9801aa3b-73a6-4aa2-9d97-f24c7f2df4ef",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/76eb9c5b-4972-4363-a9c4-d4e07ffb6ce2",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/fc0287e0-8b1b-488e-b623-05f4a188e8fb",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/waze/policies/b6766fe2-2ad3-4d24-ba01-b54f49609571",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/4cb8eff5-72ef-440c-b9a6-b614a2e47ae0",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/waze/policies/48689e5c-7596-463e-a5e5-b62cb376cb1a",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/waze/policies/a4da706f-7904-4ed6-8259-e08c6ae1469d",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/waze/policies/7db8b207-643d-455c-ade7-dec4c0b3d1ee",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/tiktok/policies/ba9a6eba-2f2e-4b30-8a92-04f7743f0d65",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/tiktok/policies/b47fc580-406b-476b-bc50-c3a891e908a3",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/tiktok/policies/3301a440-a2bd-4387-a1df-ebe85bd3cf17",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/tiktok/policies/22825cf3-89ed-4237-9a3e-75f8f24e63ac",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/stripe/policies/66546f7a-ef51-4e0f-9595-7c3777c9b746",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/stripe/policies/775c0c08-14f0-4e3f-b3e0-293dc8a4965c",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/stripe/policies/48c57d06-ab8e-4758-b9c4-f5a7e1e8a681",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/stripe/policies/4926f44b-d094-41a8-9073-73f9052a0b5b",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/stripe/policies/ebd51ebc-ade0-4c3f-bfc7-3b030a45772d",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/stripe/policies/1f71d4a3-dddd-4562-9b89-38888c3d07a4",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/stripe/policies/bfd14408-93ac-44ea-be57-6047ca5c7f1c",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/revolut/policies/c0ad59f0-af83-4a95-bf06-f5d1099240bb",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/revolut/policies/afb20e9d-2e61-4a04-961c-9f13400438e0",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/revolut/policies/3b2b7720-1fed-44e0-9b23-56ed241de9dd",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid/policies/ff752150-58b8-4675-b2c6-2fa37e5a66cb",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid/policies/912ef5e4-3fe5-45ec-bb2b-74b97970fce1",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/revolut/policies/c06a709b-379b-4684-ab21-209eae3579be",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid/policies/bc3c2144-3412-4a26-981d-323f784db1dd",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid/policies/27d27c1e-b79f-4db4-828c-d79bfa690210",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid/policies/0659472c-2737-40b2-83db-9f238aeade0b",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid/policies/ef869aae-4fbc-4941-a2c4-ffe1edfe0524",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid/policies/68f53187-bb35-4ce4-be4f-16734f9f54f5",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid/policies/c5bbea96-e351-437e-bce7-affbf0cc946d",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/paypal/policies/dc8f08a1-4c7e-4b31-a1cd-c3f8597c965a",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/paypal/policies/b1c25854-aa4d-44bb-8c48-9009cf8a9d6a",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/paypal/policies/9e09108f-4041-4c64-8e16-88543e1b7e43",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/paypal/policies/c75b67f3-eda3-4219-8c08-7a547339e844",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/paypal/policies/ffcb0efc-2a6f-473d-8296-e939fccb4aef",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/paypal/policies/c28fb784-5012-4696-8c70-505d4185972a",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/a07a13f2-ae2b-4eef-907b-8b9ca5217872",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/b4651c03-839a-4379-a4dd-08337ffac02a",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/7e045aa5-d1e4-4ca4-b8e3-886234c5dbfc",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/9e7ca672-d487-4edc-92b9-8567f4c1adcf",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/038bc0ee-ddf2-4161-af89-c6c0ec036b3f",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/11971ce4-bec9-4aef-ba32-8f79de72e4b7",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/7a411bf8-444f-4200-bbc6-b410f8b84182",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/e8a31a93-a3d9-4011-8837-0557da875b40",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/489ce448-2147-45ed-aecf-6468f2ca3d22",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/microsoft/policies/d9e2da07-eaec-43e2-ab29-9286bca75911",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/microsoft/policies/5681de09-ab08-4131-9922-34b96d28db2d",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/microsoft/policies/cda59c99-32eb-4c5d-aae6-a269c7b681f6",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/microsoft/policies/03c2d44e-5c5c-44b3-8b3e-42be71fef7ac",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/microsoft/policies/f7958007-438b-4240-ba2d-2a48dbb9f661",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/microsoft/policies/d3cab08f-d404-4e68-b0b7-a50dbde5e467",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/microsoft/policies/72c7604d-8b87-45dc-8949-ba9e6758a3b5",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/meta/policies/8e2eb94e-eb92-458f-9012-494c6fc36707",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/meta/policies/466d072b-d894-49fe-aa33-8d607a298f67",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/meta/policies/959fc5a0-6e35-4088-811d-fbdd905e46e4",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/meta/policies/5946f95d-2fa3-4628-896a-f773d09ffbbd",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna/policies/f4168900-e4f5-4f91-b69d-9127a145335c",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna/policies/6b03f215-97db-4a24-b92a-22ef3e11fea5",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna/policies/0fed73f4-ac93-4699-9d66-dd65ab6780cc",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna/policies/f0281764-cc55-4db9-b9ed-d6f6ab9811fb",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna/policies/9191b215-1443-448b-b0c3-cb0739367fc2",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna/policies/baafe256-b2ee-4e61-8150-a21123e4108e",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna/policies/37469295-57a6-408e-bfdf-864534018810",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna/policies/e687d4ad-423e-4073-a236-362ca0e2c121",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/coca-cola/policies/d0fab3be-2af3-4120-9d6d-098f4f655be2",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/google/policies/fef3c1a1-5802-4aac-aaf4-8ca5db60c85a",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/google/policies/c287880a-4512-4dc0-a8bd-cdf7d4f33e15",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/google/policies/4b255c8b-197c-4046-b848-bce7e1485583",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/coca-cola/policies/35789a69-bde2-402c-985e-71b3b1c52493",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/apple/policies/421b3f0c-5924-4e3d-b84e-2ff68a441041",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/coca-cola/policies/576b7655-9b52-49e1-9e65-00b29e36a50d",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/coca-cola/policies/47b982e5-4cd4-43db-828f-6fbd2995802e",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic/policies/6c74b17f-dccf-4395-a310-04a7476dad31",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/apple/policies/77eeaf0f-90a2-43c8-bc82-be7e2473c825",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/apple/policies/86088457-fcad-4537-a6b7-809019ce586c",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/apple/policies/2b2f0f1c-efa1-45e0-96ba-04e93ca35598",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic/policies/54ee97fb-bc87-41ff-837d-2a06184e99a5",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic/policies/1cc677eb-3207-4569-880a-aaba223b4803",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic/policies/5afd72ff-64d7-411d-823e-3573e2901762",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic/policies/411d6736-596e-41f3-9218-27380f5de07d",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic/policies/135999e7-3cbb-4ddf-ab39-ca1a8ed5b233",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic/policies/410cbce9-6b57-411e-8da9-44993c172044",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/amazon/policies/c26029b3-e270-443d-b93c-18ef3688295a",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic/policies/295e4c7f-fa6e-4e4d-908e-383cb91a59ae",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/amazon/policies/4b62f7a4-dd92-40c5-b852-371572a636aa",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/amazon/policies/bcc8bc60-641b-45b6-b8ce-560447166ee2",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/amazon/policies/cc0c6f48-46d4-444e-912b-5ae25e9c83ca",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/amazon/policies/c51f6ead-7964-41b8-92cb-c4434ad524d5",
+        "status": 200
+      },
+      {
+        "path": "/pulse/two-week-release-impact",
+        "status": 200
+      },
+      {
+        "path": "/pulse/configured-policy-evidence-scope?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/pulse/configured-policy-evidence-scope",
+        "status": 200
+      },
+      {
+        "path": "/pulse/two-week-release-impact?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/pulse/public-evidence-publication-gate",
+        "status": 200
+      },
+      {
+        "path": "/pulse/public-evidence-publication-gate?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/pulse/versioned-beta-release-records",
+        "status": 200
+      },
+      {
+        "path": "/pulse/versioned-beta-release-records?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/engine-six-preview-5-5-0",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/adaptive-acquisition-evidence-5-2-0",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/traceable-evidence-5-1-0",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/engine-six-private-preview-6-0-0-preview-1",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/your-services-your-choices-5-0-0",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/document-scope-comparable-evidence-4-0-0-beta-5",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/production-readiness-hardening-4-0-0-beta-2",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/ai-discoverability-citation-readiness-4-0-0-beta-3",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/evidence-consistency-live-coverage-4-0-0-beta-4",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/policywatcher-civico-3-9-0-beta-40",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/canonical-evidence-foundation-4-0-0-beta-1",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/evidence-release-control-plane-3-9-0-beta-42",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/adaptive-experience-3-9-0-beta-41",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/resource-navigation-retrieval-diagnostics-3-9-0-beta-37",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/managed-vps-releases-3-9-0-beta-39",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/remediation-community-mutation-hardening-3-9-0-beta-36",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/git-hosted-press-distribution-3-9-0-beta-38",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/source-remediation-workbench-3-9-0-beta-34",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/production-assurance-renderer-hardening-3-9-0-beta-33",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/authenticated-production-verification-3-9-0-beta-32",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/community-signal-composer-3-9-0-beta-35",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/agent-evidence-gateway-3-9-0-beta-28",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/multicloud-agent-source-packages-3-9-0-beta-29",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/residency-processor-evidence-3-9-0-beta-31",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/enterprise-agent-contract-evidence-3-9-0-beta-30",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/admin-operational-readiness-3-9-0-beta-27",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/crawlable-public-knowledge-layer-3-9-0-beta-26",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/admin-shell-readability-3-9-0-beta-25",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/webhook-operations-ux-3-9-0-beta-24",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/event-feed-continuity-3-9-0-beta-22",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/configured-webhook-delivery-pilot-3-9-0-beta-23",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/source-reliability-receiver-conformance-3-9-0-beta-21",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/webhook-verification-readiness-3-9-0-beta-20",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/evidence-workflow-refinements-3-9-0-beta-18",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/collaboration-delivery-contracts-3-9-0-beta-19",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/shareable-evidence-collections-3-9-0-beta-17",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/evidence-governance-packets-3-9-0-beta-16",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/citable-coverage-registry-3-9-0-beta-15",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/local-mime-evidence-intake-3-9-0-beta-12",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/editorial-pulse-distribution-3-9-0-beta-13",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/press-outreach-operations-3-9-0-beta-14",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/evidence-delivery-integration-3-9-0-beta-11",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/source-continuity-ledger-3-9-0-beta-10",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/verified-browser-distribution-3-9-0-beta-9",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/assistant-entry-point-consolidation-3-9-0-beta-8",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/release-assurance-newsroom-insights-3-9-0-beta-7",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/qualified-public-language-3-9-0-beta-4",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/press-kit-navigation-3-9-0-beta-5",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/evidence-newsroom-3-9-0-beta-6",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/verifiable-press-kit-3-9-0-beta-3",
+        "status": 200
+      },
+      {
+        "path": "/change/4961a031-d13e-4e25-b878-22fe5e890e52?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/e4f3732c-92f2-4a5d-a9b2-716fd9ebf183",
+        "status": 200
+      },
+      {
+        "path": "/change/4961a031-d13e-4e25-b878-22fe5e890e52",
+        "status": 200
+      },
+      {
+        "path": "/change/e4f3732c-92f2-4a5d-a9b2-716fd9ebf183?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/46e33448-2d8e-4346-86d9-2a11d0c85145",
+        "status": 200
+      },
+      {
+        "path": "/change/3a1a0bf1-d724-415b-91bb-85c94f929d1e",
+        "status": 200
+      },
+      {
+        "path": "/change/3a1a0bf1-d724-415b-91bb-85c94f929d1e?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/46e33448-2d8e-4346-86d9-2a11d0c85145?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/71c0131c-38e2-4ac6-8a81-8adac2a16bc0",
+        "status": 200
+      },
+      {
+        "path": "/change/71c0131c-38e2-4ac6-8a81-8adac2a16bc0?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/83267f34-6e62-47d2-a79e-e19dc4479cc5?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/83267f34-6e62-47d2-a79e-e19dc4479cc5",
+        "status": 200
+      },
+      {
+        "path": "/change/16f9b187-89de-400c-ab73-df87ef192fe0?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/16f9b187-89de-400c-ab73-df87ef192fe0",
+        "status": 200
+      },
+      {
+        "path": "/change/9f75ba9c-8996-4a19-a3e4-9538af4d5884",
+        "status": 200
+      },
+      {
+        "path": "/change/9f75ba9c-8996-4a19-a3e4-9538af4d5884?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/2c167795-987c-4b85-8baa-b6ab48f37c61?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/2c167795-987c-4b85-8baa-b6ab48f37c61",
+        "status": 200
+      },
+      {
+        "path": "/change/e71b438b-cf6c-4e7c-b544-d9ac9bec97c9",
+        "status": 200
+      },
+      {
+        "path": "/change/e71b438b-cf6c-4e7c-b544-d9ac9bec97c9?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/a01305c4-06e9-4113-a4c4-418e4c819740?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/a01305c4-06e9-4113-a4c4-418e4c819740",
+        "status": 200
+      },
+      {
+        "path": "/change/61a7ae88-69d7-4ef1-a5c8-48c71b078187",
+        "status": 200
+      },
+      {
+        "path": "/change/61a7ae88-69d7-4ef1-a5c8-48c71b078187?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/245f8e52-2b6c-4d4e-8565-600f69b8a78d",
+        "status": 200
+      },
+      {
+        "path": "/change/245f8e52-2b6c-4d4e-8565-600f69b8a78d?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/9c8fbee4-be50-4b08-9134-255d00b28cd0?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/9c8fbee4-be50-4b08-9134-255d00b28cd0",
+        "status": 200
+      },
+      {
+        "path": "/change/01af060e-86ec-4f31-b617-fda6ff7b6be1",
+        "status": 200
+      },
+      {
+        "path": "/change/01af060e-86ec-4f31-b617-fda6ff7b6be1?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/deed3507-de9d-4d32-a03a-a43b250f9a21?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/deed3507-de9d-4d32-a03a-a43b250f9a21",
+        "status": 200
+      },
+      {
+        "path": "/change/b6f77d48-bc9c-4085-bf97-702fd935ce2e?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/b6f77d48-bc9c-4085-bf97-702fd935ce2e",
+        "status": 200
+      },
+      {
+        "path": "/change/f3a9bab1-4c7c-4808-9c69-2da6963c3a5b",
+        "status": 200
+      },
+      {
+        "path": "/change/f3a9bab1-4c7c-4808-9c69-2da6963c3a5b?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/3c6dfbb5-a0fa-4edb-81b0-62bb9203baa0?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/3c6dfbb5-a0fa-4edb-81b0-62bb9203baa0",
+        "status": 200
+      },
+      {
+        "path": "/change/3da8fec6-fc2d-4e26-8901-ca7e27ab6572?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/3da8fec6-fc2d-4e26-8901-ca7e27ab6572",
+        "status": 200
+      },
+      {
+        "path": "/change/3f664da1-706b-446a-8c0a-1902a7a06274?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/3f664da1-706b-446a-8c0a-1902a7a06274",
+        "status": 200
+      },
+      {
+        "path": "/change/0a9d773d-4417-4498-833b-e9ae88d6433c",
+        "status": 200
+      },
+      {
+        "path": "/change/0a9d773d-4417-4498-833b-e9ae88d6433c?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/322d5b66-a58e-485c-a367-487528a80f44?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/322d5b66-a58e-485c-a367-487528a80f44",
+        "status": 200
+      },
+      {
+        "path": "/change/be2f44f8-2b14-4c73-bfa4-15d44d157c04",
+        "status": 200
+      },
+      {
+        "path": "/change/be2f44f8-2b14-4c73-bfa4-15d44d157c04?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/fa92863a-4ba8-4ef9-9500-72fb44bb63c0?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/fa92863a-4ba8-4ef9-9500-72fb44bb63c0",
+        "status": 200
+      },
+      {
+        "path": "/change/b163d841-2b1c-4d03-8b6e-3d80a7d4cb27",
+        "status": 200
+      },
+      {
+        "path": "/change/b8cd3366-f02b-4bb6-9211-2c5b3269a404?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/b163d841-2b1c-4d03-8b6e-3d80a7d4cb27?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/36648bad-1292-4f57-8b69-47df3f84c652",
+        "status": 200
+      },
+      {
+        "path": "/change/b8cd3366-f02b-4bb6-9211-2c5b3269a404",
+        "status": 200
+      },
+      {
+        "path": "/change/b31dce3e-ce3e-49d8-8009-5e1d6297bbd4",
+        "status": 200
+      },
+      {
+        "path": "/change/51f2b3f2-6628-48c3-b4d1-be840ce4a0a6",
+        "status": 200
+      },
+      {
+        "path": "/change/b31dce3e-ce3e-49d8-8009-5e1d6297bbd4?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/36648bad-1292-4f57-8b69-47df3f84c652?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/51f2b3f2-6628-48c3-b4d1-be840ce4a0a6?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/f14dc990-fe46-4292-9702-48471a26ad97",
+        "status": 200
+      },
+      {
+        "path": "/change/fd6c3793-7c01-4dce-b514-a17a504e53ef",
+        "status": 200
+      },
+      {
+        "path": "/change/fd6c3793-7c01-4dce-b514-a17a504e53ef?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/488db3ea-38f7-4aac-9bc8-cc765f73ae86",
+        "status": 200
+      },
+      {
+        "path": "/change/07af8187-6856-489f-9d19-4058d9120405?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/07af8187-6856-489f-9d19-4058d9120405",
+        "status": 200
+      },
+      {
+        "path": "/change/f14dc990-fe46-4292-9702-48471a26ad97?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/decc553e-ece4-43de-8d6e-4f4fedbf3a9a",
+        "status": 200
+      },
+      {
+        "path": "/change/decc553e-ece4-43de-8d6e-4f4fedbf3a9a?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/2b3c911a-ff82-4eb2-93cd-d97cc9c642a0",
+        "status": 200
+      },
+      {
+        "path": "/change/488db3ea-38f7-4aac-9bc8-cc765f73ae86?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/b2e39954-84c1-4843-a490-278f2f4807a0?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/2b3c911a-ff82-4eb2-93cd-d97cc9c642a0?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/a5804b9f-61b2-43cc-9cba-67391d428238",
+        "status": 200
+      },
+      {
+        "path": "/change/b2e39954-84c1-4843-a490-278f2f4807a0",
+        "status": 200
+      },
+      {
+        "path": "/change/586c3d9a-1d5d-43dd-bb5e-ca0ef15995ea?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/a5804b9f-61b2-43cc-9cba-67391d428238?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/6d94c250-62ab-4f8b-88b6-03573281433f",
+        "status": 200
+      },
+      {
+        "path": "/change/586c3d9a-1d5d-43dd-bb5e-ca0ef15995ea",
+        "status": 200
+      },
+      {
+        "path": "/change/6d94c250-62ab-4f8b-88b6-03573281433f?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/a551ca11-952d-4a8a-b79a-0c1df7462093?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/9d711828-e470-4300-8423-ae4201c57786",
+        "status": 200
+      },
+      {
+        "path": "/change/a551ca11-952d-4a8a-b79a-0c1df7462093",
+        "status": 200
+      },
+      {
+        "path": "/change/0ff77632-4d58-4b0a-8c4d-7c2e190eb5de",
+        "status": 200
+      },
+      {
+        "path": "/change/494ffd08-1c2e-43ae-b332-5d4b316fbaa2",
+        "status": 200
+      },
+      {
+        "path": "/change/494ffd08-1c2e-43ae-b332-5d4b316fbaa2?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/9d711828-e470-4300-8423-ae4201c57786?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/0ff77632-4d58-4b0a-8c4d-7c2e190eb5de?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/6851aafc-7813-4bf9-aef3-794dc09cba9f?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/3498c155-1644-4939-8c9b-2460a75b5778",
+        "status": 200
+      },
+      {
+        "path": "/change/6851aafc-7813-4bf9-aef3-794dc09cba9f",
+        "status": 200
+      },
+      {
+        "path": "/change/3498c155-1644-4939-8c9b-2460a75b5778?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/7db948e3-a96e-4118-85d0-41c51c80796f",
+        "status": 200
+      },
+      {
+        "path": "/change/7db948e3-a96e-4118-85d0-41c51c80796f?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/66fcf7ee-a113-43fa-bd57-4cb533e1fe0c?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/66fcf7ee-a113-43fa-bd57-4cb533e1fe0c",
+        "status": 200
+      },
+      {
+        "path": "/change/4e8ed932-090d-4a02-8304-22144bfdbff5?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/4e8ed932-090d-4a02-8304-22144bfdbff5",
+        "status": 200
+      },
+      {
+        "path": "/change/ecc39763-b2f3-40c2-ac76-9f0844adb261",
+        "status": 200
+      },
+      {
+        "path": "/change/ecc39763-b2f3-40c2-ac76-9f0844adb261?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/2f0b054a-9ea4-45fc-bed4-8a5dda769caf",
+        "status": 200
+      },
+      {
+        "path": "/change/7107f09e-0e1a-43cd-9af9-3a088d026d87",
+        "status": 200
+      },
+      {
+        "path": "/change/2f0b054a-9ea4-45fc-bed4-8a5dda769caf?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/f863326f-229b-4494-8b13-239f8fcd72a4",
+        "status": 200
+      },
+      {
+        "path": "/change/f863326f-229b-4494-8b13-239f8fcd72a4?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/7107f09e-0e1a-43cd-9af9-3a088d026d87?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/4c70bff8-3855-4820-99c0-60218f3c7375?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/4c70bff8-3855-4820-99c0-60218f3c7375",
+        "status": 200
+      },
+      {
+        "path": "/change/2e62256f-eb3a-45c5-95ba-e7b297822af5?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/2e62256f-eb3a-45c5-95ba-e7b297822af5",
+        "status": 200
+      },
+      {
+        "path": "/change/13282507-aa4e-4157-b3bf-9ecb3c05a06d",
+        "status": 200
+      },
+      {
+        "path": "/change/13282507-aa4e-4157-b3bf-9ecb3c05a06d?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/17e72515-975d-43e8-b71f-7891b529f17c",
+        "status": 200
+      },
+      {
+        "path": "/change/17e72515-975d-43e8-b71f-7891b529f17c?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/2371bf5b-b904-4e0b-8505-4f537e426a41",
+        "status": 200
+      },
+      {
+        "path": "/change/2371bf5b-b904-4e0b-8505-4f537e426a41?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/686214a4-1396-4f81-bdd0-63a523dcf90a",
+        "status": 200
+      },
+      {
+        "path": "/change/686214a4-1396-4f81-bdd0-63a523dcf90a?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/e5b60963-4f7d-4396-97b2-b0a1f263fc80",
+        "status": 200
+      },
+      {
+        "path": "/change/21006935-a215-47d4-bd6d-dd03b775323d",
+        "status": 200
+      },
+      {
+        "path": "/change/21006935-a215-47d4-bd6d-dd03b775323d?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/e5b60963-4f7d-4396-97b2-b0a1f263fc80?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/ab33f12c-223c-4045-89ac-0ea091eb21c3",
+        "status": 200
+      },
+      {
+        "path": "/change/ab33f12c-223c-4045-89ac-0ea091eb21c3?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/c401c830-2b20-475a-908c-8c4d762bda1e?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/c401c830-2b20-475a-908c-8c4d762bda1e",
+        "status": 200
+      },
+      {
+        "path": "/change/7d60dfa9-f444-46e9-972a-e1679643fa6e",
+        "status": 200
+      },
+      {
+        "path": "/change/7d60dfa9-f444-46e9-972a-e1679643fa6e?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/ff3b694b-c127-40a7-ad9a-147c054b1221",
+        "status": 200
+      },
+      {
+        "path": "/change/ff3b694b-c127-40a7-ad9a-147c054b1221?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/121a92db-3af8-48da-8b5e-fa953a94d08b?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/472a92ae-24a8-4d9c-a47b-66f043669f57?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/121a92db-3af8-48da-8b5e-fa953a94d08b",
+        "status": 200
+      },
+      {
+        "path": "/change/472a92ae-24a8-4d9c-a47b-66f043669f57",
+        "status": 200
+      },
+      {
+        "path": "/change/161eb7f2-6bd6-4742-a173-ff9df57ac47f",
+        "status": 200
+      },
+      {
+        "path": "/change/161eb7f2-6bd6-4742-a173-ff9df57ac47f?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/858f0ed6-c3a6-4084-a5eb-e7ff9ba238e6",
+        "status": 200
+      },
+      {
+        "path": "/change/858f0ed6-c3a6-4084-a5eb-e7ff9ba238e6?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/0b360805-607e-41ae-b0ff-6958cec16541?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/0b360805-607e-41ae-b0ff-6958cec16541",
+        "status": 200
+      },
+      {
+        "path": "/change/6c63cb4a-b2bd-496e-b994-7def76160bde?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/6c63cb4a-b2bd-496e-b994-7def76160bde",
+        "status": 200
+      },
+      {
+        "path": "/change/449c973d-b19b-4d7c-976b-ffcb63bf0665",
+        "status": 200
+      },
+      {
+        "path": "/change/effbc552-bf79-49fc-958d-a5ef4407de76?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/449c973d-b19b-4d7c-976b-ffcb63bf0665?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/effbc552-bf79-49fc-958d-a5ef4407de76",
+        "status": 200
+      },
+      {
+        "path": "/change/c9aadce8-c90e-46d9-9ad2-372ed55b339d",
+        "status": 200
+      },
+      {
+        "path": "/change/c9aadce8-c90e-46d9-9ad2-372ed55b339d?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/7f520876-dff7-41c0-8948-6b7a521c14f6",
+        "status": 200
+      },
+      {
+        "path": "/change/7f520876-dff7-41c0-8948-6b7a521c14f6?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/725582fb-d698-4d30-aeb3-810d221ad7c9",
+        "status": 200
+      },
+      {
+        "path": "/change/725582fb-d698-4d30-aeb3-810d221ad7c9?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/1ee4e96e-0be3-46bf-8c66-10c4e8f3718a",
+        "status": 200
+      },
+      {
+        "path": "/change/1ee4e96e-0be3-46bf-8c66-10c4e8f3718a?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/evidence/e4f3732c-92f2-4a5d-a9b2-716fd9ebf183",
+        "status": 200
+      },
+      {
+        "path": "/evidence/4961a031-d13e-4e25-b878-22fe5e890e52",
+        "status": 200
+      },
+      {
+        "path": "/evidence/46e33448-2d8e-4346-86d9-2a11d0c85145",
+        "status": 200
+      },
+      {
+        "path": "/evidence/3a1a0bf1-d724-415b-91bb-85c94f929d1e",
+        "status": 200
+      },
+      {
+        "path": "/evidence/83267f34-6e62-47d2-a79e-e19dc4479cc5",
+        "status": 200
+      },
+      {
+        "path": "/evidence/71c0131c-38e2-4ac6-8a81-8adac2a16bc0",
+        "status": 200
+      },
+      {
+        "path": "/evidence/16f9b187-89de-400c-ab73-df87ef192fe0",
+        "status": 200
+      },
+      {
+        "path": "/evidence/9f75ba9c-8996-4a19-a3e4-9538af4d5884",
+        "status": 200
+      },
+      {
+        "path": "/evidence/e71b438b-cf6c-4e7c-b544-d9ac9bec97c9",
+        "status": 200
+      },
+      {
+        "path": "/evidence/2c167795-987c-4b85-8baa-b6ab48f37c61",
+        "status": 200
+      },
+      {
+        "path": "/evidence/61a7ae88-69d7-4ef1-a5c8-48c71b078187",
+        "status": 200
+      },
+      {
+        "path": "/evidence/a01305c4-06e9-4113-a4c4-418e4c819740",
+        "status": 200
+      },
+      {
+        "path": "/evidence/9c8fbee4-be50-4b08-9134-255d00b28cd0",
+        "status": 200
+      },
+      {
+        "path": "/evidence/01af060e-86ec-4f31-b617-fda6ff7b6be1",
+        "status": 200
+      },
+      {
+        "path": "/evidence/245f8e52-2b6c-4d4e-8565-600f69b8a78d",
+        "status": 200
+      },
+      {
+        "path": "/evidence/deed3507-de9d-4d32-a03a-a43b250f9a21",
+        "status": 200
+      },
+      {
+        "path": "/evidence/3da8fec6-fc2d-4e26-8901-ca7e27ab6572",
+        "status": 200
+      },
+      {
+        "path": "/evidence/f3a9bab1-4c7c-4808-9c69-2da6963c3a5b",
+        "status": 200
+      },
+      {
+        "path": "/evidence/3c6dfbb5-a0fa-4edb-81b0-62bb9203baa0",
+        "status": 200
+      },
+      {
+        "path": "/evidence/b6f77d48-bc9c-4085-bf97-702fd935ce2e",
+        "status": 200
+      },
+      {
+        "path": "/evidence/3f664da1-706b-446a-8c0a-1902a7a06274",
+        "status": 200
+      },
+      {
+        "path": "/evidence/0a9d773d-4417-4498-833b-e9ae88d6433c",
+        "status": 200
+      },
+      {
+        "path": "/evidence/be2f44f8-2b14-4c73-bfa4-15d44d157c04",
+        "status": 200
+      },
+      {
+        "path": "/evidence/322d5b66-a58e-485c-a367-487528a80f44",
+        "status": 200
+      },
+      {
+        "path": "/evidence/36648bad-1292-4f57-8b69-47df3f84c652",
+        "status": 200
+      },
+      {
+        "path": "/evidence/b8cd3366-f02b-4bb6-9211-2c5b3269a404",
+        "status": 200
+      },
+      {
+        "path": "/evidence/b163d841-2b1c-4d03-8b6e-3d80a7d4cb27",
+        "status": 200
+      },
+      {
+        "path": "/evidence/fa92863a-4ba8-4ef9-9500-72fb44bb63c0",
+        "status": 200
+      },
+      {
+        "path": "/evidence/fd6c3793-7c01-4dce-b514-a17a504e53ef",
+        "status": 200
+      },
+      {
+        "path": "/evidence/b31dce3e-ce3e-49d8-8009-5e1d6297bbd4",
+        "status": 200
+      },
+      {
+        "path": "/evidence/51f2b3f2-6628-48c3-b4d1-be840ce4a0a6",
+        "status": 200
+      },
+      {
+        "path": "/evidence/f14dc990-fe46-4292-9702-48471a26ad97",
+        "status": 200
+      },
+      {
+        "path": "/evidence/488db3ea-38f7-4aac-9bc8-cc765f73ae86",
+        "status": 200
+      },
+      {
+        "path": "/evidence/decc553e-ece4-43de-8d6e-4f4fedbf3a9a",
+        "status": 200
+      },
+      {
+        "path": "/evidence/2b3c911a-ff82-4eb2-93cd-d97cc9c642a0",
+        "status": 200
+      },
+      {
+        "path": "/evidence/07af8187-6856-489f-9d19-4058d9120405",
+        "status": 200
+      },
+      {
+        "path": "/evidence/6d94c250-62ab-4f8b-88b6-03573281433f",
+        "status": 200
+      },
+      {
+        "path": "/evidence/b2e39954-84c1-4843-a490-278f2f4807a0",
+        "status": 200
+      },
+      {
+        "path": "/evidence/a5804b9f-61b2-43cc-9cba-67391d428238",
+        "status": 200
+      },
+      {
+        "path": "/evidence/586c3d9a-1d5d-43dd-bb5e-ca0ef15995ea",
+        "status": 200
+      },
+      {
+        "path": "/evidence/494ffd08-1c2e-43ae-b332-5d4b316fbaa2",
+        "status": 200
+      },
+      {
+        "path": "/evidence/9d711828-e470-4300-8423-ae4201c57786",
+        "status": 200
+      },
+      {
+        "path": "/evidence/a551ca11-952d-4a8a-b79a-0c1df7462093",
+        "status": 200
+      },
+      {
+        "path": "/evidence/0ff77632-4d58-4b0a-8c4d-7c2e190eb5de",
+        "status": 200
+      },
+      {
+        "path": "/evidence/6851aafc-7813-4bf9-aef3-794dc09cba9f",
+        "status": 200
+      },
+      {
+        "path": "/evidence/3498c155-1644-4939-8c9b-2460a75b5778",
+        "status": 200
+      },
+      {
+        "path": "/evidence/7db948e3-a96e-4118-85d0-41c51c80796f",
+        "status": 200
+      },
+      {
+        "path": "/evidence/66fcf7ee-a113-43fa-bd57-4cb533e1fe0c",
+        "status": 200
+      },
+      {
+        "path": "/evidence/4e8ed932-090d-4a02-8304-22144bfdbff5",
+        "status": 200
+      },
+      {
+        "path": "/evidence/ecc39763-b2f3-40c2-ac76-9f0844adb261",
+        "status": 200
+      },
+      {
+        "path": "/evidence/f863326f-229b-4494-8b13-239f8fcd72a4",
+        "status": 200
+      },
+      {
+        "path": "/evidence/2f0b054a-9ea4-45fc-bed4-8a5dda769caf",
+        "status": 200
+      },
+      {
+        "path": "/evidence/4c70bff8-3855-4820-99c0-60218f3c7375",
+        "status": 200
+      },
+      {
+        "path": "/evidence/2e62256f-eb3a-45c5-95ba-e7b297822af5",
+        "status": 200
+      },
+      {
+        "path": "/evidence/7107f09e-0e1a-43cd-9af9-3a088d026d87",
+        "status": 200
+      },
+      {
+        "path": "/evidence/17e72515-975d-43e8-b71f-7891b529f17c",
+        "status": 200
+      },
+      {
+        "path": "/evidence/13282507-aa4e-4157-b3bf-9ecb3c05a06d",
+        "status": 200
+      },
+      {
+        "path": "/evidence/21006935-a215-47d4-bd6d-dd03b775323d",
+        "status": 200
+      },
+      {
+        "path": "/evidence/686214a4-1396-4f81-bdd0-63a523dcf90a",
+        "status": 200
+      },
+      {
+        "path": "/evidence/2371bf5b-b904-4e0b-8505-4f537e426a41",
+        "status": 200
+      },
+      {
+        "path": "/evidence/e5b60963-4f7d-4396-97b2-b0a1f263fc80",
+        "status": 200
+      },
+      {
+        "path": "/evidence/c401c830-2b20-475a-908c-8c4d762bda1e",
+        "status": 200
+      },
+      {
+        "path": "/evidence/ff3b694b-c127-40a7-ad9a-147c054b1221",
+        "status": 200
+      },
+      {
+        "path": "/evidence/ab33f12c-223c-4045-89ac-0ea091eb21c3",
+        "status": 200
+      },
+      {
+        "path": "/evidence/7d60dfa9-f444-46e9-972a-e1679643fa6e",
+        "status": 200
+      },
+      {
+        "path": "/evidence/161eb7f2-6bd6-4742-a173-ff9df57ac47f",
+        "status": 200
+      },
+      {
+        "path": "/evidence/472a92ae-24a8-4d9c-a47b-66f043669f57",
+        "status": 200
+      },
+      {
+        "path": "/evidence/858f0ed6-c3a6-4084-a5eb-e7ff9ba238e6",
+        "status": 200
+      },
+      {
+        "path": "/evidence/121a92db-3af8-48da-8b5e-fa953a94d08b",
+        "status": 200
+      },
+      {
+        "path": "/evidence/0b360805-607e-41ae-b0ff-6958cec16541",
+        "status": 200
+      },
+      {
+        "path": "/evidence/6c63cb4a-b2bd-496e-b994-7def76160bde",
+        "status": 200
+      },
+      {
+        "path": "/evidence/effbc552-bf79-49fc-958d-a5ef4407de76",
+        "status": 200
+      },
+      {
+        "path": "/evidence/449c973d-b19b-4d7c-976b-ffcb63bf0665",
+        "status": 200
+      },
+      {
+        "path": "/evidence/725582fb-d698-4d30-aeb3-810d221ad7c9",
+        "status": 200
+      },
+      {
+        "path": "/evidence/c9aadce8-c90e-46d9-9ad2-372ed55b339d",
+        "status": 200
+      },
+      {
+        "path": "/evidence/7f520876-dff7-41c0-8948-6b7a521c14f6",
+        "status": 200
+      },
+      {
+        "path": "/evidence/1ee4e96e-0be3-46bf-8c66-10c4e8f3718a",
+        "status": 200
+      }
+    ],
+    "sourceHashes": {
+      "checkedAt": "2026-11-02T03:33:03.280888+00:00",
+      "host": "staging.policywatcher.online",
+      "artifactSha256": "163cf12e831d2d5bc2ad688d82ef4551ae56b4f2fae9c215d1f748efff9a6344",
+      "checks": [
+        {
+          "path": "CHANGELOG.md",
+          "expected": "48bb16e6de5fba6f6845b120f71242a33ba0197d5c380e4ce21b4478e2da15ab",
+          "actual": "48bb16e6de5fba6f6845b120f71242a33ba0197d5c380e4ce21b4478e2da15ab",
+          "pass": true
+        },
+        {
+          "path": "README.md",
+          "expected": "ccd85c1d50998bc15991f18362077351f3e609daf88f7fa6ece4957c0a1769aa",
+          "actual": "ccd85c1d50998bc15991f18362077351f3e609daf88f7fa6ece4957c0a1769aa",
+          "pass": true
+        },
+        {
+          "path": "docs/releases/policywatcher-5.5.0-github-release.md",
+          "expected": "30e37e76c22b3b73b7b56aaf2cae00bd55c6dd9b25e4cc06423a0d3ef31ab8e7",
+          "actual": "30e37e76c22b3b73b7b56aaf2cae00bd55c6dd9b25e4cc06423a0d3ef31ab8e7",
+          "pass": true
+        },
+        {
+          "path": "package-lock.json",
+          "expected": "b24528f1f480f216c355c8f0ee024928376873ae9f5ba381210ffcf5a7c868bf",
+          "actual": "b24528f1f480f216c355c8f0ee024928376873ae9f5ba381210ffcf5a7c868bf",
+          "pass": true
+        },
+        {
+          "path": "package.json",
+          "expected": "3dcfe896b8c8060674b1a3514d579fb48f745084a8ca810b7c668d7dc45ac0af",
+          "actual": "3dcfe896b8c8060674b1a3514d579fb48f745084a8ca810b7c668d7dc45ac0af",
+          "pass": true
+        },
+        {
+          "path": "prisma/schema.prisma",
+          "expected": "88a64d8bcc377153c5928b3ba1ae922aa70e9af25d0673b2828c2ee31e6085c0",
+          "actual": "88a64d8bcc377153c5928b3ba1ae922aa70e9af25d0673b2828c2ee31e6085c0",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/asset-manifest.json",
+          "expected": "dd676dbade5acc98ab660a9f9d7a79456a778916d4ab7dce69a4b5c8302d5d42",
+          "actual": "dd676dbade5acc98ab660a9f9d7a79456a778916d4ab7dce69a4b5c8302d5d42",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/package-manifest.json",
+          "expected": "023a0b572348a23192bd5e5b3bb4bd53df161b0448d98747206663ef20d36658",
+          "actual": "023a0b572348a23192bd5e5b3bb4bd53df161b0448d98747206663ef20d36658",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/policywatcher-fact-sheet-en-2026-11-02.pdf",
+          "expected": "fc8597bedc4094404d9570dbe5fdbd32022fd5223399fb8616c676ba30b3401f",
+          "actual": "fc8597bedc4094404d9570dbe5fdbd32022fd5223399fb8616c676ba30b3401f",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/policywatcher-fact-sheet-en-2026-11-02.txt",
+          "expected": "53ea830d970daff73496e993a53f8ec0bded9ae752201fd4955cd51bfb03be98",
+          "actual": "53ea830d970daff73496e993a53f8ec0bded9ae752201fd4955cd51bfb03be98",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/policywatcher-fact-sheet-it-2026-11-02.pdf",
+          "expected": "5b0e3f7c64420b459e22f6df4e0f302b49f96ed19dde7d2b3d1594ef38fed3c5",
+          "actual": "5b0e3f7c64420b459e22f6df4e0f302b49f96ed19dde7d2b3d1594ef38fed3c5",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/policywatcher-fact-sheet-it-2026-11-02.txt",
+          "expected": "bc7528ce7a9ef3fb6898132e9cc857330aa87aaf9cf3c75d8a30deacfcd3caf4",
+          "actual": "bc7528ce7a9ef3fb6898132e9cc857330aa87aaf9cf3c75d8a30deacfcd3caf4",
+          "pass": true
+        },
+        {
+          "path": "release-manifest.json",
+          "expected": "7687ba6c78ed37758ec015b82fe4b4d42121f2b24d6d5253651e33918cf68a76",
+          "actual": "7687ba6c78ed37758ec015b82fe4b4d42121f2b24d6d5253651e33918cf68a76",
+          "pass": true
+        },
+        {
+          "path": "scripts/generate-press-kit-assets.mjs",
+          "expected": "1c9a1a83c63bff1f69e36df0ae8bab2f269aa3e79ac8fc3fceb987534fef57b0",
+          "actual": "1c9a1a83c63bff1f69e36df0ae8bab2f269aa3e79ac8fc3fceb987534fef57b0",
+          "pass": true
+        },
+        {
+          "path": "scripts/package-release.sh",
+          "expected": "d391ee84f134c84c807d7ed7cea12c7ce1a58f1c5494870eb83c13c4d12ca6b7",
+          "actual": "d391ee84f134c84c807d7ed7cea12c7ce1a58f1c5494870eb83c13c4d12ca6b7",
+          "pass": true
+        },
+        {
+          "path": "src/app/engine-6-preview/page.tsx",
+          "expected": "df73e7de5478fb05d636c91e52cf061bc749125064a182ed893585ddfda64847",
+          "actual": "df73e7de5478fb05d636c91e52cf061bc749125064a182ed893585ddfda64847",
+          "pass": true
+        },
+        {
+          "path": "src/app/llms.txt/route.ts",
+          "expected": "e5f1f19a6bee15f10080a2eb83e01d694f5e03be07cf360954213995c12004ba",
+          "actual": "e5f1f19a6bee15f10080a2eb83e01d694f5e03be07cf360954213995c12004ba",
+          "pass": true
+        },
+        {
+          "path": "src/app/page.tsx",
+          "expected": "c2251b023e9887b6dce3bbf9751fd5c17b6bfa5628493516a0ae0c5336f448b7",
+          "actual": "c2251b023e9887b6dce3bbf9751fd5c17b6bfa5628493516a0ae0c5336f448b7",
+          "pass": true
+        },
+        {
+          "path": "src/app/press-kit/PressKitClient.tsx",
+          "expected": "9bb543b04eb1644110bb77525d42d5c4ccef05d3d1b27c58557e864dfb67f033",
+          "actual": "9bb543b04eb1644110bb77525d42d5c4ccef05d3d1b27c58557e864dfb67f033",
+          "pass": true
+        },
+        {
+          "path": "src/app/roadmap/RoadmapClient.tsx",
+          "expected": "07c6f3435c22752120b14e68380d21e769b9412fd33a98558838751fede1be21",
+          "actual": "07c6f3435c22752120b14e68380d21e769b9412fd33a98558838751fede1be21",
+          "pass": true
+        },
+        {
+          "path": "src/app/sitemap.ts",
+          "expected": "98729f18451261b03efa6a0609a24ee3afe642a520b88943c02bd7c827871f84",
+          "actual": "98729f18451261b03efa6a0609a24ee3afe642a520b88943c02bd7c827871f84",
+          "pass": true
+        },
+        {
+          "path": "src/components/ChangelogModal.tsx",
+          "expected": "be8104b9cb2993225826f80deeabf67114222447710cd4f81a5bc1785510502e",
+          "actual": "be8104b9cb2993225826f80deeabf67114222447710cd4f81a5bc1785510502e",
+          "pass": true
+        },
+        {
+          "path": "src/lib/extractionProfile.generated.json",
+          "expected": "20fdab9586610620a043de935ea19237f4f06ee488011ba7b63adcd51843fe27",
+          "actual": "20fdab9586610620a043de935ea19237f4f06ee488011ba7b63adcd51843fe27",
+          "pass": true
+        },
+        {
+          "path": "src/lib/featureAtlas.ts",
+          "expected": "adad6577a69792abe265ba67c1dd4aef248dd15dc729d6e8509d89c3a77737b6",
+          "actual": "adad6577a69792abe265ba67c1dd4aef248dd15dc729d6e8509d89c3a77737b6",
+          "pass": true
+        },
+        {
+          "path": "src/lib/pdfPolicy.ts",
+          "expected": "8e7547a94f0a447be6797dc8b37dd0a532de5cbb64050ceb48bc7b13552a791b",
+          "actual": "8e7547a94f0a447be6797dc8b37dd0a532de5cbb64050ceb48bc7b13552a791b",
+          "pass": true
+        },
+        {
+          "path": "src/lib/pressKit.ts",
+          "expected": "e1329ed3a0ba6bda54876c420ffabb655459fb2eb636bde7205fa405650a8bcb",
+          "actual": "e1329ed3a0ba6bda54876c420ffabb655459fb2eb636bde7205fa405650a8bcb",
+          "pass": true
+        },
+        {
+          "path": "src/lib/publicSections.ts",
+          "expected": "a3f0992b6ce36c69d99ef400952fd1841fed6adca17b600291374ea86b85aff0",
+          "actual": "a3f0992b6ce36c69d99ef400952fd1841fed6adca17b600291374ea86b85aff0",
+          "pass": true
+        },
+        {
+          "path": "src/lib/release.ts",
+          "expected": "a8bfc738eed3d7b42d27bf6c3e173f0b884614cbe3bfa533de7fc946ef0d8387",
+          "actual": "a8bfc738eed3d7b42d27bf6c3e173f0b884614cbe3bfa533de7fc946ef0d8387",
+          "pass": true
+        },
+        {
+          "path": "src/lib/releaseImpact.ts",
+          "expected": "bf0bfef6e4d414befa400ff13bd1e16b2c3dd382f7c2da24111f5139b050a1f4",
+          "actual": "bf0bfef6e4d414befa400ff13bd1e16b2c3dd382f7c2da24111f5139b050a1f4",
+          "pass": true
+        },
+        {
+          "path": "src/lib/scraper.ts",
+          "expected": "fac808e2fc992180957016b1668294b491fa08c386757007a5a28bf6f2111bcc",
+          "actual": "fac808e2fc992180957016b1668294b491fa08c386757007a5a28bf6f2111bcc",
+          "pass": true
+        }
+      ],
+      "status": "passed"
+    }
+  },
+  "production": {
+    "runtime": {
+      "checkedAt": "2026-11-02T03:34:13.207Z",
+      "status": "attention",
+      "release": "5.5.0",
+      "health": "ok",
+      "companies": 18,
+      "applicationTables": 35,
+      "migrations": 19,
+      "integrity": "ok",
+      "verificationSummary": {
+        "passed": 9,
+        "attention": 0,
+        "unavailable": 0,
+        "external": 1
+      },
+      "attention": []
+    },
+    "releaseChecks": [
+      {
+        "id": "/_http",
+        "pass": true
+      },
+      {
+        "id": "/_product_identity",
+        "pass": true
+      },
+      {
+        "id": "homepage_news_before_heading",
+        "pass": true
+      },
+      {
+        "id": "homepage_release_link",
+        "pass": true
+      },
+      {
+        "id": "homepage_preview_link",
+        "pass": true
+      },
+      {
+        "id": "/roadmap_http",
+        "pass": true
+      },
+      {
+        "id": "/roadmap_product_identity",
+        "pass": true
+      },
+      {
+        "id": "/feature-atlas_http",
+        "pass": true
+      },
+      {
+        "id": "/feature-atlas_product_identity",
+        "pass": true
+      },
+      {
+        "id": "/press-kit_http",
+        "pass": true
+      },
+      {
+        "id": "/press-kit_product_identity",
+        "pass": true
+      },
+      {
+        "id": "/press-kit_current_pdf_link",
+        "pass": true
+      },
+      {
+        "id": "/press-kit?lang=it_http",
+        "pass": true
+      },
+      {
+        "id": "/press-kit?lang=it_product_identity",
+        "pass": true
+      },
+      {
+        "id": "/press-kit?lang=it_current_pdf_link",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/releases_http",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/releases_product_identity",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/releases?lang=it_http",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/releases?lang=it_product_identity",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/releases/engine-six-preview-5-5-0_http",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/releases/engine-six-preview-5-5-0_product_identity",
+        "pass": true
+      },
+      {
+        "id": "release_en_heading",
+        "pass": true
+      },
+      {
+        "id": "release_en_language",
+        "pass": true
+      },
+      {
+        "id": "release_en_canonical",
+        "pass": true
+      },
+      {
+        "id": "release_en_preview_link",
+        "pass": true
+      },
+      {
+        "id": "release_en_private_boundary",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/releases/engine-six-preview-5-5-0?lang=it_http",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/releases/engine-six-preview-5-5-0?lang=it_product_identity",
+        "pass": true
+      },
+      {
+        "id": "release_it_heading",
+        "pass": true
+      },
+      {
+        "id": "release_it_language",
+        "pass": true
+      },
+      {
+        "id": "release_it_canonical",
+        "pass": true
+      },
+      {
+        "id": "release_it_preview_link",
+        "pass": true
+      },
+      {
+        "id": "release_it_private_boundary",
+        "pass": true
+      },
+      {
+        "id": "/engine-6-preview_http",
+        "pass": true
+      },
+      {
+        "id": "/engine-6-preview_product_identity",
+        "pass": true
+      },
+      {
+        "id": "/engine-6-preview?lang=it_http",
+        "pass": true
+      },
+      {
+        "id": "/engine-6-preview?lang=it_product_identity",
+        "pass": true
+      },
+      {
+        "id": "public_api_version",
+        "pass": true
+      },
+      {
+        "id": "press_api_version",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/feed.json_version",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/feed.json_engine_news",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/feed.xml_version",
+        "pass": true
+      },
+      {
+        "id": "/press-kit/feed.xml_engine_news",
+        "pass": true
+      },
+      {
+        "id": "/llms.txt_version",
+        "pass": true
+      },
+      {
+        "id": "/llms.txt_engine_news",
+        "pass": true
+      },
+      {
+        "id": "pdf_en_exact_bytes",
+        "pass": true,
+        "sha256": "fc8597bedc4094404d9570dbe5fdbd32022fd5223399fb8616c676ba30b3401f",
+        "bytes": 5383
+      },
+      {
+        "id": "pdf_it_exact_bytes",
+        "pass": true,
+        "sha256": "5b0e3f7c64420b459e22f6df4e0f302b49f96ed19dde7d2b3d1594ef38fed3c5",
+        "bytes": 5459
+      },
+      {
+        "id": "sitemap_new_release",
+        "pass": true
+      },
+      {
+        "id": "sitemap_routes_http_200",
+        "pass": true,
+        "count": 595,
+        "failed": []
+      }
+    ],
+    "routes": [
+      {
+        "path": "/per-te",
+        "status": 200
+      },
+      {
+        "path": "/",
+        "status": 200
+      },
+      {
+        "path": "/per-te?lang=en",
+        "status": 200
+      },
+      {
+        "path": "/evidence",
+        "status": 200
+      },
+      {
+        "path": "/it/associazioni",
+        "status": 200
+      },
+      {
+        "path": "/en/associations",
+        "status": 200
+      },
+      {
+        "path": "/atlas",
+        "status": 200
+      },
+      {
+        "path": "/collections",
+        "status": 200
+      },
+      {
+        "path": "/feature-atlas",
+        "status": 200
+      },
+      {
+        "path": "/showcase",
+        "status": 200
+      },
+      {
+        "path": "/developers/event-continuity",
+        "status": 200
+      },
+      {
+        "path": "/developers",
+        "status": 200
+      },
+      {
+        "path": "/developers/webhook-readiness",
+        "status": 200
+      },
+      {
+        "path": "/observatory",
+        "status": 200
+      },
+      {
+        "path": "/browser-extension",
+        "status": 200
+      },
+      {
+        "path": "/timeline",
+        "status": 200
+      },
+      {
+        "path": "/what-changed",
+        "status": 200
+      },
+      {
+        "path": "/integrations",
+        "status": 200
+      },
+      {
+        "path": "/browser-extension?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/engine-6-preview",
+        "status": 200
+      },
+      {
+        "path": "/engine-6-preview?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/trust/residency",
+        "status": 200
+      },
+      {
+        "path": "/infographics",
+        "status": 200
+      },
+      {
+        "path": "/leaderboard",
+        "status": 200
+      },
+      {
+        "path": "/trust",
+        "status": 200
+      },
+      {
+        "path": "/pulse",
+        "status": 200
+      },
+      {
+        "path": "/press",
+        "status": 200
+      },
+      {
+        "path": "/roadmap",
+        "status": 200
+      },
+      {
+        "path": "/press-kit",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/reference",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/data",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/corrections",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/glossary",
+        "status": 200
+      },
+      {
+        "path": "/security",
+        "status": 200
+      },
+      {
+        "path": "/about",
+        "status": 200
+      },
+      {
+        "path": "/methodology/confidence",
+        "status": 200
+      },
+      {
+        "path": "/privacy",
+        "status": 200
+      },
+      {
+        "path": "/guides",
+        "status": 200
+      },
+      {
+        "path": "/guides?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/terms",
+        "status": 200
+      },
+      {
+        "path": "/guides/privacy-policy-changes",
+        "status": 200
+      },
+      {
+        "path": "/guides/terms-of-service-monitoring",
+        "status": 200
+      },
+      {
+        "path": "/guides/ai-provider-policy-updates?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/guides/ai-provider-policy-updates",
+        "status": 200
+      },
+      {
+        "path": "/guides/privacy-policy-changes?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/guides/data-processing-agreement-monitoring",
+        "status": 200
+      },
+      {
+        "path": "/guides/terms-of-service-monitoring?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/guides/data-processing-agreement-monitoring?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/guides/meta-automated-data-collection-terms",
+        "status": 200
+      },
+      {
+        "path": "/guides/aws-data-processing-addendum-dpa?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/guides/meta-automated-data-collection-terms?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/guides/aws-data-processing-addendum-dpa",
+        "status": 200
+      },
+      {
+        "path": "/guides/anthropic-acceptable-use-policy",
+        "status": 200
+      },
+      {
+        "path": "/guides/anthropic-acceptable-use-policy?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/guides/wise-acceptable-use-policy?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/guides/wise-acceptable-use-policy",
+        "status": 200
+      },
+      {
+        "path": "/knowledge",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/coca-cola",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/meta",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/microsoft",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/apple",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/google",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/amazon",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/tiktok",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/x-twitter",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/paypal",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/waze",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/revolut",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/stripe",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/coca-cola/policies/576b7655-9b52-49e1-9e65-00b29e36a50d",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/coca-cola/policies/47b982e5-4cd4-43db-828f-6fbd2995802e",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/coca-cola/policies/528f0dda-97b3-4b86-a62b-b44dcb2aface",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/microsoft/policies/d9e2da07-eaec-43e2-ab29-9286bca75911",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/microsoft/policies/cda59c99-32eb-4c5d-aae6-a269c7b681f6",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/microsoft/policies/5681de09-ab08-4131-9922-34b96d28db2d",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/microsoft/policies/f7958007-438b-4240-ba2d-2a48dbb9f661",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/microsoft/policies/d3cab08f-d404-4e68-b0b7-a50dbde5e467",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/microsoft/policies/03c2d44e-5c5c-44b3-8b3e-42be71fef7ac",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/microsoft/policies/72c7604d-8b87-45dc-8949-ba9e6758a3b5",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/meta/policies/959fc5a0-6e35-4088-811d-fbdd905e46e4",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/meta/policies/5946f95d-2fa3-4628-896a-f773d09ffbbd",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/meta/policies/8e2eb94e-eb92-458f-9012-494c6fc36707",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna/policies/f4168900-e4f5-4f91-b69d-9127a145335c",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/meta/policies/466d072b-d894-49fe-aa33-8d607a298f67",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna/policies/f0281764-cc55-4db9-b9ed-d6f6ab9811fb",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna/policies/9191b215-1443-448b-b0c3-cb0739367fc2",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna/policies/0fed73f4-ac93-4699-9d66-dd65ab6780cc",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna/policies/6b03f215-97db-4a24-b92a-22ef3e11fea5",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna/policies/baafe256-b2ee-4e61-8150-a21123e4108e",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna/policies/37469295-57a6-408e-bfdf-864534018810",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/klarna/policies/e687d4ad-423e-4073-a236-362ca0e2c121",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/google/policies/11539eab-9c04-4d21-8496-ac21de3bc7e2",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/google/policies/c287880a-4512-4dc0-a8bd-cdf7d4f33e15",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/google/policies/4b255c8b-197c-4046-b848-bce7e1485583",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/google/policies/fef3c1a1-5802-4aac-aaf4-8ca5db60c85a",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/apple/policies/2b2f0f1c-efa1-45e0-96ba-04e93ca35598",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/google/policies/f8790fb1-f068-4209-af8a-c4b4eb1c6a0b",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/apple/policies/421b3f0c-5924-4e3d-b84e-2ff68a441041",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/apple/policies/77eeaf0f-90a2-43c8-bc82-be7e2473c825",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/amazon/policies/4b62f7a4-dd92-40c5-b852-371572a636aa",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/apple/policies/86088457-fcad-4537-a6b7-809019ce586c",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/amazon/policies/c26029b3-e270-443d-b93c-18ef3688295a",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/amazon/policies/cc0c6f48-46d4-444e-912b-5ae25e9c83ca",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/amazon/policies/632b2a6d-253e-4721-b4e4-432d4d3f5795",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/amazon/policies/bcc8bc60-641b-45b6-b8ce-560447166ee2",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/61d62a8b-1bce-4c49-8cd5-0b525c8174ca",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/afa522e5-142f-4f98-bcf7-5918df5cfd7f",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/0ec3d4b4-79d4-4e2e-8a66-60dde69a5c10",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/tiktok/policies/ba9a6eba-2f2e-4b30-8a92-04f7743f0d65",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/4137ed6f-9192-4fd3-851b-5f1aa6eb5586",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic/policies/6c74b17f-dccf-4395-a310-04a7476dad31",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/paypal/policies/9e09108f-4041-4c64-8e16-88543e1b7e43",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/amazon/policies/c51f6ead-7964-41b8-92cb-c4434ad524d5",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/paypal/policies/c28fb784-5012-4696-8c70-505d4185972a",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/12bdc558-4e06-456f-8b71-79b5ecf8507f",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/f7159070-1445-49ac-aa51-daa4682bb431",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/25b5cc7b-48a5-468f-89da-8faa44ae13f3",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/paypal/policies/dc8f08a1-4c7e-4b31-a1cd-c3f8597c965a",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/2e48df83-b673-461e-87f1-173a3f073ef5",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/zoom/policies/ce028553-2a7a-42cb-83c7-f2d168432a46",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/x-twitter/policies/73b56cdd-595f-4133-a517-b5fa94dc0c97",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/x-twitter/policies/f2b77af5-3705-4573-94a5-10153d76e7f5",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/6e4db68c-6998-43dd-83ba-08eeab76e7f9",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/3e616451-ba60-46e6-9634-d5925da2d56a",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/b12c369f-415a-42cf-b4b8-11d70e823cbf",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/e85abf12-e25c-4e95-8294-5d6d3955f6aa",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/9801aa3b-73a6-4aa2-9d97-f24c7f2df4ef",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/4f9049fc-627c-4f18-8b1d-c781b287d13d",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/c5b2f6c4-80a2-4181-a67e-359c588b29f1",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/76eb9c5b-4972-4363-a9c4-d4e07ffb6ce2",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/waze/policies/48689e5c-7596-463e-a5e5-b62cb376cb1a",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/4cb8eff5-72ef-440c-b9a6-b614a2e47ae0",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/waze/policies/b6766fe2-2ad3-4d24-ba01-b54f49609571",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/wise/policies/fc0287e0-8b1b-488e-b623-05f4a188e8fb",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/waze/policies/a4da706f-7904-4ed6-8259-e08c6ae1469d",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/waze/policies/7db8b207-643d-455c-ade7-dec4c0b3d1ee",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/tiktok/policies/b47fc580-406b-476b-bc50-c3a891e908a3",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/tiktok/policies/0fc30c2b-7467-4ce1-b8c1-8b79113990bf",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/tiktok/policies/22825cf3-89ed-4237-9a3e-75f8f24e63ac",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/stripe/policies/775c0c08-14f0-4e3f-b3e0-293dc8a4965c",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/stripe/policies/ebd51ebc-ade0-4c3f-bfc7-3b030a45772d",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/tiktok/policies/3301a440-a2bd-4387-a1df-ebe85bd3cf17",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/stripe/policies/48c57d06-ab8e-4758-b9c4-f5a7e1e8a681",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/revolut/policies/afb20e9d-2e61-4a04-961c-9f13400438e0",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/stripe/policies/bfd14408-93ac-44ea-be57-6047ca5c7f1c",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/revolut/policies/c0ad59f0-af83-4a95-bf06-f5d1099240bb",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/revolut/policies/3b2b7720-1fed-44e0-9b23-56ed241de9dd",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/revolut/policies/c06a709b-379b-4684-ab21-209eae3579be",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid/policies/ff752150-58b8-4675-b2c6-2fa37e5a66cb",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid/policies/912ef5e4-3fe5-45ec-bb2b-74b97970fce1",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid/policies/bc3c2144-3412-4a26-981d-323f784db1dd",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid/policies/27d27c1e-b79f-4db4-828c-d79bfa690210",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid/policies/0659472c-2737-40b2-83db-9f238aeade0b",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid/policies/ef869aae-4fbc-4941-a2c4-ffe1edfe0524",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid/policies/c5bbea96-e351-437e-bce7-affbf0cc946d",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/paypal/policies/b1c25854-aa4d-44bb-8c48-9009cf8a9d6a",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/plaid/policies/68f53187-bb35-4ce4-be4f-16734f9f54f5",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/paypal/policies/c75b67f3-eda3-4219-8c08-7a547339e844",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/paypal/policies/ffcb0efc-2a6f-473d-8296-e939fccb4aef",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic/policies/411d6736-596e-41f3-9218-27380f5de07d",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic/policies/5afd72ff-64d7-411d-823e-3573e2901762",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic/policies/1cc677eb-3207-4569-880a-aaba223b4803",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic/policies/135999e7-3cbb-4ddf-ab39-ca1a8ed5b233",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic/policies/295e4c7f-fa6e-4e4d-908e-383cb91a59ae",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic/policies/410cbce9-6b57-411e-8da9-44993c172044",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/anthropic/policies/54ee97fb-bc87-41ff-837d-2a06184e99a5",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/e8a31a93-a3d9-4011-8837-0557da875b40",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/489ce448-2147-45ed-aecf-6468f2ca3d22",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/7a411bf8-444f-4200-bbc6-b410f8b84182",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/a07a13f2-ae2b-4eef-907b-8b9ca5217872",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/b4651c03-839a-4379-a4dd-08337ffac02a",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/9e7ca672-d487-4edc-92b9-8567f4c1adcf",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/038bc0ee-ddf2-4161-af89-c6c0ec036b3f",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/7e045aa5-d1e4-4ca4-b8e3-886234c5dbfc",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/coca-cola/policies/d0fab3be-2af3-4120-9d6d-098f4f655be2",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/coca-cola/policies/35789a69-bde2-402c-985e-71b3b1c52493",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/stripe/policies/1f71d4a3-dddd-4562-9b89-38888c3d07a4",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/amazon/policies/033ac1b4-114a-40d4-a666-374379c0df00",
+        "status": 200
+      },
+      {
+        "path": "/pulse/two-week-release-impact",
+        "status": 200
+      },
+      {
+        "path": "/pulse/configured-policy-evidence-scope",
+        "status": 200
+      },
+      {
+        "path": "/knowledge/companies/openai/policies/11971ce4-bec9-4aef-ba32-8f79de72e4b7",
+        "status": 200
+      },
+      {
+        "path": "/pulse/two-week-release-impact?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/pulse/configured-policy-evidence-scope?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/pulse/public-evidence-publication-gate",
+        "status": 200
+      },
+      {
+        "path": "/pulse/public-evidence-publication-gate?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/pulse/versioned-beta-release-records",
+        "status": 200
+      },
+      {
+        "path": "/pulse/versioned-beta-release-records?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/engine-six-preview-5-5-0",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/traceable-evidence-5-1-0",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/engine-six-private-preview-6-0-0-preview-1",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/adaptive-acquisition-evidence-5-2-0",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/your-services-your-choices-5-0-0",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/document-scope-comparable-evidence-4-0-0-beta-5",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/ai-discoverability-citation-readiness-4-0-0-beta-3",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/evidence-consistency-live-coverage-4-0-0-beta-4",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/production-readiness-hardening-4-0-0-beta-2",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/canonical-evidence-foundation-4-0-0-beta-1",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/evidence-release-control-plane-3-9-0-beta-42",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/adaptive-experience-3-9-0-beta-41",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/policywatcher-civico-3-9-0-beta-40",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/managed-vps-releases-3-9-0-beta-39",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/git-hosted-press-distribution-3-9-0-beta-38",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/resource-navigation-retrieval-diagnostics-3-9-0-beta-37",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/remediation-community-mutation-hardening-3-9-0-beta-36",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/community-signal-composer-3-9-0-beta-35",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/production-assurance-renderer-hardening-3-9-0-beta-33",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/source-remediation-workbench-3-9-0-beta-34",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/authenticated-production-verification-3-9-0-beta-32",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/residency-processor-evidence-3-9-0-beta-31",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/enterprise-agent-contract-evidence-3-9-0-beta-30",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/multicloud-agent-source-packages-3-9-0-beta-29",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/agent-evidence-gateway-3-9-0-beta-28",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/admin-operational-readiness-3-9-0-beta-27",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/admin-shell-readability-3-9-0-beta-25",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/crawlable-public-knowledge-layer-3-9-0-beta-26",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/webhook-operations-ux-3-9-0-beta-24",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/configured-webhook-delivery-pilot-3-9-0-beta-23",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/source-reliability-receiver-conformance-3-9-0-beta-21",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/event-feed-continuity-3-9-0-beta-22",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/webhook-verification-readiness-3-9-0-beta-20",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/collaboration-delivery-contracts-3-9-0-beta-19",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/shareable-evidence-collections-3-9-0-beta-17",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/evidence-governance-packets-3-9-0-beta-16",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/evidence-workflow-refinements-3-9-0-beta-18",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/citable-coverage-registry-3-9-0-beta-15",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/press-outreach-operations-3-9-0-beta-14",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/editorial-pulse-distribution-3-9-0-beta-13",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/local-mime-evidence-intake-3-9-0-beta-12",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/evidence-delivery-integration-3-9-0-beta-11",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/source-continuity-ledger-3-9-0-beta-10",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/assistant-entry-point-consolidation-3-9-0-beta-8",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/verified-browser-distribution-3-9-0-beta-9",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/release-assurance-newsroom-insights-3-9-0-beta-7",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/qualified-public-language-3-9-0-beta-4",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/evidence-newsroom-3-9-0-beta-6",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/press-kit-navigation-3-9-0-beta-5",
+        "status": 200
+      },
+      {
+        "path": "/press-kit/releases/verifiable-press-kit-3-9-0-beta-3",
+        "status": 200
+      },
+      {
+        "path": "/change/45b8e993-7148-4a8b-863c-13d36f9c2074?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/45b8e993-7148-4a8b-863c-13d36f9c2074",
+        "status": 200
+      },
+      {
+        "path": "/change/5fb011f8-bcba-43c2-917f-f3844bd6448e?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/5fb011f8-bcba-43c2-917f-f3844bd6448e",
+        "status": 200
+      },
+      {
+        "path": "/change/5a7ffcf2-bee3-4d3c-9e4f-6162558fe211",
+        "status": 200
+      },
+      {
+        "path": "/change/5a7ffcf2-bee3-4d3c-9e4f-6162558fe211?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/442bb5a6-3cea-423d-8b3d-8e3e888d996e",
+        "status": 200
+      },
+      {
+        "path": "/change/442bb5a6-3cea-423d-8b3d-8e3e888d996e?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/b8a7a6fe-aaeb-4380-bbe1-7ea3b8bf3697",
+        "status": 200
+      },
+      {
+        "path": "/change/b8a7a6fe-aaeb-4380-bbe1-7ea3b8bf3697?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/86ef6b02-beb3-4e84-9f41-8a5a94004114?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/86ef6b02-beb3-4e84-9f41-8a5a94004114",
+        "status": 200
+      },
+      {
+        "path": "/change/d20a661b-f4d4-4442-a4a1-1d8a5ddcb491",
+        "status": 200
+      },
+      {
+        "path": "/change/a9ac5b65-35b3-4c60-92a6-419ccc298f49",
+        "status": 200
+      },
+      {
+        "path": "/change/a9ac5b65-35b3-4c60-92a6-419ccc298f49?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/d20a661b-f4d4-4442-a4a1-1d8a5ddcb491?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/ffa8f31e-15ff-4c58-b19c-4b29c2e41c6b",
+        "status": 200
+      },
+      {
+        "path": "/change/2eb47239-1f48-47c7-a109-ed8efb3b7dfd",
+        "status": 200
+      },
+      {
+        "path": "/change/2eb47239-1f48-47c7-a109-ed8efb3b7dfd?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/ffa8f31e-15ff-4c58-b19c-4b29c2e41c6b?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/48d1072d-dff1-448b-af7c-8dc587906e03",
+        "status": 200
+      },
+      {
+        "path": "/change/81cfc2c5-1310-4f94-8996-49fe114d5b8a",
+        "status": 200
+      },
+      {
+        "path": "/change/4ee896c8-0630-4d8f-b571-78aae3c51db3",
+        "status": 200
+      },
+      {
+        "path": "/change/48d1072d-dff1-448b-af7c-8dc587906e03?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/81cfc2c5-1310-4f94-8996-49fe114d5b8a?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/4ee896c8-0630-4d8f-b571-78aae3c51db3?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/52528494-9dc1-47d6-85b0-cd445dc3572a?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/1c0fa075-7975-4cd2-a17d-1cc2c2cc8034",
+        "status": 200
+      },
+      {
+        "path": "/change/52528494-9dc1-47d6-85b0-cd445dc3572a",
+        "status": 200
+      },
+      {
+        "path": "/change/1c0fa075-7975-4cd2-a17d-1cc2c2cc8034?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/dc410e07-7a2e-4f3c-97a2-b37f64424aa2",
+        "status": 200
+      },
+      {
+        "path": "/change/dc410e07-7a2e-4f3c-97a2-b37f64424aa2?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/b2d5abd7-975d-4f45-8c59-14592b7007cb",
+        "status": 200
+      },
+      {
+        "path": "/change/8db6420b-b6a5-4992-9736-e4944be01b5f",
+        "status": 200
+      },
+      {
+        "path": "/change/b2d5abd7-975d-4f45-8c59-14592b7007cb?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/8db6420b-b6a5-4992-9736-e4944be01b5f?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/742c9bd7-04e7-474b-8484-d2f4e670177c",
+        "status": 200
+      },
+      {
+        "path": "/change/f18cd619-6b84-4c05-9a23-fa7d685d2fc1",
+        "status": 200
+      },
+      {
+        "path": "/change/742c9bd7-04e7-474b-8484-d2f4e670177c?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/f18cd619-6b84-4c05-9a23-fa7d685d2fc1?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/ee14057b-75d0-4a19-8851-88a2577bf385",
+        "status": 200
+      },
+      {
+        "path": "/change/ee14057b-75d0-4a19-8851-88a2577bf385?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/57d20bfa-ebeb-487e-993f-65bf9da6c85d?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/57d20bfa-ebeb-487e-993f-65bf9da6c85d",
+        "status": 200
+      },
+      {
+        "path": "/change/2aed4997-f8d9-4549-998b-a8da6e628f98",
+        "status": 200
+      },
+      {
+        "path": "/change/2aed4997-f8d9-4549-998b-a8da6e628f98?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/4c6bd434-f4fd-41eb-b4b2-f4cf1be389e9",
+        "status": 200
+      },
+      {
+        "path": "/change/9a82fb33-2c23-4d10-94dc-fc07121bcd9f?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/9a82fb33-2c23-4d10-94dc-fc07121bcd9f",
+        "status": 200
+      },
+      {
+        "path": "/change/4c6bd434-f4fd-41eb-b4b2-f4cf1be389e9?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/5f802eed-6d0d-453b-8678-01077a1c1a2d?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/5f802eed-6d0d-453b-8678-01077a1c1a2d",
+        "status": 200
+      },
+      {
+        "path": "/change/fd21e168-2c42-42df-bbfa-460fb195c71a",
+        "status": 200
+      },
+      {
+        "path": "/change/fd21e168-2c42-42df-bbfa-460fb195c71a?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/7a3b60a4-df29-4282-b5be-3b10f88223e4",
+        "status": 200
+      },
+      {
+        "path": "/change/7a3b60a4-df29-4282-b5be-3b10f88223e4?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/49f0fd14-1e9d-4a0f-b9f2-5c8f92147544",
+        "status": 200
+      },
+      {
+        "path": "/change/49f0fd14-1e9d-4a0f-b9f2-5c8f92147544?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/e7bcfc89-09cc-4133-b686-84efac485e51",
+        "status": 200
+      },
+      {
+        "path": "/change/e7bcfc89-09cc-4133-b686-84efac485e51?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/fefcf0ae-a694-4042-a97f-a8abe7cd08bd",
+        "status": 200
+      },
+      {
+        "path": "/change/fefcf0ae-a694-4042-a97f-a8abe7cd08bd?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/1baf2615-ab0f-4173-9dd9-d540c02b8bce?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/1baf2615-ab0f-4173-9dd9-d540c02b8bce",
+        "status": 200
+      },
+      {
+        "path": "/change/8a6d7e33-63ec-46e8-9a9f-07d25b686d19?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/8a6d7e33-63ec-46e8-9a9f-07d25b686d19",
+        "status": 200
+      },
+      {
+        "path": "/change/25330a35-6bce-4de2-8716-1796e250e928",
+        "status": 200
+      },
+      {
+        "path": "/change/3b7777e3-cc17-4498-a1ec-e6e1256ffb17",
+        "status": 200
+      },
+      {
+        "path": "/change/25330a35-6bce-4de2-8716-1796e250e928?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/3b7777e3-cc17-4498-a1ec-e6e1256ffb17?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/0f0b5d8a-a1c2-4b58-9dc9-5048ea871508?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/9dd157b3-34d5-4710-bcef-0d0368693145?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/9dd157b3-34d5-4710-bcef-0d0368693145",
+        "status": 200
+      },
+      {
+        "path": "/change/f21e62b7-844f-464b-8f11-871c42b3c506",
+        "status": 200
+      },
+      {
+        "path": "/change/0f0b5d8a-a1c2-4b58-9dc9-5048ea871508",
+        "status": 200
+      },
+      {
+        "path": "/change/f3173b06-e116-4be0-bda3-272c3a919124",
+        "status": 200
+      },
+      {
+        "path": "/change/f21e62b7-844f-464b-8f11-871c42b3c506?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/f3173b06-e116-4be0-bda3-272c3a919124?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/36ec1a14-399c-4961-b2f1-aeb51e8b0b92",
+        "status": 200
+      },
+      {
+        "path": "/change/79e18fd1-c585-4cbd-a32c-e456bfd142f5?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/79e18fd1-c585-4cbd-a32c-e456bfd142f5",
+        "status": 200
+      },
+      {
+        "path": "/change/36ec1a14-399c-4961-b2f1-aeb51e8b0b92?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/4961a031-d13e-4e25-b878-22fe5e890e52",
+        "status": 200
+      },
+      {
+        "path": "/change/4961a031-d13e-4e25-b878-22fe5e890e52?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/e4f3732c-92f2-4a5d-a9b2-716fd9ebf183",
+        "status": 200
+      },
+      {
+        "path": "/change/3a1a0bf1-d724-415b-91bb-85c94f929d1e?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/e4f3732c-92f2-4a5d-a9b2-716fd9ebf183?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/3a1a0bf1-d724-415b-91bb-85c94f929d1e",
+        "status": 200
+      },
+      {
+        "path": "/change/46e33448-2d8e-4346-86d9-2a11d0c85145",
+        "status": 200
+      },
+      {
+        "path": "/change/46e33448-2d8e-4346-86d9-2a11d0c85145?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/71c0131c-38e2-4ac6-8a81-8adac2a16bc0?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/71c0131c-38e2-4ac6-8a81-8adac2a16bc0",
+        "status": 200
+      },
+      {
+        "path": "/change/83267f34-6e62-47d2-a79e-e19dc4479cc5",
+        "status": 200
+      },
+      {
+        "path": "/change/16f9b187-89de-400c-ab73-df87ef192fe0",
+        "status": 200
+      },
+      {
+        "path": "/change/16f9b187-89de-400c-ab73-df87ef192fe0?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/83267f34-6e62-47d2-a79e-e19dc4479cc5?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/9f75ba9c-8996-4a19-a3e4-9538af4d5884",
+        "status": 200
+      },
+      {
+        "path": "/change/a01305c4-06e9-4113-a4c4-418e4c819740",
+        "status": 200
+      },
+      {
+        "path": "/change/2c167795-987c-4b85-8baa-b6ab48f37c61?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/2c167795-987c-4b85-8baa-b6ab48f37c61",
+        "status": 200
+      },
+      {
+        "path": "/change/9f75ba9c-8996-4a19-a3e4-9538af4d5884?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/245f8e52-2b6c-4d4e-8565-600f69b8a78d",
+        "status": 200
+      },
+      {
+        "path": "/change/a01305c4-06e9-4113-a4c4-418e4c819740?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/61a7ae88-69d7-4ef1-a5c8-48c71b078187?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/61a7ae88-69d7-4ef1-a5c8-48c71b078187",
+        "status": 200
+      },
+      {
+        "path": "/change/245f8e52-2b6c-4d4e-8565-600f69b8a78d?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/01af060e-86ec-4f31-b617-fda6ff7b6be1",
+        "status": 200
+      },
+      {
+        "path": "/change/9c8fbee4-be50-4b08-9134-255d00b28cd0?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/9c8fbee4-be50-4b08-9134-255d00b28cd0",
+        "status": 200
+      },
+      {
+        "path": "/change/01af060e-86ec-4f31-b617-fda6ff7b6be1?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/deed3507-de9d-4d32-a03a-a43b250f9a21?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/b6f77d48-bc9c-4085-bf97-702fd935ce2e",
+        "status": 200
+      },
+      {
+        "path": "/change/deed3507-de9d-4d32-a03a-a43b250f9a21",
+        "status": 200
+      },
+      {
+        "path": "/change/b6f77d48-bc9c-4085-bf97-702fd935ce2e?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/f3a9bab1-4c7c-4808-9c69-2da6963c3a5b",
+        "status": 200
+      },
+      {
+        "path": "/change/f3a9bab1-4c7c-4808-9c69-2da6963c3a5b?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/3da8fec6-fc2d-4e26-8901-ca7e27ab6572",
+        "status": 200
+      },
+      {
+        "path": "/change/3c6dfbb5-a0fa-4edb-81b0-62bb9203baa0",
+        "status": 200
+      },
+      {
+        "path": "/change/3da8fec6-fc2d-4e26-8901-ca7e27ab6572?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/0a9d773d-4417-4498-833b-e9ae88d6433c",
+        "status": 200
+      },
+      {
+        "path": "/change/3f664da1-706b-446a-8c0a-1902a7a06274",
+        "status": 200
+      },
+      {
+        "path": "/change/3f664da1-706b-446a-8c0a-1902a7a06274?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/3c6dfbb5-a0fa-4edb-81b0-62bb9203baa0?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/0a9d773d-4417-4498-833b-e9ae88d6433c?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/322d5b66-a58e-485c-a367-487528a80f44",
+        "status": 200
+      },
+      {
+        "path": "/change/be2f44f8-2b14-4c73-bfa4-15d44d157c04?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/be2f44f8-2b14-4c73-bfa4-15d44d157c04",
+        "status": 200
+      },
+      {
+        "path": "/change/322d5b66-a58e-485c-a367-487528a80f44?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/fa92863a-4ba8-4ef9-9500-72fb44bb63c0",
+        "status": 200
+      },
+      {
+        "path": "/change/fa92863a-4ba8-4ef9-9500-72fb44bb63c0?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/b163d841-2b1c-4d03-8b6e-3d80a7d4cb27",
+        "status": 200
+      },
+      {
+        "path": "/change/b163d841-2b1c-4d03-8b6e-3d80a7d4cb27?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/b8cd3366-f02b-4bb6-9211-2c5b3269a404",
+        "status": 200
+      },
+      {
+        "path": "/change/36648bad-1292-4f57-8b69-47df3f84c652?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/b8cd3366-f02b-4bb6-9211-2c5b3269a404?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/36648bad-1292-4f57-8b69-47df3f84c652",
+        "status": 200
+      },
+      {
+        "path": "/change/b31dce3e-ce3e-49d8-8009-5e1d6297bbd4",
+        "status": 200
+      },
+      {
+        "path": "/change/b31dce3e-ce3e-49d8-8009-5e1d6297bbd4?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/51f2b3f2-6628-48c3-b4d1-be840ce4a0a6?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/51f2b3f2-6628-48c3-b4d1-be840ce4a0a6",
+        "status": 200
+      },
+      {
+        "path": "/change/f14dc990-fe46-4292-9702-48471a26ad97?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/fd6c3793-7c01-4dce-b514-a17a504e53ef?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/fd6c3793-7c01-4dce-b514-a17a504e53ef",
+        "status": 200
+      },
+      {
+        "path": "/change/f14dc990-fe46-4292-9702-48471a26ad97",
+        "status": 200
+      },
+      {
+        "path": "/change/07af8187-6856-489f-9d19-4058d9120405",
+        "status": 200
+      },
+      {
+        "path": "/change/488db3ea-38f7-4aac-9bc8-cc765f73ae86?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/07af8187-6856-489f-9d19-4058d9120405?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/488db3ea-38f7-4aac-9bc8-cc765f73ae86",
+        "status": 200
+      },
+      {
+        "path": "/change/2b3c911a-ff82-4eb2-93cd-d97cc9c642a0?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/decc553e-ece4-43de-8d6e-4f4fedbf3a9a",
+        "status": 200
+      },
+      {
+        "path": "/change/decc553e-ece4-43de-8d6e-4f4fedbf3a9a?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/b2e39954-84c1-4843-a490-278f2f4807a0?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/a5804b9f-61b2-43cc-9cba-67391d428238",
+        "status": 200
+      },
+      {
+        "path": "/change/b2e39954-84c1-4843-a490-278f2f4807a0",
+        "status": 200
+      },
+      {
+        "path": "/change/586c3d9a-1d5d-43dd-bb5e-ca0ef15995ea",
+        "status": 200
+      },
+      {
+        "path": "/change/586c3d9a-1d5d-43dd-bb5e-ca0ef15995ea?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/a5804b9f-61b2-43cc-9cba-67391d428238?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/2b3c911a-ff82-4eb2-93cd-d97cc9c642a0",
+        "status": 200
+      },
+      {
+        "path": "/change/6d94c250-62ab-4f8b-88b6-03573281433f",
+        "status": 200
+      },
+      {
+        "path": "/change/6d94c250-62ab-4f8b-88b6-03573281433f?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/a551ca11-952d-4a8a-b79a-0c1df7462093",
+        "status": 200
+      },
+      {
+        "path": "/change/a551ca11-952d-4a8a-b79a-0c1df7462093?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/9d711828-e470-4300-8423-ae4201c57786",
+        "status": 200
+      },
+      {
+        "path": "/change/0ff77632-4d58-4b0a-8c4d-7c2e190eb5de",
+        "status": 200
+      },
+      {
+        "path": "/change/494ffd08-1c2e-43ae-b332-5d4b316fbaa2?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/0ff77632-4d58-4b0a-8c4d-7c2e190eb5de?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/6851aafc-7813-4bf9-aef3-794dc09cba9f",
+        "status": 200
+      },
+      {
+        "path": "/change/494ffd08-1c2e-43ae-b332-5d4b316fbaa2",
+        "status": 200
+      },
+      {
+        "path": "/change/9d711828-e470-4300-8423-ae4201c57786?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/6851aafc-7813-4bf9-aef3-794dc09cba9f?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/3498c155-1644-4939-8c9b-2460a75b5778",
+        "status": 200
+      },
+      {
+        "path": "/change/7db948e3-a96e-4118-85d0-41c51c80796f",
+        "status": 200
+      },
+      {
+        "path": "/change/3498c155-1644-4939-8c9b-2460a75b5778?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/7db948e3-a96e-4118-85d0-41c51c80796f?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/66fcf7ee-a113-43fa-bd57-4cb533e1fe0c",
+        "status": 200
+      },
+      {
+        "path": "/change/4e8ed932-090d-4a02-8304-22144bfdbff5?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/4e8ed932-090d-4a02-8304-22144bfdbff5",
+        "status": 200
+      },
+      {
+        "path": "/change/66fcf7ee-a113-43fa-bd57-4cb533e1fe0c?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/ecc39763-b2f3-40c2-ac76-9f0844adb261",
+        "status": 200
+      },
+      {
+        "path": "/change/ecc39763-b2f3-40c2-ac76-9f0844adb261?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/2f0b054a-9ea4-45fc-bed4-8a5dda769caf",
+        "status": 200
+      },
+      {
+        "path": "/change/2f0b054a-9ea4-45fc-bed4-8a5dda769caf?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/f863326f-229b-4494-8b13-239f8fcd72a4",
+        "status": 200
+      },
+      {
+        "path": "/change/7107f09e-0e1a-43cd-9af9-3a088d026d87",
+        "status": 200
+      },
+      {
+        "path": "/change/7107f09e-0e1a-43cd-9af9-3a088d026d87?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/f863326f-229b-4494-8b13-239f8fcd72a4?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/4c70bff8-3855-4820-99c0-60218f3c7375",
+        "status": 200
+      },
+      {
+        "path": "/change/4c70bff8-3855-4820-99c0-60218f3c7375?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/2e62256f-eb3a-45c5-95ba-e7b297822af5",
+        "status": 200
+      },
+      {
+        "path": "/change/2e62256f-eb3a-45c5-95ba-e7b297822af5?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/13282507-aa4e-4157-b3bf-9ecb3c05a06d",
+        "status": 200
+      },
+      {
+        "path": "/change/13282507-aa4e-4157-b3bf-9ecb3c05a06d?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/17e72515-975d-43e8-b71f-7891b529f17c?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/17e72515-975d-43e8-b71f-7891b529f17c",
+        "status": 200
+      },
+      {
+        "path": "/change/2371bf5b-b904-4e0b-8505-4f537e426a41",
+        "status": 200
+      },
+      {
+        "path": "/change/2371bf5b-b904-4e0b-8505-4f537e426a41?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/686214a4-1396-4f81-bdd0-63a523dcf90a",
+        "status": 200
+      },
+      {
+        "path": "/change/686214a4-1396-4f81-bdd0-63a523dcf90a?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/21006935-a215-47d4-bd6d-dd03b775323d",
+        "status": 200
+      },
+      {
+        "path": "/change/e5b60963-4f7d-4396-97b2-b0a1f263fc80",
+        "status": 200
+      },
+      {
+        "path": "/change/21006935-a215-47d4-bd6d-dd03b775323d?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/e5b60963-4f7d-4396-97b2-b0a1f263fc80?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/ab33f12c-223c-4045-89ac-0ea091eb21c3",
+        "status": 200
+      },
+      {
+        "path": "/change/c401c830-2b20-475a-908c-8c4d762bda1e",
+        "status": 200
+      },
+      {
+        "path": "/change/ab33f12c-223c-4045-89ac-0ea091eb21c3?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/c401c830-2b20-475a-908c-8c4d762bda1e?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/7d60dfa9-f444-46e9-972a-e1679643fa6e?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/7d60dfa9-f444-46e9-972a-e1679643fa6e",
+        "status": 200
+      },
+      {
+        "path": "/change/ff3b694b-c127-40a7-ad9a-147c054b1221",
+        "status": 200
+      },
+      {
+        "path": "/change/ff3b694b-c127-40a7-ad9a-147c054b1221?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/472a92ae-24a8-4d9c-a47b-66f043669f57",
+        "status": 200
+      },
+      {
+        "path": "/change/121a92db-3af8-48da-8b5e-fa953a94d08b?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/121a92db-3af8-48da-8b5e-fa953a94d08b",
+        "status": 200
+      },
+      {
+        "path": "/change/472a92ae-24a8-4d9c-a47b-66f043669f57?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/858f0ed6-c3a6-4084-a5eb-e7ff9ba238e6",
+        "status": 200
+      },
+      {
+        "path": "/change/161eb7f2-6bd6-4742-a173-ff9df57ac47f",
+        "status": 200
+      },
+      {
+        "path": "/change/161eb7f2-6bd6-4742-a173-ff9df57ac47f?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/858f0ed6-c3a6-4084-a5eb-e7ff9ba238e6?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/0b360805-607e-41ae-b0ff-6958cec16541",
+        "status": 200
+      },
+      {
+        "path": "/change/0b360805-607e-41ae-b0ff-6958cec16541?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/6c63cb4a-b2bd-496e-b994-7def76160bde",
+        "status": 200
+      },
+      {
+        "path": "/change/6c63cb4a-b2bd-496e-b994-7def76160bde?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/effbc552-bf79-49fc-958d-a5ef4407de76",
+        "status": 200
+      },
+      {
+        "path": "/change/449c973d-b19b-4d7c-976b-ffcb63bf0665",
+        "status": 200
+      },
+      {
+        "path": "/change/effbc552-bf79-49fc-958d-a5ef4407de76?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/449c973d-b19b-4d7c-976b-ffcb63bf0665?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/c9aadce8-c90e-46d9-9ad2-372ed55b339d",
+        "status": 200
+      },
+      {
+        "path": "/change/c9aadce8-c90e-46d9-9ad2-372ed55b339d?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/7f520876-dff7-41c0-8948-6b7a521c14f6?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/change/7f520876-dff7-41c0-8948-6b7a521c14f6",
+        "status": 200
+      },
+      {
+        "path": "/change/725582fb-d698-4d30-aeb3-810d221ad7c9",
+        "status": 200
+      },
+      {
+        "path": "/change/725582fb-d698-4d30-aeb3-810d221ad7c9?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/evidence/45b8e993-7148-4a8b-863c-13d36f9c2074",
+        "status": 200
+      },
+      {
+        "path": "/change/1ee4e96e-0be3-46bf-8c66-10c4e8f3718a",
+        "status": 200
+      },
+      {
+        "path": "/change/1ee4e96e-0be3-46bf-8c66-10c4e8f3718a?lang=it",
+        "status": 200
+      },
+      {
+        "path": "/evidence/5a7ffcf2-bee3-4d3c-9e4f-6162558fe211",
+        "status": 200
+      },
+      {
+        "path": "/evidence/442bb5a6-3cea-423d-8b3d-8e3e888d996e",
+        "status": 200
+      },
+      {
+        "path": "/evidence/5fb011f8-bcba-43c2-917f-f3844bd6448e",
+        "status": 200
+      },
+      {
+        "path": "/evidence/b8a7a6fe-aaeb-4380-bbe1-7ea3b8bf3697",
+        "status": 200
+      },
+      {
+        "path": "/evidence/d20a661b-f4d4-4442-a4a1-1d8a5ddcb491",
+        "status": 200
+      },
+      {
+        "path": "/evidence/a9ac5b65-35b3-4c60-92a6-419ccc298f49",
+        "status": 200
+      },
+      {
+        "path": "/evidence/86ef6b02-beb3-4e84-9f41-8a5a94004114",
+        "status": 200
+      },
+      {
+        "path": "/evidence/ffa8f31e-15ff-4c58-b19c-4b29c2e41c6b",
+        "status": 200
+      },
+      {
+        "path": "/evidence/81cfc2c5-1310-4f94-8996-49fe114d5b8a",
+        "status": 200
+      },
+      {
+        "path": "/evidence/48d1072d-dff1-448b-af7c-8dc587906e03",
+        "status": 200
+      },
+      {
+        "path": "/evidence/4ee896c8-0630-4d8f-b571-78aae3c51db3",
+        "status": 200
+      },
+      {
+        "path": "/evidence/2eb47239-1f48-47c7-a109-ed8efb3b7dfd",
+        "status": 200
+      },
+      {
+        "path": "/evidence/52528494-9dc1-47d6-85b0-cd445dc3572a",
+        "status": 200
+      },
+      {
+        "path": "/evidence/dc410e07-7a2e-4f3c-97a2-b37f64424aa2",
+        "status": 200
+      },
+      {
+        "path": "/evidence/1c0fa075-7975-4cd2-a17d-1cc2c2cc8034",
+        "status": 200
+      },
+      {
+        "path": "/evidence/b2d5abd7-975d-4f45-8c59-14592b7007cb",
+        "status": 200
+      },
+      {
+        "path": "/evidence/f18cd619-6b84-4c05-9a23-fa7d685d2fc1",
+        "status": 200
+      },
+      {
+        "path": "/evidence/8db6420b-b6a5-4992-9736-e4944be01b5f",
+        "status": 200
+      },
+      {
+        "path": "/evidence/ee14057b-75d0-4a19-8851-88a2577bf385",
+        "status": 200
+      },
+      {
+        "path": "/evidence/742c9bd7-04e7-474b-8484-d2f4e670177c",
+        "status": 200
+      },
+      {
+        "path": "/evidence/57d20bfa-ebeb-487e-993f-65bf9da6c85d",
+        "status": 200
+      },
+      {
+        "path": "/evidence/4c6bd434-f4fd-41eb-b4b2-f4cf1be389e9",
+        "status": 200
+      },
+      {
+        "path": "/evidence/9a82fb33-2c23-4d10-94dc-fc07121bcd9f",
+        "status": 200
+      },
+      {
+        "path": "/evidence/2aed4997-f8d9-4549-998b-a8da6e628f98",
+        "status": 200
+      },
+      {
+        "path": "/evidence/49f0fd14-1e9d-4a0f-b9f2-5c8f92147544",
+        "status": 200
+      },
+      {
+        "path": "/evidence/5f802eed-6d0d-453b-8678-01077a1c1a2d",
+        "status": 200
+      },
+      {
+        "path": "/evidence/7a3b60a4-df29-4282-b5be-3b10f88223e4",
+        "status": 200
+      },
+      {
+        "path": "/evidence/fd21e168-2c42-42df-bbfa-460fb195c71a",
+        "status": 200
+      },
+      {
+        "path": "/evidence/8a6d7e33-63ec-46e8-9a9f-07d25b686d19",
+        "status": 200
+      },
+      {
+        "path": "/evidence/e7bcfc89-09cc-4133-b686-84efac485e51",
+        "status": 200
+      },
+      {
+        "path": "/evidence/fefcf0ae-a694-4042-a97f-a8abe7cd08bd",
+        "status": 200
+      },
+      {
+        "path": "/evidence/1baf2615-ab0f-4173-9dd9-d540c02b8bce",
+        "status": 200
+      },
+      {
+        "path": "/evidence/9dd157b3-34d5-4710-bcef-0d0368693145",
+        "status": 200
+      },
+      {
+        "path": "/evidence/25330a35-6bce-4de2-8716-1796e250e928",
+        "status": 200
+      },
+      {
+        "path": "/evidence/3b7777e3-cc17-4498-a1ec-e6e1256ffb17",
+        "status": 200
+      },
+      {
+        "path": "/evidence/0f0b5d8a-a1c2-4b58-9dc9-5048ea871508",
+        "status": 200
+      },
+      {
+        "path": "/evidence/79e18fd1-c585-4cbd-a32c-e456bfd142f5",
+        "status": 200
+      },
+      {
+        "path": "/evidence/36ec1a14-399c-4961-b2f1-aeb51e8b0b92",
+        "status": 200
+      },
+      {
+        "path": "/evidence/f3173b06-e116-4be0-bda3-272c3a919124",
+        "status": 200
+      },
+      {
+        "path": "/evidence/f21e62b7-844f-464b-8f11-871c42b3c506",
+        "status": 200
+      },
+      {
+        "path": "/evidence/3a1a0bf1-d724-415b-91bb-85c94f929d1e",
+        "status": 200
+      },
+      {
+        "path": "/evidence/4961a031-d13e-4e25-b878-22fe5e890e52",
+        "status": 200
+      },
+      {
+        "path": "/evidence/46e33448-2d8e-4346-86d9-2a11d0c85145",
+        "status": 200
+      },
+      {
+        "path": "/evidence/e4f3732c-92f2-4a5d-a9b2-716fd9ebf183",
+        "status": 200
+      },
+      {
+        "path": "/evidence/71c0131c-38e2-4ac6-8a81-8adac2a16bc0",
+        "status": 200
+      },
+      {
+        "path": "/evidence/83267f34-6e62-47d2-a79e-e19dc4479cc5",
+        "status": 200
+      },
+      {
+        "path": "/evidence/9f75ba9c-8996-4a19-a3e4-9538af4d5884",
+        "status": 200
+      },
+      {
+        "path": "/evidence/16f9b187-89de-400c-ab73-df87ef192fe0",
+        "status": 200
+      },
+      {
+        "path": "/evidence/245f8e52-2b6c-4d4e-8565-600f69b8a78d",
+        "status": 200
+      },
+      {
+        "path": "/evidence/a01305c4-06e9-4113-a4c4-418e4c819740",
+        "status": 200
+      },
+      {
+        "path": "/evidence/2c167795-987c-4b85-8baa-b6ab48f37c61",
+        "status": 200
+      },
+      {
+        "path": "/evidence/61a7ae88-69d7-4ef1-a5c8-48c71b078187",
+        "status": 200
+      },
+      {
+        "path": "/evidence/9c8fbee4-be50-4b08-9134-255d00b28cd0",
+        "status": 200
+      },
+      {
+        "path": "/evidence/deed3507-de9d-4d32-a03a-a43b250f9a21",
+        "status": 200
+      },
+      {
+        "path": "/evidence/01af060e-86ec-4f31-b617-fda6ff7b6be1",
+        "status": 200
+      },
+      {
+        "path": "/evidence/b6f77d48-bc9c-4085-bf97-702fd935ce2e",
+        "status": 200
+      },
+      {
+        "path": "/evidence/f3a9bab1-4c7c-4808-9c69-2da6963c3a5b",
+        "status": 200
+      },
+      {
+        "path": "/evidence/3da8fec6-fc2d-4e26-8901-ca7e27ab6572",
+        "status": 200
+      },
+      {
+        "path": "/evidence/0a9d773d-4417-4498-833b-e9ae88d6433c",
+        "status": 200
+      },
+      {
+        "path": "/evidence/3c6dfbb5-a0fa-4edb-81b0-62bb9203baa0",
+        "status": 200
+      },
+      {
+        "path": "/evidence/3f664da1-706b-446a-8c0a-1902a7a06274",
+        "status": 200
+      },
+      {
+        "path": "/evidence/be2f44f8-2b14-4c73-bfa4-15d44d157c04",
+        "status": 200
+      },
+      {
+        "path": "/evidence/322d5b66-a58e-485c-a367-487528a80f44",
+        "status": 200
+      },
+      {
+        "path": "/evidence/fa92863a-4ba8-4ef9-9500-72fb44bb63c0",
+        "status": 200
+      },
+      {
+        "path": "/evidence/b163d841-2b1c-4d03-8b6e-3d80a7d4cb27",
+        "status": 200
+      },
+      {
+        "path": "/evidence/b8cd3366-f02b-4bb6-9211-2c5b3269a404",
+        "status": 200
+      },
+      {
+        "path": "/evidence/b31dce3e-ce3e-49d8-8009-5e1d6297bbd4",
+        "status": 200
+      },
+      {
+        "path": "/evidence/36648bad-1292-4f57-8b69-47df3f84c652",
+        "status": 200
+      },
+      {
+        "path": "/evidence/fd6c3793-7c01-4dce-b514-a17a504e53ef",
+        "status": 200
+      },
+      {
+        "path": "/evidence/51f2b3f2-6628-48c3-b4d1-be840ce4a0a6",
+        "status": 200
+      },
+      {
+        "path": "/evidence/07af8187-6856-489f-9d19-4058d9120405",
+        "status": 200
+      },
+      {
+        "path": "/evidence/f14dc990-fe46-4292-9702-48471a26ad97",
+        "status": 200
+      },
+      {
+        "path": "/evidence/488db3ea-38f7-4aac-9bc8-cc765f73ae86",
+        "status": 200
+      },
+      {
+        "path": "/evidence/b2e39954-84c1-4843-a490-278f2f4807a0",
+        "status": 200
+      },
+      {
+        "path": "/evidence/2b3c911a-ff82-4eb2-93cd-d97cc9c642a0",
+        "status": 200
+      },
+      {
+        "path": "/evidence/decc553e-ece4-43de-8d6e-4f4fedbf3a9a",
+        "status": 200
+      },
+      {
+        "path": "/evidence/6d94c250-62ab-4f8b-88b6-03573281433f",
+        "status": 200
+      },
+      {
+        "path": "/evidence/a551ca11-952d-4a8a-b79a-0c1df7462093",
+        "status": 200
+      },
+      {
+        "path": "/evidence/586c3d9a-1d5d-43dd-bb5e-ca0ef15995ea",
+        "status": 200
+      },
+      {
+        "path": "/evidence/a5804b9f-61b2-43cc-9cba-67391d428238",
+        "status": 200
+      },
+      {
+        "path": "/evidence/494ffd08-1c2e-43ae-b332-5d4b316fbaa2",
+        "status": 200
+      },
+      {
+        "path": "/evidence/0ff77632-4d58-4b0a-8c4d-7c2e190eb5de",
+        "status": 200
+      },
+      {
+        "path": "/evidence/6851aafc-7813-4bf9-aef3-794dc09cba9f",
+        "status": 200
+      },
+      {
+        "path": "/evidence/9d711828-e470-4300-8423-ae4201c57786",
+        "status": 200
+      },
+      {
+        "path": "/evidence/3498c155-1644-4939-8c9b-2460a75b5778",
+        "status": 200
+      },
+      {
+        "path": "/evidence/4e8ed932-090d-4a02-8304-22144bfdbff5",
+        "status": 200
+      },
+      {
+        "path": "/evidence/66fcf7ee-a113-43fa-bd57-4cb533e1fe0c",
+        "status": 200
+      },
+      {
+        "path": "/evidence/7db948e3-a96e-4118-85d0-41c51c80796f",
+        "status": 200
+      },
+      {
+        "path": "/evidence/ecc39763-b2f3-40c2-ac76-9f0844adb261",
+        "status": 200
+      },
+      {
+        "path": "/evidence/7107f09e-0e1a-43cd-9af9-3a088d026d87",
+        "status": 200
+      },
+      {
+        "path": "/evidence/2f0b054a-9ea4-45fc-bed4-8a5dda769caf",
+        "status": 200
+      },
+      {
+        "path": "/evidence/f863326f-229b-4494-8b13-239f8fcd72a4",
+        "status": 200
+      },
+      {
+        "path": "/evidence/2e62256f-eb3a-45c5-95ba-e7b297822af5",
+        "status": 200
+      },
+      {
+        "path": "/evidence/17e72515-975d-43e8-b71f-7891b529f17c",
+        "status": 200
+      },
+      {
+        "path": "/evidence/13282507-aa4e-4157-b3bf-9ecb3c05a06d",
+        "status": 200
+      },
+      {
+        "path": "/evidence/4c70bff8-3855-4820-99c0-60218f3c7375",
+        "status": 200
+      },
+      {
+        "path": "/evidence/21006935-a215-47d4-bd6d-dd03b775323d",
+        "status": 200
+      },
+      {
+        "path": "/evidence/686214a4-1396-4f81-bdd0-63a523dcf90a",
+        "status": 200
+      },
+      {
+        "path": "/evidence/e5b60963-4f7d-4396-97b2-b0a1f263fc80",
+        "status": 200
+      },
+      {
+        "path": "/evidence/2371bf5b-b904-4e0b-8505-4f537e426a41",
+        "status": 200
+      },
+      {
+        "path": "/evidence/c401c830-2b20-475a-908c-8c4d762bda1e",
+        "status": 200
+      },
+      {
+        "path": "/evidence/ff3b694b-c127-40a7-ad9a-147c054b1221",
+        "status": 200
+      },
+      {
+        "path": "/evidence/ab33f12c-223c-4045-89ac-0ea091eb21c3",
+        "status": 200
+      },
+      {
+        "path": "/evidence/7d60dfa9-f444-46e9-972a-e1679643fa6e",
+        "status": 200
+      },
+      {
+        "path": "/evidence/121a92db-3af8-48da-8b5e-fa953a94d08b",
+        "status": 200
+      },
+      {
+        "path": "/evidence/472a92ae-24a8-4d9c-a47b-66f043669f57",
+        "status": 200
+      },
+      {
+        "path": "/evidence/858f0ed6-c3a6-4084-a5eb-e7ff9ba238e6",
+        "status": 200
+      },
+      {
+        "path": "/evidence/161eb7f2-6bd6-4742-a173-ff9df57ac47f",
+        "status": 200
+      },
+      {
+        "path": "/evidence/0b360805-607e-41ae-b0ff-6958cec16541",
+        "status": 200
+      },
+      {
+        "path": "/evidence/effbc552-bf79-49fc-958d-a5ef4407de76",
+        "status": 200
+      },
+      {
+        "path": "/evidence/6c63cb4a-b2bd-496e-b994-7def76160bde",
+        "status": 200
+      },
+      {
+        "path": "/evidence/449c973d-b19b-4d7c-976b-ffcb63bf0665",
+        "status": 200
+      },
+      {
+        "path": "/evidence/7f520876-dff7-41c0-8948-6b7a521c14f6",
+        "status": 200
+      },
+      {
+        "path": "/evidence/c9aadce8-c90e-46d9-9ad2-372ed55b339d",
+        "status": 200
+      },
+      {
+        "path": "/evidence/725582fb-d698-4d30-aeb3-810d221ad7c9",
+        "status": 200
+      },
+      {
+        "path": "/evidence/1ee4e96e-0be3-46bf-8c66-10c4e8f3718a",
+        "status": 200
+      }
+    ],
+    "sourceHashes": {
+      "checkedAt": "2026-11-02T03:34:13.039381+00:00",
+      "host": "policywatcher.online",
+      "artifactSha256": "163cf12e831d2d5bc2ad688d82ef4551ae56b4f2fae9c215d1f748efff9a6344",
+      "checks": [
+        {
+          "path": "CHANGELOG.md",
+          "expected": "48bb16e6de5fba6f6845b120f71242a33ba0197d5c380e4ce21b4478e2da15ab",
+          "actual": "48bb16e6de5fba6f6845b120f71242a33ba0197d5c380e4ce21b4478e2da15ab",
+          "pass": true
+        },
+        {
+          "path": "README.md",
+          "expected": "ccd85c1d50998bc15991f18362077351f3e609daf88f7fa6ece4957c0a1769aa",
+          "actual": "ccd85c1d50998bc15991f18362077351f3e609daf88f7fa6ece4957c0a1769aa",
+          "pass": true
+        },
+        {
+          "path": "docs/releases/policywatcher-5.5.0-github-release.md",
+          "expected": "30e37e76c22b3b73b7b56aaf2cae00bd55c6dd9b25e4cc06423a0d3ef31ab8e7",
+          "actual": "30e37e76c22b3b73b7b56aaf2cae00bd55c6dd9b25e4cc06423a0d3ef31ab8e7",
+          "pass": true
+        },
+        {
+          "path": "package-lock.json",
+          "expected": "b24528f1f480f216c355c8f0ee024928376873ae9f5ba381210ffcf5a7c868bf",
+          "actual": "b24528f1f480f216c355c8f0ee024928376873ae9f5ba381210ffcf5a7c868bf",
+          "pass": true
+        },
+        {
+          "path": "package.json",
+          "expected": "3dcfe896b8c8060674b1a3514d579fb48f745084a8ca810b7c668d7dc45ac0af",
+          "actual": "3dcfe896b8c8060674b1a3514d579fb48f745084a8ca810b7c668d7dc45ac0af",
+          "pass": true
+        },
+        {
+          "path": "prisma/schema.prisma",
+          "expected": "88a64d8bcc377153c5928b3ba1ae922aa70e9af25d0673b2828c2ee31e6085c0",
+          "actual": "88a64d8bcc377153c5928b3ba1ae922aa70e9af25d0673b2828c2ee31e6085c0",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/asset-manifest.json",
+          "expected": "dd676dbade5acc98ab660a9f9d7a79456a778916d4ab7dce69a4b5c8302d5d42",
+          "actual": "dd676dbade5acc98ab660a9f9d7a79456a778916d4ab7dce69a4b5c8302d5d42",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/package-manifest.json",
+          "expected": "023a0b572348a23192bd5e5b3bb4bd53df161b0448d98747206663ef20d36658",
+          "actual": "023a0b572348a23192bd5e5b3bb4bd53df161b0448d98747206663ef20d36658",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/policywatcher-fact-sheet-en-2026-11-02.pdf",
+          "expected": "fc8597bedc4094404d9570dbe5fdbd32022fd5223399fb8616c676ba30b3401f",
+          "actual": "fc8597bedc4094404d9570dbe5fdbd32022fd5223399fb8616c676ba30b3401f",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/policywatcher-fact-sheet-en-2026-11-02.txt",
+          "expected": "53ea830d970daff73496e993a53f8ec0bded9ae752201fd4955cd51bfb03be98",
+          "actual": "53ea830d970daff73496e993a53f8ec0bded9ae752201fd4955cd51bfb03be98",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/policywatcher-fact-sheet-it-2026-11-02.pdf",
+          "expected": "5b0e3f7c64420b459e22f6df4e0f302b49f96ed19dde7d2b3d1594ef38fed3c5",
+          "actual": "5b0e3f7c64420b459e22f6df4e0f302b49f96ed19dde7d2b3d1594ef38fed3c5",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/policywatcher-fact-sheet-it-2026-11-02.txt",
+          "expected": "bc7528ce7a9ef3fb6898132e9cc857330aa87aaf9cf3c75d8a30deacfcd3caf4",
+          "actual": "bc7528ce7a9ef3fb6898132e9cc857330aa87aaf9cf3c75d8a30deacfcd3caf4",
+          "pass": true
+        },
+        {
+          "path": "release-manifest.json",
+          "expected": "7687ba6c78ed37758ec015b82fe4b4d42121f2b24d6d5253651e33918cf68a76",
+          "actual": "7687ba6c78ed37758ec015b82fe4b4d42121f2b24d6d5253651e33918cf68a76",
+          "pass": true
+        },
+        {
+          "path": "scripts/generate-press-kit-assets.mjs",
+          "expected": "1c9a1a83c63bff1f69e36df0ae8bab2f269aa3e79ac8fc3fceb987534fef57b0",
+          "actual": "1c9a1a83c63bff1f69e36df0ae8bab2f269aa3e79ac8fc3fceb987534fef57b0",
+          "pass": true
+        },
+        {
+          "path": "scripts/package-release.sh",
+          "expected": "d391ee84f134c84c807d7ed7cea12c7ce1a58f1c5494870eb83c13c4d12ca6b7",
+          "actual": "d391ee84f134c84c807d7ed7cea12c7ce1a58f1c5494870eb83c13c4d12ca6b7",
+          "pass": true
+        },
+        {
+          "path": "src/app/engine-6-preview/page.tsx",
+          "expected": "df73e7de5478fb05d636c91e52cf061bc749125064a182ed893585ddfda64847",
+          "actual": "df73e7de5478fb05d636c91e52cf061bc749125064a182ed893585ddfda64847",
+          "pass": true
+        },
+        {
+          "path": "src/app/llms.txt/route.ts",
+          "expected": "e5f1f19a6bee15f10080a2eb83e01d694f5e03be07cf360954213995c12004ba",
+          "actual": "e5f1f19a6bee15f10080a2eb83e01d694f5e03be07cf360954213995c12004ba",
+          "pass": true
+        },
+        {
+          "path": "src/app/page.tsx",
+          "expected": "c2251b023e9887b6dce3bbf9751fd5c17b6bfa5628493516a0ae0c5336f448b7",
+          "actual": "c2251b023e9887b6dce3bbf9751fd5c17b6bfa5628493516a0ae0c5336f448b7",
+          "pass": true
+        },
+        {
+          "path": "src/app/press-kit/PressKitClient.tsx",
+          "expected": "9bb543b04eb1644110bb77525d42d5c4ccef05d3d1b27c58557e864dfb67f033",
+          "actual": "9bb543b04eb1644110bb77525d42d5c4ccef05d3d1b27c58557e864dfb67f033",
+          "pass": true
+        },
+        {
+          "path": "src/app/roadmap/RoadmapClient.tsx",
+          "expected": "07c6f3435c22752120b14e68380d21e769b9412fd33a98558838751fede1be21",
+          "actual": "07c6f3435c22752120b14e68380d21e769b9412fd33a98558838751fede1be21",
+          "pass": true
+        },
+        {
+          "path": "src/app/sitemap.ts",
+          "expected": "98729f18451261b03efa6a0609a24ee3afe642a520b88943c02bd7c827871f84",
+          "actual": "98729f18451261b03efa6a0609a24ee3afe642a520b88943c02bd7c827871f84",
+          "pass": true
+        },
+        {
+          "path": "src/components/ChangelogModal.tsx",
+          "expected": "be8104b9cb2993225826f80deeabf67114222447710cd4f81a5bc1785510502e",
+          "actual": "be8104b9cb2993225826f80deeabf67114222447710cd4f81a5bc1785510502e",
+          "pass": true
+        },
+        {
+          "path": "src/lib/extractionProfile.generated.json",
+          "expected": "20fdab9586610620a043de935ea19237f4f06ee488011ba7b63adcd51843fe27",
+          "actual": "20fdab9586610620a043de935ea19237f4f06ee488011ba7b63adcd51843fe27",
+          "pass": true
+        },
+        {
+          "path": "src/lib/featureAtlas.ts",
+          "expected": "adad6577a69792abe265ba67c1dd4aef248dd15dc729d6e8509d89c3a77737b6",
+          "actual": "adad6577a69792abe265ba67c1dd4aef248dd15dc729d6e8509d89c3a77737b6",
+          "pass": true
+        },
+        {
+          "path": "src/lib/pdfPolicy.ts",
+          "expected": "8e7547a94f0a447be6797dc8b37dd0a532de5cbb64050ceb48bc7b13552a791b",
+          "actual": "8e7547a94f0a447be6797dc8b37dd0a532de5cbb64050ceb48bc7b13552a791b",
+          "pass": true
+        },
+        {
+          "path": "src/lib/pressKit.ts",
+          "expected": "e1329ed3a0ba6bda54876c420ffabb655459fb2eb636bde7205fa405650a8bcb",
+          "actual": "e1329ed3a0ba6bda54876c420ffabb655459fb2eb636bde7205fa405650a8bcb",
+          "pass": true
+        },
+        {
+          "path": "src/lib/publicSections.ts",
+          "expected": "a3f0992b6ce36c69d99ef400952fd1841fed6adca17b600291374ea86b85aff0",
+          "actual": "a3f0992b6ce36c69d99ef400952fd1841fed6adca17b600291374ea86b85aff0",
+          "pass": true
+        },
+        {
+          "path": "src/lib/release.ts",
+          "expected": "a8bfc738eed3d7b42d27bf6c3e173f0b884614cbe3bfa533de7fc946ef0d8387",
+          "actual": "a8bfc738eed3d7b42d27bf6c3e173f0b884614cbe3bfa533de7fc946ef0d8387",
+          "pass": true
+        },
+        {
+          "path": "src/lib/releaseImpact.ts",
+          "expected": "bf0bfef6e4d414befa400ff13bd1e16b2c3dd382f7c2da24111f5139b050a1f4",
+          "actual": "bf0bfef6e4d414befa400ff13bd1e16b2c3dd382f7c2da24111f5139b050a1f4",
+          "pass": true
+        },
+        {
+          "path": "src/lib/scraper.ts",
+          "expected": "fac808e2fc992180957016b1668294b491fa08c386757007a5a28bf6f2111bcc",
+          "actual": "fac808e2fc992180957016b1668294b491fa08c386757007a5a28bf6f2111bcc",
+          "pass": true
+        }
+      ],
+      "status": "passed"
+    }
+  },
+  "previewRestoration": {
+    "artifactSha256": "c887cd49959f38ab4137c235349c1f2e5785fed97848a4a42daf4410ef24bf26",
+    "implementationHash": "d9d5dde4f1c8d22c03c80ae200bc3e44734ef6a430c7e7bd037719ee30614e88",
+    "checks": [
+      {
+        "name": "credential_origin",
+        "pass": true
+      },
+      {
+        "name": "private_page_boundary",
+        "pass": true,
+        "http": 307
+      },
+      {
+        "name": "private_api_boundary",
+        "pass": true,
+        "http": 401
+      },
+      {
+        "name": "administrator_login",
+        "pass": true
+      },
+      {
+        "name": "worker_active",
+        "pass": true
+      },
+      {
+        "name": "same_implementation",
+        "pass": true,
+        "implementationHash": "d9d5dde4f1c8d22c03c80ae200bc3e44734ef6a430c7e7bd037719ee30614e88"
+      },
+      {
+        "name": "private_channels",
+        "pass": true,
+        "channels": {
+          "defaultChannel": "preview",
+          "stable": false,
+          "preview": true,
+          "compare": true,
+          "comparisonScope": "same-capture-extraction",
+          "reason": null
+        },
+        "publicationEnabled": false
+      },
+      {
+        "name": "preview_version",
+        "pass": true,
+        "release": "6.0.0-preview.1"
+      },
+      {
+        "name": "database_health",
+        "pass": true,
+        "http": 200
+      },
+      {
+        "name": "schema_ready",
+        "pass": true
+      },
+      {
+        "name": "saved_report_available",
+        "pass": true,
+        "http": 200,
+        "status": "completed",
+        "selected": 4
+      },
+      {
+        "name": "observe_silent",
+        "pass": true
+      }
+    ],
+    "observedTablesUnchanged": 12,
+    "counts": {
+      "Company": 18,
+      "Policy": 113,
+      "EngineRun": 1,
+      "EngineTask": 8,
+      "EngineReview": 3,
+      "EngineOutbox": 0
+    },
+    "activeTasks": 0,
+    "savedRunStatus": "completed",
+    "deployment": {
+      "id": "01a19a54-ac6f-718d-b16c-97faac66be99",
+      "state": "Completed / Current",
+      "displayedTimeEuropeRome": "2026-11-02 04:38"
+    }
+  },
+  "browserVerification": [
+    "User existing production tab reloaded; homepage announcement shows PolicyWatcher 5.5 / Engine 6.0 Preview.",
+    "Production changelog opened: Latest published release 5.5.0 STABLE, new Engine 6 feature and boundary text.",
+    "Italian release page and English roadmap checked in browser."
+  ],
+  "qualificationBoundary": {
+    "newCaptures": 0,
+    "newCountedDailyWindows": 0,
+    "frozenCohortsUnchanged": true,
+    "real500SourceCapacity": "unqualified",
+    "sourceCompleteness": "unqualified",
+    "independentSecurityTest": "external, not executed by this release"
+  }
+}

@@ -12,7 +12,7 @@ The source repository also contains the newer Engine 6 implementation. Its distr
 
 ## Validation and remaining work
 
-The public candidate passes 1,313 tests with 14 skipped, web lint and the optimized production build. The first full run retained one obsolete date assertion, corrected for the 2 November release before the passing rerun. Both new EN/IT PDF fact sheets were rendered and visually checked. Staging and production deployment receipts are recorded separately after execution.
+The public candidate passes 1,313 tests with 14 skipped, web lint and the optimized production build. The first full run retained one obsolete date assertion, corrected for the 2 November release before the passing rerun. Both new EN/IT PDF fact sheets were rendered and visually checked. The [publication receipt](../reports/policywatcher-5.5.0-publication-2026-11-02.md) records the completed staging/production promotion and preserved Preview: 49 production release checks, 595 sitemap destinations, 30 source-file hashes and 12 restoration checks passed.
 
 Prior hosted Preview checks and subsequent restoration checks are distinct observations, not a combined benchmark. Complete source coverage, three distinct live dates across at least 48 elapsed hours, continuous worker availability and 500 distinct daily live sources remain unqualified.
 

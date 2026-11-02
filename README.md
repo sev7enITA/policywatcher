@@ -46,7 +46,7 @@
 | [Updated wiki](https://github.com/sev7enITA/policywatcher/wiki) | Stable operations, Engine 6 design, scan channels, release status and qualification limits |
 | [Current parser and daily campaign](https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/engine-v6-codeql-triage-2026-11-01.md) | PR #39: 1,569 tests passed, 14 skipped; new 12-source cohort with zero live windows at initialization. Prior parser observations remain separately preserved and incomplete |
 
-The public homepage now places the Preview access banner before the introduction. The exact content archive passed staging verification before production promotion. See the [2 November publication receipt](https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/engine-v6-public-access-rollout-2026-11-02.md).
+The public homepage now places the PolicyWatcher 5.5 / Engine 6 Preview announcement before the introduction. The exact release archive passed staging verification before production promotion at 04:33 Europe/Rome. See the [5.5 publication receipt](docs/reports/policywatcher-5.5.0-publication-2026-11-02.md): 49 production release checks, 595 sitemap destinations and 30 source-file hashes passed; the same private Preview and all 12 observed database tables were preserved. The [earlier 5.2 content receipt](docs/reports/engine-v6-public-access-rollout-2026-11-02.md) remains historical.
 
 The Engine 6 source distribution on `main` remains restricted to private staging independently of the 5.5 product label. The public 5.5 artifact is built from `codex/release-5-5-public` and retains the established scanner. Packaging guards do not infer access permissions from a version number.
 
