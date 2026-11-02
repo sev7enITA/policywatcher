@@ -35,16 +35,18 @@
 
 ## Current service and Engine 6 Preview
 
-**Updated 1 November 2026.** The public web service is **5.2.0**. Engine 6 source is now integrated in `main` through [PR #37](https://github.com/sev7enITA/policywatcher/pull/37); the main public website still uses the stable engine. The separate authenticated [**6.0 Preview is online**](https://staging.policywatcher.online/admin/engine), with private results and publication/notifications disabled.
+**Updated 2 November 2026.** The public web service is **5.2.0**. Engine 6 source is now integrated in `main` through [PR #37](https://github.com/sev7enITA/policywatcher/pull/37); the main public website still uses the stable engine. The separate authenticated [**6.0 Preview is online**](https://staging.policywatcher.online/admin/engine), with private results and publication/notifications disabled.
 
 | Find the work | Verified availability |
 | --- | --- |
 | [Private online Preview](https://staging.policywatcher.online/admin/engine) | 47 actual hosted checks passed; live Apple comparison, three explicit source-contract holds and unchanged official records |
 | [Engine 6 source](https://github.com/sev7enITA/policywatcher/tree/main) | Durable tasks, source contracts, evidence validation, Stable/Preview selector and same-capture extraction comparison |
 | [Implementation and test report](https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/engine-v6-hosted-build-remediation-2026-11-01.md) | 1,565 tests passed, 14 skipped; 44 local HTTP/worker checks on candidate 2 and 22 generated standalone-server checks on candidate 3 |
-| [Engineering notebook](https://policywatcher.online/engine-6-preview?lang=it) | Published bilingual documentation with architecture, flow and entity diagrams; not an interactive preview |
+| [Engineering notebook](https://policywatcher.online/engine-6-preview?lang=it) | Homepage access and bilingual diary published on 2 November; architecture, flow and entity diagrams; separate from the interactive private Preview |
 | [Updated wiki](https://github.com/sev7enITA/policywatcher/wiki) | Stable operations, Engine 6 design, scan channels, release status and qualification limits |
-| [Daily campaign](https://github.com/sev7enITA/policywatcher/blob/codex/engine-v6-local/docs/reports/engine-v6-campaign-2026-10-31.md) | 12 sources, 2 counted dates, minimum 20.77-hour span at this checkpoint; 3 dates/48 hours and source completeness still pending |
+| [Current parser and daily campaign](docs/reports/engine-v6-codeql-triage-2026-11-01.md) | PR #39: 1,569 tests passed, 14 skipped; new 12-source cohort with zero live windows at initialization. Prior parser observations remain separately preserved and incomplete |
+
+The public homepage now places the Preview access banner before the introduction. The exact content archive passed staging verification before production promotion. See the [2 November publication receipt](docs/reports/engine-v6-public-access-rollout-2026-11-02.md).
 
 Choosing Preview does not authorize public policy changes or subscriber notifications. Comparing the two extractors on the same capture is not an end-to-end comparison of Internet retrieval or AI models. Realistic 500-source capacity and production Engine 6 activation remain separate qualification steps.
 

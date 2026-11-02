@@ -1,0 +1,249 @@
+{
+  "schema": "pw-public-access-rollout-1",
+  "recordedAt": "2026-11-02T02:31:54.857950+00:00",
+  "status": "published_and_preview_restored",
+  "public": {
+    "origin": "https://policywatcher.online",
+    "version": "5.2.0",
+    "sourceRevision": "d846a498988aaa22ce1bb955aba347e9d186463f",
+    "archiveSha256": "2244a87a4879df0e999463263ff608747840432f2312aa36272e1a059c010f39",
+    "runtimeAndSchemaByteIdenticalToPrevious": true,
+    "changedArchiveFiles": [
+      "release-manifest.json",
+      "src/app/page.tsx",
+      "src/app/engine-6-preview/page.tsx"
+    ],
+    "stagingDeployment": {
+      "id": "01a19a07-1ec8-71e3-b54c-0fa40da670ef",
+      "state": "Completed / Current when verified",
+      "deployedLocal": "2026-11-02 03:14 Europe/Rome"
+    },
+    "productionDeployment": {
+      "id": "01a19a10-c401-703c-bb78-d874622df661",
+      "state": "Completed / Current",
+      "deployedLocal": "2026-11-02 03:24 Europe/Rome"
+    },
+    "stagingRequiredChecks": {
+      "passed": 11,
+      "total": 11,
+      "checkedAt": "2026-11-02T02:15:05.393Z"
+    },
+    "contentChecks": {
+      "staging": {
+        "passed": 22,
+        "total": 22
+      },
+      "production": {
+        "passed": 22,
+        "total": 22
+      }
+    },
+    "runtimeVerification": {
+      "checkedAt": "2026-11-02T02:25:20.920Z",
+      "status": "attention",
+      "release": "5.2.0",
+      "health": "ok",
+      "companies": 18,
+      "applicationTables": 35,
+      "migrations": 19,
+      "integrity": "ok",
+      "verificationSummary": {
+        "passed": 9,
+        "attention": 0,
+        "unavailable": 0,
+        "external": 1
+      },
+      "attention": []
+    },
+    "sourceReadback": {
+      "checkedAt": "2026-11-02T02:26:05.855916+00:00",
+      "scope": "Hostinger last-source files, corroborated by Completed Current UI and live HTTP checks",
+      "files": [
+        {
+          "path": "release-manifest.json",
+          "expected": "cc939c5a2de5d43722aa87dd0cf571e5871f3091b53c88d619d40daaf9fe7a54",
+          "actual": "cc939c5a2de5d43722aa87dd0cf571e5871f3091b53c88d619d40daaf9fe7a54",
+          "match": true
+        },
+        {
+          "path": "src/app/page.tsx",
+          "expected": "be2a9d8ae43e518ed82ae3ab1cd5f555e24881c4eb937a761eaf9190e4620abd",
+          "actual": "be2a9d8ae43e518ed82ae3ab1cd5f555e24881c4eb937a761eaf9190e4620abd",
+          "match": true
+        },
+        {
+          "path": "src/app/engine-6-preview/page.tsx",
+          "expected": "4493b8bfc670f07c7d60a60f706b4aaae9e33b236430be23b94941124377a6c6",
+          "actual": "4493b8bfc670f07c7d60a60f706b4aaae9e33b236430be23b94941124377a6c6",
+          "match": true
+        },
+        {
+          "path": "package.json",
+          "expected": "d731cac089ebbbb2fc68befa067ebc3fd7c27f0a1d0bb242de7b50ff7f3cd740",
+          "actual": "d731cac089ebbbb2fc68befa067ebc3fd7c27f0a1d0bb242de7b50ff7f3cd740",
+          "match": true
+        },
+        {
+          "path": "prisma/schema.prisma",
+          "expected": "88a64d8bcc377153c5928b3ba1ae922aa70e9af25d0673b2828c2ee31e6085c0",
+          "actual": "88a64d8bcc377153c5928b3ba1ae922aa70e9af25d0673b2828c2ee31e6085c0",
+          "match": true
+        }
+      ],
+      "passed": true
+    }
+  },
+  "preview": {
+    "origin": "https://staging.policywatcher.online",
+    "version": "6.0.0-preview.1",
+    "archiveSha256": "c887cd49959f38ab4137c235349c1f2e5785fed97848a4a42daf4410ef24bf26",
+    "sourceRevision": "34c188c0d54ec24d61469ca1683dec8988252c6f",
+    "implementationHash": "d9d5dde4f1c8d22c03c80ae200bc3e44734ef6a430c7e7bd037719ee30614e88",
+    "deploymentId": "01a19a14-46e1-734d-bdcf-9b378d46c51b",
+    "state": "Completed / Current",
+    "deployedLocal": "2026-11-02 03:28 Europe/Rome",
+    "restorationApiChecks": {
+      "passed": 12,
+      "total": 12
+    },
+    "preservation": {
+      "checkedAt": "2026-11-02T02:30:17.762656+00:00",
+      "sameTableDigests": true,
+      "sameCounts": true,
+      "sameRun": true,
+      "tables": [
+        "Policy",
+        "PolicySnapshot",
+        "PolicyChange",
+        "PolicyCheckLog",
+        "Subscriber",
+        "EngineOutbox",
+        "EngineSourceContract",
+        "ExtractionBaseline",
+        "EngineRun",
+        "EngineTask",
+        "EngineReview",
+        "EngineArtifact"
+      ],
+      "rows": {
+        "Policy": 113,
+        "PolicySnapshot": 0,
+        "PolicyChange": 0,
+        "PolicyCheckLog": 0,
+        "Subscriber": 0,
+        "EngineOutbox": 0,
+        "EngineSourceContract": 1,
+        "ExtractionBaseline": 0,
+        "EngineRun": 1,
+        "EngineTask": 8,
+        "EngineReview": 3,
+        "EngineArtifact": 2
+      },
+      "activeTasks": 0,
+      "databaseIntegrity": "ok"
+    },
+    "browserExport": {
+      "checkedAt": "2026-11-02T02:30:30.776021+00:00",
+      "status": "passed",
+      "downloadFilename": "policywatcher-4e9eef90-0bbb-42ee-b945-922ac76ffffc (1).json",
+      "downloadedAt": "2026-11-02T02:29:44.786505+00:00",
+      "bytes": 22649,
+      "sha256": "b0e731ed8444701c3c1a1d2159325a66233983f778c9e3a466046789b3408ad9",
+      "parsedJsonEqualsSavedApiReport": true,
+      "scope": "Existing private saved run downloaded by clicking Export report JSON in Vivaldi. No new scan.",
+      "downloadObserver": "The browser download event wait timed out after 15 seconds; the completed file was found at the expected Downloads path and validated independently."
+    },
+    "publicationEnabled": false,
+    "notificationsEnabled": false,
+    "newScansExecuted": 0
+  },
+  "retainedFailures": [
+    {
+      "scope": "Initial staging content verifier",
+      "observed": "Expected HTTP 200 at explicit lang=en; actual canonical 308 redirect",
+      "resolution": "Verifier now checks the redirect and canonical English route separately. The package was unchanged."
+    },
+    {
+      "scope": "Production runtime verifier",
+      "observed": "Exit 1 because aggregate application status is attention",
+      "resolution": "Nine internal checks passed; one independent dynamic security test remains external. No check failed and no unavailable result was suppressed. Original report and exit retained."
+    },
+    {
+      "scope": "Browser export observer",
+      "observed": "15-second download-event wait timed out",
+      "resolution": "Completed 22649-byte file found in Downloads with matching run id and timestamp; parsed JSON equals the saved API response."
+    }
+  ],
+  "qualificationBoundary": [
+    "No new source captures or daily windows were performed during this rollout.",
+    "PR39 parser candidate remains separate from this hosted Preview; new 12-source cohort has zero live windows at initialization.",
+    "Source completeness, at least three dates spanning 48 actual hours, continuous managed-worker availability and 500 distinct live daily sources remain unqualified.",
+    "Model review opinions do not count as execution or certification."
+  ],
+  "evidenceDigests": [
+    {
+      "file": "public-rollout-20261102/staging-verification.json",
+      "sha256": "6a9bff173924776b6157e80c6275e6e28bda794166e1978e5d5a51f7f5216a57"
+    },
+    {
+      "file": "public-rollout-20261102/promotion.json",
+      "sha256": "275f2d82720f9f2d708108b32fb68778dd04b85ca572758a3b8d120dad5f6b33"
+    },
+    {
+      "file": "public-rollout-20261102/production-verification.json",
+      "sha256": "2f1092a222564b41debe38d2418d99a7c30b3e480920901773ff90a2b266d2a5"
+    },
+    {
+      "file": "public-rollout-20261102/production-runtime-checks.json",
+      "sha256": "0a51a73152d09c2a6765142b7dc3a67468a9aee02396953c4fe551ea0fc32cbf"
+    },
+    {
+      "file": "public-rollout-20261102/production-source-readback.json",
+      "sha256": "0873ebb79526b9a2e705f115f11a786410684190349bf56f506a4eba79320371"
+    },
+    {
+      "file": "public-rollout-20261102/before.json",
+      "sha256": "2d83b5beeeef80c8567de1288645e5940e6d26b603ed629526660211738eabf1"
+    },
+    {
+      "file": "public-rollout-20261102/after.json",
+      "sha256": "0c5c2d36c888ef005a08ee006084c66a08d34a6505426d44a60efd7cfaaeed90"
+    },
+    {
+      "file": "public-rollout-20261102/preservation-comparison.json",
+      "sha256": "87bbf3c84938f37109a77fa8e3d2a3a47177e5b413e0c0055ad72ae10f768638"
+    },
+    {
+      "file": "public-rollout-20261102/restored-api-2026-11-02T02-29-00-647Z.json",
+      "sha256": "f5110c1d98385482ee8c1fbdb8046301e06f70ad4a1b75dfa6605da994b80562"
+    },
+    {
+      "file": "public-rollout-20261102/browser-export-verification.json",
+      "sha256": "1b81d492e64331f695612d1968416fe1280a7b86953c9733cba46f2c9cdf4587"
+    },
+    {
+      "file": "public-rollout-20261102/production-deployment-ui.txt",
+      "sha256": "7ef833b0b456ae8b6291a693fc506b51d9827c81748461d0bf63bf89d9b30bc8"
+    },
+    {
+      "file": "public-rollout-20261102/preview-restoration-ui.txt",
+      "sha256": "d9c583d9cf76c0495486f99e7dc4f0597ed4136d88bb8fe8176a78541192d612"
+    },
+    {
+      "file": "public-rollout-20261102/production-homepage.png",
+      "sha256": "54194783a3e32257a6a3c9221ed69d0d0ac80419a981bc36c758c0e0144aebdb"
+    },
+    {
+      "file": "public-access-staging-2026-11-02T02-15-05-379Z/evidence.json",
+      "sha256": "1b619548a38ab92cc28ca8d1c1702ba560ba603e6cd570865555fd7c061cf7c8"
+    },
+    {
+      "file": "public-access-staging-2026-11-02T02-16-20-632Z/evidence.json",
+      "sha256": "f5da04e6047ce342d95f4d4896d955d7ed3f98e1bef49efd206094351ee3531a"
+    },
+    {
+      "file": "public-access-production-2026-11-02T02-25-16-241Z/evidence.json",
+      "sha256": "02a256c5445e97484601cb95b660d94f2b8f32cd0f1d001c95a5bc562c91611b"
+    }
+  ]
+}
