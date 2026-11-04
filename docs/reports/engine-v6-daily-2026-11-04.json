@@ -1,0 +1,850 @@
+{
+  "schema": "pw-engine-daily-evidence-1",
+  "recordedAt": "2026-11-04T20:06:27.515516+00:00",
+  "sourceRevision": "050af196bb48a26d86f3bfb0857365e88e238d8a",
+  "cohort": "engine-daily-cohort-20261101-table-escaping",
+  "manifestHash": "395db5778b5fab8d15d2add676547547d27422fcedc5c991f26057beeacf0e38",
+  "implementationHash": "a7895b12d7f505e9d7df0cb7804608aabddc6f15c6266dc6f029326b8ee14489",
+  "profileHash": "716e9cd3d47ca5711c6775f28f4a2a5047e5001aa02eaa477d833a03fc1518bd",
+  "corpusHash": "fdfbbcf07bbe08ada0e52eb16d483d0b2a8798740cf55943a1a5920539b77b54",
+  "eligibilityAudit": {
+    "calculatedAfterCaptureFromPreservedTimestamps": true,
+    "frozenSourceClean": true,
+    "hoursSinceLatestPreviousAttemptAtStart": 23.419820277777777,
+    "minimumHoursSincePriorAcceptedObservationAtStart": 47.99686555555555,
+    "newEuropeRomeDate": true
+  },
+  "windowReceipt": {
+    "window": {
+      "schema": "pw-engine-window-1",
+      "id": "2026-11-04T20-03-30-125Z",
+      "manifestHash": "395db5778b5fab8d15d2add676547547d27422fcedc5c991f26057beeacf0e38",
+      "implementationHash": "a7895b12d7f505e9d7df0cb7804608aabddc6f15c6266dc6f029326b8ee14489",
+      "startedAt": "2026-11-04T20:03:30.125Z",
+      "completedAt": "2026-11-04T20:04:16.293Z",
+      "mode": "live",
+      "complete": true,
+      "observations": [
+        {
+          "id": "aws-service-terms",
+          "observedAt": "2026-11-04T20:03:35.155Z",
+          "status": 200,
+          "transport": "direct",
+          "fresh": true,
+          "payloadHash": "b749343f63c140a1dc5a7cacd240bd05fa6a2ffb13f051fb03df19cbbc89f8f0",
+          "extractionCompleted": true,
+          "sourceDrift": false,
+          "languageMatches": true,
+          "textHash": "7159ca4315a774ce9bc2150f8646d42a4e16c4e38b72f69d908db33e63f78a74"
+        },
+        {
+          "id": "aws-dpa-pdf",
+          "observedAt": "2026-11-04T20:03:42.188Z",
+          "status": 200,
+          "transport": "direct",
+          "fresh": true,
+          "payloadHash": "1e81d983f60c84c7ed8003d4d4a1fa738134c63d5241e5914cae701e07fdfa76",
+          "extractionCompleted": true,
+          "sourceDrift": false,
+          "languageMatches": false,
+          "textHash": "1bccaa83697a8dad456e214ead1009c2c5c652ec251213c4cb491a8eea48642d"
+        },
+        {
+          "id": "openai-service-terms",
+          "observedAt": "2026-11-04T20:03:45.500Z",
+          "status": 200,
+          "transport": "direct",
+          "fresh": true,
+          "payloadHash": "dabc4f498ad4d2b8d96e7edcc74a10460a6fe3d6f60e14e7872645c23afdab11",
+          "extractionCompleted": true,
+          "sourceDrift": false,
+          "languageMatches": true,
+          "textHash": "665c4e795c14cac709d9780658eb2a8a61502c4c40380355e8112c45eb75bc39"
+        },
+        {
+          "id": "stripe-restricted",
+          "observedAt": "2026-11-04T20:03:48.610Z",
+          "status": 200,
+          "transport": "direct",
+          "fresh": true,
+          "payloadHash": "3a7577f581bce12b0e199395ce733d79e77c7bf391aa3bbcca89e9ea240dad6d",
+          "extractionCompleted": true,
+          "sourceDrift": false,
+          "languageMatches": true,
+          "textHash": "0700a4e8e5acfec6835a1016d75b5e9f12b2bc8ef70d6b252939988d45273f78"
+        },
+        {
+          "id": "stripe-privacy-it",
+          "observedAt": "2026-11-04T20:03:50.958Z",
+          "status": 200,
+          "transport": "direct",
+          "fresh": true,
+          "payloadHash": "c7729020dd99ed1bc4fc4bcd146b39cc3a2bb096ef65a47e80b8d9420e2827a1",
+          "extractionCompleted": true,
+          "sourceDrift": false,
+          "languageMatches": true,
+          "textHash": "937328d97494810c5545099a8f1b6bba9c8cbcfa10a716cedcf02874dbc4652c"
+        },
+        {
+          "id": "google-privacy-en",
+          "observedAt": "2026-11-04T20:03:53.274Z",
+          "status": 200,
+          "transport": "direct",
+          "fresh": true,
+          "payloadHash": "57eedf46aace00417923e056828131c3240b1b94a9c7f0db1f25d4872799074f",
+          "extractionCompleted": true,
+          "sourceDrift": false,
+          "languageMatches": true,
+          "textHash": "fd951bb76d55656703a6aa501fad07964d1e12419587709245560377013b6328"
+        },
+        {
+          "id": "google-privacy-it",
+          "observedAt": "2026-11-04T20:03:55.722Z",
+          "status": 200,
+          "transport": "direct",
+          "fresh": true,
+          "payloadHash": "17d418fa954932ab4b5adc5aadaf5e52a07386fd2b8217465ee4780621b6e2a1",
+          "extractionCompleted": true,
+          "sourceDrift": false,
+          "languageMatches": true,
+          "textHash": "297cb8b5f85ab241cc4023ca25d1442f3321094868c89738074abea7602954f2"
+        },
+        {
+          "id": "microsoft-services",
+          "observedAt": "2026-11-04T20:04:00.692Z",
+          "status": 200,
+          "transport": "direct",
+          "fresh": true,
+          "payloadHash": "aa74f5e93c357bd014d0bef28ba46b87769b674e036a441d31ee5247a0fd9c45",
+          "extractionCompleted": true,
+          "sourceDrift": false,
+          "languageMatches": true,
+          "textHash": "a4f6d7433a8c171cba1dc4e3cf183598d4b33716528c6f121974c480f2a1bd45"
+        },
+        {
+          "id": "apple-privacy",
+          "observedAt": "2026-11-04T20:04:04.159Z",
+          "status": 200,
+          "transport": "direct",
+          "fresh": true,
+          "payloadHash": "a2cea95c9dc8e35523557f08cc8a6a08e7e5455f0a4bc68329065fdc892b766f",
+          "extractionCompleted": true,
+          "sourceDrift": false,
+          "languageMatches": true,
+          "textHash": "5d3bc787e5503e924127e4af7a69675e8a44f1ebcd09793575079978c93a81be"
+        },
+        {
+          "id": "anthropic-terms",
+          "observedAt": "2026-11-04T20:04:08.496Z",
+          "status": 200,
+          "transport": "direct",
+          "fresh": true,
+          "payloadHash": "505996d0ffe485a33fbd090483abc2dc4b976bb843935adf1d186f2c6230d1ab",
+          "extractionCompleted": true,
+          "sourceDrift": false,
+          "languageMatches": true,
+          "textHash": "5ff9a92621fbc69ce5a606b17fc22b814e0cddee7e7aca5b83fe9999ea3c33d0"
+        },
+        {
+          "id": "meta-privacy",
+          "observedAt": "2026-11-04T20:04:11.623Z",
+          "status": 200,
+          "transport": "direct",
+          "fresh": true,
+          "payloadHash": "2a8c2bdb3c324f19f20734f27a195f6e1767143be99a63098f83567344dedb6f",
+          "extractionCompleted": true,
+          "sourceDrift": false,
+          "languageMatches": true,
+          "textHash": "d37f63453a8485c1624e95fe5fc180c5268ddacec39e8e203f3257585eca6bbf"
+        },
+        {
+          "id": "tiktok-eea-terms",
+          "observedAt": "2026-11-04T20:04:14.693Z",
+          "status": 200,
+          "transport": "direct",
+          "fresh": true,
+          "payloadHash": "1e6db32a2db9de3ee18f264e465c58ddc946a57a6ae806e7b0637a353dd8ead1",
+          "extractionCompleted": true,
+          "sourceDrift": false,
+          "languageMatches": true,
+          "textHash": "819293325069c55b34a19b62e44d73b6f1cca5603e547a9082463ae1fea75ca5"
+        }
+      ],
+      "failures": [],
+      "sourceReceiptHash": "74eeeb574445d0c250de7efe91d37c7e8ea843bad20112fd770ef9a3f4a7c58c"
+    },
+    "artifacts": [
+      {
+        "file": "capture/aws-service-terms-direct.body.txt",
+        "sha256": "b749343f63c140a1dc5a7cacd240bd05fa6a2ffb13f051fb03df19cbbc89f8f0"
+      },
+      {
+        "file": "capture/aws-dpa-pdf-direct.body.txt",
+        "sha256": "1e81d983f60c84c7ed8003d4d4a1fa738134c63d5241e5914cae701e07fdfa76"
+      },
+      {
+        "file": "capture/openai-service-terms-direct.body.txt",
+        "sha256": "dabc4f498ad4d2b8d96e7edcc74a10460a6fe3d6f60e14e7872645c23afdab11"
+      },
+      {
+        "file": "capture/stripe-restricted-direct.body.txt",
+        "sha256": "3a7577f581bce12b0e199395ce733d79e77c7bf391aa3bbcca89e9ea240dad6d"
+      },
+      {
+        "file": "capture/stripe-privacy-it-direct.body.txt",
+        "sha256": "c7729020dd99ed1bc4fc4bcd146b39cc3a2bb096ef65a47e80b8d9420e2827a1"
+      },
+      {
+        "file": "capture/google-privacy-en-direct.body.txt",
+        "sha256": "57eedf46aace00417923e056828131c3240b1b94a9c7f0db1f25d4872799074f"
+      },
+      {
+        "file": "capture/google-privacy-it-direct.body.txt",
+        "sha256": "17d418fa954932ab4b5adc5aadaf5e52a07386fd2b8217465ee4780621b6e2a1"
+      },
+      {
+        "file": "capture/microsoft-services-direct.body.txt",
+        "sha256": "aa74f5e93c357bd014d0bef28ba46b87769b674e036a441d31ee5247a0fd9c45"
+      },
+      {
+        "file": "capture/apple-privacy-direct.body.txt",
+        "sha256": "a2cea95c9dc8e35523557f08cc8a6a08e7e5455f0a4bc68329065fdc892b766f"
+      },
+      {
+        "file": "capture/anthropic-terms-direct.body.txt",
+        "sha256": "505996d0ffe485a33fbd090483abc2dc4b976bb843935adf1d186f2c6230d1ab"
+      },
+      {
+        "file": "capture/meta-privacy-direct.body.txt",
+        "sha256": "2a8c2bdb3c324f19f20734f27a195f6e1767143be99a63098f83567344dedb6f"
+      },
+      {
+        "file": "capture/tiktok-eea-terms-direct.body.txt",
+        "sha256": "1e6db32a2db9de3ee18f264e465c58ddc946a57a6ae806e7b0637a353dd8ead1"
+      },
+      {
+        "file": "capture/results.json",
+        "sha256": "c6e9f8f984398f758aa4b71c6e2c2f6fc456627311363367e5195503958f03f5"
+      }
+    ],
+    "exit": {
+      "code": 0,
+      "signal": null
+    }
+  },
+  "summary": {
+    "sources": 12,
+    "processedSourceRows": 12,
+    "successfulSources": 12,
+    "attempts": 12,
+    "transportFallbackAttempts": 0,
+    "http304": 0,
+    "durationSeconds": 46.168,
+    "decodedBodyBytes": 6790450,
+    "extractedCharacters": 935647,
+    "sourceDurationMedianMs": 1844.0,
+    "sourceDurationP95NearestRankMs": 5081,
+    "sameExtractedTextSourcesVsFirst": 11,
+    "sameExtractedTextSourcesVsNov3": 11
+  },
+  "campaignStatus": {
+    "schema": "pw-engine-campaign-status-1",
+    "observedAt": "2026-11-04T20:04:16.327Z",
+    "manifestHash": "395db5778b5fab8d15d2add676547547d27422fcedc5c991f26057beeacf0e38",
+    "sources": 12,
+    "observedWindows": 3,
+    "countedAcquisitionDays": 2,
+    "targetDays": 3,
+    "minimumRequiredSpanHours": 48,
+    "observedMinimumSpanHours": 48.00705833333333,
+    "acquisitionWindowTargetMet": false,
+    "sourceCompletenessQualified": false,
+    "real500SourceCapacityQualified": false,
+    "productionQualified": false,
+    "languageUnverifiedSources": [
+      "aws-dpa-pdf"
+    ],
+    "windows": [
+      {
+        "id": "2026-11-02T20-03-07-722Z",
+        "day": "2026-11-02",
+        "accepted": true,
+        "reasons": []
+      },
+      {
+        "id": "2026-11-03T20-35-49-777Z",
+        "day": "2026-11-03",
+        "accepted": false,
+        "reasons": [
+          "window_incomplete",
+          "source_denominator_mismatch"
+        ]
+      },
+      {
+        "id": "2026-11-04T20-03-30-125Z",
+        "day": "2026-11-04",
+        "accepted": true,
+        "reasons": []
+      }
+    ],
+    "boundary": "Fresh acquisition windows only. Completeness annotations, source approval, realistic capacity and publication qualification are separate and are not granted by this counter.",
+    "unsealedWindows": [],
+    "currentImplementationMatches": true
+  },
+  "rows": [
+    {
+      "id": "aws-service-terms",
+      "url": "https://aws.amazon.com/serviceterms/",
+      "expectedLanguage": "en",
+      "format": "html",
+      "durationMs": 4900,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-04T20:03:35.155Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://aws.amazon.com/service-terms/",
+          "drift": false,
+          "durationMs": 4402,
+          "bodyBytes": 1045083,
+          "bodyHash": "b749343f63c140a1dc5a7cacd240bd05fa6a2ffb13f051fb03df19cbbc89f8f0",
+          "bodyFile": "aws-service-terms-direct.body.txt",
+          "transportError": "",
+          "validators": {
+            "lastModified": "Tue, 03 Nov 2026 17:38:49 GMT",
+            "vary": "accept-encoding",
+            "serverDate": "Wed, 04 Nov 2026 20:03:33 GMT"
+          },
+          "extraction": "completed",
+          "extractedFile": "aws-service-terms-direct.extraction.json",
+          "textLength": 301577,
+          "textHash": "7159ca4315a774ce9bc2150f8646d42a4e16c4e38b72f69d908db33e63f78a74",
+          "language": "en-US",
+          "blockCount": 930,
+          "headingCount": 111,
+          "languageMatches": true
+        }
+      ],
+      "comparisonWithFirstWindow": {
+        "available": true,
+        "sameExtractedText": false,
+        "sameCapturedPayload": false
+      },
+      "comparisonWithFailedNovember3Window": {
+        "available": true,
+        "sameExtractedText": true
+      }
+    },
+    {
+      "id": "aws-dpa-pdf",
+      "url": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+      "expectedLanguage": "en",
+      "format": "pdf",
+      "durationMs": 5081,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-04T20:03:42.188Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+          "drift": false,
+          "durationMs": 5031,
+          "bodyBytes": 31524,
+          "bodyHash": "1e81d983f60c84c7ed8003d4d4a1fa738134c63d5241e5914cae701e07fdfa76",
+          "bodyFile": "aws-dpa-pdf-direct.body.txt",
+          "transportError": "",
+          "validators": {
+            "etag": "W/\"0dbf924853615fc46d0864241573a20d\"",
+            "lastModified": "Tue, 19 Mar 2024 22:01:25 GMT",
+            "vary": "Accept-Encoding",
+            "serverDate": "Wed, 04 Nov 2026 04:40:10 GMT",
+            "age": "55411"
+          },
+          "extraction": "completed",
+          "extractedFile": "aws-dpa-pdf-direct.extraction.json",
+          "textLength": 29403,
+          "textHash": "1bccaa83697a8dad456e214ead1009c2c5c652ec251213c4cb491a8eea48642d",
+          "language": null,
+          "blockCount": 368,
+          "headingCount": 0,
+          "languageMatches": false
+        }
+      ],
+      "comparisonWithFirstWindow": {
+        "available": true,
+        "sameExtractedText": true,
+        "sameCapturedPayload": true
+      },
+      "comparisonWithFailedNovember3Window": {
+        "available": true,
+        "sameExtractedText": true
+      }
+    },
+    {
+      "id": "openai-service-terms",
+      "url": "https://openai.com/policies/service-terms/",
+      "expectedLanguage": "en",
+      "format": "html",
+      "durationMs": 1864,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-04T20:03:45.500Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://openai.com/policies/service-terms/",
+          "drift": false,
+          "durationMs": 1760,
+          "bodyBytes": 383962,
+          "bodyHash": "dabc4f498ad4d2b8d96e7edcc74a10460a6fe3d6f60e14e7872645c23afdab11",
+          "bodyFile": "openai-service-terms-direct.body.txt",
+          "transportError": "",
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, accept-encoding",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "serverDate": "Wed, 04 Nov 2026 20:03:45 GMT",
+            "age": "0"
+          },
+          "extraction": "completed",
+          "extractedFile": "openai-service-terms-direct.extraction.json",
+          "textLength": 17149,
+          "textHash": "665c4e795c14cac709d9780658eb2a8a61502c4c40380355e8112c45eb75bc39",
+          "language": "en-US",
+          "blockCount": 64,
+          "headingCount": 18,
+          "languageMatches": true
+        }
+      ],
+      "comparisonWithFirstWindow": {
+        "available": true,
+        "sameExtractedText": true,
+        "sameCapturedPayload": false
+      },
+      "comparisonWithFailedNovember3Window": {
+        "available": true,
+        "sameExtractedText": true
+      }
+    },
+    {
+      "id": "stripe-restricted",
+      "url": "https://stripe.com/legal/restricted-businesses",
+      "expectedLanguage": "en",
+      "format": "html",
+      "durationMs": 1602,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-04T20:03:48.610Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://stripe.com/en-it/legal/restricted-businesses",
+          "drift": false,
+          "durationMs": 1506,
+          "bodyBytes": 209992,
+          "bodyHash": "3a7577f581bce12b0e199395ce733d79e77c7bf391aa3bbcca89e9ea240dad6d",
+          "bodyFile": "stripe-restricted-direct.body.txt",
+          "transportError": "",
+          "validators": {
+            "serverDate": "Wed, 04 Nov 2026 20:03:48 GMT"
+          },
+          "extraction": "completed",
+          "extractedFile": "stripe-restricted-direct.extraction.json",
+          "textLength": 25505,
+          "textHash": "0700a4e8e5acfec6835a1016d75b5e9f12b2bc8ef70d6b252939988d45273f78",
+          "language": "en-IT",
+          "blockCount": 238,
+          "headingCount": 59,
+          "languageMatches": true
+        }
+      ],
+      "comparisonWithFirstWindow": {
+        "available": true,
+        "sameExtractedText": true,
+        "sameCapturedPayload": false
+      },
+      "comparisonWithFailedNovember3Window": {
+        "available": true,
+        "sameExtractedText": true
+      }
+    },
+    {
+      "id": "stripe-privacy-it",
+      "url": "https://stripe.com/it/privacy",
+      "expectedLanguage": "it",
+      "format": "html",
+      "durationMs": 850,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-04T20:03:50.958Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://stripe.com/it/privacy",
+          "drift": false,
+          "durationMs": 750,
+          "bodyBytes": 290477,
+          "bodyHash": "c7729020dd99ed1bc4fc4bcd146b39cc3a2bb096ef65a47e80b8d9420e2827a1",
+          "bodyFile": "stripe-privacy-it-direct.body.txt",
+          "transportError": "",
+          "validators": {
+            "serverDate": "Wed, 04 Nov 2026 20:03:50 GMT"
+          },
+          "extraction": "completed",
+          "extractedFile": "stripe-privacy-it-direct.extraction.json",
+          "textLength": 94175,
+          "textHash": "937328d97494810c5545099a8f1b6bba9c8cbcfa10a716cedcf02874dbc4652c",
+          "language": "it-IT",
+          "blockCount": 272,
+          "headingCount": 32,
+          "languageMatches": true
+        }
+      ],
+      "comparisonWithFirstWindow": {
+        "available": true,
+        "sameExtractedText": true,
+        "sameCapturedPayload": false
+      },
+      "comparisonWithFailedNovember3Window": {
+        "available": true,
+        "sameExtractedText": true
+      }
+    },
+    {
+      "id": "google-privacy-en",
+      "url": "https://policies.google.com/privacy?hl=en",
+      "expectedLanguage": "en",
+      "format": "html",
+      "durationMs": 945,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-04T20:03:53.274Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://policies.google.com/privacy?hl=en",
+          "drift": false,
+          "durationMs": 714,
+          "bodyBytes": 675364,
+          "bodyHash": "57eedf46aace00417923e056828131c3240b1b94a9c7f0db1f25d4872799074f",
+          "bodyFile": "google-privacy-en-direct.body.txt",
+          "transportError": "",
+          "validators": {
+            "vary": "Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site, Sec-CH-Prefers-Color-Scheme",
+            "cacheControl": "no-cache, no-store, max-age=0, must-revalidate",
+            "serverDate": "Wed, 04 Nov 2026 20:03:52 GMT"
+          },
+          "extraction": "completed",
+          "extractedFile": "google-privacy-en-direct.extraction.json",
+          "textLength": 91188,
+          "textHash": "fd951bb76d55656703a6aa501fad07964d1e12419587709245560377013b6328",
+          "language": "en",
+          "blockCount": 449,
+          "headingCount": 122,
+          "languageMatches": true
+        }
+      ],
+      "comparisonWithFirstWindow": {
+        "available": true,
+        "sameExtractedText": true,
+        "sameCapturedPayload": false
+      },
+      "comparisonWithFailedNovember3Window": {
+        "available": true,
+        "sameExtractedText": true
+      }
+    },
+    {
+      "id": "google-privacy-it",
+      "url": "https://policies.google.com/privacy?hl=it",
+      "expectedLanguage": "it",
+      "format": "html",
+      "durationMs": 916,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-04T20:03:55.722Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://policies.google.com/privacy?hl=it",
+          "drift": false,
+          "durationMs": 715,
+          "bodyBytes": 691195,
+          "bodyHash": "17d418fa954932ab4b5adc5aadaf5e52a07386fd2b8217465ee4780621b6e2a1",
+          "bodyFile": "google-privacy-it-direct.body.txt",
+          "transportError": "",
+          "validators": {
+            "vary": "Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site, Sec-CH-Prefers-Color-Scheme",
+            "cacheControl": "no-cache, no-store, max-age=0, must-revalidate",
+            "serverDate": "Wed, 04 Nov 2026 20:03:55 GMT"
+          },
+          "extraction": "completed",
+          "extractedFile": "google-privacy-it-direct.extraction.json",
+          "textLength": 106965,
+          "textHash": "297cb8b5f85ab241cc4023ca25d1442f3321094868c89738074abea7602954f2",
+          "language": "it",
+          "blockCount": 449,
+          "headingCount": 122,
+          "languageMatches": true
+        }
+      ],
+      "comparisonWithFirstWindow": {
+        "available": true,
+        "sameExtractedText": true,
+        "sameCapturedPayload": false
+      },
+      "comparisonWithFailedNovember3Window": {
+        "available": true,
+        "sameExtractedText": true
+      }
+    },
+    {
+      "id": "microsoft-services",
+      "url": "https://www.microsoft.com/en/servicesagreement",
+      "expectedLanguage": "en",
+      "format": "html",
+      "durationMs": 3472,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-04T20:04:00.692Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.microsoft.com/en/servicesagreement",
+          "drift": false,
+          "durationMs": 3268,
+          "bodyBytes": 310221,
+          "bodyHash": "aa74f5e93c357bd014d0bef28ba46b87769b674e036a441d31ee5247a0fd9c45",
+          "bodyFile": "microsoft-services-direct.body.txt",
+          "transportError": "",
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "no-store",
+            "serverDate": "Wed, 04 Nov 2026 20:03:59 GMT"
+          },
+          "extraction": "completed",
+          "extractedFile": "microsoft-services-direct.extraction.json",
+          "textLength": 121815,
+          "textHash": "a4f6d7433a8c171cba1dc4e3cf183598d4b33716528c6f121974c480f2a1bd45",
+          "language": "en",
+          "blockCount": 445,
+          "headingCount": 37,
+          "languageMatches": true
+        }
+      ],
+      "comparisonWithFirstWindow": {
+        "available": true,
+        "sameExtractedText": true,
+        "sameCapturedPayload": false
+      },
+      "comparisonWithFailedNovember3Window": {
+        "available": true,
+        "sameExtractedText": true
+      }
+    },
+    {
+      "id": "apple-privacy",
+      "url": "https://www.apple.com/legal/privacy/en-ww/",
+      "expectedLanguage": "en",
+      "format": "html",
+      "durationMs": 1824,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-04T20:04:04.159Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.apple.com/legal/privacy/en-ww/",
+          "drift": false,
+          "durationMs": 1760,
+          "bodyBytes": 140802,
+          "bodyHash": "a2cea95c9dc8e35523557f08cc8a6a08e7e5455f0a4bc68329065fdc892b766f",
+          "bodyFile": "apple-privacy-direct.body.txt",
+          "transportError": "",
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "max-age=300",
+            "serverDate": "Wed, 04 Nov 2026 20:04:03 GMT"
+          },
+          "extraction": "completed",
+          "extractedFile": "apple-privacy-direct.extraction.json",
+          "textLength": 28124,
+          "textHash": "5d3bc787e5503e924127e4af7a69675e8a44f1ebcd09793575079978c93a81be",
+          "language": "en-US",
+          "blockCount": 96,
+          "headingCount": 14,
+          "languageMatches": true
+        }
+      ],
+      "comparisonWithFirstWindow": {
+        "available": true,
+        "sameExtractedText": true,
+        "sameCapturedPayload": false
+      },
+      "comparisonWithFailedNovember3Window": {
+        "available": true,
+        "sameExtractedText": true
+      }
+    },
+    {
+      "id": "anthropic-terms",
+      "url": "https://www.anthropic.com/legal/terms",
+      "expectedLanguage": "en",
+      "format": "html",
+      "durationMs": 2897,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-04T20:04:08.496Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.anthropic.com/legal/consumer-terms",
+          "drift": false,
+          "durationMs": 2771,
+          "bodyBytes": 601896,
+          "bodyHash": "505996d0ffe485a33fbd090483abc2dc4b976bb843935adf1d186f2c6230d1ab",
+          "bodyFile": "anthropic-terms-direct.body.txt",
+          "transportError": "",
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding",
+            "cacheControl": "s-maxage=300, stale-while-revalidate=31535700",
+            "serverDate": "Wed, 04 Nov 2026 20:04:07 GMT"
+          },
+          "extraction": "completed",
+          "extractedFile": "anthropic-terms-direct.extraction.json",
+          "textLength": 36241,
+          "textHash": "5ff9a92621fbc69ce5a606b17fc22b814e0cddee7e7aca5b83fe9999ea3c33d0",
+          "language": "en",
+          "blockCount": 149,
+          "headingCount": 17,
+          "languageMatches": true
+        }
+      ],
+      "comparisonWithFirstWindow": {
+        "available": true,
+        "sameExtractedText": true,
+        "sameCapturedPayload": false
+      },
+      "comparisonWithFailedNovember3Window": {
+        "available": true,
+        "sameExtractedText": true
+      }
+    },
+    {
+      "id": "meta-privacy",
+      "url": "https://www.facebook.com/privacy/policy/",
+      "expectedLanguage": "en",
+      "format": "html",
+      "durationMs": 2037,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-04T20:04:11.623Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.facebook.com/privacy/policy/",
+          "drift": false,
+          "durationMs": 1498,
+          "bodyBytes": 2133380,
+          "bodyHash": "2a8c2bdb3c324f19f20734f27a195f6e1767143be99a63098f83567344dedb6f",
+          "bodyFile": "meta-privacy-direct.body.txt",
+          "transportError": "",
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, must-revalidate",
+            "serverDate": "Wed, 04 Nov 2026 20:04:10 GMT"
+          },
+          "extraction": "completed",
+          "extractedFile": "meta-privacy-direct.extraction.json",
+          "textLength": 54855,
+          "textHash": "d37f63453a8485c1624e95fe5fc180c5268ddacec39e8e203f3257585eca6bbf",
+          "language": "en",
+          "blockCount": 626,
+          "headingCount": 11,
+          "languageMatches": true
+        }
+      ],
+      "comparisonWithFirstWindow": {
+        "available": true,
+        "sameExtractedText": true,
+        "sameCapturedPayload": false
+      },
+      "comparisonWithFailedNovember3Window": {
+        "available": false,
+        "sameExtractedText": null
+      }
+    },
+    {
+      "id": "tiktok-eea-terms",
+      "url": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+      "expectedLanguage": "en",
+      "format": "html",
+      "durationMs": 1094,
+      "assessment": "transport_and_extraction_only_contract_not_yet_reviewed",
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-04T20:04:14.693Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+          "drift": false,
+          "durationMs": 1030,
+          "bodyBytes": 276554,
+          "bodyHash": "1e6db32a2db9de3ee18f264e465c58ddc946a57a6ae806e7b0637a353dd8ead1",
+          "bodyFile": "tiktok-eea-terms-direct.body.txt",
+          "transportError": "",
+          "validators": {
+            "cacheControl": "max-age=0, must-revalidate,max-age=0",
+            "serverDate": "Wed, 04 Nov 2026 20:04:14 GMT"
+          },
+          "extraction": "completed",
+          "extractedFile": "tiktok-eea-terms-direct.extraction.json",
+          "textLength": 28650,
+          "textHash": "819293325069c55b34a19b62e44d73b6f1cca5603e547a9082463ae1fea75ca5",
+          "language": "en",
+          "blockCount": 195,
+          "headingCount": 10,
+          "languageMatches": true
+        }
+      ],
+      "comparisonWithFirstWindow": {
+        "available": true,
+        "sameExtractedText": true,
+        "sameCapturedPayload": false
+      },
+      "comparisonWithFailedNovember3Window": {
+        "available": true,
+        "sameExtractedText": true
+      }
+    }
+  ],
+  "qualification": {
+    "temporalTargetMet": false,
+    "sourceCompleteness": false,
+    "real500SourceCapacity": false,
+    "production": false
+  },
+  "executionBoundary": {
+    "isolatedDatabase": true,
+    "publicationEnabled": false,
+    "notificationsEnabled": false,
+    "modelInference": false,
+    "newIndependentModelReview": false,
+    "additionalCaptureRetry": false
+  },
+  "nextObservationNotBeforeUTC": "2026-11-05T16:04:14.693000+00:00",
+  "publicationState": "prepared_content_only_update_not_yet_deployed"
+}
