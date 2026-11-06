@@ -1,0 +1,1755 @@
+{
+  "schema": "pw-engine-diary-publication-1",
+  "recordedAt": "2026-11-06T08:47:29.216764+00:00",
+  "status": "published_and_private_preview_restored",
+  "productVersion": "5.5.0",
+  "sourceRevision": "3e58c6d8ebbbdab23c4ec0b248d922aaf44b3967",
+  "artifactSha256": "ee2cf2f9663b304685e236155305493e5976459e95a7736a5e0f0b5a3a024e6b",
+  "changedPackageFiles": [
+    "release-manifest.json",
+    "src/app/engine-6-preview/page.tsx"
+  ],
+  "packageFileCount": 1044,
+  "qaEvidencePullRequest": "https://github.com/sev7enITA/policywatcher/pull/49",
+  "qaEvidenceMerge": "6de0b2aee9a05f68595f3b9f031d4ae7596b0e14",
+  "stagingDeployment": {
+    "id": "01a1afc4-35c3-7365-b877-f55550990f1a",
+    "completedEuropeRome": "2026-11-06 08:32"
+  },
+  "productionDeployment": {
+    "id": "01a1b001-899b-715e-b819-e3405271c558",
+    "completedEuropeRome": "2026-11-06 09:39"
+  },
+  "stagingVerification": {
+    "contractVersion": "1.2.0",
+    "target": "staging",
+    "status": "passed",
+    "release": "5.5.0",
+    "releaseName": "Engine 6 Preview",
+    "sourceRevision": "3e58c6d8ebbbdab23c4ec0b248d922aaf44b3967",
+    "sourceState": "clean",
+    "artifact": "PolicyWatcher-5.5.0-hostinger-2026-11-06-engine6-qa.zip",
+    "artifactSha256": "ee2cf2f9663b304685e236155305493e5976459e95a7736a5e0f0b5a3a024e6b",
+    "stagingOrigin": "https://staging.policywatcher.online",
+    "checkedAt": "2026-11-06T07:33:02.250Z",
+    "expiresAt": "2026-11-07T07:33:02.250Z",
+    "checks": [
+      {
+        "id": "homepage",
+        "status": "passed",
+        "detail": "HTTP 200; release 5.5.0 present in initial HTML."
+      },
+      {
+        "id": "staging-banner",
+        "status": "passed",
+        "detail": "Visible staging identity and DOM marker are present."
+      },
+      {
+        "id": "search-engine-boundary",
+        "status": "passed",
+        "detail": "Staging pages return noindex, nofollow, noarchive."
+      },
+      {
+        "id": "robots-boundary",
+        "status": "passed",
+        "detail": "robots.txt disallows the staging origin."
+      },
+      {
+        "id": "release-identity",
+        "status": "passed",
+        "detail": "Public manifest matches artifact release 5.5.0."
+      },
+      {
+        "id": "publication-readiness-contract",
+        "status": "passed",
+        "detail": "Database-derived publication readiness contract, stage order, no-store boundary and latest capture are valid."
+      },
+      {
+        "id": "health-auth-boundary",
+        "status": "passed",
+        "detail": "Operational health rejects unauthenticated requests."
+      },
+      {
+        "id": "database-health",
+        "status": "passed",
+        "detail": "18 companies; database is configured, readable and writable."
+      },
+      {
+        "id": "admin-authentication",
+        "status": "passed",
+        "detail": "Dedicated staging administrator can establish a signed session."
+      },
+      {
+        "id": "database-readiness",
+        "status": "passed",
+        "detail": "35 tables and 19 migrations reported ready."
+      },
+      {
+        "id": "public-dataset",
+        "status": "passed",
+        "detail": "18 public companies pass the staging evidence gate."
+      }
+    ],
+    "missingChecks": [],
+    "boundary": "This report verifies one staging deployment and one immutable artifact. It does not authorize production automatically or attest third-party service availability."
+  },
+  "pageVerifications": {
+    "127.0.0.1": {
+      "checkedAt": "2026-11-06T06:45:29.725Z",
+      "origin": "http://127.0.0.1:3614",
+      "status": "passed",
+      "checks": [
+        {
+          "name": "en_500_trial",
+          "pass": true
+        },
+        {
+          "name": "en_apple_occurrences",
+          "pass": true
+        },
+        {
+          "name": "en_qa_date",
+          "pass": true
+        },
+        {
+          "name": "en_contract_counterexamples",
+          "pass": true
+        },
+        {
+          "name": "en_http_200",
+          "pass": true
+        },
+        {
+          "name": "en_third_date_visible",
+          "pass": true
+        },
+        {
+          "name": "en_failure_preserved",
+          "pass": true
+        },
+        {
+          "name": "en_daily_capture_stopped",
+          "pass": true
+        },
+        {
+          "name": "en_meta_failure_visible",
+          "pass": true
+        },
+        {
+          "name": "en_saved_comparison",
+          "pass": true
+        },
+        {
+          "name": "en_stable_version",
+          "pass": true
+        },
+        {
+          "name": "en_previous_cohort_retained",
+          "pass": true
+        },
+        {
+          "name": "en_private_preview_link",
+          "pass": true
+        },
+        {
+          "name": "en_still_unqualified",
+          "pass": true
+        },
+        {
+          "name": "en_span_visible",
+          "pass": true
+        },
+        {
+          "name": "en_aws_passages_visible",
+          "pass": true
+        },
+        {
+          "name": "it_500_trial",
+          "pass": true
+        },
+        {
+          "name": "it_apple_occurrences",
+          "pass": true
+        },
+        {
+          "name": "it_qa_date",
+          "pass": true
+        },
+        {
+          "name": "it_contract_counterexamples",
+          "pass": true
+        },
+        {
+          "name": "it_http_200",
+          "pass": true
+        },
+        {
+          "name": "it_third_date_visible",
+          "pass": true
+        },
+        {
+          "name": "it_failure_preserved",
+          "pass": true
+        },
+        {
+          "name": "it_daily_capture_stopped",
+          "pass": true
+        },
+        {
+          "name": "it_meta_failure_visible",
+          "pass": true
+        },
+        {
+          "name": "it_saved_comparison",
+          "pass": true
+        },
+        {
+          "name": "it_stable_version",
+          "pass": true
+        },
+        {
+          "name": "it_previous_cohort_retained",
+          "pass": true
+        },
+        {
+          "name": "it_private_preview_link",
+          "pass": true
+        },
+        {
+          "name": "it_still_unqualified",
+          "pass": true
+        },
+        {
+          "name": "it_span_visible",
+          "pass": true
+        },
+        {
+          "name": "it_aws_passages_visible",
+          "pass": true
+        }
+      ]
+    },
+    "staging.policywatcher.online": {
+      "checkedAt": "2026-11-06T07:33:07.264Z",
+      "origin": "https://staging.policywatcher.online",
+      "status": "passed",
+      "checks": [
+        {
+          "name": "en_500_trial",
+          "pass": true
+        },
+        {
+          "name": "en_apple_occurrences",
+          "pass": true
+        },
+        {
+          "name": "en_qa_date",
+          "pass": true
+        },
+        {
+          "name": "en_contract_counterexamples",
+          "pass": true
+        },
+        {
+          "name": "en_http_200",
+          "pass": true
+        },
+        {
+          "name": "en_third_date_visible",
+          "pass": true
+        },
+        {
+          "name": "en_failure_preserved",
+          "pass": true
+        },
+        {
+          "name": "en_daily_capture_stopped",
+          "pass": true
+        },
+        {
+          "name": "en_meta_failure_visible",
+          "pass": true
+        },
+        {
+          "name": "en_saved_comparison",
+          "pass": true
+        },
+        {
+          "name": "en_stable_version",
+          "pass": true
+        },
+        {
+          "name": "en_previous_cohort_retained",
+          "pass": true
+        },
+        {
+          "name": "en_private_preview_link",
+          "pass": true
+        },
+        {
+          "name": "en_still_unqualified",
+          "pass": true
+        },
+        {
+          "name": "en_span_visible",
+          "pass": true
+        },
+        {
+          "name": "en_aws_passages_visible",
+          "pass": true
+        },
+        {
+          "name": "it_500_trial",
+          "pass": true
+        },
+        {
+          "name": "it_apple_occurrences",
+          "pass": true
+        },
+        {
+          "name": "it_qa_date",
+          "pass": true
+        },
+        {
+          "name": "it_contract_counterexamples",
+          "pass": true
+        },
+        {
+          "name": "it_http_200",
+          "pass": true
+        },
+        {
+          "name": "it_third_date_visible",
+          "pass": true
+        },
+        {
+          "name": "it_failure_preserved",
+          "pass": true
+        },
+        {
+          "name": "it_daily_capture_stopped",
+          "pass": true
+        },
+        {
+          "name": "it_meta_failure_visible",
+          "pass": true
+        },
+        {
+          "name": "it_saved_comparison",
+          "pass": true
+        },
+        {
+          "name": "it_stable_version",
+          "pass": true
+        },
+        {
+          "name": "it_previous_cohort_retained",
+          "pass": true
+        },
+        {
+          "name": "it_private_preview_link",
+          "pass": true
+        },
+        {
+          "name": "it_still_unqualified",
+          "pass": true
+        },
+        {
+          "name": "it_span_visible",
+          "pass": true
+        },
+        {
+          "name": "it_aws_passages_visible",
+          "pass": true
+        }
+      ]
+    },
+    "policywatcher.online": {
+      "checkedAt": "2026-11-06T08:40:24.945Z",
+      "origin": "https://policywatcher.online",
+      "status": "passed",
+      "checks": [
+        {
+          "name": "en_500_trial",
+          "pass": true
+        },
+        {
+          "name": "en_apple_occurrences",
+          "pass": true
+        },
+        {
+          "name": "en_qa_date",
+          "pass": true
+        },
+        {
+          "name": "en_contract_counterexamples",
+          "pass": true
+        },
+        {
+          "name": "en_http_200",
+          "pass": true
+        },
+        {
+          "name": "en_third_date_visible",
+          "pass": true
+        },
+        {
+          "name": "en_failure_preserved",
+          "pass": true
+        },
+        {
+          "name": "en_daily_capture_stopped",
+          "pass": true
+        },
+        {
+          "name": "en_meta_failure_visible",
+          "pass": true
+        },
+        {
+          "name": "en_saved_comparison",
+          "pass": true
+        },
+        {
+          "name": "en_stable_version",
+          "pass": true
+        },
+        {
+          "name": "en_previous_cohort_retained",
+          "pass": true
+        },
+        {
+          "name": "en_private_preview_link",
+          "pass": true
+        },
+        {
+          "name": "en_still_unqualified",
+          "pass": true
+        },
+        {
+          "name": "en_span_visible",
+          "pass": true
+        },
+        {
+          "name": "en_aws_passages_visible",
+          "pass": true
+        },
+        {
+          "name": "it_500_trial",
+          "pass": true
+        },
+        {
+          "name": "it_apple_occurrences",
+          "pass": true
+        },
+        {
+          "name": "it_qa_date",
+          "pass": true
+        },
+        {
+          "name": "it_contract_counterexamples",
+          "pass": true
+        },
+        {
+          "name": "it_http_200",
+          "pass": true
+        },
+        {
+          "name": "it_third_date_visible",
+          "pass": true
+        },
+        {
+          "name": "it_failure_preserved",
+          "pass": true
+        },
+        {
+          "name": "it_daily_capture_stopped",
+          "pass": true
+        },
+        {
+          "name": "it_meta_failure_visible",
+          "pass": true
+        },
+        {
+          "name": "it_saved_comparison",
+          "pass": true
+        },
+        {
+          "name": "it_stable_version",
+          "pass": true
+        },
+        {
+          "name": "it_previous_cohort_retained",
+          "pass": true
+        },
+        {
+          "name": "it_private_preview_link",
+          "pass": true
+        },
+        {
+          "name": "it_still_unqualified",
+          "pass": true
+        },
+        {
+          "name": "it_span_visible",
+          "pass": true
+        },
+        {
+          "name": "it_aws_passages_visible",
+          "pass": true
+        }
+      ]
+    }
+  },
+  "sourceVerifications": {
+    "staging.policywatcher.online": {
+      "checkedAt": "2026-11-06T07:33:08.893761+00:00",
+      "host": "staging.policywatcher.online",
+      "artifactSha256": "ee2cf2f9663b304685e236155305493e5976459e95a7736a5e0f0b5a3a024e6b",
+      "checks": [
+        {
+          "path": "CHANGELOG.md",
+          "expected": "48bb16e6de5fba6f6845b120f71242a33ba0197d5c380e4ce21b4478e2da15ab",
+          "actual": "48bb16e6de5fba6f6845b120f71242a33ba0197d5c380e4ce21b4478e2da15ab",
+          "pass": true
+        },
+        {
+          "path": "README.md",
+          "expected": "ccd85c1d50998bc15991f18362077351f3e609daf88f7fa6ece4957c0a1769aa",
+          "actual": "ccd85c1d50998bc15991f18362077351f3e609daf88f7fa6ece4957c0a1769aa",
+          "pass": true
+        },
+        {
+          "path": "docs/releases/policywatcher-5.5.0-github-release.md",
+          "expected": "30e37e76c22b3b73b7b56aaf2cae00bd55c6dd9b25e4cc06423a0d3ef31ab8e7",
+          "actual": "30e37e76c22b3b73b7b56aaf2cae00bd55c6dd9b25e4cc06423a0d3ef31ab8e7",
+          "pass": true
+        },
+        {
+          "path": "package-lock.json",
+          "expected": "b24528f1f480f216c355c8f0ee024928376873ae9f5ba381210ffcf5a7c868bf",
+          "actual": "b24528f1f480f216c355c8f0ee024928376873ae9f5ba381210ffcf5a7c868bf",
+          "pass": true
+        },
+        {
+          "path": "package.json",
+          "expected": "3dcfe896b8c8060674b1a3514d579fb48f745084a8ca810b7c668d7dc45ac0af",
+          "actual": "3dcfe896b8c8060674b1a3514d579fb48f745084a8ca810b7c668d7dc45ac0af",
+          "pass": true
+        },
+        {
+          "path": "prisma/schema.prisma",
+          "expected": "88a64d8bcc377153c5928b3ba1ae922aa70e9af25d0673b2828c2ee31e6085c0",
+          "actual": "88a64d8bcc377153c5928b3ba1ae922aa70e9af25d0673b2828c2ee31e6085c0",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/asset-manifest.json",
+          "expected": "dd676dbade5acc98ab660a9f9d7a79456a778916d4ab7dce69a4b5c8302d5d42",
+          "actual": "dd676dbade5acc98ab660a9f9d7a79456a778916d4ab7dce69a4b5c8302d5d42",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/package-manifest.json",
+          "expected": "023a0b572348a23192bd5e5b3bb4bd53df161b0448d98747206663ef20d36658",
+          "actual": "023a0b572348a23192bd5e5b3bb4bd53df161b0448d98747206663ef20d36658",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/policywatcher-fact-sheet-en-2026-11-02.pdf",
+          "expected": "fc8597bedc4094404d9570dbe5fdbd32022fd5223399fb8616c676ba30b3401f",
+          "actual": "fc8597bedc4094404d9570dbe5fdbd32022fd5223399fb8616c676ba30b3401f",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/policywatcher-fact-sheet-en-2026-11-02.txt",
+          "expected": "53ea830d970daff73496e993a53f8ec0bded9ae752201fd4955cd51bfb03be98",
+          "actual": "53ea830d970daff73496e993a53f8ec0bded9ae752201fd4955cd51bfb03be98",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/policywatcher-fact-sheet-it-2026-11-02.pdf",
+          "expected": "5b0e3f7c64420b459e22f6df4e0f302b49f96ed19dde7d2b3d1594ef38fed3c5",
+          "actual": "5b0e3f7c64420b459e22f6df4e0f302b49f96ed19dde7d2b3d1594ef38fed3c5",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/policywatcher-fact-sheet-it-2026-11-02.txt",
+          "expected": "bc7528ce7a9ef3fb6898132e9cc857330aa87aaf9cf3c75d8a30deacfcd3caf4",
+          "actual": "bc7528ce7a9ef3fb6898132e9cc857330aa87aaf9cf3c75d8a30deacfcd3caf4",
+          "pass": true
+        },
+        {
+          "path": "release-manifest.json",
+          "expected": "b9fda1075879ac5d0578bb131bb7ffd1b6948a0d840e892267218d68d2e3a1ce",
+          "actual": "b9fda1075879ac5d0578bb131bb7ffd1b6948a0d840e892267218d68d2e3a1ce",
+          "pass": true
+        },
+        {
+          "path": "scripts/generate-press-kit-assets.mjs",
+          "expected": "1c9a1a83c63bff1f69e36df0ae8bab2f269aa3e79ac8fc3fceb987534fef57b0",
+          "actual": "1c9a1a83c63bff1f69e36df0ae8bab2f269aa3e79ac8fc3fceb987534fef57b0",
+          "pass": true
+        },
+        {
+          "path": "scripts/package-release.sh",
+          "expected": "d391ee84f134c84c807d7ed7cea12c7ce1a58f1c5494870eb83c13c4d12ca6b7",
+          "actual": "d391ee84f134c84c807d7ed7cea12c7ce1a58f1c5494870eb83c13c4d12ca6b7",
+          "pass": true
+        },
+        {
+          "path": "src/app/engine-6-preview/page.tsx",
+          "expected": "8175184c1c323d8f3eac2805fe73385581029a5ac84df44c441f2edd570c46f3",
+          "actual": "8175184c1c323d8f3eac2805fe73385581029a5ac84df44c441f2edd570c46f3",
+          "pass": true
+        },
+        {
+          "path": "src/app/llms.txt/route.ts",
+          "expected": "e5f1f19a6bee15f10080a2eb83e01d694f5e03be07cf360954213995c12004ba",
+          "actual": "e5f1f19a6bee15f10080a2eb83e01d694f5e03be07cf360954213995c12004ba",
+          "pass": true
+        },
+        {
+          "path": "src/app/page.tsx",
+          "expected": "c2251b023e9887b6dce3bbf9751fd5c17b6bfa5628493516a0ae0c5336f448b7",
+          "actual": "c2251b023e9887b6dce3bbf9751fd5c17b6bfa5628493516a0ae0c5336f448b7",
+          "pass": true
+        },
+        {
+          "path": "src/app/press-kit/PressKitClient.tsx",
+          "expected": "9bb543b04eb1644110bb77525d42d5c4ccef05d3d1b27c58557e864dfb67f033",
+          "actual": "9bb543b04eb1644110bb77525d42d5c4ccef05d3d1b27c58557e864dfb67f033",
+          "pass": true
+        },
+        {
+          "path": "src/app/roadmap/RoadmapClient.tsx",
+          "expected": "07c6f3435c22752120b14e68380d21e769b9412fd33a98558838751fede1be21",
+          "actual": "07c6f3435c22752120b14e68380d21e769b9412fd33a98558838751fede1be21",
+          "pass": true
+        },
+        {
+          "path": "src/app/sitemap.ts",
+          "expected": "98729f18451261b03efa6a0609a24ee3afe642a520b88943c02bd7c827871f84",
+          "actual": "98729f18451261b03efa6a0609a24ee3afe642a520b88943c02bd7c827871f84",
+          "pass": true
+        },
+        {
+          "path": "src/components/ChangelogModal.tsx",
+          "expected": "be8104b9cb2993225826f80deeabf67114222447710cd4f81a5bc1785510502e",
+          "actual": "be8104b9cb2993225826f80deeabf67114222447710cd4f81a5bc1785510502e",
+          "pass": true
+        },
+        {
+          "path": "src/lib/extractionProfile.generated.json",
+          "expected": "20fdab9586610620a043de935ea19237f4f06ee488011ba7b63adcd51843fe27",
+          "actual": "20fdab9586610620a043de935ea19237f4f06ee488011ba7b63adcd51843fe27",
+          "pass": true
+        },
+        {
+          "path": "src/lib/featureAtlas.ts",
+          "expected": "adad6577a69792abe265ba67c1dd4aef248dd15dc729d6e8509d89c3a77737b6",
+          "actual": "adad6577a69792abe265ba67c1dd4aef248dd15dc729d6e8509d89c3a77737b6",
+          "pass": true
+        },
+        {
+          "path": "src/lib/pdfPolicy.ts",
+          "expected": "8e7547a94f0a447be6797dc8b37dd0a532de5cbb64050ceb48bc7b13552a791b",
+          "actual": "8e7547a94f0a447be6797dc8b37dd0a532de5cbb64050ceb48bc7b13552a791b",
+          "pass": true
+        },
+        {
+          "path": "src/lib/pressKit.ts",
+          "expected": "e1329ed3a0ba6bda54876c420ffabb655459fb2eb636bde7205fa405650a8bcb",
+          "actual": "e1329ed3a0ba6bda54876c420ffabb655459fb2eb636bde7205fa405650a8bcb",
+          "pass": true
+        },
+        {
+          "path": "src/lib/publicSections.ts",
+          "expected": "a3f0992b6ce36c69d99ef400952fd1841fed6adca17b600291374ea86b85aff0",
+          "actual": "a3f0992b6ce36c69d99ef400952fd1841fed6adca17b600291374ea86b85aff0",
+          "pass": true
+        },
+        {
+          "path": "src/lib/release.ts",
+          "expected": "a8bfc738eed3d7b42d27bf6c3e173f0b884614cbe3bfa533de7fc946ef0d8387",
+          "actual": "a8bfc738eed3d7b42d27bf6c3e173f0b884614cbe3bfa533de7fc946ef0d8387",
+          "pass": true
+        },
+        {
+          "path": "src/lib/releaseImpact.ts",
+          "expected": "bf0bfef6e4d414befa400ff13bd1e16b2c3dd382f7c2da24111f5139b050a1f4",
+          "actual": "bf0bfef6e4d414befa400ff13bd1e16b2c3dd382f7c2da24111f5139b050a1f4",
+          "pass": true
+        },
+        {
+          "path": "src/lib/scraper.ts",
+          "expected": "fac808e2fc992180957016b1668294b491fa08c386757007a5a28bf6f2111bcc",
+          "actual": "fac808e2fc992180957016b1668294b491fa08c386757007a5a28bf6f2111bcc",
+          "pass": true
+        }
+      ],
+      "status": "passed"
+    },
+    "policywatcher.online": {
+      "checkedAt": "2026-11-06T08:40:26.613795+00:00",
+      "host": "policywatcher.online",
+      "artifactSha256": "ee2cf2f9663b304685e236155305493e5976459e95a7736a5e0f0b5a3a024e6b",
+      "checks": [
+        {
+          "path": "CHANGELOG.md",
+          "expected": "48bb16e6de5fba6f6845b120f71242a33ba0197d5c380e4ce21b4478e2da15ab",
+          "actual": "48bb16e6de5fba6f6845b120f71242a33ba0197d5c380e4ce21b4478e2da15ab",
+          "pass": true
+        },
+        {
+          "path": "README.md",
+          "expected": "ccd85c1d50998bc15991f18362077351f3e609daf88f7fa6ece4957c0a1769aa",
+          "actual": "ccd85c1d50998bc15991f18362077351f3e609daf88f7fa6ece4957c0a1769aa",
+          "pass": true
+        },
+        {
+          "path": "docs/releases/policywatcher-5.5.0-github-release.md",
+          "expected": "30e37e76c22b3b73b7b56aaf2cae00bd55c6dd9b25e4cc06423a0d3ef31ab8e7",
+          "actual": "30e37e76c22b3b73b7b56aaf2cae00bd55c6dd9b25e4cc06423a0d3ef31ab8e7",
+          "pass": true
+        },
+        {
+          "path": "package-lock.json",
+          "expected": "b24528f1f480f216c355c8f0ee024928376873ae9f5ba381210ffcf5a7c868bf",
+          "actual": "b24528f1f480f216c355c8f0ee024928376873ae9f5ba381210ffcf5a7c868bf",
+          "pass": true
+        },
+        {
+          "path": "package.json",
+          "expected": "3dcfe896b8c8060674b1a3514d579fb48f745084a8ca810b7c668d7dc45ac0af",
+          "actual": "3dcfe896b8c8060674b1a3514d579fb48f745084a8ca810b7c668d7dc45ac0af",
+          "pass": true
+        },
+        {
+          "path": "prisma/schema.prisma",
+          "expected": "88a64d8bcc377153c5928b3ba1ae922aa70e9af25d0673b2828c2ee31e6085c0",
+          "actual": "88a64d8bcc377153c5928b3ba1ae922aa70e9af25d0673b2828c2ee31e6085c0",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/asset-manifest.json",
+          "expected": "dd676dbade5acc98ab660a9f9d7a79456a778916d4ab7dce69a4b5c8302d5d42",
+          "actual": "dd676dbade5acc98ab660a9f9d7a79456a778916d4ab7dce69a4b5c8302d5d42",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/package-manifest.json",
+          "expected": "023a0b572348a23192bd5e5b3bb4bd53df161b0448d98747206663ef20d36658",
+          "actual": "023a0b572348a23192bd5e5b3bb4bd53df161b0448d98747206663ef20d36658",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/policywatcher-fact-sheet-en-2026-11-02.pdf",
+          "expected": "fc8597bedc4094404d9570dbe5fdbd32022fd5223399fb8616c676ba30b3401f",
+          "actual": "fc8597bedc4094404d9570dbe5fdbd32022fd5223399fb8616c676ba30b3401f",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/policywatcher-fact-sheet-en-2026-11-02.txt",
+          "expected": "53ea830d970daff73496e993a53f8ec0bded9ae752201fd4955cd51bfb03be98",
+          "actual": "53ea830d970daff73496e993a53f8ec0bded9ae752201fd4955cd51bfb03be98",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/policywatcher-fact-sheet-it-2026-11-02.pdf",
+          "expected": "5b0e3f7c64420b459e22f6df4e0f302b49f96ed19dde7d2b3d1594ef38fed3c5",
+          "actual": "5b0e3f7c64420b459e22f6df4e0f302b49f96ed19dde7d2b3d1594ef38fed3c5",
+          "pass": true
+        },
+        {
+          "path": "public/press-kit/policywatcher-fact-sheet-it-2026-11-02.txt",
+          "expected": "bc7528ce7a9ef3fb6898132e9cc857330aa87aaf9cf3c75d8a30deacfcd3caf4",
+          "actual": "bc7528ce7a9ef3fb6898132e9cc857330aa87aaf9cf3c75d8a30deacfcd3caf4",
+          "pass": true
+        },
+        {
+          "path": "release-manifest.json",
+          "expected": "b9fda1075879ac5d0578bb131bb7ffd1b6948a0d840e892267218d68d2e3a1ce",
+          "actual": "b9fda1075879ac5d0578bb131bb7ffd1b6948a0d840e892267218d68d2e3a1ce",
+          "pass": true
+        },
+        {
+          "path": "scripts/generate-press-kit-assets.mjs",
+          "expected": "1c9a1a83c63bff1f69e36df0ae8bab2f269aa3e79ac8fc3fceb987534fef57b0",
+          "actual": "1c9a1a83c63bff1f69e36df0ae8bab2f269aa3e79ac8fc3fceb987534fef57b0",
+          "pass": true
+        },
+        {
+          "path": "scripts/package-release.sh",
+          "expected": "d391ee84f134c84c807d7ed7cea12c7ce1a58f1c5494870eb83c13c4d12ca6b7",
+          "actual": "d391ee84f134c84c807d7ed7cea12c7ce1a58f1c5494870eb83c13c4d12ca6b7",
+          "pass": true
+        },
+        {
+          "path": "src/app/engine-6-preview/page.tsx",
+          "expected": "8175184c1c323d8f3eac2805fe73385581029a5ac84df44c441f2edd570c46f3",
+          "actual": "8175184c1c323d8f3eac2805fe73385581029a5ac84df44c441f2edd570c46f3",
+          "pass": true
+        },
+        {
+          "path": "src/app/llms.txt/route.ts",
+          "expected": "e5f1f19a6bee15f10080a2eb83e01d694f5e03be07cf360954213995c12004ba",
+          "actual": "e5f1f19a6bee15f10080a2eb83e01d694f5e03be07cf360954213995c12004ba",
+          "pass": true
+        },
+        {
+          "path": "src/app/page.tsx",
+          "expected": "c2251b023e9887b6dce3bbf9751fd5c17b6bfa5628493516a0ae0c5336f448b7",
+          "actual": "c2251b023e9887b6dce3bbf9751fd5c17b6bfa5628493516a0ae0c5336f448b7",
+          "pass": true
+        },
+        {
+          "path": "src/app/press-kit/PressKitClient.tsx",
+          "expected": "9bb543b04eb1644110bb77525d42d5c4ccef05d3d1b27c58557e864dfb67f033",
+          "actual": "9bb543b04eb1644110bb77525d42d5c4ccef05d3d1b27c58557e864dfb67f033",
+          "pass": true
+        },
+        {
+          "path": "src/app/roadmap/RoadmapClient.tsx",
+          "expected": "07c6f3435c22752120b14e68380d21e769b9412fd33a98558838751fede1be21",
+          "actual": "07c6f3435c22752120b14e68380d21e769b9412fd33a98558838751fede1be21",
+          "pass": true
+        },
+        {
+          "path": "src/app/sitemap.ts",
+          "expected": "98729f18451261b03efa6a0609a24ee3afe642a520b88943c02bd7c827871f84",
+          "actual": "98729f18451261b03efa6a0609a24ee3afe642a520b88943c02bd7c827871f84",
+          "pass": true
+        },
+        {
+          "path": "src/components/ChangelogModal.tsx",
+          "expected": "be8104b9cb2993225826f80deeabf67114222447710cd4f81a5bc1785510502e",
+          "actual": "be8104b9cb2993225826f80deeabf67114222447710cd4f81a5bc1785510502e",
+          "pass": true
+        },
+        {
+          "path": "src/lib/extractionProfile.generated.json",
+          "expected": "20fdab9586610620a043de935ea19237f4f06ee488011ba7b63adcd51843fe27",
+          "actual": "20fdab9586610620a043de935ea19237f4f06ee488011ba7b63adcd51843fe27",
+          "pass": true
+        },
+        {
+          "path": "src/lib/featureAtlas.ts",
+          "expected": "adad6577a69792abe265ba67c1dd4aef248dd15dc729d6e8509d89c3a77737b6",
+          "actual": "adad6577a69792abe265ba67c1dd4aef248dd15dc729d6e8509d89c3a77737b6",
+          "pass": true
+        },
+        {
+          "path": "src/lib/pdfPolicy.ts",
+          "expected": "8e7547a94f0a447be6797dc8b37dd0a532de5cbb64050ceb48bc7b13552a791b",
+          "actual": "8e7547a94f0a447be6797dc8b37dd0a532de5cbb64050ceb48bc7b13552a791b",
+          "pass": true
+        },
+        {
+          "path": "src/lib/pressKit.ts",
+          "expected": "e1329ed3a0ba6bda54876c420ffabb655459fb2eb636bde7205fa405650a8bcb",
+          "actual": "e1329ed3a0ba6bda54876c420ffabb655459fb2eb636bde7205fa405650a8bcb",
+          "pass": true
+        },
+        {
+          "path": "src/lib/publicSections.ts",
+          "expected": "a3f0992b6ce36c69d99ef400952fd1841fed6adca17b600291374ea86b85aff0",
+          "actual": "a3f0992b6ce36c69d99ef400952fd1841fed6adca17b600291374ea86b85aff0",
+          "pass": true
+        },
+        {
+          "path": "src/lib/release.ts",
+          "expected": "a8bfc738eed3d7b42d27bf6c3e173f0b884614cbe3bfa533de7fc946ef0d8387",
+          "actual": "a8bfc738eed3d7b42d27bf6c3e173f0b884614cbe3bfa533de7fc946ef0d8387",
+          "pass": true
+        },
+        {
+          "path": "src/lib/releaseImpact.ts",
+          "expected": "bf0bfef6e4d414befa400ff13bd1e16b2c3dd382f7c2da24111f5139b050a1f4",
+          "actual": "bf0bfef6e4d414befa400ff13bd1e16b2c3dd382f7c2da24111f5139b050a1f4",
+          "pass": true
+        },
+        {
+          "path": "src/lib/scraper.ts",
+          "expected": "fac808e2fc992180957016b1668294b491fa08c386757007a5a28bf6f2111bcc",
+          "actual": "fac808e2fc992180957016b1668294b491fa08c386757007a5a28bf6f2111bcc",
+          "pass": true
+        }
+      ],
+      "status": "passed"
+    }
+  },
+  "productionRuntime": {
+    "checkedAt": "2026-11-06T08:40:25.325Z",
+    "status": "attention",
+    "release": "5.5.0",
+    "health": "ok",
+    "companies": 18,
+    "applicationTables": 35,
+    "migrations": 19,
+    "integrity": "ok",
+    "verificationSummary": {
+      "passed": 9,
+      "attention": 0,
+      "unavailable": 0,
+      "external": 1
+    },
+    "attention": []
+  },
+  "privatePreviewRestoration": {
+    "deploymentId": "01a1afd0-8966-72c3-a4e1-db6dfd02ca7f",
+    "verifiedAt": "2026-11-06T07:46:53.497Z",
+    "artifactSha256": "c887cd49959f38ab4137c235349c1f2e5785fed97848a4a42daf4410ef24bf26",
+    "implementationHash": "d9d5dde4f1c8d22c03c80ae200bc3e44734ef6a430c7e7bd037719ee30614e88",
+    "verification": {
+      "startedAt": "2026-11-06T07:46:43.306Z",
+      "origin": "https://staging.policywatcher.online",
+      "runId": "4e9eef90-0bbb-42ee-b945-922ac76ffffc",
+      "scope": "Read existing hosted Preview state; login only, no new scan or source capture.",
+      "checks": [
+        {
+          "name": "credential_origin",
+          "pass": true
+        },
+        {
+          "name": "private_page_boundary",
+          "pass": true,
+          "http": 307
+        },
+        {
+          "name": "private_api_boundary",
+          "pass": true,
+          "http": 401
+        },
+        {
+          "name": "administrator_login",
+          "pass": true
+        },
+        {
+          "name": "worker_active",
+          "pass": true
+        },
+        {
+          "name": "same_implementation",
+          "pass": true,
+          "implementationHash": "d9d5dde4f1c8d22c03c80ae200bc3e44734ef6a430c7e7bd037719ee30614e88"
+        },
+        {
+          "name": "private_channels",
+          "pass": true,
+          "channels": {
+            "defaultChannel": "preview",
+            "stable": false,
+            "preview": true,
+            "compare": true,
+            "comparisonScope": "same-capture-extraction",
+            "reason": null
+          },
+          "publicationEnabled": false
+        },
+        {
+          "name": "preview_version",
+          "pass": true,
+          "release": "6.0.0-preview.1"
+        },
+        {
+          "name": "database_health",
+          "pass": true,
+          "http": 200
+        },
+        {
+          "name": "schema_ready",
+          "pass": true
+        },
+        {
+          "name": "saved_report_available",
+          "pass": true,
+          "http": 200,
+          "status": "completed",
+          "selected": 4
+        },
+        {
+          "name": "observe_silent",
+          "pass": true
+        },
+        {
+          "name": "new_saved_report_preserved",
+          "pass": true
+        }
+      ],
+      "status": "passed",
+      "savedReport": {
+        "schema": "pw-channel-report-1",
+        "runId": "4e9eef90-0bbb-42ee-b945-922ac76ffffc",
+        "requestKey": "hosted-acceptance-f6a8ba24-fc2a-4e1d-ab28-e48a6bb20c81",
+        "metadata": {
+          "schema": "pw-scan-channel-1",
+          "channel": "compare",
+          "requestFingerprint": "556d02898b15c39f64b31d0f5cf00c9be58047763fed049c76d875362c07fef6",
+          "limit": 50,
+          "companySlug": "apple",
+          "implementationHash": "d9d5dde4f1c8d22c03c80ae200bc3e44734ef6a430c7e7bd037719ee30614e88",
+          "extractionProfileHash": "1b0ce6c3740d88d07037c38921bea0a997f806fea256596a2bca08d23182109d",
+          "stableVersion": "5.2.0",
+          "previewVersion": "pw-engine-6.0.0-alpha.1",
+          "requestedModels": {
+            "analyst": null,
+            "verifier": null
+          },
+          "comparisonScope": "same-capture-extraction",
+          "modelComparisonPerformed": false,
+          "notificationMode": "silent"
+        },
+        "comparisonCounts": {
+          "policyRows": 4,
+          "compared": 1,
+          "identicalUnqualified": 0,
+          "different": 1,
+          "pending": 0,
+          "unavailable": 3,
+          "notRequested": 0
+        },
+        "status": "completed",
+        "selected": 4,
+        "createdAt": "2026-11-01T22:19:59.939Z",
+        "completedAt": "2026-11-01T22:20:50.577Z",
+        "elapsedMs": 50638,
+        "mode": "observe",
+        "notifications": "silent",
+        "rows": [
+          {
+            "taskId": "65e89d1b-683f-47a6-b6f3-de4d034429fd",
+            "policyId": "86088457-fcad-4537-a6b7-809019ce586c",
+            "sourceUrl": "https://www.apple.com/legal/privacy/data/en/improve-intelligence/",
+            "baselineHash": "75db4e50ee2cffdea9dab4cf81b55fca3dfa8e965130b387e040774dccfbc086",
+            "scopeHash": "aac7bf4af5e8ece22a34eb9ada89df21bd0ecfbd868528f44cd813ce50c8643d",
+            "contractHash": null,
+            "profileHash": "18bd04ec64f4648ac3d950258d3268e5e9c60d27f1160f41ac23cd6944f35568",
+            "status": "completed",
+            "stage": "evaluate",
+            "outcome": "review",
+            "reasons": [
+              "source_contract_missing"
+            ],
+            "error": null,
+            "acquisition": {
+              "observedAt": "2026-11-01T22:20:43.811Z",
+              "httpStatus": 0,
+              "finalUrl": "https://www.apple.com/legal/privacy/data/en/improve-intelligence/",
+              "source": "none",
+              "eligible": false,
+              "artifactId": null
+            },
+            "comparisonState": "unavailable",
+            "comparisonArtifactId": null,
+            "comparison": null,
+            "analysisReceipt": null,
+            "verifierReceipt": null
+          },
+          {
+            "taskId": "a641bc1e-e2db-4394-adbf-1d3c6b1ce18d",
+            "policyId": "77eeaf0f-90a2-43c8-bc82-be7e2473c825",
+            "sourceUrl": "https://www.apple.com/legal/internet-services/terms/site.html",
+            "baselineHash": "a70a7da3da63ab0c614f7c0fd89c638de4d8a84ca24075b581eec75c849acf0a",
+            "scopeHash": "d19ed3f44d0880ae6a173e10eb4c8de7f68977554dfcee0efee5e642cbbc7354",
+            "contractHash": null,
+            "profileHash": "76b06d47055a6045285a36518a4273eb2bb36345ba6a75a6f377edcd2624503b",
+            "status": "completed",
+            "stage": "evaluate",
+            "outcome": "review",
+            "reasons": [
+              "source_contract_missing"
+            ],
+            "error": null,
+            "acquisition": {
+              "observedAt": "2026-11-01T22:20:45.899Z",
+              "httpStatus": 0,
+              "finalUrl": "https://www.apple.com/legal/internet-services/terms/site.html",
+              "source": "none",
+              "eligible": false,
+              "artifactId": null
+            },
+            "comparisonState": "unavailable",
+            "comparisonArtifactId": null,
+            "comparison": null,
+            "analysisReceipt": null,
+            "verifierReceipt": null
+          },
+          {
+            "taskId": "409b1445-1e6c-4d32-ab97-31b2ee68b0fe",
+            "policyId": "2b2f0f1c-efa1-45e0-96ba-04e93ca35598",
+            "sourceUrl": "https://www.apple.com/legal/privacy/en-ww/",
+            "baselineHash": "0ec83b31b9520a223aceeeccdc69b434b11c7b761c6182d557c1361bfd231274",
+            "scopeHash": "3b29d98a96ce194074516615c71e7a4a8a039d597c8ccc1368884c292e430231",
+            "contractHash": "c849cb177450230fe85abd1e8e587b64681fcd75ae7b504bad092bb13e572b0c",
+            "profileHash": "474edcb8a2e49ecc40858c93a63b9e63c7d1928a6e15dd960babd8a5e154523b",
+            "status": "completed",
+            "stage": "evaluate",
+            "outcome": "confirmation_pending",
+            "reasons": [],
+            "error": null,
+            "acquisition": {
+              "observedAt": "2026-11-01T22:20:48.021Z",
+              "httpStatus": 200,
+              "finalUrl": "https://www.apple.com/legal/privacy/en-ww/",
+              "source": "direct",
+              "eligible": true,
+              "artifactId": "45baed313dc24dc50e25f123ba273d659a99db56ab68ad36f4ee5d2bba043c14"
+            },
+            "comparisonState": "different",
+            "comparisonArtifactId": "0adac4f011d00f2ec9bef078fdedf257c0bbec992f61a401aa4bdb7d8934968c",
+            "comparison": {
+              "schema": "pw-extraction-comparison-1",
+              "scope": "same-capture-extraction",
+              "observedAt": "2026-11-01T22:20:48.021Z",
+              "sourceUrl": "https://www.apple.com/legal/privacy/en-ww/",
+              "finalUrl": "https://www.apple.com/legal/privacy/en-ww/",
+              "transport": "direct",
+              "captureArtifactId": "45baed313dc24dc50e25f123ba273d659a99db56ab68ad36f4ee5d2bba043c14",
+              "captureInputHash": "82a9cbb7c58a2d57cb639ca3b9b8c8eb8913e9a10517b78de6150b80d483ae2c",
+              "baselineHash": "0ec83b31b9520a223aceeeccdc69b434b11c7b761c6182d557c1361bfd231274",
+              "stable": {
+                "version": "5.2.0",
+                "textHash": "33ff48053932f421c7fc2c39c4ad912265a5d22b85a9e4e091bd03613f7851cc",
+                "chars": 2089,
+                "extracted": true,
+                "extractionMs": 59.36152700000093
+              },
+              "preview": {
+                "version": "pw-engine-6.0.0-alpha.1",
+                "profileHash": "474edcb8a2e49ecc40858c93a63b9e63c7d1928a6e15dd960babd8a5e154523b",
+                "textHash": "5d3bc787e5503e924127e4af7a69675e8a44f1ebcd09793575079978c93a81be",
+                "language": "en-US",
+                "chars": 28124,
+                "eligible": true,
+                "reasons": [],
+                "structuralIssues": []
+              },
+              "identicalText": false,
+              "differences": [
+                {
+                  "side": "preview",
+                  "text": "English Choose your preferred language\n\n",
+                  "truncated": false
+                },
+                {
+                  "side": "stable",
+                  "text": "- What Is Personal Data at Apple?\n\n",
+                  "truncated": false
+                },
+                {
+                  "side": "stable",
+                  "text": "- Your Privacy Rights at Apple\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "At Apple, we believe strongly in fundamental privacy rights \u2014 and that those fundamental rights should not differ depending on where you live in the world. That\u2019s why we treat any data that relates to an identified or identifiable individual or that is linked or linkable to them by Apple as \u201cpersonal data,\u201d no matter where the individual lives. This means that data that directly identifies you \u2014 such as your name \u2014 is personal data, and also data that does not directly identify you, but that can reasonably be used to identify you \u2014 such as the serial number of your device \u2014 is personal data. Aggregated data is considered non\u2011personal data for the purposes of this Privacy Policy.\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "This Privacy Policy covers how Apple or an Apple-affiliated company (collectively, \u201cApple\u201d) handles personal data whether you interact with us on our websites, through Apple apps (such as Apple Music or Wallet), or in person (including by phone or when visiting an Apple Store). Apple may also link to third parties on our services or make third-party apps available for download in our App Store. Apple\u2019s Privacy Policy does not apply to how third parties define personal data or how they use it. We encourage you to read their privacy policies and know your privacy rights before interacting with them.\n\n",
+                  "truncated": false
+                },
+                {
+                  "side": "stable",
+                  "text": "- Personal Data Apple Collects from You\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "At Apple, we respect your ability to know, access, correct, transfer, restrict the processing of, and delete your personal data. We have provided these rights to our global customer base and if you choose to exercise these privacy rights, you have the right not to be treated in a discriminatory way nor to receive a lesser degree of service from Apple. Where you are requested to consent to the processing of your personal data by Apple, you have the right to withdraw your consent at any time.\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "To exercise your privacy rights and choices, including where a third-party service provider is acting on Apple\u2019s behalf, visit the Apple Data and Privacy page at privacy.apple.com for Apple or shazam.com/privacy for Shazam. To help protect the security of your personal data, you must sign in to your account and your identity will be verified. If you want to obtain a copy of personal data that is not currently available from privacy.apple.com, you can make a request at apple.com/legal/privacy/contact. You also have the right to lodge a complaint with the applicable regulator.\n\nThere may be situations where we cannot grant your request \u2014 for example, if you ask us to delete your transaction data and Apple is legally obligated to keep a record of that transaction to comply with law. We may also decline to grant a request where doing so would undermine our legitimate use of data for anti-fraud and security purposes, such as when you request deletion of an account that is being investigated for security concerns. Other reasons your privacy request may be denied are if it jeopardizes the privacy of others, is frivolous or vexatious, or would be extremely impractical or unreasonable.\n\nIf you live in California and you cannot access Apple\u2019s Data and Privacy page, you or your authorized agent can make a request at apple.com/legal/privacy/contact or by calling 1-800-275-2273.\n\nFor more information on exercising your rights, visit support.apple.com/102283.\n\n",
+                  "truncated": false
+                },
+                {
+                  "side": "stable",
+                  "text": "- Personal Data Apple Receives from Other Sources\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "At Apple, we believe that you can have great products and great privacy. This means that we strive to collect only the personal data that we need. The personal data Apple collects depends on how you interact with Apple. Descriptions of how Apple handles personal data for certain individual services are available at apple.com/legal/privacy/data.\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "When you create an Apple Account, apply for commercial credit, purchase and/or activate a product or device, download a software update, register for a class at an Apple Store, connect to our services, contact us (including by social media), participate in an online survey, or otherwise interact with Apple, we may collect a variety of information, including:\n\n- Account Information. Your Apple Account and related account details, including email address, devices registered, account status, and age\n- Device Information. Data from which your device could be identified, such as device serial number, or about your device, such as browser type\n- Contact Information. Data such as name, email address, physical address, phone number, or other contact information\n- Payment Information. Data about your billing address and method of payment, such as bank details, credit, debit, or other payment card information\n- Transaction Information. Data about purchases of Apple products and services or transactions facilitated by Apple, including purchases on Apple platforms\n- Fraud Prevention Information. Data used to help identify and prevent fraud, including a device trust score\n- Usage Data. Data about your activity on and use of our offerings, such as app launches within our services, including browsing history; search history; product interaction; crash data, performance and other diagnostic data; and other usage data\n- Location Information. Precise location only to support services such as Find My or where you agree for region-specific services, and coarse location\n- Health Information. Data relating to the health status of an individual, including data related to one\u2019s physical or mental health or condition. Personal health data also includes data that can be used to make inferences about or detect the health status of an individual. If you participate in a study using an Apple Health Research Study app, the policy governing the privacy of your personal data is described in the Ap",
+                  "truncated": true
+                },
+                {
+                  "side": "stable",
+                  "text": "- Apple\u2019s Use of Personal Data\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "Apple may receive personal data about you from other individuals, from businesses or third parties acting at your direction, from our partners who work with us to provide our products and services and assist us in security and fraud prevention, and from other lawful sources.\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "- Individuals. Apple may collect data about you from other individuals \u2014 for example, if that individual has sent you a product or gift card, invited you to participate in an Apple service or forum, or shared content with you.\n- At Your Direction. You may direct other individuals or third parties to share data with Apple. For example, you may direct your mobile carrier to share data about your carrier account with Apple for account activation, or for your loyalty program to share information about your participation so that you can earn rewards for Apple purchases.\n- Apple Partners. We may also validate the information you provide \u2014 for example, when creating an Apple Account, with a third party for security, and for fraud-prevention purposes.\n\nTo power features such as search and as a source for our foundational AI models, Apple uses Applebot, a web crawler, to crawl information that is publicly available on the internet. We have measures in place to reduce the amount of personal data we collect and make no attempt to connect data crawled to any individual Apple user, or to build profiles about individuals. Your private personal data is not used to train our foundational AI models. To exercise your right as an individual to opt out of processing, visit the Apple Intelligence Privacy Inquiries form. For more information about Applebot, visit support.apple.com/120320.\n\nFor research and development purposes, we may use datasets such as those that contain images, voices, or other data that could be associated with an identifiable person. When acquiring such datasets, we do so in accordance with applicable law, including law in the jurisdiction in which the dataset is hosted. When using such datasets for research and development, we do not attempt to reidentify individuals who may appear therein.\n\n",
+                  "truncated": false
+                },
+                {
+                  "side": "stable",
+                  "text": "- Apple\u2019s Sharing of Personal Data\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "Apple uses personal data to power our services, to process your transactions, to communicate with you, for security and fraud prevention, and to comply with law. We may also use personal data for other purposes with your consent.\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "Apple uses your personal data only when we have a valid legal basis to do so. Depending on the circumstance, Apple may rely on your consent or the fact that the processing is necessary to fulfill a contract with you, protect your vital interests or those of other persons, or to comply with law. We may also process your personal data where we believe it is in our or others\u2019 legitimate interests, taking into consideration your interests, rights, and expectations. More information is available in the product-specific information embedded in our products and features as described above. If you have questions about the legal basis, you can contact the Data Protection Officer at apple.com/legal/privacy/contact.\n\n- Power Our Services. Apple collects personal data necessary to power our services, which may include personal data collected to improve our offerings, for internal purposes such as auditing or data analysis, or for troubleshooting. For example, if you would like to access a song through an Apple Music subscription, we collect data on what songs you play in order to provide you with the content requested and for royalty purposes.\n- Process Your Transactions. To process transactions, Apple must collect data such as your name, purchase, and payment information.\n- Communicate with You. To respond to communications, reach out to you about your transactions or account, market our products and services, provide other relevant information, or request information or feedback. From time to time, we may use your personal data to send important notices, such as communications about purchases and changes to our terms, conditions, and policies. Because this information is important to your interaction with Apple, you may not opt out of receiving these important notices.\n- Security and Fraud Prevention. To protect individuals, employees, and Apple and for loss prevention and to prevent fraud, including to protect individuals, employees, and Apple for the benefit of all our user",
+                  "truncated": true
+                },
+                {
+                  "side": "stable",
+                  "text": "- Protection of Personal Data at Apple\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "Apple may share personal data with Apple-affiliated companies, service providers who act on our behalf, our partners, developers, and publishers, or others at your direction. Further, Apple does not share personal data with third parties for their own marketing purposes.\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "- Service Providers. Apple may engage third parties to act as our service providers and perform certain tasks on our behalf, such as processing or storing data, including personal data, in connection with your use of our services and delivering products to customers. Apple service providers are obligated to handle personal data consistent with this Privacy Policy and according to our instructions. They cannot use the personal data we share for their own purposes and must delete or return the personal data once they\u2019ve fulfilled our request.\n- Partners. At times, Apple may partner with third parties to provide services or other offerings. For example, Apple financial offerings like Apple Card and Apple Cash are offered by Apple and our partners. Apple requires its partners to protect your personal data.\n- Developers and Publishers from Whom You Get a Subscription. If you purchase a third-party subscription from the App Store or within Apple News, we create a Subscriber ID that is unique to you and the developer or publisher. The Subscriber ID may be used to provide reports to the developer or publisher, which include information about the subscription you purchased and your country of residence. If you cancel all of your subscriptions from a particular developer or publisher, the Subscriber ID will reset after 180 days if you do not resubscribe. This information is provided to developers or publishers so that they can understand the performance of their subscriptions.\n- Others. Apple may share personal data with others at your direction or with your consent, such as when we share information with your carrier to activate your account. We may also disclose information about you if we determine that for purposes of national security, law enforcement, or other issues of public importance, disclosure is necessary or appropriate. We may also disclose information about you where there is a lawful basis for doing so, if we determine that disclosure is reasonably necessary t",
+                  "truncated": true
+                }
+              ],
+              "differencesTruncated": true,
+              "diffOmittedReason": null,
+              "modelComparisonPerformed": false,
+              "acquisitionComparisonPerformed": false,
+              "completenessQualified": false,
+              "boundary": "One decoded capture, two extractors. Differences are review candidates, not proof of omissions or correctness. AI analysis, live acquisition performance and total scan costs are not compared. PDF input may be a converted representation."
+            },
+            "analysisReceipt": null,
+            "verifierReceipt": null
+          },
+          {
+            "taskId": "f1dd08ec-8ada-414e-8680-865e58e45ae2",
+            "policyId": "421b3f0c-5924-4e3d-b84e-2ff68a441041",
+            "sourceUrl": "https://www.apple.com/legal/privacy/data/en/intelligence-engine/",
+            "baselineHash": "55427ede549e6f014a07f4dcb1ce6f0daba30214ec3f8d72ed24cccd1bed3643",
+            "scopeHash": "44ec855eb7094ba230647efa629a578be9f7865acca1379f179d14107478fd97",
+            "contractHash": null,
+            "profileHash": "217ff6265db875d714ac9e5b7161151102e057351e0a28e813332c9202b5d2fb",
+            "status": "completed",
+            "stage": "evaluate",
+            "outcome": "review",
+            "reasons": [
+              "source_contract_missing"
+            ],
+            "error": null,
+            "acquisition": {
+              "observedAt": "2026-11-01T22:20:50.547Z",
+              "httpStatus": 0,
+              "finalUrl": "https://www.apple.com/legal/privacy/data/en/intelligence-engine/",
+              "source": "none",
+              "eligible": false,
+              "artifactId": null
+            },
+            "comparisonState": "unavailable",
+            "comparisonArtifactId": null,
+            "comparison": null,
+            "analysisReceipt": null,
+            "verifierReceipt": null
+          }
+        ],
+        "boundary": "Private experimental run. Completion does not imply source completeness. Comparison covers extraction of the same decoded capture, not both end-to-end scanners or AI models. No automatic fallback to the stable scanner."
+      },
+      "newSavedReport": {
+        "schema": "pw-channel-report-1",
+        "runId": "781ceb98-37fa-4947-af47-fec46e1e85b3",
+        "requestKey": "cf6a7c45-b2d0-4c1a-8f80-cb060d2fc8e2",
+        "metadata": {
+          "schema": "pw-scan-channel-1",
+          "channel": "compare",
+          "requestFingerprint": "e404c2dc984281bb4da7550566e2f359f332d051b2679039b25902a2e308f034",
+          "limit": 5,
+          "companySlug": "apple",
+          "implementationHash": "d9d5dde4f1c8d22c03c80ae200bc3e44734ef6a430c7e7bd037719ee30614e88",
+          "extractionProfileHash": "1b0ce6c3740d88d07037c38921bea0a997f806fea256596a2bca08d23182109d",
+          "stableVersion": "5.2.0",
+          "previewVersion": "pw-engine-6.0.0-alpha.1",
+          "requestedModels": {
+            "analyst": null,
+            "verifier": null
+          },
+          "comparisonScope": "same-capture-extraction",
+          "modelComparisonPerformed": false,
+          "notificationMode": "silent"
+        },
+        "comparisonCounts": {
+          "policyRows": 4,
+          "compared": 1,
+          "identicalUnqualified": 0,
+          "different": 1,
+          "pending": 0,
+          "unavailable": 3,
+          "notRequested": 0
+        },
+        "status": "completed",
+        "selected": 4,
+        "createdAt": "2026-11-06T06:26:19.281Z",
+        "completedAt": "2026-11-06T06:26:27.083Z",
+        "elapsedMs": 7802,
+        "mode": "observe",
+        "notifications": "silent",
+        "rows": [
+          {
+            "taskId": "74aa7ac0-63fd-44c8-a639-0d2a168f384a",
+            "policyId": "2b2f0f1c-efa1-45e0-96ba-04e93ca35598",
+            "sourceUrl": "https://www.apple.com/legal/privacy/en-ww/",
+            "baselineHash": "0ec83b31b9520a223aceeeccdc69b434b11c7b761c6182d557c1361bfd231274",
+            "scopeHash": "3b29d98a96ce194074516615c71e7a4a8a039d597c8ccc1368884c292e430231",
+            "contractHash": "c849cb177450230fe85abd1e8e587b64681fcd75ae7b504bad092bb13e572b0c",
+            "profileHash": "474edcb8a2e49ecc40858c93a63b9e63c7d1928a6e15dd960babd8a5e154523b",
+            "status": "completed",
+            "stage": "evaluate",
+            "outcome": "observed_baseline_ready",
+            "reasons": [],
+            "error": null,
+            "acquisition": {
+              "observedAt": "2026-11-06T06:26:20.404Z",
+              "httpStatus": 200,
+              "finalUrl": "https://www.apple.com/legal/privacy/en-ww/",
+              "source": "direct",
+              "eligible": true,
+              "artifactId": "9f0fd74e9487e33a22f6e7c9bba9ce064cc3a64bc26450ebadfca512adeda796"
+            },
+            "comparisonState": "different",
+            "comparisonArtifactId": "7c8b679dd696c45f56aa96f7894468ec56782d9d71290bff259915fa673b31a4",
+            "comparison": {
+              "schema": "pw-extraction-comparison-1",
+              "scope": "same-capture-extraction",
+              "observedAt": "2026-11-06T06:26:20.404Z",
+              "sourceUrl": "https://www.apple.com/legal/privacy/en-ww/",
+              "finalUrl": "https://www.apple.com/legal/privacy/en-ww/",
+              "transport": "direct",
+              "captureArtifactId": "9f0fd74e9487e33a22f6e7c9bba9ce064cc3a64bc26450ebadfca512adeda796",
+              "captureInputHash": "a2cea95c9dc8e35523557f08cc8a6a08e7e5455f0a4bc68329065fdc892b766f",
+              "baselineHash": "0ec83b31b9520a223aceeeccdc69b434b11c7b761c6182d557c1361bfd231274",
+              "stable": {
+                "version": "5.2.0",
+                "textHash": "33ff48053932f421c7fc2c39c4ad912265a5d22b85a9e4e091bd03613f7851cc",
+                "chars": 2089,
+                "extracted": true,
+                "extractionMs": 36.51700999587774
+              },
+              "preview": {
+                "version": "pw-engine-6.0.0-alpha.1",
+                "profileHash": "474edcb8a2e49ecc40858c93a63b9e63c7d1928a6e15dd960babd8a5e154523b",
+                "textHash": "5d3bc787e5503e924127e4af7a69675e8a44f1ebcd09793575079978c93a81be",
+                "language": "en-US",
+                "chars": 28124,
+                "eligible": true,
+                "reasons": [],
+                "structuralIssues": []
+              },
+              "identicalText": false,
+              "differences": [
+                {
+                  "side": "preview",
+                  "text": "English Choose your preferred language\n\n",
+                  "truncated": false
+                },
+                {
+                  "side": "stable",
+                  "text": "- What Is Personal Data at Apple?\n\n",
+                  "truncated": false
+                },
+                {
+                  "side": "stable",
+                  "text": "- Your Privacy Rights at Apple\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "At Apple, we believe strongly in fundamental privacy rights \u2014 and that those fundamental rights should not differ depending on where you live in the world. That\u2019s why we treat any data that relates to an identified or identifiable individual or that is linked or linkable to them by Apple as \u201cpersonal data,\u201d no matter where the individual lives. This means that data that directly identifies you \u2014 such as your name \u2014 is personal data, and also data that does not directly identify you, but that can reasonably be used to identify you \u2014 such as the serial number of your device \u2014 is personal data. Aggregated data is considered non\u2011personal data for the purposes of this Privacy Policy.\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "This Privacy Policy covers how Apple or an Apple-affiliated company (collectively, \u201cApple\u201d) handles personal data whether you interact with us on our websites, through Apple apps (such as Apple Music or Wallet), or in person (including by phone or when visiting an Apple Store). Apple may also link to third parties on our services or make third-party apps available for download in our App Store. Apple\u2019s Privacy Policy does not apply to how third parties define personal data or how they use it. We encourage you to read their privacy policies and know your privacy rights before interacting with them.\n\n",
+                  "truncated": false
+                },
+                {
+                  "side": "stable",
+                  "text": "- Personal Data Apple Collects from You\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "At Apple, we respect your ability to know, access, correct, transfer, restrict the processing of, and delete your personal data. We have provided these rights to our global customer base and if you choose to exercise these privacy rights, you have the right not to be treated in a discriminatory way nor to receive a lesser degree of service from Apple. Where you are requested to consent to the processing of your personal data by Apple, you have the right to withdraw your consent at any time.\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "To exercise your privacy rights and choices, including where a third-party service provider is acting on Apple\u2019s behalf, visit the Apple Data and Privacy page at privacy.apple.com for Apple or shazam.com/privacy for Shazam. To help protect the security of your personal data, you must sign in to your account and your identity will be verified. If you want to obtain a copy of personal data that is not currently available from privacy.apple.com, you can make a request at apple.com/legal/privacy/contact. You also have the right to lodge a complaint with the applicable regulator.\n\nThere may be situations where we cannot grant your request \u2014 for example, if you ask us to delete your transaction data and Apple is legally obligated to keep a record of that transaction to comply with law. We may also decline to grant a request where doing so would undermine our legitimate use of data for anti-fraud and security purposes, such as when you request deletion of an account that is being investigated for security concerns. Other reasons your privacy request may be denied are if it jeopardizes the privacy of others, is frivolous or vexatious, or would be extremely impractical or unreasonable.\n\nIf you live in California and you cannot access Apple\u2019s Data and Privacy page, you or your authorized agent can make a request at apple.com/legal/privacy/contact or by calling 1-800-275-2273.\n\nFor more information on exercising your rights, visit support.apple.com/102283.\n\n",
+                  "truncated": false
+                },
+                {
+                  "side": "stable",
+                  "text": "- Personal Data Apple Receives from Other Sources\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "At Apple, we believe that you can have great products and great privacy. This means that we strive to collect only the personal data that we need. The personal data Apple collects depends on how you interact with Apple. Descriptions of how Apple handles personal data for certain individual services are available at apple.com/legal/privacy/data.\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "When you create an Apple Account, apply for commercial credit, purchase and/or activate a product or device, download a software update, register for a class at an Apple Store, connect to our services, contact us (including by social media), participate in an online survey, or otherwise interact with Apple, we may collect a variety of information, including:\n\n- Account Information. Your Apple Account and related account details, including email address, devices registered, account status, and age\n- Device Information. Data from which your device could be identified, such as device serial number, or about your device, such as browser type\n- Contact Information. Data such as name, email address, physical address, phone number, or other contact information\n- Payment Information. Data about your billing address and method of payment, such as bank details, credit, debit, or other payment card information\n- Transaction Information. Data about purchases of Apple products and services or transactions facilitated by Apple, including purchases on Apple platforms\n- Fraud Prevention Information. Data used to help identify and prevent fraud, including a device trust score\n- Usage Data. Data about your activity on and use of our offerings, such as app launches within our services, including browsing history; search history; product interaction; crash data, performance and other diagnostic data; and other usage data\n- Location Information. Precise location only to support services such as Find My or where you agree for region-specific services, and coarse location\n- Health Information. Data relating to the health status of an individual, including data related to one\u2019s physical or mental health or condition. Personal health data also includes data that can be used to make inferences about or detect the health status of an individual. If you participate in a study using an Apple Health Research Study app, the policy governing the privacy of your personal data is described in the Ap",
+                  "truncated": true
+                },
+                {
+                  "side": "stable",
+                  "text": "- Apple\u2019s Use of Personal Data\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "Apple may receive personal data about you from other individuals, from businesses or third parties acting at your direction, from our partners who work with us to provide our products and services and assist us in security and fraud prevention, and from other lawful sources.\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "- Individuals. Apple may collect data about you from other individuals \u2014 for example, if that individual has sent you a product or gift card, invited you to participate in an Apple service or forum, or shared content with you.\n- At Your Direction. You may direct other individuals or third parties to share data with Apple. For example, you may direct your mobile carrier to share data about your carrier account with Apple for account activation, or for your loyalty program to share information about your participation so that you can earn rewards for Apple purchases.\n- Apple Partners. We may also validate the information you provide \u2014 for example, when creating an Apple Account, with a third party for security, and for fraud-prevention purposes.\n\nTo power features such as search and as a source for our foundational AI models, Apple uses Applebot, a web crawler, to crawl information that is publicly available on the internet. We have measures in place to reduce the amount of personal data we collect and make no attempt to connect data crawled to any individual Apple user, or to build profiles about individuals. Your private personal data is not used to train our foundational AI models. To exercise your right as an individual to opt out of processing, visit the Apple Intelligence Privacy Inquiries form. For more information about Applebot, visit support.apple.com/120320.\n\nFor research and development purposes, we may use datasets such as those that contain images, voices, or other data that could be associated with an identifiable person. When acquiring such datasets, we do so in accordance with applicable law, including law in the jurisdiction in which the dataset is hosted. When using such datasets for research and development, we do not attempt to reidentify individuals who may appear therein.\n\n",
+                  "truncated": false
+                },
+                {
+                  "side": "stable",
+                  "text": "- Apple\u2019s Sharing of Personal Data\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "Apple uses personal data to power our services, to process your transactions, to communicate with you, for security and fraud prevention, and to comply with law. We may also use personal data for other purposes with your consent.\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "Apple uses your personal data only when we have a valid legal basis to do so. Depending on the circumstance, Apple may rely on your consent or the fact that the processing is necessary to fulfill a contract with you, protect your vital interests or those of other persons, or to comply with law. We may also process your personal data where we believe it is in our or others\u2019 legitimate interests, taking into consideration your interests, rights, and expectations. More information is available in the product-specific information embedded in our products and features as described above. If you have questions about the legal basis, you can contact the Data Protection Officer at apple.com/legal/privacy/contact.\n\n- Power Our Services. Apple collects personal data necessary to power our services, which may include personal data collected to improve our offerings, for internal purposes such as auditing or data analysis, or for troubleshooting. For example, if you would like to access a song through an Apple Music subscription, we collect data on what songs you play in order to provide you with the content requested and for royalty purposes.\n- Process Your Transactions. To process transactions, Apple must collect data such as your name, purchase, and payment information.\n- Communicate with You. To respond to communications, reach out to you about your transactions or account, market our products and services, provide other relevant information, or request information or feedback. From time to time, we may use your personal data to send important notices, such as communications about purchases and changes to our terms, conditions, and policies. Because this information is important to your interaction with Apple, you may not opt out of receiving these important notices.\n- Security and Fraud Prevention. To protect individuals, employees, and Apple and for loss prevention and to prevent fraud, including to protect individuals, employees, and Apple for the benefit of all our user",
+                  "truncated": true
+                },
+                {
+                  "side": "stable",
+                  "text": "- Protection of Personal Data at Apple\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "Apple may share personal data with Apple-affiliated companies, service providers who act on our behalf, our partners, developers, and publishers, or others at your direction. Further, Apple does not share personal data with third parties for their own marketing purposes.\n",
+                  "truncated": false
+                },
+                {
+                  "side": "preview",
+                  "text": "- Service Providers. Apple may engage third parties to act as our service providers and perform certain tasks on our behalf, such as processing or storing data, including personal data, in connection with your use of our services and delivering products to customers. Apple service providers are obligated to handle personal data consistent with this Privacy Policy and according to our instructions. They cannot use the personal data we share for their own purposes and must delete or return the personal data once they\u2019ve fulfilled our request.\n- Partners. At times, Apple may partner with third parties to provide services or other offerings. For example, Apple financial offerings like Apple Card and Apple Cash are offered by Apple and our partners. Apple requires its partners to protect your personal data.\n- Developers and Publishers from Whom You Get a Subscription. If you purchase a third-party subscription from the App Store or within Apple News, we create a Subscriber ID that is unique to you and the developer or publisher. The Subscriber ID may be used to provide reports to the developer or publisher, which include information about the subscription you purchased and your country of residence. If you cancel all of your subscriptions from a particular developer or publisher, the Subscriber ID will reset after 180 days if you do not resubscribe. This information is provided to developers or publishers so that they can understand the performance of their subscriptions.\n- Others. Apple may share personal data with others at your direction or with your consent, such as when we share information with your carrier to activate your account. We may also disclose information about you if we determine that for purposes of national security, law enforcement, or other issues of public importance, disclosure is necessary or appropriate. We may also disclose information about you where there is a lawful basis for doing so, if we determine that disclosure is reasonably necessary t",
+                  "truncated": true
+                }
+              ],
+              "differencesTruncated": true,
+              "diffOmittedReason": null,
+              "modelComparisonPerformed": false,
+              "acquisitionComparisonPerformed": false,
+              "completenessQualified": false,
+              "boundary": "One decoded capture, two extractors. Differences are review candidates, not proof of omissions or correctness. AI analysis, live acquisition performance and total scan costs are not compared. PDF input may be a converted representation."
+            },
+            "analysisReceipt": null,
+            "verifierReceipt": null
+          },
+          {
+            "taskId": "89c32142-d523-4e16-acf9-58469989e6aa",
+            "policyId": "86088457-fcad-4537-a6b7-809019ce586c",
+            "sourceUrl": "https://www.apple.com/legal/privacy/data/en/improve-intelligence/",
+            "baselineHash": "75db4e50ee2cffdea9dab4cf81b55fca3dfa8e965130b387e040774dccfbc086",
+            "scopeHash": "aac7bf4af5e8ece22a34eb9ada89df21bd0ecfbd868528f44cd813ce50c8643d",
+            "contractHash": null,
+            "profileHash": "18bd04ec64f4648ac3d950258d3268e5e9c60d27f1160f41ac23cd6944f35568",
+            "status": "completed",
+            "stage": "evaluate",
+            "outcome": "review",
+            "reasons": [
+              "source_contract_missing"
+            ],
+            "error": null,
+            "acquisition": {
+              "observedAt": "2026-11-06T06:26:22.914Z",
+              "httpStatus": 0,
+              "finalUrl": "https://www.apple.com/legal/privacy/data/en/improve-intelligence/",
+              "source": "none",
+              "eligible": false,
+              "artifactId": null
+            },
+            "comparisonState": "unavailable",
+            "comparisonArtifactId": null,
+            "comparison": null,
+            "analysisReceipt": null,
+            "verifierReceipt": null
+          },
+          {
+            "taskId": "0b7f7ddc-f8ce-4a5b-88ff-2cc367aa85ba",
+            "policyId": "77eeaf0f-90a2-43c8-bc82-be7e2473c825",
+            "sourceUrl": "https://www.apple.com/legal/internet-services/terms/site.html",
+            "baselineHash": "a70a7da3da63ab0c614f7c0fd89c638de4d8a84ca24075b581eec75c849acf0a",
+            "scopeHash": "d19ed3f44d0880ae6a173e10eb4c8de7f68977554dfcee0efee5e642cbbc7354",
+            "contractHash": null,
+            "profileHash": "76b06d47055a6045285a36518a4273eb2bb36345ba6a75a6f377edcd2624503b",
+            "status": "completed",
+            "stage": "evaluate",
+            "outcome": "review",
+            "reasons": [
+              "source_contract_missing"
+            ],
+            "error": null,
+            "acquisition": {
+              "observedAt": "2026-11-06T06:26:24.992Z",
+              "httpStatus": 0,
+              "finalUrl": "https://www.apple.com/legal/internet-services/terms/site.html",
+              "source": "none",
+              "eligible": false,
+              "artifactId": null
+            },
+            "comparisonState": "unavailable",
+            "comparisonArtifactId": null,
+            "comparison": null,
+            "analysisReceipt": null,
+            "verifierReceipt": null
+          },
+          {
+            "taskId": "3b7ff180-ecfe-44bf-a622-4bc0216ff7e4",
+            "policyId": "421b3f0c-5924-4e3d-b84e-2ff68a441041",
+            "sourceUrl": "https://www.apple.com/legal/privacy/data/en/intelligence-engine/",
+            "baselineHash": "55427ede549e6f014a07f4dcb1ce6f0daba30214ec3f8d72ed24cccd1bed3643",
+            "scopeHash": "44ec855eb7094ba230647efa629a578be9f7865acca1379f179d14107478fd97",
+            "contractHash": null,
+            "profileHash": "217ff6265db875d714ac9e5b7161151102e057351e0a28e813332c9202b5d2fb",
+            "status": "completed",
+            "stage": "evaluate",
+            "outcome": "review",
+            "reasons": [
+              "source_contract_missing"
+            ],
+            "error": null,
+            "acquisition": {
+              "observedAt": "2026-11-06T06:26:27.052Z",
+              "httpStatus": 0,
+              "finalUrl": "https://www.apple.com/legal/privacy/data/en/intelligence-engine/",
+              "source": "none",
+              "eligible": false,
+              "artifactId": null
+            },
+            "comparisonState": "unavailable",
+            "comparisonArtifactId": null,
+            "comparison": null,
+            "analysisReceipt": null,
+            "verifierReceipt": null
+          }
+        ],
+        "boundary": "Private experimental run. Completion does not imply source completeness. Comparison covers extraction of the same decoded capture, not both end-to-end scanners or AI models. No automatic fallback to the stable scanner."
+      },
+      "reportSha256": "9cdb2e76c47cf0fe222432fe5cae565d6f27c5c53f1a6f63170c2b188e665ca4",
+      "completedAt": "2026-11-06T07:46:53.497Z"
+    },
+    "tablePreservation": {
+      "checkedAt": "2026-11-06T07:47:21.760919+00:00",
+      "status": "passed",
+      "checks": [
+        {
+          "table": "Policy",
+          "before": {
+            "rows": 113,
+            "sha256": "a9f876fe8d583714850428dbea472bb2ab0d66910b4b89655350b32583a66abf"
+          },
+          "after": {
+            "rows": 113,
+            "sha256": "a9f876fe8d583714850428dbea472bb2ab0d66910b4b89655350b32583a66abf"
+          },
+          "pass": true
+        },
+        {
+          "table": "PolicySnapshot",
+          "before": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "after": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "pass": true
+        },
+        {
+          "table": "PolicyChange",
+          "before": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "after": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "pass": true
+        },
+        {
+          "table": "PolicyCheckLog",
+          "before": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "after": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "pass": true
+        },
+        {
+          "table": "Subscriber",
+          "before": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "after": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "pass": true
+        },
+        {
+          "table": "EngineOutbox",
+          "before": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "after": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "pass": true
+        },
+        {
+          "table": "EngineSourceContract",
+          "before": {
+            "rows": 1,
+            "sha256": "94d1b21930caf7cdf51394003c10e2ebffcd5442493057f2e0fcdb7bf1304410"
+          },
+          "after": {
+            "rows": 1,
+            "sha256": "94d1b21930caf7cdf51394003c10e2ebffcd5442493057f2e0fcdb7bf1304410"
+          },
+          "pass": true
+        },
+        {
+          "table": "ExtractionBaseline",
+          "before": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "after": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "pass": true
+        },
+        {
+          "table": "EngineRun",
+          "before": {
+            "rows": 2,
+            "sha256": "d476a3aaeb9eb6a221fd6ab54afbd666e7d166c8292e01c5caebe1e3e87d9667"
+          },
+          "after": {
+            "rows": 2,
+            "sha256": "d476a3aaeb9eb6a221fd6ab54afbd666e7d166c8292e01c5caebe1e3e87d9667"
+          },
+          "pass": true
+        },
+        {
+          "table": "EngineTask",
+          "before": {
+            "rows": 16,
+            "sha256": "1a953192f48666562349165ea56274e310788a1d81ea65211ece6ff6f9663c95"
+          },
+          "after": {
+            "rows": 16,
+            "sha256": "1a953192f48666562349165ea56274e310788a1d81ea65211ece6ff6f9663c95"
+          },
+          "pass": true
+        },
+        {
+          "table": "EngineReview",
+          "before": {
+            "rows": 3,
+            "sha256": "f75b007bfac1b77d7c6557c19b8d9ec35013dbd62f8b672bc33f934458abee7a"
+          },
+          "after": {
+            "rows": 3,
+            "sha256": "f75b007bfac1b77d7c6557c19b8d9ec35013dbd62f8b672bc33f934458abee7a"
+          },
+          "pass": true
+        },
+        {
+          "table": "EngineArtifact",
+          "before": {
+            "rows": 4,
+            "sha256": "e497519746aee70c78b940a565f35faf4405b5f1e94a06da3e37c0b73cd9fbdb"
+          },
+          "after": {
+            "rows": 4,
+            "sha256": "e497519746aee70c78b940a565f35faf4405b5f1e94a06da3e37c0b73cd9fbdb"
+          },
+          "pass": true
+        }
+      ],
+      "releaseMetadataUnchanged": true,
+      "oldReportPreserved": true,
+      "activeTasks": 0
+    },
+    "newScansDuringDelivery": 0
+  },
+  "visualVerification": {
+    "checkedAt": "2026-11-06T08:47:29.216764+00:00",
+    "status": "passed",
+    "url": "https://policywatcher.online/engine-6-preview?lang=it#validation",
+    "browser": "Codex in-app browser",
+    "visibleEvidence": [
+      "6 November 2026 date",
+      "500 candidate endpoints; 498 attempted; 383 transport accepted; 342 extractions",
+      "Apple 81/81 versus 6/81 occurrences",
+      "Four incomplete synthetic contract counterexamples",
+      "Private UI execution and residual qualification limits"
+    ],
+    "screenshotFile": "public-diary-20261106.png",
+    "screenshotSha256": "d0cb345a0c131b07fc7e521e69a272af8904e02ab2668e6ec02ed6182922676c",
+    "domFile": "public-diary-20261106.txt",
+    "domSha256": "99b5e26b2c13f359cff85bd2f9bc22557ba36953c0165077c9d42c12ab285673",
+    "retainedInitialObservation": "Navigating to the already-open identical URL initially retained the 5 November page. A distinct verification URL and then a fresh navigation to the canonical URL displayed the new content. No cache-layer cause is asserted."
+  },
+  "priorStagingReceipt": "engine-v6-diary-staging-2026-11-06.json",
+  "retainedFailures": [
+    "Initial local build failed for absent/invalid DATABASE_URL; explicit isolated configuration then passed.",
+    "Native environment import did not replace five values; corrected and all 36 staging/Preview fields checked. All 39 production fields checked.",
+    "Initial native Go To paste did not replace the old file path; exact file name verified before upload.",
+    "Mac locked during Preview restoration; later browser interference delayed production. No public deployment was submitted until the correct page was available.",
+    "Strict production verifier exited 1 because independent security assessment remains external. Nine internal checks passed; no pentest is claimed."
+  ],
+  "qualificationFlags": {
+    "sourceCompleteness": false,
+    "semanticAccuracy": false,
+    "real500PoliciesPerDay": false,
+    "engine6PublicProduction": false
+  },
+  "boundary": "Content-only stable release. Exact same staging-verified artifact deployed publicly after Preview restoration. Frozen cohort, Engine6 private artifact and public scanner remain separate. Temporary staging maintenance does not prove uninterrupted availability."
+}
