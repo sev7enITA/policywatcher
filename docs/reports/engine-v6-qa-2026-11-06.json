@@ -1,0 +1,222 @@
+{
+  "schema": "pw-engine-qa-20261106-1",
+  "candidate": "515263315b15fd31b09a4d66c7e29505e18b180b",
+  "hostedImplementation": "d9d5dde4f1c8d22c03c80ae200bc3e44734ef6a430c7e7bd037719ee30614e88",
+  "frozenCohortUnmodified": true,
+  "budget": "Existing access and free endpoints only; no purchases or paid endpoint selected.",
+  "catalogue": {
+    "startedAt": "2026-11-06T06:20:12.906Z",
+    "completedAt": "2026-11-06T06:29:57.885Z",
+    "durationMs": 584979,
+    "catalogueHash": "00ade8df32ec760fde0666bbf8157f3e6e29f1e78d03461632d724a990fab385",
+    "configuredPolicies": 500,
+    "retrievalScopes": 500,
+    "httpEndpoints": 500,
+    "origins": 290,
+    "completedEndpoints": 500,
+    "attempts": 618,
+    "successfulEndpoints": 383,
+    "extractedScopes": 342
+  },
+  "catalogueScope": "500 distinct candidate HTTPS endpoints selected before outcomes from pinned OTA Contrib metadata; not 500 independently reviewed policies. Local Mac acquisition/extraction only; no models, renderer, source contracts, publication or production DB.",
+  "attemptedEndpoints": 498,
+  "extractionRejectedAfterTransport": 41,
+  "transportUnavailable": 117,
+  "nearestRankEndpointP95Ms": 4248,
+  "medianEndpointDurationMs": 892.0,
+  "processMaximumRSSBytes": 861782016,
+  "processPeakMemoryFootprintBytes": 864318392,
+  "falsifiers": {
+    "syntheticCases": 7,
+    "incompletePassingContract": [
+      "missing_middle_clause",
+      "lost_repeated_occurrence",
+      "missing_table_row",
+      "empty_required_section"
+    ],
+    "interpretation": "Contract sufficiency limit; not proof of a live extraction omission or public false alert."
+  },
+  "recovery": {
+    "observedAt": "2026-11-06T06:26:53.821Z",
+    "sourceCommit": "515263315b15fd31b09a4d66c7e29505e18b180b",
+    "boundary": "500 synthetic expired leases injected in the past, 2 runs, 4 real processes on local Mac. No real network or natural expiry qualification.",
+    "passed": true,
+    "durationMs": 1062,
+    "recoveryUnderFiveSeconds": true,
+    "counts": {
+      "queued": 250,
+      "failed": 250,
+      "expiredAttempts": 500,
+      "runningAttempts": 0,
+      "leases": 0,
+      "completedErrorRuns": 1,
+      "changes": 0,
+      "outbox": 0
+    },
+    "workers": [
+      {
+        "code": 0,
+        "error": "",
+        "measurement": {
+          "recoveryMs": 540
+        }
+      },
+      {
+        "code": 0,
+        "error": "",
+        "measurement": {
+          "recoveryMs": 865
+        }
+      },
+      {
+        "code": 0,
+        "error": "",
+        "measurement": {
+          "recoveryMs": 309
+        }
+      },
+      {
+        "code": 0,
+        "error": "",
+        "measurement": {
+          "recoveryMs": 701
+        }
+      }
+    ],
+    "integrity": [
+      {
+        "integrity_check": "ok"
+      }
+    ]
+  },
+  "hosted": {
+    "runId": "781ceb98-37fa-4947-af47-fec46e1e85b3",
+    "checksPassed": 12,
+    "elapsedMs": 7802,
+    "counts": {
+      "policyRows": 4,
+      "compared": 1,
+      "identicalUnqualified": 0,
+      "different": 1,
+      "pending": 0,
+      "unavailable": 3,
+      "notRequested": 0
+    },
+    "mode": "observe",
+    "notifications": "silent",
+    "modelComparisonPerformed": false,
+    "preservation": {
+      "unchanged": {
+        "Policy": true,
+        "PolicySnapshot": true,
+        "PolicyChange": true,
+        "PolicyCheckLog": true,
+        "Subscriber": true,
+        "EngineOutbox": true,
+        "EngineSourceContract": true,
+        "ExtractionBaseline": true
+      },
+      "releaseMetadataUnchanged": true,
+      "activeTasks": 0,
+      "previousReportUnchanged": true
+    }
+  },
+  "appleReference": {
+    "visibleSectionsExpanded": 12,
+    "visibleLeafOccurrences": 81,
+    "previewMatched": 81,
+    "stableMatched": 6,
+    "stableReplayHash": "33ff48053932f421c7fc2c39c4ad912265a5d22b85a9e4e091bd03613f7851cc",
+    "boundary": "Independent browser request expanded all12 accordions, visible leaf paragraphs/list items compared occurrence-aware after NFKC+whitespace. Same URL and visible update date; request timing differs. Linked policies, PDF, hidden and asynchronous changes not qualified. Not an approved source contract.",
+    "sourceCompletenessQualified": false
+  },
+  "qualification": {
+    "sourceCompleteness": false,
+    "endToEnd500PerDay": false,
+    "modelAccuracy": false,
+    "production": false
+  },
+  "artifacts": [
+    {
+      "path": "output/engine-qa-20261106/catalogue-500.json",
+      "sha256": "00ade8df32ec760fde0666bbf8157f3e6e29f1e78d03461632d724a990fab385"
+    },
+    {
+      "path": "output/engine-qa-20261106/catalogue-500-live/report.json",
+      "sha256": "da88bb50ca15814cb85ab0b9a7b720ef374c74e8d6a269c29afc78fc745e4a56"
+    },
+    {
+      "path": "output/engine-qa-20261106/catalogue-500-resource.log",
+      "sha256": "230c1885971be39484f61a4e9174540f47a913a02a7056863ceac909d9834556"
+    },
+    {
+      "path": "output/engine-qa-20261106/completeness-falsifiers.json",
+      "sha256": "8c4ed577306e488a8b36b56bacb1a1e489644c80d4b0fe7186a57fdfa025701b"
+    },
+    {
+      "path": "output/engine-qa-20261106/recovery/report.json",
+      "sha256": "227376ef2ec18c5ebd3915baec12cd4e6040bad02df0893b9af7f7283b618540"
+    },
+    {
+      "path": "output/engine-qa-20261106/apple-coverage-diagnostic.json",
+      "sha256": "694f1f22337e8b0fce9e5af298e7df8e389bc680464d1af5cac633a6f87f7db3"
+    },
+    {
+      "path": "output/engine-qa-20261106/apple-browser-reference.json",
+      "sha256": "f59e7e266f7f0012b51389f5d85becf39a6f857ff1e389a50f81e0925723e727"
+    },
+    {
+      "path": "output/engine-qa-20261106/apple-visible-leaves.json",
+      "sha256": "03282fffa6ae31ed3d021d9be405bdefa45d51f6e72e07f93ff6d0194ec6a97d"
+    },
+    {
+      "path": "output/engine-qa-20261106/hosted/preservation.json",
+      "sha256": "3043a71b5e6009a5fdfd7e5968d793b9b44d4a562462e6bba420bac3bdd8b155"
+    },
+    {
+      "path": "output/engine-qa-20261106/admin-report.txt",
+      "sha256": "dde55e7844464a0cadc9fec4aae3ea9c249c5219f8eb02838d9f22a266340eec"
+    },
+    {
+      "path": "output/engine-qa-20261106/engine-tests.log",
+      "sha256": "61308321e73b3fb4561f2af54e59c717312f121579df5ca74fef8d4f517835fa"
+    },
+    {
+      "path": "output/engine-qa-20261106/lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "output/engine-qa-20261106/typecheck.log",
+      "sha256": "e2f7cc0f775664196d4da6b1ce4a9d910c4a95ad6121b273b069c5825689f984"
+    },
+    {
+      "path": "output/engine-qa-20261106/reviews/glm-final.txt",
+      "sha256": "675c60eb20a4a44259c3e5b7c1f80a6fb56c1f49c84bbeb70c08b7b29166a54a"
+    },
+    {
+      "path": "output/engine-qa-20261106/reviews/gemini-full.txt",
+      "sha256": "e314ab0318d1a529131557d047e92fddc1b6841eca9d1a42943e0fbfc0827a44"
+    },
+    {
+      "path": "output/engine-qa-20261106/reviews/gemini-addendum.txt",
+      "sha256": "b48fa78a909a31f0607355ed7eecfad6e91d07291015f3baf3391cd6f51e4572"
+    },
+    {
+      "path": "output/engine-qa-20261106/reviews/openrouter-lightning.json",
+      "sha256": "a878c71a5e9a501a0e35cf05b0710578b6a7766fa3515c5b5176f9b0e7d527f7"
+    },
+    {
+      "path": "output/engine-qa-20261106/reviews/openrouter-attempts.json",
+      "sha256": "58daeb444c578fe0226135df34b8a79ea4e3fa9008046639c54777538128dff9"
+    },
+    {
+      "path": "output/engine-qa-20261106/glm-table-falsifier.json",
+      "sha256": "dd6aedf523fcc88f9fd609e7f4fad6615324df225bc55249734cca4b806a15e1"
+    }
+  ],
+  "modelReviews": {
+    "glm": "5.3 Max, ZCode, source review completed; adjudication in Markdown",
+    "gemini": "4 Argon High, web, supplied-evidence review and corrected addendum",
+    "openrouter": "free endpoints only; completed Lightning review rejected as acceptance criteria, partial Super VL and two failures retained"
+  }
+}
