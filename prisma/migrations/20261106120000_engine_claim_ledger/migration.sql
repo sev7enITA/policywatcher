@@ -61,4 +61,3 @@ CREATE INDEX "EngineClaimEvidence_documentHash_idx" ON "EngineClaimEvidence"("do
 
 -- CreateIndex
 CREATE UNIQUE INDEX "EngineClaimEvidence_claimId_ordinal_key" ON "EngineClaimEvidence"("claimId", "ordinal");
-

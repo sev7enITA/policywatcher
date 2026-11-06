@@ -38,7 +38,7 @@ Engine 6 already has grounded claims with validated exact spans and an independe
 | Arm | Description |
 | --- | --- |
 | A. Baseline | Current Engine 6: contract checks, grounded claims and the independent verifier, evidence as JSON |
-| B. Relational+clauses | A plus the claim ledger (`EngineClaim`, `EngineClaimEvidence`) with edge status, **no ontology**; implemented |
+| B. Claim-evidence ledger | A plus `EngineClaim`/`EngineClaimEvidence` with status per row, **no ontology**; implemented. Records only spans cited by validated claims, not a clause inventory of the source |
 | C. Ontology | B described and queried through Auto Ontology |
 
 Arm B is essential. Without it any benefit from C could come merely from the clause table, not from the ontology.

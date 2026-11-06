@@ -1,38 +1,44 @@
 # Minimal model (step 2)
 
-Proposal, not implemented. Names map to existing Prisma models where one exists.
+Rows marked **implemented** exist in the schema. Rows marked **proposed** do not exist and must not be cited as delivered.
 
 ## Entities
 
-| Entity | Maps to | Required fields |
-| --- | --- | --- |
-| Source | `Entity` plus `EngineSourceContract` | origin, requested/final URL, declared language, jurisdiction |
-| Document | `Document` | title, type, jurisdiction, language |
-| Version | `Version` | `contentHash`, `capturedAt`, `effectiveAt` |
-| Capture | `EngineAttempt`/`SourceRetrieval` | timestamp, HTTP status or "No HTTP response recorded", transport |
-| Section | new | heading path, ordinal |
-| Clause | new | text, start/end offset, `normalizedHash` (NFKC+whitespace), **occurrence index**, kind (paragraph, list item, table row) |
-| Evidence | `Provision.evidenceText/evidenceHash/sourceLocator` | clause id, exact span |
-| Change | `Change` | from/to version |
-| Claim | `Provision` (assessment, rationale) | taxonomy key, stated interpretation |
-| Verification | new (model verifier result) | verdict: supported / unsupported / uncertain; model id |
-| HumanReview | `EngineReview` | reviewer, decision, time |
+| Entity | Status | Maps to | Required fields |
+| --- | --- | --- | --- |
+| Source | existing | `Entity` plus `EngineSourceContract` | origin, requested/final URL, declared language, jurisdiction |
+| Document | existing | `Document` | title, type, jurisdiction, language |
+| Version | existing | `Version` | `contentHash`, `capturedAt`, `effectiveAt` |
+| Capture | existing | `EngineAttempt`, `SourceRetrieval` | timestamp, HTTP status or "No HTTP response recorded", transport |
+| Section | **proposed, not implemented** | none | heading path, ordinal |
+| Clause inventory | **proposed, not implemented** | none (`structureDocument` blocks exist only in memory and artifacts) | every source block with offsets, normalized hash, occurrence index |
+| Claim | **implemented** | `EngineClaim` | operation, category, EN/IT text, impact, delta ids, analyst model, prompt version |
+| Evidence | **implemented** | `EngineClaimEvidence` | side, document hash, UTF-16 start/end, verbatim quote, quote hash |
+| Verification | **implemented** (fields on `EngineClaim`) | `verifierModel`, `verifierVerdict`, `verifierReason` | verdict is null when the verifier output is invalid |
+| HumanReview | existing | `EngineReview`, `AdminReviewLog`; `EngineClaim.approvedBy/approvedAt` | actor label, decision, time |
+| Change | existing | `Change`, `PolicyChange`; `EngineClaim.changeId` | from/to version |
+
+`Provision` is a legacy taxonomy projection of `PolicyChange` fields. It is not claim or clause evidence and is not used by this model.
+
+## Scope of the evidence
+
+`EngineClaimEvidence` holds only the spans that a validated claim cites. It does not inventory every clause of the source and says nothing about source completeness. A missing middle clause that no delta touches leaves no row here.
 
 ## Relations
 
-`Source -captured_as-> Capture -yields-> Version -of-> Document`; `Version -contains-> Section -contains-> Clause`; `Change -between-> Version(from,to)`; `Claim -about-> Change`; `Claim -cites-> Clause` (via Evidence); `Verification -judges-> Claim`; `HumanReview -decides-> Claim|Verification`.
+`Source -captured_as-> Capture -yields-> Version -of-> Document`; `Claim -cites-> Evidence -within-> Version (by documentHash)`; `Claim -about-> Change (changeId, only when published)`; `Claim -held_in-> EngineReview (reviewId)`; `Verification -judges-> Claim`; `HumanReview -approves-> Claim`.
 
-## Edge status (every relation carries exactly one)
+## Status (every implemented row carries exactly one)
 
-- `observed`: deterministic from retained bytes (version contains clause, hash match).
-- `inferred`: produced by a model or heuristic (claim interprets clause, clause semantically equals clause).
-- `approved`: a named human accepted it, with timestamp.
+- `observed`: evidence spans. Each quote equals the frozen text slice; checked by `validateClaims` before any row is written.
+- `inferred`: claim interpretation, produced by a model. The verifier verdict is recorded beside it and never upgrades it.
+- `approved`: set by `approveReview`. It records the actor label the caller supplies. The admin route currently passes the role label `admin`, not a personal identity, so approval is attributable to the admin role only.
 
-Approval never upgrades text completeness. A separate `completeness` attribute on Version takes `unqualified` unless an independent reference annotation exists, mirroring the QA report's stance.
+Approval never upgrades text completeness.
 
-## Invariants to test
+## Invariants (tested in `engineV6.test.ts`, "claim ledger")
 
-1. Every Claim has at least one Evidence edge, and that edge resolves to verbatim text whose hash matches.
-2. A Claim citing a real clause can still be `unsupported`. Citation validity and interpretive support are separate checks.
-3. Repeated clauses keep distinct occurrence indices; none is deduplicated.
-4. Language, jurisdiction, timestamp and hash survive every projection step.
+1. Every claim row has evidence rows whose quotes equal the frozen text slice and whose hashes match.
+2. A claim citing real text can still be `unsupported`; such claims cannot be approved.
+3. Invalid verifier output (overlength, duplicate, missing or malformed verdicts) is stored as no verdict, never as a normalized one.
+4. Observe-mode runs record their validated claims without any public write.

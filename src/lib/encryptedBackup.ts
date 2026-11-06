@@ -52,13 +52,31 @@ export const COMPLETE_BACKUP_TABLES = [
   ['Subscriber', 'subscriber'],
 ] as const;
 
+/** Each inventory is immutable once exports exist. A new table set needs a new
+ * label; historical labels keep validating exactly the tables they declared. */
+export const BACKUP_INVENTORY_VERSION = 'engine-v6-claim-ledger';
+const CLAIM_LEDGER_TABLES = new Set<string>(['EngineClaim', 'EngineClaimEvidence']);
+const ALL_BACKUP_TABLES: string[] = COMPLETE_BACKUP_TABLES.map(([tableName]) => tableName);
+
+function inventoryTables(inventoryVersion: unknown, applicationVersion: unknown): string[] | null {
+  if (inventoryVersion === BACKUP_INVENTORY_VERSION) return ALL_BACKUP_TABLES;
+  // Engine 6 exports made before the claim ledger: exactly 45 tables.
+  if (inventoryVersion === 'engine-v6') return ALL_BACKUP_TABLES.filter(table => !CLAIM_LEDGER_TABLES.has(table));
+  // Pre-engine exports: 35 tables, or 34 for 5.0.0 which predates ContentArtifact.
+  if (inventoryVersion === undefined) {
+    return ALL_BACKUP_TABLES.filter(table => !table.startsWith('Engine'))
+      .filter(table => table !== 'ContentArtifact' || applicationVersion !== '5.0.0');
+  }
+  return null;
+}
+
 type BackupDelegate = { findMany(args?: Record<string, never>): Promise<unknown[]> };
 type BackupClient = Record<string, BackupDelegate>;
 
 export interface CompleteBackupPayload {
   formatVersion: 2;
   applicationVersion: string;
-  inventoryVersion?: 'engine-v6';
+  inventoryVersion?: 'engine-v6' | typeof BACKUP_INVENTORY_VERSION;
   exportedAt: string;
   scope: 'complete-application-export';
   restoreMode: 'verification-only';
@@ -127,7 +145,7 @@ export async function buildCompleteBackupPayload(
   return {
     formatVersion: ENCRYPTED_BACKUP_FORMAT_VERSION,
     applicationVersion: POLICYWATCHER_VERSION,
-    inventoryVersion: 'engine-v6',
+    inventoryVersion: BACKUP_INVENTORY_VERSION,
     exportedAt: now.toISOString(),
     scope: 'complete-application-export',
     restoreMode: 'verification-only',
@@ -211,13 +229,10 @@ function validateCompleteBackupPayload(payload: unknown): CompleteBackupPayload 
   }
   const countValues = counts as Record<string, unknown>;
   const dataValues = data as Record<string, unknown>;
-  const expectedTables = COMPLETE_BACKUP_TABLES.map(([tableName]) => tableName)
-    .filter(table => value.inventoryVersion === 'engine-v6' || !table.startsWith('Engine'))
-    .filter(table => table !== 'ContentArtifact' || value.applicationVersion !== '5.0.0');
+  const expectedTables = inventoryTables(value.inventoryVersion, value.applicationVersion);
   if (
-    (value.inventoryVersion !== undefined && value.inventoryVersion !== 'engine-v6')
-    ||
-    summaryValue.tableCount !== expectedTables.length
+    !expectedTables
+    || summaryValue.tableCount !== expectedTables.length
     || Object.keys(dataValues).length !== expectedTables.length
     || Object.keys(countValues).length !== expectedTables.length
   ) {

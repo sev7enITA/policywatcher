@@ -13,6 +13,41 @@ const client = new PrismaClient();
 const runId = randomUUID();
 const companyId = randomUUID();
 const policyId = randomUUID();
+const ledgerTaskId = `ci-ledger-${runId}`;
+
+/** Record, approve, rollback, uniqueness and cascade for the claim ledger. */
+async function claimLedgerContract() {
+  const claim = (claimKey) => ({
+    taskId: ledgerTaskId, claimKey, ordinal: 0, policyId: 'ci-ledger-policy', operation: 'modified', category: 'content',
+    textEn: 'Retention changes.', textIt: 'La conservazione cambia.', impact: 3, deltaIdsJson: '["d1","d2"]',
+    analystModel: 'ci-analyst', promptVersion: 'ci-1', analysisOutputHash: runId,
+    verifierModel: 'ci-verifier', verifierVerdict: 'supported', verifierReason: 'CI verdict.',
+    evidence: { create: [
+      { ordinal: 0, side: 'old', documentHash: 'old', startOffset: 0, endOffset: 7, quote: '30 days', quoteHash: 'q0' },
+      { ordinal: 1, side: 'new', documentHash: 'new', startOffset: 0, endOffset: 7, quote: '60 days', quoteHash: 'q1' },
+    ] },
+  });
+  await client.$transaction(async (transaction) => { await transaction.engineClaim.create({ data: claim('c1') }); });
+  const stored = await client.engineClaim.findUnique({ where: { taskId_claimKey: { taskId: ledgerTaskId, claimKey: 'c1' } }, include: { evidence: true } });
+  if (!stored || stored.interpretationStatus !== 'inferred' || stored.evidence.length !== 2
+    || stored.evidence.some((span) => span.status !== 'observed')) throw new Error('Claim ledger record contract failed.');
+
+  const approved = await client.engineClaim.updateMany({ where: { taskId: ledgerTaskId },
+    data: { interpretationStatus: 'approved', approvedBy: 'admin', approvedAt: new Date() } });
+  if (approved.count !== 1) throw new Error('Claim ledger approval contract failed.');
+
+  await client.$transaction(async (transaction) => {
+    await transaction.engineClaim.create({ data: claim('c2') });
+    throw new Error('ci_intentional_rollback');
+  }).catch((error) => { if (error?.message !== 'ci_intentional_rollback') throw error; });
+  if (await client.engineClaim.count({ where: { taskId: ledgerTaskId } }) !== 1) throw new Error('Claim ledger rollback contract failed.');
+
+  const duplicate = await client.engineClaim.create({ data: claim('c1') }).then(() => null, (error) => error?.code);
+  if (duplicate !== 'P2002') throw new Error('Claim ledger uniqueness contract failed.');
+
+  await client.engineClaim.delete({ where: { id: stored.id } });
+  if (await client.engineClaimEvidence.count({ where: { claimId: stored.id } }) !== 0) throw new Error('Claim ledger cascade contract failed.');
+}
 
 try {
   const providerRows = await client.$queryRawUnsafe('SELECT current_database() AS "database", current_schema() AS "schema"');
@@ -69,9 +104,11 @@ try {
     throw new Error('Cascade-delete contract failed.');
   }
 
+  await claimLedgerContract();
   console.log('PostgreSQL portability smoke test passed.');
 } catch (error) {
   await client.company.deleteMany({ where: { id: companyId } }).catch(() => undefined);
+  await client.engineClaim.deleteMany({ where: { taskId: ledgerTaskId } }).catch(() => undefined);
   const code = typeof error === 'object' && error && 'code' in error ? String(error.code) : 'SMOKE_TEST_FAILED';
   console.error(`PostgreSQL portability smoke test failed (${code}).`);
   process.exitCode = 1;

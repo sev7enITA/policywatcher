@@ -67,4 +67,3 @@ CREATE UNIQUE INDEX "EngineClaimEvidence_claimId_ordinal_key" ON "EngineClaimEvi
 
 -- AddForeignKey
 ALTER TABLE "EngineClaimEvidence" ADD CONSTRAINT "EngineClaimEvidence_claimId_fkey" FOREIGN KEY ("claimId") REFERENCES "EngineClaim"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
