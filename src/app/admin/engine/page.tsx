@@ -125,12 +125,13 @@ export default function EngineWorkspace() {
         <p>Live captures and reports stay in this preview database. Official baselines, public changes and subscriber notifications are disabled. Source completeness, observation over several days and operation at 500 sources remain under qualification.</p>
         <p>Worker: {status.worker?.active ? 'active' : 'not active'}{status.worker?.leader?.lastHeartbeatAt ? ` · last heartbeat ${new Date(status.worker.leader.lastHeartbeatAt).toLocaleString()}` : ''}.</p>
         {(status.worker?.error || status.worker?.leader?.lastError) && <p role="alert">Worker status: {status.worker.error || status.worker.leader?.lastError}. Saved work is not evidence of a completed scan.</p>}
-        <p><Link href="/admin/cron">Start Preview or compare extractors</Link> · <a href="https://policywatcher.online" target="_blank" rel="noreferrer">Open stable PolicyWatcher 5.2.0</a></p>
+        <p><Link href="/admin/cron">Start Preview or compare extractors</Link> · <a href="https://policywatcher.online" target="_blank" rel="noreferrer">Open stable PolicyWatcher</a></p>
         <details><summary>Implementation identity</summary><code style={{ overflowWrap: 'anywhere' }}>{status.implementationHash || 'Unavailable; execution is blocked'}</code></details>
       </section>}
       <section className={styles.card} style={{ marginBottom: 24 }}>
         <h2>Coverage and evidence</h2><p>{status.coverage?.contracted || 0}/{status.coverage?.total || 0} sources configured · {status.coverage?.verified || 0} baselines verified in the last 24 hours · {status.coverage?.awaitingConfirmation || 0} candidates awaiting confirmation.</p>
         <p>Missing baselines need a documented correction in <Link href="/admin/evidence-quality">Evidence Quality</Link>. A completed run may still contain held or unconfigured sources.</p>
+        <p>A configured contract checks expected document boundaries. It does not establish independent coverage of every clause, repeated occurrence or table cell.</p>
       </section>
       <section className={styles.card} style={{ marginBottom: 24 }}>
         <h2>Start a durable run</h2>
@@ -166,7 +167,7 @@ export default function EngineWorkspace() {
         {reviewDetail && <div style={{ borderTop: '2px solid #7089ae', paddingTop: 20 }}>
           <h3>Frozen evidence and independent verification</h3>
           <p>{policyName(reviewDetail.review.policyId)} · {label(reviewDetail.review.status)}</p>
-          <p>Captured {reviewDetail.payload.observation?.observedAt ? new Date(reviewDetail.payload.observation.observedAt).toLocaleString() : 'Not recorded'} · {reviewDetail.payload.observation?.source} · HTTP {reviewDetail.payload.observation?.httpStatus}</p>
+          <p>Observation recorded {reviewDetail.payload.observation?.observedAt ? new Date(reviewDetail.payload.observation.observedAt).toLocaleString() : 'Not recorded'} · {reviewDetail.payload.observation?.source || 'No transport recorded'} · {reviewDetail.payload.observation?.httpStatus ? `HTTP ${reviewDetail.payload.observation.httpStatus}` : 'No HTTP response recorded'}</p>
           {(reviewDetail.payload.checkpoint?.analysis?.value.claims || []).map(claim => <article key={claim.id} style={{ padding: 18, marginBottom: 16, background: 'var(--bg-secondary)', color: 'var(--text-main)', border: '1px solid var(--border-color)', borderRadius: 8 }}>
             <h4>{claim.textEn}</h4><p>{claim.textIt}</p><p>Impact {claim.impact}/10 · {label(claim.category)}</p>
             {claim.evidence.map((span, i) => <div key={i}><strong>{span.side === 'old' ? 'Previous version' : 'Captured version'}</strong><blockquote style={{ borderLeft: '3px solid #839bc0', paddingLeft: 14, whiteSpace: 'pre-wrap' }}>{span.quote}</blockquote></div>)}
