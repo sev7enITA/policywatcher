@@ -1,0 +1,653 @@
+{
+  "recordedAt": "2026-11-06T07:48:12.798515+00:00",
+  "status": "staging_verified_preview_restored_production_pending",
+  "product": "5.5.0",
+  "sourceRevision": "3e58c6d8ebbbdab23c4ec0b248d922aaf44b3967",
+  "artifactSha256": "ee2cf2f9663b304685e236155305493e5976459e95a7736a5e0f0b5a3a024e6b",
+  "changedPackageFiles": [
+    "release-manifest.json",
+    "src/app/engine-6-preview/page.tsx"
+  ],
+  "mainQACommit": "6de0b2aee9a05f68595f3b9f031d4ae7596b0e14",
+  "mainQAPullRequest": "https://github.com/sev7enITA/policywatcher/pull/49",
+  "stagingDeployment": "01a1afc4-35c3-7365-b877-f55550990f1a",
+  "stagingCompletedEuropeRome": "2026-11-06 08:32",
+  "stagingVerification": {
+    "contractVersion": "1.2.0",
+    "target": "staging",
+    "status": "passed",
+    "release": "5.5.0",
+    "releaseName": "Engine 6 Preview",
+    "sourceRevision": "3e58c6d8ebbbdab23c4ec0b248d922aaf44b3967",
+    "sourceState": "clean",
+    "artifact": "PolicyWatcher-5.5.0-hostinger-2026-11-06-engine6-qa.zip",
+    "artifactSha256": "ee2cf2f9663b304685e236155305493e5976459e95a7736a5e0f0b5a3a024e6b",
+    "stagingOrigin": "https://staging.policywatcher.online",
+    "checkedAt": "2026-11-06T07:33:02.250Z",
+    "expiresAt": "2026-11-07T07:33:02.250Z",
+    "checks": [
+      {
+        "id": "homepage",
+        "status": "passed",
+        "detail": "HTTP 200; release 5.5.0 present in initial HTML."
+      },
+      {
+        "id": "staging-banner",
+        "status": "passed",
+        "detail": "Visible staging identity and DOM marker are present."
+      },
+      {
+        "id": "search-engine-boundary",
+        "status": "passed",
+        "detail": "Staging pages return noindex, nofollow, noarchive."
+      },
+      {
+        "id": "robots-boundary",
+        "status": "passed",
+        "detail": "robots.txt disallows the staging origin."
+      },
+      {
+        "id": "release-identity",
+        "status": "passed",
+        "detail": "Public manifest matches artifact release 5.5.0."
+      },
+      {
+        "id": "publication-readiness-contract",
+        "status": "passed",
+        "detail": "Database-derived publication readiness contract, stage order, no-store boundary and latest capture are valid."
+      },
+      {
+        "id": "health-auth-boundary",
+        "status": "passed",
+        "detail": "Operational health rejects unauthenticated requests."
+      },
+      {
+        "id": "database-health",
+        "status": "passed",
+        "detail": "18 companies; database is configured, readable and writable."
+      },
+      {
+        "id": "admin-authentication",
+        "status": "passed",
+        "detail": "Dedicated staging administrator can establish a signed session."
+      },
+      {
+        "id": "database-readiness",
+        "status": "passed",
+        "detail": "35 tables and 19 migrations reported ready."
+      },
+      {
+        "id": "public-dataset",
+        "status": "passed",
+        "detail": "18 public companies pass the staging evidence gate."
+      }
+    ],
+    "missingChecks": [],
+    "boundary": "This report verifies one staging deployment and one immutable artifact. It does not authorize production automatically or attest third-party service availability."
+  },
+  "stagingPageChecks": {
+    "checkedAt": "2026-11-06T07:33:07.264Z",
+    "origin": "https://staging.policywatcher.online",
+    "status": "passed",
+    "checks": [
+      {
+        "name": "en_500_trial",
+        "pass": true
+      },
+      {
+        "name": "en_apple_occurrences",
+        "pass": true
+      },
+      {
+        "name": "en_qa_date",
+        "pass": true
+      },
+      {
+        "name": "en_contract_counterexamples",
+        "pass": true
+      },
+      {
+        "name": "en_http_200",
+        "pass": true
+      },
+      {
+        "name": "en_third_date_visible",
+        "pass": true
+      },
+      {
+        "name": "en_failure_preserved",
+        "pass": true
+      },
+      {
+        "name": "en_daily_capture_stopped",
+        "pass": true
+      },
+      {
+        "name": "en_meta_failure_visible",
+        "pass": true
+      },
+      {
+        "name": "en_saved_comparison",
+        "pass": true
+      },
+      {
+        "name": "en_stable_version",
+        "pass": true
+      },
+      {
+        "name": "en_previous_cohort_retained",
+        "pass": true
+      },
+      {
+        "name": "en_private_preview_link",
+        "pass": true
+      },
+      {
+        "name": "en_still_unqualified",
+        "pass": true
+      },
+      {
+        "name": "en_span_visible",
+        "pass": true
+      },
+      {
+        "name": "en_aws_passages_visible",
+        "pass": true
+      },
+      {
+        "name": "it_500_trial",
+        "pass": true
+      },
+      {
+        "name": "it_apple_occurrences",
+        "pass": true
+      },
+      {
+        "name": "it_qa_date",
+        "pass": true
+      },
+      {
+        "name": "it_contract_counterexamples",
+        "pass": true
+      },
+      {
+        "name": "it_http_200",
+        "pass": true
+      },
+      {
+        "name": "it_third_date_visible",
+        "pass": true
+      },
+      {
+        "name": "it_failure_preserved",
+        "pass": true
+      },
+      {
+        "name": "it_daily_capture_stopped",
+        "pass": true
+      },
+      {
+        "name": "it_meta_failure_visible",
+        "pass": true
+      },
+      {
+        "name": "it_saved_comparison",
+        "pass": true
+      },
+      {
+        "name": "it_stable_version",
+        "pass": true
+      },
+      {
+        "name": "it_previous_cohort_retained",
+        "pass": true
+      },
+      {
+        "name": "it_private_preview_link",
+        "pass": true
+      },
+      {
+        "name": "it_still_unqualified",
+        "pass": true
+      },
+      {
+        "name": "it_span_visible",
+        "pass": true
+      },
+      {
+        "name": "it_aws_passages_visible",
+        "pass": true
+      }
+    ]
+  },
+  "stagingSourceChecks": {
+    "checkedAt": "2026-11-06T07:33:08.893761+00:00",
+    "host": "staging.policywatcher.online",
+    "artifactSha256": "ee2cf2f9663b304685e236155305493e5976459e95a7736a5e0f0b5a3a024e6b",
+    "checks": [
+      {
+        "path": "CHANGELOG.md",
+        "expected": "48bb16e6de5fba6f6845b120f71242a33ba0197d5c380e4ce21b4478e2da15ab",
+        "actual": "48bb16e6de5fba6f6845b120f71242a33ba0197d5c380e4ce21b4478e2da15ab",
+        "pass": true
+      },
+      {
+        "path": "README.md",
+        "expected": "ccd85c1d50998bc15991f18362077351f3e609daf88f7fa6ece4957c0a1769aa",
+        "actual": "ccd85c1d50998bc15991f18362077351f3e609daf88f7fa6ece4957c0a1769aa",
+        "pass": true
+      },
+      {
+        "path": "docs/releases/policywatcher-5.5.0-github-release.md",
+        "expected": "30e37e76c22b3b73b7b56aaf2cae00bd55c6dd9b25e4cc06423a0d3ef31ab8e7",
+        "actual": "30e37e76c22b3b73b7b56aaf2cae00bd55c6dd9b25e4cc06423a0d3ef31ab8e7",
+        "pass": true
+      },
+      {
+        "path": "package-lock.json",
+        "expected": "b24528f1f480f216c355c8f0ee024928376873ae9f5ba381210ffcf5a7c868bf",
+        "actual": "b24528f1f480f216c355c8f0ee024928376873ae9f5ba381210ffcf5a7c868bf",
+        "pass": true
+      },
+      {
+        "path": "package.json",
+        "expected": "3dcfe896b8c8060674b1a3514d579fb48f745084a8ca810b7c668d7dc45ac0af",
+        "actual": "3dcfe896b8c8060674b1a3514d579fb48f745084a8ca810b7c668d7dc45ac0af",
+        "pass": true
+      },
+      {
+        "path": "prisma/schema.prisma",
+        "expected": "88a64d8bcc377153c5928b3ba1ae922aa70e9af25d0673b2828c2ee31e6085c0",
+        "actual": "88a64d8bcc377153c5928b3ba1ae922aa70e9af25d0673b2828c2ee31e6085c0",
+        "pass": true
+      },
+      {
+        "path": "public/press-kit/asset-manifest.json",
+        "expected": "dd676dbade5acc98ab660a9f9d7a79456a778916d4ab7dce69a4b5c8302d5d42",
+        "actual": "dd676dbade5acc98ab660a9f9d7a79456a778916d4ab7dce69a4b5c8302d5d42",
+        "pass": true
+      },
+      {
+        "path": "public/press-kit/package-manifest.json",
+        "expected": "023a0b572348a23192bd5e5b3bb4bd53df161b0448d98747206663ef20d36658",
+        "actual": "023a0b572348a23192bd5e5b3bb4bd53df161b0448d98747206663ef20d36658",
+        "pass": true
+      },
+      {
+        "path": "public/press-kit/policywatcher-fact-sheet-en-2026-11-02.pdf",
+        "expected": "fc8597bedc4094404d9570dbe5fdbd32022fd5223399fb8616c676ba30b3401f",
+        "actual": "fc8597bedc4094404d9570dbe5fdbd32022fd5223399fb8616c676ba30b3401f",
+        "pass": true
+      },
+      {
+        "path": "public/press-kit/policywatcher-fact-sheet-en-2026-11-02.txt",
+        "expected": "53ea830d970daff73496e993a53f8ec0bded9ae752201fd4955cd51bfb03be98",
+        "actual": "53ea830d970daff73496e993a53f8ec0bded9ae752201fd4955cd51bfb03be98",
+        "pass": true
+      },
+      {
+        "path": "public/press-kit/policywatcher-fact-sheet-it-2026-11-02.pdf",
+        "expected": "5b0e3f7c64420b459e22f6df4e0f302b49f96ed19dde7d2b3d1594ef38fed3c5",
+        "actual": "5b0e3f7c64420b459e22f6df4e0f302b49f96ed19dde7d2b3d1594ef38fed3c5",
+        "pass": true
+      },
+      {
+        "path": "public/press-kit/policywatcher-fact-sheet-it-2026-11-02.txt",
+        "expected": "bc7528ce7a9ef3fb6898132e9cc857330aa87aaf9cf3c75d8a30deacfcd3caf4",
+        "actual": "bc7528ce7a9ef3fb6898132e9cc857330aa87aaf9cf3c75d8a30deacfcd3caf4",
+        "pass": true
+      },
+      {
+        "path": "release-manifest.json",
+        "expected": "b9fda1075879ac5d0578bb131bb7ffd1b6948a0d840e892267218d68d2e3a1ce",
+        "actual": "b9fda1075879ac5d0578bb131bb7ffd1b6948a0d840e892267218d68d2e3a1ce",
+        "pass": true
+      },
+      {
+        "path": "scripts/generate-press-kit-assets.mjs",
+        "expected": "1c9a1a83c63bff1f69e36df0ae8bab2f269aa3e79ac8fc3fceb987534fef57b0",
+        "actual": "1c9a1a83c63bff1f69e36df0ae8bab2f269aa3e79ac8fc3fceb987534fef57b0",
+        "pass": true
+      },
+      {
+        "path": "scripts/package-release.sh",
+        "expected": "d391ee84f134c84c807d7ed7cea12c7ce1a58f1c5494870eb83c13c4d12ca6b7",
+        "actual": "d391ee84f134c84c807d7ed7cea12c7ce1a58f1c5494870eb83c13c4d12ca6b7",
+        "pass": true
+      },
+      {
+        "path": "src/app/engine-6-preview/page.tsx",
+        "expected": "8175184c1c323d8f3eac2805fe73385581029a5ac84df44c441f2edd570c46f3",
+        "actual": "8175184c1c323d8f3eac2805fe73385581029a5ac84df44c441f2edd570c46f3",
+        "pass": true
+      },
+      {
+        "path": "src/app/llms.txt/route.ts",
+        "expected": "e5f1f19a6bee15f10080a2eb83e01d694f5e03be07cf360954213995c12004ba",
+        "actual": "e5f1f19a6bee15f10080a2eb83e01d694f5e03be07cf360954213995c12004ba",
+        "pass": true
+      },
+      {
+        "path": "src/app/page.tsx",
+        "expected": "c2251b023e9887b6dce3bbf9751fd5c17b6bfa5628493516a0ae0c5336f448b7",
+        "actual": "c2251b023e9887b6dce3bbf9751fd5c17b6bfa5628493516a0ae0c5336f448b7",
+        "pass": true
+      },
+      {
+        "path": "src/app/press-kit/PressKitClient.tsx",
+        "expected": "9bb543b04eb1644110bb77525d42d5c4ccef05d3d1b27c58557e864dfb67f033",
+        "actual": "9bb543b04eb1644110bb77525d42d5c4ccef05d3d1b27c58557e864dfb67f033",
+        "pass": true
+      },
+      {
+        "path": "src/app/roadmap/RoadmapClient.tsx",
+        "expected": "07c6f3435c22752120b14e68380d21e769b9412fd33a98558838751fede1be21",
+        "actual": "07c6f3435c22752120b14e68380d21e769b9412fd33a98558838751fede1be21",
+        "pass": true
+      },
+      {
+        "path": "src/app/sitemap.ts",
+        "expected": "98729f18451261b03efa6a0609a24ee3afe642a520b88943c02bd7c827871f84",
+        "actual": "98729f18451261b03efa6a0609a24ee3afe642a520b88943c02bd7c827871f84",
+        "pass": true
+      },
+      {
+        "path": "src/components/ChangelogModal.tsx",
+        "expected": "be8104b9cb2993225826f80deeabf67114222447710cd4f81a5bc1785510502e",
+        "actual": "be8104b9cb2993225826f80deeabf67114222447710cd4f81a5bc1785510502e",
+        "pass": true
+      },
+      {
+        "path": "src/lib/extractionProfile.generated.json",
+        "expected": "20fdab9586610620a043de935ea19237f4f06ee488011ba7b63adcd51843fe27",
+        "actual": "20fdab9586610620a043de935ea19237f4f06ee488011ba7b63adcd51843fe27",
+        "pass": true
+      },
+      {
+        "path": "src/lib/featureAtlas.ts",
+        "expected": "adad6577a69792abe265ba67c1dd4aef248dd15dc729d6e8509d89c3a77737b6",
+        "actual": "adad6577a69792abe265ba67c1dd4aef248dd15dc729d6e8509d89c3a77737b6",
+        "pass": true
+      },
+      {
+        "path": "src/lib/pdfPolicy.ts",
+        "expected": "8e7547a94f0a447be6797dc8b37dd0a532de5cbb64050ceb48bc7b13552a791b",
+        "actual": "8e7547a94f0a447be6797dc8b37dd0a532de5cbb64050ceb48bc7b13552a791b",
+        "pass": true
+      },
+      {
+        "path": "src/lib/pressKit.ts",
+        "expected": "e1329ed3a0ba6bda54876c420ffabb655459fb2eb636bde7205fa405650a8bcb",
+        "actual": "e1329ed3a0ba6bda54876c420ffabb655459fb2eb636bde7205fa405650a8bcb",
+        "pass": true
+      },
+      {
+        "path": "src/lib/publicSections.ts",
+        "expected": "a3f0992b6ce36c69d99ef400952fd1841fed6adca17b600291374ea86b85aff0",
+        "actual": "a3f0992b6ce36c69d99ef400952fd1841fed6adca17b600291374ea86b85aff0",
+        "pass": true
+      },
+      {
+        "path": "src/lib/release.ts",
+        "expected": "a8bfc738eed3d7b42d27bf6c3e173f0b884614cbe3bfa533de7fc946ef0d8387",
+        "actual": "a8bfc738eed3d7b42d27bf6c3e173f0b884614cbe3bfa533de7fc946ef0d8387",
+        "pass": true
+      },
+      {
+        "path": "src/lib/releaseImpact.ts",
+        "expected": "bf0bfef6e4d414befa400ff13bd1e16b2c3dd382f7c2da24111f5139b050a1f4",
+        "actual": "bf0bfef6e4d414befa400ff13bd1e16b2c3dd382f7c2da24111f5139b050a1f4",
+        "pass": true
+      },
+      {
+        "path": "src/lib/scraper.ts",
+        "expected": "fac808e2fc992180957016b1668294b491fa08c386757007a5a28bf6f2111bcc",
+        "actual": "fac808e2fc992180957016b1668294b491fa08c386757007a5a28bf6f2111bcc",
+        "pass": true
+      }
+    ],
+    "status": "passed"
+  },
+  "previewRestoration": {
+    "deployment": "01a1afd0-8966-72c3-a4e1-db6dfd02ca7f",
+    "verifiedAt": "2026-11-06T07:46:53.497Z",
+    "archiveSha256": "c887cd49959f38ab4137c235349c1f2e5785fed97848a4a42daf4410ef24bf26",
+    "implementationHash": "d9d5dde4f1c8d22c03c80ae200bc3e44734ef6a430c7e7bd037719ee30614e88",
+    "checks": [
+      {
+        "name": "credential_origin",
+        "pass": true
+      },
+      {
+        "name": "private_page_boundary",
+        "pass": true,
+        "http": 307
+      },
+      {
+        "name": "private_api_boundary",
+        "pass": true,
+        "http": 401
+      },
+      {
+        "name": "administrator_login",
+        "pass": true
+      },
+      {
+        "name": "worker_active",
+        "pass": true
+      },
+      {
+        "name": "same_implementation",
+        "pass": true,
+        "implementationHash": "d9d5dde4f1c8d22c03c80ae200bc3e44734ef6a430c7e7bd037719ee30614e88"
+      },
+      {
+        "name": "private_channels",
+        "pass": true,
+        "channels": {
+          "defaultChannel": "preview",
+          "stable": false,
+          "preview": true,
+          "compare": true,
+          "comparisonScope": "same-capture-extraction",
+          "reason": null
+        },
+        "publicationEnabled": false
+      },
+      {
+        "name": "preview_version",
+        "pass": true,
+        "release": "6.0.0-preview.1"
+      },
+      {
+        "name": "database_health",
+        "pass": true,
+        "http": 200
+      },
+      {
+        "name": "schema_ready",
+        "pass": true
+      },
+      {
+        "name": "saved_report_available",
+        "pass": true,
+        "http": 200,
+        "status": "completed",
+        "selected": 4
+      },
+      {
+        "name": "observe_silent",
+        "pass": true
+      },
+      {
+        "name": "new_saved_report_preserved",
+        "pass": true
+      }
+    ],
+    "tablePreservation": {
+      "checkedAt": "2026-11-06T07:47:21.760919+00:00",
+      "status": "passed",
+      "checks": [
+        {
+          "table": "Policy",
+          "before": {
+            "rows": 113,
+            "sha256": "a9f876fe8d583714850428dbea472bb2ab0d66910b4b89655350b32583a66abf"
+          },
+          "after": {
+            "rows": 113,
+            "sha256": "a9f876fe8d583714850428dbea472bb2ab0d66910b4b89655350b32583a66abf"
+          },
+          "pass": true
+        },
+        {
+          "table": "PolicySnapshot",
+          "before": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "after": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "pass": true
+        },
+        {
+          "table": "PolicyChange",
+          "before": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "after": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "pass": true
+        },
+        {
+          "table": "PolicyCheckLog",
+          "before": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "after": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "pass": true
+        },
+        {
+          "table": "Subscriber",
+          "before": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "after": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "pass": true
+        },
+        {
+          "table": "EngineOutbox",
+          "before": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "after": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "pass": true
+        },
+        {
+          "table": "EngineSourceContract",
+          "before": {
+            "rows": 1,
+            "sha256": "94d1b21930caf7cdf51394003c10e2ebffcd5442493057f2e0fcdb7bf1304410"
+          },
+          "after": {
+            "rows": 1,
+            "sha256": "94d1b21930caf7cdf51394003c10e2ebffcd5442493057f2e0fcdb7bf1304410"
+          },
+          "pass": true
+        },
+        {
+          "table": "ExtractionBaseline",
+          "before": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "after": {
+            "rows": 0,
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "pass": true
+        },
+        {
+          "table": "EngineRun",
+          "before": {
+            "rows": 2,
+            "sha256": "d476a3aaeb9eb6a221fd6ab54afbd666e7d166c8292e01c5caebe1e3e87d9667"
+          },
+          "after": {
+            "rows": 2,
+            "sha256": "d476a3aaeb9eb6a221fd6ab54afbd666e7d166c8292e01c5caebe1e3e87d9667"
+          },
+          "pass": true
+        },
+        {
+          "table": "EngineTask",
+          "before": {
+            "rows": 16,
+            "sha256": "1a953192f48666562349165ea56274e310788a1d81ea65211ece6ff6f9663c95"
+          },
+          "after": {
+            "rows": 16,
+            "sha256": "1a953192f48666562349165ea56274e310788a1d81ea65211ece6ff6f9663c95"
+          },
+          "pass": true
+        },
+        {
+          "table": "EngineReview",
+          "before": {
+            "rows": 3,
+            "sha256": "f75b007bfac1b77d7c6557c19b8d9ec35013dbd62f8b672bc33f934458abee7a"
+          },
+          "after": {
+            "rows": 3,
+            "sha256": "f75b007bfac1b77d7c6557c19b8d9ec35013dbd62f8b672bc33f934458abee7a"
+          },
+          "pass": true
+        },
+        {
+          "table": "EngineArtifact",
+          "before": {
+            "rows": 4,
+            "sha256": "e497519746aee70c78b940a565f35faf4405b5f1e94a06da3e37c0b73cd9fbdb"
+          },
+          "after": {
+            "rows": 4,
+            "sha256": "e497519746aee70c78b940a565f35faf4405b5f1e94a06da3e37c0b73cd9fbdb"
+          },
+          "pass": true
+        }
+      ],
+      "releaseMetadataUnchanged": true,
+      "oldReportPreserved": true,
+      "activeTasks": 0
+    },
+    "oldSavedRun": "4e9eef90-0bbb-42ee-b945-922ac76ffffc",
+    "newSavedRun": "781ceb98-37fa-4947-af47-fec46e1e85b3",
+    "newScans": 0
+  },
+  "productionSubmitted": false,
+  "productionChanged": false,
+  "lastCompletedPublicDeployment": "01a1ad5b-f1c8-70e8-a6a4-b2dca84bd744",
+  "boundary": "This is a staging and restoration receipt, not production publication. Native Mac locked after the restore request. Production upload completion unobserved; no public Save and redeploy submitted.",
+  "retainedFailures": [
+    "Initial local build missing/invalid DATABASE_URL; final isolated build passed.",
+    "Native import .env did not replace existing values. Five fields corrected explicitly and all 36 staging/Preview fields verified before deployment.",
+    "Initial Go To paste did not replace the old file path. Exact path set and selected filename verified before upload."
+  ]
+}

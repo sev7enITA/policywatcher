@@ -1,0 +1,9 @@
+# Engine 6 QA diary: staging verified, Preview restored, production pending
+
+The content-only stable **5.5.0** diary passed staging on **6 November 2026 at 08:32 Europe/Rome**, deployment `01a1afc4-35c3-7365-b877-f55550990f1a`. All **11 operational checks, 32 bilingual page checks and 30 source hashes** passed. Source `3e58c6d8ebbbdab23c4ec0b248d922aaf44b3967`; archive SHA-256 `ee2cf2f9663b304685e236155305493e5976459e95a7736a5e0f0b5a3a024e6b`. Only the diary page and release manifest differ among 1,044 package files.
+
+The exact private Preview r2 was restored as deployment `01a1afd0-8966-72c3-a4e1-db6dfd02ca7f`. After restoration, **13 read-only checks passed**, including both saved reports. All **12 monitored table hashes and release metadata are unchanged** relative to the fresh pre-maintenance snapshot, which includes the authorised morning QA run. There are two runs, sixteen tasks, three reviews and four artifacts, with zero active tasks. Publication and notifications remain disabled. No extra scan or temporal day was added. Temporary maintenance does not establish uninterrupted availability.
+
+**Production is still pending.** Its archive upload was started, but the Mac locked while Preview restoration was building. Upload completion has not been observed and the public Save and redeploy action has not been submitted. The latest completed public diary delivery remains 5 November at 21:20 Europe/Rome. A fresh artifact-specific staging promotion receipt is prepared; it is not a deployment receipt.
+
+The new QA report is already integrated into main through [PR #49](https://github.com/sev7enITA/policywatcher/pull/49), merge `6de0b2aee9a05f68595f3b9f031d4ae7596b0e14`, with six GitHub checks passed. Source completeness, semantic accuracy and full 500 policies/day remain unqualified. Initial local build and native configuration/file-selection corrections are retained in the [machine-readable receipt](engine-v6-diary-staging-2026-11-06.json).
