@@ -10,7 +10,7 @@ import styles from './preview.module.css';
 type Props = { searchParams: Promise<{ lang?: string }> };
 const copy = {
   en: {
-    status: 'Experimental programme', date: '5 November 2026', kicker: 'Engineering notebook / 06',
+    status: 'Experimental programme', date: '6 November 2026', kicker: 'Engineering notebook / 06',
     title: 'A clearer path from source to evidence.',
     intro: 'Engine 6 Preview is being developed and tested to make policy retrieval, comparison and validation more traceable. This page opens the design for inspection.',
     boundary: 'Private preview access / staging environment',
@@ -63,9 +63,13 @@ const copy = {
       ['Policy · PolicyChange · EngineOutbox', 'Public baseline, committed change and deferred delivery.', 'PolicyChange → Policy is an existing FK; outbox changeId is an application reference.'],
     ],
     ledgerTitle: 'What the evidence currently establishes.',
-    ledgerIntro: 'Recorded verification, updated 5 November 2026 at 20:57 Europe/Rome. Historical regression and campaign results are retained. Local production-mode and generated standalone-server checks are reported separately from hosted verification and production accuracy.',
+    ledgerIntro: 'Recorded verification, updated 6 November 2026. Historical regression and campaign results are retained. Local production-mode and generated standalone-server checks are reported separately from hosted verification and production accuracy.',
     check: 'Check', result: 'Recorded result', limit: 'What remains unproven',
     checks: [
+      ['6 November: 500 distinct candidate endpoints', '498 attempted · 383 transport accepted · 342 extractions · 584.979 seconds', 'Local Mac acquisition/extraction only, 305 service names and 290 origins from pinned Open Terms Archive metadata. Two endpoints skipped after origin backoff; all failures retained. No models, renderer or reviewed contracts. This does not qualify 500 fully processed policies/day.'],
+      ['6 November: independent Apple browser comparison', '12 sections expanded · 81/81 visible leaf occurrences in Preview · 6/81 in the stable extractor replay', 'One document, later independent browser request and occurrence-aware normalized comparison. Stable replay hash matches the hosted receipt. Linked documents and PDF copies are outside this sample; no general completeness approval.'],
+      ['6 November: source-contract falsifiers', '4 incomplete synthetic documents pass the boundary contract; 2 missing-heading/terminal controls reject', 'Missing middle clause, repeated occurrence, table row or section body can survive title/heading/tail/length checks. This demonstrates a contract limitation, not a proven live omission or public false alert.'],
+      ['6 November: private administrative execution', '4 Apple policies · 1 capture/comparison · 3 missing-contract holds · 12 follow-up checks passed', 'Completed in 7.802 seconds, observe/silent. Eight official/configuration table hashes, release metadata and the previous report were preserved. No AI inference or public policy change. Main candidate separately passed 120 engine tests; 500 injected expired leases recovered in 1.062 seconds.'],
       ['Table-encoding follow-up candidate', '1,569 local tests passed · 14 skipped, including four new table regressions', 'An initial CI failure caught a stale whole-engine manifest; it was regenerated without weakening the guard. The encoding correction is separate from the hosted artifact and requires a new live cohort. No injection exploit was established.'],
       ['Actual private hosted Preview', '47 checks passed; Apple HTTP 200 and a completed private comparison', 'One source contract was eligible; three other policies remained held. Public records and notifications were unchanged. An earlier read timeout is retained; sustained hosting availability and full coverage remain unqualified.'],
       ['Hosted-build candidate regression', '1,565 passed · 14 skipped; 22 generated standalone-server checks passed locally', 'Standalone startup, HTTP/worker identity and missing-flag privacy verified. The first hosted build failure and the corrected local harness failure remain recorded. This row does not establish online availability.'],
@@ -97,7 +101,7 @@ const copy = {
     footerNote: 'A public record of an experiment. Status will change only as new verification evidence is recorded.',
   },
   it: {
-    status: 'Programma sperimentale', date: '5 novembre 2026', kicker: 'Quaderno di progetto / 06',
+    status: 'Programma sperimentale', date: '6 novembre 2026', kicker: 'Quaderno di progetto / 06',
     title: 'Un percorso più chiaro dalla fonte alle prove.',
     intro: 'Engine 6 Preview è in sviluppo e sperimentazione per rendere più tracciabili recupero, confronto e validazione delle policy. Questa pagina rende il progetto consultabile.',
     boundary: 'Accesso alla preview privata / ambiente staging',
@@ -150,9 +154,13 @@ const copy = {
       ['Policy · PolicyChange · EngineOutbox', 'Baseline pubblica, modifica registrata e invio differito.', 'PolicyChange → Policy è una FK esistente; changeId dell’outbox è un riferimento applicativo.'],
     ],
     ledgerTitle: 'Che cosa dimostrano oggi le verifiche.',
-    ledgerIntro: 'Verifiche aggiornate al 5 novembre 2026, ore 20:57 Europe/Rome. I risultati storici delle regressioni e della campagna sono conservati. Le verifiche locali in modalità produzione e sul server standalone generato sono distinte dalle prove di hosting e dall’accuratezza in produzione.',
+    ledgerIntro: 'Verifiche aggiornate al 6 novembre 2026. I risultati storici delle regressioni e della campagna sono conservati. Le verifiche locali in modalità produzione e sul server standalone generato sono distinte dalle prove di hosting e dall’accuratezza in produzione.',
     check: 'Controllo', result: 'Risultato registrato', limit: 'Che cosa resta da dimostrare',
     checks: [
+      ['6 novembre: 500 indirizzi candidati distinti', '498 tentati · 383 accettati dal trasporto · 342 estrazioni · 584,979 secondi', 'Solo acquisizione/estrazione sul Mac: 305 servizi e 290 origini da metadati Open Terms Archive congelati. Due indirizzi non tentati dopo la sospensione prudenziale del dominio; fallimenti conservati. Senza modelli, renderer o contratti revisionati. Non qualifica 500 policy elaborate interamente al giorno.'],
+      ['6 novembre: confronto Apple indipendente nel browser', '12 sezioni aperte · 81/81 occorrenze visibili nella Preview · 6/81 nel replay dell’estrattore stabile', 'Un documento, richiesta indipendente successiva e confronto normalizzato per occorrenza. Hash del replay stabile uguale alla ricevuta hosted. Documenti collegati e copie PDF esclusi dal campione; nessuna approvazione generale di completezza.'],
+      ['6 novembre: controprove dei contratti di fonte', '4 documenti sintetici incompleti superano il contratto; 2 controlli senza titolo di sezione/testo finale respinti', 'Clausola centrale, ripetizione, riga di tabella o corpo di sezione possono mancare pur rispettando titolo, sezioni, coda e lunghezza. È un limite del contratto, non la prova di un’omissione live o di un falso avviso pubblico.'],
+      ['6 novembre: esecuzione dalla console privata', '4 policy Apple · 1 cattura/confronto · 3 sospese per contratto mancante · 12 controlli successivi superati', 'Conclusa in 7,802 secondi, observe/silent. Preservati otto hash delle tabelle ufficiali/configurazione, metadati di rilascio e rapporto precedente. Nessuna inferenza AI o modifica pubblica. Il candidato main ha superato separatamente 120 test; 500 assegnazioni scadute artificialmente recuperate in 1,062 secondi.'],
       ['Candidato con correzione delle tabelle', '1.569 test locali superati · 14 esclusi, incluse quattro nuove regressioni sulle tabelle', 'La prima CI ha rilevato un manifest dell’engine non aggiornato, poi rigenerato mantenendo il controllo di integrità. La correzione è separata dal pacchetto online e richiede una nuova coorte live. Nessun exploit di injection dimostrato.'],
       ['Preview privata sul vero hosting', '47 controlli superati; Apple HTTP 200 e confronto privato completato', 'Una fonte idonea rispetto al contratto; altre tre policy sospese. Record pubblici e notifiche invariati. Conservato un precedente timeout di lettura; continuità del servizio e copertura completa restano da qualificare.'],
       ['Regressione del candidato per hosting', '1.565 superati · 14 esclusi; 22 controlli locali sul server standalone generato superati', 'Verificati avvio standalone, identità HTTP/worker e privacy senza flag di attivazione. Conservati il primo errore di build online e il controllo locale corretto. Questa riga non attesta la disponibilità online.'],
