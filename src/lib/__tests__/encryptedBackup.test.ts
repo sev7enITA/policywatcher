@@ -31,8 +31,8 @@ describe('complete encrypted backup', () => {
     const payload = await buildCompleteBackupPayload(client, new Date('2026-08-20T10:00:00Z'));
 
     expect(COMPLETE_BACKUP_TABLES.map(([table]) => table)).toEqual([...EXPECTED_DATABASE_TABLES]);
-    expect(payload.summary).toMatchObject({ tableCount: 45, totalRecords: 45 });
-    expect(Object.keys(payload.data)).toHaveLength(45);
+    expect(payload.summary).toMatchObject({ tableCount: 47, totalRecords: 47 });
+    expect(Object.keys(payload.data)).toHaveLength(47);
     for (const [, delegate] of COMPLETE_BACKUP_TABLES) {
       expect(client[delegate].findMany).toHaveBeenCalledOnce();
     }

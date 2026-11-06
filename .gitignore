@@ -84,3 +84,6 @@ PolicyWatcher-architecture-infographics-*/
 # Local sanitized database fixtures for release verification
 /prisma/presentation-test.db*
 /prisma/scan-counter-test.db*
+
+# Third-party policy text copied for the ontology assessment stays local only.
+/research/auto-ontology/data/extract/apple-*

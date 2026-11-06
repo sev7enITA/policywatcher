@@ -13,7 +13,8 @@ const BACKUP_AAD = 'policywatcher-encrypted-export:v2';
 export const COMPLETE_BACKUP_TABLES = [
   ['EngineRun', 'engineRun'], ['EngineTask', 'engineTask'], ['EngineArtifact', 'engineArtifact'], ['EngineAttempt', 'engineAttempt'],
   ['EngineSourceContract', 'engineSourceContract'], ['EnginePolicyState', 'enginePolicyState'], ['EngineOrigin', 'engineOrigin'],
-  ['EngineHttpCache', 'engineHttpCache'], ['EngineReview', 'engineReview'], ['EngineOutbox', 'engineOutbox'],
+  ['EngineHttpCache', 'engineHttpCache'], ['EngineReview', 'engineReview'],
+  ['EngineClaim', 'engineClaim'], ['EngineClaimEvidence', 'engineClaimEvidence'], ['EngineOutbox', 'engineOutbox'],
   ['ExtractionBaseline', 'extractionBaseline'],
   ['ExternalDocumentReference', 'externalDocumentReference'],
   ['EvidenceQualityReview', 'evidenceQualityReview'],

@@ -9,6 +9,7 @@ import { assertHostedPreviewContext, isHostedPreview } from '../hostedPreview';
 import { compareCapturedExtraction } from './comparison';
 import { liveAnalysis, validateClaims, validateVerification, validateModelPair, type AnalysisProvider, type AnalysisInput, type ClaimSet,
   type ModelOutput, type Verification } from './claims';
+import { approveClaimLedger, recordClaimLedger } from './claimLedger';
 import { advanceTask, claimTask, failTask, fenced, finishTask, heartbeat, putArtifact, readArtifact, reconcileRun,
   policyScopeHash, stateKey, engineExtractionProfileHash, DAILY_MS, CONFIRMATION_MS, MAX_ATTEMPTS, type Lease, type TaskInput, type Tx } from './store';
 
@@ -68,7 +69,8 @@ async function recordAttempt(tx: Tx, lease: Lease, observation: Observation, rea
     update: { lastAttemptAt: now, nextDueAt: new Date(now.getTime() + DAILY_MS), reason } });
 }
 
-async function hold(lease: Lease, observation: Observation, reasons: string[], checkpoint?: Checkpoint) {
+/** claimsValidated: only the commit stage passes true, after validateClaims accepted every span. */
+async function hold(lease: Lease, observation: Observation, reasons: string[], checkpoint?: Checkpoint, claimsValidated = false) {
   const input = JSON.parse(lease.inputJson) as TaskInput;
   await fenced(lease, async tx => {
     await recordAttempt(tx, lease, observation, reasons.join(','), reasons.every(r => r === 'high_impact_review_required'));
@@ -79,13 +81,17 @@ async function hold(lease: Lease, observation: Observation, reasons: string[], c
     const configurationMissing = reasons.every(r => r === 'source_contract_missing' || r === 'source_contract_mismatch');
     const evidenceKey = digest(JSON.stringify([mode, lease.policyId, lease.expectedBaselineHash, input.scopeHash, input.contractHash,
       input.profileHash, reasons, configurationMissing ? null : lease.id]));
-    const existing = await tx.engineReview.findUnique({ where: { evidenceKey } });
-    if (!existing) {
+    let review = await tx.engineReview.findUnique({ where: { evidenceKey } });
+    if (!review) {
       await tx.engineReview.updateMany({ where: { policyId: lease.policyId!, mode, status: { in: ['pending', 'observed'] } },
         data: { status: 'superseded', reviewedAt: new Date(), reviewNote: 'Superseded by a newer frozen observation.' } });
-      await tx.engineReview.create({ data: { evidenceKey, policyId: lease.policyId!, mode, status: mode === 'observe' ? 'observed' : 'pending',
+      review = await tx.engineReview.create({ data: { evidenceKey, policyId: lease.policyId!, mode, status: mode === 'observe' ? 'observed' : 'pending',
         expectedBaselineHash: lease.expectedBaselineHash || '', taskId: lease.id, reasonsJson: JSON.stringify(reasons),
         payloadJson: JSON.stringify({ checkpoint, input, observation, runId: lease.runId }) } });
+    }
+    if (claimsValidated && checkpoint?.analysis) {
+      await recordClaimLedger(tx, { taskId: lease.id, policyId: lease.policyId!, analysis: checkpoint.analysis,
+        verification: checkpoint.verification, reviewId: review.id });
     }
     if (checkpoint) await tx.engineTask.update({ where: { id: lease.id }, data: { checkpointJson: JSON.stringify(checkpoint) } });
     await finishTask(tx, lease, { outcome: 'review', reasons, artifactId: observation.artifactId });
@@ -202,7 +208,7 @@ async function analysisInput(checkpoint: Checkpoint): Promise<AnalysisInput> {
   return { old, next: body.document, deltas: compareDocuments(old, body.document).deltas };
 }
 
-async function publish(tx: Tx, policy: Policy, input: TaskInput, checkpoint: Checkpoint, taskId: string, body: CaptureBody) {
+async function publish(tx: Tx, policy: Policy, input: TaskInput, checkpoint: Checkpoint, taskId: string, body: CaptureBody, approvedBy?: string) {
   const claims = checkpoint.analysis!.value.claims;
   const previous = await tx.policySnapshot.findFirst({ where: { policyId: policy.id, hash: policy.currentHash, publicEvidence: true }, orderBy: { version: 'desc' } });
   if (!previous) throw new Error('public_old_snapshot_missing');
@@ -222,6 +228,9 @@ async function publish(tx: Tx, policy: Policy, input: TaskInput, checkpoint: Che
     analysisEvidenceJson: JSON.stringify({ claims: checkpoint.analysis!.value, analysis: checkpoint.analysis!.receipt, confirmation: checkpoint.confirmation,
       verification: checkpoint.verification, artifactId: checkpoint.observation.artifactId, oldArtifactId: checkpoint.oldArtifactId }),
   } });
+  // Callers re-validated claims and verification immediately before publish.
+  await recordClaimLedger(tx, { taskId, policyId: policy.id, analysis: checkpoint.analysis!, verification: checkpoint.verification, changeId: change.id });
+  if (approvedBy) await approveClaimLedger(tx, taskId, approvedBy);
   await dualWriteCanonicalPolicyGraph(tx, policy.id);
   await tx.engineReview.updateMany({ where: { policyId: policy.id, mode: 'publish', status: 'pending' }, data: { status: 'superseded', reviewedAt: new Date(), reviewNote: 'Baseline advanced after verified publication.' } });
   const task = await tx.engineTask.findUniqueOrThrow({ where: { id: taskId }, include: { run: true } });
@@ -276,7 +285,7 @@ async function processTask(lease: Lease, dependencies: EngineDependencies) {
     ...validateModelPair(checkpoint.analysis?.receipt, checkpoint.verification?.receipt)];
   if (validation.highImpact) reasons.push('high_impact_review_required');
   if (Date.now() - Date.parse(checkpoint.observation.observedAt) > 2 * DAILY_MS) reasons.push('evidence_stale');
-  if (reasons.length) return hold(lease, checkpoint.observation, reasons, checkpoint);
+  if (reasons.length) return hold(lease, checkpoint.observation, reasons, checkpoint, true);
   const body = await readArtifact<CaptureBody>(checkpoint.observation.artifactId!);
   await fenced(lease, async tx => {
     const policy = await currentPolicy(tx, lease, input);
@@ -362,7 +371,7 @@ export async function approveReview(id: string, note: string, actor: string) {
     if (!await publicationMode(tx, payload.runId)) throw new Error('observe_run_cannot_publish');
     const won = await tx.engineReview.updateMany({ where: { id, status: 'pending' }, data: { status: 'approving' } });
     if (won.count !== 1) throw new Error('review_conflict');
-    const changeId = await publish(tx, policy, payload.input, payload.checkpoint!, review.taskId, body);
+    const changeId = await publish(tx, policy, payload.input, payload.checkpoint!, review.taskId, body, actor);
     await tx.policy.update({ where: { id: policy.id }, data: { lastSuccessfulCheckDate: new Date(), dataStatus: 'Available' } });
     await tx.engineReview.update({ where: { id }, data: { status: 'approved', reviewedAt: new Date(), reviewedBy: actor, reviewNote: note, changeId } });
     await tx.adminReviewLog.create({ data: { actorRole: actor, action: 'engine_evidence_approved', targetType: 'policy', targetId: policy.id,

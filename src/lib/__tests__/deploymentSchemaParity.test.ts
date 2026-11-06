@@ -21,9 +21,12 @@ describe('Hostinger runtime schema parity', () => {
   const modelNames = [...prismaSchema.matchAll(/^model\s+(\w+)\s+\{/gm)].map((match) => match[1]);
 
   it('creates every Prisma model in both CLI-free fallback initializers', () => {
-    const engineMigration = readFileSync('prisma/migrations/20261031060000_engine_v6/migration.sql', 'utf8').replaceAll('CREATE TABLE ', 'CREATE TABLE IF NOT EXISTS ');
-    expect(nodeFallback).toContain('20261031060000_engine_v6/migration.sql');
-    expect(pythonFallback).toContain('20261031060000_engine_v6/migration.sql');
+    const sharedMigrations = ['20261031060000_engine_v6', '20261106120000_engine_claim_ledger'];
+    const engineMigration = sharedMigrations.map(name => readFileSync(`prisma/migrations/${name}/migration.sql`, 'utf8')).join('\n').replaceAll('CREATE TABLE ', 'CREATE TABLE IF NOT EXISTS ');
+    for (const name of sharedMigrations) {
+      expect(nodeFallback).toContain(`${name}/migration.sql`);
+      expect(pythonFallback).toContain(`${name}/migration.sql`);
+    }
     expect(modelNames.length).toBeGreaterThan(0);
     for (const model of modelNames) {
       const createTable = `CREATE TABLE IF NOT EXISTS "${model}"`;

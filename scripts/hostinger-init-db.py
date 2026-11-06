@@ -911,6 +911,11 @@ with sqlite3.connect(str(db_path), timeout=30) as con:
     if 'engineTaskId' in columns_for(con, 'PolicyCheckLog'):
         engine_sql = engine_sql.replace('ALTER TABLE "PolicyCheckLog" ADD COLUMN "engineTaskId" TEXT;', '')
     con.executescript(engine_sql)
+    ledger_sql = (Path(__file__).resolve().parent.parent / 'prisma/migrations/20261106120000_engine_claim_ledger/migration.sql').read_text()
+    ledger_sql = ledger_sql.replace('CREATE TABLE ', 'CREATE TABLE IF NOT EXISTS ')
+    ledger_sql = ledger_sql.replace('CREATE UNIQUE INDEX ', 'CREATE UNIQUE INDEX IF NOT EXISTS ')
+    ledger_sql = ledger_sql.replace('CREATE INDEX ', 'CREATE INDEX IF NOT EXISTS ')
+    con.executescript(ledger_sql)
 
     for table, columns in UPGRADE_COLUMNS.items():
         existing = columns_for(con, table)
