@@ -1,6 +1,6 @@
 # Engine 6 private Preview r3 (stage O1), 7 November 2026
 
-**Deployed and verified, one O1 criterion still open.** The owner authorized stage O1 of the [operationalization model](../architecture/engine-v6-operationalization.md) on 7 November. The private Preview on `staging.policywatcher.online` now runs `main` at `7347297`, with the claim-evidence ledger. The bounded observe run on the deployed candidate has not been executed yet, so O1 is not complete. `policywatcher.online` was not touched. Engine 6 publication and notifications stay disabled.
+**O1 complete: deployed, verified and exercised by one bounded observe run. The ledger is still empty.** The owner authorized stage O1 of the [operationalization model](../architecture/engine-v6-operationalization.md) on 7 November. The private Preview on `staging.policywatcher.online` now runs `main` at `7347297`, with the claim-evidence ledger. The bounded observe run completed on the deployed candidate without changing official data. No source reached analysis, so no claim was recorded, and with the current Preview data none can in observe mode (see [below](#bounded-observe-run-on-r3)). `policywatcher.online` was not touched. Engine 6 publication and notifications stay disabled.
 
 ## Candidate identity
 
@@ -42,11 +42,36 @@ The only configuration change was `POLICYWATCHER_RELEASE_SHA256`, from the r2 to
 
 The first post-deployment SSH inspection timed out while Hostinger was still building and is retained. The hPanel deployment page also showed a transient "Network error" notification next to the Completed / Current state; no consequence was observed. The owner ran the authenticated verification with the existing private staging configuration; credentials are not part of any receipt.
 
-A full-table snapshot taken separately before deployment used a different serialization and is not comparable to the post-deployment hashes. The comparison above uses the same method on both sides: the off-host copy before, read-only SSH after.
+The comparison above uses the same method on both sides: the off-host copy before, read-only SSH after. A separate full-table comparison taken at 13:57 and 14:16 UTC agrees. It covers the 46 pre-existing tables including the migration ledger: 43 unchanged, with only `AdminAccessLog`, `EngineOrigin` and `_prisma_migrations` changed.
+
+## Bounded observe run on r3
+
+The owner started the run from the private admin console. It is the same scope as the 6 November runs: the four Apple policies, Preview channel, observe mode, silent notifications, no comparison and no model selected.
+
+| Item | Result |
+| --- | --- |
+| Run | `6982c663-2b7b-4191-b8b6-e10bdd60f013`, created 15:00:32 UTC, completed 15:00:40 UTC (8.0 s), 4 selected |
+| Identity | Run metadata and saved report carry implementation `84085328...`; extraction profile `716e9cd3...` |
+| Apple privacy (`/legal/privacy/en-ww/`, reviewed contract) | HTTP 200, eligible capture (artifact `9f0fd74e...`, already stored and content-addressed). Outcome `confirmation_pending`: first sighting of the candidate under r3, awaiting independent confirmation (next due 16:00:34 UTC) |
+| Three other Apple sources | No reviewed contract: not acquired, held as `review` with `source_contract_missing` (status `observed`). The three equivalent 6 November reviews became `superseded` |
+| Analysis and verifier | Not reached on any source; no analysis or verifier receipt; no model call |
+| Ledger | `EngineClaim` 0, `EngineClaimEvidence` 0 |
+| Official and configuration data | Unchanged: `Policy`, `PolicySnapshot`, `PolicyChange`, `EngineOutbox`, `EngineSourceContract`, `ExtractionBaseline`, `Subscriber`, `NotificationLog`, `EngineArtifact`, `_prisma_migrations` |
+| Engine-internal tables changed | `EngineRun` +1, `EngineTask` +8, `EngineAttempt` +8, `EngineReview` +3 (and 3 superseded), `EnginePolicyState` (candidate of the Apple privacy policy), `EngineOrigin` (worker and origin state), `AdminAccessLog` (owner logins) |
+| Afterwards (independent read-only snapshot, 19:18 UTC) | 47 tables, 22 migrations, integrity `ok`, zero active tasks, the three runs completed, manifest and configuration unchanged |
+
+### Why the ledger is still empty
+
+This was established by reading the r3 pipeline (`src/lib/engine/pipeline.ts`) together with the hosted rows. It was not tested by a further run.
+
+- The Apple privacy policy has `sourceMigrationPending = 1`, so the engine treats it as establishing a baseline. After independent confirmation, an establishing source ends as `observed_baseline_ready`. In observe mode nothing is written, so the source stays in this state indefinitely and never moves to analysis. The 6 November second run shows the same thing: `observed_baseline_ready` under r2.
+- `ExtractionBaseline` has 0 rows. Any policy that is not establishing is held as `extraction_baseline_missing` before analysis, and only one source has a reviewed contract.
+
+**Consequence:** with the current Preview data and publication disabled, no observe run can reach the analysis stage, and so none can produce a ledger row. A second run after 16:00 UTC would confirm the Apple candidate and end as `observed_baseline_ready`, not as claims. Producing ledger rows on hosted data therefore needs an explicit design decision before O2, for example a reviewed way to establish a Preview-only baseline. More runs of the same kind will not produce them.
 
 ## Not established
 
-- **O1 bounded observe run:** not yet executed on r3. Until a Preview run reaches analysis, no ledger row exists on hosted data. In the current Preview only one source has a reviewed contract, so a run may end in holds without any claim.
+- **Ledger rows on hosted data:** none. Analysis is not reachable in the Preview's observe mode with the current baselines and contracts (above).
 - No qualification of source completeness, analysis accuracy, multi-day managed-process survival or 500 policies/day.
 - No public website change. The Engine 6 notebook gains the ledger entities only through a later content-only stable release (workflow W6).
 

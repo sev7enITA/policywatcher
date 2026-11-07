@@ -1,7 +1,7 @@
 {
   "schema": "policywatcher-engine-deployment-receipt-1",
   "stage": "O1",
-  "state": "deployed_verified_observe_run_pending",
+  "state": "o1_complete_ledger_empty",
   "authorizedBy": "owner, 7 November 2026",
   "target": "https://staging.policywatcher.online",
   "publicSiteChanged": false,
@@ -57,6 +57,30 @@
     { "at": "2026-11-07T14:14:58Z", "what": "first post-deployment SSH inspection", "result": "readonly_ssh_timeout during build" },
     { "what": "hPanel notification", "result": "transient Network error shown beside Completed / Current; no consequence observed" }
   ],
-  "pending": ["bounded observe run on r3", "ledger rows on hosted data", "content-only public notebook update after O1"],
-  "notEstablished": ["source completeness", "analysis and verifier accuracy", "multi-day managed-process survival", "500 policies/day"]
+  "boundedObserveRun": {
+    "runId": "6982c663-2b7b-4191-b8b6-e10bdd60f013",
+    "startedBy": "owner, private admin console",
+    "createdAt": "2026-11-07T15:00:32.747Z",
+    "completedAt": "2026-11-07T15:00:40.774Z",
+    "mode": "observe",
+    "notifications": "silent",
+    "selected": 4,
+    "implementationHash": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+    "outcomes": {
+      "https://www.apple.com/legal/privacy/en-ww/": "confirmation_pending (HTTP 200, eligible, artifact 9f0fd74e9487e33a22f6e7c9bba9ce064cc3a64bc26450ebadfca512adeda796)",
+      "https://www.apple.com/legal/privacy/data/en/improve-intelligence/": "review: source_contract_missing",
+      "https://www.apple.com/legal/internet-services/terms/site.html": "review: source_contract_missing",
+      "https://www.apple.com/legal/privacy/data/en/intelligence-engine/": "review: source_contract_missing"
+    },
+    "analysisReached": false,
+    "modelCalls": 0,
+    "ledgerRows": { "EngineClaim": 0, "EngineClaimEvidence": 0 },
+    "officialTablesUnchanged": ["Policy", "PolicySnapshot", "PolicyChange", "EngineOutbox", "EngineSourceContract", "ExtractionBaseline", "Subscriber", "NotificationLog", "EngineArtifact", "_prisma_migrations"],
+    "engineTablesChanged": { "EngineRun": "+1", "EngineTask": "+8", "EngineAttempt": "+8", "EngineReview": "+3 observed, 3 earlier superseded", "EnginePolicyState": "Apple privacy candidate", "EngineOrigin": "worker and origin state", "AdminAccessLog": "owner logins" },
+    "afterSnapshot": { "at": "2026-11-07T19:18:30Z", "tables": 47, "migrations": 22, "integrity": "ok", "activeTasks": 0 },
+    "ledgerReachability": "Not reachable in observe mode with current Preview data: the only contracted source is establishing a baseline (sourceMigrationPending=1), which in observe mode ends at observed_baseline_ready without writing; ExtractionBaseline has 0 rows, so other sources hold before analysis. Established by code reading plus hosted rows, not by a further run."
+  },
+  "pending": ["design decision before O2: how ledger rows can be produced on hosted Preview data", "content-only public notebook update after O1"],
+  "notEstablished": [
+    "ledger rows on hosted data","source completeness", "analysis and verifier accuracy", "multi-day managed-process survival", "500 policies/day"]
 }
