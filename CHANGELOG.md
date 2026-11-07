@@ -2,6 +2,13 @@
 
 ## 5.5.0 - Engine 6 Preview (2026-11-02)
 
+### Research update, 7 November 2026
+
+- Public communication now distinguishes stable 5.5.0 (2 November) from private Engine 6 Preview r3 (7 November). A dated EN/IT newsroom record, homepage announcement and dedicated changelog research section link to the deployment and bounded-run evidence.
+- The engineering notebook adds the deployed claim-ledger schema, its still-unqualified hosted write path, short availability answers and the preserved research limits. No production Engine 6 activation or new stable version.
+- Corrected notebook machine-readable dates, localized newsroom sitemap entries, descriptive page titles, RSS freshness and the optional AI-reader guide. TechArticle metadata describes visible content; no indexing, ranking or AI-citation outcome is claimed.
+
+
 PolicyWatcher 5.5 introduces access to the new experimental Engine 6.0 in its separate authenticated online Preview. The established scanner remains operational on the main service.
 
 - Direct Preview access and release news across the homepage, changelog, roadmap, atlases and press kit.

@@ -11,7 +11,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   const release = pressKitReleases.find((entry) => entry.slug === slug);
   if (!release) return new Response('Not found', { status: 404 });
   return new ImageResponse(
-    <EditorialImageCard eyebrow={`${release.category} release · ${release.displayVersion}`} title={release.title.en} fact={release.summary.en} asOf={release.dateModified} boundary={release.boundaries[0].en} footer={`policywatcher.online/press-kit/releases/${release.slug}`} logoUrl={new URL('/logo-mark.png', request.url).toString()} compact />,
+    <EditorialImageCard eyebrow={`${release.status === 'research' ? 'Research update' : `${release.category} release`} · ${release.displayVersion}`} title={release.title.en} fact={release.summary.en} asOf={release.dateModified} boundary={release.boundaries[0].en} footer={`policywatcher.online/press-kit/releases/${release.slug}`} logoUrl={new URL('/logo-mark.png', request.url).toString()} compact />,
     { width: 1200, height: 630 },
   );
 }

@@ -6,16 +6,19 @@ import PublicHeader from '@/components/PublicHeader';
 import Footer from '@/components/Footer';
 import { languageAlternates, publicLanguage, withSocialMetadata } from '@/lib/seo';
 import styles from './preview.module.css';
+import { previewResearchUpdate } from '@/lib/pressKit';
+import { PUBLIC_AUTHOR, PUBLIC_PUBLISHER, serializeJsonLd } from '@/lib/structuredData';
+import { localizedPublicUrl } from '@/lib/seo';
 
 type Props = { searchParams: Promise<{ lang?: string }> };
 const copy = {
   en: {
-    status: 'Experimental programme', date: '6 November 2026', kicker: 'Engineering notebook / 06',
+    status: 'Experimental programme', date: '7 November 2026', kicker: 'Engineering notebook / 07',
     title: 'A clearer path from source to evidence.',
     intro: 'Engine 6 Preview is being developed and tested to make policy retrieval, comparison and validation more traceable. This page opens the design for inspection.',
     boundary: 'Private preview access / staging environment',
     boundaryText: 'PolicyWatcher 5.5.0 includes access to the experimental Engine 6.0 Preview. Engine 6 trials use a separate staging environment with administrator authentication and private observations. Qualification remains open.',
-    hostingStatus: 'The private 6.0 Preview is online. 47 checks passed on the actual hosting, including a live Apple capture and unchanged official records. Access requires administrator authentication.',
+    hostingStatus: 'Private Engine 6 Preview r3 was deployed on 7 November. Thirteen authenticated checks passed; one bounded Apple run kept all results private. The earlier 47-check result belongs to a previous build and is retained below.',
     access: 'Open private 6.0 Preview', resources: 'Preview access, code and evidence',
     development: 'Engine 6 source on main', wiki: 'GitHub wiki', reports: 'Verification reports',
     isolation: 'The preview uses a dedicated database within the same hosting account. This is logical separation, not independent infrastructure isolation.',
@@ -59,13 +62,15 @@ const copy = {
       ['EngineSourceContract', 'Reviewed expectations for one source document.', 'policyId identity; logical relationship to Policy.'],
       ['EnginePolicyState', 'Due time, last verified state and candidate confirmation.', 'Composite identity (policyId, mode); observe and publish are separate.'],
       ['EngineOrigin · EngineHttpCache', 'Per-origin pacing and eligible conditional representations.', 'Origin / cache-key identities; cache logically references an artifact.'],
+      ['EngineClaim / EngineClaimEvidence (r3)', 'Proposed claims, verifier verdicts and exact before/after quotation offsets. The bounded hosted run created no rows.', 'claimId is a database FK with cascade deletion; taskId, policyId, reviewId and changeId are application references.'],
       ['EngineReview', 'Frozen evidence, reason, decision and review history.', 'Unique taskId/evidenceKey; logical policy, artifact and change references.'],
       ['Policy · PolicyChange · EngineOutbox', 'Public baseline, committed change and deferred delivery.', 'PolicyChange → Policy is an existing FK; outbox changeId is an application reference.'],
     ],
     ledgerTitle: 'What the evidence currently establishes.',
-    ledgerIntro: 'Recorded verification, updated 6 November 2026. Historical regression and campaign results are retained. Local production-mode and generated standalone-server checks are reported separately from hosted verification and production accuracy.',
+    ledgerIntro: 'Recorded verification, updated 7 November 2026. Historical regression and campaign results are retained. Local production-mode and generated standalone-server checks are reported separately from hosted verification and production accuracy.',
     check: 'Check', result: 'Recorded result', limit: 'What remains unproven',
     checks: [
+      ['7 November: private r3 deployed', '13 authenticated checks · 47 tables · 22 migrations', 'One bounded Apple run: 8.027 seconds, one HTTP 200 held pending confirmation, three missing source contracts. No inference or claim-ledger rows; publication and notifications disabled. Source completeness and full 500-policy/day operation remain unqualified.'],
       ['6 November: 500 distinct candidate endpoints', '498 attempted · 383 transport accepted · 342 extractions · 584.979 seconds', 'Local Mac acquisition/extraction only, 305 service names and 290 origins from pinned Open Terms Archive metadata. Two endpoints skipped after origin backoff; all failures retained. No models, renderer or reviewed contracts. This does not qualify 500 fully processed policies/day.'],
       ['6 November: independent Apple browser comparison', '12 sections expanded · 81/81 visible leaf occurrences in Preview · 6/81 in the stable extractor replay', 'One document, later independent browser request and occurrence-aware normalized comparison. Stable replay hash matches the hosted receipt. Linked documents and PDF copies are outside this sample; no general completeness approval.'],
       ['6 November: source-contract falsifiers', '4 incomplete synthetic documents pass the boundary contract; 2 missing-heading/terminal controls reject', 'Missing middle clause, repeated occurrence, table row or section body can survive title/heading/tail/length checks. This demonstrates a contract limitation, not a proven live omission or public false alert.'],
@@ -101,12 +106,12 @@ const copy = {
     footerNote: 'A public record of an experiment. Status will change only as new verification evidence is recorded.',
   },
   it: {
-    status: 'Programma sperimentale', date: '6 novembre 2026', kicker: 'Quaderno di progetto / 06',
+    status: 'Programma sperimentale', date: '7 novembre 2026', kicker: 'Quaderno di progetto / 07',
     title: 'Un percorso più chiaro dalla fonte alle prove.',
     intro: 'Engine 6 Preview è in sviluppo e sperimentazione per rendere più tracciabili recupero, confronto e validazione delle policy. Questa pagina rende il progetto consultabile.',
     boundary: 'Accesso alla preview privata / ambiente staging',
     boundaryText: 'PolicyWatcher 5.5.0 include l’accesso al nuovo Engine 6.0 Preview sperimentale. Le prove Engine 6 usano un ambiente staging separato, con autenticazione amministratore e osservazioni private. La qualificazione resta aperta.',
-    hostingStatus: 'La 6.0 Preview privata è online. Superati 47 controlli sul vero hosting, con cattura Apple live e record ufficiali invariati. L’accesso richiede autenticazione amministratore.',
+    hostingStatus: 'Engine 6 Preview r3 privata è stata distribuita il 7 novembre. Superati tredici controlli autenticati; una prova Apple limitata ha mantenuto privati tutti i risultati. I precedenti 47 controlli riguardano una build diversa e restano documentati sotto.',
     access: 'Apri la 6.0 Preview privata', resources: 'Accesso alla preview, codice e prove',
     development: 'Codice Engine 6 su main', wiki: 'Wiki GitHub', reports: 'Rapporti di verifica',
     isolation: 'La preview usa un database dedicato nello stesso account di hosting. La separazione è logica, non equivale a un’infrastruttura indipendente.',
@@ -150,13 +155,15 @@ const copy = {
       ['EngineSourceContract', 'Aspettative revisionate per uno specifico documento.', 'Identità policyId; relazione logica con Policy.'],
       ['EnginePolicyState', 'Scadenza, ultima verifica e conferma del candidato.', 'Identità composta (policyId, mode); observe e publish sono separati.'],
       ['EngineOrigin · EngineHttpCache', 'Attese per origine e rappresentazioni condizionali idonee.', 'Identità per origine / chiave cache; riferimento logico della cache a un artefatto.'],
+      ['EngineClaim / EngineClaimEvidence (r3)', 'Affermazioni proposte, verdetti e offset esatti delle citazioni prima/dopo. La prova limitata sull’hosting non ha creato righe.', 'claimId è una FK nel database con eliminazione a cascata; taskId, policyId, reviewId e changeId sono riferimenti applicativi.'],
       ['EngineReview', 'Prove congelate, motivo, decisione e storico delle revisioni.', 'taskId/evidenceKey univoci; riferimenti logici a policy, artefatti e modifica.'],
       ['Policy · PolicyChange · EngineOutbox', 'Baseline pubblica, modifica registrata e invio differito.', 'PolicyChange → Policy è una FK esistente; changeId dell’outbox è un riferimento applicativo.'],
     ],
     ledgerTitle: 'Che cosa dimostrano oggi le verifiche.',
-    ledgerIntro: 'Verifiche aggiornate al 6 novembre 2026. I risultati storici delle regressioni e della campagna sono conservati. Le verifiche locali in modalità produzione e sul server standalone generato sono distinte dalle prove di hosting e dall’accuratezza in produzione.',
+    ledgerIntro: 'Verifiche aggiornate al 7 novembre 2026. I risultati storici delle regressioni e della campagna sono conservati. Le verifiche locali in modalità produzione e sul server standalone generato sono distinte dalle prove di hosting e dall’accuratezza in produzione.',
     check: 'Controllo', result: 'Risultato registrato', limit: 'Che cosa resta da dimostrare',
     checks: [
+      ['7 novembre: r3 privata distribuita', '13 controlli autenticati · 47 tabelle · 22 migrazioni', 'Una prova Apple limitata: 8,027 secondi, una cattura HTTP 200 in attesa di conferma, tre contratti di fonte mancanti. Nessuna inferenza o riga nel registro; pubblicazione e notifiche disabilitate. Completezza e operatività completa su 500 policy al giorno restano da qualificare.'],
       ['6 novembre: 500 indirizzi candidati distinti', '498 tentati · 383 accettati dal trasporto · 342 estrazioni · 584,979 secondi', 'Solo acquisizione/estrazione sul Mac: 305 servizi e 290 origini da metadati Open Terms Archive congelati. Due indirizzi non tentati dopo la sospensione prudenziale del dominio; fallimenti conservati. Senza modelli, renderer o contratti revisionati. Non qualifica 500 policy elaborate interamente al giorno.'],
       ['6 novembre: confronto Apple indipendente nel browser', '12 sezioni aperte · 81/81 occorrenze visibili nella Preview · 6/81 nel replay dell’estrattore stabile', 'Un documento, richiesta indipendente successiva e confronto normalizzato per occorrenza. Hash del replay stabile uguale alla ricevuta hosted. Documenti collegati e copie PDF esclusi dal campione; nessuna approvazione generale di completezza.'],
       ['6 novembre: controprove dei contratti di fonte', '4 documenti sintetici incompleti superano il contratto; 2 controlli senza titolo di sezione/testo finale respinti', 'Clausola centrale, ripetizione, riga di tabella o corpo di sezione possono mancare pur rispettando titolo, sezioni, coda e lunghezza. È un limite del contratto, non la prova di un’omissione live o di un falso avviso pubblico.'],
@@ -195,7 +202,7 @@ const copy = {
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const lang = publicLanguage((await searchParams).lang);
-  return withSocialMetadata({ title: 'PolicyWatcher 5.5 · Engine 6 Preview', description: copy[lang].intro,
+  return withSocialMetadata({ title: lang === 'it' ? 'Engine 6 Preview r3: ricerca e prove | PolicyWatcher' : 'Engine 6 Preview r3: research and evidence | PolicyWatcher', description: previewResearchUpdate.summary[lang],
     alternates: languageAlternates('/engine-6-preview', lang) }, lang);
 }
 
@@ -216,11 +223,20 @@ export default async function EnginePreviewPage({ searchParams }: Props) {
     </figure>
   );
   return <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd({
+      '@context': 'https://schema.org', '@type': 'TechArticle',
+      headline: lang === 'it' ? 'Engine 6 Preview: architettura, prove e limiti' : 'Engine 6 Preview: architecture, evidence and limits',
+      description: previewResearchUpdate.summary[lang], datePublished: '2026-11-01', dateModified: previewResearchUpdate.dateModified,
+      inLanguage: lang, mainEntityOfPage: localizedPublicUrl('/engine-6-preview', lang),
+      author: PUBLIC_AUTHOR, publisher: PUBLIC_PUBLISHER,
+      citation: previewResearchUpdate.evidenceLinks.filter(link => link.href.startsWith('https://github.com/')).map(link => link.href),
+      image: 'https://policywatcher.online/engine-6-preview/architecture-en.svg',
+    }) }} />
     <PublicHeader current="roadmap" lang={lang} lockLang />
     <main className={styles.page} id="engine-preview-main">
       <div className={styles.masthead}>
         <span><FlaskConical size={16} aria-hidden="true" />{t.status}</span>
-        <time dateTime="2026-11-01">{t.date}</time>
+        <time dateTime={previewResearchUpdate.dateModified}>{new Intl.DateTimeFormat(lang === 'it' ? 'it-IT' : 'en-GB', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(previewResearchUpdate.dateModified))}</time>
         <nav aria-label={lang === 'it' ? 'Lingua della pagina' : 'Page language'}><Link href="/engine-6-preview" hrefLang="en" aria-current={lang === 'en' ? 'page' : undefined}>EN</Link><Link href="/engine-6-preview?lang=it" hrefLang="it" aria-current={lang === 'it' ? 'page' : undefined}>IT</Link></nav>
       </div>
       <header className={styles.hero}>
@@ -228,6 +244,23 @@ export default async function EnginePreviewPage({ searchParams }: Props) {
         <div className={styles.heroCopy}><h2>{t.title}</h2><p>{t.intro}</p><a href="#architecture" className={styles.explore}>{t.nav[0]} <ArrowDown size={18} aria-hidden="true" /></a></div>
       </header>
       <aside className={styles.boundary}><FlaskConical size={22} aria-hidden="true" /><div><strong>{t.boundary}</strong><p>{t.boundaryText}</p><p>{t.hostingStatus}</p><a className={styles.explore} href="https://staging.policywatcher.online/admin/engine">{t.access}<ArrowUpRight size={18} aria-hidden="true" /></a><p>{t.isolation}</p></div></aside>
+      <section className={styles.section} id="latest-research" aria-labelledby="latest-research-title">
+        <div className={styles.sectionHeading}><p className={styles.eyebrow}>{lang === 'it' ? 'Novità della ricerca / 7 novembre 2026' : 'Latest research / 7 November 2026'}</p><h2 id="latest-research-title">{previewResearchUpdate.title[lang]}</h2><p>{previewResearchUpdate.summary[lang]}</p></div>
+        <div className={styles.ledger}>{previewResearchUpdate.changes.slice(0, 3).map((item, i) => <article key={item.en}><h3>{(lang === 'it' ? ['Distribuzione privata', 'Prova amministrativa limitata', 'Conservazione dei dati'] : ['Private deployment', 'Bounded administrative run', 'Data preservation'])[i]}</h3><p>{item[lang]}</p></article>)}</div>
+        <p className={styles.limits}>{previewResearchUpdate.boundaries[1][lang]}</p>
+        <nav className={styles.sectionNav} aria-label={lang === 'it' ? 'Fonti dell’aggiornamento r3' : 'r3 update sources'}><Link href={`/press-kit/releases/${previewResearchUpdate.slug}${lang === 'it' ? '?lang=it' : ''}`}>{lang === 'it' ? 'Leggi l’aggiornamento completo' : 'Read the full research update'}</Link><a href={previewResearchUpdate.evidenceLinks[1].href}>{previewResearchUpdate.evidenceLinks[1].label[lang]}</a></nav>
+      </section>
+      <section className={styles.goals} aria-labelledby="preview-answers"><h2 id="preview-answers">{lang === 'it' ? 'Stabile e Preview: cosa puoi usare oggi?' : 'Stable and Preview: what can you use today?'}</h2><div>
+        {(lang === 'it' ? [
+          ['01', 'Quale versione è pubblica?', 'PolicyWatcher 5.5.0 è il servizio stabile pubblico, pubblicato il 2 novembre. Mantiene lo scanner consolidato. r3 identifica la revisione della Preview privata, non una nuova release stabile.'],
+          ['02', 'Posso provare Engine 6?', 'La Preview r3 richiede l’accesso amministratore nell’ambiente separato. Chiunque può consultare qui architettura, prove e limiti. Scansioni, rapporti e risultati sperimentali restano privati.'],
+          ['03', 'Sono già qualificate 500 policy al giorno?', 'No. La prova locale su 500 endpoint candidati ha tentato 498 recuperi, ottenuto 383 risposte accettate e prodotto 342 estrazioni. Non includeva l’intera pipeline AI e non qualifica l’operatività completa sull’hosting.'],
+        ] : [
+          ['01', 'Which version is public?', 'PolicyWatcher 5.5.0 is the stable public service, released on 2 November. It retains the established scanner. r3 identifies a private Preview revision, not a new stable release.'],
+          ['02', 'Can I try Engine 6?', 'Preview r3 requires administrator access in the separate environment. Anyone can inspect the architecture, evidence and limits here. Experimental scans, reports and results remain private.'],
+          ['03', 'Are 500 policies per day qualified?', 'No. The local trial on 500 candidate endpoints attempted 498 retrievals, accepted 383 responses and produced 342 extractions. It did not include the full AI pipeline and does not qualify complete hosted operation.'],
+        ]).map(([n, question, answer]) => <article key={n}><span>{n}</span><h3>{question}</h3><p>{answer}</p></article>)}
+      </div></section>
       <nav className={styles.sectionNav} aria-label={t.resources}><a href="https://github.com/sev7enITA/policywatcher/tree/main">{t.development}<ArrowUpRight size={16} aria-hidden="true" /></a><a href="https://github.com/sev7enITA/policywatcher/wiki">{t.wiki}<ArrowUpRight size={16} aria-hidden="true" /></a><a href="https://github.com/sev7enITA/policywatcher/tree/main/docs/reports">{t.reports}<ArrowUpRight size={16} aria-hidden="true" /></a></nav>
       <nav className={styles.sectionNav} aria-label={lang === 'it' ? 'Indice del progetto' : 'Notebook contents'}>{sections.map((id, i) => <a href={`#${id}`} key={id}><span>0{i + 1}</span>{t.nav[i]}</a>)}</nav>
       <section className={styles.goals} aria-labelledby="preview-goals"><h2 id="preview-goals">{t.promiseTitle}</h2><div>{t.goals.map(([n, title, body]) => <article key={n}><span>{n}</span><h3>{title}</h3><p>{body}</p></article>)}</div></section>
@@ -243,6 +276,7 @@ export default async function EnginePreviewPage({ searchParams }: Props) {
       </section>
       <section className={styles.section} id="entities" aria-labelledby="entities-title"><div className={styles.sectionHeading}><p className={styles.eyebrow}>03 / {t.nav[2]}</p><h2 id="entities-title">{t.erTitle}</h2><p>{t.erIntro}</p></div>
         {diagram('entities', t.erAlt, 1200, 840)}
+        <figure className={styles.diagram}><Image src={`/engine-6-preview/claim-ledger-r3-${lang}.svg`} alt={lang === 'it' ? 'Schema r3: EngineClaimEvidence punta a EngineClaim con una chiave esterna; gli altri riferimenti sono applicativi. Nessuna riga creata dalla prova limitata.' : 'r3 schema: EngineClaimEvidence references EngineClaim with a foreign key; other references are application-managed. The bounded run created no rows.'} width={1200} height={430} unoptimized /><figcaption><span>{lang === 'it' ? 'Estensione r3: schema distribuito, scrittura sull’hosting ancora da qualificare.' : 'r3 extension: deployed schema, hosted writes still unqualified.'}</span><a href={`/engine-6-preview/claim-ledger-r3-${lang}.svg`} download>{t.downloads} SVG</a></figcaption></figure>
         <p className={styles.tableHint} id="entities-scroll-hint">{t.tableHint} <span aria-hidden="true">↔</span></p>
         <div className={styles.tableWrap} role="region" aria-labelledby="entities-title" aria-describedby="entities-scroll-hint" tabIndex={0}><table><caption>{t.erTitle}</caption><thead><tr><th scope="col">{t.entity}</th><th scope="col">{t.responsibility}</th><th scope="col">{t.relationship}</th></tr></thead><tbody>{t.entities.map(([entity, responsibility, relationship]) => <tr key={entity}><th scope="row">{entity}</th><td>{responsibility}</td><td>{relationship}</td></tr>)}</tbody></table></div>
       </section>
