@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-11-07T20:58:37.477300+00:00",
+  "boundary": "Read-only SSH inspection of staging hbuilds/config/.env and dedicated preview.db; config presence is not process-environment or free-quota proof. No secrets returned.",
+  "configuration": {
+    "geminiApiKeyPresent": false,
+    "analystModelPresent": false,
+    "verifierModelPresent": false,
+    "publication": "0",
+    "notifications": "0"
+  },
+  "counts": {
+    "Policy": 113,
+    "EngineSourceContract": 1,
+    "EngineClaim": 0,
+    "EngineClaimEvidence": 0,
+    "EngineRun": 3,
+    "EngineTask": 24
+  }
+}

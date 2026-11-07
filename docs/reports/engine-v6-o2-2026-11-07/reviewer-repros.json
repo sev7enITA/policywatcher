@@ -1,0 +1,36 @@
+{
+  "observedAt": "2026-11-07T21:01:49.992Z",
+  "boundary": "Offline reproduction of reviewer hypotheses, no new live captures or observation days.",
+  "table": {
+    "html": "<html lang=\"en\"><main><h1>Privacy Policy</h1><h2>Data use</h2><table>You may request human review of automated decisions.<tr><th>Purpose</th><th>Consent</th></tr><tr><td>Training</td><td>No</td></tr></table><h2>Contact</h2><p>Contact our privacy team for information about this policy and your rights.</p></main></html>",
+    "htmlHash": "ff5600f946f44698b59a286f109171db0feff80d3030f6cfc4722a174f7a44dc",
+    "text": "# Privacy Policy\n\n## Data use\n\nYou may request human review of automated decisions.\n\n| Purpose | Consent |\n| Training | No |\n\n## Contact\n\nContact our privacy team for information about this policy and your rights.",
+    "retained": true,
+    "assessment": {
+      "eligible": true,
+      "reasons": [],
+      "identity": "matched",
+      "completeness": "contract_satisfied"
+    },
+    "reviewerPrediction": "stray text absent and unreported"
+  },
+  "pdfReplay": {
+    "inputSha256": "1e81d983f60c84c7ed8003d4d4a1fa738134c63d5241e5914cae701e07fdfa76",
+    "originalPdfBytes": false,
+    "format": "archived decoded HTML from 2 November, evaluated by r3",
+    "textHash": "1bccaa83697a8dad456e214ead1009c2c5c652ec251213c4cb491a8eea48642d",
+    "headings": 0,
+    "language": null,
+    "assessment": {
+      "eligible": false,
+      "reasons": [
+        "document_identity_unverified",
+        "required_sections_missing",
+        "document_language_unverified"
+      ],
+      "identity": "unknown",
+      "completeness": "partial"
+    },
+    "contractBoundary": "Diagnostic expectations only. This contract is neither reviewed nor installed. Missing headings/language suffice to reject irrespective of exact title expectations."
+  }
+}
