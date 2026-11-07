@@ -1,6 +1,6 @@
 # Engine 6 operationalization model
 
-Status, 7 November 2026: **proposed operating model, no stage beyond O0 is authorized.** Existing documents already cover the private Preview runbook ([engine-v6-hosted-preview.md](engine-v6-hosted-preview.md)), the qualification campaign ([engine-v6-qualification-campaign.md](engine-v6-qualification-campaign.md)), source review ([engine-source-review-runbook.md](engine-source-review-runbook.md)) and stable releases ([hostinger-staging-promotion.md](../hostinger-staging-promotion.md)). None defined how Engine 6, now with the claim-evidence ledger, moves from source on `main` to operational use on `policywatcher.online`. This document fills that gap. It does not replace the gates in the [6 November QA report](../reports/engine-v6-qa-2026-11-06.md).
+Status, 7 November 2026: **proposed operating model. O0 is done and O1 is authorized; no later stage is authorized.** Existing documents already cover the private Preview runbook ([engine-v6-hosted-preview.md](engine-v6-hosted-preview.md)), the qualification campaign ([engine-v6-qualification-campaign.md](engine-v6-qualification-campaign.md)), source review ([engine-source-review-runbook.md](engine-source-review-runbook.md)) and stable releases ([hostinger-staging-promotion.md](../hostinger-staging-promotion.md)). None defined how Engine 6, now with the claim-evidence ledger, moves from source on `main` to operational use on `policywatcher.online`. This document fills that gap. It does not replace the gates in the [6 November QA report](../reports/engine-v6-qa-2026-11-06.md).
 
 ## Principles
 
@@ -23,7 +23,7 @@ Status, 7 November 2026: **proposed operating model, no stage beyond O0 is autho
 | Stage | What it means | Entry criteria | Exit evidence | State on 7 November |
 | --- | --- | --- | --- | --- |
 | **O0 Integrated** | Reviewed source on `main` | Team review of the exact head, CI green | Integration receipt | Done: `7347297`, [receipt](../reports/engine-v6-claim-ledger-integration-2026-11-07.md) |
-| **O1 Private Preview candidate (r3)** | `main` packaged and deployed to the private Preview, replacing r2 | Owner authorization for a Preview deployment; r2 archive, config and `preview.db` backup retained outside the release | Hostinger Completed / Current; readiness 47 tables / 22 migrations on `preview.db`; matching HTTP/worker implementation identity; anonymous isolation; a bounded observe run; official and configuration table hashes unchanged; rollback path to r2 documented | Not authorized |
+| **O1 Private Preview candidate (r3)** | `main` packaged and deployed to the private Preview, replacing r2 | Owner authorization for a Preview deployment; r2 archive, config and `preview.db` backup retained outside the release | Hostinger Completed / Current; readiness 47 tables / 22 migrations on `preview.db`; matching HTTP/worker implementation identity; anonymous isolation; a bounded observe run; official and configuration table hashes unchanged; rollback path to r2 documented | Authorized 7 November 2026, execution pending its receipt |
 | **O2 Qualification with the ledger** | The ledger becomes the measurement substrate for analysis and verifier accuracy | O1 complete; reviewed source contracts for the sample; model costs within free or already available credits, or an explicit owner decision | The QA report gates, measured per candidate: source identity, completeness, PDF provenance, analysis/verifier accuracy on reviewed positive and negative changes, real 500/day on the intended host, release checks | Not started |
 | **O3 Production shadow** | Engine 6 runs on production data in observe/silent mode; results private | O2 gates passed for the scoped catalogue; owner decision; isolated worker resources; backup and restore drill with inventory `engine-v6-claim-ledger` | Several days of shadow runs with ledger metrics, no public write, no notification, stable scanner results unchanged | Not started |
 | **O4 Gated publication** | Engine 6 may publish changes for sources with an approved contract | O3 evidence; explicit release decision; personal reviewer identity in approvals | Per-source activation receipts; human approval for high-impact or doubtful changes; rollback to established scanner per source | Not started |
@@ -46,7 +46,7 @@ Per candidate and per run: number of claims, share of each verdict, share of `mi
 
 The managed build runs `prepare-database.sh`, which makes a consistent SQLite backup and then applies the migrations idempotently. Before a deployment, confirm the target's current readiness counts. After it, confirm 47 tables and 22 SQLite migrations.
 
-**This also applies to the next stable release built from `main`.** It will add the two empty ledger tables to the production database. That is additive and does not activate Engine 6, but the release checklist must state it. The alternative is to build the stable release from a revision before `7347297`. The owner chooses per release.
+`main` carries the `private-preview` distribution identity (`src/lib/distribution.ts`). `hosted-preview-preflight.mjs` refuses to build it outside the private Preview context, so it cannot reach production. The public 5.5 artifact is built from the separate stable release branch, which does not contain the ledger. For production, O3 therefore needs a deliberate stable-branch decision: which Engine 6 revision enters it, and with which flags.
 
 ### W4 Backup and restore
 
@@ -54,7 +54,7 @@ New encrypted exports carry `inventoryVersion: "engine-v6-claim-ledger"`. A rest
 
 ### W5 Rollback
 
-Rolling back to r2 or to an older stable archive leaves the additive ledger tables in the database. Before relying on it, a drill must confirm that the older code starts and that its readiness check accepts the extra tables. Keep `preview.db` and receipts outside the extracted release. Never delete ledger rows to obtain a clean state.
+Rolling back to r2 leaves the additive ledger tables in the database. Before relying on it, a drill must confirm that the older code starts and that its readiness check accepts the extra tables. Keep `preview.db` and receipts outside the extracted release. Never delete ledger rows to obtain a clean state.
 
 ### W6 Website and documentation
 
@@ -71,10 +71,10 @@ Changes to the engine, the schema, backups or initializers are announced on the 
 
 ## Decisions owed by the owner
 
-1. Authorize O1: deploy `main` (`84085328...`) as Preview r3, or keep r2 until the admin ledger view exists.
-2. For the next stable release: accept the additive ledger tables in production, or build from before `7347297`.
+1. O1 (deploy `main`, `84085328...`, as Preview r3): authorized by the owner on 7 November 2026; execution and receipt are recorded separately.
+2. For O3: how Engine 6 code enters the stable release branch.
 3. Priority of the gaps: admin ledger view, personal reviewer identity, rollback drill.
 
 ## Not authorized by this document
 
-Any deployment, production activation of Engine 6, paid model use, infrastructure purchase, or change to the frozen cohort `050af19` or to hosted r2.
+Any deployment other than O1, production activation of Engine 6, paid model use, infrastructure purchase, or change to the frozen cohort `050af19` or to hosted r2.
