@@ -1,0 +1,144 @@
+{
+  "recordedAt": "2026-11-07T17:10:02.231459+00:00",
+  "status": "published",
+  "product": "5.5.0",
+  "contentSource": "9b18f5569205da7e682d0681c47cc9535e75e6d8",
+  "archiveSha256": "e3ee594d19ac57310b633a5b7213b3aa83b61779110b6cc01f54c3a28841f962",
+  "staging": {
+    "deployment": "01a1b6be-30f4-7190-882d-b441f6f2b05a",
+    "completedLocal": "2026-11-07 17:03 Europe/Rome",
+    "operationalChecks": 11,
+    "contentChecks": 43,
+    "sourceHashes": 37
+  },
+  "previewRestore": {
+    "deployment": "01a1b6f1-e1bb-7397-bd0b-335912dd7b36",
+    "completedLocal": "2026-11-07 18:00 Europe/Rome",
+    "archiveSha256": "e82ff8ff3fe33275e62475054889cdaf97f1a12d7442bb0ca6d42ec30cf99341",
+    "implementation": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+    "checks": 14,
+    "tables": 47,
+    "migrations": 22,
+    "tableCountIncludingMigrationLedger": 48,
+    "unchangedTableCount": 46,
+    "changedTables": [
+      "AdminAccessLog",
+      "EngineOrigin"
+    ],
+    "savedReports": 3,
+    "activeTasks": 0,
+    "publicationEnabled": false,
+    "notificationsEnabled": false
+  },
+  "production": {
+    "deployment": "01a1b6f7-8380-73c9-a97d-3172e8eed730",
+    "completedLocal": "2026-11-07 18:06 Europe/Rome",
+    "operationalChecksPassed": 9,
+    "independentSecurity": "external; not a pentest",
+    "contentChecks": 43,
+    "sourceHashes": 37,
+    "sitemapPages": 665,
+    "seoIssues": 0,
+    "duplicateTitles": 0,
+    "tables": 35,
+    "migrations": 19,
+    "integrity": "ok",
+    "visualChangelogVerified": true,
+    "visualItalianArticleVerified": true
+  },
+  "indexNow": {
+    "submittedAt": "2026-11-07T17:08:55.967Z",
+    "status": 200,
+    "urlList": [
+      "https://policywatcher.online/engine-6-preview",
+      "https://policywatcher.online/engine-6-preview?lang=it",
+      "https://policywatcher.online/press-kit/releases/engine-six-preview-r3-evidence-update",
+      "https://policywatcher.online/press-kit/releases/engine-six-preview-r3-evidence-update?lang=it"
+    ],
+    "accepted": true,
+    "note": "Submission is not proof of crawling or indexing."
+  },
+  "modelReviews": {
+    "GLM": "5.3 Max advisory obtained and adjudicated",
+    "Gemini": "4 Argon High advisory obtained and adjudicated"
+  },
+  "newHostedScans": 0,
+  "newTemporalDays": 0,
+  "promotionalPostsPublished": 0,
+  "pullRequest": "https://github.com/sev7enITA/policywatcher/pull/54",
+  "gitIntegration": "open PR, not merged",
+  "evidenceDigests": [
+    {
+      "path": "output/seo-preview-r3-20261107/staging-final-content.json",
+      "sha256": "2582200d6e8d9f03fe93f1ef92c07cea4a6791d4003d35c4d253adc912ab2b0f"
+    },
+    {
+      "path": "output/seo-preview-r3-20261107/production-final-content.json",
+      "sha256": "50d68bb376872a01e17206a875efcc44beb30cd04102d9aa5d600a8518e42a83"
+    },
+    {
+      "path": "output/seo-preview-r3-20261107/production-seo.json",
+      "sha256": "55d1cf9ded159d5e35cc50587a2b11dc796afcff9c585e9ba05a4c4ef91dc542"
+    },
+    {
+      "path": "output/seo-preview-r3-20261107/staging.policywatcher.online-source-verification.json",
+      "sha256": "95b87f5c23c14bbcc553d3a20c53561bc1d8b830051e032e798142cb2d901aff"
+    },
+    {
+      "path": "output/seo-preview-r3-20261107/policywatcher.online-source-verification.json",
+      "sha256": "c8a3ebd9cac8017c9763badfef977eb3355f3209f98798eb143cb219c883e474"
+    },
+    {
+      "path": "output/seo-preview-r3-20261107/hosted/staging-verification-first-503.json",
+      "sha256": "53c21d9fb3ea28f4f051933fa7e1afe40d87589c798ede60085c1fac2c2e5eb5"
+    },
+    {
+      "path": "output/seo-preview-r3-20261107/hosted/staging-verification.json",
+      "sha256": "5c59106dc652eec30e8752dddf901a66aa4b0649bc6ddd47f9cb986a28dc4592"
+    },
+    {
+      "path": "output/seo-preview-r3-20261107/hosted/production-runtime-checks.json",
+      "sha256": "bc50424f5cf868e8a452f0ae458e977d0b42b227bd539d18f8e144fc68e44f2f"
+    },
+    {
+      "path": "output/seo-preview-r3-20261107/hosted/production-verification.json",
+      "sha256": "9acf9435b8b7065b73b304022079beea9bad5d4709de30ea2a2efafe3ae6e4d3"
+    },
+    {
+      "path": "output/seo-preview-r3-20261107/hosted/restore-table-preservation.json",
+      "sha256": "3a4eaaf0686bf50a8be6e8bacc58fe0928e1b559ff1ee350e6fe296d489eed72"
+    },
+    {
+      "path": "output/seo-preview-r3-20261107/hosted/restore-environment-check.json",
+      "sha256": "4f1913b6a4e5eed13796a64c0ca34f0ab0301c12b44dff9a7b0d561c5c98653d"
+    },
+    {
+      "path": "output/seo-preview-r3-20261107/hosted/production-environment-check.json",
+      "sha256": "8b5a470fabc027820ab4ab83c31d26b04f6e8361428c51be67d6043d0b17edd9"
+    },
+    {
+      "path": "output/seo-preview-r3-20261107/indexnow-final.json",
+      "sha256": "80a0a62b698215dc8ca5e06ff9f00288804ccdc7cd35f9c43169ab9036c62a68"
+    },
+    {
+      "path": "output/seo-preview-r3-20261107/glm-review.txt",
+      "sha256": "e07c0593ca4c69b49780069662eb5655a38727eaec10b907860214c1c1a29585"
+    },
+    {
+      "path": "output/seo-preview-r3-20261107/gemini-review.txt",
+      "sha256": "a646c50573bd316209efbdc5378414840a09b71de2a2d176d8deaf40ee039ea6"
+    },
+    {
+      "path": "output/seo-preview-r3-20261107/public-changelog-confirmed.jpg",
+      "sha256": "c87be5e45445ceb15812525615d9b83a8ba99e06cf7fce8b01aad31e6815e9df"
+    },
+    {
+      "path": "output/seo-preview-r3-20261107/public-research-it.jpg",
+      "sha256": "6f5fc6f6f9575fc466416613adf1e19f645eafba6d0d6b9bd53c9c093b3f4c84"
+    },
+    {
+      "path": "output/seo-preview-r3-20261107/public-changelog-ax.txt",
+      "sha256": "68564e057ead8a346913d0222799261e1a681edc8d383ef7151e8849dcd1dd74"
+    }
+  ]
+}

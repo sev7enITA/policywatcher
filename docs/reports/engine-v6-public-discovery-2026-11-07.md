@@ -1,5 +1,7 @@
 # Engine 6 Preview r3: public discovery and communication update
 
+**Final delivery:** published and verified on 7 November at 18:06 Europe/Rome; exact Preview r3 restored first. [Final receipt](engine-v6-public-discovery-publication-2026-11-07.md). Earlier pending states below are retained as checkpoints.
+
 ## Scope and observed problem
 
 The public product remains **5.5.0**, released on 2 November. Private Preview r3 was deployed on 7 November. The public changelog displayed only stable and historical release records, leaving the new Preview work invisible in that view.
