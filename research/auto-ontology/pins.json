@@ -1,0 +1,21 @@
+{
+  "upstream": {
+    "repo": "https://github.com/NVIDIA/auto-ontology",
+    "commit": "c4495670947eb7b4616f0dd9900e5ced2a48ca1e",
+    "commitDate": "2026-11-05T14:45:27Z",
+    "license": "Apache-2.0",
+    "version": "1.2.0",
+    "ossieConverter": "apache/ossie-converters@cb4b46b97bcdb9f2685ef2f7023b9134a4426da2 (subdirectory nvidia)"
+  },
+  "policywatcher": {
+    "baseBranch": "origin/main",
+    "baseCommit": "c133a961b47a59ef63bfc8f67856c0ff41aa7f3b",
+    "frozenTemporalCandidate": "050af19 (do not touch)",
+    "engineSourceUnderQa": "515263315b15fd31b09a4d66c7e29505e18b180b",
+    "qaReport": "docs/reports/engine-v6-qa-2026-11-06.md"
+  },
+  "dataset": {
+    "otaDeclarations": "OpenTermsArchive/contrib-declarations@7e130fe6f1b3df10eec81ec809b4e0e44fa81bcb (EUPL-1.2)",
+    "catalogueManifestSha256": "00ade8df32ec760fde0666bbf8157f3e6e29f1e78d03461632d724a990fab385"
+  }
+}

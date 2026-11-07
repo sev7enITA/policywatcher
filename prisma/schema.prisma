@@ -136,6 +136,60 @@ model EngineReview {
   @@index([status, createdAt])
 }
 
+// Claim ledger: queryable rows for validated grounded claims, their exact spans
+// and the independent verifier verdict. Written only after validateClaims has
+// accepted every span against frozen text. Evidence rows are "observed"; claim
+// interpretation is "inferred" until a named human approves it. Approval never
+// qualifies source completeness. Additive: public payloads are unchanged.
+model EngineClaim {
+  id                   String   @id @default(uuid())
+  taskId               String
+  claimKey             String
+  ordinal              Int
+  policyId             String
+  operation            String
+  category             String
+  textEn               String
+  textIt               String
+  impact               Int
+  deltaIdsJson         String
+  interpretationStatus String   @default("inferred")
+  analystModel         String
+  promptVersion        String
+  analysisOutputHash   String
+  verifierModel        String?
+  verifierVerdict      String?
+  verifierReason       String?
+  reviewId             String?
+  changeId             String?
+  approvedBy           String?
+  approvedAt           DateTime?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  evidence             EngineClaimEvidence[]
+  @@unique([taskId, claimKey])
+  @@index([policyId, createdAt])
+  @@index([verifierVerdict, interpretationStatus])
+  @@index([changeId])
+  @@index([reviewId])
+}
+
+model EngineClaimEvidence {
+  id           String      @id @default(uuid())
+  claimId      String
+  claim        EngineClaim @relation(fields: [claimId], references: [id], onDelete: Cascade)
+  ordinal      Int
+  side         String
+  documentHash String
+  startOffset  Int
+  endOffset    Int
+  quote        String
+  quoteHash    String
+  status       String      @default("observed")
+  @@unique([claimId, ordinal])
+  @@index([documentHash])
+}
+
 model EngineOutbox {
   id             String @id @default(uuid())
   eventKey       String @unique

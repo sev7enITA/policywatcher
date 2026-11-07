@@ -69,6 +69,23 @@ try {
     'rehearsal-investor-event', 'rehearsal-grant', 'created', 'admin',
     'removed before rehearsal import', timestamp,
   );
+  // A populated claim ledger so the PostgreSQL import covers both tables and their FK.
+  const quote = 'Rehearsal evidence';
+  database.prepare(`INSERT INTO "EngineClaim" (
+    id, taskId, claimKey, ordinal, policyId, operation, category, textEn, textIt, impact,
+    deltaIdsJson, interpretationStatus, analystModel, promptVersion, analysisOutputHash,
+    verifierModel, verifierVerdict, verifierReason, approvedBy, approvedAt, createdAt, updatedAt
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).run(
+    'rehearsal-claim', 'rehearsal-task', 'c1', 0, 'rehearsal-policy', 'added', 'content',
+    'Rehearsal claim.', 'Affermazione di prova.', 2, '["d1"]', 'approved', 'rehearsal-analyst', 'fixture-1',
+    evidenceHash, 'rehearsal-verifier', 'supported', 'Fixture verdict.', 'admin', timestamp, timestamp, timestamp,
+  );
+  database.prepare(`INSERT INTO "EngineClaimEvidence" (
+    id, claimId, ordinal, side, documentHash, startOffset, endOffset, quote, quoteHash, status
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).run(
+    'rehearsal-claim-evidence', 'rehearsal-claim', 0, 'new', evidenceHash, 0, quote.length, quote,
+    createHash('sha256').update(quote, 'utf8').digest('hex'), 'observed',
+  );
   database.exec('COMMIT;');
   console.log('SQLite rehearsal fixture created.');
 } catch {

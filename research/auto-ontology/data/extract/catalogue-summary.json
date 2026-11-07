@@ -1,0 +1,51 @@
+{
+  "startedAt": "2026-11-06T06:20:12.906Z",
+  "completedAt": "2026-11-06T06:29:57.885Z",
+  "durationMs": 584979,
+  "sourceCommit": "515263315b15fd31b09a4d66c7e29505e18b180b",
+  "catalogueHash": "00ade8df32ec760fde0666bbf8157f3e6e29f1e78d03461632d724a990fab385",
+  "boundary": "Configured real catalogue from local Mac; 3 workers, one request per origin at a time, 1.5s pacing, origin held after 429/503. No models, renderer, contracts, production DB or delivery. Not 500-source or VPS qualification.",
+  "configuredPolicies": 500,
+  "retrievalScopes": 500,
+  "httpEndpoints": 500,
+  "origins": 290,
+  "completedEndpoints": 500,
+  "attempts": 618,
+  "successfulEndpoints": 383,
+  "extractedScopes": 342,
+  "sourceCompletenessQualified": false,
+  "productionQualified": false,
+  "endpointDurationMs": {
+    "p50": 892,
+    "p95": 4257
+  },
+  "attemptedEndpoints": 498,
+  "unavailableReasons": {
+    "transport_rejected": 113,
+    "extraction_size_out_of_bounds": 29,
+    "source_block_or_soft_404": 12,
+    "origin_backoff": 4
+  },
+  "statusCounts": {
+    "200": 383,
+    "host_drift": 36,
+    "301": 33,
+    "403": 94,
+    "302": 12,
+    "too_many_redirects": 1,
+    "dns_lookup_failed": 7,
+    "0": 15,
+    "read EADDRNOTAVAIL": 1,
+    "The operation was aborted": 3,
+    "unsupported_content_type:application/octet-stream": 1,
+    "308": 11,
+    "404": 11,
+    "429": 2,
+    "unable to verify the first certificate": 2,
+    "connect ENETUNREACH 69.90.254.170:443": 1,
+    "202": 2,
+    "Hostname/IP does not match certificate's altnames: Host: privacy.streamable.com. is not in the cert's altnames: DNS:*.b-cdn.net, DNS:b-cdn.net": 1,
+    "Hostname/IP does not match certificate's altnames: Host: terms.streamable.com. is not in the cert's altnames: DNS:*.b-cdn.net, DNS:b-cdn.net": 1,
+    "unsupported_content_type:image/gif": 1
+  }
+}

@@ -15,7 +15,7 @@
     ],
     [
       "prisma/schema.prisma",
-      "f4130a27c27254fb92a642379b4706ce2c5a76652a6832abec8ea7baba04f499"
+      "3aa434da9d0607b0cbaf807f0994b1646e377149554837c267a0cb10ae230866"
     ],
     [
       "scripts/engine-implementation-manifest.mjs",
@@ -154,6 +154,10 @@
       "c7a00d4c9ef4a810aa3bed3e5f2c0365e59c74c15da7b379e4ab58ba4caabcee"
     ],
     [
+      "src/lib/engine/claimLedger.ts",
+      "dc494775b86694030a47b1a3dbe6cec92b696dc22b41951273ba33535c96c106"
+    ],
+    [
       "src/lib/engine/claims.ts",
       "f7ea5fc84715891c34a65caf4ac88f58bf0187039e956e1571446dcd11fd2fe7"
     ],
@@ -175,7 +179,7 @@
     ],
     [
       "src/lib/engine/pipeline.ts",
-      "091602f36724aaac2f056143165a64f6396ae9e4d088d50fdb1a5ac66d98243b"
+      "f7288e8aa823eb43a4cf417892e64bedccfda25b19e7b2bd9343cd58e79a52eb"
     ],
     [
       "src/lib/engine/qualification.ts",
@@ -326,5 +330,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "f8607544bb428f6e942c7c0411bfcc7ae740423cb16ea6748469339ecbd248cc"
+  "hash": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00"
 }

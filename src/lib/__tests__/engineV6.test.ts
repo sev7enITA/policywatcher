@@ -74,7 +74,7 @@ beforeEach(async () => {
   await database.engineRun.deleteMany(); await database.engineReview.deleteMany(); await database.engineOutbox.deleteMany();
   await database.engineSourceContract.deleteMany(); await database.enginePolicyState.deleteMany(); await database.engineOrigin.deleteMany();
   await database.engineHttpCache.deleteMany(); await database.engineArtifact.deleteMany(); await database.company.deleteMany();
-  await database.engineAttempt.deleteMany();
+  await database.engineAttempt.deleteMany(); await database.engineClaim.deleteMany();
   await database.subscriber.deleteMany(); vi.clearAllMocks();
 });
 afterAll(async () => { await database.$disconnect(); await otherClient.$disconnect(); vi.unstubAllEnvs(); rmSync(dir, { recursive: true, force: true }); });
@@ -913,5 +913,99 @@ describe('operational release regressions', () => {
     const current = await database.policy.findUniqueOrThrow({ where: { id: p.id } });
     expect(current.currentHash).toBe(digest(formatting)); expect(current.dataStatus).toBe('Available');
     expect(await database.policyChange.count()).toBe(0); expect(await database.engineOutbox.count()).toBe(0);
+  });
+});
+
+describe('claim ledger', () => {
+  const unsupported: AnalysisProvider = { ...analysis, verify: vi.fn(async (_input: AnalysisInput, claims: ClaimSet) => ({
+    value: { verdicts: claims.claims.map(c => ({ claimId: c.id, verdict: 'unsupported' as const, reason: 'Quote is exact but does not entail the stated period.' })) },
+    receipt: { ...receipt, model: 'independent-test-provider' } })) };
+  async function twoCaptures(prefix: string, dependencies: Partial<import('../engine/pipeline').EngineDependencies> = {}) {
+    const p = await seed(); await run(`${prefix}-first`); await drain(dependencies); await readySecond(p.id); await run(`${prefix}-second`); await drain(dependencies);
+    return p;
+  }
+  it('records observed spans and an inferred interpretation for an automatic publication', async () => {
+    const p = await twoCaptures('ledger-auto');
+    const change = await database.policyChange.findFirstOrThrow();
+    const rows = await database.engineClaim.findMany({ include: { evidence: true } });
+    expect(rows).toHaveLength(1);
+    expect(rows[0]).toMatchObject({ policyId: p.id, changeId: change.id, claimKey: 'c1', interpretationStatus: 'inferred', approvedBy: null,
+      verifierVerdict: 'supported', analystModel: 'synthetic-test-provider', verifierModel: 'independent-test-provider' });
+    const old = structureDocument(oldText), next = structureDocument(newText);
+    for (const span of rows[0].evidence) {
+      const doc = span.side === 'old' ? old : next;
+      expect(span.status).toBe('observed'); expect(span.documentHash).toBe(doc.hash);
+      expect(doc.text.slice(span.startOffset, span.endOffset)).toBe(span.quote); expect(span.quoteHash).toBe(digest(span.quote));
+    }
+    expect(JSON.parse(change.analysisEvidenceJson!).claims.claims[0].id).toBe('c1');
+  });
+  it('keeps an unsupported interpretation queryable beside its verbatim passage without publishing', async () => {
+    await twoCaptures('ledger-unsupported', { analysis: unsupported });
+    expect(await database.policyChange.count()).toBe(0);
+    const review = await database.engineReview.findFirstOrThrow({ where: { status: 'pending' } });
+    expect(review.reasonsJson).toContain('claim_unsupported');
+    const { listClaimLedger } = await import('../engine/claimLedger');
+    const { items: rows, nextCursor } = await listClaimLedger({ verdict: 'unsupported' });
+    expect(rows).toHaveLength(1); expect(nextCursor).toBeNull();
+    expect(rows[0]).toMatchObject({ reviewId: review.id, changeId: null, interpretationStatus: 'inferred' });
+    expect(rows[0].evidence.map(e => e.quote)).toEqual(expect.arrayContaining(['We keep account records for 30 days.', 'We keep account records for 60 days.']));
+    expect((await listClaimLedger({ verdict: 'supported' })).items).toHaveLength(0);
+    await expect(pipeline.approveReview(review.id, 'Approval cannot waive an unsupported interpretation.', 'fixture-admin')).rejects.toThrow('review_hard_gate_unresolved');
+    expect((await database.engineClaim.findFirstOrThrow()).interpretationStatus).toBe('inferred');
+  });
+  it('marks a high-impact interpretation approved only by the named reviewer, once', async () => {
+    await twoCaptures('ledger-impact', { analysis: { ...analysis, analyze: async input => { const value = grounded(input); value.claims[0].impact = 8; return { value, receipt }; } } });
+    const review = await database.engineReview.findFirstOrThrow({ where: { status: 'pending' } });
+    expect(await database.engineClaim.findFirstOrThrow()).toMatchObject({ reviewId: review.id, interpretationStatus: 'inferred', changeId: null });
+    const changeId = await pipeline.approveReview(review.id, 'Reviewed exact before and after clauses and their impact.', 'fixture-admin');
+    const rows = await database.engineClaim.findMany();
+    expect(rows).toHaveLength(1);
+    expect(rows[0]).toMatchObject({ reviewId: review.id, changeId, interpretationStatus: 'approved', approvedBy: 'fixture-admin' });
+    expect(await database.engineClaimEvidence.count()).toBe(2);
+  });
+  it('never records claims whose spans failed validation', async () => {
+    await twoCaptures('ledger-invalid', { analysis: { ...analysis, analyze: async input => { const value = grounded(input); value.claims[0].evidence[0].quote = 'invented quote'; return { value, receipt }; } } });
+    expect((await database.engineReview.findFirstOrThrow()).reasonsJson).toContain('claim_span_invalid');
+    expect(await database.engineClaim.count()).toBe(0); expect(await database.engineClaimEvidence.count()).toBe(0);
+  });
+  it('records successful observe-mode claims privately, once, without public effects', async () => {
+    const p = await seed(); await run('ledger-observe-first', 'observe'); await drain();
+    await readySecond(p.id, 'observe'); await run('ledger-observe-second', 'observe'); await drain();
+    const task = await database.engineTask.findFirstOrThrow({ where: { stage: 'commit', status: 'completed' } });
+    expect(JSON.parse(task.resultJson!).outcome).toBe('observed_change_ready');
+    const rows = await database.engineClaim.findMany({ include: { evidence: true } });
+    expect(rows).toHaveLength(1);
+    expect(rows[0]).toMatchObject({ taskId: task.id, policyId: p.id, changeId: null, reviewId: null, verifierVerdict: 'supported', interpretationStatus: 'inferred' });
+    expect(rows[0].evidence).toHaveLength(2);
+    expect(await database.policyChange.count()).toBe(0); expect(await database.engineOutbox.count()).toBe(0);
+    expect((await database.policy.findUniqueOrThrow({ where: { id: p.id } })).currentHash).toBe(digest(oldText));
+    await drain(); expect(await database.engineClaim.count()).toBe(1); expect(await database.engineClaimEvidence.count()).toBe(2);
+  });
+  it.each([
+    ['overlength reason', (ids: string[]) => ids.map(claimId => ({ claimId, verdict: 'supported', reason: 'x'.repeat(2001) }))],
+    ['duplicate verdict', (ids: string[]) => [...ids, ...ids].map(claimId => ({ claimId, verdict: 'supported', reason: 'Duplicate fixture verdict.' }))],
+    ['missing verdict', () => []],
+    ['malformed verdict value', (ids: string[]) => ids.map(claimId => ({ claimId, verdict: 'probably', reason: 'Malformed fixture verdict.' }))],
+  ])('stores no verdict for invalid verifier output: %s', async (label, verdicts) => {
+    const provider: AnalysisProvider = { ...analysis, verify: async (_input, claims) => ({
+      value: { verdicts: verdicts(claims.claims.map(c => c.id)) } as unknown as import('../engine/claims').Verification,
+      receipt: { ...receipt, model: 'independent-test-provider' } }) };
+    await twoCaptures(`ledger-invalid-verdict-${label.replaceAll(' ', '-')}`, { analysis: provider });
+    expect(await database.policyChange.count()).toBe(0);
+    expect((await database.engineReview.findFirstOrThrow({ where: { status: 'pending' } })).reasonsJson).toMatch(/verification_(invalid|incomplete)/);
+    const { listClaimLedger } = await import('../engine/claimLedger');
+    expect((await listClaimLedger({ verdict: 'supported' })).items).toHaveLength(0);
+    const missing = (await listClaimLedger({ verdict: 'missing' })).items;
+    expect(missing).toHaveLength(1); expect(missing[0]).toMatchObject({ verifierVerdict: null, verifierReason: null });
+  });
+  it('pages the ledger with a stable cursor and no gaps or repeats', async () => {
+    const tx = database as unknown as import('../engine/store').Tx;
+    const { recordClaimLedger, listClaimLedger } = await import('../engine/claimLedger');
+    const input = { old: structureDocument(oldText), next: structureDocument(newText), deltas: compareDocuments(structureDocument(oldText), structureDocument(newText)).deltas };
+    for (let i = 0; i < 5; i++) await recordClaimLedger(tx, { taskId: `page-task-${i}`, policyId: 'page-policy', analysis: { value: grounded(input), receipt } });
+    const seen: string[] = []; let cursor: string | null = null;
+    do { const page: Awaited<ReturnType<typeof listClaimLedger>> = await listClaimLedger({ policyId: 'page-policy', take: 2, cursor }); seen.push(...page.items.map(r => r.id)); cursor = page.nextCursor; } while (cursor);
+    expect(seen).toHaveLength(5); expect(new Set(seen).size).toBe(5);
+    expect((await listClaimLedger({ policyId: 'page-policy', verdict: 'missing' })).items).toHaveLength(5);
   });
 });

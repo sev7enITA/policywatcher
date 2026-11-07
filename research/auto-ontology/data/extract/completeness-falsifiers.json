@@ -1,0 +1,172 @@
+{
+  "observedAt": "2026-11-06T06:26:52.202Z",
+  "sourceCommit": "515263315b15fd31b09a4d66c7e29505e18b180b",
+  "boundary": "Seven synthetic document-level counterexamples. They isolate contract sufficiency, not HTML extraction, live source accuracy or publication behavior. contract_satisfied is not independent completeness.",
+  "rows": [
+    {
+      "id": "complete_control",
+      "referenceComplete": true,
+      "documentHash": "d06ecc5fc5915eb7bd827e5cebdcdce57ab583e58da05abf178cbc61556246fa",
+      "length": 420,
+      "expectedOccurrences": {
+        "rights": 2,
+        "retention": 1,
+        "sensitiveDataRow": 1
+      },
+      "observedOccurrences": {
+        "rights": 2,
+        "retention": 1,
+        "sensitiveDataRow": 1
+      },
+      "contractAssessment": {
+        "eligible": true,
+        "reasons": [],
+        "identity": "matched",
+        "completeness": "contract_satisfied"
+      }
+    },
+    {
+      "id": "missing_middle_clause",
+      "referenceComplete": false,
+      "documentHash": "db6a47625163f4787cead9ef372c8a1ad2aab8fb1442d380ec097ba0867137c5",
+      "length": 352,
+      "expectedOccurrences": {
+        "rights": 2,
+        "retention": 1,
+        "sensitiveDataRow": 1
+      },
+      "observedOccurrences": {
+        "rights": 2,
+        "retention": 0,
+        "sensitiveDataRow": 1
+      },
+      "contractAssessment": {
+        "eligible": true,
+        "reasons": [],
+        "identity": "matched",
+        "completeness": "contract_satisfied"
+      }
+    },
+    {
+      "id": "lost_repeated_occurrence",
+      "referenceComplete": false,
+      "documentHash": "61609d2ff0df8e7c79a766bae4a572ddf58c1a1cb85193e8d64e105dec0f48a6",
+      "length": 356,
+      "expectedOccurrences": {
+        "rights": 2,
+        "retention": 1,
+        "sensitiveDataRow": 1
+      },
+      "observedOccurrences": {
+        "rights": 1,
+        "retention": 1,
+        "sensitiveDataRow": 1
+      },
+      "contractAssessment": {
+        "eligible": true,
+        "reasons": [],
+        "identity": "matched",
+        "completeness": "contract_satisfied"
+      }
+    },
+    {
+      "id": "missing_table_row",
+      "referenceComplete": false,
+      "documentHash": "deadcb76424d97b91bf7c8fc294fa92a23dd7e5d558b4a5769dde868b686a717",
+      "length": 383,
+      "expectedOccurrences": {
+        "rights": 2,
+        "retention": 1,
+        "sensitiveDataRow": 1
+      },
+      "observedOccurrences": {
+        "rights": 2,
+        "retention": 1,
+        "sensitiveDataRow": 0
+      },
+      "contractAssessment": {
+        "eligible": true,
+        "reasons": [],
+        "identity": "matched",
+        "completeness": "contract_satisfied"
+      }
+    },
+    {
+      "id": "empty_required_section",
+      "referenceComplete": false,
+      "documentHash": "d78774bd5b65911f386a4dca9bfde1dea56eb60dd96720122c9edfc9e33bbf21",
+      "length": 292,
+      "expectedOccurrences": {
+        "rights": 2,
+        "retention": 1,
+        "sensitiveDataRow": 1
+      },
+      "observedOccurrences": {
+        "rights": 0,
+        "retention": 1,
+        "sensitiveDataRow": 1
+      },
+      "contractAssessment": {
+        "eligible": true,
+        "reasons": [],
+        "identity": "matched",
+        "completeness": "contract_satisfied"
+      }
+    },
+    {
+      "id": "missing_required_heading_control",
+      "referenceComplete": false,
+      "documentHash": "b2d352b3c97dafdf8e6186999d9c036fdee7cf00f305a16167538834535ccaec",
+      "length": 408,
+      "expectedOccurrences": {
+        "rights": 2,
+        "retention": 1,
+        "sensitiveDataRow": 1
+      },
+      "observedOccurrences": {
+        "rights": 2,
+        "retention": 1,
+        "sensitiveDataRow": 1
+      },
+      "contractAssessment": {
+        "eligible": false,
+        "reasons": [
+          "required_sections_missing"
+        ],
+        "identity": "matched",
+        "completeness": "partial"
+      }
+    },
+    {
+      "id": "missing_terminal_control",
+      "referenceComplete": false,
+      "documentHash": "d57bc7d62d777008435638b8111d4b78cdfd44c604ddd0170dbf10f09a655b3f",
+      "length": 353,
+      "expectedOccurrences": {
+        "rights": 2,
+        "retention": 1,
+        "sensitiveDataRow": 1
+      },
+      "observedOccurrences": {
+        "rights": 2,
+        "retention": 1,
+        "sensitiveDataRow": 1
+      },
+      "contractAssessment": {
+        "eligible": false,
+        "reasons": [
+          "document_terminal_missing"
+        ],
+        "identity": "matched",
+        "completeness": "partial"
+      }
+    }
+  ],
+  "incompleteDocumentsPassingContract": [
+    "missing_middle_clause",
+    "lost_repeated_occurrence",
+    "missing_table_row",
+    "empty_required_section"
+  ],
+  "sourceCompletenessQualified": false
+}

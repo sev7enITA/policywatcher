@@ -1,0 +1,7 @@
+{
+  "hypothesis": "GLM stray table text silently dropped",
+  "boundary": "One synthetic malformed-table case, not all tables",
+  "markerRetained": true,
+  "issues": [],
+  "text": "# Privacy Policy\n\nA complete reference introduction with its own policy content. A complete reference introduction with its own policy content. A complete reference introduction with its own policy content. A complete reference introduction with its own policy content.\n\n## Data\n\nMANDATORY_STRAY_CLAUSE: You can request deletion of all retained records.\n\n| Category | Retention |\n| Account | 30 days |\n\n## Contact\n\nContact our privacy team for further information about this policy."
+}

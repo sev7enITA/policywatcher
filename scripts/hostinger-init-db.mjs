@@ -825,6 +825,11 @@ try {
     .replaceAll('CREATE UNIQUE INDEX ', 'CREATE UNIQUE INDEX IF NOT EXISTS ')
     .replaceAll('CREATE INDEX ', 'CREATE INDEX IF NOT EXISTS ');
   db.exec(engineSql);
+  const ledgerSql = fs.readFileSync(new URL('../prisma/migrations/20261106120000_engine_claim_ledger/migration.sql', import.meta.url), 'utf8')
+    .replaceAll('CREATE TABLE ', 'CREATE TABLE IF NOT EXISTS ')
+    .replaceAll('CREATE UNIQUE INDEX ', 'CREATE UNIQUE INDEX IF NOT EXISTS ')
+    .replaceAll('CREATE INDEX ', 'CREATE INDEX IF NOT EXISTS ');
+  db.exec(ledgerSql);
 
   for (const [table, columns] of Object.entries(upgradeColumns)) {
     const existing = columnsFor(db, table);
