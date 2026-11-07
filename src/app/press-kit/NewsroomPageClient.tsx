@@ -39,7 +39,7 @@ const pageCopy = {
     switchLanguage: 'Italiano',
     back: 'Back to press kit',
     releasesLabel: 'Newsroom archive',
-    releasesTitle: 'Dated product releases.',
+    releasesTitle: 'Product releases and research updates.',
     releasesLead: 'Published information is versioned and keeps evidence links and interpretation boundaries with the release record.',
     releaseStatus: 'Status',
     published: 'Published',
@@ -77,7 +77,7 @@ const pageCopy = {
     switchLanguage: 'English',
     back: 'Torna al press kit',
     releasesLabel: 'Archivio newsroom',
-    releasesTitle: 'Release prodotto datate.',
+    releasesTitle: 'Release prodotto e aggiornamenti di ricerca.',
     releasesLead: 'Le informazioni pubblicate sono versionate e mantengono link alle evidenze e limiti interpretativi insieme al record della release.',
     releaseStatus: 'Stato',
     published: 'Pubblicata',
@@ -161,7 +161,7 @@ export default function NewsroomPageClient({ view, releaseSlug, initialLang = 'e
                 <h2>{release.title[lang]}</h2>
                 <p>{release.summary[lang]}</p>
                 <dl className={styles.releaseMeta}>
-                  <div><dt>{t.releaseStatus}</dt><dd>{release.status}</dd></div>
+                  <div><dt>{t.releaseStatus}</dt><dd>{release.status === 'research' ? (lang === 'it' ? 'Ricerca sperimentale' : 'Experimental research') : release.status}</dd></div>
                   <div><dt>{t.modified}</dt><dd>{release.dateModified}</dd></div>
                 </dl>
                 <Link className={styles.subpageAction} href={localizedPublicPath(`/press-kit/releases/${release.slug}`, lang)}>{t.openRelease}<ArrowRight size={14} /></Link>
@@ -174,7 +174,7 @@ export default function NewsroomPageClient({ view, releaseSlug, initialLang = 'e
           <section className={styles.subpageList} aria-label={selectedRelease.title[lang]}>
             <article>
               <dl className={styles.releaseMeta}>
-                <div><dt>{t.releaseStatus}</dt><dd>{selectedRelease.status}</dd></div>
+                <div><dt>{t.releaseStatus}</dt><dd>{selectedRelease.status === 'research' ? (lang === 'it' ? 'Ricerca sperimentale' : 'Experimental research') : selectedRelease.status}</dd></div>
                 <div><dt>{t.published}</dt><dd>{selectedRelease.datePublished}</dd></div>
                 <div><dt>{t.modified}</dt><dd>{selectedRelease.dateModified}</dd></div>
                 <div><dt>{t.category}</dt><dd>{selectedRelease.category}</dd></div>

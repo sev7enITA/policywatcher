@@ -85,7 +85,7 @@ export interface PressKitRelease {
   displayVersion: string;
   datePublished: string;
   dateModified: string;
-  status: 'current' | 'archived';
+  status: 'current' | 'archived' | 'research';
   category: 'product' | 'methodology' | 'distribution' | 'confidence';
   title: PressKitLocalized;
   summary: PressKitLocalized;
@@ -632,13 +632,94 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
   return { ...item, locale, distribution: item.distribution as 'github-repository', ...packageCopy[locale] };
 });
 
+export const previewResearchUpdate: PressKitRelease = {
+  "slug": "engine-six-preview-r3-evidence-update",
+  "version": "5.5.0",
+  "displayVersion": "Engine 6 Preview r3",
+  "datePublished": "2026-11-07",
+  "dateModified": "2026-11-07",
+  "status": "research",
+  "category": "confidence",
+  "title": {
+    "en": "Engine 6 Preview r3: private deployment, visible evidence",
+    "it": "Engine 6 Preview r3: distribuzione privata, prove consultabili"
+  },
+  "summary": {
+    "en": "PolicyWatcher keeps its stable 5.5.0 service while Engine 6 Preview r3 advances in a separate authenticated workspace. The 7 November verification records a deployed claim-ledger schema and one bounded Apple run. Completeness, semantic accuracy and full 500-policy/day operation remain unqualified.",
+    "it": "PolicyWatcher mantiene il servizio stabile 5.5.0 mentre Engine 6 Preview r3 avanza in uno spazio separato e autenticato. La verifica del 7 novembre documenta lo schema del registro delle affermazioni distribuito e una prova Apple limitata. Completezza, accuratezza semantica e operatività completa su 500 policy al giorno restano da qualificare."
+  },
+  "changes": [
+    {
+      "en": "Private r3 is online with 47 application tables and 22 migrations. Thirteen authenticated checks passed. EngineClaim and EngineClaimEvidence provide the deployed ledger schema; the bounded hosted run did not exercise ledger writes.",
+      "it": "La r3 privata è online con 47 tabelle applicative e 22 migrazioni. Superati tredici controlli autenticati. EngineClaim ed EngineClaimEvidence costituiscono lo schema del registro distribuito; la prova limitata sull’hosting non ne ha esercitato la scrittura."
+    },
+    {
+      "en": "One administrative run covering four Apple policies completed in 8.027 seconds. One fresh HTTP 200 capture remained confirmation_pending; three policies were held because source contracts were missing. Completed tasks do not mean four acquired or qualified documents.",
+      "it": "Una prova amministrativa su quattro policy Apple si è conclusa in 8,027 secondi. Una nuova cattura HTTP 200 è rimasta confirmation_pending; tre policy sono state sospese per contratti delle fonti mancanti. Attività concluse non significano quattro documenti acquisiti o qualificati."
+    },
+    {
+      "en": "Nine official and configuration table hashes remained unchanged across deployment and the run. Both earlier private reports were preserved. Publication and notifications remain disabled.",
+      "it": "Gli hash di nove tabelle ufficiali e di configurazione sono rimasti invariati durante distribuzione e prova. Entrambi i rapporti privati precedenti sono conservati. Pubblicazione e notifiche restano disabilitate."
+    },
+    {
+      "en": "A separate frozen candidate completed three valid observation dates on 2, 4 and 5 November, with a minimum 71.894 hours per source. The failed 3 November window is retained and excluded. These observations do not qualify r3.",
+      "it": "Un candidato congelato separato ha completato tre date valide di osservazione il 2, 4 e 5 novembre, con un minimo di 71,894 ore per fonte. La finestra fallita del 3 novembre è conservata ed esclusa. Queste osservazioni non qualificano la r3."
+    }
+  ],
+  "boundaries": [
+    {
+      "en": "This is a research update, not a new stable product release. The public service remains PolicyWatcher 5.5.0, released on 2 November, with the established scanner. Preview access requires an administrator account.",
+      "it": "Questo è un aggiornamento di ricerca, non una nuova release stabile del prodotto. Il servizio pubblico resta PolicyWatcher 5.5.0, pubblicato il 2 novembre, con lo scanner consolidato. L’accesso Preview richiede un account amministratore."
+    },
+    {
+      "en": "The run reached neither AI analysis nor the separate verifier. Both claim-ledger tables remain empty. It does not demonstrate semantic accuracy, hosted ledger write behaviour, source completeness, uninterrupted worker recovery or full operation at 500 policies per day.",
+      "it": "La prova non ha raggiunto l’analisi AI né il verificatore separato. Le due tabelle del registro restano vuote. Non dimostra accuratezza semantica, scrittura del registro sull’hosting, completezza delle fonti, recupero continuo del worker o operatività completa su 500 policy al giorno."
+    },
+    {
+      "en": "Model-assisted review supports research but is not execution, certification, a legal opinion or a guarantee of search visibility. Private results stay separate from public evidence.",
+      "it": "La revisione assistita dai modelli supporta la ricerca ma non equivale a esecuzione, certificazione, parere legale o garanzia di visibilità sui motori di ricerca. I risultati privati restano separati dalle prove pubbliche."
+    }
+  ],
+  "evidenceLinks": [
+    {
+      "href": "/engine-6-preview#validation",
+      "label": {
+        "en": "Research diary, measurements and limitations",
+        "it": "Diario di ricerca, misure e limiti"
+      }
+    },
+    {
+      "href": "https://github.com/sev7enITA/policywatcher/blob/6d21b2fc1adb1340726805d5018aab58b773b039/docs/reports/engine-v6-preview-r3-o1-closeout-2026-11-07.md",
+      "label": {
+        "en": "Dated r3 deployment and bounded-run receipt",
+        "it": "Ricevuta datata della distribuzione r3 e della prova limitata"
+      }
+    },
+    {
+      "href": "https://github.com/sev7enITA/policywatcher/wiki/Engine-6-Preview",
+      "label": {
+        "en": "Research wiki and qualification status",
+        "it": "Wiki di ricerca e stato della qualificazione"
+      }
+    },
+    {
+      "href": "/press-kit/releases/engine-six-preview-5-5-0",
+      "label": {
+        "en": "Stable 5.5.0 release, 2 November",
+        "it": "Release stabile 5.5.0, 2 novembre"
+      }
+    }
+  ]
+};
+
 export const pressKitReleases: PressKitRelease[] = [
+  previewResearchUpdate,
 {
   "slug": "engine-six-preview-5-5-0",
   "version": "5.5.0",
   "displayVersion": "5.5.0",
   "datePublished": "2026-11-02",
-  "dateModified": "2026-11-02",
+  "dateModified": "2026-11-07",
   "status": "current",
   "category": "product",
   "title": {
@@ -677,8 +758,8 @@ export const pressKitReleases: PressKitRelease[] = [
       "it": "I 47 controlli originali sull’hosting e i 12 successivi sul ripristino riguardano esecuzioni diverse; non vengono sommati in un nuovo benchmark. L’esportazione JSON dal browser coincide con il rapporto salvato via API."
     },
     {
-      "en": "Source completeness, three live dates spanning at least 48 actual hours, continuous worker availability and 500 distinct daily sources remain under qualification. Identical extracted text does not establish completeness.",
-      "it": "Completezza delle fonti, tre date live distribuite su almeno 48 ore effettive, disponibilità continuativa del worker e 500 fonti giornaliere distinte restano da qualificare. Testi estratti identici non dimostrano completezza."
+      "en": "At the 2 November release, source completeness, the three-date observation and 500-source capacity were still under qualification. See the dated research updates for later results; identical extracted text does not establish completeness.",
+      "it": "Alla release del 2 novembre, completezza delle fonti, osservazione su tre date e capacità su 500 fonti erano ancora da qualificare. Consulta gli aggiornamenti di ricerca datati per i risultati successivi; testi estratti identici non dimostrano completezza."
     }
   ],
   "evidenceLinks": [

@@ -5,11 +5,17 @@ const content = `# PolicyWatcher
 
 PolicyWatcher is a public evidence laboratory that records verified policy baselines and published policy changes for monitored companies. AI-assisted screening outputs are not legal advice, compliance determinations, or provider statements.
 
-## Current source release
-${POLICYWATCHER_VERSION} ${POLICYWATCHER_RELEASE_NAME}. Product 5.5 offers access to the separate authenticated Engine 6.0 Preview at https://staging.policywatcher.online/admin/engine. Preview runs are private and silent; source completeness, multi-day operation and real 500-source capacity remain under qualification. Public release notes: https://policywatcher.online/press-kit/releases/engine-six-preview-5-5-0. Optional shadow observation compares extraction recipes on preserved inputs while retaining the operational baseline. It is disabled by default. Provisional labels cannot validate their own lessons. No automatic promotion, model training or calibrated confidence is claimed.
+## Stable public service and private research, updated 7 November 2026
+${POLICYWATCHER_VERSION} ${POLICYWATCHER_RELEASE_NAME}. Product 5.5 offers access to the separate authenticated Engine 6.0 Preview at https://staging.policywatcher.online/admin/engine. Preview r3 is privately deployed. Its 7 November bounded Apple run acquired one HTTP 200 document held for confirmation; three policies lacked source contracts. No AI analysis or claim-ledger writes occurred. Source completeness, semantic accuracy and full 500-policy/day operation remain unqualified. A separate frozen candidate completed three valid observation dates spanning at least 71.894 hours per source; that evidence does not qualify r3. Public release notes: https://policywatcher.online/press-kit/releases/engine-six-preview-5-5-0. Optional shadow observation compares extraction recipes on preserved inputs while retaining the operational baseline. It is disabled by default. Provisional labels cannot validate their own lessons. No automatic promotion, model training or calibrated confidence is claimed.
 
 - [Release record](${POLICYWATCHER_ORIGIN}/press-kit/releases/engine-six-preview-5-5-0)
 - [Feature inventory and limits](${POLICYWATCHER_ORIGIN}/feature-atlas)
+
+## Preview research and evidence
+- [Engine 6 Preview r3 research update](${POLICYWATCHER_ORIGIN}/press-kit/releases/engine-six-preview-r3-evidence-update)
+- [Architecture, decision flow, entity relationships and measured limits](${POLICYWATCHER_ORIGIN}/engine-6-preview)
+- [Architettura e diario in italiano](${POLICYWATCHER_ORIGIN}/engine-6-preview?lang=it)
+- [Dated r3 deployment and run receipt](https://github.com/sev7enITA/policywatcher/blob/6d21b2fc1adb1340726805d5018aab58b773b039/docs/reports/engine-v6-preview-r3-o1-closeout-2026-11-07.md)
 
 ## Canonical public sections
 - [Project identity, author and contact](${POLICYWATCHER_ORIGIN}/about)

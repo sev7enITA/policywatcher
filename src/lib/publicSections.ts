@@ -62,7 +62,7 @@ export const publicSectionGroups: Record<PublicSectionGroup, { label: string; de
 export const publicSectionNodes: PublicSectionNode[] = [
   {
     id: 'engine-6-preview', label: 'Engine 6 Preview', href: '/engine-6-preview', group: 'community',
-    summary: 'PolicyWatcher 5.5 introduces the separate experimental Engine 6 Preview, with architecture, decision-flow and entity diagrams.',
+    summary: 'Engine 6 Preview r3 research update, 7 November: private deployment, bounded Apple trial, claim-ledger schema and explicit qualification limits. Stable product: 5.5.0.',
     role: 'Connects private administrator trials with public qualification evidence. Preview observations do not publish official changes or notify subscribers.',
     status: 'reference', icon: 'layers', x: 91, y: 52,
   },
