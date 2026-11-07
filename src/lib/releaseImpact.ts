@@ -124,14 +124,14 @@ export const RELEASE_IMPACT_ITEMS: ReleaseImpactItem[] = [
   {
     id: 'engine-six-private-preview',
     title: 'Engine 6 private preview workspace',
-    summary: 'An authenticated preview build separates its database, durable task queue and private observations from the stable public service.',
+    summary: 'Private Engine 6 Preview r3, deployed 7 November, separates its database, durable tasks and observations from stable 5.5.0. Thirteen authenticated checks and one bounded Apple run are recorded.',
     domainId: 'operations', status: 'current', horizon: 'delivered',
     startRelease: '5.5.0', endRelease: '5.5.0',
     benefit: 'Operators can inspect resumable work and worker health without publishing experimental results.',
     kpi: 'Recorded queued, completed and held tasks, worker heartbeat and immutable implementation identity.',
     kri: 'A managed process accepting a request does not establish worker continuity or successful capture.',
     evidence: 'Dedicated database guard, authenticated gateway, supervised worker, central execution limits and private run reports.',
-    limitation: 'Preview qualification is in progress. Product 5.5 provides access to the separate experimental Engine 6; source completeness, multi-day operation and real 500-source capacity are not established by this build.',
+    limitation: 'Preview r3 remains experimental. Its bounded run reached neither AI analysis nor ledger writes. Source completeness, semantic accuracy and full 500-policy/day operation remain unqualified. The completed three-date observation belongs to a different frozen candidate.',
   },
   {
     id: 'engine-six-extraction-comparison',
