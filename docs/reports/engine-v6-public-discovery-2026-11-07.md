@@ -33,7 +33,7 @@ Local checks: 25 existing release, press-kit and canonical tests passed; scoped 
 The content candidate must pass staging before production. Temporary staging maintenance must restore the exact private r3 archive (`e82ff8ff3fe33275e62475054889cdaf97f1a12d7442bb0ca6d42ec30cf99341`) and preserve its dedicated database and all three saved reports. No new scans are required.
 
 
-### Staging delivery checkpoint, 7 November 17:12 Europe/Rome
+### Staging delivery checkpoint, 7 November
 
 The immutable stable content archive `e3ee594d19ac57310b633a5b7213b3aa83b61779110b6cc01f54c3a28841f962`, source `9b18f5569205da7e682d0681c47cc9535e75e6d8`, was submitted to staging as deployment `01a1b6be-30f4-7190-882d-b441f6f2b05a`. Eleven operational checks, 43 EN/IT content assertions and 37 deployed source-file hashes passed. The first operational check received HTTP 503 for the homepage; the other ten checks passed, a separate later request returned 200, and the subsequent complete eleven-check run passed. The first content run timed out; the subsequent complete 43-check run passed. These failures are retained and their cause is not established.
 
