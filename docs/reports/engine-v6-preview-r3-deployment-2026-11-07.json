@@ -1,0 +1,62 @@
+{
+  "schema": "policywatcher-engine-deployment-receipt-1",
+  "stage": "O1",
+  "state": "deployed_verified_observe_run_pending",
+  "authorizedBy": "owner, 7 November 2026",
+  "target": "https://staging.policywatcher.online",
+  "publicSiteChanged": false,
+  "candidate": {
+    "sourceRevision": "734729732fe1b494f844406f719ce2005a4c4d6b",
+    "archive": "PolicyWatcher-5.5.0-hostinger-2026-11-07-engine6-private-preview-r3.zip",
+    "archiveSha256": "e82ff8ff3fe33275e62475054889cdaf97f1a12d7442bb0ca6d42ec30cf99341",
+    "entries": 1389,
+    "implementationHash": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+    "distributionChannel": "private-preview",
+    "hostingerDeployment": "01a1b650-b2e9-716a-a69a-d3850b2e5c05",
+    "completedEuropeRome": "2026-11-07 15:04"
+  },
+  "previous": {
+    "label": "engine6-private-preview-r2",
+    "archiveSha256": "c887cd49959f38ab4137c235349c1f2e5785fed97848a4a42daf4410ef24bf26",
+    "implementationHash": "d9d5dde4f1c8d22c03c80ae200bc3e44734ef6a430c7e7bd037719ee30614e88",
+    "retainedForRollback": true
+  },
+  "frozenTemporalCandidate": { "revision": "050af19", "changed": false },
+  "configurationChange": ["POLICYWATCHER_RELEASE_SHA256"],
+  "flags": { "POLICYWATCHER_HOSTED_PREVIEW": "1", "POLICYWATCHER_ENGINE_V6": "1", "POLICYWATCHER_ENGINE_CHANNELS": "1", "POLICYWATCHER_ENGINE_PUBLICATION": "0", "POLICYWATCHER_ENGINE_NOTIFICATIONS": "0" },
+  "before": {
+    "tables": 45,
+    "migrations": 21,
+    "integrity": "ok",
+    "activeTasks": 0,
+    "savedRuns": { "4e9eef90-0bbb-42ee-b945-922ac76ffffc": "completed", "781ceb98-37fa-4947-af47-fec46e1e85b3": "completed" },
+    "offHostDumpSha256": "34fa0111105f2248d8b19c472d4db6f562f22c67536509a8e5e8f0a7f51c5e9e"
+  },
+  "rehearsals": [
+    { "database": "local r2-era preview database", "result": "47 tables, 22 migrations, 45 tables unchanged" },
+    { "database": "off-host copy of hosted preview.db", "result": "47 tables, 22 migrations, 45 tables unchanged, backup logically identical" },
+    { "database": "second run", "result": "idempotent" },
+    { "database": "rollback with r2 initializer", "result": "exit 0, ledger tables retained; r2 readiness tolerance established by code reading only" }
+  ],
+  "after": {
+    "tables": 47,
+    "migrations": 22,
+    "lastMigration": "20261106120000_engine_claim_ledger",
+    "integrity": "ok",
+    "activeTasks": 0,
+    "previousTablesIdentical": 43,
+    "previousTablesChanged": {
+      "AdminAccessLog": "+1 row, verification login",
+      "EngineOrigin": "internal worker-leadership rows only: r2 worker replaced by r3 worker started 2026-11-07T14:04:06.040Z"
+    },
+    "ledgerRows": { "EngineClaim": 0, "EngineClaimEvidence": 0 },
+    "anonymousBoundary": { "/admin/engine": 307, "/": 307, "/api/admin/engine": 401, "/api/admin/database-readiness": 401, "xRobotsTag": "noindex, nofollow, noarchive", "cacheControl": "private, no-store, max-age=0" },
+    "authenticatedChecks": { "passed": 13, "total": 13, "at": "2026-11-07T14:14:58.387Z", "scope": "login and read-only GET requests" }
+  },
+  "retainedFailures": [
+    { "at": "2026-11-07T14:14:58Z", "what": "first post-deployment SSH inspection", "result": "readonly_ssh_timeout during build" },
+    { "what": "hPanel notification", "result": "transient Network error shown beside Completed / Current; no consequence observed" }
+  ],
+  "pending": ["bounded observe run on r3", "ledger rows on hosted data", "content-only public notebook update after O1"],
+  "notEstablished": ["source completeness", "analysis and verifier accuracy", "multi-day managed-process survival", "500 policies/day"]
+}
