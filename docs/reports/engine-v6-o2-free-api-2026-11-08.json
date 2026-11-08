@@ -1,0 +1,109 @@
+{
+  "observedDateEuropeRome": "2026-11-08",
+  "projectName": "PolicyWatcher O2 Free QA",
+  "billingTierObserved": "free",
+  "billingSetupPerformed": false,
+  "keyStoredOutsideRepository": true,
+  "credentialFilePermissions": "0600",
+  "apiModelListHttpStatus": 200,
+  "generationProbes": [
+    {
+      "at": "2026-11-08T05:05:36.725Z",
+      "model": "gemini-3.5-flash-lite",
+      "elapsedMs": 967,
+      "success": true,
+      "modelVersion": "gemini-3.5-flash-lite",
+      "text": "{\"probe\":\"policywatcher-o2\",\"ok\":true}",
+      "usage": {
+        "promptTokenCount": 24,
+        "candidatesTokenCount": 13,
+        "totalTokenCount": 37,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 24
+          }
+        ],
+        "serviceTier": "standard"
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "text": "{\"probe\":\"policywatcher-o2\",\"ok\":true}",
+                "thoughtSignature": "EmAKXgFpFH0TIRoXE/eSVatpStz1zHqRqvTcaarQ0pfFNtKeTHjAmBaOuyUxCdrUAvvNBB0gCFbXgtXs/iWmU4V9t4rFCR7uShbVh82y9b4c3xQdv41CPEdx+hqPiHDuw3E="
+              }
+            ],
+            "role": "model"
+          },
+          "finishReason": "STOP",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "at": "2026-11-08T05:06:02.958Z",
+      "model": "gemini-3.8-flash",
+      "elapsedMs": 26232,
+      "success": true,
+      "modelVersion": "gemini-3.8-flash",
+      "text": "{\"probe\":\"policywatcher-o2\",\"ok\":true}",
+      "usage": {
+        "promptTokenCount": 24,
+        "candidatesTokenCount": 13,
+        "totalTokenCount": 176,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 24
+          }
+        ],
+        "thoughtsTokenCount": 139,
+        "serviceTier": "standard"
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "text": "{\"probe\":\"policywatcher-o2\",\"ok\":true}",
+                "thoughtSignature": "EtYECtMEAWkUfRP7z274ocR01BGPCqfNk4wZyCOjxzPfN2A5lD9pjfd30dZtr76DYMT8k6IrabjWDTxGu2Z3JUoMFtJrb2hDAFMTg6CBoO9zAY/SSqE4VLimfGU1Dy7nBTUOOP0nRCiIKx3dGdfme0l2Mb6vTeJcIlIY3/BxEDlFBeHYcmFVjebMRQUrbV2Gee4S49NYGSvsHVt4Sv98UNIzRkNnZu2qAjCTcJw6EP1TuTkl/9dyGA4G4zdCcJXtghdOEZ7iTtQjc5E75IiEcMo1xAiSGceiwWhdQEuEIbRLgTat1gr301O3blwCYvtrZbfCzjCmgrx2HlFVEMZgZ+qJR1MlbNFKuraXbdf+OV6tYXAqXiTSfwNiXuIWA0dKuRRY8+4B7IoKX4mtlKfpST28unVMym5S2sSHn1Ex3TsmJeBWiChvbrGCxM0y28soaZsn2lWZHr7ofPz8en1WRpGnk0RgTmHDXNQzp8ZSJV1nt57YGS1mrTu9GGHtbmVApQU4T7838I24JFBE0Z4q476uW3GiS8pCZ+IK1uFEUAobddjOriK68d7unrqpE2YmKJa5TrUz94MjJGBqPP9nsUfXogviqUCBofq5JJjkJL9DoRXtGySMfPk9RxOmCeZW0E0QzccfiW/3ummqNth1w+iXbrGa3vaUO2u9WkaA9O0zCT+uDsckR/gvgL1i2AFdltKUHLxgTjCQ8xVHvTf49cEW1RjHF/9j7Y4Xpz4xjXCJ7k/id2oUW/yUl2wvyzN6obE1udP+EiEPc4nS/ODhnymBOSgIV3r6wg=="
+              }
+            ],
+            "role": "model"
+          },
+          "finishReason": "STOP",
+          "index": 0
+        }
+      ]
+    }
+  ],
+  "observedQuotas": {
+    "gemini-3.5-flash-lite": {
+      "rpm": 15,
+      "inputTpm": 250000,
+      "rpd": 500
+    },
+    "gemini-3.8-flash": {
+      "rpm": 5,
+      "inputTpm": 250000,
+      "rpd": 20
+    },
+    "gemini-4-argon": {
+      "rpm": 0,
+      "inputTpm": 0,
+      "rpd": 0
+    }
+  },
+  "scope": "Two synthetic connectivity and JSON-output checks through the installed Google SDK; not a full pipeline or accuracy test.",
+  "hostedEnvironmentChanged": false,
+  "qualificationStatus": "open",
+  "capacity500Status": "not_run",
+  "evidenceHashes": {
+    "models.json": "ea7fc277466723444b62f732a6659c23aef7f065a706622ca04ff2df371ec175",
+    "quota-observation.txt": "a48befc5a251b55a138d24c931d4a0967bf6f8471433e50a2dca1cba679817c7",
+    "gemini-3.5-flash-lite-smoke.json": "95c3d87abb73f2c9359f6fc35d5331cb06b832072884d9534f5ba5c62f854792",
+    "gemini-3.8-flash-smoke.json": "a086aa9eecd2b2f34ccea42f9f3a07d773e17cc45dba5bbe39a07b47c551c635"
+  }
+}
