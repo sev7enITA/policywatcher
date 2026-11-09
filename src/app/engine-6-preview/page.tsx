@@ -6,14 +6,14 @@ import PublicHeader from '@/components/PublicHeader';
 import Footer from '@/components/Footer';
 import { languageAlternates, publicLanguage, withSocialMetadata } from '@/lib/seo';
 import styles from './preview.module.css';
-import { previewResearchUpdate } from '@/lib/pressKit';
+import { enginePreviewNotebookUpdatedAt, previewResearchUpdate } from '@/lib/pressKit';
 import { PUBLIC_AUTHOR, PUBLIC_PUBLISHER, serializeJsonLd } from '@/lib/structuredData';
 import { localizedPublicUrl } from '@/lib/seo';
 
 type Props = { searchParams: Promise<{ lang?: string }> };
 const copy = {
   en: {
-    status: 'Experimental programme', date: '7 November 2026', kicker: 'Engineering notebook / 07',
+    status: 'Experimental programme', date: '9 November 2026', kicker: 'Engineering notebook / 09',
     title: 'A clearer path from source to evidence.',
     intro: 'Engine 6 Preview is being developed and tested to make policy retrieval, comparison and validation more traceable. This page opens the design for inspection.',
     boundary: 'Private preview access / staging environment',
@@ -67,9 +67,12 @@ const copy = {
       ['Policy · PolicyChange · EngineOutbox', 'Public baseline, committed change and deferred delivery.', 'PolicyChange → Policy is an existing FK; outbox changeId is an application reference.'],
     ],
     ledgerTitle: 'What the evidence currently establishes.',
-    ledgerIntro: 'Recorded verification, updated 7 November 2026. Historical regression and campaign results are retained. Local production-mode and generated standalone-server checks are reported separately from hosted verification and production accuracy.',
+    ledgerIntro: 'Recorded verification, updated 9 November 2026. Historical regression and campaign results are retained. Local production-mode and generated standalone-server checks are reported separately from hosted verification and production accuracy.',
     check: 'Check', result: 'Recorded result', limit: 'What remains unproven',
     checks: [
+      ["9 November: real API semantic trial", "6 analyst outputs · 1 table-context hold · 0 verifier verdicts from 11 attempts", "Twelve authored synthetic cases, 17 generation attempts, no retries. Verifier: 8 HTTP 504, 2 HTTP 503 and 1 AbortError. Unavailability is not a correct rejection or a semantic verdict. Applicable-law risk was flagged despite model impact 5; consent wording remains disputed in advisory review."],
+      ["9 November: isolated durable-worker diagnostic", "Analyst succeeded; verifier HTTP 504; task queued at verification", "Controlled HTML transport and an explicitly rewound lab timer, not live source acquisition or elapsed observation days. Policy, snapshots and baseline preserved; zero public changes, notifications or claim-ledger rows. The workflow did not complete."],
+      ["8 November: dedicated free API access", "Two local SDK connectivity probes passed; Free tier reconfirmed on 9 November", "A dedicated local credential enables bounded experiments. This does not configure hosted r3 or qualify semantics. Observed quotas: analyst 500 requests/day, verifier 20. The latter cannot support 500 changed documents requiring verification per day; 500 unchanged checks are a different workload."],
       ["7 November: O2 assessment started on r3", "120 baseline tests passed · 5 new private-ledger controls passed", "Offline diagnostics and injected model responses, not live semantic accuracy. Unsupported, uncertain, missing-verdict and same-model cases retain private evidence without public effects."],
       ["O2 completeness and semantic counterexamples", "4/6 incomplete document variants pass the contract · 6/6 false interpretations pass structural checks", "An integral linked annex remains outside the acquired parent. Exact quotations do not establish entailment; the live verifier is still unmeasured. Table-span markers and hidden exception text were retained, so those fixtures do not prove text loss."],
       ["O2 hosted capacity prerequisites", "113 policy rows · 1 source contract · no configured API model pair", "Read-only check at 20:58 UTC: no Gemini credential or analyst/verifier model in deployment configuration, zero claim-ledger rows. Browser Gemini/GLM reviews are advisory. General completeness, semantic accuracy and 500 fully processed policies/day remain unqualified; free-only access is required."],
@@ -110,7 +113,7 @@ const copy = {
     footerNote: 'A public record of an experiment. Status will change only as new verification evidence is recorded.',
   },
   it: {
-    status: 'Programma sperimentale', date: '7 novembre 2026', kicker: 'Quaderno di progetto / 07',
+    status: 'Programma sperimentale', date: '9 novembre 2026', kicker: 'Quaderno di progetto / 09',
     title: 'Un percorso più chiaro dalla fonte alle prove.',
     intro: 'Engine 6 Preview è in sviluppo e sperimentazione per rendere più tracciabili recupero, confronto e validazione delle policy. Questa pagina rende il progetto consultabile.',
     boundary: 'Accesso alla preview privata / ambiente staging',
@@ -164,9 +167,12 @@ const copy = {
       ['Policy · PolicyChange · EngineOutbox', 'Baseline pubblica, modifica registrata e invio differito.', 'PolicyChange → Policy è una FK esistente; changeId dell’outbox è un riferimento applicativo.'],
     ],
     ledgerTitle: 'Che cosa dimostrano oggi le verifiche.',
-    ledgerIntro: 'Verifiche aggiornate al 7 novembre 2026. I risultati storici delle regressioni e della campagna sono conservati. Le verifiche locali in modalità produzione e sul server standalone generato sono distinte dalle prove di hosting e dall’accuratezza in produzione.',
+    ledgerIntro: 'Verifiche aggiornate al 9 novembre 2026. I risultati storici delle regressioni e della campagna sono conservati. Le verifiche locali in modalità produzione e sul server standalone generato sono distinte dalle prove di hosting e dall’accuratezza in produzione.',
     check: 'Controllo', result: 'Risultato registrato', limit: 'Che cosa resta da dimostrare',
     checks: [
+      ["9 novembre: prova semantica con API reali", "6 analisi ricevute · 1 blocco sul contesto tabellare · 0 verdetti su 11 tentativi", "Dodici casi sintetici dichiarati, 17 tentativi di generazione, nessun retry. Verificatore: 8 HTTP 504, 2 HTTP 503 e 1 AbortError. Indisponibilità non significa rifiuto corretto o giudizio semantico. Rischio sulla legge applicabile rilevato anche con impatto 5; formulazione sul consenso controversa nella revisione consultiva."],
+      ["9 novembre: prova del worker in database isolato", "Analista riuscito; verificatore HTTP 504; attività in coda alla verifica", "Trasporto HTML controllato e timer di laboratorio modificato esplicitamente, non acquisizione live o giorni di osservazione effettivi. Policy, snapshot e baseline preservati; zero modifiche pubbliche, notifiche o righe nel registro delle affermazioni. Flusso non completato."],
+      ["8 novembre: accesso API gratuito dedicato", "Due prove locali di connettività SDK superate; piano gratuito riconfermato il 9 novembre", "Una credenziale locale dedicata consente esperimenti limitati. Non configura r3 online e non qualifica la semantica. Quote osservate: analista 500 richieste/giorno, verificatore 20. Il secondo non può sostenere 500 documenti cambiati da verificare al giorno; 500 controlli senza cambiamenti sono un carico diverso."],
       ["7 novembre: assessment O2 avviato su r3", "120 test di base passati · 5 nuovi controlli del registro privato passati", "Diagnostica offline e risposte sintetiche dei modelli, non accuratezza semantica live. Esiti non supportati, incerti, senza verdetto e con modello non indipendente conservano prove private senza effetti pubblici."],
       ["O2: controesempi di completezza e significato", "4/6 documenti incompleti passano il contratto · 6/6 interpretazioni false passano i controlli strutturali", "Un allegato collegato e dichiarato parte integrante resta fuori dal documento acquisito. Citazioni esatte non dimostrano il significato; il verificatore live resta da misurare. Marcatori di celle unite e clausole nascoste sono conservati: quei casi non provano perdita di testo."],
       ["O2: prerequisiti della capacità hosted", "113 policy · 1 contratto di fonte · coppia di modelli API non configurata", "Controllo in sola lettura alle 20:58 UTC: credenziale Gemini e modelli analista/verificatore assenti dalla configurazione di rilascio, zero righe nel registro delle affermazioni. Revisioni web Gemini/GLM consultive. Completezza generale, accuratezza semantica e 500 policy interamente elaborate al giorno restano da qualificare; solo accessi gratuiti."],
@@ -234,17 +240,17 @@ export default async function EnginePreviewPage({ searchParams }: Props) {
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd({
       '@context': 'https://schema.org', '@type': 'TechArticle',
       headline: lang === 'it' ? 'Engine 6 Preview: architettura, prove e limiti' : 'Engine 6 Preview: architecture, evidence and limits',
-      description: previewResearchUpdate.summary[lang], datePublished: '2026-11-01', dateModified: previewResearchUpdate.dateModified,
+      description: previewResearchUpdate.summary[lang], datePublished: '2026-11-01', dateModified: enginePreviewNotebookUpdatedAt,
       inLanguage: lang, mainEntityOfPage: localizedPublicUrl('/engine-6-preview', lang),
       author: PUBLIC_AUTHOR, publisher: PUBLIC_PUBLISHER,
-      citation: previewResearchUpdate.evidenceLinks.filter(link => link.href.startsWith('https://github.com/')).map(link => link.href),
+      citation: [...previewResearchUpdate.evidenceLinks.filter(link => link.href.startsWith('https://github.com/')).map(link => link.href), 'https://github.com/sev7enITA/policywatcher/blob/c462524d20f5c9d03bac36f7673580f72f09cd74/docs/reports/engine-v6-o2-wave2-2026-11-09.md'],
       image: 'https://policywatcher.online/engine-6-preview/architecture-en.svg',
     }) }} />
     <PublicHeader current="roadmap" lang={lang} lockLang />
     <main className={styles.page} id="engine-preview-main">
       <div className={styles.masthead}>
         <span><FlaskConical size={16} aria-hidden="true" />{t.status}</span>
-        <time dateTime={previewResearchUpdate.dateModified}>{new Intl.DateTimeFormat(lang === 'it' ? 'it-IT' : 'en-GB', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(previewResearchUpdate.dateModified))}</time>
+        <time dateTime={enginePreviewNotebookUpdatedAt}>{new Intl.DateTimeFormat(lang === 'it' ? 'it-IT' : 'en-GB', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(enginePreviewNotebookUpdatedAt))}</time>
         <nav aria-label={lang === 'it' ? 'Lingua della pagina' : 'Page language'}><Link href="/engine-6-preview" hrefLang="en" aria-current={lang === 'en' ? 'page' : undefined}>EN</Link><Link href="/engine-6-preview?lang=it" hrefLang="it" aria-current={lang === 'it' ? 'page' : undefined}>IT</Link></nav>
       </div>
       <header className={styles.hero}>
@@ -288,7 +294,7 @@ export default async function EnginePreviewPage({ searchParams }: Props) {
         <p className={styles.tableHint} id="entities-scroll-hint">{t.tableHint} <span aria-hidden="true">↔</span></p>
         <div className={styles.tableWrap} role="region" aria-labelledby="entities-title" aria-describedby="entities-scroll-hint" tabIndex={0}><table><caption>{t.erTitle}</caption><thead><tr><th scope="col">{t.entity}</th><th scope="col">{t.responsibility}</th><th scope="col">{t.relationship}</th></tr></thead><tbody>{t.entities.map(([entity, responsibility, relationship]) => <tr key={entity}><th scope="row">{entity}</th><td>{responsibility}</td><td>{relationship}</td></tr>)}</tbody></table></div>
       </section>
-      <section className={styles.section} id="validation" aria-labelledby="validation-title"><p className={styles.limits}><a href="https://github.com/sev7enITA/policywatcher/blob/a6ae28a/docs/reports/engine-v6-o2-2026-11-07.md">{lang === 'it' ? 'Assessment O2: prove, controesempi e revisioni Gemini/GLM (7 novembre)' : 'O2 assessment: evidence, counterexamples and Gemini/GLM reviews (7 November)'}</a></p><div className={styles.sectionHeading}><p className={styles.eyebrow}>04 / {t.nav[3]}</p><h2 id="validation-title">{t.ledgerTitle}</h2><p>{t.ledgerIntro}</p></div>
+      <section className={styles.section} id="validation" aria-labelledby="validation-title"><p className={styles.limits}><a href="https://github.com/sev7enITA/policywatcher/blob/c462524d20f5c9d03bac36f7673580f72f09cd74/docs/reports/engine-v6-o2-wave2-2026-11-09.md">{lang === 'it' ? '9 novembre: API reali, errori e prova del worker' : '9 November: real API results, failures and worker diagnostic'}</a><a href="https://github.com/sev7enITA/policywatcher/blob/a6ae28a/docs/reports/engine-v6-o2-2026-11-07.md">{lang === 'it' ? 'Assessment O2: prove, controesempi e revisioni Gemini/GLM (7 novembre)' : 'O2 assessment: evidence, counterexamples and Gemini/GLM reviews (7 November)'}</a></p><div className={styles.sectionHeading}><p className={styles.eyebrow}>04 / {t.nav[3]}</p><h2 id="validation-title">{t.ledgerTitle}</h2><p>{t.ledgerIntro}</p></div>
         <div className={styles.ledger}>{t.checks.map(([check, result, limit]) => <article key={check}><h3>{check}</h3><div><strong>{result}</strong><p>{limit}</p></div></article>)}</div>
         <div className={styles.qualification}><div><span className={styles.pendingLabel}>{lang === 'it' ? 'Da qualificare' : 'Qualification pending'}</span><h3>{t.nextTitle}</h3><p>{t.nextText}</p></div><ul>{t.qualification.map(item => <li key={item}>{item}</li>)}</ul></div><p className={styles.limits}>{t.limits}</p>
       </section>
