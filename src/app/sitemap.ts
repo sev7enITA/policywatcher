@@ -10,7 +10,7 @@
 import type { MetadataRoute } from 'next';
 import { db } from '@/lib/db';
 import { publicChangeWhere, publicPolicyWhere } from '@/lib/publicDataGate';
-import { pressKitReleases, previewResearchUpdate } from '@/lib/pressKit';
+import { pressKitReleases, enginePreviewNotebookUpdatedAt } from '@/lib/pressKit';
 import { pulseStories } from '@/lib/editorialPulse';
 import { POLICYWATCHER_CANONICAL_ORIGIN } from '@/lib/siteOrigin';
 
@@ -54,7 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/timeline`, changeFrequency: 'hourly', priority: 0.9 },
     { url: `${BASE_URL}/what-changed`, changeFrequency: 'weekly', priority: 0.95 },
     ...(['en', 'it'] as const).map((lang) => ({ url: localizedPublicUrl('/browser-extension', lang), alternates: { languages: languageAlternates('/browser-extension', lang).languages }, changeFrequency: 'monthly' as const, priority: 0.86 })),
-    ...(['en', 'it'] as const).map((lang) => ({ url: localizedPublicUrl('/engine-6-preview', lang), alternates: { languages: languageAlternates('/engine-6-preview', lang).languages }, lastModified: previewResearchUpdate.dateModified, changeFrequency: 'weekly' as const, priority: 0.78 })),
+    ...(['en', 'it'] as const).map((lang) => ({ url: localizedPublicUrl('/engine-6-preview', lang), alternates: { languages: languageAlternates('/engine-6-preview', lang).languages }, lastModified: enginePreviewNotebookUpdatedAt, changeFrequency: 'weekly' as const, priority: 0.78 })),
     { url: `${BASE_URL}/leaderboard`, changeFrequency: 'hourly', priority: 0.9 },
     { url: `${BASE_URL}/trust`, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/trust/residency`, changeFrequency: 'monthly', priority: 0.82 },
