@@ -1,0 +1,34 @@
+{
+  "state": "prepared_locally_verified_not_published",
+  "at": "2026-11-09T16:45:54.309787+00:00",
+  "source": "d64ccc3703db434e3eac429bd5ccbe70b5b11576",
+  "integrationCommit": "1cef46d",
+  "archive": "/Users/fabriziodegni/Projects/PolicyWatcher-engine6-public-access/output/o2-diary-20261109/artifact/PolicyWatcher-5.5.0-hostinger-2026-11-09-engine6-o2-wave2.zip",
+  "sha256": "a98529314c42d7134f2eb2f7d8713dd8f59712d2757be48c9e8956bbe7af9668",
+  "localBuild": "passed from exact packaged archive in isolated directory",
+  "localContentChecks": 65,
+  "changedFiles": [
+    "release-manifest.json",
+    "src/app/engine-6-preview/page.tsx",
+    "src/app/sitemap.ts",
+    "src/lib/pressKit.ts"
+  ],
+  "publicVersion": "5.5.0",
+  "qualification": "open",
+  "semanticReport": "c462524d20f5c9d03bac36f7673580f72f09cd74",
+  "wikiCommit": "df8c988",
+  "stagingChanged": false,
+  "productionChanged": false,
+  "restoreRequired": false,
+  "blocker": "Mac locked before any Hostinger action; user was asked once to unlock. Gemini web answer not retrieved.",
+  "nextSteps": [
+    "After unlock inspect Gemini fresh conversation; retain only an actual new answer.",
+    "Before temporary staging maintenance obtain fresh Preview metadata and all-table read-only snapshots.",
+    "Deploy exact stable content ZIP to staging, run operational smoke, 65 EN/IT content checks and 37 source comparisons.",
+    "Restore exact r3 ZIP e82ff8ff3fe33275e62475054889cdaf97f1a12d7442bb0ca6d42ec30cf99341 with original private configuration, verify 14 checks, saved reports and table preservation.",
+    "Promote same staging-verified stable ZIP to production, verify content/source/runtime, write receipt and update Git/wiki delivery state."
+  ],
+  "previewRestoreArchive": "/Users/fabriziodegni/Projects/PolicyWatcher-engine6-preview-r3-evidence/release/PolicyWatcher-5.5.0-hostinger-2026-11-07-engine6-private-preview-r3.zip",
+  "privateConfigReference": "output/o2-diary-20261107/private; never print or commit contents",
+  "previousPublishedReceipt": "docs/reports/engine-v6-o2-publication-2026-11-07.md"
+}
