@@ -1,0 +1,174 @@
+{
+  "id": "analyst-negation-exception",
+  "expectation": "The exception is limited to advertising identifiers with consent; no unconditional sale claim.",
+  "input": {
+    "old": {
+      "schema": "pw-engine-6.0.0-alpha.1",
+      "text": "# Privacy\n\nWe do not sell personal data, including advertising identifiers.",
+      "hash": "7728c4a0bb52a159c11dc50cdeb3d53251c4080731ef629d947fea465a0a1884",
+      "blocks": [
+        {
+          "id": "8f589a7fb10cdb5fea94bc1f:0",
+          "kind": "heading",
+          "section": [
+            "Privacy"
+          ],
+          "text": "# Privacy",
+          "start": 0,
+          "end": 9
+        },
+        {
+          "id": "89076970efaa9edf16cf0726:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy"
+          ],
+          "text": "We do not sell personal data, including advertising identifiers.",
+          "start": 11,
+          "end": 75
+        }
+      ]
+    },
+    "next": {
+      "schema": "pw-engine-6.0.0-alpha.1",
+      "text": "# Privacy\n\nWe do not sell personal data, except advertising identifiers when you consent.",
+      "hash": "b1e75b0548ffb3f2a447633c2d0d2d98380ae4161c7f0845ecbe7b94df969b42",
+      "blocks": [
+        {
+          "id": "8f589a7fb10cdb5fea94bc1f:0",
+          "kind": "heading",
+          "section": [
+            "Privacy"
+          ],
+          "text": "# Privacy",
+          "start": 0,
+          "end": 9
+        },
+        {
+          "id": "d17d600439c39cf811ab9574:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy"
+          ],
+          "text": "We do not sell personal data, except advertising identifiers when you consent.",
+          "start": 11,
+          "end": 89
+        }
+      ]
+    },
+    "deltas": [
+      {
+        "id": "old:89076970efaa9edf16cf0726:0",
+        "side": "old",
+        "block": {
+          "id": "89076970efaa9edf16cf0726:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy"
+          ],
+          "text": "We do not sell personal data, including advertising identifiers.",
+          "start": 11,
+          "end": 75
+        }
+      },
+      {
+        "id": "new:d17d600439c39cf811ab9574:0",
+        "side": "new",
+        "block": {
+          "id": "d17d600439c39cf811ab9574:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy"
+          ],
+          "text": "We do not sell personal data, except advertising identifiers when you consent.",
+          "start": 11,
+          "end": 89
+        }
+      }
+    ]
+  },
+  "startedAt": "2026-11-09T16:28:47.600Z",
+  "analysis": {
+    "value": {
+      "schema": "pw-claims-1",
+      "claims": [
+        {
+          "id": "c1",
+          "operation": "modified",
+          "category": "content",
+          "textEn": "The policy was modified to state that personal data sales exclude advertising identifiers except when the user consents.",
+          "textIt": "La politica è stata modificata per stabilire che la vendita di dati personali esclude gli identificativi pubblicitari tranne quando l'utente acconsente.",
+          "impact": 5,
+          "deltaIds": [
+            "old:89076970efaa9edf16cf0726:0",
+            "new:d17d600439c39cf811ab9574:0"
+          ],
+          "evidence": [
+            {
+              "side": "old",
+              "documentHash": "7728c4a0bb52a159c11dc50cdeb3d53251c4080731ef629d947fea465a0a1884",
+              "start": 11,
+              "end": 75,
+              "quote": "We do not sell personal data, including advertising identifiers."
+            },
+            {
+              "side": "new",
+              "documentHash": "b1e75b0548ffb3f2a447633c2d0d2d98380ae4161c7f0845ecbe7b94df969b42",
+              "start": 11,
+              "end": 89,
+              "quote": "We do not sell personal data, except advertising identifiers when you consent."
+            }
+          ]
+        }
+      ]
+    },
+    "receipt": {
+      "model": "gemini-3.5-flash-lite",
+      "requestedModel": "gemini-3.5-flash-lite",
+      "promptVersion": "pw-grounded-2",
+      "inputHash": "c1ea946e2e70221776e9ec9c749c785163047d996aae7664a23448b3df8957fb",
+      "outputHash": "1f39028cb9d2c4049a92095e37092704ea8a760ea9cfe2af0779d334bb760d81",
+      "inputTokens": 665,
+      "outputTokens": 438
+    }
+  },
+  "structural": {
+    "claims": {
+      "schema": "pw-claims-1",
+      "claims": [
+        {
+          "id": "c1",
+          "operation": "modified",
+          "category": "content",
+          "textEn": "The policy was modified to state that personal data sales exclude advertising identifiers except when the user consents.",
+          "textIt": "La politica è stata modificata per stabilire che la vendita di dati personali esclude gli identificativi pubblicitari tranne quando l'utente acconsente.",
+          "impact": 5,
+          "deltaIds": [
+            "old:89076970efaa9edf16cf0726:0",
+            "new:d17d600439c39cf811ab9574:0"
+          ],
+          "evidence": [
+            {
+              "side": "old",
+              "documentHash": "7728c4a0bb52a159c11dc50cdeb3d53251c4080731ef629d947fea465a0a1884",
+              "start": 11,
+              "end": 75,
+              "quote": "We do not sell personal data, including advertising identifiers."
+            },
+            {
+              "side": "new",
+              "documentHash": "b1e75b0548ffb3f2a447633c2d0d2d98380ae4161c7f0845ecbe7b94df969b42",
+              "start": 11,
+              "end": 89,
+              "quote": "We do not sell personal data, except advertising identifiers when you consent."
+            }
+          ]
+        }
+      ]
+    },
+    "reasons": [],
+    "highImpact": false
+  },
+  "error": "ApiError: {\"error\":{\"code\":504,\"message\":\"Deadline expired before operation could complete.\",\"status\":\"DEADLINE_EXCEEDED\"}}",
+  "completedAt": "2026-11-09T16:30:58.435Z"
+}

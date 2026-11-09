@@ -1,0 +1,174 @@
+{
+  "id": "analyst-italian-risk",
+  "expectation": "Applicable law changes Italian to Irish; require impact review independently of model score.",
+  "input": {
+    "old": {
+      "schema": "pw-engine-6.0.0-alpha.1",
+      "text": "# Condizioni\n\nLa legge applicabile al contratto è quella italiana.",
+      "hash": "640581833d343b5818b4b5ad87cadffb80dcfbb44bf27dca5c9c1d2ac2d7f9bb",
+      "blocks": [
+        {
+          "id": "4c66c9f8d2c7bca1e6d552a5:0",
+          "kind": "heading",
+          "section": [
+            "Condizioni"
+          ],
+          "text": "# Condizioni",
+          "start": 0,
+          "end": 12
+        },
+        {
+          "id": "f51b0af7d8fffa4082cae478:0",
+          "kind": "paragraph",
+          "section": [
+            "Condizioni"
+          ],
+          "text": "La legge applicabile al contratto è quella italiana.",
+          "start": 14,
+          "end": 66
+        }
+      ]
+    },
+    "next": {
+      "schema": "pw-engine-6.0.0-alpha.1",
+      "text": "# Condizioni\n\nLa legge applicabile al contratto è quella irlandese.",
+      "hash": "b242a67b90cd307b410c32bcfc41ee8fe89f30960c79e8d5742261bafc546470",
+      "blocks": [
+        {
+          "id": "4c66c9f8d2c7bca1e6d552a5:0",
+          "kind": "heading",
+          "section": [
+            "Condizioni"
+          ],
+          "text": "# Condizioni",
+          "start": 0,
+          "end": 12
+        },
+        {
+          "id": "f1c6d8ad83b73026c073ff6c:0",
+          "kind": "paragraph",
+          "section": [
+            "Condizioni"
+          ],
+          "text": "La legge applicabile al contratto è quella irlandese.",
+          "start": 14,
+          "end": 67
+        }
+      ]
+    },
+    "deltas": [
+      {
+        "id": "old:f51b0af7d8fffa4082cae478:0",
+        "side": "old",
+        "block": {
+          "id": "f51b0af7d8fffa4082cae478:0",
+          "kind": "paragraph",
+          "section": [
+            "Condizioni"
+          ],
+          "text": "La legge applicabile al contratto è quella italiana.",
+          "start": 14,
+          "end": 66
+        }
+      },
+      {
+        "id": "new:f1c6d8ad83b73026c073ff6c:0",
+        "side": "new",
+        "block": {
+          "id": "f1c6d8ad83b73026c073ff6c:0",
+          "kind": "paragraph",
+          "section": [
+            "Condizioni"
+          ],
+          "text": "La legge applicabile al contratto è quella irlandese.",
+          "start": 14,
+          "end": 67
+        }
+      }
+    ]
+  },
+  "startedAt": "2026-11-09T16:32:59.868Z",
+  "analysis": {
+    "value": {
+      "schema": "pw-claims-1",
+      "claims": [
+        {
+          "id": "c1",
+          "operation": "modified",
+          "category": "content",
+          "textEn": "The applicable law for the contract has been changed from Italian law to Irish law.",
+          "textIt": "La legge applicabile al contratto è stata modificata da legge italiana a legge irlandese.",
+          "impact": 5,
+          "deltaIds": [
+            "old:f51b0af7d8fffa4082cae478:0",
+            "new:f1c6d8ad83b73026c073ff6c:0"
+          ],
+          "evidence": [
+            {
+              "side": "old",
+              "documentHash": "640581833d343b5818b4b5ad87cadffb80dcfbb44bf27dca5c9c1d2ac2d7f9bb",
+              "start": 14,
+              "end": 66,
+              "quote": "La legge applicabile al contratto è quella italiana."
+            },
+            {
+              "side": "new",
+              "documentHash": "b242a67b90cd307b410c32bcfc41ee8fe89f30960c79e8d5742261bafc546470",
+              "start": 14,
+              "end": 67,
+              "quote": "La legge applicabile al contratto è quella irlandese."
+            }
+          ]
+        }
+      ]
+    },
+    "receipt": {
+      "model": "gemini-3.5-flash-lite",
+      "requestedModel": "gemini-3.5-flash-lite",
+      "promptVersion": "pw-grounded-2",
+      "inputHash": "d7f7f42aaaf0d0d63cf632415e755f487b66e68984a497384f90f4a2d442deeb",
+      "outputHash": "81aa4c9acb5eb3bb6d03cce1cfd4318b086e6a00a2a8ad2b26858c0b3795786f",
+      "inputTokens": 673,
+      "outputTokens": 414
+    }
+  },
+  "structural": {
+    "claims": {
+      "schema": "pw-claims-1",
+      "claims": [
+        {
+          "id": "c1",
+          "operation": "modified",
+          "category": "content",
+          "textEn": "The applicable law for the contract has been changed from Italian law to Irish law.",
+          "textIt": "La legge applicabile al contratto è stata modificata da legge italiana a legge irlandese.",
+          "impact": 5,
+          "deltaIds": [
+            "old:f51b0af7d8fffa4082cae478:0",
+            "new:f1c6d8ad83b73026c073ff6c:0"
+          ],
+          "evidence": [
+            {
+              "side": "old",
+              "documentHash": "640581833d343b5818b4b5ad87cadffb80dcfbb44bf27dca5c9c1d2ac2d7f9bb",
+              "start": 14,
+              "end": 66,
+              "quote": "La legge applicabile al contratto è quella italiana."
+            },
+            {
+              "side": "new",
+              "documentHash": "b242a67b90cd307b410c32bcfc41ee8fe89f30960c79e8d5742261bafc546470",
+              "start": 14,
+              "end": 67,
+              "quote": "La legge applicabile al contratto è quella irlandese."
+            }
+          ]
+        }
+      ]
+    },
+    "reasons": [],
+    "highImpact": true
+  },
+  "error": "ApiError: {\"error\":{\"code\":504,\"message\":\"Deadline expired before operation could complete.\",\"status\":\"DEADLINE_EXCEEDED\"}}",
+  "completedAt": "2026-11-09T16:35:13.640Z"
+}

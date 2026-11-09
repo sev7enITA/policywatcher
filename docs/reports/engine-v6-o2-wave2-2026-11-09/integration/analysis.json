@@ -1,0 +1,202 @@
+{
+  "input": {
+    "old": {
+      "schema": "pw-engine-6.0.0-alpha.1",
+      "text": "# Privacy Policy\n\n## Data use\n\nWe keep account records for 30 days after closure.\n\n## Contact\n\nContact the privacy team for information about this policy and your rights.",
+      "hash": "5f183af39385b0e78228dc10b8f2d2de604c8bfe9efde6029d916f3c71c056c2",
+      "blocks": [
+        {
+          "id": "33a55ff065ddfb96d5d1a0cb:0",
+          "kind": "heading",
+          "section": [
+            "Privacy Policy"
+          ],
+          "text": "# Privacy Policy",
+          "start": 0,
+          "end": 16
+        },
+        {
+          "id": "e9f8dccb48933e7d01eedd42:0",
+          "kind": "heading",
+          "section": [
+            "Privacy Policy",
+            "Data use"
+          ],
+          "text": "## Data use",
+          "start": 18,
+          "end": 29
+        },
+        {
+          "id": "ad0d29f5fbfbef0576d3354a:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy Policy",
+            "Data use"
+          ],
+          "text": "We keep account records for 30 days after closure.",
+          "start": 31,
+          "end": 81
+        },
+        {
+          "id": "982b08b28264301d6637cf32:0",
+          "kind": "heading",
+          "section": [
+            "Privacy Policy",
+            "Contact"
+          ],
+          "text": "## Contact",
+          "start": 83,
+          "end": 93
+        },
+        {
+          "id": "a2fd8e54b5bb46e05dcd8c99:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy Policy",
+            "Contact"
+          ],
+          "text": "Contact the privacy team for information about this policy and your rights.",
+          "start": 95,
+          "end": 170
+        }
+      ]
+    },
+    "next": {
+      "schema": "pw-engine-6.0.0-alpha.1",
+      "text": "# Privacy Policy\n\n## Data use\n\nWe keep account records for 60 days after closure.\n\n## Contact\n\nContact the privacy team for information about this policy and your rights.",
+      "hash": "c687f0e259f7519acec5e53c08e2ce6e24e688a3437e3472608dd357554c3880",
+      "blocks": [
+        {
+          "id": "33a55ff065ddfb96d5d1a0cb:0",
+          "kind": "heading",
+          "section": [
+            "Privacy Policy"
+          ],
+          "text": "# Privacy Policy",
+          "start": 0,
+          "end": 16
+        },
+        {
+          "id": "e9f8dccb48933e7d01eedd42:0",
+          "kind": "heading",
+          "section": [
+            "Privacy Policy",
+            "Data use"
+          ],
+          "text": "## Data use",
+          "start": 18,
+          "end": 29
+        },
+        {
+          "id": "3e9d91a678139b6cf0358c30:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy Policy",
+            "Data use"
+          ],
+          "text": "We keep account records for 60 days after closure.",
+          "start": 31,
+          "end": 81
+        },
+        {
+          "id": "982b08b28264301d6637cf32:0",
+          "kind": "heading",
+          "section": [
+            "Privacy Policy",
+            "Contact"
+          ],
+          "text": "## Contact",
+          "start": 83,
+          "end": 93
+        },
+        {
+          "id": "a2fd8e54b5bb46e05dcd8c99:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy Policy",
+            "Contact"
+          ],
+          "text": "Contact the privacy team for information about this policy and your rights.",
+          "start": 95,
+          "end": 170
+        }
+      ]
+    },
+    "deltas": [
+      {
+        "id": "old:ad0d29f5fbfbef0576d3354a:0",
+        "side": "old",
+        "block": {
+          "id": "ad0d29f5fbfbef0576d3354a:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy Policy",
+            "Data use"
+          ],
+          "text": "We keep account records for 30 days after closure.",
+          "start": 31,
+          "end": 81
+        }
+      },
+      {
+        "id": "new:3e9d91a678139b6cf0358c30:0",
+        "side": "new",
+        "block": {
+          "id": "3e9d91a678139b6cf0358c30:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy Policy",
+            "Data use"
+          ],
+          "text": "We keep account records for 60 days after closure.",
+          "start": 31,
+          "end": 81
+        }
+      }
+    ]
+  },
+  "output": {
+    "value": {
+      "schema": "pw-claims-1",
+      "claims": [
+        {
+          "id": "c1",
+          "operation": "modified",
+          "category": "content",
+          "textEn": "The retention period for account records after closure was changed from 30 days to 60 days.",
+          "textIt": "Il periodo di conservazione dei registri dell'account dopo la chiusura è stato modificato da 30 giorni a 60 giorni.",
+          "impact": 7,
+          "deltaIds": [
+            "old:ad0d29f5fbfbef0576d3354a:0",
+            "new:3e9d91a678139b6cf0358c30:0"
+          ],
+          "evidence": [
+            {
+              "side": "old",
+              "documentHash": "5f183af39385b0e78228dc10b8f2d2de604c8bfe9efde6029d916f3c71c056c2",
+              "start": 31,
+              "end": 81,
+              "quote": "We keep account records for 30 days after closure."
+            },
+            {
+              "side": "new",
+              "documentHash": "c687f0e259f7519acec5e53c08e2ce6e24e688a3437e3472608dd357554c3880",
+              "start": 31,
+              "end": 81,
+              "quote": "We keep account records for 60 days after closure."
+            }
+          ]
+        }
+      ]
+    },
+    "receipt": {
+      "model": "gemini-3.5-flash-lite",
+      "requestedModel": "gemini-3.5-flash-lite",
+      "promptVersion": "pw-grounded-2",
+      "inputHash": "88cfa900444678e28018edb7cdf6d55d6f18534a063a5cdcae6a21fe82aff5af",
+      "outputHash": "58c243a7dc548672466a150879b8471d939f6c236231ba2f267ea43488251a68",
+      "inputTokens": 978,
+      "outputTokens": 440
+    }
+  }
+}

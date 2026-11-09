@@ -1,0 +1,163 @@
+{
+  "id": "negative-translation-divergence",
+  "expectation": "Reject: Italian contradicts both the English claim and the source change.",
+  "input": {
+    "old": {
+      "schema": "pw-engine-6.0.0-alpha.1",
+      "text": "# Privacy\n\nWe retain records for 30 days.",
+      "hash": "2f1e21dd41c88f29d43f996cfecc0369167134ac80d198e063e042b24f2be9ce",
+      "blocks": [
+        {
+          "id": "8f589a7fb10cdb5fea94bc1f:0",
+          "kind": "heading",
+          "section": [
+            "Privacy"
+          ],
+          "text": "# Privacy",
+          "start": 0,
+          "end": 9
+        },
+        {
+          "id": "7944a6f44842372aa9482cc8:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy"
+          ],
+          "text": "We retain records for 30 days.",
+          "start": 11,
+          "end": 41
+        }
+      ]
+    },
+    "next": {
+      "schema": "pw-engine-6.0.0-alpha.1",
+      "text": "# Privacy\n\nWe retain records for 60 days.",
+      "hash": "ee86135d532597d588b73b1c49773978aa90267c3e0af58bad8550ee7c52b8c4",
+      "blocks": [
+        {
+          "id": "8f589a7fb10cdb5fea94bc1f:0",
+          "kind": "heading",
+          "section": [
+            "Privacy"
+          ],
+          "text": "# Privacy",
+          "start": 0,
+          "end": 9
+        },
+        {
+          "id": "003f769d42a32635e832113c:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy"
+          ],
+          "text": "We retain records for 60 days.",
+          "start": 11,
+          "end": 41
+        }
+      ]
+    },
+    "deltas": [
+      {
+        "id": "old:7944a6f44842372aa9482cc8:0",
+        "side": "old",
+        "block": {
+          "id": "7944a6f44842372aa9482cc8:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy"
+          ],
+          "text": "We retain records for 30 days.",
+          "start": 11,
+          "end": 41
+        }
+      },
+      {
+        "id": "new:003f769d42a32635e832113c:0",
+        "side": "new",
+        "block": {
+          "id": "003f769d42a32635e832113c:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy"
+          ],
+          "text": "We retain records for 60 days.",
+          "start": 11,
+          "end": 41
+        }
+      }
+    ]
+  },
+  "startedAt": "2026-11-09T16:24:46.512Z",
+  "claims": {
+    "schema": "pw-claims-1",
+    "claims": [
+      {
+        "id": "translation-divergence",
+        "operation": "modified",
+        "category": "content",
+        "impact": 3,
+        "textEn": "Retention changes from 30 to 60 days.",
+        "textIt": "Il periodo di conservazione resta invariato a 30 giorni.",
+        "deltaIds": [
+          "old:7944a6f44842372aa9482cc8:0",
+          "new:003f769d42a32635e832113c:0"
+        ],
+        "evidence": [
+          {
+            "side": "old",
+            "documentHash": "2f1e21dd41c88f29d43f996cfecc0369167134ac80d198e063e042b24f2be9ce",
+            "start": 0,
+            "end": 41,
+            "quote": "# Privacy\n\nWe retain records for 30 days."
+          },
+          {
+            "side": "new",
+            "documentHash": "ee86135d532597d588b73b1c49773978aa90267c3e0af58bad8550ee7c52b8c4",
+            "start": 0,
+            "end": 41,
+            "quote": "# Privacy\n\nWe retain records for 60 days."
+          }
+        ]
+      }
+    ]
+  },
+  "structural": {
+    "claims": {
+      "schema": "pw-claims-1",
+      "claims": [
+        {
+          "id": "translation-divergence",
+          "operation": "modified",
+          "category": "content",
+          "impact": 3,
+          "textEn": "Retention changes from 30 to 60 days.",
+          "textIt": "Il periodo di conservazione resta invariato a 30 giorni.",
+          "deltaIds": [
+            "old:7944a6f44842372aa9482cc8:0",
+            "new:003f769d42a32635e832113c:0"
+          ],
+          "evidence": [
+            {
+              "side": "old",
+              "documentHash": "2f1e21dd41c88f29d43f996cfecc0369167134ac80d198e063e042b24f2be9ce",
+              "start": 0,
+              "end": 41,
+              "quote": "# Privacy\n\nWe retain records for 30 days."
+            },
+            {
+              "side": "new",
+              "documentHash": "ee86135d532597d588b73b1c49773978aa90267c3e0af58bad8550ee7c52b8c4",
+              "start": 0,
+              "end": 41,
+              "quote": "# Privacy\n\nWe retain records for 60 days."
+            }
+          ]
+        }
+      ]
+    },
+    "reasons": [],
+    "highImpact": false
+  },
+  "error": "ApiError: {\"error\":{\"code\":504,\"message\":\"Deadline expired before operation could complete.\",\"status\":\"DEADLINE_EXCEEDED\"}}",
+  "completedAt": "2026-11-09T16:26:45.094Z"
+}

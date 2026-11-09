@@ -1,0 +1,216 @@
+{
+  "id": "analyst-table",
+  "expectation": "Only Training default changes No to Yes; cite header and row from both versions.",
+  "input": {
+    "old": {
+      "schema": "pw-engine-6.0.0-alpha.1",
+      "text": "# Data use\n\n| Purpose | Default |\n| Service | Yes |\n| Training | No |",
+      "hash": "ef8a8ef1764809570b9c5b72ff4233cd5b776e4c9a55cf785dc74b736e5bca7d",
+      "blocks": [
+        {
+          "id": "6b89b4f747d2f2aa536f7eb6:0",
+          "kind": "heading",
+          "section": [
+            "Data use"
+          ],
+          "text": "# Data use",
+          "start": 0,
+          "end": 10
+        },
+        {
+          "id": "88a2d46783fb2e1a731d2fa5:0",
+          "kind": "table",
+          "section": [
+            "Data use"
+          ],
+          "text": "| Purpose | Default |",
+          "start": 12,
+          "end": 33
+        },
+        {
+          "id": "536519094803ba518d48f08c:0",
+          "kind": "table",
+          "section": [
+            "Data use"
+          ],
+          "text": "| Service | Yes |",
+          "start": 34,
+          "end": 51
+        },
+        {
+          "id": "64524c62827adfc715ff496e:0",
+          "kind": "table",
+          "section": [
+            "Data use"
+          ],
+          "text": "| Training | No |",
+          "start": 52,
+          "end": 69
+        }
+      ]
+    },
+    "next": {
+      "schema": "pw-engine-6.0.0-alpha.1",
+      "text": "# Data use\n\n| Purpose | Default |\n| Service | Yes |\n| Training | Yes |",
+      "hash": "ebe7c71c48ef769ba432b2bc07120847f62c3d7b26b95a78b2f82736ab547936",
+      "blocks": [
+        {
+          "id": "6b89b4f747d2f2aa536f7eb6:0",
+          "kind": "heading",
+          "section": [
+            "Data use"
+          ],
+          "text": "# Data use",
+          "start": 0,
+          "end": 10
+        },
+        {
+          "id": "88a2d46783fb2e1a731d2fa5:0",
+          "kind": "table",
+          "section": [
+            "Data use"
+          ],
+          "text": "| Purpose | Default |",
+          "start": 12,
+          "end": 33
+        },
+        {
+          "id": "536519094803ba518d48f08c:0",
+          "kind": "table",
+          "section": [
+            "Data use"
+          ],
+          "text": "| Service | Yes |",
+          "start": 34,
+          "end": 51
+        },
+        {
+          "id": "5d59c71b4fab8981752f11af:0",
+          "kind": "table",
+          "section": [
+            "Data use"
+          ],
+          "text": "| Training | Yes |",
+          "start": 52,
+          "end": 70
+        }
+      ]
+    },
+    "deltas": [
+      {
+        "id": "old:64524c62827adfc715ff496e:0",
+        "side": "old",
+        "block": {
+          "id": "64524c62827adfc715ff496e:0",
+          "kind": "table",
+          "section": [
+            "Data use"
+          ],
+          "text": "| Training | No |",
+          "start": 52,
+          "end": 69
+        }
+      },
+      {
+        "id": "new:5d59c71b4fab8981752f11af:0",
+        "side": "new",
+        "block": {
+          "id": "5d59c71b4fab8981752f11af:0",
+          "kind": "table",
+          "section": [
+            "Data use"
+          ],
+          "text": "| Training | Yes |",
+          "start": 52,
+          "end": 70
+        }
+      }
+    ]
+  },
+  "startedAt": "2026-11-09T16:32:58.327Z",
+  "analysis": {
+    "value": {
+      "schema": "pw-claims-1",
+      "claims": [
+        {
+          "id": "c1",
+          "operation": "modified",
+          "category": "content",
+          "textEn": "The default setting for Training data use was changed from No to Yes.",
+          "textIt": "L'impostazione predefinita per l'utilizzo dei dati di addestramento è stata modificata da No a Sì.",
+          "impact": 5,
+          "deltaIds": [
+            "old:64524c62827adfc715ff496e:0",
+            "new:5d59c71b4fab8981752f11af:0"
+          ],
+          "evidence": [
+            {
+              "side": "old",
+              "documentHash": "ef8a8ef1764809570b9c5b72ff4233cd5b776e4c9a55cf785dc74b736e5bca7d",
+              "start": 52,
+              "end": 69,
+              "quote": "| Training | No |"
+            },
+            {
+              "side": "new",
+              "documentHash": "ebe7c71c48ef769ba432b2bc07120847f62c3d7b26b95a78b2f82736ab547936",
+              "start": 52,
+              "end": 70,
+              "quote": "| Training | Yes |"
+            }
+          ]
+        }
+      ]
+    },
+    "receipt": {
+      "model": "gemini-3.5-flash-lite",
+      "requestedModel": "gemini-3.5-flash-lite",
+      "promptVersion": "pw-grounded-2",
+      "inputHash": "1be198b994a81cb0aaf1b612724d7873ace83294769c8b4f4608f0dd0e2e03d7",
+      "outputHash": "68966aa2c426d207bb74e2fc7b04a42ce615895fa123540c6996783fbf041af3",
+      "inputTokens": 862,
+      "outputTokens": 412
+    }
+  },
+  "structural": {
+    "claims": {
+      "schema": "pw-claims-1",
+      "claims": [
+        {
+          "id": "c1",
+          "operation": "modified",
+          "category": "content",
+          "textEn": "The default setting for Training data use was changed from No to Yes.",
+          "textIt": "L'impostazione predefinita per l'utilizzo dei dati di addestramento è stata modificata da No a Sì.",
+          "impact": 5,
+          "deltaIds": [
+            "old:64524c62827adfc715ff496e:0",
+            "new:5d59c71b4fab8981752f11af:0"
+          ],
+          "evidence": [
+            {
+              "side": "old",
+              "documentHash": "ef8a8ef1764809570b9c5b72ff4233cd5b776e4c9a55cf785dc74b736e5bca7d",
+              "start": 52,
+              "end": 69,
+              "quote": "| Training | No |"
+            },
+            {
+              "side": "new",
+              "documentHash": "ebe7c71c48ef769ba432b2bc07120847f62c3d7b26b95a78b2f82736ab547936",
+              "start": 52,
+              "end": 70,
+              "quote": "| Training | Yes |"
+            }
+          ]
+        }
+      ]
+    },
+    "reasons": [
+      "table_context_missing"
+    ],
+    "highImpact": false
+  },
+  "verifierSkipped": "r3_structural_hold",
+  "completedAt": "2026-11-09T16:32:59.867Z"
+}

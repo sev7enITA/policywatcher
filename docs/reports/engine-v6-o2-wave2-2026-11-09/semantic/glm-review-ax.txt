@@ -1,0 +1,232 @@
+1173 text READ ONLY. Review /Users/fabriziodegni/Projects/PolicyWatcher-preview-r3/docs/architecture/engine-v6-o2-wave2-protocol.md and the two engine-o2-live scripts in scripts/. Find methodology and false-green risks. Do not edit or execute anything. Do not read keys or configs. No API calls. No paid access. Return source lines and advisory findings only.
+														1174 button Copy
+														1175 button Edit
+														1176 button Worked for 4m 21s
+														1177 text Read-only review complete. I read the protocol (
+														1178 text docs/architecture/engine-v6-o2-wave2-protocol.md
+														1179 text ) and both scripts (
+														1180 text scripts/engine-o2-live-wave.ts
+														1181 text , 
+														1182 text scripts/engine-o2-live-integration.ts
+														1183 text ). Nothing was executed, no configs or key files were opened (both scripts reference 
+														1184 text ~/.config/policywatcher/o2-free-qa.env
+														1185 text  — I did not read it), and no network calls were made. Findings below are advisory, ordered by risk; line references are exact.
+														1186 heading O2 wave-2 protocol & scripts: methodology review, Value: 1
+															1187 text O2 wave-2 protocol & scripts: methodology review
+														1188 heading Methodology strengths (worth keeping), Value: 2
+															1189 text Methodology strengths (worth keeping)
+														1190 text The design is unusually fail-closed. The wave freezes the corpus into 
+														1191 text plan.json
+														1192 text  at prepare time and refuses any drift at run time (
+														1193 text engine-o2-live-wave.ts:33
+														1194 text ); output files are exclusive-create (
+														1195 text wx
+														1196 text ) so a directory cannot be silently overwritten (
+														1197 text :30,:35,:111,:116
+														1198 text ); the attempt budget (18) and per-model 15-second pacing are enforced inside the fetch wrapper itself, not by convention (
+														1199 text :57-62
+														1200 text ); duplicate requests are rejected outright (
+														1201 text retry_not_permitted
+														1202 text , 
+														1203 text :53-55
+														1204 text ); quota/access rejections halt subsequent calls (
+														1205 text stopped
+														1206 text , 
+														1207 text :70,:89
+														1208 text ); request capture records only the URL path and body with the API key redacted, and the key normally travels in the query string, which is never persisted (
+														1209 text :63-65
+														1210 text ,
+														1211 text :42
+														1212 text ). Implementation identity is pinned by hash (
+														1213 text :15
+														1214 text ) and re-checked after the run (
+														1215 text :117
+														1216 text ). The integration script mirrors this: identity pin (
+														1217 text engine-o2-live-integration.ts:13-15
+														1218 text ), isolated SQLite (
+														1219 text :17
+														1220 text ), observe/silent forced (
+														1221 text :19
+														1222 text ), a hard 2-generation cap (
+														1223 text :51
+														1224 text ), retry prohibition on both models (
+														1225 text :68-69
+														1226 text ), and — importantly — the lab-only timer rewind is recorded with before/after evidence rather than hidden (
+														1227 text :76-79
+														1228 text ). The protocol's own non-claims (no aggregate accuracy from an authored corpus, no capacity evidence, model agreement ≠ independent annotation — protocol 
+														1229 text :13,:21
+														1230 text ) match what the scripts actually measure. The observe-mode expectation is asserted, not just recorded (
+														1231 text :75
+														1232 text ), and both scripts hardcode honest status labels (
+														1233 text qualification: 'open_pending_adjudication_and_remaining_gates'
+														1234 text , wave 
+														1235 text :116
+														1236 text ; 
+														1237 text observationDaysAdded: 0, hostedChanges: false
+														1238 text , integration 
+														1239 text :85
+														1240 text ).
+														1241 heading False-green risks, Value: 2
+															1242 text False-green risks
+														1243 text 1. A "supported" verdict on a negative case is reported as an EMPTY reason list — the failure mode is the one that looks like success.
+														1244 text validateVerification
+														1245 text  only pushes reasons for non-supported verdicts (claims.ts:96-97, unchanged in r3). So for the six deliberately false claims, 
+														1246 text verificationReasons: []
+														1247 text  means the verifier 
+														1248 text accepted a fabricated claim
+														1249 text  — the protocol's "unsafe false acceptance" (protocol 
+														1250 text :9
+														1251 text ) — while 
+														1252 text ['claim_unsupported']
+														1253 text  or 
+														1254 text ['claim_uncertain']
+														1255 text  is the safe outcome. The wave stores raw values only (
+														1256 text engine-o2-live-wave.ts:97,:112
+														1257 text ); nothing derives a 
+														1258 text unsafe_supported / held_uncertain / rejected
+														1259 text  label. Anyone skimming 
+														1260 text report.json
+														1261 text  or the console line can invert the semantics. 
+														1262 text Hardening:
+														1263 text  derive an explicit per-negative outcome field before adjudication.
+														1264 text 2. Degenerate abstention is indistinguishable from success.
+														1265 text  The protocol predeclares 
+														1266 text uncertain
+														1267 text  as "a safe hold but not correct" (
+														1268 text :9
+														1269 text ), and the verifier prompt says "Any doubt => uncertain". A verifier that returns 
+														1270 text uncertain
+														1271 text  on all six negatives is 100% "safe" while demonstrating zero detection ability. No rule in the protocol or report flags an all-abstain or mostly-abstain pattern. 
+														1272 text Hardening:
+														1273 text  the adjudication step should treat an abstention rate above some observed-of-record fraction (declared after the run, not before) as a verifier-utility red flag — this is a reporting rule, not a qualification threshold, so it doesn't conflict with the no-invented-thresholds constraint.
+														1274 text 3. The protocol's frozen plan hash is never enforced by the script.
+														1275 text  The protocol pins 
+														1276 text plan.json
+														1277 text  SHA-256 
+														1278 text d320ef85…e75a
+														1279 text  (
+														1280 text :7
+														1281 text ), but the wave only checks that the on-disk 
+														1282 text plan.json
+														1283 text  equals what the 
+														1284 text current
+														1285 text  script + 
+														1286 text current
+														1287 text  corpus recompute (
+														1288 text engine-o2-live-wave.ts:33
+														1289 text ). If the corpus or script drifted between the protocol being written and 
+														1290 text --prepare
+														1291 text  being run, a different — internally consistent — plan would execute without ever comparing against 
+														1292 text d320ef85…
+														1293 text . 
+														1294 text Hardening:
+														1295 text  embed the expected 
+														1296 text digest(planText)
+														1297 text  as a constant in the script (it's deterministic — no timestamps in the plan) so prepare, run, and protocol agree on one artifact.
+														1298 text 4. The integration diagnostic's fixture is not predeclared anywhere.
+														1299 text  Unlike the wave, the lab HTML, contract, and expectations live only in the script body (
+														1300 text engine-o2-live-integration.ts:33-38
+														1301 text ); 
+														1302 text plan.json
+														1303 text  is written at run time with a timestamp (
+														1304 text :38
+														1305 text ), so there is no frozen artifact binding the protocol (
+														1306 text :17
+														1307 text ) to the exact fixture that ran. The script is the declaration — but scripts can be edited and re-run into a fresh directory. 
+														1308 text Hardening:
+														1309 text  publish the intended fixture (HTML + contract + expected task outcomes) as a hash in the protocol, as was done for the wave.
+														1310 text 5. Recorded counts are not asserted, and their presence can masquerade as validation.
+														1311 text  The integration's core safety properties — 
+														1312 text publicChanges: 0
+														1313 text , 
+														1314 text outbox: 0
+														1315 text , policy/snapshot/baseline preservation — are computed and saved (
+														1316 text :83-86
+														1317 text ) but never asserted; only the confirmation-pending gate is (
+														1318 text :75
+														1319 text ). The protocol says "verify … absence of public changes/outbox records" (
+														1320 text :17
+														1321 text ), and a reader of 
+														1322 text report.json
+														1323 text  may mistake the fields' existence for a passed check. 
+														1324 text Hardening:
+														1325 text  add derived booleans (
+														1326 text publicChangesZero
+														1327 text , 
+														1328 text outboxZero
+														1329 text ) so a false value is unambiguous; keep the raw counts alongside. Note the preservation check itself (
+														1330 text JSON.stringify(before) === JSON.stringify(after)
+														1331 text , 
+														1332 text :85
+														1333 text ) is sound today for the observe path but brittle (string equality over Prisma rows); a field-level diff would fail with a diagnosis instead of a bare 
+														1334 text false
+														1335 text .
+														1336 container
+															1337 text 6.  manifest --check  semantics are unverified — the identity control may be weaker than it reads.
+														1338 text  Both scripts gate on 
+														1339 text execFileSync(..., ['scripts/engine-implementation-manifest.mjs', '--check'])
+														1340 text  (wave 
+														1341 text :16,:117
+														1342 text ; integration 
+														1343 text :13
+														1344 text ). I previously read only the first 50 lines of that script, which end at manifest construction; the write-vs-check branching is below that and I could not verify a 
+														1345 text --check
+														1346 text  branch exists. If it doesn't, the invocation would 
+														1347 text rewrite
+														1348 text  the generated manifest (byte-identical here, since the recorded hash already matches) and exit 0 — degrading an identity verification into a no-op write while appearing to pass. I am not asserting this is the case; I am flagging that both scripts' strongest identity guarantee rests on an unverified branch. 
+														1349 text Action:
+														1350 text  confirm the 
+														1351 text --check
+														1352 text  path compares-and-exits-nonzero without writing.
+														1353 text 7. The harness is self-recorded but unbound (wave) and unrecorded (integration).
+														1354 text  The wave writes its own hash into 
+														1355 text started.json
+														1356 text  (
+														1357 text :35
+														1358 text ) but nothing checks it; the integration hashes nothing about itself. Combined with finding 4, the integration could be modified and re-run into a new output directory with no artifact trail distinguishing harness versions. The 
+														1359 text wx
+														1360 text  flags prevent in-place tampering but not fresh-dir reruns.
+														1361 text 8. The negatives are blatant by construction, narrowing what a green result means.
+														1362 text  The three appended negatives are overt falsehoods adjacent to the quoted text ("after collection" vs "after closure"; "encryption at rest" from a TLS bump; an Italian sentence contradicting its English twin — 
+														1363 text :20-22
+														1364 text ), and the corpus-derived ones follow the authored-corpus pattern. Six obvious fabrications rejected is a floor, not semantic-accuracy evidence — the protocol concedes this (
+														1365 text :13
+														1366 text ), but the adjudication should say it explicitly: this wave can falsify the verifier (any 
+														1367 text supported
+														1368 text  is damning) but cannot affirm it beyond easy cases.
+														1369 heading Minor notes and deviations, Value: 2
+															1370 text Minor notes and deviations
+														1371 content list
+															1372 container
+																1373 AXListMarker • 
+																1374 text Negative count is derived, not asserted. negatives = positives.filter(c => c.unsupportedEn).concat([3])  ( :19-23 ) yields "six" only if exactly three corpus cases carry  unsupportedEn . A corpus edit silently changes the trial's shape. Assert  negatives.length === 6  (and positives = 6) at prepare.
+															1375 container
+																1376 AXListMarker • 
+																1377 text countTokens
+																1378 text  is neither paced nor budgeted  (only  :generateContent  is counted, wave  :56-57 ; integration  :51 ). Consistent with the protocol's "generation attempts" wording, but a 429 from a countTokens quota would stop the run through the  stopped  mechanism rather than the budget — fine, just know it.
+															1379 container
+																1380 AXListMarker • 
+																1381 text SDK-internal retries become case failures  ( retry_not_permitted  fires on identical path+body, wave  :53-55 ). That's fail-closed (a false-red risk, not false-green) — but be aware a transient 500 followed by an SDK retry records an error and moves on, never retried; per protocol  :11  that's intended.
+															1382 container
+																1383 AXListMarker • 
+																1384 text Fetch-body capture assumes string/Request bodies  (wave  :51 , integration  :46 ). If the SDK ever switches to streaming bodies, capture throws  request_capture_unavailable  and aborts — fail-closed, acceptable.
+															1385 container
+																1386 AXListMarker • 
+																1387 text Wave pacing applies per pathname  ( :59-61 ) — since analyst and verifier are distinct models, this matches "each model … 15 seconds apart" (protocol  :11 ). The integration's two generations are unpaced but on different models under a separate protocol section that sets no pacing requirement; no violation, noted for completeness.
+															1388 container
+																1389 AXListMarker • 
+																1390 text Wave wrapper restore is not in a 
+																1391 text finally
+																1392 text  ( :115 ): an unexpected throw between loop end and restore (e.g.,  report.json wx  collision) leaves  globalThis.fetch  patched during process exit — harmless here, sloppy in principle. The integration does it correctly in  finally  ( :87 ).
+															1393 container
+																1394 AXListMarker • 
+																1395 text Negative-path flow is verifier-only by design  (no analyst receipt, hence no  validateModelPair  on negatives — wave  :95-97 ), matching protocol  :9,:11 . The integration supplies the missing full-pair coverage.
+															1396 container
+																1397 AXListMarker • 
+																1398 text Timer rewind is direct DB mutation outside the engine's fenced writes  (integration  :77 ). The protocol explicitly licenses and disclaims it ( :17 ), the before/after is saved ( :79 ), and  observationDaysAdded: 0  is hardcoded in the report ( :85 ) — this is the honest version of a lab shortcut, but public write-ups must never cite this run's "confirmed change" language without the lab qualifier, exactly as the protocol warns.
+														1399 heading Bottom line, Value: 2
+															1400 text Bottom line
+														1401 text The wave-2 design is genuinely adversarial toward itself in most respects — frozen plans, exclusive outputs, enforced budgets, no retries, stop-on-quota, recorded timer manipulation, and pre-declared non-claims. The residual false-green surface is concentrated in 
+														1402 text interpretation and binding
+														1403 text , not execution: an inverted-looking reason field on negatives (1), abstention degeneracy (2), a protocol hash the code never checks (3), an unfrozen integration fixture (4), unasserted safety counts (5), and one unverified identity-check branch (6). All are fixable with small additions to the scripts and adjudication rules — none require touching engine code or weakening any gate. I did not execute either script, and nothing here depends on having done so.
+														

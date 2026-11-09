@@ -1,0 +1,49 @@
+{
+  "policy": {
+    "id": "70c78120-e2f0-44ab-85e5-2c31a7b37c55",
+    "companyId": "f9e6900c-19ed-4d11-beed-827a86de0309",
+    "name": "Privacy Policy",
+    "type": "privacy",
+    "url": "https://example.com/privacy",
+    "retrievalUrl": null,
+    "sourceMigrationPending": false,
+    "sourceMigrationRequestedAt": null,
+    "jurisdiction": "Global",
+    "currentText": "# Privacy Policy\n\n## Data use\n\nWe keep account records for 30 days after closure.\n\n## Contact\n\nContact the privacy team for information about this policy and your rights.",
+    "currentHash": "5f183af39385b0e78228dc10b8f2d2de604c8bfe9efde6029d916f3c71c056c2",
+    "dataStatus": "Available",
+    "lastCheckDate": "1970-01-01T00:00:00.000Z",
+    "lastSuccessfulCheckDate": "1970-01-01T00:00:00.000Z",
+    "ingestionMethod": "Seeded",
+    "createdAt": "2026-11-09T16:37:23.849Z",
+    "updatedAt": "2026-11-09T16:37:23.849Z"
+  },
+  "snapshots": [
+    {
+      "id": "9273abe4-f8af-4b7a-823d-93f3e5f4d89b",
+      "policyId": "70c78120-e2f0-44ab-85e5-2c31a7b37c55",
+      "version": 1,
+      "text": "# Privacy Policy\n\n## Data use\n\nWe keep account records for 30 days after closure.\n\n## Contact\n\nContact the privacy team for information about this policy and your rights.",
+      "hash": "5f183af39385b0e78228dc10b8f2d2de604c8bfe9efde6029d916f3c71c056c2",
+      "sourceUrl": null,
+      "requestedUrl": null,
+      "finalUrl": null,
+      "sourceProvenance": "unknown",
+      "sourceRetrievalId": null,
+      "publicEvidence": false,
+      "createdAt": "2026-11-09T16:37:23.849Z"
+    }
+  ],
+  "baseline": [
+    {
+      "policyId": "70c78120-e2f0-44ab-85e5-2c31a7b37c55",
+      "baselineHash": "5f183af39385b0e78228dc10b8f2d2de604c8bfe9efde6029d916f3c71c056c2",
+      "profileHash": "6df170e3412150042976c9271a4552eb7cba6dfea87ba5e92833baaae928a422",
+      "inputHash": "b73e7e32a76f6771e886e7aea7a15cd30919f5e09375db86065b2ce0bab86d6d",
+      "input": "<html lang=\"en\"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days after closure.</p><h2>Contact</h2><p>Contact the privacy team for information about this policy and your rights.</p></main></html>",
+      "sourceUrl": "https://example.com/privacy",
+      "capturedAt": "2026-11-09T16:37:23.852Z",
+      "updatedAt": "2026-11-09T16:37:23.853Z"
+    }
+  ]
+}

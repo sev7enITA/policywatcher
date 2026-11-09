@@ -1,0 +1,26 @@
+{
+  "at": "2026-11-09T16:37:23.842Z",
+  "implementation": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+  "contract": {
+    "schemaVersion": 1,
+    "sourceUrl": "https://example.com/privacy",
+    "titleAliases": [
+      "Privacy Policy"
+    ],
+    "requiredHeadings": [
+      "Data use",
+      "Contact"
+    ],
+    "terminalText": "Contact the privacy team for information about this policy and your rights.",
+    "language": "en",
+    "minimumChars": 100,
+    "maximumChars": 500000,
+    "preferredTransport": "direct",
+    "reviewedAt": "2026-11-09T16:37:23.841Z",
+    "reviewNote": "Authored lab HTML, not a reviewed provider source."
+  },
+  "oldHtml": "<html lang=\"en\"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days after closure.</p><h2>Contact</h2><p>Contact the privacy team for information about this policy and your rights.</p></main></html>",
+  "newHtml": "<html lang=\"en\"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 60 days after closure.</p><h2>Contact</h2><p>Contact the privacy team for information about this policy and your rights.</p></main></html>",
+  "maxGenerationAttempts": 2,
+  "boundary": "Controlled synthetic transport, real extraction/assessment/worker/ledger; live SDK analyst and verifier. Candidate confirmation timer is explicitly rewound in this lab DB. No live source, elapsed observation day, hosted DB or publication."
+}
