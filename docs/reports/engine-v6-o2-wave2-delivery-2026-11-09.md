@@ -1,0 +1,13 @@
+# O2 wave 2 diary: prepared and locally verified, not published
+
+9 November 2026. This receipt records preparation, not delivery to the website. Production and staging have not been modified for this wave; no restoration is currently required. The last completed diary delivery remains 7 November at 22:24 Europe/Rome.
+
+The new EN/IT notebook records the twelve synthetic semantic cases, eleven unsuccessful verifier attempts, one correct table-context hold, deterministic applicable-law review and a separate incomplete worker diagnostic with preserved baseline data. Source completeness, semantic accuracy and full 500-policy/day operation remain unqualified. Evidence is pushed in [PR #55](https://github.com/sev7enITA/policywatcher/pull/55), immutable report commit `c462524d20f5c9d03bac36f7673580f72f09cd74`; wiki `df8c988` explicitly says the diary is not yet published.
+
+Stable source `d64ccc3703db434e3eac429bd5ccbe70b5b11576`, integrated into PR #54 as `1cef46d`, produces archive `PolicyWatcher-5.5.0-hostinger-2026-11-09-engine6-o2-wave2.zip`, SHA-256 `a98529314c42d7134f2eb2f7d8713dd8f59712d2757be48c9e8956bbe7af9668`. Comparison with the last published archive found exactly four changed files: `src/app/engine-6-preview/page.tsx`, `src/app/sitemap.ts`, `src/lib/pressKit.ts` and `release-manifest.json`. The notebook now has its own 9 November modification date; the dated 7 November research article and 2 November stable release retain their historical dates. No scanner or migration changed.
+
+The exact ZIP passed an isolated production build and **65 local EN/IT content checks**, including dates, sitemap, new immutable evidence link, error denominators, unchanged historical failure entries and existing discovery links. Local success does not establish hosted delivery. GitHub CI on the evidence and public-content commits is tracked separately on PRs #55 and #54; six checks already passed on protocol commit `ea032ba`.
+
+The Mac locked before any Hostinger action. The owner was asked once to unlock it; no upload, deployment or environment save was attempted. Gemini web follow-ups did not yield a retained new response before the lock; GLM supplied two retained advisory reviews. Browser advice is distinct from runtime verifier evidence.
+
+Resume from `output/o2-diary-20261109/handoff.json`. Obtain fresh read-only Preview snapshots before maintenance; verify the exact stable ZIP on staging; restore original private r3 archive `e82ff8ff3fe33275e62475054889cdaf97f1a12d7442bb0ca6d42ec30cf99341` and verify saved reports, full table preservation and authenticated checks; only then promote the same verified stable ZIP and collect public content/source/runtime receipts. Do not deploy the O2 diagnostic branch or retry its saved failed cases.
