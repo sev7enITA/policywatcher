@@ -1,0 +1,10 @@
+{
+  "case": "analyst-negation-exception",
+  "at": "2026-11-09T16:28:47.601Z",
+  "path": "/v1beta/models/gemini-3.5-flash-lite:countTokens",
+  "requestHash": "1471452b982d22c4783b2d5b07162186fab17b8ce967910ec74eff2422e16a85",
+  "requestBody": "{\"contents\":[{\"parts\":[{\"text\":\"{\\\"old\\\":{\\\"hash\\\":\\\"7728c4a0bb52a159c11dc50cdeb3d53251c4080731ef629d947fea465a0a1884\\\",\\\"blocks\\\":[{\\\"id\\\":\\\"8f589a7fb10cdb5fea94bc1f:0\\\",\\\"kind\\\":\\\"heading\\\",\\\"start\\\":0,\\\"end\\\":9,\\\"text\\\":\\\"# Privacy\\\"},{\\\"id\\\":\\\"89076970efaa9edf16cf0726:0\\\",\\\"kind\\\":\\\"paragraph\\\",\\\"start\\\":11,\\\"end\\\":75,\\\"text\\\":\\\"We do not sell personal data, including advertising identifiers.\\\"}]},\\\"next\\\":{\\\"hash\\\":\\\"b1e75b0548ffb3f2a447633c2d0d2d98380ae4161c7f0845ecbe7b94df969b42\\\",\\\"blocks\\\":[{\\\"id\\\":\\\"8f589a7fb10cdb5fea94bc1f:0\\\",\\\"kind\\\":\\\"heading\\\",\\\"start\\\":0,\\\"end\\\":9,\\\"text\\\":\\\"# Privacy\\\"},{\\\"id\\\":\\\"d17d600439c39cf811ab9574:0\\\",\\\"kind\\\":\\\"paragraph\\\",\\\"start\\\":11,\\\"end\\\":89,\\\"text\\\":\\\"We do not sell personal data, except advertising identifiers when you consent.\\\"}]},\\\"deltas\\\":[{\\\"id\\\":\\\"old:89076970efaa9edf16cf0726:0\\\",\\\"side\\\":\\\"old\\\",\\\"blockId\\\":\\\"89076970efaa9edf16cf0726:0\\\"},{\\\"id\\\":\\\"new:d17d600439c39cf811ab9574:0\\\",\\\"side\\\":\\\"new\\\",\\\"blockId\\\":\\\"d17d600439c39cf811ab9574:0\\\"}]}\"}],\"role\":\"user\"}]}",
+  "status": 200,
+  "responseText": "{\n  \"totalTokens\": 446,\n  \"promptTokensDetails\": [\n    {\n      \"modality\": \"TEXT\",\n      \"tokenCount\": 446\n    }\n  ]\n}\n",
+  "completedAt": "2026-11-09T16:28:47.686Z"
+}

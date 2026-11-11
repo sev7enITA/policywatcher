@@ -1,0 +1,10 @@
+{
+  "case": "analyst-date-role",
+  "at": "2026-11-09T16:30:58.436Z",
+  "path": "/v1beta/models/gemini-3.5-flash-lite:countTokens",
+  "requestHash": "e11396325547a83674155e0464af4e30de9b4afcbe8208bd9060fb2ba7aa2055",
+  "requestBody": "{\"contents\":[{\"parts\":[{\"text\":\"{\\\"old\\\":{\\\"hash\\\":\\\"74234e2a74ad07589eae9ac3310cca389e23eabd3394003c6a372ff0c4448b9b\\\",\\\"blocks\\\":[{\\\"id\\\":\\\"a21052f014048d096423c55e:0\\\",\\\"kind\\\":\\\"heading\\\",\\\"start\\\":0,\\\"end\\\":7,\\\"text\\\":\\\"# Terms\\\"},{\\\"id\\\":\\\"02a09d50826a5b20871e273d:0\\\",\\\"kind\\\":\\\"paragraph\\\",\\\"start\\\":9,\\\"end\\\":39,\\\"text\\\":\\\"Last updated: October 1, 2026.\\\"},{\\\"id\\\":\\\"565ef541ef93569b64e36ca1:0\\\",\\\"kind\\\":\\\"paragraph\\\",\\\"start\\\":41,\\\"end\\\":74,\\\"text\\\":\\\"Effective date: November 1, 2026.\\\"}]},\\\"next\\\":{\\\"hash\\\":\\\"c53c02d94239e8d1c0b437a63b0098f5c7c11ccc2214c6d12ddc7fc2f5e034ba\\\",\\\"blocks\\\":[{\\\"id\\\":\\\"a21052f014048d096423c55e:0\\\",\\\"kind\\\":\\\"heading\\\",\\\"start\\\":0,\\\"end\\\":7,\\\"text\\\":\\\"# Terms\\\"},{\\\"id\\\":\\\"7016b93f8e50dd80b6044c24:0\\\",\\\"kind\\\":\\\"paragraph\\\",\\\"start\\\":9,\\\"end\\\":40,\\\"text\\\":\\\"Last updated: October 30, 2026.\\\"},{\\\"id\\\":\\\"565ef541ef93569b64e36ca1:0\\\",\\\"kind\\\":\\\"paragraph\\\",\\\"start\\\":42,\\\"end\\\":75,\\\"text\\\":\\\"Effective date: November 1, 2026.\\\"}]},\\\"deltas\\\":[{\\\"id\\\":\\\"old:02a09d50826a5b20871e273d:0\\\",\\\"side\\\":\\\"old\\\",\\\"blockId\\\":\\\"02a09d50826a5b20871e273d:0\\\"},{\\\"id\\\":\\\"new:7016b93f8e50dd80b6044c24:0\\\",\\\"side\\\":\\\"new\\\",\\\"blockId\\\":\\\"7016b93f8e50dd80b6044c24:0\\\"}]}\"}],\"role\":\"user\"}]}",
+  "status": 200,
+  "responseText": "{\n  \"totalTokens\": 584,\n  \"promptTokensDetails\": [\n    {\n      \"modality\": \"TEXT\",\n      \"tokenCount\": 584\n    }\n  ]\n}\n",
+  "completedAt": "2026-11-09T16:30:58.553Z"
+}

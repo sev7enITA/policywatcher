@@ -1,0 +1,19 @@
+{
+  "at": "2026-11-09T16:42:20.325754+00:00",
+  "glm": {
+    "uiLabel": "GLM-5.3 / Max",
+    "protocolReview": "received",
+    "caseReview": "received",
+    "execution": "read-only advisory, not runtime verifier"
+  },
+  "gemini": {
+    "uiLabel": "Argon Alta",
+    "existingConversation": "https://gemini.google.com/app/2a40ca1caecbde4f",
+    "followupAttempts": 2,
+    "retainedNewAnswers": 0,
+    "observation": "Both follow-ups showed submission/response-in-progress, then the existing conversation returned to the older response without a retained new answer. A fresh conversation was submitted with final semantic counts; latest retrieval was blocked by Mac lock. No new Gemini advisory opinion is claimed.",
+    "freshConversation": "pending_unretrieved",
+    "initialPromptCorrection": "First follow-up mistakenly described temperature0.1. The second and fresh prompts correctly state actual r3 temperature0; source and raw HTTP requests are authoritative."
+  },
+  "boundary": "Browser review is advice only; no API verdicts are substituted."
+}

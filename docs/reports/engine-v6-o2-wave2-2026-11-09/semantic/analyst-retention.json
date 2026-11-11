@@ -1,0 +1,174 @@
+{
+  "id": "analyst-retention",
+  "expectation": "30 to 60 days after account closure; do not change the trigger or infer compliance.",
+  "input": {
+    "old": {
+      "schema": "pw-engine-6.0.0-alpha.1",
+      "text": "# Privacy\n\nWe retain account records for 30 days after closure.",
+      "hash": "a531e09284667b749a65976d3896e6d8ce0f8968ffb62629ee401777d198e287",
+      "blocks": [
+        {
+          "id": "8f589a7fb10cdb5fea94bc1f:0",
+          "kind": "heading",
+          "section": [
+            "Privacy"
+          ],
+          "text": "# Privacy",
+          "start": 0,
+          "end": 9
+        },
+        {
+          "id": "06572d9e2698126182c9faa3:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy"
+          ],
+          "text": "We retain account records for 30 days after closure.",
+          "start": 11,
+          "end": 63
+        }
+      ]
+    },
+    "next": {
+      "schema": "pw-engine-6.0.0-alpha.1",
+      "text": "# Privacy\n\nWe retain account records for 60 days after closure.",
+      "hash": "69c19068a560590cfdb93e53f58fdbae8d8113e03cd3ee41b1f8ea24f579360c",
+      "blocks": [
+        {
+          "id": "8f589a7fb10cdb5fea94bc1f:0",
+          "kind": "heading",
+          "section": [
+            "Privacy"
+          ],
+          "text": "# Privacy",
+          "start": 0,
+          "end": 9
+        },
+        {
+          "id": "5f8b7ee100e513dbcc302c55:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy"
+          ],
+          "text": "We retain account records for 60 days after closure.",
+          "start": 11,
+          "end": 63
+        }
+      ]
+    },
+    "deltas": [
+      {
+        "id": "old:06572d9e2698126182c9faa3:0",
+        "side": "old",
+        "block": {
+          "id": "06572d9e2698126182c9faa3:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy"
+          ],
+          "text": "We retain account records for 30 days after closure.",
+          "start": 11,
+          "end": 63
+        }
+      },
+      {
+        "id": "new:5f8b7ee100e513dbcc302c55:0",
+        "side": "new",
+        "block": {
+          "id": "5f8b7ee100e513dbcc302c55:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy"
+          ],
+          "text": "We retain account records for 60 days after closure.",
+          "start": 11,
+          "end": 63
+        }
+      }
+    ]
+  },
+  "startedAt": "2026-11-09T16:28:43.358Z",
+  "analysis": {
+    "value": {
+      "schema": "pw-claims-1",
+      "claims": [
+        {
+          "id": "c1",
+          "operation": "modified",
+          "category": "content",
+          "textEn": "The account records retention period after closure was changed from 30 days to 60 days.",
+          "textIt": "Il periodo di conservazione dei registri dell'account dopo la chiusura è stato modificato da 30 giorni a 60 giorni.",
+          "impact": 5,
+          "deltaIds": [
+            "old:06572d9e2698126182c9faa3:0",
+            "new:5f8b7ee100e513dbcc302c55:0"
+          ],
+          "evidence": [
+            {
+              "side": "old",
+              "documentHash": "a531e09284667b749a65976d3896e6d8ce0f8968ffb62629ee401777d198e287",
+              "start": 11,
+              "end": 63,
+              "quote": "We retain account records for 30 days after closure."
+            },
+            {
+              "side": "new",
+              "documentHash": "69c19068a560590cfdb93e53f58fdbae8d8113e03cd3ee41b1f8ea24f579360c",
+              "start": 11,
+              "end": 63,
+              "quote": "We retain account records for 60 days after closure."
+            }
+          ]
+        }
+      ]
+    },
+    "receipt": {
+      "model": "gemini-3.5-flash-lite",
+      "requestedModel": "gemini-3.5-flash-lite",
+      "promptVersion": "pw-grounded-2",
+      "inputHash": "815c656173b67c7478a88c6acc392c14dc212ae66855db6a94ab8733acefe9dd",
+      "outputHash": "83ec6e489fdf3aad10ae1b283021898e609f12fa425110b16c9e5981a43fb6d9",
+      "inputTokens": 671,
+      "outputTokens": 438
+    }
+  },
+  "structural": {
+    "claims": {
+      "schema": "pw-claims-1",
+      "claims": [
+        {
+          "id": "c1",
+          "operation": "modified",
+          "category": "content",
+          "textEn": "The account records retention period after closure was changed from 30 days to 60 days.",
+          "textIt": "Il periodo di conservazione dei registri dell'account dopo la chiusura è stato modificato da 30 giorni a 60 giorni.",
+          "impact": 5,
+          "deltaIds": [
+            "old:06572d9e2698126182c9faa3:0",
+            "new:5f8b7ee100e513dbcc302c55:0"
+          ],
+          "evidence": [
+            {
+              "side": "old",
+              "documentHash": "a531e09284667b749a65976d3896e6d8ce0f8968ffb62629ee401777d198e287",
+              "start": 11,
+              "end": 63,
+              "quote": "We retain account records for 30 days after closure."
+            },
+            {
+              "side": "new",
+              "documentHash": "69c19068a560590cfdb93e53f58fdbae8d8113e03cd3ee41b1f8ea24f579360c",
+              "start": 11,
+              "end": 63,
+              "quote": "We retain account records for 60 days after closure."
+            }
+          ]
+        }
+      ]
+    },
+    "reasons": [],
+    "highImpact": false
+  },
+  "error": "ApiError: {\"error\":{\"code\":503,\"message\":\"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\"status\":\"UNAVAILABLE\"}}",
+  "completedAt": "2026-11-09T16:28:47.600Z"
+}

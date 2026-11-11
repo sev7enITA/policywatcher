@@ -1,0 +1,84 @@
+1410 text READ ONLY follow-up. Read output/o2-live-wave-20261109/analyst-negation-exception.json, analyst-retention.json, analyst-date-role.json and analyst-table.json under /Users/fabriziodegni/Projects/PolicyWatcher-preview-r3. Adjudicate the English and Italian claims against the included old/new source, especially whether the negation case loses the general prohibition. Distinguish your interpretation from an API verifier verdict: those calls failed. Check manifest script lines50-57: --check does compare without 
+														1411 button Expand
+														1412 button Copy
+														1413 button Edit
+														1414 button Worked for 2m 31s
+														1415 text Concise adjudication follows. Scope: read-only — I read the four case files and re-read 
+														1416 text scripts/engine-implementation-manifest.mjs:50-57
+														1417 text ; nothing was executed, no APIs called, no configs touched. My verdicts below are 
+														1418 text my interpretation of the recorded artifacts
+														1419 text ; every verifier call in these four cases failed or was skipped, so none of this is model-verified.
+														1420 heading Per-case adjudication (analyst output vs quoted old/new sources), Value: 2
+															1421 text Per-case adjudication (analyst output vs quoted old/new sources)
+														1422 text Retention — correct in both languages, unverified.
+														1423 text  EN "retention period after closure was changed from 30 days to 60 days" and the Italian equivalent both preserve the trigger (
+														1424 text after closure
+														1425 text  / 
+														1426 text dopo la chiusura
+														1427 text ), change only the duration, and infer nothing about compliance — exactly the predeclared expectation. Spans are exact (11–63 both sides), 
+														1428 text structural.reasons: []
+														1429 text . The verifier call died with 503 UNAVAILABLE (
+														1430 text analyst-retention.json:172
+														1431 text ).
+														1432 container
+															1433 text Negation-exception — substantively correct; the general prohibition is  not  lost.
+														1434 text  Direct answer to your question: the old text is a blanket prohibition that explicitly 
+														1435 text included
+														1436 text  advertising identifiers; the new text keeps "We do not sell personal data" and carves out only advertising identifiers, only with consent. The claim ("personal data sales exclude advertising identifiers except when the user consents" / the mirroring Italian) states a scoped, consent-conditioned exception and asserts no unconditional sale right — so the no-sale rule survives, implicitly. Both languages are equivalent to each other and to the source. Two residual notes, not failures: (1) the phrasing "sales 
+														1437 text highImpact: false
+														1438 text  — the deterministic sensitivity regex in 
+														1439 text claims.ts:83
+														1440 text  covers arbitration/liability/waiver/etc. but 
+														1441 text not sale/consent terms
+														1442 text , so this class would auto-publish at Medium in publish mode if a verifier supported it. Worth adding to the regex or the impact guidance. Verifier call failed 504 (
+														1443 text analyst-negation-exception.json:172
+														1444 text ).
+														1445 text Date-role — correct in both languages, unverified.
+														1446 text  Only the last-updated date (Oct 1 → Oct 30) is claimed, correctly categorized 
+														1447 text last_updated_date
+														1448 text  with matching quotes (satisfying the date-role regex gate); the effective date (Nov 1) produced no delta and is rightly not mentioned — the AWS-class date-role confusion did not occur. Italian "dal 1 ottobre 2026 al 30 ottobre 2026" is faithful (a "1º ottobre" would be stylistically better). Spans exact, 
+														1449 text reasons: []
+														1450 text ; verifier failed 504 (
+														1451 text analyst-date-role.json:192
+														1452 text ).
+														1453 text Table — semantic content acceptable, correctly held by the structural gate.
+														1454 text  The claim ("default setting for Training … No to Yes" / Italian "da No a Sì") reads the header column correctly, and only the Training row changed. But the evidence quotes only the changed row (52–69 / 52–70) and not the header block 
+														1455 text | Purpose | Default |
+														1456 text , so the deterministic header-plus-row rule (
+														1457 text claims.ts:66-73
+														1458 text ) fired 
+														1459 text table_context_missing
+														1460 text  (
+														1461 text analyst-table.json:209-211
+														1462 text ) and the verifier was skipped (
+														1463 text verifierSkipped: "r3_structural_hold"
+														1464 text , 
+														1465 text :214
+														1466 text ) — exactly the r3/pipeline behavior and the protocol's "structural failure is a failed analyst result, not a successful semantic analysis." One nuance the skipped verifier never saw: the Italian "utilizzo dei dati di addestramento" ("use of training data") slightly shifts EN "Training data use" (the Training 
+														1467 text purpose
+														1468 text  under Data use); a stricter IT would name the row. This is the right kind of case to keep in the corpus — semantics look fine, citation was incomplete, and the gate held rather than greened.
+														1469 heading Harness behavior observed in the artifacts, Value: 2
+															1470 text Harness behavior observed in the artifacts
+														1471 text Sequence and handling were per-protocol: retention's verifier got 503 at 16:28:47, negation's 504 at 16:30:58, date-role's 504 at 16:32:58, and the table case made no verifier call at all. 503/504 are neither quota (429) nor access (403) rejections, so continuing to the next case — without retrying any — matched the predeclared rules; three verifier generations were spent and all failures retained with receipts (resolved model 
+														1472 text gemini-3.5-flash-lite
+														1473 text , 
+														1474 text pw-grounded-2
+														1475 text , token counts recorded in every file). No false-green vector materialized here: the only case that could have been misread as "passed" while imperfect (table) is precisely the one the structural gate held.
+														1476 heading Closure confirmations, Value: 2
+															1477 text Closure confirmations
+														1478 content list
+															1479 container
+																1480 AXListMarker • 
+																1481 text Manifest 
+																1482 text --check
+																1483 text  verified:  lines 52-55 compare  readFileSync(target) !== rendered  and throw on mismatch;  writeFileSync  happens only in the  else  branch (line 56). My earlier risk #6 is closed — the identity control is compare-only and real.
+															1484 container
+																1485 AXListMarker • 
+																1486 text Integration harness binding (ea032ba, 
+																1487 text integration-preflight-binding.json
+																1488 text ):  taken as supplied; I did not independently read that file. It addresses my earlier harness-binding risk for the integration script if the binding is checked before execution.
+														1489 text Net:
+														1490 text  four analyst outputs, four structurally sound claim sets (three passed validation, one correctly held), zero verifier verdicts — so the wave's semantic question remains open exactly as its own status label says (
+														1491 text open_pending_adjudication_and_remaining_gates
+														1492 text ). My adjudication: retention, date-role, negation-exception substantively accurate in EN and IT with the noted wording/impact caveats; table held for cause.
+														
