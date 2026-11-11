@@ -716,5 +716,17 @@
     "PR-12": "projection_reconciliation_requires_resync_on_future_deployment",
     "PR-13": "two_day_memo_expiry_and_refresh_after_rejection",
     "PR-14": "hold_write_failure_remains_lease_recovery_limit"
+  },
+  "finalReview": {
+    "report": "fable-final-review.raw.txt",
+    "reviewedCommit": "23ce5f0f2299ae9b392a720b8d5f5084e17d7053",
+    "verdict": "no_new_source_merge_blocker",
+    "FR-01": "fresh_isolated_database_only_until_upgrade_state_qualified",
+    "FR-02": "publish_mode_prohibited_pending_product_decision",
+    "FR-03": "recurring_quota_cost_open",
+    "FR-04": "historical_refresh_invalidation_open",
+    "FR-05": "adapter_fixture_not_SDK_header_evidence",
+    "FR-06": "wording_corrected",
+    "FR-07": "bounded_reuse_wording_corrected"
   }
 }
