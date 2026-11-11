@@ -421,14 +421,14 @@ export default function PressKitClient() {
         </section>
 
         <section className={styles.releasePreview} aria-labelledby="release-preview-title">
-          <div className={styles.sectionIntro}><span>04 / Newsroom</span><h2 id="release-preview-title">{lang === 'en' ? 'Latest dated release record.' : 'Ultimo record release datato.'}</h2><p>{lang === 'en' ? 'Release information keeps its publication date, evidence links and stated boundaries.' : 'Le informazioni di release mantengono data di pubblicazione, link alle evidenze e limiti dichiarati.'}</p></div>
+          <div className={styles.sectionIntro}><span>04 / Newsroom</span><h2 id="release-preview-title">{lang === 'en' ? 'Latest release or research update.' : 'Ultima release o aggiornamento di ricerca.'}</h2><p>{lang === 'en' ? 'Release information keeps its publication date, evidence links and stated boundaries.' : 'Le informazioni di release mantengono data di pubblicazione, link alle evidenze e limiti dichiarati.'}</p></div>
           {pressKitReleases.slice(0, 1).map((release) => (
             <div className={styles.releaseLayout} key={release.slug}>
               <article className={styles.releaseCard}>
                 <header><span>{release.displayVersion} · {release.category}</span><time dateTime={release.datePublished}>{release.datePublished}</time></header>
                 <h3>{release.title[lang]}</h3>
                 <p>{release.summary[lang]}</p>
-                <dl className={styles.releaseMeta}><div><dt>{t.status}</dt><dd>{release.status}</dd></div><div><dt>{t.lastVerified}</dt><dd>{release.dateModified}</dd></div></dl>
+                <dl className={styles.releaseMeta}><div><dt>{t.status}</dt><dd>{release.status === 'research' ? (lang === 'it' ? 'Ricerca sperimentale' : 'Experimental research') : release.status}</dd></div><div><dt>{t.lastVerified}</dt><dd>{release.dateModified}</dd></div></dl>
                 <Link className={styles.releaseLink} href={`/press-kit/releases/${release.slug}${lang === 'it' ? '?lang=it' : ''}`}>{lang === 'en' ? 'Read release record' : 'Leggi record release'}<ArrowRight size={13} /></Link>
               </article>
               <aside className={styles.releaseIndex} aria-label={t.cycleTitle}><span>{t.cycleTitle}</span><ul>{release.changes.slice(0, 5).map((change, index) => <li key={change.en}><span>{String(index + 1).padStart(2, '0')}</span>{change[lang]}</li>)}</ul></aside>

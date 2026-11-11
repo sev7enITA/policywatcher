@@ -19,7 +19,7 @@ export async function generateMetadata({ params, searchParams }: ReleasePageProp
   const release = pressKitReleases.find((entry) => entry.slug === slug);
   const image = `https://policywatcher.online/api/og/release/${slug}`;
   return {
-    title: release ? `${release.displayVersion} | PolicyWatcher Newsroom` : 'Release | PolicyWatcher Newsroom',
+    title: release ? `${release.title[lang]} | PolicyWatcher Newsroom` : 'Release | PolicyWatcher Newsroom',
     description: release?.summary[lang] ?? 'PolicyWatcher newsroom release record.',
     alternates: languageAlternates(`/press-kit/releases/${slug}`, lang),
     openGraph: release ? { title: `${release.displayVersion}: ${release.title[lang]}`, description: release.summary[lang], url: localizedPublicUrl(`/press-kit/releases/${slug}`, lang), locale: lang === 'it' ? 'it_IT' : 'en_US', type: 'article', publishedTime: release.datePublished, modifiedTime: release.dateModified, images: [{ url: image, width: 1200, height: 630, alt: `${release.displayVersion}: ${release.title[lang]}` }] } : undefined,

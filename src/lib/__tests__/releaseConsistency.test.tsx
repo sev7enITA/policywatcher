@@ -77,7 +77,7 @@ describe('release archive language handoff', () => {
     const archive = await ArchivePage(props);
     expect(archive.props.initialLang).toBe(lang);
     const archiveHtml = renderToStaticMarkup(archive);
-    expect(archiveHtml).toContain(lang === 'it' ? 'Release prodotto datate.' : 'Dated product releases.');
+    expect(archiveHtml).toContain(lang === 'it' ? 'Release prodotto e aggiornamenti di ricerca.' : 'Product releases and research updates.');
     expect(archiveHtml).toContain(`/press-kit/releases/${release.slug}${lang === 'it' ? '?lang=it' : ''}`);
     const detailHtml = renderToStaticMarkup(await DetailPage(props));
     expect(detailHtml).toContain(release.summary[lang]);

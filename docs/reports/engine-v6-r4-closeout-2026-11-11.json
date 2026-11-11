@@ -1,0 +1,218 @@
+{
+  "recordedAt": "2026-11-11T21:12:15.582215+00:00",
+  "status": "published_and_verified",
+  "engineSource": {
+    "pullRequest": 56,
+    "testedHead": "a31eddc53602438e4cb8932caca04361f3c557f1",
+    "merge": "695201d1420af40600b4afaa8d0dd1636f96fb91",
+    "implementation": "dc2fce35e44dc0bcbf234a13ada59516bd6c9de577b1bbf6c4233bbfffcbc62a",
+    "deployed": false,
+    "localTests": {
+      "passed": 1624,
+      "skipped": 14
+    },
+    "ci": [
+      {
+        "bucket": "pass",
+        "link": "https://github.com/sev7enITA/policywatcher/runs/130786547606",
+        "name": "CodeQL",
+        "state": "SUCCESS"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/sev7enITA/policywatcher/actions/runs/43098958709/job/130784998777",
+        "name": "Vitest critical-control coverage",
+        "state": "SUCCESS"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/sev7enITA/policywatcher/actions/runs/43098958648/job/130784928806",
+        "name": "Sonar quality gate",
+        "state": "SUCCESS"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/sev7enITA/policywatcher/actions/runs/43098958667/job/130784922524",
+        "name": "Analyze JavaScript and TypeScript",
+        "state": "SUCCESS"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/sev7enITA/policywatcher/actions/runs/43098958653/job/130784900119",
+        "name": "Lint, build, and dataset assurance",
+        "state": "SUCCESS"
+      },
+      {
+        "bucket": "pass",
+        "link": "https://github.com/sev7enITA/policywatcher/actions/runs/43098958653/job/130784901446",
+        "name": "PostgreSQL schema and runtime portability",
+        "state": "SUCCESS"
+      }
+    ],
+    "fable": "Final static re-review found no new source-merge blocker; tests were executed by implementer and CI, not Fable.",
+    "postgresql": "Local isolated PostgreSQL 16 and independent GitHub PostgreSQL portability job passed."
+  },
+  "website": {
+    "release": "5.5.0",
+    "source": "e54a62e7364c878e60c56b75de1a70e460ff5299",
+    "archiveSha256": "74cc239b99fc7e28de722a2f1aa76f17b19565da444482b517e7f22bbe1eaa34",
+    "deployment": "01a1cc6e-67c4-7357-bf55-52ca935adb5a",
+    "scope": "Content-only stable line; established scanner, 35 application tables and 19 migrations.",
+    "stagingDeployment": "01a1cc56-4584-7123-b209-143b18f55532",
+    "localContentChecks": 71,
+    "stagingContentChecks": 71,
+    "productionContentChecks": 71,
+    "sourceHashChecksPerEnvironment": 37,
+    "stagingOperationalChecks": 11,
+    "productionRuntime": {
+      "checkedAt": "2026-11-11T21:10:18.905Z",
+      "status": "attention",
+      "release": "5.5.0",
+      "health": "ok",
+      "applicationTables": 35,
+      "migrations": 19,
+      "integrity": "ok",
+      "verificationSummary": {
+        "passed": 9,
+        "attention": 0,
+        "unavailable": 0,
+        "external": 1
+      },
+      "attention": []
+    },
+    "changedFiles": [
+      "release-manifest.json",
+      "src/app/engine-6-preview/page.tsx",
+      "src/app/sitemap.ts",
+      "src/lib/pressKit.ts"
+    ]
+  },
+  "previewRestoration": {
+    "deployment": "01a1cc5d-0142-715f-a721-87dc365a43d1",
+    "state": "completed_verified",
+    "archiveSha256": "e82ff8ff3fe33275e62475054889cdaf97f1a12d7442bb0ca6d42ec30cf99341",
+    "implementation": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+    "completedLocalMinute": "2026-11-11 21:50 Europe/Rome",
+    "authenticatedChecks": 14,
+    "coreHashesUnchanged": 14,
+    "allHashesUnchanged": 46,
+    "allHashesCompared": 48
+  },
+  "preservation": {
+    "coreBeforeMaintenance": "2026-11-11T20:32:50.267710+00:00",
+    "coreAfter": "2026-11-11T20:51:53.163106+00:00",
+    "coreTableCount": 14,
+    "coreChanged": [],
+    "allTableBefore": "2026-11-11T20:43:36.613192+00:00",
+    "allTableAfter": "2026-11-11T20:51:55.417650+00:00",
+    "allTableCount": 48,
+    "allTableChanged": [
+      {
+        "table": "AdminAccessLog",
+        "before": {
+          "rows": 19,
+          "sha256": "2c40a20be36c00269f31c21c006902b254fb918ad66ffc2a2c737912c22f2c33"
+        },
+        "after": {
+          "rows": 20,
+          "sha256": "998099bbe042faed2bcd5390dae3c0b2a4a205e2f008a9d12bd457f027b3bae4"
+        }
+      },
+      {
+        "table": "EngineOrigin",
+        "before": {
+          "rows": 3,
+          "sha256": "942c59cdb228a96b1eb22b89675026acddc216587b182683366a3f2d3a9bf1ca"
+        },
+        "after": {
+          "rows": 3,
+          "sha256": "14a111d42cf867028abc1722e9fbb02a45d8f6ac3228b3e25fa2968e2981876e"
+        }
+      }
+    ],
+    "activeTasksAfter": 0,
+    "runs": {
+      "4e9eef90-0bbb-42ee-b945-922ac76ffffc": {
+        "id": "4e9eef90-0bbb-42ee-b945-922ac76ffffc",
+        "mode": "observe",
+        "notificationMode": "silent",
+        "status": "completed",
+        "implementationHash": "d9d5dde4f1c8d22c03c80ae200bc3e44734ef6a430c7e7bd037719ee30614e88"
+      },
+      "781ceb98-37fa-4947-af47-fec46e1e85b3": {
+        "id": "781ceb98-37fa-4947-af47-fec46e1e85b3",
+        "mode": "observe",
+        "notificationMode": "silent",
+        "status": "completed",
+        "implementationHash": "d9d5dde4f1c8d22c03c80ae200bc3e44734ef6a430c7e7bd037719ee30614e88"
+      },
+      "6982c663-2b7b-4191-b8b6-e10bdd60f013": {
+        "id": "6982c663-2b7b-4191-b8b6-e10bdd60f013",
+        "mode": "observe",
+        "notificationMode": "silent",
+        "status": "completed",
+        "implementationHash": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00"
+      }
+    },
+    "scope": "Core snapshot before deployment; full 48-table snapshot during stable staging, before r3 restoration.",
+    "comparisonCheckInitialFailure": "The local comparison used EngineOriginState instead of the actual EngineOrigin table name in its allowed operational-table list. Raw snapshots and failure are retained.",
+    "status": "passed_core_and_expected_operational_table_boundary",
+    "operationalDifferences": "AdminAccessLog gained one row during authenticated checks; EngineOrigin hash differs. The full snapshot does not store raw rows, so individual changed fields are not asserted."
+  },
+  "failures": [
+    {
+      "state": "first_build_failed_at_promotion_gate",
+      "deployment": "01a1cc63-5791-724c-93c2-a0e25b74c0ef",
+      "submittedLocalTime": "2026-11-11 21:53:44 Europe/Rome",
+      "failure": "Stale staging-approved hash and timestamp from 7 November; prior runtime remained active."
+    },
+    {
+      "deployment": "01a1cc6a-13e8-719e-8879-c9aac880f076",
+      "state": "building_previous_successful_archive_not_new_diary",
+      "observedArchive": "PolicyWatcher-5.5.0-hostinger-2026-11-07-engine6-o2-assessment.zip",
+      "observedSource": "0a6c5a5352d36cc716f0bd71638a6ce93eabf73c",
+      "reason": "Use previous files selected last successful source after failed build. Explicit final ZIP re-upload required."
+    },
+    {
+      "kind": "premature_staging_smoke",
+      "receipt": "staging-first-check-during-build.json",
+      "note": "Reached previous private deployment while the stable staging build was still running; retained, then tested completed deployment."
+    }
+  ],
+  "qualification": "O2, source completeness, live semantic accuracy, backup restoration, quota scheduling and real 500-policy/day capacity remain open. No new live model/source capture, qualification day or r4 hosted deployment is claimed.",
+  "releaseBoundary": "Main now contains r4; the public stable artifact and hosted private r3 do not. Temporary staging maintenance is not uninterrupted Preview availability.",
+  "evidenceSha256": {
+    "after.log": "7cb9328fc638cf40da66e01721d02ef5f499adcbb04cc32ef93997c4f5110afc",
+    "archive-comparison.json": "7d13e06e356423fc6d3ec505421b815509b338591404ea3303e4b993530d93e0",
+    "before.log": "8f34de124a6a8e2f419cdd2b6577594f13b93084b1243fdf02c58273f9feb544",
+    "build-isolated.log": "c635cf7961fefb91caf9c43477c56d99b308ddf412d74077831fdeb043cd062a",
+    "build-location.json": "f1d858643c3ecf528402b82181311393492fe8cacb599c5dbaf56283de733595",
+    "final-archive-comparison.json": "bb6cb15b716bdbca072ab525e6bf843eb41a119cefdf481a8fbe8dec62af8c7c",
+    "final-artifact/PolicyWatcher-5.5.0-hostinger-2026-11-11-engine6-r4-audit-final.zip.staging-verification.json": "31fc836487aa92058d1e68ee97205a1b19ade856cffb302554c3f3f7665b8da2",
+    "final-build-isolated.log": "f1fe336051715ce909f34de45db0583a95ef6e081b19a9177c14416ceecfb28e",
+    "final-build-location.json": "75bd7414ed715ee82b81412a2876124e27a37f8ca1bcb207d9d6b02d4cdebcf4",
+    "final-local-content.json": "cb35c31cc3cf64a0899c07ad894a1efb4aca516ab972442561b70fb8d512488b",
+    "final-package.log": "aa6047e5533ed6fd9c9ee5853b7000ba3097155a9db014a0ee9f344114be80cd",
+    "final-server.log": "586c17a2a38277df8904309c9911767df911104f94d592d9d29737ad1942d479",
+    "hosted/after-2026-11-11T20-51-54-163Z.json": "c672ac67e5975e6f33d823ea50f7b27e0af70ab933fa23f057427d106d30e981",
+    "hosted/all-tables-after-2026-11-11T20-51-55.417650+00-00.json": "38cb1524a5f515d19a41d6ada55d0ff29e5965437abd53ef23d77f298d4680b5",
+    "hosted/all-tables-before-2026-11-11T20-43-36.613192+00-00.json": "8afd9b309807a597505980cd915a2fee3451a13ad72245d2c163a1830a65cf31",
+    "hosted/authenticated-2026-11-11T20-51-49-042Z.json": "dfed0030ec58bc75513fb85b4a2b1b95731b832b08660d0a50fafb95c52d36a9",
+    "hosted/before-2026-11-11T20-32-51-208Z.json": "52e9dd3c166c914bfd3e6b5ce816e5cfb1539a2894043faa7368d949e3bd4baf",
+    "hosted/production-runtime-checks.json": "cdceaeddd3637b468518efcf562bcb33b61a56300aba160b43f14d848a95155b",
+    "hosted/production-verification.json": "814f5d291680af4421b73fe0d23bb51f9743ea968e6eb35ccebfb7cae1b3c9e3",
+    "hosted/table-preservation.json": "5d2484d843c7ec932071472607a6860ea7dddc52e1bd09299332ca6a3d474e9b",
+    "local-content.json": "641df2c3d7af3d7b008ba5e6886e56ca3d459c8e428ac0313cb3bdc7eac7e017",
+    "local-server.log": "1f5f6e9584f0c1bc95d4a0b5f93ba2c6d2ce7408b6da9b85e06a8b2f6f4139d5",
+    "policywatcher.online-source-verification.json": "ce9257afb65b8b29ae26e75d2b5db0307fafb2a8321d4c0387ccf84a186c4276",
+    "production-content.json": "6d329e2d067f849ea66e7129a07c4ef55621d81aba1fd330c42a5e346ff42320",
+    "production-corrected-environment-gate.json": "4b276137981c7ae314145351bbdf0cd776e22174e4b189ad6bd332324abcb91e",
+    "production-first-build-promotion-gate-20261111.json": "ac3bec5d52ca33f5ba7013d37ccc2dd9c481e160002f8a8d55fb6292ee74db51",
+    "production-second-attempt-source-mismatch.json": "b5218b49f6294a4f6621af3f8b1f5edd8afe62499d20eb4feaf2c0fbee397976",
+    "staging-completed-operational.log": "7d89dc97e13fd67e54a868b49dd51e7c296a9e13c5c5f162ced9485854a298a7",
+    "staging-content.json": "8970b234a334ed41ec93d3097c5804d55fff296ed817d61d315212653426dae5",
+    "staging-first-check-during-build.json": "657b555e0015cbd66f24876ffb941361a611df845eaf896c38d291ba7fcd5aae",
+    "staging-operational.log": "97ea7dc7c1d445622ad32d4a986bd5d185f4774d3b2bd3c7e512084965f958eb",
+    "staging.policywatcher.online-source-verification.json": "152be88310632ff044dfffafe70b5521cb89b7c2364067ca238e33af5279cdf9"
+  }
+}

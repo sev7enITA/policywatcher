@@ -58,8 +58,8 @@ export default async function HomePage() {
         <main className={styles.publicKnowledgeMain}>
           <div className={styles.publicKnowledgeShell}>
             <aside className={styles.enginePreviewNotice} aria-label="Engine 6 Preview experimental programme">
-              <div><strong>PolicyWatcher 5.5 · Engine 6.0 Preview</strong><p>Try the new engine in the separate private Preview. Administrator sign-in is required. Release 5.5 introduces access to Engine 6.0 Preview. Preview observations stay private while source coverage and daily operation are being qualified.</p></div>
-              <nav aria-label="Engine 6 Preview access and evidence"><Link href="/press-kit/releases/engine-six-preview-5-5-0">What’s new in 5.5</Link><a href="https://staging.policywatcher.online/admin/engine">Open private 6.0 Preview <span aria-hidden="true">↗</span></a><Link href="/engine-6-preview">Architecture and evidence</Link><Link href="/engine-6-preview?lang=it" hrefLang="it">Architettura in italiano</Link><a href="https://github.com/sev7enITA/policywatcher/wiki">GitHub wiki</a></nav>
+              <div><strong>Engine 6 Preview r3 · Research update, 7 November 2026</strong><p>New private deployment, preserved evidence and a bounded Apple trial. Explore what was verified and what remains unresolved. The public service stays on stable 5.5.0; r3 is experimental, requires administrator sign-in and keeps results private.</p></div>
+              <nav aria-label="Engine 6 Preview access and evidence"><Link href="/press-kit/releases/engine-six-preview-r3-evidence-update">What’s new in Preview r3</Link><Link href="/press-kit/releases/engine-six-preview-5-5-0">Stable 5.5 release</Link><a href="https://staging.policywatcher.online/admin/engine">Open private 6.0 Preview <span aria-hidden="true">↗</span></a><Link href="/engine-6-preview">Architecture and evidence</Link><Link href="/engine-6-preview?lang=it" hrefLang="it">Architettura in italiano</Link><a href="https://github.com/sev7enITA/policywatcher/wiki">GitHub wiki</a></nav>
             </aside>
             <header className={styles.publicKnowledgeIntro}>
               <div>
