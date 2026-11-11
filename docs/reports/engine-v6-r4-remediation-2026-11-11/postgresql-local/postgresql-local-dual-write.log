@@ -1,0 +1,5 @@
+
+> policywatcher@5.5.0 db:document-evidence:smoke
+> tsx scripts/smoke-document-evidence-dual-write.ts --report /Users/fabriziodegni/Projects/PolicyWatcher-engine6-r4-audit-fixes/output/r4-audit-fixes-20261111/postgresql-local-dual-write.json
+
+Smoke writes require a rehearsal/staging/sandbox/test/CI database and POLICYWATCHER_DOCUMENT_EVIDENCE_SMOKE_ACK=I_ACKNOWLEDGE_DOCUMENT_EVIDENCE_SMOKE_WRITES.

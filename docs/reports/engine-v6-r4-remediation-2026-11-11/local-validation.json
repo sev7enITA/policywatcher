@@ -39,5 +39,11 @@
   "sourceCommit": "23ce5f0f2299ae9b392a720b8d5f5084e17d7053",
   "finalReview": "no_new_source_merge_blocker_static_only",
   "finalReviewSha256": "daed4e29475d57023f39afe00ca5dc4cb989ad840430fbe7857b01c093a66fed",
-  "finalPatchSha256": "e0b5175f2331b8d618bc2243b59558f7cdd81b2549b3f3a4c194f34af11feaaf"
+  "finalPatchSha256": "e0b5175f2331b8d618bc2243b59558f7cdd81b2549b3f3a4c194f34af11feaaf",
+  "postgresqlLocal": {
+    "status": "passed_after_disposable_target_name_correction",
+    "migrations": 8,
+    "receipt": "postgresql-local/receipt.json",
+    "githubCI": "pending"
+  }
 }

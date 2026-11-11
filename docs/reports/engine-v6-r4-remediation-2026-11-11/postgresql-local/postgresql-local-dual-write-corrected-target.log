@@ -1,0 +1,53 @@
+
+> policywatcher@5.5.0 db:document-evidence:smoke
+> tsx scripts/smoke-document-evidence-dual-write.ts --report /Users/fabriziodegni/Projects/PolicyWatcher-engine6-r4-audit-fixes/output/r4-audit-fixes-20261111/postgresql-local-dual-write.json
+
+{
+  "contractVersion": "1.0.0",
+  "startedAt": "2026-11-11T20:53:13.956Z",
+  "completedAt": "2026-11-11T20:53:14.243Z",
+  "status": "passed",
+  "assertions": {
+    "entityBridge": true,
+    "documentBridge": true,
+    "versionCount": true,
+    "changeCount": true,
+    "detectedProvisionCount": true,
+    "stablePublicIds": true
+  },
+  "syntheticGraph": {
+    "entities": 1,
+    "documents": 1,
+    "versions": 2,
+    "changes": 2,
+    "provisions": 6
+  },
+  "cleanupReconciliation": {
+    "contractVersion": "1.0.0",
+    "checkedAt": "2026-11-11T20:53:14.242Z",
+    "status": "reconciled",
+    "legacy": {
+      "companies": 1,
+      "policies": 1,
+      "snapshots": 1,
+      "changes": 0
+    },
+    "expected": {
+      "entities": 1,
+      "documents": 1,
+      "versions": 1,
+      "changes": 1,
+      "provisions": 0
+    },
+    "canonical": {
+      "entities": 1,
+      "documents": 1,
+      "versions": 1,
+      "changes": 1,
+      "provisions": 0
+    },
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": []
+  }
+}

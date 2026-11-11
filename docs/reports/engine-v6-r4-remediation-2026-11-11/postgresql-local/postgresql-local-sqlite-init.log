@@ -1,0 +1,41 @@
+Database file: /var/folders/3q/75drt86116bb29ppd__9ng4w0000gn/T/pw-r4-pg-qa-vibilzoh/rehearsal-source.db
+Directory: /var/folders/3q/75drt86116bb29ppd__9ng4w0000gn/T/pw-r4-pg-qa-vibilzoh
+Added EnginePolicyState.assessedKey
+Added EnginePolicyState.assessedTaskId
+Added EngineRun.channelMetadataJson
+Added Version.requestedUrl
+Added Version.finalUrl
+Added Version.sourceProvenance
+Added Version.contentArtifactHash
+Added PolicyCheckLog.reasonCode
+Added PolicyCheckLog.durationMs
+Added PolicyCheckLog.scanRunId
+Added PolicyCheckLog.sourceRetrievalId
+Added PolicySnapshot.sourceUrl
+Added PolicySnapshot.requestedUrl
+Added PolicySnapshot.finalUrl
+Added PolicySnapshot.sourceProvenance
+Added PolicySnapshot.sourceRetrievalId
+Added PolicyChange.analysisTraceId
+Added PolicyChange.analysisMethod
+Added PolicyChange.analysisSchemaVersion
+Added PolicyChange.analysisPromptVersion
+Added PolicyChange.analysisInputHash
+Added PolicyChange.analysisEvidenceJson
+Database schema is ready.
+{
+  "companies": 0,
+  "discoveryCandidates": 0,
+  "discoveryJobs": 0,
+  "policyInquiries": 0,
+  "onboardingBatches": 0,
+  "policies": 0,
+  "snapshots": 0,
+  "changes": 0,
+  "accessLogs": 0,
+  "investorAccessGrants": 0,
+  "pressMetricEvents": 0,
+  "aiModelInvocations": 0
+}
+(node:37484) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)

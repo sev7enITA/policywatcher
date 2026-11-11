@@ -46,3 +46,10 @@ The [final Fable re-review](fable-final-review.raw.txt) confirms PR-01 through P
 - **FR-06/07:** the suite label and bounded reuse wording above are corrected.
 
 These restrictions are not O2 completion, production approval, or a claim that every audit gap is fixed.
+
+
+## Local PostgreSQL portability execution
+
+A fresh loopback-only PostgreSQL 16 container tested the archived source at `3bd243567af718d270dc671648c8208730392df8`, using its own generated client. All eight PostgreSQL migrations applied, including the new assessment-state migration; the schema-drift check was empty. Relational operations and assessment identity write/read/rollback passed. The SQLite fixture import returned `go`, and canonical dual-write assertions passed. [Receipt, exact scope and retained logs](postgresql-local/receipt.json).
+
+The first dual-write invocation was rejected by its database-name safety guard. Renaming only the disposable database to the accepted test naming convention and explicitly using test mode resolved the harness setup; no source or guard was weakened. The server log retains intentional duplicate-key failures from the uniqueness test. The container was stopped after validation. This is local portability evidence, not a GitHub CI result, backup restoration, load qualification or any hosted change.
