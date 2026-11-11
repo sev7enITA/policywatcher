@@ -1,0 +1,20 @@
+# O2 qualification protocol, 7 November 2026
+
+The owner authorized O2 with Gemini and GLM through existing free access. This is a qualification campaign, not authorization for O3, O4, paid APIs or a new deployment of the engine.
+
+## Candidate and evidence boundaries
+
+Candidate: source `734729732fe1b494f844406f719ce2005a4c4d6b`, implementation `84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00`, private r3. The harness, fixtures and reports are outside the implementation closure. Check the manifest before and after. Never transfer observations from candidate `050af19`, r2, or acquisition-only tests to r3.
+
+This protocol is recorded before running the new diagnostic corpus. Existing 120 engine tests and the historical completeness falsifiers are known baseline evidence. Preserve every attempt. An exit code of zero means the diagnostic completed, not that O2 passed.
+
+## Ordered gates
+
+1. **Source completeness.** Run authored HTML fixtures through the actual r3 extractor. Compare an independently specified inventory of exact occurrences, ordering and table associations with the extraction. Include inline conditions, repeated clauses, nested lists, native and ARIA disclosures, table captions/rows, section reassignment and linked annexes. Missing data must remain visible. Positive controls must retain the stated units; unsafe captures must be held. A diagnostic failure blocks general qualification; a pass only covers these fixtures. Separately rerun the seven historical document-level falsifiers on r3. They demonstrate insufficient contracts, not an HTML extraction defect or an actual provider change.
+2. **Semantic accuracy and control flow.** Send exact old/new documents and deliberately false interpretations through the real deterministic validators. Use full, correct quotations so that a rejected malformed offset cannot masquerade as semantic verification. Vectors: negation, conditional numeric trigger, update/effective date, row scope, English/Italian divergence and prompt injection. Record that structural acceptance is not entailment. Test unsupported/uncertain/missing verifier outcomes independently of live model performance. Existing isolated-DB tests exercise ledger and review control flow with injected model responses and synthetic confirmation time; they do not establish live accuracy or observation days.
+3. **Live model and source prerequisites.** Verify the intended host's explicit model pair, credential presence, free-access status and source contracts without exposing secrets. Browser Gemini/GLM opinions are advisory. They do not authenticate the Google SDK or prove quota. No inference is permitted if zero-cost access cannot be established. Review reference annotations separately from model agreement. No percentage accuracy claim without a declared denominator, errors, coverage and independent review.
+4. **500 policies/day.** Only after the preceding gates: freeze 500 policy identities, source contracts and document dependencies on the intended host, with a declared workload mix of unchanged, genuinely changed and held policies. Observe a real daily window, per-source acquisition/processing/ledger verdict, retries, quota, elapsed time, memory and recovery. Retain all 500 in the denominator. Source failures and review holds are accounted outcomes, not successfully analyzed policies. Do not multiply a small-run throughput, replay 500 responses, or count the earlier Mac extraction experiment as this gate. Do not require two model calls for unchanged policies; measure the actual changed-policy workload. A 50-task hosted batch limit is not 500/day evidence.
+
+## Decision rule
+
+No general completeness, semantic accuracy or 500/day qualification while an applicable gate is failed or unmeasured. Fixes require a separately identified candidate and fresh affected tests. Source-specific limitations may be stated explicitly but must not disappear from the denominator. Existing stable production and private Preview flags remain unchanged. Reports distinguish measured findings, reviewer suggestions accepted/rejected, unknowns, prepared content and published content.

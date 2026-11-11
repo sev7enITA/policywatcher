@@ -917,6 +917,42 @@ describe('operational release regressions', () => {
 });
 
 describe('claim ledger', () => {
+  it.each(['supported', 'unsupported', 'uncertain', 'missing', 'same-model'] as const)('O2 observe/silent persists %s evidence without public effects (injected providers)', async verdict => {
+    vi.stubEnv('POLICYWATCHER_ENGINE_PUBLICATION', '0');
+    vi.stubEnv('POLICYWATCHER_ENGINE_NOTIFICATIONS', '0');
+    const p = await seed();
+    const before = await database.policy.findUniqueOrThrow({ where: { id: p.id } });
+    const provider: AnalysisProvider = { ...analysis, verify: async (_input, claims) => ({
+      value: { verdicts: verdict === 'missing' ? [] : claims.claims.map(c => ({ claimId: c.id,
+        verdict: verdict === 'same-model' ? 'supported' : verdict,
+        reason: 'Authored control outcome, not live semantic verification.' })) },
+      receipt: { ...receipt, model: verdict === 'same-model' ? receipt.model : 'independent-test-provider' },
+    }) };
+    for (const index of [1, 2]) {
+      await store.enqueueRun({ requestKey: `o2-${verdict}-${index}`, mode: 'observe', requestedBy: 'fixture-admin', notificationMode: 'silent' });
+      await drain({ analysis: provider });
+      // Test clock manipulation is synthetic control-flow evidence, never a live confirmation window.
+      if (index === 1) await readySecond(p.id, 'observe');
+    }
+    const rows = await database.engineClaim.findMany({ include: { evidence: true } });
+    expect(rows).toHaveLength(1);
+    expect(rows[0].changeId).toBeNull(); expect(rows[0].approvedBy).toBeNull();
+    expect(rows[0].verifierVerdict).toBe(verdict === 'missing' ? null : verdict === 'same-model' ? 'supported' : verdict);
+    expect(rows[0].evidence).toHaveLength(2);
+    for (const span of rows[0].evidence) {
+      const doc = structureDocument(span.side === 'old' ? oldText : newText);
+      expect(doc.text.slice(span.startOffset, span.endOffset)).toBe(span.quote);
+      expect(span.documentHash).toBe(doc.hash);
+    }
+    if (verdict !== 'supported') {
+      const review = await database.engineReview.findUniqueOrThrow({ where: { id: rows[0].reviewId! } });
+      expect(review.mode).toBe('observe'); expect(review.status).toBe('observed');
+      expect(review.reasonsJson).toContain(verdict === 'missing' ? 'verification_incomplete' : verdict === 'same-model' ? 'verification_model_not_independent' : `claim_${verdict}`);
+    }
+    expect(await database.policy.findUniqueOrThrow({ where: { id: p.id } })).toEqual(before);
+    expect(await database.policyChange.count()).toBe(0);
+    expect(await database.engineOutbox.count()).toBe(0);
+  });
   const unsupported: AnalysisProvider = { ...analysis, verify: vi.fn(async (_input: AnalysisInput, claims: ClaimSet) => ({
     value: { verdicts: claims.claims.map(c => ({ claimId: c.id, verdict: 'unsupported' as const, reason: 'Quote is exact but does not entail the stated period.' })) },
     receipt: { ...receipt, model: 'independent-test-provider' } })) };

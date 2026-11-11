@@ -1,0 +1,163 @@
+{
+  "id": "negative-numeric-trigger",
+  "expectation": "Reject: trigger is closure, not collection.",
+  "input": {
+    "old": {
+      "schema": "pw-engine-6.0.0-alpha.1",
+      "text": "# Privacy\n\nWe retain records for 30 days after closure.",
+      "hash": "6df00b1ac09ca10c6ef895f9b06b062e176c37922238374c390b95703cf6fd00",
+      "blocks": [
+        {
+          "id": "8f589a7fb10cdb5fea94bc1f:0",
+          "kind": "heading",
+          "section": [
+            "Privacy"
+          ],
+          "text": "# Privacy",
+          "start": 0,
+          "end": 9
+        },
+        {
+          "id": "a9b88f8046fa5c98abf6d417:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy"
+          ],
+          "text": "We retain records for 30 days after closure.",
+          "start": 11,
+          "end": 55
+        }
+      ]
+    },
+    "next": {
+      "schema": "pw-engine-6.0.0-alpha.1",
+      "text": "# Privacy\n\nWe retain records for 60 days after closure.",
+      "hash": "37907890c6bbdb729ff52c166a9368f5930a43b209337e35f85a15646eb4223a",
+      "blocks": [
+        {
+          "id": "8f589a7fb10cdb5fea94bc1f:0",
+          "kind": "heading",
+          "section": [
+            "Privacy"
+          ],
+          "text": "# Privacy",
+          "start": 0,
+          "end": 9
+        },
+        {
+          "id": "35d848a48a1f5bae786c28bf:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy"
+          ],
+          "text": "We retain records for 60 days after closure.",
+          "start": 11,
+          "end": 55
+        }
+      ]
+    },
+    "deltas": [
+      {
+        "id": "old:a9b88f8046fa5c98abf6d417:0",
+        "side": "old",
+        "block": {
+          "id": "a9b88f8046fa5c98abf6d417:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy"
+          ],
+          "text": "We retain records for 30 days after closure.",
+          "start": 11,
+          "end": 55
+        }
+      },
+      {
+        "id": "new:35d848a48a1f5bae786c28bf:0",
+        "side": "new",
+        "block": {
+          "id": "35d848a48a1f5bae786c28bf:0",
+          "kind": "paragraph",
+          "section": [
+            "Privacy"
+          ],
+          "text": "We retain records for 60 days after closure.",
+          "start": 11,
+          "end": 55
+        }
+      }
+    ]
+  },
+  "startedAt": "2026-11-09T16:22:46.402Z",
+  "claims": {
+    "schema": "pw-claims-1",
+    "claims": [
+      {
+        "id": "numeric-trigger",
+        "operation": "modified",
+        "category": "content",
+        "impact": 3,
+        "textEn": "Records are retained for 60 days after collection.",
+        "textIt": "I dati vengono conservati per 60 giorni dalla raccolta.",
+        "deltaIds": [
+          "old:a9b88f8046fa5c98abf6d417:0",
+          "new:35d848a48a1f5bae786c28bf:0"
+        ],
+        "evidence": [
+          {
+            "side": "old",
+            "documentHash": "6df00b1ac09ca10c6ef895f9b06b062e176c37922238374c390b95703cf6fd00",
+            "start": 0,
+            "end": 55,
+            "quote": "# Privacy\n\nWe retain records for 30 days after closure."
+          },
+          {
+            "side": "new",
+            "documentHash": "37907890c6bbdb729ff52c166a9368f5930a43b209337e35f85a15646eb4223a",
+            "start": 0,
+            "end": 55,
+            "quote": "# Privacy\n\nWe retain records for 60 days after closure."
+          }
+        ]
+      }
+    ]
+  },
+  "structural": {
+    "claims": {
+      "schema": "pw-claims-1",
+      "claims": [
+        {
+          "id": "numeric-trigger",
+          "operation": "modified",
+          "category": "content",
+          "impact": 3,
+          "textEn": "Records are retained for 60 days after collection.",
+          "textIt": "I dati vengono conservati per 60 giorni dalla raccolta.",
+          "deltaIds": [
+            "old:a9b88f8046fa5c98abf6d417:0",
+            "new:35d848a48a1f5bae786c28bf:0"
+          ],
+          "evidence": [
+            {
+              "side": "old",
+              "documentHash": "6df00b1ac09ca10c6ef895f9b06b062e176c37922238374c390b95703cf6fd00",
+              "start": 0,
+              "end": 55,
+              "quote": "# Privacy\n\nWe retain records for 30 days after closure."
+            },
+            {
+              "side": "new",
+              "documentHash": "37907890c6bbdb729ff52c166a9368f5930a43b209337e35f85a15646eb4223a",
+              "start": 0,
+              "end": 55,
+              "quote": "# Privacy\n\nWe retain records for 60 days after closure."
+            }
+          ]
+        }
+      ]
+    },
+    "reasons": [],
+    "highImpact": false
+  },
+  "error": "AbortError: This operation was aborted",
+  "completedAt": "2026-11-09T16:24:46.511Z"
+}

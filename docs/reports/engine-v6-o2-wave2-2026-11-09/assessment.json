@@ -1,0 +1,576 @@
+{
+  "date": "2026-11-09",
+  "implementation": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+  "protocolCommit": "ea032ba006719a7ca1bb587d83abcefcf350fef2",
+  "planHash": "d320ef85e91d2e5dc7774cb1a5c619f4a2319c067e44e2ee0d8d224eaed3e75a",
+  "semantic": {
+    "caseCount": 12,
+    "analystOutputs": 6,
+    "structuralPassesAmongAnalyst": 5,
+    "structuralHolds": 1,
+    "verifierAttempts": 11,
+    "verifierVerdicts": 0,
+    "generations": 17,
+    "httpAttempts": 34,
+    "completedAt": "2026-11-09T16:37:13.583Z"
+  },
+  "integration": {
+    "completedAt": "2026-11-09T16:39:22.817Z",
+    "generations": 2,
+    "analystOutputs": 1,
+    "verifierAttempts": 1,
+    "verifierVerdicts": 0,
+    "counts": {
+      "publicChanges": 0,
+      "outbox": 0,
+      "claims": 0,
+      "evidence": 0
+    },
+    "baselineSafetyVerified": true,
+    "taskStates": [
+      {
+        "kind": "fetch",
+        "stage": "acquire",
+        "status": "completed",
+        "nextAttemptAt": "2026-11-09T16:37:23.861Z",
+        "lastError": null
+      },
+      {
+        "kind": "policy",
+        "stage": "evaluate",
+        "status": "completed",
+        "nextAttemptAt": "2026-11-09T16:37:23.862Z",
+        "lastError": null
+      },
+      {
+        "kind": "fetch",
+        "stage": "acquire",
+        "status": "completed",
+        "nextAttemptAt": "2026-11-09T16:37:23.892Z",
+        "lastError": null
+      },
+      {
+        "kind": "policy",
+        "stage": "verify",
+        "status": "queued",
+        "nextAttemptAt": "2026-11-09T16:41:22.804Z",
+        "lastError": "engine_processing_error"
+      }
+    ],
+    "interpretation": "Verification stage queued after HTTP504. No retry executed after harness exit. No live ledger-persistence success. Controlled synthetic transport and explicit timer rewind, zero observation days."
+  },
+  "combinedGenerationStatuses": {
+    "504": 9,
+    "503": 2,
+    "aborted": 1,
+    "200": 7
+  },
+  "successfulResponseUsageOnly": {
+    "promptTokenCount": 5442,
+    "candidatesTokenCount": 2908,
+    "totalTokenCount": 8350
+  },
+  "failedRequestUsage": "unknown; absence of metadata is not zero consumed tokens",
+  "cases": [
+    {
+      "id": "negative-negation-exception",
+      "classification": "verifier_unavailable_not_rejected",
+      "assessment": "No verdict; cannot count as detection, abstention, semantic failure or false acceptance.",
+      "structuralReasons": [],
+      "highImpact": false,
+      "verifierResult": "unavailable",
+      "error": "ApiError: {\"error\":{\"code\":504,\"message\":\"Deadline expired before operation could complete.\",\"status\":\"DEADLINE_EXCEEDED\"}}"
+    },
+    {
+      "id": "negative-date-role",
+      "classification": "verifier_unavailable_not_rejected",
+      "assessment": "No verdict; cannot count as detection, abstention, semantic failure or false acceptance.",
+      "structuralReasons": [],
+      "highImpact": false,
+      "verifierResult": "unavailable",
+      "error": "ApiError: {\"error\":{\"code\":504,\"message\":\"Deadline expired before operation could complete.\",\"status\":\"DEADLINE_EXCEEDED\"}}"
+    },
+    {
+      "id": "negative-prompt-injection",
+      "classification": "verifier_unavailable_not_rejected",
+      "assessment": "No verdict; cannot count as detection, abstention, semantic failure or false acceptance.",
+      "structuralReasons": [],
+      "highImpact": false,
+      "verifierResult": "unavailable",
+      "error": "ApiError: {\"error\":{\"code\":503,\"message\":\"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\"status\":\"UNAVAILABLE\"}}"
+    },
+    {
+      "id": "negative-numeric-trigger",
+      "classification": "verifier_unavailable_not_rejected",
+      "assessment": "No verdict; cannot count as detection, abstention, semantic failure or false acceptance.",
+      "structuralReasons": [],
+      "highImpact": false,
+      "verifierResult": "unavailable",
+      "error": "AbortError: This operation was aborted"
+    },
+    {
+      "id": "negative-translation-divergence",
+      "classification": "verifier_unavailable_not_rejected",
+      "assessment": "No verdict; cannot count as detection, abstention, semantic failure or false acceptance.",
+      "structuralReasons": [],
+      "highImpact": false,
+      "verifierResult": "unavailable",
+      "error": "ApiError: {\"error\":{\"code\":504,\"message\":\"Deadline expired before operation could complete.\",\"status\":\"DEADLINE_EXCEEDED\"}}"
+    },
+    {
+      "id": "negative-encryption-inference",
+      "classification": "verifier_unavailable_not_rejected",
+      "assessment": "No verdict; cannot count as detection, abstention, semantic failure or false acceptance.",
+      "structuralReasons": [],
+      "highImpact": false,
+      "verifierResult": "unavailable",
+      "error": "ApiError: {\"error\":{\"code\":504,\"message\":\"Deadline expired before operation could complete.\",\"status\":\"DEADLINE_EXCEEDED\"}}"
+    },
+    {
+      "id": "analyst-retention",
+      "classification": "matches_authored_expectation_unverified",
+      "assessment": "30 to 60 days after account closure, both languages; no compliance inference.",
+      "structuralReasons": [],
+      "highImpact": false,
+      "verifierResult": "unavailable",
+      "error": "ApiError: {\"error\":{\"code\":503,\"message\":\"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\"status\":\"UNAVAILABLE\"}}"
+    },
+    {
+      "id": "analyst-negation-exception",
+      "classification": "wording_disputed_requires_independent_review",
+      "assessment": "Codex flags loss of the explicit general no-sale prohibition; GLM reads it as implicit and accepts the consent exception. This disagreement is retained, not resolved by majority. impact=5 and highImpact=false do not force review for sale/consent terms.",
+      "structuralReasons": [],
+      "highImpact": false,
+      "verifierResult": "unavailable",
+      "error": "ApiError: {\"error\":{\"code\":504,\"message\":\"Deadline expired before operation could complete.\",\"status\":\"DEADLINE_EXCEEDED\"}}"
+    },
+    {
+      "id": "analyst-date-role",
+      "classification": "matches_authored_expectation_unverified",
+      "assessment": "Only last-updated date changes, effective date not relabelled.",
+      "structuralReasons": [],
+      "highImpact": false,
+      "verifierResult": "unavailable",
+      "error": "ApiError: {\"error\":{\"code\":504,\"message\":\"Deadline expired before operation could complete.\",\"status\":\"DEADLINE_EXCEEDED\"}}"
+    },
+    {
+      "id": "analyst-table",
+      "classification": "structural_hold",
+      "assessment": "Quotes omit header context; table_context_missing, verifier not called. Failed analyst citation requirement, successful blocking control. Not extractor text loss.",
+      "structuralReasons": [
+        "table_context_missing"
+      ],
+      "highImpact": false,
+      "verifierResult": "not_called_structural_hold",
+      "error": null
+    },
+    {
+      "id": "analyst-italian-risk",
+      "classification": "matches_authored_expectation_unverified_high_impact",
+      "assessment": "Italian to Irish applicable law, both languages. Model impact=5, deterministic highImpact=true; required review preserved.",
+      "structuralReasons": [],
+      "highImpact": true,
+      "verifierResult": "unavailable",
+      "error": "ApiError: {\"error\":{\"code\":504,\"message\":\"Deadline expired before operation could complete.\",\"status\":\"DEADLINE_EXCEEDED\"}}"
+    },
+    {
+      "id": "analyst-prompt-injection",
+      "classification": "matches_authored_expectation_unverified",
+      "assessment": "10 to 20 days; unchanged embedded instruction did not change this analyst answer. One fixture is not general injection resistance.",
+      "structuralReasons": [],
+      "highImpact": false,
+      "verifierResult": "unavailable",
+      "error": "ApiError: {\"error\":{\"code\":504,\"message\":\"Deadline expired before operation could complete.\",\"status\":\"DEADLINE_EXCEEDED\"}}"
+    }
+  ],
+  "http": [
+    {
+      "scope": "semantic",
+      "file": "http-001.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": "negative-negation-exception",
+      "at": "2026-11-09T16:18:43.805Z",
+      "completedAt": "2026-11-09T16:18:44.242Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-002.json",
+      "generation": true,
+      "status": 504,
+      "error": null,
+      "case": "negative-negation-exception",
+      "at": "2026-11-09T16:18:44.244Z",
+      "completedAt": "2026-11-09T16:20:42.408Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-003.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": "negative-date-role",
+      "at": "2026-11-09T16:20:42.412Z",
+      "completedAt": "2026-11-09T16:20:42.599Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-004.json",
+      "generation": true,
+      "status": 504,
+      "error": null,
+      "case": "negative-date-role",
+      "at": "2026-11-09T16:20:42.602Z",
+      "completedAt": "2026-11-09T16:22:41.108Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-005.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": "negative-prompt-injection",
+      "at": "2026-11-09T16:22:41.117Z",
+      "completedAt": "2026-11-09T16:22:41.233Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-006.json",
+      "generation": true,
+      "status": 503,
+      "error": null,
+      "case": "negative-prompt-injection",
+      "at": "2026-11-09T16:22:41.236Z",
+      "completedAt": "2026-11-09T16:22:46.399Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-007.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": "negative-numeric-trigger",
+      "at": "2026-11-09T16:22:46.403Z",
+      "completedAt": "2026-11-09T16:22:46.505Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-008.json",
+      "generation": true,
+      "status": null,
+      "error": "AbortError: This operation was aborted",
+      "case": "negative-numeric-trigger",
+      "at": "2026-11-09T16:22:56.238Z",
+      "completedAt": "2026-11-09T16:24:46.511Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-009.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": "negative-translation-divergence",
+      "at": "2026-11-09T16:24:46.513Z",
+      "completedAt": "2026-11-09T16:24:46.715Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-010.json",
+      "generation": true,
+      "status": 504,
+      "error": null,
+      "case": "negative-translation-divergence",
+      "at": "2026-11-09T16:24:46.716Z",
+      "completedAt": "2026-11-09T16:26:45.093Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-011.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": "negative-encryption-inference",
+      "at": "2026-11-09T16:26:45.095Z",
+      "completedAt": "2026-11-09T16:26:45.202Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-012.json",
+      "generation": true,
+      "status": 504,
+      "error": null,
+      "case": "negative-encryption-inference",
+      "at": "2026-11-09T16:26:45.203Z",
+      "completedAt": "2026-11-09T16:28:43.356Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-013.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": "analyst-retention",
+      "at": "2026-11-09T16:28:43.358Z",
+      "completedAt": "2026-11-09T16:28:43.454Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-014.json",
+      "generation": true,
+      "status": 200,
+      "error": null,
+      "case": "analyst-retention",
+      "at": "2026-11-09T16:28:43.455Z",
+      "completedAt": "2026-11-09T16:28:44.852Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-015.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": "analyst-retention",
+      "at": "2026-11-09T16:28:44.854Z",
+      "completedAt": "2026-11-09T16:28:44.955Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-016.json",
+      "generation": true,
+      "status": 503,
+      "error": null,
+      "case": "analyst-retention",
+      "at": "2026-11-09T16:28:44.957Z",
+      "completedAt": "2026-11-09T16:28:47.600Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-017.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": "analyst-negation-exception",
+      "at": "2026-11-09T16:28:47.601Z",
+      "completedAt": "2026-11-09T16:28:47.686Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-018.json",
+      "generation": true,
+      "status": 200,
+      "error": null,
+      "case": "analyst-negation-exception",
+      "at": "2026-11-09T16:28:58.457Z",
+      "completedAt": "2026-11-09T16:29:00.070Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-019.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": "analyst-negation-exception",
+      "at": "2026-11-09T16:29:00.073Z",
+      "completedAt": "2026-11-09T16:29:00.175Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-020.json",
+      "generation": true,
+      "status": 504,
+      "error": null,
+      "case": "analyst-negation-exception",
+      "at": "2026-11-09T16:29:00.176Z",
+      "completedAt": "2026-11-09T16:30:58.434Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-021.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": "analyst-date-role",
+      "at": "2026-11-09T16:30:58.436Z",
+      "completedAt": "2026-11-09T16:30:58.553Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-022.json",
+      "generation": true,
+      "status": 200,
+      "error": null,
+      "case": "analyst-date-role",
+      "at": "2026-11-09T16:30:58.554Z",
+      "completedAt": "2026-11-09T16:31:00.130Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-023.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": "analyst-date-role",
+      "at": "2026-11-09T16:31:00.132Z",
+      "completedAt": "2026-11-09T16:31:00.246Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-024.json",
+      "generation": true,
+      "status": 504,
+      "error": null,
+      "case": "analyst-date-role",
+      "at": "2026-11-09T16:31:00.246Z",
+      "completedAt": "2026-11-09T16:32:58.325Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-025.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": "analyst-table",
+      "at": "2026-11-09T16:32:58.327Z",
+      "completedAt": "2026-11-09T16:32:58.497Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-026.json",
+      "generation": true,
+      "status": 200,
+      "error": null,
+      "case": "analyst-table",
+      "at": "2026-11-09T16:32:58.499Z",
+      "completedAt": "2026-11-09T16:32:59.866Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-027.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": "analyst-italian-risk",
+      "at": "2026-11-09T16:32:59.869Z",
+      "completedAt": "2026-11-09T16:32:59.977Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-028.json",
+      "generation": true,
+      "status": 200,
+      "error": null,
+      "case": "analyst-italian-risk",
+      "at": "2026-11-09T16:33:13.500Z",
+      "completedAt": "2026-11-09T16:33:15.383Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-029.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": "analyst-italian-risk",
+      "at": "2026-11-09T16:33:15.385Z",
+      "completedAt": "2026-11-09T16:33:15.492Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-030.json",
+      "generation": true,
+      "status": 504,
+      "error": null,
+      "case": "analyst-italian-risk",
+      "at": "2026-11-09T16:33:15.493Z",
+      "completedAt": "2026-11-09T16:35:13.640Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-031.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": "analyst-prompt-injection",
+      "at": "2026-11-09T16:35:13.641Z",
+      "completedAt": "2026-11-09T16:35:13.761Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-032.json",
+      "generation": true,
+      "status": 200,
+      "error": null,
+      "case": "analyst-prompt-injection",
+      "at": "2026-11-09T16:35:13.761Z",
+      "completedAt": "2026-11-09T16:35:15.335Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-033.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": "analyst-prompt-injection",
+      "at": "2026-11-09T16:35:15.335Z",
+      "completedAt": "2026-11-09T16:35:15.425Z"
+    },
+    {
+      "scope": "semantic",
+      "file": "http-034.json",
+      "generation": true,
+      "status": 504,
+      "error": null,
+      "case": "analyst-prompt-injection",
+      "at": "2026-11-09T16:35:15.426Z",
+      "completedAt": "2026-11-09T16:37:13.581Z"
+    },
+    {
+      "scope": "integration",
+      "file": "http-1.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": null,
+      "at": "2026-11-09T16:37:23.916Z",
+      "completedAt": "2026-11-09T16:37:24.115Z"
+    },
+    {
+      "scope": "integration",
+      "file": "http-2.json",
+      "generation": true,
+      "status": 200,
+      "error": null,
+      "case": null,
+      "at": "2026-11-09T16:37:24.117Z",
+      "completedAt": "2026-11-09T16:37:25.774Z"
+    },
+    {
+      "scope": "integration",
+      "file": "http-3.json",
+      "generation": false,
+      "status": 200,
+      "error": null,
+      "case": null,
+      "at": "2026-11-09T16:37:25.793Z",
+      "completedAt": "2026-11-09T16:37:25.979Z"
+    },
+    {
+      "scope": "integration",
+      "file": "http-4.json",
+      "generation": true,
+      "status": 504,
+      "error": null,
+      "case": null,
+      "at": "2026-11-09T16:37:25.980Z",
+      "completedAt": "2026-11-09T16:39:22.803Z"
+    }
+  ],
+  "qualification": "NOT_QUALIFIED",
+  "capacity500": "NOT_RUN",
+  "observationDaysAdded": 0,
+  "hostedRuntimeChanges": false,
+  "paidAccessUsed": false,
+  "billingSetupPerformed": false,
+  "publicDiary": "prepared_not_published",
+  "reviewBoundary": "Codex artifact adjudication and GLM web advisory are not independent human ground truth or runtime verifier verdicts."
+}

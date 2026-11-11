@@ -1,0 +1,194 @@
+{
+  "id": "analyst-date-role",
+  "expectation": "Only the last-updated date changes; the effective date remains November 1.",
+  "input": {
+    "old": {
+      "schema": "pw-engine-6.0.0-alpha.1",
+      "text": "# Terms\n\nLast updated: October 1, 2026.\n\nEffective date: November 1, 2026.",
+      "hash": "74234e2a74ad07589eae9ac3310cca389e23eabd3394003c6a372ff0c4448b9b",
+      "blocks": [
+        {
+          "id": "a21052f014048d096423c55e:0",
+          "kind": "heading",
+          "section": [
+            "Terms"
+          ],
+          "text": "# Terms",
+          "start": 0,
+          "end": 7
+        },
+        {
+          "id": "02a09d50826a5b20871e273d:0",
+          "kind": "paragraph",
+          "section": [
+            "Terms"
+          ],
+          "text": "Last updated: October 1, 2026.",
+          "start": 9,
+          "end": 39
+        },
+        {
+          "id": "565ef541ef93569b64e36ca1:0",
+          "kind": "paragraph",
+          "section": [
+            "Terms"
+          ],
+          "text": "Effective date: November 1, 2026.",
+          "start": 41,
+          "end": 74
+        }
+      ]
+    },
+    "next": {
+      "schema": "pw-engine-6.0.0-alpha.1",
+      "text": "# Terms\n\nLast updated: October 30, 2026.\n\nEffective date: November 1, 2026.",
+      "hash": "c53c02d94239e8d1c0b437a63b0098f5c7c11ccc2214c6d12ddc7fc2f5e034ba",
+      "blocks": [
+        {
+          "id": "a21052f014048d096423c55e:0",
+          "kind": "heading",
+          "section": [
+            "Terms"
+          ],
+          "text": "# Terms",
+          "start": 0,
+          "end": 7
+        },
+        {
+          "id": "7016b93f8e50dd80b6044c24:0",
+          "kind": "paragraph",
+          "section": [
+            "Terms"
+          ],
+          "text": "Last updated: October 30, 2026.",
+          "start": 9,
+          "end": 40
+        },
+        {
+          "id": "565ef541ef93569b64e36ca1:0",
+          "kind": "paragraph",
+          "section": [
+            "Terms"
+          ],
+          "text": "Effective date: November 1, 2026.",
+          "start": 42,
+          "end": 75
+        }
+      ]
+    },
+    "deltas": [
+      {
+        "id": "old:02a09d50826a5b20871e273d:0",
+        "side": "old",
+        "block": {
+          "id": "02a09d50826a5b20871e273d:0",
+          "kind": "paragraph",
+          "section": [
+            "Terms"
+          ],
+          "text": "Last updated: October 1, 2026.",
+          "start": 9,
+          "end": 39
+        }
+      },
+      {
+        "id": "new:7016b93f8e50dd80b6044c24:0",
+        "side": "new",
+        "block": {
+          "id": "7016b93f8e50dd80b6044c24:0",
+          "kind": "paragraph",
+          "section": [
+            "Terms"
+          ],
+          "text": "Last updated: October 30, 2026.",
+          "start": 9,
+          "end": 40
+        }
+      }
+    ]
+  },
+  "startedAt": "2026-11-09T16:30:58.436Z",
+  "analysis": {
+    "value": {
+      "schema": "pw-claims-1",
+      "claims": [
+        {
+          "id": "c1",
+          "operation": "modified",
+          "category": "last_updated_date",
+          "textEn": "The last updated date was changed from October 1, 2026 to October 30, 2026.",
+          "textIt": "La data dell'ultimo aggiornamento è stata modificata dal 1 ottobre 2026 al 30 ottobre 2026.",
+          "impact": 1,
+          "deltaIds": [
+            "old:02a09d50826a5b20871e273d:0",
+            "new:7016b93f8e50dd80b6044c24:0"
+          ],
+          "evidence": [
+            {
+              "side": "old",
+              "documentHash": "74234e2a74ad07589eae9ac3310cca389e23eabd3394003c6a372ff0c4448b9b",
+              "start": 9,
+              "end": 39,
+              "quote": "Last updated: October 1, 2026."
+            },
+            {
+              "side": "new",
+              "documentHash": "c53c02d94239e8d1c0b437a63b0098f5c7c11ccc2214c6d12ddc7fc2f5e034ba",
+              "start": 9,
+              "end": 40,
+              "quote": "Last updated: October 30, 2026."
+            }
+          ]
+        }
+      ]
+    },
+    "receipt": {
+      "model": "gemini-3.5-flash-lite",
+      "requestedModel": "gemini-3.5-flash-lite",
+      "promptVersion": "pw-grounded-2",
+      "inputHash": "63b4ec02ff68446c223347192223541fc8a48ab16c00e22df7951515a65aa182",
+      "outputHash": "04e0c051046a7dbf340a4ae0fca9a60c7ce0449775c1bd6a9ac12f4ff1218a3d",
+      "inputTokens": 803,
+      "outputTokens": 343
+    }
+  },
+  "structural": {
+    "claims": {
+      "schema": "pw-claims-1",
+      "claims": [
+        {
+          "id": "c1",
+          "operation": "modified",
+          "category": "last_updated_date",
+          "textEn": "The last updated date was changed from October 1, 2026 to October 30, 2026.",
+          "textIt": "La data dell'ultimo aggiornamento è stata modificata dal 1 ottobre 2026 al 30 ottobre 2026.",
+          "impact": 1,
+          "deltaIds": [
+            "old:02a09d50826a5b20871e273d:0",
+            "new:7016b93f8e50dd80b6044c24:0"
+          ],
+          "evidence": [
+            {
+              "side": "old",
+              "documentHash": "74234e2a74ad07589eae9ac3310cca389e23eabd3394003c6a372ff0c4448b9b",
+              "start": 9,
+              "end": 39,
+              "quote": "Last updated: October 1, 2026."
+            },
+            {
+              "side": "new",
+              "documentHash": "c53c02d94239e8d1c0b437a63b0098f5c7c11ccc2214c6d12ddc7fc2f5e034ba",
+              "start": 9,
+              "end": 40,
+              "quote": "Last updated: October 30, 2026."
+            }
+          ]
+        }
+      ]
+    },
+    "reasons": [],
+    "highImpact": false
+  },
+  "error": "ApiError: {\"error\":{\"code\":504,\"message\":\"Deadline expired before operation could complete.\",\"status\":\"DEADLINE_EXCEEDED\"}}",
+  "completedAt": "2026-11-09T16:32:58.326Z"
+}

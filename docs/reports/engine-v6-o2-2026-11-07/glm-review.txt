@@ -1,0 +1,240 @@
+O2 adversarial review — Engine 6 r3 (read-only), Value: 1
+															926 text O2 adversarial review — Engine 6 r3 (read-only)
+														927 heading What r3 actually is, code-wise, Value: 2
+															928 text What r3 actually is, code-wise
+														929 text document.ts
+														930 text  and 
+														931 text claims.ts
+														932 text  are 
+														933 text byte-identical
+														934 text  to the 4 Nov candidate I reviewed (verified by diff before the decline), so every static finding against those two files carries over with the same line numbers. The r3 delta is exactly: 
+														935 text claimLedger.ts
+														936 text  (new, 94 lines), its Prisma models (
+														937 text EngineClaim
+														938 text /
+														939 text EngineClaimEvidence
+														940 text , schema.prisma:144-192, 
+														941 text @@unique([taskId, claimKey])
+														942 text ), pipeline wiring at three sites, six new ledger tests (engineV6.test.ts:919-990+), and the model-identity runtime tests. I could not re-verify 
+														943 text scraper.ts
+														944 text /
+														945 text pdfPolicy.ts
+														946 text  byte-identity in r3 (command declined); their line references below are from the byte-verified 4 Nov baseline and are flagged as such.
+														947 heading Deterministic defects (with minimal read-only repros), Value: 2
+															948 text Deterministic defects (with minimal read-only repros)
+														949 text D1 — PDF sources are structurally ineligible, yet the qualification corpus admits them.
+														950 text assessDocument
+														951 text  requires a title alias among the first 10 
+														952 text heading
+														953 text  blocks, all 
+														954 text requiredHeadings
+														955 text  present, and a language hint (
+														956 text document.ts:131-140
+														957 text ); 
+														958 text extractPdfPolicyHtml
+														959 text  emits only 
+														960 text <p>
+														961 text  lines inside 
+														962 text <article>
+														963 text  with 
+														964 container
+															965 text no headings and no  lang  attribute
+														966 text  (pdfPolicy.ts:16-17, baseline-ref). Every PDF source therefore deterministically fails 
+														967 text document_identity_unverified
+														968 text  + 
+														969 text required_sections_missing
+														970 text  (+ language unless a 
+														971 text content-language
+														972 text  header leaks through, acquisition.ts:205). Meanwhile 
+														973 text qualification.ts:6
+														974 text  still accepts 
+														975 text format: 'pdf'
+														976 text  sources and counts their windows. 
+														977 text Repro:
+														978 text  replay 
+														979 text assessCapture
+														980 text  over any stored PDF body capture from the campaign corpus — expect reasons 
+														981 text document_identity_unverified, required_sections_missing, document_language_unverified
+														982 text  in 100% of cases, zero eligible.
+														983 container
+															984 text D2 — Interior-completeness blind spot, with one  silent  loss path inside the uncertainty reporter.
+														985 text  The contract checks only title/headings/terminal/length/language (
+														986 text document.ts:126-143
+														987 text ); nothing anchors interior clauses, repeated occurrences, table rows, or section bodies — consistent with your executed result that 4 of 7 incomplete synthetic documents pass. The sharper point: the engine's own issue-reporter logs uncertainty for hidden content, dialogs, buttons, headers (
+														988 text acquisition.ts:64-132
+														989 text ), but table serialization reads only 
+														990 text tr > th/td
+														991 text  cells (scraper.ts:1675-1689, baseline-ref) — stray clause text inside a table container is dropped with 
+														992 container
+															993 text no  issues  entry at all
+														994 text , unlike every other uncertain removal. So the falsifier category "table row" is not merely un-anchored, it's un-
+														995 text reported
+														996 text . 
+														997 text Repro:
+														998 text extractEngineBody
+														999 text  on a fixture with text directly inside 
+														1000 text <table>
+														1001 text  outside any cell; expect it absent from 
+														1002 text document.text
+														1003 text  and absent from 
+														1004 text extraction.issues
+														1005 text .
+														1006 container
+															1007 text D3 — Validated claims vanish from the ledger when  publish()  throws.
+														1008 text  New code: in the commit transaction, 
+														1009 text publish()
+														1010 text  runs 
+														1011 text before
+														1012 text recordClaimLedger
+														1013 text  (pipeline.ts:291-294). If 
+														1014 text publish
+														1015 text  throws — e.g. 
+														1016 text public_old_snapshot_missing
+														1017 text  (pipeline.ts:208) — the fenced transaction rolls back including the ledger writes; 
+														1018 text failTask
+														1019 text  then treats that code as terminal (store.ts:288), so fully validated, verifier-supported claims are never queryable in the ledger (they survive only in the task's 
+														1020 text checkpointJson
+														1021 text ). 
+														1022 text Repro (isolated SQLite, synthetic provider):
+														1023 text  drive two captures to commit with the old snapshot's 
+														1024 text publicEvidence
+														1025 text  cleared — expect task failed, 
+														1026 text engineClaim.count() === 0
+														1027 text  despite a valid analysis+verification checkpoint. This is an observability defect, not a publication-correctness one (rollback is right); decide whether the ledger should record on a separate evidence key regardless of publication outcome.
+														1028 text D4 — Output/edit budgets make medium-to-large real changes deterministically un-publishable.
+														1029 text maxOutputTokens: 16000
+														1030 text  (claims.ts:142) vs. up to 100 claims each requiring whole-block quotes in both languages (claims.ts:29,59,73): any change beyond a few dozen blocks yields 
+														1031 text finishReason: MAX_TOKENS
+														1032 text  → 
+														1033 text analysis_output_incomplete
+														1034 text  throw (claims.ts:143) → 
+														1035 text failTask
+														1036 text  retries → terminal "Needs Review" after 
+														1037 text MAX_ATTEMPTS
+														1038 text . Independently, 
+														1039 text compareDocuments
+														1040 text  throws 
+														1041 text comparison_budget_exceeded
+														1042 text  past 2,000 edits (document.ts:150-151). 
+														1043 text Repro:
+														1044 text  synthetic provider returning 
+														1045 text MAX_TOKENS
+														1046 text  on a ~60-block delta fixture — expect three attempts then terminal failure, zero publications, zero ledger rows. This sets a 
+														1047 text measured ceiling
+														1048 text  on publishable diff size that must be known before any 500/day claim, because it caps the automatable fraction.
+														1049 container
+															1050 text D5 — Compare reports label the stable extractor  5.2.0  while the public product is 5.5.0.
+														1051 text comparison.ts:18
+														1052 text  hard-codes 
+														1053 text stable: { version: '5.2.0' … }
+														1054 text  (read directly in r3). Every compare receipt — including the hosted Apple family — self-describes the stable side as 5.2.0, contradicting 
+														1055 text release.ts
+														1056 text  (
+														1057 text 5.5.0
+														1058 text , stable since 2 Nov) and any public copy saying "stable 5.5". Deterministic labeling defect in evidence documents that are supposed to be the provenance record.
+														1059 heading Limits that are not defects (must be stated, not fixed by O2), Value: 2
+															1060 text Limits that are not defects (must be stated, not fixed by O2)
+														1061 text L1 — Verifier independence is model-id inequality only.
+														1062 text validateModelPair
+														1063 text  compares provider-resolved IDs (claims.ts:103-113); both calls share one provider, one API key, temperature 0 (claims.ts:133-149); the runtime tests confirm alias≠identity handling (engineModelRuntime.test.ts:20-32). No cross-provider verifier exists in code. The new ledger mitigates auditability — 
+														1064 text analystModel
+														1065 text /
+														1066 text verifierModel
+														1067 text /
+														1068 text promptVersion
+														1069 text /
+														1070 text analysisOutputHash
+														1071 text  persisted per claim (schema.prisma:154-155, claimLedger.ts:50-58) — but correlated-error risk stands.
+														1072 text L2 — EN/IT claim equivalence has no deterministic control.
+														1073 text validateClaims
+														1074 text  checks spans, deltas, date roles, table context (claims.ts:26-87); nothing checks 
+														1075 text textEn
+														1076 text  ≈ 
+														1077 text textIt
+														1078 text . Only the verifier 
+														1079 text prompt
+														1080 text  asks (claims.ts:161). Semantic accuracy across languages is therefore model-audited only.
+														1081 heading Distinctions you asked for, Value: 2
+															1082 text Distinctions you asked for
+														1083 content list
+															1084 container
+																1085 AXListMarker • 
+																1086 text Correctness controls vs statistical accuracy:  the 120-test suite and the six ledger tests are correctness controls — deterministic invariants (span = exact slice, re-verified in tests at engineV6.test.ts:934-939; coverage; fencing; idempotency at :982). None of them, and no bounded suite, can establish  statistical  semantic accuracy; O2 can only freeze expected per-case outcomes and measure disagreement against human ground truth without inventing a pass threshold.
+															1087 container
+																1088 AXListMarker • 
+																1089 text Browser advisory vs runtime inference:  the Apple 81/81-vs-6/81 result came from an independent browser request plus occurrence-aware comparison — advisory evidence about an extractor, obtained outside the pipeline. In r3 runtime, zero inference and zero ledger writes occurred, and the code explains why: holds short-circuit before the analyze stage (missing contract at acquisition.ts:227-228;  confirmation_pending  at evaluate), and the ledger is commit-gated (pipeline.ts:285, 292-294). Consistent, not anomalous.
+														1090 heading Predeclared O2 suite (bounded, free-tier only, no invented thresholds), Value: 2
+															1091 text Predeclared O2 suite (bounded, free-tier only, no invented thresholds)
+														1092 text Identity binding (before anything runs):
+														1093 text  freeze a manifest of candidate commit 
+														1094 text 7347297
+														1095 text , implementation hash 
+														1096 text 8408533…9a00
+														1097 text , 
+														1098 text extractionProfile.generated.json
+														1099 text  hash, and a SHA-256 per fixture file; any implementation change invalidates the cohort (same rule as 
+														1100 text engine-qualification-campaign.ts:38
+														1101 text ). All database work on throwaway SQLite under 
+														1102 text output/
+														1103 text ; all model work through the existing isolated-probe guard pattern (
+														1104 text POLICYWATCHER_ENGINE_PUBLICATION=0
+														1105 text , 
+														1106 text NOTIFICATIONS=0
+														1107 text ).
+														1108 text O2-A — Completeness boundary freeze (no models, no network).
+														1109 text  Extend the known 7-document falsifier set with the D2 categories. Ground truth: each fixture's full text with the omission marked. 
+														1110 text Expected outcomes predeclared from code contracts, not new numbers:
+														1111 text  the four known categories pass the contract (documented limitation); control cases (hidden ≥100 chars, unreviewed dialog, ambiguous disclosure) must 
+														1112 text hold
+														1113 text  (acquisition.ts:106-113,64-67,87-91); table stray-text must be absent 
+														1114 text and unreported
+														1115 text  (D2). 
+														1116 text Pass semantics:
+														1117 text  every case matches its predeclared expectation row; any 
+														1118 text new
+														1119 text  silent-loss category discovered = cohort fail. Deliverable: the "silent-loss registry" — the exhaustive, tested list of what the contract cannot see.
+														1120 text O2-B — Diff/claims/verifier semantic cases (free-tier Gemini only).
+														1121 text  Reuse the claims-corpus pattern (≤6 cases, ≤6,000 chars — engine-claims-probe.ts caps): human-authored ground-truth claims per case, each with a predeclared expected outcome drawn from existing validators (e.g., the AWS date-role error must produce 
+														1122 text date_role_unsubstantiated
+														1123 text , claims.ts:78-81; a negation-flip claim must end 
+														1124 text unsupported
+														1125 text /
+														1126 text uncertain
+														1127 text  or the run is a fail; EN/IT divergence cases feed L2). 
+														1128 text Free-API constraints to respect:
+														1129 text engineModelPair
+														1130 text  requires two distinct configured model ids (claims.ts:125-131) — pick two distinct free-tier Gemini models on the one existing key; each case costs 4 API calls (countTokens + generateContent × analyst/verifier, claims.ts:139-142); 
+														1131 text generate()
+														1132 text  has 
+														1133 text no 429 retry
+														1134 text  — predeclare abort-on-429 and resume-later, never hammer; record resolved 
+														1135 text modelVersion
+														1136 text  receipts per run. 
+														1137 text Pass semantics:
+														1138 text  all predeclared validator outcomes occur; report per-case verdicts and disagreement counts as 
+														1139 text measurements
+														1140 text  — no accuracy percentage is a pass bar.
+														1141 text O2-C — Ledger integrity (local SQLite, synthetic providers, no network).
+														1142 text  The six existing tests plus: (i) the D3 publish-throw case with predeclared expectation "ledger rows absent" (documents current behavior; changing it is a code decision, not O2); (ii) re-approve idempotency and 
+														1143 text approveClaimLedger
+														1144 text  actor labeling; (iii) a full 
+														1145 text listClaimLedger
+														1146 text  cursor walk proving stable pagination across ≥3 pages (claimLedger.ts:78-94); (iv) 
+														1147 text verdict:'missing'
+														1148 text  querying null-verdict rows.
+														1149 text O2-D — Capacity-gate prerequisites (no full pipeline, no live scans).
+														1150 text  (i) The D4 MAX_TOKENS repro to measure the largest delta that can still publish — a measured ceiling, explicitly 
+														1151 text not
+														1152 text  a qualification threshold; (ii) the D1 PDF census replayed over stored campaign artifacts (expect 100% ineligible); (iii) D5 relabel decision for 
+														1153 text comparison.ts:18
+														1154 text .
+														1155 heading What must pass before any 500/day claim, Value: 2
+															1156 text What must pass before any 500/day claim
+														1157 content list
+															1158 container
+																1159 AXListMarker 1. 
+																1160 text O2-A registry accepted as the honest boundary (or the contract gains interior anchors and the suite re-runs). 2. D1 resolved — PDFs either excluded from capacity denominators or made eligible. 3. D4's measured publishable-delta ceiling combined with review throughput for everything above it. 4. O2-B executed once on the frozen identity with recorded model receipts, agreeing with all predeclared outcomes. 5. L1/L2 documented as accepted residual risk with the ledger as the audit surface. The temporal cohort,
+														1161 text One process note: I did not run the existing vitest suites even though they appear hermetic (SQLite temp + mocks) — "read-only" excluded the cache/write side effects, so the 120-pass and ledger-test claims above are 
+														1162 text static descriptions of what the tests assert
+														1163 text , not re-executed results.
+														1164 

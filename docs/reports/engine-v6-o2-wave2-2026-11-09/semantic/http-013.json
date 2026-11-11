@@ -1,0 +1,10 @@
+{
+  "case": "analyst-retention",
+  "at": "2026-11-09T16:28:43.358Z",
+  "path": "/v1beta/models/gemini-3.5-flash-lite:countTokens",
+  "requestHash": "161f25f3403b40ad1d6b26ce1a1620194c9999fa25dd04be371d7d74fd694f65",
+  "requestBody": "{\"contents\":[{\"parts\":[{\"text\":\"{\\\"old\\\":{\\\"hash\\\":\\\"a531e09284667b749a65976d3896e6d8ce0f8968ffb62629ee401777d198e287\\\",\\\"blocks\\\":[{\\\"id\\\":\\\"8f589a7fb10cdb5fea94bc1f:0\\\",\\\"kind\\\":\\\"heading\\\",\\\"start\\\":0,\\\"end\\\":9,\\\"text\\\":\\\"# Privacy\\\"},{\\\"id\\\":\\\"06572d9e2698126182c9faa3:0\\\",\\\"kind\\\":\\\"paragraph\\\",\\\"start\\\":11,\\\"end\\\":63,\\\"text\\\":\\\"We retain account records for 30 days after closure.\\\"}]},\\\"next\\\":{\\\"hash\\\":\\\"69c19068a560590cfdb93e53f58fdbae8d8113e03cd3ee41b1f8ea24f579360c\\\",\\\"blocks\\\":[{\\\"id\\\":\\\"8f589a7fb10cdb5fea94bc1f:0\\\",\\\"kind\\\":\\\"heading\\\",\\\"start\\\":0,\\\"end\\\":9,\\\"text\\\":\\\"# Privacy\\\"},{\\\"id\\\":\\\"5f8b7ee100e513dbcc302c55:0\\\",\\\"kind\\\":\\\"paragraph\\\",\\\"start\\\":11,\\\"end\\\":63,\\\"text\\\":\\\"We retain account records for 60 days after closure.\\\"}]},\\\"deltas\\\":[{\\\"id\\\":\\\"old:06572d9e2698126182c9faa3:0\\\",\\\"side\\\":\\\"old\\\",\\\"blockId\\\":\\\"06572d9e2698126182c9faa3:0\\\"},{\\\"id\\\":\\\"new:5f8b7ee100e513dbcc302c55:0\\\",\\\"side\\\":\\\"new\\\",\\\"blockId\\\":\\\"5f8b7ee100e513dbcc302c55:0\\\"}]}\"}],\"role\":\"user\"}]}",
+  "status": 200,
+  "responseText": "{\n  \"totalTokens\": 452,\n  \"promptTokensDetails\": [\n    {\n      \"modality\": \"TEXT\",\n      \"tokenCount\": 452\n    }\n  ]\n}\n",
+  "completedAt": "2026-11-09T16:28:43.454Z"
+}

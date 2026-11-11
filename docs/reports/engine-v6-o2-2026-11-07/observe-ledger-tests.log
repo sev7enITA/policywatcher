@@ -1,0 +1,9 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-preview-r3
+
+
+ Test Files  1 passed (1)
+      Tests  5 passed | 120 skipped (125)
+   Start at  22:01:02
+   Duration  1.19s (transform 277ms, setup 0ms, import 411ms, tests 678ms, environment 0ms)
+
