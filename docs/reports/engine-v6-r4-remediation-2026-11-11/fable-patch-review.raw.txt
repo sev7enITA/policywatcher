@@ -1,0 +1,219 @@
+# Engine 6 r4: pre-merge patch review (Fable 5.2)
+
+Reviewed 11 November 2026, 21:10–21:25 CET, read-only. Checkout: `/Users/fabriziodegni/Projects/PolicyWatcher-engine6-r4-audit-fixes`. Final implementation manifest at review end: `c69be315f47e0c6c9e308e1c4ade103172157f6c83e76b9a67d3d16517c19fca`.
+
+## 1. Verdict
+
+**Do not merge as is. One introduced P0 and one introduced P1 must be fixed first.**
+
+| ID | Severity | Status | One-line statement |
+| --- | --- | --- | --- |
+| PR-01 | **P0** | Confirmed by reading the installed SDK; not executed | The new `countTokens` call is rejected locally by the installed Google SDK in API-key mode, so every live analysis and verification fails before any request is sent. |
+| PR-02 | **P1** | Confirmed by code | Assessment reuse is not bound to the review it stands for: an intervening acquisition hold supersedes the review, and the same content is then never re-raised. |
+| PR-03 | P2 (blocker for publish mode) | Confirmed by code | Time- and provider-dependent holds (`evidence_stale`, missing model identity) are memoised as if they were content decisions; pending reviews expire after two days and are no longer regenerated. |
+| PR-04 | P2 | Confirmed by code; frequency unmeasured | Transport-bound confirmation can loop forever without a hold when transport or final URL alternates, while publish mode records the check as successful. |
+| PR-05 | P2 | Confirmed by code | Terminal-failure reviews are keyed per task and never supersede each other: one new review per policy per day while a failure persists. |
+| PR-06 | P2 | Confirmed by code and installed SDK | "Bounded Retry-After" is unreachable with the installed SDK; any 429, including a per-minute one, ends the cycle and discards the analyst result. |
+| PR-07 | P2 | Confirmed by code; runtime unmeasured | Backup now fails closed, but the single 60-second transaction over the whole database (raw artifacts included) is unmeasured for duration and for contention with the worker. |
+| PR-08..14 | P3 | See section 4 | Risk-term gaps, harness semantics, stale `patch.diff`, minor dead ends. |
+
+No introduced defect was found in lease fencing, the migrations, schema/initialiser parity, the manifest or the readiness changes (section 5).
+
+Nothing here changes the O2 position. All four O2 gates remain open, and none of the findings above is an O2 research gate: they are defects or weaknesses in this patch (section 6 keeps the two apart).
+
+## 2. Scope, identity and what was executed
+
+- **Model and effort.** Model: Claude Fable 5.2. Effort: you report the selector shows "Alto"; I cannot attest the effort setting from inside the session. Those remain two different evidence sources.
+- **Executed by me.** No tests, repository scripts, builds, scans, model calls, database access, Git commands, deployments or source edits. I ran only file reads, `shasum`, plain `diff` between the r3 and r4 directories, `grep`, and one standalone Python script (in my scratchpad) that recomputes the manifest hashes.
+- **Test results quoted** come from logs written by the implementer, not from me: `final-suite.log` (203 files, 1,616 passed, 14 skipped, 21:19), `invalidation-tests.log` (147 passed, 21:14), `final-typecheck.log` (no errors printed), `final-lint.log` (empty).
+- **Not opened.** `output/r4-audit-fixes-20261111/build.db`, `prisma/dev.db`, any environment or credential file (including the file the r4 harness reads at `scripts/engine-o2-r4-wave.ts:36`), hosted systems.
+- **Dependency source read.** `node_modules/@google/genai/dist/node/index.mjs` (version 2.17.1), to check PR-01 and PR-06. `@prisma/client` is 6.19.3; its transaction internals were not read.
+
+### The tree changed during the review
+
+`patch.diff` (21:10:51) is not the final patch. The manifest hash moved three times while I was reading:
+
+| Time | Manifest hash | Source |
+| --- | --- | --- |
+| 21:10 | `26732907…d4804` | `patch.diff` |
+| ~21:17 | `f34884e7…baf8f2` | file on disk, harness pin |
+| 21:21 | `c69be315…c19fca` | file on disk, harness pin (line 15), `register.json` |
+
+Everything below refers to the 21:21 files. Differences from `patch.diff`, found by plain `diff` against the r3 checkout:
+
+- Not in `patch.diff` at all: `src/lib/engine/failures.ts`, both `20261111190000_engine_assessment_reuse` migrations, `scripts/engine-o2-r4-wave.ts`, `docs/reports/engine-v6-r4-remediation-2026-11-11/`.
+- Changed after it: `pipeline.ts` (compare-and-set in the reuse path), `store.ts` (`terminalFailure` preserves `updatedAt`), `engineV6.test.ts` (two more tests), `scripts/postgresql-contract-smoke.mjs`, the harness verdict rule, the generated manifest.
+
+### Hashes of the files reviewed (SHA-256, 21:21:39 CET)
+
+| File | SHA-256 |
+| --- | --- |
+| `output/r4-audit-fixes-20261111/patch.diff` | `e945ebd67ef50bf9191d8a4bcaf792f592bb4f35820b46c9632f8377a042f31d` |
+| `output/r4-audit-fixes-20261111/review-request.md` | `206d7fcdb21f3908371a6046b28020762a8c727a612f07d8802e069f62e7d0a2` |
+| `src/lib/engine/failures.ts` | `9079532f8f1e9284663ab0b8b33975cadec6df5d50fff2d89ede43c504f9250a` |
+| `src/lib/engine/pipeline.ts` | `21369118f5b7af9cc07ccb39ca0792bf6cd763d6560abf0671d127d1638e4bdf` |
+| `src/lib/engine/store.ts` | `f58a6f5b54175eac8062e9d82785fddb04d4be30cb5cf0d0d387088ad66fd38d` |
+| `src/lib/engine/claims.ts` | `1992974e712a24ad44bcf688d368e817f389891a0e4cf184f9f1db30b58a82de` |
+| `src/lib/encryptedBackup.ts` | `12caedbf80b3645681c8bdae40381f742c7d070d7e3bcc5352ecf589287dd2b8` |
+| `src/lib/databaseReadiness.ts` | `e2100fcd9338723c0e276da44bec05eb336c58cc5ee72590d42315c4e523268b` |
+| `src/lib/documentEvidenceSync.ts` | `22be4066ce4d1cfe46b7c7b7b53b2246ec26f18116148a89f8474d861e8574fa` |
+| `src/lib/engineImplementation.generated.json` | `26e265aeb56a833cf0b64b6afcd0185717d0d7314f0dda141b7da41c0b730a6d` |
+| `src/app/admin/database/page.tsx` | `fb56422f25b737a89039ff6c9eb4a090b1ab7bf41fb7b0ee8202b081e46d6c90` |
+| `prisma/schema.prisma` | `e425671ce0d056e7481a46602fc60619be3d2bde8b58df414bab9a04641a61d6` |
+| `prisma/migrations/20261111190000_engine_assessment_reuse/migration.sql` | `8b7933759219e8c6e99c3fb308777f0026d74bb508ed0ee7069a29f1f51d1c41` |
+| `prisma/postgresql/migrations/20261111190000_engine_assessment_reuse/migration.sql` | `8b7933759219e8c6e99c3fb308777f0026d74bb508ed0ee7069a29f1f51d1c41` |
+| `scripts/engine-o2-r4-wave.ts` | `62cfeb48609fe906a669fe0d311e8bec93dedf5b396d39f7a24f345b4892e98a` |
+| `scripts/engine-implementation-manifest.mjs` | `dcd493a64d97c640e8a3ab20a06fcb5964b6acd6002ce4cd722b03635618310c` |
+| `scripts/hostinger-init-db.mjs` | `4097811b2b487667173b19537882fbdbf5263fd85b5a29282b7071ecaf38f0a6` |
+| `scripts/hostinger-init-db.py` | `0f75e00c22ab50575d331cd100561cc85003eec44f496bab49a52c90cbb1912f` |
+| `scripts/postgresql-contract-smoke.mjs` | `a787ec6b0afb69ae5e642f4e308b35bbb2dbd8c3696cc2a58badf96b1cd52aa8` |
+| `src/lib/__tests__/engineV6.test.ts` | `6eac3480a02e0a600cadef01fe6d655a909feff68640eb5168b59bbd7939d1f5` |
+| `src/lib/__tests__/engineModelRuntime.test.ts` | `0bd1ca98313e7538d0737f5d6bc06aaebf37c44cccd92888630642bc95df6652` |
+| `src/lib/__tests__/encryptedBackup.test.ts` | `c9f39929ccba00c11ace1df2fdab089ad10f3b8526cf0a093e24a7f6a5a4cfaf` |
+| `src/lib/__tests__/databaseReadiness.test.ts` | `49288f84c94d686c9cca2c760f72324157a64342189d7462336d703921d12d05` |
+| `docs/reports/engine-v6-r4-remediation-2026-11-11/README.md` | `f08041b2db96b320925a81a3c6d878a5009a42a4d96756c3a4def553cb67014f` |
+| `docs/reports/engine-v6-r4-remediation-2026-11-11/register.json` | `3bf94331856b1f6e4933fd860c1feb72f26f4b21c43c112d5e730193fe50b24d` |
+| `node_modules/@google/genai/dist/node/index.mjs` (2.17.1) | `fec9152c18779d881828228030d9f6bcb26f144fe1c4f6149a70391b3bf09928` |
+
+If any of these hashes differs at merge time, this review does not cover the difference.
+
+## 3. Patch blockers
+
+### PR-01 (P0): the live model path cannot make a single call
+
+**Mechanism.**
+
+1. `src/lib/engine/claims.ts:139` builds the client with an API key only, which is the Gemini Developer API mode. The r4 harness asserts the same host (`scripts/engine-o2-r4-wave.ts:50`).
+2. `claims.ts:140` now calls `countTokens({ model, contents, config: { systemInstruction: system } })`.
+3. In the installed SDK, `countTokens` takes the Developer API branch (`index.mjs:16732-16733`), which calls `countTokensConfigToMldev` whenever `config` is present (`index.mjs:9891-9894`). That function throws if `systemInstruction` is defined (`index.mjs:9836-9840`): "systemInstruction parameter is only supported in Gemini Enterprise Agent Platform mode, not in Gemini Developer API mode."
+4. The throw happens before any HTTP request. The new `.catch` at `claims.ts:140` converts it to `model_transport_error` (`failures.ts:16`), because the error has no status and is not an abort.
+5. `model_transport_error` is retryable, so each analyze or verify task spends three attempts, then ends as a terminal failure with a review, and repeats on the next cycle.
+
+**Consequence.** With this candidate no analyst or verifier request reaches the provider. The durable code blames transport, which would misdirect diagnosis of exactly the verifier problem O2 is trying to isolate.
+
+**Why the tests pass.** `engineModelRuntime.test.ts:51-55` mocks the SDK and asserts that `config.systemInstruction` is passed. The test encodes the broken call.
+
+**Effect on the prepared harness.** All twelve cases would end with an error and zero HTTP receipts. The two-failure stop rule lives inside the fetch wrapper (`engine-o2-r4-wave.ts:69-74`), so it would not trigger. No quota would be spent, but the wave would produce nothing.
+
+**Inaccurate closure claim.** README line 16 ("Count the system instruction in the input budget") and register N06 ("full system instruction counted") describe behaviour that the installed SDK does not allow in this mode.
+
+**Falsifier.** An offline test that builds the real `GoogleGenAI` client with a dummy key, replaces `globalThis.fetch` with a stub, and calls `liveAnalysis.analyze`. If the stub receives a `:countTokens` request, I am wrong. No network or key is needed.
+
+**Correction.** Do not pass `config.systemInstruction` to `countTokens` in API-key mode. Count the system text as part of the counted contents (for example a two-part contents array), which is a conservative upper bound. Add the offline test above so the SDK's own converters are exercised. Map locally rejected arguments to a distinct non-retryable code instead of `model_transport_error`.
+
+### PR-02 (P1): a remembered assessment can outlive its review
+
+**Mechanism.**
+
+1. Day 1: content A is analysed and held, for example `high_impact_review_required`. `hold()` creates review R1 and stores the memo (`pipeline.ts:109`).
+2. Day 2: acquisition is ineligible (`acquisition_failed`, `live_source_unverified`, a contract mismatch). `evaluate` holds at the top with no checkpoint. Because the evidence key contains the task ID, a new review R2 is created and **every** pending or observed review for the policy is superseded, R1 included (`pipeline.ts:97-103`). The memo is untouched: only the unchanged path, refresh, rebaseline request and baseline approval clear it (`pipeline.ts:150, 379, 447, 465`).
+3. Day 3: content A again. The key matches and the earlier task is completed, so the task finishes as `assessment_already_recorded` (`pipeline.ts:177-193`). No review is created.
+
+**Consequence.** R1 stays superseded for as long as the content stays A. The only open review is R2, an acquisition failure that cannot be approved. In publish mode a validated high-impact change is silently parked until someone thinks to "refresh" an unrelated review. In observe mode the review records that O2 would use as evidence end on the acquisition failure. In r3 day 3 would have re-raised the change. Acquisition failures are the most common non-success outcome in the retained evidence, so this sequence is ordinary, not exotic.
+
+**Not covered by tests.** The reuse tests never interleave a different hold between two observations of the same content.
+
+**Falsifier.** A test: assess content (hold), run one cycle with an ineligible capture, run a third with the original content, then assert there is a pending or observed review whose reasons are the semantic ones. On the current code I expect it to fail.
+
+**Correction (either is sufficient).**
+
+- In the reuse transaction, also require that the review for `assessedTaskId` is still `pending` or `observed`, or that the earlier outcome was `observed_change_ready`; otherwise fall through to a new assessment.
+- Or clear `assessedKey`/`assessedTaskId` in `hold()` whenever it supersedes reviews without remembering the current task.
+
+## 4. Other introduced weaknesses
+
+### PR-03 (P2; blocker before any publish-mode use): non-content holds are memoised
+
+- `evidence_stale` (`pipeline.ts:318`) is a statement about elapsed time, yet it is remembered because it is not in `REASSESSABLE_FAILURES` (`failures.ts:25-28`). A fresh capture would cure it; the memo prevents that until a manual refresh. With a verifier backlog this would be a frequent outcome.
+- `verification_model_identity_missing` (`claims.ts:112`) depends on a provider response field, not on the content, and is also remembered.
+- Approval requires evidence no older than two days (`pipeline.ts:402`). r3 regenerated the review every cycle; r4 does not, so a pending high-impact review becomes unapprovable after two days and then needs a manual refresh plus two new cycles. The code comment at `pipeline.ts:180-181` shows this is intended; it should be stated in the README as a reviewer deadline, and the two reasons above should be reassessable.
+
+### PR-04 (P2): transport-bound confirmation has no exit
+
+- The candidate fingerprint now includes `observation.source` and `observation.finalUrl` (`pipeline.ts:197, 205, 209`). If a source alternates between direct and rendered transport, or its final URL varies between fetches, the two observations never match, the candidate is reset each cycle and the task ends as `confirmation_pending` indefinitely.
+- No review is ever raised, and `pipeline.ts:204` records the attempt as verified, so in publish mode the policy shows a fresh successful check while a detected change waits forever.
+- The binding itself is a sound tightening. What is missing is a bound: after a small number of same-content, different-transport observations, hold with an explicit reason.
+- The same fields are in the assessment key, so a source that flips transport after assessment is re-analysed on each flip. For such sources finding N03 is not closed.
+- Upgrade effect, benign: candidates stored in the r3 fingerprint format will not match once, costing one extra confirmation cycle.
+- How often real sources alternate is unmeasured.
+
+### PR-05 (P2): terminal-failure reviews accumulate
+
+- `terminalFailure` creates a review keyed on the task ID and does not supersede earlier ones (`store.ts:282-286`). A failure that persists (verifier 5xx or deadline after three attempts, lease exhaustion) therefore adds one more review per policy per cycle. They are cleared only by the next `hold()` or an unchanged capture.
+- Review-class failures raised before a checkpoint exists take the same path: `comparison_budget_exceeded` from `pipeline.ts:231`, `artifact_size_limit`, `document_size_out_of_bounds`. They are deterministic for the content, are not remembered, and recur daily. A heavily rewritten policy, which is exactly the case that most needs a reviewer, produces a new review every day. Register N04 already says some pre-checkpoint failures lack a reusable decision; the duplicate reviews are the part it does not mention.
+- The analyst result of a task that fails terminally at verification is discarded and regenerated on the next cycle.
+- Correction: key terminal reviews on policy, mode, baseline and reason, or supersede earlier terminal reviews; route deterministic pre-checkpoint failures to a remembered hold.
+
+### PR-06 (P2): 429 handling and the Retry-After claim
+
+- The SDK's `ApiError` carries only `message` and `status` (`index.mjs:7763-7770, 14273-14279`). `modelFailure` looks for `error.headers` (`failures.ts:10-13`), which is never present, so `retryAfterMs` is always 0 with this SDK. The test at `engineV6.test.ts:1090` injects an `EngineModelError` directly and does not show otherwise. README line 14 and register N05 should say the delay is not available from the installed SDK.
+- Every 429 is a review hold for the cycle (`failures.ts:22`, `pipeline.ts:345-347`). A per-minute limit is treated like daily exhaustion: the task is closed, the candidate is cleared, the analyst result is lost and two new observations are needed. r3 would have retried after backoff.
+- The hold is correctly not remembered, and it no longer burns three attempts. There is still no circuit breaker: each remaining queued task sends one request and collects its own 429. That is the open scheduling gap (N06), not a new defect.
+
+### PR-07 (P2): backup transaction
+
+Correct as written: a missing `$transaction` is refused, a failed transaction is not retried table by table, a missing migration ledger is reported as `null`, and restore is still not claimed (`encryptedBackup.ts:132-174`).
+
+Open points:
+
+- The transaction has a 60-second limit and reads every table into memory, including `EngineArtifact` with raw captures of up to 12 MB each. Once the export exceeds 60 seconds there is no backup at all. That is the safe direction, but the ceiling is unmeasured.
+- Whether a 60-second export delays or fails worker transactions on the SQLite host (15-second fenced transactions, 5-second busy timeout) is unmeasured. I did not read Prisma's transaction internals, so I make no claim either way.
+- `provenance` is written but `validateCompleteBackupPayload` (`encryptedBackup.ts:217-271`) neither requires nor checks it, so verification passes with or without it.
+- `consistency: 'serializable-transaction'` is an assertion about the request made, not a measured property. The integration test at `engineV6.test.ts:1141` uses a database with no concurrent writer.
+
+### P3 items
+
+| ID | Finding | Evidence |
+| --- | --- | --- |
+| PR-08 | The risk-term rule is broader but still a keyword list. Examples it misses: "sold", "price", "fees", "renew", "minors", "child", "opt out", "third parties", "disclose", "train our models"; Italian "consenso", "vendiamo", "condividiamo", "cessione". It also over-matches ("wholesale", "consentire", "shareholder"), which will send most privacy-policy changes to review. Both directions are consistent with README line 15, which claims no taxonomy. | `claims.ts:84` |
+| PR-09 | Harness. A correct structural hold on an analyst case (the table case was held in r3) leaves `protocolPassed` unset and forces exit code 2. Failures before HTTP are not counted by the stop rule. The plan reuses the schema label `pw-o2-live-wave-1` for a different harness and negative set. Pacing outside the SDK and the single-`claim_unsupported` rule for negatives are correct. Case count checked: 6 analyst cases, 3 + 3 negatives, at most 18 generations. | `engine-o2-r4-wave.ts:24-26, 80-86, 108-131` |
+| PR-10 | Delivery records disagree: `review-request.md` reports 1,613 passed plus one failure, README line 24 reports 1,614, `final-suite.log` reports 1,616. `patch.diff` is stale (section 2). Regenerate the patch from the final tree, including untracked files, and bind its hash in the delivery receipt. | section 2 |
+| PR-11 | The fixture sentence was changed in about twenty existing tests so that automatic publication is still exercised under the wider risk rule. README line 24 discloses this. r3 and r4 test counts are therefore not like for like. | `engineV6.test.ts:21` and following |
+| PR-12 | `reviewStatus` now projects `draft` instead of `reviewed`. I found no public consumer. Existing rows will be reported as drift by reconciliation until they are re-synced. | `documentEvidenceSync.ts:115-119`, `documentEvidenceReconciliation.ts:484` |
+| PR-13 | Memo dead ends and churn. A rejected review keeps its memo and can no longer be refreshed (refresh needs `pending` or `observed`). An `observed_change_ready` outcome has no review, so it cannot be refreshed at all. The implementation hash is in the key, so every deploy invalidates every memo and triggers a re-analysis burst. The provider-resolved model version is not in the key. | `pipeline.ts:35-39, 461-465` |
+| PR-14 | If the review hold in the error path itself fails, the error is swallowed and the task waits for lease expiry, then repeats the model call. The pattern existed in r3 for two codes; it now covers sixteen. | `pipeline.ts:345-348` |
+
+## 5. Checked and found correct
+
+- **Fencing of the reuse path.** The reuse decision is re-validated inside the fenced transaction: `currentPolicy` plus a compare-and-set on `assessedKey` and `assessedTaskId` (`pipeline.ts:182-188`). A concurrent refresh makes the task fail with `assessment_context_changed`, which is retryable; the retry sees the cleared memo and starts a new candidate. `fenced`, `transition`, `finishTask` and `advanceTask` are unchanged from r3 apart from the import.
+- **Invalidation.** The memo is cleared on an unchanged capture, explicit refresh, rebaseline request and baseline approval. A new candidate produces a different key. Publication does not store a memo, and the baseline change invalidates any older one. Reassessable failures are not remembered. Changing either configured model alias or the build changes the key.
+- **Freshness.** A pending high-impact review no longer marks the policy as successfully checked (`pipeline.ts:89`).
+- **Terminal failures.** A review is retained through an idempotent upsert; `EngineReview.taskId` is unique and a failed task has no earlier review. The policy row, including `updatedAt`, is preserved in observe mode (`store.ts:275-276`).
+- **Bounded diagnostics.** Provider message text is discarded; only `model_http_<status>`, `model_deadline_exceeded` or `model_transport_error` is stored (`failures.ts:5-17`).
+- **Migrations and parity.** Both migrations are the same two additive nullable columns (identical hash). `prisma/schema.prisma`, both readiness lists and both CLI-free initialisers carry them. `build-db.log` shows the initialiser adding both columns to a fresh file.
+- **Manifest.** 122 files; every per-file hash and the top hash recompute to the declared values; my approximate import closure matches the listed set exactly. Migrations, lock files, both initialisers, backup and readiness code are now included. The harness pin equals the manifest hash.
+- **Readiness.** PostgreSQL integrity and foreign-key values are reported as not measured instead of passed; the engine block reports configuration presence with `qualification: 'not_assessed'`.
+- **r3 material.** By plain `diff`, the r3 harnesses, corpus, reports and evidence are byte-identical in this checkout. The three audit files under `docs/reports/engine-v6-external-audit-2026-11-11/fable/` are byte-identical to my originals.
+- **Stated boundary.** The README and register state that O2, completeness, semantic accuracy and 500/day remain unqualified.
+
+**To verify on an isolated copy, not a defect.** The CLI-free initialisers add the columns but write no migration-ledger row. On a database that has a ledger, readiness may report the new migration as missing after an initialiser upgrade. This is the same pattern as the r3 claim-ledger migration.
+
+**Prepared but not evidenced.** The PostgreSQL contract smoke additions read correctly, but no log of a run was provided, and I ran nothing.
+
+## 6. What remains an O2 research gate, not a patch defect
+
+These are untouched by this review and still open. A merge of r4, even after PR-01 and PR-02 are fixed, qualifies none of them.
+
+| Gate | State after r4 |
+| --- | --- |
+| Source completeness (G01–G05) | No change. Contracts, dependency manifests, independent references and PDF provenance are not addressed. |
+| Semantic accuracy (G07, G09, G10) | Still zero verifier verdicts. No human labels. The new risk terms change routing, not accuracy. |
+| Verifier route (G08, N01) | Timeout unchanged; cause still unisolated. With PR-01 unfixed the route cannot even be exercised. |
+| Quota and scheduling (G18, N06) | No per-model budget or circuit breaker. The 200,000-token cap is a request bound only. |
+| 500 policies/day (G17, N13) | Not run. Hosted limits unchanged. Reuse reduces repeated work only for stable-transport, non-failing sources. |
+| Restore (G16, N17) | Export is now one transaction; no restore path or drill exists. |
+| Hosted state (G20) | Nothing deployed. No statement here applies to any hosted system. |
+
+## 7. Minimal evidence to close the blockers
+
+1. **PR-01.** The offline SDK test described above passing on the corrected call, and failing on the current one. Then regenerate the manifest and the harness pin.
+2. **PR-02.** The interleaved-hold regression test, failing before the correction and passing after, in both modes.
+3. **PR-03 to PR-05.** One test each: `evidence_stale` is reassessed on a fresh capture; alternating transport ends in an explicit hold within a fixed number of cycles; a persisting terminal failure leaves at most one open review per policy and mode.
+4. A fresh full-suite run on the final tree, with one consistent count in the README, the request and the log, and a patch file whose hash is recorded and which includes the new files.
+
+## 8. Limits of this review
+
+- Static reading only. PR-01 and PR-06 rest on the installed SDK source, not on execution; the falsifier in section 3 would settle PR-01 in seconds.
+- I did not read Prisma internals, so SQLite locking and pool behaviour during the backup transaction are open questions, not findings.
+- Files not listed in the hash table were read only where a finding cites them. `acquisition.ts`, `document.ts`, `claimLedger.ts`, `hostedWorker.ts`, `outbox.ts`, `comparison.ts`, `channelReports.ts` and `qualification.ts` are unchanged from r3 by `diff` and were not re-read in full.
+- The tree was being modified while I read it. This review binds only to the hashes in section 2.

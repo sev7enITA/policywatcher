@@ -2,7 +2,7 @@
   "candidate": "r4 local remediation candidate, not deployed or qualified",
   "sourceBase": "560da8b6c6d3c04956b6dff82d0e2e607bc1c5eb",
   "r3Implementation": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
-  "r4Implementation": "c69be315f47e0c6c9e308e1c4ade103172157f6c83e76b9a67d3d16517c19fca",
+  "r4Implementation": "dc2fce35e44dc0bcbf234a13ada59516bd6c9de577b1bbf6c4233bbfffcbc62a",
   "allO2GatesRemainOpen": true,
   "findings": [
     {
@@ -24,7 +24,7 @@
       "title": "Unresolved changes are re-analysed every cycle; observe mode duplicates ledger claims",
       "auditSeverity": "high",
       "remediationState": "bounded_fix_tested",
-      "evidenceOrRemainingWork": "Persistent assessment key binds implementation, mode, source scope, baseline, contract, extraction profile, content, transport/final URL and configured models. Repeated captures retain original review/claims. Refresh invalidates memo. New content invalidation tested."
+      "evidenceOrRemainingWork": "Persistent assessment key binds implementation, mode, source scope, baseline, contract, extraction profile, content, transport/final URL and configured models. Repeated captures retain original review/claims. Refresh invalidates memo. New content invalidation tested. Reuse expires after two days from capture and is cleared by intervening or terminal holds. Transport changes require a new decision; no general cost reduction is measured."
     },
     {
       "id": "N04",
@@ -38,7 +38,7 @@
       "title": "Provider errors are erased from durable state; engine calls are outside AI telemetry",
       "auditSeverity": "medium",
       "remediationState": "partial_fix_tested",
-      "evidenceOrRemainingWork": "Durable model_http_429/503/504 and deadline codes with bounded available Retry-After. No raw provider text persisted. Full per-model invocation/usage telemetry remains open."
+      "evidenceOrRemainingWork": "Durable model_http_429/503/504 and deadline codes with bounded available Retry-After. No raw provider text persisted. Full per-model invocation/usage telemetry remains open. The installed SDK does not expose Retry-After; optional adapter delay handling is not a measured SDK feature."
     },
     {
       "id": "N06",
@@ -157,7 +157,7 @@
       "title": "A hold for high-impact review alone marks the check successful and the policy Available",
       "auditSeverity": "medium",
       "remediationState": "bounded_fix_tested",
-      "evidenceOrRemainingWork": "High-impact review hold records Needs Review without advancing lastSuccessfulCheckDate. Observe-mode public fields remain unchanged."
+      "evidenceOrRemainingWork": "High-impact review hold records Needs Review without advancing lastSuccessfulCheckDate. Observe-mode public fields remain unchanged. Changed candidates awaiting confirmation also do not advance successful freshness."
     },
     {
       "id": "N25",
@@ -698,5 +698,23 @@
         "N22"
       ]
     }
-  ]
+  ],
+  "patchReview": {
+    "report": "fable-patch-review.raw.txt",
+    "initialVerdict": "do_not_merge",
+    "PR-01": "reproduced_and_fixed_offline_real_SDK",
+    "PR-02": "reproduced_and_fixed_both_modes",
+    "PR-03": "bounded_expiry_and_reassessment_tests",
+    "PR-04": "explicit_transport_hold_test",
+    "PR-05": "one_active_terminal_review_test",
+    "PR-06": "limits_disclosed_quota_scheduler_open",
+    "PR-07": "backup_capacity_contention_restore_open",
+    "PR-08": "incomplete_keyword_taxonomy_open",
+    "PR-09": "case_error_stop_and_schema_label_fixed_structural_hold_not_semantic_success",
+    "PR-10": "historical_logs_preserved_final_receipt_separate",
+    "PR-11": "fixture_change_disclosed",
+    "PR-12": "projection_reconciliation_requires_resync_on_future_deployment",
+    "PR-13": "two_day_memo_expiry_and_refresh_after_rejection",
+    "PR-14": "hold_write_failure_remains_lease_recovery_limit"
+  }
 }

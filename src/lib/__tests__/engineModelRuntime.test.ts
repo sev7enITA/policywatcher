@@ -51,7 +51,7 @@ describe('r4 bounded model diagnostics', () => {
   it('counts the system instruction and blocks over-budget input before generation', async () => {
     api.countTokens.mockResolvedValue({ totalTokens: 200_001 });
     await expect(liveAnalysis.analyze(input)).rejects.toThrow('analysis_context_budget_exceeded');
-    expect(api.countTokens.mock.calls[0][0].config.systemInstruction).toContain('untrusted');
+    expect(api.countTokens.mock.calls[0][0].contents[0].parts[0].text).toContain('untrusted');
     expect(api.generateContent).not.toHaveBeenCalled();
   });
 });

@@ -721,10 +721,10 @@ describe('adjudicated Gemini and GLM review regressions', () => {
     const current = await database.policy.findUniqueOrThrow({ where: { id: p.id } });
     expect(current.dataStatus).toBe(p.dataStatus); expect(current.lastCheckDate.getTime()).toBe(0);
   });
-  it('records eligible pending evidence without degrading public availability', async () => {
+  it('does not advance successful freshness while a changed candidate awaits confirmation', async () => {
     const p = await seed(); await run('available-pending'); await drain();
     const current = await database.policy.findUniqueOrThrow({ where: { id: p.id } });
-    expect(current.dataStatus).toBe('Available'); expect(current.lastSuccessfulCheckDate!.getTime()).toBeGreaterThan(0);
+    expect(current.dataStatus).toBe('Needs Review'); expect(current.lastSuccessfulCheckDate).toEqual(p.lastSuccessfulCheckDate);
     expect(current.currentHash).toBe(p.currentHash); expect(await database.policyChange.count()).toBe(0);
   });
   it('does not mutate a newer context from hold or terminal failure', async () => {
@@ -1177,4 +1177,82 @@ describe('r4 memo invalidation and terminal isolation', () => {
     expect(await database.policy.findUniqueOrThrow({ where: { id: p.id } })).toEqual(before);
     expect(await database.engineOutbox.count()).toBe(0);
   });
+});
+
+// Regression sequence from the independent pre-merge review, not a live campaign.
+describe('r4 interleaved acquisition holds', () => {
+  it.each(['observe', 'publish'] as const)('re-raises semantic review after an acquisition hold in %s', async mode => {
+    const p = await seed();
+    const high = { ...analysis, analyze: async (input: AnalysisInput) => { const value = grounded(input); value.claims[0].impact = 8; return { value, receipt }; } };
+    await run('interleave-first', mode); await drain({ analysis: high });
+    await readySecond(p.id, mode); await run('interleave-second', mode); await drain({ analysis: high });
+    await readySecond(p.id, mode); await run('interleave-failure', mode);
+    await drain({ acquire: async () => ({ ...await capture(), eligible: false, reasons: ['acquisition_failed'] }), analysis: high });
+    for (const key of ['recover-first', 'recover-second']) {
+      await readySecond(p.id, mode); await run(key, mode); await drain({ analysis: high });
+    }
+    const reviews = await database.engineReview.findMany({ where: { policyId: p.id, status: { in: ['pending', 'observed'] } } });
+    expect(reviews.some(review => review.reasonsJson.includes('high_impact_review_required'))).toBe(true);
+  });
+});
+
+describe('r4 patch review expiry and recovery controls', () => {
+  it('reassesses expired captured evidence automatically', async () => {
+    const p = await seed(); await run('expiry-first', 'observe'); await drain();
+    await readySecond(p.id, 'observe'); await run('expiry-second', 'observe'); await drain();
+    const state = await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'observe') });
+    const task = await database.engineTask.findUniqueOrThrow({ where: { id: state.assessedTaskId! } });
+    const checkpoint = JSON.parse(task.checkpointJson!); checkpoint.observation.observedAt = new Date(Date.now() - 3 * store.DAILY_MS).toISOString();
+    await database.engineTask.update({ where: { id: task.id }, data: { checkpointJson: JSON.stringify(checkpoint) } });
+    for (const key of ['expiry-third', 'expiry-fourth']) { await readySecond(p.id, 'observe'); await run(key, 'observe'); await drain(); }
+    expect(analysis.analyze).toHaveBeenCalledTimes(2);
+  });
+  it('does not memoize missing provider identity as a permanent content decision', async () => {
+    const p = await seed(); await run('identity-first', 'observe'); await drain();
+    await readySecond(p.id, 'observe'); await run('identity-second', 'observe');
+    await drain({ analysis: { ...analysis, verify: async (input, claims) => ({ ...await analysis.verify(input, claims), receipt: { ...receipt, model: '' } }) } });
+    expect((await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'observe') })).assessedKey).toBeNull();
+    for (const key of ['identity-third', 'identity-fourth']) { await readySecond(p.id, 'observe'); await run(key, 'observe'); await drain(); }
+    expect((await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'observe') })).assessedKey).not.toBeNull();
+  });
+  it('holds the first transport mismatch without advancing public successful freshness', async () => {
+    const p = await seed(); await run('transport-first'); await drain();
+    await readySecond(p.id); await run('transport-second');
+    await drain({ acquire: async () => ({ ...await capture(), source: 'rendered' }) });
+    expect((await database.engineReview.findFirstOrThrow({ where: { status: 'pending' } })).reasonsJson).toContain('confirmation_transport_changed');
+    expect((await database.policy.findUniqueOrThrow({ where: { id: p.id } })).lastSuccessfulCheckDate).toEqual(p.lastSuccessfulCheckDate);
+    expect(analysis.analyze).not.toHaveBeenCalled();
+  });
+  it('preserves repeated terminal failures but keeps only one active review', async () => {
+    const p = await seed(); await run('failures-first', 'observe'); await drain();
+    const { EngineModelError } = await import('../engine/failures');
+    for (const key of ['failures-second', 'failures-third']) {
+      await readySecond(p.id, 'observe'); await run(key, 'observe');
+      for (let attempt = 0; attempt < 3; attempt++) {
+        await database.engineTask.updateMany({ where: { kind: 'policy' }, data: { nextAttemptAt: new Date(0) } });
+        await drain({ analysis: { ...analysis, verify: async () => { throw new EngineModelError('model_http_504'); } } });
+      }
+    }
+    expect(await database.engineReview.count({ where: { status: 'observed' } })).toBe(1);
+    expect(await database.engineReview.count({ where: { status: 'superseded' } })).toBe(1);
+    expect(await database.engineTask.count({ where: { kind: 'policy', status: 'failed' } })).toBe(2);
+  });
+});
+
+it('reassesses a stale-evidence hold on new captures', async () => {
+  const p = await seed(); await run('stale-decision-first', 'observe'); await drain();
+  await readySecond(p.id, 'observe'); const r = await run('stale-decision-second', 'observe');
+  let task = await database.engineTask.findFirstOrThrow({ where: { runId: r.id, kind: 'policy' } });
+  for (let i = 0; i < 12 && task.stage !== 'commit'; i++) {
+    await pipeline.workerStep({ acquire: async () => capture(), analysis });
+    task = await database.engineTask.findUniqueOrThrow({ where: { id: task.id } });
+  }
+  expect(task.stage).toBe('commit');
+  const checkpoint = JSON.parse(task.checkpointJson!); checkpoint.observation.observedAt = new Date(Date.now() - 3 * store.DAILY_MS).toISOString();
+  await database.engineTask.update({ where: { id: task.id }, data: { checkpointJson: JSON.stringify(checkpoint) } });
+  await drain();
+  expect((await database.engineReview.findFirstOrThrow()).reasonsJson).toContain('evidence_stale');
+  expect((await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'observe') })).assessedKey).toBeNull();
+  for (const key of ['stale-decision-third', 'stale-decision-fourth']) { await readySecond(p.id, 'observe'); await run(key, 'observe'); await drain(); }
+  expect((await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'observe') })).assessedKey).not.toBeNull();
 });

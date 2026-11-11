@@ -137,7 +137,7 @@ async function generate<T>(model: string, system: string, payload: unknown): Pro
   const contents = JSON.stringify(payload);
   if (contents.length > 4_000_000) throw new Error('analysis_context_budget_exceeded');
   const client = new GoogleGenAI({ apiKey: key, httpOptions: { timeout: 120_000 } });
-  const tokens = await client.models.countTokens({ model, contents, config: { systemInstruction: system } }).catch(error => { throw modelFailure(error); });
+  const tokens = await client.models.countTokens({ model, contents: [{ role: 'user', parts: [{ text: system }, { text: contents }] }] }).catch(error => { throw modelFailure(error); });
   // A conservative request bound, not proof of RPM/TPM/RPD entitlement.
   if (!tokens.totalTokens || tokens.totalTokens > 200_000) throw new Error('analysis_context_budget_exceeded');
   const response = await client.models.generateContent({ model, contents,

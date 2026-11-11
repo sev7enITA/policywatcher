@@ -12,7 +12,7 @@ const out = resolve(process.argv[2] || '');
 if (!out.startsWith(resolve('output') + '/')) throw new Error('isolated_output_required');
 const analyst = 'gemini-3.5-flash-lite', verifier = 'gemini-3.8-flash';
 const manifest = JSON.parse(readFileSync('src/lib/engineImplementation.generated.json', 'utf8'));
-if (manifest.hash !== 'c69be315f47e0c6c9e308e1c4ade103172157f6c83e76b9a67d3d16517c19fca') throw new Error('candidate_mismatch');
+if (manifest.hash !== 'dc2fce35e44dc0bcbf234a13ada59516bd6c9de577b1bbf6c4233bbfffcbc62a') throw new Error('candidate_mismatch');
 execFileSync(process.execPath, ['scripts/engine-implementation-manifest.mjs', '--check']);
 const sourceBytes = readFileSync('evals/engine-v6/claims-corpus.json', 'utf8');
 const positives = JSON.parse(sourceBytes).cases as Fixture[];
@@ -21,8 +21,8 @@ const negatives: Fixture[] = positives.filter(c => c.unsupportedEn).concat([
   { id: 'translation-divergence', old: '# Privacy\n\nWe retain records for 30 days.', next: '# Privacy\n\nWe retain records for 60 days.', expectation: 'Reject: Italian contradicts both the English claim and the source change.', unsupportedEn: 'Retention changes from 30 to 60 days.', unsupportedIt: 'Il periodo di conservazione resta invariato a 30 giorni.' },
   { id: 'encryption-inference', old: '# Security\n\nWe encrypt data in transit using TLS 1.2.', next: '# Security\n\nWe encrypt data in transit using TLS 1.3.', expectation: 'Reject: transport encryption does not establish encryption at rest.', unsupportedEn: 'All stored data is now encrypted at rest.', unsupportedIt: 'Tutti i dati archiviati sono ora cifrati a riposo.' },
 ]);
-const plan = { schema: 'pw-o2-live-wave-1', implementation: manifest.hash, analyst, verifier, sourceCorpusHash: digest(sourceBytes),
-  positives, negatives, maxGenerationAttempts: 18, minimumModelIntervalMs: 15000, maxConsecutiveGenerationFailures: 2,
+const plan = { schema: 'pw-o2-r4-semantic-wave-1', implementation: manifest.hash, analyst, verifier, sourceCorpusHash: digest(sourceBytes),
+  positives, negatives, maxGenerationAttempts: 18, minimumModelIntervalMs: 15000, maxConsecutiveGenerationFailures: 2, maxConsecutiveCaseErrors: 2,
   boundary: 'Authored synthetic references, six analyst cases plus six deliberately false claims. Real Google SDK inference and r4 candidate validators. No source fetch, database, observation day, hosted configuration or capacity claim. No retries or model fallback. Any quota error stops the remaining calls.' };
 const planText = JSON.stringify(plan, null, 2) + '\n';
 if (process.argv.includes('--prepare')) {
@@ -41,7 +41,7 @@ if (process.argv.includes('--prepare')) {
   process.env.POLICYWATCHER_ENGINE_PUBLICATION = '0'; process.env.POLICYWATCHER_ENGINE_NOTIFICATIONS = '0';
   const redact = (value: string) => value.replaceAll(config.GEMINI_API_KEY, '[REDACTED]');
   const originalFetch = globalThis.fetch;
-  let sequence = 0, generations = 0, consecutiveFailures = 0, stopped = false;
+  let sequence = 0, generations = 0, consecutiveFailures = 0, consecutiveCaseErrors = 0, stopped = false;
   let currentCase = '';
   const sent = new Set<string>(), last = new Map<string, number>();
   globalThis.fetch = async (input, init) => {
@@ -116,9 +116,13 @@ if (process.argv.includes('--prepare')) {
             result.verificationReasons = validateVerification(verification.value, structural.claims);
             result.modelPairReasons = validateModelPair(analysis.receipt, verification.receipt);
             result.protocolPassed = !(result.verificationReasons as string[]).length && !(result.modelPairReasons as string[]).length;
-          } else result.verifierSkipped = 'r4_structural_hold';
+          } else { result.verifierSkipped = 'r4_structural_hold'; result.protocolOutcome = 'held_not_semantically_adjudicated'; }
         }
-      } catch (error) { result.error = redact(String(error)); }
+      } catch (error) {
+        result.error = redact(String(error));
+        if (++consecutiveCaseErrors >= plan.maxConsecutiveCaseErrors) stopped = true;
+      }
+      if (!result.error) consecutiveCaseErrors = 0;
       result.completedAt = new Date().toISOString(); results.push(result);
       writeFileSync(join(out, `${currentCase}.json`), redact(JSON.stringify(result, null, 2)) + '\n', { flag: 'wx' });
       console.log(JSON.stringify({ id: currentCase, error: result.error, verificationReasons: result.verificationReasons, structuralReasons: (result.structural as { reasons?: string[] })?.reasons, verifierSkipped: result.verifierSkipped }));

@@ -87,6 +87,8 @@ async function hold(lease: Lease, observation: Observation, reasons: string[], c
   const input = JSON.parse(lease.inputJson) as TaskInput;
   await fenced(lease, async tx => {
     await recordAttempt(tx, lease, observation, reasons.join(','), false);
+    // A new hold supersedes the prior review: never leave its memo pointing to hidden evidence.
+    await tx.enginePolicyState.update({ where: stateKey(lease.policyId!, input.mode), data: { assessedKey: null, assessedTaskId: null } });
     if (!reasons.every(r => ['origin_backoff', 'live_source_unverified', 'acquisition_failed'].includes(r))) {
       await tx.enginePolicyState.update({ where: stateKey(lease.policyId!, input.mode), data: clearCandidate });
     }
@@ -176,9 +178,11 @@ async function evaluate(lease: Lease, input: TaskInput) {
   const key = assessmentKey(input, policy.id, body.document.hash, observation);
   if (state?.assessedKey === key && state.assessedTaskId) {
     const previous = await db.engineTask.findUnique({ where: { id: state.assessedTaskId } });
-    if (previous?.status === 'completed' && previous.policyId === policy.id && previous.resultJson) {
+    const assessedAt = previous?.checkpointJson ? Date.parse((JSON.parse(previous.checkpointJson) as Checkpoint).observation.observedAt) : NaN;
+    if (previous?.status === 'completed' && previous.policyId === policy.id && previous.resultJson
+      && Number.isFinite(assessedAt) && assessedAt <= Date.now() && Date.now() - assessedAt < 2 * DAILY_MS) {
       // Refresh acquisition accounting, not semantic approval or the original evidence age.
-      // A reviewer must request fresh analysis explicitly after evidence expiry.
+      // Expired evidence requires fresh confirmation and analysis, even without manual refresh.
       await fenced(lease, async tx => {
         await currentPolicy(tx, lease, input);
         const reusable = await tx.enginePolicyState.updateMany({
@@ -194,19 +198,23 @@ async function evaluate(lease: Lease, input: TaskInput) {
     }
   }
   const observedAt = new Date(observation.observedAt);
-  const confirmation = state?.candidateHash === body.document.hash && state.candidateProfileHash === digest(JSON.stringify([input.profileHash, input.contractHash, observation.source, observation.finalUrl]))
+  const transportProfile = digest(JSON.stringify([input.profileHash, input.contractHash, observation.source, observation.finalUrl]));
+  if (state?.candidateHash === body.document.hash && state.candidateProfileHash && state.candidateProfileHash !== transportProfile) {
+    return hold(lease, observation, ['confirmation_transport_changed']);
+  }
+  const confirmation = state?.candidateHash === body.document.hash && state.candidateProfileHash === transportProfile
     && state.candidateRunId !== lease.runId && state.candidateObservedAt
     && observedAt.getTime() - state.candidateObservedAt.getTime() >= CONFIRMATION_MS
     && observedAt.getTime() - state.candidateObservedAt.getTime() <= 7 * DAILY_MS;
   if (!confirmation) {
     await fenced(lease, async tx => {
       await currentPolicy(tx, lease, input);
-      await recordAttempt(tx, lease, observation, 'awaiting_independent_confirmation', true);
-      const sameCandidate = state?.candidateHash === body.document.hash && state.candidateProfileHash === digest(JSON.stringify([input.profileHash, input.contractHash, observation.source, observation.finalUrl]))
+      await recordAttempt(tx, lease, observation, 'awaiting_independent_confirmation', false);
+      const sameCandidate = state?.candidateHash === body.document.hash && state.candidateProfileHash === transportProfile
         && state.candidateObservedAt && observedAt.getTime() - state.candidateObservedAt.getTime() <= 7 * DAILY_MS;
       await tx.enginePolicyState.update({ where: stateKey(policy.id, input.mode), data: {
         candidateHash: body.document.hash, candidateArtifactId: observation.artifactId, candidateRunId: sameCandidate ? state.candidateRunId : lease.runId,
-        candidateObservedAt: sameCandidate ? state.candidateObservedAt : observedAt, candidateProfileHash: digest(JSON.stringify([input.profileHash, input.contractHash, observation.source, observation.finalUrl])),
+        candidateObservedAt: sameCandidate ? state.candidateObservedAt : observedAt, candidateProfileHash: transportProfile,
         nextDueAt: new Date(Date.now() + CONFIRMATION_MS) } });
       await finishTask(tx, lease, { outcome: 'confirmation_pending', artifactId: observation.artifactId });
     });
@@ -458,7 +466,7 @@ export async function closeReview(id: string, action: 'reject' | 'refresh', note
   if (note.trim().length < 20 || note.length > 2000) throw new Error('review_note_required');
   return db.$transaction(async tx => {
     const review = await tx.engineReview.findUniqueOrThrow({ where: { id } });
-    if (!['pending', 'observed'].includes(review.status)) throw new Error('review_not_pending');
+    if (!['pending', 'observed', ...(action === 'refresh' ? ['rejected'] : [])].includes(review.status)) throw new Error('review_not_pending');
     const won = await tx.engineReview.updateMany({ where: { id, status: review.status }, data: {
       status: action === 'refresh' ? 'superseded' : 'rejected', reviewedAt: new Date(), reviewedBy: actor, reviewNote: note } });
     if (!won.count) throw new Error('review_conflict');

@@ -279,6 +279,10 @@ async function terminalFailure(tx: Tx, task: EngineTask, reason: string) {
   await tx.enginePolicyState.upsert({ where: stateKey(task.policyId, input.mode), create: { policyId: task.policyId, mode: input.mode, lastAttemptAt: now, nextDueAt, reason },
     update: { lastAttemptAt: now, nextDueAt, reason } });
   const run = await tx.engineRun.findUniqueOrThrow({ where: { id: task.runId } });
+  // Preserve the failed attempts while bounding the active review queue.
+  await tx.engineReview.updateMany({ where: { policyId: task.policyId, mode: input.mode, taskId: { not: task.id }, status: { in: ['pending', 'observed'] } },
+    data: { status: 'superseded', reviewedAt: now, reviewNote: 'Superseded by a newer terminal failure; original evidence retained.' } });
+  await tx.enginePolicyState.update({ where: stateKey(task.policyId, input.mode), data: { assessedKey: null, assessedTaskId: null } });
   await tx.engineReview.upsert({ where: { evidenceKey: digest(`terminal:${task.id}`) },
     create: { evidenceKey: digest(`terminal:${task.id}`), policyId: task.policyId, mode: input.mode,
       status: input.mode === 'observe' ? 'observed' : 'pending', expectedBaselineHash: task.expectedBaselineHash || '',

@@ -1,0 +1,9 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-engine6-r4-audit-fixes
+
+
+ Test Files  3 passed (3)
+      Tests  162 passed (162)
+   Start at  21:27:16
+   Duration  5.19s (transform 573ms, setup 0ms, import 769ms, tests 4.73s, environment 0ms)
+
