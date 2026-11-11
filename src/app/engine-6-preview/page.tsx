@@ -13,7 +13,7 @@ import { localizedPublicUrl } from '@/lib/seo';
 type Props = { searchParams: Promise<{ lang?: string }> };
 const copy = {
   en: {
-    status: 'Experimental programme', date: '9 November 2026', kicker: 'Engineering notebook / 09',
+    status: 'Experimental programme', date: '11 November 2026', kicker: 'Engineering notebook / 11',
     title: 'A clearer path from source to evidence.',
     intro: 'Engine 6 Preview is being developed and tested to make policy retrieval, comparison and validation more traceable. This page opens the design for inspection.',
     boundary: 'Private preview access / staging environment',
@@ -67,9 +67,11 @@ const copy = {
       ['Policy · PolicyChange · EngineOutbox', 'Public baseline, committed change and deferred delivery.', 'PolicyChange → Policy is an existing FK; outbox changeId is an application reference.'],
     ],
     ledgerTitle: 'What the evidence currently establishes.',
-    ledgerIntro: 'Recorded verification, updated 9 November 2026. Historical regression and campaign results are retained. Local production-mode and generated standalone-server checks are reported separately from hosted verification and production accuracy.',
+    ledgerIntro: 'Recorded verification, updated 11 November 2026. Historical regression and campaign results are retained. Local production-mode and generated standalone-server checks are reported separately from hosted verification and production accuracy.',
     check: 'Check', result: 'Recorded result', limit: 'What remains unproven',
     checks: [
+      ["11 November: independent Fable audit", "29 numbered findings retained with a remediation register", "Read-only model-assisted inspection, not execution or certification. The original report and the subsequent patch review distinguish bounded fixes from open research gates. O2 remains open."],
+      ["11 November: r4 remediation candidate", "Assessment reuse, durable failure reviews and consistent backup export", "1,616 local tests passed, 14 skipped. Sensitive-source routing, bounded provider diagnostics and administrative readiness were strengthened. This is a new candidate, separate from hosted r3; no r4 deployment, live semantic result or 500-policy/day qualification is claimed."],
       ["9 November: real API semantic trial", "6 analyst outputs · 1 table-context hold · 0 verifier verdicts from 11 attempts", "Twelve authored synthetic cases, 17 generation attempts, no retries. Verifier: 8 HTTP 504, 2 HTTP 503 and 1 AbortError. Unavailability is not a correct rejection or a semantic verdict. Applicable-law risk was flagged despite model impact 5; consent wording remains disputed in advisory review."],
       ["9 November: isolated durable-worker diagnostic", "Analyst succeeded; verifier HTTP 504; task queued at verification", "Controlled HTML transport and an explicitly rewound lab timer, not live source acquisition or elapsed observation days. Policy, snapshots and baseline preserved; zero public changes, notifications or claim-ledger rows. The workflow did not complete."],
       ["8 November: dedicated free API access", "Two local SDK connectivity probes passed; Free tier reconfirmed on 9 November", "A dedicated local credential enables bounded experiments. This does not configure hosted r3 or qualify semantics. Observed quotas: analyst 500 requests/day, verifier 20. The latter cannot support 500 changed documents requiring verification per day; 500 unchanged checks are a different workload."],
@@ -113,7 +115,7 @@ const copy = {
     footerNote: 'A public record of an experiment. Status will change only as new verification evidence is recorded.',
   },
   it: {
-    status: 'Programma sperimentale', date: '9 novembre 2026', kicker: 'Quaderno di progetto / 09',
+    status: 'Programma sperimentale', date: '11 novembre 2026', kicker: 'Quaderno di progetto / 11',
     title: 'Un percorso più chiaro dalla fonte alle prove.',
     intro: 'Engine 6 Preview è in sviluppo e sperimentazione per rendere più tracciabili recupero, confronto e validazione delle policy. Questa pagina rende il progetto consultabile.',
     boundary: 'Accesso alla preview privata / ambiente staging',
@@ -167,9 +169,11 @@ const copy = {
       ['Policy · PolicyChange · EngineOutbox', 'Baseline pubblica, modifica registrata e invio differito.', 'PolicyChange → Policy è una FK esistente; changeId dell’outbox è un riferimento applicativo.'],
     ],
     ledgerTitle: 'Che cosa dimostrano oggi le verifiche.',
-    ledgerIntro: 'Verifiche aggiornate al 9 novembre 2026. I risultati storici delle regressioni e della campagna sono conservati. Le verifiche locali in modalità produzione e sul server standalone generato sono distinte dalle prove di hosting e dall’accuratezza in produzione.',
+    ledgerIntro: 'Verifiche aggiornate all’11 novembre 2026. I risultati storici delle regressioni e della campagna sono conservati. Le verifiche locali in modalità produzione e sul server standalone generato sono distinte dalle prove di hosting e dall’accuratezza in produzione.',
     check: 'Controllo', result: 'Risultato registrato', limit: 'Che cosa resta da dimostrare',
     checks: [
+      ["11 novembre: audit indipendente Fable", "29 rilievi numerati conservati con registro delle correzioni", "Ispezione assistita da un modello in sola lettura, non esecuzione o certificazione. Il rapporto originale e la successiva revisione della patch distinguono correzioni circoscritte e verifiche di ricerca ancora aperte. O2 resta aperta."],
+      ["11 novembre: candidato r4 con correzioni", "Riuso delle analisi, errori in revisione e backup coerente", "1.616 test locali passati, 14 esclusi. Rafforzati instradamento dei casi sensibili, diagnostica dei provider e visibilità amministrativa. È un nuovo candidato, distinto dalla r3 online; nessuna distribuzione r4, misura semantica live o qualificazione di 500 policy al giorno viene dichiarata."],
       ["9 novembre: prova semantica con API reali", "6 analisi ricevute · 1 blocco sul contesto tabellare · 0 verdetti su 11 tentativi", "Dodici casi sintetici dichiarati, 17 tentativi di generazione, nessun retry. Verificatore: 8 HTTP 504, 2 HTTP 503 e 1 AbortError. Indisponibilità non significa rifiuto corretto o giudizio semantico. Rischio sulla legge applicabile rilevato anche con impatto 5; formulazione sul consenso controversa nella revisione consultiva."],
       ["9 novembre: prova del worker in database isolato", "Analista riuscito; verificatore HTTP 504; attività in coda alla verifica", "Trasporto HTML controllato e timer di laboratorio modificato esplicitamente, non acquisizione live o giorni di osservazione effettivi. Policy, snapshot e baseline preservati; zero modifiche pubbliche, notifiche o righe nel registro delle affermazioni. Flusso non completato."],
       ["8 novembre: accesso API gratuito dedicato", "Due prove locali di connettività SDK superate; piano gratuito riconfermato il 9 novembre", "Una credenziale locale dedicata consente esperimenti limitati. Non configura r3 online e non qualifica la semantica. Quote osservate: analista 500 richieste/giorno, verificatore 20. Il secondo non può sostenere 500 documenti cambiati da verificare al giorno; 500 controlli senza cambiamenti sono un carico diverso."],
@@ -294,7 +298,7 @@ export default async function EnginePreviewPage({ searchParams }: Props) {
         <p className={styles.tableHint} id="entities-scroll-hint">{t.tableHint} <span aria-hidden="true">↔</span></p>
         <div className={styles.tableWrap} role="region" aria-labelledby="entities-title" aria-describedby="entities-scroll-hint" tabIndex={0}><table><caption>{t.erTitle}</caption><thead><tr><th scope="col">{t.entity}</th><th scope="col">{t.responsibility}</th><th scope="col">{t.relationship}</th></tr></thead><tbody>{t.entities.map(([entity, responsibility, relationship]) => <tr key={entity}><th scope="row">{entity}</th><td>{responsibility}</td><td>{relationship}</td></tr>)}</tbody></table></div>
       </section>
-      <section className={styles.section} id="validation" aria-labelledby="validation-title"><p className={styles.limits}><a href="https://github.com/sev7enITA/policywatcher/blob/c462524d20f5c9d03bac36f7673580f72f09cd74/docs/reports/engine-v6-o2-wave2-2026-11-09.md">{lang === 'it' ? '9 novembre: API reali, errori e prova del worker' : '9 November: real API results, failures and worker diagnostic'}</a><a href="https://github.com/sev7enITA/policywatcher/blob/a6ae28a/docs/reports/engine-v6-o2-2026-11-07.md">{lang === 'it' ? 'Assessment O2: prove, controesempi e revisioni Gemini/GLM (7 novembre)' : 'O2 assessment: evidence, counterexamples and Gemini/GLM reviews (7 November)'}</a></p><div className={styles.sectionHeading}><p className={styles.eyebrow}>04 / {t.nav[3]}</p><h2 id="validation-title">{t.ledgerTitle}</h2><p>{t.ledgerIntro}</p></div>
+      <section className={styles.section} id="validation" aria-labelledby="validation-title"><p className={styles.limits}><a href="https://github.com/sev7enITA/policywatcher/pull/56">{lang === 'it' ? '11 novembre: audit Fable, correzioni r4 e limiti residui' : '11 November: Fable audit, r4 fixes and remaining limits'}</a><a href="https://github.com/sev7enITA/policywatcher/blob/c462524d20f5c9d03bac36f7673580f72f09cd74/docs/reports/engine-v6-o2-wave2-2026-11-09.md">{lang === 'it' ? '9 novembre: API reali, errori e prova del worker' : '9 November: real API results, failures and worker diagnostic'}</a><a href="https://github.com/sev7enITA/policywatcher/blob/a6ae28a/docs/reports/engine-v6-o2-2026-11-07.md">{lang === 'it' ? 'Assessment O2: prove, controesempi e revisioni Gemini/GLM (7 novembre)' : 'O2 assessment: evidence, counterexamples and Gemini/GLM reviews (7 November)'}</a></p><div className={styles.sectionHeading}><p className={styles.eyebrow}>04 / {t.nav[3]}</p><h2 id="validation-title">{t.ledgerTitle}</h2><p>{t.ledgerIntro}</p></div>
         <div className={styles.ledger}>{t.checks.map(([check, result, limit]) => <article key={check}><h3>{check}</h3><div><strong>{result}</strong><p>{limit}</p></div></article>)}</div>
         <div className={styles.qualification}><div><span className={styles.pendingLabel}>{lang === 'it' ? 'Da qualificare' : 'Qualification pending'}</span><h3>{t.nextTitle}</h3><p>{t.nextText}</p></div><ul>{t.qualification.map(item => <li key={item}>{item}</li>)}</ul></div><p className={styles.limits}>{t.limits}</p>
       </section>

@@ -632,7 +632,7 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
   return { ...item, locale, distribution: item.distribution as 'github-repository', ...packageCopy[locale] };
 });
 
-export const enginePreviewNotebookUpdatedAt = '2026-11-09';
+export const enginePreviewNotebookUpdatedAt = '2026-11-11';
 
 export const previewResearchUpdate: PressKitRelease = {
   "slug": "engine-six-preview-r3-evidence-update",
