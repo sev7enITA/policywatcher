@@ -728,6 +728,10 @@ const indexes = [
 ];
 
 const upgradeColumns = {
+  EnginePolicyState: [
+    ['assessedKey', `ALTER TABLE "EnginePolicyState" ADD COLUMN "assessedKey" TEXT`],
+    ['assessedTaskId', `ALTER TABLE "EnginePolicyState" ADD COLUMN "assessedTaskId" TEXT`],
+  ],
   EngineRun: [['channelMetadataJson', 'ALTER TABLE "EngineRun" ADD COLUMN "channelMetadataJson" TEXT']],
   Version: [
     ['requestedUrl', `ALTER TABLE "Version" ADD COLUMN "requestedUrl" TEXT`],

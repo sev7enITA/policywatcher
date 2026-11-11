@@ -1,0 +1,82 @@
+
+> policywatcher@5.5.0 pretest
+> node scripts/extraction-profile.mjs --check
+
+
+> policywatcher@5.5.0 test
+> vitest run
+
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-engine6-r4-audit-fixes
+
+(node:19546) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19554) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19545) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19634) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19654) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19675) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/lib/__tests__/release.test.ts (3 tests | 1 failed) 350ms
+     × keeps literal em dash characters out of tracked source and documentation 334ms
+(node:19930) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/lib/__tests__/release.test.ts > release metadata > keeps literal em dash characters out of tracked source and documentation
+AssertionError: docs/reports/engine-v6-external-audit-2026-11-11/fable/audit.md:1:# PolicyWatcher Engine 6 r3 — independent QA/QC audit
+docs/reports/engine-v6-external-audit-2026-11-11/fable/audit.md:51:### N01 — The verifier failures are bounded by r3's own 120-second deadline
+docs/reports/engine-v6-external-audit-2026-11-11/fable/audit.md:69:### N02 — The single AbortError is a harness artifact
+docs/reports/engine-v6-external-audit-2026-11-11/fable/audit.md:77:### N03 — Unresolved changes are re-analysed every cycle
+docs/reports/engine-v6-external-audit-2026-11-11/fable/audit.md:84:- **Observe mode — the only mode the hosted preview allows.** A completed observe-mode commit does not advance the baseline and does not clear the candidate (`pipeline.ts:287-297`). The next day's capture confirms immediately, and the full analyst/verifier pair runs again. `recordClaimLedger` is idempotent per task, not per content (`claimLedger.ts:42-45`), so the ledger gains a duplicate claim set each day.
+docs/reports/engine-v6-external-audit-2026-11-11/fable/audit.md:88:### N04 — Deterministic failures are retried and never reach a reviewer
+docs/reports/engine-v6-external-audit-2026-11-11/fable/audit.md:98:### N05 — Provider errors are erased from durable state
+docs/reports/engine-v6-external-audit-2026-11-11/fable/audit.md:104:### N07 and N08 — High-impact routing is weaker than it looks
+docs/reports/engine-v6-external-audit-2026-11-11/fable/audit.md:118:### N09 — The date-role guard passes a false effective-date claim
+docs/reports/engine-v6-external-audit-2026-11-11/fable/audit.md:124:### N13 — The hosted preview cannot run an unattended 500/day with r3
+docs/reports/engine-v6-external-audit-2026-11-11/fable/audit.md:135:### N14 — The live worker diagnostic bypassed the hosted guards
+docs/reports/engine-v6-external-audit-2026-11-11/fable/audit.md:141:### N17 and N18 — Backup, restore and growth
+docs/reports/engine-v6-external-audit-2026-11-11/fable/audit.md:215:I do not reject the project's own caution. The reports under audit are unusually careful about denominators, and their central conclusion — O2 open — is correct.
+docs/reports/engine-v6-external-audit-2026-11-11/fable/next-wave-protocol.md:1:# Engine 6 — proposed next-wave protocol (free-only)
+docs/reports/engine-v6-external-audit-2026-11-11/fable/next-wave-protocol.md:37:### E1 — Timeout handling, read-only
+docs/reports/engine-v6-external-audit-2026-11-11/fable/next-wave-protocol.md:46:### E2 — Verifier route diagnosis
+docs/reports/engine-v6-external-audit-2026-11-11/fable/next-wave-protocol.md:53:  - **A — r3-identical.** Same model, same generation settings, 120 s client timeout.
+docs/reports/engine-v6-external-audit-2026-11-11/fable/next-wave-protocol.md:54:  - **B — longer deadline only.** As A, 300 s client timeout.
+docs/reports/engine-v6-external-audit-2026-11-11/fable/next-wave-protocol.md:55:  - **C — bounded reasoning only.** As A, plus the provider's documented setting that limits the model's reasoning budget. Look the parameter name up in current provider documentation first; do not guess it.
+docs/reports/engine-v6-external-audit-2026-11-11/fable/next-wave-protocol.md:71:### E3 — Fault-injection map of the worker (no inference)
+docs/reports/engine-v6-external-audit-2026-11-11/fable/next-wave-protocol.md:95:### E4 — Independent completeness references (no inference)
+docs/reports/engine-v6-external-audit-2026-11-11/fable/next-wave-protocol.md:106:### E5 — High-impact routing against the product taxonomy (no inference)
+docs/reports/engine-v6-external-audit-2026-11-11/fable/next-wave-protocol.md:114:### E6 — Blind-labelled semantic trial (bounded inference)
+docs/reports/engine-v6-external-audit-2026-11-11/fable/next-wave-protocol.md:126:### E7 — One real workflow on the hosted guard path
+docs/reports/engine-v6-external-audit-2026-11-11/fable/next-wave-protocol.md:134:### E8 — Backup and restore drill (no inference)
+docs/reports/engine-v6-external-audit-2026-11-11/fable/next-wave-protocol.md:171:### 5.3 Phase A — prevalence and cost, no model calls
+docs/reports/engine-v6-external-audit-2026-11-11/fable/next-wave-protocol.md:180:### 5.4 Phase B — the qualifying window
+: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/lib/__tests__/release.test.ts:90:59
+     88|     );
+     89|
+     90|     expect(result.status, result.stdout || result.stderr).toBe(1);
+       |                                                           ^
+     91|   }, 15_000);
+     92| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 203 passed | 3 skipped (207)
+      Tests  1 failed | 1623 passed | 14 skipped (1638)
+   Start at  21:28:08
+   Duration  9.70s (transform 13.60s, setup 0ms, import 26.43s, tests 43.27s, environment 16ms)
+

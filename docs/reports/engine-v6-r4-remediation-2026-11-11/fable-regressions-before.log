@@ -1,0 +1,52 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-engine6-r4-audit-fixes
+
+ ❯ src/lib/__tests__/engineRealSdk.test.ts (1 test | 1 failed) 14ms
+   × passes the installed Developer API SDK converters and counts system text without network access 13ms
+ ❯ src/lib/__tests__/engineV6.test.ts (149 tests | 2 failed) 4537ms
+     × re-raises semantic review after an acquisition hold in observe 122ms
+     × re-raises semantic review after an acquisition hold in publish 114ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/lib/__tests__/engineRealSdk.test.ts > passes the installed Developer API SDK converters and counts system text without network access
+EngineModelError: model_transport_error
+ ❯ modelFailure src/lib/engine/failures.ts:16:10
+     14|   if (status >= 400 && status <= 599) return new EngineModelError(`mod…
+     15|   if (value.name === 'AbortError' || value.name === 'TimeoutError') re…
+     16|   return new EngineModelError('model_transport_error');
+       |          ^
+     17| }
+     18| export const REVIEW_FAILURES = new Set([
+ ❯ src/lib/engine/claims.ts:140:133
+ ❯ generate src/lib/engine/claims.ts:140:18
+ ❯ src/lib/__tests__/engineRealSdk.test.ts:24:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/lib/__tests__/engineV6.test.ts > r4 interleaved acquisition holds > re-raises semantic review after an acquisition hold in observe
+ FAIL  src/lib/__tests__/engineV6.test.ts > r4 interleaved acquisition holds > re-raises semantic review after an acquisition hold in publish
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/lib/__tests__/engineV6.test.ts:1195:96
+    1193|     }
+    1194|     const reviews = await database.engineReview.findMany({ where: { po…
+    1195|     expect(reviews.some(review => review.reasonsJson.includes('high_im…
+       |                                                                                                ^
+    1196|   });
+    1197| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  3 failed | 147 passed (150)
+   Start at  21:25:36
+   Duration  5.02s (transform 448ms, setup 0ms, import 601ms, tests 4.55s, environment 0ms)
+

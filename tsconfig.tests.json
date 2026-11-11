@@ -9,6 +9,7 @@
   "include": [
     "src/lib/__tests__/engineV6.test.ts",
     "src/lib/__tests__/engineModelRuntime.test.ts",
+    "src/lib/__tests__/engineRealSdk.test.ts",
     "src/lib/__tests__/engineAuditRegression.test.ts",
     "src/lib/__tests__/adminAuth.test.ts",
     "src/lib/__tests__/databaseReadiness.test.ts",

@@ -14,12 +14,144 @@
       "0a55050e32a8843f2748f05a397f2308272c16a656b2a7f58f8f363483eeba77"
     ],
     [
+      "prisma/migrations/20260706213500_init/migration.sql",
+      "32761045284a2b3e9cf467c65ceea66e0d748c928536e402e8e6c527a3c5e343"
+    ],
+    [
+      "prisma/migrations/20260719070000_policy_discovery/migration.sql",
+      "781be5356816f44dc184694cc26adadf144ab44a6b41319a599d11a66b75b1a9"
+    ],
+    [
+      "prisma/migrations/20260721090000_source_onboarding/migration.sql",
+      "eea0bb3f4476d6b93538738d8f1dd1661c31c68945232246d07fc4c239de8df1"
+    ],
+    [
+      "prisma/migrations/20260721120000_policy_discovery_job/migration.sql",
+      "a2b906d6e60914339e659ec211a297179dc6aa0d0c3eb17669ea28d549a7e165"
+    ],
+    [
+      "prisma/migrations/20260721150000_policy_inquiry/migration.sql",
+      "d71cdd679419edc74d8eeaf9553e5cd9c956d300c0b0605eb0fa5769ebf99afe"
+    ],
+    [
+      "prisma/migrations/20260727110000_press_metric_events/migration.sql",
+      "3059348bb7a8ee060903a798df4c488f17f4fac46f1ff5cf2dcd26859abefafb"
+    ],
+    [
+      "prisma/migrations/20260729153000_public_change_publication_time/migration.sql",
+      "5d4c0cd986f3bbe4c4bf15ec4ebf22858a6b8e3253f0c491ffe1caab4f4a7025"
+    ],
+    [
+      "prisma/migrations/20260730043000_source_reliability/migration.sql",
+      "6d7bee755042150d571e37c6f34ac69cb02e4cee3e3a32237a821f3fa770e4f3"
+    ],
+    [
+      "prisma/migrations/20260730162000_webhook_delivery_pilot/migration.sql",
+      "b89c049aa5013134dc23d62c38d3ec38947b6470638d1c0ad2846443f9a8c9a7"
+    ],
+    [
+      "prisma/migrations/20260801090000_admin_dashboard_telemetry/migration.sql",
+      "5135f576a9016684411421d9b32740a1c0bacd709e3f146bd160d40c453b63e1"
+    ],
+    [
+      "prisma/migrations/20260814070000_ai_model_telemetry/migration.sql",
+      "4a0dc117393d5473ae9453eb919083d8f583422a26467e1ec732e8f55ef1dfee"
+    ],
+    [
+      "prisma/migrations/20260817090000_source_integrity_control/migration.sql",
+      "e44253eec6e105739ce7ca671175e973cd1beeb4be2469f82fabb73e562f6168"
+    ],
+    [
+      "prisma/migrations/20260819120000_investor_magic_links/migration.sql",
+      "5f384d71633e727bb1782bdadc07bb30642b5e7afff6dd399527335a75d6777f"
+    ],
+    [
+      "prisma/migrations/20260820100000_document_evidence_model/migration.sql",
+      "88ac135fd4cfacb976f73b4f5ddc9e2c6fbf14d386eecbb735088d2d5190a8aa"
+    ],
+    [
+      "prisma/migrations/20260820130000_scan_run_lifecycle/migration.sql",
+      "26358d1e2c43b1b7e15d27b08ad6bf2ae34813e10ea84ff66f5f224c5e298d22"
+    ],
+    [
+      "prisma/migrations/20260820133000_subscriber_double_opt_in/migration.sql",
+      "950136bf1f4abf78dfbf1c18cdba2a6c04fe07d360c3a15b7573da9ec0f5be01"
+    ],
+    [
+      "prisma/migrations/20261002050000_multiple_documents_per_type/migration.sql",
+      "d77b02c4cad6d6839d46be75673fb2d80e5ddb1822caf63fb512fa838ec5add0"
+    ],
+    [
+      "prisma/migrations/20261007120000_evidence_assurance/migration.sql",
+      "00c5cfa9da0d4a1d81d177f3371bb3d89905a5740e327796b37bb00b452246a3"
+    ],
+    [
+      "prisma/migrations/20261015160000_dq_lineage_occurrences/migration.sql",
+      "90f8bb40d6452ccf89324591ac9cc8e79390c44ed380eefeed158c1b147abcab"
+    ],
+    [
+      "prisma/migrations/20261031060000_engine_v6/migration.sql",
+      "03426874b810d97e67f44cbcc20fe387a29b7c790fb32576951292041e39a5c4"
+    ],
+    [
+      "prisma/migrations/20261101170000_scan_channels/migration.sql",
+      "95f264f43e3bff77168e0ec0719dc9ee0ec0b3a9d452b584c9ea94a765d21e54"
+    ],
+    [
+      "prisma/migrations/20261106120000_engine_claim_ledger/migration.sql",
+      "3be1e7646e4775a61c829231eef37512971c899485f135a4d3b9259d29199254"
+    ],
+    [
+      "prisma/migrations/20261111190000_engine_assessment_reuse/migration.sql",
+      "8b7933759219e8c6e99c3fb308777f0026d74bb508ed0ee7069a29f1f51d1c41"
+    ],
+    [
+      "prisma/migrations/migration_lock.toml",
+      "e590253e05e353954d2949d14dfbbaad1912b3ee07733fedf6bee24d2dcb0e55"
+    ],
+    [
+      "prisma/postgresql/migrations/00000000000000_postgresql_baseline/migration.sql",
+      "64d552b86d2a969b2544c359f7ac51393f0319541f81ed7035eabe7e743230fb"
+    ],
+    [
+      "prisma/postgresql/migrations/20261002050000_multiple_documents_per_type/migration.sql",
+      "d77b02c4cad6d6839d46be75673fb2d80e5ddb1822caf63fb512fa838ec5add0"
+    ],
+    [
+      "prisma/postgresql/migrations/20261007120000_evidence_assurance/migration.sql",
+      "ae1e9eb00fbf7e7768e9c9509d99d348824bc8fe30a231767110581265093c7c"
+    ],
+    [
+      "prisma/postgresql/migrations/20261015160000_dq_lineage_occurrences/migration.sql",
+      "9a058213935424a5e777558326755abab74a760398f97f60b1a6c595cda864a4"
+    ],
+    [
+      "prisma/postgresql/migrations/20261031060000_engine_v6/migration.sql",
+      "d6af4e65c2308e36afd4c1393aa6c8761627553dbb53bb0b2ff529db751aeee8"
+    ],
+    [
+      "prisma/postgresql/migrations/20261101170000_scan_channels/migration.sql",
+      "95f264f43e3bff77168e0ec0719dc9ee0ec0b3a9d452b584c9ea94a765d21e54"
+    ],
+    [
+      "prisma/postgresql/migrations/20261106120000_engine_claim_ledger/migration.sql",
+      "366406cb810af99af55dda7f78c5e7454632bf240d631880e64fd7bc14a3bef8"
+    ],
+    [
+      "prisma/postgresql/migrations/20261111190000_engine_assessment_reuse/migration.sql",
+      "8b7933759219e8c6e99c3fb308777f0026d74bb508ed0ee7069a29f1f51d1c41"
+    ],
+    [
+      "prisma/postgresql/migrations/migration_lock.toml",
+      "d6bae7899f05da956e1070ba5703455503208ef79e161acb18c93bfe3c6cd236"
+    ],
+    [
       "prisma/schema.prisma",
-      "3aa434da9d0607b0cbaf807f0994b1646e377149554837c267a0cb10ae230866"
+      "e425671ce0d056e7481a46602fc60619be3d2bde8b58df414bab9a04641a61d6"
     ],
     [
       "scripts/engine-implementation-manifest.mjs",
-      "f54af45518dba7fd7c2d3b0ce4ca00f514f1bd4e2341f1a8b72e376eea7bb37e"
+      "dcd493a64d97c640e8a3ab20a06fcb5964b6acd6002ce4cd722b03635618310c"
     ],
     [
       "scripts/engine-worker.ts",
@@ -32,6 +164,14 @@
     [
       "scripts/hostinger-environment-gate.mjs",
       "6023805b18d442be56464550295bc79da58374a387d1c92b65f2eefcfccc6000"
+    ],
+    [
+      "scripts/hostinger-init-db.mjs",
+      "4097811b2b487667173b19537882fbdbf5263fd85b5a29282b7071ecaf38f0a6"
+    ],
+    [
+      "scripts/hostinger-init-db.py",
+      "0f75e00c22ab50575d331cd100561cc85003eec44f496bab49a52c90cbb1912f"
     ],
     [
       "scripts/hostinger-managed-build.mjs",
@@ -130,6 +270,14 @@
       "a1c431bea7374a0f6a25df276617fe08bb85fc246b7b8525631979fff651741a"
     ],
     [
+      "src/lib/databaseConfig.ts",
+      "de9e97413227b1b130b16742a4526ba44dc10f4cd8d10d0373d08dfa4d5e9f89"
+    ],
+    [
+      "src/lib/databaseReadiness.ts",
+      "e2100fcd9338723c0e276da44bec05eb336c58cc5ee72590d42315c4e523268b"
+    ],
+    [
       "src/lib/databaseUrl.ts",
       "983eafbc148a1e69d08dc538335d8ec87ba7a59e1912cf71c3a98deb50766f6b"
     ],
@@ -143,7 +291,11 @@
     ],
     [
       "src/lib/documentEvidenceSync.ts",
-      "4f521f8796a388e8440c7ed9c067985d24d493018a9cef5d853e8e7568869205"
+      "22be4066ce4d1cfe46b7c7b7b53b2246ec26f18116148a89f8474d861e8574fa"
+    ],
+    [
+      "src/lib/encryptedBackup.ts",
+      "12caedbf80b3645681c8bdae40381f742c7d070d7e3bcc5352ecf589287dd2b8"
     ],
     [
       "src/lib/engine/acquisition.ts",
@@ -159,7 +311,7 @@
     ],
     [
       "src/lib/engine/claims.ts",
-      "f7ea5fc84715891c34a65caf4ac88f58bf0187039e956e1571446dcd11fd2fe7"
+      "b92f48538cd86c9533fa48024274edf7f45df4a8c49c205aea614275f13f9cec"
     ],
     [
       "src/lib/engine/comparison.ts",
@@ -168,6 +320,10 @@
     [
       "src/lib/engine/document.ts",
       "6543f9d0d2c768510a140b19e8d5191c7c90f7730062ef696f1e3471a4893540"
+    ],
+    [
+      "src/lib/engine/failures.ts",
+      "1a7d7ba69e35061e462b84b12046f6484102a4b3733257ed8f95e32d17bf0a46"
     ],
     [
       "src/lib/engine/hostedWorker.ts",
@@ -179,7 +335,7 @@
     ],
     [
       "src/lib/engine/pipeline.ts",
-      "f7288e8aa823eb43a4cf417892e64bedccfda25b19e7b2bd9343cd58e79a52eb"
+      "a79154289a2fb97137cb570ef898ec4c4d856ef68be6f49bf64dfa8e9793e075"
     ],
     [
       "src/lib/engine/qualification.ts",
@@ -187,7 +343,7 @@
     ],
     [
       "src/lib/engine/store.ts",
-      "62df9bb428f5aabf98bc1d0fb73341bc524bdb6c0173f16d7f7e5bd73bb69163"
+      "4f45b75d5b922c072d5ab83dee860740ef32d3c2b5a045a52616f0cba0b0dfc6"
     ],
     [
       "src/lib/extractionGuard.ts",
@@ -266,6 +422,10 @@
       "54e11f5260699756369a4b94b289f9bbf22548d639b12a23741a8afdc841f7a2"
     ],
     [
+      "src/lib/release.ts",
+      "a8bfc738eed3d7b42d27bf6c3e173f0b884614cbe3bfa533de7fc946ef0d8387"
+    ],
+    [
       "src/lib/requestBody.ts",
       "24380e733a24b275adfe0736093139a815da39c4a4f0e9eb070a7a781f0297ed"
     ],
@@ -330,5 +490,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00"
+  "hash": "dc2fce35e44dc0bcbf234a13ada59516bd6c9de577b1bbf6c4233bbfffcbc62a"
 }

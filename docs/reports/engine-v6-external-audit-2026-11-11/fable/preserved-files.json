@@ -1,0 +1,20 @@
+{
+  "reason": "Verbatim third-party evidence retained as raw text, outside the authored-copy style check. No bytes altered.",
+  "files": [
+    {
+      "originalName": "audit.md",
+      "preservedAs": "audit.raw.txt",
+      "sha256": "58178163ea13cca955396184e7944539017a829139e2c3de374f226e2c86f20d"
+    },
+    {
+      "originalName": "next-wave-protocol.md",
+      "preservedAs": "next-wave-protocol.raw.txt",
+      "sha256": "0d3777d2111dc06ae10b92cbafe286c6d8a9e8729d023cc356f9fd0b255dbb81"
+    },
+    {
+      "originalName": "findings.json",
+      "preservedAs": "findings.json",
+      "sha256": "53320fee29f4cb160a67b475f6206d36eaccc866ec89b716bc45fe963d3d73aa"
+    }
+  ]
+}

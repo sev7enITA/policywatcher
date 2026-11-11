@@ -1,0 +1,40 @@
+{
+  "source": "3bd243567af718d270dc671648c8208730392df8",
+  "startedAt": "2026-11-11T20:52:11.816336+00:00",
+  "steps": [
+    {
+      "name": "sqlite-init",
+      "exitCode": 0
+    },
+    {
+      "name": "fixture",
+      "exitCode": 0
+    },
+    {
+      "name": "sqlite-client",
+      "exitCode": 0
+    },
+    {
+      "name": "sqlite-backfill",
+      "exitCode": 0
+    },
+    {
+      "name": "postgres-client",
+      "exitCode": 0
+    },
+    {
+      "name": "import-rehearsal",
+      "exitCode": 0
+    },
+    {
+      "name": "regenerate",
+      "exitCode": 0
+    },
+    {
+      "name": "dual-write",
+      "exitCode": 1
+    }
+  ],
+  "status": "failed",
+  "completedAt": "2026-11-11T20:52:21.143604+00:00"
+}

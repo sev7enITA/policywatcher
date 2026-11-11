@@ -1,0 +1,69 @@
+{
+  "contractVersion": "1.0.0",
+  "syncVersion": "1.1.0",
+  "mode": "apply",
+  "startedAt": "2026-11-11T20:52:14.423Z",
+  "legacy": {
+    "companies": 1,
+    "policies": 1,
+    "snapshots": 1,
+    "changes": 0
+  },
+  "expected": {
+    "entities": 1,
+    "documents": 1,
+    "versions": 1,
+    "changes": 1,
+    "provisions": 0
+  },
+  "canonicalBefore": {
+    "entities": 0,
+    "documents": 0,
+    "versions": 0,
+    "changes": 0,
+    "provisions": 0
+  },
+  "processed": {
+    "companies": 1,
+    "policies": 1
+  },
+  "sourceIssues": [],
+  "completedAt": "2026-11-11T20:52:14.691Z",
+  "status": "applied",
+  "canonicalAfter": {
+    "entities": 1,
+    "documents": 1,
+    "versions": 1,
+    "changes": 1,
+    "provisions": 0
+  },
+  "executionError": null,
+  "reconciliation": {
+    "contractVersion": "1.0.0",
+    "checkedAt": "2026-11-11T20:52:14.690Z",
+    "status": "reconciled",
+    "legacy": {
+      "companies": 1,
+      "policies": 1,
+      "snapshots": 1,
+      "changes": 0
+    },
+    "expected": {
+      "entities": 1,
+      "documents": 1,
+      "versions": 1,
+      "changes": 1,
+      "provisions": 0
+    },
+    "canonical": {
+      "entities": 1,
+      "documents": 1,
+      "versions": 1,
+      "changes": 1,
+      "provisions": 0
+    },
+    "errorCount": 0,
+    "warningCount": 0,
+    "issues": []
+  }
+}

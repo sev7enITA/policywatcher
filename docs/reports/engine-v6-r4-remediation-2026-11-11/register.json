@@ -1,0 +1,732 @@
+{
+  "candidate": "r4 local remediation candidate, not deployed or qualified",
+  "sourceBase": "560da8b6c6d3c04956b6dff82d0e2e607bc1c5eb",
+  "r3Implementation": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+  "r4Implementation": "dc2fce35e44dc0bcbf234a13ada59516bd6c9de577b1bbf6c4233bbfffcbc62a",
+  "allO2GatesRemainOpen": true,
+  "findings": [
+    {
+      "id": "N01",
+      "title": "Verifier failures are bounded by r3's own 120-second deadline",
+      "auditSeverity": "blocker",
+      "remediationState": "diagnostic_confirmed_cause_open",
+      "evidenceOrRemainingWork": "Installed SDK @google/genai code confirms X-Server-Timeout derives from httpOptions.timeout. No live A/B or causal attribution performed; timeout unchanged."
+    },
+    {
+      "id": "N02",
+      "title": "The single AbortError is a harness artifact",
+      "auditSeverity": "medium",
+      "remediationState": "harness_prepared_not_executed",
+      "evidenceOrRemainingWork": "New r4-only harness paces before SDK entry. Original r3 harness and failure receipts remain unchanged."
+    },
+    {
+      "id": "N03",
+      "title": "Unresolved changes are re-analysed every cycle; observe mode duplicates ledger claims",
+      "auditSeverity": "high",
+      "remediationState": "bounded_fix_tested",
+      "evidenceOrRemainingWork": "Persistent assessment key binds implementation, mode, source scope, baseline, contract, extraction profile, content, transport/final URL and configured models. Repeated captures retain original review/claims. Refresh invalidates memo. New content invalidation tested. Reuse expires after two days from capture and is cleared by intervening or terminal holds. Transport changes require a new decision; no general cost reduction is measured."
+    },
+    {
+      "id": "N04",
+      "title": "Deterministic failures are retried and never reach a reviewer",
+      "auditSeverity": "high",
+      "remediationState": "partial_fix_tested",
+      "evidenceOrRemainingWork": "Incomplete/invalid JSON and budget output become review holds instead of repeated generation; terminal failures now retain review rows. Some pre-checkpoint failures still lack a reusable content decision; real size distribution remains unmeasured."
+    },
+    {
+      "id": "N05",
+      "title": "Provider errors are erased from durable state; engine calls are outside AI telemetry",
+      "auditSeverity": "medium",
+      "remediationState": "partial_fix_tested",
+      "evidenceOrRemainingWork": "Durable model_http_429/503/504 and deadline codes with bounded available Retry-After. No raw provider text persisted. Full per-model invocation/usage telemetry remains open. The installed SDK does not expose Retry-After; optional adapter delay handling is not a measured SDK feature."
+    },
+    {
+      "id": "N06",
+      "title": "No quota- or rate-aware scheduling; token gate exceeds the observed free per-minute limit",
+      "auditSeverity": "high",
+      "remediationState": "partial_fix_tested",
+      "evidenceOrRemainingWork": "429 holds without immediate repeat attempts; full system instruction counted; input cap reduced to 200000 tokens. No general per-model scheduler/RPM/TPM/RPD accounting or current entitlement proof."
+    },
+    {
+      "id": "N07",
+      "title": "High-impact rule misses four of the product's six taxonomy categories and common phrasings",
+      "auditSeverity": "blocker",
+      "remediationState": "partial_fix_tested",
+      "evidenceOrRemainingWork": "Conservative source-word rules cover previously missed training, sale/consent, retention, sharing, licensing, common law/termination phrases. Eleven injected examples pass independently of score. No human-approved taxonomy or general recall claim."
+    },
+    {
+      "id": "N08",
+      "title": "Model impact score is non-discriminating and crossed the review threshold for the same fact",
+      "auditSeverity": "high",
+      "remediationState": "partial_fix_tested",
+      "evidenceOrRemainingWork": "Expanded deterministic routing limits dependence on the score. Numeric score calibration and public risk semantics remain open."
+    },
+    {
+      "id": "N09",
+      "title": "Date-role guard passes a false effective-date claim",
+      "auditSeverity": "medium",
+      "remediationState": "open",
+      "evidenceOrRemainingWork": "Date-role negatives in E6 with verdicts."
+    },
+    {
+      "id": "N10",
+      "title": "Language is verified from publisher metadata, not content",
+      "auditSeverity": "medium",
+      "remediationState": "open",
+      "evidenceOrRemainingWork": "E4 corpus including a mislabelled page."
+    },
+    {
+      "id": "N13",
+      "title": "Hosted preview cannot run an unattended 500/day with r3",
+      "auditSeverity": "blocker",
+      "remediationState": "open",
+      "evidenceOrRemainingWork": "Protocol section 4 preconditions met on the intended host."
+    },
+    {
+      "id": "N14",
+      "title": "Live worker diagnostic disabled the hosted guards",
+      "auditSeverity": "medium",
+      "remediationState": "open",
+      "evidenceOrRemainingWork": "E7 receipts with worker leadership status."
+    },
+    {
+      "id": "N15",
+      "title": "Wave stop rule ignored repeated 5xx and timeouts",
+      "auditSeverity": "medium",
+      "remediationState": "harness_prepared_not_executed",
+      "evidenceOrRemainingWork": "New harness stops after two consecutive generation transport failures; old wave unchanged."
+    },
+    {
+      "id": "N16",
+      "title": "Receipts omit every request header",
+      "auditSeverity": "low",
+      "remediationState": "harness_prepared_not_executed",
+      "evidenceOrRemainingWork": "New harness retains only allowlisted non-secret deadline/client/content-type request headers. No new live receipts."
+    },
+    {
+      "id": "N17",
+      "title": "Backup is non-transactional, whole-database in memory, verification-only and unbound to the candidate",
+      "auditSeverity": "high",
+      "remediationState": "partial_fix_tested",
+      "evidenceOrRemainingWork": "Export reads all tables within Serializable transaction, binds implementation/provider/applied migrations when ledger exists, and labels missing migration ledger null. Isolated DB and mock transaction tests passed. Streaming, restore drill and resource ceilings remain open."
+    },
+    {
+      "id": "N18",
+      "title": "No retention for artifacts, tasks, attempts or reviews; growth unmeasured",
+      "auditSeverity": "medium",
+      "remediationState": "open",
+      "evidenceOrRemainingWork": "Daily database size series over Phase A."
+    },
+    {
+      "id": "N19",
+      "title": "Readiness report omits engine configuration; PostgreSQL integrity fields are constants",
+      "auditSeverity": "low",
+      "remediationState": "bounded_fix_tested",
+      "evidenceOrRemainingWork": "Separate engine configuration presence displayed in admin readiness. PostgreSQL quick-check and FK fields explicitly not measured/null, not fabricated passed values. No operational readiness claim."
+    },
+    {
+      "id": "N20",
+      "title": "Ledger evidence cannot be re-verified from ledger rows alone",
+      "auditSeverity": "medium",
+      "remediationState": "open",
+      "evidenceOrRemainingWork": "E8 check that every restored span equals a slice of a restored document."
+    },
+    {
+      "id": "N21",
+      "title": "Contracts and approvals are single-administrator, role-labelled attestations",
+      "auditSeverity": "high",
+      "remediationState": "open",
+      "evidenceOrRemainingWork": "Schema and route changes with tests on a new candidate."
+    },
+    {
+      "id": "N22",
+      "title": "Canonical-graph projection labels auto-published changes as published and public-unpublished ones as reviewed",
+      "auditSeverity": "low",
+      "remediationState": "bounded_fix_tested",
+      "evidenceOrRemainingWork": "Unpublished public-evidence projections stay draft, not human-reviewed based only on publication flags. Historical published projections retain published status."
+    },
+    {
+      "id": "N23",
+      "title": "Hosted implementation identity is build-asserted",
+      "auditSeverity": "low",
+      "remediationState": "partial_fix_tested",
+      "evidenceOrRemainingWork": "Implementation inventory now also hashes migration SQL, both CLI-free initializers, readiness and backup closure. Runtime identity remains build-asserted when files absent; archive verification still required."
+    },
+    {
+      "id": "N24",
+      "title": "A hold for high-impact review alone marks the check successful and the policy Available",
+      "auditSeverity": "medium",
+      "remediationState": "bounded_fix_tested",
+      "evidenceOrRemainingWork": "High-impact review hold records Needs Review without advancing lastSuccessfulCheckDate. Observe-mode public fields remain unchanged. Changed candidates awaiting confirmation also do not advance successful freshness."
+    },
+    {
+      "id": "N25",
+      "title": "Transport-variant drift may confirm as a change",
+      "auditSeverity": "medium",
+      "remediationState": "partial_fix_tested",
+      "evidenceOrRemainingWork": "Two-capture confirmation now binds transport and final URL. Comparison against baseline transport and rendered/direct truth qualification remain open."
+    },
+    {
+      "id": "N27",
+      "title": "Token-budget check excludes the system instruction and doubles HTTP requests",
+      "auditSeverity": "low",
+      "remediationState": "bounded_fix_tested",
+      "evidenceOrRemainingWork": "SDK token count includes system instruction. CountTokens remains a separate HTTP request."
+    },
+    {
+      "id": "N28",
+      "title": "Model identity is alias-level",
+      "auditSeverity": "medium",
+      "remediationState": "open",
+      "evidenceOrRemainingWork": "Canary receipts dated per trial day."
+    },
+    {
+      "id": "N29",
+      "title": "Retained reviewer transcripts are lossy accessibility-tree scrapes",
+      "auditSeverity": "low",
+      "remediationState": "process_improved",
+      "evidenceOrRemainingWork": "Original full Fable files retained byte-for-byte rather than only accessibility excerpts. Earlier reviewer transcripts remain lossy historical evidence."
+    },
+    {
+      "id": "N31",
+      "title": "Public summary and risk come from unverified analyst fields",
+      "auditSeverity": "medium",
+      "remediationState": "open",
+      "evidenceOrRemainingWork": "Owner decision and test."
+    },
+    {
+      "id": "N36",
+      "title": "Verifier-side prompt injection untested; model text flows to public page and e-mail",
+      "auditSeverity": "medium",
+      "remediationState": "open",
+      "evidenceOrRemainingWork": "E6 injection subset with labels."
+    },
+    {
+      "id": "N38",
+      "title": "15-second transaction ceiling unmeasured for large documents",
+      "auditSeverity": "low",
+      "remediationState": "open",
+      "evidenceOrRemainingWork": "Timing series."
+    }
+  ],
+  "originalGapReconciliation": [
+    {
+      "id": "G01",
+      "verdict": "upheld_and_wider",
+      "severity": "blocker",
+      "status": "confirmed_by_code",
+      "class": [
+        "P",
+        "E"
+      ],
+      "evidence": [
+        "src/app/api/admin/engine/route.ts:74-94",
+        "src/lib/engine/document.ts:78-92",
+        "src/lib/engine/acquisition.ts:205",
+        "docs/reports/engine-v6-o2-2026-11-07/hosted-preflight.json"
+      ],
+      "mechanism": "Single-administrator self-attested contract; no jurisdiction or dependency field; language from metadata.",
+      "falsifier": "Stored independent approval with reference hash.",
+      "correction": "Reference manifest, personal identity, second reviewer.",
+      "closureEvidence": "E4 references for the catalogue.",
+      "findings": [
+        "N10",
+        "N21"
+      ]
+    },
+    {
+      "id": "G02",
+      "verdict": "upheld",
+      "severity": "blocker",
+      "status": "measured",
+      "class": [
+        "P"
+      ],
+      "evidence": [
+        "docs/reports/engine-v6-o2-2026-11-07/boundary-falsifiers.json",
+        "src/lib/engine/document.ts:126-143"
+      ],
+      "mechanism": "Contract checks title, heading-set inclusion, tail, length and language hint only.",
+      "falsifier": "The four incomplete documents held on r3.",
+      "correction": "Occurrence-aware, section-bound reference manifest.",
+      "closureEvidence": "E4 mutations all held on the corrected candidate.",
+      "findings": []
+    },
+    {
+      "id": "G03",
+      "verdict": "upheld",
+      "severity": "blocker",
+      "status": "measured",
+      "class": [
+        "P"
+      ],
+      "evidence": [
+        "docs/reports/engine-v6-o2-2026-11-07/offline-diagnostics.json (external-annex eligible)",
+        "src/lib/engine/document.ts:78-92",
+        "src/lib/scraper.ts:1675-1700"
+      ],
+      "mechanism": "No dependency concept; link targets not emitted.",
+      "falsifier": "Parent held when annex is absent.",
+      "correction": "Dependency manifest with capture and hash association; hold on failure.",
+      "closureEvidence": "E4 annex case.",
+      "findings": []
+    },
+    {
+      "id": "G04",
+      "verdict": "upheld_stronger",
+      "severity": "high",
+      "status": "confirmed_by_code",
+      "class": [
+        "P"
+      ],
+      "evidence": [
+        "src/lib/pdfPolicy.ts:13-17",
+        "docs/reports/engine-v6-o2-2026-11-07/reviewer-repros.json (pdfReplay)"
+      ],
+      "mechanism": "Converter yields paragraphs only, no headings or language; original bytes and pages not retained; every PDF fails the contract.",
+      "falsifier": "A PDF capture that is contract-eligible on r3.",
+      "correction": "Retain original bytes and digest, page map, reviewed language and structure; PDF-specific contract.",
+      "closureEvidence": "E4 PDF case.",
+      "findings": [
+        "N10"
+      ]
+    },
+    {
+      "id": "G05",
+      "verdict": "upheld_and_wider",
+      "severity": "high",
+      "status": "confirmed_by_code",
+      "class": [
+        "P",
+        "E"
+      ],
+      "evidence": [
+        "src/lib/scraper.ts:505-506",
+        "src/lib/engine/acquisition.ts:13-18",
+        "src/lib/engine/pipeline.ts:163-166",
+        "src/lib/engine/acquisition.ts:106-113"
+      ],
+      "mechanism": "Age and Date never evaluated; confirmation is same hash twice 60 minutes apart; hidden-attribute text retained unflagged; transport not bound.",
+      "falsifier": "Freshness field in the observation and a hold on stale Age.",
+      "correction": "Evaluate cache age; bind transport; reviewed scope for hidden and regional variants.",
+      "closureEvidence": "E4 paired rendered and direct references.",
+      "findings": [
+        "N25"
+      ]
+    },
+    {
+      "id": "G06",
+      "verdict": "upheld",
+      "severity": "high",
+      "status": "confirmed_by_code; model behaviour unmeasured",
+      "class": [
+        "P",
+        "E"
+      ],
+      "evidence": [
+        "src/lib/engine/claims.ts:66-74",
+        "src/lib/scraper.ts:1675-1689",
+        "semantic/analyst-table.json",
+        "docs/reports/engine-v6-o2-2026-11-07/offline-diagnostics.json (sectionMove, table-rowspan-context)"
+      ],
+      "mechanism": "Only the first row of a table run is required as context; row-span group cells, multi-row headers and nested tables unprotected; heading rename untested.",
+      "falsifier": "A row-span association error caught structurally.",
+      "correction": "Expanded grid or cell coordinates; association tests on the model path.",
+      "closureEvidence": "E4 table cases and E6 row-scope negatives.",
+      "findings": []
+    },
+    {
+      "id": "G07",
+      "verdict": "upheld",
+      "severity": "blocker",
+      "status": "measured",
+      "class": [
+        "P"
+      ],
+      "evidence": [
+        "semantic/negative-*.json (six of six structural reasons empty)",
+        "src/lib/engine/claims.ts:26-87"
+      ],
+      "mechanism": "Deterministic checks establish quotation, not entailment.",
+      "falsifier": "Any false claim rejected without the verifier.",
+      "correction": "None structural; needs a working verifier and human-labelled evidence.",
+      "closureEvidence": "E6.",
+      "findings": [
+        "N09",
+        "N31"
+      ]
+    },
+    {
+      "id": "G08",
+      "verdict": "reframed",
+      "severity": "blocker",
+      "status": "measured (timing); inferred (cause)",
+      "class": [
+        "P",
+        "A",
+        "H"
+      ],
+      "evidence": [
+        "see N01 and N02"
+      ],
+      "mechanism": "Nine deadline expiries near r3's own timeout, two overloads, one harness-shortened abort.",
+      "falsifier": "See N01.",
+      "correction": "E1 and E2 before any rerun.",
+      "closureEvidence": "See N01.",
+      "findings": [
+        "N01",
+        "N02",
+        "N05",
+        "N15",
+        "N16"
+      ]
+    },
+    {
+      "id": "G09",
+      "verdict": "upheld",
+      "severity": "blocker",
+      "status": "confirmed",
+      "class": [
+        "E"
+      ],
+      "evidence": [
+        "evals/engine-v6/claims-corpus.json (self-described authored synthetic)",
+        "src/lib/engine/claims.ts:107-113"
+      ],
+      "mechanism": "Same-provider models, shared untrusted input, expectations authored by the toolchain.",
+      "falsifier": "Blind human labels with agreement statistics.",
+      "correction": "Blind double annotation and adjudication.",
+      "closureEvidence": "E6 oracle.",
+      "findings": [
+        "N28"
+      ]
+    },
+    {
+      "id": "G10",
+      "verdict": "disputed_auditor_sides_with_flag",
+      "severity": "medium",
+      "status": "disputed",
+      "class": [
+        "E"
+      ],
+      "evidence": [
+        "semantic/analyst-negation-exception.json",
+        "semantic/glm-adjudication-ax.txt:24-35"
+      ],
+      "mechanism": "The claim omits the general no-sale statement and presupposes personal-data sales. EN and IT agree with each other and share the defect.",
+      "falsifier": "Human adjudication accepting the wording.",
+      "correction": "Human adjudication; add the case to E6.",
+      "closureEvidence": "Adjudicated label.",
+      "findings": []
+    },
+    {
+      "id": "G11",
+      "verdict": "upheld_stronger",
+      "severity": "blocker",
+      "status": "measured and confirmed_by_code",
+      "class": [
+        "P"
+      ],
+      "evidence": [
+        "see N07 and N08"
+      ],
+      "mechanism": "See N07, N08.",
+      "falsifier": "See N07.",
+      "correction": "See N07.",
+      "closureEvidence": "E5.",
+      "findings": [
+        "N07",
+        "N08",
+        "N24",
+        "N31"
+      ]
+    },
+    {
+      "id": "G12",
+      "verdict": "upheld",
+      "severity": "high",
+      "status": "confirmed_by_code; robustness unmeasured",
+      "class": [
+        "P",
+        "E"
+      ],
+      "evidence": [
+        "src/lib/engine/claims.ts:116-121, 137, 140, 85",
+        "semantic/analyst-prompt-injection.json"
+      ],
+      "mechanism": "Full documents sent; omission caught by coverage check (working control); truncation not safely held; one analyst-side injection observed, none on the verifier.",
+      "falsifier": "Injection and size tests with verdicts and holds.",
+      "correction": "See N04, N36.",
+      "closureEvidence": "E3 scenario 1; E6 injection subset.",
+      "findings": [
+        "N04",
+        "N06",
+        "N27",
+        "N36"
+      ]
+    },
+    {
+      "id": "G13",
+      "verdict": "upheld_with_new_defects",
+      "severity": "high",
+      "status": "confirmed_by_code",
+      "class": [
+        "P",
+        "E"
+      ],
+      "evidence": [
+        "src/lib/engine/store.ts:197-217",
+        "integration/report.json (task queued at verify)",
+        "see N03, N04, N05"
+      ],
+      "mechanism": "Fencing reads coherent; retry-to-completion never observed with a live model; repeat analysis and retry loop.",
+      "falsifier": "E3 call counts contradicting N03 or N04.",
+      "correction": "See N03, N04.",
+      "closureEvidence": "E3 and E7.",
+      "findings": [
+        "N03",
+        "N04",
+        "N05",
+        "N14"
+      ]
+    },
+    {
+      "id": "G14",
+      "verdict": "partly_cleared",
+      "severity": "medium",
+      "status": "confirmed_by_code",
+      "class": [
+        "W",
+        "P",
+        "E"
+      ],
+      "evidence": [
+        "src/lib/engine/pipeline.ts:287-297",
+        "src/lib/engine/pipeline.ts:213-214",
+        "src/lib/engine/store.ts:288-293"
+      ],
+      "mechanism": "Commit is one transaction (working control by reading). A publish failure rolls back the ledger and ends without review; analysis survives in the checkpoint only.",
+      "falsifier": "E3 scenario 10.",
+      "correction": "Record the ledger and a review independently of publication outcome.",
+      "closureEvidence": "E3 scenario 10; E7 ledger rows with a live verdict.",
+      "findings": [
+        "N20",
+        "N38"
+      ]
+    },
+    {
+      "id": "G15",
+      "verdict": "largely_working_control_with_gaps",
+      "severity": "medium",
+      "status": "confirmed_by_code",
+      "class": [
+        "W",
+        "E"
+      ],
+      "evidence": [
+        "src/lib/hostedPreview.ts:15-41",
+        "src/lib/engine/store.ts:154",
+        "src/lib/engine/pipeline.ts:246-249",
+        "integration/before.json and after.json (identical hashes)"
+      ],
+      "mechanism": "Guards are explicit and layered; not exercised with a live model; configuration drift not reported by readiness.",
+      "falsifier": "A public effect in observe mode.",
+      "correction": "E7; add engine flags to readiness.",
+      "closureEvidence": "E7 assertions.",
+      "findings": [
+        "N14",
+        "N19",
+        "N24"
+      ]
+    },
+    {
+      "id": "G16",
+      "verdict": "upheld",
+      "severity": "high",
+      "status": "confirmed_by_code",
+      "class": [
+        "P",
+        "E"
+      ],
+      "evidence": [
+        "see N17, N18, N19",
+        "prisma/schema.prisma (provider sqlite)",
+        "research/auto-ontology/DECISION.md:46"
+      ],
+      "mechanism": "See N17, N18. Ledger tables are in the backup inventory (satisfied).",
+      "falsifier": "A completed consistent restore.",
+      "correction": "See N17.",
+      "closureEvidence": "E8.",
+      "findings": [
+        "N17",
+        "N18",
+        "N19",
+        "N20"
+      ]
+    },
+    {
+      "id": "G17",
+      "verdict": "upheld",
+      "severity": "blocker",
+      "status": "confirmed",
+      "class": [
+        "E"
+      ],
+      "evidence": [
+        "see N13"
+      ],
+      "mechanism": "No 500/day evidence for any candidate; r3 cannot run it unattended on the hosted preview.",
+      "falsifier": "A retained 500-identity daily window on the intended host.",
+      "correction": "Protocol sections 4 and 5.",
+      "closureEvidence": "Phase B accounting.",
+      "findings": [
+        "N13"
+      ]
+    },
+    {
+      "id": "G18",
+      "verdict": "upheld_stronger",
+      "severity": "blocker",
+      "status": "confirmed_by_code plus dated quota",
+      "class": [
+        "P",
+        "E"
+      ],
+      "evidence": [
+        "see N03, N04, N06",
+        "src/lib/engine/pipeline.ts:284"
+      ],
+      "mechanism": "Demand tracks cumulative divergence on r3; no rate awareness; 2-day evidence expiry converts backlog into new cycles.",
+      "falsifier": "Phase A showing demand within budget on r3.",
+      "correction": "See N03, N06.",
+      "closureEvidence": "Phase A measurements.",
+      "findings": [
+        "N03",
+        "N04",
+        "N06"
+      ]
+    },
+    {
+      "id": "G19",
+      "verdict": "upheld",
+      "severity": "medium",
+      "status": "confirmed",
+      "class": [
+        "H"
+      ],
+      "evidence": [
+        "scripts/engine-o2-live-wave.ts:33, 58-62, 64, 70, 109",
+        "scripts/engine-o2-live-integration.ts:20, 83-86"
+      ],
+      "mechanism": "Plan hash not embedded; no count assertions; exit 0 on total verifier failure; pacing inside timeout; no 5xx stop rule; headers omitted; hosted flag deleted.",
+      "falsifier": "Not applicable.",
+      "correction": "Protocol section 1.",
+      "closureEvidence": "Next harness reviewed against section 1.",
+      "findings": [
+        "N02",
+        "N14",
+        "N15",
+        "N16"
+      ]
+    },
+    {
+      "id": "G20",
+      "verdict": "upheld",
+      "severity": "medium",
+      "status": "confirmed",
+      "class": [
+        "D",
+        "P"
+      ],
+      "evidence": [
+        "src/lib/scanChannels.ts:25-29 and 81",
+        "src/lib/engine/comparison.ts:18",
+        "docs/architecture/engine-v6-hosted-preview.md:3",
+        "package.json:3"
+      ],
+      "mechanism": "Build-asserted hosted hash; hard-coded 5.2.0 label; one document mixes product and extractor identity. Hosted state not inspected.",
+      "falsifier": "Not applicable.",
+      "correction": "Separate fields for product release and extractor lineage; correct the note.",
+      "closureEvidence": "Deployment receipt for the candidate under test.",
+      "findings": [
+        "N23",
+        "N28"
+      ]
+    },
+    {
+      "id": "G21",
+      "verdict": "upheld",
+      "severity": "low",
+      "status": "confirmed",
+      "class": [
+        "D"
+      ],
+      "evidence": [
+        "docs/reports/engine-v6-o2-2026-11-07/glm-review.txt:60-81",
+        "docs/reports/engine-v6-o2-2026-11-07/reviewer-repros.json",
+        "semantic/glm-review-ax.txt"
+      ],
+      "mechanism": "Miscounts, a falsified table-loss claim, invented verdict codes, a post-hoc threshold proposal; no reviewer noticed the 118-second cluster.",
+      "falsifier": "Not applicable.",
+      "correction": "Keep adjudicating by receipt; retain full transcripts.",
+      "closureEvidence": "None beyond practice.",
+      "findings": [
+        "N29"
+      ]
+    },
+    {
+      "id": "G22",
+      "verdict": "narrowed",
+      "severity": "medium",
+      "status": "confirmed",
+      "class": [
+        "D",
+        "P"
+      ],
+      "evidence": [
+        "research/auto-ontology/DECISION.md:3",
+        "src/lib/engine/claimLedger.ts:63-65",
+        "src/lib/documentEvidenceSync.ts:115-119"
+      ],
+      "mechanism": "No ontology code exists in the checkout (deferred, no run). Real interactions are the role-labelled approval and the publication-derived review status.",
+      "falsifier": "Ontology code in the implementation closure.",
+      "correction": "See N21, N22.",
+      "closureEvidence": "Schema and route tests on a new candidate.",
+      "findings": [
+        "N20",
+        "N21",
+        "N22"
+      ]
+    }
+  ],
+  "patchReview": {
+    "report": "fable-patch-review.raw.txt",
+    "initialVerdict": "do_not_merge",
+    "PR-01": "reproduced_and_fixed_offline_real_SDK",
+    "PR-02": "reproduced_and_fixed_both_modes",
+    "PR-03": "bounded_expiry_and_reassessment_tests",
+    "PR-04": "explicit_transport_hold_test",
+    "PR-05": "one_active_terminal_review_test",
+    "PR-06": "limits_disclosed_quota_scheduler_open",
+    "PR-07": "backup_capacity_contention_restore_open",
+    "PR-08": "incomplete_keyword_taxonomy_open",
+    "PR-09": "case_error_stop_and_schema_label_fixed_structural_hold_not_semantic_success",
+    "PR-10": "historical_logs_preserved_final_receipt_separate",
+    "PR-11": "fixture_change_disclosed",
+    "PR-12": "projection_reconciliation_requires_resync_on_future_deployment",
+    "PR-13": "two_day_memo_expiry_and_refresh_after_rejection",
+    "PR-14": "hold_write_failure_remains_lease_recovery_limit"
+  },
+  "finalReview": {
+    "report": "fable-final-review.raw.txt",
+    "reviewedCommit": "23ce5f0f2299ae9b392a720b8d5f5084e17d7053",
+    "verdict": "no_new_source_merge_blocker",
+    "FR-01": "fresh_isolated_database_only_until_upgrade_state_qualified",
+    "FR-02": "publish_mode_prohibited_pending_product_decision",
+    "FR-03": "recurring_quota_cost_open",
+    "FR-04": "historical_refresh_invalidation_open",
+    "FR-05": "adapter_fixture_not_SDK_header_evidence",
+    "FR-06": "wording_corrected",
+    "FR-07": "bounded_reuse_wording_corrected"
+  }
+}
