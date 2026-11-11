@@ -1,4 +1,6 @@
 import { createCipheriv, createDecipheriv, randomBytes, scrypt } from 'node:crypto';
+import implementation from './engineImplementation.generated.json';
+import { getDatabaseProvider } from './databaseUrl';
 import { POLICYWATCHER_VERSION } from './release';
 
 export const ENCRYPTED_BACKUP_FORMAT = 'policywatcher-encrypted-export';
@@ -80,6 +82,7 @@ export interface CompleteBackupPayload {
   exportedAt: string;
   scope: 'complete-application-export';
   restoreMode: 'verification-only';
+  provenance?: { implementationHash: string; provider: string; consistency: 'serializable-transaction'; migrations: unknown[] | null };
   summary: {
     tableCount: number;
     totalRecords: number;
@@ -126,12 +129,14 @@ export async function buildCompleteBackupPayload(
   client: unknown,
   now = new Date(),
 ): Promise<CompleteBackupPayload> {
-  const delegates = client as BackupClient;
+  const database = client as { $transaction?: (work: (tx: BackupClient) => Promise<CompleteBackupPayload>, options: { isolationLevel: 'Serializable'; timeout: number }) => Promise<CompleteBackupPayload> };
+  if (typeof database.$transaction !== 'function') throw new Error('backup_snapshot_transaction_required');
+  return database.$transaction(async delegates => {
   const data: Record<string, unknown[]> = {};
   const counts: Record<string, number> = {};
 
-  // Sequential reads cap peak query concurrency and preserve a deterministic
-  // table order in the portable export.
+  // One serializable read snapshot for every table, including the claim ledger.
+  // Sequential reads bound query concurrency; the payload is still in memory.
   for (const [tableName, delegateName] of COMPLETE_BACKUP_TABLES) {
     const delegate = delegates[delegateName];
     if (!delegate || typeof delegate.findMany !== 'function') {
@@ -142,6 +147,15 @@ export async function buildCompleteBackupPayload(
     counts[tableName] = records.length;
   }
 
+  const provider = getDatabaseProvider();
+  const reader = delegates as unknown as { $queryRawUnsafe?: (sql: string) => Promise<unknown[]> };
+  let migrations: unknown[] | null = null;
+  if (reader.$queryRawUnsafe) {
+    const ledger = await reader.$queryRawUnsafe(provider === 'postgresql'
+      ? "SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() AND table_name = '_prisma_migrations'"
+      : "SELECT name FROM sqlite_master WHERE type = 'table' AND name = '_prisma_migrations'");
+    if (ledger.length) migrations = await reader.$queryRawUnsafe('SELECT migration_name, checksum FROM "_prisma_migrations" WHERE finished_at IS NOT NULL AND rolled_back_at IS NULL ORDER BY migration_name');
+  }
   return {
     formatVersion: ENCRYPTED_BACKUP_FORMAT_VERSION,
     applicationVersion: POLICYWATCHER_VERSION,
@@ -149,6 +163,7 @@ export async function buildCompleteBackupPayload(
     exportedAt: now.toISOString(),
     scope: 'complete-application-export',
     restoreMode: 'verification-only',
+    provenance: { implementationHash: implementation.hash, provider, consistency: 'serializable-transaction', migrations },
     summary: {
       tableCount: COMPLETE_BACKUP_TABLES.length,
       totalRecords: Object.values(counts).reduce((total, count) => total + count, 0),
@@ -156,6 +171,7 @@ export async function buildCompleteBackupPayload(
     },
     data,
   };
+  }, { isolationLevel: 'Serializable', timeout: 60_000 });
 }
 
 export async function encryptBackupPayload(payload: CompleteBackupPayload, password: string): Promise<string> {

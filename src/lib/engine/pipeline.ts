@@ -1,3 +1,5 @@
+import implementation from '../engineImplementation.generated.json';
+import { EngineModelError, REVIEW_FAILURES, REASSESSABLE_FAILURES } from './failures';
 import { diffLines } from 'diff';
 import type { Policy } from '@prisma/client';
 import { db } from '../db';
@@ -14,6 +16,7 @@ import { advanceTask, claimTask, failTask, fenced, finishTask, heartbeat, putArt
   policyScopeHash, stateKey, engineExtractionProfileHash, DAILY_MS, CONFIRMATION_MS, MAX_ATTEMPTS, type Lease, type TaskInput, type Tx } from './store';
 
 interface Checkpoint {
+  assessmentKey?: string;
   observation: Observation;
   oldArtifactId: string;
   baselineCandidateArtifactId?: string;
@@ -28,6 +31,16 @@ export interface EngineDependencies {
 const defaults: EngineDependencies = { acquire, analysis: liveAnalysis };
 const clearCandidate = { candidateHash: null, candidateArtifactId: null, candidateRunId: null,
   candidateObservedAt: null, candidateProfileHash: null };
+
+function assessmentKey(input: TaskInput, policyId: string, contentHash: string, observation: Observation) {
+  return digest(JSON.stringify([implementation.hash, input.mode, policyId, input.baselineHash, input.scopeHash,
+    input.contractHash, input.profileHash, contentHash, observation.source, observation.finalUrl,
+    process.env.POLICYWATCHER_ENGINE_ANALYST_MODEL || null, process.env.POLICYWATCHER_ENGINE_VERIFIER_MODEL || null]));
+}
+async function rememberAssessment(tx: Tx, lease: Lease, input: TaskInput, checkpoint: Checkpoint) {
+  if (checkpoint.assessmentKey) await tx.enginePolicyState.update({ where: stateKey(lease.policyId!, input.mode),
+    data: { assessedKey: checkpoint.assessmentKey, assessedTaskId: lease.id } });
+}
 
 async function publicationMode(tx: Tx, runId: string) {
   return (await tx.engineRun.findUniqueOrThrow({ where: { id: runId } })).mode === 'publish';
@@ -73,7 +86,7 @@ async function recordAttempt(tx: Tx, lease: Lease, observation: Observation, rea
 async function hold(lease: Lease, observation: Observation, reasons: string[], checkpoint?: Checkpoint, claimsValidated = false) {
   const input = JSON.parse(lease.inputJson) as TaskInput;
   await fenced(lease, async tx => {
-    await recordAttempt(tx, lease, observation, reasons.join(','), reasons.every(r => r === 'high_impact_review_required'));
+    await recordAttempt(tx, lease, observation, reasons.join(','), false);
     if (!reasons.every(r => ['origin_backoff', 'live_source_unverified', 'acquisition_failed'].includes(r))) {
       await tx.enginePolicyState.update({ where: stateKey(lease.policyId!, input.mode), data: clearCandidate });
     }
@@ -93,6 +106,7 @@ async function hold(lease: Lease, observation: Observation, reasons: string[], c
       await recordClaimLedger(tx, { taskId: lease.id, policyId: lease.policyId!, analysis: checkpoint.analysis,
         verification: checkpoint.verification, reviewId: review.id });
     }
+    if (checkpoint?.assessmentKey && !reasons.some(r => REASSESSABLE_FAILURES.has(r))) await rememberAssessment(tx, lease, input, checkpoint);
     if (checkpoint) await tx.engineTask.update({ where: { id: lease.id }, data: { checkpointJson: JSON.stringify(checkpoint) } });
     await finishTask(tx, lease, { outcome: 'review', reasons, artifactId: observation.artifactId });
   });
@@ -133,7 +147,7 @@ async function evaluate(lease: Lease, input: TaskInput) {
       }
       await tx.engineReview.updateMany({ where: { policyId: policy.id, mode: input.mode, status: { in: ['pending', 'observed'] } },
         data: { status: 'superseded', reviewedAt: new Date(), reviewNote: 'Source verified against the current baseline.' } });
-      await tx.enginePolicyState.update({ where: stateKey(policy.id, input.mode), data: { ...clearCandidate,
+      await tx.enginePolicyState.update({ where: stateKey(policy.id, input.mode), data: { ...clearCandidate, assessedKey: null, assessedTaskId: null,
         lastVerifiedAt: new Date(), reason: `verified:${input.profileHash}` } });
       await finishTask(tx, lease, { outcome: observation.notModified ? 'revalidated' : 'unchanged', artifactId: observation.artifactId });
     });
@@ -159,8 +173,28 @@ async function evaluate(lease: Lease, input: TaskInput) {
     });
   }
   const state = await db.enginePolicyState.findUnique({ where: stateKey(policy.id, input.mode) });
+  const key = assessmentKey(input, policy.id, body.document.hash, observation);
+  if (state?.assessedKey === key && state.assessedTaskId) {
+    const previous = await db.engineTask.findUnique({ where: { id: state.assessedTaskId } });
+    if (previous?.status === 'completed' && previous.policyId === policy.id && previous.resultJson) {
+      // Refresh acquisition accounting, not semantic approval or the original evidence age.
+      // A reviewer must request fresh analysis explicitly after evidence expiry.
+      await fenced(lease, async tx => {
+        await currentPolicy(tx, lease, input);
+        const reusable = await tx.enginePolicyState.updateMany({
+          where: { policyId: policy.id, mode: input.mode, assessedKey: key, assessedTaskId: previous.id },
+          data: { assessedKey: key },
+        });
+        if (!reusable.count) throw new Error('assessment_context_changed');
+        await recordAttempt(tx, lease, observation, 'assessment_already_recorded', false);
+        await finishTask(tx, lease, { outcome: 'assessment_already_recorded', assessmentTaskId: previous.id,
+          previousOutcome: JSON.parse(previous.resultJson!).outcome, artifactId: observation.artifactId });
+      });
+      return;
+    }
+  }
   const observedAt = new Date(observation.observedAt);
-  const confirmation = state?.candidateHash === body.document.hash && state.candidateProfileHash === digest(input.profileHash + (input.contractHash || ''))
+  const confirmation = state?.candidateHash === body.document.hash && state.candidateProfileHash === digest(JSON.stringify([input.profileHash, input.contractHash, observation.source, observation.finalUrl]))
     && state.candidateRunId !== lease.runId && state.candidateObservedAt
     && observedAt.getTime() - state.candidateObservedAt.getTime() >= CONFIRMATION_MS
     && observedAt.getTime() - state.candidateObservedAt.getTime() <= 7 * DAILY_MS;
@@ -168,11 +202,11 @@ async function evaluate(lease: Lease, input: TaskInput) {
     await fenced(lease, async tx => {
       await currentPolicy(tx, lease, input);
       await recordAttempt(tx, lease, observation, 'awaiting_independent_confirmation', true);
-      const sameCandidate = state?.candidateHash === body.document.hash && state.candidateProfileHash === digest(input.profileHash + (input.contractHash || ''))
+      const sameCandidate = state?.candidateHash === body.document.hash && state.candidateProfileHash === digest(JSON.stringify([input.profileHash, input.contractHash, observation.source, observation.finalUrl]))
         && state.candidateObservedAt && observedAt.getTime() - state.candidateObservedAt.getTime() <= 7 * DAILY_MS;
       await tx.enginePolicyState.update({ where: stateKey(policy.id, input.mode), data: {
         candidateHash: body.document.hash, candidateArtifactId: observation.artifactId, candidateRunId: sameCandidate ? state.candidateRunId : lease.runId,
-        candidateObservedAt: sameCandidate ? state.candidateObservedAt : observedAt, candidateProfileHash: digest(input.profileHash + (input.contractHash || '')),
+        candidateObservedAt: sameCandidate ? state.candidateObservedAt : observedAt, candidateProfileHash: digest(JSON.stringify([input.profileHash, input.contractHash, observation.source, observation.finalUrl])),
         nextDueAt: new Date(Date.now() + CONFIRMATION_MS) } });
       await finishTask(tx, lease, { outcome: 'confirmation_pending', artifactId: observation.artifactId });
     });
@@ -197,7 +231,7 @@ async function evaluate(lease: Lease, input: TaskInput) {
   const comparison = compareDocuments(old, body.document);
   const oldArtifactId = await putArtifact(old);
   if (comparison.kind === 'formatting') return hold(lease, observation, ['formatting_requires_baseline_review'], { observation, oldArtifactId, confirmation: { firstRunId: state!.candidateRunId!, firstArtifactId: state!.candidateArtifactId!, firstObservedAt: state!.candidateObservedAt!.toISOString(), secondRunId: lease.runId } });
-  await advanceTask(lease, 'analyze', { observation, oldArtifactId, confirmation: {
+  await advanceTask(lease, 'analyze', { assessmentKey: key, observation, oldArtifactId, confirmation: {
     firstRunId: state!.candidateRunId!, firstArtifactId: state!.candidateArtifactId!,
     firstObservedAt: state!.candidateObservedAt!.toISOString(), secondRunId: lease.runId,
   } } satisfies Checkpoint);
@@ -292,6 +326,7 @@ async function processTask(lease: Lease, dependencies: EngineDependencies) {
     // Both modes record validated claims; only a public change gets a changeId.
     await recordClaimLedger(tx, { taskId: lease.id, policyId: policy.id, analysis: checkpoint.analysis!,
       verification: checkpoint.verification, changeId });
+    if (!shouldPublish) await rememberAssessment(tx, lease, input, checkpoint);
     await finishTask(tx, lease, { outcome: shouldPublish ? 'published' : 'observed_change_ready', changeId,
       artifactId: checkpoint.observation.artifactId });
   });
@@ -307,11 +342,11 @@ export async function workerStep(dependencies: EngineDependencies = defaults): P
     await processTask(lease, dependencies);
   } catch (error) {
     const code = error instanceof Error ? error.message : 'engine_processing_error';
-    if (['analysis_context_budget_exceeded', 'analysis_output_budget_exceeded'].includes(code) && lease.checkpointJson) {
+    if (REVIEW_FAILURES.has(code) && lease.kind === 'policy' && lease.checkpointJson) {
       const checkpoint = JSON.parse(lease.checkpointJson) as Checkpoint;
       try { await hold(lease, checkpoint.observation, [code], checkpoint); } catch { /* Fencing still applies. */ }
     } else if (!lost && code !== 'engine_lease_lost') {
-      try { await failTask(lease, code); } catch { /* Another lease owner now decides the outcome. */ }
+      try { await failTask(lease, code, error instanceof EngineModelError ? error.retryAfterMs : 0); } catch { /* Another lease owner now decides the outcome. */ }
     }
   } finally { clearInterval(timer); }
   await reconcileRun(lease.runId);
@@ -341,7 +376,7 @@ export async function requestConfirmedRebaseline(id: string, note: string, actor
     const won = await tx.engineReview.updateMany({ where: { id, status: 'pending' }, data: { status: 'rebaseline_requested', reviewedAt: new Date(), reviewedBy: actor, reviewNote: note } });
     if (!won.count) throw new Error('review_conflict');
     await tx.policy.update({ where: { id: policy.id }, data: { sourceMigrationPending: true, sourceMigrationRequestedAt: new Date() } });
-    await tx.enginePolicyState.update({ where: stateKey(policy.id, 'publish'), data: { ...clearCandidate, nextDueAt: new Date(), reason: 'confirmed_rebaseline_requested' } });
+    await tx.enginePolicyState.update({ where: stateKey(policy.id, 'publish'), data: { ...clearCandidate, assessedKey: null, assessedTaskId: null, nextDueAt: new Date(), reason: 'confirmed_rebaseline_requested' } });
     await tx.adminReviewLog.create({ data: { actorRole: actor, action: 'engine_rebaseline_requested', targetType: 'policy', targetId: policy.id,
       note, metadataJson: JSON.stringify({ reviewId: id, retainedBaselineHash: policy.currentHash, requiresFreshCaptures: 2 }) } });
     return { status: 'rebaseline_requested' };
@@ -409,7 +444,7 @@ async function approveBaselineReview(review: { id: string; taskId: string }, pay
     await tx.policy.update({ where: { id: policy.id }, data: { dataStatus: 'Available',
       lastSuccessfulCheckDate: new Date(checkpoint.observation.observedAt), ...(replay ? { ingestionMethod: policy.ingestionMethod } : {}) } });
     await dualWriteCanonicalPolicyGraph(tx, policy.id);
-    await tx.enginePolicyState.update({ where: stateKey(policy.id, payload.input.mode), data: { ...clearCandidate, nextDueAt: new Date(), reason: 'baseline_review_approved' } });
+    await tx.enginePolicyState.update({ where: stateKey(policy.id, payload.input.mode), data: { ...clearCandidate, assessedKey: null, assessedTaskId: null, nextDueAt: new Date(), reason: 'baseline_review_approved' } });
     await tx.engineReview.updateMany({ where: { policyId: policy.id, mode: 'publish', status: 'pending' }, data: { status: 'superseded', reviewedAt: new Date(), reviewNote: 'Baseline replaced by explicit review.' } });
     await tx.engineReview.update({ where: { id: review.id }, data: { status: 'approved', reviewedAt: new Date(), reviewedBy: actor, reviewNote: note } });
     await tx.adminReviewLog.create({ data: { actorRole: actor, action: 'engine_baseline_approved', targetType: 'policy', targetId: policy.id, note,
@@ -427,7 +462,7 @@ export async function closeReview(id: string, action: 'reject' | 'refresh', note
     const won = await tx.engineReview.updateMany({ where: { id, status: review.status }, data: {
       status: action === 'refresh' ? 'superseded' : 'rejected', reviewedAt: new Date(), reviewedBy: actor, reviewNote: note } });
     if (!won.count) throw new Error('review_conflict');
-    await tx.enginePolicyState.updateMany({ where: { policyId: review.policyId, mode: review.mode }, data: { nextDueAt: new Date(), reason: `review_${action}` } });
+    await tx.enginePolicyState.updateMany({ where: { policyId: review.policyId, mode: review.mode }, data: { nextDueAt: new Date(), reason: `review_${action}`, ...(action === 'refresh' ? { ...clearCandidate, assessedKey: null, assessedTaskId: null } : {}) } });
     await tx.adminReviewLog.create({ data: { actorRole: actor, action: `engine_review_${action}`, targetType: 'policy', targetId: review.policyId,
       note, metadataJson: JSON.stringify({ reviewId: id }) } });
     return { status: action === 'refresh' ? 'superseded' : 'rejected' };

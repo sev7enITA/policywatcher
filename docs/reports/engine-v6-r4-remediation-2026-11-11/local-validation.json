@@ -1,0 +1,30 @@
+{
+  "state": "locally_tested_pending_external_review_and_ci",
+  "at": "2026-11-11T20:20:52.809745+00:00",
+  "implementationHash": "c69be315f47e0c6c9e308e1c4ade103172157f6c83e76b9a67d3d16517c19fca",
+  "testResults": {
+    "passed": 1616,
+    "skipped": 14,
+    "filesPassed": 203,
+    "filesSkipped": 3
+  },
+  "typecheck": "passed",
+  "scopedLint": "passed",
+  "build": "passed_before_final_memo_CAS_change",
+  "liveCalls": 0,
+  "deployments": 0,
+  "publication": false,
+  "notifications": false,
+  "logs": {
+    "invalidation-tests.log": "ecff6996348046498ba25ae9f450a94e4b35b138b7427b0fdf6aa26d8f255a15",
+    "full-suite.log": "4de1468370b9985ccdcf1d17fa4fbce849baaee0358b0d8ecab3afb621a089cf",
+    "final-suite.log": "d3867eb1fa65ad954b9088eb1c9cb06457614a601118a91083f02baa003d8830",
+    "final-typecheck.log": "30ba0340501bc244829e74332e6b17674fa058cf44c0758db332a525188d08ca",
+    "initial-targeted-failures.log": "abde03b10b5a888d7ae29a57694652b10d56f3dc3b0099ce4b810f4518441db0",
+    "initial-full-suite-failure.log": "6f74d764feb00b296d70b79b35ec53ea62aa6b64d8eb24d320e4fcaa4783e555",
+    "final-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "critical-typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scoped-eslint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build.log": "35c9998fa332a60db7187a80f57ecb88eaa408dc0152156ee374d52890117c6c"
+  }
+}

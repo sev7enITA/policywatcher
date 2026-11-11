@@ -10,10 +10,11 @@ import {
 import { EXPECTED_DATABASE_TABLES } from '../databaseReadiness';
 
 function completeClient() {
-  return Object.fromEntries(COMPLETE_BACKUP_TABLES.map(([table, delegate]) => [
+  const delegates = Object.fromEntries(COMPLETE_BACKUP_TABLES.map(([table, delegate]) => [
     delegate,
     { findMany: vi.fn().mockResolvedValue([{ table }]) },
   ]));
+  return Object.assign(delegates, { $transaction: vi.fn(async (work: (tx: typeof delegates) => Promise<unknown>) => work(delegates)) });
 }
 
 function legacyEncrypt(payload: unknown, password: string) {
@@ -143,5 +144,17 @@ describe('complete encrypted backup', () => {
       formatVersion: 1,
       scope: 'legacy-partial-export',
     });
+  });
+});
+
+describe('snapshot export contract', () => {
+  it('requires a transaction instead of silently exporting an inconsistent table sequence', async () => {
+    await expect(buildCompleteBackupPayload({})).rejects.toThrow('backup_snapshot_transaction_required');
+  });
+  it('requests serializable isolation and never falls back if the snapshot transaction fails', async () => {
+    const client = completeClient();
+    client.$transaction.mockRejectedValueOnce(new Error('snapshot conflict'));
+    await expect(buildCompleteBackupPayload(client)).rejects.toThrow('snapshot conflict');
+    expect(client.$transaction).toHaveBeenCalledWith(expect.any(Function), { isolationLevel: 'Serializable', timeout: 60_000 });
   });
 });

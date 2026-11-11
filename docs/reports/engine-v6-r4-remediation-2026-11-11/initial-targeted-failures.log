@@ -1,0 +1,160 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-engine6-r4-audit-fixes
+
+ ❯ src/lib/__tests__/engineV6.test.ts (125 tests | 7 failed) 3028ms
+     × commits once after two independent captures, analysis and verification; queues notifications atomically 62ms
+     × persists the analysis checkpoint and retries verifier without re-fetch or re-analysis 57ms
+     × retries one recipient without re-sending acknowledged recipients 50ms
+     × refreshes stale evidence without deleting the previous review capture 76ms
+     × does not deliver to unconfirmed subscribers and terminates the expired fifth outbox attempt 46ms
+     × records observed spans and an inferred interpretation for an automatic publication 63ms
+     × records successful observe-mode claims privately, once, without public effects 48ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/lib/__tests__/engineV6.test.ts > V6 persistence, fencing and publication > commits once after two independent captures, analysis and verification; queues notifications atomically
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/lib/__tests__/engineV6.test.ts:508:49
+    506|     expect(await database.policyChange.count()).toBe(0);
+    507|     await readySecond(p.id); await run('second-observation'); await dr…
+    508|     expect(await database.policyChange.count()).toBe(1);
+       |                                                 ^
+    509|     expect(await database.engineOutbox.count()).toBe(1);
+    510|     expect(await database.policySnapshot.count({ where: { policyId: p.…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  src/lib/__tests__/engineV6.test.ts > V6 persistence, fencing and publication > persists the analysis checkpoint and retries verifier without re-fetch or re-analysis
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/lib/__tests__/engineV6.test.ts:527:99
+    525|     await drain({ acquire: fetch, analysis: provider });
+    526|     expect(fetch).toHaveBeenCalledTimes(1); expect(analysis.analyze).t…
+    527|     expect(provider.verify).toHaveBeenCalledTimes(2); expect(await dat…
+       |                                                                                                   ^
+    528|   });
+    529|   it('never uses 304 as the second independent capture', async () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  src/lib/__tests__/engineV6.test.ts > V6 persistence, fencing and publication > retries one recipient without re-sending acknowledged recipients
+AssertionError: []: expected +0 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ src/lib/__tests__/engineV6.test.ts:588:105
+    586|     const sender = vi.fn().mockResolvedValueOnce(false).mockResolvedVa…
+    587|     await outbox.outboxStep(sender); // atomic recipient fanout
+    588|     expect(await database.engineOutbox.count(), JSON.stringify(await d…
+       |                                                                                                         ^
+    589|     await outbox.outboxStep(sender); // failed SMTP acknowledgment
+    590|     expect(sender).toHaveBeenCalledTimes(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  src/lib/__tests__/engineV6.test.ts > adjudicated Gemini and GLM review regressions > refreshes stale evidence without deleting the previous review capture
+PrismaClientKnownRequestError: 
+Invalid `database.engineReview.findFirstOrThrow()` invocation in
+/Users/fabriziodegni/Projects/PolicyWatcher-engine6-r4-audit-fixes/src/lib/__tests__/engineV6.test.ts:799:51
+
+  796 await pipeline.closeReview(review.id, 'refresh', 'Obtain fresh source evidence before deciding.', 'fixture-admin');
+  797 await database.engineOrigin.updateMany({ data: { nextAllowedAt: new Date(0) } });
+  798 await run('refresh-third'); await drain({ analysis: provider }); await readySecond(p.id); await run('refresh-fourth'); await drain({ analysis: provider });
+→ 799 const refreshed = await database.engineReview.findFirstOrThrow(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a query.
+ ❯ ei.handleRequestError node_modules/@prisma/client/src/runtime/RequestHandler.ts:228:12
+ ❯ ei.handleAndLogRequestError node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:11
+ ❯ ei.request node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:11
+ ❯ a node_modules/@prisma/client/src/runtime/getPrismaClient.ts:833:23
+ ❯ src/lib/__tests__/engineV6.test.ts:799:23
+    797|     await database.engineOrigin.updateMany({ data: { nextAllowedAt: ne…
+    798|     await run('refresh-third'); await drain({ analysis: provider }); a…
+    799|     const refreshed = await database.engineReview.findFirstOrThrow({ w…
+       |                       ^
+    800|     expect((await database.engineReview.findUniqueOrThrow({ where: { i…
+    801|     expect(refreshed.status).toBe('pending'); expect(refreshed.taskId)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  src/lib/__tests__/engineV6.test.ts > adjudicated Gemini and GLM review regressions > does not deliver to unconfirmed subscribers and terminates the expired fifth outbox attempt
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/lib/__tests__/engineV6.test.ts:823:88
+    821|     vi.stubEnv('POLICYWATCHER_ENGINE_NOTIFICATIONS', '1'); const sende…
+    822|     await outbox.outboxStep(sender); await outbox.outboxStep(sender);
+    823|     expect(sender).not.toHaveBeenCalled(); expect(await database.engin…
+       |                                                                                        ^
+    824|     await database.engineOutbox.updateMany({ data: { status: 'sending'…
+    825|     await outbox.outboxStep(sender);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  src/lib/__tests__/engineV6.test.ts > claim ledger > records observed spans and an inferred interpretation for an automatic publication
+PrismaClientKnownRequestError: 
+Invalid `database.policyChange.findFirstOrThrow()` invocation in
+/Users/fabriziodegni/Projects/PolicyWatcher-engine6-r4-audit-fixes/src/lib/__tests__/engineV6.test.ts:965:48
+
+  962 }
+  963 it('records observed spans and an inferred interpretation for an automatic publication', async () => {
+  964   const p = await twoCaptures('ledger-auto');
+→ 965   const change = await database.policyChange.findFirstOrThrow(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a query.
+ ❯ ei.handleRequestError node_modules/@prisma/client/src/runtime/RequestHandler.ts:228:12
+ ❯ ei.handleAndLogRequestError node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:11
+ ❯ ei.request node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:11
+ ❯ a node_modules/@prisma/client/src/runtime/getPrismaClient.ts:833:23
+ ❯ src/lib/__tests__/engineV6.test.ts:965:20
+    963|   it('records observed spans and an inferred interpretation for an aut…
+    964|     const p = await twoCaptures('ledger-auto');
+    965|     const change = await database.policyChange.findFirstOrThrow();
+       |                    ^
+    966|     const rows = await database.engineClaim.findMany({ include: { evid…
+    967|     expect(rows).toHaveLength(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  src/lib/__tests__/engineV6.test.ts > claim ledger > records successful observe-mode claims privately, once, without public effects
+AssertionError: expected 'review' to be 'observed_change_ready' // Object.is equality
+
+Expected: "observed_change_ready"
+Received: "review"
+
+ ❯ src/lib/__tests__/engineV6.test.ts:1011:50
+    1009|     await readySecond(p.id, 'observe'); await run('ledger-observe-seco…
+    1010|     const task = await database.engineTask.findFirstOrThrow({ where: {…
+    1011|     expect(JSON.parse(task.resultJson!).outcome).toBe('observed_change…
+       |                                                  ^
+    1012|     const rows = await database.engineClaim.findMany({ include: { evid…
+    1013|     expect(rows).toHaveLength(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  7 failed | 129 passed (136)
+   Start at  21:05:47
+   Duration  3.70s (transform 535ms, setup 0ms, import 1.29s, tests 4.23s, environment 0ms)
+

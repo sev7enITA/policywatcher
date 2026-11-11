@@ -1,0 +1,50 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-engine6-r4-audit-fixes
+
+(node:5849) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5843) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5850) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5840) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5972) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5978) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6260) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/lib/__tests__/engineV6.test.ts (145 tests | 1 failed) 8517ms
+     × exports an isolated populated database inside a serializable snapshot, without a restore claim 21ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/lib/__tests__/engineV6.test.ts > r4 conservative mandatory-review categories > exports an isolated populated database inside a serializable snapshot, without a restore claim
+PrismaClientKnownRequestError: 
+Invalid `prisma.$queryRawUnsafe()` invocation:
+
+
+Raw query failed. Code: `1`. Message: `no such table: _prisma_migrations`
+ ❯ ei.handleRequestError node_modules/@prisma/client/src/runtime/RequestHandler.ts:228:12
+ ❯ ei.handleAndLogRequestError node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:11
+ ❯ ei.request node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:11
+ ❯ a node_modules/@prisma/client/src/runtime/getPrismaClient.ts:833:23
+ ❯ database.$transaction.isolationLevel src/lib/encryptedBackup.ts:158:60
+    156|     restoreMode: 'verification-only',
+    157|     provenance: { implementationHash: implementation.hash, provider: g…
+    158|       consistency: 'serializable-transaction', migrations: await (dele…
+       |                                                            ^
+    159|         .$queryRawUnsafe?.('SELECT migration_name, checksum FROM "_pri…
+    160|     summary: {
+ ❯ Proxy._transactionWithCallback node_modules/@prisma/client/src/runtime/getPrismaClient.ts:722:17
+ ❯ src/lib/__tests__/engineV6.test.ts:1144:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 202 passed | 3 skipped (206)
+      Tests  1 failed | 1613 passed | 14 skipped (1628)
+   Start at  21:09:20
+   Duration  10.04s (transform 16.75s, setup 0ms, import 34.37s, tests 41.84s, environment 16ms)
+

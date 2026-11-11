@@ -115,7 +115,7 @@ export function projectLegacyProvision(
   const reviewStatus = change.publicEvidence
     ? change.publicPublishedAt
       ? 'published'
-      : 'reviewed'
+      : 'draft'
     : 'draft';
 
   return {
