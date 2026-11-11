@@ -1,0 +1,32 @@
+{
+  "status": "submitted_and_running",
+  "observedAt": "2026-11-11T18:30:16.267820+00:00",
+  "channel": "Claude desktop / Claude Code / existing session entitlement",
+  "modelSelectorObserved": "Fable 5.2 Alto",
+  "sessionUrl": "https://claude.ai/epitaxy/local_fcb97a9d-b373-43e2-837c-5d415a163adb",
+  "sessionTitle": "PolicyWatcher QA/QC audit",
+  "sourceCommit": "c462524d20f5c9d03bac36f7673580f72f09cd74",
+  "sourceInventoryCount": 140,
+  "scope": "G01-G22 plus independently discovered QA/QC gaps; read-only code and retained evidence review",
+  "observedProgress": [
+    "Read audit brief and source inventory in progress",
+    "Verify checkout identity and evidence hashes pending",
+    "Read engine code and retained evidence pending",
+    "Reconcile G01-G22 and find new gaps pending",
+    "Write three requested deliverables pending"
+  ],
+  "reportReceived": false,
+  "auditCompleted": false,
+  "runtimeTestsExecutedByThisHandoff": false,
+  "implementationChanged": false,
+  "deploymentPerformed": false,
+  "paidApiInferenceInvoked": false,
+  "limitations": [
+    "Model identity and effort are observed UI labels, not an API attestation.",
+    "Review is external model advice, not certification or executed qualification.",
+    "Session working folder is public-access checkout; mandate explicitly binds different preview-r3 target and requires identity verification.",
+    "Requested output directory is local and excluded from public Git until reviewed."
+  ],
+  "briefSha256": "c129a1023d0cf65330c8de68c342849bfc1ad86bf8a9dab104396609c2fb03df",
+  "inventorySha256": "2aada122f8c535a8addf6ea2f634c6183f8d002d07c2ffab9f774155721cfee7"
+}
