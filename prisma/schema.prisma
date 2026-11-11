@@ -85,6 +85,8 @@ model EngineSourceContract {
 model EnginePolicyState {
   policyId             String
   mode                 String @default("publish")
+  assessedKey          String?
+  assessedTaskId       String?
   candidateHash        String?
   candidateArtifactId  String?
   candidateRunId       String?

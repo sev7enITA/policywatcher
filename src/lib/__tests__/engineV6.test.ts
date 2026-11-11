@@ -18,7 +18,7 @@ let store: typeof import('../engine/store');
 let pipeline: typeof import('../engine/pipeline');
 let acquisition: typeof import('../engine/acquisition');
 let outbox: typeof import('../engine/outbox');
-const oldText = '# Privacy Policy\n\n## Data use\n\nWe keep account records for 30 days.\n\n## Contact\n\nContact the privacy team for information about this policy.';
+const oldText = '# Privacy Policy\n\n## Data use\n\nWe respond to support questions within 30 days.\n\n## Contact\n\nContact the privacy team for information about this policy.';
 const newText = oldText.replace('30 days', '60 days');
 const fixtureUrl = 'https://example.com/privacy';
 const contract: SourceContract = { schemaVersion: 1, sourceUrl: fixtureUrl, titleAliases: ['Privacy Policy'],
@@ -29,7 +29,7 @@ const receipt = { model: 'synthetic-test-provider', promptVersion: 'fixture-1', 
 
 function grounded(input: AnalysisInput): ClaimSet {
   return { schema: CLAIM_SCHEMA, claims: [{ id: 'c1', operation: 'modified', category: 'content',
-    textEn: 'The retention period changes from 30 to 60 days.', textIt: 'Il periodo di conservazione passa da 30 a 60 giorni.', impact: 4,
+    textEn: 'The support response time changes from 30 to 60 days.', textIt: 'Il tempo di risposta alle richieste passa da 30 a 60 giorni.', impact: 4,
     deltaIds: input.deltas.map(d => d.id), evidence: input.deltas.map(d => ({ side: d.side,
       documentHash: d.side === 'old' ? input.old.hash : input.next.hash, start: d.block.start, end: d.block.end, quote: d.block.text })) }] };
 }
@@ -93,7 +93,7 @@ describe('V6 evidence contracts', () => {
     } finally { vi.unstubAllEnvs(); }
   });
   it('retains interleaved unstructured clauses and inline qualifiers in document order without duplication', () => {
-    const html = `<html lang="en"><main><h1>Privacy Policy</h1><div>Effective <span>October 31, 2026</span>.</div><h2>Data use</h2><p>We keep account records for 30 days.</p><div>We may use <a href="/definitions">account data</a> <strong>only with consent.</strong><section><p>We do not sell medical records.</p></section>Except where a court requires disclosure.</div><pre>Example: request denied.</pre><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><div>Effective <span>October 31, 2026</span>.</div><h2>Data use</h2><p>We respond to support questions within 30 days.</p><div>We may use <a href="/definitions">account data</a> <strong>only with consent.</strong><section><p>We do not sell medical records.</p></section>Except where a court requires disclosure.</div><pre>Example: request denied.</pre><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
     const body = acquisition.extractEngineBody(html, fixtureUrl);
     const clauses = ['Effective October 31, 2026.', 'We may use account data only with consent.', 'We do not sell medical records.', 'Except where a court requires disclosure.', 'Example: request denied.'];
     let previous = -1;
@@ -111,11 +111,11 @@ describe('V6 evidence contracts', () => {
     expect(body.document.text.indexOf('Adults only')).toBeLessThan(body.document.text.indexOf('| Purpose | Consent |'));
   });
   it('holds an otherwise matching page without an explicit document boundary', () => {
-    const html = `<html lang="en"><body><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><div>We sell personal data.</div><h2>Contact</h2><p>${contract.terminalText}</p></body></html>`;
+    const html = `<html lang="en"><body><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><div>We sell personal data.</div><h2>Contact</h2><p>${contract.terminalText}</p></body></html>`;
     expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl), contract, fixtureUrl).reasons).toContain('document_scope_unverified');
   });
   it('holds multiple disconnected document roots instead of silently choosing only the longest', () => {
-    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main><article><p>Except that account data may be sold.</p></article></html>`;
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main><article><p>Except that account data may be sold.</p></article></html>`;
     expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl), contract, fixtureUrl).reasons).toContain('document_scope_ambiguous');
   });
   it('retains a table caption nested inside a semantic list item', () => {
@@ -134,7 +134,7 @@ describe('V6 evidence contracts', () => {
     expect(acquisition.assessCapture(body, contract, fixtureUrl).eligible).toBe(true);
   });
   it.each(['aside', 'footer', 'nav', 'div role="contentinfo"', 'div class="sidebar"', 'header', 'form', 'noscript', 'svg'])('holds unreviewed text removed from %s within the document', wrapper => {
-    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><${wrapper} id="exception">Except that we may sell records.</${wrapper.split(' ')[0]}><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><${wrapper} id="exception">Except that we may sell records.</${wrapper.split(' ')[0]}><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
     const body = acquisition.extractEngineBody(html, fixtureUrl);
     expect(assessDocument(body.document, contract, fixtureUrl, 'en').eligible).toBe(true);
     expect(acquisition.assessCapture(body, contract, fixtureUrl).reasons).toContain('removed_document_content_unreviewed');
@@ -171,7 +171,7 @@ describe('V6 evidence contracts', () => {
   });
   it.each(['<main role="dialog">', '<div role="dialog"><article>'])('holds dialog scopes even when the dialog contains its document root: %s', opening => {
     const closing = opening.includes('<article>') ? '</article></div>' : '</main>';
-    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main>${opening}<p>Except that we may sell account records.</p>${closing}</html>`;
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main>${opening}<p>Except that we may sell account records.</p>${closing}</html>`;
     expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl), contract, fixtureUrl).reasons).toContain('dialog_document_scope_unverified');
   });
   it('scopes OneTrust fragments before recursion without importing adjacent notice sections', () => {
@@ -207,7 +207,7 @@ describe('V6 evidence contracts', () => {
     expect(acquisition.assessCapture(body, { ...contract, sourceUrl }, sourceUrl).eligible).toBe(true);
   });
   it('ignores script/style text in gates and titles without changing raw evidence or exclusion hashes', () => {
-    const html = `<html lang="en"><main><h1><style>.fixture {color:red}</style>Privacy Policy</h1><aside><script>window.fixture = true;</script></aside><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const html = `<html lang="en"><main><h1><style>.fixture {color:red}</style>Privacy Policy</h1><aside><script>window.fixture = true;</script></aside><h2>Data use</h2><p>We respond to support questions within 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
     const body = acquisition.extractEngineBody(html, fixtureUrl);
     expect(body.html).toBe(html); expect(body.document.text).not.toContain('fixture');
     expect(body.document.text.split('# Privacy Policy')).toHaveLength(2);
@@ -217,11 +217,11 @@ describe('V6 evidence contracts', () => {
     expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl, undefined, reviewed), reviewed, fixtureUrl).eligible).toBe(true);
   });
   it.each(['<h2>Effective date: October 31, 2026</h2>', '<h1>Additional policy title</h1>'])('holds unresolved external document header content: %s', extra => {
-    const html = `<html lang="en"><section><header><h1>Privacy Policy</h1>${extra}</header></section><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const html = `<html lang="en"><section><header><h1>Privacy Policy</h1>${extra}</header></section><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
     expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl), contract, fixtureUrl).eligible).toBe(false);
   });
   it('does not hold site chrome outside the document, and accepts an exact reviewed in-document exclusion', () => {
-    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><aside id="ui">Related links</aside><h2>Contact</h2><p>${contract.terminalText}</p></main><footer>Site copyright</footer></html>`;
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><aside id="ui">Related links</aside><h2>Contact</h2><p>${contract.terminalText}</p></main><footer>Site copyright</footer></html>`;
     const $ = load(html);
     const reviewed = parseSourceContract({ ...contract, reviewedExclusions: [{ selector: '#ui', htmlSha256: digest($.html($('#ui'))), purpose: 'non_document_ui', reviewNote: 'Reviewed these exact related navigation links as interface content.' }] });
     expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl, undefined, reviewed), reviewed, fixtureUrl).eligible).toBe(true);
@@ -266,7 +266,7 @@ describe('V6 evidence contracts', () => {
     expect(body.document.text).not.toContain('Privacy Policy');
   });
   it('holds unresolved hidden content and ambiguous controls even when the visible contract matches', () => {
-    const visible = '<h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>Contact the privacy team for information about this policy.</p>';
+    const visible = '<h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><h2>Contact</h2><p>Contact the privacy team for information about this policy.</p>';
     const hidden = `<div id="extra" aria-hidden="true"><p>${'An additional binding clause is present here. '.repeat(4)}</p></div>`;
     for (const content of [
       `<main>${visible}${hidden}</main>`,
@@ -297,13 +297,13 @@ describe('V6 evidence contracts', () => {
     expect(brand.extraction?.restoredTitleFromDom).toBe(false);
   });
   it.each(['We sell data.', 'Non vendiamo dati.', 'No.'])('holds short unresolved legal text inside the document: %s', clause => {
-    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><div aria-hidden="true"><p>${clause}</p></div><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><div aria-hidden="true"><p>${clause}</p></div><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
     const body = acquisition.extractEngineBody(html, fixtureUrl);
     expect(acquisition.assessCapture(body, contract, fixtureUrl).eligible).toBe(false);
     expect(body.extraction?.issues?.map(i => i.reason)).toContain('hidden_document_content_unresolved');
   });
   it('holds a short unreviewed dialog inside the legal document', () => {
-    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><div role="dialog"><p>You waive class actions.</p></div><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><div role="dialog"><p>You waive class actions.</p></div><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
     expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl), contract, fixtureUrl).reasons).toContain('dialog_document_scope_unverified');
   });
   it('does not lose duplicate-ID ambiguity when the other ID is in removed chrome', () => {
@@ -317,7 +317,7 @@ describe('V6 evidence contracts', () => {
     await run('hidden-acquisition');
     const fetch = await database.engineTask.findFirstOrThrow({ where: { kind: 'fetch' } });
     const input = JSON.parse(fetch.inputJson) as TaskInput;
-    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>Contact the privacy team for information about this policy.</p><div aria-hidden="true"><p>${'An extra contractual clause was not extracted. '.repeat(4)}</p></div></main></html>`;
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><h2>Contact</h2><p>Contact the privacy team for information about this policy.</p><div aria-hidden="true"><p>${'An extra contractual clause was not extracted. '.repeat(4)}</p></div></main></html>`;
     const transport = vi.fn(async () => ({ ok: true, status: 200, finalUrl: p.url, html, error: '', validators: { etag: 'hidden-fixture' } }));
     const observation = await acquisition.acquire(input, transport);
     expect(transport).toHaveBeenCalledTimes(3);
@@ -328,7 +328,7 @@ describe('V6 evidence contracts', () => {
   });
   it('resolves only an exact reviewed non-document node and reopens review after any DOM change', () => {
     const ui = `<div id="ui" aria-hidden="true"><p>${'Interface text, not a policy provision. '.repeat(4)}</p></div>`;
-    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>Contact the privacy team for information about this policy.</p>${ui}</main></html>`;
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><h2>Contact</h2><p>Contact the privacy team for information about this policy.</p>${ui}</main></html>`;
     const $ = load(html);
     const reviewed = parseSourceContract({ ...contract, reviewedExclusions: [{ selector: '#ui', htmlSha256: digest($.html($('#ui'))), purpose: 'non_document_ui', reviewNote: 'Reviewed exact non-document user-interface content.' }] });
     const body = acquisition.extractEngineBody(html, fixtureUrl, undefined, reviewed);
@@ -355,7 +355,7 @@ describe('V6 evidence contracts', () => {
     }
   });
   it('requires explicit dialog-heading acknowledgement before excluding a complete reviewed UI dialog', () => {
-    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p><div id="consent" role="dialog"><h2>Cookie settings</h2><p>${'Interface controls for unrelated cookie preferences. '.repeat(4)}</p></div></main></html>`;
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p><div id="consent" role="dialog"><h2>Cookie settings</h2><p>${'Interface controls for unrelated cookie preferences. '.repeat(4)}</p></div></main></html>`;
     const $ = load(html); const rule = { selector: '#consent', htmlSha256: digest($.html($('#consent'))), purpose: 'non_document_ui' as const, reviewNote: 'Reviewed this exact cookie-settings user-interface dialog.' };
     const base = parseSourceContract({ ...contract, reviewedExclusions: [rule] });
     expect(acquisition.extractEngineBody(html, fixtureUrl, undefined, base).extraction?.issues?.map(i => i.reason)).toContain('reviewed_exclusion_document_boundary');
@@ -437,7 +437,7 @@ describe('V6 persistence, fencing and publication', () => {
   });
   it('persists removed-content uncertainty as a hard review gate before baseline, models or notifications', async () => {
     const policy = await seed();
-    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 60 days.</p><aside>Except that account records may be sold.</aside><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 60 days.</p><aside>Except that account records may be sold.</aside><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
     const transport = vi.fn<import('../engine/acquisition').Transport>(async () => ({ ok: true, html, status: 200, finalUrl: fixtureUrl, error: '', validators: { etag: 'uncertain-v1' } }));
     await run('removed-content-review'); await drain({ acquire: input => acquisition.acquire(input, transport) });
     expect(transport).toHaveBeenCalledTimes(3);
@@ -609,7 +609,7 @@ describe('V6 persistence, fencing and publication', () => {
 });
 
 describe('V6 representation cache and source fallback', () => {
-  const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+  const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
   const makeInput = (): TaskInput => ({ mode: 'publish', sourceUrl: fixtureUrl, scopeHash: 'fixture', baselineHash: digest(oldText), profileHash: store.engineExtractionProfileHash(fixtureUrl),
     contractHash: digest(JSON.stringify(contract)), contract, forceFresh: false, origin: 'https://example.com' });
   it('timestamps each successful response after transport completion, including fallback', async () => {
@@ -721,10 +721,10 @@ describe('adjudicated Gemini and GLM review regressions', () => {
     const current = await database.policy.findUniqueOrThrow({ where: { id: p.id } });
     expect(current.dataStatus).toBe(p.dataStatus); expect(current.lastCheckDate.getTime()).toBe(0);
   });
-  it('records eligible pending evidence without degrading public availability', async () => {
+  it('does not advance successful freshness while a changed candidate awaits confirmation', async () => {
     const p = await seed(); await run('available-pending'); await drain();
     const current = await database.policy.findUniqueOrThrow({ where: { id: p.id } });
-    expect(current.dataStatus).toBe('Available'); expect(current.lastSuccessfulCheckDate!.getTime()).toBeGreaterThan(0);
+    expect(current.dataStatus).toBe('Needs Review'); expect(current.lastSuccessfulCheckDate).toEqual(p.lastSuccessfulCheckDate);
     expect(current.currentHash).toBe(p.currentHash); expect(await database.policyChange.count()).toBe(0);
   });
   it('does not mutate a newer context from hold or terminal failure', async () => {
@@ -741,7 +741,7 @@ describe('adjudicated Gemini and GLM review regressions', () => {
   });
   it('requires explicit approval of an extractor replay and publishes no provider-change event', async () => {
     const p = await seed();
-    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main></html>`;
     await database.extractionBaseline.update({ where: { policyId: p.id }, data: { profileHash: 'legacy-profile', input: html, inputHash: digest(html) } });
     await run('replay-review'); await drain();
     const review = await database.engineReview.findFirstOrThrow();
@@ -754,7 +754,7 @@ describe('adjudicated Gemini and GLM review regressions', () => {
   });
   it('requests two new baseline captures when reviewed UI cannot replay historical HTML', async () => {
     const p = await seed();
-    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We keep account records for 60 days.</p><h2>Contact</h2><p>${contract.terminalText}</p><div id="ui" aria-hidden="true"><p>${'Current interface metadata, outside the policy. '.repeat(4)}</p></div></main></html>`;
+    const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 60 days.</p><h2>Contact</h2><p>${contract.terminalText}</p><div id="ui" aria-hidden="true"><p>${'Current interface metadata, outside the policy. '.repeat(4)}</p></div></main></html>`;
     const $ = load(html);
     const reviewed = parseSourceContract({ ...contract, reviewedExclusions: [{ selector: '#ui', htmlSha256: digest($.html($('#ui'))), purpose: 'non_document_ui', reviewNote: 'Reviewed the exact unrelated interface metadata.' }] });
     const contractJson = JSON.stringify(reviewed);
@@ -984,7 +984,7 @@ describe('claim ledger', () => {
     const { items: rows, nextCursor } = await listClaimLedger({ verdict: 'unsupported' });
     expect(rows).toHaveLength(1); expect(nextCursor).toBeNull();
     expect(rows[0]).toMatchObject({ reviewId: review.id, changeId: null, interpretationStatus: 'inferred' });
-    expect(rows[0].evidence.map(e => e.quote)).toEqual(expect.arrayContaining(['We keep account records for 30 days.', 'We keep account records for 60 days.']));
+    expect(rows[0].evidence.map(e => e.quote)).toEqual(expect.arrayContaining(['We respond to support questions within 30 days.', 'We respond to support questions within 60 days.']));
     expect((await listClaimLedger({ verdict: 'supported' })).items).toHaveLength(0);
     await expect(pipeline.approveReview(review.id, 'Approval cannot waive an unsupported interpretation.', 'fixture-admin')).rejects.toThrow('review_hard_gate_unresolved');
     expect((await database.engineClaim.findFirstOrThrow()).interpretationStatus).toBe('inferred');
@@ -1044,4 +1044,215 @@ describe('claim ledger', () => {
     expect(seen).toHaveLength(5); expect(new Set(seen).size).toBe(5);
     expect((await listClaimLedger({ policyId: 'page-policy', verdict: 'missing' })).items).toHaveLength(5);
   });
+});
+
+// New candidate tests, injected providers and isolated databases only.
+describe('r4 external audit closure controls', () => {
+  it.each(['observe', 'publish'] as const)('reuses an unchanged assessed candidate in %s without replacing review or duplicating claims', async mode => {
+    const p = await seed();
+    const provider: AnalysisProvider = { ...analysis, analyze: vi.fn(async input => {
+      const value = grounded(input); if (mode === 'publish') value.claims[0].impact = 8;
+      return { value, receipt };
+    }) };
+    await run(`reuse-${mode}-first`, mode); await drain({ analysis: provider });
+    await readySecond(p.id, mode); await run(`reuse-${mode}-second`, mode); await drain({ analysis: provider });
+    const originalClaims = await database.engineClaim.findMany();
+    const originalReviews = await database.engineReview.findMany();
+    for (let day = 0; day < 3; day++) {
+      // Schedule additional lab cycles, not real elapsed observation days.
+      await database.enginePolicyState.updateMany({ data: { nextDueAt: new Date(0) } });
+      await database.engineOrigin.updateMany({ data: { nextAllowedAt: new Date(0) } });
+      const batch = await run(`reuse-${mode}-repeat-${day}`, mode); await drain({ analysis: provider });
+      const task = await database.engineTask.findFirstOrThrow({ where: { runId: batch.id, kind: 'policy' } });
+      expect(JSON.parse(task.resultJson!).outcome).toBe('assessment_already_recorded');
+    }
+    expect(provider.analyze).toHaveBeenCalledTimes(1);
+    expect(analysis.verify).toHaveBeenCalledTimes(1);
+    expect(await database.engineClaim.findMany()).toEqual(originalClaims);
+    expect(await database.engineReview.findMany()).toEqual(originalReviews);
+    expect(await database.policyChange.count()).toBe(0);
+    expect(await database.engineOutbox.count()).toBe(0);
+  });
+  it.each(['analysis_output_incomplete', 'analysis_output_invalid_json', 'analysis_context_budget_exceeded'])('holds %s once and reuses the decision on the same content', async code => {
+    const p = await seed();
+    const provider: AnalysisProvider = { ...analysis, analyze: vi.fn(async () => { throw new Error(code); }) };
+    await run(`error-${code}-first`, 'observe'); await drain({ analysis: provider });
+    await readySecond(p.id, 'observe'); await run(`error-${code}-second`, 'observe'); await drain({ analysis: provider });
+    const review = await database.engineReview.findFirstOrThrow();
+    expect(JSON.parse(review.reasonsJson)).toEqual([code]);
+    await database.enginePolicyState.updateMany({ data: { nextDueAt: new Date(0) } });
+    await database.engineOrigin.updateMany({ data: { nextAllowedAt: new Date(0) } });
+    await run(`error-${code}-third`, 'observe'); await drain({ analysis: provider });
+    expect(provider.analyze).toHaveBeenCalledTimes(1);
+    expect(await database.engineReview.count()).toBe(1);
+    expect(await database.policyChange.count()).toBe(0);
+  });
+  it('preserves sanitized provider status and bounded Retry-After in the durable retry', async () => {
+    const { EngineModelError } = await import('../engine/failures');
+    const p = await seed(); await run('provider-first', 'observe'); await drain();
+    await readySecond(p.id, 'observe'); await run('provider-second', 'observe');
+    const before = Date.now();
+    await drain({ analysis: { ...analysis, verify: async () => { throw new EngineModelError('model_http_503', 300_000); } } });
+    const task = await database.engineTask.findFirstOrThrow({ where: { stage: 'verify' } });
+    expect(task.status).toBe('queued'); expect(task.lastError).toBe('model_http_503');
+    expect(task.nextAttemptAt.getTime()).toBeGreaterThanOrEqual(before + 300_000);
+    expect((await database.engineAttempt.findFirstOrThrow({ where: { taskId: task.id, status: 'failed' } })).reason).toBe('model_http_503');
+  });
+  it('holds quota exhaustion without spending three attempts or permanently memoizing a quota failure', async () => {
+    const { EngineModelError } = await import('../engine/failures');
+    const p = await seed(); await run('quota-first', 'observe'); await drain();
+    await readySecond(p.id, 'observe'); await run('quota-second', 'observe');
+    const verify = vi.fn(async () => { throw new EngineModelError('model_http_429'); });
+    await drain({ analysis: { ...analysis, verify } });
+    expect(verify).toHaveBeenCalledTimes(1);
+    expect((await database.engineReview.findFirstOrThrow()).reasonsJson).toContain('model_http_429');
+    expect((await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'observe') })).assessedKey).toBeNull();
+  });
+  it('does not treat a pending high-impact review as a successful public freshness update', async () => {
+    const p = await seed(); await run('freshness-first'); await drain();
+    const before = await database.policy.findUniqueOrThrow({ where: { id: p.id } });
+    await readySecond(p.id); await run('freshness-second');
+    await drain({ analysis: { ...analysis, analyze: async input => { const value = grounded(input); value.claims[0].impact = 8; return { value, receipt }; } } });
+    const after = await database.policy.findUniqueOrThrow({ where: { id: p.id } });
+    expect(after.dataStatus).toBe('Needs Review'); expect(after.lastSuccessfulCheckDate).toEqual(before.lastSuccessfulCheckDate);
+  });
+});
+
+describe('r4 conservative mandatory-review categories', () => {
+  it.each([
+    ['Training is disabled.', 'Training is enabled.'],
+    ['We do not sell personal data.', 'We may sell personal data with consent.'],
+    ['We retain records for 30 days.', 'We retain records for 60 days.'],
+    ['Conserviamo i dati per 30 giorni.', 'Conserviamo i dati per 60 giorni.'],
+    ['Addestramento disabilitato.', 'Addestramento abilitato.'],
+    ['Nessuna condivisione dei dati.', 'Condivisione dei dati con terzi.'],
+    ['Content licensing is limited.', 'Content licensing is perpetual.'],
+    ['Arbitration is optional.', 'Arbitration is mandatory.'],
+    ['Liability is unlimited.', 'Liability is limited.'],
+    ['Governed by the laws of Italy.', 'Governed by the laws of Ireland.'],
+    ['We cannot terminate your account.', 'We may terminate your account.'],
+  ])('requires review independently of impact score: %s', (before, after) => {
+    const old = structureDocument(`# Policy\n\n${before}`), next = structureDocument(`# Policy\n\n${after}`);
+    const input = { old, next, deltas: compareDocuments(old, next).deltas };
+    const claims = grounded(input); claims.claims[0].impact = 1;
+    const validation = validateClaims(claims, input);
+    expect(validation.reasons).toEqual([]); expect(validation.highImpact).toBe(true);
+  });
+  it('exports an isolated populated database inside a serializable snapshot, without a restore claim', async () => {
+    await seed();
+    const { buildCompleteBackupPayload } = await import('../encryptedBackup');
+    const result = await buildCompleteBackupPayload(database);
+    expect(result.data.Policy).toHaveLength(1);
+    expect(result.provenance?.consistency).toBe('serializable-transaction');
+    expect(result.restoreMode).toBe('verification-only');
+  });
+});
+
+describe('r4 memo invalidation and terminal isolation', () => {
+  it('invalidates the assessed content on a new candidate and does not reuse old claims', async () => {
+    const p = await seed(); await run('invalidate-first', 'observe'); await drain();
+    await readySecond(p.id, 'observe'); await run('invalidate-second', 'observe'); await drain();
+    const firstState = await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'observe') });
+    const updated = newText.replace('60 days', '90 days');
+    await readySecond(p.id, 'observe'); await run('invalidate-third', 'observe'); await drain({ acquire: async () => capture(updated) });
+    expect(analysis.analyze).toHaveBeenCalledTimes(1);
+    await readySecond(p.id, 'observe'); await run('invalidate-fourth', 'observe'); await drain({ acquire: async () => capture(updated) });
+    expect(analysis.analyze).toHaveBeenCalledTimes(2);
+    const secondState = await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'observe') });
+    expect(secondState.assessedKey).not.toBe(firstState.assessedKey);
+    expect(await database.engineClaim.count()).toBe(2);
+  });
+  it('retains a review on terminal model failure and preserves every policy field in observe mode', async () => {
+    const p = await seed(); const before = await database.policy.findUniqueOrThrow({ where: { id: p.id } });
+    await run('terminal-first', 'observe'); await drain(); await readySecond(p.id, 'observe'); await run('terminal-second', 'observe');
+    const { EngineModelError } = await import('../engine/failures');
+    const dependencies = { analysis: { ...analysis, verify: async () => { throw new EngineModelError('model_http_504'); } } };
+    for (let attempt = 0; attempt < 3; attempt++) {
+      await database.engineTask.updateMany({ where: { kind: 'policy' }, data: { nextAttemptAt: new Date(0) } });
+      await drain(dependencies);
+    }
+    const failed = await database.engineTask.findFirstOrThrow({ where: { status: 'failed', kind: 'policy' } });
+    expect(failed.lastError).toBe('model_http_504');
+    expect((await database.engineReview.findFirstOrThrow()).reasonsJson).toContain('model_http_504');
+    expect(await database.policy.findUniqueOrThrow({ where: { id: p.id } })).toEqual(before);
+    expect(await database.engineOutbox.count()).toBe(0);
+  });
+});
+
+// Regression sequence from the independent pre-merge review, not a live campaign.
+describe('r4 interleaved acquisition holds', () => {
+  it.each(['observe', 'publish'] as const)('re-raises semantic review after an acquisition hold in %s', async mode => {
+    const p = await seed();
+    const high = { ...analysis, analyze: async (input: AnalysisInput) => { const value = grounded(input); value.claims[0].impact = 8; return { value, receipt }; } };
+    await run('interleave-first', mode); await drain({ analysis: high });
+    await readySecond(p.id, mode); await run('interleave-second', mode); await drain({ analysis: high });
+    await readySecond(p.id, mode); await run('interleave-failure', mode);
+    await drain({ acquire: async () => ({ ...await capture(), eligible: false, reasons: ['acquisition_failed'] }), analysis: high });
+    for (const key of ['recover-first', 'recover-second']) {
+      await readySecond(p.id, mode); await run(key, mode); await drain({ analysis: high });
+    }
+    const reviews = await database.engineReview.findMany({ where: { policyId: p.id, status: { in: ['pending', 'observed'] } } });
+    expect(reviews.some(review => review.reasonsJson.includes('high_impact_review_required'))).toBe(true);
+  });
+});
+
+describe('r4 patch review expiry and recovery controls', () => {
+  it('reassesses expired captured evidence automatically', async () => {
+    const p = await seed(); await run('expiry-first', 'observe'); await drain();
+    await readySecond(p.id, 'observe'); await run('expiry-second', 'observe'); await drain();
+    const state = await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'observe') });
+    const task = await database.engineTask.findUniqueOrThrow({ where: { id: state.assessedTaskId! } });
+    const checkpoint = JSON.parse(task.checkpointJson!); checkpoint.observation.observedAt = new Date(Date.now() - 3 * store.DAILY_MS).toISOString();
+    await database.engineTask.update({ where: { id: task.id }, data: { checkpointJson: JSON.stringify(checkpoint) } });
+    for (const key of ['expiry-third', 'expiry-fourth']) { await readySecond(p.id, 'observe'); await run(key, 'observe'); await drain(); }
+    expect(analysis.analyze).toHaveBeenCalledTimes(2);
+  });
+  it('does not memoize missing provider identity as a permanent content decision', async () => {
+    const p = await seed(); await run('identity-first', 'observe'); await drain();
+    await readySecond(p.id, 'observe'); await run('identity-second', 'observe');
+    await drain({ analysis: { ...analysis, verify: async (input, claims) => ({ ...await analysis.verify(input, claims), receipt: { ...receipt, model: '' } }) } });
+    expect((await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'observe') })).assessedKey).toBeNull();
+    for (const key of ['identity-third', 'identity-fourth']) { await readySecond(p.id, 'observe'); await run(key, 'observe'); await drain(); }
+    expect((await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'observe') })).assessedKey).not.toBeNull();
+  });
+  it('holds the first transport mismatch without advancing public successful freshness', async () => {
+    const p = await seed(); await run('transport-first'); await drain();
+    await readySecond(p.id); await run('transport-second');
+    await drain({ acquire: async () => ({ ...await capture(), source: 'rendered' }) });
+    expect((await database.engineReview.findFirstOrThrow({ where: { status: 'pending' } })).reasonsJson).toContain('confirmation_transport_changed');
+    expect((await database.policy.findUniqueOrThrow({ where: { id: p.id } })).lastSuccessfulCheckDate).toEqual(p.lastSuccessfulCheckDate);
+    expect(analysis.analyze).not.toHaveBeenCalled();
+  });
+  it('preserves repeated terminal failures but keeps only one active review', async () => {
+    const p = await seed(); await run('failures-first', 'observe'); await drain();
+    const { EngineModelError } = await import('../engine/failures');
+    for (const key of ['failures-second', 'failures-third']) {
+      await readySecond(p.id, 'observe'); await run(key, 'observe');
+      for (let attempt = 0; attempt < 3; attempt++) {
+        await database.engineTask.updateMany({ where: { kind: 'policy' }, data: { nextAttemptAt: new Date(0) } });
+        await drain({ analysis: { ...analysis, verify: async () => { throw new EngineModelError('model_http_504'); } } });
+      }
+    }
+    expect(await database.engineReview.count({ where: { status: 'observed' } })).toBe(1);
+    expect(await database.engineReview.count({ where: { status: 'superseded' } })).toBe(1);
+    expect(await database.engineTask.count({ where: { kind: 'policy', status: 'failed' } })).toBe(2);
+  });
+});
+
+it('reassesses a stale-evidence hold on new captures', async () => {
+  const p = await seed(); await run('stale-decision-first', 'observe'); await drain();
+  await readySecond(p.id, 'observe'); const r = await run('stale-decision-second', 'observe');
+  let task = await database.engineTask.findFirstOrThrow({ where: { runId: r.id, kind: 'policy' } });
+  for (let i = 0; i < 12 && task.stage !== 'commit'; i++) {
+    await pipeline.workerStep({ acquire: async () => capture(), analysis });
+    task = await database.engineTask.findUniqueOrThrow({ where: { id: task.id } });
+  }
+  expect(task.stage).toBe('commit');
+  const checkpoint = JSON.parse(task.checkpointJson!); checkpoint.observation.observedAt = new Date(Date.now() - 3 * store.DAILY_MS).toISOString();
+  await database.engineTask.update({ where: { id: task.id }, data: { checkpointJson: JSON.stringify(checkpoint) } });
+  await drain();
+  expect((await database.engineReview.findFirstOrThrow()).reasonsJson).toContain('evidence_stale');
+  expect((await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'observe') })).assessedKey).toBeNull();
+  for (const key of ['stale-decision-third', 'stale-decision-fourth']) { await readySecond(p.id, 'observe'); await run(key, 'observe'); await drain(); }
+  expect((await database.enginePolicyState.findUniqueOrThrow({ where: store.stateKey(p.id, 'observe') })).assessedKey).not.toBeNull();
 });

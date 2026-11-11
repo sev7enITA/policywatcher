@@ -36,3 +36,22 @@ describe('Engine model identity at the SDK boundary', () => {
     expect(api.countTokens).not.toHaveBeenCalled(); expect(api.generateContent).not.toHaveBeenCalled();
   });
 });
+
+describe('r4 bounded model diagnostics', () => {
+  it.each([429, 503, 504])('preserves status %s without provider text or credentials', async status => {
+    api.generateContent.mockRejectedValue({ status, message: 'secret prompt or credential' });
+    await expect(liveAnalysis.analyze(input)).rejects.toThrow(`model_http_${status}`);
+  });
+  it('routes malformed or truncated output to explicit review codes', async () => {
+    api.generateContent.mockResolvedValue({ candidates: [{ finishReason: 'MAX_TOKENS' }], text: '{}' });
+    await expect(liveAnalysis.analyze(input)).rejects.toThrow('analysis_output_incomplete');
+    api.generateContent.mockResolvedValue({ candidates: [{ finishReason: 'STOP' }], text: '{broken' });
+    await expect(liveAnalysis.analyze(input)).rejects.toThrow('analysis_output_invalid_json');
+  });
+  it('counts the system instruction and blocks over-budget input before generation', async () => {
+    api.countTokens.mockResolvedValue({ totalTokens: 200_001 });
+    await expect(liveAnalysis.analyze(input)).rejects.toThrow('analysis_context_budget_exceeded');
+    expect(api.countTokens.mock.calls[0][0].contents[0].parts[0].text).toContain('untrusted');
+    expect(api.generateContent).not.toHaveBeenCalled();
+  });
+});

@@ -18,15 +18,19 @@ const files = [
   'src/app/api/admin/cron-status/route.ts', 'src/app/api/admin/engine/route.ts',
   'src/app/api/cron/check-all/route.ts',
   'src/proxy.ts', 'next.config.ts',
+  'src/lib/encryptedBackup.ts', 'src/lib/databaseReadiness.ts',
+  'scripts/hostinger-init-db.mjs', 'scripts/hostinger-init-db.py',
 ];
 function collect(directory) {
   for (const entry of readdirSync(join(root, directory), { withFileTypes: true })) {
     const path = `${directory}/${entry.name}`;
     if (entry.isDirectory()) collect(path);
-    else if (entry.isFile() && entry.name.endsWith('.ts')) files.push(path);
+    else if (entry.isFile() && /\.(?:ts|sql|toml)$/.test(entry.name)) files.push(path);
   }
 }
 collect('src/lib/engine');
+collect('prisma/migrations');
+collect('prisma/postgresql/migrations');
 // Follow local TypeScript imports (including dynamic imports) so a changed
 // acquisition, authentication or model dependency cannot retain the identity.
 const closure = new Set();

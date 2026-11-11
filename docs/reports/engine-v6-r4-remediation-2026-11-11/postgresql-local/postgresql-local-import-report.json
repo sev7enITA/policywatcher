@@ -1,0 +1,428 @@
+{
+  "contractVersion": "1.0.0",
+  "verdict": "go",
+  "startedAt": "2026-11-11T20:52:15.895Z",
+  "completedAt": "2026-11-11T20:52:19.410Z",
+  "source": {
+    "fileName": "rehearsal-source.db",
+    "sizeBytes": 1040384
+  },
+  "target": {
+    "databaseName": "policywatcher_r4_ci",
+    "schema": "public",
+    "fingerprint": "61daac0277e35f5b72de81e104e6ccccf6c36f1c972923a9a220e5d8dbae0414"
+  },
+  "sanitization": {
+    "applied": true,
+    "version": "1.1.0",
+    "removed": {
+      "WebhookDeliveryAttempt": 0,
+      "WebhookDelivery": 0,
+      "Subscriber": 1,
+      "PolicyInquiry": 0,
+      "AdminAccessLog": 0,
+      "InvestorAccessEvent": 1,
+      "InvestorAccessGrant": 1,
+      "PressMetricEvent": 0,
+      "AdminDashboardMetricEvent": 0,
+      "AiModelInvocation": 0,
+      "AdminReviewLog": 1,
+      "DatasetQaIssueReview": 0,
+      "ExtractionBaseline": 0,
+      "EvidenceQualityReview": 0,
+      "ExternalDocumentReference": 0
+    }
+  },
+  "evidence": {
+    "sourceOpenedReadOnly": true,
+    "sourceIntegrity": "passed",
+    "canonicalSchemaSha256": "e425671ce0d056e7481a46602fc60619be3d2bde8b58df414bab9a04641a61d6",
+    "postgresqlBaselineSha256": "64d552b86d2a969b2544c359f7ac51393f0319541f81ed7035eabe7e743230fb",
+    "consistentCopySha256": "cb3d64a247b812f343dde8c326848ce3774e5fd499ee35f2bed89f5d408d79d1",
+    "importCopySha256": "521049554cd0c51cd1066ccc39458fe121f1d9b3266673b36e981d9543843d32",
+    "importedRowCount": 10,
+    "tables": [
+      {
+        "model": "EngineRun",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "EngineTask",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "EngineArtifact",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "EngineAttempt",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "EngineSourceContract",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "EnginePolicyState",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "EngineOrigin",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "EngineHttpCache",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "EngineReview",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "EngineClaim",
+        "sourceCount": 1,
+        "targetCount": 1,
+        "sourceChecksum": "3bbda59211ec0df78d9e36186fd761aa221b06dce21512abfbb59c62de1a05d7",
+        "targetChecksum": "3bbda59211ec0df78d9e36186fd761aa221b06dce21512abfbb59c62de1a05d7",
+        "match": true
+      },
+      {
+        "model": "EngineClaimEvidence",
+        "sourceCount": 1,
+        "targetCount": 1,
+        "sourceChecksum": "0dc30272c57621882d6a7feafc50d1d798a1eca06a19c312d10e7dc4162e734f",
+        "targetChecksum": "0dc30272c57621882d6a7feafc50d1d798a1eca06a19c312d10e7dc4162e734f",
+        "match": true
+      },
+      {
+        "model": "EngineOutbox",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "Entity",
+        "sourceCount": 1,
+        "targetCount": 1,
+        "sourceChecksum": "462f85c1af4db2a2e223306de73c0aee32f76d62978611f236f474471fe6035c",
+        "targetChecksum": "462f85c1af4db2a2e223306de73c0aee32f76d62978611f236f474471fe6035c",
+        "match": true
+      },
+      {
+        "model": "Document",
+        "sourceCount": 1,
+        "targetCount": 1,
+        "sourceChecksum": "c4b3db16a8a6b24311626d60dd9991fe8d8e37f097e171caced5b5d9c52b644f",
+        "targetChecksum": "c4b3db16a8a6b24311626d60dd9991fe8d8e37f097e171caced5b5d9c52b644f",
+        "match": true
+      },
+      {
+        "model": "ContentArtifact",
+        "sourceCount": 1,
+        "targetCount": 1,
+        "sourceChecksum": "f5ddad24cd80aa423daca6a3e65a93eb88798eb49902006f39706f0f9d70bdd6",
+        "targetChecksum": "f5ddad24cd80aa423daca6a3e65a93eb88798eb49902006f39706f0f9d70bdd6",
+        "match": true
+      },
+      {
+        "model": "Version",
+        "sourceCount": 1,
+        "targetCount": 1,
+        "sourceChecksum": "45a36b6ee33535aeaf471d3ddeab3cdd41ce4bff1fa4808c1460887400a489c7",
+        "targetChecksum": "45a36b6ee33535aeaf471d3ddeab3cdd41ce4bff1fa4808c1460887400a489c7",
+        "match": true
+      },
+      {
+        "model": "Change",
+        "sourceCount": 1,
+        "targetCount": 1,
+        "sourceChecksum": "2ed48eb496f1cb698b8ea8c07b787f6973b5c922239979dbcdd01783750fe960",
+        "targetChecksum": "2ed48eb496f1cb698b8ea8c07b787f6973b5c922239979dbcdd01783750fe960",
+        "match": true
+      },
+      {
+        "model": "Provision",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "Company",
+        "sourceCount": 1,
+        "targetCount": 1,
+        "sourceChecksum": "c039bb241d0e3535a8405020c46f49baa2938df7787f04bba588912429da3bce",
+        "targetChecksum": "c039bb241d0e3535a8405020c46f49baa2938df7787f04bba588912429da3bce",
+        "match": true
+      },
+      {
+        "model": "PolicyDiscoveryJob",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "PolicyInquiry",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "PolicyDiscoveryCandidate",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "Policy",
+        "sourceCount": 1,
+        "targetCount": 1,
+        "sourceChecksum": "9c05ca5df97dbaa1f267a8b84ab09b43a43eb4e9d084936088759b90c0436baa",
+        "targetChecksum": "9c05ca5df97dbaa1f267a8b84ab09b43a43eb4e9d084936088759b90c0436baa",
+        "match": true
+      },
+      {
+        "model": "ScanRun",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "SourceRetrieval",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "PolicyCheckLog",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "SourceRemediationIssue",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "HistoricalSourceReference",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "PolicySnapshot",
+        "sourceCount": 1,
+        "targetCount": 1,
+        "sourceChecksum": "1bed7b23cb1f545e41e73b80d7b56f5c2dcc41aa3b602fb26483595df0db074b",
+        "targetChecksum": "1bed7b23cb1f545e41e73b80d7b56f5c2dcc41aa3b602fb26483595df0db074b",
+        "match": true
+      },
+      {
+        "model": "PolicyChange",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "WebhookDelivery",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "WebhookDeliveryAttempt",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "DatasetQaIssueReview",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "AdminReviewLog",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "SourceOnboardingBatch",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "SourceOnboardingItem",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "AdminAccessLog",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "InvestorAccessGrant",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "InvestorAccessEvent",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "PressMetricEvent",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "AdminDashboardMetricEvent",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "AiModelInvocation",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "RegionImpact",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "Subscriber",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "ExtractionBaseline",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "ExternalDocumentReference",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      },
+      {
+        "model": "EvidenceQualityReview",
+        "sourceCount": 0,
+        "targetCount": 0,
+        "sourceChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetChecksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "match": true
+      }
+    ],
+    "applicationSmokeTest": "passed",
+    "sqliteClientRestored": true
+  },
+  "failedStage": null,
+  "diagnosticCode": null,
+  "boundary": "The report proves only this isolated rehearsal run. It does not authorize production cutover or prove backup recovery, load capacity, continuous availability or data residency."
+}

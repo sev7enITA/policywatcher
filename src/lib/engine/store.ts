@@ -1,3 +1,4 @@
+import { REVIEW_FAILURES } from './failures';
 import { randomUUID } from 'node:crypto';
 import type { EngineRun, EngineTask, Prisma } from '@prisma/client';
 import { db } from '../db';
@@ -272,12 +273,21 @@ async function terminalFailure(tx: Tx, task: EngineTask, reason: string) {
   if (policy.currentHash !== task.expectedBaselineHash || policyScopeHash(policy) !== input.scopeHash
     || (contract?.contractHash || null) !== input.contractHash || engineExtractionProfileHash(input.sourceUrl) !== input.profileHash) return;
   const won = await tx.policy.updateMany({ where: { id: policy.id, currentHash: task.expectedBaselineHash!, url: policy.url,
-    retrievalUrl: policy.retrievalUrl, jurisdiction: policy.jurisdiction, type: policy.type }, data: { currentHash: policy.currentHash } });
+    retrievalUrl: policy.retrievalUrl, jurisdiction: policy.jurisdiction, type: policy.type, updatedAt: policy.updatedAt }, data: { currentHash: policy.currentHash, updatedAt: policy.updatedAt } });
   if (!won.count) return;
   const now = new Date(), nextDueAt = new Date(now.getTime() + DAILY_MS);
   await tx.enginePolicyState.upsert({ where: stateKey(task.policyId, input.mode), create: { policyId: task.policyId, mode: input.mode, lastAttemptAt: now, nextDueAt, reason },
     update: { lastAttemptAt: now, nextDueAt, reason } });
   const run = await tx.engineRun.findUniqueOrThrow({ where: { id: task.runId } });
+  // Preserve the failed attempts while bounding the active review queue.
+  await tx.engineReview.updateMany({ where: { policyId: task.policyId, mode: input.mode, taskId: { not: task.id }, status: { in: ['pending', 'observed'] } },
+    data: { status: 'superseded', reviewedAt: now, reviewNote: 'Superseded by a newer terminal failure; original evidence retained.' } });
+  await tx.enginePolicyState.update({ where: stateKey(task.policyId, input.mode), data: { assessedKey: null, assessedTaskId: null } });
+  await tx.engineReview.upsert({ where: { evidenceKey: digest(`terminal:${task.id}`) },
+    create: { evidenceKey: digest(`terminal:${task.id}`), policyId: task.policyId, mode: input.mode,
+      status: input.mode === 'observe' ? 'observed' : 'pending', expectedBaselineHash: task.expectedBaselineHash || '',
+      taskId: task.id, reasonsJson: JSON.stringify([reason]),
+      payloadJson: JSON.stringify({ input, runId: task.runId, checkpoint: task.checkpointJson ? JSON.parse(task.checkpointJson) : null }) }, update: {} });
   if (run.mode === 'publish') {
     await tx.policy.update({ where: { id: task.policyId }, data: { lastCheckDate: now, dataStatus: 'Needs Review' } });
     await tx.policyCheckLog.create({ data: { policyId: task.policyId, engineTaskId: task.id, status: 'Needs Review', reason, reasonCode: reason, checkedAt: now } });
@@ -285,7 +295,7 @@ async function terminalFailure(tx: Tx, task: EngineTask, reason: string) {
 }
 export async function failTask(lease: Lease, code: string, retryAfterMs = 0) {
   if (!/^[a-z0-9_:.-]{1,120}$/i.test(code)) code = 'engine_processing_error';
-  const terminal = lease.attempt >= MAX_ATTEMPTS || ['engine_context_changed', 'channel_context_changed', 'public_old_snapshot_missing'].includes(code);
+  const terminal = lease.attempt >= MAX_ATTEMPTS || REVIEW_FAILURES.has(code) || ['engine_context_changed', 'channel_context_changed', 'public_old_snapshot_missing'].includes(code);
   const retryAt = new Date(Date.now() + Math.min(DAILY_MS, Math.max(60_000 * 2 ** lease.attempt, retryAfterMs)));
   await fenced(lease, async tx => {
     await tx.engineAttempt.updateMany({ where: { taskId: lease.id, generation: lease.totalAttempts, status: 'running' },

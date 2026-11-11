@@ -1,0 +1,29 @@
+{
+  "source": "3bd243567af718d270dc671648c8208730392df8",
+  "startedAt": "2026-11-11T20:51:34.726878+00:00",
+  "scope": "Local PostgreSQL 16 Docker, isolated loopback-only disposable database; no hosted access or model calls",
+  "steps": [
+    {
+      "name": "generate",
+      "exitCode": 0
+    },
+    {
+      "name": "validate",
+      "exitCode": 0
+    },
+    {
+      "name": "migrate",
+      "exitCode": 0
+    },
+    {
+      "name": "drift",
+      "exitCode": 0
+    },
+    {
+      "name": "relational-smoke",
+      "exitCode": 0
+    }
+  ],
+  "status": "passed",
+  "completedAt": "2026-11-11T20:51:39.468781+00:00"
+}

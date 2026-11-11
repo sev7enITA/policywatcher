@@ -1,0 +1,4 @@
+
+> policywatcher@5.5.0 typecheck:critical-tests
+> tsc --project tsconfig.tests.json --noEmit
+

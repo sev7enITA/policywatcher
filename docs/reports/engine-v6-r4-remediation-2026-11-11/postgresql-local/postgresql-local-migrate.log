@@ -1,0 +1,42 @@
+
+> policywatcher@5.5.0 db:postgresql:migrate
+> node scripts/prisma-active-schema.mjs migrate-deploy
+
+warn The configuration property `package.json#prisma` is deprecated and will be removed in Prisma 7. Please migrate to a Prisma config file (e.g., `prisma.config.ts`).
+For more information, see: https://pris.ly/prisma-config
+
+Prisma schema loaded from prisma/postgresql/schema.prisma
+Datasource "db": PostgreSQL database "policywatcher_r4_ci", schema "public" at "127.0.0.1:55436"
+
+8 migrations found in prisma/migrations
+
+Applying migration `00000000000000_postgresql_baseline`
+Applying migration `20261002050000_multiple_documents_per_type`
+Applying migration `20261007120000_evidence_assurance`
+Applying migration `20261015160000_dq_lineage_occurrences`
+Applying migration `20261031060000_engine_v6`
+Applying migration `20261101170000_scan_channels`
+Applying migration `20261106120000_engine_claim_ledger`
+Applying migration `20261111190000_engine_assessment_reuse`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 00000000000000_postgresql_baseline/
+    └─ migration.sql
+  └─ 20261002050000_multiple_documents_per_type/
+    └─ migration.sql
+  └─ 20261007120000_evidence_assurance/
+    └─ migration.sql
+  └─ 20261015160000_dq_lineage_occurrences/
+    └─ migration.sql
+  └─ 20261031060000_engine_v6/
+    └─ migration.sql
+  └─ 20261101170000_scan_channels/
+    └─ migration.sql
+  └─ 20261106120000_engine_claim_ledger/
+    └─ migration.sql
+  └─ 20261111190000_engine_assessment_reuse/
+    └─ migration.sql
+      
+All migrations have been successfully applied.

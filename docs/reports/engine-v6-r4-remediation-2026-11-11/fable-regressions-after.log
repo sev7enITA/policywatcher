@@ -1,0 +1,30 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-engine6-r4-audit-fixes
+
+ ❯ src/lib/__tests__/engineV6.test.ts (149 tests | 1 failed) 4492ms
+     × records eligible pending evidence without degrading public availability 26ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/lib/__tests__/engineV6.test.ts > adjudicated Gemini and GLM review regressions > records eligible pending evidence without degrading public availability
+AssertionError: expected 'Needs Review' to be 'Available' // Object.is equality
+
+Expected: "Available"
+Received: "Needs Review"
+
+ ❯ src/lib/__tests__/engineV6.test.ts:727:32
+    725|     const p = await seed(); await run('available-pending'); await drai…
+    726|     const current = await database.policy.findUniqueOrThrow({ where: {…
+    727|     expect(current.dataStatus).toBe('Available'); expect(current.lastS…
+       |                                ^
+    728|     expect(current.currentHash).toBe(p.currentHash); expect(await data…
+    729|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 157 passed (158)
+   Start at  21:26:37
+   Duration  4.98s (transform 597ms, setup 0ms, import 781ms, tests 4.52s, environment 0ms)
+

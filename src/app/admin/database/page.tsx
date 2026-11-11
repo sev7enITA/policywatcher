@@ -74,7 +74,7 @@ interface DatabaseReadiness {
   integrity: {
     quickCheck: string;
     journalMode: string;
-    foreignKeysEnabled: boolean;
+    foreignKeysEnabled: boolean | null;
     pageCount: number | null;
     freePageCount: number | null;
   };
@@ -380,6 +380,13 @@ export default function DatabaseInspectorPage() {
                 </div>
               ))}
             </dl>
+            <p className={styles.environmentReadinessBoundary}>
+              Engine 6: {readiness.environment.engine?.enabled ? 'enabled' : 'disabled'}.
+              {' '}Model pair: {readiness.environment.engine?.distinctConfiguredModels ? 'distinct aliases configured' : 'missing or identical'}.
+              {' '}Publication: {readiness.environment.engine?.publicationEnabled ? 'enabled' : 'disabled'}.
+              {' '}Notifications: {readiness.environment.engine?.notificationsEnabled ? 'enabled' : 'disabled'}.
+              {' '}Configuration presence does not qualify source completeness, model accuracy or daily capacity.
+            </p>
             <p className={styles.environmentReadinessBoundary}><ShieldCheck size={15} />{readiness.environment.boundary}</p>
           </>
         ) : (

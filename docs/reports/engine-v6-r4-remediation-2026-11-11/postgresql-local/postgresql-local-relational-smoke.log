@@ -1,0 +1,6 @@
+
+> policywatcher@5.5.0 db:postgresql:smoke
+> node scripts/postgresql-contract-smoke.mjs
+
+Assessment identity PostgreSQL write, read and rollback passed.
+PostgreSQL portability smoke test passed.

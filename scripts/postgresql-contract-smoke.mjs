@@ -104,6 +104,17 @@ try {
     throw new Error('Cascade-delete contract failed.');
   }
 
+  await client.enginePolicyState.create({ data: { policyId, mode: 'observe', assessedKey: runId, assessedTaskId: ledgerTaskId } });
+  await client.$transaction(async transaction => {
+    const state = await transaction.enginePolicyState.findUniqueOrThrow({ where: { policyId_mode: { policyId, mode: 'observe' } } });
+    if (state.assessedKey !== runId || state.assessedTaskId !== ledgerTaskId) throw new Error('Assessment identity read failed.');
+    await transaction.enginePolicyState.update({ where: { policyId_mode: { policyId, mode: 'observe' } }, data: { assessedKey: null, assessedTaskId: null } });
+    throw new Error('ci_intentional_rollback');
+  }, { isolationLevel: 'Serializable' }).catch(error => { if (error?.message !== 'ci_intentional_rollback') throw error; });
+  const retained = await client.enginePolicyState.findUniqueOrThrow({ where: { policyId_mode: { policyId, mode: 'observe' } } });
+  if (retained.assessedKey !== runId || retained.assessedTaskId !== ledgerTaskId) throw new Error('Assessment identity rollback failed.');
+  await client.enginePolicyState.deleteMany({ where: { policyId } });
+  console.log('Assessment identity PostgreSQL write, read and rollback passed.');
   await claimLedgerContract();
   console.log('PostgreSQL portability smoke test passed.');
 } catch (error) {
@@ -113,5 +124,6 @@ try {
   console.error(`PostgreSQL portability smoke test failed (${code}).`);
   process.exitCode = 1;
 } finally {
+  await client.enginePolicyState.deleteMany({ where: { policyId } }).catch(() => undefined);
   await client.$disconnect();
 }

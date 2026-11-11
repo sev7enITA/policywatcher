@@ -150,10 +150,10 @@ describe('database readiness report', () => {
     expect(report.database).toMatchObject({ provider: 'postgresql', filePath: null, fileSizeBytes: 21_000_000 });
     expect(report.database).not.toHaveProperty('url');
     expect(report.integrity).toMatchObject({
-      quickCheck: 'ok',
+      quickCheck: 'not-measured',
       journalMode: 'postgresql',
       busyTimeoutMs: null,
-      foreignKeysEnabled: true,
+      foreignKeysEnabled: null,
       pageCount: null,
       freePageCount: null,
     });

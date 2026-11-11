@@ -1,3 +1,4 @@
+import { modelFailure } from './failures';
 import { GoogleGenAI } from '@google/genai';
 import { digest, type ClauseDelta, type StructuredDocument } from './document';
 
@@ -80,7 +81,7 @@ export function validateClaims(value: unknown, input: AnalysisInput): { claims: 
     if ((c.category === 'effective_date' || effective) && !effectiveInSource) reasons.push('date_role_unsubstantiated');
     if (c.category === 'last_updated_date' && !/last updated|updated on|ultimo aggiornamento|aggiornata? il/i.test(quotes)) reasons.push('date_role_unsubstantiated');
     // Detect sensitive obligations independently of the model's numeric impact.
-    if (c.impact >= 7 || /arbitrat|liabilit|indemn|class.action|waiv|biometric|termination|jurisdiction|governing law|responsabilit|rinuncia|foro competente|recesso|legge applicabile|giurisdizion|manlev|indennizz/i.test(quotes)) highImpact = true;
+    if (c.impact >= 7 || /arbitrat|liabilit|indemn|class.action|waiv|biometric|terminat|jurisdiction|govern(?:ing|ed by).*law|responsabilit|rinuncia|foro competente|recesso|legge applicabile|giurisdizion|manlev|indennizz|training|addestr|apprendimento automatico|sell|sale|vendita|vendere|consent|condivision|shar(?:e|ing)|retention|retain|conserv|keep.{0,80}(?:days|months|years)|licens|licenz|copyright|bambin|minori|children|renewal|rinnovo|pricing|prezz/i.test(quotes)) highImpact = true;
   }
   if (input.deltas.some(d => !covered.has(d.id))) reasons.push('change_coverage_incomplete');
   return { claims: reasons.includes('claim_schema_invalid') ? null : set, reasons: [...new Set(reasons)], highImpact };
@@ -136,15 +137,19 @@ async function generate<T>(model: string, system: string, payload: unknown): Pro
   const contents = JSON.stringify(payload);
   if (contents.length > 4_000_000) throw new Error('analysis_context_budget_exceeded');
   const client = new GoogleGenAI({ apiKey: key, httpOptions: { timeout: 120_000 } });
-  const tokens = await client.models.countTokens({ model, contents });
-  if (!tokens.totalTokens || tokens.totalTokens > 750_000) throw new Error('analysis_context_budget_exceeded');
+  const tokens = await client.models.countTokens({ model, contents: [{ role: 'user', parts: [{ text: system }, { text: contents }] }] }).catch(error => { throw modelFailure(error); });
+  // A conservative request bound, not proof of RPM/TPM/RPD entitlement.
+  if (!tokens.totalTokens || tokens.totalTokens > 200_000) throw new Error('analysis_context_budget_exceeded');
   const response = await client.models.generateContent({ model, contents,
-    config: { systemInstruction: system, temperature: 0, responseMimeType: 'application/json', maxOutputTokens: 16000 } });
+    config: { systemInstruction: system, temperature: 0, responseMimeType: 'application/json', maxOutputTokens: 16000 } })
+    .catch(error => { throw modelFailure(error); });
   if (response.candidates?.[0]?.finishReason !== 'STOP' || !response.text) throw new Error('analysis_output_incomplete');
   if (response.text.length > 500_000) throw new Error('analysis_output_budget_exceeded');
   // Never substitute the requested alias for a missing provider-resolved ID:
   // different aliases can resolve to one model, or to an unknown identity.
-  return { value: JSON.parse(response.text) as T, receipt: { model: response.modelVersion?.trim() || '', requestedModel: model, promptVersion,
+  let value: T;
+  try { value = JSON.parse(response.text) as T; } catch { throw new Error('analysis_output_invalid_json'); }
+  return { value, receipt: { model: response.modelVersion?.trim() || '', requestedModel: model, promptVersion,
     inputHash: digest(system + contents), outputHash: digest(response.text), inputTokens: response.usageMetadata?.promptTokenCount || 0,
     outputTokens: (response.usageMetadata?.candidatesTokenCount || 0) + (response.usageMetadata?.thoughtsTokenCount || 0) } };
 }

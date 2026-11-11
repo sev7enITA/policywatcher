@@ -1,0 +1,49 @@
+{
+  "state": "locally_tested_static_rereview_no_new_merge_blocker_ci_pending",
+  "at": "2026-11-11T20:29:36.304957+00:00",
+  "implementationHash": "dc2fce35e44dc0bcbf234a13ada59516bd6c9de577b1bbf6c4233bbfffcbc62a",
+  "testResults": {
+    "passed": 1624,
+    "skipped": 14,
+    "filesPassed": 204,
+    "filesSkipped": 3
+  },
+  "typecheck": "passed",
+  "scopedLint": "passed",
+  "build": "passed_exact_reviewed_source_head",
+  "liveCalls": 0,
+  "deployments": 0,
+  "publication": false,
+  "notifications": false,
+  "logs": {
+    "invalidation-tests.log": "ecff6996348046498ba25ae9f450a94e4b35b138b7427b0fdf6aa26d8f255a15",
+    "full-suite.log": "4de1468370b9985ccdcf1d17fa4fbce849baaee0358b0d8ecab3afb621a089cf",
+    "accepted-suite.log": "e5a01a3449e7b6009527cfa624142df204359669943fb90e14da18445ceff7bd",
+    "review-final-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "review-final-suite.log": "65366b3983f1f0c06619a3c9ea2dad30d8c3e2076a640cf0a54cb6f8e8fa1a0d",
+    "review-final-typecheck.log": "30ba0340501bc244829e74332e6b17674fa058cf44c0758db332a525188d08ca",
+    "final-suite.log": "d3867eb1fa65ad954b9088eb1c9cb06457614a601118a91083f02baa003d8830",
+    "final-typecheck.log": "30ba0340501bc244829e74332e6b17674fa058cf44c0758db332a525188d08ca",
+    "initial-targeted-failures.log": "abde03b10b5a888d7ae29a57694652b10d56f3dc3b0099ce4b810f4518441db0",
+    "fable-regressions-after.log": "881c5644dff9a30889fc9bed0c186324fef12854a4a5d4a6bc714937960cc12c",
+    "initial-full-suite-failure.log": "6f74d764feb00b296d70b79b35ec53ea62aa6b64d8eb24d320e4fcaa4783e555",
+    "fable-regressions-final.log": "db30cfc08ef9bb5e6d0e83104f74ec807c65b3a4b3942e1d59896c3af87428e6",
+    "final-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "critical-typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fable-regressions-before.log": "26742f00bcaa97b364237691d86605b467b048f27e7ecf641677d39a78891007",
+    "scoped-eslint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build.log": "35c9998fa332a60db7187a80f57ecb88eaa408dc0152156ee374d52890117c6c",
+    "accepted-build.log": "37d3cee90ae7a55a540416c5f1d0cecc457e2d4883e836d27b8f1e257f2c23ab"
+  },
+  "initialPatchReview": "rejected_two_blockers_reproduced_and_fixed",
+  "sourceCommit": "23ce5f0f2299ae9b392a720b8d5f5084e17d7053",
+  "finalReview": "no_new_source_merge_blocker_static_only",
+  "finalReviewSha256": "daed4e29475d57023f39afe00ca5dc4cb989ad840430fbe7857b01c093a66fed",
+  "finalPatchSha256": "e0b5175f2331b8d618bc2243b59558f7cdd81b2549b3f3a4c194f34af11feaaf",
+  "postgresqlLocal": {
+    "status": "passed_after_disposable_target_name_correction",
+    "migrations": 8,
+    "receipt": "postgresql-local/receipt.json",
+    "githubCI": "pending"
+  }
+}

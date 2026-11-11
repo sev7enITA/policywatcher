@@ -65,6 +65,7 @@ export const EXPECTED_SQLITE_MIGRATIONS = [
   '20261031060000_engine_v6',
   '20261101170000_scan_channels',
   '20261106120000_engine_claim_ledger',
+  '20261111190000_engine_assessment_reuse',
 ] as const;
 
 export const EXPECTED_POSTGRESQL_MIGRATIONS = [
@@ -75,6 +76,7 @@ export const EXPECTED_POSTGRESQL_MIGRATIONS = [
   '20261031060000_engine_v6',
   '20261101170000_scan_channels',
   '20261106120000_engine_claim_ledger',
+  '20261111190000_engine_assessment_reuse',
 ] as const;
 
 // Backward-compatible name for the production SQLite migration contract.
@@ -96,6 +98,9 @@ export const ENVIRONMENT_READINESS_VARIABLES = [
 export type EnvironmentReadinessVariable = (typeof ENVIRONMENT_READINESS_VARIABLES)[number];
 
 export interface EnvironmentReadinessReport {
+  engine: { enabled: boolean; publicationEnabled: boolean; notificationsEnabled: boolean;
+    analystConfigured: boolean; verifierConfigured: boolean; distinctConfiguredModels: boolean;
+    credentialsPresent: boolean; qualification: 'not_assessed' };
   configuredCount: number;
   expectedCount: number;
   variables: Array<{
@@ -121,7 +126,7 @@ export interface DatabaseReadinessReport {
     quickCheck: string;
     journalMode: string;
     busyTimeoutMs: number | null;
-    foreignKeysEnabled: boolean;
+    foreignKeysEnabled: boolean | null;
     pageCount: number | null;
     freePageCount: number | null;
   };
@@ -149,6 +154,18 @@ export function buildEnvironmentReadiness(
   }));
 
   return {
+    engine: {
+      enabled: environment.POLICYWATCHER_ENGINE_V6 === '1',
+      publicationEnabled: environment.POLICYWATCHER_ENGINE_PUBLICATION === '1',
+      notificationsEnabled: environment.POLICYWATCHER_ENGINE_NOTIFICATIONS === '1',
+      analystConfigured: Boolean(environment.POLICYWATCHER_ENGINE_ANALYST_MODEL?.trim()),
+      verifierConfigured: Boolean(environment.POLICYWATCHER_ENGINE_VERIFIER_MODEL?.trim()),
+      distinctConfiguredModels: Boolean(environment.POLICYWATCHER_ENGINE_ANALYST_MODEL?.trim()
+        && environment.POLICYWATCHER_ENGINE_VERIFIER_MODEL?.trim()
+        && environment.POLICYWATCHER_ENGINE_ANALYST_MODEL.trim().toLowerCase().replace(/^models\//, '')
+          !== environment.POLICYWATCHER_ENGINE_VERIFIER_MODEL.trim().toLowerCase().replace(/^models\//, '')),
+      credentialsPresent: Boolean(environment.GEMINI_API_KEY), qualification: 'not_assessed',
+    },
     configuredCount: variables.filter((variable) => variable.status === 'SET').length,
     expectedCount: ENVIRONMENT_READINESS_VARIABLES.length,
     variables,
@@ -260,10 +277,10 @@ export async function getDatabaseReadinessReport(): Promise<DatabaseReadinessRep
            WHERE table_schema = current_schema()
            ORDER BY table_name`,
         ),
-        Promise.resolve([{ value: 'ok' }] as DatabaseValueRow[]),
+        Promise.resolve([{ value: 'not-measured' }] as DatabaseValueRow[]),
         Promise.resolve([{ value: 'postgresql' }] as DatabaseValueRow[]),
         Promise.resolve([{ value: null }] as DatabaseValueRow[]),
-        Promise.resolve([{ value: 1 }] as DatabaseValueRow[]),
+        Promise.resolve([{ value: null }] as DatabaseValueRow[]),
         Promise.resolve([{ value: null }] as DatabaseValueRow[]),
         Promise.resolve([{ value: null }] as DatabaseValueRow[]),
         db.$queryRawUnsafe<DatabaseValueRow[]>('SELECT pg_database_size(current_database()) AS "value"'),
@@ -308,14 +325,14 @@ export async function getDatabaseReadinessReport(): Promise<DatabaseReadinessRep
     const quickCheck = String(firstValue(quickRows) ?? 'unknown');
     const journalMode = String(firstValue(journalRows) ?? 'unknown');
     const busyTimeoutMs = toNumber(firstValue(busyTimeoutRows));
-    const foreignKeysEnabled = toNumber(firstValue(foreignKeyRows)) === 1;
+    const foreignKeysEnabled = provider === 'postgresql' ? null : toNumber(firstValue(foreignKeyRows)) === 1;
 
     const degraded = (
-      quickCheck.toLowerCase() !== 'ok'
+      (provider === 'sqlite' && quickCheck.toLowerCase() !== 'ok')
       || missingTables.length > 0
       || !migrationLedgerAvailable
       || missingMigrations.length > 0
-      || !foreignKeysEnabled
+      || (provider === 'sqlite' && !foreignKeysEnabled)
       || (provider === 'sqlite' && journalMode.toLowerCase() !== 'wal')
       || (provider === 'sqlite' && (busyTimeoutMs ?? 0) < 5_000)
       || (provider === 'sqlite' && (!diagnostics.fileWritable || !diagnostics.directoryWritable))

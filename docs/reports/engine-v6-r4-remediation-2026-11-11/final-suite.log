@@ -1,0 +1,31 @@
+
+> policywatcher@5.5.0 pretest
+> node scripts/extraction-profile.mjs --check
+
+
+> policywatcher@5.5.0 test
+> vitest run
+
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-engine6-r4-audit-fixes
+
+(node:13413) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13421) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13412) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13563) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13587) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13589) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13851) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  203 passed | 3 skipped (206)
+      Tests  1616 passed | 14 skipped (1630)
+   Start at  21:19:40
+   Duration  11.12s (transform 20.25s, setup 0ms, import 39.12s, tests 49.89s, environment 25ms)
+
