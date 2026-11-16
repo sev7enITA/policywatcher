@@ -27,6 +27,14 @@ describe.each([false, true])('table evidence (ordered blocks: %s)', preserveNest
     for (const block of document.blocks) expect(text.slice(block.start, block.end)).toBe(block.text);
   });
 
+  it('separates adjacent blocks and line breaks without splitting inline words', () => {
+    const html = `<main>${context}<table><tr><td><p>To provide Google services</p><p>Examples of processing activities:</p><ul><li>First activity</li><li>Second activity</li></ul><div>Final block<br>Next line</div></td><td>con<span>sent</span> \\| scope</td></tr></table></main>`;
+    const text = extractPolicyText(html, 'https://example.com/privacy', { minimumTextLength: 100, preserveNestedBlockOrder });
+    expect(text).toContain('To provide Google services Examples of processing activities: First activity Second activity Final block Next line');
+    expect(text).toContain('consent');
+    expect(text).not.toContain('servicesExamples');
+  });
+
   it('retains ordinary cells, repeated negatives, empty cells and span evidence', () => {
     const html = `<main>${context}<table><tr><th>Use</th><th>Allowed</th><th>Notes</th></tr>
       <tr><td>Training | analytics</td><td>No</td><td></td></tr>

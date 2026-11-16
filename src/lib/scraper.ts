@@ -1680,7 +1680,11 @@ export function extractPolicyText(html: string, sourceUrl?: string, contract: Po
           const span = Math.max(Number($(cell).attr('colspan') || 1), Number($(cell).attr('rowspan') || 1));
           // Escape the escape character first so source backslashes cannot
           // consume the escape added for a literal table separator.
-          const value = $(cell).text().replace(/\s+/g, ' ').trim().replace(/\\/g, '\\\\').replace(/\|/g, '\\|');
+          // DOM textContent joins adjacent block nodes without a separator.
+          // Preserve word boundaries while leaving inline word fragments intact.
+          const content = $(cell).clone();
+          content.find('p, div, li, ul, ol, dl, dt, dd, blockquote, h1, h2, h3, h4, h5, h6, br').before(' ').after(' ');
+          const value = content.text().replace(/\s+/g, ' ').trim().replace(/\\/g, '\\\\').replace(/\|/g, '\\|');
           return span > 1 ? `${value} [colspan=${$(cell).attr('colspan') || 1}; rowspan=${$(cell).attr('rowspan') || 1}]` : value;
         }).get();
         if (cells.length) rows.push(`| ${cells.join(' | ')} |`);
