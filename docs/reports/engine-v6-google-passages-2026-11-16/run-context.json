@@ -1,0 +1,20 @@
+{
+  "recordedAt": "2026-11-16T13:35:18.472676+00:00",
+  "implementation": "7b17e1982ec17f70833adee84370512a2bc55c3eec6aff72eac89bb2a9253bef",
+  "trackedEnginePatchSha256": "79f7e040fe8bd8d88ca2912ada5aeb02f00768f01a76beda2bc75a99b5264b5e",
+  "note": "Live run report sourceCommit is read at completion. The implementation and trackedEnginePatchSha256 fields identify the executing working candidate. Its generated extraction profile was still stale. finalImplementation identifies the candidate after the CI-detected metadata repair. Source retrieval measurements remain diagnostic. No hosted deployment or existing cohort mutation.",
+  "workerCount": 3,
+  "perOriginConcurrent": 1,
+  "pacingMs": 1500,
+  "deadlineMinutes": 30,
+  "publication": false,
+  "notifications": false,
+  "modelsInvoked": false,
+  "runtime": "Local Mac",
+  "originalCatalogue": 110,
+  "campaignScopes": 500,
+  "campaignEndpoints": 495,
+  "collectionProvenance": "Open Terms Archive Contributors, contrib-declarations, EUPL-1.2, https://github.com/OpenTermsArchive/contrib-declarations/blob/main/LICENSE",
+  "finalImplementation": "9224236ab94ef681a537485b9a10c3790db0c3b1059ffce9efa59466933c1a05",
+  "firstCiFailure": "43877353633: extraction profile stale, build rejected before deployment. Generated extraction profile and engine manifest were refreshed after the live run. Re-extracting the original eight archived bodies then produced a byte-identical packet."
+}

@@ -1,0 +1,782 @@
+{
+  "observedAt": "2026-11-16T13:32:09.576Z",
+  "origin": "https://policywatcher.online/api/companies",
+  "companies": 18,
+  "policies": 110,
+  "distinctScopes": 106,
+  "distinctEndpoints": 101,
+  "target": 500,
+  "shortfall": 390,
+  "rows": [
+    {
+      "id": "033ac1b4-114a-40d4-a666-374379c0df00",
+      "company": "Amazon",
+      "name": "Privacy Notice",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ"
+    },
+    {
+      "id": "c26029b3-e270-443d-b93c-18ef3688295a",
+      "company": "Amazon",
+      "name": "AWS Data Processing Addendum",
+      "url": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+      "retrievalUrl": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf"
+    },
+    {
+      "id": "cc0c6f48-46d4-444e-912b-5ae25e9c83ca",
+      "company": "Amazon",
+      "name": "AWS Customer Agreement",
+      "url": "https://aws.amazon.com/agreement/",
+      "retrievalUrl": "https://aws.amazon.com/agreement/"
+    },
+    {
+      "id": "c51f6ead-7964-41b8-92cb-c4434ad524d5",
+      "company": "Amazon",
+      "name": "AWS Service Terms",
+      "url": "https://aws.amazon.com/serviceterms/",
+      "retrievalUrl": "https://aws.amazon.com/serviceterms/"
+    },
+    {
+      "id": "632b2a6d-253e-4721-b4e4-432d4d3f5795",
+      "company": "Amazon",
+      "name": "AWS Acceptable Use Policy",
+      "url": "https://aws.amazon.com/aup/",
+      "retrievalUrl": "https://aws.amazon.com/aup/"
+    },
+    {
+      "id": "4b62f7a4-dd92-40c5-b852-371572a636aa",
+      "company": "Amazon",
+      "name": "AWS Site Terms",
+      "url": "https://aws.amazon.com/terms/",
+      "retrievalUrl": "https://aws.amazon.com/terms/"
+    },
+    {
+      "id": "bcc8bc60-641b-45b6-b8ce-560447166ee2",
+      "company": "Amazon",
+      "name": "AWS Privacy Notice",
+      "url": "https://aws.amazon.com/privacy/",
+      "retrievalUrl": "https://aws.amazon.com/privacy/"
+    },
+    {
+      "id": "6c74b17f-dccf-4395-a310-04a7476dad31",
+      "company": "Anthropic",
+      "name": "Terms of Service",
+      "url": "https://www.anthropic.com/legal/terms",
+      "retrievalUrl": "https://www.anthropic.com/legal/terms"
+    },
+    {
+      "id": "54ee97fb-bc87-41ff-837d-2a06184e99a5",
+      "company": "Anthropic",
+      "name": "Acceptable Use Policy",
+      "url": "https://www.anthropic.com/legal/aup",
+      "retrievalUrl": "https://www.anthropic.com/legal/aup"
+    },
+    {
+      "id": "1cc677eb-3207-4569-880a-aaba223b4803",
+      "company": "Anthropic",
+      "name": "Privacy Policy",
+      "url": "https://www.anthropic.com/legal/privacy",
+      "retrievalUrl": "https://www.anthropic.com/legal/privacy"
+    },
+    {
+      "id": "410cbce9-6b57-411e-8da9-44993c172044",
+      "company": "Anthropic",
+      "name": "Commercial Terms",
+      "url": "https://www.anthropic.com/legal/commercial-terms",
+      "retrievalUrl": "https://www.anthropic.com/legal/commercial-terms"
+    },
+    {
+      "id": "295e4c7f-fa6e-4e4d-908e-383cb91a59ae",
+      "company": "Anthropic",
+      "name": "Consumer Health Data Privacy Policy",
+      "url": "https://www.anthropic.com/legal/consumer-health-data-privacy-policy",
+      "retrievalUrl": "https://www.anthropic.com/legal/consumer-health-data-privacy-policy"
+    },
+    {
+      "id": "135999e7-3cbb-4ddf-ab39-ca1a8ed5b233",
+      "company": "Anthropic",
+      "name": "K-12 Education Terms",
+      "url": "https://www.anthropic.com/legal/k12-terms",
+      "retrievalUrl": "https://www.anthropic.com/legal/k12-terms"
+    },
+    {
+      "id": "5afd72ff-64d7-411d-823e-3573e2901762",
+      "company": "Anthropic",
+      "name": "Non-User Privacy Policy",
+      "url": "https://www.anthropic.com/legal/non-user-privacy-policy",
+      "retrievalUrl": "https://www.anthropic.com/legal/non-user-privacy-policy"
+    },
+    {
+      "id": "411d6736-596e-41f3-9218-27380f5de07d",
+      "company": "Anthropic",
+      "name": "Promotion Credit Terms",
+      "url": "https://www.anthropic.com/legal/promotion-credit-terms",
+      "retrievalUrl": "https://www.anthropic.com/legal/promotion-credit-terms"
+    },
+    {
+      "id": "2b2f0f1c-efa1-45e0-96ba-04e93ca35598",
+      "company": "Apple",
+      "name": "Privacy Policy",
+      "url": "https://www.apple.com/legal/privacy/en-ww/",
+      "retrievalUrl": "https://www.apple.com/legal/privacy/pdfs/apple-privacy-policy-en-ww.pdf"
+    },
+    {
+      "id": "421b3f0c-5924-4e3d-b84e-2ff68a441041",
+      "company": "Apple",
+      "name": "Apple Intelligence & Privacy",
+      "url": "https://www.apple.com/legal/privacy/data/en/intelligence-engine/",
+      "retrievalUrl": "https://www.apple.com/legal/privacy/data/en/intelligence-engine/"
+    },
+    {
+      "id": "77eeaf0f-90a2-43c8-bc82-be7e2473c825",
+      "company": "Apple",
+      "name": "Website Terms of Use",
+      "url": "https://www.apple.com/legal/internet-services/terms/site.html",
+      "retrievalUrl": "https://www.apple.com/legal/internet-services/terms/site.html"
+    },
+    {
+      "id": "86088457-fcad-4537-a6b7-809019ce586c",
+      "company": "Apple",
+      "name": "Improve Siri and Apple Intelligence Privacy Notice",
+      "url": "https://www.apple.com/legal/privacy/data/en/improve-intelligence/",
+      "retrievalUrl": "https://www.apple.com/legal/privacy/data/en/improve-intelligence/"
+    },
+    {
+      "id": "35789a69-bde2-402c-985e-71b3b1c52493",
+      "company": "Coca Cola",
+      "name": "Global Consumer Privacy Notice",
+      "url": "https://datatrust.coca-cola.com/us/en/notices/global-consumer-privacy-notice",
+      "retrievalUrl": "https://datatrust.coca-cola.com/content/dam/privacyhub/us/en/notice-pdfs/Global-Consumer-Privacy-Notice-01312026-English.pdf"
+    },
+    {
+      "id": "d0fab3be-2af3-4120-9d6d-098f4f655be2",
+      "company": "Coca Cola",
+      "name": "US Terms of Service",
+      "url": "https://www.coca-cola.com/us/en/legal/terms-of-service",
+      "retrievalUrl": "https://www.coca-cola.com/us/en/legal/terms-of-service"
+    },
+    {
+      "id": "576b7655-9b52-49e1-9e65-00b29e36a50d",
+      "company": "Coca Cola",
+      "name": "Supplemental US Privacy Notice",
+      "url": "https://datatrust.coca-cola.com/us/en/notices/supplemental-us-privacy-notice",
+      "retrievalUrl": "https://datatrust.coca-cola.com/us/en/notices/supplemental-us-privacy-notice"
+    },
+    {
+      "id": "47b982e5-4cd4-43db-828f-6fbd2995802e",
+      "company": "Coca Cola",
+      "name": "US Consumer Health Privacy Notice",
+      "url": "https://datatrust.coca-cola.com/us/en/notices/us-consumer-health-privacy-policy",
+      "retrievalUrl": "https://datatrust.coca-cola.com/us/en/notices/us-consumer-health-privacy-policy"
+    },
+    {
+      "id": "528f0dda-97b3-4b86-a62b-b44dcb2aface",
+      "company": "Coca Cola",
+      "name": "Cookie Notice",
+      "url": "https://datatrust.coca-cola.com/us/en/notices/cookie-notice",
+      "retrievalUrl": "https://datatrust.coca-cola.com/us/en/notices/cookie-notice"
+    },
+    {
+      "id": "4b255c8b-197c-4046-b848-bce7e1485583",
+      "company": "Google",
+      "name": "Privacy Policy",
+      "url": "https://policies.google.com/privacy?hl=it",
+      "retrievalUrl": "https://policies.google.com/privacy?hl=it"
+    },
+    {
+      "id": "11539eab-9c04-4d21-8496-ac21de3bc7e2",
+      "company": "Google",
+      "name": "Privacy Policy",
+      "url": "https://policies.google.com/privacy?hl=en",
+      "retrievalUrl": "https://policies.google.com/privacy?hl=en"
+    },
+    {
+      "id": "c287880a-4512-4dc0-a8bd-cdf7d4f33e15",
+      "company": "Google",
+      "name": "Privacy Policy",
+      "url": "https://policies.google.com/privacy",
+      "retrievalUrl": "https://policies.google.com/privacy"
+    },
+    {
+      "id": "fef3c1a1-5802-4aac-aaf4-8ca5db60c85a",
+      "company": "Google",
+      "name": "AI Terms of Service",
+      "url": "https://policies.google.com/terms/generative-ai",
+      "retrievalUrl": "https://policies.google.com/terms/generative-ai"
+    },
+    {
+      "id": "f8790fb1-f068-4209-af8a-c4b4eb1c6a0b",
+      "company": "Google",
+      "name": "Google Terms of Service",
+      "url": "https://policies.google.com/terms?hl=en",
+      "retrievalUrl": "https://policies.google.com/terms?hl=en"
+    },
+    {
+      "id": "0fed73f4-ac93-4699-9d66-dd65ab6780cc",
+      "company": "Klarna",
+      "name": "Privacy Notice",
+      "url": "https://www.klarna.com/ie/privacy/",
+      "retrievalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/privacy"
+    },
+    {
+      "id": "6b03f215-97db-4a24-b92a-22ef3e11fea5",
+      "company": "Klarna",
+      "name": "Privacy Notice",
+      "url": "https://www.klarna.com/us/privacy/",
+      "retrievalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy"
+    },
+    {
+      "id": "f0281764-cc55-4db9-b9ed-d6f6ab9811fb",
+      "company": "Klarna",
+      "name": "Terms of Service",
+      "url": "https://www.klarna.com/ie/terms-and-conditions/",
+      "retrievalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/user"
+    },
+    {
+      "id": "f4168900-e4f5-4f91-b69d-9127a145335c",
+      "company": "Klarna",
+      "name": "Terms of Service",
+      "url": "https://www.klarna.com/us/terms-of-use/",
+      "retrievalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/user"
+    },
+    {
+      "id": "9191b215-1443-448b-b0c3-cb0739367fc2",
+      "company": "Klarna",
+      "name": "SMS Terms",
+      "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/sms-terms",
+      "retrievalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/sms-terms"
+    },
+    {
+      "id": "baafe256-b2ee-4e61-8150-a21123e4108e",
+      "company": "Klarna",
+      "name": "Referral Terms",
+      "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/referral-general",
+      "retrievalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/referral-general"
+    },
+    {
+      "id": "e687d4ad-423e-4073-a236-362ca0e2c121",
+      "company": "Klarna",
+      "name": "Klarna Balance Agreement",
+      "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-balance",
+      "retrievalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-balance"
+    },
+    {
+      "id": "37469295-57a6-408e-bfdf-864534018810",
+      "company": "Klarna",
+      "name": "Membership Agreement",
+      "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-membership-plan-v2",
+      "retrievalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-membership-plan-v2"
+    },
+    {
+      "id": "466d072b-d894-49fe-aa33-8d607a298f67",
+      "company": "Meta",
+      "name": "Privacy Policy",
+      "url": "https://www.facebook.com/privacy/policy/",
+      "retrievalUrl": "https://www.facebook.com/privacy/policy/"
+    },
+    {
+      "id": "5946f95d-2fa3-4628-896a-f773d09ffbbd",
+      "company": "Meta",
+      "name": "Privacy Policy",
+      "url": "https://www.facebook.com/privacy/policy/",
+      "retrievalUrl": "https://www.facebook.com/privacy/policy/"
+    },
+    {
+      "id": "959fc5a0-6e35-4088-811d-fbdd905e46e4",
+      "company": "Meta",
+      "name": "Terms of Service",
+      "url": "https://www.facebook.com/legal/terms",
+      "retrievalUrl": "https://www.facebook.com/legal/terms"
+    },
+    {
+      "id": "8e2eb94e-eb92-458f-9012-494c6fc36707",
+      "company": "Meta",
+      "name": "Meta AI Terms of Service",
+      "url": "https://www.facebook.com/legal/ai-terms",
+      "retrievalUrl": "https://www.facebook.com/legal/ai-terms"
+    },
+    {
+      "id": "f7958007-438b-4240-ba2d-2a48dbb9f661",
+      "company": "Microsoft",
+      "name": "Privacy Statement",
+      "url": "https://www.microsoft.com/en-gb/privacy/privacystatement",
+      "retrievalUrl": "https://www.microsoft.com/en-gb/privacy/privacystatement"
+    },
+    {
+      "id": "cda59c99-32eb-4c5d-aae6-a269c7b681f6",
+      "company": "Microsoft",
+      "name": "Privacy Statement",
+      "url": "https://www.microsoft.com/en-us/privacy/privacystatement",
+      "retrievalUrl": "https://www.microsoft.com/en-us/privacy/privacystatement"
+    },
+    {
+      "id": "5681de09-ab08-4131-9922-34b96d28db2d",
+      "company": "Microsoft",
+      "name": "Privacy Statement",
+      "url": "https://www.microsoft.com/en-us/privacy/privacystatement",
+      "retrievalUrl": "https://www.microsoft.com/en-us/privacy/privacystatement"
+    },
+    {
+      "id": "d9e2da07-eaec-43e2-ab29-9286bca75911",
+      "company": "Microsoft",
+      "name": "Services Agreement",
+      "url": "https://www.microsoft.com/en/servicesagreement",
+      "retrievalUrl": "https://www.microsoft.com/en/servicesagreement"
+    },
+    {
+      "id": "72c7604d-8b87-45dc-8949-ba9e6758a3b5",
+      "company": "Microsoft",
+      "name": "Microsoft Copilot Supplemental Terms of Use",
+      "url": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/termsofuse",
+      "retrievalUrl": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/termsofuse"
+    },
+    {
+      "id": "03c2d44e-5c5c-44b3-8b3e-42be71fef7ac",
+      "company": "Microsoft",
+      "name": "Consumer Health Data Privacy Policy",
+      "url": "https://www.microsoft.com/privacy/microsoft-consumer-health-data-privacy-policy",
+      "retrievalUrl": "https://www.microsoft.com/privacy/microsoft-consumer-health-data-privacy-policy"
+    },
+    {
+      "id": "d3cab08f-d404-4e68-b0b7-a50dbde5e467",
+      "company": "Microsoft",
+      "name": "Xbox Community Standards",
+      "url": "https://www.xbox.com/legal/community-standards",
+      "retrievalUrl": "https://www.xbox.com/legal/community-standards"
+    },
+    {
+      "id": "a07a13f2-ae2b-4eef-907b-8b9ca5217872",
+      "company": "OpenAI",
+      "name": "Terms of Use",
+      "url": "https://openai.com/policies/terms-of-use",
+      "retrievalUrl": "https://openai.com/policies/terms-of-use"
+    },
+    {
+      "id": "9e7ca672-d487-4edc-92b9-8567f4c1adcf",
+      "company": "OpenAI",
+      "name": "Privacy Policy",
+      "url": "https://openai.com/policies/eu-privacy-policy",
+      "retrievalUrl": "https://openai.com/policies/eu-privacy-policy"
+    },
+    {
+      "id": "b4651c03-839a-4379-a4dd-08337ffac02a",
+      "company": "OpenAI",
+      "name": "Usage Policies",
+      "url": "https://openai.com/policies/usage-policies/",
+      "retrievalUrl": "https://openai.com/policies/usage-policies/"
+    },
+    {
+      "id": "11971ce4-bec9-4aef-ba32-8f79de72e4b7",
+      "company": "OpenAI",
+      "name": "Service Terms",
+      "url": "https://openai.com/policies/service-terms/",
+      "retrievalUrl": "https://openai.com/policies/service-terms/"
+    },
+    {
+      "id": "7e045aa5-d1e4-4ca4-b8e3-886234c5dbfc",
+      "company": "OpenAI",
+      "name": "Services Agreement",
+      "url": "https://openai.com/policies/services-agreement/",
+      "retrievalUrl": "https://openai.com/policies/services-agreement/"
+    },
+    {
+      "id": "489ce448-2147-45ed-aecf-6468f2ca3d22",
+      "company": "OpenAI",
+      "name": "Data Processing Addendum",
+      "url": "https://openai.com/policies/data-processing-addendum/",
+      "retrievalUrl": "https://openai.com/policies/data-processing-addendum/"
+    },
+    {
+      "id": "038bc0ee-ddf2-4161-af89-c6c0ec036b3f",
+      "company": "OpenAI",
+      "name": "Privacy Policy",
+      "url": "https://openai.com/policies/privacy-policy/",
+      "retrievalUrl": "https://openai.com/policies/privacy-policy/"
+    },
+    {
+      "id": "e8a31a93-a3d9-4011-8837-0557da875b40",
+      "company": "OpenAI",
+      "name": "Health Privacy Policy",
+      "url": "https://openai.com/policies/health-privacy-policy/",
+      "retrievalUrl": "https://openai.com/policies/health-privacy-policy/"
+    },
+    {
+      "id": "7a411bf8-444f-4200-bbc6-b410f8b84182",
+      "company": "OpenAI",
+      "name": "Education Terms",
+      "url": "https://openai.com/policies/education-terms/",
+      "retrievalUrl": "https://openai.com/policies/education-terms/"
+    },
+    {
+      "id": "c28fb784-5012-4696-8c70-505d4185972a",
+      "company": "PayPal",
+      "name": "Privacy Statement",
+      "url": "https://www.paypal.com/lu/webapps/mpp/ua/privacy-full",
+      "retrievalUrl": "https://www.paypal.com/lu/webapps/mpp/ua/privacy-full"
+    },
+    {
+      "id": "9e09108f-4041-4c64-8e16-88543e1b7e43",
+      "company": "PayPal",
+      "name": "Privacy Statement",
+      "url": "https://www.paypal.com/us/webapps/mpp/ua/privacy-full",
+      "retrievalUrl": "https://www.paypal.com/us/webapps/mpp/ua/privacy-full"
+    },
+    {
+      "id": "dc8f08a1-4c7e-4b31-a1cd-c3f8597c965a",
+      "company": "PayPal",
+      "name": "User Agreement",
+      "url": "https://www.paypal.com/lu/legalhub/paypal/useragreement-full?locale.x=en_LU",
+      "retrievalUrl": "https://www.paypal.com/lu/legalhub/paypal/useragreement-full?locale.x=en_LU"
+    },
+    {
+      "id": "b1c25854-aa4d-44bb-8c48-9009cf8a9d6a",
+      "company": "PayPal",
+      "name": "User Agreement",
+      "url": "https://www.paypal.com/us/legalhub/paypal/useragreement-full",
+      "retrievalUrl": "https://www.paypal.com/us/legalhub/paypal/useragreement-full"
+    },
+    {
+      "id": "ffcb0efc-2a6f-473d-8296-e939fccb4aef",
+      "company": "PayPal",
+      "name": "Acceptable Use Policy",
+      "url": "https://www.paypal.com/us/legalhub/paypal/acceptableuse-full?locale.x=en_US",
+      "retrievalUrl": "https://www.paypal.com/us/legalhub/paypal/acceptableuse-full?locale.x=en_US"
+    },
+    {
+      "id": "c75b67f3-eda3-4219-8c08-7a547339e844",
+      "company": "PayPal",
+      "name": "Data Protection Addendum for Business Management",
+      "url": "https://www.paypal.com/us/legalhub/paypal/dpa-business-management?country.x=US&locale.x=en_US",
+      "retrievalUrl": "https://www.paypal.com/us/legalhub/paypal/dpa-business-management?country.x=US&locale.x=en_US"
+    },
+    {
+      "id": "ff752150-58b8-4675-b2c6-2fa37e5a66cb",
+      "company": "Plaid",
+      "name": "Privacy Policy",
+      "url": "https://plaid.com/legal#end-user-privacy-policy",
+      "retrievalUrl": "https://plaid.com/legal#end-user-privacy-policy"
+    },
+    {
+      "id": "912ef5e4-3fe5-45ec-bb2b-74b97970fce1",
+      "company": "Plaid",
+      "name": "Privacy Policy",
+      "url": "https://plaid.com/legal#end-user-privacy-policy",
+      "retrievalUrl": "https://plaid.com/legal#end-user-privacy-policy"
+    },
+    {
+      "id": "27d27c1e-b79f-4db4-828c-d79bfa690210",
+      "company": "Plaid",
+      "name": "End User Services Agreement",
+      "url": "https://plaid.com/legal#end-user-services-agreement-us",
+      "retrievalUrl": "https://plaid.com/legal#end-user-services-agreement-us"
+    },
+    {
+      "id": "ef869aae-4fbc-4941-a2c4-ffe1edfe0524",
+      "company": "Plaid",
+      "name": "End User Services Agreement",
+      "url": "https://plaid.com/legal#end-user-services-agreement-eea",
+      "retrievalUrl": "https://plaid.com/legal#end-user-services-agreement-eea"
+    },
+    {
+      "id": "c5bbea96-e351-437e-bce7-affbf0cc946d",
+      "company": "Plaid",
+      "name": "Developer Policy",
+      "url": "https://plaid.com/legal/#developer-policy",
+      "retrievalUrl": "https://plaid.com/legal/#developer-policy"
+    },
+    {
+      "id": "68f53187-bb35-4ce4-be4f-16734f9f54f5",
+      "company": "Plaid",
+      "name": "Cookie Policy",
+      "url": "https://plaid.com/legal/#cookie-policy",
+      "retrievalUrl": "https://plaid.com/legal/#cookie-policy"
+    },
+    {
+      "id": "bc3c2144-3412-4a26-981d-323f784db1dd",
+      "company": "Plaid",
+      "name": "UK End User Services Agreement",
+      "url": "https://plaid.com/legal/#end-user-services-agreement-uk",
+      "retrievalUrl": "https://plaid.com/legal/#end-user-services-agreement-uk"
+    },
+    {
+      "id": "0659472c-2737-40b2-83db-9f238aeade0b",
+      "company": "Plaid",
+      "name": "Plaid Account Terms",
+      "url": "https://plaid.com/legal/#plaid-account-terms",
+      "retrievalUrl": "https://plaid.com/legal/#plaid-account-terms"
+    },
+    {
+      "id": "c06a709b-379b-4684-ab21-209eae3579be",
+      "company": "Revolut",
+      "name": "Privacy Policy",
+      "url": "https://www.revolut.com/en-LT/legal/privacy/",
+      "retrievalUrl": "https://cdn.revolut.com/terms_and_conditions/pdf/customer_privacy_notice_52996afd_0.6.3_1787324053_en.pdf"
+    },
+    {
+      "id": "3b2b7720-1fed-44e0-9b23-56ed241de9dd",
+      "company": "Revolut",
+      "name": "Privacy Policy",
+      "url": "https://www.revolut.com/legal/privacy/",
+      "retrievalUrl": "https://cdn.revolut.com/terms_and_conditions/pdf/customer_privacy_notice_9b445a83_0.4.1_1787310726_en.pdf"
+    },
+    {
+      "id": "c0ad59f0-af83-4a95-bf06-f5d1099240bb",
+      "company": "Revolut",
+      "name": "Terms of Use",
+      "url": "https://www.revolut.com/en-LT/legal/terms/",
+      "retrievalUrl": "https://cdn.revolut.com/terms_and_conditions/pdf/personal_terms_be7cbf8e_3.6.0_1769700076_en.pdf"
+    },
+    {
+      "id": "afb20e9d-2e61-4a04-961c-9f13400438e0",
+      "company": "Revolut",
+      "name": "Terms of Use",
+      "url": "https://www.revolut.com/legal/terms/",
+      "retrievalUrl": "https://cdn.revolut.com/terms_and_conditions/pdf/personal_terms_e59ea0d9_1.5.0_1765469787_en.pdf"
+    },
+    {
+      "id": "48c57d06-ab8e-4758-b9c4-f5a7e1e8a681",
+      "company": "Stripe",
+      "name": "Privacy Policy",
+      "url": "https://stripe.com/it/privacy",
+      "retrievalUrl": "https://stripe.com/it/privacy"
+    },
+    {
+      "id": "ebd51ebc-ade0-4c3f-bfc7-3b030a45772d",
+      "company": "Stripe",
+      "name": "Privacy Policy",
+      "url": "https://stripe.com/privacy",
+      "retrievalUrl": "https://stripe.com/privacy"
+    },
+    {
+      "id": "775c0c08-14f0-4e3f-b3e0-293dc8a4965c",
+      "company": "Stripe",
+      "name": "Services Agreement",
+      "url": "https://stripe.com/it/legal/ssa",
+      "retrievalUrl": "https://stripe.com/it/legal/ssa"
+    },
+    {
+      "id": "bfd14408-93ac-44ea-be57-6047ca5c7f1c",
+      "company": "Stripe",
+      "name": "Data Processing Addendum",
+      "url": "https://stripe.com/legal/dpa",
+      "retrievalUrl": "https://stripe.com/legal/dpa"
+    },
+    {
+      "id": "1f71d4a3-dddd-4562-9b89-38888c3d07a4",
+      "company": "Stripe",
+      "name": "Prohibited and Restricted Businesses",
+      "url": "https://stripe.com/legal/restricted-businesses",
+      "retrievalUrl": "https://stripe.com/legal/restricted-businesses"
+    },
+    {
+      "id": "ba9a6eba-2f2e-4b30-8a92-04f7743f0d65",
+      "company": "TikTok",
+      "name": "Privacy Policy",
+      "url": "https://www.tiktok.com/legal/privacy-policy-eea",
+      "retrievalUrl": "https://www.tiktok.com/legal/privacy-policy-eea"
+    },
+    {
+      "id": "0fc30c2b-7467-4ce1-b8c1-8b79113990bf",
+      "company": "TikTok",
+      "name": "Community Guidelines",
+      "url": "https://www.tiktok.com/community-guidelines",
+      "retrievalUrl": "https://www.tiktok.com/community-guidelines"
+    },
+    {
+      "id": "22825cf3-89ed-4237-9a3e-75f8f24e63ac",
+      "company": "TikTok",
+      "name": "Terms of Service (EEA)",
+      "url": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+      "retrievalUrl": "https://www.tiktok.com/legal/page/eea/terms-of-service/en"
+    },
+    {
+      "id": "b47fc580-406b-476b-bc50-c3a891e908a3",
+      "company": "TikTok",
+      "name": "Terms of Service (US)",
+      "url": "https://www.tiktok.com/legal/page/us/terms-of-service/en",
+      "retrievalUrl": "https://www.tiktok.com/legal/page/us/terms-of-service/en"
+    },
+    {
+      "id": "3301a440-a2bd-4387-a1df-ebe85bd3cf17",
+      "company": "TikTok",
+      "name": "Children’s Privacy Policy",
+      "url": "https://www.tiktok.com/legal/page/global/childrens-privacy-policy/en",
+      "retrievalUrl": "https://www.tiktok.com/legal/page/global/childrens-privacy-policy/en"
+    },
+    {
+      "id": "48689e5c-7596-463e-a5e5-b62cb376cb1a",
+      "company": "WAZE",
+      "name": "Waze Privacy Policy",
+      "url": "https://support.google.com/waze/answer/12075406?hl=en",
+      "retrievalUrl": "https://support.google.com/waze/answer/12075406?hl=en"
+    },
+    {
+      "id": "b6766fe2-2ad3-4d24-ba01-b54f49609571",
+      "company": "WAZE",
+      "name": "Waze Terms of Service",
+      "url": "https://support.google.com/waze/answer/12373727?hl=en",
+      "retrievalUrl": "https://support.google.com/waze/answer/12373727?hl=en"
+    },
+    {
+      "id": "a4da706f-7904-4ed6-8259-e08c6ae1469d",
+      "company": "WAZE",
+      "name": "Waze Community Terms",
+      "url": "https://support.google.com/waze/answer/14013702?hl=en",
+      "retrievalUrl": "https://support.google.com/waze/answer/14013702?hl=en"
+    },
+    {
+      "id": "7db8b207-643d-455c-ade7-dec4c0b3d1ee",
+      "company": "WAZE",
+      "name": "Waze Content Moderation Policy",
+      "url": "https://support.google.com/waze/answer/14600409?hl=en",
+      "retrievalUrl": "https://support.google.com/waze/answer/14600409?hl=en"
+    },
+    {
+      "id": "6e4db68c-6998-43dd-83ba-08eeab76e7f9",
+      "company": "Wise",
+      "name": "Privacy Policy",
+      "url": "https://wise.com/gb/legal/privacy-notice-personal-en",
+      "retrievalUrl": "https://wise.com/gb/legal/privacy-notice-personal-en"
+    },
+    {
+      "id": "e85abf12-e25c-4e95-8294-5d6d3955f6aa",
+      "company": "Wise",
+      "name": "Privacy Policy",
+      "url": "https://wise.com/us/legal/privacy-notice",
+      "retrievalUrl": "https://wise.com/us/legal/privacy-notice"
+    },
+    {
+      "id": "3e616451-ba60-46e6-9634-d5925da2d56a",
+      "company": "Wise",
+      "name": "Privacy Policy",
+      "url": "https://wise.com/gb/legal/privacy-notice-personal-en",
+      "retrievalUrl": "https://wise.com/gb/legal/privacy-notice-personal-en"
+    },
+    {
+      "id": "b12c369f-415a-42cf-b4b8-11d70e823cbf",
+      "company": "Wise",
+      "name": "Terms of Use",
+      "url": "https://wise.com/us/legal/terms-of-use",
+      "retrievalUrl": "https://wise.com/us/legal/terms-of-use"
+    },
+    {
+      "id": "fc0287e0-8b1b-488e-b623-05f4a188e8fb",
+      "company": "Wise",
+      "name": "Acceptable Use Policy",
+      "url": "https://wise.com/us/legal/acceptable-use-policy",
+      "retrievalUrl": "https://wise.com/us/legal/acceptable-use-policy"
+    },
+    {
+      "id": "9801aa3b-73a6-4aa2-9d97-f24c7f2df4ef",
+      "company": "Wise",
+      "name": "UK Personal Customer Agreement",
+      "url": "https://wise.com/gb/legal/terms-of-use-personal",
+      "retrievalUrl": "https://wise.com/gb/legal/terms-of-use-personal"
+    },
+    {
+      "id": "76eb9c5b-4972-4363-a9c4-d4e07ffb6ce2",
+      "company": "Wise",
+      "name": "UK Business Customer Agreement",
+      "url": "https://wise.com/gb/legal/terms-of-use-business",
+      "retrievalUrl": "https://wise.com/gb/legal/terms-of-use-business"
+    },
+    {
+      "id": "4f9049fc-627c-4f18-8b1d-c781b287d13d",
+      "company": "Wise",
+      "name": "US Business Customer Agreement",
+      "url": "https://wise.com/us/legal/terms-of-use-business",
+      "retrievalUrl": "https://wise.com/us/legal/terms-of-use-business"
+    },
+    {
+      "id": "4cb8eff5-72ef-440c-b9a6-b614a2e47ae0",
+      "company": "Wise",
+      "name": "Business Privacy Notice",
+      "url": "https://wise.com/gb/legal/privacy-notice-business-en",
+      "retrievalUrl": "https://wise.com/gb/legal/privacy-notice-business-en"
+    },
+    {
+      "id": "c5b2f6c4-80a2-4181-a67e-359c588b29f1",
+      "company": "Wise",
+      "name": "Wise Assistant Terms of Use",
+      "url": "https://wise.com/en/legal/wise-assistant-terms-of-use",
+      "retrievalUrl": "https://wise.com/en/legal/wise-assistant-terms-of-use"
+    },
+    {
+      "id": "73b56cdd-595f-4133-a517-b5fa94dc0c97",
+      "company": "X (Twitter)",
+      "name": "Privacy Policy",
+      "url": "https://x.com/en/privacy",
+      "retrievalUrl": "https://x.com/en/privacy"
+    },
+    {
+      "id": "f2b77af5-3705-4573-94a5-10153d76e7f5",
+      "company": "X (Twitter)",
+      "name": "Terms of Service",
+      "url": "https://x.com/en/tos",
+      "retrievalUrl": "https://x.com/en/tos"
+    },
+    {
+      "id": "0ec3d4b4-79d4-4e2e-8a66-60dde69a5c10",
+      "company": "Zoom",
+      "name": "Privacy Statement",
+      "url": "https://www.zoom.com/en/trust/privacy/privacy-statement/",
+      "retrievalUrl": "https://www.zoom.com/en/trust/privacy/privacy-statement/"
+    },
+    {
+      "id": "61d62a8b-1bce-4c49-8cd5-0b525c8174ca",
+      "company": "Zoom",
+      "name": "Terms of Service",
+      "url": "https://www.zoom.com/en/trust/terms/",
+      "retrievalUrl": "https://www.zoom.com/en/trust/terms/"
+    },
+    {
+      "id": "ce028553-2a7a-42cb-83c7-f2d168432a46",
+      "company": "Zoom",
+      "name": "Acceptable Use Guidelines",
+      "url": "https://www.zoom.com/en/trust/acceptable-use-guidelines/",
+      "retrievalUrl": "https://www.zoom.com/en/trust/acceptable-use-guidelines/"
+    },
+    {
+      "id": "afa522e5-142f-4f98-bcf7-5918df5cfd7f",
+      "company": "Zoom",
+      "name": "Zoom Phone Acceptable Use Policy",
+      "url": "https://www.zoom.com/en/trust/zoom-phone-acceptable-use-policy/",
+      "retrievalUrl": "https://www.zoom.com/en/trust/zoom-phone-acceptable-use-policy/"
+    },
+    {
+      "id": "4137ed6f-9192-4fd3-851b-5f1aa6eb5586",
+      "company": "Zoom",
+      "name": "Zoom Contact Center Acceptable Use Policy",
+      "url": "https://www.zoom.com/en/trust/contact-center-acceptable-use-policy/",
+      "retrievalUrl": "https://www.zoom.com/en/trust/contact-center-acceptable-use-policy/"
+    },
+    {
+      "id": "25b5cc7b-48a5-468f-89da-8faa44ae13f3",
+      "company": "Zoom",
+      "name": "OnZoom and Zoom Events Privacy Statement",
+      "url": "https://www.zoom.com/en/trust/zoom-events-privacy/",
+      "retrievalUrl": "https://www.zoom.com/en/trust/zoom-events-privacy/"
+    },
+    {
+      "id": "12bdc558-4e06-456f-8b71-79b5ecf8507f",
+      "company": "Zoom",
+      "name": "US State Privacy Law Addendum",
+      "url": "https://www.zoom.com/en/trust/us-privacy-addendum/",
+      "retrievalUrl": "https://www.zoom.com/en/trust/us-privacy-addendum/"
+    },
+    {
+      "id": "2e48df83-b673-461e-87f1-173a3f073ef5",
+      "company": "Zoom",
+      "name": "Children’s Educational Privacy Statement",
+      "url": "https://www.zoom.com/en/trust/schools-privacy-statement/",
+      "retrievalUrl": "https://www.zoom.com/en/trust/schools-privacy-statement/"
+    },
+    {
+      "id": "f7159070-1445-49ac-aa51-daa4682bb431",
+      "company": "Zoom",
+      "name": "Global Data Processing Addendum",
+      "url": "https://media.zoom.com/download/assets/zoom-global-dpa.pdf/dd327ebea27e11efb613d6ba63ed4cee",
+      "retrievalUrl": "https://media.zoom.com/download/assets/zoom-global-dpa.pdf/dd327ebea27e11efb613d6ba63ed4cee"
+    }
+  ]
+}
