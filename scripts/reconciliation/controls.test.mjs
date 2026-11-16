@@ -5,8 +5,8 @@ import { gunzipSync } from 'node:zlib';
 import { verifyDiaryNavigation } from './diary-navigation.mjs';
 import { capturePassages, replay } from './passages.mjs';
 const base = 'https://example.test';
-const en = '<a href="/engine-6-preview#validation">Read the diary</a>';
-const it = '<a lang="it" hreflang="it" href="/engine-6-preview?lang=it#validation">Leggi il diario</a>';
+const en = '<a href="/engine-6-preview#validation">Read the latest findings</a>';
+const it = '<a lang="it" hreflang="it" href="/engine-6-preview?lang=it#validation">Leggi il diario in italiano</a>';
 function navigate(links, language = 'it', section = 'validation') {
   return async url => new Response(url.pathname === '/'
     ? '<nav aria-label="Engine 6 Preview access and evidence">' + links + '</nav>'
@@ -16,6 +16,9 @@ test('Italian link is required even when the English diary link works', async ()
   await verifyDiaryNavigation(base, 'en', navigate(en, 'en'));
   await assert.rejects(verifyDiaryNavigation(base, 'it', navigate(en)), /Missing or ambiguous/);
   await verifyDiaryNavigation(base, 'it', navigate(en + it));
+  await assert.rejects(verifyDiaryNavigation(base, 'it', navigate(it + it)), /ambiguous/);
+  await assert.rejects(verifyDiaryNavigation(base, 'it', navigate(it.replace('Leggi il diario in italiano', 'English only'))), /label/);
+  await assert.rejects(verifyDiaryNavigation(base, 'it', navigate(it.replace('lang="it"', 'lang="en"'))), /language/);
 });
 test('wrong destination language, fragment or origin fails', async () => {
   await assert.rejects(verifyDiaryNavigation(base, 'it', navigate(it, 'en')), /Wrong diary/);
