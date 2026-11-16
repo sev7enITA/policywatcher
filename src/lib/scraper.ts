@@ -1419,7 +1419,7 @@ const BLOCK_SIGNALS: Array<{ pattern: RegExp; reason: string }> = [
   // Cloudflare / bot challenge
   { pattern: /just a moment|cf-browser-verification|cf-challenge-running|checking your browser/i, reason: 'captcha_challenge' },
   // Generic captcha
-  { pattern: /recaptcha|hcaptcha|g-recaptcha|are you a robot|verify you are human/i, reason: 'captcha' },
+  { pattern: /are you a robot|verify (?:that )?you are human|confirm you are human|complete (?:the )?security verification/i, reason: 'captcha' },
   // Maintenance / downtime
   { pattern: /(site|page) is (temporarily|currently) (down|unavailable|under maintenance)|scheduled maintenance|we'll be back soon|be back soon/i, reason: 'maintenance' },
   // Paywall / login wall
@@ -1428,16 +1428,23 @@ const BLOCK_SIGNALS: Array<{ pattern: RegExp; reason: string }> = [
   { pattern: /we use cookies.*accept all.*to proceed|by clicking accept.*you allow/i, reason: 'consent_wall' },
   // Access denied (WAF block pages)
   { pattern: /access denied|error 1015|you have been blocked/i, reason: 'access_denied' },
+  { pattern: /click the button below to continue shopping/i, reason: 'access_interstitial' },
 ];
 
 /**
  * Returns a reason string if the page looks like a block/error page,
- * otherwise null. Checks ONLY the first 2000 chars of raw HTML
- * to avoid false positives from legitimate policy text mentioning
- * terms like "captcha" or "blocked" in context.
+ * otherwise null. Asset names, comments and data attributes do not establish
+ * a challenge. Test title/heading and the visible body prefix for wall text.
+ * Page length must not exempt a padded challenge from these checks.
  */
 export function detectBlockPage(html: string): string | null {
-  const head = html.slice(0, 2000).toLowerCase();
+  const $ = cheerio.load(html);
+  $('script, style, noscript, template').remove();
+  if ($('#cf-challenge-running, #cf-browser-verification, #challenge-running, form#challenge-form').length) return 'captcha_challenge';
+  const body = $('body').text().replace(/\s+/g, ' ').trim();
+  if (body.length < 1500 && $('.g-recaptcha, .h-captcha, iframe[src*="recaptcha"], iframe[src*="hcaptcha"]').length) return 'captcha';
+  const headings = `${$('title').text()} ${$('h1').first().text()}`;
+  const head = `${headings} ${body.slice(0, 2000)}`;
   for (const signal of BLOCK_SIGNALS) {
     if (signal.pattern.test(head)) return signal.reason;
   }
@@ -1617,7 +1624,7 @@ export function extractPolicyText(html: string, sourceUrl?: string, contract: Po
     $(sel).each((_, element) => {
       const el = $(element);
       const textLength = el.text().replace(/\s+/g, ' ').trim().length;
-      if (textLength > bestLength) {
+      if (textLength >= minimumTextLength && textLength > bestLength) {
         bestLength = textLength;
         container = el;
       }

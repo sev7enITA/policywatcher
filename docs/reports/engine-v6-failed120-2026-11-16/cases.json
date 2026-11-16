@@ -1,0 +1,3897 @@
+[
+  {
+    "url": "https://www.apple.com/legal/internet-services/itunes/gamecenter/uk/terms.html",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "210283a1080718a09328a995-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "02a499e6273f813ecd96e65a5f23f7b63a803baa6c29235a1d03480dccd2edfa",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:34:44.517Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.apple.com/legal/internet-services/itunes/ww/index.html",
+        "drift": false,
+        "durationMs": 385,
+        "bodyHash": "02a499e6273f813ecd96e65a5f23f7b63a803baa6c29235a1d03480dccd2edfa",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.facebook.com/legal/ai-terms",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "b6bd617099cd8579eb61df3e-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "b1198af3df8c8f7209fafe42f93124da0bbb88e4c93d8e5e7e21efdbf56f80e4",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:35:03.490Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.facebook.com/legal/ai-terms",
+        "drift": false,
+        "durationMs": 404,
+        "bodyHash": "b1198af3df8c8f7209fafe42f93124da0bbb88e4c93d8e5e7e21efdbf56f80e4",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.facebook.com/legal/EU_data_transfer_addendum",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "8ea525fd5e6cf7b5fbe3f973-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "56f2afc11d945b8bcddaa3659b275d860d9a8e64e8432ef7098405c041dc59d3",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:35:11.604Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.facebook.com/legal/EU_data_transfer_addendum",
+        "drift": false,
+        "durationMs": 406,
+        "bodyHash": "56f2afc11d945b8bcddaa3659b275d860d9a8e64e8432ef7098405c041dc59d3",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.facebook.com/safety/groups/law/guidelines",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 302,
+    "lastError": "h2_status_302",
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:35:13.353Z",
+        "durationMs": 200,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:35:15.186Z",
+        "status": 302,
+        "ok": false,
+        "finalUrl": "https://www.facebook.com/safety/groups/law/guidelines",
+        "drift": false,
+        "durationMs": 331,
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "error": "h2_status_302"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://www.tiktok.com/community-guidelines",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 302,
+    "lastError": "h2_status_302",
+    "bodyFile": "8062d567dd2c644714d25b0a-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:35:58.717Z",
+        "durationMs": 20011,
+        "error": "The operation was aborted"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:36:00.721Z",
+        "status": 302,
+        "ok": false,
+        "finalUrl": "https://www.tiktok.com/community-guidelines",
+        "drift": false,
+        "durationMs": 502,
+        "bodyHash": "da77a3eefdfca0864f51d3071e35091fb3bbed148b829444be09bf9e6c14a5d2",
+        "error": "h2_status_302"
+      }
+    ],
+    "observedMechanism": "direct_timeout"
+  },
+  {
+    "url": "https://ask.fm/docs/privacy_policy/?lang=en",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 0,
+    "lastError": "dns_lookup_failed",
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:36:14.912Z",
+        "durationMs": 48,
+        "error": "dns_lookup_failed"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:36:16.415Z",
+        "status": 0,
+        "ok": false,
+        "finalUrl": "https://ask.fm/docs/privacy_policy/?lang=en",
+        "drift": false,
+        "durationMs": 2,
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "error": "dns_lookup_failed"
+      }
+    ],
+    "observedMechanism": "dns_lookup_failed"
+  },
+  {
+    "url": "https://about.ask.fm/legal/en/terms.html",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 0,
+    "lastError": "dns_lookup_failed",
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:36:17.315Z",
+        "durationMs": 111,
+        "error": "dns_lookup_failed"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:36:18.818Z",
+        "status": 0,
+        "ok": false,
+        "finalUrl": "https://about.ask.fm/legal/en/terms.html",
+        "drift": false,
+        "durationMs": 1,
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "error": "dns_lookup_failed"
+      }
+    ],
+    "observedMechanism": "dns_lookup_failed"
+  },
+  {
+    "url": "https://www.asus.com/content/asus-product-security-advisory/",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "8bd561539c7f417595b1e9fe-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "7b35f0c8434d3fab5eb611534fc184eb545d9d9517bde0f2f689e6a941eb009f",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:36:23.847Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.asus.com/content/asus-product-security-advisory/",
+        "drift": false,
+        "durationMs": 137,
+        "bodyHash": "7b35f0c8434d3fab5eb611534fc184eb545d9d9517bde0f2f689e6a941eb009f",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://about.att.com/privacy/privacy-notice.html",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "engine",
+    "evidence": "Same archived accepted payload now extracts after the candidate fixes. Independent scope/contract approval remains required.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "0416e68c62da2958167ad3aa-direct.body.txt",
+    "candidateExtraction": "extracted",
+    "candidateChars": 3597,
+    "bodySha256": "521fd0e8f04040d412c7218e425705cb16f2a82bd0cd1c3e561f31da706e1ba0",
+    "candidateHoldReasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified",
+      "hidden_document_content_unresolved",
+      "document_scope_unverified"
+    ],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:36:24.707Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://about.att.com/privacy/privacy-notice.html",
+        "drift": false,
+        "durationMs": 2886,
+        "bodyHash": "521fd0e8f04040d412c7218e425705cb16f2a82bd0cd1c3e561f31da706e1ba0",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.academia.edu/privacy",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "fe628a15c82f674f8ccd06f8-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:36:26.402Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.academia.edu/privacy",
+        "drift": false,
+        "durationMs": 155,
+        "bodyHash": "596d5cd25522b04109c08e01fcc7e68c91059812a79fdc9ebc5b80e1266b8eea",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:36:28.381Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.academia.edu/privacy",
+        "drift": false,
+        "durationMs": 174,
+        "bodyHash": "149ede709f169c05c7498d03d9d7054799d5c8b4349b54ed57415f435bd58990",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://www.academia.edu/terms",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "04854b503562685de6cf3c69-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:36:31.570Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.academia.edu/terms",
+        "drift": false,
+        "durationMs": 184,
+        "bodyHash": "5bdc986637214f0129ec0d4a6af5f5b8521d910b76f01e44d4beedf144e0465b",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:36:33.428Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.academia.edu/terms",
+        "drift": false,
+        "durationMs": 357,
+        "bodyHash": "5c2500a21e39afae751ff5252a2d7a7ee263855faddb3126b6d88d468f2914ac",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://privacy.google.com/businesses/controllerterms/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "9a891d06da0f0bb67993d75d-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:36:36.616Z",
+        "durationMs": 183,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:36:38.313Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://privacy.google.com/businesses/controllerterms/",
+        "drift": false,
+        "durationMs": 196,
+        "bodyHash": "287abdd360e4c8cbd8b83a3551dada3c398348ef4afd827a49ce4c5d5fbad84a",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://support.google.com/googleplay/android-developer/answer/11044265?hl=en-IE",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "0a378e4e261197d71bdf570c-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:36:37.610Z",
+        "durationMs": 550,
+        "error": "too_many_redirects"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:36:39.336Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://support.google.com/googleplay/android-developer/answer/11044265?hl=en-IE",
+        "drift": false,
+        "durationMs": 224,
+        "bodyHash": "d2095bf6e3ed42549a2bc47e9e40c53ada5b54f04f80a558c1a8912af9b5c843",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "redirect_limit"
+  },
+  {
+    "url": "https://privacy.google.com/businesses/processorterms/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "5e1e2221ea493dcc16eafccf-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:36:41.433Z",
+        "durationMs": 116,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:36:43.101Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://privacy.google.com/businesses/processorterms/",
+        "drift": false,
+        "durationMs": 167,
+        "bodyHash": "e269d6430d641350c496dd853ae5c7ac1db604b074bb45cd472fb66202f5e5ab",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://www.acuityads.com/terms-and-conditions/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 0,
+    "lastError": "h2_connect_failed",
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:36:39.468Z",
+        "durationMs": 7432,
+        "error": "connect ENETUNREACH 69.90.254.170:443"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:36:47.723Z",
+        "status": 0,
+        "ok": false,
+        "finalUrl": "https://www.acuityads.com/terms-and-conditions/",
+        "drift": false,
+        "durationMs": 6753,
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "error": "h2_connect_failed"
+      }
+    ],
+    "observedMechanism": "connection_or_transport_failure"
+  },
+  {
+    "url": "https://www.google.com/chrome/privacy/?hl=en_GB",
+    "baselineReason": "source_block_or_soft_404",
+    "classification": "source_reference",
+    "evidence": "HTTP404 or an actual soft404 at the declared policy address. Current source identity requires review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "d25bee115a4c309066b3161d-direct.body.txt",
+    "candidateExtraction": "source_block_or_soft_404",
+    "candidateChars": 0,
+    "bodySha256": "bf73c9d46117d851c232d2ff646a379d244892c604e430e5238447558b5f56e4",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:36:50.408Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.google.com/chrome/privacy/?hl=en_GB",
+        "drift": false,
+        "durationMs": 66,
+        "bodyHash": "bf73c9d46117d851c232d2ff646a379d244892c604e430e5238447558b5f56e4",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://help.adroll.com/hc/en-us/articles/360031225371-Prohibited-Content-and-Practices-Inappropriate-Content",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "6788afd864005a63ab2decdb-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:36:49.027Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://help.adroll.com/hc/en-us/articles/360031225371-Prohibited-Content-and-Practices-Inappropriate-Content",
+        "drift": false,
+        "durationMs": 187,
+        "bodyHash": "2d835b9ecb1fffd21c249490efae45ca563121d76b10a625dda2ec47008121c2",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:36:50.642Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://help.adroll.com/hc/en-us/articles/360031225371-Prohibited-Content-and-Practices-Inappropriate-Content",
+        "drift": false,
+        "durationMs": 113,
+        "bodyHash": "ad2a769cf8bc6101f486f6bdeb0479f76a6a91ecf4a64d4eb4590ca210a092e3",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://www.google.com/glass/termsofuse/",
+    "baselineReason": "transport_rejected",
+    "classification": "source_reference",
+    "evidence": "HTTP404 or an actual soft404 at the declared policy address. Current source identity requires review.",
+    "lastStatus": 404,
+    "lastError": "h2_status_404",
+    "bodyFile": "0e5c2d767f6eda333cf57d21-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:36:53.533Z",
+        "status": 404,
+        "ok": false,
+        "finalUrl": "https://www.google.com/glass/termsofuse/",
+        "drift": false,
+        "durationMs": 48,
+        "bodyHash": "bc546fa85ffe029208ce43e9c77bfa7386f5e3c5a5f0016edab729d7f2895f1b",
+        "error": "http_404"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:36:55.197Z",
+        "status": 404,
+        "ok": false,
+        "finalUrl": "https://www.google.com/glass/termsofuse/",
+        "drift": false,
+        "durationMs": 164,
+        "bodyHash": "bc546fa85ffe029208ce43e9c77bfa7386f5e3c5a5f0016edab729d7f2895f1b",
+        "error": "h2_status_404"
+      }
+    ]
+  },
+  {
+    "url": "https://www.google.com/gmail/about/policy/?hl=en_GB",
+    "baselineReason": "transport_rejected",
+    "classification": "source_reference",
+    "evidence": "HTTP404 or an actual soft404 at the declared policy address. Current source identity requires review.",
+    "lastStatus": 404,
+    "lastError": "h2_status_404",
+    "bodyFile": "855afd9d644168f2cc3278fc-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:36:58.251Z",
+        "status": 404,
+        "ok": false,
+        "finalUrl": "https://www.google.com/gmail/about/policy/?hl=en_GB",
+        "drift": false,
+        "durationMs": 50,
+        "bodyHash": "0fdbb2e306f929fe4c4058bdbed304c12af9f804d6356b2e88fc7e09c6c1a49d",
+        "error": "http_404"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:36:59.938Z",
+        "status": 404,
+        "ok": false,
+        "finalUrl": "https://www.google.com/gmail/about/policy/?hl=en_GB",
+        "drift": false,
+        "durationMs": 185,
+        "bodyHash": "0fdbb2e306f929fe4c4058bdbed304c12af9f804d6356b2e88fc7e09c6c1a49d",
+        "error": "h2_status_404"
+      }
+    ]
+  },
+  {
+    "url": "https://www.acuityads.com/cookie-policy/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 0,
+    "lastError": "h2_connect_failed",
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:36:55.950Z",
+        "durationMs": 5223,
+        "error": "connect ENETUNREACH 69.90.254.170:443"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:37:04.668Z",
+        "status": 0,
+        "ok": false,
+        "finalUrl": "https://www.acuityads.com/cookie-policy/",
+        "drift": false,
+        "durationMs": 7217,
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "error": "h2_connect_failed"
+      }
+    ],
+    "observedMechanism": "connection_or_transport_failure"
+  },
+  {
+    "url": "https://rule.alibaba.com/rule/detail/6391.htm",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "d99c8df7541b61ffd5227ce8-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "4d5bf1b3cf64fc16a82ba778c7cdb0ff3cf3a6075b2e4f7939fef0b0d401b51c",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:10.385Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=6391&cId=1294#/rule/detail?cId=1294&ruleId=6391",
+        "drift": false,
+        "durationMs": 2713,
+        "bodyHash": "4d5bf1b3cf64fc16a82ba778c7cdb0ff3cf3a6075b2e4f7939fef0b0d401b51c",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2034&cId=1306#/rule/detail?cId=1306&ruleId=2034",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "9ffc5723b0a4ed864ccfd294-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "2f248c9a8dcc7922a1f1353433b13509716cbd3742857b8c83603221ad38e1a2",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:10.963Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2034&cId=1306",
+        "drift": false,
+        "durationMs": 1226,
+        "bodyHash": "2f248c9a8dcc7922a1f1353433b13509716cbd3742857b8c83603221ad38e1a2",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2041&cId=1307#/rule/detail?cId=1307&ruleId=2041",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "489b280c8cbf9f2ac7d780ae-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "55ea88a8a22d2b62ff94084e675f2cd10967c5c24924c5d7e06ff64365d869be",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:13.657Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2041&cId=1307",
+        "drift": false,
+        "durationMs": 1166,
+        "bodyHash": "55ea88a8a22d2b62ff94084e675f2cd10967c5c24924c5d7e06ff64365d869be",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.meredith.com/nmg/privacy",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "88057c9ca5c42d1c60545825-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:12.371Z",
+        "durationMs": 458,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:37:14.324Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://www.meredith.com/nmg/privacy",
+        "drift": false,
+        "durationMs": 451,
+        "bodyHash": "612dbee5478f058a3a71d84929a513b70ac3de05be6debc3cf5ef690f066d514",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://advertising.amazon.com/resources/ad-policy/creative-acceptance",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "52de32e375e7b1bbcc101882-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "6083175a5f51c85afdf9c3c1e8054821d5400cd78f8d61870dfe3fea284e8138",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:18.744Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://advertising.amazon.com/help",
+        "drift": false,
+        "durationMs": 1484,
+        "bodyHash": "6083175a5f51c85afdf9c3c1e8054821d5400cd78f8d61870dfe3fea284e8138",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.meredith.com/legal/terms",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "71c217d2b4e80d1bf29a45ef-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:17.813Z",
+        "durationMs": 486,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:37:19.607Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://www.meredith.com/legal/terms",
+        "drift": false,
+        "durationMs": 293,
+        "bodyHash": "25a2cc2c4539b2d362a80ad35c854813a9daa912f2f918e961d1fd7396254318",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://www.amazon.co.uk/gp/help/customer/display.html/?nodeId=201909010&ref_=a20m_us_fnav_l_prvcy_gb",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "9343242cf2e8257a8aa06d05-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:20.586Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.amazon.co.uk/gp/help/customer/display.html/?nodeId=201909010&ref_=a20m_us_fnav_l_prvcy_gb",
+        "drift": false,
+        "durationMs": 324,
+        "bodyHash": "b2ab09361e537f997475abd871dee42d29cacab8c3d8adeaabf88d8471942fd7",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:37:22.592Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://www.amazon.co.uk/gp/help/customer/display.html/?nodeId=201909010&ref_=a20m_us_fnav_l_prvcy_gb",
+        "drift": false,
+        "durationMs": 504,
+        "bodyHash": "72f568daaaed2c88ae4cfecf2ff7027558dfcd033cce2ebe2b81bed6e5361806",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "direct_status_403"
+  },
+  {
+    "url": "https://developer.apple.com/support/downloads/terms/apple-developer-agreement/Apple-Developer-Agreement-20240610-English.pdf",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 0,
+    "lastError": "h2_connect_failed",
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:25.356Z",
+        "status": 404,
+        "ok": false,
+        "finalUrl": "https://developer.apple.com/support/downloads/terms/apple-developer-agreement/Apple-Developer-Agreement-20240610-English.pdf",
+        "drift": false,
+        "durationMs": 333,
+        "bodyHash": "20e3f5b0c2f9c2884d2e21ae389e8d7e0c1ab6a1d7672f3e8be6d5df2ea4b72e",
+        "error": "http_404"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:37:26.926Z",
+        "status": 0,
+        "ok": false,
+        "finalUrl": "https://developer.apple.com/support/downloads/terms/apple-developer-agreement/Apple-Developer-Agreement-20240610-English.pdf",
+        "drift": false,
+        "durationMs": 69,
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "error": "h2_connect_failed"
+      }
+    ],
+    "observedMechanism": "direct_status_404"
+  },
+  {
+    "url": "https://www.amazon.co.uk/gp/help/customer/display.html/?ie=UTF8&nodeId=1040616&ref_=a20m_us_fnav_l_cndtns_gb",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "faaa3c847d90068b8e78b7c7-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:25.879Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.amazon.co.uk/gp/help/customer/display.html/?ie=UTF8&nodeId=1040616&ref_=a20m_us_fnav_l_cndtns_gb",
+        "drift": false,
+        "durationMs": 285,
+        "bodyHash": "b2ab09361e537f997475abd871dee42d29cacab8c3d8adeaabf88d8471942fd7",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:37:27.886Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://www.amazon.co.uk/gp/help/customer/display.html/?ie=UTF8&nodeId=1040616&ref_=a20m_us_fnav_l_cndtns_gb",
+        "drift": false,
+        "durationMs": 506,
+        "bodyHash": "2ce4bef6e14c153f6c8f03fde5d53d3f2a60c2585bfbb84f9b6b726acf83aa51",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "direct_status_403"
+  },
+  {
+    "url": "https://investor.apple.com/files/doc_downloads/gov_docs/Apple-Human-Rights-Policy.pdf",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 302,
+    "lastError": "h2_status_302",
+    "bodyFile": "f7ff3cfba68fee266a57c026-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:27.163Z",
+        "durationMs": 396,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:37:28.768Z",
+        "status": 302,
+        "ok": false,
+        "finalUrl": "https://investor.apple.com/files/doc_downloads/gov_docs/Apple-Human-Rights-Policy.pdf",
+        "drift": false,
+        "durationMs": 103,
+        "bodyHash": "aa0e62cbbdfad41e068b877d384852e5843c5d72b73a99e47207fb2079ee6b36",
+        "error": "h2_status_302"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://www.amazon.co.uk/gp/help/customer/display.html?ie=UTF8&nodeId=201890250&ref_=a20m_us_fnav_l_cook_gb",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery",
+    "evidence": "Stored HTML is a continue-shopping interstitial with legal footer links. Candidate keeps it held.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "d7a6f8210dcdd62d579ac508-direct.body.txt",
+    "candidateExtraction": "source_block_or_soft_404",
+    "candidateChars": 0,
+    "bodySha256": "fb831f7fe9953b2fd35131ae02bf1e4d3a6619f06d068c27ad3d03e88c1f5985",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:31.018Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.amazon.co.uk/gp/help/customer/display.html?ie=UTF8&nodeId=201890250&ref_=a20m_us_fnav_l_cook_gb",
+        "drift": false,
+        "durationMs": 129,
+        "bodyHash": "fb831f7fe9953b2fd35131ae02bf1e4d3a6619f06d068c27ad3d03e88c1f5985",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.artstation.com/privacy",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "90acf7542347e865444be2ac-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:32.653Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.artstation.com/privacy",
+        "drift": false,
+        "durationMs": 127,
+        "bodyHash": "e937a79671911838429d01fe75966420c9cd15c33bcf214e0a31c30f16ae7c9c",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:37:34.386Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.artstation.com/privacy",
+        "drift": false,
+        "durationMs": 231,
+        "bodyHash": "a1b7876ec6cbd204dcf73fedc284d81652c42bf3ce26a09f99278342d5ae91e2",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://www.bred.fr/medias/pdf/informations-reglementaires/convention-bredacces.pdf",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "692f3b4239fbfcf08f3fd8d6-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "36155769ce1cf79a34555aed91d3cd12cf65d589bfd839a589f8fdb4276b6920",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:36.774Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.bred.fr/medias/pdf/informations-reglementaires/convention-bredacces.pdf",
+        "drift": false,
+        "durationMs": 365,
+        "bodyHash": "36155769ce1cf79a34555aed91d3cd12cf65d589bfd839a589f8fdb4276b6920",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.artstation.com/tos",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "1f1309fc5af4ac71fe965a18-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:37.568Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.artstation.com/tos",
+        "drift": false,
+        "durationMs": 178,
+        "bodyHash": "f452fb4cbc99ff2140b6e4f2ac513f95b4e134cb20723f3ff748153c6d6f5b31",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:37:39.212Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.artstation.com/tos",
+        "drift": false,
+        "durationMs": 142,
+        "bodyHash": "1a6de681cd3fdf60c3ce4994c92d573b98dbc965e3f26453a8fd29f48d195e26",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://www.bankid.com/en/integritetspolicy",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "d6e1908a61f3965291851f9e-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "af894b12ab97074cec47973a9c9cf54b80ab764e7c6e5d231bd1f49ba0655b67",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:42.556Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.bankid.com/en/integritetspolicy",
+        "drift": false,
+        "durationMs": 316,
+        "bodyHash": "af894b12ab97074cec47973a9c9cf54b80ab764e7c6e5d231bd1f49ba0655b67",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.bankid.com/en/terms-of-use-bankid-mobile-application",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "9938bdceee6a3c2aa97df7ab-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "245dd2c778e5b68f0400edadd8bae6bd75443e5c8a2cd9aa801e67ccad7b5649",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:44.223Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.bankid.com/en/terms-of-use-bankid-mobile-application",
+        "drift": false,
+        "durationMs": 165,
+        "bodyHash": "245dd2c778e5b68f0400edadd8bae6bd75443e5c8a2cd9aa801e67ccad7b5649",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://docs.base.org/docs/privacy-policy/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 308,
+    "lastError": "h2_status_308",
+    "bodyFile": "2eb1a6f26429e3b72022a559-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:42.775Z",
+        "status": 404,
+        "ok": false,
+        "finalUrl": "https://docs.base.org/docs/privacy-policy",
+        "drift": false,
+        "durationMs": 534,
+        "bodyHash": "eafd59a8c2c38aa5bf5c06d24463464b36ed61d43e3687d10ea113ac25aca03e",
+        "error": "http_404"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:37:44.470Z",
+        "status": 308,
+        "ok": false,
+        "finalUrl": "https://docs.base.org/docs/privacy-policy/",
+        "drift": false,
+        "durationMs": 194,
+        "bodyHash": "0ddde878155475438f46ea3b50666be8935580a2143c520f21f07bba7545b86a",
+        "error": "h2_status_308"
+      }
+    ],
+    "observedMechanism": "direct_status_404"
+  },
+  {
+    "url": "https://www.binance.com/en/privacy",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 202,
+    "lastError": "h2_202_pending",
+    "bodyFile": "03a08e5f26b7443df60e850e-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:46.970Z",
+        "status": 202,
+        "ok": false,
+        "finalUrl": "https://www.binance.com/en/privacy",
+        "drift": false,
+        "durationMs": 242,
+        "bodyHash": "3d912af87429881efe4484254da34427fa220b5556f09b654c64e68db2e56563",
+        "error": "http_202"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:37:48.615Z",
+        "status": 202,
+        "ok": false,
+        "finalUrl": "https://www.binance.com/en/privacy",
+        "drift": false,
+        "durationMs": 143,
+        "bodyHash": "4836bb53501664ff24c7b1f3ca2c0513312d3ba8c24d3889d115ca3794a80964",
+        "error": "h2_202_pending"
+      }
+    ],
+    "observedMechanism": "direct_status_202"
+  },
+  {
+    "url": "https://docs.base.org/docs/cookie-policy/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 308,
+    "lastError": "h2_status_308",
+    "bodyFile": "4359e8a94e5f765be743436f-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:50.194Z",
+        "status": 404,
+        "ok": false,
+        "finalUrl": "https://docs.base.org/docs/cookie-policy",
+        "drift": false,
+        "durationMs": 527,
+        "bodyHash": "20b62feec4bb541bb6e79e24665c3a0a65acc33b2c2b7e4b9586076cc2094fc4",
+        "error": "http_404"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:37:51.900Z",
+        "status": 308,
+        "ok": false,
+        "finalUrl": "https://docs.base.org/docs/cookie-policy/",
+        "drift": false,
+        "durationMs": 204,
+        "bodyHash": "fd90d2e534def2c87db2c0406541359705c4fda1e172fc00ae9e47b2dcf4d6aa",
+        "error": "h2_status_308"
+      }
+    ],
+    "observedMechanism": "direct_status_404"
+  },
+  {
+    "url": "https://www.binance.com/en/terms",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 202,
+    "lastError": "h2_202_pending",
+    "bodyFile": "546bec401451d4f339d5ddc4-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:51.772Z",
+        "status": 202,
+        "ok": false,
+        "finalUrl": "https://www.binance.com/en/terms",
+        "drift": false,
+        "durationMs": 153,
+        "bodyHash": "a695d66254355d3739d7c1430cca15e1f75bc40d61cc25d602758ebf059b5163",
+        "error": "http_202"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:37:53.344Z",
+        "status": 202,
+        "ok": false,
+        "finalUrl": "https://www.binance.com/en/terms",
+        "drift": false,
+        "durationMs": 70,
+        "bodyHash": "d40c54e1c12bf9c7c8fefeab71992b38ea3d0ff77414ae06ea4e159bdc15ca73",
+        "error": "h2_202_pending"
+      }
+    ],
+    "observedMechanism": "direct_status_202"
+  },
+  {
+    "url": "https://blockworks.co/trust-ethics",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "4705a0a7bcd3a60948a8dddb-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:37:55.358Z",
+        "durationMs": 232,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:37:57.031Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://blockworks.co/trust-ethics",
+        "drift": false,
+        "durationMs": 172,
+        "bodyHash": "446a6087825fa73eadb045e5a2e9e2adf7df241b571228187728191d961dda1f",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://blockworks.co/privacy-policy",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "562f0fd36b2d5dc83fc38e93-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:00.111Z",
+        "durationMs": 74,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:01.758Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://blockworks.co/privacy-policy",
+        "drift": false,
+        "durationMs": 146,
+        "bodyHash": "446a6087825fa73eadb045e5a2e9e2adf7df241b571228187728191d961dda1f",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://bolt.eu/en/legal/ie/privacy-for-drivers/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 308,
+    "lastError": "h2_status_308",
+    "bodyFile": "f2cbf04cfd069911fcf9c05a-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:01.129Z",
+        "status": 308,
+        "ok": false,
+        "finalUrl": "https://bolt.eu/en/privacy/privacy-for-drivers/",
+        "drift": false,
+        "durationMs": 387,
+        "bodyHash": "5291a762c0e2884d00c559d00359a4d0c9efbb2ee5fe083189abe05ad4ccdc78",
+        "error": "http_308"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:03.018Z",
+        "status": 308,
+        "ok": false,
+        "finalUrl": "https://bolt.eu/en/legal/ie/privacy-for-drivers/",
+        "drift": false,
+        "durationMs": 388,
+        "bodyHash": "56a1eb4ada5dd56d7313d1f8f831daff71836453f028947ee0d7bf62925f0559",
+        "error": "h2_status_308"
+      }
+    ],
+    "observedMechanism": "direct_status_308"
+  },
+  {
+    "url": "https://bolt.eu/en/legal/ie/terms-for-drivers/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 308,
+    "lastError": "h2_status_308",
+    "bodyFile": "19d3021363a03ff28eb0fe91-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:06.191Z",
+        "status": 308,
+        "ok": false,
+        "finalUrl": "https://bolt.eu/en/legal/terms-for-drivers/",
+        "drift": false,
+        "durationMs": 169,
+        "bodyHash": "189503a7aa26a21f5ffeae8431451cf0c8f7c4df8b176af8d5731e78698e7543",
+        "error": "http_308"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:08.081Z",
+        "status": 308,
+        "ok": false,
+        "finalUrl": "https://bolt.eu/en/legal/ie/terms-for-drivers/",
+        "drift": false,
+        "durationMs": 181,
+        "bodyHash": "003064acb859d4cce6e24bfb35122f0f177680ccf84a42fd75a899d44fbc90a3",
+        "error": "h2_status_308"
+      }
+    ],
+    "observedMechanism": "direct_status_308"
+  },
+  {
+    "url": "https://www.warnermediaprivacy.com/policycenter/b2c/en-row/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "94e24dabd2f164ef7004b0db-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:08.143Z",
+        "durationMs": 1298,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:10.296Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://www.warnermediaprivacy.com/policycenter/b2c/en-row/",
+        "drift": false,
+        "durationMs": 609,
+        "bodyHash": "9e17cb15dd75bbbd5dbb984eda674863c3b10ab72613cf8a39a00c3e11a8492a",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://bolt.eu/en/legal/ie/privacy-for-riders/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 308,
+    "lastError": "h2_status_308",
+    "bodyFile": "a48a406e3bb5135e86d82b41-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:11.248Z",
+        "status": 308,
+        "ok": false,
+        "finalUrl": "https://bolt.eu/en/privacy/privacy-for-riders/",
+        "drift": false,
+        "durationMs": 163,
+        "bodyHash": "2313452062c87c2e27f68b3ea31cc1acfd1010a50b77822a01705f89762c16d2",
+        "error": "http_308"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:12.872Z",
+        "status": 308,
+        "ok": false,
+        "finalUrl": "https://bolt.eu/en/legal/ie/privacy-for-riders/",
+        "drift": false,
+        "durationMs": 122,
+        "bodyHash": "2865fcf2aa90819bd19d3a716d4e5b6e9c031a3e3ee495bd2261c2817d096dee",
+        "error": "h2_status_308"
+      }
+    ],
+    "observedMechanism": "direct_status_308"
+  },
+  {
+    "url": "https://www.wildskymedia.com/privacy-policy/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "0506aa726273a8600418688b-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:13.716Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://wildskymedia.com/",
+        "drift": true,
+        "durationMs": 414,
+        "bodyHash": "ebc160bc190c5af498c4881b7c0baf713981c8ad8a55d2c556e040e86fd1e34b",
+        "error": ""
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:15.409Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://www.wildskymedia.com/privacy-policy/",
+        "drift": false,
+        "durationMs": 192,
+        "bodyHash": "446a6087825fa73eadb045e5a2e9e2adf7df241b571228187728191d961dda1f",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "safety_hold_after_redirect_to_home_or_other_scope"
+  },
+  {
+    "url": "https://bolt.eu/en/legal/ie/terms-for-riders/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 308,
+    "lastError": "h2_status_308",
+    "bodyFile": "5a69d8c484ddaac7ad326140-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:16.040Z",
+        "status": 308,
+        "ok": false,
+        "finalUrl": "https://bolt.eu/en/legal/terms-for-riders/",
+        "drift": false,
+        "durationMs": 165,
+        "bodyHash": "bd7938041b7eb8ff7e574ce90597f0a2b1c84bfd7b1b52d84c0516fd18719b7a",
+        "error": "http_308"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:18.676Z",
+        "status": 308,
+        "ok": false,
+        "finalUrl": "https://bolt.eu/en/legal/ie/terms-for-riders/",
+        "drift": false,
+        "durationMs": 1134,
+        "bodyHash": "16f1a735b7a4b8a6c9a0b9ce8344e10e0abeb943b12b5865189caa1e1ffc319f",
+        "error": "h2_status_308"
+      }
+    ],
+    "observedMechanism": "direct_status_308"
+  },
+  {
+    "url": "https://www.wildskymedia.com/terms-of-service/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "e775ba208468c85a28189e5c-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:19.046Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://wildskymedia.com/",
+        "drift": true,
+        "durationMs": 441,
+        "bodyHash": "ebc160bc190c5af498c4881b7c0baf713981c8ad8a55d2c556e040e86fd1e34b",
+        "error": ""
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:20.673Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://www.wildskymedia.com/terms-of-service/",
+        "drift": false,
+        "durationMs": 125,
+        "bodyHash": "446a6087825fa73eadb045e5a2e9e2adf7df241b571228187728191d961dda1f",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "safety_hold_after_redirect_to_home_or_other_scope"
+  },
+  {
+    "url": "https://clients.cdiscount.com/simple/cgv.aspx",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "1b625905b93b3dd6e7608654-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:20.698Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.cdiscount.com/cgv.html",
+        "drift": false,
+        "durationMs": 583,
+        "bodyHash": "a5a5280d97a62d31312b57668fd89ade4552aa7ff3e45fc6152a8f3ce70701fb",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:22.353Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://clients.cdiscount.com/simple/cgv.aspx",
+        "drift": false,
+        "durationMs": 152,
+        "bodyHash": "380c466b75b0a5156bafd53318f4b529a464be9bef2856ba59c3cf41ba6cbefc",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "direct_status_403"
+  },
+  {
+    "url": "https://i2.cdscdn.com/resources/imagesok/cgu/mkp/cgu_acheteurs_mp_cdiscount.pdf",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 302,
+    "lastError": "h2_status_302",
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:21.993Z",
+        "durationMs": 313,
+        "error": "unsupported_content_type:image/gif"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:23.669Z",
+        "status": 302,
+        "ok": false,
+        "finalUrl": "https://i2.cdscdn.com/resources/imagesok/cgu/mkp/cgu_acheteurs_mp_cdiscount.pdf",
+        "drift": false,
+        "durationMs": 176,
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "error": "h2_status_302"
+      }
+    ],
+    "observedMechanism": "content_type_rejected"
+  },
+  {
+    "url": "https://www.cdiscount.com/vie-privee-et-cookies.html",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "8ba6733c1f7c791c45491a4f-http2.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "01afd34073e276cf6986eb8413545b3bcb5ecd07335711420211b4befa6a9f8f",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:23.741Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.cdiscount.com/vie-privee-et-cookies.html",
+        "drift": false,
+        "durationMs": 64,
+        "bodyHash": "2ef3707ee2f10d3172d12b5d51b57a093a5227922f50df47954338cbd0e34700",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:25.388Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.cdiscount.com/vie-privee-et-cookies.html",
+        "drift": false,
+        "durationMs": 147,
+        "bodyHash": "01afd34073e276cf6986eb8413545b3bcb5ecd07335711420211b4befa6a9f8f",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.coinbase.com/legal/privacy",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "a11df90ae3ba512f2c013f67-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:27.419Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.coinbase.com/legal/privacy",
+        "drift": false,
+        "durationMs": 299,
+        "bodyHash": "dd0fe57dbac0c7ae1244e003d6dad5011b7e3504b0073f043abafcbddf7e464e",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:29.118Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.coinbase.com/legal/privacy",
+        "drift": false,
+        "durationMs": 199,
+        "bodyHash": "eda326a5c9ff3c25c4d39ca9355c503b012b0a32c3c40326db815fcc4157fe44",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://www.coindesk.com/ethics/",
+    "baselineReason": "origin_backoff",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP429 or an earlier same-origin refusal suspended this scope. Skipped requests are not source fetches.",
+    "lastStatus": 429,
+    "lastError": "http_429",
+    "bodyFile": "1d1662c5380182dc858284e0-direct.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:30.794Z",
+        "status": 429,
+        "ok": false,
+        "finalUrl": "https://www.coindesk.com/ethics/",
+        "drift": false,
+        "durationMs": 173,
+        "bodyHash": "9dfc5963d07641dc01fec86b0527c4c9ad03fdeb8e7383063a00c34f81c879e2",
+        "error": "http_429"
+      }
+    ]
+  },
+  {
+    "url": "https://www.coindesk.com/privacy/",
+    "baselineReason": "origin_backoff",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP429 or an earlier same-origin refusal suspended this scope. Skipped requests are not source fetches.",
+    "lastStatus": null,
+    "lastError": null,
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": []
+  },
+  {
+    "url": "https://www.coindesk.com/terms/",
+    "baselineReason": "origin_backoff",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP429 or an earlier same-origin refusal suspended this scope. Skipped requests are not source fetches.",
+    "lastStatus": null,
+    "lastError": null,
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": []
+  },
+  {
+    "url": "https://www.coinbase.com/legal/user_agreement/ireland_europe",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "12f5c3c329c165376b4be757-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:32.212Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.coinbase.com/legal/user_agreement/ireland_europe",
+        "drift": false,
+        "durationMs": 88,
+        "bodyHash": "3372e1fe71871639b60dcd07ac1ebd191fb9ad4fa97382cc8ee54190aa855911",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:33.808Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.coinbase.com/legal/user_agreement/ireland_europe",
+        "drift": false,
+        "durationMs": 95,
+        "bodyHash": "079c26d2e8331257f4eab026eff900aec97547bbe2f6136dad0211acc0325868",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://about.couchsurfing.com/about/privacy-policy/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 302,
+    "lastError": "h2_status_302",
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:36.252Z",
+        "durationMs": 204,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:37.924Z",
+        "status": 302,
+        "ok": false,
+        "finalUrl": "https://about.couchsurfing.com/about/privacy-policy/",
+        "drift": false,
+        "durationMs": 171,
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "error": "h2_status_302"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://www.coinbase.com/legal/cookie",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "25ebcc81dff8a9dca517ec10-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:36.909Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.coinbase.com/legal/cookie",
+        "drift": false,
+        "durationMs": 98,
+        "bodyHash": "de08b923da6fe701ce1ae2e78cd5fd7ff5c09a8102549ab9e0fc2f094fd53d26",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:38.503Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.coinbase.com/legal/cookie",
+        "drift": false,
+        "durationMs": 94,
+        "bodyHash": "f3ac1639af9aee07f510a174342453229ecce01cd688cc1d8be6d61217e08d5b",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://about.couchsurfing.com/about/terms-of-use/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 302,
+    "lastError": "h2_status_302",
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:40.994Z",
+        "durationMs": 69,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:42.646Z",
+        "status": 302,
+        "ok": false,
+        "finalUrl": "https://about.couchsurfing.com/about/terms-of-use/",
+        "drift": false,
+        "durationMs": 150,
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "error": "h2_status_302"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://www.crunchyroll.com/tos/",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "80f92fd76d1145dd6f7a3913-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "ebe274be82843ed1745a223e68acd69d317b27bc2e0d8c5f6b77246bb94eeead",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:45.470Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.crunchyroll.com/tos/",
+        "drift": false,
+        "durationMs": 619,
+        "bodyHash": "ebe274be82843ed1745a223e68acd69d317b27bc2e0d8c5f6b77246bb94eeead",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.dailymail.co.uk/home/article-7759273/Privacy-Cookies-Policy-Policy.html",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:45.923Z",
+        "durationMs": 273,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:47.630Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://www.dailymail.co.uk/home/article-7759273/Privacy-Cookies-Policy-Policy.html",
+        "drift": false,
+        "durationMs": 205,
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://deliveroo.ie/cookies",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "engine",
+    "evidence": "Same archived accepted payload now extracts after the candidate fixes. Independent scope/contract approval remains required.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "cde9d9b0caaa664b95cd02da-direct.body.txt",
+    "candidateExtraction": "extracted",
+    "candidateChars": 11247,
+    "bodySha256": "9f86de30cd45d56b1f32e7481d661d67a03ae1f136192069d6f9c9fbf32e3fee",
+    "candidateHoldReasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:51.463Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://deliveroo.ie/cookies",
+        "drift": false,
+        "durationMs": 244,
+        "bodyHash": "9f86de30cd45d56b1f32e7481d661d67a03ae1f136192069d6f9c9fbf32e3fee",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.dailymail.co.uk/home/article-1388146/Terms.html",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:50.734Z",
+        "durationMs": 98,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:52.375Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://www.dailymail.co.uk/home/article-1388146/Terms.html",
+        "drift": false,
+        "durationMs": 140,
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://www.bahn.com/en/privacy/privacy-customer",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "b394f14f5ebc6592e3a1f9c2-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:52.209Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.bahn.com/en/privacy/privacy-customer",
+        "drift": false,
+        "durationMs": 426,
+        "bodyHash": "74d21bf30ed40523a76b2386b482826adaed82888f84fdaa3b965c514665f0f6",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:53.938Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.bahn.com/en/privacy/privacy-customer",
+        "drift": false,
+        "durationMs": 228,
+        "bodyHash": "7ae05e1776456f80b11b8e5371eaf9b5785ff7b73e45267e1235c3d5330331a4",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://www.bahn.com/en/terms-of-use/customer-accounts-terms-of-use",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "1194259d7dea8144d95a0d53-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:38:57.117Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.bahn.com/en/terms-of-use/customer-accounts-terms-of-use",
+        "drift": false,
+        "durationMs": 175,
+        "bodyHash": "8d21c1ca5837c147077807ed4d201e267e37731cd7651b54625f54a6309e97f3",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:38:58.995Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.bahn.com/en/terms-of-use/customer-accounts-terms-of-use",
+        "drift": false,
+        "durationMs": 376,
+        "bodyHash": "15dea1cb176df4406ad3a2b0639b910bdf45e25cb57b0430a70761cf9656a3ca",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://distrokid.com/terms/",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "engine",
+    "evidence": "Same archived accepted payload now extracts after the candidate fixes. Independent scope/contract approval remains required.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "53fca413fe22bd8937f56bed-direct.body.txt",
+    "candidateExtraction": "extracted",
+    "candidateChars": 35805,
+    "bodySha256": "d682651192d51ff0e0765d0f9537a39d43b772b054e76c01c63d96048e1d7652",
+    "candidateHoldReasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:01.289Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://distrokid.com/terms/",
+        "drift": false,
+        "durationMs": 536,
+        "bodyHash": "d682651192d51ff0e0765d0f9537a39d43b772b054e76c01c63d96048e1d7652",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.energia.ie/home/privacy-statement",
+    "baselineReason": "source_block_or_soft_404",
+    "classification": "engine",
+    "evidence": "Same archived accepted payload now extracts after the candidate fixes. Independent scope/contract approval remains required.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "98e678d6c8128a5bb2dea8fd-direct.body.txt",
+    "candidateExtraction": "extracted",
+    "candidateChars": 35756,
+    "bodySha256": "6d98f30e9df508217fd3e64e220b89ee3be8df2a7c87d6fe34001ea038911c39",
+    "candidateHoldReasons": [
+      "source_contract_missing"
+    ],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:05.773Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.energia.ie/home/privacy-statement",
+        "drift": false,
+        "durationMs": 1194,
+        "bodyHash": "6d98f30e9df508217fd3e64e220b89ee3be8df2a7c87d6fe34001ea038911c39",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://dune.com/privacy",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "95630d244106e5d89d1f8305-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:04.199Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://dune.com/privacy",
+        "drift": false,
+        "durationMs": 162,
+        "bodyHash": "0da48968a95c376f8e7de540e36c8d46efb04dc999c0315f389ed31a2bb78268",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:39:05.815Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://dune.com/privacy",
+        "drift": false,
+        "durationMs": 114,
+        "bodyHash": "254a22db839812378620a780b4f4ea7ca611ccc1fed710bf66f1e8ff88daa11f",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://www.energia.ie/home/terms-and-conditions",
+    "baselineReason": "source_block_or_soft_404",
+    "classification": "engine",
+    "evidence": "Same archived accepted payload now extracts after the candidate fixes. Independent scope/contract approval remains required.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "a0dea6ce4d2d959717d6e0bd-direct.body.txt",
+    "candidateExtraction": "extracted",
+    "candidateChars": 62486,
+    "bodySha256": "308173d47457dae2db51e39c8cb7eb21c29e69639aad604129fbfd6560fcae0f",
+    "candidateHoldReasons": [
+      "source_contract_missing"
+    ],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:08.428Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.energia.ie/home/terms-and-conditions",
+        "drift": false,
+        "durationMs": 1152,
+        "bodyHash": "308173d47457dae2db51e39c8cb7eb21c29e69639aad604129fbfd6560fcae0f",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.energia.ie/home/cookie-policy",
+    "baselineReason": "source_block_or_soft_404",
+    "classification": "engine",
+    "evidence": "Same archived accepted payload now extracts after the candidate fixes. Independent scope/contract approval remains required.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "80add7b7421bb2e5d046bf75-direct.body.txt",
+    "candidateExtraction": "extracted",
+    "candidateChars": 9205,
+    "bodySha256": "dd70bf37de816c1b2fc835152219fcad1021bd72688f641942b949d265769aad",
+    "candidateHoldReasons": [
+      "source_contract_missing",
+      "interactive_document_content_unreviewed"
+    ],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:11.082Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.energia.ie/home/cookie-policy",
+        "drift": false,
+        "durationMs": 1152,
+        "bodyHash": "dd70bf37de816c1b2fc835152219fcad1021bd72688f641942b949d265769aad",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://dune.com/terms",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "fd762ba7aa413eced0b3cbae-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:08.860Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://dune.com/terms",
+        "drift": false,
+        "durationMs": 36,
+        "bodyHash": "90055abd4ef54246968990849347abd0e3a1c7cb282f83ccd2a68fa661258be4",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:39:10.464Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://dune.com/terms",
+        "drift": false,
+        "durationMs": 102,
+        "bodyHash": "bccbaec03fd573a382d3748817c6e5f0640af027542611662794c8dc3b375527",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://evernote.com/privacy/policy",
+    "baselineReason": "source_block_or_soft_404",
+    "classification": "engine",
+    "evidence": "Same archived accepted payload now extracts after the candidate fixes. Independent scope/contract approval remains required.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "79b1ca406fb2150dbad7aaf7-direct.body.txt",
+    "candidateExtraction": "extracted",
+    "candidateChars": 36334,
+    "bodySha256": "85d6fa9248cf4c16f449c6ac50dc10a3fc3b9d339209a19c2a0cf8e39de1d8c0",
+    "candidateHoldReasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:13.478Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://evernote.com/privacy/policy",
+        "drift": false,
+        "durationMs": 894,
+        "bodyHash": "85d6fa9248cf4c16f449c6ac50dc10a3fc3b9d339209a19c2a0cf8e39de1d8c0",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://evernote.com/legal/terms-of-service",
+    "baselineReason": "source_block_or_soft_404",
+    "classification": "engine",
+    "evidence": "Same archived accepted payload now extracts after the candidate fixes. Independent scope/contract approval remains required.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "747b9465af92184164a7fdc8-direct.body.txt",
+    "candidateExtraction": "extracted",
+    "candidateChars": 109487,
+    "bodySha256": "2baf632229f8f037a940347edfea088e0552245b77ae1a8f979ca139a4b039d5",
+    "candidateHoldReasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:17.179Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://evernote.com/legal/terms-of-service",
+        "drift": false,
+        "durationMs": 2200,
+        "bodyHash": "2baf632229f8f037a940347edfea088e0552245b77ae1a8f979ca139a4b039d5",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://exponential.com/documents/publisher-code-of-conduct/?wpdmdl=17753",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "761b6f7c5ace1e7ef8992eb8-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:14.370Z",
+        "status": 404,
+        "ok": false,
+        "finalUrl": "https://www.exponential.com/documents/publisher-code-of-conduct?wpdmdl=17753",
+        "drift": false,
+        "durationMs": 901,
+        "bodyHash": "90c032f35272ba1a7aa93027ab635e6610d4f24cf9e53c0624d00f065d7c7e7d",
+        "error": "http_404"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:39:16.098Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://exponential.com/documents/publisher-code-of-conduct/?wpdmdl=17753",
+        "drift": false,
+        "durationMs": 227,
+        "bodyHash": "87a9323ac85ce28867d5d7ce590c8f29b8d1a999961fca71bb33adef48683691",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "direct_status_404"
+  },
+  {
+    "url": "https://en-gb.facebook.com/policies/live",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "e42066c6ac83880ad57b5ccd-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "92e4240a975441f7b46929edc9b81459ecf1275799fcf893fc922c50fd698db7",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:19.285Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://en-gb.facebook.com/policies/live",
+        "drift": false,
+        "durationMs": 604,
+        "bodyHash": "92e4240a975441f7b46929edc9b81459ecf1275799fcf893fc922c50fd698db7",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://exponential.com/privacy/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "ce19a6b6f2b179535a7c4674-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:19.863Z",
+        "durationMs": 761,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:39:21.477Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://exponential.com/privacy/",
+        "drift": false,
+        "durationMs": 114,
+        "bodyHash": "87a9323ac85ce28867d5d7ce590c8f29b8d1a999961fca71bb33adef48683691",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://feddit.de/legal",
+    "baselineReason": "transport_rejected",
+    "classification": "source_reference",
+    "evidence": "HTTP404 or an actual soft404 at the declared policy address. Current source identity requires review.",
+    "lastStatus": 404,
+    "lastError": "h2_status_404",
+    "bodyFile": "03bd17118b7f66facbb8140f-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:24.756Z",
+        "status": 404,
+        "ok": false,
+        "finalUrl": "https://feddit.de/legal",
+        "drift": false,
+        "durationMs": 243,
+        "bodyHash": "cf0119489c104c928fafba379536f1a01b5f26ddb6bde4d346b3314aebd9382c",
+        "error": "http_404"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:39:26.480Z",
+        "status": 404,
+        "ok": false,
+        "finalUrl": "https://feddit.de/legal",
+        "drift": false,
+        "durationMs": 194,
+        "bodyHash": "cf0119489c104c928fafba379536f1a01b5f26ddb6bde4d346b3314aebd9382c",
+        "error": "h2_status_404"
+      }
+    ]
+  },
+  {
+    "url": "https://www.forbes.com/privacy/english/#1a05e1630610",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "ea46c23ce365f39bb4f27bd1-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "5833a08ba4f82d1fa2c3f306a1d6d2d2b8067e5a71a28424f1e6d590ff725e3c",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:36.913Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.forbes.com/privacy/english/",
+        "drift": false,
+        "durationMs": 724,
+        "bodyHash": "5833a08ba4f82d1fa2c3f306a1d6d2d2b8067e5a71a28424f1e6d590ff725e3c",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.freetaxusa.com/privacy",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "bf15a1e96e36117e345ed4ec-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:42.320Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.freetaxusa.com/privacy",
+        "drift": false,
+        "durationMs": 323,
+        "bodyHash": "6d10eccdbea36d4582f4b8393376f5ea889e97698c12d7a4e2bc0b3dfefe22e2",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:39:44.175Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.freetaxusa.com/privacy",
+        "drift": false,
+        "durationMs": 353,
+        "bodyHash": "865331cd1e053ce67293860f5bd251744dc551bab6dfe1f46188086baa963f48",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://www.freetaxusa.com/terms",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "36d0572bed18122ab85c3d18-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:47.329Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.freetaxusa.com/terms",
+        "drift": false,
+        "durationMs": 124,
+        "bodyHash": "dce1ac070854540905368419f62aaeee518ef8de8467d79d02a9fc0e5743e6e9",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:39:49.177Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.freetaxusa.com/terms",
+        "drift": false,
+        "durationMs": 347,
+        "bodyHash": "75233d26a7262b9050e2f1f86328b6f236d05163ab9e2709e6788dd313ba6ffa",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://www.gartner.com/en/about/policies/privacy",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "2d279cc53e6b0cc673d42694-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:47.728Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.gartner.com/en/about/policies/privacy",
+        "drift": false,
+        "durationMs": 242,
+        "bodyHash": "254b6ebe12fde4cf94b8663c8061467a56aab857b6556436d64006fc063b8751",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:39:49.453Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.gartner.com/en/about/policies/privacy",
+        "drift": false,
+        "durationMs": 223,
+        "bodyHash": "a45b41c39b83da02b5de7fa2e28d0300093e8e6f9cee86fc1068740c517afd69",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://www.gartner.com/en/about/policies/terms-of-use",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "9921828f6350f2c3731d3b8f-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:52.614Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.gartner.com/en/about/policies/terms-of-use",
+        "drift": false,
+        "durationMs": 117,
+        "bodyHash": "d11a10d6b55a6dbebf1016deb9b585bcebaa2a5e7ded78047f8099087413e203",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:39:54.248Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.gartner.com/en/about/policies/terms-of-use",
+        "drift": false,
+        "durationMs": 133,
+        "bodyHash": "207fc6effd202065374672d14ae7b7a0346b0fc01961dbec24aede76c8408386",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://gofile.io/privacy",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "1674b9a870c3677afcfb97a1-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "6001832efcbd72550f2260533a2da63a28265979af180b60d80cfbbf917d99f6",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:59.737Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://gofile.io/privacy",
+        "drift": false,
+        "durationMs": 241,
+        "bodyHash": "6001832efcbd72550f2260533a2da63a28265979af180b60d80cfbbf917d99f6",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://help.glassdoor.com/s/article/Community-Guidelines?language=en_US",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "a22a6d32a8b071be79d612a0-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:56.692Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://help.glassdoor.com/s/article/Community-Guidelines?language=en_US",
+        "drift": false,
+        "durationMs": 144,
+        "bodyHash": "350506f185683008af95f8aa592ff83189c66e48f8ec7e6aee65c4876e8411c1",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:39:58.307Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://help.glassdoor.com/s/article/Community-Guidelines?language=en_US",
+        "drift": false,
+        "durationMs": 113,
+        "bodyHash": "e6a84f6beacf4e8851b4621a15feda48a4a85ae248976466ee96fca98306ffb1",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://gofile.io/terms",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "33c854b7af3fcb25f78af5c4-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "6001832efcbd72550f2260533a2da63a28265979af180b60d80cfbbf917d99f6",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:40:01.369Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://gofile.io/terms",
+        "drift": false,
+        "durationMs": 128,
+        "bodyHash": "6001832efcbd72550f2260533a2da63a28265979af180b60d80cfbbf917d99f6",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.glassdoor.com/about/terms/",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "0df88df2bdd9c3b19cbb6813-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:39:59.258Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.glassdoor.com/about/terms/",
+        "drift": false,
+        "durationMs": 115,
+        "bodyHash": "859122d51ecf2d01b50b727581664fe5cd45b647530d7043e35bcedee6ebc537",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:40:00.870Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.glassdoor.com/about/terms/",
+        "drift": false,
+        "durationMs": 110,
+        "bodyHash": "7a49dc1609ede131b1d32683a1f0576b364ae9435748484bde7f6510929d1275",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://developer.android.com/distribute/marketing-tools/brand-guidelines",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 302,
+    "lastError": "h2_status_302",
+    "bodyFile": "bb8a5ba301e358f1863782c3-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:40:13.770Z",
+        "durationMs": 544,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:40:15.621Z",
+        "status": 302,
+        "ok": false,
+        "finalUrl": "https://developer.android.com/distribute/marketing-tools/brand-guidelines",
+        "drift": false,
+        "durationMs": 349,
+        "bodyHash": "001de686de26734257604f65649ca26d73ae1d1dadb18053a282d91bbb27dccd",
+        "error": "h2_status_302"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://play.google.com/intl/ALL_en/about/developer-distribution-agreement.html",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 302,
+    "lastError": "h2_status_302",
+    "bodyFile": "1885d37b01aceb2967ebcdbc-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:40:14.381Z",
+        "durationMs": 190,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:40:16.000Z",
+        "status": 302,
+        "ok": false,
+        "finalUrl": "https://play.google.com/intl/ALL_en/about/developer-distribution-agreement.html",
+        "drift": false,
+        "durationMs": 118,
+        "bodyHash": "c7c7eca107083acba41aeae4c0666f6f594d7d8373816b45504c2a3c67e2cf79",
+        "error": "h2_status_302"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://support.guilded.gg/hc/en-us/articles/360052815873-Community-Guidelines",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "190ef478dfc2fe1d5752ec49-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:40:18.859Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://support.guilded.gg/hc/en-us/articles/360052815873-Community-Guidelines",
+        "drift": false,
+        "durationMs": 221,
+        "bodyHash": "9086cdf0e7174ec99559831a41da6502112e736f62a2b5f0a2a948b34d4a1adc",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:40:20.480Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://support.guilded.gg/hc/en-us/articles/360052815873-Community-Guidelines",
+        "drift": false,
+        "durationMs": 121,
+        "bodyHash": "0609e2080ddad9b3d6f522e927170da14741de32a4bc1c440ee17992fccdac0c",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://www.grammarly.com/privacy-policy",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "8119b33c09ed08350c69b885-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:40:20.342Z",
+        "durationMs": 202,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:40:22.043Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://www.grammarly.com/privacy-policy",
+        "drift": false,
+        "durationMs": 200,
+        "bodyHash": "bf8078a6f4d5acdfef91897c45aea026477326bb2dc20bcdf5249f5dde3ee54e",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://support.guilded.gg/hc/en-us/articles/360039235054-Privacy",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "74f724caf88eb4636803aba2-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:40:23.603Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://support.guilded.gg/hc/en-us/articles/360039235054-Privacy",
+        "drift": false,
+        "durationMs": 121,
+        "bodyHash": "e3a77d63b5a0a3916986fe8258f69503bd501c987b4bfa0c022d24814794f974",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:40:25.204Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://support.guilded.gg/hc/en-us/articles/360039235054-Privacy",
+        "drift": false,
+        "durationMs": 100,
+        "bodyHash": "d81610808073aead8371a25ca13276185acf3ad740da05763c93af0695b81227",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://support.guilded.gg/hc/en-us/articles/360039728313-Terms-of-Use",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "0ef1b7eff96f9b3d9d6bcf75-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:40:28.305Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://support.guilded.gg/hc/en-us/articles/360039728313-Terms-of-Use",
+        "drift": false,
+        "durationMs": 97,
+        "bodyHash": "1a286174aa9ce1de0bae9ae2864e47794b3a6a7ae689b48c480ded9399f49b0c",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:40:29.904Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://support.guilded.gg/hc/en-us/articles/360039728313-Terms-of-Use",
+        "drift": false,
+        "durationMs": 97,
+        "bodyHash": "a3a6980cd180ddeb8009b76262478b63dd08f344866abe0c597e2c942cd46149",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://hsr.hoyoverse.com/en-us/company/privacy",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "578ac92471fa94b5bf9eeecb-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "7ca065d83fa6c49db55b5a63c92c5faa09236dfd2773b70a0fbf40a3827eb702",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:40:31.997Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://hsr.hoyoverse.com/en-us/company/privacy",
+        "drift": false,
+        "durationMs": 192,
+        "bodyHash": "7ca065d83fa6c49db55b5a63c92c5faa09236dfd2773b70a0fbf40a3827eb702",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://hsr.hoyoverse.com/en-us/company/terms",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "b085bf775aaaebc0190d5be7-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "7ca065d83fa6c49db55b5a63c92c5faa09236dfd2773b70a0fbf40a3827eb702",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:40:33.544Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://hsr.hoyoverse.com/en-us/company/terms",
+        "drift": false,
+        "durationMs": 44,
+        "bodyHash": "7ca065d83fa6c49db55b5a63c92c5faa09236dfd2773b70a0fbf40a3827eb702",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://interstellarlab.com/legal/privacy-policy",
+    "baselineReason": "origin_backoff",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP429 or an earlier same-origin refusal suspended this scope. Skipped requests are not source fetches.",
+    "lastStatus": 429,
+    "lastError": "http_429",
+    "bodyFile": "0d7ebc7e133377b46752fcbd-direct.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:40:51.519Z",
+        "status": 429,
+        "ok": false,
+        "finalUrl": "https://interstellarlab.com/legal/privacy-policy",
+        "drift": false,
+        "durationMs": 273,
+        "bodyHash": "a0819f021efe80f923dc0b3caa9f897b620686edb99dfc116ed061e207192a36",
+        "error": "http_429"
+      }
+    ]
+  },
+  {
+    "url": "https://privacycenter.instagram.com/policy/",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "5baea185ea55fc1e54196f45-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "5874fcbdc4bf860f3d21658f171691d3737c95571aac7e26f1b54f5126d2acae",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:40:51.805Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://privacycenter.instagram.com/policy/",
+        "drift": false,
+        "durationMs": 2707,
+        "bodyHash": "5874fcbdc4bf860f3d21658f171691d3737c95571aac7e26f1b54f5126d2acae",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://help.instagram.com/477434105621119",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:40:48.902Z",
+        "durationMs": 485,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:40:50.851Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://help.instagram.com/477434105621119",
+        "drift": false,
+        "durationMs": 448,
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://help.instagram.com/494561080557017",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "2a5d4e524a1c82a45d6c967f-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "ee8bdaaee3deb8b1b32c722d03d9c16ea2bcbde49f29576260e8e13a741905a1",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:40:55.568Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://help.instagram.com/494561080557017",
+        "drift": false,
+        "durationMs": 1715,
+        "bodyHash": "ee8bdaaee3deb8b1b32c722d03d9c16ea2bcbde49f29576260e8e13a741905a1",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://help.instagram.com/581066165581870",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "e20a3fb155336ffb80cac60b-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "3bffff5bc3f0cb9cc60d2ba3d007c3f364c06782ab9e86aa6541c8ad16d49266",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:40:57.954Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://help.instagram.com/581066165581870",
+        "drift": false,
+        "durationMs": 823,
+        "bodyHash": "3bffff5bc3f0cb9cc60d2ba3d007c3f364c06782ab9e86aa6541c8ad16d49266",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://kbin.social/privacy-policy",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 0,
+    "lastError": "dns_lookup_failed",
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:40:56.920Z",
+        "durationMs": 91,
+        "error": "dns_lookup_failed"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:40:58.424Z",
+        "status": 0,
+        "ok": false,
+        "finalUrl": "https://kbin.social/privacy-policy",
+        "drift": false,
+        "durationMs": 2,
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "error": "dns_lookup_failed"
+      }
+    ],
+    "observedMechanism": "dns_lookup_failed"
+  },
+  {
+    "url": "https://kimcartoon.li/Message/PrivacyPolicy",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 0,
+    "lastError": "dns_lookup_failed",
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:00.117Z",
+        "durationMs": 585,
+        "error": "dns_lookup_failed"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:41:01.619Z",
+        "status": 0,
+        "ok": false,
+        "finalUrl": "https://kimcartoon.li/Message/PrivacyPolicy",
+        "drift": false,
+        "durationMs": 2,
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "error": "dns_lookup_failed"
+      }
+    ],
+    "observedMechanism": "dns_lookup_failed"
+  },
+  {
+    "url": "https://kbin.social/terms",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 0,
+    "lastError": "dns_lookup_failed",
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:01.429Z",
+        "durationMs": 2,
+        "error": "dns_lookup_failed"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:41:02.932Z",
+        "status": 0,
+        "ok": false,
+        "finalUrl": "https://kbin.social/terms",
+        "drift": false,
+        "durationMs": 2,
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "error": "dns_lookup_failed"
+      }
+    ],
+    "observedMechanism": "dns_lookup_failed"
+  },
+  {
+    "url": "https://www.kraken.com/en-us/legal#complete-tos",
+    "baselineReason": "extraction_size_out_of_bounds",
+    "classification": "source_delivery_or_reference",
+    "evidence": "Stored response does not expose enough text in the declared scope. Empty/script-driven documents, stale fragments and redirect notices need rendered-source or identity review.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "adbd2466a4febf937e9a73ab-direct.body.txt",
+    "candidateExtraction": "extraction_size_out_of_bounds",
+    "candidateChars": 0,
+    "bodySha256": "79a0ee4eac6d692ff65304ab210ff46d5f75d6d01b15c1a22205495f89e8ff99",
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:08.560Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.kraken.com/legal",
+        "drift": false,
+        "durationMs": 375,
+        "bodyHash": "79a0ee4eac6d692ff65304ab210ff46d5f75d6d01b15c1a22205495f89e8ff99",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://terms.line.me/line_rules/?lang=en",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "546fe5c86d2f56edb307daf2-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:15.953Z",
+        "durationMs": 5326,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:41:17.554Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://terms.line.me/line_rules/?lang=en",
+        "drift": false,
+        "durationMs": 99,
+        "bodyHash": "bd9df047d51943acc4bc6cf55d88edb5b6785a53337ee2a0f74dd521aedde87d",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://www.librarything.com/privacy",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "b6c4367c4b2e23acdab3b5a0-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:16.328Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.librarything.com/privacy",
+        "drift": false,
+        "durationMs": 139,
+        "bodyHash": "85058f5f27106e6e84aa2821793faa0ca8af88bf2e84c2cc9f44b5df5d020968",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:41:17.934Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.librarything.com/privacy",
+        "drift": false,
+        "durationMs": 105,
+        "bodyHash": "a663611b2f08e64e2fab5697301a0caebc3bdf6509d12c00662c0529e4b94d33",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://corp.lingualeo.com/terms-of-use-en/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 0,
+    "lastError": "h2_connect_failed",
+    "bodyFile": null,
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:25.321Z",
+        "durationMs": 142,
+        "error": "connect ECONNREFUSED 158.160.152.74:443"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:41:26.901Z",
+        "status": 0,
+        "ok": false,
+        "finalUrl": "https://corp.lingualeo.com/terms-of-use-en/",
+        "drift": false,
+        "durationMs": 80,
+        "bodyHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "error": "h2_connect_failed"
+      }
+    ],
+    "observedMechanism": "connection_or_transport_failure"
+  },
+  {
+    "url": "https://www.linkedin.com/legal/professional-community-policies",
+    "baselineReason": "source_block_or_soft_404",
+    "classification": "engine",
+    "evidence": "Same archived accepted payload now extracts after the candidate fixes. Independent scope/contract approval remains required.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "f0e53df0b0f4e4bd0568746b-direct.body.txt",
+    "candidateExtraction": "extracted",
+    "candidateChars": 11837,
+    "bodySha256": "cbe6fb8f5c8a2d7d40de8f9280c36a2c7b12cbc781bcdc9b513af5863e515be5",
+    "candidateHoldReasons": [
+      "source_contract_missing",
+      "hidden_document_content_unresolved"
+    ],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:29.016Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.linkedin.com/legal/professional-community-policies",
+        "drift": false,
+        "durationMs": 694,
+        "bodyHash": "cbe6fb8f5c8a2d7d40de8f9280c36a2c7b12cbc781bcdc9b513af5863e515be5",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://legal.linkedin.com/api-terms-of-use",
+    "baselineReason": "source_block_or_soft_404",
+    "classification": "engine",
+    "evidence": "Same archived accepted payload now extracts after the candidate fixes. Independent scope/contract approval remains required.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "cd803fc94887830dd6c0148b-direct.body.txt",
+    "candidateExtraction": "extracted",
+    "candidateChars": 55467,
+    "bodySha256": "c23ea8eaadbfe241b28513e6d8d6fab45c1626d6af5811b770dfa03b36d596c6",
+    "candidateHoldReasons": [
+      "source_contract_missing",
+      "hidden_document_content_unresolved"
+    ],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:30.841Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.linkedin.com/legal/l/api-terms-of-use",
+        "drift": false,
+        "durationMs": 937,
+        "bodyHash": "c23ea8eaadbfe241b28513e6d8d6fab45c1626d6af5811b770dfa03b36d596c6",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.linkedin.com/legal/privacy-policy",
+    "baselineReason": "source_block_or_soft_404",
+    "classification": "engine",
+    "evidence": "Same archived accepted payload now extracts after the candidate fixes. Independent scope/contract approval remains required.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "3964bcb3221ffba3f1ac80f7-direct.body.txt",
+    "candidateExtraction": "extracted",
+    "candidateChars": 42678,
+    "bodySha256": "24fda4d07ce059881fea4c0e0ae64c58748feb2dbb469741e0a4d4aed66d3a28",
+    "candidateHoldReasons": [
+      "source_contract_missing",
+      "hidden_document_content_unresolved"
+    ],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:31.162Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.linkedin.com/legal/privacy-policy",
+        "drift": false,
+        "durationMs": 645,
+        "bodyHash": "24fda4d07ce059881fea4c0e0ae64c58748feb2dbb469741e0a4d4aed66d3a28",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.linkedin.com/legal/l/service-terms",
+    "baselineReason": "source_block_or_soft_404",
+    "classification": "engine",
+    "evidence": "Same archived accepted payload now extracts after the candidate fixes. Independent scope/contract approval remains required.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "2bbd132fa9d8f61dedd7ad32-direct.body.txt",
+    "candidateExtraction": "extracted",
+    "candidateChars": 26113,
+    "bodySha256": "86718333fecd3495451e2310d315fafd0d67a9f96ce204641f016fb39e5fa362",
+    "candidateHoldReasons": [
+      "source_contract_missing",
+      "hidden_document_content_unresolved"
+    ],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:33.122Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.linkedin.com/legal/l/service-terms",
+        "drift": false,
+        "durationMs": 459,
+        "bodyHash": "86718333fecd3495451e2310d315fafd0d67a9f96ce204641f016fb39e5fa362",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.linkedin.com/legal/cookie-policy",
+    "baselineReason": "source_block_or_soft_404",
+    "classification": "engine",
+    "evidence": "Same archived accepted payload now extracts after the candidate fixes. Independent scope/contract approval remains required.",
+    "lastStatus": 200,
+    "lastError": "",
+    "bodyFile": "6589944c92dd5a94f12f24db-direct.body.txt",
+    "candidateExtraction": "extracted",
+    "candidateChars": 10565,
+    "bodySha256": "46e3794a3feacbea22e773410408da21eaf6acfae388f940863f8b5786fe4c66",
+    "candidateHoldReasons": [
+      "source_contract_missing",
+      "hidden_document_content_unresolved"
+    ],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:35.035Z",
+        "status": 200,
+        "ok": true,
+        "finalUrl": "https://www.linkedin.com/legal/cookie-policy",
+        "drift": false,
+        "durationMs": 411,
+        "bodyHash": "46e3794a3feacbea22e773410408da21eaf6acfae388f940863f8b5786fe4c66",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "url": "https://www.mailjet.com/legal/dpa/",
+    "baselineReason": "transport_rejected",
+    "classification": "undetermined",
+    "evidence": "The complete direct/HTTP2 sequence is retained. Rejection mechanism is observed, while current authoritative source identity and responsibility for the outcome still require review.",
+    "lastStatus": 301,
+    "lastError": "h2_status_301",
+    "bodyFile": "a312c951f6b519e3507505ba-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:38.571Z",
+        "durationMs": 261,
+        "error": "host_drift"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:41:40.301Z",
+        "status": 301,
+        "ok": false,
+        "finalUrl": "https://www.mailjet.com/legal/dpa/",
+        "drift": false,
+        "durationMs": 229,
+        "bodyHash": "9e17cb15dd75bbbd5dbb984eda674863c3b10ab72613cf8a39a00c3e11a8492a",
+        "error": "h2_status_301"
+      }
+    ],
+    "observedMechanism": "unreviewed_cross_host_redirect"
+  },
+  {
+    "url": "https://uk.match.com/pages/misc/privacy",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "9c41867d6c07dc6a361f1703-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:40.043Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://uk.match.com/pages/misc/privacy",
+        "drift": false,
+        "durationMs": 135,
+        "bodyHash": "575ece544818308fc2b307d96014e4ce0c8ad2855267edd74189d2b703b5a167",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:41:41.631Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://uk.match.com/pages/misc/privacy",
+        "drift": false,
+        "durationMs": 87,
+        "bodyHash": "108b48f813d20da97ccf07366cadfd62fb5dc3c50cb98cb724a9fbcf0756e2a4",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://uk.match.com/pages/misc/cge",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "af9d2a17500f0f9ec01d1331-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:44.668Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://uk.match.com/pages/misc/cge",
+        "drift": false,
+        "durationMs": 33,
+        "bodyHash": "10806684701012680687f24d56d6704a1ddb54dbd59fe6411c9d2c59509d1dd5",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:41:46.257Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://uk.match.com/pages/misc/cge",
+        "drift": false,
+        "durationMs": 89,
+        "bodyHash": "2b759147bffacea1ea11707d5db53f6c1415fa167f9a38b7de95c8327143f07e",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://help.meetup.com/hc/en-us/articles/360044422391",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "e220bc2d10b3340594159c82-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:46.203Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://help.meetup.com/hc/en-us/articles/360044422391",
+        "drift": false,
+        "durationMs": 196,
+        "bodyHash": "a4f1625e69348219961302bac5b5fa90c5b498c907149c881541b7d4cbc09768",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:41:47.824Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://help.meetup.com/hc/en-us/articles/360044422391",
+        "drift": false,
+        "durationMs": 120,
+        "bodyHash": "511e9ab87a0cd2a09f9ab3682eecbbdb496bf5c044b879a49550fc8db2b9e1c7",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://www.mailjet.com/legal/privacy-policy/cookies/",
+    "baselineReason": "transport_rejected",
+    "classification": "source_reference",
+    "evidence": "HTTP404 or an actual soft404 at the declared policy address. Current source identity requires review.",
+    "lastStatus": 404,
+    "lastError": "h2_status_404",
+    "bodyFile": "e7674bac5d2a5121f4aab7d8-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:47.847Z",
+        "status": 404,
+        "ok": false,
+        "finalUrl": "https://www.mailjet.com/legal/privacy-policy/cookies/",
+        "drift": false,
+        "durationMs": 1003,
+        "bodyHash": "94ae5becb79f6e41d322b02f60a58f1ae93e5f7211ee8520c330354585633162",
+        "error": "http_404"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:41:50.427Z",
+        "status": 404,
+        "ok": false,
+        "finalUrl": "https://www.mailjet.com/legal/privacy-policy/cookies/",
+        "drift": false,
+        "durationMs": 1072,
+        "bodyHash": "022a3bf0663417cef8fa02d016e21cec1104b2ae2f28b2f73bdafb8f1b078bed",
+        "error": "h2_status_404"
+      }
+    ]
+  },
+  {
+    "url": "https://help.meetup.com/hc/en-us/articles/360027447252",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "0890c85cfc3f26776fd1ebab-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:50.922Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://help.meetup.com/hc/en-us/articles/360027447252",
+        "drift": false,
+        "durationMs": 95,
+        "bodyHash": "f500237e711dab28dcce91a2ac7bf72cd56b1d605eb847d3d5ec4d7536d73339",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:41:52.545Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://help.meetup.com/hc/en-us/articles/360027447252",
+        "drift": false,
+        "durationMs": 121,
+        "bodyHash": "deb5afef43405667fcebbb25f578308de1d980e09ad7cffa1f32e2a24216a324",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://www.mouthshut.com/help/privacy.php",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "f11e5b9cc72c14f751cea69a-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:53.576Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.mouthshut.com/help/privacy.php",
+        "drift": false,
+        "durationMs": 145,
+        "bodyHash": "9d995d6b96ba8e9c8ad78f15f913a4e647608cef75a32be2fcbb6aa154b67816",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:41:55.185Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.mouthshut.com/help/privacy.php",
+        "drift": false,
+        "durationMs": 108,
+        "bodyHash": "24f76707e876ed6846b8198143cd1baa7632415434b9109272c9811993273a62",
+        "error": "h2_status_403"
+      }
+    ]
+  },
+  {
+    "url": "https://www.mouthshut.com/help/tos.php",
+    "baselineReason": "transport_rejected",
+    "classification": "source_access_or_backoff",
+    "evidence": "HTTP403 refusal observed. Access conditions and environment remain unqualified; no bypass attempted.",
+    "lastStatus": 403,
+    "lastError": "h2_status_403",
+    "bodyFile": "f6b28db62e2048862228bdaa-http2.body.txt",
+    "candidateExtraction": "unavailable",
+    "candidateChars": 0,
+    "bodySha256": null,
+    "candidateHoldReasons": [],
+    "transportEvidence": [
+      {
+        "kind": "direct",
+        "observedAt": "2026-11-16T13:41:58.284Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.mouthshut.com/help/tos.php",
+        "drift": false,
+        "durationMs": 97,
+        "bodyHash": "5d3238e6fe06837ad83234038f0b1d599e787dde2ea31013635060bd949b6d27",
+        "error": "http_403"
+      },
+      {
+        "kind": "http2",
+        "observedAt": "2026-11-16T13:41:59.882Z",
+        "status": 403,
+        "ok": false,
+        "finalUrl": "https://www.mouthshut.com/help/tos.php",
+        "drift": false,
+        "durationMs": 97,
+        "bodyHash": "9ff106fce78b6e600f70b35600a6b14a3dbccf88b3b7f6884f6ba5d2ddf4df37",
+        "error": "h2_status_403"
+      }
+    ]
+  }
+]

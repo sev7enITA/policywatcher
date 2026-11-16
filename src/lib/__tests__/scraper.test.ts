@@ -184,8 +184,37 @@ describe('detectBlockPage', () => {
     expect(detectBlockPage(html)).toBeNull();
   });
 
+  it.each([
+    '<!-- Preconnect to Google reCAPTCHA --><link rel="preconnect" href="https://www.google.com">',
+    '<script src="https://js.hcaptcha.com/1/api.js"></script>',
+    '<meta data-recaptcha-v3-integration-lix-value="control">',
+  ])('ignores passive CAPTCHA integrations in legal pages (%s)', integration => {
+    expect(detectBlockPage(`<html data-recaptcha-v3="control"><head>${integration}<title>Privacy Policy</title></head><body>${POLICY_HTML}</body></html>`)).toBeNull();
+  });
+
+  it('rejects a padded challenge and a challenge marker beyond the HTML prefix', () => {
+    expect(detectBlockPage('<body>Verify you are human' + ' Continue verification.'.repeat(200) + '</body>')).toBe('captcha');
+    expect(detectBlockPage('<head>' + '<script>padding</script>'.repeat(150) + '</head><body><div id="cf-challenge-running">Wait</div></body>')).toBe('captcha_challenge');
+  });
+
+  it('does not treat prose mentioning a CAPTCHA provider as a challenge', () => {
+    expect(detectBlockPage('<title>Privacy notice</title><body><main><p>We use reCAPTCHA and hCaptcha to protect forms and process personal data.</p></main></body>')).toBeNull();
+  });
+
+  it('holds a shopping interstitial containing legal footer links', () => {
+    expect(detectBlockPage('<body>Click the button below to continue shopping<button>Continue shopping</button><footer>Conditions of Use and Sale. Privacy Notice.</footer></body>')).toBe('access_interstitial');
+  });
+
   it('returns null for a normal policy page', () => {
     expect(detectBlockPage(POLICY_HTML)).toBeNull();
+  });
+});
+
+describe('short document selector candidates', () => {
+  it.each(['<div id="main-content">Skip navigation</div>', '<a class="cookie-policy-button">Cookie settings</a>', '<div class="footer-legal-fun">Copyright and terms</div>'])('keeps the legal body instead of a short fragment (%s)', fragment => {
+    const clause = 'We retain account records for thirty days and erase personal data after closure. ';
+    const html = `<body>${fragment}<section><h1>Privacy Policy</h1><p>${clause.repeat(4)}</p></section></body>`;
+    expect(extractPolicyText(html, 'https://example.com/privacy', { minimumTextLength: 100, preserveNestedBlockOrder: true })).toContain(clause.trim());
   });
 });
 

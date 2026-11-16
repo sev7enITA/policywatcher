@@ -10,6 +10,10 @@ async function main() {
   if (!cataloguePath || !out.startsWith(resolve('output') + '/') || process.env.DATABASE_URL !== `file:${join(out, 'isolated.db')}`
     || process.env.POLICYWATCHER_ENGINE_PUBLICATION !== '0' || process.env.POLICYWATCHER_ENGINE_NOTIFICATIONS !== '0') throw new Error('isolated_probe_required');
   const catalogueText = await readFile(cataloguePath, 'utf8');
+  // Packaged QA artifacts may run without Git metadata on the target host.
+  const sourceRevision = process.env.POLICYWATCHER_QA_SOURCE_REVISION
+    || execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
+  if (!/^[a-f0-9]{40}$/.test(sourceRevision)) throw new Error('invalid_qa_source_revision');
   const catalogue = JSON.parse(catalogueText) as { rows: Array<{ id: string; retrievalUrl: string; url: string }> };
   if (!Array.isArray(catalogue.rows) || !catalogue.rows.length || catalogue.rows.length > 500 || new Set(catalogue.rows.map(r => r.id)).size !== catalogue.rows.length) throw new Error('invalid_catalogue');
   const endpoints = new Map<string, Set<string>>();
@@ -77,7 +81,7 @@ async function main() {
     await Promise.all(Array.from({ length: 3 }, worker));
     durations.sort((a, b) => a - b);
     const report = { startedAt, completedAt: new Date(), durationMs: Date.now() - startedAt.getTime(),
-      sourceCommit: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), catalogueHash: hash(catalogueText),
+      sourceCommit: sourceRevision, catalogueHash: hash(catalogueText),
       boundary: 'Configured real catalogue from local Mac; 3 workers, one request per origin at a time, 1.5s pacing, origin held after 429/503. No models, renderer, contracts, production DB or delivery. Not 500-source or VPS qualification.',
       configuredPolicies: catalogue.rows.length, retrievalScopes: new Set(catalogue.rows.map(r => r.retrievalUrl || r.url)).size,
       httpEndpoints: endpoints.size, origins: groups.size, completedEndpoints: rows.length, attempts: attemptsTotal,

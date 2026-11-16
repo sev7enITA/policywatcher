@@ -1,0 +1,5716 @@
+[
+  {
+    "url": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 29403,
+    "bodyHash": "1e81d983f60c84c7ed8003d4d4a1fa738134c63d5241e5914cae701e07fdfa76",
+    "textHash": "1bccaa83697a8dad456e214ead1009c2c5c652ec251213c4cb491a8eea48642d"
+  },
+  {
+    "url": "https://aws.amazon.com/agreement/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 62869,
+    "bodyHash": "49ea99d08efc5759a71f5ea5c35f1ee1092a28aa786671e7bc31f93cc7ec81ae",
+    "textHash": "0ed88042f13ec9dedc548f9bb9b6a62886180ef9221579f502379f6c94db9aa0"
+  },
+  {
+    "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified"
+    ],
+    "chars": 24639,
+    "bodyHash": "9d9a87b14d32138e7d67332be449d36213d79f8c752c0de006bb7df4e57a8214",
+    "textHash": "993ed5120c75318d98473698e001dc29c41935af329de73ab6165f36b146b08c"
+  },
+  {
+    "url": "https://www.anthropic.com/legal/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 36238,
+    "bodyHash": "ed468373009fd7ddd8bd6a15cad4eab43535816b12c840d68ced94178e92eef7",
+    "textHash": "a4cc68492ec59ee9abf21a69ea8501228ae8449bc6ec1238b464ca92f8a28aad"
+  },
+  {
+    "url": "https://aws.amazon.com/serviceterms/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 301629,
+    "bodyHash": "64ea8e2844d13c891c400f9ae331ca5a60854cc7a52d7970ff24c2909d65f60f",
+    "textHash": "4aca819182d9af6e5fa1bd5388ab169207977843784cbc5378119e78196b3445"
+  },
+  {
+    "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201809740",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified",
+      "document_scope_unverified"
+    ],
+    "chars": 24471,
+    "bodyHash": "dd63d426221d229c71229fd810e8cfb8ea3866783ee3a838fe132a889f710658",
+    "textHash": "146cecba7fb51e4684e5eea568d5d8c7054a755151a70c1b4475321807e295e5"
+  },
+  {
+    "url": "https://www.anthropic.com/legal/aup",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 31406,
+    "bodyHash": "c98d958fe854c6b6196e24e7bf1e972997f4ad4f1b8c4e7cf62af3054fdb6265",
+    "textHash": "e51141a761e2f20449643737eab590d12a281064deb3681b5ac7e623afcc108e"
+  },
+  {
+    "url": "https://aws.amazon.com/aup/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 1707,
+    "bodyHash": "6d8fe6dafacbb46e3c41e02ae48570355e1a10c499222bd3a89a9668be21fa48",
+    "textHash": "143a1cf6b9fd04ae3aabe1967026587fb9a3248b46ad817bad7086b3e6a36877"
+  },
+  {
+    "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201485660",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified",
+      "disclosure_target_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 19283,
+    "bodyHash": "0b1e707ab1f697834ddd6847493622486471187b264bd06c7e66a6ae763dbfe7",
+    "textHash": "691f2541c2aa93f63592b3fa0a262e71b0856e86415d7ff586951ea15a7892ed"
+  },
+  {
+    "url": "https://www.anthropic.com/legal/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 40744,
+    "bodyHash": "985870f448c0bc158a2e3004b0a6955f7a47245625f6e1e50f740f04cf5c634d",
+    "textHash": "115290f820c2b4baac6377c98aa00e22e1f54c25b1ee6ed13c4a80f06b864f4b"
+  },
+  {
+    "url": "https://aws.amazon.com/terms/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 11808,
+    "bodyHash": "7dbd10831fa11f4a79cf08a081e9543a8644410a2e708ea8a99ee90681ad0ea5",
+    "textHash": "e2c8c94eaff4b74f6b41b12f15912d026f4a58872056686431917fb1bdf7d4d6"
+  },
+  {
+    "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201434520",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing"
+    ],
+    "chars": 2106,
+    "bodyHash": "0361d481ebcf96360cccd5146a2a90e28dd28c0d70fd8ccfc0eee324edb4c967",
+    "textHash": "52fa1b0cb5988bd8373e0c8762506f7b4b1de554d00cebb878dfed5ad2edb077"
+  },
+  {
+    "url": "https://www.anthropic.com/legal/commercial-terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 24572,
+    "bodyHash": "f493429f1a40a32de63c604be2bbb9008fc39a2e88089828718529066745e254",
+    "textHash": "7d67c559f90f8d25504fa9e50ecb388324ee8eccf5dd459f8206547214f21a95"
+  },
+  {
+    "url": "https://aws.amazon.com/privacy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 53375,
+    "bodyHash": "cccfa69869d6d2b0482959cdd83a9f62f37e7e4eac9a92d3c060927d78daea09",
+    "textHash": "321b97dd74dfa8264ccc2c33c1a56641f1723cf9b27ce4e94a1dcef07dfd1fb9"
+  },
+  {
+    "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202002080",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified",
+      "disclosure_target_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 16325,
+    "bodyHash": "ee36e3615a50c7e0f2c14835f823daa44c1f7f4e1272323e85a1f1c5c1cb0981",
+    "textHash": "cb0063688acfa66aebd910d16d07fab334112de654d6a6150076b6df50404564"
+  },
+  {
+    "url": "https://www.anthropic.com/legal/consumer-health-data-privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 4070,
+    "bodyHash": "24b627636df63932236137198bbdfd9420eb67c406f52d1afa8e4407d39c6be0",
+    "textHash": "67661d4eee8a9b382e07dc284cdc1649634fdae011260b4f568706419642a26c"
+  },
+  {
+    "url": "https://aws.amazon.com/trademark-guidelines/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 16365,
+    "bodyHash": "3671b72680bce9c55e7d7b3580f0575454a48b3e58e44a9d3418ef8d4bf74394",
+    "textHash": "80ef744e4d1f1b4c66377d2c63f7a1bca75300384a6e746da1ea0c779a4b67f8"
+  },
+  {
+    "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=200699130",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified",
+      "disclosure_target_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 6126,
+    "bodyHash": "d3e0644328e79480488c1777cd0083226e1ee5541f8d6fcb5a38aaae8de7774a",
+    "textHash": "0d9d91f0188c4eb67e004f2ed49cd691e220cbffa62fe383d8c9541f5d8b1910"
+  },
+  {
+    "url": "https://www.anthropic.com/legal/k12-terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 53799,
+    "bodyHash": "ff39995d59d65821ed43f3669482a1aca4e9147fa0a4fcab9837baa4393554e7",
+    "textHash": "ed1df970de64e8ba7e5d05662f457ae9bef38aae5a9aab15954a56193898f41a"
+  },
+  {
+    "url": "https://aws.amazon.com/service-terms/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 301629,
+    "bodyHash": "519840da7e269c636a257c3239098733a033919f11428c152234044c42782a68",
+    "textHash": "4aca819182d9af6e5fa1bd5388ab169207977843784cbc5378119e78196b3445"
+  },
+  {
+    "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201014950",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified",
+      "document_scope_unverified"
+    ],
+    "chars": 12049,
+    "bodyHash": "6c59a7c3efcb2affd36646d346679e91dcf931f5e1d1dc6cc2b07d4936cedb01",
+    "textHash": "0a30e733fece8d56b8c4f99f564fe3ec2b67216da27bbd297653413ec332ff62"
+  },
+  {
+    "url": "https://www.anthropic.com/legal/non-user-privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 20583,
+    "bodyHash": "44a57707fc000701b334d1ce0b5f442765b65d383c3ed91098f757c996652362",
+    "textHash": "f52e378c76fd86430e679d3ba5862ee4a2454cab7e7120e7ad02b881b4897a60"
+  },
+  {
+    "url": "https://www.apple.com/legal/privacy/pdfs/apple-privacy-policy-en-ww.pdf",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 29781,
+    "bodyHash": "5af344374d718e0bc346048f159185b9d90217a0075e8654a3d6736fa9246852",
+    "textHash": "69aecc3f815e41e738a4046379a20ee84ec9bc8508db6cdde3265c22ce1183f0"
+  },
+  {
+    "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201544030",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified",
+      "disclosure_target_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 9562,
+    "bodyHash": "194cdbe8a1b9ba64b4d0e918b5efcfdf621d7b113d32deece8564ab5686f9e80",
+    "textHash": "68d78ea7e2508036ec195cf66916ff1a28da53320073891936d23677f8d0f4a1"
+  },
+  {
+    "url": "https://www.anthropic.com/legal/promotion-credit-terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 2907,
+    "bodyHash": "5969ace8c5f907b478d8d2d56975f9d5b3cfd6f6590b5493b21f417b18e7f565",
+    "textHash": "5a0e261b04e3aa1e0d4be872ce24ee0e9d9933181f2f6a273d9a097252ff5574"
+  },
+  {
+    "url": "https://www.apple.com/legal/privacy/data/en/intelligence-engine/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 5340,
+    "bodyHash": "65f6098f015c4f5ff90809859e8c1dc91d9eab51c22c4a7109900509e1c47965",
+    "textHash": "5c0a16895a0713260d27279675bbaeba5a34fd1105ad6dd8b06a71e60f830499"
+  },
+  {
+    "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202095050",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified",
+      "disclosure_target_missing"
+    ],
+    "chars": 4420,
+    "bodyHash": "89652a854bf19a0900d673fcb69d4c4363d0747dca4cad988e00ba24d4fba434",
+    "textHash": "f75e2efcb1a0942cc5081303eb79cb9e1567db48cc8982226e2e2ff745b92cf9"
+  },
+  {
+    "url": "https://www.apple.com/legal/internet-services/terms/site.html",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 20495,
+    "bodyHash": "8a57d41f341e9765191ea5d617d14716620438791dbc87f753bbea3a5a0c7485",
+    "textHash": "a70a7da3da63ab0c614f7c0fd89c638de4d8a84ca24075b581eec75c849acf0a"
+  },
+  {
+    "url": "https://datatrust.coca-cola.com/content/dam/privacyhub/us/en/notice-pdfs/Global-Consumer-Privacy-Notice-01312026-English.pdf",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 44476,
+    "bodyHash": "7e348ecc97129a0da63cceb839b14a83a26cf5526fc6ab6329a6e6027d5408ad",
+    "textHash": "d8289e4962a0f5679efc9c9ac9e14dfe9e6f510ce503f5fd8884cfc51b77d5a4"
+  },
+  {
+    "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201380010",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified",
+      "document_scope_unverified"
+    ],
+    "chars": 23570,
+    "bodyHash": "73fa9a2b21806026e7620c3ad90d46a70a3c9f98c57b8dc562df6b08f8f18dc4",
+    "textHash": "923e1ea3ebbb3829ec65e96acf21d1655b256db6a224136c2f0369a8fefde8d7"
+  },
+  {
+    "url": "https://datatrust.coca-cola.com/us/en/notices/supplemental-us-privacy-notice",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 242,
+    "bodyHash": "cc3e4885bdf6526a9c7e20f8d2c01addaca96b076721ea81590f68f8a8aac9e9",
+    "textHash": "d5ff1290a404dcbd3022dfcc9bffeaef466bba6ac9de55cc04f8794729337b63"
+  },
+  {
+    "url": "https://www.apple.com/legal/privacy/data/en/improve-intelligence/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 7859,
+    "bodyHash": "2def1dc0ff75f051454f5d904aac8f2361f296b0a6e5a6178c7bf982641d4940",
+    "textHash": "607343acd9966bb89a3dd69f3a715331b5b124b2f4e68ac6418cda6d3d0d0f82"
+  },
+  {
+    "url": "https://datatrust.coca-cola.com/us/en/notices/us-consumer-health-privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 242,
+    "bodyHash": "05a2a0830b52fb5f38917c1f2fc4dc18e2e4ea40c2827948e92702b2a419d77f",
+    "textHash": "d5ff1290a404dcbd3022dfcc9bffeaef466bba6ac9de55cc04f8794729337b63"
+  },
+  {
+    "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201376540",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified",
+      "disclosure_target_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 20265,
+    "bodyHash": "208cdabe4bd0c03ff2424cc4cb75fe9d682376c7e989b443d2dcd4cb904ec0ae",
+    "textHash": "2c5cd8766d3f52165db812d2aef2aa8c8ec6ecc9f27738f6aa1ec7e8c3b27ce0"
+  },
+  {
+    "url": "https://www.apple.com/legal/internet-services/maps/business-connect/apple-business-connect-business-terms-english.pdf",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 47002,
+    "bodyHash": "ada41aed013d6e2828df347eb051f0693e05d2e650ca698f5f4eb4451215aa9a",
+    "textHash": "c35825ebf84f1c06ca6d22f68c6bb13b0863695b1f8f00aeb9509d9069b8be76"
+  },
+  {
+    "url": "https://datatrust.coca-cola.com/us/en/notices/cookie-notice",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 242,
+    "bodyHash": "6e01658a316404ff015a49e576eeb7e2923761712090329fff48fb2ec6fdf132",
+    "textHash": "d5ff1290a404dcbd3022dfcc9bffeaef466bba6ac9de55cc04f8794729337b63"
+  },
+  {
+    "url": "https://www.apple.com/legal/internet-services/itunes/gamecenter/uk/terms.html",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "02a499e6273f813ecd96e65a5f23f7b63a803baa6c29235a1d03480dccd2edfa",
+    "textHash": null
+  },
+  {
+    "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=13819201",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified"
+    ],
+    "chars": 7865,
+    "bodyHash": "4a2ff19745af73d8066ead11205b487bd3dfa04a635c3eb01fe8700a60ac19a8",
+    "textHash": "7bdb702b908d2c8707f61031298a982d1c193f41c2b415286521999244bc3e06"
+  },
+  {
+    "url": "https://www.coca-cola.com/us/en/legal/terms-of-service",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 74991,
+    "bodyHash": "9a3cec052f9aa614ffffbad35d010396c002737b91d4c35a2f5e1f946361ba8f",
+    "textHash": "916480f4ff25ec5379ecd797367ab03c204b36f52dc4471496bfacafe9c35a80"
+  },
+  {
+    "url": "https://www.apple.com/legal/privacy/en-ww/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 28124,
+    "bodyHash": "e76489dab2cf373130f8bc9987504fb7d799b25a1f1de76b9ff160571d1fd220",
+    "textHash": "5d3bc787e5503e924127e4af7a69675e8a44f1ebcd09793575079978c93a81be"
+  },
+  {
+    "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=200775270",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified",
+      "disclosure_target_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 10695,
+    "bodyHash": "cf9a63e8283a0a37a3a5c4b0a6b001f0e2f02015280843976654a8b6596c791b",
+    "textHash": "f84951e84ed01b9955905b57daf01f062007badf534280a5e052254f1ae76f2c"
+  },
+  {
+    "url": "https://policies.google.com/privacy?hl=it",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "dialog_document_scope_unverified",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 107132,
+    "bodyHash": "916391ba754decf86a347a4eafa952ad738a66ba7b08ec425ccf5f4009a1aba0",
+    "textHash": "96131f6389e2c2a16b5d111a851d7c0c630f769a36c6074f993b6f6c86540472"
+  },
+  {
+    "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 137780,
+    "bodyHash": "6ccf605c630a9f6eed9f1929bd478fc6e77811be989b8c3d73f8c4a56097f0c6",
+    "textHash": "a6f6c94a49c2621edf2ed1e793a2fe13ed0b9135721c4487abbc95a127c160e1"
+  },
+  {
+    "url": "https://www.amazon.com/gp/help/customer/display.html?ie=UTF8&nodeId=GFUSWPZP368LFFA9",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified",
+      "disclosure_target_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 9802,
+    "bodyHash": "13704339f80f5c488a0d57702dd06bffd4f28ab85f27e551be07fa6468005139",
+    "textHash": "6e3761479c92dc3f586112c35407cead647a9bcb9b0a7151b6d5319c236cff0b"
+  },
+  {
+    "url": "https://policies.google.com/privacy?hl=en",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "dialog_document_scope_unverified",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 91355,
+    "bodyHash": "29c9feba85addea82be5a8e338b2f57e95ec69331ca4f7f84a6bd754d878ec26",
+    "textHash": "9ff1f6e227eafe80349057f826f12f4d85774ed3fb1744fcbcec52cee70d777c"
+  },
+  {
+    "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 57892,
+    "bodyHash": "3c3ff4f00a7468bb40ab3a9d5464b1b0a5942ef5ac519830a2243b7f04e4b219",
+    "textHash": "dbc08dc4eed85008ac3a1195e5d3ee3b28303f4b983fa3d0e46b511a6062bbe1"
+  },
+  {
+    "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202119380",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified",
+      "disclosure_target_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 26572,
+    "bodyHash": "6f08975561d4dde01d3e111a9aa2ab3414b891dfe3e8be0a81d957e6bef359ee",
+    "textHash": "3c85d17774de0456c55cf04b0299c6e12b17b15484a173792df2c2725f8504e7"
+  },
+  {
+    "url": "https://policies.google.com/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "dialog_document_scope_unverified",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 91355,
+    "bodyHash": "e7a4a24a9aa3fb750be38ec231a02cb5288068c8bd4b166ffbf8980b14480489",
+    "textHash": "9ff1f6e227eafe80349057f826f12f4d85774ed3fb1744fcbcec52cee70d777c"
+  },
+  {
+    "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/user",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 58667,
+    "bodyHash": "840fd19240b016483fd7e375f5ddf0c68735a655c4c49d7edfcbdb34f5861ecb",
+    "textHash": "be279a92c00bc6813c5b97d3e071af5b7fc365d54759b2304ca843245da461b4"
+  },
+  {
+    "url": "https://www.amazon.com/gp/help/customer/display.html/ref=hp_left_v4_sib?ie=UTF8&nodeId=GX7NJQ4ZB8MHFRNJ",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified"
+    ],
+    "chars": 24639,
+    "bodyHash": "3c54be0882a12a87de82ae380ac76478ff8e9086228eaf51ff88d65179a59478",
+    "textHash": "993ed5120c75318d98473698e001dc29c41935af329de73ab6165f36b146b08c"
+  },
+  {
+    "url": "https://policies.google.com/terms/generative-ai",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 2552,
+    "bodyHash": "8e726679f3788ea86bc3bda6a9f35ab3ccff4dceb64aba7c4f99b5a2293a37a8",
+    "textHash": "fcaed572cd02d502571a1ffcb14f786997ab5faf244f2af0ec5c90674c0155f6"
+  },
+  {
+    "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/user",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 97411,
+    "bodyHash": "7e45258df2e6c7fa0375827fbce8deb9545e843037fcdb4aa33d68dd62e0b673",
+    "textHash": "e53cfc4783f0a26c3dffa507991e2b414b3e4868990130138468a72c3ed9a4c7"
+  },
+  {
+    "url": "https://www.amazon.com/gp/help/customer/display.html/ref=hp_left_v4_sib?ie=UTF8&nodeId=201909000",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified",
+      "disclosure_target_missing"
+    ],
+    "chars": 28337,
+    "bodyHash": "9fcf21553cf0a4480dece9c1afda1099ce3aa3a2698e2a7f0292f1ecf1b8ed9d",
+    "textHash": "2d74ae327a24212d776172673d7bd4e98a511761089dea0ecbcf5569ffdd16a5"
+  },
+  {
+    "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/sms-terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 3692,
+    "bodyHash": "05f0a6d467fa366e7c2f53da9d4308dfb0c8a5a607c4f569d2c2460fbf9fda8b",
+    "textHash": "4bb24fc1a916a1d2f553e8b5a8786aa90ac12323eb1ceb3b60d4e3655eef5c29"
+  },
+  {
+    "url": "https://policies.google.com/terms?hl=en",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "dialog_document_scope_unverified",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 36276,
+    "bodyHash": "40e8e1665bf3afa064c699ae48f380f617007898b8e4acf3761009f95ef6ff4e",
+    "textHash": "8ffd4472dbb6f693aca904e221770681c7dd4988a331e2f81cfcda94ea987d6f"
+  },
+  {
+    "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/referral-general",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 13264,
+    "bodyHash": "fdb97f0946f259b40eee84e694fe417242c4bd589658d347a9916e24e8d78b22",
+    "textHash": "f8c0ea9f3ba20daaaaf7288713cc40708d8669b7e8077319f6aaecbbd518e425"
+  },
+  {
+    "url": "https://policies.google.com/technologies/ads",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 12166,
+    "bodyHash": "9cb0bf7afdb85a3b8f956c0b8d152d3a1bfd738d29fcbc9cbb8363c01daf4bf5",
+    "textHash": "39634f81d12061ec865b24fd47c7f56d4bb4c7862a9bdda11d09b8cf6710cb3b"
+  },
+  {
+    "url": "https://www.facebook.com/privacy/policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 106447,
+    "bodyHash": "3108e780b0686e9a4d5801b7f8ac8bf8481674494ec19401595011fbdb1207ef",
+    "textHash": "50b334defadb5b3a91e2537e3ddc2e399418273eaa74bec40e1429c4f166546b"
+  },
+  {
+    "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-balance",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 21901,
+    "bodyHash": "e6f05a8d4e460c24e569e8eb3f082b9e70230221482187c59d2473d5b606504b",
+    "textHash": "44619acfc521bc1aaabb42ccbbdc4a50eb443dc40896694f31b0c559031bc19c"
+  },
+  {
+    "url": "https://policies.google.com/privacy?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "dialog_document_scope_unverified",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 92039,
+    "bodyHash": "1ff81bb8d3ce6cf6d0030abf5e357814da27a3bca23d67848fbaec74e92d6eb6",
+    "textHash": "8980052e60dbac23e410ce075efcb6d2069ea7b0a06bdb3b5166aae462166f68"
+  },
+  {
+    "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-membership-plan-v2",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 49893,
+    "bodyHash": "b29b8e14dd8dc195145622cb7d05de9a63c86cb9c85e3de72c787681e212a8f3",
+    "textHash": "56e2804678305160efa491d3e3f8534a55c7c0a56bfab120eebda70ed7135a76"
+  },
+  {
+    "url": "https://policies.google.com/terms?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "dialog_document_scope_unverified",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 36390,
+    "bodyHash": "80df9cb66d0e029a1207aade6f27d2abac543c370f0af720838dc00322200a73",
+    "textHash": "c9b1a758197805e9d2a25e4ae48759fc7a2d1e69de620761a1bf337c8c70847f"
+  },
+  {
+    "url": "https://www.facebook.com/legal/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 35027,
+    "bodyHash": "81f156dbd0ab421005dd49fb627a2cd11f38cf6db15bc317811d2e1d82992de1",
+    "textHash": "57e8d758f39fa5175abacd68ee35b920fbfa775079347a9a65996d15ea73472c"
+  },
+  {
+    "url": "https://www.microsoft.com/en-gb/privacy/privacystatement",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 211207,
+    "bodyHash": "bf4c7c9298dfaa3cc75b632522d2648809e70cd5f767e5716027c57a561121fb",
+    "textHash": "72f09650980733210478e53ccf67dbe813ef5461afada581fd176cfa73288b31"
+  },
+  {
+    "url": "https://policies.google.com/privacy?hl=en-GB&gl=IE",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "dialog_document_scope_unverified",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 92039,
+    "bodyHash": "e747fd443ee0926c940b01ebd971f1be143d7dee3ef35f3cedb2e8b8c15f61e6",
+    "textHash": "8980052e60dbac23e410ce075efcb6d2069ea7b0a06bdb3b5166aae462166f68"
+  },
+  {
+    "url": "https://www.facebook.com/legal/ai-terms",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "b1198af3df8c8f7209fafe42f93124da0bbb88e4c93d8e5e7e21efdbf56f80e4",
+    "textHash": null
+  },
+  {
+    "url": "https://www.microsoft.com/en-us/privacy/privacystatement",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 211180,
+    "bodyHash": "0a4558c3fdbdec5b9f055af5f6d638bb0599f9c93f1de317068c039afb7bad0d",
+    "textHash": "961e07bb3e28ef32b4ce76c2b9c7bcced6f0a688a37e8b383a30e75bcde9f062"
+  },
+  {
+    "url": "https://policies.google.com/terms?hl=en-GB&gl=IE",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "dialog_document_scope_unverified",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 36125,
+    "bodyHash": "2fd064f792421b1fc8f918fc67696d027870e7832547ea92d1a3918a228ab8d4",
+    "textHash": "51b9287fd05da9e62538dc758000ee5ea226eb2c94ea6f63952b6d6f9d53896a"
+  },
+  {
+    "url": "https://www.facebook.com/legal/self_service_ads_terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "document_scope_ambiguous"
+    ],
+    "chars": 12955,
+    "bodyHash": "deeb5b9bc6d57a7cac4e22d9776cef92f9f1ef8204c4decfdf033d09ebb61f7f",
+    "textHash": "a6ceb8bb26380cb130e77f8acfc72b4c4ba91cfc0af3d172ecd24d1104abe820"
+  },
+  {
+    "url": "https://www.microsoft.com/en/servicesagreement",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 121815,
+    "bodyHash": "c1e130a972a31da9c84d369452619589012d6ae14d687340860937aef80ea932",
+    "textHash": "a4f6d7433a8c171cba1dc4e3cf183598d4b33716528c6f121974c480f2a1bd45"
+  },
+  {
+    "url": "https://www.xbox.com/legal/community-standards",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 29909,
+    "bodyHash": "2c56ba05e7d4cfd4e2d9192119aab2b6170e65193fe98c631e03ced20bc2218e",
+    "textHash": "0256be22ce4df57d89d98bbbfba3ae30e6102984f2119df691c73d7f7923e3bf"
+  },
+  {
+    "url": "https://www.facebook.com/payments_terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 53525,
+    "bodyHash": "b9f697bb88be03b71a2d3f0a2b872d43c2d0dddf443f01761573333ca2e905c6",
+    "textHash": "b0dca052a60e21c1687aba17f821db2d6a1366f2e8c26cca1295539d22f0b588"
+  },
+  {
+    "url": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/termsofuse",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 17939,
+    "bodyHash": "4353cb5cba307aa3e2da369f2c5ceb92abc4e2b404775f14bb6c89e4c86a9216",
+    "textHash": "a22bb06fc4840800f5ac78642b2d4a753bbb601fad1b81ec8ec55ccc7864e9de"
+  },
+  {
+    "url": "https://openai.com/policies/terms-of-use",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 21106,
+    "bodyHash": "39c51801f3038d42daf06e72b4636a41e8fea63070c66179c1ee200e7c1e2edc",
+    "textHash": "b5b4a42b9aea672b9caa7a78b97d4874b2bac7f3c5129da9305146f303e0c017"
+  },
+  {
+    "url": "https://www.facebook.com/legal/commercial_terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "document_scope_ambiguous"
+    ],
+    "chars": 17246,
+    "bodyHash": "6b75738ebf1c5f2fc2cc769fe99b683f49dab2ed25db0ab9063c6f722d6471a5",
+    "textHash": "472b5d3031294c7dc14cdf440a003d527d42546b774db6d482aca1dc8a22a2ef"
+  },
+  {
+    "url": "https://www.microsoft.com/privacy/microsoft-consumer-health-data-privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 10734,
+    "bodyHash": "e9b05eb22833b9bd07fe931029dabb0c11e382c0aae13c6a9c5f387a2685d1ba",
+    "textHash": "942bb4b5490952fa0d7fc486643f3da39eb3f255774271765f5c5cd7540c234f"
+  },
+  {
+    "url": "https://openai.com/policies/eu-privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 33753,
+    "bodyHash": "5d4ce9f9a95b0f4fa32c57f7f335ba09b73fde358e8eaa51662f74a24c6b5d7d",
+    "textHash": "470900f6ae0cfa96b2f886023af90cf4312756af1ccae56ce37e6fc4b9a650f2"
+  },
+  {
+    "url": "https://www.facebook.com/legal/EU_data_transfer_addendum",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "56f2afc11d945b8bcddaa3659b275d860d9a8e64e8432ef7098405c041dc59d3",
+    "textHash": null
+  },
+  {
+    "url": "https://www.microsoft.com/en-gb/servicesagreement/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 117634,
+    "bodyHash": "e4de952c913d1734891886036907355d70a8e3e05430c7e7dd2606564692cecb",
+    "textHash": "913eadb3ef35eb9aed73b7f035e1c1cc805117b07217c7dbfba8712eae958b8a"
+  },
+  {
+    "url": "https://openai.com/policies/usage-policies/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 11963,
+    "bodyHash": "2c2c82dfd28ace04a33c043fe69d12fe2a25a8a71255233a1ac834d6d9a2fbf7",
+    "textHash": "90251c510f1a85ab24cd3a2d729ebdeedb81db7cf8a4ee224c1c4c12c4603799"
+  },
+  {
+    "url": "https://www.microsoft.com/en-us/legal/terms-of-use",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 21388,
+    "bodyHash": "a2c78d3b2b8fab2e9bde751a9fe639aa9f048a9e73d2a98ccf4ee6b5b1dc791c",
+    "textHash": "a83ed4f97363eeb2c019a5653fffb763e07f008b71739568a550eabf965fda6a"
+  },
+  {
+    "url": "https://openai.com/policies/service-terms/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 17867,
+    "bodyHash": "cce4af91e4589d6afc075e9373f3c540c1aeacc82c5e9f5773bf43d1e0c510ef",
+    "textHash": "c41fd983791ff720c984078221d7d97d686c8f4f08f34c6a333a8648f4d814b5"
+  },
+  {
+    "url": "https://www.facebook.com/safety/groups/law/guidelines",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://openai.com/policies/services-agreement/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 44610,
+    "bodyHash": "7a167e115622b0cc345a7177b585335a51902ef3fae1aa0c05e21048794fe3e2",
+    "textHash": "83d6e657074f86582b421f40442f435d392dfac22a29c4b07ace044f1cc85c53"
+  },
+  {
+    "url": "https://www.paypal.com/lu/webapps/mpp/ua/privacy-full",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 120058,
+    "bodyHash": "d0e2345d2a8798460152e7f5db5825ade4b39cd95ee987ef1e171c5b5d6d92c9",
+    "textHash": "f32a29a0d6d8781de18b4257c2468d84897cf74c784268b5ce37d1b743b521d4"
+  },
+  {
+    "url": "https://openai.com/policies/data-processing-addendum/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 18810,
+    "bodyHash": "4fd59fbd6c750465e70fc69a61392ef15f08a2eef29352d2d00c67fff8d1cc40",
+    "textHash": "22bbe2d62ebcdbbaba78cdb62181a602e35c8436488d741edf7ee4d68dd5f635"
+  },
+  {
+    "url": "https://www.facebook.com/policies/cookies",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 3850,
+    "bodyHash": "05fe76d64e09e4f0f034c0bc053baddafdbb3ca6a3b36457410a1f6906b2fab1",
+    "textHash": "140c3296a8dc375efa704dac6d4c015633e47d1b6e6f7d54a156d3504ccea775"
+  },
+  {
+    "url": "https://openai.com/policies/privacy-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 33753,
+    "bodyHash": "acd327447ae2c439b27568314f9072f1e190373fc0fe684918863710bc67699d",
+    "textHash": "470900f6ae0cfa96b2f886023af90cf4312756af1ccae56ce37e6fc4b9a650f2"
+  },
+  {
+    "url": "https://www.paypal.com/us/webapps/mpp/ua/privacy-full",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 120059,
+    "bodyHash": "6287f776af03c33b63fc2e9df70c51b1250985ae6fdd809d82d7301d4e1e8d3a",
+    "textHash": "764bec17854b4922ca8d206835d45a714dd9f99262e61358dfdeaf36e19c0f31"
+  },
+  {
+    "url": "https://plaid.com/legal#end-user-privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 50146,
+    "bodyHash": "e955725e92db6481dacf60e72249b645d3246e57e282d9e6ee1ad1f93b505716",
+    "textHash": "fe7606b291c74e52a29665991a2abc5425103972d615cdd937852876222db4b6"
+  },
+  {
+    "url": "https://plaid.com/legal#end-user-services-agreement-us",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 9326,
+    "bodyHash": "e955725e92db6481dacf60e72249b645d3246e57e282d9e6ee1ad1f93b505716",
+    "textHash": "2a9ca0b926c6909aabdf0ab62feab4aac8a4b0e0bb5d710d4fa70cad871f7e19"
+  },
+  {
+    "url": "https://plaid.com/legal#end-user-services-agreement-eea",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 14080,
+    "bodyHash": "e955725e92db6481dacf60e72249b645d3246e57e282d9e6ee1ad1f93b505716",
+    "textHash": "e109c8a4674ca7b407c8e08764e28825d033b7c96b0ecc4575bb674078c4264d"
+  },
+  {
+    "url": "https://openai.com/policies/health-privacy-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 6356,
+    "bodyHash": "c895513c91c9f79a9fd42158c714926f33a378dc951a7c88a5f17587a097e93c",
+    "textHash": "70a5de4c18a8b8bd802d74a5794e03d71576731bea98a8eb0bc4336bc6b473c3"
+  },
+  {
+    "url": "https://www.paypal.com/lu/legalhub/paypal/useragreement-full?locale.x=en_LU",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 133794,
+    "bodyHash": "9890c36d355cbf90a3cc52bb2f0f452a0cc70dcd4ebf287ff4338007019437a2",
+    "textHash": "8a7ffd23d2b893d5b1d46b1955a8a8b1c40e94dc4d3500bfd6a8e77e9206ab35"
+  },
+  {
+    "url": "https://openai.com/policies/education-terms/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 25015,
+    "bodyHash": "25b247eff374aa2011c5ae155738db26834db2add8e5b7817e3a9cab5de85799",
+    "textHash": "802780070c1fda165ee6bdc9a973fd5dc190f4145997f97b2bee35d6ac3d6fb3"
+  },
+  {
+    "url": "https://plaid.com/legal/#developer-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 16935,
+    "bodyHash": "e955725e92db6481dacf60e72249b645d3246e57e282d9e6ee1ad1f93b505716",
+    "textHash": "0d846fef3f985a3b4f089640225fe42f906ba0706b4828fed5053ea398c9b1ff"
+  },
+  {
+    "url": "https://plaid.com/legal/#cookie-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 5281,
+    "bodyHash": "e955725e92db6481dacf60e72249b645d3246e57e282d9e6ee1ad1f93b505716",
+    "textHash": "1db465415419df76c20ffeb0780672906dbc7808455afa46df47d2e4c5949b43"
+  },
+  {
+    "url": "https://plaid.com/legal/#end-user-services-agreement-uk",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 22943,
+    "bodyHash": "e955725e92db6481dacf60e72249b645d3246e57e282d9e6ee1ad1f93b505716",
+    "textHash": "72d3bcc3b9d5929c16a2f80207c06f94c05a5d52fb4ba5127acb24e3f9938519"
+  },
+  {
+    "url": "https://plaid.com/legal/#plaid-account-terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 16783,
+    "bodyHash": "e955725e92db6481dacf60e72249b645d3246e57e282d9e6ee1ad1f93b505716",
+    "textHash": "91e9bc7b8860db14ed460ed1837ff75c312690fa2e6a7ed0a2bf7647af88eb4f"
+  },
+  {
+    "url": "https://cdn.revolut.com/terms_and_conditions/pdf/customer_privacy_notice_52996afd_0.6.3_1787324053_en.pdf",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 56687,
+    "bodyHash": "c6f16a15981262a910f62b51a35f93d352a8fd5ec07c593d980596ada676eb1b",
+    "textHash": "8fa7f7088333d676e60da072350a2c4ea5032d3e573d0b727bd326901cc7ddf1"
+  },
+  {
+    "url": "https://www.paypal.com/us/legalhub/paypal/useragreement-full",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 174163,
+    "bodyHash": "8ec277df11bdadd5dcf17666de4ad111937f057e7d38b7dbc9c917cffb06c413",
+    "textHash": "3d1077ef61aa4d326833f070eebc97dd435227f248eb3569c7273e72530a3c98"
+  },
+  {
+    "url": "https://stripe.com/it/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 94194,
+    "bodyHash": "0f9ae6e9be70a37ab00ceda23535699277dc01aeda64e4899c9fba1dd685a3aa",
+    "textHash": "4780a61c79431372f3c55037193cd7a0a021052997530b0eb426719b6eddb54b"
+  },
+  {
+    "url": "https://cdn.revolut.com/terms_and_conditions/pdf/customer_privacy_notice_9b445a83_0.4.1_1787310726_en.pdf",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 56926,
+    "bodyHash": "179e5705eb93346286c28f02a23a0d0df0dee46d38d4d22339ea0398bbd82a89",
+    "textHash": "acebe54d7576cf62c9b2383748266faa47497b45c9eb921c0951dcf986eb2da3"
+  },
+  {
+    "url": "https://www.paypal.com/us/legalhub/paypal/acceptableuse-full?locale.x=en_US",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 7541,
+    "bodyHash": "1838efd8c0a174c34c84335f4cb53ecead0fa057de5d14a0e625d4375ab1e6ff",
+    "textHash": "b4cc057cf195abcbe54a91ea0d5b5f69dbb76ebfa1743a41b6cfbf0ef5a191d6"
+  },
+  {
+    "url": "https://stripe.com/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 70703,
+    "bodyHash": "8b6a30a050162957a887ceccdb6916c02cae1194fa939d0a5b1b4692df675902",
+    "textHash": "15ba389d1490a0fec16371f151c765c7909f5739497eeeb82744f8a9943d121f"
+  },
+  {
+    "url": "https://cdn.revolut.com/terms_and_conditions/pdf/personal_terms_be7cbf8e_3.6.0_1769700076_en.pdf",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 89118,
+    "bodyHash": "d8eb0f3072b54ed3f86166280ee793fe48dfa5a2a7b5d8c2b84b6e31f95ce95b",
+    "textHash": "48508d4e136312023a1b7d894c6007f711d9e60c352943376c1254ce45d9599e"
+  },
+  {
+    "url": "https://cdn.revolut.com/terms_and_conditions/pdf/personal_terms_e59ea0d9_1.5.0_1765469787_en.pdf",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 71573,
+    "bodyHash": "44ba8438b1fc4e5a8f16a314092028f6943779a1a58732a4d2c68943804aee97",
+    "textHash": "eaeaf3f8bd4cf75a4b6031b012c08f1883943e386babc769103740ae20606eae"
+  },
+  {
+    "url": "https://stripe.com/it/legal/ssa",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 125071,
+    "bodyHash": "6c90eca441f242e32d57009dc2717753d4ffa72fbe0d33cdf550e8b1073bff29",
+    "textHash": "5cb7aebe0f71394afaa6876ae40eaac84949850e79353523f288f5aa118e416d"
+  },
+  {
+    "url": "https://www.paypal.com/us/legalhub/paypal/dpa-business-management?country.x=US&locale.x=en_US",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 15110,
+    "bodyHash": "9ba4f2ba0099eb9073d59225e5d8ddee7e991d0e61e1b6bb3b2160e63a68a373",
+    "textHash": "737413437f2694b040ece640068030e8243400519f14baa5d12c09925aa32ce1"
+  },
+  {
+    "url": "https://stripe.com/legal/dpa",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 29043,
+    "bodyHash": "0bb2945238ef98bee361d6884266e2dd33f453de2dd9e97aa2a232e3780c2200",
+    "textHash": "7de1d17d5129f29ef75442aba96940df4aefd87abbe916c1f626f2f6f9ebc304"
+  },
+  {
+    "url": "https://www.tiktok.com/legal/privacy-policy-eea",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 47001,
+    "bodyHash": "5a665ffb932ddb420cda05780144b01179778dffd0580e8ea5009b2cf750194f",
+    "textHash": "70367413e71da301c56411609d86045242911211e59a1f758a790e5f4ca44af3"
+  },
+  {
+    "url": "https://support.google.com/waze/answer/12075406?hl=en",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 46191,
+    "bodyHash": "3ce5ccb632b2334b42af10c6ef78a7d040dc0e0ceb3438291b5c9d0f29133ab9",
+    "textHash": "5a34d5218d72e209b2f3626f1a9c281060dd1b9fae6cc5f33d44c9d02e0e028d"
+  },
+  {
+    "url": "https://stripe.com/legal/restricted-businesses",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 25597,
+    "bodyHash": "c71d4c47d531cd2b1035cf44a5d1a7ca4242eba35772bbb5053a1c08ba58cf20",
+    "textHash": "92fe8b0b9295fd5742ac94d260d58e4de81d61656c6b13ebedd9e53f25e00a33"
+  },
+  {
+    "url": "https://support.google.com/waze/answer/12373727?hl=en",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 32820,
+    "bodyHash": "6e63c99a19ab27f33d8cebe535eca32082b36384019f140d8adc989a3cc6a6d3",
+    "textHash": "dcb889fbd609bfec5a32f6c8749b15a28b5b10620d0f7ec6f8e92557350df47a"
+  },
+  {
+    "url": "https://wise.com/gb/legal/privacy-notice-personal-en",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing"
+    ],
+    "chars": 51201,
+    "bodyHash": "f6fe8e5c4164343c447f030a2ad33b8d284d6569719863eefe67a04ef659c3e3",
+    "textHash": "79353be496a369058ec8dfde60cd46424f1f0694d164eb3cc2012e0b2f58b2f8"
+  },
+  {
+    "url": "https://support.google.com/waze/answer/14013702?hl=en",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 9977,
+    "bodyHash": "f74f1a1fef8a72c12cc4860a862389b402b58d388deb18afd84b3f9e7f0e58ca",
+    "textHash": "9e3ccae688a3d546a8ee3b4145d8ceb13bbcc1225c13bc6a9d682b20e8c8859b"
+  },
+  {
+    "url": "https://wise.com/us/legal/privacy-notice",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing"
+    ],
+    "chars": 4150,
+    "bodyHash": "6e74a2f4d5987fc2a00f7a91573fc64929f2beaea21b39243c0c6e3aeabc166a",
+    "textHash": "32a6c20f7cc70475ccd67b471fac2361a9dd12b300aa7596db40fd4a959f664a"
+  },
+  {
+    "url": "https://wise.com/us/legal/terms-of-use",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing"
+    ],
+    "chars": 127053,
+    "bodyHash": "ad00ea86cd6ead30a55a92fef53d5d00fffc58f29460f5d2ef9457701813b1aa",
+    "textHash": "a262c3cdb7a9e300d0024750dcd1337405fd7fb04f305b5e9bd8fcd0ff3ac1bb"
+  },
+  {
+    "url": "https://support.google.com/waze/answer/14600409?hl=en",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 2384,
+    "bodyHash": "95c283a5d0dd12a109af89da34d081942649aa8f1529e976dc6a792f9170954f",
+    "textHash": "1ac5c78fce57dae0fa3139e22b91eb8cc3a53b8eff8f1daf616100a9b1a3c76d"
+  },
+  {
+    "url": "https://wise.com/us/legal/acceptable-use-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing"
+    ],
+    "chars": 9756,
+    "bodyHash": "da3d1ae36af773bce978218c66d21539b98c71488548d3769e10ca4840ddcb50",
+    "textHash": "a81d662a27ef60ee134a60e962272d166056e708e75fca171750d8316928b56d"
+  },
+  {
+    "url": "https://support.google.com/adsense/answer/9335564?hl=en&ref_topic=1250104",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 24499,
+    "bodyHash": "8ab17e2197bd39ce98b9aeba08e9ca6354e0a9d10eb1be5a50ec12946eeaa3fe",
+    "textHash": "3a57c93bb3d0453043a4c10c7f4678efebece011f9cd0a63847782f246976d39"
+  },
+  {
+    "url": "https://wise.com/gb/legal/terms-of-use-personal",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing"
+    ],
+    "chars": 103696,
+    "bodyHash": "6bef295a9b33f8a45c576b8244c4227b56988bd0ed149173023b972655cb23e4",
+    "textHash": "71e0fa824a91edd6239b0bd475537f19edbaccf4b8add15fd9f15debdcae578b"
+  },
+  {
+    "url": "https://support.google.com/adsense/answer/6370057",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 9641,
+    "bodyHash": "11d9f9627f81ca13fba6639177891d51aa71f2985ebaf8afed32853209f26b94",
+    "textHash": "a31b87f6c18a581d3e393699d39d26643ba3693b809cb40d05fa06132ccab8be"
+  },
+  {
+    "url": "https://wise.com/gb/legal/terms-of-use-business",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing"
+    ],
+    "chars": 107308,
+    "bodyHash": "42096f6a19315b12fe7001b939e307420b3bd4e1a4e82382c2813c976b775bbb",
+    "textHash": "cd70f0b770f39be4555b42498dc98ea23fcbb48c05d1dc0a98c1880d17a06743"
+  },
+  {
+    "url": "https://wise.com/us/legal/terms-of-use-business",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing"
+    ],
+    "chars": 123729,
+    "bodyHash": "abf489c16c26fdbe28f82744fc05dd66d9a11e8da8ba6d774ceb295f10dc298a",
+    "textHash": "a686405c82aa0aecea434c31f79811bf8c733e6212715d0461f584777ce16896"
+  },
+  {
+    "url": "https://support.google.com/webmasters/answer/35769",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 4211,
+    "bodyHash": "eb88a33c725eae93319ec3ab67d5accc89278ad90601792a147e97fa3345c9fc",
+    "textHash": "d361450e58edd35ad91aeeb4ff55cfcd73c8a0b7c9d20e23db53997ea95ebf4e"
+  },
+  {
+    "url": "https://wise.com/gb/legal/privacy-notice-business-en",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing"
+    ],
+    "chars": 49398,
+    "bodyHash": "6677b275793f079f246d316661cad0a86080e31e23a160484eb3c1df51bad56c",
+    "textHash": "0c50166bffca5d44308ea1759e8c8eb5758c490f5c670dd837f27996d455b899"
+  },
+  {
+    "url": "https://support.google.com/adsense/answer/9335567?hl=en&ref_topic=1250104",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 15057,
+    "bodyHash": "186847753f4b9dcf2cc960fbde5c48ceda2a20344b53c7ea9125b7ca8807b5c1",
+    "textHash": "aa5ecae7de4b5aa4253cd1fd57e58e335b9411a108e7553d141b132818c51d23"
+  },
+  {
+    "url": "https://wise.com/en/legal/wise-assistant-terms-of-use",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing"
+    ],
+    "chars": 4505,
+    "bodyHash": "36453e90610634cb76bd4e9c3e47e6fb70a1c609a56aa17bfbf7917742a818d3",
+    "textHash": "ba931e0827d2140b5f86ced4c28a2683b04eb1d03ab9c44e1178fc83fa07e5aa"
+  },
+  {
+    "url": "https://support.google.com/adsense/answer/9335564",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 24499,
+    "bodyHash": "1679fe7db4bf33f4f90d763855920d7aad1c2503f01186ec3d0bc7990a7db665",
+    "textHash": "3a57c93bb3d0453043a4c10c7f4678efebece011f9cd0a63847782f246976d39"
+  },
+  {
+    "url": "https://x.com/en/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 33155,
+    "bodyHash": "b593b21cebf1acd83041c763cf8e4c8502e8e741186a80e67454508207ea9889",
+    "textHash": "3022848f2c3d5d9554be9209b9e4b7d057d38ce18b556b49173d81c52412434b"
+  },
+  {
+    "url": "https://support.google.com/adspolicy/answer/6008942",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 24187,
+    "bodyHash": "2fbbe6dea2bc2a856c9a0cbc8c954324d060b842f5842a55cab47e8f6b44ddb7",
+    "textHash": "0e25ac8061ab497511589deee2372a5cec04270420fce62b45b08d398977d3f7"
+  },
+  {
+    "url": "https://x.com/en/tos",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 61851,
+    "bodyHash": "3fea0cc17f2e9aaf29f983f277ca8b579c19e8ac6bc7062a4bb3feb680be4010",
+    "textHash": "3e5d660a42d64cf014c3a2d8562fceeb974c369f93cd57bc5f4ae1fb5e36fe72"
+  },
+  {
+    "url": "https://support.google.com/analytics/answer/9012600",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 54176,
+    "bodyHash": "f65132cf6b758d1a80ce222ff0b5f9ae8e32e2623de64945cc767cd47acfa932",
+    "textHash": "4d5a6b8c0387146fb7fd293132b5faf5bb0abef0337d6b53c3bb189849a7a90f"
+  },
+  {
+    "url": "https://www.zoom.com/en/trust/privacy/privacy-statement/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "document_scope_ambiguous"
+    ],
+    "chars": 54024,
+    "bodyHash": "5e55db74053bde869bcf204aa930d1f6674f575a0a7f8ba26bb7528f2767e599",
+    "textHash": "515ac1a187255909b621ab163edb5a63ca7d4eccbe84a87574b1fe03b0d93f42"
+  },
+  {
+    "url": "https://www.tiktok.com/community-guidelines",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://support.google.com/chat/answer/9257382?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 8133,
+    "bodyHash": "5e63c9aa550494c949ac199ba7eb12377dcc28e1c54a7e13576f32206632e1ff",
+    "textHash": "9cea57247f9a26f2b54d4934f7605ec6cd5cc7a0a4535912fc79b127cef53019"
+  },
+  {
+    "url": "https://www.zoom.com/en/trust/terms/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "document_scope_ambiguous"
+    ],
+    "chars": 87356,
+    "bodyHash": "16c6103d2081831d1003f6b7cc2f03bf07f066ef28c639908fa306ffedbfaa03",
+    "textHash": "f57c65740a4637b7d098959e289a6a549af472cf52c15e2699d56edb3f899765"
+  },
+  {
+    "url": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 28668,
+    "bodyHash": "f4ec56b5dc325edcad72b2605508bbd921ccb3643f00a2953fd469041a22a82c",
+    "textHash": "86f996a0affeb9fca248277c74123b9b0bdd810388f0e3b4a274ec82ac689b1e"
+  },
+  {
+    "url": "https://support.google.com/edu/classroom/answer/7165963?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 14054,
+    "bodyHash": "f27a95d313508b1755b1ccad256522f3aa6dbd66894301b971a91f1f908d1ea8",
+    "textHash": "d0fcc63c01b4655de32b08b3ae6ee2aba536f11882e0a690dd8fe74dee0a4f90"
+  },
+  {
+    "url": "https://www.zoom.com/en/trust/acceptable-use-guidelines/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "document_scope_ambiguous"
+    ],
+    "chars": 17051,
+    "bodyHash": "b732bcb45571188b91cc1edbe6647c64f464d130e72cbb00980d72b5a1a0382e",
+    "textHash": "6c65afcf0392beec092cf24e46ff4376213a07cae189cc95242e2afe399b214b"
+  },
+  {
+    "url": "https://www.tiktok.com/legal/page/us/terms-of-service/en",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 41797,
+    "bodyHash": "eed572eb0d3fc12268af1394af0205e8561e4a2b17de848cd779e2cc0782304c",
+    "textHash": "59a9360aca2e23828f880e9b905f088e8cb8d5a3a3e4f52938003698160ce1d5"
+  },
+  {
+    "url": "https://www.zoom.com/en/trust/zoom-phone-acceptable-use-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "document_scope_ambiguous"
+    ],
+    "chars": 5267,
+    "bodyHash": "abe62e2b878f41f71d8bcbab7033f53817ba09285cfcb52f8ad927b3923fa4f6",
+    "textHash": "b1d5379980d783628d8cdcdedb861619355b1c7b03c19eb97fa9ca7b4af890de"
+  },
+  {
+    "url": "https://www.tiktok.com/legal/page/global/childrens-privacy-policy/en",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 9746,
+    "bodyHash": "9c3f1bf20d066ec9bc41ed5bd7a05d0b660fe25b4730565a2b809c59ef29c530",
+    "textHash": "5d7abaa7de9689bff03e92169e818ae4da8a89d6d6b0301079e03abda6d9ead5"
+  },
+  {
+    "url": "https://support.google.com/datastudio/answer/7020012?hl=en&ref_topic=7156687?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 1758,
+    "bodyHash": "8f78012892916abee33285a86c1c8a8efedcac90d5f58826f1c3824863ebf6f8",
+    "textHash": "74046e0c7ff8594c17328648f634db9c08a5cd0ce7cdbea3ef321dbb7eed072b"
+  },
+  {
+    "url": "https://www.zoom.com/en/trust/contact-center-acceptable-use-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "document_scope_ambiguous"
+    ],
+    "chars": 4712,
+    "bodyHash": "172eeed6d913b2659d1ff3947b4f7240420d2bd02eae0de97c6e2577b177e3e9",
+    "textHash": "d5e4f7ca169076516b7eadd0ba4cd3470fe110f2fba8e859a0831d6fa66a3928"
+  },
+  {
+    "url": "https://media.zoom.com/download/assets/zoom-global-dpa.pdf/dd327ebea27e11efb613d6ba63ed4cee",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 106506,
+    "bodyHash": "8a2e276481a23321e9c8544ff84e16789484d07b40ba372c4a5ec4ecb086f883",
+    "textHash": "070fdd1fb6363f0dce8642c0fba6518b980a9660629f9c4a196973968f421430"
+  },
+  {
+    "url": "https://www.zoom.com/en/trust/zoom-events-privacy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "document_scope_ambiguous"
+    ],
+    "chars": 40776,
+    "bodyHash": "23e576121445189676d18af963e86132242985824af8abea837ce8b24a17a919",
+    "textHash": "520de2b69d74615d6d638079aeccebbcbcbaf0e997ec880ee30b72a53468c94b"
+  },
+  {
+    "url": "https://support.google.com/datastudio/answer/7019158?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 25736,
+    "bodyHash": "c56978a5a5035747f1442c0660bcc8999aba206fc57926e54531fb6ec46098f5",
+    "textHash": "7b1766359dfb02abae60e272ae4860c643d1978fbef04b3960f32549a209f5ff"
+  },
+  {
+    "url": "https://www.gm.com/privacy-statement.html",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 47589,
+    "bodyHash": "dd92864c9241bb7f197ce8953c38ea433253463f625c134eaaa2b8fcc6825195",
+    "textHash": "8a72168b0b552da961998597acb1adae62520a261233033fd84855d9bd67ff8f"
+  },
+  {
+    "url": "https://www.zoom.com/en/trust/us-privacy-addendum/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "document_scope_ambiguous"
+    ],
+    "chars": 18491,
+    "bodyHash": "3782c39c764939746c4614f365e88e865433e593850efc7de4bfe81e96c495df",
+    "textHash": "fcdacce58be4c899055d6240db10e24a9b1f4afa3c02b4f8e5deb1e52ea52368"
+  },
+  {
+    "url": "https://support.google.com/docs/answer/148505?hl=en-GB&ref_topic=1360897?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 23064,
+    "bodyHash": "f959a4004aeccfc6260d246d2bb7075a7d00c2b180d69e4b4c43847e2b0c27bc",
+    "textHash": "a1ee189db7b91eda4758b8dd4706be9699e4c9b134ad07292db80ac96d594ee1"
+  },
+  {
+    "url": "https://www.zoom.com/en/trust/schools-privacy-statement/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "document_scope_ambiguous"
+    ],
+    "chars": 11789,
+    "bodyHash": "343a0aa406e34c1e2da0177675120289a0156475df2310186b5d21a3d5aee66e",
+    "textHash": "135b6df72dfac911fb1170050a536dfa9274935b73a09193d2ac096548ecb41b"
+  },
+  {
+    "url": "https://ask.fm/docs/privacy_policy/?lang=en",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://support.google.com/earth/answer/9477965?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 9516,
+    "bodyHash": "0f4d60ebc41db8cff957cd0008c71c2c66d88d76c729d0ff0d68a0c256741fd3",
+    "textHash": "d82e2f1a9151b9cffe29ab969096be9c2cc4d2f5451b45fda85e425ad897f23d"
+  },
+  {
+    "url": "https://support.google.com/groups/answer/4561696?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 10017,
+    "bodyHash": "1b25af35d3c3d0de6dc2497591b2d0d0d2e68d96ed60beaf3a6141928294ed8b",
+    "textHash": "6c7dc3f4b4d05eee692e460dc14721d3f7d413a5eb85f8a537ae8ed2ef2c2058"
+  },
+  {
+    "url": "https://www.asus.com/Terms_of_Use_Notice_Privacy_Policy/Privacy_Policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 32460,
+    "bodyHash": "718fdef50f15155ceaff7c142aea8864f8ea05f6a3f881fc18076ef322418742",
+    "textHash": "c936718c15aa5430cbc2853a63255b9ea0019a1d117a5287acd4071d9d6d8edf"
+  },
+  {
+    "url": "https://about.ask.fm/legal/en/terms.html",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://support.google.com/manufacturers/answer/6124032?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 5326,
+    "bodyHash": "42ef6dcc8ce3b749193c87119b35756579fa5ffffdf356ad8e54f38f9d67e982",
+    "textHash": "915297a57b49e4f08e0edc48f9327d660fa7ebd5c31b58731ee09d7558063c6c"
+  },
+  {
+    "url": "https://www.asus.com/Terms_of_Use_Notice_Privacy_Policy/Official-Site",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 15361,
+    "bodyHash": "3308b8bdabb666279f0a3c15eeb8f73f1fde8c660989bf23211e4e4d832027cc",
+    "textHash": "edd8285aba1e30d8870b7c783b2088a0caccb3bb45f097385ac41bee84458995"
+  },
+  {
+    "url": "https://www.asus.com/content/asus-product-security-advisory/",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "7b35f0c8434d3fab5eb611534fc184eb545d9d9517bde0f2f689e6a941eb009f",
+    "textHash": null
+  },
+  {
+    "url": "https://support.google.com/meet/answer/9847091?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 9397,
+    "bodyHash": "54c30286ae107526a2cf1d919beb3efa489bf51ea1395e3a5283eefd01f40b77",
+    "textHash": "2e7eda8d4a59a00bd233f8fb12706cc62e4eaa17b743683c4da3e977cfbc3f31"
+  },
+  {
+    "url": "https://about.att.com/privacy/privacy-notice.html",
+    "before": "rejected",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified",
+      "hidden_document_content_unresolved",
+      "document_scope_unverified"
+    ],
+    "chars": 3597,
+    "bodyHash": "521fd0e8f04040d412c7218e425705cb16f2a82bd0cd1c3e561f31da706e1ba0",
+    "textHash": "f86695ac61f67bfc87275ccf6a3e280ed9f0861ed09a462c6e5caf308f9cecec"
+  },
+  {
+    "url": "https://support.google.com/merchants/answer/6149970?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 15854,
+    "bodyHash": "379de197e238591a2e5199749c44af3231b6f5720a6f820306ce9324019ce0d6",
+    "textHash": "a30bcd319eb4a11223300a9c24ffb1355a1b4712c93b65251f0c9e2a121fcde1"
+  },
+  {
+    "url": "https://www.att.com/legal/terms.consumerServiceAgreement.html",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 327262,
+    "bodyHash": "cd1c221ef6810be384cf8d310aab67d05b47278a28dd4bb5668ef9c7c5b12dc0",
+    "textHash": "886109fc84c49cc407062cffb810be9a5530e5faa0a69fa5f56d6759ef4312f3"
+  },
+  {
+    "url": "https://support.google.com/business/answer/3038177?hl=en-GB&ref_topic=4540086",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 28479,
+    "bodyHash": "27ce39c22b4f8ed93b164f34731f797da8330d3013e3f3f50134e4ae1447b84c",
+    "textHash": "02234471064d88b5c724089cc349aa51b73427c4544ceb2af3d92404116f925e"
+  },
+  {
+    "url": "https://www.academia.edu/privacy",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://illumin.com/legal/privacy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 26181,
+    "bodyHash": "0171b123c204dbf18c274d16ae3716a2b525a1d7239c524e6b7535dd0304ff43",
+    "textHash": "8d4620926baef076af0a6fda30d84a272a7fd7f42672a24e93aec2922428a5bd"
+  },
+  {
+    "url": "https://support.google.com/business/answer/9292476?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 7603,
+    "bodyHash": "f3e9cf8e750ec3dab632ff7c06d03f562d2c65fa20757fdf5a393ba20182857f",
+    "textHash": "8bcefaef8be596b9bfab3af85f6b47c1a301bd21b601fa171e0c0136bf38cc94"
+  },
+  {
+    "url": "https://support.google.com/googlenest/answer/9327735?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 22327,
+    "bodyHash": "dcda6cc5f3caa80c4fb0697ed5b3c7c616f08189ccb1b1b559c087e8bc15cf4c",
+    "textHash": "8275d988fefb59a1fad9bb242f8275647b1d08bc8c4e7f4efc534bef76691d10"
+  },
+  {
+    "url": "https://www.academia.edu/terms",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://support.google.com/photos/answer/9292998?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 20513,
+    "bodyHash": "699c1097ca269bdaa1a5ea26931402ca19a88460f7695d4a976ac8969bbc3f99",
+    "textHash": "815b7e7bd9bf7c95fb6845195636d538e04b7a4d9e6ae5874617946c7182af89"
+  },
+  {
+    "url": "https://privacy.google.com/businesses/controllerterms/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://support.google.com/googleplay/android-developer/answer/11044265?hl=en-IE",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://support.google.com/voice/answer/9230450?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 4174,
+    "bodyHash": "5f5346585e7b73b6269f5ea4d413f0261b9f03567d5cedb1f8e8396adaf3223d",
+    "textHash": "b11a596b1db067567ca7d312bcdf58e186e461e98cbbc3467201f2285c9e39cc"
+  },
+  {
+    "url": "https://privacy.google.com/businesses/processorterms/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://support.google.com/voice/answer/9231816?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 3951,
+    "bodyHash": "8f54aaaee63ad41de6c8e829a17dc6429c2f8391d0aafdb8725a03ccf281342c",
+    "textHash": "bdaa007c30208de8caa9248fdc920541d8c114f8df561604c173098e7e77b415"
+  },
+  {
+    "url": "https://www.google.com/about/company/user-consent-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 1903,
+    "bodyHash": "1373d72716489da7559b7963beeefef7282ad8ec5bfd595a5d0d8ae6dbfe0225",
+    "textHash": "ad105ee12b34facebf875da12f87b6c123137ceee52bdcbd08113231a3033e49"
+  },
+  {
+    "url": "https://support.google.com/nonprofits/answer/9004493?hl=en-GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 5075,
+    "bodyHash": "f2ac357d2b67706ea1de2b021d7df02c7be690bace170531d0475a9bb6b89f41",
+    "textHash": "5e3fc5d2bc0967fa75c5a187075d5fccadb40dc0247d24b2977732b1fd13fd85"
+  },
+  {
+    "url": "https://www.google.com/adsense/tc/2018/UnitedKingdom.html",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 161,
+    "bodyHash": "2d1601b96cbaafac78ae7ff8d7666cc2b8785fbdb1a34c2296c017824ffbb2a3",
+    "textHash": "6109889f3203e26596c1f7bbb87da3415ecdcff8a56f348814fa04cb91971161"
+  },
+  {
+    "url": "https://www.acuityads.com/terms-and-conditions/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.google.com/chrome/privacy/?hl=en_GB",
+    "before": "rejected",
+    "after": "source_block_or_soft_404",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "bf73c9d46117d851c232d2ff646a379d244892c604e430e5238447558b5f56e4",
+    "textHash": null
+  },
+  {
+    "url": "https://www.google.com/chrome/terms/?hl=en_GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 1155,
+    "bodyHash": "3c83963b37a70539845e683980ca9a9b00d4daf63828e9b7717bdfa5567da300",
+    "textHash": "6b1ab9f5cd5e82740ea7c78b4cb8a852386f504280d84f9937938eac09d953b8"
+  },
+  {
+    "url": "https://help.adroll.com/hc/en-us/articles/360031225371-Prohibited-Content-and-Practices-Inappropriate-Content",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.nextroll.com/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 128887,
+    "bodyHash": "ef4b4552c40dab57942e1d4c582d46928e72aa2b2b14cfc623119c751797af55",
+    "textHash": "aed5bcd61ba20103d628ac1369a8597aff8ee29739b95e47be934fe9184ac490"
+  },
+  {
+    "url": "https://www.nextroll.com/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 52910,
+    "bodyHash": "3fabb6c045b01cce51c86015b690321636d9eef1d52667e70d67ce170f76f3c1",
+    "textHash": "5f18825289fe3563ba9198c022dba625466bd20e252cab49fac91ddc245a12af"
+  },
+  {
+    "url": "https://www.google.com/glass/termsofuse/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.adsupply.com/privacy-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 46426,
+    "bodyHash": "108fa34f774d858bd920c341d230cb1f2b122852533694d0d019a0d3f81150a9",
+    "textHash": "0e3fbf3a5d9be4d33ee21f2553fcf861fee491ab05b496c35c5327ad1ae411be"
+  },
+  {
+    "url": "https://www.adsupply.com/advertiser-publisher-terms/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 47878,
+    "bodyHash": "855ef83eb40377596fd6ada3d8622a8feb93aaeb8f5bbafea1cca1e2729bae98",
+    "textHash": "9d9fb08a959684a52b1ea1cad1d6387edae8e20b951ccd50575f4733a8b5c9cf"
+  },
+  {
+    "url": "https://www.google.com/gmail/about/policy/?hl=en_GB",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.adsupply.com/cookie-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 3667,
+    "bodyHash": "1e5233b96ac97100771d2e53ed1834305658a5681436a4d7cb3887a8724380a3",
+    "textHash": "7f285a4c8b9cbe32cf7d4aa182f858ef1253226a8fec2e24a090a96f3a526bd1"
+  },
+  {
+    "url": "https://www.google.com/intl/en-GB_FR/googlecalendar/program_policies.html",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 793,
+    "bodyHash": "557e48ab23af0fc753380789d8983460c8f54bedbc1acc7fabcd5301908e8176",
+    "textHash": "659361cb9b8015c42ff4fe7a012c5752830cb0572b4a10a665a005b8e9d491e8"
+  },
+  {
+    "url": "https://www.aetna.com/legal-notices/privacy/web-privacy.html",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "disclosure_control_unverified",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 45273,
+    "bodyHash": "b9e79e8c0774107dd7c4ad8507e36d623acb8c1903037371201c35224787b416",
+    "textHash": "855aec088db20d3eadbf25d8db19d35c531ba46fdb7d823a5d66023a1ad376fc"
+  },
+  {
+    "url": "https://www.google.com/drive/terms-of-service/?hl=en_GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_ambiguous"
+    ],
+    "chars": 1419,
+    "bodyHash": "6d12345bbbba47a470dc56c048c6baea3a8e69afb82fd3636dcf287b656bdbfe",
+    "textHash": "5bbdea8a1247fad1a5afc412113939f25671da106b361bc6bbd446b128517fa9"
+  },
+  {
+    "url": "https://www.acuityads.com/cookie-policy/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.google.com/help/terms_maps/?hl=en_GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 4744,
+    "bodyHash": "df7db2c620cbd226f40518d6fe24fc7a78c1d7d4c2cec614d1abeb75a320ed4f",
+    "textHash": "dcc2a71cb02ffa464e57c70e1ea1f184959e80ee06dc4dc9261b80adff8ee0f4"
+  },
+  {
+    "url": "https://www.airbnb.co.uk/help/article/3175",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 58267,
+    "bodyHash": "524991bcf9253736e0c5d7cd27d6db25ad123dfb498bd67fc8ebf17379f0561c",
+    "textHash": "4d7b01128c22255e54baea7a5e5314c43ef879c2f4e07d0b9ff00a45fcf4e794"
+  },
+  {
+    "url": "https://www.google.com/help/legalnotices_maps/?hl=en_GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 179092,
+    "bodyHash": "beacd1b4eb66d18569532ac43553421c8c62b70556414cc3473e66366f8c690f",
+    "textHash": "49252c11d5abeda7190f92516df401dfb4358c00cfb064da7b41b80698bdc2cf"
+  },
+  {
+    "url": "https://www.airbnb.co.uk/help/article/2908/terms-of-service",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 258413,
+    "bodyHash": "df42743584462c91a1414b2a0bdf202fc503158e123be3b32a51092dabc334fc",
+    "textHash": "6235a54e2ba40680c0f8d0e2a53af231a2e4ebdc765904eeb71d2aa6f700c7ed"
+  },
+  {
+    "url": "https://rule.alibaba.com/rule/detail/6391.htm",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "4d5bf1b3cf64fc16a82ba778c7cdb0ff3cf3a6075b2e4f7939fef0b0d401b51c",
+    "textHash": null
+  },
+  {
+    "url": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2034&cId=1306#/rule/detail?cId=1306&ruleId=2034",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "2f248c9a8dcc7922a1f1353433b13509716cbd3742857b8c83603221ad38e1a2",
+    "textHash": null
+  },
+  {
+    "url": "https://www.airbnb.co.uk/help/article/2866/airbnb-cookie-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 13454,
+    "bodyHash": "941b9d4a37b2f443c658b403e3317a22827f212b595bd5fa51e53e8db1c117e7",
+    "textHash": "768b520690f839efda883859472b084beb3677c8e57fa49595ed9348a6bd2672"
+  },
+  {
+    "url": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2041&cId=1307#/rule/detail?cId=1307&ruleId=2041",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "55ea88a8a22d2b62ff94084e675f2cd10967c5c24924c5d7e06ff64365d869be",
+    "textHash": null
+  },
+  {
+    "url": "https://www.allstate.com/privacy-center/aic-privacy-statement",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "disclosure_scope_unverified"
+    ],
+    "chars": 43284,
+    "bodyHash": "564d577f725568c7759f7578866aff9147b8e09df5728de7d916513118441194",
+    "textHash": "c994272b9754ee5c12feb9575c329c62afdbf97a45b5f1cb8113e503ecc8959e"
+  },
+  {
+    "url": "https://www.meredith.com/nmg/privacy",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.alphavantage.co/privacy/?.pdf",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 17247,
+    "bodyHash": "7fdaa3a4e5d932b1e8fa17508fd262bf879881c45fd3999d90982283a871ed46",
+    "textHash": "a1841b2f8d070f9d988a455761205978cf2d22fa1cf554faa1a3ca3e91fb592c"
+  },
+  {
+    "url": "https://advertising.amazon.com/resources/ad-policy/creative-acceptance",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "6083175a5f51c85afdf9c3c1e8054821d5400cd78f8d61870dfe3fea284e8138",
+    "textHash": null
+  },
+  {
+    "url": "https://www.alphavantage.co/terms_of_service/?.pdf",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 9870,
+    "bodyHash": "ee96ca29a6cbb524ddd9f120b71ba6df6bbd9054657a9cb0f4444c6a590cc206",
+    "textHash": "b731f91278899d6277a1682f532733a53069b6c44b6487812517edfd60935f3d"
+  },
+  {
+    "url": "https://www.meredith.com/legal/terms",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://ams.amazon.com/webpublisher/apsmanaged/apsprogrampolicy.html",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 9689,
+    "bodyHash": "d5d441b238a2e9c2088a24cb1a363890c1b13cb3298aeefa3eb2af1a8b017992",
+    "textHash": "be8a180d86902758f3062e69baf474f2ca6c31a5ad0da09edbc23760950c2622"
+  },
+  {
+    "url": "https://ams.amazon.com/webpublisher/apsmanaged/apsagreement.html",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 62947,
+    "bodyHash": "cbede75dd365674f6eb933d7db1f378a53f4da618ca5d32d0d4392211be595e6",
+    "textHash": "cc209cd503588ad037dd638d4f93b1413c049b33dbf5438ab32078f9931b6050"
+  },
+  {
+    "url": "https://aps.amazon.com/aps/privacy-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 900,
+    "bodyHash": "944d9b362389bac9c7b901b1abd0470767ce5e2ee2e4c7e84832eeca50feeeb0",
+    "textHash": "2f85e6c89167da4781504e5f94fe809d75238cd9eb9c05d105ddb0a7838daa6b"
+  },
+  {
+    "url": "https://www.amazon.co.uk/gp/help/customer/display.html/?nodeId=201909010&ref_=a20m_us_fnav_l_prvcy_gb",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://sellercentral.amazon.com/help/hub/reference/external/G1791",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "document_scope_unverified"
+    ],
+    "chars": 409,
+    "bodyHash": "be1dc25ce016a355da5ce182673ff0deef7dd8c8a100e369599bef613b74bb49",
+    "textHash": "b4b17967326a69838a9137a28ba8c53e94dcd64c0bccd42af57c393aa17baa0f"
+  },
+  {
+    "url": "https://developer.apple.com/support/downloads/terms/apple-developer-agreement/Apple-Developer-Agreement-20240610-English.pdf",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.amazon.co.uk/gp/help/customer/display.html/?ie=UTF8&nodeId=1040616&ref_=a20m_us_fnav_l_cndtns_gb",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://developer.apple.com/app-store/review/guidelines/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 94617,
+    "bodyHash": "334181931e337b1e9d561196944a450e522248baca065ee6e96fcea9f7f5213a",
+    "textHash": "f53ba306158718f7ab86752b73d61e9eb392f40ad1ed0198ee1985c422d4e3b8"
+  },
+  {
+    "url": "https://investor.apple.com/files/doc_downloads/gov_docs/Apple-Human-Rights-Policy.pdf",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.amazon.co.uk/gp/help/customer/display.html?ie=UTF8&nodeId=201890250&ref_=a20m_us_fnav_l_cook_gb",
+    "before": "rejected",
+    "after": "source_block_or_soft_404",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "fb831f7fe9953b2fd35131ae02bf1e4d3a6619f06d068c27ad3d03e88c1f5985",
+    "textHash": null
+  },
+  {
+    "url": "https://arc.net/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 27640,
+    "bodyHash": "d27175224db5577de371a48eae8461da4151ebba33060be404d704c08aed2186",
+    "textHash": "1674d04117c69cb6fa98ddfd2fe3109167eace28200dabd775f4426dbe3ac4b3"
+  },
+  {
+    "url": "https://start.arc.net/terms-of-use",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 43107,
+    "bodyHash": "7e95f5c0e23bd9ef2a5d70ce469e09d36ca6e20911e8e87a82986d8c3c64e8b8",
+    "textHash": "5eae4751999ea443fa8d2d082fd199d6efdae9fb21f4cdb97244d14977506d0d"
+  },
+  {
+    "url": "https://www.arweave.org/legal-policies",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 16688,
+    "bodyHash": "9c3d530667b4eaa5f81fae0ad1cfd7b0ae2bad116f4989092b2b7eca9c6905ee",
+    "textHash": "bb3b529ac0ac16cd87d48724b773f274b25f82ce43e70a4c8ae644331ece454c"
+  },
+  {
+    "url": "https://www.atlassian.com/legal/privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 58825,
+    "bodyHash": "654e788522bd07e349021c972f9482998625f33f53ce0c13b37e9d1c6b54122e",
+    "textHash": "9ba32c7be5d09adce1e34fb1a9a669a97fe1713e756de6bb6086e5125a43cc58"
+  },
+  {
+    "url": "https://www.artstation.com/privacy",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.bbc.co.uk/usingthebbc/privacy-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 21482,
+    "bodyHash": "570227e8eec1aae4d34e0523a834f2e79dab9a3355d5f0f44b3607ddfaaab7c6",
+    "textHash": "d0445d450a71ee6479c017298f3676a4812078b985ace63ec789b7e1d3c677d7"
+  },
+  {
+    "url": "https://www.bred.fr/medias/pdf/informations-reglementaires/convention-bredacces.pdf",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "36155769ce1cf79a34555aed91d3cd12cf65d589bfd839a589f8fdb4276b6920",
+    "textHash": null
+  },
+  {
+    "url": "https://www.bbc.co.uk/usingthebbc/terms-of-use/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 23818,
+    "bodyHash": "30003102641420de2b583054b23c2039c4347e465f498deed4ea99c1c6ed8970",
+    "textHash": "9c1016ec70e1efc088fe73dea63938eea29c6d5a0ebc79859567f480949ecffb"
+  },
+  {
+    "url": "https://badoo.com/privacy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 156,
+    "bodyHash": "20aacf9db2b5678825cd4e7a83f8b4980e920b4877a4c167688c88ee35084bbe",
+    "textHash": "9ce7fab851b313f71e2ea0c7b756f820b9272f4d4eb668946cb852927069b23d"
+  },
+  {
+    "url": "https://badoo.com/terms/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 156,
+    "bodyHash": "93cbeed1330b3d50fded0cacd1f24f444e6bce5e89db714bd5fa5bfad0dfc5bd",
+    "textHash": "9ce7fab851b313f71e2ea0c7b756f820b9272f4d4eb668946cb852927069b23d"
+  },
+  {
+    "url": "https://www.artstation.com/tos",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://get.bandcamp.help/hc/en-us/articles/23005947027991-Bandcamp-s-Acceptable-Use-and-Moderation-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 12430,
+    "bodyHash": "72778f21b450560359d9d036379bb289bf8a79ab371564dbc78b26b0e948d8d0",
+    "textHash": "7c39f5b1187aefc6853115091fbeb07f2242c41d260ce6fe44eac1d14176eebf"
+  },
+  {
+    "url": "https://bandcamp.com/copyright",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 209,
+    "bodyHash": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+    "textHash": "3f50f2b96cdee05203884bd88b8fb2d61c6d1afeed710555d41f0de1ee4643d1"
+  },
+  {
+    "url": "https://www.bankid.com/en/integritetspolicy",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "af894b12ab97074cec47973a9c9cf54b80ab764e7c6e5d231bd1f49ba0655b67",
+    "textHash": null
+  },
+  {
+    "url": "https://bandcamp.com/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 209,
+    "bodyHash": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+    "textHash": "3f50f2b96cdee05203884bd88b8fb2d61c6d1afeed710555d41f0de1ee4643d1"
+  },
+  {
+    "url": "https://www.bankid.com/en/terms-of-use-bankid-mobile-application",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "245dd2c778e5b68f0400edadd8bae6bd75443e5c8a2cd9aa801e67ccad7b5649",
+    "textHash": null
+  },
+  {
+    "url": "https://bandcamp.com/terms_of_use",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 209,
+    "bodyHash": "32ed63159c77e21ee19ca1b9aa3213ccf0218eb59539560b132a8e68ef0e18ea",
+    "textHash": "3f50f2b96cdee05203884bd88b8fb2d61c6d1afeed710555d41f0de1ee4643d1"
+  },
+  {
+    "url": "https://betterstack.com/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 12362,
+    "bodyHash": "8df0e6b7ebfcef5db58089f806f340e13fc0c4211136d4a4e60bf37bad21dd1a",
+    "textHash": "9b96d3d5e1429775c796a7cfc3681ba21bd398b5d1496863a283429c55749754"
+  },
+  {
+    "url": "https://docs.base.org/docs/privacy-policy/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://betterstack.com/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 15295,
+    "bodyHash": "5d7e21cc85db481ed9d07f2fd61f8616c1b3c84ac6cea9898efb51852d64fb91",
+    "textHash": "894d5ee231e34d24ea64832e90f1830981087f79110373cfdfe6cd4e641a86bc"
+  },
+  {
+    "url": "https://docs.base.org/docs/terms-of-service/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 53165,
+    "bodyHash": "b1916aba3fbb59bfc3dabc6389420ede8c264697fffbe985dc561b81ac1d6996",
+    "textHash": "1a9017ed7cb4c0dbc762470d20c28acbec6fc7fdb61ab84a4279937fa66261e6"
+  },
+  {
+    "url": "https://privacy.microsoft.com/en-gb/privacystatement",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 211207,
+    "bodyHash": "e7913117efba5fb3fb4e9466d94b5bbcabd4d7b6cdd641e12fda561af6ddf283",
+    "textHash": "72f09650980733210478e53ccf67dbe813ef5461afada581fd176cfa73288b31"
+  },
+  {
+    "url": "https://www.binance.com/en/privacy",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://bitwarden.com/privacy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 27996,
+    "bodyHash": "67e9c1f4caf102d0411ee063334c06691e8607b2204054227cb8289ee78bb38d",
+    "textHash": "24a72cf4f40490868bbd9be07cab37e32dc8b2e875e1bfd6bc231d2c084e7a15"
+  },
+  {
+    "url": "https://docs.base.org/docs/cookie-policy/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://bitwarden.com/terms/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 20948,
+    "bodyHash": "48fd612e7aeea8c05fcf276bae8e0a67ee163c2feecd7056efa74d302af844a4",
+    "textHash": "8b3ab3c358501f7e3fd90eb2ebbf83c4d1f1d4c7f2da7a7a9a0b047f51a38f4d"
+  },
+  {
+    "url": "https://www.binance.com/en/terms",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.blizzard.com/en-gb/legal/8c41e7e6-0b61-42c4-a674-c91d8e8d68d3/blizzard-entertainment-privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 43882,
+    "bodyHash": "cfd239d53bb07dda1e6811c59d3bf9182fa0ea697c950cfa3bb0ea016db1a6c2",
+    "textHash": "04667ac869da537cf5de0d1bdc899a2b0563acc1bd17b3889074b7fbc2116914"
+  },
+  {
+    "url": "https://bsky.social/about/support/privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 35167,
+    "bodyHash": "50c847f39bab01ab9c6e4d8bb42a8dc1a53a2df9db9dcd04abb871796e053fd4",
+    "textHash": "b41f96533962a94e682f26cf7d1e9a301f44fc0cea7990cf951a74690785da9f"
+  },
+  {
+    "url": "https://blockworks.co/trust-ethics",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.blizzard.com/en-gb/legal/511dbf9e-2b2d-4047-8243-4c5c65e0ebf1/terms-of-use-for-blizzards-websites",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 19988,
+    "bodyHash": "5c7786ca65807a38ee8f6f45f98ac669c9408a854011a8cf4afc766ceb9f3e58",
+    "textHash": "d70672594a4195166e55456c95e9768d6c342f50b8e8e5f235e4e4cc8cea51ea"
+  },
+  {
+    "url": "https://bsky.social/about/support/tos",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 30971,
+    "bodyHash": "72881adb338e86cc73f26395e9c1b94938be9d19165c265c453526346cb5761a",
+    "textHash": "47afdd730223f704c4b8b58e7efc36abe79d3a2d374bbda90d78d9fd81c77480"
+  },
+  {
+    "url": "https://www.blizzard.com/en-us/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 12870,
+    "bodyHash": "6c232a330ebcfb79da25c49564faf81e843b49afacd6d7b3f8ce650b609e68c8",
+    "textHash": "f5b93c977f1f0c41e32f730108c3cc944815ba76ad7f53cd053eac9e169405d3"
+  },
+  {
+    "url": "https://www.booking.com/content/privacy.en-gb.html",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 74527,
+    "bodyHash": "8bd35325e1163de8d58fd28527b6dc04f40bed277e9bdd7fe25a53f40492a4d9",
+    "textHash": "a28b3497b4ae41afaab77e953ab599468c69cd1c017b2ecc46b1425b533095e4"
+  },
+  {
+    "url": "https://blockworks.co/privacy-policy",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://bolt.eu/en/legal/ie/privacy-for-drivers/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.booking.com/content/terms.en-gb.html",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 170805,
+    "bodyHash": "ecf8771a641914d80ec5a733f19f078af5ff2cc92f56197268b4c3abc2df5a5f",
+    "textHash": "4fc81f65fd730de5881fb31866d442c7c714054a16950c28f0ffd6f72d1ecb8c"
+  },
+  {
+    "url": "https://brave.com/terms-of-use/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 17636,
+    "bodyHash": "ce7753152bb1a24946ff5cbea728ebf61b0e4dacdd3b664467829840c14dc777",
+    "textHash": "7b6d74c7c91bbc3f4934c7c558e18fb854fca553c7fa42e7b0535316cd132fa3"
+  },
+  {
+    "url": "https://bumble.com/en/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_ambiguous",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 109320,
+    "bodyHash": "3a886fba301f198a170915d7fcbe480b8648445f6de0a6e7ea2b39d91ace8ce7",
+    "textHash": "805cd1ca1f6084bb18ab6415bf5fa96b09a4c4c6bbf6429889c4406675e6de7b"
+  },
+  {
+    "url": "https://bolt.eu/en/legal/ie/terms-for-drivers/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://bumble.com/en/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 87998,
+    "bodyHash": "8abcf8def4b25d36599648dd94ee5da812053254860333bccd2189b4fab5fb1d",
+    "textHash": "654aa1af04cfd553d19672d2ba40e267c77f15f3c4435d16f4efd4e7e36df3f6"
+  },
+  {
+    "url": "https://bumble.com/cookie-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 7790,
+    "bodyHash": "c8c015b9f1d64f34f856be53d986eee9d7c12c64a7b6f81a5e89b1bdeb8ec04e",
+    "textHash": "522112fa709a748abc7400828d39f75888af2adfd301bfeb796fffdb7830bb5d"
+  },
+  {
+    "url": "https://www.warnermediaprivacy.com/policycenter/b2c/en-row/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://bolt.eu/en/legal/ie/privacy-for-riders/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.wildskymedia.com/privacy-policy/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://edition.cnn.com/terms0",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 74073,
+    "bodyHash": "2e9312acc18d1f15c0df9a2081247840204ef4d032f0ff911e9adafae571ddf1",
+    "textHash": "b3813ae2263202d40151bd89a4aa3c8469a78167021025c3db8db9c320952e39"
+  },
+  {
+    "url": "https://bolt.eu/en/legal/ie/terms-for-riders/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.wildskymedia.com/terms-of-service/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://clients.cdiscount.com/simple/cgv.aspx",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://i2.cdscdn.com/resources/imagesok/cgu/mkp/cgu_acheteurs_mp_cdiscount.pdf",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.cdiscount.com/vie-privee-et-cookies.html",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "01afd34073e276cf6986eb8413545b3bcb5ecd07335711420211b4befa6a9f8f",
+    "textHash": null
+  },
+  {
+    "url": "https://www.chayn.co/policies/privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 8213,
+    "bodyHash": "a7a662652ea12f0eec01b99f4147d420b07e7ca1fc999e7036a64f128f5eb846",
+    "textHash": "d40adf8dc3a314df3c0c63ea95ed6737794cde481ec2ebcb5f73b173911a05b9"
+  },
+  {
+    "url": "https://www.cloudflare.com/privacypolicy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 47512,
+    "bodyHash": "765dec7b22cf7ad33e66b8089937ed5620b51737db72a4d06b93c64569081f20",
+    "textHash": "9f400c8651234a42a1dbd570a8d72be811f67489942e1d3a68db48923155aa7c"
+  },
+  {
+    "url": "https://www.ibm.com/be-en/privacy?lnk=flg-priv-been",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified",
+      "document_scope_unverified"
+    ],
+    "chars": 38732,
+    "bodyHash": "f85df4e5ec345d2442f4301e2e9a4b4e2587d18ed02c08ab470c02852564092c",
+    "textHash": "c3182c5706dc1023d81b7f95478bac90e6b3c48c531c52ae32933a5128011d4a"
+  },
+  {
+    "url": "https://www.cloudflare.com/terms/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 40235,
+    "bodyHash": "4242d7bdfaa1611a8ab321d718039155e24cb8ddc73811c2adc08a39bbb124e5",
+    "textHash": "b3d835684bb421aa079eb418b04e4de72be42ecdb6cdce377bddd5fb9772f1cf"
+  },
+  {
+    "url": "https://www.coinbase.com/legal/privacy",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.coindesk.com/ethics/",
+    "before": "origin_backoff",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.ibm.com/be-en/legal?lnk=flg-tous-be-en",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 11757,
+    "bodyHash": "8c5235f13a6e84eb5459c0f14c579f12b2e46e2ce222d9f4027bb242dec9e770",
+    "textHash": "6b1eb629d14ca6892fe0c685b7657b00b68fd4ec5424a1e3a873cb7d4a3a9f73"
+  },
+  {
+    "url": "https://www.coindesk.com/privacy/",
+    "before": "origin_backoff",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://ccm.net/contents/957-processing-of-personal-data-ccm",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 11874,
+    "bodyHash": "5582cc95debf3e354a6f64c1fe367e55aff59a6d147e6d4a3bf10f64f72b3869",
+    "textHash": "f5d23a9e5f8124a696ceafc4f0a01a75869171aa56c8059fbae0568099d8d6a5"
+  },
+  {
+    "url": "https://www.coindesk.com/terms/",
+    "before": "origin_backoff",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://ccm.net/contents/953-general-terms-and-conditions-of-use",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 9897,
+    "bodyHash": "8b71383d315b9f6e4f5f24180fae51238d0690af1395542e0c2ea9bf37a39deb",
+    "textHash": "c7ffa5b0d1224b2c844d573d8f0dceb214e13937e1d996f320677f6d32dd2125"
+  },
+  {
+    "url": "https://www.coinbase.com/legal/user_agreement/ireland_europe",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.coolmath4kids.com/fairuse",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 2209,
+    "bodyHash": "d53794b5e2ec97e1690f3eb05211743091eef6570e8a184e3070d8f635b5b09c",
+    "textHash": "670a38bbced10fd59b1d991b69a83b9fd2a5a78869a06ae87aaedaba555607cb"
+  },
+  {
+    "url": "https://www.coolmath4kids.com/privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 8237,
+    "bodyHash": "c9b55c48f16f32f54227559b51dbb174dda8182e5bf46a817fa5e85b6b9cc054",
+    "textHash": "b976b8c6b870ec090ae272c78b098e6c1d5fd2364d6766e5728b4df57d951329"
+  },
+  {
+    "url": "https://www.coursera.org/about/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 50713,
+    "bodyHash": "c8eea280ffb4b6b4a5c1b2cae5e1ce1c537fcfc03f7948bf5e5df47683debc8f",
+    "textHash": "2d786a1b3d6057c0ad2a14c76c5c69ca43197a54c82698603069a33f4d787eaf"
+  },
+  {
+    "url": "https://about.couchsurfing.com/about/privacy-policy/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.coinbase.com/legal/cookie",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.coursera.org/about/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 58487,
+    "bodyHash": "c6378f04dd196a1392ad9210dbd979cf94879314c9546d6de46e24bb9679625c",
+    "textHash": "bc605711e19d6f3158b996f368e46e9595bcae3bdcae122d8435d75f86450ece"
+  },
+  {
+    "url": "https://www.criteo.com/advertising-guidelines/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 20214,
+    "bodyHash": "41da58c7ba0f9167efb20c5c44020ac3e9aa3bdbbef09e70384a94286524d6dd",
+    "textHash": "6ad7b382a2010fb3459d0fbcc32a094b43806085dc4a585110e3506d04d4b025"
+  },
+  {
+    "url": "https://intl.sonypictures.com/en/privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 28477,
+    "bodyHash": "38e9c57c6b2c05538860497528c8f174f88821b4c9ca0d4be100085da3988ebf",
+    "textHash": "ca74d01432a5a83ca8b503b8096164b613461bb13c6ec58a3838c7c7c1e81419"
+  },
+  {
+    "url": "https://www.criteo.com/privacy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 31021,
+    "bodyHash": "3414417d148afd80cd966f909aba79723b1af04a71c0bffd0d9de76a3629c18a",
+    "textHash": "738a24c6b1b91a30f6f65d118f736ddb4f9ad2120add39b61c13c64fb74d6556"
+  },
+  {
+    "url": "https://about.couchsurfing.com/about/terms-of-use/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.criteo.com/wp-content/uploads/2021/06/Criteo-Terms_Display_Jun21_EN.pdf",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 37281,
+    "bodyHash": "81401811ef8571745bad7dd3bf472bc03217c08f7347f205e56fbb0ed0a4eda5",
+    "textHash": "2977f785200ce26c670f69933736d40d1358af3169a97efe8c932f2fe90f5052"
+  },
+  {
+    "url": "https://www.crunchyroll.com/tos/",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "ebe274be82843ed1745a223e68acd69d317b27bc2e0d8c5f6b77246bb94eeead",
+    "textHash": null
+  },
+  {
+    "url": "https://deliveroo.ie/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 4519,
+    "bodyHash": "dbc34b86a1c85f95a9c1a5f8cc75f23c8249869f2c236ef28b85ed590e2c2768",
+    "textHash": "4335504a02e2c6ff81c4c5f5ec912b2701fec62fe4ab6eb9b394aca99e70d894"
+  },
+  {
+    "url": "https://www.dailymotion.com/legal/privacy?localization=gb",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 150987,
+    "bodyHash": "c2228830ea485872128285219b5512344a4d8fe319783fca40f3e6f0cad82838",
+    "textHash": "f5f8cdf3f7c5274deea94db57c8fc7b9886309759661618baa92a324a0ed006f"
+  },
+  {
+    "url": "https://www.dailymail.co.uk/home/article-7759273/Privacy-Cookies-Policy-Policy.html",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://deliveroo.ie/legal",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 93378,
+    "bodyHash": "24593755dbe168bbaa7fb0042e7f3a4c4cc90811a17902b556036c68ec48ce70",
+    "textHash": "d6b3156271b0d8ab1243aa71fec906f146472e9be560419a948f1a6b53c6e4db"
+  },
+  {
+    "url": "https://www.dailymotion.com/legal/terms?localization=gb",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 146898,
+    "bodyHash": "525ce267dc7c42a444179043d98a4af5fcb792e1dc5fc46f8df15f31bd917910",
+    "textHash": "959b16b6848cd4c9f012f18b3e8eead96802d2514b57f68bd4283fdef72218f8"
+  },
+  {
+    "url": "https://deliveroo.ie/cookies",
+    "before": "rejected",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 11247,
+    "bodyHash": "9f86de30cd45d56b1f32e7481d661d67a03ae1f136192069d6f9c9fbf32e3fee",
+    "textHash": "2c92f85d84d457870de98cfabe9234a20f34ee6c5bc4253a97ce8bb17f19dfbf"
+  },
+  {
+    "url": "https://www.dailymail.co.uk/home/article-1388146/Terms.html",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://about.deviantart.com/policy/privacy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 34480,
+    "bodyHash": "6e6b5da7c78034f7a20103039d1e5536d2346f87aaacb94141851923244b29c9",
+    "textHash": "d556663e552be76fc9391cdc970dc67e7209c434d4680435bbae754c0912637b"
+  },
+  {
+    "url": "https://www.bahn.com/en/privacy/privacy-customer",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://discord.com/guidelines",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 12485,
+    "bodyHash": "e3877bf2ba6090a3efd8a301a04f84576a3b5638fcf4104bf12920a84efef28a",
+    "textHash": "60c4dd6f89ed623cc53f4d2bc7677601f9448515a5c07a235f4b11ba45dcd6b8"
+  },
+  {
+    "url": "https://discord.com/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 35591,
+    "bodyHash": "42de22643254061ae7b43f043f551263a6aebcf3804ca621ca47b216b4bdc07c",
+    "textHash": "95c639522160f42b8c7d677f6e18fff04d55762a42964cc7eb0b02c66abb3917"
+  },
+  {
+    "url": "https://about.deviantart.com/policy/service/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 41452,
+    "bodyHash": "c1811c4497d27f9946574439a7aa3f47fcf2a0beb3f2779d02ecf642c7f8246b",
+    "textHash": "59e53c45a52d80410efeae06fef60b17db061b7512e432125f707b489fe35962"
+  },
+  {
+    "url": "https://discord.com/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 59662,
+    "bodyHash": "2e1d3d576c2617e2d7b57e9c2eb572ccb0d8628f99f67daa63a49918a53fc784",
+    "textHash": "3c3976bb03b1faac1d72bc13da610becb3695f8c85637485605a9ca16fe27b0b"
+  },
+  {
+    "url": "https://help.disqus.com/en/articles/1717103-disqus-privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 27372,
+    "bodyHash": "3413c669d4d539394aeb768526ab9420717cd57a9fbb233619726a287509e298",
+    "textHash": "9cd0d6955340be64e872318b47293fe835aa8697797683676a3f11f1aafde2f1"
+  },
+  {
+    "url": "https://www.bahn.com/en/terms-of-use/customer-accounts-terms-of-use",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://distrokid.com/terms/",
+    "before": "rejected",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 35805,
+    "bodyHash": "d682651192d51ff0e0765d0f9537a39d43b772b054e76c01c63d96048e1d7652",
+    "textHash": "d05694ceaba2e450c1d984adc1f809f354c9019520312d19fe94e041361c9cce"
+  },
+  {
+    "url": "https://www.donkey.bike/privacy-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 23160,
+    "bodyHash": "d251b37dd964a97b773b149e5e24dfb7ce57ad46e0d3077b0dd485a5981f3e8d",
+    "textHash": "5bbf9ab3a3e5c4b6c0ac03444b7b5811c5a35311660187a77df342209c530d08"
+  },
+  {
+    "url": "https://help.disqus.com/en/articles/1717102-terms-of-service",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 53218,
+    "bodyHash": "c8c5bfbe6976189c40f2295ed03fb735007b084eb71968cfc9baa6e412a1720c",
+    "textHash": "f1f0867e1fcf8b24fb8ddaab5d2fb7c71a2e0be9b743a750f9a011fc1aa81d9a"
+  },
+  {
+    "url": "https://duckduckgo.com/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 12698,
+    "bodyHash": "ae2926018c7de240df62f00877c2033f53f2211686e291e6e2225ee6a38c39ac",
+    "textHash": "2eeb9cf496da42309b4d59215cb7244868119f8484f0fb61be640c11256da301"
+  },
+  {
+    "url": "https://www.epassi.fi/privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 96272,
+    "bodyHash": "5bb6296c63e5de022c580fd20d6071fe86a8ff918eea3ad9ffaa6491cbe1380a",
+    "textHash": "bce4c7af7549833d3d63a27cd7052bd5a0f1178dec2249151cfe53aecd4b7579"
+  },
+  {
+    "url": "https://www.energia.ie/home/privacy-statement",
+    "before": "rejected",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 35756,
+    "bodyHash": "6d98f30e9df508217fd3e64e220b89ee3be8df2a7c87d6fe34001ea038911c39",
+    "textHash": "4930c19eea0f03838545f24263428b50c67b0f60b974c8a5f06ee05fbab8212d"
+  },
+  {
+    "url": "https://www.epassi.fi/terms-of-use",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 76463,
+    "bodyHash": "c236a569732676669391d264f0f52dc7a6140508185cb7572d267c31a18b4dfd",
+    "textHash": "52851248d7163ed6d4e58eb9e94a389dfc055cc6f490293d7930c2f6394298e9"
+  },
+  {
+    "url": "https://dune.com/privacy",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.energia.ie/home/terms-and-conditions",
+    "before": "rejected",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 62486,
+    "bodyHash": "308173d47457dae2db51e39c8cb7eb21c29e69639aad604129fbfd6560fcae0f",
+    "textHash": "de98d9c7d86f8bc998540577b613965d52508d16bd9ad982451dbe62c87f95ca"
+  },
+  {
+    "url": "https://ethereum.org/en/privacy-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 22004,
+    "bodyHash": "fb3a84f56201e222689a23164ad8b57c8cad5d4701cf5579451aacc82c123770",
+    "textHash": "c36276f5cfd9851c7f5c96b3a52c41fc8fb1244410193c8e97b647883fba835e"
+  },
+  {
+    "url": "https://ethereum.org/en/terms-of-use/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 17552,
+    "bodyHash": "b4a770701790006ffabfb698f454939032567fe1e8634a30ce550acd803f5110",
+    "textHash": "f39e18c0dd750023f685e176f9a7199dac4c5924c1cb82e62a3b003b003d03e1"
+  },
+  {
+    "url": "https://www.energia.ie/home/cookie-policy",
+    "before": "rejected",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 9205,
+    "bodyHash": "dd70bf37de816c1b2fc835152219fcad1021bd72688f641942b949d265769aad",
+    "textHash": "d83a1d16196dade0400121c02010b1a3f89709bf7e653d8fe9cfad311c216215"
+  },
+  {
+    "url": "https://dune.com/terms",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://ethereum.org/en/cookie-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 2672,
+    "bodyHash": "338ce4b00fd5b4ea7b68801d8ccd97f1a6120e866d5d5bedfae68346456d0e37",
+    "textHash": "b26675f90bd9af857b1e9169c4aa80449a75349e5604e9216757aa8ec397cdd5"
+  },
+  {
+    "url": "https://evernote.com/privacy/policy",
+    "before": "rejected",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 36334,
+    "bodyHash": "85d6fa9248cf4c16f449c6ac50dc10a3fc3b9d339209a19c2a0cf8e39de1d8c0",
+    "textHash": "48563a0c57b40e9f79dd5b0f9a24be286acf7022996d625158499ae4417b07fe"
+  },
+  {
+    "url": "https://developers.facebook.com/policy/credits",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 17519,
+    "bodyHash": "95282af6ccdb2f90a21c38df9bf9a54a786fb81c5325ce558d8a1d36d22ff077",
+    "textHash": "9a8b919956bf8f5a23843532e60b90ecfff0fa86b5ee8032318ae237235b2620"
+  },
+  {
+    "url": "https://evernote.com/legal/terms-of-service",
+    "before": "rejected",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 109487,
+    "bodyHash": "2baf632229f8f037a940347edfea088e0552245b77ae1a8f979ca139a4b039d5",
+    "textHash": "c54c9ae227b992b66e0554bd2032b370cd32779c403d80998b42bb718b0373cb"
+  },
+  {
+    "url": "https://exponential.com/documents/publisher-code-of-conduct/?wpdmdl=17753",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://developers.facebook.com/policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 44386,
+    "bodyHash": "8ed11b4d5ae51d5ba2d0fcf22e51326ca7f203c372ae93b7b7c57bc5ffdec2e6",
+    "textHash": "4665dfbef794a7c756b778c42eac5bcfb72ef95cef854ee08a96ccdf88644cbf"
+  },
+  {
+    "url": "https://en-gb.facebook.com/policies/live",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "92e4240a975441f7b46929edc9b81459ecf1275799fcf893fc922c50fd698db7",
+    "textHash": null
+  },
+  {
+    "url": "https://developers.facebook.com/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 44386,
+    "bodyHash": "0e3875ad0cb51c301b311aca3f005fe90eac851ae09bf21f64e8b84eb55ab5ee",
+    "textHash": "4665dfbef794a7c756b778c42eac5bcfb72ef95cef854ee08a96ccdf88644cbf"
+  },
+  {
+    "url": "https://exponential.com/privacy/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.fedex.com/en-fr/privacy-policy.html",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 17606,
+    "bodyHash": "b06928e917c9f8089dd9bcbfc2015d9677b76afd95dc10b47cf6cb2dc26167f4",
+    "textHash": "a86ff7233adef6db2a4bba43be21d5a3e9e53c81ba3e933fa97e5a1e8494c6dd"
+  },
+  {
+    "url": "https://fr-fr.facebook.com/privacy/explanation/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 138473,
+    "bodyHash": "8e3d6d47be3c3e78c86535dcbb839a191642001452e62406bfd917e61e313051",
+    "textHash": "39e0ba0dd27d12f15abf1f140a5b73d6ffc2264f263d7f804ff34cd0dc649ad1"
+  },
+  {
+    "url": "https://www.fedex.com/en-fr/terms-of-use.html",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 27022,
+    "bodyHash": "703736203877d55dc6d7185bdade61fac888fee42178c6cc5e0a65fee0823843",
+    "textHash": "0f7448f3c0c6538636230d27fc9f964eba75baac3bf8a1613f0dc23b60779590"
+  },
+  {
+    "url": "https://fr-fr.facebook.com/legal/terms/plain_text_terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 35096,
+    "bodyHash": "b522c872f366ab0eed2a2d1743a59ef197b05033562a07ce4397ff59f059bfb4",
+    "textHash": "257e0e527900a5abaf7ed8cd8f2f72faa3c6fcdaec93cb01642c0d7a90710451"
+  },
+  {
+    "url": "https://help.ft.com/legal-privacy/copyright-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "disclosure_scope_unverified"
+    ],
+    "chars": 9531,
+    "bodyHash": "a92673cc95c2ef89de5260dde95bcb98696f221d69a8d39edb5a672c8dfe1790",
+    "textHash": "638324e9aeed76c1d115ebd27a9c5637c6061b9cc2bff33593105d4e4aea3379"
+  },
+  {
+    "url": "https://feddit.de/legal",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.finnair.com/en/info/finnair-privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 42996,
+    "bodyHash": "d73330a46d49b7f528879c2fde562727f6a1b7c113c2f64b18fce87a91622fe4",
+    "textHash": "e495670927d13236b10f1b67a4a435ac3c688055c362446472bf389e13b3db68"
+  },
+  {
+    "url": "https://help.ft.com/legal-privacy/privacy-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "disclosure_scope_unverified"
+    ],
+    "chars": 39124,
+    "bodyHash": "7eda62511627e63e1d17c5c04e90896dba0915816326b90ff81b06f8226a365f",
+    "textHash": "4b16ccc74fb271d5601aa95f927b556fc706dcc77ff905db727f3580b3099750"
+  },
+  {
+    "url": "https://www.mozilla.org/en-US/privacy/firefox-monitor/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 10835,
+    "bodyHash": "d5144b561e4049d7c197126cff4d3031beb30c5d7d52670b908751de17febcd6",
+    "textHash": "6bfc9ae430d25eedb791bd345ce8f54399eeb98883aa64fc2ad3174d619c41ff"
+  },
+  {
+    "url": "https://help.ft.com/legal-privacy/terms-and-conditions/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "disclosure_scope_unverified"
+    ],
+    "chars": 33315,
+    "bodyHash": "ff7e16613143363ef5648b8f7b5bbfae5c7c035d406bea9f22dc638d48d8f982",
+    "textHash": "eb615984aaa8f5466d4f9cee95e11fbe6d7aa867923364966d4fee4d7cafd846"
+  },
+  {
+    "url": "https://www.flickr.com/help/privacy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing",
+      "disclosure_scope_unverified",
+      "document_scope_unverified"
+    ],
+    "chars": 35688,
+    "bodyHash": "18576454cec10432d82baf3667a0db6c8e1b91f52524136c637c661e0f13890c",
+    "textHash": "220119becadb064b9b398a4148e6e1f3fd0827e716fe518c008e8d69f01e48d7"
+  },
+  {
+    "url": "https://www.mozilla.org/en-US/privacy/firefox-private-network/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 2671,
+    "bodyHash": "ba67d48b8a930de794d1cc3ab65eff23365497d3696bf2abc70d5a5da0c1c785",
+    "textHash": "8bacba72902fb755273f8f2449f64753002b17739ae100a9c00428472b1f9504"
+  },
+  {
+    "url": "https://www.flickr.com/help/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_target_missing",
+      "disclosure_scope_unverified",
+      "document_scope_unverified"
+    ],
+    "chars": 58195,
+    "bodyHash": "810d2aa2e247986830594b14f399a632de88acd3d8f329cede87a2273fb327ea",
+    "textHash": "5f81b7eb587946e615bf6b9cb7e408d1efe3b59d35760db7902790417609b9a7"
+  },
+  {
+    "url": "https://www.mozilla.org/en-US/privacy/firefox/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 36110,
+    "bodyHash": "4515ead3fbc4aaac4541e3def2d4e7f1cf6c6ec7fd4b411aba5370b7907002a3",
+    "textHash": "8bdbacfd1ebec8e9786e445d4ef687ffd6fab77ec951ec0cd9a0a8d79a4a41da"
+  },
+  {
+    "url": "https://flippa.com/terms-of-service/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 46941,
+    "bodyHash": "90d16130af0c170f8e3f68697ed59013658dcabcb57bf0ef54786c3bd210d63c",
+    "textHash": "d17fdbbc5b2a67ab5fda0bc5459c256ff66f0e843e597e35f3bc0da94b125ee4"
+  },
+  {
+    "url": "https://www.mozilla.org/en-US/about/legal/terms/firefox/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 5647,
+    "bodyHash": "320fc3cfe721d518cd8dd4a717d02adea29837db38a01435d7652f695b3bfeee",
+    "textHash": "a154126450f20b0efe02fb4e51827c227308220f05e37c58f531339b11d4e86e"
+  },
+  {
+    "url": "https://flutterwave.com/us/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 18714,
+    "bodyHash": "6efd43010275f837338782bae097f22c4a3f09ad8cd5a722d6a8e744fe016fdc",
+    "textHash": "bc7f3951a02c280b575fba629eeb5bec7b8427a53b90addc51ba579d1a439bac"
+  },
+  {
+    "url": "https://www.forbes.com/privacy/english/#1a05e1630610",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "5833a08ba4f82d1fa2c3f306a1d6d2d2b8067e5a71a28424f1e6d590ff725e3c",
+    "textHash": null
+  },
+  {
+    "url": "https://www.mozilla.org/en-US/privacy/mdn-plus/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 3131,
+    "bodyHash": "3f92ce3dc6004e2b18a573838f229900cf518546bdd1b48ba8d9edc76b349ddc",
+    "textHash": "9f53e054b42e859fc3f8dddd5c8aa8a0290c1694109cc271199549c5a28a2ba5"
+  },
+  {
+    "url": "https://foursquare.com/legal/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 30049,
+    "bodyHash": "ba9f81364b70c43a47734223808c91aaf97034f49b41bd4e79d94f7ccb77f145",
+    "textHash": "0aff916058fc98ba01c79cc0a969a26e30b490f0179a69b6fe4da72550920918"
+  },
+  {
+    "url": "https://www.foxnews.com/closed-captioning",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 1145,
+    "bodyHash": "2595fc0b11a06e460012af8f1daf32cf32efc236f4457328a4df5ad9b952de78",
+    "textHash": "47cce2dc429758957734ccb1396267fd529f188465a771e587791d3b2b944f1e"
+  },
+  {
+    "url": "https://www.mozilla.org/en-GB/about/governance/policies/participation/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 14740,
+    "bodyHash": "d768d32904861722e95480bf2d3a96b71bc100bf23e1205ea77e0d29d3bbdde7",
+    "textHash": "092e0a81433f59a1790963ccd7f9f4087196dc54f0ffe73b9999ca962e9f871e"
+  },
+  {
+    "url": "https://foursquare.com/legal/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 1442,
+    "bodyHash": "8b0fc1745d1aebb5fdc5fac9800105f00518e3d297a2b1e6d00dd0f6fb24b438",
+    "textHash": "99bd9fc910c1dee42b1a27c85a95d294d89e468c33f4c7692d20625fc070590c"
+  },
+  {
+    "url": "https://www.foxnews.com/privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 64994,
+    "bodyHash": "fb6951ebbddd2373033639f2876694a550ff040b6bfaa52eabb53cc370b2b6e7",
+    "textHash": "8fd91f32e565e464d4e51a59534fc45e58fad51c4a76ffe6b0af4133d8378935"
+  },
+  {
+    "url": "https://www.frank.fi/en/terms/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 24257,
+    "bodyHash": "7cad714d9ac229ff447cbd4bbd9561025eb91496556cee51655dc86f2e49d385",
+    "textHash": "222a1ebf576d6872307906f1ea4cfa7d215d30bca858de2657cbe45cbdb3f753"
+  },
+  {
+    "url": "https://www.foxnews.com/terms-of-use",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 106802,
+    "bodyHash": "f7e1c3190e788cc7569e62c86df7bc9275dad24938051f13d2f67b7afd7ca258",
+    "textHash": "cdc31c16558f2ae2452e52a002cadf62219db48dd388f2ed44e0277fb7a532c7"
+  },
+  {
+    "url": "https://www.freelancer.com/about/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_header_title_ambiguous",
+      "document_header_metadata_unreviewed",
+      "document_scope_unverified"
+    ],
+    "chars": 100718,
+    "bodyHash": "cfc1440f2c9ab97d440ede8b4c3052cb7f69f6244ab4168e49551ce4435fded3",
+    "textHash": "123c0842da3d178b6aecc1d7dfbb007271709fe3423a5fb03dcaf2a4dcbb62d4"
+  },
+  {
+    "url": "https://www.freetaxusa.com/privacy",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://frejaeid.com/en/privacy-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 26901,
+    "bodyHash": "7d85cec572a42a846f067f308659dac94fea84b79c5b5a49c1fe701956749b45",
+    "textHash": "2b389c6451eb841d325689162171e23d8fd43bdd36bee83044c63b9be4026117"
+  },
+  {
+    "url": "https://org.frejaeid.com/en/cookie-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 1700,
+    "bodyHash": "89e47ecf7928ef76b25aeccce6290c664ae775eb95a1adabd64a47d7ae3fb852",
+    "textHash": "55b92869f2a6fec12ed68e7bb79e98f736f174f2e48c599ddff7916debfcc040"
+  },
+  {
+    "url": "https://frejaeid.com/en/terms-and-conditions/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 11899,
+    "bodyHash": "a7d0c6f179838513207e4545261e25a387a76c69f9d161591a38d2899fcceb54",
+    "textHash": "9b75cef826784f6186ece319e7c33b51868610021b7a272ac1ee9b5fd32fa8da"
+  },
+  {
+    "url": "https://www.freetaxusa.com/terms",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://docs.github.com/en/free-pro-team@latest/github/site-policy/dmca-takedown-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 18287,
+    "bodyHash": "b31fe8ed0dca7a0cb1819d88a3abd1a225fb1fadd55c5a0877f1743a77f6a2b5",
+    "textHash": "00d2a7c91f3625d2b54b918b529dbfeff1499205feb55beec99a773516c21c1c"
+  },
+  {
+    "url": "https://www.gartner.com/en/about/policies/privacy",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://about.gitlab.com/privacy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "document_scope_unverified"
+    ],
+    "chars": 42951,
+    "bodyHash": "de25b9b54f945a9a765107d85b9045599eda99cf37488f1a310e62948f4ed998",
+    "textHash": "a3bd4a4c6dc04d1ebd9d175da7fea083df678fc022f1e442011c515cfd322918"
+  },
+  {
+    "url": "https://docs.github.com/en/free-pro-team@latest/github/site-policy/github-privacy-statement",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 41062,
+    "bodyHash": "55eccc2a8afd791abdb81c36d4d34ceeaf428803c7a7b1779b93d6b7a6cad406",
+    "textHash": "a2c1cda5be0be43680534d89176a02734f96de4f537a8e09396437628b8229b4"
+  },
+  {
+    "url": "https://docs.github.com/en/free-pro-team@latest/github/site-policy/github-terms-of-service",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 46328,
+    "bodyHash": "13469fcfd67ceba1b23056819a079f0f65f96894e4a4cfe1e3c4337ee4814a01",
+    "textHash": "7b617621aa0002a6b1016a45ddb6cac50b3182d17271b4e0bc1942af595632b7"
+  },
+  {
+    "url": "https://www.gartner.com/en/about/policies/terms-of-use",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://about.gitlab.com/handbook/legal/policies/website-terms-of-use/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 8437,
+    "bodyHash": "9535fdbc73223fa238b3165bdcb08f52108d1a7d04230addad482618550392d5",
+    "textHash": "32f3fca80f8d9a8be0f74ab8fff67bcd4947ed2aad2bd43aa84d26bde7ca0292"
+  },
+  {
+    "url": "https://hrtechprivacy.com/brands/glassdoor",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 57427,
+    "bodyHash": "d443e66a942c0deb3bcbc5a611209d0834fefc68d058c4e7154967c41d95fa55",
+    "textHash": "1fbfa48e45b0900262c6f4963ff54169ebfed4471d2c1f937073828634dc2569"
+  },
+  {
+    "url": "https://about.gitlab.com/security/disclosure/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 5682,
+    "bodyHash": "60b297aa46892104f724334347c1eb7809e33ebf997570d090d3917f6a683942",
+    "textHash": "e24195de3d6ab6034f6c0fb3dc04685097a45df7277ec7500a84c12d5a813ec7"
+  },
+  {
+    "url": "https://gofile.io/privacy",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "6001832efcbd72550f2260533a2da63a28265979af180b60d80cfbbf917d99f6",
+    "textHash": null
+  },
+  {
+    "url": "https://help.glassdoor.com/s/article/Community-Guidelines?language=en_US",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://gofile.io/terms",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "6001832efcbd72550f2260533a2da63a28265979af180b60d80cfbbf917d99f6",
+    "textHash": null
+  },
+  {
+    "url": "https://www.goodreads.com/about/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 6336,
+    "bodyHash": "e00cdb8482e49eaa561b5834ef57e54fc67794e1fb850098c5d78032f57778db",
+    "textHash": "6c968a1d80ef957d6766fe927f11d0561a0d37f9b7ff027ab6f4a97e09d5dc01"
+  },
+  {
+    "url": "https://www.glassdoor.com/about/terms/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://developers.google.com/terms/api-services-user-data-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 13783,
+    "bodyHash": "9916c836baa158496d275d169e4c5c6e17a81f20521c505d8056a1fc50dcbc74",
+    "textHash": "d1161b6267818bd7685e704df803e8256127395a6d598172588701222a9f0b0e"
+  },
+  {
+    "url": "https://www.goodreads.com/about/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 18634,
+    "bodyHash": "50ced937dea76f87a45189b819f554b21e5e536ab02e04380aa82c5adc99eace",
+    "textHash": "b3ac21f617e5f1c373b05d45f9d4110b15d36d253d2d670a5c3b2cd263d3e92d"
+  },
+  {
+    "url": "https://payments.google.com/payments/apis-secure/get_legal_document?ldi=31472",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 22595,
+    "bodyHash": "0b21334a3dda01bcef25fe9ef39fa6af54ee625af07499175e5aaad3063bae34",
+    "textHash": "8b358607f8ede48870a643a4518e5bb3fd081b3e51255d54ce81b1ded8916591"
+  },
+  {
+    "url": "https://developers.google.com/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 24186,
+    "bodyHash": "50bb50c505cf98810d44ffbc843b9ad5e0d706aea05e9a76846e42838b986199",
+    "textHash": "5002de5ac1d6903e0f44f60465fcef20fc5aa14c26b7ada5ac3a5166e7435dc7"
+  },
+  {
+    "url": "https://marketingplatform.google.com/about/analytics/terms/gb/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified"
+    ],
+    "chars": 26325,
+    "bodyHash": "f61d313e6c176690ed9eff6a4f6d892fcc068b5316dde02f65f25f4bc5cdd101",
+    "textHash": "ed2ab224a4d3df9de4a109a18126b60276af6cce1faea65023346310c067597d"
+  },
+  {
+    "url": "https://payments.google.com/payments/apis-secure/get_legal_document?ldo=0&ldt=privacynotice&ldl=en",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 14291,
+    "bodyHash": "54b31a64e611ccfb2b65b1d6bb0df4f83f7b77e2c49ab526c2217a9f7d3c80c8",
+    "textHash": "8d458ab212a16e22c2b230f3b19c7416d2d947801d6ad56e3b280c30d74c6874"
+  },
+  {
+    "url": "https://marketingplatform.google.com/about/analytics/tag-manager/use-policy/?hl=en_GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "disclosure_scope_unverified"
+    ],
+    "chars": 3332,
+    "bodyHash": "6f3ede66ea55c74554dd9301dee724169edd33882a73dd075846d03113c97d8a",
+    "textHash": "14adfa9f123017892ed83705c4a5d5c1dfd65fa75a93c01f88e8c6d49db262ed"
+  },
+  {
+    "url": "https://payments.google.com/payments/apis-secure/u/0/get_legal_document?ldo=0&ldt=buyertos&ldr=GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 16047,
+    "bodyHash": "97170884f9f8dc827021cdceb470e2a81c8d5f966df5f2b20a37ee33f1d0075a",
+    "textHash": "eb1adca97d9d8d5ebd6ea3b6bf36cc51e059b0073aeb5db27afa2406ad1c32e1"
+  },
+  {
+    "url": "https://developers.google.com/adwords/api/docs/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "interactive_document_content_unreviewed",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 4981,
+    "bodyHash": "4d3dcbbf9774081b3198c18fcbbedbad99ce78b446d205c7c7e7e86e68df615f",
+    "textHash": "719dce461327d66d4c06b735386823cd0a109033d36a6a32419b4ed3e98a0b75"
+  },
+  {
+    "url": "https://antigravity.google/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 4919,
+    "bodyHash": "e38f39dfd130cf0fbc203c6ace924465d3ebdc97d0afc4e382c37ca2b1b8bc59",
+    "textHash": "c48a11acae8318da1bba6e867edfdfea51c5c177a1aa39fcd8ce3709d7578d1d"
+  },
+  {
+    "url": "https://travel.google.com/booking/flights/terms/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 7141,
+    "bodyHash": "a859733d4542378daf97bd930c1865d06bf7f9e8a7f1fabd2c6c6b5ddea2c40b",
+    "textHash": "fdf3ade0b946930fbb967059c7013e82a5629316c975ae6bf4aac1ad8709f07f"
+  },
+  {
+    "url": "https://cloud.google.com/terms/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 61324,
+    "bodyHash": "084c4f1d2237ceef049db9785dd336a5888a9094d73d42de472eaec22ec03e79",
+    "textHash": "219a3bbbdb4fd4ae60011d3d2b88e3d3565bfe1d3bc16fd3bc4b4ee4f4dda5e2"
+  },
+  {
+    "url": "https://manufacturers.google.com/files/tos/US/2017-04-18-tos.html",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 4453,
+    "bodyHash": "5b4f010d05ccb2fe1a0174e2778bea3008378ab449b36a74646d99460a207a38",
+    "textHash": "38b8b3ff06c9b7ee2016037e74b47ac71cdeecbcc3f0075f3c823767f7cf6875"
+  },
+  {
+    "url": "https://merchants.google.com/files/tos/extend/GB/tos.html",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 2692,
+    "bodyHash": "35c5fd79121a959f133f7d0fa75f70ea5af91a10f92d1a1cdbe4dfaafcbd5128",
+    "textHash": "db8c688341a839a5f0f6e91916e0fc86769638339137bb28883d018062f6401b"
+  },
+  {
+    "url": "https://safety.google/nest/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 25338,
+    "bodyHash": "3597c293e0f709288b90ea9ffb893cd044495123cc7666997dd124375baf7ea9",
+    "textHash": "0d8d3ef163e35945c54d3230217a32a6089ff6fe1e9eb9588aad85c08e5bac29"
+  },
+  {
+    "url": "https://one.google.com/terms-of-service",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 10447,
+    "bodyHash": "213476fdb03f34678fa80ff51e603f51aa663f1a5f3917b6d79304650b6a800f",
+    "textHash": "60c36bce8a973a5d367de7cc452afe7f79816d97a0dab76d9aa05f81b1001404"
+  },
+  {
+    "url": "https://store.google.com/intl/en_uk/about/device-terms/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 25318,
+    "bodyHash": "0caa8754d718b3a073c0e04181b036a32eecabb4d3fe9d9fb654d23fed2d6c0d",
+    "textHash": "ea865f9a68a1acf55ab5ac9152430aba92d271715f745e45367fc2a089a2034b"
+  },
+  {
+    "url": "https://www.grammarly.com/acceptable-use-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 10157,
+    "bodyHash": "c389772839f8fb8dee07c3949565bbbc91a6f90cef8c54eb4834d4c500a8c37e",
+    "textHash": "1a9b872dd5809dd2451fcb5294bc7f2b8a8fc5b3ce65209b551e7e70e2cc894e"
+  },
+  {
+    "url": "https://developer.android.com/distribute/marketing-tools/brand-guidelines",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://play.google.com/intl/ALL_en/about/developer-distribution-agreement.html",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.grammarly.com/terms/customer-business-agreement",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 46261,
+    "bodyHash": "b31c8e89df2ffb1fe017361ab1affca290c6ad02c1fb8fcabbbe489ef83e79ee",
+    "textHash": "a9ba9b1592770af88159c6c020dbd09a72b265efa407359916457f79cff95afb"
+  },
+  {
+    "url": "https://play.google.com/intl/en_US/about/play-terms/index.html",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 23126,
+    "bodyHash": "445113be504c0bec6acbc9f234c718a2d52b54d70ec6accd24d8fd2371811775",
+    "textHash": "92999f238182e77d8bef5826b7836a742effa722746cd9cda9939704e1f3b83a"
+  },
+  {
+    "url": "https://gumb.app/en/imprint/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 151,
+    "bodyHash": "9113c7878f4bac55c59d9d0f83fce2fb739668cba1868b5ea0b85300b13377da",
+    "textHash": "b0b7e71c0b9ddccdcd7b0c3a1c33b4f4a4b7557f7b9908b0cc9d79847579a6f8"
+  },
+  {
+    "url": "https://support.guilded.gg/hc/en-us/articles/360052815873-Community-Guidelines",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://gumb.app/en/privacy-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 31939,
+    "bodyHash": "b6ab8e1e9a23c5ceb1ec6611c403c776e1b5bcc799d2b706a7c4c01a9d98c5b0",
+    "textHash": "eb394d1afd5cf28ce7a9930679bd6d53824a6dce44f2737122114d6bba572a82"
+  },
+  {
+    "url": "https://www.grammarly.com/privacy-policy",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://gumb.app/en/terms-and-conditions/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 30721,
+    "bodyHash": "8844acff11f4286d36542925b2649615ae9698b7ce66cae506e6a653d105bfc9",
+    "textHash": "a900e4b2e44bad5eb478774dae2a3652a93c01fe83e8a1c47355889ab7191b3b"
+  },
+  {
+    "url": "https://www.grammarly.com/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 57233,
+    "bodyHash": "a7302f809aab37d73ec38760a3c6e723715562043f79a1117f2ebaf116e9f59e",
+    "textHash": "274688b39c7a182b4a25d391633afe61a560f34c9cd46b39b98781c22f66ea19"
+  },
+  {
+    "url": "https://support.guilded.gg/hc/en-us/articles/360039235054-Privacy",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.hsbc.com/privacy-notice",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "dialog_document_scope_unverified",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 13344,
+    "bodyHash": "728d9305a5724523ecf0100b4dea46d41e31433ba713ba558c1f3c8cf23e8497",
+    "textHash": "ec8adce9de7249a46850f72b79cb4f11ccc20f92debf5e336b4aba459d7df999"
+  },
+  {
+    "url": "https://www.hackerone.com/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 30166,
+    "bodyHash": "28fa2d1201f5fbe4a61c18938a8b64826bbaabcb846a2f2b1a0bb6df66c3cfb2",
+    "textHash": "716c8122488a18a42db4596528c7421b178496a60c62b1dd540aed832efe1fb4"
+  },
+  {
+    "url": "https://www.hsbc.com/terms-and-conditions",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "dialog_document_scope_unverified",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 19560,
+    "bodyHash": "68d9ed7560d024260c83f668b32d1288f4c9bc141b31c73b5d9bd884b66edb5d",
+    "textHash": "d1636da2e34bc9dea30dcef15c11a284d3a0bafebb4185d1357bf48ef6d20d08"
+  },
+  {
+    "url": "https://www.hearst.com/-/hearst-com-privacy-notice",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 25252,
+    "bodyHash": "8bcbc1a057cdbc9e368f84be2259db3634758a035a76752a80d5377741537ee9",
+    "textHash": "13baaff52bb60c5362c27df6bd4d2fde2c3ec40c766053e475bd6184120170cd"
+  },
+  {
+    "url": "https://www.hetzner.com/legal/privacy-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 46334,
+    "bodyHash": "9d608f9abfd2673b5b6b070ec9404fcbbdac81adcf70c761cb0f5afcea800bd1",
+    "textHash": "041958adfd3bbf0062099499890ae213599ff5473f180b109895b938ef8905f2"
+  },
+  {
+    "url": "https://www.hearst.com/-/hearst-com-terms-of-use",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 44159,
+    "bodyHash": "ae305b6d8ae6b5983d861a9a098db7fadcee50308326166ca1d963e92e0d2379",
+    "textHash": "46676e133f85c2899bc25d00e7b500a07c958fce986da3fa42c350809f7408c2"
+  },
+  {
+    "url": "https://support.guilded.gg/hc/en-us/articles/360039728313-Terms-of-Use",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://hsr.hoyoverse.com/en-us/company/privacy",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "7ca065d83fa6c49db55b5a63c92c5faa09236dfd2773b70a0fbf40a3827eb702",
+    "textHash": null
+  },
+  {
+    "url": "https://huggingface.co/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 16588,
+    "bodyHash": "580c244b3210555b97d22a221edfc4e879a625222454feb91b6809877b6eec14",
+    "textHash": "8cdb66e722bae758cb926be39f6ff9b9111502dbe833087e2c42b8e1ab7ba9ee"
+  },
+  {
+    "url": "https://hygraph.com/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_ambiguous"
+    ],
+    "chars": 10565,
+    "bodyHash": "edd4de61aa27960352e8dda6931cd644457959f4dee485da48d45720743e203d",
+    "textHash": "aaf4d18a5d3e300e03acae27c061e14afaa1abeb7b88b711070283d2a8a42b16"
+  },
+  {
+    "url": "https://hsr.hoyoverse.com/en-us/company/terms",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "7ca065d83fa6c49db55b5a63c92c5faa09236dfd2773b70a0fbf40a3827eb702",
+    "textHash": null
+  },
+  {
+    "url": "https://huggingface.co/terms-of-service",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 29637,
+    "bodyHash": "5cd9737b13982d11d8a448f09ba1810b0f54378e563e082d66a7363e1454a051",
+    "textHash": "d2d0deff2f6680c2d1a4a46c8bb574cec45f6d9e0e49374df680c8d0434a4d52"
+  },
+  {
+    "url": "https://hygraph.com/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_ambiguous"
+    ],
+    "chars": 26170,
+    "bodyHash": "08e2ba35a2f7e730bedb0a880125a4d7525f639506a57de3e0870badbdd7a1f9",
+    "textHash": "6dcfa5ccf370b11709fa6d24cf03c02b7ab98a663bfcd76f6f24c58fc9ff36c7"
+  },
+  {
+    "url": "https://www.ziffdavis.com/privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 66880,
+    "bodyHash": "a9dcd81c29ed1b7763ce92c0f566189ecf410b7714c75dbe784c9acba5bb7a00",
+    "textHash": "b0d0ee150a99cb87c34abbe8222fd727c3a0be8be095c28edfeaaba20ac7ffb0"
+  },
+  {
+    "url": "https://www.ikea.com/fr/fr/customer-service/terms-conditions/conditions-utilisation-ikea-family-pub57b6f181/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 21312,
+    "bodyHash": "3eca8cafa7fbedfc22e02f039046f73babf395dfbbd4be5a02485feb4adb91f4",
+    "textHash": "00a40b42ec9813576cde785085f37599b3873bf964f80ef0a32bb12a70abb440"
+  },
+  {
+    "url": "https://www.imdb.com/conditions",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 21061,
+    "bodyHash": "a5cf4d008b8816e645d4517573446cdf89a7c200b1ab552f7ece3b4d4e6f8a4d",
+    "textHash": "0a4d75d88cafe92c3c986f5fe3bfa18d928384007ba111ba836d0fb2f9e0e3bb"
+  },
+  {
+    "url": "https://www.ikea.com/ie/en/customer-service/privacy-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 89341,
+    "bodyHash": "12a4400977e0f7ff55833a0bea5ecc9b5a885c3fba3d8bc365fdfc4e4a423030",
+    "textHash": "aa92d9ea1a52aa2154bba46dd4191ab823aa6c9dd36a96c30aa25868ca4a5bfe"
+  },
+  {
+    "url": "https://ipinfo.io/privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 25241,
+    "bodyHash": "79b51d683db03c4e6c42b7e83ceafa7dd1753e975490f6197c579d69d4b89086",
+    "textHash": "b69a96d16b8824e86fa92937a7569a14953fefcd6a9b67fe8258cc281fed5624"
+  },
+  {
+    "url": "https://www.ziffdavis.com/terms-of-use",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 114096,
+    "bodyHash": "971dc309ae1fdb687589dc9685c5e7502ee17d4b2ebc84582fa6e40dc7004d46",
+    "textHash": "b7bfbdb8efcbe1b3b01c776eaa9e347839b57998abe46c27611b4737315c499a"
+  },
+  {
+    "url": "https://ipinfo.io/terms-of-service",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 16955,
+    "bodyHash": "495b5d41df1c4d700bd5bd0a64b55e7a6af7be1a05b5c27fbb85ae2377efe4d4",
+    "textHash": "3e0ef23962dabf9c4df458ca5f262cda068d4b107efb60f06dedfa0847f23188"
+  },
+  {
+    "url": "https://www.ikea.com/ie/en/customer-service/cookie-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 11410,
+    "bodyHash": "ae8528526e49da8c23806ca2fe59c28527f06b2183524bbe62808d08ade78959",
+    "textHash": "ca8d4671472f29f52c77ae45fffee4025d885f838fe21ef20934623c415b1b07"
+  },
+  {
+    "url": "https://imgur.com/rules",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 12176,
+    "bodyHash": "28ea941d7992385058c630c4ed65ab8221e67ae68931e1d1a11c14aa0c0faf04",
+    "textHash": "4bb48b74661f6912b83202f857871b0309cd67bdec42352b3b3166598b8c18bb"
+  },
+  {
+    "url": "https://imgur.com/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 12574,
+    "bodyHash": "902d92632647c0c66352bf21dc8907f9b1bc235c861da90bedb19b69c62cb932",
+    "textHash": "2ed7aee7d37e3d04f1c0fcc2ea3ac2d6923bc90887a6712404f252ea736466d0"
+  },
+  {
+    "url": "https://www.infolinks.com/service-agreement/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 53510,
+    "bodyHash": "e22f470feb6bf1a92f00bd74c158d4a3399ac9d248b2f0d53266cfe0bff55942",
+    "textHash": "0f11357771c1ad5e6ae9cf149ff0cb087a6b5118e659ad3219b9d21af366407f"
+  },
+  {
+    "url": "https://www.indiegala.com/privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 343,
+    "bodyHash": "93278d4aba5d7b2492c8a9920fd928a77e4ae73a1cab8c2278c2376ca657e7f3",
+    "textHash": "779184cce118763796ec771d5e08c3f7bd224af650fa7ea603bdb234dced1954"
+  },
+  {
+    "url": "https://imgur.com/tos",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 24579,
+    "bodyHash": "5bf3eeec5fd235e6615a6da2710d6548ec571247a9293c910c0463573a76f2b4",
+    "textHash": "03eb3becc777b9266831b082a19ccbee9d468100c170a466df2632ad9965c471"
+  },
+  {
+    "url": "https://www.infolinks.com/privacy-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 34738,
+    "bodyHash": "e6e9b2be8cceae945c193932868c37688b02a3a9f0cb7398b435dd7fa897ac16",
+    "textHash": "632364209e17a0f817339fdc8671fe7724d1074e11bd59e3bb288a36eaa39f82"
+  },
+  {
+    "url": "https://www.indiegala.com/terms-of-service",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 343,
+    "bodyHash": "037a79f79bdcd1c1ee5a209d43cb0d6375f421b171a556c78a8ec0673ef8d0c7",
+    "textHash": "779184cce118763796ec771d5e08c3f7bd224af650fa7ea603bdb234dced1954"
+  },
+  {
+    "url": "https://www.instacart.com/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 49622,
+    "bodyHash": "ad0c9674f887362e00aff6008f5c17a954f447eecc1d17e936c67978f33e6605",
+    "textHash": "6e30eb2973c00f7306a5fd209d1c058f857e844c881dc7181c4b720c7fb79cba"
+  },
+  {
+    "url": "https://www.instacart.com/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 86851,
+    "bodyHash": "cd372742e5facb3f4c719ee2d2828e02bc4380edf28e4860c2499a3274a5cbf4",
+    "textHash": "4880abc7d62941a8221f589be2f5a1a11c0222257020819973afede840cd4337"
+  },
+  {
+    "url": "https://interstellarlab.com/legal/privacy-policy",
+    "before": "origin_backoff",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://privacycenter.instagram.com/policy/",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "5874fcbdc4bf860f3d21658f171691d3737c95571aac7e26f1b54f5126d2acae",
+    "textHash": null
+  },
+  {
+    "url": "https://help.instagram.com/477434105621119",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.jeeng.com/privacy-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 294,
+    "bodyHash": "e0a99615558867303d64484f1497c752e539ec8a4dd95ca10e0325b54337fdd7",
+    "textHash": "03140c6900d0ded20bc100184b1a8d12888548f35fdac3e132e200c9c0ba3ab0"
+  },
+  {
+    "url": "https://jottacloud.com/en/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 5210,
+    "bodyHash": "ee6973e22895b23044431c085e31f5ffc1f040ab1afd31e996c36c520981b7e5",
+    "textHash": "669ef19c2e3607765d6275b36aa44a1ff4d3ef7e329489f8b4f5d311f4c7f4fe"
+  },
+  {
+    "url": "https://www.jeeng.com/terms-of-use/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 33246,
+    "bodyHash": "271708cf0d29b8f0d1be06290204913f904a928363d5ce2cb6256501b19593d2",
+    "textHash": "6cb14ecd69291f853807677c6cb0c1375501391a4b395c41dbe6b45dda0a18a0"
+  },
+  {
+    "url": "https://help.instagram.com/494561080557017",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "ee8bdaaee3deb8b1b32c722d03d9c16ea2bcbde49f29576260e8e13a741905a1",
+    "textHash": null
+  },
+  {
+    "url": "https://jottacloud.com/en/terms-conditions",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 17051,
+    "bodyHash": "df968b996af4defbca80fb675a2b5a2f3a482438c47bfc4cd0f9d85bf6004c72",
+    "textHash": "bfe67512a51473b8ba97be1bde999f69ff931cde470ecb9250b9d0cfcf47695a"
+  },
+  {
+    "url": "https://help.instagram.com/581066165581870",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "3bffff5bc3f0cb9cc60d2ba3d007c3f364c06782ab9e86aa6541c8ad16d49266",
+    "textHash": null
+  },
+  {
+    "url": "https://kbin.social/privacy-policy",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://kick.com/community-guidelines",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 16027,
+    "bodyHash": "9c28c1f4f3c7dfbf42f9b82fdb413637d491a7afa9d064b33396f25312556c30",
+    "textHash": "f1b032752b3e40c20594d28a038a369f6862f2385cb8bbca8215e79943cecf3a"
+  },
+  {
+    "url": "https://kimcartoon.li/Message/PrivacyPolicy",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://kbin.social/terms",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://kivra.se/en/private/privacy-notice/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 80771,
+    "bodyHash": "60949d9b2f259040c815b6e107d5dc77cfb3238fcfad106866f87711d5a2e6e3",
+    "textHash": "a2346a70f438841ff0ab4e6e034ede3e0a478c29f0b4930a8314e48f547bee73"
+  },
+  {
+    "url": "https://kick.com/dmca-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 4548,
+    "bodyHash": "738edb4c7e498bb61e0c4e29a75d486e553d3bd92bc1bac6df6866787c9aac4f",
+    "textHash": "8736d2488e06e5b6092f9b950e787049a481221f035a7e6828974170ffdb2f59"
+  },
+  {
+    "url": "https://www.kraken.com/en-us/legal/privacy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 56328,
+    "bodyHash": "06848f3690add6d7dbaec4f381d4350f592bc45620e33e0f6c9d6f1373e0c0bf",
+    "textHash": "c3041858d5d6f590850d2e9066deed5637377a7315819388f8edac51018f02c3"
+  },
+  {
+    "url": "https://kivra.se/en/about-kivra/terms/general-terms-and-conditions",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 24843,
+    "bodyHash": "a7f8752056ee715c0e51c82d940d947c021500cf40fad0c3a80396e3b82f88ca",
+    "textHash": "d0e0075e15d4a27e8a8cde1731e480e32af430c11eb10520c2ba6232de02ccc6"
+  },
+  {
+    "url": "https://www.kraken.com/en-us/legal#complete-tos",
+    "before": "rejected",
+    "after": "extraction_size_out_of_bounds",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": "79a0ee4eac6d692ff65304ab210ff46d5f75d6d01b15c1a22205495f89e8ff99",
+    "textHash": null
+  },
+  {
+    "url": "https://kivra.se/en/about-kivra/cookies/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 11624,
+    "bodyHash": "681f6ec7aa12373a73167ff136fec6bb0e2fa5949f15b948bdb7c35e4f16b11f",
+    "textHash": "f981bc624c3e9c3f6540425232e15a1e0bd4fd2ca8df6e0763ba45ea2027357e"
+  },
+  {
+    "url": "https://kick.com/partner-terms-and-conditions",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 17225,
+    "bodyHash": "c89c449ff068b02e37fc6367d742751d47a11548dae22d267244616a12ddaa64",
+    "textHash": "0b969605c038ddd1c84620a5be8dcb87130a8d4ca5b16e5f251202837a6a03e6"
+  },
+  {
+    "url": "https://www.kraken.com/en-us/legal/cookies",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 1197,
+    "bodyHash": "87c49af2fab367da24097380bd9467cf273b44f501ff28402ec3a524a6bc4c58",
+    "textHash": "a078d054b08197fc630b67608ca98a7ee320b0422129dd20f3bf8ce57f5faaba"
+  },
+  {
+    "url": "https://www.viacomcbsprivacy.com/en/policy?r=www.viacomcbsprivacy.com",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 51445,
+    "bodyHash": "06a7cab09f18f2829ad2a052cdb136d3a942612e1ef0ff76b915bb3b56e181e8",
+    "textHash": "332a41e42dc03e5501aa050f1a5568721fe44f9f02636c9452da4ae42aa6737c"
+  },
+  {
+    "url": "https://kick.com/privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 45443,
+    "bodyHash": "6bdd647ed40249eaf37a7f0620e3160de5de21439174b0064f4eee58b4356895",
+    "textHash": "ae9c1f1409385deea8f136778c817b1047226fd708269d4ad1e7f260ad5392c1"
+  },
+  {
+    "url": "https://www.last.fm/legal/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed"
+    ],
+    "chars": 43928,
+    "bodyHash": "cca78f7a79431793b1ceeace63f565c31676f1ce3243322689f209d292fc49a5",
+    "textHash": "aeb172040c0c49e489294c16b095be628c854b4030d6dd355f7993054c0c278a"
+  },
+  {
+    "url": "https://kick.com/terms-of-service",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 57134,
+    "bodyHash": "0aaedbe23ebe2a3c46d8b6b8c7a04992537b0e5be7851fcf4f5c77093a3a1304",
+    "textHash": "aa9a31877052e6af9d9e5c675f9adff16247442941b4be98ab07fa0032c5f4d8"
+  },
+  {
+    "url": "https://terms.line.me/line_rules/?lang=en",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.librarything.com/privacy",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.limitless.ai/privacy-policy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 19363,
+    "bodyHash": "b689fafbfd6e4668bbabfa7b48f1b14f4109623fcd32b6241cfc3d4b61022905",
+    "textHash": "dff06dbb3f42a20fda8468f1ec477c59287f8774ad3d544572f68996b9f7afa5"
+  },
+  {
+    "url": "https://linear.app/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 23534,
+    "bodyHash": "57777c665fcc7742f6c81a951e63336833b2f1b6b90267210bd8cc8ce92310bc",
+    "textHash": "edbb06ed4b3c398fcd35c8bf9d4448a97076a208e739bcaa73c6f3aa5f99a01f"
+  },
+  {
+    "url": "https://terms.line.me/line_terms/?lang=en",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 34720,
+    "bodyHash": "36dbbbac466d83b5f0ba0b0a7c295b010e016ae87035f7395fe6b5f13bf829dc",
+    "textHash": "1ed6df770fd7598a408727f6f70e8fc0f180c7c8ddae8e3e8282031c91ea004d"
+  },
+  {
+    "url": "https://linear.app/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 37256,
+    "bodyHash": "7e8b49ded80b3e279166300af90ae556ce0bd1f610762014e78bd6daf4be6241",
+    "textHash": "4a744032e70fa6bffbb0e37dbb96b4626268229f0a571ef9f85c8ebbbb5aaa44"
+  },
+  {
+    "url": "https://lingualeo.com/en/blog/privacy-policy-en/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 4361,
+    "bodyHash": "a2631d46d61c0cd92d4071cea798f7ad7e93f12b71064bb8fee3faa8afe4113d",
+    "textHash": "a06d51dacff2f237d2c310745badacb9f8d6a2028d992f6e03f2c67e083467dc"
+  },
+  {
+    "url": "https://brand.linkedin.com/policies",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 2841,
+    "bodyHash": "6c778bce8169920aa511bc4f5f404275fee84b8967f70044fcc1dc9a24798b0d",
+    "textHash": "2f9d65b842d30ae885f02017ae47af2b6b6e80530d2947241d0fd3a6aef4b1b1"
+  },
+  {
+    "url": "https://corp.lingualeo.com/terms-of-use-en/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.linkedin.com/legal/professional-community-policies",
+    "before": "rejected",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 11837,
+    "bodyHash": "cbe6fb8f5c8a2d7d40de8f9280c36a2c7b12cbc781bcdc9b513af5863e515be5",
+    "textHash": "3618d37aa288a27561689dad94ed7a5deb57cb5c36cdef69546d4ad15ffe0510"
+  },
+  {
+    "url": "https://www.limitless.ai/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 47745,
+    "bodyHash": "5f6a5d63ebe57110c7839addc370b489a9892fda756b44d3229de8ffaeabc368",
+    "textHash": "13ee1e3af2884b6884affd954c7ee6e5d544d2b9c13a8ae8255bbb5558bf07e9"
+  },
+  {
+    "url": "https://legal.linkedin.com/api-terms-of-use",
+    "before": "rejected",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 55467,
+    "bodyHash": "c23ea8eaadbfe241b28513e6d8d6fab45c1626d6af5811b770dfa03b36d596c6",
+    "textHash": "7f31c9f2fd4766b9cfdbb561567a87d564884ad02e60f4d5f2aeaf67ccc465db"
+  },
+  {
+    "url": "https://www.linkedin.com/legal/privacy-policy",
+    "before": "rejected",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 42678,
+    "bodyHash": "24fda4d07ce059881fea4c0e0ae64c58748feb2dbb469741e0a4d4aed66d3a28",
+    "textHash": "afe83a66657836e270d8a476bf61f630fd8802651b4bc04531372a54c3298767"
+  },
+  {
+    "url": "https://www.linkedin.com/legal/l/service-terms",
+    "before": "rejected",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 26113,
+    "bodyHash": "86718333fecd3495451e2310d315fafd0d67a9f96ce204641f016fb39e5fa362",
+    "textHash": "46ace78df81a7270efd835d78e33ec25b72dbf699c84857f64666edf7d61c619"
+  },
+  {
+    "url": "https://maps.google.com/localguides/rules?hl=en_GB",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 11169,
+    "bodyHash": "a72ce9bda8106ed38cb83382f18d21242cc3c05125bbdb4854eac370d60f598c",
+    "textHash": "b1b6747d78ca99c59b99c73647dc7be5a696d6c28911db03b0ff44a131103070"
+  },
+  {
+    "url": "https://www.livejournal.com/legal/tos-en.bml",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 26279,
+    "bodyHash": "b000db1bc3be903e06a507d07a75de007c19f13cba51b833daee2447ac200c78",
+    "textHash": "9783bd2c073f31dca13f4385376fda660cec36d21b7b4d1d6bee5d7ea9ae5bc4"
+  },
+  {
+    "url": "https://www.linkedin.com/legal/cookie-policy",
+    "before": "rejected",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "hidden_document_content_unresolved"
+    ],
+    "chars": 10565,
+    "bodyHash": "46e3794a3feacbea22e773410408da21eaf6acfae388f940863f8b5786fe4c66",
+    "textHash": "21c0df7c0757fbc6bc61985aff143e9e66df3d877c3aa36e5d2c226ec27a11fa"
+  },
+  {
+    "url": "https://www.logitech.com/en-gb/legal/web-privacy-policy.html",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 57743,
+    "bodyHash": "85db52ac4dee9f305f93f2c9d94dcf2992237d9cbae2fa9ec11a5b65d7dafd43",
+    "textHash": "72a56928f1dba12594882a61e88c406db67b2c52a3b8281c850f839664311f03"
+  },
+  {
+    "url": "https://www.lyft.com/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_header_metadata_unreviewed"
+    ],
+    "chars": 31254,
+    "bodyHash": "e059ab0b14f3ce3d0aa1c24cc82f881dde093aef0ce7cc9557d3c2b5f5fe99c0",
+    "textHash": "901230b7d425eabd01eab112a40470d533a27efb4107272842ed31b58f0790b6"
+  },
+  {
+    "url": "https://www.mailjet.com/legal/sending-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 11695,
+    "bodyHash": "9e58dddfc6ef4e3690ea628a44a38fbf31a6d253092da02d16aeb71b42d17c64",
+    "textHash": "b13112de7a45f62fb05550d2f904f58b5b80cb921383b26d2179a3c2ac5f178b"
+  },
+  {
+    "url": "https://www.logitech.com/en-gb/tos/terms.html",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 22391,
+    "bodyHash": "3f11a2f2cd7e72d7e097ee747aebc62af37b363d0545df34762d3b6abcd71717",
+    "textHash": "c0323734f401b67bb6a6b5745b2f2e6a7b521b4d57c1a49744d17d05f2abfb90"
+  },
+  {
+    "url": "https://www.lyft.com/terms",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_header_metadata_unreviewed",
+      "document_scope_ambiguous"
+    ],
+    "chars": 99834,
+    "bodyHash": "9263ecfc52cba2e7f758bf9acec0898c994e0839e9bd9384146c1d90f08b46bc",
+    "textHash": "48f3307ef5c57a9af026fe24a10cee5b66e8996558929907ae61345d61af1df3"
+  },
+  {
+    "url": "https://pad.numerique.gouv.fr/s/SzOhdvBiJ",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "document_scope_unverified"
+    ],
+    "chars": 2752,
+    "bodyHash": "55d161ef31fd564a2b775b22ec4085e48ce57bd9fc87236fd251024593621388",
+    "textHash": "f0a72ffcaf8d0274bee011342908b4620148854086515edf41a967a7a51d403a"
+  },
+  {
+    "url": "https://www.mailjet.com/legal/dpa/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.mediafire.com/policies/privacy_policy.php",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 41817,
+    "bodyHash": "778707995ef19e29cc17f275432f7f704fba65dd522e13f0784866b93d3e1572",
+    "textHash": "469eb4ee2fddb55d871b7da95c227ef05da86b9d36f7d2caac15769bd1c20dce"
+  },
+  {
+    "url": "https://uk.match.com/pages/misc/privacy",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.mailjet.com/privacy-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 24630,
+    "bodyHash": "99e98b6234e2358b5177b23b7e226b1f1a367202a9915588818159bc2f212a59",
+    "textHash": "3cb431f0280a41e52a50a9190238f472bc008f1f1b62fdfe959b7594fba67849"
+  },
+  {
+    "url": "https://www.mediafire.com/policies/terms_of_service.php",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 25555,
+    "bodyHash": "3eca53a4e31954d28add83947d31f22d2a8604ddd5db171311c7f4eb328c56de",
+    "textHash": "a1dd4c2635a762097856c42c2fa1e2bf436b89a62c005f63f2511d976d943653"
+  },
+  {
+    "url": "https://www.mailjet.com/legal/terms/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 42873,
+    "bodyHash": "55a13340c86f070cc6a457f3df475f6f47452614524485d6c0bd9a3d3126119e",
+    "textHash": "18597e4bb591ebc24c64a88da7b1d063be2d3531e2d658c53e326e21a5982733"
+  },
+  {
+    "url": "https://uk.match.com/pages/misc/cge",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://help.meetup.com/hc/en-us/articles/360044422391",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://miro.com/legal/privacy-policy/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 32453,
+    "bodyHash": "d235b6b164c79aea5e437df7110d72f58d92e09bf0669b7afdebc7515edfbe94",
+    "textHash": "ebfcdfceacda3fd7c28bb5b1925849e1e53b10a4dc92e3238fe5a877007e4a37"
+  },
+  {
+    "url": "https://miro.com/legal/terms-of-service/",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing"
+    ],
+    "chars": 41948,
+    "bodyHash": "0a65351e7af5aaf0a06ddd0117a9b0f4339585e348bfd583302bbaf47bbc4074",
+    "textHash": "6d972f5c1337014c0e8503eb6c3ec8f8b0a8da6fd2ee901d58e4d7d81ea51d39"
+  },
+  {
+    "url": "https://www.mailjet.com/legal/privacy-policy/cookies/",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://mix.com/privacy",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 55743,
+    "bodyHash": "12d0d77a6439c4fb63c4a579c04dcacbedd25eb9e002225d7375176dd12bac8f",
+    "textHash": "5d64a107b32a935b8c023858783d330d3db6b670b75ac3acf46c5d371b5aa964"
+  },
+  {
+    "url": "https://help.meetup.com/hc/en-us/articles/360027447252",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://mix.com/tos",
+    "before": "completed",
+    "after": "extracted",
+    "reasons": [
+      "source_contract_missing",
+      "removed_document_content_unreviewed",
+      "interactive_document_content_unreviewed"
+    ],
+    "chars": 37962,
+    "bodyHash": "3bc77fbca13d62aef091b85341801f42ebf883703cc28f4d4537a7968c23848d",
+    "textHash": "b95687c92e32617a4adf95bf36099ca84d059956b81bbe1f71cdd936921800e3"
+  },
+  {
+    "url": "https://www.mouthshut.com/help/privacy.php",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  },
+  {
+    "url": "https://www.mouthshut.com/help/tos.php",
+    "before": "transport_rejected",
+    "after": "unavailable",
+    "reasons": [],
+    "chars": 0,
+    "bodyHash": null,
+    "textHash": null
+  }
+]
