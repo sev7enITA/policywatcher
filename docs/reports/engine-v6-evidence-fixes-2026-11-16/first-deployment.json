@@ -1,0 +1,118 @@
+{
+  "staging": "01a1e36e-3a74-72d9-983c-4fd862bc57e6",
+  "privateR3Restoration": "01a1e372-d5ac-73e9-9f58-68df75d91f0c",
+  "production": "01a1e375-eb73-7241-b1f6-e6cf6dcf6989",
+  "archiveSha256": "c76ba3710734e6f44458fdb0607a2e6697c77acb3abd225d6b4ba3de4acfea1b",
+  "stagingInitialGeometryFailure": "First measurement happened before the route stylesheet attached. CSS-aware verification passed all four combinations.",
+  "stagingUi": {
+    "host": "staging.policywatcher.online",
+    "at": "2026-11-16T08:21:08.626Z",
+    "rows": [
+      {
+        "lang": "it",
+        "width": 390,
+        "firstDisplay": "flex",
+        "stylesheetWaitMs": 15,
+        "links": 5,
+        "minimumLinkHeight": 44,
+        "focusMovedAndVisible": true,
+        "overflow": 0
+      },
+      {
+        "lang": "it",
+        "width": 1366,
+        "firstDisplay": "inline",
+        "stylesheetWaitMs": 32,
+        "links": 5,
+        "minimumLinkHeight": 44,
+        "focusMovedAndVisible": true,
+        "overflow": 0
+      },
+      {
+        "lang": "en",
+        "width": 390,
+        "firstDisplay": "inline",
+        "stylesheetWaitMs": 43,
+        "links": 5,
+        "minimumLinkHeight": 64,
+        "focusMovedAndVisible": true,
+        "overflow": 0
+      },
+      {
+        "lang": "en",
+        "width": 1366,
+        "firstDisplay": "inline",
+        "stylesheetWaitMs": 396,
+        "links": 5,
+        "minimumLinkHeight": 44,
+        "focusMovedAndVisible": true,
+        "overflow": 0
+      }
+    ]
+  },
+  "productionRuntime": {
+    "checkedAt": "2026-11-16T08:28:05.166Z",
+    "status": "attention",
+    "release": "5.5.0",
+    "health": "ok",
+    "applicationTables": 35,
+    "migrations": 19,
+    "integrity": "ok",
+    "verificationSummary": {
+      "passed": 9,
+      "attention": 0,
+      "unavailable": 0,
+      "external": 1
+    },
+    "attention": []
+  },
+  "productionUi": "Initial checks lost the homepage transition. One retry stayed on the hydrated Italian homepage at width 1366, another on the English homepage. Four isolated Italian desktop navigations succeeded. Root cause has not been established. Follow-up replaces the two client-router links with native document links.",
+  "diagnostic": [
+    {
+      "mode": "early",
+      "ok": true,
+      "events": [
+        "/?lang=it",
+        "/?lang=it",
+        "/?dv=1&lang=it&region=Global",
+        "/?dv=1&lang=it&region=Global",
+        "/engine-6-preview?lang=it",
+        "/engine-6-preview?lang=it"
+      ]
+    },
+    {
+      "mode": "settled",
+      "ok": true,
+      "events": [
+        "/?lang=it",
+        "/?lang=it",
+        "/?dv=1&lang=it&region=Global",
+        "/?dv=1&lang=it&region=Global",
+        "/engine-6-preview?lang=it"
+      ]
+    },
+    {
+      "mode": "early",
+      "ok": true,
+      "events": [
+        "/?lang=it",
+        "/?lang=it",
+        "/?dv=1&lang=it&region=Global",
+        "/?dv=1&lang=it&region=Global",
+        "/engine-6-preview?lang=it",
+        "/engine-6-preview?lang=it"
+      ]
+    },
+    {
+      "mode": "settled",
+      "ok": true,
+      "events": [
+        "/?lang=it",
+        "/?lang=it",
+        "/?dv=1&lang=it&region=Global",
+        "/?dv=1&lang=it&region=Global",
+        "/engine-6-preview?lang=it"
+      ]
+    }
+  ]
+}

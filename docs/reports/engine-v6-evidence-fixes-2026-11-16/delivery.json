@@ -1,0 +1,207 @@
+{
+  "verifiedAt": "2026-11-16T08:47:02.210360+00:00",
+  "stableRelease": "5.5.0",
+  "stableCommit": "d6ac0eb5200cc37e96b5ce3c75eff3799d5bf916",
+  "implementationMerge": "e695d2e94cbd6bb9f46155ed87bc34a7a0237461",
+  "archiveSha256": "82a630d4e443e33554053bc5e0a7b3e82a910b7457f1b02ab23e003a2d3dde1d",
+  "nativeNavigationMerge": "2191600bd7bd014441524b851c00ed7a85baad43",
+  "stagingDeployment": "01a1e37e-302d-7015-bb74-09a82a40545f",
+  "restorationDeployment": "01a1e383-8794-7229-8b4f-6e74db0aaec5",
+  "publicDeployment": "01a1e386-7b87-721b-92e7-fcad911fa5b8",
+  "stagingChecks": [
+    "homepage",
+    "diary-navigation-en-it",
+    "staging-banner",
+    "search-engine-boundary",
+    "robots-boundary",
+    "release-identity",
+    "publication-readiness-contract",
+    "health-auth-boundary",
+    "database-health",
+    "admin-authentication",
+    "database-readiness",
+    "public-dataset"
+  ],
+  "stagingVerification": "2026-11-16T08:38:44.456Z",
+  "sites": {
+    "staging.policywatcher.online": {
+      "checkedAt": "2026-11-16T08:39:29.777Z",
+      "ui": [
+        {
+          "lang": "it",
+          "width": 390,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 3476,
+          "links": 5,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "it",
+          "width": 1366,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 469,
+          "links": 5,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "en",
+          "width": 390,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 451,
+          "links": 5,
+          "minimumLinkHeight": 64,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "en",
+          "width": 1366,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 34,
+          "links": 5,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        }
+      ],
+      "matchedSourceFiles": 516
+    },
+    "policywatcher.online": {
+      "checkedAt": "2026-11-16T08:46:38.066Z",
+      "ui": [
+        {
+          "lang": "it",
+          "width": 390,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 1088,
+          "links": 5,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "it",
+          "width": 1366,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 3207,
+          "links": 5,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "en",
+          "width": 390,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 100,
+          "links": 5,
+          "minimumLinkHeight": 64,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "en",
+          "width": 1366,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 40,
+          "links": 5,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        }
+      ],
+      "matchedSourceFiles": 516
+    }
+  },
+  "runtime": {
+    "checkedAt": "2026-11-16T08:46:20.175Z",
+    "status": "attention",
+    "release": "5.5.0",
+    "health": "ok",
+    "applicationTables": 35,
+    "migrations": 19,
+    "integrity": "ok",
+    "verificationSummary": {
+      "passed": 9,
+      "attention": 0,
+      "unavailable": 0,
+      "external": 1
+    },
+    "attention": []
+  },
+  "privateR3": {
+    "archiveSha256": "e82ff8ff3fe33275e62475054889cdaf97f1a12d7442bb0ca6d42ec30cf99341",
+    "implementation": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+    "authenticatedChecks": 14,
+    "preservedReports": 3,
+    "activeTasks": 0,
+    "preservedEvidenceTables": 14,
+    "comparedTables": 48,
+    "changedOperationalTables": [
+      {
+        "table": "EngineOrigin",
+        "before": {
+          "rows": 3,
+          "sha256": "957620d4c944606962bf2477349633d2cdd8ef043889f70f0db3bac39d6836da"
+        },
+        "after": {
+          "rows": 3,
+          "sha256": "6e8d3364e7a1f8833b4c154831aacabf781127f455065d0428a5589a95ce9128"
+        }
+      }
+    ]
+  },
+  "negativeControls": {
+    "checkedAt": "2026-11-16T08:18:42.026Z",
+    "removedItalianLinkFromCopyOf": "https://policywatcher.online/?lang=it",
+    "result": "Missing or ambiguous diary link for it",
+    "removedPassage": {
+      "sourceId": "87c9526a37054d6e2919443f",
+      "sha256": "f3b60612fbc4326b32afa419c8d9627df290b72c5785c756b0edff7fb19ac60e",
+      "locator": "html:nth-child(1) > body:nth-child(2) > div:nth-child(1) > div:nth-child(30) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > article:nth-child(1) > article:nth-child(1) > div:nth-child(2) > section:nth-child(2) > p:nth-child(1)",
+      "expected": 4,
+      "actual": -1,
+      "reproduced": false
+    }
+  },
+  "earlierStagingUiFailure": "During the first release two initial observations measured boxes before the route stylesheet applied. A readiness-aware run recorded the first display state and measured all five links after CSS became active.",
+  "publicMobileItalianScreenshotSha256": "f2a4d3d7ba4673a50939865c748bdb1084baac65a47cacfa30de19c7fc5a0792",
+  "independentBrowserAcceptance": [
+    {
+      "target": "https://policywatcher.online/engine-6-preview?lang=it#validation",
+      "lang": "it",
+      "width": 390,
+      "receipts": 5,
+      "minimumHeight": 44,
+      "keyboardFocus": true
+    },
+    {
+      "target": "https://policywatcher.online/engine-6-preview?lang=it#validation",
+      "lang": "it",
+      "width": 1366,
+      "receipts": 5,
+      "minimumHeight": 44,
+      "keyboardFocus": true
+    },
+    {
+      "target": "https://policywatcher.online/engine-6-preview#validation",
+      "lang": "en",
+      "width": 390,
+      "receipts": 5,
+      "minimumHeight": 64,
+      "keyboardFocus": true
+    },
+    {
+      "target": "https://policywatcher.online/engine-6-preview#validation",
+      "lang": "en",
+      "width": 1366,
+      "receipts": 5,
+      "minimumHeight": 44,
+      "keyboardFocus": true
+    }
+  ]
+}
