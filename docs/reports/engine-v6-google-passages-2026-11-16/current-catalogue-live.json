@@ -1,0 +1,3928 @@
+{
+  "startedAt": "2026-11-16T13:32:10.482Z",
+  "completedAt": "2026-11-16T13:33:45.757Z",
+  "durationMs": 95275,
+  "sourceCommit": "b30faf30f905d689ad851c4e16ad491b99c187ed",
+  "catalogueHash": "837904e1185747f8da7eee3d13a5c52d40fdfc9efaa885b62f6a28cb8a0d1d5c",
+  "boundary": "Configured real catalogue from local Mac; 3 workers, one request per origin at a time, 1.5s pacing, origin held after 429/503. No models, renderer, contracts, production DB or delivery. Not 500-source or VPS qualification.",
+  "configuredPolicies": 110,
+  "retrievalScopes": 106,
+  "httpEndpoints": 101,
+  "origins": 23,
+  "completedEndpoints": 101,
+  "attempts": 102,
+  "successfulEndpoints": 100,
+  "extractedScopes": 104,
+  "sourceCompletenessQualified": false,
+  "productionQualified": false,
+  "endpointDurationMs": {
+    "p50": 568,
+    "p95": 2679
+  },
+  "rows": [
+    {
+      "id": "719b5d829e25644e6e8acb5d",
+      "url": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+      "durationMs": 487,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:10.886Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+          "drift": false,
+          "durationMs": 400,
+          "validators": {
+            "etag": "W/\"0dbf924853615fc46d0864241573a20d\"",
+            "lastModified": "Tue, 19 Mar 2024 22:01:25 GMT",
+            "vary": "Accept-Encoding",
+            "serverDate": "Mon, 16 Nov 2026 09:15:09 GMT",
+            "age": "46695"
+          },
+          "bodyBytes": 31524,
+          "bodyHash": "1e81d983f60c84c7ed8003d4d4a1fa738134c63d5241e5914cae701e07fdfa76",
+          "bodyFile": "719b5d829e25644e6e8acb5d-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+          "state": "held",
+          "extraction": "completed",
+          "file": "719b5d829e25644e6e8acb5d.extraction.json",
+          "textHash": "1bccaa83697a8dad456e214ead1009c2c5c652ec251213c4cb491a8eea48642d",
+          "textLength": 29403,
+          "blocks": 368,
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "925a2137c2df38e00d021394",
+      "url": "https://aws.amazon.com/agreement/",
+      "durationMs": 690,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:10.976Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://aws.amazon.com/agreement/",
+          "drift": false,
+          "durationMs": 490,
+          "validators": {
+            "lastModified": "Fri, 13 Nov 2026 04:10:43 GMT",
+            "vary": "accept-encoding",
+            "serverDate": "Mon, 16 Nov 2026 13:32:10 GMT"
+          },
+          "bodyBytes": 504428,
+          "bodyHash": "d1fc8a6212e2f66da33607b361fd6b6c7add064e9a8ba3936204725aeab95efa",
+          "bodyFile": "925a2137c2df38e00d021394-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://aws.amazon.com/agreement/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "925a2137c2df38e00d021394.extraction.json",
+          "textHash": "0ed88042f13ec9dedc548f9bb9b6a62886180ef9221579f502379f6c94db9aa0",
+          "textLength": 62869,
+          "blocks": 196,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "87c9526a37054d6e2919443f",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+      "durationMs": 814,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:11.178Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+          "drift": false,
+          "durationMs": 696,
+          "validators": {
+            "vary": "User-Agent,Accept-Encoding",
+            "cacheControl": "no-cache",
+            "contentLanguage": "en-US",
+            "serverDate": "Mon, 16 Nov 2026 13:32:10 GMT"
+          },
+          "bodyBytes": 376847,
+          "bodyHash": "a144097d28941ee0913010027eff8855c53ca7d21f88f8c96c08f4dbe0aba000",
+          "bodyFile": "87c9526a37054d6e2919443f-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+          "state": "held",
+          "extraction": "completed",
+          "file": "87c9526a37054d6e2919443f.extraction.json",
+          "textHash": "993ed5120c75318d98473698e001dc29c41935af329de73ab6165f36b146b08c",
+          "textLength": 24639,
+          "blocks": 159,
+          "language": "en-us",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "99768b93c4b8b93615a41ac6",
+      "url": "https://www.anthropic.com/legal/terms",
+      "durationMs": 709,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:13.044Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.anthropic.com/legal/consumer-terms",
+          "drift": false,
+          "durationMs": 569,
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding",
+            "cacheControl": "s-maxage=300, stale-while-revalidate=31535700",
+            "serverDate": "Mon, 16 Nov 2026 13:32:12 GMT"
+          },
+          "bodyBytes": 601267,
+          "bodyHash": "e3488d8d67fe9a0b94f0a56fbfa85e2026fafd540765eede4fbd728df55e5dcf",
+          "bodyFile": "99768b93c4b8b93615a41ac6-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.anthropic.com/legal/terms",
+          "state": "held",
+          "extraction": "completed",
+          "file": "99768b93c4b8b93615a41ac6.extraction.json",
+          "textHash": "a4cc68492ec59ee9abf21a69ea8501228ae8449bc6ec1238b464ca92f8a28aad",
+          "textLength": 36238,
+          "blocks": 150,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "df37b8f261e9861e8d1665b6",
+      "url": "https://www.apple.com/legal/privacy/pdfs/apple-privacy-policy-en-ww.pdf",
+      "durationMs": 487,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:13.239Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.apple.com/legal/privacy/pdfs/apple-privacy-policy-en-ww.pdf",
+          "drift": false,
+          "durationMs": 441,
+          "validators": {
+            "lastModified": "Wed, 27 Aug 2025 17:05:52 GMT",
+            "cacheControl": "max-age=360",
+            "serverDate": "Mon, 16 Nov 2026 13:32:13 GMT"
+          },
+          "bodyBytes": 31763,
+          "bodyHash": "5af344374d718e0bc346048f159185b9d90217a0075e8654a3d6736fa9246852",
+          "bodyFile": "df37b8f261e9861e8d1665b6-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.apple.com/legal/privacy/pdfs/apple-privacy-policy-en-ww.pdf",
+          "state": "held",
+          "extraction": "completed",
+          "file": "df37b8f261e9861e8d1665b6.extraction.json",
+          "textHash": "69aecc3f815e41e738a4046379a20ee84ec9bc8508db6cdde3265c22ce1183f0",
+          "textLength": 29781,
+          "blocks": 360,
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "54e2e6edd58ef2f2e09a5f70",
+      "url": "https://aws.amazon.com/serviceterms/",
+      "durationMs": 1008,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:13.290Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://aws.amazon.com/service-terms/",
+          "drift": false,
+          "durationMs": 613,
+          "validators": {
+            "lastModified": "Fri, 13 Nov 2026 04:13:01 GMT",
+            "vary": "accept-encoding",
+            "serverDate": "Mon, 16 Nov 2026 13:32:13 GMT"
+          },
+          "bodyBytes": 1041795,
+          "bodyHash": "b6347706216bd0e8ecb34bdbf493713b7ee1c0d3b418afced996f910b61d3d05",
+          "bodyFile": "54e2e6edd58ef2f2e09a5f70-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://aws.amazon.com/serviceterms/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "54e2e6edd58ef2f2e09a5f70.extraction.json",
+          "textHash": "4aca819182d9af6e5fa1bd5388ab169207977843784cbc5378119e78196b3445",
+          "textLength": 301629,
+          "blocks": 930,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "34cfa2c0e79e636712354096",
+      "url": "https://www.anthropic.com/legal/aup",
+      "durationMs": 636,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:15.135Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.anthropic.com/legal/aup",
+          "drift": false,
+          "durationMs": 449,
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding",
+            "cacheControl": "s-maxage=300, stale-while-revalidate=31535700",
+            "serverDate": "Mon, 16 Nov 2026 13:32:14 GMT"
+          },
+          "bodyBytes": 992241,
+          "bodyHash": "674c0a8816c99382ce8e5911e55388af4a191025f1cccea5fb56763e1e0dcf70",
+          "bodyFile": "34cfa2c0e79e636712354096-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.anthropic.com/legal/aup",
+          "state": "held",
+          "extraction": "completed",
+          "file": "34cfa2c0e79e636712354096.extraction.json",
+          "textHash": "e51141a761e2f20449643737eab590d12a281064deb3681b5ac7e623afcc108e",
+          "textLength": 31406,
+          "blocks": 212,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "c546386570594a710555aac1",
+      "url": "https://www.apple.com/legal/privacy/data/en/intelligence-engine/",
+      "durationMs": 568,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:15.323Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.apple.com/legal/privacy/data/en/intelligence-engine/",
+          "drift": false,
+          "durationMs": 537,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "max-age=300",
+            "serverDate": "Mon, 16 Nov 2026 13:32:15 GMT"
+          },
+          "bodyBytes": 107212,
+          "bodyHash": "65f6098f015c4f5ff90809859e8c1dc91d9eab51c22c4a7109900509e1c47965",
+          "bodyFile": "c546386570594a710555aac1-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.apple.com/legal/privacy/data/en/intelligence-engine/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "c546386570594a710555aac1.extraction.json",
+          "textHash": "5c0a16895a0713260d27279675bbaeba5a34fd1105ad6dd8b06a71e60f830499",
+          "textLength": 5340,
+          "blocks": 14,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "2b238fb799dda916f4b698d3",
+      "url": "https://aws.amazon.com/aup/",
+      "durationMs": 717,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:15.971Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://aws.amazon.com/aup/",
+          "drift": false,
+          "durationMs": 650,
+          "validators": {
+            "lastModified": "Fri, 13 Nov 2026 03:59:53 GMT",
+            "vary": "accept-encoding",
+            "serverDate": "Mon, 16 Nov 2026 13:32:15 GMT"
+          },
+          "bodyBytes": 371008,
+          "bodyHash": "adae95a173419e9dd988ad1274cff8ccd0cdd933dadc9ce6c4ebc982a32211f6",
+          "bodyFile": "2b238fb799dda916f4b698d3-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://aws.amazon.com/aup/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "2b238fb799dda916f4b698d3.extraction.json",
+          "textHash": "143a1cf6b9fd04ae3aabe1967026587fb9a3248b46ad817bad7086b3e6a36877",
+          "textLength": 1707,
+          "blocks": 15,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "9410245cc2fd13c44cab01e4",
+      "url": "https://www.apple.com/legal/internet-services/terms/site.html",
+      "durationMs": 108,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:16.926Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.apple.com/legal/internet-services/terms/site.html",
+          "drift": false,
+          "durationMs": 71,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "max-age=304",
+            "serverDate": "Mon, 16 Nov 2026 13:32:16 GMT"
+          },
+          "bodyBytes": 124809,
+          "bodyHash": "8a57d41f341e9765191ea5d617d14716620438791dbc87f753bbea3a5a0c7485",
+          "bodyFile": "9410245cc2fd13c44cab01e4-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.apple.com/legal/internet-services/terms/site.html",
+          "state": "held",
+          "extraction": "completed",
+          "file": "9410245cc2fd13c44cab01e4.extraction.json",
+          "textHash": "a70a7da3da63ab0c614f7c0fd89c638de4d8a84ca24075b581eec75c849acf0a",
+          "textLength": 20495,
+          "blocks": 66,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "47b9092320387f1cdc0a9746",
+      "url": "https://www.anthropic.com/legal/privacy",
+      "durationMs": 721,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:17.287Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.anthropic.com/legal/privacy",
+          "drift": false,
+          "durationMs": 464,
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding",
+            "cacheControl": "s-maxage=300, stale-while-revalidate=31535700",
+            "serverDate": "Mon, 16 Nov 2026 13:32:17 GMT"
+          },
+          "bodyBytes": 1218242,
+          "bodyHash": "985870f448c0bc158a2e3004b0a6955f7a47245625f6e1e50f740f04cf5c634d",
+          "bodyFile": "47b9092320387f1cdc0a9746-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.anthropic.com/legal/privacy",
+          "state": "held",
+          "extraction": "completed",
+          "file": "47b9092320387f1cdc0a9746.extraction.json",
+          "textHash": "115290f820c2b4baac6377c98aa00e22e1f54c25b1ee6ed13c4a80f06b864f4b",
+          "textLength": 40744,
+          "blocks": 276,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "889404e284fb834cba5ec7cf",
+      "url": "https://aws.amazon.com/terms/",
+      "durationMs": 319,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:17.787Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://aws.amazon.com/terms/",
+          "drift": false,
+          "durationMs": 244,
+          "validators": {
+            "lastModified": "Fri, 13 Nov 2026 04:06:50 GMT",
+            "vary": "accept-encoding",
+            "serverDate": "Mon, 16 Nov 2026 13:32:17 GMT"
+          },
+          "bodyBytes": 399650,
+          "bodyHash": "692d5aa004fe6fdb08e06345d7d60bfe1396198d2a0e373a86d5faf995574f6b",
+          "bodyFile": "889404e284fb834cba5ec7cf-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://aws.amazon.com/terms/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "889404e284fb834cba5ec7cf.extraction.json",
+          "textHash": "e2c8c94eaff4b74f6b41b12f15912d026f4a58872056686431917fb1bdf7d4d6",
+          "textLength": 11808,
+          "blocks": 39,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "7f463c3a7a83b4f16bc68965",
+      "url": "https://www.apple.com/legal/privacy/data/en/improve-intelligence/",
+      "durationMs": 336,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:18.768Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.apple.com/legal/privacy/data/en/improve-intelligence/",
+          "drift": false,
+          "durationMs": 304,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "max-age=300",
+            "serverDate": "Mon, 16 Nov 2026 13:32:18 GMT"
+          },
+          "bodyBytes": 110014,
+          "bodyHash": "2def1dc0ff75f051454f5d904aac8f2361f296b0a6e5a6178c7bf982641d4940",
+          "bodyFile": "7f463c3a7a83b4f16bc68965-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.apple.com/legal/privacy/data/en/improve-intelligence/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "7f463c3a7a83b4f16bc68965.extraction.json",
+          "textHash": "607343acd9966bb89a3dd69f3a715331b5b124b2f4e68ac6418cda6d3d0d0f82",
+          "textLength": 7859,
+          "blocks": 24,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "7dea3b226d0f0cafd4b9bfe9",
+      "url": "https://www.anthropic.com/legal/commercial-terms",
+      "durationMs": 314,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:19.303Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.anthropic.com/legal/commercial-terms",
+          "drift": false,
+          "durationMs": 258,
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding",
+            "cacheControl": "s-maxage=300, stale-while-revalidate=31535700",
+            "serverDate": "Mon, 16 Nov 2026 13:32:19 GMT"
+          },
+          "bodyBytes": 213138,
+          "bodyHash": "f493429f1a40a32de63c604be2bbb9008fc39a2e88089828718529066745e254",
+          "bodyFile": "7dea3b226d0f0cafd4b9bfe9-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.anthropic.com/legal/commercial-terms",
+          "state": "held",
+          "extraction": "completed",
+          "file": "7dea3b226d0f0cafd4b9bfe9.extraction.json",
+          "textHash": "7d67c559f90f8d25504fa9e50ecb388324ee8eccf5dd459f8206547214f21a95",
+          "textLength": 24572,
+          "blocks": 85,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "ef58273d37f54713792d32a8",
+      "url": "https://aws.amazon.com/privacy/",
+      "durationMs": 331,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:19.541Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://aws.amazon.com/privacy/",
+          "drift": false,
+          "durationMs": 179,
+          "validators": {
+            "lastModified": "Fri, 13 Nov 2026 04:06:52 GMT",
+            "vary": "accept-encoding",
+            "serverDate": "Mon, 16 Nov 2026 13:32:19 GMT"
+          },
+          "bodyBytes": 438795,
+          "bodyHash": "033dcf77cded8d92dbc8724392f4e2c312f81c516fa2847e61d208ce2e585610",
+          "bodyFile": "ef58273d37f54713792d32a8-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://aws.amazon.com/privacy/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "ef58273d37f54713792d32a8.extraction.json",
+          "textHash": "321b97dd74dfa8264ccc2c33c1a56641f1723cf9b27ce4e94a1dcef07dfd1fb9",
+          "textLength": 53375,
+          "blocks": 306,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "44c7372804fae75d943f3ce4",
+      "url": "https://datatrust.coca-cola.com/content/dam/privacyhub/us/en/notice-pdfs/Global-Consumer-Privacy-Notice-01312026-English.pdf",
+      "durationMs": 828,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:21.059Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://datatrust.coca-cola.com/content/dam/privacyhub/us/en/notice-pdfs/Global-Consumer-Privacy-Notice-01312026-English.pdf",
+          "drift": false,
+          "durationMs": 759,
+          "validators": {
+            "etag": "\"a9dd053c16f89a7253814d64a6bb37e5\"",
+            "lastModified": "Mon, 31 Aug 2026 13:13:10 GMT",
+            "vary": "Accept-Encoding,Origin",
+            "cacheControl": "public,max-age=86400",
+            "serverDate": "Mon, 16 Nov 2026 13:32:20 GMT"
+          },
+          "bodyBytes": 47762,
+          "bodyHash": "7e348ecc97129a0da63cceb839b14a83a26cf5526fc6ab6329a6e6027d5408ad",
+          "bodyFile": "44c7372804fae75d943f3ce4-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://datatrust.coca-cola.com/content/dam/privacyhub/us/en/notice-pdfs/Global-Consumer-Privacy-Notice-01312026-English.pdf",
+          "state": "held",
+          "extraction": "completed",
+          "file": "44c7372804fae75d943f3ce4.extraction.json",
+          "textHash": "d8289e4962a0f5679efc9c9ac9e14dfe9e6f510ce503f5fd8884cfc51b77d5a4",
+          "textLength": 44476,
+          "blocks": 615,
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "4e6b4ba27d4eb5318dabaafb",
+      "url": "https://www.anthropic.com/legal/consumer-health-data-privacy-policy",
+      "durationMs": 446,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:21.279Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.anthropic.com/legal/consumer-health-data-privacy-policy",
+          "drift": false,
+          "durationMs": 419,
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding",
+            "cacheControl": "s-maxage=300, stale-while-revalidate=31535700",
+            "serverDate": "Mon, 16 Nov 2026 13:32:21 GMT"
+          },
+          "bodyBytes": 142193,
+          "bodyHash": "24b627636df63932236137198bbdfd9420eb67c406f52d1afa8e4407d39c6be0",
+          "bodyFile": "4e6b4ba27d4eb5318dabaafb-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.anthropic.com/legal/consumer-health-data-privacy-policy",
+          "state": "held",
+          "extraction": "completed",
+          "file": "4e6b4ba27d4eb5318dabaafb.extraction.json",
+          "textHash": "67661d4eee8a9b382e07dc284cdc1649634fdae011260b4f568706419642a26c",
+          "textLength": 4070,
+          "blocks": 35,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "97ec190bc740c751c64983b1",
+      "url": "https://www.coca-cola.com/us/en/legal/terms-of-service",
+      "durationMs": 1018,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:22.100Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.coca-cola.com/us/en/legal/terms-of-service",
+          "drift": false,
+          "durationMs": 906,
+          "validators": {
+            "etag": "W/\"ab1f4cc56837b6a3dccddd8becb3a673\"",
+            "lastModified": "Fri, 13 Nov 2026 12:20:09 GMT",
+            "vary": "Accept-Encoding,Origin",
+            "cacheControl": "max-age=300, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:22 GMT"
+          },
+          "bodyBytes": 283400,
+          "bodyHash": "9a3cec052f9aa614ffffbad35d010396c002737b91d4c35a2f5e1f946361ba8f",
+          "bodyFile": "97ec190bc740c751c64983b1-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.coca-cola.com/us/en/legal/terms-of-service",
+          "state": "held",
+          "extraction": "completed",
+          "file": "97ec190bc740c751c64983b1.extraction.json",
+          "textHash": "916480f4ff25ec5379ecd797367ab03c204b36f52dc4471496bfacafe9c35a80",
+          "textLength": 74991,
+          "blocks": 299,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "fb755ba1a77a1d488c8f8434",
+      "url": "https://datatrust.coca-cola.com/us/en/notices/supplemental-us-privacy-notice",
+      "durationMs": 230,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:22.843Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://datatrust.coca-cola.com/us/en/notices/supplemental-us-privacy-notice",
+          "drift": false,
+          "durationMs": 215,
+          "validators": {
+            "lastModified": "Thu, 12 Nov 2026 10:42:00 +0000",
+            "vary": "Accept-Encoding,Origin",
+            "cacheControl": "public,max-age=300,must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:22 GMT"
+          },
+          "bodyBytes": 32680,
+          "bodyHash": "cc3e4885bdf6526a9c7e20f8d2c01addaca96b076721ea81590f68f8a8aac9e9",
+          "bodyFile": "fb755ba1a77a1d488c8f8434-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://datatrust.coca-cola.com/us/en/notices/supplemental-us-privacy-notice",
+          "state": "held",
+          "extraction": "completed",
+          "file": "fb755ba1a77a1d488c8f8434.extraction.json",
+          "textHash": "d5ff1290a404dcbd3022dfcc9bffeaef466bba6ac9de55cc04f8794729337b63",
+          "textLength": 242,
+          "blocks": 11,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "02c34f9c9a58f24003d91a5d",
+      "url": "https://www.anthropic.com/legal/k12-terms",
+      "durationMs": 510,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:23.229Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.anthropic.com/legal/k12-terms",
+          "drift": false,
+          "durationMs": 421,
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding",
+            "cacheControl": "s-maxage=300, stale-while-revalidate=31535700",
+            "serverDate": "Mon, 16 Nov 2026 13:32:23 GMT"
+          },
+          "bodyBytes": 306054,
+          "bodyHash": "ff39995d59d65821ed43f3669482a1aca4e9147fa0a4fcab9837baa4393554e7",
+          "bodyFile": "02c34f9c9a58f24003d91a5d-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.anthropic.com/legal/k12-terms",
+          "state": "held",
+          "extraction": "completed",
+          "file": "02c34f9c9a58f24003d91a5d.extraction.json",
+          "textHash": "ed1df970de64e8ba7e5d05662f457ae9bef38aae5a9aab15954a56193898f41a",
+          "textLength": 53799,
+          "blocks": 258,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "7c7a08551e310b2e3ac1a1e8",
+      "url": "https://policies.google.com/privacy?hl=it",
+      "durationMs": 619,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:24.086Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://policies.google.com/privacy?hl=it",
+          "drift": false,
+          "durationMs": 374,
+          "validators": {
+            "vary": "Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site, Sec-CH-Prefers-Color-Scheme",
+            "cacheControl": "no-cache, no-store, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:23 GMT"
+          },
+          "bodyBytes": 687945,
+          "bodyHash": "7c8bf5915529cbeeb52798571d5cc7fb4c798e6ebbb7482465d4d9d19fd825dc",
+          "bodyFile": "7c7a08551e310b2e3ac1a1e8-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://policies.google.com/privacy?hl=it",
+          "state": "held",
+          "extraction": "completed",
+          "file": "7c7a08551e310b2e3ac1a1e8.extraction.json",
+          "textHash": "96131f6389e2c2a16b5d111a851d7c0c630f769a36c6074f993b6f6c86540472",
+          "textLength": 107132,
+          "blocks": 449,
+          "language": "it",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "075488350aebd707c7ecb23e",
+      "url": "https://datatrust.coca-cola.com/us/en/notices/us-consumer-health-privacy-policy",
+      "durationMs": 213,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:24.566Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://datatrust.coca-cola.com/us/en/notices/us-consumer-health-privacy-policy",
+          "drift": false,
+          "durationMs": 206,
+          "validators": {
+            "lastModified": "Thu, 12 Nov 2026 10:42:01 +0000",
+            "vary": "Accept-Encoding,Origin",
+            "cacheControl": "public,max-age=300,must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:24 GMT"
+          },
+          "bodyBytes": 32700,
+          "bodyHash": "05a2a0830b52fb5f38917c1f2fc4dc18e2e4ea40c2827948e92702b2a419d77f",
+          "bodyFile": "075488350aebd707c7ecb23e-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://datatrust.coca-cola.com/us/en/notices/us-consumer-health-privacy-policy",
+          "state": "held",
+          "extraction": "completed",
+          "file": "075488350aebd707c7ecb23e.extraction.json",
+          "textHash": "d5ff1290a404dcbd3022dfcc9bffeaef466bba6ac9de55cc04f8794729337b63",
+          "textLength": 242,
+          "blocks": 11,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "728cbd2b9c363ff97656e314",
+      "url": "https://www.anthropic.com/legal/non-user-privacy-policy",
+      "durationMs": 872,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:25.588Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.anthropic.com/legal/non-user-privacy-policy",
+          "drift": false,
+          "durationMs": 768,
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding",
+            "cacheControl": "s-maxage=300, stale-while-revalidate=31535700",
+            "serverDate": "Mon, 16 Nov 2026 13:32:25 GMT"
+          },
+          "bodyBytes": 603288,
+          "bodyHash": "44a57707fc000701b334d1ce0b5f442765b65d383c3ed91098f757c996652362",
+          "bodyFile": "728cbd2b9c363ff97656e314-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.anthropic.com/legal/non-user-privacy-policy",
+          "state": "held",
+          "extraction": "completed",
+          "file": "728cbd2b9c363ff97656e314.extraction.json",
+          "textHash": "f52e378c76fd86430e679d3ba5862ee4a2454cab7e7120e7ad02b881b4897a60",
+          "textLength": 20583,
+          "blocks": 96,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "d0c1841f05ed306f4b258e2c",
+      "url": "https://policies.google.com/privacy?hl=en",
+      "durationMs": 323,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:25.940Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://policies.google.com/privacy?hl=en",
+          "drift": false,
+          "durationMs": 109,
+          "validators": {
+            "vary": "Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site, Sec-CH-Prefers-Color-Scheme",
+            "cacheControl": "no-cache, no-store, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:25 GMT"
+          },
+          "bodyBytes": 672114,
+          "bodyHash": "ef7238e00e53f64588954e5940561e739013bfaa5ae7ffb006d98cc10d0d2de3",
+          "bodyFile": "d0c1841f05ed306f4b258e2c-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://policies.google.com/privacy?hl=en",
+          "state": "held",
+          "extraction": "completed",
+          "file": "d0c1841f05ed306f4b258e2c.extraction.json",
+          "textHash": "9ff1f6e227eafe80349057f826f12f4d85774ed3fb1744fcbcec52cee70d777c",
+          "textLength": 91355,
+          "blocks": 449,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "84b6c2c1b2777879486afea9",
+      "url": "https://datatrust.coca-cola.com/us/en/notices/cookie-notice",
+      "durationMs": 228,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:26.367Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://datatrust.coca-cola.com/us/en/notices/cookie-notice",
+          "drift": false,
+          "durationMs": 217,
+          "validators": {
+            "lastModified": "Thu, 12 Nov 2026 10:42:02 +0000",
+            "vary": "Accept-Encoding,Origin",
+            "cacheControl": "public,max-age=300,must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:26 GMT"
+          },
+          "bodyBytes": 32558,
+          "bodyHash": "6e01658a316404ff015a49e576eeb7e2923761712090329fff48fb2ec6fdf132",
+          "bodyFile": "84b6c2c1b2777879486afea9-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://datatrust.coca-cola.com/us/en/notices/cookie-notice",
+          "state": "held",
+          "extraction": "completed",
+          "file": "84b6c2c1b2777879486afea9.extraction.json",
+          "textHash": "d5ff1290a404dcbd3022dfcc9bffeaef466bba6ac9de55cc04f8794729337b63",
+          "textLength": 242,
+          "blocks": 11,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "47330706f5e77b8da361f65c",
+      "url": "https://policies.google.com/privacy",
+      "durationMs": 321,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:27.770Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://policies.google.com/privacy",
+          "drift": false,
+          "durationMs": 113,
+          "validators": {
+            "vary": "Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site, Sec-CH-Prefers-Color-Scheme",
+            "cacheControl": "no-cache, no-store, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:27 GMT"
+          },
+          "bodyBytes": 669929,
+          "bodyHash": "ae7fad8cfd3d3f036f998771c74b9b4dd89164d390e075de655bfd44b38aebd1",
+          "bodyFile": "47330706f5e77b8da361f65c-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://policies.google.com/privacy",
+          "state": "held",
+          "extraction": "completed",
+          "file": "47330706f5e77b8da361f65c.extraction.json",
+          "textHash": "9ff1f6e227eafe80349057f826f12f4d85774ed3fb1744fcbcec52cee70d777c",
+          "textLength": 91355,
+          "blocks": 449,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "c5ba7e61d299509745fa9870",
+      "url": "https://www.anthropic.com/legal/promotion-credit-terms",
+      "durationMs": 1035,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:28.204Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.anthropic.com/legal/promotion-credit-terms",
+          "drift": false,
+          "durationMs": 1011,
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding",
+            "cacheControl": "s-maxage=300, stale-while-revalidate=31535700",
+            "serverDate": "Mon, 16 Nov 2026 13:32:28 GMT"
+          },
+          "bodyBytes": 133460,
+          "bodyHash": "5969ace8c5f907b478d8d2d56975f9d5b3cfd6f6590b5493b21f417b18e7f565",
+          "bodyFile": "c5ba7e61d299509745fa9870-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.anthropic.com/legal/promotion-credit-terms",
+          "state": "held",
+          "extraction": "completed",
+          "file": "c5ba7e61d299509745fa9870.extraction.json",
+          "textHash": "5a0e261b04e3aa1e0d4be872ce24ee0e9d9933181f2f6a273d9a097252ff5574",
+          "textLength": 2907,
+          "blocks": 17,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "9debd1d5eaed29b2fdfde018",
+      "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/privacy",
+      "durationMs": 436,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:28.283Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/privacy",
+          "drift": false,
+          "durationMs": 306,
+          "validators": {
+            "etag": "W/\"2fc6d-m6fIQH/QUtAX8+HlZUG+gaMCp/c\"",
+            "cacheControl": "must-revalidate,max-age=86400",
+            "serverDate": "Mon, 16 Nov 2026 13:32:28 GMT",
+            "age": "23941"
+          },
+          "bodyBytes": 195693,
+          "bodyHash": "6ccf605c630a9f6eed9f1929bd478fc6e77811be989b8c3d73f8c4a56097f0c6",
+          "bodyFile": "9debd1d5eaed29b2fdfde018-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/privacy",
+          "state": "held",
+          "extraction": "completed",
+          "file": "9debd1d5eaed29b2fdfde018.extraction.json",
+          "textHash": "a6f6c94a49c2621edf2ed1e793a2fe13ed0b9135721c4487abbc95a127c160e1",
+          "textLength": 137780,
+          "blocks": 302,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "f6e1ce993df32f26860df569",
+      "url": "https://policies.google.com/terms/generative-ai",
+      "durationMs": 181,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:29.568Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://policies.google.com/terms/generative-ai",
+          "drift": false,
+          "durationMs": 89,
+          "validators": {
+            "vary": "Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site, Sec-CH-Prefers-Color-Scheme",
+            "cacheControl": "no-cache, no-store, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:29 GMT"
+          },
+          "bodyBytes": 516357,
+          "bodyHash": "b12481272a326ded3fbff700ad806427bc7639f65bd80928b9445a307a7b438d",
+          "bodyFile": "f6e1ce993df32f26860df569-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://policies.google.com/terms/generative-ai",
+          "state": "held",
+          "extraction": "completed",
+          "file": "f6e1ce993df32f26860df569.extraction.json",
+          "textHash": "fcaed572cd02d502571a1ffcb14f786997ab5faf244f2af0ec5c90674c0155f6",
+          "textLength": 2552,
+          "blocks": 30,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "e1e8b926904e7c72a4528bf2",
+      "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy",
+      "durationMs": 208,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:30.048Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy",
+          "drift": false,
+          "durationMs": 134,
+          "validators": {
+            "etag": "W/\"1963e-ncQEPT4WnGCHb1n4QSi4a4zK0+8\"",
+            "cacheControl": "must-revalidate,max-age=86400",
+            "serverDate": "Mon, 16 Nov 2026 13:32:29 GMT",
+            "age": "54808"
+          },
+          "bodyBytes": 103998,
+          "bodyHash": "3c3ff4f00a7468bb40ab3a9d5464b1b0a5942ef5ac519830a2243b7f04e4b219",
+          "bodyFile": "e1e8b926904e7c72a4528bf2-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/privacy",
+          "state": "held",
+          "extraction": "completed",
+          "file": "e1e8b926904e7c72a4528bf2.extraction.json",
+          "textHash": "dbc08dc4eed85008ac3a1195e5d3ee3b28303f4b983fa3d0e46b511a6062bbe1",
+          "textLength": 57892,
+          "blocks": 260,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "b91dcbc42bea599ed817367b",
+      "url": "https://www.facebook.com/privacy/policy/",
+      "durationMs": 1993,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:31.169Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.facebook.com/privacy/policy/",
+          "drift": false,
+          "durationMs": 1439,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:29 GMT"
+          },
+          "bodyBytes": 2161877,
+          "bodyHash": "561908cfc2f13ebe26b9337afb591ae84aa766612ab57ed464fc56356c229e18",
+          "bodyFile": "b91dcbc42bea599ed817367b-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.facebook.com/privacy/policy/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "b91dcbc42bea599ed817367b.extraction.json",
+          "textHash": "d37f63453a8485c1624e95fe5fc180c5268ddacec39e8e203f3257585eca6bbf",
+          "textLength": 54855,
+          "blocks": 626,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "40fe51c693a1104682feea40",
+      "url": "https://policies.google.com/terms?hl=en",
+      "durationMs": 727,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:31.725Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://policies.google.com/terms?hl=en",
+          "drift": false,
+          "durationMs": 565,
+          "validators": {
+            "vary": "Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site, Sec-CH-Prefers-Color-Scheme",
+            "cacheControl": "no-cache, no-store, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:31 GMT"
+          },
+          "bodyBytes": 585779,
+          "bodyHash": "8379ff410116a239811ebb7033bc32eef93097213f01906a92a4585fcc1fd126",
+          "bodyFile": "40fe51c693a1104682feea40-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://policies.google.com/terms?hl=en",
+          "state": "held",
+          "extraction": "completed",
+          "file": "40fe51c693a1104682feea40.extraction.json",
+          "textHash": "8ffd4472dbb6f693aca904e221770681c7dd4988a331e2f81cfcda94ea987d6f",
+          "textLength": 36276,
+          "blocks": 352,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "662c6f0ba4d93154731b46b0",
+      "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/user",
+      "durationMs": 321,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:31.985Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/user",
+          "drift": false,
+          "durationMs": 266,
+          "validators": {
+            "etag": "W/\"19246-D/joH8CG+yJdBvXFBStoq+BukGE\"",
+            "cacheControl": "must-revalidate,max-age=86400",
+            "serverDate": "Sun, 15 Nov 2026 23:40:18 GMT",
+            "age": "49933"
+          },
+          "bodyBytes": 102982,
+          "bodyHash": "840fd19240b016483fd7e375f5ddf0c68735a655c4c49d7edfcbdb34f5861ecb",
+          "bodyFile": "662c6f0ba4d93154731b46b0-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-ie/user",
+          "state": "held",
+          "extraction": "completed",
+          "file": "662c6f0ba4d93154731b46b0.extraction.json",
+          "textHash": "be279a92c00bc6813c5b97d3e071af5b7fc365d54759b2304ca843245da461b4",
+          "textLength": 58667,
+          "blocks": 246,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "a38b84323416f63f44f352dd",
+      "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/user",
+      "durationMs": 268,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:33.714Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/user",
+          "drift": false,
+          "durationMs": 172,
+          "validators": {
+            "etag": "W/\"2a3c7-fXVQEFxVNwbnXbewk02lHZwDlFY\"",
+            "cacheControl": "must-revalidate,max-age=86400",
+            "serverDate": "Mon, 16 Nov 2026 13:32:33 GMT",
+            "age": "18901"
+          },
+          "bodyBytes": 172999,
+          "bodyHash": "7e45258df2e6c7fa0375827fbce8deb9545e843037fcdb4aa33d68dd62e0b673",
+          "bodyFile": "a38b84323416f63f44f352dd-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-us/user",
+          "state": "held",
+          "extraction": "completed",
+          "file": "a38b84323416f63f44f352dd.extraction.json",
+          "textHash": "e53cfc4783f0a26c3dffa507991e2b414b3e4868990130138468a72c3ed9a4c7",
+          "textLength": 97411,
+          "blocks": 337,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "6a6601848fa8b9d59ec0ed6b",
+      "url": "https://www.microsoft.com/en-gb/privacy/privacystatement",
+      "durationMs": 642,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:33.821Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.microsoft.com/en-gb/privacy/privacystatement",
+          "drift": false,
+          "durationMs": 433,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "no-store",
+            "serverDate": "Mon, 16 Nov 2026 13:32:33 GMT"
+          },
+          "bodyBytes": 347194,
+          "bodyHash": "9266b8bec8ce9fcd86e3c3eaec09a72ef9cecae56b53e6b0b3a9b4dc62099f2e",
+          "bodyFile": "6a6601848fa8b9d59ec0ed6b-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.microsoft.com/en-gb/privacy/privacystatement",
+          "state": "held",
+          "extraction": "completed",
+          "file": "6a6601848fa8b9d59ec0ed6b.extraction.json",
+          "textHash": "72f09650980733210478e53ccf67dbe813ef5461afada581fd176cfa73288b31",
+          "textLength": 211207,
+          "blocks": 775,
+          "language": "en-GB",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "61cf0e4de6c617bceacef77a",
+      "url": "https://www.facebook.com/legal/terms",
+      "durationMs": 1979,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:35.024Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.facebook.com/legal/terms",
+          "drift": false,
+          "durationMs": 1800,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:33 GMT"
+          },
+          "bodyBytes": 866823,
+          "bodyHash": "2d7120d0da360a87379161d65991c1abec3a227c665d33424f398cee67fe105a",
+          "bodyFile": "61cf0e4de6c617bceacef77a-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.facebook.com/legal/terms",
+          "state": "held",
+          "extraction": "completed",
+          "file": "61cf0e4de6c617bceacef77a.extraction.json",
+          "textHash": "43ad18c3b7830c5bd111938a9794e820c419af711400c2fefcb703cd00a39163",
+          "textLength": 10756,
+          "blocks": 57,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "bc120419b5d057a8034c239f",
+      "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/sms-terms",
+      "durationMs": 364,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:35.660Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/sms-terms",
+          "drift": false,
+          "durationMs": 349,
+          "validators": {
+            "etag": "W/\"2ffa-qI/MWfWfzvuEwpdb4vWiChrefxE\"",
+            "cacheControl": "must-revalidate,max-age=86400",
+            "serverDate": "Mon, 16 Nov 2026 13:32:35 GMT"
+          },
+          "bodyBytes": 12282,
+          "bodyHash": "05f0a6d467fa366e7c2f53da9d4308dfb0c8a5a607c4f569d2c2460fbf9fda8b",
+          "bodyFile": "bc120419b5d057a8034c239f-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/sms-terms",
+          "state": "held",
+          "extraction": "completed",
+          "file": "bc120419b5d057a8034c239f.extraction.json",
+          "textHash": "4bb24fc1a916a1d2f553e8b5a8786aa90ac12323eb1ceb3b60d4e3655eef5c29",
+          "textLength": 3692,
+          "blocks": 31,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "edf19fa798259e829859b820",
+      "url": "https://www.microsoft.com/en-us/privacy/privacystatement",
+      "durationMs": 476,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:35.795Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.microsoft.com/en-us/privacy/privacystatement",
+          "drift": false,
+          "durationMs": 264,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "no-store",
+            "serverDate": "Mon, 16 Nov 2026 13:32:35 GMT"
+          },
+          "bodyBytes": 349057,
+          "bodyHash": "1932da4195efd10f5eb92b969ef6e3bb1977c567664ac6c9a485dab6b4fceb9a",
+          "bodyFile": "edf19fa798259e829859b820-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.microsoft.com/en-us/privacy/privacystatement",
+          "state": "held",
+          "extraction": "completed",
+          "file": "edf19fa798259e829859b820.extraction.json",
+          "textHash": "961e07bb3e28ef32b4ce76c2b9c7bcced6f0a688a37e8b383a30e75bcde9f062",
+          "textLength": 211180,
+          "blocks": 775,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "b6bd617099cd8579eb61df3e",
+      "url": "https://www.facebook.com/legal/ai-terms",
+      "durationMs": 465,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:37.130Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.facebook.com/legal/ai-terms",
+          "drift": false,
+          "durationMs": 426,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:36 GMT"
+          },
+          "bodyBytes": 422093,
+          "bodyHash": "f9b6a34a2bc0c9e2cad8c978d68465d65d8060052ed0a8278f634e3e4efcef8b",
+          "bodyFile": "b6bd617099cd8579eb61df3e-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.facebook.com/legal/ai-terms",
+          "state": "held",
+          "extraction": "rejected",
+          "reason": "extraction_size_out_of_bounds"
+        }
+      ]
+    },
+    {
+      "id": "82ccfff7f112c4eaa3905d85",
+      "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/referral-general",
+      "durationMs": 75,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:37.228Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/referral-general",
+          "drift": false,
+          "durationMs": 52,
+          "validators": {
+            "etag": "W/\"8b07-p/pcf3SCvAGZtKsDSv/dhtMtjXw\"",
+            "cacheControl": "must-revalidate,max-age=86400",
+            "serverDate": "Mon, 16 Nov 2026 13:32:37 GMT",
+            "age": "37178"
+          },
+          "bodyBytes": 35591,
+          "bodyHash": "fdb97f0946f259b40eee84e694fe417242c4bd589658d347a9916e24e8d78b22",
+          "bodyFile": "82ccfff7f112c4eaa3905d85-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/referral-general",
+          "state": "held",
+          "extraction": "completed",
+          "file": "82ccfff7f112c4eaa3905d85.extraction.json",
+          "textHash": "f8c0ea9f3ba20daaaaf7288713cc40708d8669b7e8077319f6aaecbbd518e425",
+          "textLength": 13264,
+          "blocks": 66,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "1d719a05666f166800e763fa",
+      "url": "https://www.microsoft.com/en/servicesagreement",
+      "durationMs": 433,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:37.772Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.microsoft.com/en/servicesagreement",
+          "drift": false,
+          "durationMs": 264,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "no-store",
+            "serverDate": "Mon, 16 Nov 2026 13:32:37 GMT"
+          },
+          "bodyBytes": 310260,
+          "bodyHash": "279eabb3fde0df29d16ab42c5e2d6f2560160a252885e86cbfdea771035cc30d",
+          "bodyFile": "1d719a05666f166800e763fa-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.microsoft.com/en/servicesagreement",
+          "state": "held",
+          "extraction": "completed",
+          "file": "1d719a05666f166800e763fa.extraction.json",
+          "textHash": "a4f6d7433a8c171cba1dc4e3cf183598d4b33716528c6f121974c480f2a1bd45",
+          "textLength": 121815,
+          "blocks": 445,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "832747af440fd72af06e9c28",
+      "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-balance",
+      "durationMs": 81,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:38.804Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-balance",
+          "drift": false,
+          "durationMs": 51,
+          "validators": {
+            "etag": "W/\"114d3-dCGm5YcsMPL4fEirXKzQSHH/ur0\"",
+            "cacheControl": "must-revalidate,max-age=86400",
+            "serverDate": "Mon, 16 Nov 2026 06:26:56 GMT",
+            "age": "25542"
+          },
+          "bodyBytes": 70867,
+          "bodyHash": "e6f05a8d4e460c24e569e8eb3f082b9e70230221482187c59d2473d5b606504b",
+          "bodyFile": "832747af440fd72af06e9c28-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-balance",
+          "state": "held",
+          "extraction": "completed",
+          "file": "832747af440fd72af06e9c28.extraction.json",
+          "textHash": "44619acfc521bc1aaabb42ccbbdc4a50eb443dc40896694f31b0c559031bc19c",
+          "textLength": 21901,
+          "blocks": 96,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "44a9daa884d357a15d675454",
+      "url": "https://www.xbox.com/legal/community-standards",
+      "durationMs": 698,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:39.262Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.xbox.com/it-IT/legal/community-standards",
+          "drift": false,
+          "durationMs": 592,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "serverDate": "Mon, 16 Nov 2026 13:32:39 GMT"
+          },
+          "bodyBytes": 425856,
+          "bodyHash": "2c56ba05e7d4cfd4e2d9192119aab2b6170e65193fe98c631e03ced20bc2218e",
+          "bodyFile": "44a9daa884d357a15d675454-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.xbox.com/legal/community-standards",
+          "state": "held",
+          "extraction": "completed",
+          "file": "44a9daa884d357a15d675454.extraction.json",
+          "textHash": "0256be22ce4df57d89d98bbbfba3ae30e6102984f2119df691c73d7f7923e3bf",
+          "textLength": 29909,
+          "blocks": 266,
+          "language": "it",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "90429499a61f4efa14ff622b",
+      "url": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/termsofuse",
+      "durationMs": 764,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:40.146Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/termsofuse",
+          "drift": false,
+          "durationMs": 704,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "no-store, no-cache",
+            "serverDate": "Mon, 16 Nov 2026 13:32:40 GMT"
+          },
+          "bodyBytes": 111397,
+          "bodyHash": "4353cb5cba307aa3e2da369f2c5ceb92abc4e2b404775f14bb6c89e4c86a9216",
+          "bodyFile": "90429499a61f4efa14ff622b-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/termsofuse",
+          "state": "held",
+          "extraction": "completed",
+          "file": "90429499a61f4efa14ff622b.extraction.json",
+          "textHash": "a22bb06fc4840800f5ac78642b2d4a753bbb601fad1b81ec8ec55ccc7864e9de",
+          "textLength": 17939,
+          "blocks": 93,
+          "language": "en-us",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "4b6ff91405fea7809eb472eb",
+      "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-membership-plan-v2",
+      "durationMs": 281,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:40.565Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-membership-plan-v2",
+          "drift": false,
+          "durationMs": 231,
+          "validators": {
+            "etag": "W/\"1865a-jpUzwof++k5TWzqJGNRVraJwre8\"",
+            "cacheControl": "must-revalidate,max-age=86400",
+            "serverDate": "Mon, 16 Nov 2026 13:32:40 GMT"
+          },
+          "bodyBytes": 99930,
+          "bodyHash": "b29b8e14dd8dc195145622cb7d05de9a63c86cb9c85e3de72c787681e212a8f3",
+          "bodyFile": "4b6ff91405fea7809eb472eb-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-membership-plan-v2",
+          "state": "held",
+          "extraction": "completed",
+          "file": "4b6ff91405fea7809eb472eb.extraction.json",
+          "textHash": "56e2804678305160efa491d3e3f8534a55c7c0a56bfab120eebda70ed7135a76",
+          "textLength": 49893,
+          "blocks": 156,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "f3031b231b64afba7b6376e9",
+      "url": "https://openai.com/policies/terms-of-use",
+      "durationMs": 601,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:41.375Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://openai.com/policies/terms-of-use/",
+          "drift": false,
+          "durationMs": 507,
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, accept-encoding",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:41 GMT",
+            "age": "39852"
+          },
+          "bodyBytes": 418001,
+          "bodyHash": "5fd820e1703387ce0af866537ea12c7aa1e7b09251bf02bed1c7d02e11dba7a5",
+          "bodyFile": "f3031b231b64afba7b6376e9-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://openai.com/policies/terms-of-use",
+          "state": "held",
+          "extraction": "completed",
+          "file": "f3031b231b64afba7b6376e9.extraction.json",
+          "textHash": "b5b4a42b9aea672b9caa7a78b97d4874b2bac7f3c5129da9305146f303e0c017",
+          "textLength": 21106,
+          "blocks": 116,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "c25509f655181fce460983c3",
+      "url": "https://www.microsoft.com/privacy/microsoft-consumer-health-data-privacy-policy",
+      "durationMs": 392,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:42.063Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.microsoft.com/it-it/privacy/microsoft-consumer-health-data-privacy-policy",
+          "drift": false,
+          "durationMs": 355,
+          "validators": {
+            "vary": "Accept-Encoding",
+            "cacheControl": "no-store",
+            "serverDate": "Mon, 16 Nov 2026 13:32:42 GMT"
+          },
+          "bodyBytes": 125264,
+          "bodyHash": "e4d30b8072f4349f6bd2e1cb36276709196fc3afd348ac1a69ff80ed05c24905",
+          "bodyFile": "c25509f655181fce460983c3-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.microsoft.com/privacy/microsoft-consumer-health-data-privacy-policy",
+          "state": "held",
+          "extraction": "completed",
+          "file": "c25509f655181fce460983c3.extraction.json",
+          "textHash": "942bb4b5490952fa0d7fc486643f3da39eb3f255774271765f5c5cd7540c234f",
+          "textLength": 10734,
+          "blocks": 33,
+          "language": "it-IT",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "df5b8790be0dd3dfec4e4ce2",
+      "url": "https://openai.com/policies/eu-privacy-policy",
+      "durationMs": 831,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:43.674Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://openai.com/policies/eu-privacy-policy/",
+          "drift": false,
+          "durationMs": 704,
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, accept-encoding",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:43 GMT",
+            "age": "32651"
+          },
+          "bodyBytes": 494103,
+          "bodyHash": "904fe45df837f69c4c625e47dee6dcd7f5ea3a2798679fd4f305691c4f71180d",
+          "bodyFile": "df5b8790be0dd3dfec4e4ce2-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://openai.com/policies/eu-privacy-policy",
+          "state": "held",
+          "extraction": "completed",
+          "file": "df5b8790be0dd3dfec4e4ce2.extraction.json",
+          "textHash": "470900f6ae0cfa96b2f886023af90cf4312756af1ccae56ce37e6fc4b9a650f2",
+          "textLength": 33753,
+          "blocks": 132,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "cb0ecaefebd6958fb559bfea",
+      "url": "https://www.paypal.com/lu/webapps/mpp/ua/privacy-full",
+      "durationMs": 2093,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:43.829Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.paypal.com/lu/legalhub/paypal/privacy-full",
+          "drift": false,
+          "durationMs": 1713,
+          "validators": {
+            "etag": "W/\"190222-hq+NRT1FY4TmOl0xtu4sXt5pyUM\"",
+            "vary": "Accept-Encoding",
+            "cacheControl": "max-age=0, no-cache, no-store, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:43 GMT"
+          },
+          "bodyBytes": 1642590,
+          "bodyHash": "462f524af14842385d79e380ec942d617df12e41df9183f18d4b69d28fc83eae",
+          "bodyFile": "cb0ecaefebd6958fb559bfea-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.paypal.com/lu/webapps/mpp/ua/privacy-full",
+          "state": "held",
+          "extraction": "completed",
+          "file": "cb0ecaefebd6958fb559bfea.extraction.json",
+          "textHash": "6653861b43cc3cd8bafaafca5886a70047873a9d4b69844c77145306b8b5853f",
+          "textLength": 120026,
+          "blocks": 396,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "2eb019bbc3bbb77983961048",
+      "url": "https://plaid.com/legal",
+      "durationMs": 3141,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:44.857Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://plaid.com/legal/",
+          "drift": false,
+          "durationMs": 1256,
+          "validators": {
+            "etag": "W/\"359087c1fa58dd77bced33e7ff04b31e\"",
+            "lastModified": "Mon, 16 Nov 2026 01:12:05 GMT",
+            "vary": "Accept-Encoding",
+            "serverDate": "Mon, 16 Nov 2026 13:32:45 GMT"
+          },
+          "bodyBytes": 1362834,
+          "bodyHash": "e955725e92db6481dacf60e72249b645d3246e57e282d9e6ee1ad1f93b505716",
+          "bodyFile": "2eb019bbc3bbb77983961048-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://plaid.com/legal#end-user-privacy-policy",
+          "state": "held",
+          "extraction": "completed",
+          "file": "850e6c64d8f32ca25b9b9758.extraction.json",
+          "textHash": "fe7606b291c74e52a29665991a2abc5425103972d615cdd937852876222db4b6",
+          "textLength": 50146,
+          "blocks": 235,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        },
+        {
+          "source": "https://plaid.com/legal#end-user-services-agreement-us",
+          "state": "held",
+          "extraction": "completed",
+          "file": "77a64339977df0d085b73748.extraction.json",
+          "textHash": "2a9ca0b926c6909aabdf0ab62feab4aac8a4b0e0bb5d710d4fa70cad871f7e19",
+          "textLength": 9326,
+          "blocks": 33,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        },
+        {
+          "source": "https://plaid.com/legal#end-user-services-agreement-eea",
+          "state": "held",
+          "extraction": "completed",
+          "file": "53ab53ec4d57b478a65c59d2.extraction.json",
+          "textHash": "e109c8a4674ca7b407c8e08764e28825d033b7c96b0ecc4575bb674078c4264d",
+          "textLength": 14080,
+          "blocks": 88,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "b8c6d5709eeaa925f6cd750e",
+      "url": "https://openai.com/policies/usage-policies/",
+      "durationMs": 1409,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:46.822Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://openai.com/policies/usage-policies/",
+          "drift": false,
+          "durationMs": 1329,
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, accept-encoding",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:46 GMT",
+            "age": "32654"
+          },
+          "bodyBytes": 370420,
+          "bodyHash": "8ab3230dc6e08c2c7dac4bac1363aefaf1f3f39183b5cbe5ed7e03d8ba90c99f",
+          "bodyFile": "b8c6d5709eeaa925f6cd750e-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://openai.com/policies/usage-policies/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "b8c6d5709eeaa925f6cd750e.extraction.json",
+          "textHash": "90251c510f1a85ab24cd3a2d729ebdeedb81db7cf8a4ee224c1c4c12c4603799",
+          "textLength": 11963,
+          "blocks": 88,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "4c847fdda79560cfae07b526",
+      "url": "https://www.paypal.com/us/webapps/mpp/ua/privacy-full",
+      "durationMs": 2756,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:48.405Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.paypal.com/us/legalhub/paypal/privacy-full",
+          "drift": false,
+          "durationMs": 2301,
+          "validators": {
+            "etag": "W/\"19ebd0-vmbfx+sf/NSTMOuE14q6YhZj25o\"",
+            "vary": "Accept-Encoding",
+            "cacheControl": "max-age=0, no-cache, no-store, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:48 GMT"
+          },
+          "bodyBytes": 1702412,
+          "bodyHash": "fe0aa9f28836a9cc6e25a85da935d8c0e989d7521e28b76adbbb62e62505942e",
+          "bodyFile": "4c847fdda79560cfae07b526-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.paypal.com/us/webapps/mpp/ua/privacy-full",
+          "state": "held",
+          "extraction": "completed",
+          "file": "4c847fdda79560cfae07b526.extraction.json",
+          "textHash": "00d08c93d27d53c9990556598d1f0872c056bc88d6a1159abeb91a1ae77c188d",
+          "textLength": 120027,
+          "blocks": 396,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "fe82d34f0f54076fa008a77f",
+      "url": "https://openai.com/policies/service-terms/",
+      "durationMs": 3022,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:50.716Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://openai.com/policies/service-terms/",
+          "drift": false,
+          "durationMs": 2314,
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, accept-encoding",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:49 GMT",
+            "age": "28367"
+          },
+          "bodyBytes": 392617,
+          "bodyHash": "3fb4da3efc118f3e863f80acb7d86cdad92ce828174c3f0f39a4a2f78aaa5522",
+          "bodyFile": "fe82d34f0f54076fa008a77f-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://openai.com/policies/service-terms/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "fe82d34f0f54076fa008a77f.extraction.json",
+          "textHash": "c41fd983791ff720c984078221d7d97d686c8f4f08f34c6a333a8648f4d814b5",
+          "textLength": 17867,
+          "blocks": 66,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "19e08cd4b4e17afd3f606c22",
+      "url": "https://plaid.com/legal/",
+      "durationMs": 3181,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:48.866Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://plaid.com/legal/",
+          "drift": false,
+          "durationMs": 622,
+          "validators": {
+            "etag": "W/\"359087c1fa58dd77bced33e7ff04b31e\"",
+            "lastModified": "Mon, 16 Nov 2026 01:12:05 GMT",
+            "vary": "Accept-Encoding",
+            "serverDate": "Mon, 16 Nov 2026 13:32:45 GMT",
+            "age": "4"
+          },
+          "bodyBytes": 1362834,
+          "bodyHash": "e955725e92db6481dacf60e72249b645d3246e57e282d9e6ee1ad1f93b505716",
+          "bodyFile": "19e08cd4b4e17afd3f606c22-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://plaid.com/legal/#developer-policy",
+          "state": "held",
+          "extraction": "completed",
+          "file": "e5dbe191597a3976f8b2132e.extraction.json",
+          "textHash": "0d846fef3f985a3b4f089640225fe42f906ba0706b4828fed5053ea398c9b1ff",
+          "textLength": 16935,
+          "blocks": 85,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        },
+        {
+          "source": "https://plaid.com/legal/#cookie-policy",
+          "state": "held",
+          "extraction": "completed",
+          "file": "1252d2ec8ba45187d9a782f3.extraction.json",
+          "textHash": "1db465415419df76c20ffeb0780672906dbc7808455afa46df47d2e4c5949b43",
+          "textLength": 5281,
+          "blocks": 36,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        },
+        {
+          "source": "https://plaid.com/legal/#end-user-services-agreement-uk",
+          "state": "held",
+          "extraction": "completed",
+          "file": "f32cfe4b61f37baef5419265.extraction.json",
+          "textHash": "72d3bcc3b9d5929c16a2f80207c06f94c05a5d52fb4ba5127acb24e3f9938519",
+          "textLength": 22943,
+          "blocks": 101,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        },
+        {
+          "source": "https://plaid.com/legal/#plaid-account-terms",
+          "state": "held",
+          "extraction": "completed",
+          "file": "1ba6481c286c80ac789b385e.extraction.json",
+          "textHash": "91e9bc7b8860db14ed460ed1837ff75c312690fa2e6a7ed0a2bf7647af88eb4f",
+          "textLength": 16783,
+          "blocks": 29,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "d6be498450bf1e7a92e2b7d8",
+      "url": "https://www.paypal.com/lu/legalhub/paypal/useragreement-full?locale.x=en_LU",
+      "durationMs": 2679,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:52.912Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.paypal.com/lu/legalhub/paypal/useragreement-full?locale.x=en_LU",
+          "drift": false,
+          "durationMs": 2196,
+          "validators": {
+            "etag": "W/\"2133b1-WoGoOCvbS+IOT6PTE7eeEMfiOiQ\"",
+            "vary": "Accept-Encoding",
+            "cacheControl": "max-age=0, no-cache, no-store, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:52 GMT"
+          },
+          "bodyBytes": 2179565,
+          "bodyHash": "4fd22e4b2e9df7b82a4394e7f4ca20546c087f98f926603b15798847cddb8e72",
+          "bodyFile": "d6be498450bf1e7a92e2b7d8-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.paypal.com/lu/legalhub/paypal/useragreement-full?locale.x=en_LU",
+          "state": "held",
+          "extraction": "completed",
+          "file": "d6be498450bf1e7a92e2b7d8.extraction.json",
+          "textHash": "98faf50e9f036bf3fd13d8ed2803d4346fb4702cfd142ba947313088a59ffc9a",
+          "textLength": 133135,
+          "blocks": 718,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "9502bccfa590830db1f7a73a",
+      "url": "https://cdn.revolut.com/terms_and_conditions/pdf/customer_privacy_notice_52996afd_0.6.3_1787324053_en.pdf",
+      "durationMs": 630,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:53.889Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://cdn.revolut.com/terms_and_conditions/pdf/customer_privacy_notice_52996afd_0.6.3_1787324053_en.pdf",
+          "drift": false,
+          "durationMs": 498,
+          "validators": {
+            "etag": "\"a81f1c6de239984af8ee6ac89698a759\"",
+            "lastModified": "Fri, 21 Aug 2026 14:54:15 GMT",
+            "vary": "accept-encoding",
+            "cacheControl": "public, max-age=3600",
+            "serverDate": "Mon, 16 Nov 2026 13:32:53 GMT"
+          },
+          "bodyBytes": 63507,
+          "bodyHash": "c6f16a15981262a910f62b51a35f93d352a8fd5ec07c593d980596ada676eb1b",
+          "bodyFile": "9502bccfa590830db1f7a73a-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://cdn.revolut.com/terms_and_conditions/pdf/customer_privacy_notice_52996afd_0.6.3_1787324053_en.pdf",
+          "state": "held",
+          "extraction": "completed",
+          "file": "9502bccfa590830db1f7a73a.extraction.json",
+          "textHash": "8fa7f7088333d676e60da072350a2c4ea5032d3e573d0b727bd326901cc7ddf1",
+          "textLength": 56687,
+          "blocks": 1292,
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "53cd13bd410cb61604c900cc",
+      "url": "https://openai.com/policies/services-agreement/",
+      "durationMs": 779,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:54.039Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://openai.com/policies/services-agreement/",
+          "drift": false,
+          "durationMs": 648,
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, accept-encoding",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:54 GMT",
+            "age": "32663"
+          },
+          "bodyBytes": 524162,
+          "bodyHash": "e5ef0da6bd8bb945e5f7ae770af231a360c4afe30e5fcb2b80d89b5e771373a8",
+          "bodyFile": "53cd13bd410cb61604c900cc-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://openai.com/policies/services-agreement/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "53cd13bd410cb61604c900cc.extraction.json",
+          "textHash": "83d6e657074f86582b421f40442f435d392dfac22a29c4b07ace044f1cc85c53",
+          "textLength": 44610,
+          "blocks": 163,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "90c872b648cda7007aea293a",
+      "url": "https://cdn.revolut.com/terms_and_conditions/pdf/customer_privacy_notice_9b445a83_0.4.1_1787310726_en.pdf",
+      "durationMs": 473,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:55.869Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://cdn.revolut.com/terms_and_conditions/pdf/customer_privacy_notice_9b445a83_0.4.1_1787310726_en.pdf",
+          "drift": false,
+          "durationMs": 346,
+          "validators": {
+            "etag": "\"4adc679faccea48305d631343188b9f1\"",
+            "lastModified": "Fri, 21 Aug 2026 11:12:08 GMT",
+            "vary": "accept-encoding",
+            "cacheControl": "public, max-age=3600",
+            "serverDate": "Mon, 16 Nov 2026 13:32:55 GMT"
+          },
+          "bodyBytes": 63581,
+          "bodyHash": "179e5705eb93346286c28f02a23a0d0df0dee46d38d4d22339ea0398bbd82a89",
+          "bodyFile": "90c872b648cda7007aea293a-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://cdn.revolut.com/terms_and_conditions/pdf/customer_privacy_notice_9b445a83_0.4.1_1787310726_en.pdf",
+          "state": "held",
+          "extraction": "completed",
+          "file": "90c872b648cda7007aea293a.extraction.json",
+          "textHash": "acebe54d7576cf62c9b2383748266faa47497b45c9eb921c0951dcf986eb2da3",
+          "textLength": 56926,
+          "blocks": 1260,
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "f22729d5797dc763cd5876c9",
+      "url": "https://openai.com/policies/data-processing-addendum/",
+      "durationMs": 692,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:56.290Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://openai.com/policies/data-processing-addendum/",
+          "drift": false,
+          "durationMs": 619,
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, accept-encoding",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:56 GMT",
+            "age": "20518"
+          },
+          "bodyBytes": 378182,
+          "bodyHash": "e4392395a2964851c6e43f7fa2cc56cccba891e491330c929aecef48fc37352c",
+          "bodyFile": "f22729d5797dc763cd5876c9-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://openai.com/policies/data-processing-addendum/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "f22729d5797dc763cd5876c9.extraction.json",
+          "textHash": "22bbe2d62ebcdbbaba78cdb62181a602e35c8436488d741edf7ee4d68dd5f635",
+          "textLength": 18810,
+          "blocks": 73,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "27eb6d1eaa39a4f1feba6b10",
+      "url": "https://www.paypal.com/us/legalhub/paypal/useragreement-full",
+      "durationMs": 2022,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:56.430Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.paypal.com/us/legalhub/paypal/useragreement-full",
+          "drift": false,
+          "durationMs": 1534,
+          "validators": {
+            "etag": "W/\"246562-LhxIJ2TxZhdyqCps1kplXeZK6aI\"",
+            "vary": "Accept-Encoding",
+            "cacheControl": "max-age=0, no-cache, no-store, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:56 GMT"
+          },
+          "bodyBytes": 2388894,
+          "bodyHash": "658bcca07e04887ea8e4671ea5abcd9d0721f9eadaf450777c5fcb5ca67ecea8",
+          "bodyFile": "27eb6d1eaa39a4f1feba6b10-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.paypal.com/us/legalhub/paypal/useragreement-full",
+          "state": "held",
+          "extraction": "completed",
+          "file": "27eb6d1eaa39a4f1feba6b10.extraction.json",
+          "textHash": "c785d49d68d1d34b049b94aaf0ccab9690c709db4f9aed1ea3ce5311985f71e2",
+          "textLength": 174134,
+          "blocks": 671,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "45e137b95c966d509fd8ee0d",
+      "url": "https://cdn.revolut.com/terms_and_conditions/pdf/personal_terms_be7cbf8e_3.6.0_1769700076_en.pdf",
+      "durationMs": 530,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:57.886Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://cdn.revolut.com/terms_and_conditions/pdf/personal_terms_be7cbf8e_3.6.0_1769700076_en.pdf",
+          "drift": false,
+          "durationMs": 389,
+          "validators": {
+            "etag": "\"56cb6400cfbfe4caec55694461da73c5\"",
+            "lastModified": "Thu, 29 Jan 2026 15:21:18 GMT",
+            "vary": "accept-encoding",
+            "cacheControl": "public, max-age=3600",
+            "serverDate": "Mon, 16 Nov 2026 13:32:57 GMT"
+          },
+          "bodyBytes": 96008,
+          "bodyHash": "d8eb0f3072b54ed3f86166280ee793fe48dfa5a2a7b5d8c2b84b6e31f95ce95b",
+          "bodyFile": "45e137b95c966d509fd8ee0d-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://cdn.revolut.com/terms_and_conditions/pdf/personal_terms_be7cbf8e_3.6.0_1769700076_en.pdf",
+          "state": "held",
+          "extraction": "completed",
+          "file": "45e137b95c966d509fd8ee0d.extraction.json",
+          "textHash": "48508d4e136312023a1b7d894c6007f711d9e60c352943376c1254ce45d9599e",
+          "textLength": 89118,
+          "blocks": 1318,
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "e20ab4d1d74bb3b47748eb77",
+      "url": "https://openai.com/policies/privacy-policy/",
+      "durationMs": 476,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:58.230Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://openai.com/policies/privacy-policy/",
+          "drift": false,
+          "durationMs": 355,
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, accept-encoding",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:58 GMT",
+            "age": "45163"
+          },
+          "bodyBytes": 494972,
+          "bodyHash": "6994db77716c372b0f9fac8c939aa220706335e99a61e0620ebd67f5b5527834",
+          "bodyFile": "e20ab4d1d74bb3b47748eb77-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://openai.com/policies/privacy-policy/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "e20ab4d1d74bb3b47748eb77.extraction.json",
+          "textHash": "470900f6ae0cfa96b2f886023af90cf4312756af1ccae56ce37e6fc4b9a650f2",
+          "textLength": 33753,
+          "blocks": 132,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "415d90309e1f86253a10ae60",
+      "url": "https://www.paypal.com/us/legalhub/paypal/acceptableuse-full?locale.x=en_US",
+      "durationMs": 1174,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:59.305Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.paypal.com/us/legalhub/paypal/acceptableuse-full?locale.x=en_US",
+          "drift": false,
+          "durationMs": 885,
+          "validators": {
+            "etag": "W/\"15392f-XPUzbubyUvmzaMRjO8Zxoytrib8\"",
+            "vary": "Accept-Encoding",
+            "cacheControl": "max-age=0, no-cache, no-store, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:32:59 GMT"
+          },
+          "bodyBytes": 1394539,
+          "bodyHash": "7111e51d13ae0752defa8eec2ac565cf7fab5c5504e3954cb03c7bf8d1013437",
+          "bodyFile": "415d90309e1f86253a10ae60-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.paypal.com/us/legalhub/paypal/acceptableuse-full?locale.x=en_US",
+          "state": "held",
+          "extraction": "completed",
+          "file": "415d90309e1f86253a10ae60.extraction.json",
+          "textHash": "9aee7c59e17ff723ba692a51263e54ccf7e57f2b3f447a295741e19825f4529f",
+          "textLength": 7512,
+          "blocks": 36,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "5a4c97100ff61d926664e464",
+      "url": "https://cdn.revolut.com/terms_and_conditions/pdf/personal_terms_e59ea0d9_1.5.0_1765469787_en.pdf",
+      "durationMs": 408,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:32:59.881Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://cdn.revolut.com/terms_and_conditions/pdf/personal_terms_e59ea0d9_1.5.0_1765469787_en.pdf",
+          "drift": false,
+          "durationMs": 289,
+          "validators": {
+            "etag": "\"2c464fcaa5dbd7a42dcaf9257b54675a\"",
+            "lastModified": "Thu, 11 Dec 2025 16:16:30 GMT",
+            "vary": "accept-encoding",
+            "cacheControl": "public, max-age=3600",
+            "serverDate": "Mon, 16 Nov 2026 13:32:59 GMT"
+          },
+          "bodyBytes": 77259,
+          "bodyHash": "44ba8438b1fc4e5a8f16a314092028f6943779a1a58732a4d2c68943804aee97",
+          "bodyFile": "5a4c97100ff61d926664e464-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://cdn.revolut.com/terms_and_conditions/pdf/personal_terms_e59ea0d9_1.5.0_1765469787_en.pdf",
+          "state": "held",
+          "extraction": "completed",
+          "file": "5a4c97100ff61d926664e464.extraction.json",
+          "textHash": "eaeaf3f8bd4cf75a4b6031b012c08f1883943e386babc769103740ae20606eae",
+          "textLength": 71573,
+          "blocks": 1087,
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "1138ba27d0178213bb774d43",
+      "url": "https://openai.com/policies/health-privacy-policy/",
+      "durationMs": 766,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:00.589Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://openai.com/policies/health-privacy-policy/",
+          "drift": false,
+          "durationMs": 708,
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, accept-encoding",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:33:00 GMT",
+            "age": "20854"
+          },
+          "bodyBytes": 316199,
+          "bodyHash": "03ab6d2ec7a99d1cb460c519e1d5df3db726d6c3fd9f07790ffa20798a7e4cb8",
+          "bodyFile": "1138ba27d0178213bb774d43-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://openai.com/policies/health-privacy-policy/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "1138ba27d0178213bb774d43.extraction.json",
+          "textHash": "70a5de4c18a8b8bd802d74a5794e03d71576731bea98a8eb0bc4336bc6b473c3",
+          "textLength": 6356,
+          "blocks": 33,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "f8a409252219b46588db7de1",
+      "url": "https://stripe.com/it/privacy",
+      "durationMs": 470,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:01.870Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://stripe.com/it/privacy",
+          "drift": false,
+          "durationMs": 369,
+          "validators": {
+            "serverDate": "Mon, 16 Nov 2026 13:33:01 GMT"
+          },
+          "bodyBytes": 290477,
+          "bodyHash": "0f9ae6e9be70a37ab00ceda23535699277dc01aeda64e4899c9fba1dd685a3aa",
+          "bodyFile": "f8a409252219b46588db7de1-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://stripe.com/it/privacy",
+          "state": "held",
+          "extraction": "completed",
+          "file": "f8a409252219b46588db7de1.extraction.json",
+          "textHash": "4780a61c79431372f3c55037193cd7a0a021052997530b0eb426719b6eddb54b",
+          "textLength": 94194,
+          "blocks": 272,
+          "language": "it-IT",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "bd79465c7d2ec08dce014b9f",
+      "url": "https://www.paypal.com/us/legalhub/paypal/dpa-business-management?country.x=US&locale.x=en_US",
+      "durationMs": 1110,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:01.974Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.paypal.com/us/legalhub/paypal/dpa-business-management?country.x=US&locale.x=en_US",
+          "drift": false,
+          "durationMs": 877,
+          "validators": {
+            "etag": "W/\"14d8db-KO1Xr36xw9DM2/Z26XVA750p01g\"",
+            "vary": "Accept-Encoding",
+            "cacheControl": "max-age=0, no-cache, no-store, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:33:01 GMT"
+          },
+          "bodyBytes": 1369879,
+          "bodyHash": "51936e3bad93a451ea11d0bbf3049ad32a4950cca5d7a9424a6a64073246412f",
+          "bodyFile": "bd79465c7d2ec08dce014b9f-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.paypal.com/us/legalhub/paypal/dpa-business-management?country.x=US&locale.x=en_US",
+          "state": "held",
+          "extraction": "completed",
+          "file": "bd79465c7d2ec08dce014b9f.extraction.json",
+          "textHash": "fcce38c61350ffade215ff484de3f388199c3f376c2d16d7a8509f8a122b194a",
+          "textLength": 15038,
+          "blocks": 57,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "9aaa59390d552247e1bf2d89",
+      "url": "https://openai.com/policies/education-terms/",
+      "durationMs": 937,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:03.039Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://openai.com/policies/education-terms/",
+          "drift": false,
+          "durationMs": 832,
+          "validators": {
+            "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, accept-encoding",
+            "cacheControl": "public, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:33:03 GMT",
+            "age": "20489"
+          },
+          "bodyBytes": 413439,
+          "bodyHash": "52b6c58318509270027e00e1d5d7a02de450fef9b1796c9f77ca08bc6e45c86c",
+          "bodyFile": "9aaa59390d552247e1bf2d89-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://openai.com/policies/education-terms/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "9aaa59390d552247e1bf2d89.extraction.json",
+          "textHash": "802780070c1fda165ee6bdc9a973fd5dc190f4145997f97b2bee35d6ac3d6fb3",
+          "textLength": 25015,
+          "blocks": 107,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "fe94df883901e79b68af62ef",
+      "url": "https://www.tiktok.com/legal/privacy-policy-eea",
+      "durationMs": 865,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:04.491Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.tiktok.com/legal/page/eea/privacy-policy/en",
+          "drift": false,
+          "durationMs": 781,
+          "validators": {
+            "cacheControl": "max-age=0, must-revalidate,max-age=0",
+            "serverDate": "Mon, 16 Nov 2026 13:33:04 GMT"
+          },
+          "bodyBytes": 359765,
+          "bodyHash": "0f6527257b11e7f75c7b2fa8dd2adfe4b2e63ca2008f8e65f888339fb7455790",
+          "bodyFile": "fe94df883901e79b68af62ef-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.tiktok.com/legal/privacy-policy-eea",
+          "state": "held",
+          "extraction": "completed",
+          "file": "fe94df883901e79b68af62ef.extraction.json",
+          "textHash": "cd6ea9e488687b8e83c305b0fa2bf44c3f03f061e109ef866ec7e4c62d71b94f",
+          "textLength": 46985,
+          "blocks": 216,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "cdf36b73a5deb6574738e36d",
+      "url": "https://stripe.com/privacy",
+      "durationMs": 1522,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:04.904Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://stripe.com/en-it/privacy",
+          "drift": false,
+          "durationMs": 1428,
+          "validators": {
+            "serverDate": "Mon, 16 Nov 2026 13:33:04 GMT"
+          },
+          "bodyBytes": 261944,
+          "bodyHash": "8b6a30a050162957a887ceccdb6916c02cae1194fa939d0a5b1b4692df675902",
+          "bodyFile": "cdf36b73a5deb6574738e36d-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://stripe.com/privacy",
+          "state": "held",
+          "extraction": "completed",
+          "file": "cdf36b73a5deb6574738e36d.extraction.json",
+          "textHash": "15ba389d1490a0fec16371f151c765c7909f5739497eeeb82744f8a9943d121f",
+          "textLength": 70703,
+          "blocks": 249,
+          "language": "en-IT",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "ff418cf120aa659948612559",
+      "url": "https://support.google.com/waze/answer/12075406?hl=en",
+      "durationMs": 869,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:05.207Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://support.google.com/waze/answer/12075406?hl=en",
+          "drift": false,
+          "durationMs": 561,
+          "validators": {
+            "cacheControl": "private, max-age=0",
+            "serverDate": "Mon, 16 Nov 2026 13:33:04 GMT"
+          },
+          "bodyBytes": 1659508,
+          "bodyHash": "c9fb21997284864aeca9ae797898488145265233816250b77b1e171c80e9a7e4",
+          "bodyFile": "ff418cf120aa659948612559-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://support.google.com/waze/answer/12075406?hl=en",
+          "state": "held",
+          "extraction": "completed",
+          "file": "ff418cf120aa659948612559.extraction.json",
+          "textHash": "5a34d5218d72e209b2f3626f1a9c281060dd1b9fae6cc5f33d44c9d02e0e028d",
+          "textLength": 46191,
+          "blocks": 255,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "8f4b642820ff779d08614918",
+      "url": "https://stripe.com/it/legal/ssa",
+      "durationMs": 432,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:06.786Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://stripe.com/it/legal/ssa",
+          "drift": false,
+          "durationMs": 287,
+          "validators": {
+            "serverDate": "Mon, 16 Nov 2026 13:33:06 GMT"
+          },
+          "bodyBytes": 300160,
+          "bodyHash": "6c90eca441f242e32d57009dc2717753d4ffa72fbe0d33cdf550e8b1073bff29",
+          "bodyFile": "8f4b642820ff779d08614918-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://stripe.com/it/legal/ssa",
+          "state": "held",
+          "extraction": "completed",
+          "file": "8f4b642820ff779d08614918.extraction.json",
+          "textHash": "5cb7aebe0f71394afaa6876ae40eaac84949850e79353523f288f5aa118e416d",
+          "textLength": 125071,
+          "blocks": 716,
+          "language": "it-IT",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "54001e3394b84656c4f7e11e",
+      "url": "https://support.google.com/waze/answer/12373727?hl=en",
+      "durationMs": 896,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:07.603Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://support.google.com/waze/answer/12373727?hl=en",
+          "drift": false,
+          "durationMs": 586,
+          "validators": {
+            "cacheControl": "private, max-age=0",
+            "serverDate": "Mon, 16 Nov 2026 13:33:07 GMT"
+          },
+          "bodyBytes": 1643940,
+          "bodyHash": "c067b1e40838d047e8a71d1f05a67fa5766422869d7e65d91adacb9e79915320",
+          "bodyFile": "54001e3394b84656c4f7e11e-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://support.google.com/waze/answer/12373727?hl=en",
+          "state": "held",
+          "extraction": "completed",
+          "file": "54001e3394b84656c4f7e11e.extraction.json",
+          "textHash": "dcb889fbd609bfec5a32f6c8749b15a28b5b10620d0f7ec6f8e92557350df47a",
+          "textLength": 32820,
+          "blocks": 161,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "83523d880616400519bba36f",
+      "url": "https://stripe.com/legal/dpa",
+      "durationMs": 1317,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:09.695Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://stripe.com/en-it/legal/dpa",
+          "drift": false,
+          "durationMs": 1261,
+          "validators": {
+            "serverDate": "Mon, 16 Nov 2026 13:33:09 GMT"
+          },
+          "bodyBytes": 185370,
+          "bodyHash": "0bb2945238ef98bee361d6884266e2dd33f453de2dd9e97aa2a232e3780c2200",
+          "bodyFile": "83523d880616400519bba36f-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://stripe.com/legal/dpa",
+          "state": "held",
+          "extraction": "completed",
+          "file": "83523d880616400519bba36f.extraction.json",
+          "textHash": "7de1d17d5129f29ef75442aba96940df4aefd87abbe916c1f626f2f6f9ebc304",
+          "textLength": 29043,
+          "blocks": 111,
+          "language": "en-IT",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "45581fb3189b774577e6ce12",
+      "url": "https://support.google.com/waze/answer/14013702?hl=en",
+      "durationMs": 737,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:09.882Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://support.google.com/waze/answer/14013702?hl=en",
+          "drift": false,
+          "durationMs": 467,
+          "validators": {
+            "cacheControl": "private, max-age=0",
+            "serverDate": "Mon, 16 Nov 2026 13:33:09 GMT"
+          },
+          "bodyBytes": 1617554,
+          "bodyHash": "9719dfe8e20bcad03f69eb660ed17c50a35ac21eaa26c319ea1e38f568502e84",
+          "bodyFile": "45581fb3189b774577e6ce12-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://support.google.com/waze/answer/14013702?hl=en",
+          "state": "held",
+          "extraction": "completed",
+          "file": "45581fb3189b774577e6ce12.extraction.json",
+          "textHash": "9e3ccae688a3d546a8ee3b4145d8ceb13bbcc1225c13bc6a9d682b20e8c8859b",
+          "textLength": 9977,
+          "blocks": 52,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "8b0cbeca6612a896211c9aef",
+      "url": "https://stripe.com/legal/restricted-businesses",
+      "durationMs": 598,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:11.769Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://stripe.com/en-it/legal/restricted-businesses",
+          "drift": false,
+          "durationMs": 516,
+          "validators": {
+            "serverDate": "Mon, 16 Nov 2026 13:33:11 GMT"
+          },
+          "bodyBytes": 209992,
+          "bodyHash": "c71d4c47d531cd2b1035cf44a5d1a7ca4242eba35772bbb5053a1c08ba58cf20",
+          "bodyFile": "8b0cbeca6612a896211c9aef-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://stripe.com/legal/restricted-businesses",
+          "state": "held",
+          "extraction": "completed",
+          "file": "8b0cbeca6612a896211c9aef.extraction.json",
+          "textHash": "92fe8b0b9295fd5742ac94d260d58e4de81d61656c6b13ebedd9e53f25e00a33",
+          "textLength": 25597,
+          "blocks": 238,
+          "language": "en-IT",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "9aba307dea174fcf29ef65fc",
+      "url": "https://support.google.com/waze/answer/14600409?hl=en",
+      "durationMs": 989,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:12.365Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://support.google.com/waze/answer/14600409?hl=en",
+          "drift": false,
+          "durationMs": 711,
+          "validators": {
+            "cacheControl": "private, max-age=0",
+            "serverDate": "Mon, 16 Nov 2026 13:33:11 GMT"
+          },
+          "bodyBytes": 1614031,
+          "bodyHash": "55f3a1acab6068bf4882edf1c60af292230434b1764fd56584619757e6cea719",
+          "bodyFile": "9aba307dea174fcf29ef65fc-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://support.google.com/waze/answer/14600409?hl=en",
+          "state": "held",
+          "extraction": "completed",
+          "file": "9aba307dea174fcf29ef65fc.extraction.json",
+          "textHash": "1ac5c78fce57dae0fa3139e22b91eb8cc3a53b8eff8f1daf616100a9b1a3c76d",
+          "textLength": 2384,
+          "blocks": 18,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "b0dff6c37cd1a0b731872ae7",
+      "url": "https://wise.com/gb/legal/privacy-notice-personal-en",
+      "durationMs": 480,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:13.660Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://wise.com/gb/legal/privacy-notice-personal-en",
+          "drift": false,
+          "durationMs": 307,
+          "validators": {
+            "etag": "\"on9e24vnmwg7vh\"",
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:33:13 GMT"
+          },
+          "bodyBytes": 757574,
+          "bodyHash": "0181263398f2b5dea72d56b998e135f267e296a3dc7fd3f68a6939eba72b75f6",
+          "bodyFile": "b0dff6c37cd1a0b731872ae7-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://wise.com/gb/legal/privacy-notice-personal-en",
+          "state": "held",
+          "extraction": "completed",
+          "file": "b0dff6c37cd1a0b731872ae7.extraction.json",
+          "textHash": "79353be496a369058ec8dfde60cd46424f1f0694d164eb3cc2012e0b2f58b2f8",
+          "textLength": 51201,
+          "blocks": 237,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "8ff07eae3fd8ae29f35d3769",
+      "url": "https://x.com/en/privacy",
+      "durationMs": 452,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:14.494Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://x.com/en/privacy",
+          "drift": false,
+          "durationMs": 348,
+          "validators": {
+            "vary": "Cookie,X-Twitter-Internal,X-Twitter-IP-Tags,Accept-Encoding",
+            "cacheControl": "private, no-cache, max-age=0",
+            "serverDate": "Mon, 16 Nov 2026 13:33:14 GMT"
+          },
+          "bodyBytes": 152901,
+          "bodyHash": "c8e1c0c207aa1a3094fd47806f8760eaa351e7291064a5ef932644f7b14f7eb1",
+          "bodyFile": "8ff07eae3fd8ae29f35d3769-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://x.com/en/privacy",
+          "state": "held",
+          "extraction": "completed",
+          "file": "8ff07eae3fd8ae29f35d3769.extraction.json",
+          "textHash": "3022848f2c3d5d9554be9209b9e4b7d057d38ce18b556b49173d81c52412434b",
+          "textLength": 33155,
+          "blocks": 159,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "8618addf08b39343d1c18e6f",
+      "url": "https://wise.com/us/legal/privacy-notice",
+      "durationMs": 329,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:15.558Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://wise.com/us/legal/privacy-notice",
+          "drift": false,
+          "durationMs": 224,
+          "validators": {
+            "etag": "\"108g9zx1raac8hv\"",
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:33:15 GMT"
+          },
+          "bodyBytes": 571331,
+          "bodyHash": "45b2690cfea4d1bb7e84a39f0c4bb5fa8e5a675bb7949b9f3f377da5608d1633",
+          "bodyFile": "8618addf08b39343d1c18e6f-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://wise.com/us/legal/privacy-notice",
+          "state": "held",
+          "extraction": "completed",
+          "file": "8618addf08b39343d1c18e6f.extraction.json",
+          "textHash": "32a6c20f7cc70475ccd67b471fac2361a9dd12b300aa7596db40fd4a959f664a",
+          "textLength": 4150,
+          "blocks": 54,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "3e344b07d5ed24f7e0eeebaf",
+      "url": "https://x.com/en/tos",
+      "durationMs": 501,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:16.510Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://x.com/en/tos",
+          "drift": false,
+          "durationMs": 409,
+          "validators": {
+            "vary": "Cookie,X-Twitter-Internal,X-Twitter-IP-Tags,Accept-Encoding",
+            "cacheControl": "private, no-cache, max-age=0",
+            "serverDate": "Mon, 16 Nov 2026 13:33:16 GMT"
+          },
+          "bodyBytes": 170635,
+          "bodyHash": "6e0940c5fc875cb48aef52cb84837eb75fc2db2ff0e846bfdbf1f8d79aafd537",
+          "bodyFile": "3e344b07d5ed24f7e0eeebaf-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://x.com/en/tos",
+          "state": "held",
+          "extraction": "completed",
+          "file": "3e344b07d5ed24f7e0eeebaf.extraction.json",
+          "textHash": "3e5d660a42d64cf014c3a2d8562fceeb974c369f93cd57bc5f4ae1fb5e36fe72",
+          "textLength": 61851,
+          "blocks": 141,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "ba38f3fe973298d14fccff8b",
+      "url": "https://wise.com/us/legal/terms-of-use",
+      "durationMs": 581,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:17.488Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://wise.com/us/legal/terms-of-use-personal",
+          "drift": false,
+          "durationMs": 324,
+          "validators": {
+            "etag": "\"7dp1zd8daylq57\"",
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:33:17 GMT"
+          },
+          "bodyBytes": 1015060,
+          "bodyHash": "9aef54c2cda23433da64716c72a04bd0cd25a5f629b9f5f762400f85d7881f4c",
+          "bodyFile": "ba38f3fe973298d14fccff8b-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://wise.com/us/legal/terms-of-use",
+          "state": "held",
+          "extraction": "completed",
+          "file": "ba38f3fe973298d14fccff8b.extraction.json",
+          "textHash": "a262c3cdb7a9e300d0024750dcd1337405fd7fb04f305b5e9bd8fcd0ff3ac1bb",
+          "textLength": 127053,
+          "blocks": 486,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "b72aebf778ef7695987e864b",
+      "url": "https://www.zoom.com/en/trust/privacy/privacy-statement/",
+      "durationMs": 786,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:18.798Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.zoom.com/en/trust/privacy/privacy-statement/",
+          "drift": false,
+          "durationMs": 693,
+          "validators": {
+            "vary": "accept-encoding",
+            "serverDate": "Mon, 16 Nov 2026 13:33:18 GMT"
+          },
+          "bodyBytes": 357245,
+          "bodyHash": "bd9d60beba45c3ea258e8fa742e5fc6e173cc771da5cc4528ac482556ffa9ace",
+          "bodyFile": "b72aebf778ef7695987e864b-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.zoom.com/en/trust/privacy/privacy-statement/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "b72aebf778ef7695987e864b.extraction.json",
+          "textHash": "515ac1a187255909b621ab163edb5a63ca7d4eccbe84a87574b1fe03b0d93f42",
+          "textLength": 54024,
+          "blocks": 159,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "b77f52bde22374ea16695f8f",
+      "url": "https://wise.com/us/legal/acceptable-use-policy",
+      "durationMs": 286,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:19.402Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://wise.com/us/legal/acceptable-use-policy",
+          "drift": false,
+          "durationMs": 155,
+          "validators": {
+            "etag": "\"y3p0wn1d4ecs8g\"",
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:33:19 GMT"
+          },
+          "bodyBytes": 596864,
+          "bodyHash": "fb5380f5c81f4acc3384ead1574e6671e2015172ef962b59a721e8746654f979",
+          "bodyFile": "b77f52bde22374ea16695f8f-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://wise.com/us/legal/acceptable-use-policy",
+          "state": "held",
+          "extraction": "completed",
+          "file": "b77f52bde22374ea16695f8f.extraction.json",
+          "textHash": "a81d662a27ef60ee134a60e962272d166056e708e75fca171750d8316928b56d",
+          "textLength": 9756,
+          "blocks": 139,
+          "language": "en-US",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "e64676f40a56382db092190b",
+      "url": "https://www.zoom.com/en/trust/terms/",
+      "durationMs": 387,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:20.677Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.zoom.com/en/trust/terms/",
+          "drift": false,
+          "durationMs": 284,
+          "validators": {
+            "vary": "accept-encoding",
+            "serverDate": "Mon, 16 Nov 2026 13:33:20 GMT"
+          },
+          "bodyBytes": 395387,
+          "bodyHash": "0d9d954b20d1f968a438ddc4a566001023d68d54b0dff1c3cac7d49dfb33558a",
+          "bodyFile": "e64676f40a56382db092190b-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.zoom.com/en/trust/terms/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "e64676f40a56382db092190b.extraction.json",
+          "textHash": "f57c65740a4637b7d098959e289a6a549af472cf52c15e2699d56edb3f899765",
+          "textLength": 87356,
+          "blocks": 175,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "4f4f1871910ad93f1ec83c69",
+      "url": "https://wise.com/gb/legal/terms-of-use-personal",
+      "durationMs": 404,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:21.208Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://wise.com/gb/legal/terms-of-use-personal",
+          "drift": false,
+          "durationMs": 174,
+          "validators": {
+            "etag": "\"iowr5spe4ojyz5\"",
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:33:21 GMT"
+          },
+          "bodyBytes": 933009,
+          "bodyHash": "d76d2bb194ea34e3c6d39e7f4412aca62f7124f8d11a068ce7dbbdf312a49a0e",
+          "bodyFile": "4f4f1871910ad93f1ec83c69-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://wise.com/gb/legal/terms-of-use-personal",
+          "state": "held",
+          "extraction": "completed",
+          "file": "4f4f1871910ad93f1ec83c69.extraction.json",
+          "textHash": "71e0fa824a91edd6239b0bd475537f19edbaccf4b8add15fd9f15debdcae578b",
+          "textLength": 103696,
+          "blocks": 426,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "62a1eb62d6a386c76d8dc90f",
+      "url": "https://www.zoom.com/en/trust/acceptable-use-guidelines/",
+      "durationMs": 426,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:22.622Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.zoom.com/en/trust/acceptable-use-guidelines/",
+          "drift": false,
+          "durationMs": 341,
+          "validators": {
+            "vary": "accept-encoding",
+            "cacheControl": "no-cache, no-store",
+            "serverDate": "Mon, 16 Nov 2026 13:33:22 GMT"
+          },
+          "bodyBytes": 361315,
+          "bodyHash": "ee7e492e31c31eff9ec2d37ce731f789ffa52f9c2e020c2036ff5ed3a310c2c5",
+          "bodyFile": "62a1eb62d6a386c76d8dc90f-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.zoom.com/en/trust/acceptable-use-guidelines/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "62a1eb62d6a386c76d8dc90f.extraction.json",
+          "textHash": "6c65afcf0392beec092cf24e46ff4376213a07cae189cc95242e2afe399b214b",
+          "textLength": 17051,
+          "blocks": 126,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "be36d170c96232335b5be9ae",
+      "url": "https://wise.com/gb/legal/terms-of-use-business",
+      "durationMs": 397,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:23.100Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://wise.com/gb/legal/terms-of-use-business",
+          "drift": false,
+          "durationMs": 159,
+          "validators": {
+            "etag": "\"15un0mgtm9mk85u\"",
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:33:23 GMT"
+          },
+          "bodyBytes": 944965,
+          "bodyHash": "a880dd4e6955d29bb208e29095d22a5aababad5a6ebd733cdb63179cfa633bc7",
+          "bodyFile": "be36d170c96232335b5be9ae-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://wise.com/gb/legal/terms-of-use-business",
+          "state": "held",
+          "extraction": "completed",
+          "file": "be36d170c96232335b5be9ae.extraction.json",
+          "textHash": "cd70f0b770f39be4555b42498dc98ea23fcbb48c05d1dc0a98c1880d17a06743",
+          "textLength": 107308,
+          "blocks": 440,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "ee5844d172e8b4e7781abd36",
+      "url": "https://www.zoom.com/en/trust/zoom-phone-acceptable-use-policy/",
+      "durationMs": 486,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:24.636Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.zoom.com/en/trust/zoom-phone-acceptable-use-policy/",
+          "drift": false,
+          "durationMs": 426,
+          "validators": {
+            "vary": "accept-encoding",
+            "cacheControl": "no-cache, no-store",
+            "serverDate": "Mon, 16 Nov 2026 13:33:24 GMT"
+          },
+          "bodyBytes": 334247,
+          "bodyHash": "449c24033a420c93bbe92d796e8cfcd59eb6ee08f473c7a8a4687851d0403536",
+          "bodyFile": "ee5844d172e8b4e7781abd36-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.zoom.com/en/trust/zoom-phone-acceptable-use-policy/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "ee5844d172e8b4e7781abd36.extraction.json",
+          "textHash": "b1d5379980d783628d8cdcdedb861619355b1c7b03c19eb97fa9ca7b4af890de",
+          "textLength": 5267,
+          "blocks": 21,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "4d29f70b9b58fde027290630",
+      "url": "https://wise.com/us/legal/terms-of-use-business",
+      "durationMs": 413,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:25.008Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://wise.com/us/legal/terms-of-use-business",
+          "drift": false,
+          "durationMs": 167,
+          "validators": {
+            "etag": "\"34yaxnr0cdldyb\"",
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:33:24 GMT"
+          },
+          "bodyBytes": 999324,
+          "bodyHash": "5253a33f90eea1a83c5e75aea8ce198be1feab4cbdf601822984fe29d128e1d2",
+          "bodyFile": "4d29f70b9b58fde027290630-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://wise.com/us/legal/terms-of-use-business",
+          "state": "held",
+          "extraction": "completed",
+          "file": "4d29f70b9b58fde027290630.extraction.json",
+          "textHash": "a686405c82aa0aecea434c31f79811bf8c733e6212715d0461f584777ce16896",
+          "textLength": 123729,
+          "blocks": 436,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "d8540a7edb8c536dbad2a3b4",
+      "url": "https://www.zoom.com/en/trust/contact-center-acceptable-use-policy/",
+      "durationMs": 338,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:26.476Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.zoom.com/en/trust/contact-center-acceptable-use-policy/",
+          "drift": false,
+          "durationMs": 279,
+          "validators": {
+            "vary": "accept-encoding",
+            "serverDate": "Mon, 16 Nov 2026 13:33:26 GMT"
+          },
+          "bodyBytes": 301620,
+          "bodyHash": "2cb550756701c368a814efb5997509c5dcd375dfd17604c5567388f64ab2d526",
+          "bodyFile": "d8540a7edb8c536dbad2a3b4-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.zoom.com/en/trust/contact-center-acceptable-use-policy/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "d8540a7edb8c536dbad2a3b4.extraction.json",
+          "textHash": "d5e4f7ca169076516b7eadd0ba4cd3470fe110f2fba8e859a0831d6fa66a3928",
+          "textLength": 4712,
+          "blocks": 19,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "851300d85f80887ae7625597",
+      "url": "https://wise.com/gb/legal/privacy-notice-business-en",
+      "durationMs": 345,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:26.928Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://wise.com/gb/legal/privacy-notice-business-en",
+          "drift": false,
+          "durationMs": 172,
+          "validators": {
+            "etag": "\"7v92j53gsqg1vd\"",
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:33:26 GMT"
+          },
+          "bodyBytes": 749842,
+          "bodyHash": "c4576365a0fca79c0c29f4a3edfcbb086e0e9b2fef79a8eb18aa722cbf754703",
+          "bodyFile": "851300d85f80887ae7625597-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://wise.com/gb/legal/privacy-notice-business-en",
+          "state": "held",
+          "extraction": "completed",
+          "file": "851300d85f80887ae7625597.extraction.json",
+          "textHash": "0c50166bffca5d44308ea1759e8c8eb5758c490f5c670dd837f27996d455b899",
+          "textLength": 49398,
+          "blocks": 229,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "be22e603cb557941f48526e7",
+      "url": "https://www.zoom.com/en/trust/zoom-events-privacy/",
+      "durationMs": 442,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:28.388Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.zoom.com/en/trust/zoom-events-privacy/",
+          "drift": false,
+          "durationMs": 350,
+          "validators": {
+            "vary": "accept-encoding",
+            "serverDate": "Mon, 16 Nov 2026 13:33:28 GMT"
+          },
+          "bodyBytes": 341940,
+          "bodyHash": "f5b8542abc9a6c35db6de490e5316a9a657bbf9364eeaa728b5db5ec52292b14",
+          "bodyFile": "be22e603cb557941f48526e7-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.zoom.com/en/trust/zoom-events-privacy/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "be22e603cb557941f48526e7.extraction.json",
+          "textHash": "520de2b69d74615d6d638079aeccebbcbcbaf0e997ec880ee30b72a53468c94b",
+          "textLength": 40776,
+          "blocks": 143,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "70922ea8b0cef3ef0fb049d2",
+      "url": "https://wise.com/en/legal/wise-assistant-terms-of-use",
+      "durationMs": 228,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:28.786Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://wise.com/en/legal/wise-assistant-terms-of-use",
+          "drift": false,
+          "durationMs": 182,
+          "validators": {
+            "etag": "\"qsi8u5pm7g2n9k\"",
+            "vary": "Accept-Encoding",
+            "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+            "serverDate": "Mon, 16 Nov 2026 13:33:28 GMT"
+          },
+          "bodyBytes": 123536,
+          "bodyHash": "f3cbab9fd6daaee41e38d9bc8f025aaaecaa8bbad848f55050a5dfd1a13cfebf",
+          "bodyFile": "70922ea8b0cef3ef0fb049d2-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://wise.com/en/legal/wise-assistant-terms-of-use",
+          "state": "held",
+          "extraction": "completed",
+          "file": "70922ea8b0cef3ef0fb049d2.extraction.json",
+          "textHash": "ba931e0827d2140b5f86ced4c28a2683b04eb1d03ab9c44e1178fc83fa07e5aa",
+          "textLength": 4505,
+          "blocks": 28,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "422fc092269f32c0351222a1",
+      "url": "https://www.zoom.com/en/trust/us-privacy-addendum/",
+      "durationMs": 475,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:30.351Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.zoom.com/en/trust/us-privacy-addendum/",
+          "drift": false,
+          "durationMs": 370,
+          "validators": {
+            "vary": "accept-encoding",
+            "cacheControl": "no-cache, no-store",
+            "serverDate": "Mon, 16 Nov 2026 13:33:30 GMT"
+          },
+          "bodyBytes": 350235,
+          "bodyHash": "75c57c375b1e1d0dfa2cc2edf7e67739db14d799bce9fc09c021bb63771bba10",
+          "bodyFile": "422fc092269f32c0351222a1-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.zoom.com/en/trust/us-privacy-addendum/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "422fc092269f32c0351222a1.extraction.json",
+          "textHash": "fcdacce58be4c899055d6240db10e24a9b1f4afa3c02b4f8e5deb1e52ea52368",
+          "textLength": 18491,
+          "blocks": 108,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "9f0de4a42dcc9be27053150b",
+      "url": "https://media.zoom.com/download/assets/zoom-global-dpa.pdf/dd327ebea27e11efb613d6ba63ed4cee",
+      "durationMs": 893,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:31.063Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://media.zoom.com/download/assets/zoom-global-dpa.pdf/dd327ebea27e11efb613d6ba63ed4cee",
+          "drift": false,
+          "durationMs": 729,
+          "validators": {
+            "etag": "\"dd327ebea27e11efb613d6ba63ed4cee-2026-02-17T21:48:50Z\"",
+            "lastModified": "Tue, 17 Feb 2026 21:48:50 GMT",
+            "cacheControl": "max-age=10800, immutable",
+            "serverDate": "Mon, 16 Nov 2026 13:33:30 GMT",
+            "age": "55735"
+          },
+          "bodyBytes": 114639,
+          "bodyHash": "8a2e276481a23321e9c8544ff84e16789484d07b40ba372c4a5ec4ecb086f883",
+          "bodyFile": "9f0de4a42dcc9be27053150b-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://media.zoom.com/download/assets/zoom-global-dpa.pdf/dd327ebea27e11efb613d6ba63ed4cee",
+          "state": "held",
+          "extraction": "completed",
+          "file": "9f0de4a42dcc9be27053150b.extraction.json",
+          "textHash": "070fdd1fb6363f0dce8642c0fba6518b980a9660629f9c4a196973968f421430",
+          "textLength": 106506,
+          "blocks": 1454,
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "f90c64ba7bd0bf5ff123557e",
+      "url": "https://www.zoom.com/en/trust/schools-privacy-statement/",
+      "durationMs": 988,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:32.887Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.zoom.com/en/trust/schools-privacy-statement/",
+          "drift": false,
+          "durationMs": 929,
+          "validators": {
+            "vary": "accept-encoding",
+            "serverDate": "Mon, 16 Nov 2026 13:33:32 GMT"
+          },
+          "bodyBytes": 289711,
+          "bodyHash": "3cdda9b249f603c1894d8f3f5b23331b621dc27c4ea998c7aba9979abadb3e09",
+          "bodyFile": "f90c64ba7bd0bf5ff123557e-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.zoom.com/en/trust/schools-privacy-statement/",
+          "state": "held",
+          "extraction": "completed",
+          "file": "f90c64ba7bd0bf5ff123557e.extraction.json",
+          "textHash": "135b6df72dfac911fb1170050a536dfa9274935b73a09193d2ac096548ecb41b",
+          "textLength": 11789,
+          "blocks": 49,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "8062d567dd2c644714d25b0a",
+      "url": "https://www.tiktok.com/community-guidelines",
+      "durationMs": 31543,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:26.084Z",
+          "durationMs": 20008,
+          "error": "The operation was aborted"
+        },
+        {
+          "kind": "http2",
+          "observedAt": "2026-11-16T13:33:36.119Z",
+          "status": 302,
+          "ok": false,
+          "finalUrl": "https://www.tiktok.com/community-guidelines",
+          "drift": false,
+          "durationMs": 8533,
+          "bodyBytes": 40,
+          "bodyHash": "da77a3eefdfca0864f51d3071e35091fb3bbed148b829444be09bf9e6c14a5d2",
+          "bodyFile": "8062d567dd2c644714d25b0a-http2.body.txt",
+          "error": "h2_status_302"
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.tiktok.com/community-guidelines",
+          "state": "unavailable",
+          "reason": "transport_rejected"
+        }
+      ]
+    },
+    {
+      "id": "69c54133e54ff677b1e08fbd",
+      "url": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+      "durationMs": 598,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:39.611Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+          "drift": false,
+          "durationMs": 489,
+          "validators": {
+            "cacheControl": "max-age=0, must-revalidate,max-age=0",
+            "serverDate": "Mon, 16 Nov 2026 13:33:39 GMT"
+          },
+          "bodyBytes": 276619,
+          "bodyHash": "66c600cf9756e6753a71beb1d4e1d8fc6a66ece462c9e23efba1b7d6c14e1ea4",
+          "bodyFile": "69c54133e54ff677b1e08fbd-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.tiktok.com/legal/page/eea/terms-of-service/en",
+          "state": "held",
+          "extraction": "completed",
+          "file": "69c54133e54ff677b1e08fbd.extraction.json",
+          "textHash": "819293325069c55b34a19b62e44d73b6f1cca5603e547a9082463ae1fea75ca5",
+          "textLength": 28650,
+          "blocks": 195,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "38857076a5cc020ff9f37765",
+      "url": "https://www.tiktok.com/legal/page/us/terms-of-service/en",
+      "durationMs": 982,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:42.128Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.tiktok.com/legal/page/us/terms-of-service/en",
+          "drift": false,
+          "durationMs": 906,
+          "validators": {
+            "cacheControl": "max-age=0, must-revalidate,max-age=0",
+            "serverDate": "Mon, 16 Nov 2026 13:33:41 GMT"
+          },
+          "bodyBytes": 305997,
+          "bodyHash": "4992a8bbb5587871e07578e7a51e875ed5ac98ec5c64679ed8a210f1a6382013",
+          "bodyFile": "38857076a5cc020ff9f37765-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.tiktok.com/legal/page/us/terms-of-service/en",
+          "state": "held",
+          "extraction": "completed",
+          "file": "38857076a5cc020ff9f37765.extraction.json",
+          "textHash": "f6a603a781bc8d1a9b4c92242293492641a3925a63ca3f15da1cb4e75743e814",
+          "textLength": 41779,
+          "blocks": 175,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "9f018688e43e5893e95b3a21",
+      "url": "https://www.tiktok.com/legal/page/global/childrens-privacy-policy/en",
+      "durationMs": 549,
+      "attempts": [
+        {
+          "kind": "direct",
+          "observedAt": "2026-11-16T13:33:44.224Z",
+          "status": 200,
+          "ok": true,
+          "finalUrl": "https://www.tiktok.com/legal/page/global/childrens-privacy-policy/en",
+          "drift": false,
+          "durationMs": 519,
+          "validators": {
+            "cacheControl": "max-age=0, must-revalidate,max-age=0",
+            "serverDate": "Mon, 16 Nov 2026 13:33:44 GMT"
+          },
+          "bodyBytes": 178286,
+          "bodyHash": "09867387d06b0d5e31fb4588b39d1ab38d01c1208acb99b2b9e0cc74c6f690be",
+          "bodyFile": "9f018688e43e5893e95b3a21-direct.body.txt",
+          "error": ""
+        }
+      ],
+      "scopes": [
+        {
+          "source": "https://www.tiktok.com/legal/page/global/childrens-privacy-policy/en",
+          "state": "held",
+          "extraction": "completed",
+          "file": "9f018688e43e5893e95b3a21.extraction.json",
+          "textHash": "3b185ed491ccac18475783c395169d0d574a4a73b4094e5b7f17efae3f88e8ff",
+          "textLength": 9719,
+          "blocks": 49,
+          "language": "en",
+          "reason": "independent_completeness_and_source_contract_unreviewed"
+        }
+      ]
+    }
+  ]
+}
