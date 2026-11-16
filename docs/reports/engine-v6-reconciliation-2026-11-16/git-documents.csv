@@ -1,0 +1,266 @@
+path,sha256,scope,matching_lines,first_line,heading_count
+AGENTS.md,79182d12d0a3c16b2fa392e9da6b08f3b86b09f9b6f49a8285acbf89189d2018,documentation,0,,1
+CHANGELOG.md,e5b9569bf33443f68ce4bfd1b80c7b69f44e729266557d5144fa0cfe6429911b,documentation,7,3,253
+CODE_OF_CONDUCT.md,19874adf7f39c28d44a178602abb05aa7aa6be2ccb82ef37fbc31607900ea9ef,documentation,0,,4
+CONTRIBUTING.md,c57d97843d4f263a31b4c3807df3f437b8d3c2d0fecb87d816619e7fe78bfed7,documentation,0,,19
+DEV_LOG.md,68be83ab33020b547d7c7d5e53e26555ab859fe6a02526ed62634221a185c8af,documentation,0,,15
+HANDOFF-discovery-inquiry-2026-07-23.md,6938e9400e6d2742e9557c1296416ed37416a402cac4b2264bb5ba73bcf89564,documentation,0,,8
+HOSTINGER-DEPLOY.md,6224c5856707bd18ddaf816fe18df6d7f8dae1a0da558f11b5283d76bdd02f81,documentation,0,,7
+IMPACT_AND_SWOT.md,4c4765f78872701947a6a7a0b3d4dd6e74d566777aa2c1f81cce01fad4dfaa2d,documentation,0,,12
+README.md,62908b1563b12119ad9f34d3a61bc5753e93aa3b9528f6a80afdc6e98a0004cf,documentation,13,23,117
+SECURITY.md,12b80d42e421494b541b56a63cd9af6cf45a1da45233ee7e2d0f04cf23652b87,documentation,0,,8
+SECURITY_REPORT-2.md,a42eed3c19c1fc2c29eb5621b881a084925c54957079134e38cd7319c69b6d8e,documentation,0,,28
+design-qa.md,dcd1f61d432ea89a0e1c960f15c5d5ff82bf379bdfccc7afe11f3db6d0f40bc8,documentation,0,,8
+docs/agentic-incident-observatory.md,4cfda63e577ad40a6335e60e761e3c7af346b1e23cfde60429b26e4ad3eee4ed,documentation,0,,6
+docs/ai-evaluation-protocol-2026-08-14.md,6c23128b0d922bb9eef53deb19dc17da286a3ebb1bf91b93481d06236fde1a0b,documentation,0,,6
+docs/architecture/engine-channel-selection-proposal.md,9e6243c69ec5a2fe0695c3d538f398ae9498c9ee417fe7ad817c74f384cf4505,documentation,3,7,7
+docs/architecture/engine-major-design-2026-10-31.md,fd2f48623a3913b1a939547d0f8628d947ee41fbd77071f047e94ea6796ec427,documentation,1,3,13
+docs/architecture/engine-source-review-runbook.md,44bdde973ab479aaa0cefe4d58189328488bf6ed4852b0d3df25db1d82b85733,documentation,3,1,6
+docs/architecture/engine-v6-hosted-preview.md,e383d7e1f6971bc960a84c6fc670e32ceb756e95e1561c1a27a76b46a9e8c237,documentation,3,1,5
+docs/architecture/engine-v6-o2-protocol.md,c7570e4b90c200cb21977272bf89762766e8c82be8371d6ce21627d495491304,documentation,1,7,4
+docs/architecture/engine-v6-o2-wave2-protocol.md,31cbb6c45942e4f7ad3bb291f590166043873c9c26f104204f17e7bbb6c34862,documentation,0,,4
+docs/architecture/engine-v6-qualification-campaign.md,cba6481f3883fd18dd2157e29e0eb62e205612888aeb82f029128f859b5d286f,documentation,3,1,5
+docs/architecture/native-dashboard-engine.md,5e3c78bf552cc3c702cdf5c42313cefc9b8d7d0b0bc276926186c17e7ba51b3a,documentation,0,,8
+docs/architecture/native-dashboard-functional-implementation-report.md,62181744f7cb8e372efc1471e08141e7f72d0c38774a0b17f4b7b0dc72c7f099,documentation,0,,25
+docs/architecture/vizro-patterns-knowledge-base.md,2927e3be6ea61ffd31bb1a014156748b00949d1204c9586f50f8d18a348b5aa9,documentation,0,,42
+docs/associations-vertical.md,1f8e9ca8d15443bc412134aede1b82ed0d73cc3fea9b41cddc36e3378e4da87b,documentation,0,,11
+docs/audit-3.9.0-beta.27-functional-technical.md,f3548e465dd1f6ceab8c081ea2ddf69303e8402fe347828641cbaa457224a67c,documentation,0,,10
+docs/audit-v3.6.3.md,0404b4fc469e861b72b029939b8d0e91bae79fe92ca34fc431806c3808b7ef29,documentation,0,,9
+docs/audit-v3.6.4.md,f627b5d80866b28f9b344fb372c4bc2e7c2602021009dec9b0d56e739aec652c,documentation,0,,1
+docs/audit-v3.6.5.md,33925848e283005c687b336f62230350eefeb63b4c6b4253af1e802f9055dea1,documentation,0,,5
+docs/audit-v3.7.0.md,7190b6dd3a405d4194b7f050da90bcd4c400257d71594645b35656dd1092cf97,documentation,0,,4
+docs/audit-v3.7.1.md,2c18f459538a4c79f4ff6791ca9141c26742d147f0bd828fd6520589dc2f541e,documentation,0,,4
+docs/audit-v3.7.2.md,4cb10e625e40f5c9b05a0f845173c10be627f4dde41d835b4797a7f84bfd9680,documentation,0,,4
+docs/audit-v3.8.0.md,a460f9423258da73f69f63bdfe7e8a53a36ca0a3bb2884a85bb840472203ec88,documentation,0,,4
+docs/audit-v3.8.1.md,9742ea02790a70d4e518851f3ee26fb28f64b0ef05fea2247c1889f927684ba6,documentation,0,,9
+docs/audit-v3.8.2.md,57362691e9267f10138ede0945db83863ed37c9ff552c37559df9fcaf358c9cf,documentation,0,,4
+docs/audit-v3.8.3-beta.2.md,a711955024f435f3df491472e3cf819fb0295ebb7208b62b0621e9abc4ca6de9,documentation,0,,7
+docs/audit-v3.8.3-beta.3.md,890f3172227eb8ffb7a15f046aa3ab0f41115e93ddf8413832023b1750e9318b,documentation,0,,4
+docs/audit-v3.8.3-beta.4.md,b8d21b7dc0a145b4eade5f1dfda9c275d7c735230c79e18125c2619225653955,documentation,0,,5
+docs/audit-v3.8.3.md,ed13dce86d022c7b6cbc61f4b85a67d9fa8abb5c1d1b451418dc782c5ea152ba,documentation,0,,5
+docs/audit-v3.9.0-beta.1.md,f0410f7bc9304ffbad336c7667fb02fb07d63cdb56bc0a20af4212afac382202,documentation,0,,7
+docs/audit-v3.9.0-beta.10.md,18cb591c5098d6efecf7e6491d28693e99e52bcfbc726e5fc7242f6e06445e85,documentation,0,,4
+docs/audit-v3.9.0-beta.11.md,b3d52cecff84be0ec8e09ceea88a3e631574332d76defa45f8b7a889438ccef9,documentation,0,,7
+docs/audit-v3.9.0-beta.12.md,b8b080fa89095df16ccc567a94a3aa24904221580454bdac69fe6d09c3f87689,documentation,0,,6
+docs/audit-v3.9.0-beta.13.md,a4d31ea5ec253d79e305b89abf7a257b52cb0b4a43bb9cbef00118d20a229da7,documentation,0,,6
+docs/audit-v3.9.0-beta.14.md,375843cbec35ebf3c9b1d3d8baf4af94a5905588084c1ebb5fafad67e3a072cb,documentation,0,,6
+docs/audit-v3.9.0-beta.15.md,f8371cda647861a530cadf68cf1567f992c251868d584fd8757ccc925e8150ef,documentation,0,,6
+docs/audit-v3.9.0-beta.16.md,42ca9828bbede5228193bc2f2f7fe83970738f1caeff18599ae631acbf69de5e,documentation,0,,7
+docs/audit-v3.9.0-beta.17.md,8227d9fe19e536f073828e9413478b4135b7596438815cada35b0f001c7df9e9,documentation,0,,6
+docs/audit-v3.9.0-beta.18.md,7e0d9cc1c0ba2b3c82a9092659939fdcae11d0ef85d0e42abc1858dd82455fea,documentation,0,,6
+docs/audit-v3.9.0-beta.19.md,d8236d2077434241a94bcf6bc163dae73c582270c527ccb9cec3b8d1b87b5e1e,documentation,0,,6
+docs/audit-v3.9.0-beta.2.md,ce2ed79cedc274b659bd44c465e3304fd0ac907a817c9dee7c4374351159c590,documentation,0,,9
+docs/audit-v3.9.0-beta.20.md,e759aa0542b30d810b8bcb3de21e7630a653c415d2fcd84590bbf92a66f93a64,documentation,0,,6
+docs/audit-v3.9.0-beta.21.md,268f82e45b51305980226ee677d03298070eea1c5de37277e804c6d57497e658,documentation,0,,8
+docs/audit-v3.9.0-beta.22.md,878fc19cfc293bbe4c9b55b21ef799ea909edde7e9b1e8e70228138c2a45d300,documentation,0,,6
+docs/audit-v3.9.0-beta.23.md,977b8059713c373f7b736169c75f61f0b29baa1851637613916772c90e65058c,documentation,0,,7
+docs/audit-v3.9.0-beta.24.md,3b31ecab94e9add706dba7ce7b97d7a12cd22ee5437e9bfce023c4f46523a36a,documentation,0,,5
+docs/audit-v3.9.0-beta.25.md,4c9f35a71f9a173ec1bcbb9261471f0a16745315be40d58ecf02a091b810932b,documentation,0,,5
+docs/audit-v3.9.0-beta.26.md,00d7f3b447052b44aa940d39ab86395aec81f0c0b204042aa2c0fff6d44dc6b3,documentation,0,,6
+docs/audit-v3.9.0-beta.27.md,0fc980722440c1845f05651948e5a7a04ef6c4ce810a58ef61d9291bfc3473ef,documentation,0,,6
+docs/audit-v3.9.0-beta.28.md,26a4c4d8e4176e749c50ad45805289dee8be4436f546810400ab31974f216317,documentation,0,,4
+docs/audit-v3.9.0-beta.29.md,21cb5cdfac09f264d250e1551b32cb5aed9bfbcd76cfe4dbb3b377011038158c,documentation,0,,4
+docs/audit-v3.9.0-beta.3.md,b47830b6d5ed1a8b001af9930bd9a9e982ccaacd17ebc392bed7afffa88dd837,documentation,0,,5
+docs/audit-v3.9.0-beta.30.md,66e041aa473a14d4562b5f022127fd00b4c2126780d25b635f524b09e88b08cc,documentation,0,,5
+docs/audit-v3.9.0-beta.31.md,7eb2adda0d85e0655a7067ba40b6d0604eb3532df008765b7b69bb7dc6b6af58,documentation,0,,4
+docs/audit-v3.9.0-beta.32.md,908b6514ecff3b0a2ff2760321f835e023006c975af830d37135af6451cddb45,documentation,0,,4
+docs/audit-v3.9.0-beta.33.md,d5a662478140c913e5ca24ee1e62eb02c60ea48abf654110c91d5c7d78fe6ca1,documentation,0,,4
+docs/audit-v3.9.0-beta.34.md,9a57164ed2e13a7e05b1f6f73a9f56f25157af7edb6405199cac38a4e97d5855,documentation,0,,4
+docs/audit-v3.9.0-beta.35.md,cac85f9aee88e4f7d1f70782d6f2e80f087c07eeb5bfee52d10e2bcacf30602d,documentation,0,,4
+docs/audit-v3.9.0-beta.36.md,87eadeeed4bd95ce9af230ef024ba8cc084231d06c75d8be69099000930713e9,documentation,0,,4
+docs/audit-v3.9.0-beta.37.md,6701904c3ea60e17b7bd2e33d426bd6b4f88a8d1131365fd5d57217993d95a19,documentation,0,,6
+docs/audit-v3.9.0-beta.38.md,ec8289017893c37280f8ae71aded6826decaf7bc376cc70e3863758a4f553c5d,documentation,0,,6
+docs/audit-v3.9.0-beta.39.md,6a3b4a27e50b08638c280d0b5997eb7e01649db6b2819eb32d7651bf3278e0d6,documentation,0,,5
+docs/audit-v3.9.0-beta.4.md,5a9c8d6f30a3f2de640fc93a0e46ed205ef13d0c7031a6dbb3786b59625965d3,documentation,0,,6
+docs/audit-v3.9.0-beta.40.md,986646f5a36695f6a28c002ec1eb4128b5c97bad1d19416c9f1672c221fb42f7,documentation,0,,7
+docs/audit-v3.9.0-beta.41.md,82b48de4dfc79e939ee1a1a876f00ddfa3fcec0f6b96a38cda5b26e2767555b8,documentation,0,,5
+docs/audit-v3.9.0-beta.42.md,06ab71ef6be9ac9188e4610ef0f5619e1781681aecc5d9a5df43665189c9fb7a,documentation,0,,8
+docs/audit-v3.9.0-beta.5.md,16b122c37091a0023a8eb4ad595ca406bccd59eeb0d22013da1fb59b14853bf9,documentation,0,,4
+docs/audit-v3.9.0-beta.6.md,0eb98e5508cf36c0462634ca4a18f0a49480f28940478cc74c24f67d4264aeb1,documentation,0,,5
+docs/audit-v3.9.0-beta.7.md,13df39a851e411537f098917eeeb2f6f44636d3405c0cba0470ddddf88f90de7,documentation,0,,6
+docs/audit-v3.9.0-beta.8.md,63f3cf4c2d5bd21035d0e187d27191852ddde31be5e0a9749e144b773e7cc47a,documentation,0,,4
+docs/audit-v3.9.0-beta.9.md,810ef7cab0cce07a91fa4d7bc86b5ecaf1b00ba3d1046e21a34201e6cdd3ef80,documentation,0,,4
+docs/audit-v4.0.0-beta.1-wave-1b.md,858f4fb16ff595af4b28ff5bb7b1112326f87ad204f02c91d4b8a3c522636b84,documentation,0,,12
+docs/audit-v4.0.0-beta.1.md,64173b27f7c0c2317001df8d7bd094e7f0e10c6bb1eecf083492a1e940052bcc,documentation,0,,7
+docs/audit-v4.0.0-beta.2-assessment-remediation.md,8a6ae04c5c94b00ad7fead665e158a84b165eb6c2cf17dea373ffb16d7526469,documentation,0,,10
+docs/audit-v4.0.0-beta.3-ai-discoverability.md,41c6dac3ef780f85438b925c590fd809fb738f0c2fe9fbdfca07ad5faad17c8c,documentation,0,,6
+docs/azure/enterprise-api-v2.md,f0346a94d0bac4cd2b53e57c0b5c5f4aff207835e936e83ced6a2808daaac791,documentation,0,,7
+docs/beta-evidence-cycle-v3.8.3.md,4f98dba278fd136b257cfc252ca64a6d2bf2474710b39036a81c54306891dd7c,documentation,0,,8
+docs/browser-extension-production.md,d33f0086d69c0930ca09790459846f64480849da0fece3c6c9bff006211f4ce4,documentation,0,,15
+docs/citizen-experience-validation.md,0b841e634db135ff18a96c975a606122113bc2334bdb60a44f4a18cd59fcba77,documentation,0,,3
+docs/citizen-experience.md,ccb124a596933498a05b9c01cb9399d9bbecd8c3249fcdb5bec3360f8258bce8,documentation,0,,5
+docs/client-compatibility-matrix-v4.md,0f349b296c9cf649b5cefb5c5749ff04e85859641c078a87491c9b06766cfd37,documentation,0,,1
+docs/communications/engine6-r3-social-review-2026-11-07.md,f7f7bcda00614fb1800bd01320c6dcca914781c28a5de5e71945a9d2da0e930c,documentation,4,1,4
+docs/communications/policywatcher-5-news-it-2026-10-06.md,c8131deb3386d848ac04569bce40a60dacce550eddb334c3c1965b2b2881b34e,documentation,0,,1
+docs/communications/policywatcher-civic-follow-up-linkedin-2026-08-18-en.md,ba30ecc9ec4e0dcafe5735975cdd07a6d2ee291bba05b0066a7e603dcb753444,documentation,0,,4
+docs/communications/policywatcher-civico-linkedin-2026-08-18.md,d658b97198cb73914b5bb98e2ae3fe75634e77bb2f077f109e94514d27971872,documentation,0,,5
+docs/communications/policywatcher-civico-posting-workflow-2026-08-18-en.md,45c232cea4831d875e25c3a60f194bae94abd11b7cb78e3665e43f74c77378d0,documentation,0,,6
+docs/communications/policywatcher-civico-press-release-2026-08-18-en.md,79d111a44c0b70273c25e313f71aa4abbf6b4502bce853e2814707cf35218de1,documentation,0,,6
+docs/communications/policywatcher-civico-press-release-2026-08-18-it.md,10ec83abda221d66ef8914bb5fbb6f76881ecc0be3f88b8dc3a70855a1a4e247,documentation,0,,7
+docs/communications/policywatcher-v4-beta2-assessment-remediation-2026-08-20-en.md,04d31b89024d932031a8c2f1809986568cd708000393f2071576287814e42eff,documentation,0,,1
+docs/communications/policywatcher-v4-beta2-assessment-remediation-2026-08-20-it.md,bf6b339b32bccf64713745f1abcea7fbaf7c996a7076b42a5cdabf1046b9bfa8,documentation,0,,1
+docs/communications/policywatcher-v4-foundation-beta-follow-up-2026-08-20-en.md,3f2b5c1d6b88d5d1745c21e82b2e323e82b203146cf1b8aa0a55bdd439b764cb,documentation,0,,4
+docs/communications/policywatcher-v4-foundation-beta-follow-up-2026-08-20-it.md,0a50a970ca91f36a94602dbabd38bc400258dc1f422e9a8e2023a574f8f29379,documentation,0,,4
+docs/content-voice.md,02c49924e9d0f0566c2a942d75ee04748f7e7da18a1bdaa8b8a2bdd4fea95cb8,documentation,0,,4
+docs/crawlable-public-knowledge-layer.md,85c65cbca441ec089dd741c08d213f1137f871d1e227b38fe6dbf6693f819309,documentation,0,,10
+docs/dashboard-workflow-and-global-civic-2026-08-06.md,fb47572bf9cff24e2f3227b63e81ba8bd128dc72f6ce25aa9b90e0ad0ba1038e,documentation,0,,7
+docs/dataset-confidence-audit-2026-07-05.md,c127a655c7f59400e6bd360a796635241ef9e508da995e1e27142b190d630a83,documentation,0,,10
+docs/document-evidence-backfill-runbook.md,4a455561b4e846f81c0f15d135b90415af36cdb74e73f24ef854c0d3e59e34fd,documentation,0,,6
+docs/document-evidence-model.md,f1101b3e09ad334ebefe5664c53b9b75602f27c0b1361193f16ba2bd19d0ae07,documentation,0,,8
+docs/document-scope-2026-10-01.md,3a3f35c9623edb80969f6fffcecb71f9f0e83948abb7c0446f134ebb625989d7,documentation,0,,2
+docs/editorial-pulse.md,85a3bac8eed93a62b5a7a264329bc642ed754c91e90dd3834ae978e5a2fb11af,documentation,0,,6
+docs/european-commission-follow-up-beta21-2026-07-30.md,37d72a6fb4d2d62bc996ec3b755e7dc1166becd2cdb7afb2816b89d1874cee3d,documentation,0,,5
+docs/evidence-assurance-pilot.md,aa9ce8bbe1b833a9248c60f42b02d829c3dbce05112cbea7bfaddcda611448f2,documentation,0,,7
+docs/global-consumer-association-research-2026-08-07.md,628d9a6dba04896f839ec39be0908d731957d11b6bd33a83ee17475529278da3,documentation,0,,9
+docs/hostinger-staging-promotion.md,894d6444a3caf7ca3d71efcf7e4353c8b8cd9fabc78750141eed842efaaa0588,documentation,0,,9
+docs/integrations.md,2a8977932b8bdd6a7b540c0403566481c4b56ba24d799d7956688f793b123538,documentation,0,,15
+docs/media/articolo-toms-hardware-italia-policywatcher.md,6602d904835f0c19786674cac2388175dff108a54461e3482cf567128548164c,documentation,0,,31
+docs/media/policywatcher-adaptive-workspace-infographics/README.md,4c335a64b773eb1cc3a821412352b6648da8dc68ca3df4401074cbf6e6c9331f,documentation,0,,5
+docs/media/policywatcher-civic-global-campaign-2026-08-18/README.md,3ab36670bddf40ae2fde11d0c571ae69f0799b028001dcb9f751a94dbc3412b7,documentation,0,,2
+docs/media/policywatcher-civico-associations-2026-08-18/README.md,aeb1f3031a3bee06e2d36c6bd0267d8364aa8d9bc665b8c52983444af5d840e9,documentation,0,,4
+docs/media/policywatcher-july-2026-release-atlas/README.md,c9748e56766e8f10cf121a7afc542c370e782ca2f7ad9f3818b6d8296080754c,documentation,0,,7
+docs/media/policywatcher-july-2026-release-atlas/linkedin-post-en.md,b8997045ea47421a707779c33d3db6160d7fcc54e01b7c05ef32ae1922abc507,documentation,0,,4
+docs/media/policywatcher-release-evidence-pulse/README.md,4a9321bcc133caeb7267a637d8fde9a1faf11930b233881f9c9fd1e4f6f490f7,documentation,0,,1
+docs/media/policywatcher-social-shorts/PUBLICATION-PLAN.it.md,23968c8cacf96c2dbc5321c999896becc4a8b6706dada7b7591e1e592a6abeab,documentation,0,,10
+docs/media/policywatcher-social-shorts/README.md,12c7205fa463b83905c1748b98079235f6a21e19bd44de79585dda1577d77cb8,documentation,0,,5
+docs/media/policywatcher-today-wall/README.md,7a20334e15296127a8abd4e291eca7a5bb68f2e033845832c7bc8d448d689c81,documentation,0,,3
+docs/media/policywatcher-v35-infographic/README.md,96f57087f0f7bf13008a75885daeff435524a11c8845a92b1bfd7eb63f57e7b3,documentation,0,,4
+docs/media/policywatcher-v363-interactive-infographic/README.md,ef4a75a074933fdb60b3e49696f11b4da9ae2f2cefe1f2f476081b15b6fec894,documentation,0,,4
+docs/media/policywatcher-v4-beta2-value-2026-08-20/README.md,451391fee6185d3f15e6d9de6dd9ab34ce2a26cefb79006b4aec9b8370c785d2,documentation,0,,6
+docs/media/policywatcher-v4-foundation-beta-2026-08-20/README.md,0cb4ebf3b1199dc2aa6c89279aa32be4b26c6aa8f7189b1c38654c3c8988a76f,documentation,0,,5
+docs/media/ui-ux-walkthrough-2026-10-31/README.md,c3d6fe5b99e224fa9ab87a68c3c252172fc5048307e86cd0ba28055d22a248bf,documentation,0,,6
+docs/media/ui-ux-walkthrough-2026-10-31/audio-review.md,aa35da4bbb5aecc6c721f96ab135b4bc2684a0ebc57052591b045b25287b615e,documentation,0,,0
+docs/native-dashboard-user-guide.md,89c97a9cf25b50a7e2b977460cc102b34b79eeced823c4f58fc56a95c84ca143,documentation,0,,12
+docs/palo-policywatcher-handoff.md,d1eced783216de286bf1b12ea89e7ff2fbccf23252e3f5463c90f184380050f1,documentation,0,,3
+docs/paper/PAPER-AUDIT.md,ec8852d2894970ccd80394d7ab79674eec8bfc11e22462f3e2e77d2039351e54,documentation,0,,7
+docs/paper/SUBMISSION.md,6630444c409a24411f640e99d41897fb464a58f7357285acce62e7e8204bb0c5,documentation,0,,6
+docs/paper/data/README.md,1fa14da3b7b1f2fa42f23e2636c1f1f302087ac5fca6da8b4bbb12c3927b17f7,documentation,0,,3
+docs/platform-state-of-art-2026-07-02.it.md,47c2eb2f46ea06a4786b7fdafd819a099e0e75d38aa5dec416ab88d663dc2d40,documentation,0,,14
+docs/platform-state-of-art-2026-07-02.md,c66869b2ab19caeebf3a70b9b0958faf5a450e4dd956ca941a4c3da34ef804bc,documentation,0,,20
+docs/platform-state-of-art-2026-07-05.it.md,7ecf85cea8edc0bebdaab1d87152ab51440adf3d1bed8a9055479a03851d8edd,documentation,0,,14
+docs/platform-state-of-art-2026-07-05.md,a6d66847082d1016e6ecfedd5997c931bdeb2deec455213371800b86e8f809ed,documentation,0,,14
+docs/policywatcher-architecture-workflows-v3.5.1.md,9f7ea1a4f49e6ef6896d58545481d80fbb317a08f0f623ebdb9aa10d6081209c,documentation,0,,15
+docs/postgresql-readiness.md,074155dd445d778d54c13940c76f14a0bb2df1b25fac65f647d488b569254799,documentation,0,,6
+docs/postgresql-rehearsal.md,bd21f15ddaf6b3b0194b48b5b52aacdf6419baa0d31da8f790861081f3ac0e39,documentation,0,,6
+docs/presentation-ui-ux-beta41-2026-08-07.md,5be49318957275fd042cf68d5f5dc36daa8fc11d45b5e8d10d4684c9be9bfedc,documentation,0,,10
+docs/press-brief-3.9.0-beta.42.md,ae9bf3a835da0ea4aecbb1c4f7bf6d5dc23b8d6b6a73fcaa60e21928ea2dbbe1,documentation,0,,7
+docs/press-campaign-beta27/README.md,d2ee17b0462324e2bc4e4458d4197bba3786679f493e655283d79fb273c4f80b,documentation,0,,3
+docs/press-campaign-beta27/claims-freeze-beta27.md,ea802edf8e2626d75aaa2ab7a78d718946ea7dd9ce6cb9a6291c434b5cf7bbc0,documentation,0,,4
+docs/press-campaign-beta27/demo-video-transcript-en.md,dbf51bd6a51410ac704978435e29963161d9c78db8aa12b639c448e177297ed1,documentation,0,,4
+docs/press-campaign-beta27/hard-questions-faq-en.md,31eb8e1188687aff5a9bcc49fcbd537a13e5bd885e6fefa2ae637268d717f5e9,documentation,0,,15
+docs/press-campaign-beta27/hard-questions-faq-it.md,e29594f19bd73869deaf44e7da04ca63359e9f7ef8e92ed6474b24c12bf52afb,documentation,0,,15
+docs/press-campaign-beta27/pitch-de.md,4decb159809f245b48b507d63f650ddb8424ee92b2afec9b8b6a0b0d3b9d8d78,documentation,0,,0
+docs/press-campaign-beta27/pitch-en.md,db53f9c43eb4c7cdfb0defcd08f639f960ae4a68ed3caf6ca0fc11f435b1d047,documentation,0,,0
+docs/press-campaign-beta27/pitch-es.md,9217ac3277aad3c79e35288644f2547fd6897641ef07aa6e6f8fab681e695af9,documentation,0,,0
+docs/press-campaign-beta27/pitch-fr.md,74f0c5b78f5ec23fc4d4d6054c3921432029a26730c76ffc1ca079bc50555d5c,documentation,0,,0
+docs/press-campaign-beta27/pitch-it.md,c44494bfd5db243a46eb7647946f8d1442a960bac000f0d7da618d8c8bdd43ff,documentation,0,,0
+docs/press-campaign-beta27/pitch-pt-br.md,02220fcbc8840f0aad8b97298013fefba4801ff066da819e4e0be382d08c7fcf,documentation,0,,0
+docs/press-campaign-beta27/regional-one-page-africa-mena-en.md,d40b37eb155f6f8816c313ca8d07b10bc1bbd59e6aec909f1cf96d09a1dad49e,documentation,0,,5
+docs/press-campaign-beta27/regional-one-page-apac-en.md,485cf05bd796817e6001d7980aead088f39de17766e16a222b28e4ac148906bf,documentation,0,,5
+docs/press-campaign-beta27/regional-one-page-brazil-pt-br.md,1429da5cb7ee655cd3fdbbb6a4182efbb7d4896ad0d11ce20506298650d3b126,documentation,0,,5
+docs/press-campaign-beta27/regional-one-page-dach-de.md,ea0d125c89ea542a78bcbdc26d82bc6624851132cabee41f721004a0c85f12f0,documentation,0,,5
+docs/press-campaign-beta27/regional-one-page-eu-uk-en.md,ffa219f423b35f7fa88522f6cd103de6de9838e55209ff467b446729322e2392,documentation,0,,5
+docs/press-campaign-beta27/regional-one-page-france-fr.md,37e5e86786558491999d0bc14afd9d59a588b14b09ccc27255bedc0031c4117d,documentation,0,,5
+docs/press-campaign-beta27/regional-one-page-iberia-latam-es.md,63da786e955dd2de89abb23bfdd24a12f74111d41bf11a230c8614d7abb537e7,documentation,0,,5
+docs/press-campaign-beta27/regional-one-page-italy-it.md,1c2964f2de46d8b93440a3a834002c3b822a3da446bb3f5237551a87d584625e,documentation,0,,5
+docs/press-campaign-beta27/regional-one-page-north-america-en.md,e46ea14e1850f0277cbd9026bfdd95e895a3dd32444b4fcf5cd667968c300133,documentation,0,,5
+docs/press-campaign-beta27/screenshot-register-beta27.md,c57e07a2db84ee3ff78627cbca88ba3c9202661e8b8aefca9d1b771c1f056deb,documentation,0,,2
+docs/press-campaign-beta27/spokesperson-sheet-en.md,1cb8503ce294009e516a934f5d42fbcfe6621673b9093c9b6b6a65f11a05bc7f,documentation,0,,5
+docs/press-campaign-beta27/spokesperson-sheet-it.md,c4689aa72b18c9b37a5a5a1dbadb1a4ab3cd8c7d4c3ce795265caabf1dc565d9,documentation,0,,4
+docs/press-campaign-beta27/translation-review-register.md,df039af6201391a2520ae1d929af4f907ffe358d92c2725558dd7b80c8ae5498,documentation,0,,1
+docs/press-newsroom-measurement.md,931fe3ab00e478fc0f54373e9db9f158816c7054fa27d316b26cf431556fe9ed,documentation,0,,11
+docs/press-outreach-2026-07-27.md,b0809ff48df6603e8b89e76ac62ed16d59e80498ec5c83cf79f76a26d675fd47,documentation,0,,17
+docs/press-release-3.9.0-beta.13-en.md,d5cf5480bac61cdde086d07abd91d31cddc5021488cff8047a772f02f50df78e,documentation,0,,9
+docs/press-release-3.9.0-beta.13-it.md,c8d9d50a917f2448f90ac9577caffa29a2d902a5bbcaa36fc91849c6170060e5,documentation,0,,9
+docs/press-release-3.9.0-beta.27-en.md,f3aa99c7c464a664355579a5df3a1cf1870d7cd0edb0cd3d4622df6717b93373,documentation,0,,2
+docs/press-release-3.9.0-beta.27-it.md,7b21e95b7ae05d68e9f2bc88c13074aaa888efd936bfb4d24123969381a8e1a5,documentation,0,,2
+docs/press-release-3.9.0-beta.42-en.md,e678b1d7719afa9aab024a59b58e82308973c28d6105d0924d40835bf0aae1f2,documentation,0,,6
+docs/press-release-3.9.0-beta.42-it.md,03f59526866ff3bea9a9decc57a976a7a4807fe5e906844c7d8638052f75d27c,documentation,0,,6
+docs/press-release-4.0.0-beta.1-en.md,aa675f78d2752553bd3644586cd1e204b7a5ce774d3b1ed9e801c4b4d2f45af1,documentation,0,,8
+docs/press-release-4.0.0-beta.1-it.md,5de2456f9fc9194b50c13dba79ce127b7764fb79b6fcfa7d28246f41bb42f9bc,documentation,0,,8
+docs/press-release-4.0.0-beta.2-en.md,81714dfab77fd8bd44fcb80e21f3fdbc363c0e6576c466d7376407d84b8fe9c7,documentation,0,,11
+docs/press-release-4.0.0-beta.2-it.md,aa53c4b88c72720b9f79c9ced5677bf810ff6744453b23be045ca3b67e4c2c62,documentation,0,,11
+docs/public-api-v1.md,0564deac07948572db13544e1c8ad4df5215238181b120a890d7e4b7214a3d86,documentation,0,,5
+docs/quality/search-discovery.md,a30687b0a67745a4f7efbbfcb80eb75c4855e1e55a3c4a1ab55bae37a36d6d06,documentation,0,,5
+docs/redteam-security-assessment.md,61f707690fa6c7085c6b86671e0b6b7eb12c30a53f2e79c10200d11741562ae9,documentation,0,,11
+docs/releases/policywatcher-3.9.0-beta.42-github-release.md,a0dc21a0af98b62300d8fe3995c3ad361e142dd495b468cc26fbae13739b2641,dated evidence or release,0,,4
+docs/releases/policywatcher-4.0.0-beta.1-github-release.md,c730d063412a213420590b6136b4ea3adec074b48547ce48906e5c147ac43dcf,dated evidence or release,0,,4
+docs/releases/policywatcher-4.0.0-beta.2-github-release.md,7b9751856a973e83a6b5c6248456808e8b943a631e09b8639b1726f8a879878d,dated evidence or release,0,,5
+docs/releases/policywatcher-4.0.0-beta.3-github-release.md,d26af32d777cb78cbc6ff9522d5f029a4968d5ecf48950a45320b68f762a40d1,dated evidence or release,0,,5
+docs/releases/policywatcher-4.0.0-beta.5-github-release.md,f966d2402c0a4b27c6be9c9c18cacd3588ca10748c17f5c888cc73021cc1f730,dated evidence or release,0,,1
+docs/releases/policywatcher-5.0.0-github-release.md,a82a83743629e8556f853ab09e05f178fc47484b3560a31aade0a6ee3f3804ff,dated evidence or release,0,,3
+docs/releases/policywatcher-5.1.0-github-release.md,35be607770bcbbebbdc8078b6b3c45222da3f74e455e17b09784b9f327b00658,dated evidence or release,0,,3
+docs/releases/policywatcher-5.2.0-github-release.md,aa3f091e02b524b45a081e05607bb9b38aa8cd565bcb3be14bd2edc53235223d,dated evidence or release,0,,5
+docs/releases/policywatcher-5.5.0-github-release.md,465b160121d0371989f630474eff349f033ffebed66b531cfd91556d1e5186d7,dated evidence or release,6,1,3
+docs/reports/adaptive-acquisition-release-2026-10-26/validation.md,a65f05e0c3c4ece875e610f208475d03c09fd186c3a4146275bf0aba59cfe2ee,dated evidence or release,0,,5
+docs/reports/admin-reliability-2026-10-09.md,134c265ee221bb028bf0ad8b22b964d37598cd6e768ecbd5cac59d4ce812e63e,dated evidence or release,0,,3
+docs/reports/company-source-recovery-2026-10-02.md,604dc037621f308340415cddb888dba3fddbe7700f915e163973160c14e6326b,dated evidence or release,0,,9
+docs/reports/email-readiness-2026-10-02.md,4b3520a86334ab7d611eecd1a293d4a9c068549ca7c7d11ac4ba22d5e44ea99c,dated evidence or release,0,,6
+docs/reports/engine-audit-2026-10-31.md,a20938245574abf3df085a047ed90cc0170d4409b090d9063cc833265b191b15,dated evidence or release,0,,16
+docs/reports/engine-v6-adversarial-2026-10-31.md,08f711f60d2fa29d8edb926a9dc7b64d032f397b6dd46ed908778882e6e5aadf,dated evidence or release,2,1,8
+docs/reports/engine-v6-budget-2026-10-31.md,65509884fec2fb5dcef77599e83110eedf4d27e14e11141157ed9d58cf5cb790,dated evidence or release,0,,7
+docs/reports/engine-v6-campaign-2026-10-31.md,55e98a2fb27c1d7a9fd933a179819c3066fea16703d78cf5827edaae4eba7d8f,dated evidence or release,9,1,9
+docs/reports/engine-v6-channels-2026-11-01.md,cd665354eb125fda0ea13591890d922436368c4c0b7f1b3ee4526cfcb4e7b043,dated evidence or release,3,3,8
+docs/reports/engine-v6-codeql-triage-2026-11-01.md,2fae1bb4bf242117ac384e9d30ad404370c048ec9486f4a9d681b496ccfd958f,dated evidence or release,2,1,5
+docs/reports/engine-v6-daily-2026-11-02.md,6b0473c3c7cf331e64f4649e5521d7aa80752e3f0adc3c4c9a1f204d6d390e10,dated evidence or release,3,1,5
+docs/reports/engine-v6-daily-2026-11-03.md,52109b8e0b94b70ca0d71c53097429c12b13befb9384e123678c9f2987722153,dated evidence or release,4,1,5
+docs/reports/engine-v6-daily-2026-11-04.md,325b5623abf59b24dd8795dbc6813125ca7ffad1cc942fae88266b2c320aeaa9,dated evidence or release,3,1,5
+docs/reports/engine-v6-daily-2026-11-05.md,d60f11f3bb359eb8de459b3b604fcc77821fb7df4027ba07afdcb610023c52ae,dated evidence or release,3,1,5
+docs/reports/engine-v6-diary-publication-2026-11-02.md,7975ea2c30f3522e1a57a36258b62fdb468e940da007233471f68d88d8cd8e7c,dated evidence or release,5,1,5
+docs/reports/engine-v6-diary-publication-2026-11-04.md,d37bd3a8c4c3725b46d7ddf35381dca07cf10c104feb5ae267ab5e4fc2a91e27,dated evidence or release,4,1,5
+docs/reports/engine-v6-diary-publication-2026-11-05.md,8f7104bf915292fa20de0387540c616cbd15860851193ccecda70a342cbd5bcf,dated evidence or release,5,1,4
+docs/reports/engine-v6-diary-publication-2026-11-06.md,d83ac1ee030896a796bfecaaec3540d09d17649e68096d69b882bf61727d53ca,dated evidence or release,3,1,4
+docs/reports/engine-v6-diary-staging-2026-11-06.md,2185f5f1ab236dfad940d63432bce78195bc433a7fb3065ad090e9f8ce85f56e,dated evidence or release,3,1,1
+docs/reports/engine-v6-external-audit-2026-11-11/README.md,91b79621d8162474a683e0d8b1d61a3e62914f1e70462ec928be1bf24d835260,dated evidence or release,0,,1
+docs/reports/engine-v6-external-audit-2026-11-11/brief.md,c129a1023d0cf65330c8de68c342849bfc1ad86bf8a9dab104396609c2fb03df,dated evidence or release,9,1,6
+docs/reports/engine-v6-hosted-build-remediation-2026-11-01.md,8d40926936ac138dc2bab963360172cf91acc3d72494062ab1671d82e5b094ca,dated evidence or release,3,1,1
+docs/reports/engine-v6-hosted-deployment-2026-11-01.md,72113cfac4038e81e333b75f3d9094774bc8fbc8780d29018e80e1a7affbae16,dated evidence or release,3,1,4
+docs/reports/engine-v6-hosted-preview-2026-11-01.md,fb1ea9c0e055809856edf06a8602d6376644b6fdc27d5d0b335d841225b52f8b,dated evidence or release,4,1,4
+docs/reports/engine-v6-implementation-2026-10-31.md,1d28e34b018357c635aa1157394ffb09539ac6f6f74ea5d649f6e0f6c8766c9b,dated evidence or release,5,1,7
+docs/reports/engine-v6-maturity-2026-11-07.md,b5e689076cc678518c041824247df2d056f79e6cf86c265413ae696a33fec1bc,dated evidence or release,7,1,4
+docs/reports/engine-v6-o2-2026-11-07.md,f1cab75cf90406029448d55a340bfd8d51f6d81f62df3df6b5b389a8badb3305,dated evidence or release,4,1,6
+docs/reports/engine-v6-o2-free-api-2026-11-08.md,5aa52c4f7a1fe8244e2720381d4b59c07dc178cc4d691bbe69907024c9c69224,dated evidence or release,1,18,1
+docs/reports/engine-v6-o2-publication-2026-11-07.md,74abb90c989bc2b648852c2ab8333d3298d61d384f4ba5cd16ec6e5a1bf570c3,dated evidence or release,3,3,4
+docs/reports/engine-v6-o2-wave2-2026-11-09.md,f2bb437f6b79bcf1212ccb52a6af5d1aad4bc1b23ec4065eebfb3254ebad1dad,dated evidence or release,4,3,7
+docs/reports/engine-v6-o2-wave2-delivery-2026-11-09.md,ecaacc0ae9aaf1075ba0c62c3b13da16e217a0df2b4b187d0337fdddbb3ad94e,dated evidence or release,1,7,1
+docs/reports/engine-v6-preview-source-review-2026-11-01.md,a5f985c26a234b2a9298eadddcb2c701d314811e69b26339a549ce0bd2cfe317,dated evidence or release,1,23,4
+docs/reports/engine-v6-public-access-rollout-2026-11-02.md,2b03520b44b7b0316cf23a35b6a00ebbba4083a4c29e5ef28bd38746b4712be5,dated evidence or release,5,3,4
+docs/reports/engine-v6-public-discovery-2026-11-07.md,5655f58f576a0a97475fe7f53c2395896278f2480aaba41b0c6a90a421e6a01b,dated evidence or release,5,1,7
+docs/reports/engine-v6-public-discovery-publication-2026-11-07.md,417e286c20f44fec5822fbf2268da50d74414e8335e1c17269b67d1f0311b1df,dated evidence or release,4,3,3
+docs/reports/engine-v6-qa-2026-11-06.md,15a4fe77a141d4422197e387f1be7dd5c59d0a5a1b2b927b75996eb3c868dd1d,dated evidence or release,5,1,7
+docs/reports/engine-v6-qualification-2026-10-31.md,fcaeb401466174169720e947600a092ca3fc236f07e66218c22154d9a3da4c5f,dated evidence or release,6,1,9
+docs/reports/engine-v6-r4-closeout-2026-11-11.md,8577e0519cea438e5917165d47a870885c7f46af1b32b8861003bd8863542d36,dated evidence or release,4,1,6
+docs/reports/engine-v6-r4-remediation-2026-11-11/README.md,a510565550408aff506bb0d0ccd2c3cb323567c2a372982cd01e119e0c30de40,dated evidence or release,2,1,7
+docs/reports/engine-v6-scope-validation-2026-10-31.md,42dd345d8c75e264968ff04e6c489f159a49cd96ddcb4d657b0e8127d6d34178,dated evidence or release,4,1,5
+docs/reports/engine-v6-verification-2026-10-31.md,9f54f1a18d050c3972dc1473a9352e38369e088b49a4ae287cc8e95048e0960a,dated evidence or release,4,1,5
+docs/reports/eu-terms-reuse-2026-10-07/assessment-it.md,e6b0baca0777a03cb546183a2bbf721df471793683b9383dbf98ca222f459b58,dated evidence or release,0,,14
+docs/reports/eu-terms-reuse-2026-10-07/validation-it.md,a8918a575b0ab45a72df1bb520b6584d3074db9afc96c8b27733ebe952c68c4b,dated evidence or release,0,,4
+docs/reports/evidence-assurance-release-2026-10-07/README.md,161a266998e994a7d2350715e47aa80f91c30a3093d6ce299e0281ca1efeb0b2,dated evidence or release,0,,5
+docs/reports/hostinger-publication-2026-10-02/README.md,0186e834c534032acfcfe1ec25f8ea14399ff12b7a1a3b6a4e59de24fd4ec0fb,dated evidence or release,0,,4
+docs/reports/hostinger-publication-2026-10-02/pages-and-sections.md,af3ece88f504b2f2e468f3bbffbb2b9cd447bf7e19efe66dc0795b81c3aab97c,dated evidence or release,0,,1
+docs/reports/menu-coverage-fix-2026-10-02.md,e865534c5cf377ef93ae07b94d6ce23292ee04b9d3829e1f05af713d16545f82,dated evidence or release,0,,4
+docs/reports/policywatcher-5-2026-10-06/README.md,f83851132f3cca0b135120ea87b59c6b04faff6fb03f726c36779110e88d7aaa,dated evidence or release,0,,4
+docs/reports/policywatcher-5.5.0-publication-2026-11-02.md,f3af2888b8f05e5600f153af2e89d1457e8f6ad4eb4d5cdb3784f70d2e00ca7a,dated evidence or release,6,1,5
+docs/reports/policywatcher-ai-bakeoff-baseline-2026-08-14.md,cd5a5d75b930a16e27671b710d208815c42b9d219a9639d9ce53b601e93bdc90,dated evidence or release,0,,4
+docs/reports/policywatcher-ai-bakeoff-observed-2026-08-14.md,941fb759aca0dcccc7649fc93b04c15bb07a014ba0c4943e76ba2b7c828ad33b,dated evidence or release,0,,7
+docs/reports/policywatcher-civico-ui-ux-audit-2026-08-18.md,af6d03c8224612e3229b7a9c224f1e72e3b3a001c17db05ff29d4c8a0080220f,dated evidence or release,0,,11
+docs/reports/policywatcher-security-diff-beta42-2026-08-15.md,f5e8146a3bbae28d9de227ab52efc91a1a70131f7c2e03fd2007778841ffc842,dated evidence or release,0,,4
+docs/reports/policywatcher-source-integrity-remediation-2026-08-17.md,1742011456d5d35f47543e423a8aaf136c7331941789807effe351d7eb8863f7,dated evidence or release,0,,7
+docs/reports/release-coherence-2026-10-01/README.md,b694978a565ba7781416a18177b540a996f50ef9077bf417c2ad75c5e525c49f,dated evidence or release,0,,5
+docs/reports/release-coherence-2026-10-01/pages-and-sections.md,4087759a45ec0dedda68c06b5ad89eeee9b8981577c724fb85520fe651ba90b1,dated evidence or release,0,,73
+docs/reports/structured-data-geo-2026-10-27.md,b07a9e56741259d1f1a9a785312de44cdcf3e9353e10e6e822e5264b5b8d072e,dated evidence or release,0,,6
+docs/reports/ui-ux-navigation-2026-10-30.md,e162a775204d4a39848d76b23cc7aa2a08b2b881741c4795005cbf28ca3e2afb,dated evidence or release,0,,9
+docs/reports/v5-page-consistency-2026-10-06/README.md,adb9b19660ab06ca7d7d92cffeddd963270e61daf39134986b35431f53dd3465,dated evidence or release,0,,10
+docs/security-and-functional-audit-v3.5.md,235329c2eb9a4b97bfedca89cec5a712dac2d009ead071b2b7c6fa12956a5a07,documentation,0,,14
+docs/security-warning-assessments.md,7de7d8736a2406ecd6a0310c73eda0976b997bee2e2e37c16a86241ff8140690,documentation,0,,13
+docs/seo-canonical-realignment-2026-08-08.md,16e91f9616678086ad93254aefc8d6ce3ecea34ce27621834db402ef016e13fc,documentation,0,,8
+docs/seo-visibility-implementation-2026-09-23.md,b8d90b9970479211ba7636b772a2b348bfd55e02a15ffca775d4c173edbeee51,documentation,0,,7
+docs/sitemap-er-2026-08-07.md,79f5fab14feb9e87684f4d75a26b9b85be17f53aab0a6b5d51812348b3bef1c1,documentation,0,,12
+docs/source-reliability.md,9b2460ecae283daec92d95654a2eefc9f210e28f63aaa9ca4febfafaa9de0cfc,documentation,0,,5
+docs/source-remediation-revolut-2026-07-10.md,dc462a6d42ad921d792a6040b0329d0080ab6f8f38e763d08271eaf18082c4dd,documentation,0,,5
+docs/speeches/policywatcher-adaptive-workspace-ieee-isope-10min.md,38351ec432135a194ec3f77f327b2852186e2ad559fad6c72cec894f821304f0,documentation,0,,14
+docs/technical-and-functional-audit-2026-07-06.md,2f720d913378560e841c1f222c01ffb7cb08e6a7f8f9656f64e0a56576fe4142,documentation,0,,12
+docs/third-party-validation.md,9b75e2f1df91b0451c42ca0a9839f730c13a5b9f5fa71d874b8ef934c647ef3f,documentation,0,,10
+docs/ui-ux-recommendations.md,5c6d6436786f61dbeb72cb445be2a7a441b692f956c5b398e7e4f6f356ee842a,documentation,0,,8
+docs/ux-research-august-2026.md,0bd997a2876f7f320af7b953b9c6e7dbed59a9fb4baae22d503c69d312f96cd0,documentation,0,,7
+docs/walkthrough-v3.6.1.md,805098d6add4052af4932bcdb5acda183fccbe5c10e9fd8ae663da21d9c430d4,documentation,0,,10

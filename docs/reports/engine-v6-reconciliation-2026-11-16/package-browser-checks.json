@@ -1,0 +1,42 @@
+[
+  {
+    "lang": "en",
+    "width": 390,
+    "http": 200,
+    "langMatched": true,
+    "anchor": true,
+    "sample": true,
+    "report": true,
+    "noHorizontalOverflow": true
+  },
+  {
+    "lang": "en",
+    "width": 1366,
+    "http": 200,
+    "langMatched": true,
+    "anchor": true,
+    "sample": true,
+    "report": true,
+    "noHorizontalOverflow": true
+  },
+  {
+    "lang": "it",
+    "width": 390,
+    "http": 200,
+    "langMatched": true,
+    "anchor": true,
+    "sample": true,
+    "report": true,
+    "noHorizontalOverflow": true
+  },
+  {
+    "lang": "it",
+    "width": 1366,
+    "http": 200,
+    "langMatched": true,
+    "anchor": true,
+    "sample": true,
+    "report": true,
+    "noHorizontalOverflow": true
+  }
+]

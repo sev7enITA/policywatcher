@@ -35,7 +35,9 @@
 
 ## Current service and Engine 6 Preview
 
-**Updated 2 November 2026.** The public web release is **5.5.0**, with access to the separate experimental **Engine 6.0 Preview**. Engine 6 source is now integrated in `main` through [PR #37](https://github.com/sev7enITA/policywatcher/pull/37); the main public website still uses the stable engine. The separate authenticated [**6.0 Preview is online**](https://staging.policywatcher.online/admin/engine), with private results and publication/notifications disabled.
+**16 November 2026.** The public product runs stable 5.5.0. Administrators use the separate hosted r3 Preview. The r4 implementation in this repository is awaiting qualification. The [reconciliation and ten-source diary](docs/reports/engine-v6-reconciliation-2026-11-16.md) links each observed outcome to its scope.
+
+**Release history, 2 November 2026.** The public web release is **5.5.0**, with access to the separate experimental **Engine 6.0 Preview**. Engine 6 source is now integrated in `main` through [PR #37](https://github.com/sev7enITA/policywatcher/pull/37); the main public website still uses the stable engine. The separate authenticated [**6.0 Preview is online**](https://staging.policywatcher.online/admin/engine), with private results and publication/notifications disabled.
 
 | Find the work | Verified availability |
 | --- | --- |

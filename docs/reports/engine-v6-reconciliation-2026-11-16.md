@@ -1,0 +1,47 @@
+# Engine 6 source review and product reconciliation, 16 November 2026
+
+The stable site delivers PolicyWatcher 5.5.0. The separate authenticated Preview serves r3. Git main at the start of this review was f74469b604b4dc830769f9236f66e0f58fd63711 with the r4 candidate. The status of O2 remains open. The local source comparison introduced no semantic model calls or Engine 6 policy approvals.
+
+## Public site, admin, Git and wiki
+
+All 716 URL entries in the retrieved public sitemap returned HTTP 200. The first workstation pass read 586 sitemap entries successfully. Ordinary HTTPS requests from the hosting account completed the remaining 130. Across the wider set of default, explicit EN/IT and navigable routes, the workstation pass recorded 409 transport failures. The [URL inventory](engine-v6-reconciliation-2026-11-16/public-pages.csv) retains the first failure and the subsequent point of observation. English and Italian share-page test inputs initially included a change ID and a policy without a published change. The resulting redirects and 404s remain in the inventory. A policy linked by a published change was then used for the eligible share-page check. The two fact-sheet PDFs, feed variants, manifest and machine-reader index are also included.
+
+The [route matrix](engine-v6-reconciliation-2026-11-16/route-inventory.csv) accounts for the 77 Next.js page templates in main. The [section inventory](engine-v6-reconciliation-2026-11-16/sections.csv) records sampled headings and text-segment digests. Hosting-account follow-ups recorded headings. The [file comparison](engine-v6-reconciliation-2026-11-16/hosted-files.csv) matched all 516 inspected files present in the stable source archive against the deployed source tree, including templates, components, press assets and diagrams. One further template, the private admin engine page, was absent from both. Share and embed routes use representative public records. Subscription pages were opened without a token. The sitemap and the source inventory cover different route populations.
+
+The audit compared declared page language, canonical, response status, title and section structure. HTTP 200 does not establish that an Italian translation exists. The notebook, guide and release-detail routes support Italian. The static home introduction, site/feature atlases, main roadmap and several public record templates still display English when requested with an Italian query. Internationalization of those templates is an open product task. Localized client controls require separate interaction. Automated section indexing also does not constitute editorial sign-off on every historical policy interpretation.
+
+All 21 admin routes were requested with EN and IT parameters on both environments. Stable authenticated HTTPS returned 40 successful reads and the two expected 404 responses for the private engine route. Preview browser results and workstation failures are retained per destination in the [authenticated browser matrix](engine-v6-reconciliation-2026-11-16/admin-browser.csv) and [stable HTTP receipt](engine-v6-reconciliation-2026-11-16/stable-admin-http.csv). Six of the 44 private Preview browser visits returned 403. The 44 visits include two repeated widths. Preserve these responses for operator review. An authorization cause was not established. A 200 may be an initial loading shell. The hosted engine workspace displayed “Coverage and evidence”, “Saved runs”, and evidence reviews. EN/IT URL parameters both produced an English engine workspace. Browsing used an authenticated read-only workflow with scanning and review actions untouched.
+
+The [Git document index](engine-v6-reconciliation-2026-11-16/git-documents.csv) includes 265 tracked Markdown files from the root and docs at the starting revision. The [wiki baseline](engine-v6-reconciliation-2026-11-16/wiki-pages.csv) identifies all 18 prior wiki pages and navigation files. The README current-service block and the wiki navigation needed a current pointer. Older run diaries and schema counts remain tied to their dates. PRs #52 and #53 track earlier documentation work. PR #25 overlaps with broader home localization, and #17 with canonical and bilingual SEO. This review keeps that work identifiable and avoids claiming either proposal is deployed.
+
+## Ten unresolved cases
+
+The panel was selected by URL from the 79 original scopes with an extraction issue, before fetching their current response. It covers nine publishers counting both Google language variants once. The original [review ledger](engine-v6-source-review-ledger-2026-10-31.json), [frozen selection](engine-v6-reconciliation-2026-11-16/frozen-selection.json) and [per-source evidence and follow-up](engine-v6-reconciliation-2026-11-16/ten-source-cases.csv) give the selection, outcomes and explanation for each source.
+
+| Source | Result | Next independent review |
+|---|---|---|
+| Amazon privacy | Direct extraction and 123/123 visible passages matched | Determine which customer-service disclosures form part of the notice |
+| Anthropic terms | 114/114 matched after the redirect to Consumer Terms | Confirm the redirect, effective-date header and status of the PDF link |
+| Coca-Cola supplemental US notice | 242 extracted characters, no recognized reference container | Establish where the complete notice renders and whether the 242 characters include any operative clauses |
+| Google privacy IT | 252/252 matched | Review exceptions and the effective date in the Italian scope |
+| Google privacy EN | 245/245 matched | Compare applicability, version dates and linked material independently of IT |
+| Microsoft Copilot | 78/78 matched | Classify hidden controls and exceptions |
+| Klarna balance | Direct extraction labelled Cashback Terms, browser 404 | Resolve the identity mismatch and expected issuer document |
+| OpenAI EU privacy | Direct HTTP 403 | Retain this unavailable observation pending an authorized official reference |
+| Plaid end-user privacy | Extracted text, fragment resolves to an H4 with no descendant passage | Trace the scope from that heading to the next peer and review the reference independently |
+| PayPal LU privacy | Direct HTTP 403 | Verify the applicable regional reference before another observation |
+
+Eight direct HTTP 200 responses yielded text. The local comparison called the r4 extraction and capture assessment functions on the received content with no approved contract supplied. The normal worker can reject an absent contract before retrieval. This diagnostic measured how the extractor handled a response supplied to it. The two 403s remain in the denominator. Each hash describes the received HTTP representation after transport decoding. No original PDF or annex was acquired in this exercise.
+
+For eight accessible sources Chromium made a separate live request. Within the document fragment, or the first main, article or main-role container, the comparator selected visible paragraph, list-item and table-cell text of at least 35 characters, omitted nested duplicates, normalized case and punctuation and compared unique strings within that source. Five populated references produced 812/812 matches. The set excludes short obligations, unexpanded controls, footer notes outside the selected root, visual table relationships and linked annexes. The independent two-person reference required by the roadmap is still due. All ten source contracts remain unapproved in this study. Semantic accuracy, recovery under real load and 500 completed policies per day remain open.
+
+## UI and UX decisions
+
+| Priority | Finding and decision | Acceptance |
+|---|---|---|
+| 1 | The homepage and notebook described the 7 November r3 deployment as the latest research. Give the homepage a dated notebook link, keep the r3 note as deployment history and make the hero link jump to verification. | EN/IT latest entries link to receipts, and the historical release retains its date. The package passed the four width/language combinations at 390 and 1,366 pixels. |
+| 2 | The Italian query on several routes still gives an English experience. Surface language availability on navigation, and localize an entire workflow starting with home, atlas, roadmap and private review. | Verify headings, reasons, controls, dates, accessible names and link destinations after both direct navigation and a language change. |
+| 2 | A reviewer can reach saved reports and coverage, but a completed run, a held source and a verified interpretation mean different things. | Show planned, retrieved, held and verified counts with denominators. For a held row show the missing proof and the next review action. Check a timeout and an incomplete annex with an operator. |
+| 3 | Automated samples suggested potentially unnamed controls on the homepage/atlas. | Inspect actual computed accessible names and keyboard order before recording an accessibility defect. Include keyboard and screen-reader testing in the next pass. |
+
+The [package comparison](engine-v6-reconciliation-2026-11-16/package-diff.json) and [local browser checks](engine-v6-reconciliation-2026-11-16/package-browser-checks.json) concern the stable content build. Website staging and production publication require separate delivery receipts. The [totals](engine-v6-reconciliation-2026-11-16/counts.json) preserve the population for each surface. The independent reference, current semantic accuracy and real throughput gates remain open.
