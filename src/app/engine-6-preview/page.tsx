@@ -70,6 +70,7 @@ const copy = {
     ledgerIntro: 'Recorded verification, updated 16 November 2026. Historical regression and campaign results are retained. Local production-mode and generated standalone-server checks are reported separately from hosted verification and production accuracy.',
     check: 'Check', result: 'Recorded result', limit: 'What remains unproven',
     checks: [
+      ["16 November · Offline passage replay", "1,046 of 1,060 distinct reference passages matched across six populated static HTML references. Fourteen were missing.", "Two further extracted sources yielded empty references. Two requests returned 403. This is a new comparison from archived responses. The earlier 812/812 used a separate live browser sample."],
       ["16 November · Ten unresolved sources", "Eight direct responses yielded extracted text. Two returned HTTP 403.", "Five browser references contained 812 distinct visible passages in total when counted separately per source. Each matched the corresponding extraction after normalization. Other cases included a missing reference container, an empty fragment reference and a browser 404. Source completeness and capacity for 500 policies a day remain open."],
       ["11 November: independent Fable audit", "29 numbered findings retained with a remediation register", "Read-only model-assisted inspection, not execution or certification. The original report and the subsequent patch review distinguish bounded fixes from open research gates. O2 remains open."],
       ["11 November: r4 remediation candidate", "Assessment reuse, durable failure reviews and consistent backup export", "1,624 local tests passed, 14 skipped. The independent patch review exposed two regressions, reproduced and corrected: SDK compatibility and recovery after an acquisition hold. Sensitive-source routing, bounded provider diagnostics and administrative readiness were strengthened. This is a new candidate, separate from hosted r3; no r4 deployment, live semantic result or 500-policy/day qualification is claimed."],
@@ -173,6 +174,7 @@ const copy = {
     ledgerIntro: 'Verifiche aggiornate al 16 novembre 2026. I risultati storici delle regressioni e della campagna sono conservati. Le verifiche locali in modalità produzione e sul server standalone generato sono distinte dalle prove di hosting e dall’accuratezza in produzione.',
     check: 'Controllo', result: 'Risultato registrato', limit: 'Che cosa resta da dimostrare',
     checks: [
+      ["16 novembre · Verifica offline dei passaggi", "1.046 dei 1.060 passaggi distinti in sei riferimenti HTML statici erano presenti nelle estrazioni. Quattordici erano assenti.", "Per altre due fonti estratte il riferimento era vuoto. Due richieste avevano restituito 403. Questo confronto usa risposte archiviate. Il precedente 812/812 riguardava un campione browser live distinto."],
       ["16 novembre · Dieci fonti irrisolte", "Otto risposte dirette hanno prodotto testo estratto. Due hanno restituito HTTP 403.", "Cinque riferimenti del browser contenevano in totale 812 passaggi visibili distinti contando separatamente ogni fonte. Tutti erano presenti nelle rispettive estrazioni dopo la normalizzazione. Negli altri casi sono emersi anche un contenitore di riferimento assente, un frammento senza passaggi e un 404 nel browser. La completezza delle fonti e la capacità di 500 policy al giorno restano da qualificare."],
       ["11 novembre: audit indipendente Fable", "29 rilievi numerati conservati con registro delle correzioni", "Ispezione assistita da un modello in sola lettura, non esecuzione o certificazione. Il rapporto originale e la successiva revisione della patch distinguono correzioni circoscritte e verifiche di ricerca ancora aperte. O2 resta aperta."],
       ["11 novembre: candidato r4 con correzioni", "Riuso delle analisi, errori in revisione e backup coerente", "1.624 test locali passati, 14 esclusi. La revisione indipendente ha rilevato due regressioni, riprodotte e corrette: compatibilità SDK e recupero dopo una sospensione di acquisizione. Rafforzati controlli sensibili, diagnostica e visibilità amministrativa. È un nuovo candidato, distinto dalla r3 online; nessuna distribuzione r4, misura semantica live o qualificazione di 500 policy al giorno viene dichiarata."],
@@ -219,6 +221,14 @@ const copy = {
     footerNote: 'Un resoconto pubblico di una sperimentazione. Lo stato cambierà con la registrazione di nuove prove di verifica.',
   },
 };
+
+const validationReceipts = [
+  { href: "https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/engine-v6-evidence-fixes-2026-11-16.md", en: "16 November · Corrected checks and offline replay", it: "16 novembre · Controlli corretti e verifica offline" },
+  { href: "https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/engine-v6-reconciliation-2026-11-16.md", en: "16 November · Reconciliation and ten source cases", it: "16 novembre · Riconciliazione e dieci casi per fonte" },
+  { href: "https://github.com/sev7enITA/policywatcher/pull/56", en: "11 November: Fable audit, r4 fixes and remaining limits", it: "11 novembre: audit Fable, correzioni r4 e limiti residui" },
+  { href: "https://github.com/sev7enITA/policywatcher/blob/c462524d20f5c9d03bac36f7673580f72f09cd74/docs/reports/engine-v6-o2-wave2-2026-11-09.md", en: "9 November: real API results, failures and worker diagnostic", it: "9 novembre: API reali, errori e prova del worker" },
+  { href: "https://github.com/sev7enITA/policywatcher/blob/a6ae28a/docs/reports/engine-v6-o2-2026-11-07.md", en: "O2 assessment: evidence, counterexamples and Gemini/GLM reviews (7 November)", it: "Assessment O2: prove, controesempi e revisioni Gemini/GLM (7 novembre)" },
+];
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const lang = publicLanguage((await searchParams).lang);
@@ -300,7 +310,13 @@ export default async function EnginePreviewPage({ searchParams }: Props) {
         <p className={styles.tableHint} id="entities-scroll-hint">{t.tableHint} <span aria-hidden="true">↔</span></p>
         <div className={styles.tableWrap} role="region" aria-labelledby="entities-title" aria-describedby="entities-scroll-hint" tabIndex={0}><table><caption>{t.erTitle}</caption><thead><tr><th scope="col">{t.entity}</th><th scope="col">{t.responsibility}</th><th scope="col">{t.relationship}</th></tr></thead><tbody>{t.entities.map(([entity, responsibility, relationship]) => <tr key={entity}><th scope="row">{entity}</th><td>{responsibility}</td><td>{relationship}</td></tr>)}</tbody></table></div>
       </section>
-      <section className={styles.section} id="validation" aria-labelledby="validation-title"><p className={styles.limits}><a href="https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/engine-v6-reconciliation-2026-11-16.md">{lang === 'it' ? '16 novembre · Riconciliazione e dieci casi per fonte' : '16 November · Reconciliation and ten source cases'}</a><a href="https://github.com/sev7enITA/policywatcher/pull/56">{lang === 'it' ? '11 novembre: audit Fable, correzioni r4 e limiti residui' : '11 November: Fable audit, r4 fixes and remaining limits'}</a><a href="https://github.com/sev7enITA/policywatcher/blob/c462524d20f5c9d03bac36f7673580f72f09cd74/docs/reports/engine-v6-o2-wave2-2026-11-09.md">{lang === 'it' ? '9 novembre: API reali, errori e prova del worker' : '9 November: real API results, failures and worker diagnostic'}</a><a href="https://github.com/sev7enITA/policywatcher/blob/a6ae28a/docs/reports/engine-v6-o2-2026-11-07.md">{lang === 'it' ? 'Assessment O2: prove, controesempi e revisioni Gemini/GLM (7 novembre)' : 'O2 assessment: evidence, counterexamples and Gemini/GLM reviews (7 November)'}</a></p><div className={styles.sectionHeading}><p className={styles.eyebrow}>04 / {t.nav[3]}</p><h2 id="validation-title">{t.ledgerTitle}</h2><p>{t.ledgerIntro}</p></div>
+      <section className={styles.section} id="validation" aria-labelledby="validation-title">
+        <nav aria-label={lang === 'it' ? 'Ricevute di verifica' : 'Verification receipts'}>
+          <ul className={styles.receipts}>
+            {validationReceipts.map(receipt => <li key={receipt.href}><a href={receipt.href}>{receipt[lang]}</a></li>)}
+          </ul>
+        </nav>
+        <div className={styles.sectionHeading}><p className={styles.eyebrow}>04 / {t.nav[3]}</p><h2 id="validation-title">{t.ledgerTitle}</h2><p>{t.ledgerIntro}</p></div>
         <div className={styles.ledger}>{t.checks.map(([check, result, limit]) => <article key={check}><h3>{check}</h3><div><strong>{result}</strong><p>{limit}</p></div></article>)}</div>
         <div className={styles.qualification}><div><span className={styles.pendingLabel}>{lang === 'it' ? 'Da qualificare' : 'Qualification pending'}</span><h3>{t.nextTitle}</h3><p>{t.nextText}</p></div><ul>{t.qualification.map(item => <li key={item}>{item}</li>)}</ul></div><p className={styles.limits}>{t.limits}</p>
       </section>
