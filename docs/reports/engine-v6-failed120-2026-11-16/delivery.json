@@ -1,0 +1,162 @@
+{
+  "verifiedAt": "2026-11-16T15:16:34.787451+00:00",
+  "stableRelease": "5.5.0",
+  "stableCommit": "d445cb9544f5bb13b26e993eafbab86059eb9db2",
+  "implementationMerge": "3efc838cf7ee53cc35053d7ab42353bf11ba5e35",
+  "archiveSha256": "e3402321aecd0e6362b27a00877f7ac272e34bfbe35ba41299ab04203c0f1d2e",
+  "stagingDeployment": "01a1e4df-27f7-7203-983b-65498c47da58",
+  "restorationDeployment": "01a1e4e4-fc4d-707e-a8e5-15e2ce8c8ff3",
+  "publicDeployment": "01a1e4ea-bb1f-723e-bfa4-8a8b91dcdf04",
+  "stagingChecks": [
+    "homepage",
+    "diary-navigation-en-it",
+    "staging-banner",
+    "search-engine-boundary",
+    "robots-boundary",
+    "release-identity",
+    "publication-readiness-contract",
+    "health-auth-boundary",
+    "database-health",
+    "admin-authentication",
+    "database-readiness",
+    "public-dataset"
+  ],
+  "stagingVerification": "2026-11-16T15:02:55.079Z",
+  "sites": {
+    "staging.policywatcher.online": {
+      "checkedAt": "2026-11-16T15:03:41.288Z",
+      "ui": [
+        {
+          "lang": "it",
+          "width": 390,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 3857,
+          "links": 7,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "it",
+          "width": 1366,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 78,
+          "links": 7,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "en",
+          "width": 390,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 57,
+          "links": 7,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "en",
+          "width": 1366,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 84,
+          "links": 7,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        }
+      ],
+      "matchedSourceFiles": 516
+    },
+    "policywatcher.online": {
+      "checkedAt": "2026-11-16T15:15:17.976Z",
+      "ui": [
+        {
+          "lang": "it",
+          "width": 390,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 3091,
+          "links": 7,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "it",
+          "width": 1366,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 2742,
+          "links": 7,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "en",
+          "width": 390,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 2785,
+          "links": 7,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "en",
+          "width": 1366,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 100,
+          "links": 7,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        }
+      ],
+      "matchedSourceFiles": 516
+    }
+  },
+  "runtime": {
+    "checkedAt": "2026-11-16T15:15:05.855Z",
+    "status": "attention",
+    "release": "5.5.0",
+    "health": "ok",
+    "applicationTables": 35,
+    "migrations": 19,
+    "integrity": "ok",
+    "verificationSummary": {
+      "passed": 9,
+      "attention": 0,
+      "unavailable": 0,
+      "external": 1
+    },
+    "attention": []
+  },
+  "privateR3": {
+    "archiveSha256": "e82ff8ff3fe33275e62475054889cdaf97f1a12d7442bb0ca6d42ec30cf99341",
+    "implementation": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+    "authenticatedChecks": 14,
+    "preservedReports": 3,
+    "activeTasks": 0,
+    "preservedEvidenceTables": 14,
+    "comparedTables": 48,
+    "changedOperationalTables": [
+      {
+        "table": "EngineOrigin",
+        "before": {
+          "rows": 3,
+          "sha256": "b731a3bf5cb39422789b48839723dff2c10355a8fe36d586d197ad511405241f"
+        },
+        "after": {
+          "rows": 3,
+          "sha256": "c1ae8144b58a409e96c6abf2d66f486d877b8bac4c72cb593997df9cc089a52c"
+        }
+      }
+    ]
+  },
+  "sourceComparison": "All 516 scoped source hashes matched the stable archive after staging completed.",
+  "publicMobileItalianScreenshotSha256": "12cce6ab2d1f9ab5c06d6eba3131bf5275f80bf88cbf919512dafc170138d7ed",
+  "algorithmCandidateActivatedInHostedApplication": false,
+  "resultsMerge": "03c149a9b86fcc67e5243849ff0104587311a089",
+  "modelReview": "LM Studio Qwen source review received. Gemini High web failure and API429. GLM user reported completing verification, but its previous request had expired. A new final-code Max request currently requires a fresh security check."
+}

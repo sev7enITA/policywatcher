@@ -37,7 +37,7 @@ The [new candidate context](engine-v6-failed120-2026-11-16/run-context.json) fre
 
 The live campaign uses the existing three-worker, per-origin paced acquisition harness with isolated output, direct/HTTP2 transport, no model calls, no source approval and no publication or notification. A renderer is not configured for this diagnostic. This stage cannot establish source-wide completeness, semantic accuracy, daily reliability or intended-VPS throughput.
 
-Git integration, stable website publication and exact private r3 restoration require their own delivery receipts. Source changes and public diary delivery have separate release identities.
+The [public diary delivery receipt](engine-v6-failed120-2026-11-16/delivery.json) records twelve staging gates, exact private r3 restoration and production checks. All 516 scoped source hashes matched in each stable environment. Actual EN/IT navigation passed at 390 and 1,366 pixels, with seven separate receipt links, visible keyboard focus and minimum 44-pixel targets. The [mobile Italian capture](engine-v6-failed120-2026-11-16/production-mobile-it.png) records the layout. The public runtime remains stable 5.5.0 and the restored private application remains r3. Candidate code execution in the private SSH QA directory is recorded separately.
 
 The [new local live campaign](engine-v6-failed120-2026-11-16/live500-local.json) processed the same 500 scopes and 495 endpoints in 459.555 seconds. It made 575 HTTP attempts, recovered 416 endpoints and completed 397 extractions. Compared with the prior live wave, seventeen previously unsuccessful scopes extracted and zero previous extraction successes were lost. The thirteen same-body recoveries remain the evidence attributable to code fixes. Other live differences can reflect changed responses. All 103 current unsuccessful scopes remain retained.
 
@@ -60,3 +60,5 @@ The [raw target report](engine-v6-failed120-2026-11-16/host-report.raw.json) ret
 A process sample at 340 seconds recorded 507,132 KiB RSS and 51.8 percent CPU. This is one observation, not peak-memory accounting. The public manifest returned HTTP200 during the target run. That individual check does not establish uninterrupted service availability. The SSH process is distinct from the supervised deployed worker. This run does not qualify full-pipeline VPS capacity or 500 successful daily completions.
 
 The prior eight-source archived packet still matches all 1,060 reference passages with zero losses under the candidate.
+
+Transport body artifacts in these probes are decoded representations. They do not provide original PDF bytes or adjudicated whole-source completeness. Detection uses static parsed DOM text and markers, with layout/visibility qualification remaining separate.
