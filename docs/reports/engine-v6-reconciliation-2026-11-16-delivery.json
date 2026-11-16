@@ -1,0 +1,296 @@
+{
+  "verifiedAt": "2026-11-16T07:02:59.273170+00:00",
+  "release": "5.5.0",
+  "stableRevision": "763f73f7a75cdc09176058e1ff075232df160481",
+  "assessmentMerge": "69a72f3ac05c8d1754e8ba8799f3194abe6062c5",
+  "stableArchive": "PolicyWatcher-5.5.0-hostinger-2026-11-16-engine6-source-reconciliation.zip",
+  "stableSha256": "19c659de96ebe12a5888c8b07fb02ce377419fc339f9ce87b508c9a02145e10a",
+  "hostingerDeploymentIds": {
+    "stableStaging": "01a1e320-d021-7321-a45b-b9ca39b264e4",
+    "privateR3Restoration": "01a1e324-38a6-71fd-b7bf-b76f8a4ece73",
+    "production": "01a1e327-a6f9-7286-8caa-e7975f32a971"
+  },
+  "staging": {
+    "checkedAt": "2026-11-16T06:55:07.789Z",
+    "passedChecks": [
+      "homepage",
+      "staging-banner",
+      "search-engine-boundary",
+      "robots-boundary",
+      "release-identity",
+      "publication-readiness-contract",
+      "health-auth-boundary",
+      "database-health",
+      "admin-authentication",
+      "database-readiness",
+      "public-dataset"
+    ],
+    "artifactPromotionPassed": true
+  },
+  "restoredPreview": {
+    "archiveSha256": "e82ff8ff3fe33275e62475054889cdaf97f1a12d7442bb0ca6d42ec30cf99341",
+    "implementation": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+    "authenticatedChecks": [
+      "credential_origin",
+      "private_page_boundary",
+      "private_api_boundary",
+      "administrator_login",
+      "worker_active",
+      "same_implementation",
+      "private_channels",
+      "manifest_available",
+      "database_health",
+      "schema_ready",
+      "schema_47_22",
+      "saved_report_4e9eef90",
+      "saved_report_781ceb98",
+      "saved_report_6982c663"
+    ],
+    "completedPrivateReports": 3,
+    "activeTasksAtSnapshot": 0,
+    "snapshotBefore": "2026-11-16T06:48:11.682670+00:00",
+    "snapshotAfter": "2026-11-16T06:58:41.408033+00:00",
+    "identicalTableHashes": 47,
+    "totalTablesIncludingMigrationLedger": 48,
+    "monitoredEvidenceTablesIdentical": [
+      "Policy",
+      "PolicySnapshot",
+      "PolicyChange",
+      "PolicyCheckLog",
+      "Subscriber",
+      "EngineOutbox",
+      "EngineSourceContract",
+      "ExtractionBaseline",
+      "EngineRun",
+      "EngineTask",
+      "EngineReview",
+      "EngineArtifact",
+      "EngineClaim",
+      "EngineClaimEvidence"
+    ],
+    "operationalDifference": {
+      "table": "EngineOrigin",
+      "before": {
+        "rows": 3,
+        "sha256": "cce9987c41b214f22ba8f3743e5e72ca2150c0fe608efb427e7c2e66aba35860"
+      },
+      "after": {
+        "rows": 3,
+        "sha256": "d9fffe1c5341470b31b5b437de284305c8463e2728ee673b5d2eeaed38f8b37c"
+      },
+      "attribution": "Full-table digests only. Specific fields causing the change are unknown."
+    },
+    "identicalSelectedReleaseMetadata": true,
+    "databaseIntegrity": "ok"
+  },
+  "privateAdminHttpFollowup": [
+    {
+      "path": "/admin/production-verification?lang=it",
+      "http": 200,
+      "htmlLang": "en",
+      "heading": "",
+      "checkedAt": "2026-11-16T06:59:37.295Z"
+    },
+    {
+      "path": "/admin/review-log?lang=it",
+      "http": 200,
+      "htmlLang": "en",
+      "heading": "",
+      "checkedAt": "2026-11-16T06:59:38.592Z"
+    },
+    {
+      "path": "/admin/source-onboarding?lang=it",
+      "http": 200,
+      "htmlLang": "en",
+      "heading": "",
+      "checkedAt": "2026-11-16T06:59:39.872Z"
+    },
+    {
+      "path": "/admin/source-reliability?lang=it",
+      "http": 200,
+      "htmlLang": "en",
+      "heading": "",
+      "checkedAt": "2026-11-16T06:59:41.199Z"
+    },
+    {
+      "path": "/admin/vps-services?lang=it",
+      "http": 200,
+      "htmlLang": "en",
+      "heading": "",
+      "checkedAt": "2026-11-16T06:59:42.479Z"
+    },
+    {
+      "path": "/admin/webhook-delivery?lang=it",
+      "http": 200,
+      "htmlLang": "en",
+      "heading": "",
+      "checkedAt": "2026-11-16T06:59:43.824Z"
+    }
+  ],
+  "publicRuntime": {
+    "checkedAt": "2026-11-16T07:02:31.859Z",
+    "status": "attention",
+    "release": "5.5.0",
+    "health": "ok",
+    "applicationTables": 35,
+    "migrations": 19,
+    "integrity": "ok",
+    "verificationSummary": {
+      "passed": 9,
+      "attention": 0,
+      "unavailable": 0,
+      "external": 1
+    },
+    "attention": []
+  },
+  "deployedContent": {
+    "staging.policywatcher.online": {
+      "http": {
+        "checkedAt": "2026-11-16T06:55:11.522Z",
+        "origin": "https://staging.policywatcher.online",
+        "ok": true,
+        "rows": [
+          {
+            "url": "https://staging.policywatcher.online/?lang=en",
+            "status": 200,
+            "checks": {
+              "dated": true,
+              "diary": true
+            },
+            "pass": true
+          },
+          {
+            "url": "https://staging.policywatcher.online/engine-6-preview?lang=en",
+            "status": 200,
+            "checks": {
+              "dated": true,
+              "anchor": true,
+              "action": true,
+              "passages": true,
+              "source": true
+            },
+            "pass": true
+          },
+          {
+            "url": "https://staging.policywatcher.online/?lang=it",
+            "status": 200,
+            "checks": {
+              "dated": true,
+              "diary": true
+            },
+            "pass": true
+          },
+          {
+            "url": "https://staging.policywatcher.online/engine-6-preview?lang=it",
+            "status": 200,
+            "checks": {
+              "dated": true,
+              "anchor": true,
+              "action": true,
+              "passages": true,
+              "source": true
+            },
+            "pass": true
+          }
+        ]
+      },
+      "matchedSourceFiles": 516,
+      "privateAdminTemplateAbsentFromStableSource": true
+    },
+    "policywatcher.online": {
+      "http": {
+        "checkedAt": "2026-11-16T07:02:32.203Z",
+        "origin": "https://policywatcher.online",
+        "ok": true,
+        "rows": [
+          {
+            "url": "https://policywatcher.online/?lang=en",
+            "status": 200,
+            "checks": {
+              "dated": true,
+              "diary": true
+            },
+            "pass": true
+          },
+          {
+            "url": "https://policywatcher.online/engine-6-preview?lang=en",
+            "status": 200,
+            "checks": {
+              "dated": true,
+              "anchor": true,
+              "action": true,
+              "passages": true,
+              "source": true
+            },
+            "pass": true
+          },
+          {
+            "url": "https://policywatcher.online/?lang=it",
+            "status": 200,
+            "checks": {
+              "dated": true,
+              "diary": true
+            },
+            "pass": true
+          },
+          {
+            "url": "https://policywatcher.online/engine-6-preview?lang=it",
+            "status": 200,
+            "checks": {
+              "dated": true,
+              "anchor": true,
+              "action": true,
+              "passages": true,
+              "source": true
+            },
+            "pass": true
+          }
+        ]
+      },
+      "matchedSourceFiles": 516,
+      "privateAdminTemplateAbsentFromStableSource": true
+    }
+  },
+  "keyboardChecksOnProduction": [
+    {
+      "origin": "https://policywatcher.online",
+      "lang": "en",
+      "width": 390,
+      "reached": true,
+      "tabCount": 6,
+      "hash": "#validation",
+      "top": 134.375,
+      "overflow": 0
+    },
+    {
+      "origin": "https://policywatcher.online",
+      "lang": "en",
+      "width": 1366,
+      "reached": true,
+      "tabCount": 10,
+      "hash": "#validation",
+      "top": 100.4375,
+      "overflow": 0
+    },
+    {
+      "origin": "https://policywatcher.online",
+      "lang": "it",
+      "width": 390,
+      "reached": true,
+      "tabCount": 6,
+      "hash": "#validation",
+      "top": 133.6875,
+      "overflow": 0
+    },
+    {
+      "origin": "https://policywatcher.online",
+      "lang": "it",
+      "width": 1366,
+      "reached": true,
+      "tabCount": 10,
+      "hash": "#validation",
+      "top": 99.625,
+      "overflow": 0
+    }
+  ]
+}

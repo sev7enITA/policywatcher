@@ -1,0 +1,38 @@
+[
+  {
+    "lang": "en",
+    "width": 390,
+    "reached": true,
+    "tabCount": 6,
+    "hash": "#validation",
+    "top": 134.375,
+    "overflow": 0
+  },
+  {
+    "lang": "en",
+    "width": 1366,
+    "reached": true,
+    "tabCount": 10,
+    "hash": "#validation",
+    "top": 100.4375,
+    "overflow": 0
+  },
+  {
+    "lang": "it",
+    "width": 390,
+    "reached": true,
+    "tabCount": 6,
+    "hash": "#validation",
+    "top": 133.6875,
+    "overflow": 0
+  },
+  {
+    "lang": "it",
+    "width": 1366,
+    "reached": true,
+    "tabCount": 10,
+    "hash": "#validation",
+    "top": 99.625,
+    "overflow": 0
+  }
+]
