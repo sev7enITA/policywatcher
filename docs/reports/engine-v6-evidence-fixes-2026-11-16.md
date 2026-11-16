@@ -18,6 +18,10 @@ node --test scripts/reconciliation/controls.test.mjs
 python3 scripts/reconciliation/check-language-pairs.py
 ```
 
+A [second implementation using Python standard library](engine-v6-evidence-fixes-2026-11-16/replay-independent.py) checked all 1,060 offsets and passage hashes. Run it from the repository root with Python 3.10 or later. Its [recorded result](engine-v6-evidence-fixes-2026-11-16/independent-replay.json) identifies each source and denominator.
+
+All three commands above and the independent Python replay [also passed](engine-v6-evidence-fixes-2026-11-16/offline-verification.json) with macOS network access denied using `sandbox-exec -p '(version 1)(allow default)(deny network*)'`. A separate loopback TCP connection probe in the same sandbox raised `EPERM`. Node 22.22.3 and Python 3.14.6 were used. The navigation unit tests use locally installed project dependencies.
+
 The regression suite removes the first matched Amazon reference from a copy of the archived token stream. The comparator reports that exact passage missing. It also checks that a homepage fixture serving only the English link fails the Italian release check. A page reached with the wrong language or without the validation section fails independently.
 
 ## Site and language reconciliation
@@ -25,3 +29,13 @@ The regression suite removes the first matched Amazon reference from a copy of t
 The staging gate follows each homepage diary link, checks its destination language and validation section and requires the bilingual check in the promotion receipt. The diary renders each dated receipt in a separate list item with a 44-pixel minimum link height and a visible keyboard focus outline.
 
 The [corrected matrix](engine-v6-evidence-fixes-2026-11-16/language-pairs.csv) first resolves reciprocal language alternatives in the [archived sitemap](engine-v6-evidence-fixes-2026-11-16/sitemap.xml.gz). The English and Italian associations pages form one measured pair with 82 headings on each page. Across 522 pairs, 306 had identical heading sequences, 211 differed, two lacked comparable headings and three lacked a pair of HTTP 200 observations. The historical path-only matrix remains available in the [original assessment](engine-v6-reconciliation-2026-11-16.md).
+
+## Independent review and acceptance
+
+[Gemini's source review and dispositions](engine-v6-evidence-fixes-2026-11-16/gemini-review.json) retain its response from the dedicated free-tier Gemini 3.5 Flash-Lite API. Its observation about link language led to explicit label, language and duplicate-link tests. Its namespace objection was tested against the archived sitemap. The associations pair used reciprocal XHTML alternates. Gemini 4 Argon High returned no usable review on the attempted channels. GLM-5.3 Max requested human verification before returning an answer. No approval is attributed to either of those attempts.
+
+The [delivery receipt](engine-v6-evidence-fixes-2026-11-16/delivery.json) contains the exact archive and deployment IDs, staging and production browser observations, private r3 preservation checks and the two negative controls. A copy of the live homepage with the Italian entry removed failed the real verifier. The historical raw browser reference was unavailable for a retrospective replay. The published corpus supplies a new independently repeatable token comparison.
+
+The [first deployment](engine-v6-evidence-fixes-2026-11-16/first-deployment.json) passed HTTP verification. Chromium also recorded stalled homepage clicks during initial rendering on the public service. Four separate click probes reached the correct Italian route. The follow-up changed both homepage diary actions to native document links. The [browser acceptance script](../../scripts/reconciliation/diary-browser.mjs) checks actual navigation, independent hit targets and keyboard focus at both widths and in both languages.
+
+The final stable archive passed all 12 staging checks. On the official site, two Chromium runs each followed both diary links at 390 and 1,366 pixels. Each found the five separate links with a minimum height of 44 pixels, visible keyboard focus and no horizontal overflow. The [mobile capture in Italian](engine-v6-evidence-fixes-2026-11-16/production-mobile-it.png) records their layout. The 516 inspected source file hashes matched the archive in each stable environment. After staging, private r3 passed its 14 authenticated checks and retained all three reports and 14 evidence table hashes. Of the 48 database tables compared, only the operational EngineOrigin digest changed.

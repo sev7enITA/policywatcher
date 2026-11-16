@@ -1,0 +1,68 @@
+{
+  "networkRestriction": {
+    "tool": "macOS sandbox-exec",
+    "profile": "(version 1)(allow default)(deny network*)",
+    "probe": "loopback TCP connect",
+    "result": "EPERM"
+  },
+  "node": "22.22.3",
+  "python": "3.14.6",
+  "commandsPassed": [
+    "node scripts/reconciliation/passages.mjs docs/reports/engine-v6-evidence-fixes-2026-11-16/passages.json.gz",
+    "node --test scripts/reconciliation/controls.test.mjs",
+    "python3 scripts/reconciliation/check-language-pairs.py",
+    "python3 docs/reports/engine-v6-evidence-fixes-2026-11-16/replay-independent.py"
+  ],
+  "nodePassages": [
+    {
+      "source": "87c9526a37054d6e2919443f",
+      "total": 123,
+      "matched": 123,
+      "failures": []
+    },
+    {
+      "source": "99768b93c4b8b93615a41ac6",
+      "total": 114,
+      "matched": 114,
+      "failures": []
+    },
+    {
+      "source": "fb755ba1a77a1d488c8f8434",
+      "total": 0,
+      "matched": 0,
+      "failures": []
+    },
+    {
+      "source": "7c7a08551e310b2e3ac1a1e8",
+      "total": 344,
+      "matched": 337,
+      "failures": []
+    },
+    {
+      "source": "d0c1841f05ed306f4b258e2c",
+      "total": 335,
+      "matched": 328,
+      "failures": []
+    },
+    {
+      "source": "90429499a61f4efa14ff622b",
+      "total": 78,
+      "matched": 78,
+      "failures": []
+    },
+    {
+      "source": "832747af440fd72af06e9c28",
+      "total": 66,
+      "matched": 66,
+      "failures": []
+    },
+    {
+      "source": "850e6c64d8f32ca25b9b9758",
+      "total": 0,
+      "matched": 0,
+      "failures": []
+    }
+  ],
+  "unitTests": 4,
+  "independentReplayOutputSha256": "58ff7e118ab2cf12354bf798726788480939629e714f6c831889fcbf0f861499"
+}

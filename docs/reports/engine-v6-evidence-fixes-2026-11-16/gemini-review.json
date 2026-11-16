@@ -1,0 +1,12 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "channel": "Dedicated free-tier Gemini API",
+  "completion": "STOP",
+  "promptSha256": "79ea8646ec90fb09749df3ccfdc46584fc437ba79c93b2db4128b188ff799deb",
+  "response": "### Actionable Findings\n\n#### 1. Language Alternates Processing Flaw\n* **Severity:** High\n* **Concrete Trigger:** In `scripts/reconciliation/language-pairs.py`, the XML namespace for XHTML `link` elements is defined as `{http://www.w3.org/1999/xhtml}link`, but sitemap entries in standard XML sitemaps use the standard namespace or none at all, while the lookup filters by `rel == 'alternate'`. Because `ET.fromstring(sitemap)` parses standard sitemaps (namespace `{http://www.sitemaps.org/schemas/sitemap/0.9}`) without registering the XHTML namespace for child nodes or using local tag name matching, `entry.findall(LANG_TAG)` returns zero matches. Consequently, reciprocal sitemap alternate declarations are completely ignored, and all pairings fall back to the `same path` method.\n\n#### 2. Insufficient Navigation Matcher Attribute Isolation\n* **Severity:** Medium\n* **Concrete Trigger:** In `scripts/reconciliation/diary-navigation.mjs`, the anchor filtering condition:\n  ```js\n  return target.href === expected.href && (lang !== 'it' || $(a).attr('hreflang') === 'it');\n  ```\n  allows any link pointing to the correct preview URL to match as long as `hreflang=\"it\"` is present (for Italian). However, it does not check if the link's own `lang` attribute or text content matches the requested language, nor does it prevent multiple matching links (ambiguity). If a page contains multiple valid navigation items or shared helper links with `hreflang=\"it\"`, `links.length` exceeds 1, throwing a generic `'Missing or ambiguous diary link'` error without distinguishing between a missing link and an ambiguous duplicate.",
+  "disposition": [
+    "The archived sitemap uses the XHTML namespace. The regenerated cross-path pair returned 82 headings per language. The claim that all pairs fell back to same path is contradicted by the matrix.",
+    "Accepted label-language validation. Added checks for link text, declared language and hidden ancestors, and a duplicate-link regression. Duplicate matching URLs already failed closed before the follow-up."
+  ],
+  "boundary": "Advisory static review of supplied excerpts. No independent model execution of tests."
+}
