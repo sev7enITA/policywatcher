@@ -1,0 +1,9 @@
+{
+  "preparedAt": "2026-11-16T14:39:24.975043+00:00",
+  "sourceRevision": "0f1c609e42020c055648eb71c4907c3ad6dbc450",
+  "engineImplementation": "cb4d6d245f857fee50eea9e07cd7fd61bc6f18b64321b0bf68f2f65c38b15add",
+  "bundleSha256": "3072f37ca3c8da0ac03b1aa9446048e38b2f23507af37458eed78d7c00ce4e97",
+  "catalogueSha256": "be0ae69e3f3dadd0bd0f5082af6ad16853821f3cf079b97e0664cb5dc0fa8074",
+  "target": "Hostinger managed staging account via SSH, private sibling QA folder, existing Node24 and runtime Prisma dependency read-only",
+  "boundary": "Local probe algorithm packaged with esbuild. No application deployment, model calls, production DB or service configuration. Node heap limit384MiB; three workers, one per origin, same pacing and30minute deadline. Actual target acquisition/extraction only."
+}

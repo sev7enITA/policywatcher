@@ -1,0 +1,223 @@
+[
+  {
+    "source": "https://www.tiktok.com/community-guidelines",
+    "before": {
+      "state": "transport_rejected",
+      "bodyHash": null,
+      "textHash": null
+    },
+    "after": {
+      "state": "completed",
+      "bodyHash": "a0f1eb53dad52295ae1e5766ac839b447f573f25af5c9ccaae9934827a7a6502",
+      "textHash": "e6d59e6bce3b21f0da92d8ea80fed128de7da410b5a4279a1ac6f69056f4fdfc"
+    }
+  },
+  {
+    "source": "https://about.att.com/privacy/privacy-notice.html",
+    "before": {
+      "state": "rejected",
+      "bodyHash": "521fd0e8f04040d412c7218e425705cb16f2a82bd0cd1c3e561f31da706e1ba0",
+      "textHash": null
+    },
+    "after": {
+      "state": "completed",
+      "bodyHash": "14a4a21491d2659e799f0f9f988acf9fe6acfd4b607a12f18f564a18b24555a5",
+      "textHash": "f86695ac61f67bfc87275ccf6a3e280ed9f0861ed09a462c6e5caf308f9cecec"
+    }
+  },
+  {
+    "source": "https://www.amazon.co.uk/gp/help/customer/display.html/?nodeId=201909010&ref_=a20m_us_fnav_l_prvcy_gb",
+    "before": {
+      "state": "transport_rejected",
+      "bodyHash": null,
+      "textHash": null
+    },
+    "after": {
+      "state": "completed",
+      "bodyHash": "c1d6cd32bbda0e6b05a6120b5616eb2c0267fa59926f8ce4b7c8a017b3629a8f",
+      "textHash": "a69e73b2eb8091d6c07f399fcde7b63c568ececd18eef159866d98f7b5182cc3"
+    }
+  },
+  {
+    "source": "https://www.amazon.co.uk/gp/help/customer/display.html/?ie=UTF8&nodeId=1040616&ref_=a20m_us_fnav_l_cndtns_gb",
+    "before": {
+      "state": "transport_rejected",
+      "bodyHash": null,
+      "textHash": null
+    },
+    "after": {
+      "state": "completed",
+      "bodyHash": "9e107ab0d5ce876e3f19be8663d384a315d63c3da5a48b126bb70de543a382db",
+      "textHash": "53f096958dee9e5ebf1c563ab3b45169af48ad0909cebebdc574ee708f89fc5c"
+    }
+  },
+  {
+    "source": "https://www.amazon.co.uk/gp/help/customer/display.html?ie=UTF8&nodeId=201890250&ref_=a20m_us_fnav_l_cook_gb",
+    "before": {
+      "state": "rejected",
+      "bodyHash": "fb831f7fe9953b2fd35131ae02bf1e4d3a6619f06d068c27ad3d03e88c1f5985",
+      "textHash": null
+    },
+    "after": {
+      "state": "completed",
+      "bodyHash": "7356159f542722a0d1f0960a98b8cd718f2d9ee0f31ac818571a87f4f8c99b09",
+      "textHash": "ebc74181f15e395f32c30f63a9d77ed770903cb56b07cad9a103ea9fd544f817"
+    }
+  },
+  {
+    "source": "https://deliveroo.ie/cookies",
+    "before": {
+      "state": "rejected",
+      "bodyHash": "9f86de30cd45d56b1f32e7481d661d67a03ae1f136192069d6f9c9fbf32e3fee",
+      "textHash": null
+    },
+    "after": {
+      "state": "completed",
+      "bodyHash": "a97965616dd5be7267141d29b5d3f8544dfece0b379a9f9dd412ec2cefe5fbd2",
+      "textHash": "2c92f85d84d457870de98cfabe9234a20f34ee6c5bc4253a97ce8bb17f19dfbf"
+    }
+  },
+  {
+    "source": "https://distrokid.com/terms/",
+    "before": {
+      "state": "rejected",
+      "bodyHash": "d682651192d51ff0e0765d0f9537a39d43b772b054e76c01c63d96048e1d7652",
+      "textHash": null
+    },
+    "after": {
+      "state": "completed",
+      "bodyHash": "3977e21f70c3b8c05fae270da2e332e101ebd8c0e7314378a50a2f975a20d27f",
+      "textHash": "d05694ceaba2e450c1d984adc1f809f354c9019520312d19fe94e041361c9cce"
+    }
+  },
+  {
+    "source": "https://www.energia.ie/home/privacy-statement",
+    "before": {
+      "state": "rejected",
+      "bodyHash": "6d98f30e9df508217fd3e64e220b89ee3be8df2a7c87d6fe34001ea038911c39",
+      "textHash": null
+    },
+    "after": {
+      "state": "completed",
+      "bodyHash": "999ad7d8ae911a4c05231bcf2187de52036c0e9dd193a9f17fb9e0704f7edc6c",
+      "textHash": "4930c19eea0f03838545f24263428b50c67b0f60b974c8a5f06ee05fbab8212d"
+    }
+  },
+  {
+    "source": "https://www.energia.ie/home/terms-and-conditions",
+    "before": {
+      "state": "rejected",
+      "bodyHash": "308173d47457dae2db51e39c8cb7eb21c29e69639aad604129fbfd6560fcae0f",
+      "textHash": null
+    },
+    "after": {
+      "state": "completed",
+      "bodyHash": "59ea08d436a0b36277131de8533ab5ce1d2697b9d9ee264bb38d81e5ae7e1305",
+      "textHash": "de98d9c7d86f8bc998540577b613965d52508d16bd9ad982451dbe62c87f95ca"
+    }
+  },
+  {
+    "source": "https://www.energia.ie/home/cookie-policy",
+    "before": {
+      "state": "rejected",
+      "bodyHash": "dd70bf37de816c1b2fc835152219fcad1021bd72688f641942b949d265769aad",
+      "textHash": null
+    },
+    "after": {
+      "state": "completed",
+      "bodyHash": "dd70bf37de816c1b2fc835152219fcad1021bd72688f641942b949d265769aad",
+      "textHash": "d83a1d16196dade0400121c02010b1a3f89709bf7e653d8fe9cfad311c216215"
+    }
+  },
+  {
+    "source": "https://evernote.com/privacy/policy",
+    "before": {
+      "state": "rejected",
+      "bodyHash": "85d6fa9248cf4c16f449c6ac50dc10a3fc3b9d339209a19c2a0cf8e39de1d8c0",
+      "textHash": null
+    },
+    "after": {
+      "state": "completed",
+      "bodyHash": "85d6fa9248cf4c16f449c6ac50dc10a3fc3b9d339209a19c2a0cf8e39de1d8c0",
+      "textHash": "48563a0c57b40e9f79dd5b0f9a24be286acf7022996d625158499ae4417b07fe"
+    }
+  },
+  {
+    "source": "https://evernote.com/legal/terms-of-service",
+    "before": {
+      "state": "rejected",
+      "bodyHash": "2baf632229f8f037a940347edfea088e0552245b77ae1a8f979ca139a4b039d5",
+      "textHash": null
+    },
+    "after": {
+      "state": "completed",
+      "bodyHash": "2baf632229f8f037a940347edfea088e0552245b77ae1a8f979ca139a4b039d5",
+      "textHash": "c54c9ae227b992b66e0554bd2032b370cd32779c403d80998b42bb718b0373cb"
+    }
+  },
+  {
+    "source": "https://www.linkedin.com/legal/professional-community-policies",
+    "before": {
+      "state": "rejected",
+      "bodyHash": "cbe6fb8f5c8a2d7d40de8f9280c36a2c7b12cbc781bcdc9b513af5863e515be5",
+      "textHash": null
+    },
+    "after": {
+      "state": "completed",
+      "bodyHash": "3b8cf0bfefdde93b8e425f6ca4fbefdf7047720c485a6335b64c88e4236449c8",
+      "textHash": "3618d37aa288a27561689dad94ed7a5deb57cb5c36cdef69546d4ad15ffe0510"
+    }
+  },
+  {
+    "source": "https://legal.linkedin.com/api-terms-of-use",
+    "before": {
+      "state": "rejected",
+      "bodyHash": "c23ea8eaadbfe241b28513e6d8d6fab45c1626d6af5811b770dfa03b36d596c6",
+      "textHash": null
+    },
+    "after": {
+      "state": "completed",
+      "bodyHash": "ce25f1a27865885032495121be1ff30754752d35baa8f9bd97bd3ca21837ff3c",
+      "textHash": "7f31c9f2fd4766b9cfdbb561567a87d564884ad02e60f4d5f2aeaf67ccc465db"
+    }
+  },
+  {
+    "source": "https://www.linkedin.com/legal/privacy-policy",
+    "before": {
+      "state": "rejected",
+      "bodyHash": "24fda4d07ce059881fea4c0e0ae64c58748feb2dbb469741e0a4d4aed66d3a28",
+      "textHash": null
+    },
+    "after": {
+      "state": "completed",
+      "bodyHash": "4ea135e5bf93e72f957c5c1b0777ac85ccea36052d13dadc249fa42c3c5b5199",
+      "textHash": "afe83a66657836e270d8a476bf61f630fd8802651b4bc04531372a54c3298767"
+    }
+  },
+  {
+    "source": "https://www.linkedin.com/legal/l/service-terms",
+    "before": {
+      "state": "rejected",
+      "bodyHash": "86718333fecd3495451e2310d315fafd0d67a9f96ce204641f016fb39e5fa362",
+      "textHash": null
+    },
+    "after": {
+      "state": "completed",
+      "bodyHash": "cc6ca09b65172bcc466e41f7cef9f36b7e2d14d43ca1dffc0b98b5447c8faa49",
+      "textHash": "46ace78df81a7270efd835d78e33ec25b72dbf699c84857f64666edf7d61c619"
+    }
+  },
+  {
+    "source": "https://www.linkedin.com/legal/cookie-policy",
+    "before": {
+      "state": "rejected",
+      "bodyHash": "46e3794a3feacbea22e773410408da21eaf6acfae388f940863f8b5786fe4c66",
+      "textHash": null
+    },
+    "after": {
+      "state": "completed",
+      "bodyHash": "d70ec78718f3ad8fd897b9cb1521b95432a8effca8b1c2292e72212d025b6f54",
+      "textHash": "21c0df7c0757fbc6bc61985aff143e9e66df3d877c3aa36e5d2c226ec27a11fa"
+    }
+  }
+]
