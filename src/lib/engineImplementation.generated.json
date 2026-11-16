@@ -299,7 +299,7 @@
     ],
     [
       "src/lib/engine/acquisition.ts",
-      "e7c6495b54652bcade522ff846f0b40ca45033b96c8d81ce4926b92e1924dd00"
+      "3c9a10042a0e3fce802f651088c2bfaff495463e290b9276f8025aa2108149bd"
     ],
     [
       "src/lib/engine/channelReports.ts",
@@ -351,7 +351,7 @@
     ],
     [
       "src/lib/extractionProfile.generated.json",
-      "11a371f717404cbc4d5b959b528d365e01a712f02e439ce9e8712522f90aef9b"
+      "ed817c4e29d7d67b08f7e7c0bfa082dc1d88c94cf45ab48dfdc1c0b7ee432538"
     ],
     [
       "src/lib/extractionProfile.ts",
@@ -451,7 +451,7 @@
     ],
     [
       "src/lib/scraper.ts",
-      "79f7e040fe8bd8d88ca2912ada5aeb02f00768f01a76beda2bc75a99b5264b5e"
+      "da8d3597ac4dbef5cfa90ef54de924a15e70c2a3c211dab962b81a24fa5b8361"
     ],
     [
       "src/lib/seo.ts",
@@ -490,5 +490,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "9224236ab94ef681a537485b9a10c3790db0c3b1059ffce9efa59466933c1a05"
+  "hash": "cb4d6d245f857fee50eea9e07cd7fd61bc6f18b64321b0bf68f2f65c38b15add"
 }

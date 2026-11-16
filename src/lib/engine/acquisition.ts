@@ -186,7 +186,12 @@ function prepareEngineHtml(html: string, contract?: SourceContract | null) {
     flush();
   }
   const roots = $(scope).filter((_, node) => !$(node).parents(scope).length);
-  if (!roots.length) issues.push({ reason: 'document_scope_unverified', target: null, chars: 0 });
+  if (!roots.length) {
+    issues.push({ reason: 'document_scope_unverified', target: null, chars: 0 });
+    // Preserve unstructured body evidence for review. The missing-scope hold
+    // remains mandatory even when a contract otherwise matches this content.
+    preserveRuns($('body')[0]);
+  }
   else if (roots.length > 1) issues.push({ reason: 'document_scope_ambiguous', target: null, chars: 0 });
   roots.each((_, node) => { preserveRuns(node); });
   return { html: $.html(), titles: [...new Set(titles)], retainedDisclosureIds, retainedDocumentHeaders, retainedUnstructuredRuns, issues, appliedExclusions };

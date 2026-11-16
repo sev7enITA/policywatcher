@@ -1,0 +1,16 @@
+{
+  "preparedAt": "2026-11-16T14:29:33.690Z",
+  "purpose": "New candidate wave after fixes for false CAPTCHA positives and truncated scope selection. Original 500-scope input retained exactly; all earlier failures remain preserved. Actual local acquisition/extraction only. No inference or automatic source approvals.",
+  "implementation": "cb4d6d245f857fee50eea9e07cd7fd61bc6f18b64321b0bf68f2f65c38b15add",
+  "sourceParent": "e3fe03df6d7b59b18c86093d2751392ce9a0dab4",
+  "catalogueSha256": "be0ae69e3f3dadd0bd0f5082af6ad16853821f3cf079b97e0664cb5dc0fa8074",
+  "runtime": "local Mac",
+  "workers": 3,
+  "perOrigin": 1,
+  "pacingMs": 1500,
+  "deadlineMinutes": 30,
+  "publish": false,
+  "notify": false,
+  "renderer": false,
+  "attemptPolicy": "Direct then HTTP/2 once; no replay counted live; origin held after429/503; no success-based retries."
+}

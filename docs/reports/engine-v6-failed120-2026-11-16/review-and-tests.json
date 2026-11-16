@@ -1,0 +1,42 @@
+{
+  "local": {
+    "model": "qwen3.8-27b-uncensored",
+    "runtime": "LM Studio native API, reasoning off",
+    "result": "Source review received; no execution by reviewer. First OpenAI-compatible attempt timed out after 240 seconds. Native request completed in 73.927 seconds.",
+    "response": "lm-review-native.json",
+    "dispositions": [
+      {
+        "finding": "Comment-only and structural challenges",
+        "decision": "Retain strong DOM challenge markers and padded-challenge regression. Passive provider names in comments, asset URLs and data attributes alone do not prove a challenge."
+      },
+      {
+        "finding": "Permit 45-character copyright stubs",
+        "decision": "Not adopted. The existing minimum of 100 characters remains. Legal identity and completeness require source contracts."
+      },
+      {
+        "finding": "Ambiguous scope and body fallback",
+        "decision": "Preserve mandatory document_scope_unverified and document_scope_ambiguous holds. A new body-only fixture with a matching contract remains ineligible."
+      },
+      {
+        "finding": "Empty search results versus Google soft404",
+        "decision": "The source is a policy URL, not a search-result URL. Its archived short error page remains held. No soft404 exemption introduced."
+      }
+    ]
+  },
+  "glm": {
+    "requested": "GLM-5.3 Max",
+    "result": "Resource refusal; Flash alternative subsequently stopped at human security verification. No review verdict."
+  },
+  "gemini": {
+    "requested": "Gemini 4 Argon High",
+    "web": "No usable review; provider returned difficulty fulfilling the request.",
+    "dedicatedFreeApi": "HTTP429 quota rejection. No paid fallback."
+  },
+  "testResults": {
+    "focusedTests": 222,
+    "networkDenied": true,
+    "negativeRegressionsBefore": 8,
+    "negativeRegressionsAfter": 0,
+    "typecheck": "passed"
+  }
+}

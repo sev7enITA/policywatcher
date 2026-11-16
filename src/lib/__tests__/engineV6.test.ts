@@ -114,6 +114,15 @@ describe('V6 evidence contracts', () => {
     const html = `<html lang="en"><body><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><div>We sell personal data.</div><h2>Contact</h2><p>${contract.terminalText}</p></body></html>`;
     expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl), contract, fixtureUrl).reasons).toContain('document_scope_unverified');
   });
+  it('retains body-only clauses for review while keeping the missing-scope hold', () => {
+    const clause = 'We retain personal data only with consent until account closure.';
+    const html = `<html lang="en"><body><h1>Privacy Policy</h1><div>${clause} <span>Except where a court requires disclosure.</span></div><h2>Contact</h2><div>${contract.terminalText}</div></body></html>`;
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    expect(body.document.text).toContain(clause);
+    const assessment = acquisition.assessCapture(body, contract, fixtureUrl);
+    expect(assessment.reasons).toContain('document_scope_unverified');
+    expect(assessment.eligible).toBe(false);
+  });
   it('holds multiple disconnected document roots instead of silently choosing only the longest', () => {
     const html = `<html lang="en"><main><h1>Privacy Policy</h1><h2>Data use</h2><p>We respond to support questions within 30 days.</p><h2>Contact</h2><p>${contract.terminalText}</p></main><article><p>Except that account data may be sold.</p></article></html>`;
     expect(acquisition.assessCapture(acquisition.extractEngineBody(html, fixtureUrl), contract, fixtureUrl).reasons).toContain('document_scope_ambiguous');

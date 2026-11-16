@@ -1,0 +1,19 @@
+{
+  "durationSeconds": 73.9273202419281,
+  "response": {
+    "model_instance_id": "qwen3.8-27b-uncensored",
+    "output": [
+      {
+        "type": "message",
+        "content": "**1. False Negatives via Over-Stripping**\nThe proposal strips HTML comments to fix Energia\u2019s false positive. However, many sites (e.g., Cloudflare, Akamai) inject challenge markers *only* in comments or hidden `div`s with `display:none` that lack standard \"challenge\" text but contain structural IDs like `#cf-challenge`. If the new logic relies solely on visible title/body text and ignores these specific structural markers unless explicitly whitelisted, valid bot-walls will pass as content.\n*Regression Test:* Archive a page where the only bot-detection signal is an HTML comment containing \"challenge\" or a hidden div with ID `#bot-check` but no visible text. Assert it remains blocked.\n\n**2. Size Threshold Regression on Minimal Legal Pages**\nIgnoring candidates below the source minimum (e.g., 50 chars) to fix AT&T\u2019s skip-nav issue risks rejecting legitimate, concise legal pages (e.g., short \"Terms of Use\" stubs or cookie banners that are genuinely under 100 characters). If the body fallback is only triggered when *all* selectors fail, but a valid selector returns a short string, it may be discarded as noise.\n*Regression Test:* Create a page where the primary legal container contains exactly 45 characters of substantive text (e.g., \"\u00a9 2023 Acme Corp. All rights reserved.\"). Assert extraction succeeds if this is the only candidate, or verify the fallback logic correctly prioritizes it over empty results.\n\n**3. Ambiguous Scope Handling Contradiction**\nThe proposal states to \"keep ambiguous source scopes held until contracts reviewed\" but also proposes using an \"existing body fallback.\" If a scope is ambiguous (e.g., multiple legal sections with similar weight), does the fallback trigger immediately, or wait for manual review? If it triggers automatically, you risk extracting the wrong section (e.g., footer vs. main terms) without human validation, violating the \"held\" status intent.\n*Regression Test:* Define a scope with two distinct legal containers of equal size/weight. Assert that extraction is *not* completed automatically and remains in a \"held/pending review\" state until manual intervention.\n\n**4. Soft 404 vs. Legitimate Content Boundary**\nThe claim that \"a legitimate Google page really is a soft404\" is risky if the new detection relies on \"visible challenge language.\" If Google serves a valid search results page with minimal text (e.g., no results found) but standard structure, it might be misclassified as a soft 404 or block page if the structural markers are too aggressive.\n*Regression Test:* Archive a legitimate \"No Results\" page from a major search engine that has standard HTML structure but very low word count. Assert it is classified as valid content (or specific soft-404) rather than a generic block/404, ensuring the distinction between \"empty result\" and \"bot wall\" is preserved."
+      }
+    ],
+    "stats": {
+      "input_tokens": 356,
+      "total_output_tokens": 618,
+      "reasoning_output_tokens": 0,
+      "tokens_per_second": 8.900774668897315,
+      "time_to_first_token_seconds": 4.519716000000001
+    }
+  }
+}
