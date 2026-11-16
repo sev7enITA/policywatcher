@@ -13,10 +13,16 @@ export async function verifyDiaryNavigation(origin, lang, get = fetch) {
   const $ = await read(home);
   const links = $('nav[aria-label="Engine 6 Preview access and evidence"] a[href]').toArray().filter(a => {
     const target = new URL($(a).attr('href'), home);
-    return target.href === expected.href && (lang !== 'it' || $(a).attr('hreflang') === 'it');
+    return target.href === expected.href;
   });
   if (links.length !== 1) throw Error('Missing or ambiguous diary link for ' + lang);
-  const destination = new URL($(links[0]).attr('href'), home);
+  const link = $(links[0]);
+  const label = lang === 'it' ? 'Leggi il diario in italiano' : 'Read the latest findings';
+  if (link.text().trim() !== label || link.closest('[hidden], [aria-hidden="true"]').length ||
+      (lang === 'it' && (link.attr('lang') !== 'it' || link.attr('hreflang') !== 'it'))) {
+    throw Error('Wrong diary link label or language for ' + lang);
+  }
+  const destination = new URL(link.attr('href'), home);
   const doc = await read(destination);
   if (doc('html').attr('lang') !== lang || doc('[id="validation"]').length !== 1 ||
       !doc('main section#validation h2').text().trim()) throw Error('Wrong diary language or validation section for ' + lang);
