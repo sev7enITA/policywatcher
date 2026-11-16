@@ -82,7 +82,8 @@ async function main() {
     durations.sort((a, b) => a - b);
     const report = { startedAt, completedAt: new Date(), durationMs: Date.now() - startedAt.getTime(),
       sourceCommit: sourceRevision, catalogueHash: hash(catalogueText),
-      boundary: 'Configured real catalogue from local Mac; 3 workers, one request per origin at a time, 1.5s pacing, origin held after 429/503. No models, renderer, contracts, production DB or delivery. Not 500-source or VPS qualification.',
+      boundary: 'Configured catalogue acquisition/extraction; 3 workers, one request per origin at a time, 1.5s pacing, origin held after 429/503. No models, renderer, contracts, production DB or delivery. Does not establish 500 qualified daily completions or full-pipeline host capacity.',
+      runtime: { node: process.version, platform: process.platform, architecture: process.arch },
       configuredPolicies: catalogue.rows.length, retrievalScopes: new Set(catalogue.rows.map(r => r.retrievalUrl || r.url)).size,
       httpEndpoints: endpoints.size, origins: groups.size, completedEndpoints: rows.length, attempts: attemptsTotal,
       successfulEndpoints, extractedScopes, sourceCompletenessQualified: false, productionQualified: false,

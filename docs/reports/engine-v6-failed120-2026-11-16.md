@@ -17,7 +17,7 @@ The source/delivery groups describe observed conditions. They do not establish g
 
 ## Changes and controls
 
-The old block detector searched the first 2,000 raw HTML characters. Energia's comment mentioning reCAPTCHA, Evernote's hCaptcha script and LinkedIn's data attribute incorrectly triggered a block. The candidate uses parsed title/heading and visible body-prefix text, strong Cloudflare challenge markers and standalone CAPTCHA widget checks. It retains actual challenge phrases and origin refusals. A padded challenge must still fail.
+The old block detector searched the first 2,000 raw HTML characters. Energia's comment mentioning reCAPTCHA, Evernote's hCaptcha script and LinkedIn's data attribute incorrectly triggered a block. The candidate uses parsed title/heading and parsed body-prefix text, strong Cloudflare challenge markers and standalone CAPTCHA widget checks. It retains actual challenge phrases and origin refusals. A padded challenge must still fail.
 
 The selector could choose a 21-character AT&T skip-navigation container or a 27-character Deliveroo cookie-settings link. Candidates below the existing source minimum now yield to the existing body fallback. DistroKid's unstructured body clauses are retained for review. Missing or multiple document roots still produce mandatory holds, even with otherwise matching source contracts. The Amazon shopping gate receives an explicit interstitial hold.
 
@@ -40,3 +40,23 @@ The live campaign uses the existing three-worker, per-origin paced acquisition h
 Git integration, stable website publication and exact private r3 restoration require their own delivery receipts. Source changes and public diary delivery have separate release identities.
 
 The [new local live campaign](engine-v6-failed120-2026-11-16/live500-local.json) processed the same 500 scopes and 495 endpoints in 459.555 seconds. It made 575 HTTP attempts, recovered 416 endpoints and completed 397 extractions. Compared with the prior live wave, seventeen previously unsuccessful scopes extracted and zero previous extraction successes were lost. The thirteen same-body recoveries remain the evidence attributable to code fixes. Other live differences can reflect changed responses. All 103 current unsuccessful scopes remain retained.
+
+## Target account execution
+
+The [Hostinger SSH execution](engine-v6-failed120-2026-11-16/host-summary.json) used the same frozen 500 scopes and candidate implementation in a private QA directory outside the served website. Node 24.22.3 ran a SHA-256-checked esbuild bundle with a 384 MiB heap limit and lower process priority. The existing runtime Prisma dependency was referenced read-only. The probe targeted its isolated database URL and exited with code zero.
+
+| Measurement | Original local | Fixed local | Target SSH account |
+| --- | ---: | ---: | ---: |
+| Scopes | 500 | 500 | 500 |
+| Endpoint records processed | 495 | 495 | 495 |
+| HTTP attempts | 578 | 575 | 603 |
+| Accepted endpoints | 413 | 416 | 389 |
+| Completed extractions | 380 | 397 | 367 |
+| Unsuccessful/held scopes | 120 | 103 | 133 |
+| Duration in seconds | 463.390 | 459.555 | 772.602 |
+
+The [raw target report](engine-v6-failed120-2026-11-16/host-report.raw.json) retains every outcome. Its historical boundary string says “local Mac”; that label is stale in the packaged target run. The source bundle hash, host context and SSH process identify the actual environment. Future harness reports now emit a host-neutral boundary and actual Node/platform fields. Target results were not rewritten to conceal the label.
+
+A process sample at 340 seconds recorded 507,132 KiB RSS and 51.8 percent CPU. This is one observation, not peak-memory accounting. The public manifest returned HTTP200 during the target run. That individual check does not establish uninterrupted service availability. The SSH process is distinct from the supervised deployed worker. This run does not qualify full-pipeline VPS capacity or 500 successful daily completions.
+
+The prior eight-source archived packet still matches all 1,060 reference passages with zero losses under the candidate.

@@ -1,0 +1,54 @@
+{
+  "execution": "Hostinger managed staging account, isolated SSH QA process",
+  "actualRuntime": {
+    "node": "v24.22.3",
+    "platform": "linux",
+    "heapLimitMiB": 384,
+    "nice": 10
+  },
+  "artifact": {
+    "preparedAt": "2026-11-16T14:39:24.975043+00:00",
+    "sourceRevision": "0f1c609e42020c055648eb71c4907c3ad6dbc450",
+    "engineImplementation": "cb4d6d245f857fee50eea9e07cd7fd61bc6f18b64321b0bf68f2f65c38b15add",
+    "bundleSha256": "3072f37ca3c8da0ac03b1aa9446048e38b2f23507af37458eed78d7c00ce4e97",
+    "catalogueSha256": "be0ae69e3f3dadd0bd0f5082af6ad16853821f3cf079b97e0664cb5dc0fa8074",
+    "target": "Hostinger managed staging account via SSH, private sibling QA folder, existing Node24 and runtime Prisma dependency read-only",
+    "boundary": "Local probe algorithm packaged with esbuild. No application deployment, model calls, production DB or service configuration. Node heap limit384MiB; three workers, one per origin, same pacing and30minute deadline. Actual target acquisition/extraction only."
+  },
+  "sshProcessExit": 0,
+  "rawReport": "host-report.raw.json",
+  "rawReportLabelCorrection": "The historical harness boundary string says local Mac. This packaged execution ran on the SSH target. That original string is preserved. Future reports use a host-neutral boundary and actual Node/platform fields.",
+  "results": {
+    "startedAt": "2026-11-16T14:40:21.565Z",
+    "completedAt": "2026-11-16T14:53:14.167Z",
+    "durationMs": 772602,
+    "sourceCommit": "0f1c609e42020c055648eb71c4907c3ad6dbc450",
+    "catalogueHash": "be0ae69e3f3dadd0bd0f5082af6ad16853821f3cf079b97e0664cb5dc0fa8074",
+    "configuredPolicies": 500,
+    "retrievalScopes": 500,
+    "httpEndpoints": 495,
+    "origins": 199,
+    "completedEndpoints": 495,
+    "attempts": 603,
+    "successfulEndpoints": 389,
+    "extractedScopes": 367,
+    "sourceCompletenessQualified": false,
+    "productionQualified": false,
+    "endpointDurationMs": {
+      "p50": 918,
+      "p95": 4904
+    }
+  },
+  "observedResourceSample": {
+    "elapsedSeconds": 340,
+    "rssKiB": 507132,
+    "cpuPercent": 51.8,
+    "scope": "One process sample, not a whole-run peak."
+  },
+  "limits": [
+    "Acquisition/extraction only, not the supervised deployed worker.",
+    "No model inference, reviewed source contracts or 24-hour observation.",
+    "Remaining unsuccessful or held scopes: 133.",
+    "No application deployment, production DB mutation or service configuration change by the probe."
+  ]
+}
