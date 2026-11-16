@@ -1,0 +1,326 @@
+[
+  {
+    "path": "/",
+    "width": 390,
+    "lang": "en",
+    "checks": {
+      "button": {
+        "visibleRoleCount": 2,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "link": {
+        "visibleRoleCount": 19,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "textbox": {
+        "visibleRoleCount": 0,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "combobox": {
+        "visibleRoleCount": 0,
+        "emptyComputedName": 0,
+        "examples": []
+      }
+    }
+  },
+  {
+    "path": "/atlas",
+    "width": 390,
+    "lang": "en",
+    "checks": {
+      "button": {
+        "visibleRoleCount": 65,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "link": {
+        "visibleRoleCount": 38,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "textbox": {
+        "visibleRoleCount": 0,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "combobox": {
+        "visibleRoleCount": 0,
+        "emptyComputedName": 0,
+        "examples": []
+      }
+    }
+  },
+  {
+    "path": "/feature-atlas",
+    "width": 390,
+    "lang": "en",
+    "checks": {
+      "button": {
+        "visibleRoleCount": 157,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "link": {
+        "visibleRoleCount": 12,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "textbox": {
+        "visibleRoleCount": 1,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "combobox": {
+        "visibleRoleCount": 2,
+        "emptyComputedName": 0,
+        "examples": []
+      }
+    }
+  },
+  {
+    "path": "/",
+    "width": 390,
+    "lang": "it",
+    "checks": {
+      "button": {
+        "visibleRoleCount": 2,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "link": {
+        "visibleRoleCount": 19,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "textbox": {
+        "visibleRoleCount": 0,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "combobox": {
+        "visibleRoleCount": 0,
+        "emptyComputedName": 0,
+        "examples": []
+      }
+    }
+  },
+  {
+    "path": "/atlas",
+    "width": 390,
+    "lang": "it",
+    "checks": {
+      "button": {
+        "visibleRoleCount": 65,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "link": {
+        "visibleRoleCount": 38,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "textbox": {
+        "visibleRoleCount": 0,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "combobox": {
+        "visibleRoleCount": 0,
+        "emptyComputedName": 0,
+        "examples": []
+      }
+    }
+  },
+  {
+    "path": "/feature-atlas",
+    "width": 390,
+    "lang": "it",
+    "checks": {
+      "button": {
+        "visibleRoleCount": 157,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "link": {
+        "visibleRoleCount": 12,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "textbox": {
+        "visibleRoleCount": 1,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "combobox": {
+        "visibleRoleCount": 2,
+        "emptyComputedName": 0,
+        "examples": []
+      }
+    }
+  },
+  {
+    "path": "/",
+    "width": 1366,
+    "lang": "en",
+    "checks": {
+      "button": {
+        "visibleRoleCount": 2,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "link": {
+        "visibleRoleCount": 19,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "textbox": {
+        "visibleRoleCount": 0,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "combobox": {
+        "visibleRoleCount": 0,
+        "emptyComputedName": 0,
+        "examples": []
+      }
+    }
+  },
+  {
+    "path": "/atlas",
+    "width": 1366,
+    "lang": "en",
+    "checks": {
+      "button": {
+        "visibleRoleCount": 64,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "link": {
+        "visibleRoleCount": 62,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "textbox": {
+        "visibleRoleCount": 0,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "combobox": {
+        "visibleRoleCount": 0,
+        "emptyComputedName": 0,
+        "examples": []
+      }
+    }
+  },
+  {
+    "path": "/feature-atlas",
+    "width": 1366,
+    "lang": "en",
+    "checks": {
+      "button": {
+        "visibleRoleCount": 237,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "link": {
+        "visibleRoleCount": 37,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "textbox": {
+        "visibleRoleCount": 1,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "combobox": {
+        "visibleRoleCount": 2,
+        "emptyComputedName": 0,
+        "examples": []
+      }
+    }
+  },
+  {
+    "path": "/",
+    "width": 1366,
+    "lang": "it",
+    "checks": {
+      "button": {
+        "visibleRoleCount": 0,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "link": {
+        "visibleRoleCount": 19,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "textbox": {
+        "visibleRoleCount": 0,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "combobox": {
+        "visibleRoleCount": 0,
+        "emptyComputedName": 0,
+        "examples": []
+      }
+    }
+  },
+  {
+    "path": "/atlas",
+    "width": 1366,
+    "lang": "it",
+    "checks": {
+      "button": {
+        "visibleRoleCount": 64,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "link": {
+        "visibleRoleCount": 62,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "textbox": {
+        "visibleRoleCount": 0,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "combobox": {
+        "visibleRoleCount": 0,
+        "emptyComputedName": 0,
+        "examples": []
+      }
+    }
+  },
+  {
+    "path": "/feature-atlas",
+    "width": 1366,
+    "lang": "it",
+    "checks": {
+      "button": {
+        "visibleRoleCount": 237,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "link": {
+        "visibleRoleCount": 37,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "textbox": {
+        "visibleRoleCount": 1,
+        "emptyComputedName": 0,
+        "examples": []
+      },
+      "combobox": {
+        "visibleRoleCount": 2,
+        "emptyComputedName": 0,
+        "examples": []
+      }
+    }
+  }
+]
