@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { verifyDiaryNavigation } from './reconciliation/diary-navigation.mjs';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
@@ -9,6 +10,7 @@ import { PROMOTION_MAX_AGE_MS, STAGING_ORIGIN } from './hostinger-environment-ga
 
 export const REQUIRED_STAGING_CHECKS = [
   'homepage',
+  'diary-navigation-en-it',
   'staging-banner',
   'search-engine-boundary',
   'robots-boundary',
@@ -106,6 +108,11 @@ export async function runStagingSmoke({
       `Homepage does not identify release ${manifest.version}.`,
     );
     return `HTTP 200; release ${manifest.version} present in initial HTML.`;
+  });
+
+  await record(checks, 'diary-navigation-en-it', async () => {
+    for (const language of ['en', 'it']) await verifyDiaryNavigation(origin, language);
+    return 'Both homepage links reached their matching diary language and validation section.';
   });
 
   await record(checks, 'staging-banner', async () => {

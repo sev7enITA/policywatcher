@@ -360,7 +360,7 @@ required_entries=(
   prisma/migrations/20260820133000_subscriber_double_opt_in/migration.sql
   scripts/create-staging-database.mjs scripts/hostinger-environment-gate.mjs
   scripts/hostinger-managed-build.mjs
-  scripts/hostinger-staging-smoke.mjs scripts/hostinger-promote-release.mjs
+  scripts/hostinger-staging-smoke.mjs scripts/hostinger-promote-release.mjs scripts/reconciliation/diary-navigation.mjs
   docs/hostinger-staging-promotion.md
   src/app/admin/AdminDashboardTelemetryClient.tsx src/app/admin/DashboardMeasurement.tsx
   src/app/admin/LiveStatusCards.tsx src/app/admin/OperationalActionCenter.tsx

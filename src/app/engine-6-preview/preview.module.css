@@ -142,3 +142,8 @@
   .limits { padding: 18px; }
 }
 @media (prefers-reduced-motion: reduce) { .page { scroll-behavior: auto; } }
+
+.receipts { list-style: none; margin: 0 0 1.5rem; padding: 0; }
+.receipts li + li { border-top: 1px solid var(--border); }
+.receipts a { display: flex; align-items: center; min-height: 44px; padding: .5rem .75rem; text-decoration: underline; }
+.receipts a:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }
