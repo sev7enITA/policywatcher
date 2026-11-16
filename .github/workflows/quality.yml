@@ -66,6 +66,11 @@ jobs:
       - name: Validate AI model registry
         run: npm run ai:registry:validate
 
+      - name: Verify bilingual navigation and offline evidence
+        run: |
+          node --test scripts/reconciliation/controls.test.mjs
+          python3 scripts/reconciliation/check-language-pairs.py
+
       - name: Validate release evidence ledger
         run: npm run release:evidence:validate
 

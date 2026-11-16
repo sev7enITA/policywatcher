@@ -1,0 +1,150 @@
+{
+  "version": "pw-passage-tokens-v1",
+  "sha256": "d3be61aa00826492947fe5282f36177a2fefa46a9e59179eddfb63a01b191693",
+  "sources": [
+    {
+      "id": "87c9526a37054d6e2919443f",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+      "extractionSha256": "993ed5120c75318d98473698e001dc29c41935af329de73ab6165f36b146b08c",
+      "payloadSha256": "fe38ff1a39f7558cd2b40093c87502cd106c16f880ca7eb6b680b7fbcd485e13",
+      "references": 123,
+      "matches": 123,
+      "missing": []
+    },
+    {
+      "id": "99768b93c4b8b93615a41ac6",
+      "url": "https://www.anthropic.com/legal/terms",
+      "extractionSha256": "a4cc68492ec59ee9abf21a69ea8501228ae8449bc6ec1238b464ca92f8a28aad",
+      "payloadSha256": "ed468373009fd7ddd8bd6a15cad4eab43535816b12c840d68ced94178e92eef7",
+      "references": 114,
+      "matches": 114,
+      "missing": []
+    },
+    {
+      "id": "fb755ba1a77a1d488c8f8434",
+      "url": "https://datatrust.coca-cola.com/us/en/notices/supplemental-us-privacy-notice",
+      "extractionSha256": "d5ff1290a404dcbd3022dfcc9bffeaef466bba6ac9de55cc04f8794729337b63",
+      "payloadSha256": "cc3e4885bdf6526a9c7e20f8d2c01addaca96b076721ea81590f68f8a8aac9e9",
+      "references": 0,
+      "matches": 0,
+      "missing": []
+    },
+    {
+      "id": "7c7a08551e310b2e3ac1a1e8",
+      "url": "https://policies.google.com/privacy?hl=it",
+      "extractionSha256": "297cb8b5f85ab241cc4023ca25d1442f3321094868c89738074abea7602954f2",
+      "payloadSha256": "391747a2107cae4de10e8eae84602c2c47da1dd0cbea6faff24b3af021b40e11",
+      "references": 344,
+      "matches": 337,
+      "missing": [
+        {
+          "locator": "html:nth-child(1) > body:nth-child(2) > c-wiz:nth-child(9) > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > div:nth-child(3) > c-wiz:nth-child(1) > div:nth-child(1) > div:nth-child(12) > div:nth-child(1) > table:nth-child(20) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(1) > p:nth-child(1)",
+          "sha256": "fb67ed8387dcac904d2bac88aee5679e5e2bb08dcdbc2806cc336f2bfe5c685d"
+        },
+        {
+          "locator": "html:nth-child(1) > body:nth-child(2) > c-wiz:nth-child(9) > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > div:nth-child(3) > c-wiz:nth-child(1) > div:nth-child(1) > div:nth-child(12) > div:nth-child(1) > table:nth-child(20) > tbody:nth-child(2) > tr:nth-child(2) > td:nth-child(1) > p:nth-child(1)",
+          "sha256": "4d5a47ec6a0221aefb46793e128f189c538dc8b4aac2b53240545a4cc1c9c3b2"
+        },
+        {
+          "locator": "html:nth-child(1) > body:nth-child(2) > c-wiz:nth-child(9) > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > div:nth-child(3) > c-wiz:nth-child(1) > div:nth-child(1) > div:nth-child(12) > div:nth-child(1) > table:nth-child(20) > tbody:nth-child(2) > tr:nth-child(2) > td:nth-child(1) > p:nth-child(2)",
+          "sha256": "369158863aef3b178c79a6b757355bbafe5252a02074e58ed6d82b1d90c5f1f4"
+        },
+        {
+          "locator": "html:nth-child(1) > body:nth-child(2) > c-wiz:nth-child(9) > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > div:nth-child(3) > c-wiz:nth-child(1) > div:nth-child(1) > div:nth-child(12) > div:nth-child(1) > table:nth-child(20) > tbody:nth-child(2) > tr:nth-child(3) > td:nth-child(1) > p:nth-child(1)",
+          "sha256": "386957a84eda0e5eb025fbf7762bff673303523a4ce4d71d868726a4df419eb8"
+        },
+        {
+          "locator": "html:nth-child(1) > body:nth-child(2) > c-wiz:nth-child(9) > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > div:nth-child(3) > c-wiz:nth-child(1) > div:nth-child(1) > div:nth-child(12) > div:nth-child(1) > table:nth-child(20) > tbody:nth-child(2) > tr:nth-child(4) > td:nth-child(1) > p:nth-child(1)",
+          "sha256": "024f0d8580f1d4800ae9e3bc2b57c27f71d645a19ef6ac35040ee241e4f84af6"
+        },
+        {
+          "locator": "html:nth-child(1) > body:nth-child(2) > c-wiz:nth-child(9) > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > div:nth-child(3) > c-wiz:nth-child(1) > div:nth-child(1) > div:nth-child(12) > div:nth-child(1) > table:nth-child(20) > tbody:nth-child(2) > tr:nth-child(7) > td:nth-child(1) > p:nth-child(1)",
+          "sha256": "f9b24b43bf584bb16925dc1b8325c965462dbaf9f0f41b319a86024f09b2fa94"
+        },
+        {
+          "locator": "html:nth-child(1) > body:nth-child(2) > c-wiz:nth-child(9) > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > div:nth-child(3) > c-wiz:nth-child(1) > div:nth-child(1) > div:nth-child(12) > div:nth-child(1) > table:nth-child(20) > tbody:nth-child(2) > tr:nth-child(7) > td:nth-child(1) > p:nth-child(2)",
+          "sha256": "454c2c9df52f44a90d5a60bc9aec8bb3947f01bb41c9b827aeaf8f71876a3667"
+        }
+      ]
+    },
+    {
+      "id": "d0c1841f05ed306f4b258e2c",
+      "url": "https://policies.google.com/privacy?hl=en",
+      "extractionSha256": "fd951bb76d55656703a6aa501fad07964d1e12419587709245560377013b6328",
+      "payloadSha256": "c0667d5771bf1c9efec9eac6b60529ce41c6e7793131e5e61bb53d5608d12eef",
+      "references": 335,
+      "matches": 328,
+      "missing": [
+        {
+          "locator": "html:nth-child(1) > body:nth-child(2) > c-wiz:nth-child(9) > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > div:nth-child(3) > c-wiz:nth-child(1) > div:nth-child(1) > div:nth-child(12) > div:nth-child(1) > table:nth-child(20) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(1) > p:nth-child(1)",
+          "sha256": "f6f9278282d8c20a23533e3328252a93409d4f1496d5a1c0c2f7d79dbedd8af4"
+        },
+        {
+          "locator": "html:nth-child(1) > body:nth-child(2) > c-wiz:nth-child(9) > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > div:nth-child(3) > c-wiz:nth-child(1) > div:nth-child(1) > div:nth-child(12) > div:nth-child(1) > table:nth-child(20) > tbody:nth-child(2) > tr:nth-child(2) > td:nth-child(1) > p:nth-child(1)",
+          "sha256": "9b7fa8d4bb710860f20e029e1d83776d77ce7126291bdb012ce810d1e707faea"
+        },
+        {
+          "locator": "html:nth-child(1) > body:nth-child(2) > c-wiz:nth-child(9) > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > div:nth-child(3) > c-wiz:nth-child(1) > div:nth-child(1) > div:nth-child(12) > div:nth-child(1) > table:nth-child(20) > tbody:nth-child(2) > tr:nth-child(2) > td:nth-child(1) > p:nth-child(2)",
+          "sha256": "6cd567f2c22d83c34029e9014431c4d035fd6084efdb4e9a2f2f72fb8ea81c48"
+        },
+        {
+          "locator": "html:nth-child(1) > body:nth-child(2) > c-wiz:nth-child(9) > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > div:nth-child(3) > c-wiz:nth-child(1) > div:nth-child(1) > div:nth-child(12) > div:nth-child(1) > table:nth-child(20) > tbody:nth-child(2) > tr:nth-child(3) > td:nth-child(1) > p:nth-child(1)",
+          "sha256": "c42d57ab0b324e806169541a93bfbc5f56a022c5ae04978315542776243878a9"
+        },
+        {
+          "locator": "html:nth-child(1) > body:nth-child(2) > c-wiz:nth-child(9) > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > div:nth-child(3) > c-wiz:nth-child(1) > div:nth-child(1) > div:nth-child(12) > div:nth-child(1) > table:nth-child(20) > tbody:nth-child(2) > tr:nth-child(4) > td:nth-child(1) > p:nth-child(1)",
+          "sha256": "905a6837b0756cfa90128f17d9cc70a17766efa20c36d90a10dbe4545a593d81"
+        },
+        {
+          "locator": "html:nth-child(1) > body:nth-child(2) > c-wiz:nth-child(9) > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > div:nth-child(3) > c-wiz:nth-child(1) > div:nth-child(1) > div:nth-child(12) > div:nth-child(1) > table:nth-child(20) > tbody:nth-child(2) > tr:nth-child(7) > td:nth-child(1) > p:nth-child(1)",
+          "sha256": "0ee42f6b3524b5d52baf97c78e92583bde0cee5a32fb631f6d43636ab9af26a1"
+        },
+        {
+          "locator": "html:nth-child(1) > body:nth-child(2) > c-wiz:nth-child(9) > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > div:nth-child(3) > c-wiz:nth-child(1) > div:nth-child(1) > div:nth-child(12) > div:nth-child(1) > table:nth-child(20) > tbody:nth-child(2) > tr:nth-child(7) > td:nth-child(1) > p:nth-child(2)",
+          "sha256": "218bf53820d18e880c4e87ee7fd1d889e932b0783a459ae1126d13bde961ed1e"
+        }
+      ]
+    },
+    {
+      "id": "90429499a61f4efa14ff622b",
+      "url": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/termsofuse",
+      "extractionSha256": "a22bb06fc4840800f5ac78642b2d4a753bbb601fad1b81ec8ec55ccc7864e9de",
+      "payloadSha256": "4353cb5cba307aa3e2da369f2c5ceb92abc4e2b404775f14bb6c89e4c86a9216",
+      "references": 78,
+      "matches": 78,
+      "missing": []
+    },
+    {
+      "id": "832747af440fd72af06e9c28",
+      "url": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-balance",
+      "extractionSha256": "44619acfc521bc1aaabb42ccbbdc4a50eb443dc40896694f31b0c559031bc19c",
+      "payloadSha256": "e6f05a8d4e460c24e569e8eb3f082b9e70230221482187c59d2473d5b606504b",
+      "references": 66,
+      "matches": 66,
+      "missing": []
+    },
+    {
+      "id": "850e6c64d8f32ca25b9b9758",
+      "url": "https://plaid.com/legal#end-user-privacy-policy",
+      "extractionSha256": "de1a68e67aedcc3043c9899578d1a7b52aed503c57a4639f83567770607121c6",
+      "payloadSha256": "e955725e92db6481dacf60e72249b645d3246e57e282d9e6ee1ad1f93b505716",
+      "references": 0,
+      "matches": 0,
+      "missing": []
+    }
+  ],
+  "unavailable": [
+    {
+      "id": "df5b8790be0dd3dfec4e4ce2",
+      "url": "https://openai.com/policies/eu-privacy-policy",
+      "status": 403,
+      "payloadSha256": "2eb18172ad3447a69d6ab255ae29f62d399f1e26b350128548b3097108d4738f"
+    },
+    {
+      "id": "cb0ecaefebd6958fb559bfea",
+      "url": "https://www.paypal.com/lu/webapps/mpp/ua/privacy-full",
+      "status": 403,
+      "payloadSha256": "4a7cc47f0700ec8443bca8f03f994276582c74b8c5da1597b2e512c4d2e479d4"
+    }
+  ]
+}
