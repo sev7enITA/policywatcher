@@ -1,0 +1,89 @@
+environment,route,language_requested,width,http,resolved_route,html_language,overflow_px,observation,observed_utc
+private r3,/admin/access-logs,en,1366,200,/admin/access-logs,en,0,rendered at sampling time,2026-11-16T06:27:27.273Z
+stable 5.5,/admin/access-logs,en,1366,200,/admin/access-logs,en,0,rendered at sampling time,2026-11-16T06:27:27.490Z
+private r3,/admin/companies,en,1366,200,/admin/companies,en,0,rendered at sampling time,2026-11-16T06:27:28.212Z
+private r3,/admin/competitive-analysis,en,1366,200,/admin/competitive-analysis,en,0,rendered at sampling time,2026-11-16T06:27:29.076Z
+private r3,/admin/cron,en,1366,200,/admin/cron,en,0,rendered at sampling time,2026-11-16T06:27:29.758Z
+private r3,/admin/database,en,1366,200,/admin/database,en,0,rendered at sampling time,2026-11-16T06:27:30.358Z
+private r3,/admin/dataset-quality,en,1366,200,/admin/dataset-quality,en,0,rendered at sampling time,2026-11-16T06:27:30.949Z
+stable 5.5,/admin/companies,en,1366,200,/admin/companies,en,0,rendered at sampling time,2026-11-16T06:27:28.618Z
+private r3,/admin/engine,en,1366,200,/admin/engine,en,0,rendered at sampling time,2026-11-16T06:27:31.566Z
+private r3,/admin/engine,en,390,200,/admin/engine,en,0,rendered at sampling time,2026-11-16T06:27:32.230Z
+private r3,/admin/evidence-quality,en,1366,200,/admin/evidence-quality,en,0,rendered at sampling time,2026-11-16T06:27:32.812Z
+stable 5.5,/admin/competitive-analysis,en,1366,200,/admin/competitive-analysis,en,0,rendered at sampling time,2026-11-16T06:27:31.751Z
+private r3,/admin/executive-study,en,1366,200,/admin/executive-study,en,0,rendered at sampling time,2026-11-16T06:27:33.412Z
+stable 5.5,/admin/cron,en,1366,200,/admin/cron,en,0,rendered at sampling time,2026-11-16T06:27:33.656Z
+private r3,/admin/explainability,en,1366,200,/admin/explainability,en,0,rendered at sampling time,2026-11-16T06:27:34.316Z
+stable 5.5,/admin/database,en,1366,200,/admin/database,en,0,rendered at sampling time,2026-11-16T06:27:34.354Z
+private r3,/admin/inquiries,en,1366,200,/admin/inquiries,en,0,rendered at sampling time,2026-11-16T06:27:34.947Z
+stable 5.5,/admin/dataset-quality,en,1366,200,/admin/dataset-quality,en,0,rendered at sampling time,2026-11-16T06:27:34.960Z
+stable 5.5,/admin/engine,en,1366,404,/admin/engine,en,0,access response,2026-11-16T06:27:35.562Z
+private r3,/admin/kpi-audit,en,1366,200,/admin/kpi-audit,en,0,rendered at sampling time,2026-11-16T06:27:35.538Z
+private r3,/admin/login,en,1366,200,/admin/login,en,0,rendered at sampling time,2026-11-16T06:27:36.224Z
+stable 5.5,/admin/engine,en,390,404,/admin/engine,en,0,access response,2026-11-16T06:27:36.158Z
+private r3,/admin/outreach,en,1366,200,/admin/outreach,en,0,rendered at sampling time,2026-11-16T06:27:36.802Z
+stable 5.5,/admin/evidence-quality,en,1366,200,/admin/evidence-quality,en,0,rendered at sampling time,2026-11-16T06:27:37.097Z
+private r3,/admin,en,1366,200,/admin/engine,en,0,rendered at sampling time,2026-11-16T06:27:37.474Z
+private r3,/admin/production-verification,en,1366,200,/admin/production-verification,en,0,rendered at sampling time,2026-11-16T06:27:38.116Z
+stable 5.5,/admin/executive-study,en,1366,200,/admin/executive-study,en,0,rendered at sampling time,2026-11-16T06:27:37.960Z
+private r3,/admin/review-log,en,1366,200,/admin/review-log,en,0,rendered at sampling time,2026-11-16T06:27:38.701Z
+stable 5.5,/admin/explainability,en,1366,200,/admin/explainability,en,0,rendered at sampling time,2026-11-16T06:27:38.778Z
+private r3,/admin/source-onboarding,en,1366,200,/admin/source-onboarding,en,0,rendered at sampling time,2026-11-16T06:27:39.277Z
+stable 5.5,/admin/inquiries,en,1366,200,/admin/inquiries,en,0,rendered at sampling time,2026-11-16T06:27:39.395Z
+private r3,/admin/source-reliability,en,1366,200,/admin/source-reliability,en,0,rendered at sampling time,2026-11-16T06:27:39.894Z
+stable 5.5,/admin/kpi-audit,en,1366,200,/admin/kpi-audit,en,0,rendered at sampling time,2026-11-16T06:27:40.132Z
+private r3,/admin/vps-services,en,1366,200,/admin/vps-services,en,0,rendered at sampling time,2026-11-16T06:27:40.581Z
+stable 5.5,/admin/login,en,1366,200,/admin/login,en,0,rendered at sampling time,2026-11-16T06:27:40.995Z
+private r3,/admin/webhook-delivery,en,1366,200,/admin/webhook-delivery,en,0,rendered at sampling time,2026-11-16T06:27:41.358Z
+stable 5.5,/admin/outreach,en,1366,200,/admin/outreach,en,0,rendered at sampling time,2026-11-16T06:27:41.834Z
+private r3,/admin/access-logs,it,1366,200,/admin/access-logs,en,0,rendered at sampling time,2026-11-16T06:27:42.200Z
+stable 5.5,/admin,en,1366,200,/admin,en,0,rendered at sampling time,2026-11-16T06:27:42.465Z
+private r3,/admin/companies,it,1366,200,/admin/companies,en,0,rendered at sampling time,2026-11-16T06:27:42.820Z
+private r3,/admin/competitive-analysis,it,1366,200,/admin/competitive-analysis,en,0,rendered at sampling time,2026-11-16T06:27:43.406Z
+stable 5.5,/admin/production-verification,en,1366,200,/admin/production-verification,en,0,rendered at sampling time,2026-11-16T06:27:43.291Z
+private r3,/admin/cron,it,1366,200,/admin/cron,en,0,rendered at sampling time,2026-11-16T06:27:43.978Z
+private r3,/admin/database,it,1366,200,/admin/database,en,0,rendered at sampling time,2026-11-16T06:27:44.572Z
+stable 5.5,/admin/review-log,en,1366,200,/admin/review-log,en,0,rendered at sampling time,2026-11-16T06:27:44.252Z
+private r3,/admin/dataset-quality,it,1366,200,/admin/dataset-quality,en,0,rendered at sampling time,2026-11-16T06:27:45.133Z
+private r3,/admin/engine,it,1366,200,/admin/engine,en,0,rendered at sampling time,2026-11-16T06:27:45.746Z
+stable 5.5,/admin/source-onboarding,en,1366,200,/admin/source-onboarding,en,0,rendered at sampling time,2026-11-16T06:27:45.294Z
+private r3,/admin/engine,it,390,200,/admin/engine,en,0,rendered at sampling time,2026-11-16T06:27:46.405Z
+private r3,/admin/evidence-quality,it,1366,200,/admin/evidence-quality,en,0,rendered at sampling time,2026-11-16T06:27:46.996Z
+stable 5.5,/admin/source-reliability,en,1366,200,/admin/source-reliability,en,0,rendered at sampling time,2026-11-16T06:27:46.470Z
+private r3,/admin/executive-study,it,1366,200,/admin/executive-study,en,0,rendered at sampling time,2026-11-16T06:27:47.604Z
+private r3,/admin/explainability,it,1366,200,/admin/explainability,en,0,rendered at sampling time,2026-11-16T06:27:48.206Z
+private r3,/admin/inquiries,it,1366,200,/admin/inquiries,en,0,rendered at sampling time,2026-11-16T06:27:48.778Z
+private r3,/admin/kpi-audit,it,1366,200,/admin/kpi-audit,en,0,rendered at sampling time,2026-11-16T06:27:49.351Z
+private r3,/admin/login,it,1366,200,/admin/login,en,0,rendered at sampling time,2026-11-16T06:27:50.016Z
+stable 5.5,/admin/vps-services,en,1366,200,/admin/vps-services,en,0,rendered at sampling time,2026-11-16T06:27:47.647Z
+private r3,/admin/outreach,it,1366,200,/admin/outreach,en,0,rendered at sampling time,2026-11-16T06:27:50.687Z
+private r3,/admin,it,1366,200,/admin/engine,en,0,rendered at sampling time,2026-11-16T06:27:51.266Z
+stable 5.5,/admin/webhook-delivery,en,1366,403,/admin/webhook-delivery,,0,access response,2026-11-16T06:27:50.860Z
+private r3,/admin/production-verification,it,1366,403,/admin/production-verification,,0,access response,2026-11-16T06:27:51.955Z
+private r3,/admin/review-log,it,1366,403,/admin/review-log,,0,access response,2026-11-16T06:27:52.545Z
+private r3,/admin/source-onboarding,it,1366,403,/admin/source-onboarding,,0,access response,2026-11-16T06:27:53.056Z
+private r3,/admin/source-reliability,it,1366,403,/admin/source-reliability,,0,access response,2026-11-16T06:27:53.565Z
+private r3,/admin/vps-services,it,1366,403,/admin/vps-services,,0,access response,2026-11-16T06:27:54.072Z
+private r3,/admin/webhook-delivery,it,1366,403,/admin/webhook-delivery,,0,access response,2026-11-16T06:27:54.587Z
+stable 5.5,/admin/access-logs,it,1366,,,,,navigation timeout or error,2026-11-16T06:27:52.378Z
+stable 5.5,/admin/companies,it,1366,,,,,navigation timeout or error,2026-11-16T06:28:08.381Z
+stable 5.5,/admin/competitive-analysis,it,1366,,,,,navigation timeout or error,2026-11-16T06:28:24.384Z
+stable 5.5,/admin/cron,it,1366,,,,,navigation timeout or error,2026-11-16T06:28:40.385Z
+stable 5.5,/admin/database,it,1366,,,,,navigation timeout or error,2026-11-16T06:28:56.387Z
+stable 5.5,/admin/dataset-quality,it,1366,,,,,navigation timeout or error,2026-11-16T06:29:12.394Z
+stable 5.5,/admin/engine,it,1366,,,,,navigation timeout or error,2026-11-16T06:29:28.397Z
+stable 5.5,/admin/engine,it,390,,,,,navigation timeout or error,2026-11-16T06:29:44.402Z
+stable 5.5,/admin/evidence-quality,it,1366,,,,,navigation timeout or error,2026-11-16T06:33:22.667Z
+stable 5.5,/admin/executive-study,it,1366,,,,,navigation timeout or error,2026-11-16T06:33:23.064Z
+stable 5.5,/admin/explainability,it,1366,,,,,navigation timeout or error,2026-11-16T06:33:23.353Z
+stable 5.5,/admin/inquiries,it,1366,,,,,navigation timeout or error,2026-11-16T06:33:23.722Z
+stable 5.5,/admin/kpi-audit,it,1366,,,,,navigation timeout or error,2026-11-16T06:33:24.061Z
+stable 5.5,/admin/login,it,1366,,,,,navigation timeout or error,2026-11-16T06:33:24.369Z
+stable 5.5,/admin/outreach,it,1366,,,,,navigation timeout or error,2026-11-16T06:33:24.714Z
+stable 5.5,/admin,it,1366,,,,,navigation timeout or error,2026-11-16T06:33:25.007Z
+stable 5.5,/admin/production-verification,it,1366,,,,,navigation timeout or error,2026-11-16T06:33:25.276Z
+stable 5.5,/admin/review-log,it,1366,,,,,navigation timeout or error,2026-11-16T06:33:25.633Z
+stable 5.5,/admin/source-onboarding,it,1366,,,,,navigation timeout or error,2026-11-16T06:33:25.906Z
+stable 5.5,/admin/source-reliability,it,1366,,,,,navigation timeout or error,2026-11-16T06:33:26.248Z
+stable 5.5,/admin/vps-services,it,1366,,,,,navigation timeout or error,2026-11-16T06:33:26.555Z
+stable 5.5,/admin/webhook-delivery,it,1366,,,,,navigation timeout or error,2026-11-16T06:33:26.866Z

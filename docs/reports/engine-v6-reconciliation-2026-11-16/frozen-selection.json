@@ -1,0 +1,81 @@
+[
+  {
+    "sourceId": "87c9526a37054d6e2919443f",
+    "sourceUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+    "originalReasons": [
+      "disclosure_scope_unverified",
+      "disclosure_target_missing"
+    ]
+  },
+  {
+    "sourceId": "99768b93c4b8b93615a41ac6",
+    "sourceUrl": "https://www.anthropic.com/legal/terms",
+    "originalReasons": [
+      "document_header_metadata_unreviewed",
+      "interactive_document_content_unreviewed",
+      "removed_document_content_unreviewed"
+    ]
+  },
+  {
+    "sourceId": "fb755ba1a77a1d488c8f8434",
+    "sourceUrl": "https://datatrust.coca-cola.com/us/en/notices/supplemental-us-privacy-notice",
+    "originalReasons": [
+      "document_scope_unverified"
+    ]
+  },
+  {
+    "sourceId": "7c7a08551e310b2e3ac1a1e8",
+    "sourceUrl": "https://policies.google.com/privacy?hl=it",
+    "originalReasons": [
+      "dialog_document_scope_unverified",
+      "hidden_document_content_unresolved",
+      "interactive_document_content_unreviewed"
+    ]
+  },
+  {
+    "sourceId": "d0c1841f05ed306f4b258e2c",
+    "sourceUrl": "https://policies.google.com/privacy?hl=en",
+    "originalReasons": [
+      "dialog_document_scope_unverified",
+      "hidden_document_content_unresolved",
+      "interactive_document_content_unreviewed"
+    ]
+  },
+  {
+    "sourceId": "90429499a61f4efa14ff622b",
+    "sourceUrl": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/termsofuse",
+    "originalReasons": [
+      "hidden_document_content_unresolved"
+    ]
+  },
+  {
+    "sourceId": "832747af440fd72af06e9c28",
+    "sourceUrl": "https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-balance",
+    "originalReasons": [
+      "document_header_metadata_unreviewed"
+    ]
+  },
+  {
+    "sourceId": "df5b8790be0dd3dfec4e4ce2",
+    "sourceUrl": "https://openai.com/policies/eu-privacy-policy",
+    "originalReasons": [
+      "interactive_document_content_unreviewed",
+      "removed_document_content_unreviewed"
+    ]
+  },
+  {
+    "sourceId": "850e6c64d8f32ca25b9b9758",
+    "sourceUrl": "https://plaid.com/legal#end-user-privacy-policy",
+    "originalReasons": [
+      "removed_document_content_unreviewed"
+    ]
+  },
+  {
+    "sourceId": "cb0ecaefebd6958fb559bfea",
+    "sourceUrl": "https://www.paypal.com/lu/webapps/mpp/ua/privacy-full",
+    "originalReasons": [
+      "disclosure_target_missing",
+      "document_scope_unverified"
+    ]
+  }
+]

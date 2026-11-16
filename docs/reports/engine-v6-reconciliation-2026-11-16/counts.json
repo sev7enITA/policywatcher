@@ -1,0 +1,24 @@
+{
+  "sitemap": 716,
+  "sitemap200": 716,
+  "public_entries": 1561,
+  "read200": 1557,
+  "workstation_failures": 409,
+  "host_rechecks": 416,
+  "sections": 17314,
+  "templates": 77,
+  "admin_templates": 21,
+  "admin_browser_entries": 88,
+  "wiki_pages": 18,
+  "git_docs": 265,
+  "host_file_matches": 516,
+  "mobile_desktop_widths": [
+    390,
+    1366
+  ],
+  "cases": 10,
+  "http_200": 8,
+  "extracts": 8,
+  "units": 812,
+  "matched": 812
+}
