@@ -1,0 +1,165 @@
+{
+  "verifiedAt": "2026-11-16T14:00:12.211161+00:00",
+  "stableRelease": "5.5.0",
+  "stableCommit": "012ced6431bb56dddee7a3270900a9bf7c5539e7",
+  "implementationMerge": "39d60174cbd586e82c4f75f0c2f63bb3da7b6459",
+  "archiveSha256": "722aa81945495176959c6864d4ea956e701e9ff8ac642de20ce6071bf9614899",
+  "stagingDeployment": "01a1e49a-4448-721f-baa2-f9e994d6ff7c",
+  "restorationDeployment": "01a1e49e-b39a-70d8-b8f7-07ffaff2f600",
+  "publicDeployment": "01a1e4a3-794f-73ba-8f94-53aff155d67c",
+  "stagingChecks": [
+    "homepage",
+    "diary-navigation-en-it",
+    "staging-banner",
+    "search-engine-boundary",
+    "robots-boundary",
+    "release-identity",
+    "publication-readiness-contract",
+    "health-auth-boundary",
+    "database-health",
+    "admin-authentication",
+    "database-readiness",
+    "public-dataset"
+  ],
+  "stagingVerification": "2026-11-16T13:48:06.927Z",
+  "sites": {
+    "staging.policywatcher.online": {
+      "checkedAt": "2026-11-16T13:48:53.263Z",
+      "ui": [
+        {
+          "lang": "it",
+          "width": 390,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 3268,
+          "links": 6,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "it",
+          "width": 1366,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 94,
+          "links": 6,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "en",
+          "width": 390,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 80,
+          "links": 6,
+          "minimumLinkHeight": 64,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "en",
+          "width": 1366,
+          "firstDisplay": "flex",
+          "stylesheetWaitMs": 62,
+          "links": 6,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        }
+      ],
+      "matchedSourceFiles": 516
+    },
+    "policywatcher.online": {
+      "checkedAt": "2026-11-16T13:59:41.606Z",
+      "ui": [
+        {
+          "lang": "it",
+          "width": 390,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 2759,
+          "links": 6,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "it",
+          "width": 1366,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 41,
+          "links": 6,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "en",
+          "width": 390,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 39,
+          "links": 6,
+          "minimumLinkHeight": 64,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        },
+        {
+          "lang": "en",
+          "width": 1366,
+          "firstDisplay": "inline",
+          "stylesheetWaitMs": 2153,
+          "links": 6,
+          "minimumLinkHeight": 44,
+          "focusMovedAndVisible": true,
+          "overflow": 0
+        }
+      ],
+      "matchedSourceFiles": 516
+    }
+  },
+  "runtime": {
+    "checkedAt": "2026-11-16T13:59:28.261Z",
+    "status": "attention",
+    "release": "5.5.0",
+    "health": "ok",
+    "applicationTables": 35,
+    "migrations": 19,
+    "integrity": "ok",
+    "verificationSummary": {
+      "passed": 9,
+      "attention": 0,
+      "unavailable": 0,
+      "external": 1
+    },
+    "attention": []
+  },
+  "privateR3": {
+    "archiveSha256": "e82ff8ff3fe33275e62475054889cdaf97f1a12d7442bb0ca6d42ec30cf99341",
+    "implementation": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+    "authenticatedChecks": 14,
+    "preservedReports": 3,
+    "activeTasks": 0,
+    "preservedEvidenceTables": 14,
+    "comparedTables": 48,
+    "changedOperationalTables": [
+      {
+        "table": "EngineOrigin",
+        "before": {
+          "rows": 3,
+          "sha256": "acff6578f09535c40f4223f194fc81767a1c4c5e601aeefd0a4b91a93124cd9f"
+        },
+        "after": {
+          "rows": 3,
+          "sha256": "1190b958729a3d21d9ee3352d40a37e47420bb56c83e85ce727b31bbb075bc43"
+        }
+      }
+    ]
+  },
+  "earlySourceComparison": "During the staging transition, the first source-file snapshot still showed the previous private r3 files. That failure is retained separately. After Hostinger reported Completed, all 516 scoped files matched the stable archive.",
+  "publicMobileItalianScreenshotSha256": "b3c1300b443c847434800b7019cef412c7e2d01531ce1aff62d32cd064829dcb",
+  "algorithmCandidateDeployed": false,
+  "glmReview": "Max resource refusal, Flash human verification pending; no review verdict",
+  "migrationObservation": {
+    "privateR3": "Prisma SQLite database lock; existing bundled initializer reported schema ready. Subsequent integrity, schema and preservation checks passed.",
+    "stableProduction": "Same Prisma lock and initializer fallback observed. Subsequent health, schema and internal operational checks passed."
+  }
+}
