@@ -1,0 +1,17 @@
+I’m developing PolicyWatcher to make published policy changes easier to review and act on.
+
+PolicyWatcher monitors privacy policies, terms of service and AI policies, keeping source evidence separate from automated interpretation. The latest development build adds a Policy Briefing workflow for individuals and business reviewers:
+
+• Focus on selected services and topics, including AI training, retention, sharing, consent and renewal. Each match shows the wording that triggered it and whether it came from an excerpt or an automatic summary.
+• Keep a local review plan with a responsible role, a review status and a date you choose. A newer publication reopens the earlier review; unavailable evidence cannot validate a completed review.
+• Download a dated briefing with source links, retrieval dates and before/after excerpts. Local role, status and date fields are excluded by default. Optional calendar files create your own review reminders.
+
+The design reflects a practical need: less time sorting separate alerts and a clearer path from evidence to a decision. Personal selections and review annotations stay in the browser. The current implementation does not synchronize team assignments or send notifications.
+
+This is a development update. The new workflow has been implemented and tested locally; the public service remains PolicyWatcher 5.5.0. Further model reviews, mobile visual checks and deployment verification are still pending.
+
+Feedback from privacy, procurement and legal teams would help shape the next iteration, especially around vendor context, shared reviews and evidence reuse.
+
+https://policywatcher.online
+
+#PolicyWatcher #Privacy #AIGovernance #VendorRisk

@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import ChangelogModal from '@/components/ChangelogModal';
-import { pressKitReleases } from '../pressKit';
+import { pressKitReleases, latestResearchUpdate, previewResearchUpdate } from '../pressKit';
 import { FEATURE_ATLAS_FEATURES, FEATURE_ATLAS_RELEASES } from '../featureAtlas';
 import { RELEASE_COLUMNS, RELEASE_IMPACT_ITEMS } from '../releaseImpact';
 import { POLICYWATCHER_RELEASE_CHANNEL_LABEL, POLICYWATCHER_VERSION } from '../release';
@@ -51,6 +51,28 @@ describe('public release consistency', () => {
       expect(ids).toContain(edge.from);
       expect(ids).toContain(edge.to);
     }
+  });
+
+  it.each(['en', 'it'] as const)('shows the newest research in the %s changelog and preserves the dated r3 record', lang => {
+    const html = renderToStaticMarkup(<ChangelogModal isOpen onClose={() => {}} lang={lang} />);
+    const newestResearch = pressKitReleases.filter(release => release.status === 'research')
+      .sort((a, b) => b.datePublished.localeCompare(a.datePublished))[0];
+    expect(latestResearchUpdate).toBe(newestResearch);
+    expect(pressKitReleases[0]).toBe(newestResearch);
+    expect(html).toContain(newestResearch.title[lang]);
+    expect(html).toContain(`dateTime="${newestResearch.datePublished}"`);
+    expect(html).toContain(`/press-kit/releases/${newestResearch.slug}?lang=${lang}`);
+    expect(html).not.toContain(previewResearchUpdate.title[lang]);
+    expect(previewResearchUpdate.datePublished).toBe('2026-11-07');
+    expect(pressKitReleases).toContain(previewResearchUpdate);
+  });
+
+  it('publishes the newest research through the same JSON feed registry', async () => {
+    const { GET } = await import('@/app/press-kit/feed.json/route');
+    const feed = await GET().json();
+    expect(feed.items[0].title).toBe(latestResearchUpdate.title.en);
+    expect(feed.items[0].url.endsWith(`/press-kit/releases/${latestResearchUpdate.slug}`)).toBe(true);
+    expect(feed.items.some((item: { title: string }) => item.title === previewResearchUpdate.title.en)).toBe(true);
   });
 
   it.each(['en', 'it'] as const)('renders the current release first in the %s changelog', lang => {

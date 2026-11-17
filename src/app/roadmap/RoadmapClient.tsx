@@ -30,6 +30,7 @@ import { ReleaseImpactMap } from '@/components/ReleaseImpactMap';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
 import { POLICYWATCHER_RELEASE_NAME, POLICYWATCHER_VERSION } from '@/lib/release';
+import { latestResearchUpdate } from '@/lib/pressKit';
 import RoadmapSignalComposer, {
   type RoadmapSignalComposerRequest,
 } from './RoadmapSignalComposer';
@@ -1032,8 +1033,8 @@ export default function RoadmapClient() {
       </header>
 
       <aside className={styles.enginePreviewNotice} aria-label="Engine 6 Preview experimental programme">
-        <div><span>RESEARCH UPDATE · 7 NOVEMBER 2026</span><h2>Engine 6 Preview r3 is privately deployed</h2><p>Stable PolicyWatcher remains 5.5.0. Thirteen authenticated checks and one bounded Apple run are recorded for r3. The separate frozen candidate completed its three-date observation. Source completeness, semantic accuracy, hosted claim-ledger writes and full 500-policy/day operation remain unqualified.</p></div>
-        <nav aria-label="Engine 6 Preview details"><Link href="/press-kit/releases/engine-six-preview-r3-evidence-update">Read the dated r3 research update</Link><Link href="/engine-6-preview">Explore architecture, decision flow and entity relationships <ArrowUpRight size={17} aria-hidden="true" /></Link><Link href="/engine-6-preview?lang=it" hrefLang="it">Leggi in italiano</Link></nav>
+        <div><span>RESEARCH UPDATE · {latestResearchUpdate.dateModified}</span><h2>{latestResearchUpdate.title.en}</h2><p>{latestResearchUpdate.summary.en} {latestResearchUpdate.boundaries[0].en}</p></div>
+        <nav aria-label="Engine 6 Preview details"><Link href={`/press-kit/releases/${latestResearchUpdate.slug}`}>Read the latest research update</Link><Link href="/engine-6-preview">Explore architecture, decision flow and entity relationships <ArrowUpRight size={17} aria-hidden="true" /></Link><Link href="/engine-6-preview?lang=it" hrefLang="it">Leggi in italiano</Link></nav>
       </aside>
 
       <section className={styles.principles} aria-label="Roadmap principles">

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { CheckCircle2, Clock, Sparkles, X } from 'lucide-react';
 import ModalDialog from '@/components/ModalDialog';
-import { pressKitReleases, previewResearchUpdate, type PressKitLocale } from '@/lib/pressKit';
+import { pressKitReleases, latestResearchUpdate, type PressKitLocale } from '@/lib/pressKit';
 import { POLICYWATCHER_RELEASE_CHANNEL, POLICYWATCHER_RELEASE_CHANNEL_LABEL, POLICYWATCHER_VERSION } from '@/lib/release';
 import styles from './ChangelogModal.module.css';
 
@@ -54,12 +54,12 @@ export default function ChangelogModal({ isOpen, onClose, lang = 'en' }: Changel
         </header>
         <div className={styles.body}>
           <section className={styles.section} aria-label={lang === 'it' ? 'Ultimo aggiornamento Preview' : 'Latest Preview research update'}>
-            <h3 className={styles.sectionTitle}><Sparkles size={16} />{lang === 'it' ? 'Novità della ricerca' : 'Latest research update'} · Engine 6 Preview r3 · {lang === 'it' ? 'SPERIMENTALE' : 'EXPERIMENTAL'}</h3>
+            <h3 className={styles.sectionTitle}><Sparkles size={16} />{lang === 'it' ? 'Novità della ricerca' : 'Latest research update'} · {latestResearchUpdate.displayVersion} · {lang === 'it' ? 'SPERIMENTALE' : 'EXPERIMENTAL'}</h3>
             <article className={styles.featureItem}>
-              <div className={styles.featureHeader}><h4 className={styles.featureName}>{previewResearchUpdate.title[lang]}</h4><time dateTime={previewResearchUpdate.datePublished}>{new Intl.DateTimeFormat(lang === 'it' ? 'it-IT' : 'en-GB', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(previewResearchUpdate.datePublished))}</time></div>
-              <p className={styles.featureDesc}>{previewResearchUpdate.summary[lang]}</p>
-              <p className={styles.featureDesc}>{previewResearchUpdate.boundaries[0][lang]}</p>
-              <Link href={href(previewResearchUpdate.slug)}>{lang === 'it' ? 'Prove, novità e limiti della r3' : 'r3 evidence, progress and limits'}</Link>
+              <div className={styles.featureHeader}><h4 className={styles.featureName}>{latestResearchUpdate.title[lang]}</h4><time dateTime={latestResearchUpdate.datePublished}>{new Intl.DateTimeFormat(lang === 'it' ? 'it-IT' : 'en-GB', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(latestResearchUpdate.datePublished))}</time></div>
+              <p className={styles.featureDesc}>{latestResearchUpdate.summary[lang]}</p>
+              <p className={styles.featureDesc}>{latestResearchUpdate.boundaries[0][lang]}</p>
+              <Link href={href(latestResearchUpdate.slug)}>{lang === 'it' ? 'Tutte le novità, le prove e i limiti' : 'All progress, evidence and limits'}</Link>
             </article>
           </section>
           {current && <section className={styles.section} aria-label={t.current}>

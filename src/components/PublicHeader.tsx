@@ -14,6 +14,7 @@ export type PublicSection =
   | 'knowledge'
   | 'guides'
   | 'collections'
+  | 'briefing'
   | 'evidence'
   | 'signals'
   | 'infographics'
@@ -50,6 +51,7 @@ const links: Array<{ id: PublicSection; href: string; en: string; it: string }> 
   { id: 'guides', href: '/guides', en: 'Guides', it: 'Guide' },
   { id: 'knowledge', href: '/knowledge', en: 'Companies and policies', it: 'Aziende e policy' },
   { id: 'collections', href: '/collections', en: 'Collections', it: 'Raccolte' },
+  { id: 'briefing', href: '/briefing', en: 'Policy briefing', it: 'Briefing policy' },
   { id: 'evidence', href: '/evidence', en: 'Evidence', it: 'Evidenze' },
   { id: 'signals', href: '/leaderboard', en: 'Signals', it: 'Segnali' },
   { id: 'infographics', href: '/infographics', en: 'Infographics', it: 'Infografiche' },
@@ -93,6 +95,7 @@ export default function PublicHeader({ current, lang = 'en', lockLang = false }:
   }, []);
 
   function localizedHref(link: typeof links[number]) {
+    if (link.id === 'briefing') return `/briefing?lang=${activeLang}`;
     if (link.id === 'per-te') return activeLang === 'it' ? '/per-te' : '/per-te?lang=en';
     if (link.id === 'associations') return activeLang === 'it' ? '/it/associazioni' : '/en/associations';
     if (link.id === 'guides' && activeLang === 'it') return '/guides?lang=it';
