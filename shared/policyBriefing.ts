@@ -50,6 +50,23 @@ export function parseBriefingPreferences(raw: string | null): BriefingPreference
     return { version: 1, filters: { serviceIds: [...v.filters.serviceIds], topics: [...v.filters.topics] as BriefingTopic[], days: v.filters.days as BriefingFilters['days'] }, reviews };
   } catch { return null; }
 }
+export function mergeBriefingHistory(current: CitizenFeed, older: CitizenFeed): CitizenFeed {
+  const known = new Set(current.services.flatMap(service => service.policies.map(policy => JSON.stringify([service.id, policy.id]))));
+  const changes = new Map(current.changes.map(change => [change.id, change]));
+  let clipped = false;
+  let outsideCurrentCatalog = false;
+  for (const change of older.changes) {
+    if (changes.has(change.id)) continue;
+    if (!known.has(JSON.stringify([change.serviceId, change.policyId]))) {
+      outsideCurrentCatalog = true;
+      continue;
+    }
+    if (changes.size === 2000) { clipped = true; break; }
+    changes.set(change.id, change);
+  }
+  return { ...current, changes: [...changes.values()], history: clipped ? current.history : older.history,
+    catalogTruncated: current.catalogTruncated || older.catalogTruncated || outsideCurrentCatalog };
+}
 export function briefingMatches(change: CitizenChange, locale: CitizenLocale): BriefingRow['matches'] {
   const summary = clean(change.summary[locale]);
   const excerpt = clean(change.evidence.map(e => `${e.before}\n${e.after}`).join('\n'));
@@ -110,6 +127,7 @@ export function briefingMarkdown(brief: ReturnType<typeof buildPolicyBriefing>):
   const it = brief.locale === 'it';
   const text = (value: string) => value.replace(/([\\`*_[\]<>#|])/g, '\\$1').replace(/\r?\n/g, ' ');
   return [`# PolicyWatcher · ${it ? 'Briefing policy' : 'Policy briefing'}`, `${it ? 'Preparato' : 'Prepared'}: ${brief.generatedAt}`, `${it ? 'Catalogo acquisito' : 'Catalog retrieved'}: ${brief.catalogGeneratedAt}`,
+    ...(!brief.coverage.liveAvailable ? [it ? 'Aggiornamento non riuscito. I record provengono dall’ultima acquisizione indicata sopra. La copertura attuale è sconosciuta.' : 'Refresh failed. These records come from the last catalog retrieval shown above. Current coverage is unknown.'] : []),
     JSON.stringify(brief.coverage), brief.boundary, ...brief.records.flatMap(r => [
       `## ${text(r.service)} · ${text(r.policy)}`, `${it ? 'Pubblicato' : 'Published'}: ${r.publishedAt}`, text(r.summary),
       `${it ? 'Fonte' : 'Source'}: ${r.source.url}`, `${it ? 'Ultima acquisizione' : 'Last retrieval'}: ${r.source.retrievedAt ?? 'unavailable'} (${r.source.freshness})`,

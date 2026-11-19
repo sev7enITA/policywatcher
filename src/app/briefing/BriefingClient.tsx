@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 import { citizenFreshness, parseCitizenFeed, type CitizenFeed, type CitizenLocale } from '../../../shared/citizen';
 import {
   BRIEFING_MAX_REVIEWS, BRIEFING_STORAGE_KEY, BRIEFING_TOPICS, briefingCalendar, briefingMarkdown,
-  buildBriefingRows, buildPolicyBriefing, emptyBriefing, parseBriefingPreferences, validBriefingDate,
+  buildBriefingRows, buildPolicyBriefing, emptyBriefing, mergeBriefingHistory, parseBriefingPreferences, validBriefingDate,
   type BriefingFilters, type BriefingReview, type BriefingRow, type BriefingTopic, type ReviewStatus,
 } from '../../../shared/policyBriefing';
 import styles from './briefing.module.css';
@@ -122,7 +122,7 @@ export default function BriefingClient({ locale }: { locale: CitizenLocale }) {
     if (older && (!cursor || (current?.changes.length ?? 0) >= 2000)) return;
     request.current?.abort();
     const controller = new AbortController(); request.current = controller;
-    if (older) setLoadingOlder(true); else { setLoading(true); setLive(false); seenCursors.current.clear(); }
+    if (older) setLoadingOlder(true); else { setLoading(true); setLive(false); }
     setFailed(false);
     try {
       const params = new URLSearchParams();
@@ -133,14 +133,11 @@ export default function BriefingClient({ locale }: { locale: CitizenLocale }) {
       if (!next || (older && next.history.nextCursor && (seenCursors.current.has(next.history.nextCursor) || next.history.nextCursor === cursor))) throw new Error('Invalid public feed');
       let merged = next;
       if (older && current) {
-        const known = new Set(current.services.flatMap(s => s.policies.map(p => `${s.id}/${p.id}`)));
-        const changes = [...new Map([...next.changes, ...current.changes].filter(c => known.has(`${c.serviceId}/${c.policyId}`)).map(c => [c.id, c])).values()];
-        const combined = parseCitizenFeed({ ...current, changes: changes.slice(0, 2000), history: next.history, catalogTruncated: current.catalogTruncated || next.catalogTruncated });
-        if (!combined) throw new Error('Invalid history window');
-        merged = combined;
+        merged = mergeBriefingHistory(current, next);
         seenCursors.current.add(cursor!);
       }
       if (controller.signal.aborted) return;
+      if (!older) seenCursors.current.clear();
       feedRef.current = merged; setFeed(merged); setClock(new Date()); setLive(true);
     } catch {
       if (!controller.signal.aborted) { setFailed(true); setLive(false); setClock(new Date()); }
@@ -271,7 +268,7 @@ export default function BriefingClient({ locale }: { locale: CitizenLocale }) {
                 <fieldset className={styles.review}><legend>{t.task}</legend><div className={styles.reviewFields}><label>{t.status}<select aria-label={t.status} value={row.reviewState} onChange={event => editReview(row, { status: event.target.value as ReviewStatus })}>{row.reviewState === 'unknown' && <option value="unknown" disabled>{t.unknown}</option>}{row.reviewState === 'reopened' && <option value="reopened" disabled>{t.reopened}</option>}<option value="todo">{t.todo}</option><option value="reviewing">{t.reviewing}</option><option value="reviewed" disabled={!canComplete}>{t.reviewed}</option></select></label><label>{t.role}<input type="text" maxLength={80} value={row.review?.role ?? ''} placeholder={t.rolePlaceholder} onChange={event => editReview(row, { role: event.target.value })} autoComplete="off" /></label><label>{t.date}<input type="date" value={row.review?.dueDate ?? ''} onChange={event => editReview(row, { dueDate: event.target.value })} /></label></div><p className={styles.hint}>{t.localHint}</p>{row.review && <button type="button" className={styles.textButton} onClick={() => { setPreferences(current => ({ ...current, reviews: current.reviews.filter(r => r.changeId !== row.change.id) })); setMessage(''); }}>{t.removeReview}</button>}{row.reviewState === 'reopened' && <p className={styles.reviewWarning}><RefreshCw size={14} aria-hidden="true" /><strong>{t.reopened}</strong> {t.reopenedHint} {row.policy.latestChange && <Link href={`/change/${encodeURIComponent(row.policy.latestChange.id)}?lang=${locale}`}>{t.reviewLatest}</Link>}</p>}{row.reviewState === 'unknown' && <p className={styles.reviewWarning}><ShieldQuestion size={16} aria-hidden="true" />{t.unknownHint}</p>}{row.reviewState === 'reviewed' && <p className={styles.reviewed}><Check size={15} aria-hidden="true" />{t.reviewed}</p>}</fieldset>
               </article>;
             })}</div>
-            {feed?.history.hasMore && <div className={styles.history}><p>{feed.changes.length >= 2000 ? t.historyLimit : t.partial}</p><button type="button" onClick={() => void load(true)} disabled={loading || loadingOlder || feed.changes.length >= 2000}>{loadingOlder ? t.olderBusy : t.older}<ArrowDownToLine size={16} aria-hidden="true" /></button></div>}
+            {feed?.history.hasMore && <div className={styles.history}><p>{feed.changes.length >= 2000 ? t.historyLimit : t.partial}</p><button type="button" onClick={() => void load(true)} disabled={!live || loading || loadingOlder || feed.changes.length >= 2000}>{loadingOlder ? t.olderBusy : t.older}<ArrowDownToLine size={16} aria-hidden="true" /></button></div>}
           </section>
         </div>
 

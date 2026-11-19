@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { briefingCalendar, briefingMarkdown, briefingMatches, buildBriefingRows, buildPolicyBriefing, emptyBriefing, parseBriefingPreferences, validBriefingDate, type BriefingPreferences } from '../../../shared/policyBriefing';
+import { briefingCalendar, briefingMarkdown, briefingMatches, buildBriefingRows, buildPolicyBriefing, emptyBriefing, mergeBriefingHistory, parseBriefingPreferences, validBriefingDate, type BriefingPreferences } from '../../../shared/policyBriefing';
 import { publicRequestLanguage } from '../seo';
 import type { CitizenChange, CitizenFeed } from '../../../shared/citizen';
 
@@ -41,6 +41,24 @@ describe('Policy briefing evidence and private workflow', () => {
     expect(buildBriefingRows(f, p, 'en', now)).toHaveLength(1);
     f.changes[0].publishedAt = '2026-12-01T00:00:00Z';
     expect(buildBriefingRows(f, p, 'en', now)).toHaveLength(0);
+  });
+  it('keeps newer rows at the history limit and discloses omitted history even on the last page', () => {
+    const first = feed(), last = feed();
+    first.changes = Array.from({ length: 1999 }, (_, i) => ({ ...change, id: 'first-' + i }));
+    last.history = { limit: 25, nextCursor: null, hasMore: false };
+    last.changes = [{ ...change, id: 'first-0', summary: { en: 'older copy', it: 'vecchia copia' } }, { ...change, id: 'older' }, { ...change, id: 'oldest' }];
+    const result = mergeBriefingHistory(first, last);
+    expect(result.changes).toHaveLength(2000);
+    expect(result.changes[0]).toEqual(first.changes[0]);
+    expect(result.changes.at(-1)?.id).toBe('older');
+    expect(result.history.hasMore).toBe(true);
+  });
+  it('explicitly describes a failed refresh in both human-readable exports', () => {
+    for (const locale of ['en', 'it'] as const) {
+      const report = buildPolicyBriefing(feed(), prefs(), locale, false, now, false);
+      expect(briefingMarkdown(report)).toContain(locale === 'en' ? 'Current coverage is unknown' : 'La copertura attuale è sconosciuta');
+      expect(report.coverage.liveAvailable).toBe(false);
+    }
   });
   it('reopens an exact historical review when policy metadata identifies a newer publication', () => {
     const f = feed(); const p = prefs();
