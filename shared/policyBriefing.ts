@@ -54,13 +54,18 @@ export function mergeBriefingHistory(current: CitizenFeed, older: CitizenFeed): 
   const known = new Set(current.services.flatMap(service => service.policies.map(policy => JSON.stringify([service.id, policy.id]))));
   const changes = new Map(current.changes.map(change => [change.id, change]));
   let clipped = false;
+  let outsideCurrentCatalog = false;
   for (const change of older.changes) {
-    if (changes.has(change.id) || !known.has(JSON.stringify([change.serviceId, change.policyId]))) continue;
+    if (changes.has(change.id)) continue;
+    if (!known.has(JSON.stringify([change.serviceId, change.policyId]))) {
+      outsideCurrentCatalog = true;
+      continue;
+    }
     if (changes.size === 2000) { clipped = true; break; }
     changes.set(change.id, change);
   }
   return { ...current, changes: [...changes.values()], history: clipped ? current.history : older.history,
-    catalogTruncated: current.catalogTruncated || older.catalogTruncated };
+    catalogTruncated: current.catalogTruncated || older.catalogTruncated || outsideCurrentCatalog };
 }
 export function briefingMatches(change: CitizenChange, locale: CitizenLocale): BriefingRow['matches'] {
   const summary = clean(change.summary[locale]);

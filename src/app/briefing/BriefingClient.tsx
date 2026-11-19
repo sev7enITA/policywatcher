@@ -122,7 +122,7 @@ export default function BriefingClient({ locale }: { locale: CitizenLocale }) {
     if (older && (!cursor || (current?.changes.length ?? 0) >= 2000)) return;
     request.current?.abort();
     const controller = new AbortController(); request.current = controller;
-    if (older) setLoadingOlder(true); else { setLoading(true); setLive(false); seenCursors.current.clear(); }
+    if (older) setLoadingOlder(true); else { setLoading(true); setLive(false); }
     setFailed(false);
     try {
       const params = new URLSearchParams();
@@ -137,6 +137,7 @@ export default function BriefingClient({ locale }: { locale: CitizenLocale }) {
         seenCursors.current.add(cursor!);
       }
       if (controller.signal.aborted) return;
+      if (!older) seenCursors.current.clear();
       feedRef.current = merged; setFeed(merged); setClock(new Date()); setLive(true);
     } catch {
       if (!controller.signal.aborted) { setFailed(true); setLive(false); setClock(new Date()); }
