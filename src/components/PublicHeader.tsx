@@ -12,6 +12,7 @@ export type PublicSection =
   | 'associations'
   | 'knowledge'
   | 'guides'
+  | 'briefing'
   | 'collections'
   | 'evidence'
   | 'signals'
@@ -48,6 +49,7 @@ const links: Array<{ id: PublicSection; href: string; en: string; it: string }> 
   { id: 'associations', href: '/en/associations', en: 'Civic Lab', it: 'Associazioni' },
   { id: 'guides', href: '/guides', en: 'Guides', it: 'Guide' },
   { id: 'knowledge', href: '/knowledge', en: 'Companies and policies', it: 'Aziende e policy' },
+  { id: 'briefing', href: '/briefing', en: 'Policy briefing', it: 'Briefing policy' },
   { id: 'collections', href: '/collections', en: 'Collections', it: 'Raccolte' },
   { id: 'evidence', href: '/evidence', en: 'Evidence', it: 'Evidenze' },
   { id: 'signals', href: '/leaderboard', en: 'Signals', it: 'Segnali' },
@@ -106,7 +108,7 @@ export default function PublicHeader({ current, lang = 'en', lockLang = false }:
             {primaryIds.map((id) => links.find((link) => link.id === id)!).map((link) => (
               <Link
                 key={link.id}
-                href={link.id === 'per-te' ? activeLang === 'it' ? '/per-te' : '/per-te?lang=en' : link.id === 'associations'
+                href={link.id === 'briefing' ? `/briefing?lang=${activeLang}` : link.id === 'per-te' ? activeLang === 'it' ? '/per-te' : '/per-te?lang=en' : link.id === 'associations'
                   ? activeLang === 'it' ? '/it/associazioni' : '/en/associations'
                   : link.id === 'guides' && activeLang === 'it' ? '/guides?lang=it' : link.href}
                 aria-current={current === link.id ? 'page' : undefined}
@@ -134,7 +136,7 @@ export default function PublicHeader({ current, lang = 'en', lockLang = false }:
                 {links.filter((link) => !primaryIds.includes(link.id)).map((link) => (
                   <Link
                     key={link.id}
-                    href={link.id === 'per-te'
+                    href={link.id === 'briefing' ? `/briefing?lang=${activeLang}` : link.id === 'per-te'
                       ? activeLang === 'it' ? '/per-te' : '/per-te?lang=en'
                       : link.id === 'associations'
                         ? activeLang === 'it' ? '/it/associazioni' : '/en/associations'

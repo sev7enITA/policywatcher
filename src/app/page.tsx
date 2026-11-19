@@ -72,6 +72,7 @@ export default async function HomePage() {
                 <p>Find the policy for your region, compare recorded versions and check the original source. Text changes and their possible impact are kept separate.</p>
                 <nav className={styles.introLinks} aria-label="PolicyWatcher public references">
                   <Link href="/per-te?lang=en">Follow your services</Link>
+                  <Link href="/briefing?lang=en">Prepare a policy briefing</Link>
                   <Link href="/knowledge">Browse public records</Link>
                   <Link href="/guides">Explore policy monitoring guides</Link>
                   <a href="#workspace">Open the interactive workspace</a>
