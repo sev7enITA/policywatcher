@@ -76,7 +76,7 @@
     "diff": "^9.0.0",
     "framer-motion": "^12.40.0",
     "lucide-react": "^1.21.0",
-    "next": "16.4.3",
+    "next": "16.4.6",
     "nodemailer": "10.1.4",
     "papaparse": "^5.5.4",
     "prisma": "^6.19.3",
@@ -94,7 +94,7 @@
   "devDependencies": {
     "@vitest/coverage-v8": "^4.1.9",
     "eslint": "^9",
-    "eslint-config-next": "16.4.3",
+    "eslint-config-next": "16.4.6",
     "playwright": "1.61.1",
     "vitest": "^4.1.9"
   },
