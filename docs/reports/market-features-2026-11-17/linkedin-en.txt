@@ -1,17 +1,15 @@
-I’m developing PolicyWatcher to make published policy changes easier to review and act on.
+A supplier updates its privacy policy. If you use that service, the first question is usually a small one. Did anything change about how long it keeps my data?
 
-PolicyWatcher monitors privacy policies, terms of service and AI policies, keeping source evidence separate from automated interpretation. The latest development build adds a Policy Briefing workflow for individuals and business reviewers:
+I’ve been working on that question in PolicyWatcher. In the new Policy Briefing, you can choose a service and a topic, see the words that matched in a summary or a source excerpt, and open the published comparison. A mention of “training”, for example, can also occur in a promise never to train on your data. Reading the passage matters.
 
-• Focus on selected services and topics, including AI training, retention, sharing, consent and renewal. Each match shows the wording that triggered it and whether it came from an excerpt or an automatic summary.
-• Keep a local review plan with a responsible role, a review status and a date you choose. A newer publication reopens the earlier review; unavailable evidence cannot validate a completed review.
-• Download a dated briefing with source links, retrieval dates and before/after excerpts. Local role, status and date fields are excluded by default. Optional calendar files create your own review reminders.
+For people reviewing suppliers at work, the same briefing can hold a responsible role and a date to check back. If a later change is published, the earlier review is flagged for another look. Roles and dates stay in your browser and are left out of downloads unless you choose to include them.
 
-The design reflects a practical need: less time sorting separate alerts and a clearer path from evidence to a decision. Personal selections and review annotations stay in the browser. The current implementation does not synchronize team assignments or send notifications.
+During testing we found that loading older records could displace newer ones. We corrected that and made exported briefings say plainly when the latest refresh failed. Both details matter if someone else is going to rely on the file you send them.
 
-This is a development update. The new workflow has been implemented and tested locally; the public service remains PolicyWatcher 5.5.0. Further model reviews, mobile visual checks and deployment verification are still pending.
+The bilingual briefing has passed local mobile checks. The public release is awaiting the hosted rollout.
 
-Feedback from privacy, procurement and legal teams would help shape the next iteration, especially around vendor context, shared reviews and evidence reuse.
+When a supplier changes its terms, what do you need to see before you can decide whether to act?
 
 https://policywatcher.online
 
-#PolicyWatcher #Privacy #AIGovernance #VendorRisk
+#Privacy #VendorRisk #AIGovernance

@@ -1,5 +1,7 @@
 # Policy Briefing implementation and release boundary
 
+The 19 November follow-up is recorded in [release verification](verification-2026-11-19.md). The sections below describe the 17 November candidate.
+
 17 November 2026. **Local candidate implemented and tested; not deployed or published.** Requested Gemini 4 High through Antigravity and GLM 5.3 reviews remain incomplete. There is no Engine 6 activation or full 500-policy/day claim.
 
 ## Market and resulting behavior
