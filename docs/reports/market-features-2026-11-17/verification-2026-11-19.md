@@ -11,10 +11,12 @@ The public 5.5.0 package was built from stable revision `212ba5f8839610cebcebba0
 ## Local delivery checks
 
 - The production archive was built with Next.js 16.4.6. The stable package lock and extraction fingerprint were updated together. The production dependency audit reported zero known advisories.
-- The stable suite passed 1,335 tests with 14 skipped on the patched dependency set before the final CSS-only change. The research checkout passed 1,658 tests with 14 skipped before the same CSS correction.
+- The stable suite passed 1,335 tests with 14 skipped on the exact final release revision with the patched dependencies. The research checkout passed 1,658 tests with 14 skipped before the same CSS correction.
 - At 320 CSS pixels the Italian count labels initially extended to 358 pixels. A stacked metrics layout corrected this. An isolated production build rendered 25 synthetic changes in both languages at 320 and 390 pixels with no horizontal overflow at any of the four combinations.
 - On the final mobile build, loading older records produced 28 changes. The commercial filter yielded zero. Reset restored the records. Saving a test role and exporting JSON with default settings produced 28 records and omitted the role.
 - Browser verification used a local loopback reverse proxy and an isolated fixture database. No physical handset or hosted functional test is claimed.
+
+- The local release served the new research article, the amended stable record linking to the briefing, and the original dated r3 article with HTTP 200 and the expected content in both languages.
 
 ## Hosting
 
