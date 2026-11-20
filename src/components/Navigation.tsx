@@ -238,9 +238,9 @@ export default function Navigation({
       subscribe: 'Avvisi',
       changelog: 'Novità del prodotto',
       about: 'Info',
-      assistant: 'AI Chat',
-      workspace: 'Workspace',
-      workspaceTitle: 'Configura il tuo spazio',
+      assistant: 'Chat IA',
+      workspace: 'Area di lavoro',
+      workspaceTitle: 'Configura l’area di lavoro',
       workspaceIntent: {
         citizen: 'Cittadino',
         grc: 'GRC / Legal',
@@ -248,7 +248,7 @@ export default function Navigation({
         builder: 'Builder',
       },
       evidenceDepth: {
-        snapshot: 'Snapshot',
+        snapshot: 'Sintesi',
         operational: 'Operativa',
         forensic: 'Forensic',
       },

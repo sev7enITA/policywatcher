@@ -2,6 +2,10 @@
 
 ## 5.5.0 - Engine 6 Preview (2026-11-02)
 
+### Homepage language and mobile notice, 20 November 2026
+
+- The public homepage and interactive workspace share one language setting. The research notice opens on demand and can be hidden and restored. Returning browsers remember the choice. Company loading cards also fit a 320-pixel screen.
+
 ### Policy Briefing and press coverage, 20 November 2026
 
 - The press kit opens downloads in the language of the shared link, including after a reload. Its language switch links to the matching edition.

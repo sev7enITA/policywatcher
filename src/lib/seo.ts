@@ -16,7 +16,7 @@ export function publicRequestLanguage(pathname: string, queryLanguage: unknown):
   if (/^\/per-te\/?$/.test(pathname)) return queryLanguage === 'en' ? 'en' : 'it';
   if (pathname.startsWith('/it/')) return 'it';
   const localizedQueryRoute = /^\/(change\/[^/]+|pulse\/[^/]+|share\/[^/]+|embed\/pulse\/[^/]+|guides(?:\/[^/]+)?|press-kit\/releases(?:\/[^/]+)?|browser-extension|engine-6-preview|briefing)\/?$/.test(pathname);
-  return localizedQueryRoute ? publicLanguage(queryLanguage) : 'en';
+  return (pathname === '/' || pathname === '/press-kit' || localizedQueryRoute) ? publicLanguage(queryLanguage) : 'en';
 }
 
 export function localizedPublicUrl(path: string, lang: PublicLanguage): string {
