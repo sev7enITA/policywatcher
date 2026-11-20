@@ -143,6 +143,7 @@ export function encodeDashboardShareQuery(
   state: DashboardShareState,
 ): string {
   const params = paramsFrom(search);
+  const languageSelected = params.has('lang');
   for (const key of DASHBOARD_QUERY_KEYS) params.delete(key);
 
   const normalizedSearch = state.search.trim();
@@ -155,7 +156,7 @@ export function encodeDashboardShareQuery(
     ['range', state.dateRange, state.dateRange !== DEFAULT_DASHBOARD_SHARE_STATE.dateRange],
     ['q', normalizedSearch, normalizedSearch !== DEFAULT_DASHBOARD_SHARE_STATE.search],
     ['sort', state.sortBy, state.sortBy !== DEFAULT_DASHBOARD_SHARE_STATE.sortBy],
-    ['lang', state.lang, state.lang !== DEFAULT_DASHBOARD_SHARE_STATE.lang],
+    ['lang', state.lang, languageSelected || state.lang !== DEFAULT_DASHBOARD_SHARE_STATE.lang],
   ];
 
   const configured = entries.some(([, , include]) => include);

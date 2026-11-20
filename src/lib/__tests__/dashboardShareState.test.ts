@@ -31,6 +31,12 @@ describe('dashboard share state', () => {
     expect(decoded.state).toEqual(state);
   });
 
+  it('retains explicit English when a browser has a different preferred language', () => {
+    for (const initial of ['lang=en', 'lang=it']) {
+      expect(new URLSearchParams(encodeDashboardShareQuery(initial, DEFAULT_DASHBOARD_SHARE_STATE)).get('lang')).toBe('en');
+    }
+  });
+
   it('omits defaults and preserves unrelated route state', () => {
     expect(
       encodeDashboardShareQuery(
