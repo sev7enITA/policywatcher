@@ -73,3 +73,6 @@
     padding: 12px;
   }
 }
+
+.clause { display: block; overflow-wrap: anywhere; }
+.clause small { display: block; font: 500 .78rem/1.5 system-ui, sans-serif; margin: .25rem 0 .6rem; }

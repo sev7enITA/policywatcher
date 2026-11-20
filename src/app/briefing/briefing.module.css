@@ -165,3 +165,10 @@
   .metrics dd { font-size: 1.5rem; }
 }
 @media (prefers-reduced-motion: reduce) { .page button { transition: none; } }
+
+.shared { max-width: 780px; margin-inline: auto; overflow-wrap: anywhere; }
+.shared > * + * { margin-top: 1rem; }
+.shareBox { border-top: 1px solid var(--rule); padding-top: .6rem; overflow-wrap: anywhere; }
+.shareBox summary, .shared summary { cursor: pointer; padding: .65rem 0; }
+.shareBox label, .shareBox p, .shareBox a { display: block; margin: .6rem 0; }
+.shareBox textarea { display: block; width: 100%; }

@@ -1,3 +1,4 @@
+import { clauseAudience, editedSentences } from '../../shared/clauseAudience';
 import type { ChangeClassification, ChangeExcerpt } from '@/lib/changeClassificationTypes';
 import { CHANGE_KIND_LABELS, changeClassificationDescription } from '@/lib/changeClassificationCopy';
 import styles from './ChangeClassification.module.css';
@@ -31,12 +32,13 @@ export default function ChangeClassificationPanel({ classification, lang = 'en',
     <p className={styles.impact}><strong>{it ? 'Impatto della modifica: da valutare.' : 'Change impact: not assessed.'}</strong>{' '}
       {it ? 'Il punteggio di rischio descrive la policy analizzata e non misura l’effetto di questa revisione.' : 'The risk score describes the assessed policy and does not measure the effect of this revision.'}
     </p>
+    {!classification?.evidence.length && <p>{it ? 'Destinatari della clausola · Applicabilità da verificare' : 'Clause audience · Applicability needs verification'}</p>}
     {Boolean(classification?.evidence.length) && <details className={styles.evidence} open>
       <summary>{it ? 'Confronto prima / dopo' : 'Before / after comparison'} <span>({classification!.evidence.length}/{classification!.totalHunks})</span></summary>
       <p className={styles.note}>{it ? 'Estratti esatti degli snapshot. Evidenziazioni = testo modificato; il contesto non evidenziato può essere invariato. Il diff completo segue nell’analisi.' : 'Exact snapshot excerpts. Highlights show edited text; surrounding context can be unchanged. The full diff follows in the analysis.'}</p>
       {classification!.evidence.map((evidence, index) => <div className={styles.comparison} key={index}>
-        <div><ExcerptHeading>{it ? 'Prima' : 'Before'} · V{classification!.oldVersion ?? '?'}</ExcerptHeading><Excerpt value={evidence.before} /></div>
-        <div><ExcerptHeading>{it ? 'Dopo' : 'After'} · V{classification!.newVersion ?? '?'}</ExcerptHeading><Excerpt value={evidence.after} /></div>
+        <div><ExcerptHeading>{it ? 'Prima' : 'Before'} · V{classification!.oldVersion ?? '?'}</ExcerptHeading><Excerpt value={evidence.before} /><p className={styles.note}>{clauseAudience(editedSentences(evidence.before), lang)}</p></div>
+        <div><ExcerptHeading>{it ? 'Dopo' : 'After'} · V{classification!.newVersion ?? '?'}</ExcerptHeading><Excerpt value={evidence.after} /><p className={styles.note}>{clauseAudience(editedSentences(evidence.after), lang)}</p></div>
         {evidence.anchoredQuote && <p className={styles.anchor}>{it ? 'Clausola selezionata dall’AI e riscontrata nel testo modificato' : 'AI-selected clause located in the edited text'}: <q>{evidence.anchoredQuote.text}</q></p>}
       </div>)}
     </details>}

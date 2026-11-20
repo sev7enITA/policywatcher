@@ -1,3 +1,4 @@
+import { clauseAudience } from '../../shared/clauseAudience';
 /**
  * DiffViewer - reusable, XSS-safe renderer for policy text changes.
  *
@@ -25,7 +26,7 @@ interface DiffViewerProps {
   title?: string;
 }
 
-function renderChunks(chunks: JsonChunk[]) {
+function renderChunks(chunks: JsonChunk[], lang: Lang) {
   return chunks.map((chunk, index) => {
     let lineClass = styles.diffUnchanged;
     let prefix = '  ';
@@ -39,7 +40,9 @@ function renderChunks(chunks: JsonChunk[]) {
     return (
       <span key={index} className={`${styles.diffLine} ${lineClass}`}>
         {prefix}
-        {chunk.value}
+        {chunk.added || chunk.removed ? chunk.value.split(/(?<=[.!?])(?=\s)|(?<=\n)/u).map((clause, i) =>
+          clause.trim() ? <span className={styles.clause} key={i}>{clause}<small>{clauseAudience(clause, lang)}</small></span> : clause
+        ) : chunk.value}
       </span>
     );
   });
@@ -82,7 +85,7 @@ export default function DiffViewer({
         </h3>
       )}
       <div className={styles.diffContainer} style={{ maxHeight }}>
-        {renderChunks(chunks)}
+        {renderChunks(chunks, lang)}
       </div>
     </div>
   );

@@ -128,3 +128,10 @@
 @media (prefers-reduced-motion: no-preference) {
   .record, .distribution nav a, .copyButton, .clearFilters { transition: background-color .16s ease, border-color .16s ease, color .16s ease; }
 }
+
+.recordContent a { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 480px) {
+  .record, .recordBody, .recordContent, .citationBlock, .recordTopline { min-width: 0; overflow-wrap: anywhere; }
+  .recordTopline { flex-wrap: wrap; }
+  .recordTopline code, .method a { white-space: normal; }
+}
