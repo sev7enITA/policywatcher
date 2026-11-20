@@ -6,7 +6,7 @@ import HomeKnowledgeSnapshot from '../../components/HomeKnowledgeSnapshot';
 import {
   HOME_CANONICAL_URL,
   HOME_DESCRIPTION,
-  HOME_FAQS,
+  HOME_FAQS, HOME_FAQS_IT, homeStructuredData,
   HOME_SOCIAL_IMAGE_URL,
   HOME_STRUCTURED_DATA,
   HOME_TITLE,
@@ -119,7 +119,7 @@ describe('crawlable public knowledge layer', () => {
     expect(route).toContain("siteName: 'PolicyWatcher'");
     expect(route).toContain("card: 'summary_large_image'");
     expect(route).toContain('type="application/ld+json"');
-    expect(route).toContain('serializeJsonLd(HOME_STRUCTURED_DATA)');
+    expect(route).toContain('serializeJsonLd(homeStructuredData(lang))');
     expect(graph.map((entry) => entry['@type'])).toEqual([
       'WebSite',
       'Organization',
@@ -134,13 +134,15 @@ describe('crawlable public knowledge layer', () => {
   });
 
   it('keeps homepage FAQ schema identical to visible FAQ content', () => {
-    const route = read('src/app/page.tsx');
-    const faqGraph = HOME_STRUCTURED_DATA['@graph'].find((entry) => entry['@type'] === 'FAQPage');
-
-    expect(HOME_FAQS).toHaveLength(3);
-    expect(route).toContain('HOME_FAQS.map');
-    expect(route).toContain('<noscript>');
-    expect(faqGraph).toMatchObject({ '@type': 'FAQPage', mainEntity: expect.any(Array) });
+    const landing = read('src/app/HomeLanding.tsx');
+    expect(landing).toContain('it ? HOME_FAQS_IT : HOME_FAQS');
+    expect(landing).toContain('faqs.map');
+    expect(landing).toContain('<noscript>');
+    for (const lang of ['it', 'en'] as const) {
+      const faq = homeStructuredData(lang)['@graph'].find(item => item['@type'] === 'FAQPage');
+      const items = lang === 'it' ? HOME_FAQS_IT : HOME_FAQS;
+      expect(faq?.mainEntity.map(entry => [entry.name, entry.acceptedAnswer.text])).toEqual(items.map(entry => [entry.question, entry.answer]));
+    }
   });
 
   it('adds stable entity discovery to sitemap and public navigation', () => {
@@ -190,24 +192,27 @@ describe('crawlable public knowledge layer', () => {
     const route = read('src/app/page.tsx');
     const dashboard = read('src/app/DashboardClient.tsx');
     expect(route).not.toContain("'use client'");
-    expect(route).toContain('<main className={styles.publicKnowledgeMain}>');
-    expect(route).toContain('<HomeKnowledgeSnapshot data={knowledge} />');
-    expect(route).toContain('<DashboardClient />');
-    expect(route.indexOf('<HomeKnowledgeSnapshot data={knowledge} />')).toBeLessThan(route.indexOf('<DashboardClient />'));
+    const landing = read('src/app/HomeLanding.tsx');
+    expect(route).toContain('<HomeLanding');
+    expect(landing).toContain('<main className={styles.publicKnowledgeMain}>');
+    expect(landing).toContain('<DashboardClient lang={lang} setLang={setLang}');
+    expect(landing).toContain('<HomeKnowledgeSnapshot lang={lang} data={knowledge}');
+    expect(landing.indexOf('<HomeKnowledgeSnapshot')).toBeLessThan(landing.indexOf('<DashboardClient'));
     expect(dashboard).toContain("'use client'");
     expect(dashboard).not.toContain('knowledgeSnapshot');
     expect(dashboard).not.toContain('<main');
-    expect(dashboard).toContain('role="region" aria-label="Interactive policy monitoring workspace"');
+    expect(dashboard).toContain('Interactive policy monitoring workspace');
   });
 
   it('renders evidence and the visible introduction in the initial server response', () => {
     const route = read('src/app/page.tsx');
-    expect(route).toContain('export default async function HomePage()');
+    expect(route).toContain('export default async function HomePage(');
     expect(route).toContain('await getPublicKnowledgeHub()');
     expect(route).not.toContain('<Suspense');
     expect(route).not.toContain('styles.srOnly');
-    expect(route).toContain('<h1>Track updates to privacy policies, terms of service and AI policies</h1>');
-    expect(route).toContain('<HomeKnowledgeSnapshot');
+    const landing = read('src/app/HomeLanding.tsx');
+    expect(landing).toContain('Track updates to privacy policies, terms of service and AI policies');
+    expect(landing).toContain('<HomeKnowledgeSnapshot');
   });
 
   it('scopes terms acknowledgement to the interactive workspace without a covering overlay', () => {

@@ -146,7 +146,7 @@ const HowToModal = dynamic(() => import('@/components/HowToModal'), { ssr: false
 const translations = {
   it: {
     title: 'PolicyWatcher',
-    subtitle: 'AI Policy Change Monitor',
+    subtitle: 'Monitoraggio delle modifiche alle policy',
     liveAssistant: 'Policy Live Assistant',
     monitoredCompanies: 'Compagnie Monitorate',
     criticalAlerts: 'Allerte Critiche',
@@ -218,7 +218,7 @@ const translations = {
     tickerLabel: 'Ticker Observatory',
     tickerPause: 'Pausa su hover o focus',
     onTheGoTitle: 'Profilo di lettura mobile opzionale',
-    onTheGoBody: 'Su desktop il workspace completo resta disponibile. Su mobile puoi scegliere Cittadino / Snapshot come profilo di lettura opzionale.',
+    onTheGoBody: 'Su desktop l’area di lavoro completa resta disponibile. Su mobile puoi scegliere Cittadino / Sintesi come profilo di lettura opzionale.',
     onTheGoAction: 'Usa lettura mobile',
     onTheGoActive: 'Lettura mobile attiva',
     onTheGoDismiss: 'Mantieni vista',
@@ -578,7 +578,7 @@ const EVIDENCE_DEPTHS: Record<'en' | 'it', Array<{
   it: [
     {
       id: 'snapshot',
-      label: 'Snapshot',
+      label: 'Sintesi',
       detail: 'Orientamento rapido. I diagnostici restano visibili quando cambiano l\'interpretazione.',
     },
     {
@@ -689,7 +689,7 @@ const WORKSPACE_COPY = {
     essentialAction: 'Usa il workspace essenziale',
     localPreferences: 'Le preferenze restano in questo browser.',
     evidenceInvariant: 'Le evidenze pubbliche e le salvaguardie di pubblicazione restano invariate quando configuri il workspace.',
-    activeProfile: 'Workspace attivo',
+    activeProfile: 'Area di lavoro attiva',
     primaryModules: 'Evidenze primarie',
     supportingModules: 'Evidenze di supporto',
     noSupportingModules: 'Nessuna a questa profondita di evidenza.',
@@ -697,13 +697,13 @@ const WORKSPACE_COPY = {
     firstUseLabel: 'Avvio guidato',
     firstUseClose: 'Salta per ora',
     defaultAction: 'Reset default',
-    presetPrefix: 'Intento',
-    depthPrefix: 'Profondita',
-    summaryTitle: 'Workspace attivo',
+    presetPrefix: 'Obiettivo',
+    depthPrefix: 'Dettaglio',
+    summaryTitle: 'Area di lavoro attiva',
     changeAction: 'Cambia vista',
     applyAction: 'Usa workspace',
     closeAction: 'Chiudi',
-    compactLead: 'I moduli della dashboard sono ordinati per questo obiettivo. Riapri la configurazione quando cambia la sessione.',
+    compactLead: 'Le sezioni sono ordinate in base al tuo obiettivo. Puoi cambiare la vista nelle impostazioni.',
   },
 };
 
@@ -822,7 +822,7 @@ interface SourceSuspension {
  * Manages all top-level UI state (companies list, filters, modal visibility,
  * language, region, perspective) and renders the full single-page dashboard.
  */
-export default function Dashboard() {
+export default function Dashboard({ lang, setLang }: { lang: 'en' | 'it'; setLang: (value: 'en' | 'it') => void }) {
   const prefersReducedMotion = useReducedMotion();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
@@ -838,7 +838,6 @@ export default function Dashboard() {
   const [industryFilter, setIndustryFilter] = useState('all');
 
   // Bilingual state
-  const [lang, setLang] = useState<'en' | 'it'>('en');
   const scopeLabel = documentScopeLabel(documentTypes, lang);
 
   useEffect(() => {
@@ -954,7 +953,7 @@ export default function Dashboard() {
     setSelectedPerspective(state.perspective);
     setSortBy(state.sortBy);
     setLang(state.lang);
-  }, []);
+  }, [setLang]);
 
   const syncDashboardShareUrl = useCallback((
     state: DashboardShareState,
@@ -1329,6 +1328,16 @@ export default function Dashboard() {
         const dashboardQuery = decodeDashboardShareQuery(window.location.search);
         const dashboardParams = new URLSearchParams(window.location.search);
         const globalContext = readStoredGlobalContext();
+        applyDashboardShareState({
+          ...dashboardQuery.state,
+          lang: dashboardParams.has('lang')
+            ? dashboardQuery.state.lang
+            : resolvePlatformLanguage(globalContext, window.navigator.language),
+          region: dashboardParams.has('region')
+            ? dashboardQuery.state.region
+            : resolveDashboardRegion(globalContext),
+        });
+        if (dashboardQuery.issues.length > 0) setShareFeedback('normalized');
         const onboardingCompleted = hasCompletedWorkspaceOnboarding(
           localStorage.getItem(WORKSPACE_ONBOARDING_COMPLETED_KEY),
         );
@@ -1350,16 +1359,6 @@ export default function Dashboard() {
           }
         }
 
-        applyDashboardShareState({
-          ...dashboardQuery.state,
-          lang: dashboardParams.has('lang')
-            ? dashboardQuery.state.lang
-            : resolvePlatformLanguage(globalContext, window.navigator.language),
-          region: dashboardParams.has('region')
-            ? dashboardQuery.state.region
-            : resolveDashboardRegion(globalContext),
-        });
-        if (dashboardQuery.issues.length > 0) setShareFeedback('normalized');
       } catch {
         // Invalid URLs or storage contents fall back to the public default profile.
       } finally {
@@ -1545,7 +1544,12 @@ export default function Dashboard() {
   useEffect(() => {
     const handlePopState = () => {
       const decodedDashboard = decodeDashboardShareQuery(window.location.search);
-      applyDashboardShareState(decodedDashboard.state);
+      applyDashboardShareState({
+        ...decodedDashboard.state,
+        lang: new URLSearchParams(window.location.search).has('lang')
+          ? decodedDashboard.state.lang
+          : resolvePlatformLanguage(readStoredGlobalContext(), window.navigator.language),
+      });
       if (decodedDashboard.issues.length > 0) setShareFeedback('normalized');
 
       const decodedWorkspace = decodeWorkspaceQuery(window.location.search);
@@ -2192,7 +2196,7 @@ export default function Dashboard() {
         )}
       </AnimatePresence>
 
-      <div className={styles.mainContainer} role="region" aria-label="Interactive policy monitoring workspace">
+      <div className={styles.mainContainer} role="region" aria-label={lang === 'it' ? 'Area di lavoro per il monitoraggio delle policy' : 'Interactive policy monitoring workspace'}>
         <motion.section
           id="dashboard-workspace"
           className={styles.workspacePanel}

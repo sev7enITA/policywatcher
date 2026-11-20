@@ -11,13 +11,13 @@ export async function verifyDiaryNavigation(origin, lang, get = fetch) {
     return load(await res.text());
   }
   const $ = await read(home);
-  const links = $('nav[aria-label="Engine 6 Preview access and evidence"] a[href]').toArray().filter(a => {
+  const links = $('nav[data-engine-diary] a[href]').toArray().filter(a => {
     const target = new URL($(a).attr('href'), home);
     return target.href === expected.href;
   });
   if (links.length !== 1) throw Error('Missing or ambiguous diary link for ' + lang);
   const link = $(links[0]);
-  const label = lang === 'it' ? 'Leggi il diario in italiano' : 'Read the latest findings';
+  const label = lang === 'it' ? 'Leggi i risultati' : 'Read the latest findings';
   if (link.text().trim() !== label || link.closest('[hidden], [aria-hidden="true"]').length ||
       (lang === 'it' && (link.attr('lang') !== 'it' || link.attr('hreflang') !== 'it'))) {
     throw Error('Wrong diary link label or language for ' + lang);

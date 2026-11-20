@@ -90,7 +90,7 @@ describe('public canonical URL contract', () => {
       const source = read(file);
       if (file.endsWith('browser-extension/page.tsx')) {
         expect(source).toContain("alternates: languageAlternates('/browser-extension', lang)");
-      } else if (route === '/press-kit' || route === '/press-kit/releases') {
+      } else if (route === '/' || route === '/press-kit' || route === '/press-kit/releases') {
         expect(source).toContain(`alternates: languageAlternates('${route}', lang)`);
       } else if (file.endsWith('LocalizedAssociationsPage.tsx')) {
         expect(source, `${route} (${file})`).toContain('canonical,');

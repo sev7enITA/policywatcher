@@ -263,3 +263,11 @@
     font-size: clamp(1.65rem,8vw,2.15rem);
   }
 }
+
+.enginePreviewNotice { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 8px; padding: 2px 10px; margin-bottom: 12px; }
+.previewDetails summary, .noticeControl, .restoreNotice { cursor: pointer; min-height: 44px; color: inherit; }
+.previewDetails summary { padding: 10px 0; font-weight: 650; }
+.previewDetails[open] { grid-column: 1 / -1; grid-row: 1; }
+.previewDetails[open] summary { padding-inline-end: 6rem; }
+.noticeControl { grid-column: 2; grid-row: 1; border: 0; background: transparent; text-decoration: underline; padding: 0 4px; }
+.restoreNotice { align-self: start; border: 0; background: transparent; text-decoration: underline; }
