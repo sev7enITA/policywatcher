@@ -1,4 +1,3 @@
-import CaptureFreshness from '@/components/CaptureFreshness';
 import Link from 'next/link';
 import { ArrowRight, BookOpenCheck, ChevronDown, FileSearch } from 'lucide-react';
 import type { PublicKnowledgeHub } from '@/lib/publicKnowledge';
@@ -56,8 +55,7 @@ export default function HomeKnowledgeSnapshot({ data, lang = 'en' }: HomeKnowled
                 <div><strong>{lang === 'it' ? "Indice delle aziende" : "Company index"}</strong><nav aria-label={lang === 'it' ? "Esempi di aziende in catalogo" : "Sample company knowledge records"}>{data.companies.slice(0, 5).map((company) => <Link key={company.id} href={`/knowledge/companies/${company.slug}`}>{company.name}</Link>)}</nav></div>
                 <div><strong>{lang === 'it' ? "Documenti" : "Policy records"}</strong><nav aria-label={lang === 'it' ? "Esempi di documenti pubblicati" : "Sample public policy records"}>{data.policies.slice(0, 5).map((policy) => <Link key={policy.id} href={`/knowledge/companies/${policy.company.slug}/policies/${policy.id}`}>{policy.company.name} / {policy.name} ({policy.jurisdiction})</Link>)}</nav></div>
               </div>
-              <CaptureFreshness lang={lang} lastRetrievedAt={data.lastObservedAt} />
-              <p className={styles.timestamp}>{lang === 'it' ? 'Ultimo recupero riuscito' : 'Last successful retrieval'}: {formatDate(data.lastObservedAt, lang)}. {lang === 'it' ? 'I conteggi escludono i record solo configurati, dimostrativi, trattenuti o non verificati.' : 'Counts exclude configured, seeded, withheld and unverified records.'}</p>
+              <p className={styles.timestamp}>{lang === 'it' ? 'Recupero riuscito più recente nel catalogo' : 'Most recent successful retrieval in the catalogue'}: {formatDate(data.lastObservedAt, lang)}. {lang === 'it' ? 'La data varia per documento. I conteggi escludono i record solo configurati, dimostrativi, trattenuti o non verificati.' : 'Retrieval dates vary by document. Counts exclude configured, seeded, withheld and unverified records.'}</p>
             </>
           )}
         </div>

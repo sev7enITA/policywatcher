@@ -1,3 +1,6 @@
+import { CHANGE_KIND_LABELS } from './changeClassificationCopy';
+import type { ChangeKind } from './changeClassificationTypes';
+
 export const DASHBOARD_WORKFLOW_SCHEMA = 'policywatcher.dashboard.workflow.v1' as const;
 
 export type DashboardWorkflowLanguage = 'en' | 'it';
@@ -8,6 +11,8 @@ export interface DashboardWorkflowChangeInput {
   createdAt: string;
   overallRisk: string;
   overallScore: number;
+  classification?: { kind: ChangeKind } | null;
+  scoreDelta?: number | null;
   company: string;
   policy: string;
 }
@@ -25,8 +30,20 @@ export interface DashboardTodayItem {
 
 interface BuildDashboardTodayItemsInput {
   changes: readonly DashboardWorkflowChangeInput[];
-  suspendedSources: number;
+  suspendedSources: number | null;
   lang: DashboardWorkflowLanguage;
+}
+
+export function dashboardScoreLabel(score: number, delta: number | null | undefined, lang: DashboardWorkflowLanguage) {
+  const isIt = lang === 'it';
+  const label = isIt ? 'Rischio stimato' : 'Estimated risk';
+  let comparison = isIt ? 'confronto precedente non disponibile' : 'previous comparison unavailable';
+  if (delta === 0) comparison = isIt ? 'punteggio invariato' : 'score unchanged';
+  else if (typeof delta === 'number') {
+    const signed = delta > 0 ? `+${delta}` : String(delta);
+    comparison = isIt ? `${signed} rispetto alla valutazione precedente` : `${signed} since the previous assessment`;
+  }
+  return `${label} ${score}/10 · ${comparison}`;
 }
 
 function normalizedTime(value: string): number {
@@ -48,13 +65,14 @@ export function buildDashboardTodayItems({
   const isIt = lang === 'it';
   const items: DashboardTodayItem[] = [];
 
-  if (suspendedSources > 0) {
+  const hasSuspensions = suspendedSources !== null && suspendedSources > 0;
+  if (hasSuspensions) {
     items.push({
       schema: DASHBOARD_WORKFLOW_SCHEMA,
       id: 'source-quality',
       kind: 'source-qa',
       eyebrow: isIt ? 'Stato QA' : 'QA status',
-      title: isIt ? 'Una verifica fonti richiede attenzione' : 'One source-quality check needs attention',
+      title: isIt ? 'Fonti sospese dalla pubblicazione' : 'Sources suspended from publication',
       description: isIt
         ? `${suspendedSources} sorgenti restano fuori dall’interpretazione finché il recupero non viene verificato.`
         : `${suspendedSources} sources remain outside interpretation until retrieval is verified.`,
@@ -71,19 +89,17 @@ export function buildDashboardTodayItems({
       if (scoreDelta !== 0) return scoreDelta;
       return normalizedTime(right.createdAt) - normalizedTime(left.createdAt);
     })
-    .slice(0, suspendedSources > 0 ? 1 : 2);
+    .slice(0, hasSuspensions ? 1 : 2);
 
   for (const [index, change] of rankedChanges.entries()) {
     items.push({
       schema: DASHBOARD_WORKFLOW_SCHEMA,
       id: `change-${change.id}`,
       kind: 'change',
-      eyebrow: isIt ? 'Cambiamento verificato' : 'Verified change',
+      eyebrow: CHANGE_KIND_LABELS[lang][change.classification?.kind ?? 'needs_review'],
       title: `${change.company} · ${change.policy}`,
-      description: isIt
-        ? `${change.overallRisk} · ${change.overallScore}/10. Apri l’evidenza prima di usare il segnale.`
-        : `${change.overallRisk} · ${change.overallScore}/10. Open the evidence before using the signal.`,
-      href: `/change/${encodeURIComponent(change.id)}`,
+      description: dashboardScoreLabel(change.overallScore, change.scoreDelta, lang),
+      href: `/change/${encodeURIComponent(change.id)}?lang=${lang}`,
       priority: index + 1,
     });
   }
@@ -107,7 +123,7 @@ export function buildDashboardTodayItems({
       id: 'orientation',
       kind: 'orientation',
       eyebrow: isIt ? 'Orientamento' : 'Orientation',
-      title: isIt ? 'Il registro non espone nuove priorità' : 'The registry has no new priorities',
+      title: isIt ? 'Esplora il catalogo pubblico' : 'Explore the public catalogue',
       description: isIt
         ? 'Continua dal workspace attivo oppure esplora il catalogo pubblico.'
         : 'Continue from the active workspace or explore the public catalog.',
