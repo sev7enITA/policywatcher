@@ -7,27 +7,27 @@
   "distribution": {
     "provider": "github-repository",
     "repository": "https://github.com/sev7enITA/policywatcher",
-    "revision": "3dd9242b4efa9fb6d85507f2d7b1e5641c52125c",
+    "revision": "b2d4325108dc14a78a6771830b3aa725d336c43d",
     "boundary": "Downloads are pinned to the Git commit containing these packages. Verify the package SHA-256 before use."
   },
   "packages": [
     {
       "locale": "en",
       "filename": "policywatcher-press-package-en-2026-11-20.zip",
-      "href": "https://github.com/sev7enITA/policywatcher/raw/3dd9242b4efa9fb6d85507f2d7b1e5641c52125c/public/press-kit/policywatcher-press-package-en-2026-11-20.zip",
+      "href": "https://github.com/sev7enITA/policywatcher/raw/b2d4325108dc14a78a6771830b3aa725d336c43d/public/press-kit/policywatcher-press-package-en-2026-11-20.zip",
       "distribution": "github-repository",
-      "bytes": 6274960,
-      "sha256": "5292821ddb47a41ad5b86349466f4db22e7ad5febf0dbe8b260688d83a9b19de",
+      "bytes": 6274945,
+      "sha256": "e3a4aa56e284e4cb329712ee4c267b210c436e22f7955f1899ffe46b84dbed5e",
       "generatedAt": "2026-11-20",
       "version": "5.5.0"
     },
     {
       "locale": "it",
       "filename": "policywatcher-press-package-it-2026-11-20.zip",
-      "href": "https://github.com/sev7enITA/policywatcher/raw/3dd9242b4efa9fb6d85507f2d7b1e5641c52125c/public/press-kit/policywatcher-press-package-it-2026-11-20.zip",
+      "href": "https://github.com/sev7enITA/policywatcher/raw/b2d4325108dc14a78a6771830b3aa725d336c43d/public/press-kit/policywatcher-press-package-it-2026-11-20.zip",
       "distribution": "github-repository",
-      "bytes": 6278094,
-      "sha256": "27a7d6b8764ca94947abf9f88c3b3ef7ec7d6f6d72c84f5f0f261d2fcf50b7bb",
+      "bytes": 6278174,
+      "sha256": "970e1303f91f13660cfcf8f39d72998653c5a8784d518a18f58ef3b17c163a51",
       "generatedAt": "2026-11-20",
       "version": "5.5.0"
     }
