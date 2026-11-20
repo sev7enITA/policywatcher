@@ -2,6 +2,12 @@
 
 ## 5.5.0 - Engine 6 Preview (2026-11-02)
 
+### Policy Briefing and press coverage, 20 November 2026
+
+- The [bilingual Policy Briefing](https://policywatcher.online/briefing?lang=en) filters published changes by service and topic, shows the matching words and links to the comparison. Review roles, dates and status stay on the device and are excluded from exports by default.
+- The [press register](https://policywatcher.online/press?lang=en) includes Economy Magazine (19 November) and Fortune Italia (18 November), with links to the original Italian articles in the register and its CSV and JSON exports.
+- The [17 November research update](https://policywatcher.online/press-kit/releases/engine-six-progress-november-2026?lang=en) covers r4 fixes, recovered passages and extraction trials. Full daily throughput and semantic accuracy remain under evaluation.
+
 ### Research update, 7 November 2026
 
 - Public communication now distinguishes stable 5.5.0 (2 November) from private Engine 6 Preview r3 (7 November). A dated EN/IT newsroom record, homepage announcement and dedicated changelog research section link to the deployment and bounded-run evidence.

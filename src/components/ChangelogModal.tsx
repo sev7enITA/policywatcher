@@ -53,6 +53,16 @@ export default function ChangelogModal({ isOpen, onClose, lang = 'en' }: Changel
           <h2>{t.title}</h2><p className={styles.subtitle}>{t.subtitle}</p>
         </header>
         <div className={styles.body}>
+          <section className={styles.section}>
+            <h3 className={styles.sectionTitle}>{lang === 'it' ? 'Rassegna stampa' : 'Press coverage'} · <time dateTime="2026-11-20">{lang === 'it' ? '20 novembre 2026' : '20 November 2026'}</time></h3>
+            <p className={styles.featureDesc}>{lang === 'it' ? 'Leggi gli articoli di Economy Magazine del 19 novembre e di Fortune Italia del 18 novembre. La rassegna include le fonti originali anche nei download CSV e JSON.' : 'Read the original articles from Economy Magazine (19 November) and Fortune Italia (18 November). The CSV and JSON downloads also include the source links.'}</p>
+            <Link href={`/press?lang=${lang}`}>{lang === 'it' ? 'Apri la rassegna stampa' : 'Open press coverage'}</Link>
+          </section>
+          <section className={styles.section}>
+            <h3 className={styles.sectionTitle}>{lang === 'it' ? 'Briefing policy' : 'Policy Briefing'} · <time dateTime="2026-11-19">{lang === 'it' ? '19 novembre 2026' : '19 November 2026'}</time></h3>
+            <p className={styles.featureDesc}>{lang === 'it' ? 'Scegli i servizi e i temi da seguire, confronta gli estratti e salva sul dispositivo un piano di revisione.' : 'Choose services and topics, compare the excerpts and save a review plan on your device.'}</p>
+            <Link href={`/briefing?lang=${lang}`}>{lang === 'it' ? 'Apri il briefing' : 'Open the briefing'}</Link>
+          </section>
           <section className={styles.section} aria-label={lang === 'it' ? 'Ultimo aggiornamento Preview' : 'Latest Preview research update'}>
             <h3 className={styles.sectionTitle}><Sparkles size={16} />{lang === 'it' ? 'Novità della ricerca' : 'Latest research update'} · {latestResearchUpdate.displayVersion} · {lang === 'it' ? 'SPERIMENTALE' : 'EXPERIMENTAL'}</h3>
             <article className={styles.featureItem}>
