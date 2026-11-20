@@ -1,0 +1,21 @@
+PolicyWatcher
+A guide to Policy Briefing
+Public release 5.5.0: 2 November 2026. Press edition: 20 November 2026.
+
+Follow the words that matched your search back to a published policy change and the original source.
+
+Find a clause
+Choose a service and a topic. The briefing shows which words matched an excerpt or a summary. Read the comparison in context: “training” can also appear in a promise never to train on your data.
+
+Review a supplier
+Save a responsible role, date and status on your device. Exports omit those notes by default. The briefing covers the records loaded in your browser. Shared assignments and automatic notifications are outside this workflow.
+
+Press coverage
+The public register contains six references, including the original articles from Economy Magazine (19 November) and Fortune Italia (18 November).
+
+Engine 6 research
+The private r3 preview is separate from the public scanner. The 17 November update records 397 of 500 extractions locally and 367 of 500 in an isolated hosted trial. Daily throughput and semantic accuracy are still being evaluated.
+
+Open the briefing | https://policywatcher.online/briefing?lang=en
+Read the press coverage | https://policywatcher.online/press?lang=en
+See the research results | https://policywatcher.online/press-kit/releases/engine-six-progress-november-2026?lang=en
