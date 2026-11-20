@@ -68,7 +68,7 @@ const edition = {
     sections: [
       [
         'Trova una clausola',
-        'Scegli un servizio e un tema. Il briefing mostra le parole trovate in un estratto o in una sintesi. Leggi il confronto nel suo contesto: «addestramento» può comparire anche in un impegno a escludere i tuoi dati.',
+        'Scegli un servizio e un tema. Il briefing mostra le parole trovate in un estratto o in una sintesi. Leggi il confronto nel suo contesto: «addestramento» può comparire anche in un impegno a non usare mai i tuoi dati per addestrare un modello.',
       ],
       [
         'Verifica un fornitore',

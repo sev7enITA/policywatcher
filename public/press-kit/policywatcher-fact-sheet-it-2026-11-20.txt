@@ -5,7 +5,7 @@ Release pubblica 5.5.0 del 2 novembre 2026. Edizione stampa del 20 novembre 2026
 Seleziona un servizio e un tema, poi risali dalle parole evidenziate al confronto fra versioni e alla fonte originale.
 
 Trova una clausola
-Scegli un servizio e un tema. Il briefing mostra le parole trovate in un estratto o in una sintesi. Leggi il confronto nel suo contesto: «addestramento» può comparire anche in un impegno a escludere i tuoi dati.
+Scegli un servizio e un tema. Il briefing mostra le parole trovate in un estratto o in una sintesi. Leggi il confronto nel suo contesto: «addestramento» può comparire anche in un impegno a non usare mai i tuoi dati per addestrare un modello.
 
 Verifica un fornitore
 Conserva ruolo responsabile, scadenza e stato nel browser in uso. Le esportazioni escludono questi dati per impostazione predefinita. Il briefing riguarda le sole pagine caricate. Assegnazioni condivise, registro centrale e notifiche automatiche restano fuori da questo flusso.
