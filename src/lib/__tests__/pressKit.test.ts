@@ -29,6 +29,10 @@ describe('public press kit', () => {
     expect(payload.schemaVersion).toBe('2.0.0');
     expect(payload.canonicalUrl).toBe('https://policywatcher.online/press-kit');
     expect(PRESS_KIT_JSON_URL).toBe('https://policywatcher.online/press-kit/press-kit.json');
+    expect(payload.generatedAt).toBe('2026-11-20');
+    for (const edition of Object.values(payload.editorialDownloads)) {
+      for (const href of Object.values(edition)) expect(existsSync('public' + href)).toBe(true);
+    }
     expect(payload.product.version).toBe(POLICYWATCHER_VERSION);
     expect(payload.browserExtension.separateReleaseTrack).toBe(true);
     expect(payload.integrityBoundary.contentCredentials).toBe('not-attached');
@@ -91,20 +95,19 @@ describe('public press kit', () => {
       distribution: { provider: string; repository: string; revision: string };
       packages: Array<{ locale: string; filename: string; href: string; distribution: string; bytes: number; sha256: string }>;
     };
-    expect(packageManifest.release).toBe('3.9.0-beta.27');
-    // Historical package bytes stay pinned; the accompanying product label tracks the current release.
+    expect(packageManifest.release).toBe(POLICYWATCHER_VERSION);
     expect(packageManifest.currentProductRelease).toBe(POLICYWATCHER_VERSION);
-    expect(pressKitPackages.every(pressPackage => pressPackage.version === '3.9.0-beta.27')).toBe(true);
-    expect(pressKitPackages.every(pressPackage => pressPackage.boundary.en.includes('not been regenerated for the current release'))).toBe(true);
+    expect(pressKitPackages.every(pressPackage => pressPackage.version === POLICYWATCHER_VERSION)).toBe(true);
+    expect(pressKitPackages.every(pressPackage => pressPackage.generatedAt === buildPressKitPayload().generatedAt)).toBe(true);
     expect(packageManifest.distribution).toMatchObject({
       provider: 'github-repository',
       repository: 'https://github.com/sev7enITA/policywatcher',
-      revision: 'd02b90489dd58d7884dbf14dcb1d52ad12a5ed07',
+      revision: expect.stringMatching(/^[a-f0-9]{40}$/),
     });
     expect(packageManifest.packages.map((pressPackage) => pressPackage.locale)).toEqual(['en', 'it']);
     for (const pressPackage of packageManifest.packages) {
       expect(pressPackage.distribution).toBe('github-repository');
-      expect(pressPackage.href).toBe(`https://github.com/sev7enITA/policywatcher/raw/d02b90489dd58d7884dbf14dcb1d52ad12a5ed07/public/press-kit/${pressPackage.filename}`);
+      expect(pressPackage.href).toBe(`https://github.com/sev7enITA/policywatcher/raw/${packageManifest.distribution.revision}/public/press-kit/${pressPackage.filename}`);
       const path = `public/press-kit/${pressPackage.filename}`;
       const content = readFileSync(path);
       expect(content.subarray(0, 2).toString()).toBe('PK');

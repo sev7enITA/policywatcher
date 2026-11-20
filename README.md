@@ -33,6 +33,12 @@
 
 ---
 
+## Policy Briefing and press materials · 20 November 2026
+
+[Policy Briefing](https://policywatcher.online/briefing?lang=en) lets readers choose services and topics, inspect matching passages and open the source comparison. Review roles, dates and status stay in the browser and are omitted from exports by default.
+
+The [bilingual press kit](https://policywatcher.online/press-kit) includes dated PDF and text fact sheets, screenshots and editorial ZIPs. The [press register](https://policywatcher.online/press) links to the original Economy Magazine and Fortune Italia articles. For the private engine trials and their limitations, see the [17 November research update](https://policywatcher.online/press-kit/releases/engine-six-progress-november-2026?lang=en).
+
 ## Current service and Engine 6 Preview
 
 **16 November 2026.** The public product runs stable 5.5.0. Administrators use the separate hosted r3 Preview. The r4 implementation in this repository is awaiting qualification. The [reconciliation and ten-source diary](docs/reports/engine-v6-reconciliation-2026-11-16.md) links each observed outcome to its scope.
