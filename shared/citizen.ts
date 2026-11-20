@@ -1,4 +1,4 @@
-import { isDigest, type ComparisonPair } from './comparisonLink';
+import { isDigest, isVersion, type ComparisonPair } from './comparisonLink';
 /** Public, platform-neutral contract. Personal selections never belong in API requests. */
 export type CitizenLocale = 'it' | 'en';
 export type CitizenChangeKind = 'substantive' | 'editorial' | 'unchanged' | 'needs_review';
@@ -229,8 +229,8 @@ export function parseCitizenFeed(value: unknown): CitizenFeed | null {
       || c.detailPath !== `/change/${encodeURIComponent(c.id)}` || c.evidencePath !== `/api/evidence-packet/${encodeURIComponent(c.id)}`) return null;
     changes.push({ id: c.id, serviceId: c.serviceId, policyId: c.policyId, publishedAt: c.publishedAt, detectedAt: c.detectedAt,
       summary: { it: c.summary.it, en: c.summary.en }, kind: c.kind as CitizenChangeKind, impact: 'not_assessed',
-      ...(object(c.comparison) && isDigest(c.comparison.before) && isDigest(c.comparison.after)
-        ? { comparison: { before: c.comparison.before, after: c.comparison.after } } : c.comparison === null ? { comparison: null } : {}),
+      ...(object(c.comparison) && isDigest(c.comparison.before) && isDigest(c.comparison.after) && isVersion(c.comparison.from) && isVersion(c.comparison.to)
+        ? { comparison: { before: c.comparison.before, after: c.comparison.after, from: c.comparison.from, to: c.comparison.to } } : c.comparison === null ? { comparison: null } : {}),
       evidence: c.evidence.map(e => ({ before: e.before, after: e.after,
         ...(typeof e.clauseBefore === 'string' && e.before.includes(e.clauseBefore) ? { clauseBefore: e.clauseBefore } : {}),
         ...(typeof e.clauseAfter === 'string' && e.after.includes(e.clauseAfter) ? { clauseAfter: e.clauseAfter } : {}) })), detailPath: c.detailPath as string, evidencePath: c.evidencePath as string });
