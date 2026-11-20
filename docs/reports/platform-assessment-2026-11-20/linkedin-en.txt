@@ -5,4 +5,4 @@ That’s the idea behind PolicyWatcher’s new bilingual Policy Briefing. Choose
 I’ve also published English and Italian press packs with a one-page guide and a screenshot of the live Briefing. Thank you to Economy Magazine and Fortune Italia for covering the project this week.
 
 Try the Briefing: https://policywatcher.online/briefing?lang=en
-Press materials: https://github.com/sev7enITA/policywatcher/tree/main/public/press-kit
+Press materials: https://policywatcher.online/press-kit?lang=en

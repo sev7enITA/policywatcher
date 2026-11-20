@@ -71,5 +71,38 @@
   "site_candidate": {
     "git_revision": "cd693498a3e11db05817d86c9fdd78dd2395ac29",
     "sha256": "224a429b6133a6228ec19d213ef74496c003db14dc88c45fb89f6ddd0aedabb7"
+  },
+  "hosted_verification": {
+    "production": "https://policywatcher.online/press-kit",
+    "checked_at": "2026-11-20T14:01:00.605Z",
+    "staging_and_production_artifact_sha256": "224a429b6133a6228ec19d213ef74496c003db14dc88c45fb89f6ddd0aedabb7",
+    "public_release": "5.5.0",
+    "health": "ok",
+    "database_integrity": "ok",
+    "locale_downloads_verified": {
+      "en": [
+        "/press-kit/policywatcher-fact-sheet-en-2026-11-20.pdf",
+        "/press-kit/policywatcher-fact-sheet-en-2026-11-20.txt",
+        "/press-kit/policywatcher-briefing-en-2026-11-20.webp"
+      ],
+      "it": [
+        "/press-kit/policywatcher-fact-sheet-it-2026-11-20.pdf",
+        "/press-kit/policywatcher-fact-sheet-it-2026-11-20.txt",
+        "/press-kit/policywatcher-briefing-it-2026-11-20.webp"
+      ]
+    },
+    "production_mobile_checks": [
+      "320 en three downloads, language switch and reload passed",
+      "320 it three downloads, language switch and reload passed",
+      "390 en three downloads, language switch and reload passed",
+      "390 it three downloads, language switch and reload passed",
+      "768 en three downloads, language switch and reload passed",
+      "768 it three downloads, language switch and reload passed"
+    ],
+    "private_preview_restoration": {
+      "release": "r3",
+      "status": "passed",
+      "checks_passed": 14
+    }
   }
 }
