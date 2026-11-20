@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-17",
+  "fullSuite": {
+    "passed": 1656,
+    "skipped": 14,
+    "failed": 0,
+    "testFilesPassed": 205,
+    "testFilesSkipped": 3
+  },
+  "browser": [
+    {
+      "name": "public-export-excludes-private-role-and-date",
+      "passed": true,
+      "records": 25
+    },
+    {
+      "name": "native-calendar-export",
+      "passed": true,
+      "events": 1,
+      "date": "2026-11-20"
+    },
+    {
+      "name": "commercial-topic-no-match-boundary",
+      "passed": true
+    },
+    {
+      "name": "older-page-unique-records",
+      "passed": true,
+      "count": 28
+    },
+    {
+      "name": "failed-refresh-retains-records-and-provenance",
+      "passed": true
+    },
+    {
+      "name": "failed-refresh-withdraws-review-authority",
+      "passed": true
+    },
+    {
+      "name": "mobile-viewport-override",
+      "passed": false,
+      "limitation": "Browser viewport capability request timed out; screenshots remained1280x720. No mobile visual pass claimed."
+    },
+    {
+      "name": "italian-language-navigation",
+      "passed": true,
+      "verified": "Native UI link changed title, heading, document language and navigation to Italian."
+    },
+    {
+      "name": "italian-document-language-after-route-registration",
+      "passed": true,
+      "actual": "it",
+      "desktopWidth": 1280,
+      "horizontalOverflow": false
+    }
+  ],
+  "dataBoundary": "Actual repository frontend and API against a disposable synthetic SQLite database outside the repository. Live public feed inspected read-only separately:18companies and25changes in first page. The read-only QA proxy did not hydrate correctly and is not counted as a browser pass.",
+  "engineIdentity": "9357a42f47fc28594440d0e6a448e6ccad0e52f0a2839b7d1d71bd6024fdab0e",
+  "status": "local-candidate-not-deployed"
+}

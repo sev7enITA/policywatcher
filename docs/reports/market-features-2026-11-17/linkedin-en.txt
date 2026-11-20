@@ -1,0 +1,15 @@
+A supplier updates its privacy policy. If you use that service, the first question is usually a small one. Did anything change about how long it keeps my data?
+
+I’ve been working on that question in PolicyWatcher. In the new Policy Briefing, you can choose a service and a topic, see the words that matched in a summary or a source excerpt, and open the published comparison. A mention of “training”, for example, can also occur in a promise never to train on your data. Reading the passage matters.
+
+For people reviewing suppliers at work, the same briefing can hold a responsible role and a date to check back. If a later change is published, the earlier review is flagged for another look. Roles and dates stay in your browser and are left out of downloads unless you choose to include them.
+
+During testing we found that loading older records could displace newer ones. We corrected that and made exported briefings say plainly when the latest refresh failed. Both details matter if someone else is going to rely on the file you send them.
+
+The bilingual briefing has passed local mobile checks. The public release is awaiting the hosted rollout.
+
+When a supplier changes its terms, what do you need to see before you can decide whether to act?
+
+https://policywatcher.online
+
+#Privacy #VendorRisk #AIGovernance

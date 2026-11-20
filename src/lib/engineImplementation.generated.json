@@ -7,11 +7,11 @@
     ],
     [
       "package-lock.json",
-      "b24528f1f480f216c355c8f0ee024928376873ae9f5ba381210ffcf5a7c868bf"
+      "57689b0b8e73dca45234fdbab3ad27e7a4d89a206b2e9ebf6486fcf641587abb"
     ],
     [
       "package.json",
-      "0a55050e32a8843f2748f05a397f2308272c16a656b2a7f58f8f363483eeba77"
+      "6c015ffe66bea78691e1eb2b2d4d9c601df7595354c4a29a8a9b3b7b8832ce4b"
     ],
     [
       "prisma/migrations/20260706213500_init/migration.sql",
@@ -195,7 +195,7 @@
     ],
     [
       "src/instrumentation.ts",
-      "2c9e98cef9004cdd2b1116d7aad875d58e52d23615cdbfd5f7fb294987176366"
+      "767ce72ca2e3dde6739d2ee65c1c42e74bf29ab019ee566ea85c3974ece35f32"
     ],
     [
       "src/lib/acquisitionScope.ts",
@@ -455,7 +455,7 @@
     ],
     [
       "src/lib/seo.ts",
-      "b109e95a5f2ef7686fa1999fb3813ce2c16417bf9601864ee30c61c16973fecc"
+      "b177ec7bacac8a5e7ba2330c35466436473a2838bbc8c3ba05e3b32376d4ba2a"
     ],
     [
       "src/lib/siteOrigin.ts",
@@ -490,5 +490,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "cb4d6d245f857fee50eea9e07cd7fd61bc6f18b64321b0bf68f2f65c38b15add"
+  "hash": "2fa74efecdf9f2e29f07c18f5b45b43dc1932fae0ee3c9a4ee5981a417200a34"
 }

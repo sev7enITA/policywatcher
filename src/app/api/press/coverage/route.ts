@@ -3,6 +3,7 @@ import {
   buildPressCoverageCitation,
   buildPressCoveragePayload,
   pressCoverageRecords,
+  PRESS_COVERAGE_AS_OF,
 } from '@/lib/pressCoverage';
 import { rateLimit } from '@/lib/rateLimit';
 
@@ -63,12 +64,12 @@ export function GET(request: NextRequest) {
       headers: {
         ...PUBLIC_HEADERS,
         'Content-Type': 'text/csv; charset=utf-8',
-        'Content-Disposition': 'attachment; filename="policywatcher-coverage-registry-2026-07-29.csv"',
+        'Content-Disposition': `attachment; filename="policywatcher-coverage-registry-${PRESS_COVERAGE_AS_OF}.csv"`,
       },
     });
   }
 
   return NextResponse.json(buildPressCoveragePayload(), {
-    headers: { ...PUBLIC_HEADERS, 'Content-Disposition': 'attachment; filename="policywatcher-coverage-registry-2026-07-29.json"' },
+    headers: { ...PUBLIC_HEADERS, 'Content-Disposition': `attachment; filename="policywatcher-coverage-registry-${PRESS_COVERAGE_AS_OF}.json"` },
   });
 }

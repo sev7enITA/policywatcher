@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-17",
+  "requested": {
+    "gemini": "Gemini 4 High via Antigravity",
+    "glm": "GLM 5.3",
+    "local": "LM Studio"
+  },
+  "gemini": {
+    "status": "unavailable",
+    "execution": false,
+    "reason": "Desktop UI tool reports Trusted RPC service is not configured: sky. Installed Antigravity has no discovered supported assistant CLI. No substitute model or API is counted as Antigravity."
+  },
+  "glm": {
+    "status": "requires-human-security-verification",
+    "execution": false,
+    "selectedModelId": "model-selector-input-glm-5_3-button",
+    "conversation": "https://chat.z.ai/c/b6ca2333-ab96-44c4-930d-438c53d4d616",
+    "reason": "Request submitted with GLM5.3 selected; security verification interrupted generation. No usable verdict received."
+  },
+  "lmStudio": {
+    "model": "qwen3.8-27b",
+    "designReview": "received",
+    "firstFullCodeReview": "timeout after150seconds",
+    "boundedCodeReview": "received",
+    "visualReview": false,
+    "executedTests": false,
+    "productRuntimeCalls": false
+  },
+  "dispositions": [
+    {
+      "finding": "No-match, stale sources, supersession, pagination and private exports need explicit tests",
+      "decision": "accepted",
+      "verification": "Pure regression tests plus local browser checks; source stale data cannot validate a saved review."
+    },
+    {
+      "finding": "Visualping lacks granular justifications and PolicyWatcher is superior",
+      "decision": "rejected",
+      "reason": "Unsupported market comparison in model opinion; official Visualping materials describe explanations and custom relevance."
+    },
+    {
+      "finding": "Returning unknown on failed feed is a logic flaw",
+      "decision": "rejected",
+      "reason": "Deliberate current-status boundary; a historical annotation is retained without certifying current source state."
+    },
+    {
+      "finding": "Allow a review predating public publication because of clock skew",
+      "decision": "rejected",
+      "reason": "Public exact-change review cannot qualify a later publication; uncertain clocks retain unknown."
+    },
+    {
+      "finding": "NaN timestamp comparisons can fail open in directly called helpers",
+      "decision": "accepted-defense-in-depth",
+      "verification": "Explicit finite-date guards and adversarial malformed-review/latest-publication tests pass. Network and persistence inputs also validate timestamps."
+    },
+    {
+      "finding": "Long lists put exports beyond discoverable mobile reach",
+      "decision": "accepted",
+      "verification": "Visible in-page download and result links added; functional native anchors in source. Full mobile visual QA remains unavailable."
+    },
+    {
+      "finding": "CSS-only reviewer infers missing landmarks",
+      "decision": "rejected",
+      "reason": "Actual UI already has labelled sections, fieldsets and legends; model did not inspect screenshots."
+    }
+  ]
+}

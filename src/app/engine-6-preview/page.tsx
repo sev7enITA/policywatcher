@@ -6,7 +6,7 @@ import PublicHeader from '@/components/PublicHeader';
 import Footer from '@/components/Footer';
 import { languageAlternates, publicLanguage, withSocialMetadata } from '@/lib/seo';
 import styles from './preview.module.css';
-import { enginePreviewNotebookUpdatedAt, previewResearchUpdate } from '@/lib/pressKit';
+import { enginePreviewNotebookUpdatedAt, latestResearchUpdate } from '@/lib/pressKit';
 import { PUBLIC_AUTHOR, PUBLIC_PUBLISHER, serializeJsonLd } from '@/lib/structuredData';
 import { localizedPublicUrl } from '@/lib/seo';
 
@@ -242,7 +242,7 @@ const validationReceipts = [
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const lang = publicLanguage((await searchParams).lang);
-  return withSocialMetadata({ title: lang === 'it' ? 'Engine 6 Preview r3: ricerca e prove | PolicyWatcher' : 'Engine 6 Preview r3: research and evidence | PolicyWatcher', description: previewResearchUpdate.summary[lang],
+  return withSocialMetadata({ title: lang === 'it' ? 'Engine 6 Preview: ricerca e prove | PolicyWatcher' : 'Engine 6 Preview: research and evidence | PolicyWatcher', description: latestResearchUpdate.summary[lang],
     alternates: languageAlternates('/engine-6-preview', lang) }, lang);
 }
 
@@ -266,10 +266,10 @@ export default async function EnginePreviewPage({ searchParams }: Props) {
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd({
       '@context': 'https://schema.org', '@type': 'TechArticle',
       headline: lang === 'it' ? 'Engine 6 Preview: architettura, prove e limiti' : 'Engine 6 Preview: architecture, evidence and limits',
-      description: previewResearchUpdate.summary[lang], datePublished: '2026-11-01', dateModified: enginePreviewNotebookUpdatedAt,
+      description: latestResearchUpdate.summary[lang], datePublished: '2026-11-01', dateModified: latestResearchUpdate.dateModified > enginePreviewNotebookUpdatedAt ? latestResearchUpdate.dateModified : enginePreviewNotebookUpdatedAt,
       inLanguage: lang, mainEntityOfPage: localizedPublicUrl('/engine-6-preview', lang),
       author: PUBLIC_AUTHOR, publisher: PUBLIC_PUBLISHER,
-      citation: [...previewResearchUpdate.evidenceLinks.filter(link => link.href.startsWith('https://github.com/')).map(link => link.href), 'https://github.com/sev7enITA/policywatcher/blob/c462524d20f5c9d03bac36f7673580f72f09cd74/docs/reports/engine-v6-o2-wave2-2026-11-09.md'],
+      citation: [...latestResearchUpdate.evidenceLinks.filter(link => link.href.startsWith('https://github.com/')).map(link => link.href), 'https://github.com/sev7enITA/policywatcher/blob/c462524d20f5c9d03bac36f7673580f72f09cd74/docs/reports/engine-v6-o2-wave2-2026-11-09.md'],
       image: 'https://policywatcher.online/engine-6-preview/architecture-en.svg',
     }) }} />
     <PublicHeader current="roadmap" lang={lang} lockLang />
@@ -285,10 +285,10 @@ export default async function EnginePreviewPage({ searchParams }: Props) {
       </header>
       <aside className={styles.boundary}><FlaskConical size={22} aria-hidden="true" /><div><strong>{t.boundary}</strong><p>{t.boundaryText}</p><p>{t.hostingStatus}</p><a className={styles.explore} href="https://staging.policywatcher.online/admin/engine">{t.access}<ArrowUpRight size={18} aria-hidden="true" /></a><p>{t.isolation}</p></div></aside>
       <section className={styles.section} id="latest-research" aria-labelledby="latest-research-title">
-        <div className={styles.sectionHeading}><p className={styles.eyebrow}>{lang === 'it' ? 'Distribuzione privata r3 / 7 novembre 2026' : 'Private r3 deployment / 7 November 2026'}</p><h2 id="latest-research-title">{previewResearchUpdate.title[lang]}</h2><p>{previewResearchUpdate.summary[lang]}</p></div>
-        <div className={styles.ledger}>{previewResearchUpdate.changes.slice(0, 3).map((item, i) => <article key={item.en}><h3>{(lang === 'it' ? ['Distribuzione privata', 'Prova amministrativa limitata', 'Conservazione dei dati'] : ['Private deployment', 'Bounded administrative run', 'Data preservation'])[i]}</h3><p>{item[lang]}</p></article>)}</div>
-        <p className={styles.limits}>{previewResearchUpdate.boundaries[1][lang]}</p>
-        <nav className={styles.sectionNav} aria-label={lang === 'it' ? 'Fonti dell’aggiornamento r3' : 'r3 update sources'}><Link href={`/press-kit/releases/${previewResearchUpdate.slug}${lang === 'it' ? '?lang=it' : ''}`}>{lang === 'it' ? 'Leggi l’aggiornamento completo' : 'Read the full research update'}</Link><a href={previewResearchUpdate.evidenceLinks[1].href}>{previewResearchUpdate.evidenceLinks[1].label[lang]}</a></nav>
+        <div className={styles.sectionHeading}><p className={styles.eyebrow}>{lang === 'it' ? 'Ultimo aggiornamento di ricerca' : 'Latest research update'} / {latestResearchUpdate.datePublished}</p><h2 id="latest-research-title">{latestResearchUpdate.title[lang]}</h2><p>{latestResearchUpdate.summary[lang]}</p></div>
+        <div className={styles.ledger}>{latestResearchUpdate.changes.slice(0, 3).map((item, i) => <article key={item.en}><h3>{(lang === 'it' ? ['Correzioni r4', 'Recupero dei passaggi', 'Casi sospesi'] : ['r4 remediation', 'Passage recovery', 'Held cases'])[i]}</h3><p>{item[lang]}</p></article>)}</div>
+        <p className={styles.limits}>{latestResearchUpdate.boundaries[1][lang]}</p>
+        <nav className={styles.sectionNav} aria-label={lang === 'it' ? 'Fonti dell’aggiornamento' : 'Research update sources'}><Link href={`/press-kit/releases/${latestResearchUpdate.slug}${lang === 'it' ? '?lang=it' : ''}`}>{lang === 'it' ? 'Leggi tutte le novità e le prove' : 'Read all progress and evidence'}</Link><a href={latestResearchUpdate.evidenceLinks[1].href}>{latestResearchUpdate.evidenceLinks[1].label[lang]}</a></nav>
       </section>
       <section className={styles.goals} aria-labelledby="preview-answers"><h2 id="preview-answers">{lang === 'it' ? 'Stabile e Preview: cosa puoi usare oggi?' : 'Stable and Preview: what can you use today?'}</h2><div>
         {(lang === 'it' ? [

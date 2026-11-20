@@ -714,7 +714,106 @@ export const previewResearchUpdate: PressKitRelease = {
   ]
 };
 
+export const engineSixProgressUpdate: PressKitRelease = {
+  "slug": "engine-six-progress-november-2026",
+  "version": "5.5.0",
+  "displayVersion": "Engine 6 research",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "status": "research",
+  "category": "confidence",
+  "title": {
+    "en": "Engine 6: r4 fixes, passage recovery and 500-source trials",
+    "it": "Engine 6: correzioni r4, recupero dei passaggi e prove su 500 fonti"
+  },
+  "summary": {
+    "en": "Research progressed beyond the 7 November r3 deployment: r4 audit fixes were merged, fourteen missing Google passages were recovered, all 120 held cases were assessed and a fixed candidate completed 397/500 extractions locally and 367/500 in the Hostinger SSH account. This roundup covers the dated 8–16 November evidence.",
+    "it": "La ricerca è proseguita dopo la distribuzione r3 del 7 novembre: integrate le correzioni r4, recuperati quattordici passaggi Google, valutati tutti i 120 casi sospesi ed eseguito un candidato corretto con 397/500 estrazioni locali e 367/500 nell’account SSH Hostinger. Questa sintesi raccoglie le evidenze datate dall’8 al 16 novembre."
+  },
+  "changes": [
+    {
+      "en": "11 November · The r4 audit candidate addresses assessment reuse, SDK compatibility, durable failure reviews, confirmation binding and backup consistency. All 29 findings have recorded dispositions. Local validation: 1,624 tests passed and 14 skipped; six GitHub checks passed before merge.",
+      "it": "11 novembre · Il candidato r4 corregge riuso delle valutazioni, compatibilità SDK, conservazione delle revisioni dopo errori, conferma delle catture e coerenza dei backup. Tutti i 29 rilievi hanno un esito documentato. Verifica locale: 1.624 test superati e 14 esclusi; sei controlli GitHub superati prima del merge."
+    },
+    {
+      "en": "16 November · Fourteen missing Google passages were caused by joined paragraph boundaries in table cells. The corrected candidate matches all 1,060 archived reference passages. Fifty-eight focused tests and an independent Python replay passed with network access denied.",
+      "it": "16 novembre · Quattordici passaggi Google mancavano per la fusione dei paragrafi nelle celle delle tabelle. Il candidato corretto riconosce tutti i 1.060 passaggi di riferimento archiviati. Superati 58 test mirati e un replay Python indipendente con rete disabilitata."
+    },
+    {
+      "en": "16 November · All 120 originally unsuccessful or held scopes were classified. Fixes recover thirteen cases from identical captures, including ten false CAPTCHA detections, with zero losses among the earlier 380 extraction successes. All 222 focused tests passed offline; responsibility remains undetermined for 46 transport outcomes.",
+      "it": "16 novembre · Classificati tutti i 120 ambiti inizialmente falliti o sospesi. Le correzioni recuperano tredici casi dalle stesse catture, inclusi dieci falsi rilevamenti CAPTCHA, conservando i 380 successi precedenti. Superati 222 test mirati offline; per 46 esiti di trasporto la responsabilità resta da chiarire."
+    },
+    {
+      "en": "16 November · The frozen 500-scope catalogue produced 380 extractions in the original local trial. The fixed candidate produced 397/500 locally in 459.555 seconds and 367/500 in the Hostinger SSH account in 772.602 seconds. The target diagnostic ran outside the served website; its 133 unsuccessful or held scopes remain recorded.",
+      "it": "16 novembre · Il catalogo congelato di 500 ambiti aveva prodotto 380 estrazioni nella prima prova locale. Il candidato corretto ne ha prodotte 397/500 localmente in 459,555 secondi e 367/500 nell’account SSH Hostinger in 772,602 secondi. La diagnostica remota è stata eseguita fuori dal sito servito; i 133 esiti falliti o sospesi restano registrati."
+    },
+    {
+      "en": "8–9 November · Two free-API connectivity probes passed. A separate semantic trial received six analyst outputs but no usable verifier verdict across eleven attempts. The isolated worker remained queued at verification. These failures remain part of the research record.",
+      "it": "8–9 novembre · Superate due prove di connessione alle API gratuite. Una prova semantica separata ha ricevuto sei risposte dell’analista ma nessun verdetto utilizzabile del verificatore in undici tentativi. Il worker isolato è rimasto in coda alla verifica. Questi fallimenti restano nel registro di ricerca."
+    }
+  ],
+  "boundaries": [
+    {
+      "en": "The public service remains stable PolicyWatcher 5.5.0. Hosted private scans remain on Preview r3; the r4 and extraction fixes are qualification candidates in Git. The isolated SSH diagnostic is separate from the supervised deployed worker.",
+      "it": "Il servizio pubblico resta PolicyWatcher stabile 5.5.0. Le scansioni private online restano su Preview r3; r4 e le correzioni di estrazione sono candidati in qualificazione su Git. La diagnostica SSH isolata è distinta dal worker distribuito."
+    },
+    {
+      "en": "Matching archived passages and completing an extraction do not establish whole-source completeness or semantic accuracy. Verifier reliability, recovery under load, backup restoration and 500 successful daily full-pipeline completions remain unqualified. Live-wave differences cannot all be attributed to code fixes.",
+      "it": "La corrispondenza dei passaggi archiviati e il completamento di un’estrazione non dimostrano completezza della fonte o accuratezza semantica. Affidabilità del verificatore, recupero sotto carico, ripristino dei backup e 500 completamenti giornalieri dell’intera pipeline restano da qualificare. Le differenze tra prove live non sono tutte attribuibili alle correzioni."
+    },
+    {
+      "en": "Qwen supplied a source review for the held-case fixes. Gemini High and GLM supplied no usable verdict in that review attempt. Model review is separate from executed tests. The historical r3 update retains its original date and measurements.",
+      "it": "Qwen ha fornito una revisione del codice per le correzioni dei casi sospesi. Gemini High e GLM non hanno prodotto un verdetto utilizzabile in quel tentativo. Le revisioni dei modelli sono distinte dai test eseguiti. L’aggiornamento storico r3 conserva data e misure originali."
+    }
+  ],
+  "evidenceLinks": [
+    {
+      "href": "/engine-6-preview#validation",
+      "label": {
+        "en": "Full dated research diary",
+        "it": "Diario di ricerca completo e datato"
+      }
+    },
+    {
+      "href": "https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/engine-v6-r4-closeout-2026-11-11.md",
+      "label": {
+        "en": "11 November · r4 remediation and delivery",
+        "it": "11 novembre · Correzioni r4 e pubblicazione"
+      }
+    },
+    {
+      "href": "https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/engine-v6-o2-wave2-2026-11-09.md",
+      "label": {
+        "en": "9 November · Semantic trial and verifier failures",
+        "it": "9 novembre · Prova semantica e fallimenti del verificatore"
+      }
+    },
+    {
+      "href": "https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/engine-v6-google-passages-2026-11-16.md",
+      "label": {
+        "en": "16 November · Google passage recovery",
+        "it": "16 novembre · Recupero dei passaggi Google"
+      }
+    },
+    {
+      "href": "https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/engine-v6-failed120-2026-11-16.md",
+      "label": {
+        "en": "16 November · 120-case register and local/host trials",
+        "it": "16 novembre · Registro dei 120 casi e prove locali/remoto"
+      }
+    },
+    {
+      "href": "/press-kit/releases/engine-six-preview-r3-evidence-update",
+      "label": {
+        "en": "Historical r3 deployment update, 7 November",
+        "it": "Aggiornamento storico della distribuzione r3, 7 novembre"
+      }
+    }
+  ]
+};
+
 export const pressKitReleases: PressKitRelease[] = [
+  engineSixProgressUpdate,
   previewResearchUpdate,
 {
   "slug": "engine-six-preview-5-5-0",
@@ -1960,6 +2059,9 @@ export const pressKitReleases: PressKitRelease[] = [
     evidenceLinks: [{ href: '/press-kit/press-kit.json', label: { en: 'Press Kit JSON', it: 'JSON Press Kit' } }],
   },
 ];
+
+// The changelog follows the same newest-first registry as the newsroom and feeds.
+export const latestResearchUpdate = pressKitReleases.find(release => release.status === 'research') ?? previewResearchUpdate;
 
 export const pressKitDataSnapshots: PressKitDataSnapshot[] = [
   {

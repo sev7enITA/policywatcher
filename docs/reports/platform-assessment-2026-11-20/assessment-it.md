@@ -1,0 +1,38 @@
+# PolicyWatcher · Valutazione tecnica e funzionale del 20 novembre 2026
+
+Per chi esamina una singola modifica, il servizio pubblico 5.5.0 offre già un percorso dalla segnalazione al testo di riferimento. Per chi segue più fornitori, il nuovo Policy Briefing merita una prova con un revisore e un portafoglio reale. Per chi gestisce il motore, manca ancora una misura di quante modifiche rilevanti arrivino alla pubblicazione con una verifica corretta.
+
+| Destinatario | Cosa può fare oggi | Prova successiva proposta |
+| --- | --- | --- |
+| Persona | Sul sito può aprire il confronto fra versioni e consultare le fonti. Il controllo di una comunicazione distingue un mancato riscontro da un giudizio di autenticità. | Su iPhone e Android, chiedere a cinque persone per lingua di ritrovare una clausola e la relativa fonte. Registrare completamenti senza aiuto, errori e tempi. Ripetere dopo una seconda visita e verificare la persistenza delle scelte. |
+| Revisore in azienda | Nel candidato locale può filtrare per servizio e tema, vedere il termine che ha generato il risultato, attribuire un ruolo e una data e scaricare le evidenze. Ruolo e data sono esclusi dall’esportazione predefinita. | In un pilota, far riesaminare a due colleghi dieci modifiche con fonti, passaggio di consegne e riapertura dopo un aggiornamento. Contare quante decisioni si possono ricostruire e dove servono assegnazioni condivise o notifiche. |
+| Gestore del servizio | Può utilizzare la versione stabile e valutare separatamente l’anteprima privata r3. In quella prova Apple una risposta HTTP 200 è stata trattenuta per conferma. Tre policy erano prive di contratto di acquisizione. | Seguire per 24 ore un elenco prefissato di 500 policy. Per ogni voce registrare acquisizione, estrazione, verifica, pubblicazione o motivo dell’arresto. Far classificare in cieco un campione stratificato a due revisori, includendo modifiche mancate e casi trattenuti. |
+
+## Riscontri diretti
+
+- La prima pagina del feed pubblico conteneva 25 modifiche relative a 18 servizi e indicava altre pagine disponibili. Per una modifica abbiamo aperto il confronto pubblico, seguito il collegamento al fascicolo delle evidenze e ritrovato lo stesso identificativo. Una verifica anonima riservata all’amministratore ha restituito 401. [Confronto osservato](https://policywatcher.online/change/de058cfc-dc45-417d-a938-ce24c68f4dab) · [Fascicolo](https://policywatcher.online/api/evidence-packet/de058cfc-dc45-417d-a938-ce24c68f4dab)
+- Su *Per te*, un indirizzo sintetico senza corrispondenza ha prodotto il messaggio che spiega il limite del controllo. Per valutare la privacy lungo tutto il percorso occorre anche una prova dedicata del traffico di rete.
+- In produzione, il percorso del Briefing rispondeva 404. Sul candidato bilingue il problema di spazio dei contatori a 320 pixel è stato corretto. Il browser ha mostrato 25 righe iniziali, 28 dopo il caricamento dello storico, e un’esportazione priva del ruolo salvato. Controlli a 320 e 390 pixel in italiano e inglese; resta da provare su telefoni fisici. La suite stabile ha registrato 1.335 test superati e 14 saltati. [Verifica mobile e funzionale](../market-features-2026-11-17/verification-2026-11-19.md)
+- Le prove del candidato di ricerca hanno prodotto 397 estrazioni su 500 in locale e 367 su 500 su Hostinger isolato. Nell’analisi dei 120 ambiti trattenuti, 46 restavano irrisolti. In un’altra prova, il 9 novembre, l’analista ha prodotto sei risultati e il verificatore zero giudizi utilizzabili su undici tentativi. Nessuna di queste misure stima l’accuratezza semantica dell’intero servizio. [Riconciliazione dei risultati](../engine-v6-reconciliation-2026-11-16.md)
+
+## Quali novità privilegiare
+
+Il confronto con Visualping, Open Terms Archive e gli altri servizi esaminati suggerisce di investire prima nella pertinenza degli avvisi e nella possibilità di risalire al testo. È un’ipotesi di prodotto da verificare con gli utenti. Per la persona, il vantaggio concreto è poter capire perché una clausola compare nel proprio briefing. Per l’azienda è poter documentare quale versione è stata letta, chi deve riesaminarla e quando. Il Briefing locale copre la prima parte di questo percorso. Condivisione fra account, storico delle responsabilità e notifiche sono i principali candidati per il pilota aziendale. [Confronto di mercato e fonti](../market-features-2026-11-17/market-and-scope.md)
+
+## Rassegna e pubblicazione
+
+Il pacchetto stabile candidato include gli articoli di [Economy Magazine, 19 novembre](https://www.economymagazine.it/policywatcher-lo-strumento-gratuito-che-segue-i-cambiamenti-delle-regole-digitali/) e [Fortune Italia, 18 novembre](https://www.fortuneita.com/2026/11/18/dati-e-intelligenza-artificiale-policywatcher-di-fabrizio-degni-aiuta-a-capire-come-cambiano-le-regole-dei-servizi-digitali/). Nell’archivio avviato localmente sono presenti sei segnalazioni, di cui tre articoli. Sono stati verificati il filtro e le esportazioni JSON e CSV. A 320 e 390 pixel in entrambe le lingue, i due collegamenti sono presenti e la pagina rientra nella larghezza del browser. Al controllo del 20 novembre il sito pubblico esponeva ancora quattro segnalazioni. Il candidato comprende anche il riepilogo di ricerca del 17 novembre. La scheda r3 conserva la data del 7 novembre.
+
+Revisione stabile `ecb898e`. Impronta SHA-256 del pacchetto `ba5edca8e882ef025d567df0b0528af0b0254948d4d313b0f8ebd5b604d1b41a`.
+
+## Esito del rilascio successivo alla valutazione
+
+Alle 07:50 UTC del 20 novembre il Briefing e le sei segnalazioni erano disponibili sul dominio pubblico. Il pacchetto con il changelog aggiornato (revisione `dacf1c4`) ha superato i dodici controlli di staging. In produzione sono stati verificati quindici elementi fra file distribuiti e percorsi pubblici, il registro delle modifiche aperto dalla homepage in entrambe le lingue e l'integrità del database (35 tabelle, 19 migrazioni). Il pannello operativo riporta nove verifiche superate e una verifica dinamica indipendente affidata all'esterno. I riferimenti al 404 e alle quattro segnalazioni nelle sezioni precedenti descrivono il rilevamento effettuato prima della pubblicazione. [Briefing](https://policywatcher.online/briefing?lang=it) · [Rassegna stampa](https://policywatcher.online/press?lang=it)
+
+## Revisioni dei modelli
+
+I modelli hanno ricevuto lo stesso dossier tecnico. Le prove di navigazione, costruzione e verifica sono state eseguite separatamente. [Dossier inviato](review-brief.txt) · [Risposte e campione pubblico](receipts.json)
+
+- **Gemini 4 Argon High tramite Antigravity** distingue correttamente la consultazione individuale dall’uso di squadra. Accogliamo la proposta di provare persistenza, consultazione della fonte e trasferimenti di dati su dispositivi fisici. La soglia suggerita di 397/500 estrazioni ripete un risultato locale; ottenere un solo verdetto corretto non basta a convalidare il motore. La qualificazione di r4 e la pubblicazione del Briefing sono decisioni indipendenti.
+- **Qwen3.8-27B tramite LM Studio sul Mac** individua la carenza di collaborazione e propone una prova completa dalla cattura alla pubblicazione. La soglia suggerita del 90% resta da motivare su un campione etichettato. Il controllo del rilascio deve verificare HTML per la pagina Briefing e JSON per le esportazioni. Il conteggio 0/11 riguarda il verificatore; l’analista aveva prodotto sei risultati.
+- **GLM‑5.3 Max tramite ZCode per macOS** rimane in attesa. La sessione desktop accessibile ha elencato due modelli LM Studio e ha rifiutato la selezione esplicita di GLM‑5.3. Il controllo della finestra grafica era indisponibile. L’assessment odierno contiene due pareri effettivi.

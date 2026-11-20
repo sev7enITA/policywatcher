@@ -61,6 +61,12 @@ export const publicSectionGroups: Record<PublicSectionGroup, { label: string; de
 
 export const publicSectionNodes: PublicSectionNode[] = [
   {
+    id: 'briefing', label: 'Policy briefing', href: '/briefing', group: 'evidence',
+    summary: 'Filter published changes by service and textual topic mentions, plan local reviews and download a dated briefing or calendar reminders.',
+    role: 'Selections and review roles stay in the browser. Text matches are not legal applicability, and local reviews are not shared team assignments.',
+    status: 'dynamic', icon: 'file', x: 65, y: 77,
+  },
+  {
     id: 'engine-6-preview', label: 'Engine 6 Preview', href: '/engine-6-preview', group: 'community',
     summary: 'Engine 6 Preview r3 research update, 7 November: private deployment, bounded Apple trial, claim-ledger schema and explicit qualification limits. Stable product: 5.5.0.',
     role: 'Connects private administrator trials with public qualification evidence. Preview observations do not publish official changes or notify subscribers.',

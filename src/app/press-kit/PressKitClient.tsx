@@ -431,7 +431,7 @@ export default function PressKitClient() {
                 <dl className={styles.releaseMeta}><div><dt>{t.status}</dt><dd>{release.status === 'research' ? (lang === 'it' ? 'Ricerca sperimentale' : 'Experimental research') : release.status}</dd></div><div><dt>{t.lastVerified}</dt><dd>{release.dateModified}</dd></div></dl>
                 <Link className={styles.releaseLink} href={`/press-kit/releases/${release.slug}${lang === 'it' ? '?lang=it' : ''}`}>{lang === 'en' ? 'Read release record' : 'Leggi record release'}<ArrowRight size={13} /></Link>
               </article>
-              <aside className={styles.releaseIndex} aria-label={t.cycleTitle}><span>{t.cycleTitle}</span><ul>{release.changes.slice(0, 5).map((change, index) => <li key={change.en}><span>{String(index + 1).padStart(2, '0')}</span>{change[lang]}</li>)}</ul></aside>
+              <aside className={styles.releaseIndex} aria-label={lang === 'it' ? 'Risultati documentati' : 'Recorded findings'}><span>{lang === 'it' ? 'Risultati documentati' : 'Recorded findings'}</span><ul>{release.changes.slice(0, 5).map((change, index) => <li key={change.en}><span>{String(index + 1).padStart(2, '0')}</span>{change[lang]}</li>)}</ul></aside>
             </div>
           ))}
           <article className={styles.releasePulseCallout}>

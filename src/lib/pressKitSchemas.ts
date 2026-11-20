@@ -236,8 +236,8 @@ export const pressKitSchemas = {
           properties: {
             id: { type: 'string' }, sourceName: { type: 'string' }, platform: { type: 'string' },
             kind: { enum: ['editorial-article', 'newsletter-article', 'professional-post'] },
-            language: { enum: ['en', 'it'] }, publishedDate: { type: 'string', pattern: '^\\d{4}-\\d{2}$' },
-            datePrecision: { const: 'month' }, recordedAt: { type: 'string', format: 'date' }, reviewedAt: { type: 'string', format: 'date' },
+            language: { enum: ['en', 'it'] }, publishedDate: { type: 'string', pattern: '^\\d{4}-\\d{2}(-\\d{2})?$' },
+            datePrecision: { enum: ['month', 'day'] }, recordedAt: { type: 'string', format: 'date' }, reviewedAt: { type: 'string', format: 'date' },
             title: { type: 'string' }, titleStatus: { enum: ['publisher-supplied', 'registry-description'] }, summary: { type: 'string' },
             sourceUrl: { type: 'string', format: 'uri' }, relationship: { enum: ['external editorial reference', 'external professional reference'] },
             recordStatus: { const: 'source-linked' }, dateLabel: { type: 'string' }, citation: { type: 'string' },

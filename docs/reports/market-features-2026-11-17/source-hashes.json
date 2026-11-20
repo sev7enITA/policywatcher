@@ -1,0 +1,9 @@
+{
+  "shared/policyBriefing.ts": "2c38f0669966d3154365539503630b581a8cf6132bc9f64eac208283cc4ea124",
+  "src/app/briefing/page.tsx": "990660778638955444378d4283978fb5ba83bf251ed638f1e5ed1100dd91aea2",
+  "src/app/briefing/BriefingClient.tsx": "645f24597e1ef8be1ba9ea105aebce38a21e736d40f4305e819326cce436703b",
+  "src/app/briefing/briefing.module.css": "8760a567ea92b1e7b16e1729b4ae8aa1d9c1048b265b73795f316cbd4241f1d8",
+  "src/lib/seo.ts": "b177ec7bacac8a5e7ba2330c35466436473a2838bbc8c3ba05e3b32376d4ba2a",
+  "src/instrumentation.ts": "767ce72ca2e3dde6739d2ee65c1c42e74bf29ab019ee566ea85c3974ece35f32",
+  "src/lib/engineImplementation.generated.json": "c9cccf554c5f55d473bd90540d975dff090ba0699d644e6cbf74bcc5981caade"
+}
