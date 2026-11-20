@@ -1,9 +1,9 @@
 If a service says it “never uses your data for training”, a search for “training” will still flag the clause. What I want from a policy tracker is the sentence itself, the previous version and a link I can check.
 
-That shaped the next PolicyWatcher feature. In the bilingual Policy Briefing I’m testing, you can choose services and topics, see which words matched and open the published comparison. If you review suppliers at work, you can also record who should take another look and when. Those notes stay in your browser and are left out of exports unless you choose to include them.
+That shaped the new bilingual Policy Briefing in PolicyWatcher. In the briefing, you can choose services and topics, see which words matched and open the published comparison. If you review suppliers at work, you can also record who should take another look and when. Those notes stay in your browser and are left out of exports unless you choose to include them.
 
-The briefing has passed narrow-screen browser checks in English and Italian. It is still awaiting rollout. In the meantime, the public site already lets you inspect published changes and follow them back to their sources.
+The briefing is now live in English and Italian. The release checks covered both languages at 320 and 390 pixels, and I’ve verified the published briefing and its source links.
 
 Thank you to Economy Magazine and Fortune Italia for covering PolicyWatcher this week.
 
-https://policywatcher.online
+https://policywatcher.online/briefing?lang=en

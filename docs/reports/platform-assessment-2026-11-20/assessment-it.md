@@ -25,6 +25,10 @@ Il pacchetto stabile candidato include gli articoli di [Economy Magazine, 19 nov
 
 Revisione stabile `ecb898e`. Impronta SHA-256 del pacchetto `ba5edca8e882ef025d567df0b0528af0b0254948d4d313b0f8ebd5b604d1b41a`.
 
+## Esito del rilascio successivo alla valutazione
+
+Alle 07:50 UTC del 20 novembre il Briefing e le sei segnalazioni erano disponibili sul dominio pubblico. Il pacchetto con il changelog aggiornato (revisione `dacf1c4`) ha superato i dodici controlli di staging. In produzione sono stati verificati quindici elementi fra file distribuiti e percorsi pubblici, il registro delle modifiche aperto dalla homepage in entrambe le lingue e l'integrità del database (35 tabelle, 19 migrazioni). Il pannello operativo riporta nove verifiche superate e una verifica dinamica indipendente affidata all'esterno. I riferimenti al 404 e alle quattro segnalazioni nelle sezioni precedenti descrivono il rilevamento effettuato prima della pubblicazione. [Briefing](https://policywatcher.online/briefing?lang=it) · [Rassegna stampa](https://policywatcher.online/press?lang=it)
+
 ## Revisioni dei modelli
 
 I modelli hanno ricevuto lo stesso dossier tecnico. Le prove di navigazione, costruzione e verifica sono state eseguite separatamente. [Dossier inviato](review-brief.txt) · [Risposte e campione pubblico](receipts.json)
