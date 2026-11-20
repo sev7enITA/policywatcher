@@ -194,7 +194,7 @@ describe('public press kit', () => {
     expect(header).toContain("| 'press-kit'");
     expect(header).toContain("{ id: 'press-kit', href: '/press-kit'");
     expect(sitemap).toContain('`${BASE_URL}/press-kit`');
-    expect(press).toContain('href="/press-kit"');
+    expect(press).toContain('href={it ? "/press-kit?lang=it" : "/press-kit"}');
     expect(about).toContain("href: '/press-kit'");
     expect(sections).toContain("id: 'press-kit'");
   });

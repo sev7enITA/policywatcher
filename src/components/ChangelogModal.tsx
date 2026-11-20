@@ -54,6 +54,11 @@ export default function ChangelogModal({ isOpen, onClose, lang = 'en' }: Changel
         </header>
         <div className={styles.body}>
           <section className={styles.section}>
+            <h3 className={styles.sectionTitle}>{lang === 'it' ? 'Clausole, rassegna e Briefing' : 'Clauses, coverage and Briefing'} · <time dateTime="2026-11-20">{lang === 'it' ? '20 novembre 2026' : '20 November 2026'}</time></h3>
+            <p className={styles.featureDesc}>{lang === 'it' ? 'Accanto agli estratti trovi i destinatari citati nel testo. Dalla rassegna puoi esplorare i casi Meta e TikTok. Nel Briefing puoi copiare un link alle due versioni confrontate e scegliere se aggiungere le tue annotazioni.' : 'Each excerpt shows the audience named in the text. Explore the Meta and TikTok cases from the press registry. In Briefing, copy a link to the two versions and choose whether to add your review note.'}</p>
+            <Link href={`/press?lang=${lang}#registry`}>{lang === 'it' ? 'Apri la rassegna' : 'Open press coverage'}</Link>
+          </section>
+          <section className={styles.section}>
             <h3 className={styles.sectionTitle}>{lang === 'it' ? 'Evidenze e punteggi' : 'Evidence and scores'} · <time dateTime="2026-11-20">{lang === 'it' ? '20 novembre 2026' : '20 November 2026'}</time></h3>
             <p className={styles.featureDesc}>{lang === 'it' ? 'Ogni segnalazione indica cosa emerge dal confronto dei testi e come varia il punteggio rispetto alla valutazione pubblica precedente. La homepage distingue fonti sospese, ultimi controlli falliti e copertura dei KPI.' : 'Each update shows what the text comparison supports and how the score compares with the preceding public assessment. The homepage reports suspended sources, failed checks and KPI coverage separately.'}</p>
           </section>

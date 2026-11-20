@@ -16,6 +16,7 @@ export interface PressCoverageRecord {
   titleStatus: PressCoverageTitleStatus;
   summary: string;
   sourceUrl: string;
+  caseSlug?: 'meta-ai' | 'tiktok-audience';
   localPreview?: { src: string; alt: string };
   relationship: 'external editorial reference' | 'external professional reference';
   recordStatus: 'source-linked';
@@ -30,6 +31,7 @@ export const pressCoverageRecords: readonly PressCoverageRecord[] = [
   {
     id: 'coverage-economy-magazine-2026-11-19',
     sourceName: 'Economy Magazine',
+    caseSlug: 'meta-ai',
     platform: 'Economy Magazine',
     kind: 'editorial-article',
     language: 'it',
@@ -47,6 +49,7 @@ export const pressCoverageRecords: readonly PressCoverageRecord[] = [
   {
     id: 'coverage-fortune-italia-2026-11-18',
     sourceName: 'Fortune Italia',
+    caseSlug: 'tiktok-audience',
     platform: 'Fortune Italia',
     kind: 'editorial-article',
     language: 'it',
@@ -176,6 +179,7 @@ export function buildPressCoveragePayload() {
     summary: getPressCoverageSummary(),
     records: pressCoverageRecords.map((record) => ({
       ...record,
+      ...(record.caseSlug ? { caseUrl: `https://policywatcher.online/press/cases/${record.caseSlug}?lang=${record.language}` } : {}),
       dateLabel: formatPressCoverageDate(record),
       citation: buildPressCoverageCitation(record),
     })),
