@@ -1,3 +1,5 @@
+import { comparisonPair } from './publicComparison';
+import { editedSentences } from '../../shared/clauseAudience';
 import { confirmedCaptureDate, latestCaptureCheck } from './confirmedCapture';
 import { db } from './db';
 import { publicPolicyWhere, publicChangeWhere } from './publicDataGate';
@@ -80,8 +82,9 @@ export async function getCitizenFeed(query: Extract<CitizenFeedQuery, { ok: true
         publishedAt: row.publicPublishedAt!.toISOString(), detectedAt: row.createdAt.toISOString(),
         summary: { it: (row.tldrIt?.trim() || row.aiSummaryIt?.trim() || 'Consulta il confronto tra i documenti.').slice(0, 1200),
           en: (row.tldrEn?.trim() || row.aiSummaryEn?.trim() || 'Review the document comparison.').slice(0, 1200) },
+        comparison: comparisonPair(row.policyId, row.oldSnapshot, row.newSnapshot),
         kind: classification.kind, impact: 'not_assessed',
-        evidence: classification.evidence.map(e => ({ before: e.before.text, after: e.after.text })),
+        evidence: classification.evidence.map(e => ({ before: e.before.text, after: e.after.text, clauseBefore: editedSentences(e.before), clauseAfter: editedSentences(e.after) })),
         detailPath: `/change/${encodeURIComponent(row.id)}`, evidencePath: `/api/evidence-packet/${encodeURIComponent(row.id)}` };
     }),
     history: { limit: CITIZEN_FEED_LIMIT, hasMore, nextCursor },

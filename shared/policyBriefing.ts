@@ -1,3 +1,4 @@
+import { comparisonPath } from './comparisonLink';
 import { citizenFreshness, citizenSafeUrl, type CitizenChange, type CitizenFeed, type CitizenLocale, type CitizenPolicy, type CitizenService } from './citizen';
 
 export const BRIEFING_STORAGE_KEY = 'policywatcher:briefing:v1';
@@ -114,7 +115,7 @@ export function buildPolicyBriefing(feed: CitizenFeed, preferences: BriefingPref
     filters: preferences.filters, coverage: { liveAvailable: available, loadedChanges: feed.changes.length, matchingChanges: rows.length, hasMoreHistory: feed.history.hasMore, catalogTruncated: feed.catalogTruncated, missingSelectedServices: preferences.filters.serviceIds.filter(id => !feed.services.some(s => s.id === id)), catalogFreshness: available ? citizenFreshness(feed.generatedAt, now) : 'unavailable' },
     records: rows.map(row => ({ changeId: row.change.id, service: row.service.name, policyId: row.policy.id, policy: row.policy.name, jurisdiction: row.policy.jurisdiction,
       publishedAt: row.change.publishedAt, summary: row.change.summary[locale], kind: row.change.kind, matches: row.matches, source: { url: row.policy.sourceUrl, retrievedAt: row.policy.lastRetrievedAt, freshness: row.freshness },
-      excerpts: row.change.evidence, links: { change: `https://policywatcher.online/change/${encodeURIComponent(row.change.id)}`, evidence: `https://policywatcher.online/api/evidence-packet/${encodeURIComponent(row.change.id)}` },
+      excerpts: row.change.evidence, links: { ...(row.change.comparison ? { comparison: 'https://policywatcher.online' + comparisonPath(row.change.id, row.change.comparison, locale) } : {}), change: `https://policywatcher.online/change/${encodeURIComponent(row.change.id)}`, evidence: `https://policywatcher.online/api/evidence-packet/${encodeURIComponent(row.change.id)}` },
       ...(includeLocalReviews ? { localReview: row.review ? { ...row.review, effectiveState: row.reviewState } : null } : {}),
     })),
     localReviewsIncluded: includeLocalReviews,
@@ -132,7 +133,7 @@ export function briefingMarkdown(brief: ReturnType<typeof buildPolicyBriefing>):
       `## ${text(r.service)} · ${text(r.policy)}`, `${it ? 'Pubblicato' : 'Published'}: ${r.publishedAt}`, text(r.summary),
       `${it ? 'Fonte' : 'Source'}: ${r.source.url}`, `${it ? 'Ultima acquisizione' : 'Last retrieval'}: ${r.source.retrievedAt ?? 'unavailable'} (${r.source.freshness})`,
       `${it ? 'Riscontri testuali' : 'Text matches'}: ${r.matches.map(m => `${BRIEFING_TOPICS[m.topic][brief.locale]}: ${m.term} (${m.location})`).join('; ') || (it ? 'non individuati' : 'none identified')}`,
-      ...r.excerpts.map(e => `${it ? 'Prima' : 'Before'}: ${text(e.before)}\n\n${it ? 'Dopo' : 'After'}: ${text(e.after)}`), r.links.change, r.links.evidence,
+      ...r.excerpts.map(e => `${it ? 'Prima' : 'Before'}: ${text(e.before)}\n\n${it ? 'Dopo' : 'After'}: ${text(e.after)}`), r.links.comparison ?? r.links.change, r.links.evidence,
       ...('localReview' in r && r.localReview ? [`${it ? 'Annotazione locale' : 'Local review'}: ${r.localReview.effectiveState}; ${text(r.localReview.role)}; ${r.localReview.dueDate}`] : []),
     ])].join('\n\n');
 }

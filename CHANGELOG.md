@@ -2,6 +2,12 @@
 
 ## 5.5.0 - Engine 6 Preview (2026-11-02)
 
+### Clause audiences, press cases and shareable comparisons, 20 November 2026
+
+- Public evidence shows audience wording beside each side of an edit, with an explicit review state when the passage gives insufficient information.
+- The Italian and English press registry links Economy Magazine to a sourced Meta AI case and Fortune Italia to a worked TikTok comparison.
+- Briefing links pin both public versions by content hash. Review notes can be copied separately with explicit inclusion. Markdown and JSON exports include the pinned comparison when available.
+
 ### Homepage evidence and score comparisons, 20 November 2026
 
 - Published changes carry their evidence classification and score difference from the preceding public assessment of the same policy. An unavailable comparison stays empty. Automatic comparisons use a fixed edit budget for repeatable results.

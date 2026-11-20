@@ -22,12 +22,13 @@ function csvCell(value: string): string {
 }
 
 function buildCsv(): string {
-  const header = ['id', 'source_name', 'platform', 'kind', 'language', 'published_date', 'date_precision', 'record_status', 'title', 'title_status', 'summary', 'source_url', 'relationship', 'recorded_at', 'reviewed_at', 'citation'];
+  const header = ['id', 'source_name', 'platform', 'kind', 'language', 'published_date', 'date_precision', 'record_status', 'title', 'title_status', 'summary', 'source_url', 'relationship', 'recorded_at', 'reviewed_at', 'citation', 'case_url'];
   const rows = pressCoverageRecords.map((record) => [
     record.id, record.sourceName, record.platform, record.kind, record.language,
     record.publishedDate, record.datePrecision, record.recordStatus, record.title,
     record.titleStatus, record.summary, record.sourceUrl, record.relationship,
     record.recordedAt, record.reviewedAt, buildPressCoverageCitation(record),
+    record.caseSlug ? `https://policywatcher.online/press/cases/${record.caseSlug}?lang=${record.language}` : '',
   ]);
   return `${[header, ...rows].map((row) => row.map(csvCell).join(',')).join('\n')}\n`;
 }
