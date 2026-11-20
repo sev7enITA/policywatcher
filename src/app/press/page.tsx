@@ -57,8 +57,8 @@ export default function PressPage() {
     verificationLabel: record.recordStatus === 'source-linked' ? 'Source-linked' : record.recordStatus,
     citation: buildPressCoverageCitation(record),
     href: record.sourceUrl,
-    image: record.localPreview.src,
-    imageAlt: record.localPreview.alt,
+    image: record.localPreview?.src,
+    imageAlt: record.localPreview?.alt,
     boundary: `${record.relationship}. ${PRESS_COVERAGE_BOUNDARY}`,
   }));
   const jsonLd = {
@@ -149,7 +149,7 @@ export default function PressPage() {
               </div>
               <div>
                 <dt>02 · Recorded metadata</dt>
-                <dd>Source, type, publication month, language and a factual description are retained together.</dd>
+                <dd>Source, type, publication date, language and a factual description are retained together.</dd>
               </div>
               <div>
                 <dt>03 · Relationship boundary</dt>

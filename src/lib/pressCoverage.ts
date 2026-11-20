@@ -9,24 +9,58 @@ export interface PressCoverageRecord {
   kind: PressCoverageKind;
   language: PressCoverageLanguage;
   publishedDate: string;
-  datePrecision: 'month';
+  datePrecision: 'month' | 'day';
   recordedAt: string;
   reviewedAt: string;
   title: string;
   titleStatus: PressCoverageTitleStatus;
   summary: string;
   sourceUrl: string;
-  localPreview: { src: string; alt: string };
+  localPreview?: { src: string; alt: string };
   relationship: 'external editorial reference' | 'external professional reference';
   recordStatus: 'source-linked';
 }
 
-export const PRESS_COVERAGE_AS_OF = '2026-07-29' as const;
-export const PRESS_COVERAGE_SCHEMA_VERSION = '1.0.0' as const;
+export const PRESS_COVERAGE_AS_OF = '2026-11-20' as const;
+export const PRESS_COVERAGE_SCHEMA_VERSION = '1.1.0' as const;
 export const PRESS_COVERAGE_BOUNDARY =
   'Registry inclusion records a public external reference. It does not establish endorsement, certification, independent audit, readership, reach or factual validation by PolicyWatcher.' as const;
 
 export const pressCoverageRecords: readonly PressCoverageRecord[] = [
+  {
+    id: 'coverage-economy-magazine-2026-11-19',
+    sourceName: 'Economy Magazine',
+    platform: 'Economy Magazine',
+    kind: 'editorial-article',
+    language: 'it',
+    publishedDate: '2026-11-19',
+    datePrecision: 'day',
+    recordedAt: '2026-11-20',
+    reviewedAt: '2026-11-20',
+    title: 'PolicyWatcher, lo strumento gratuito che segue i cambiamenti delle regole digitali',
+    titleStatus: 'publisher-supplied',
+    summary: 'Economy Magazine describes how individuals and businesses can follow changes to privacy terms and the use of their data.',
+    sourceUrl: 'https://www.economymagazine.it/policywatcher-lo-strumento-gratuito-che-segue-i-cambiamenti-delle-regole-digitali/',
+    relationship: 'external editorial reference',
+    recordStatus: 'source-linked',
+  },
+  {
+    id: 'coverage-fortune-italia-2026-11-18',
+    sourceName: 'Fortune Italia',
+    platform: 'Fortune Italia',
+    kind: 'editorial-article',
+    language: 'it',
+    publishedDate: '2026-11-18',
+    datePrecision: 'day',
+    recordedAt: '2026-11-20',
+    reviewedAt: '2026-11-20',
+    title: 'Dati e intelligenza artificiale: PolicyWatcher di Fabrizio Degni aiuta a capire come cambiano le regole dei servizi digitali',
+    titleStatus: 'publisher-supplied',
+    summary: 'Fortune Italia examines how readers can trace an AI-assisted summary back to earlier policy text and how a change in supplier terms can prompt an internal review.',
+    sourceUrl: 'https://www.fortuneita.com/2026/11/18/dati-e-intelligenza-artificiale-policywatcher-di-fabrizio-degni-aiuta-a-capire-come-cambiano-le-regole-dei-servizi-digitali/',
+    relationship: 'external editorial reference',
+    recordStatus: 'source-linked',
+  },
   {
     id: 'coverage-toms-hardware-it-2026-07',
     sourceName: "Tom's Hardware Italia",
@@ -35,8 +69,8 @@ export const pressCoverageRecords: readonly PressCoverageRecord[] = [
     language: 'it',
     publishedDate: '2026-07',
     datePrecision: 'month',
-    recordedAt: PRESS_COVERAGE_AS_OF,
-    reviewedAt: PRESS_COVERAGE_AS_OF,
+    recordedAt: '2026-07-29',
+    reviewedAt: '2026-07-29',
     title: 'PolicyWatcher: osservare le policy delle Big Tech come infrastruttura civica',
     titleStatus: 'publisher-supplied',
     summary: 'Article describing PolicyWatcher as a civic-tech project for inspecting changes in configured public policy sources.',
@@ -53,8 +87,8 @@ export const pressCoverageRecords: readonly PressCoverageRecord[] = [
     language: 'it',
     publishedDate: '2026-07',
     datePrecision: 'month',
-    recordedAt: PRESS_COVERAGE_AS_OF,
-    reviewedAt: PRESS_COVERAGE_AS_OF,
+    recordedAt: '2026-07-29',
+    reviewedAt: '2026-07-29',
     title: 'Public LinkedIn post sharing the PolicyWatcher repository',
     titleStatus: 'registry-description',
     summary: 'Public professional post linking to the PolicyWatcher repository in an AI and digital-policy context.',
@@ -71,8 +105,8 @@ export const pressCoverageRecords: readonly PressCoverageRecord[] = [
     language: 'it',
     publishedDate: '2026-07',
     datePrecision: 'month',
-    recordedAt: PRESS_COVERAGE_AS_OF,
-    reviewedAt: PRESS_COVERAGE_AS_OF,
+    recordedAt: '2026-07-29',
+    reviewedAt: '2026-07-29',
     title: 'Public LinkedIn post discussing PolicyWatcher in an AI-governance context',
     titleStatus: 'registry-description',
     summary: 'Public professional post discussing PolicyWatcher in relation to policy monitoring and AI governance.',
@@ -89,8 +123,8 @@ export const pressCoverageRecords: readonly PressCoverageRecord[] = [
     language: 'it',
     publishedDate: '2026-07',
     datePrecision: 'month',
-    recordedAt: PRESS_COVERAGE_AS_OF,
-    reviewedAt: PRESS_COVERAGE_AS_OF,
+    recordedAt: '2026-07-29',
+    reviewedAt: '2026-07-29',
     title: 'Come monitorare policy, privacy e AI Act dei principali tool di intelligenza artificiale',
     titleStatus: 'publisher-supplied',
     summary: 'Newsletter article discussing PolicyWatcher as a public-repository tool for inspecting policy, privacy and AI-governance sources.',
@@ -108,10 +142,10 @@ export const pressCoverageKindLabels: Record<PressCoverageKind, string> = {
 };
 
 export function formatPressCoverageDate(record: Pick<PressCoverageRecord, 'publishedDate' | 'language'>): string {
-  const [year, month] = record.publishedDate.split('-').map(Number);
+  const [year, month, day] = record.publishedDate.split('-').map(Number);
   return new Intl.DateTimeFormat(record.language === 'it' ? 'it-IT' : 'en-GB', {
-    month: 'long', year: 'numeric', timeZone: 'UTC',
-  }).format(new Date(Date.UTC(year, month - 1, 1)));
+    day: day ? 'numeric' : undefined, month: 'long', year: 'numeric', timeZone: 'UTC',
+  }).format(new Date(Date.UTC(year, month - 1, day ?? 1)));
 }
 
 export function buildPressCoverageCitation(record: PressCoverageRecord): string {
