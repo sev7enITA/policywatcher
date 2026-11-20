@@ -158,7 +158,7 @@ const companies = [
       { name: 'Privacy Policy', type: 'privacy', jurisdiction: 'EU', url: 'https://wise.com/gb/legal/privacy-notice-personal-en' },
       { name: 'Privacy Policy', type: 'privacy', jurisdiction: 'US', url: 'https://wise.com/us/legal/privacy-notice' },
       { name: 'Privacy Policy', type: 'privacy', jurisdiction: 'Global', url: 'https://wise.com/gb/legal/privacy-notice-personal-en' },
-      { name: 'Terms of Use', type: 'terms', jurisdiction: 'Global', url: 'https://wise.com/us/legal/terms-of-use' },
+      { name: 'Terms of Use', type: 'terms', jurisdiction: 'US', url: 'https://wise.com/us/legal/terms-of-use' },
     ],
   },
   {
