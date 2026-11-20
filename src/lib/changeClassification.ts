@@ -68,7 +68,7 @@ export function classifyPolicyChange(input: Input): ChangeClassification {
   }
   const oldNormalized = normalizePresentation(old.text), newNormalized = normalizePresentation(next.text);
   const editorial = oldNormalized === newNormalized;
-  const parts = diffWordsWithSpace(old.text, next.text, { timeout: 80, maxEditLength: 4000 });
+  const parts = diffWordsWithSpace(old.text, next.text, { maxEditLength: 512 });
   if (!parts) {
     Object.assign(result, { kind: editorial ? 'editorial' : 'needs_review', reason: editorial ? 'presentation_only' : 'comparison_limit', compared: editorial });
     return save();

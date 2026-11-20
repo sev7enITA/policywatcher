@@ -54,6 +54,10 @@ export default function ChangelogModal({ isOpen, onClose, lang = 'en' }: Changel
         </header>
         <div className={styles.body}>
           <section className={styles.section}>
+            <h3 className={styles.sectionTitle}>{lang === 'it' ? 'Evidenze e punteggi' : 'Evidence and scores'} · <time dateTime="2026-11-20">{lang === 'it' ? '20 novembre 2026' : '20 November 2026'}</time></h3>
+            <p className={styles.featureDesc}>{lang === 'it' ? 'Ogni segnalazione indica cosa emerge dal confronto dei testi e come varia il punteggio rispetto alla valutazione pubblica precedente. La homepage distingue fonti sospese, ultimi controlli falliti e copertura dei KPI.' : 'Each update shows what the text comparison supports and how the score compares with the preceding public assessment. The homepage reports suspended sources, failed checks and KPI coverage separately.'}</p>
+          </section>
+          <section className={styles.section}>
             <h3 className={styles.sectionTitle}>{lang === 'it' ? 'Homepage su mobile' : 'Mobile homepage'} · <time dateTime="2026-11-20">{lang === 'it' ? '20 novembre 2026' : '20 November 2026'}</time></h3>
             <p className={styles.featureDesc}>{lang === 'it' ? 'La pagina iniziale e l’area di lavoro seguono la stessa lingua. Puoi aprire o nascondere l’avviso di ricerca e ripristinarlo dopo le domande frequenti.' : 'The homepage and workspace share a language setting. Expand or hide the research notice and restore it below the frequently asked questions.'}</p>
           </section>

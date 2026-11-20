@@ -107,7 +107,9 @@ import {
 import {
   getDashboardModuleDomProps,
 } from '@/lib/dashboardLayout';
-import { buildDashboardTodayItems } from '@/lib/dashboardWorkflow';
+import type { ChangeClassification } from '@/lib/changeClassificationTypes';
+import { CHANGE_KIND_LABELS, changeClassificationDescription } from '@/lib/changeClassificationCopy';
+import { buildDashboardTodayItems, dashboardScoreLabel } from '@/lib/dashboardWorkflow';
 import {
   GLOBAL_CONTEXT_EVENT,
   GLOBAL_CONTEXT_STORAGE_KEY,
@@ -742,7 +744,7 @@ const DASHBOARD_WORKFLOW_COPY = {
     filtersNone: 'No additional filters',
     filtersActive: 'active filters',
     collections: 'Evidence collections',
-    timeline: 'Verified timeline',
+    timeline: 'Published changes',
     atlas: 'Site Atlas',
     civic: 'Civic workspace',
     observatory: 'Source Observatory',
@@ -764,7 +766,7 @@ const DASHBOARD_WORKFLOW_COPY = {
     filtersNone: 'Nessun filtro aggiuntivo',
     filtersActive: 'filtri attivi',
     collections: 'Raccolte di evidenze',
-    timeline: 'Timeline verificata',
+    timeline: 'Modifiche pubblicate',
     atlas: 'Atlante del sito',
     civic: 'Workspace Civico',
     observatory: 'Observatory delle fonti',
@@ -774,6 +776,8 @@ const DASHBOARD_WORKFLOW_COPY = {
 } as const;
 
 interface MarketPulseChange {
+  classification?: ChangeClassification;
+  scoreDelta?: number | null;
   id: string;
   overallRisk: 'Low' | 'Medium' | 'High';
   overallScore: number;
@@ -830,7 +834,8 @@ export default function Dashboard({ lang, setLang }: { lang: 'en' | 'it'; setLan
   const [marketPulseChanges, setMarketPulseChanges] = useState<MarketPulseChange[]>([]);
   const [marketPulseLoading, setMarketPulseLoading] = useState(true);
   const [sourceSuspensions, setSourceSuspensions] = useState<SourceSuspension[]>([]);
-  const [sourceSuspensionsTotal, setSourceSuspensionsTotal] = useState(0);
+  const [sourceSuspensionsTotal, setSourceSuspensionsTotal] = useState<number | null>(null);
+  const [marketPulseError, setMarketPulseError] = useState(false);
   const [evidenceSummary, setEvidenceSummary] = useState<DashboardEvidenceSummary | null>(null);
   const [documentTypes, setDocumentTypes] = useState<readonly DocumentType[]>(DOCUMENT_TYPES);
   const documentsQuery = documentTypesQuery(documentTypes);
@@ -1213,17 +1218,18 @@ export default function Dashboard({ lang, setLang }: { lang: 'en' | 'it'; setLan
       if (!active) return;
       setEvidenceSummary(null);
       setSourceSuspensions([]);
-      setSourceSuspensionsTotal(0);
+      setSourceSuspensionsTotal(null);
     });
-    Promise.all([
-      loadPublicDataSource<DashboardEvidenceSummary>('evidenceStatus', { documents: documentsQuery }),
-      loadPublicDataSource<{ sources?: SourceSuspension[]; total?: number }>('sourceSuspensions', { documents: documentsQuery }),
-    ]).then(([evidence, suspended]) => {
-      if (!active) return;
-      setEvidenceSummary(evidence.data);
-      setSourceSuspensions(suspended.data.sources || []);
-      setSourceSuspensionsTotal(suspended.data.total || 0);
-    }).catch(() => { if (active) setEvidenceSummary(null); });
+    loadPublicDataSource<DashboardEvidenceSummary>('evidenceStatus', { documents: documentsQuery })
+      .then(result => { if (active) setEvidenceSummary(result.data); })
+      .catch(() => { if (active) setEvidenceSummary(null); });
+    loadPublicDataSource<{ sources: SourceSuspension[]; total: number }>('sourceSuspensions', { documents: documentsQuery })
+      .then(({ data }) => {
+        if (!active) return;
+        setSourceSuspensions(data.sources);
+        setSourceSuspensionsTotal(data.total);
+      })
+      .catch(() => { if (active) setSourceSuspensionsTotal(null); });
     return () => { active = false; };
   }, [documentsQuery, companies]);
 
@@ -1240,13 +1246,14 @@ export default function Dashboard({ lang, setLang }: { lang: 'en' | 'it'; setLan
       if (!active) return;
       setMarketPulseChanges([]);
       setMarketPulseLoading(true);
+      setMarketPulseError(false);
       loadPublicDataSource<{ changes?: MarketPulseChange[] }>('marketPulse', query)
         .then((result) => {
           if (active) setMarketPulseChanges(result.data.changes || []);
         })
         .catch((error) => {
           console.error('Error loading market pulse:', error);
-          if (active) setMarketPulseChanges([]);
+          if (active) setMarketPulseError(true);
         })
         .finally(() => {
           if (active) setMarketPulseLoading(false);
@@ -1760,16 +1767,18 @@ export default function Dashboard({ lang, setLang }: { lang: 'en' | 'it'; setLan
   const visibleMarketPulse = marketPulseChanges.slice(0, 12);
   const workflowTodayItems = useMemo(() => buildDashboardTodayItems({
     lang,
-    suspendedSources: sourceSuspensionsTotal,
+    suspendedSources: evidenceSummary?.suspendedPolicies ?? sourceSuspensionsTotal,
     changes: marketPulseChanges.map((change) => ({
       id: change.id,
       createdAt: change.createdAt,
       overallRisk: change.overallRisk,
       overallScore: change.overallScore,
+      classification: change.classification,
+      scoreDelta: change.scoreDelta,
       company: change.policy.company.name,
       policy: change.policy.name,
     })),
-  }), [lang, marketPulseChanges, sourceSuspensionsTotal]);
+  }), [lang, marketPulseChanges, sourceSuspensionsTotal, evidenceSummary]);
 
   /** Triggers a CSV export of the currently filtered company list. */
   const handleExportCSV = async () => {
@@ -2565,15 +2574,19 @@ export default function Dashboard({ lang, setLang }: { lang: 'en' | 'it'; setLan
             {evidenceSummary ? <>
               <div className={styles.evidenceFacts}>
                 <p><strong>{evidenceSummary.publicBaselines}/{evidenceSummary.totalPolicies}</strong><span>{lang === 'it' ? 'policy con baseline pubblica' : 'policies with a public baseline'}</span></p>
+                <p><strong>{evidenceSummary.publicPoliciesWithConfirmedCapture}/{evidenceSummary.publicBaselines}</strong><span>{lang === 'it' ? 'policy pubbliche con acquisizione confermata nell’ultimo controllo' : 'public policies with a confirmed capture at their latest check'}</span></p>
                 <p><strong>{evidenceSummary.liveChecks}</strong><span>{lang === 'it' ? 'ultimi controlli da fonte live' : 'latest checks from live sources'}</span></p>
                 <p><strong>{evidenceSummary.archiveChecks}</strong><span>{lang === 'it' ? 'ultimi controlli da archivio' : 'latest checks from archives'}</span></p>
-                <p><strong>{evidenceSummary.unavailableChecks}</strong><span>{lang === 'it' ? 'ultimi controlli indisponibili' : 'latest checks unavailable'}</span></p>
+                <p><strong>{evidenceSummary.suspendedPolicies}</strong><span>{lang === 'it' ? 'fonti sospese dalla pubblicazione' : 'sources suspended from publication'}</span></p>
+                <p><strong>{evidenceSummary.unavailableChecks}</strong><span>{lang === 'it' ? 'fonti con ultimo controllo fallito per indisponibilità' : 'sources unavailable at their latest check'}</span></p>
                 <p><strong>{evidenceSummary.pendingChanges}</strong><span>{lang === 'it' ? 'modifiche in attesa di conferma' : 'changes awaiting confirmation'}</span></p>
-                <p><strong>{evidenceSummary.totalKpis ? `${(100 * evidenceSummary.assessedKpis / evidenceSummary.totalKpis).toFixed(1)}%` : 'Not available'}</strong><span>{lang === 'it' ? 'KPI valutati sulle policy pubbliche attuali' : 'assessed KPIs on current public policies'}</span></p>
+                <p><strong>{evidenceSummary.totalKpis ? (evidenceSummary.assessedKpis / evidenceSummary.totalKpis).toLocaleString(lang, { style: 'percent', maximumFractionDigits: 1 }) : (lang === 'it' ? 'Non disponibile' : 'Unavailable')}</strong><span>{lang === 'it' ? 'copertura dei KPI sulle policy pubbliche' : 'KPI coverage across public policies'}</span></p>
               </div>
-              <p>{evidenceSummary.assessedKpis}/{evidenceSummary.totalKpis} {lang === 'it' ? 'KPI valutati; quelli non valutati restano esclusi dai punteggi. Le analisi sono assistite da AI.' : 'KPIs assessed; unassessed values remain excluded from scores. Analyses are AI-assisted.'}</p>
+              <p>{lang === 'it'
+                ? `${evidenceSummary.assessedKpis}/${evidenceSummary.totalKpis} indicatori valutati. Su ${evidenceSummary.publicBaselines} policy pubbliche, ${evidenceSummary.assessedPolicies} hanno almeno un KPI valutato e ${evidenceSummary.policiesWithAllKpis} li hanno tutti. Le valutazioni sono assistite dall’AI.`
+                : `${evidenceSummary.assessedKpis}/${evidenceSummary.totalKpis} indicators assessed. Of ${evidenceSummary.publicBaselines} public policies, ${evidenceSummary.assessedPolicies} have at least one assessed KPI and ${evidenceSummary.policiesWithAllKpis} have all of them. Assessments are AI-assisted.`}</p>
               {evidenceSummary.otherChecks > 0 && <p>{evidenceSummary.otherChecks} {lang === 'it' ? 'controlli richiedono revisione o non sono ancora disponibili.' : 'checks require review or are not yet available.'}</p>}
-              <p>{lang === 'it' ? 'Inventario dei tipi selezionati, tutti i settori. Ultimo controllo registrato: ' : 'Inventory for selected document types, all industries. Latest recorded check: '}{evidenceSummary.latestCheckAt ? new Date(evidenceSummary.latestCheckAt).toLocaleString(lang === 'it' ? 'it-IT' : 'en-GB') : 'Not available'} · <Link href="/trust">{lang === 'it' ? 'Metodo e limiti' : 'Method and limitations'}</Link></p>
+              <p>{lang === 'it' ? 'Inventario dei tipi selezionati, tutti i settori. Ultimo controllo registrato: ' : 'Inventory for selected document types, all industries. Latest recorded check: '}{evidenceSummary.latestCheckAt ? new Date(evidenceSummary.latestCheckAt).toLocaleString(lang === 'it' ? 'it-IT' : 'en-GB') : (lang === 'it' ? 'Non disponibile' : 'Unavailable')} · <Link href="/trust">{lang === 'it' ? 'Metodo e limiti' : 'Method and limitations'}</Link></p>
             </> : <p>{lang === 'it' ? 'Stato delle evidenze temporaneamente non disponibile.' : 'Evidence status temporarily unavailable.'}</p>}
           </section>
         )}
@@ -2831,7 +2844,7 @@ export default function Dashboard({ lang, setLang }: { lang: 'en' | 'it'; setLan
         )}
         </AnimatePresence>
 
-        {!loading && sourceSuspensionsTotal > 0 && (
+        {!loading && sourceSuspensionsTotal !== null && sourceSuspensionsTotal > 0 && (
           <motion.section
             {...getDashboardModuleDomProps(workspaceIntent, 'sourceQuality')}
             className={styles.sourceSuspensionPanel}
@@ -2913,6 +2926,8 @@ export default function Dashboard({ lang, setLang }: { lang: 'en' | 'it'; setLan
               <div className={styles.marketPulseLoading}>
                 {lang === 'it' ? 'Caricamento timeline...' : 'Loading timeline...'}
               </div>
+            ) : marketPulseError ? (
+              <div className={styles.marketPulseLoading}>{lang === 'it' ? 'Segnalazioni temporaneamente non disponibili.' : 'Published changes temporarily unavailable.'}</div>
             ) : visibleMarketPulse.length === 0 ? (
               <div className={styles.marketPulseLoading}>{t.noMarketPulse}</div>
             ) : (
@@ -2923,15 +2938,13 @@ export default function Dashboard({ lang, setLang }: { lang: 'en' | 'it'; setLan
                       lang === 'it' ? 'it-IT' : 'en-US',
                       { day: 'numeric', month: 'short', year: 'numeric' }
                     );
-                    const summary =
-                      (lang === 'it'
-                        ? change.tldrIt || change.aiSummaryIt
-                        : change.tldrEn || change.aiSummaryEn) || '';
+                    const kind = change.classification?.kind ?? 'needs_review';
+                    const summary = changeClassificationDescription(change.classification, lang);
 
                     return (
                       <Link
                         key={change.id}
-                        href={`/change/${change.id}`}
+                        href={`/change/${change.id}?lang=${lang}`}
                         className={styles.marketPulseItem}
                         style={{ '--pulse-color': getRiskColor(change.overallRisk) } as React.CSSProperties}
                       >
@@ -2941,9 +2954,9 @@ export default function Dashboard({ lang, setLang }: { lang: 'en' | 'it'; setLan
                         <span className={styles.marketPulsePolicy}>
                           {change.policy.name} / {change.policy.jurisdiction}
                         </span>
-                        <span className={styles.marketPulseSummary}>{summary}</span>
+                        <span className={styles.marketPulseSummary}>{CHANGE_KIND_LABELS[lang][kind]} · {summary}</span>
                         <span className={styles.marketPulseMeta}>
-                          {change.policy.company.industry} / {change.overallRisk} {change.overallScore}/10
+                          {dashboardScoreLabel(change.overallScore, change.scoreDelta, lang)}
                         </span>
                       </Link>
                     );

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildDashboardTodayItems, DASHBOARD_WORKFLOW_SCHEMA } from '../dashboardWorkflow';
+import { buildDashboardTodayItems, dashboardScoreLabel, DASHBOARD_WORKFLOW_SCHEMA } from '../dashboardWorkflow';
 
 describe('dashboard workflow hierarchy', () => {
   it('caps Oggi at three actions and collapses source failures into one QA action', () => {
@@ -19,6 +19,17 @@ describe('dashboard workflow hierarchy', () => {
     expect(items.filter((item) => item.kind === 'source-qa')).toHaveLength(1);
     expect(items[1].title).toContain('High Co');
     expect(items[2].kind).toBe('civic');
+  });
+
+  it('keeps publication, textual evidence and estimated score movement separate', () => {
+    const changes = [{ id: 'ms', company: 'Microsoft', policy: 'Privacy', overallScore: 8, overallRisk: 'High',
+      createdAt: '2026-11-20', classification: { kind: 'needs_review' as const }, scoreDelta: 0 }];
+    const [item] = buildDashboardTodayItems({ changes, lang: 'it', suspendedSources: 0 });
+    expect(item.eyebrow).toBe('Da verificare');
+    expect(item.description).toBe('Rischio stimato 8/10 · punteggio invariato');
+    expect(dashboardScoreLabel(8, null, 'en')).toContain('unavailable');
+    expect(dashboardScoreLabel(8, 2, 'it')).toContain('+2');
+    expect(dashboardScoreLabel(6, -2, 'en')).toContain('-2');
   });
 
   it('uses two ranked changes when QA has no suspended sources', () => {

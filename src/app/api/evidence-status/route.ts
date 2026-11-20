@@ -3,6 +3,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rateLimit';
 import { summarizeDashboardEvidence } from '@/lib/dashboardEvidence';
+import { latestCaptureCheck } from '@/lib/confirmedCapture';
+import { suspendedPolicyWhere } from '@/lib/publicDataGate';
+import { publishedAssessmentFilter } from '@/lib/publicAssessment';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,16 +15,17 @@ export async function GET(request: NextRequest) {
   try {
     const documentTypes = parseDocumentTypes(request.nextUrl.searchParams.get('documents'));
     if (!documentTypes) return NextResponse.json({ error: 'Invalid document types.' }, { status: 400 });
-    const policies = await db.policy.findMany({
-      where: documentTypeWhere(documentTypes),
+    const scope = documentTypeWhere(documentTypes);
+    const [policies, suspendedPolicies] = await db.$transaction([db.policy.findMany({
+      where: scope,
       select: {
         id: true, dataStatus: true, ingestionMethod: true,
-        snapshots: { select: { publicEvidence: true } },
-        checkLogs: { select: { checkedAt: true, status: true, source: true, reason: true, archiveTimestamp: true } },
-        changes: { where: { publicEvidence: true }, select: { createdAt: true, kpiDataCollection: true, kpiThirdPartySharing: true, kpiDataRetention: true, kpiRightToDeletion: true, kpiCrossBorderTransfer: true, kpiAiTrainingOptOut: true, kpiAiOutputOwnership: true, kpiAlgoTransparency: true, kpiAutomatedDecision: true, kpiAiBiasFairness: true, kpiConsentMechanism: true, kpiRegulatoryCompliance: true, kpiBreachNotification: true, kpiIndependentAudit: true, kpiContentModeration: true } },
+        snapshots: { where: { publicEvidence: true }, take: 1, select: { publicEvidence: true } },
+        checkLogs: { ...latestCaptureCheck, select: { ...latestCaptureCheck.select, reason: true } },
+        changes: { where: publishedAssessmentFilter(new Date()), orderBy: [{ createdAt: 'desc' }, { id: 'desc' }], take: 1, select: { createdAt: true, kpiDataCollection: true, kpiThirdPartySharing: true, kpiDataRetention: true, kpiRightToDeletion: true, kpiCrossBorderTransfer: true, kpiAiTrainingOptOut: true, kpiAiOutputOwnership: true, kpiAlgoTransparency: true, kpiAutomatedDecision: true, kpiAiBiasFairness: true, kpiConsentMechanism: true, kpiRegulatoryCompliance: true, kpiBreachNotification: true, kpiIndependentAudit: true, kpiContentModeration: true } },
       },
-    });
-    return NextResponse.json({ ...summarizeDashboardEvidence(policies), generatedAt: new Date().toISOString() },
+    }), db.policy.count({ where: suspendedPolicyWhere(scope) })]);
+    return NextResponse.json({ ...summarizeDashboardEvidence(policies), suspendedPolicies, generatedAt: new Date().toISOString() },
       { headers: { 'Cache-Control': 'no-store' } });
   } catch {
     return NextResponse.json({ error: 'Evidence status is temporarily unavailable.' }, { status: 503, headers: { 'Cache-Control': 'no-store' } });

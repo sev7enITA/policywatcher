@@ -27,9 +27,11 @@ describe('crawlable public knowledge layer', () => {
 
   it('keeps private and operational fields outside public knowledge selections', () => {
     const data = read('src/lib/publicKnowledge.ts');
-    for (const field of ['currentText', 'diff:', 'adminNote', 'attemptsJson', 'reasonCode', 'retrievalUrl', 'checkLogs']) {
+    for (const field of ['currentText', 'diff:', 'adminNote', 'attemptsJson', 'reasonCode', 'retrievalUrl', 'lastSuccessfulCheckDate']) {
       expect(data, field).not.toContain(field);
     }
+    expect(data).toContain('confirmedCaptureDate(policy.checkLogs[0])');
+    expect(data).not.toMatch(/checkLogs:\s*(?:true|policy\.checkLogs)/);
     expect(data).toContain('select: { version: true, hash: true, createdAt: true }');
   });
 

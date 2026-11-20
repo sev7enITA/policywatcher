@@ -1,6 +1,8 @@
 import { classifyPolicyChange, classificationSnapshotSelect } from '@/lib/changeClassification';
 import { changeClassificationDescription } from '@/lib/changeClassificationCopy';
 import { cache } from 'react';
+import { confirmedCaptureDate, latestCaptureCheck } from './confirmedCapture';
+import { publishedAssessmentFilter } from './publicAssessment';
 import { db } from './db';
 import { publicChangeWhere, publicPolicyWhere, publicSnapshotWhere } from './publicDataGate';
 import { POLICYWATCHER_CANONICAL_ORIGIN } from './siteOrigin';
@@ -20,7 +22,7 @@ export interface PublicKnowledgePolicySummary {
   dataStatus: string;
   ingestionMethod: string;
   lastCheckedAt: string;
-  lastRetrievedAt: string;
+  lastRetrievedAt: string | null;
   latestBaselineAt: string | null;
   publishedChangeCount: number;
 }
@@ -121,7 +123,7 @@ export const getPublicKnowledgeHub = cache(async (): Promise<PublicKnowledgeHub>
         website: true,
         policies: {
           where: policyGate as never,
-          select: { lastSuccessfulCheckDate: true },
+          select: { checkLogs: latestCaptureCheck },
         },
       },
     }),
@@ -137,7 +139,7 @@ export const getPublicKnowledgeHub = cache(async (): Promise<PublicKnowledgeHub>
         dataStatus: true,
         ingestionMethod: true,
         lastCheckDate: true,
-        lastSuccessfulCheckDate: true,
+        checkLogs: latestCaptureCheck,
         updatedAt: true,
         company: { select: { name: true, slug: true } },
         snapshots: {
@@ -146,11 +148,11 @@ export const getPublicKnowledgeHub = cache(async (): Promise<PublicKnowledgeHub>
           take: 1,
           select: { createdAt: true },
         },
-        _count: { select: { changes: { where: publicChangeWhere({ publicPublishedAt: { not: null } }) as never } } },
+        _count: { select: { changes: { where: publicChangeWhere(publishedAssessmentFilter(new Date())) as never } } },
       },
     }),
     db.policyChange.findMany({
-      where: publicChangeWhere({ publicPublishedAt: { not: null } }) as never,
+      where: publicChangeWhere(publishedAssessmentFilter(new Date())) as never,
       orderBy: { publicPublishedAt: 'desc' },
       take: 12,
       select: {
@@ -184,7 +186,7 @@ export const getPublicKnowledgeHub = cache(async (): Promise<PublicKnowledgeHub>
     industry: company.industry,
     officialWebsiteUrl: safePublicUrl(company.website),
     publicPolicyCount: company.policies.length,
-    lastObservedAt: latestIso(company.policies.map((policy) => policy.lastSuccessfulCheckDate)),
+    lastObservedAt: latestIso(company.policies.map((policy) => confirmedCaptureDate(policy.checkLogs[0]))),
   }));
 
   const policyItems = policies.map((policy) => ({
@@ -196,7 +198,7 @@ export const getPublicKnowledgeHub = cache(async (): Promise<PublicKnowledgeHub>
     dataStatus: policy.dataStatus,
     ingestionMethod: policy.ingestionMethod,
     lastCheckedAt: asIso(policy.lastCheckDate),
-    lastRetrievedAt: asIso(policy.lastSuccessfulCheckDate),
+    lastRetrievedAt: confirmedCaptureDate(policy.checkLogs[0])?.toISOString() ?? null,
     latestBaselineAt: policy.snapshots[0] ? asIso(policy.snapshots[0].createdAt) : null,
     publishedChangeCount: policy._count.changes,
     company: policy.company,
@@ -211,7 +213,7 @@ export const getPublicKnowledgeHub = cache(async (): Promise<PublicKnowledgeHub>
     policy: change.policy,
   }));
 
-  const lastObservedAt = latestIso(policies.map((policy) => policy.lastSuccessfulCheckDate));
+  const lastObservedAt = latestIso(policies.map((policy) => confirmedCaptureDate(policy.checkLogs[0])));
   const lastVerifiedAt = latestIso(policies.flatMap((policy) => policy.snapshots.map((snapshot) => snapshot.createdAt)));
   const dateModified = latestIso([
     lastObservedAt,
@@ -227,7 +229,7 @@ export const getPublicKnowledgeHub = cache(async (): Promise<PublicKnowledgeHub>
       policies: policyItems.length,
       baselines: baselineCount,
       changes: await db.policyChange.count({
-        where: publicChangeWhere({ publicPublishedAt: { not: null } }) as never,
+        where: publicChangeWhere(publishedAssessmentFilter(new Date())) as never,
       }),
     },
     lastObservedAt,
@@ -262,7 +264,7 @@ export const getPublicKnowledgeCompany = cache(async (slug: string): Promise<Pub
           dataStatus: true,
           ingestionMethod: true,
           lastCheckDate: true,
-          lastSuccessfulCheckDate: true,
+          checkLogs: latestCaptureCheck,
           updatedAt: true,
           snapshots: {
             where: publicSnapshotWhere() as never,
@@ -271,7 +273,7 @@ export const getPublicKnowledgeCompany = cache(async (slug: string): Promise<Pub
             select: { createdAt: true },
           },
           changes: {
-            where: publicChangeWhere({ publicPublishedAt: { not: null } }) as never,
+            where: publicChangeWhere(publishedAssessmentFilter(new Date())) as never,
             orderBy: { publicPublishedAt: 'desc' },
             take: 8,
             select: {
@@ -285,7 +287,7 @@ export const getPublicKnowledgeCompany = cache(async (slug: string): Promise<Pub
               newSnapshot: { select: classificationSnapshotSelect },
             },
           },
-          _count: { select: { changes: { where: publicChangeWhere({ publicPublishedAt: { not: null } }) as never } } },
+          _count: { select: { changes: { where: publicChangeWhere(publishedAssessmentFilter(new Date())) as never } } },
         },
       },
     },
@@ -302,7 +304,7 @@ export const getPublicKnowledgeCompany = cache(async (slug: string): Promise<Pub
     dataStatus: policy.dataStatus,
     ingestionMethod: policy.ingestionMethod,
     lastCheckedAt: asIso(policy.lastCheckDate),
-    lastRetrievedAt: asIso(policy.lastSuccessfulCheckDate),
+    lastRetrievedAt: confirmedCaptureDate(policy.checkLogs[0])?.toISOString() ?? null,
     latestBaselineAt: policy.snapshots[0] ? asIso(policy.snapshots[0].createdAt) : null,
     publishedChangeCount: policy._count.changes,
   }));
@@ -324,7 +326,7 @@ export const getPublicKnowledgeCompany = cache(async (slug: string): Promise<Pub
     .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
     .slice(0, 8);
 
-  const lastObservedAt = latestIso(company.policies.map((policy) => policy.lastSuccessfulCheckDate));
+  const lastObservedAt = latestIso(company.policies.map((policy) => confirmedCaptureDate(policy.checkLogs[0])));
   return {
     id: company.id,
     name: company.name,
@@ -360,7 +362,7 @@ export const getPublicKnowledgePolicy = cache(async (
       dataStatus: true,
       ingestionMethod: true,
       lastCheckDate: true,
-      lastSuccessfulCheckDate: true,
+      checkLogs: latestCaptureCheck,
       updatedAt: true,
       company: {
         select: { id: true, name: true, slug: true, industry: true, website: true },
@@ -372,7 +374,7 @@ export const getPublicKnowledgePolicy = cache(async (
         select: { version: true, hash: true, createdAt: true },
       },
       changes: {
-        where: publicChangeWhere({ publicPublishedAt: { not: null } }) as never,
+        where: publicChangeWhere(publishedAssessmentFilter(new Date())) as never,
         orderBy: { publicPublishedAt: 'desc' },
         take: 12,
         select: {
@@ -386,7 +388,7 @@ export const getPublicKnowledgePolicy = cache(async (
           newSnapshot: { select: classificationSnapshotSelect },
         },
       },
-      _count: { select: { changes: { where: publicChangeWhere({ publicPublishedAt: { not: null } }) as never } } },
+      _count: { select: { changes: { where: publicChangeWhere(publishedAssessmentFilter(new Date())) as never } } },
     },
   });
 
@@ -416,7 +418,7 @@ export const getPublicKnowledgePolicy = cache(async (
     dataStatus: policy.dataStatus,
     ingestionMethod: policy.ingestionMethod,
     lastCheckedAt: asIso(policy.lastCheckDate),
-    lastRetrievedAt: asIso(policy.lastSuccessfulCheckDate),
+    lastRetrievedAt: confirmedCaptureDate(policy.checkLogs[0])?.toISOString() ?? null,
     latestBaselineAt,
     publishedChangeCount: policy._count.changes,
     company: {

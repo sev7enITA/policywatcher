@@ -1,11 +1,13 @@
 import 'server-only';
+import { previousPublicAssessment, publishedAssessmentFilter } from './publicAssessment';
 import { db } from './db';
 import { buildEvidencePacket, type EvidencePacketInput } from './evidencePacket';
 import { publicChangeWhere } from './publicDataGate';
 
 export async function getPublicEvidencePacket(changeId: string) {
+  const asOf = new Date();
   const change = await db.policyChange.findFirst({
-    where: publicChangeWhere({ id: changeId, newSnapshot: { publicEvidence: true } }) as never,
+    where: publicChangeWhere({ id: changeId, ...publishedAssessmentFilter(asOf) }) as never,
     include: {
       oldSnapshot: {
         select: { version: true, hash: true, text: true, publicEvidence: true, createdAt: true, sourceUrl: true, requestedUrl: true, finalUrl: true, sourceProvenance: true },
@@ -46,15 +48,7 @@ export async function getPublicEvidencePacket(changeId: string) {
 
   if (!change) return null;
 
-  const previousChange = await db.policyChange.findFirst({
-    where: publicChangeWhere({
-      policyId: change.policyId,
-      createdAt: { lt: change.createdAt },
-      newSnapshot: { publicEvidence: true },
-    }) as never,
-    orderBy: { createdAt: 'desc' },
-    select: { id: true, overallScore: true, overallRisk: true, createdAt: true },
-  });
+  const previousChange = await previousPublicAssessment(change.policyId, change.createdAt, asOf);
 
   return buildEvidencePacket({
     change,
@@ -66,7 +60,7 @@ export async function getPublicEvidencePacket(changeId: string) {
 export async function listPublicEvidencePacketSummaries(limit = 24) {
   const boundedLimit = Math.min(Math.max(limit, 1), 50);
   const changes = await db.policyChange.findMany({
-    where: publicChangeWhere({ newSnapshot: { publicEvidence: true } }) as never,
+    where: publicChangeWhere(publishedAssessmentFilter(new Date())) as never,
     orderBy: { createdAt: 'desc' },
     take: boundedLimit,
     select: {

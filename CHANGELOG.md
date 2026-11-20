@@ -2,6 +2,11 @@
 
 ## 5.5.0 - Engine 6 Preview (2026-11-02)
 
+### Homepage evidence and score comparisons, 20 November 2026
+
+- Published changes carry their evidence classification and score difference from the preceding public assessment of the same policy. An unavailable comparison stays empty. Automatic comparisons use a fixed edit budget for repeatable results.
+- The homepage distinguishes suspended sources, failed retrievals and the share of public policy indicators assessed. It also reports how many policies have any or all indicators assessed.
+
 ### Homepage language and mobile notice, 20 November 2026
 
 - The public homepage and interactive workspace share one language setting. The research notice opens on demand and can be hidden and restored. Returning browsers remember the choice. Company loading cards also fit a 320-pixel screen.
