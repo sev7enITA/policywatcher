@@ -1,5 +1,7 @@
 # PolicyWatcher · Valutazione tecnica e funzionale del 20 novembre 2026
 
+**Aggiornamento delle 15:02 CET.** Il press kit del 20 novembre è online in italiano e inglese. Per ciascuna lingua abbiamo verificato sul dominio pubblico PDF, TXT, screenshot e cambio lingua a 320, 390 e 768 pixel, compreso il ricaricamento della pagina. Il servizio pubblico espone la versione 5.5.0. Dopo la prova in staging, la preview privata r3 ha superato i controlli di accesso e lettura dei report. [Press kit italiano](https://policywatcher.online/press-kit?lang=it) · [Press kit inglese](https://policywatcher.online/press-kit?lang=en) · [Prove di pubblicazione](press-kit-review.json) · [Schermata mobile IT](press-kit-mobile-it.png) · [Schermata mobile EN](press-kit-mobile-en.png)
+
 Per chi esamina una singola modifica, il servizio pubblico 5.5.0 offre già un percorso dalla segnalazione al testo di riferimento. Per chi segue più fornitori, il nuovo Policy Briefing merita una prova con un revisore e un portafoglio reale. Per chi gestisce il motore, manca ancora una misura di quante modifiche rilevanti arrivino alla pubblicazione con una verifica corretta.
 
 | Destinatario | Cosa può fare oggi | Prova successiva proposta |
