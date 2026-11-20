@@ -274,8 +274,7 @@ const pressAssetImageSizes: Record<string, { width: number; height: number }> = 
   'release-impact-screenshot': { width: 1440, height: 1000 },
 };
 
-export default function PressKitClient() {
-  const [lang, setLang] = useState<PressKitLocale>('en');
+export default function PressKitClient({ lang }: { lang: PressKitLocale }) {
   const [copied, setCopied] = useState<string | null>(null);
   const [copyFailure, setCopyFailure] = useState<string | null>(null);
   const t = copy[lang];
@@ -323,9 +322,9 @@ export default function PressKitClient() {
           <div className={styles.heroCopy}>
             <div className={styles.heroMeta}>
               <span><Radio size={14} />{t.kicker}</span>
-              <button type="button" onClick={() => setLang(lang === 'en' ? 'it' : 'en')}>
+              <Link href={lang === 'en' ? '/press-kit?lang=it' : '/press-kit'} hrefLang={lang === 'en' ? 'it' : 'en'}>
                 <Languages size={15} />{t.switchLanguage}
-              </button>
+              </Link>
             </div>
             <p className={styles.releaseBadge}>{POLICYWATCHER_RELEASE_BADGE} · {POLICYWATCHER_RELEASE_DATE}</p>
             <h1 id="press-kit-title">{t.title}</h1>

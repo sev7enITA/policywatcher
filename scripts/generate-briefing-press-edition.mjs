@@ -32,7 +32,7 @@ const edition = {
   en: {
     title: 'A guide to Policy Briefing',
     intro:
-      'Follow the words that matched your search back to a published policy change and the original source.',
+      'Filter by service and topic, then follow the matching words back to the published change and its source.',
     label:
       'Public release 5.5.0: 2 November 2026. Press edition: 20 November 2026.',
     sections: [
@@ -42,7 +42,7 @@ const edition = {
       ],
       [
         'Review a supplier',
-        'Save a responsible role, date and status on your device. Exports omit those notes by default. The briefing covers the records loaded in your browser. Shared assignments and automatic notifications are outside this workflow.',
+        'Keep the responsible role, due date and status in the current browser. Exports omit those notes by default. Only loaded pages are included. Shared assignments, a central audit log and automatic notifications are outside this workflow.',
       ],
       [
         'Press coverage',
@@ -50,7 +50,7 @@ const edition = {
       ],
       [
         'Engine 6 research',
-        'The private r3 preview is separate from the public scanner. The 17 November update records 397 of 500 extractions locally and 367 of 500 in an isolated hosted trial. Daily throughput and semantic accuracy are still being evaluated.',
+        'The private r3 preview is separate from the public scanner. The 17 November update records 397 of 500 extractions locally and 367 of 500 in an isolated hosted trial. These trials have yet to demonstrate daily throughput or semantic accuracy.',
       ],
     ],
     links: [
@@ -62,17 +62,17 @@ const edition = {
   it: {
     title: 'Guida al Briefing policy',
     intro:
-      'Dalle parole che corrispondono alla ricerca puoi risalire al confronto fra versioni e alla fonte originale.',
+      'Seleziona un servizio e un tema, poi risali dalle parole evidenziate al confronto fra versioni e alla fonte originale.',
     label:
       'Release pubblica 5.5.0 del 2 novembre 2026. Edizione stampa del 20 novembre 2026.',
     sections: [
       [
         'Trova una clausola',
-        'Scegli un servizio e un tema. Il briefing mostra le parole trovate in un estratto o in una sintesi. Leggi il confronto nel suo contesto: «addestramento» può comparire anche in un impegno a escludere i tuoi dati.',
+        'Scegli un servizio e un tema. Il briefing mostra le parole trovate in un estratto o in una sintesi. Leggi il confronto nel suo contesto: «addestramento» può comparire anche in un impegno a non usare mai i tuoi dati per addestrare un modello.',
       ],
       [
         'Verifica un fornitore',
-        'Salva ruolo responsabile, data e stato sul dispositivo. Le esportazioni escludono questi dati per impostazione predefinita. Il briefing comprende i record caricati nel browser. Le assegnazioni condivise e le notifiche automatiche restano fuori da questo flusso.',
+        'Conserva ruolo responsabile, scadenza e stato nel browser in uso. Le esportazioni escludono questi dati per impostazione predefinita. Il briefing riguarda le sole pagine caricate. Assegnazioni condivise, registro centrale e notifiche automatiche restano fuori da questo flusso.',
       ],
       [
         'Rassegna stampa',
@@ -80,7 +80,7 @@ const edition = {
       ],
       [
         'Ricerca su Engine 6',
-        'La preview privata r3 è separata dallo scanner pubblico. Il riepilogo del 17 novembre documenta 397 estrazioni su 500 in locale e 367 su 500 in una prova isolata sul server. Capacità giornaliera e accuratezza semantica restano da verificare.',
+        'La preview privata r3 è separata dallo scanner pubblico. Il riepilogo del 17 novembre documenta 397 estrazioni su 500 in locale e 367 su 500 in una prova isolata sul server. La capacità giornaliera e la correttezza delle interpretazioni restano da dimostrare.',
       ],
     ],
     links: [

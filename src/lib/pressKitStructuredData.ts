@@ -1,5 +1,5 @@
 import { AUTHOR_PROFILES, PUBLIC_AUTHOR, PUBLIC_PUBLISHER, SOFTWARE_ID, SOURCE_CODE_ID } from './structuredData';
-import { PRESS_KIT_LICENSE_URL, PRESS_EDITION_DATE, PRESS_KIT_REPOSITORY_URL } from './pressKit';
+import { PRESS_KIT_LICENSE_URL, PRESS_KIT_RELEASE_DATE, PRESS_KIT_REPOSITORY_URL } from './pressKit';
 import { POLICYWATCHER_RELEASE_NAME, POLICYWATCHER_VERSION } from './release';
 
 export const PRESS_KIT_STRUCTURED_DATA = {
@@ -14,7 +14,7 @@ export const PRESS_KIT_STRUCTURED_DATA = {
       operatingSystem: 'Web',
       softwareVersion: POLICYWATCHER_VERSION,
       releaseNotes: 'https://policywatcher.online/roadmap',
-      dateModified: PRESS_EDITION_DATE,
+      dateModified: PRESS_KIT_RELEASE_DATE,
       description: `${POLICYWATCHER_RELEASE_NAME} public policy evidence application. Outputs are evidence-gated and are not legal advice or compliance certification.`,
       license: PRESS_KIT_LICENSE_URL,
       image: 'https://policywatcher.online/press-kit/policywatcher-logo-square-1024.jpg',

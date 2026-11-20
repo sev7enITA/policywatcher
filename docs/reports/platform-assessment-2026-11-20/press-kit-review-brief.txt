@@ -1,0 +1,55 @@
+Review the enclosed bilingual editorial assets against the measured platform behaviour. Be a sceptical editor and technical product reviewer. Give up to three specific findings. Quote a short existing phrase for any correction. Identify one defensible next step for an individual reader and one for supplier review teams. Distinguish observed facts from feature proposals. Use only these materials. Answer in English, under 180 words.
+
+Verified public behaviour, 20 November 2026:
+- Stable PolicyWatcher 5.5.0 was released 2 November. Both public /briefing and /press respond. A sample public feed page reported 18 services and 25 changes and had another page. One sampled change linked to an evidence packet with the same ID.
+- Policy Briefing filters the records loaded in the browser by service and topic. The report identifies terms in the excerpt or summary, and links to the comparison and original policy. Matching a word does not establish a legal conclusion.
+- A supplier review role, due date and status are saved in the current browser. Exports omit these notes by default. No shared assignment, central audit log or automatic alert is provided by that workflow.
+- Six separately cited press records include Economy Magazine (19 November) and Fortune Italia (18 November).
+- Engine 6 is private. Two bounded trials on 500 targets produced 397 local and 367 hosted extraction successes. The research has not established correct clause interpretation or daily capacity. An evaluation of 11 documents produced no verifier-approved semantic verdict.
+- Each November ZIP contains the matching language's fact sheet as PDF and TXT, a capture of the public interface, brand artwork, reuse terms and a checksum manifest. An immutable Git commit serves the ZIPs. Both downloads matched the manifest byte-for-byte. Updating the press edition does not change the application release number.
+
+Drafts for comparison:
+
+PolicyWatcher
+A guide to Policy Briefing
+Public release 5.5.0: 2 November 2026. Press edition: 20 November 2026.
+
+Follow the words that matched your search back to a published policy change and the original source.
+
+Find a clause
+Choose a service and a topic. The briefing shows which words matched an excerpt or a summary. Read the comparison in context: “training” can also appear in a promise never to train on your data.
+
+Review a supplier
+Save a responsible role, date and status on your device. Exports omit those notes by default. The briefing covers the records loaded in your browser. Shared assignments and automatic notifications are outside this workflow.
+
+Press coverage
+The public register contains six references, including the original articles from Economy Magazine (19 November) and Fortune Italia (18 November).
+
+Engine 6 research
+The private r3 preview is separate from the public scanner. The 17 November update records 397 of 500 extractions locally and 367 of 500 in an isolated hosted trial. Daily throughput and semantic accuracy are still being evaluated.
+
+Open the briefing | https://policywatcher.online/briefing?lang=en
+Read the press coverage | https://policywatcher.online/press?lang=en
+See the research results | https://policywatcher.online/press-kit/releases/engine-six-progress-november-2026?lang=en
+
+PolicyWatcher
+Guida al Briefing policy
+Release pubblica 5.5.0 del 2 novembre 2026. Edizione stampa del 20 novembre 2026.
+
+Dalle parole che corrispondono alla ricerca puoi risalire al confronto fra versioni e alla fonte originale.
+
+Trova una clausola
+Scegli un servizio e un tema. Il briefing mostra le parole trovate in un estratto o in una sintesi. Leggi il confronto nel suo contesto: «addestramento» può comparire anche in un impegno a escludere i tuoi dati.
+
+Verifica un fornitore
+Salva ruolo responsabile, data e stato sul dispositivo. Le esportazioni escludono questi dati per impostazione predefinita. Il briefing comprende i record caricati nel browser. Le assegnazioni condivise e le notifiche automatiche restano fuori da questo flusso.
+
+Rassegna stampa
+Il registro pubblico comprende sei segnalazioni, tra cui gli articoli originali di Economy Magazine (19 novembre) e Fortune Italia (18 novembre).
+
+Ricerca su Engine 6
+La preview privata r3 è separata dallo scanner pubblico. Il riepilogo del 17 novembre documenta 397 estrazioni su 500 in locale e 367 su 500 in una prova isolata sul server. Capacità giornaliera e accuratezza semantica restano da verificare.
+
+Apri il briefing | https://policywatcher.online/briefing?lang=it
+Consulta la rassegna | https://policywatcher.online/press?lang=it
+Leggi i risultati della ricerca | https://policywatcher.online/press-kit/releases/engine-six-progress-november-2026?lang=it
