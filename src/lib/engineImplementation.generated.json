@@ -7,11 +7,11 @@
     ],
     [
       "package-lock.json",
-      "b24528f1f480f216c355c8f0ee024928376873ae9f5ba381210ffcf5a7c868bf"
+      "57689b0b8e73dca45234fdbab3ad27e7a4d89a206b2e9ebf6486fcf641587abb"
     ],
     [
       "package.json",
-      "0a55050e32a8843f2748f05a397f2308272c16a656b2a7f58f8f363483eeba77"
+      "6c015ffe66bea78691e1eb2b2d4d9c601df7595354c4a29a8a9b3b7b8832ce4b"
     ],
     [
       "prisma/migrations/20260706213500_init/migration.sql",
@@ -490,5 +490,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "9357a42f47fc28594440d0e6a448e6ccad0e52f0a2839b7d1d71bd6024fdab0e"
+  "hash": "2fa74efecdf9f2e29f07c18f5b45b43dc1932fae0ee3c9a4ee5981a417200a34"
 }
