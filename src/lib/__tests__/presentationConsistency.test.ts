@@ -11,6 +11,13 @@ describe('Evidence summary', () => {
   it('keeps unknown and invalid KPI values out of assessed coverage', () => {
     expect(summarizeDashboardEvidence([policy()])).toMatchObject({ totalPolicies: 1, publicBaselines: 1, liveChecks: 1, assessedKpis: 1, totalKpis: 15 });
   });
+  it('distinguishes publication from KPI coverage and a check from a confirmed capture', () => {
+    const first = policy();
+    first.checkLogs[0].textLength = 200;
+    const empty = policy({ changes: [{ createdAt: new Date(), kpiDataCollection: 'Not assessed' }] });
+    expect(summarizeDashboardEvidence([first, empty])).toMatchObject({ policiesWithPublishedAssessment: 2,
+      assessedPolicies: 1, policiesWithAllKpis: 0, publicPoliciesWithConfirmedCapture: 1, liveChecks: 2 });
+  });
   it('counts public baselines without analysis in the KPI denominator', () => {
     expect(summarizeDashboardEvidence([policy({ changes: [] })])).toMatchObject({ publicBaselines: 1, assessedPolicies: 0, assessedKpis: 0, totalKpis: 15 });
   });

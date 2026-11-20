@@ -29,6 +29,8 @@ import { rateLimit } from '@/lib/rateLimit';
 import { publicChangeWhere } from '@/lib/publicDataGate';
 import { classificationSnapshotSelect, withChangeClassification } from '@/lib/changeClassification';
 
+import { previousPublicAssessment, publishedAssessmentFilter } from '@/lib/publicAssessment';
+
 const VALID_RISKS = new Set(['Low', 'Medium', 'High']);
 const VALID_INDUSTRIES = new Set([
   'Tech Giant',
@@ -138,7 +140,8 @@ export async function GET(request: NextRequest) {
       ];
     }
 
-    const gatedWhere = publicChangeWhere(where);
+    const asOf = new Date();
+    const gatedWhere = publicChangeWhere({ ...where, ...publishedAssessmentFilter(asOf) });
 
     // --- Query: count + paginated rows in parallel ---
     const [total, changes] = await Promise.all([
@@ -148,6 +151,7 @@ export async function GET(request: NextRequest) {
         // NARROW select: metadata + AI summary, NOT diff/currentText
         select: {
           id: true,
+          policyId: true,
           oldSnapshot: { select: classificationSnapshotSelect },
           newSnapshot: { select: classificationSnapshotSelect },
           overallRisk: true,
@@ -178,15 +182,26 @@ export async function GET(request: NextRequest) {
             },
           },
         },
-        orderBy: { createdAt: 'desc' },
+        orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
         skip: (page - 1) * pageSize,
         take: pageSize,
       }),
     ]);
 
+    const predecessors = await db.$transaction(changes.map(change =>
+      previousPublicAssessment(change.policyId, change.createdAt, asOf)));
+    const rows = changes.map((change, index) => {
+      const previous = predecessors[index];
+      return {
+        ...withChangeClassification(change),
+        previousPublicChangeId: previous?.id ?? null,
+        scoreDelta: previous ? change.overallScore - previous.overallScore : null,
+      };
+    });
+
     return NextResponse.json(
       {
-        changes: changes.map(withChangeClassification),
+        changes: rows,
         total,
         page,
         pageSize,

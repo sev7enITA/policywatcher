@@ -1,3 +1,4 @@
+import { confirmedCaptureDate, latestCaptureCheck } from './confirmedCapture';
 import { db } from './db';
 import { publicPolicyWhere, publicChangeWhere } from './publicDataGate';
 import { classificationSnapshotSelect, classifyPolicyChange } from './changeClassification';
@@ -33,8 +34,7 @@ export async function getCitizenFeed(query: Extract<CitizenFeedQuery, { ok: true
     select: {
       id: true, name: true, type: true, jurisdiction: true, url: true,
       company: { select: { id: true, name: true, slug: true, website: true } },
-      checkLogs: { orderBy: { checkedAt: 'desc' }, take: 1,
-        select: { checkedAt: true, status: true, source: true, textHash: true, textLength: true, archiveTimestamp: true } },
+      checkLogs: latestCaptureCheck,
       changes: { where: changeGate, orderBy: [{ publicPublishedAt: 'desc' }, { id: 'desc' }], take: 1,
         select: { id: true, publicPublishedAt: true } },
     },
@@ -48,14 +48,7 @@ export async function getCitizenFeed(query: Extract<CitizenFeedQuery, { ok: true
     if (!services.has(company.id) && services.size >= 500) continue;
     const service = services.get(company.id) || { id: company.id, name: company.name.slice(0, 200), slug: company.slug,
       website: citizenSafeUrl(company.website) || sourceUrl, policies: [] };
-    const capture = policy.checkLogs[0];
-    // An admin status or a database default date alone is not successful acquisition evidence.
-    const captured = capture && ['Available', 'Reviewed'].includes(capture.status)
-      && capture.source && !['seeded', 'none', 'cache'].includes(capture.source.toLowerCase())
-      && (capture.textHash || (capture.textLength || 0) > 0);
-    const archiveSource = capture?.source && ['wayback', 'commoncrawl', 'archive'].includes(capture.source.toLowerCase());
-    const lastRetrievedAt = captured && (!archiveSource || capture.archiveTimestamp)
-      ? (capture.archiveTimestamp || capture.checkedAt).toISOString() : null;
+    const lastRetrievedAt = confirmedCaptureDate(policy.checkLogs[0])?.toISOString() ?? null;
     const latest = policy.changes[0];
     service.policies.push({ id: policy.id, name: policy.name.slice(0, 300), type: policy.type, jurisdiction: policy.jurisdiction,
       sourceUrl, lastRetrievedAt, freshness: citizenFreshness(lastRetrievedAt, now),
