@@ -130,6 +130,16 @@ export interface PressKitRegistryEvent {
   affectedHref: string;
 }
 
+export const PRESS_EDITION_DATE = pressPackageManifest.generatedAt;
+
+export function pressEditionDownloads(locale: PressKitLocale) {
+  const factSheet = `/press-kit/policywatcher-fact-sheet-${locale}-${PRESS_EDITION_DATE}`;
+  return {
+    pdf: `${factSheet}.pdf`,
+    text: `${factSheet}.txt`,
+    screenshot: `/press-kit/policywatcher-briefing-${locale}-${PRESS_EDITION_DATE}.webp`,
+  };
+}
 export const PRESS_KIT_RELEASE_DATE = POLICYWATCHER_RELEASE_DATE;
 export const PRESS_KIT_DATA_SNAPSHOT_DATE = '2026-08-02' as const;
 export const PRESS_KIT_CANONICAL_URL = `${POLICYWATCHER_CANONICAL_ORIGIN}/press-kit` as const;
@@ -552,7 +562,7 @@ const pressKitAssetDefinitions: PressKitAsset[] = [
     bytes: 2495,
     sha256: '0e985d29aefe302bfe019fd9b61a90f4f62207a38457f500884a5c3cce7f3b31',
     contentCredentials: 'not-attached',
-    title: { en: 'Press fact sheet', it: 'Scheda stampa' },
+    title: { en: 'Archived fact sheet · July 2026', it: 'Scheda stampa storica · luglio 2026' },
     caption: { en: 'Bilingual plain-text facts, context and editorial boundaries.', it: 'Fatti bilingui, contesto e limiti editoriali in testo semplice.' },
     alt: { en: 'Markdown press fact sheet download', it: 'Download della scheda stampa Markdown' },
     usageBoundary: { en: 'Verify links and release metadata when quoting after 27 July 2026.', it: 'Verificare link e metadata di release per citazioni successive al 27 luglio 2026.' },
@@ -588,8 +598,8 @@ export const pressKitCycleItems: PressKitLocalized[] = [
 
 export const pressKitBoilerplates = {
   short: {
-    en: 'PolicyWatcher is a public-interest policy evidence project that monitors a configured inventory of public policy sources and keeps source status, observed changes and analytical limitations visible.',
-    it: 'PolicyWatcher e un progetto di interesse pubblico sulle evidenze policy che monitora un inventario configurato di fonti pubbliche e rende visibili stato delle fonti, cambiamenti osservati e limiti analitici.',
+    en: 'PolicyWatcher is a public-interest policy evidence project that monitors a configured inventory of public policy sources and links published changes to their sources. Its Policy Briefing filters by service and topic.',
+    it: 'PolicyWatcher è un progetto di interesse pubblico che collega le modifiche pubblicate alle fonti originali. Il Briefing permette di selezionare servizi e temi.',
   },
   long: {
     en: 'PolicyWatcher is an independent civic-tech project created by Fabrizio Degni. It monitors a configured inventory of public policy sources for 16 companies across 6 sectors and organizes analysis through 15 canonical KPIs spanning privacy, AI governance and ethics. Public data routes apply the configured evidence gate, preserve source-specific timestamps and show Not assessed when an assessment is unavailable. The public repository is reusable under CC BY 4.0. PolicyWatcher is not legal advice, a compliance certification or exhaustive coverage; update intervals depend on source retrieval and review.',
@@ -597,31 +607,9 @@ export const pressKitBoilerplates = {
   },
 } as const;
 
-const packageCopy: Record<PressKitLocale, Pick<PressKitPackage, 'id' | 'title' | 'contents' | 'boundary'>> = {
-  en: {
-    id: 'press-package-en',
-    title: { en: 'English editorial package', it: 'Pacchetto editoriale inglese' },
-    contents: [
-      { en: 'English PDF and plain-text fact sheet', it: 'Scheda dati inglese in PDF e testo semplice' },
-      { en: 'Owned logos, screenshots and infographic', it: 'Loghi, screenshot e infografica proprietari' },
-      { en: 'PNG, SVG, CSV and JSON configured-scope snapshot', it: 'Snapshot del perimetro in PNG, SVG, CSV e JSON' },
-      { en: 'Asset manifest, IPTC metadata, credits and usage terms', it: 'Manifest asset, metadati IPTC, crediti e condizioni d uso' },
-      { en: 'Beta 27 release, regional pitch drafts, FAQ, claims freeze and 87-second subtitled demo', it: 'Release Beta 27, pitch regionali, FAQ, claims freeze e demo sottotitolata di 87 secondi' },
-    ],
-    boundary: { en: 'Historical package dated 20 August 2026, version 3.9.0-beta.27; the current catalog describes product 5.5.0. This historical bundle has not been regenerated for the current release. Verify the live release record before reuse. Content Credentials are not attached.', it: 'Pacchetto storico del 20 agosto 2026, versione 3.9.0-beta.27; il catalogo corrente descrive il prodotto 5.5.0. Questo bundle storico non è stato rigenerato per la release corrente. Verificare il registro della release prima del riuso. Le Content Credentials non sono allegate.' },
-  },
-  it: {
-    id: 'press-package-it',
-    title: { en: 'Italian editorial package', it: 'Pacchetto editoriale italiano' },
-    contents: [
-      { en: 'Italian PDF and plain-text fact sheet', it: 'Scheda dati italiana in PDF e testo semplice' },
-      { en: 'Owned logos, screenshots and infographic', it: 'Loghi, screenshot e infografica proprietari' },
-      { en: 'PNG, SVG, CSV and JSON configured-scope snapshot', it: 'Snapshot del perimetro in PNG, SVG, CSV e JSON' },
-      { en: 'Asset manifest, IPTC metadata, credits and usage terms', it: 'Manifest asset, metadati IPTC, crediti e condizioni d uso' },
-      { en: 'Beta 27 release, regional pitch drafts, FAQ, claims freeze and 87-second subtitled demo', it: 'Release Beta 27, pitch regionali, FAQ, claims freeze e demo sottotitolata di 87 secondi' },
-    ],
-    boundary: { en: 'Historical package dated 20 August 2026, version 3.9.0-beta.27; the current catalog describes product 5.5.0. This historical bundle has not been regenerated for the current release. Verify the live release record before reuse. Content Credentials are not attached.', it: 'Pacchetto storico del 20 agosto 2026, versione 3.9.0-beta.27; il catalogo corrente descrive il prodotto 5.5.0. Questo bundle storico non è stato rigenerato per la release corrente. Verificare il registro della release prima del riuso. Le Content Credentials non sono allegate.' },
-  },
+const packageCopy = {
+  en: { id: 'press-package-en', title: { en: 'English editorial package', it: 'Pacchetto editoriale inglese' } },
+  it: { id: 'press-package-it', title: { en: 'Italian editorial package', it: 'Pacchetto editoriale italiano' } },
 };
 
 export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages.map((item) => {
@@ -629,7 +617,14 @@ export const pressKitPackages: PressKitPackage[] = pressPackageManifest.packages
   if (item.distribution !== 'github-repository') {
     throw new Error(`Unsupported Press Kit package distribution: ${item.distribution}`);
   }
-  return { ...item, locale, distribution: item.distribution as 'github-repository', ...packageCopy[locale] };
+  return { ...item, locale, distribution: item.distribution as 'github-repository', ...packageCopy[locale],
+    contents: [
+      { en: 'Dated fact sheet in PDF and plain text', it: 'Scheda stampa datata in PDF e testo semplice' },
+      { en: 'Policy Briefing screenshot, logos, wordmarks and original portrait', it: 'Screenshot del Briefing, loghi, marchi e ritratto originale' },
+      { en: 'Source links, credits, usage terms and file checksums', it: 'Collegamenti alle fonti, crediti, condizioni d’uso e checksum' },
+    ],
+    boundary: { en: 'The screenshot records the public interface on 20 November. See the linked register for current coverage.', it: 'Lo screenshot documenta l’interfaccia pubblica del 20 novembre. Consulta il registro collegato per la copertura corrente.' },
+  };
 });
 
 export const enginePreviewNotebookUpdatedAt = '2026-11-16';
@@ -2186,7 +2181,8 @@ export function buildPressKitPayload() {
   return {
     schema: 'https://policywatcher.online/schemas/press-kit/v1',
     schemaVersion: '2.0.0',
-    generatedAt: PRESS_KIT_RELEASE_DATE,
+    generatedAt: PRESS_EDITION_DATE,
+    editorialDownloads: { en: pressEditionDownloads('en'), it: pressEditionDownloads('it') },
     releaseDate: POLICYWATCHER_RELEASE_DATE,
     canonicalUrl: PRESS_KIT_CANONICAL_URL,
     product: {

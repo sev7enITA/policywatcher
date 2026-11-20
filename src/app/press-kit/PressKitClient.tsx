@@ -42,6 +42,7 @@ import {
   POLICYWATCHER_VERSION_DISPLAY,
 } from '@/lib/release';
 import {
+  pressEditionDownloads,
   PRESS_KIT_ARTICLE_50_URL,
   PRESS_KIT_JSON_URL,
   PRESS_KIT_REPOSITORY_URL,
@@ -67,7 +68,7 @@ const copy = {
     lead: 'Product facts, supporting links, limitations, release information, media files and press contact details.',
     currentRelease: 'Current web release',
     releaseDate: `Released ${POLICYWATCHER_RELEASE_DATE_LABEL.en}`,
-    factSheet: 'Archived fact sheet (20 Aug 2026)',
+    factSheet: 'Fact sheet · 20 Nov 2026 (PDF)',
     copyShort: 'Copy short boilerplate',
     copied: 'Copied',
     copyFailed: 'Copy failed.',
@@ -87,7 +88,7 @@ const copy = {
     ],
     packagesLabel: 'Press packages',
     packagesTitle: 'Editorial files by language',
-    packagesLead: 'These archived packages retain their original version, generation date, contents and checksum. Use the current release record for the latest product information.',
+    packagesLead: 'Download the 20 November edition for a dated fact sheet, a screenshot of the public Briefing and reusable brand files.',
     packageContents: 'Included files',
     packageVersion: 'Version',
     packageGenerated: 'Generated',
@@ -157,7 +158,7 @@ const copy = {
     lead: 'Dati sul prodotto, link di supporto, limiti, informazioni di release, file media e contatti stampa.',
     currentRelease: 'Release web corrente',
     releaseDate: `Rilasciata il ${POLICYWATCHER_RELEASE_DATE_LABEL.it}`,
-    factSheet: 'Scheda stampa archiviata (20 ago 2026)',
+    factSheet: 'Scheda stampa · 20 nov 2026 (PDF)',
     copyShort: 'Copia boilerplate breve',
     copied: 'Copiato',
     copyFailed: 'Copia non riuscita.',
@@ -177,7 +178,7 @@ const copy = {
     ],
     packagesLabel: 'Pacchetti stampa',
     packagesTitle: 'File editoriali per lingua',
-    packagesLead: 'Questi pacchetti storici conservano versione originale, data, contenuti e checksum. Per le informazioni aggiornate sul prodotto consulta la release corrente.',
+    packagesLead: 'Scarica l’edizione del 20 novembre con la scheda stampa, uno screenshot del Briefing pubblico e i materiali del marchio.',
     packageContents: 'File inclusi',
     packageVersion: 'Versione',
     packageGenerated: 'Generato',
@@ -313,6 +314,7 @@ export default function PressKitClient() {
     window.setTimeout(() => setCopied((current) => current === id ? null : current), 1800);
   }
 
+  const downloads = pressEditionDownloads(lang);
   return (
     <div className={styles.page} lang={lang}>
       <PublicHeader current="press-kit" lang={lang} />
@@ -329,7 +331,9 @@ export default function PressKitClient() {
             <h1 id="press-kit-title">{t.title}</h1>
             <p className={styles.heroLead}>{t.lead}</p>
             <div className={styles.heroActions}>
-              <a href={`/press-kit/policywatcher-fact-sheet-${lang}-${POLICYWATCHER_RELEASE_DATE}.pdf`} download><Download size={16} />{t.factSheet}</a>
+              <a href={downloads.pdf} download><Download size={16} />{t.factSheet}</a>
+              <a href={downloads.text} download>{lang === 'it' ? 'Scheda in testo semplice' : 'Plain-text fact sheet'}</a>
+              <a href={downloads.screenshot} download>{lang === 'it' ? 'Screenshot del Briefing' : 'Briefing screenshot'}</a>
               <button type="button" onClick={() => void copyText('hero-short', pressKitBoilerplates.short[lang])}>
                 {copied === 'hero-short' ? <Check size={16} /> : <Clipboard size={16} />}{copied === 'hero-short' ? t.copied : t.copyShort}
               </button>

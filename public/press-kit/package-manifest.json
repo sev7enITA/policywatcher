@@ -1,35 +1,35 @@
 {
   "schema": "https://policywatcher.online/schemas/press-kit-package-manifest/v1",
   "schemaVersion": "1.1.0",
-  "generatedAt": "2026-08-20",
-  "release": "3.9.0-beta.27",
+  "generatedAt": "2026-11-20",
+  "release": "5.5.0",
   "currentProductRelease": "5.5.0",
   "distribution": {
     "provider": "github-repository",
     "repository": "https://github.com/sev7enITA/policywatcher",
-    "revision": "d02b90489dd58d7884dbf14dcb1d52ad12a5ed07",
+    "revision": "3dd9242b4efa9fb6d85507f2d7b1e5641c52125c",
     "boundary": "Downloads are pinned to the Git commit containing these packages. Verify the package SHA-256 before use."
   },
   "packages": [
     {
       "locale": "en",
-      "filename": "policywatcher-press-package-en-2026-08-20.zip",
-      "href": "https://github.com/sev7enITA/policywatcher/raw/d02b90489dd58d7884dbf14dcb1d52ad12a5ed07/public/press-kit/policywatcher-press-package-en-2026-08-20.zip",
+      "filename": "policywatcher-press-package-en-2026-11-20.zip",
+      "href": "https://github.com/sev7enITA/policywatcher/raw/3dd9242b4efa9fb6d85507f2d7b1e5641c52125c/public/press-kit/policywatcher-press-package-en-2026-11-20.zip",
       "distribution": "github-repository",
-      "bytes": 17698772,
-      "sha256": "eb36d6ce728fa3d70ed9df0aebea44c7818d75a379ce9a95ba45d667579728be",
-      "generatedAt": "2026-08-20",
-      "version": "3.9.0-beta.27"
+      "bytes": 6274960,
+      "sha256": "5292821ddb47a41ad5b86349466f4db22e7ad5febf0dbe8b260688d83a9b19de",
+      "generatedAt": "2026-11-20",
+      "version": "5.5.0"
     },
     {
       "locale": "it",
-      "filename": "policywatcher-press-package-it-2026-08-20.zip",
-      "href": "https://github.com/sev7enITA/policywatcher/raw/d02b90489dd58d7884dbf14dcb1d52ad12a5ed07/public/press-kit/policywatcher-press-package-it-2026-08-20.zip",
+      "filename": "policywatcher-press-package-it-2026-11-20.zip",
+      "href": "https://github.com/sev7enITA/policywatcher/raw/3dd9242b4efa9fb6d85507f2d7b1e5641c52125c/public/press-kit/policywatcher-press-package-it-2026-11-20.zip",
       "distribution": "github-repository",
-      "bytes": 17698817,
-      "sha256": "7685fcbc504a9e98451e388987a2d1028f56c95f7e96e4139c2c455ed1a5fbe7",
-      "generatedAt": "2026-08-20",
-      "version": "3.9.0-beta.27"
+      "bytes": 6278094,
+      "sha256": "27a7d6b8764ca94947abf9f88c3b3ef7ec7d6f6d72c84f5f0f261d2fcf50b7bb",
+      "generatedAt": "2026-11-20",
+      "version": "5.5.0"
     }
   ]
 }
