@@ -1,117 +1,52 @@
-import { withSocialMetadata } from '@/lib/seo';
+import { withSocialMetadata, publicLanguage, languageAlternates } from '@/lib/seo';
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import DashboardClient from './DashboardClient';
-import HomeKnowledgeSnapshot from '@/components/HomeKnowledgeSnapshot';
-import PublicCompanyFinder from '@/components/PublicCompanyFinder';
+import { cookies } from 'next/headers';
+import HomeLanding from './HomeLanding';
 import {
-  HOME_CANONICAL_URL,
   HOME_DESCRIPTION,
-  HOME_FAQS,
+  HOME_NOTICE_COOKIE,
   HOME_SOCIAL_IMAGE_URL,
-  HOME_STRUCTURED_DATA,
+  homeStructuredData,
   HOME_TITLE,
 } from '@/lib/homeSeo';
 import { getPublicKnowledgeHub, serializeJsonLd, type PublicKnowledgeHub } from '@/lib/publicKnowledge';
 import { POLICYWATCHER_VERSION } from '@/lib/release';
-import styles from './HomePage.module.css';
 
-export const metadata: Metadata = withSocialMetadata({
-  title: HOME_TITLE,
-  description: HOME_DESCRIPTION,
-  alternates: { canonical: HOME_CANONICAL_URL },
-  openGraph: {
-    title: HOME_TITLE,
-    description: HOME_DESCRIPTION,
-    url: HOME_CANONICAL_URL,
-    siteName: 'PolicyWatcher',
-    locale: 'en_US',
-    type: 'website',
-    images: [{
-      url: HOME_SOCIAL_IMAGE_URL,
-      width: 1200,
-      height: 630,
-      alt: 'PolicyWatcher public policy evidence monitor',
-    }],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: HOME_TITLE,
-    description: HOME_DESCRIPTION,
-    images: [HOME_SOCIAL_IMAGE_URL],
-  },
-}, 'en');
+type PageProps = { searchParams: Promise<{ lang?: string }> };
+
+export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
+  const lang = publicLanguage((await searchParams).lang);
+  const title = lang === 'it' ? 'PolicyWatcher | Modifiche a privacy, condizioni e policy IA' : HOME_TITLE;
+  const description = lang === 'it' ? 'Segui gli aggiornamenti delle policy aziendali. Confronta le versioni registrate di informative privacy, condizioni di servizio e regole sull’IA e verifica le fonti.' : HOME_DESCRIPTION;
+  return withSocialMetadata({
+    title, description, alternates: languageAlternates('/', lang),
+    openGraph: {
+      title, description, siteName: 'PolicyWatcher',
+      images: [{ url: HOME_SOCIAL_IMAGE_URL, width: 1200, height: 630, alt: 'PolicyWatcher' }],
+    },
+    twitter: { card: 'summary_large_image', title, description, images: [HOME_SOCIAL_IMAGE_URL] },
+  }, lang);
+}
 
 export const dynamic = 'force-dynamic';
 
-export default async function HomePage() {
+export default async function HomePage({ searchParams }: PageProps) {
+  const lang = publicLanguage((await searchParams).lang);
+  const hidden = (await cookies()).get(HOME_NOTICE_COOKIE)?.value === '1';
   let knowledge: PublicKnowledgeHub | null = null;
   try { knowledge = await getPublicKnowledgeHub(); }
   catch (error) { console.error('[Home] Public knowledge snapshot temporarily unavailable:', error); }
+  const summary = knowledge && {
+    availability: knowledge.availability,
+    counts: knowledge.counts,
+    lastObservedAt: knowledge.lastObservedAt,
+    companies: knowledge.companies.map(({ id, slug, name }) => ({ id, slug, name })),
+    policies: knowledge.policies.slice(0, 5).map(({ id, company, name, jurisdiction }) => ({ id, company, name, jurisdiction })),
+  };
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: serializeJsonLd(HOME_STRUCTURED_DATA) }}
-      />
-      <div data-policywatcher-release={POLICYWATCHER_VERSION}>
-        <main className={styles.publicKnowledgeMain}>
-          <div className={styles.publicKnowledgeShell}>
-            <aside className={styles.enginePreviewNotice} aria-label="Engine 6 Preview experimental programme">
-              <div><strong>Engine 6 Preview · Source review, 16 November 2026</strong><p>PolicyWatcher runs the stable 5.5.0 service. The research diary follows ten unresolved sources through retrieval and extraction. Private scans run on Preview r3. The r4 candidate is available in Git for qualification.</p></div>
-              <nav aria-label="Engine 6 Preview access and evidence"><a href="/engine-6-preview#validation">Read the latest findings</a><Link href="/press-kit/releases/engine-six-preview-5-5-0">Stable 5.5 release</Link><a href="https://staging.policywatcher.online/admin/engine">Open private 6.0 Preview <span aria-hidden="true">↗</span></a><Link href="/engine-6-preview">Architecture and evidence</Link><a href="/engine-6-preview?lang=it#validation" lang="it" hrefLang="it">Leggi il diario in italiano</a><a href="https://github.com/sev7enITA/policywatcher/wiki">GitHub wiki</a></nav>
-            </aside>
-            <header className={styles.publicKnowledgeIntro}>
-              <div>
-                <p className={styles.eyebrow}>PolicyWatcher · Independent public evidence monitor</p>
-                <h1>Track updates to privacy policies, terms of service and AI policies</h1>
-                <p className={styles.noticePrompt}>Received a policy update? Start with the notice.</p>
-                <Link className={styles.noticeAction} href="/what-changed">Check a policy notice <span aria-hidden="true">→</span></Link>
-              </div>
-              <div className={styles.introBody}>
-                <p>Find the policy for your region, compare recorded versions and check the original source. Text changes and their possible impact are kept separate.</p>
-                <nav className={styles.introLinks} aria-label="PolicyWatcher public references">
-                  <Link href="/per-te?lang=en">Follow your services</Link>
-                  <Link href="/briefing?lang=en">Prepare a policy briefing</Link>
-                  <Link href="/knowledge">Browse public records</Link>
-                  <Link href="/guides">Explore policy monitoring guides</Link>
-                  <a href="#workspace">Open the interactive workspace</a>
-                  <Link href="/methodology/confidence">Read the methodology</Link>
-                  <Link href="/about">About and contact</Link>
-                </nav>
-              </div>
-            </header>
-            <noscript>
-              <p className={styles.noScript}>The public evidence summary and knowledge base work without JavaScript. JavaScript is only required for the interactive monitoring workspace.</p>
-            </noscript>
-            <PublicCompanyFinder companies={knowledge?.companies.map(({ id, name, slug }) => ({ id, name, slug })) ?? []} unavailable={!knowledge} />
-            <HomeKnowledgeSnapshot data={knowledge} />
-            <section className={styles.faq} aria-labelledby="home-guides-title">
-              <p className={styles.eyebrow}>Start with your question</p>
-              <h2 id="home-guides-title">Understand the policy behind the update.</h2>
-              <div className={styles.faqGrid}>
-                <article><h3><Link href="/guides/privacy-policy-changes">What changed in a privacy policy?</Link></h3><p>Check the source, region and two recorded versions before interpreting a change in data practices.</p></article>
-                <article><h3><Link href="/guides/ai-provider-policy-updates">How do I track an AI provider’s policies?</Link></h3><p>Distinguish product terms, acceptable use, privacy and data-processing documents.</p></article>
-                <article><h3><Link href="/guides/terms-of-service-monitoring">How do I compare terms of service?</Link></h3><p>Keep document versions, dates and evidence separate from the impact of a revision.</p></article>
-              </div>
-              <p><Link href="/guides/data-processing-agreement-monitoring">Review data processing agreements</Link> · <Link href="/guides?lang=it" hrefLang="it">Guide in italiano</Link></p>
-            </section>
-            <section className={styles.faq} aria-labelledby="home-faq-title">
-              <p className={styles.eyebrow}>Frequently asked questions</p>
-              <h2 id="home-faq-title">How PolicyWatcher handles public policy evidence</h2>
-              <div className={styles.faqGrid}>
-                {HOME_FAQS.map((item) => (
-                  <details className={styles.faqItem} key={item.question}>
-                    <summary>{item.question}</summary>
-                    <p>{item.answer}</p>
-                  </details>
-                ))}
-              </div>
-            </section>
-          </div>
-        </main>
-        <div id="workspace"><DashboardClient /></div>
-      </div>
-    </>
+    <div data-policywatcher-release={POLICYWATCHER_VERSION}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(homeStructuredData(lang)) }} />
+      <HomeLanding key={lang} initialLang={lang} initiallyHidden={hidden} knowledge={summary} />
+    </div>
   );
 }

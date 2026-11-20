@@ -83,3 +83,18 @@ export const HOME_STRUCTURED_DATA = {
     },
   ],
 } as const;
+
+export const HOME_NOTICE_COOKIE = 'pw_home_engine_notice_v1';
+export const HOME_FAQS_IT = [
+  { question: 'Quali documenti monitora PolicyWatcher?', answer: 'PolicyWatcher segue le policy pubbliche delle aziende. Pubblica i record quando sono disponibili una versione di riferimento verificata e i riferimenti alla fonte.' },
+  { question: 'Posso verificare una modifica segnalata?', answer: 'Sì. Ogni record pubblico rimanda all’azienda, al documento, alla versione di riferimento e, quando disponibile, alla fonte originale.' },
+  { question: 'PolicyWatcher fornisce consulenza legale?', answer: 'No. L’analisi automatica e le fonti pubblicate aiutano chi legge a effettuare una verifica indipendente. La valutazione legale e la verifica di conformità richiedono un esame specifico.' },
+] as const;
+
+export function homeStructuredData(lang: 'en' | 'it') {
+  if (lang === 'en') return HOME_STRUCTURED_DATA;
+  return { ...HOME_STRUCTURED_DATA, '@graph': HOME_STRUCTURED_DATA['@graph'].map(entry =>
+    entry['@type'] === 'FAQPage' ? { ...entry, inLanguage: lang, mainEntity: HOME_FAQS_IT.map(item => ({
+      '@type': 'Question', name: item.question, acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })) } : entry) };
+}

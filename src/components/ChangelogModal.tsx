@@ -54,6 +54,10 @@ export default function ChangelogModal({ isOpen, onClose, lang = 'en' }: Changel
         </header>
         <div className={styles.body}>
           <section className={styles.section}>
+            <h3 className={styles.sectionTitle}>{lang === 'it' ? 'Homepage su mobile' : 'Mobile homepage'} · <time dateTime="2026-11-20">{lang === 'it' ? '20 novembre 2026' : '20 November 2026'}</time></h3>
+            <p className={styles.featureDesc}>{lang === 'it' ? 'La pagina iniziale e l’area di lavoro seguono la stessa lingua. Puoi aprire o nascondere l’avviso di ricerca e ripristinarlo dopo le domande frequenti.' : 'The homepage and workspace share a language setting. Expand or hide the research notice and restore it below the frequently asked questions.'}</p>
+          </section>
+          <section className={styles.section}>
             <h3 className={styles.sectionTitle}>{lang === 'it' ? 'Rassegna stampa' : 'Press coverage'} · <time dateTime="2026-11-20">{lang === 'it' ? '20 novembre 2026' : '20 November 2026'}</time></h3>
             <p className={styles.featureDesc}>{lang === 'it' ? 'Leggi gli articoli di Economy Magazine del 19 novembre e di Fortune Italia del 18 novembre. La rassegna include le fonti originali anche nei download CSV e JSON.' : 'Read the original articles from Economy Magazine (19 November) and Fortune Italia (18 November). The CSV and JSON downloads also include the source links.'}</p>
             <Link href={`/press?lang=${lang}`}>{lang === 'it' ? 'Apri la rassegna stampa' : 'Open press coverage'}</Link>
