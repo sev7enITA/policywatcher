@@ -1,0 +1,21 @@
+PolicyWatcher
+Guida al Briefing policy
+Release pubblica 5.5.0 del 2 novembre 2026. Edizione stampa del 20 novembre 2026.
+
+Dalle parole che corrispondono alla ricerca puoi risalire al confronto fra versioni e alla fonte originale.
+
+Trova una clausola
+Scegli un servizio e un tema. Il briefing mostra le parole trovate in un estratto o in una sintesi. Leggi il confronto nel suo contesto: «addestramento» può comparire anche in un impegno a escludere i tuoi dati.
+
+Verifica un fornitore
+Salva ruolo responsabile, data e stato sul dispositivo. Le esportazioni escludono questi dati per impostazione predefinita. Il briefing comprende i record caricati nel browser. Le assegnazioni condivise e le notifiche automatiche restano fuori da questo flusso.
+
+Rassegna stampa
+Il registro pubblico comprende sei segnalazioni, tra cui gli articoli originali di Economy Magazine (19 novembre) e Fortune Italia (18 novembre).
+
+Ricerca su Engine 6
+La preview privata r3 è separata dallo scanner pubblico. Il riepilogo del 17 novembre documenta 397 estrazioni su 500 in locale e 367 su 500 in una prova isolata sul server. Capacità giornaliera e accuratezza semantica restano da verificare.
+
+Apri il briefing | https://policywatcher.online/briefing?lang=it
+Consulta la rassegna | https://policywatcher.online/press?lang=it
+Leggi i risultati della ricerca | https://policywatcher.online/press-kit/releases/engine-six-progress-november-2026?lang=it

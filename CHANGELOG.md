@@ -4,6 +4,8 @@
 
 ### Policy Briefing and press coverage, 20 November 2026
 
+- Refresh both editorial kits with dated PDF and text fact sheets, public Briefing screenshots, rights information, per-file checksums and immutable downloads.
+
 - The [bilingual Policy Briefing](https://policywatcher.online/briefing?lang=en) filters published changes by service and topic, shows the matching words and links to the comparison. Review roles, dates and status stay on the device and are excluded from exports by default.
 - The [press register](https://policywatcher.online/press?lang=en) includes Economy Magazine (19 November) and Fortune Italia (18 November), with links to the original Italian articles in the register and its CSV and JSON exports.
 - The [17 November research update](https://policywatcher.online/press-kit/releases/engine-six-progress-november-2026?lang=en) covers r4 fixes, recovered passages and extraction trials. Full daily throughput and semantic accuracy remain under evaluation.
