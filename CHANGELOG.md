@@ -4,6 +4,7 @@
 
 ### Policy Briefing and press coverage, 20 November 2026
 
+- The press kit opens downloads in the language of the shared link, including after a reload. Its language switch links to the matching edition.
 - Refresh both editorial kits with dated PDF and text fact sheets, public Briefing screenshots, rights information, per-file checksums and immutable downloads.
 
 - The [bilingual Policy Briefing](https://policywatcher.online/briefing?lang=en) filters published changes by service and topic, shows the matching words and links to the comparison. Review roles, dates and status stay on the device and are excluded from exports by default.

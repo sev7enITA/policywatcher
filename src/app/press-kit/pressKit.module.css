@@ -280,7 +280,7 @@
 
 .heroMeta,
 .heroMeta span,
-.heroMeta button,
+.heroMeta a,
 .heroActions,
 .heroActions a,
 .heroActions button,
@@ -324,7 +324,7 @@
   gap: 7px;
 }
 
-.heroMeta button {
+.heroMeta a {
   gap: 7px;
   min-height: 38px;
   padding: 8px 11px;
