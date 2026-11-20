@@ -1,0 +1,75 @@
+{
+  "date": "2026-11-20",
+  "scope": "Public Briefing and bilingual press edition. The prompt contains the pre-correction text. The checks in this file apply to the reviewed revision identified below.",
+  "input_sha256": "9cae463ba3d518a05c71f488d9cbf9129cf50a21c7bb2a0f045cfca3b558078a",
+  "reviewers": [
+    {
+      "model": "gemini-4-argon-high",
+      "client": "Antigravity on macOS",
+      "inference": "provider-hosted",
+      "duration_seconds": 111.928904,
+      "response": "**Findings**\n\n1. **Engine 6 spin and unverified metadata:** Replace `\"still being evaluated\"` (`\"restano da verificare\"`): observed facts show an 11-document evaluation yielded **no verifier-approved semantic verdict**, establishing neither clause interpretation nor daily capacity. Cut unverified `\"private r3 preview\"`, `\"17 November update\"`, and the `/press-kit/releases/...` URL (only `/briefing`, `/press`, and checksummed November ZIPs are verified).\n2. **Storage scope and missing audit caveat:** Replace `\"date and status on your device\"` (`\"sul dispositivo\"`) with **due date** and status saved in the **current browser**. Expand `\"Shared assignments and automatic notifications\"` to explicitly exclude any **central audit log**.\n3. **Filtering and legal limit:** Replace `\"matched your search\"` (`\"corrispondono alla ricerca\"`) with service and topic filtering. Clarify that `\"records loaded in your browser\"` excludes unloaded feed pages and word matches establish **no legal conclusion**.\n\n**Next Steps (Observed Facts vs. Feature Proposals)**\n\n* **Individual reader:** Filter loaded `/briefing` records by service and topic, then inspect the linked comparison, evidence packet, and original policy (observed facts).\n* **Supplier review teams:** Use current-browser notes (omitted from default exports) for single-browser triage; treat shared assignments, central audit logs, automatic alerts, and semantic verdicts as unbuilt **feature proposals**.\n"
+    },
+    {
+      "client": "LM Studio on macOS",
+      "model_path": "bartowski/glm-4-9b-chat-GGUF/glm-4-9b-chat-Q4_K_M.gguf",
+      "model_id": "policywatcher-glm4-editorial",
+      "format": "Q4_K_M",
+      "weights_sha256": "aa6cb8f5ef0a70399bdbf92eef566c26c6017ee0b131a424b65b5c757f1c81a2",
+      "input_sha256": "9cae463ba3d518a05c71f488d9cbf9129cf50a21c7bb2a0f045cfca3b558078a",
+      "completed": "2026-11-20T13:34:04.851635+00:00",
+      "duration_seconds": 7.81,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 1042,
+        "completion_tokens": 257,
+        "total_tokens": 1299,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "response": "\n**Findings:**\n\n1. **Inconsistency in Feature Descriptions**: The draft states that \"Exports omit these notes by default,\" but the verified public behavior indicates that no shared assignment, central audit log, or automatic alert is provided, suggesting a discrepancy between the feature proposal and actual implementation.\n   \n2. **Lack of Semantic Accuracy Evaluation**: While Engine 6's research results are presented, it is noted that \"Daily throughput and semantic accuracy are still being evaluated,\" which contrasts with the draft's claim that \"The private r3 preview is separate from the public scanner\" without mentioning ongoing evaluation.\n\n3. **Language Discrepancies**: The bilingual assets show inconsistencies in language use; for instance, \"training” can also appear in a promise never to train on your data\" is translated as \"«addestramento» può comparire anche in un impegno a escludere i tuoi dati,\" which might not accurately reflect the original intent.\n\n**Next Steps:**\n\n- **Individual Reader**: Verify the actual implementation of features against the draft descriptions, especially regarding exports and shared assignments.\n  \n- **Supplier Review Teams**: Conduct a thorough review of Engine 6's research findings to ensure that the presented data aligns with the ongoing evaluation process."
+    }
+  ],
+  "glm_5_3": {
+    "native_client": "ZCode.app",
+    "local_review_completed": false,
+    "reason": "The model was absent from the installed local models. The previously recorded native desktop session rejected GLM-5.3 as unavailable in its configured registry."
+  },
+  "mobile": {
+    "implementation": "Chromium emulation with touch input",
+    "content": "Press kit",
+    "widths_css_px": [
+      320,
+      390,
+      768
+    ],
+    "locales": [
+      "en",
+      "it"
+    ],
+    "checks": [
+      "PDF, TXT and WebP fetches returned success in the requested locale",
+      "No horizontal overflow at the tested widths",
+      "Language switch and reload retained the selected edition"
+    ]
+  },
+  "published_archives": {
+    "en": {
+      "href": "https://github.com/sev7enITA/policywatcher/raw/5b1456714e57ffb8d59a43e835e4bac62124950a/public/press-kit/policywatcher-press-package-en-2026-11-20.zip",
+      "bytes": 6274945,
+      "sha256": "e3a4aa56e284e4cb329712ee4c267b210c436e22f7955f1899ffe46b84dbed5e",
+      "verified_asset_count": 11
+    },
+    "it": {
+      "href": "https://github.com/sev7enITA/policywatcher/raw/5b1456714e57ffb8d59a43e835e4bac62124950a/public/press-kit/policywatcher-press-package-it-2026-11-20.zip",
+      "bytes": 6278203,
+      "sha256": "3871082ac0ff7dbca996fbdc2def3aac7d64bff8af50e0192cfb84f6efbe043a",
+      "verified_asset_count": 11
+    }
+  },
+  "site_candidate": {
+    "git_revision": "cd693498a3e11db05817d86c9fdd78dd2395ac29",
+    "sha256": "224a429b6133a6228ec19d213ef74496c003db14dc88c45fb89f6ddd0aedabb7"
+  }
+}
