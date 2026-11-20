@@ -14,10 +14,11 @@ describe('audience evidence and pinned comparisons', () => {
     expect(editedSentences({ text, start: 0, changedStart: offset, changedEnd: offset })).toBe('');
   });
   it('requires two public texts from the same policy and binds the link to both versions', () => {
-    const a = { policyId: 'p', publicEvidence: true, text: 'first' };
-    const b = { ...a, text: 'second' };
+    const a = { policyId: 'p', version: 1, publicEvidence: true, text: 'first' };
+    const b = { ...a, version: 2, text: 'second' };
     const pair = comparisonPair('p', a, b)!;
-    expect(comparisonPath('change', pair, 'it')).toContain(`before=${pair.before}&after=${pair.after}&lang=it`);
+    expect(comparisonPath('change', pair, 'it')).toContain(`before=${pair.before}&after=${pair.after}&from=1&to=2&lang=it`);
+    expect(comparisonPair('p', a, { ...b, version: 3 })).not.toEqual(pair);
     expect(comparisonPair('p', null, b)).toBeNull();
     expect(comparisonPair('p', a, { ...b, publicEvidence: false })).toBeNull();
     expect(comparisonPair('p', { ...a, policyId: 'other' }, b)).toBeNull();

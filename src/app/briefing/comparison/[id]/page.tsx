@@ -14,7 +14,7 @@ import styles from '../../briefing.module.css';
 export const dynamic = 'force-dynamic';
 export const metadata = { robots: { index: false }, title: 'PolicyWatcher | Briefing' };
 
-type Props = { params: Promise<{ id: string }>; searchParams: Promise<{ before?: string; after?: string; lang?: string }> };
+type Props = { params: Promise<{ id: string }>; searchParams: Promise<{ before?: string; after?: string; from?: string; to?: string; lang?: string }> };
 export default async function SharedComparison({ params, searchParams }: Props) {
   const { id } = await params;
   const query = await searchParams;
@@ -27,7 +27,7 @@ export default async function SharedComparison({ params, searchParams }: Props) 
   });
   if (!change?.oldSnapshot) notFound();
   const pair = comparisonPair(change.policyId, change.oldSnapshot, change.newSnapshot);
-  if (!pair || pair.before !== query.before || pair.after !== query.after) notFound();
+  if (!pair || pair.before !== query.before || pair.after !== query.after || String(pair.from) !== query.from || String(pair.to) !== query.to) notFound();
   const lang = query.lang === 'it' ? 'it' : 'en';
   const it = lang === 'it';
   return <main className={styles.page} lang={lang}><div className={styles.shared}>
