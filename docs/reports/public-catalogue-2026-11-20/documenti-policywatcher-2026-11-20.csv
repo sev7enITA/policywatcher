@@ -1,0 +1,111 @@
+﻿Azienda o servizio,Documento,Tipo,Giurisdizione,URL della fonte,Ultima acquisizione UTC,Stato nel feed,Segnalazioni pubblicate,ID documento
+Amazon,Privacy Notice,privacy,EU,https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ,2026-11-20T03:38:17.983Z,recent,0,033ac1b4-114a-40d4-a666-374379c0df00
+Amazon,AWS Site Terms,terms,Global,https://aws.amazon.com/terms/,2026-11-20T03:40:23.647Z,recent,1,4b62f7a4-dd92-40c5-b852-371572a636aa
+Amazon,AWS Acceptable Use Policy,aup,Global,https://aws.amazon.com/aup/,2026-11-20T03:40:19.056Z,recent,0,632b2a6d-253e-4721-b4e4-432d4d3f5795
+Amazon,AWS Privacy Notice,privacy,Global,https://aws.amazon.com/privacy/,2026-11-20T03:40:22.337Z,recent,1,bcc8bc60-641b-45b6-b8ce-560447166ee2
+Amazon,AWS Data Processing Addendum,dpa,Global,https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf,2026-11-20T03:40:24.159Z,recent,0,c26029b3-e270-443d-b93c-18ef3688295a
+Amazon,AWS Service Terms,terms,Global,https://aws.amazon.com/serviceterms/,,unavailable,6,c51f6ead-7964-41b8-92cb-c4434ad524d5
+Amazon,AWS Customer Agreement,terms,Global,https://aws.amazon.com/agreement/,2026-11-20T03:40:20.667Z,recent,1,cc0c6f48-46d4-444e-912b-5ae25e9c83ca
+Anthropic,K-12 Education Terms,terms,US,https://www.anthropic.com/legal/k12-terms,2026-11-20T03:38:37.480Z,recent,2,135999e7-3cbb-4ddf-ab39-ca1a8ed5b233
+Anthropic,Privacy Policy,privacy,Global,https://www.anthropic.com/legal/privacy,2026-11-20T03:38:41.051Z,recent,2,1cc677eb-3207-4569-880a-aaba223b4803
+Anthropic,Consumer Health Data Privacy Policy,privacy,US,https://www.anthropic.com/legal/consumer-health-data-privacy-policy,2026-11-20T03:38:35.525Z,recent,2,295e4c7f-fa6e-4e4d-908e-383cb91a59ae
+Anthropic,Commercial Terms,terms,Global,https://www.anthropic.com/legal/commercial-terms,2026-11-20T03:38:34.139Z,recent,2,410cbce9-6b57-411e-8da9-44993c172044
+Anthropic,Promotion Credit Terms,terms,Global,https://www.anthropic.com/legal/promotion-credit-terms,2026-11-20T03:38:41.723Z,recent,2,411d6736-596e-41f3-9218-27380f5de07d
+Anthropic,Acceptable Use Policy,aup,Global,https://www.anthropic.com/legal/aup,2026-11-20T03:38:33.364Z,recent,3,54ee97fb-bc87-41ff-837d-2a06184e99a5
+Anthropic,Non-User Privacy Policy,privacy,Global,https://www.anthropic.com/legal/non-user-privacy-policy,2026-11-20T03:38:39.630Z,recent,2,5afd72ff-64d7-411d-823e-3573e2901762
+Anthropic,Terms of Service,terms,Global,https://www.anthropic.com/legal/terms,2026-11-20T03:38:18.935Z,recent,1,6c74b17f-dccf-4395-a310-04a7476dad31
+Apple,Privacy Policy,privacy,EU,https://www.apple.com/legal/privacy/en-ww/,2026-11-20T03:40:28.052Z,recent,0,2b2f0f1c-efa1-45e0-96ba-04e93ca35598
+Apple,Apple Intelligence & Privacy,ai,Global,https://www.apple.com/legal/privacy/data/en/intelligence-engine/,2026-11-20T03:40:29.213Z,recent,0,421b3f0c-5924-4e3d-b84e-2ff68a441041
+Apple,Website Terms of Use,terms,Global,https://www.apple.com/legal/internet-services/terms/site.html,2026-11-20T03:40:25.743Z,recent,0,77eeaf0f-90a2-43c8-bc82-be7e2473c825
+Apple,Improve Siri and Apple Intelligence Privacy Notice,ai,Global,https://www.apple.com/legal/privacy/data/en/improve-intelligence/,2026-11-20T03:40:24.763Z,recent,2,86088457-fcad-4537-a6b7-809019ce586c
+Coca Cola,Global Consumer Privacy Notice,privacy,Global,https://datatrust.coca-cola.com/us/en/notices/global-consumer-privacy-notice,2026-11-20T03:38:20.389Z,recent,0,35789a69-bde2-402c-985e-71b3b1c52493
+Coca Cola,US Consumer Health Privacy Notice,privacy,US,https://datatrust.coca-cola.com/us/en/notices/us-consumer-health-privacy-policy,2026-11-20T03:41:16.025Z,recent,0,47b982e5-4cd4-43db-828f-6fbd2995802e
+Coca Cola,Cookie Notice,privacy,Global,https://datatrust.coca-cola.com/us/en/notices/cookie-notice,2026-11-20T03:41:23.973Z,recent,1,528f0dda-97b3-4b86-a62b-b44dcb2aface
+Coca Cola,Supplemental US Privacy Notice,privacy,US,https://datatrust.coca-cola.com/us/en/notices/supplemental-us-privacy-notice,2026-11-20T03:41:08.744Z,recent,0,576b7655-9b52-49e1-9e65-00b29e36a50d
+Coca Cola,US Terms of Service,terms,US,https://www.coca-cola.com/us/en/legal/terms-of-service,2026-11-20T03:38:21.050Z,recent,0,d0fab3be-2af3-4120-9d6d-098f4f655be2
+Google,Privacy Policy,privacy,US,https://policies.google.com/privacy?hl=en,2026-11-20T03:41:30.400Z,recent,4,11539eab-9c04-4d21-8496-ac21de3bc7e2
+Google,Privacy Policy,privacy,EU,https://policies.google.com/privacy?hl=it,2026-11-20T03:41:27.498Z,recent,4,4b255c8b-197c-4046-b848-bce7e1485583
+Google,Privacy Policy,privacy,Global,https://policies.google.com/privacy,2026-11-20T03:41:28.970Z,recent,4,c287880a-4512-4dc0-a8bd-cdf7d4f33e15
+Google,Google Terms of Service,terms,Global,https://policies.google.com/terms?hl=en,,unavailable,0,f8790fb1-f068-4209-af8a-c4b4eb1c6a0b
+Google,AI Terms of Service,ai,Global,https://policies.google.com/terms/generative-ai,2026-11-20T03:41:25.770Z,recent,1,fef3c1a1-5802-4aac-aaf4-8ca5db60c85a
+Klarna,Privacy Notice,privacy,EU,https://www.klarna.com/ie/privacy/,,unavailable,3,0fed73f4-ac93-4699-9d66-dd65ab6780cc
+Klarna,Membership Agreement,terms,US,https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-membership-plan-v2,2026-11-20T03:40:31.001Z,recent,1,37469295-57a6-408e-bfdf-864534018810
+Klarna,Privacy Notice,privacy,US,https://www.klarna.com/us/privacy/,2026-11-20T03:40:36.920Z,recent,3,6b03f215-97db-4a24-b92a-22ef3e11fea5
+Klarna,SMS Terms,terms,US,https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/sms-terms,2026-11-20T03:40:33.830Z,recent,0,9191b215-1443-448b-b0c3-cb0739367fc2
+Klarna,Referral Terms,terms,US,https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/referral-general,2026-11-20T03:40:32.409Z,recent,0,baafe256-b2ee-4e61-8150-a21123e4108e
+Klarna,Klarna Balance Agreement,terms,US,https://cdn.klarna.com/1.0/shared/content/legal/terms/en-US/klarna-balance,2026-11-20T03:40:29.474Z,recent,1,e687d4ad-423e-4073-a236-362ca0e2c121
+Klarna,Terms of Service,terms,EU,https://www.klarna.com/ie/terms-and-conditions/,2026-11-20T03:40:38.459Z,recent,2,f0281764-cc55-4db9-b9ed-d6f6ab9811fb
+Klarna,Terms of Service,terms,US,https://www.klarna.com/us/terms-of-use/,2026-11-20T03:40:39.847Z,recent,1,f4168900-e4f5-4f91-b69d-9127a145335c
+Meta,Privacy Policy,privacy,EU,https://www.facebook.com/privacy/policy/,2026-11-20T03:40:51.033Z,recent,4,466d072b-d894-49fe-aa33-8d607a298f67
+Meta,Privacy Policy,privacy,US,https://www.facebook.com/privacy/policy/,2026-11-20T03:40:51.038Z,recent,3,5946f95d-2fa3-4628-896a-f773d09ffbbd
+Meta,Meta AI Terms of Service,ai,Global,https://www.facebook.com/legal/ai-terms,2026-11-20T03:40:49.170Z,recent,0,8e2eb94e-eb92-458f-9012-494c6fc36707
+Meta,Terms of Service,terms,Global,https://www.facebook.com/legal/terms,2026-11-20T03:40:51.978Z,recent,4,959fc5a0-6e35-4088-811d-fbdd905e46e4
+Microsoft,Consumer Health Data Privacy Policy,privacy,US,https://www.microsoft.com/privacy/microsoft-consumer-health-data-privacy-policy,2026-11-20T03:40:52.382Z,recent,0,03c2d44e-5c5c-44b3-8b3e-42be71fef7ac
+Microsoft,Privacy Statement,privacy,Global,https://www.microsoft.com/en-us/privacy/privacystatement,2026-11-20T03:40:56.877Z,recent,3,5681de09-ab08-4131-9922-34b96d28db2d
+Microsoft,Microsoft Copilot Supplemental Terms of Use,ai,Global,https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/termsofuse,2026-11-20T03:40:54.277Z,recent,0,72c7604d-8b87-45dc-8949-ba9e6758a3b5
+Microsoft,Privacy Statement,privacy,US,https://www.microsoft.com/en-us/privacy/privacystatement,2026-11-20T03:40:56.921Z,recent,3,cda59c99-32eb-4c5d-aae6-a269c7b681f6
+Microsoft,Xbox Community Standards,community,Global,https://www.xbox.com/legal/community-standards,2026-11-20T03:40:54.525Z,recent,0,d3cab08f-d404-4e68-b0b7-a50dbde5e467
+Microsoft,Services Agreement,terms,Global,https://www.microsoft.com/en/servicesagreement,2026-11-20T03:40:58.283Z,recent,2,d9e2da07-eaec-43e2-ab29-9286bca75911
+Microsoft,Privacy Statement,privacy,EU,https://www.microsoft.com/en-gb/privacy/privacystatement,2026-11-20T03:40:55.319Z,recent,3,f7958007-438b-4240-ba2d-2a48dbb9f661
+OpenAI,Privacy Policy,privacy,Global,https://openai.com/policies/privacy-policy/,2026-11-20T03:38:21.626Z,recent,1,038bc0ee-ddf2-4161-af89-c6c0ec036b3f
+OpenAI,Service Terms,terms,Global,https://openai.com/policies/service-terms/,,unavailable,0,11971ce4-bec9-4aef-ba32-8f79de72e4b7
+OpenAI,Data Processing Addendum,dpa,Global,https://openai.com/policies/data-processing-addendum/,2026-11-20T03:38:29.135Z,recent,0,489ce448-2147-45ed-aecf-6468f2ca3d22
+OpenAI,Education Terms,terms,Global,https://openai.com/policies/education-terms/,2026-11-20T03:38:31.454Z,recent,0,7a411bf8-444f-4200-bbc6-b410f8b84182
+OpenAI,Services Agreement,terms,Global,https://openai.com/policies/services-agreement/,2026-11-20T03:38:24.700Z,recent,0,7e045aa5-d1e4-4ca4-b8e3-886234c5dbfc
+OpenAI,Privacy Policy,privacy,EU,https://openai.com/policies/eu-privacy-policy,2026-11-20T03:38:23.130Z,recent,2,9e7ca672-d487-4edc-92b9-8567f4c1adcf
+OpenAI,Terms of Use,terms,Global,https://openai.com/policies/terms-of-use,2026-11-20T03:38:27.620Z,recent,1,a07a13f2-ae2b-4eef-907b-8b9ca5217872
+OpenAI,Usage Policies,aup,Global,https://openai.com/policies/usage-policies/,2026-11-20T03:38:26.028Z,recent,1,b4651c03-839a-4379-a4dd-08337ffac02a
+OpenAI,Health Privacy Policy,privacy,US,https://openai.com/policies/health-privacy-policy/,,unavailable,0,e8a31a93-a3d9-4011-8837-0557da875b40
+PayPal,Privacy Statement,privacy,US,https://www.paypal.com/us/webapps/mpp/ua/privacy-full,,unavailable,10,9e09108f-4041-4c64-8e16-88543e1b7e43
+PayPal,User Agreement,terms,US,https://www.paypal.com/us/legalhub/paypal/useragreement-full,2026-11-20T03:38:46.837Z,recent,2,b1c25854-aa4d-44bb-8c48-9009cf8a9d6a
+PayPal,Privacy Statement,privacy,EU,https://www.paypal.com/lu/webapps/mpp/ua/privacy-full,,unavailable,10,c28fb784-5012-4696-8c70-505d4185972a
+PayPal,Data Protection Addendum for Business Management,dpa,US,https://www.paypal.com/us/legalhub/paypal/dpa-business-management?country.x=US&locale.x=en_US,2026-11-20T03:38:44.470Z,recent,0,c75b67f3-eda3-4219-8c08-7a547339e844
+PayPal,User Agreement,terms,EU,https://www.paypal.com/lu/legalhub/paypal/useragreement-full?locale.x=en_LU,,unavailable,9,dc8f08a1-4c7e-4b31-a1cd-c3f8597c965a
+PayPal,Acceptable Use Policy,aup,US,https://www.paypal.com/us/legalhub/paypal/acceptableuse-full?locale.x=en_US,2026-11-20T03:38:43.109Z,recent,1,ffcb0efc-2a6f-473d-8296-e939fccb4aef
+Plaid,Plaid Account Terms,terms,US,https://plaid.com/legal/#plaid-account-terms,2026-11-20T03:38:50.675Z,recent,1,0659472c-2737-40b2-83db-9f238aeade0b
+Plaid,End User Services Agreement,terms,US,https://plaid.com/legal#end-user-services-agreement-us,2026-11-20T03:38:55.213Z,recent,1,27d27c1e-b79f-4db4-828c-d79bfa690210
+Plaid,Cookie Policy,privacy,Global,https://plaid.com/legal/#cookie-policy,2026-11-20T03:38:48.407Z,recent,0,68f53187-bb35-4ce4-be4f-16734f9f54f5
+Plaid,Privacy Policy,privacy,EU,https://plaid.com/legal#end-user-privacy-policy,2026-11-20T03:38:56.725Z,recent,1,912ef5e4-3fe5-45ec-bb2b-74b97970fce1
+Plaid,UK End User Services Agreement,terms,UK,https://plaid.com/legal/#end-user-services-agreement-uk,2026-11-20T03:38:52.177Z,recent,0,bc3c2144-3412-4a26-981d-323f784db1dd
+Plaid,Developer Policy,aup,Global,https://plaid.com/legal/#developer-policy,2026-11-20T03:38:49.317Z,recent,0,c5bbea96-e351-437e-bce7-affbf0cc946d
+Plaid,End User Services Agreement,terms,EU,https://plaid.com/legal#end-user-services-agreement-eea,2026-11-20T03:38:54.153Z,recent,1,ef869aae-4fbc-4941-a2c4-ffe1edfe0524
+Plaid,Privacy Policy,privacy,US,https://plaid.com/legal#end-user-privacy-policy,2026-11-20T03:38:56.919Z,recent,1,ff752150-58b8-4675-b2c6-2fa37e5a66cb
+Revolut,Privacy Policy,privacy,UK,https://www.revolut.com/legal/privacy/,2026-11-20T03:38:58.954Z,recent,1,3b2b7720-1fed-44e0-9b23-56ed241de9dd
+Revolut,Terms of Use,terms,UK,https://www.revolut.com/legal/terms/,2026-11-20T03:39:02.249Z,recent,0,afb20e9d-2e61-4a04-961c-9f13400438e0
+Revolut,Privacy Policy,privacy,EU,https://www.revolut.com/en-LT/legal/privacy/,2026-11-20T03:38:57.526Z,recent,0,c06a709b-379b-4684-ab21-209eae3579be
+Revolut,Terms of Use,terms,EU,https://www.revolut.com/en-LT/legal/terms/,2026-11-20T03:39:00.549Z,recent,0,c0ad59f0-af83-4a95-bf06-f5d1099240bb
+Stripe,Prohibited and Restricted Businesses,aup,Global,https://stripe.com/legal/restricted-businesses,,unavailable,0,1f71d4a3-dddd-4562-9b89-38888c3d07a4
+Stripe,Privacy Policy,privacy,EU,https://stripe.com/it/privacy,2026-11-20T03:39:04.052Z,recent,0,48c57d06-ab8e-4758-b9c4-f5a7e1e8a681
+Stripe,Services Agreement,terms,EU,https://stripe.com/it/legal/ssa,2026-11-20T03:39:08.475Z,recent,2,775c0c08-14f0-4e3f-b3e0-293dc8a4965c
+Stripe,Data Processing Addendum,dpa,Global,https://stripe.com/legal/dpa,2026-11-20T03:39:02.799Z,recent,0,bfd14408-93ac-44ea-be57-6047ca5c7f1c
+Stripe,Privacy Policy,privacy,Global,https://stripe.com/privacy,2026-11-20T03:39:05.602Z,recent,0,ebd51ebc-ade0-4c3f-bfc7-3b030a45772d
+TikTok,Community Guidelines,community,Global,https://www.tiktok.com/community-guidelines,2026-11-20T03:39:17.692Z,recent,0,0fc30c2b-7467-4ce1-b8c1-8b79113990bf
+TikTok,Terms of Service (EEA),terms,EU,https://www.tiktok.com/legal/page/eea/terms-of-service/en,2026-11-20T03:39:12.569Z,recent,0,22825cf3-89ed-4237-9a3e-75f8f24e63ac
+TikTok,Children’s Privacy Policy,privacy,US,https://www.tiktok.com/legal/page/global/childrens-privacy-policy/en,2026-11-20T03:39:10.889Z,recent,0,3301a440-a2bd-4387-a1df-ebe85bd3cf17
+TikTok,Terms of Service (US),terms,US,https://www.tiktok.com/legal/page/us/terms-of-service/en,2026-11-20T03:39:14.224Z,recent,0,b47fc580-406b-476b-bc50-c3a891e908a3
+TikTok,Privacy Policy,privacy,EU,https://www.tiktok.com/legal/privacy-policy-eea,2026-11-20T03:40:08.103Z,recent,5,ba9a6eba-2f2e-4b30-8a92-04f7743f0d65
+WAZE,Waze Privacy Policy,privacy,Global,https://support.google.com/waze/answer/12075406?hl=en,2026-11-20T03:39:21.590Z,recent,0,48689e5c-7596-463e-a5e5-b62cb376cb1a
+WAZE,Waze Content Moderation Policy,community,Global,https://support.google.com/waze/answer/14600409?hl=en,2026-11-20T03:39:20.028Z,recent,0,7db8b207-643d-455c-ade7-dec4c0b3d1ee
+WAZE,Waze Community Terms,community,Global,https://support.google.com/waze/answer/14013702?hl=en,2026-11-20T03:39:18.743Z,recent,0,a4da706f-7904-4ed6-8259-e08c6ae1469d
+WAZE,Waze Terms of Service,terms,Global,https://support.google.com/waze/answer/12373727?hl=en,2026-11-20T03:39:23.086Z,recent,0,b6766fe2-2ad3-4d24-ba01-b54f49609571
+Wise,Privacy Policy,privacy,Global,https://wise.com/gb/legal/privacy-notice-personal-en,2026-11-20T03:39:32.743Z,recent,2,3e616451-ba60-46e6-9634-d5925da2d56a
+Wise,Business Privacy Notice,privacy,Global,https://wise.com/gb/legal/privacy-notice-business-en,2026-11-20T03:39:25.101Z,recent,1,4cb8eff5-72ef-440c-b9a6-b614a2e47ae0
+Wise,US Business Customer Agreement,terms,US,https://wise.com/us/legal/terms-of-use-business,2026-11-20T03:39:29.713Z,recent,1,4f9049fc-627c-4f18-8b1d-c781b287d13d
+Wise,Privacy Policy,privacy,EU,https://wise.com/gb/legal/privacy-notice-personal-en,2026-11-20T03:39:32.614Z,recent,2,6e4db68c-6998-43dd-83ba-08eeab76e7f9
+Wise,UK Business Customer Agreement,terms,UK,https://wise.com/gb/legal/terms-of-use-business,2026-11-20T03:39:26.667Z,recent,0,76eb9c5b-4972-4363-a9c4-d4e07ffb6ce2
+Wise,UK Personal Customer Agreement,terms,UK,https://wise.com/gb/legal/terms-of-use-personal,2026-11-20T03:39:28.152Z,recent,2,9801aa3b-73a6-4aa2-9d97-f24c7f2df4ef
+Wise,Terms of Use,terms,Global,https://wise.com/us/legal/terms-of-use,2026-11-20T03:39:35.797Z,recent,4,b12c369f-415a-42cf-b4b8-11d70e823cbf
+Wise,Wise Assistant Terms of Use,ai,Global,https://wise.com/en/legal/wise-assistant-terms-of-use,2026-11-20T03:39:30.738Z,recent,0,c5b2f6c4-80a2-4181-a67e-359c588b29f1
+Wise,Privacy Policy,privacy,US,https://wise.com/us/legal/privacy-notice,2026-11-20T03:39:34.011Z,recent,0,e85abf12-e25c-4e95-8294-5d6d3955f6aa
+Wise,Acceptable Use Policy,aup,Global,https://wise.com/us/legal/acceptable-use-policy,2026-11-20T03:39:23.535Z,recent,0,fc0287e0-8b1b-488e-b623-05f4a188e8fb
+X (Twitter),Privacy Policy,privacy,Global,https://x.com/en/privacy,2026-11-20T03:39:36.121Z,recent,2,73b56cdd-595f-4133-a517-b5fa94dc0c97
+X (Twitter),Terms of Service,terms,Global,https://x.com/en/tos,2026-11-20T03:39:37.555Z,recent,3,f2b77af5-3705-4573-94a5-10153d76e7f5
+Zoom,Privacy Statement,privacy,Global,https://www.zoom.com/en/trust/privacy/privacy-statement/,2026-11-20T03:40:17.505Z,recent,2,0ec3d4b4-79d4-4e2e-8a66-60dde69a5c10
+Zoom,US State Privacy Law Addendum,dpa,US,https://www.zoom.com/en/trust/us-privacy-addendum/,2026-11-20T03:39:59.546Z,recent,0,12bdc558-4e06-456f-8b71-79b5ecf8507f
+Zoom,OnZoom and Zoom Events Privacy Statement,privacy,Global,https://www.zoom.com/en/trust/zoom-events-privacy/,2026-11-20T03:39:58.119Z,recent,0,25b5cc7b-48a5-468f-89da-8faa44ae13f3
+Zoom,Children’s Educational Privacy Statement,privacy,US,https://www.zoom.com/en/trust/schools-privacy-statement/,2026-11-20T03:39:55.293Z,recent,0,2e48df83-b673-461e-87f1-173a3f073ef5
+Zoom,Zoom Contact Center Acceptable Use Policy,aup,Global,https://www.zoom.com/en/trust/contact-center-acceptable-use-policy/,2026-11-20T03:40:10.637Z,recent,0,4137ed6f-9192-4fd3-851b-5f1aa6eb5586
+Zoom,Terms of Service,terms,Global,https://www.zoom.com/en/trust/terms/,2026-11-20T03:40:18.775Z,recent,0,61d62a8b-1bce-4c49-8cd5-0b525c8174ca
+Zoom,Zoom Phone Acceptable Use Policy,aup,Global,https://www.zoom.com/en/trust/zoom-phone-acceptable-use-policy/,2026-11-20T03:40:14.651Z,recent,0,afa522e5-142f-4f98-bcf7-5918df5cfd7f
+Zoom,Acceptable Use Guidelines,aup,Global,https://www.zoom.com/en/trust/acceptable-use-guidelines/,2026-11-20T03:39:52.243Z,recent,0,ce028553-2a7a-42cb-83c7-f2d168432a46
+Zoom,Global Data Processing Addendum,dpa,Global,https://media.zoom.com/download/assets/zoom-global-dpa.pdf/dd327ebea27e11efb613d6ba63ed4cee,2026-11-20T03:39:56.444Z,recent,0,f7159070-1445-49ac-aa51-daa4682bb431
