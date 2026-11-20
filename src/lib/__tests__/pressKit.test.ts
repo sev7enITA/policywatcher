@@ -137,7 +137,8 @@ describe('public press kit', () => {
     const newsroomClient = read('src/app/press-kit/NewsroomPageClient.tsx');
     const page = read('src/app/press-kit/page.tsx');
     const route = read('src/app/press-kit/press-kit.json/route.ts');
-    expect(client).toContain("useState<PressKitLocale>('en')");
+    expect(page).toContain("publicLanguage((await searchParams).lang)");
+    expect(page).toContain('<PressKitClient lang={lang} />');
     expect(client).toContain("navigator.clipboard.writeText(value)");
     expect(client).toContain("copySucceeded = document.execCommand('copy')");
     expect(client).toContain('if (!copySucceeded)');
