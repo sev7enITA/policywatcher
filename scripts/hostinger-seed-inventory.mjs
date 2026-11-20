@@ -158,7 +158,7 @@ const companies = [
       { name: 'Privacy Policy', type: 'privacy', jurisdiction: 'EU', url: 'https://wise.com/gb/legal/privacy-notice-personal-en' },
       { name: 'Privacy Policy', type: 'privacy', jurisdiction: 'US', url: 'https://wise.com/us/legal/privacy-notice' },
       { name: 'Privacy Policy', type: 'privacy', jurisdiction: 'Global', url: 'https://wise.com/gb/legal/privacy-notice-personal-en' },
-      { name: 'Terms of Use', type: 'terms', jurisdiction: 'Global', url: 'https://wise.com/us/legal/terms-of-use' },
+      { name: 'Terms of Use', type: 'terms', jurisdiction: 'US', url: 'https://wise.com/us/legal/terms-of-use' },
     ],
   },
   {
@@ -287,7 +287,10 @@ const updateCompany = db.prepare(
 const getPolicy = db.prepare(
   `SELECT "id", "dataStatus", "ingestionMethod"
    FROM "Policy"
-   WHERE "companyId" = ? AND "type" = ? AND "jurisdiction" = ?`
+   WHERE "companyId" = ? AND "type" = ? AND "jurisdiction" = ?
+     AND ("url" = ? OR "name" = ?)
+   ORDER BY CASE WHEN "url" = ? THEN 0 ELSE 1 END, "id"
+   LIMIT 1`
 );
 const countPolicySourceEvidence = db.prepare(
   `SELECT COUNT(*) AS count
@@ -353,7 +356,7 @@ try {
     }
 
     for (const policy of company.policies) {
-      const current = getPolicy.get(companyId, policy.type, policy.jurisdiction);
+      const current = getPolicy.get(companyId, policy.type, policy.jurisdiction, policy.url, policy.name, policy.url);
       const text = placeholderText(company.name, policy);
       const hash = sha256(text);
       const policyTimestamp = nowMs();

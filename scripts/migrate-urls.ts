@@ -147,6 +147,7 @@ const URL_UPDATES: UrlUpdate[] = [
   {
     company: 'Wise',
     policyName: 'Terms of Use',
+    jurisdictions: ['US'],
     oldUrlPart: 'wise.com/gb/legal/terms-of-use',
     newUrl: 'https://wise.com/us/legal/terms-of-use',
     reason: 'GB terms returned 404; US path works',

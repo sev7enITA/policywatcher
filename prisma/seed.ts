@@ -1808,9 +1808,9 @@ async function main() {
     }],
   });
 
-  // Wise Terms of Use - Global
+  // Wise Terms of Use - US
   await seedPolicy(co['wise'].id, {
-    name: 'Terms of Use', type: 'terms', jurisdiction: 'Global',
+    name: 'Terms of Use', type: 'terms', jurisdiction: 'US',
     url: 'https://wise.com/us/legal/terms-of-use',
     currentText: 'Wise Terms of Use V2 - Updated transfer limits and liability terms for multi-currency accounts.',
     currentHash: 'wise-terms-v2',
