@@ -1,5 +1,11 @@
 # Changelog
 
+## Engine 6 Preview r4 – Historical AI output ownership (2026-11-21)
+
+- The private qualification runner now follows references from a captured policy to the editions of the contracts it incorporates. It verifies source digests, dates and exact citations. A second reviewer must confirm the relationship between documents, full applicability to the record and the explicit allocation of output rights.
+- A Global privacy record titled “Europe privacy policy” directs readers outside the EEA, United Kingdom and Switzerland to a different version. Across 150 analyses, this identifies 13 previously counted values in addition to the 13 already excluded on the European terms record. The 8 newly confirmed readings from the earlier review are preserved.
+- Of 114 unresolved ownership cases, four Anthropic consumer notices and two X privacy editions now have an independently reviewed contract chain. The other 108 retain their evidence and remain open. Across the frozen cohort, 1,789 previously counted indicators minus the 13 newly excluded values plus the 6 newly supported values gives 1,782 of 2,250 (79.20%). A further 244 are needed to exceed 90%.
+
 ## Engine 6 Preview r4 – Retrospective evidence review (2026-11-21)
 
 - Reviewers can rerun a KPI assessment against its original policy edition and version. Each suggested value carries the source digest and exact quotation. It contributes to coverage only after an independent reviewer confirms it. Conflicting decisions about different values leave the indicator open.

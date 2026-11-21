@@ -10,7 +10,7 @@ const target = 'src/lib/engineImplementation.generated.json';
 const files = [
   'package.json', 'package-lock.json', 'prisma/schema.prisma',
   'scripts/engine-implementation-manifest.mjs', 'scripts/engine-worker.ts',
-  'scripts/engine-retroevaluation.ts', 'scripts/engine-retro-candidates.ts',
+  'scripts/engine-ownership-review.ts', 'scripts/engine-retroevaluation.ts', 'scripts/engine-retro-candidates.ts',
   'scripts/hostinger-managed-build.mjs', 'scripts/hostinger-environment-gate.mjs', 'scripts/hosted-preview-preflight.mjs',
   'scripts/hostinger-normalize-next-config.mjs',
   'src/instrumentation.ts', 'src/lib/scanChannels.ts', 'src/lib/hostedPreview.ts', 'src/lib/db.ts', 'src/lib/databaseUrl.ts',

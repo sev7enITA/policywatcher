@@ -8,7 +8,9 @@ export function archivedEditionConflict(edition: string, text: string) {
   const heading = /^#[ \t]+([^\n]+?)[ \t]*$/m.exec(intro);
   if (!heading || !/^(?:Europe|European|EEA) (?:Terms of Use|Terms of Service|Privacy Policy)$/i.test(heading[1])) return null;
   const following = intro.slice(heading.index + heading[0].length).split(/^#{1,6}[ \t]/m, 1)[0];
-  const applicability = /\b(?:These (?:Terms(?: of (?:Use|Service))?) apply|This (?:Privacy )?Policy applies) (?:only )?if you (?:reside|live) in ([^.!?\n]{2,180})[.!?]/i.exec(following);
+  const applicability = /\b(?:These (?:Terms(?: of (?:Use|Service))?) apply|This (?:Privacy )?Policy applies) (?:only )?if you (?:reside|live) in ([^.!?\n]{2,180})[.!?]/i.exec(following)
+    ?? (/Privacy Policy$/i.test(heading[1]) ?
+      /\bFor individuals outside (.+?), you can read (?:this|the other) version[\u2060\u200b]? of our Privacy Policy[.!?]/i.exec(following) : null);
   if (!applicability) return null;
   // Require an exhaustive list of recognised European territories. Open lists,
   // additional countries and wording whose scope is unclear require manual review.

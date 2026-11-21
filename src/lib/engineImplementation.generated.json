@@ -11,7 +11,7 @@
     ],
     [
       "package.json",
-      "2aafba196fc35709ac800cf36117b0e04a1988274e979aecd7c2863a0cf8dcba"
+      "067025db46e2179a211694ebd6e55c9b27caf8b3943fe1d63cdf13d92854abec"
     ],
     [
       "prisma/migrations/20260706213500_init/migration.sql",
@@ -151,7 +151,11 @@
     ],
     [
       "scripts/engine-implementation-manifest.mjs",
-      "e6e5bb5e3a068f1709f75835c7e31ed99e17befe028fef9d0a737ef98c994fca"
+      "71901decc9a358a1750be7128e82b363fb7823889008769f2c1f2e89489709fc"
+    ],
+    [
+      "scripts/engine-ownership-review.ts",
+      "bc19ceda0f532497db3b10b546e5dc49a3845ecc4a7630089dee92be576ba070"
     ],
     [
       "scripts/engine-retro-candidates.ts",
@@ -311,7 +315,7 @@
     ],
     [
       "src/lib/engine/archivedEdition.ts",
-      "be974beb1ab57cdd813bfe07dc28e563d614fe7e0892177a3b0676a4d2f074a2"
+      "eac555c134f8014567c54827bed92867effbf6aff4d9960b5730e0715e1238f8"
     ],
     [
       "src/lib/engine/archivedKpiRetrieval.ts",
@@ -352,6 +356,10 @@
     [
       "src/lib/engine/outbox.ts",
       "48fa86d023b5ff4f3b9987e9973880d114406d78245a163c65beaabddc986135"
+    ],
+    [
+      "src/lib/engine/ownershipReview.ts",
+      "1aca7daa48158405e5eae0c05e2b2492ae3b90b517fad7262105d59b18cf54c4"
     ],
     [
       "src/lib/engine/pipeline.ts",
@@ -510,5 +518,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "267251115db22eb4fb07622f1b2b0a227c5d258c707283729da60c6bf06c3f3f"
+  "hash": "8de77a0a1348c86102eb76ee351c0bc57b3ef19ae7841d22d463cd59820877d6"
 }
