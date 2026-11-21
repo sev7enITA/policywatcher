@@ -1,0 +1,6 @@
+{
+  "exitCode": 0,
+  "elapsedSeconds": 0.3576240595430136,
+  "stdout": "{\"phase\":\"result\",\"startedAt\":\"2026-11-21T16:19:52.211Z\",\"status\":200,\"ok\":true,\"finalUrl\":\"https://policies.google.com/privacy?hl=en\",\"error\":\"\",\"completedAt\":\"2026-11-21T16:19:52.370Z\"}\n{\"phase\":\"beforeExit\",\"code\":0,\"at\":\"2026-11-21T16:19:52.376Z\"}\n",
+  "stderr": ""
+}

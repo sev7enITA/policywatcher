@@ -20,4 +20,18 @@ The [execution context](engine-v6-remote133-2026-11-21/context.json) binds the c
 
 The initial launch attempts were rejected before source requests because of invalid source-revision input, an expired runtime-dependency symlink and an existing empty output directory. Their logs were preserved. The corrected launch uses the verified parent revision and current read-only runtime dependency. Original artifacts and previous trial reports remain retained.
 
-Results will be recorded after completion. Follow-up successes must be described by stage and date. They cannot be added to an earlier wave as a single 500-policy qualification.
+The [completed follow-up report](engine-v6-remote133-2026-11-21/followup-report.json) accounts for all 133 endpoints in 261.515 seconds, with 233 transport-chain attempts. Thirty-one endpoints returned accepted HTTP200, but only four source scopes completed extraction. The remaining 129 comprise 98 transport rejections, 24 extraction-size holds, four origin-backoff holds and three block/soft404 holds.
+
+New extraction successes were TikTok's declared EEA privacy URL and three Mailjet sources (sending policy, privacy policy and terms). Changed live responses and network conditions can explain these successes. They are not attributed causally to the redirect fix. Same-host redirect behavior is established by deterministic tests. All four remain subject to source completeness and contract review.
+
+The [case-by-case follow-up](engine-v6-remote133-2026-11-21/case-results.json) joins every baseline case to the new result. Neither the earlier367 successes nor these four are combined into a new contemporaneous500-policy score.
+
+## HTTP2 cleanup finding
+
+After the report completed, the first follow-up QA process retained open HTTP2 sessions. Its immutable report was verified before the isolated process was terminated with SIGTERM (exit143). The reported261.515seconds covers acquisition/extraction, excluding that cleanup failure.
+
+The final candidate destroys its single-use HTTP2 client after the completed response is decoded, instead of waiting indefinitely for a graceful peer close. A regression assertion requires destruction after a redirect and successful response. The [target-account cleanup receipt](engine-v6-remote133-2026-11-21/cleanup-receipt.json) records a separate, bounded HTTP2 request to Google's public privacy source. It returned200 and exited naturally with code0 in0.358seconds. This verifies the final cleanup behavior on one request. The133-scope results remain attributed to the earlier candidate in their context.
+
+## Delivery state
+
+Code and evidence are submitted through PR76. The bilingual diary source is prepared for publication. A browser integration failure points to an older Browser service version which is no longer installed. The newer client could not connect, including after a fresh session. No public deployment or hosted private-engine change was attempted. The wiki and Git delivery state must be checked independently from the website.

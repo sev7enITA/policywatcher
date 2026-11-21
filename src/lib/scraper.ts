@@ -904,7 +904,7 @@ async function requestWithHttp2(url: string, timeoutMs: number): Promise<Transpo
     let client: ReturnType<typeof connect> | null = null;
     let settled = false;
 
-    const finish = (result: TransportResult & { redirectLocation?: string }, destroyClient = false) => {
+    const finish = (result: TransportResult & { redirectLocation?: string }, destroyClient = true) => {
       if (settled) return;
       settled = true;
       clearTimeout(timer);

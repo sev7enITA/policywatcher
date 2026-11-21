@@ -6,6 +6,7 @@ const harness = vi.hoisted(() => ({
   replies: [] as Array<{ status: number; location?: string; body?: string }>,
   requested: [] as string[],
   dns: [] as string[],
+  destroyed: 0,
 }));
 vi.mock('dns/promises', () => ({
   lookup: vi.fn(async (host: string) => {
@@ -19,7 +20,7 @@ vi.mock('http2', () => ({
       close: () => void; destroy: () => void; request: (headers: Record<string, string>) => EventEmitter;
     };
     client.close = vi.fn();
-    client.destroy = vi.fn();
+    client.destroy = () => { harness.destroyed++; };
     client.request = headers => {
       harness.requested.push(origin + headers[':path']);
       const reply = harness.replies.shift();
@@ -44,6 +45,7 @@ afterEach(() => {
   harness.replies.length = 0;
   harness.requested.length = 0;
   harness.dns.length = 0;
+  harness.destroyed = 0;
 });
 
 describe('pinned HTTP/2 redirect chains', () => {
@@ -53,6 +55,7 @@ describe('pinned HTTP/2 redirect chains', () => {
     expect(result).toMatchObject({ ok: true, status: 200, finalUrl: 'https://public.example/legal/privacy?lang=en' });
     expect(harness.requested).toHaveLength(2);
     expect(harness.dns).toEqual(['public.example', 'public.example']);
+    expect(harness.destroyed).toBe(2);
   });
 
   it.each(['https://unrelated.example/privacy', 'http://public.example/privacy', 'https://user:password@public.example/privacy'])('rejects an unsafe redirect destination (%s)', async location => {
