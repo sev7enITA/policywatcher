@@ -14,9 +14,10 @@
     "rate_limit_or_origin_backoff": 4
   },
   "tests": {
-    "offlinePassed": 80,
+    "offlinePassed": 81,
     "parentRedirectRegression": "failed",
-    "typeScript": "passed"
+    "typeScript": "passed",
+    "stalledDnsDeadline": "passes without socket creation"
   },
   "archivedBodyCount": 172,
   "allArchivedBodyHashesVerified": true,
@@ -58,6 +59,6 @@
   "attribution": "Four new live extraction successes. They do not establish causal recovery from HTTP2 redirect handling, nor500 successful completions in one wave.",
   "firstFollowupProcessExit": 143,
   "firstFollowupCleanup": "The report completed, but the QA process retained open HTTP2 sessions and was terminated after the immutable report was verified. No completion-day or full-pipeline claim.",
-  "finalImplementation": "c40d59c4d1ae2a2f1a8d29272482e81548142afac4f528f732d9fddbcb30bb18",
+  "finalImplementation": "31d3d5b399b2f968226042564a889b3e0a86b68877d80d1bad4062d0ea7a8f40",
   "originalPreflightFailuresRetained": true
 }

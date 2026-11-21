@@ -893,10 +893,19 @@ async function fetchWithHttp2(url: string): Promise<TransportResult> {
 
 /** Every redirect hop is resolved and pinned independently within one deadline. */
 async function requestWithHttp2(url: string, timeoutMs: number): Promise<TransportResult & { redirectLocation?: string }> {
-  const destination = await validateOutboundUrl(url);
+  const began = Date.now();
+  let dnsTimer: ReturnType<typeof setTimeout> | undefined;
+  const destination = await Promise.race([
+    validateOutboundUrl(url),
+    new Promise<{ ok: false; reason: string; finalUrl: string }>(resolve => {
+      dnsTimer = setTimeout(() => resolve({ ok: false, reason: 'h2_timeout', finalUrl: url }), timeoutMs);
+    }),
+  ]).finally(() => clearTimeout(dnsTimer));
   if (!destination.ok) {
     return { ok: false, html: '', status: 0, finalUrl: url, error: destination.reason };
   }
+  const socketBudget = timeoutMs - (Date.now() - began);
+  if (socketBudget <= 0) return { ok: false, html: '', status: 0, finalUrl: url, error: 'h2_timeout' };
   const pinnedIp = destination.pinnedIp;
 
   return new Promise((resolve) => {
@@ -917,7 +926,7 @@ async function requestWithHttp2(url: string, timeoutMs: number): Promise<Transpo
 
     const timer = setTimeout(() => {
       finish({ ok: false, html: '', status: 0, finalUrl: url, error: 'h2_timeout' }, true);
-    }, timeoutMs);
+    }, socketBudget);
 
     try {
       client = connect(`https://${parsed.hostname}`, {

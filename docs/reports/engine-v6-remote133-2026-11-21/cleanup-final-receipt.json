@@ -1,0 +1,7 @@
+{
+  "exitCode": 0,
+  "elapsedSeconds": 0.3500625602900982,
+  "bundleSha256": "0dbbcca853f7452f0632fe90072a9c9229616368c56749b91924a61de7d6f995",
+  "stdout": "{\"phase\":\"result\",\"startedAt\":\"2026-11-21T16:23:55.857Z\",\"status\":200,\"ok\":true,\"finalUrl\":\"https://policies.google.com/privacy?hl=en\",\"error\":\"\",\"completedAt\":\"2026-11-21T16:23:55.999Z\"}\n{\"phase\":\"beforeExit\",\"code\":0,\"at\":\"2026-11-21T16:23:56.005Z\"}\n",
+  "stderr": ""
+}

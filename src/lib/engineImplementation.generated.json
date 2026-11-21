@@ -451,7 +451,7 @@
     ],
     [
       "src/lib/scraper.ts",
-      "79ddf366054f98f202b91d0285dbe354dce746e844f7e266cdb844de5090f85b"
+      "74ea02d0e563307105110c2b595ecb4635855103e0bd69f3aca9d5fbf47f8a45"
     ],
     [
       "src/lib/seo.ts",
@@ -490,5 +490,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "c40d59c4d1ae2a2f1a8d29272482e81548142afac4f528f732d9fddbcb30bb18"
+  "hash": "31d3d5b399b2f968226042564a889b3e0a86b68877d80d1bad4062d0ea7a8f40"
 }

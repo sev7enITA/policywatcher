@@ -41,6 +41,7 @@ vi.mock('http2', () => ({
 import { acquireEngineTransport, hasLivePathDrift } from '../scraper';
 
 afterEach(() => {
+  vi.useRealTimers();
   vi.restoreAllMocks();
   harness.replies.length = 0;
   harness.requested.length = 0;
@@ -82,10 +83,20 @@ describe('pinned HTTP/2 redirect chains', () => {
   });
 
   it('enforces one deadline across the redirect chain', async () => {
-    vi.spyOn(Date, 'now').mockReturnValueOnce(0).mockReturnValueOnce(0).mockReturnValue(60_000);
+    vi.spyOn(Date, 'now').mockReturnValueOnce(0).mockReturnValueOnce(0)
+      .mockReturnValueOnce(0).mockReturnValueOnce(0).mockReturnValue(60_000);
     harness.replies.push({ status: 301, location: '/next' });
     expect(await acquireEngineTransport('https://public.example/privacy', 'http2')).toMatchObject({ ok: false, error: 'h2_timeout' });
     expect(harness.requested).toHaveLength(1);
+  });
+
+  it('bounds a stalled DNS lookup without opening a socket', async () => {
+    vi.useFakeTimers();
+    vi.mocked(lookup).mockImplementationOnce(() => new Promise(() => undefined));
+    const result = acquireEngineTransport('https://public.example/privacy', 'http2');
+    await vi.advanceTimersByTimeAsync(20_001);
+    expect(await result).toMatchObject({ ok: false, error: 'h2_timeout' });
+    expect(harness.requested).toHaveLength(0);
   });
 
   it('keeps homepage path drift visible to the caller', async () => {
