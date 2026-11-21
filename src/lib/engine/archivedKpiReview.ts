@@ -28,7 +28,7 @@ interface FrozenAnalysis {
   values: Record<KpiField, string | null>;
 }
 
-function cohortRows(cohort: unknown): FrozenAnalysis[] {
+export function cohortRows(cohort: unknown): FrozenAnalysis[] {
   if (!exact(cohort, ['schema', 'analyses']) || cohort.schema !== 'pw-retro-kpi-1') throw new Error('invalid_cohort');
   const ids = new Set<string>();
   const result: FrozenAnalysis[] = [];
@@ -76,15 +76,24 @@ function canonicalProposal(p: Suggestion) {
   ]));
 }
 
+export function verifiedSourceTexts(archive: unknown): ReadonlyMap<string, string> {
+  if (!record(archive)) throw new Error('invalid_archive');
+  const result = new Map<string, string>();
+  for (const [hash, text] of Object.entries(archive)) {
+    if (!sha(hash) || typeof text !== 'string' || qualificationDigest(text) !== hash) {
+      throw new Error('archive_digest_mismatch');
+    }
+    result.set(hash, text);
+  }
+  return result;
+}
+
 /** Read-only replay. A trusted caller pins the entire cohort and supplies adjudications separately from model proposals. */
 export function assessArchivedKpis(cohort: unknown, archive: unknown, proposals: unknown, adjudications: unknown) {
   const analyses = cohortRows(cohort);
-  if (!record(archive)) throw new Error('invalid_archive');
+  const texts = verifiedSourceTexts(archive);
   const byId = new Map(analyses.map(r => [r.changeId, r]));
   const codePoints = new Map<string, string[]>();
-  for (const [hash, text] of Object.entries(archive)) {
-    if (!sha(hash) || typeof text !== 'string' || qualificationDigest(text) !== hash) throw new Error('archive_digest_mismatch');
-  }
   const decisions = decisionIndex(adjudications);
   const seen = new Set<string>();
   const entries = new Map<string, Map<KpiField, Array<{ value: string; supported: boolean }>>>();
@@ -100,7 +109,7 @@ export function assessArchivedKpis(cohort: unknown, archive: unknown, proposals:
     if (!row.source.publicEvidence) return { index, outcome: 'withheld_source' };
     if (KPI_ALLOWED_VALUES[field].includes(row.values[field] ?? '')) return { index, outcome: 'already_assessed' };
     if (!KPI_ALLOWED_VALUES[field].includes(raw.value)) return { index, outcome: 'unsupported_value' };
-    const text = archive[row.sha256];
+    const text = texts.get(row.sha256);
     if (typeof text !== 'string') return { index, outcome: 'missing_archived_text' };
     // Offsets in archived sources count Unicode code points, including supplementary characters.
     const chars = codePoints.get(row.sha256) ?? Array.from(text);

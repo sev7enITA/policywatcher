@@ -11,7 +11,7 @@
     ],
     [
       "package.json",
-      "0a55050e32a8843f2748f05a397f2308272c16a656b2a7f58f8f363483eeba77"
+      "00141b3009e9e7dec5f626155608bbca1c872ab9f273dc58cb8f16eceb5e8c2b"
     ],
     [
       "prisma/migrations/20260706213500_init/migration.sql",
@@ -151,7 +151,15 @@
     ],
     [
       "scripts/engine-implementation-manifest.mjs",
-      "dcd493a64d97c640e8a3ab20a06fcb5964b6acd6002ce4cd722b03635618310c"
+      "e6e5bb5e3a068f1709f75835c7e31ed99e17befe028fef9d0a737ef98c994fca"
+    ],
+    [
+      "scripts/engine-retro-candidates.ts",
+      "1ca415776a2c0cebd6076fecb8bf61a37f34f0defbacda97a72030d09adcb705"
+    ],
+    [
+      "scripts/engine-retroevaluation.ts",
+      "66729c4d39d2a2abd0f0bb7c58f699f88efc1593b46e788e492dc49ae5edd7e5"
     ],
     [
       "scripts/engine-worker.ts",
@@ -300,6 +308,14 @@
     [
       "src/lib/engine/acquisition.ts",
       "e7c6495b54652bcade522ff846f0b40ca45033b96c8d81ce4926b92e1924dd00"
+    ],
+    [
+      "src/lib/engine/archivedKpiRetrieval.ts",
+      "ed613b5cae14f8431200c2b09423b7332f5e6634cc56a6e9a551d24274d70f99"
+    ],
+    [
+      "src/lib/engine/archivedKpiReview.ts",
+      "9dc1046bfe5e34860fb7554239c3ba696e3d4ea8f9efe07305646c48d615f58b"
     ],
     [
       "src/lib/engine/channelReports.ts",
@@ -490,5 +506,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "dc2fce35e44dc0bcbf234a13ada59516bd6c9de577b1bbf6c4233bbfffcbc62a"
+  "hash": "d5318a813b4fac7e92b7c13d0c2f9e1005d87b8ea66f6a05998d76dd11cefb32"
 }

@@ -35,3 +35,12 @@ The cohort has schema `pw-retro-kpi-1` and an `analyses` array with one row per 
 The archive is a JSON object mapping each SHA-256 digest to its UTF-8 source text. Keep any non-public source material inside its authorised environment. Each proposal includes `changeId`, `field`, `snapshotId`, `sha256`, `version`, `edition`, `value`, `reviewer` and `quotes`. Each quote contains literal `text` and Unicode code-point offsets `start` and `end` (exclusive). The reviewer identifier should come from the model receipt or authenticated operator record held by the caller.
 
 On the first pass, supply an empty array for decisions. An eligible proposal yields a `proposalHash`. A separate reviewer checks that the cited clause supports the proposed value for this edition, recipient and purpose, and records `{proposalHash, reviewer, verdict, reason}`. Use `supported`, `unsupported` or `uncertain` for the verdict. On replay, each cell with one independently supported value contributes once to projected coverage. Conflicting approved values leave the cell unresolved. The report preserves the digests of all four inputs for comparison and audit. A passing coverage result measures the number of values meeting these checks. Semantic accuracy of historical values and operating capacity require their own qualification.
+
+
+To locate candidate passages before sending material for review, run:
+
+```sh
+npm run --silent engine:retro-candidates -- cohort.json archive.json "$FROZEN_COHORT_SHA256" > passages.json
+```
+
+The command scans each verified version with English and Italian clause vocabulary. It returns up to four distinct, ranked passages for each unassessed or out-of-catalogue field. Each passage carries its exact position in the source. An empty shortlist describes the search result. Reviewers can inspect the full original version when different terminology, context across paragraphs or an incorporated document is material. Prior to external review, select public records and omit internal identifiers unless needed. Withheld sources never contribute text to the shortlist.

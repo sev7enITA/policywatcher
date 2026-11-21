@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { KPI_ALLOWED_VALUES, KPI_FIELD_KEYS } from '../metricsCatalog';
+import { retrieveArchivedKpiEvidence } from '../engine/archivedKpiRetrieval';
 import { assessArchivedKpis } from '../engine/archivedKpiReview';
 import { qualificationDigest } from '../engine/qualification';
 
@@ -87,5 +88,32 @@ describe('archived KPI qualification', () => {
   it('requires unique analyses with all 15 fields in a frozen cohort', () => {
     expect(() => assessArchivedKpis({ ...cohort, analyses: [analysis, analysis] }, {}, [], [])).toThrow('invalid_analysis');
     expect(() => assessArchivedKpis({ ...cohort, analyses: [{ ...analysis, values: {} }] }, {}, [], [])).toThrow('invalid_analysis');
+  });
+});
+
+describe('archived KPI candidate retrieval', () => {
+  it('finds a bilingual retention clause at replayable Unicode offsets', () => {
+    const paragraph = '📝 Conserviamo i dati personali per sette anni.';
+    const contents = 'A'.repeat(620) + '\n' + paragraph;
+    const digest = qualificationDigest(contents);
+    const source = { ...analysis, sha256: digest };
+    const hidden = { ...source, changeId: 'hidden', source: { ...source.source, publicEvidence: false } };
+    const report = retrieveArchivedKpiEvidence({ ...cohort, analyses: [source, hidden] }, { [digest]: contents });
+    expect(report.denominator).toBe(30);
+    const hit = report.candidates.find(c => c.changeId === source.changeId && c.field === 'kpiDataRetention')!;
+    expect(hit).toMatchObject({ outcome: 'passages_found', edition: 'EU', version: 1, sha256: digest, snapshotId: source.snapshotId });
+    const [quote] = hit.quotes;
+    expect(quote.text).toBe(paragraph);
+    expect(Array.from(contents).slice(quote.start, quote.end).join('')).toBe(quote.text);
+    expect(report.candidates.filter(c => c.changeId === 'hidden').every(c => c.outcome === 'withheld_source' && c.quotes.length === 0)).toBe(true);
+    expect(report.candidates.find(c => c.field === 'kpiAiOutputOwnership')!.outcome).toBe('no_matching_passage');
+  });
+
+  it('keeps unavailable text, unverified editions and corrupted archive material explicit', () => {
+    const absent = retrieveArchivedKpiEvidence(cohort, {});
+    expect(absent.candidates.every(c => c.outcome === 'missing_archived_text' && c.quotes.length === 0)).toBe(true);
+    const unverified = retrieveArchivedKpiEvidence({ ...cohort, analyses: [{ ...analysis, source: null }] }, archivedText);
+    expect(unverified.candidates.every(c => c.outcome === 'unverified_source' && c.quotes.length === 0)).toBe(true);
+    expect(() => retrieveArchivedKpiEvidence(cohort, { [sha256]: 'changed' })).toThrow('archive_digest_mismatch');
   });
 });
