@@ -34,4 +34,4 @@ The final candidate destroys its single-use HTTP2 client after the completed res
 
 ## Delivery state
 
-Code and evidence are submitted through PR76. The bilingual diary source is prepared for publication. A browser integration failure points to an older Browser service version which is no longer installed. The newer client could not connect, including after a fresh session. No public deployment or hosted private-engine change was attempted. The wiki and Git delivery state must be checked independently from the website.
+Code and evidence are submitted through PR76. The bilingual diary source is prepared for publication. A browser integration failure points to an older Browser service version which is no longer installed. The newer client could not connect, including after a fresh session. No public deployment or hosted private-engine change was attempted. The [delivery-state record](engine-v6-remote133-2026-11-21/delivery-state.json) identifies the prepared stable artifact, its checksum and the publication blocker. The wiki and Git delivery state are checked independently from the website.

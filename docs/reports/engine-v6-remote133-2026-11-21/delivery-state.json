@@ -1,0 +1,25 @@
+{
+  "recordedAt": "2026-11-21T16:22:24.770961+00:00",
+  "pullRequest": "https://github.com/sev7enITA/policywatcher/pull/76",
+  "websiteDelivery": "prepared_not_published",
+  "archive": "PolicyWatcher-5.5.0-hostinger-2026-11-21-engine6-remote133.zip",
+  "archiveSha256": "77cac0f8d62ba61d018906202d7a72834148bb3b4b8aa65af2e539cf4f646df0",
+  "stableSourceRevision": "4523c4d71721117a51146d3f147abe873b9685fa",
+  "stableTrackedSourceChanges": [
+    "src/app/engine-6-preview/page.tsx"
+  ],
+  "blocker": "Browser trusted worker references removed26.1111.21308 service path. Current26.1117.41037 client setup failed before browser selection, including after reset.",
+  "publicDeploymentAttempted": false,
+  "hostedEngineChanged": false,
+  "targetQAProcess": "Original133-scope process terminated only after its immutable report was saved and verified; final isolated cleanup check exited0.",
+  "tests": {
+    "offline": 80,
+    "typecheck": "passed"
+  },
+  "followupReportSha256": "4fb0a00029283f7ac7660c5cf77761a2e10f3c9c40696da448e2249d18e0e353",
+  "currentWebsiteObservation": {
+    "httpStatus": 200,
+    "containsPrior133CaseReport": true,
+    "containsNew21NovemberReport": false
+  }
+}
