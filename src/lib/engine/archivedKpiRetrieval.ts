@@ -20,38 +20,68 @@ const terms: Record<KpiField, RegExp[]> = {
   kpiContentModeration: [/moderat|moderazion|takedown|rimozione dei contenuti/i, /remove.{0,25}content|rimuov.{0,25}contenut|flag.{0,15}content/i, /appeal|reclamo|ricorso|community (?:standards|guidelines)/i],
 };
 
-interface Passage { start: number; end: number; text: string }
 
-// Split by paragraph, then cover long paragraphs with overlapping code-point windows.
-function sourcePassages(text: string): Passage[] {
-  const result: Passage[] = [];
+// These phrase families identify operative clauses even where legal vocabulary varies.
+// Qualifiers such as a duration or a third party can refine ranking but cannot prove a value.
+const operative: Record<KpiField, RegExp> = {
+  kpiDataCollection: /\bcollect(?:ed|ing|ion)?\b|information (?:we|you)|data (?:we|about)|transaction histor|account (?:number|balances?)|device identifiers?|dati (?:che|raccolti)|informazioni (?:che|raccolte)|dati (?:biometrici|finanziari)/i,
+  kpiThirdPartySharing: /(?:shar(?:e|ing)|disclos(?:e|ure)|provid(?:e|ing))[^.;]{0,85}(?:information|personal data|third part|affiliate)|(?:condivid|comunic|divulgh)[^.;]{0,65}(?:dat[io]|informazioni|terzi)/i,
+  kpiDataRetention: /retention|(?:retain|stor(?:e|ed)|keep|conserv\w*)[^.;]{0,90}(?:data|information|dati|informazioni|years|months|duration|anni|mesi|period)|(?:data|information|dati)[^.;]{0,90}(?:stored|held|kept|conservat)/i,
+  kpiRightToDeletion: /delet(?:ion|e|ing)|eras(?:ure|e)|right to be forgotten|cancellazion|eliminazion|cancellare|eliminare/i,
+  kpiCrossBorderTransfer: /international transfers?|transfer(?:red|s|ring)?[^.;]{0,110}(?:border|countr|jurisdiction|outside|overseas|personal (?:data|information)|EEA)|contractual clauses|corporate rules|adequacy|adequate protection|cross.border|trasfer\w*[^.;]{0,85}(?:dati|paesi|estero|frontier)|clausole (?:contrattuali|tipo)|adeguatezza/i,
+  kpiAiTrainingOptOut: /(?:train\w*|improv\w*|addestr\w*)[^.;]{0,60}(?:models?|artificial intelligence|sistemi di IA)|(?:models?|artificial intelligence)[^.;]{0,55}(?:train|improv)/i,
+  kpiAiOutputOwnership: /(?:outpu(?:t|ts)|generated (?:content|responses?)|contenuti? generat\w*)[^.;]{0,70}(?:belong|own|retain|right|propriet|diritt)|(?:own|title|assign|propriet|diritt)[^.;]{0,70}(?:output|generated|generat[io])/i,
+  kpiAlgoTransparency: /algorithm|algoritm|ranking|recommendation system|(?:image|keyword|automated) filters?|filtri? automat|systems? (?:rank|recommend)/i,
+  kpiAutomatedDecision: /automated (?:processing|decision)|decision.{0,24}automat|automat.{0,24}decision|profiling|profilazion/i,
+  kpiAiBiasFairness: /algorithmic (?:bias|discrimination)|(?:model|artificial intelligence|automated)[^.;]{0,90}(?:bias|fair|discriminat)|(?:bias|fairness|discriminazion)[^.;]{0,65}(?:algorithm|model|sistemi)/i,
+  kpiConsentMechanism: /(?:explicit|prior|informed|withdraw|with your) consent|consenso (?:esplicit|preventiv|informat)|revoc\w*[^.;]{0,30}consenso|opt.in/i,
+  kpiRegulatoryCompliance: /comply with|in compliance with|conformità (?:al|con)|adempiere agli obblighi/i,
+  kpiBreachNotification: /data breach|security incident|violazion\w* (?:dei dati|di sicurezza)|incidente di sicurezza/i,
+  kpiIndependentAudit: /(?:independent|external|third.party) audits?|audited by|revisione indipendente|audit (?:estern|indipend)|SOC [12]|ISO.?27/i,
+  kpiContentModeration: /moderat(?:e|ion|ing)|moderazion|remove.{0,40}content|report(?:ed|ing)? (?:other users.{1,3}|harmful )?content|takedown|rimuov\w*.{0,30}contenut|community guidelines/i,
+};
+interface Passage { start: number; end: number; text: string }
+interface SourceIndex { chars: string[]; units: Passage[] }
+
+// Retain sentence boundaries, including line breaks in lists. Overlap long sentences
+// to keep a provision crossing a window boundary eligible for retrieval.
+function sourceIndex(text: string): SourceIndex {
+  const chars = Array.from(text);
+  const units: Passage[] = [];
   let offset = 0;
-  for (const paragraph of text.split('\n')) {
-    const chars = Array.from(paragraph);
-    for (let start = 0; start < chars.length; start += 420) {
-      const part = chars.slice(start, start + 540);
-      if (part.join('').trim().length >= 15) {
-        result.push({ start: offset + start, end: offset + start + part.length, text: part.join('') });
-      }
-      if (start + part.length === chars.length) break;
+  for (const sentence of text.split(/(?<=\n)|(?<=[.!?;])(?=\s)/u)) {
+    const length = Array.from(sentence).length;
+    for (let pos = 0; pos < length; pos += 420) {
+      const start = offset + pos;
+      const end = offset + Math.min(length, pos + 580);
+      const part = chars.slice(start, end).join('');
+      if (part.trim().length >= 12) units.push({ start, end, text: part });
+      if (end === offset + length) break;
     }
-    offset += chars.length + 1;
+    offset += length;
   }
-  return result;
+  return { chars, units };
 }
 
-function bestPassages(passages: Passage[], field: KpiField): Passage[] {
-  const scored = passages.map(passage => ({
-    passage,
-    score: terms[field].reduce((sum, term, index) => sum + (term.test(passage.text) ? (index === 0 ? 4 : 1) : 0), 0),
-  }));
-  // Single generic qualifiers (such as "years") need another signal before entering the shortlist.
-  const hits = scored.filter(s => s.score >= 2).sort((a, b) => b.score - a.score || a.passage.start - b.passage.start);
+function bestPassages(source: SourceIndex, field: KpiField): Passage[] {
+  const hits = [];
+  for (const unit of source.units) {
+    const operativeMatch = operative[field].test(unit.text);
+    const score = terms[field].reduce((sum, term) => sum + Number(term.test(unit.text)), 0);
+    if (!operativeMatch && score < 2) continue;
+    hits.push({ unit, score: score + (operativeMatch ? 3 : 0) });
+  }
+  hits.sort((a, b) => b.score - a.score || a.unit.start - b.unit.start);
   const selected: Passage[] = [];
-  for (const { passage } of hits) {
-    if (selected.some(prior => prior.text === passage.text || (passage.start < prior.end && prior.start < passage.end))) continue;
-    selected.push(passage);
-    if (selected.length === 4) break;
+  for (const { unit } of hits) {
+    if (selected.some(q => q.start <= unit.start && q.end >= unit.end)) continue;
+    // Adjacent sentences preserve the subject, exceptions, headings and list qualifiers.
+    const start = Math.max(0, unit.start - 170);
+    const end = Math.min(source.chars.length, unit.end + 220);
+    const text = source.chars.slice(start, end).join('');
+    if (selected.some(q => q.text.includes(unit.text.trim()))) continue;
+    selected.push({ start, end, text });
+    if (selected.length === 8) break;
   }
   return selected;
 }
@@ -67,7 +97,7 @@ export function retrieveArchivedKpiEvidence(cohort: unknown, archive: unknown) {
     for (const field of KPI_FIELD_KEYS) {
       if (KPI_ALLOWED_VALUES[field].includes(row.values[field] ?? '')) continue;
       if (text !== undefined && !byField) {
-        const passages = sourcePassages(text);
+        const passages = sourceIndex(text);
         byField = new Map(KPI_FIELD_KEYS.map(key => [key, bestPassages(passages, key)]));
         cache.set(row.sha256, byField);
       }

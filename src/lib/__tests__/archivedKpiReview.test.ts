@@ -103,7 +103,7 @@ describe('archived KPI candidate retrieval', () => {
     const hit = report.candidates.find(c => c.changeId === source.changeId && c.field === 'kpiDataRetention')!;
     expect(hit).toMatchObject({ outcome: 'passages_found', edition: 'EU', version: 1, sha256: digest, snapshotId: source.snapshotId });
     const [quote] = hit.quotes;
-    expect(quote.text).toBe(paragraph);
+    expect(quote.text).toContain(paragraph);
     expect(Array.from(contents).slice(quote.start, quote.end).join('')).toBe(quote.text);
     expect(report.candidates.filter(c => c.changeId === 'hidden').every(c => c.outcome === 'withheld_source' && c.quotes.length === 0)).toBe(true);
     expect(report.candidates.find(c => c.field === 'kpiAiOutputOwnership')!.outcome).toBe('no_matching_passage');
