@@ -21,3 +21,17 @@ Implementation checkpoint `ec736c2`, evidence checkpoint `8b27951`. There are 1,
 ## Activation and progress reporting
 
 Keep implementation, observed results, reviewer opinions and pending qualification distinct. Missing dates remain pending. Unannotated or unresolved sources remain held. The public notebook should show timestamp, source commit, corpus size, actual completed daily windows, measured test/scale scope and explicit limitations. Preserve earlier evidence and update the progress record only from verified outputs. A new paid service, infrastructure purchase, production Engine 6 activation or publication of policy changes is not part of this campaign's implicit authorization.
+
+## Archived KPI replay in Preview
+
+The read-only command below evaluates retrospective proposals against an archived cohort. It writes a JSON report to stdout and requires no database connection. Snapshot identity, edition and publication eligibility come from the independently prepared cohort. Keep the digest of the original cohort when comparing runs.
+
+```sh
+npm run --silent engine:retro-review -- cohort.json archive.json proposals.json decisions.json "$FROZEN_COHORT_SHA256" > report.json
+```
+
+The cohort has schema `pw-retro-kpi-1` and an `analyses` array with one row per historical analysis. Each row contains `changeId`, `snapshotId`, `sha256`, `source` and `values`. The source contains `edition`, integer `version` and boolean `publicEvidence`, or is null if the source is unverified. Include all 15 catalogue fields in `values`, preserving the original string or null. The denominator is the number of analyses times 15. Existing values outside the field’s allowed vocabulary are reported separately.
+
+The archive is a JSON object mapping each SHA-256 digest to its UTF-8 source text. Keep any non-public source material inside its authorised environment. Each proposal includes `changeId`, `field`, `snapshotId`, `sha256`, `version`, `edition`, `value`, `reviewer` and `quotes`. Each quote contains literal `text` and Unicode code-point offsets `start` and `end` (exclusive). The reviewer identifier should come from the model receipt or authenticated operator record held by the caller.
+
+On the first pass, supply an empty array for decisions. An eligible proposal yields a `proposalHash`. A separate reviewer checks that the cited clause supports the proposed value for this edition, recipient and purpose, and records `{proposalHash, reviewer, verdict, reason}`. Use `supported`, `unsupported` or `uncertain` for the verdict. On replay, each cell with one independently supported value contributes once to projected coverage. Conflicting approved values leave the cell unresolved. The report preserves the digests of all four inputs for comparison and audit. A passing coverage result measures the number of values meeting these checks. Semantic accuracy of historical values and operating capacity require their own qualification.

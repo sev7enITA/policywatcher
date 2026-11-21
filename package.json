@@ -3,6 +3,7 @@
   "version": "5.5.0",
   "private": true,
   "scripts": {
+    "engine:retro-review": "tsx scripts/engine-retroevaluation.ts",
     "engine:worker": "tsx scripts/engine-worker.ts",
     "engine:test": "vitest run src/lib/__tests__/engineV6.test.ts src/lib/__tests__/engineAuditRegression.test.ts src/lib/__tests__/engineModelRuntime.test.ts",
     "dev": "next dev",
