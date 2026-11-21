@@ -1,0 +1,64 @@
+{
+  "baselineScopes": 133,
+  "categories": {
+    "http_access_refused": 50,
+    "access_interstitial": 2,
+    "static_document_incomplete": 20,
+    "redirect_identity_requires_review": 18,
+    "network_dns_or_timeout": 17,
+    "http2_redirect_unsupported_in_baseline": 9,
+    "declared_source_unavailable": 5,
+    "fragment_scope_requires_review": 4,
+    "source_pending_response": 2,
+    "redirect_scope_requires_review": 2,
+    "rate_limit_or_origin_backoff": 4
+  },
+  "tests": {
+    "offlinePassed": 81,
+    "parentRedirectRegression": "failed",
+    "typeScript": "passed",
+    "stalledDnsDeadline": "passes without socket creation"
+  },
+  "archivedBodyCount": 172,
+  "allArchivedBodyHashesVerified": true,
+  "baselineManifestSha256": "53409e3e7510a45e23a604f9cc1aa5c8a6a6ba0892a402d580844dbe3911f6f7",
+  "followup": {
+    "startedAt": "2026-11-21T16:14:07.496Z",
+    "completedAt": "2026-11-21T16:18:29.011Z",
+    "durationMs": 261515,
+    "sourceCommit": "7b387c41d1f3daa0e50b2b0b77403ff2b665c798",
+    "catalogueHash": "f5ce32a4d3772be90eaa0eaee2c9481124a1403b3b94408afc5f6c325f045e81",
+    "boundary": "Configured catalogue acquisition/extraction; 3 workers, one request per origin at a time, 1.5s pacing, origin held after 429/503. No models, renderer, contracts, production DB or delivery. Does not establish 500 qualified daily completions or full-pipeline host capacity.",
+    "runtime": {
+      "node": "v24.22.3",
+      "platform": "linux",
+      "architecture": "x64"
+    },
+    "configuredPolicies": 133,
+    "retrievalScopes": 133,
+    "httpEndpoints": 133,
+    "origins": 70,
+    "completedEndpoints": 133,
+    "attempts": 233,
+    "successfulEndpoints": 31,
+    "extractedScopes": 4,
+    "sourceCompletenessQualified": false,
+    "productionQualified": false,
+    "endpointDurationMs": {
+      "p50": 3104,
+      "p95": 7519
+    }
+  },
+  "recoveredScopes": [
+    "https://www.tiktok.com/legal/privacy-policy-eea",
+    "https://www.mailjet.com/legal/sending-policy/",
+    "https://www.mailjet.com/privacy-policy/",
+    "https://www.mailjet.com/legal/terms/"
+  ],
+  "remainingScopes": 129,
+  "attribution": "Four new live extraction successes. They do not establish causal recovery from HTTP2 redirect handling, nor500 successful completions in one wave.",
+  "firstFollowupProcessExit": 143,
+  "firstFollowupCleanup": "The report completed, but the QA process retained open HTTP2 sessions and was terminated after the immutable report was verified. No completion-day or full-pipeline claim.",
+  "finalImplementation": "31d3d5b399b2f968226042564a889b3e0a86b68877d80d1bad4062d0ea7a8f40",
+  "originalPreflightFailuresRetained": true
+}

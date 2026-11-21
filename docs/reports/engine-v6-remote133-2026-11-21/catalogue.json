@@ -1,0 +1,1330 @@
+{
+  "purpose": "Bounded follow-up of all133 previously unsuccessful target scopes. Prior results preserved. No replacement URLs, models, contracts or publication. New candidate with same-host HTTP2 redirects.",
+  "baselineReportSha256": "53409e3e7510a45e23a604f9cc1aa5c8a6a6ba0892a402d580844dbe3911f6f7",
+  "rows": [
+    {
+      "id": "033ac1b4-114a-40d4-a666-374379c0df00",
+      "company": "Amazon",
+      "name": "Privacy Notice",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=GX7NJQ4ZB8MHFRNJ",
+      "provenance": "PolicyWatcher public catalogue"
+    },
+    {
+      "id": "8e2eb94e-eb92-458f-9012-494c6fc36707",
+      "company": "Meta",
+      "name": "Meta AI Terms of Service",
+      "url": "https://www.facebook.com/legal/ai-terms",
+      "retrievalUrl": "https://www.facebook.com/legal/ai-terms",
+      "provenance": "PolicyWatcher public catalogue"
+    },
+    {
+      "id": "ba9a6eba-2f2e-4b30-8a92-04f7743f0d65",
+      "company": "TikTok",
+      "name": "Privacy Policy",
+      "url": "https://www.tiktok.com/legal/privacy-policy-eea",
+      "retrievalUrl": "https://www.tiktok.com/legal/privacy-policy-eea",
+      "provenance": "PolicyWatcher public catalogue"
+    },
+    {
+      "id": "00aa1a087a52f6fe8756a984",
+      "company": "ASKfm",
+      "name": "Privacy Policy",
+      "url": "https://ask.fm/docs/privacy_policy/?lang=en",
+      "retrievalUrl": "https://ask.fm/docs/privacy_policy/?lang=en",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "ASKfm.json",
+      "declarationSha256": "1d555defe390b58a1810963bc61171a2329cec3a79efd7ddebd840e313cd6b38"
+    },
+    {
+      "id": "960450a4eed25f8c50af14d2",
+      "company": "ASKfm",
+      "name": "Terms of Service",
+      "url": "https://about.ask.fm/legal/en/terms.html",
+      "retrievalUrl": "https://about.ask.fm/legal/en/terms.html",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "ASKfm.json",
+      "declarationSha256": "1d555defe390b58a1810963bc61171a2329cec3a79efd7ddebd840e313cd6b38"
+    },
+    {
+      "id": "12eb4be755179bdcdbb203d5",
+      "company": "ASUS",
+      "name": "Vulnerability Disclosure Policy",
+      "url": "https://www.asus.com/content/asus-product-security-advisory/",
+      "retrievalUrl": "https://www.asus.com/content/asus-product-security-advisory/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "ASUS.json",
+      "declarationSha256": "4e82553a8c41b60a52609164e973517a15ef115266b437220b0859bac5a4e7c1"
+    },
+    {
+      "id": "d6294a463c44d9b2d3394f4b",
+      "company": "Academia.edu",
+      "name": "Privacy Policy",
+      "url": "https://www.academia.edu/privacy",
+      "retrievalUrl": "https://www.academia.edu/privacy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Academia.edu.json",
+      "declarationSha256": "526a68e77dbc4fcea005fb5d27d20ea67aec4fb94ee586345f034e4b5c629f8a"
+    },
+    {
+      "id": "3c35cc3ab6a92633107ac2e4",
+      "company": "Academia.edu",
+      "name": "Terms of Service",
+      "url": "https://www.academia.edu/terms",
+      "retrievalUrl": "https://www.academia.edu/terms",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Academia.edu.json",
+      "declarationSha256": "526a68e77dbc4fcea005fb5d27d20ea67aec4fb94ee586345f034e4b5c629f8a"
+    },
+    {
+      "id": "8e1341d46fc21b8b9ae86b84",
+      "company": "AcuityAds",
+      "name": "Terms of Service",
+      "url": "https://www.acuityads.com/terms-and-conditions/",
+      "retrievalUrl": "https://www.acuityads.com/terms-and-conditions/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "AcuityAds.json",
+      "declarationSha256": "2b5aa1b6e61b511061219d920502c75c69e0d7b2f1dfcc5a0ee854bcc93e4cbe"
+    },
+    {
+      "id": "0b9f0a6c9694323f88fbbb82",
+      "company": "AcuityAds",
+      "name": "Trackers Policy",
+      "url": "https://www.acuityads.com/cookie-policy/",
+      "retrievalUrl": "https://www.acuityads.com/cookie-policy/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "AcuityAds.json",
+      "declarationSha256": "2b5aa1b6e61b511061219d920502c75c69e0d7b2f1dfcc5a0ee854bcc93e4cbe"
+    },
+    {
+      "id": "7ced9ec5db56d6845eb786a9",
+      "company": "AdMob",
+      "name": "Data Controller Agreement",
+      "url": "https://privacy.google.com/businesses/controllerterms/",
+      "retrievalUrl": "https://privacy.google.com/businesses/controllerterms/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "AdMob.json",
+      "declarationSha256": "c80ee2ea0585d19180833915279fb1e7a46482738597a5b6c806da06bed8d827"
+    },
+    {
+      "id": "7cfecf17002625b66ba15808",
+      "company": "AdRoll",
+      "name": "Acceptable Use Policy",
+      "url": "https://help.adroll.com/hc/en-us/articles/360031225371-Prohibited-Content-and-Practices-Inappropriate-Content",
+      "retrievalUrl": "https://help.adroll.com/hc/en-us/articles/360031225371-Prohibited-Content-and-Practices-Inappropriate-Content",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "AdRoll.json",
+      "declarationSha256": "83413c43d0adf9920082a8a3a378c8888d74d377e690587f7358053b7281d1d0"
+    },
+    {
+      "id": "292b066ed67c8fd24ffcad40",
+      "company": "Alexa",
+      "name": "Terms of Service",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201809740",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201809740",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Alexa.json",
+      "declarationSha256": "3bfa29af3da4e23709f60a2304e8e017629020790ebc28f526b015cc805caec5"
+    },
+    {
+      "id": "878be731beb1fb150163cf26",
+      "company": "Alibaba.com",
+      "name": "Copyright Claims Policy",
+      "url": "https://rule.alibaba.com/rule/detail/6391.htm",
+      "retrievalUrl": "https://rule.alibaba.com/rule/detail/6391.htm",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Alibaba.com.json",
+      "declarationSha256": "840c388fce8a5e50835cc3377cae0ab235d75ae72859f3df6555480848151ba3"
+    },
+    {
+      "id": "567c01603c532cad1b5d34e5",
+      "company": "Alibaba.com",
+      "name": "Privacy Policy",
+      "url": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2034&cId=1306#/rule/detail?cId=1306&ruleId=2034",
+      "retrievalUrl": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2034&cId=1306#/rule/detail?cId=1306&ruleId=2034",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Alibaba.com.json",
+      "declarationSha256": "840c388fce8a5e50835cc3377cae0ab235d75ae72859f3df6555480848151ba3"
+    },
+    {
+      "id": "8f622086aaf995a2d8471a8e",
+      "company": "Alibaba.com",
+      "name": "Terms of Service",
+      "url": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2041&cId=1307#/rule/detail?cId=1307&ruleId=2041",
+      "retrievalUrl": "https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2041&cId=1307#/rule/detail?cId=1307&ruleId=2041",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Alibaba.com.json",
+      "declarationSha256": "840c388fce8a5e50835cc3377cae0ab235d75ae72859f3df6555480848151ba3"
+    },
+    {
+      "id": "9c5cece0d47c4b5b6d4e68ce",
+      "company": "Allrecipes",
+      "name": "Privacy Policy",
+      "url": "https://www.meredith.com/nmg/privacy",
+      "retrievalUrl": "https://www.meredith.com/nmg/privacy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Allrecipes.json",
+      "declarationSha256": "3a61794de93582a9059a935f9794fd4f870eaa433c412ac731b6fae91cd31b62"
+    },
+    {
+      "id": "f6ad1a4385d1104469ba82e3",
+      "company": "Allrecipes",
+      "name": "Terms of Service",
+      "url": "https://www.meredith.com/legal/terms",
+      "retrievalUrl": "https://www.meredith.com/legal/terms",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Allrecipes.json",
+      "declarationSha256": "3a61794de93582a9059a935f9794fd4f870eaa433c412ac731b6fae91cd31b62"
+    },
+    {
+      "id": "c5ae02ba3c7e515ca4d32ae7",
+      "company": "Amazon Advertising",
+      "name": "Acceptable Use Policy",
+      "url": "https://advertising.amazon.com/resources/ad-policy/creative-acceptance",
+      "retrievalUrl": "https://advertising.amazon.com/resources/ad-policy/creative-acceptance",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon Advertising.json",
+      "declarationSha256": "206292402f0060a3e276b52fdd0d40391ba1a5a4e24da22feb216728f65bbf72"
+    },
+    {
+      "id": "7d8073c57e2ae51cf1b09fd3",
+      "company": "Amazon Advertising",
+      "name": "Privacy Policy",
+      "url": "https://www.amazon.co.uk/gp/help/customer/display.html/?nodeId=201909010&ref_=a20m_us_fnav_l_prvcy_gb",
+      "retrievalUrl": "https://www.amazon.co.uk/gp/help/customer/display.html/?nodeId=201909010&ref_=a20m_us_fnav_l_prvcy_gb",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon Advertising.json",
+      "declarationSha256": "206292402f0060a3e276b52fdd0d40391ba1a5a4e24da22feb216728f65bbf72"
+    },
+    {
+      "id": "034d285c9091f9c4c0fdbecc",
+      "company": "Amazon Advertising",
+      "name": "Terms of Service",
+      "url": "https://www.amazon.co.uk/gp/help/customer/display.html/?ie=UTF8&nodeId=1040616&ref_=a20m_us_fnav_l_cndtns_gb",
+      "retrievalUrl": "https://www.amazon.co.uk/gp/help/customer/display.html/?ie=UTF8&nodeId=1040616&ref_=a20m_us_fnav_l_cndtns_gb",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon Advertising.json",
+      "declarationSha256": "206292402f0060a3e276b52fdd0d40391ba1a5a4e24da22feb216728f65bbf72"
+    },
+    {
+      "id": "378ddc0d770e5f2a0f4bd8db",
+      "company": "Amazon Advertising",
+      "name": "Trackers Policy",
+      "url": "https://www.amazon.co.uk/gp/help/customer/display.html?ie=UTF8&nodeId=201890250&ref_=a20m_us_fnav_l_cook_gb",
+      "retrievalUrl": "https://www.amazon.co.uk/gp/help/customer/display.html?ie=UTF8&nodeId=201890250&ref_=a20m_us_fnav_l_cook_gb",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon Advertising.json",
+      "declarationSha256": "206292402f0060a3e276b52fdd0d40391ba1a5a4e24da22feb216728f65bbf72"
+    },
+    {
+      "id": "30d9d3dd697230e308070c1e",
+      "company": "Amazon Appstore",
+      "name": "Terms of Service",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201485660",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201485660",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon Appstore.json",
+      "declarationSha256": "bf15f2005e07ee1e86a19c43e6884bc965a8518eb1a9359e3b117f58ba28d7f3"
+    },
+    {
+      "id": "421a1c63fce7d4d07adf56c4",
+      "company": "Amazon Coins",
+      "name": "Terms of Service",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201434520",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201434520",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon Coins.json",
+      "declarationSha256": "6ad0b6ff36126be8d85c64ed56dff9316f956b6386d8cb4431ae5e62d072e9eb"
+    },
+    {
+      "id": "a9b347b4c69fe2b954bde72d",
+      "company": "Amazon Device",
+      "name": "Terms of Service",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202002080",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202002080",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon Device.json",
+      "declarationSha256": "1cd66b712a4e39098b952f9cf025d2842613a60039a081b3692273b66ef7869c"
+    },
+    {
+      "id": "2ad5ce5fd6f27b62222eccce",
+      "company": "Amazon E-Reader and Fire Tablet",
+      "name": "Terms of Service",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=200699130",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=200699130",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon E-Reader and Fire Tablet.json",
+      "declarationSha256": "72704628110c889ce3b968d6ae86a5b3a348fe0c060a43599ea7b6383189cfe9"
+    },
+    {
+      "id": "ce4d0e5077b5d64ee29f268d",
+      "company": "Amazon Kindle Store",
+      "name": "Terms of Service",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201014950",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201014950",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon Kindle Store.json",
+      "declarationSha256": "fc3cc221d1bbb2094034cedb80e846c666c3f66c8322fd76322b7033094eed44"
+    },
+    {
+      "id": "199878b086c2553b0ea20bcd",
+      "company": "Amazon Maps",
+      "name": "Terms of Service",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201544030",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201544030",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon Maps.json",
+      "declarationSha256": "e7772a54cf852abc0596382edeb604173fbfe1e4d6fff6bfbe5b1bb7c79a66dd"
+    },
+    {
+      "id": "c469269ebd7ff4a66be9dca7",
+      "company": "Amazon Monthly Payments",
+      "name": "Terms of Service",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202095050",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202095050",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon Monthly Payments.json",
+      "declarationSha256": "61e5ea4eb9d83e3660db3d9d32eb02ad23501d43d004f05fec77e675bbd9ab1c"
+    },
+    {
+      "id": "fd749337399ac5e5c2b0e924",
+      "company": "Amazon Music",
+      "name": "Terms of Service",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201380010",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201380010",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon Music.json",
+      "declarationSha256": "49ec58e94d6df605351ac0bb78b4c90fe4642c6ed00867c8449d9f621ca5615d"
+    },
+    {
+      "id": "d9a75181c71efb7792f29499",
+      "company": "Amazon Photos",
+      "name": "Terms of Service",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201376540",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201376540",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon Photos.json",
+      "declarationSha256": "24bcfe9d8b7b913b664e29ea5d778bcdd2b64d6c83af4e544ad794a4890e5080"
+    },
+    {
+      "id": "ac65062b89af9a653e94312a",
+      "company": "Amazon Prime",
+      "name": "Terms of Service",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=13819201",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=13819201",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon Prime.json",
+      "declarationSha256": "febac0522e77f8c765737bf7e9a68c0be69f9f06ffb82ecdb0fe99571d152d31"
+    },
+    {
+      "id": "99b632efcd244abb547be768",
+      "company": "Amazon Silk",
+      "name": "Terms of Service",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=200775270",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=200775270",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon Silk.json",
+      "declarationSha256": "b8b052b700769e8756e8166524b02cc35da6263c294650a311543a2c291cc98f"
+    },
+    {
+      "id": "fbbbada2e8570e36df98bde7",
+      "company": "Amazon.com",
+      "name": "Acceptable Use Policy",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?ie=UTF8&nodeId=GFUSWPZP368LFFA9",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html?ie=UTF8&nodeId=GFUSWPZP368LFFA9",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon.com.json",
+      "declarationSha256": "ba82dd60e9d532f4c59ff1eb245ded15303a418922d2e0735c46e17996e9eb10"
+    },
+    {
+      "id": "2926b8e820c81c1b0c334026",
+      "company": "Amazon.com",
+      "name": "Commercial Terms",
+      "url": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202119380",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=202119380",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon.com.json",
+      "declarationSha256": "ba82dd60e9d532f4c59ff1eb245ded15303a418922d2e0735c46e17996e9eb10"
+    },
+    {
+      "id": "0570d2fe334061c73dfa98a2",
+      "company": "Amazon.com",
+      "name": "Privacy Policy",
+      "url": "https://www.amazon.com/gp/help/customer/display.html/ref=hp_left_v4_sib?ie=UTF8&nodeId=GX7NJQ4ZB8MHFRNJ",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html/ref=hp_left_v4_sib?ie=UTF8&nodeId=GX7NJQ4ZB8MHFRNJ",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon.com.json",
+      "declarationSha256": "ba82dd60e9d532f4c59ff1eb245ded15303a418922d2e0735c46e17996e9eb10"
+    },
+    {
+      "id": "b0bd6636bbf31a3a94f313b4",
+      "company": "Amazon.com",
+      "name": "Terms of Service",
+      "url": "https://www.amazon.com/gp/help/customer/display.html/ref=hp_left_v4_sib?ie=UTF8&nodeId=201909000",
+      "retrievalUrl": "https://www.amazon.com/gp/help/customer/display.html/ref=hp_left_v4_sib?ie=UTF8&nodeId=201909000",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Amazon.com.json",
+      "declarationSha256": "ba82dd60e9d532f4c59ff1eb245ded15303a418922d2e0735c46e17996e9eb10"
+    },
+    {
+      "id": "9934a0cda6b77a30b03bb31f",
+      "company": "App Store",
+      "name": "Developer Terms",
+      "url": "https://developer.apple.com/support/downloads/terms/apple-developer-agreement/Apple-Developer-Agreement-20240610-English.pdf",
+      "retrievalUrl": "https://developer.apple.com/support/downloads/terms/apple-developer-agreement/Apple-Developer-Agreement-20240610-English.pdf",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "App Store.json",
+      "declarationSha256": "55e3c4f71c8f899241c4050acdef15419221d578c04a3196d1fa5058eb7eb337"
+    },
+    {
+      "id": "e4a83815e860a93884f45cf8",
+      "company": "Apple Game Center",
+      "name": "Terms of Service",
+      "url": "https://www.apple.com/legal/internet-services/itunes/gamecenter/uk/terms.html",
+      "retrievalUrl": "https://www.apple.com/legal/internet-services/itunes/gamecenter/uk/terms.html",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Apple Game Center.json",
+      "declarationSha256": "7180b7b5a84eb94e89dec19b72bc8d3f182d92ff5b0ac12f8b23db73657eff99"
+    },
+    {
+      "id": "5bea60780c89f2b4a55607f7",
+      "company": "Apple",
+      "name": "Human Rights Policy",
+      "url": "https://investor.apple.com/files/doc_downloads/gov_docs/Apple-Human-Rights-Policy.pdf",
+      "retrievalUrl": "https://investor.apple.com/files/doc_downloads/gov_docs/Apple-Human-Rights-Policy.pdf",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Apple.json",
+      "declarationSha256": "2491afd4e1aaab92698d9dbce46b8e941298f6d648f0ebc27c4fdabb0de0af9f"
+    },
+    {
+      "id": "4b2eccb9d2282b52e1b82dcf",
+      "company": "ArtStation",
+      "name": "Privacy Policy",
+      "url": "https://www.artstation.com/privacy",
+      "retrievalUrl": "https://www.artstation.com/privacy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "ArtStation.json",
+      "declarationSha256": "ceddf8fe90d9cc4d42057d4224de4dc7ea03308dc10dd4bc5f22d97bb220da27"
+    },
+    {
+      "id": "d6917a402d34c79ce760dc53",
+      "company": "ArtStation",
+      "name": "Terms of Service",
+      "url": "https://www.artstation.com/tos",
+      "retrievalUrl": "https://www.artstation.com/tos",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "ArtStation.json",
+      "declarationSha256": "ceddf8fe90d9cc4d42057d4224de4dc7ea03308dc10dd4bc5f22d97bb220da27"
+    },
+    {
+      "id": "9a1145913f34fd10a6c327f7",
+      "company": "BRED Access",
+      "name": "Terms of Service",
+      "url": "https://www.bred.fr/medias/pdf/informations-reglementaires/convention-bredacces.pdf",
+      "retrievalUrl": "https://www.bred.fr/medias/pdf/informations-reglementaires/convention-bredacces.pdf",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "BRED Access.json",
+      "declarationSha256": "cc20752d8350983337a52cc092a981db995cabbb57788f16be8b6b90f482f217"
+    },
+    {
+      "id": "abf87c1db18aef84d2c56bdf",
+      "company": "BankID",
+      "name": "Privacy Policy",
+      "url": "https://www.bankid.com/en/integritetspolicy",
+      "retrievalUrl": "https://www.bankid.com/en/integritetspolicy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "BankID.json",
+      "declarationSha256": "8832772dee08240d64846a26e602a2b69110f7160dec2d56a23ef3e7dcbec570"
+    },
+    {
+      "id": "6f0fda8dabea3083b5487365",
+      "company": "BankID",
+      "name": "Terms of Service",
+      "url": "https://www.bankid.com/en/terms-of-use-bankid-mobile-application",
+      "retrievalUrl": "https://www.bankid.com/en/terms-of-use-bankid-mobile-application",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "BankID.json",
+      "declarationSha256": "8832772dee08240d64846a26e602a2b69110f7160dec2d56a23ef3e7dcbec570"
+    },
+    {
+      "id": "7f573b5bf759bf6077e9d0f7",
+      "company": "Base",
+      "name": "Privacy Policy",
+      "url": "https://docs.base.org/docs/privacy-policy/",
+      "retrievalUrl": "https://docs.base.org/docs/privacy-policy/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Base.json",
+      "declarationSha256": "2e749845bc78dd1b049c7d6c349bcb423ab2448ca2c05cfe4447c19c2053f43a"
+    },
+    {
+      "id": "8cab6a8d97169e6422080fea",
+      "company": "Base",
+      "name": "Trackers Policy",
+      "url": "https://docs.base.org/docs/cookie-policy/",
+      "retrievalUrl": "https://docs.base.org/docs/cookie-policy/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Base.json",
+      "declarationSha256": "2e749845bc78dd1b049c7d6c349bcb423ab2448ca2c05cfe4447c19c2053f43a"
+    },
+    {
+      "id": "4c6e7654bc414af5405ca3ba",
+      "company": "Binance",
+      "name": "Privacy Policy",
+      "url": "https://www.binance.com/en/privacy",
+      "retrievalUrl": "https://www.binance.com/en/privacy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Binance.json",
+      "declarationSha256": "2aa49d4485a2f3ae766db98bcd159e34f77c782fd61d5d553a1d4f66c8fb35e9"
+    },
+    {
+      "id": "c619121c3e6b7c498b8cd68b",
+      "company": "Binance",
+      "name": "Terms of Service",
+      "url": "https://www.binance.com/en/terms",
+      "retrievalUrl": "https://www.binance.com/en/terms",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Binance.json",
+      "declarationSha256": "2aa49d4485a2f3ae766db98bcd159e34f77c782fd61d5d553a1d4f66c8fb35e9"
+    },
+    {
+      "id": "c78fc50d1089ae5095e14689",
+      "company": "Blockworks",
+      "name": "Editorial Policy",
+      "url": "https://blockworks.co/trust-ethics",
+      "retrievalUrl": "https://blockworks.co/trust-ethics",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Blockworks.json",
+      "declarationSha256": "7fa9d5a9b9c4b1c7a8a5b2d525cd80681bdb7b1261f36d8cd5fc3f07eccf2992"
+    },
+    {
+      "id": "e686ab180b6dd4777b5eef23",
+      "company": "Blockworks",
+      "name": "Privacy Policy",
+      "url": "https://blockworks.co/privacy-policy",
+      "retrievalUrl": "https://blockworks.co/privacy-policy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Blockworks.json",
+      "declarationSha256": "7fa9d5a9b9c4b1c7a8a5b2d525cd80681bdb7b1261f36d8cd5fc3f07eccf2992"
+    },
+    {
+      "id": "1896df9730081b3b210ae0f6",
+      "company": "Bolt Drivers",
+      "name": "Privacy Policy",
+      "url": "https://bolt.eu/en/legal/ie/privacy-for-drivers/",
+      "retrievalUrl": "https://bolt.eu/en/legal/ie/privacy-for-drivers/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Bolt Drivers.json",
+      "declarationSha256": "f11f3e3d0f8b0a8737fa5f400cf6d6473b05db34bdd0dc6c685ee14b1355511b"
+    },
+    {
+      "id": "111b56059bb6ba4456ba7fc9",
+      "company": "Bolt Drivers",
+      "name": "Terms of Service",
+      "url": "https://bolt.eu/en/legal/ie/terms-for-drivers/",
+      "retrievalUrl": "https://bolt.eu/en/legal/ie/terms-for-drivers/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Bolt Drivers.json",
+      "declarationSha256": "f11f3e3d0f8b0a8737fa5f400cf6d6473b05db34bdd0dc6c685ee14b1355511b"
+    },
+    {
+      "id": "fc3ce76b753837b1cfc0ed5f",
+      "company": "Bolt",
+      "name": "Privacy Policy",
+      "url": "https://bolt.eu/en/legal/ie/privacy-for-riders/",
+      "retrievalUrl": "https://bolt.eu/en/legal/ie/privacy-for-riders/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Bolt.json",
+      "declarationSha256": "f2259f0aecc3f92142e93ca2cecfc8dc6ad59601fb658560067791731c48c1f7"
+    },
+    {
+      "id": "d19b1b9a217a57460c69bca2",
+      "company": "Bolt",
+      "name": "Terms of Service",
+      "url": "https://bolt.eu/en/legal/ie/terms-for-riders/",
+      "retrievalUrl": "https://bolt.eu/en/legal/ie/terms-for-riders/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Bolt.json",
+      "declarationSha256": "f2259f0aecc3f92142e93ca2cecfc8dc6ad59601fb658560067791731c48c1f7"
+    },
+    {
+      "id": "c2dd218690d56b7121a2709e",
+      "company": "CNN International",
+      "name": "Privacy Policy",
+      "url": "https://www.warnermediaprivacy.com/policycenter/b2c/en-row/",
+      "retrievalUrl": "https://www.warnermediaprivacy.com/policycenter/b2c/en-row/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "CNN International.json",
+      "declarationSha256": "7726e7abcc17e8b7606b1f7ae1fa4d283b5fe716ac3d50dae5c49dae7c440dfe"
+    },
+    {
+      "id": "706b2fd3b89b9a1386140270",
+      "company": "CafeMom",
+      "name": "Privacy Policy",
+      "url": "https://www.wildskymedia.com/privacy-policy/",
+      "retrievalUrl": "https://www.wildskymedia.com/privacy-policy/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "CafeMom.json",
+      "declarationSha256": "feabd7250bf2a3cde769dcb2e112b30a6098afb3608fc41af5212459bc0e020b"
+    },
+    {
+      "id": "05f5ad3f4bfe7677907a3326",
+      "company": "CafeMom",
+      "name": "Terms of Service",
+      "url": "https://www.wildskymedia.com/terms-of-service/",
+      "retrievalUrl": "https://www.wildskymedia.com/terms-of-service/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "CafeMom.json",
+      "declarationSha256": "feabd7250bf2a3cde769dcb2e112b30a6098afb3608fc41af5212459bc0e020b"
+    },
+    {
+      "id": "2536c5f7d3caf7bdfc5447ac",
+      "company": "Cdiscount",
+      "name": "Commercial Terms",
+      "url": "https://clients.cdiscount.com/simple/cgv.aspx",
+      "retrievalUrl": "https://clients.cdiscount.com/simple/cgv.aspx",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Cdiscount.json",
+      "declarationSha256": "841d32f87c3725aa9cd35f7159428a5f63e35c2895d812f80e3a99798358916f"
+    },
+    {
+      "id": "c064d2827395c4dd9cf592ca",
+      "company": "Cdiscount",
+      "name": "Terms of Service",
+      "url": "https://i2.cdscdn.com/resources/imagesok/cgu/mkp/cgu_acheteurs_mp_cdiscount.pdf",
+      "retrievalUrl": "https://i2.cdscdn.com/resources/imagesok/cgu/mkp/cgu_acheteurs_mp_cdiscount.pdf",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Cdiscount.json",
+      "declarationSha256": "841d32f87c3725aa9cd35f7159428a5f63e35c2895d812f80e3a99798358916f"
+    },
+    {
+      "id": "46abde4bf527c5091212a7d0",
+      "company": "Cdiscount",
+      "name": "Trackers Policy",
+      "url": "https://www.cdiscount.com/vie-privee-et-cookies.html",
+      "retrievalUrl": "https://www.cdiscount.com/vie-privee-et-cookies.html",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Cdiscount.json",
+      "declarationSha256": "841d32f87c3725aa9cd35f7159428a5f63e35c2895d812f80e3a99798358916f"
+    },
+    {
+      "id": "d9ba74dfff538e74fd627e36",
+      "company": "Chayn",
+      "name": "Privacy Policy",
+      "url": "https://www.chayn.co/policies/privacy-policy",
+      "retrievalUrl": "https://www.chayn.co/policies/privacy-policy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Chayn.json",
+      "declarationSha256": "425e8502d116fafcbfcae8976e4f4c75d32701390fd75b9bdd0b46ecf23fd9fe"
+    },
+    {
+      "id": "bd4f56015c4123cde8b5205d",
+      "company": "Chrome and Chrome OS",
+      "name": "Privacy Policy",
+      "url": "https://www.google.com/chrome/privacy/?hl=en_GB",
+      "retrievalUrl": "https://www.google.com/chrome/privacy/?hl=en_GB",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Chrome and Chrome OS.json",
+      "declarationSha256": "b7c1dee703553cc1e1d8928cfb137acf31c2a475b2b05a9bc9e6c2991e0787f5"
+    },
+    {
+      "id": "28b2ebb8a1111705af4625aa",
+      "company": "Coinbase",
+      "name": "Privacy Policy",
+      "url": "https://www.coinbase.com/legal/privacy",
+      "retrievalUrl": "https://www.coinbase.com/legal/privacy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Coinbase.json",
+      "declarationSha256": "5358e45575be8b2d36134aa23aef4c4142ef0e3193f4dd2a02ea71e7ac67f8ed"
+    },
+    {
+      "id": "aaa180f7147a9466b53acfac",
+      "company": "Coinbase",
+      "name": "Terms of Service",
+      "url": "https://www.coinbase.com/legal/user_agreement/ireland_europe",
+      "retrievalUrl": "https://www.coinbase.com/legal/user_agreement/ireland_europe",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Coinbase.json",
+      "declarationSha256": "5358e45575be8b2d36134aa23aef4c4142ef0e3193f4dd2a02ea71e7ac67f8ed"
+    },
+    {
+      "id": "e7ab9b888038099297f7f907",
+      "company": "Coinbase",
+      "name": "Trackers Policy",
+      "url": "https://www.coinbase.com/legal/cookie",
+      "retrievalUrl": "https://www.coinbase.com/legal/cookie",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Coinbase.json",
+      "declarationSha256": "5358e45575be8b2d36134aa23aef4c4142ef0e3193f4dd2a02ea71e7ac67f8ed"
+    },
+    {
+      "id": "227c5e873681285e1c24755c",
+      "company": "Coindesk",
+      "name": "Editorial Policy",
+      "url": "https://www.coindesk.com/ethics/",
+      "retrievalUrl": "https://www.coindesk.com/ethics/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Coindesk.json",
+      "declarationSha256": "b176b5051dce0e1740ac96471fc5e47838c687d70d15d24f12dc51a5e4979cd4"
+    },
+    {
+      "id": "c0c0f81500125b3e5007e148",
+      "company": "Coindesk",
+      "name": "Privacy Policy",
+      "url": "https://www.coindesk.com/privacy/",
+      "retrievalUrl": "https://www.coindesk.com/privacy/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Coindesk.json",
+      "declarationSha256": "b176b5051dce0e1740ac96471fc5e47838c687d70d15d24f12dc51a5e4979cd4"
+    },
+    {
+      "id": "5dbeb6ac86eca2ccf05df67c",
+      "company": "Coindesk",
+      "name": "Terms of Service",
+      "url": "https://www.coindesk.com/terms/",
+      "retrievalUrl": "https://www.coindesk.com/terms/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Coindesk.json",
+      "declarationSha256": "b176b5051dce0e1740ac96471fc5e47838c687d70d15d24f12dc51a5e4979cd4"
+    },
+    {
+      "id": "2eca232c3d8f44203955c57d",
+      "company": "Couchsurfing",
+      "name": "Privacy Policy",
+      "url": "https://about.couchsurfing.com/about/privacy-policy/",
+      "retrievalUrl": "https://about.couchsurfing.com/about/privacy-policy/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Couchsurfing.json",
+      "declarationSha256": "8739c2eecf4d2faeaa68dc5a15cc50e6c6e0920b2f414b20fc4a8a02c9ea16dc"
+    },
+    {
+      "id": "cd094d158a592d6f8cdc0935",
+      "company": "Couchsurfing",
+      "name": "Terms of Service",
+      "url": "https://about.couchsurfing.com/about/terms-of-use/",
+      "retrievalUrl": "https://about.couchsurfing.com/about/terms-of-use/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Couchsurfing.json",
+      "declarationSha256": "8739c2eecf4d2faeaa68dc5a15cc50e6c6e0920b2f414b20fc4a8a02c9ea16dc"
+    },
+    {
+      "id": "d61a023fc5a037d48b1040eb",
+      "company": "Crunchyroll",
+      "name": "Terms of Service",
+      "url": "https://www.crunchyroll.com/tos/",
+      "retrievalUrl": "https://www.crunchyroll.com/tos/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Crunchyroll.json",
+      "declarationSha256": "9f5c94aaac3620a84cb19399cbed2407f76516c6c1d7fd69af0a3316989b1e42"
+    },
+    {
+      "id": "bd76b1bd13937359cb63d788",
+      "company": "Daily Mail",
+      "name": "Privacy Policy",
+      "url": "https://www.dailymail.co.uk/home/article-7759273/Privacy-Cookies-Policy-Policy.html",
+      "retrievalUrl": "https://www.dailymail.co.uk/home/article-7759273/Privacy-Cookies-Policy-Policy.html",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Daily Mail.json",
+      "declarationSha256": "e37639df8de90e1496dac4de05193855c73da7f60a0ac4dc708ab55c4cab5b7c"
+    },
+    {
+      "id": "e27ae46815dcc5e882240d5b",
+      "company": "Daily Mail",
+      "name": "Terms of Service",
+      "url": "https://www.dailymail.co.uk/home/article-1388146/Terms.html",
+      "retrievalUrl": "https://www.dailymail.co.uk/home/article-1388146/Terms.html",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Daily Mail.json",
+      "declarationSha256": "e37639df8de90e1496dac4de05193855c73da7f60a0ac4dc708ab55c4cab5b7c"
+    },
+    {
+      "id": "158ffd845d143256722fd3ba",
+      "company": "Deutsche Bahn",
+      "name": "Privacy Policy",
+      "url": "https://www.bahn.com/en/privacy/privacy-customer",
+      "retrievalUrl": "https://www.bahn.com/en/privacy/privacy-customer",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Deutsche Bahn.json",
+      "declarationSha256": "a009dfc7e875c944d8a6f8d600ac50bcba57634aa563132f51e9e1d6a88d7b68"
+    },
+    {
+      "id": "7b97c8ef885fa6ea9aaecf9a",
+      "company": "Deutsche Bahn",
+      "name": "Terms of Service",
+      "url": "https://www.bahn.com/en/terms-of-use/customer-accounts-terms-of-use",
+      "retrievalUrl": "https://www.bahn.com/en/terms-of-use/customer-accounts-terms-of-use",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Deutsche Bahn.json",
+      "declarationSha256": "a009dfc7e875c944d8a6f8d600ac50bcba57634aa563132f51e9e1d6a88d7b68"
+    },
+    {
+      "id": "95bd6f50d1b398bfff14931f",
+      "company": "DeviantArt",
+      "name": "Privacy Policy",
+      "url": "https://about.deviantart.com/policy/privacy/",
+      "retrievalUrl": "https://about.deviantart.com/policy/privacy/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "DeviantArt.json",
+      "declarationSha256": "79cfbcf879acc9adef476b6f1dcefdb5cf5002b58f4b6eaec23b029ee1b7137c"
+    },
+    {
+      "id": "f8a7f035e5ab8765bf26f1f9",
+      "company": "DeviantArt",
+      "name": "Terms of Service",
+      "url": "https://about.deviantart.com/policy/service/",
+      "retrievalUrl": "https://about.deviantart.com/policy/service/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "DeviantArt.json",
+      "declarationSha256": "79cfbcf879acc9adef476b6f1dcefdb5cf5002b58f4b6eaec23b029ee1b7137c"
+    },
+    {
+      "id": "5581d8870353a0d16cda3c61",
+      "company": "Donkey Republic",
+      "name": "Privacy Policy",
+      "url": "https://www.donkey.bike/privacy-policy/",
+      "retrievalUrl": "https://www.donkey.bike/privacy-policy/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Donkey Republic.json",
+      "declarationSha256": "cdeb6514d0f95a7748afad6009622ffb715b580d688611871e619e3f4b101042"
+    },
+    {
+      "id": "28bcbb7d86dcb7de6a3a56f6",
+      "company": "Dune",
+      "name": "Privacy Policy",
+      "url": "https://dune.com/privacy",
+      "retrievalUrl": "https://dune.com/privacy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Dune.json",
+      "declarationSha256": "902177cf65bbb33c7311d646eaef3b0c8feebea5cd733bdb69fe9a1d47afde80"
+    },
+    {
+      "id": "457118abbc04a5d33b0fbeb6",
+      "company": "Dune",
+      "name": "Terms of Service",
+      "url": "https://dune.com/terms",
+      "retrievalUrl": "https://dune.com/terms",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Dune.json",
+      "declarationSha256": "902177cf65bbb33c7311d646eaef3b0c8feebea5cd733bdb69fe9a1d47afde80"
+    },
+    {
+      "id": "99c3bf5ee7915c9d0e264ae2",
+      "company": "Exponential",
+      "name": "Acceptable Use Policy",
+      "url": "https://exponential.com/documents/publisher-code-of-conduct/?wpdmdl=17753",
+      "retrievalUrl": "https://exponential.com/documents/publisher-code-of-conduct/?wpdmdl=17753",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Exponential.json",
+      "declarationSha256": "d2910dec7de9ca83fcbd4597019a9d0ae05f974edb61c0cdadb9fd15211aad04"
+    },
+    {
+      "id": "86a8aa8fc0df518bff67edd0",
+      "company": "Exponential",
+      "name": "Privacy Policy",
+      "url": "https://exponential.com/privacy/",
+      "retrievalUrl": "https://exponential.com/privacy/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Exponential.json",
+      "declarationSha256": "d2910dec7de9ca83fcbd4597019a9d0ae05f974edb61c0cdadb9fd15211aad04"
+    },
+    {
+      "id": "b0f2c59cc34341708cd74b4a",
+      "company": "Facebook",
+      "name": "Data Processor Agreement",
+      "url": "https://www.facebook.com/legal/EU_data_transfer_addendum",
+      "retrievalUrl": "https://www.facebook.com/legal/EU_data_transfer_addendum",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Facebook.json",
+      "declarationSha256": "9d52e9a9ef7f4204a9de9b65a8cfd6153dad67cd0e374926a096f2951387ca73"
+    },
+    {
+      "id": "1fc5a2652ad53f761e7a05a1",
+      "company": "Facebook",
+      "name": "Law Enforcement Guidelines",
+      "url": "https://www.facebook.com/safety/groups/law/guidelines",
+      "retrievalUrl": "https://www.facebook.com/safety/groups/law/guidelines",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Facebook.json",
+      "declarationSha256": "9d52e9a9ef7f4204a9de9b65a8cfd6153dad67cd0e374926a096f2951387ca73"
+    },
+    {
+      "id": "3f4e80908ebefc4610282447",
+      "company": "Facebook",
+      "name": "Live Policy",
+      "url": "https://en-gb.facebook.com/policies/live",
+      "retrievalUrl": "https://en-gb.facebook.com/policies/live",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Facebook.json",
+      "declarationSha256": "9d52e9a9ef7f4204a9de9b65a8cfd6153dad67cd0e374926a096f2951387ca73"
+    },
+    {
+      "id": "e9b8bc13a679849ea4d354bd",
+      "company": "Feddit",
+      "name": "Privacy Policy",
+      "url": "https://feddit.de/legal",
+      "retrievalUrl": "https://feddit.de/legal",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Feddit.json",
+      "declarationSha256": "92bb7ecfccd1b565dffb1e4853bd30445faac37f41a2d1e3d2a80046bb47a0eb"
+    },
+    {
+      "id": "55f50cfa7da6cb96d419d436",
+      "company": "Forbes",
+      "name": "Privacy Policy",
+      "url": "https://www.forbes.com/privacy/english/#1a05e1630610",
+      "retrievalUrl": "https://www.forbes.com/privacy/english/#1a05e1630610",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Forbes.json",
+      "declarationSha256": "1792e185b401926cfdc8325eee67ebef5f570115c7ecabb28c340586815bc89e"
+    },
+    {
+      "id": "c8bbb61b436ed5a46c001b10",
+      "company": "FreeTaxUSA",
+      "name": "Privacy Policy",
+      "url": "https://www.freetaxusa.com/privacy",
+      "retrievalUrl": "https://www.freetaxusa.com/privacy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "FreeTaxUSA.json",
+      "declarationSha256": "c9ec0d3060ee95035dfd8dd5f96b76b660a1ed1cf1c26a58760e5ae3ebd0bc7d"
+    },
+    {
+      "id": "113a6b58dec3d40307ff8d21",
+      "company": "FreeTaxUSA",
+      "name": "Terms of Service",
+      "url": "https://www.freetaxusa.com/terms",
+      "retrievalUrl": "https://www.freetaxusa.com/terms",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "FreeTaxUSA.json",
+      "declarationSha256": "c9ec0d3060ee95035dfd8dd5f96b76b660a1ed1cf1c26a58760e5ae3ebd0bc7d"
+    },
+    {
+      "id": "d193ee07d04e14b39e194d5f",
+      "company": "Gartner",
+      "name": "Privacy Policy",
+      "url": "https://www.gartner.com/en/about/policies/privacy",
+      "retrievalUrl": "https://www.gartner.com/en/about/policies/privacy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Gartner.json",
+      "declarationSha256": "8b8642093ba2b89c993ead04d504450d88da64d73e3aba57174200b6fc5396b4"
+    },
+    {
+      "id": "aebc240b1b757be24a382eec",
+      "company": "Gartner",
+      "name": "Terms of Service",
+      "url": "https://www.gartner.com/en/about/policies/terms-of-use",
+      "retrievalUrl": "https://www.gartner.com/en/about/policies/terms-of-use",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Gartner.json",
+      "declarationSha256": "8b8642093ba2b89c993ead04d504450d88da64d73e3aba57174200b6fc5396b4"
+    },
+    {
+      "id": "ea65cd8da32bcae38ca69128",
+      "company": "Glass",
+      "name": "Terms of Service",
+      "url": "https://www.google.com/glass/termsofuse/",
+      "retrievalUrl": "https://www.google.com/glass/termsofuse/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Glass.json",
+      "declarationSha256": "c5e63d55c8e46f59ec694becea8d3f52b06383e4341ba5f0e76e92358433717d"
+    },
+    {
+      "id": "2dad436b47367e2c3a0bc360",
+      "company": "Glassdoor",
+      "name": "Community Guidelines",
+      "url": "https://help.glassdoor.com/s/article/Community-Guidelines?language=en_US",
+      "retrievalUrl": "https://help.glassdoor.com/s/article/Community-Guidelines?language=en_US",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Glassdoor.json",
+      "declarationSha256": "92a8de4761cb917dacef8c93aa14ef78048690d03a15ca64ffdc708e5f503906"
+    },
+    {
+      "id": "49e29361ba4733b25150df53",
+      "company": "Glassdoor",
+      "name": "Terms of Service",
+      "url": "https://www.glassdoor.com/about/terms/",
+      "retrievalUrl": "https://www.glassdoor.com/about/terms/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Glassdoor.json",
+      "declarationSha256": "92a8de4761cb917dacef8c93aa14ef78048690d03a15ca64ffdc708e5f503906"
+    },
+    {
+      "id": "8e6116330e265c3512471b5d",
+      "company": "Gmail",
+      "name": "Acceptable Use Policy",
+      "url": "https://www.google.com/gmail/about/policy/?hl=en_GB",
+      "retrievalUrl": "https://www.google.com/gmail/about/policy/?hl=en_GB",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Gmail.json",
+      "declarationSha256": "3a159efcdd272960525442ce13e1a3f973d15e626f88f0a795b8f6fe15ee202a"
+    },
+    {
+      "id": "64b9a9050dab2834e4b6b470",
+      "company": "Gofile",
+      "name": "Privacy Policy",
+      "url": "https://gofile.io/privacy",
+      "retrievalUrl": "https://gofile.io/privacy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Gofile.json",
+      "declarationSha256": "fc169f31a7e6a5d343255ced80580cb6a73f19cea892411c7ed2c46d0c747949"
+    },
+    {
+      "id": "77fa27de933ec6bbeb6e8c68",
+      "company": "Gofile",
+      "name": "Terms of Service",
+      "url": "https://gofile.io/terms",
+      "retrievalUrl": "https://gofile.io/terms",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Gofile.json",
+      "declarationSha256": "fc169f31a7e6a5d343255ced80580cb6a73f19cea892411c7ed2c46d0c747949"
+    },
+    {
+      "id": "39b156f6089b5acc4fa73bdd",
+      "company": "Google Ads",
+      "name": "Data Processor Agreement",
+      "url": "https://privacy.google.com/businesses/processorterms/",
+      "retrievalUrl": "https://privacy.google.com/businesses/processorterms/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Google Ads.json",
+      "declarationSha256": "481a30300123d88c8009b1c6ce214a07bfd63365488c35fb5a4113c1587ed894"
+    },
+    {
+      "id": "6b3c505dfadde5fa58b9d34b",
+      "company": "Google Play",
+      "name": "Brand Guidelines",
+      "url": "https://developer.android.com/distribute/marketing-tools/brand-guidelines",
+      "retrievalUrl": "https://developer.android.com/distribute/marketing-tools/brand-guidelines",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Google Play.json",
+      "declarationSha256": "dc03919b5a0d2ce5f833349097abab45ada315ee68edaebc6ef236bfd4414bba"
+    },
+    {
+      "id": "e181a8a3e04a9f2f123d3649",
+      "company": "Google Play",
+      "name": "Developer Terms",
+      "url": "https://play.google.com/intl/ALL_en/about/developer-distribution-agreement.html",
+      "retrievalUrl": "https://play.google.com/intl/ALL_en/about/developer-distribution-agreement.html",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Google Play.json",
+      "declarationSha256": "dc03919b5a0d2ce5f833349097abab45ada315ee68edaebc6ef236bfd4414bba"
+    },
+    {
+      "id": "913c91a4dcf0566c00de4b1b",
+      "company": "Google Play",
+      "name": "Review Guidelines",
+      "url": "https://support.google.com/googleplay/android-developer/answer/11044265?hl=en-IE",
+      "retrievalUrl": "https://support.google.com/googleplay/android-developer/answer/11044265?hl=en-IE",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Google Play.json",
+      "declarationSha256": "dc03919b5a0d2ce5f833349097abab45ada315ee68edaebc6ef236bfd4414bba"
+    },
+    {
+      "id": "ae99daa6b7622303f5dddd9d",
+      "company": "Grammarly",
+      "name": "Privacy Policy",
+      "url": "https://www.grammarly.com/privacy-policy",
+      "retrievalUrl": "https://www.grammarly.com/privacy-policy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Grammarly.json",
+      "declarationSha256": "a789755823ca92259b8f0e88e7cd42193e11afbc8e63a8da02a3b90f0801f83a"
+    },
+    {
+      "id": "a89d4de8950da4f48a856111",
+      "company": "Guilded",
+      "name": "Community Guidelines",
+      "url": "https://support.guilded.gg/hc/en-us/articles/360052815873-Community-Guidelines",
+      "retrievalUrl": "https://support.guilded.gg/hc/en-us/articles/360052815873-Community-Guidelines",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Guilded.json",
+      "declarationSha256": "83476b50b49096c9e37e453ceb47cbbdcbf79b17989ad6699e6d80ee417d4de4"
+    },
+    {
+      "id": "11363e1c5acb6f09b016c2f2",
+      "company": "Guilded",
+      "name": "Privacy Policy",
+      "url": "https://support.guilded.gg/hc/en-us/articles/360039235054-Privacy",
+      "retrievalUrl": "https://support.guilded.gg/hc/en-us/articles/360039235054-Privacy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Guilded.json",
+      "declarationSha256": "83476b50b49096c9e37e453ceb47cbbdcbf79b17989ad6699e6d80ee417d4de4"
+    },
+    {
+      "id": "350c5ad91a939e337f33cb3d",
+      "company": "Guilded",
+      "name": "Terms of Service",
+      "url": "https://support.guilded.gg/hc/en-us/articles/360039728313-Terms-of-Use",
+      "retrievalUrl": "https://support.guilded.gg/hc/en-us/articles/360039728313-Terms-of-Use",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Guilded.json",
+      "declarationSha256": "83476b50b49096c9e37e453ceb47cbbdcbf79b17989ad6699e6d80ee417d4de4"
+    },
+    {
+      "id": "368ba288bd77cf292acd8ca4",
+      "company": "Honkai: Star Rail",
+      "name": "Privacy Policy",
+      "url": "https://hsr.hoyoverse.com/en-us/company/privacy",
+      "retrievalUrl": "https://hsr.hoyoverse.com/en-us/company/privacy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Honkai- Star Rail.json",
+      "declarationSha256": "52d93d0a3da84c148f9740674edb09b3e0c5699daed24182aadb2c86bb63506d"
+    },
+    {
+      "id": "029222ccab8f318c58fe6fbc",
+      "company": "Honkai: Star Rail",
+      "name": "Terms of Service",
+      "url": "https://hsr.hoyoverse.com/en-us/company/terms",
+      "retrievalUrl": "https://hsr.hoyoverse.com/en-us/company/terms",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Honkai- Star Rail.json",
+      "declarationSha256": "52d93d0a3da84c148f9740674edb09b3e0c5699daed24182aadb2c86bb63506d"
+    },
+    {
+      "id": "c26f1e30ba0ebe5f1b79eb41",
+      "company": "Instagram",
+      "name": "Community Guidelines",
+      "url": "https://help.instagram.com/477434105621119",
+      "retrievalUrl": "https://help.instagram.com/477434105621119",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Instagram.json",
+      "declarationSha256": "eaf8a0d33e68ec144b0a2fafa4eb99d2dc0869d406a5b721d197723e547b35bd"
+    },
+    {
+      "id": "ad36106b117ccf18337199ed",
+      "company": "Instagram",
+      "name": "Law Enforcement Guidelines",
+      "url": "https://help.instagram.com/494561080557017",
+      "retrievalUrl": "https://help.instagram.com/494561080557017",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Instagram.json",
+      "declarationSha256": "eaf8a0d33e68ec144b0a2fafa4eb99d2dc0869d406a5b721d197723e547b35bd"
+    },
+    {
+      "id": "910762446761229e36705d9e",
+      "company": "Instagram",
+      "name": "Privacy Policy",
+      "url": "https://privacycenter.instagram.com/policy/",
+      "retrievalUrl": "https://privacycenter.instagram.com/policy/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Instagram.json",
+      "declarationSha256": "eaf8a0d33e68ec144b0a2fafa4eb99d2dc0869d406a5b721d197723e547b35bd"
+    },
+    {
+      "id": "e3661d8e1cc574037501052c",
+      "company": "Instagram",
+      "name": "Terms of Service",
+      "url": "https://help.instagram.com/581066165581870",
+      "retrievalUrl": "https://help.instagram.com/581066165581870",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Instagram.json",
+      "declarationSha256": "eaf8a0d33e68ec144b0a2fafa4eb99d2dc0869d406a5b721d197723e547b35bd"
+    },
+    {
+      "id": "a13e62772432ec6be135c04b",
+      "company": "Interstellar Lab",
+      "name": "Privacy Policy",
+      "url": "https://interstellarlab.com/legal/privacy-policy",
+      "retrievalUrl": "https://interstellarlab.com/legal/privacy-policy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Interstellar Lab.json",
+      "declarationSha256": "7f7ec4db20b53d329bd5e4b2f344c3b9ab293a3f8d70ddc67daa3b31f15e2166"
+    },
+    {
+      "id": "0f41d10b414139a2959b7e8a",
+      "company": "Kbin",
+      "name": "Privacy Policy",
+      "url": "https://kbin.social/privacy-policy",
+      "retrievalUrl": "https://kbin.social/privacy-policy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Kbin.json",
+      "declarationSha256": "14a7c0c3ab4c87b8bf554eec893a56e7e8679009c1f6f54db08bdd6dad377700"
+    },
+    {
+      "id": "6fca872436b86a386cf5c226",
+      "company": "Kbin",
+      "name": "Terms of Service",
+      "url": "https://kbin.social/terms",
+      "retrievalUrl": "https://kbin.social/terms",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Kbin.json",
+      "declarationSha256": "14a7c0c3ab4c87b8bf554eec893a56e7e8679009c1f6f54db08bdd6dad377700"
+    },
+    {
+      "id": "e1f07012c9a35543d965cfaf",
+      "company": "KimCartoon",
+      "name": "Privacy Policy",
+      "url": "https://kimcartoon.li/Message/PrivacyPolicy",
+      "retrievalUrl": "https://kimcartoon.li/Message/PrivacyPolicy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "KimCartoon.json",
+      "declarationSha256": "8c6f2d38a944a910bba1ed17233ee346c0978a1870df64d41995d8288fa39221"
+    },
+    {
+      "id": "efba6cfccf3de393da4f87a0",
+      "company": "Kraken",
+      "name": "Terms of Service",
+      "url": "https://www.kraken.com/en-us/legal#complete-tos",
+      "retrievalUrl": "https://www.kraken.com/en-us/legal#complete-tos",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Kraken.json",
+      "declarationSha256": "55c2df22c90e2b164acca0deef4612b2b45aa3fdba044cad667b6fc817d3a6ac"
+    },
+    {
+      "id": "7219dbcca5b14b3bf66e5034",
+      "company": "LINE",
+      "name": "Privacy Policy",
+      "url": "https://terms.line.me/line_rules/?lang=en",
+      "retrievalUrl": "https://terms.line.me/line_rules/?lang=en",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "LINE.json",
+      "declarationSha256": "8e06f4292b0ed5b2701c9140b77cf3aa8af32fd8d37d9b863fd83af6be095cde"
+    },
+    {
+      "id": "44961624d011d97938fb73fd",
+      "company": "LibraryThing",
+      "name": "Community Guidelines",
+      "url": "https://www.librarything.com/privacy",
+      "retrievalUrl": "https://www.librarything.com/privacy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "LibraryThing.json",
+      "declarationSha256": "42866f975c5483143e4149afe62e4cebe32438a739fec88485f2ce22c64de913"
+    },
+    {
+      "id": "978640d29119f68298233035",
+      "company": "Lingualeo",
+      "name": "Terms of Service",
+      "url": "https://corp.lingualeo.com/terms-of-use-en/",
+      "retrievalUrl": "https://corp.lingualeo.com/terms-of-use-en/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Lingualeo.json",
+      "declarationSha256": "e3d706b6b6dd0131735f01e9c3210b991c7e2033e77638b28e28f3892ddefb0a"
+    },
+    {
+      "id": "10d0e3474da15dfb7cf132bd",
+      "company": "Lyft",
+      "name": "Privacy Policy",
+      "url": "https://www.lyft.com/privacy",
+      "retrievalUrl": "https://www.lyft.com/privacy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Lyft.json",
+      "declarationSha256": "8261afd8b922f569dc6845dab6f25dc3e5f8698036adcd9500b749ff4b6e5257"
+    },
+    {
+      "id": "983991b2bbeff7463cff174e",
+      "company": "Lyft",
+      "name": "Terms of Service",
+      "url": "https://www.lyft.com/terms",
+      "retrievalUrl": "https://www.lyft.com/terms",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Lyft.json",
+      "declarationSha256": "8261afd8b922f569dc6845dab6f25dc3e5f8698036adcd9500b749ff4b6e5257"
+    },
+    {
+      "id": "6c4bdcb520f7c428edd5abd0",
+      "company": "Mailjet",
+      "name": "Acceptable Use Policy",
+      "url": "https://www.mailjet.com/legal/sending-policy/",
+      "retrievalUrl": "https://www.mailjet.com/legal/sending-policy/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Mailjet.json",
+      "declarationSha256": "5bf97cf9c465b5b8c67b61387a95be8d452b72438927f88cb461eb4176f5235e"
+    },
+    {
+      "id": "8dcf170b1e020f54723d05a8",
+      "company": "Mailjet",
+      "name": "Data Processor Agreement",
+      "url": "https://www.mailjet.com/legal/dpa/",
+      "retrievalUrl": "https://www.mailjet.com/legal/dpa/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Mailjet.json",
+      "declarationSha256": "5bf97cf9c465b5b8c67b61387a95be8d452b72438927f88cb461eb4176f5235e"
+    },
+    {
+      "id": "2ae2bbee15fb91cd36767b67",
+      "company": "Mailjet",
+      "name": "Privacy Policy",
+      "url": "https://www.mailjet.com/privacy-policy/",
+      "retrievalUrl": "https://www.mailjet.com/privacy-policy/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Mailjet.json",
+      "declarationSha256": "5bf97cf9c465b5b8c67b61387a95be8d452b72438927f88cb461eb4176f5235e"
+    },
+    {
+      "id": "edd30ca9be249c0f6070df68",
+      "company": "Mailjet",
+      "name": "Terms of Service",
+      "url": "https://www.mailjet.com/legal/terms/",
+      "retrievalUrl": "https://www.mailjet.com/legal/terms/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Mailjet.json",
+      "declarationSha256": "5bf97cf9c465b5b8c67b61387a95be8d452b72438927f88cb461eb4176f5235e"
+    },
+    {
+      "id": "37b32b760c0c2028ad27a6cf",
+      "company": "Mailjet",
+      "name": "Trackers Policy",
+      "url": "https://www.mailjet.com/legal/privacy-policy/cookies/",
+      "retrievalUrl": "https://www.mailjet.com/legal/privacy-policy/cookies/",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Mailjet.json",
+      "declarationSha256": "5bf97cf9c465b5b8c67b61387a95be8d452b72438927f88cb461eb4176f5235e"
+    },
+    {
+      "id": "322d4032820985ac4e91791d",
+      "company": "Match",
+      "name": "Privacy Policy",
+      "url": "https://uk.match.com/pages/misc/privacy",
+      "retrievalUrl": "https://uk.match.com/pages/misc/privacy",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Match.json",
+      "declarationSha256": "5bd9337a31456e400c8e731c9ab17849b074398759eb03cdfa51769f6a7d19d2"
+    },
+    {
+      "id": "6c341a5afa429478fa88a684",
+      "company": "Match",
+      "name": "Terms of Service",
+      "url": "https://uk.match.com/pages/misc/cge",
+      "retrievalUrl": "https://uk.match.com/pages/misc/cge",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Match.json",
+      "declarationSha256": "5bd9337a31456e400c8e731c9ab17849b074398759eb03cdfa51769f6a7d19d2"
+    },
+    {
+      "id": "aa91e4a82f1d837894ca2a5c",
+      "company": "Meetup",
+      "name": "Privacy Policy",
+      "url": "https://help.meetup.com/hc/en-us/articles/360044422391",
+      "retrievalUrl": "https://help.meetup.com/hc/en-us/articles/360044422391",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Meetup.json",
+      "declarationSha256": "627a237ad4b511cfddf6cb47b67bfa7f894d1a58bf386a94171e7a88c1a94044"
+    },
+    {
+      "id": "14f5e897b9c3692dc501eb82",
+      "company": "Meetup",
+      "name": "Terms of Service",
+      "url": "https://help.meetup.com/hc/en-us/articles/360027447252",
+      "retrievalUrl": "https://help.meetup.com/hc/en-us/articles/360027447252",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "Meetup.json",
+      "declarationSha256": "627a237ad4b511cfddf6cb47b67bfa7f894d1a58bf386a94171e7a88c1a94044"
+    },
+    {
+      "id": "06677c6cb5daca125e998f5a",
+      "company": "MouthShut",
+      "name": "Privacy Policy",
+      "url": "https://www.mouthshut.com/help/privacy.php",
+      "retrievalUrl": "https://www.mouthshut.com/help/privacy.php",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "MouthShut.json",
+      "declarationSha256": "3cd7d3039068a0c9146e883433db460674072b5d7e94bac80935315fcc842dbe"
+    },
+    {
+      "id": "cb6d05bafb6f7fb257a0a573",
+      "company": "MouthShut",
+      "name": "Terms of Service",
+      "url": "https://www.mouthshut.com/help/tos.php",
+      "retrievalUrl": "https://www.mouthshut.com/help/tos.php",
+      "provenance": "OpenTermsArchive/contrib-declarations",
+      "declaration": "MouthShut.json",
+      "declarationSha256": "3cd7d3039068a0c9146e883433db460674072b5d7e94bac80935315fcc842dbe"
+    }
+  ]
+}
