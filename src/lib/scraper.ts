@@ -873,6 +873,26 @@ async function fetchWithRetry(url: string): Promise<TransportResult> {
    --------------------------------------------------------------- */
 
 async function fetchWithHttp2(url: string): Promise<TransportResult> {
+  const deadline = Date.now() + FETCH_TIMEOUT_MS;
+  let current = url;
+  for (let redirects = 0; redirects <= MAX_REDIRECTS; redirects++) {
+    const remaining = deadline - Date.now();
+    if (remaining <= 0) return { ok: false, html: '', status: 0, finalUrl: current, error: 'h2_timeout' };
+    const result = await requestWithHttp2(current, remaining);
+    if (!result.redirectLocation) return result;
+    let next: URL;
+    try { next = new URL(result.redirectLocation, current); }
+    catch { return { ...result, ok: false, error: 'h2_invalid_redirect' }; }
+    if (next.protocol !== 'https:' || !isCoherentHost(new URL(url).hostname, next.hostname)) {
+      return { ...result, ok: false, error: 'host_drift' };
+    }
+    current = next.href;
+  }
+  return { ok: false, html: '', status: 0, finalUrl: current, error: 'too_many_redirects' };
+}
+
+/** Every redirect hop is resolved and pinned independently within one deadline. */
+async function requestWithHttp2(url: string, timeoutMs: number): Promise<TransportResult & { redirectLocation?: string }> {
   const destination = await validateOutboundUrl(url);
   if (!destination.ok) {
     return { ok: false, html: '', status: 0, finalUrl: url, error: destination.reason };
@@ -884,7 +904,7 @@ async function fetchWithHttp2(url: string): Promise<TransportResult> {
     let client: ReturnType<typeof connect> | null = null;
     let settled = false;
 
-    const finish = (result: TransportResult, destroyClient = false) => {
+    const finish = (result: TransportResult & { redirectLocation?: string }, destroyClient = false) => {
       if (settled) return;
       settled = true;
       clearTimeout(timer);
@@ -897,7 +917,7 @@ async function fetchWithHttp2(url: string): Promise<TransportResult> {
 
     const timer = setTimeout(() => {
       finish({ ok: false, html: '', status: 0, finalUrl: url, error: 'h2_timeout' }, true);
-    }, FETCH_TIMEOUT_MS);
+    }, timeoutMs);
 
     try {
       client = connect(`https://${parsed.hostname}`, {
@@ -946,6 +966,12 @@ async function fetchWithHttp2(url: string): Promise<TransportResult> {
 
         req.on('response', (hdrs) => {
           statusCode = hdrs[':status'] as number || 0;
+          if ([301, 302, 303, 307, 308].includes(statusCode) && typeof hdrs.location === 'string') {
+            req.close();
+            finish({ ok: false, html: '', status: statusCode, finalUrl: url,
+              error: `h2_status_${statusCode}`, redirectLocation: hdrs.location }, true);
+            return;
+          }
           contentType = String(hdrs['content-type'] || '');
           contentEncoding = String(hdrs['content-encoding'] || '');
           const rawLength = hdrs['content-length'];
@@ -980,7 +1006,7 @@ async function fetchWithHttp2(url: string): Promise<TransportResult> {
             finish({ ok: false, html: '', status: statusCode, finalUrl: url, error: sanitizeLogText((error as Error).message) });
             return;
           }
-          // 3xx is a failure here: this client does not follow redirects.
+          // Redirects with Location were handled before reading the body.
           if (statusCode === 202) {
             finish({ ok: false, html: data, status: statusCode, finalUrl: url, error: 'h2_202_pending' });
           } else if (statusCode >= 200 && statusCode < 300 && data.length > 0) {

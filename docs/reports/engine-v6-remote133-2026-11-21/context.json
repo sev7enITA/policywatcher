@@ -1,0 +1,13 @@
+{
+  "preparedAt": "2026-11-21T16:12:45.159429+00:00",
+  "parentCommit": "7b387c41d1f3daa0e50b2b0b77403ff2b665c798",
+  "implementation": "6fc37949cb6a02692498e83a7e4fb8f340914c63413900889057551f6eb85b56",
+  "bundleSha256": "7117558045424fba3fda66825c24955c0638f0425d47da88e085dc11cbeb7e74",
+  "catalogueSha256": "f5ce32a4d3772be90eaa0eaee2c9481124a1403b3b94408afc5f6c325f045e81",
+  "heapMiB": 384,
+  "workers": 3,
+  "perOrigin": 1,
+  "pacingMs": 1500,
+  "host": "Existing Hostinger SSH account, isolated QA directory",
+  "boundary": "Acquisition/extraction only. Original133 scopes fixed. No source approvals, model inference, public engine deployment or database modification."
+}

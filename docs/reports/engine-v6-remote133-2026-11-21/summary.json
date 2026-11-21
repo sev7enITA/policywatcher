@@ -1,0 +1,24 @@
+{
+  "baselineScopes": 133,
+  "categories": {
+    "http_access_refused": 50,
+    "access_interstitial": 2,
+    "static_document_incomplete": 20,
+    "redirect_identity_requires_review": 18,
+    "network_dns_or_timeout": 17,
+    "http2_redirect_unsupported_in_baseline": 9,
+    "declared_source_unavailable": 5,
+    "fragment_scope_requires_review": 4,
+    "source_pending_response": 2,
+    "redirect_scope_requires_review": 2,
+    "rate_limit_or_origin_backoff": 4
+  },
+  "tests": {
+    "offlinePassed": 80,
+    "parentRedirectRegression": "failed",
+    "typeScript": "passed"
+  },
+  "archivedBodyCount": 172,
+  "allArchivedBodyHashesVerified": true,
+  "baselineManifestSha256": "53409e3e7510a45e23a604f9cc1aa5c8a6a6ba0892a402d580844dbe3911f6f7"
+}
