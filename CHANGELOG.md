@@ -3,7 +3,7 @@
 ## Engine 6 Preview r4 – Retrospective evidence review (2026-11-21)
 
 - Reviewers can rerun a KPI assessment against its original policy edition and version. Each suggested value carries the source digest and exact quotation. It contributes to coverage only after an independent reviewer confirms it. Conflicting decisions about different values leave the indicator open.
-- On 85 previously assessed indicators with their labels masked, the original search returned at least one known citation for 25 indicators. The revised search did so for 75 with the same limit of four passages and for 77 with a limit of eight. These cases informed tuning. Performance on unseen sources and semantic accuracy still require separate measurement.
+- On 85 previously assessed indicators with their labels masked, the original search returned a passage overlapping at least one archived citation for 25 indicators. The revised search did so for 75 with the same limit of four passages and for 77 with a limit of eight. These cases informed tuning. Performance on unseen sources and semantic accuracy still require separate measurement.
 - The review now holds Global records when both the archived title and the opening applicability sentence explicitly restrict the policy to European territories. One OpenAI edition met this condition. Excluding its 13 existing values left 1,781 of 2,250 indicators (79.16%) in the historical baseline. A total of 2,026 is needed to exceed 90%.
 - The evidence search and review commands ran in private shadow staging on 101 public source versions covering 131 analyses. Local and staging outputs matched byte for byte. The public service continues to use the stable scanner.
 
