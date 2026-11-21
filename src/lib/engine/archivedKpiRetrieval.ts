@@ -1,4 +1,5 @@
 import { KPI_ALLOWED_VALUES, KPI_FIELD_KEYS, type KpiField } from '../metricsCatalog';
+import { archivedEditionConflict } from './archivedEdition';
 import { cohortRows, verifiedSourceTexts } from './archivedKpiReview';
 
 // Ordered clause-level search terms. Each distinct match contributes once per passage.
@@ -93,17 +94,18 @@ export function retrieveArchivedKpiEvidence(cohort: unknown, archive: unknown) {
   const candidates = [];
   for (const row of rows) {
     const text = row.source?.publicEvidence ? sources.get(row.sha256) : undefined;
+    const conflict = row.source && text ? archivedEditionConflict(row.source.edition, text) : null;
     let byField = cache.get(row.sha256);
     for (const field of KPI_FIELD_KEYS) {
       if (KPI_ALLOWED_VALUES[field].includes(row.values[field] ?? '')) continue;
-      if (text !== undefined && !byField) {
+      if (text !== undefined && !conflict && !byField) {
         const passages = sourceIndex(text);
         byField = new Map(KPI_FIELD_KEYS.map(key => [key, bestPassages(passages, key)]));
         cache.set(row.sha256, byField);
       }
-      const quotes = text === undefined ? [] : byField?.get(field) ?? [];
+      const quotes = text === undefined || conflict ? [] : byField?.get(field) ?? [];
       const outcome = !row.source ? 'unverified_source' : !row.source.publicEvidence ? 'withheld_source'
-        : text === undefined ? 'missing_archived_text' : quotes.length ? 'passages_found' : 'no_matching_passage';
+        : text === undefined ? 'missing_archived_text' : conflict ? 'archived_edition_conflict' : quotes.length ? 'passages_found' : 'no_matching_passage';
       candidates.push({
         changeId: row.changeId, field, snapshotId: row.snapshotId, sha256: row.sha256,
         version: row.source?.version ?? null, edition: row.source?.edition ?? null, outcome, quotes,

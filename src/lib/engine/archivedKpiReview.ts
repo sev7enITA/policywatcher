@@ -1,4 +1,5 @@
 import { KPI_ALLOWED_VALUES, KPI_FIELD_KEYS, NOT_ASSESSED_KPI_VALUE, type KpiField } from '../metricsCatalog';
+import { archivedEditionConflict } from './archivedEdition';
 import { qualificationDigest } from './qualification';
 
 type ObjectRow = Record<string, unknown>;
@@ -94,6 +95,13 @@ export function assessArchivedKpis(cohort: unknown, archive: unknown, proposals:
   const texts = verifiedSourceTexts(archive);
   const byId = new Map(analyses.map(r => [r.changeId, r]));
   const codePoints = new Map<string, string[]>();
+  const editionConflicts = new Map<string, NonNullable<ReturnType<typeof archivedEditionConflict>>>();
+  for (const row of analyses) {
+    const text = texts.get(row.sha256);
+    if (!row.source?.publicEvidence || !text) continue;
+    const conflict = archivedEditionConflict(row.source.edition, text);
+    if (conflict) editionConflicts.set(row.changeId, conflict);
+  }
   const decisions = decisionIndex(adjudications);
   const seen = new Set<string>();
   const entries = new Map<string, Map<KpiField, Array<{ value: string; supported: boolean }>>>();
@@ -107,6 +115,7 @@ export function assessArchivedKpis(cohort: unknown, archive: unknown, proposals:
     if (!row || !row.source || raw.snapshotId !== row.snapshotId || raw.sha256 !== row.sha256 ||
         raw.version !== row.source.version || raw.edition !== row.source.edition) return { index, outcome: 'source_mismatch' };
     if (!row.source.publicEvidence) return { index, outcome: 'withheld_source' };
+    if (editionConflicts.has(row.changeId)) return { index, outcome: 'archived_edition_conflict' };
     if (KPI_ALLOWED_VALUES[field].includes(row.values[field] ?? '')) return { index, outcome: 'already_assessed' };
     if (!KPI_ALLOWED_VALUES[field].includes(raw.value)) return { index, outcome: 'unsupported_value' };
     const text = texts.get(row.sha256);
@@ -137,17 +146,19 @@ export function assessArchivedKpis(cohort: unknown, archive: unknown, proposals:
   const cells = [];
   let baselineAssessed = 0;
   let baselineOutsideCatalogue = 0;
+  let baselineAssessedOnConflictingEditions = 0;
   for (const row of analyses) {
     for (const field of KPI_FIELD_KEYS) {
       const existing = row.values[field];
       if (KPI_ALLOWED_VALUES[field].includes(existing ?? '')) {
         baselineAssessed++;
+        if (editionConflicts.has(row.changeId)) baselineAssessedOnConflictingEditions++;
         continue;
       }
       if (existing && existing !== NOT_ASSESSED_KPI_VALUE) baselineOutsideCatalogue++;
       const candidates = entries.get(row.changeId)?.get(field) ?? [];
       const supported = [...new Set(candidates.filter(c => c.supported).map(c => c.value))];
-      const reason = supported.length > 1 ? 'conflicting_approvals' : supported.length ? 'supported' :
+      const reason = editionConflicts.has(row.changeId) ? 'archived_edition_conflict' : supported.length > 1 ? 'conflicting_approvals' : supported.length ? 'supported' :
         candidates.length ? 'no_supported_decision' : 'no_valid_proposal';
       cells.push({ changeId: row.changeId, snapshotId: row.snapshotId, field, baselineValue: existing, reason,
         value: reason === 'supported' ? supported[0] : null });
@@ -156,8 +167,14 @@ export function assessArchivedKpis(cohort: unknown, archive: unknown, proposals:
   const denominator = analyses.length * KPI_FIELD_KEYS.length;
   const newlySupported = cells.filter(c => c.value !== null).length;
   const assessedAfterReview = baselineAssessed + newlySupported;
+  const baselineAfterEditionCheck = baselineAssessed - baselineAssessedOnConflictingEditions;
+  const assessedAfterEditionCheck = baselineAfterEditionCheck + newlySupported;
+  const firstCountOver90 = Math.floor(denominator * 9 / 10) + 1;
   return { schema: 'pw-retro-kpi-report-1', denominator, baselineAssessed, baselineOutsideCatalogue,
-    baselineNotAssessed: denominator - baselineAssessed - baselineOutsideCatalogue, newlySupported, assessedAfterReview,
-    unresolved: denominator - assessedAfterReview, minimumAdditionalForOver90: Math.max(0, Math.floor(denominator * 9 / 10) + 1 - assessedAfterReview),
+    baselineAfterEditionCheck, assessedAfterEditionCheck, over90AfterEditionCheck: assessedAfterEditionCheck >= firstCountOver90,
+    minimumAdditionalForOver90AfterEditionCheck: Math.max(0, firstCountOver90 - assessedAfterEditionCheck),
+    baselineNotAssessed: denominator - baselineAssessed - baselineOutsideCatalogue, baselineAssessedOnConflictingEditions,
+    editionConflicts: [...editionConflicts].map(([changeId, evidence]) => ({ changeId, ...evidence })), newlySupported, assessedAfterReview,
+    unresolved: denominator - assessedAfterReview, minimumAdditionalForOver90: Math.max(0, firstCountOver90 - assessedAfterReview),
     over90Percent: assessedAfterReview * 10 > denominator * 9, findings, cells };
 }

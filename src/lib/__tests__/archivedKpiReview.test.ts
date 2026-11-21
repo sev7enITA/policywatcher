@@ -117,3 +117,36 @@ describe('archived KPI candidate retrieval', () => {
     expect(() => retrieveArchivedKpiEvidence(cohort, { [sha256]: 'changed' })).toThrow('archive_digest_mismatch');
   });
 });
+
+describe('source edition expressed by the archived introduction', () => {
+  const europeanRule = 'These Terms of Use apply if you reside in the European Economic Area (EEA), Switzerland, or UK.';
+  function check(body: string, edition = 'Global') {
+    const digest = qualificationDigest(body);
+    const row = { ...analysis, sha256: digest, source: { ...analysis.source, edition } };
+    const input = { ...cohort, analyses: [row] };
+    const phrase = 'We delete records after three years.';
+    const start = Array.from(body.slice(0, body.indexOf(phrase))).length;
+    const candidate = { ...proposal, edition, sha256: digest, quotes: [{ start, end: start + phrase.length, text: phrase }] };
+    const archive = { [digest]: body };
+    return { review: assessArchivedKpis(input, archive, [candidate], []), retrieval: retrieveArchivedKpiEvidence(input, archive) };
+  }
+  it('blocks an explicitly European edition attached to a Global record, even with a literal KPI citation', () => {
+    const body = 'Updated: January 16, 2026\n\n# Europe Terms of Use\n\n' + europeanRule + '\n' + text;
+    const { review, retrieval } = check(body);
+    expect(review.findings[0].outcome).toBe('archived_edition_conflict');
+    expect(review.cells.every(c => c.reason === 'archived_edition_conflict')).toBe(true);
+    expect(review).toMatchObject({ baselineAssessed: 13, baselineAssessedOnConflictingEditions: 13, baselineAfterEditionCheck: 0,
+      assessedAfterEditionCheck: 0, minimumAdditionalForOver90AfterEditionCheck: 14, over90AfterEditionCheck: false });
+    expect(review.editionConflicts[0]).toMatchObject({ applicability: europeanRule });
+    expect(retrieval.candidates.every(c => c.outcome === 'archived_edition_conflict' && !c.quotes.length)).toBe(true);
+    expect(check(body, 'EU').review.findings[0].outcome).toBe('awaiting_review');
+  });
+  it.each([
+    '# Global Terms of Use\n\n## Regional provisions\n' + europeanRule,
+    '# Terms of Use\n\nWe operate worldwide.\n\n# Europe Terms of Use\n' + europeanRule,
+    '# Europe Terms of Use\n\nThese Terms of Use apply if you reside in the EEA, UK or any other country.',
+    '# Europe Terms of Use\n\n## Foreign supplements\n' + europeanRule,
+  ])('keeps regional mentions and open-ended lists available for independent review', intro => {
+    expect(check(intro + '\n' + text).review.findings[0].outcome).toBe('awaiting_review');
+  });
+});

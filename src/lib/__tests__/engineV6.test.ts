@@ -104,6 +104,16 @@ describe('V6 evidence contracts', () => {
     expect(body.html).toBe(html);
     expect(acquisition.assessCapture(body, contract, fixtureUrl).eligible).toBe(true);
   });
+  it('retains a publisher’s eligibility notice before the first title in a nested article', () => {
+    const html = '<div role="main"><div id="main-content" role="article"><div><div>' +
+      '<div>The <a href="/terms">revised terms</a> replace this agreement except for partners with a signed agreement.</div>' +
+      '<h1>Additional Terms of Service</h1><p>To use the services that reference these terms, please read the following clauses.</p>' +
+      '</div></div></div></div>';
+    const body = acquisition.extractEngineBody(html, fixtureUrl);
+    const notice = 'The revised terms replace this agreement except for partners with a signed agreement.';
+    expect(body.document.text.split(notice)).toHaveLength(2);
+    expect(body.document.text.indexOf(notice)).toBeLessThan(body.document.text.indexOf('# Additional Terms of Service'));
+  });
   it('retains table captions and native disclosure summaries without duplicating rows', () => {
     const html = `<html lang="en"><main><h1>Privacy Policy</h1><p>${'Context about the policy and the scope of these terms. '.repeat(3)}</p><table><caption>Adults only</caption><tr><th>Purpose</th><th>Consent</th></tr><tr><td>Training</td><td>No</td></tr></table><details><summary>Exception for children</summary><p>Training is never allowed for children.</p></details></main></html>`;
     const body = acquisition.extractEngineBody(html, fixtureUrl);
