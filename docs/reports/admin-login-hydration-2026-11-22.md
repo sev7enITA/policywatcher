@@ -43,3 +43,6 @@ assert subprocess.run(command).returncode == 0
 ```
 
 The browser fixture is retained locally at `output/admin-login-hydration/browser-fixture-retained.mjs`; its exact hash is in the receipt. Its scope is actual React SSR/hydration with explicit framework/network stubs, not a full hosted Next application, visual/a11y certification, real credential validation or production deployment. The separate private r3 post-login cookie/redirect issue remains undiagnosed and is not attributed to this change. No private r3 file, environment, database or deployment was modified.
+
+
+Subsequent root UI diagnosis,22November03:43UTC: private r3 authentication and normal hosting JavaScript handshake succeeded. The UI automatically redirected to/admin/engine; an earlier QA expectation had incorrectly required/admin. Three saved runs, one expanded run and one held frozen observation were read through the real interface. No separate private cookie/redirect defect is established. This does not change the independently reproduced hydration defect or claim that its fix is already deployed. See the combined rendered-admin-ui receipt in the demo audit.

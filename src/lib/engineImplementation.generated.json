@@ -423,7 +423,7 @@
     ],
     [
       "src/lib/release.ts",
-      "a8bfc738eed3d7b42d27bf6c3e173f0b884614cbe3bfa533de7fc946ef0d8387"
+      "655f5514fc01e2dc2f2515d83be91fe45d2c83a1776ea5a46ed64befe766e533"
     ],
     [
       "src/lib/requestBody.ts",
@@ -490,5 +490,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "fdf0f6ed9ec8ed54d3483ee959b7ac1258a797331d3e733784299d2a54604298"
+  "hash": "1832fcbfe1bc668b88f55da44e94e05abf3cc12ae7cea9228eea4be1003fd5d4"
 }

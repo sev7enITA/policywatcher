@@ -1,0 +1,12 @@
+{
+  "scope": "Read-only discovery; no pairing, signing, key export, account/team selection or upload.",
+  "deviceDiscoveryStatus": "json_received",
+  "deviceCount": 15,
+  "validSigningIdentities": 4,
+  "connectionStates": {
+    "disconnected": 13,
+    "unavailable": 2
+  },
+  "sameMachineTransportRecords": 13,
+  "interpretation": "Known/paired records do not establish a connected physical device. Four valid signing identities are present, but team/publisher/bundle ownership has not been selected or verified. No key or identity subject is exported."
+}

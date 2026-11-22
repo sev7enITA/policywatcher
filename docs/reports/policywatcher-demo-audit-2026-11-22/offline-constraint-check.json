@@ -1,0 +1,20 @@
+{
+  "at": "2026-11-22T03:47:32.781Z",
+  "scope": "Unix IPC scoped to task-user TSX directory; all TCP/IP denied by OS. No public network attempted.",
+  "checks": [
+    {
+      "name": "scoped_unix_ipc",
+      "passed": true
+    },
+    {
+      "name": "tcp_loopback_bind_denied",
+      "code": "EPERM",
+      "passed": true
+    },
+    {
+      "name": "tcp_loopback_connect_denied",
+      "code": "EPERM",
+      "passed": true
+    }
+  ]
+}

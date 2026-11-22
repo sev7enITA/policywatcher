@@ -1,0 +1,369 @@
+{
+  "stableObservationStartedAt": "2026-11-22T03:37:58.704Z",
+  "stablePages": [
+    {
+      "target": "stable",
+      "path": "/admin",
+      "httpRendered": true,
+      "title": "PolicyWatcher - AI Policy Change Monitor",
+      "headings": [
+        "Operational dashboard",
+        "Operational Action Center",
+        "Source remediation issues open",
+        "Module status",
+        "Dataset QA",
+        "Database",
+        "Webhook delivery",
+        "VPS services",
+        "Investor access",
+        "Recent grants",
+        "Source reliability",
+        "Evidence funnel",
+        "Policy Risk Profiles",
+        "Press Newsroom Measurement",
+        "Editorial intent and access signals",
+        "System Status",
+        "Environment Readiness",
+        "Dashboard measurement"
+      ],
+      "summaries": [
+        "Open text table equivalent",
+        "Open text table equivalent"
+      ],
+      "overflow": 0,
+      "screenshot": "stable-admin.png",
+      "funnelVisible": true,
+      "count113": true
+    },
+    {
+      "target": "stable",
+      "path": "/admin/dataset-quality",
+      "httpRendered": true,
+      "title": "PolicyWatcher - AI Policy Change Monitor",
+      "headings": [
+        "Dataset QA",
+        "Human-reviewed evidence",
+        "Dataset QA Status",
+        "Dataset Inventory",
+        "Quality Gates",
+        "Issue Queue"
+      ],
+      "summaries": [],
+      "overflow": 0,
+      "screenshot": "stable-admin-dataset-quality.png",
+      "dataset": {
+        "http": 200,
+        "summary": {
+          "status": "fail",
+          "qualityScore": 90.5,
+          "companies": 18,
+          "policies": 113,
+          "snapshots": 281,
+          "changes": 150,
+          "checkLogs": 7196,
+          "policiesWithCheckLogs": 113,
+          "criticalIssues": 1,
+          "warningIssues": 161,
+          "infoIssues": 4,
+          "returnedIssues": 166,
+          "maxIssuesReturned": 250,
+          "openIssues": 14,
+          "reviewedIssues": 152,
+          "ignoredIssues": 0,
+          "stalePolicies": 7,
+          "hashFailures": 0,
+          "kpiCoveragePct": 79.8,
+          "regionCoveragePct": 100,
+          "regionValidityPct": 99.4,
+          "jsonCoveragePct": 100,
+          "latestChangeAt": "2026-11-20T19:43:46.525Z",
+          "latestPolicyUpdateAt": "2026-11-21T19:41:29.720Z"
+        }
+      }
+    },
+    {
+      "target": "stable",
+      "path": "/admin/vps-services",
+      "httpRendered": true,
+      "title": "PolicyWatcher - AI Policy Change Monitor",
+      "headings": [
+        "VPS Services",
+        "Renderer VPS",
+        "Live Health",
+        "Configuration Gate",
+        "Render Smoke Result",
+        "Operating Notes",
+        "VPS Operations Agent",
+        "Agent State",
+        "Agent Gate",
+        "Managed Renderer Release",
+        "Recovery Actions",
+        "Agent Operation Ledger"
+      ],
+      "summaries": [],
+      "overflow": 0,
+      "screenshot": "stable-admin-vps-services.png"
+    },
+    {
+      "target": "stable",
+      "path": "/admin/production-verification",
+      "httpRendered": true,
+      "title": "PolicyWatcher - AI Policy Change Monitor",
+      "headings": [
+        "Production Verification",
+        "Authenticated verification session",
+        "Production runtime and canonical HTTPS origin",
+        "Operational and session secret separation",
+        "Post-deploy database readiness",
+        "Live security-header boundary",
+        "Deployed release identity",
+        "Authoritative publication-readiness contract",
+        "Protected database readiness rejects an unauthenticated request.",
+        "Operational health rejects an unauthenticated request.",
+        "Independent dynamic security test"
+      ],
+      "summaries": [],
+      "overflow": 0,
+      "screenshot": "stable-admin-production-verification.png",
+      "verificationStatus": "attention",
+      "checkStates": [
+        "passed",
+        "passed",
+        "passed",
+        "passed",
+        "passed",
+        "passed",
+        "passed",
+        "passed",
+        "passed",
+        "external"
+      ]
+    }
+  ],
+  "stableOutcome": "Four rendered pages; dataset fail and independent security external remain visible. Combined early runner did not correctly handle private automatic redirect.",
+  "preview": {
+    "at": "2026-11-22T03:43:36.518Z",
+    "events": [
+      {
+        "path": "/admin/login",
+        "status": 403
+      },
+      {
+        "path": "/hcdn-cgi/jschallenge",
+        "status": 200
+      },
+      {
+        "path": "/hcdn-cgi/jschallenge-validate",
+        "status": 200
+      },
+      {
+        "path": "/admin/login",
+        "status": 200
+      },
+      {
+        "path": "/api/admin/auth",
+        "status": 200,
+        "auth": {
+          "success": true,
+          "role": "admin"
+        }
+      },
+      {
+        "path": "/admin",
+        "status": 307
+      },
+      {
+        "path": "/admin/engine",
+        "status": 307
+      },
+      {
+        "path": "/admin/engine",
+        "status": 200
+      },
+      {
+        "path": "/admin/engine",
+        "status": 200
+      },
+      {
+        "requestFailed": "/admin/cron",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "requestFailed": "/admin/webhook-delivery",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "requestFailed": "/admin/engine",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "requestFailed": "/favicon.ico",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "requestFailed": "/admin/source-reliability",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "requestFailed": "/api/admin/metrics",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "requestFailed": "/api/admin/engine",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "requestFailed": "/_next/image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "path": "/api/admin/auth",
+        "status": 200,
+        "nonJson": true
+      },
+      {
+        "path": "/api/admin/auth",
+        "status": 200,
+        "auth": {
+          "role": "admin"
+        }
+      },
+      {
+        "path": "/admin",
+        "status": 307
+      },
+      {
+        "path": "/admin/cron",
+        "status": 200
+      },
+      {
+        "path": "/admin/source-reliability",
+        "status": 200
+      },
+      {
+        "path": "/admin/webhook-delivery",
+        "status": 200
+      },
+      {
+        "path": "/admin/engine",
+        "status": 307
+      },
+      {
+        "path": "/admin/evidence-quality",
+        "status": 200
+      },
+      {
+        "path": "/admin/vps-services",
+        "status": 200
+      },
+      {
+        "path": "/admin/database",
+        "status": 200
+      },
+      {
+        "path": "/admin/engine",
+        "status": 200
+      },
+      {
+        "path": "/admin/kpi-audit",
+        "status": 200
+      },
+      {
+        "path": "/admin/production-verification",
+        "status": 200
+      },
+      {
+        "path": "/admin/dataset-quality",
+        "status": 200
+      },
+      {
+        "path": "/admin/explainability",
+        "status": 200
+      },
+      {
+        "path": "/admin/review-log",
+        "status": 200
+      },
+      {
+        "path": "/admin/executive-study",
+        "status": 200
+      },
+      {
+        "path": "/admin/cron",
+        "status": 200
+      },
+      {
+        "path": "/admin/source-reliability",
+        "status": 200
+      },
+      {
+        "path": "/admin/webhook-delivery",
+        "status": 200
+      }
+    ],
+    "scope": "Normal login UI diagnostic, only existing account, no manual challenge solving or scan",
+    "clientValidationObserved": true,
+    "fieldsFilled": {
+      "username": true,
+      "password": true
+    },
+    "finalUrl": "https://staging.policywatcher.online/admin/engine",
+    "cookies": [
+      {
+        "name": "hcdn",
+        "domain": "staging.policywatcher.online",
+        "path": "/",
+        "secure": true,
+        "httpOnly": true,
+        "sameSite": "None"
+      },
+      {
+        "name": "pw_admin_session",
+        "domain": "staging.policywatcher.online",
+        "path": "/",
+        "secure": true,
+        "httpOnly": true,
+        "sameSite": "Strict"
+      }
+    ],
+    "heading": [],
+    "status": "login_passed",
+    "engineHeadings": [
+      "Engine 6 Preview",
+      "6.0 Preview \u00b7 separate private environment",
+      "Coverage and evidence",
+      "Start a durable run",
+      "Saved runs",
+      "Evidence reviews and observations (3)",
+      "Review a source contract"
+    ],
+    "runSummaries": [
+      "Implementation identity",
+      "11/7/2026, 4:00:32 PM \u00b7 observe \u00b7 completed \u00b7 4/4 policies",
+      "11/6/2026, 7:26:19 AM \u00b7 observe \u00b7 completed \u00b7 4/4 policies",
+      "11/1/2026, 11:19:59 PM \u00b7 observe \u00b7 completed \u00b7 4/4 policies"
+    ],
+    "savedRunCount": 3,
+    "savedRunOpened": true,
+    "savedTableRows": 8,
+    "frozenReviewButtons": 3,
+    "frozenEvidenceOpened": true,
+    "completedAt": "2026-11-22T03:43:42.697Z"
+  },
+  "scope": "Owned application acceptance in isolated Chrome Beta; no scan/render/enqueue/approval/publication/notification. Normal observed hosting JS handshake was allowed; no manual CAPTCHA solved.",
+  "retainedInitialFailures": {
+    "stableEarlyLoginAttempts": 2,
+    "symptom": "Values entered before hydration cleared; no authentication POST. Independent local parent/fix reproduction in admin-login-hydration report.",
+    "privateRedirectMisclassification": "A successful authentication redirected to /admin/engine; the first runner incorrectly required /admin. Earlier normal hosting JS handshake POST had also been blocked by the QA guard. Both attempt receipts retained locally."
+  },
+  "screenshotHashes": {
+    "stable-admin.png": "eb9efa0bcd062d3d9027126d35452fca0a30180a02d8bfd55857b59f1e446ab1",
+    "stable-admin-production-verification.png": "649dbad7991b08ef0516b522c61b656824bec670cbeafcfd92c13e52e5b085c1",
+    "preview-login-failed.png": "bd8c712052ba1e5d27436464cdf23be1ae128177970c497c92b8bf8a28833174",
+    "stable-admin-vps-services.png": "244c7131cd08a027a99dcc9115069f78b8a7a648463721c0d6d256629fbb5eef",
+    "stable-login-failed.png": "b99ea61e1ee3edc509bd83d4ea825058d025ea6dd269d4296f95d97169192347",
+    "preview-login-diagnostic.png": "43eecba28a6219b483f046e673d88abfe8498a246477ebaf14ceda8d5246f589",
+    "stable-admin-dataset-quality.png": "f6ec60ae7d59329695da44dff1f98069fcf00b017bf91cab8478e9082e821506",
+    "preview-engine-diagnostic.png": "eec2a7058390794b0cab73288b0f23b9efc708ebfccd313db09af54770d84352"
+  }
+}

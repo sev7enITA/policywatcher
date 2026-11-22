@@ -1,0 +1,82 @@
+{
+  "at": "2026-11-22T03:48:35.476212+00:00",
+  "scope": "Read-only private database/config after direct UI navigation; compare with03:03UTC restored snapshot. Hashes only, no rows exported. Authentication/worker operational tables outside selected evidence set are not claimed unchanged.",
+  "implementationHash": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+  "selectedTableCount": 14,
+  "tables": {
+    "Policy": {
+      "unchanged": true,
+      "rows": 113,
+      "sha256": "a9f876fe8d583714850428dbea472bb2ab0d66910b4b89655350b32583a66abf"
+    },
+    "PolicySnapshot": {
+      "unchanged": true,
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "PolicyChange": {
+      "unchanged": true,
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "PolicyCheckLog": {
+      "unchanged": true,
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "Subscriber": {
+      "unchanged": true,
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "EngineOutbox": {
+      "unchanged": true,
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "EngineSourceContract": {
+      "unchanged": true,
+      "rows": 1,
+      "sha256": "94d1b21930caf7cdf51394003c10e2ebffcd5442493057f2e0fcdb7bf1304410"
+    },
+    "ExtractionBaseline": {
+      "unchanged": true,
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "EngineRun": {
+      "unchanged": true,
+      "rows": 3,
+      "sha256": "8c91d098a6d5ea678748f41686169aa4ad34597c5a2f7764a7a276a10eb34d74"
+    },
+    "EngineTask": {
+      "unchanged": true,
+      "rows": 24,
+      "sha256": "6a02f61df1ae36cbb05136f8450f42e06e0b1882c130e19c410f9c28679bb19f"
+    },
+    "EngineReview": {
+      "unchanged": true,
+      "rows": 6,
+      "sha256": "66d3f9dbbe4ee9c89d9a74731f8117d867a60beddd0a3a0b341cec470077a2df"
+    },
+    "EngineArtifact": {
+      "unchanged": true,
+      "rows": 4,
+      "sha256": "e497519746aee70c78b940a565f35faf4405b5f1e94a06da3e37c0b73cd9fbdb"
+    },
+    "EngineClaim": {
+      "unchanged": true,
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "EngineClaimEvidence": {
+      "unchanged": true,
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "savedRunsUnchanged": 3,
+  "activeTasks": 0,
+  "publication": false,
+  "notifications": false
+}

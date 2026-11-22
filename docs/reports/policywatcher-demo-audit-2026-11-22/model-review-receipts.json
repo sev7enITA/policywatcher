@@ -36,6 +36,20 @@
       "localReceipt": "lmstudio-qwen-uncensored-final-ui.txt",
       "bytes": 8082,
       "sha256": "72edd3f753434ca20547e0d0c006d23526bce62c88c51ea6280a1c84c464a37b"
+    },
+    {
+      "model": "GLM-5.3 Max, ZCode native renderer-design challenge",
+      "status": "Completed advisory follow-up; summary-based, not patch execution or approval",
+      "localReceipt": "glm-renderer-challenge-ui.txt",
+      "bytes": 37168,
+      "sha256": "234da5556d3ad39e86a38ed8a49a09f17bc453c0431830f68ca77cf7c63ee96f"
+    },
+    {
+      "model": "Orchestrator Gemini4 Neon Extra High, native renderer-design challenge",
+      "status": "Completed advisory follow-up; summary-based, not patch execution or approval",
+      "localReceipt": "gemini-renderer-challenge-ui.txt",
+      "bytes": 29190,
+      "sha256": "297b27518362080281e5b61cdb2dbd0dc6f371773399af4e319dc6177c933218"
     }
   ]
 }
