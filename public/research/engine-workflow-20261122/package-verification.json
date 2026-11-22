@@ -18,5 +18,9 @@
   "browserRenderingPerformedByPackager": false,
   "hostingOrDeploymentPerformedByPackager": false,
   "documentationPublicationIndependentOfEngineDeployment": true,
+  "staticLanguageUisRequireJavaScript": false,
+  "standaloneItalianCopyIncluded": true,
+  "hostedInteractiveApplicationRoute": "/engine-6-preview/workflow?lang=it",
+  "zipSelfReferenceOnly": "ZIP itself excluded; individual local assets remain available after extraction",
   "receiptScope": "Static packaging checks; historical browser/build/model receipts remain separately scoped."
 }
