@@ -1,0 +1,8 @@
+{
+  "checkedAt": "2026-11-22T03:49:45.134619+00:00",
+  "mutation": "Restore old centralized English Chrome/Edge published summary",
+  "expectedNonzeroExit": 1,
+  "scope": "Release identity expectation, consent-granted homepage/Press Kit render, and privacy policy actual consumer",
+  "network": "OS denied",
+  "sourceRestored": true
+}

@@ -1,0 +1,16 @@
+:root { color-scheme: light dark; font: -apple-system-body; }
+* { box-sizing: border-box; }
+body { margin: 0; background: Canvas; color: CanvasText; }
+main { max-width: 46rem; margin: auto; padding: max(1.5rem, env(safe-area-inset-top)) max(1.25rem, env(safe-area-inset-right)) max(2rem, env(safe-area-inset-bottom)) max(1.25rem, env(safe-area-inset-left)); }
+h1 { margin: .4rem 0; font-size: 2rem; }
+h2 { font-size: 1.4rem; }
+p, li { line-height: 1.6; overflow-wrap: anywhere; }
+li { margin-bottom: .75rem; }
+ol { padding-left: 1.3rem; }
+section { padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid GrayText; }
+.badge { font-size: .8rem; font-weight: 700; letter-spacing: .04em; }
+.limit { border-inline-start: .25rem solid #8c6e00; padding-inline-start: 1rem; }
+nav { display: grid; gap: .5rem; }
+a { min-height: 44px; display: flex; align-items: center; padding: .65rem .8rem; border: 1px solid GrayText; border-radius: .5rem; color: LinkText; }
+a:focus-visible { outline: 3px solid Highlight; outline-offset: 3px; }
+img { border-radius: 1rem; }

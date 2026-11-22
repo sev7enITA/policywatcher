@@ -1,0 +1,50 @@
+{
+  "checkedAt": "2026-11-22T03:16:15.920Z",
+  "rows": [
+    {
+      "width": 320,
+      "lang": "en",
+      "url": "http://127.0.0.1:4517/what-changed",
+      "canonical": "https://policywatcher.online/what-changed",
+      "htmlLang": "en",
+      "noticeCompanyDatesAndUrlPreserved": true,
+      "historyReplaced": true,
+      "policyInquirySubmissions": 0,
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "lang": "it",
+      "url": "http://127.0.0.1:4517/what-changed?lang=it",
+      "canonical": "https://policywatcher.online/what-changed?lang=it",
+      "htmlLang": "it",
+      "noticeCompanyDatesAndUrlPreserved": true,
+      "historyReplaced": true,
+      "policyInquirySubmissions": 0,
+      "overflow": 0
+    },
+    {
+      "width": 1366,
+      "lang": "en",
+      "url": "http://127.0.0.1:4517/what-changed",
+      "canonical": "https://policywatcher.online/what-changed",
+      "htmlLang": "en",
+      "noticeCompanyDatesAndUrlPreserved": true,
+      "historyReplaced": true,
+      "policyInquirySubmissions": 0,
+      "overflow": 0
+    },
+    {
+      "width": 1366,
+      "lang": "it",
+      "url": "http://127.0.0.1:4517/what-changed?lang=it",
+      "canonical": "https://policywatcher.online/what-changed?lang=it",
+      "htmlLang": "it",
+      "noticeCompanyDatesAndUrlPreserved": true,
+      "historyReplaced": true,
+      "policyInquirySubmissions": 0,
+      "overflow": 0
+    }
+  ],
+  "failures": []
+}

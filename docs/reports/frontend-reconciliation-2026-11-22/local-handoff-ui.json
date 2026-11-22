@@ -1,0 +1,80 @@
+{
+  "checkedAt": "2026-11-22T03:04:36.080Z",
+  "rows": [
+    {
+      "route": "atlas",
+      "width": 320,
+      "lang": "it",
+      "overflow": 0,
+      "canonicalMatchesLanguage": true,
+      "headerNoticeLanguage": true,
+      "footerPlanningLanguage": true
+    },
+    {
+      "route": "atlas",
+      "width": 1366,
+      "lang": "it",
+      "overflow": 0,
+      "canonicalMatchesLanguage": true,
+      "headerNoticeLanguage": true,
+      "footerPlanningLanguage": true
+    },
+    {
+      "route": "feature-atlas",
+      "width": 320,
+      "lang": "it",
+      "overflow": 0,
+      "canonicalMatchesLanguage": true,
+      "headerNoticeLanguage": true,
+      "footerPlanningLanguage": true
+    },
+    {
+      "route": "feature-atlas",
+      "width": 1366,
+      "lang": "it",
+      "overflow": 0,
+      "canonicalMatchesLanguage": true,
+      "headerNoticeLanguage": true,
+      "footerPlanningLanguage": true
+    },
+    {
+      "route": "roadmap",
+      "width": 320,
+      "lang": "it",
+      "overflow": 0,
+      "canonicalMatchesLanguage": true,
+      "headerNoticeLanguage": true,
+      "footerPlanningLanguage": true
+    },
+    {
+      "route": "roadmap",
+      "width": 1366,
+      "lang": "it",
+      "overflow": 0,
+      "canonicalMatchesLanguage": true,
+      "headerNoticeLanguage": true,
+      "footerPlanningLanguage": true
+    },
+    {
+      "route": "what-changed",
+      "width": 320,
+      "lang": "it",
+      "overflow": 0,
+      "canonicalMatchesLanguage": true,
+      "headerNoticeLanguage": true,
+      "footerPlanningLanguage": true,
+      "extensionHandoff": true
+    },
+    {
+      "route": "what-changed",
+      "width": 1366,
+      "lang": "it",
+      "overflow": 0,
+      "canonicalMatchesLanguage": true,
+      "headerNoticeLanguage": true,
+      "footerPlanningLanguage": true,
+      "extensionHandoff": true
+    }
+  ],
+  "failures": []
+}

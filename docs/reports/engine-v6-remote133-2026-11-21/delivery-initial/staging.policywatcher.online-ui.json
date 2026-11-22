@@ -1,0 +1,46 @@
+{
+  "host": "staging.policywatcher.online",
+  "at": "2026-11-22T02:33:50.626Z",
+  "rows": [
+    {
+      "lang": "it",
+      "width": 390,
+      "firstDisplay": "inline",
+      "stylesheetWaitMs": 198,
+      "links": 8,
+      "minimumLinkHeight": 44,
+      "focusMovedAndVisible": true,
+      "overflow": 0
+    },
+    {
+      "lang": "it",
+      "width": 1366,
+      "firstDisplay": "inline",
+      "stylesheetWaitMs": 91,
+      "links": 8,
+      "minimumLinkHeight": 44,
+      "focusMovedAndVisible": true,
+      "overflow": 0
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "firstDisplay": "inline",
+      "stylesheetWaitMs": 368,
+      "links": 8,
+      "minimumLinkHeight": 44,
+      "focusMovedAndVisible": true,
+      "overflow": 0
+    },
+    {
+      "lang": "en",
+      "width": 1366,
+      "firstDisplay": "inline",
+      "stylesheetWaitMs": 32,
+      "links": 8,
+      "minimumLinkHeight": 44,
+      "focusMovedAndVisible": true,
+      "overflow": 0
+    }
+  ]
+}

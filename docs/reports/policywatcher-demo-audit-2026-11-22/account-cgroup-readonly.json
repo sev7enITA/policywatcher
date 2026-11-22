@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-11-22T02:45:34.839063+00:00",
+  "limits": {
+    "pids.pids.max": "unavailable",
+    "pids.pids.current": "unavailable",
+    "memory.memory.limit_in_bytes": "unavailable",
+    "memory.memory.usage_in_bytes": "unavailable",
+    "memory.memory.failcnt": "unavailable",
+    "cpu.cpu.cfs_quota_us": "unavailable",
+    "cpu.cpu.cfs_period_us": "unavailable"
+  }
+}

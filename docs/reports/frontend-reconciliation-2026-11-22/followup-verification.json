@@ -1,0 +1,49 @@
+{
+  "recordedAt": "2026-11-22T03:17:37.704650+00:00",
+  "parentCommit": "9156f46ffb0c1a3ff603c5fad62a419c6a276784",
+  "fixes": [
+    "Latest-research headings no longer assume the previous release topic.",
+    "Same-page notice-form language navigation preserves draft state while aligning URL, HTML language and canonical metadata."
+  ],
+  "offlineTests": {
+    "suites": 9,
+    "passed": 75,
+    "osNetworkDenied": true,
+    "logSha256": "68d28dc4092d3ab5a01ca9ed14bc49afb5ac4344dfbf9b7c06674a47837b9036"
+  },
+  "renderedEngineConsumerTests": {
+    "languages": [
+      "en",
+      "it"
+    ],
+    "negativeControlFailures": 2,
+    "notebookDatePreserved": "2026-11-21"
+  },
+  "languageSwitchUi": {
+    "widths": [
+      320,
+      1366
+    ],
+    "transitions": 4,
+    "directions": "IT to EN to IT",
+    "draftFieldsPreserved": [
+      "notice text",
+      "company",
+      "notice date",
+      "effective date",
+      "policy URL"
+    ],
+    "urlHtmlAndCanonicalAgree": true,
+    "historyLengthUnchanged": true,
+    "policyInquirySubmissions": 0
+  },
+  "independentSourceReview": {
+    "reviewer": "parallel backend audit agent",
+    "osNetworkDeniedTestsPassed": 75,
+    "blockingFindings": 0,
+    "externalSecurityAssessment": false
+  },
+  "sourceTypecheck": "passed",
+  "scopedEslint": "passed",
+  "deliveryBoundary": "Source and isolated local UI only. No deployment, scan or Apple submission."
+}

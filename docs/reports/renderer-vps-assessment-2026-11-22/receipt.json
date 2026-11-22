@@ -1,0 +1,85 @@
+{
+  "checkedAt": "2026-11-22T03:59:50.502259+00:00",
+  "runtimeSourceCommit": "3276336aedff3923a21cbf642e1f303ea53efd8b",
+  "baseCommit": "4fd791e19b1b1ca68f6ec57d7d84ee1c829f17b4",
+  "rendererVersion": "1.2.1",
+  "runtimeStatus": "local_candidate_not_deployed",
+  "productVersion": "5.5.0",
+  "vpsAgentVersion": "0.2.1",
+  "tests": {
+    "existingBaselineNodeTests": 12,
+    "finalNodeTests": 28,
+    "newHttpAndRecoveryCases": 16,
+    "network": "OS denies network except localhost IP sockets; actual DNS/Chromium boundaries stubbed",
+    "negativeAdmissionExit": 1,
+    "negativeRecoveryExit": 1,
+    "fixedAdmissionExit": 0,
+    "fixedRecoveryExit": 0,
+    "lint": "passed",
+    "whitespace": "passed"
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "priority": "P1",
+      "name": "Admission race before awaited body/DNS",
+      "state": "fixed_locally_pending_review_and_staging",
+      "parent": "capacity1 active2, two200 responses",
+      "candidate": "capacity1 active1, responses200/429"
+    },
+    {
+      "id": "R2",
+      "priority": "P1",
+      "name": "Rejected Chromium launch promise stays cached",
+      "state": "fixed_locally_pending_review_and_staging",
+      "parent": "two503, one launch attempt",
+      "candidate": "initial503 then200, two launch attempts"
+    },
+    {
+      "id": "A1",
+      "priority": "P2",
+      "name": "Agent subprocesses have output caps but no execution deadline",
+      "state": "source_review_risk_not_exercised_as_failure"
+    },
+    {
+      "id": "A2",
+      "priority": "P2",
+      "name": "Agent restart readiness uses liveness; smoke checks response HTML length, not source success",
+      "state": "source_review_limit_not_semantic_qualification"
+    },
+    {
+      "id": "R3",
+      "priority": "P2",
+      "name": "Playwright page routing is not complete socket egress enforcement",
+      "state": "documented_residual_boundary_requires_network_level_and_browser_route_qualification"
+    },
+    {
+      "id": "R4",
+      "priority": "P2",
+      "name": "Target log redaction does not sanitize arbitrary exception message text",
+      "state": "source_review_hardening_gap_no_real_secret_leak_demonstrated"
+    }
+  ],
+  "infrastructureScope": {
+    "hostingerAccount": "Earlier bounded SSH observation is a shared CloudLinux account, not proof of dedicated renderer VPS allocation. No new SSH performed in this phase.",
+    "rendererReadiness": "Earlier authenticated HTTP200 v1.2.0 readiness is a point-in-time browser/configuration observation; no capacity or uninterrupted supervision claim. No remote endpoint used in this phase.",
+    "vpsMetadata": "Historical architecture v3.5.1 names187.124.184.225, render.policywatcher.online and ops.policywatcher.online; no verified current SSH identity/allocation/systemd state inferred, no connection attempted.",
+    "operationsAgent": "Earlier product configuration probe found operations-agent integration absent. This review does not establish whether an Agent exists elsewhere."
+  },
+  "artifact": {
+    "path": "/Users/fabriziodegni/Projects/PolicyWatcher-renderer-admission-20261122/output/renderer-1.2.1/artifact/PolicyWatcher-renderer-1.2.1-vps-2026-11-22-local-candidate.zip",
+    "sha256": "ca3a96c560b6f3300e4e46fc43541e30e0087443731e3e9b500915be2ab53095",
+    "sourceRevision": "3276336aedff3923a21cbf642e1f303ea53efd8b",
+    "status": "local_only_not_uploaded_or_deployed",
+    "entries": 6
+  },
+  "notPerformed": [
+    "Remote renderer requests",
+    "SSH to guessed VPS",
+    "service/configuration/schema modification",
+    "real Chromium load benchmark",
+    "Agent install/update/rollback",
+    "full500-policy qualification",
+    "external model review by this reviewer"
+  ]
+}

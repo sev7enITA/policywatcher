@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { renderToStaticMarkup } from 'react-dom/server';
 
 describe('policy inquiry security and admin wiring', () => {
   it('gates public evidence, limits bodies and never sends user input to AI or fetches submitted URLs', () => {
@@ -101,7 +102,7 @@ describe('policy inquiry security and admin wiring', () => {
     expect(styles).not.toContain('overflow-x:hidden');
   });
 
-  it('keeps explainability accessible without putting it in the primary task flow', () => {
+  it('keeps explainability accessible without putting it in the primary task flow', async () => {
     const client = readFileSync('src/app/what-changed/WhatChangedClient.tsx', 'utf8');
     const explainabilityStyles = readFileSync('src/app/what-changed/explainability.module.css', 'utf8');
 
@@ -118,8 +119,18 @@ describe('policy inquiry security and admin wiring', () => {
     }
     expect(client).toContain('Applica il gate QA prima della pubblicazione');
     expect(client).toContain('Apply the QA gate before publication');
-    expect(client).toContain('href="/privacy"');
+    // The detailed disclosure appears only after notice input; preserve its guarded link wiring.
+    expect(client).toContain("<Link href={localizedPublicPath('/privacy', lang)}>{t.privacyDetails}</Link>");
     expect(client).toContain('href="/methodology/confidence"');
+    const { default: Page } = await import('@/app/what-changed/page');
+    for (const lang of ['en', 'it'] as const) {
+      const html = renderToStaticMarkup(await Page({ searchParams: Promise.resolve({ lang }) }));
+      const query = lang === 'it' ? '?lang=it' : '';
+      expect(html).toContain(`href="/privacy${query}"`);
+      // This legacy methodology route toggles language locally and has no query-selected language.
+      expect(html).toContain('href="/methodology/confidence"');
+      expect(html).toContain(lang === 'it' ? 'Verifica di una notifica' : 'Policy notice verification');
+    }
     expect(client).not.toContain('className={styles.rail}');
     expect(client).toContain('explainability.narrowActions');
     expect(explainabilityStyles).toContain('.privacyBoundary');

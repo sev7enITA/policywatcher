@@ -23,3 +23,7 @@ The Git release contains shared source and a reproducible Safari-source ZIP. It 
 ---
 
 Il tool Apple attuale è `safari-web-extension-packager`. Dopo la generazione, assegna in Xcode il Team dello sviluppatore ai target app ed estensione, verifica gli identificativi bundle, prova tutti gli stati in Safari e completa App Privacy in modo coerente con `PRIVACY.md`. Firma, notarizzazione e invio App Store richiedono l’account Apple Developer del publisher e non fanno parte dello ZIP sorgente.
+
+## Local iOS candidate, 22 November 2026
+
+A separate [iOS packaging workflow](../apple/README.md) now generates an iPhone/iPad container, verifies that the Safari runtime matches the eleven reviewed shared files, and supports unsigned simulator/device builds. It excludes documentation/screenshots from extension resources and replaces Apple's default native echo/log handler with an inert handler. The wrapper version is 0.1.0 (1), independently of extension 3.8.3.3. Build receipts must be inspected before reporting a build as completed. This source addition does not change the public Safari store state: signing, actual Safari/device QA and Apple review remain required.

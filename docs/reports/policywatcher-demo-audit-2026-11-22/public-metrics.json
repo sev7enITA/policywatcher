@@ -1,0 +1,83 @@
+{
+  "checkedAt": "2026-11-22T02:50:03.002782+00:00",
+  "public": {
+    "/api/v1/publication-readiness": {
+      "status": 200,
+      "data": {
+        "schema": "https://policywatcher.online/schemas/publication-readiness/v1",
+        "metricId": "publication-readiness",
+        "contractVersion": "1.0.0",
+        "source": "database",
+        "checkedAt": "2026-11-22T02:50:02.577Z",
+        "available": true,
+        "denominator": 113,
+        "stages": [
+          {
+            "id": "configured",
+            "label": "Configured",
+            "count": 113,
+            "denominator": 113,
+            "excluded": 0,
+            "availability": "measured",
+            "definition": "Every policy record in the configured monitoring inventory.",
+            "boundary": null
+          },
+          {
+            "id": "retrieved",
+            "label": "Retrieved",
+            "count": 113,
+            "denominator": 113,
+            "excluded": 0,
+            "availability": "measured",
+            "definition": "Policies with a successful non-seeded check and persisted text or hash evidence.",
+            "boundary": null
+          },
+          {
+            "id": "baseline-verified",
+            "label": "Baseline verified",
+            "count": 113,
+            "denominator": 113,
+            "excluded": 0,
+            "availability": "measured",
+            "definition": "Policies with at least one snapshot explicitly marked as public evidence.",
+            "boundary": null
+          },
+          {
+            "id": "public",
+            "label": "Public",
+            "count": 112,
+            "denominator": 113,
+            "excluded": 1,
+            "availability": "measured",
+            "definition": "Policies that pass the production publication gate for ingestion, status and evidence.",
+            "boundary": null
+          },
+          {
+            "id": "analysed",
+            "label": "Analysed",
+            "count": 59,
+            "denominator": 113,
+            "excluded": 54,
+            "availability": "measured",
+            "definition": "Public-gated policies with at least one change explicitly backed by public evidence.",
+            "boundary": null
+          }
+        ],
+        "latestCapture": {
+          "capturedAt": "2026-11-21T19:41:29.720Z",
+          "availability": "measured",
+          "definition": "Most recent successful non-seeded retrieval with persisted text or hash evidence.",
+          "reason": null
+        },
+        "consistencyWarning": null,
+        "scopeBoundary": "Counts policy records in the configured monitoring inventory. Excluded means a record has not reached that measured stage; it does not by itself identify an error or establish source completeness."
+      }
+    },
+    "/api/v1/manifest": {
+      "status": 200,
+      "data": {
+        "release": "5.5.0"
+      }
+    }
+  }
+}

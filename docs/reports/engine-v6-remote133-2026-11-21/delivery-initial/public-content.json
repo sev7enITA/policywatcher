@@ -1,0 +1,32 @@
+[
+  {
+    "url": "https://policywatcher.online/engine-6-preview?lang=en",
+    "checkedAt": "2026-11-22T02:41:36.031484+00:00",
+    "checks": {
+      "http200": true,
+      "newDatedObservation": true,
+      "same133Denominator": true,
+      "remaining129Holds": true,
+      "offlineRegressionCount": true,
+      "linkedEvidenceReport": true,
+      "stableVersionVisible": true,
+      "originalLanguageMarker": true
+    },
+    "bodySha256": "0b9562f66f374c78ffb14f9f9016aad24bc5924779e7dddc599f6502923276b0"
+  },
+  {
+    "url": "https://policywatcher.online/engine-6-preview?lang=it",
+    "checkedAt": "2026-11-22T02:41:36.453228+00:00",
+    "checks": {
+      "http200": true,
+      "newDatedObservation": true,
+      "same133Denominator": true,
+      "remaining129Holds": true,
+      "offlineRegressionCount": true,
+      "linkedEvidenceReport": true,
+      "stableVersionVisible": true,
+      "originalLanguageMarker": true
+    },
+    "bodySha256": "b78ed4f584f8f7f642002850d6cc8d939457eaa63a3e55987c1a981e698233d0"
+  }
+]

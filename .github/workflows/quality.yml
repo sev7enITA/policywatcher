@@ -39,6 +39,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Verify renderer and VPS Agent controls
+        run: node --test renderer/server.test.mjs renderer/http.test.mjs vps-agent/agent.test.mjs
+
       - name: Install Android companion dependencies
         run: npm ci --prefix mobile/android-companion
 

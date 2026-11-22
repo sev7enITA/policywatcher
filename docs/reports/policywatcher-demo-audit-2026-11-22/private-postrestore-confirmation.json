@@ -1,0 +1,46 @@
+{
+  "context": "post-exact-r3-restoration",
+  "implementationHash": "84085328fffc7b22fac33cc2cbe150120c540b75deda59d3b207c32b768a9a00",
+  "releaseArchiveSha256": "e82ff8ff3fe33275e62475054889cdaf97f1a12d7442bb0ca6d42ec30cf99341",
+  "flags": {
+    "POLICYWATCHER_HOSTED_PREVIEW": "1",
+    "POLICYWATCHER_ENGINE_V6": "1",
+    "POLICYWATCHER_ENGINE_CHANNELS": "1",
+    "POLICYWATCHER_ENGINE_PUBLICATION": "0",
+    "POLICYWATCHER_ENGINE_NOTIFICATIONS": "0"
+  },
+  "configurationPresent": {
+    "RENDERER_URL": false,
+    "RENDERER_SECRET": false,
+    "VPS_AGENT_URL": false,
+    "VPS_AGENT_SECRET": false,
+    "GEMINI_API_KEY": false,
+    "POLICYWATCHER_ENGINE_ANALYST_MODEL": false,
+    "POLICYWATCHER_ENGINE_VERIFIER_MODEL": false
+  },
+  "counts": {
+    "Policy": 113,
+    "PolicySnapshot": 0,
+    "PolicyChange": 0,
+    "EngineRun": 3,
+    "EngineTask": 24,
+    "EngineReview": 6,
+    "EngineSourceContract": 1,
+    "EngineClaim": 0,
+    "EngineClaimEvidence": 0,
+    "EngineOutbox": 0,
+    "ExtractionBaseline": 0
+  },
+  "runGroups": [
+    {
+      "mode": "observe",
+      "notifications": "silent",
+      "status": "completed",
+      "count": 3
+    }
+  ],
+  "activeTasks": 0,
+  "integrity": "ok",
+  "configurationUnchangedDuringProbe": true,
+  "checkedAt": "2026-11-22T03:04:31.747796+00:00"
+}

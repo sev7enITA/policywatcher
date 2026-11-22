@@ -29,6 +29,7 @@ import {
   UserRound,
 } from 'lucide-react';
 import Link from 'next/link';
+import { publicNavigationPath } from '@/lib/seo';
 import {
   POLICYWATCHER_BUILD_LABEL,
   POLICYWATCHER_RELEASE_DATE_LABEL,
@@ -148,7 +149,7 @@ export default function Footer({ lang, variant = 'full', lockLang = false }: Foo
             <Link href={activeLang === 'it' ? '/guides?lang=it' : '/guides'}><FileText size={13} aria-hidden="true" />{activeLang === 'it' ? 'Guide' : 'Guides'}</Link>
             <Link href="/privacy"><Lock size={13} aria-hidden="true" />{t.privacy}</Link>
             <Link href="/terms"><FileText size={13} aria-hidden="true" />{t.terms}</Link>
-            <Link href="/press-kit"><Newspaper size={13} aria-hidden="true" />{t.pressKit}</Link>
+            <Link href={publicNavigationPath('/press-kit', activeLang)}><Newspaper size={13} aria-hidden="true" />{t.pressKit}</Link>
             <Link href="/collections"><FolderKanban size={13} aria-hidden="true" />{t.collections}</Link>
             <Link href="/pulse"><Sparkles size={13} aria-hidden="true" />{t.pulse}</Link>
             <a href="mailto:info@policywatcher.online"><Mail size={13} aria-hidden="true" />{t.contact}</a>
@@ -223,7 +224,7 @@ export default function Footer({ lang, variant = 'full', lockLang = false }: Foo
                 <span>{item.label}</span>
               </a>
             ) : (
-              <Link href={item.href}>
+              <Link href={publicNavigationPath(item.href, activeLang)}>
                 <Icon size={14} aria-hidden="true" />
                 <span>{item.label}</span>
               </Link>

@@ -1,0 +1,11 @@
+{
+  "scope": "Real renderer HTTP admission flow; DNS and Chromium stubbed, listener forced onto isolated loopback ephemeral port; no external target request.",
+  "capacity": 1,
+  "active": 2,
+  "startedContexts": 2,
+  "limitExceeded": true,
+  "responses": [
+    200,
+    200
+  ]
+}

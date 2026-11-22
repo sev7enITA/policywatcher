@@ -1,0 +1,6 @@
+{
+  "mutation": "The shared diary link loses its Italian query parameter while retaining its anchor.",
+  "result": "All three Italian page regressions fail on the missing localized diary href.",
+  "exitCode": 1,
+  "sourceRestored": true
+}

@@ -1,0 +1,496 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-reconciliation-20261116
+      Coverage enabled with v8
+
+(node:26950) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+·································································································································································(node:26948) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+······stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > returns the exact baseline result and makes one network-strategy call
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/legal/privacy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > returns the exact baseline result and makes one network-strategy call
+[Scraper] [OK] Direct fetch OK (3742 chars)
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > returns the exact baseline result and makes one network-strategy call
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/legal/privacy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > returns the exact baseline result and makes one network-strategy call
+[Scraper] [OK] Direct fetch OK (3742 chars)
+
+·········stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > retains the baseline when evidence persistence fails
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/legal/privacy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > retains the baseline when evidence persistence fails
+[Scraper] [OK] Direct fetch OK (3742 chars)
+
+········stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > reserves the observation budget before concurrent acquisitions
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/legal/privacy
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/legal/privacy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > reserves the observation budget before concurrent acquisitions
+[Scraper] [OK] Direct fetch OK (3742 chars)
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > reserves the observation budget before concurrent acquisitions
+[Scraper] [OK] Direct fetch OK (3742 chars)
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > waits for pending persistence on close and leaves later baseline acquisitions unobserved
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/legal/privacy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > waits for pending persistence on close and leaves later baseline acquisitions unobserved
+[Scraper] [OK] Direct fetch OK (3742 chars)
+
+·····stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > waits for pending persistence on close and leaves later baseline acquisitions unobserved
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/legal/privacy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > waits for pending persistence on close and leaves later baseline acquisitions unobserved
+[Scraper] [OK] Direct fetch OK (3742 chars)
+
+···stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > records agreement when production and replay both reject an incomplete capture
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/legal/privacy
+
+···································stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > records agreement when production and replay both reject an incomplete capture
+[Scraper] [OK] Direct fetch OK (500000 chars)
+
+··············(node:26993) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+·················stdout | src/lib/__tests__/engineAuditRegression.test.ts > Engine audit regressions, isolated SQLite and synthetic transport only > D3: archive hold emits completion and keeps the live incident open
+[Cron] Starting check of 1 policies (limit=1).
+
+·········stdout | src/lib/__tests__/engineAuditRegression.test.ts > Engine audit regressions, isolated SQLite and synthetic transport only > D3: archive hold emits completion and keeps the live incident open
+[Cron] Acquisition 08935426dd26 network: archive / archive / Global (https://example.com/archive)
+
+stdout | src/lib/__tests__/engineAuditRegression.test.ts > Engine audit regressions, isolated SQLite and synthetic transport only > D3: archive hold emits completion and keeps the live incident open
+[Cron] Check complete. Checked: 1, Unique sources: 1, Network retrievals: 1, Deduplicated: 0, Changed: 0, Confirmation pending: 0, Needing review: 1, Re-baselined: 0, Partial: 0, Unavailable: 0, Invalid: 0, Errors: 0
+
+·······stdout | src/lib/__tests__/engineAuditRegression.test.ts > Engine audit regressions, isolated SQLite and synthetic transport only > D4: limited batches advance past held policies
+[Cron] Starting check of 1 policies (limit=1).
+
+stdout | src/lib/__tests__/engineAuditRegression.test.ts > Engine audit regressions, isolated SQLite and synthetic transport only > D4: limited batches advance past held policies
+[Cron] Acquisition f7f1d9a8680a network: first / first / Global (https://example.com/first)
+
+stdout | src/lib/__tests__/engineAuditRegression.test.ts > Engine audit regressions, isolated SQLite and synthetic transport only > D4: limited batches advance past held policies
+[Cron] Check complete. Checked: 1, Unique sources: 1, Network retrievals: 1, Deduplicated: 0, Changed: 0, Confirmation pending: 0, Needing review: 1, Re-baselined: 0, Partial: 0, Unavailable: 0, Invalid: 0, Errors: 0
+
+stdout | src/lib/__tests__/engineAuditRegression.test.ts > Engine audit regressions, isolated SQLite and synthetic transport only > D4: limited batches advance past held policies
+[Cron] Starting check of 1 policies (limit=1).
+
+stdout | src/lib/__tests__/engineAuditRegression.test.ts > Engine audit regressions, isolated SQLite and synthetic transport only > D4: limited batches advance past held policies
+[Cron] Acquisition d33d93a07f15 network: second / second / Global (https://example.com/second)
+
+stdout | src/lib/__tests__/engineAuditRegression.test.ts > Engine audit regressions, isolated SQLite and synthetic transport only > D4: limited batches advance past held policies
+[Cron] Check complete. Checked: 1, Unique sources: 1, Network retrievals: 1, Deduplicated: 0, Changed: 0, Confirmation pending: 0, Needing review: 1, Re-baselined: 0, Partial: 0, Unavailable: 0, Invalid: 0, Errors: 0
+
+stdout | src/lib/__tests__/scanChannels.test.ts > manual stable and experimental channel boundary > runs explicit Stable despite preview enablement, remains silent and replays its request once
+[Cron] Starting check of 0 policies (limit=1).
+
+stdout | src/lib/__tests__/scanChannels.test.ts > manual stable and experimental channel boundary > runs explicit Stable despite preview enablement, remains silent and replays its request once
+[Cron] Check complete. Checked: 0, Unique sources: 0, Network retrievals: 0, Deduplicated: 0, Changed: 0, Confirmation pending: 0, Needing review: 0, Re-baselined: 0, Partial: 0, Unavailable: 0, Invalid: 0, Errors: 0
+
+················································································stdout | src/lib/__tests__/engineAuditRegression.test.ts > Engine audit regressions, isolated SQLite and synthetic transport only > D8: failed commit emits one terminal error and one detail
+[Cron] Starting check of 1 policies (limit=1).
+
+stdout | src/lib/__tests__/engineAuditRegression.test.ts > Engine audit regressions, isolated SQLite and synthetic transport only > D8: failed commit emits one terminal error and one detail
+[Cron] Acquisition 553d2ef4b231 network: commit-failure / commit-failure / Global (https://example.com/commit-failure)
+
+stderr | src/lib/__tests__/engineAuditRegression.test.ts > Engine audit regressions, isolated SQLite and synthetic transport only > D8: failed commit emits one terminal error and one detail
+[Cron] Error reference scan_ed79827dd5f1: commit-failure - commit-failure: injected_audit_commit_failure
+
+stderr | src/lib/__tests__/engineAuditRegression.test.ts > Engine audit regressions, isolated SQLite and synthetic transport only > D8: failed commit emits one terminal error and one detail
+[Cron] Error processing commit-failure - commit-failure: Error: injected_audit_commit_failure
+    at /Users/fabriziodegni/Projects/PolicyWatcher-reconciliation-20261116/src/lib/__tests__/engineAuditRegression.test.ts:120:82
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20
+
+stdout | src/lib/__tests__/engineAuditRegression.test.ts > Engine audit regressions, isolated SQLite and synthetic transport only > D8: failed commit emits one terminal error and one detail
+[Cron] Check complete. Checked: 1, Unique sources: 1, Network retrievals: 1, Deduplicated: 0, Changed: 0, Confirmation pending: 0, Needing review: 0, Re-baselined: 0, Partial: 0, Unavailable: 0, Invalid: 0, Errors: 1
+
+·············(node:27019) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+··············································(node:27031) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+·····································stderr | src/lib/__tests__/pdfPolicy.test.ts > official PDF policy ingestion > extracts text without interpreting document markup
+Warning: UnknownErrorException: Ensure that the `standardFontDataUrl` API parameter is provided.
+
+··stderr | src/lib/__tests__/pdfPolicy.test.ts > official PDF policy ingestion > supports compressed CDN PDFs and applies the shared evidence validation
+Warning: UnknownErrorException: Ensure that the `standardFontDataUrl` API parameter is provided.
+
+stderr | src/lib/__tests__/pdfPolicy.test.ts > official PDF policy ingestion > supports compressed CDN PDFs and applies the shared evidence validation
+Warning: UnknownErrorException: Ensure that the `standardFontDataUrl` API parameter is provided.
+
+·····stderr | src/lib/__tests__/pdfPolicy.test.ts > official PDF policy ingestion > supports compressed CDN PDFs and applies the shared evidence validation
+Warning: UnknownErrorException: Ensure that the `standardFontDataUrl` API parameter is provided.
+
+stderr | src/lib/__tests__/pdfPolicy.test.ts > official PDF policy ingestion > rejects malformed, oversized and non-PDF binary payloads
+Warning: Invalid PDF header version: 
+
+stderr | src/lib/__tests__/pdfPolicy.test.ts > official PDF policy ingestion > rejects malformed, oversized and non-PDF binary payloads
+Warning: Invalid PDF header version: 
+
+stderr | src/lib/__tests__/pdfPolicy.test.ts > official PDF policy ingestion > rejects malformed, oversized and non-PDF binary payloads
+Warning: Indexing all PDF objects
+
+·stderr | src/lib/__tests__/pdfPolicy.test.ts > official PDF policy ingestion > retains PDF extraction lineage and baseline output during private shadow replay
+Warning: UnknownErrorException: Ensure that the `standardFontDataUrl` API parameter is provided.
+
+········stdout | src/lib/__tests__/pdfPolicy.test.ts > official PDF policy ingestion > retains PDF extraction lineage and baseline output during private shadow replay
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/legal/privacy.pdf
+
+·stdout | src/lib/__tests__/pdfPolicy.test.ts > official PDF policy ingestion > retains PDF extraction lineage and baseline output during private shadow replay
+[Scraper] [OK] Direct fetch OK (1085 chars)
+
+stdout | src/lib/__tests__/pdfPolicy.test.ts > official PDF policy ingestion > retains PDF extraction lineage and baseline output during private shadow replay
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/legal/privacy.pdf
+
+stdout | src/lib/__tests__/pdfPolicy.test.ts > official PDF policy ingestion > retains PDF extraction lineage and baseline output during private shadow replay
+[Scraper] [OK] Direct fetch OK (1085 chars)
+
+···············stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > captures decoded extractor input privately and exposes dimensions, never the raw body
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > captures decoded extractor input privately and exposes dimensions, never the raw body
+[Scraper] [OK] Direct fetch OK (1338 chars)
+
+stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > keeps successful acquisition valid when the optional corpus sink fails
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > keeps successful acquisition valid when the optional corpus sink fails
+[Scraper] [OK] Direct fetch OK (1338 chars)
+
+stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > preserves the baseline archive result while marking it ineligible for adaptive comparison
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > preserves the baseline archive result while marking it ineligible for adaptive comparison
+[Scraper] [1/5] Transport failure recorded.
+[Scraper] [2/5] HTTP/2 skipped by routing policy
+
+stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > preserves the baseline archive result while marking it ineligible for adaptive comparison
+[Scraper] [3/5] Rendered fetch: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > preserves the baseline archive result while marking it ineligible for adaptive comparison
+[Scraper] [3/5] Rendered fetch failed: test_transport_failed
+
+stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > preserves the baseline archive result while marking it ineligible for adaptive comparison
+[Scraper] [4/5] Wayback Machine: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > preserves the baseline archive result while marking it ineligible for adaptive comparison
+[Scraper] [OK] Wayback Machine OK (1338 chars from https://8.8.8.8/policy)
+
+stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > does not equate partial acquisition with a complete comparison input
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/policy
+
+·····························(node:27050) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+················································stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > does not equate partial acquisition with a complete comparison input
+[Scraper] [OK] Direct fetch OK (500000 chars)
+
+····stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > records a failed acquisition without inferring unchanged or a confirmed change
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > records a failed acquisition without inferring unchanged or a confirmed change
+[Scraper] [1/5] Transport failure recorded.
+[Scraper] [2/5] HTTP/2 skipped by routing policy
+
+stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > records a failed acquisition without inferring unchanged or a confirmed change
+[Scraper] [3/5] Rendered fetch: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > records a failed acquisition without inferring unchanged or a confirmed change
+[Scraper] [3/5] Rendered fetch failed: test_transport_failed
+
+stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > records a failed acquisition without inferring unchanged or a confirmed change
+[Scraper] [4/5] Wayback Machine: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > records a failed acquisition without inferring unchanged or a confirmed change
+[Scraper] [4/5] Wayback failed: test_transport_failed
+
+stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > records a failed acquisition without inferring unchanged or a confirmed change
+[Scraper] [5/5] Common Crawl: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/adaptiveAcquisition.test.ts > scraper integration without network > records a failed acquisition without inferring unchanged or a confirmed change
+[Scraper] [5/5] Common Crawl failed: test_transport_failed
+[Scraper] [ERROR] All 5 strategies exhausted.
+
+··································································stderr | src/lib/__tests__/adminAuth.test.ts > adminAuth > does not fall back to API_SECRET for admin session signing
+[AdminAuth] ADMIN_SESSION_HMAC_SECRET is not set. Sessions will be invalid.
+
+································································································stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > marks a diagnostic fallback as not comparable to the returned production source
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/legal/privacy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > marks a diagnostic fallback as not comparable to the returned production source
+[Scraper] [1/5] HTTP 503
+[Scraper] [2/5] HTTP/2 skipped by routing policy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > marks a diagnostic fallback as not comparable to the returned production source
+[Scraper] [3/5] Rendered fetch: https://8.8.8.8/legal/privacy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > marks a diagnostic fallback as not comparable to the returned production source
+[Scraper] [3/5] Rendered fetch failed: test_failed
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > marks a diagnostic fallback as not comparable to the returned production source
+[Scraper] [4/5] Wayback Machine: https://8.8.8.8/legal/privacy
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts evidence rescued by the HTTP/2 strategy
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts evidence rescued by the HTTP/2 strategy
+[Scraper] [1/5] Transport failure recorded.
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts evidence rescued by the HTTP/2 strategy
+[Scraper] [2/5] HTTP/2 explicit: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > marks a diagnostic fallback as not comparable to the returned production source
+[Scraper] [OK] Wayback Machine OK (3742 chars from https://8.8.8.8/legal/privacy)
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > honours an existing capture sink without letting its failure replace baseline content
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/legal/privacy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > honours an existing capture sink without letting its failure replace baseline content
+[Scraper] [OK] Direct fetch OK (3742 chars)
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts evidence rescued by the HTTP/2 strategy
+[Scraper] [OK] HTTP/2 fetch OK (1881 chars)
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts evidence rescued by the renderer strategy
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts evidence rescued by the renderer strategy
+[Scraper] [1/5] Transport failure recorded.
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts evidence rescued by the renderer strategy
+[Scraper] [2/5] HTTP/2 explicit: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts evidence rescued by the renderer strategy
+[Scraper] [2/5] H2 fetch failed: h2_status_403
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts evidence rescued by the renderer strategy
+[Scraper] [3/5] Rendered fetch: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts evidence rescued by the renderer strategy
+[Scraper] [OK] Rendered fetch OK (1881 chars)
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts fresh evidence rescued by Common Crawl
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts fresh evidence rescued by Common Crawl
+[Scraper] [1/5] Transport failure recorded.
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts fresh evidence rescued by Common Crawl
+[Scraper] [2/5] HTTP/2 explicit: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts fresh evidence rescued by Common Crawl
+[Scraper] [2/5] H2 fetch failed: h2_status_403
+[Scraper] [3/5] Rendered fetch skipped (RENDERER_URL not configured)
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts fresh evidence rescued by Common Crawl
+[Scraper] [4/5] Wayback Machine: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts fresh evidence rescued by Common Crawl
+[Scraper] [4/5] Wayback failed: wayback_no_snapshots
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts fresh evidence rescued by Common Crawl
+[Scraper] [5/5] Common Crawl: https://8.8.8.8/policy
+
+stdout | src/lib/__tests__/scraperFallbackSmoke.test.ts > controlled fallback rescue smoke tests > accepts fresh evidence rescued by Common Crawl
+[Scraper] [OK] Common Crawl OK (1881 chars)
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > does not observe sources outside the exact allowlist or mutate its configuration
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/other
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > does not observe sources outside the exact allowlist or mutate its configuration
+[Scraper] [OK] Direct fetch OK (3742 chars)
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > does not observe sources outside the exact allowlist or mutate its configuration
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/legal/privacy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > does not observe sources outside the exact allowlist or mutate its configuration
+[Scraper] [OK] Direct fetch OK (3742 chars)
+
+············stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > records rejection of ambiguous candidates while keeping successful production extraction
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/legal/privacy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > records rejection of ambiguous candidates while keeping successful production extraction
+[Scraper] [OK] Direct fetch OK (3742 chars)
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > does not use an archive as the live observation
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/legal/privacy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > does not use an archive as the live observation
+[Scraper] [1/5] Transport failure recorded.
+[Scraper] [2/5] HTTP/2 skipped by routing policy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > does not use an archive as the live observation
+[Scraper] [3/5] Rendered fetch: https://8.8.8.8/legal/privacy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > does not use an archive as the live observation
+[Scraper] [3/5] Rendered fetch failed: test_failed
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > does not use an archive as the live observation
+[Scraper] [4/5] Wayback Machine: https://8.8.8.8/legal/privacy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > same-acquisition shadow > does not use an archive as the live observation
+[Scraper] [OK] Wayback Machine OK (3742 chars from https://8.8.8.8/legal/privacy)
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > source scope observed in the real pilot > withholds text and hashes on the real redirect pattern in the production scraper
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/us/legal/ssa
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > source scope observed in the real pilot > withholds text and hashes on the real redirect pattern in the production scraper
+[Scraper] [1/5] Path drift rejected: https://8.8.8.8/us/legal/ssa -> https://8.8.8.8/en-it/legal/ssa
+
+··········································stderr | src/lib/__tests__/adminMetricsResilience.test.ts > admin metrics resilience > returns core metrics when optional recent tables are unavailable
+[Admin Metrics] Policy inquiry metric unavailable: Error: no such table: PolicyInquiry
+    at /Users/fabriziodegni/Projects/PolicyWatcher-reconciliation-20261116/src/lib/__tests__/adminMetricsResilience.test.ts:107:42
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64
+
+stderr | src/lib/__tests__/adminMetricsResilience.test.ts > admin metrics resilience > returns core metrics when optional recent tables are unavailable
+[Admin Metrics] Press metrics unavailable: Error: read-only database
+    at /Users/fabriziodegni/Projects/PolicyWatcher-reconciliation-20261116/src/lib/__tests__/adminMetricsResilience.test.ts:108:54
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64
+
+stderr | src/lib/__tests__/adminMetricsResilience.test.ts > admin metrics resilience > keeps one failed funnel query unavailable while other stages remain measured
+[Admin Metrics] Policy inquiry metric unavailable: Error: no such table: PolicyInquiry
+    at /Users/fabriziodegni/Projects/PolicyWatcher-reconciliation-20261116/src/lib/__tests__/adminMetricsResilience.test.ts:107:42
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64
+
+stderr | src/lib/__tests__/adminMetricsResilience.test.ts > admin metrics resilience > keeps one failed funnel query unavailable while other stages remain measured
+[Admin Metrics] Press metrics unavailable: Error: read-only database
+    at /Users/fabriziodegni/Projects/PolicyWatcher-reconciliation-20261116/src/lib/__tests__/adminMetricsResilience.test.ts:108:54
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64
+
+stderr | src/lib/__tests__/adminMetricsResilience.test.ts > admin metrics resilience > keeps one failed funnel query unavailable while other stages remain measured
+[Publication Readiness] Retrieved-policy count unavailable.
+
+stderr | src/lib/__tests__/adminMetricsResilience.test.ts > admin metrics resilience > derives inventory freshness only from a completed full-scope scan
+[Admin Metrics] Policy inquiry metric unavailable: Error: no such table: PolicyInquiry
+    at /Users/fabriziodegni/Projects/PolicyWatcher-reconciliation-20261116/src/lib/__tests__/adminMetricsResilience.test.ts:107:42
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64
+
+stderr | src/lib/__tests__/adminMetricsResilience.test.ts > admin metrics resilience > derives inventory freshness only from a completed full-scope scan
+[Admin Metrics] Press metrics unavailable: Error: read-only database
+    at /Users/fabriziodegni/Projects/PolicyWatcher-reconciliation-20261116/src/lib/__tests__/adminMetricsResilience.test.ts:108:54
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64
+
+···································································································stderr | src/lib/__tests__/adminMutationBoundary.test.ts > administrative mutation boundary > integrates safe admin response headers without changing page nonce CSP
+[Admin mutation boundary] request denied {
+  route: '/api/admin/companies',
+  method: 'POST',
+  reason: 'origin_mismatch'
+}
+
+·················stdout | src/lib/__tests__/adaptiveShadow.test.ts > optional runtime wiring > persists real receipts and an idempotent run summary outside the checkout
+[Scraper] [1/5] Direct fetch: https://8.8.8.8/legal/privacy
+
+stdout | src/lib/__tests__/adaptiveShadow.test.ts > optional runtime wiring > persists real receipts and an idempotent run summary outside the checkout
+[Scraper] [OK] Direct fetch OK (3742 chars)
+
+································stderr | src/lib/__tests__/subscriberDoubleOptIn.test.ts > subscriber double opt-in > does not claim email delivery or reveal subscription status when SMTP rejects a message
+[Subscribers API] Confirmation delivery failed; request remains inactive.
+
+··································································································································································stdout | src/lib/__tests__/scanRunLifecycle.test.ts > durable scan-run lifecycle > holds a unique renewable lease and clears it on ordinary completion
+[Cron] Starting check of 0 policies (limit=5).
+
+stdout | src/lib/__tests__/scanRunLifecycle.test.ts > durable scan-run lifecycle > holds a unique renewable lease and clears it on ordinary completion
+[Cron] Check complete. Checked: 0, Unique sources: 0, Network retrievals: 0, Deduplicated: 0, Changed: 0, Confirmation pending: 0, Needing review: 0, Re-baselined: 0, Partial: 0, Unavailable: 0, Invalid: 0, Errors: 0
+
+·································stderr | src/lib/__tests__/publicationReadinessServer.test.ts > authoritative publication readiness data source > keeps one failed query unavailable and sanitizes the public representation
+[Publication Readiness] Retrieved-policy count unavailable.
+
+·························stderr | src/lib/__tests__/agenticIncidentApi.test.ts > agentic incident public API revocation boundary > keeps failures no-store and fail-closed
+[Agentic Incident Observatory] Public feed failed: Error: provider unavailable
+    at /Users/fabriziodegni/Projects/PolicyWatcher-reconciliation-20261116/src/lib/__tests__/agenticIncidentApi.test.ts:28:64
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-preview-r3-closeout/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64
+
+···················································································································································································································stdout | src/lib/__tests__/scanNotifications.test.ts > scan notification policy > retains subscribed-region filtering and admin alerts in subscriber mode
+[Cron] Processing notifications for 1 subscribers.
+
+stdout | src/lib/__tests__/scanNotifications.test.ts > scan notification policy > retains subscribed-region filtering and admin alerts in subscriber mode
+[Cron] Processing notifications for 1 subscribers.
+[Cron] Skipping subscriber masked: no matching changes based on configured regions or industries.
+
+·······························································································································································································(node:27290) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+·····································································-------------··-········································································
+
+ Test Files  210 passed | 3 skipped (213)
+      Tests  1692 passed | 14 skipped (1706)
+   Start at  04:47:10
+   Duration  10.61s (transform 14.00s, setup 0ms, import 24.26s, tests 46.61s, environment 11ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   61.08 |    59.82 |   72.61 |   62.14 |                   
+ adminAuth.ts      |   92.13 |    88.23 |   94.44 |   97.14 | 62,208            
+ ...ionBoundary.ts |   88.75 |    84.53 |      90 |   90.66 | ...89,237-238,256 
+ diffParse.ts      |   84.84 |    85.71 |     100 |   92.85 | 36,68             
+ ...onciliation.ts |   10.32 |     4.61 |   13.04 |   11.03 | ...49,222,259-527 
+ ...yptedBackup.ts |    87.5 |    80.16 |     100 |   90.98 | ...87,305,312,336 
+ exporters.ts      |   89.13 |     92.3 |    90.9 |   88.63 | 177-181           
+ ...yConfidence.ts |   97.05 |       95 |     100 |     100 | 86,121            
+ rateLimit.ts      |   85.24 |    71.42 |   85.71 |    87.5 | 51-54,66,102-103  
+ requestBody.ts    |   94.11 |    95.45 |      75 |   96.55 | 51                
+ scraper.ts        |   53.66 |    52.13 |   66.11 |   54.47 | ...2495,2540-2542 
+ ...Preferences.ts |   92.59 |     87.5 |     100 |     100 | 38,44             
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 61.08% ( 1102/1804 )
+Branches     : 59.82% ( 865/1446 )
+Functions    : 72.61% ( 175/241 )
+Lines        : 62.14% ( 995/1601 )
+================================================================================

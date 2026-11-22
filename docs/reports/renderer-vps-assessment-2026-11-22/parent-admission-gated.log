@@ -1,0 +1,23 @@
+[Renderer] Listening on :8787 (v1.2.0, concurrency 1, nav timeout 45000ms, user agent Chromium default)
+[Renderer] OK 9ee2c732-3839-4f2a-8e4e-631dac7e0e54 https://example.com/policy-two -> 200 (47 bytes, 11ms)
+[Renderer] OK 28211272-4ce5-49ba-9ab5-77931e81d6db https://example.com/policy-one -> 200 (47 bytes, 11ms)
+{"scope":"Real renderer HTTP admission flow; DNS and Chromium stubbed, listener forced onto isolated loopback ephemeral port; no external target request.","sourceRef":"4fd791e19b1b1ca68f6ec57d7d84ee1c829f17b4","capacity":1,"active":2,"startedContexts":2,"responses":[200,200]}
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Active reservations must not exceed capacity.
+
+false !== true
+
+    at file:///Users/fabriziodegni/Projects/PolicyWatcher-renderer-admission-20261122/renderer/fixtures/http-source-regression.mjs:43:10
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.22.3

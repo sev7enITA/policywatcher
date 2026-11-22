@@ -1,0 +1,14 @@
+{
+  "scope": "Expanded frontend suite only, not acquisition/capacity/semantic qualification",
+  "offlineTests": 80,
+  "suites": 11,
+  "network": "denied by OS sandbox",
+  "responsiveViews": 12,
+  "typecheck": "passed",
+  "scopedEslint": "passed",
+  "negativeControl": "Italian rendered fallback fails when its language query is removed; English control passes",
+  "published": false,
+  "sourceBase": "e99bde64fa94f3984fabba3cdeb8656d20a2d1d1",
+  "candidateForContractRerun": "c7deedbc1d926eb54845c2ffeca0e42efab2b6aa",
+  "newValidationReceiptLinks": 9
+}

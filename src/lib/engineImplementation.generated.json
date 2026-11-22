@@ -423,7 +423,7 @@
     ],
     [
       "src/lib/release.ts",
-      "a8bfc738eed3d7b42d27bf6c3e173f0b884614cbe3bfa533de7fc946ef0d8387"
+      "655f5514fc01e2dc2f2515d83be91fe45d2c83a1776ea5a46ed64befe766e533"
     ],
     [
       "src/lib/requestBody.ts",
@@ -455,7 +455,7 @@
     ],
     [
       "src/lib/seo.ts",
-      "79ea812d1a207d44766e7c253b0670353be8a9755a85fba7442e3a184d127b24"
+      "658cd5e3080b7904080db92ceaa09eda42fccb54085d8a813b23ca7cb3496b01"
     ],
     [
       "src/lib/siteOrigin.ts",
@@ -490,5 +490,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "31d3d5b399b2f968226042564a889b3e0a86b68877d80d1bad4062d0ea7a8f40"
+  "hash": "1832fcbfe1bc668b88f55da44e94e05abf3cc12ae7cea9228eea4be1003fd5d4"
 }

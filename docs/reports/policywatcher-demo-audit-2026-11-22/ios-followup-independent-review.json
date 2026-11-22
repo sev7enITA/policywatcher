@@ -1,0 +1,73 @@
+{
+  "checkedAt": "2026-11-22T03:30:46.147156+00:00",
+  "reviewedCommits": [
+    "e1b4a3cb456256f745afb19b20d7c53fc611da5f",
+    "ed0db3769eb87eff81cfaef61baa19b27151a02d"
+  ],
+  "mainHeaderCommit": "4fd791e19b1b1ca68f6ec57d7d84ee1c829f17b4",
+  "verdict": "source_runtime_review_approved_editorial_integration_gate_pending",
+  "findings": [
+    {
+      "severity": "P2",
+      "kind": "reproducible_repository_gate",
+      "status": "pending_owner_fix",
+      "test": "src/lib/__tests__/release.test.ts:90",
+      "description": "Eight newly tracked Apple submission files contain U+2014, violating the existing repository-wide tracked-source/documentation rule. Replace editorial punctuation without weakening the test and regenerate review-kit hashes if packaged."
+    }
+  ],
+  "executed": {
+    "macosNativeXCTest": {
+      "passed": 4,
+      "failed": 0,
+      "network": "OS denied; Swift nested sandbox disabled only to avoid sandbox_apply failure",
+      "platform": "macOS; not iOS Safari dispatch"
+    },
+    "packagedWorkerVM": {
+      "passed": 6,
+      "failed": 0,
+      "actualPackagedSource": true,
+      "browserAndNetwork": "stubbed",
+      "network": "OS denied"
+    },
+    "metadataKitValidation": {
+      "locales": [
+        "en",
+        "it"
+      ],
+      "status": "passed_draft_not_submitted"
+    },
+    "hashReceiptVerification": {
+      "sourceFiles": 7,
+      "sourceMatches": 7,
+      "screenshotMatches": true
+    },
+    "integrationVitest": {
+      "passed": 82,
+      "failed": 1,
+      "files": 10,
+      "failure": "Editorial em dash rule only; navigation/locale tests passed",
+      "network": "OS denied"
+    },
+    "syntaxPython": "passed",
+    "diffWhitespace": "passed"
+  },
+  "imageInspection": {
+    "sha256": "deab636617741d29f6f0b2c1cce997b5c82b971ccf14d2fd2691c0170f12f2e5",
+    "observed": "Saved simulator image shows PolicyWatcher logo, PREVIEW, wrapper0.1.0(1), shared3.8.3.3 and initial English onboarding.",
+    "limit": "Containing app only; no Safari UI, extension enablement, permission, injection, network submission, iPad or physical-device evidence."
+  },
+  "headerAdaptation": "Reviewed unchanged richer main menu, grouping, Escape/focus and outside-pointer handling plus publicNavigationPath at primary/grouped links and both home links. All URLs come from reviewed static route entries; no link removed by adaptation and no new blocker found.",
+  "publicClaims": {
+    "safe": "Unsigned Safari iOS developer candidate0.1.0(1) compiles; containing-app initial English onboarding was observed in one iPhone simulator. Four macOS handler tests and six stubbed VM worker tests pass.",
+    "forbidden": "Do not claim working Safari extension, App Store/TestFlight availability, iPad/minimum-iOS17/physical-device qualification, accepted store screenshots or completed full-pipeline qualification."
+  },
+  "actionsNotPerformed": [
+    "Mac GUI control",
+    "simulator creation/install/launch by this reviewer",
+    "Apple login/team/signing/upload",
+    "production inquiry",
+    "deployment",
+    "model review"
+  ],
+  "retainedFailure": "First independent Swift invocation failed because Swift attempted a nested sandbox. Log preserved; retry kept OS network denial and passed using --disable-sandbox."
+}

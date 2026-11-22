@@ -17,6 +17,8 @@ import {
 } from 'lucide-react';
 import Footer from '@/components/Footer';
 import PublicHeader from '@/components/PublicHeader';
+import PlanningResearchStatus from '@/components/PlanningResearchStatus';
+import { planningHref, type PlanningLanguage } from '@/lib/planningLocale';
 import {
   FEATURE_ATLAS_DOMAINS,
   FEATURE_ATLAS_FEATURES,
@@ -64,11 +66,13 @@ function Inspector({
   onSelect,
   panelRef,
   backTargetId,
+  lang,
 }: {
   feature: FeatureAtlasFeature;
   onSelect: (id: string) => void;
   panelRef: RefObject<HTMLElement | null>;
   backTargetId: string;
+  lang: PlanningLanguage;
 }) {
   const domain = getFeatureAtlasDomain(feature.domainId);
   const stage = getFeatureAtlasStage(feature.stageId);
@@ -78,7 +82,7 @@ function Inspector({
   });
 
   return (
-    <aside ref={panelRef} className={styles.inspector} aria-labelledby="inspector-title" tabIndex={-1}>
+    <aside lang="en" ref={panelRef} className={styles.inspector} aria-labelledby="inspector-title" tabIndex={-1}>
       <a href={`#${backTargetId}`} className={styles.backToRail}><ArrowLeft size={15} /> Back to selected capability</a>
       <header className={styles.inspectorHeader} aria-live="polite">
         <div>
@@ -126,7 +130,7 @@ function Inspector({
       )}
 
       {feature.route && (
-        <Link href={feature.route.href} className={styles.routeLink}>
+        <Link href={planningHref(feature.route.href, lang)} className={styles.routeLink}>
           Open {feature.route.label}
           <span>{feature.route.access}</span>
           <ArrowRight size={15} />
@@ -160,7 +164,10 @@ function Inspector({
   );
 }
 
-export default function FeatureAtlasClient() {
+export default function FeatureAtlasClient({ lang = 'en' }: { lang?: PlanningLanguage }) {
+  const tr = (en: string, it: string) => lang === 'it' ? it : en;
+  const filterLabel = (value: string) => lang === 'it' ? ({ all: 'tutte', business: 'utente', technical: 'tecniche', delivered: 'consegnate', current: 'correnti', planned: 'pianificate' } as Record<string, string>)[value] ?? value : value;
+  const local = (href: string) => planningHref(href, lang);
   const [query, setQuery] = useState('');
   const [kind, setKind] = useState<KindFilter>('all');
   const [state, setState] = useState<StateFilter>('all');
@@ -260,96 +267,95 @@ export default function FeatureAtlasClient() {
 
   return (
     <>
-      <PublicHeader current="feature-atlas" />
-      <main className={styles.page}>
+      <PublicHeader current="feature-atlas" lang={lang} lockLang />
+      <main className={styles.page} lang={lang}>
       <nav className={styles.topbar} aria-label="Feature Atlas navigation">
-        <Link href="/" className={styles.brand} aria-label="PolicyWatcher home">
+        <Link href={local('/')} className={styles.brand} aria-label="PolicyWatcher home">
           <Image src="/logo-mark.png" width={34} height={34} alt="" priority />
-          <span><strong>PolicyWatcher</strong><small>Feature intelligence</small></span>
+          <span><strong>PolicyWatcher</strong><small>{tr('Feature intelligence','Inventario delle funzioni')}</small></span>
         </Link>
         <div className={styles.topLinks}>
-          <Link href="/atlas">Site Atlas</Link>
-          <Link href="/roadmap">Roadmap</Link>
-          <Link href="/methodology/confidence">Method</Link>
+          <Link href={local('/atlas')}>{tr('Site Atlas','Mappa del sito')}</Link>
+          <Link href={local('/roadmap')}>{tr('Roadmap','Roadmap')}</Link>
+          <Link href={local('/methodology/confidence')}>{tr('Method','Metodo')}</Link>
         </div>
       </nav>
 
       <header className={styles.hero}>
         <div className={styles.heroCopy}>
-          <Link href="/" className={styles.backLink}><ArrowLeft size={15} /> Evidence Console</Link>
-          <span className={styles.eyebrow}><GitBranch size={14} /> Operational constellation · {POLICYWATCHER_VERSION_DISPLAY}</span>
-          <h1>Feature atlas</h1>
+          <Link href={local('/')} className={styles.backLink}><ArrowLeft size={15} /> {tr('Evidence Console', 'Area delle evidenze')}</Link>
+          <span className={styles.eyebrow}><GitBranch size={14} /> {tr('Operational constellation', 'Mappa operativa')} · {POLICYWATCHER_VERSION_DISPLAY}</span>
+          <h1>{tr('Feature atlas','Atlante delle funzioni')}</h1>
           <p>
-            Follow PolicyWatcher from a user signal to official evidence, qualified analysis,
-            public distribution and recorded remediation. Nodes include outcome,
-            implementation proof and remaining limit.
+            {tr('Follow PolicyWatcher from a user signal to official evidence, qualified analysis, public distribution and recorded remediation. Nodes include outcome, implementation proof and remaining limit.', 'Segui il percorso dal segnale di un utente alle fonti ufficiali, all’analisi, alla pubblicazione e alle correzioni. Ogni nodo conserva risultato, riferimento di implementazione e limite residuo.')}
           </p>
         </div>
         <aside className={styles.heroNote}>
-          <span>Interpretation boundary</span>
-          <p><b>Inventory KPIs</b> and <b>Residual KRIs</b> are qualitative release and assurance indicators.</p>
-          <small>They are not measured adoption, legal findings or compliance certification.</small>
+          <span>{tr('Interpretation boundary','Limiti di interpretazione')}</span>
+          <p>{tr('Inventory KPIs and Residual KRIs are qualitative release and assurance indicators.', 'KPI di inventario e KRI residui sono indicatori qualitativi della release e dei controlli.')}</p>
+          <small>{tr('They are not measured adoption, legal findings or compliance certification.','Non misurano adozione e non costituiscono valutazioni legali o certificazioni di conformità.')}</small>
         </aside>
       </header>
 
+      <PlanningResearchStatus lang={lang} path="/feature-atlas" />
       <section className={styles.summaryStrip} aria-label="Visible inventory summary">
-        <article><span>Inventory KPI</span><strong>{summary.visible}</strong><small>visible features</small></article>
-        <article><span>Coverage</span><strong>{summary.domains}</strong><small>visible domains</small></article>
-        <article className={styles.splitStat}><span>Delivery split</span><strong>{summary.delivered}<i>/</i>{summary.current}<i>/</i>{summary.planned}</strong><small>delivered / current / planned</small></article>
-        <article><span>External</span><strong>{summary.external}</strong><small>named dependencies</small></article>
-        <article className={styles.riskStat}><span>Residual KRI</span><strong>{summary.openKri}</strong><small>pending or open</small></article>
+        <article><span>{tr('Inventory KPI','KPI di inventario')}</span><strong>{summary.visible}</strong><small>{tr('visible features','funzioni visibili')}</small></article>
+        <article><span>{tr('Coverage','Copertura')}</span><strong>{summary.domains}</strong><small>{tr('visible domains','ambiti visibili')}</small></article>
+        <article className={styles.splitStat}><span>{tr('Delivery split','Stati di consegna')}</span><strong>{summary.delivered}<i>/</i>{summary.current}<i>/</i>{summary.planned}</strong><small>{tr('delivered / current / planned','consegnate / correnti / pianificate')}</small></article>
+        <article><span>{tr('External','Esterne')}</span><strong>{summary.external}</strong><small>{tr('named dependencies','dipendenze dichiarate')}</small></article>
+        <article className={styles.riskStat}><span>{tr('Residual KRI','KRI residui')}</span><strong>{summary.openKri}</strong><small>{tr('pending or open','aperti o da verificare')}</small></article>
       </section>
 
       <section className={styles.controls} aria-label="Feature Atlas filters">
         <label className={styles.searchField}>
-          <span>Search capability or proof</span>
-          <span><Search size={16} aria-hidden="true" /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search retrieval, correction, PDF…" /></span>
+          <span>{tr('Search capability or proof','Cerca una funzione o un’evidenza')}</span>
+          <span><Search size={16} aria-hidden="true" /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={tr('Search retrieval, correction, PDF…', 'Cerca retrieval, correzioni, PDF…')} /></span>
         </label>
         <fieldset className={styles.segmented}>
-          <legend>Kind</legend>
+          <legend>{tr('Kind','Tipo')}</legend>
           <div>
             {(['all', 'business', 'technical'] as KindFilter[]).map((value) => (
-              <button key={value} type="button" aria-pressed={kind === value} onClick={() => setKind(value)}>{value}</button>
+              <button key={value} type="button" aria-pressed={kind === value} onClick={() => setKind(value)}>{filterLabel(value)}</button>
             ))}
           </div>
         </fieldset>
         <fieldset className={styles.segmented}>
-          <legend>Delivery</legend>
+          <legend>{tr('Delivery','Consegna')}</legend>
           <div>
             {(['all', 'delivered', 'current', 'planned'] as StateFilter[]).map((value) => (
-              <button key={value} type="button" aria-pressed={state === value} onClick={() => setState(value)}>{value}</button>
+              <button key={value} type="button" aria-pressed={state === value} onClick={() => setState(value)}>{filterLabel(value)}</button>
             ))}
           </div>
         </fieldset>
-        <label className={styles.selectField}>Domain
+        <label className={styles.selectField}>{tr('Domain', 'Ambito')}
           <select value={domainId} onChange={(event) => setDomainId(event.target.value)}>
-            <option value="all">All domains</option>
+            <option value="all">{tr('All domains','Tutti gli ambiti')}</option>
             {FEATURE_ATLAS_DOMAINS.map((domain) => <option key={domain.id} value={domain.id}>{domain.label}</option>)}
           </select>
         </label>
-        <label className={styles.selectField}>Release / horizon
+        <label className={styles.selectField}>{tr('Release / horizon', 'Release / orizzonte')}
           <select value={releaseId} onChange={(event) => setReleaseId(event.target.value)}>
-            <option value="all">All releases</option>
+            <option value="all">{tr('All releases','Tutte le release')}</option>
             {availableReleases.map(([id, label]) => <option key={id} value={id}>{label}</option>)}
           </select>
         </label>
         <div className={styles.controlActions}>
           <button type="button" className={styles.dependencyToggle} aria-pressed={showDependencies} onClick={() => setShowDependencies((value) => !value)}>
-            <Network size={16} /> Show dependencies
+            <Network size={16} /> {tr('Show dependencies', 'Mostra le dipendenze')}
           </button>
-          <button type="button" className={styles.resetButton} onClick={resetFilters}><RotateCcw size={15} /> Clear</button>
+          <button type="button" className={styles.resetButton} onClick={resetFilters}><RotateCcw size={15} /> {tr('Clear', 'Azzera')}</button>
         </div>
       </section>
 
       <section className={styles.workspace} aria-label="Feature dependency workspace">
         <div className={styles.mapPanel} id="feature-atlas-map">
           <header className={styles.panelHeader}>
-            <div><span>System map / evidence chain</span><h2>Operating stages</h2></div>
+            <div><span>{tr('System map / evidence chain','Mappa del sistema / catena delle evidenze')}</span><h2>{tr('Operating stages','Fasi operative')}</h2></div>
             <p>{visibleFeatures.length} of {FEATURE_ATLAS_FEATURES.length} nodes shown</p>
           </header>
 
           {visibleFeatures.length > 0 ? (
-            <div className={styles.desktopConstellation} style={{ '--graph-height': `${layout.height}px` } as CSSProperties}>
+            <div lang="en" className={styles.desktopConstellation} style={{ '--graph-height': `${layout.height}px` } as CSSProperties}>
               <div className={styles.stageHeads} aria-hidden="true">
                 {FEATURE_ATLAS_STAGES.map((stage) => (
                   <div key={stage.id} style={{ left: `${stageX[stage.id]}%` }}>
@@ -397,9 +403,9 @@ export default function FeatureAtlasClient() {
                 );
               })}
             </div>
-          ) : <div className={styles.emptyState}><Search size={20} /><h3>No capability matches this view.</h3><p>Clear one or more filters to restore the operating chain.</p><button type="button" onClick={resetFilters}>Reset filters</button></div>}
+          ) : <div className={styles.emptyState}><Search size={20} /><h3>{tr('No capability matches this view.','Nessuna funzione corrisponde ai filtri.')}</h3><p>{tr('Clear one or more filters to restore the operating chain.','Azzera uno o più filtri per ripristinare la catena operativa.')}</p><button type="button" onClick={resetFilters}>{tr('Reset filters','Azzera i filtri')}</button></div>}
 
-          <div className={styles.mobileRail}>
+          <div lang="en" className={styles.mobileRail}>
             <aside className={styles.mobileSelection} aria-label="Selected capability summary">
               <span>{getFeatureAtlasStage(selectedFeature.stageId)?.shortLabel} · selected</span>
               <strong>{selectedFeature.title}</strong>
@@ -448,7 +454,7 @@ export default function FeatureAtlasClient() {
           </div>
         </div>
 
-        <Inspector
+        <Inspector lang={lang}
           feature={selectedFeature}
           onSelect={selectFeature}
           panelRef={inspectorRef}
@@ -458,9 +464,9 @@ export default function FeatureAtlasClient() {
 
       <section className={styles.changelog} aria-labelledby="changelog-chain-title">
         <header>
-          <span>Compact changelog chain</span>
-          <h2 id="changelog-chain-title">Release history through {POLICYWATCHER_VERSION_DISPLAY}</h2>
-          <p>Select a milestone to isolate capabilities first represented in that release.</p>
+          <span>{tr('Compact changelog chain','Cronologia sintetica')}</span>
+          <h2 id="changelog-chain-title">{tr('Release history through', 'Cronologia fino alla versione')} {POLICYWATCHER_VERSION_DISPLAY}</h2>
+          <p>{tr('Select a milestone to isolate capabilities first represented in that release.','Seleziona una release per mostrare le funzioni introdotte in quella fase.')}</p>
         </header>
         <ol>
           {FEATURE_ATLAS_RELEASES.map((release, index) => {
@@ -483,12 +489,12 @@ export default function FeatureAtlasClient() {
       </section>
 
       <section className={styles.methodNote}>
-        <div><span>Reading protocol</span><h2>Claim verification procedure</h2></div>
-        <p>Feature evidence identifies an implementation surface. Delivery state describes repository inventory, not availability in a specific deployment. AI-assisted signals remain text-derived attention cues, and public data routes apply the configured evidence gate.</p>
-        <Link href="/methodology/confidence">Read methodology <ArrowRight size={15} /></Link>
+        <div><span>{tr('Reading protocol','Criteri di lettura')}</span><h2>{tr('Claim verification procedure','Procedura di verifica delle affermazioni')}</h2></div>
+        <p>{tr('Feature evidence identifies an implementation surface. Delivery state describes repository inventory, not availability in a specific deployment. AI-assisted signals remain text-derived attention cues, and public data routes apply the configured evidence gate.', 'L’evidenza di una funzione identifica un’implementazione. Lo stato descrive l’inventario del repository, non garantisce la disponibilità in uno specifico deployment. Le indicazioni AI derivano dal testo e i dati pubblici superano i controlli sulle evidenze.')}</p>
+        <Link href={local('/methodology/confidence')}>Read methodology <ArrowRight size={15} /></Link>
       </section>
 
-      <Footer lang="en" />
+      <Footer lang={lang} lockLang />
       </main>
     </>
   );

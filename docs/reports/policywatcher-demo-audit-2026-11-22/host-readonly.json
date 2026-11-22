@@ -1,0 +1,56 @@
+{
+  "kernel": "5.14.0-687.15.1.el9_8.x86_64",
+  "machine": "x86_64",
+  "visibleLogicalCpuCount": 48,
+  "loadAverage": [
+    15.74,
+    14.45,
+    13.37
+  ],
+  "processLimits": {
+    "RLIMIT_AS": [
+      -1,
+      -1
+    ],
+    "RLIMIT_CPU": [
+      -1,
+      -1
+    ],
+    "RLIMIT_NOFILE": [
+      8192,
+      8192
+    ],
+    "RLIMIT_NPROC": [
+      1539501,
+      1539501
+    ]
+  },
+  "/proc/meminfo": [
+    "MemTotal:       394157328 kB",
+    "MemAvailable:   208932536 kB",
+    "SwapTotal:      197078660 kB",
+    "SwapFree:       176557960 kB"
+  ],
+  "/proc/self/cgroup": [
+    "13:freezer:/lvp1045780189/lve847874844",
+    "12:pids:/lvp1045780189/lve847874844",
+    "11:memory:/lvp1045780189/lve847874844",
+    "10:rdma:/",
+    "9:blkio:/user.slice",
+    "8:net_cls,net_prio:/lvp1045780189/lve847874844",
+    "7:cpuset:/",
+    "6:hugetlb:/",
+    "5:cpu,cpuacct:/lvp1045780189/lve847874844",
+    "4:misc:/",
+    "3:devices:/user.slice",
+    "2:perf_event:/",
+    "1:name=systemd:/user.slice/user-847874844.slice/session-16144758.scope",
+    "0::/"
+  ],
+  "nodeRuntimes": {
+    "/opt/alt/alt-nodejs22/root/usr/bin/node": true,
+    "/opt/alt/alt-nodejs24/root/usr/bin/node": true
+  },
+  "checkedAt": "2026-11-22T02:45:20.448898+00:00",
+  "interpretationLimit": "Host-visible CPU and memory may describe a shared hosting node, not account allocation or a dedicated VPS. No capacity claim is derived."
+}

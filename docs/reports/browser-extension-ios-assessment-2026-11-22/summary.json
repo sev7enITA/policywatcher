@@ -1,0 +1,81 @@
+{
+  "checkedAt": "2026-11-22T02:58:47.655909+00:00",
+  "implementationSource": "2e744255c5e2e8a82ba05ec81230ca1d5838c860",
+  "sharedRuntimeVersion": "3.8.3.3",
+  "iosWrapperVersion": "0.1.0",
+  "iosWrapperBuild": "1",
+  "runtimeChanged": false,
+  "originAndPackagingRegressions": {
+    "fixedTestsPassed": 6,
+    "parentTestsFailed": 4,
+    "parentTestsPassed": 2
+  },
+  "existingExtensionAndStoreTestsPassed": 13,
+  "typeScriptEngineManifestUnchanged": true,
+  "safariBundleBuilds": [
+    {
+      "target": "simulator",
+      "appMinimumOS": "17.0",
+      "extensionMinimumOS": "15.0",
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "runtimeHashesMatched": 11,
+      "noDocumentationOrSigningMaterial": true,
+      "executableSha256": "77ff3fdcfecad5c9cbc8ae591ce25d1e0479d8c8031600b35b2501cb4b920a0e"
+    },
+    {
+      "target": "device",
+      "appMinimumOS": "17.0",
+      "extensionMinimumOS": "15.0",
+      "architectures": [
+        "arm64"
+      ],
+      "runtimeHashesMatched": 11,
+      "noDocumentationOrSigningMaterial": true,
+      "executableSha256": "939d7e32061c73282b577100dc1afe7e9e249277f738ffbdabfc9c4d0a055853"
+    }
+  ],
+  "sourceProjectZip": {
+    "file": "PolicyWatcher-Safari-iOS-0.1.0-build1-source.zip",
+    "sha256": "2f12b196dff78ba6760f9fe64c947852adfd540ff781f499907c4b104c5a10b4"
+  },
+  "chromiumAndSafariSourcePackages": [
+    {
+      "file": "PolicyWatcher-Browser-Extension-3.8.3-beta.3-chrome-2026-11-22.zip",
+      "sha256": "199596bfef906629c02e1fbb278952754bfbce2b68bf32209986fb16f0ff12d9",
+      "bytes": 51187
+    },
+    {
+      "file": "PolicyWatcher-Browser-Extension-3.8.3-beta.3-edge-2026-11-22.zip",
+      "sha256": "199596bfef906629c02e1fbb278952754bfbce2b68bf32209986fb16f0ff12d9",
+      "bytes": 51187
+    },
+    {
+      "file": "PolicyWatcher-Browser-Extension-3.8.3-beta.3-safari-source-2026-11-22.zip",
+      "sha256": "199596bfef906629c02e1fbb278952754bfbce2b68bf32209986fb16f0ff12d9",
+      "bytes": 51187
+    }
+  ],
+  "storeStates": {
+    "chrome": "Fresh public listing HTTP200, expected numeric and displayed versions found. No installation or account dashboard reviewed.",
+    "edge": "Historical published state in repository; no exact official listing URL found in reviewed source. Current installation state not reverified.",
+    "safariIos": "Local unsigned simulator app and device archive built; not App Store available."
+  },
+  "notExecuted": [
+    "Functional Safari page/permission/injection/network QA",
+    "Physical iPhone/iPad tests",
+    "Signed distribution validation",
+    "App Store Connect account/bundle registration verification",
+    "TestFlight or App Store upload/review",
+    "Actual Chrome/Edge installation or new store upload"
+  ],
+  "publicationSideEffects": false,
+  "newEngineActivation": false,
+  "modelReview": "Not performed by this implementation agent. Root coordinates app-based external review.",
+  "functionalFollowup": "functional-summary.json",
+  "containingAppSimulatorStartup": "installed_and_launched_iPhoneDuo_iOS27.1",
+  "nativeHandlerMacosXCTestPassed": 4,
+  "packagedWorkerVmContractTestsPassed": 6
+}

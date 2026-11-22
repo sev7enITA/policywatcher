@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: packaged Safari manifest keeps temporary access and only the reviewed API origin
+ok 1 - packaged Safari manifest keeps temporary access and only the reviewed API origin
+  ---
+  duration_ms: 0.600292
+  type: 'test'
+  ...
+# Subtest: rejects foreign senders and unrelated message types without fetch
+ok 2 - rejects foreign senders and unrelated message types without fetch
+  ---
+  duration_ms: 1.047542
+  type: 'test'
+  ...
+# Subtest: serializes the confirmed dictionary to the fixed endpoint without credentials or redirects
+ok 3 - serializes the confirmed dictionary to the fixed endpoint without credentials or redirects
+  ---
+  duration_ms: 0.476334
+  type: 'test'
+  ...
+# Subtest: rejects raw-content and unexpected JSON fields before the network boundary
+ok 4 - rejects raw-content and unexpected JSON fields before the network boundary
+  ---
+  duration_ms: 0.253583
+  type: 'test'
+  ...
+# Subtest: returns rate-limit and service-unavailable codes instead of a fabricated success
+ok 5 - returns rate-limit and service-unavailable codes instead of a fabricated success
+  ---
+  duration_ms: 0.582917
+  type: 'test'
+  ...
+# Subtest: returns an explicit offline result when transport throws
+ok 6 - returns an explicit offline result when transport throws
+  ---
+  duration_ms: 0.261375
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8.640833

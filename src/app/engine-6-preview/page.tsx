@@ -13,7 +13,7 @@ import { localizedPublicUrl } from '@/lib/seo';
 type Props = { searchParams: Promise<{ lang?: string }> };
 const copy = {
   en: {
-    status: 'Experimental programme', date: '16 November 2026', kicker: 'Engineering notebook',
+    status: 'Experimental programme', date: '22 November 2026', kicker: 'Engineering notebook',
     title: 'A clearer path from source to evidence.',
     intro: 'Engine 6 Preview is being developed and tested to make policy retrieval, comparison and validation more traceable. This page opens the design for inspection.',
     boundary: 'Private preview access / staging environment',
@@ -67,9 +67,10 @@ const copy = {
       ['Policy · PolicyChange · EngineOutbox', 'Public baseline, committed change and deferred delivery.', 'PolicyChange → Policy is an existing FK; outbox changeId is an application reference.'],
     ],
     ledgerTitle: 'What the evidence currently establishes.',
-    ledgerIntro: 'Recorded verification, updated 16 November 2026. Historical regression and campaign results are retained. Local production-mode and generated standalone-server checks are reported separately from hosted verification and production accuracy.',
+    ledgerIntro: 'Recorded verification, updated 22 November 2026. Historical regression and campaign results are retained. Local production-mode and generated standalone-server checks are reported separately from hosted verification and production accuracy.',
     check: 'Check', result: 'Recorded result', limit: 'What remains unproven',
     checks: [
+      ["22 November · Contract observability audit", "A rerun on source c7deedb reconfirmed that four of six incomplete synthetic documents still return contract_satisfied.", "The complete control passed; variants without the required heading or terminal were rejected. Missing middle clause, repeated occurrence, table row and section content escaped the declared anchors. These seven document objects test contract sufficiency, not parser accuracy or live-source completeness. Back-office, frontend and main-adaptation suites remain separate; their totals are not one throughput benchmark."],
       ["21 November · Follow-up of 133 remote holds", "Four new extraction successes on the same 133 URLs. The other 129 scopes remain held.", "All baseline cases retain their classification and fresh receipts. The candidate follows bounded same-host HTTPS redirects and closes single-use HTTP2 sessions. Eighty-one focused tests pass offline. The original follow-up process needed termination after saving its report; a separate fixed cleanup probe exited naturally. This is not a new 500-policy completion score."],
       ["16 November · 120 held cases assessed", "13 engine-related cases recovered from identical captures. All 380 earlier extraction successes and 1,060 passage references remain preserved.", "Ten passive CAPTCHA integrations had been mistaken for challenges. Short navigation fragments and body-only clauses needed extraction fixes. All 120 cases are recorded, including 46 transport cases with responsibility still undetermined. 222 focused tests passed with network access denied."],
       ["16 November · Local and target-host execution", "Fixed candidate: 397/500 extractions on the Mac in 459.555 seconds. Hostinger SSH account: 367/500 in 772.602 seconds.", "The 500-scope catalogue is frozen. The target trial is an isolated acquisition/extraction process with 133 unsuccessful or held scopes. Source completeness, semantic verification, supervised-worker throughput and 500 successful daily completions remain open. Qwen supplied a source review. Gemini High and GLM supplied no usable verdict."],
@@ -122,7 +123,7 @@ const copy = {
     footerNote: 'A public record of an experiment. Status will change only as new verification evidence is recorded.',
   },
   it: {
-    status: 'Programma sperimentale', date: '16 novembre 2026', kicker: 'Quaderno di progetto',
+    status: 'Programma sperimentale', date: '22 novembre 2026', kicker: 'Quaderno di progetto',
     title: 'Un percorso più chiaro dalla fonte alle prove.',
     intro: 'Engine 6 Preview è in sviluppo e sperimentazione per rendere più tracciabili recupero, confronto e validazione delle policy. Questa pagina rende il progetto consultabile.',
     boundary: 'Accesso alla preview privata / ambiente staging',
@@ -176,9 +177,10 @@ const copy = {
       ['Policy · PolicyChange · EngineOutbox', 'Baseline pubblica, modifica registrata e invio differito.', 'PolicyChange → Policy è una FK esistente; changeId dell’outbox è un riferimento applicativo.'],
     ],
     ledgerTitle: 'Che cosa dimostrano oggi le verifiche.',
-    ledgerIntro: 'Verifiche aggiornate al 16 novembre 2026. I risultati storici delle regressioni e della campagna sono conservati. Le verifiche locali in modalità produzione e sul server standalone generato sono distinte dalle prove di hosting e dall’accuratezza in produzione.',
+    ledgerIntro: 'Verifiche aggiornate al 22 novembre 2026. I risultati storici delle regressioni e della campagna sono conservati. Le verifiche locali in modalità produzione e sul server standalone generato sono distinte dalle prove di hosting e dall’accuratezza in produzione.',
     check: 'Controllo', result: 'Risultato registrato', limit: 'Che cosa resta da dimostrare',
     checks: [
+      ["22 novembre · Audit dell’osservabilità dei contratti", "La riesecuzione sul sorgente c7deedb ha riconfermato che quattro documenti sintetici incompleti su sei restituiscono contract_satisfied.", "Il controllo completo è passato; sono state respinte le varianti senza intestazione richiesta o termine atteso. Clausola centrale, occorrenza ripetuta, riga di tabella e contenuto di sezione mancanti conservavano gli ancoraggi dichiarati. Sette documenti strutturati verificano la sufficienza del contratto, non accuratezza del parser o completezza di fonti reali. I test di back office, interfaccia e adattamento su main restano separati; i totali non sono un unico benchmark di capacità."],
       ["21 novembre · Verifica dei 133 casi remoti sospesi", "Quattro nuove estrazioni riuscite sugli stessi 133 URL. Restano sospesi gli altri 129 ambiti.", "Conservati classificazione e nuove ricevute per ogni caso. Il candidato segue redirect HTTPS circoscritti sullo stesso host e chiude le sessioni HTTP2 monouso. Passano 81 test mirati offline. Il primo processo ha richiesto arresto dopo il salvataggio del rapporto; una prova separata con la correzione è terminata spontaneamente. Questa verifica non costituisce un nuovo risultato di 500 policy completate."],
       ["16 novembre · Valutati 120 casi sospesi", "Recuperati 13 casi legati al motore sulle stesse copie. Conservati tutti i 380 successi precedenti e i 1.060 riferimenti ai passaggi.", "Dieci integrazioni CAPTCHA passive erano state scambiate per challenge. Frammenti di navigazione e clausole fuori da contenitori semantici richiedevano correzioni. Registrati tutti i 120 casi, inclusi 46 esiti di trasporto la cui responsabilità resta da chiarire. Passati 222 test mirati con rete disabilitata."],
       ["16 novembre · Esecuzione locale e su host remoto", "Candidato corretto: 397/500 estrazioni sul Mac in 459,555 secondi. Account SSH Hostinger: 367/500 in 772,602 secondi.", "Il catalogo di 500 ambiti è congelato. La prova remota è un processo isolato di acquisizione ed estrazione con 133 esiti falliti o sospesi. Restano aperti completezza, verifica semantica, capacità del worker online e 500 completamenti giornalieri riusciti. Qwen ha fornito una revisione. Gemini High e GLM non hanno prodotto un verdetto utilizzabile."],
@@ -233,6 +235,7 @@ const copy = {
 };
 
 const validationReceipts = [
+  { href: "https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/policywatcher-demo-audit-2026-11-22.md", en: "22 November · Contract blind spots and demonstration audit", it: "22 novembre · Limiti dei contratti e audit della dimostrazione" },
   { href: "https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/engine-v6-remote133-2026-11-21.md", en: "21 November · Remote holds, redirect and cleanup checks", it: "21 novembre · Casi remoti, redirect e chiusura connessioni" },
   { href: "https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/engine-v6-failed120-2026-11-16.md", en: "16 November · Held cases and target-host trial", it: "16 novembre · Casi sospesi e prova su host remoto" },
   { href: "https://github.com/sev7enITA/policywatcher/blob/main/docs/reports/engine-v6-google-passages-2026-11-16.md", en: "16 November · Google recovery and 500-source trial", it: "16 novembre · Recupero Google e prova su 500 fonti" },
@@ -289,7 +292,7 @@ export default async function EnginePreviewPage({ searchParams }: Props) {
       <aside className={styles.boundary}><FlaskConical size={22} aria-hidden="true" /><div><strong>{t.boundary}</strong><p>{t.boundaryText}</p><p>{t.hostingStatus}</p><a className={styles.explore} href="https://staging.policywatcher.online/admin/engine">{t.access}<ArrowUpRight size={18} aria-hidden="true" /></a><p>{t.isolation}</p></div></aside>
       <section className={styles.section} id="latest-research" aria-labelledby="latest-research-title">
         <div className={styles.sectionHeading}><p className={styles.eyebrow}>{lang === 'it' ? 'Ultimo aggiornamento di ricerca' : 'Latest research update'} / {latestResearchUpdate.datePublished}</p><h2 id="latest-research-title">{latestResearchUpdate.title[lang]}</h2><p>{latestResearchUpdate.summary[lang]}</p></div>
-        <div className={styles.ledger}>{latestResearchUpdate.changes.slice(0, 3).map((item, i) => <article key={item.en}><h3>{(lang === 'it' ? ['Correzioni r4', 'Recupero dei passaggi', 'Casi sospesi'] : ['r4 remediation', 'Passage recovery', 'Held cases'])[i]}</h3><p>{item[lang]}</p></article>)}</div>
+        <div className={styles.ledger}>{latestResearchUpdate.changes.slice(0, 3).map((item, i) => <article key={item.en}><h3>{lang === 'it' ? 'Osservazione' : 'Observation'} {i + 1}</h3><p>{item[lang]}</p></article>)}</div>
         <p className={styles.limits}>{latestResearchUpdate.boundaries[1][lang]}</p>
         <nav className={styles.sectionNav} aria-label={lang === 'it' ? 'Fonti dell’aggiornamento' : 'Research update sources'}><Link href={`/press-kit/releases/${latestResearchUpdate.slug}${lang === 'it' ? '?lang=it' : ''}`}>{lang === 'it' ? 'Leggi tutte le novità e le prove' : 'Read all progress and evidence'}</Link><a href={latestResearchUpdate.evidenceLinks[1].href}>{latestResearchUpdate.evidenceLinks[1].label[lang]}</a></nav>
       </section>

@@ -1,0 +1,121 @@
+{
+  "checkedAt": "2026-11-22T03:40:05.649Z",
+  "scope": "Local isolated development server only; no deployment or end-user Safari qualification",
+  "rows": [
+    {
+      "route": "browser-extension",
+      "lang": "en",
+      "width": 320,
+      "overflow": 0,
+      "documentAndCanonicalLanguage": true,
+      "boundedEvidenceVisible": true,
+      "pageErrors": []
+    },
+    {
+      "route": "browser-extension",
+      "lang": "en",
+      "width": 1366,
+      "overflow": 0,
+      "documentAndCanonicalLanguage": true,
+      "boundedEvidenceVisible": true,
+      "pageErrors": []
+    },
+    {
+      "route": "browser-extension",
+      "lang": "it",
+      "width": 320,
+      "overflow": 0,
+      "documentAndCanonicalLanguage": true,
+      "boundedEvidenceVisible": true,
+      "pageErrors": []
+    },
+    {
+      "route": "browser-extension",
+      "lang": "it",
+      "width": 1366,
+      "overflow": 0,
+      "documentAndCanonicalLanguage": true,
+      "boundedEvidenceVisible": true,
+      "pageErrors": []
+    },
+    {
+      "route": "engine-6-preview",
+      "lang": "en",
+      "width": 320,
+      "overflow": 0,
+      "documentAndCanonicalLanguage": true,
+      "boundedEvidenceVisible": true,
+      "pageErrors": []
+    },
+    {
+      "route": "engine-6-preview",
+      "lang": "en",
+      "width": 1366,
+      "overflow": 0,
+      "documentAndCanonicalLanguage": true,
+      "boundedEvidenceVisible": true,
+      "pageErrors": []
+    },
+    {
+      "route": "engine-6-preview",
+      "lang": "it",
+      "width": 320,
+      "overflow": 0,
+      "documentAndCanonicalLanguage": true,
+      "boundedEvidenceVisible": true,
+      "pageErrors": []
+    },
+    {
+      "route": "engine-6-preview",
+      "lang": "it",
+      "width": 1366,
+      "overflow": 0,
+      "documentAndCanonicalLanguage": true,
+      "boundedEvidenceVisible": true,
+      "pageErrors": []
+    },
+    {
+      "route": "atlas",
+      "lang": "en",
+      "width": 320,
+      "overflow": 0,
+      "documentAndCanonicalLanguage": true,
+      "boundedEvidenceVisible": true,
+      "pageErrors": []
+    },
+    {
+      "route": "atlas",
+      "lang": "en",
+      "width": 1366,
+      "overflow": 0,
+      "documentAndCanonicalLanguage": true,
+      "boundedEvidenceVisible": true,
+      "pageErrors": []
+    },
+    {
+      "route": "atlas",
+      "lang": "it",
+      "width": 320,
+      "overflow": 0,
+      "documentAndCanonicalLanguage": true,
+      "boundedEvidenceVisible": true,
+      "pageErrors": []
+    },
+    {
+      "route": "atlas",
+      "lang": "it",
+      "width": 1366,
+      "overflow": 0,
+      "documentAndCanonicalLanguage": true,
+      "boundedEvidenceVisible": true,
+      "pageErrors": []
+    }
+  ],
+  "failures": [],
+  "harnessCleanup": {
+    "allAssertionsCompleted": true,
+    "receiptSavedBeforeCleanup": true,
+    "nodeRunnerRequiredTermination": true,
+    "reason": "Runner remained alive after saving all 12 results; no Chrome child remained. Own local runner and server terminated. No natural process-exit result is claimed."
+  }
+}

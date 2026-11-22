@@ -1,0 +1,20 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-admin-login-hydration-20261122
+
+···stderr | src/lib/__tests__/adminAuth.test.ts > adminAuth > does not fall back to API_SECRET for admin session signing
+[AdminAuth] ADMIN_SESSION_HMAC_SECRET is not set. Sessions will be invalid.
+
+··········stderr | src/lib/__tests__/adminMutationBoundary.test.ts > administrative mutation boundary > integrates safe admin response headers without changing page nonce CSP
+[Admin mutation boundary] request denied {
+  route: '/api/admin/companies',
+  method: 'POST',
+  reason: 'origin_mismatch'
+}
+
+··················
+
+ Test Files  4 passed (4)
+      Tests  31 passed (31)
+   Start at  04:39:35
+   Duration  225ms (transform 183ms, setup 0ms, import 338ms, tests 44ms, environment 0ms)
+

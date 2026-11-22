@@ -49,8 +49,12 @@ describe('release metadata', () => {
     expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_BADGE).toBe('v3.8.3 Beta 3 · EXTENSION BETA');
     expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATE).toBe('chrome-edge-store-published');
     expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS.en).toBe(
-      'Chrome Web Store and Microsoft Edge Add-ons published · Safari not yet available',
+      'Chrome Web Store listing available · Edge listing unverified, publication historically reported · Safari iOS unsigned developer candidate; no App Store or TestFlight release',
     );
+
+    expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS.it).toContain('scheda Edge non verificata');
+    expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS.it).toContain('pubblicazione storica dichiarata');
+    expect(POLICYWATCHER_BROWSER_EXTENSION_RELEASE_STATUS.it).toContain('nessuna release App Store o TestFlight');
 
     const typedChannel: PolicyWatcherReleaseChannel = POLICYWATCHER_RELEASE_CHANNEL;
     expect(typedChannel).toBe('stable');

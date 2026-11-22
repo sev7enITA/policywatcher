@@ -46,7 +46,7 @@ npm run extension:smoke
 npm run extension:package
 ```
 
-The package command creates reproducible Chrome/Edge and Safari-source ZIP archives with SHA-256 checksums. It refuses dirty tracked source so every artifact maps to one Git revision.
+The package command creates traceable Chrome/Edge and Safari-source ZIP archives with SHA-256 checksums. It refuses dirty tracked source so every artifact maps to one Git revision.
 
 For unpacked Chromium testing, open `chrome://extensions` or `edge://extensions`, enable Developer mode, choose **Load unpacked**, and select `browser-extension/`.
 

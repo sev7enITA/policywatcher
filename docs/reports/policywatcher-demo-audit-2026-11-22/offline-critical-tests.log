@@ -1,0 +1,9 @@
+
+ RUN  v4.1.9 /Users/fabriziodegni/Projects/PolicyWatcher-reconciliation-20261116
+
+
+ Test Files  8 passed (8)
+      Tests  215 passed (215)
+   Start at  03:47:04
+   Duration  4.41s (transform 1.28s, setup 0ms, import 2.03s, tests 7.14s, environment 0ms)
+

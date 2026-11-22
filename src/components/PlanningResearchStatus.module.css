@@ -1,0 +1,16 @@
+.panel { margin: 1.5rem 0 2rem; padding: clamp(1rem, 3vw, 2rem); border: 1px solid #cbd5e1; border-radius: 1rem; background: #f8fafc; color: #172b3a; }
+.heading p { color: #0f766e; font-size: .78rem; font-weight: 700; letter-spacing: .04em; }
+.heading h2 { margin: .4rem 0 1rem; font-size: clamp(1.25rem, 2.6vw, 1.8rem); }
+.states { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 0; }
+.states div { padding: 1rem; background: #fff; border: 1px solid #dbe3eb; border-radius: .75rem; }
+.states dt { font-weight: 700; line-height: 1.5; }
+.states dd { margin: .5rem 0 0; font-size: .95rem; line-height: 1.65; }
+.boundary, .languageNote { margin: 1rem 0 0; font-size: .9rem; line-height: 1.7; }
+.panel nav { display: flex; flex-wrap: wrap; gap: .5rem 1rem; margin-top: 1rem; }
+.panel nav a { display: inline-flex; align-items: center; min-height: 44px; color: #155e75; font-weight: 650; text-underline-offset: .2em; }
+.panel nav a:focus-visible { outline: 2px solid #0f766e; outline-offset: 3px; }
+.languageNote { padding-top: .75rem; border-top: 1px solid #cbd5e1; }
+@media(max-width: 700px) { .states { grid-template-columns: 1fr; } }
+
+.auditLink { display: inline-flex; align-items: center; min-height: 44px; color: #155e75; text-underline-offset: .2em; }
+.auditLink:focus-visible { outline: 2px solid #0f766e; outline-offset: 3px; }

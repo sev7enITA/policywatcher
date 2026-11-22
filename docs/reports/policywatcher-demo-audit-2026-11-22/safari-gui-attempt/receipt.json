@@ -1,0 +1,45 @@
+{
+  "checkedAt": "2026-11-22T04:29:51.444491+00:00",
+  "status": "blocked_before_any_safari_gui_action",
+  "ownSimulatorId": "22038146-41D2-465B-9700-EF11AD97AFFE",
+  "appAlreadyInstalled": "online.policywatcher.safari",
+  "bootObservation": "simctl bootstatus completed with exit0 but reported Data Migration Failed; get_app_container succeeded. Not treated as a successful Safari runtime test.",
+  "skyAttempts": [
+    {
+      "app": "com.apple.iphonesimulator",
+      "result": "Invalid app"
+    },
+    {
+      "app": "/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app",
+      "result": "Invalid app"
+    },
+    {
+      "action": "list_apps",
+      "result": "The Mac is locked and automatic unlock could not unlock it. No independent unlock action was attempted."
+    }
+  ],
+  "frontendExistence": {
+    "selectedDeveloperPath": "/Applications/Xcode.app/Contents/Developer",
+    "expectedSimulatorAppExists": false,
+    "selectedDeveloperApplicationsDirectoryExists": false,
+    "applicationsRgSearch": "No Simulator.app/Contents/Info.plist returned by bounded rg /Applications search. Not exhaustive proof about other hosts or locations."
+  },
+  "ownSimulatorFinalState": "Shutdown",
+  "safariExtensionEnabled": false,
+  "syntheticPageOpened": false,
+  "localServerStarted": false,
+  "injectionObserved": false,
+  "popupObserved": false,
+  "submitAction": false,
+  "policyInquiryRequestInitiated": false,
+  "appleAccountOrTeamChanged": false,
+  "signingIdentityOrPhysicalDeviceAction": false,
+  "assetBytesChanged": false,
+  "artifactChecksumVerification": "All four ZIPs and release metadata match existing SHA256SUMS.txt after the attempt.",
+  "initialReportWriteFailure": "Relative output paths were initially resolved from prerelease directory; no file created. Re-ran only read-only state collection/report from correct checkout. Shutdown had already completed.",
+  "limits": [
+    "No real Safari extension qualification added. Prior container/Swift/VM checks remain bounded.",
+    "Existing signing identities and unavailable physical-device records do not establish absence of an account or a connected device; no matching team/provisioning was checked.",
+    "Mac GUI remained unavailable; user unlock is handled by parent task."
+  ]
+}

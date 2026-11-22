@@ -1,0 +1,36 @@
+{
+  "reviewedHead": "5eaa08ffb0cdd0ba7919684c5ad6689b201167b8",
+  "artifactBuildSourceRevision": "2e744255c5e2e8a82ba05ec81230ca1d5838c860",
+  "builds": [
+    {
+      "target": "simulator",
+      "appBundle": "online.policywatcher.safari",
+      "extensionBundle": "online.policywatcher.safari.Extension",
+      "version": "0.1.0",
+      "build": "1",
+      "runtimeHashesMatched": 11,
+      "noSignaturesOrProvisioning": true,
+      "minimumAppIos": "17.0",
+      "minimumExtensionIos": "15.0",
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ]
+    },
+    {
+      "target": "device",
+      "appBundle": "online.policywatcher.safari",
+      "extensionBundle": "online.policywatcher.safari.Extension",
+      "version": "0.1.0",
+      "build": "1",
+      "runtimeHashesMatched": 11,
+      "noSignaturesOrProvisioning": true,
+      "minimumAppIos": "17.0",
+      "minimumExtensionIos": "15.0",
+      "architectures": [
+        "arm64"
+      ]
+    }
+  ],
+  "functionalSafariTestExecuted": false
+}
