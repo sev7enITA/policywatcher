@@ -58,8 +58,10 @@ const translationContent = {
           "The new candidate compares an inventory of every structured block: block kind, section path, text digest and occurrence count. It targets missing middle clauses, lost repeated passages, missing table rows and emptied sections.",
           "The reference must be reviewed against the official source, with document scope and language recorded. An inventory generated from the same unverified extraction cannot independently establish completeness.",
           "A match covers only that reviewed reference and representation. Unloaded content, attachments or clauses already absent from the reference remain possible blind spots.",
+          "Version 2 adds separately identified section, clause and table-row occurrences, a complete declared link census and an attachment manifest. Each expected attachment needs an exact fresh capture, original entity-byte digest and separately reviewed extraction inventory. Cross-origin, oversized, redirected or unsupported attachments remain held in this candidate.",
+          "An offline authoring tool reads retained reference files, checks their actual digests and emits a draft for human review. Acquisition identity and reviewer declarations help trace independence; they do not authenticate the publisher or certify the reference.",
           "A genuine source change requires a fresh reviewed reference; it must not be silently accepted by rebuilding the inventory from the changed extraction.",
-          "Missing or mismatched reviewed inventory may be retained for private observation, but must remain held at the candidate Engine 6 publication boundary. Final test evidence is being recorded; hosted r3 Preview and frozen candidate 050af19 are separate implementations."
+          "Missing or mismatched reviewed inventory may be retained for private observation, but must remain held at the candidate Engine 6 publication boundary. Local verification receipts are recorded separately; hosted r3 Preview and frozen candidate 050af19 are separate implementations."
         ]
       },
       {
@@ -222,9 +224,11 @@ const translationContent = {
         bullets: [
           "Il nuovo candidato confronta un inventario di ogni blocco strutturato: tipo, percorso della sezione, hash del testo e numero di occorrenze. Mira a rilevare clausole centrali mancanti, ripetizioni perse, righe di tabella assenti e sezioni svuotate.",
           "Il riferimento deve essere revisionato rispetto alla fonte ufficiale, registrando ambito documentale e lingua. Un inventario generato dalla stessa estrazione non verificata non dimostra indipendentemente la completezza.",
+          "La versione 2 distingue sezioni, unità di clausola e righe con le rispettive occorrenze, censisce i collegamenti dichiarati e introduce il manifesto degli allegati. Ogni allegato richiede cattura fresca esatta, hash dei byte originali e inventario del testo revisionato separatamente. Allegati su origini diverse, troppo grandi, reindirizzati o non supportati restano sospesi.",
+          "Lo strumento offline legge i file di riferimento conservati, verifica gli hash effettivi e produce una bozza da revisionare. Identità della cattura e dichiarazioni del revisore rendono tracciabile la provenienza; non autenticano l’editore e non certificano il riferimento.",
           "Una corrispondenza riguarda soltanto quel riferimento e quella rappresentazione. Contenuti non caricati, allegati o clausole già assenti dal riferimento restano possibili punti ciechi.",
           "Una modifica autentica della fonte richiede un nuovo riferimento revisionato; non va accettata silenziosamente rigenerando l’inventario dall’estrazione modificata.",
-          "Un inventario revisionato assente o non corrispondente può essere conservato come osservazione privata, ma deve restare sospeso al confine di pubblicazione del candidato Engine 6. Le prove finali sono in raccolta; Preview r3 online e candidato congelato 050af19 restano implementazioni distinte."
+          "Un inventario revisionato assente o non corrispondente può essere conservato come osservazione privata, ma deve restare sospeso al confine di pubblicazione del candidato Engine 6. Le ricevute delle verifiche locali sono registrate separatamente; Preview r3 online e candidato congelato 050af19 restano implementazioni distinte."
         ]
       },
       {
