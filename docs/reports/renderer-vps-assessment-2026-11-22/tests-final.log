@@ -1,0 +1,182 @@
+TAP version 13
+# [Renderer] OK f3607597-f9b1-467d-bcd1-c16650537522 https://example.com/policy -> 200 (40 bytes, 8ms)
+# Subtest: reserves before asynchronous validation; a second real HTTP request receives 429 at capacity one
+ok 1 - reserves before asynchronous validation; a second real HTTP request receives 429 at capacity one
+  ---
+  duration_ms: 22.872416
+  type: 'test'
+  ...
+# Subtest: releases its reservation after malformed JSON
+ok 2 - releases its reservation after malformed JSON
+  ---
+  duration_ms: 6.127
+  type: 'test'
+  ...
+# Subtest: releases its reservation after missing URL
+ok 3 - releases its reservation after missing URL
+  ---
+  duration_ms: 4.670125
+  type: 'test'
+  ...
+# Subtest: releases its reservation after denied target
+ok 4 - releases its reservation after denied target
+  ---
+  duration_ms: 4.330625
+  type: 'test'
+  ...
+# [Renderer] FAIL 84ba2485-87c9-4476-96f0-258174b47229 unvalidated-target: Error dns_lookup_failed
+# Subtest: releases its reservation after DNS exception
+ok 5 - releases its reservation after DNS exception
+  ---
+  duration_ms: 3.296
+  type: 'test'
+  ...
+# [Renderer] FAIL dc6d6121-7c22-45f8-92fc-f9de7f0b6b55 https://example.com/policy: Error synthetic_render_failure
+# Subtest: releases its reservation after render exception
+ok 6 - releases its reservation after render exception
+  ---
+  duration_ms: 5.088459
+  type: 'test'
+  ...
+# Subtest: releases its reservation after oversized body
+ok 7 - releases its reservation after oversized body
+  ---
+  duration_ms: 2.441542
+  type: 'test'
+  ...
+# [Renderer] FAIL cb1ec8a5-a286-4d7a-9a9b-3d17e2b7a57a unvalidated-target: Error dns_lookup_timeout
+# Subtest: releases its reservation after validation deadline
+ok 8 - releases its reservation after validation deadline
+  ---
+  duration_ms: 24.487583
+  type: 'test'
+  ...
+# Subtest: times out a stalled HTTP body and returns 408 without retaining a reservation
+ok 9 - times out a stalled HTTP body and returns 408 without retaining a reservation
+  ---
+  duration_ms: 34.486042
+  type: 'test'
+  ...
+# Subtest: releases a partial-body client disconnect without an unhandled stream error
+ok 10 - releases a partial-body client disconnect without an unhandled stream error
+  ---
+  duration_ms: 9.884667
+  type: 'test'
+  ...
+# Subtest: cancels rendering when the response connection closes and releases the slot
+ok 11 - cancels rendering when the response connection closes and releases the slot
+  ---
+  duration_ms: 3.163708
+  type: 'test'
+  ...
+# Subtest: does not reserve capacity for unauthorized or unknown routes
+ok 12 - does not reserve capacity for unauthorized or unknown routes
+  ---
+  duration_ms: 3.12475
+  type: 'test'
+  ...
+# Subtest: an unsuccessful browser launch remains a 503, then a fresh readiness request can recover
+ok 13 - an unsuccessful browser launch remains a 503, then a fresh readiness request can recover
+  ---
+  duration_ms: 2.102417
+  type: 'test'
+  ...
+# Subtest: concurrent launch waiters share failure; retry and disconnected events do not clear a newer browser
+ok 14 - concurrent launch waiters share failure; retry and disconnected events do not clear a newer browser
+  ---
+  duration_ms: 0.295666
+  type: 'test'
+  ...
+# Subtest: a DNS lookup has its own deadline without making an external request
+ok 15 - a DNS lookup has its own deadline without making an external request
+  ---
+  duration_ms: 11.415416
+  type: 'test'
+  ...
+# Subtest: shutdown does not launch a browser and closes an already launched browser only once
+ok 16 - shutdown does not launch a browser and closes an already launched browser only once
+  ---
+  duration_ms: 0.171209
+  type: 'test'
+  ...
+# Subtest: uses the bundled Chromium user agent unless an operator override is explicit
+ok 17 - uses the bundled Chromium user agent unless an operator override is explicit
+  ---
+  duration_ms: 0.550667
+  type: 'test'
+  ...
+# Subtest: rejects unsafe or oversized user-agent overrides
+ok 18 - rejects unsafe or oversized user-agent overrides
+  ---
+  duration_ms: 0.449542
+  type: 'test'
+  ...
+# Subtest: accepts only explicit registrable-domain allowlist entries
+ok 19 - accepts only explicit registrable-domain allowlist entries
+  ---
+  duration_ms: 0.662
+  type: 'test'
+  ...
+# Subtest: supports bounded primary and previous secret overlap
+ok 20 - supports bounded primary and previous secret overlap
+  ---
+  duration_ms: 0.123542
+  type: 'test'
+  ...
+# Subtest: authenticates every non-health route before route selection
+ok 21 - authenticates every non-health route before route selection
+  ---
+  duration_ms: 0.304166
+  type: 'test'
+  ...
+# Subtest: requires HTTPS and an allowlisted public DNS target
+ok 22 - requires HTTPS and an allowlisted public DNS target
+  ---
+  duration_ms: 2.346333
+  type: 'test'
+  ...
+# Subtest: redacts query and fragment values from operational logs
+ok 23 - redacts query and fragment values from operational logs
+  ---
+  duration_ms: 0.128959
+  type: 'test'
+  ...
+# Subtest: accepts only bounded renderer release metadata
+ok 24 - accepts only bounded renderer release metadata
+  ---
+  duration_ms: 0.483375
+  type: 'test'
+  ...
+# Subtest: strictly decodes base64 packages within the configured byte cap
+ok 25 - strictly decodes base64 packages within the configured byte cap
+  ---
+  duration_ms: 0.49025
+  type: 'test'
+  ...
+# Subtest: rejects traversal, secrets and ambiguous archive paths
+ok 26 - rejects traversal, secrets and ambiguous archive paths
+  ---
+  duration_ms: 0.119625
+  type: 'test'
+  ...
+# Subtest: waits for Renderer readiness after systemd reports the service started
+ok 27 - waits for Renderer readiness after systemd reports the service started
+  ---
+  duration_ms: 0.108584
+  type: 'test'
+  ...
+# Subtest: reports readiness failure only after exhausting the bounded attempts
+ok 28 - reports readiness failure only after exhausting the bounded attempts
+  ---
+  duration_ms: 0.073375
+  type: 'test'
+  ...
+1..28
+# tests 28
+# suites 0
+# pass 28
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 408.927166

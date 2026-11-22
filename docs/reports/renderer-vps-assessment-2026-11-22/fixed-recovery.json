@@ -1,0 +1,32 @@
+{
+  "scope": "Real renderer HTTP admission flow; DNS and Chromium stubbed, listener forced onto isolated loopback ephemeral port; no external target request.",
+  "sourceRef": "working-tree-candidate",
+  "readiness": [
+    {
+      "status": 503,
+      "payload": {
+        "ok": false,
+        "state": "browser_unavailable"
+      }
+    },
+    {
+      "status": 200,
+      "payload": {
+        "ok": true,
+        "service": "policywatcher-renderer",
+        "version": "1.2.1",
+        "state": "ready",
+        "active": 0,
+        "capacity": 1,
+        "secretRotation": "single-active",
+        "targetAllowlistCount": 1,
+        "subresourceAllowlistCount": 0,
+        "browserVersionMajor": "149",
+        "userAgentMode": "browser-default",
+        "uptimeSeconds": 0
+      }
+    }
+  ],
+  "launchAttempts": 2,
+  "recovered": true
+}

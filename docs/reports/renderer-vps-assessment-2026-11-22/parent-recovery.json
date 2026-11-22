@@ -1,0 +1,22 @@
+{
+  "scope": "Real renderer HTTP admission flow; DNS and Chromium stubbed, listener forced onto isolated loopback ephemeral port; no external target request.",
+  "sourceRef": "4fd791e19b1b1ca68f6ec57d7d84ee1c829f17b4",
+  "readiness": [
+    {
+      "status": 503,
+      "payload": {
+        "ok": false,
+        "state": "browser_unavailable"
+      }
+    },
+    {
+      "status": 503,
+      "payload": {
+        "ok": false,
+        "state": "browser_unavailable"
+      }
+    }
+  ],
+  "launchAttempts": 1,
+  "recovered": false
+}

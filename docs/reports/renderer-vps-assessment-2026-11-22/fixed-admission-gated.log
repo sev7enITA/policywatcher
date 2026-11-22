@@ -1,0 +1,3 @@
+[Renderer] Listening on :8787 (v1.2.1, concurrency 1, nav timeout 45000ms, user agent Chromium default)
+[Renderer] OK 12d97f88-1f1b-4ee4-b04c-afe02b558255 https://example.com/policy-one -> 200 (47 bytes, 13ms)
+{"scope":"Real renderer HTTP admission flow; DNS and Chromium stubbed, listener forced onto isolated loopback ephemeral port; no external target request.","sourceRef":"working-tree-candidate","capacity":1,"active":1,"startedContexts":1,"responses":[200,429]}
