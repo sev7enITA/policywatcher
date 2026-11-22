@@ -1,5 +1,7 @@
 # Renderer and VPS companion assessment, 22 November 2026
 
+Later evidence: [one real local Chromium149 render/admission probe passed](renderer-real-chromium-2026-11-22.md) after this original assessment. It used this same candidate on the Mac and a single IANA test source, with no new download or remote VPS change. It advances a bounded local functional gate; it does not qualify VPS resources, general source correctness or500/day.
+
 Two P1 reliability defects were reproduced in the renderer source and corrected in a **local Renderer 1.2.1 candidate**, runtime commit `3276336aedff3923a21cbf642e1f303ea53efd8b`. No remote service, account configuration or deployment was changed. Remote incident occurrence is unknown; these reproductions do not establish an operational incident.
 
 ## Infrastructure observations must remain separate

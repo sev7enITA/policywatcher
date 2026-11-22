@@ -123,7 +123,18 @@
     "localArchiveSha256": "ca3a96c560b6f3300e4e46fc43541e30e0087443731e3e9b500915be2ab53095",
     "remoteUpgradePerformed": false,
     "lastReadinessObservedVersion": "1.2.0",
-    "realChromiumAndVpsPromotionQualified": false
+    "realChromiumAndVpsPromotionQualified": false,
+    "localRealChromiumProbe": {
+      "passed": true,
+      "version": "149",
+      "sourceStatus": 200,
+      "concurrentStatus": 429,
+      "activeAfter": 0,
+      "candidate": "1.2.1",
+      "completedAt": "2026-11-22T04:56:21.161Z",
+      "report": "renderer-real-chromium-2026-11-22.md",
+      "remoteVpsQualified": false
+    }
   },
   "privatePreview": {
     "changedByDelivery": false,
