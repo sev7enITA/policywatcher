@@ -44,7 +44,7 @@ vi.mock('http2', () => ({ connect: vi.fn((_origin: string, _options: unknown, re
   queueMicrotask(ready); return client;
 }) }));
 
-import { acquireEngineTransport, readBoundedFetchBody, readBoundedFetchBodyWithProof,
+import { acquireEngineAttachment, acquireEngineTransport, readBoundedFetchBody, readBoundedFetchBodyWithProof,
   decodeBoundedResponseBody, MAX_NETWORK_RESPONSE_BYTES } from '../scraper';
 
 const URL = 'https://public.example/privacy?private=PRIVATE-CANARY';
@@ -160,5 +160,27 @@ describe('rendered acquisition keeps origin partial status and API response limi
     vi.stubEnv('RENDERER_URL', 'https://renderer.example'); vi.stubEnv('RENDERER_SECRET', 'synthetic-secret');
     vi.stubGlobal('fetch', vi.fn(async () => new Response('x', { headers: { 'content-length': String(MAX_NETWORK_RESPONSE_BYTES+1) } })));
     expect(await acquireEngineTransport(URL, 'rendered')).toMatchObject({ ok: false, html: '', error: 'renderer_error:response_body_too_large' });
+  });
+});
+
+
+describe('original attachment entity bytes', () => {
+  it('refuses a redirect before contacting its unreviewed target', async () => {
+    harness.direct.push({ status: 302, complete: true, headers: { location: 'https://different.example.net/annex' }, chunks: [] });
+    await expect(acquireEngineAttachment(URL)).rejects.toThrow('attachment_redirect_unreviewed');
+  });
+  it('retains decoded entity bytes separately from the encoded wire count', async () => {
+    const wire = gzipSync(BODY);
+    harness.direct.push({ complete: true, headers: { 'content-type': 'text/html; charset=utf-8', 'content-length': String(wire.length), 'content-encoding': 'gzip' }, chunks: [wire] });
+    const result = await acquireEngineAttachment(URL);
+    expect(result.bytes).toEqual(BODY); expect(result.html).toBe(BODY.toString());
+    expect(result.transportProof.receivedBytes).toBe(wire.length); expect(result.mediaType).toBe('text/html');
+  });
+  it('rejects partial attachment bodies and oversized decoded entities', async () => {
+    harness.direct.push({ status: 206, complete: true, chunks: [BODY] });
+    await expect(acquireEngineAttachment(URL)).rejects.toThrow('http_206_partial_response');
+    const wire = gzipSync(Buffer.alloc(1_000_001, 65));
+    harness.direct.push({ complete: true, headers: { 'content-encoding': 'gzip', 'content-length': String(wire.length) }, chunks: [wire] });
+    await expect(acquireEngineAttachment(URL)).rejects.toThrow('response_decode_failed');
   });
 });

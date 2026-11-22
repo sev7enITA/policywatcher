@@ -1,3 +1,4 @@
+import { reviewedFixture } from './fixtures/independentCoverage';
 import { beforeAll, beforeEach, afterAll, describe, it, expect, vi } from 'vitest';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -9,7 +10,7 @@ import { digest, structureDocument, compareDocuments, assessDocument, parseSourc
 import { validateClaims, validateVerification, validateModelPair, engineModelPair, modelEvidence, CLAIM_SCHEMA, type AnalysisInput, type ClaimSet, type AnalysisProvider } from '../engine/claims';
 import type { CaptureBody, Observation } from '../engine/acquisition';
 import type { TaskInput } from '../engine/store';
-import { coverageInventoryDigest, coverageScopeId, observedCoverageUnits, observedCoverageSequenceDigest, type ReviewedCoverageInventory } from '../engine/coverage';
+import { coverageScopeId, observedCoverageUnits, observedCoverageSequenceDigest, type ReviewedCoverageInventory } from '../engine/coverage';
 
 const dir = mkdtempSync(join(tmpdir(), 'pw-engine-v6-'));
 const url = `file:${join(dir, 'engine.db')}`;
@@ -39,7 +40,7 @@ const analysis: AnalysisProvider = {
   verify: vi.fn(async (_input: AnalysisInput, claims: ClaimSet) => ({ value: { verdicts: claims.claims.map(c => ({ claimId: c.id, verdict: 'supported' as const, reason: 'Synthetic fixture verification.' })) }, receipt: { ...receipt, model: 'independent-test-provider' } })),
 };
 async function capture(text = newText, notModified = false): Promise<Observation> {
-  const body: CaptureBody = { html: `<html lang="en"><main>${text}</main></html>`, document: structureDocument(text), language: 'en' };
+  const body: CaptureBody = { captureId: 'candidate-fixture-capture', html: `<html lang="en"><main>${text}</main></html>`, document: structureDocument(text), language: 'en' };
   return { artifactId: await store.putArtifact(body), observedAt: new Date().toISOString(), source: 'direct', httpStatus: notModified ? 304 : 200,
     finalUrl: fixtureUrl, notModified, eligible: true, reasons: [], diagnostics: [] };
 }
@@ -56,7 +57,7 @@ function fixtureInventory(sourceUrl: string, referenceText: string): ReviewedCov
     units: observedCoverageUnits(structureDocument(referenceText)),
     sequenceSha256: observedCoverageSequenceDigest(structureDocument(referenceText)),
   };
-  return { ...body, inventorySha256: coverageInventoryDigest(body) };
+  return reviewedFixture(body);
 }
 async function installFixtureReference(policyId: string, referenceText: string) {
   const row = await database.engineSourceContract.findUniqueOrThrow({ where: { policyId } });

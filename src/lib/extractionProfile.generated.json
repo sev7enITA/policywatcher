@@ -2,8 +2,8 @@
   "version": 2,
   "files": {
     "scraper:transform": "6399cf056f87328ba06d106c81c28edcdb73f526fd521fae863c38911ba4acba",
-    "engine:document": "0a960a04480e61843ef1526edb2238cb310147346f40d8020b3ca6a323f9ef85",
-    "engine:transform": "005aba090db7caa7d1107d125a39021be068fe7496deef5d608ad01f578d79e9",
+    "engine:document": "f30b837c6eb185acf9b755b5dd1090a8cafb3de45c04b175f309461371f0a503",
+    "engine:transform": "1077bdd01c51dfdb5db2c81293fc3e7b0e17be02e37cc0adc51c4318ddddeb19",
     "sourceReliability:identity": "116ee89de41eedb80dac797c4d7d96397a3f011c1a1398f5e1432cd15750d70a",
     "src/lib/pdfPolicy.ts": "8e7547a94f0a447be6797dc8b37dd0a532de5cbb64050ceb48bc7b13552a791b",
     "src/lib/acquisitionScope.ts": "e3cc3ec89c8f223af18ee6c9c62f1dae3b7cb59268ac30037f2338782abc38d9"
@@ -106,5 +106,5 @@
       "integrity": "sha512-QaKxh0eNIi2mE9p2vEdzfagOKHCcj1pJ56EEHGQOVxp8r9/iszLUUV7v89x9O1p/T+NlTM5W7jW6+cz4Fq1YVg=="
     }
   },
-  "hash": "6393cbe86b3bc376bb84328dce2042faf4f93d2ce9dcc199881b27cbafeb8698"
+  "hash": "b7f10f50f19b27781acf14cf24f27a0e7e7020f3b1421d61a0794d95dd50d4ec"
 }

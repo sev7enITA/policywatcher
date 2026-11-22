@@ -591,6 +591,29 @@ export async function acquireEngineTransport(url: string, kind: 'direct' | 'http
   } finally { clearTimeout(timer); }
 }
 
+export interface EngineAttachmentResponse {
+  bytes: Buffer; html: string; status: number; finalUrl: string; mediaType: string;
+  language?: string; transportProof: TransportProof;
+}
+/** Private Engine 6 only: one fresh pinned request chain, at most 1 MB decoded.
+ * This retains original PDF/entity bytes, distinct from its derived inert HTML.
+ */
+export async function acquireEngineAttachment(url: string): Promise<EngineAttachmentResponse> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  try {
+    const destination = await validateOutboundUrl(url);
+    if (!destination.ok) throw new Error(destination.reason);
+    const res = await requestPinnedHttp(new URL(destination.url), destination.pinnedIp, buildHeaders(BROWSER_PROFILES[0]), controller.signal, true);
+    // A redirect changes the exact reviewed resource; do not contact its target.
+    if (res.status >= 300 && res.status < 400) throw new Error('attachment_redirect_unreviewed');
+    if (res.status !== 200 || !res.entityBytes?.length) throw new Error('attachment_response_not_complete');
+    return { bytes: res.entityBytes, html: res.body, status: res.status, finalUrl: destination.url,
+      mediaType: (res.headers['content-type'] || '').split(';')[0].trim().toLowerCase(),
+      language: res.headers['content-language'], transportProof: res.transportProof };
+  } finally { clearTimeout(timer); }
+}
+
 type TestTransport = (url: string, notBefore?: Date) => Promise<TransportResult>;
 
 export interface ScraperControlledFallbacks {
@@ -722,8 +745,9 @@ function requestPinnedHttp(
   parsedUrl: URL,
   pinnedIp: string,
   headers: Record<string, string>,
-  signal: AbortSignal
-): Promise<{ status: number; headers: http.IncomingHttpHeaders; body: string; transportProof: TransportProof }> {
+  signal: AbortSignal,
+  retainEntityBytes = false
+): Promise<{ status: number; headers: http.IncomingHttpHeaders; body: string; transportProof: TransportProof; entityBytes?: Buffer }> {
   return new Promise((resolve, reject) => {
     let settled = false;
     let activeResponseFailure: ((token: string) => void) | null = null;
@@ -793,10 +817,11 @@ function requestPinnedHttp(
         const buffer = Buffer.concat(chunks, receivedBytes);
         const encoding = (res.headers['content-encoding'] || '').toLowerCase();
         try {
-          const body = await decodeBoundedDocumentBody(buffer, encoding, res.headers['content-type'] || '');
+          const entityBytes = retainEntityBytes ? await decodeBoundedResponseBytes(buffer, encoding, 1_000_000) : undefined;
+          const body = await decodeBoundedDocumentBody(entityBytes || buffer, entityBytes ? '' : encoding, res.headers['content-type'] || '');
           if (settled) return;
           settled = true;
-          resolve({ status: res.statusCode || 0, headers: res.headers, body,
+          resolve({ status: res.statusCode || 0, headers: res.headers, body, ...(entityBytes ? { entityBytes } : {}),
             transportProof: proof(res.complete === true ? 'complete' : 'unknown', 'completed') });
         } catch {
           fail('response_decode_failed', 'failed');

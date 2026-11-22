@@ -299,7 +299,7 @@
     ],
     [
       "src/lib/engine/acquisition.ts",
-      "8168963fa2c3ce0a47757459d052313f625d12ec3ebdda37c27a5dd2e3ea35ce"
+      "122b78b6af45634e0db67eaf0743dbdb6c58df4353511c8c64facb825c90459a"
     ],
     [
       "src/lib/engine/channelReports.ts",
@@ -319,11 +319,11 @@
     ],
     [
       "src/lib/engine/coverage.ts",
-      "5d428b68e35fc0da7b48f42803393067100d14f2aa0648083c0d0811be3d9dff"
+      "eb8c10153d390e535b2d8f4edd513d73335e1c097c01edb4d5fc0798f3e8674e"
     ],
     [
       "src/lib/engine/document.ts",
-      "bf74a28ce38b188cb9e7fc6dd90182edc42b6b2aaafd5884ca1770b0c82fe0d8"
+      "5c97ccb9754977e5317b81a0a0e4ec2c812e69115865dd520687a2d95575b0d0"
     ],
     [
       "src/lib/engine/failures.ts",
@@ -355,7 +355,7 @@
     ],
     [
       "src/lib/extractionProfile.generated.json",
-      "5759a0493b01ebaca77cb3716437a55bbcb474365aa6b760a781e0275306d180"
+      "5abafcd42d42ba8026b0eaacbb692a88c695eafe03cd8cbdf6e9267fefb78152"
     ],
     [
       "src/lib/extractionProfile.ts",
@@ -455,7 +455,7 @@
     ],
     [
       "src/lib/scraper.ts",
-      "6b4424fedc5627e58dccb337947f83254365180974af0fb94f7bc93cd988bef3"
+      "1274e55c6ac1d9cb1294304348d943785c49e8fd35389071362156a0113ea87c"
     ],
     [
       "src/lib/seo.ts",
@@ -494,5 +494,5 @@
       "9a58ee8a17ae157f8639415c9a07249dcfd7f46d9b8371d9592eb8e460e56005"
     ]
   ],
-  "hash": "618197e6dfd2f28f0a9b081b0798ea0f8e19ef89cae26812613ea94a4c1aae75"
+  "hash": "3b67995d1476c762bc2cb45996461bc92efaaac47aa0873dcce3d58609219e63"
 }

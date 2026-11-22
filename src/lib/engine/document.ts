@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { diffArrays } from 'diff';
-import { assessCoverage, parseCoverageInventory, type CoverageReceipt, type ReviewedCoverageInventory } from './coverage';
+import { assessCoverage, parseCoverageInventory, type CoverageReceipt, type CoverageEvidence, type ReviewedCoverageInventory } from './coverage';
 
 export const ENGINE_SCHEMA = 'pw-engine-6.0.0-alpha.1';
 export const digest = (value: string) => createHash('sha256').update(value).digest('hex');
@@ -129,8 +129,8 @@ export function parseSourceContract(value: unknown): SourceContract {
 }
 
 export function assessDocument(document: StructuredDocument, contract: SourceContract | null, sourceUrl: string,
-  languageHint?: string): { eligible: boolean; reasons: string[]; identity: string; completeness: string; coverage: CoverageReceipt } {
-  const coverage = assessCoverage(document, contract?.completenessInventory, sourceUrl, languageHint);
+  languageHint?: string, evidence?: CoverageEvidence): { eligible: boolean; reasons: string[]; identity: string; completeness: string; coverage: CoverageReceipt } {
+  const coverage = assessCoverage(document, contract?.completenessInventory, sourceUrl, languageHint, evidence);
   if (!contract) return { eligible: false, reasons: ['source_contract_missing'], identity: 'unknown', completeness: 'unknown', coverage };
   const reasons: string[] = [];
   if (contract.sourceUrl !== sourceUrl) reasons.push('source_contract_mismatch');

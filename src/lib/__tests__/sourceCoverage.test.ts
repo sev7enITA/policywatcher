@@ -1,7 +1,8 @@
+import { reviewedFixture } from './fixtures/independentCoverage';
 import { describe, expect, it } from 'vitest';
 import { createHash } from 'node:crypto';
 import { assessDocument, parseSourceContract, structureDocument, type SourceContract } from '../engine/document';
-import { assessCoverage, coverageInventoryDigest, coverageScopeId, normalizeCoverageUnit, observedCoverageSequenceDigest, parseCoverageInventory, publicationCoverageSatisfied, type CoverageUnit, type ReviewedCoverageInventory } from '../engine/coverage';
+import { assessCoverage, coverageScopeId, normalizeCoverageUnit, observedCoverageSequenceDigest, parseCoverageInventory, publicationCoverageSatisfied, type CoverageUnit, type ReviewedCoverageInventory } from '../engine/coverage';
 
 const sourceUrl = 'https://example.org/terms#service';
 const middle = 'A critical middle clause prohibits commercial resale without written approval.';
@@ -28,14 +29,14 @@ function reference(): ReviewedCoverageInventory {
       unit('heading', ['Sample Terms', 'Empty'], '## Empty'), unit('paragraph', ['Sample Terms', 'Empty'], sectionBody), unit('heading', ['Sample Terms', 'Contact'], '## Contact'),
       unit('paragraph', ['Sample Terms', 'Contact'], terminal)],
   };
-  return { ...body, inventorySha256: coverageInventoryDigest(body) };
+  return reviewedFixture(body);
 }
 function contract(inventory?: ReviewedCoverageInventory): SourceContract {
   return { schemaVersion: 1, sourceUrl, titleAliases: ['Sample Terms'], requiredHeadings: ['Use', 'Empty', 'Contact'], terminalText: terminal,
     language: 'en', minimumChars: 100, maximumChars: 500_000, preferredTransport: 'direct', reviewedAt: '2026-11-22T10:05:00Z',
     reviewNote: 'Synthetic scoped source contract for coverage tests.', ...(inventory ? { completenessInventory: inventory } : {}) };
 }
-const assess = (text = fullText) => assessDocument(structureDocument(text), contract(reference()), sourceUrl, 'en');
+const assess = (text = fullText) => assessDocument(structureDocument(text), contract(reference()), sourceUrl, 'en', { captureId: 'candidate-fixture-capture', attachmentLinks: {} });
 
 describe('reviewed source inventory coverage', () => {
   it('does not turn a self-consistent incomplete reference into independent qualification', () => {
@@ -44,8 +45,8 @@ describe('reviewed source inventory coverage', () => {
     inv.units = inv.units.filter(u => u.textSha256 !== sha(normalizeCoverageUnit(middle)));
     inv.sequenceSha256 = observedCoverageSequenceDigest(incomplete);
     const { inventorySha256: ignored, ...body } = inv; void ignored;
-    inv.inventorySha256 = coverageInventoryDigest(body);
-    const result = assessCoverage(incomplete, inv, sourceUrl, 'en');
+    Object.assign(inv, reviewedFixture(body));
+    const result = assessCoverage(incomplete, inv, sourceUrl, 'en', { captureId: 'candidate-fixture-capture', attachmentLinks: {} });
     expect(result.state).toBe('matched_reviewed_reference');
     expect(result.referenceOriginVerified).toBe(false);
     expect(result.sourceCompletenessQualified).toBe(false);
@@ -65,9 +66,9 @@ describe('reviewed source inventory coverage', () => {
     inv.units.find(u => u.kind === 'paragraph' && u.textSha256 === sha(normalizeCoverageUnit(middle)))!.textSha256 = sha(normalizeCoverageUnit(middle + ' Limit: 10² units.'));
     inv.sequenceSha256 = observedCoverageSequenceDigest(structureDocument(text));
     const { inventorySha256: ignored, ...body } = inv; void ignored;
-    inv.inventorySha256 = coverageInventoryDigest(body);
-    expect(assessCoverage(structureDocument(text), inv, sourceUrl, 'en').state).toBe('matched_reviewed_reference');
-    expect(assessCoverage(structureDocument(text.replace('10²', '102')), inv, sourceUrl, 'en').state).toBe('mismatch');
+    Object.assign(inv, reviewedFixture(body));
+    expect(assessCoverage(structureDocument(text), inv, sourceUrl, 'en', { captureId: 'candidate-fixture-capture', attachmentLinks: {} }).state).toBe('matched_reviewed_reference');
+    expect(assessCoverage(structureDocument(text.replace('10²', '102')), inv, sourceUrl, 'en', { captureId: 'candidate-fixture-capture', attachmentLinks: {} }).state).toBe('mismatch');
   });
   it('rejects future review attestations and excessive total inventory bytes', () => {
     const future = reference(); future.reference.reviewedAt = '2999-01-01T00:00:00Z';
@@ -77,7 +78,7 @@ describe('reviewed source inventory coverage', () => {
     expect(() => parseCoverageInventory(huge)).toThrow('completeness_inventory_budget_exceeded');
   });
   it('keeps legacy observation eligible while explicitly unknown and unpublishable', () => {
-    const a = assessDocument(structureDocument(fullText), contract(), sourceUrl, 'en');
+    const a = assessDocument(structureDocument(fullText), contract(), sourceUrl, 'en', { captureId: 'candidate-fixture-capture', attachmentLinks: {} });
     expect(a.eligible).toBe(true); expect(a.completeness).toBe('unknown');
     expect(a.coverage.state).toBe('not_configured'); expect(publicationCoverageSatisfied(a)).toBe(false);
   });
@@ -116,7 +117,7 @@ describe('reviewed source inventory coverage', () => {
     expect(assessCoverage(doc, inv, sourceUrl + '-other', 'en').reasons).toContain('completeness_scope_mismatch');
     expect(assessCoverage(doc, inv, sourceUrl, 'it').reasons).toContain('completeness_language_mismatch');
     expect(assessCoverage(doc, inv, sourceUrl).state).toBe('mismatch');
-    expect(assessCoverage(doc, inv, sourceUrl, 'en-GB').state).toBe('matched_reviewed_reference');
+    expect(assessCoverage(doc, inv, sourceUrl, 'en-GB', { captureId: 'candidate-fixture-capture', attachmentLinks: {} }).state).toBe('matched_reviewed_reference');
   });
   it('strictly parses and preserves a valid review attestation without treating it as authentication', () => {
     expect(parseSourceContract(contract(reference())).completenessInventory).toEqual(reference());
@@ -137,6 +138,6 @@ describe('reviewed source inventory coverage', () => {
   });
   it('rejects contract/reference cross-scope binding and no-contract publication', () => {
     expect(() => parseSourceContract({ ...contract(reference()), language: 'it' })).toThrow('completeness_contract_scope_mismatch');
-    const a = assessDocument(structureDocument(fullText), null, sourceUrl, 'en'); expect(a.eligible).toBe(false); expect(publicationCoverageSatisfied(a)).toBe(false);
+    const a = assessDocument(structureDocument(fullText), null, sourceUrl, 'en', { captureId: 'candidate-fixture-capture', attachmentLinks: {} }); expect(a.eligible).toBe(false); expect(publicationCoverageSatisfied(a)).toBe(false);
   });
 });

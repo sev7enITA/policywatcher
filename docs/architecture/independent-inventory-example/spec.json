@@ -1,0 +1,60 @@
+{
+  "contract": {
+    "schemaVersion": 1,
+    "sourceUrl": "https://example.org/terms",
+    "titleAliases": [
+      "Example terms"
+    ],
+    "requiredHeadings": [
+      "Records",
+      "Contact"
+    ],
+    "terminalText": "Contact the service owner for questions about these example terms.",
+    "language": "en",
+    "minimumChars": 100,
+    "maximumChars": 500000,
+    "preferredTransport": "direct",
+    "reviewedAt": "2026-11-22T10:10:00Z",
+    "reviewNote": "Synthetic authored demonstration reference, not a real-source qualification."
+  },
+  "referenceFile": "reference.txt",
+  "reference": {
+    "method": "manual_reference",
+    "url": "https://example.org/terms",
+    "sha256": "b297298919895cf378d072783974511d80230117477a958ea802d534838153e4",
+    "capturedAt": "2026-11-22T10:00:00Z",
+    "reviewedAt": "2026-11-22T10:10:00Z",
+    "reviewNote": "Synthetic authored demonstration reference, not a real-source qualification."
+  },
+  "independence": {
+    "captureId": "manual-reference-demo-20261122",
+    "reviewId": "demo-review-only",
+    "procedure": "Synthetic manually authored reference for offline authoring demonstrations; actual origin and independence are not authenticated.",
+    "independentOfCandidate": true
+  },
+  "links": [
+    {
+      "url": "https://example.org/annex",
+      "occurrences": 1,
+      "purpose": "attachment"
+    }
+  ],
+  "attachments": [
+    {
+      "id": "annex-example",
+      "url": "https://example.org/annex",
+      "mediaType": "text/html",
+      "rawFile": "annex.html",
+      "referenceTextFile": "annex-reference.txt",
+      "linkOccurrences": 1,
+      "reference": {
+        "method": "manual_reference",
+        "url": "https://example.org/annex",
+        "sha256": "5a102b4c44fc1199ea075d0f2284ac937350846fc4def5b8f7fc563ced597551",
+        "capturedAt": "2026-11-22T10:00:00Z",
+        "reviewedAt": "2026-11-22T10:10:00Z",
+        "reviewNote": "Synthetic authored demonstration reference, not a real-source qualification."
+      }
+    }
+  ]
+}

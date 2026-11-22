@@ -117,3 +117,33 @@ Il candidato confronta tutti i blocchi strutturati con un inventario revisionato
 I quattro controesempi incompleti accettati su sei descrivono il limite del vecchio controllo in una prova sintetica mirata, non il tasso di errore delle fonti reali. Le verifiche del nuovo candidato, i modelli interrogati e la qualifica delle 500 policy al giorno devono essere riportati con prove e perimetri distinti. Nessuna certificazione o conformità legale è dedotta dai riferimenti NIST e OCSE.
 
 The candidate also binds an ordered sequence fingerprint, so a reordering cannot pass merely by retaining the same multiset. Receipts explicitly keep `referenceOriginVerified=false` and `sourceCompletenessQualified=false`, including for matches. The reference file itself and its origin are not authenticated by the inventory metadata.
+
+## Independent expected-content inventory, version 2
+
+The follow-up candidate requires version 2 for publication. Version 1 block inventories remain readable for private observation, with no automatic publication or manual waiver. Version 2 adds a complete occurrence-bound map of section, clause and table-row units, a declared link census and a manifest of expected attachments. Each granular element must bind exactly one existing base group and its exact count; no group may be omitted or counted twice.
+
+A clause unit is a reviewed paragraph or list block in the declared representation. A table-row unit is a structured table block, including any retained header/formatting row. This is an explicit structural denominator, not automated identification of every legal obligation or table-cell meaning. The existing full multiset and ordered-sequence checks still apply. Structure is recomputed from frozen text before comparison, so a supplied block array cannot mask omissions.
+
+The link census binds exact resolved document-scope HTTP(S), mailto and tel URLs and occurrence counts, including links classified as attachments, references or navigation. Added or changed destinations hold the candidate even if visible text is identical. Fragment-scoped policies count links only inside one exact matching fragment; an ambiguous fragment holds the result. Link classification and attachment scope require independent human review. Script behavior, unloaded resources and an incomplete reference remain possible blind spots.
+
+### Authoring from separate reference files
+
+`scripts/prepare-independent-inventory.ts` reads retained reference files offline, checks actual bytes against declared digests and writes a new draft without overwriting an earlier one. It accepts no candidate-response input parameter, performs no network request and cannot approve a source or publish anything. Use a separate capture/manual transcription or publisher document whose scope and segmentation were actually reviewed; renaming the candidate file does not make it independent.
+
+A reproducible synthetic example is in `docs/architecture/independent-inventory-example/`. From the repository root:
+
+```sh
+node node_modules/tsx/dist/cli.mjs scripts/prepare-independent-inventory.ts \
+  --spec docs/architecture/independent-inventory-example/spec.json \
+  --out /tmp/policywatcher-inventory-demo-draft.json
+```
+
+The destination must not already exist. Inspect the actual references and proposed `contract` before manually saving it in the authenticated administrator interface. The demo is authored synthetic material and must never be counted as a real source qualification. A reference capture ID equal to the candidate ID, or missing candidate identity, holds the assessment. Capture/review IDs and the procedure remain attestations; they do not authenticate a publisher or a person's identity. The saved contract is bound to the authenticated administrative operation and retained contract hash, not a publisher signature.
+
+### Attachments are separate acquired evidence
+
+A required attachment needs the exact declared link count, one fresh original-origin HTTP 200 capture, exact final URL/media type, complete transport framing, original decoded entity-byte digest and matching separately reviewed text inventory. Original PDF bytes remain distinct from generated inert HTML. A PDF signature alone never establishes complete extraction; extraction uncertainty also holds the candidate. Reference-origin verification and overall source-completeness qualification remain false, including for matches.
+
+The candidate performs at most four serial same-origin attachment requests, each bounded to 1 MB decoded, with at most 2 MB of original bytes and 1 million extracted characters per parent capture. Pinned outbound validation and the existing origin lease apply. Redirects are refused before contacting their targets. Cross-origin attachments require future dedicated acquisition/lease support and remain held. Unsupported media, oversized files, unavailable bodies and uncertain extraction also hold. No recursive attachment crawling is implemented; fallbacks reuse an in-run request promise instead of repeatedly fetching a failed attachment. Parent 304 reuse is disabled when attachments are expected.
+
+Administrator receipts show separate expected/missing section, clause and row occurrences, link deficits/surpluses and each attachment outcome. Neither a high count nor human approval can waive a missing gate. Responsible-AI transparency requires preserving the denominator, traceability, uncertainty and failed attempts while keeping private source bytes outside public reports.

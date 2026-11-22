@@ -1,3 +1,4 @@
+import { reviewedFixture } from './fixtures/independentCoverage';
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -27,7 +28,7 @@ function coveredContract() {
     reference: { method: 'manual_reference' as const, url: sourceUrl, sha256: digest(referenceText),
       capturedAt: '2026-11-22T09:00:00.000Z', reviewedAt: '2026-11-22T10:00:00.000Z', reviewNote: 'A manually authored synthetic reference, no production qualification.' },
     units: observedCoverageUnits(expected), sequenceSha256: observedCoverageSequenceDigest(expected) };
-  return { ...contract, completenessInventory: { ...body, inventorySha256: coverageInventoryDigest(body) } };
+  return { ...contract, completenessInventory: reviewedFixture(body) };
 }
 async function seed(inventory = false, text = '') {
   const company = await database.company.create({ data: { name: 'Coverage Synthetic', slug: 'coverage-synthetic', industry: 'Synthetic', website: 'https://example.org' } });
@@ -39,7 +40,7 @@ async function seed(inventory = false, text = '') {
   return policy;
 }
 async function observation(text = referenceText): Promise<Observation> {
-  const body: CaptureBody = { html: '', document: structureDocument(text), language: 'en' };
+  const body: CaptureBody = { html: '', captureId: 'candidate-fixture-capture', document: structureDocument(text), language: 'en' };
   return { artifactId: await store.putArtifact(body), observedAt: new Date().toISOString(), source: 'direct', httpStatus: 200,
     finalUrl: sourceUrl, notModified: false, eligible: true, reasons: [], diagnostics: [] };
 }
@@ -79,6 +80,19 @@ describe('coverage publication hard gates, actual isolated database and worker',
     const policy = await seed(false, referenceText); await run('legacy-unchanged', 'publish');
     expect((await database.policy.findUniqueOrThrow({ where: { id: policy.id } })).lastSuccessfulCheckDate.getTime()).toBe(0);
     expect((await database.engineReview.findFirstOrThrow()).reasonsJson).toContain('source_coverage_not_qualified');
+  });
+  it('holds a version 1 block-only reference before models, baseline or unchanged refresh', async () => {
+    const policy = await seed(true, referenceText);
+    const value = coveredContract();
+    const inventory = value.completenessInventory;
+    const legacy = { schemaVersion: 1 as const, scope: inventory.scope, scopeId: inventory.scopeId, reference: inventory.reference,
+      units: inventory.units, sequenceSha256: inventory.sequenceSha256 };
+    const contractJson = JSON.stringify({ ...value, completenessInventory: { ...legacy, inventorySha256: coverageInventoryDigest(legacy) } });
+    await database.engineSourceContract.update({ where: { policyId: policy.id }, data: { contractJson, contractHash: digest(contractJson) } });
+    await run('v1-block-only-gate', 'publish');
+    expect((await database.engineReview.findFirstOrThrow()).reasonsJson).toContain('source_coverage_not_qualified');
+    expect(await database.policySnapshot.count()).toBe(0); expect(await database.policyChange.count()).toBe(0); expect(await database.engineOutbox.count()).toBe(0);
+    expect(modelForbidden).not.toHaveBeenCalled();
   });
   it('keeps two legacy observations private without silently qualifying coverage', async () => {
     const policy = await seed(); await run('legacy-observe-1', 'observe'); await second(policy.id, 'observe'); await run('legacy-observe-2', 'observe');
