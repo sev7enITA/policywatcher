@@ -7,14 +7,14 @@ import {
 } from '../browserExtensionStores';
 
 describe('browser extension public store status', () => {
-  it('reports Chrome and Edge as published while keeping unconfigured links closed', () => {
+  it('distinguishes current Chrome availability, unverified Edge and unavailable Apple distribution', () => {
     expect(getBrowserExtensionStoreLinks({})).toEqual({
       chrome: POLICYWATCHER_CHROME_WEB_STORE_URL,
       edge: null,
       safari: null,
     });
     expect(POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS.chrome.state).toBe('published');
-    expect(POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS.edge.state).toBe('published');
+    expect(POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS.edge.state).toBe('unverified');
     expect(POLICYWATCHER_BROWSER_EXTENSION_STORE_STATUS.safari.state).toBe('unavailable');
   });
 
@@ -45,8 +45,9 @@ describe('browser extension public store status', () => {
     expect(client).toContain('hasInstallLink');
     expect(client).toContain('directLinkPending');
     expect(client).toContain('styles.storePublished');
-    expect(release).toContain('Pubblicata su Chrome Web Store');
-    expect(release).toContain('Microsoft Edge Add-ons');
+    expect(release).toContain('Scheda Chrome Web Store disponibile');
+    expect(release).toContain('scheda Edge non verificata');
+    expect(release).toContain('pubblicazione storica dichiarata');
     expect(release).not.toContain('store submission planned');
     expect(release).not.toContain('invio allo store pianificato');
     expect(client).toContain('storeLinks[id]');
