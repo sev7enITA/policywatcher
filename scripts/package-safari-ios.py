@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import plistlib
 import re
 import shutil
 import subprocess
@@ -26,7 +27,7 @@ def digest(path):
 
 
 def run(args, log):
-    result = subprocess.run(args, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    result = subprocess.run(args, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, timeout=900)
     log.write_text(result.stdout)
     if result.returncode:
         raise RuntimeError(f'{Path(args[0]).name} failed ({result.returncode}); see {log.name}')
@@ -54,7 +55,10 @@ def main():
     for name in RUNTIME:
         target = inputs / name
         target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(ROOT / 'browser-extension' / name, target)
+        source = ROOT / 'browser-extension' / name
+        if source.is_symlink() or not source.is_file():
+            raise RuntimeError('Runtime inputs must be ordinary reviewed files.')
+        shutil.copyfile(source, target)
     manifest = json.loads((inputs / 'manifest.json').read_text())
     run(['xcrun', 'safari-web-extension-packager', str(inputs), '--project-location', str(output / 'apple-project'),
          '--app-name', 'PolicyWatcher', '--bundle-identifier', APP_ID, '--swift', '--ios-only',
@@ -109,6 +113,34 @@ def main():
         run(base + ['-sdk', 'iphoneos', '-destination', 'generic/platform=iOS', '-archivePath', str(archive),
                     '-derivedDataPath', str(output / 'derived-device'), 'archive'], logs / 'archive-device.log')
         builds['device'] = {'status': 'archived_unsigned_not_installable', 'archive': archive.name}
+    bundle_checks = []
+    for flavor, bundle in [
+        ('simulator', output / 'derived-simulator/Build/Products/Release-iphonesimulator/PolicyWatcher.app'),
+        ('device', output / 'PolicyWatcher-Safari-0.1.0-build1-unsigned.xcarchive/Products/Applications/PolicyWatcher.app'),
+    ]:
+        if flavor not in builds:
+            continue
+        app_info = plistlib.loads((bundle / 'Info.plist').read_bytes())
+        extensions = list((bundle / 'PlugIns').glob('*.appex'))
+        if len(extensions) != 1:
+            raise RuntimeError('Expected exactly one embedded Safari extension.')
+        embedded = extensions[0]
+        ext_info = plistlib.loads((embedded / 'Info.plist').read_bytes())
+        if app_info['CFBundleIdentifier'] != APP_ID or ext_info['CFBundleIdentifier'] != EXTENSION_ID:
+            raise RuntimeError('Built bundle identifiers do not match reviewed identifiers.')
+        for info in [app_info, ext_info]:
+            if info['CFBundleShortVersionString'] != WRAPPER_VERSION or info['CFBundleVersion'] != WRAPPER_BUILD:
+                raise RuntimeError('Built wrapper version/build mismatch.')
+        for name in RUNTIME:
+            if digest(embedded / name) != digest(ROOT / 'browser-extension' / name):
+                raise RuntimeError('Built Safari runtime differs from reviewed shared source.')
+        if (embedded / 'docs').exists() or any((b / '_CodeSignature').exists() or (b / 'embedded.mobileprovision').exists() for b in [bundle, embedded]):
+            raise RuntimeError('Unexpected documentation, signature or provisioning in unsigned output.')
+        architectures = subprocess.check_output(['lipo', '-archs', str(bundle / app_info['CFBundleExecutable'])], text=True).strip().split()
+        bundle_checks.append({'target': flavor, 'appMinimumOS': app_info['MinimumOSVersion'],
+                              'extensionMinimumOS': ext_info['MinimumOSVersion'], 'architectures': architectures,
+                              'runtimeHashesMatched': len(RUNTIME), 'noDocumentationOrSigningMaterial': True,
+                              'executableSha256': digest(bundle / app_info['CFBundleExecutable'])})
     source_zip = output / 'PolicyWatcher-Safari-iOS-0.1.0-build1-source.zip'
     with zipfile.ZipFile(source_zip, 'x', compression=zipfile.ZIP_DEFLATED) as package:
         for f in sorted((output / 'apple-project').rglob('*')):
@@ -118,7 +150,7 @@ def main():
                 'sharedExtensionVersion': manifest['version'], 'wrapperVersion': WRAPPER_VERSION,
                 'wrapperBuild': WRAPPER_BUILD, 'appBundleIdentifier': APP_ID, 'extensionBundleIdentifier': EXTENSION_ID,
                 'distribution': 'local_unsigned_preview', 'signed': False, 'uploadedToApple': False,
-                'minimumContainerIos': '17.0', 'builds': builds,
+                'minimumContainerIos': '17.0', 'builds': builds, 'bundleChecks': bundle_checks,
                 'runtimeFiles': {name: digest(ROOT / 'browser-extension' / name) for name in RUNTIME},
                 'packagerLogSha256': digest(logs / 'apple-packager.log'),
                 'sourceProjectZip': {'file': source_zip.name, 'sha256': digest(source_zip)},
@@ -131,6 +163,6 @@ def main():
 if __name__ == '__main__':
     try:
         main()
-    except (RuntimeError, subprocess.CalledProcessError) as error:
+    except (RuntimeError, subprocess.CalledProcessError, subprocess.TimeoutExpired) as error:
         print(str(error), file=sys.stderr)
         raise SystemExit(1)
