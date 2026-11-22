@@ -1,0 +1,4 @@
+PREVIEW SVILUPPATORI — non ancora caricata
+Prova l'estensione Safari usando notifiche sintetiche e pubbliche sulle policy. Abilita prima PolicyWatcher nelle Estensioni Safari. Verifica informativa, analisi del testo selezionato/visibile, inserimento manuale, correzione degli indizi, lingua EN/IT, popup piccolo e rifiuto dei permessi.
+Prima dell'invio controlla i campi: non usare email private o documenti riservati. La conferma contatta il servizio pubblico e può creare una pratica operativa. I risultati non sono consulenza legale né garanzia di completezza. Prova stati offline, rate limit e indisponibilità. La Preview amministrativa Engine 6 è distinta e non viene attivata dall'estensione.
+L'audit corrente ha verificato build senza firma e avvio del contenitore. Restano da qualificare Safari reale, iPhone/iPad fisici e distribuzione firmata. Per i problemi indica dispositivo/OS, versione/build e passaggi, senza allegare dati personali.

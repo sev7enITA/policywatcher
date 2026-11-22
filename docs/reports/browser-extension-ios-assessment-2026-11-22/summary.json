@@ -73,5 +73,9 @@
   ],
   "publicationSideEffects": false,
   "newEngineActivation": false,
-  "modelReview": "Not performed by this implementation agent. Root coordinates app-based external review."
+  "modelReview": "Not performed by this implementation agent. Root coordinates app-based external review.",
+  "functionalFollowup": "functional-summary.json",
+  "containingAppSimulatorStartup": "installed_and_launched_iPhoneDuo_iOS27.1",
+  "nativeHandlerMacosXCTestPassed": 4,
+  "packagedWorkerVmContractTestsPassed": 6
 }

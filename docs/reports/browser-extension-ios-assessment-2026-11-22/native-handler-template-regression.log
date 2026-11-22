@@ -1,0 +1,61 @@
+Building for debugging...
+[Constructing description]
+[Planning deferred tasks]
+[27 / 50]
+[28 / 51] PolicyWatcherNative
+[38 / 116]
+[39 / 116]
+[45 / 116]
+[49 / 116]
+[52 / 116]
+[58 / 116]
+[60 / 116]
+[63 / 116]
+[68 / 116]
+[71 / 116]
+[73 / 116]
+[74 / 116]
+[85 / 116]
+[88 / 116]
+[90 / 116]
+[93 / 116] PolicyWatcherNative
+[101 / 116] PolicyWatcherNative
+[106 / 117] PolicyWatcherNativeTests-product
+[110 / 125]
+[111 / 125]
+[116 / 125] PolicyWatcherNativeTests-product
+[119 / 125] PolicyWatcherNativeTests-product
+[121 / 125] PolicyWatcherNativeTests-product
+[124 / 125] PolicyWatcherNativeTests-product
+Build complete! (15,69 sec)
+Test Suite 'All tests' started at 2026-11-22 04:18:29.172.
+Test Suite 'PolicyWatcherNativeTests.xctest' started at 2026-11-22 04:18:29.180.
+Test Suite 'HandlerTests' started at 2026-11-22 04:18:29.180.
+Test Case '-[PolicyWatcherNativeTests.HandlerTests testArrayMessageIsNotReadOrEchoed]' started.
+/Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/output/audit-20261122/extensions/functional/native-handler-template-regression/Tests/PolicyWatcherNativeTests/HandlerTests.swift:36: error: -[PolicyWatcherNativeTests.HandlerTests testArrayMessageIsNotReadOrEchoed] : XCTAssertEqual failed: ("Optional(1)") is not equal to ("Optional(0)")
+/Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/output/audit-20261122/extensions/functional/native-handler-template-regression/Tests/PolicyWatcherNativeTests/HandlerTests.swift:36: error: -[PolicyWatcherNativeTests.HandlerTests testArrayMessageIsNotReadOrEchoed] : XCTAssertEqual failed: ("1") is not equal to ("0")
+Test Case '-[PolicyWatcherNativeTests.HandlerTests testArrayMessageIsNotReadOrEchoed]' failed (0.174 seconds).
+Test Case '-[PolicyWatcherNativeTests.HandlerTests testEmptyContextCompletesOnce]' started.
+/Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/output/audit-20261122/extensions/functional/native-handler-template-regression/Tests/PolicyWatcherNativeTests/HandlerTests.swift:34: error: -[PolicyWatcherNativeTests.HandlerTests testEmptyContextCompletesOnce] : XCTAssertEqual failed: ("Optional(1)") is not equal to ("Optional(0)")
+/Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/output/audit-20261122/extensions/functional/native-handler-template-regression/Tests/PolicyWatcherNativeTests/HandlerTests.swift:34: error: -[PolicyWatcherNativeTests.HandlerTests testEmptyContextCompletesOnce] : XCTAssertEqual failed: ("1") is not equal to ("0")
+Test Case '-[PolicyWatcherNativeTests.HandlerTests testEmptyContextCompletesOnce]' failed (0.000 seconds).
+Test Case '-[PolicyWatcherNativeTests.HandlerTests testJsonDictionaryIsNotReadOrEchoed]' started.
+/Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/output/audit-20261122/extensions/functional/native-handler-template-regression/Tests/PolicyWatcherNativeTests/HandlerTests.swift:32: error: -[PolicyWatcherNativeTests.HandlerTests testJsonDictionaryIsNotReadOrEchoed] : XCTAssertEqual failed: ("Optional(1)") is not equal to ("Optional(0)")
+/Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/output/audit-20261122/extensions/functional/native-handler-template-regression/Tests/PolicyWatcherNativeTests/HandlerTests.swift:32: error: -[PolicyWatcherNativeTests.HandlerTests testJsonDictionaryIsNotReadOrEchoed] : XCTAssertEqual failed: ("1") is not equal to ("0")
+Test Case '-[PolicyWatcherNativeTests.HandlerTests testJsonDictionaryIsNotReadOrEchoed]' failed (0.000 seconds).
+Test Case '-[PolicyWatcherNativeTests.HandlerTests testStringMessageIsNotReadOrEchoed]' started.
+/Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/output/audit-20261122/extensions/functional/native-handler-template-regression/Tests/PolicyWatcherNativeTests/HandlerTests.swift:35: error: -[PolicyWatcherNativeTests.HandlerTests testStringMessageIsNotReadOrEchoed] : XCTAssertEqual failed: ("Optional(1)") is not equal to ("Optional(0)")
+/Users/fabriziodegni/Projects/PolicyWatcher-extensions-ios-20261122/output/audit-20261122/extensions/functional/native-handler-template-regression/Tests/PolicyWatcherNativeTests/HandlerTests.swift:35: error: -[PolicyWatcherNativeTests.HandlerTests testStringMessageIsNotReadOrEchoed] : XCTAssertEqual failed: ("1") is not equal to ("0")
+Test Case '-[PolicyWatcherNativeTests.HandlerTests testStringMessageIsNotReadOrEchoed]' failed (0.000 seconds).
+Test Suite 'HandlerTests' failed at 2026-11-22 04:18:29.356.
+	 Executed 4 tests, with 8 failures (0 unexpected) in 0.176 (0.176) seconds
+Test Suite 'PolicyWatcherNativeTests.xctest' failed at 2026-11-22 04:18:29.356.
+	 Executed 4 tests, with 8 failures (0 unexpected) in 0.176 (0.176) seconds
+Test Suite 'All tests' failed at 2026-11-22 04:18:29.356.
+	 Executed 4 tests, with 8 failures (0 unexpected) in 0.176 (0.184) seconds
+◇ Test run started.
+↳ Testing Library Version: 2403
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.
+Note: Some test targets reported failures:
+  - PolicyWatcherNativeTests (XCTest)

@@ -1,0 +1,23 @@
+area,case,observed_state,evidence_or_next_step
+build,Simulator app and device archive,passed_unsigned,ios-build-receipt.json binds source2e74425 and runtime3.8.3.3
+build,Eleven runtime file hashes inside both built extensions,passed,bundleChecks in ios-build-receipt.json
+native_app,Install and launch containing app in dedicated iPhone Duo iOS27.1 simulator,passed,simulator-install-launch.json and primary display screenshot
+native_app,English initial onboarding rendering,observed,primary display screenshot; not scrolling or link activation
+native_app,Italian native section navigation and links,pending,Source present; exercise real scrolling and links
+native_handler,Parsed JSON dictionary or string/array/no items is not read or echoed,passed_macos_xctest,Four tests execute actual handler; not iOS Safari dispatch
+worker,Fixed endpoint JSON dictionary and omitted credentials/rejected redirects,passed_stubbed_vm,Six actual packaged-worker contract tests; network/browser boundary stubbed
+safari,Manifest/API compatibility,source_review_only,Apple docs support namespaces/callbacks/MV3; no unsupported APIs identified in used call shapes
+safari,Enable extension and grant temporary page/API host permissions,pending,Requires actual Safari settings/page-menu interaction
+safari,Selected-text and visible-page injection,pending,Must run in Safari with synthetic notice
+safari,Manual review and confirmed live query,pending,Use publisher-approved test destination; no production query sent in audit
+safari,Offline429503 malformed and permission denied in actual browser,pending,Worker stub tests do not qualify Safari UI errors
+accessibility,VoiceOver dynamic type keyboard focus popup size,pending,Need actual Safari/device checks
+platform,iPad execution,blocked_local_runtime,Installed iOS27.1 runtime supports only iPhoneDuo; iPad type was not available
+platform,iOS17 minimum-version runtime,pending,Build metadata only; installed runtime27.1 is not minimum-OS execution
+platform,Physical iPhone/iPad,pending,No real device connected or exercised for this task
+store,Publisher team and bundle ownership,pending,No team selected or account record inspected
+store,Distribution signature and provisioning,pending,Current artifacts unsigned; development identities alone do not establish distribution readiness
+store,AppPrivacy and retention answers,draft_pending_publisher,Confirm actual server/security-log and provider behavior
+store,Accepted store screenshots,pending,Diagnostic Duo capture is not an accepted-size or Safari workflow proof
+store,TestFlight upload and beta review,not_executed,No Apple upload; prepare publisher-reviewed signed build first
+store,AppStore submission/review/availability,not_executed,Keep public install state unavailable

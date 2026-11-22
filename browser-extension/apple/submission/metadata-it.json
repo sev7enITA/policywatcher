@@ -1,0 +1,22 @@
+{
+  "state": "draft_for_publisher_review_not_submitted",
+  "bundleIdentifier": "online.policywatcher.safari",
+  "extensionBundleIdentifier": "online.policywatcher.safari.Extension",
+  "version": "0.1.0",
+  "build": "1",
+  "primaryCategoryCandidate": "Utilities",
+  "secondaryCategoryCandidate": "Productivity",
+  "accountRequired": false,
+  "inAppPurchases": false,
+  "appStoreAvailability": "not_available",
+  "testFlightAvailability": "not_uploaded",
+  "locale": "it",
+  "name": "PolicyWatcher per Safari",
+  "subtitle": "Notifiche, fonti ed evidenze",
+  "promotionalText": "Analizza localmente le notifiche sulle policy, controlla gli indizi da inviare ed esplora le evidenze pubblicate. Preview Safari; la qualifica continua.",
+  "keywords": "privacy,termini,policy,evidenze,notifiche,intelligenza artificiale,open source",
+  "description": "PolicyWatcher per Safari ti aiuta a trasformare una notifica su nuove informative privacy, condizioni, cookie, IA o regole di uso accettabile in un punto di partenza strutturato per consultare le evidenze pubbliche.\n\nCOME FUNZIONA\nApri una notifica pubblica in Safari, richiama PolicyWatcher e leggi l’informativa. L’estensione esamina localmente il testo selezionato o visibile. Controlla organizzazione, dominio mittente, link ufficiale ripulito, categorie e date prima di scegliere se inviare gli indizi.\n\nCOME LEGGERE IL RISULTATO\nPolicyWatcher può mostrare confronti revisionati disponibili, indicare che un’organizzazione è monitorata senza un confronto pubblicato oppure indirizzare una fonte mancante alla revisione umana. Una notifica è un indizio, non dimostra una modifica della policy. Una prima baseline non prova un cambiamento storico.\n\nCONFINI DI PRIVACY\nLa richiesta strutturata non include testo grezzo, indirizzi email, destinatari, oggetto, allegati, screenshot o fingerprint del contenuto. L’estensione richiede analisi temporanea della scheda attiva, scripting e accesso all’API canonica di PolicyWatcher. Non usa API della casella di posta, SDK di analytics o permessi di cronologia. Controlla i campi prima dell’invio e non usare comunicazioni riservate. Informativa e conservazione lato server sono descritte nella privacy policy.\n\nRICERCA PUBBLICA\nIl sito usa PolicyWatcher stabile 5.5.0. Engine 6 Preview è un ambiente amministrativo distinto con risultati privati: l’estensione non lo seleziona né lo attiva. Sul sito trovi architettura, evidenze di ricerca e limiti espliciti.\n\nPREVIEW SVILUPPATORI\nQuesta build 0.1.0 è in preparazione per TestFlight. Restano necessari collaudo Safari e su dispositivo, firma del publisher e revisione Apple. Non è ancora disponibile su App Store. Questa descrizione è una bozza da revisionare prima dell’invio.\n\nPolicyWatcher offre evidenze informative, non consulenza legale, certificazione di conformità o garanzia di rilevare ogni modifica.",
+  "supportUrl": "https://policywatcher.online/about?lang=it",
+  "privacyUrl": "https://policywatcher.online/privacy?lang=it",
+  "marketingUrl": "https://policywatcher.online/?lang=it"
+}

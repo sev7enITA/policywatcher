@@ -1,0 +1,134 @@
+{
+  "checkedAt": "2026-11-22T03:19:48.488503+00:00",
+  "candidateSourceRevision": "2e744255c5e2e8a82ba05ec81230ca1d5838c860",
+  "wrapperVersion": "0.1.0",
+  "wrapperBuild": "1",
+  "containingAppSimulator": {
+    "deviceType": "iPhone Duo",
+    "runtime": "iOS27.1",
+    "installExit": 0,
+    "launchExit": 0,
+    "primaryDisplayScreenshot": {
+      "file": "iphone-display-1.png",
+      "sha256": "9fbcd565be0986fa111e6e3dd1184946fafb692e9d114b8dc3045960bfca88f5",
+      "observed": "Local onboarding rendered; PolicyWatcher logo and 0.1.0(1)/runtime3.8.3.3 visible; English first section visible. Not evidence of scrolling, link activation or Safari extension operation."
+    },
+    "secondaryDisplay": "Black; no app UI observed.",
+    "initialScreenshotAttempt": "Exit22 required explicit display because this simulator has two integrated displays.",
+    "macSimulatorAppOpened": false,
+    "signed": false
+  },
+  "runtimeAvailability": {
+    "installedRuntimeSupportedDeviceTypes": [
+      "iPhoneDuo"
+    ],
+    "initialIPhone17ProCreate": "CoreSimulator403 incompatible device",
+    "ipadRuntimeAvailable": false
+  },
+  "nativeHandlerXCTest": {
+    "platform": "arm64e macOS with installed Swift/XCTest",
+    "passed": 4,
+    "failed": 0,
+    "coverage": "Empty, parsed JSON dictionary, string and array contexts complete once with zero returned items and no input read. No native echo or serialization. Not an iOS Safari dispatch test.",
+    "originalAppleTemplateRegression": "Same four tests report eight assertion failures with the generated echo/log handler; fixed actual handler passes all four."
+  },
+  "packagedServiceWorkerContract": {
+    "passed": 6,
+    "failed": 0,
+    "actualBundleSource": true,
+    "browserAndFetch": "Stubbed in Node VM; no network. Not Safari runtime.",
+    "initialInvocationFailure": "Node --test treated the supplied runtime directory as a test file. Retained initial log; direct node script invocation ran all six tests successfully."
+  },
+  "realSafariExtensionExecution": "not_executed",
+  "physicalDeviceExecution": "not_executed",
+  "ios17RuntimeExecution": "not_executed",
+  "appleUpload": "not_executed",
+  "boundary": "Container launch, compiled bundles, macOS handler tests and Node VM tests are separate evidence; no full Safari/pipeline or AppStore qualification.",
+  "submissionUrls": [
+    {
+      "url": "https://policywatcher.online/browser-extension",
+      "status": 200,
+      "sha256": "b719bf198ce825d2f7ca3591793753ba51f1c02a44f59f8c60299ece7e36e3b3",
+      "hasPublicContact": false
+    },
+    {
+      "url": "https://policywatcher.online/privacy",
+      "status": 200,
+      "sha256": "4b1d0689390750224e05e336f982a12e631a0fe01152c237b9e007af4f344f65",
+      "hasPublicContact": true
+    },
+    {
+      "url": "https://policywatcher.online/browser-extension?lang=it",
+      "status": 200,
+      "sha256": "54020946c024c032e58d0adf9da44267630e07f73700db1b1d3ec7d8bb1bd0bb",
+      "hasPublicContact": false
+    },
+    {
+      "url": "https://policywatcher.online/privacy?lang=it",
+      "status": 200,
+      "sha256": "2696e9fbd125173ae6507c33643bc7204268c7896ce43d60ef89a7863c3fd3af",
+      "hasPublicContact": true
+    }
+  ],
+  "ownSimulatorShutdownExit": 0,
+  "reproducibleContainerSmoke": {
+    "startedAt": "2026-11-22T03:17:41.435589+00:00",
+    "appBundleIdentifier": "online.policywatcher.safari",
+    "version": "0.1.0",
+    "build": "1",
+    "containingAppOnly": true,
+    "macSimulatorAppOpened": false,
+    "safariExtensionExecution": "not_executed",
+    "physicalDeviceExecution": "not_executed",
+    "status": "containing_app_launched_screenshot_captured",
+    "runtime": "iOS 27.1",
+    "deviceType": "iPhone Duo",
+    "dedicatedSimulatorId": "9D860539-8B8E-45CC-97FA-27361EE6626E",
+    "aliveAfterSeconds": 3,
+    "screenshotSha256": "be85ae3e59afac4e840c7878352459e6b236302ea3e2187aec159c733d4c6e88",
+    "limit": "Screenshot requires visual inspection; no scrolling, link activation, Safari enablement/injection or live query is tested.",
+    "ownSimulatorShutdownExit": 0,
+    "completedAt": "2026-11-22T03:18:24.876210+00:00"
+  },
+  "submissionSupportUrls": [
+    {
+      "url": "https://policywatcher.online/about",
+      "status": 200,
+      "sha256": "261a99aa4cbb8cdb2135b123467361a60aaff6b799df265a8113cecda04c35d0",
+      "hasPublicContact": true
+    },
+    {
+      "url": "https://policywatcher.online/about?lang=it",
+      "status": 200,
+      "sha256": "16b8d2b2b91e7f23230ba95880c54bc2ef9c4ee6f8e663545531a5c3d50dfd81",
+      "hasPublicContact": true
+    }
+  ],
+  "kitValidation": {
+    "status": "draft_metadata_validated_offline_not_submitted",
+    "locales": [
+      {
+        "locale": "en",
+        "metadataFieldsChecked": 8,
+        "keywordUtf8Bytes": 75
+      },
+      {
+        "locale": "it",
+        "metadataFieldsChecked": 8,
+        "keywordUtf8Bytes": 78
+      }
+    ]
+  },
+  "staticCompatibilityReferences": [
+    "https://developer.apple.com/documentation/safariservices/assessing-your-safari-web-extension-s-browser-compatibility",
+    "https://developer.apple.com/documentation/safariservices/running-your-safari-web-extension"
+  ],
+  "validatedTestSourceHashes": {
+    "browser-extension/apple/native/SafariWebExtensionHandler.swift": "29b1cf0e8b1b458e066ae56810bf3ee1f7d81b1ecac11a8a6aa44d2ff47615b9",
+    "browser-extension/apple/Package.swift": "9b78691860828196847583ea1782cdf4de6436203ef080bf3d6516ce435251cb",
+    "browser-extension/apple/tests/native/HandlerTests.swift": "1f827f3c19c44bebfa394039fe26c965400f3b31678f01d0d4451fd3aea1334c",
+    "scripts/test-safari-runtime-contract.mjs": "9e06d823bc9c9ed2a69a62b3fc9335754b1ed313f5f5bc784bf8097412ac47ca",
+    "scripts/smoke-safari-ios-simulator.py": "71597fc331cb1ab652c28886bb54cc2861481efe5d015026b029484ad7960429",
+    "scripts/validate-safari-submission-kit.py": "c780f9f7ed5ed18644fa9da4c93367bd3c8cdd80a3c66aff23a47b18822f4679"
+  }
+}

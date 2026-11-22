@@ -1,0 +1,22 @@
+{
+  "state": "draft_for_publisher_review_not_submitted",
+  "bundleIdentifier": "online.policywatcher.safari",
+  "extensionBundleIdentifier": "online.policywatcher.safari.Extension",
+  "version": "0.1.0",
+  "build": "1",
+  "primaryCategoryCandidate": "Utilities",
+  "secondaryCategoryCandidate": "Productivity",
+  "accountRequired": false,
+  "inAppPurchases": false,
+  "appStoreAvailability": "not_available",
+  "testFlightAvailability": "not_uploaded",
+  "locale": "en",
+  "name": "PolicyWatcher for Safari",
+  "subtitle": "Notices and public evidence",
+  "promotionalText": "Inspect policy-change notices locally, review the clues you choose to send, and explore published evidence. Safari developer preview; qualification continues.",
+  "keywords": "privacy,terms,policies,evidence,notices,artificial intelligence,open source",
+  "description": "PolicyWatcher for Safari helps you turn a notice about changed privacy policies, terms, cookies, AI or acceptable-use rules into a structured starting point for checking public evidence.\n\nHOW IT WORKS\nOpen a public notice in Safari, invoke PolicyWatcher and read the disclosure. The extension inspects the selected or visible notice locally. Review the organization, sender domain, cleaned official link, policy categories and dates before choosing whether to submit those clues.\n\nWHAT THE RESULT MEANS\nPolicyWatcher can show available reviewed comparisons, explain that an organization is monitored without a published comparison, or route a missing source for human review. A notice is a clue, not proof that a policy changed. A first baseline does not establish a historical change.\n\nPRIVACY BOUNDARIES\nThe structured request does not include raw notice text, email addresses, recipients, subjects, attachments, screenshots or a content fingerprint. The extension requests temporary active-tab inspection and scripting, plus access to the canonical PolicyWatcher API. It has no inbox API, analytics SDK or browsing-history permission. Review the fields before sending and do not use confidential communications. Server processing and retention are explained in the privacy notice.\n\nRESEARCH IN THE OPEN\nThe public website runs stable PolicyWatcher 5.5.0. Engine 6 Preview is a separate administrator workspace with private results; this extension does not select or activate that engine. Architecture diagrams, research evidence and explicit limits are available on the website.\n\nDEVELOPER PREVIEW\nThis 0.1.0 build is being prepared for TestFlight. Safari functional/device qualification, publisher signing and Apple review remain required. It is not yet available on the App Store. This draft description must be reviewed before submission.\n\nPolicyWatcher provides informational evidence, not legal advice, compliance certification or a guarantee that every change has been detected.",
+  "supportUrl": "https://policywatcher.online/about",
+  "privacyUrl": "https://policywatcher.online/privacy",
+  "marketingUrl": "https://policywatcher.online/"
+}
