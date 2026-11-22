@@ -3,7 +3,7 @@ import { readFile, writeFile, mkdir, appendFile } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { execFileSync } from 'node:child_process';
-import { sha, deriveHeld129, bodyReceiptMatches, scopeReasons, renderDecision, type PriorEndpoint, assertFreshStaticWindow, verifyImplementationFiles } from './lib/held129';
+import { sha, deriveHeld129, bodyReceiptMatches, scopeReasons, renderDecision, type PriorEndpoint, assertFreshStaticWindow, verifyImplementationFiles, activeChallenge } from './lib/held129';
 const baselineFiles = ['catalogue', 'followup-report', 'case-results', 'context'];
 const expectedHashes = ['f5ce32a4d3772be90eaa0eaee2c9481124a1403b3b94408afc5f6c325f045e81', '4fb0a00029283f7ac7660c5cf77761a2e10f3c9c40696da448e2249d18e0e353', '58dbc54a104def16b9d4acb24ee58285c90e3e260449f2771fa444b8d16b4823', '54c987a55f494af04baef95c40d898d2f15070553363db7f2ca77e5f5c202de4'];
 const harnessFiles = ['scripts/engine-held129-recovery.ts', 'scripts/lib/held129.ts'];
@@ -59,7 +59,7 @@ export async function prepare(out: string) {
             const finalUrl = result.finalUrl || endpoint.url;
             const sourceScope = scopeReasons(source.retrievalUrl, finalUrl, html);
             const decision = renderDecision({ status: attempt.status || 0, html, source: source.retrievalUrl,
-              blocked: detectBlockPage(html), soft404: detectSoft404(html), extractionCompleted: false,
+              blocked: activeChallenge(html) || detectBlockPage(html), soft404: detectSoft404(html), extractionCompleted: false,
               drift: hasLiveHostDrift(source.retrievalUrl, finalUrl, 'direct') || hasLivePathDrift(source.retrievalUrl, finalUrl, 'direct') || sourceScope.some(r => ['path_identity_unreviewed', 'source_selector_drift'].includes(r)) });
             Object.assign(row, { selected: decision.eligible, reason: decision.reason, staticScopeReasons: sourceScope, staticBodyFile: attempt.bodyFile, staticBodyHash: attempt.bodyHash, staticObservedAt: attempt.observedAt });
           } else row.reason = 'fresh_body_hash_or_window_mismatch';
@@ -107,7 +107,7 @@ export async function run(out: string) {
           if (Buffer.byteLength(result.html) > 6_000_000) throw Error('rendered_body_limit');
           if (bodyFile) { await writeFile(join(out, bodyFile), result.html, { flag: 'wx' }); if (sha(await readFile(join(out, bodyFile))) !== sha(result.html)) throw Error('rendered_body_hash_verification_failed'); }
           const drift = hasLiveHostDrift(selection.source, result.finalUrl, 'rendered') || hasLivePathDrift(selection.source, result.finalUrl, 'rendered');
-          const blocked = result.html ? detectBlockPage(result.html) : null, soft404 = result.html ? detectSoft404(result.html) : false;
+          const blocked = result.html ? activeChallenge(result.html) || detectBlockPage(result.html) : null, soft404 = result.html ? detectSoft404(result.html) : false;
           Object.assign(row, { observedAt: new Date().toISOString(), status: result.status, ok: result.ok, finalUrl: result.finalUrl, bodyFile, bodyBytes: Buffer.byteLength(result.html), bodyHash: sha(result.html), bodyHashVerified: Boolean(bodyFile), bodyRepresentation: 'rendered_DOM_not_original_HTTP_or_PDF', validators: result.validators || {}, drift, blockReason: blocked, soft404, error: (result.error || '').replaceAll(renderer.secret, '[REDACTED]'), scopeReasons: result.html ? scopeReasons(selection.source, result.finalUrl, result.html) : [] });
           if ((result.status === 429 || result.status === 503) && result.error) { serviceHeld = true; row.reason = 'renderer_service_backoff'; }
           else if (result.status === 429 || result.status === 503) { originsHeld.add(origin); row.reason = 'origin_backoff'; }
